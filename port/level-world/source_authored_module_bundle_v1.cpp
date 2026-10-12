@@ -13,10 +13,11 @@ void fail(std::string& error, const char* text) {
     error = text ? text : "Authored Module bundle failed";
 }
 
+// A Module either has both MGP and MVP children or neither (visual-only).
 bool valid_module_ref(const dh2_world_source_module_ref& ref,
                       std::size_t expected_index) {
     return ref.module_index == expected_index && ref.name[0] &&
-        ref.mgp_path[0] && ref.mvp_path[0];
+        (ref.mgp_path[0] != '\0') == (ref.mvp_path[0] != '\0');
 }
 
 }  // namespace
@@ -74,6 +75,11 @@ Status load(const std::uint8_t* mlx, std::size_t mlx_size,
             module.name = ref.name;
             module.mgp_path = ref.mgp_path;
             module.mvp_path = ref.mvp_path;
+            // Visual-only Modules have no children: nothing is read for them.
+            if (module.mgp_path.empty()) {
+                candidate.modules.push_back(std::move(module));
+                continue;
+            }
             if (!services.read_cache(services.context, module.mgp_path.c_str(),
                                      module.mgp_bytes, error) ||
                 module.mgp_bytes.empty()) {
@@ -93,10 +99,16 @@ Status load(const std::uint8_t* mlx, std::size_t mlx_size,
         candidate.mvp_views.reserve(module_count);
         candidate.ordered_files.reserve(module_count * 2);
         for (const auto& module : candidate.modules) {
+            if (module.mgp_path.empty()) {
+                candidate.mgp_views.push_back({nullptr, nullptr, 0});
+                candidate.mvp_views.push_back({nullptr, nullptr, 0});
+                continue;
+            }
             candidate.mgp_views.push_back({module.mgp_path.c_str(),
                 module.mgp_bytes.data(), module.mgp_bytes.size()});
             candidate.mvp_views.push_back({module.mvp_path.c_str(),
                 module.mvp_bytes.data(), module.mvp_bytes.size()});
+            if (module.mgp_path.empty()) continue;
             candidate.ordered_files.push_back({module.module_index,
                 source_handle_ledger_v1::ModuleFileKind::mgp,
                 module.mgp_path.c_str(), module.mgp_bytes.data(),

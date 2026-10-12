@@ -376,12 +376,20 @@ extern "C" Error dh2_world_import_level(SourceLevel* output, const char* name, c
                 if (!std::strcmp(candidate.modules[j].record.name, module.record.name))
                     result = fail(d, Error::record, "Duplicate module instance name");
             if (result != Error::ok) break;
-            const char* fields[] = {"dae", "mgp", "mvp"};
-            char** destinations[] = {&module.cache_dae, &module.cache_mgp, &module.cache_mvp};
-            for (unsigned j = 0; j < 3 && result == Error::ok; ++j) {
-                const auto* value = dh2_world_field(&module.record, fields[j]);
-                if (!value || !*value) result = fail(d, Error::missing_field, "Module asset reference missing");
-                else result = normalized_owned(*destinations[j], value, d);
+            {
+                const auto* dae = dh2_world_field(&module.record, "dae");
+                if (!dae || !*dae) result = fail(d, Error::missing_field, "Module asset reference missing");
+                else result = normalized_owned(module.cache_dae, dae, d);
+            }
+            // MGP and MVP are optional as a pair (visual-only Modules have neither).
+            const auto* mgp = dh2_world_field(&module.record, "mgp");
+            const auto* mvp = dh2_world_field(&module.record, "mvp");
+            const bool has_mgp = mgp && *mgp, has_mvp = mvp && *mvp;
+            if (result == Error::ok && has_mgp != has_mvp)
+                result = fail(d, Error::missing_field, "Module MGP and MVP must be both present or both absent");
+            if (result == Error::ok && has_mgp) {
+                result = normalized_owned(module.cache_mgp, mgp, d);
+                if (result == Error::ok) result = normalized_owned(module.cache_mvp, mvp, d);
             }
             if (result != Error::ok) break;
             const auto* xref = dh2_world_field(&module.record, "xrefobject");
@@ -411,12 +419,13 @@ extern "C" Error dh2_world_import_module_objects(SourceLevel* level, std::uint32
     auto& module = level->modules[index];
     auto& loaded = kind == RecordKind::mgp ? module.mgp_loaded : module.mvp_loaded;
     if (loaded) return fail(d, Error::already_loaded, "Module file already imported");
-    if (!translation_only(module.record.local))
-        return fail(d, Error::unsupported_transform, "Rotated/scaled module entity placement is not reconstructed");
+    // Children use only the Module position offset (ObjectManager::LoadFromXML); the
+    // Module rotation and scale apply to the Module root node, not to its children.
     char canonical[max_path + 1];
     auto result = dh2_world_cache_path(canonical, sizeof canonical, path, d);
     if (result != Error::ok) return result;
-    if (std::strcmp(canonical, kind == RecordKind::mgp ? module.cache_mgp : module.cache_mvp))
+    const char* expected = kind == RecordKind::mgp ? module.cache_mgp : module.cache_mvp;
+    if (!expected || std::strcmp(canonical, expected))
         return fail(d, Error::path, "Module source path does not match its reference");
     Object* records = nullptr; std::uint32_t count = 0; Parser parser{bytes, size, 0, d};
     if (!parser.document("Module", records, count)) result = parser.error;

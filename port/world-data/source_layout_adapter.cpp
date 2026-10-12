@@ -274,7 +274,21 @@ extern "C" int dh2_world_compile_static_layout(const std::uint8_t* mlx,
         return 0;
     }
 
-    const auto required = std::size_t(24) + std::size_t(source.module_count) * 128;
+    // DWLD v1 (128-byte records) whenever every Module is untransformed and has MGP/MVP
+    // children, so existing levels keep their bytes. Otherwise v2 (152-byte records)
+    // adds rotation degrees (MLX order), scale and flags (1 = children, 2 = visual-only).
+    bool needs_v2 = false;
+    for (std::uint32_t i = 0; i < source.module_count; ++i) {
+        const auto& module = source.modules[i];
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            if (module.record.local.rotation_degrees[axis] != 0.0f ||
+                module.record.local.scale[axis] != 1.0f)
+                needs_v2 = true;
+        }
+        if (!module.cache_mgp) needs_v2 = true;
+    }
+    const std::size_t record_size = needs_v2 ? 152 : 128;
+    const auto required = std::size_t(24) + std::size_t(source.module_count) * record_size;
     if (output_capacity < required) {
         set_error(error, error_capacity, "Source layout output buffer is too small");
         dh2_world_free(&source);
@@ -282,21 +296,12 @@ extern "C" int dh2_world_compile_static_layout(const std::uint8_t* mlx,
     }
     std::memset(output, 0, required);
     std::memcpy(output, "DWLD", 4);
-    write_word(output + 4, 1);
+    write_word(output + 4, needs_v2 ? 2u : 1u);
     write_word(output + 8, source.module_count);
     // The Level and Module records do not define an entrypoint. The runtime
     // owner fills these coordinates from its selected SpawnPoint source.
     for (std::uint32_t i = 0; i < source.module_count; ++i) {
         const auto& module = source.modules[i];
-        for (unsigned axis = 0; axis < 3; ++axis) {
-            if (module.record.local.rotation_degrees[axis] != 0.0f ||
-                module.record.local.scale[axis] != 1.0f) {
-                set_error(error, error_capacity,
-                    "Source Module rotation or scale is not supported by DWLD v1");
-                dh2_world_free(&source);
-                return 0;
-            }
-        }
         if (!module.catalogue_node_id || !*module.catalogue_node_id) {
             set_error(error, error_capacity, "Source Module has no catalogue node ID");
             dh2_world_free(&source);
@@ -308,7 +313,7 @@ extern "C" int dh2_world_compile_static_layout(const std::uint8_t* mlx,
             dh2_world_free(&source);
             return 0;
         }
-        auto* record = output + 24 + std::size_t(i) * 128;
+        auto* record = output + 24 + std::size_t(i) * record_size;
         std::memcpy(record, module.catalogue_node_id, length);
         for (unsigned axis = 0; axis < 3; ++axis) {
             if (!write_float(record + 112 + axis * 4, module.record.local.position[axis])) {
@@ -317,7 +322,19 @@ extern "C" int dh2_world_compile_static_layout(const std::uint8_t* mlx,
                 return 0;
             }
         }
-        write_word(record + 124, 0);
+        if (!needs_v2) {
+            write_word(record + 124, 0);
+            continue;
+        }
+        for (unsigned axis = 0; axis < 3; ++axis) {
+            if (!write_float(record + 124 + axis * 4, module.record.local.rotation_degrees[axis]) ||
+                !write_float(record + 136 + axis * 4, module.record.local.scale[axis])) {
+                set_error(error, error_capacity, "Source Module rotation or scale is non-finite");
+                dh2_world_free(&source);
+                return 0;
+            }
+        }
+        write_word(record + 148, module.cache_mgp ? 1u : 2u);
     }
     *output_size = required;
     dh2_world_free(&source);
@@ -411,6 +428,7 @@ extern "C" int dh2_world_compile_static_spawnpoints(const std::uint8_t* mlx,
     // Import in source-module order. This keeps the original importer as the
     // authority for path validation, transforms, record parsing and provenance.
     for (std::uint32_t i = 0; i < source.module_count; ++i) {
+        if (!source.modules[i].cache_mgp) continue;  // visual-only Module: no children
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, error_capacity, "Source MGP input is incomplete");
             dh2_world_free(&source);
@@ -581,6 +599,7 @@ static int compile_static_dact_impl(const std::uint8_t* mlx,
         return 0;
     }
     for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!owner.level.modules[i].cache_mgp) continue;  // visual-only Module: no children
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, error_capacity, "Source DACT MGP input is incomplete");
             return 0;
@@ -656,13 +675,11 @@ static int compile_static_dact_impl(const std::uint8_t* mlx,
             return 0;
         }
 
-        const auto& module = owner.level.modules[object.module_index].record;
         const std::int32_t scale_percentages[] = {*scale_x, *scale_y, *scale_z};
         float transform[9]{};
         for (unsigned axis = 0; axis < 3; ++axis) {
             transform[axis] = object.world_position[axis];
-            transform[3 + axis] = object.local.rotation_degrees[axis] +
-                module.local.rotation_degrees[axis];
+            transform[3 + axis] = object.local.rotation_degrees[axis];
             transform[6 + axis] = static_cast<float>(
                 static_cast<double>(object.local.scale[axis]) * scale_percentages[axis] / 100.0);
         }
@@ -772,6 +789,7 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
         return 0;
     }
     for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!owner.level.modules[i].cache_mgp) continue;  // visual-only Module: no children
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, error_capacity, "Source Character census MGP input is incomplete");
             return 0;
@@ -883,16 +901,13 @@ extern "C" int dh2_world_census_source_characters(const std::uint8_t* mlx,
             set_error(error, error_capacity, "Source Character MGP module index is invalid");
             return 0;
         }
-        const auto& module = owner.level.modules[object.module_index].record;
         for (unsigned axis = 0; axis < 3; ++axis) {
             row.local_transform[axis] = object.local.position[axis];
             row.local_transform[3 + axis] = object.local.rotation_degrees[axis];
             row.local_transform[6 + axis] = object.local.scale[axis];
             row.world_transform[axis] = object.world_position[axis];
-            row.world_transform[3 + axis] = object.local.rotation_degrees[axis] +
-                module.local.rotation_degrees[axis];
-            row.world_transform[6 + axis] = object.local.scale[axis] *
-                module.local.scale[axis];
+            row.world_transform[3 + axis] = object.local.rotation_degrees[axis];
+            row.world_transform[6 + axis] = object.local.scale[axis];
             if (!std::isfinite(row.local_transform[axis]) ||
                 !std::isfinite(row.local_transform[3 + axis]) ||
                 !std::isfinite(row.local_transform[6 + axis]) ||
@@ -937,6 +952,7 @@ extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
         return 0;
     }
     for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!owner.level.modules[i].cache_mgp) continue;  // visual-only Module: no children
         if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
             set_error(error, error_capacity, "Generic source MGP census input is incomplete");
             return 0;
@@ -1043,16 +1059,13 @@ extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
             set_error(error, error_capacity, "Generic source MGP identity/condition field exceeds census bounds");
             return 0;
         }
-        const auto& module = owner.level.modules[object.module_index].record;
         for (unsigned axis = 0; axis < 3; ++axis) {
             row.local_transform[axis] = object.local.position[axis];
             row.local_transform[3 + axis] = object.local.rotation_degrees[axis];
             row.local_transform[6 + axis] = object.local.scale[axis];
             row.world_transform[axis] = object.world_position[axis];
-            row.world_transform[3 + axis] = object.local.rotation_degrees[axis] +
-                module.local.rotation_degrees[axis];
-            row.world_transform[6 + axis] = object.local.scale[axis] *
-                module.local.scale[axis];
+            row.world_transform[3 + axis] = object.local.rotation_degrees[axis];
+            row.world_transform[6 + axis] = object.local.scale[axis];
             if (!std::isfinite(row.local_transform[axis]) ||
                 !std::isfinite(row.local_transform[3 + axis]) ||
                 !std::isfinite(row.local_transform[6 + axis]) ||
@@ -1101,6 +1114,7 @@ extern "C" int dh2_world_compile_static_mvp(const std::uint8_t* mlx,
         return 0;
     }
     for (std::uint32_t i = 0; i < owner.level.module_count; ++i) {
+        if (!owner.level.modules[i].cache_mgp) continue;  // visual-only Module: no children
         if (!mvps[i].source_path || !mvps[i].data || !mvps[i].size) {
             set_error(error, error_capacity, "Source MVP input is incomplete");
             return 0;
@@ -1167,16 +1181,13 @@ extern "C" int dh2_world_compile_static_mvp(const std::uint8_t* mlx,
             set_error(error, error_capacity, "SWAMP static Decor identity exceeds adapter limits");
             return 0;
         }
-        const auto& module = owner.level.modules[object.module_index].record;
         for (unsigned axis = 0; axis < 3; ++axis) {
             row.local_transform[axis] = object.local.position[axis];
             row.local_transform[3 + axis] = object.local.rotation_degrees[axis];
             row.local_transform[6 + axis] = object.local.scale[axis];
             row.world_transform[axis] = object.world_position[axis];
-            row.world_transform[3 + axis] = object.local.rotation_degrees[axis] +
-                module.local.rotation_degrees[axis];
-            row.world_transform[6 + axis] = object.local.scale[axis] *
-                module.local.scale[axis];
+            row.world_transform[3 + axis] = object.local.rotation_degrees[axis];
+            row.world_transform[6 + axis] = object.local.scale[axis];
             if (!std::isfinite(row.local_transform[axis]) ||
                 !std::isfinite(row.local_transform[3 + axis]) ||
                 !std::isfinite(row.local_transform[6 + axis]) ||

@@ -1,0 +1,526 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -858.992,
+      637.364,
+      0.0
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+    "source_record": 3,
+    "world_position": [
+      9141.008,
+      9637.364,
+      0.0
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "037_machine_rooms_01.dwld": {
+      "bytes": 2000,
+      "sha256": "d457e21ffa643f39b84ff11939a9cb9e123d41ccb4c6900c53caa611ce107e75"
+    },
+    "037_machine_rooms_01.spwn": {
+      "bytes": 160,
+      "sha256": "77aad5646a391608da6ba63404fc6dab9799fb20f0d468a0ade6092a65f5ff23"
+    }
+  },
+  "level_list": {
+    "level_file": "037_machine_rooms_01.mlx",
+    "name": "MACHINE_ROOMS_01",
+    "row": 33
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 13,
+  "modules": [
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "mgp_records": 18,
+      "module_index": 0,
+      "mvp": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_02_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_plane_machineroom_02_001",
+      "node_id": "_module_plane_machineroom_02-node",
+      "position": [
+        10000.0,
+        9000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_03_01.mgp",
+      "mgp_records": 9,
+      "module_index": 1,
+      "mvp": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_03_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_03_001",
+      "node_id": "_module_plane_machineroom_03-node",
+      "position": [
+        4000.0,
+        9000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_01_01.mgp",
+      "mgp_records": 44,
+      "module_index": 2,
+      "mvp": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_01_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_01_001",
+      "node_id": "_module_plane_machineroom_01-node",
+      "position": [
+        10000.0,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_00_01.mgp",
+      "mgp_records": 45,
+      "module_index": 3,
+      "mvp": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_00_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_00_001",
+      "node_id": "_module_plane_machineroom_00-node",
+      "position": [
+        4000.0,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 4,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_001",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        16000.0,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 5,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_002",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        10000.0,
+        -3000.0,
+        -1.52588e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 6,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_003",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        4000.0,
+        -3000.0,
+        -1.52588e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 7,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_004",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        -2000.0,
+        -3000.0,
+        9.15527e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 8,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_005",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        -2000.0,
+        3000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 9,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_006",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        10000.0,
+        15000.0,
+        -6.10352e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 10,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_007",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        4000.0,
+        15000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 11,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_008",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        16000.0,
+        9000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 12
+    },
+    {
+      "dae": "data/3d/modules/machineroom/machineroom.bdae",
+      "has_children": false,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 12,
+      "mvp": null,
+      "mvp_records": 0,
+      "name": "_module_plane_machineroom_04_009",
+      "node_id": "_module_plane_machineroom_04-node",
+      "position": [
+        16000.0,
+        15000.0,
+        9.15527e-05
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 13
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/machineroom.bdae",
+      "bytes": 818812,
+      "path": "data/3d/modules/machineroom/machineroom.bdae",
+      "sha256": "cb9f1ebab169f6c7b7334138084493ad17e9fbe31a105db06638daea533c3966"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_00_01.mgp",
+      "bytes": 15943,
+      "path": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_00_01.mgp",
+      "sha256": "8ed34e4b92f8e8bc3ef397056c8c1baf77c3517ae1c0bf57ae0a905773186608"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_01_01.mgp",
+      "bytes": 14939,
+      "path": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_01_01.mgp",
+      "sha256": "4b9b7e1bdf59693353a9fc1f3ff0241789f3d83dd6bc97fa11adf9dc29b00c06"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "bytes": 6470,
+      "path": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "sha256": "2337bc70e1f1771b4580e45ddb790406d33febb2f523061abc4337fc85fe3643"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_03_01.mgp",
+      "bytes": 3404,
+      "path": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_03_01.mgp",
+      "sha256": "f799463e925855f786bb4de797433c962bdd819475edee9dab62fbf41f0047d7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mvp/mr01_plane_machineroom_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mvp/mr01_plane_machineroom_01_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_01_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mvp/mr01_plane_machineroom_02_01.mvp",
+      "bytes": 743,
+      "path": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_02_01.mvp",
+      "sha256": "3496f945c8c6d271959d815e423f4d9ebad7926416dddcfb7fd3052692f4fcd9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/machineroom/mvp/mr01_plane_machineroom_03_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/machineroom/mvp/mr01_plane_machineroom_03_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_machineroom.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_machineroom.tga",
+      "sha256": "ec13d245f82ed404025f36c75ccc78217313e077f82194ece906511639b8d64f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_machineroom_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_machineroom_spec.tga",
+      "sha256": "c82a4a0c25046ec04ba5c6da72603a739168d6dfd15fdd853d8c259b2ef214da"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/037_machine_rooms_01.mlx",
+      "bytes": 6744,
+      "path": "data/scene/037_machine_rooms_01.mlx",
+      "sha256": "241d9c439bb740ef17bae43e6a49d646bd45c96c3307e85b601b3de2df87f111"
+    }
+  ],
+  "source_layout": "data/scene/037_machine_rooms_01.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/machineroom/machineroom.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

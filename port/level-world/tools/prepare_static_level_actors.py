@@ -267,26 +267,28 @@ def main() -> None:
         character_records = 0
         for room, module in enumerate(source_modules):
             name = module.get("name")
-            mgp_path = canonical(module.get("mgp", ""))
-            if not name or mgp_path not in source_hashes:
+            # MGP is optional: a visual-only module (no children) has no actors.
+            mgp_value = module.get("mgp") or None
+            mgp_path = canonical(mgp_value) if mgp_value else None
+            if not name or (mgp_path is not None and mgp_path not in source_hashes):
                 raise CompileError(f"Module {room} is not in pinned provenance")
             module_transform = {
                 "position": vector(module.get("position"), f"Module {room} position"),
                 "rotation": vector(module.get("rotation"), f"Module {room} rotation"),
                 "scale": vector(module.get("scale"), f"Module {room} scale"),
             }
-            if (module_transform["rotation"] != (0.0, 0.0, 0.0)
-                    or module_transform["scale"] != (1.0, 1.0, 1.0)):
-                raise CompileError("non-identity Module rotation/scale is unsupported")
             expected = provenance["modules"][room]
             if (expected.get("name") != name or expected.get("mgp") != mgp_path
                     or tuple(expected.get("position", ())) != module_transform["position"]):
                 raise CompileError(f"Module {room} differs from pinned provenance")
-            mgp_raw, _ = read_source(cache, index, mgp_path)
-            if digest(mgp_raw) != source_hashes[mgp_path]:
-                raise CompileError(f"MGP differs from pinned provenance: {mgp_path}")
-            mgp = parse_xml(mgp_raw, mgp_path, "Module")
-            for record, obj in enumerate(mgp.findall("GameObject")):
+            if mgp_path is None:
+                mgp_records = []
+            else:
+                mgp_raw, _ = read_source(cache, index, mgp_path)
+                if digest(mgp_raw) != source_hashes[mgp_path]:
+                    raise CompileError(f"MGP differs from pinned provenance: {mgp_path}")
+                mgp_records = parse_xml(mgp_raw, mgp_path, "Module").findall("GameObject")
+            for record, obj in enumerate(mgp_records):
                 if obj.get("gametype") != "Character":
                     continue
                 character_records += 1
@@ -322,8 +324,10 @@ def main() -> None:
                 local_position = vector(obj.get("position"), f"{authored_name} position")
                 local_rotation = vector(obj.get("rotation"), f"{authored_name} rotation")
                 local_scale = vector(obj.get("scale"), f"{authored_name} scale")
+                # Original semantics (ObjectManager::LoadFromXML): child world position is
+                # module position + local; the module rotation/scale is not applied to children.
                 position = tuple(local_position[i] + module_transform["position"][i] for i in range(3))
-                rotation = tuple(local_rotation[i] + module_transform["rotation"][i] for i in range(3))
+                rotation = local_rotation
                 scale = tuple(local_scale[i] * values[field_index[f"Scale_{axis}"]] / 100.0
                               for i, axis in enumerate("XYZ"))
                 packed = (*position, *rotation, *scale)
@@ -412,7 +416,10 @@ def main() -> None:
             character = animation_table["characters"][animation_id]
             for state in ("Idle", "Walk", "Attack", "Died"):
                 sequence_id = int(character[state])
-                collect_sequence(sequence_id, ())
+                # -1 is the table's "no such state" value (e.g. SmallPlant has no Attack);
+                # nothing to collect for it. Other out-of-range values stay errors.
+                if sequence_id != -1:
+                    collect_sequence(sequence_id, ())
                 state_report.append({"table": animation_id, "character": character["name"],
                                      "state": state, "sequence": sequence_id})
         for clip_id in sorted(selected_clip_ids):

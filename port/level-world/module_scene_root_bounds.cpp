@@ -3,13 +3,36 @@
 #include "floor_source.hpp"
 #include "selector.hpp"
 #include "../asset-payloads/payloads.hpp"
+#include "../engine-math/math.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <vector>
 
+extern "C" void dh2_node_matrix(float* out16, const float* translation3,
+                                const float* quaternion4, const float* scale3);
+
 namespace dh2::module_scene_root_bounds { namespace {
+
+float literal(std::uint32_t bits) {
+    float value;
+    std::memcpy(&value, &bits, sizeof(value));
+    return value;
+}
+
+// Column-major affine product a*b (translation in m[12..14]).
+dh2::math::Matrix4f multiply(const dh2::math::Matrix4f& a, const dh2::math::Matrix4f& b) {
+    dh2::math::Matrix4f out{};
+    for (unsigned c = 0; c < 4; ++c)
+        for (unsigned r = 0; r < 4; ++r) {
+            float sum = 0;
+            for (unsigned k = 0; k < 4; ++k) sum += a.m[k * 4 + r] * b.m[c * 4 + k];
+            out.m[c * 4 + r] = sum;
+        }
+    out.identity_hint = 0;
+    return out;
+}
 
 struct Walk {
     const dh2::resources::BresView* catalogue;
@@ -18,6 +41,9 @@ struct Walk {
     const std::uint32_t* records;
     std::uint32_t record_count;
     float owner[3];
+    // Rotated or scaled Module: descendants are placed by root * T(-catalogue_origin) * serialized.
+    bool rotated = false;
+    dh2::math::Matrix4f root{};
     Result result{};
     bool has_bounds = false;
     Status status = Status::complete;
@@ -44,19 +70,31 @@ bool visit(const dh2::scene_payload::Node* node,
     ++walk.result.scene_nodes;
 
     dh2::math::Matrix4f placed{};
-    auto binding = *walk.binding;
-    for (unsigned axis = 0; axis != 3; ++axis) {
-        binding.placement_delta[axis] = walk.owner[axis] - binding.catalogue_origin[axis];
-        if (!std::isfinite(binding.placement_delta[axis])) {
-            walk.status = Status::unsupported_transform;
+    if (walk.rotated) {
+        dh2::math::Matrix4f to_root{};
+        for (unsigned i = 0; i < 16; ++i) to_root.m[i] = (i % 5 == 0) ? 1.0f : 0.0f;
+        for (unsigned axis = 0; axis != 3; ++axis) to_root.m[12 + axis] = -walk.binding->catalogue_origin[axis];
+        placed = multiply(walk.root, multiply(to_root, *serialized_world));
+        for (float value : placed.m)
+            if (!std::isfinite(value)) {
+                walk.status = Status::transform_failure;
+                return false;
+            }
+    } else {
+        auto binding = *walk.binding;
+        for (unsigned axis = 0; axis != 3; ++axis) {
+            binding.placement_delta[axis] = walk.owner[axis] - binding.catalogue_origin[axis];
+            if (!std::isfinite(binding.placement_delta[axis])) {
+                walk.status = Status::unsupported_transform;
+                return false;
+            }
+        }
+        dh2::world::Diagnostic diagnostic{};
+        if (dh2_world_place_matrix(&placed, &binding, serialized_world, &diagnostic)
+            != dh2::world::Error::ok) {
+            walk.status = Status::transform_failure;
             return false;
         }
-    }
-    dh2::world::Diagnostic diagnostic{};
-    if (dh2_world_place_matrix(&placed, &binding, serialized_world, &diagnostic)
-        != dh2::world::Error::ok) {
-        walk.status = Status::transform_failure;
-        return false;
     }
 
     for (std::uint32_t i = 0; i < node->instances; ++i) {
@@ -154,6 +192,25 @@ Status build(const dh2::world::Module* module,
     walk.records = records.data();
     walk.record_count = record_count;
     std::copy(owner_world_position, owner_world_position + 3, walk.owner);
+    // Original Module root: position, quaternion::set(ry,-rx,-rz) of the degrees converted by
+    // 0x3c8efa35, and scale (|s|<0x38d1b717 resets to 1); the root TRS replaces the catalogue one.
+    const auto& local = module->record.local;
+    for (unsigned axis = 0; axis != 3; ++axis)
+        if (local.rotation_degrees[axis] != 0.0f || local.scale[axis] != 1.0f) walk.rotated = true;
+    if (walk.rotated) {
+        float radians[3];
+        float scale[3];
+        for (unsigned axis = 0; axis != 3; ++axis) {
+            radians[axis] = local.rotation_degrees[axis] * literal(0x3c8efa35);
+            scale[axis] = std::fabs(local.scale[axis]) < literal(0x38d1b717) ? 1.0f : local.scale[axis];
+        }
+        dh2::math::Quaternion q{};
+        dh2_quat_from_euler(&q, radians[1], -radians[0], -radians[2]);
+        if (q.x == 0.0f && q.y == 0.0f && q.z == 0.0f && q.w == 1.0f) q = {0, 0, 0, 1};
+        const float quaternion[4]{q.x, q.y, q.z, q.w};
+        dh2_node_matrix(walk.root.m, owner_world_position, quaternion, scale);
+        walk.root.identity_hint = 0;
+    }
     const auto walked = dh2_scene_walk_visual(&visual, visit, &walk, 65536);
     if (walked != dh2::scene_payload::Error::ok)
         return walk.status == Status::complete ? Status::scene_failure : walk.status;

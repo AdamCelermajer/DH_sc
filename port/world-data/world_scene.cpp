@@ -33,10 +33,13 @@ extern "C" Error dh2_world_bind_module(ModuleBinding* output, const Module* modu
     const dh2::scene_payload::Scene* scene, Diagnostic* d) {
     if (!output || !module || !scene || !module->catalogue_node_id)
         return fail(d, Error::argument, "Missing module/scene binding input");
+    // Module rotation and scale are carried by the module root in the runtime scene
+    // (T*R*S). Here only the finite position is needed for the catalogue delta.
     const auto& transform = module->record.local;
     for (unsigned i = 0; i < 3; ++i)
-        if (!std::isfinite(transform.position[i]) || transform.rotation_degrees[i] != 0 || transform.scale[i] != 1)
-            return fail(d, Error::unsupported_transform, "Module placement must be finite translation only");
+        if (!std::isfinite(transform.position[i]) || !std::isfinite(transform.rotation_degrees[i]) ||
+            !std::isfinite(transform.scale[i]))
+            return fail(d, Error::unsupported_transform, "Module placement must be finite");
     ModuleBinding candidate{}; bool found = false;
     for (std::uint32_t v = 0; v < scene->visuals; ++v) {
         dh2::scene_payload::Visual visual{};

@@ -299,30 +299,41 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                 placement = vector(module.get("position"), f"module {module_index} position")
                 rotation = vector(module.get("rotation"), f"module {module_index} rotation")
                 scale = vector(module.get("scale"), f"module {module_index} scale")
-                if rotation != (0.0, 0.0, 0.0) or scale != (1.0, 1.0, 1.0):
-                    raise CompileError(
-                        f"module row {module_index} is rotated or scaled; only translations are supported")
                 if len(module_id.encode("utf-8")) >= 112:
                     raise CompileError(f"module node id is too long: {module_id!r}")
-                if any(existing["node_id"] == module_id for existing in module_rows):
+
+                # MGP and MVP are optional as a pair: a visual-only module (no children,
+                # e.g. MACHINE_ROOMS_01) has neither. A single one is refused.
+                child_fields = [field for field in ("mgp", "mvp") if module.get(field)]
+                if child_fields and len(child_fields) != 2:
+                    raise CompileError(f"module row {module_index} has only one of mgp/mvp")
+                has_children = len(child_fields) == 2
+                paths: dict[str, str] = {}
+                if has_children:
+                    for field in ("mgp", "mvp"):
+                        paths[field] = add_source(module.get(field), MAX_XML_BYTES)
+                dae_value = module.get("dae")
+                if not dae_value:
+                    raise CompileError(f"module row {module_index} lacks dae")
+                paths["dae"] = add_source(dae_value, MAX_BDAE_BYTES)
+
+                children = []
+                if has_children:
+                    mgp_raw, _ = source_assets[paths["mgp"]]
+                    mvp_raw, _ = source_assets[paths["mvp"]]
+                    mgp = parse_xml(mgp_raw, "Module", paths["mgp"])
+                    mvp = parse_xml(mvp_raw, "Module", paths["mvp"])
+                    children = [("mgp", mgp, paths["mgp"]), ("mvp", mvp, paths["mvp"])]
+
+                # A repeated node id is legal only for visual-only placements (each
+                # placement is a separate room instance, e.g. MACHINE_ROOMS_01).
+                if any(existing["node_id"] == module_id and
+                       (existing["has_children"] or has_children)
+                       for existing in module_rows):
                     raise CompileError(f"duplicate module node id {module_id!r}")
 
-                paths: dict[str, str] = {}
-                for field in ("mgp", "mvp", "dae"):
-                    value = module.get(field)
-                    if not value:
-                        raise CompileError(f"module row {module_index} lacks {field}")
-                    paths[field] = add_source(value, MAX_BDAE_BYTES if field == "dae"
-                                              else MAX_XML_BYTES)
-
-                mgp_raw, _ = source_assets[paths["mgp"]]
-                mvp_raw, _ = source_assets[paths["mvp"]]
-                mgp = parse_xml(mgp_raw, "Module", paths["mgp"])
-                mvp = parse_xml(mvp_raw, "Module", paths["mvp"])
-
                 record_counts: dict[str, int] = {"mgp": 0, "mvp": 0}
-                for kind, module_xml, source_path in (
-                    ("mgp", mgp, paths["mgp"]), ("mvp", mvp, paths["mvp"])):
+                for kind, module_xml, source_path in children:
                     for record_index, obj in enumerate(module_xml.findall("GameObject")):
                         record_counts[kind] += 1
                         dae = obj.get("dae")
@@ -381,11 +392,12 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                     "position": placement,
                     "rotation": rotation,
                     "scale": scale,
-                    "mgp": paths["mgp"],
+                    "mgp": paths.get("mgp"),
                     "mgp_records": record_counts["mgp"],
-                    "mvp": paths["mvp"],
+                    "mvp": paths.get("mvp"),
                     "mvp_records": record_counts["mvp"],
                     "dae": paths["dae"],
+                    "has_children": has_children,
                 })
 
             # Entry zero is the only hard launch requirement. Other spawn IDs are
@@ -433,15 +445,31 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                 for row_ in zero_rows)
 
             start_position = entry_zero["world_position"]
+            # DWLD v1 (128-byte records) stays the output whenever every module is an
+            # untransformed, child-bearing placement, so existing levels are unchanged.
+            # v2 (152-byte records) adds rotation (degrees, MLX order rx,ry,rz), scale and
+            # flags: bit0 = has MGP/MVP children, bit1 = visual-only (no children).
+            needs_v2 = any(row_["rotation"] != (0.0, 0.0, 0.0) or
+                           row_["scale"] != (1.0, 1.0, 1.0) or not row_["has_children"]
+                           for row_ in module_rows)
+            dwld_version = 2 if needs_v2 else 1
             dwld = bytearray(struct.pack(
-                "<4sII3f", b"DWLD", 1, len(module_rows),
+                "<4sII3f", b"DWLD", dwld_version, len(module_rows),
                 *(_numeric_float32(v, "entrypoint-zero world position") for v in start_position)))
             for row_ in module_rows:
                 encoded_id = str(row_["node_id"]).encode("utf-8")
                 xyz = tuple(_numeric_float32(v, f"module {row_['module_index']} position")
                             for v in row_["position"])
                 dwld.extend(encoded_id.ljust(112, b"\0"))
-                dwld.extend(struct.pack("<3fI", *xyz, 0))
+                if dwld_version == 1:
+                    dwld.extend(struct.pack("<3fI", *xyz, 0))
+                else:
+                    rot = tuple(_numeric_float32(v, f"module {row_['module_index']} rotation")
+                                for v in row_["rotation"])
+                    scl = tuple(_numeric_float32(v, f"module {row_['module_index']} scale")
+                                for v in row_["scale"])
+                    flags = 1 if row_["has_children"] else 2
+                    dwld.extend(struct.pack("<9fI", *xyz, *rot, *scl, flags))
 
             spwn = bytearray(struct.pack("<4sIII", b"SPWN", 1, len(selectable), 0))
             for row_ in selectable:

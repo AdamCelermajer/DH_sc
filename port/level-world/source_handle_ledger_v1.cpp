@@ -104,25 +104,28 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
         }
 
         const auto module_count = static_cast<std::size_t>(imported.value.module_count);
+        // Only Modules with an MGP/MVP pair own ordered files. A visual-only Module
+        // (no children) still takes its root handle slot in the register loop below.
+        std::size_t expected_files = 0;
+        for (std::size_t m = 0; m < module_count; ++m)
+            if (imported.value.modules[m].cache_mgp) expected_files += 2;
         if (!module_count || module_count > max_module_files / 2 ||
-            file_count != module_count * 2) {
-            set_error(error, "Need one ordered MGP and MVP file per source Module");
+            file_count != expected_files) {
+            set_error(error, "Need one ordered MGP and MVP file per source Module with children");
             return Status::invalid_file_order;
         }
 
-        for (std::size_t index = 0; index < file_count; ++index) {
-            const auto& file = ordered_files[index];
-            const auto expected_module = index / 2;
-            if (file.module_index != expected_module ||
-                !file.source_path || !file.data || !file.size) {
-                set_error(error, "Module file inputs are incomplete or out of load order");
-                return Status::invalid_file_order;
-            }
-            const auto pair_begin = expected_module * 2;
-            if ((index == pair_begin && file.kind != ModuleFileKind::mgp) ||
-                (index == pair_begin + 1 && file.kind != ModuleFileKind::mvp)) {
-                set_error(error, "Each Module needs MGP followed by MVP in source load order");
-                return Status::invalid_file_order;
+        std::size_t cursor = 0;
+        for (std::size_t m = 0; m < module_count; ++m) {
+            if (!imported.value.modules[m].cache_mgp) continue;
+            for (std::size_t k = 0; k < 2; ++k, ++cursor) {
+                const auto& file = ordered_files[cursor];
+                const auto wanted = k == 0 ? ModuleFileKind::mgp : ModuleFileKind::mvp;
+                if (file.module_index != m || file.kind != wanted ||
+                    !file.source_path || !file.data || !file.size) {
+                    set_error(error, "Module file inputs are incomplete or out of load order");
+                    return Status::invalid_file_order;
+                }
             }
         }
 
