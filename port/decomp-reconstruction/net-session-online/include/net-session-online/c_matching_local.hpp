@@ -22,6 +22,17 @@ public:
     std::int32_t GetMemberMask(std::int32_t memberId) const;
     // 0x805694 _ZN14CMatchingLocal19GetInvitationRoomIdEv: returns 0 (64-bit).
     std::uint64_t GetInvitationRoomId() const { return 0; }
+    // 0x8056a0 _ZN14CMatchingLocal16GetTransportTypeE14tPROTOCOL_TYPE: table {1, 2, 1}
+    // indexed by the protocol type; any type above 2 gives 0. The object is not read.
+    static std::int32_t GetTransportType(std::uint32_t protocolType);
+    // 0x801fb0 _ZN14CMatchingLocal14SendInvitationEPKcS1_b: posts event 0x800015, returns 0.
+    // The original's names are not used by the body.
+    std::int32_t SendInvitation(const char* from, const char* to, bool flag);
+    // 0x801fe8 _ZN14CMatchingLocal17ReceiveInvitationEv: posts event 0x800017, returns 0.
+    std::int32_t ReceiveInvitation();
+    // 0x805998 _ZN14CMatchingLocal26ProcessChangeServerMessageEiR12NetBitStream: reads the
+    // 4-byte server id into +0x363c, then posts event 0x80000b carrying it.
+    void ProcessChangeServerMessage(std::int32_t from, class NetBitStream& stream);
 
     // Test seams. Not in the original.
     void SetRoomFlagsForTest(bool closed, bool hiddenFlag) {
@@ -29,9 +40,11 @@ public:
         roomHiddenFlag_ = hiddenFlag ? 1 : 0;
     }
     std::int32_t MemberIdForTest() const { return memberId_; }
+    std::int32_t ServerMemberIdForTest() const { return serverMemberId_; }
 
 private:
     std::int32_t memberId_ = 0;     // +0x3638
+    std::int32_t serverMemberId_ = 0;  // +0x363c (name inferred, as in CMatchingGLLive)
     std::uint8_t roomClosed_ = 0;   // +0x4b6d
     std::uint8_t roomHiddenFlag_ = 0;  // +0x4b8d
 };
