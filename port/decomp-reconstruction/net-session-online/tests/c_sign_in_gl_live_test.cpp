@@ -9,6 +9,7 @@ static int failures = 0;
 // The probe supplies only those so that the reconstructed overrides can be called.
 class CSignInGLLiveProbe : public CSignInGLLive {
 public:
+    using CSignInGLLive::SignIn;
     std::int32_t SignIn(CSignInCredentials& /*credentials*/) override { return 0; }
     void SignOut() override {}
     bool ActiveFlag() const { return ActiveForTest(); }

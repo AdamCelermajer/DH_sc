@@ -7,7 +7,7 @@
 // Original layout (32-bit offsets, kept as comments):
 //   +0x00 vptr (HasDataToSend is virtual slot 0)
 //   +0x04 count
-//   +0x08 elements, sizeof(T) each (432 bytes for MemberInfoNetStruct)
+//   +0x08 elements, sizeof(T) each (432 bytes for MemberInfoNetStruct, 344 for ServerBackupNetStruct)
 //
 // Element methods used (the original calls them through the element vtable):
 //   HasDataToSend(int) +40, Serialize(NetBitStream&, int, int) +8, Load(...) +20,
