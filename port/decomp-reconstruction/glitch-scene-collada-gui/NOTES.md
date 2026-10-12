@@ -523,3 +523,13 @@ new_31/32/33.tsv). Every partial is an unattached free function with a stub note
 - Camera and light nodes (0x582160, 0x582948, 0x583d88) were reconstructed by slice 31. The brief
   assigns camera to the other session, so review that split.
 - The ledger now has 3347 rows.
+
+## Scene camera and light nodes
+glitch::scene camera and light nodes (0x582160, 0x582948, 0x583d88) are engine scene-graph classes,
+not the game's camera logic. They stay in this category.
+
+## Layout wave
+Four layout workers write header-only member declarations from the Hex-Rays offsets, one family
+each: layouts/animation_track.hpp, layouts/scene.hpp, layouts/collada_db.hpp, layouts/gui.hpp.
+Each header compiles alone. Partial rows (1487 of them, from the ledger) are rerun against these
+headers in a later wave.
