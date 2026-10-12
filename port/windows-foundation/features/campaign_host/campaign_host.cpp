@@ -543,6 +543,10 @@ bool CampaignHost::abort_cutscene(std::string& error) {
         for (const auto id : character_blocked_) if (!previous_character_(id, false, error)) ok = false;
     }
     character_blocked_.clear();
+    // B141: the End contract's Script_MarkCharacterAsScripted(false): a stale flag left the local player unqualified for every later
+    // trigger contact and kept completed actor clips pending. Then the camera follows the local player again.
+    scripted_.clear();
+    if (services_.release_camera && !services_.release_camera(error)) ok = false;
     if (!ok) return false;
     error.clear();
     return true;

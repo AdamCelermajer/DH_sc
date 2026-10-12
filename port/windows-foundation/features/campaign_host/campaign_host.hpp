@@ -93,6 +93,10 @@ struct CampaignHostServices {
     // The owner decides
     // which actors it applies to (gameplay actors); released=true drops the held cutscene pose.
     std::function<bool(ActorId,bool& released,std::string&)> scripted_clip_finished;
+    // B141: a failed cutscene is aborted (HUD, locks, SKIP restored) before its authored closing SetCameraTarget("") can run. The owner
+    // re-targets the camera on the local player (CameraTarget::SetTarget with a zero transition, as the closing command does) so the
+    // scripted target does not stay latched on a scene actor. Unset = no camera owner bound (tests).
+    std::function<bool(std::string&)> release_camera;
     std::int32_t difficulty=0;           // source Normal
     bool tutorials_enabled=true;         // offline normal-difficulty tutorial policy
     // B070: the original keeps the 14 tutorial-enabled bytes in the GLOBAL settings file (SavegameManager +0x29,

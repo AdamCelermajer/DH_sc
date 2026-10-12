@@ -19,6 +19,7 @@ bool OriginalActorLifecycle::add(ActorState&actor,const OriginalLifecycleFacts&f
   if(!services_.floor_height(p,found,height,error))return false;
   if(found){if(!std::isfinite(height)){error="Original floor height is nonfinite";return false;}record.facts.initial_transform.position[2]=height;}
  }catch(const std::exception&e){error=e.what();return false;}
+ if(preset_pre_spawn)pre_spawn_baseline_[actor.id]=record.facts; // B141: survives detach_for_restore()
  auto entry=records_.emplace(actor.id,std::move(record));auto&r=entry.first->second;
  // InitPost SetInitialPosition -> SetPosition(initial,true), snapshot rotation.
  if(!call(r,OriginalLifecycleOperation::restore_initial_position,-1,error))return false;
@@ -85,5 +86,18 @@ bool OriginalActorLifecycle::animation_event(ActorId id,const std::string&name,s
 const OriginalLifecycleStatus* OriginalActorLifecycle::status(ActorId id)const{auto i=records_.find(id);return i==records_.end()?nullptr:&i->second.status;}
 bool OriginalActorLifecycle::combat_enabled(ActorId id)const{auto*s=status(id);return s&&!s->failed&&s->enabled&&s->state==3;}
 void OriginalActorLifecycle::remove(ActorId id){records_.erase(id);}
-void OriginalActorLifecycle::clear(){records_.clear();}
+void OriginalActorLifecycle::clear(){records_.clear();pre_spawn_baseline_.clear();}
+void OriginalActorLifecycle::detach_for_restore(){records_.clear();}
+std::vector<ActorId> OriginalActorLifecycle::pre_spawn_baseline_ids()const{
+ std::vector<ActorId> ids;ids.reserve(pre_spawn_baseline_.size());for(const auto&entry:pre_spawn_baseline_)ids.push_back(entry.first);return ids;
+}
+bool OriginalActorLifecycle::restore_pre_spawn(ActorId id,ActorState&actor,bool enabled,std::string&error){
+ const auto baseline=pre_spawn_baseline_.find(id);
+ if(actor.id!=id||baseline==pre_spawn_baseline_.end()){error="Restored actor has no preset PreSpawn lifecycle baseline";return false;}
+ if(records_.count(id)){error="Invalid or duplicate lifecycle actor identity";return false;}
+ if(!services_.invoke){error="Original actor lifecycle effect provider unavailable";return false;}
+ Record record;record.actor=&actor;record.facts=baseline->second;
+ record.status.state=17;record.status.flags=0x1300;record.status.enabled=enabled;record.status.collisions_enabled=false; // CSPreSpawn focus values (change() target 17)
+ records_.emplace(id,std::move(record));return true;
+}
 }

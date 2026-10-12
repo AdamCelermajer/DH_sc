@@ -2905,6 +2905,10 @@ int main(int argc,char** argv) {
             if(!alive||actorState<=0||actorState==17)return true; // dead, limbus, awaiting/pre-spawn; held Idle also needs release
             std::cout<<"[campaign] scripted clip finished: gameplay actor "<<placed->definition.name<<" state="<<actorState<<" -> Idle (CSAnim::OnUpdate)\n";
             released=hostServices.set_idle(id,false,e);return released;};
+        // B141: an aborted cutscene hands the camera back to the local player (zero-duration CameraTarget::SetTarget, the same call the restore paths use).
+        hostServices.release_camera=[&](std::string& e){
+            if(!combatSession){e.clear();return true;}
+            return sourceCameraTargets.seed_target(combatSession->player_id(),e);};
         // P16 OPENING: actor script verbs bound to the live session, the population, the lifecycle and the source objects.
         // An actor is either a session actor (combat state owns its transform) or a population-only actor (its placed
         // transform is the owner: column-major translation at 12..14, heading in the 2x2 block).
@@ -3132,6 +3136,26 @@ int main(int argc,char** argv) {
         f::CampaignCameraFrame lastSourceCameraFrame;
         std::map<f::ActorId,bool> lifecyclePhysical,lifecycleCollisions,lifecycleIdleSuppressed;
         std::map<f::ActorId,std::uint32_t> lifecycleFlags;
+        // B141: a Continue/F9/death-revive restore replaces every ActorState and drops the borrowed lifecycle records. Character::Serialize
+        // (0x3a65c4) stores SM_GetState and Character::Deserialize (0x3a6210) restores a saved Spawn1/PreSpawn17 Character as
+        // SM_SetPreSpawnState (alive, not Limbus, no physical body). Re-register exactly those preset PreSpawn/Limbus actors from their
+        // preserved authored facts, replaying no transition effect, so Script_SpawnCharacter (0x45f400, SM_SetSpawnState on the named
+        // Character) reaches the same lifecycle owner as on a fresh level instead of aborting with "Unknown original lifecycle actor".
+        const auto restoreLifecyclePreSpawn=[&](std::string& e)->bool{
+            if(!combatSession)return true;
+            for(const auto id:actorLifecycle.pre_spawn_baseline_ids()) {
+                if(actorLifecycle.status(id))continue;
+                auto* actor=combatSession->actor(id);
+                if(!actor||!actor->alive()||actor->source_limbus||!actor->source_physical_present||*actor->source_physical_present)continue;
+                const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+                if(placed==population.actors().end())continue;
+                if(!actorLifecycle.restore_pre_spawn(id,*actor,placed->enabled,e))return false;
+                lifecyclePhysical[id]=false;lifecycleCollisions[id]=false;lifecycleFlags[id]=actorLifecycle.status(id)->flags;lifecycleIdleSuppressed[id]=false;
+                if(combatSession->original_actor_state(id)!=17&&!combatSession->set_actor_original_state(id,17,e))return false;
+                std::cout<<"Lifecycle restored PreSpawn actor="<<id<<" name="<<placed->definition.name<<" enabled="<<placed->enabled<<" session_state="<<combatSession->original_actor_state(id)<<'\n';
+            }
+            e.clear();return true;
+        };
         // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source Spawn state's
         // first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState. Function scope on purpose:
         // the lifecycle services stored by bind() outlive the enclosing lifecycle block.
@@ -6003,7 +6027,7 @@ int main(int argc,char** argv) {
             if(restored&&snapshot.version==1)for(const auto& saved:snapshot.actors)
                 if(const auto admission=legacyCheckpointAdmission(saved))
                     receipt.population_admission[saved.id]=*admission;
-            if(restored) {actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();}
+            if(restored) {actorLifecycle.detach_for_restore();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();}
             std::string rebindError;
             const bool rebound=combatSession->rebind_after_restore(rebindError);
             if(!detached) {e=restoreError.empty()?"Death checkpoint teardown failed":restoreError;return false;}
@@ -6032,6 +6056,7 @@ int main(int argc,char** argv) {
                 std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted
                          <<" receipt="<<(snapshot.version==2?"captured-v2":"authenticated-legacy-v1")<<" frame="<<drawn<<'\n';
             }
+            if(restored&&!restoreLifecyclePreSpawn(e)) {e="Checkpoint lifecycle PreSpawn restore: "+e;return false;} // B141: after the captured population admission
             initializeSourceNavigation();
             initializeSourceTargetNodes();
             bindCombatText();
@@ -7161,10 +7186,11 @@ int main(int argc,char** argv) {
                         e.clear();return true;
                     },error))throw std::runtime_error("Prepare live restore: "+error);
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
-                    actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
+                    actorLifecycle.detach_for_restore();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
                     if(!restored)throw std::runtime_error("Restore live save: "+restoreError);
                     {std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
+                    {std::string preSpawnError;if(!restoreLifecyclePreSpawn(preSpawnError))throw std::runtime_error("Lifecycle PreSpawn restore: "+preSpawnError);} // B141
                     {std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();

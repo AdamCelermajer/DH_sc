@@ -29,6 +29,7 @@ struct Rig {
     OriginalActorLifecycle lifecycle;
     CampaignCameraAdapter camera;
     bool globalBlocked = false;
+    int cameraReleases = 0; // B141: an aborted cutscene hands the camera back
     std::array<float,3> livePosition{};
     std::map<ActorId, bool> characterBlocked;
     std::map<ActorId, std::int32_t> states;
@@ -76,6 +77,7 @@ struct Rig {
         };
         services.set_actor_state = [this](ActorId id, std::int32_t state, std::string&) { states[id] = state; return true; };
         services.set_idle = [this](ActorId id,bool,std::string&){states[id]=3;return true;};
+        services.release_camera = [this](std::string& e) { ++cameraReleases; return camera.seed_target(1, e); }; // B141
         services.read_camera_clip = [this](std::int32_t id, std::vector<std::uint8_t>& clip, std::vector<std::uint8_t>& scene, std::string& path, std::string& e) {
             return clipLibrary.read(*assetCatalog, id, clip, scene, path, e);
         };
@@ -138,6 +140,7 @@ void lizard_intro_contract(const std::string& directory) {
     check(rig.host->save_blocked(), "BeginScriptedCutScene must block saves");
     check(rig.host->global_controller_blocked() && rig.globalBlocked, "LockCharacter All must set the existing controller flag");
     check(rig.host->aborts() == 0, "Begin contract must not abort");
+    check(!rig.host->host_state().scripted.empty() && rig.cameraReleases == 0, "Begin marks the characters scripted and does not release the camera");
 
     // SetCameraTarget 1000 ms is blocking; Wait 500 then SpawnCharacter has no lifecycle owner for the lizard.
     for (int i = 0; i < 20 && rig.host->aborts() == 0; ++i) rig.step(100);
@@ -146,6 +149,9 @@ void lizard_intro_contract(const std::string& directory) {
     check(!rig.host->skip_visible() && !rig.host->skip_active(), "failure must hide the SKIP control");
     check(!rig.host->cutscene_mode() && !rig.host->save_blocked(), "failure must leave cutscene mode and the save block");
     check(!rig.host->global_controller_blocked() && !rig.globalBlocked, "failure must release the controller lock");
+    // B141: the scripted SetCameraTarget(NewCamSpot) must not stay latched after the abort, and the Begin scripted marks are unset.
+    check(rig.cameraReleases == 1 && rig.camera.target() == 1, "abort must hand the camera back to the local player exactly once");
+    check(rig.host->host_state().scripted.empty(), "abort must unset the scripted marks (a stale mark blocked every later trigger contact)");
     check(summary(*rig.host).find("SetCameraTarget") == std::string::npos, "handled commands must not be listed as unsupported");
     rig.step(0);
     check(!rig.runtime.running(script), "aborted script is abandoned");
