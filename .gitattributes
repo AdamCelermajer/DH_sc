@@ -71,3 +71,5 @@ port/game-data/player_gear_effects_v5.cpp -text -whitespace
 port/game-data/tests/fresh_inventory_owned_v4_original.py -text -whitespace
 port/game-data/tests/player_gear_effects_v5.cpp -text -whitespace
 reports/branch-audit-2026-10-05/adam-runtime/*.log -text -whitespace
+# Packaged assets are exact original/compiled bytes; never convert line endings.
+port/android-native/app/src/main/assets/** -text -whitespace
