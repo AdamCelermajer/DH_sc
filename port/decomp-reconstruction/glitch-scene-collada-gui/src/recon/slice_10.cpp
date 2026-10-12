@@ -460,13 +460,13 @@ float* CInterpreterQuaternionAngle_QAngle_char_getKeyBasedValueEx_618410(const S
 }
 
 // 0x61844c _ZN6glitch7collada15animation_track13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIcEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiifPvPNS1_15CApplicatorInfoE
-void CApplyValueEx_QAngle_float_applyKeyBasedValueEx_61844c(const SAnimationAccessor& acc, int from, int to, float t, void* value, CApplicatorInfo* applicator) {
-    CApplyQuaternionAngleKeyed<float>::applyKeyBasedValueEx(acc, from, to, t, value, applicator);
+void CApplyValueEx_QAngle_char_applyKeyBasedValueEx_61844c(const SAnimationAccessor& acc, int from, int to, float t, void* value, CApplicatorInfo* applicator) {
+    CApplyQuaternionAngleKeyed<char>::applyKeyBasedValueEx(acc, from, to, t, value, applicator);
 }
 
 // 0x618498 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIcEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiifPvPNS1_15CApplicatorInfoE
-void CVirtualEx_QAngle_float_applyKeyBasedValue_618498(const SAnimationAccessor& acc, int from, int to, float t, void* value, CApplicatorInfo* applicator) {
-    CVirtualExApplyQuaternionAngleKeyed<float>::applyKeyBasedValue(acc, from, to, t, value, applicator);
+void CVirtualEx_QAngle_char_applyKeyBasedValue_618498(const SAnimationAccessor& acc, int from, int to, float t, void* value, CApplicatorInfo* applicator) {
+    CVirtualExApplyQuaternionAngleKeyed<char>::applyKeyBasedValue(acc, from, to, t, value, applicator);
 }
 
 // 0x6184bc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIcEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
