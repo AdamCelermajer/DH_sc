@@ -53,6 +53,56 @@ int main() {
         CHECK(q.PackParameter(len) == nullptr);
     }
 
+    // AddQueryCondition stores [index][compareOpt][len hi][len lo][value]; the
+    // slot length is len + 4 and PackParameter copies it.
+    {
+        CLobbyParameterAndQuery q;
+        q.Reserve(2);
+        q.AddQueryCondition(1, 7, "hi");
+        std::int32_t len = 0;
+        char* out = q.PackParameter(len);
+        CHECK(out != nullptr);
+        CHECK(len == 7);  // count byte + 6 record bytes
+        if (out) {
+            CHECK(out[0] == 1);
+            CHECK(out[1] == 1);   // index byte of the record
+            CHECK(out[2] == 7);   // compareOpt
+            CHECK(out[3] == 0);   // length high byte
+            CHECK(out[4] == 2);   // length low byte
+            CHECK(std::memcmp(out + 5, "hi", 2) == 0);
+            delete[] out;
+        }
+    }
+
+    // SetParameterValue takes the type byte from the type table.
+    {
+        CLobbyParameterAndQuery q;
+        q.Reserve(1);
+        q.SetParameterType(0, 9);
+        q.SetParameterValue(0, "abc");
+        std::int32_t len = 0;
+        char* out = q.PackParameter(len);
+        CHECK(out != nullptr);
+        CHECK(len == 1 + 7);
+        if (out) {
+            CHECK(out[2] == 9);
+            CHECK(out[4] == 3);
+            CHECK(std::memcmp(out + 5, "abc", 3) == 0);
+            delete[] out;
+        }
+    }
+
+    // Out-of-range index and null value are ignored by both setters.
+    {
+        CLobbyParameterAndQuery q;
+        q.Reserve(1);
+        q.AddQueryCondition(3, 1, "x");
+        q.SetParameterValue(0, nullptr);
+        std::int32_t len = 9;
+        CHECK(q.PackParameter(len) == nullptr);
+        CHECK(len == 0);
+    }
+
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

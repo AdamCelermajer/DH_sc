@@ -1,14 +1,24 @@
-# Shared layouts (copies, owned by the integrator)
+# Shared layouts (owned by the integrator)
 
-Copies of the dependency layouts that glitch-scene and the glitch-core-io and glitch-video categories
-both need. The category copies stay where they are for now; nothing here is built by CMake.
+The one definition of each type that more than one glitch category needs. Every category's CMake target
+adds `shared/include/`, so the headers here are included as `glitch-shared/<name>.hpp`.
 
-- `include/glitch-shared/sid_collection.hpp`: SIDedCollection layout, confirmed on the ITexture
-  instances from the binary (see glitch-core-io NOTES, "SIDedCollection layout (dependency pass)").
-- `include/glitch-shared/glitch_core.hpp`: core math stand-in (vector3d, plane3d, triangle3d,
-  aabbox3d, CMatrix4 members). Copy of glitch-core-io deps/glitch_core.hpp.
-- `include/glitch-shared/gl_function_table.hpp`: GL ES 2.0 function table entries (glitch-video,
-  PLT and GOT evidence in libDungeonHunter2.so).
+- `include/glitch-shared/glitch_core.hpp`: the glitch::core value types (vector2d/3d/4d, position2d,
+  dimension2d, rect, line2d/3d, aabbox3d, plane3d, triangle3d, quaternion, CMatrix4) and the
+  glitch::video colour words (SColor, SColorf). glitch-video and glitch-scene-collada-gui include it
+  through their deps/ headers. Members are zero-initialised. The rect members are UpperLeftCorner and
+  LowerRightCorner.
+- `include/glitch-shared/sid_collection.hpp`: glitch::core::detail::SIDedCollection layout, confirmed on the
+  ITexture instances. glitch-core-io's core/sid_collection.hpp forwards here.
+- `include/glitch-shared/gl_function_table.hpp`: glitch::video::deps::GLFunctionTable (GL ES 2.0 entries).
+  glitch-video's deps/gl_function_table.hpp forwards here.
 
-Not copied yet: `CMatrix4::operator*` (glitch-core-io core/matrix4_operators.hpp) depends on
-core/matrix4_base.hpp.
+Not shared, and kept in their category on purpose:
+
+- glitch-core-io's deps/glitch_core.hpp: its own copy, with the core-io stubs (IReferenceCounted, the video
+  and scene classes) and the rect members X1, Y1, X2, Y2. Its 33 uses of X1..Y2 stop it from moving here
+  until core-io renames them.
+- The intrusive_ptr forms (core-io counts references; video and scene do not). Unifying them changes runtime
+  behaviour, so the owning threads decide.
+- core-io's sided_collection.hpp: a second SIDedCollection implementation, not identical to the shared copy.
+- core-platform's deps/glitch_core.hpp: its own copy.

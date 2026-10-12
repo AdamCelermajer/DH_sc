@@ -25,7 +25,7 @@ int main() {
     CHECK(d.IsReady());  // state 0
     d.NeedToDie();
     CHECK(!d.IsReady());
-    CHECK(d.ShouldDie() == false);  // state is 4, not -1
+    CHECK(d.ShouldDie());  // need_to_die_ set: the binary returns 1 (0x865a70)
     CHECK(d.need_to_die_);
 
     vox::DataHandleUserData ud;
@@ -33,12 +33,12 @@ int main() {
     d.SetUserData(ud);
     CHECK(d.GetUserData() == 0xabc);
 
-    d.RegisterEmitter(42, nullptr);
-    d.RegisterEmitter(43, nullptr);
+    d.RegisterEmitter(42);
+    d.RegisterEmitter(43);
     CHECK(d.emitters_.size() == 2);
-    d.UnregisterEmitter(42, nullptr);
+    d.UnregisterEmitter(42);
     CHECK(d.emitters_.size() == 1);
-    CHECK(d.emitters_.front().first == 43);
+    CHECK(d.emitters_.front() == 43);
 
     if (g_failures == 0) {
         std::printf("data_obj_test: all checks passed\n");

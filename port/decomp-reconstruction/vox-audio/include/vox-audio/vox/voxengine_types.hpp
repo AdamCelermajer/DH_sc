@@ -63,4 +63,12 @@ struct Vox3DGeneralParameters {
     std::int32_t param2 = 0;   // +0x08
 };
 
+// Engine debug summary as VoxEngineInternal::GetDebugInfo fills it: four 32-bit words.
+struct DebugInfo {
+    std::int32_t data_count = 0;      // +0x00: data objects (data_objects_ node count)
+    std::int32_t emitter_count = 0;   // +0x04: emitters (emitters_ node count)
+    std::int32_t playing_count = 0;   // +0x08: emitters whose IsPlaying is true
+    std::int32_t end_marker = -1;     // +0x0c: always -1
+};
+
 }  // namespace vox

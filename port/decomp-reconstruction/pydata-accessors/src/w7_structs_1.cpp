@@ -1,0 +1,756 @@
+// Structs records for slice structs_1 (quest rewards, LangSheetList/LangSheet, quest objectives,
+// v2Event, v2Quest). Declarations are in include/pydata-accessors/w7_structs_1.hpp. Each function has
+// its address and mangled symbol above it. See NOTES.md, "Structs records" and "Arrays element ABI".
+#include <cstring>
+#include <new>
+
+#include "pydata-accessors/w7_structs_1.hpp"
+
+namespace Structs {
+
+namespace {
+
+// Element strides. The listing strides are 20 (LangSheet), 44 (v2Event), and 16 and 44 (v2Quest).
+// LangSheet has a concrete class here, so its stride is sizeof(LangSheet) on this host; the listing value
+// (20) is the 32-bit ARM size. The other element classes are not in any header, so their listing strides
+// are used as they are.
+constexpr std::size_t kLangSheetStride = sizeof(LangSheet);
+constexpr std::size_t kV2EventElementStride = 44;
+
+// Element block as in the listing: the block base is members - 8 (stride word), the count is members - 4.
+// Free the elements from the last to the first (vtable slot 0, the virtual destructor), then the block.
+void DestroyElements(std::uint8_t* members, std::size_t stride) {
+    std::uint32_t count = 0;
+    std::memcpy(&count, members - 4, sizeof count);
+    for (std::uint32_t i = count; i > 0; --i) {
+        reinterpret_cast<pydata::ArrayElement*>(members + stride * (i - 1))->~ArrayElement();
+    }
+    CustomFree(members - 8);
+}
+
+// Allocates a block for count elements of the given stride. Returns members (block + 8).
+std::uint8_t* AllocElements(std::size_t stride, std::uint32_t count) {
+    auto* block = static_cast<std::uint8_t*>(MemoryHintState(stride * count + 8, 1));
+    const std::uint32_t header[2] = {static_cast<std::uint32_t>(stride), count};
+    std::memcpy(block, header, sizeof header);
+    return block + 8;
+}
+
+// (length, buffer) pair as the listing finalizes it: free the buffer if set, then clear both words.
+void FinalizeStringField(std::uint32_t& len, char*& buf) {
+    if (buf != nullptr) {
+        CustomFree(buf);
+        len = 0;
+        buf = nullptr;
+    }
+}
+
+// Listing read of a string field whose length was just read: free the old buffer, allocate len + 1,
+// read len raw bytes, then NUL-terminate. The readStringEx flag is taken as 0 (see the ledger notes).
+void ReadStringField(IStreamBase* stream, std::uint32_t len, char*& buf) {
+    if (buf != nullptr) CustomFree(buf);
+    buf = static_cast<char*>(MemoryHintState(static_cast<std::size_t>(len) + 1, 1));
+    StreamReader::readStringEx(stream, buf, len, 0);
+    buf[len] = '\0';
+}
+
+// Words 4..10 shared by the objective family (see the headers). Only the stores are here; the base read
+// call is omitted.
+void ReadObjectiveWords(IStreamBase* stream, std::uint32_t& w4, char*& w5, std::uint32_t& w6, char*& w7,
+                        std::int32_t& w8, std::int32_t& w9, std::int32_t& w10) {
+    w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    ReadStringField(stream, w4, w5);                   // +0x14
+    w6 = StreamReader::readAs<std::uint32_t>(stream);  // +0x18
+    ReadStringField(stream, w6, w7);                   // +0x1c
+    w8 = StreamReader::readAs<std::int32_t>(stream);   // +0x20
+    w9 = StreamReader::readAs<std::int32_t>(stream);   // +0x24
+    w10 = StreamReader::readAs<std::int32_t>(stream);  // +0x28
+}
+
+}  // namespace
+
+// ===== Quest rewards: v2QuestReward family =====
+
+// 0x4c8844 _ZN7Structs19v2QuestRewardGiveXPD2Ev
+// 0x4c8878 _ZN7Structs19v2QuestRewardGiveXPD1Ev
+v2QuestRewardGiveXP::~v2QuestRewardGiveXP() {
+}
+
+// 0x4cd948 _ZN7Structs19v2QuestRewardGiveXPD0Ev
+void DeletingDestructor(v2QuestRewardGiveXP* self) {
+    self->v2QuestRewardGiveXP::~v2QuestRewardGiveXP();
+    CustomFree(self);
+}
+
+// 0x4c88ac _ZN7Structs19v2QuestRewardGiveXP8finalizeEv
+// thunk: forwards to v2QuestReward::finalize
+void v2QuestRewardGiveXP::finalize() {
+    v2QuestReward::finalize();
+}
+
+// 0x5057c8 _ZN7Structs19v2QuestRewardGiveXP4readEP11IStreamBase
+// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+void v2QuestRewardGiveXP::read(IStreamBase* stream) {
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
+// 0x4c88b0 _ZN7Structs21v2QuestRewardGiveGoldD2Ev
+// 0x4c88e4 _ZN7Structs21v2QuestRewardGiveGoldD1Ev
+v2QuestRewardGiveGold::~v2QuestRewardGiveGold() {
+}
+
+// 0x4cd92c _ZN7Structs21v2QuestRewardGiveGoldD0Ev
+void DeletingDestructor(v2QuestRewardGiveGold* self) {
+    self->v2QuestRewardGiveGold::~v2QuestRewardGiveGold();
+    CustomFree(self);
+}
+
+// 0x4c8918 _ZN7Structs21v2QuestRewardGiveGold8finalizeEv
+// thunk: forwards to v2QuestReward::finalize
+void v2QuestRewardGiveGold::finalize() {
+    v2QuestReward::finalize();
+}
+
+// 0x5056f4 _ZN7Structs21v2QuestRewardGiveGold4readEP11IStreamBase
+// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+void v2QuestRewardGiveGold::read(IStreamBase* stream) {
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
+// 0x4c891c _ZN7Structs26v2QuestRewardGiveCharPropsD2Ev
+// 0x4c8950 _ZN7Structs26v2QuestRewardGiveCharPropsD1Ev
+v2QuestRewardGiveCharProps::~v2QuestRewardGiveCharProps() {
+}
+
+// 0x4cd8bc _ZN7Structs26v2QuestRewardGiveCharPropsD0Ev
+void DeletingDestructor(v2QuestRewardGiveCharProps* self) {
+    self->v2QuestRewardGiveCharProps::~v2QuestRewardGiveCharProps();
+    CustomFree(self);
+}
+
+// 0x4c8984 _ZN7Structs26v2QuestRewardGiveCharProps8finalizeEv
+// thunk: forwards to v2QuestReward::finalize
+void v2QuestRewardGiveCharProps::finalize() {
+    v2QuestReward::finalize();
+}
+
+// 0x505614 _ZN7Structs26v2QuestRewardGiveCharProps4readEP11IStreamBase
+// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+void v2QuestRewardGiveCharProps::read(IStreamBase* stream) {
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
+// 0x4c8988 _ZN7Structs27v2QuestRewardGiveSkillPointD2Ev
+// 0x4c89bc _ZN7Structs27v2QuestRewardGiveSkillPointD1Ev
+v2QuestRewardGiveSkillPoint::~v2QuestRewardGiveSkillPoint() {
+}
+
+// 0x4cd910 _ZN7Structs27v2QuestRewardGiveSkillPointD0Ev
+void DeletingDestructor(v2QuestRewardGiveSkillPoint* self) {
+    self->v2QuestRewardGiveSkillPoint::~v2QuestRewardGiveSkillPoint();
+    CustomFree(self);
+}
+
+// 0x4c89f0 _ZN7Structs27v2QuestRewardGiveSkillPoint8finalizeEv
+// thunk: forwards to v2QuestRewardGiveCharProps::finalize
+void v2QuestRewardGiveSkillPoint::finalize() {
+    v2QuestRewardGiveCharProps::finalize();
+}
+
+// 0x5056f0 _ZN7Structs27v2QuestRewardGiveSkillPoint4readEP11IStreamBase
+// thunk: forwards to v2QuestRewardGiveCharProps::read
+void v2QuestRewardGiveSkillPoint::read(IStreamBase* stream) {
+    v2QuestRewardGiveCharProps::read(stream);
+}
+
+// 0x4c89f4 _ZN7Structs26v2QuestRewardGiveStatPointD2Ev
+// 0x4c8a28 _ZN7Structs26v2QuestRewardGiveStatPointD1Ev
+v2QuestRewardGiveStatPoint::~v2QuestRewardGiveStatPoint() {
+}
+
+// 0x4cd8f4 _ZN7Structs26v2QuestRewardGiveStatPointD0Ev
+void DeletingDestructor(v2QuestRewardGiveStatPoint* self) {
+    self->v2QuestRewardGiveStatPoint::~v2QuestRewardGiveStatPoint();
+    CustomFree(self);
+}
+
+// 0x4c8a5c _ZN7Structs26v2QuestRewardGiveStatPoint8finalizeEv
+// thunk: forwards to v2QuestRewardGiveCharProps::finalize
+void v2QuestRewardGiveStatPoint::finalize() {
+    v2QuestRewardGiveCharProps::finalize();
+}
+
+// 0x5056ec _ZN7Structs26v2QuestRewardGiveStatPoint4readEP11IStreamBase
+// thunk: forwards to v2QuestRewardGiveCharProps::read
+void v2QuestRewardGiveStatPoint::read(IStreamBase* stream) {
+    v2QuestRewardGiveCharProps::read(stream);
+}
+
+// 0x4c8a60 _ZN7Structs27v2QuestRewardGiveMaxMPBonusD2Ev
+// 0x4c8a94 _ZN7Structs27v2QuestRewardGiveMaxMPBonusD1Ev
+v2QuestRewardGiveMaxMPBonus::~v2QuestRewardGiveMaxMPBonus() {
+}
+
+// 0x4cd8d8 _ZN7Structs27v2QuestRewardGiveMaxMPBonusD0Ev
+void DeletingDestructor(v2QuestRewardGiveMaxMPBonus* self) {
+    self->v2QuestRewardGiveMaxMPBonus::~v2QuestRewardGiveMaxMPBonus();
+    CustomFree(self);
+}
+
+// 0x4c8ac8 _ZN7Structs27v2QuestRewardGiveMaxMPBonus8finalizeEv
+// thunk: forwards to v2QuestRewardGiveCharProps::finalize
+void v2QuestRewardGiveMaxMPBonus::finalize() {
+    v2QuestRewardGiveCharProps::finalize();
+}
+
+// 0x5056e8 _ZN7Structs27v2QuestRewardGiveMaxMPBonus4readEP11IStreamBase
+// thunk: forwards to v2QuestRewardGiveCharProps::read
+void v2QuestRewardGiveMaxMPBonus::read(IStreamBase* stream) {
+    v2QuestRewardGiveCharProps::read(stream);
+}
+
+// 0x4c8acc _ZN7Structs21v2QuestRewardGiveLootD2Ev
+// 0x4c8b00 _ZN7Structs21v2QuestRewardGiveLootD1Ev
+v2QuestRewardGiveLoot::~v2QuestRewardGiveLoot() {
+}
+
+// 0x4cd8a0 _ZN7Structs21v2QuestRewardGiveLootD0Ev
+void DeletingDestructor(v2QuestRewardGiveLoot* self) {
+    self->v2QuestRewardGiveLoot::~v2QuestRewardGiveLoot();
+    CustomFree(self);
+}
+
+// 0x4c8b34 _ZN7Structs21v2QuestRewardGiveLoot8finalizeEv
+// thunk: forwards to v2QuestReward::finalize
+void v2QuestRewardGiveLoot::finalize() {
+    v2QuestReward::finalize();
+}
+
+// 0x505540 _ZN7Structs21v2QuestRewardGiveLoot4readEP11IStreamBase
+// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+void v2QuestRewardGiveLoot::read(IStreamBase* stream) {
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
+// 0x4c8b38 _ZN7Structs24v2QuestRewardConsumeLootD2Ev
+// 0x4c8b6c _ZN7Structs24v2QuestRewardConsumeLootD1Ev
+v2QuestRewardConsumeLoot::~v2QuestRewardConsumeLoot() {
+}
+
+// 0x4cd884 _ZN7Structs24v2QuestRewardConsumeLootD0Ev
+void DeletingDestructor(v2QuestRewardConsumeLoot* self) {
+    self->v2QuestRewardConsumeLoot::~v2QuestRewardConsumeLoot();
+    CustomFree(self);
+}
+
+// 0x4c8ba0 _ZN7Structs24v2QuestRewardConsumeLoot8finalizeEv
+// thunk: forwards to v2QuestReward::finalize
+void v2QuestRewardConsumeLoot::finalize() {
+    v2QuestReward::finalize();
+}
+
+// 0x50546c _ZN7Structs24v2QuestRewardConsumeLoot4readEP11IStreamBase
+// partial: base read call (v2QuestReward::read) omitted, not declared in any header
+void v2QuestRewardConsumeLoot::read(IStreamBase* stream) {
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
+// ===== LangSheetList and LangSheet =====
+
+// 0x4ceb00 _ZN7Structs13LangSheetList8finalizeEv
+void LangSheetList::finalize() {
+    if (m_w2 != nullptr) {
+        DestroyElements(m_w2, kLangSheetStride);
+        m_w1 = 0;
+        m_w2 = nullptr;
+    }
+}
+
+// 0x4dc2ac _ZN7Structs13LangSheetList4readEP11IStreamBase
+void LangSheetList::read(IStreamBase* stream) {
+    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    if (m_w2 != nullptr) DestroyElements(m_w2, kLangSheetStride);
+    const std::uint32_t count = m_w1;
+    std::uint8_t* members = AllocElements(kLangSheetStride, count);
+    for (std::uint32_t i = 0; i < count; ++i) {
+        new (members + kLangSheetStride * i) LangSheet();  // vptr set, words zeroed
+    }
+    m_w2 = members;
+    for (std::uint32_t i = 0; i < count; ++i) {
+        reinterpret_cast<pydata::ArrayElement*>(members + kLangSheetStride * i)->read(stream);
+    }
+}
+
+// 0x4ceb68 _ZN7Structs13LangSheetListD1Ev
+// 0x4cec04 _ZN7Structs13LangSheetListD2Ev
+LangSheetList::~LangSheetList() {
+    if (m_w2 != nullptr) DestroyElements(m_w2, kLangSheetStride);
+}
+
+// 0x4cebe8 _ZN7Structs13LangSheetListD0Ev
+void DeletingDestructor(LangSheetList* self) {
+    self->LangSheetList::~LangSheetList();
+    CustomFree(self);
+}
+
+// 0x4cec84 _ZN7Structs9LangSheet8finalizeEv
+void LangSheet::finalize() {
+    FinalizeStringField(m_w1, m_w2);
+    FinalizeStringField(m_w3, m_w4);
+}
+
+// 0x4dd38c _ZN7Structs9LangSheet4readEP11IStreamBase
+// partial: readStringEx is ported with its 4 arguments (flag 0). The listing passes a fifth 64-bit
+// argument, and the bool result of the second readStringEx is dropped (ArrayElement::read is void).
+void LangSheet::read(IStreamBase* stream) {
+    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    ReadStringField(stream, m_w1, m_w2);                 // +0x8
+    m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
+    ReadStringField(stream, m_w3, m_w4);                 // +0x10
+}
+
+// 0x4cecc8 _ZN7Structs9LangSheetD1Ev
+// 0x4ced34 _ZN7Structs9LangSheetD2Ev
+LangSheet::~LangSheet() {
+    if (m_w2 != nullptr) CustomFree(m_w2);
+    if (m_w4 != nullptr) CustomFree(m_w4);
+}
+
+// 0x4ced18 _ZN7Structs9LangSheetD0Ev
+void DeletingDestructor(LangSheet* self) {
+    self->LangSheet::~LangSheet();
+    CustomFree(self);
+}
+
+// ===== Quest objectives: v2QuestObjective family =====
+
+// 0x4cee48 _ZN7Structs17v2QuestMoveInZone8finalizeEv
+void v2QuestMoveInZone::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x5036b8 _ZN7Structs17v2QuestMoveInZone4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestMoveInZone::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cee94 _ZN7Structs17v2QuestMoveInZoneD1Ev
+// 0x4cef08 _ZN7Structs17v2QuestMoveInZoneD2Ev
+v2QuestMoveInZone::~v2QuestMoveInZone() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4ceeec _ZN7Structs17v2QuestMoveInZoneD0Ev
+void DeletingDestructor(v2QuestMoveInZone* self) {
+    self->v2QuestMoveInZone::~v2QuestMoveInZone();
+    CustomFree(self);
+}
+
+// 0x4cef60 _ZN7Structs17v2QuestGatherLoot8finalizeEv
+void v2QuestGatherLoot::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x503930 _ZN7Structs17v2QuestGatherLoot4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestGatherLoot::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cefac _ZN7Structs17v2QuestGatherLootD1Ev
+// 0x4cf020 _ZN7Structs17v2QuestGatherLootD2Ev
+v2QuestGatherLoot::~v2QuestGatherLoot() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf004 _ZN7Structs17v2QuestGatherLootD0Ev
+void DeletingDestructor(v2QuestGatherLoot* self) {
+    self->v2QuestGatherLoot::~v2QuestGatherLoot();
+    CustomFree(self);
+}
+
+// 0x4cf078 _ZN7Structs25v2QuestClearEnemyTemplate8finalizeEv
+void v2QuestClearEnemyTemplate::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x503ba8 _ZN7Structs25v2QuestClearEnemyTemplate4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestClearEnemyTemplate::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cf0c4 _ZN7Structs25v2QuestClearEnemyTemplateD1Ev
+// 0x4cf138 _ZN7Structs25v2QuestClearEnemyTemplateD2Ev
+v2QuestClearEnemyTemplate::~v2QuestClearEnemyTemplate() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf11c _ZN7Structs25v2QuestClearEnemyTemplateD0Ev
+void DeletingDestructor(v2QuestClearEnemyTemplate* self) {
+    self->v2QuestClearEnemyTemplate::~v2QuestClearEnemyTemplate();
+    CustomFree(self);
+}
+
+// 0x4cf190 _ZN7Structs24v2QuestKillEnemyTemplate8finalizeEv
+void v2QuestKillEnemyTemplate::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x503e20 _ZN7Structs24v2QuestKillEnemyTemplate4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestKillEnemyTemplate::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cf1dc _ZN7Structs24v2QuestKillEnemyTemplateD1Ev
+// 0x4cf250 _ZN7Structs24v2QuestKillEnemyTemplateD2Ev
+v2QuestKillEnemyTemplate::~v2QuestKillEnemyTemplate() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf234 _ZN7Structs24v2QuestKillEnemyTemplateD0Ev
+void DeletingDestructor(v2QuestKillEnemyTemplate* self) {
+    self->v2QuestKillEnemyTemplate::~v2QuestKillEnemyTemplate();
+    CustomFree(self);
+}
+
+// 0x4cf2a8 _ZN7Structs19v2QuestClearEnemies8finalizeEv
+void v2QuestClearEnemies::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x504098 _ZN7Structs19v2QuestClearEnemies4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestClearEnemies::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cf2f4 _ZN7Structs19v2QuestClearEnemiesD1Ev
+// 0x4cf368 _ZN7Structs19v2QuestClearEnemiesD2Ev
+v2QuestClearEnemies::~v2QuestClearEnemies() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf34c _ZN7Structs19v2QuestClearEnemiesD0Ev
+void DeletingDestructor(v2QuestClearEnemies* self) {
+    self->v2QuestClearEnemies::~v2QuestClearEnemies();
+    CustomFree(self);
+}
+
+// 0x4cf3c0 _ZN7Structs18v2QuestKillEnemies8finalizeEv
+void v2QuestKillEnemies::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x504310 _ZN7Structs18v2QuestKillEnemies4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestKillEnemies::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cf40c _ZN7Structs18v2QuestKillEnemiesD1Ev
+// 0x4cf480 _ZN7Structs18v2QuestKillEnemiesD2Ev
+v2QuestKillEnemies::~v2QuestKillEnemies() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf464 _ZN7Structs18v2QuestKillEnemiesD0Ev
+void DeletingDestructor(v2QuestKillEnemies* self) {
+    self->v2QuestKillEnemies::~v2QuestKillEnemies();
+    CustomFree(self);
+}
+
+// 0x4cf4d8 _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectly8finalizeEv
+void v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestObjective::finalize();
+}
+
+// 0x504588 _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectly4readEP11IStreamBase
+// partial: base read call (v2QuestObjective::read) omitted, not declared in any header
+void v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(IStreamBase* stream) {
+    ReadObjectiveWords(stream, m_w4, m_w5, m_w6, m_w7, m_w8, m_w9, m_w10);
+}
+
+// 0x4cf6ec _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectlyD1Ev
+// 0x4cf760 _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectlyD2Ev
+v2QuestInteractWithDoNotUseThisObjectiveDirectly::~v2QuestInteractWithDoNotUseThisObjectiveDirectly() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf744 _ZN7Structs48v2QuestInteractWithDoNotUseThisObjectiveDirectlyD0Ev
+void DeletingDestructor(v2QuestInteractWithDoNotUseThisObjectiveDirectly* self) {
+    self->v2QuestInteractWithDoNotUseThisObjectiveDirectly::~v2QuestInteractWithDoNotUseThisObjectiveDirectly();
+    CustomFree(self);
+}
+
+// The six classes below have no fields of their own. Their finalize and destructor release m_w5 and m_w7
+// (the base's words) before calling the base. The listing releases them again in the base destructor and
+// does not reset them in between (see the ledger note on 0x4cf7b8). The port keeps that order.
+
+// 0x4cf524 _ZN7Structs16v2QuestTalkToNPC8finalizeEv
+void v2QuestTalkToNPC::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x504800 _ZN7Structs16v2QuestTalkToNPC4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestTalkToNPC::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cf7b8 _ZN7Structs16v2QuestTalkToNPCD1Ev
+// 0x4cf82c _ZN7Structs16v2QuestTalkToNPCD2Ev
+v2QuestTalkToNPC::~v2QuestTalkToNPC() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf810 _ZN7Structs16v2QuestTalkToNPCD0Ev
+void DeletingDestructor(v2QuestTalkToNPC* self) {
+    self->v2QuestTalkToNPC::~v2QuestTalkToNPC();
+    CustomFree(self);
+}
+
+// 0x4cf570 _ZN7Structs23v2QuestPickedUpLiftable8finalizeEv
+void v2QuestPickedUpLiftable::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x504804 _ZN7Structs23v2QuestPickedUpLiftable4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestPickedUpLiftable::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cf884 _ZN7Structs23v2QuestPickedUpLiftableD1Ev
+// 0x4cf8f8 _ZN7Structs23v2QuestPickedUpLiftableD2Ev
+v2QuestPickedUpLiftable::~v2QuestPickedUpLiftable() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf8dc _ZN7Structs23v2QuestPickedUpLiftableD0Ev
+void DeletingDestructor(v2QuestPickedUpLiftable* self) {
+    self->v2QuestPickedUpLiftable::~v2QuestPickedUpLiftable();
+    CustomFree(self);
+}
+
+// 0x4cf5bc _ZN7Structs16v2QuestTriggerOn8finalizeEv
+void v2QuestTriggerOn::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x504808 _ZN7Structs16v2QuestTriggerOn4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestTriggerOn::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cf950 _ZN7Structs16v2QuestTriggerOnD1Ev
+// 0x4cf9c4 _ZN7Structs16v2QuestTriggerOnD2Ev
+v2QuestTriggerOn::~v2QuestTriggerOn() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cf9a8 _ZN7Structs16v2QuestTriggerOnD0Ev
+void DeletingDestructor(v2QuestTriggerOn* self) {
+    self->v2QuestTriggerOn::~v2QuestTriggerOn();
+    CustomFree(self);
+}
+
+// 0x4cf608 _ZN7Structs19v2QuestTriggerPlate8finalizeEv
+void v2QuestTriggerPlate::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x50480c _ZN7Structs19v2QuestTriggerPlate4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestTriggerPlate::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cfa1c _ZN7Structs19v2QuestTriggerPlateD1Ev
+// 0x4cfa90 _ZN7Structs19v2QuestTriggerPlateD2Ev
+v2QuestTriggerPlate::~v2QuestTriggerPlate() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cfa74 _ZN7Structs19v2QuestTriggerPlateD0Ev
+void DeletingDestructor(v2QuestTriggerPlate* self) {
+    self->v2QuestTriggerPlate::~v2QuestTriggerPlate();
+    CustomFree(self);
+}
+
+// 0x4cf654 _ZN7Structs21v2QuestOpenGameObject8finalizeEv
+void v2QuestOpenGameObject::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x504810 _ZN7Structs21v2QuestOpenGameObject4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestOpenGameObject::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cfae8 _ZN7Structs21v2QuestOpenGameObjectD1Ev
+// 0x4cfb5c _ZN7Structs21v2QuestOpenGameObjectD2Ev
+v2QuestOpenGameObject::~v2QuestOpenGameObject() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cfb40 _ZN7Structs21v2QuestOpenGameObjectD0Ev
+void DeletingDestructor(v2QuestOpenGameObject* self) {
+    self->v2QuestOpenGameObject::~v2QuestOpenGameObject();
+    CustomFree(self);
+}
+
+// 0x4cf6a0 _ZN7Structs24v2QuestDestroyGameObject8finalizeEv
+void v2QuestDestroyGameObject::finalize() {
+    FinalizeStringField(m_w4, m_w5);
+    FinalizeStringField(m_w6, m_w7);
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::finalize();
+}
+
+// 0x504814 _ZN7Structs24v2QuestDestroyGameObject4readEP11IStreamBase
+// thunk: forwards to v2QuestInteractWithDoNotUseThisObjectiveDirectly::read
+void v2QuestDestroyGameObject::read(IStreamBase* stream) {
+    v2QuestInteractWithDoNotUseThisObjectiveDirectly::read(stream);
+}
+
+// 0x4cfbb4 _ZN7Structs24v2QuestDestroyGameObjectD1Ev
+// 0x4cfc28 _ZN7Structs24v2QuestDestroyGameObjectD2Ev
+v2QuestDestroyGameObject::~v2QuestDestroyGameObject() {
+    if (m_w5 != nullptr) CustomFree(m_w5);
+    if (m_w7 != nullptr) CustomFree(m_w7);
+}
+
+// 0x4cfc0c _ZN7Structs24v2QuestDestroyGameObjectD0Ev
+void DeletingDestructor(v2QuestDestroyGameObject* self) {
+    self->v2QuestDestroyGameObject::~v2QuestDestroyGameObject();
+    CustomFree(self);
+}
+
+// ===== v2Event and v2Quest =====
+
+// 0x4cfc80 _ZN7Structs7v2Event8finalizeEv
+void v2Event::finalize() {
+    if (m_w3 != nullptr) {
+        CustomFree(m_w3);
+        m_w2 = 0;
+        m_w3 = nullptr;
+    }
+    if (m_w5 != nullptr) {
+        DestroyElements(m_w5, kV2EventElementStride);
+        m_w4 = 0;
+        m_w5 = nullptr;
+    }
+}
+
+// 0x4ebc38 _ZN7Structs7v2Event4readEP11IStreamBase
+// partial: the element class (44-byte stride, vtable off_96A030) is not in any header. The port reads the
+// words and frees the old elements, but does not create the new element block or call the element reads.
+// readStringEx is ported with its 4 arguments (flag 0), and the returned value of the last read is dropped.
+void v2Event::read(IStreamBase* stream) {
+    m_w1 = StreamReader::readAs<std::int32_t>(stream);   // +0x4
+    m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
+    ReadStringField(stream, m_w2, m_w3);                 // +0xc
+    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (m_w5 != nullptr) {
+        DestroyElements(m_w5, kV2EventElementStride);
+        m_w5 = nullptr;
+    }
+}
+
+// 0x4cfd04 _ZN7Structs7v2EventD1Ev
+// 0x4cfdb0 _ZN7Structs7v2EventD2Ev
+v2Event::~v2Event() {
+    if (m_w3 != nullptr) CustomFree(m_w3);
+    if (m_w5 != nullptr) DestroyElements(m_w5, kV2EventElementStride);
+}
+
+// 0x4cfd94 _ZN7Structs7v2EventD0Ev
+void DeletingDestructor(v2Event* self) {
+    self->v2Event::~v2Event();
+    CustomFree(self);
+}
+
+// 0x4cfe40 _ZN7Structs7v2Quest8finalizeEv
+// Five element tables, each freed by DestroyElements with its listing stride (16, 44, 16, 16, 16).
+void v2Quest::finalize() {
+    if (m_w6 != nullptr) {
+        DestroyElements(m_w6, 16);
+        m_w5 = 0;
+        m_w6 = nullptr;
+    }
+    if (m_w8 != nullptr) {
+        DestroyElements(m_w8, 44);
+        m_w7 = 0;
+        m_w8 = nullptr;
+    }
+    if (m_w10 != nullptr) {
+        DestroyElements(m_w10, 16);
+        m_w9 = 0;
+        m_w10 = nullptr;
+    }
+    if (m_w12 != nullptr) {
+        DestroyElements(m_w12, 16);
+        m_w11 = 0;
+        m_w12 = nullptr;
+    }
+    if (m_w14 != nullptr) {
+        DestroyElements(m_w14, 16);
+        m_w13 = 0;
+        m_w14 = nullptr;
+    }
+}
+
+v2Quest::~v2Quest() {
+    DestroyElements(m_w6, 16);   // +0x18, stride 16
+    DestroyElements(m_w8, 44);   // +0x20, stride 44
+    DestroyElements(m_w10, 16);  // +0x28, stride 16
+    DestroyElements(m_w12, 16);  // +0x30, stride 16
+    DestroyElements(m_w14, 16);  // +0x38, stride 16
+}
+
+}  // namespace Structs

@@ -123,7 +123,7 @@ bool buildPackedPlan(E_PIXEL_FORMAT src, E_PIXEL_FORMAT dst, SPackedPlan& plan) 
 
         if (db == 0) continue;
         if (lutChannel) {
-            if (!lutBitsSupported(sb)) return false;  // null table pointer in the listing
+            if (!lutBitsSupported(sb) || db > 16) return false;  // null table pointer in the listing
             continue;
         }
         if (replicateChannel) {

@@ -1,5 +1,8 @@
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
+#include <cstring>
+#include <vector>
+
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 
@@ -30,6 +33,29 @@ constexpr std::int32_t kKindGetLobbyForFriendWithGameParam = 20;
 constexpr std::int32_t kKindLogin = 1;
 constexpr std::int32_t kKindInit = 21;
 constexpr std::int32_t kFriendListCap = 30;
+constexpr std::int32_t kKindCreateLobby = 5;
+
+// Packs the friend names the way the original builds them: friends are visited from the last
+// to the first, and each name is written as a 2-byte big-endian length followed by its bytes.
+// The count is capped at 30 and returned through count. An empty list gives an empty buffer.
+std::vector<char> PackFriendNames(GLXPlayerUserFriend* friends, std::int32_t& count) {
+    count = friends->GetFriendsCount();
+    if (count >= kFriendListCap) {
+        count = kFriendListCap;
+    }
+    std::vector<char> packed;
+    for (std::int32_t i = count - 1; i >= 0; --i) {
+        const char* name = friends->GetName(i);
+        if (name == nullptr) {
+            continue;
+        }
+        const std::size_t length = std::strlen(name);
+        packed.push_back(static_cast<char>((length >> 8) & 0xff));
+        packed.push_back(static_cast<char>(length & 0xff));
+        packed.insert(packed.end(), name, name + length);
+    }
+    return packed;
+}
 }  // namespace
 
 // 0x83a4a4 _ZN16GLXPlayerMPLobby4InitEv
@@ -119,24 +145,22 @@ void GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(std::int32_t a, std:
 }
 
 // 0x83787c _ZN16GLXPlayerMPLobby36mpSendGetLobbyForFriendWithGameParamEihP19GLXPlayerUserFriendP23CLobbyParameterAndQuery
-// Partial: the original copies each friend name into a 128-byte stack buffer, then
-// makes a tail call that is not identified. Those copies are never read here, so
-// they are omitted. The count is capped at 30.
+// Packs the friend names and forwards them to the overload above. This path does not
+// stamp the request: the overload does.
 void GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(std::int32_t a, std::uint8_t b,
                                                             GLXPlayerUserFriend* friends,
                                                             CLobbyParameterAndQuery* query) {
     XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(){\n");
-    if (state_ < 2) {
-        lastResult_ = kRefused;
-        observer_->OnMPFinishGameSuccess();
-    } else {
-        lastResult_ = kPending;
-        std::int32_t count = friends->GetFriendsCount();
-        if (count > kFriendListCap - 1) {
-            count = kFriendListCap;
-        }
-        mpSendGetLobbyForFriendWithGameParam(a, b, count, nullptr, 0, query);
+    if (state_ <= 1) {
+        RefuseRequest();
+        return;
     }
+    lastResult_ = kPending;
+    std::int32_t count = 0;
+    std::vector<char> packed = PackFriendNames(friends, count);
+    mpSendGetLobbyForFriendWithGameParam(a, b, count, packed.empty() ? nullptr : packed.data(),
+                                         static_cast<std::int32_t>(packed.size()), query);
+    XP_DEBUG_OUT("}\n");
 }
 
 // 0x8377c0 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihiPci
@@ -150,6 +174,57 @@ void GLXPlayerMPLobby::mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, s
         return;
     }
     RefuseRequest();
+}
+
+// 0x837a88 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihP19GLXPlayerUserFriend
+// Packs the friend names and sends them with the count, then stamps the request.
+void GLXPlayerMPLobby::mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, GLXPlayerUserFriend* friends) {
+    XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendGetLobbyForName(){\n");
+    if (state_ <= 1) {
+        RefuseRequest();
+        return;
+    }
+    lastResult_ = kPending;
+    std::int32_t count = 0;
+    std::vector<char> packed = PackFriendNames(friends, count);
+    connection_->sendGetLobbyForFriend(a, b, static_cast<std::uint8_t>(count),
+                                       packed.empty() ? nullptr : packed.data(),
+                                       static_cast<std::int32_t>(packed.size()));
+    StampRequest(kKindGetLobbyForFriend);
+    XP_DEBUG_OUT("}\n");
+}
+
+// 0x8387a4 _ZN16GLXPlayerMPLobby17mpSendCreateLobbyEPchhiS0_iS0_iP23CLobbyParameterAndQuery
+void GLXPlayerMPLobby::mpSendCreateLobby(char* a, std::uint8_t b, std::uint8_t c, std::int32_t d, char* e,
+                                         std::int32_t f, char* g, std::int32_t h, CLobbyParameterAndQuery* q) {
+    XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendCreateLobby(){\n");
+    if (state_ <= 1) {
+        RefuseRequest();
+        return;
+    }
+    lastResult_ = kPending;
+    connection_->sendCreateLobbyPackage(requestArg_, a, b, c, d, e, f, g, h, q);
+    StampRequest(kKindCreateLobby);
+    XP_DEBUG_OUT("}\n");
+}
+
+// 0x83a744 _ZN16GLXPlayerMPLobby31mpSendCreateLobbyWithGameCenterEPchhiS0_iS0_iP23CLobbyParameterAndQueryRSt4listISsSaISsEE
+// The name list is copied node by node, as the original does, and the copy is released
+// after the send.
+void GLXPlayerMPLobby::mpSendCreateLobbyWithGameCenter(char* a, std::uint8_t b, std::uint8_t c,
+                                                       std::int32_t d, char* e, std::int32_t f, char* g,
+                                                       std::int32_t h, CLobbyParameterAndQuery* q,
+                                                       std::list<std::string>& names) {
+    XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendCreateLobbyWithGameCenter(){\n");
+    if (state_ <= 1) {
+        RefuseRequest();
+        return;
+    }
+    lastResult_ = kPending;
+    const std::list<std::string> copy(names);
+    connection_->sendCreateLobbyPackageWithGameCenter(requestArg_, a, b, c, d, e, f, g, h, q, copy);
+    StampRequest(kKindCreateLobby);
+    XP_DEBUG_OUT("}\n");
 }
 
 // 0x837cc8 _ZN16GLXPlayerMPLobby34mpSendGetLobbyForNameWithGameParamEPc

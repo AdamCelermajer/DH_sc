@@ -81,8 +81,9 @@ void CSignInGLLiveObserver::CopyServerAddress(const char* data, std::int32_t len
 }
 
 // 0x824bbc _ZN21CSignInGLLiveObserver16OnRequestSuccessEiPci
-// Partial: see the header. In the code-1 branch the original sets the configured flag and
-// calls CMatchingGLLive::SetGCState(1) through the matching seam.
+// In the code-1 branch the original sets the configured flag and calls
+// CMatchingGLLive::SetGCState(1) through the matching seam. The discarded GetXPlayerURL
+// lookup is omitted (see the header). The server copy is bounded, unlike the original.
 void CSignInGLLiveObserver::OnRequestSuccess(std::int32_t code, char* data, std::int32_t length) {
     if (code == 0xf) {
         loggedIn_ = true;

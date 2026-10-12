@@ -1,34 +1,18 @@
-// Minimal stand-ins for glitch::core and glitch::video types used by the io
-// attribute code. Layout matches the original: plain members, no vtable.
+// Value types of the glitch::core namespace, shared by the glitch categories (glitch-video,
+// glitch-scene-collada-gui). Field order and widths match the original (32-bit ARM); the members
+// are zero-initialised, as the decompiled code assumes. Methods are kept where the original has
+// them. Stubs for other categories' classes (video objects, ITexture, IReferenceCounted, and so on)
+// are NOT here; glitch-core-io keeps its own copy with those. The rect members are named
+// UpperLeftCorner and LowerRightCorner, as in glitch-video and glitch-scene.
 #pragma once
 
 #include <cmath>
 #include <cstdint>
 
-namespace glitch {
-// Reference-counted base; the counter is at +0x04 in the original.
-class IReferenceCounted {
-public:
-    virtual ~IReferenceCounted() = default;
-    // Called by drop() right before the object is deleted (vtable +0x08 in the original).
-    virtual void onDelete() {}
-    // Decrements the count; on zero calls onDelete() and deletes the object.
-    // Returns true when the object was deleted. 0x31d584 _ZNK6glitch17IReferenceCounted4dropEv
-    bool drop() const;
-    mutable int referenceCounter = 1;  // +0x04
-};
-
-// Event receiver interface (only its destructor is used by the io code).
-class IEventReceiver {
-public:
-    virtual ~IEventReceiver() = default;  // 0x31d8cc (D1)
-};
-}  // namespace glitch
-
 namespace glitch::core {
 template <typename T>
 struct vector2d {
-    T X, Y;
+    T X{}, Y{};
 
     // 0x420060 vector2d<float>::getAngle: the angle in degrees of the vector, measured as the
     // original does (0 when Y or X is zero; quadrant offsets of 90 and 270 degrees). The
@@ -54,7 +38,7 @@ struct vector2d {
 };
 template <typename T>
 struct vector3d {
-    T X, Y, Z;
+    T X{}, Y{}, Z{};
 
     // 0x35e8e0 vector3d<float>::normalize(void): when the squared length v2 = X*X + Y*Y + Z*Z is
     // nonzero, every component is multiplied by 1 / sqrt(v2) (a reciprocal, not a division). A zero
@@ -72,40 +56,41 @@ struct vector3d {
 };
 template <typename T>
 struct vector4d {
-    T X, Y, Z, W;
+    T X{}, Y{}, Z{}, W{};
 };
 template <typename T>
 struct position2d {
-    T X, Y;
+    T X{}, Y{};
 };
 template <typename T>
 struct rect {
-    T X1, Y1, X2, Y2;  // upper-left and lower-right corners
+    position2d<T> UpperLeftCorner;   // UpperLeftCorner.X, UpperLeftCorner.Y in the core-io copy
+    position2d<T> LowerRightCorner;  // LowerRightCorner.X, LowerRightCorner.Y in the core-io copy
 
     // 0x535c18 (rect<int>): if this rectangle is no larger than limit, moves it inside
     // limit (right edge, bottom, left, top, in that order) and returns true; otherwise
     // leaves it unchanged and returns false.
     bool constrainTo(const rect& limit) {
-        if (limit.X2 - limit.X1 < X2 - X1 || limit.Y2 - limit.Y1 < Y2 - Y1) return false;
-        T diff = limit.X2 - X2;
+        if (limit.LowerRightCorner.X - limit.UpperLeftCorner.X < LowerRightCorner.X - UpperLeftCorner.X || limit.LowerRightCorner.Y - limit.UpperLeftCorner.Y < LowerRightCorner.Y - UpperLeftCorner.Y) return false;
+        T diff = limit.LowerRightCorner.X - LowerRightCorner.X;
         if (diff < 0) {
-            X1 += diff;
-            X2 += diff;
+            UpperLeftCorner.X += diff;
+            LowerRightCorner.X += diff;
         }
-        diff = limit.Y2 - Y2;
+        diff = limit.LowerRightCorner.Y - LowerRightCorner.Y;
         if (diff < 0) {
-            Y1 += diff;
-            Y2 += diff;
+            UpperLeftCorner.Y += diff;
+            LowerRightCorner.Y += diff;
         }
-        diff = X1 - limit.X1;
+        diff = UpperLeftCorner.X - limit.UpperLeftCorner.X;
         if (diff < 0) {
-            X1 -= diff;
-            X2 -= diff;
+            UpperLeftCorner.X -= diff;
+            LowerRightCorner.X -= diff;
         }
-        diff = Y1 - limit.Y1;
+        diff = UpperLeftCorner.Y - limit.UpperLeftCorner.Y;
         if (diff < 0) {
-            Y1 -= diff;
-            Y2 -= diff;
+            UpperLeftCorner.Y -= diff;
+            LowerRightCorner.Y -= diff;
         }
         return true;
     }
@@ -113,7 +98,7 @@ struct rect {
 // Modelled on upstream Irrlicht 1.8.5 (quaternion.h, triangle3d.h, line2d.h,
 // line3d.h, dimension2d.h, aabbox3d.h, plane3d.h, matrix4.h); plain members only.
 struct quaternion {
-    float X, Y, Z, W;
+    float X{}, Y{}, Z{}, W{};
 };
 template <typename T>
 struct line3d;
@@ -224,7 +209,7 @@ struct line3d {
 };
 template <typename T>
 struct dimension2d {
-    T Width, Height;
+    T Width{}, Height{};
 };
 template <typename T>
 struct aabbox3d {
@@ -442,71 +427,22 @@ struct CMatrix4 {
 }  // namespace glitch::core
 
 namespace glitch::video {
-// Stand-in for the driver interface; only its reference counting is used here.
-class IVideoDriver : public glitch::IReferenceCounted {};
-// Reference-counted video objects held through boost::intrusive_ptr by the io code.
-// ITexture keeps a slot sub-type at +0x38; its low two bits pick the parameter code 12..15 that a
-// texture is stored under (see material_parameters.hpp, PtrTraits<ITexture>).
-class ITexture : public glitch::IReferenceCounted {
-public:
-    std::uint32_t slotType = 0;  // +0x38
-};
-class CLight : public glitch::IReferenceCounted {};
-// Video mode list of a device (glitch::video::CVideoModeList); only its storage is needed here.
-class CVideoModeList {
-public:
-    CVideoModeList() = default;
-};
+
+// SColor is one 32-bit packed value in upstream Irrlicht; the original reads alpha as the byte at +3.
 struct SColor {
-    std::uint32_t color;
+    std::uint32_t color = 0;
+
+    // 0x540f8c. Channels are bytes 0..3 of color (byte 0 is the low byte, as in memory). Result is the
+    // blend t * this + (1 - t) * other, with t clamped to [0, 1].
+    SColor getInterpolated(const SColor& other, float t) const;
 };
+
+// Float colour, four words (r, g, b, a) in the original.
 struct SColorf {
-    float r, g, b, a;
+    float r = 0.0f;
+    float g = 0.0f;
+    float b = 0.0f;
+    float a = 0.0f;
 };
 
-// CMaterial and CMaterialRenderer are not reference-counted through IReferenceCounted:
-// the count is their first member (+0x00), and the release calls the destructor
-// directly (no vtable is assumed). The intrusive_ptr release below deletes the object
-// when the last use goes; the original also frees it with CustomFree (not modelled).
-class CMaterial {
-public:
-    mutable int referenceCounter = 1;  // +0x00
-};
-class CMaterialRenderer {
-public:
-    mutable int referenceCounter = 1;  // +0x00
-};
-
-// CVertexStreams is released like CMaterial: the count is at +0x00 and the last release
-// deletes the object (0x5a10fc; the original calls its destructor first, not modelled).
-class CVertexStreams {
-public:
-    mutable int referenceCounter = 1;  // +0x00
-};
-inline void intrusive_ptr_add_ref(const CVertexStreams* p) { ++p->referenceCounter; }
-inline void intrusive_ptr_release(const CVertexStreams* p) {
-    if (--p->referenceCounter == 0) delete p;
-}
-
-// Reference-counted video objects that only need the +0x04 drop() release here.
-class IShader : public glitch::IReferenceCounted {};      // 0x5b9d6c
-class IShaderCode : public glitch::IReferenceCounted {};  // 0x5b9dfc
-class IBuffer : public glitch::IReferenceCounted {};      // 0x637b8c
-class CImage : public glitch::IReferenceCounted {};       // 0x603414
-
-// Found by argument-dependent lookup from boost::intrusive_ptr (0x310be8, 0x351e3c,
-// 0x3522b8 release through these).
-inline void intrusive_ptr_add_ref(const CMaterial* p) { ++p->referenceCounter; }
-inline void intrusive_ptr_release(const CMaterial* p) {
-    if (--p->referenceCounter == 0) delete p;
-}
-inline void intrusive_ptr_add_ref(const CMaterialRenderer* p) { ++p->referenceCounter; }
-inline void intrusive_ptr_release(const CMaterialRenderer* p) {
-    if (--p->referenceCounter == 0) delete p;
-}
 }  // namespace glitch::video
-
-namespace glitch::scene {
-// Mesh buffer stand-in for the intrusive_ptr release at 0x637bac (drop() at +0x04).
-class CMeshBuffer : public glitch::IReferenceCounted {};
-}  // namespace glitch::scene

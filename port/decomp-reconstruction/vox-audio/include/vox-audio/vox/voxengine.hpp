@@ -10,8 +10,24 @@
 
 namespace vox {
 
+class VoxThread;
+class Mutex;
+
 class VoxEngine {
 public:
+    // Process-wide facade object. The instance owns the two update threads and the
+    // timestamp of the last emitter update (see engine_instance.cpp).
+    VoxEngine();                                    // 0x862abc (C1), 0x862b80 (C2)
+    virtual ~VoxEngine();                           // 0x862990 (D1), 0x862a34 (D2); D0 0x862a18
+    static VoxEngine* GetVoxEngine();               // 0x862b30
+    static void DestroyVoxEngine();                 // 0x8628f8
+    void Shutdown();                                // 0x862944 (partial: VoxThread dtor not ported)
+    void Initialize();                              // 0x862d10 (partial: thread ctor, MSWav/MPC8/Native factories)
+    void UpdateEmittersThreaded();                  // 0x862c4c (partial: VoxEngineInternal::UpdateEmitters)
+    void UpdateThreaded();                          // 0x862cf0
+    // Thread callback for the emitter thread (the 0x862d0c thunk forwards to 0x862c4c).
+    static void UpdateEmittersThreaded(void* engine, void* unused);
+
     static void SuspendEngine();                    // 0x8616f8
     static void ResumeEngine();                     // 0x861734
     static bool IsEngineSuspended();                // 0x861770 (true without an engine)
@@ -29,7 +45,7 @@ public:
 
     static void GetDebugInfo(DebugInfo& info);      // 0x861880
     static void PrintDebug();                       // 0x8618a8
-    static void SetOutputMode(VoxOutputMode mode);  // 0x8618d0
+    static int SetOutputMode(VoxOutputMode mode);   // 0x8618d0 (0 without an engine)
     static VoxOutputMode GetOutputMode();           // 0x8618f8 (-1 without an engine)
     static void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928
     static void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x861950
@@ -81,7 +97,7 @@ public:
     static void PauseAllEmitters(unsigned int group, float fade);   // 0x8620a8
     static void StopAllEmitters(unsigned int group, float fade);    // 0x8620d0
     static void PlayAllEmitters(unsigned int group, float fade);    // 0x8620f8
-    static void GetAllEmitters(EmitterHandle* out, int max_count); // 0x862120
+    static int GetAllEmitters(EmitterHandle* out, int max_count);  // 0x862120 (0 without an engine)
     static void Resume(EmitterHandle& emitter, float fade);         // 0x862148
     static void Pause(EmitterHandle& emitter, float fade);          // 0x862170
     static void Stop(EmitterHandle& emitter, float fade);           // 0x862198
@@ -124,6 +140,13 @@ public:
 private:
     // Engine object created by Initialize; null until then. Declared, not reconstructed.
     static VoxEngineInternal* m_internal;  // _ZN3vox9VoxEngine10m_internalE
+    static VoxEngine* s_voxEngine;         // _ZN3vox9VoxEngine9s_voxEngineE
+
+    // Instance layout (original offsets in comments; the 64-bit object is larger).
+    VoxThread* emitter_thread_ = nullptr;  // +0x04, thread running UpdateEmittersThreaded
+    VoxThread* source_thread_ = nullptr;   // +0x08, thread running UpdateSourcesThreaded
+    double last_update_time_ = 0.0;        // +0x10, time of the last emitter update
+    Mutex* mutex_ = nullptr;               // +0x18
 };
 
 }  // namespace vox

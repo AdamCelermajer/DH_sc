@@ -1,0 +1,112 @@
+// Call shims for the connection code (CConnection, ConnectionLobby). The classes these calls
+// reach are owned by other slices: CMatching, COnline, CConnectionManager (and its event
+// queue), CTransportManager, CLobbyParameterAndQuery and the XP_API / LC_API platform layer.
+// Each shim keeps the original call's name and arguments, and returns a neutral value, so the
+// connection code compiles and runs on its own. Replace each namespace with the real calls
+// when the categories are merged.
+#pragma once
+
+#include <chrono>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+
+#include "net-transport/net_network_id.hpp"
+
+class CLobbyParameterAndQuery;
+
+// CMatching::Get() and its members used by the connection code.
+namespace matching_calls {
+// CMatching::IsServer(). Stand-in: this device is never the server.
+inline bool IsServer() { return false; }
+// CMatching::Get()->(vtable +0x6c): the local id written into the connect handshake.
+inline std::int32_t LocalId() { return 0; }
+// CMatching::Get()->(vtable +0x74): compared with CConnection::matching_key_ by IsToServer.
+inline std::int32_t MatchingKey() { return 0; }
+}  // namespace matching_calls
+
+// GetOnline() and its members used by the connection code.
+namespace online_calls {
+// GetOnline()->(vtable +0x00): the 32-bit millisecond clock.
+inline std::int32_t Now() {
+    auto now = std::chrono::steady_clock::now().time_since_epoch();
+    return static_cast<std::int32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
+}
+// GetOnline()->+0x20: reference time read by CConnection::ProcessPing (name not recovered).
+inline std::int32_t PingReference() { return 0; }
+// COnline::ReportDisconnect(reason, detail). Stand-in: nothing reported.
+inline void ReportDisconnect(int reason, int detail) {
+    (void)reason;
+    (void)detail;
+}
+}  // namespace online_calls
+
+// GetConnectionMgr() and the event queue at its +0x08.
+namespace connection_manager_calls {
+// CEventQueueBase::AddEvent on GetConnectionMgr()'s queue. Stand-in: the event is not stored.
+inline int AddEvent(int event, const void* data, int size) {
+    (void)event;
+    (void)data;
+    (void)size;
+    return 0;
+}
+// CConnectionManager::GetPacketTransportType(packet_type). Stand-in: always transport 0.
+inline int PacketTransportType(int packet_type) {
+    (void)packet_type;
+    return 0;
+}
+}  // namespace connection_manager_calls
+
+// GetTransportMgr() and the CTransportManager calls the connection code makes.
+namespace transport_calls {
+// CTransportManager::SendToAllTransport(transport, peer, data, size). Stand-in: nothing is sent.
+inline void SendToAllTransport(int transport_type, CNetworkId* peer, const void* data, int size) {
+    (void)transport_type;
+    (void)peer;
+    (void)data;
+    (void)size;
+}
+// CTransportManager::Send(transport, peer, packet_type, data, size). Stand-in: returns 0 bytes.
+inline int Send(int transport_type, CNetworkId& peer, int packet_type, const void* data, int size) {
+    (void)transport_type;
+    (void)peer;
+    (void)packet_type;
+    (void)data;
+    (void)size;
+    return 0;
+}
+// CTransportManager::Connect(peer). Stand-in: returns 0.
+inline int Connect(CNetworkId& peer) {
+    (void)peer;
+    return 0;
+}
+// CTransportManager::KeepAlive(peer). Stand-in: nothing is sent.
+inline void KeepAlive(CNetworkId& peer) { (void)peer; }
+// CTransportManager::GetListenNetworkId(transport). Stand-in: an empty id.
+inline CNetworkId GetListenNetworkId(int transport_type) {
+    (void)transport_type;
+    return CNetworkId{};
+}
+}  // namespace transport_calls
+
+// CLobbyParameterAndQuery's packing slot (vtable +0x10). Returns a malloc'ed buffer of *length
+// bytes, freed with platform_calls::Free, or nullptr. Stand-in: nothing to pack.
+namespace lobby_query {
+inline void* Pack(CLobbyParameterAndQuery* query, int* length) {
+    (void)query;
+    *length = 0;
+    return nullptr;
+}
+}  // namespace lobby_query
+
+// The XP_API_* / LC_API_* platform layer. XP_DEBUG_OUT is not reproduced.
+namespace platform_calls {
+// XP_API_GET_TIME: the millisecond clock truncated to 32 bits.
+inline std::int32_t GetTime() { return online_calls::Now(); }
+// XP_API_GET_RANDOM: a random 32-bit value. Stand-in: the C library generator.
+inline std::int32_t GetRandom() { return static_cast<std::int32_t>(std::rand()); }
+// XP_API_STRLEN: the length as a 16-bit value, as the packet fields take it.
+inline std::int16_t StrLen(const char* text) { return static_cast<std::int16_t>(std::strlen(text)); }
+// LC_API_FREE_0 and CustomFree: the original's allocator frees.
+inline void Free(void* p) { std::free(p); }
+}  // namespace platform_calls

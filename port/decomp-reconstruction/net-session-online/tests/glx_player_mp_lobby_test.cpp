@@ -1,6 +1,8 @@
 #include "net-session-online/glx_player_mp_lobby.hpp"
 
 #include <cstdio>
+#include <list>
+#include <string>
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -54,6 +56,26 @@ int main() {
     // Login has no state check: it always sends and sets kind 1.
     lobby.mpSendLobbyLogin(1L, nullptr, 0, 0);
     CHECK(lobby.PendingKindForTest() == 1);
+
+    // The friend-list and create-lobby sends are allowed in state 2 and set their request kinds.
+    {
+        GLXPlayerMPLobby l(&obs, nullptr);
+        l.AttachConnectionForTest();
+        l.SetStateForTest(3);
+        GLXPlayerUserFriend friends;
+        friends.ReserveForTest(2);
+        friends.SetNameForTest(0, "ab");
+        friends.SetNameForTest(1, "cde");
+        l.mpSendGetLobbyForFriend(1, 2, &friends);
+        CHECK(l.PendingKindForTest() == 12);
+        CHECK(l.PendingForTest());
+        l.mpSendCreateLobby(nullptr, 0, 0, 0, nullptr, 0, nullptr, 0, nullptr);
+        CHECK(l.PendingKindForTest() == 5);
+        std::list<std::string> names;
+        l.mpSendCreateLobbyWithGameCenter(nullptr, 0, 0, 0, nullptr, 0, nullptr, 0, nullptr, names);
+        CHECK(l.PendingKindForTest() == 5);
+        CHECK(obs.invalid == 1);  // none of the above was refused
+    }
 
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;

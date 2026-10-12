@@ -25,18 +25,10 @@ int TouchScreenIPhone::getTopBound() const { return top_; }
 int TouchScreenIPhone::getBottomBound() const { return bottom_; }
 
 // 0x33cca8 TouchScreenIPhone::getTouchIDInRegion(glitch::core::rect<float> const&) const
-// Walks the active slots in order. A slot matches when its current point lies in
-// [X1, X2] x [Y1, Y2] and the slot is both valid and touched.
+// A thunk: the listing tail-calls TouchScreenBase::getTouchIDInRegion (0x33b0e8). The
+// iPhone class uses the base's slot records, so the base body serves it unchanged.
 int TouchScreenIPhone::getTouchIDInRegion(const glitch::core::rect<float>& r) const {
-    for (int i = 0; i < active_; ++i) {
-        const Slot& s = slots_[static_cast<std::size_t>(i)];
-        const float x = static_cast<float>(s.cur_[0]);
-        const float y = static_cast<float>(s.cur_[1]);
-        if (x >= r.X1 && y >= r.Y1 && x <= r.X2 && y <= r.Y2 && s.valid_ && s.touched_) {
-            return i;
-        }
-    }
-    return -1;
+    return TouchScreenBase::getTouchIDInRegion(r);
 }
 
 namespace {

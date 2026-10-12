@@ -1,27 +1,35 @@
 // GLXPlayerLogin: the login and lobby-server service of the GLX player services. It
 // holds the push-notification (APNS) settings and the product list, and sends the
-// keep-alive. Only the accessors and ShouldSendKeepAlive are reconstructed here. The
-// request senders, the response parsers and the ctor/dtor are queued.
+// keep-alive. The login reply and the lobby replies are parsed here.
 //
 // Layout (original 32-bit offsets, kept as comments; the GLXPlayerWebComponent base
 // occupies +0x00..+0x3b):
+//   +0x3c time value of the last login or lobby reply (int; sent back as "t|")
 //   +0x40 keep-alive enabled (byte)           +0x44 time of the last keep-alive (int)
 //   +0x48 APNS server address (char*)         +0x4c APNS port (int)
 //   +0x50 APNS feedback address (char*)       +0x54 APNS feedback port (int)
 //   +0x58 APNS public PEM path (char*)        +0x5c APNS private key PEM path (char*)
 //   +0x60 APNS private key password (char*)
 //   +0x64 product count (int)                 +0x68 product GGI array (int)
-//   +0x6c product id array (int)              +0x70 product name array (int)
+//   +0x6c product id array (int)              +0x70 product name array (char*)
+//   +0x74 nickname from the "n" token (char*) +0x78 "un" token (char*)
+//   +0x7c "l" value sent with the last login (char*)
+//   +0x80 "gct" token (char*)                 +0x84 "u" token of a refused login (char*)
 #pragma once
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "net-session-online/glx_player_web_component.hpp"
 
 class GLXPlayerLogin : public GLXPlayerWebComponent {
 public:
+    // 0x834bd4 _ZN14GLXPlayerLoginC1Ev and 0x834c80 _ZN14GLXPlayerLoginC2Ev. Calls the web
+    // component's LoadConfig (partial), then creates the GLXPlayerHttp client.
+    GLXPlayerLogin();
+
     // 0x833374 _ZN14GLXPlayerLogin9getAPNSIPEv
     const char* getAPNSIP() const { return apnsIp_.get(); }
     // 0x83337c _ZN14GLXPlayerLogin11getAPNSPortEv
@@ -42,13 +50,36 @@ public:
     std::int32_t getProductGGI(std::int32_t index) const;
     // 0x8333d8 _ZN14GLXPlayerLogin12getProductIDEi: default -1.
     std::int32_t getProductID(std::int32_t index) const;
-    // 0x8333fc _ZN14GLXPlayerLogin14getProductNameEi: default 0.
-    std::int32_t getProductName(std::int32_t index) const;
+    // 0x8333fc _ZN14GLXPlayerLogin14getProductNameEi: the stored name pointer, default null.
+    // The Hex-Rays return type is int, which is the pointer bits.
+    const char* getProductName(std::int32_t index) const;
     // 0x83341c _ZN14GLXPlayerLogin19ShouldSendKeepAliveEv
     // True when keep-alive is enabled and more than 90000 ms have passed since the last one.
     bool ShouldSendKeepAlive() const;
     // Not a method in the original: CXPlayerManager reads the byte at +0x40 directly.
     bool KeepAliveEnabled() const { return keepAliveEnabled_; }
+
+    // 0x833cbc _ZN14GLXPlayerLogin9SendLoginEPcS0_S0_iS0_S0_b (kind 0x0f). Returns 1 after the
+    // request is handed to SendByGet, or 0 after the refusal (observer slot 3 with -100).
+    std::int32_t SendLogin(char* user, char* password, char* udid, std::int32_t ordinal,
+                           char* dValue, char* lValue, bool gllive);
+    // 0x83406c _ZN14GLXPlayerLogin12sendRegisterEPcS0_S0_S0_bS0_bS0_b (kind 0x0b). Returns 1 after
+    // the request is handed to SendByGet, or 0 after the refusal (observer slot 3 with -100).
+    std::int32_t sendRegister(char* user, char* password, char* email, char* country, bool emailFlag,
+                              char* udid, bool ordinalFlag, char* dValue, bool gllive);
+    // 0x8344a0 _ZN14GLXPlayerLogin21processGetProductInfoEPc: parses the product list
+    // ("ggi^id^name" records split by '|'). Empty input does nothing.
+    void processGetProductInfo(char* text);
+    // 0x833a84 _ZN14GLXPlayerLogin22processApplePushServerEPc: the APNS settings
+    // ("address|port|feedback|feedbackPort|public|private|password"). Empty input does nothing.
+    void processApplePushServer(char* text);
+    // 0x834658 _ZN14GLXPlayerLogin15OnUpdateSuccessEi: the login reply ('u', 't', 'un', 'n',
+    // 'gct' tokens), the keep-alive reply and the lobby replies, then the web component's handler.
+    void OnUpdateSuccess(std::int32_t arg) override;
+    // 0x8342f0 _ZN14GLXPlayerLogin15OnUpdateFailureEi: reads the reply code and, for a refused
+    // login (code 48 with a "u" token), keeps the token. Then passes (kind, code) to observer
+    // slot 3.
+    bool OnUpdateFailure(std::int32_t code) override;
 
     // Request senders. Each builds an "f|kind|i|GGI|u|UID|..." request and hands it to SendByGet.
     // 0x83345c _ZN14GLXPlayerLogin32SendGameInvitationGetLobbyServerEPc (kind 0x6c, "cn|" field)
@@ -78,7 +109,7 @@ public:
     void SetAPNSIPForTest(const char* value);
     void SetAPNSPortForTest(std::int32_t value) { apnsPort_ = value; }
     void SetProductsForTest(std::vector<std::int32_t> ggis, std::vector<std::int32_t> ids,
-                            std::vector<std::int32_t> names);
+                            const std::vector<std::string>& names);
     void SetKeepAliveForTest(bool enabled, std::int32_t lastTimeMs) {
         keepAliveEnabled_ = enabled;
         lastKeepAliveMs_ = lastTimeMs;
@@ -100,5 +131,11 @@ private:
     std::int32_t productCount_ = 0;                    // +0x64
     std::vector<std::int32_t> productGgi_;             // +0x68
     std::vector<std::int32_t> productId_;              // +0x6c
-    std::vector<std::int32_t> productName_;            // +0x70
+    std::vector<std::unique_ptr<char[]>> productName_; // +0x70
+    std::int32_t loginTime_ = 0;                       // +0x3c
+    std::unique_ptr<char[]> nickName_;                 // +0x74
+    std::unique_ptr<char[]> unToken_;                  // +0x78
+    std::unique_ptr<char[]> lToken_;                   // +0x7c
+    std::unique_ptr<char[]> gctToken_;                 // +0x80
+    std::unique_ptr<char[]> uErrorToken_;              // +0x84
 };

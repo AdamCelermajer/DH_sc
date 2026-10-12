@@ -53,7 +53,7 @@ int main() {
 
     // clearProductInfo empties the product lists.
     CapturingLogin products;
-    products.SetProductsForTest({1, 2}, {3, 4}, {5, 6});
+    products.SetProductsForTest({1, 2}, {3, 4}, {"5", "6"});
     CHECK(products.getProductListCount() == 2);
     products.clearProductInfo();
     CHECK(products.getProductListCount() == 0);

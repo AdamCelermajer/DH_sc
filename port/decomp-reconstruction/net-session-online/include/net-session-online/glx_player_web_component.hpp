@@ -8,12 +8,18 @@
 //   +0x10 owned string (zeroed by the ctor, freed by the dtor; role not identified)
 //   +0x14 owned string (same)     +0x18 owned string (same)
 //   +0x1c service URL (owned, set by LoadConfig)
-//   +0x20 request client (type not identified; the dtor releases it through a vtable slot)
+//   +0x20 request client (GLXPlayerHttp, 0x428 bytes; the ctors of the derived services
+//         create it with the three owned strings)
 //   +0x24 response cursor (points into the response text)
 //   +0x28 response function id (set by StartResponseParser, cleared by Cancel)
 //   +0x2c enabled flag (byte)
 //   +0x34 request start time (XP_API_GET_TIME)
 //   +0x38 request id, -1 when idle
+//
+// The request client's vtable slots as the web component calls them (the port calls the
+// GLXPlayerHttp methods of the same role): +0x18 GetResponse, +0x1c GetResponseLen,
+// +0x24 send by GET, +0x28 send by POST, +0x34 UpdateRequest, +0x38 Cancel, +0x3c
+// IsInProgress, +0x40 IsErrorOccurred. Slot +0x44 is not identified.
 //
 // Virtual slots (after the base dtors at slots 0 and 1): +0x08 Update,
 // +0x0c SendByGet, +0x10 SendByPost, +0x14 Cancel, +0x18 OnUpdateParse,
@@ -24,6 +30,7 @@
 #include <memory>
 
 #include "net-session-online/glx_player_component.hpp"
+#include "net-session-online/glx_player_http.hpp"
 
 class GLXPlayerWebComponent : public GLXPlayerComponent {
 public:
@@ -32,8 +39,7 @@ public:
     GLXPlayerWebComponent(const GLXPlayerWebComponent&) = delete;
     GLXPlayerWebComponent& operator=(const GLXPlayerWebComponent&) = delete;
 
-    // Partial: the request client (vtable slots +0x24..+0x44 of its type) is not
-    // reconstructed. These bodies keep the state changes that are recovered.
+    // Partial bodies: see each function in the .cpp for the part that is not reconstructed.
     virtual void Update();                                      // 0x831dfc
     virtual void SendByGet(char* request);                      // 0x831cd4
     virtual void SendByPost(char* request);                     // 0x831bd4
@@ -76,7 +82,7 @@ protected:
     std::unique_ptr<char[]> string14_;   // +0x14
     std::unique_ptr<char[]> string18_;   // +0x18
     std::unique_ptr<char[]> url_;        // +0x1c
-    void* requestClient_ = nullptr;      // +0x20
+    std::unique_ptr<GLXPlayerHttp> requestClient_;  // +0x20 (the 0x428-byte GLXPlayerHttp)
     const char* cursor_ = nullptr;       // +0x24
     std::int32_t functionId_ = 0;        // +0x28
     bool enabled_ = false;               // +0x2c

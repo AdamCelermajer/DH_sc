@@ -1,4 +1,5 @@
-// vox::DecoderMSWav: accessors, the cursor factory-free constructor and DestroyCursor.
+// vox::DecoderMSWav: accessors, the constructor, the destructor and DestroyCursor.
+// CreateNewCursor and the factory are in decoder-mswav-mpc8/decoder_mswav_factory.cpp.
 #include "vox-audio/vox/decoder_mswav.hpp"
 
 #include "vox-audio/vox/memory.hpp"
@@ -10,14 +11,14 @@ DecoderMSWav::DecoderMSWav() = default;
 
 // 0x870ffc _ZN3vox12DecoderMSWavD1Ev (D2 0x870f7c has the same body; the deleting variant
 // 0x87107c is emitted by the compiler from this destructor).
-// Partial: the DataNode tree at +0x3c is not ported, so the original's DataNode::DropNodes
-// call (0x870e38) on the child at +0x08 is skipped. Only the block at +0x3c is released.
+// The original calls DataNode::DropNodes (0x870e38) on the list head and then frees the head.
 DecoderMSWav::~DecoderMSWav() {
-    flag_40_ = true;
-    if (data_nodes_ != nullptr) {
-        VoxFree(data_nodes_);
+    parse_pending_ = true;
+    if (wave_chunk_.data_list != nullptr) {
+        wave_chunk_.data_list->DropNodes();
+        VoxFree(wave_chunk_.data_list);
     }
-    data_nodes_ = nullptr;
+    wave_chunk_.data_list = nullptr;
 }
 
 // 0x870504 _ZN3vox12DecoderMSWav7GetTypeEv

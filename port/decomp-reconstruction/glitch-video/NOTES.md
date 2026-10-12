@@ -643,3 +643,58 @@ Rows the layout unblocks (addresses; bodies not written in this slice):
 
 Shared files: none changed. The header is glitch-video only. The shared SIDedCollection template (question 1) is the one
 place another category could be affected once that question is settled.
+
+## pixel_format convert family (dep worker, table-driven)
+
+Files: include/glitch-video/pixel_format_convert.hpp, src/pixel_format_convert.cpp, tests/pixel_format_convert_test.cpp.
+Build check: g++ -std=c++17 -I include -I ../shared/include (needs the shared include for glitch-shared/glitch_core.hpp).
+
+Confirmed from the listing (addresses are the Hex-Rays and ARM listing):
+- Row fields: unk18[0..3] are channel widths R,G,B,A (+0x18..+0x1b); unk18[4..7] are channel shifts (+0x1c..+0x1f);
+  key words +0x04..+0x13 are the channel masks. Flag bit 0 = alpha present, bit 2 = luminance, bit 3 = compressed,
+  bit 1 = the flag-2 switch, bit 6 = getPackedType returns the raw packedType.
+- getPackedType(row) for the rows used: row 5, 6, 8 = 1 (flag 0x40 or field17 2); row 0, 2 = 0 (field17 1);
+  row 12, 14 = 2 (field17 4). The convertPacked key is getPackedType(dst) | 4 * getPackedType(src).
+- convertPacked (0x5f4fe8) arms: key 0 -> convertPackedImpl<uchar> (0x5f2fdc), key 5 -> <ushort> (0x5f0f60),
+  key 0xA -> <uint> (0x5eeef4). Arms 1, 2, 4, 6, 8, 9 are inline in 0x5f4fe8 (lines 744-3424) and are not modelled.
+- Converter widths and shifts per channel (ctors 0x5ee958, 0x5ee5e8, 0x5ee790, same first loop):
+  reduction (src bits > dst bits): right shift = ss + sb - db, left = ds.
+  expansion up to 2x (sb < db <= 2 sb): right = ss, left = ds + db - sb.
+  expansion above 2x: right = ss, left = ds, lookup through the table (1/2/4-bit only; null otherwise).
+- Replication (SPackedConverter<1,0>, per-pixel 0x5eeef4 near line 700): RGB term is
+  ((x & K) >> ss << ls) | ((x & K2) >> (ss + t) << ds) with t = 2 sb - db and K2 = K & (K << t); alpha is the
+  unmasked x >> ss << ls with no second term.
+- LUT tables (bytes at 0x8e3694, 0x8e3698, 0x8e36a0): entry i = i * (0xffff / (2^bits - 1)).
+- Alpha fill: dst has alpha flag and src does not -> dst alpha mask ORed in (ctor: "(dst flags & 1) == 0 || (src flags & 1)
+  ? 0 : -1", then & dst key 3).
+- Dispatch in convertPackedImpl (0x5eeef4): line 315 green test (gs != 0, gd != 0, gs < gd); 319 LUT when gd > 2 gs;
+  448 alpha test (dst alpha, src alpha or dst alpha when src is 0, less than dst); 820 alpha test for SPackedConverter<0,2>.
+
+Modelled and checked (four pairs, checked by hand against the listing above, not run as ARM code; no ARM emulator here):
+- L8 (row 0) -> A8 (row 2), key 0: fill only. Test: convert_test check 1.
+- RGB565 (row 5) -> ARGB4444 (row 6), key 5: reductions and fill. Check 2, plus flip.
+- ARGB4444 (row 6) -> RGB565 (row 5), key 5: green upscale to 2x with replication. Check 3, plus in-place.
+- A1R5G5B5 (row 8) -> ARGB4444 (row 6), key 5: alpha LUT (0x8e3694). Check 4.
+
+Rows (partial; the parts not covered are listed in the header comment):
+- 0x5f95ac convert: covered: the packed-to-packed branch, same-type branches excluded. Not covered: copy (src == dst format),
+  compressed source (decompress 0x5fd894, not in port) and destination, the flag-2 switch (float and half rows 28-31, 33-35),
+  the same-type and luminance-else switch at 2785 and 1754, formats 10 and 11 (24-bit path, line 830-1745).
+- 0x5f4fe8 convertPacked: covered: arms 0, 5, 0xA through the generic plan. Not covered: arms 1, 2, 4, 6, 8, 9.
+- 0x5eeef4 convertPackedImpl<uint,uint>: covered: the green-upscale replication path, the alpha-LUT path, the plain
+  reduction path, the in-place and flip loops (lines 374-560, 1043-1060 by the listing). Not covered: alpha upscale at
+  448-568 (SAlphaUpscale), 569-663 (SAlphaIndexed), the line 1158 plain branch for expansions in non-green rows, the
+  line 822 sub-branch (see open question 2). The uint body was read for the formulas only; the loops were not compared line by line.
+- 0x5f0f60 convertPackedImpl<ushort,ushort>: partial. Same template as 0x5eeef4, dispatch assumed identical; not read
+  separately. Covered by check 2 to 4 only through the convertPacked key 5 arm.
+- 0x5f2fdc convertPackedImpl<uchar,uchar>: partial. Dispatch assumed identical; covered only by check 1 (key 0 arm).
+
+Open questions:
+1. Alpha in the LUT-all converter (SRGBIndexed, 0x5ee790) is written unmasked in the listing (x >> ss << ls, then the dst
+   mask). Bits above the source alpha field can enter the destination alpha for alpha widths above 2x. Mirrored as listed,
+   not tested.
+2. Line 822 of 0x5eeef4 tests src alpha >= 2 * dst alpha inside a branch that already requires src alpha < dst alpha. The
+   sub-branch looks unreachable. Not modelled.
+3. The alpha-upscale converter types (SAlphaUpscalePackedConverter 0x5edfd4, SAlphaIndexed 0x5ededc) are still blocked; see
+   the ledger rows that mention them.
+4. convert returns int here; the listing returns int too (r0). The copy helper and Printer::log are not ported.

@@ -21,11 +21,11 @@ int main() {
     CHECK(std::strcmp(login.getAPNSIP(), "push.example") == 0);
     CHECK(login.getAPNSPort() == 2195);
 
-    login.SetProductsForTest({11, 12}, {21, 22}, {31, 32});
+    login.SetProductsForTest({11, 12}, {21, 22}, {"31", "32"});
     CHECK(login.getProductListCount() == 2);
     CHECK(login.getProductGGI(1) == 12);
     CHECK(login.getProductID(0) == 21);
-    CHECK(login.getProductName(1) == 32);
+    CHECK(std::strcmp(login.getProductName(1), "32") == 0);
     CHECK(login.getProductID(2) == -1);
     CHECK(login.getProductGGI(-1) == -1);
 

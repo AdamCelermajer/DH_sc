@@ -16,9 +16,8 @@
 class CMsgDropLoot : public CMessage {
 public:
     // 0x328c84 _ZN12CMsgDropLootC1Eb
-    // Partial: the original passes the type name and the bool to CMessage(const char*, bool),
-    // which is not recovered. Here the bool is accepted and not stored.
-    explicit CMsgDropLoot(bool reliable);
+    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
+    explicit CMsgDropLoot(bool withSerial);
     ~CMsgDropLoot() override;  // 0x31ffa8 D1 (the deleting destructor 0x3243c0 is skipped)
 
     // 0x31f484 _ZN12CMsgDropLoot10GetDataPtrEv

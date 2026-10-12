@@ -145,6 +145,37 @@ Wave 5 additions:
 - `mpc_reader_t`: callbacks[5] at +0x00..+0x10 (not used by the wrappers), `data`
   (StreamCursorInterface*) at +0x14.
 
+Wave 9 native sub-decoder slots (w9-native-subdecoder). Offsets are from the vptr, which is
+the address point of the vtable symbol plus 8. The decompiled indirect calls use the same
+numbers (`*(this) + N`). Names come from the PCM and IMA ADPCM overrides in the vtable
+symbols (vtables-001.json) and from the call sites; the base class vtable has zero words
+(pure) in every slot not listed as a method.
+
+- `vox::VoxNativeSubDecoder` (14 slots): +0x00 D1, +0x04 D0, +0x08 HasData (defined),
+  +0x0c Seek(unsigned), +0x10 Reset (defined), +0x14 DecodeCurrentSegmentWithOffset(void*, int),
+  +0x18 DecodeSegment(void*, int, SegmentState*), +0x1c GetBytePositionFromSampleOffset(unsigned)
+  (returns unsigned), +0x20 GetDecodingBuffer(), +0x24 ReleaseDecodingBuffer(int),
+  +0x28 Seek(int, SegmentState*), +0x2c SetDecodingBufferToSegmentPosition(SegmentState*),
+  +0x30 EmulateDecodeCurrentSegmentWithOffset(int), +0x34 EmulateDecodeSegment(int, SegmentState*).
+  The first call of the decode path is Decode through +0x18 with the segment, the mix of
+  one segment through +0x14, and the emulated mix through +0x30 and +0x34.
+- `vox::VoxNativeSubDecoderIMAADPCM` adds +0x38 EmulateSetDecodingBufferToSegmentPosition(SegmentState*),
+  which the IMA-only vtable (68 bytes) holds after the shared 14 slots.
+- Segment record: 0x44 bytes, copied as 0x41 bytes (the record without padding). The three
+  records sit at +0x98 (A), +0xdc (B) and +0x120 (C) in VoxNativeSubDecoder, and at +0x6c, +0xb0
+  and +0xf4 in NativeSubDecoderState. Word n of a record is +4n: 0 chunk, 1 play mode, 2 byte
+  offset, 3 sample position, 4 loop start, 5 end frame, 6 entry count, 7 entries left, 8 restart
+  at end, 9 state, 10 remaining frames, 11 (field_2c), 12 ramp frames, 13 ramp step, 14 gain,
+  15 decoding slot, byte 16 reset flag.
+- Object words used by the segment code: +0x2c loop lists (vector<vector<int>>*), +0x30
+  playlists, +0x94 active segments, +0x164 next event, +0x168 pending seek, +0x16c has data,
+  +0x0a channels, +0x0c track word, +0x10 bytes per sample, +0x12 bits. The mixing buffer is
+  s_pMixingBuffer (32-bit sums) with s_nbSamplesMixingBuffer frames.
+- Constructors are blocked: the base C1 and C2 take the stream, chunks, states, audio segments,
+  loop lists, rules, parameters, a map, an int, a string compare and the playlists. The ARM
+  order (stream in r1, unused r2, states in r3) does not match the mangled order, so the
+  NativeChunks position is taken from the readers only. Needs the caller to settle it.
+
 ## Decisions
 
 - stb_vorbis is ledgered `skipped`, not `upstream`. The binary's copy is a
@@ -419,3 +450,265 @@ By class, as the queue names them (recounted at the end of wave 7):
   mpc_get_encoder_string, mpc_set_replay_level) plus streaminfo_gain,
   streaminfo_encoder_info, streaminfo_read_header_sv7/sv8, huff_init_lut,
   huff_fill_lut and can_fill_lut.
+
+## Wave 8 (parallel slices, Windows verified)
+
+Fourteen workers each took one class slice (see ledger.parts/ for the per-slice ledgers, now
+merged into ledger.csv). The Musepack rows were already upstream on the integrator branch, so
+the duplicate rows from the musepack slice were dropped. The 237 FUN_ rows were re-queued by the
+integrator (280fd865). Three FUN_ rows (0x8a0364, 0x8a2330, 0x8a7e90) are still unassigned.
+
+Build: `tools/decomp_build.sh windows vox-audio` (MinGW-w64 under Wine) passes 45 of 45 tests.
+MinGW and Wine were installed with apt on the integrator container.
+
+Blocked groups, each needing a structural decision rather than another row:
+- Driver source and decoder vtable slots (EmitterObj ctors, LoadAsync, Update, Update3D, the
+  play-cursor getters): the port does not name these slots yet.
+- PlaylistElement table at +0x30: the original is a PlaylistElement* vector, the port an int32
+  table. Blocks AddPlaylistElement, the NativePlaylist dtor and copy ctor.
+- Game glue for VoxSoundManager: 49 of 52 rows depend on JAVA_SOUNDS, the Arrays tables, menus and
+  the native sound bridge.
+- Native decoder cursor Seek, Decode and Rewind: need the sub-decoder Seek and Decode slots.
+- VoxMSWav/MPC8 demux calls: libmusepack demux functions are declared but not in the port.
+
+## Wave 9 (w9-mpc: DecoderMPC8 cursor and streaminfo rows)
+
+Hex-Rays and the asm listing (decomp_asm.py) were checked against the port. Changes:
+- Reader wrappers: the cursor constructor stores mpc_read, mpc_seek, mpc_tell, mpc_getsize and
+  mpc_canseek at reader +0x00..+0x10 (0x87018c). mpc_reader_t now has typed slots (read, seek,
+  tell, get_size, can_seek, data at +0x14).
+- Frame block for mpc_demux_decode: samples at +0x00, the PCM buffer at +0x08. The Decode loop
+  stores the PCM buffer there before each call (asm at 0x86ff24).
+- Decode loop restart: the if-path seeks to the pre-update position (+0x20 read before the
+  update). The else-path argument is clobbered on the ARM side, so it is not recoverable (partial).
+- No new named vtable slots in this slice: the DecoderMPC8 virtuals are the DecoderInterface and
+  DecoderCursorInterface slots already in the port. Slot offsets were not re-measured here.
+- New test decoder_mpc8_cursor_demux_test drives the cursor through a fake demuxer.
+- streaminfo_gain and streaminfo_encoder_info stay skipped (Musepack rule, name not confirmed).
+
+## Wave 9: native decoder slice (w9-native-decoder)
+
+Layouts (vptr-relative slot offsets, the same convention as the wave 1 to 4 entries above):
+- `vox::DecoderNativeCursor` vtable: +0x00/+0x04 D1/D0, +0x08 Init, +0x0c Shutdown, +0x10
+  Decode, +0x14 DecodeRef, +0x18 HasData, +0x1c Reset, +0x20 GetRewindLimit, +0x24 Rewind,
+  +0x28 Seek, +0x2c SetLoop, +0x30 GetStreamCursor, +0x34 AllowBufferReference.
+- `vox::DecoderNative` vtable: +0x00/+0x04 D1/D0, +0x08 Init, +0x0c Shutdown, +0x10
+  CreateNewCursor, +0x14 DestroyCursor, +0x18 GetType, +0x1c GetParam.
+- Sub-decoder slots the cursor calls (vptr-relative, VoxNativeSubDecoder and its PCM and IMA
+  classes): +0x08 HasData, +0x0c Seek(unsigned), +0x10 Reset. The cursor reaches them through
+  the concrete class picked by the format tag (decoder +0x24, 17 selects IMA ADPCM, else PCM),
+  which is the class the original vptr would select. Decode, SetState(int) and
+  EmulateDecode are direct (non-virtual) calls on VoxNativeSubDecoder.
+- `vox::DecoderNative` format tag: halfword at +0x24, the first word of the 'fmt ' chunk body.
+  Added as `format_tag_`. The original cursor reaches the header block through its own +0x20
+  pointer (decoder +0x04); the port reads `decoder_` directly.
+- Frame counters of the cursor (names as in the port): frames_before_ +0x58, frames_current_
+  +0x5c, frames_capacity_ +0x60 (the cursor's frame limit, from 600 * channels * the second track
+  word / 500 in the constructor), frames_mark_ +0x64, decode_calls_ +0x4c.
+
+Decisions:
+- Seek, Reset, Rewind and Decode are reconstructed with the sub-decoder class chosen by the
+  format tag, not by a new virtual in VoxNativeSubDecoder (that header belongs to the
+  native sub-decoder slice). If that slice adds the virtuals, these calls can switch to them.
+- A rewind or a decode that uses the IMA state copies depends on IMA SetState and GetState,
+  which are partial in their own slice. The cursor bodies are complete.
+- The cursor and decoder destructors are reconstructed. The playlist manager destructor is
+  partial in the playlists slice, so its body is what is still open.
+- CreateTransitionRulesContainer and CreateSegmentsInfoContainers match the pseudocode line for
+  line and are reconstructed. The 36-byte and 24-byte records are still stand-ins, as before.
+
+Still partial (this slice):
+- ParseFile: the chunk loop (Afmt at 0x746D6641, Segm at 0x6D676553, Cues at 0x73657543, then
+  Grpe, Rule, Plst, Stat and end) is about 14 KB of pseudocode. Only the VoxN header is checked.
+- The cursor C1 and C2: after parsing, the original creates the sub-decoder (PCM object 0x170
+  bytes with states of 0x144 bytes, or IMA object 0x1c0 bytes with states of 0x150 bytes) and
+  the playlist manager copy, then sets the track parameters and the frame capacity.
+- SetImplicitSegmentCues: the decompiled structure pushes one value twice on the size-1 path
+  (LABEL_7 then LABEL_3). Left empty until the assembly settles it.
+- CreatePlaylistsContainer: the original returns NativePlaylistsManager::Init's result, which
+  the port does not return.
+
+## Wave 9: files-xml slice (SLICE w9-files-xml)
+
+Rows: 23 (ledger.parts/w9-files-xml.csv). Reconstructed 12, partial 7, skipped 4 (decided from
+the Hex-Rays body and the ARM listing via decomp_asm.py). Host build passes 47 of 47 tests
+(new: sound_pack_event_pick_test, zip_path_strip_test). No MinGW or Wine run in this slice.
+
+Layouts confirmed by the listing:
+- `vox::StreamInterface` base: `Size()` returns the word at +0x04 (LDR R0,[R0,#4]). Still
+  partial; the port's stream classes keep their own size_.
+- `vox::FileInterface`: handle at +0x04. Seek calls slot (handle, offset, origin); Tell
+  calls slot (handle). Both return -1 for a null handle or slot. The slots are
+  off_A33EB4 and off_A33EB8 read through m_IOFunc.
+- `vox::FileSystemInterface::CloseFile`: vtable slot +0x18 of the file is tested; a nonzero
+  result calls off_A33EC0; then vtable slot 0, VoxFree, return 0.
+- `vox::VoxSoundPackXML` event record (44 bytes): used list +0x08 (sentinel at +0x08),
+  picked uids pool vector +0x10..+0x18, mode short +0x1c (0 random without repeat, 1 in
+  order), max used short +0x1e, percent-no-sound short +0x20, mode 1 index short +0x22.
+  ResetEvent stores the event record count in the +0x22 index (STRH R3, count).
+- `VoxSoundPackXML` +0x48: string-keyed map (StringComp order) of group masks; the port
+  member is group_masks_.
+- `CZipReader::files_`: the map orders keys with StringComp (the port now uses it too).
+  The entry data offset (+0x48 in the port's SZipFileEntry) and the method and uncompressed
+  size in the local header are consistent with the listing's node offsets (+0x10 node
+  header of 16 bytes plus the 24-byte key string).
+- `CZipReader::deletePathFromFilename`: the string ends at +0x10 and starts at +0x14; the
+  loop walks backwards from the end.
+
+Still open in this slice:
+- EventXMLDef (88a090, 88b104, 88b1fc) and SoundXMLDef (889e98) are loader records that
+  are not in the port. The original copies the +0x28 pointer block shallowly and frees it
+  in the destructor, so two copies would double-free. Not reproduced.
+- LoadXML (88d344) and the VoxSoundPackXML constructors (88ec4c, 88ecc4) are partial: LoadXML
+  is a stub, so a pack built from a file is empty. The TinyXML loader belongs with the
+  TinyXML category.
+- VoxSoundPackXML destructors (88c2cc, 88c36c) use the implicit destructor.
+- FileSystemInterface::CloseFile needs the vtable slot +0x18 (not in the port).
+- The owner of the FileInterface slots (off_A33EB4..off_A33EC0 through m_IOFunc) is still
+  not identified.
+
+## Wave 9 (w9-emitter-slots): driver and decoder vtable slots
+
+Source of truth: `recovered/native/symbols/libDungeonHunter2.so/vtables-001.json`. Its
+entries are symbol-relative, so the offsets below are vptr-relative (symbol offset minus 8).
+Pure slots have no entry in the base vtable, so their names come from the concrete
+overrides and from the emitter call sites.
+
+- `vox::DriverSourceInterface` (emitter `dsp_source_` at +0x110): +0x08 Play, +0x0c Stop,
+  +0x10 Pause, +0x14 Reset, +0x18 GetState, +0x1c GetByteOffset, +0x20 SetByteOffset,
+  +0x24 NeedData, +0x28 UploadData, +0x2c SetGain, +0x30 SetPitch, +0x34 GetGain, +0x38
+  GetPitch, +0x3c Set3DParameter, +0x40 SetDSPParameter, +0x44 Update, +0x48
+  AllowBufferReference, +0x4c FreeDisposableData, +0x50 PrintDebug, +0x54 GetBufferCount,
+  +0x58 Init, +0x5c Cleanup. The header declares them with empty defaults (the base slots are
+  pure in the binary, and driver_test derives a plain source from the base).
+- `vox::DriverInterface`: +0x08 Init(void*) and +0x0c Shutdown (named by DriverAndroid only,
+  not declared), +0x10 Suspend, +0x14 Resume, +0x18 RampOut, +0x1c RampIn, +0x20 Update,
+  +0x24 Set3DParameter, +0x28 SetDSPParameter, +0x2c SetStaticBusRouting, +0x30
+  SetDynamicBusRouting, +0x34 SetSFXPresetActive, +0x38 SetOutputMode, +0x3c GetOutputMode,
+  +0x40 PrintDebug, +0x44 CreateDriverSource and +0x48 DestroyDriverSource (DriverAndroid).
+- `vox::DecoderCursorInterface` (the cursor at emitter +0x114): +0x08 Init, +0x0c Shutdown,
+  +0x10 Decode (pure), +0x14 DecodeRef, +0x18 HasData (pure), +0x1c Reset, +0x20
+  GetRewindLimit, +0x24 Rewind, +0x28 Seek (pure), +0x2c SetLoop, +0x30 GetStreamCursor,
+  +0x34 AllowBufferReference. HasData moved to +0x18 in the header (it was last).
+- `vox::DecoderInterface` (the decoder at DataObj +0x3c): +0x08 Init, +0x0c Shutdown, +0x10
+  CreateNewCursor, +0x14 DestroyCursor, +0x18 GetType (1 MSWav, 3 MPC8, 4 Native), +0x1c
+  GetParam. The header order was GetType, GetParam, CreateNewCursor, DestroyCursor; the
+  slots are now commented and reordered to match.
+- Call-site arguments in the Hex-Rays output are not reliable: the decompiler prints a
+  leftover register as an argument (for example Reset is called with a float). Use the
+  vtable names above, not the printed argument lists.
+
+## Wave 9: engine-internal-a (VoxEngine facade, Suspend to SetAutoKillAfterDone)
+
+Queue: 67 facade rows from Suspend/Resume through SetAutoKillAfterDone (the brief said 68; the
+queue file holds 67 data rows). Every row is a tail call (B) to a VoxEngineInternal method, or a
+null-guarded forward whose no-engine result is 0, -1 or 1 (IsEngineSuspended, IsDone, GetOutputMode).
+The arguments pass through unchanged, including the stack arguments of SetRoutingVolume.
+
+Vtable slots used by the facade (VoxEngineInternal, named in voxengine_internal.hpp):
++0x0c Suspend, +0x10 Resume, +0x14 IsSuspended, +0x18 UpdateSources, +0x24 SetGroupGain,
++0x28 SetMasterGain. The facade reads m_internal and calls through the vtable for these six.
+All other targets are direct calls.
+
+Decisions:
+- SetOutputMode and GetAllEmitters now return the target's int (the original returns it); the
+  facade declarations in voxengine.hpp changed from void to int, returning 0 without an engine.
+- Partial (5 rows): SetMasterGain and SetGroupGain (the target returns the Mutex unlock result,
+  which the void facade drops, as in wave 7); UpdateSourcesThreaded (target UpdateSources is
+  skipped); GetDebugInfo (target skipped, DebugChunk layout unknown); SetInteractiveMusicState
+  (target skipped).
+- No test links the facade yet. voxengine.o references the three skipped targets and EmitterObj
+  GetPlayCursor, SetPlayCursor, PrintDebug and Update, so any test that pulls it fails to link.
+  Add a null-default test once those land.
+## Wave 9 playlists (layouts and decisions)
+
+Layouts (32-bit offsets, from the Hex-Rays bodies and the ARM listings):
+
+- `vox::NativePlaylist`: +0x00 valid, +0x04 field_04 (the reset flag the walk tests),
+  +0x08 total repeats, +0x0c current group, +0x10 current element, +0x14 remaining repeats,
+  +0x18 previous group, +0x1c previous element, +0x20 saved repeats, +0x24..+0x2c the
+  SegmentGroup* vector, +0x30..+0x38 the PlaylistElement* vector (changed in this wave from the
+  int32 table).
+- `vox::PlaylistElement` (0x14 bytes): +0x00 word 3 of the element info, +0x04 unset (0),
+  +0x08 word 4, +0x0c word 5, +0x10 word 6 (the default is 1). The element accessors return the
+  element pointer, as the original returns the pointer word.
+- `vox::RandomGroupElement` (the record RandomGroup::AddElement stores): +0x00 value (element
+  info word 1), +0x04 weight (element info word 7).
+- `vox::NativePlaylistsManager`: +0x00 valid, +0x04 field_04, +0x08 count, +0x0c NativePlaylist*
+  array.
+- `vox::SegmentGroup` vtable slots (vptr-relative, the entry the ARM code calls with `ldr pc,
+  [vptr, #n]`). Slot 0x00 D1, 0x04 D0, 0x08 GetGroupElementPosition(), 0x0c
+  PeekAtNextGroupElement(GroupPeekMode), 0x10 Reset(int reset_mode), 0x14 SegmentGroup::SetState
+  (SegmentGroup&), 0x18 SetToPreviousState(), 0x1c GetState(record), 0x20 SetState(group&),
+  0x24 SetState(record). The derived classes fill 0x08 to 0x24 with their own functions
+  (`vtables-001.json`, symbol offset + 8). Slot 0x10 has a return-type conflict in the port
+  (SequentialGroup::Reset is void, RandomGroup::Reset is int), and slots 0x1c and 0x24 take
+  different record types per kind, so the playlist code calls the group functions by the
+  group's select mode instead of through SegmentGroup.
+
+Decisions:
+
+- The element table is a `std::vector<PlaylistElement*>`. Each element is a VoxAlloc block owned
+  by its playlist (freed by the destructor, copied by the copy constructor).
+- Accessors that return an element return `PlaylistElement*` (GetCurrentElement, the two
+  GetPlaylistElement overloads, PeekAtNextElement, and the manager's GetPlaylistElement and
+  PeekAtNextPlaylistElement). The original returns the element pointer in an int-typed function.
+- Group dispatch: AddGroup builds a RandomGroup for a nonzero select mode and a SequentialGroup
+  otherwise, so the select mode gives the dynamic type. The walk and state code cast on that
+  basis; the calls reach the same functions as the vtable slots.
+- Reset calls on each group pass 1 as the reset mode. The Hex-Rays body in the walk hides the
+  argument; the ARM listing sets r1 to 1 before each call (0x88202c and 0x882124).
+- A RandomGroup element record is copied to a heap RandomGroupElement owned by the group, as the
+  original's AddElement copies its two-word argument.
+- The NativeSubDecoderState constructor copies the manager argument (manager copy constructor).
+  Its scalar defaults stay unreproduced (partial).
+
+Build: `tools/decomp_build.sh host vox-audio` passes 46 of 46 (the 45 tests already on the branch
+plus native_playlist_elements_test from this slice). MinGW and Wine
+are not installed in this container, so the Windows build was not run.
+
+Still open in this area: VoxNativeSubDecoder and the PCM and IMA ADPCM sub-decoder constructors
+(skipped) need NativeChunks, States, AudioSegments, TransitionRules and the TransitionParams
+vectors; those types are not ported.
+
+## Wave 9 (w9-emitter-slots): EmitterObj rows
+
+Ledger part: `ledger.parts/w9-emitter-slots.csv` (24 rows: 4 reconstructed, 11 partial, 9 skipped).
+New source: `src/w9-emitter-slots/emitter_obj_playback.cpp` (PrintDebug, Update3D, GetPlayCursor,
+ProcessNonNativeData). Edited in place: UpdateDSP (`src/emitter_obj_state.cpp`) and CleanUp
+(`src/emitter-obj/emitter_obj_dsp.cpp`). Test: `tests/emitter_obj_playback_w9_test.cpp`.
+
+- Emitter layout added (emitter_obj.hpp): play_rate_ +0x20, play_length_ +0x24, decoder_cursor_
+  +0x114 (the cursor that feeds dsp_source_), and the buffer ring: buffer_ring_ +0xf4 (was
+  owned_buffer_, a void*, now void**), buffer_read_index_ +0x100, buffer_count_ +0x104,
+  buffer_chunk_bytes_ +0x108, buffer_fill_ +0x10c. The constructors that write these are not ported.
+- UpdateDSP fix: the pending-name path calls source SetDSPParameter(0, name) and returns, so Update
+  does not run on that frame. The IDA listing shows r1 = 0 and r2 = the name at the call (+0x40).
+- Blocked: SetPlayCursor and the cursor-driven states need the cursor params block (+0x04..+0x13,
+  TrackParams). It lives in each cursor class, not in DecoderCursorInterface. Moving it into the
+  base would shift the derived classes' own params_ members, so it stays open.
+- Blocked: ProcessNativeData needs the byte at +0x145 named and the return of cursor slot +0x24
+  (Rewind(int) in the vtable) checked. The pseudocode uses its return value.
+- Deviations recorded in the rows: GetPlayCursor and CleanUp unlock or clear where the original
+  does not (the pseudocode shows the lock held or the pointers set). ProcessNonNativeData returns 0
+  when a pointer or the ring count is missing, where the original would fault.
+
+## Wave 10 (w10-debuginfo): GetDebugInfo rows
+
+Ledger part: `ledger.parts/w10-debuginfo.csv` (4 rows: 2 reconstructed, 2 partial). New sources:
+`src/w10-debuginfo/debuginfo_emitter.cpp` (EmitterObj::GetDebugInfo) and
+`src/w10-debuginfo/debuginfo_engine.cpp` (VoxEngineInternal::GetDebugInfo). Test:
+`tests/debuginfo_w10_test.cpp` (EmitterObj record fields and the DebugInfo defaults).
+
+- DebugInfo (voxengine_types.hpp), 16 bytes: +0x00 data_count (data_objects_ node count, container
+  +0x10 = VoxEngineInternal +0x18), +0x04 emitter_count (emitters_ node count at +0x88), +0x08
+  playing_count, +0x0c end_marker (always -1). Read locks: data_objects_access_ (+0x54) and
+  emitter_access_ (+0xc4). HandlableContainer::Size() added to handlable.hpp for the counts.
+- DebugChunk_emitter (emitter_obj.hpp), 0x74 bytes: +0x00 emitter id (int64), +0x08 data id (int64),
+  +0x10 position xyz, +0x1c state (state_set_), +0x20 unnamed (EmitterObj +0x38), +0x24 gain,
+  +0x28 unnamed (EmitterObj +0x70), +0x2c pitch, +0x30 loop_read_, +0x34 ref count, +0x38 group,
+  +0x3c velocity xyz, +0x48 direction xyz, +0x54 param0, +0x58..+0x70 parameters 1..7.
+- Open for EmitterObj::GetDebugInfo: the owners of EmitterObj +0x38 and +0x70 are not identified, and
+  the cursor's first params word (TrackParams::channels at cursor +0x04) is not reachable from the base
+  cursor class. The VoxEngineInternal path has no test because the engine vtable links undefined methods.
+- PriorityBankManager::GetDebugInfo stays partial (the unlock result is not returned).

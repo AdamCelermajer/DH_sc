@@ -229,3 +229,23 @@ Still partial, by reason:
   feature object (`DeviceFeatureFlags()` stands in).
 - Not covered by a test: the accelerometer (its state is private; a getter would be
   needed for a check), the `slim` attribute and writer paths.
+
+## Thunk forwarders (wave 7)
+
+Thunks forward to the target that the ARM listing branches to (`tools/decomp_asm.py --address`), and
+are not reimplemented. Fixed in `src/memory.cpp` and `src/touch_screen_iphone.cpp`:
+
+- `SwfFree`, `GlitchFree` call `CustomFree` (0x310440). `SwfAlloc` and `GlitchAlloc` (2-arg) call
+  `CustomAlloc(size)`. `internal_malloc` calls `LC_API_MALLOC` (0x89d364).
+- The four `operator delete`/`delete[]` tagged forms call `GlitchFree` (0x310450). The two 5-arg
+  `operator new`/`new[]` forms call the 5-arg `GlitchAlloc`, not `CustomAlloc`.
+- `TouchScreenIPhone::getTouchIDInRegion` calls `TouchScreenBase::getTouchIDInRegion` (0x33b0e8). The
+  iPhone class uses the base's slot records, so the base body applies.
+
+Still differing from the listing, and left as they are:
+
+- `LC_API_STRCASECMP` (0x89cee0) tail-calls `LC_API_STRCASECMP_0`, which has no ledger row. The port keeps
+  an ASCII loop. It should forward once `_0` is recovered.
+- The `swf::MemHint` operator new/new[] forms (0x752ba4, 0x752ba8, 0x752b44, 0x752b48) tail-call
+  `gameswf::malloc_internal`, which is not in this category. The port forwards them to `SwfAlloc`. The two
+  4-arg rows (0x752b44, 0x752b48) stay `partial`.
