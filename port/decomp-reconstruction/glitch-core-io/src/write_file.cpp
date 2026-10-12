@@ -3,9 +3,7 @@
 namespace glitch::io {
 
 // 0x570b68 _ZN6glitch2io10CWriteFileC1EPKcb (C2 at 0x570c40)
-// PARTIAL: the pseudocode copies the name and then tail-calls a noreturn string helper.
-// createWriteFile needs the handle to be open right after construction, so the helper is
-// taken to be openFile(append).
+// The name is copied, then openFile(append) runs (the pseudocode's last call).
 CWriteFile::CWriteFile(const char* name, bool append) : fileName(name ? name : "") {
     openFile(append);
 }
@@ -32,14 +30,14 @@ bool CWriteFile::seek(long offset, bool relative) {
 }
 
 // 0x570950 _ZNK6glitch2io10CWriteFile6getPosEv
-// PARTIAL: the pseudocode drops the ftell result (void). Returned here.
+// The pseudocode returns ftell of the handle; a closed file reports 0 here (no ftell on null).
 long CWriteFile::getPos() const {
     return file ? std::ftell(file) : 0;
 }
 
 // 0x57095c _ZN6glitch2io10CWriteFile8openFileEb
-// PARTIAL: the original opens through CFileSystem::open; the mode is inferred
-// as "wb" or "ab" from the bool, which is not confirmed.
+// The mode is "ab" for append and "wb" otherwise, as in the pseudocode. PARTIAL: the original
+// opens through CFileSystem::open (a shared CFile); fopen is used directly here.
 void CWriteFile::openFile(bool append) {
     if (file) {
         std::fclose(file);

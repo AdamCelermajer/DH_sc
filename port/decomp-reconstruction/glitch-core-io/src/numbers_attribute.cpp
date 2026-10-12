@@ -1,5 +1,8 @@
 #include "glitch-core-io/io/numbers_attribute.hpp"
 
+#include <sstream>
+#include <string>
+
 namespace glitch::io {
 
 // 0x31da4c _ZN6glitch2io17CNumbersAttribute6getIntEv
@@ -520,6 +523,44 @@ void CNumbersAttribute::setColor(glitch::video::SColorf value) {
 void CNumbersAttribute::setMatrix(const glitch::core::CMatrix4<float>& value) {
     clearActive();
     for (std::size_t i = 0; i < 16 && i < count; ++i) setActive(i, value.M[i]);
+}
+
+// 0x32d220 _ZNK6glitch2io17CNumbersAttribute9getStringEv
+// PARTIAL: the Hex-Rays body is noisy. Integer lists print each value in decimal. Float lists
+// print each value through a default std::ostream (precision 6, as the original's
+// __put_num<double> does); this formatting is inferred, not read from the listing.
+// Values are separated by ", ".
+std::string CNumbersAttribute::getString() const {
+    std::string out;
+    for (std::size_t i = 0; i < count; ++i) {
+        if (isFloatList) {
+            std::ostringstream os;
+            os << static_cast<double>(i < floatValues.size() ? floatValues[i] : 0.f);
+            out += os.str();
+        } else {
+            out += std::to_string(i < intValues.size() ? intValues[i] : 0);
+        }
+        if (i + 1 < count) out += ", ";
+    }
+    return out;
+}
+
+// 0x32d52c _ZNK6glitch2io17CNumbersAttribute10getStringWEv
+// PARTIAL: same as getString, widened to wide characters (the original converts the narrow
+// text with stringc2stringw). The float formatting is inferred as in getString.
+std::wstring CNumbersAttribute::getStringW() const {
+    std::wstring out;
+    for (std::size_t i = 0; i < count; ++i) {
+        if (isFloatList) {
+            std::ostringstream os;
+            os << static_cast<double>(i < floatValues.size() ? floatValues[i] : 0.f);
+            for (char c : os.str()) out += static_cast<wchar_t>(static_cast<unsigned char>(c));
+        } else {
+            out += std::to_wstring(i < intValues.size() ? intValues[i] : 0);
+        }
+        if (i + 1 < count) out += L", ";
+    }
+    return out;
 }
 
 }  // namespace glitch::io

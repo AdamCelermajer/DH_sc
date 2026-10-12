@@ -17,6 +17,7 @@ struct GLFunctionTable {
     void (*blendColor)(float r, float g, float b, float a) = nullptr;
     void (*clearColor)(float r, float g, float b, float a) = nullptr;
     uint32_t (*createProgram)() = nullptr;
+    void (*deleteProgram)(uint32_t program) = nullptr;
     void (*useProgram)(uint32_t program) = nullptr;
     void (*cullFace)(uint32_t mode) = nullptr;
     void (*depthFunc)(uint32_t func) = nullptr;

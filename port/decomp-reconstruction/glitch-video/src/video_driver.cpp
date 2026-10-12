@@ -20,6 +20,12 @@ bool IVideoDriver::checkDriverReset() { return false; }
 // 0x5a90f4 _ZNK6glitch5video12IVideoDriver24getMaximalPrimitiveCountEv
 uint32_t IVideoDriver::getMaximalPrimitiveCount() const { return 0xffffffffu; }
 
+// 0x5aa8a0 _ZNK6glitch5video12IVideoDriver19checkPrimitiveCountEj
+// Partial: the os::Printer log of the failure is not ported; the result is kept.
+bool IVideoDriver::checkPrimitiveCount(uint32_t count) const {
+    return getMaximalPrimitiveCount() >= count;
+}
+
 // 0x5a909c _ZN6glitch5video12IVideoDriver17setMaxTextureSizeERKNS_4core11dimension2dIiEE
 void IVideoDriver::setMaxTextureSize(const core::dimension2d<int32_t>& size) {
     m_maxTextureSize = size;

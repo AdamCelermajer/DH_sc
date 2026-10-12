@@ -209,3 +209,70 @@ Still open (533 queue entries, all inside glitch::video):
 - Smaller groups: CLight, CBatchDriver, COpenGLES2Driver constructors, CGenericBaker, the anonymous-namespace blit and
   preprocess helpers, IMaterialTechniqueMapsReader, the clustering helpers, and the SShaderParameterDef and
   SShaderVertexAttributeDef serializers.
+
+## glitch-video-2 slice (78 rows)
+
+- Written: buffer map (registerBufferMap, unregisterBufferMap, clearBufferMap) and createBuffer in ccommon_gl_driver.cpp; std::map member at +0x800 with BufferInfo (field names not identified).
+- beginScene/endScene written as partial: IVideoDriver base call not reachable from CCommonGLDriverBase.
+- Remaining open rows (CBatchDriver, detail soft-draw helpers, genericDriverInit, particle bakers, blits, loadImage BMP) are ledgered partial, not written this pass. Each needs its class layout or template instance first.
+- Existing partial bodies for setBlend*/setStencil*/setCullFace/setDepthFunc/setFrontFace left unchanged; GL enum tables are still missing.
+
+## glitch-video-1 slice (worker findings)
+
+- SPackedRGBtoLuminanceAlphaConverter layout from PFDTable row (0x5edca4): weights 0.3/0.59/0.11 at +0x00,
+  channel masks +0x0c, channel shifts +0x18, alpha shift +0x1b, alpha mask +0x1c, alpha scale +0x20, table
+  alpha max +0x24 (0 when row flags bit 0 is set). Row bytes read through SFormatEntry::unknown18.
+- ITextureDataLoading::getFilePitch (0x6077c4) returns the computePitch value in the original; the port is void.
+- IMaterialParameters accessors: the matrix overloads read the owner block through +0x04 (CMaterial) or self
+  (CMaterialRenderer), count at +0x0e, entries at +0x20, 16-byte entries with type byte +0x06 (11 = matrix).
+  Dirty words are written at +0x0c and +0x10 by the matrix setters. Helpers getMatrixParameter and
+  setMatrixParameter are not recovered.
+- CImageLoaderDDS::loadTextureHeader needs a real STextureDesc layout (+0 type, +4 format, +16 width, +20 height,
+  +24 depth, +28 flag); FourCC map: DXT1 (0x31545844) -> 18, DXT2/DXT3 (0x32/0x33545844) -> 19, DXT4/DXT5 (0x34/0x35545844) -> 20.
+
+## glitch-video-3 (slice: IVideoDriver, IBuffer, CGLSLShader, CGLSLShaderManager, texture loaders)
+
+- IBuffer m_flags12 bit 0 (0x01) is kFlagOwnsData: the data is a private copy that reset frees.
+  The older note above says "data not owned"; the copy() and reset() bodies and the existing
+  test (flag 1 keeps the data) show the opposite. Bit 2 (0x04) is kFlagDirty (read-back pending).
+- IBuffer::copy returns bool and sets kFlagOwnsData. IBuffer::reset(size, data, keepOwned) is
+  reconstructed from the control flow of 0x5a1cb4.
+- CGLSLShader +0x44 and +0x48 hold the two shader code references (first and second argument of
+  the 6df1f0 constructor). +0x4c is m_glProgram. releaseShaderCode and releaseDriverSpecificResources
+  are reconstructed; GLFunctionTable gained deleteProgram.
+- 64 of 78 rows are skipped: they need core math types (CMatrix4, triangle3d, aabbox3d, vector3d),
+  CMaterial or CMaterialRenderer layouts, CGLSLShaderManager, or viewport and batch state that the
+  port does not have. Each skipped row names its missing dependency in the ledger notes.
+
+## glitch-video-6 slice (worker notes)
+
+- SColor::getInterpolated reconstructed (src/s_color.cpp). Blend is t*this + (1-t)*other with t clamped to [0,1]; channel bytes are read with shifts, not casts.
+- CMaterial: m_renderer +0x04, m_dirtyParameters +0x0c, m_dirtyHashes +0x10, m_hashCodes +0x18 (array of one word per technique). Renderer technique table at renderer+0x18, 12-byte entries, parameter count byte at entry +4. getTechnique, updateHashCode and compare are declared, not defined.
+- IMaterialTechniqueMapsReader: m_manager +0x04, map ids +0x08/+0x0c (-1), flags +0x12/+0x13, error +0x16. The vtable and the virtual hooks (+0x1c, +0x28) are not modelled.
+- Blocked on missing infrastructure (see the ledger part notes): pixel_format PFD table, SBlitJob, CMaterial heap blocks, CGlobalMaterialParameterManager and SIDedCollection, IVideoDriver base constructors, CBuffer and IBuffer relationship, CProgrammableGLDriver template.
+
+## glitch-video-8 (slice of 78 rows, CVertexStreams / SVertexStream / pixel_format / programmable driver)
+
+- New: render_state.hpp/.cpp (SRenderState, partial), tests/vertex_streams_build_test.cpp.
+- vertex_streams.hpp: CVertexStreams ctor, allocate overloads, clone, setStreams, setupStreams, SVertexStream::SMapBuffer<T>
+  (stores the SVertexStream pointer at +0x00 and the mapped pointer at +0x04, as the original does).
+- New fields m_field08 (+0x08), m_count0c (+0x0c), m_streamCount0d (+0x0d) are named by offset only.
+- Blockers for the remaining skipped rows: ValueTypeSize and Defaults tables of SVertexAttributeTypeInspection (not in repo);
+  PFD table (pixel_format); GL function table lacks glCreateShader, glShaderSource, compile and info-log calls and
+  glGetIntegerv/glHint; CProgrammableGLDriver layout past +0x284; CMaterialTechniqueMapLoadState not in port;
+  IVideoDriver texture manager slot; IBuffer unmap callback (vtable +0x18) not modelled.
+- All new vertex-stream bodies stay partial: buffer reference counts are not modelled in deps/intrusive_ptr.hpp.
+
+## Slice glitch-video-4 (CLight, IShader, shader code, material renderer manager, SColorHSL)
+
+- CLight (light.hpp): +0x00 count, +0x04..+0x0c words, +0x10..+0x34 ten floats (default 1.0), +0x40 FLT_MAX,
+  +0x48 40.0, +0x4c 2.0, +0x50 STransformationSource slot, +0x54 flag, +0x58 halfword, +0x5a flag. Size 0x5c.
+- IShader (shader_attributes.hpp): stage parameter records at +0x28 and +0x30 (pointer, halfword, halfword count);
+  +0x24 vertex attribute defs; +0x38 vertex attribute mask; +0x3c count byte; +0x40 shader id halfword.
+  Stage 2 has no record in the original reads; getParameterID returns 0xffff for it.
+- CMaterialRendererManager: +0x28 driver, +0x90 open creation-state pointer (getTechnique tests it). The
+  technique, render-pass and parameter tables are SIDedCollection and SSharedString trees; their bodies are
+  ledgered skipped with the note blocked.
+- ICodeShaderManager: +0x7c additional config text, +0x80 its length (-1 until loaded).
+- Converter SAlphaIndexedPackedConverter (alpha_indexed_converter.hpp): masks at +0x00..+0x08 and +0x1c..+0x30,
+  shifts in two groups, LUT pointer +0x3c, LUT mask +0x40; the constructor needs PFDTable (blocked).

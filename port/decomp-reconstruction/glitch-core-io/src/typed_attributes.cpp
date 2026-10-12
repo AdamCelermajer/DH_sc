@@ -81,6 +81,16 @@ const wchar_t* CPlaneAttribute::getTypeString() const { return L"plane"; }
 
 // 0x56055c _ZNK6glitch2io18CTriangleAttribute7getTypeEv
 int CTriangleAttribute::getType() const { return 0x13; }
+
+// 0x561d50 _ZNK6glitch2io17CTriangleAttribute8getPlaneEv
+// PARTIAL: the plane is built from the three corners returned by the attribute's getTriangle (the
+// vtable slot the original calls). The normalize step of setPlane is assumed (see deps).
+glitch::core::plane3d<float> CTriangleAttribute::getPlane() const {
+    const glitch::core::triangle3d<float> t = getTriangle();
+    glitch::core::plane3d<float> plane{};
+    plane.setPlane(t.A, t.B, t.C);
+    return plane;
+}
 // 0x560564 _ZNK6glitch2io18CTriangleAttribute13getTypeStringEv
 const wchar_t* CTriangleAttribute::getTypeString() const { return L"triangle"; }
 
@@ -131,6 +141,18 @@ namespace glitch::io {
 
 // 0x31f2b4 _ZNK6glitch2io15CColorAttribute13getTypeStringEv
 const wchar_t* CColorAttribute::getTypeString() const { return L"color"; }
+
+// 0x326388 _ZNK6glitch2io15CColorAttribute10getStringWEv
+// The packed colour is printed high byte first, then the low byte and the two middle bytes, which
+// is the inverse of setString above.
+std::wstring CColorAttribute::getStringW() const {
+    const std::uint32_t packed = getColor().color;
+    char text[12];
+    std::snprintf(text, sizeof text, "%02x%02x%02x%02x", static_cast<unsigned>((packed >> 24) & 0xffu),
+                  static_cast<unsigned>(packed & 0xffu), static_cast<unsigned>((packed >> 8) & 0xffu),
+                  static_cast<unsigned>((packed >> 16) & 0xffu));
+    return glitch::core::stringc2stringw(text);
+}
 
 // 0x560504 _ZNK6glitch2io16CMatrixAttribute13getTypeStringEv
 const wchar_t* CMatrixAttribute::getTypeString() const { return L"matrix"; }
@@ -278,6 +300,15 @@ CStringAttribute::CStringAttribute(const char* attrName, const char* value, bool
 
 // 0x3266a8 (D1): the members are released by their own destructors.
 
+// 0x566f7c _ZN6glitch2io16CStringAttributeC1EPKcPvib
+// The data is stored as hex text (setBinary writes the narrow copy), and the value is narrow.
+CStringAttribute::CStringAttribute(const char* attrName, void* data, int size, bool f) {
+    name = attrName != nullptr ? attrName : "";
+    flag = f;
+    isWide = false;
+    setBinary(data, size);
+}
+
 // 0x3260d0 _ZN6glitch2io16CStringAttribute9getStringEv
 std::string CStringAttribute::getString() const { return narrowText(*this); }
 
@@ -325,6 +356,39 @@ float CStringAttribute::getFloat() const {
 
 // 0x327798 _ZN6glitch2io16CStringAttribute7getBoolEv
 bool CStringAttribute::getBool() const { return equalsIgnoreCase(narrowText(*this).c_str(), "true"); }
+
+// 0x31f324 _ZNK6glitch2io16CStringAttribute9getBinaryEPvi
+// Zero-fills the buffer, then decodes the narrow copy as hex pairs (lowercase a-f only, as
+// the original). PARTIAL: the original stops on text[pairs] rather than text[2 * pairs], so
+// a buffer longer than the text reads past its end there; this version stops at the end of the text.
+void CStringAttribute::getBinary(void* data, int size) const {
+    auto* out = static_cast<unsigned char*>(data);
+    if (size <= 0) return;
+    for (int i = 0; i < size; ++i) out[i] = 0;
+    auto nibble = [](char c) -> unsigned {
+        if (c >= '0' && c <= '9') return static_cast<unsigned>(c - '0');
+        if (c >= 'a' && c <= 'f') return static_cast<unsigned>(c - 'a' + 10);
+        return 0;
+    };
+    std::size_t pos = 0;
+    for (int i = 0; i < size && pos < narrow.size(); ++i, pos += 2) {
+        unsigned value = nibble(narrow[pos]) * 16u;
+        if (pos + 1 < narrow.size()) value += nibble(narrow[pos + 1]);
+        out[i] = static_cast<unsigned char>(value);
+    }
+}
+
+// 0x3274a0 _ZN6glitch2io16CStringAttribute9setBinaryEPvi
+// Replaces the narrow copy with lowercase hex text, two characters per byte. isWide is not read.
+void CStringAttribute::setBinary(void* data, int size) {
+    static const char kHex[] = "0123456789abcdef";
+    const auto* in = static_cast<const unsigned char*>(data);
+    narrow.clear();
+    for (int i = 0; i < size; ++i) {
+        narrow.push_back(kHex[in[i] >> 4]);
+        narrow.push_back(kHex[in[i] & 0xF]);
+    }
+}
 
 // 0x32d3d4 _ZN6glitch2io16CStringAttribute8setFloatEf
 // Formatted through an output stream on a double, as the original does. Partial: the
@@ -440,6 +504,7 @@ glitch::core::CMatrix4<float> CVector3DAttribute::getMatrix() const {
 }
 
 // 0x5633ec _ZN6glitch2io15CLightAttribute8setLightERKN5boost13intrusive_ptrINS_5video6CLightEEE
+// Reference the new light, then release the old one (intrusive_ptr assignment).
 void CLightAttribute::setLight(boost::intrusive_ptr<glitch::video::CLight> value) { light = value; }
 
 // 0x56514c _ZN6glitch2io15CLightAttributeD1Ev
@@ -449,14 +514,15 @@ CLightAttribute::~CLightAttribute() {
 }
 
 // 0x566c90 _ZN6glitch2io15CLightAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video6CLightEEEPNS6_12IVideoDriverEb
-// PARTIAL: the light argument is dropped, as in the decompile (light stays null).
+// The ARM-level listing stores the light argument at +0x24 with a reference (the old value is
+// released, which is null here), and the driver at +0x28 with a reference.
 CLightAttribute::CLightAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::CLight>& value,
                                  glitch::video::IVideoDriver* drv, bool f) {
-    (void)value;
     name = attrName;
     flag = f;
     driver = drv;
     if (driver != nullptr) ++driver->referenceCounter;
+    light = value;
 }
 
 // 0x56377c _ZNK6glitch2io15CLightAttribute10getStringWEv

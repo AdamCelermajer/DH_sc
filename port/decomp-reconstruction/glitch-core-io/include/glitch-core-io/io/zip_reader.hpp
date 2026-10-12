@@ -22,12 +22,12 @@ struct SZipFileEntry {
     std::string path;     // +0x00
     std::string name;     // +0x18
     std::string extra;    // +0x30
-    std::int32_t f48 = 0;   // +0x48
+    std::int32_t f48 = 0;   // +0x48: offset of the file data (set from getPos after the local header)
     std::int32_t f4c = 0;   // +0x4c
     std::int32_t f50 = 0;   // +0x50
-    std::int32_t f54 = 0;   // +0x54
-    std::int32_t f58 = 0;   // +0x58
-    std::int32_t f5c = 0;   // +0x5c
+    std::int32_t f54 = 0;   // +0x54: compression method (0 stored, 8 deflate)
+    std::int32_t f58 = 0;   // compressed size (port slot; the pseudocode reads it at +0x5e)
+    std::int32_t f5c = 0;   // uncompressed size (port slot; the pseudocode reads it at +0x62)
     std::int32_t f60 = 0;   // +0x60
     std::int32_t f64 = 0;   // +0x64
     std::int16_t f68 = 0;   // +0x68
@@ -41,13 +41,18 @@ class CZipReader : public glitch::IReferenceCounted {
 public:
     CZipReader() = default;  // used by the tests; the original always has a file or a name
     // 0x577fa4 (C1), 0x578050 (C2): reads the directory from an open file (referenced).
-    // PARTIAL: the directory scan (scanLocalHeader) and the final sort are not reconstructed.
+    // PARTIAL: the entries are sorted by name (operator<); the original's sort comparator is unverified.
     CZipReader(IReadFile* file, bool flagA, bool flagB);
     // 0x57826c (C1), 0x578318 (C2): opens the file by name, then as above.
     CZipReader(const char* fileName, bool flagA, bool flagB);
     ~CZipReader() override;  // 0x577488 (D1), 0x5774ec (D2): drops the file
 
     int getFileCount();                                     // 0x576cf0: entries / 0x6c
+    // 0x576f18: PARTIAL. Stored entries (method 0) are a limit read file over the archive; deflate
+    // entries (method 8) need zlib, which the port does not have, so they give null here.
+    IReadFile* openFile(int index);
+    // 0x578624: findFile, then openFile(index); null when the name is not in the archive.
+    IReadFile* openFile(const char* name);
     // 0x578520: PARTIAL. The key's name is the argument, lower-cased when flagA is set and with its
     // path removed when flagB is set; the search is the shared binary search over the entries.
     int findFile(const char* name);
@@ -64,8 +69,14 @@ public:
     // is inferred from the tail call to strlen in the pseudocode.
     void deletePathFromFilename(std::string& fileName);
 
-    // 0x577db4: reads the next local header. PARTIAL: the header's name and the rest of the
-    // entry are not recovered, so the scan reports no entry (false) and the loop stops.
+    // 0x577bc8: splits the raw name into the directory part (extra, with its '/') and the base
+    // name (name). With flagB the name is the base name; without it the full path is kept.
+    // flagA lower-cases the name first. PARTIAL: separators other than '/' are not handled.
+    void extractFilename(SZipFileEntry& entry);
+
+    // 0x577db4: reads the next local header (30 bytes, name, extra field) and records the entry
+    // with its data offset. Returns false at the end of the local headers. PARTIAL: the 12 bytes
+    // read after the extra field follow the pseudocode, not a checked data descriptor.
     bool scanLocalHeader();
 
     // +0x08: the archive file (referenced by the reader, released in the destructor)

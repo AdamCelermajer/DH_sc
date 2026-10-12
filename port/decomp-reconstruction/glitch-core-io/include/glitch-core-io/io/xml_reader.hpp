@@ -5,6 +5,7 @@
 // explicit specialisation. Offsets are the original's, kept as comments.
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -52,9 +53,19 @@ public:
     // First attribute with this name, or nullptr. 0x574164
     const SAttribute* getAttributeByName(const char* name) const;
 
+    // Text buffer set by convertTextData: +0x08 owner (the buffer the text lives in),
+    // +0x10 text, +0x14 length. +0x0c is not named by the code read so far.
+    void* textOwner = nullptr;   // +0x08
+    std::int32_t unknown0c = 0;  // +0x0c
+    void* textData = nullptr;    // +0x10
+    int textLength = 0;          // +0x14
     int nodeType = 0;                    // +0x18
     int sourceFormat = 0;                // +0x1c
     int parserFormat = 0;                // +0x20
+    // 0x572ca4 (ulong), 0x572d94 (ushort): copies the code units into a new char buffer.
+    void convertTextData(std::uint32_t* text, char* owner, int length);
+    void convertTextData(std::uint16_t* text, char* owner, int length);
+
     std::string nodeName;                // +0x38 (the node data is the same string)
     bool emptyElement = false;           // +0x54
     std::string defaultValue;            // +0x50: returned by getAttributeValueSafe when missing
@@ -98,9 +109,22 @@ public:
     // First attribute with this name, or nullptr. 0x5739cc
     const SAttribute* getAttributeByName(const wchar_t* name) const;
 
+    // Text buffer set by convertTextData: +0x08 owner (the buffer the text lives in),
+    // +0x10 text, +0x14 length. +0x0c is not named by the code read so far.
+    void* textOwner = nullptr;   // +0x08
+    std::int32_t unknown0c = 0;  // +0x0c
+    void* textData = nullptr;    // +0x10
+    int textLength = 0;          // +0x14
     int nodeType = 0;                    // +0x18
     int sourceFormat = 0;                // +0x1c
     int parserFormat = 0;                // +0x20
+    // Converts a text buffer read from a file of the given encoding (see sourceFormat and
+    // parserFormat). 0x57259c (ulong), 0x572fb0 (ushort), 0x573094 (char): stores the
+    // buffer as the owner, byte-swapping the code units first when the two formats differ.
+    void convertTextData(std::uint32_t* text, char* owner, int length);
+    void convertTextData(std::uint16_t* text, char* owner, int length);
+    void convertTextData(char* text, char* owner, int length);
+
     std::wstring nodeName;               // +0x68 (the node data is the same string)
     bool emptyElement = false;           // +0xb4
     std::wstring defaultValue;           // +0xb0: returned by getAttributeValueSafe when missing
