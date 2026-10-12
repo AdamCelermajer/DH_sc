@@ -60,6 +60,16 @@ public:
     // not fire its enter script again (the edge is already set), as the source keeps the zone's inside flag.
     std::vector<std::string> trigger_inside()const;
     void restore_trigger_inside(const std::vector<std::string>& keys);
+    // B145 (port repair, not original behaviour): static facts of a TriggerZone's enter script, read from the compiled bank. The walk
+    // follows unconditional ExecScript children in execution order and tracks Script_BlockSaveGame (70) / Script_SaveGame (69).
+    // blocked_spawn_targets / kill_targets are the Script_SpawnCharacter (30) / Script_KillActor (44) targets reached while the
+    // save block is in force. LevelSavegame::Save does nothing while it is set, so the original cannot persist a trigger
+    // activation made by such a scene together with a still-unspawned target. Returns false (no facts) for anything else:
+    // unknown key, non-TriggerZone, no enter script, a move-out script, unresolved script, or a random/over-deep ExecScript.
+    struct TriggerSceneFacts { bool consumed=false; std::vector<std::string> blocked_spawn_targets,kill_targets; };
+    bool trigger_scene_facts(const std::string& key,TriggerSceneFacts& out) const;
+    // B145: puts a trigger back to the never-activated state (count, inside edge, delay). False for an unknown key.
+    bool rearm_trigger(const std::string& key);
     bool failed() const { return !failure_.empty(); }
     const std::vector<OriginalCampaignScript>& scripts() const { return scripts_; }
     const std::map<std::string,OriginalCampaignTrigger>& triggers() const { return triggers_; }

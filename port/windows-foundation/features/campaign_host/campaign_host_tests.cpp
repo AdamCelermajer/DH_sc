@@ -605,6 +605,61 @@ void scripted_clip_completion(const std::string& directory) {
     fail=true;play();rig.step(100);check(rig.host->aborts()==1&&!rig.host->scripted_clip_pose(101),"Completion failure aborts and releases host pose");
 }
 
+// B145: the repair stamp rides in its own save component, is absent until a repair happened, survives persist/restore,
+// and an unreadable stamp disables the repair for that load without failing the load.
+void aborted_scene_repair_stamp_roundtrip(const std::string& directory) {
+    const ObjectId lifecycleId = 0x43414d504c494650ull;
+    const std::string key = "stamp-test.mgp::stamp-zone";
+    const auto make = [&](Rig& rig, PlayableActorWorld& world) {
+        std::string error;
+        ActorDefinition zone;zone.name="stamp-zone";zone.sourcePath="stamp-test.mgp";zone.gametype="TriggerZone";
+        zone.placement={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+        zone.properties={{"name","stamp-zone"},{"gametype","TriggerZone"},{"type","Block"},{"script","LizCaptain_Intro"}};
+        check(rig.host->build_zones({zone},error),error);
+        check(rig.host->bind_lifecycle_object(world,error),error);
+    };
+    const auto pristine = [](const std::string&, SceneActorFact& fact, std::string&) { fact = {true,true,true,true}; return true; };
+    dh2::data::AiTables ai{};dh2::data::CombatRandom random{1,0};
+    std::string error;
+    check(load_original_ai_tables(AssetCatalog(directory),"original-cache/data/pydata/",ai,error),"source AI tables: "+error);
+    PlayableActorWorld world(ai,random);
+    Rig first(directory);make(first,world);
+    check(first.host->persist_lifecycle(world,error),error);
+    check(!world.find_object(lifecycleId)->state_components.count("campaign_repairs_v1"),"no repair component before any repair");
+    const auto before = world.find_object(lifecycleId)->state_components;
+    first.runtime.restore_trigger_activations({{key,1}});
+    std::ostringstream log;
+    check(first.host->repair_aborted_scenes(pristine,log).size()==1,"consumed aborted scene is re-armed: "+log.str());
+    check(first.runtime.trigger_activations().count(key)==0,"re-armed count is zero");
+    check(first.host->persist_lifecycle(world,error),error);
+    check(world.find_object(lifecycleId)->state_components.count("campaign_repairs_v1")==1,"repair component is written after a repair");
+    check(world.find_object(lifecycleId)->state_components.at("campaign_lifecycle_v1")==before.at("campaign_lifecycle_v1"),"re-armed trigger count is not in the saved lifecycle component");
+
+    // A fresh session restores the stamp and the same signature is then refused.
+    Rig second(directory);make(second,world);
+    check(second.host->restore_lifecycle(world,error),error);
+    check(second.host->applied_repairs().size()==1,"stamp restored");
+    second.runtime.restore_trigger_activations({{key,1}});
+    std::ostringstream again;
+    check(second.host->repair_aborted_scenes(pristine,again).empty()&&second.runtime.trigger_activations().count(key)==1,"stamped save is not repaired again: "+again.str());
+    // Persisting again keeps the stamp (it is not dropped by a save that did no repair).
+    check(second.host->persist_lifecycle(world,error)&&world.find_object(lifecycleId)->state_components.count("campaign_repairs_v1")==1,"stamp survives another save");
+
+    // Unreadable stamp component: the load still succeeds, the repair is skipped.
+    check(world.set_object_component(lifecycleId,"campaign_repairs_v1",{1,0,0,0,9,0,0,0,1},error),error);
+    Rig third(directory);make(third,world);
+    check(third.host->restore_lifecycle(world,error),"malformed stamp must not fail the load: "+error);
+    third.runtime.restore_trigger_activations({{key,1}});
+    std::ostringstream untrusted;
+    check(third.host->repair_aborted_scenes(pristine,untrusted).empty()&&third.runtime.trigger_activations().count(key)==1,"unreadable stamp disables the repair for the load");
+    // A save from an older build has no stamp component at all and still loads.
+    Rig fourth(directory);make(fourth,world);
+    PlayableActorWorld legacy(ai,random);
+    check(fourth.host->bind_lifecycle_object(legacy,error),error);
+    check(fourth.host->persist_lifecycle(legacy,error)&&fourth.host->restore_lifecycle(legacy,error),"legacy world without stamp loads: "+error);
+    check(fourth.host->applied_repairs().empty(),"no stamp in a legacy world");
+}
+
 void scripted_clip_deferred_until_unset(const std::string& directory) {
     int finishes=0,plays=0;
     Rig rig(directory, {}, {}, [&](CampaignHostServices& services) {
@@ -670,6 +725,7 @@ int main(int argc, char** argv) {
         play_effect_branches(argv[1]);
         scripted_clip_completion(argv[1]);
         scripted_clip_deferred_until_unset(argv[1]);
+        aborted_scene_repair_stamp_roundtrip(argv[1]); // B145
         std::cout << "campaign_host tests passed\n";
         return 0;
     } catch (const std::exception& e) {

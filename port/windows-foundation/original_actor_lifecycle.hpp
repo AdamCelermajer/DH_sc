@@ -71,6 +71,9 @@ public:
     // actor. Runs only the PreSpawn Focus effects (the restored data already replaced what the old state's Blur would undo) and
     // registers the record at 17. Requires a kept baseline and no record; a failed effect leaves no record.
     bool enter_restored_pre_spawn(ActorId,ActorState&,bool enabled,int previous_state,std::string& error);
+    // B145: true when the actor still stands on the authored initial anchor of its preset PreSpawn/Limbus baseline
+    // (every axis within `tolerance`); false when it has no baseline.
+    bool at_pre_spawn_anchor(const ActorState&,float tolerance=2.0f) const;
 private:
     struct Record { ActorState* actor=nullptr;OriginalLifecycleFacts facts;OriginalLifecycleStatus status; };
     std::map<ActorId,Record> records_;

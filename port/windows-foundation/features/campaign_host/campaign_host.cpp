@@ -865,6 +865,9 @@ namespace {
 constexpr ObjectId kCampaignLifecycleObjectId = 0x43414d504c494650ull; // "CAMPLIFP": neutral object, not an authored ID
 constexpr const char* kCampaignLifecycleComponent = "campaign_lifecycle_v1";
 constexpr std::uint32_t kCampaignLifecycleVersion = 2;
+// B145: a separate component (not a lifecycle version bump) so an older build still reads the lifecycle component and ignores this one.
+constexpr const char* kCampaignRepairsComponent = "campaign_repairs_v1";
+constexpr std::uint32_t kCampaignRepairsVersion = 1;
 void put_u32(std::vector<std::uint8_t>& out, std::uint32_t value) {
     for (int i = 0; i < 4; ++i) out.push_back(static_cast<std::uint8_t>(value >> (8 * i)));
 }
@@ -907,7 +910,22 @@ bool CampaignHost::persist_lifecycle(PlayableActorWorld& world, std::string& err
         put_u32(bytes, static_cast<std::uint32_t>(key.size()));
         bytes.insert(bytes.end(), key.begin(), key.end());
     }
-    return world.set_object_component(kCampaignLifecycleObjectId, kCampaignLifecycleComponent, std::move(bytes), error);
+    if (!world.set_object_component(kCampaignLifecycleObjectId, kCampaignLifecycleComponent, std::move(bytes), error)) return false;
+    if (applied_repairs_.empty()) return true; // B145: no component, so saves that never needed a repair are unchanged
+    std::vector<std::uint8_t> repairs;
+    put_u32(repairs, kCampaignRepairsVersion);
+    put_u32(repairs, static_cast<std::uint32_t>(applied_repairs_.size()));
+    for (const auto& stamp : applied_repairs_) {
+        put_u32(repairs, static_cast<std::uint32_t>(stamp.size()));
+        repairs.insert(repairs.end(), stamp.begin(), stamp.end());
+    }
+    return world.set_object_component(kCampaignLifecycleObjectId, kCampaignRepairsComponent, std::move(repairs), error);
+}
+
+std::vector<std::string> CampaignHost::repair_aborted_scenes(const SceneActorFactProvider& facts, std::ostream& log) {
+    if (!runtime_) return {};
+    if (repairs_untrusted_) { log << "[repair] campaign_repairs_v1 unreadable; no repair applied on this load\n"; return {}; }
+    return rearm_aborted_scene_triggers(*runtime_, applied_repairs_, facts, log);
 }
 
 bool CampaignHost::restore_lifecycle(const PlayableActorWorld& world, std::string& error) {
@@ -946,6 +964,25 @@ bool CampaignHost::restore_lifecycle(const PlayableActorWorld& world, std::strin
     }
     runtime_->restore_trigger_activations(counts);
     runtime_->restore_trigger_inside(inside); // P16 OPENING4: zone edge state after the reset above
+    // B145: repair stamps. An unreadable stamp component never fails the load; it only disables the repair for this load.
+    applied_repairs_.clear();
+    repairs_untrusted_ = false;
+    const auto repairs = object->state_components.find(kCampaignRepairsComponent);
+    if (repairs != object->state_components.end()) {
+        const auto& in = repairs->second;
+        std::size_t pos = 0;
+        std::uint32_t version = 0, total = 0;
+        bool readable = get_u32(in, pos, version) && version == kCampaignRepairsVersion && get_u32(in, pos, total) && total <= 4096;
+        std::set<std::string> stamps;
+        for (std::uint32_t i = 0; readable && i < total; ++i) {
+            std::uint32_t length = 0;
+            if (!get_u32(in, pos, length) || length > 4096 || pos + length > in.size()) { readable = false; break; }
+            stamps.emplace(in.begin() + static_cast<std::ptrdiff_t>(pos), in.begin() + static_cast<std::ptrdiff_t>(pos + length));
+            pos += length;
+        }
+        if (readable && pos == in.size()) applied_repairs_ = std::move(stamps);
+        else repairs_untrusted_ = true;
+    }
     return true;
 }
 

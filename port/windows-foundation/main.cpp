@@ -3181,6 +3181,21 @@ int main(int argc,char** argv) {
             }
             e.clear();return true;
         };
+        // B145 PORT REPAIR (not original behaviour; see features/campaign_host/aborted_scene_repair.hpp): after a Continue/F9 restore, a consumed
+        // save-blocked scene trigger whose spawn target is still the never-spawned PreSpawn actor on its anchor (the state an aborted v21.3 run saved,
+        // impossible in the original because Script_BlockSaveGame blocks LevelSavegame::Save) is armed once more. Facts come from the live lifecycle.
+        const auto repairAbortedScenes=[&]() {
+            if(!combatSession)return;
+            campaignHost.repair_aborted_scenes([&](const std::string& name,f::campaign_host::SceneActorFact& fact,std::string& e)->bool{
+                fact={};f::ActorId id=f::invalid_actor_id;bool found=false;
+                if(!sourceObjects.named_character(name,-1,id,found,e))return false;
+                const auto* actor=found?combatSession->actor(id):nullptr;if(!actor)return true;
+                const auto* record=actorLifecycle.status(id);
+                fact.found=true;fact.alive=actor->alive();fact.at_anchor=actorLifecycle.at_pre_spawn_anchor(*actor);
+                fact.never_spawned=record&&record->state==17&&!actor->source_limbus&&actor->source_physical_present&&!*actor->source_physical_present;
+                return true;
+            },std::cout);
+        };
         // P16 SPAWN: explicit --lifecycle-spawn choice when given (intro path); otherwise the source Spawn state's
         // first leaf, the same clip Summon(spawn=true) plays through SM_SetSpawnState. Function scope on purpose:
         // the lifecycle services stored by bind() outlive the enclosing lifecycle block.
@@ -7282,6 +7297,7 @@ int main(int argc,char** argv) {
                     if(!restored)std::cout<<"Level world restore status=refused detail="<<restoreError<<'\n'; // B146 arrival: the restore is atomic, the level stays as freshly loaded
                     if(restored){std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
                     if(restored){std::string preSpawnError;if(!restoreLifecyclePreSpawn(preSpawnError))throw std::runtime_error("Lifecycle PreSpawn restore: "+preSpawnError);} // B141
+                    if(restored)repairAbortedScenes(); // B145 (port repair, once per save via campaign_repairs_v1)
                     if(restored){std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();

@@ -11,6 +11,7 @@
 // - Controller locks are not owned here: the existing main flags (globalControllerBlocked and
 //   characterControllerBlocked) stay the single truth; this host wraps the lambdas to track and restore them.
 #include "trigger_zones.hpp"
+#include "aborted_scene_repair.hpp" // B145
 #include "../cinematics/source_campaign_dispatch_v1.hpp"
 #include "../cinematics/script_source_services_v1.hpp" // v20 SCRIPTSVC: PlaySound/StopSound/SaveGame orchestration
 #include "../cinematic_runner/cinematic_runner.hpp" // P16 CINE
@@ -223,6 +224,11 @@ public:
     }
     bool persist_lifecycle(PlayableActorWorld& world, std::string& error) const;
     bool restore_lifecycle(const PlayableActorWorld& world, std::string& error);
+    // B145 port repair (aborted_scene_repair.hpp): call once after restore_lifecycle and the actor lifecycle restore. Re-arms a
+    // consumed save-blocked scene trigger whose spawn target never spawned. The applied stamps are saved in component
+    // campaign_repairs_v1 by persist_lifecycle (absent while empty, so unaffected saves stay byte-identical).
+    std::vector<std::string> repair_aborted_scenes(const SceneActorFactProvider& facts, std::ostream& log);
+    const std::set<std::string>& applied_repairs() const noexcept { return applied_repairs_; }
     // Number of cutscenes aborted by an executor error (the session itself keeps running).
     std::uint64_t aborts() const noexcept { return aborts_; }
     const TriggerZoneSet& zones() const noexcept { return zones_; }
@@ -240,6 +246,8 @@ private:
     std::function<bool(ActorId,bool,std::string&)> previous_character_;
     std::set<ActorId> character_blocked_;
     std::set<ActorId> scripted_;
+    std::set<std::string> applied_repairs_; // B145: repair stamps (component campaign_repairs_v1)
+    bool repairs_untrusted_=false;          // B145: the saved stamp component was unreadable, so no repair is applied this load
     std::set<int> consumed_tutorials_;
     bool tutorials_loaded_=false;
     void load_tutorial_settings();           // B070: reads consumed_tutorials_ from services_.tutorial_settings_path

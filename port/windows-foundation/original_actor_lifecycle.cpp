@@ -111,6 +111,12 @@ bool OriginalActorLifecycle::enter_restored_pre_spawn(ActorId id,ActorState&acto
  if(!focus(entry.first->second,17,previous_state,false,error)){records_.erase(entry.first);return false;}
  return true;
 }
+// B145: true when the actor still stands on the authored initial anchor of its preset PreSpawn/Limbus baseline.
+bool OriginalActorLifecycle::at_pre_spawn_anchor(const ActorState&actor,float tolerance)const{
+ const auto baseline=pre_spawn_baseline_.find(actor.id);if(baseline==pre_spawn_baseline_.end())return false;
+ for(int axis=0;axis<3;++axis){const float d=actor.transform.position[axis]-baseline->second.initial_transform.position[axis];if(!std::isfinite(d)||std::fabs(d)>tolerance)return false;}
+ return true;
+}
 bool OriginalActorLifecycle::restore_pre_spawn(ActorId id,ActorState&actor,bool enabled,std::string&error){
  const auto baseline=pre_spawn_baseline_.find(id);
  if(actor.id!=id||baseline==pre_spawn_baseline_.end()){error="Restored actor has no preset PreSpawn lifecycle baseline";return false;}

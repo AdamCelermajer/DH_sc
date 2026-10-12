@@ -1,4 +1,5 @@
 #include "../original_actor_lifecycle.hpp"
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 using namespace dh::foundation;
@@ -49,6 +50,13 @@ int main(){try{
   check(log.empty(),"Restore registration must not replay lifecycle effects");
   check(restored.status(77)->state==17&&restored.status(77)->flags==0x1300&&!restored.status(77)->enabled&&!restored.combat_enabled(77),"Restored actor must be PreSpawn17");
   check(!restored.restore_pre_spawn(77,newer,false,e),"Duplicate restore registration must be refused");
+  // B145: anchor check against the preserved authored baseline (first axis-by-axis tolerance, no baseline = false).
+  {ActorState probe=newer;probe.transform.position=facts.initial_transform.position;
+   check(restored.at_pre_spawn_anchor(probe),"Actor on its authored anchor");
+   probe.transform.position[1]+=1.0f;check(restored.at_pre_spawn_anchor(probe),"Within tolerance");
+   probe.transform.position[1]+=5.0f;check(!restored.at_pre_spawn_anchor(probe),"Moved actor is off its anchor");
+   probe.transform.position[1]=std::nanf("");check(!restored.at_pre_spawn_anchor(probe),"Non-finite position is off its anchor");
+   ActorState idle;idle.id=78;idle.transform.position=facts.initial_transform.position;check(!restored.at_pre_spawn_anchor(idle),"No PreSpawn baseline, no anchor");}
   check(restored.spawn(77,e),e);
   check(restored.status(77)->state==1&&!log.empty(),"Script_SpawnCharacter must reach the Spawn transition on a restored actor");
   restored.detach_for_restore();expected=&third;
