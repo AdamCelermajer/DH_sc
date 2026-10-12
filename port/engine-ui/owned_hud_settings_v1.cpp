@@ -56,6 +56,11 @@ bool OwnedHudSettingsV1::load(bool language_only,const SettingsFileServicesV1& f
  // Source deletes the previous buffer, clears option nodes, then sets tutorial
  // bytes. Existing load/new flags are deliberately not reset by _initSettings.
  file_.clear();options_.clear();if(!language_only)for(std::size_t i=0;i<table_.rows().size();++i)options_[table_.names()[i].c_str()]={i,table_.rows()[i].default_value};tutorials_.fill(1);
+ // DELIBERATE USER-APPROVED DEVIATION: the default HUDStyle is the fixed
+ // right-handed arc layout (2: btn_skill1..3 around the attack button). Only the
+ // default changes; a HUDStyle already present in the saved file is read below
+ // and keeps its value.
+ if(!language_only){if(auto hud=options_.find("HUDStyle");hud!=options_.end())hud->second.current=2;}
  bool found=false;std::uintptr_t lease=0;std::vector<std::uint8_t> buffer;
  if(!files.open_read(files.context,"dh2_settings.savegame",found,buffer,lease,error)){
   if(lease){std::string close_error;files.close_read(files.context,lease,close_error);}return false;

@@ -179,6 +179,9 @@ struct OriginalUiSession::Impl {
     std::int32_t hud_style=-1;
     model_renderer::UiPlayerHudProjectionV1 gameplay_hud_state{};
     ui::HudManagerState gameplay_enemy_hud_state{};
+    // Monster shown by the enemy bar this frame; consumed after display() so the
+    // group follows it (DELIBERATE USER-APPROVED DEVIATION, see enemy_follow).
+    std::uintptr_t gameplay_enemy_follow_identity{};
     std::uintptr_t gameplay_enemy_hud_player_identity{};
     ui::GameplayHudUsableRefreshV1 gameplay_hud_usable_refresh;
     ui::DeferredHudSkillsRefreshV1 gameplay_hud_skills_refresh;
@@ -4713,6 +4716,8 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     ui::HudManagerActor* ai;
                     ui::HudManagerActor* character;
                     std::string localized,error;
+                    // Enemy kernel's displayed target (its hp_fraction query is the last).
+                    const model_renderer::UiEnemyHudActorV1* shown{};
                 } enemy_context{this,self.gameplay_hud.get(),&enemy_projection,
                                 &enemy_player,&enemy_ai,&enemy_character,{},{}};
                 const ui::HudManagerServices enemy_services{&enemy_context,
@@ -4749,6 +4754,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                             else if(request->operation==ui::HudManagerOperation::is_boss)response->value=actor->is_boss;
                             else if(request->operation==ui::HudManagerOperation::level)response->value=actor->level;
                             else response->fraction=actor->hp_fraction;
+                            if(request->operation==ui::HudManagerOperation::hp_fraction)context.shown=actor;
                             return 1;
                         }
                         case ui::HudManagerOperation::string_symbol:
@@ -4794,6 +4800,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     error=enemy_context.error.empty()?"Authored enemy HUD source projection failed":enemy_context.error;
                     throw std::runtime_error(error);
                 }
+                self.gameplay_enemy_follow_identity=enemy_context.shown?enemy_context.shown->identity:0;
                 self.gameplay_hud_state=projection;
                 if(refresh_usable)self.gameplay_hud_usable_refresh.refreshed(now);
                 self.gameplay_hud_projection_warned=false;
@@ -4803,6 +4810,18 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
             if(!self.gameplay_hud||!self.gameplay_hud_bound)
                 throw std::runtime_error("Gameplay HUD renderer owner is not bound");
             require(self.gameplay_hud->display(error),"Gameplay HUD clip display failed without a diagnostic");
+            // DELIBERATE USER-APPROVED DEVIATION: after display() has laid the HUD
+            // out, move HealthBars.enemy so its bounds centre sits on the displayed
+            // target's head point. Runs post-display so parent world matrices are valid.
+            const auto enemy_follow_identity=self.gameplay_enemy_follow_identity;
+            self.gameplay_enemy_follow_identity=0;
+            if(enemy_follow_identity){
+                float head[3]{},view_projection[16]{};int viewport_width=0,viewport_height=0;bool valid=false;
+                require(model_renderer::ui_enemy_target_head_projection(enemy_follow_identity,head,view_projection,
+                            viewport_width,viewport_height,valid,error),"Enemy HUD follow target projection failed without a diagnostic");
+                if(valid)require(self.gameplay_hud->enemy_follow(head,view_projection,viewport_width,viewport_height,error),
+                            "Enemy HUD follow placement failed without a diagnostic");
+            }
             require(self.movie->display_source_clip("_root.HurtCorners",error),
                     "HUD hurt-corner clip display failed without a diagnostic");
             require(self.movie->display_authored_animations(error),

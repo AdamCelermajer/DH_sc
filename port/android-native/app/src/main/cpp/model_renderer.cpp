@@ -34797,6 +34797,27 @@ bool ui_player_hud_projection(std::uintptr_t identity,bool refresh_usable,
  value.infos[15]=prince_combat.properties.resolved[148];
  out=value;error.clear();return true;
 }
+// DELIBERATE USER-APPROVED DEVIATION support for the enemy bar follow: the
+// displayed target's head point (world position with the same +350 Z offset the
+// original InfoHUDManager uses for allies) and the live gameplay camera
+// view-projection. valid=false when no live target or camera frame exists.
+bool ui_enemy_target_head_projection(std::uintptr_t target,float head_world[3],
+        float view_projection[16],int& width,int& height,bool& valid,std::string& error){
+ valid=false;error.clear();
+ if(!target||!source_camera_level_has_frame||source_camera.width<=0||source_camera.height<=0)return true;
+ ObjectActor* actor=nullptr;
+ for(auto& group:object_groups){
+  const auto found=std::find_if(group.instances.begin(),group.instances.end(),
+      [&](const ObjectActor& candidate){return candidate.kind==1&&candidate.identity==target;});
+  if(found!=group.instances.end()){actor=&*found;break;}
+ }
+ if(!actor)return true;
+ head_world[0]=actor->position[0];head_world[1]=actor->position[1];
+ volatile float head_z=actor->position[2]+350.f;head_world[2]=head_z;
+ static_assert(sizeof(source_camera.matrix.elements)==16*sizeof(float));
+ std::memcpy(view_projection,source_camera.matrix.elements,16*sizeof(float));
+ width=source_camera.width;height=source_camera.height;valid=true;return true;
+}
 bool ui_player_enemy_hud_projection(std::uintptr_t identity,
         UiEnemyHudProjectionV1& out,std::string& error){
  std::uintptr_t current=0;if(!ui_player_identity(current,error))return false;

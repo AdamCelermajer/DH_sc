@@ -44,6 +44,12 @@ public:
  bool enemy_frame(std::int32_t,bool,std::string&);
  bool enemy_play(std::string&);
  bool enemy_bar_is_sprite(bool&,std::string&);
+ // DELIBERATE USER-APPROVED DEVIATION: the source HealthBars.enemy group sits at
+ // a fixed HUD position. Here the group follows the displayed target: its
+ // bounds centre is placed on the projected head point (world +350 Z, same
+ // offset InfoHUDManager uses for allies) using the gameplay view-projection.
+ bool enemy_follow(const float head_world[3],const float view_projection[16],
+                   int viewport_width,int viewport_height,std::string&);
  // Screen coordinate conversion uses the movie's retained source viewport.
  // Hit is GameSWF shape traversal, never a manufactured circle/rectangle.
  bool geometry(AuthoredHudControlV1,float screen_x,float screen_y,AuthoredHudGeometryV1&,std::string&);
