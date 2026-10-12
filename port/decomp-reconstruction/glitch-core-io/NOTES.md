@@ -73,6 +73,30 @@
   texture and light. Base getPlane default is normal (0,1,0) with d = -0.0f.
 - `getBBox` default is the box (-1,-1,-1)..(1,1,1); `getLine3d` default is (0,0,0)-(1,1,1).
 
+## Session 3 additions
+- deps types (modelled on Irrlicht 1.8.5): `quaternion`, `triangle3d<T>`, `line2d<T>`,
+  `line3d<T>`, `dimension2d<T>`, `aabbox3d<T>`, `plane3d<T>`, `CMatrix4<T>` (16 values).
+- IAttribute base getters/setters for quaternion, triangle, line2d/2di/3d/3di,
+  dimension2d, bbox, plane are ledgered. Setters for these and for setString(wchar_t)
+  are no-ops in the base, as in the original.
+- CAttributes indexed getters/setters for color, quaternion, box3d, plane3d,
+  triangle3d, line2d, line3d, user pointer, rect, and the wchar string setter.
+  Their vtable slots map to the IAttribute virtuals above. The indexed quaternion
+  default is (0,1,0,0), which differs from the IAttribute default (0,0,0,1).
+- CReadFile / CWriteFile: the original keeps a shared `CFile` (ISharedObject) opened by
+  `CFileSystem::open`. These classes own a `std::FILE*` directly instead, because
+  CFileSystem is not reconstructed. Consequences: full path == name as given; the
+  obfuscation flag from the shared CFile is not read (ctor argument kept).
+  `CReadFile::read` applies the original's first-4-bytes (~pos - i) byte shift.
+- Partial: `getPos` for both (pseudocode drops ftell's result), `CReadFile::openFile`,
+  `CWriteFile::openFile` (mode inferred from the bool), `CWriteFile` ctor (bool unused).
+- Not started: CFileList FileEntry internals (SGI-style string members at +0x10..+0x2c
+  need the glitch string layout first), CLimitReadFile, CZipReader, CPakReader,
+  CFileSystem bodies, CXMLWriter write* functions (need IWriteFile).
+- Group handling in CAttributes (`setGroup`, `getGroupsCount`, `getGroupName`) uses
+  a group object at +0x44 with its own attribute vector at +0x20. Not modelled yet
+  (the header keeps one flat attribute list).
+
 ## Remaining
 - About 1,630 queued functions are still open. Next candidates: CAttributes
   getters for group and stack handling (pop, setGroup), CNumbersAttribute
