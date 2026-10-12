@@ -99,7 +99,8 @@ class CMsgSpawnObject : public CMessage {
 public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 28; }
-    // Original also assigns the type name string at +0x14 (not modelled).
+    // 0x32789c _ZN15CMsgSpawnObject13SetPropertiesEv
+    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
         flag32_ = true;
         includeLocalMember_ = false;
@@ -156,4 +157,11 @@ private:
 class CMsgGlobalDeath : public CMessage {
 public:
     std::uint32_t GetDataSize() const override { return 0; }
+    // 0x327868 _ZN15CMsgGlobalDeath13SetPropertiesEv
+    // Partial: the original also assigns the type name string at +0x14 (not modelled).
+    void SetProperties() {
+        reliable_ = true;
+        sendMode_ = 1;
+        flag32_ = true;
+    }
 };
