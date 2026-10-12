@@ -172,6 +172,34 @@ int main() {
     u.sendUploadUserAvatar(nullptr);
     CHECK(obs.lastCode == 0x47 && obs.lastDetail == -100);
 
+    // sendSetUserMind: 1 to 255 characters; an empty text is refused.
+    u.sendSetUserMind(const_cast<char*>("hi"));
+    CHECK(u.get == "f|110|i|12|u|alice|mind|hi|");
+    const int getsBefore = u.getCount;
+    u.sendSetUserMind(const_cast<char*>(""));
+    CHECK(u.getCount == getsBefore);
+
+    // sendUploadUserAvatar: POST with the "d" key.
+    u.sendUploadUserAvatar(const_cast<char*>("p.png"));
+    CHECK(u.post == "f|71|i|12|u|alice|d|p.png|");
+    CHECK(u.postCount == 2);
+
+    // sendAwardTrophy: ids joined with commas; a count of 1 gives an empty list.
+    std::int32_t ids[] = {3, 4};
+    u.sendAwardTrophy(ids, 2);
+    CHECK(u.get == "f|85|i|12|u|alice|t|3,4|");
+    u.sendAwardTrophy(ids, 1);
+    CHECK(u.get == "f|85|i|12|u|alice|t||");
+    u.sendAwardTrophy(nullptr, 2);
+    CHECK(obs.lastCode == 85 && obs.lastDetail == -100);
+
+    // sendUpdateUserInfo: refused when every field is unset; set fields are appended.
+    const int errorsBefore = obs.errors;
+    u.sendUpdateUserInfo(nullptr, -1, nullptr, nullptr, nullptr, -1, nullptr);
+    CHECK(obs.errors == errorsBefore + 1 && obs.lastCode == 82);
+    u.sendUpdateUserInfo(const_cast<char*>("a@b"), 1, nullptr, nullptr, nullptr, 0, const_cast<char*>("1990"));
+    CHECK(u.get == "f|82|i|12|u|alice|email|a@b|email_flag|1|sex|0|birthday|1990|");
+
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

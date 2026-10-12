@@ -16,6 +16,17 @@
 #include "net-session-online/deps/net_mutex.hpp"
 #include "net-session-online/t_matching_peer.hpp"
 
+// The 40-byte record that SendServerResponse writes and ProcessServerMessage reads
+// (0x28 bytes on the wire; the last three bytes are padding).
+struct RoomServerHeader {
+    CNetworkId listenId;       // +0x00 (28 bytes)
+    std::int32_t memberId;     // +0x1c
+    std::int32_t memberCount;  // +0x20
+    std::uint8_t flag;         // +0x24 (true: remove the server)
+    std::uint8_t reserved[3];  // +0x25 (padding, zeroed)
+};
+static_assert(sizeof(RoomServerHeader) == 40, "RoomServerHeader is the 40-byte wire record");
+
 class CMatchingLocal {
 public:
     // 0x807e44 _ZN14CMatchingLocalC1Ev: sets the counters and empty containers. The original
@@ -46,6 +57,10 @@ public:
     // 0x805998 _ZN14CMatchingLocal26ProcessChangeServerMessageEiR12NetBitStream: reads the
     // 4-byte server id into +0x363c, then posts event 0x80000b carrying it.
     void ProcessChangeServerMessage(std::int32_t from, class NetBitStream& stream);
+
+    // 0x8074a4 _ZN14CMatchingLocal5ResetEv: resets the room state. Not in any slice yet; declared
+    // for the callers in this port. Tests supply a no-op.
+    void Reset();
 
     // Lifecycle (c_matching_local_lifecycle.cpp). Base CMatching calls are not in this port.
     // 0x807c70 _ZN14CMatchingLocal10InitializeEi

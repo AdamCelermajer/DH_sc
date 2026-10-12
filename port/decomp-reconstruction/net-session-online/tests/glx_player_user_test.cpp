@@ -75,6 +75,80 @@ int main() {
 
     u.processUploadAvatar(nullptr);  // empty in the original
 
+    // processUserBestScore and processUserTrophy: plain form, then the "n" form.
+    {
+        GLXPlayerUser u;
+        char plain[] = "42";
+        u.processUserBestScore(plain);
+        CHECK(u.getUserBestScore() == 42);
+        char other[] = "n|bob|77";
+        u.processUserBestScore(other);
+        CHECK(u.getUserBestScore() == 77);
+        CHECK(u.getOtherUserName() != nullptr && std::string(u.getOtherUserName()) == "bob");
+        char trophy[] = "n|bob|12";
+        u.processUserTrophy(trophy);
+        CHECK(u.getUserTrophy() == 12);
+    }
+
+    // processUserReputation: "value,bad,good" after an optional "n" name.
+    {
+        GLXPlayerUser u;
+        char rep[] = "1.5,3,4";
+        u.processUserReputation(rep);
+        CHECK(u.getUserReputation() == 1.5);
+        CHECK(u.getUserBadReputationCount() == 3);
+        CHECK(u.getUserGoodReputationCount() == 4);
+    }
+
+    // processUserGameList: records are pid^name^trophy, one per field.
+    {
+        GLXPlayerUser u;
+        char games[] = "p1^Alpha^5|p2^Beta^9";
+        u.processUserGameList(games);
+        CHECK(u.getNumberUserGameList() == 2);
+        CHECK(std::string(u.getUserGamePID(1)) == "p2");
+        CHECK(std::string(u.getUserGameName(0)) == "Alpha");
+        CHECK(u.getUserGameTrophy(1) == 9);
+    }
+
+    // processUserInformation: 30 fields, with the values set at their odd indices.
+    {
+        GLXPlayerUser u;
+        char info[] = "x|a40|z|alice|z|a@b|z|1|z|NL|z|key|z|upd|z|12|z|Al|z|Smith|z|1|z|1990|z|100|z|7|z|tail";
+        u.processUserInformation(info);
+        CHECK(std::string(u.getUserName()) == "alice");
+        CHECK(std::string(u.getEmail()) == "a@b");
+        CHECK(u.getEmailFlag() == 1);
+        CHECK(std::string(u.getCountry()) == "NL");
+        CHECK(std::string(u.getFirstName()) == "Al");
+        CHECK(std::string(u.getLastName()) == "Smith");
+        CHECK(u.getSex() == 1);
+        CHECK(std::string(u.getBirthday()) == "1990");
+        CHECK(u.getOnlineTime() == 100);
+        CHECK(u.getTotalTrophy() == 7);
+        CHECK(std::string(u.getUserAvatarKey()) == "key");
+        CHECK(std::string(u.getUserAvatarLastUpdate()) == "upd");
+    }
+
+    // processUserAvatarList: key^last-update^status per field.
+    {
+        GLXPlayerUser u;
+        char avatars[] = "k1^u1^3|k2^u2^4";
+        u.processUserAvatarList(avatars);
+        CHECK(std::string(u.getAvatarKey(0)) == "k1");
+        CHECK(std::string(u.getAvatarLastUpdate(1)) == "u2");
+        CHECK(u.getAvatarStatus(1) == 4);
+    }
+
+    // OnUpdateSuccess routes code 81 (user information) and the rest of the codes to the base.
+    {
+        GLXPlayerUser u;
+        char info[] = "x|a40|z|bob";
+        u.OnUpdateSuccess(999);  // default: base only, no field change
+        CHECK(u.getUserName() == nullptr);
+        (void)info;
+    }
+
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;
 }

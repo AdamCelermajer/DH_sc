@@ -1,6 +1,7 @@
 #include "net-session-online/glx_player_http.hpp"
 
 #include <algorithm>
+#include <memory>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
