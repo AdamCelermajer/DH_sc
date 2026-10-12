@@ -16,7 +16,7 @@ class ShopUi {
 public:
     enum class Mode { buy, sell };
     struct Command {
-        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions, select_mode } kind{Kind::none};
+        enum class Kind { none, close, buy, sell, equip, unequip, buy_potions, select_mode, select_navigation } kind{Kind::none};
         std::string instance_id;
         unsigned slot{};
         Mode mode{Mode::buy}; // target for select_mode; caller plays the authored cue before set_mode

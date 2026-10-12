@@ -5828,7 +5828,7 @@ int main(int argc,char** argv) {
                 if(!combatSession->set_actor_original_state(id,0,e)){e="Checkpoint Character::SM_SetLimbusState: "+e;return false;}
             {std::string containerError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerError)){e="Checkpoint container restore: "+containerError;return false;}}
             rebuildNativeBodies();
-            for(const auto id:deathRestore.initialize_physical_after_rebind) {
+            if(restored)for(const auto id:deathRestore.initialize_physical_after_rebind) {
                 auto* actor=combatSession->actor(id);
                 const auto* body=nativeBodies.physical(id);
                 if(!actor||!body) {e="Character::Deserialize InitPhysicalObject actor/body binding is unavailable: "+std::to_string(id);return false;}
@@ -6204,7 +6204,8 @@ int main(int argc,char** argv) {
             if(drawn==options.pauseCloseFrame)semanticInput.key(VK_ESCAPE,false);
             if(std::find(options.campaignSkipFrames.begin(),options.campaignSkipFrames.end(),int(drawn))!=options.campaignSkipFrames.end()) { campaignHost.press_skip(); std::cout<<"Scripted SKIP press frame="<<drawn<<'\n'; } // P16 CINE (verification input)
             if(uiInput.menu_back){
-                if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                if(equipmentActionConfirmation.visible()){equipmentActionConfirmation.cancel();equipmentConfirmationText.clear();++equipmentSourceVisitEpoch;std::cout<<"Equipment confirmation dismissed frame="<<drawn<<" via Escape\n";}
+                else if(statConfirmOpen){statConfirmOpen=false;std::cout<<"Stats confirmation dismissed frame="<<drawn<<" via Escape\n";}
                 else if(merchantOpen&&merchantUi&&merchantUi->confirmation_visible())merchantUi->cancel_confirmation();
                 else if(merchantOpen&&merchantUi&&merchantUi->error_visible())merchantUi->dismiss_error();
                 else if(characterMenu.is_open()){escapeClosedMenu=characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});}
@@ -6212,7 +6213,7 @@ int main(int argc,char** argv) {
                 else if(pauseMenuOpen){pauseMenuOpen=false;std::cout<<"Pause menu resumed frame="<<drawn<<" via Escape\n";}
             }
             if(uiInput.pause_pressed&&options.hud&&combatSession){pauseMenuOpen=true;pauseConfirmation=false;std::cout<<"Pause menu opened frame="<<drawn<<" via source HUD/Escape\n";}
-            if(uiInput.profile_pressed&&options.hud&&combatSession){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())(void)characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});else{characterMenu.open();playMenuUiCue("MenuTab");statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
+            if(uiInput.profile_pressed&&options.hud&&combatSession&&!equipmentActionConfirmation.visible()){pauseMenuOpen=false;pauseConfirmation=false;if(characterMenu.is_open())(void)characterMenu.close_with_before([&]{playMenuUiCue("MenuBack");});else{characterMenu.open();playMenuUiCue("MenuTab");statTrainingVisit->open_visit();++menuOpened;std::cout<<"Character menu opened frame="<<drawn<<" via profile input\n";}}
             if((options.testStatPoints>0||options.testSkillPoints>0)&&drawn==60&&combatSession) { // B103 TEST ONLY: --test-stat-points N grants N stat points through the profile projection (never in packaged args)
                 const auto* testSheet=combatSession->world()->combat_properties(combatSession->player_id());const auto* testTraits=combatSession->world()->traits(combatSession->player_id());
                 std::string testError;f::OriginalCombatProperties projected;
@@ -6307,6 +6308,59 @@ int main(int argc,char** argv) {
             }
             bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
+                if(equipmentActionConfirmation.visible()) {
+                    const float x=click.position.x*480.f/window.width(),y=click.position.y*320.f/window.height();
+                    const auto& hits=f::merchant::merchant_art().confirm_hits;
+                    const auto contains=[&](const std::vector<float>& points) {
+                        if(points.size()<6||points.size()%6)return false;
+                        for(std::size_t i=0;i+5<points.size();i+=6) {
+                            const auto cross=[](float ax,float ay,float bx,float by,float px,float py){return (px-ax)*(by-ay)-(py-ay)*(bx-ax);};
+                            const float a=cross(points[i],points[i+1],points[i+2],points[i+3],x,y);
+                            const float b=cross(points[i+2],points[i+3],points[i+4],points[i+5],x,y);
+                            const float c=cross(points[i+4],points[i+5],points[i],points[i+1],x,y);
+                            if((a>=0&&b>=0&&c>=0)||(a<=0&&b<=0&&c<=0))return true;
+                        }
+                        return false;
+                    };
+                    const auto button=contains(hits[0])?f::equipment_menu::confirmation_v1::Button::yes:
+                        contains(hits[1])?f::equipment_menu::confirmation_v1::Button::no:f::equipment_menu::confirmation_v1::Button::other;
+                    const auto released=equipmentActionConfirmation.release(button,*sharedCharacter,equipmentSourceVisitEpoch,
+                        [&](const auto& request,const auto& current,std::string& checkError) {
+                            const auto& admitted=request.admitted_item;
+                            if(current.instance_id!=admitted.instance_id||current.definition_id!=admitted.definition_id||current.quantity!=admitted.quantity||current.source.has_value()!=admitted.source.has_value()) {
+                                checkError="Confirmed item identity or source payload changed";return false;
+                            }
+                            if(current.source&&(current.source->value!=admitted.source->value||current.source->identified!=admitted.source->identified||current.source->power_names!=admitted.source->power_names)) {
+                                checkError="Confirmed item metadata changed";return false;
+                            }
+                            if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
+                                std::int32_t amount=0;
+                                if(!equipmentTransmuteAmount||!equipmentTransmuteAmount(current,amount,checkError)||amount!=request.transmute_value) {
+                                    if(checkError.empty())checkError="Confirmed transmute value changed";
+                                    return false;
+                                }
+                            }
+                            checkError.clear();return true;
+                        },error);
+                    if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::confirmed) {
+                        const auto& request=released.request;bool done=false;
+                        if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
+                            done=f::equipment_menu::transmute_inventory_item(*sharedCharacter,request.instance_id,request.transmute_value,error);
+                            playMenuUiCue("PickupGold");
+                            if(done&&!f::save_character(options.save,state,error))throw std::runtime_error("Equipment transmute save: "+error);
+                        } else {
+                            const auto* dropper=combatSession?combatSession->actor(combatSession->player_id()):nullptr;
+                            if(worldItems&&dropper) {f::loot::RuntimeWorldItemIdV1 published=f::loot::invalid_runtime_world_item_v1;
+                                done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,request.instance_id,1,
+                                    {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),published,error);
+                            } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,request.instance_id,error);
+                            playMenuUiCue("MenuConfirm");
+                        }
+                        if(!done)std::cerr<<"Equipment confirmed action diagnostic: "<<error<<" instance="<<request.instance_id<<'\n';
+                        else if(runtimeEquipmentPage&&!runtimeEquipmentPage->reselect_details_near(equipmentConfirmListIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
+                    } else if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::rejected&&!error.empty())std::cerr<<"Equipment confirmation rejected: "<<error<<'\n';
+                    equipmentConfirmationText.clear();continue;
+                }
                 if(merchantOpen&&merchantUi) {
                     if(merchantSuppressRelease)continue;
                     const bool merchantConfirmWasVisible=merchantUi->confirmation_visible();
@@ -6327,6 +6381,7 @@ int main(int argc,char** argv) {
                         if(!merchantUi->set_mode(cmd.mode,error))throw std::runtime_error("Merchant mode selection: "+error);
                         continue;
                     }
+                    if(cmd.kind==Kind::select_navigation) {playMenuUiCue("MenuSelect");continue;}
                     if(cmd.kind==Kind::close){std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuBack",cueError):f::audio::NamedUiCueResultV1{};
                         std::cout<<"Merchant sound name=MenuBack ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token<<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
                         if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
@@ -6412,32 +6467,21 @@ int main(int argc,char** argv) {
                                     std::cerr<<"Equipment AutoEquip diagnostic: "<<error<<'\n';
                                 else std::cout<<"Equipment AutoEquip ALL -> "<<f::equipment_menu::describe_equipment(*sharedCharacter)<<'\n';
                             } else if(pending.command==f::equipment_menu::MainPageCommand::request_transmute||pending.command==f::equipment_menu::MainPageCommand::request_drop) {
-                                // P14 EQUIP: NativeInvTransmuteItem / NativeInvDropItem on the selected Details row. The original asks menu_confirm2
-                                // first (GAMEPLAYMENUS_TRANSMUTE_QUESTION / _DROP_QUESTION); that confirmation popup is not ported yet (EQUIP report).
                                 const bool transmute=pending.command==f::equipment_menu::MainPageCommand::request_transmute;
-                                const auto listIndex=runtimeEquipmentPage->details_selected_index();
-                                const auto goldBefore=sharedCharacter->gold;
                                 const auto ownedAt=std::find_if(sharedCharacter->inventory.begin(),sharedCharacter->inventory.end(),[&](const f::InventoryItem& item){return item.instance_id==pending.selected_instance_id;});
-                                const std::string definition=ownedAt==sharedCharacter->inventory.end()?std::string("?"):ownedAt->definition_id;
-                                bool done=false;std::int32_t amount=0;
-                                if(ownedAt==sharedCharacter->inventory.end())error="Selected item is not owned";
-                                else if(transmute) {
-                                    done=equipmentTransmuteAmount&&equipmentTransmuteAmount(*ownedAt,amount,error)&&
-                                        f::equipment_menu::transmute_inventory_item(*sharedCharacter,pending.selected_instance_id,amount,error);
-                                    if(!equipmentTransmuteAmount&&error.empty())error="Transmute value owner is unavailable";
-                                } else if(worldItems&&combatSession&&combatSession->actor(combatSession->player_id())) {
-                                    // Integration (P14 EQUIP + DROPS): the real world-item store publishes the dropped unit at the player.
-                                    const auto* dropper=combatSession->actor(combatSession->player_id());
-                                    f::loot::RuntimeWorldItemIdV1 publishedDrop=f::loot::invalid_runtime_world_item_v1;
-                                    done=f::loot::drop_item_to_world(*worldItems,*sharedCharacter,pending.selected_instance_id,1,
-                                        {dropper->transform.position[0],dropper->transform.position[1],dropper->transform.position[2]},combatSession->player_id(),publishedDrop,error);
-                                } else done=f::equipment_menu::drop_inventory_item(*sharedCharacter,pending.selected_instance_id,error);
-                                if(!done)std::cerr<<(transmute?"Equipment Transmute diagnostic: ":"Equipment Drop diagnostic: ")<<error<<" instance="<<pending.selected_instance_id<<'\n';
-                                else {
-                                    if(transmute)std::cout<<"Equipment Transmute instance="<<pending.selected_instance_id<<" item="<<definition<<" gold "<<goldBefore<<" -> "<<sharedCharacter->gold<<" amount="<<amount<<'\n';
-                                    else std::cout<<"Equipment Drop instance="<<pending.selected_instance_id<<" item="<<definition<<" -> world item"<<'\n';
-                                    if(!runtimeEquipmentPage->reselect_details_near(listIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
-                                }
+                                if(ownedAt==sharedCharacter->inventory.end())throw std::runtime_error("Selected item is no longer owned");
+                                std::int32_t amount=0;
+                                if(transmute&&(!equipmentTransmuteAmount||!equipmentTransmuteAmount(*ownedAt,amount,error)))throw std::runtime_error(error.empty()?"Transmute value owner is unavailable":error);
+                                const std::string symbol=transmute?"GAMEPLAYMENUS_TRANSMUTE_QUESTION":"GAMEPLAYMENUS_DROP_QUESTION";
+                                std::string itemName;if(!itemDisplayName(*ownedAt,itemName,error))throw std::runtime_error("Equipment confirmation item name: "+error);
+                                dh2::ui::HudTextV1* promptText=nullptr;dh2::ui::HudTextEnvironmentV1 promptEnv;
+                                if(!menuLocalization.bind_profile(&state,error)||!menuLocalization.borrow_text(promptText,promptEnv,error)||!promptText)throw std::runtime_error("Equipment confirmation text owner: "+error);
+                                const std::vector<dh2::ui::LocalizationArgumentV1> args{{0.f,true,itemName},{0.f,true,transmute?std::to_string(amount):std::string()}};
+                                if(!promptText->parsed_string_v4(symbol,args,promptEnv,equipmentConfirmationText,error))throw std::runtime_error("Equipment confirmation prompt: "+error);
+                                equipmentConfirmListIndex=runtimeEquipmentPage->details_selected_index();
+                                if(!equipmentActionConfirmation.open(transmute?f::equipment_menu::confirmation_v1::Action::transmute:f::equipment_menu::confirmation_v1::Action::drop,
+                                    *ownedAt,pending.source_slot,amount,equipmentSourceVisitEpoch,error))throw std::runtime_error("Equipment confirmation open: "+error);
+                                playMenuUiCue(transmute?"MenuSelect":"MenuConfirm");
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;
@@ -8776,6 +8820,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 }
                 // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
                 if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
+                if(characterMenu.is_open()&&equipmentActionConfirmation.visible())drawPauseArt(pauseConfirmArt,true,nullptr,&equipmentConfirmationText);
                 // I024 DEATH: the source sprite742 death screen or sprite743 fade draws after the HUD and above the menus.
                 if(deathHost.modal()) {
                     std::string deathDrawError;

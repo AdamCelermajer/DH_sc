@@ -139,12 +139,15 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
     }
     inventory::DetailAction action{};
     if (!pane().details->release(x, y, action, error)) return command;
+    const unsigned previous_slot=slot_;
     if(action==inventory::DetailAction::equip&&mode_==Mode::sell&&slot_<9){command.kind=Command::Kind::equip;command.instance_id=selected_instance(error);command.slot=slot_;}
     if(action==inventory::DetailAction::unequip&&slot_<9){command.kind=Command::Kind::unequip;command.slot=slot_;}
     if (action == inventory::DetailAction::slot || action == inventory::DetailAction::previous || action == inventory::DetailAction::next)
         slot_ = pane().selection->selected_slot();
     // Keep both lists on the same category (the slot rail and arrows act on the visible one).
     if (slot_ <= 9) { Pane& other = mode_ == Mode::buy ? *sell_ : *buy_; if (other.selection->selected_slot() != slot_) other.details->open(slot_, error); }
+    if((action==inventory::DetailAction::previous||action==inventory::DetailAction::next)&&slot_!=previous_slot)
+        command.kind=Command::Kind::select_navigation;
     return command;
 }
 bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::string& error) const {
