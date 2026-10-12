@@ -14,6 +14,38 @@ CMatching& Matching() { return *CMatching::Get(); }
 // is not modelled here.
 CMessage::~CMessage() = default;
 
+// 0x80a61c _ZN8CMessageC1EPKcb (C2 0x80a540 is the same body; skipped).
+// Partial. Hex-Rays stores the serial (when requested) at +0x04 and the type id byte at
+// +0x10 (the port's Header names +0x10 "reserved"). Sender is the local member, lifetime
+// is the online clock (GetOnline()+0x28). The type-name string at +0x14 is not modelled.
+// The name argument is only used to look up the type id, as in the original.
+CMessage::CMessage(const char* typeName, bool withSerial) {
+    header_ = Header{};
+    header_.reserved = static_cast<std::uint32_t>(FindTypeId(typeName)) & 0xffu;  // +0x10 byte
+    header_.sender = Matching().LocalMemberId();                                  // +0x0c
+    header_.type = withSerial ? messageSerial_++ : 0;                             // +0x04
+    lifetime_ = static_cast<std::uint32_t>(OnlineNowMs());                        // +0x4c
+    SetDefaultProperties();
+}
+
+// 0x80a33c _ZN8CMessage20SetDefaultPropertiesEv
+// Partial: the type-name fill of the string at +0x14 is not modelled. Flags as decompiled.
+void CMessage::SetDefaultProperties() {
+    trackSent_ = 100;        // +0x38
+    timestamp_ = 0;          // +0x34
+    sendMode_ = 0;           // +0x2c
+    includeLocalMember_ = true;  // +0x33
+    reliable_ = true;        // +0x30
+    local_ = false;          // +0x31
+    flag32_ = false;         // +0x32
+}
+
+// 0x80a6f8 _ZN8CMessage22CompareMsgSendPriorityEPS_S0_
+// Reconstructed. The third argument of the Hex-Rays signature is unused.
+bool CMessage::CompareMsgSendPriority(const CMessage* a, const CMessage* b) {
+    return a->trackSent_ < b->trackSent_;
+}
+
 // 0x31d8d0 _ZN8CMessage10GetDataPtrEv
 void* CMessage::GetDataPtr() { return nullptr; }
 

@@ -7,9 +7,12 @@ CSignInCredentials::CSignInCredentials(char* name, char* password, void* context
 // 0x81a9d4 _ZN18CSignInCredentialsD2Ev (D1 is 0x81a9d8, same empty body)
 CSignInCredentials::~CSignInCredentials() {}
 
-// The D1/D2 bodies of CSignIn (0x81a7b4, 0x81a8b4) are queued; the default dtor is used
-// until they are rebuilt.
-CSignIn::~CSignIn() = default;
+// 0x81a7b4 _ZN7CSignInD1Ev
+// Reconstructed: the original replaces the credentials with an empty set, then clears the
+// event list and destroys the mutex. The last two are the member destructors here.
+CSignIn::~CSignIn() {
+    credentials_ = CSignInCredentials(nullptr, nullptr, nullptr);
+}
 
 CSignIn*& CSignIn::Instance() {
     static CSignIn* instance = nullptr;  // stands in for s_SignIn
@@ -80,6 +83,6 @@ std::int32_t CSignInDummy::SignIn(CSignInCredentials& /*credentials*/) { return 
 void CSignInDummy::SignOut() {}
 
 // 0x81a954 _ZN12CSignInDummyD1Ev
-// Partial: the original calls the base dtor CSignIn::~CSignIn (0x81a7b4, queued), which
-// is replaced by the default dtor here. The vptr store is done by the compiler.
+// Reconstructed. The original stores the vptr and calls the base dtor CSignIn::~CSignIn;
+// the compiler does both here.
 CSignInDummy::~CSignInDummy() = default;
