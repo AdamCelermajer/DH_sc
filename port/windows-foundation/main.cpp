@@ -2297,6 +2297,7 @@ int main(int argc,char** argv) {
             return path;
         };
         f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
+        std::function<bool(f::PlayableActorWorld&,std::string&)> persistCampaignLifecycleForCheckpoint; // B142: bound once the campaign host exists
         std::array<float,3> activeSourceCheckpointKey{};
         bool sourceCheckpointKeyLoaded=false;
         f::persistence::death_flow::DeathCheckpointLevelStartStateV1 levelStartCheckpoint;
@@ -2334,6 +2335,7 @@ int main(int argc,char** argv) {
                 f::doors::DoorRuntimeV1* doors{};
                 f::CharacterState* character{};
                 f::quest_runtime::QuestRuntimeV1** quests{};
+                std::function<bool(f::PlayableActorWorld&,std::string&)>* persist_lifecycle{};
                 fs::path level_world_path;
                 fs::path checkpoint_path;
                 std::string level_uri;
@@ -2342,7 +2344,7 @@ int main(int argc,char** argv) {
             Context context;
             context.session=combatSession.get();context.population=&population;
             context.containers=&containerRuntime;context.doors=&doorRuntime;
-            context.character=&state;context.quests=&questRuntimeForCheckpoint;
+            context.character=&state;context.quests=&questRuntimeForCheckpoint;context.persist_lifecycle=&persistCampaignLifecycleForCheckpoint;
             context.level_world_path=f::transitions::level_world_path(options.save,options.level.generic_string());
             context.checkpoint_path=deathCheckpointPath();context.level_uri=options.level.generic_string();
             const auto find_definition=[](Context& c,std::uint64_t id)->const f::ActorDefinition* {
@@ -2370,6 +2372,8 @@ int main(int argc,char** argv) {
             };
             services.capture_current_game_save=[](void* raw,f::GameSave& out,std::string& e) {
                 auto& c=*static_cast<Context*>(raw);
+                // B142: the checkpoint's Trigger records (activation counts) are the campaign lifecycle component; serialize it first.
+                if(c.persist_lifecycle&&*c.persist_lifecycle&&!(*c.persist_lifecycle)(*c.session->world(),e))return false;
                 return f::capture_game_save(c.level_uri,c.session->player_id(),*c.character,*c.session->world(),out,e,true);
             };
             services.capture_services.context=&context;
@@ -2407,9 +2411,11 @@ int main(int argc,char** argv) {
                 auto& c=*static_cast<Context*>(raw);const f::ActorDefinition* definition=nullptr;
                 for(const auto& item:c.population->definitions())if(item.stableId==id){definition=&item;break;}
                 if(!definition){
-                    // campaign.lifecycle is the port's host-owned script-lifecycle record, not a source GameObject: LevelSavegame's
-                    // OBJS writer has no entry for it, so it is outside the checkpoint subset (ineligible) and is never restored.
+                    // campaign.lifecycle is the port's host-owned record of the Trigger objects' state (activation counts, Trigger::Serialize
+                    // 0x398978). Trigger constructors set byte+40=1 (0x398f44), so those records are checkpoint-eligible (B142); no authored
+                    // trigger of the shipped levels sets skip_checkpoint. Any other host-owned campaign object stays outside the subset.
                     const auto* live=c.session->world()->find_object(id);
+                    if(live&&f::campaign_host::CampaignHost::is_lifecycle_object(*live)){family=SourceCheckpointObjectFamilyV1::native_trigger;skip=false;e.clear();return true;}
                     if(live&&live->name.rfind("campaign.",0)==0){family=SourceCheckpointObjectFamilyV1::object_base;skip=false;e.clear();return true;}
                     e="Saved world object has no current authored declaration id="+std::to_string(id)+" name="+(live?live->name:std::string("?"));
                     return false;
@@ -3695,7 +3701,7 @@ int main(int argc,char** argv) {
             if(!combatSession)throw std::runtime_error("--campaign-triggers requires the live combat session");
             if(!campaignHost.bind_executor(sourceCampaign,campaignWorld,error))throw std::runtime_error("Campaign host: "+error);
             // D3 (OPENING3): campaign lifecycle component on a neutral object (save component mechanism).
-            if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);}
+            if(options.campaignTriggers){std::string lifecycleBindError;if(!campaignHost.bind_lifecycle_object(*combatSession->world(),lifecycleBindError))throw std::runtime_error("Campaign lifecycle object: "+lifecycleBindError);combatSession->set_lifecycle_serialized_by_host(true);persistCampaignLifecycleForCheckpoint=[&](f::PlayableActorWorld& world,std::string& e){return campaignHost.persist_lifecycle(world,e);};}
             // P16 OPENING4: scene objects named by the campaign scripts (kind 19) get their visuals at the authored transform.
             {std::vector<std::string> sceneNotices,sceneNames;for(const auto& request:f::campaign_host::collect_scene_object_clip_requests(sourceCampaign))sceneNames.push_back(request.object);
              if(!sceneDecor.adopt(assets,population.definitions(),sceneNames,sceneNotices,error))throw std::runtime_error("Scene objects: "+error);
@@ -5929,6 +5935,10 @@ int main(int argc,char** argv) {
             // ordinary saved-alive branch when +732 is null. Queue only that
             // branch here; the body factory runs after Session rebind.
             std::vector<f::ActorId> initialize_physical_after_rebind;
+            // B142: the authored Limbus/PreSpawn lifecycle actors (the only ones with a ported PreSpawn owner) and the live Characters
+            // this restore returns to PreSpawn17 (Character::Deserialize SM_SetPreSpawnState, with the live state it replaces).
+            std::set<f::ActorId> pre_spawn_baseline;
+            std::vector<std::pair<f::ActorId,std::int32_t>> pre_spawn_after_rebind;
         } deathRestore;
         struct DeathProfileCountsV1 { std::size_t inventory=0,equipment=0; std::uint64_t xp=0,gold=0; } deathProfileBefore;
         deathRestore.bodies=&nativeBodies;
@@ -6006,7 +6016,20 @@ int main(int argc,char** argv) {
                     restore.initialize_physical_after_rebind.push_back(actor.id);
                     break;
                 case Op::set_limbus_if_not_already: restore.limbus_after_rebind.push_back(actor.id); break;
-                case Op::set_pre_spawn_if_not_already: e="Source PreSpawn owner is not ported (saved CS state "+std::to_string(plan.saved_state)+")";return false;
+                case Op::set_pre_spawn_if_not_already:
+                    // B142: Character::Deserialize 0x3a6210 -> SM_SetPreSpawnState for a saved Spawn1/PreSpawn17 Character that is live in another
+                    // state (a Chief that has spawned since the checkpoint). Only the authored Limbus/PreSpawn lifecycle actors have a ported
+                    // PreSpawn owner; any other actor still refuses explicitly. The saved data makes the actor alive at its saved
+                    // transform without a physical body (CSPreSpawn::OnFocus SetPhysicalObject(null)); the AI is reset (AI_ScriptCleanUp/Init).
+                    // The Focus effects run after the Session rebind through the lifecycle owner.
+                    if(restore.pre_spawn_baseline.count(actor.id)==0) {
+                        e="Source PreSpawn owner is not ported for an actor outside the authored Limbus/PreSpawn lifecycle (saved CS state "+std::to_string(plan.saved_state)+")";
+                        return false;
+                    }
+                    actor.source_physical_present=false;
+                    actor.action=f::CharacterAction::idle;actor.action_elapsed_seconds=0.f;
+                    restore.pre_spawn_after_rebind.emplace_back(actor.id,restore.session?restore.session->original_actor_state(actor.id):-1);
+                    break;
                 }
             }
             e.clear();return true;
@@ -6043,6 +6066,8 @@ int main(int argc,char** argv) {
             deathRestore.snapshot=snapshot;deathRestore.loaded=true;deathRestore.world=combatSession->world();deathRestore.session=combatSession.get();
             deathRestore.limbus_after_rebind.clear();
             deathRestore.initialize_physical_after_rebind.clear();
+            deathRestore.pre_spawn_after_rebind.clear();deathRestore.pre_spawn_baseline.clear();
+            for(const auto id:actorLifecycle.pre_spawn_baseline_ids())deathRestore.pre_spawn_baseline.insert(id);
             f::persistence::death_flow::DeathCheckpointRestoreServicesV1 services;
             services.context=&deathRestore;services.current_source_states=deathCurrentStates;
             services.initialize_source_qest=deathInitializeQest;services.apply_source_state=deathApplyState;
@@ -6093,7 +6118,28 @@ int main(int argc,char** argv) {
                 std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted
                          <<" receipt="<<(snapshot.version==2?"captured-v2":"authenticated-legacy-v1")<<" frame="<<drawn<<'\n';
             }
+            // B142: SM_SetPreSpawnState for the Characters whose saved state 1/17 replaced a spawned/Idle/Limbus live state (after admission).
+            if(restored)for(const auto& pending:deathRestore.pre_spawn_after_rebind) {
+                const auto id=pending.first;const auto previousState=pending.second;
+                auto* actor=combatSession->actor(id);
+                const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+                if(!actor||placed==population.actors().end()) {e="Checkpoint Character::SM_SetPreSpawnState actor/population binding is unavailable: "+std::to_string(id);return false;}
+                if(!actorLifecycle.enter_restored_pre_spawn(id,*actor,placed->enabled,previousState,e)) {
+                    e="Checkpoint Character::SM_SetPreSpawnState actor="+std::to_string(id)+": "+e;return false;
+                }
+                std::cout<<"Source restore SetPreSpawnState actor="<<id<<" name="<<placed->definition.name<<" previousState="<<previousState
+                         <<" enabled="<<placed->enabled<<" session_state="<<combatSession->original_actor_state(id)<<" frame="<<drawn<<'\n';
+            }
             if(restored&&!restoreLifecyclePreSpawn(e)) {e="Checkpoint lifecycle PreSpawn restore: "+e;return false;} // B141: after the captured population admission
+            // B142: Trigger::Deserialize 0x39890c restores each checkpointed Trigger's activation count (+948) with the OBJS records. The port keeps
+            // those counts (and the zone edge state) in the campaign lifecycle object; a checkpoint written before it was captured carries none,
+            // so the live counts stay (no trigger state is invented for it).
+            if(restored&&options.campaignTriggers) {
+                const bool recorded=std::any_of(snapshot.objects.begin(),snapshot.objects.end(),[](const auto& object){return f::campaign_host::CampaignHost::is_lifecycle_object(object);});
+                std::string triggerError;
+                if(recorded&&!campaignHost.restore_lifecycle(*combatSession->world(),triggerError)) {e="Checkpoint campaign trigger restore: "+triggerError;return false;}
+                std::cout<<"Death checkpoint trigger state "<<(recorded?"restored":"not recorded (older checkpoint), live counts kept")<<" frame="<<drawn<<'\n';
+            }
             initializeSourceNavigation();
             initializeSourceTargetNodes();
             bindCombatText();

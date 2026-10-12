@@ -55,6 +55,37 @@ int main(){try{
   check(restored.restore_pre_spawn(77,third,true,e),e);check(restored.status(77)->enabled,"Second restore keeps the baseline and takes the current enable fact");
   restored.clear();check(restored.pre_spawn_baseline_ids().empty()&&!restored.status(77),"clear() is the full reset");
  }
+ // B142: a death-checkpoint reload restores saved state 17 over a Character that has since spawned (Character::Deserialize ->
+ // SM_SetPreSpawnState). Only the CSPreSpawn Focus effects run (no old-state Blur: the restored data replaced what it undoes), the record
+ // lands at PreSpawn17 with the previous state in the notification, and a later Script_SpawnCharacter works again (repeat death).
+ {OriginalActorLifecycle death;ActorState first,plain,spawned;first.id=91;plain.id=92;spawned.id=91;
+  ActorState* expected=&first;std::vector<OriginalLifecycleRequest> log;bool failRemove=false;OriginalLifecycleServices s3;
+  s3.floor_height=[](std::array<float,3>,bool&found,float&,std::string&){found=false;return true;};
+  s3.invoke=[&](const OriginalLifecycleRequest&q,std::string&err){check(q.actor==expected,"Lifecycle must act on the restored actor");
+      if(failRemove&&q.operation==OriginalLifecycleOperation::remove_physical){err="body owner refused";return false;}log.push_back(q);return true;};
+  death.bind(s3);
+  OriginalLifecycleFacts idleFacts;idleFacts.initial_transform=facts.initial_transform;idleFacts.initially_enabled=true;
+  check(death.add(first,facts,e),e);expected=&plain;check(death.add(plain,idleFacts,e),e);expected=&first;
+  check(death.spawn(91,e)&&death.put_idle(91,e)&&death.status(91)->state==3,"Chief-like actor reaches Idle3 before the death: "+e);
+  death.detach_for_restore();expected=&spawned;log.clear();
+  check(!death.enter_restored_pre_spawn(92,plain,true,3,e),"An Idle-preset actor has no PreSpawn baseline");
+  check(log.empty()&&!death.status(92),"A refused actor must not run effects or register");
+  failRemove=true;check(!death.enter_restored_pre_spawn(91,spawned,true,3,e)&&!death.status(91),"A failed Focus effect must not leave a PreSpawn record");
+  failRemove=false;log.clear();
+  check(death.enter_restored_pre_spawn(91,spawned,true,3,e),e);
+  check(!log.empty()&&log.front().operation==OriginalLifecycleOperation::set_flags&&log.front().flags==0x1300,"Restore runs the PreSpawn Focus first, no old-state Blur");
+  bool blur=false,removed=false,collisionsOff=false,animation=false;for(const auto&q:log){
+      blur|=q.operation==OriginalLifecycleOperation::revive||q.operation==OriginalLifecycleOperation::init_physical||q.operation==OriginalLifecycleOperation::clear_idle_suppressed||q.operation==OriginalLifecycleOperation::restore_initial_position;
+      removed|=q.operation==OriginalLifecycleOperation::remove_physical;animation|=q.operation==OriginalLifecycleOperation::select_state_animation;
+      collisionsOff|=q.operation==OriginalLifecycleOperation::set_collisions_enabled&&!q.collisions_enabled;}
+  check(!blur&&removed&&collisionsOff&&animation,"Focus(17) removes the body, disables collisions and selects the PreSpawn pose without Blur effects");
+  check(log.back().operation==OriginalLifecycleOperation::notify_state_changed&&log.back().previous_state==3&&log.back().state==17,"State notification carries the replaced live state");
+  check(death.status(91)->state==17&&death.status(91)->flags==0x1300&&!death.combat_enabled(91),"Restored actor is PreSpawn17 and not combat-ready");
+  check(!death.enter_restored_pre_spawn(91,spawned,true,3,e),"A second registration for the same actor must be refused");
+  check(death.spawn(91,e)&&death.status(91)->state==1,"The scene can spawn the restored actor again");
+  check(death.put_idle(91,e),e);death.detach_for_restore();ActorState again;again.id=91;expected=&again;
+  check(death.enter_restored_pre_spawn(91,again,true,3,e)&&death.status(91)->state==17,"A repeated death restores the same actor to PreSpawn17 again");
+ }
  lifecycle.clear();check(!lifecycle.status(actor.id),"Restore detach must clear lifecycle references");
  ActorState missing;missing.id=2;OriginalLifecycleFacts bad=facts;bad.pre_spawn_has_animation.reset();check(!lifecycle.add(missing,bad,e),"Unbound source PreSpawn fact accepted");
  std::cout<<"Original lifecycle tests passed preset0->state17->Spawn1->Idle3 sameActor=true sourceFlags=true\n";

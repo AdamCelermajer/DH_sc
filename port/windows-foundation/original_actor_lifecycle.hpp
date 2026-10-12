@@ -67,12 +67,17 @@ public:
     // SM_SetPreSpawnState. The restored actor already carries that state's effects (no physical body, collisions off), so this
     // only registers the record at PreSpawn17; it replays none of the transition effects. Requires a kept baseline and no record.
     bool restore_pre_spawn(ActorId,ActorState&,bool enabled,std::string& error);
+    // B142: SM_SetPreSpawnState on a live Character after a death-checkpoint reload restored saved state 1/17 over a spawned/Idle/Limbus
+    // actor. Runs only the PreSpawn Focus effects (the restored data already replaced what the old state's Blur would undo) and
+    // registers the record at 17. Requires a kept baseline and no record; a failed effect leaves no record.
+    bool enter_restored_pre_spawn(ActorId,ActorState&,bool enabled,int previous_state,std::string& error);
 private:
     struct Record { ActorState* actor=nullptr;OriginalLifecycleFacts facts;OriginalLifecycleStatus status; };
     std::map<ActorId,Record> records_;
     std::map<ActorId,OriginalLifecycleFacts> pre_spawn_baseline_;
     OriginalLifecycleServices services_;
     bool change(Record&,int target,std::string&);
+    bool focus(Record&,int target,int previous,bool carried_interactive,std::string&);
     bool call(Record&,OriginalLifecycleOperation,int previous,std::string&);
 };
 }
