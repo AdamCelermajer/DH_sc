@@ -1,0 +1,514 @@
+{
+  "source_layout": "data/scene/038_dark_temple.mlx",
+  "selected_characters": 7,
+  "source_character_records": 62,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster",
+      "character": "DT_DarkGuardianXL",
+      "model": "darkguardian.bdae",
+      "model_path": "data/3d/characters/darkguardian/darkguardian.bdae",
+      "animation_table": 13,
+      "position": [
+        258.57000000000016,
+        23558.057,
+        881.992
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster01_001",
+      "character": "DT_DarkGuardianXL",
+      "model": "darkguardian.bdae",
+      "model_path": "data/3d/characters/darkguardian/darkguardian.bdae",
+      "animation_table": 13,
+      "position": [
+        -108.32999999999993,
+        22442.14,
+        962.654
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster04",
+      "character": "DT_Cherub",
+      "model": "child_darkwoods.bdae",
+      "model_path": "data/3d/characters/statue/child_darkwoods.bdae",
+      "animation_table": 8,
+      "position": [
+        38.61999999999989,
+        21217.39,
+        1001.06
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 11
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster02",
+      "character": "DT_Cherub",
+      "model": "child_darkwoods.bdae",
+      "model_path": "data/3d/characters/statue/child_darkwoods.bdae",
+      "animation_table": 8,
+      "position": [
+        -557.6199999999999,
+        21079.93,
+        1001.06
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 12
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster03",
+      "character": "DT_Cherub",
+      "model": "child_darkwoods.bdae",
+      "model_path": "data/3d/characters/statue/child_darkwoods.bdae",
+      "animation_table": 8,
+      "position": [
+        -620.0699999999997,
+        20753.39,
+        1001.06
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 13
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster05_001",
+      "character": "DT_SkydevilXL",
+      "model": "skydevil.bdae",
+      "model_path": "data/3d/characters/lizardman/skydevil.bdae",
+      "animation_table": 34,
+      "position": [
+        2729.953,
+        26804.84,
+        1019.98
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 14
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster06",
+      "character": "DT_SkydevilXL",
+      "model": "skydevil.bdae",
+      "model_path": "data/3d/characters/lizardman/skydevil.bdae",
+      "animation_table": 34,
+      "position": [
+        3223.4750000000004,
+        26710.45,
+        1019.98
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -10.8276
+      ],
+      "scale": [
+        1.25,
+        1.25,
+        1.25
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "source_record": 15
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Idle",
+      "sequence": 105
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Walk",
+      "sequence": 112
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Attack",
+      "sequence": 99
+    },
+    {
+      "table": 8,
+      "character": "ChildStatue",
+      "state": "Died",
+      "sequence": 103
+    },
+    {
+      "table": 13,
+      "character": "DarkGuardian",
+      "state": "Idle",
+      "sequence": 143
+    },
+    {
+      "table": 13,
+      "character": "DarkGuardian",
+      "state": "Walk",
+      "sequence": 149
+    },
+    {
+      "table": 13,
+      "character": "DarkGuardian",
+      "state": "Attack",
+      "sequence": 137
+    },
+    {
+      "table": 13,
+      "character": "DarkGuardian",
+      "state": "Died",
+      "sequence": 141
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Idle",
+      "sequence": 376
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Walk",
+      "sequence": 383
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Attack",
+      "sequence": 370
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Died",
+      "sequence": 374
+    }
+  ],
+  "clip_ids": [
+    58,
+    59,
+    61,
+    67,
+    68,
+    69,
+    71,
+    72,
+    81,
+    611,
+    612,
+    614,
+    619,
+    620,
+    621,
+    623,
+    624,
+    629,
+    806,
+    811,
+    817,
+    818,
+    822,
+    832
+  ],
+  "dact": {
+    "bytes": 1808,
+    "sha256": "e063630c8fc28bc7e9b904eae190d9a4663e999e2cfe1ec6208abc1bd5f1c31b"
+  },
+  "assets": [
+    {
+      "asset": "actors/child_attack_01.bdae",
+      "bytes": 7524,
+      "sha256": "8a1145636858dcb32114154c2e7ecbb8b2ae76206b0d2eb01138710ff930f6bb",
+      "source": "data/3d/characters/statue/animations/child_attack_01.bdae",
+      "source_file": "child_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_attack_02.bdae",
+      "bytes": 7300,
+      "sha256": "254e582ea0745dad93f5c9ec9cba82137d50cd2a2226c844450419205c4750a0",
+      "source": "data/3d/characters/statue/animations/child_attack_02.bdae",
+      "source_file": "child_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_darkwoods.bdae",
+      "bytes": 45516,
+      "sha256": "e8f2c8d3a96fb7d60fb6d8a30eb43a3c519347fe8ea05ea205cefe04b5dfa9f3",
+      "source": "data/3d/characters/statue/child_darkwoods.bdae",
+      "source_file": "child_darkwoods.bdae"
+    },
+    {
+      "asset": "actors/child_dying.bdae",
+      "bytes": 8368,
+      "sha256": "79d570e5237b76ffb282089a817463cbd9466f5281db8b7786740cd630473492",
+      "source": "data/3d/characters/statue/animations/child_dying.bdae",
+      "source_file": "child_dying.bdae"
+    },
+    {
+      "asset": "actors/child_idle_01.bdae",
+      "bytes": 11364,
+      "sha256": "fb9f3003b22f977bfd53e5845194e28c3dfcbb852cffec71226974619bb305c5",
+      "source": "data/3d/characters/statue/animations/child_idle_01.bdae",
+      "source_file": "child_idle_01.bdae"
+    },
+    {
+      "asset": "actors/child_post_attack_01.bdae",
+      "bytes": 8000,
+      "sha256": "81c6a3dd11a6d8f799b5a94d5917e6816349b129ea30887c6deb6a46229da879",
+      "source": "data/3d/characters/statue/animations/child_post_attack_01.bdae",
+      "source_file": "child_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_post_attack_02.bdae",
+      "bytes": 7508,
+      "sha256": "cad27eaaa702dec7e97c11b214df82986889aed33980c1962923c3dd2ba9d8a0",
+      "source": "data/3d/characters/statue/animations/child_post_attack_02.bdae",
+      "source_file": "child_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_pre_attack_01.bdae",
+      "bytes": 6440,
+      "sha256": "9858b1bd43dabe447e057f8dbce150d7d142e839042f0bda9fb881c9eecd7c03",
+      "source": "data/3d/characters/statue/animations/child_pre_attack_01.bdae",
+      "source_file": "child_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/child_pre_attack_02.bdae",
+      "bytes": 6228,
+      "sha256": "b8c97f1ca73429e446cbca2afffbd4e4ac752ca3a52274cff94eb2f20d38356a",
+      "source": "data/3d/characters/statue/animations/child_pre_attack_02.bdae",
+      "source_file": "child_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/child_walk_01.bdae",
+      "bytes": 8324,
+      "sha256": "b5d01b9fa05a73784c6e8b87c7dc6dd31cb050cb0fcfcbe3df12a50ddcf5e33c",
+      "source": "data/3d/characters/statue/animations/child_walk_01.bdae",
+      "source_file": "child_walk_01.bdae"
+    },
+    {
+      "asset": "actors/darkguardian.bdae",
+      "bytes": 71464,
+      "sha256": "1a0402a7023223edb1110a8ebb1be7969928af3387a5c9d39a3b2369374dd864",
+      "source": "data/3d/characters/darkguardian/darkguardian.bdae",
+      "source_file": "darkguardian.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_attack_01.bdae",
+      "bytes": 8616,
+      "sha256": "b5fcfdf048f76dd9cc7841aa4ceeb2cd0872232b2e5a81300bd0863fa457f488",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_attack_01.bdae",
+      "source_file": "darkguardian_attack_01.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_attack_02.bdae",
+      "bytes": 7944,
+      "sha256": "649e8fc1c9da9cdaa84028aa815aa9d10a526fd5c4d0b6570badae36fc788ff1",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_attack_02.bdae",
+      "source_file": "darkguardian_attack_02.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_dying.bdae",
+      "bytes": 10476,
+      "sha256": "1e1518f80d05c0a65d4ae95a85651326abed07419879dbf7f100eb837157d94f",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_dying.bdae",
+      "source_file": "darkguardian_dying.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_idle.bdae",
+      "bytes": 23884,
+      "sha256": "bb5d73dae2c587749cd51ac569ba2f6f47ed56919fe234b188e760f7e2c5ba5c",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_idle.bdae",
+      "source_file": "darkguardian_idle.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_post_attack_01.bdae",
+      "bytes": 8208,
+      "sha256": "332ce9fb0b7d8fa23ac6594db2a78336541f2dc1288a1845dc81a2011c307a79",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_post_attack_01.bdae",
+      "source_file": "darkguardian_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_post_attack_02.bdae",
+      "bytes": 7992,
+      "sha256": "1cf5488e81fca29fb16691801c78d9a46881b5a2f0b1e6c501ed853e707e25c8",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_post_attack_02.bdae",
+      "source_file": "darkguardian_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_pre_attack_01.bdae",
+      "bytes": 9052,
+      "sha256": "27c64923bcca62bf722bd32c4570bef2e5527009c308afae7d2d267e11b19ed4",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_pre_attack_01.bdae",
+      "source_file": "darkguardian_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_pre_attack_02.bdae",
+      "bytes": 6624,
+      "sha256": "b2caf544f843ee77fe508337f080ef8fbde1efe585ca9b7b8a4d99a726a69159",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_pre_attack_02.bdae",
+      "source_file": "darkguardian_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/darkguardian_walk.bdae",
+      "bytes": 11996,
+      "sha256": "2d5f07f7bdfe818fa4cc82567dfab2c34c47f6a0b811d87fd66f1a6b5cb7e35a",
+      "source": "data/3d/characters/darkguardian/animations/darkguardian_walk.bdae",
+      "source_file": "darkguardian_walk.bdae"
+    },
+    {
+      "asset": "actors/lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993",
+      "source": "data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "source_file": "lizardman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8",
+      "source": "data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "source_file": "lizardman_dying_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6",
+      "source": "data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "source_file": "lizardman_idle_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863",
+      "source": "data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "source_file": "lizardman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1",
+      "source": "data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "source_file": "lizardman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896",
+      "source": "data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "source_file": "lizardman_walk_01.bdae"
+    },
+    {
+      "asset": "actors/skydevil.bdae",
+      "bytes": 48712,
+      "sha256": "c990db9c42652e4e42697428cc507aa48236bfc46b52734cd0915f0070272046",
+      "source": "data/3d/characters/lizardman/skydevil.bdae",
+      "source_file": "skydevil.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}
