@@ -39,6 +39,12 @@ DecoderMPC8Cursor::DecoderMPC8Cursor(DecoderMPC8* decoder, StreamCursorInterface
     decoder_ = decoder;
     stream_ = stream;
     loop_ = false;
+    // The original stores the five reader wrappers before anything else (0x87018c, +0x30..+0x40).
+    reader_.read = &mpc_read;
+    reader_.seek = &mpc_seek;
+    reader_.tell = &mpc_tell;
+    reader_.get_size = &mpc_getsize;
+    reader_.can_seek = &mpc_canseek;
     reader_.data = stream;
 
     pcm_buffer_ = static_cast<float*>(VoxAlloc(0x4800));
@@ -94,10 +100,14 @@ int DecoderMPC8Cursor::Seek(unsigned int sample) {
 // 0x86fe38 _ZN3vox17DecoderMPC8Cursor6DecodeEPvi
 // Returns the buffered frames first, then decodes new frames from the demuxer until the
 // request is filled or the stream ends. At the end of a looping stream the demuxer is seeked
-// back to prev, the sample position before the last update, as the original's argument
-// register shows; the position is then cleared.
-// Port deviation: the original calls the demuxer again even when it returns no samples; the
-// port stops there, so a truncated stream cannot spin.
+// back to prev, the sample position before the last update (the value at +0x20 read before
+// the update). The position is then cleared.
+// Port deviations (both in Decode, see the notes in NOTES.md):
+//  - When the last decoded block overruns the request (the else path in the listing), the
+//    original passes r1 to the loop-restart seek. r1 is clobbered by the conversion or memcpy
+//    call on that path, so its value is not recoverable. The port uses prev there as well.
+//  - The original calls the demuxer again even when it returns no samples; the port stops
+//    there, so a truncated stream cannot spin.
 int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
     const int bytes_per_sample = bits_ >> 3;
     const int wanted = DivOrZero(bytes, channels_ * bytes_per_sample);
@@ -120,6 +130,7 @@ int DecoderMPC8Cursor::Decode(void* dst, int bytes) {
 
     while (remaining > 0) {
         MpcFrameInfo info;
+        info.buffer = pcm_buffer_;  // the original stores the PCM buffer in the frame block first
         mpc_demux_decode(demux_, &info);
         const int decoded = info.samples;
         buffer_pos_ = 0;

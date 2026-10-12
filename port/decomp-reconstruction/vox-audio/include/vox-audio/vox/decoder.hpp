@@ -19,21 +19,25 @@ struct TrackParams {
     std::int32_t length_frames = 0;
 };
 
+// Vtable slots (vptr-relative, from the concrete cursor vtables in vtables-001.json):
+// +0x00/+0x04 destructors, +0x08 Init, +0x0c Shutdown, +0x10 Decode, +0x14 DecodeRef,
+// +0x18 HasData, +0x1c Reset, +0x20 GetRewindLimit, +0x24 Rewind, +0x28 Seek, +0x2c SetLoop,
+// +0x30 GetStreamCursor, +0x34 AllowBufferReference. Decode, HasData and Seek are pure.
 class DecoderCursorInterface {
 public:
     virtual ~DecoderCursorInterface() = default;                 // 0x86fb38 (D1), 0x86fdec (D0)
-    virtual void Init() {}                                       // 0x86fb3c
-    virtual void Shutdown() {}                                   // 0x86fb40
-    virtual int Decode(void* dst, int count) = 0;
-    virtual int DecodeRef(void*& dst, int count);
-    virtual void Reset();                                        // 0x86fb5c: Seek(0)
-    virtual int GetRewindLimit() { return 0; }                   // 0x86fb74
-    virtual void Rewind(int frames) { (void)frames; }            // 0x86fb7c (empty)
-    virtual int Seek(unsigned int frame) = 0;
-    virtual void SetLoop(bool on) { loop_ = on; }                // 0x86fb80
-    virtual StreamCursorInterface* GetStreamCursor() { return stream_; }  // 0x86fb88
-    virtual bool HasData() = 0;
-    virtual bool AllowBufferReference() { return false; }        // 0x86fb90
+    virtual void Init() {}                                       // +0x08, 0x86fb3c
+    virtual void Shutdown() {}                                   // +0x0c, 0x86fb40
+    virtual int Decode(void* dst, int count) = 0;                // +0x10
+    virtual int DecodeRef(void*& dst, int count);                // +0x14
+    virtual bool HasData() = 0;                                  // +0x18
+    virtual void Reset();                                        // +0x1c, 0x86fb5c: Seek(0)
+    virtual int GetRewindLimit() { return 0; }                   // +0x20, 0x86fb74
+    virtual void Rewind(int frames) { (void)frames; }            // +0x24, 0x86fb7c (empty)
+    virtual int Seek(unsigned int frame) = 0;                    // +0x28
+    virtual void SetLoop(bool on) { loop_ = on; }                // +0x2c, 0x86fb80
+    virtual StreamCursorInterface* GetStreamCursor() { return stream_; }  // +0x30, 0x86fb88
+    virtual bool AllowBufferReference() { return false; }        // +0x34, 0x86fb90
 
 protected:
     // Fields the base accessors read; the original keeps them in the same slots
@@ -43,16 +47,20 @@ protected:
     bool loop_ = false;                        // +0x1c
 };
 
+// Decoder vtable slots (vptr-relative): +0x00/+0x04 destructors, +0x08 Init, +0x0c Shutdown,
+// +0x10 CreateNewCursor, +0x14 DestroyCursor, +0x18 GetType, +0x1c GetParam. The four pure
+// slots are confirmed by the concrete DecoderNative, DecoderMPC8, DecoderMSWav and DecoderRaw
+// vtables (for example DecoderNative: CreateNewCursor at +0x10, GetType at +0x18).
 class DecoderInterface {
 public:
     virtual ~DecoderInterface() = default;                       // 0x86fb2c (D1), 0x86fdd8 (D0)
-    virtual void Init() {}                                       // 0x86fb30
-    virtual void Shutdown() {}                                   // 0x86fb34
-    virtual int GetType() const = 0;
+    virtual void Init() {}                                       // +0x08, 0x86fb30
+    virtual void Shutdown() {}                                   // +0x0c, 0x86fb34
+    virtual DecoderCursorInterface* CreateNewCursor(StreamCursorInterface* stream) = 0;  // +0x10
+    virtual void DestroyCursor(DecoderCursorInterface* cursor) = 0;  // +0x14
+    virtual int GetType() const = 0;                             // +0x18 (1 MSWav, 3 MPC8, 4 Native)
     // Pointer to the four parameter words (channels, unknown_08, bits, length).
-    virtual std::int32_t* GetParam() = 0;
-    virtual DecoderCursorInterface* CreateNewCursor(StreamCursorInterface* stream) = 0;
-    virtual void DestroyCursor(DecoderCursorInterface* cursor) = 0;
+    virtual std::int32_t* GetParam() = 0;                        // +0x1c
 };
 
 }  // namespace vox

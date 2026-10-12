@@ -19,6 +19,23 @@
 
 class CBluetoothReliable : public CTransport {
 public:
+    CBluetoothReliable();                            // 0x82900c _ZN18CBluetoothReliableC2Ev (C1 at 0x829330)
+    // 0x829260 _ZN18CBluetoothReliableC2Ejb (C1 at 0x8295c4); the arguments are not used by the pseudocode.
+    CBluetoothReliable(unsigned int channel, bool listen);
+    ~CBluetoothReliable() override;                  // 0x82917c _ZN18CBluetoothReliableD1Ev (D2 at 0x8291fc, D0 at 0x8291e0)
+    CBluetoothReliable(const CBluetoothReliable&) = delete;
+    CBluetoothReliable& operator=(const CBluetoothReliable&) = delete;
+
+    int Connect(CNetworkId& peer) override;          // 0x828df0 _ZN18CBluetoothReliable7ConnectER10CNetworkId (partial, see the .cpp)
+    // 0x828e58 _ZN18CBluetoothReliable4OpenESsSsi (partial, see the .cpp)
+    int Open(std::string address, std::string name, int channel);
+    int Listen(std::string address, std::string name);  // 0x828ec8 _ZN18CBluetoothReliable6ListenESsSs (partial)
+    CNetworkId GetPeerNetworkId();                   // 0x8290dc _ZN18CBluetoothReliable16GetPeerNetworkIdEv (partial)
+    CNetworkId GetLocalNetworkId();                  // 0x829694 _ZN18CBluetoothReliable17GetLocalNetworkIdEv (partial)
+    // 0x829400 _ZN18CBluetoothReliable6CreateESsSsi (partial)
+    static CBluetoothReliable* Create(std::string first, std::string second, int channel);
+    static int InitializeTransport();                // 0x8294cc _ZN18CBluetoothReliable19InitializeTransportEv (partial)
+
     int GetType() const;                             // 0x828cb4 _ZN18CBluetoothReliable7GetTypeEv (returns 4)
     bool CanDisconnectFrom(CNetworkId& peer);        // 0x828cbc _ZN18CBluetoothReliable17CanDisconnectFromER10CNetworkId
     int Initialize();                                // 0x828cc4 _ZN18CBluetoothReliable10InitializeEv
@@ -36,9 +53,13 @@ public:
     static int TerminateTransport();                 // 0x828d78 _ZN18CBluetoothReliable18TerminateTransportEv
 
 private:
+    int AcceptConnections();                         // 0x828da0 _ZN18CBluetoothReliable17AcceptConnectionsEv (partial)
+
     CBluetoothSocket socket_;                        // +0x08
+    bool accept_enabled_ = false;                    // +0x30 byte (set by no recovered code)
     std::uint32_t flags_ = 0;                        // +0x2c
     bool initialized_ = false;                       // +0x68
+    CNetworkId peer_;                                // +0x6c (CNetworkId, 0x1c bytes; Connect stores the peer)
     static bool s_initialized_;                      // _ZN18CBluetoothReliable13s_initializedE
 };
 

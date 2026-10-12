@@ -25,14 +25,22 @@ namespace glitch::scene {
 // getID (+0x10c), getTriangleSelector (+0x114), setAutomaticCulling (+0x118),
 // isDebugObject / setIsDebugObject (+0x11c), getGameData (+0x124),
 // getCameraOffset (+0x128), getRenderingLayer (+0x12c).
+// Two-word intrusive list head (next, prev). The accessors return the address of the
+// embedded object, so the sentinel lives inside ISceneNode rather than behind a pointer.
+struct ListSentinel {
+    std::uint32_t next;  // +0x00
+    std::uint32_t prev;  // +0x04
+};
+static_assert(sizeof(ListSentinel) == 8, "ListSentinel is two words");
+
 struct ISceneNode {
     std::uint32_t vtable;                 // +0x00 vptr (polymorphic class; not read by the category pseudocode)
     std::uint8_t pad_0x04[0x20];          // +0x04..+0x23 not confirmed
     float absoluteTransform[16];          // +0x24..+0x63 (4x4 matrix, returned by getAbsoluteTransformation)
     std::uint8_t pad_0x64[0x8c];          // +0x64..+0xef not confirmed
-    std::uint32_t children[3];            // +0xf0..+0xfb child container words (begin, end, capacity); type not confirmed
-    std::uint32_t animators[2];           // +0xfc..+0x103 animator container words (begin, end); type not confirmed
-    std::uint32_t bindedAnimators[2];     // +0x104..+0x10b bound animator container words; type not confirmed
+    std::uint32_t children[3];            // +0xf0..+0xfb child container words; getChildren returns this+0xf0; +0xf4 is not yet confirmed as a sentinel
+    ListSentinel animators;               // +0xfc intrusive list sentinel (getAnimators returns this+0xfc, the object itself)
+    ListSentinel bindedAnimators;         // +0x104 intrusive list sentinel (getBindedAnimators returns this+0x104)
     std::int32_t id;                      // +0x10c
     std::uint8_t pad_0x110[4];            // +0x110..+0x113 not confirmed
     std::uint32_t triangleSelector;       // +0x114 ITriangleSelector target pointer

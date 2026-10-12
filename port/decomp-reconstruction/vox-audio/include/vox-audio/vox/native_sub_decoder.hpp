@@ -73,10 +73,30 @@ struct SegmentState {
     void SetStopped();
 };
 
+// Virtual slot map (offsets from the vptr, as the decompiled calls index them; the vtable
+// symbol address is 8 bytes before, see NOTES.md Layouts). Named from the vtable words of
+// _ZTVN3vox19VoxNativeSubDecoderE (pure slots are zero words) and the PCM and IMA ADPCM
+// overrides, and checked against the indirect calls in the segment code:
+//   +0x00 D1, +0x04 D0, +0x08 HasData, +0x0c Seek(unsigned), +0x10 Reset,
+//   +0x14 DecodeCurrentSegmentWithOffset, +0x18 DecodeSegment, +0x1c GetBytePositionFromSampleOffset,
+//   +0x20 GetDecodingBuffer, +0x24 ReleaseDecodingBuffer, +0x28 Seek(int, SegmentState*),
+//   +0x2c SetDecodingBufferToSegmentPosition, +0x30 EmulateDecodeCurrentSegmentWithOffset,
+//   +0x34 EmulateDecodeSegment. The IMA ADPCM class adds +0x38 EmulateSetDecodingBufferToSegmentPosition.
 class VoxNativeSubDecoder {
 public:
     virtual ~VoxNativeSubDecoder();  // D1 0x8841f8 (empty); D0 0x8847d4 is the deleting variant
-    virtual bool HasData();          // 0x884468: returns the flag at +0x16c
+    virtual bool HasData();          // +0x08, 0x884468: returns the flag at +0x16c
+    virtual int Seek(unsigned int sample_offset) = 0;                           // +0x0c
+    virtual void Reset();                                                       // +0x10, 0x88519c
+    virtual int DecodeCurrentSegmentWithOffset(void* dst, int bytes) = 0;       // +0x14
+    virtual int DecodeSegment(void* dst, int bytes, SegmentState* segment) = 0; // +0x18
+    virtual unsigned int GetBytePositionFromSampleOffset(unsigned int sample_offset) = 0;  // +0x1c
+    virtual int GetDecodingBuffer() = 0;                                        // +0x20
+    virtual void ReleaseDecodingBuffer(int buffer) = 0;                         // +0x24
+    virtual int Seek(int sample_offset, SegmentState* segment) = 0;             // +0x28
+    virtual void SetDecodingBufferToSegmentPosition(SegmentState* segment) = 0; // +0x2c
+    virtual int EmulateDecodeCurrentSegmentWithOffset(int sample_bytes) = 0;    // +0x30
+    virtual int EmulateDecodeSegment(int sample_bytes, SegmentState* segment) = 0;  // +0x34
 
     // 0x884438: the track parameters {channels, +0x0c word, bits per sample, 0}.
     TrackParams GetTrackParams();
@@ -113,8 +133,6 @@ public:
     void SetState(NativeSubDecoderState* state);
     // 0x88506c (partial): the reverse of SetState, with the same missing manager call.
     void GetState(NativeSubDecoderState* state);
-    // 0x88519c: resets the playlists and the segment records to their start values.
-    void Reset();
     // 0x885538: swaps the second and third segment records and sets their kinds.
     void SwapOldAndCurrentSegments();
     // 0x8855e8 (partial): element lookup through NativePlaylistsManager is not called here;
@@ -136,7 +154,8 @@ public:
     // reproduced; the single-segment decode through slot 0x18 is not.
     int Decode(void* dst, int bytes);
 
-    static void* s_pMixingBuffer;    // _ZN3vox19VoxNativeSubDecoder15s_pMixingBufferE
+    static void* s_pMixingBuffer;    // _ZN3vox19VoxNativeSubDecoder15s_pMixingBufferE (32-bit mix sums)
+    static int s_nbSamplesMixingBuffer;  // frames the mixing buffer holds
 
 protected:
     StreamCursorInterface* stream_ = nullptr;  // +0x04
@@ -191,7 +210,7 @@ public:
     int GetDecodingBuffer();                               // 0x887b14: returns -1
     void ReleaseDecodingBuffer(int buffer);                // 0x887b1c (empty)
     void SetDecodingBufferToSegmentPosition(SegmentState* segment);  // 0x887b20 (empty)
-    int GetBytePositionFromSampleOffset(unsigned int sample_offset);  // 0x887b2c
+    unsigned int GetBytePositionFromSampleOffset(unsigned int sample_offset);  // 0x887b2c
     // 0x887bb8, 0x887bbc, 0x887bc0: empty bodies (the ARM is a bare return).
     void Reset();
     void SetState(NativeSubDecoderPCMState* state);

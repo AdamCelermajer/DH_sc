@@ -25,7 +25,8 @@ public:
     int Seek(unsigned int sample_offset);                       // 0x88635c: returns 0
     int Seek(int sample_offset, SegmentState* segment);         // 0x887464 (partial)
     int EmulateDecodeBlock(SegmentState* segment);              // 0x886364
-    int EmulateSetDecodingBufferToSegmentPosition(SegmentState* segment);  // 0x8863dc
+    // 0x8863dc: IMA-only virtual slot +0x38 (the base class has no slot there).
+    virtual int EmulateSetDecodingBufferToSegmentPosition(SegmentState* segment);
     unsigned int GetBytePositionFromSampleOffset(unsigned int sample_offset);  // 0x886434
     int GetDecodingBuffer();                                    // 0x886454
     void ReleaseDecodingBuffer(int buffer);                     // 0x8864a0

@@ -1,7 +1,7 @@
 // Minimal GL function table. GL calls in the reconstructed code are routed
 // through this table, so tests need no GL context: a test replaces entries with
 // recorders, and the Windows/Android build fills it with the real entry points.
-// Only the calls the reconstructed render-state code needs are listed. Every
+// Only the calls the reconstructed render-state, shader and driver-init code needs are listed. Every
 // entry defaults to a no-op so that an unset entry is harmless.
 #pragma once
 
@@ -37,6 +37,40 @@ struct GLFunctionTable {
     void (*flush)() = nullptr;
     void (*finish)() = nullptr;
     void (*clear)(uint32_t mask) = nullptr;
+
+    // Shader compile and link path (CGLSLShaderCode::createShader/compileShader,
+    // CGLSLShader::linkProgram/rmRegenerateShader). Original call sites: see NOTES.md
+    // section "GL function table (dependency worker)".
+    uint32_t (*createShader)(uint32_t type) = nullptr;
+    void (*shaderSource)(uint32_t shader, int32_t count, const char* const* string,
+                         const int32_t* length) = nullptr;
+    void (*compileShader)(uint32_t shader) = nullptr;
+    void (*deleteShader)(uint32_t shader) = nullptr;
+    void (*getShaderiv)(uint32_t shader, uint32_t pname, int32_t* params) = nullptr;
+    void (*getShaderInfoLog)(uint32_t shader, int32_t bufSize, int32_t* length,
+                             char* infoLog) = nullptr;
+    void (*attachShader)(uint32_t program, uint32_t shader) = nullptr;
+    void (*linkProgram)(uint32_t program) = nullptr;
+    void (*getProgramiv)(uint32_t program, uint32_t pname, int32_t* params) = nullptr;
+    void (*getProgramInfoLog)(uint32_t program, int32_t bufSize, int32_t* length,
+                              char* infoLog) = nullptr;
+    int32_t (*getUniformLocation)(uint32_t program, const char* name) = nullptr;
+    int32_t (*getAttribLocation)(uint32_t program, const char* name) = nullptr;
+    void (*getActiveUniform)(uint32_t program, uint32_t index, int32_t bufSize,
+                             int32_t* length, int32_t* size, uint32_t* type,
+                             char* name) = nullptr;
+    void (*getActiveAttrib)(uint32_t program, uint32_t index, int32_t bufSize,
+                            int32_t* length, int32_t* size, uint32_t* type,
+                            char* name) = nullptr;
+
+    // Driver init and state queries (CProgrammableGLDriver::driverInit,
+    // CCommonGLDriver extension and version queries).
+    void (*getIntegerv)(uint32_t pname, int32_t* data) = nullptr;
+    void (*getFloatv)(uint32_t pname, float* data) = nullptr;
+    void (*hint)(uint32_t target, uint32_t mode) = nullptr;
+    void (*pixelStorei)(uint32_t pname, int32_t param) = nullptr;
+    const uint8_t* (*getString)(uint32_t name) = nullptr;
+    uint32_t (*getError)() = nullptr;
 };
 
 // Active table. Entries that are still null are skipped by the callers.

@@ -626,3 +626,97 @@ CvtCodec<SColor> path in video/material_parameters.hpp.
 - Added SStreamItrLoader (include/glitch-core-io/io/stream_itr_loader.hpp), the mirror of SStreamItrWriter.
 - CAttributes binary and by-name setters (setAttribute char/wchar/void*/line3d/triangle3d, addBinary) and CStringAttribute hex ctor.
 - Skipped as other-category: gui, scene, collada, video, renderer copy helpers, input and animation rows. XML reader read/readAttributeFromXML need an IAttributes vtable slot map.
+
+## SIDedCollection layout (dependency pass, sid_collection.hpp)
+Header: `include/glitch-core-io/core/sid_collection.hpp` (namespace `glitch::core::detail::sid_layout`,
+template `SIDedCollection<T, Props, Traits>`). Test: `tests/sid_collection_test.cpp` (passes under
+ASan and UBSan; built into the scratch dir, not the repo). The existing `core/sided_collection.hpp` is
+unchanged, so the 123 reconstructed rows still use it.
+
+Confirmed from the ITexture instance (addresses are the ITexture ones unless noted):
+- Header node at +0x00: left (leftmost) +0x08, right +0x0c, node count +0x10. idEnd returns this
+  (0x5e83a0); idBegin loads +0x08 (0x5e8398). Ctor 0x5e840c.
+- Vector begin +0x18, end +0x1c, storage end +0x20. nextId u16 +0x24 (0x5e8474), count u16 +0x26 (0x5e83a4).
+- Entry stride 8 (value +0x00, node +0x04) for the four pointer instances (get: LSL #3 / ASR #3 at
+  0x5e83ac, 0x5d7d40, 0x5e539c, 0x6e0788). SShaderParameterDef stride 20 (get 0x5b9da0, MLA #0x14;
+  count by the multiply-by-inverse-of-5 trick).
+- Node: pair at +0x10. SName: name +0x10, managed +0x14 (0x5e8498, 0x5e84b8, 0x5e855c). SIdValue at
+  +0x18, 0x20 bytes (ctor 0x5e85b4): inline buffer +0x00..+0x0f, string start +0x10 (set to the value's own
+  address, _M_allocate_block(16) allocates nothing), finish +0x14, int 39 at +0x18, id u16 at +0x1c (node +0x34,
+  read by getId at 0x5e8ed8).
+- getProperties returns node +0x18 (0x5e83e4): the caller's record starts at SIdValue +0x00, overlapping the string.
+- insert (0x5ea53c): count++ first; id = nextId; insert_unique(name); managed flag set on the key after
+  insertion; entries[id] replaced (addRef new, release old) or appended; nextId advanced past set entries.
+  No test of the insert_unique bool.
+- rename (0x5e9348): fails for an unset or out-of-range id; insert_unique(new name) and returns 0 when the bool
+  is false; erases the old node; sets managed; entry points at the new node.
+- remove (0x5e9e7c): refused when count != 1 unless forced; erase; reset; count--; nextId = min(nextId, id);
+  trailing unset entries cut only when a set entry remains. An all-unset vector keeps its length (the loop
+  returns before resize). The port's old remove popped every trailing entry, which differs.
+- removeAll(bool) (0x5e9f78): in-order walk, successor taken before remove(id, force); returns uint16 count.
+- ~SIDedCollection (0x5e97a0): vector destroyed (values released), then the map cleared; count set to 0.
+- Ctor, get, getId, set, reset, operator< match the header.
+
+Open questions (not coded as fact):
+- SIdValue +0x18 = int 39 in every ctor and in insert/rename: meaning unknown.
+- The string header overlaps the Props record that getProperties returns; the real Props layout (and its size,
+  which must be under 0x1c) is not recovered per instance.
+- insert does not test the bool of insert_unique: a duplicate name re-links to the existing node. Whether callers
+  guarantee unique names is unknown.
+- The third template argument (false in every instance) is dropped; nothing in the ITexture bodies reads it.
+- SShaderParameterDef (20-byte entries) is not covered by the template. Its SEntry layout is confirmed from
+  0x5b9fb8, 0x5ba010, 0x5bc5c4, 0x5bc620: value +0x00 (shared string data, count at its +0x00), u16 +0x04,
+  bytes +0x06, +0x07, ints +0x08, +0x0c, iterator +0x10. Default entry 0, 0xff, 0xff, 0xff, -1, -1, node 0.
+- Checked on ITexture only: insert, rename, remove, removeAll, getId, dtor, SName, SIdValue ctor. The other
+  pointer instances were checked by listing for size/get/getProperties/ctor offsets, not their full bodies.
+
+Ledger rows this header should unblock (re-verify each against the template before flipping status; the rows
+currently point at the old sided_collection.hpp):
+- insert: 0x5ea53c, 0x5e7110, 0x5dc548, 0x6e1bdc
+- rename: 0x5e9348, 0x5e7050, 0x5dc444, 0x6e1d88
+- remove: 0x5e9e7c, 0x5e65dc, 0x5d9f74, 0x6e1e54
+- removeAll: 0x5e9f78, 0x5e66d8, 0x5da080, 0x6e1f50
+- SIdValue ctor (pointer instances): 0x5e85b4, 0x5e85f0, 0x5e5490, 0x5e54a0, 0x5d7e34, 0x5d7e54, 0x6e08b0, 0x6e08b8
+- getProperties (pointer instances): 0x5e83e4, 0x5e83f8, 0x5e53dc, 0x5e53f0, 0x5d7d9c, 0x5d7e20, 0x6e0860, 0x6e0874
+- Not covered yet (SShaderParameterDef, 20-byte): SEntry 0x5b9fb8, 0x5b9fe4, 0x5ba010, 0x5ba064; set/reset
+  0x5bc620, 0x5bc5c4; insert 0x5bc16c; rename 0x5bb3cc; remove 0x5c0f70; removeAll 0x5c1104; dtor 0x5bb520.
+
+## Math stand-in (dependency worker, deps/glitch_core.hpp)
+
+Header changes (all in `include/glitch-core-io/deps/glitch_core.hpp`, plus the new `core/matrix4_operators.hpp`):
+
+- `vector3d<T>::normalize()` (0x35e8e0): when X*X+Y*Y+Z*Z != 0, multiplies by `1 / sqrt(v2)` (a reciprocal,
+  not a division). Returns `*this`. Confirmed from the pseudocode (`v3 = 1.0 / sqrtf(v2)`, three multiplies).
+- `plane3d<T>::setPlane` (0x561bdc): the normalize step is now confirmed: it calls `vector3d::normalize`, then
+  `D = -dot(a, N)`. The earlier "assumed length division" note is resolved.
+- `plane3d<T>::getIntersectionWithLine` (0x34033c): `nd == 0` returns false; `t = -(N.start + D) / nd`;
+  `out = start + t*dir`.
+- `plane3d<T>::getIntersectionWithLimitedLine` (0x40f0b4): line hit first, then `len2 >= |out-start|^2` and
+  `len2 >= |out-end|^2`. `out` is written before the segment test, as in the listing.
+- `triangle3d<T>::isOnSameSide(p1, p2, a, b)` (0x585bb8): the receiver is unused. With e = b-a, w = p1-a and
+  z = p2-a, the result is `(e x w) . (e x z) >= 0`, written term by term as the listing does. Sum grouping
+  `((t1*b1) + (t2*b2)) + (t3*b3)` is read from the parentheses in the listing.
+- `triangle3d<T>::isPointInside` (0x585de8): `isOnSameSide(p, A, B, C) && isOnSameSide(p, B, A, C) &&
+  isOnSameSide(p, C, A, B)`. Argument order checked against the call pattern.
+- `triangle3d<T>::getIntersectionOfPlaneWithLine` (0x585e80): normal `N = (C-A) x (B-A)` in the listing's form,
+  normalized; the parallel test is `fabs(N.dir) <= 1e-6` (double compare); `t = (N.A - N.start) / (N.dir)`.
+- `triangle3d<T>::getIntersectionWithLine` (0x58615c): plane hit, then `isPointInside(out)`.
+- `triangle3d<T>::getIntersectionWithLineSegment(segment, lengthSq, dir, box, out)` (0x586188): six early-out box
+  tests (min/max on each axis, same pattern as the listing), then the plane-line hit, then the two squared
+  distance tests. The name `lengthSq` is mine: the listing compares it with squared distances.
+  Forward declarations of `line3d` and `aabbox3d` were added before `triangle3d` for the parameter types.
+- `CMatrix4<T>::operator*` (0x35e998): declared in the deps header and defined in `core/matrix4_operators.hpp`.
+  The definition returns `detail::mult(*this, other)`. The result flag is the flag from mult (the listing's
+  `v20` is byte +0x40 of the mult output, written by mult's memmove).
+
+Verification: `g++ -std=c++17 -Wall -fsyntax-only` passes on every tests/*.cpp and src/*.cpp (the test run
+also linked and ran all tests). A known-answer program (normalize, setPlane, each new intersection, operator*)
+gives zero failures.
+
+Open (not written):
+- `quaternion::operator=(CMatrix4)` is not in the queue. This blocks `dual_quaternion::operator=(CMatrix4)`
+  (0x66d85c) and `CMatrixAttribute::getQuaternion` (0x561da0).
+- `CSceneCollisionManager` rows (0x6c42a8, 0x6c5d40, 0x6c72f4, 0x6c7720) and `CTriangleSelector::TestWithLine`
+  (0x5871c8) now have the triangle math they call. They are still blocked on ITriangleSelector and ISceneNode.
+- `glitch-video` uses its own `deps/glitch_core.hpp` and does not include this header. Its CMatrix4, triangle3d,
+  aabbox3d and vector3d rows still need the same types in that file.

@@ -16,10 +16,10 @@ int main() {
     CHECK(CMatching::Get()->GetMemberIndex(32) == -1);
     CHECK(CMatching::Get()->GetMemberIndex(-1) == -1);
 
-    // CConnectionStandIn stand-in: state and member id accessors.
-    CConnectionStandIn conn;
+    // CConnection: state and member id accessors. The member id defaults to the constructor sentinel.
+    CConnection conn;
     CHECK(conn.State() == 0);
-    CHECK(conn.MemberId() == -1);
+    CHECK(conn.MemberId() == -14531089);
     conn.SetState(4);
     conn.SetMemberId(7);
     CHECK(conn.State() == 4);

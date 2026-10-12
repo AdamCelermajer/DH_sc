@@ -1,6 +1,7 @@
-// NativePlaylist walk and build functions. All four are partial: the walk functions need
-// group virtuals that are not ported, and the element and random-group builders need
-// record types that are not identified yet.
+// NativePlaylist walk and build functions: GetPlaylistElement and PeekAtNextElement walk the
+// groups, AddPlaylistElement and AddGroup build them. The group dispatch helpers at the end
+// reach the group functions the original calls through its vtable slots.
+#include <cstddef>
 #include <new>
 
 #include "vox-audio/vox/groups.hpp"
@@ -9,38 +10,152 @@
 
 namespace vox {
 
-// 0x881f78 _ZN3vox14NativePlaylist18GetPlaylistElementEv (partial)
-// The original returns 0 when the remaining-repeats word is zero (done here). Otherwise
-// it asks each group for its next element through the group virtual at slot +0x08 and
-// advances the group index, repeating with the repeat counters. Those virtuals are not
-// ported, so the non-zero path is missing and this returns 0.
-int NativePlaylist::GetPlaylistElement() {
+// 0x881f78 _ZN3vox14NativePlaylist18GetPlaylistElementEv
+// Returns the element at the next position of the walk, or nullptr. The walk asks the
+// current group for its next position (slot +0x08). When the reset flag (field_04_) is set,
+// it tries every group before giving up; when the groups run out, the repeat count drops by
+// one and every group is reset (Reset(1), slot +0x10). When the repeats are gone it returns
+// nullptr. Without the flag it moves to the next group instead of trying them all.
+PlaylistElement* NativePlaylist::GetPlaylistElement() {
+    const int count = static_cast<int>(groups_.size());
     if (field_14_ == 0) {
-        return 0;
+        return nullptr;
     }
-    return 0;
+    int position = -1;
+    if (field_04_ != 0) {
+        int visited = 0;
+        while (visited < count && position == -1) {
+            ++visited;
+            position = GroupElementPosition(groups_[static_cast<std::size_t>(current_group_)]);
+            if (visited == count && position == -1) {
+                saved_repeats_ = field_14_;
+                --field_14_;
+                for (SegmentGroup* group : groups_) {
+                    GroupReset(group, 1);
+                }
+                previous_group_ = 0;
+                current_group_ = count > 1 ? 1 : 0;
+                position = field_14_ != 0 ? GroupElementPosition(groups_[0]) : -1;
+            } else {
+                previous_group_ = current_group_;
+                current_group_ = (current_group_ + 1 < count) ? current_group_ + 1 : 0;
+            }
+        }
+    } else {
+        if (count == 0) {
+            return nullptr;  // the original reads group 0 without a count check
+        }
+        position = GroupElementPosition(groups_[static_cast<std::size_t>(current_group_)]);
+        if (position == -1) {
+            previous_group_ = current_group_;
+            ++current_group_;
+            if (current_group_ < count) {
+                if (field_14_ == 0) {
+                    return nullptr;
+                }
+                position = GroupElementPosition(groups_[static_cast<std::size_t>(current_group_)]);
+            } else {
+                saved_repeats_ = field_14_;
+                --field_14_;
+                current_group_ = 0;
+                for (SegmentGroup* group : groups_) {
+                    GroupReset(group, 1);
+                }
+                if (field_14_ == 0) {
+                    return nullptr;
+                }
+                position = GroupElementPosition(groups_[0]);
+            }
+        }
+    }
+    if (position < 0) {
+        return nullptr;
+    }
+    previous_element_ = current_;
+    current_ = position;
+    return elements_[static_cast<std::size_t>(position)];
 }
 
-// 0x8821a4 _ZN3vox14NativePlaylist17PeekAtNextElementEv (partial)
-// The original returns 0 when the remaining-repeats word is zero (done here). Otherwise it
-// peeks the next group element through the group virtual at slot +0x0c (PeekAtNextGroupElement,
-// not on the port's SegmentGroup), then looks up the element id in the table. Missing.
-int NativePlaylist::PeekAtNextElement() {
-    if (field_14_ == 0) {
-        return 0;
+// 0x8821a4 _ZN3vox14NativePlaylist17PeekAtNextElementEv
+// The same walk as GetPlaylistElement, read-only: the state words are not changed. The
+// peek mode is 0 for the first probe of each group and 1 for the probe at the next group
+// (the original passes 1 there too). Returns nullptr when nothing is left.
+PlaylistElement* NativePlaylist::PeekAtNextElement() {
+    const int count = static_cast<int>(groups_.size());
+    int remaining = field_14_;
+    if (remaining == 0) {
+        return nullptr;
     }
-    return 0;
+    int group_index = current_group_;
+    int position = -1;
+    if (field_04_ != 0) {
+        int visited = 0;
+        while (visited < count && position == -1) {
+            ++visited;
+            position = GroupPeekNext(groups_[static_cast<std::size_t>(group_index)], 0);
+            ++group_index;
+            if (visited == count && position == -1) {
+                --remaining;
+                group_index = 1;
+                position = remaining != 0 ? GroupPeekNext(groups_[0], 0) : -1;
+            }
+            if (count <= group_index) {
+                group_index = 0;
+            }
+        }
+    } else {
+        if (count == 0) {
+            return nullptr;  // the original reads group 0 without a count check
+        }
+        position = GroupPeekNext(groups_[static_cast<std::size_t>(group_index)], 0);
+        if (position == -1) {
+            int next = group_index + 1;
+            if (next >= count) {
+                if (remaining == 1) {
+                    return nullptr;
+                }
+                next = 0;
+            }
+            position = GroupPeekNext(groups_[static_cast<std::size_t>(next)], 1);
+        }
+    }
+    if (position < 0) {
+        return nullptr;
+    }
+    return elements_[static_cast<std::size_t>(position)];
 }
 
-// 0x8838c4 _ZN3vox14NativePlaylist18AddPlaylistElementEPNS_20PlaylistElementInfosE (partial)
-// Missing: the original allocates a 0x14-byte PlaylistElement, copies words 3, 4, 5 and 6
-// into it, and appends it to the element vector at +0x30. The port's element table is an
-// int array (see native_playlist.hpp), so the record is not built. Missing too: the random
-// branch (RandomGroup::AddElement takes a RandomGroupElement*, and the two-word record is
-// not identified). The sequential branch and the group validity check are done.
+// 0x8838c4 _ZN3vox14NativePlaylist18AddPlaylistElementEPNS_20PlaylistElementInfosE
+// Builds a PlaylistElement from words 3 to 6 (words 0 and 1 are not stored in it), appends it
+// to the element vector, then adds the element to the group at words_[2]: a RandomGroup
+// element (value words_[1], weight words_[7]) for a nonzero select mode, otherwise the
+// sequential value words_[1]. A failed allocation clears valid and adds nothing. The random
+// record is a heap copy owned by the group, as the original's copy in AddElement is.
 void NativePlaylist::AddPlaylistElement(const PlaylistElementInfos* info) {
+    void* memory = VoxAlloc(sizeof(PlaylistElement), kVoxMemHintDefault);
+    if (memory == nullptr) {
+        valid_ = false;
+        return;
+    }
+    PlaylistElement* element = new (memory) PlaylistElement();
+    element->field_00_ = info->words_[3];
+    element->field_08_ = info->words_[4];
+    element->field_0c_ = info->words_[5];
+    element->field_10_ = info->words_[6];
+    elements_.push_back(element);
+
     SegmentGroup* group = groups_[static_cast<std::size_t>(info->words_[2])];
-    if (group->GetSelectMode() == 0) {
+    if (group->GetSelectMode() != 0) {
+        void* record_memory = VoxAlloc(sizeof(RandomGroupElement), kVoxMemHintDefault);
+        if (record_memory == nullptr) {
+            valid_ = false;
+            return;
+        }
+        RandomGroupElement* record = new (record_memory) RandomGroupElement();
+        record->value_ = info->words_[1];
+        record->weight_ = info->words_[7];
+        static_cast<RandomGroup*>(group)->AddElement(record);
+    } else {
         static_cast<SequentialGroup*>(group)->AddElement(info->words_[1]);
     }
     if (!group->IsValid()) {
@@ -48,22 +163,60 @@ void NativePlaylist::AddPlaylistElement(const PlaylistElementInfos* info) {
     }
 }
 
-// 0x883c04 _ZN3vox14NativePlaylist8AddGroupEPNS_10GroupInfosE (partial)
-// The sequential branch allocates a SequentialGroup (0x38 bytes in the original), builds it
-// from info with the playlist's reset flag (+0x04) and appends it to the group vector.
-// Missing: the random branch (select mode nonzero). The original allocates 0x5c bytes and
-// builds a RandomGroup, but the port's RandomGroup has no GroupInfos constructor, so the
-// random branch adds nothing here.
+// 0x883c04 _ZN3vox14NativePlaylist8AddGroupEPNS_10GroupInfosE
+// Builds a RandomGroup (0x5c bytes in the original, select mode nonzero) or a SequentialGroup
+// (0x38 bytes) from info with this playlist's reset flag (field_04_), and appends it. A
+// failed allocation clears valid.
 void NativePlaylist::AddGroup(const GroupInfos* info) {
+    SegmentGroup* group = nullptr;
     if (info->select_mode_ != 0) {
-        return;
+        void* memory = VoxAlloc(sizeof(RandomGroup), kVoxMemHintDefault);
+        if (memory != nullptr) {
+            group = new (memory) RandomGroup(info, field_04_);
+        }
+    } else {
+        void* memory = VoxAlloc(sizeof(SequentialGroup), kVoxMemHintDefault);
+        if (memory != nullptr) {
+            group = new (memory) SequentialGroup(info, field_04_);
+        }
     }
-    void* memory = VoxAlloc(sizeof(SequentialGroup), kVoxMemHintDefault);
-    if (memory == nullptr) {
+    if (group == nullptr) {
         valid_ = false;
         return;
     }
-    groups_.push_back(new (memory) SequentialGroup(info, field_04_));
+    groups_.push_back(group);
+}
+
+// Group dispatch. The select mode gives the group's kind, as AddGroup builds it.
+int NativePlaylist::GroupElementPosition(SegmentGroup* group) {
+    if (group->GetSelectMode() == 0) {
+        return static_cast<SequentialGroup*>(group)->GetGroupElementPosition();
+    }
+    return static_cast<RandomGroup*>(group)->GetGroupElementPosition();
+}
+
+int NativePlaylist::GroupPeekNext(const SegmentGroup* group, int mode) {
+    const GroupPeekMode peek = static_cast<GroupPeekMode>(mode);
+    if (group->GetSelectMode() == 0) {
+        return static_cast<const SequentialGroup*>(group)->PeekAtNextGroupElement(peek);
+    }
+    return static_cast<const RandomGroup*>(group)->PeekAtNextGroupElement(peek);
+}
+
+void NativePlaylist::GroupReset(SegmentGroup* group, int reset_mode) {
+    if (group->GetSelectMode() == 0) {
+        static_cast<SequentialGroup*>(group)->Reset(reset_mode);
+    } else {
+        static_cast<RandomGroup*>(group)->Reset(reset_mode);
+    }
+}
+
+void NativePlaylist::GroupSetToPreviousState(SegmentGroup* group) {
+    if (group->GetSelectMode() == 0) {
+        static_cast<SequentialGroup*>(group)->SetToPreviousState();
+    } else {
+        static_cast<RandomGroup*>(group)->SetToPreviousState();
+    }
 }
 
 }  // namespace vox

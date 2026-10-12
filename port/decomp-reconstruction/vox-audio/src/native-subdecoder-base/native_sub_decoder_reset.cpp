@@ -6,7 +6,8 @@ namespace vox {
 
 // 0x88519c _ZN3vox19VoxNativeSubDecoder5ResetEv
 void VoxNativeSubDecoder::Reset() {
-    const int count = playlists_->GetNbPlaylists();
+    // The original always has a manager; a sub-decoder built without one skips the loop.
+    const int count = playlists_ != nullptr ? playlists_->GetNbPlaylists() : 0;
     for (int i = 0; i < count; ++i) {
         playlists_->ResetPlaylist(i);
     }

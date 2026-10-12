@@ -6,9 +6,9 @@
 
 namespace vox {
 
-// 0x87215c (partial). The allocation is extra_bytes + 36 * (count - 1), the size of
-// count 36-byte rule records in the 32-bit layout with the trailing extra bytes. The
-// record fields are not ported, so only the pointer and count are set.
+// 0x87215c. The allocation is extra_bytes + 36 * (count - 1), the size of count 36-byte
+// rule records in the 32-bit layout with the trailing extra bytes. The pointer is always
+// stored; the count only when the allocation succeeds.
 void* DecoderNative::CreateTransitionRulesContainer(int count, int extra_bytes) {
     void* result = VoxAlloc(static_cast<std::size_t>(extra_bytes + 36 * count - 36));
     rules_ = result;
@@ -28,9 +28,9 @@ void* DecoderNative::CreateStatesContainer(int count) {
     return result;
 }
 
-// 0x8721ac (partial). The allocation is extra_bytes + 24 * (count - 1), the 24-byte
-// record layout of the 32-bit build. The per-segment cue vectors are reproduced: one
-// empty vector per segment.
+// 0x8721ac. The allocation is extra_bytes + 24 * (count - 1), the 24-byte record layout of
+// the 32-bit build. On success the count is stored and the cue table is replaced by one
+// empty vector per segment (the original reserves, builds a temporary and assigns it).
 void* DecoderNative::CreateSegmentsInfoContainers(int count, int extra_bytes) {
     void* result = VoxAlloc(static_cast<std::size_t>(extra_bytes + 24 * count - 24));
     segments_info_ = result;

@@ -562,3 +562,9 @@ headers in a later wave.
   one past the slot getOutput returns. Both are unresolved.
 - The shared math header (port/decomp-reconstruction/shared/) is still absent, so the wave code uses
   core_stand_ins.hpp.
+
+## Integration: integrator merge and shared header (2026-10-12)
+- Merged origin/feature/decomp-reconstruction. ledger.csv conflict resolved by keeping our side: it already carries the wave reruns (waves 00–14 override partial rows; 3347 rows, one per address). Status counts: 1345 reconstructed / 1191 partial / 811 skipped. Theirs differs on 296 rows (older view); not taken.
+- core_stand_ins.hpp now includes shared/include/glitch-shared/glitch_layouts.hpp (glitch::core value types, glitch::video SColor/SColorf). The category's 20 includers need `-I../shared/include` (CMake root adds it).
+- glitch_core.hpp, sid_collection.hpp and gl_function_table.hpp exist only on feature/decomp-glitch-core-video (shared/include). Not pulled in here: glitch_core.hpp defines the same glitch::core names with different members, so including both in one TU clashes. Left for the integrator to reconcile.
+- ISceneNode decision (decompile wins): getAnimators returns this+0xfc and getBindedAnimators returns this+0x104, i.e. the objects are embedded at those offsets, not begin/end word pairs. animators and bindedAnimators are now two-word ListSentinel objects. getChildren returns this+0xf0; kept as a 3-word container. Whether +0xf4 is a sentinel is not confirmed by any accessor body; still open.

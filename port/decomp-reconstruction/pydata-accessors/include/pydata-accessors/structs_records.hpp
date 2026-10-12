@@ -13,8 +13,8 @@ namespace Structs {
 class AIFaction {
 public:
     virtual ~AIFaction();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -22,15 +22,15 @@ public:
 class AIProps {
 public:
     virtual ~AIProps();
-    void finalize();
+    virtual void finalize();
     void* m_w11 = nullptr;  // +0x2c
 };
 
 class SimpleAnim {
 public:
     virtual ~SimpleAnim();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int16_t m_w1 = 0;  // +0x4
     std::int16_t m_off6 = 0;  // +0x6
 };
@@ -38,8 +38,8 @@ public:
 class Anim : public SimpleAnim {
 public:
     ~Anim() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int16_t m_w2 = 0;  // +0x8
     std::int16_t m_off10 = 0;  // +0xa
 };
@@ -47,15 +47,15 @@ public:
 class AnimStep {
 public:
     virtual ~AnimStep();
-    void finalize();
+    virtual void finalize();
     void* m_w9 = nullptr;  // +0x24
 };
 
 class CharacterProperties {
 public:
     virtual ~CharacterProperties();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -285,22 +285,22 @@ public:
 class AssassinProperties : public CharacterProperties {
 public:
     ~AssassinProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class AttackingFollowerProperties : public CharacterProperties {
 public:
     ~AttackingFollowerProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class AttrBonusEntry {
 public:
     virtual ~AttrBonusEntry();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -309,35 +309,35 @@ public:
 class BanditProperties : public CharacterProperties {
 public:
     ~BanditProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class BigLizardManProperties : public CharacterProperties {
 public:
     ~BigLizardManProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class BigSpiderProperties : public CharacterProperties {
 public:
     ~BigSpiderProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class CamAnimSet {
 public:
     virtual ~CamAnimSet();
-    void finalize();
+    virtual void finalize();
     void* m_w2 = nullptr;  // +0x8
 };
 
 class CharAnim {
 public:
     virtual ~CharAnim();
-    void finalize();
+    virtual void finalize();
     void* m_w17 = nullptr;  // +0x44
     void* m_w34 = nullptr;  // +0x88
 };
@@ -345,8 +345,8 @@ public:
 class CharEffect {
 public:
     virtual ~CharEffect();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -357,20 +357,20 @@ public:
 class CharInfoName {
 public:
     virtual ~CharInfoName();
-    void finalize();
+    virtual void finalize();
 };
 
 class ClassFunc {
 public:
     virtual ~ClassFunc();
-    void finalize();
+    virtual void finalize();
 };
 
 class ClassFuncAddProp {
 public:
     virtual ~ClassFuncAddProp();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -381,8 +381,8 @@ public:
 class ClassFuncAddValue {
 public:
     virtual ~ClassFuncAddValue();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -393,8 +393,8 @@ public:
 class ClassFuncApplyGroupOnlyIf {
 public:
     virtual ~ClassFuncApplyGroupOnlyIf();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -405,8 +405,8 @@ public:
 class ClassFuncGroup {
 public:
     virtual ~ClassFuncGroup();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -417,8 +417,8 @@ public:
 class ClassFuncLinear {
 public:
     virtual ~ClassFuncLinear();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -429,8 +429,8 @@ public:
 class ClassFuncLinearLevel {
 public:
     virtual ~ClassFuncLinearLevel();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -441,8 +441,8 @@ public:
 class ClassFuncMinMax {
 public:
     virtual ~ClassFuncMinMax();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -453,8 +453,8 @@ public:
 class ClassFuncScaleWithPercentage {
 public:
     virtual ~ClassFuncScaleWithPercentage();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -465,8 +465,8 @@ public:
 class ClassFuncScaleWithPercentageForBuff {
 public:
     virtual ~ClassFuncScaleWithPercentageForBuff();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -477,8 +477,8 @@ public:
 class ClassFuncSetOID {
 public:
     virtual ~ClassFuncSetOID();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -489,8 +489,8 @@ public:
 class ClassFuncSetValue {
 public:
     virtual ~ClassFuncSetValue();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -501,29 +501,29 @@ public:
 class Coward_Dog : public CharacterProperties {
 public:
     ~Coward_Dog() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class CultistProperties : public CharacterProperties {
 public:
     ~CultistProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class DKProperties : public CharacterProperties {
 public:
     ~DKProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class DesignSettings {
 public:
     virtual ~DesignSettings();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     float m_w1 = 0.0f;  // +0x4
     float m_w2 = 0.0f;  // +0x8
     float m_w3 = 0.0f;  // +0xc
@@ -572,8 +572,8 @@ public:
 class DialogStep {
 public:
     virtual ~DialogStep();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -583,50 +583,50 @@ public:
 class DragonProperties : public CharacterProperties {
 public:
     ~DragonProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class EquippedFaeryProperties : public CharacterProperties {
 public:
     ~EquippedFaeryProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Faery {
 public:
     virtual ~Faery();
-    void finalize();
+    virtual void finalize();
     void* m_w6 = nullptr;  // +0x18
 };
 
 class FaeryList {
 public:
     virtual ~FaeryList();
-    void finalize();
+    virtual void finalize();
     void* m_w2 = nullptr;  // +0x8
 };
 
 class FastTravelDestination {
 public:
     virtual ~FastTravelDestination();
-    void finalize();
+    virtual void finalize();
     void* m_w4 = nullptr;  // +0x10
 };
 
 class FollowerProperties : public CharacterProperties {
 public:
     ~FollowerProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class FontColorDef {
 public:
     virtual ~FontColorDef();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -634,15 +634,15 @@ public:
 class FriendlyNPCProperties : public CharacterProperties {
 public:
     ~FriendlyNPCProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GameDifficulty {
 public:
     virtual ~GameDifficulty();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -653,8 +653,8 @@ public:
 class GameObjectDamage {
 public:
     virtual ~GameObjectDamage();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -665,8 +665,8 @@ public:
 class GameObjectVisual {
 public:
     virtual ~GameObjectVisual();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -679,8 +679,8 @@ public:
 class GameOption {
 public:
     virtual ~GameOption();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -693,64 +693,64 @@ public:
 class GameOptionSelect : public GameOption {
 public:
     ~GameOptionSelect() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GameOptionSlider : public GameOption {
 public:
     ~GameOptionSlider() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GameOptionToggle : public GameOption {
 public:
     ~GameOptionToggle() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GhostProperties : public CharacterProperties {
 public:
     ~GhostProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GoblinRogueProperties : public CharacterProperties {
 public:
     ~GoblinRogueProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GoblinShamanProperties : public CharacterProperties {
 public:
     ~GoblinShamanProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GoblinSlingerProperties : public CharacterProperties {
 public:
     ~GoblinSlingerProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class GuardProperties : public CharacterProperties {
 public:
     ~GuardProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class HelpPage {
 public:
     virtual ~HelpPage();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -758,8 +758,8 @@ public:
 class HintPage {
 public:
     virtual ~HintPage();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -767,34 +767,34 @@ public:
 class InfectedProperties : public CharacterProperties {
 public:
     ~InfectedProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Inventory {
 public:
     virtual ~Inventory();
-    void finalize();
+    virtual void finalize();
 };
 
 class ItemBase {
 public:
     virtual ~ItemBase();
-    void finalize();
+    virtual void finalize();
     void* m_w2 = nullptr;  // +0x8
 };
 
 class ItemListEntry {
 public:
     virtual ~ItemListEntry();
-    void finalize();
+    virtual void finalize();
 };
 
 class ItemPowerEntry {
 public:
     virtual ~ItemPowerEntry();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int8_t m_w2 = 0;  // +0x8
 };
@@ -802,14 +802,14 @@ public:
 class LargePlantProperties : public CharacterProperties {
 public:
     ~LargePlantProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class LevelDeclaration {
 public:
     virtual ~LevelDeclaration();
-    void finalize();
+    virtual void finalize();
     void* m_w3 = nullptr;  // +0xc
     void* m_w8 = nullptr;  // +0x20
 };
@@ -817,16 +817,16 @@ public:
 class LiftableObject {
 public:
     virtual ~LiftableObject();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
 };
 
 class Listener {
 public:
     virtual ~Listener();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -838,8 +838,8 @@ public:
 class ListenerVector {
 public:
     virtual ~ListenerVector();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     float m_w1 = 0.0f;  // +0x4
     float m_w2 = 0.0f;  // +0x8
     float m_w3 = 0.0f;  // +0xc
@@ -848,49 +848,49 @@ public:
 class LizardManProperties : public CharacterProperties {
 public:
     ~LizardManProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class LootEntry {
 public:
     virtual ~LootEntry();
-    void finalize();
+    virtual void finalize();
 };
 
 class MadrukEnergySpawnerProperties : public CharacterProperties {
 public:
     ~MadrukEnergySpawnerProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MadrukMinionProperties : public CharacterProperties {
 public:
     ~MadrukMinionProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MadrukProperties : public CharacterProperties {
 public:
     ~MadrukProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MadrukTorsoProperties : public CharacterProperties {
 public:
     ~MadrukTorsoProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MerchandiseListEntry {
 public:
     virtual ~MerchandiseListEntry();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -898,29 +898,29 @@ public:
 class MerchantProperties : public CharacterProperties {
 public:
     ~MerchantProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MothCocoonProperties : public CharacterProperties {
 public:
     ~MothCocoonProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class MothProperties : public CharacterProperties {
 public:
     ~MothProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class NumProb {
 public:
     virtual ~NumProb();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int16_t m_w1 = 0;  // +0x4
     std::int16_t m_off6 = 0;  // +0x6
 };
@@ -928,15 +928,15 @@ public:
 class PlayerProperties : public CharacterProperties {
 public:
     ~PlayerProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Pos3D {
 public:
     virtual ~Pos3D();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -945,8 +945,8 @@ public:
 class Projectile {
 public:
     virtual ~Projectile();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     bool m_w1 = false;  // +0x4
     bool m_off5 = false;  // +0x5
     std::int32_t m_w2 = 0;  // +0x8
@@ -972,8 +972,8 @@ public:
 class Rect {
 public:
     virtual ~Rect();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -983,8 +983,8 @@ public:
 class RepeatableSprite {
 public:
     virtual ~RepeatableSprite();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int16_t m_w1 = 0;  // +0x4
     bool m_off6 = false;  // +0x6
     std::int16_t m_w2 = 0;  // +0x8
@@ -1000,35 +1000,35 @@ public:
 class ResurrectingGodProperties : public CharacterProperties {
 public:
     ~ResurrectingGodProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class RootTrollProperties : public CharacterProperties {
 public:
     ~RootTrollProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SandWormProperties : public CharacterProperties {
 public:
     ~SandWormProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SkeletonProperties : public CharacterProperties {
 public:
     ~SkeletonProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Skill {
 public:
     virtual ~Skill();
-    void finalize();
+    virtual void finalize();
     void* m_w4 = nullptr;  // +0x10
     void* m_w10 = nullptr;  // +0x28
     void* m_w15 = nullptr;  // +0x3c
@@ -1037,36 +1037,36 @@ public:
 class SkillList {
 public:
     virtual ~SkillList();
-    void finalize();
+    virtual void finalize();
     void* m_w2 = nullptr;  // +0x8
 };
 
 class SlimeProperties : public CharacterProperties {
 public:
     ~SlimeProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SmallPlantProperties : public CharacterProperties {
 public:
     ~SmallPlantProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SnowWolfProperties : public CharacterProperties {
 public:
     ~SnowWolfProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SoundAutoGen {
 public:
     virtual ~SoundAutoGen();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -1074,8 +1074,8 @@ public:
 class SoundBank {
 public:
     virtual ~SoundBank();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
 };
@@ -1083,15 +1083,15 @@ public:
 class SoundEventAutoGen : public SoundAutoGen {
 public:
     ~SoundEventAutoGen() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class SpawnInfo {
 public:
     virtual ~SpawnInfo();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -1100,15 +1100,15 @@ public:
 class SpiderProperties : public CharacterProperties {
 public:
     ~SpiderProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class StatAutoAssignTarget {
 public:
     virtual ~StatAutoAssignTarget();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -1117,15 +1117,15 @@ public:
 class SwampKingProperties : public CharacterProperties {
 public:
     ~SwampKingProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class TileOffset {
 public:
     virtual ~TileOffset();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int16_t m_w1 = 0;  // +0x4
     std::int16_t m_off6 = 0;  // +0x6
 };
@@ -1133,8 +1133,8 @@ public:
 class TriggerPlate {
 public:
     virtual ~TriggerPlate();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     bool m_w2 = false;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -1147,22 +1147,22 @@ public:
 class TrollKingProperties : public CharacterProperties {
 public:
     ~TrollKingProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class TrollProperties : public CharacterProperties {
 public:
     ~TrollProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Trophy {
 public:
     virtual ~Trophy();
-    void finalize();
-    void read(IStreamBase* stream);
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::int32_t m_w1 = 0;  // +0x4
     std::int32_t m_w2 = 0;  // +0x8
     std::int32_t m_w3 = 0;  // +0xc
@@ -1175,66 +1175,66 @@ public:
 class Ugly_DogProperties : public CharacterProperties {
 public:
     ~Ugly_DogProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class Ugly_Dog_BigProperties : public CharacterProperties {
 public:
     ~Ugly_Dog_BigProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class WitchProperties : public CharacterProperties {
 public:
     ~WitchProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class WldMapLocation {
 public:
     virtual ~WldMapLocation();
-    void finalize();
+    virtual void finalize();
     void* m_w4 = nullptr;  // +0x10
 };
 
 class WorldMapLocker {
 public:
     virtual ~WorldMapLocker();
-    void finalize();
+    virtual void finalize();
 };
 
 class YetiProperties : public CharacterProperties {
 public:
     ~YetiProperties() override;
-    void finalize();
-    void read(IStreamBase* stream);
+    void finalize() override;
+    void read(IStreamBase* stream) override;
 };
 
 class v2Condition {
 public:
     virtual ~v2Condition();
-    void finalize();
+    virtual void finalize();
 };
 
 class v2ConditionStub : public v2Condition {
 public:
     ~v2ConditionStub() override;
-    void finalize();
+    void finalize() override;
 };
 
 class v2QuestObjective {
 public:
     virtual ~v2QuestObjective();
-    void finalize();
+    virtual void finalize();
 };
 
 class v2QuestObjectiveStub : public v2QuestObjective {
 public:
     ~v2QuestObjectiveStub() override;
-    void finalize();
+    void finalize() override;
     void* m_w5 = nullptr;  // +0x14
     void* m_w7 = nullptr;  // +0x1c
 };
@@ -1242,19 +1242,19 @@ public:
 class v2QuestReward {
 public:
     virtual ~v2QuestReward();
-    void finalize();
+    virtual void finalize();
 };
 
 class v2QuestRewardStub : public v2QuestReward {
 public:
     ~v2QuestRewardStub() override;
-    void finalize();
+    void finalize() override;
 };
 
 class v2QuestScripts {
 public:
     virtual ~v2QuestScripts();
-    void finalize();
+    virtual void finalize();
     void* m_w2 = nullptr;  // +0x8
     void* m_w4 = nullptr;  // +0x10
     void* m_w6 = nullptr;  // +0x18

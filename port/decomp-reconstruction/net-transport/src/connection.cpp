@@ -67,7 +67,7 @@ CConnection::~CConnection() {
 
 // 0x825338 _ZN11CConnection10IsToServerEv
 bool CConnection::IsToServer() const {
-    return matching_key_ == matching_calls::MatchingKey();
+    return member_id_ == matching_calls::MatchingKey();
 }
 
 // 0x825360 _ZN11CConnection15PrintStatisticsEv
@@ -97,7 +97,7 @@ void CConnection::CheckForLag(std::uint32_t now) {
         }
     } else {
         if (!lag_flag_) {
-            connection_manager_calls::AddEvent(kEventLag, &matching_key_, 4);
+            connection_manager_calls::AddEvent(kEventLag, &member_id_, 4);
             lag_flag_ = true;
         }
         lag_start_time_ = static_cast<std::int32_t>(now);
@@ -139,20 +139,20 @@ void CConnection::SendPacket(std::uint8_t type, const void* payload, std::size_t
 
 // 0x8256e4 _ZN11CConnection19SendConnectFinalizeEv
 void CConnection::SendConnectFinalize() {
-    const HandshakePayload payload{matching_calls::LocalId(), matching_key_, key_};
+    const HandshakePayload payload{matching_calls::LocalId(), member_id_, key_};
     SendPacket(2, &payload, kHandshakeBytes);
 }
 
 // 0x825788 _ZN11CConnection19SendConnectResponseEv
 void CConnection::SendConnectResponse() {
-    const HandshakePayload payload{matching_calls::LocalId(), matching_key_, key_};
+    const HandshakePayload payload{matching_calls::LocalId(), member_id_, key_};
     SendPacket(1, &payload, kHandshakeBytes);
 }
 
 // 0x82605c _ZN11CConnection18SendConnectRequestEv
 void CConnection::SendConnectRequest() {
     last_send_time_ = online_calls::Now();
-    const HandshakePayload payload{matching_calls::LocalId(), matching_key_, key_};
+    const HandshakePayload payload{matching_calls::LocalId(), member_id_, key_};
     SendPacket(0, &payload, kHandshakeBytes);
 }
 
@@ -234,7 +234,7 @@ void CConnection::ProcessConnectResponse(CNetworkId& id) {
 // field2/field3 terms (see KeyOf). The two dead stores of the original (+0x1bc and +0x1b8 before
 // the key is written) are overwritten and are not reproduced.
 int CConnection::Connect(int matching_key, CNetworkId& peer) {
-    matching_key_ = matching_key;
+    member_id_ = matching_key;
     if (&peer_id_ != &peer) {
         peer_id_ = peer;
     }
@@ -249,7 +249,7 @@ int CConnection::Connect(int matching_key, CNetworkId& peer) {
 
 // 0x826640 _ZN11CConnection6AcceptEiR10CNetworkIdy
 int CConnection::Accept(int matching_key, CNetworkId& peer, std::uint64_t key) {
-    matching_key_ = matching_key;
+    member_id_ = matching_key;
     peer_id_.Set(peer);
     state_ = 3;
     const int result = transport_calls::Connect(peer);
@@ -267,7 +267,7 @@ int CConnection::Disconnect() {
         state_ = 1;
         const std::int32_t local_id = matching_calls::LocalId();
         SendPacket(4, &local_id, 4);
-        connection_manager_calls::AddEvent(kEventDisconnect, &matching_key_, 4);
+        connection_manager_calls::AddEvent(kEventDisconnect, &member_id_, 4);
     }
     return 0;
 }
@@ -288,7 +288,7 @@ void CConnection::Update() {
 
     if (state_ == 2 || state_ == 3) {
         if (KeyOf(peer_id_) == KeyOf(handshake_id_)) {
-            connection_manager_calls::AddEvent(kEventConnectDone, &matching_key_, 4);
+            connection_manager_calls::AddEvent(kEventConnectDone, &member_id_, 4);
             state_ = 4;
         }
     }

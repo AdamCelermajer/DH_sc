@@ -106,9 +106,10 @@ DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, 
         destroy_stream();
         return NullDataHandle();
     }
-    for (int i = 0; i < 4; ++i) {
-        obj->params_[i] = params[i];  // +0x28..+0x34
-    }
+    obj->channels_ = params[0];         // +0x28
+    obj->sample_rate_ = params[1];      // +0x2c
+    obj->bits_per_sample_ = params[2];  // +0x30
+    obj->length_ = params[3];           // +0x34
     obj->state_ = 0;  // +0x50: ready (IsReady)
     obj->source_flags_ = 0;
 

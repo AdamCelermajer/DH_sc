@@ -1,5 +1,6 @@
-// pixel_format size helpers, run over a test table written into PFDTable.
-// The real table is not in the repo, so these checks use rows made up here.
+// pixel_format size helpers, run over rows written into PFDTable.
+// The table holds the real bytes now, so the rows used here are cleared first and
+// then set to made-up values.
 #include <cstdio>
 
 #include "glitch-video/pixel_format.hpp"
@@ -12,6 +13,7 @@ static int failures = 0;
 
 int main() {
     auto& t = pf::detail::PFDTable;
+    for (auto& e : t) e = pf::detail::SFormatEntry{};
 
     // Row 0: 32 bpp, uncompressed. Pitch 4*w, size h * pitch.
     t[0].bitsPerPixel = 32;
