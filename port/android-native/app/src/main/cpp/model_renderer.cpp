@@ -324,6 +324,7 @@
 #include <sys/time.h>
 
 namespace model_renderer {
+static bool persist_after_inventory_mutation(std::uintptr_t identity,std::string& error);
 dh2::monster_external_script::ObjectServices native_monster_object_services();
 int native_player_death_aggro_service(void*,const dh2::player_ai_death_v1::Request*,
     dh2::player_ai_death_v1::Reply*,std::string&);
@@ -1191,6 +1192,9 @@ struct PlayerCombat {
  std::shared_ptr<const std::vector<std::uint8_t>> inventory_loot_constants_bytes;
  dh2_pycst_view inventory_loot_constants{};
  std::int32_t automatic_pickup_type=-1;
+ // Script_UnEquipHands saves ItemInventory::GetItemIndex of hands 1/2 here
+ // (-1 when empty) for Script_ReEquipHands; Character fields 1341/1342.
+ std::int32_t hand_equip_index[2]={-1,-1};
  std::shared_ptr<dh2::data::ItemAudioVisualTableV1> item_audio_visuals;
  std::shared_ptr<dh2::data::ItemPowerTablesV5> item_power_tables;
  std::shared_ptr<dh2::data::LootPowerResourcesV7> loot_power_resources;
@@ -23553,6 +23557,52 @@ bool native_script_set_visible(std::uintptr_t identity,bool visible,bool disable
  return true;
 }
 }
+// Script_UnEquipHands 0x45ded0 and Script_ReEquipHands 0x45d95c target the
+// Player Character. Unequip first records ItemInventory::GetItemIndex for the
+// current set's slots 1 and 2 (-1 when empty), then calls UnEquipItemFromSlot(1)
+// and (2). ReEquip calls EquipItemToSlot(slot, saved index) for each saved index
+// that is not -1. Both route through the Player's canonical V4 inventory and V6
+// equipment services, and the saved indices live on PlayerCombat.
+static bool native_player_hand_services_ready(std::string& error){
+ if(!player_equipment_native||!player_equipment_native->services||!prince_combat.inventory||
+    &player_equipment_native->services->inventory()!=prince_combat.inventory.get()||
+    prince_combat.inventory->character()!=prince_character.identity()){
+  error="Hand equipment requires the Player's canonical V4 and V6-backed equipment services";
+  return false;
+ }
+ return true;
+}
+static int native_player_unequip_hands(){
+ std::string error;
+ if(!native_player_hand_services_ready(error))return -1;
+ auto& inventory=*prince_combat.inventory;
+ const auto set=static_cast<std::size_t>(inventory.current_equipment());
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  std::int32_t saved=-1;
+  if(auto* cell=inventory.equipment()[set][slot]){
+   for(std::size_t i=0;i<inventory.items().size();++i){
+    if(inventory.items()[i].get()==cell){saved=static_cast<std::int32_t>(i);break;}
+   }
+  }
+  prince_combat.hand_equip_index[slot-1]=saved;
+ }
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  if(!player_equipment_native->services->unequip(slot,error))return -1;
+ }
+ return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+}
+static int native_player_reequip_hands(){
+ std::string error;
+ if(!native_player_hand_services_ready(error))return -1;
+ const auto& inventory=*prince_combat.inventory;
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  const auto saved=prince_combat.hand_equip_index[slot-1];
+  if(saved==-1)continue;
+  if(saved<0||std::size_t(saved)>=inventory.items().size())return -1;
+  if(!player_equipment_native->services->equip(slot,static_cast<std::uint32_t>(saved),error))return -1;
+ }
+ return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+}
 bool native_level_script_host_supports(void*,const dh2_script_command* command){
  if(!command)return false;
  const auto& c=*command;
@@ -23594,6 +23644,11 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
   return c.field_count==1&&native_script_name_field(c,0);
+ case 51: case 52: // UnEquipHands(S)/ReEquipHands(S): one target name
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
  case 27: // SetFaeryState(I index, I state)
   return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
@@ -23923,6 +23978,34 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    std::string error;
    return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
        std::uint32_t(native_save_difficulty),error)?1:-1;
+  }
+  case 22: case 23: {
+   // Script_ShowFlash::Execute 0x45f8c8 / Script_HideFlash::Execute 0x45f78c:
+   // non-HUD names resolve MenuManager::GetMenuByName and call MenuBase::Show
+   // (0x425450) / Hide (0x424af4) without a stack push. The HUD branch
+   // (DisplayRightHud/FillActionIcon) is used by no level script.
+   const auto name=native_script_string(c,1);
+   if(name.find("HUD")!=std::string::npos)return -2;
+   if(!native_gameplay_ui)return -1;
+   std::string error;
+   const bool ok=c.command_id==22?native_gameplay_ui->show_script_flash(name,error):
+                                  native_gameplay_ui->hide_script_flash(name,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s %s failed | %s",
+       c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),error.c_str());
+   return ok?1:-1;
+  }
+  case 51: case 52: {
+   // Script_UnEquipHands 0x45ded0 / Script_ReEquipHands 0x45d95c: resolve the
+   // target name (ObjectManager lookup, status 0 = absent like the original's
+   // null ObjectHandle). Only the Player Character has an equipment owner here;
+   // other Characters return -2 until their canonical inventory is bound.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity!=prince_character.identity())return -2;
+   return c.command_id==51?native_player_unequip_hands():native_player_reequip_hands();
   }
   default:return -2;
   }

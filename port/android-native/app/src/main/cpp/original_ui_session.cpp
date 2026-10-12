@@ -4361,6 +4361,83 @@ bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error)
     if(!self.settings->lock_tutorial(id)){error.clear();return true;}
     return Impl::save_settings(impl_.get(),error);
 }
+bool OriginalUiSession::show_script_flash(const std::string& name,std::string& error){
+    // Script_ShowFlash::Execute tests strstr(name,"HUD"). That branch runs
+    // DisplayRightHud/FillActionIcon/DisplayOfCurrentHud; no level script uses it.
+    if(name.find("HUD")!=std::string::npos){
+        error="ShowFlash HUD-named branch is not reconstructed";return false;
+    }
+    if(name.empty()||name.find(' ')!=std::string::npos){
+        error="ShowFlash requires a menu name";return false;
+    }
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="ShowFlash requires the retained gameplay HUD movie";return false;
+    }
+    struct Flash {const std::string& name;} context{name};
+    return self.movie->menu_action_script(&context,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            const auto& flash=static_cast<Flash*>(raw)->name;
+            ui::SwfAsValue root,menu,visibility,result;
+            bool visible=false,accepted=false,callable=false,found=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,("_root."+flash).c_str(),menu,nested_error))return false;
+            // MenuManager::GetMenuByName returning null is a source no-op.
+            if(!menu.identity()){nested_error.clear();return true;}
+            if(!graph.get_member(menu,"_visible",visibility,found,nested_error))return false;
+            if(!found){nested_error="Authored flash visibility member absent";return false;}
+            if(!graph.to_boolean(visibility,visible,nested_error))return false;
+            // MenuBase::Show returns early when the menu is already visible.
+            if(visible){nested_error.clear();return true;}
+            if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(true),
+                                 accepted,nested_error))return false;
+            if(!accepted){nested_error="Authored flash visibility write rejected";return false;}
+            // MenuBase::Show invokes onPush through RenderFX::InvokeASCallback.
+            return graph.invoke(menu,menu,"onPush",{},result,callable,nested_error);
+        },error);
+}
+bool OriginalUiSession::hide_script_flash(const std::string& name,std::string& error){
+    // Script_HideFlash::Execute uses the same HUD-name split as ShowFlash.
+    if(name.find("HUD")!=std::string::npos){
+        error="HideFlash HUD-named branch is not reconstructed";return false;
+    }
+    if(name.empty()||name.find(' ')!=std::string::npos){
+        error="HideFlash requires a menu name";return false;
+    }
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="HideFlash requires the retained gameplay HUD movie";return false;
+    }
+    struct Flash {const std::string& name;} context{name};
+    return self.movie->menu_action_script(&context,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            const auto& flash=static_cast<Flash*>(raw)->name;
+            ui::SwfAsValue root,menu,visibility,result;
+            bool visible=false,accepted=false,callable=false,found=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,("_root."+flash).c_str(),menu,nested_error))return false;
+            if(!menu.identity()){nested_error.clear();return true;}
+            if(!graph.get_member(menu,"_visible",visibility,found,nested_error))return false;
+            if(!found){nested_error="Authored flash visibility member absent";return false;}
+            if(!graph.to_boolean(visibility,visible,nested_error))return false;
+            // MenuBase::Hide returns early when the menu is already hidden.
+            if(!visible){nested_error.clear();return true;}
+            if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(false),
+                                 accepted,nested_error))return false;
+            if(!accepted){nested_error="Authored flash visibility write rejected";return false;}
+            return graph.invoke(menu,menu,"onPop",{},result,callable,nested_error);
+        },error);
+}
+bool OriginalUiSession::source_tutorial_active(std::int32_t id,bool& active,std::string& error)const{
+    active=false;
+    const auto& self=*impl_;
+    if(!self.settings){error="Settings tutorial byte requires the retained settings owner";return false;}
+    const auto& tutorials=self.settings->tutorials();
+    if(id<0||std::size_t(id)>=tutorials.size()){
+        error="Settings tutorial id is out of range";return false;
+    }
+    active=tutorials[std::size_t(id)]!=0;error.clear();return true;
+}
 void OriginalUiSession::queue_level_transition(const std::string& destination,double raw_entry_point){
     NativeStartGameIntentV1 request{};
     request.kind=NativeStartGameIntentV1::Kind::level_transition;
