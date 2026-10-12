@@ -3,6 +3,7 @@
 // mutex lock it (+0x3f4) around the call; UpdateDSP, Get/SetOutputMode and
 // SetPriorityBank do not, as in the original.
 #include "vox-audio/vox/driver.hpp"
+#include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/priority_bank.hpp"
 #include "vox-audio/vox/voxengine_internal.hpp"
 
@@ -70,7 +71,7 @@ int VoxEngineInternal::SetOutputMode(VoxOutputMode mode) {
 // 0x8660d4 _ZN3vox17VoxEngineInternal13GetMasterGainEv
 float VoxEngineInternal::GetMasterGain() {
     mutex_.Lock();
-    float gain = master_gain_;
+    float gain = master_fade_.target;
     mutex_.Unlock();
     return gain;
 }
@@ -81,7 +82,7 @@ float VoxEngineInternal::GetGroupGain(int group) {
     mutex_.Lock();
     float gain = 0.0f;
     if (static_cast<unsigned int>(group) <= 31u) {
-        gain = group_slots_[group].gain;
+        gain = group_fades_[group].target;
     }
     mutex_.Unlock();
     return gain;
@@ -135,6 +136,30 @@ void VoxEngineInternal::SetPriorityBank(int index, int min_priority, int max_pri
         return;
     }
     priority_bank_->SetPriorityBank(index, min_priority, max_priority, behavior);
+}
+
+// 0x86b9b8 _ZN3vox17VoxEngineInternal12SetGroupGainEjff
+// group is a bit mask over the 32 groups. For each set bit the group's record restarts its
+// fade: the current value is where the old fade has reached, the target is the clamped gain,
+// the elapsed time is zero and the duration is time + 0.001 (the 0x3a83126f constant).
+void VoxEngineInternal::SetGroupGain(unsigned int group, float gain, float time) {
+    float target = ClampGainUnit(gain);
+    mutex_.Lock();
+    if (group != 0) {
+        for (int i = 0; i < 32; ++i) {
+            if ((group & (1u << i)) != 0) {
+                RestartFade(group_fades_[i], target, time);
+            }
+        }
+    }
+    mutex_.Unlock();
+}
+
+// 0x86bd5c _ZN3vox17VoxEngineInternal13SetMasterGainEff
+void VoxEngineInternal::SetMasterGain(float gain, float time) {
+    mutex_.Lock();
+    RestartFade(master_fade_, ClampGainUnit(gain), time);
+    mutex_.Unlock();
 }
 
 }  // namespace vox

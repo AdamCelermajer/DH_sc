@@ -12,6 +12,7 @@
 #include <cstdint>
 
 #include "vox-audio/vox/access_controller.hpp"
+#include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/handlable.hpp"
 #include "vox-audio/vox/mutex.hpp"
 #include "vox-audio/vox/voxengine_types.hpp"
@@ -21,13 +22,6 @@ namespace vox {
 class DriverInterface;
 class PriorityBankManager;
 class DataObj;
-
-// One of the 32 group slots at +0xf8 (stride 20 bytes). Only the gain word is used
-// by the accessors reconstructed so far.
-struct VoxGroupSlot {
-    float gain = 0.0f;                  // +0x00 within the slot
-    std::uint32_t unknown[4] = {};      // +0x04..+0x13, not used yet
-};
 
 class VoxEngineInternal {
 public:
@@ -180,9 +174,9 @@ private:
     bool general_dirty_[3] = {};               // +0x434, +0x435, +0x436 (params 0, 1, 2)
     bool listener_dirty_[3] = {};              // +0x437 position, +0x438 velocity, +0x439 orientation
 
-    float master_gain_ = 0.0f;                 // +0xe4 (read by GetMasterGain)
+    VoxGainFade master_fade_;                  // +0xe0 (target at +0xe4 is read by GetMasterGain)
     PriorityBankManager* priority_bank_ = nullptr;  // +0xdc
-    VoxGroupSlot group_slots_[32];             // +0xf8, 32 slots of 20 bytes
+    VoxGainFade group_fades_[32];              // +0xf4, 32 records of 20 bytes (targets at +0xf8)
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
     // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
     // decoders at +0x4c8 with the count at +0x548.
