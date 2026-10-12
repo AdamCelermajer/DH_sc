@@ -403,7 +403,6 @@ void destroyEndOfBatchCallback(SDefaultEndOfBatchCallback& self) {
 // ------------------------------------------------------- CTriangleSelector
 
 //@ 0x590f70
-//@ 0x5913fc
 //@ partial: releases the owned buffer; the vtable reset of the base is not modelled.
 void releaseTriangleSelector(TriangleSelector& self) {
     std::free(self.ownedBuffer);

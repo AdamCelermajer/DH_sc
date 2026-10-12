@@ -75,10 +75,16 @@ public:
     virtual const std::uint32_t* getRotationWords() const = 0;
 };
 
+// Reference-counted object (IReferenceCounted): vptr at +0x00, count at +0x04.
+struct RefCountedStandIn {
+    std::uint32_t vptr = 0;
+    std::uint32_t refCount = 0;
+};
+
 // Out-parameter slot for the functions the original returns through a hidden
 // reference (intrusive_ptr-style result). Holds the object pointer only.
 struct OutSlotStandIn {
-    void* object = nullptr;
+    RefCountedStandIn* object = nullptr;
 };
 
 // ---------------------------------------------------------------------------
@@ -129,6 +135,13 @@ CRootSceneNode* constructNodeEntry(const CColladaDatabase& db, video::IVideoDriv
 CRootSceneNode* constructNodeByName(const CColladaDatabase& db, video::IVideoDriver* driver, const char* name,
                                     CRootSceneNode* root) noexcept;
 CRootSceneNode* constructSceneEntry(const CColladaDatabase& db, video::IVideoDriver* driver) noexcept;
+OutSlotStandIn* constructGeometryEntry(OutSlotStandIn* out, const CColladaDatabase& db, const char* a3,
+                                       const char* a5) noexcept;
+OutSlotStandIn* constructMaterialEntry(OutSlotStandIn* out, const CColladaDatabase& db, video::IVideoDriver* driver,
+                                       SMaterial* material, CRootSceneNode* root) noexcept;
+SNode* findNode(const CColladaDatabase& db, const char* name) noexcept;
+int blendableOfAnimation(const CColladaDatabase& db, const SAnimation* animation) noexcept;
+char* defaultValueOfAnimation(const CColladaDatabase& db, const SAnimation* animation, void** out) noexcept;
 
 // Quaternion library math (glitch::core::quaternion::operator* and ::slerp).
 void quaternionMultiply(float out[4], const float lhs[4], const float rhs[4]) noexcept;
