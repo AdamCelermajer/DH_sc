@@ -199,6 +199,7 @@ elf_address,symbol,status,source_file,notes
 0x801b08,_ZN14CMatchingLocal12IsRoomClosedEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
 0x801b14,_ZN14CMatchingLocal12IsRoomHiddenEv,reconstructed,net-session-online/src/c_matching_local.cpp,"the hidden flag, else the closed flag"
 0x801b3c,_ZN14CMatchingLocal11SetMemberIdEi,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
+0x801b54,_ZN16CMatchingLocal17GetRoomAttributesEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline accessor returning &roomAttributes_ (+0x4660)
 0x801b60,_ZN18CMatchingBluetooth16GetTransportTypeE14tPROTOCOL_TYPE,reconstructed,net-session-online/src/c_matching_bluetooth.cpp,"static; table CSWTCH.653 {3, 4, 4}; types above 2 give 0; object not read"
 0x801fb0,_ZN14CMatchingLocal14SendInvitationEPKcS1_b,reconstructed,net-session-online/src/c_matching_local.cpp,posts event 0x800015 to the matching internal queue (deps stand-in); returns 0; string and bool arguments unused
 0x801fe8,_ZN14CMatchingLocal17ReceiveInvitationEv,reconstructed,net-session-online/src/c_matching_local.cpp,posts event 0x800017 to the matching internal queue (deps stand-in); returns 0
