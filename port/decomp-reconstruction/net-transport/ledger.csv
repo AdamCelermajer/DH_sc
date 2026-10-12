@@ -151,3 +151,39 @@ elf_address,symbol,status,source_file,notes
 0x8455c0,_ZN6Thread3RunEv,partial,net-transport/src/sync.cpp,XP_DEBUG_OUT thread-id log dropped
 0x84560c,_ZN6Thread4StopEv,reconstructed,net-transport/src/sync.cpp,
 0x845688,_ZN6Thread5StartEv,reconstructed,net-transport/src/sync.cpp,pthread_create mapped to std::thread
+0x840880,_ZN14CAndroidSocket4InitEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840884,_ZN14CAndroidSocket12IsReadyForRWEv,reconstructed,net-transport/src/android_socket.cpp,fd bitmap at +0x86c; out-of-range fds return false
+0x8408ac,_ZN14CAndroidSocket13SendBroadcastEPKcii,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped
+0x8409a0,_ZN14CAndroidSocket12SetBroadcastEv,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT on failure dropped
+0x840a04,_ZN14CAndroidSocket6ListenEi,partial,net-transport/src/android_socket.cpp,Listen failed log dropped
+0x840a30,_ZN14CAndroidSocket13GetSocketPortEv,partial,net-transport/src/android_socket.cpp,return type inferred from stack-check tail
+0x840ab4,_ZN14CAndroidSocket13GetSocketAddrEv,reconstructed,net-transport/src/android_socket.cpp,gethostname then gethostbyname; inet_ntoa static buffer as original
+0x840b4c,_ZN14CAndroidSocket16RecvFromUnkownIPEPciPS0_Pi,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped; ip_out is new[] copy owned by caller
+0x840c60,_ZN14CAndroidSocket11GetHostNameEPPc,reconstructed,net-transport/src/android_socket.cpp,buffer zeroed first (original uninitialised on failure)
+0x840cc8,_ZN14CAndroidSocket8RecvFromEPci,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped
+0x840de0,_ZN14CAndroidSocket6SendToEPKciS1_i,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped; null host sends nothing
+0x840ed0,_ZN14CAndroidSocket16CreateIcmpSocketEv,reconstructed,net-transport/src/android_socket.cpp,SOCK_DGRAM+IPPROTO_ICMP unsupported on Winsock (returns false)
+0x840f04,_ZN14CAndroidSocket15CreateUdpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840f38,_ZN14CAndroidSocket15CreateTcpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840f68,_ZN14CAndroidSocket12CreateSocketEv,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT on failure dropped
+0x840fc8,_ZN14CAndroidSocket4BindEPct,partial,net-transport/src/android_socket.cpp,inet_addr result discarded as original so always INADDR_ANY; retry loop unbounded as original
+0x8410d8,_ZN14CAndroidSocket4RecvEPci,reconstructed,net-transport/src/android_socket.cpp,XP_API_GET_TIME result unused and dropped
+0x8410f8,_ZN14CAndroidSocket4SendEPci,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped
+0x8411e8,_ZN14CAndroidSocket6SelectEN15GLXPlayerSocket17XSocketSelectFlagE,reconstructed,net-transport/src/android_socket.cpp,fd bitmap modelled with FD_SET/FD_ISSET; fds >= 1024 return -1
+0x8412b4,_ZN14CAndroidSocket11CloseSocketEv,partial,net-transport/src/android_socket.cpp,CloseSocket debug line dropped
+0x8412f0,_ZN14CAndroidSocket9ConnectToEPci,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped; ConnectTo state machine reconstructed
+0x84152c,_ZN14CAndroidSocket7ConnectEv,partial,net-transport/src/android_socket.cpp,null host_ treated as failure instead of crash; XP_DEBUG_OUT dropped
+0x841790,_ZN14CAndroidSocket13ConnectByNameEPct,partial,net-transport/src/android_socket.cpp,port argument unused as original (port_ member used); XP_DEBUG_OUT dropped
+0x841ad0,_ZN14CAndroidSocket14SetNonBlockingEv,partial,net-transport/src/android_socket.cpp,XP_DEBUG_OUT dropped; closes socket on failure as original
+0x841b98,_ZN14CAndroidSocket12GetLastErrorEv,reconstructed,net-transport/src/android_socket.cpp,errno or WSAGetLastError
+0x841ca8,_ZN14CAndroidSocket13GetHostByNameEPc,partial,net-transport/src/android_socket.cpp,cache lookup reconstructed from ARM listing; cache entry is deep copy without alias list; full cache returns last entry
+0x841e4c,_ZN14CAndroidSocket9GetHostIPEPc,partial,net-transport/src/android_socket.cpp,tail truncated in pseudocode; cache store completed by reading ARM listing shape
+0x841fbc,_ZN14CAndroidSocket10GetLocalIPEPc,partial,net-transport/src/android_socket.cpp,_WIN32 path uses gethostbyname list instead of SIOCGIFCONF; POSIX buffer bounded by ifconf
+0x84210c,_ZN14CAndroidSocket7ClearupEv,partial,net-transport/src/android_socket.cpp,Winsock cleanup added for _WIN32
+0x842208,_ZN14CAndroidSocket7StartupEv,partial,net-transport/src/android_socket.cpp,SIGPIPE ignore plus cache reset; WSAStartup added for _WIN32; two unnamed globals not reproduced
+0x842260,_ZN14CAndroidSocketD1Ev,partial,net-transport/src/android_socket.cpp,worker join omitted (worker owned by GLXPlayerSocket base)
+0x8422b8,_ZN14CAndroidSocketD0Ev,skipped,net-transport/src/android_socket.cpp,deleting-destructor thunk; C++ delete covers it
+0x8422d4,_ZN14CAndroidSocketD2Ev,partial,net-transport/src/android_socket.cpp,worker join omitted (worker owned by GLXPlayerSocket base)
+0x84232c,_ZN14CAndroidSocketC1EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,GLXPlayerSocket base ctor not reconstructed; only port stored
+0x842360,_ZN14CAndroidSocket6AcceptEv,partial,net-transport/src/android_socket.cpp,returns accepted fd; new 0xcf4-byte socket object construction not reconstructed
+0x842430,_ZN14CAndroidSocketC2EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,GLXPlayerSocket base ctor not reconstructed; only port stored

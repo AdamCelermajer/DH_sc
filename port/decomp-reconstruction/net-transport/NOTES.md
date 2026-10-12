@@ -40,6 +40,34 @@ CNetworkEmulation: sets at +0x1C with stride 0x24, two sets, 9 fields each
 (delay, jitter, loss rate, loss param, duplicate rate, reorder rate, two int
 reorder params, one float reorder param). Peak timer at +0x08..+0x18.
 
+## CAndroidSocket (36 rows, session 2)
+
+Files: `include/net-transport/android_socket.hpp`, `src/android_socket.cpp`,
+`tests/android_socket_test.cpp` (loopback UDP send/poll/recv). One source file serves
+both platforms: POSIX headers, or winsock2 under `_WIN32` (Startup/Clearup call
+WSAStartup/WSACleanup there).
+
+Layout (32-bit offsets from the original): +0x04 status_ (7 = error), +0x08 fd_ (-1 when
+closed), +0x0c host_ (hostent*, set by ConnectByName), +0x10 port_ (host byte order),
++0x820 socket_kind_ (1 TCP, 2 UDP/ICMP), +0x85c conn_state_ (0 idle, 1 in progress,
+2 done, 3 failed), +0x860 worker_state_ (1 = lookup busy, disables the host cache),
++0x864 connect_start_ms_, +0x868 lookup_start_ms_, +0x86c ready_bits_[32] (the fd_set).
+Clock is steady_clock truncated to int ms, like XP_API_GET_TIME. Timeouts: connect 30001 ms,
+lookup 9999 ms.
+
+Host cache: static array of 4 entries (l_host/l_count). Entries are deep copies made
+from the system hostent. The ARM listing (`CAndroidSocket-fbded90aa208-001.asm`, at
+0x841ca8) confirms the cache-hit path and the "return last entry when full" behaviour.
+
+Not done here: the GLXPlayerSocket base (owned by net-session-online), its virtual
+slots (the original calls them through the vtable; here they are direct calls), the
+worker thread join in the destructor, and the object construction inside Accept().
+Winsock SOCKET values are stored in an int, which assumes small handle values.
+
+Bugs reproduced and flagged: Bind discards inet_addr() so it always binds INADDR_ANY;
+Bind's port-retry loop has no exit if no port works; ConnectByName ignores its port
+argument and uses port_.
+
 ## Decisions and original quirks (reproduced, flagged for review)
 
 - Debug ASSERT and XP_DEBUG_OUT logging is dropped (gAssertLevel, debug prints).
@@ -65,11 +93,11 @@ reorder params, one float reorder param). Peak timer at +0x08..+0x18.
 - std::thread replaces pthread_create/join; the destructor of Thread joins a running
   worker, which the original does not do.
 
-## Remaining (642 functions queued, not started)
+## Remaining (606 functions queued, not started)
 
-- Socket layer: CAndroidSocket (36), LCAndroidSocket (36), CSocket (24),
+- Socket layer: LCAndroidSocket (36), CSocket (24),
   CSocketAbstract (3), CTcp (20), CUdp (16), CTransport* , CTransportFactory.
-  These need Winsock on `_WIN32` and POSIX sockets otherwise.
+  These need Winsock on `_WIN32` and POSIX sockets otherwise. CAndroidSocket is done.
 - Bluetooth: CBluetoothReliable/Unreliable/Socket/SocketAbstract (~100). Logic
   reconstruction only, with OS calls guarded and marked `partial`.
 - Connection and transport managers: CConnectionManager (56), CConnection (26),
