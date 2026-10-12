@@ -84,6 +84,15 @@ public:
     }
 };
 
+// Stand-in for glitch::gui::IGUISpriteBank. The original stores 16-byte rectangles;
+// the stand-in exposes only the count and the width of one sprite.
+class IGUISpriteBank {
+public:
+    virtual ~IGUISpriteBank() = default;
+    virtual int spriteCount() const { return 0; }
+    virtual int spriteWidth(std::uint32_t index) const { (void)index; return 0; }
+};
+
 // Stand-in for glitch::gui::IGUIFont. Only the dimension and height queries are used.
 class IGUIFont {
 public:
@@ -105,26 +114,30 @@ public:
     virtual void updateAbsolutePosition() {}
     virtual bool isEnabled() const { return enabled; }
     virtual void setRelativePosition(const SRect& rect) { relativeRect = rect; }
+    virtual void setEnabled(bool value) { enabled = value; }
     virtual void addChild(IGUIElement* child);
     virtual void removeChild(IGUIElement* child);
+    // Hook for the list-box height pass (0x541c84, outside this slice). No-op here.
+    virtual void recalculateItemHeight() {}
 
-    void setTabOrder(int order);
-    IGUIElement* getNextElement(int direction, bool forward, bool skipDisabled, IGUIElement*& best,
-                                IGUIElement*& candidate, bool recursive) const;
+    // Original argument order is kept: groupFlag selects the tab group of the
+    // element; current is the last candidate visited; best is the element chosen.
+    bool getNextElement(bool groupFlag, IGUIElement*& current, IGUIElement*& best, bool recursive) const;
+    // The original takes an int argument it never reads; it is kept as a parameter.
+    void setTabOrder(int unusedArgument);
 
-    std::vector<IGUIElement*> children;  // +0x04 child list
+    std::vector<IGUIElement*> children;  // +0x04 child list (node order in the original)
     IGUIElement* parent = nullptr;       // +0x24
-    IGUIEnvironment* environment = nullptr;  // +0x2c
-    SRect absoluteRect;                  // +0x40..+0x4c
-    SRect relativeRect;                  // +0x38..
+    IGUIEnvironment* environment = nullptr;  // +0x150 (index 84)
+    SRect relativeRect;                  // +0x28 (x0 y0 x1 y1 at +0x28..+0x34)
+    SRect absoluteRect;                  // +0x38 (x0 y0 x1 y1 at +0x38..+0x44)
     bool visible = true;                 // +0x98
     bool enabled = true;                 // +0x99
-    bool tabStop = true;                 // +0x9a
-    bool tabGroup = false;               // +0x9b
+    bool tabStop = true;                 // +0x134
+    bool tabGroup = false;               // +0x13c
     std::wstring text;                   // +0xe4
     int id = -1;                         // +0x130
-    int tabOrder = -1;                   // +0x138 (value stored by setTabOrder)
-    std::uint32_t tabMaxOrder = 0;       // +0x134
+    int tabOrder = 0;                    // +0x138
 };
 
 // Stand-in for glitch::gui::CGUIScrollBar. The bar keeps the position and the
@@ -135,6 +148,7 @@ public:
     ~CGUIScrollBar() override = default;
 
     int getPosFromMousePos(int mouseX, int mouseY) const;   // 0x548c34
+    int getPos() const { return pos; }                        // slot +148 (accessor)
     void setPos(int pos);                                    // 0x548d90
     void setMax(int max);                                    // 0x548f6c
     void refreshControls();                                  // 0x5490c0 (partial)
@@ -144,10 +158,6 @@ public:
 
     int pos = 0;                 // +0x174 current position (index 93)
     int max = 0;                 // +0x180 maximum (index 96)
-    int trackStart = 0;          // +0x2c (index 11)
-    int trackEnd = 0;            // +0x34 (index 13)
-    int trackOrigin = 0;         // +0x28 (index 10)
-    int trackExtent = 0;         // +0x30 (index 12)
     int thumbPos = 0;            // +0x178 (index 94)
     int thumbSize = 0;           // +0x17c (index 95)
     bool horizontal = false;     // +0x171 (byte, index 369)
@@ -160,11 +170,8 @@ public:
 struct SListItem {
     std::wstring text;                         // +0x00 (string object)
     int data = 0;                              // +0x48 value passed to setItem
-    int widthMax = 0;                          // +0x4c
-    bool overrideSet[4] = {};                  // flags per colour slot
-    std::uint32_t overrideColor[4] = {};       // colour per slot
-    int top = 0;                               // +0x40 (list-space y)
-    int bottom = 0;                            // +0x44
+    bool overrideSet[4] = {};                  // flag per colour slot (+0x4c + 5*slot)
+    std::uint32_t overrideColor[4] = {};       // colour per slot (+0x4d + 5*slot)
 };
 
 // Stand-in for glitch::gui::CGUIListBox.
@@ -173,6 +180,7 @@ public:
     CGUIListBox() = default;
     ~CGUIListBox() override = default;
 
+    virtual bool canSelect(const SEvent& event) const { (void)event; return true; }  // slot +16 hook
     void recalculateScrollPos();                       // 0x541e18
     void recalculateItemWidth(std::uint32_t width);    // 0x541ef4 (partial)
     void setItemOverrideColor(std::uint32_t index, int colorIndex, std::uint32_t color); // 0x542050
@@ -188,7 +196,6 @@ public:
     bool getSerializationLabels(int colorIndex, std::string& useLabel, std::string& colorLabel) const; // 0x5448ac
     std::uint32_t insertItem(std::uint32_t index, const wchar_t* text, int data); // 0x545304
     std::uint32_t addItem(const wchar_t* text, int data);                         // 0x545480
-    void recalculateItemHeight();                      // used by clear, insertItem, addItem (not in slice)
 
     std::vector<SListItem> items;      // +0x158 begin, +0x15c end
     int selected = -1;                 // +0x164 (index 89)
@@ -199,9 +206,10 @@ public:
     IGUISpriteBank* selectIcons = nullptr; // +0x178 (index 94)
     CGUIScrollBar* scrollBar = nullptr;  // +0x17c (index 95)
     std::uint32_t lastSelectTime = 0;  // +0x184 (index 97)
-    bool mouseSelectArmed = false;     // +0x180
-    bool drawBackground = false;       // +0x181
-    bool allowKeySelect = false;       // +0x182
+    bool mouseSelectArmed = false;     // +0x180 (byte 384)
+    bool drawBackground = false;       // +0x181 (byte 385)
+    bool allowKeySelect = false;       // +0x182 (byte 386)
+    bool scrollEnabled = true;         // +0x188 (byte 392)
     std::wstring typeAhead;            // +0x18c (type-ahead buffer)
     std::uint32_t typeAheadTime = 0;   // +0x1d4 (index 117)
 };
@@ -209,16 +217,26 @@ public:
 // Stand-in for glitch::gui::CGUIMenu (context menu).
 class CGUIMenu : public IGUIElement {
 public:
+    // Menu entry as laid out by recalculateSize. The original context-menu item record is
+    // not mapped; these fields are the ones the layout pass writes.
+    struct SMenuItem {
+        std::wstring text;
+        bool separator = false;      // byte +72
+        int width = 0;               // +76
+        int height = 0;              // +80
+        int y = 0;                   // +84
+    };
+
     CGUIMenu() = default;
     ~CGUIMenu() override = default;
     void recalculateSize();                             // 0x5455b8 (partial)
-    SRect getRect(const SRect& base) const;             // 0x54585c
+    SRect getRect(const SRect& base) const;             // 0x54585c (stub: base rect)
     void updateAbsolutePosition() override;             // 0x545878
     bool onEvent(const SEvent& event) override;         // 0x545c18 (partial)
     void draw() override;                               // 0x545fc4 (partial)
 
     int parentWidth = 0;               // +0x60 (index 24)
-    std::uint32_t hoverItem = 0;       // +0x158 (index 86) -1 when none
+    std::vector<SMenuItem> menuItems;  // item records (96-byte stride in the original)
 };
 
 // Stand-in for glitch::gui::CGUIMeshViewer.
@@ -226,15 +244,15 @@ class CGUIMeshViewer : public IGUIElement {
 public:
     CGUIMeshViewer() = default;
     ~CGUIMeshViewer() override = default;
-    void setMesh(void* mesh);                          // 0x5462c4 (ref held by the viewer)
-    void* getMesh() const;                             // 0x5462f0
-    void* getMaterial() const;                         // 0x54630c
-    void setMaterial(void* material);                  // 0x546348
+    void setMesh(void* value);                         // 0x5462c4 (partial: no add-ref/drop)
+    void* getMesh() const;                             // 0x5462f0 (partial: no add-ref)
+    void* getMaterial() const;                         // 0x54630c (partial: no add-ref)
+    void setMaterial(void* value);                     // 0x546348 (partial: no add-ref/drop)
     bool onEvent(const SEvent& event) override;        // 0x5467ac
     void draw() override;                              // 0x5469fc (partial)
 
-    void* mesh = nullptr;              // +0x158 (index 86 area; held reference)
-    void* material = nullptr;          // +0x158 (index 86)
+    void* mesh = nullptr;              // +0x158 (index 86), reference held in the original
+    void* material = nullptr;          // +0x158 (index 86 area), reference held in the original
 };
 
 // Stand-in for glitch::gui::CGUIModalScreen.
@@ -259,11 +277,10 @@ public:
     bool onEvent(const SEvent& event) override;        // 0x547014 (partial)
     void refreshControls();                            // 0x5472e0 (partial)
 
-    IGUIElement* okButton = nullptr;     // +0x170 (index 92 area)
-    IGUIElement* cancelButton = nullptr; // +0x174
-    IGUIElement* yesButton = nullptr;    // +0x178
-    IGUIElement* noButton = nullptr;     // +0x17c
-    IGUIElement* closeButton = nullptr;  // +0x184? (index 95)
+    // Button slots in the original order: +0x170 (index 92), +0x174, +0x178, +0x17c, +0x180.
+    // onEvent maps the Enter, Escape, Y and N keys onto them; the exact button role per slot
+    // is not confirmed from the pseudocode.
+    IGUIElement* buttons[5] = {};
     bool modalActive = false;            // +0x1d0 (byte 464)
 };
 
@@ -277,9 +294,9 @@ public:
                   const SRect* clip) override;         // 0x54abb0
     void setDefaultText(int which, const wchar_t* text); // 0x54d0bc
 
-    IGUIFont* fonts[5] = {};             // +0xdc..+0xec (index 55..59)
+    IGUIFont* fonts[10] = {};            // font per slot (index 55..64, get/set bounds 9)
     IGUISpriteBank* spriteBank = nullptr; // +0xf0 (index 60)
-    std::wstring defaultText[8];          // +0xf4 (72-byte stride in the original)
+    std::wstring defaultText[8];          // +0xf4 (72-byte stride in the original; set bounds 7)
 };
 
 // Stand-in for the edit box child of a spin box. The text accessors are the only
@@ -300,7 +317,7 @@ public:
 
     float rangeLow = 0.0f;               // +0x168 (index 90)
     float rangeHigh = 0.0f;              // +0x16c (index 91)
-    IGUIEditBox* editBox = nullptr;     // +0x158 (index 86)
+    IGUIEditBox* editBox = nullptr;      // +0x158 (index 86)
 
     virtual float getValue() const { return 0.0f; }      // slot +132
     virtual void setValue(float value) { (void)value; }  // slot +128

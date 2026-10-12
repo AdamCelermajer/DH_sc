@@ -151,8 +151,8 @@ void setVertexColors(const boost::intrusive_ptr<scene::IMesh>& mesh, video::SCol
 void setVertexColorAlpha(const boost::intrusive_ptr<scene::IMesh>& mesh, int alpha);
 void makePlanarTextureMapping(const boost::intrusive_ptr<scene::IMesh>& mesh, float scale);
 void scaleTCoords(const boost::intrusive_ptr<scene::CMeshBuffer>& buffer,
-                  core::vector2d<float> scale);
-void scaleTCoords(const boost::intrusive_ptr<scene::IMesh>& mesh, core::vector2d<float> scale);
+                  const core::vector2d<float>& scale);
+void scaleTCoords(const boost::intrusive_ptr<scene::IMesh>& mesh, const core::vector2d<float>& scale);
 boost::intrusive_ptr<scene::IMesh> createMeshWithTangents(
     const boost::intrusive_ptr<scene::IMesh>& mesh, video::IVideoDriver* driver);
 void scale(const boost::intrusive_ptr<scene::CMeshBuffer>& buffer, const core::vector3d<float>& s);
@@ -162,5 +162,100 @@ void recalculateNormals(const boost::intrusive_ptr<scene::IMesh>& mesh, bool a, 
 void transform(const boost::intrusive_ptr<scene::CMeshBuffer>& buffer,
                const core::CMatrix4<float>& matrix);
 void transform(const boost::intrusive_ptr<scene::IMesh>& mesh, const core::CMatrix4<float>& matrix);
+
+// 0x59a620 Partial: tangent accumulation (calculateTangents) is not reconstructed in this pass.
+void calculateTangents(core::vector3d<float>& tangent, core::vector3d<float>& bitangent,
+                       const core::vector3d<float>& p0, const core::vector3d<float>& p1,
+                       const core::vector3d<float>& p2);
+
+// --- glitch::collada animation streaming -----------------------------------
+// Opaque here: the owning classes are not reconstructed in this category.
+struct CColladaDatabase;
+struct CAnimationStreamingManager;
+struct SAnimationBlockSearchKey;
+
+// Stand-in member view of CAnimationBlock: intrusive count at +0x00, next block at +0x18.
+struct CAnimationBlockLayout {
+    std::int32_t refCount = 0;          // +0x00
+    std::uint8_t pad_0004[0x14] = {};   // +0x04..+0x17 (not mapped)
+    CAnimationBlockLayout* next = nullptr;  // +0x18
+};
+using CAnimationBlock = CAnimationBlockLayout;
+
+// 0x60b2b4 Reconstructed: empty non-deleting destructor of COnDemandReader.
+void COnDemandReader_D1(void* self);
+// 0x60b2b8 Partial: reader vtable slots +0x18 and +0x0c are not modelled.
+std::int32_t COnDemandReader_read(void* self, std::int32_t size, std::int32_t offset, void* dst);
+// 0x60b304 Partial: same as the three-argument read, the callback is not invoked.
+std::int32_t COnDemandReader_read_callback(void* self, std::int32_t size, std::int32_t offset,
+                                           void* dst, void (*callback)(int, int, void*, void*),
+                                           void* user);
+// 0x60b350 Partial: the search tree walk is not reconstructed in this pass.
+CAnimationBlock* CAnimationBlock_getBlock(CAnimationBlock* root, SAnimationBlockSearchKey& key);
+// 0x60b918 Partial: the cache-entry erase and size bookkeeping are not reconstructed.
+void CAnimationStreamingManager_release(CAnimationStreamingManager& self, CColladaDatabase* db);
+// 0x60b990 Partial: the cache trim loop is not reconstructed; the log text is kept as a comment.
+void CAnimationStreamingManager_checkMemoryUsage(CAnimationStreamingManager& self);
+// 0x60ba2c / 0x60bbd8 Partial: destructor releases the cached previous block and the database.
+void CAnimationBlock_D1(CAnimationBlock* self);
+// 0x60bad0 Partial: unregister then delete; the operator delete is not modelled.
+void CAnimationBlock_free(CAnimationBlock* self);
+// 0x60bb1c Partial: drops the count and frees when it reaches one.
+void CAnimationBlock_drop(CAnimationBlock* self);
+// 0x60bb64 Partial: binary search and erase of the registry entry are not reconstructed.
+void CAnimationStreamingManager_unregisterAnimationBlock(CAnimationStreamingManager& self,
+                                                         CAnimationBlock* block);
+// 0x60bc7c Partial: cache insertion and eviction are not reconstructed.
+void CAnimationStreamingManager_cache(CAnimationStreamingManager& self, CAnimationBlock* block);
+// 0x60c05c / 0x60c610 / 0x60c7a8 / 0x60c940 Partial: constructors load the segment from the database.
+void CAnimationBlock_ctor(CAnimationBlock* self, const CColladaDatabase& db,
+                          SAnimationBlockSearchKey& key, std::int32_t begin, std::int32_t end);
+// 0x60c220 Partial: lookup then allocate-and-construct; allocation is not modelled.
+CAnimationBlock* CAnimationStreamingManager_getAnimationBlock(CAnimationStreamingManager& self,
+                                                              SAnimationBlockSearchKey& key);
+// 0x60c31c Partial: next-block preparation is not reconstructed.
+void CAnimationBlock_prepareNextBlock(CAnimationBlock* self);
+// 0x60c3f0 Reconstructed: increments the count and prepares the next block at the first grab.
+void CAnimationBlock_grab(CAnimationBlock& self);
+// 0x60c414 Partial: sorted insert into the registry is not reconstructed.
+void CAnimationStreamingManager_registerAnimationBlock(CAnimationStreamingManager& self,
+                                                       CAnimationBlock* block);
+
+// --- glitch::collada scene nodes -------------------------------------------
+struct CBillboardSceneNode;
+struct CSceneNode;
+// 0x60cb24 Partial: transformed box cache and parent matrix are not dispatched here.
+const core::aabbox3d<float>& CBillboardSceneNode_getTransformedBoundingBox(CBillboardSceneNode& self);
+// 0x60cbb0 Partial: bounding box computation over the billboard corners is not reconstructed.
+void CBillboardSceneNode_computeBoundingBox(CBillboardSceneNode& self);
+// 0x60ce44 Partial: base-class destructor chain (multiple inheritance) is not modelled.
+void CSceneNode_D1(CSceneNode* self);
+// 0x60cec8 Partial: forwards to CSceneNode_D1 after resetting the billboard vtable.
+void CBillboardSceneNode_D1(CBillboardSceneNode* self);
+// 0x60cf88 Partial: absolute-position update is not reconstructed (13 KB pseudocode).
+void CBillboardSceneNode_updateAbsolutePosition(CBillboardSceneNode& self, bool recursive);
+
+// --- animation track value accessors ---------------------------------------
+// 0x60dfc0 Reconstructed: writes the three channels scaled from bytes and sets alpha to 1.
+float CApplicator_SLightColor_applyValueEx(SLightColorApplicator& self, const std::uint8_t* value);
+// 0x60eeb4 Reconstructed: packs the three float channels at a2[5..7] back into bytes.
+std::uint32_t CVirtualEx_LightColor_retrieveValue(const float* source, std::uint8_t* out);
+// 0x60ef6c Partial: scene-node scale is read through vtable slot +0x90, not dispatched here.
+void CVirtualEx_SceneNodeScale_retrieveValue(const void* node, float* out);
+// 0x60f000 Partial: scene-node position is read through vtable slot +0xa0, not dispatched here.
+void CVirtualEx_SceneNodePosition_retrieveValue(const void* node, float* out);
+// 0x60f10c Partial: scene-node quaternion is read through vtable slot +0x98, not dispatched here.
+void CVirtualEx_SceneNodeQuaternion_retrieveValue(const void* node, float* out);
+// 0x60f148 Partial: the material-set parameter loop is not reconstructed.
+void CVirtualEx_MaterialSetParam_applyValue(float* dst, const float* src, int a3, int count,
+                                            float* out);
+
+// --- glitch::collada::CColladaDatabase constructors (partial) --------------
+// 0x60f25c / 0x60f2b0 Partial: CResFileManager::load is not in this category.
+void CColladaDatabase_ctor_name(CColladaDatabase* self, const char* name, void* factory);
+// 0x60f304 / 0x60f364 Partial: same as the name form, from an IReadFile with the bool flag.
+void CColladaDatabase_ctor_file_flag(CColladaDatabase* self, void* file, bool flag, void* factory);
+// 0x60f3c4 / 0x60f42c Partial: same as the name form, from an IReadFile without the flag.
+void CColladaDatabase_ctor_file(CColladaDatabase* self, void* file, void* factory);
 
 }  // namespace glitch::collada::recon_07

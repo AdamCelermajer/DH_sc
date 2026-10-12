@@ -38,21 +38,21 @@ float differenceKey(const K& from, const K& to, K& out) {
 // float[4] mixin
 // ---------------------------------------------------------------------------
 
-// 0x612128
+// 0x612128 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612128(const SAnimationAccessor& accessor, int index, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     *static_cast<Key4f*>(out) = reinterpret_cast<const Key4f*>(output->keys)[index];
     return outputHandle(output);
 }
 
-// 0x612174
+// 0x612174 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_612174(const SAnimationAccessor& accessor, int from, int to, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     const auto* keys = reinterpret_cast<const Key4f*>(output->keys);
     return differenceKey(keys[from], keys[to], *static_cast<Key4f*>(out));
 }
 
-// 0x6121c0
+// 0x6121c0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_fS6_EEEELin1EfEEfLi4ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_6121c0(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
@@ -60,7 +60,7 @@ float getKeyBasedValueEx_6121c0(const SAnimationAccessor& accessor, int sub, int
     return interpolateKey(keys[sub], keys[from], keys[to], t, *static_cast<Key4f*>(out));
 }
 
-// 0x612238
+// 0x612238 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_612238(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out) {
     return getKeyBasedValueEx_6121c0(accessor, sub, from, to, t, out);
@@ -70,21 +70,21 @@ float getKeyBasedValue_612238(const SAnimationAccessor& accessor, int sub, int f
 // vector3d<float>, CSceneNodePositionMixin<float>
 // ---------------------------------------------------------------------------
 
-// 0x61225c
+// 0x61225c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_61225c(const SAnimationAccessor& accessor, int index, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     *static_cast<Key3f*>(out) = reinterpret_cast<const Key3f*>(output->keys)[index];
     return outputHandle(output);
 }
 
-// 0x6122a4
+// 0x6122a4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_6122a4(const SAnimationAccessor& accessor, int from, int to, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     const auto* keys = reinterpret_cast<const Key3f*>(output->keys);
     return differenceKey(keys[from], keys[to], *static_cast<Key3f*>(out));
 }
 
-// 0x6122f4
+// 0x6122f4 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_18SSceneNodePositionELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_6122f4(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
@@ -92,7 +92,7 @@ float getKeyBasedValueEx_6122f4(const SAnimationAccessor& accessor, int sub, int
     return interpolateKey(keys[sub], keys[from], keys[to], t, *static_cast<Key3f*>(out));
 }
 
-// 0x612370
+// 0x612370 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_612370(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out) {
     return getKeyBasedValueEx_6122f4(accessor, sub, from, to, t, out);
@@ -102,21 +102,21 @@ float getKeyBasedValue_612370(const SAnimationAccessor& accessor, int sub, int f
 // vector3d<float>, CSceneNodeScaleMixin<float>. Same arithmetic as the position paths.
 // ---------------------------------------------------------------------------
 
-// 0x612394
+// 0x612394 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612394(const SAnimationAccessor& accessor, int index, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     *static_cast<Key3f*>(out) = reinterpret_cast<const Key3f*>(output->keys)[index];
     return outputHandle(output);
 }
 
-// 0x6123dc
+// 0x6123dc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_6123dc(const SAnimationAccessor& accessor, int from, int to, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     const auto* keys = reinterpret_cast<const Key3f*>(output->keys);
     return differenceKey(keys[from], keys[to], *static_cast<Key3f*>(out));
 }
 
-// 0x61242c
+// 0x61242c _ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_61242c(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
@@ -124,7 +124,7 @@ float getKeyBasedValueEx_61242c(const SAnimationAccessor& accessor, int sub, int
     return interpolateKey(keys[sub], keys[from], keys[to], t, *static_cast<Key3f*>(out));
 }
 
-// 0x6124a8
+// 0x6124a8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_6124a8(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out) {
     return getKeyBasedValueEx_61242c(accessor, sub, from, to, t, out);
@@ -135,21 +135,21 @@ float getKeyBasedValue_6124a8(const SAnimationAccessor& accessor, int sub, int f
 // vector3d paths; the element is three floats.
 // ---------------------------------------------------------------------------
 
-// 0x6124cc
+// 0x6124cc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_6124cc(const SAnimationAccessor& accessor, int index, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     *static_cast<Key3f*>(out) = reinterpret_cast<const Key3f*>(output->keys)[index];
     return outputHandle(output);
 }
 
-// 0x612514
+// 0x612514 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_612514(const SAnimationAccessor& accessor, int from, int to, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     const auto* keys = reinterpret_cast<const Key3f*>(output->keys);
     return differenceKey(keys[from], keys[to], *static_cast<Key3f*>(out));
 }
 
-// 0x612564
+// 0x612564 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA3_fS6_EEEELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_612564(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
@@ -157,7 +157,7 @@ float getKeyBasedValueEx_612564(const SAnimationAccessor& accessor, int sub, int
     return interpolateKey(keys[sub], keys[from], keys[to], t, *static_cast<Key3f*>(out));
 }
 
-// 0x6125e0
+// 0x6125e0 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_6125e0(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out) {
     return getKeyBasedValueEx_612564(accessor, sub, from, to, t, out);
@@ -167,21 +167,21 @@ float getKeyBasedValue_6125e0(const SAnimationAccessor& accessor, int sub, int f
 // CLightColorMixin<unsigned char>: three-byte keys.
 // ---------------------------------------------------------------------------
 
-// 0x612604
+// 0x612604 _ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 float applyKeyBasedValueEx_612604(const SAnimationAccessor& accessor, int index, void* applicator) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     const KeyRgb value = reinterpret_cast<const KeyRgb*>(output->keys)[index];
     return applyValueEx_SLightColor(applicator, value.v);
 }
 
-// 0x612670
+// 0x612670 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 float applyKeyBasedValue_612670(const SAnimationAccessor& accessor, int index, void* applicator,
                                 animation_track::CApplicatorInfo* info) {
     static_cast<void>(info);  // the original forwards only the first three arguments
     return applyKeyBasedValueEx_612604(accessor, index, applicator);
 }
 
-// 0x612684
+// 0x612684 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612684(const SAnimationAccessor& accessor, int index, void* out) {
     const SAnimationOutput* output = getOutput(accessor, 0);
     *static_cast<KeyRgb*>(out) = reinterpret_cast<const KeyRgb*>(output->keys)[index];
@@ -192,7 +192,7 @@ int getKeyBasedValue_612684(const SAnimationAccessor& accessor, int index, void*
 // CColladaDatabase construct helpers
 // ---------------------------------------------------------------------------
 
-// 0x60f924
+// 0x60f924 _ZNK6glitch7collada16CColladaDatabase13constructSkinEPNS_5video12IVideoDriverEPNS0_11SControllerEPNS0_14CRootSceneNodeE
 glitch::IReferenceCounted** constructSkin_60f924(glitch::IReferenceCounted** out,
                                                  const void* database, glitch::video::IVideoDriver* driver,
                                                  SController* controller, CRootSceneNode* root) {
@@ -206,7 +206,7 @@ glitch::IReferenceCounted** constructSkin_60f924(glitch::IReferenceCounted** out
     return out;
 }
 
-// 0x60fa70
+// 0x60fa70 _ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEiPNS0_14CRootSceneNodeE
 glitch::IReferenceCounted** constructController_60fa70(glitch::IReferenceCounted** out,
                                                        glitch::video::IVideoDriver* driver, int index,
                                                        CRootSceneNode* root,
@@ -216,7 +216,7 @@ glitch::IReferenceCounted** constructController_60fa70(glitch::IReferenceCounted
     return constructControllerFromLookup(out, driver, index, controller, owner);
 }
 
-// 0x60fc70
+// 0x60fc70 _ZNK6glitch7collada16CColladaDatabase14constructImageEPNS0_6SImageEPNS0_14CRootSceneNodeE
 glitch::IReferenceCounted** constructImage_60fc70(glitch::IReferenceCounted** out,
                                                   const void* root, const SImage* image) {
     if (image == nullptr) {
@@ -231,7 +231,7 @@ glitch::IReferenceCounted** constructImage_60fc70(glitch::IReferenceCounted** ou
     return out;
 }
 
-// 0x60fcc0
+// 0x60fcc0 _ZNK6glitch7collada16CColladaDatabase14constructImageEiPNS0_14CRootSceneNodeE
 glitch::IReferenceCounted** constructImage_60fcc0(glitch::IReferenceCounted** out,
                                                   const void* database, int index) {
     const SImage* image = lookupImage(database, index);

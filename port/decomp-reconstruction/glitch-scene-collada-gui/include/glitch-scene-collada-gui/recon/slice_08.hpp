@@ -85,56 +85,56 @@ animation_track::CVirtualEx<Applicator>* getInstance_CVirtualEx() {
 // ---------------------------------------------------------------------------
 // Key-based paths, float[4] mixin (CMixin<float,4,...,-1,float>).
 // ---------------------------------------------------------------------------
-// 0x612128 getKeyBasedValue(SAnimationAccessor const&, int, void*) const
+// 0x612128 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612128(const SAnimationAccessor& accessor, int index, void* out);
-// 0x612174 getKeyBasedValue(SAnimationAccessor const&, int, int, void*) const
+// 0x612174 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_612174(const SAnimationAccessor& accessor, int from, int to, void* out);
-// 0x6121c0 CInterpreter<...float[4]...>::getKeyBasedValueEx(accessor, int, int, int, float, void*)
+// 0x6121c0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_fS6_EEEELin1EfEEfLi4ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_6121c0(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out);
-// 0x612238 getKeyBasedValue(SAnimationAccessor const&, int, int, int, float, void*) const
+// 0x612238 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_612238(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out);
 
 // ---------------------------------------------------------------------------
 // Key-based paths, vector3d<float> with CSceneNodePositionMixin<float>.
 // ---------------------------------------------------------------------------
-// 0x61225c getKeyBasedValue(SAnimationAccessor const&, int, void*) const
+// 0x61225c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_61225c(const SAnimationAccessor& accessor, int index, void* out);
-// 0x6122a4 getKeyBasedValue(SAnimationAccessor const&, int, int, void*) const
+// 0x6122a4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_6122a4(const SAnimationAccessor& accessor, int from, int to, void* out);
-// 0x6122f4 CInterpreter<CMixin<float,3,SSceneNodePosition,...>>::getKeyBasedValueEx
+// 0x6122f4 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_18SSceneNodePositionELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_6122f4(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out);
-// 0x612370 getKeyBasedValue(SAnimationAccessor const&, int, int, int, float, void*) const
+// 0x612370 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_612370(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out);
 
 // ---------------------------------------------------------------------------
 // Key-based paths, vector3d<float> with CSceneNodeScaleMixin<float>.
 // ---------------------------------------------------------------------------
-// 0x612394 getKeyBasedValue(SAnimationAccessor const&, int, void*) const
+// 0x612394 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612394(const SAnimationAccessor& accessor, int index, void* out);
-// 0x6123dc getKeyBasedValue(SAnimationAccessor const&, int, int, void*) const
+// 0x6123dc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_6123dc(const SAnimationAccessor& accessor, int from, int to, void* out);
-// 0x61242c CInterpreter<CSceneNodeScaleMixin<float>,float,3,...>::getKeyBasedValueEx
+// 0x61242c _ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_61242c(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out);
-// 0x6124a8 getKeyBasedValue(SAnimationAccessor const&, int, int, int, float, void*) const
+// 0x6124a8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_6124a8(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out);
 
 // ---------------------------------------------------------------------------
 // Key-based paths, float[3] with CMixin<float,3,SMaterialSetParam<...>,-1,float>.
 // ---------------------------------------------------------------------------
-// 0x6124cc getKeyBasedValue(SAnimationAccessor const&, int, void*) const
+// 0x6124cc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_6124cc(const SAnimationAccessor& accessor, int index, void* out);
-// 0x612514 getKeyBasedValue(SAnimationAccessor const&, int, int, void*) const
+// 0x612514 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float getKeyBasedValue_612514(const SAnimationAccessor& accessor, int from, int to, void* out);
-// 0x612564 CInterpreter<CMixin<float,3,...,-1,float>,float,3,...>::getKeyBasedValueEx
+// 0x612564 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA3_fS6_EEEELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValueEx_612564(const SAnimationAccessor& accessor, int sub, int from, int to,
                                 float t, void* out);
-// 0x6125e0 getKeyBasedValue(SAnimationAccessor const&, int, int, int, float, void*) const
+// 0x6125e0 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float getKeyBasedValue_6125e0(const SAnimationAccessor& accessor, int sub, int from, int to,
                               float t, void* out);
 
@@ -143,12 +143,12 @@ float getKeyBasedValue_6125e0(const SAnimationAccessor& accessor, int sub, int f
 // ---------------------------------------------------------------------------
 // unattached: applyValueEx of CApplicator<SLightColor> is not declared anywhere.
 float applyValueEx_SLightColor(void* applicator, const std::uint8_t* value);
-// 0x612604 CApplyValueEx<vector3d<float>,CLightColorMixin<unsigned char>>::applyKeyBasedValueEx
+// 0x612604 _ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 float applyKeyBasedValueEx_612604(const SAnimationAccessor& accessor, int index, void* applicator);
-// 0x612670 applyKeyBasedValue(SAnimationAccessor const&, int, void*, CApplicatorInfo*) const
+// 0x612670 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 float applyKeyBasedValue_612670(const SAnimationAccessor& accessor, int index, void* applicator,
                                 animation_track::CApplicatorInfo* info);
-// 0x612684 getKeyBasedValue(SAnimationAccessor const&, int, void*) const
+// 0x612684 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_16CLightColorMixinIhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 int getKeyBasedValue_612684(const SAnimationAccessor& accessor, int index, void* out);
 
 // ---------------------------------------------------------------------------
@@ -178,23 +178,23 @@ SImage* lookupImage(const void* database, int index);
 // unattached: the CImage constructor and operator new are not declared.
 glitch::IReferenceCounted* newImage(const void* root, const SImage* image);
 
-// 0x60f924 CColladaDatabase::constructSkin(glitch::video::IVideoDriver*, SController*, CRootSceneNode*) const
+// 0x60f924 _ZNK6glitch7collada16CColladaDatabase13constructSkinEPNS_5video12IVideoDriverEPNS0_11SControllerEPNS0_14CRootSceneNodeE
 // The second argument is the database; the receiver of the factory call is its +0x04 member.
 glitch::IReferenceCounted** constructSkin_60f924(glitch::IReferenceCounted** out,
                                                  const void* database, glitch::video::IVideoDriver* driver,
                                                  SController* controller, CRootSceneNode* root);
-// 0x60fa70 CColladaDatabase::constructController(glitch::video::IVideoDriver*, int, CRootSceneNode*) const
+// 0x60fa70 _ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEiPNS0_14CRootSceneNodeE
 // Pseudocode arguments in order: driver, index, root, owner. The decompiler types the
 // second and fourth arguments as drivers and roots; the demangled name lists three.
 glitch::IReferenceCounted** constructController_60fa70(glitch::IReferenceCounted** out,
                                                        glitch::video::IVideoDriver* driver, int index,
                                                        CRootSceneNode* root,
                                                        CRootSceneNode* owner);
-// 0x60fc70 CColladaDatabase::constructImage(SImage*, CRootSceneNode*) const
+// 0x60fc70 _ZNK6glitch7collada16CColladaDatabase14constructImageEPNS0_6SImageEPNS0_14CRootSceneNodeE
 // Pseudocode argument order: root, then image (the image is tested for null first).
 glitch::IReferenceCounted** constructImage_60fc70(glitch::IReferenceCounted** out,
                                                   const void* root, const SImage* image);
-// 0x60fcc0 CColladaDatabase::constructImage(int, CRootSceneNode*) const
+// 0x60fcc0 _ZNK6glitch7collada16CColladaDatabase14constructImageEiPNS0_14CRootSceneNodeE
 glitch::IReferenceCounted** constructImage_60fcc0(glitch::IReferenceCounted** out,
                                                   const void* database, int index);
 
