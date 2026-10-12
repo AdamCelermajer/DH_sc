@@ -14,10 +14,6 @@
 #pragma once
 
 #include <cstdint>
-#include <string>
-#include <vector>
-
-#include "net-session-online/t_member_info.hpp"
 
 class DataPacket;
 
