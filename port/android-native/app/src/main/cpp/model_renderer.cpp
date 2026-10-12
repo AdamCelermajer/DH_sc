@@ -1670,6 +1670,19 @@ bool static_mlx_level_active(){
  return !active_level_assets.development_layout&&
      static_mlx_level(active_level_assets.name,active_level_assets.level_file);
 }
+bool spawn_table_has_entry(const std::vector<std::uint8_t>& spawn,std::int32_t entry_point){
+ std::uint32_t count=0;
+ if(spawn.size()>=16)std::memcpy(&count,spawn.data()+8,sizeof(count));
+ count=std::min<std::uint32_t>(count,std::uint32_t(spawn.size()<16?0:(spawn.size()-16)/144));
+ for(std::uint32_t i=0;i<count;++i){
+  std::int32_t id=0;std::memcpy(&id,spawn.data()+16+i*144,sizeof(id));
+  if(id==entry_point)return true;
+ }
+ return false;
+}
+bool direct_character_adoption_level_active(){
+ return static_mlx_level_active()||active_level_assets.generated_crypt_layout;
+}
 const char* static_script_stem(const StaticMlxLevelV1& level){
  return level.script_stem?level.script_stem:level.prefix;
 }
@@ -2937,18 +2950,14 @@ bool native_level_save_read_factory_character_view_v1(void* raw,
   error="Faery Character save pose/property owners are not source-ready";
   return true;
  }
- const float half=3.14159265358979323846f/360.f;
- const float rx=authored[3]*half,ry=authored[4]*half,rz=authored[5]*half;
- const float sx=std::sin(rx),cx=std::cos(rx),sy=std::sin(ry),cy=std::cos(ry),
-             sz=std::sin(rz),cz=std::cos(rz);
- const std::array<float,4> authored_rotation{
-     sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,
-     cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
- for(std::size_t i=0;i<authored_rotation.size();++i) {
-  if(std::abs(authored_rotation[i]-visual.rotation[i])>1e-5f) {
-   error="Faery Character save cannot map a changed quaternion to the source Euler rotation fields";
-   return true;
-  }
+ // Character::Serialize writes the live GameObject EulerXYZ at +0x16c in
+ // radians (GameObject::UpdateRotation advances it; GameObject::InitPost
+ // converted the authored degrees). It is not derived from the quaternion.
+ const auto& live_rotation=record.faery_controller.rotation.rotation;
+ if(!std::isfinite(live_rotation[0])||!std::isfinite(live_rotation[1])||
+    !std::isfinite(live_rotation[2])) {
+  error="Faery Character save rotation is not finite";
+  return true;
  }
  View view{};
  view.state_machine_state=static_cast<std::uint32_t>(record.coordinator->state.current);
@@ -2956,7 +2965,7 @@ bool native_level_save_read_factory_character_view_v1(void* raw,
  view.properties_primary={saved.data(),saved.size()};
  view.properties_secondary={resolved.data(),resolved.size()};
  view.position={reinterpret_cast<const std::uint8_t*>(pose.data()),sizeof(pose)};
- view.rotation={reinterpret_cast<const std::uint8_t*>(authored+3),12};
+ view.rotation={reinterpret_cast<const std::uint8_t*>(live_rotation),12};
  view.dead=record.serialized_dead_1449;
  view.vector_1306={reinterpret_cast<const std::uint8_t*>(
        record.quick_save_position_1468.data()),sizeof(record.quick_save_position_1468)};
@@ -4106,6 +4115,14 @@ int faery_init_post_game_object(void* raw,void* game_object_owner) {
  if(!owner||!owner->record||
     game_object_owner!=&owner->record->game_object||
     owner->record->character.identity!=owner->identity)return 1;
+ // GameObject::InitPost (0x38be5c) multiplies the authored rotation property
+ // by 0.017453 (degrees to radians) and copies Z to the target (+0x178).
+ {
+  auto& live=owner->record->faery_controller.rotation;
+  for(unsigned axis=0;axis<3;++axis)
+   live.rotation[axis]=owner->source.authored_world_transform[3+axis]*0.017453292f;
+  live.heading_angle=live.rotation[2];
+ }
  std::string error;
  if(!load_authored_faery_visual_sync(*context,error))return 1;
  return 0;
@@ -5618,7 +5635,7 @@ bool NativeCryptRoomRuntime::initialize(
    error="Source Door InitPost registration failed: "+error;
    clear();return false;
   }
-  if(static_mlx_level_active()) {
+  if(direct_character_adoption_level_active()) {
    for(auto* actor:ordered_actors) {
     if(!actor||actor->kind!=1)continue;
     std::string construction_error;
@@ -9533,7 +9550,7 @@ bool native_level_save_commit_factory_character_restore_v1(void* raw,
  float position[3]{},rotation[3]{};
  std::memcpy(position,state.position.data(),sizeof(position));
  std::memcpy(rotation,state.rotation.data(),sizeof(rotation));
- const float half=3.14159265358979323846f/360.f;
+ const float half=0.5f; // saved Euler is the live GameObject rotation in radians
  const float rx=rotation[0]*half,ry=rotation[1]*half,rz=rotation[2]*half;
  const float sx=std::sin(rx),cx=std::cos(rx),sy=std::sin(ry),cy=std::cos(ry),
              sz=std::sin(rz),cz=std::cos(rz);
@@ -9581,8 +9598,8 @@ bool native_level_save_commit_factory_character_restore_v1(void* raw,
  owner->source.authored_world_transform[0]=position[0];
  owner->source.authored_world_transform[1]=position[1];
  owner->source.authored_world_transform[2]=position[2];
- std::copy(std::begin(rotation),std::end(rotation),
-           owner->source.authored_world_transform+3);
+ for(unsigned axis=0;axis<3;++axis)
+  owner->source.authored_world_transform[3+axis]=rotation[axis]*57.2957795f;
  record.faery_controller.rotation.rotation[0]=rotation[0];
  record.faery_controller.rotation.rotation[1]=rotation[1];
  record.faery_controller.rotation.rotation[2]=rotation[2];
@@ -11845,7 +11862,7 @@ void initialize_char_ai_registry() {
     throw std::runtime_error("Source Character GroupInfo join has no exact census/handle provenance");
    // Static MLX levels adopt every Character through construct_direct_source_character_v1
    // later in the same load, so their Character::InitPost owns AddToGroup.
-   if(!actor->source_character_construction&&!static_mlx_level_active()&&!source->char_group.empty()) {
+   if(!actor->source_character_construction&&!direct_character_adoption_level_active()&&!source->char_group.empty()) {
     // Renderer-only legacy rows have no adopted Character InitPost owner;
     // keep their existing startup GroupInfo projection. Direct-adopted rows
     // join from their ordered Character::InitPost callback below.
@@ -16405,7 +16422,7 @@ void SpawnOwner::initialize_runtime(const ObjectGroup& group,
  std::copy(actor->position.begin(),actor->position.end(),runtime.path.position);
  std::copy(actor->position.begin(),actor->position.end(),runtime.path.target);
  const bool defer_source_final=actor->kind==1&&
-     static_mlx_level_active()&&
+     direct_character_adoption_level_active()&&
      std::any_of(active_level_assets.source_character_census.begin(),
        active_level_assets.source_character_census.end(),[&](const auto& row){
         return !row.duplicate_name&&row.module_index==actor->source_module_index&&
@@ -37515,7 +37532,7 @@ bool native_source_static_character_actor(const ObjectActor& actor) {
  if(active_crypt_room_runtime&&actor.identity&&
     active_crypt_room_runtime->script_npcs_by_identity.find(actor.identity)!=
       active_crypt_room_runtime->script_npcs_by_identity.end())return false;
- return static_mlx_level_active()&&actor.kind==1&&
+ return direct_character_adoption_level_active()&&actor.kind==1&&
      actor.source_handle>=0&&actor.source_module_index!=invalid&&
      actor.source_record!=invalid;
 }
@@ -39953,7 +39970,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
       // An empty offline SPWN table keeps the DWLD descriptor and its start
       // position (see static_level_entrypoint_fallback); no SPWN row is selected.
-      if(source_spawn_bytes.size()>=16+144){
+      if(source_spawn_bytes.size()>=16+144&&spawn_table_has_entry(source_spawn_bytes,entrypoint)){
       if(!dh2::world::compile_source_layout(source_mlx_bytes.data(),source_mlx_bytes.size(),source_spawn_bytes.data(),
           source_spawn_bytes.size(),entrypoint,source_layout_bytes,source_layout_error))
         throw std::runtime_error("Original source MLX layout rejected: "+source_layout_error);
@@ -40095,12 +40112,16 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       if(!dh2::world::load_entrypoints(spawn_bytes.data(),spawn_bytes.size(),candidate.rooms,entrypoints,error))throw std::runtime_error(error);
       dh2::world::SpawnSelection start;
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
+      if(!spawn_table_has_entry(spawn_bytes,entrypoint)){
+        __android_log_print(ANDROID_LOG_WARN,"DH2Native","Source SpawnPoint ID %d is absent from the offline table | Level::_LoadPlayer finds no enabled match and places nothing | using DWLD start",entrypoint);
+      }else{
       if(!dh2::world::select_entrypoint(candidate,entrypoints,entrypoint,start,error))throw std::runtime_error(error);
       candidate.spawn=start.position;
       source_spawn_heading=start.rotation_degrees[2]*0.01745329251994329577f;
       native_spawn_script_name=start.source.script;
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint selected | ID %d | %s | room %u | floor snapped %u | source xyz %.4f %.4f %.4f | start xyz %.4f %.4f %.4f | source rotation z %.4f deg",
         start.source.id,start.source.name.c_str(),start.source.room,unsigned(start.floor_snapped),start.source.world.position[0],start.source.world.position[1],start.source.world.position[2],start.position[0],start.position[1],start.position[2],start.rotation_degrees[2]);
+      }
       }
     }
     const auto records_data=read(assets,"character_properties_pyarray.bin","data"),names_data=read(assets,"character_properties_pyarraynames.bin","data"),fields_data=read(assets,"character_properties_pystructnames.bin","data"),model_names=read(assets,"character_models_dictionary_pyarraynames.bin","data"),model_values=read(assets,"character_models_dictionary_pyarray.bin","data");
@@ -41266,6 +41287,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
            actor.source_handle=source.source_handle;
            actor.character_table_id=source.property_id;
            actor.character_template_id=source.template_id;
+           actor.source_template_name=generated_crypt_template_sources[source_index].projection.property_source.template_name;
           }
           actor.source_module_index=source_module;
           const auto source_object_module_id=candidate_crypt_module_bounds.modules.size()+source_module;
@@ -41858,7 +41880,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     initialize_gated_characters(assets,true);
     initialize_source_merchant_inventories();
     initialize_active_crypt_room_zones(assets);
-    if(generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
+    if(false&&generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
        active_level_assets.generated_crypt_layout)
       initialize_gated_characters(assets,false,false,true);
     if(!ensure_native_world_items(error))throw std::runtime_error("World item runtime restore failed: "+error);
