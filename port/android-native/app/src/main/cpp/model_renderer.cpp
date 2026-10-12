@@ -13222,6 +13222,10 @@ struct NativeMonsterInitialization {
   if(!owner||!ai)return;
   const auto retire=[&](std::int32_t& timer,std::uint32_t& source_field,unsigned event){
    if(timer<0)return;
+   // CharAI::AI_SetDead (0x3d6cdc) stopped this timer and set the source
+   // field to -1; the original keeps no second copy, so the projection is
+   // simply stale and already retired.
+   if(source_field==UINT32_MAX){timer=-1;return;}
    const auto id=timer;
    // CharAI+0x10/+0x14 and ScriptLifecycleState64 are two projections of
    // the same two source timer IDs, not independent timer stores. Refuse to
