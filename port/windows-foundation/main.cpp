@@ -1295,6 +1295,7 @@ int main(int argc,char** argv) {
         f::transitions::ExitZoneSet exitZones;
         std::vector<f::transitions::LevelRow> transitionRows;
         bool arrivedByTransition=false;                            // set by the arrival block below
+        bool arrivalWorldRestore=false;                            // B146: an already visited level's saved world is replayed at the first frame (as Continue)
         int arrivedEntryId=-1;                                     // P17 TRANSITIONS2: entry this session arrived at
         std::cout<<"Session start resources "<<transition_resource_counts()<<" level="<<options.level.generic_string()<<" frame="<<transitionFrameBase<<'\n';
         // P16 MAP: module RoomZone sources of the loaded level (empty until load_level_with_module_zones succeeds).
@@ -2507,44 +2508,25 @@ int main(int argc,char** argv) {
             } else std::cout<<"Source checkpoint contact zone="<<zone.name<<" result="<<unsigned(receipt.result)<<"\n";
             checkpointError.clear();return true;
         };
+        // B146: the arrival world restore (LevelSavegame::Load of an already visited level) can only run once the level is complete.
+        // Here the level is not: the campaign lifecycle object and the world-gate objects (zones, walls, ...) are bound later in
+        // startup, so the saved roster (swamp: 29 objects) never equalled the live one (17: containers + doors) and the restore was
+        // always refused. The frame-0 restore (the Continue path) replays the saved world once everything is bound (lifecycle,
+        // containers, PreSpawn, bodies); here the file is only admitted. The hero and the Character stay the live ones.
         if(arrivedByTransition&&combatSession) {
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
             if(fs::exists(worldPath)) {
                 f::GameSave worldSnapshot;std::string worldError;
                 if(!f::load_game(worldPath,worldSnapshot,worldError))std::cout<<"Level world restore status=unreadable detail="<<worldError<<'\n';
+                else if(worldSnapshot.level_uri!=options.level.generic_string())std::cout<<"Level world restore status=other_level saved="<<worldSnapshot.level_uri<<'\n';
+                else if(worldSnapshot.character.id!=state.id)std::cout<<"Level world restore status=other_profile\n";
+                else if(f::procedural::is_procedural_level_uri(options.level.generic_string())&&
+                        f::procedural::saved_seeds(state)[std::size_t(std::clamp(f::character_current_difficulty(state),0,2))]==0)
+                    std::cout<<"Level world restore status=seed_unknown level="<<options.level.generic_string()<<'\n';
+                else if(!migrateAdmittedActors(worldSnapshot,worldError))std::cout<<"Level world admission migration status=refused detail="<<worldError<<'\n';
                 else {
-                    if(!migrateAdmittedActors(worldSnapshot,worldError))std::cout<<"Level world admission migration status=refused detail="<<worldError<<'\n';
-                    else {
-                    combatSession->actor(combatSession->player_id())->persistent_character_id=state.id; // same binding as the reload path
-                    // B143: the snapshot restores the WORLD of this level. The Character and the hero are the live ones, built from the
-                    // profile this session loaded; the Character embedded in the snapshot is only as new as the snapshot and used to
-                    // overwrite later progress (return to a level after gaining loot/skill points elsewhere). The same worn instance also
-                    // keeps its live slot name (slot-N vs source-type/N), so the identity check compares equal.
-                    f::GameSave liveNow;
-                    std::string detachError;
-                    if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),liveNow,worldError)||
-                       !f::adopt_live_character_for_world_restore(worldSnapshot,liveNow,true,worldError))
-                        std::cout<<"Level world restore status=live_hero_refused detail="<<worldError<<'\n';
-                    else {
-                    for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)persisted.actor.transform.position={options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
-                    // Session restore rule: release the session's bindings, replace the world, then rebind before the next update.
-                    if(!combatSession->detach_for_restore([](std::string&){return true;},detachError))
-                        std::cout<<"Level world restore status=detach_refused detail="<<detachError<<'\n';
-                    else {
-                        const bool restored=f::restore_game_save(worldSnapshot,options.level.generic_string(),*combatSession->world(),state,worldError);
-                        std::string rebindError;
-                        if(!combatSession->rebind_after_restore(rebindError))throw std::runtime_error("Level world rebind: "+rebindError);
-                        faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;
-                        if(!restored) {
-                            std::cout<<"Level world restore status=refused detail="<<worldError<<'\n';
-                            if(const auto* live=combatSession->actor(combatSession->player_id()))for(const auto& e:live->equipment)std::cout<<"  live equipment slot="<<e.slot<<" def="<<e.definition_id<<'\n';
-                        } else {
-                            if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
-                            std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
-                        }
-                    }
-                    }
-                    }
+                    options.loadFrame=transitionFrameBase;options.resumeLevelWorld=true;arrivalWorldRestore=true;
+                    std::cout<<"Level world restore status=scheduled level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" frame="<<options.loadFrame<<" path="<<worldPath.generic_string()<<'\n';
                 }
             } else std::cout<<"Level world restore status=none level="<<options.level.generic_string()<<'\n';
         }
@@ -7270,8 +7252,9 @@ int main(int argc,char** argv) {
                     // B086: the Continue restore at the start frame reads the profile's level-world save (validated at startup);
                     // an explicit F9/R reload later reads the live checkpoint save as before.
                     const bool continueRestore=options.resumeLevelWorld&&drawn==options.loadFrame;
+                    const bool arrivalRestore=continueRestore&&arrivalWorldRestore; // B146: the same replay at the first frame of an arrival into a visited level
                     const auto restorePath=continueRestore?f::transitions::level_world_path(options.save,options.level.generic_string()):options.liveSave;
-                    if(continueRestore)std::cout<<"Continue restore frame="<<drawn<<" path="<<restorePath.generic_string()<<'\n';
+                    if(continueRestore)std::cout<<(arrivalRestore?"Arrival world restore frame=":"Continue restore frame=")<<drawn<<" path="<<restorePath.generic_string()<<'\n';
                     f::GameSave snapshot;if(!f::load_game(restorePath,snapshot,error))throw std::runtime_error("Read live save: "+error);
                     if(!migrateAdmittedActors(snapshot,error))throw std::runtime_error("Live save authored-actor migration: "+error);
                     if(continueRestore) {
@@ -7280,7 +7263,7 @@ int main(int argc,char** argv) {
                         // profile (progress made in another level after the world was written) and must not replace it.
                         f::GameSave liveNow;
                         if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),liveNow,error)||
-                           !f::adopt_live_character_for_world_restore(snapshot,liveNow,true,error))
+                           !f::adopt_live_character_for_world_restore(snapshot,liveNow,!arrivalRestore,error)) // arrival: the hero stays at the entry SpawnPoint (Level::_LoadPlayer)
                             throw std::runtime_error("Continue live hero: "+error);
                         std::cout<<"Continue profile Character kept level="<<options.level.generic_string()<<" xp="<<state.experience<<" gold="<<state.gold<<'\n';
                     }
@@ -7295,10 +7278,11 @@ int main(int argc,char** argv) {
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
                     actorLifecycle.detach_for_restore();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
-                    if(!restored)throw std::runtime_error("Restore live save: "+restoreError);
-                    {std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
-                    {std::string preSpawnError;if(!restoreLifecyclePreSpawn(preSpawnError))throw std::runtime_error("Lifecycle PreSpawn restore: "+preSpawnError);} // B141
-                    {std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
+                    if(!restored&&!arrivalRestore)throw std::runtime_error("Restore live save: "+restoreError);
+                    if(!restored)std::cout<<"Level world restore status=refused detail="<<restoreError<<'\n'; // B146 arrival: the restore is atomic, the level stays as freshly loaded
+                    if(restored){std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
+                    if(restored){std::string preSpawnError;if(!restoreLifecyclePreSpawn(preSpawnError))throw std::runtime_error("Lifecycle PreSpawn restore: "+preSpawnError);} // B141
+                    if(restored){std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);}
                     rebuildNativeBodies();
                     initializeSourceNavigation();
                     initializeSourceTargetNodes();
@@ -7322,6 +7306,7 @@ int main(int argc,char** argv) {
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
                     traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
+                    if(arrivalRestore&&restored)std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<snapshot.objects.size()<<" actors="<<snapshot.actors.size()<<'\n';
                 } else if(!f::load_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Restored character\n";
             }
             // Original offline GSFlashMenu updates its UI without recursing
