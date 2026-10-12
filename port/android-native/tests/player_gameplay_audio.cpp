@@ -67,8 +67,8 @@ int main() {
           "single-state safe-zone loop rejects unsupported VXN combat state");
     check(enqueue_crypt_music_state(487,"ambient"),false,
           "another level's VXN UID cannot be mislabeled as Crypt");
-    check(enqueue_source_vxn_music_state(488,"ambient")||
-          source_vxn_music_resource(488)!=nullptr,false,
+    check(enqueue_source_vxn_music_state(999,"ambient")||
+          source_vxn_music_resource(999)!=nullptr,false,
           "unmapped VXN IDs stay unsupported");
     check(enqueue_crypt_music_state(486,"boss"),false,
           "unknown VXN states remain fail-closed");

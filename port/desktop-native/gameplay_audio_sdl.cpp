@@ -57,6 +57,44 @@ bool read_asset(AAssetManager* manager, const std::string& path,
     return true;
 }
 
+struct MusicFiles {
+    std::uint16_t uid;
+    const char* ambient;
+    const char* combat; // nullptr for single-track ambient-only rows
+    std::uint32_t payload_bytes, sample_frames;
+};
+// Exported WAVs in original-media/gameplay/music, named by *-music-provenance.json.
+// UIDs 485, 486 and 487 have no provenance row; they keep the cathedral crypt WAVs.
+constexpr std::array<MusicFiles, 27> kMusicFiles{{
+    {467, "swamp_ambient_music.wav", "swamp_combat_music.wav", 6138880, 6096650},
+    {468, "swamp_witch_ambient_music.wav", "swamp_witch_combat_music.wav", 6138880, 6096650},
+    {470, "water_temple_cave_ambient_music.wav", "water_temple_cave_combat_music.wav", 6138880, 6096650},
+    {471, "darkwood_ambient_music.wav", "darkwood_combat_music.wav", 5846016, 5805166},
+    {472, "root_den_ambient_music.wav", "root_den_combat_music.wav", 5846016, 5805166},
+    {474, "earth_temple_ambient_music.wav", "earth_temple_combat_music.wav", 5846016, 5805166},
+    {475, "infected_village_ambient_music.wav", "infected_village_combat_music.wav", 5846016, 5805166},
+    {477, "gothicus_no_ambiance_ambient_music.wav", "gothicus_no_ambiance_combat_music.wav", 4757504, 4724364},
+    {484, "abbey_safezone_ambient_music.wav", "abbey_safezone_combat_music.wav", 5140480, 5105117},
+    {485, "crypt_ambient_music.wav", "crypt_combat_music.wav", 5140480, 5105117},
+    {486, "crypt_ambient_music.wav", "crypt_combat_music.wav", 5140480, 5105117},
+    {487, "crypt_ambient_music.wav", "crypt_combat_music.wav", 5140480, 5105117},
+    {488, "red_desert_ambient_music.wav", "red_desert_combat_music.wav", 4472832, 4441600},
+    {489, "red_desert_cave_ambient_music.wav", "red_desert_cave_combat_music.wav", 4472832, 4441600},
+    {492, "lighthouse_ambient_music.wav", "lighthouse_combat_music.wav", 4472832, 4441600},
+    {493, "fire_temple_ambient_music.wav", "fire_temple_combat_music.wav", 4472832, 4441600},
+    {494, "icy_cliff_ambient_music.wav", "icy_cliff_combat_music.wav", 5231616, 5195283},
+    {496, "icy_cavern_ambient_music.wav", "icy_cavern_combat_music.wav", 5231616, 5195283},
+    {501, "wind_temple_ambient_music.wav", "wind_temple_combat_music.wav", 5231616, 5195283},
+    {502, "underworld_ambient_music.wav", "underworld_combat_music.wav", 4198400, 4169150},
+    {503, "machine_rooms_ambient_music.wav", "machine_rooms_combat_music.wav", 4198400, 4169150},
+    {504, "dark_temple_ambient_music.wav", "dark_temple_combat_music.wav", 4198400, 4169150},
+    {505, "swamp_merchant_camp_music.wav", nullptr, 3591168, 3565714},
+    {506, "blood_sands_music.wav", nullptr, 3591168, 3565714},
+    {507, "kings_grave_music.wav", nullptr, 3591168, 3565716},
+    {508, "gated_castle_village_music.wav", nullptr, 3697664, 3671470},
+    {509, "northerland_music.wav", nullptr, 3697664, 3671470},
+}};
+
 bool parse_music_resource(std::uint16_t uid, std::string_view state,
                           std::string& path, std::uint32_t& payload_bytes,
                           std::uint32_t& sample_frames) {
@@ -64,16 +102,13 @@ bool parse_music_resource(std::uint16_t uid, std::string_view state,
     if (!source || (source->has_vxn_states
             ? (state != "ambient" && state != "combat")
             : state != "ambient")) return false;
-    if (uid == 467) {
-        path = "original-media/gameplay/music/swamp_" + std::string(state) + "_music.wav";
-        payload_bytes = 6138880; sample_frames = 6096650;
-    } else if (uid >= 484 && uid <= 487) {
-        path = "original-media/gameplay/music/crypt_" + std::string(state) + "_music.wav";
-        payload_bytes = 5140480; sample_frames = 5105117;
-    } else if (uid == 505 && state == "ambient") {
-        path = "original-media/gameplay/music/swamp_merchant_camp_music.wav";
-        payload_bytes = 3591168; sample_frames = 3565714;
-    } else return false;
+    const auto row = std::find_if(kMusicFiles.begin(), kMusicFiles.end(),
+        [uid](const MusicFiles& entry) { return entry.uid == uid; });
+    if (row == kMusicFiles.end()) return false;
+    const char* asset = state == "ambient" ? row->ambient : row->combat;
+    if (!asset) return false;
+    path = std::string("original-media/gameplay/music/") + asset;
+    payload_bytes = row->payload_bytes; sample_frames = row->sample_frames;
     return true;
 }
 
@@ -94,9 +129,10 @@ bool decode_music_wav(std::uint16_t uid, std::string_view state,
     }
     std::vector<std::uint8_t> wav;
     if (!read_asset(assets, path, wav, error)) return false;
+    // The RIFF size of single-track source exports is not trusted (it comes from the original
+    // container); fmt/fact/data sizes and chunk bounds are validated below.
     if (wav.size() != std::size_t(60) + expected_payload || wav.size() < 60 ||
         std::memcmp(wav.data(), "RIFF", 4) != 0 ||
-        u32(wav.data() + 4) != wav.size() - 8 ||
         std::memcmp(wav.data() + 8, "WAVE", 4) != 0 ||
         std::memcmp(wav.data() + 12, "fmt ", 4) != 0 ||
         u32(wav.data() + 16) != 20 ||
