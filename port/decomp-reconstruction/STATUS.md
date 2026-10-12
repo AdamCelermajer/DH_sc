@@ -3,19 +3,19 @@
 Updated 2026-10-12 by the integrator, after merging core-video wave 4 (`db85055f`), vox-audio (`7283788d`,
 merge `63c0f0b2`), core-video's material-parameter bindings for owners G, M and R (`3f65fb50`), its part 1b
 hook definitions and `ParamEntry` retirement (`8408c960`, `11edf5b0`), and the IDA layouts export (`c54c6057`).
-Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once against its category's queue. 1,328
-queued functions have no ledger row yet. They are still to do: scene 1,007, net-session 253, tinyxml 53,
-net-transport 15. Video's 13 C2DDriver functions are ledgered now (skipped).
+Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once against its category's queue.
+1,275 queued functions have no ledger row yet. They are still to do: scene 1,007, net-session 253, net-transport 15.
+Tinyxml's 53 are ledgered now (see its NOTES.md). Video's 13 C2DDriver functions are ledgered as skipped.
 
 ## Totals
 
 | | functions |
 |---|---|
 | queued | 15,164 |
-| reconstructed | 7,263 |
-| upstream (unmodified library code) | 1,796 |
-| partial | 2,566 |
-| skipped (deliberately not rebuilt) | 2,211 |
+| reconstructed | 7,270 |
+| upstream (unmodified library code) | 1,817 |
+| partial | 2,573 |
+| skipped (deliberately not rebuilt) | 2,229 |
 
 Hex-Rays is the primary pseudocode source (`recovered/native/hexrays-all/`). The IDA assembly
 listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Ghidra is the fallback
@@ -32,7 +32,7 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
 | net-session-online | 1,235 | 704 | 0 | 163 | 115 |
 | net-transport | 794 | 528 | 0 | 185 | 66 |
 | pydata-accessors | 2,201 | 2,082 | 0 | 99 | 20 |
-| tinyxml-and-c-libs | 1,846 | 0 | 1,734 | 1 | 58 |
+| tinyxml-and-c-libs | 1,846 | 7 | 1,755 | 8 | 76 |
 | vox-audio | 1,140 | 908 | 45 | 66 | 121 |
 
 ## Decisions in force

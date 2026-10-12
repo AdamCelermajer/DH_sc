@@ -2,22 +2,36 @@
 
 ## Status (this session)
 
-Ledger: 1793 rows (1734 upstream, 58 skipped, 1 partial), out of 1846 queued
-functions. Remaining 53 are unledgered on purpose:
+Ledger: all 1846 queued functions have a row. 7 reconstructed, 1755 upstream, 8 partial, 76 skipped.
 
-- game code (not library): II_Item_sortby* (3), VZPurchase_* (10), NVThread* (5),
-  SSEncDec_* (14), Java_..._nativeInit (1)
-- stb_vorbis parser (start_page, start_packet, start_decoder, start_page_no_capturepattern)
-  and undecompiled/ambiguous FreeType helpers (ft_gzip_file_fill_output: Ghidra failed;
-  Compute_Funcs, Compute_Point_Displacement, Dual_Project, Project*, Normalize, SkipCode,
-  Sort, update_box, hash_bucket/hash_free/hash_insert, null_method, self_destruct,
-  pass_startup: names could belong to more than one library)
-- OutputDebugStringA (Win32 import wrapper)
+The 53 that were unledgered are now resolved:
+
+- Upstream, matched by name against sources vendored in this repo (not byte-diffed):
+  - FreeType 2.3.7 (`port/engine-ui/vendor/freetype-2.3.7-hud`): `ttinterp.c` (Dual_Project, Project,
+    Project_x, Project_y, Compute_Funcs, Compute_Point_Displacement, Normalize, SkipCode), `ftraster.c` (Sort),
+    `ftgzip.c` (ft_gzip_file_fill_output), `bdflib.c` (hash_bucket, hash_insert, hash_free). 13 functions.
+  - libjpeg (`port/irrlicht-prototype/upstream/.../jpeglib`, JPEG_LIB_VERSION 80): jquant2.c (update_box),
+    jcmaster.c (pass_startup), jmemmgr.c (self_destruct), jccolor.c (null_method). 4 functions.
+  - stb_vorbis (start_page, start_packet, start_decoder, start_page_no_capturepattern): name match only. The
+    library is not vendored in this repo, so the bodies were not compared. vox-audio owns stb_vorbis and should
+    confirm.
+- Reconstructed (`src/ssencdec.cpp`, `src/nvthread.cpp`, tests in `tests/`): SSEncDec key table (both copies),
+  SSEncDec ByteArray2Blob (non-LC), NVThreadInit, NVThreadSleep.
+- Partial: SSEncDec decode and string wrappers, and the LC data copies. The logic is ported, but they call
+  LC_API_STRLEN, LC_API_STRLEN_0 or LC_API_MEMSET. Those have no definition in this repo, so they were taken as
+  libc and not verified. XP_API_STRLEN and XP_API_MEMSET are libc, confirmed in net-session-online's xp_api.cpp.
+- Skipped, not rebuilt:
+  - VZPurchase_* (10): JNI forwarders that need the JNIEnv table and the mMethodVZ* IDs.
+  - NVThreadSpawnJNIThread, NVThreadGetCurrentJNIEnv, NVThreadSpawnProc: need pthread and JNI attach/detach.
+  - Java_..._nativeInit: a thunk to ADevice::Init, and ADevice is not in the port.
+  - II_Item_sortby* (3): need the ItemInventory::Item layout (+84, +105) and ItemInstance::operator<.
+  - OutputDebugStringA: a 4-byte branch to a Win32 import.
 
 Ledger generation: map_upstream.py (in this folder) reads queue.csv and writes
 `upstream` rows by name pattern. Rows are name-matched, and a spot check of about
 10 bodies per library found no obvious local modifications. They are not
-byte-diffed against upstream.
+byte-diffed against upstream. The 22 rows above that were matched by hand use the same
+convention.
 
 ## Libraries identified
 
