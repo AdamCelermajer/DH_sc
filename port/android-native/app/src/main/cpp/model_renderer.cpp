@@ -21205,7 +21205,14 @@ bool static_level_entrypoint_fallback(AAssetManager* assets,const std::string& s
   if(id==entry_point)present=true;
  }
  if(present){error.clear();return true;}
- if(first<0){error="Static Level SPWN table has no compiled entrypoint";return false;}
+ // Original Level::GetSpawnPoint (0x3ef614) selects no row when the offline
+ // table has only conditional entrypoints; Level::_LoadProcess (0x3f6e30) then
+ // keeps the DWLD start position without error. Mirror that instead of failing.
+ if(first<0){
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "Static Level SPWN table has no compiled entrypoints | entrypoint %d | using DWLD start position",entry_point);
+  error.clear();return true;
+ }
  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
      "Static Level entrypoint %d is conditional/uncompiled | using compiled entrypoint %d",
      entry_point,first);
@@ -39025,10 +39032,14 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           source_mgps.size(),source_spawn_bytes,source_layout_error))
         throw std::runtime_error("Original source MGP SpawnPoint import rejected: "+source_layout_error);
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
+      // An empty offline SPWN table keeps the DWLD descriptor and its start
+      // position (see static_level_entrypoint_fallback); no SPWN row is selected.
+      if(source_spawn_bytes.size()>=16+144){
       if(!dh2::world::compile_source_layout(source_mlx_bytes.data(),source_mlx_bytes.size(),source_spawn_bytes.data(),
           source_spawn_bytes.size(),entrypoint,source_layout_bytes,source_layout_error))
         throw std::runtime_error("Original source MLX layout rejected: "+source_layout_error);
       selected_descriptor=source_layout_bytes.data();selected_descriptor_size=source_layout_bytes.size();
+      }
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native source MLX/MGP imported | row %d | %s | modules %u | supported SpawnPoints %u | selected entrypoint %d | source object factories remain separate",
         level_assets.row,level_assets.level_file.c_str(),selected_descriptor_size>=12?unsigned(selected_descriptor[8]|(unsigned(selected_descriptor[9])<<8)|(unsigned(selected_descriptor[10])<<16)|(unsigned(selected_descriptor[11])<<24)):0,unsigned(source_spawn_bytes.size()>=16?(source_spawn_bytes.size()-16)/144:0),entrypoint);
     }else if(legacy_crypt_source_layout){
@@ -39122,7 +39133,12 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     }
     if(!restore){
       if(source_spawn_bytes.empty())source_spawn_bytes=read(assets,level_assets.spawns,"worlds");
-      const auto& spawn_bytes=source_spawn_bytes;std::vector<dh2::world::EntryPoint> entrypoints;
+      const auto& spawn_bytes=source_spawn_bytes;
+      if(spawn_bytes.size()<16+144){
+        // No offline SPWN row: Level::_LoadProcess keeps the DWLD start (0x3f6e30).
+        __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint table empty | using DWLD start | start xyz %.4f %.4f %.4f",candidate.spawn[0],candidate.spawn[1],candidate.spawn[2]);
+      }else{
+std::vector<dh2::world::EntryPoint> entrypoints;
       if(!dh2::world::load_entrypoints(spawn_bytes.data(),spawn_bytes.size(),candidate.rooms,entrypoints,error))throw std::runtime_error(error);
       dh2::world::SpawnSelection start;
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
@@ -39131,6 +39147,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       source_spawn_heading=start.rotation_degrees[2]*0.01745329251994329577f;
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint selected | ID %d | %s | room %u | floor snapped %u | source xyz %.4f %.4f %.4f | start xyz %.4f %.4f %.4f | source rotation z %.4f deg",
         start.source.id,start.source.name.c_str(),start.source.room,unsigned(start.floor_snapped),start.source.world.position[0],start.source.world.position[1],start.source.world.position[2],start.position[0],start.position[1],start.position[2],start.rotation_degrees[2]);
+      }
     }
     const auto records_data=read(assets,"character_properties_pyarray.bin","data"),names_data=read(assets,"character_properties_pyarraynames.bin","data"),fields_data=read(assets,"character_properties_pystructnames.bin","data"),model_names=read(assets,"character_models_dictionary_pyarraynames.bin","data"),model_values=read(assets,"character_models_dictionary_pyarray.bin","data");
     dh2::data::CharacterTable character_table;dh2::data::Dictionary model_table;
