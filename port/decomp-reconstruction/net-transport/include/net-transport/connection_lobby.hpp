@@ -25,7 +25,7 @@
 #include <list>
 #include <string>
 
-#include "net-transport/connection_base.hpp"
+#include "net-transport/deps/connection_base.hpp"
 #include "net-transport/data_packet.hpp"
 
 class CLobbyParameterAndQuery;
@@ -102,7 +102,7 @@ private:
                              CLobbyParameterAndQuery* a6, unsigned char a7);
 
     // +0x0f in the original Connection layout: the receive buffer.
-    char recv_buffer_[0x1001];
+    char recv_buffer_[0x1001]{};
     // Fields in the Connection layout (see the header comment).
     ConnectionSocket* socket_ = nullptr;        // +0x2014
     DataPacket* outgoing_ = nullptr;            // +0x2024

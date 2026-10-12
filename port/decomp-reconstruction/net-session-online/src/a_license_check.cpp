@@ -401,9 +401,10 @@ bool ALicenseCheck::LoadRMS() {
         XOR(xime, pkey, xime);
     }
 
-    int sum = 0;
+    // The listing sums into a char, so the total wraps like the stored byte does.
+    char sum = 0;
     for (std::size_t i = kChecksumFrom; i != kChecksumTo; ++i) {
-        sum += ByteAt(buffer, i);
+        sum = static_cast<char>(sum + ByteAt(buffer, i));
     }
     return sum == ByteAt(buffer, kChecksumSlot);
 }
@@ -491,11 +492,11 @@ void ALicenseCheck::SaveRMS(bool valid) {
             for (std::size_t k = 0; k < imeiLength; ++k) {
                 StoreByte(buffer, imeiWrite + k * imeiStep, xime[k]);
             }
-            int sum = 0;
+            char sum = 0;
             for (std::size_t i = kChecksumFrom; i != kChecksumTo; ++i) {
-                sum += ByteAt(buffer, i);
+                sum = static_cast<char>(sum + ByteAt(buffer, i));
             }
-            StoreByte(buffer, kChecksumSlot, static_cast<char>(sum));
+            StoreByte(buffer, kChecksumSlot, sum);
         }
     } else {
         StoreByte(buffer, kKeyStepSlot, 0);
@@ -538,7 +539,9 @@ void ALicenseCheck::sendRequestByGet() {
     if (m_http == nullptr) {
         initXPlayer();
     }
-    char qry[260];
+    // The original's 260-byte buffer overflows with three 254-byte fields. The port uses a
+    // larger buffer so the text is kept whole (deviation).
+    char qry[1024];
     std::snprintf(qry, sizeof(qry), "%s|%s|%s|%d", KEY, EPID, IMEI, UCODE);
     char* blob = SSEncDec_String2BlobLC(qry);
     char buffer[4096];

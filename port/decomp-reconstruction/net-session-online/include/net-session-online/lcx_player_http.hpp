@@ -76,7 +76,6 @@ public:
     void SetRequestForTest(const char* text);
     void SetPostForTest(const char* body, std::int32_t length, bool byPost);
     void SetResponseForTest(const char* text);
-    void SetSocketForTest(LCXPlayerSocket* socket) { socket_ = socket; }
 
 private:
     LCXPlayerSocket* socket_ = nullptr;                   // +0x04

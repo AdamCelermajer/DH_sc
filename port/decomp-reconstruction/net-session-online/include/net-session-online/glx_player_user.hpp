@@ -93,25 +93,25 @@ public:
     void processUserChatWarning(char* text);                         // 0x83afb8
     void processPromoAttachment(char* text);                         // 0x83b028
     void processRssAttachment(char* text);                           // 0x83b074
-    void processUserTrophyIcon(char* text);                          // 0x83b0c0 (partial)
+    void processUserTrophyIcon(char* text);                          // 0x83b0c0
     void processGetPromo_RSS(char* response);                        // 0x83b1e0 (partial)
     void processGetADV_RSS(char* response);                          // 0x83b280 (partial)
     void processUserGameIcon(char* text);                            // 0x83b320 (partial)
-    void processUserAvatarList(char* text);                          // 0x83b424 (partial)
-    void processUserData(char* text);                                // 0x83b620 (partial)
+    void processUserAvatarList(char* text);                          // 0x83b424
+    void processUserData(char* text);                                // 0x83b620
     void processDownloadAvatar(char* text);                          // 0x83b724 (partial)
     void processUserAvatar(char* text);                              // 0x83b82c (partial)
-    void processUserBestScore(char* text);                           // 0x83bae4 (partial)
-    void processUserInformation(char* text);                         // 0x83bbf0 (partial)
-    void processUserTrophy(char* text);                              // 0x83c040 (partial)
+    void processUserBestScore(char* text);                           // 0x83bae4
+    void processUserInformation(char* text);                         // 0x83bbf0
+    void processUserTrophy(char* text);                              // 0x83c040
     void processUserState(char* text);                               // 0x83c14c (partial)
-    void processUserGameList(char* text);                            // 0x83c484 (partial)
-    void processUserReputation(char* text);                          // 0x83c6f8 (partial)
+    void processUserGameList(char* text);                            // 0x83c484
+    void processUserReputation(char* text);                          // 0x83c6f8
 
     // Request builders (src/glx_player_user_requests.cpp). Each one sends a request
     // through SendByGet or SendByPost, or reports a rejected argument to the observer.
     void sendGetLiveFeeds(std::int32_t kind);                        // 0x83cdc8
-    void sendSetUserMind(char* mind);                                // 0x83cea0 (partial)
+    void sendSetUserMind(char* mind);                                // 0x83cea0
     void sendSetUserState(std::int32_t state);                       // 0x83cf88
     void sendGetChatWarning();                                       // 0x83d080
     void sendGetAdvAttachment(std::int32_t id);                      // 0x83d13c

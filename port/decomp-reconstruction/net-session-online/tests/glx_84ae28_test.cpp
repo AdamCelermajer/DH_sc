@@ -4,6 +4,7 @@
 #include "net-session-online/deps/connection_transport.hpp"
 #include "net-session-online/glx_player_mp_base.hpp"
 #include "net-session-online/lc_api_net.hpp"
+#include "net-session-online/lcx_player_http.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -40,6 +41,21 @@ int main() {
     CHECK(base.Field50ForTest() == 0);
     CHECK(base.Field71ForTest() == 0);
     CHECK(transport.timeMs == 0);
+
+    // LCXPlayerHttp over the socket its constructor makes (state none: not in progress).
+    LCXPlayerHttp http("lobby.local", "4", "/php/game.php");
+    CHECK(!http.IsInProgress());
+    CHECK(!http.IsErrorOccurred());
+    http.UpdateRequest();
+
+    http.SetResponseForTest("reply");
+    http.SetPostForTest("a=b", 3, true);
+    http.SetResponseLen(5);
+    http.Cancel();
+    CHECK(http.GetResponse() == nullptr);
+    CHECK(http.GetResponseLen() == 0);
+    CHECK(!http.IsInProgress());
+    CHECK(!http.IsErrorOccurred());
 
     std::printf("%s\n", failures ? "glx_84ae28: FAILED" : "glx_84ae28: ok");
     return failures != 0;
