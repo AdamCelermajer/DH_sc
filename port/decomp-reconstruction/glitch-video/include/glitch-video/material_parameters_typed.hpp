@@ -129,7 +129,7 @@ public:
     int setParameterCvt(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src);
 
     // ---- Typed template family, pointer form (the value-type dispatcher's pointer overloads).
-    // getParameter<T>(uint16_t id, T* out, int count) const
+    // getParameter<T>(uint16_t id, T* out, int stride) const  (stride in bytes)
     //   code  type                  G           M           R
     //   1     int                   0x5c2c80    0x5c8d8c    0x5d1b24
     //   2     vector2d<int>         0x5c2b8c    0x5c8cdc    0x5d1a74
@@ -144,9 +144,9 @@ public:
     //   12-15 intrusive_ptr<ITexture> 0x5c24d8 0x5cc43c    0x5d52ac
     //   18    intrusive_ptr<CLight> 0x5c2198    0x5cc50c    0x5d5378
     template <typename T>
-    EnableIfValidMaterialParameter<T> getParameter(uint16_t id, T* out, int count) const;
+    EnableIfValidMaterialParameter<T> getParameter(uint16_t id, T* out, int stride) const;
 
-    // setParameter<T>(uint16_t id, const T* src, int count)
+    // setParameter<T>(uint16_t id, const T* src, int stride)  (stride in bytes)
     //   1     int                   0x5c083c    0x5ca260    0x5d2e7c
     //   2     vector2d<int>         0x5c0748    0x5ca1a4    0x5d2dcc
     //   3     vector3d<int>         0x5c0654    0x5ca0e4    0x5d2d1c
@@ -160,9 +160,9 @@ public:
     //   12-15 intrusive_ptr<ITexture> 0x5c0c94 0x5cc8b4    0x5d599c
     //   18    intrusive_ptr<CLight> 0x5c568c    0x5cc2b8    0x5d5004
     template <typename T>
-    EnableIfValidMaterialParameter<T> setParameter(uint16_t id, const T* src, int count);
+    EnableIfValidMaterialParameter<T> setParameter(uint16_t id, const T* src, int stride);
 
-    // getParameterCvt<T>(uint16_t id, T* out, int count) const
+    // getParameterCvt<T>(uint16_t id, T* out, int stride) const
     //   1     int                   0x5c2084    0x5c8670    0x5d1428
     //   2     vector2d<int>         0x5c1f60    0x5c8584    0x5d1340
     //   3     vector3d<int>         0x5c1e34    0x5c8490    0x5d1250
@@ -176,9 +176,9 @@ public:
     //   12-15 intrusive_ptr<ITexture> 0x5c4fa8 0x5ccc7c   0x5d5da4
     //   18    intrusive_ptr<CLight> 0x5c518c    0x5cd0d8    0x5d55cc
     template <typename T>
-    EnableIfValidMaterialParameter<T> getParameterCvt(uint16_t id, T* out, int count) const;
+    EnableIfValidMaterialParameter<T> getParameterCvt(uint16_t id, T* out, int stride) const;
 
-    // setParameterCvt<T>(uint16_t id, const T* src, int count)
+    // setParameterCvt<T>(uint16_t id, const T* src, int stride)
     //   1     int                   0x5bfe68    0x5c9a88    0x5d2744
     //   2     vector2d<int>         0x5bfd44    0x5c9988    0x5d265c
     //   3     vector3d<int>         0x5bfc18    0x5c9880    0x5d256c
@@ -192,7 +192,7 @@ public:
     //   12-15 intrusive_ptr<ITexture> 0x5c0bd4 0x5cc820   0x5d57e4
     //   18    intrusive_ptr<CLight> 0x5c540c    0x5cce20    0x5d56d8
     template <typename T>
-    EnableIfValidMaterialParameter<T> setParameterCvt(uint16_t id, const T* src, int count);
+    EnableIfValidMaterialParameter<T> setParameterCvt(uint16_t id, const T* src, int stride);
 
     // ---- Typed template family, index form (the dispatcher's (t, index, ...) overloads).
     // getParameter<T>(uint16_t id, uint32_t index, T& out) const
