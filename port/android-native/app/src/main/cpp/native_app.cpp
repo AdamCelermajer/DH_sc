@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <exception>
 #include "gameplay_scenario_v1.hpp"
+#include "campaign_profile_files_v1.hpp"
 
 namespace {
 constexpr const char* tag="DH2Native";
@@ -389,6 +390,48 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_startMenu
    __android_log_print(ANDROID_LOG_ERROR,tag,"Front menu recovery after failed start failed: %s",error.c_str());
  }
  return result(env,startup);
+}
+// Debug-only (MainActivity gates on FLAG_DEBUGGABLE). Mirrors desktop_main.cpp
+// select_or_create_source_profile: reuse the first occupied campaign slot, else
+// create the desktop profile through the shared original UI session.
+extern "C" JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_debugSelectOrCreateProfile(JNIEnv* env,jclass,jobject assets){
+ if(!assets||menu_directory.empty()){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile unavailable: assets or runtime directory missing");
+  return -1;
+ }
+ AAssetManager* manager=AAssetManager_fromJava(env,assets);
+ std::string error;
+ for(std::uint32_t candidate=0;candidate<4;++candidate){
+  bool exists=false;
+  if(!dh2::data::campaign_profile_exists_v1(menu_directory,candidate,exists,error)){
+   __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile lookup failed: %s",error.c_str());
+   return -1;
+  }
+  if(!exists)continue;
+  if(!model_renderer::assign_menu_save_slot(static_cast<std::int32_t>(candidate),0,error)){
+   __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile assignment failed: %s",error.c_str());
+   return -1;
+  }
+  __android_log_print(ANDROID_LOG_INFO,tag,"Debug auto-start | using existing source campaign slot %u",candidate);
+  return static_cast<jint>(candidate);
+ }
+ std::int32_t slot=-1;
+ bool published=false;
+ if(!model_renderer::create_menu_save_slot(manager,"Desktop Knight","KnightPlayerBase",slot,published,error,
+     nullptr,difficulty_count)){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile creation failed: %s",error.c_str());
+  return -1;
+ }
+ if(!published||slot<0){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile creation did not publish a canonical campaign profile");
+  return -1;
+ }
+ if(!model_renderer::assign_menu_save_slot(slot,0,error)){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile assignment failed: %s",error.c_str());
+  return -1;
+ }
+ __android_log_print(ANDROID_LOG_INFO,tag,"Debug auto-start | created source campaign profile in slot %d",slot);
+ return static_cast<jint>(slot);
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_transitionLevel(JNIEnv* env,jclass,jstring destination,jdouble rawEntryPoint,jobject assets){
  if(!destination||!assets)return result(env,"NativeGoToZone input unavailable");

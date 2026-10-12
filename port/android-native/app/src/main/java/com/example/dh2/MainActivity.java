@@ -61,6 +61,9 @@ public final class MainActivity extends Activity {
     // UI-thread post on every frame while still tracking in-game language edits.
     private int appliedIntroLanguage = -1;
     private boolean frontMenuReady;
+    // Debug-only (FLAG_DEBUGGABLE + debug_auto_start extra); one-shot per launch.
+    private boolean debugAutoStartArmed;
+    private boolean debugAutoStartDone;
     private boolean titleMusicStarted;
     private int menuGameplaySlot=-1;
     private boolean menuHasNumericDifficulty;
@@ -82,6 +85,8 @@ public final class MainActivity extends Activity {
         debugLevelRow=debugBuild?getIntent().getIntExtra("debug_level_row",-1):-1;
         if(debugLevelRow<-1){Log.w("DH2Native","Ignoring unsupported debug LevelList row "+debugLevelRow);debugLevelRow=-1;}
         if(debugLevelRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+debugLevelRow+" | profile save unchanged");
+        debugAutoStartArmed=debugBuild&&getIntent().getBooleanExtra("debug_auto_start",false);
+        if(debugAutoStartArmed)Log.i("DH2Native","Debug auto-start armed | skips authored New Game tap");
         // Debug builds only: drive the same move-kill/move-defend checks as the desktop runtime.
         if(debugBuild&&getIntent().getStringExtra("debug_scenario")!=null)
             NativeBridge.debugScenario(getIntent().getStringExtra("debug_scenario"));
@@ -346,6 +351,10 @@ public final class MainActivity extends Activity {
                     loadAuthoredMenuAfterOpeningSplash();
                 if("ui/original-main-menu".equals(loadedAsset)&&!frontMenuReady)
                     runOnUiThread(()->{frontMenuReady=true;startTitleMusicIfReady();});
+                if(debugAutoStartArmed&&!debugAutoStartDone&&frontMenuReady&&"ui/original-main-menu".equals(loadedAsset)){
+                    debugAutoStartDone=true;
+                    startDebugAutoGame();
+                }
                 String audio=NativeBridge.consumeMenuAudio();
                 if(!audio.isEmpty()&&(introCinematic==null||audio.startsWith("volume,")))runOnUiThread(()->{
                     frontAudio.control(audio);
@@ -707,7 +716,22 @@ public final class MainActivity extends Activity {
         }
     }
     private String startMenuGame(int slot){return startMenuGame(slot,false,0);}
-    private String startMenuGame(int slot,boolean hasNumericDifficulty,int requestedDifficulty){return NativeBridge.startMenuGame(slot,getAssets(),debugLevelRow,hasNumericDifficulty,requestedDifficulty);}
+    // Debug-only auto-start: same profile selection and start path as the desktop --level-row run.
+    private void startDebugAutoGame(){
+        int slot=NativeBridge.debugSelectOrCreateProfile(getAssets());
+        if(slot<0){
+            Log.e("DH2Native","Debug auto-start profile select-or-create failed");
+            show("Debug auto-start profile failed");
+            return;
+        }
+        Log.i("DH2Native","Debug auto-start | slot "+slot+" | level row "+debugLevelRow);
+        beginMenuGameStart(slot,false,0);
+    }
+    private String startMenuGame(int slot,boolean hasNumericDifficulty,int requestedDifficulty){
+        // Desktop maps SWAMP (row 41) to the -1 native override before start_menu_game.
+        int nativeRow=debugLevelRow==41?-1:debugLevelRow;
+        return NativeBridge.startMenuGame(slot,getAssets(),nativeRow,hasNumericDifficulty,requestedDifficulty);
+    }
     @Override protected void onNewIntent(Intent intent){
         if(intent.hasExtra("profile_slot")&&intent.getIntExtra("profile_slot",-1)!=metadataSlot){
             Log.i("DH2Native","Campaign metadata slot change rejected | requested "+intent.getIntExtra("profile_slot",-1)+" | active "+metadataSlot+" | relaunch required");
