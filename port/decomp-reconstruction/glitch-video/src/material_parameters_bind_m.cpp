@@ -82,8 +82,7 @@ public:
             m_block.count = header->count;
             m_block.entries.reserve(header->count);
             for (std::uint32_t i = 0; i < header->count; ++i) {
-                const SParameterEntry& e = header->entries[i];
-                m_block.entries.push_back(part1b::ParamEntry{true, e.type, e.count, e.valueOffset});
+                m_block.entries.push_back(header->entries[i]);
             }
         }
         m_store.block = &m_block;

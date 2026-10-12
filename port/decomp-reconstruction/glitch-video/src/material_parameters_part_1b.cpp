@@ -111,15 +111,15 @@ bool sameValue(const vector4d<float>& a, const vector4d<float>& b) {
     return a.X == b.X && a.Y == b.Y && a.Z == b.Z && a.W == b.W;
 }
 
-// Entry lookup. G: the id must be inside the table and the entry set.
-const ParamEntry* findGlobal(const GlobalParameterStore& s, std::uint16_t id) {
+// Entry lookup. G: the id must be inside the table and the entry defined (ref non-zero).
+const part1a::SParamEntry* findGlobal(const GlobalParameterStore& s, std::uint16_t id) {
     if (id >= s.entries.size()) return nullptr;
-    const ParamEntry& e = s.entries[id];
-    return e.set ? &e : nullptr;
+    const part1a::SParamEntry& e = s.entries[id];
+    return e.ref != 0 ? &e : nullptr;
 }
 
 // Entry lookup. M: the id must be below the block count (and inside the entry array).
-const ParamEntry* findMaterial(const MaterialParameterStore& m, std::uint16_t id) {
+const detail::SParameterEntry* findMaterial(const MaterialParameterStore& m, std::uint16_t id) {
     const MaterialParameterBlock* b = m.block;
     if (!b || id >= b->count || id >= b->entries.size()) return nullptr;
     return &b->entries[id];
@@ -248,7 +248,7 @@ bool convertElement<SColorf>(const std::uint8_t* p, std::uint8_t code, SColorf& 
 // Index setter, own type: element index * sizeof(T).
 template <class T>
 int globalSetIndexed(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const T& src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || e->type != ParamCode<T>::kCode || index >= e->count) return 0;
     const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(T);
     if (!inRange(s.values, pos, sizeof(T))) return 0;
@@ -259,7 +259,7 @@ int globalSetIndexed(GlobalParameterStore& s, std::uint16_t id, std::uint32_t in
 // Cvt setter for the own-only accessors: the gate, then element 0 (no index multiply).
 template <class T>
 int globalSetCvtOwn(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, const T& src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, ParamCode<T>::kGate) || index >= e->count) return 0;
     if (e->type == ParamCode<T>::kCode) {
         if (!inRange(s.values, e->offset, sizeof(T))) return 0;
@@ -270,7 +270,7 @@ int globalSetCvtOwn(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 
 // Cvt setter for int: code 1 stores the int, code 5 stores the int as float.
 int globalSetCvtInt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, int src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, ParamCode<int>::kGate) || index >= e->count) return 0;
     if (!inRange(s.values, e->offset, 4)) return 0;
     std::uint8_t* p = s.values.data() + e->offset;
@@ -284,7 +284,7 @@ int globalSetCvtInt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 
 // Cvt setter for float: code 1 stores the float as int (f2iz), code 5 stores the float.
 int globalSetCvtFloat(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, float src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, ParamCode<float>::kGate) || index >= e->count) return 0;
     if (!inRange(s.values, e->offset, 4)) return 0;
     std::uint8_t* p = s.values.data() + e->offset;
@@ -389,7 +389,7 @@ int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 // 0x5c48a0 setParameter<boost::intrusive_ptr<glitch::video::ITexture>>(unsigned short, unsigned int, ...)
 // Partial: the state word (textureStateWord) and the count (textureAddRef / textureDrop) are hooks.
 int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, ITexture* const& src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e) return 0;
     const bool typeOk = src ? (e->type == (textureStateWord(src) & 3u) + 12u)
                             : (static_cast<std::uint32_t>(e->type) - 12u) <= 3u;
@@ -407,7 +407,7 @@ int setParameter(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index,
 // 0x5c5be0 setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...)
 // Partial: the last-reference release goes through destroyLight.
 int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight* const& src) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000) || index >= e->count) return 0;
     if (e->type == 18) {
         if (!inRange(s.values, e->offset, sizeof(void*))) return 0;
@@ -422,7 +422,7 @@ int setParameterCvt(GlobalParameterStore& s, std::uint16_t id, std::uint32_t ind
 // 0x5c5a40 getParameter<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...) const
 // Partial: the last-reference release goes through destroyLight.
 int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight*& out) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || e->type != 18 || index >= e->count) return 0;
     const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(void*);
     if (!inRange(s.values, pos, sizeof(void*))) return 0;
@@ -433,7 +433,7 @@ int getParameter(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t 
 // 0x5c58ec getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, unsigned int, ...) const
 // Partial: the last-reference release goes through destroyLight. Element 0 (no index multiply).
 int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32_t index, CLight*& out) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000) || index >= e->count) return 0;
     if (e->type == 18) {
         if (!inRange(s.values, e->offset, sizeof(void*))) return 0;
@@ -445,7 +445,7 @@ int getParameterCvt(const GlobalParameterStore& s, std::uint16_t id, std::uint32
 // 0x5c4fa8 getParameterCvt<boost::intrusive_ptr<glitch::video::ITexture>>(unsigned short, ITexture**, int) const
 // Partial: textureAddRef / textureDrop hooks. The four texture codes 12..15 behave the same.
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, ITexture** out, int stride) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || (static_cast<std::uint32_t>(e->type) - 12u) > 3u) return 0;
     if (stride != 0) {
         const std::uint8_t* base = s.values.data() + e->offset;
@@ -466,7 +466,7 @@ int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, ITextu
 // 0x5c518c getParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, CLight**, int) const
 // Partial: the last-reference release goes through destroyLight.
 int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, CLight** out, int stride) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000)) return 0;
     if (stride != 0 && e->type == 18) {
         const std::uint8_t* base = s.values.data() + e->offset;
@@ -483,7 +483,7 @@ int getParameterArrayCvt(const GlobalParameterStore& s, std::uint16_t id, CLight
 // 0x5c540c setParameterCvt<boost::intrusive_ptr<glitch::video::CLight>>(unsigned short, CLight const*, int)
 // Partial: the last-reference release goes through destroyLight. A stride of 0 writes nothing.
 int setParameterArrayCvt(GlobalParameterStore& s, std::uint16_t id, CLight* const* src, int stride) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || !gatePasses(e->type, 0x40000)) return 0;
     if (stride != 0 && e->type == 18) {
         std::uint8_t* base = s.values.data() + e->offset;
@@ -501,7 +501,7 @@ int setParameterArrayCvt(GlobalParameterStore& s, std::uint16_t id, CLight* cons
 // Partial: the last-reference release goes through destroyLight. A stride of 0 means 4 (the original's
 // element size); the port uses sizeof(void*).
 int setParameterArray(GlobalParameterStore& s, std::uint16_t id, CLight* const* src, int stride) {
-    const ParamEntry* e = findGlobal(s, id);
+    const part1a::SParamEntry* e = findGlobal(s, id);
     if (!e || e->type != 18) return 0;
     const int step = stride != 0 ? stride : static_cast<int>(sizeof(void*));
     std::uint8_t* base = s.values.data() + e->offset;
@@ -520,9 +520,9 @@ int setParameterArray(GlobalParameterStore& s, std::uint16_t id, CLight* const* 
 
 // 0x5c623c setParameter<int>
 int setParameter(MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, const int& src) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || e->type != ParamCode<int>::kCode || index >= e->count) return 0;
-    const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(int);
+    const std::uint64_t pos = std::uint64_t(e->valueOffset) + std::uint64_t(index) * sizeof(int);
     if (!inRange(m.values, pos, sizeof(int))) return 0;
     if (!sameValue(loadAs<int>(m.values.data() + pos), src)) markDirty(m);
     storeAs(m.values.data() + pos, src);
@@ -532,9 +532,9 @@ int setParameter(MaterialParameterStore& m, std::uint16_t id, std::uint32_t inde
 // Index setter, own type, for the M setters (compare, mark dirty, store).
 template <class T>
 int materialSetIndexed(MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, const T& src) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || e->type != ParamCode<T>::kCode || index >= e->count) return 0;
-    const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(T);
+    const std::uint64_t pos = std::uint64_t(e->valueOffset) + std::uint64_t(index) * sizeof(T);
     if (!inRange(m.values, pos, sizeof(T))) return 0;
     if (!sameValue(loadAs<T>(m.values.data() + pos), src)) markDirty(m);
     storeAs(m.values.data() + pos, src);
@@ -577,21 +577,21 @@ int setParameter(MaterialParameterStore& m, std::uint16_t id, std::uint32_t inde
 // Cvt setter for the own-only M accessors: the gate, then element 0; only the own type is stored.
 template <class T>
 int materialSetCvtOwn(MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, const T& src) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || !gatePasses(e->type, ParamCode<T>::kGate) || index >= e->count) return 0;
     if (e->type != ParamCode<T>::kCode) return 1;
-    if (!inRange(m.values, e->offset, sizeof(T))) return 0;
-    if (!sameValue(loadAs<T>(m.values.data() + e->offset), src)) markDirty(m);
-    storeAs(m.values.data() + e->offset, src);
+    if (!inRange(m.values, e->valueOffset, sizeof(T))) return 0;
+    if (!sameValue(loadAs<T>(m.values.data() + e->valueOffset), src)) markDirty(m);
+    storeAs(m.values.data() + e->valueOffset, src);
     return 1;
 }
 
 // 0x5c6834 setParameterCvt<int>
 int setParameterCvt(MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, const int& src) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || !gatePasses(e->type, ParamCode<int>::kGate) || index >= e->count) return 0;
-    if (!inRange(m.values, e->offset, 4)) return 0;
-    std::uint8_t* p = m.values.data() + e->offset;
+    if (!inRange(m.values, e->valueOffset, 4)) return 0;
+    std::uint8_t* p = m.values.data() + e->valueOffset;
     if (e->type == 1) {
         if (!sameValue(loadAs<int>(p), src)) markDirty(m);
         storeAs<int>(p, src);
@@ -616,10 +616,10 @@ int setParameterCvt(MaterialParameterStore& m, std::uint16_t id, std::uint32_t i
 }
 // 0x5c6b8c setParameterCvt<float>: code 1 stores f2iz as int, code 5 stores the float
 int setParameterCvt(MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, const float& src) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || !gatePasses(e->type, ParamCode<float>::kGate) || index >= e->count) return 0;
-    if (!inRange(m.values, e->offset, 4)) return 0;
-    std::uint8_t* p = m.values.data() + e->offset;
+    if (!inRange(m.values, e->valueOffset, 4)) return 0;
+    std::uint8_t* p = m.values.data() + e->valueOffset;
     if (e->type == 1) {
         const std::int32_t i = f2iz(src);
         if (!sameValue(loadAs<std::int32_t>(p), i)) markDirty(m);
@@ -642,9 +642,9 @@ int setParameterCvt(MaterialParameterStore& m, std::uint16_t id, std::uint32_t i
 // Index getter: own type, element index * sizeof(T).
 template <class T>
 int materialGetIndexed(const MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, T& out) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || e->type != ParamCode<T>::kCode || index >= e->count) return 0;
-    const std::uint64_t pos = std::uint64_t(e->offset) + std::uint64_t(index) * sizeof(T);
+    const std::uint64_t pos = std::uint64_t(e->valueOffset) + std::uint64_t(index) * sizeof(T);
     if (!inRange(m.values, pos, sizeof(T))) return 0;
     out = loadAs<T>(m.values.data() + pos);
     return 1;
@@ -653,10 +653,10 @@ int materialGetIndexed(const MaterialParameterStore& m, std::uint16_t id, std::u
 // Cvt getter, element 0: gate, then the per-code conversion of the stored element.
 template <class T>
 int materialGetCvt(const MaterialParameterStore& m, std::uint16_t id, std::uint32_t index, T& out, bool floatToInt = true) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || !gatePasses(e->type, ParamCode<T>::kGate) || index >= e->count) return 0;
-    if (!inRange(m.values, e->offset, storedElementSize(e->type))) return 0;
-    convertElement<T>(m.values.data() + e->offset, e->type, out, floatToInt);
+    if (!inRange(m.values, e->valueOffset, storedElementSize(e->type))) return 0;
+    convertElement<T>(m.values.data() + e->valueOffset, e->type, out, floatToInt);
     return 1;
 }
 
@@ -747,19 +747,19 @@ int getParameterCvt(const MaterialParameterStore& m, std::uint16_t id, std::uint
 // a stride of 0 with another stored type writes nothing.
 template <class T>
 int materialGetArrayCvt(const MaterialParameterStore& m, std::uint16_t id, T* out, int stride, bool floatToInt = true) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || !gatePasses(e->type, ParamCode<T>::kGate)) return 0;
-    const std::uint8_t* base = m.values.data() + e->offset;
+    const std::uint8_t* base = m.values.data() + e->valueOffset;
     const bool ownCopy = e->type == ParamCode<T>::kCode &&
                          (stride == 0 || static_cast<std::size_t>(stride) == sizeof(T));
     if (ownCopy) {
-        if (!inRange(m.values, e->offset, std::uint64_t(e->count) * sizeof(T))) return 0;
+        if (!inRange(m.values, e->valueOffset, std::uint64_t(e->count) * sizeof(T))) return 0;
         std::memcpy(out, base, std::size_t(e->count) * sizeof(T));
         return 1;
     }
     if (stride == 0) return 1;
     const std::uint32_t step = storedElementSize(e->type);
-    if (!inRange(m.values, e->offset, std::uint64_t(e->count) * step)) return 0;
+    if (!inRange(m.values, e->valueOffset, std::uint64_t(e->count) * step)) return 0;
     std::uint8_t* dst = reinterpret_cast<std::uint8_t*>(out);
     for (std::uint32_t i = 0; i < e->count; ++i) {
         T value{};
@@ -774,11 +774,11 @@ int materialGetArrayCvt(const MaterialParameterStore& m, std::uint16_t id, T* ou
 // Array getter, exact type (pointer form): own type only; stride 0 or the element size copies in one block.
 template <class T>
 int materialGetArray(const MaterialParameterStore& m, std::uint16_t id, T* out, int stride) {
-    const ParamEntry* e = findMaterial(m, id);
+    const detail::SParameterEntry* e = findMaterial(m, id);
     if (!e || e->type != ParamCode<T>::kCode) return 0;
     const std::uint64_t bytes = std::uint64_t(e->count) * sizeof(T);
-    if (!inRange(m.values, e->offset, bytes)) return 0;
-    const std::uint8_t* base = m.values.data() + e->offset;
+    if (!inRange(m.values, e->valueOffset, bytes)) return 0;
+    const std::uint8_t* base = m.values.data() + e->valueOffset;
     if (stride == 0 || static_cast<std::size_t>(stride) == sizeof(T)) {
         std::memcpy(out, base, std::size_t(bytes));
         return 1;
@@ -850,6 +850,38 @@ int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, vector3
 // 0x5c8a24 getParameter<vector2d<float>>(unsigned short, vector2d<float>*, int) const
 int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, vector2d<float>* out, int stride) {
     return materialGetArray(m, id, out, stride);
+}
+
+// ---- Reference and release hooks used by the intrusive rows above. Declared in the header.
+
+// CLight last-reference release (the body of boost::intrusive_ptr<CLight>::~intrusive_ptr at 0x5aa3c8,
+// after the count reaches zero). The original pushes the node at +0x50 onto glitch::memory::Matrix4Pool
+// when the flag at +0x54 is clear, then clears +0x50 and frees the object (LC_API_FREE_0). The constructors
+// set +0x54 to 1, so the push is not reached from a constructed light. The pool push is partial: the port's
+// Matrix4Pool (material_parameters.cpp) holds Matrix* nodes and does not take the +0x50 handle.
+void destroyLight(glitch::video::CLight* light) {
+    if (light == nullptr) return;
+    light->m_sourceHandle = 0;
+    delete light;
+}
+
+// ITexture count add (++ at +0x04). Reconstructed; the port's ITexture keeps the count in m_refCount.
+void textureAddRef(glitch::video::ITexture* texture) {
+    if (texture) ++texture->m_refCount;
+}
+
+// IReferenceCounted::drop (0x31d584) for an ITexture: decrement the count at +0x04, and on zero free the
+// object. Partial: the original calls onDelete (vtable +0x08) before the deleting destructor (+0x04); the port's
+// ITexture has no vtable, so onDelete is not called and the object is freed with delete.
+void textureDrop(glitch::video::ITexture* texture) {
+    if (texture == nullptr) return;
+    if (texture->m_refCount-- == 1) delete texture;
+}
+
+// Packed state word of an ITexture at +0x38 (format, cube and wrap fields). The caller reads bits 0-1 as the
+// texture type. Reconstructed: the word is returned as stored.
+std::uint32_t textureStateWord(const glitch::video::ITexture* texture) {
+    return texture ? texture->m_flags38 : 0u;
 }
 
 }  // namespace glitch::video::detail::part1b

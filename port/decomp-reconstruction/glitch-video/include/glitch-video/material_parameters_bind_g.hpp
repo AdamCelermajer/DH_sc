@@ -2,11 +2,10 @@
 //
 // The port has no class of that name. material_parameters.hpp declares a different template
 // (IMaterialParameters<Owner, bool>) for owners M and R. SGlobalParameterOwner is the Derived type of the
-// typed mixin for G. It owns the global manager's table, which the two part files read in two forms:
-//   - part 1a reads the 20-byte entry records (SParamEntry) through the GlobalParamTable view;
-//   - part 1b reads the same entries as ParamEntry (set = ref != 0) inside GlobalParameterStore.
-// Both copies of the entry table are kept in step by defineEntry, the only way to change an entry.
-// The value buffer is shared: the 1a view points at store().values.
+// typed mixin for G. It owns the global manager's table: the entry list of part1b::GlobalParameterStore, whose
+// records are part1a::SParamEntry (20 bytes). Part 1a reads that list through the GlobalParamTable view, part 1b
+// through the store. The value buffer is shared: the view points at store().values. defineEntry is the only way
+// to change an entry.
 #pragma once
 
 #include <cstddef>
@@ -27,14 +26,12 @@ struct SGlobalParameterOwner : IMaterialParametersTyped<SGlobalParameterOwner> {
     // Non-owning view for the part 1a rows. The const getters never write through the value pointer.
     part1a::GlobalParamTable table() const;
 
-    // Store for the part 1b rows. The value buffer is store().values. Do not change store().entries
-    // directly: it must match the table view, so use defineEntry.
+    // Store for the part 1b rows. The value buffer is store().values. Change the entries only through defineEntry.
     part1b::GlobalParameterStore& store() { return m_store; }
     const part1b::GlobalParameterStore& store() const { return m_store; }
 
 private:
     part1b::GlobalParameterStore m_store;
-    std::vector<part1a::SParamEntry> m_entries;  // same entries as m_store.entries, 20-byte records
 };
 
 }  // namespace glitch::video::detail

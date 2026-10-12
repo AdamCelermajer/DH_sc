@@ -1,8 +1,9 @@
 # Decompiled-function reconstruction: status
 
 Updated 2026-10-12 by the integrator, after merging core-video wave 4 (`db85055f`), vox-audio (`7283788d`,
-merge `63c0f0b2`), and core-video's material-parameter bindings for owners G, M and R (`3f65fb50`). Totals come
-from `python3 tools/decomp_progress.py`, which counts each ledger row once against its category's queue. 1,328
+merge `63c0f0b2`), core-video's material-parameter bindings for owners G, M and R (`3f65fb50`), its part 1b
+hook definitions and `ParamEntry` retirement (`8408c960`, `11edf5b0`), and the IDA layouts export (`c54c6057`).
+Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once against its category's queue. 1,328
 queued functions have no ledger row yet. They are still to do: scene 1,007, net-session 253, tinyxml 53,
 net-transport 15. Video's 13 C2DDriver functions are ledgered now (skipped).
 
@@ -82,27 +83,26 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
     - Owner G: part 1a `SParamEntry` is 20 bytes, with type at +0x06, count at +0x08 and offset at +0x0c,
       and it has a static_assert. Canonical.
     - Owners M and R: `SParameterEntry` in `material_parameters.hpp` is 16 bytes, with type at +0x06, count
-      at +0x08 and valueOffset at +0x0c. Canonical. It has no static_assert yet (open; add one).
+      at +0x08 and valueOffset at +0x0c. Canonical. Its static_assert is in `material_parameters_part_1b.hpp`.
     - Part 1b's `ParamEntry` is 12 bytes, with type at +0x01, count at +0x04 and offset at +0x08. It matches
       neither record, despite its comment. Its rows read struct fields, so they are consistent with
       themselves, but they cannot read the binary's table memory: a real table would be read at the wrong
       bytes. Part 1b's `MaterialParameterBlock` holds that record too.
     - Decision: unify on the two canonical records and retire `ParamEntry`. Its `set` flag becomes `ref != 0`
-      for G. Not done. G's rows still read `ParamEntry` through `GlobalParameterStore`. M builds a `ParamEntry`
-      shadow of its 16-byte table on each call and writes the values back (`material_parameters_bind_m.cpp`),
-      so it is a conversion, not a second store. The core-video thread owns the retirement.
+      for G. Done (`11edf5b0`): nothing references `ParamEntry` any more. G and M read their canonical records.
   - Pointer storage: owners M and R keep pointer slots as `boost::intrusive_ptr` in part 1c's
     `SPointerSlots`, keyed by the original byte offset. The listings do the reference-count add before the
     store and the release after it, and only an intrusive pointer reproduces that. Part 1b's raw-pointer
     slots are a port deviation and are retired in favour of `SPointerSlots`.
   - Stride: the 4th argument of the pointer forms is a byte stride, as the listings show (`a += stride`).
-    The typed header names it `count`. Its declarations should be corrected to `stride`.
+    The pointer declarations say `stride`. The dispatcher declarations still say `count` (open, below).
   - Pointer slot width: a stored pointer takes `sizeof(void*)` bytes on the host. The original stores 4.
     The owners size their value buffers to match. This is a port deviation and stays documented.
   - Done, merged from `feature/decomp-glitch-core-video` at `3f65fb50`. The bodies are in
     `material_parameters_typed_impl.hpp`, which only the three owner files include. The owner backends are
     `material_parameters_bind_g.cpp`, `_m.cpp` and `_r.cpp`, each with a test. The 16 M pointer rows carry
-    their binding and the missing reference counting in their ledger notes.
+    their binding and the missing reference counting in their ledger notes. The part 1b hooks are defined
+    now (`8408c960`, see Open).
 - Musepack `mpc_*` queue rows are ledgered as `upstream`, matched by name. The bodies were not
   compared with upstream source. The vox thread later marked four of them (`0x87f28c`, `0x8803d4`,
   `0x8964ec`, `0x8965b4`) `skipped`, since it could not confirm the library function.
@@ -129,27 +129,24 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   the shared header.
 - glitch-video: the 311 moved rows are in its ledger, but the code is still under `glitch-core-io/include/
   glitch-core-io/video/`. Video should reconstruct them there, then remove the core-io copy.
-- glitch-video: part 1b's `ParamEntry` is still in use (G's rows, and M's shadow copy). Retiring it is open
-  for the core-video thread. See the record decision above.
-- glitch-video: the dispatcher declarations in `material_parameters_typed.hpp` (lines 108-119) still name the
-  4th argument `count`. For codes 12-15 and 18 it is a byte stride. The pointer forms below them already say
-  stride. The impl passes the value through unchanged, so this is a naming fix only.
-- glitch-video: `SParameterEntry` (`material_parameters.hpp`) has no static_assert. Add one (16 bytes).
-- glitch-video: four hooks are declared in `material_parameters_part_1b.hpp` (lines 124-127) and defined
-  nowhere in the library. Any executable that links the binding must supply them:
-  - `destroyLight(CLight*)`: the last-reference release of a CLight (Matrix4Pool push, LC_API_FREE).
-    Called at `material_parameters_part_1b.cpp:305`.
-  - `textureAddRef(ITexture*)` and `textureDrop(ITexture*)`: the reference count at +0x04 of an ITexture, and
-    IReferenceCounted::drop (0x31d584). Called at lines 401, 403, 455 and 459.
-  - `textureStateWord(const ITexture*)`: the packed state word at +0x38 (type bits 0 to 1). Called at line 394.
-  The only definitions are test stubs in `tests/material_parameters_part_1b_test.cpp` (lines 15-18). The host
-  and Windows builds link because only that test pulls in the object, so the binding is test-only until the
-  real definitions exist. The glitch-video owner must supply them with the texture and light code.
-- IDA archive `ida 2.zip` (new, 2026-10-12): `recovered/native/ida-types/` holds the local-types C header
-  and one listing. The header has no glitch:: class bodies (only forward declarations and std internals).
-  The type library names 105 `glitch::scene::` classes, but their layouts stay encoded in IDA's binary
-  format until the user exports them on the Windows PC. The scene threads are still blocked on those
-  layouts. Remote Control session needed.
+- glitch-video: the dispatcher declarations in `material_parameters_typed.hpp` (lines 110-116) still name the
+  4th argument `count`. For codes 12-15 and 18 it is a byte stride. The impl passes the value through
+  unchanged, so this is a naming fix only.
+- glitch-video: the part 1b hooks are defined in `material_parameters_part_1b.cpp` (`8408c960`), and the test
+  stubs are gone. Status by hook:
+  - `textureAddRef(ITexture*)` and `textureStateWord(const ITexture*)`: full.
+  - `textureDrop(ITexture*)`: partial. It is the ITexture form of IReferenceCounted::drop (0x31d584). The original
+    calls onDelete (vtable +0x08) before the deleting destructor. The port has no vtable, so it does not.
+  - `destroyLight(CLight*)`: partial (0x5aa3c8 family). The Matrix4Pool push (+0x50 handle) is not done. The
+    light is deleted.
+  The glitch-core-io ledger notes for 0x31d584 and 0x5aa3c8 cite these definitions. Their statuses are unchanged.
+- IDA has no glitch:: layouts. The export on `analysis/ida-type-layouts` (`83528e6a`) has 2,467 local types, 526
+  with members, and none of the 437 `glitch::` names has members (`glitch::scene` is 107 names, all
+  forward-only). Its files are in `recovered/native/ida-types/layouts/` (`c54c6057`, brought in by path, not
+  as a branch merge, since that branch's history is not this one). So the glitch structs come from usage: the
+  glitch-scene thread recovers them field by field from Hex-Rays, with source addresses, into a shared header.
+  Pending: point core-video at that header for the IVideoDriver +0xd4 owner, IAttributes and ITexture blockers
+  once it exists. No Remote Control IDA session is needed for layouts.
 - glitch-scene-collada-gui: `layouts.hpp` is a notes file, not a type header, so it is not lifted.
 - glitch-scene-collada-gui: 80 generated stubs in `generated_stubs.hpp` are address-named templates, not yet
   attached to their owning classes.
@@ -174,7 +171,8 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
 Closed since the last update: the core-video shared copies (now one definition each, see Decisions); the
 core-video stub bundle (kept out of the shared folder); the video material-parameter rows (routed to
 glitch-video with the code location noted above); the owner G, M and R bindings (merged at `3f65fb50`);
-the 13 C2DDriver ledger rows (now skipped, with their notes). The same merge changed 40 video rows from
+the part 1b `ParamEntry` retirement (`11edf5b0`); the `SParameterEntry` static_assert; the 16 M pointer ledger
+notes; the part 1b hook definitions (`8408c960`); the 13 C2DDriver ledger rows (now skipped, with their notes). The same merge changed 40 video rows from
 reconstructed to partial, 2 from reconstructed to skipped and 8 from skipped to partial. Those are the owner's
 ledger changes, merged as they are.
 

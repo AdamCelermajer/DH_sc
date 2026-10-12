@@ -5,18 +5,14 @@
 #include <cstring>
 
 #include "glitch-video/material_parameters_part_1b.hpp"
+#include "glitch-video/material_parameters_part_1a.hpp"
+#include "glitch-video/material_parameters.hpp"
 
 namespace glitch::video {
 class CLight;
 class ITexture;
 }  // namespace glitch::video
 
-namespace glitch::video::detail::part1b {
-void destroyLight(glitch::video::CLight*) {}
-void textureAddRef(glitch::video::ITexture*) {}
-void textureDrop(glitch::video::ITexture*) {}
-std::uint32_t textureStateWord(const glitch::video::ITexture*) { return 0; }
-}  // namespace glitch::video::detail::part1b
 
 using namespace glitch::video::detail::part1b;
 using glitch::core::vector2d;
@@ -33,6 +29,24 @@ static int failures = 0;
         }                                                              \
     } while (0)
 
+// Record builders: G entries are part1a::SParamEntry (ref = set flag), M entries are detail::SParameterEntry.
+glitch::video::detail::part1a::SParamEntry gEntry(bool set, std::uint8_t type, std::uint32_t count, std::uint32_t offset) {
+    glitch::video::detail::part1a::SParamEntry e;
+    e.ref = set ? 1u : 0u;
+    e.type = type;
+    e.count = count;
+    e.offset = offset;
+    return e;
+}
+
+glitch::video::detail::SParameterEntry mEntry(std::uint8_t type, std::uint32_t count, std::uint32_t valueOffset) {
+    glitch::video::detail::SParameterEntry e;
+    e.type = type;
+    e.count = count;
+    e.valueOffset = valueOffset;
+    return e;
+}
+
 template <class T>
 T rd(const std::vector<std::uint8_t>& b, std::size_t pos) {
     T v;
@@ -44,9 +58,9 @@ int main() {
     // ---- G: int entry (2 elements at offset 0), float entry (1 element at offset 8), unset entry.
     GlobalParameterStore g;
     g.entries.resize(3);
-    g.entries[0] = {true, 1, 2, 0};
-    g.entries[1] = {true, 5, 1, 8};
-    g.entries[2] = {false, 1, 1, 12};
+    g.entries[0] = gEntry(true, 1, 2, 0);
+    g.entries[1] = gEntry(true, 5, 1, 8);
+    g.entries[2] = gEntry(false, 1, 1, 12);
     g.values.assign(32, 0);
 
     CHECK(setParameter(g, 0, 1, 7) == 1);            // index form, element 1 at +4
@@ -64,7 +78,7 @@ int main() {
     // Cvt setter for a vector type with a different stored type: gate fails, nothing written.
     GlobalParameterStore g2;
     g2.entries.resize(1);
-    g2.entries[0] = {true, 1, 1, 0};
+    g2.entries[0] = gEntry(true, 1, 1, 0);
     g2.values.assign(16, 0);
     vector2d<float> v2{1.5f, -2.0f};
     CHECK(setParameterCvt(g2, 0, 0, v2) == 0);
@@ -73,8 +87,8 @@ int main() {
     MaterialParameterBlock block;
     block.count = 2;
     block.entries.resize(2);
-    block.entries[0] = {true, 16, 2, 0};
-    block.entries[1] = {true, 2, 1, 8};
+    block.entries[0] = mEntry(16, 2, 0);
+    block.entries[1] = mEntry(2, 1, 8);
     MaterialParameterStore m;
     m.block = &block;
     m.values.assign(32, 0);
@@ -127,7 +141,7 @@ int main() {
     SColorf src[2] = {{1.0f, 0.0f, 0.5f, 0.25f}, {0.0f, 1.0f, 0.0f, 1.0f}};
     std::memcpy(m.values.data() + 0, &src[0], sizeof src[0]);  // entry 0 now holds SColorf layout
     // Reset entry 0 to type 17 (SColorf, 2 elements) to exercise the float-to-byte conversion.
-    block.entries[0] = {true, 17, 2, 0};
+    block.entries[0] = mEntry(17, 2, 0);
     SColor fromFloats[2]{};
     CHECK(getParameterArrayCvt(m, 0, fromFloats, 4) == 1);
     CHECK((fromFloats[0].color & 0xFFu) == 255u);             // 1.0 -> 255 (r)
@@ -136,7 +150,7 @@ int main() {
     CHECK(((fromFloats[0].color >> 24) & 0xFFu) == 63u);       // 0.25 * 255 = 63.75 -> 63
 
     // Pointer-form int getter from a float-stored entry: no conversion (code 5 writes nothing).
-    block.entries[1] = {true, 5, 1, 8};
+    block.entries[1] = mEntry(5, 1, 8);
     const float fl = 9.0f;
     std::memcpy(m.values.data() + 8, &fl, sizeof fl);
     int ints[1] = {-5};
@@ -146,7 +160,7 @@ int main() {
 
     // Non-Cvt array getter needs the exact type; stride 0 copies contiguously.
     vector2d<float> pts[1]{};
-    block.entries[1] = {true, 6, 1, 8};
+    block.entries[1] = mEntry(6, 1, 8);
     std::memset(m.values.data() + 8, 0, 8);
     CHECK(getParameterArray(m, 1, pts, 0) == 1);
 
