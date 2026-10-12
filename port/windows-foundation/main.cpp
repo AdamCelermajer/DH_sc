@@ -2870,6 +2870,8 @@ int main(int argc,char** argv) {
         const auto cinematicCameraPose=[&](){f::CameraVec3 rig{};
             if(!originalCamera.rig_position(rig,error))throw std::runtime_error("Cinematic camera rig: "+error);
             return campaignHost.source_camera_pose(originalCamera.pose(),rig);};
+        const bool stateTraceEnabled=[](){const char* value=std::getenv("DH_STATE_TRACE");return value&&value[0]=='1';}();
+        int stateTraceFrame=0;
         bool globalControllerBlocked=false;
         std::function<bool(f::ActorId,std::string&)> stopActorHook; // B068: Script_StopActor (Cmd_Stop) for enemy AI walkers; set when the enemy navigation is bound
         std::map<f::ActorId,bool> characterControllerBlocked;
@@ -3155,7 +3157,9 @@ int main(int argc,char** argv) {
         if(combatSession) {
             f::OriginalCampaignWorldProviders providers;
             providers.named_character=[&](const std::string& name,int module,f::ActorId& id,bool& found,std::string& e){return sourceObjects.named_character(name,module,id,found,e);};
-            providers.global_controller_blocked=[&](bool blocked,std::string&){globalControllerBlocked=blocked;return true;};
+            providers.global_controller_blocked=[&](bool blocked,std::string&){
+                if(stateTraceEnabled&&globalControllerBlocked!=blocked)std::cout<<"STATE_TRACE edge=controller-global frame="<<stateTraceFrame<<" old="<<globalControllerBlocked<<" new="<<blocked<<'\n';
+                globalControllerBlocked=blocked;return true;};
             // B068: Script_StopActor (IDA 0x45dd.. region, Cmd_Stop) ends an AI actor's walk: the route is dropped and the idle pose selected.
             providers.stop_actor=[&](f::ActorId id,std::string& e){return stopActorHook?stopActorHook(id,e):true;};
             // P16 FIX16: only the player has a controller. Lock/Unlock on a named NPC with no live session body records the flag
@@ -3163,8 +3167,12 @@ int main(int argc,char** argv) {
             providers.character_controller_blocked=[&](f::ActorId id,bool blocked,std::string& e){
                 if(!combatSession->actor(id)){
                     if(characterControllerBlockedNoticeIds.insert(id).second)std::cout<<"[campaign] LockCharacter: actor "<<id<<" has no live session body; controller flag recorded only\n";
+                    const auto prior=characterControllerBlocked.find(id);const bool old=prior!=characterControllerBlocked.end()&&prior->second;
+                    if(stateTraceEnabled&&old!=blocked)std::cout<<"STATE_TRACE edge=controller-local frame="<<stateTraceFrame<<" actor="<<id<<" old="<<old<<" new="<<blocked<<'\n';
                     characterControllerBlocked[id]=blocked;return true;
                 }
+                const auto prior=characterControllerBlocked.find(id);const bool old=prior!=characterControllerBlocked.end()&&prior->second;
+                if(stateTraceEnabled&&old!=blocked)std::cout<<"STATE_TRACE edge=controller-local frame="<<stateTraceFrame<<" actor="<<id<<" old="<<old<<" new="<<blocked<<'\n';
                 characterControllerBlocked[id]=blocked;return true;};
             // P14 FAERY (T3): Script_SetFaeryState / Script_IncFaeryLevel write the live CharacterState and persist it.
             // Legacy saves without source Faery rows (known=false) are a logged limitation: the script continues, nothing is invented.
@@ -5738,6 +5746,7 @@ int main(int argc,char** argv) {
         // Poll can latch a platform close before the next iteration. Admit that iteration so the
         // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
         while(true) {
+            stateTraceFrame=drawn;
             // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
             // action can reject the checkpoint for a moment; the game keeps running up to 90 frames until the save is accepted.
             if(!returnToFrontend&&(window.should_close()||(options.quitFrame>=0&&drawn>=options.quitFrame))) {
@@ -5764,6 +5773,7 @@ int main(int argc,char** argv) {
             const bool scheduledEHeld=std::find(options.transitionKeyFrames.begin(),options.transitionKeyFrames.end(),int(drawn))!=options.transitionKeyFrames.end();
             // I024 DEATH: the death modal captures input. Keys and pointer presses stay out of the game and menus.
             const bool deathModal=deathHost.modal();
+            const bool deathModalChanged=deathModal!=deathModalWasOpen;
             if(deathModal&&!deathModalWasOpen){semanticInput.lose_focus();mouseHeld=false;}
             deathModalWasOpen=deathModal;
             // B068 (1)(2): while a scripted cutscene owns the screen (SKIP shown / cutscene mode, source HUD hidden by
@@ -5854,6 +5864,57 @@ int main(int argc,char** argv) {
             }
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,true);
             auto uiInput=semanticInput.take_frame();
+            // B126/B128/B129/B130/B131 diagnostic only. Enable with DH_STATE_TRACE=1
+            // in isolated runs. This samples the actual admission state; it does not
+            // change input, controller, action, inventory, or restore behavior.
+            const auto traceState=[&](const char* edge) {
+                if(!stateTraceEnabled||!combatSession)return;
+                const auto id=combatSession->player_id();const auto* hero=combatSession->actor(id);
+                if(!hero)return;
+                const auto pose=combatSession->retained_actor_pose(id);
+                const auto* attack=combatSession->source_attack_state(id);
+                const auto localBlockEntry=characterControllerBlocked.find(id);
+                const bool localBlocked=localBlockEntry!=characterControllerBlocked.end()&&localBlockEntry->second;
+                std::string equipmentError;const bool equipmentReady=runtimeEquipment&&runtimeEquipment->ready(equipmentError);
+                std::cout<<"STATE_TRACE edge="<<edge<<" frame="<<drawn<<" dt="<<dt
+                    <<" focus="<<window.focused()<<" modal="<<deathHost.modal()<<" menu="<<characterMenu.is_open()
+                    <<" pause="<<pauseMenuOpen<<" cinematic="<<cinematicInputLocked
+                    <<" raw="<<window.key_down('W')<<window.key_down('A')<<window.key_down('S')<<window.key_down('D')
+                    <<window.key_down(VK_SPACE)<<window.key_down('5')<<window.key_down(VK_LBUTTON)
+                    <<" cursor="<<cursorKnown<<','<<pointerX<<','<<pointerY<<",mouseHeld="<<mouseHeld
+                    <<" semantic="<<uiInput.attack.pressed<<','<<uiInput.attack.held<<','<<uiInput.attack.released
+                    <<','<<uiInput.potion.pressed<<','<<uiInput.potion.held<<','<<uiInput.potion.released
+                    <<",interact="<<uiInput.actions.interact<<",move="<<uiInput.actions.move2D.x<<','<<uiInput.actions.move2D.y
+                    <<" hero="<<id<<" alive="<<hero->alive()<<" dead5193="<<hero->source_dead
+                    <<" hp="<<hero->health<<'/'<<hero->max_health<<" action="<<int(hero->action)
+                    <<" elapsed="<<hero->action_elapsed_seconds<<" target="<<hero->target_id
+                    <<" sourceState="<<combatSession->original_actor_state(id)<<" ownsPose="<<combatSession->owns_pose(id)
+                    <<" updateSerial="<<combatSession->update_serial()
+                    <<" flags520="<<(hero->source_flags520?std::to_string(*hero->source_flags520):"unknown")
+                    <<" globalBlock="<<globalControllerBlocked<<" localBlock="<<localBlocked
+                    <<" attack528="<<(attack?std::to_string(attack->owner_flags528):"unknown")
+                    <<" attackActive="<<(attack?std::to_string(attack->continued):"unknown")
+                    <<" attackLast="<<(attack?std::to_string(attack->last):"unknown")
+                    <<" attackIndex="<<(attack?std::to_string(attack->index):"unknown")
+                    <<" attackFinisher="<<(attack?std::to_string(attack->finisher):"unknown")
+                    <<" headingActive="<<(attack?std::to_string(attack->heading_active):"unknown")
+                    <<" OOI="<<(attack?std::to_string(attack->object_of_interest):"unknown")
+                    <<" lastTarget="<<(attack?std::to_string(attack->last_target):"unknown")
+                    <<" interact="<<heroInteract.active<<','<<heroInteract.clock<<','<<heroInteract.durationSeconds<<','<<heroInteract.fired
+                    <<" equipmentReady="<<equipmentReady<<" equipmentError="<<(equipmentError.empty()?"none":equipmentError);
+                if(pose) {
+                    const auto slot=pose->current_slot();const auto& slots=pose->slots();const auto& samples=pose->samples();
+                    std::cout<<" poseSlot="<<slot<<" clip="<<slots[slot].clip_id<<" poseBound="<<slots[slot].bound<<" poseGeneration="<<slots[slot].generation
+                        <<" poseEnded="<<pose->current_ended();
+                    if(!samples.empty())std::cout<<" poseSample="<<samples.back().previous_ms<<'>'<<samples.back().current_ms
+                        <<" poseEndNow="<<samples.back().ended_now;
+                }
+                std::cout<<'\n';
+            };
+            const bool stateTraceEdge=uiInput.attack.pressed||uiInput.attack.released||uiInput.potion.pressed||uiInput.potion.released||
+                uiInput.actions.interact||uiInput.profile_pressed||uiInput.menu_back||
+                uiInput.clicks.size()>0||deathModalChanged;
+            if(stateTraceEnabled&&(stateTraceEdge||drawn%30==0))traceState(stateTraceEdge?"input":"periodic");
             if(!options.spaceKeyIntervals.empty())std::cout<<"Semantic Space frame="<<drawn<<" scheduled="<<scheduledSpaceHeld<<" pressed="<<uiInput.attack.pressed<<" held="<<uiInput.attack.held<<" released="<<uiInput.attack.released<<" action="<<uiInput.actions.attack<<" focused="<<window.focused()<<'\n';
             for(const auto& scheduled:options.skillKeyFrames)if(scheduled.first==drawn)semanticInput.key('0'+scheduled.second,false);
             if(drawn==options.menuCloseFrame)semanticInput.key(VK_ESCAPE,false);
@@ -6442,6 +6503,7 @@ int main(int argc,char** argv) {
                 }
             }
             if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
+                traceState("restore-before");
                 scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
                 if(combatSession) {
@@ -6486,6 +6548,7 @@ int main(int argc,char** argv) {
                     bindSourcePresentations();
                     skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();lastSkillPhase=-1;lastSkillGeneration=0;
                     faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();
+                    traceState("restore-after");
                     std::cout<<"Restored live checkpoint frame="<<drawn<<" HP="<<player->health<<" RNG="<<snapshot.random.seed<<'/'<<snapshot.random.calls<<'\n';
                 } else if(!f::load_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Restored character\n";
             }
@@ -7009,6 +7072,7 @@ int main(int argc,char** argv) {
                         std::cout<<"Character menu audio clock frame="<<drawn<<" generation="<<audioClock->output_generation<<" deviceSamples="<<audioClock->device_samples<<" qpcNs="<<audioClock->qpc_monotonic_ns<<'\n';
                 }
                 {DH_PROBE("combatSession.update");if(!gameplayPaused&&!combatSession->update(gameplayDt,gameplayInput,options.actorPosition,motor?motor->state().facingRadians:0,error,audioClock))throw std::runtime_error("Live combat: "+error);}
+                if(stateTraceEnabled&&drawn%30==0)traceState("post-update");
                 // P16 SPACEBTN: the OOI candidates that are not combat actors are re-registered each frame from their owners:
                 // containers (source GetInteractionType: openable 0, destructible 8; broken destructibles are not candidates)
                 // and talk NPCs (type 3, Character so they queue with the characters, as in the source flag order).
