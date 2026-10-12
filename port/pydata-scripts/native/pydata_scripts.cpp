@@ -9,7 +9,8 @@ enum FieldCode : uint8_t {
     FIELD_I32 = 1,
     FIELD_BOOL = 2,
     FIELD_STRING = 3,
-    FIELD_I32_ARRAY = 4
+    FIELD_I32_ARRAY = 4,
+    FIELD_F32 = 5
 };
 
 struct Schema {
@@ -27,15 +28,19 @@ struct Schema {
 #define S5(ID, NAME, A, B, C, D, E) {ID, NAME, 5, {A, B, C, D, E}}
 #define S6(ID, NAME, A, B, C, D, E, F) {ID, NAME, 6, {A, B, C, D, E, F}}
 
-/* Corpus commands plus the source-verified CharacterMenu tutorial commands. */
+/* Full original command table: index == command ID in the original
+   Structs::<Cmd>::read dispatch table (IDA 0x968d40). */
 static const Schema kSchemas[] = {
     S4(0, "ExecScript", FIELD_BOOL, FIELD_I32, FIELD_I32_ARRAY, FIELD_BOOL),
     S0(1, "EnterCutSceneMode"),
     S0(2, "ExitCutSceneMode"),
     S1(3, "CONSOLE", FIELD_STRING),
+    S4(4, "SetCamera", FIELD_STRING, FIELD_STRING, FIELD_I32, FIELD_BOOL),
     S2(5, "PlayCamera", FIELD_I32, FIELD_BOOL),
     S2(6, "SetCameraClip", FIELD_I32, FIELD_I32),
+    S1(7, "WaitCamera", FIELD_F32),
     S3(8, "SetCameraTarget", FIELD_I32, FIELD_STRING, FIELD_BOOL),
+    S0(9, "NilCmd"),
     S3(10, "StartDialog", FIELD_I32, FIELD_I32, FIELD_I32),
     S1(11, "StartDialogID", FIELD_I32),
     S0(12, "WaitDialog"),
@@ -44,9 +49,9 @@ static const Schema kSchemas[] = {
     S1(15, "PlayLevelMusic", FIELD_I32),
     S0(16, "EnterSafeZone"),
     S0(17, "LeaveSafeZone"),
+    S4(18, "PlayAnimById", FIELD_I32, FIELD_BOOL, FIELD_STRING, FIELD_BOOL),
     S4(19, "PlayAnimByName", FIELD_STRING, FIELD_BOOL, FIELD_STRING, FIELD_BOOL),
-    S6(20, "PlayEffect", FIELD_I32, FIELD_I32, FIELD_I32, FIELD_I32,
-       FIELD_STRING, FIELD_BOOL),
+    S6(20, "PlayEffect", FIELD_I32, FIELD_I32, FIELD_I32, FIELD_I32, FIELD_STRING, FIELD_BOOL),
     S1(21, "StopEffect", FIELD_I32),
     S3(22, "ShowFlash", FIELD_I32, FIELD_STRING, FIELD_BOOL),
     S3(23, "HideFlash", FIELD_I32, FIELD_STRING, FIELD_BOOL),
@@ -54,27 +59,52 @@ static const Schema kSchemas[] = {
     S1(25, "UnlockCharacter", FIELD_STRING),
     S1(26, "Wait", FIELD_I32),
     S2(27, "SetFaeryState", FIELD_I32, FIELD_I32),
+    S1(28, "IncFaeryLevel", FIELD_I32),
     S2(29, "PutCharacterInLimbus", FIELD_BOOL, FIELD_STRING),
     S1(30, "SpawnCharacter", FIELD_STRING),
     S1(31, "PutCharacterInIdle", FIELD_STRING),
     S2(32, "MarkCharacterAsScripted", FIELD_BOOL, FIELD_STRING),
+    S1(33, "AIEnableTimer", FIELD_BOOL),
+    S0(34, "AIResetTimer"),
+    S2(35, "AIDoSkill", FIELD_I32, FIELD_STRING),
+    S1(36, "AISetHP", FIELD_I32),
+    S2(37, "AIChangeScript", FIELD_STRING, FIELD_STRING),
+    S3(38, "AISetInt", FIELD_STRING, FIELD_STRING, FIELD_I32),
     S1(39, "StopActor", FIELD_STRING),
     S4(40, "MoveActor", FIELD_STRING, FIELD_BOOL, FIELD_STRING, FIELD_BOOL),
     S2(41, "LookActor", FIELD_STRING, FIELD_STRING),
     S1(42, "ShowActor", FIELD_STRING),
     S1(43, "HideActor", FIELD_STRING),
     S1(44, "KillActor", FIELD_STRING),
-    S5(45, "PlayActorAnim", FIELD_I32, FIELD_I32, FIELD_I32, FIELD_STRING,
-       FIELD_BOOL),
+    S5(45, "PlayActorAnim", FIELD_I32, FIELD_I32, FIELD_I32, FIELD_STRING, FIELD_BOOL),
     S2(46, "SetActorPosition", FIELD_STRING, FIELD_STRING),
+    S4(47, "SetActorMaster", FIELD_BOOL, FIELD_STRING, FIELD_BOOL, FIELD_STRING),
+    S2(48, "DropLoot", FIELD_STRING, FIELD_STRING),
+    S1(49, "AutoEquip", FIELD_STRING),
+    S2(50, "UnEquipItemFromSlot", FIELD_I32, FIELD_STRING),
     S1(51, "UnEquipHands", FIELD_STRING),
     S1(52, "ReEquipHands", FIELD_STRING),
+    S2(53, "SetStatic", FIELD_BOOL, FIELD_STRING),
     S2(54, "OpenDoor", FIELD_STRING, FIELD_BOOL),
     S2(55, "CloseDoor", FIELD_STRING, FIELD_BOOL),
+    S1(56, "ActivateProjectileTrap", FIELD_STRING),
+    S1(57, "DeactivateProjectileTrap", FIELD_STRING),
+    S1(58, "ActivateTriggerPlate", FIELD_STRING),
+    S1(59, "DeactivateTriggerPlate", FIELD_STRING),
+    S1(60, "SpawnContainer", FIELD_STRING),
+    S2(61, "SetLevelState", FIELD_I32, FIELD_I32),
+    S2(62, "SetWorldMapLocationState", FIELD_I32, FIELD_I32),
     S0(63, "RestartLevel"),
+    S2(64, "ChangeLevel", FIELD_I32, FIELD_STRING),
+    S0(65, "EndGame"),
+    S1(66, "AwardTrophy", FIELD_I32),
+    S0(67, "AwardEndGameTrophies"),
     S0(68, "ShowTrophies"),
     S0(69, "SaveGame"),
     S0(70, "BlockSaveGame"),
+    S2(71, "EnqueueTutorialMessage", FIELD_I32, FIELD_I32),
+    S0(72, "SkipTutorialMessage"),
+    S0(73, "SkipAllTutorialMessages"),
     S3(74, "EnqueueCharMenuTutorialMessage", FIELD_STRING, FIELD_STRING, FIELD_I32),
     S0(75, "SkipCharMenuTutorialMessage"),
     S0(76, "SkipAllCharMenuTutorialMessages"),
@@ -311,6 +341,14 @@ static bool read_value(Reader *reader,
         case FIELD_I32_ARRAY:
             out_value->kind = DH2_SCRIPT_VALUE_I32_ARRAY;
             return read_array(reader, &out_value->value.i32_array);
+        case FIELD_F32: {
+            // readAs<float> 0x4db94c: four little-endian bytes.
+            int32_t bits;
+            out_value->kind = DH2_SCRIPT_VALUE_F32;
+            if (!read_i32(reader, &bits)) return false;
+            memcpy(&out_value->value.f32, &bits, sizeof(bits));
+            return true;
+        }
         default:
             return fail(reader, DH2_SCRIPT_INVALID_ARGUMENT, reader->position);
     }
