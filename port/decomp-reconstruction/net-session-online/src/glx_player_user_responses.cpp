@@ -424,6 +424,3 @@ void GLXPlayerUser::OnUpdateSuccess(std::int32_t code) {
     }
     GLXPlayerWebComponent::OnUpdateSuccess(code);
 }
-
-// 0x83c4... (not a separate symbol) GLXPlayerUser::clearUserState and clearUserGameList are in
-// glx_player_user.cpp; clearUserInformation and clearAvatarList are in glx_player_user_requests.cpp.

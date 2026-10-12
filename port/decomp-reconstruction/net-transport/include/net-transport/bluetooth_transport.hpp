@@ -43,6 +43,23 @@ private:
 
 class CBluetoothUnreliable : public CTransport {
 public:
+    CBluetoothUnreliable();                          // 0x829980 _ZN20CBluetoothUnreliableC2Ev (C1 at 0x829c2c)
+    // 0x829b5c _ZN20CBluetoothUnreliableC2Ejb (C1 at 0x829ecc); the arguments are not used by the pseudocode.
+    CBluetoothUnreliable(unsigned int channel, bool listen);
+    ~CBluetoothUnreliable() override;                // 0x829a78 _ZN20CBluetoothUnreliableD1Ev (D2 at 0x829af8)
+    CBluetoothUnreliable(const CBluetoothUnreliable&) = delete;
+    CBluetoothUnreliable& operator=(const CBluetoothUnreliable&) = delete;
+
+    int Connect(CNetworkId& peer) override;          // 0x8297f8 _ZN20CBluetoothUnreliable7ConnectER10CNetworkId
+    // 0x829860 _ZN20CBluetoothUnreliable4OpenESsSsi (partial, see the .cpp)
+    int Open(std::string address, std::string name, int channel);
+    int Listen(std::string address, std::string name);  // 0x8298d0 _ZN20CBluetoothUnreliable6ListenESsSs (partial)
+    CNetworkId GetPeerNetworkId();                   // 0x829a50 _ZN20CBluetoothUnreliable16GetPeerNetworkIdEv (partial)
+    CNetworkId GetLocalNetworkId();                  // 0x829f9c _ZN20CBluetoothUnreliable17GetLocalNetworkIdEv (partial)
+    // 0x829cfc _ZN20CBluetoothUnreliable6CreateESsSsi (partial)
+    static CBluetoothUnreliable* Create(std::string first, std::string second, int channel);
+    static int InitializeTransport();                // 0x829dc8 _ZN20CBluetoothUnreliable19InitializeTransportEv (partial)
+
     int GetType() const;                             // 0x8296bc _ZN20CBluetoothUnreliable7GetTypeEv (returns 3)
     bool CanDisconnectFrom(CNetworkId& peer);        // 0x8296c4 _ZN20CBluetoothUnreliable17CanDisconnectFromER10CNetworkId
     int Initialize();                                // 0x8296cc _ZN20CBluetoothUnreliable10InitializeEv
