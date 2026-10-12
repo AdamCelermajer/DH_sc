@@ -16,15 +16,15 @@ namespace glitch::scene::layouts {
 //         (end - begin) / 20 (0x578c28), so an SBatch is 0x14 bytes
 //         (setMaterial 0x57a2ac indexes 5 * i words)
 //   +0x2c..+0x34 zeroed words, not named here
-//   +0x38..+0x4f first aabbox3d<float>, min and max zeroed to -10 and +1 by the
-//         constructor. Its role is not confirmed
+//   +0x38..+0x4f first aabbox3d<float>, min -1 and max +1 set by the constructor
+//         (-1082130432 is 0xBF800000, which is -1.0f). Its role is not confirmed
 //   +0x50..+0x67 second aabbox3d<float> (boundingBox in scene_nodes.hpp). The
-//         constructor sets min to -10 and max to +1
+//         constructor sets min to -1 and max to +1
 //   +0x68 boundingBoxSource, +0x6c boundingBoxStamp (constructor sets -1),
 //   +0x70 word set to 44 (0x2c) by the constructor, role not confirmed
 //   +0x74 boundingBoxDirty byte (constructor sets 1)
 //   +0x78 word zeroed by the constructor
-//   +0x58..+0x5c: the constructor writes -10.0f into these as part of the second box
+//   +0x58: the constructor writes -1.0f here as part of the second box
 //
 // SBatch (0x14 bytes)
 //   +0x00 meshBuffer, +0x04 material, +0x08 vertexAttributeMap (pointer words,

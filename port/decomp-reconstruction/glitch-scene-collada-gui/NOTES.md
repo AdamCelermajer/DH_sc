@@ -533,3 +533,38 @@ Four layout workers write header-only member declarations from the Hex-Rays offs
 each: layouts/animation_track.hpp, layouts/scene.hpp, layouts/collada_db.hpp, layouts/gui.hpp.
 Each header compiles alone. Partial rows (1487 of them, from the ledger) are rerun against these
 headers in a later wave.
+
+## Layout headers (layouts/)
+- animation_track.hpp: partial. Covers SAnimationAccessor, the applicator and CAnimationTrackEx
+  bases. The CVirtualEx, CInterpreter and CApplyValueEx classes are not declared.
+- scene.hpp: ISceneNode, IMesh, CMesh, CMeshBuffer, CBatchMesh, CBatchSceneNode, CSceneManager
+  (flags only), with about 45 offsets confirmed by static_assert. Defines the same class names as
+  scene_node.hpp and scene_nodes.hpp, so it cannot share a translation unit with them.
+- gui.hpp: IGUIElement (complete for the fields the category touches), CGUIComboBox, CGUIContextMenu.
+  Corrections to gui_elements.hpp: absoluteRect is at +0x38 (+0x48 is the clipping rect), and the
+  children list is an intrusive sentinel at +0x04/+0x08, not a std::vector. Also defines IGUIElement,
+  so it cannot share a translation unit with gui_elements.hpp.
+- collada_db.hpp: about 85 offsets confirmed. The segment table at +0x30 is a pointer to a {count, base}
+  record, not an inline vector. The streaming manager is 8 words (registry +0x00, cache +0x0c, byte limit
+  +0x18, usage +0x1c). Defines the same glitch::collada names as collada_database.hpp, so the two sets can't be
+  included together.
+- Float constants in layouts.hpp corrected: -1082130432 is 0xBF800000, which is -1.0f.
+- Open: the IGUIComboBox destructor writes vtable words at +0x158/+0x15c, which conflicts with those
+  slots being element pointers.
+
+## Rerun wave (partial rows, waves 00 to 14)
+- The 1487 partial rows were rerun against the layout headers. Result: 1347 reconstructed, 1189 partial,
+  811 skipped across the whole ledger (3347 rows).
+- Downgraded two wave 07 rows, getVertexBufferConfig and getIndexBufferConfig: they return a placeholder
+  config struct, not the original sret layout, so they are partial.
+- Layout-header findings for the integrator: ISceneNode +0xf4/+0xfc/+0x104 are list sentinels per the
+  decompile, but scene.hpp describes them as container words. The animation getters read getOutput()+4,
+  one past the slot getOutput returns. Both are unresolved.
+- The shared math header (port/decomp-reconstruction/shared/) is still absent, so the wave code uses
+  core_stand_ins.hpp.
+
+## Integration: integrator merge and shared header (2026-10-12)
+- Merged origin/feature/decomp-reconstruction. ledger.csv conflict resolved by keeping our side: it already carries the wave reruns (waves 00–14 override partial rows; 3347 rows, one per address). Status counts: 1345 reconstructed / 1191 partial / 811 skipped. Theirs differs on 296 rows (older view); not taken.
+- core_stand_ins.hpp now includes shared/include/glitch-shared/glitch_layouts.hpp (glitch::core value types, glitch::video SColor/SColorf). The category's 20 includers need `-I../shared/include` (CMake root adds it).
+- glitch_core.hpp, sid_collection.hpp and gl_function_table.hpp exist only on feature/decomp-glitch-core-video (shared/include). Not pulled in here: glitch_core.hpp defines the same glitch::core names with different members, so including both in one TU clashes. Left for the integrator to reconcile.
+- ISceneNode decision (decompile wins): getAnimators returns this+0xfc and getBindedAnimators returns this+0x104, i.e. the objects are embedded at those offsets, not begin/end word pairs. animators and bindedAnimators are now two-word ListSentinel objects. getChildren returns this+0xf0; kept as a 3-word container. Whether +0xf4 is a sentinel is not confirmed by any accessor body; still open.
