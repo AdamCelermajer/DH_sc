@@ -30,6 +30,9 @@ public:
  // PlayerManager::RemoveCharacter calls RenderFX::InvokeASCallback on the
  // retained menu_HUD_0 with completeRefresh and no arguments.
  bool complete_refresh(std::string&);
+ // Script_ShowFlash 0x45f8c8 / Script_HideFlash 0x45f78c "HUD" branch: the HUD
+ // root's DisplayOfCurrentHud(show) sets the saved-style menu_HUD_N visibility.
+ bool display_of_current_hud(bool show,std::string&);
  static std::int32_t action_icon(std::int8_t actual_object_of_interest_type) noexcept;
  std::int32_t cached_action_icon()const noexcept{return action_icon_;}
  bool update(const std::array<std::int32_t,17>& actual_infos,

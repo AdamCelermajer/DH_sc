@@ -28,7 +28,11 @@
 #include <cstdint>
 
 // Defined in model_renderer.cpp; declared here to keep the scenario change within desktop_main.cpp.
-namespace model_renderer { std::int32_t gameplay_player_state() noexcept; }
+namespace model_renderer {
+std::int32_t gameplay_player_state() noexcept;
+std::uint32_t tutorial_script_start_count(const char* script_name) noexcept;
+bool tutorial_script_running(const char* script_name) noexcept;
+}
 
 namespace {
 struct Options {
@@ -47,6 +51,7 @@ struct Options {
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
+    bool tutorial_potion_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -91,6 +96,8 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
+            else if (scenario == "tutorial-potion")
+                options.movement_defend_scenario = options.tutorial_potion_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
@@ -118,12 +125,17 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
+                         "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
             std::exit(0);
         } else throw std::runtime_error("Unknown argument: " + arg);
+    }
+    if (options.tutorial_potion_scenario) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (!frames_supplied) options.frames = 3000;
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario);
@@ -745,6 +757,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_last_hp = 0;
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
+        std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -999,6 +1012,40 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            // tutorial-potion (move-defend driver): once the Player's HP is at or below
+            // half of Max_HP, Character::HitFor 0x3a8bc4 must have started the SWAMP
+            // script cinematic_Tuto_potionUse through the Level ScriptManager session,
+            // exactly once (settings tutorial byte 4 is then cleared and saved).
+            if (options.tutorial_potion_scenario && scenario_started && !tutorial_verified_frame &&
+                rendered_frames && rendered_frames % 15 == 0) {
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                const auto started = model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse");
+                if (started && model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                    std::cout << "Scenario tutorial verified | cinematic_Tuto_potionUse started "
+                              << started << " time(s) | Player HP " << pose.player_hp << '/'
+                              << pose.player_max_hp << " (half " << pose.player_max_hp / 2 << ")\n";
+                    tutorial_verified_frame = rendered_frames;
+                } else if (started) {
+                    std::cout << "Scenario tutorial verified | cinematic_Tuto_potionUse started "
+                              << started << " time(s) | Player died on the same hit\n";
+                    tutorial_verified_frame = rendered_frames;
+                }
+            }
+            // Stand in for the player tapping through the cinematic's dialogs: flush the
+            // retained DialogMsg queue (Script_FlushMessages) so each WaitDialog resumes,
+            // until the whole script, including EndScriptedCutScene, has finished.
+            if (options.tutorial_potion_scenario && tutorial_verified_frame && !tutorial_finished_frame &&
+                rendered_frames % 20 == 0) {
+                if (!model_renderer::tutorial_script_running("cinematic_Tuto_potionUse")) {
+                    std::cout << "Scenario tutorial completed | cinematic_Tuto_potionUse finished after "
+                              << rendered_frames - tutorial_verified_frame << " frames" << std::endl;
+                    tutorial_finished_frame = rendered_frames;
+                } else if (!original_ui.flush_source_messages(ui_error)) {
+                    throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
+                }
+            }
+            if (options.tutorial_potion_scenario && tutorial_finished_frame &&
+                rendered_frames >= tutorial_finished_frame + 60) running = false;
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
             if ((options.movement_defend_scenario || options.movement_kill_scenario) &&
@@ -1339,6 +1386,14 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("fixed-cultist07-kill reached its frame bound before verified death");
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
+        }
+        if (options.tutorial_potion_scenario && gameplay) {
+            if (!tutorial_verified_frame)
+                throw std::runtime_error("tutorial-potion reached its frame bound without cinematic_Tuto_potionUse starting");
+            if (!tutorial_finished_frame)
+                throw std::runtime_error("tutorial-potion started cinematic_Tuto_potionUse but it never finished");
+            if (model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse") != 1)
+                throw std::runtime_error("tutorial-potion expected cinematic_Tuto_potionUse to start exactly once");
         }
         if (options.movement_defend_scenario && gameplay) {
             if (!scenario_damage_verified)

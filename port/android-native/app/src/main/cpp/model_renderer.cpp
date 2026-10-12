@@ -24056,6 +24056,79 @@ static int native_player_reequip_hands(){
  }
  return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
 }
+namespace {
+// Original tutorial cinematics (cinematic_Tuto_*). They are ordinary per-Level
+// pyscripts started BY NAME: ScriptManager::GetIDFromName(name,true) 0x4591f0
+// (common table first, case-insensitive; a miss is -1) then StartScript(id,-1,
+// check) 0x4605c0, which ignores -1 and starts nothing once every Player is dead.
+// Callers: Character::SetFaeryState 0x3ae7d4 (faery, settings byte 2),
+// Character::HitFor 0x3a8bc4 (potionUse, byte 4), Character::LevelUp 0x3beb88
+// (levelUp byte 5; menuCharacterSheet byte 0) and Script_DoTutorial 0x460950.
+// Every caller gates on !GetOnline()[5] && SG_GetGameDifficulty()==0 (Normal) and
+// the Settings byte at settings+41+id, then clears that byte and saves settings.
+std::map<std::string,std::uint32_t> native_tutorial_script_starts;
+std::set<std::string> native_tutorial_start_refusals;
+bool native_tutorial_gate_open(std::int32_t id){
+ if(native_host_online_v1()||native_save_difficulty!=0||!native_gameplay_ui)return false;
+ bool active=false;std::string error;
+ return native_gameplay_ui->source_tutorial_active(id,active,error)&&active;
+}
+// Settings byte := 0 then SavegameManager::saveSettings (the original saves
+// synchronously inside menus and through an updateJob_thread otherwise).
+void native_tutorial_consume(std::int32_t id,const char* script){
+ std::string error;
+ if(!native_gameplay_ui||!native_gameplay_ui->lock_source_tutorial(id,error))
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Tutorial settings byte %d could not be cleared and saved after %s | %s",
+      id,script,error.c_str());
+}
+// GetIDFromName + StartScript on the Level's one ScriptManager session. Returns
+// false only when this port cannot represent the start (stale session, or a
+// command without a bound provider); a name miss and the all-Players-dead
+// refusal are the original's silent no-ops and return true with started=false.
+bool native_start_level_script_by_name(const char* name,bool check_running,bool& started,std::string& error){
+ started=false;
+ const auto source=source_level_owner.snapshot();
+ if(!native_level_script_session.ready()||!source.source_level||
+    source.phase!=dh2::source_level_owner_v1::Phase::active||source.source_level_state!=38||
+    native_level_script_generation!=source.generation||
+    native_level_script_level_name!=active_level_assets.name){
+  error="Current Level ScriptManager session is stale or unbound for this source Level";
+  return false;
+ }
+ const auto* runtime=native_level_script_session.runtime();
+ const auto id=dh2_script_resolve_id(runtime->common_table,runtime->level_table,
+     reinterpret_cast<const std::uint8_t*>(name),std::uint32_t(std::strlen(name)),1);
+ if(id<0||prince_combat.life.dead){error.clear();return true;}
+ if(!native_level_script_session.start_script(id,-1,check_running,false,error))return false;
+ started=true;
+ const auto count=++native_tutorial_script_starts[name];
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Tutorial script started | %s | script id %d | start %u | Level %s",
+     name,id,count,active_level_assets.name.c_str());
+ return true;
+}
+// Shared body of the SetFaeryState/HitFor/LevelUp callers (their StartScript
+// check argument is false). The Settings byte is cleared whether or not the
+// level carries the named script, exactly like the original; it is left pending
+// only when this port cannot start a script the level does carry.
+void native_tutorial_trigger(std::int32_t id,const char* script,const char* caller){
+ if(!native_tutorial_gate_open(id))return;
+ bool started=false;std::string error;
+ if(!native_start_level_script_by_name(script,false,started,error)){
+  if(native_tutorial_start_refusals.insert(script).second)
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Tutorial script %s refused after %s | %s | Settings byte %d stays pending",
+       script,caller,error.c_str(),id);
+  return;
+ }
+ native_tutorial_consume(id,script);
+}
+// Character::HitFor 0x3a8bc4: after the damage and the lethal Kill block, a Player
+// Character (vtable slot +0x28 = IsPlayer) at or below half of Max_HP starts
+// cinematic_Tuto_potionUse once (settings byte 4). It runs on every such hit, so
+// the byte, not the HP edge, makes it fire once.
+void native_player_hit_for_tutorial(std::int32_t hp,std::int32_t max_hp){
+ if(hp<=max_hp/2)native_tutorial_trigger(4,"cinematic_Tuto_potionUse","Character::HitFor");
+}
+}
 bool native_level_script_host_supports(void*,const dh2_script_command* command){
  if(!command)return false;
  const auto& c=*command;
@@ -24095,6 +24168,8 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       native_script_name_field(c,1);
  case 77: // LockTutorial(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 78: // DoTutorial(S script, I tutorial id)
+  return c.field_count==2&&native_script_name_field(c,0)&&c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
   return c.field_count==1&&native_script_name_field(c,0);
  case 19: // PlayAnimByName(S clip, B loop, S target, B blocking flag)
@@ -24108,7 +24183,10 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
  case 1: case 2: // EnterCutSceneMode()/ExitCutSceneMode()
   return true;
  case 69: // SaveGame()
+ case 70: // BlockSaveGame()
   return c.field_count==0;
+ case 32: // MarkCharacterAsScripted(B scripted, S name)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,1);
  case 66: // AwardTrophy(I id)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 28: // IncFaeryLevel(I index)
@@ -24328,6 +24406,45 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    std::string error;
    return native_gameplay_ui->lock_source_tutorial(c.fields[0].value.i32,error)?1:-1;
   }
+  case 78: {
+   // Script_DoTutorial::Execute 0x460950: with a local Player Character, Normal
+   // difficulty, the Settings byte settings+41+id set and the game offline, it
+   // starts the named script (GetIDFromName(name,true), StartScript(id,-1,true)),
+   // clears the byte and saves settings. Any closed gate is a silent no-op.
+   if(!prince_character.identity()||!native_tutorial_gate_open(c.fields[1].value.i32))return 1;
+   const auto name=native_script_string(c,0);
+   bool started=false;std::string error;
+   if(!native_start_level_script_by_name(name.c_str(),true,started,error)){
+    if(native_tutorial_start_refusals.insert(name).second)
+     __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Tutorial script %s refused after DoTutorial | %s | Settings byte %d stays pending",
+         name.c_str(),error.c_str(),c.fields[1].value.i32);
+    return 1;
+   }
+   native_tutorial_consume(c.fields[1].value.i32,name.c_str());
+   return 1;
+  }
+  case 70: {
+   // Script_BlockSaveGame::Execute 0x45c8c0: the local Player's
+   // Character::SG_Block(true), then the current Level::SG_BlockLevel(true);
+   // Script_SaveGame (69) lifts both blocks again.
+   const auto player=prince_character.identity();
+   if(player&&!prince_character.sg_block(player,1))return -1;
+   if(source.source_level&&!source_level_owner.sg_block_level(source.source_level,1))return -1;
+   return 1;
+  }
+  case 32: {
+   // Script_MarkCharacterAsScripted::Execute 0x45d4c8 -> Script_CharacterState_
+   // Callback 0x4594a8: Set/Unset write Character+0x1480 on the named Character
+   // or on every Character for "All". That byte is read by Character::CanUpdate
+   // (culling bypass), TriggerZone::Update (local Player scripted: zones idle),
+   // CSAnim::OnUpdate and the network update gates, none of which this port
+   // reconstructs yet, so the command validates its target and has no further
+   // observable effect.
+   int lookup=1;
+   if(!native_script_for_characters(native_script_string(c,1),
+        [](std::uintptr_t){return true;},lookup))return -1;
+   return lookup;
+  }
   case 69: {
    // Script_SaveGame::Execute 0x45c994: DebugSwitches trace query, then (for
    // the current Level) Level::SG_BlockLevel(false) + Level::QuickSave(false),
@@ -24453,12 +24570,13 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
   case 27: {
    // Script_SetFaeryState::Execute 0x45f6c8 -> Character::SetFaeryState(local
    // Player, index, state) 0x3ae7d4 -> SG_SetFaerieState. Its tutorial branch
-   // (index != 0, state == 1, offline, Normal difficulty) starts
-   // cinematic_Tuto_faery and clears settings tutorial byte 2 first. That byte
-   // lives in OriginalUiSession settings with no reachable read accessor, so
-   // that combination stays unsupported instead of skipping the cutscene.
+   // (index != 0, state == 1, offline, Normal difficulty, settings byte 2 set)
+   // starts cinematic_Tuto_faery, clears that byte and saves settings, all
+   // before SG_SetFaerieState. The started task only runs on the next
+   // ScriptManager update, so a DoTutorial(faery2, 2) inside it meets the
+   // already cleared byte, as in the original.
    const auto index=c.fields[0].value.i32,state=c.fields[1].value.i32;
-   if(index!=0&&state==1&&!native_host_online_v1()&&native_save_difficulty==0)return -2;
+   if(index!=0&&state==1)native_tutorial_trigger(2,"cinematic_Tuto_faery","Character::SetFaeryState");
    if(!prince_combat.savegame||native_save_difficulty<0||native_save_difficulty>2)return -1;
    std::string error;
    return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
@@ -24496,14 +24614,17 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
   case 22: case 23: {
    // Script_ShowFlash::Execute 0x45f8c8 / Script_HideFlash::Execute 0x45f78c:
    // non-HUD names resolve MenuManager::GetMenuByName and call MenuBase::Show
-   // (0x425450) / Hide (0x424af4) without a stack push. The HUD branch
-   // (DisplayRightHud/FillActionIcon) is used by no level script.
+   // (0x425450) / Hide (0x424af4) without a stack push. The HUD branch is the
+   // common BeginScriptedCutScene/EndScriptedCutScene pair, handled below.
    const auto name=native_script_string(c,1);
-   if(name.find("HUD")!=std::string::npos)return -2;
    if(!native_gameplay_ui)return -1;
    std::string error;
-   const bool ok=c.command_id==22?native_gameplay_ui->show_script_flash(name,error):
-                                  native_gameplay_ui->hide_script_flash(name,error);
+   // A "HUD"-named flash (BeginScriptedCutScene/EndScriptedCutScene) takes the
+   // source strstr branch: DisplayRightHud/FillActionIcon/DisplayOfCurrentHud.
+   const bool hud=name.find("HUD")!=std::string::npos;
+   const bool ok=hud?native_gameplay_ui->set_source_hud_shown(c.command_id==22,error):
+                  c.command_id==22?native_gameplay_ui->show_script_flash(name,error):
+                                   native_gameplay_ui->hide_script_flash(name,error);
    if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s %s failed | %s",
        c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),error.c_str());
    return ok?1:-1;
@@ -27874,6 +27995,10 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
  dh2::data::melee_pipeline::Exchange exchange;
  if(dh2::data::melee_pipeline::monster_to_player(&request,&exchange)!=dh2::data::melee_pipeline::Status::complete){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player defender application failed");enabled=false;return;}
  auto& result=exchange.result;auto& applied=exchange.application;
+ // Character::HitFor 0x3a8bc4 tail on the Player: at or below half of Max_HP
+ // (checked after the lethal Kill block) cinematic_Tuto_potionUse starts once.
+ if(applied.hit_called)
+  native_player_hit_for_tutorial(applied.health.after,prince_combat.properties.resolved[38]);
  // Character::F_ApplyResult source order after HitFor/HP/death: cancel
  // sneaking, scrolling combat text, combat sound (void/ignored result), then
  // reread mask and dispatch the AIS result. The Player SCT receiver borrows
@@ -29290,6 +29415,9 @@ int spell_apply_result_invoke(void* raw,
        !prince_combat.life.dead||defender_properties.resolved[36]!=0)return 1;
    }
   }
+  // Character::HitFor 0x3a8bc4 tail: a Player at or below half of Max_HP.
+  if(!defender_actor)
+   native_player_hit_for_tutorial(defender_properties.resolved[36],defender_properties.resolved[38]);
   return 0;
  }
  case Operation::is_dead:
@@ -31084,6 +31212,23 @@ std::int32_t gameplay_player_state() noexcept{
  if(!enabled||!world_mode||!native_actor_ready)return -1;
  return native_source_character_state(prince_character.identity());
 }
+// Development probe for the desktop tutorial scenario: how many times a tutorial
+// trigger (or DoTutorial) started the named cinematic_Tuto_* script in this process.
+std::uint32_t tutorial_script_start_count(const char* script_name) noexcept{
+ if(!script_name)return 0;
+ try{
+  const auto found=native_tutorial_script_starts.find(script_name);
+  return found==native_tutorial_script_starts.end()?0u:found->second;
+ }catch(...){return 0;}
+}
+// Development probe for the same scenario: whether that script's task is still active.
+bool tutorial_script_running(const char* script_name) noexcept{
+ if(!script_name)return false;
+ try{
+  bool running=false;std::string error;
+  return native_level_script_session.script_is_running(std::string(script_name),running,error)&&running;
+ }catch(...){return false;}
+}
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
   error="Gameplay pose snapshot requires a live source Player and world";return false;
@@ -32698,6 +32843,22 @@ bool ui_player_apply_level_up_state(std::uintptr_t identity,std::string& error){
  if(!ui_player_save_game(identity,error)){
   if(error.empty())error="Character::SG_Save failed after SG_SetPlayerLevel";
   return false;
+ }
+ // Character::LevelUp 0x3beb88, Player branch: after its PlayerLevelUp script and
+ // FX 135 (neither is reconstructed here) reaching level 2 offline on Normal
+ // starts cinematic_Tuto_levelUp (settings byte 5, cleared by the caller) and
+ // then cinematic_Tuto_menuCharacterSheet (byte 0, left for the menu to clear;
+ // no shipped level carries it). cinematic_Tuto_menuSkillSheet only starts when
+ // ONLINE in the original, so the offline port never reaches it.
+ if(save_level==2){
+  native_tutorial_trigger(5,"cinematic_Tuto_levelUp","Character::LevelUp");
+  if(native_tutorial_gate_open(0)){
+   bool started=false;std::string tutorial_error;
+   if(!native_start_level_script_by_name("cinematic_Tuto_menuCharacterSheet",false,started,tutorial_error)&&
+      native_tutorial_start_refusals.insert("cinematic_Tuto_menuCharacterSheet").second)
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Tutorial script cinematic_Tuto_menuCharacterSheet refused after Character::LevelUp | %s",
+        tutorial_error.c_str());
+  }
  }
  // Character::LevelUp (0x3beb88) performs the source PlayerManager local-player
  // gate after saving the level, then unlocks only exact level milestones.

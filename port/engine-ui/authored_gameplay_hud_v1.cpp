@@ -123,6 +123,10 @@ bool AuthoredGameplayHudV1::refresh_action_icon(std::string& error){
  if(style_<0){error="Authored HUD is not bound";return false;}
  return invoke("_root","FillActionIcon",{SwfAsValue::number(action_icon_)},error);
 }
+bool AuthoredGameplayHudV1::display_of_current_hud(bool show,std::string& error){
+ if(style_<0){error="Authored HUD is not bound";return false;}
+ return invoke("_root","DisplayOfCurrentHud",{SwfAsValue::boolean(show)},error);
+}
 bool AuthoredGameplayHudV1::complete_refresh(std::string& error){
  if(style_<0){error="PlayerManager completeRefresh requires the bound authored HUD";return false;}
  return invoke("_root.menu_HUD_0","completeRefresh",{},error);
