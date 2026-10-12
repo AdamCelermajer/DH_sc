@@ -1,8 +1,10 @@
 // Typed accessors of glitch::video::detail::IMaterialParameters<Owner, Header>.
 //
-// This header holds declarations only. The row bodies are not written here: the eight
-// E_SHADER_PARAMETER_VALUE_TYPE dispatchers of each owner, and the template instances
-// behind them (4 families x 12 value types x 2 argument forms per owner).
+// This header holds declarations only. The bodies of the members are generic and are in
+// material_parameters_typed_impl.hpp, which only the owner files include: the eight
+// E_SHADER_PARAMETER_VALUE_TYPE dispatchers, and the template forms behind them
+// (4 families x 12 value types x 2 argument forms per owner). Each owner supplies its
+// backend (MixinBackend<Derived>) and the explicit instances.
 //
 // Owners (G, M, R in the address comments):
 //   G = IMaterialParameters<CGlobalMaterialParameterManager, SEmptyBase>
@@ -95,7 +97,7 @@ using EnableIfValidMaterialParameter =
     typename std::enable_if<SIsValidSetMaterialParamaterOverload<T>::value, bool>::type;
 
 // Mixin for IMaterialParameters<Owner, Header>. Derived is the IMaterialParameters
-// instance. Nothing here is defined; the bodies are the dispatcher and template rows.
+// instance. Nothing here is defined; the bodies are in material_parameters_typed_impl.hpp.
 template <typename Derived>
 class IMaterialParametersTyped {
 public:

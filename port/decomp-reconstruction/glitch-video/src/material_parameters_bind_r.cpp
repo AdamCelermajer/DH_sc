@@ -1,8 +1,9 @@
 // Owner R typed rows: IMaterialParametersTyped<IMaterialParameters<CMaterialRenderer, false>>.
 //
-// The member templates and dispatchers of the mixin (material_parameters_typed.hpp) are defined here for the
-// CMaterialRenderer instance and instantiated explicitly at the end of the file. Each body forwards to a
-// free function of part d (SRendererValueTable view) or part 1c (SParameterTable view):
+// The member bodies and dispatchers of the mixin are generic and live in material_parameters_typed_impl.hpp.
+// This file keeps the R backend (MixinBackend<IMaterialParameters<CMaterialRenderer, false>>) and the explicit
+// instantiation for R at the end of the file. Each backend form forwards to a free function of part d
+// (SRendererValueTable view) or part 1c (SParameterTable view):
 //   pointer forms, indexed Cvt getter, all array and indexed Cvt setters  -> part d, see below
 //   indexed setters                                                       -> part 1c (instances shared with M)
 //   indexed getParameter: int, vector2/3/4 int, float, vector2 float       -> part 1c
@@ -20,6 +21,7 @@
 #include "glitch-video/material_parameters_part_1c.hpp"
 #include "glitch-video/material_parameters_part_d.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
+#include "glitch-video/material_parameters_typed_impl.hpp"
 
 namespace glitch::video::detail {
 namespace {
@@ -49,36 +51,12 @@ part1c::SParameterTable paramTable(const RParams& r) {
     return t;  // dirtyFirst, dirtyLast and pointers stay null: R has no dirty words and no pointer rows here
 }
 
-// Value-type tag for the dispatchers: withNumericType calls fn(TypeTag<T>{}) for the stored type of a code.
-template <class T>
-struct TypeTag {
-    using type = T;
-};
-
 using V2i = vector2d<int>;
 using V3i = vector3d<int>;
 using V4i = vector4d<int>;
 using V2f = vector2d<float>;
 using V3f = vector3d<float>;
 using V4f = vector4d<float>;
-
-// Codes 1..8, 16 and 17 (shader_value_type). Codes 11..15 and 18 are not numeric and are not bound.
-template <class Fn>
-int withNumericType(int32_t code, Fn&& fn) {
-    switch (code) {
-        case shader_value_type::kInt: return fn(TypeTag<int>{});
-        case shader_value_type::kVector2dInt: return fn(TypeTag<V2i>{});
-        case shader_value_type::kVector3dInt: return fn(TypeTag<V3i>{});
-        case shader_value_type::kVector4dInt: return fn(TypeTag<V4i>{});
-        case shader_value_type::kFloat: return fn(TypeTag<float>{});
-        case shader_value_type::kVector2dFloat: return fn(TypeTag<V2f>{});
-        case shader_value_type::kVector3dFloat: return fn(TypeTag<V3f>{});
-        case shader_value_type::kVector4dFloat: return fn(TypeTag<V4f>{});
-        case shader_value_type::kColor: return fn(TypeTag<SColor>{});
-        case shader_value_type::kColorf: return fn(TypeTag<SColorf>{});
-        default: return 0;
-    }
-}
 
 // Indexed getParameter routes: part 1c instances for the first six types, part d for the rest.
 template <class T>
@@ -87,143 +65,63 @@ constexpr bool kIndexedGetInPart1c = std::is_same_v<T, int> || std::is_same_v<T,
 
 }  // namespace
 
-// ---- Pointer forms (stride in bytes). All ten numeric types are in part d.
+// ---- R backend of the generic mixin bodies (material_parameters_typed_impl.hpp).
 
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameter(uint16_t id, T* out, int stride) const {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return rparams::getParameter(rendererTable(r), id, out, stride) != 0;
-}
+template <>
+struct MixinBackend<IMaterialParameters<CMaterialRenderer, false>> {
+    // Codes 12..15 and 18 are not bound, and the class matrix accessors are not reached from the dispatchers.
+    static constexpr bool kPointerRows = false;
+    static constexpr bool kMatrixPtrGet = false;
+    static constexpr bool kMatrixPtrSet = false;
+    static constexpr bool kMatrixPtrGetCvt = false;
+    static constexpr bool kMatrixPtrSetCvt = false;
+    static constexpr bool kMatrixIdxGet = false;
+    static constexpr bool kMatrixIdxSet = false;
+    static constexpr bool kMatrixIdxGetCvt = false;
+    static constexpr bool kMatrixIdxSetCvt = false;
 
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameter(uint16_t id, const T* src, int stride) {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return rparams::setParameter(rendererTable(r), id, src, stride) != 0;
-}
+    // ---- Pointer forms (stride in bytes). All ten numeric types are in part d.
 
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, T* out, int stride) const {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return rparams::getParameterCvt(rendererTable(r), id, out, stride) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, const T* src, int stride) {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return rparams::setParameterCvt(rendererTable(r), id, src, stride) != 0;
-}
-
-// ---- Indexed forms.
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameter(uint16_t id, uint32_t index, T& out) const {
-    const RParams& r = static_cast<const Derived&>(*this);
-    if constexpr (kIndexedGetInPart1c<T>) {
-        return part1c::getParameter<T>(paramTable(r), id, index, out) != 0;
-    } else {
-        return rparams::getParameter(rendererTable(r), id, index, out) != 0;
+    template <class T>
+    static int arrayGet(const RParams& r, uint16_t id, T* out, int stride) {
+        return rparams::getParameter(rendererTable(r), id, out, stride);
     }
-}
+    template <class T>
+    static int arrayGetCvt(const RParams& r, uint16_t id, T* out, int stride) {
+        return rparams::getParameterCvt(rendererTable(r), id, out, stride);
+    }
+    template <class T>
+    static int arraySet(const RParams& r, uint16_t id, const T* src, int stride) {
+        return rparams::setParameter(rendererTable(r), id, src, stride);
+    }
+    template <class T>
+    static int arraySetCvt(const RParams& r, uint16_t id, const T* src, int stride) {
+        return rparams::setParameterCvt(rendererTable(r), id, src, stride);
+    }
 
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameter(uint16_t id, uint32_t index, const T& src) {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return part1c::setParameter<T>(paramTable(r), id, index, src) != 0;
-}
+    // ---- Indexed forms.
 
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, uint32_t index, T& out) const {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return rparams::getParameterCvt(rendererTable(r), id, index, out) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, uint32_t index, const T& src) {
-    const RParams& r = static_cast<const Derived&>(*this);
-    return part1c::setParameterCvt<T>(paramTable(r), id, index, src) != 0;
-}
-
-// ---- Dispatchers. Numeric codes forward to the typed members above. Codes 11..15 and 18 return 0 (not bound).
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameter(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, void* out,
-                                                    int stride) const {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->getParameter(id, static_cast<T*>(out), stride) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, void* out,
-                                                       int stride) const {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->getParameterCvt(id, static_cast<T*>(out), stride) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameter(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src,
-                                                    int stride) {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->setParameter(id, static_cast<const T*>(src), stride) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src,
-                                                       int stride) {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->setParameterCvt(id, static_cast<const T*>(src), stride) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameter(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type,
-                                                    void* out) const {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->getParameter(id, index, *static_cast<T*>(out)) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type,
-                                                       void* out) const {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->getParameterCvt(id, index, *static_cast<T*>(out)) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameter(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type,
-                                                    const void* src) {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->setParameter(id, index, *static_cast<const T*>(src)) ? 1 : 0;
-    });
-}
-
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type,
-                                                       const void* src) {
-    return withNumericType(type, [&](auto tag) -> int {
-        using T = typename decltype(tag)::type;
-        return this->setParameterCvt(id, index, *static_cast<const T*>(src)) ? 1 : 0;
-    });
-}
+    template <class T>
+    static int indexGet(const RParams& r, uint16_t id, uint32_t index, T& out) {
+        if constexpr (kIndexedGetInPart1c<T>) {
+            return part1c::getParameter<T>(paramTable(r), id, index, out);
+        } else {
+            return rparams::getParameter(rendererTable(r), id, index, out);
+        }
+    }
+    template <class T>
+    static int indexSet(const RParams& r, uint16_t id, uint32_t index, const T& src) {
+        return part1c::setParameter<T>(paramTable(r), id, index, src);
+    }
+    template <class T>
+    static int indexGetCvt(const RParams& r, uint16_t id, uint32_t index, T& out) {
+        return rparams::getParameterCvt(rendererTable(r), id, index, out);
+    }
+    template <class T>
+    static int indexSetCvt(const RParams& r, uint16_t id, uint32_t index, const T& src) {
+        return part1c::setParameterCvt<T>(paramTable(r), id, index, src);
+    }
+};
 
 // ---- Explicit instantiation for R. Each line is one row of the typed table (addresses in
 // material_parameters_typed.hpp). The explicit instantiation of the class adds the eight dispatchers.

@@ -1,9 +1,9 @@
 // Owner M typed rows: IMaterialParametersTyped<IMaterialParameters<CMaterial, true>>.
 //
-// The member templates and dispatchers of the mixin (material_parameters_typed.hpp) are defined here for the
-// CMaterial instance, and the instances are listed at the end of the file. Each form has one generic body. The
-// body routes a value type to the row that holds it (the split is the one of the address comments in the part 1b
-// and part 1c headers):
+// The member bodies and dispatchers of the mixin are generic and live in material_parameters_typed_impl.hpp.
+// This file keeps the M backend (MixinBackend<MaterialOwner>), the class members that are not mixin members, and
+// the explicit instances at the end of the file. The backend routes a value type to the row that holds it (the
+// split is the one of the address comments in the part 1b and part 1c headers):
 //   - part 1b (MaterialParameterStore): the numeric rows that part 1b has. The owner does not keep a 1b record.
 //     ShadowRecord builds one for each call from the owner's table: the entries are copied from the block header,
 //     and the value bytes up to the bytes the entries reach. A setter writes the bytes and the dirty words back.
@@ -31,6 +31,7 @@
 #include "glitch-video/material_parameters_part_1b.hpp"
 #include "glitch-video/material_parameters_part_1c.hpp"
 #include "glitch-video/material_parameters_typed.hpp"
+#include "glitch-video/material_parameters_typed_impl.hpp"
 
 namespace glitch::video::detail {
 namespace {
@@ -46,37 +47,6 @@ using V3f = core::vector3d<float>;
 using V4f = core::vector4d<float>;
 using TexturePtr = boost::intrusive_ptr<ITexture>;
 using LightPtr = boost::intrusive_ptr<CLight>;
-
-// Value-type tag for the dispatchers: withValueType calls fn(TypeTag<T>{}) for the value type of a code.
-template <class T>
-struct TypeTag {
-    using type = T;
-};
-
-// Calls fn(TypeTag<T>{}) for the value type of shader_value_type code. Codes 9, 10 and 11 and every code outside
-// 1..18 return 0 (code 11 is handled by the dispatchers before this switch).
-template <class Fn>
-int withValueType(int32_t code, Fn&& fn) {
-    using namespace shader_value_type;
-    switch (code) {
-        case kInt: return fn(TypeTag<int>{});
-        case kVector2dInt: return fn(TypeTag<V2i>{});
-        case kVector3dInt: return fn(TypeTag<V3i>{});
-        case kVector4dInt: return fn(TypeTag<V4i>{});
-        case kFloat: return fn(TypeTag<float>{});
-        case kVector2dFloat: return fn(TypeTag<V2f>{});
-        case kVector3dFloat: return fn(TypeTag<V3f>{});
-        case kVector4dFloat: return fn(TypeTag<V4f>{});
-        case kTextureFirst:
-        case kTextureFirst + 1:
-        case kTextureFirst + 2:
-        case kTextureLast: return fn(TypeTag<TexturePtr>{});
-        case kColor: return fn(TypeTag<SColor>{});
-        case kColorf: return fn(TypeTag<SColorf>{});
-        case kLight: return fn(TypeTag<LightPtr>{});
-        default: return 0;
-    }
-}
 
 // Bytes of one stored element of value type code (the element size of the value area).
 std::size_t elementBytes(std::uint8_t code) {
@@ -188,86 +158,104 @@ struct Part1bSetCvt<T, std::void_t<decltype(part1b::setParameterCvt(
                            std::declval<part1b::MaterialParameterStore&>(), std::declval<std::uint16_t>(),
                            std::declval<std::uint32_t>(), std::declval<const T&>()))>> : std::true_type {};
 
-// ---- Pointer forms: stride in bytes. Part 1b has the numeric rows of the getter forms for some types.
-
-template <class T>
-int readArray(const MaterialOwner& owner, std::uint16_t id, T* out, int stride) {
-    if constexpr (Part1bArrayGet<T>::value) {
-        const ShadowRecord shadow(owner);
-        return part1b::getParameterArray(shadow.store(), id, out, stride);
-    } else {
-        return part1c::getParameter(owner.table(), id, out, stride);
-    }
-}
-
-template <class T>
-int readArrayCvt(const MaterialOwner& owner, std::uint16_t id, T* out, int stride) {
-    if constexpr (Part1bArrayGetCvt<T>::value) {
-        const ShadowRecord shadow(owner);
-        return part1b::getParameterArrayCvt(shadow.store(), id, out, stride);
-    } else {
-        return part1c::getParameterCvt(owner.table(), id, out, stride);
-    }
-}
-
-// The setter pointer forms are part 1c rows for every value type.
-template <class T>
-int writeArray(MaterialOwner& owner, std::uint16_t id, const T* src, int stride) {
-    return part1c::setParameter(owner.table(), id, src, stride);
-}
-
-template <class T>
-int writeArrayCvt(MaterialOwner& owner, std::uint16_t id, const T* src, int stride) {
-    return part1c::setParameterCvt(owner.table(), id, src, stride);
-}
-
-// ---- Indexed forms: one element.
-
-template <class T>
-int readIndexed(const MaterialOwner& owner, std::uint16_t id, std::uint32_t index, T& out) {
-    if constexpr (Part1bGet<T>::value) {
-        const ShadowRecord shadow(owner);
-        return part1b::getParameter(shadow.store(), id, index, out);
-    } else {
-        return part1c::getParameter(owner.table(), id, index, out);
-    }
-}
-
-template <class T>
-int writeIndexed(MaterialOwner& owner, std::uint16_t id, std::uint32_t index, const T& value) {
-    if constexpr (Part1bSet<T>::value) {
-        ShadowRecord shadow(owner);
-        const int result = part1b::setParameter(shadow.store(), id, index, value);
-        shadow.commit();
-        return result;
-    } else {
-        return part1c::setParameter(owner.table(), id, index, value);
-    }
-}
-
-template <class T>
-int readIndexedCvt(const MaterialOwner& owner, std::uint16_t id, std::uint32_t index, T& out) {
-    if constexpr (Part1bGetCvt<T>::value) {
-        const ShadowRecord shadow(owner);
-        return part1b::getParameterCvt(shadow.store(), id, index, out);
-    } else {
-        return part1c::getParameterCvt(owner.table(), id, index, out);
-    }
-}
-
-template <class T>
-int writeIndexedCvt(MaterialOwner& owner, std::uint16_t id, std::uint32_t index, const T& value) {
-    if constexpr (Part1bSetCvt<T>::value) {
-        ShadowRecord shadow(owner);
-        const int result = part1b::setParameterCvt(shadow.store(), id, index, value);
-        shadow.commit();
-        return result;
-    } else {
-        return part1c::setParameterCvt(owner.table(), id, index, value);
-    }
-}
-
 }  // namespace
+
+// ---- M backend of the generic mixin bodies (material_parameters_typed_impl.hpp).
+
+template <>
+struct MixinBackend<MaterialOwner> {
+    // Pointer rows (codes 12..15 and 18) are dispatched. Code 11 goes to the class matrix accessor in the
+    // dispatchers marked true below. The class has no pointer form of the matrix Cvt getter and no matrix Cvt
+    // setter, so the pointer Cvt dispatchers and the indexed Cvt setter dispatcher return 0 for code 11.
+    static constexpr bool kPointerRows = true;
+    static constexpr bool kMatrixPtrGet = true;
+    static constexpr bool kMatrixPtrSet = true;
+    static constexpr bool kMatrixPtrGetCvt = false;
+    static constexpr bool kMatrixPtrSetCvt = false;
+    static constexpr bool kMatrixIdxGet = true;
+    static constexpr bool kMatrixIdxSet = true;
+    static constexpr bool kMatrixIdxGetCvt = true;
+    static constexpr bool kMatrixIdxSetCvt = false;
+
+    // ---- Pointer forms: stride in bytes. Part 1b has the numeric rows of the getter forms for some types.
+
+    template <class T>
+    static int arrayGet(const MaterialOwner& owner, std::uint16_t id, T* out, int stride) {
+        if constexpr (Part1bArrayGet<T>::value) {
+            const ShadowRecord shadow(owner);
+            return part1b::getParameterArray(shadow.store(), id, out, stride);
+        } else {
+            return part1c::getParameter(owner.table(), id, out, stride);
+        }
+    }
+
+    template <class T>
+    static int arrayGetCvt(const MaterialOwner& owner, std::uint16_t id, T* out, int stride) {
+        if constexpr (Part1bArrayGetCvt<T>::value) {
+            const ShadowRecord shadow(owner);
+            return part1b::getParameterArrayCvt(shadow.store(), id, out, stride);
+        } else {
+            return part1c::getParameterCvt(owner.table(), id, out, stride);
+        }
+    }
+
+    // The setter pointer forms are part 1c rows for every value type.
+    template <class T>
+    static int arraySet(MaterialOwner& owner, std::uint16_t id, const T* src, int stride) {
+        return part1c::setParameter(owner.table(), id, src, stride);
+    }
+
+    template <class T>
+    static int arraySetCvt(MaterialOwner& owner, std::uint16_t id, const T* src, int stride) {
+        return part1c::setParameterCvt(owner.table(), id, src, stride);
+    }
+
+    // ---- Indexed forms: one element.
+
+    template <class T>
+    static int indexGet(const MaterialOwner& owner, std::uint16_t id, std::uint32_t index, T& out) {
+        if constexpr (Part1bGet<T>::value) {
+            const ShadowRecord shadow(owner);
+            return part1b::getParameter(shadow.store(), id, index, out);
+        } else {
+            return part1c::getParameter(owner.table(), id, index, out);
+        }
+    }
+
+    template <class T>
+    static int indexSet(MaterialOwner& owner, std::uint16_t id, std::uint32_t index, const T& value) {
+        if constexpr (Part1bSet<T>::value) {
+            ShadowRecord shadow(owner);
+            const int result = part1b::setParameter(shadow.store(), id, index, value);
+            shadow.commit();
+            return result;
+        } else {
+            return part1c::setParameter(owner.table(), id, index, value);
+        }
+    }
+
+    template <class T>
+    static int indexGetCvt(const MaterialOwner& owner, std::uint16_t id, std::uint32_t index, T& out) {
+        if constexpr (Part1bGetCvt<T>::value) {
+            const ShadowRecord shadow(owner);
+            return part1b::getParameterCvt(shadow.store(), id, index, out);
+        } else {
+            return part1c::getParameterCvt(owner.table(), id, index, out);
+        }
+    }
+
+    template <class T>
+    static int indexSetCvt(MaterialOwner& owner, std::uint16_t id, std::uint32_t index, const T& value) {
+        if constexpr (Part1bSetCvt<T>::value) {
+            ShadowRecord shadow(owner);
+            const int result = part1b::setParameterCvt(shadow.store(), id, index, value);
+            shadow.commit();
+            return result;
+        } else {
+            return part1c::setParameterCvt(owner.table(), id, index, value);
+        }
+    }
+};
 
 // ---- The part 1c views of the CMaterial instance (declared in material_parameters.hpp).
 
@@ -302,148 +290,6 @@ template <typename Owner, bool kTrackDirty>
 template <typename T>
 int IMaterialParameters<Owner, kTrackDirty>::setParameterElement(uint16_t id, uint32_t index, uint8_t component, T value) {
     return part1c::setParameterElement(table(), id, index, component, value);
-}
-
-// ---- Pointer forms of the mixin (stride in bytes; 0 means contiguous).
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameter(uint16_t id, T* out, int stride) const {
-    return readArray(static_cast<const Derived&>(*this), id, out, stride) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameter(uint16_t id, const T* src, int stride) {
-    return writeArray(static_cast<Derived&>(*this), id, src, stride) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, T* out, int stride) const {
-    return readArrayCvt(static_cast<const Derived&>(*this), id, out, stride) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, const T* src, int stride) {
-    return writeArrayCvt(static_cast<Derived&>(*this), id, src, stride) != 0;
-}
-
-// ---- Indexed forms of the mixin.
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameter(uint16_t id, uint32_t index, T& out) const {
-    return readIndexed(static_cast<const Derived&>(*this), id, index, out) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameter(uint16_t id, uint32_t index, const T& src) {
-    return writeIndexed(static_cast<Derived&>(*this), id, index, src) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, uint32_t index, T& out) const {
-    return readIndexedCvt(static_cast<const Derived&>(*this), id, index, out) != 0;
-}
-
-template <typename Derived>
-template <typename T>
-EnableIfValidMaterialParameter<T> IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, uint32_t index, const T& src) {
-    return writeIndexedCvt(static_cast<Derived&>(*this), id, index, src) != 0;
-}
-
-// ---- Dispatchers. Each returns 1 when a value was read or written, 0 for an unmapped code or a failed row.
-
-// getParameter(t, type, void* out, int count) const. Matrix (code 11): the class accessor, count is the byte stride.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameter(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, void* out, int count) const {
-    const MaterialOwner& m = static_cast<const Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return m.getParameter(id, static_cast<CMatrix*>(out), count) ? 1 : 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.getParameter(id, static_cast<T*>(out), count) ? 1 : 0;
-    });
-}
-
-// getParameterCvt(t, type, void* out, int count) const. The class has no pointer form of the matrix Cvt getter.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, void* out, int count) const {
-    const MaterialOwner& m = static_cast<const Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.getParameterCvt(id, static_cast<T*>(out), count) ? 1 : 0;
-    });
-}
-
-// setParameter(t, type, const void* src, int count). Matrix (code 11): the class accessor, count is the byte stride.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameter(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src, int count) {
-    MaterialOwner& m = static_cast<Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return m.setParameter(id, static_cast<const CMatrix*>(src), count) ? 1 : 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.setParameter(id, static_cast<const T*>(src), count) ? 1 : 0;
-    });
-}
-
-// setParameterCvt(t, type, const void* src, int count). The class has no matrix Cvt setter.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src, int count) {
-    MaterialOwner& m = static_cast<Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.setParameterCvt(id, static_cast<const T*>(src), count) ? 1 : 0;
-    });
-}
-
-// getParameter(t, index, type, void* out) const.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameter(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type, void* out) const {
-    const MaterialOwner& m = static_cast<const Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return m.getParameter(id, index, *static_cast<CMatrix*>(out)) ? 1 : 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.getParameter(id, index, *static_cast<T*>(out)) ? 1 : 0;
-    });
-}
-
-// getParameterCvt(t, index, type, void* out) const.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::getParameterCvt(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type, void* out) const {
-    const MaterialOwner& m = static_cast<const Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return m.getParameterCvt(id, index, *static_cast<CMatrix*>(out)) ? 1 : 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.getParameterCvt(id, index, *static_cast<T*>(out)) ? 1 : 0;
-    });
-}
-
-// setParameter(t, index, type, const void* src).
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameter(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src) {
-    MaterialOwner& m = static_cast<Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return m.setParameter(id, index, *static_cast<const CMatrix*>(src)) ? 1 : 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.setParameter(id, index, *static_cast<const T*>(src)) ? 1 : 0;
-    });
-}
-
-// setParameterCvt(t, index, type, const void* src). The class has no matrix Cvt setter.
-template <typename Derived>
-int IMaterialParametersTyped<Derived>::setParameterCvt(uint16_t id, uint32_t index, E_SHADER_PARAMETER_VALUE_TYPE type, const void* src) {
-    MaterialOwner& m = static_cast<Derived&>(*this);
-    if (type == shader_value_type::kMatrix4Float) return 0;
-    return withValueType(type, [&](auto tag) {
-        using T = typename decltype(tag)::type;
-        return m.setParameterCvt(id, index, *static_cast<const T*>(src)) ? 1 : 0;
-    });
 }
 
 // ---- Instances. The mixin class (the dispatchers), the member templates of each value type, and the two class
