@@ -39,6 +39,12 @@ int main() {
     end = glitch::core::fast_atof_move("abc", v);
     CHECK(v == 0.f && std::string(end) == "abc");
 
+    // stringc2stringw / stringw2stringc: element-wise conversion; null gives "".
+    CHECK(glitch::core::stringc2stringw("ab1") == L"ab1");
+    CHECK(glitch::core::stringc2stringw(nullptr).empty());
+    CHECK(glitch::core::stringw2stringc(L"Hi!") == "Hi!");
+    CHECK(glitch::core::stringw2stringc(nullptr).empty());
+
     std::printf("%s\n", failures ? "core_strings: FAILED" : "core_strings: ok");
     return failures != 0;
 }

@@ -16,6 +16,12 @@ public:
     bool drop() const;
     mutable int referenceCounter = 1;  // +0x04
 };
+
+// Event receiver interface (only its destructor is used by the io code).
+class IEventReceiver {
+public:
+    virtual ~IEventReceiver() = default;  // 0x31d8cc (D1)
+};
 }  // namespace glitch
 
 namespace glitch::core {
@@ -38,6 +44,34 @@ struct position2d {
 template <typename T>
 struct rect {
     T X1, Y1, X2, Y2;  // upper-left and lower-right corners
+
+    // 0x535c18 (rect<int>): if this rectangle is no larger than limit, moves it inside
+    // limit (right edge, bottom, left, top, in that order) and returns true; otherwise
+    // leaves it unchanged and returns false.
+    bool constrainTo(const rect& limit) {
+        if (limit.X2 - limit.X1 < X2 - X1 || limit.Y2 - limit.Y1 < Y2 - Y1) return false;
+        T diff = limit.X2 - X2;
+        if (diff < 0) {
+            X1 += diff;
+            X2 += diff;
+        }
+        diff = limit.Y2 - Y2;
+        if (diff < 0) {
+            Y1 += diff;
+            Y2 += diff;
+        }
+        diff = X1 - limit.X1;
+        if (diff < 0) {
+            X1 -= diff;
+            X2 -= diff;
+        }
+        diff = Y1 - limit.Y1;
+        if (diff < 0) {
+            Y1 -= diff;
+            Y2 -= diff;
+        }
+        return true;
+    }
 };
 // Modelled on upstream Irrlicht 1.8.5 (quaternion.h, triangle3d.h, line2d.h,
 // line3d.h, dimension2d.h, aabbox3d.h, plane3d.h, matrix4.h); plain members only.
@@ -63,6 +97,26 @@ struct dimension2d {
 template <typename T>
 struct aabbox3d {
     vector3d<T> MinEdge, MaxEdge;
+
+    // 0x35c150 addInternalBox: grows the box to contain b. Partial: the MaxEdge updates
+    // are checked against the ARM (strict compares); the MinEdge updates are the upstream
+    // Irrlicht ones and were not compared.
+    void addInternalBox(const aabbox3d& b) {
+        grow(MaxEdge.X, b.MaxEdge.X);
+        grow(MaxEdge.Y, b.MaxEdge.Y);
+        grow(MaxEdge.Z, b.MaxEdge.Z);
+        shrink(MinEdge.X, b.MinEdge.X);
+        shrink(MinEdge.Y, b.MinEdge.Y);
+        shrink(MinEdge.Z, b.MinEdge.Z);
+    }
+
+private:
+    static void grow(T& edge, T value) {
+        if (value > edge) edge = value;
+    }
+    static void shrink(T& edge, T value) {
+        if (value < edge) edge = value;
+    }
 };
 template <typename T>
 struct plane3d {
@@ -72,6 +126,14 @@ struct plane3d {
 template <typename T>
 struct CMatrix4 {
     T M[16];  // row-major, as in the original
+    bool flag = false;  // +0x40: byte after the 16 values; its meaning is not recovered
+
+    // 0x31f790 getTransposed: out[i] = this[(i % 4) * 4 + i / 4]; the flag is copied.
+    void getTransposed(CMatrix4& out) const {
+        out.flag = false;
+        for (int i = 0; i < 16; ++i) out.M[i] = M[(i % 4) * 4 + i / 4];
+        out.flag = flag;
+    }
 };
 }  // namespace glitch::core
 
@@ -87,4 +149,28 @@ struct SColor {
 struct SColorf {
     float r, g, b, a;
 };
+
+// CMaterial and CMaterialRenderer are not reference-counted through IReferenceCounted:
+// the count is their first member (+0x00), and the release calls the destructor
+// directly (no vtable is assumed). The intrusive_ptr release below deletes the object
+// when the last use goes; the original also frees it with CustomFree (not modelled).
+class CMaterial {
+public:
+    mutable int referenceCounter = 1;  // +0x00
+};
+class CMaterialRenderer {
+public:
+    mutable int referenceCounter = 1;  // +0x00
+};
+
+// Found by argument-dependent lookup from boost::intrusive_ptr (0x310be8, 0x351e3c,
+// 0x3522b8 release through these).
+inline void intrusive_ptr_add_ref(const CMaterial* p) { ++p->referenceCounter; }
+inline void intrusive_ptr_release(const CMaterial* p) {
+    if (--p->referenceCounter == 0) delete p;
+}
+inline void intrusive_ptr_add_ref(const CMaterialRenderer* p) { ++p->referenceCounter; }
+inline void intrusive_ptr_release(const CMaterialRenderer* p) {
+    if (--p->referenceCounter == 0) delete p;
+}
 }  // namespace glitch::video

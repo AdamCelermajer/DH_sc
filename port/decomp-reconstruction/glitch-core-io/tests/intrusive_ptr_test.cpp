@@ -44,6 +44,26 @@ int main() {
     glitch::io::CLightAttribute light;
     CHECK(!light.getBool());
 
+    // CMaterial and CMaterialRenderer count at +0x00. Stack objects start with two uses
+    // so that releasing one does not delete them.
+    glitch::video::CMaterial material;
+    material.referenceCounter = 2;
+    {
+        boost::intrusive_ptr<glitch::video::CMaterial> held(&material);
+        CHECK(material.referenceCounter == 2);
+    }
+    CHECK(material.referenceCounter == 1);
+    glitch::video::CMaterialRenderer renderer;
+    renderer.referenceCounter = 2;
+    {
+        boost::intrusive_ptr<glitch::video::CMaterialRenderer> held(&renderer);
+    }
+    CHECK(renderer.referenceCounter == 1);
+    // The last release of a heap material deletes it (no count is read afterwards).
+    {
+        boost::intrusive_ptr<const glitch::video::CMaterial> last(new glitch::video::CMaterial);
+    }
+
     std::printf("%s\n", failures ? "intrusive_ptr: FAILED" : "intrusive_ptr: ok");
     return failures != 0;
 }

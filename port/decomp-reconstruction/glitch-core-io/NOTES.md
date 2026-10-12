@@ -161,3 +161,90 @@ Partial rows (8):
   (about 60 instantiations).
 - IAttributeExchangingObject and the serializeAttributes/deserializeAttributes
   virtuals of other categories' classes.
+
+## Wave 4 (200 new ledger rows: 115 reconstructed, 31 partial, 54 skipped)
+
+Classes whose queued entries are all ledgered after this wave: IAttributeExchangingObject,
+IAttributes, IAttributesReader/Writer, IFileSystem, IFileReadCallBack, IWriteFile, IReadFile,
+IEventReceiver, IAttribute (64 of 64), CBinaryAttribute, CColorfAttribute, CPlaneAttribute,
+CPosition2DAttribute, CStringWArrayAttribute (constructor partial), the CVector2D/2DI/3D/3DI/4DI
+getMatrix overrides, SPakFileEntry (default constructor partial), glitch::os::Timer,
+boost::detail::sp_counted_base, sp_counted_impl_p<char>, shared_count, shared_ptr<char>,
+intrusive_ptr<ITexture>, and the heapsink/heapsort/binary_search instantiations for the
+GUI and scene element types (plus heapsink/heapsort for CFileList, partial).
+Not complete: CXMLReaderImpl<char/wchar_t> (accessors only), CStringAttribute (float
+conversions partial), CAttributes (string families), CPakReader, CTextureAttribute,
+CLightAttribute, CColorAttribute, CEnumAttribute, CMatrix4 and aabbox3d.
+
+Layouts confirmed from the ARM listings:
+- `CXMLReaderImpl<char>` attribute records are 0x30 bytes (name at +0x14, value at +0x2c,
+  both std::string here); `CXMLReaderImpl<wchar_t>` records are 0x90 bytes. The two are
+  separate explicit specialisations. The parser step (vtable +0x0c) is in derived readers.
+- Colour packing: CColorAttribute and CColorfAttribute share the integer view. getInt returns
+  the packed colour rotated left by one byte; setInt writes four floats byte/255.
+- Timer: StaticTime, StartRealTime, LastVirtualTime and TickCount are static members, shared
+  by all Timer objects. VirtualTimerSpeed's initial value is still open (see Open questions).
+- boost shared count: sp_counted_base has the vtable first, use count at +0x04, weak count
+  at +0x08; sp_counted_impl_p<T> holds the pointer at +0x0c. The port uses std::atomic where the
+  original uses a spinlock pool (same results, not the same instructions).
+- Intrusive policy: boost::intrusive_ptr adds a use on copy and drops the old object on
+  assignment. Overloads are found by ADL. ITexture, IVideoDriver and CLight derive from
+  IReferenceCounted (count at +0x04, drop()). CMaterial and CMaterialRenderer keep their count
+  at +0x00 and are released by a direct destructor call; the port deletes them (CustomFree not
+  modelled). These are in deps/glitch_core.hpp.
+- fast_atof_move (0x322bc8, partial): the 16-entry scale table is Irrlicht's fast_atof_table.
+  The glitch table is 16 floats in .rodata and was not read from the binary. Longer fractions
+  use pow(10, -n).
+- CStringAttribute: narrow std::string at +0x24, wide std::wstring at +0x3c, isWide flag at
+  +0x21 (set in the constructor, which then calls setString(wide)). stringc2stringw sign-extends
+  bytes (ldrsb). stringw2stringc is partial: its helper (0x3209f8, a wide range copy) was not read.
+- CTextureAttribute: texture at +0x24, driver at +0x28 (referenced in the constructor, released
+  in the destructor). The constructor does not store the texture argument (as decompiled), so
+  the texture starts null (partial).
+- CPakReader: vtable +0x00, refcount +0x04 (set to 1), readFile (IReadFile*) at +0x08, entry
+  vector +0x18..+0x20, flags at +0x24 (name lower-casing, used by extractFilename) and +0x25.
+  SPakFileEntry is 0x50 bytes: path string +0x00, name string +0x18 (passed to
+  createLimitReadFile by openFile), third string +0x30 (use not recovered), offset +0x48
+  (seek target, relative flag 0) and size +0x4c (limit size). openFile(int) seeks readFile to the
+  offset and wraps it in a limit read file.
+- Process buffer heap (object of 20 bytes in .bss): start +0x00, bound +0x04, top +0x08, excess
+  flag +0x10. The accessors read it; setSize and the allocator that move these values are not
+  reconstructed, so the heap stays empty in the port (getProcessBufferHeapSize is 0). Partial
+  for the two size accessors because the bound is written by code not yet read.
+- CEnumAttribute: its +0x24 value is inherited from CIntAttribute in the original, and the enum
+  index is at +0x38. The port's CIntAttribute layout does not match the vtable calls used by the
+  enum family, so the enum family stays unreconstructed (layout conflict).
+
+Decisions:
+- SPakFileEntry and the attribute classes keep std::string members with the original offsets as
+  comments. Structs that only release their members (compiler-generated destructors) are
+  skipped.
+- Type-name literals (getTypeString) that are not in strings.csv are reconstructed as partial
+  with the name inferred from the class: position, plane, binary, texture, light, stringwarray.
+  stringwarray is a guess. These need the wide literal read from the binary.
+- Test helpers: CPakReader has a default constructor for tests (its real constructor
+  0x57002c/0x5700c4 calls scanLocalHeader and the sort, not reconstructed).
+
+Partial rows (31 in this wave); the reasons are in the ledger notes column. The common causes
+are: the glitch string and allocator are std::string here, the vtable slot numbers of stand-in
+classes, and tail calls hidden behind strlen in the pseudocode.
+
+## Remaining (after wave 4; 1167 queue entries not in the ledger)
+- CPakReader: constructors C1/C2 (0x57002c, 0x5700c4, need scanLocalHeader), extractFilename
+  (0x56fcec), scanLocalHeader (0x56fe44), findFile (0x5702b4), openFile(int) (0x56f784) and
+  openFile(const char*) (0x5703b8). heapsink/heapsort/binary_search<SPakFileEntry> (0x56fa04,
+  0x56fc0c, 0x57015c) need the element compare, which is the path string.
+- CStringAttribute: getBinary/setBinary (hex loop garbled). CStringAttribute::getFloat and setFloat
+  are partial (they go through fast_atof_move and ostringstream). CFloatAttribute::getStringW is
+  partial (its format is not confirmed).
+- CAttributes: addStringAs* family (constructor and value handling hidden behind tail calls).
+- CEnumAttribute family: layout conflict described above.
+- CXMLReaderImpl: 12 (char) and 14 (wchar_t) queue entries are still unledgered. The parser
+  step (read, vtable +0x0c) is implemented by derived readers.
+- CFileSystem, CZipReader, CLimitReadFile, CXMLWriter, CFile: classes not in the port yet.
+- Math: CMatrix4Base::mult (304 bytes, needed for operator*), plane3d::setPlane (3-point form;
+  the 44-byte queue size does not match the ARM), isIdentity, getScale, getAngle,
+  transformPlane, getIntersectionWithLimitedLine, buildShadowMatrix (garbled tail calls).
+- Strings: wcsicmp, getUTF8charValue, iterateUTF8String (garbled); getTypeString for bool, int,
+  rect, bbox, line2d, line3d and enum (literal addresses not in strings.csv).
+- CFileList heapsink/heapsort are partial (element compare not verified).

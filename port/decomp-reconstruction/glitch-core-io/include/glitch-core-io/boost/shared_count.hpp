@@ -62,6 +62,8 @@ public:
     ~shared_ptr_char();
     // Copy-assigns: takes a use of the new counter, then releases the old one (0x56f0f8).
     shared_ptr_char& operator=(const shared_ptr_char& other);
+    // 0x56f288 reset<char>(char*): owns p through a new counter, releasing the old one.
+    void reset(char* p);
 
     char* px = nullptr;   // +0x00
     shared_count pn;      // +0x04

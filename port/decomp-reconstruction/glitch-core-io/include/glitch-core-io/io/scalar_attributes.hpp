@@ -52,6 +52,8 @@ public:
     void setFloat(float v) override;      // 0x31da2c
     int getType() const override;         // 0x31da34 (returns 1)
     const wchar_t* getTypeString() const; // 0x31da3c
+    void setString(const char* text) override;   // 0x322d98: fast_atof_move of the text
+    std::wstring getStringW() const override;    // 0x32d6fc: stream text, widened
 };
 
 // Enum attributes are an int attribute plus the selected index at +0x38.

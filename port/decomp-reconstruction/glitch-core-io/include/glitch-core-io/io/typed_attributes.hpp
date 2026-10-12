@@ -48,6 +48,8 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x31f2c4
     const wchar_t* getTypeString() const;  // 0x31f2cc
+    // 0x326f90: the identity matrix with the flag set (the value is not used).
+    glitch::core::CMatrix4<float> getMatrix() const override;
 };
 
 class CVector3DAttribute : public CNumbersAttribute {
@@ -57,6 +59,8 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x31f2dc
     const wchar_t* getTypeString() const;  // 0x31f2e4
+    // 0x3273ac: translation matrix from the three components (flag clear).
+    glitch::core::CMatrix4<float> getMatrix() const override;
 };
 
 class CVector4DAttribute : public CNumbersAttribute {
@@ -75,6 +79,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x560484
     const wchar_t* getTypeString() const;  // 0x56048c
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x563c40 (identity, flag set)
 };
 
 class CVector3DIAttribute : public CNumbersAttribute {
@@ -84,6 +89,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x56049c
     const wchar_t* getTypeString() const;  // 0x5604a4
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x563d9c (identity, flag set)
 };
 
 class CVector4DIAttribute : public CNumbersAttribute {
@@ -93,6 +99,7 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x5604b4
     const wchar_t* getTypeString() const;  // 0x5604bc
+    glitch::core::CMatrix4<float> getMatrix() const override;  // 0x563c04 (identity, flag set)
 };
 
 class CPosition2DAttribute : public CNumbersAttribute {
@@ -101,6 +108,8 @@ public:
     CPosition2DAttribute(const char* attrName, glitch::core::position2d<std::int32_t> value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x5604cc
+    // Type name literal not resolved in strings.csv (wide literal); see NOTES.md. Partial.
+    const wchar_t* getTypeString() const override;  // 0x5604d4
 };
 
 // The rect, matrix, quaternion, box, plane, triangle, line and 2D/3D/4D integer
@@ -146,6 +155,7 @@ public:
     CPlaneAttribute(const char* attrName, const glitch::core::plane3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x560544
+    const wchar_t* getTypeString() const override;  // 0x56054c (partial: literal not resolved)
 };
 
 class CTriangleAttribute : public CNumbersAttribute {
@@ -175,16 +185,43 @@ public:
 
 class CStringWArrayAttribute : public IAttribute {
 public:
+    CStringWArrayAttribute() = default;
+    // 0x5657b0. As decompiled, the array argument is not stored; the array starts empty.
+    // Partial.
+    CStringWArrayAttribute(const char* attrName, const std::vector<std::wstring>& value, bool f);
+    ~CStringWArrayAttribute() override = default;  // 0x5649bc (D1)
+
     std::vector<std::wstring> array;  // +0x24
     std::vector<std::wstring> getArray() const override;  // 0x562f10
     void setArray(const std::vector<std::wstring>& value) override;  // 0x5632a4
     int getType() const override;  // 0x5606f0
+    const wchar_t* getTypeString() const override;  // 0x5606f8 (partial: literal not resolved)
 };
 
+// The value is held twice, as in the original: a narrow string at +0x24 and a wide
+// string at +0x3c. isWide (+0x21) says which copy is current. The constructor always
+// sets isWide, and the setters and getters convert between the two forms.
 class CStringAttribute : public IAttribute {
 public:
+    CStringAttribute() = default;
+    CStringAttribute(const char* attrName, const wchar_t* value, bool f);  // 0x565c00
+    ~CStringAttribute() override = default;                                  // 0x3266a8
+
+    std::string narrow;   // +0x24
+    std::wstring wide;    // +0x3c
+    bool isWide = true;   // +0x21
+
     int getType() const override;  // 0x31f30c
     const wchar_t* getTypeString() const;  // 0x31f314
+    std::string getString() const override;   // 0x3260d0
+    std::wstring getStringW() const override; // 0x325e78
+    void setString(const char* value) override;      // 0x326444
+    void setString(const wchar_t* value) override;   // 0x326da4
+    int getInt() const override;                     // 0x3271e4
+    float getFloat() const override;                 // 0x327290
+    bool getBool() const override;                   // 0x327798
+    void setInt(int value) override;                 // 0x326ec4
+    void setFloat(float value) override;             // 0x32d3d4
 };
 
 class CLightAttribute : public IAttribute {
@@ -193,13 +230,39 @@ public:
     bool getBool() const override;  // 0x5606c4
     void setString(const char*) override;  // 0x5606d4 (no-op)
     int getType() const override;  // 0x5606d8
+    const wchar_t* getTypeString() const override;  // 0x5606e0 (partial: literal not resolved)
+    // Returns a new reference to the light (0x5606a8; count bumped at +0x00 of the light).
+    boost::intrusive_ptr<glitch::video::CLight> getLight() const override;
+    // Partial: the decompiled setter keeps the new reference and drops the old one, as
+    // intrusive_ptr assignment does; the light's count is at +0x00 in the original.
+    void setLight(boost::intrusive_ptr<glitch::video::CLight> value) override;  // 0x5633ec
+    // "light" when a light is set, else the empty string (0x561dd8 writes into buf).
+    void getString(char* buf) const;  // 0x561dd8
+    std::string getString() const override;  // 0x562ae4
 };
 
 class CTextureAttribute : public IAttribute {
 public:
+    CTextureAttribute() = default;
+    // 0x566ea0. As decompiled, the texture argument is not stored (texture stays null);
+    // the driver is kept with a reference (+0x28). Partial.
+    CTextureAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::ITexture>& value,
+                      glitch::video::IVideoDriver* drv, bool f);
+    ~CTextureAttribute() override;  // 0x5653c8: drops the driver, then the texture
+
     boost::intrusive_ptr<glitch::video::ITexture> texture;  // +0x24
+    glitch::video::IVideoDriver* driver = nullptr;           // +0x28 (reference counted)
     bool getBool() const override;  // 0x560654
     int getType() const override;  // 0x560690
+    const wchar_t* getTypeString() const override;  // 0x560698 (partial: literal not resolved)
+    boost::intrusive_ptr<glitch::video::ITexture> getTexture() const override;  // 0x560638
+    void setTexture(const boost::intrusive_ptr<glitch::video::ITexture>& value) override;  // 0x560664
+};
+
+class CBinaryAttribute : public IAttribute {
+public:
+    int getType() const override;  // 0x560620 (returns 0x19)
+    const wchar_t* getTypeString() const override;  // 0x560628 (partial: literal not resolved)
 };
 
 

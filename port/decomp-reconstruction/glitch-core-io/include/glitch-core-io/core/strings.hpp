@@ -18,4 +18,12 @@ std::string int2stringc(int value);
 // not consumed; result is written with the sign applied.
 const char* fast_atof_move(const char* text, float& result);
 
+// 0x3262c8 _ZN6glitch4core15stringc2stringwEPKc: narrow to wide, sign-extending bytes.
+// A null pointer gives the empty string.
+std::wstring stringc2stringw(const char* text);
+
+// 0x326c58 _ZN6glitch4core15stringw2stringcEPKw: wide to narrow. A null pointer gives
+// the empty string.
+std::string stringw2stringc(const wchar_t* text);
+
 }  // namespace glitch::core

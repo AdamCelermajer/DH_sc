@@ -177,6 +177,8 @@ public:
     void setAttribute(int index, void* userPointer);                        // 0x56189c
     void setAttribute(int index, const wchar_t* value);                     // 0x560de8
     void setAttribute(int index, glitch::core::rect<std::int32_t> value);  // 0x561120
+    void setAttribute(int index, boost::intrusive_ptr<glitch::video::ITexture> value);  // 0x5611ec
+    void setAttribute(int index, boost::intrusive_ptr<glitch::video::CLight> value);    // 0x561aa0
     void setAttribute(int index, glitch::core::quaternion value);          // 0x5612ac
     void setAttribute(int index, const glitch::core::aabbox3d<float>& value);      // 0x5613b0
     void setAttribute(int index, const glitch::core::plane3d<float>& value);       // 0x5614b0
@@ -198,6 +200,10 @@ public:
     glitch::core::CMatrix4<float> getMatrix(int index) const;                  // 0x565464
     std::string getString(int index) const;                                    // 0x564240
     std::wstring getStringW(int index) const;                                  // 0x561950
+    boost::intrusive_ptr<glitch::video::ITexture> getTexture(int index) const;  // 0x56074c
+    boost::intrusive_ptr<glitch::video::CLight> getLight(int index) const;      // 0x560798
+    boost::intrusive_ptr<glitch::video::ITexture> getTexture(const char* name) const;  // 0x56241c
+    boost::intrusive_ptr<glitch::video::CLight> getLight(const char* name) const;      // 0x5623e0
 
     // Group handling (0x564314 .. 0x5618f0).
     void clear();                                     // 0x563b30

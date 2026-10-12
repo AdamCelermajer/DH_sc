@@ -8,6 +8,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
+
+#include "glitch-core-io/core/strings.hpp"
 
 namespace glitch::io {
 
@@ -84,6 +87,25 @@ int CFloatAttribute::getType() const { return 1; }
 
 // 0x31da3c _ZNK6glitch2io15CFloatAttribute13getTypeStringEv
 const wchar_t* CFloatAttribute::getTypeString() const { return L"float"; }
+
+// 0x322d98 _ZN6glitch2io15CFloatAttribute9setStringEPKc
+// Partial: parsed by fast_atof_move, which is partial. A null text leaves the value
+// unchanged (the original would pass it straight to the parser).
+void CFloatAttribute::setString(const char* text) {
+    if (text == nullptr) return;
+    float parsed = 0.f;
+    glitch::core::fast_atof_move(text, parsed);
+    value = parsed;
+}
+
+// 0x32d6fc _ZN6glitch2io15CFloatAttribute10getStringWEv
+// Partial: formatted through an output stream on a double, as CStringAttribute::setFloat
+// is; the library's digit generation is not the original's.
+std::wstring CFloatAttribute::getStringW() const {
+    std::ostringstream stream;
+    stream << static_cast<double>(value);
+    return glitch::core::stringc2stringw(stream.str().c_str());
+}
 
 // ---- CEnumAttribute -------------------------------------------------------
 

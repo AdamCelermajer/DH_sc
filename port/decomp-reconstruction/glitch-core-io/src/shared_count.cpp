@@ -61,6 +61,17 @@ shared_ptr_char& shared_ptr_char::operator=(const shared_ptr_char& other) {
 
 shared_ptr_char::~shared_ptr_char() = default;
 
+// 0x56f288 _ZN5boost10shared_ptrIcE5resetIcEEvPT_
+// The new counter takes p with one use; the old counter, when there was one, is released.
+void shared_ptr_char::reset(char* p) {
+    shared_count fresh(p);
+    sp_counted_base* old = pn.pi;
+    px = p;
+    pn.pi = fresh.pi;
+    fresh.pi = nullptr;  // ownership moved to pn
+    if (old != nullptr) old->release();
+}
+
 // 0x56ee34 _ZN5boost6detail5yieldEj
 void yield(unsigned count) {
     if (count <= 3) return;

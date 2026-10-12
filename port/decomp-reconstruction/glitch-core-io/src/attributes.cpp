@@ -328,6 +328,42 @@ std::wstring CAttributes::getStringW(int index) const {
     return a ? a->getStringW() : std::wstring{};
 }
 
+// 0x56074c _ZN6glitch2io11CAttributes10getTextureEi
+boost::intrusive_ptr<glitch::video::ITexture> CAttributes::getTexture(int index) const {
+    IAttribute* a = at(currentAttributes(), index);
+    return a ? a->getTexture() : boost::intrusive_ptr<glitch::video::ITexture>{};
+}
+
+// 0x560798 _ZN6glitch2io11CAttributes8getLightEi
+boost::intrusive_ptr<glitch::video::CLight> CAttributes::getLight(int index) const {
+    IAttribute* a = at(currentAttributes(), index);
+    return a ? a->getLight() : boost::intrusive_ptr<glitch::video::CLight>{};
+}
+
+// 0x5611ec _ZN6glitch2io11CAttributes12setAttributeEiN5boost13intrusive_ptrINS_5video8ITextureEEE
+// Forwards to the attribute's setTexture (vtable +0xfc); an out-of-range index does nothing.
+void CAttributes::setAttribute(int index, boost::intrusive_ptr<glitch::video::ITexture> value) {
+    if (IAttribute* a = at(currentAttributes(), index)) a->setTexture(value);
+}
+
+// 0x561aa0 _ZN6glitch2io11CAttributes12setAttributeEiN5boost13intrusive_ptrINS_5video6CLightEEE
+// Forwards to the attribute's setLight (vtable +0x100) with a reference held for the call.
+void CAttributes::setAttribute(int index, boost::intrusive_ptr<glitch::video::CLight> value) {
+    if (IAttribute* a = at(currentAttributes(), index)) a->setLight(value);
+}
+
+// 0x5623e0 _ZN6glitch2io11CAttributes8getLightEPKc
+boost::intrusive_ptr<glitch::video::CLight> CAttributes::getLight(const char* name) const {
+    IAttribute* a = getAttributeP(name);
+    return a ? a->getLight() : boost::intrusive_ptr<glitch::video::CLight>{};
+}
+
+// 0x56241c _ZN6glitch2io11CAttributes10getTextureEPKc
+boost::intrusive_ptr<glitch::video::ITexture> CAttributes::getTexture(const char* name) const {
+    IAttribute* a = getAttributeP(name);
+    return a ? a->getTexture() : boost::intrusive_ptr<glitch::video::ITexture>{};
+}
+
 }  // namespace glitch::io
 
 namespace glitch::io {

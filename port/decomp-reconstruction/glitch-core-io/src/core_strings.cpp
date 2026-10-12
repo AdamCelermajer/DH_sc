@@ -99,4 +99,28 @@ const char* fast_atof_move(const char* text, float& result) {
     return c;
 }
 
+// 0x3262c8 _ZN6glitch4core15stringc2stringwEPKc
+// Each byte is sign-extended (the ARM uses ldrsb), so bytes at or above 0x80 widen to
+// negative wide characters.
+std::wstring stringc2stringw(const char* text) {
+    if (text == nullptr) return std::wstring();
+    std::wstring out;
+    for (const char* c = text; *c != '\0'; ++c) {
+        out.push_back(static_cast<wchar_t>(static_cast<signed char>(*c)));
+    }
+    return out;
+}
+
+// 0x326c58 _ZN6glitch4core15stringw2stringcEPKw
+// Null gives the empty string. Each wide character is narrowed by the templated range
+// copy (0x3209f8, not read); the low byte is assumed. Partial until that helper is read.
+std::string stringw2stringc(const wchar_t* text) {
+    if (text == nullptr) return std::string();
+    std::string out;
+    for (const wchar_t* c = text; *c != L'\0'; ++c) {
+        out.push_back(static_cast<char>(*c));
+    }
+    return out;
+}
+
 }  // namespace glitch::core
