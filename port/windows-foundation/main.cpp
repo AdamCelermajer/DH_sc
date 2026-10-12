@@ -133,6 +133,7 @@
 #include "features/audio/frontend_music_v1.hpp"  // B064 frontend title/main-menu music
 #include "features/audio/runtime_session_audio_v1.hpp"
 #include "features/loot/world_item_sound_v1.hpp"
+#include "features/hud_panels/status_message_v1.hpp" // B144: original HUD status line (pickup names)
 #include "features/frontend/creation/generic_creation_host_v1.hpp"
 #include "features/frontend/creation/dynamic_text_bindings.hpp"
 #include "features/frontend/creation/runtime_creation_source_loader_v1.hpp"
@@ -320,10 +321,10 @@ bool deathQuoteDraw(void* raw,std::uint8_t quote,const std::array<float,6>& matr
 // rgb is 0xRRGGBB; (centreX, baselineY) are window pixels; scale = window px per source px.
 bool drawScreenLabel(f::HudGlyphFont& font,const std::string& text,std::uint32_t rgb,int sourceHeight,
                      float centreX,float baselineY,float scale,f::Renderer& renderer,f::OverlayRenderer& overlay,
-                     std::map<std::string,std::uint32_t>& textures,std::string& error) {
+                     std::map<std::string,std::uint32_t>& textures,std::string& error,float alpha=1.f,float yScale=1.f) {
     f::HudGlyphRun run;
     if(!font.raster(text,sourceHeight,scale,run,error))return false;
-    const std::array<float,4> color{float((rgb>>16)&255)/255.f,float((rgb>>8)&255)/255.f,float(rgb&255)/255.f,1.f};
+    const std::array<float,4> color{float((rgb>>16)&255)/255.f,float((rgb>>8)&255)/255.f,float(rgb&255)/255.f,alpha};
     for(const auto& glyph:run.glyphs) {
         if(glyph.width<=0||glyph.height<=0)continue;
         const auto key=glyphTextureKey(glyph,"drop-glyph");
@@ -334,8 +335,8 @@ bool drawScreenLabel(f::HudGlyphFont& font,const std::string& text,std::uint32_t
             handle=textures.emplace(key,texture).first;
         }
         f::OverlaySprite sprite;
-        sprite.x=centreX+(glyph.x-run.advance*.5f)*scale;sprite.y=baselineY+glyph.y*scale;
-        sprite.width=glyph.width*scale;sprite.height=glyph.height*scale;sprite.u1=glyph.u1;sprite.v1=glyph.v1;
+        sprite.x=centreX+(glyph.x-run.advance*.5f)*scale;sprite.y=baselineY+glyph.y*scale*yScale;
+        sprite.width=glyph.width*scale;sprite.height=glyph.height*scale*yScale;sprite.u1=glyph.u1;sprite.v1=glyph.v1;
         sprite.texture=handle->second;sprite.color=color;overlay.drawSprite(sprite);
     }
     error.clear();return true;
@@ -4396,7 +4397,7 @@ int main(int argc,char** argv) {
         f::loot::RuntimeWorldItemIdV1 worldItemTarget=f::loot::invalid_runtime_world_item_v1;
         f::loot::WorldItemContactTrackerV1 worldItemContacts; // B063: walk-over pickup (contact begin triggers Interact, no key)
         double worldItemFractionMs=0;
-        std::string worldItemStatus;std::uint32_t worldItemStatusRgb=0xFFFFFF;int worldItemStatusFrames=0;
+        f::hud_panels::StatusMessageQueueV1 worldItemStatus; // B144: ItemObject::Interact status line (queued, authored itemname_text timeline)
         auto rewardContext=std::make_shared<GameplayRewardContext>();
         std::uint64_t rewardBindingGeneration{};
         rewardContext->debug=[&](const char* key,bool& value,std::string& e) {
@@ -4425,6 +4426,11 @@ int main(int argc,char** argv) {
                 const auto* properties=static_cast<f::PlayableActorWorld*>(raw)->combat_properties(id);
                 if(!properties){e="Opener has no source properties";return false;}
                 bonus=properties->sheets.resolved[195];return true;};
+            lootInputs.position_context=combatSession.get(); // B144: DropAndAwardLoot scatters toward the opener
+            lootInputs.opener_position=[](void* raw,f::ActorId id,std::array<float,3>& position,std::string& e){
+                const auto* actor=static_cast<f::CombatSession*>(raw)->actor(id);
+                if(!actor){e="Opener is not a current actor";return false;}
+                position=actor->transform.position;return true;};
             std::string lootError;
             if(!containerLoot.bind(lootInputs,lootError))throw std::runtime_error("Container loot: "+lootError);
             std::cout<<"Container loot bound\n";
@@ -8024,11 +8030,11 @@ int main(int argc,char** argv) {
                             std::string shownName;
                             if(pickup.item_type==f::loot::item_type_gold_v1)shownName=std::to_string(targetEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
                             else if(!itemDisplayName(shown,shownName,textError))shownName=pickedId;
-                            worldItemStatus=shownName;worldItemStatusRgb=rgb;worldItemStatusFrames=90;
+                            worldItemStatus.enqueue(shownName,rgb);
                         } else if(pickup.outcome==f::loot::WorldItemPickupOutcomeV1::inventory_full) {
                             // B063: the localized line carries font markup and may carry line breaks; the single-line HUD label needs plain text.
-                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError)){{std::string plain;bool inTag=false;for(const char ch:text){if(ch=='<'){inTag=true;continue;}if(ch=='>'&&inTag){inTag=false;continue;}if(!inTag)plain+=(static_cast<unsigned char>(ch)<32||ch==127)?' ':ch;}text=plain;}worldItemStatus=text;}else worldItemStatus="GAMEPLAYMENUS_INVENTORY_FULL";
-                            worldItemStatusRgb=0xFFFFFF;worldItemStatusFrames=90;
+                            std::string text;if(menuLocalization.symbol("GAMEPLAYMENUS_INVENTORY_FULL",&state,text,textError)){{std::string plain;bool inTag=false;for(const char ch:text){if(ch=='<'){inTag=true;continue;}if(ch=='>'&&inTag){inTag=false;continue;}if(!inTag)plain+=(static_cast<unsigned char>(ch)<32||ch==127)?' ':ch;}text=plain;}}else text="GAMEPLAYMENUS_INVENTORY_FULL";
+                            worldItemStatus.enqueue(text,0xFFFFFF);
                         }
                     };
                     if(itemPlayer&&itemPlayer->alive()) {
@@ -8073,7 +8079,7 @@ int main(int argc,char** argv) {
                     } else worldItemContacts.clear();
                     if(scheduledPickup&&itemPlayer&&worldItemTarget!=f::loot::invalid_runtime_world_item_v1)
                         runWorldItemPickup(worldItemTarget,"scripted");
-                    if(worldItemStatusFrames>0)--worldItemStatusFrames;
+                    worldItemStatus.advance(worldItemWhole); // B144: authored 30 fps status clip, one frame per elapsed movie frame
                 }
                 if(runtimeAudio) {std::string audioError;if(!runtimeAudio->after_update(audioError))std::cerr<<"Audio output diagnostic: "<<audioError<<'\n';}
                 if(!gameplayPaused) {
@@ -8664,24 +8670,15 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         }
                     }
                 }
-                // P14 DROPS: ItemObject::ShowTooltip name text (item rarity colour) over the targeted
-                // ground item, plus the transient pickup / inventory-full status line.
-                if(worldItems&&worldDrops&&!characterMenu.is_open()&&!pauseMenuOpen) {
-                    f::loot::RuntimeWorldItemEntryV1 labelEntry;std::string labelError;
-                    if(worldItemTarget!=f::loot::invalid_runtime_world_item_v1&&worldItems->inspect(worldItemTarget,labelEntry,labelError)&&labelEntry.authored_item) {
-                        std::array<float,2> itemScreen{};
-                        if(project(activeCamera,f::Vec3{labelEntry.source_position[0],labelEntry.source_position[1],labelEntry.source_position[2]},window.width(),window.height(),itemScreen)) {
-                            f::InventoryItem shown;shown.definition_id=worldItems->tables().items().identifiers.at(std::size_t(labelEntry.source_outcome.item_id));shown.quantity=labelEntry.quantity;
-                            std::string labelText;std::uint32_t labelRgb=0xFFFFFF;
-                            if(labelEntry.authored_item->record.words[f::loot::item_word_type_v1]==f::loot::item_type_gold_v1)labelText=std::to_string(labelEntry.source_outcome.resolved_gold_value.value_or(0))+" gold";
-                            else if(!itemDisplayName(shown,labelText,labelError))labelText=shown.definition_id;
-                            worldDrops->item_color(labelEntry,labelRgb,labelError);
-                            if(!drawScreenLabel(targetFont,labelText,labelRgb,12,itemScreen[0],itemScreen[1]-18.f*scale,scale,renderer,overlay,textures,labelError))throw std::runtime_error("World item label: "+labelError);
-                        }
-                    }
-                    if(worldItemStatusFrames>0&&!worldItemStatus.empty()) {
+                // B144: the original has NO floating item name over a ground item (ItemObject::GetInteractionType 0x3ebeb4
+                // is always -1, so ShowTooltip is unreachable). Picking an item up (or being refused) plays one HUD status
+                // line instead: the authored itemname_text clip at its fixed stage position, item-quality colour, queued.
+                if(worldItems&&worldDrops&&!characterMenu.is_open()&&!pauseMenuOpen&&campaignHost.hud_visible()) {
+                    f::hud_panels::StatusMessageViewV1 statusView;
+                    if(worldItemStatus.view(statusView)&&statusView.alpha>0.f) {
                         std::string statusError;
-                        if(!drawScreenLabel(targetFont,worldItemStatus,worldItemStatusRgb,14,window.width()*.5f,window.height()*.25f,scale,renderer,overlay,textures,statusError))throw std::runtime_error("World item status: "+statusError);
+                        const float statusOffset=(window.width()/scale-480.f)*.5f; // same letterbox mapping as the PC HUD
+                        if(!drawScreenLabel(targetFont,*statusView.text,statusView.rgb,int(statusView.font_px),(statusView.centre_x+statusOffset)*scale,statusView.baseline_y*scale,scale,renderer,overlay,textures,statusError,statusView.alpha,statusView.y_scale))throw std::runtime_error("World item status: "+statusError);
                     }
                 }
                 // P16 QUESTUI: quest banner over the HUD (placeholder panel; see report).

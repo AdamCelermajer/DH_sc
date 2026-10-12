@@ -34,6 +34,10 @@ struct ContainerLootInputsV1 {
     // False when the opener has no bonus provider; GoldStack rows are then not priced.
     void* bonus_context = nullptr;
     bool (*opener_bonus256)(void*, ActorId, std::int32_t&, std::string&) = nullptr;
+    // B144: opener position for the DropAndAwardLoot scatter (_GetRandomDropPos(object, opener)).
+    // Null/false keeps the item at the object (isolated tests; no reward is lost).
+    void* position_context = nullptr;
+    bool (*opener_position)(void*, ActorId, std::array<float, 3>&, std::string&) = nullptr;
 };
 
 struct ContainerLootOutcomeV1 {

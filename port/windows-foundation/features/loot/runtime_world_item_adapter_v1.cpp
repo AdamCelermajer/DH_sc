@@ -206,6 +206,21 @@ std::int32_t item_power_font_palette_row_v1(std::size_t power_count) noexcept {
     }
 }
 
+bool RuntimeWorldItemAdapterV1::publish_source_object_drop_scattered(
+    const RuntimeWorldItemRecordV1& record, const dh::foundation::ActorDefinition& definition,
+    const dh::foundation::WorldObject& source, const std::array<float, 3>* opener_position,
+    dh2::data::LootRandom8V2* rng, RuntimeWorldItemIdV1& published_item, std::string& error) {
+    if (!publish_source_object_drop(record, definition, source, published_item, error)) return false;
+    if (!rng) return true;
+    std::array<float, 3> landing{};
+    if (!scatter_destination_v1(*rng, source.transform.position, opener_position, landing, error)) {
+        error.clear(); // keep the item at the object
+        return true;
+    }
+    items_.at(published_item).destination = landing;
+    return true;
+}
+
 bool RuntimeWorldItemAdapterV1::publish_death_drop_scattered(
     const RuntimeWorldItemRecordV1& record, const dh::foundation::ActorState& victim,
     const std::array<float, 3>* killer_position, dh2::data::LootRandom8V2* rng,

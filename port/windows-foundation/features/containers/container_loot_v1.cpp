@@ -113,8 +113,20 @@ bool ContainerLootV1::drop_item(void* raw, const interactions::SourceContainerDr
         }
     }
     loot::RuntimeWorldItemIdV1 published = loot::invalid_runtime_world_item_v1;
-    return self->inputs_.store->publish_source_object_drop(record, *item.source_definition,
-                                                          *item.source_object, published, error);
+    // B144: ItemObject::DropAndAwardLoot throws every drop (chest and enemy alike) from the
+    // source object toward the opener over the SAME loot RNG (_GetRandomDropPos).
+    std::array<float, 3> opener_position{};
+    bool have_opener = false;
+    if (self->inputs_.opener_position) {
+        std::string position_error;
+        have_opener = self->inputs_.opener_position(self->inputs_.position_context,
+                                                    item.opener_actor, opener_position,
+                                                    position_error);
+    }
+    return self->inputs_.store->publish_source_object_drop_scattered(
+        record, *item.source_definition, *item.source_object,
+        have_opener ? &opener_position : nullptr, have_opener ? &random : nullptr,
+        published, error);
 }
 
 } // namespace dh::foundation::containers

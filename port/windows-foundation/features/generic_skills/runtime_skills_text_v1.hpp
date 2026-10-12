@@ -5,6 +5,7 @@
 #include "runtime_skill_mana_v1.hpp"
 
 #include <memory>
+#include <string_view>
 
 namespace dh::foundation::generic_skills {
 
@@ -26,9 +27,18 @@ struct RuntimeSkillsDetailsBindingsV1 {
                        std::string& error)> faery_oid_offset;
 };
 
+// SetTempProps ClassTable token of a skill script whose recovered OnSkillInfo_
+// body was audited (every player prince_* script except prince_warrior_charge
+// and prince_paladin_energy_balance, which depend on live HasShield/faery
+// state), or nullptr. `rank` is the larger of the two ranks the native details
+// query evaluates (saved rank + 1); it only matters for Magi's Shielding.
+const char* audited_skill_info_class_v1(std::string_view script, std::uint32_t rank);
+
 // Provides source-backed static fields and, when the native source facts are
-// bound, current/next details for the two audited OnSkillInfo SetTempProps
-// branches. Other skill scripts remain explicitly unavailable.
+// bound, the Current/Next level strings of NativeGetSkillDetails. The static
+// guard strings (locked by level, rank 0, max rank, level-limited training) do
+// not need a script; the script-dependent values are produced for every
+// audited OnSkillInfo SetTempProps body and left blank for the rest.
 class RuntimeSkillsTextProviderV1 {
     struct State;
     std::shared_ptr<State> state_;

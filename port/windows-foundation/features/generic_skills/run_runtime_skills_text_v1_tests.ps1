@@ -1,12 +1,14 @@
 [CmdletBinding()]
-param([string]$Compiler)
+param([string]$Compiler, [string]$InputsRoot, [string]$Libs)
 $ErrorActionPreference = 'Stop'
 $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..\..'))
+if (-not $InputsRoot) { $InputsRoot = Join-Path $repoRoot '.local-inputs' }
 if (-not $Compiler) {
-    $Compiler = Join-Path $repoRoot '.local-inputs\windows-toolchain\llvm-mingw-20261006-ucrt-x86_64\bin\clang++.exe'
+    $Compiler = Join-Path $InputsRoot 'windows-toolchain\llvm-mingw-20261006-ucrt-x86_64\bin\clang++.exe'
 }
-$assets = Join-Path $repoRoot '.local-inputs\windows-source-clock-v19-preview-9\assets'
-$build = Join-Path $repoRoot '.local-inputs\windows-foundation-build'
+$assets = Join-Path $InputsRoot 'windows-source-clock-v19-preview-9\assets'
+$scripts = Join-Path $InputsRoot 'hud-formatting-v1\scripts'
+$build = if ($Libs) { $Libs } else { Join-Path $InputsRoot 'windows-foundation-build' }
 $exe = Join-Path $PSScriptRoot 'runtime_skills_text_v1_tests.exe'
 $savedPath = $env:PATH
 try {
@@ -31,7 +33,7 @@ try {
         -o $exe
     if ($LASTEXITCODE -ne 0) { throw 'Runtime Skills text compilation failed' }
     $gold = Join-Path $repoRoot 'port\engine-ui\reference\hud-formatting-v1\skill-class-gold.bin'
-    $output = & $exe $assets $gold
+    $output = & $exe $assets $gold $scripts
     if ($LASTEXITCODE -ne 0) { throw 'Runtime Skills text tests failed' }
     $output
 } finally {
