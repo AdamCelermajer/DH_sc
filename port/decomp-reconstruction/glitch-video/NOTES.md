@@ -276,3 +276,14 @@ Still open (533 queue entries, all inside glitch::video):
 - ICodeShaderManager: +0x7c additional config text, +0x80 its length (-1 until loaded).
 - Converter SAlphaIndexedPackedConverter (alpha_indexed_converter.hpp): masks at +0x00..+0x08 and +0x1c..+0x30,
   shifts in two groups, LUT pointer +0x3c, LUT mask +0x40; the constructor needs PFDTable (blocked).
+
+## PFDTable data (integrator decision, 2026-10-12)
+
+- The table bytes are in the original ELF: `ida.zip` contains `libDungeonHunter2.so` (15.9 MB). The
+  earlier note that the bytes were absent was wrong; they were only missing from the repo's listings.
+- `PFDTable` is at file vaddr 0x8e36c0, 1600 bytes, 40 rows of 0x28. The generated source is
+  `src/pixel_format_table.cpp`. Fields follow the layout in `include/glitch-video/pixel_format.hpp`.
+- Decision: the row layout is taken from the header as written. Bytes +0x18..+0x23 are kept as
+  `unknown18` and are not read by the helpers.
+- The pixel_format rows that were blocked on the table (getPackedType, getFormat, computePitch,
+  computeSizeInBytes, computeMipmapSizeInBytes, swapBytes, convert, converters) can now be rerun.
