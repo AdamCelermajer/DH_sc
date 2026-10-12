@@ -58,7 +58,7 @@ void GameCenter::SetGCPlayerAlias(const char* alias) {
 // 0x499224 _ZN10GameCenter17SaveGCAchievementEPc
 void GameCenter::SaveGCAchievement(const char* name) { achievements_.push_back(name); }
 
-// 0x499264 _ZN10GameCenter16SetPlayerIDStatusEPKcS1_b
+// 0x499264 _ZN10GameCenter17SetPlayerIDStatusEPKcS1_b
 void GameCenter::SetPlayerIDStatus(const char* id, const char* status, bool skip) {
     if (id == nullptr) {
         return;
@@ -83,7 +83,7 @@ void GameCenter::ReportGCScore(std::int32_t score) {
     resultFlag_ = false;
 }
 
-// 0x4995a0 _ZN10GameCenter18ReportGCAchievementEPc
+// 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc
 void GameCenter::ReportGCAchievement(const char* name) {
     if (!gateFlag_) {
         return;
@@ -93,13 +93,13 @@ void GameCenter::ReportGCAchievement(const char* name) {
     resultFlag_ = false;
 }
 
-// 0x499efc _ZN10GameCenter14CoinTossForHostEv
+// 0x499efc _ZN10GameCenter15CoinTossForHostEv
 std::int32_t GameCenter::CoinTossForHost() {
     playerList_.sort();
     return 0;  // partial: the returned word is not reproduced (see game_center.hpp)
 }
 
-// 0x49a03c _ZN10GameCenter19GCAddToJoinPlayerListEPKc
+// 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc
 void GameCenter::GCAddToJoinPlayerList(const char* id) {
     playerList_.emplace_back(id != nullptr ? id : "");
 }

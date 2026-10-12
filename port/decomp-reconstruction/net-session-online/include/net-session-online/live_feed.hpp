@@ -8,7 +8,7 @@ public:
     // Test seam. Not in the original: takes ownership of the two buffers.
     _LiveFeed(char* first, char* second) : first_(first), second_(second) {}
 
-    // 0x83ab64 _ZN8_LiveFeedD1Ev: frees the first buffer, then the second, and clears both.
+    // 0x83ab64 _ZN9_LiveFeedD1Ev: frees the first buffer, then the second, and clears both.
     ~_LiveFeed();
 
     char* FirstForTest() const { return first_; }

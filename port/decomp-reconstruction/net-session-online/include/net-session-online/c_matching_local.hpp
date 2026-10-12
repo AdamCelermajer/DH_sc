@@ -9,9 +9,22 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
+#include <string>
+
+#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/deps/net_mutex.hpp"
+#include "net-session-online/t_matching_peer.hpp"
 
 class CMatchingLocal {
 public:
+    // 0x807e44 _ZN14CMatchingLocalC1Ev: sets the counters and empty containers. The original
+    // also runs Reset() and the NetStruct member constructors, which are not in this port yet.
+    CMatchingLocal();
+    // 0x807f80 _ZN14CMatchingLocalD1Ev: the members release themselves. The NetStruct member
+    // teardown of the original is not in this port yet.
+    ~CMatchingLocal();
+
     // 0x801b08 _ZN14CMatchingLocal12IsRoomClosedEv
     bool IsRoomClosed() const { return roomClosed_ != 0; }
     // 0x801b14 _ZN14CMatchingLocal12IsRoomHiddenEv: the hidden flag, else the closed flag.

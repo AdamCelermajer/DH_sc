@@ -58,7 +58,7 @@ public:
     // list (+0x6c). Partial: the original stores the pointer, not a copy, and returns the new
     // list node, which is not exposed here. Allocation failure is not modelled.
     void SaveGCAchievement(const char* name);
-    // 0x499264 _ZN10GameCenter16SetPlayerIDStatusEPKcS1_b: replaces the entry for the ID in
+    // 0x499264 _ZN10GameCenter17SetPlayerIDStatusEPKcS1_b: replaces the entry for the ID in
     // place, or appends one. Partial: the original returns a register value that is not
     // meaningful, so this returns nothing. A null status is taken as "" (the original would
     // duplicate a null pointer).
@@ -67,13 +67,13 @@ public:
     // through GCSingleton<GameCenter>::GetInstance(); this port reads its own (+0x05). The
     // gate is not set anywhere in this port yet.
     void ReportGCScore(std::int32_t score);
-    // 0x4995a0 _ZN10GameCenter18ReportGCAchievementEPc. Partial, as for ReportGCScore.
+    // 0x4995a0 _ZN10GameCenter19ReportGCAchievementEPc. Partial, as for ReportGCScore.
     void ReportGCAchievement(const char* name);
-    // 0x499efc _ZN10GameCenter14CoinTossForHostEv. Partial: the list is sorted as in the
+    // 0x499efc _ZN10GameCenter15CoinTossForHostEv. Partial: the list is sorted as in the
     // original, but the returned word is read from the STL node storage in the original and
     // is not reproduced. This returns 0.
     std::int32_t CoinTossForHost();
-    // 0x49a03c _ZN10GameCenter19GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
+    // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
     // (the original would construct a string from a null pointer).
     void GCAddToJoinPlayerList(const char* id);
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value

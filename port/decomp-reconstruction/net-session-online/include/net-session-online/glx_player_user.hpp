@@ -34,6 +34,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "net-session-online/glx_player_web_component.hpp"
@@ -77,6 +78,12 @@ public:
     const char* getAvatarLastUpdate(std::int32_t index) const;       // 0x83a9dc
     std::int32_t getAvatarStatus(std::int32_t index) const;          // 0x83aa0c
 
+    // 0x83c894 _ZN13GLXPlayerUser15OnUpdateSuccessEi
+    // Routes the response by code to the process* handler for it, then calls the base.
+    // Partial: codes 58 (+0x3c, not modelled) and 98 (+0x11c and +0x120, not modelled)
+    // read their tokens but store nothing.
+    void OnUpdateSuccess(std::int32_t code) override;
+
     // 0x83aa38 _ZN13GLXPlayerUser19processUploadAvatarEPc: empty in the original.
     void processUploadAvatar(char* data);
 
@@ -114,7 +121,13 @@ public:
     void sendDelUserStoreData(char* key);                            // 0x83d4d0
     void sendGetUserAvatarList();                                    // 0x83d5c0
     void sendDelUserAvatar(char* avatarKey);                         // 0x83d67c
-    void sendUploadUserAvatar(char* path);                           // 0x83d77c (partial)
+    void sendUploadUserAvatar(char* path);                           // 0x83d77c
+    // 0x83e918 _ZN13GLXPlayerUser15sendAwardTrophyEPii: ids and count; a count of 1 sends an
+    // empty list, as the original does.
+    void sendAwardTrophy(std::int32_t* ids, std::int32_t count);
+    // 0x83eb14 _ZN13GLXPlayerUser18sendUpdateUserInfoEPciS0_S0_S0_iS0_: -1 and null mean "not set".
+    void sendUpdateUserInfo(char* email, std::int32_t emailFlag, char* country, char* firstName,
+                            char* lastName, std::int32_t sex, char* birthday);
     void sendDownloadUserAvatar(char* avatarKey);                    // 0x83d84c
     void sendGetUserUID(char* name, bool byUserName);                // 0x83d910
     void sendPointUserReputation(char* name, std::int32_t points, bool byUserName);  // 0x83da24

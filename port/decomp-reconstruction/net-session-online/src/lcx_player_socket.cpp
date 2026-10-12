@@ -198,11 +198,9 @@ std::int32_t LCXPlayerSocket::ParseChunkedContent() {
     }
 }
 
-// 0x8a02fc _ZN15LCXPlayerSocket11SetAcceptIPEPc
-// Partial: see the header. A null argument is copied as an empty string here.
-void LCXPlayerSocket::SetAcceptIP(const char* address) {
-    const char* text = address != nullptr ? address : "";
-    const std::size_t length = std::strlen(text);
-    acceptIp_.reset(new char[length + 1]);
-    std::memcpy(acceptIp_.get(), text, length + 1);
+// 0x89e57c _ZN22LCXPlayerSocketFactory9GetSocketEPciP23LCXPlayerSocketObserver
+// Partial: the original news an LCAndroidSocket (0xcf0 bytes); the port returns the base class.
+LCXPlayerSocket* LCXPlayerSocketFactory::GetSocket(const char* serverName, std::int32_t port,
+                                                   LCXPlayerSocketObserver* observer) {
+    return new LCXPlayerSocket(serverName, port, observer);
 }

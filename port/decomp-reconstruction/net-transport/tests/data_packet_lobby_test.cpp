@@ -19,7 +19,7 @@ int main() {
     writer.packMessage();
     CHECK(writer.getMessageLen() == 2 + 4 + 2 + 1 + 4 + 2 + 3);
     CHECK(writer.getMessageBody()[0] == 0);
-    CHECK(writer.getMessageBody()[1] == 4 + 2 + 1 + 4 + 2 + 3 - 0 + 0 - 0 + 0 - 0 + 0 - 0 + 0 - 0 + 0 - 0 + 0);
+    CHECK(writer.getMessageBody()[1] == 16);  // length - 2
 
     // Reader: a copy of the packed bytes. Skip the 2-byte header with getShort.
     DataPacketLobby reader;
@@ -45,17 +45,22 @@ int main() {
     CHECK(reader.getByte(b) == 0);
     CHECK(reader.getInt(i) == 0);
 
-    // Growth: writing past 4096 bytes doubles the buffer and keeps earlier bytes.
+    // Growth: writing past 4096 bytes doubles the buffer and keeps every byte.
     DataPacketLobby big;
     for (int n = 0; n < 5000; ++n) {
         CHECK(big.addByte(static_cast<std::uint8_t>(n)) == 1);
     }
-    std::uint8_t first = 0xff;
-    big.setMessageBody(big.getMessageBody(), 0);  // position 0, length 0: nothing to read
-    CHECK(big.getByte(first) == 0);
-    DataPacketLobby check;
-    check.setMessageBody(big.getMessageBody(), 4096);
-    CHECK(check.getByte(first) == 1 && first == 2);  // position 2 is not the value 0; first byte is 0
+    big.packMessage();
+    CHECK(big.getMessageLen() == 5002);
+    // Bytes start at offset 2 of the grown buffer (the header is at 0 and 1).
+    const std::uint8_t* body = big.getMessageBody();
+    bool all_match = true;
+    for (int n = 0; n < 5000; ++n) {
+        if (body[2 + n] != static_cast<std::uint8_t>(n)) {
+            all_match = false;
+        }
+    }
+    CHECK(all_match);
 
     // Port and IP accessors.
     DataPacketLobby meta;

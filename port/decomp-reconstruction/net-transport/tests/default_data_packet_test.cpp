@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cwchar>
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -41,7 +42,7 @@ int main() {
         CHECK(static_cast<unsigned char>(body[5]) == 0x0d);
     }
 
-    // The body is full at 4096 bytes: an int needs 4 bytes, so it is refused at 4093.
+    // The body holds 4096 bytes: 4092 bytes of padding, then one int fits and the next one does not.
     {
         DefaultDataPacket p;
         for (int n = 0; n < DefaultDataPacket::kBodySize - 4; ++n) {

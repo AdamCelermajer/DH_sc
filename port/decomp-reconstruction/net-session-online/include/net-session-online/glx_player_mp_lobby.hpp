@@ -57,10 +57,10 @@ public:
     // 0x837a88 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihP19GLXPlayerUserFriend
     // Packs the friend names (up to 30, last friend first) and sends them.
     void mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, GLXPlayerUserFriend* friends);
-    // 0x8387a4 _ZN16GLXPlayerMPLobby21mpSendCreateLobbyEPchhiPciPciP23CLobbyParameterAndQuery
+    // 0x8387a4 _ZN16GLXPlayerMPLobby17mpSendCreateLobbyEPchhiS0_iS0_iP23CLobbyParameterAndQuery
     void mpSendCreateLobby(char* a, std::uint8_t b, std::uint8_t c, std::int32_t d, char* e,
                            std::int32_t f, char* g, std::int32_t h, CLobbyParameterAndQuery* q);
-    // 0x83a744 _ZN16GLXPlayerMPLobby30mpSendCreateLobbyWithGameCenterEPchhiPciPciP23CLobbyParameterAndQueryRSt4listISsSaISsEE
+    // 0x83a744 _ZN16GLXPlayerMPLobby31mpSendCreateLobbyWithGameCenterEPchhiS0_iS0_iP23CLobbyParameterAndQueryRSt4listISsSaISsEE
     // The name list is copied before it is handed to ConnectionLobby.
     void mpSendCreateLobbyWithGameCenter(char* a, std::uint8_t b, std::uint8_t c, std::int32_t d,
                                          char* e, std::int32_t f, char* g, std::int32_t h,

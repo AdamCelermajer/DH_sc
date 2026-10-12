@@ -31,6 +31,16 @@ public:
 
     void Rewind() { pos_ = 0; }
 
+    // Replaces the contents with a copy of a received buffer and rewinds (SetBuffer in the original).
+    void SetBuffer(const void* src, std::uint32_t count) {
+        const auto* bytes = static_cast<const std::uint8_t*>(src);
+        data_.assign(bytes, bytes + count);
+        pos_ = 0;
+    }
+    // Bytes written so far (the original reports bits; this stand-in is byte-aligned).
+    std::uint32_t Size() const { return static_cast<std::uint32_t>(data_.size()); }
+    const std::uint8_t* Data() const { return data_.data(); }
+
 private:
     std::vector<std::uint8_t> data_;
     std::size_t pos_ = 0;
