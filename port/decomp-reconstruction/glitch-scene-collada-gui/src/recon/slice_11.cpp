@@ -215,6 +215,10 @@ const SDatabaseTables* tablesOf(const CColladaDatabase& db) noexcept {
     return db.record->data->tables;
 }
 
+// Stand-in for the channel comparison of getAnimation: the channel record (type at +0x08,
+// target at +0x04, sid at +0x0c) is not mapped in this slice, so no channel matches.
+bool animationChannelMatches(const SAnimation*, const char*, int, const char*) noexcept { return false; }
+
 // Shared body of the database destructor (D1 and D2 are the same code).
 void destroyDatabase(CColladaDatabase* self) noexcept {
     SColladaRecord* record = self->record;
@@ -268,25 +272,25 @@ int constructAnimatorLoaded(CColladaDatabase* self, SColladaRecord* loaded, CCol
 // Float and float[N] value appliers and interpolators.
 // ===========================================================================
 
-//@0x618e88
+// 0x618e88 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi2EfEEEEE16getIdentityValueEPv
 void* CVirtualEx_f4_mix2_getIdentityValue(int self, void* value) {
     (void)self;
     return std::memset(value, 0, 0x10);
 }
 
-//@0x618e98
+// 0x618e98 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi3EfEEEEE16getIdentityValueEPv
 void* CVirtualEx_f4_mix3_getIdentityValue(int self, void* value) {
     (void)self;
     return std::memset(value, 0, 0x10);
 }
 
-//@0x618f18
+// 0x618f18 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE16getIdentityValueEPv
 void* CVirtualEx_f4_mixm1_getIdentityValue(int self, void* value) {
     (void)self;
     return std::memset(value, 0, 0x10);
 }
 
-//@0x618ffc
+// 0x618ffc _ZN6glitch7collada15animation_track13CApplyValueExIfNS1_6CMixinIfLi1ENS1_17SMaterialSetParamINS1_15SAnimationTypesIffEEEELin1EfEEE17applyAddedValueExEPvPfiSA_PNS1_15CApplicatorInfoE
 int CApplyValueEx_f1_mixm1_applyAddedValueEx(const float* a1, const float* addend, int count,
                                              MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     float value = 0.0f;
@@ -302,32 +306,32 @@ int CApplyValueEx_f1_mixm1_applyAddedValueEx(const float* a1, const float* adden
     return setParam<float>(params, info, &value);
 }
 
-//@0x619088
+// 0x619088 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIfNS1_6CMixinIfLi1ENS1_17SMaterialSetParamINS1_15SAnimationTypesIffEEEELin1EfEEEEE15applyAddedValueEPvPfiSC_PNS1_15CApplicatorInfoE
 int CVirtualEx_f1_mixm1_applyAddedValue(int self, const float* a2, const float* a3, int a4,
                                         MaterialParamsStandIn* a5, ApplicatorInfoStandIn* a6) {
     (void)self;
     return CApplyValueEx_f1_mixm1_applyAddedValueEx(a2, a3, a4, a5, a6);
 }
 
-//@0x6190a4
+// 0x6190a4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA2_fNS1_6CMixinIfLi2ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f2_mix0_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector2dF>(params, 0, 0, value);
 }
 
-//@0x6190bc
+// 0x6190bc _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA2_fNS1_6CMixinIfLi2ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f2_mix1_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector2dF>(params, 0, 0, value);
 }
 
-//@0x6190d4
+// 0x6190d4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA2_fNS1_6CMixinIfLi2ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f2_mixm1_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector2dF>(params, 0, 0, value);
 }
 
-//@0x6190ec
+// 0x6190ec _ZN6glitch7collada15animation_track13CApplyValueExIA2_fNS1_6CMixinIfLi2ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_S3_EEEELin1EfEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_f2_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int key,
                                                 MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     const float* f = floatsOf(acc);
@@ -335,26 +339,26 @@ int CApplyValueEx_f2_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn&
     return setParam<CoreVector2dF>(params, info, value);
 }
 
-//@0x61913c
+// 0x61913c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA2_fNS1_6CMixinIfLi2ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CVirtualEx_f2_mixm1_applyKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int key,
                                            MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     (void)self;
     return CApplyValueEx_f2_mixm1_applyKeyBasedValueEx(acc, key, params, info);
 }
 
-//@0x619150
+// 0x619150 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f3_mix0_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector3dF>(params, 0, 0, value);
 }
 
-//@0x619168
+// 0x619168 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f3_mixm1_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector3dF>(params, 0, 0, value);
 }
 
-//@0x619180
+// 0x619180 _ZN6glitch7collada15animation_track13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_S3_EEEELin1EfEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_f3_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int key,
                                                 MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     const float* f = floatsOf(acc);
@@ -362,14 +366,14 @@ int CApplyValueEx_f3_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn&
     return setParam<CoreVector3dF>(params, info, value);
 }
 
-//@0x6191e0
+// 0x6191e0 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_fNS1_6CMixinIfLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CVirtualEx_f3_mixm1_applyKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int key,
                                            MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     (void)self;
     return CApplyValueEx_f3_mixm1_applyKeyBasedValueEx(acc, key, params, info);
 }
 
-//@0x6191f4
+// 0x6191f4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mixm1_applyBlendedValue(int self, const float* values, const float* weights, int count,
                                           MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     (void)self;
@@ -390,24 +394,24 @@ int CVirtualEx_f4_mixm1_applyBlendedValue(int self, const float* values, const f
 // CColladaDatabase: construction, destruction and animator entries.
 // ===========================================================================
 
-//@0x6192f0
+// 0x6192f0 _ZN6glitch7collada16CColladaDatabaseC1EPKS1_PKcPNS0_15CColladaFactoryE
 CColladaDatabase* CColladaDatabase_C1_fromSource(CColladaDatabase* self, const CColladaDatabase* source,
                                                  const char* name, CColladaFactory* factory) {
     return initFromSource(self, source, name, factory);
 }
 
-//@0x619344
+// 0x619344 _ZN6glitch7collada16CColladaDatabaseC2EPKS1_PKcPNS0_15CColladaFactoryE
 CColladaDatabase* CColladaDatabase_C2_fromSource(CColladaDatabase* self, const CColladaDatabase* source,
                                                  const char* name, CColladaFactory* factory) {
     return initFromSource(self, source, name, factory);
 }
 
-//@0x619474
+// 0x619474 _ZN6glitch7collada16CColladaDatabaseD1Ev
 void CColladaDatabase_D1(CColladaDatabase* self) {
     destroyDatabase(self);
 }
 
-//@0x619510
+// 0x619510 _ZN6glitch7collada16CColladaDatabase17constructAnimatorEPNS_2io9IReadFileEbPNS0_15CColladaFactoryE
 int CColladaDatabase_constructAnimator_file(CColladaDatabase* self, glitch::io::IReadFile* file,
                                             CColladaFactory* factory, CColladaFactory* unusedFactory) {
     (void)unusedFactory;
@@ -415,7 +419,7 @@ int CColladaDatabase_constructAnimator_file(CColladaDatabase* self, glitch::io::
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
-//@0x6195c8
+// 0x6195c8 _ZN6glitch7collada16CColladaDatabase17constructAnimatorEPNS_2io9IReadFileEPNS0_15CColladaFactoryE
 int CColladaDatabase_constructAnimator_fileOnly(CColladaDatabase* self, CColladaFactory* factory,
                                                 CColladaFactory* unused) {
     (void)unused;
@@ -423,16 +427,22 @@ int CColladaDatabase_constructAnimator_fileOnly(CColladaDatabase* self, CCollada
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
-//@0x61967c
+// 0x61967c _ZN6glitch7collada16CColladaDatabase17constructAnimatorEPKcPNS0_15CColladaFactoryE
 int CColladaDatabase_constructAnimator_name(CColladaDatabase* self, CColladaFactory* factory) {
     SColladaRecord* loaded = resFileManagerLoad(self, nullptr, nullptr);
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
-//@0x619728
-void CImage_D1(CImage_standin_placeholder* self);
 
-//@0x619784
+// 0x619728 _ZN6glitch7collada6CImageD1Ev
+void CImage_D1(CImageStandIn* self) {
+    if (self->image != nullptr && self->image->refCount != 0) {
+        --self->image->refCount;
+    }
+    CColladaDatabase_D1(&self->database);
+}
+
+// 0x619784 _ZN6glitch7collada16CColladaDatabaseD2Ev
 void CColladaDatabase_D2(CColladaDatabase* self) {
     destroyDatabase(self);
 }
@@ -441,184 +451,184 @@ void CColladaDatabase_D2(CColladaDatabase* self) {
 // uchar[4] interpolators (CInterpreter and its CVirtualEx forwarders).
 // ===========================================================================
 
-//@0x619978
+// 0x619978 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            int a4, float t, U8* out) {
     return interp2U4<3>(acc, a2, a3, a4, t, out);
 }
 
-//@0x619a64
+// 0x619a64 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, int a5, float a6, U8* a7) {
     (void)self;
     return CInterpreter_u4_m3_getKeyBasedValueEx_interp2(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x619a88
+// 0x619a88 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
 const U8* CInterpreter_u4_m0_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out) {
     return directU4<0>(acc, a2, out);
 }
 
-//@0x619b00
+// 0x619b00 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 const U8* CVirtualEx_u4_m0_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4) {
     (void)self;
     return CInterpreter_u4_m0_getKeyBasedValueEx_direct(acc, a3, a4);
 }
 
-//@0x619b10
+// 0x619b10 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
 unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            float t, U8* out) {
     return interp1U4<0>(acc, a2, a3, t, out);
 }
 
-//@0x619be4
+// 0x619be4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
 unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, float a5, U8* a6) {
     (void)self;
     return CInterpreter_u4_m0_getKeyBasedValueEx_interp1(acc, a3, a4, a5, a6);
 }
 
-//@0x619c00
+// 0x619c00 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
 const U8* CInterpreter_u4_m0_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out) {
     return diffU4<0>(acc, a2, a3, out);
 }
 
-//@0x619c74
+// 0x619c74 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 const U8* CVirtualEx_u4_m0_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                                  U8* a5) {
     (void)self;
     return CInterpreter_u4_m0_getKeyBasedValueEx_diff(acc, a3, a4, a5);
 }
 
-//@0x619c88
+// 0x619c88 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi0EhEEhLi4ENS1_17SUseDefaultValuesILi0EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CInterpreter_u4_m0_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            int a4, float t, U8* out) {
     return interp2U4<0>(acc, a2, a3, a4, t, out);
 }
 
-//@0x619d74
+// 0x619d74 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi0EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CVirtualEx_u4_m0_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, int a5, float a6, U8* a7) {
     (void)self;
     return CInterpreter_u4_m0_getKeyBasedValueEx_interp2(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x619d98
+// 0x619d98 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
 const U8* CInterpreter_u4_m1_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out) {
     return directU4<1>(acc, a2, out);
 }
 
-//@0x619e10
+// 0x619e10 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 const U8* CVirtualEx_u4_m1_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4) {
     (void)self;
     return CInterpreter_u4_m1_getKeyBasedValueEx_direct(acc, a3, a4);
 }
 
-//@0x619e20
+// 0x619e20 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
 unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            float t, U8* out) {
     return interp1U4<1>(acc, a2, a3, t, out);
 }
 
-//@0x619f1c
+// 0x619f1c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
 unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, float a5, U8* a6) {
     (void)self;
     return CInterpreter_u4_m1_getKeyBasedValueEx_interp1(acc, a3, a4, a5, a6);
 }
 
-//@0x619f38
+// 0x619f38 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
 const U8* CInterpreter_u4_m1_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out) {
     return diffU4<1>(acc, a2, a3, out);
 }
 
-//@0x619fac
+// 0x619fac _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 const U8* CVirtualEx_u4_m1_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                                  U8* a5) {
     (void)self;
     return CInterpreter_u4_m1_getKeyBasedValueEx_diff(acc, a3, a4, a5);
 }
 
-//@0x619fc0
+// 0x619fc0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi1EhEEhLi4ENS1_17SUseDefaultValuesILi1EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CInterpreter_u4_m1_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            int a4, float t, U8* out) {
     return interp2U4<1>(acc, a2, a3, a4, t, out);
 }
 
-//@0x61a0ac
+// 0x61a0ac _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi1EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CVirtualEx_u4_m1_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, int a5, float a6, U8* a7) {
     (void)self;
     return CInterpreter_u4_m1_getKeyBasedValueEx_interp2(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x61a0d0
+// 0x61a0d0 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
 const U8* CInterpreter_u4_m2_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out) {
     return directU4<2>(acc, a2, out);
 }
 
-//@0x61a148
+// 0x61a148 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 const U8* CVirtualEx_u4_m2_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4) {
     (void)self;
     return CInterpreter_u4_m2_getKeyBasedValueEx_direct(acc, a3, a4);
 }
 
-//@0x61a158
+// 0x61a158 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
 unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            float t, U8* out) {
     return interp1U4<2>(acc, a2, a3, t, out);
 }
 
-//@0x61a244
+// 0x61a244 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
 unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, float a5, U8* a6) {
     (void)self;
     return CInterpreter_u4_m2_getKeyBasedValueEx_interp1(acc, a3, a4, a5, a6);
 }
 
-//@0x61a260
+// 0x61a260 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
 const U8* CInterpreter_u4_m2_getKeyBasedValueEx_diff(const SAnimationAccessorStandIn& acc, int a2, int a3, U8* out) {
     return diffU4<2>(acc, a2, a3, out);
 }
 
-//@0x61a2d4
+// 0x61a2d4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 const U8* CVirtualEx_u4_m2_getKeyBasedValue_diff(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                                  U8* a5) {
     (void)self;
     return CInterpreter_u4_m2_getKeyBasedValueEx_diff(acc, a3, a4, a5);
 }
 
-//@0x61a2e8
+// 0x61a2e8 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi2EhEEhLi4ENS1_17SUseDefaultValuesILi2EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CInterpreter_u4_m2_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            int a4, float t, U8* out) {
     return interp2U4<2>(acc, a2, a3, a4, t, out);
 }
 
-//@0x61a3d8
+// 0x61a3d8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi2EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 unsigned int CVirtualEx_u4_m2_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, int a5, float a6, U8* a7) {
     (void)self;
     return CInterpreter_u4_m2_getKeyBasedValueEx_interp2(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x61a3fc
+// 0x61a3fc _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv
 const U8* CInterpreter_u4_m3_getKeyBasedValueEx_direct(const SAnimationAccessorStandIn& acc, int a2, U8* out) {
     return directU4<3>(acc, a2, out);
 }
 
-//@0x61a474
+// 0x61a474 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 const U8* CVirtualEx_u4_m3_getKeyBasedValue_direct(int self, const SAnimationAccessorStandIn& acc, int a3, U8* a4) {
     (void)self;
     return CInterpreter_u4_m3_getKeyBasedValueEx_direct(acc, a3, a4);
 }
 
-//@0x61a484
+// 0x61a484 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv
 unsigned int CInterpreter_u4_m3_getKeyBasedValueEx_interp1(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            float t, U8* out) {
     return interp1U4<3>(acc, a2, a3, t, out);
 }
 
-//@0x61a558
+// 0x61a558 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv
 unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp1(int self, const SAnimationAccessorStandIn& acc, int a3,
                                                        int a4, float a5, U8* a6) {
     (void)self;
@@ -629,7 +639,7 @@ unsigned int CVirtualEx_u4_m3_getKeyBasedValue_interp1(int self, const SAnimatio
 // CColladaDatabase entries that resolve a named entry and hand it to a constructor.
 // ===========================================================================
 
-//@0x61a5d4
+// 0x61a5d4 _ZNK6glitch7collada16CColladaDatabase20constructGNPSEmitterEPKcPNS_5video12IVideoDriverEPNS_3res6vectorINS7_6StringEEEPNS0_14CRootSceneNodeE
 int CColladaDatabase_constructGNPSEmitter(const CColladaDatabase& self, const char* name,
                                           video::IVideoDriver* driver, void* strings, CRootSceneNode* root) {
     const SDatabaseTables* t = tablesOf(self);
@@ -637,7 +647,7 @@ int CColladaDatabase_constructGNPSEmitter(const CColladaDatabase& self, const ch
     return constructGNPSEmitterEntry(self, entry, driver, strings, root);
 }
 
-//@0x61a750
+// 0x61a750 _ZNK6glitch7collada16CColladaDatabase16constructCoronasEPKcPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE
 int CColladaDatabase_constructCoronas(const CColladaDatabase& self, const char* name, video::IVideoDriver* driver,
                                       CRootSceneNode* root) {
     const SDatabaseTables* t = tablesOf(self);
@@ -645,7 +655,7 @@ int CColladaDatabase_constructCoronas(const CColladaDatabase& self, const char* 
     return constructCoronasEntry(self, entry, driver, root);
 }
 
-//@0x61a854
+// 0x61a854 _ZNK6glitch7collada16CColladaDatabase16constructEmitterEPKcPNS_5video12IVideoDriverEPNS_3res6vectorINS7_6StringEEEPNS0_14CRootSceneNodeE
 int CColladaDatabase_constructEmitter(const CColladaDatabase& self, const char* name, video::IVideoDriver* driver,
                                       void* strings, CRootSceneNode* root) {
     const SDatabaseTables* t = tablesOf(self);
@@ -653,7 +663,7 @@ int CColladaDatabase_constructEmitter(const CColladaDatabase& self, const char* 
     return constructEmitterEntry(self, entry, driver, strings, root);
 }
 
-//@0x61aa00
+// 0x61aa00 _ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEPKcPNS0_14CRootSceneNodeE
 OutSlotStandIn* CColladaDatabase_constructController(OutSlotStandIn* out, const CColladaDatabase& self,
                                                      video::IVideoDriver* driver, const char* name,
                                                      CRootSceneNode* root) {
@@ -662,7 +672,7 @@ OutSlotStandIn* CColladaDatabase_constructController(OutSlotStandIn* out, const 
     return constructControllerEntry(out, self, driver, name, entry, root);
 }
 
-//@0x61aae0
+// 0x61aae0 _ZNK6glitch7collada16CColladaDatabase17constructGeometryEPNS_5video12IVideoDriverEPKcS6_
 OutSlotStandIn* CColladaDatabase_constructGeometry_file(OutSlotStandIn* out, const CColladaDatabase* source,
                                                         const char* a3, const char* fileName,
                                                         const char* geometryName) {
@@ -699,7 +709,7 @@ OutSlotStandIn* CColladaDatabase_constructGeometry_file(OutSlotStandIn* out, con
     return out;
 }
 
-//@0x61ac88
+// 0x61ac88 _ZNK6glitch7collada16CColladaDatabase11getMaterialEPKcS3_
 SMaterial* CColladaDatabase_getMaterial_file(const CColladaDatabase* source, const char* name,
                                              const char* materialName) {
     CColladaDatabase temp;
@@ -710,7 +720,7 @@ SMaterial* CColladaDatabase_getMaterial_file(const CColladaDatabase* source, con
     return material;
 }
 
-//@0x61b1b4
+// 0x61b1b4 _ZNK6glitch7collada16CColladaDatabase14constructImageEPKcPNS0_14CRootSceneNodeE
 OutSlotStandIn* CColladaDatabase_constructImage(OutSlotStandIn* out, const CColladaDatabase& self,
                                                 const char* name) {
     const SDatabaseTables* t = tablesOf(self);
@@ -722,7 +732,7 @@ OutSlotStandIn* CColladaDatabase_constructImage(OutSlotStandIn* out, const CColl
 // CColladaDatabase: scene, node and material constructors.
 // ===========================================================================
 
-//@0x61b8bc
+// 0x61b8bc _ZNK6glitch7collada16CColladaDatabase20constructVisualSceneEPNS_5video12IVideoDriverEPNS0_12SVisualSceneEPNS0_14CRootSceneNodeE
 CRootSceneNode* CColladaDatabase_constructVisualScene(const CColladaDatabase& self, video::IVideoDriver* driver,
                                                       SVisualScene* entry, CRootSceneNode* root) {
     (void)driver;
@@ -734,7 +744,7 @@ CRootSceneNode* CColladaDatabase_constructVisualScene(const CColladaDatabase& se
     return root != nullptr ? root : createRootSceneNode(self.factory, self);
 }
 
-//@0x61b988
+// 0x61b988 _ZNK6glitch7collada16CColladaDatabase20constructVisualSceneEPNS_5video12IVideoDriverEiPNS0_14CRootSceneNodeE
 CRootSceneNode* CColladaDatabase_constructVisualScene_index(const CColladaDatabase& self, video::IVideoDriver* driver,
                                                             int index, CRootSceneNode* root) {
     const SDatabaseTables* t = tablesOf(self);
@@ -745,7 +755,7 @@ CRootSceneNode* CColladaDatabase_constructVisualScene_index(const CColladaDataba
     return CColladaDatabase_constructVisualScene(self, driver, entry, root);
 }
 
-//@0x61b9b8
+// 0x61b9b8 _ZNK6glitch7collada16CColladaDatabase20constructVisualSceneEPNS_5video12IVideoDriverEPKcPNS0_14CRootSceneNodeE
 CRootSceneNode* CColladaDatabase_constructVisualScene_name(const CColladaDatabase& self, video::IVideoDriver* driver,
                                                            const char* name, CRootSceneNode* root) {
     const SDatabaseTables* t = tablesOf(self);
@@ -753,17 +763,17 @@ CRootSceneNode* CColladaDatabase_constructVisualScene_name(const CColladaDatabas
     return CColladaDatabase_constructVisualScene(self, driver, entry, root);
 }
 
-//@0x61babc
-int CColladaDatabase_constructScene_bool(const CColladaDatabase& self, video::IVideoDriver* driver, bool animate) {
+// 0x61babc _ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverEb
+CRootSceneNode* CColladaDatabase_constructScene_bool(const CColladaDatabase& self, video::IVideoDriver* driver,
+                                                     bool animate) {
     CRootSceneNode* scene = constructSceneEntry(self, driver);
-    if (scene == nullptr || !animate) {
-        return reinterpret_cast<std::uintptr_t>(scene) != 0 ? 1 : 0;
-    }
-    // Attaching the animator (vtable +0x6c) is not rebuilt; see the ledger note.
-    return 1;
+    // Attaching the animator (scene vtable +0x6c, constructAnimator) is not rebuilt; the
+    // scene is returned without it when animate is set.
+    (void)animate;
+    return scene;
 }
 
-//@0x61bb20
+// 0x61bb20 _ZN6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverEPKcPNS0_15CColladaFactoryE
 int CColladaDatabase_constructScene_file(CColladaDatabase* self, video::IVideoDriver* driver, const char* name,
                                          CColladaFactory* factory) {
     (void)self;
@@ -776,7 +786,7 @@ int CColladaDatabase_constructScene_file(CColladaDatabase* self, video::IVideoDr
     return 0;
 }
 
-//@0x61bbd4
+// 0x61bbd4 _ZN6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverEPKcbPNS0_15CColladaFactoryE
 int CColladaDatabase_constructScene_fileAnimated(CColladaDatabase* self, video::IVideoDriver* driver,
                                                  const char* name, bool animate, CColladaFactory* factory) {
     (void)self;
@@ -787,21 +797,20 @@ int CColladaDatabase_constructScene_fileAnimated(CColladaDatabase* self, video::
     return 0;
 }
 
-//@0x61be14
+// 0x61be14 _ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeE
 CRootSceneNode* CColladaDatabase_constructNode_entry(const CColladaDatabase& self, video::IVideoDriver* driver,
                                                      SNode* entry) {
     if (entry == nullptr) {
         return nullptr;
     }
     CRootSceneNode* root = createRootSceneNode(self.factory, self);
-    CRootSceneNode* node = constructNodeEntry(self, driver, entry, root);
-    // The original attaches the node to the root (vtable +0x5c) and runs onPostLoad; the
-    // attach is not rebuilt here.
-    dropRecord(reinterpret_cast<SColladaRecord*>(node));
+    // The built node is attached to the root (vtable +0x5c), onPostLoad runs and the node is
+    // released. Those calls are not rebuilt; the stand-in builds the node only.
+    (void)constructNodeEntry(self, driver, entry, root);
     return root;
 }
 
-//@0x61c1fc
+// 0x61c1fc _ZNK6glitch7collada16CColladaDatabase21getBlendableAnimationEPKNS0_10SAnimationE
 int CColladaDatabase_getBlendableAnimation(const CColladaDatabase& self, const SAnimation* animation) {
     if (animation == nullptr) {
         return 0;
@@ -809,7 +818,7 @@ int CColladaDatabase_getBlendableAnimation(const CColladaDatabase& self, const S
     return blendableOfAnimation(self, animation);
 }
 
-//@0x61c6ec
+// 0x61c6ec _ZNK6glitch7collada16CColladaDatabase15getDefaultValueEPKNS0_10SAnimationEPPv
 char* CColladaDatabase_getDefaultValue(const CColladaDatabase& self, const SAnimation* animation, void** out) {
     if (animation == nullptr) {
         return nullptr;
@@ -817,13 +826,13 @@ char* CColladaDatabase_getDefaultValue(const CColladaDatabase& self, const SAnim
     return defaultValueOfAnimation(self, animation, out);
 }
 
-//@0x61c6f4
+// 0x61c6f4 _ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPKc
 CRootSceneNode* CColladaDatabase_constructNode_name(const CColladaDatabase& self, video::IVideoDriver* driver,
                                                     const char* name) {
     return CColladaDatabase_constructNode_entry(self, driver, findNode(self, name));
 }
 
-//@0x61c878
+// 0x61c878 _ZN6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPKcS6_PNS0_15CColladaFactoryE
 CRootSceneNode* CColladaDatabase_constructNode_file(const CColladaDatabase* source, video::IVideoDriver* driver,
                                                     const char* name, const char* fileName,
                                                     CColladaFactory* factory) {
@@ -840,25 +849,22 @@ CRootSceneNode* CColladaDatabase_constructNode_file(const CColladaDatabase* sour
     return node;
 }
 
-//@0x61c91c
-const SAnimation* CColladaDatabase_getAnimation(const CColladaDatabase& self, const char* a2, int type,
-                                                const char* a4) {
-    (void)type;
+// 0x61c91c _ZNK6glitch7collada16CColladaDatabase12getAnimationEPKcNS0_8SChannel4TypeES3_
+const SAnimation* CColladaDatabase_getAnimation(const CColladaDatabase& self, const char* target, int type,
+                                                const char* sid) {
     const SDatabaseTables* t = tablesOf(self);
-    if (t == nullptr) {
+    if (t == nullptr || t->animations.empty()) {
         return nullptr;
     }
     for (const SAnimation* animation : t->animations) {
-        // The channel-record comparison (type, target, sid) needs the channel layout, which
-        // is not mapped; the match is reported through the stand-in animation name check.
-        if (animation != nullptr && a2 != nullptr && a4 != nullptr && animation->name == nullptr) {
+        if (animationChannelMatches(animation, target, type, sid)) {
             return animation;
         }
     }
     return nullptr;
 }
 
-//@0x61cca8
+// 0x61cca8 _ZNK6glitch7collada16CColladaDatabase17constructMaterialEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE
 OutSlotStandIn* CColladaDatabase_constructMaterial_entry(OutSlotStandIn* out, const CColladaDatabase* self,
                                                          video::IVideoDriver* driver, SMaterial* material,
                                                          CRootSceneNode* root) {
@@ -871,7 +877,7 @@ OutSlotStandIn* CColladaDatabase_constructMaterial_entry(OutSlotStandIn* out, co
     return constructMaterialEntry(out, *self, driver, material, root);
 }
 
-//@0x61cefc
+// 0x61cefc _ZNK6glitch7collada16CColladaDatabase17constructMaterialEPNS_5video12IVideoDriverEPKcPNS0_14CRootSceneNodeE
 OutSlotStandIn* CColladaDatabase_constructMaterial_name(OutSlotStandIn* out, const CColladaDatabase& self,
                                                         video::IVideoDriver* driver, const char* name,
                                                         CRootSceneNode* root) {
@@ -880,7 +886,7 @@ OutSlotStandIn* CColladaDatabase_constructMaterial_name(OutSlotStandIn* out, con
     return CColladaDatabase_constructMaterial_entry(out, &self, driver, material, root);
 }
 
-//@0x61cf44
+// 0x61cf44 _ZNK6glitch7collada16CColladaDatabase17constructMaterialEPNS_5video12IVideoDriverEiPNS0_14CRootSceneNodeE
 OutSlotStandIn* CColladaDatabase_constructMaterial_index(OutSlotStandIn* out, const CColladaDatabase& self,
                                                          video::IVideoDriver* driver, int index,
                                                          CRootSceneNode* root) {
@@ -896,7 +902,7 @@ OutSlotStandIn* CColladaDatabase_constructMaterial_index(OutSlotStandIn* out, co
 // Quaternion and float interpolators (CSceneNode quaternion mixins).
 // ===========================================================================
 
-//@0x61cb7c
+// 0x61cb7c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIcEEEEE13retrieveValueEPvSA_
 const std::uint32_t* CVirtualEx_quatAngleMixC_retrieveValue(int self, ISceneNodeStandIn* node, std::uint32_t* out) {
     (void)self;
     const std::uint32_t* r = node->getRotationWords();
@@ -904,7 +910,7 @@ const std::uint32_t* CVirtualEx_quatAngleMixC_retrieveValue(int self, ISceneNode
     return r;
 }
 
-//@0x61cbb8
+// 0x61cbb8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIsEEEEE13retrieveValueEPvSA_
 const std::uint32_t* CVirtualEx_quatAngleMixS_retrieveValue(int self, ISceneNodeStandIn* node, std::uint32_t* out) {
     (void)self;
     const std::uint32_t* r = node->getRotationWords();
@@ -912,7 +918,7 @@ const std::uint32_t* CVirtualEx_quatAngleMixS_retrieveValue(int self, ISceneNode
     return r;
 }
 
-//@0x61cc30
+// 0x61cc30 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIcEEEEE13retrieveValueEPvSA_
 const std::uint32_t* CVirtualEx_quatMixC_retrieveValue(int self, ISceneNodeStandIn* node, std::uint32_t* out) {
     (void)self;
     const std::uint32_t* r = node->getRotationWords();
@@ -920,7 +926,7 @@ const std::uint32_t* CVirtualEx_quatMixC_retrieveValue(int self, ISceneNodeStand
     return r;
 }
 
-//@0x61cc6c
+// 0x61cc6c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIsEEEEE13retrieveValueEPvSA_
 const std::uint32_t* CVirtualEx_quatMixS_retrieveValue(int self, ISceneNodeStandIn* node, std::uint32_t* out) {
     (void)self;
     const std::uint32_t* r = node->getRotationWords();
@@ -928,16 +934,14 @@ const std::uint32_t* CVirtualEx_quatMixS_retrieveValue(int self, ISceneNodeStand
     return r;
 }
 
-//@0x61caa8
+// 0x61caa8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEE10applyValueEPvSF_PNS1_15CApplicatorInfoE
 int CVirtualEx_u3_mixm1_applyValue(int self, const U8* value, MaterialParamsStandIn* params) {
     (void)self;
-    const VideoSColor color{};
-    (void)color;
     const U8 bytes[4] = {value[0], value[1], value[2], 0xff};
     return setParameterCvt<VideoSColor>(params, 0, 0, bytes);
 }
 
-//@0x61caf0
+// 0x61caf0 _ZN6glitch7collada15animation_track13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_NS_5video6SColorEEEEELin1EhEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_u3_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int key,
                                                 MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     const U8* d = bytesOf(acc);
@@ -945,44 +949,44 @@ int CApplyValueEx_u3_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn&
     return setParam<VideoSColor>(params, info, bytes);
 }
 
-//@0x61cb68
+// 0x61cb68 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CVirtualEx_u3_mixm1_applyKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int key,
                                            MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     (void)self;
     return CApplyValueEx_u3_mixm1_applyKeyBasedValueEx(acc, key, params, info);
 }
 
-//@0x61c9b8
+// 0x61c9b8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mix0_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector4dF>(params, 0, 0, value);
 }
 
-//@0x61c9d0
+// 0x61c9d0 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mix1_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector4dF>(params, 0, 0, value);
 }
 
-//@0x61c9e8
+// 0x61c9e8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi2EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mix2_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector4dF>(params, 0, 0, value);
 }
 
-//@0x61ca00
+// 0x61ca00 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi3EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mix3_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector4dF>(params, 0, 0, value);
 }
 
-//@0x61ca18
+// 0x61ca18 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mixm1_applyValue(int self, const float* value, MaterialParamsStandIn* params) {
     (void)self;
     return setParameterCvt<CoreVector4dF>(params, 0, 0, value);
 }
 
-//@0x61ca30
+// 0x61ca30 _ZN6glitch7collada15animation_track13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_S3_EEEELin1EfEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_f4_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int key,
                                                 MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     const float* f = floatsOf(acc);
@@ -990,14 +994,14 @@ int CApplyValueEx_f4_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn&
     return setParam<CoreVector4dF>(params, info, value);
 }
 
-//@0x61ca94
+// 0x61ca94 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELin1EfEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CVirtualEx_f4_mixm1_applyKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int key,
                                            MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     (void)self;
     return CApplyValueEx_f4_mixm1_applyKeyBasedValueEx(acc, key, params, info);
 }
 
-//@0x61cf8c
+// 0x61cf8c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv
 const SAnimationOutput* CVirtualEx_quatMixF_getKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int key,
                                                              float* out) {
     (void)self;
@@ -1006,7 +1010,7 @@ const SAnimationOutput* CVirtualEx_quatMixF_getKeyBasedValue(int self, const SAn
     return result;
 }
 
-//@0x61cfd8
+// 0x61cfd8 _ZN6glitch7collada15animation_track22CInterpreterQuaternionINS1_25CSceneNodeQuaternionMixinIfEEfE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv
 float CInterpreterQuaternion_quatMixF_getKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                          float* out) {
     const float* data = floatsOf(acc);
@@ -1021,14 +1025,14 @@ float CInterpreterQuaternion_quatMixF_getKeyBasedValueEx(const SAnimationAccesso
     return product[0];
 }
 
-//@0x61d0ec
+// 0x61d0ec _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv
 float CVirtualEx_quatMixF_getKeyBasedValue_ex(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                               float* a5) {
     (void)self;
     return CInterpreterQuaternion_quatMixF_getKeyBasedValueEx(acc, a3, a4, a5);
 }
 
-//@0x61d100
+// 0x61d100 _ZN6glitch7collada15animation_track22CInterpreterQuaternionINS1_25CSceneNodeQuaternionMixinIfEEfE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float CInterpreterQuaternion_quatMixF_getKeyBasedValueEx_t(const SAnimationAccessorStandIn& acc, int a2, int a3,
                                                            int a4, float t, float* out) {
     const float* data = floatsOf(acc);
@@ -1047,47 +1051,47 @@ float CInterpreterQuaternion_quatMixF_getKeyBasedValueEx_t(const SAnimationAcces
     return product[0];
 }
 
-//@0x61d2a8
+// 0x61d2a8 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float CVirtualEx_quatMixF_getKeyBasedValue_t(int self, const SAnimationAccessorStandIn& acc, int a3, int a4, int a5,
                                              float a6, float* a7) {
     (void)self;
     return CInterpreterQuaternion_quatMixF_getKeyBasedValueEx_t(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x61d2cc
+// 0x61d2cc _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_fS6_EEEELi3EfEEfLi4ENS1_17SUseDefaultValuesILi3EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float CInterpreter_f4_m3_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4,
                                                     float t, float* out) {
     return interp2F4<3>(acc, a2, a3, a4, t, out);
 }
 
-//@0x61d3ac
+// 0x61d3ac _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi3EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float CVirtualEx_f4_m3_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                                 int a5, float a6, float* a7) {
     (void)self;
     return CInterpreter_f4_m3_getKeyBasedValueEx_interp2(acc, a3, a4, a5, a6, a7);
 }
 
-//@0x61d3d0
+// 0x61d3d0 _ZN6glitch7collada15animation_track13CApplyValueExIfNS1_6CMixinIfLi1ENS1_17SMaterialSetParamINS1_15SAnimationTypesIffEEEELin1EfEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CApplyValueEx_f1_mixm1_applyKeyBasedValueEx(const SAnimationAccessorStandIn& acc, int a2,
                                                 MaterialParamsStandIn* params, ApplicatorInfoStandIn* info) {
     const float value = floatsOf(acc)[a2];
     return setParam<float>(params, info, &value);
 }
 
-//@0x61d414
+// 0x61d414 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIfNS1_6CMixinIfLi1ENS1_17SMaterialSetParamINS1_15SAnimationTypesIffEEEELin1EfEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE
 int CVirtualEx_f1_mixm1_applyKeyBasedValue(int self, const SAnimationAccessorStandIn& acc, int a3,
                                            MaterialParamsStandIn* a4, ApplicatorInfoStandIn* a5) {
     (void)self;
     return CApplyValueEx_f1_mixm1_applyKeyBasedValueEx(acc, a3, a4, a5);
 }
 
-//@0x61d428
+// 0x61d428 _ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_fS6_EEEELi1EfEEfLi4ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv
 float CInterpreter_f4_m1_getKeyBasedValueEx_interp2(const SAnimationAccessorStandIn& acc, int a2, int a3, int a4,
                                                     float t, float* out) {
     return interp2F4<1>(acc, a2, a3, a4, t, out);
 }
 
-//@0x61d504
+// 0x61d504 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi1EfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiifPv
 float CVirtualEx_f4_m1_getKeyBasedValue_interp2(int self, const SAnimationAccessorStandIn& acc, int a3, int a4,
                                                 int a5, float a6, float* a7) {
     (void)self;

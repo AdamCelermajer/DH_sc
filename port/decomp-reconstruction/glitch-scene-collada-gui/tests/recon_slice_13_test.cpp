@@ -79,6 +79,28 @@ int setParameterCvtVec2(void*, std::uint16_t id, int, const float* value) {
 
 }  // namespace glitch::collada::recon_13
 
+namespace glitch::collada::recon_13 {
+// Test doubles for the accessor, blender and applicator externals that the
+// partial rows call. The test never reaches them, so they only satisfy the link.
+float applicatorLightColorApplyValueEx(int, const std::uint8_t*) { return 0.0f; }
+void blenderQuatGetBlendedValueEx(const void*, const void*, int, float*) {}
+void blenderQuatGetAddedValueEx(const void*, const void*, int, float*) {}
+void* interpPosYFloat3Ptr(SAnimationAccessor*, int, int, void*) { return nullptr; }
+float interpPosYFloat3(SAnimationAccessor*, int, int, int, float, void*) { return 0.0f; }
+void* interpPosZFloat3Ptr(SAnimationAccessor*, int, void*) { return nullptr; }
+float interpPosZFloat3(SAnimationAccessor*, int, int, float, void*) { return 0.0f; }
+int interpQuatMixinFloat4(SAnimationAccessor*, int, int, float, float*) { return 0; }
+int interpQuatMixinShort4(SAnimationAccessor*, int, float*) { return 0; }
+int interpQuatMixinShort4T(SAnimationAccessor*, int, int, float, float*) { return 0; }
+int interpQuatMixinChar4(SAnimationAccessor*, int, float*) { return 0; }
+int interpQuatMixinChar4T(SAnimationAccessor*, int, int, float, float*) { return 0; }
+int interpQuatAngleFloat(SAnimationAccessor*, int, float*) { return 0; }
+int interpQuatAngleFloatT(SAnimationAccessor*, int, int, float, float*) { return 0; }
+int interpQuatAngleShort(SAnimationAccessor*, int, float*) { return 0; }
+int interpQuatAngleShortT(SAnimationAccessor*, int, int, float, float*) { return 0; }
+int interpQuatAngleChar(SAnimationAccessor*, int, float*) { return 0; }
+}  // namespace glitch::collada::recon_13
+
 int main() {
     gOutputs[0].values = gFloatValues;
 
