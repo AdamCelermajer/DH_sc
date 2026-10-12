@@ -23594,6 +23594,9 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
   return c.field_count==1&&native_script_name_field(c,0);
+ case 27: // SetFaeryState(I index, I state)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
  case 44: // KillActor(S)
   return c.field_count==1&&native_script_name_field(c,0);
  case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
@@ -23906,6 +23909,20 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    native_script_moves.push_back(move);
    *handle=native_script_moves.size();
    return 2;
+  }
+  case 27: {
+   // Script_SetFaeryState::Execute 0x45f6c8 -> Character::SetFaeryState(local
+   // Player, index, state) 0x3ae7d4 -> SG_SetFaerieState. Its tutorial branch
+   // (index != 0, state == 1, offline, Normal difficulty) starts
+   // cinematic_Tuto_faery and clears settings tutorial byte 2 first. That byte
+   // lives in OriginalUiSession settings with no reachable read accessor, so
+   // that combination stays unsupported instead of skipping the cutscene.
+   const auto index=c.fields[0].value.i32,state=c.fields[1].value.i32;
+   if(index!=0&&state==1&&!native_host_online_v1()&&native_save_difficulty==0)return -2;
+   if(!prince_combat.savegame||native_save_difficulty<0||native_save_difficulty>2)return -1;
+   std::string error;
+   return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
+       std::uint32_t(native_save_difficulty),error)?1:-1;
   }
   default:return -2;
   }
