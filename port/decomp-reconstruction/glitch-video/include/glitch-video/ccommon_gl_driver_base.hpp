@@ -1,0 +1,122 @@
+// glitch::video::CCommonGLDriverBase: GL driver state shared by the GLES1/GLES2
+// back ends. Only the state getters are reconstructed here. Member names come
+// from the accessor names; the offsets are the original ones.
+#pragma once
+
+#include <cstdint>
+
+#include "glitch-video/deps/glitch_core.hpp"
+#include "glitch-video/deps/glitch_video_types.hpp"
+
+namespace glitch::video {
+
+class CCommonGLDriverBase {
+public:
+    class CBufferBase {
+    public:
+        void* getMappedPtr() const;  // 0x6dcbe4
+    private:
+        void* m_mappedPtr = nullptr;  // +0x1c
+    };
+
+    class CTextureBase {
+    public:
+        void* getMappedPtr() const;  // 0x6dcbec
+        void unmapImpl() const;      // 0x6dcbf4
+    };
+
+    class CFramebufferBase {
+    public:
+        void unbind();               // 0x6dcbf8
+    };
+
+    class CRenderTargetBase {
+    public:
+        E_PIXEL_FORMAT getColorFormat() const;  // 0x6dcd4c
+    private:
+        uint8_t m_colorFormat = 0;   // +0x58, byte
+    };
+
+    virtual ~CCommonGLDriverBase() = default;
+
+    bool getBlendEnable() const;               // 0x6dcde8
+    E_BLEND_EQUATION getBlendEquation() const; // 0x6dce24
+    void getBlendFunc(E_BLEND_FACTOR& src, E_BLEND_FACTOR& dst) const;  // 0x6dce2c
+    bool getCullFaceEnable() const;            // 0x6dce9c
+    E_FACE_SIDE getCullFace() const;           // 0x6dcea4
+    E_FACE_WINDING getFrontFace() const;       // 0x6dceac
+    bool getDepthTestEnable() const;           // 0x6dceb4
+    E_COMPARE_FUNC getDepthFunc() const;       // 0x6dcebc
+    bool getDepthMask() const;                 // 0x6dcec4
+    float getClearDepth() const;               // 0x6dcecc
+    void getDepthRange(float& nearValue, float& farValue) const;  // 0x6dced4
+    bool getDitherEnable() const;              // 0x6dcee8
+    float getLineWidth() const;                // 0x6dcef0
+    float getPointSize() const;                // 0x6dcef8
+    E_POLYGON_MODE getPolygonModeFront() const;  // 0x6dcf00
+    E_POLYGON_MODE getPolygonModeBack() const;   // 0x6dcf08
+    bool getPolygonOffsetFillEnable() const;   // 0x6dcf10
+    bool getPolygonOffsetLineEnable() const;   // 0x6dcf18
+    bool getPolygonOffsetPointEnable() const;  // 0x6dcf20
+    void getPolygonOffset(float& factor, float& units) const;  // 0x6dcf28
+    bool getSampleAlphaToCoverageEnable() const;  // 0x6dcf3c
+    bool getSampleCoverageEnable() const;      // 0x6dcf44
+    bool getSampleCoverageInvert() const;      // 0x6dcf4c
+    float getSampleCoverageValue() const;      // 0x6dcf54
+    bool getScissorEnable() const;             // 0x6dcf5c
+    const core::rect<int32_t>& getScissor() const;  // 0x6dcf64
+    bool getStencilTestEnable() const;         // 0x6dcf6c
+    uint8_t getStencilFunc() const;            // 0x6dcf74
+    uint8_t getStencilFuncRef(bool*) const;    // 0x6dcf7c
+    uint8_t getStencilFuncMask(bool*) const;   // 0x6dcf84
+    uint8_t getStencilOpFail() const;          // 0x6dcf8c
+    uint8_t getStencilOpZFail() const;         // 0x6dcf94
+    uint8_t getStencilOpZPass() const;         // 0x6dcf9c
+    uint8_t getStencilMask(bool*) const;       // 0x6dcfa4
+    uint8_t getClearStencil() const;           // 0x6dcfac
+    E_PIXEL_FORMAT getColorFormat() const;     // 0x6dcdcc
+
+private:
+    // Offsets are the original ones; the accessor names give the member names.
+    bool m_blendEnable = false;                // +0x1c4
+    bool m_cullFaceEnable = false;             // +0x1c5
+    bool m_depthTestEnable = false;            // +0x1c6
+    bool m_depthMask = false;                  // +0x1c7
+    bool m_ditherEnable = false;               // +0x1c8
+    E_BLEND_FACTOR m_blendSrc = 0;             // +0x200 (byte)
+    E_BLEND_FACTOR m_blendDst = 0;             // +0x201 (byte)
+    E_BLEND_EQUATION m_blendEquation = 0;      // +0x1fc
+    E_FACE_SIDE m_cullFace = 0;                // +0x1d8
+    E_FACE_WINDING m_frontFace = 0;            // +0x1dc
+    E_COMPARE_FUNC m_depthFunc = 0;            // +0x1e0
+    float m_clearDepth = 0.0f;                 // +0x20c
+    float m_depthRangeNear = 0.0f;             // +0x210
+    float m_depthRangeFar = 0.0f;              // +0x214
+    float m_lineWidth = 0.0f;                  // +0x218
+    float m_pointSize = 0.0f;                  // +0x21c
+    E_POLYGON_MODE m_polygonModeFront = 0;     // +0x1e4
+    E_POLYGON_MODE m_polygonModeBack = 0;      // +0x1e8
+    bool m_polygonOffsetFillEnable = false;    // +0x1cc
+    bool m_polygonOffsetLineEnable = false;    // +0x1cd
+    bool m_polygonOffsetPointEnable = false;   // +0x1ce
+    float m_polygonOffsetFactor = 0.0f;        // +0x220
+    float m_polygonOffsetUnits = 0.0f;         // +0x224
+    bool m_sampleAlphaToCoverageEnable = false;  // +0x1d0
+    bool m_sampleCoverageEnable = false;      // +0x1d1
+    bool m_sampleCoverageInvert = false;       // +0x1d2
+    float m_sampleCoverageValue = 0.0f;        // +0x228
+    bool m_scissorEnable = false;              // +0x1d3
+    core::rect<int32_t> m_scissor{};           // +0x22c
+    bool m_stencilTestEnable = false;          // +0x1d4
+    uint8_t m_stencilFunc = 0;                 // +0x1f0
+    uint8_t m_stencilFuncRef = 0;              // +0x1f1
+    uint8_t m_stencilFuncMask = 0;             // +0x1f2
+    uint8_t m_stencilOpFail = 0;               // +0x1f4
+    uint8_t m_stencilOpZFail = 0;              // +0x1f5
+    uint8_t m_stencilOpZPass = 0;              // +0x1f6
+    uint8_t m_stencilMask = 0;                 // +0x1f8
+    uint8_t m_clearStencil = 0;                // +0x1f9
+    E_PIXEL_FORMAT m_colorFormat = 0;          // +0x284
+};
+
+}  // namespace glitch::video
