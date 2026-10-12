@@ -2,7 +2,7 @@
 
 #include "net-session-online/glx_player_user_friend.hpp"
 
-// 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeE14tPROTOCOL_TYPE
+// 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj
 // The table is CSWTCH.901 in the binary (DCD 1, 2, 1, 0; see ida-asm/asm_chunk_018.asm).
 std::int32_t CMatchingGLLive::GetTransportType(std::uint32_t protocolType) {
     static const std::int32_t kTransportTypes[3] = {1, 2, 1};
@@ -12,7 +12,7 @@ std::int32_t CMatchingGLLive::GetTransportType(std::uint32_t protocolType) {
     return kTransportTypes[protocolType];
 }
 
-// 0x81c098 _ZN15CMatchingGLLive15GetGLFriendsCountEv
+// 0x81c098 _ZNK15CMatchingGLLive17GetGLFriendsCountEv
 // Deviation: the original calls GetFriendsCount on the friend pointer without a null check
 // (the decompiled result is the pointer itself, which is 0 when the list is null). This port
 // returns 0 in that case.
@@ -23,7 +23,7 @@ std::int32_t CMatchingGLLive::GetGLFriendsCount() const {
     return glxUserFriend_->GetFriendsCount();
 }
 
-// 0x81c0ac _ZN15CMatchingGLLive15GetGLFriendStateEi
+// 0x81c0ac _ZNK15CMatchingGLLive16GetGLFriendStateEi
 // Deviation: a null list gives -1 (the original would call through a null pointer).
 std::int32_t CMatchingGLLive::GetGLFriendState(std::int32_t index) const {
     if (index >= 0 && index < GetGLFriendsCount()) {
@@ -32,7 +32,7 @@ std::int32_t CMatchingGLLive::GetGLFriendState(std::int32_t index) const {
     return -1;
 }
 
-// 0x81c0e8 _ZN15CMatchingGLLive17SendGLFriendInviteEPc
+// 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc
 // Partial: sendAddUserFriend returns void in glx_player_user_friend.hpp, so the original's
 // return value is not produced. A null list sends nothing.
 std::int32_t CMatchingGLLive::SendGLFriendInvite(const char* name) const {
@@ -42,7 +42,7 @@ std::int32_t CMatchingGLLive::SendGLFriendInvite(const char* name) const {
     return 0;
 }
 
-// 0x81c0fc _ZN15CMatchingGLLive15GetGLFriendsNameEi
+// 0x81c0fc _ZNK15CMatchingGLLive16GetGLFriendsNameEi
 // Deviation: a null list gives nullptr (the original would call through a null pointer).
 const char* CMatchingGLLive::GetGLFriendsName(std::int32_t index) const {
     if (index >= 0 && index < GetGLFriendsCount()) {

@@ -82,16 +82,16 @@ public:
     void InitGLFriends() const;
     // The four GL friend accessors below use the friend list at +0x6700 (glxUserFriend_),
     // which may be null.
-    // 0x81c098 _ZN15CMatchingGLLive15GetGLFriendsCountEv: count, or 0 when the list is null.
+    // 0x81c098 _ZNK15CMatchingGLLive17GetGLFriendsCountEv: count, or 0 when the list is null.
     std::int32_t GetGLFriendsCount() const;
-    // 0x81c0ac _ZN15CMatchingGLLive15GetGLFriendStateEi: state of a friend, -1 out of range.
+    // 0x81c0ac _ZNK15CMatchingGLLive16GetGLFriendStateEi: state of a friend, -1 out of range.
     std::int32_t GetGLFriendState(std::int32_t index) const;
-    // 0x81c0e8 _ZN15CMatchingGLLive17SendGLFriendInviteEPc. Partial: the original returns the
+    // 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc. Partial: the original returns the
     // result of sendAddUserFriend; the port's version returns void, so this returns 0.
     std::int32_t SendGLFriendInvite(const char* name) const;
-    // 0x81c0fc _ZN15CMatchingGLLive15GetGLFriendsNameEi: name of a friend, null out of range.
+    // 0x81c0fc _ZNK15CMatchingGLLive16GetGLFriendsNameEi: name of a friend, null out of range.
     const char* GetGLFriendsName(std::int32_t index) const;
-    // 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeE14tPROTOCOL_TYPE: table {1, 2, 1}, 0 above 2.
+    // 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj: table {1, 2, 1}, 0 above 2.
     static std::int32_t GetTransportType(std::uint32_t protocolType);
     // 0x81bc9c _ZN15CMatchingGLLive19GLFriendsListLoadedEv
     bool GLFriendsListLoaded() const { return glFriendsListLoaded_ != 0; }
