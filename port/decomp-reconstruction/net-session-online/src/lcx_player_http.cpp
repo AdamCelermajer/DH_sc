@@ -64,9 +64,10 @@ LCXPlayerHttp::LCXPlayerHttp(const char* serverAddress, const char* phpScriptVer
       phpAddress_(CopyText(phpAddress)) {}
 
 // 0x89d4fc _ZN13LCXPlayerHttpD1Ev
-// Partial: the original calls LCXPlayerHttp::Cancel (0x89d42c) first, which is not ported
-// here. The owned text and buffers are released by their unique_ptr members.
+// Cancels the request first (LCXPlayerHttp::Cancel, 0x89d42c), then deletes the socket. The
+// owned text and buffers are released by their unique_ptr members.
 LCXPlayerHttp::~LCXPlayerHttp() {
+    Cancel();
     delete socket_;
 }
 

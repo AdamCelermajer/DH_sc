@@ -71,8 +71,8 @@ public:
     // 0x8a01ac _ZN15LCXPlayerSocket13SetSocketTypeEi
     void SetSocketType(std::int32_t type) { socketType_ = type; }
     // 0x8a02fc _ZN15LCXPlayerSocket11SetAcceptIPEPc
-    // Partial: the original copies with LC_API_STRNEW (0x89d31c, queued). This copy uses
-    // the same new[] logic, and the previous address is released (the original leaks it).
+    // The copy follows LC_API_STRNEW (0x89d31c, lc_api_net.hpp): null gives null. The previous
+    // address is released (the original leaks it).
     void SetAcceptIP(const char* address);
 
     // 0x8a05b8 _ZN15LCXPlayerSocket15ParseHttpHeaderEPc: position of the lower-cased name

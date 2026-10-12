@@ -22,9 +22,8 @@ public:
     // 0x89d950 and 0x89d9f8 _ZN13LCXPlayerHttpC1EPcS0_S0_ (C2 is the same body).
     // Partial: the socket comes from LCXPlayerSocketFactory, which is partial.
     LCXPlayerHttp(const char* serverAddress, const char* phpScriptVersion, const char* phpAddress);
-    // 0x89d4fc _ZN13LCXPlayerHttpD1Ev. Partial: the original calls LCXPlayerHttp::Cancel
-    // (0x89d42c) first, which is not ported here, so no Cancel runs. D2 (0x89d5e0) has the
-    // same body; D0 (0x89d5c4) is the deleting variant.
+    // 0x89d4fc _ZN13LCXPlayerHttpD1Ev: calls Cancel (0x89d42c), then deletes the socket.
+    // D2 (0x89d5e0) has the same body; D0 (0x89d5c4) is the deleting variant.
     ~LCXPlayerHttp() override;
     LCXPlayerHttp(const LCXPlayerHttp&) = delete;
     LCXPlayerHttp& operator=(const LCXPlayerHttp&) = delete;
