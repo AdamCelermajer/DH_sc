@@ -18,10 +18,16 @@ bool matches_bounds(const crypt_module_bounds_registry_v1::Owner& bounds,
             zone.module_index != bounds.modules[index].module_index ||
             std::strcmp(zone.module_name, bounds.modules[index].module_name.c_str()) != 0)
             return false;
-        for (unsigned axis = 0; axis != 3; ++axis)
-            if (zone.relative_minimum[axis] != bounds.modules[index].bounds.minimum[axis] ||
-                zone.relative_maximum[axis] != bounds.modules[index].bounds.maximum[axis])
+        // Zone::InitWithBoundingBox stores box - center as the relative
+        // extents and places the zone at the box center (same float ops).
+        for (unsigned axis = 0; axis != 3; ++axis) {
+            const float minimum = bounds.modules[index].bounds.minimum[axis];
+            const float maximum = bounds.modules[index].bounds.maximum[axis];
+            const float center = (maximum + minimum) * 0.5f;
+            if (zone.relative_minimum[axis] != minimum - center ||
+                zone.relative_maximum[axis] != maximum - center)
                 return false;
+        }
     }
     return true;
 }

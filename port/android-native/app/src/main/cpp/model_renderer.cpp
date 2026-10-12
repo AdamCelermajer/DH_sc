@@ -3236,13 +3236,24 @@ std::int32_t NativeCryptRoomRuntime::transition_service(
  }
  if(request->actor)return 1;
  bool changed=false;
- if(request->operation==Operation::add_room_object) {
-  return self->manager.add_room_object(request->room_zone,&changed)==
-             dh2::object_manager_runtime_owner_v1::Status::ok&&changed?0:1;
- }
- if(request->operation==Operation::remove_room_object) {
-  return self->manager.remove_room_object(request->room_zone,&changed)==
-             dh2::object_manager_runtime_owner_v1::Status::ok?0:1;
+ if(request->operation==Operation::add_room_object||
+    request->operation==Operation::remove_room_object) {
+  // RoomZone::Activate/DeActivate call ObjectManager::AddRoomObjects/
+  // DelRoomObjects on the zone's member list (this+916), in list order.
+  // The RoomZone object itself is not on the RoomObjectList.
+  dh2::crypt_room_zone_owner_v1::ZoneView view{};
+  bool found_zone=false;
+  for(std::size_t i=0;i<self->zones.zone_count()&&!found_zone;++i)
+   if(self->zones.zone_at(i,&view)&&view.identity==request->room_zone)found_zone=true;
+  if(!found_zone)return 1;
+  const bool adding=request->operation==Operation::add_room_object;
+  for(std::size_t m=0;m<view.member_count;++m) {
+   const auto status=adding
+       ?self->manager.add_room_object(view.members[m],&changed)
+       :self->manager.remove_room_object(view.members[m],&changed);
+   if(status!=dh2::object_manager_runtime_owner_v1::Status::ok)return 1;
+  }
+  return 0;
  }
  return 1;
 }
@@ -5094,9 +5105,9 @@ bool NativeCryptRoomRuntime::initialize(
    actor->room_zone_2f4=0;actor->in_room_list_2ef=0;
    actor->zoning_enabled_2ee=1;actor->in_zone_2f0=0;actor->visible_80=1;
    actor->visual_object_2d8=actor->identity; // opaque renderer adapter token
-   // SWAMP's source MLX has no RoomZone root and its MGPs have no RoomZone
-   // objects. Do not synthesize one zone per Module; ordinary Characters
-   // follow ObjectManager::InitPost's updatable-object list directly.
+   // Each static MLX Module (SWAMP, DARKWOOD, ...) owns one RoomZone created by
+   // Module::InitPost. Characters start with updates disabled and are enabled
+   // by RoomZone enrollment (ZoneEntered / zone_state_callback), as in Crypt.
    actor->source_room_zone_managed=use_source_room_zones;
    actor->source_updates_enabled=!use_source_room_zones;
    actor->renderer_visible=true;
@@ -16642,7 +16653,11 @@ bool construct_direct_source_character_impl_v1(ObjectActor& actor,std::string& e
 
 void initialize_active_crypt_room_zones(AAssetManager* assets) {
  const bool swamp_static=static_mlx_level_active();
- if(active_crypt_module_bounds.modules.empty()&&!swamp_static)return;
+ // Module::InitPost gives every static MLX Module with a visual scene node
+ // one RoomZone (Zone::InitWithBoundingBox over the visual AABB). The same
+ // owner serves the generated Crypt layout, so Crypt stays on this path.
+ const bool room_zones=!active_crypt_module_bounds.modules.empty();
+ if(!room_zones&&!swamp_static)return;
  // ObjectBase::InitPost initializes activation/deactivation ConditionData for
  // every authored row before ObjectManager::TestEnableCondition. The same
  // immutable source table backs the existing LevelVM condition evaluator;
@@ -16693,7 +16708,7 @@ void initialize_active_crypt_room_zones(AAssetManager* assets) {
                            active_level_assets.generated_crypt_layout
                              ?active_level_assets.generated_crypt_handle_ledger.get()
                              :active_level_assets.source_level_handle_ledger.get(),
-                           !swamp_static,
+                           room_zones,
                            error))
   throw std::runtime_error(error.empty()?"Source RoomZone initialization failed":error);
  active_crypt_room_runtime=std::move(candidate);
@@ -35196,14 +35211,15 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
     active.player_character!=prince_character.identity()||
     active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(manager)||
     !actor_level_fields_ready)return false;
- // Direct SWAMP Characters have no RoomZone owner. Their source MLX row,
- // handle/module provenance, Character table, and source AI classification
- // bind them to the same active Level ObjectManager as Crypt actors.
+ // Direct SWAMP Characters are zoned like Crypt actors: a zone-managed
+ // Character is eligible only while its RoomZone enrolled it (updates on).
+ // Their source MLX row, handle/module provenance, Character table, and
+ // source AI classification bind them to the same active Level ObjectManager.
  const auto source_npc=[&](ObjectActor& candidate) {
   const bool swamp=static_mlx_level_active()&&
       candidate.kind==1&&candidate.source_handle>=0&&
       candidate.source_object_module_id>=0&&candidate.character_table_id>=0&&
-      candidate.source_updates_enabled&&!candidate.source_room_zone_managed&&
+      candidate.source_updates_enabled&&
       native_character_classification(candidate,
         dh2::character_ai_classification::Query::monster)!=0;
   const bool crypt=active_level_assets.name=="GOTHICUS_CRYPT_01"&&
