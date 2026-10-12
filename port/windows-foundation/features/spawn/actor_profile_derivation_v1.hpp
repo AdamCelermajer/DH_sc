@@ -52,6 +52,13 @@ bool derive_melee_actor_v1(const ProfileDerivationTablesV1& tables, const std::s
 // Attack/0 group {0}, source damage marker attack_mainhand, retained phase clock,
 // motion root auto. The attack group choice is the authored default, not an IDA
 // selection rule (see PROFILES-report.md).
+// B155: appends one named state holding the given AnimTable sequences (the same step emission as the AnimTable states
+// above) to a derived actor, so source programs that address AnimTable rows outside the profile states (a monster's
+// SkillTree Anim roots such as SwampKingAttack01..04) have their clips and sequence metadata in the actor's own bank.
+// The state name must not exist yet.
+bool append_sequence_state_v1(const ProfileDerivationTablesV1& tables, const std::string& state,
+                              const std::vector<std::int32_t>& sequence_ids, OriginalMeleeActor& actor, std::string& error);
+
 bool derive_enemy_combat_policy_v1(const ProfileDerivationTablesV1& tables, const std::string& row,
                                    CombatSessionProfile& output, std::string& error);
 

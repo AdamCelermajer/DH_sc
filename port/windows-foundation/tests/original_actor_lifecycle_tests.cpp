@@ -50,6 +50,20 @@ int main(){try{
   check(log.empty(),"Restore registration must not replay lifecycle effects");
   check(restored.status(77)->state==17&&restored.status(77)->flags==0x1300&&!restored.status(77)->enabled&&!restored.combat_enabled(77),"Restored actor must be PreSpawn17");
   check(!restored.restore_pre_spawn(77,newer,false,e),"Duplicate restore registration must be refused");
+  // B155: the Idle-preset campaign actor (auto_spawn=0, e.g. the Swamp King's intro lizards) keeps its own baseline. After the
+  // restore it registers at Idle3 (or Limbus0 when it was saved in Limbus) without effects, so the intro's PutCharacterInLimbus works.
+  {check(restored.idle_baseline_ids()==std::vector<ActorId>{78},"The Idle-preset actor keeps a non-preset baseline across a restore");
+   ActorState plainAgain;plainAgain.id=78;expected=&plainAgain;log.clear();
+   check(!restored.restore_idle_or_limbus(77,newer,true,false,e),"A PreSpawn-preset actor has no Idle baseline");
+   check(restored.restore_idle_or_limbus(78,plainAgain,true,false,e),e);
+   check(log.empty(),"Idle restore registration must not replay lifecycle effects");
+   check(restored.status(78)->state==3&&restored.status(78)->flags==0x2380&&restored.status(78)->enabled&&restored.combat_enabled(78),"Restored Idle actor is Idle3");
+   check(!restored.restore_idle_or_limbus(78,plainAgain,true,false,e),"Duplicate Idle restore registration must be refused");
+   check(restored.put_limbus(78,e)&&restored.status(78)->state==0&&!log.empty(),"Script_PutCharacterInLimbus reaches the restored Idle actor: "+e);
+   restored.remove(78);log.clear();
+   check(restored.restore_idle_or_limbus(78,plainAgain,true,true,e)&&restored.status(78)->state==0&&!restored.status(78)->enabled&&log.empty(),"A saved Limbus actor restores at Limbus0");
+   check(restored.put_idle(78,e)&&restored.status(78)->state==3,"A restored Limbus actor can be put back in Idle: "+e);
+   restored.remove(78);expected=&newer;}
   // B145: anchor check against the preserved authored baseline (first axis-by-axis tolerance, no baseline = false).
   {ActorState probe=newer;probe.transform.position=facts.initial_transform.position;
    check(restored.at_pre_spawn_anchor(probe),"Actor on its authored anchor");
@@ -61,7 +75,7 @@ int main(){try{
   check(restored.status(77)->state==1&&!log.empty(),"Script_SpawnCharacter must reach the Spawn transition on a restored actor");
   restored.detach_for_restore();expected=&third;
   check(restored.restore_pre_spawn(77,third,true,e),e);check(restored.status(77)->enabled,"Second restore keeps the baseline and takes the current enable fact");
-  restored.clear();check(restored.pre_spawn_baseline_ids().empty()&&!restored.status(77),"clear() is the full reset");
+  restored.clear();check(restored.pre_spawn_baseline_ids().empty()&&restored.idle_baseline_ids().empty()&&!restored.status(77),"clear() is the full reset");
  }
  // B142: a death-checkpoint reload restores saved state 17 over a Character that has since spawned (Character::Deserialize ->
  // SM_SetPreSpawnState). Only the CSPreSpawn Focus effects run (no old-state Blur: the restored data replaced what it undoes), the record

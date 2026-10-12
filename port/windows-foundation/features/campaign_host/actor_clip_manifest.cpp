@@ -61,4 +61,18 @@ std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRunti
     return spawned;
 }
 
+std::set<std::string> collect_script_idled_actors(const OriginalCampaignRuntime& runtime) {
+    // B155: kind 31 PutCharacterInIdle and kind 44 KillActor name the actor at string 12.
+    std::set<std::string> named;
+    for (const auto& script : runtime.scripts())
+        for (const auto& command : script.commands) {
+            if (command.kind != 31 && command.kind != 44) continue;
+            const auto name = command.strings.find(12u);
+            if (name != command.strings.end() && !name->second.empty() && name->second != "All" &&
+                name->second != "LocalPlayer" && name->second != "Player")
+                named.insert(name->second);
+        }
+    return named;
+}
+
 } // namespace dh::foundation::campaign_host

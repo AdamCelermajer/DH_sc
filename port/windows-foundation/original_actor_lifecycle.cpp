@@ -20,6 +20,7 @@ bool OriginalActorLifecycle::add(ActorState&actor,const OriginalLifecycleFacts&f
   if(found){if(!std::isfinite(height)){error="Original floor height is nonfinite";return false;}record.facts.initial_transform.position[2]=height;}
  }catch(const std::exception&e){error=e.what();return false;}
  if(preset_pre_spawn)pre_spawn_baseline_[actor.id]=record.facts; // B141: survives detach_for_restore()
+ else idle_baseline_[actor.id]=record.facts; // B155: survives detach_for_restore() too (Idle3 campaign actors)
  auto entry=records_.emplace(actor.id,std::move(record));auto&r=entry.first->second;
  // InitPost SetInitialPosition -> SetPosition(initial,true), snapshot rotation.
  if(!call(r,OriginalLifecycleOperation::restore_initial_position,-1,error))return false;
@@ -91,10 +92,25 @@ bool OriginalActorLifecycle::animation_event(ActorId id,const std::string&name,s
 const OriginalLifecycleStatus* OriginalActorLifecycle::status(ActorId id)const{auto i=records_.find(id);return i==records_.end()?nullptr:&i->second.status;}
 bool OriginalActorLifecycle::combat_enabled(ActorId id)const{auto*s=status(id);return s&&!s->failed&&s->enabled&&s->state==3;}
 void OriginalActorLifecycle::remove(ActorId id){records_.erase(id);}
-void OriginalActorLifecycle::clear(){records_.clear();pre_spawn_baseline_.clear();}
+void OriginalActorLifecycle::clear(){records_.clear();pre_spawn_baseline_.clear();idle_baseline_.clear();}
 void OriginalActorLifecycle::detach_for_restore(){records_.clear();}
 std::vector<ActorId> OriginalActorLifecycle::pre_spawn_baseline_ids()const{
  std::vector<ActorId> ids;ids.reserve(pre_spawn_baseline_.size());for(const auto&entry:pre_spawn_baseline_)ids.push_back(entry.first);return ids;
+}
+std::vector<ActorId> OriginalActorLifecycle::idle_baseline_ids()const{
+ std::vector<ActorId> ids;ids.reserve(idle_baseline_.size());for(const auto&entry:idle_baseline_)ids.push_back(entry.first);return ids;
+}
+// B155: see the header. Saved Limbus/Despawn/Dead (0/2/12) -> Limbus0 (CSLimbus focus: flags 0, disabled, no collisions); any other
+// non-PreSpawn saved state -> Idle3 (CSIdle focus flags 0x2380). No Blur/Focus effect runs: the restored actor data already has them.
+bool OriginalActorLifecycle::restore_idle_or_limbus(ActorId id,ActorState&actor,bool enabled,bool limbus,std::string&error){
+ const auto baseline=idle_baseline_.find(id);
+ if(actor.id!=id||baseline==idle_baseline_.end()){error="Restored actor has no Idle-preset lifecycle baseline";return false;}
+ if(records_.count(id)){error="Invalid or duplicate lifecycle actor identity";return false;}
+ if(!services_.invoke){error="Original actor lifecycle effect provider unavailable";return false;}
+ Record record;record.actor=&actor;record.facts=baseline->second;
+ if(limbus){record.status.state=0;record.status.flags=0;record.status.enabled=false;record.status.collisions_enabled=false;}
+ else{record.status.state=3;record.status.flags=0x2380;record.status.enabled=enabled;record.status.collisions_enabled=enabled;}
+ records_.emplace(id,std::move(record));error.clear();return true;
 }
 // B142: Character::Deserialize 0x3a6210 on a LIVE Character whose saved state is Spawn(1)/PreSpawn(17) (the death-checkpoint reload)
 // calls SM_SetPreSpawnState -> _SetState(17). The saved Character data (flags, position, vitals, dead bit, physical presence)

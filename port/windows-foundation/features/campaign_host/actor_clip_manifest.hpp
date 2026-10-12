@@ -37,6 +37,12 @@ std::vector<SceneObjectClipRequest> collect_scene_object_clip_requests(const Ori
 // SkipCutscene_Bugfix, but WitchTeleport puts her in Idle by name and Return_Cinematic kills her by name, so she stays
 // a gameplay actor. Names come from the authored scripts only.
 std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRuntime& runtime);
+// B155: actors that a script puts in Idle (kind 31) or kills (kind 44) by name, whether or not a script spawns them
+// ("All"/player names excluded). The host treats such a placed Monster declaration (auto_spawn=0, AI Type 4) that a
+// script also animates as a gameplay actor, not a cutscene prop: the Swamp King is placed in the boss room and
+// Swamp_Serpent_Intro ends with his PutCharacterInIdle (likewise the Darkwood Dark Queen, HG2_boss_intro). His intro
+// lizards are only shown, animated and put in Limbus, so they stay props; companions/NPCs are not Monster rows.
+std::set<std::string> collect_script_idled_actors(const OriginalCampaignRuntime& runtime);
 
 // The visual clip name of a dictionary clip (the same name everywhere: profile bank, player bank, the session).
 std::string actor_clip_name(std::int32_t dictionary_id);

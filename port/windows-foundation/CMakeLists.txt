@@ -948,6 +948,17 @@ target_link_libraries(runtime_ranged_skill_monster_v1_tests PRIVATE foundation_r
 add_test(NAME runtime_ranged_skill_monster_v1 COMMAND runtime_ranged_skill_monster_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.6/assets"
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+# B155: Mud Lord / swampking_core.luac boss AI (dive/emerge cycle, melee, spit projectile, AOE emerge) over the shared Session,
+# plus the recovered Swamp King encounter plan decisions (features/bosses/runtime_boss_encounter_plan_v1).
+add_library(foundation_runtime_bosses STATIC features/bosses/runtime_boss_encounter_plan_v1.cpp features/bosses/runtime_swampking_core_ai_v1.cpp
+  features/bosses/runtime_timer_trap_v1.cpp)
+target_link_libraries(foundation_runtime_bosses PUBLIC foundation_runtime_ranged_skill foundation_runtime_quests)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_bosses)
+add_executable(runtime_swampking_core_ai_v1_tests features/bosses/runtime_swampking_core_ai_v1_tests.cpp)
+target_link_libraries(runtime_swampking_core_ai_v1_tests PRIVATE foundation_runtime_bosses)
+add_test(NAME runtime_swampking_core_ai_v1 COMMAND runtime_swampking_core_ai_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.6/assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
 add_executable(spawn_character_v1_tests features/spawn/spawn_character_v1_tests.cpp)
 target_link_libraries(spawn_character_v1_tests PRIVATE foundation_runtime_spawn)
 add_test(NAME spawn_character_v1 COMMAND spawn_character_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")

@@ -84,6 +84,9 @@ struct CampaignHostServices {
     // IsDoorClosedActivated returned true and contact/inside state must not advance.
     std::function<bool(const std::string&,bool& suppressed,std::string&)> door_gate_suppressed;
     std::function<bool(std::vector<ActorId>&,std::string&)> all_actors;
+    // B155: the live (not dead) campaign lifecycle actors a script put in Limbus (Character::Serialize keeps SM_GetState 0; the
+    // GameSave actor record has no live-Limbus fact). Unset: component campaign_limbus_v1 is not written.
+    std::function<bool(std::vector<ActorId>&,std::string&)> live_limbus_actors;
     std::function<bool(ActorId,bool& alive,std::int32_t& state,std::string&)> actor_state;
     std::function<bool(ActorId,std::int32_t state,std::string&)> set_actor_state;
     std::function<bool(ActorId,bool wait_for_animation,std::string&)> set_idle;
@@ -224,6 +227,9 @@ public:
     }
     bool persist_lifecycle(PlayableActorWorld& world, std::string& error) const;
     bool restore_lifecycle(const PlayableActorWorld& world, std::string& error);
+    // B155: read component campaign_limbus_v1 (written by persist_lifecycle from services.live_limbus_actors) from a restored
+    // world. Absent component (older save) = empty set; a malformed component fails.
+    static bool read_live_limbus_actors(const PlayableActorWorld& world, std::set<ActorId>& ids, std::string& error);
     // B145 port repair (aborted_scene_repair.hpp): call once after restore_lifecycle and the actor lifecycle restore. Re-arms a
     // consumed save-blocked scene trigger whose spawn target never spawned. The applied stamps are saved in component
     // campaign_repairs_v1 by persist_lifecycle (absent while empty, so unaffected saves stay byte-identical).

@@ -233,6 +233,15 @@ bool OriginalMeleeBindings::add_derived_actor(OriginalMeleeActor actor, std::str
     error.clear();
     return true;
 }
+bool OriginalMeleeBindings::add_actor_state(const std::string& profileId, const std::string& state,
+                                            std::vector<OriginalMeleeSequence> sequences, std::string& error) {
+    const auto actor=actors_.find(profileId);
+    if(actor==actors_.end()) { error="Melee actor is not published: "+profileId; return false; }
+    if(state.empty()||actor->second.states.count(state)) { error="Melee actor state is empty or already present: "+state; return false; }
+    actor->second.states.emplace(state,std::move(sequences));
+    error.clear();
+    return true;
+}
 const OriginalMeleeClip* OriginalMeleeBindings::find_clip(const std::string& uri) const {
     if(uri.empty()) return nullptr;
     const auto found=clips_.find(clip_key(uri)); return found==clips_.end()?nullptr:&found->second;

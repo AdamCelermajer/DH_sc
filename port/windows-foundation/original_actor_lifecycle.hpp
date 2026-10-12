@@ -74,10 +74,19 @@ public:
     // B145: true when the actor still stands on the authored initial anchor of its preset PreSpawn/Limbus baseline
     // (every axis within `tolerance`); false when it has no baseline.
     bool at_pre_spawn_anchor(const ActorState&,float tolerance=2.0f) const;
+    // B155: the other half of the B141 restore. A campaign lifecycle actor whose preset is not PreSpawn/Limbus (auto_spawn=0 placed
+    // Idle3 actors such as the Swamp King and his intro lizards) also loses its borrowed record on a world restore, after which
+    // Script_PutCharacterInLimbus / PutCharacterInIdle on it failed with "Unknown original lifecycle actor" and aborted the cutscene.
+    // Character::Deserialize 0x3a6210 maps a saved Limbus/Despawn/Dead state (0/2/12) to Limbus and every other non-PreSpawn state to
+    // Idle; the restored actor already carries that state's data, so this only re-registers the record (state 0 or 3, the state's
+    // Focus flag values) from the kept authored facts and replays no effect. Requires a kept non-preset baseline and no record.
+    std::vector<ActorId> idle_baseline_ids() const;
+    bool restore_idle_or_limbus(ActorId,ActorState&,bool enabled,bool limbus,std::string& error);
 private:
     struct Record { ActorState* actor=nullptr;OriginalLifecycleFacts facts;OriginalLifecycleStatus status; };
     std::map<ActorId,Record> records_;
     std::map<ActorId,OriginalLifecycleFacts> pre_spawn_baseline_;
+    std::map<ActorId,OriginalLifecycleFacts> idle_baseline_; // B155: non-preset campaign lifecycle actors
     OriginalLifecycleServices services_;
     bool change(Record&,int target,std::string&);
     bool focus(Record&,int target,int previous,bool carried_interactive,std::string&);

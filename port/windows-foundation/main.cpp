@@ -126,6 +126,8 @@
 #include "features/enemy_ai/runtime_enemy_navigation_v1.hpp"
 #include "features/enemy_ai/runtime_enemy_contact_binding_v1.hpp"
 #include "features/enemy_ai/runtime_ranged_skill_monster_v1.hpp" // B154
+#include "features/bosses/runtime_swampking_core_ai_v1.hpp" // B155
+#include "features/bosses/runtime_timer_trap_v1.hpp" // B155
 #include "features/companions/runtime_follower_controller_v1.hpp" // B077 FOLLOW: script-driven companions (follower/attacking_follower/rene)
 #include "features/physics/runtime_session_contact_v1.hpp"
 #include "features/physics/session_actor_transition_v1.hpp"
@@ -1412,7 +1414,7 @@ int main(int argc,char** argv) {
         // P16 OPENING: scripted actor clips (PlayActorAnim) are named clips of their actor's profile (or the local player's
         // visual config) before anything loads. Only under campaign triggers, which is the only player of these clips.
         std::map<std::string,std::vector<std::pair<std::string,std::string>>> scriptClipsByProfile; // P16 OPENING: profile id -> script clips
-        std::set<std::string> scriptControlledActors,scriptGameplayActors; // B080: scriptGameplayActors = script-spawned and never script-retired (moths) -> real combatants
+        std::set<std::string> scriptControlledActors,scriptGameplayActors,scriptIdledActors; // B155: scriptIdledActors = by-name PutCharacterInIdle/KillActor targets; B080: scriptGameplayActors = script-spawned and never script-retired (moths) -> real combatants
         std::set<std::string> scriptVisualOnlyProfiles;
         dh2::data::CharacterTemplateTableV78 populationTemplateTable;
         std::optional<dh2::data::CombatRandom> populationStartupRandom;
@@ -1520,6 +1522,27 @@ int main(int argc,char** argv) {
             else std::cout<<": "<<reason<<'\n';
             rangedSkillDefinitionsByProfile[id]=supported?std::optional<f::enemy_ai::RangedSkillMonsterDefinitionV1>(std::move(definition)):std::nullopt;
         };
+        // B155: CanRangeAttack monsters whose authored AI script is the swampking_core shape (the Mud Lord) get the boss AI owner
+        // (features/bosses/runtime_swampking_core_ai_v1); their SkillTree Anim roots join the derived bank and the PlayAnim clips
+        // join the visual. Without the authored scripts the actor stays the incoming-only receiver above.
+        std::map<std::string,std::optional<f::bosses::SwampkingCoreDefinitionV1>> bossDefinitionsByProfile;
+        const auto bossDefinition=[&](const std::string& id)->const f::bosses::SwampkingCoreDefinitionV1*{
+            const auto known=bossDefinitionsByProfile.find(id);
+            if(known!=bossDefinitionsByProfile.end())return known->second?&*known->second:nullptr;
+            rangedSkillMonsterDefinition(id); // loads the shared SkillTable/ProjectileTable sources once
+            f::bosses::SwampkingCoreSourcesV1 sources{&assets,&derivedTables,rangedSkillTables.borrow(),&rangedSkillProjectiles,&properties.classes};
+            f::bosses::SwampkingCoreDefinitionV1 definition;bool supported=false;std::string reason;
+            f::bosses::derive_swampking_core_v1(sources,id,supported,definition,reason);
+            if(!supported&&!rangedSkillSourcesProblem.empty())reason+=" (sources: "+rangedSkillSourcesProblem+")";
+            std::cout<<"[boss-ai] profile="<<id<<" swampking_core owner "<<(supported?"bound":"unavailable");
+            if(supported){std::cout<<" ai="<<definition.ai_script<<" range="<<definition.range_min<<".."<<definition.range_max<<" skills=";
+                for(const auto& skill:definition.skills)std::cout<<skill.slot<<":"<<skill.skill_name<<"/"<<skill.skill_script<<"/"<<skill.animation_sequence_id<<' ';
+                std::cout<<"dive="<<definition.ai.dive_anim<<" intimidate="<<definition.ai.intimidate_anim<<" spawnPoints="<<definition.ai.spawn_points.size()<<'\n';}
+            else std::cout<<": "<<reason<<'\n';
+            auto& slot=bossDefinitionsByProfile[id];
+            if(supported)slot=std::move(definition);
+            return slot?&*slot:nullptr;
+        };
         auto loadContent=[&](f::OriginalScene& scene,f::CharacterVisual& visual) {
         if(sourcePlayerStanceEnabled) {
             const auto* profile=profiles.find(options.combat.playerProfileId);
@@ -1604,6 +1627,7 @@ int main(int argc,char** argv) {
             for(const auto& script:clipScripts.scripts())for(const auto& command:script.commands)if(command.kind==40||command.kind==44){
                 const auto actor=command.strings.find(command.kind==40?24:12);if(actor!=command.strings.end())scriptControlledActors.insert(actor->second);}
             scriptGameplayActors=f::campaign_host::collect_script_gameplay_actors(clipScripts); // B080
+            scriptIdledActors=f::campaign_host::collect_script_idled_actors(clipScripts); // B155
             const auto requests=f::campaign_host::collect_actor_clip_requests(clipScripts);
             if(!requests.empty()) {
                 std::vector<f::ActorDefinition> declared;
@@ -2119,7 +2143,21 @@ int main(int argc,char** argv) {
                 if(!campaignRetained&&!scriptSpawnable&&!scriptControlledActors.count(placed.definition.name)&&!ordinarySourceMonster)continue;
                 // B080: a script-spawned actor that no script retires is a gameplay monster, not a cutscene prop: it gets the derived combat policy
                 // below (targetable, AI after the script puts it in Idle) instead of the animation-only presentation.
-                if(scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name)) {
+                // B155: a placed Monster row (AI Type 4) that a script also hands to the AI (PutCharacterInIdle/KillActor by name) is a
+                // gameplay actor although no script spawns it (the Swamp King after Swamp_Serpent_Intro).
+                const bool scriptIdledMonster=campaignRetained&&scriptIdledActors.count(placed.definition.name)&&[&]{
+                    if(!derivedTablesLoaded) {
+                        if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
+                            throw std::runtime_error("Script idled actor tables: "+error);
+                        derivedTablesLoaded=true;
+                    }
+                    const auto aiProperty=authoredProfile->raw_properties.find("AI");
+                    const auto* sourceAi=aiProperty==authoredProfile->raw_properties.end()?nullptr:dh2::data::ai_props(derivedTables.ai,std::int32_t(aiProperty->second.raw));
+                    return sourceAi&&sourceAi->type==4;
+                }();
+                if(scriptIdledMonster&&scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name))
+                    std::cout<<"[campaign] script-idled placed monster admitted as a gameplay actor name="<<placed.definition.name<<" profile="<<id<<'\n';
+                if(scriptVisualOnlyProfiles.count(id)&&!scriptGameplayActors.count(placed.definition.name)&&!scriptIdledMonster) {
                     if(!derivedTablesLoaded) {
                         if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,error))
                             throw std::runtime_error("Script visual actor tables: "+error);
@@ -2154,6 +2192,14 @@ int main(int argc,char** argv) {
                     if(rangedSkillMonsterRow(id)) { // B154: CanRangeAttack monster driven by its own AI script (Bogwitch)
                         if(!f::enemy_ai::derive_ranged_skill_monster_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Ranged skill monster policy: "+error);
                         rangedSkillMonsterDefinition(id);
+                        if(const auto* boss=bossDefinition(id)) { // B155: the PlayAnim (AnimDict) clips of the boss AI
+                            // The AI script calls MarkAsFlying(true) (PFObject flying mask) and only moves the actor by SetActorPosition
+                            // to waypoints above the water floor (z 0 over a -114 floor). The port has no PF flying admission, so the
+                            // clips' root translation stays in model space instead of PF-clamped world motion (it snapped him back).
+                            derivedPolicy.motionRoot.clear();
+                            derivedPolicy.sourceAnimationClips.push_back({f::bosses::swampking_core_playanim_clip_v1(boss->dive_anim_id),boss->dive_anim_path});
+                            derivedPolicy.sourceAnimationClips.push_back({f::bosses::swampking_core_playanim_clip_v1(boss->intimidate_anim_id),boss->intimidate_anim_path});
+                        }
                     } else
                     if(!f::spawn::derive_enemy_combat_policy_v1(derivedTables,id,derivedPolicy,error))throw std::runtime_error("Derived combat policy: "+error);
                     if(!derivedPolicy.animationOnly)derivedPolicy.diagnosticAIEnabled=options.diagnosticAI&&id!=options.combat.playerProfileId;
@@ -2181,8 +2227,22 @@ int main(int argc,char** argv) {
                 if(meleeBindings.find_actor(derivedId))continue;
                 f::OriginalMeleeActor derivedActor;
                 if(!f::spawn::derive_melee_actor_v1(derivedTables,derivedId,derivedActor,error))throw std::runtime_error("Derived melee: "+error);
+                // B155: the boss AI's DoSkill roots (SkillTree Anim rows outside the AnimTable states) join the same bank.
+                if(const auto boss=bossDefinitionsByProfile.find(derivedId);boss!=bossDefinitionsByProfile.end()&&boss->second&&
+                   !f::bosses::append_swampking_core_states_v1(derivedTables,*boss->second,derivedActor,error))throw std::runtime_error("Boss skill bank: "+error);
                 if(!meleeBindings.add_derived_actor(std::move(derivedActor),error))throw std::runtime_error("Derived melee: "+error);
                 std::cout<<"SPAWN melee bindings derived from tables: "<<derivedId<<'\n';
+            }
+            // B155: an authored melee entry (original-melee-bindings.xml has SwampKing) gets the boss AI's SkillTree states too.
+            for(const auto& [bossProfile,boss]:bossDefinitionsByProfile) {
+                if(!boss)continue;
+                const auto* published=meleeBindings.find_actor(bossProfile);
+                if(!published||published->states.count(f::bosses::swampking_core_skill_state_v1(0)))continue;
+                f::OriginalMeleeActor states;
+                if(!f::bosses::append_swampking_core_states_v1(derivedTables,*boss,states,error))throw std::runtime_error("Boss skill bank: "+error);
+                for(auto& [stateName,sequences]:states.states)
+                    if(!meleeBindings.add_actor_state(bossProfile,stateName,std::move(sequences),error))throw std::runtime_error("Boss skill bank: "+error);
+                std::cout<<"[boss-ai] skill bank states added to the authored melee actor "<<bossProfile<<'\n';
             }
             options.combat.playerVisualConfig=options.character;
             options.combat.selectedPlayerProfile=frontendStarted?&state:nullptr;
@@ -2339,8 +2399,12 @@ int main(int argc,char** argv) {
         }
         // P17 TRANSITIONS2: LevelSavegame rule. The world kept for this level on its last visit (killed actors, opened containers,
         // object states) is restored; the controlled actor is placed at the arrival entry, not at its saved position (Level::_LoadPlayer).
+        std::function<bool(f::PlayableActorWorld&,std::string&)> persistCampaignLifecycleForCheckpoint; // B142: bound once the campaign host exists
         const auto saveLevelWorld=[&](const char* reason,std::string& e,f::GameSave* keep=nullptr)->bool {
             if(!combatSession||options.save.empty())return true;
+            // B155: the campaign lifecycle components (trigger counts, live Limbus actors) are part of this world save too, as for the
+            // menu/checkpoint saves; before this a script quicksave (EndScriptedCutScene SaveGame) wrote the stale load-time component.
+            if(persistCampaignLifecycleForCheckpoint&&!persistCampaignLifecycleForCheckpoint(*combatSession->world(),e))return false;
             f::GameSave worldSnapshot;
             if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),worldSnapshot,e))return false;
             const auto worldPath=f::transitions::level_world_path(options.save,options.level.generic_string());
@@ -2356,7 +2420,6 @@ int main(int argc,char** argv) {
             return path;
         };
         f::quest_runtime::QuestRuntimeV1* questRuntimeForCheckpoint=nullptr;
-        std::function<bool(f::PlayableActorWorld&,std::string&)> persistCampaignLifecycleForCheckpoint; // B142: bound once the campaign host exists
         std::array<float,3> activeSourceCheckpointKey{};
         bool sourceCheckpointKeyLoaded=false;
         f::persistence::death_flow::DeathCheckpointLevelStartStateV1 levelStartCheckpoint;
@@ -2924,6 +2987,8 @@ int main(int argc,char** argv) {
         }
         if(options.saveNow&&!f::save_character(options.save,state,error))throw std::runtime_error("Save: "+error);
         f::OriginalActorLifecycle actorLifecycle;
+        std::shared_ptr<f::bosses::RuntimeSwampkingCoreAiV1> bossAiOwner; // B155: boss AI (bound in bindEnemyAI); SetIsTargetable feeds the permission below
+        auto timerTraps=std::make_shared<f::bosses::RuntimeTimerTrapsV1>(); // B155: SummonTimerTrap objects (the spit steam cloud)
         f::OriginalCampaignRuntime sourceCampaign;
         f::SourceWorldObjects sourceObjects;
         f::effects::SourceFxAnchorRegistryV1 sourceFxAnchors;
@@ -3168,6 +3233,15 @@ int main(int argc,char** argv) {
             return false;
         };
         hostServices.actor_verbs.put_limbus=[&](f::ActorId id,std::string& e){return actorLifecycle.put_limbus(id,e);};
+        // B155: live campaign lifecycle actors in Limbus (the Swamp King's intro lizards after Swamp_Serpent_Intro) are saved in
+        // campaign_limbus_v1 so a Continue/checkpoint reload restores them in Limbus instead of standing Idle in the boss room.
+        hostServices.live_limbus_actors=[&](std::vector<f::ActorId>& ids,std::string& e){
+            ids.clear();
+            std::size_t limbusRecords=0;
+            for(const auto id:actorLifecycle.idle_baseline_ids()){const auto* life=actorLifecycle.status(id);const auto* live=combatSession?combatSession->actor(id):nullptr;
+                if(life&&life->state==0){++limbusRecords;if(live&&!live->is_dead())ids.push_back(id);}}
+            if(limbusRecords)std::cout<<"[campaign] live Limbus actors saved count="<<ids.size()<<" limbusRecords="<<limbusRecords<<'\n';
+            e.clear();return true;};
         struct ScriptRoute {std::array<float,3> goal;bool ignore_collisions=false;};
         std::map<f::ActorId,ScriptRoute> scriptRoutes;
         std::function<bool(f::ActorId,std::array<float,3>,bool,std::string&)> scriptMoveHook;
@@ -3236,6 +3310,29 @@ int main(int argc,char** argv) {
                 lifecyclePhysical[id]=false;lifecycleCollisions[id]=false;lifecycleFlags[id]=actorLifecycle.status(id)->flags;lifecycleIdleSuppressed[id]=false;
                 if(combatSession->original_actor_state(id)!=17&&!combatSession->set_actor_original_state(id,17,e))return false;
                 std::cout<<"Lifecycle restored PreSpawn actor="<<id<<" name="<<placed->definition.name<<" enabled="<<placed->enabled<<" session_state="<<combatSession->original_actor_state(id)<<'\n';
+            }
+            // B155: the Idle-preset campaign lifecycle actors (auto_spawn=0) are re-registered too (Deserialize: Limbus or Idle), so a
+            // later PutCharacterInLimbus/PutCharacterInIdle by name reaches them (the Swamp King intro aborted here after an arrival restore).
+            std::set<f::ActorId> savedLiveLimbus;
+            if(!f::campaign_host::CampaignHost::read_live_limbus_actors(*combatSession->world(),savedLiveLimbus,e))return false;
+            for(const auto id:actorLifecycle.idle_baseline_ids()) {
+                if(actorLifecycle.status(id))continue;
+                auto* actor=combatSession->actor(id);
+                if(!actor)continue;
+                const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
+                if(placed==population.actors().end())continue;
+                const bool limbus=actor->source_limbus;
+                const bool liveLimbus=!limbus&&!actor->is_dead()&&savedLiveLimbus.count(id);
+                if(!actorLifecycle.restore_idle_or_limbus(id,*actor,placed->enabled&&!liveLimbus,limbus||liveLimbus,e))return false;
+                const bool physical=actor->source_physical_present?*actor->source_physical_present:placed->enabled;
+                lifecyclePhysical[id]=physical&&!limbus&&!liveLimbus;lifecycleCollisions[id]=placed->enabled&&!limbus&&!liveLimbus;lifecycleFlags[id]=actorLifecycle.status(id)->flags;lifecycleIdleSuppressed[id]=false;
+                // The saved live Limbus state (CSLimbus focus: flags 0, hidden, no collisions): the record is Limbus0 and the actor
+                // is disabled again; no effect is replayed (the bodies are not rebound yet at this point of the restore).
+                if(liveLimbus) {
+                    if(placed->enabled&&!population.set_enabled(id,false,e))return false;
+                    if(combatSession->original_actor_state(id)!=0&&!combatSession->set_actor_original_state(id,0,e))return false;
+                }
+                std::cout<<"Lifecycle restored "<<(limbus||liveLimbus?"Limbus":"Idle")<<" actor="<<id<<" name="<<placed->definition.name<<" enabled="<<placed->enabled<<" session_state="<<combatSession->original_actor_state(id)<<'\n';
             }
             e.clear();return true;
         };
@@ -3612,6 +3709,7 @@ int main(int argc,char** argv) {
         if(options.retainHiddenActors||lifecycleEnabled) {
             combatSession->set_actor_combat_permission_provider([&](f::ActorId id){
                 if(id==combatSession->player_id())return true;
+                if(bossAiOwner&&bossAiOwner->untargetable(id))return false; // B155: SetIsTargetable(false) (submerged boss)
                 if(actorLifecycle.status(id))return actorLifecycle.combat_enabled(id)&&lifecyclePhysical[id]&&lifecycleCollisions[id];
                 const auto placed=std::find_if(population.actors().begin(),population.actors().end(),[&](const auto& p){return p.definition.stableId==id;});
                 return placed!=population.actors().end()&&placed->enabled;
@@ -4738,6 +4836,9 @@ int main(int argc,char** argv) {
                          <<" activate="<<(hasEnable?(enableValue?(*enableValue?"true":"false"):"?"):"none")
                          <<" deactivate="<<(hasDisable?(disableValue?(*disableValue?"true":"false"):"?"):"none")
                          <<" tested="<<latch.enable_tested<<latch.disable_tested<<" enabled="<<(enabled?"true":"false")<<'\n';
+            // B155: a lifecycle actor in Limbus stays hidden: CSLimbus::OnFocus 0x3c2e58 clears its flags328, a different owner than
+            // the ObjectBase enable bit TestEnableCondition sets, so a re-tested activate_cond does not show it again.
+            if(enabled&&!placed.enabled){const auto* life=actorLifecycle.status(placed.definition.stableId);if(life&&life->state==0){e.clear();return true;}}
             if(enabled!=placed.enabled)return setCharacterSourceEnabled(placed.definition.stableId,enabled,e);
             e.clear();return true;
         };
@@ -5660,7 +5761,100 @@ int main(int argc,char** argv) {
                 }
             }
             rangedSkillMonsters=rangedSkill;
-            combatSession->set_actor_decision_provider([controller=enemyController,followers,updateScriptRoutes,rangedSkill,&globalControllerBlocked](auto& session,double dt,std::string& error){
+            // B155: the swampking_core boss AI owner for the actors of this population with a bound definition.
+            std::shared_ptr<f::bosses::RuntimeSwampkingCoreAiV1> bossAi;
+            {
+                std::map<f::ActorId,f::bosses::SwampkingCoreDefinitionV1> bound;
+                for(const auto& placed:population.actors()) {
+                    const auto found=bossDefinitionsByProfile.find(placed.profileId);
+                    if(found!=bossDefinitionsByProfile.end()&&found->second&&combatSession->actor(placed.definition.stableId))
+                        bound.emplace(placed.definition.stableId,*found->second);
+                }
+                if(!bound.empty()) {
+                    if(!rangedSkillRulesOwner){auto rules=std::make_shared<dh2::data::PropertyRules>();std::string rulesError;
+                        if(!dh2::data::load_property_rules(properties.characters,*rules,rulesError))throw std::runtime_error("Boss AI property rules: "+rulesError);
+                        rangedSkillRulesOwner=rules;}
+                    const auto navigation=f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation);
+                    f::bosses::SwampkingCoreServicesV1 services;
+                    services.can_see=[navigation](f::CombatSession& session,const f::ActorState& owner,const f::ActorState& target,bool& visible,std::string& e){
+                        const auto* a=session.world()->combat_properties(owner.id);const auto* b=session.world()->combat_properties(target.id);
+                        const auto* ai=a?dh2::data::ai_props(*session.original_ai_tables(),a->sheets.resolved[1]):nullptr;
+                        if(!a||!b||!ai){e="Boss AI sight query lacks source properties";return false;}
+                        return navigation.can_see(session,owner,target,*a,*b,*ai,visible,e);
+                    };
+                    services.waypoint=[&](const std::string& name,std::array<float,3>& at,bool& found,std::string& e){
+                        return hostServices.actor_verbs.waypoint_position&&hostServices.actor_verbs.waypoint_position(name,-1,at,found,e);};
+                    services.warp=[&](f::ActorId id,const std::array<float,3>& goal,std::string& e){
+                        return hostServices.actor_verbs.teleport&&hostServices.actor_verbs.teleport(id,goal,e);};
+                    services.play_clip=[&](f::ActorId id,const std::string& clip,const std::string& path,std::int32_t& duration,std::string& e){
+                        duration=0;if(!combatSession->play_actor_clip(id,clip,path,false,e))return false;
+                        std::string rangeError;if(!combatSession->actor_clip_duration_ms(id,clip,duration,rangeError))duration=0;
+                        if(!combatSession->refresh_actor_combat_permissions(e))return false;return true;};
+                    services.put_idle=[&](f::ActorId id,std::string& e){return combatSession->script_put_idle(id,e)&&combatSession->refresh_actor_combat_permissions(e);};
+                    services.body_radius=[&](f::ActorId id){const auto* pf=nativeBodies.navigation(id);return pf?pf->radius:0.0f;};
+                    auto random=std::make_shared<std::mt19937>(0x5ca1ab1eu);
+                    services.random=[random](std::int32_t low,std::int32_t high){return std::uniform_int_distribution<std::int32_t>(low,high)(*random);};
+                    services.fx_id=[&](const std::string& name)->std::int32_t{
+                        const auto tables=sourceEffectsTables.borrow();if(!tables)return -1;
+                        const auto& names=tables.set_names();const auto found=std::find(names.begin(),names.end(),name);
+                        return found==names.end()?-1:std::int32_t(found-names.begin());
+                    };
+                    services.play_fx=[&](std::int32_t set,const std::array<float,3>& at,std::string& e){
+                        if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                        std::uintptr_t created=0;const float point[3]={at[0],at[1],at[2]};
+                        return sourceEffectsFactory->manager().play_set(set,point,nullptr,0,&created,e);
+                    };
+                    services.play_sound=[&](const std::string& name,std::string& e){return !runtimeAudio||runtimeAudio->play_named_plain(name.c_str(),e);};
+                    services.play_sound_id=[&](std::int32_t row,std::string& e){return !runtimeAudio||runtimeAudio->script_play_plain(row,0,e);};
+                    services.play_music=[&](const std::string& name,std::int32_t fade,std::string& e){return !runtimeAudio||runtimeAudio->play_named_music(name.c_str(),fade,e);};
+                    services.stop_music=[&](const std::string&,std::int32_t fade,std::string& e){return !runtimeAudio||runtimeAudio->script_stop_music(fade,e);};
+                    services.search_population=[&](std::vector<f::ActorId>& order,std::vector<std::pair<f::ActorId,bool>>& facts,std::string& e){
+                        order.clear();facts.clear();
+                        const auto add=[&](f::ActorId id){const auto* t=combatSession->world()->traits(id);order.push_back(id);facts.push_back({id,t&&t->targetable});};
+                        add(combatSession->player_id());
+                        for(const auto& placed:population.actors())if(placed.enabled&&combatSession->actor(placed.definition.stableId))add(placed.definition.stableId);
+                        e.clear();return true;
+                    };
+                    // SummonTimerTrap: TimerTraps row (game_objects group 7), GameObjectDict model and the trap object script.
+                    auto trapTables=std::make_shared<std::pair<std::vector<f::bosses::TimerTrapRowV1>,std::vector<f::bosses::GameObjectDamagerRowV1>>>();
+                    auto trapDefinitions=std::make_shared<std::map<std::string,std::optional<f::bosses::TimerTrapDefinitionV1>>>();
+                    services.summon_timer_trap=[&,trapTables,trapDefinitions](const std::string& name,const std::string&,f::ActorId,const std::array<float,3>& at,std::string& e){
+                        auto& cached=(*trapDefinitions)[name];
+                        if(!cached) {
+                            try {
+                                if(trapTables->first.empty()){const auto rec=f::read_content(assets,"data/game_objects_pyarray.bin"),nam=f::read_content(assets,"data/game_objects_pyarraynames.bin");
+                                    if(!f::bosses::load_timer_trap_tables_v1({rec.data(),rec.size()},{nam.data(),nam.size()},trapTables->first,trapTables->second,e))return false;}
+                                const auto row=std::find_if(trapTables->first.begin(),trapTables->first.end(),[&](const auto& r){return r.name==name;});
+                                if(row==trapTables->first.end()){e="TimerTraps row absent: "+name;return false;}
+                                const auto dn=f::read_content(assets,"data/game_objects_dictionary_pyarraynames.bin"),dv=f::read_content(assets,"data/game_objects_dictionary_pyarray.bin");
+                                dh2::data::Dictionary dict;if(!dh2::data::load_dictionary({dn.data(),dn.size()},{dv.data(),dv.size()},dict,e))return false;
+                                if(row->visual<0||std::size_t(row->visual)>=dict.values.size()){e="TimerTrap Visual outside GameObjectDict";return false;}
+                                f::bosses::TimerTrapDefinitionV1 def;def.row=*row;
+                                const auto script=f::read_content(assets,"data/scripts/objects/"+row->script+".luac");
+                                if(!f::bosses::parse_timer_trap_script_v1(std::string(script.begin(),script.end()),def.script,e))return false;
+                                if(!f::bosses::load_timer_trap_model_v1(assets,dict.values[std::size_t(row->visual)],def.model,e))return false;
+                                cached=std::move(def);
+                            } catch(const std::exception& problem){e=problem.what();return false;}
+                        }
+                        timerTraps->spawn(*cached,at);return true;
+                    };
+                    services.characters=&properties.characters;services.classes=&properties.classes;services.property_rules=rangedSkillRulesOwner.get();
+                    const auto boundCount=bound.size();
+                    bossAi=std::make_shared<f::bosses::RuntimeSwampkingCoreAiV1>(std::move(services),std::move(bound));
+                    std::cout<<"[boss-ai] decision owner bound actors="<<boundCount<<'\n';
+                }
+            }
+            bossAiOwner=bossAi;timerTraps->clear(); // B155: a new population/session drops the previous traps
+            combatSession->set_actor_decision_provider([controller=enemyController,followers,updateScriptRoutes,rangedSkill,bossAi,traps=timerTraps,trapFraction=std::make_shared<double>(0.0),&globalControllerBlocked](auto& session,double dt,std::string& error){
+                // B155: boss AI timers and projectiles advance while the controller is blocked; its CharAI part does not.
+                if(bossAi) {
+                    if(!bossAi->update(session,dt,!globalControllerBlocked,error))return false;
+                    {const double ms=dt*1000.0+*trapFraction;const auto whole=std::int32_t(ms);*trapFraction=ms-whole;traps->update(whole);}
+                    for(const auto& line:traps->take_log())std::cout<<"[timer-trap] "<<line<<'\n';
+                    for(const auto& line:bossAi->take_log())std::cout<<"[boss-ai] "<<line<<'\n';
+                    // SetIsTargetable changed: publish it through the Session permission (player targeting) at once.
+                    if(bossAi->take_targetability_changed()&&!session.refresh_actor_combat_permissions(error))return false;
+                }
                 // B068 (3): original CharAI::Update (pseudocode line 149489) returns before any target/aggro/generic decision while
                 // the controller is blocked (v2Controller::s_blocked, set by LockCharacter All). ScriptMoveActor remains an
                 // explicit source verb and keeps its route during the cutscene controller block.
@@ -5788,7 +5982,8 @@ int main(int argc,char** argv) {
             };
             config.source.skill_focus_moving_byte=[&](const auto& event,bool& moving,std::string& e) {
                 std::int32_t monsterSkill=-1; // B154: a ranged-skill monster's own DoSkill cast (same SkillTable rows)
-                if(rangedSkillMonsters&&rangedSkillMonsters->active_cast(event.actor,event.generation,monsterSkill)) {
+                if((rangedSkillMonsters&&rangedSkillMonsters->active_cast(event.actor,event.generation,monsterSkill))||
+                   (bossAiOwner&&bossAiOwner->active_cast(event.actor,event.generation,monsterSkill))) { // B155: the boss AI's DoSkill too
                     const auto monsterRows=rangedSkillTables.borrow();
                     if(monsterSkill<0||!monsterRows||std::size_t(monsterSkill)>=monsterRows.skills().size()){e="Physical Skill Focus requires the monster skill row";return false;}
                     moving=(monsterRows.skills()[std::size_t(monsterSkill)].scalar.words[2]&0xff)!=0;e.clear();return true;
@@ -8538,11 +8733,14 @@ int main(int argc,char** argv) {
                     // B154: Projectile::SetInfo gives each skill projectile its ProjectileDict model; draw its authored FX
                     // resource at the projectile's current position and owner heading for as long as it flies.
                     rangedProjectileFx.begin_frame();
-                    if(rangedSkillMonsters) {
+                    if(rangedSkillMonsters||bossAiOwner||timerTraps->size()) { // B155: the boss AI's spit projectiles share the same presentation (own key domain)
                         std::set<std::uint64_t> liveProjectiles;
-                        for(const auto& projectile:rangedSkillMonsters->projectiles()) {
+                        std::vector<std::pair<std::uint64_t,f::enemy_ai::RangedProjectileV1>> drawnProjectiles;
+                        if(rangedSkillMonsters)for(const auto& p:rangedSkillMonsters->projectiles())drawnProjectiles.push_back({0xB154,p});
+                        if(bossAiOwner)for(const auto& p:bossAiOwner->projectiles())drawnProjectiles.push_back({0xB155,p});
+                        for(const auto& [projectileDomain,projectile]:drawnProjectiles) {
                             if(projectile.model_uri.empty()||rangedProjectileRefused.count(projectile.model_uri))continue;
-                            const auto key=(std::uint64_t(0xB154)<<48)|projectile.id;liveProjectiles.insert(key);
+                            const auto key=(projectileDomain<<48)|projectile.id;liveProjectiles.insert(key);
                             if(!rangedProjectileFx.attached(key)) {
                                 auto& bytes=rangedProjectileModels[projectile.model_uri];
                                 if(!bytes){try{bytes=std::make_shared<const std::vector<std::uint8_t>>(f::read_content(assets,projectile.model_uri));}catch(const std::exception& problem){
@@ -8558,6 +8756,23 @@ int main(int argc,char** argv) {
                             std::string projectileError;
                             if(!rangedProjectileFx.update(key,std::int32_t(projectile.age_ms),sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,projectileError))
                                 std::cerr<<"[ranged-skill] projectile FX update: "<<projectileError<<'\n';
+                        }
+                        // B155: TimerTrap models (the spit steam cloud) at their authored clip time.
+                        for(const auto& trap:timerTraps->views()) {
+                            if(rangedProjectileRefused.count(trap.model_uri))continue;
+                            const auto key=(std::uint64_t(0x7A9)<<48)|trap.id;liveProjectiles.insert(key);
+                            if(!rangedProjectileFx.attached(key)) {
+                                auto& bytes=rangedProjectileModels[trap.model_uri];
+                                if(!bytes){try{bytes=std::make_shared<const std::vector<std::uint8_t>>(f::read_content(assets,trap.model_uri));}catch(const std::exception& problem){
+                                    std::cout<<"[timer-trap] model unavailable "<<trap.model_uri<<": "<<problem.what()<<'\n';rangedProjectileRefused.insert(trap.model_uri);continue;}}
+                                std::string reason;
+                                if(!rangedProjectileFx.attach(key,trap.model_uri,bytes,*sourceEffectsFactory,reason)){
+                                    std::cout<<"[timer-trap] model FX not attached "<<trap.model_uri<<": "<<reason<<'\n';rangedProjectileRefused.insert(trap.model_uri);continue;}
+                            }
+                            std::array<float,16> world=f::identity();world[12]=trap.position[0];world[13]=trap.position[1];world[14]=trap.position[2];
+                            std::string trapError;
+                            if(!rangedProjectileFx.update(key,trap.source_ms,sourceEffectsMs,gameplayPaused?0:std::int32_t(gameplayDt*1000),world,trapError))
+                                std::cerr<<"[timer-trap] FX update: "<<trapError<<'\n';
                         }
                         rangedProjectileFxLive.swap(liveProjectiles); // liveProjectiles now holds the previous frame's set
                         for(const auto key:liveProjectiles)if(!rangedProjectileFxLive.count(key))rangedProjectileFx.detach(key);

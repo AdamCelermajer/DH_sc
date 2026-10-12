@@ -68,34 +68,46 @@ Phase phase_after_update(Phase current, float hp_percent) noexcept {
 }
 
 AttackDecision close_attack(Phase phase, bool first_melee, int roll) noexcept {
+    return close_attack(phase, first_melee, roll, CloseAttackRulesV1{});
+}
+
+AttackDecision close_attack(Phase phase, bool first_melee, int roll, const CloseAttackRulesV1& r) noexcept {
     if (roll < 1 || roll > 100)
         return {DecisionKind::invalid_roll, -1, false};
 
     if (phase == Phase::phase1) {
         if (first_melee)
-            return slot(1, true);
-        return slot(roll < 80 ? 1 : 0);
+            return slot(r.phase1_first_slot, true);
+        return slot(roll < r.phase1_normal_prob ? r.phase1_normal_slot : r.phase1_other_slot);
     }
 
     if (phase == Phase::phase2) {
         if (first_melee)
-            return slot(roll < 50 ? 0 : 1, true);
-        if (roll < 40)
-            return slot(0);
-        if (roll < 90 && roll > 40)
-            return slot(1);
+            return slot(roll < r.phase2_first_prob ? r.phase2_first_low_slot : r.phase2_first_high_slot, true);
+        if (roll < r.phase2_prob_a)
+            return slot(r.phase2_a_slot);
+        if (roll < r.phase2_prob_a + r.phase2_prob_b && roll > r.phase2_prob_a)
+            return slot(r.phase2_b_slot);
         return {DecisionKind::no_skill_dispatched, -1, false};
     }
 
     return {DecisionKind::no_skill_dispatched, -1, false};
 }
 
-AttackDecision ranged_attack(Phase phase) noexcept {
+AttackDecision ranged_attack(Phase phase) noexcept { return ranged_attack(phase, 2); }
+
+AttackDecision ranged_attack(Phase phase, int spit_slot) noexcept {
     if (phase == Phase::phase1)
-        return {DecisionKind::intimidate_then_skill_slot, 2, false};
+        return {DecisionKind::intimidate_then_skill_slot, spit_slot, false};
     if (phase == Phase::phase2)
-        return slot(2);
+        return slot(spit_slot);
     return {DecisionKind::no_skill_dispatched, -1, false};
+}
+
+Phase phase_after_update(Phase current, float hp_percent, int phase2_at_or_below_hp_percent) noexcept {
+    if (current == Phase::phase1 && hp_percent <= static_cast<float>(phase2_at_or_below_hp_percent))
+        return Phase::phase2;
+    return current;
 }
 
 bool evaluate_quest_state_predicate(const QuestStatePredicate& predicate,
