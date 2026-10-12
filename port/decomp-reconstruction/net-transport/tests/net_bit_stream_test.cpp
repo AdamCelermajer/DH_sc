@@ -60,6 +60,18 @@ int main() {
         w.WriteU32(0x7, 3);
         CHECK(w.ReadU32(8) == 0);
     }
+    {
+        // Copy constructor and operator= copy the size and both positions (Hex-Rays).
+        NetBitStream a(8);
+        a.WriteU32(0x12, 8);
+        NetBitStream copy(a);
+        CHECK(copy.Size() == 8 && copy.WritePosition() == 8);
+        CHECK(copy == a);
+        NetBitStream assigned(4);
+        assigned = a;
+        CHECK(assigned.Size() == 8 && assigned.WritePosition() == 8);
+        CHECK(assigned == a);
+    }
     std::printf("%s\n", failures ? "net_bit_stream: FAILED" : "net_bit_stream: ok");
     return failures != 0;
 }

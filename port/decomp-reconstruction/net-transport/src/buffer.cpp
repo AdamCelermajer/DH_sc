@@ -32,6 +32,8 @@ void Buffer::read(std::uint32_t offset, void* out, std::uint32_t length) const {
 }
 
 // 0x316f0c _ZN6Buffer5writeEjPKvj
+// Hex-Rays: ensure blocks, grow size to offset + length, then copy block by block with the
+// same chunking as read(). A write that crosses a block boundary continues into the next block.
 void Buffer::write(std::uint32_t offset, const void* data, std::uint32_t length) {
     std::uint32_t index = offset / block_size_;
     std::uint32_t in_block = offset % block_size_;
@@ -39,11 +41,16 @@ void Buffer::write(std::uint32_t offset, const void* data, std::uint32_t length)
     if (size_ < length + offset) {
         size_ = length + offset;
     }
-    std::uint32_t count = std::min(length, block_size_ - in_block);
-    if (length == 0) {
-        return;
+    const std::uint8_t* src = static_cast<const std::uint8_t*>(data);
+    std::uint32_t remaining = length;
+    while (remaining != 0) {
+        std::uint32_t count = std::min(remaining, block_size_ - in_block);
+        std::memcpy(blocks_[index] + in_block, src, count);
+        src += count;
+        remaining -= count;
+        in_block = 0;
+        ++index;
     }
-    std::memcpy(blocks_[index] + in_block, data, count);
 }
 
 // 0x31692c _ZN6Buffer5clearEv

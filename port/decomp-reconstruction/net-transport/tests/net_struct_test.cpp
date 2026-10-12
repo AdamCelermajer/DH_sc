@@ -44,6 +44,16 @@ int main() {
         CHECK(err < 2.f && err > -2.f);  // 16 bits over a 100000 range: about 1.5 units per step
     }
     {
+        // The 18-bit form divides by 262140 (not 2^18 - 1): raw 262140 maps to Max.
+        NetBitStream w(8);
+        w.WriteU32(262140, 18);
+        NetBitStream r(8);
+        r.WriteStream(w);
+        NetStructRangedFloat<18, -200000, 200000> top;
+        top.Read(r);
+        CHECK(top.GetValue() == 200000.f);
+    }
+    {
         CNetworkId a;
         a.Reset();
         CNetworkId b;
