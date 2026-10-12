@@ -11,11 +11,24 @@ Static-level and level-transition round (2026-10-12, latest):
 - [x] Unknown char_template rows are reported and skipped instead of staged (`f80e3688`).
 - [x] FIRE_TEMPLE_01 starts at its DWLD start when no SpawnPoint is enabled (`503ff0c2`).
 - [x] Packaged assets are stored byte-exact (`-text`), so clones reproduce the original-cache bytes (`15220a60`).
-- [ ] ICY_HUB (rotated module) and MACHINE_ROOMS_01 (visual-only modules) in progress.
-- [ ] Back-to-front sort for the transparent pass.
+- [x] ICY_HUB (rotated module, floorless module visuals) loads on desktop (`244e8c01`, `f2ef9b3e`).
+- [x] MACHINE_ROOMS_01 (visual-only Block modules; referee AI row 47 initializes) loads on desktop (`244e8c01`, `0655f267`).
+- [x] All 9 static levels (rows 28, 33, 41, 4, 38, 45, 1, 29, 20) and Crypt row 23 return rc 0 on desktop (`f2ef9b3e`, `c93549cb`).
+- [x] DWLD v2: rotated Module transforms and visual-only Module placements; SWAMP, DARKWOOD, RED_DESERT and Crypt outputs stay byte-identical v1 (`244e8c01`).
+- [x] Static levels get per-Module RoomZones (SWAMP 9, DARKWOOD 24) that add members to the room-object list; skill target searches find room members (`647b228f`).
+- [x] Monster root-motion delta resets on every clip (re)start, so looping walks no longer snap enemies back (`c0a4d27f`).
+- [x] Player skill state closes: CSSkill blur timer subject fixed and OnBlur ignores RaiseEvent(31) (`84b1d0f0`).
+- [x] Player skills deal damage: skill hits reach the CharAnim-layout result path; desktop `--scenario skill-kill` verifies a kill (`f2ef9b3e`, `0655f267`).
+- [x] Status reaction animations use the CharAnim row layout; the monster clip bank loads Dodging, Blocking, Injured, Scared, Stunned, GreatKnockedBack and KnockedBack; missing clips keep the current animation (`b091f7c7`, `c93549cb`).
+- [x] Transparent environment pass draws back-to-front (stable sort by clip-space w, farthest first) (`22b095d3`).
+- [x] Level scripts: StopEffect (21), PutCharacterInLimbus (29) and KillActor (44) bound; DARKWOOD 104 of 105 and SWAMP 53 of 55 scripts bind (`3af20077`, `34e7e83f`). Not yet exercised in play.
+- [x] Android `debug_auto_start` (debug builds): selects or creates a profile and starts the debug level row; every debug LevelList row is accepted at launch (`9259471f`, `8ba7b94b`).
+- [x] Host tests follow rotated Crypt module bounds (DWLD v2), RoomZone relative extents and the read_object_facts true-on-failure convention (`6ac9dacd`).
+- [x] Android emulator verification (API 37/16 KiB) at `265b7af5`, verified note (not from a commit message): all 9 static levels start (rows 41 4 38 45 1 29 20 28 33); move-kill gives 6 kills plus death/revive; move-defend shows damage, death and revive.
+- [ ] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) not yet observed in play (`b091f7c7`).
 - [ ] Spawn heading on the DWLD-start fallback.
-- [ ] Remaining level-script commands.
-- [ ] Android verification of the new static levels is pending.
+- [ ] Remaining level-script commands 19, 22/23, 27 and 51/52.
+- [ ] Save migration for profiles written before `4562ac61` (bad Level delta).
 
 Combat-loop and second-level round (2026-10-12, later):
 - [x] Monsters attack and damage the Player: AI_IsInMeleeRange(0) evaluates the CharAI current target, unequipped AITable melee radius, LookAt no longer applies CSDead's label/lock outside death. Desktop `--scenario move-defend` verifies damage.
