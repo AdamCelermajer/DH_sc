@@ -742,3 +742,79 @@ elf_address,symbol,status,source_file,notes
 0x6fe854,_ZNK6glitch5scene22CShadowVolumeSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
 0x6fe97c,_ZNK6glitch5scene22CShadowVolumeSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
 0x6fe984,_ZN6glitch5scene22CShadowVolumeSceneNode13SetBiasFactorEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x5353c4,_ZN6glitch3gui15IGUIEnvironmentD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x53dbcc,_ZNK6glitch3gui8IGUIFont7getTypeEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x53dbd4,_ZNK6glitch3gui14IGUIFontBitmap7getTypeEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x53dc20,_ZN6glitch3gui8IGUIFontD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x53dc24,_ZN6glitch3gui14IGUIFontBitmapD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x54a9f8,_ZNK6glitch3gui8IGUISkin7getTypeEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x54aa00,_ZN6glitch3gui8IGUISkinD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x54ab38,_ZNK6glitch3gui8CGUISkin13getSpriteBankEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ac2c,_ZNK6glitch3gui8CGUISkin7getTypeEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54f78c,_ZN6glitch3gui14IGUISpriteBankD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x54ff14,_ZNK6glitch3gui14CGUIStaticText15getOverrideFontEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ff8c,_ZN6glitch3gui14CGUIStaticText17setDrawBackgroundEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ff94,_ZN6glitch3gui14CGUIStaticText13setDrawBorderEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ffb4,_ZN6glitch3gui14CGUIStaticText19enableOverrideColorEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ffbc,_ZNK6glitch3gui14CGUIStaticText22isOverrideColorEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x54ffc4,_ZNK6glitch3gui14CGUIStaticText17isWordWrapEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55250c,_ZNK6glitch3gui14CGUITabControl12getTabHeightEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x552514,_ZNK6glitch3gui14CGUITabControl16getTabExtraWidthEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x552800,_ZNK6glitch3gui14CGUITabControl23getTabVerticalAlignmentEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x552808,_ZNK6glitch3gui14CGUITabControl12getActiveTabEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555100,_ZNK6glitch3gui9CGUITable15getActiveColumnEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555108,_ZNK6glitch3gui9CGUITable23getActiveColumnOrderingEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555110,_ZN6glitch3gui9CGUITable19setResizableColumnsEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555118,_ZNK6glitch3gui9CGUITable19hasResizableColumnsEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555328,_ZNK6glitch3gui9CGUITable11getSelectedEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555330,_ZNK6glitch3gui9CGUITable17getSelectedColumnEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555338,_ZN6glitch3gui9CGUITable19setSelectableColumnEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555340,_ZN6glitch3gui9CGUITable19getSelectableColumnEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555dd8,_ZN6glitch3gui9CGUITable12setDrawFlagsEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x555de0,_ZNK6glitch3gui9CGUITable12getDrawFlagsEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55ba30,_ZN6glitch3gui10IGUITTFont11clearGlyphsEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,empty body in the original
+0x55bb2c,_ZN6glitch3gui10IGUITTFontD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x55bcd4,_ZN6glitch3gui10CGUITTFont15setKerningWidthEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,empty body in the original
+0x55bcd8,_ZN6glitch3gui10CGUITTFont16setKerningHeightEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,empty body in the original
+0x55bcdc,_ZNK6glitch3gui10CGUITTFont15getKerningWidthEPKwS3_,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x55bce4,_ZNK6glitch3gui10CGUITTFont16getKerningHeightEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x55bd00,_ZNK6glitch3gui10CGUITTFont11getTrackingEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd08,_ZN6glitch3gui10CGUITTFont12setAntiAliasEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd10,_ZNK6glitch3gui10CGUITTFont12getAntiAliasEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd18,_ZN6glitch3gui10CGUITTFont15setTransparencyEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd20,_ZNK6glitch3gui10CGUITTFont15getTransparencyEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd28,_ZN6glitch3gui10CGUITTFont13setSpaceWidthEi,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55bd30,_ZN6glitch3gui10CGUITTFont13getSpaceWidthEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55eb44,_ZNK6glitch3gui10CGUIWindow14getCloseButtonEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55eb4c,_ZNK6glitch3gui10CGUIWindow17getMinimizeButtonEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x55eb54,_ZNK6glitch3gui10CGUIWindow17getMaximizeButtonEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6a56e8,_ZN6glitch3gui18IGUIElementFactoryD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x6a5cc8,_ZNK6glitch3gui25CDefaultGUIElementFactory31getCreatableGUIElementTypeCountEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,constant return in the original
+0x6a5d20,_ZN6glitch3gui25CDefaultGUIElementFactoryD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp,empty destructor body in the original
+0x6a76ac,_ZN6glitch3gui12CGUICheckBox10setCheckedEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6a76b4,_ZNK6glitch3gui12CGUICheckBox9isCheckedEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6aab14,_ZNK6glitch3gui12CGUIComboBox11getSelectedEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6ad4d4,_ZNK6glitch3gui15CGUIContextMenu15getSelectedItemEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afaa8,_ZN6glitch3gui11CGUIEditBox13setDrawBorderEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afab0,_ZN6glitch3gui11CGUIEditBox19enableOverrideColorEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afab8,_ZNK6glitch3gui11CGUIEditBox17isWordWrapEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afac0,_ZN6glitch3gui11CGUIEditBox12setMultiLineEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afac8,_ZNK6glitch3gui11CGUIEditBox18isMultiLineEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afad0,_ZNK6glitch3gui11CGUIEditBox13isPasswordBoxEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afae4,_ZN6glitch3gui11CGUIEditBox13setAutoScrollEb,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afaec,_ZNK6glitch3gui11CGUIEditBox19isAutoScrollEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x6afaf4,_ZNK6glitch3gui11CGUIEditBox6getMaxEv,reconstructed,glitch-scene-collada-gui/src/gui_simple_accessors.cpp,one-member accessor
+0x69acc0,_ZN6glitch2ps6PDConeD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/ps_types.hpp,empty destructor body in the original
+0x69acc4,_ZNK6glitch2ps6PDCone7getTypeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,constant return in the original
+0x69accc,_ZN6glitch2ps8PDSphereD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/ps_types.hpp,empty destructor body in the original
+0x69acd0,_ZNK6glitch2ps8PDSphere7getTypeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,constant return in the original
+0x69acd8,_ZN6glitch2ps6PDBlobD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/ps_types.hpp,empty destructor body in the original
+0x69acdc,_ZNK6glitch2ps6PDBlob7getTypeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,constant return in the original
+0x69ae4c,_ZNK6glitch2ps7PDPoint4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,constant 1.0f return in the original
+0x69aec4,_ZNK6glitch2ps6PDLine4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,one-member accessor
+0x69b660,_ZNK6glitch2ps5PDBox4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,one-member accessor
+0x69b7fc,_ZNK6glitch2ps10PDCylinder4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,one-member accessor
+0x69b9c4,_ZNK6glitch2ps6PDCone4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,one-member accessor
+0x69be08,_ZNK6glitch2ps8PDSphere4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,one-member accessor
+0x69bf7c,_ZNK6glitch2ps6PDBlob4sizeEv,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,constant 1.0f return in the original
+0x69b9c0,_ZN6glitch2ps6PDCone9transformERKNS_4core8CMatrix4IfEE,reconstructed,glitch-scene-collada-gui/src/ps_types.cpp,empty body in the original

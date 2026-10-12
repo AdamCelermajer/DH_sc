@@ -17,6 +17,27 @@ int main() {
     CHECK(PDLine().getType() == 4);
     CHECK(PDBox().getType() == 0);
     CHECK(PDCylinder().getType() == 2);
+    CHECK(PDCone().getType() == 5);
+    CHECK(PDSphere().getType() == 1);
+    CHECK(PDBlob().getType() == 6);
+
+    CHECK(PDPoint().size() == 1.0f);
+    CHECK(PDBlob().size() == 1.0f);
+    PDLine line;
+    line.sizeValue = 2.5f;
+    CHECK(line.size() == 2.5f);
+    PDBox box;
+    box.sizeValue = 3.5f;
+    CHECK(box.size() == 3.5f);
+    PDCylinder cylinder;
+    cylinder.sizeValue = 4.5f;
+    CHECK(cylinder.size() == 4.5f);
+    PDCone cone;
+    cone.sizeValue = 5.5f;
+    CHECK(cone.size() == 5.5f);
+    PDSphere sphere;
+    sphere.sizeValue = 6.5f;
+    CHECK(sphere.size() == 6.5f);
 
     float matrix[16] = {};
     IParticleSystem<GNPSParticle> gnps;

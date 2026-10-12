@@ -7,6 +7,8 @@ scene, timeline, PS and collada-misc batch (two of them GUI partials). Wave 4
 added 219 rows (180 reconstructed, 39 partial), all in glitch::scene particle
 emitters and affectors (see "Wave 4" below). The `decomp_extract --remaining`
 count is 3547 unledgered.
+Wave 5 added 228 rows (222 reconstructed, 6 partial; see "Wave 5" below). The current
+ledger is 819 rows and the `decomp_extract --remaining` count is 3319 unledgered.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -222,3 +224,81 @@ CParticleRotationAffector, CParticleSizeAffector, CParticleSpinAffector, CPartic
 - Large unfinished classes with many small bodies: CSceneManager, CColladaDatabase,
   CGUIEnvironment, CGUITable, ISceneNode, CTerrainSceneNode, CGUITTFont, IGUIElement and
   CSceneNodeAnimatorSynchronizedBlender.
+
+## Wave 5: collada, scene, gui and PD accessors
+Files: include/glitch-scene-collada-gui/collada_scene_accessors.hpp, collada_empty_dtors.hpp,
+scene_simple_accessors.hpp, gui_simple_accessors.hpp, ps_types.hpp (extended), and the
+matching src/*.cpp (collada_scene_accessors.cpp, scene_simple_accessors.cpp,
+gui_simple_accessors.cpp, ps_types.cpp). Tests: tests/collada_scene_accessors_test.cpp,
+scene_simple_accessors_test.cpp, gui_simple_accessors_test.cpp, ps_types_test.cpp (extended).
+Changed: modular_skinned_mesh.hpp/.cpp, collada_misc.hpp/.cpp, visibility_ex.hpp,
+texture_transform_ex.hpp, collada_factory.hpp.
+Ledger: 228 rows (222 reconstructed, 6 partial). Queue remaining 3319 of 4138.
+
+- Layouts (offsets are comments; members are typed):
+  - SCategoryEntry {reserved[2], moduleCount +0x08, reserved2}; SCategoryTable.entries at +0x04.
+    getCategoryModuleCount indexes entries[category].moduleCount.
+  - STimelineClip and STimelineClipTable; CTimelineController clipTable +0x34, currentClipIndex
+    +0x38. getClipCount returns 0 when there is no table.
+  - CDynamicAnimationSet channels at +0x74, stride 16 (getChannel).
+  - CCoronasSceneNode box at +0x150; CMesh box at +0x24; CSceneNodeAnimatorSet animationSet at
+    +0x24; CSceneNode::getUserProperty is in collada_scene_accessors.cpp.
+  - CModularSkinnedMeshSceneNode mesh pointer at +0x134.
+  - CMeshSceneNode: holder at +0x130, else the named mesh at +0x134 with its uid at +8.
+  - CTextureTransformEx, CVisibilityEx and CAnimatedMeshSceneNode members are named per the
+    header comments; the glitch::scene nodes keep their stand-in layouts from wave 4.
+- Thunk forwarding: the CSceneNodeAnimatorSet getAnimationLength/Start/End bodies take one
+  index that the ARM passes through r1 untouched. The index is forwarded to the collada helper
+  (checked against the listing for each). The CModularSkinnedMeshSceneNode getters follow the
+  same rule.
+- Partial rows (6): the uid words of CParticleSystemSceneNode, CGlitchNewParticleSystemSceneNode,
+  CCameraSceneNode and CMeshSceneNode are typed as const char*, and the transformed-box word
+  at +0x14c of the two particle systems is typed as a pointer. The string and box types are
+  inferred from use and each body reads one stored word; they stay partial until the holder
+  types are mapped.
+- CTerrainSceneNode getScale, getRotation and getPosition are const and return const
+  references (the queue names them _ZNK). CMorphingMesh::clone returns a null intrusive_ptr.
+- CFloatEx and CWeightEx getIdentityValue write 0.0f; their defaulted dtors are in
+  collada_scene_accessors.hpp. CVisibilityEx and CTextureTransformEx dtors are defaulted.
+- Destructors: D1 empties use `= default` (no vtables in the stand-ins, same as wave 4). D0
+  deleting rows are not ledgered. CColladaFactory D1 and D2 are the defaulted virtual dtor at
+  +0x00/+0x04 of collada_factory.hpp.
+- Empty-body families ledgered as `reconstructed`: IEventsManager, CEventsManager,
+  IAnimationTrackEx, IColladaSceneNodeSynchronizedAnimatorInterface, CResFileReader, CResFactory
+  (D2 and D1), CAnimationTrackEx, animation_track::CApplicatorInfo, CMaterialApplicatorInfo.
+- glitch::scene simple accessors: type tags are the four-character words (amsh, text, dmmy,
+  sky_, terr, shdw, ptcl). Particle interfaces (IParticle*) return the getType constants.
+  CAnimatedMeshSceneNode::setAnimationSpeed scales by 0.001f. CDefaultSceneNodeAnimatorFactory
+  reports 9 creatable types and maps indices above 8 to 10.
+- glitch::gui simple accessors: CGUITable flags are bool at +0x188/+0x189 and int at
+  +0x198..+0x1b0. CGUITTFont kerning setters are empty and the getters return 0. The
+  IGUIEnvironment D1 row is attributed to the header (its .cpp holds only a comment).
+  CDefaultGUIElementFactory reports 0x16 creatable types.
+- PD shapes: getType constants are PDCone 5, PDSphere 1, PDBlob 6 (PDPoint 3, PDLine 4, PDBox 0,
+  PDCylinder 2 from wave 4). size() returns a float: the loaded word is returned as-is, and
+  the float type is inferred from the 1.0f constant that PDPoint and PDBlob return. The
+  transformed-box and uid word types are inferred, as noted in the partial list above.
+
+- Not taken this wave, with the reason:
+  - The CVirtualEx family and the key-based forwarders to Ex functions, as in wave 4.
+  - Virtual-slot getters: CAnimationSet::getAnimationTrack (slot +0x18),
+    CTimelineController::getCurrentClipLength (slot +0x28), and the mesh getters that dispatch
+    through IMesh and IAnimatedMesh (slots +0x10, +0x24, +0x30).
+  - CMatrix4 layout needed: CDummyTransformationSceneNode matrix accessors, and the PDPoint
+    (0x69ae04), PDSphere (0x69bdec) and PDBlob (0x69bf60) transform bodies, which read matrix
+    words. PDCone::transform (0x69b9c0) is empty in the original and is ledgered with only a
+    forward declaration of glitch::core::CMatrix4 in ps_types.hpp.
+  - CAnimatedMeshSceneNode::setCurrentFrame (0x6f6af8): the decompiled tail is truncated.
+    Read its ARM listing before taking it.
+  - CShadowVolumeSceneNode::load and CColladaBinaryFileLoader::createScene: return type not
+    known from the index.
+  - PD within(), generate() and copy() bodies: they use PSRandom and the vector stand-ins, so
+    they are a separate batch. PDomain's D1 is skipped because PDomain is not a stand-in here.
+
+## Remaining after wave 5
+- The CVirtualEx family and the remaining animation_track templates (CWeightEx, CTextureTransformEx,
+  CVector3dEx, CFloatEx, CVisibilityEx) beyond the accessors above.
+- Virtual-slot getters listed above, and the CMatrix4 layout the matrix bodies need.
+- Large classes with many small bodies still unfinished: CSceneManager, CColladaDatabase,
+  CGUIEnvironment, ISceneNode, IGUIElement and CSceneNodeAnimatorSynchronizedBlender.
+- PD within(), generate() and copy() bodies, and the PSRandom dependency.

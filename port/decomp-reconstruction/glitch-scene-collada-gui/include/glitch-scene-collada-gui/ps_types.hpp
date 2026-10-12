@@ -4,6 +4,11 @@
 
 #include <cstdint>
 
+namespace glitch::core {
+template <typename T>
+class CMatrix4;  // only named by parameter types here; the layout is not mapped
+}  // namespace glitch::core
+
 namespace glitch::ps {
 
 // Emitter distribution shapes; the type tag is the shape index. The shapes are
@@ -14,6 +19,8 @@ public:
     ~PDPoint() = default;
     // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv (returns 3)
     std::uint32_t getType() const;
+    // 0x69ae4c _ZNK6glitch2ps7PDPoint4sizeEv (returns 1.0f)
+    float size() const;
 };
 
 class PDLine {
@@ -22,6 +29,10 @@ public:
     ~PDLine() = default;
     // 0x69aca0 _ZNK6glitch2ps6PDLine7getTypeEv (returns 4)
     std::uint32_t getType() const;
+    // 0x69aec4 _ZNK6glitch2ps6PDLine4sizeEv
+    float size() const;
+
+    float sizeValue = 0.0f;  // +0x28
 };
 
 class PDBox {
@@ -30,6 +41,10 @@ public:
     ~PDBox() = default;
     // 0x69acac _ZNK6glitch2ps5PDBox7getTypeEv (returns 0)
     std::uint32_t getType() const;
+    // 0x69b660 _ZNK6glitch2ps5PDBox4sizeEv
+    float size() const;
+
+    float sizeValue = 0.0f;  // +0x28
 };
 
 class PDCylinder {
@@ -38,6 +53,46 @@ public:
     ~PDCylinder() = default;
     // 0x69acb8 _ZNK6glitch2ps10PDCylinder7getTypeEv (returns 2)
     std::uint32_t getType() const;
+    // 0x69b7fc _ZNK6glitch2ps10PDCylinder4sizeEv
+    float size() const;
+
+    float sizeValue = 0.0f;  // +0x4c
+};
+
+class PDCone {
+public:
+    // 0x69acc0 _ZN6glitch2ps6PDConeD1Ev (empty)
+    ~PDCone() = default;
+    // 0x69acc4 _ZNK6glitch2ps6PDCone7getTypeEv (returns 5)
+    std::uint32_t getType() const;
+    // 0x69b9c0 _ZN6glitch2ps6PDCone9transformERKNS_4core8CMatrix4IfEE (empty)
+    void transform(const core::CMatrix4<float>& matrix);
+    // 0x69b9c4 _ZNK6glitch2ps6PDCone4sizeEv
+    float size() const;
+
+    float sizeValue = 0.0f;  // +0x4c
+};
+
+class PDSphere {
+public:
+    // 0x69accc _ZN6glitch2ps8PDSphereD1Ev (empty)
+    ~PDSphere() = default;
+    // 0x69acd0 _ZNK6glitch2ps8PDSphere7getTypeEv (returns 1)
+    std::uint32_t getType() const;
+    // 0x69be08 _ZNK6glitch2ps8PDSphere4sizeEv
+    float size() const;
+
+    float sizeValue = 0.0f;  // +0x24
+};
+
+class PDBlob {
+public:
+    // 0x69acd8 _ZN6glitch2ps6PDBlobD1Ev (empty)
+    ~PDBlob() = default;
+    // 0x69acdc _ZNK6glitch2ps6PDBlob7getTypeEv (returns 6)
+    std::uint32_t getType() const;
+    // 0x69bf7c _ZNK6glitch2ps6PDBlob4sizeEv (returns 1.0f)
+    float size() const;
 };
 
 // Particle system base: the world matrix is reached through a stored pointer.
