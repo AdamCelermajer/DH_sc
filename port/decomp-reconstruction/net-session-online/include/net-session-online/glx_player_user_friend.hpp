@@ -57,6 +57,14 @@ public:
     // 0x82bc48 GetAvatarKey(int): default 0.
     std::int32_t GetAvatarKey(std::int32_t index) const;
 
+    // 0x82bc78 _ZN19GLXPlayerUserFriend16clearFriendsListEv: empties all 13 per-entry arrays, count = 0.
+    void clearFriendsList();
+    // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc. Partial: six text fields are not stored
+    // (see the .cpp).
+    void processFriendsList(const char* text);
+    // 0x82ca20 _ZN19GLXPlayerUserFriend15OnUpdateSuccessEi. Partial: the base return is dropped.
+    void OnUpdateSuccess(std::int32_t arg) override;
+
     // Request senders: "f|kind|i|GGI|u|UID|..." requests handed to SendByGet.
     // 0x82c584 _ZN19GLXPlayerUserFriend23sendGetUserFriendsCountEv (kind 0x49)
     void sendGetUserFriendsCount();

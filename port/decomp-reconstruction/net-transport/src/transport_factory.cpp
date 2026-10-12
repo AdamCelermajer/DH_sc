@@ -34,7 +34,7 @@ int CTransportFactory::InitializeTransport(tTRANSPORT_TYPE type) {
     return 0;
 }
 
-// 0x8272c4 _ZN17CTransportFactory15ConnectTransportER10CNetworkId
+// 0x8272c4 _ZN17CTransportFactory16ConnectTransportER10CNetworkId
 // The argument is the peer id; its presence flags select the transports (bit 1 = TCP,
 // bit 2 = Bluetooth unreliable, bit 3 = Bluetooth reliable). Partial: only the TCP branch
 // (flag 2) is reconstructed. The Bluetooth branches need CBluetoothUnreliable::Create,

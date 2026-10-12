@@ -41,6 +41,18 @@ public:
     // key, or null.
     const char* GetValue(const char* key) const;
 
+    // 0x82e0bc _ZN22GLXPlayerSereverConfig16SaveServerConfigEv. Partial: writes serverConfig.sav. The
+    // local date is written as 0-0 when it is null (the ctor port does not allocate it).
+    std::int32_t SaveServerConfig();
+    // 0x82e3b4 _ZN22GLXPlayerSereverConfig10LoadConfigEv. Reads oconf.bar. Partial: the original returns
+    // 1 or 0; the base declares void LoadConfig, so the result is dropped.
+    void LoadConfig() override;
+    // 0x82f6d8 _ZN22GLXPlayerSereverConfig15OnUpdateSuccessEi. Partial: one key literal (char[5]) is not
+    // recovered, so the completeness check skips it (see the .cpp).
+    void OnUpdateSuccess(std::int32_t arg) override;
+    // 0x82f940 _ZN22GLXPlayerSereverConfig15OnUpdateFailureEi
+    bool OnUpdateFailure(std::int32_t code) override;
+
     // Getters. Each one forwards a fixed key to GetValue.
     // 0x82eefc _ZN22GLXPlayerSereverConfig17GetGameMinVersionEv. Partial: the key at DAT_0091a518
     // is not recovered, so this port uses an empty key.
