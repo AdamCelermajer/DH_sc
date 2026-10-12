@@ -5,6 +5,18 @@
 
 using namespace glitch::collada::recon_11;
 
+// Test-only stand-ins for the named-entry getters defined in collada_database.cpp (not linked
+// here). The slice tests do not reach them with a loaded database.
+namespace glitch::collada {
+SGNPSEmitter* getGNPSEmitter(const SDatabaseTables&, const char*) { return nullptr; }
+SCoronas* getCoronas(const SDatabaseTables&, const char*) { return nullptr; }
+SEmitter* getEmitter(const SDatabaseTables&, const char*) { return nullptr; }
+SController* getController(const SDatabaseTables&, const char*) { return nullptr; }
+SMaterial* getMaterial(const SDatabaseTables&, const char*) { return nullptr; }
+SImage* getImage(const SDatabaseTables&, const char*) { return nullptr; }
+SVisualScene* getVisualScene(const SDatabaseTables&, const char*) { return nullptr; }
+}  // namespace glitch::collada
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
