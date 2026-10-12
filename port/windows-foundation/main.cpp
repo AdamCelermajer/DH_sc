@@ -3985,7 +3985,14 @@ int main(int argc,char** argv) {
             if(!f::character_menu::register_stat_training_v1(*characterMenuComposition,sharedCharacter,state,
                    [&]()->f::CombatSession*{return combatSession.get();},properties,
                    [&](const f::CharacterState& c,std::string& e){return f::save_character(options.save,c,e);},
-                   statTrainingVisit,error))throw std::runtime_error("Stats training: "+error);
+                   statTrainingVisit,[&](std::uint32_t){
+                       if(!runtimeAudio)return;
+                       std::string soundError;
+                       const auto cue=runtimeAudio->play_named_ui_sound("MenuSpending",soundError);
+                       std::cout<<"Character menu stat allocation sound ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)
+                                <<(soundError.empty()?"":" detail="+soundError)<<" frame="<<drawn<<"\n";
+                   },error))throw std::runtime_error("Stats training: "+error);
                 // P14 FAERY: Faery tab over the live CharacterState (features/faery_menu/character_state_faery_v1.*).
                 // An unbindable page (e.g. legacy state without source Faery rows) stays unregistered and is diagnosed.
                 {
@@ -5972,8 +5979,15 @@ int main(int argc,char** argv) {
             bool merchantSoldThisFrame=false; // MenuMerchant::Update 0x433548 / NativeMerchantSellItem +196 gate
             for(const auto& click:uiInput.clicks) {
                 if(merchantOpen&&merchantUi) {
+                    const bool merchantConfirmWasVisible=merchantUi->confirmation_visible();
                     const auto cmd=merchantUi->release(click.position.x*480.f/window.width(),click.position.y*320.f/window.height(),error);
                     if(!error.empty())throw std::runtime_error("Merchant release: "+error);
+                    if(!merchantConfirmWasVisible&&merchantUi->confirmation_visible()) {
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("MenuConfirm",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=MenuConfirm ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                    }
                     using Kind=f::merchant::ShopUi::Command::Kind;
                     if(cmd.kind==Kind::close){characterMenu.close();merchantOpen=false;merchantUi.reset();merchantShop=nullptr;std::cout<<"Merchant closed frame="<<drawn<<" via Back\n";continue;}
                     if(cmd.kind==Kind::none)continue;
@@ -5982,7 +5996,12 @@ int main(int argc,char** argv) {
                     if(cmd.kind==Kind::equip)changed=runtimeEquipment->equip_to_slot(cmd.instance_id,cmd.slot,error);
                     else if(cmd.kind==Kind::unequip)changed=runtimeEquipment->unequip(cmd.slot,error);
                     else if(cmd.kind==Kind::sell) {
-                        if(merchantSoldThisFrame){std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
+                        if(merchantSoldThisFrame){
+                            std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("PickupGold",cueError):f::audio::NamedUiCueResultV1{};
+                            std::cout<<"Merchant sound name=PickupGold ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                     <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn<<" duplicate=1";
+                            if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                            std::cout<<"Merchant duplicate sell blocked frame="<<drawn<<'\n';continue;}
                         merchantSoldThisFrame=true;
                         // TransferItemTo removes equipment in both sets before transferring the whole instance.
                         const auto bindings=state.equipment;
@@ -5997,6 +6016,12 @@ int main(int argc,char** argv) {
                         for(std::uint32_t n=0;n<count;++n){result=merchantShop->buy(cmd.instance_id,state,table,rules,price);if(result!=f::merchant::TradeResult::ok)break;changed=true;}
                     }
                     merchantUi->show_error(result);merchantPotionStatus();
+                    if(cmd.kind==Kind::sell||cmd.kind==Kind::buy||cmd.kind==Kind::buy_potions) {
+                        std::string cueError;const auto cue=runtimeAudio?runtimeAudio->play_named_ui_sound("PickupGold",cueError):f::audio::NamedUiCueResultV1{};
+                        std::cout<<"Merchant sound name=PickupGold ordinal="<<cue.ordinal<<" uid="<<cue.uid<<" token="<<cue.token
+                                 <<" status="<<f::audio::named_ui_cue_status_v1(cue.status)<<" frame="<<drawn;
+                        if(!cueError.empty())std::cout<<" detail="<<cueError;std::cout<<'\n';
+                    }
                     if(changed) {
                         if(!f::save_character(options.save,state,error))throw std::runtime_error("Merchant transaction save: "+error);
                         equipmentRebindRequested=true;

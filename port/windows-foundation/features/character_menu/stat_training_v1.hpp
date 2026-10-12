@@ -95,6 +95,7 @@ bool register_stat_training_v1(SourceCompositionV1& composition,
     std::shared_ptr<void> owner, CharacterState& character,
     std::function<CombatSession*()> session, const OriginalPropertyDatabase& source_properties,
     StatTrainingPersistV1 persist, std::shared_ptr<StatTrainingVisitV1> visit,
+    std::function<void(std::uint32_t)> post_release,
     std::string& error);
 
 } // namespace dh::foundation::character_menu
