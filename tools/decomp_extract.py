@@ -5,6 +5,7 @@
   python3 tools/decomp_extract.py --category core-platform --owner Console
   python3 tools/decomp_extract.py --address 0x3cbb08
   python3 tools/decomp_extract.py --category vox-audio --remaining
+  python3 tools/decomp_extract.py --category glitch-core-io --match 'glitch::io::CXMLReader' --list
 
 --next/--owner skip addresses already present in the category's ledger.csv.
 """
@@ -47,6 +48,8 @@ def main() -> int:
     ap.add_argument("--category")
     ap.add_argument("--next", type=int, default=0)
     ap.add_argument("--owner")
+    ap.add_argument("--match", help="regex on the demangled name, e.g. 'glitch::io::CXMLReader'")
+    ap.add_argument("--list", action="store_true", help="list address/size/name instead of pseudocode")
     ap.add_argument("--address", action="append", default=[])
     ap.add_argument("--remaining", action="store_true", help="print counts only")
     ap.add_argument("--max-bytes", type=int, default=0, help="skip functions whose body is larger")
@@ -59,12 +62,20 @@ def main() -> int:
         todo = [r for r in q if int(r["elf_address"], 16) not in finished]
         if a.owner:
             todo = [r for r in todo if r["owner"] == a.owner]
+        if a.match:
+            import re
+            todo = [r for r in todo if re.search(a.match, r["demangled"])]
         if a.max_bytes:
             todo = [r for r in todo if int(r["body_bytes"]) <= a.max_bytes]
         if a.remaining:
             print(f"{a.category}: {len(todo)} remaining of {len(q)} queued ({len(finished)} in ledger)")
             return 0
-        targets += [int(r["elf_address"], 16) for r in todo[: a.next or len(todo)]]
+        todo = todo[: a.next or len(todo)]
+        if a.list:
+            for r in todo:
+                print(f"0x{r['elf_address']}\t{r['body_bytes']}\t{r['demangled']}")
+            return 0
+        targets += [int(r["elf_address"], 16) for r in todo]
     for t in targets:
         r = idx.get(t)
         if r is None:

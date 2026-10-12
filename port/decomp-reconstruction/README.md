@@ -36,6 +36,7 @@ python3 tools/decomp_extract.py --category core-platform --remaining
 python3 tools/decomp_extract.py --category core-platform --owner Console      # one class, unfinished only
 python3 tools/decomp_extract.py --category core-platform --next 20 --max-bytes 600
 python3 tools/decomp_extract.py --address 0x30eea0
+python3 tools/decomp_extract.py --category glitch-core-io --match "glitch::io::CXMLReader" --list   # address, size, name
 python3 tools/decomp_vtable.py Console           # vtable byte offset -> method, for (*obj + 0x98)(...) calls
 tools/decomp_build.sh host core-platform         # fast build + tests
 tools/decomp_build.sh windows core-platform      # MinGW-w64 build, tests run under Wine
