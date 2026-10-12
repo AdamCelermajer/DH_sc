@@ -23,7 +23,7 @@ struct GameDate {
 
 class GLXPlayerSereverConfig : public GLXPlayerWebComponent {
 public:
-    // 0x82e898 C1, 0x82e94c C2. Partial: the two date objects are not allocated here.
+    // 0x82e898 C1, 0x82e94c C2. Allocates the two date objects, loads oconf.bar and builds the request client.
     explicit GLXPlayerSereverConfig(const char* gameVersion);
     ~GLXPlayerSereverConfig() override;  // 0x82e7ac D1, 0x82e830 D2
 
@@ -36,13 +36,11 @@ public:
     bool isOutOfDate(std::int32_t days) const;
     // 0x82e084 _ZN22GLXPlayerSereverConfig14GetCurTimeDateEP8GameDate
     static void GetCurTimeDate(GameDate* out);
-    // 0x82ecfc _ZN22GLXPlayerSereverConfig8GetValueEPKc. Partial: the original compares the
-    // stored keys with memcmp in a garbled walk, so this port returns the stored value for the
-    // key, or null.
+    // 0x82ecfc _ZN22GLXPlayerSereverConfig8GetValueEPKc. Returns the stored value, or the empty
+    // string (s_emptyUrl) when the key is missing.
     const char* GetValue(const char* key) const;
 
-    // 0x82e0bc _ZN22GLXPlayerSereverConfig16SaveServerConfigEv. Partial: writes serverConfig.sav. The
-    // local date is written as 0-0 when it is null (the ctor port does not allocate it).
+    // 0x82e0bc _ZN22GLXPlayerSereverConfig16SaveServerConfigEv. Writes serverConfig.sav.
     std::int32_t SaveServerConfig();
     // 0x82e3b4 _ZN22GLXPlayerSereverConfig10LoadConfigEv. Reads oconf.bar. Partial: the original returns
     // 1 or 0; the base declares void LoadConfig, so the result is dropped.
@@ -54,8 +52,7 @@ public:
     bool OnUpdateFailure(std::int32_t code) override;
 
     // Getters. Each one forwards a fixed key to GetValue.
-    // 0x82eefc _ZN22GLXPlayerSereverConfig17GetGameMinVersionEv. Partial: the key at DAT_0091a518
-    // is not recovered, so this port uses an empty key.
+    // 0x82eefc _ZN22GLXPlayerSereverConfig17GetGameMinVersionEv. Key "min" (ARM literal).
     const char* GetGameMinVersion() const;
     const char* GetGameLatestVersion() const;   // 0x82ef0c, key "latest"
     const char* GetChatRoomDomain() const;      // 0x82ef1c, key "ChatRoomDomain"

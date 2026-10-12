@@ -14,6 +14,10 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <vector>
+
+#include "net-session-online/t_member_info.hpp"
 
 class DataPacket;
 
@@ -98,12 +102,34 @@ public:
     // Thunk: forwards to Terminate (0x821448).
     virtual void OnMPDisconnectSuccess();
 
+    // 0x8214cc _ZN28CMatchingGLLiveLobbyObserver18GetMemberIndexByNameEPKc: first entry whose
+    // nickname matches, or -1.
+    std::int32_t GetMemberIndexByName(const char* name) const;
+    // 0x822324 _ZN28CMatchingGLLiveLobbyObserver19GetMemberByMemberIdEi: first entry with this
+    // member id. Otherwise a static sentinel with member id -1 (the original's invalidMember).
+    tMemberInfo* GetMemberByMemberId(std::int32_t memberId);
+    // 0x821bac _ZN28CMatchingGLLiveLobbyObserver18GetMemberIdVectorEv: the member ids, in order.
+    std::vector<std::int32_t> GetMemberIdVector() const;
+    // 0x822638 _ZN28CMatchingGLLiveLobbyObserver14SetPlayerParamESs. Partial: the aliasing
+    // guard of the original (destination equal to the source) is not reproduced; the decompiled
+    // return value is not used, so this is void.
+    void SetPlayerParam(const std::string& value);
+    // 0x822950 _ZN28CMatchingGLLiveLobbyObserver18CollapseMemberListEv: keeps only entries with
+    // the active flag set.
+    void CollapseMemberList();
+    // 0x822b78 _ZN28CMatchingGLLiveLobbyObserver21OnMPLeaveSessionSuccessEv: clears the game-started
+    // flag, both index fields (-1), the member list and the last result.
+    std::int32_t OnMPLeaveSessionSuccess();
+
     // Test seams. Not in the original.
     std::int32_t StateForTest() const { return state_; }
     bool LoggedInForTest() const { return loggedIn_; }
     bool ConnectedForTest() const { return connected_; }
     bool GameStartedForTest() const { return gameStarted_; }
     std::int32_t LastResultForTest() const { return lastResult_; }
+    std::size_t MemberCountForTest() const { return members_.size(); }
+    tMemberInfo& MemberForTest(std::size_t index) { return members_[index]; }
+    void SetMemberIndexForTest(std::int32_t index) { field0c_ = index; }
     void SetFlagsForTest(bool loggedIn, bool connected, bool gameStarted) {
         loggedIn_ = loggedIn;
         connected_ = connected;
@@ -119,4 +145,7 @@ private:
     std::int32_t updateTime_ = 0;  // +0x10 (time of the last list update in the original)
     std::int32_t state_ = 0;       // +0x14
     std::int32_t lastResult_ = 0;  // +0x48
+    // +0x24: member list (vector of 84-byte entries in the original). Field +0x0c is the index
+    // that SetPlayerParam writes to; it is not identified further (see field0c_).
+    std::vector<tMemberInfo> members_;
 };

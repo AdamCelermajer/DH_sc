@@ -1,5 +1,7 @@
 #include "net-session-online/c_messaging.hpp"
 
+#include "net-session-online/deps/matching.hpp"
+
 CMessaging* CMessaging::s_messaging = nullptr;
 
 // 0x80a710 _ZN10CMessaging13IsInitializedEv

@@ -52,7 +52,7 @@ public:
     // 0x80ce48 _ZN10CMessaging24sProcessAcknowledgedPacketEii: packet-manager callback, forwards to the singleton.
     static void sProcessAcknowledgedPacket(int outerKey, int innerKey);
 
-    // 0x80aa50 _ZN10CMessaging22AreMessagesAcknowledgedEPKc (partial: the named search is not reconstructed).
+    // 0x80aa50 _ZN10CMessaging23AreMessagesAcknowledgedEPKc (partial: the named search is not reconstructed).
     int AreMessagesAcknowledged(const char* typeName);
     // 0x80ab00 _ZN10CMessaging19GetMessageFromQueueEPKc (partial: the type-id match is not reconstructed).
     CMessage* GetMessageFromQueue(const char* typeName);
@@ -63,21 +63,21 @@ public:
     void PurgeMessagesFromQueue(std::list<CMessage*>* queue, CNetMutex* mutex);
     // 0x80ad54 _ZN10CMessaging16ProcessRecvQueueEv (partial: the expired-flag write is not reconstructed).
     void ProcessRecvQueue();
-    // 0x80b900 _ZN10CMessaging13PackMessagesEiR12NetBitStream (partial: the +0x3c skip and the buffer-size check are not reconstructed).
+    // 0x80b900 _ZN10CMessaging12PackMessagesEiR12NetBitStream (partial: the +0x3c skip and the buffer-size check are not reconstructed).
     std::set<std::uint16_t> PackMessages(int memberId, NetBitStream& stream);
     // 0x80ba78 _ZN10CMessaging18AddMissingMessagesEiii
     void AddMissingMessages(int memberId, int fromSequence, int toSequence);
-    // 0x80cf1c _ZN10CMessaging16WritePacketDataEiiR12NetBitStream
+    // 0x80cf1c _ZN10CMessaging15WritePacketDataEiiR12NetBitStream
     int WritePacketData(int outerKey, int innerKey, NetBitStream& stream);
-    // 0x80cfdc _ZN10CMessaging17sWritePacketDataEiiR12NetBitStream: packet-manager callback, forwards to the singleton.
+    // 0x80cfdc _ZN10CMessaging16sWritePacketDataEiiR12NetBitStream: packet-manager callback, forwards to the singleton.
     static int sWritePacketData(int outerKey, int innerKey, NetBitStream& stream);
     // 0x80d624 _ZN10CMessaging14AddToRecvQueueEP8CMessage (partial: ProcessMissingMessages is not called).
     void AddToRecvQueue(CMessage* message);
     // 0x80db24 _ZN10CMessaging14AddToSendQueueEP8CMessage (partial: local messages are queued, not received).
     void AddToSendQueue(CMessage* message);
-    // 0x80e1e8 _ZN10CMessaging13SendMsgToServerEP8CMessage
+    // 0x80e1e8 _ZN10CMessaging15SendMsgToServerEP8CMessage
     void SendMsgToServer(CMessage* message);
-    // 0x80e23c _ZN10CMessaging8SendMsgToEP8CMessagei
+    // 0x80e23c _ZN10CMessaging9SendMsgToEP8CMessagei
     void SendMsgTo(CMessage* message, int memberId);
     // 0x80e2a4 _ZN10CMessaging7SendMsgEP8CMessage
     void SendMsg(CMessage* message);

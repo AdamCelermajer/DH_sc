@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <string>
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -11,13 +12,13 @@ int main() {
     CHECK(std::strcmp(GLXPlayerSereverConfig::GetGameVersion(), "1.2.3") == 0);
 
     // Keys map to their getters. An unknown key gives null.
-    CHECK(config.GetValue("latest") == nullptr);
+    CHECK(std::string(config.GetValue("latest")).empty());
     config.SetValueForTest("latest", "1.2.4");
     config.SetValueForTest("ChatServer", "chat.example");
     CHECK(std::strcmp(config.GetGameLatestVersion(), "1.2.4") == 0);
     CHECK(std::strcmp(config.GetChatServer(), "chat.example") == 0);
-    CHECK(config.GetChatDomain() == nullptr);
-    CHECK(config.GetPhpVer() == nullptr);
+    CHECK(std::string(config.GetChatDomain()).empty());
+    CHECK(std::string(config.GetPhpVer()).empty());
 
     // A server date in an earlier year is out of date. The same year compares the day numbers.
     GameDate* server = new GameDate{2025, 100};

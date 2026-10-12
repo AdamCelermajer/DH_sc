@@ -108,10 +108,35 @@ void CopyBounded(char* dst, const char* src, std::size_t size) {
     dst[n] = '\0';
 }
 
-// Stand-in for threadGetHostByNameProcessLC, which is outside this category. The lookup
-// result is never stored and the busy flag is never cleared (see GetHostByName).
+// Copy of the first address of a resolved host, h_length raw bytes (new[]; released with delete[]).
+char* NewAddressCopy(const hostent* host) {
+    std::size_t length = static_cast<std::size_t>(host->h_length);
+    char* copy = new char[length];
+    std::memcpy(copy, host->h_addr_list[0], length);
+    return copy;
+}
+
+// 0x89f8a0 threadGetHostByNameProcessLC (the binary's copy lives in core-platform, with its own
+// cache; this one fills the cache that GetHostIP and GetHostByName read). The busy flag is set
+// while the lookup runs and cleared after a successful lookup that is cached. A failed lookup
+// leaves the flag set, so GetHostByName starts no new lookup (as the original). The cache is
+// filled without a lock, as in the original.
 void ThreadGetHostByNameProcessLC(LCHostNameRequest* request) {
-    (void)request;
+    *request->flag_address = 1;
+    hostent* found = ::gethostbyname(request->server_name);
+    if (found == nullptr) {
+        return;
+    }
+    if (l_countLC <= 3 && found->h_addr_list[0] != nullptr) {
+        hostent* entry = new hostent{};
+        entry->h_length = found->h_length;
+        entry->h_name = NewCopy(request->server_name);
+        entry->h_addr_list = new char*[1]{};
+        entry->h_addr_list[0] = NewAddressCopy(found);
+        l_hostLC[l_countLC] = entry;
+        ++l_countLC;
+    }
+    *request->flag_address = 0;
 }
 
 }  // namespace
