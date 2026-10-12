@@ -13,6 +13,16 @@ public:
     virtual void unidentifiedBaseSlot() = 0;
     // Returns the number of bytes read.
     virtual int32_t read(void* buffer, uint32_t sizeToRead) = 0;
+    // Placeholders for the slots between read and getSize (vtable +0x10..+0x14).
+    virtual void unidentifiedSlot04() {}
+    virtual void unidentifiedSlot05() {}
+    // vtable +0x18: seek(position, relativeMovement). Returns true on success.
+    virtual bool seek(int32_t position, bool relativeMovement) { (void)position; (void)relativeMovement; return false; }
+    virtual void unidentifiedSlot07() {}
+    // vtable +0x20: total size in bytes.
+    virtual uint32_t getSize() const { return 0; }
+    // vtable +0x24: current position.
+    virtual int32_t getPos() const { return 0; }
 };
 
 }  // namespace glitch::io

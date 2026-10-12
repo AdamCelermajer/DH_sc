@@ -69,3 +69,11 @@ Deviations and open questions:
 - The ConnectionLobby stand-in is not polymorphic (the original deletes it through a vtable slot).
 
 Not done in this group: mpSendGetLobbyForFriend (friend-list overload, 0x837a88, 420 bytes), CreateLobby (0x8387a4), CreateLobbyWithGameCenter (0x83a744), Update (0x838a34), ProcessIncomingMessages (0x838c6c, 4492 bytes, skip), SendGetLobbyForFriend with GLXPlayerUserFriend, and the GLXPlayerMPLobby class members listed in the queue.
+
+## GLXPlayerMPBase, observer and GLXPlayerUserFriend getters (session 2)
+
+- `include/net-session-online/glx_player_mp_base.hpp`: GLXPlayerMPBaseObserver with the 14 callbacks in vtable order (slot 0 is OnMPFinishGameSuccess). GLXPlayerMPBase has observer at +0x04, error message at +0x4c, aux object at +0x68.
+- The lobby refusal path (`RefuseRequest`) calls observer slot 0. That is OnMPFinishGameSuccess in the vtable, which looks wrong for a refusal. Verify against the binary.
+- `include/net-session-online/glx_player_user_friend.hpp`: per-entry arrays at +0x40..+0x70 (see the comment). Getters use an inclusive bound (index <= count), GetName uses strict (<). The original reads at index == count, which is past the end. The port returns the default.
+- GLXPlayerUserFriend ctors/dtors, clearFriendsList (816 bytes), processFriendsList and the send* methods are not reconstructed yet.
+- GLXPlayerMPBase::mpSendEstablishConnection (0x84ad78), mpSendDisconnect (0x84ae28) and the setErrMsg() overload (0x84abd8) are not done.

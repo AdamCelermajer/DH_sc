@@ -78,9 +78,12 @@ bool GLXPlayerMPLobby::mpIsInGame() const { return state_ > 4; }
 // 0x83766c _ZN16GLXPlayerMPLobby10mpIsMasterEv
 bool GLXPlayerMPLobby::mpIsMaster() const { return isMaster_; }
 
+// Refused requests call observer vtable slot 0, which is OnMPFinishGameSuccess.
+// The decompiled call site is a refusal path, so the name looks wrong. Check it
+// against the binary before relying on it.
 void GLXPlayerMPLobby::RefuseRequest() {
     lastResult_ = kRefused;
-    observer_->OnInvalidState();
+    observer_->OnMPFinishGameSuccess();
 }
 
 void GLXPlayerMPLobby::StampRequest(std::int32_t kind) {
@@ -125,7 +128,7 @@ void GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(std::int32_t a, std:
     XP_DEBUG_OUT("GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(){\n");
     if (state_ < 2) {
         lastResult_ = kRefused;
-        observer_->OnInvalidState();
+        observer_->OnMPFinishGameSuccess();
     } else {
         lastResult_ = kPending;
         std::int32_t count = friends->GetFriendsCount();

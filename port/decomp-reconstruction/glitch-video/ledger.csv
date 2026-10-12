@@ -357,3 +357,12 @@ elf_address,symbol,status,source_file,notes
 0x5a0af0,_ZN6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPNS0_13SVertexStreamES4_,reconstructed,glitch-video/src/vertex_streams.cpp,non-const getStream
 0x5a0b34,_ZN6glitch5video14CVertexStreams9addOffsetEi,reconstructed,glitch-video/src/vertex_streams.cpp,
 0x5a0b74,_ZNK6glitch5video14CVertexStreams13isHomogeneousEj,partial,glitch-video/src/vertex_streams.cpp,a missed lookup reads the array sentinel in the original; here it is a null buffer
+0x602cc4,_ZNK6glitch5video15CImageLoaderATC21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,ATC isALoadableFileFormat; 16-bit magic check, size >= 8
+0x603254,_ZNK6glitch5video15CImageLoaderATC24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,ATC extension; bool result of the original pointer-or-1 return
+0x6042c0,_ZNK6glitch5video15CImageLoaderDDS21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,DDS isALoadableFileFormat; reads "DDS " magic
+0x60490c,_ZNK6glitch5video15CImageLoaderDDS24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,DDS extension; lower case only
+0x604234,_ZNK6glitch5video15CImageLoaderDDS9CDataInfo12getFilePitchEh,partial,glitch-video/src/texture_loaders.cpp,pitch from header word 4 when flag 8 set; header pointer member is not filled by any reconstructed code yet
+0x6057e0,_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,PVR format probe; seeks back to the saved position
+0x6061b4,_ZNK6glitch5video15CImageLoaderPVR24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,PVR extension
+0x604b0c,_ZNK6glitch5video15CImageLoaderJPG21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,JPG format probe; JFIF magic at offset 6
+0x604f6c,_ZNK6glitch5video15CImageLoaderJPG24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,JPG extension

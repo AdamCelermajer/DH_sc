@@ -8,7 +8,7 @@ static int failures = 0;
 namespace {
 struct CountingObserver : GLXPlayerMPBaseObserver {
     int invalid = 0;
-    void OnInvalidState() override { ++invalid; }
+    void OnMPFinishGameSuccess() override { ++invalid; }
 };
 }  // namespace
 

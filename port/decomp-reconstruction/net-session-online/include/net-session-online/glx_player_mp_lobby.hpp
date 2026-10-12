@@ -3,7 +3,7 @@
 // request kind. Refused requests set the result to 0x32 and notify the observer.
 //
 // Layout (original 32-bit offsets, kept as comments):
-//   +0x00 vptr           +0x04 observer (GLXPlayerMPBase)
+//   +0x00 vptr           +0x04 observer (GLXPlayerMPBase, see glx_player_mp_base.hpp)
 //   +0x48 request arg    +0x4c unknown, zeroed by Init
 //   +0x50 last result (-1 pending, 0x32 refused)
 //   +0x60 state (>1 can send, >2 in session or room, >4 in game)
@@ -21,7 +21,8 @@
 
 #include "net-session-online/deps/connection_lobby.hpp"
 #include "net-session-online/deps/glx_stand_ins.hpp"
-#include "net-session-online/deps/glx_user_friend.hpp"
+#include "net-session-online/glx_player_mp_base.hpp"
+#include "net-session-online/glx_player_user_friend.hpp"
 
 class CLobbyParameterAndQuery;
 
@@ -126,7 +127,6 @@ private:
     std::uint8_t unknown63_ = 0;                        // +0x63
     std::uint8_t unknown64_ = 0;                        // +0x64
     std::uint8_t flag18_ = 0;                           // +0x18
-    std::unique_ptr<ThreadHandle> aux68_;               // +0x68
     std::unique_ptr<ConnectionLobby> connection_;       // +0x74
     bool autoMatch_ = false;                            // +0x78
     bool pendingActive_ = false;                        // +0x80

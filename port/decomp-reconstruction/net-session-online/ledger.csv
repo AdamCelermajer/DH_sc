@@ -198,3 +198,48 @@ elf_address,symbol,status,source_file,notes
 0x83a5ac,_ZN16GLXPlayerMPLobbyD2Ev,partial,net-session-online/src/glx_player_mp_lobby.cpp,same body as D1; +0x58 and +0x7c not recovered
 0x83a64c,_ZN16GLXPlayerMPLobbyC1EP23GLXPlayerMPBaseObserverPc,partial,net-session-online/src/glx_player_mp_lobby.cpp,base ctor and Init recovered; config string path not recovered
 0x83a6c8,_ZN16GLXPlayerMPLobbyC2EP23GLXPlayerMPBaseObserverPc,partial,net-session-online/src/glx_player_mp_lobby.cpp,same body as C1
+0x82b9f4,_ZN19GLXPlayerUserFriend15GetFriendsCountEv,reconstructed,net-session-online/src/glx_player_user_friend.cpp,returns count at +0x3c
+0x82b9fc,_ZN19GLXPlayerUserFriend13GetUserNumberEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0; index inclusive of count as original
+0x82ba2c,_ZN19GLXPlayerUserFriend7GetNameEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,strict index < count (original); default null
+0x82ba5c,_ZN19GLXPlayerUserFriend10GetCountryEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
+0x82ba8c,_ZN19GLXPlayerUserFriend13GetReputationEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,returns double; default -1.0 (0xbff0000000000000)
+0x82bac8,_ZN19GLXPlayerUserFriend21GetBadReputationCountEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
+0x82baf8,_ZN19GLXPlayerUserFriend22GetGoodReputationCountEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
+0x82bb28,_ZN19GLXPlayerUserFriend8GetStateEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
+0x82bb58,_ZN19GLXPlayerUserFriend14GetCurrentGameEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
+0x82bb88,_ZN19GLXPlayerUserFriend9GetTrophyEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1
+0x82bbb8,_ZN19GLXPlayerUserFriend18GetTotalTrophyScoreEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default -1 (name from symbol, not in the queue listing text)
+0x82bbe8,_ZN19GLXPlayerUserFriend11GetLanguageEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
+0x82bc18,_ZN19GLXPlayerUserFriend19GetAvatarLastUpdateEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
+0x82bc48,_ZN19GLXPlayerUserFriend12GetAvatarKeyEi,reconstructed,net-session-online/src/glx_player_user_friend.cpp,default 0
+0x84aaf0,_ZN15GLXPlayerMPBase10LoadConfigEv,reconstructed,net-session-online/src/glx_player_mp_base.cpp,sets +0x58 to 0 and returns true
+0x84ab00,_ZN15GLXPlayerMPBase4InitEv,reconstructed,net-session-online/src/glx_player_mp_base.cpp,zeroes +0x70 +0x68 +0x6c; calls LoadConfig
+0x84ab14,_ZN15GLXPlayerMPBaseC1EP23GLXPlayerMPBaseObserver,reconstructed,net-session-online/src/glx_player_mp_base.cpp,sets observer and calls Init
+0x84ab54,_ZN15GLXPlayerMPBaseC2EP23GLXPlayerMPBaseObserver,reconstructed,net-session-online/src/glx_player_mp_base.cpp,same body as C1
+0x84ab94,_ZN15GLXPlayerMPBase9getErrMsgEv,reconstructed,net-session-online/src/glx_player_mp_base.cpp,returns the error message pointer
+0x84ab9c,_ZN15GLXPlayerMPBase9setErrMsgEPc,reconstructed,net-session-online/src/glx_player_mp_base.cpp,deviation: copies with new[] instead of XP_API_STRNEW; original frees with delete[]
+0x84aea8,_ZN15GLXPlayerMPBaseD1Ev,reconstructed,net-session-online/src/glx_player_mp_base.cpp,frees aux object and error message
+0x84af14,_ZN15GLXPlayerMPBaseD0Ev,skipped,net-session-online/src/glx_player_mp_base.cpp,compiler-generated deleting destructor thunk
+0x84af30,_ZN15GLXPlayerMPBaseD2Ev,reconstructed,net-session-online/src/glx_player_mp_base.cpp,same body as D1
+0x83760c,_ZN16GLXPlayerMPBase14mpPrepareGameDataEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default in the original
+0x837614,_ZN16GLXPlayerMPBase18mpSendKickOutPlayerEPc,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837618,_ZN16GLXPlayerMPBase18mpSendKickOutPlayerEPt,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default (unsigned short overload)
+0x83761c,_ZN16GLXPlayerMPBase14mpSendLeaveGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837620,_ZN16GLXPlayerMPBase13mpSendStartGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837624,_ZN16GLXPlayerMPBase14mpSendFinishGameEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x837628,_ZN16GLXPlayerMPBase19mpSendUPnPPortMappingEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x83762c,_ZN16GLXPlayerMPBase18mpProcessPushMessagesEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty virtual default
+0x81bbb0,_ZN23GLXPlayerMPBaseObserver22OnMPFinishGameSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (vtable slot 0)
+0x81bbb4,_ZN23GLXPlayerMPBaseObserver18OnMPuPnPTestSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 1)
+0x81bbb8,_ZN23GLXPlayerMPBaseObserver20OnMPLeaveGameSuccessEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 2)
+0x81bbbc,_ZN23GLXPlayerMPBaseObserver19OnMPSetParamSuccessEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 3)
+0x81bbc0,_ZN23GLXPlayerMPBaseObserver23OnMPProcessPushMessagesEP10DataPacketi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 4)
+0x81bbc4,_ZN23GLXPlayerMPBaseObserver22OnMPRejoinLobbySuccessEP10DataPacketb,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 5)
+0x81bbc8,_ZN23GLXPlayerMPBaseObserver17OnMPGetLobbyInfoEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 6)
+0x81bbcc,_ZN23GLXPlayerMPBaseObserver19OnMPStartGameFailedEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 7)
+0x81bbd0,_ZN23GLXPlayerMPBaseObserver19OnMPGetLobbyForNameEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 8)
+0x81bbd4,_ZN23GLXPlayerMPBaseObserver21OnMPGetLobbyForFriendEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 9)
+0x81bbd8,_ZN23GLXPlayerMPBaseObserver23OnMPAutoMatchRequesetEi,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 10; name spelling as in the binary)
+0x81bbdc,_ZN23GLXPlayerMPBaseObserver29OnMPAutoMatchRequesetCancelEv,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 11)
+0x81bbe0,_ZN23GLXPlayerMPBaseObserver27OnMPGetPlayerCounterSuccessEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 12)
+0x81bbe4,_ZN23GLXPlayerMPBaseObserver36OnMPJoinPreDefinedRoomSessionSuccessEP10DataPacket,reconstructed,net-session-online/include/net-session-online/glx_player_mp_base.hpp,empty callback (slot 13)
