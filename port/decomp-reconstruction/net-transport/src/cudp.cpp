@@ -71,8 +71,8 @@ int CUdp::CloseSocket() {
 }
 
 // 0x827780 _ZN4CUdp10OpenSocketEtb
-// Opens the socket only when it is not open yet; the local address is looked up afterwards
-// as the original does (its debug print is dropped). Partial for that reason.
+// Opens the socket only when it is not open yet; the local address and port are then
+// looked up and discarded, as the original does (its inet_ntoa of the address is never read).
 int CUdp::OpenSocket(std::uint16_t port, bool broadcast) {
     if (!socket_.IsValid()) {
         unsigned int options = broadcast ? 3u : 2u;
@@ -101,8 +101,9 @@ CUdp* CUdp::CreateByPort(std::uint16_t port, unsigned int flags) {
 }
 
 // 0x8278fc _ZN4CUdp19InitializeTransportEv
-// Registers the two UDP transports (a broadcast one on port 0x1a78 and a plain one on any
-// port) with the transport manager, once.
+// Partial: creates the two UDP transports once: port 0x1a78 with flags 4 (no broadcast;
+// 0x1a78 is elf_hash_bucket + 0x199C, checked against the ARM listing) and port 0 with
+// flags 3 (broadcast). AddTransport is a no-op stand-in (deps/transport_manager.hpp).
 int CUdp::InitializeTransport() {
     if (!s_initialized_) {
         CUdp* first = CreateByPort(0x1a78, 4);

@@ -26,7 +26,7 @@ public:
     };
 
     static constexpr int kStatusError = 7;          // status_ value after a failure
-    static constexpr int kConnectTimeoutMs = 0x7531; // 30001 ms
+    static constexpr int kConnectTimeoutMs = 30000; // 0x7530; the wait continues while elapsed <= this
     static constexpr int kLookupTimeoutMs = 9999;
 
     // 0x84232c / 0x842430 CAndroidSocket(char*, int, GLXPlayerSocketObserver*)
@@ -41,36 +41,36 @@ public:
 
     void Init();                                    // 0x840880 _ZN14CAndroidSocket4InitEv
     bool IsReadyForRW() const;                      // 0x840884
-    void SendBroadcast(const char* data, int length, int port); // 0x8408ac
-    void SetBroadcast();                            // 0x8409a0
-    void Listen(int backlog);                       // 0x840a04
+    std::ptrdiff_t SendBroadcast(const char* data, int length, int port); // 0x8408ac
+    int SetBroadcast();                             // 0x8409a0, setsockopt result
+    int Listen(int backlog);                        // 0x840a04
     std::uint16_t GetSocketPort() const;            // 0x840a30 (host byte order)
     const char* GetSocketAddr() const;              // 0x840ab4
-    void RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out); // 0x840b4c
+    std::ptrdiff_t RecvFromUnkownIP(char* buffer, int length, char** ip_out, int* port_out); // 0x840b4c
     void GetHostName(char** out) const;             // 0x840c60
-    void RecvFrom(char* buffer, int length);        // 0x840cc8
-    void SendTo(const char* data, int length, const char* host, int port); // 0x840de0
+    std::ptrdiff_t RecvFrom(char* buffer, int length); // 0x840cc8
+    std::ptrdiff_t SendTo(const char* data, int length, const char* host, int port); // 0x840de0
     bool CreateIcmpSocket();                        // 0x840ed0
     bool CreateUdpSocket();                         // 0x840f04
     void CreateTcpSocket();                         // 0x840f38
     bool CreateSocket();                            // 0x840f68
-    void Bind(const char* host, std::uint16_t port); // 0x840fc8
+    int Bind(const char* host, std::uint16_t port); // 0x840fc8, returns port + retries
     std::ptrdiff_t Recv(char* buffer, int length);  // 0x8410d8
-    void Send(const char* data, int length);        // 0x8410f8
+    std::ptrdiff_t Send(const char* data, int length); // 0x8410f8
     int Select(XSocketSelectFlag flag);             // 0x8411e8
     bool CloseSocket();                             // 0x8412b4
-    void ConnectTo(const char* host, int port);     // 0x8412f0
-    void Connect();                                 // 0x84152c
-    void ConnectByName(const char* name, std::uint16_t port); // 0x841790
+    int ConnectTo(const char* host, int port);      // 0x8412f0, 1 when done
+    int Connect();                                  // 0x84152c, 1 when done
+    int ConnectByName(const char* name, std::uint16_t port); // 0x841790, 1 when done
     bool SetNonBlocking();                          // 0x841ad0
     int GetLastError() const;                       // 0x841b98
     hostent* GetHostByName(const char* name);       // 0x841ca8
     hostent* GetHostIP(const char* name);           // 0x841e4c
-    void GetLocalIP(char* out);                     // 0x841fbc
+    int GetLocalIP(char* out);                      // 0x841fbc, 1 on success
     int Accept();                                   // 0x842360 (accepted fd or -1)
 
 private:
-    void FinishConnect();                           // state-1 path shared by Connect/ConnectByName
+    int FinishConnect();                            // state-1 path shared by Connect/ConnectByName
 
     int status_ = 0;                                // +0x04 (7 = error)
     int fd_ = -1;                                   // +0x08 native socket handle

@@ -31,14 +31,13 @@ bool CTcp::IsConnected() const {
 }
 
 // 0x82a008 _ZN4CTcp13IsConnectedToER10CNetworkId
-// Compares the peer's address with the given id. Partial: the decompile shows the call but
-// not the returned value; the comparison result is returned here.
+// Returns GetPeerNetworkId() (vtable +0x1c) compared with the given id via IsEqual.
 bool CTcp::IsConnectedTo(const CNetworkId& peer) {
     return GetPeerNetworkId().IsEqual(peer);
 }
 
 // 0x829fc4 _ZN4CTcp17CanDisconnectFromER10CNetworkId
-// Partial: the decompile is a tail call into IsConnectedTo; the result is assumed to pass through.
+// Tail call into IsConnectedTo (vtable +0x28 in the original; direct here, CTcp has no subclass).
 bool CTcp::CanDisconnectFrom(CNetworkId& peer) {
     return IsConnectedTo(peer);
 }
@@ -76,7 +75,8 @@ CNetworkId CTcp::GetLocalNetworkId() {
 }
 
 // 0x82a0d8 _ZN4CTcp14ReceivePacketsEv
-// Reads up to 21 packets of at most 4096 bytes and hands each to the transport manager.
+// Partial: reads up to 21 packets of at most 4096 bytes and hands each to the transport
+// manager. ReceiverCallback is a no-op stand-in (CTransportManager is not reconstructed).
 int CTcp::ReceivePackets() {
     CNetworkId from;
     char buffer[0x1000];
@@ -98,6 +98,7 @@ int CTcp::ReceivePackets() {
 }
 
 // 0x82a1dc _ZN4CTcp4SendER10CNetworkIdPvi
+// Sends when the socket is valid and IsConnectedTo(peer) (vtable +0x28 in the original).
 std::int64_t CTcp::Send(CNetworkId& peer, const void* data, int len) {
     if (!socket_.IsValid() || !IsConnectedTo(peer)) {
         return -1;
@@ -125,14 +126,19 @@ int CTcp::CloseSocket() {
 }
 
 // 0x82a2a4 _ZN4CTcp10OpenSocketEtb
-// Partial: the original's debug print of the local address is dropped.
+// Opens a TCP socket with option 6 and listens when asked. Failures return the negative
+// result of the failing call, as the original does.
 int CTcp::OpenSocket(std::uint16_t port, bool listen) {
     if (!socket_.IsValid()) {
-        if (socket_.OpenTCP(port, 6) < 0) {
-            return -1;
+        int result = socket_.OpenTCP(port, 6);
+        if (result < 0) {
+            return result;
         }
-        if (listen && socket_.IsValid() && socket_.Listen() < 0) {
-            return -1;
+        if (listen && socket_.IsValid()) {
+            result = socket_.Listen();
+            if (result < 0) {
+                return result;
+            }
         }
     }
     socket_.GetLocalAddress();
@@ -158,8 +164,9 @@ CTcp* CTcp::CreateBySocketId(int handle, unsigned int flags) {
 }
 
 // 0x82a540 _ZN4CTcp17AcceptConnectionsEv
-// Partial: the accepted handle is wrapped in a new CTcp and handed to the transport manager.
-// The original also builds a CNetworkId for the peer that it never uses; it is not built here.
+// Partial: the accepted handle is wrapped in a new CTcp and handed to the transport manager
+// through AcceptCallback, a no-op stand-in (CTransportManager is not reconstructed). The
+// original's unused CNetworkId for the peer is not built here.
 int CTcp::AcceptConnections() {
     if (socket_.IsValid() && socket_.IsListening()) {
         in_addr from{};
@@ -174,7 +181,8 @@ int CTcp::AcceptConnections() {
 }
 
 // 0x82a464 _ZN4CTcp19InitializeTransportEv
-// Registers one listening TCP transport on any port, once (the original's CreateByPort(0, 5)).
+// Partial: registers one listening TCP transport on any port, once (CreateByPort(0, 5)).
+// AddTransport is a no-op stand-in (deps/transport_manager.hpp).
 int CTcp::InitializeTransport() {
     if (!s_initialized_) {
         CTcp* listener = CreateByPort(0, 5);
