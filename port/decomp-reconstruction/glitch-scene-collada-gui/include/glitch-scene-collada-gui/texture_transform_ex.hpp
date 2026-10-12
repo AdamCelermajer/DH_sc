@@ -13,6 +13,13 @@ struct SAnimationAccessor;  // declared by the animation accessor module
 
 namespace glitch::collada::animation_track {
 
+// Track object. Only its empty destructor is mapped; the track base is not.
+class CTextureTransformEx {
+public:
+    // 0x6e3708 _ZN6glitch7collada15animation_track19CTextureTransformExD1Ev (empty)
+    ~CTextureTransformEx() = default;
+};
+
 // 0x6e33f4 _ZNK6glitch7collada15animation_track19CTextureTransformEx13retrieveValueEPvS3_
 // Original body is empty.
 void CTextureTransformEx_retrieveValue(const void* self, void* in, void* out);

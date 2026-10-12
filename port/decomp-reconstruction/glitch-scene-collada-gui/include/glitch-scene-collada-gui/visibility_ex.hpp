@@ -9,6 +9,9 @@ namespace glitch::collada::animation_track {
 
 // Layout stand-in for the parts of CVisibilityEx used by the accessors below.
 struct CVisibilityEx {
+    // 0x6e4a24 _ZN6glitch7collada15animation_track13CVisibilityExD1Ev (empty)
+    ~CVisibilityEx() = default;
+
     std::uint8_t pad_0000[0x11c];  // +0x000 (base track state, not yet mapped)
     std::uint32_t visible_flags;   // +0x11c
 };

@@ -590,3 +590,155 @@ elf_address,symbol,status,source_file,notes
 0x6fa5a4,_ZN6glitch5scene24CParticleFadeOutAffectorC1ERKNS_5video6SColorEj,partial,glitch-scene-collada-gui/src/particle_affectors.cpp,partial: members as in the constructor stores; the vtable and virtual-base stores are implicit in C++ and not reproduced
 0x6fa7c0,_ZN6glitch5scene24CParticleFadeOutAffectorD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/particle_affectors.hpp,empty D1 in the original
 0x6fa69c,_ZN6glitch5scene24CParticleFadeOutAffector6affectEjPNS0_9SParticleEj,partial,glitch-scene-collada-gui/src/particle_affectors.cpp,partial: only the enabled and count guard is reconstructed; the per-particle update is not
+0x6e5a38,_ZNK6glitch7collada17CCoronasSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp,returns the box at +0x150 by reference
+0x62dba0,_ZN6glitch7collada20CDynamicAnimationSet10getChannelEj,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,"channel table at +0x74, 16-byte records"
+0x62dbac,_ZNK6glitch7collada20CDynamicAnimationSet10getChannelEj,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,"const overload of getChannel, same table"
+0x644b80,_ZNK6glitch7collada5CMesh14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,bounding box at +0x24
+0x64990c,_ZNK6glitch7collada13CMorphingMesh5cloneEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,result slot is a null intrusive_ptr in the original
+0x646a34,_ZNK6glitch7collada19CModularSkinnedMesh22getCategoryModuleCountEi,reconstructed,glitch-scene-collada-gui/src/modular_skinned_mesh.cpp,category entry module count at +0x08 of the 0x10-byte record
+0x64943c,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode22getCategoryModuleCountEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail-calls CModularSkinnedMesh at +0x134 with the index unchanged
+0x649444,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode16getCategoryCountEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail-calls CModularSkinnedMesh::getCategoryCount
+0x64945c,_ZNK6glitch7collada28CModularSkinnedMeshSceneNode18getCurrentModuleIdEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail-calls CModularSkinnedMesh::getCurrentModuleId
+0x65f0fc,_ZN6glitch7collada21CSceneNodeAnimatorSet18getAnimationLengthEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,"tail-calls CAnimationSet::getAnimationLength (ARM: ldr r0,[r0,#0x24]; b)"
+0x65f104,_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationStartEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail-calls CAnimationSet::getAnimationStart (ARM checked)
+0x65f10c,_ZN6glitch7collada21CSceneNodeAnimatorSet15getAnimationEndEi,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,tail-calls CAnimationSet::getAnimationEnd (ARM checked)
+0x65f17c,_ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,reads animatedTrackCount (+0x3c) of the animation set at +0x24
+0x666cc4,_ZNK6glitch7collada19CTimelineController12getClipCountEv,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,clip count from the clip table at +0x34; 0 without a table
+0x666cd4,_ZNK6glitch7collada19CTimelineController12getClipStartEi,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,clip start at +0x04 of the 12-byte clip record
+0x666cec,_ZNK6glitch7collada19CTimelineController10getClipEndEi,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,clip end at +0x08 of the 12-byte clip record
+0x666d84,_ZNK6glitch7collada19CTimelineController11getClipNameEi,reconstructed,glitch-scene-collada-gui/src/collada_misc.cpp,clip name at +0x00 of the 12-byte clip record; name type inferred as const char*
+0x6e3118,_ZNK6glitch7collada15animation_track8CFloatEx16getIdentityValueEPv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,"identity value is a 32-bit zero store, written as float 0.0f"
+0x6e4dbc,_ZNK6glitch7collada15animation_track9CWeightEx16getIdentityValueEPv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,"identity value is a 32-bit zero store, written as float 0.0f"
+0x65cd70,_ZNK6glitch7collada10CSceneNode15getUserPropertyEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,property block at +0x154; value at +0x48 of it; 0 when absent
+0x64bb78,_ZNK6glitch7collada24CParticleSystemSceneNode6getUIDEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: uid word typed as const char*; the string type of the holder word is inferred
+0x64bbc0,_ZNK6glitch7collada24CParticleSystemSceneNode25getTransformedBoundingBoxEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: the word at +0x14c is typed as a pointer to the transformed box; the box type is inferred
+0x637b3c,_ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode6getUIDEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: uid word typed as const char*; the string type of the holder word is inferred
+0x637b84,_ZNK6glitch7collada33CGlitchNewParticleSystemSceneNode25getTransformedBoundingBoxEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: the word at +0x14c is typed as a pointer to the transformed box; the box type is inferred
+0x6e5160,_ZNK6glitch7collada16CCameraSceneNode13getTargetNodeEv,reconstructed,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,target node pointer at +0x390
+0x6e5174,_ZNK6glitch7collada16CCameraSceneNode6getUIDEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: uid word typed as const char*; the string type of the holder word is inferred
+0x646148,_ZNK6glitch7collada14CMeshSceneNode6getUIDEv,partial,glitch-scene-collada-gui/src/collada_scene_accessors.cpp,partial: uid word typed as const char*; the string type of the holder word is inferred
+0x60e028,_ZN6glitch7collada14IEventsManagerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x60edd0,_ZN6glitch7collada14CEventsManagerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x60def4,_ZN6glitch7collada17IAnimationTrackExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x660dac,_ZN6glitch7collada46IColladaSceneNodeSynchronizedAnimatorInterfaceD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x657888,_ZN6glitch7collada14CResFileReaderD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x65788c,_ZN6glitch7collada11CResFactoryD2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,"complete-object destructor; empty, same as D1"
+0x657890,_ZN6glitch7collada11CResFactoryD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x6e29b0,_ZN6glitch7collada17CAnimationTrackExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x667c34,_ZN6glitch7collada15animation_track15CApplicatorInfoD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x667ccc,_ZN6glitch7collada15animation_track23CMaterialApplicatorInfoD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp,empty D1 in the original
+0x62fefc,_ZN6glitch7collada15CColladaFactoryD2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_factory.hpp,defaulted virtual destructor already declared at +0x00/+0x04; empty
+0x62ff00,_ZN6glitch7collada15CColladaFactoryD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_factory.hpp,defaulted virtual destructor already declared at +0x00/+0x04; empty
+0x666efc,_ZN6glitch7collada19CTimelineControllerD2Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp,"empty complete-object destructor, same as D1"
+0x666f00,_ZN6glitch7collada19CTimelineControllerD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp,empty D1 in the original
+0x6e4a24,_ZN6glitch7collada15animation_track13CVisibilityExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/visibility_ex.hpp,empty D1 in the original
+0x6e3708,_ZN6glitch7collada15animation_track19CTextureTransformExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/texture_transform_ex.hpp,empty D1 in the original
+0x6e31e4,_ZN6glitch7collada15animation_track8CFloatExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp,empty D1 in the original
+0x6e4f48,_ZN6glitch7collada15animation_track9CWeightExD1Ev,reconstructed,glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp,empty D1 in the original
+0x3ef17c,_ZN6glitch5scene23ISegmentCompileCallbackD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x580a20,_ZN6glitch5scene10IBillboardD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x588f80,_ZN6glitch5scene19IEndOfBatchCallbackD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x5891a8,_ZN6glitch5scene30SDefaultSegmentCompileCallbackD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x599ef8,_ZN6glitch5scene13IAnimatedMeshD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x599efc,_ZNK6glitch5scene13IAnimatedMesh11getMeshTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x599f88,_ZNK6glitch5scene13SAnimatedMesh11getMeshTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6b930c,_ZN6glitch5scene11IMeshLoaderD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6b958c,_ZN6glitch5scene25ISceneNodeAnimatorFactoryD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6b96a8,_ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreatableSceneNodeAnimatorTypeCountEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6b96b0,_ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory34getCreateableSceneNodeAnimatorTypeEj,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6b9cec,_ZN6glitch5scene17ISceneNodeFactoryD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6bb528,_ZN6glitch5scene29CDummyTransformationSceneNode6renderEPv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6bb52c,_ZNK6glitch5scene29CDummyTransformationSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6bb538,_ZNK6glitch5scene29CDummyTransformationSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6bbc68,_ZNK6glitch5scene5CMesh14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6be470,_ZN6glitch5scene10IMeshCacheD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6c0dc4,_ZNK6glitch5scene24CParticleSystemSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0df8,_ZN6glitch5scene24CParticleSystemSceneNode10getEmitterEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0e58,_ZNK6glitch5scene24CParticleSystemSceneNode16getMaterialCountEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0ed8,_ZN6glitch5scene24CParticleSystemSceneNode15setTransparencyEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0ee0,_ZN6glitch5scene24CParticleSystemSceneNode6renderEPv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0ee4,_ZNK6glitch5scene24CParticleSystemSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0eec,_ZN6glitch5scene24CParticleSystemSceneNode21setParticlesAreGlobalEb,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c0f08,_ZN6glitch5scene24CParticleSystemSceneNode17reallocateBuffersEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c3be8,_ZN6glitch5scene22ISceneCollisionManagerD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6c77e4,_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS22isEventReceiverEnabledEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c77ec,_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c7948,_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS14setRotateSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c7950,_ZN6glitch5scene27CSceneNodeAnimatorCameraFPS12setMoveSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c7958,_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS14getRotateSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c7960,_ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS12getMoveSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c94d8,_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya22isEventReceiverEnabledEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c94e0,_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c95ec,_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya14setRotateSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c95f4,_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya12setMoveSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c95fc,_ZN6glitch5scene28CSceneNodeAnimatorCameraMaya12setZoomSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c9604,_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya14getRotateSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c960c,_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya12getMoveSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6c9614,_ZNK6glitch5scene28CSceneNodeAnimatorCameraMaya12getZoomSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ca694,_ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ca69c,_ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse9isFallingEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ca74c,_ZN6glitch5scene35CSceneNodeAnimatorCollisionResponse15setSlidingSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ca754,_ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse15getSlidingSpeedEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ca75c,_ZNK6glitch5scene35CSceneNodeAnimatorCollisionResponse8getWorldEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cb418,_ZNK6glitch5scene24CSceneNodeAnimatorDelete7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cb730,_ZNK6glitch5scene27CSceneNodeAnimatorFlyCircle7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cc070,_ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cc754,_ZNK6glitch5scene30CSceneNodeAnimatorFollowSpline7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cd58c,_ZNK6glitch5scene26CSceneNodeAnimatorRotation7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cd9d8,_ZNK6glitch5scene25CSceneNodeAnimatorTexture7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6cda34,_ZN6glitch5scene25CSceneNodeAnimatorTexture10updateTimeEj,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ce3bc,_ZNK6glitch5scene16CSkyBoxSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ce3c8,_ZNK6glitch5scene16CSkyBoxSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6ce3f0,_ZNK6glitch5scene16CSkyBoxSceneNode16getMaterialCountEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d00b4,_ZNK6glitch5scene17CTerrainSceneNode8getScaleEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d00bc,_ZNK6glitch5scene17CTerrainSceneNode11getRotationEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d00c4,_ZNK6glitch5scene17CTerrainSceneNode11getPositionEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d00cc,_ZNK6glitch5scene17CTerrainSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d01e8,_ZNK6glitch5scene17CTerrainSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d5838,_ZN6glitch5scene5ITextD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6d5844,_ZNK6glitch5scene14CTextSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d5858,_ZNK6glitch5scene23CBillboardTextSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d586c,_ZNK6glitch5scene14CTextSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d589c,_ZN6glitch5scene23CBillboardTextSceneNode7setTextEPKw,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d58a8,_ZN6glitch5scene23CBillboardTextSceneNode19onRegisterSceneNodeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d58b8,_ZNK6glitch5scene23CBillboardTextSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d59c4,_ZNK6glitch5scene23CBillboardTextSceneNode7getSizeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d59fc,_ZN6glitch5scene23CBillboardTextSceneNode8setColorERKNS_5video6SColorE,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6d5a08,_ZN6glitch5scene23CBillboardTextSceneNode8setColorERKNS_5video6SColorES5_,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f5fc4,_ZNK6glitch5scene22CAnimatedMeshSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f5fd0,_ZNK6glitch5scene22CAnimatedMeshSceneNode10getFrameNrEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f61d0,_ZNK6glitch5scene22CAnimatedMeshSceneNode13getStartFrameEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f61d8,_ZNK6glitch5scene22CAnimatedMeshSceneNode11getEndFrameEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f62ec,_ZN6glitch5scene22CAnimatedMeshSceneNode17setAnimationSpeedEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,stores the speed scaled by 0.001f (the original multiplies by 0x3a83126f)
+0x6f63b0,_ZN6glitch5scene22CAnimatedMeshSceneNode11setLoopModeEb,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f6450,_ZN6glitch5scene22CAnimatedMeshSceneNode21setRenderFromIdentityEb,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f76ec,_ZNK6glitch5scene16IParticleEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f76f4,_ZNK6glitch5scene37IParticleAnimatedMeshSceneNodeEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f77d8,_ZN6glitch5scene16IParticleEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6f77fc,_ZN6glitch5scene37IParticleAnimatedMeshSceneNodeEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6f8398,_ZNK6glitch5scene27IParticleAttractionAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f8414,_ZN6glitch5scene17IParticleAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6f8438,_ZN6glitch5scene27IParticleAttractionAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6f894c,_ZNK6glitch5scene19IParticleBoxEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f8a24,_ZN6glitch5scene19IParticleBoxEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6f9a00,_ZNK6glitch5scene24IParticleCylinderEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6f9b14,_ZN6glitch5scene24IParticleCylinderEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fa47c,_ZNK6glitch5scene24IParticleFadeOutAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fa4b0,_ZN6glitch5scene24IParticleFadeOutAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fa9f4,_ZNK6glitch5scene24IParticleGravityAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6faa30,_ZN6glitch5scene24IParticleGravityAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fafcc,_ZNK6glitch5scene20IParticleMeshEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fb0b0,_ZN6glitch5scene20IParticleMeshEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fc3c4,_ZNK6glitch5scene20IParticleRingEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fc4a4,_ZN6glitch5scene20IParticleRingEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fcd00,_ZNK6glitch5scene25IParticleRotationAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fcd50,_ZN6glitch5scene25IParticleRotationAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fd1e4,_ZNK6glitch5scene21IParticleSizeAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fd22c,_ZN6glitch5scene21IParticleSizeAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fd8f4,_ZNK6glitch5scene22IParticleSphereEmitter7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fd9c4,_ZN6glitch5scene22IParticleSphereEmitterD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fe2ac,_ZNK6glitch5scene21IParticleSpinAffector7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fe2ec,_ZN6glitch5scene21IParticleSpinAffectorD1Ev,reconstructed,include/glitch-scene-collada-gui/scene_simple_accessors.hpp,empty destructor body in the original
+0x6fe854,_ZNK6glitch5scene22CShadowVolumeSceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fe97c,_ZNK6glitch5scene22CShadowVolumeSceneNode14getBoundingBoxEv,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor
+0x6fe984,_ZN6glitch5scene22CShadowVolumeSceneNode13SetBiasFactorEf,reconstructed,glitch-scene-collada-gui/src/scene_simple_accessors.cpp,one-member accessor

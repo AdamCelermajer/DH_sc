@@ -32,6 +32,26 @@ float CTimelineController::getScale() const {
     return scale;
 }
 
+// 0x666cc4 _ZNK6glitch7collada19CTimelineController12getClipCountEv
+std::int32_t CTimelineController::getClipCount() const {
+    return clipTable ? clipTable->count : 0;
+}
+
+// 0x666cd4 _ZNK6glitch7collada19CTimelineController12getClipStartEi
+std::uint32_t CTimelineController::getClipStart(int index) const {
+    return clipTable->clips[index].start;
+}
+
+// 0x666cec _ZNK6glitch7collada19CTimelineController10getClipEndEi
+std::uint32_t CTimelineController::getClipEnd(int index) const {
+    return clipTable->clips[index].end;
+}
+
+// 0x666d84 _ZNK6glitch7collada19CTimelineController11getClipNameEi
+const char* CTimelineController::getClipName(int index) const {
+    return clipTable->clips[index].name;
+}
+
 // 0x667cc4 _ZNK6glitch7collada18ISceneNodeAnimator9getLengthEv
 std::uint32_t ISceneNodeAnimator::getLength() const {
     return length;

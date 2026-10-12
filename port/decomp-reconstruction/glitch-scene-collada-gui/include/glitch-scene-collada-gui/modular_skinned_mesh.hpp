@@ -24,8 +24,16 @@ public:
         bool needsOutputBuffer = true;              // +0x1c flag set by the constructor
     };
 
+    // One category record of the table: 0x10 bytes, module count at +0x08.
+    struct SCategoryEntry {
+        std::uint32_t reserved[2] = {0, 0};  // +0x00..+0x07 (not yet mapped)
+        std::uint32_t moduleCount = 0;       // +0x08
+        std::uint32_t reserved2 = 0;         // +0x0c
+    };
+
     struct SCategoryTable {
-        std::uint32_t count = 0;   // first word of the table object
+        std::uint32_t count = 0;                 // first word of the table object
+        SCategoryEntry* entries = nullptr;       // +0x04
     };
 
     struct SModuleSlot {
@@ -41,6 +49,7 @@ public:
     std::int32_t getType() const;                                      // 0x646a94
     CModularSkinnedMesh* clone() const;                                // 0x6469c0
     std::uint32_t getCategoryCount() const;                            // 0x646a28
+    std::uint32_t getCategoryModuleCount(int category) const;          // 0x646a34
     std::int32_t getCurrentModuleId(int category) const;               // 0x646a48
     bool needOutputBuffer() const;                                     // 0x646af0
     std::uint32_t getMeshBufferCount() const;                          // 0x646b54

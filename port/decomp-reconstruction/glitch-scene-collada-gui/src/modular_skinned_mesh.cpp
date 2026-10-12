@@ -17,6 +17,11 @@ std::uint32_t CModularSkinnedMesh::getCategoryCount() const {
     return categories->count;
 }
 
+// 0x646a34 _ZNK6glitch7collada19CModularSkinnedMesh22getCategoryModuleCountEi
+std::uint32_t CModularSkinnedMesh::getCategoryModuleCount(int category) const {
+    return categories->entries[category].moduleCount;
+}
+
 // 0x646a48 _ZNK6glitch7collada19CModularSkinnedMesh18getCurrentModuleIdEi
 std::int32_t CModularSkinnedMesh::getCurrentModuleId(int category) const {
     return currentModules[category].moduleId;
