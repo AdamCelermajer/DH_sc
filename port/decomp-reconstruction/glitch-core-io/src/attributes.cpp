@@ -288,8 +288,8 @@ std::wstring IAttribute::getStringW() const {
 }
 
 // 0x326268 _ZN6glitch2io10IAttribute9getStringEv
-// The original converts getStringW() through a helper whose body is not resolved
-// here; characters are narrowed by truncation.
+// Converts getStringW() (vtable +0x20) with the range copy at 0x3209f8, which keeps the low byte
+// of each wide character (STRB in the IDA listing).
 std::string IAttribute::getString() const {
     std::string out;
     for (wchar_t c : getStringW()) out.push_back(static_cast<char>(c));

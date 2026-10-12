@@ -2,7 +2,9 @@
 #include "glitch-core-io/core/strings.hpp"
 
 #include <climits>
+#include <cstdint>
 #include <cstdio>
+#include <cstring>
 #include <string>
 
 static int failures = 0;
@@ -44,6 +46,28 @@ int main() {
     CHECK(glitch::core::stringc2stringw(nullptr).empty());
     CHECK(glitch::core::stringw2stringc(L"Hi!") == "Hi!");
     CHECK(glitch::core::stringw2stringc(nullptr).empty());
+
+    // stringw2stringc keeps the low byte of each wide character (the 0x3209f8 range copy stores
+    // the loaded word's low byte): U+0141 becomes 0x41.
+    CHECK(glitch::core::stringw2stringc(L"\x0141z") == std::string("Az"));
+    CHECK(glitch::core::stringw2stringc(nullptr).empty());
+
+    // fast_atof_table[15] is the float bit pattern 0x26901d7d in the binary (IDA listing bytes that
+    // follow the DCFS entries). A 15-digit fraction of 1 selects that entry.
+    {
+        const std::uint32_t bits = 0x26901d7du;
+        float expected = 0.f;
+        std::memcpy(&expected, &bits, sizeof expected);
+        float got = -1.f;
+        glitch::core::fast_atof_move("0.000000000000001", got);
+        CHECK(got == expected);
+        // fast_atof_table[10] is 0x2edbe6ff.
+        const std::uint32_t tenBits = 0x2edbe6ffu;
+        float tenExpected = 0.f;
+        std::memcpy(&tenExpected, &tenBits, sizeof tenExpected);
+        glitch::core::fast_atof_move("0.0000000001", got);
+        CHECK(got == tenExpected);
+    }
 
     std::printf("%s\n", failures ? "core_strings: FAILED" : "core_strings: ok");
     return failures != 0;

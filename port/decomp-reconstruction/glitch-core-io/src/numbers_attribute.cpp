@@ -514,8 +514,9 @@ void CNumbersAttribute::setColor(glitch::video::SColorf value) {
 }
 
 // 0x325bc4 _ZN6glitch2io17CNumbersAttribute9setMatrixENS_4core8CMatrix4IfEE
-// Row-major copy of the first count elements. The original also stores a zero byte just past
-// the matrix argument (argument+0x40); that stray store is not reproduced.
+// Row-major copy of the first count elements, converted to the list kind (integer lists
+// truncate). The original also stores a zero byte at argument+0x40; the argument is the callee's
+// by-value copy, so that store is not observable and is not reproduced.
 void CNumbersAttribute::setMatrix(const glitch::core::CMatrix4<float>& value) {
     clearActive();
     for (std::size_t i = 0; i < 16 && i < count; ++i) setActive(i, value.M[i]);

@@ -29,9 +29,10 @@ std::string int2stringc(int value) {
 
 namespace {
 
-// Decimal scale factors, indexed by the number of decimal digits. These are the
-// first 16 entries of Irrlicht's fast_atof_table (the glitch table is 16 floats in
-// .rodata; its values are not read from the binary). Longer fractions use pow.
+// Decimal scale factors, indexed by the number of decimal digits: fast_atof_table[0..15] at
+// 0x8be9a4. Entries 0..9 are the DCFS data in the IDA listing; 10..15 are the float bit patterns
+// that follow it there (nearest floats of 10^-10 .. 10^-15). Fractions with 16 or more digits
+// read past the table in the original; the port uses pow there instead (partial, see the notes).
 constexpr float kFastAtofTable[16] = {
     0.f,
     0.1f,
@@ -115,8 +116,8 @@ std::wstring stringc2stringw(const char* text) {
 }
 
 // 0x326c58 _ZN6glitch4core15stringw2stringcEPKw
-// Null gives the empty string. Each wide character is narrowed by the templated range
-// copy (0x3209f8, not read); the low byte is assumed. Partial until that helper is read.
+// Null gives the empty string. Each wide character is narrowed to its low byte, as the
+// templated range copy at 0x3209f8 does (STRB of the loaded word in the IDA listing).
 std::string stringw2stringc(const wchar_t* text) {
     if (text == nullptr) return std::string();
     std::string out;

@@ -117,8 +117,8 @@ void dumpProcessBufferAllocations(glitch::os::ILogger* logger, glitch::os::ELOG_
 }
 
 // 0x5344d0 _ZN6glitch4core12_GLOBAL__N_121processBufferHeapInitEb
-// PARTIAL: the shutdown branch's setSize call loses its arguments in the decompile; the
-// zero size and no-force form are inferred from the destructor, which makes the same call.
+// The startup size is the immediate 0x40000 (`mov r0, #0x40000` in the byte listing). The shutdown
+// branch calls setSize(0, true) (force from the setSize result, which is 1 on this path).
 void processBufferHeapInit(bool atStartup) {
     if (atStartup) {
         setProcessBufferHeapSize(0x40000);

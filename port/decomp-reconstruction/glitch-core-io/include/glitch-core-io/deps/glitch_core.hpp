@@ -98,16 +98,22 @@ template <typename T>
 struct aabbox3d {
     vector3d<T> MinEdge, MaxEdge;
 
-    // 0x35c150 addInternalBox: grows the box to contain b. Partial: the MaxEdge updates
-    // are checked against the ARM (strict compares); the MinEdge updates are the upstream
-    // Irrlicht ones and were not compared.
+    // 0x35c150 addInternalBox: grows the box to contain b. The original folds in b's MaxEdge
+    // corner and then its MinEdge corner, and each corner updates both edges (strict compares,
+    // per axis). For a valid box the MaxEdge corner's min update and the MinEdge corner's max
+    // update change nothing, but they are kept so invalid boxes match too.
     void addInternalBox(const aabbox3d& b) {
-        grow(MaxEdge.X, b.MaxEdge.X);
-        grow(MaxEdge.Y, b.MaxEdge.Y);
-        grow(MaxEdge.Z, b.MaxEdge.Z);
-        shrink(MinEdge.X, b.MinEdge.X);
-        shrink(MinEdge.Y, b.MinEdge.Y);
-        shrink(MinEdge.Z, b.MinEdge.Z);
+        addInternalPoint(b.MaxEdge);
+        addInternalPoint(b.MinEdge);
+    }
+
+    void addInternalPoint(const vector3d<T>& p) {
+        grow(MaxEdge.X, p.X);
+        shrink(MinEdge.X, p.X);
+        grow(MaxEdge.Y, p.Y);
+        shrink(MinEdge.Y, p.Y);
+        grow(MaxEdge.Z, p.Z);
+        shrink(MinEdge.Z, p.Z);
     }
 
 private:

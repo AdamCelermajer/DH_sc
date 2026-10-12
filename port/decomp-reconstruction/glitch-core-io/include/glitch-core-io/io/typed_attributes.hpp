@@ -120,7 +120,7 @@ public:
 // CNumbersAttribute slots; addRect builds a CNumbersAttribute and sets this vtable).
 class CRectAttribute : public CNumbersAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x5604ec: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x5604ec: literal "rect" from the IDA listing
     CRectAttribute() = default;
     CRectAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -147,7 +147,7 @@ public:
 
 class CBBoxAttribute : public CNumbersAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x560534: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x560534: literal "box3d" from the IDA listing
     CBBoxAttribute() = default;
     CBBoxAttribute(const char* attrName, const glitch::core::aabbox3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -160,7 +160,7 @@ public:
     CPlaneAttribute(const char* attrName, const glitch::core::plane3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x560544
-    const wchar_t* getTypeString() const override;  // 0x56054c (partial: literal not resolved)
+    const wchar_t* getTypeString() const override;  // 0x56054c: literal "plane" from the IDA listing
 };
 
 class CTriangleAttribute : public CNumbersAttribute {
@@ -174,7 +174,7 @@ public:
 
 class CLine2dAttribute : public CNumbersAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x56057c: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x56057c: literal "line2d" from the IDA listing
     CLine2dAttribute() = default;
     CLine2dAttribute(const char* attrName, const glitch::core::line2d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -183,7 +183,7 @@ public:
 
 class CLine3dAttribute : public CNumbersAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x560594: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x560594: literal "line3d" from the IDA listing
     CLine3dAttribute() = default;
     CLine3dAttribute(const char* attrName, const glitch::core::line3d<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
@@ -275,7 +275,7 @@ public:
     glitch::video::IVideoDriver* driver = nullptr;           // +0x28 (reference counted)
     bool getBool() const override;  // 0x560654
     int getType() const override;  // 0x560690
-    const wchar_t* getTypeString() const override;  // 0x560698 (partial: literal not resolved)
+    const wchar_t* getTypeString() const override;  // 0x560698: literal "texture" from the IDA listing
     boost::intrusive_ptr<glitch::video::ITexture> getTexture() const override;  // 0x560638
     void setTexture(const boost::intrusive_ptr<glitch::video::ITexture>& value) override;  // 0x560664
 };
@@ -283,7 +283,7 @@ public:
 class CBinaryAttribute : public IAttribute {
 public:
     int getType() const override;  // 0x560620 (returns 0x19)
-    const wchar_t* getTypeString() const override;  // 0x560628 (partial: literal not resolved)
+    const wchar_t* getTypeString() const override;  // 0x560628: literal "binary" from the IDA listing
 };
 
 

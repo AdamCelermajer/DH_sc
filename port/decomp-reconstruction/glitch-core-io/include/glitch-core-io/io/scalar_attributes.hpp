@@ -8,7 +8,7 @@ namespace glitch::io {
 
 class CBoolAttribute : public IAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x31d968: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x31d968: literal "bool" from the IDA listing
     CBoolAttribute() = default;
     CBoolAttribute(const char* attrName, bool v, bool f);  // 0x56716c
     bool value = false;  // +0x21
@@ -26,7 +26,7 @@ public:
 
 class CIntAttribute : public IAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x31d9c8: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x31d9c8: literal "int" from the IDA listing
     CIntAttribute() = default;
     CIntAttribute(const char* attrName, int v, bool f);  // 0x5672a4
     int value = 0;  // +0x24
@@ -63,7 +63,7 @@ public:
 // calls in the original, which go through getInt/setInt).
 class CEnumAttribute : public CIntAttribute {
 public:
-    const wchar_t* getTypeString() const override;  // 0x560610: PARTIAL, literal not resolved
+    const wchar_t* getTypeString() const override;  // 0x560610: literal "enum" from the IDA listing
     // 0x56532c (D1): PARTIAL. The original also releases the literal vector at +0x3c, which
     // this layout does not hold; the base and members are released as usual.
     CEnumAttribute() = default;

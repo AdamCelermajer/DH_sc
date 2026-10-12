@@ -212,15 +212,15 @@ CEnumAttribute::CEnumAttribute(const char* attrName, const char* value, const ch
 }
 
 // 0x31d968 _ZNK6glitch2io14CBoolAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CBoolAttribute::getTypeString() const { return L"bool"; }
 
 // 0x31d9c8 _ZNK6glitch2io13CIntAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CIntAttribute::getTypeString() const { return L"int"; }
 
 // 0x560610 _ZNK6glitch2io14CEnumAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CEnumAttribute::getTypeString() const { return L"enum"; }
 
 // 0x562d0c _ZNK6glitch2io14CEnumAttribute9getStringEv

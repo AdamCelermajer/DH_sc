@@ -56,7 +56,7 @@ const wchar_t* CVector4DIAttribute::getTypeString() const { return L"vector4di";
 // 0x5604cc _ZNK6glitch2io20CPosition2DAttribute7getTypeEv
 int CPosition2DAttribute::getType() const { return 0xd; }
 // 0x5604d4 _ZNK6glitch2io20CPosition2DAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CPosition2DAttribute::getTypeString() const { return L"position"; }
 
 // 0x5604e4 _ZNK6glitch2io14CRectAttribute7getTypeEv
@@ -76,7 +76,7 @@ int CBBoxAttribute::getType() const { return 0x11; }
 // 0x560544 _ZNK6glitch2io15CPlaneAttribute7getTypeEv
 int CPlaneAttribute::getType() const { return 0x12; }
 // 0x56054c _ZNK6glitch2io15CPlaneAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CPlaneAttribute::getTypeString() const { return L"plane"; }
 
 // 0x56055c _ZNK6glitch2io18CTriangleAttribute7getTypeEv
@@ -114,7 +114,7 @@ void CLightAttribute::setString(const char*) {}
 // 0x560690 _ZNK6glitch2io17CTextureAttribute7getTypeEv
 int CTextureAttribute::getType() const { return 0x1a; }
 // 0x560698 _ZNK6glitch2io17CTextureAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CTextureAttribute::getTypeString() const { return L"texture"; }
 // 0x560654 _ZN6glitch2io17CTextureAttribute7getBoolEv
 bool CTextureAttribute::getBool() const { return texture.get() != nullptr; }
@@ -370,7 +370,7 @@ void CTextureAttribute::setTexture(const boost::intrusive_ptr<glitch::video::ITe
 // 0x560620 _ZNK6glitch2io16CBinaryAttribute7getTypeEv
 int CBinaryAttribute::getType() const { return 0x19; }
 // 0x560628 _ZNK6glitch2io16CBinaryAttribute13getTypeStringEv
-// Partial: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CBinaryAttribute::getTypeString() const { return L"binary"; }
 
 // 0x566ea0 _ZN6glitch2io17CTextureAttributeC1EPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEEPNS6_12IVideoDriverEb
@@ -463,19 +463,19 @@ CLightAttribute::CLightAttribute(const char* attrName, const boost::intrusive_pt
 std::wstring CLightAttribute::getStringW() const { return light ? L"light" : L""; }
 
 // 0x5604ec _ZNK6glitch2io14CRectAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CRectAttribute::getTypeString() const { return L"rect"; }
 
 // 0x560534 _ZNK6glitch2io15CBBoxAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
-const wchar_t* CBBoxAttribute::getTypeString() const { return L"bbox"; }
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
+const wchar_t* CBBoxAttribute::getTypeString() const { return L"box3d"; }
 
 // 0x56057c _ZNK6glitch2io17CLine2dAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CLine2dAttribute::getTypeString() const { return L"line2d"; }
 
 // 0x560594 _ZNK6glitch2io17CLine3dAttribute13getTypeStringEv
-// PARTIAL: the wide literal is not resolved in strings.csv; the name is inferred from the class.
+// The wide literal is read from the IDA listing (UTF-32LE, cross-referenced only from this function).
 const wchar_t* CLine3dAttribute::getTypeString() const { return L"line3d"; }
 
 // 0x3276f8 _ZNK6glitch2io18CVector4DAttribute9getMatrixEv
