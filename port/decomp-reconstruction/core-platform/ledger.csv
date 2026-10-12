@@ -1,4 +1,185 @@
 elf_address,symbol,status,source_file,notes
-0x30eea0,_Z8ObjToStrPcRi,reconstructed,core-platform/src/obj_str.cpp,
-0x30ef50,_Z8ObjToStrPcRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/obj_str.cpp,
-0x30f03c,_Z8StrToObjPKcRi,reconstructed,core-platform/src/obj_str.cpp,
+0x8e4,entry,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x920,Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x924,FUN_00010924,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x9a0,FUN_000109a0,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x9d0,Java_com_samsung_zirconia_NativeInterface_storeLicenseKey,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xaf8,FUN_00010af8,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xb48,FUN_00010b48,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xc60,Java_com_samsung_zirconia_NativeInterface_doPassphraseTest,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xd20,CheckLicenseFile,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xe2c,Java_com_samsung_zirconia_NativeInterface_checkLicenseFile,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xedc,SHA1Reset,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0xf14,SHA1ProcessMessageBlock,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x1128,SHA1Input,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x118c,SHA1PadMessage,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x123c,SHA1Result,skipped,core-platform/src,Android JNI bridge; covered by port/nativeinterface
+0x30ee60,_Z8ObjToStrPcRSt6vectorI7Point3DIfESaIS2_EE,reconstructed,core-platform/src/obj_str.cpp,
+0x30ee84,_Z8ObjToStrPcR7Point2DIiE,reconstructed,core-platform/src/obj_str.cpp,
+0x30eeb4,_Z8ObjToStrPcRb,reconstructed,core-platform/src/obj_str.cpp,
+0x30eec8,_Z8ObjToStrPcRf,reconstructed,core-platform/src/obj_str.cpp,
+0x30f010,_Z8StrToObjPKcRSt6vectorI7Point3DIfESaIS3_EE,partial,core-platform/src/obj_str.cpp,original only logs a NEED TO CHECK debug line; debug sink replaced by stdout
+0x30f020,_Z8StrToObjPKcRb,reconstructed,core-platform/src/obj_str.cpp,
+0x30f288,_Z8StrToObjPKcRf,reconstructed,core-platform/src/obj_str.cpp,
+0x310414,_Z10InitMemoryv,reconstructed,core-platform/src/memory.cpp,
+0x310418,_Z9UnInitMemv,reconstructed,core-platform/src/memory.cpp,
+0x31041c,_Z15ShowMemoryStatsPKc,reconstructed,core-platform/src/memory.cpp,
+0x31044c,_Z7SwfFreePv,reconstructed,core-platform/src/memory.cpp,
+0x310450,_Z10GlitchFreePv,reconstructed,core-platform/src/memory.cpp,
+0x310564,_Z8SwfAllocjN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
+0x310568,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
+0x310660,_Z11CustomAllocjPKcjS0_,partial,core-platform/src/memory.cpp,OOM assert level 2 calls abort() instead of the original null-pointer write; assert text not recovered
+0x310698,_Z8SwfAllocjN3swf7MemHintEPKci,reconstructed,core-platform/src/memory.cpp,
+0x3106a8,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
+0x3106b8,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTEiPKciS3_,reconstructed,core-platform/src/memory.cpp,
+0x3106c4,_Znaj15MemoryHintStatePKcjS1_,reconstructed,core-platform/src/memory.cpp,
+0x3106d4,_Znwj15MemoryHintStatePKcjS1_,reconstructed,core-platform/src/memory.cpp,
+0x317848,_ZN3sys13printNoFormatEPKc,partial,core-platform/src/sys_print.cpp,"printf format string changed to ""%s"""
+0x31784c,_ZN3sys5printEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
+0x317914,_ZN3sys7printlnEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
+0x317a04,_Z7strrstrPKcS0_,partial,core-platform/src/util.cpp,"tail call into unrecovered routine; implements last-occurrence search, unverified"
+0x317a8c,_ZN9TimerUtilC2Ev,reconstructed,core-platform/src/timer_util.cpp,
+0x317aa0,_ZN9TimerUtilC1Ev,reconstructed,core-platform/src/timer_util.cpp,
+0x317ab4,_ZN9TimerUtil5StartEj,reconstructed,core-platform/src/timer_util.cpp,
+0x317ac4,_ZN9TimerUtil5PauseEv,reconstructed,core-platform/src/timer_util.cpp,
+0x317ad0,_ZN9TimerUtil7UnpauseEv,reconstructed,core-platform/src/timer_util.cpp,
+0x317adc,_ZNK9TimerUtil16GetRemainingTimeEv,reconstructed,core-platform/src/timer_util.cpp,
+0x317ae4,_ZN9TimerUtil6UpdateEv,reconstructed,core-platform/src/timer_util.cpp,
+0x317bb0,_Z16UnInitUnitMemoryv,reconstructed,core-platform/src/memory.cpp,
+0x317bb4,_Z23ShowUnitHeapMemoryStatsPKc,reconstructed,core-platform/src/memory.cpp,
+0x317bb8,_Z17UnlockMemoryMutexv,reconstructed,core-platform/src/memory.cpp,
+0x317bc8,_Z15LockMemoryMutexv,reconstructed,core-platform/src/memory.cpp,
+0x317bd8,_Z13internal_freePv,reconstructed,core-platform/src/memory.cpp,
+0x317bdc,_Z7FreeMemPv,reconstructed,core-platform/src/memory.cpp,
+0x317c94,_Z15internal_mallocjPKcjS0_,reconstructed,core-platform/src/memory.cpp,
+0x317f90,_Z10threadfun3Pv,skipped,core-platform/src,thin thread wrapper around Savegame code in another category
+0x317fbc,_Z10threadfun2Pv,skipped,core-platform/src,thin thread wrapper around Savegame code in another category
+0x31d8e4,_ZN10EvKeyboardD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31d8e8,_ZN11EvMouseMoveD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31d8ec,_ZN13EvMouseButtonD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31d8f0,_ZN12EvMouseWheelD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31d8f4,_ZN9EvGamepadD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31fc54,_ZN10EvKeyboardD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31fc88,_ZN9EvGamepadD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31fcbc,_ZN11EvMouseMoveD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31fcf0,_ZN12EvMouseWheelD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x31fd24,_ZN13EvMouseButtonD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33a99c,_ZN18EvTouchScreenPressD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33a9a0,_ZN17EvTouchScreenMoveD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33a9a4,_ZNK15TouchScreenBase13_IsQueueEmptyEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33b1a4,_ZN15TouchScreenBase13getTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,returns point at slot+0x0; original returns slot+0xc
+0x33b1e0,_ZN15TouchScreenBase18getFirstTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,returns point at slot+0x0; original returns slot+0xc
+0x33b2bc,_ZNK15TouchScreenBase17getSwipeDirectionEl,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33b2ec,_ZN15TouchScreenBase8hasTouchEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33b3dc,_ZN15TouchScreenBase5getIDEl,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33b438,_ZN3RctIsED1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33b43c,_ZN17EvTouchScreenMoveD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33b470,_ZN18EvTouchScreenPressD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33b4a4,_ZN3RctIsED0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33b4d8,_ZN15TouchScreenBase5clearEv,partial,core-platform/src/touch_screen_base.cpp,original debug line omitted
+0x33be08,_ZN15TouchScreenBaseD1Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33be48,_ZN15TouchScreenBaseD0Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33be64,_ZN15TouchScreenBaseD2Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33d48c,_ZNK16TouchScreenWin3212getLeftBoundEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33d494,_ZNK16TouchScreenWin3213getRightBoundEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33d49c,_ZNK16TouchScreenWin3211getTopBoundEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33d4a4,_ZNK16TouchScreenWin3214getBottomBoundEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33d5d8,_ZN16TouchScreenWin32D1Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33d628,_ZN16TouchScreenWin32D0Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33d644,_ZN16TouchScreenWin32D2Ev,skipped,core-platform/src/touch_screen_base.cpp,compiler-generated destructor
+0x33d714,_ZN14EvAccelerationD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33d718,_ZN17AccelerometerBaseD2Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
+0x33d720,_ZN17AccelerometerBase5clearEv,reconstructed,core-platform/src/accelerometer.cpp,
+0x33d744,_ZN17AccelerometerBase6updateEd,reconstructed,core-platform/src/accelerometer.cpp,
+0x33d748,_ZN14EvAccelerationD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33d77c,_ZN17AccelerometerBaseD0Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
+0x33d798,_ZN17AccelerometerBase11_calcAnglesEv,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
+0x33d8dc,_ZN17AccelerometerBase5movedEfff,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
+0x33da0c,_ZN17AccelerometerBaseC1Ev,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
+0x33da64,_ZN17AccelerometerBaseC2Ev,partial,core-platform/src/accelerometer.cpp,decompiler tail-calls an unrecovered float comparison; layout of copies inferred
+0x33db64,_ZN19AccelerometerIPhone5movedEfff,reconstructed,core-platform/src/accelerometer.cpp,
+0x33db74,_ZN19AccelerometerIPhoneD1Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
+0x33dba8,_ZN19AccelerometerIPhoneD0Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
+0x33dbc4,_ZN19AccelerometerIPhoneD2Ev,skipped,core-platform/src/accelerometer.cpp,compiler-generated destructor
+0x33dbf8,_ZN19AccelerometerIPhoneC1Ev,reconstructed,core-platform/src/accelerometer.cpp,
+0x33dc2c,_ZN19AccelerometerIPhoneC2Ev,reconstructed,core-platform/src/accelerometer.cpp,
+0x33dca0,_ZN11NonCopyableD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33dca4,_ZN13ISerializableD1Ev,skipped,core-platform/src/serializable.cpp,compiler-generated destructor
+0x33dca8,_ZN13ISerializable9SerializeEP11IStreamBase,reconstructed,core-platform/src/serializable.cpp,
+0x33dcac,_ZN13ISerializable11DeserializeEP11IStreamBase,reconstructed,core-platform/src/serializable.cpp,
+0x33e2bc,_ZN13ISerializableD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x33e324,_ZN11NonCopyableD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x34e0fc,_ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_,partial,core-platform/src/filesystem_base.cpp,decompiled signature has 3 visible args; 4th mangled param not visible
+0x34e1d4,_ZN14FileSystemBase24changeWorkingDirectoryToEPKc,reconstructed,core-platform/src/filesystem_base.cpp,
+0x34e480,_ZN14FileSystemBaseD1Ev,skipped,core-platform/src,"destructor chains into glitch CFileSystem base, not in this category"
+0x34e4b4,_ZN14FileSystemBaseD0Ev,skipped,core-platform/src,"destructor chains into glitch CFileSystem base, not in this category"
+0x34e4d0,_ZN14FileSystemBaseD2Ev,skipped,core-platform/src,"destructor chains into glitch CFileSystem base, not in this category"
+0x34e504,_ZN14FileSystemBaseC1Ev,skipped,core-platform/src,"constructor chains into glitch CFileSystem base, not in this category"
+0x34e538,_ZN14FileSystemBaseC2Ev,skipped,core-platform/src,"constructor chains into glitch CFileSystem base, not in this category"
+0x34eb5c,_ZN11IFileStreamD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x34eb60,_ZN11IFileStream4skipEy,skipped,core-platform/src,calls virtual slots of IStreamBase not recovered
+0x34eb94,_ZNK15FileSystemWin3211_FileHandle7canReadEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34eb9c,_ZNK15FileSystemWin3211_FileHandle8canWriteEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34eba4,_ZNK15FileSystemWin3211getRootPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
+0x34ebac,_ZNK15FileSystemWin3216getResourcesPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
+0x34ebb4,_ZNK15FileSystemWin3216getSavefilesPathEv,partial,core-platform/src/filesystem_win32.cpp,returns the buffer address; original returns the path string object address
+0x34ebc0,_ZN15FileSystemWin3212copySavefileEPKc,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ebc4,_ZNK15FileSystemWin3212_getFileInfoEPKcS1_Pv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ec00,_ZNK15FileSystemWin3215isFileNewerThanEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,"original is a no-op; declared bool here, returns false"
+0x34edf0,_ZNK15FileSystemWin3211_FileHandle4tellEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ee10,_ZN15FileSystemWin3211_FileHandle4seekEy,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34ee20,_ZNK15FileSystemWin3211_FileHandle4sizeEv,reconstructed,core-platform/src/filesystem_win32.cpp,
+0x34f004,_ZN11IFileStreamD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x34f670,_ZN15FileSystemWin32D1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34f6a4,_ZN15FileSystemWin32D0Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34f6c0,_ZN15FileSystemWin32D2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
+0x381668,_ZN6Device15IsFixedPipelineEv,reconstructed,core-platform/src/device.cpp,reads DeviceFeatureFlags() stand-in for the device vtable slot +0x5c
+0x3816a8,_ZN6Device22IsProgrammablePipelineEv,partial,core-platform/src/device.cpp,feature mask 0x78 kept as in original; meaning unnamed; globals are stand-ins
+0x38173c,_ZN6Device8GetModelEv,reconstructed,core-platform/src/device.cpp,
+0x381744,_ZN6Device21IsiOSVersionSupportedEPKc,reconstructed,core-platform/src/device.cpp,
+0x38174c,_ZN6Device17IsHighPerformanceEv,partial,core-platform/src/device.cpp,same body as IsProgrammablePipeline; feature mask stand-in
+0x381750,_ZN6Device15IsIphoneHighRezEv,reconstructed,core-platform/src/device.cpp,
+0x381758,_ZN6Device19GetScreenResolutionEv,reconstructed,core-platform/src/device.cpp,
+0x38176c,_ZN6Device20IsMultitaskSupportedEv,reconstructed,core-platform/src/device.cpp,
+0x381774,_ZN6Device21IsGameCenterSupportedEv,reconstructed,core-platform/src/device.cpp,
+0x38177c,_ZN6Device20IsBluetoothSupportedEv,reconstructed,core-platform/src/device.cpp,
+0x381954,_ZN6Device21GetPreferredLanguagesEv,skipped,core-platform/src/device.cpp,GetPreferredLanguages locale table lookup not recovered
+0x3fab74,_ZN7VarArgsD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x3faba8,_ZN7VarArgsD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x40691c,_ZN13EvGamepadAxisD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x406928,_ZN13EvGamepadAxisD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
+0x42b0c0,_Z13fs_write_funcPKviPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x42b0c8,_Z12fs_seek_funciPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x42b0f8,_Z19fs_seek_to_end_funcPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x42b11c,_Z12fs_tell_funcPKv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x42b12c,_Z15fs_get_eof_funcPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x48bbbc,tolower,skipped,core-platform/src,"C library tolower from the Android libc, not rebuilt"
+0x534178,_ZdaPvN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
+0x53417c,_ZdlPvN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
+0x534190,_ZdaPvN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
+0x534194,_ZdlPvN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
+0x534198,_ZnajN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
+0x53419c,_ZnwjN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
+0x5341a8,_ZnajN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
+0x5341ac,_ZnwjN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
+0x69f54c,_Z22util_number_is_power_2j,reconstructed,core-platform/src/util.cpp,
+0x752b44,_ZnajN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,decompiler dropped forwarded args; forwarding reconstructed from SwfAlloc signature
+0x752b48,_ZnwjN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,decompiler dropped forwarded args; forwarding reconstructed from SwfAlloc signature
+0x752ba4,_ZnajN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
+0x752ba8,_ZnwjN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
+0x844180,_ZN4slim11XmlDocument14loadFromStreamERSi,reconstructed,core-platform/src/slim_text.cpp,
+0x844188,_ZNK4slim11XmlDocument4saveEPKcNS_6EncodeE,reconstructed,core-platform/src/slim_text.cpp,
+0x844190,_ZN4slim11utf8toutf16EPKcjPwj,reconstructed,core-platform/src/slim_text.cpp,code points held in uint32 (original wchar_t is 32-bit); 2-byte decode keeps original <<5 shift
+0x844270,_ZN4slim11utf16toutf8EPKwjPcj,partial,core-platform/src/slim_text.cpp,exact byte stores of the decompiled pseudocode not reproduced; emits standard UTF-8
+0x844368,_ZN4slim10detectUtf8EPKcj,reconstructed,core-platform/src/slim_text.cpp,
+0x89bed0,_ZN10ConfigFileC2Ev,reconstructed,core-platform/src/config_file.cpp,
+0x89bed4,_ZN10ConfigFileC1Ev,reconstructed,core-platform/src/config_file.cpp,
+0x89bed8,_ZN10ConfigFileD2Ev,skipped,core-platform/src/config_file.cpp,"compiler-generated destructor, nothing to rebuild"
+0x89bedc,_ZN10ConfigFileD1Ev,skipped,core-platform/src/config_file.cpp,"compiler-generated destructor, nothing to rebuild"
+0x89bee0,_ZN10ConfigFile6EncodeEPKcS1_S1_Pc,reconstructed,core-platform/src/config_file.cpp,
+0x89bee8,_ZN10ConfigFile4SeedEv,reconstructed,core-platform/src/config_file.cpp,
+0x89bef0,_ZN10ConfigFile3XOREPKcS1_Pc,skipped,core-platform/src/config_file.cpp,"decompiler output is a tail call to strlen, real XOR body not recovered"
+0x89bfb4,_ZN10ConfigFile6DecodeEPKcPcS2_S2_,skipped,core-platform/src/config_file.cpp,Decode needs the XOR routine and the obfuscation tables; not reconstructed
