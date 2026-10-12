@@ -193,4 +193,93 @@ void CAttributes::setAttribute(int index, glitch::video::SColorf value) {
     if (IAttribute* a = at(attributes, index)) a->setColor(value);
 }
 
+// 0x560954 _ZNK6glitch2io11CAttributes8getColorEi
+glitch::video::SColor CAttributes::getColor(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getColor() : glitch::video::SColor{0};
+}
+
+// 0x561224 _ZNK6glitch2io11CAttributes13getQuaternionEi
+// The indexed default is (0, 1, 0, 0), not the identity from IAttribute::getQuaternion.
+glitch::core::quaternion CAttributes::getQuaternion(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getQuaternion() : glitch::core::quaternion{0.f, 1.f, 0.f, 0.f};
+}
+
+// 0x561314 _ZNK6glitch2io11CAttributes8getBox3dEi
+glitch::core::aabbox3d<float> CAttributes::getBox3d(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getBBox() : glitch::core::aabbox3d<float>{};
+}
+
+// 0x561424 _ZNK6glitch2io11CAttributes10getPlane3dEi
+glitch::core::plane3d<float> CAttributes::getPlane3d(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getPlane() : glitch::core::plane3d<float>{{0.f, 1.f, 0.f}, -0.f};
+}
+
+// 0x561514 _ZNK6glitch2io11CAttributes13getTriangle3dEi
+glitch::core::triangle3d<float> CAttributes::getTriangle3d(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getTriangle() : glitch::core::triangle3d<float>{};
+}
+
+// 0x561660 _ZNK6glitch2io11CAttributes9getLine2dEi
+glitch::core::line2d<float> CAttributes::getLine2d(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getLine2d() : glitch::core::line2d<float>{};
+}
+
+// 0x561748 _ZNK6glitch2io11CAttributes9getLine3dEi
+glitch::core::line3d<float> CAttributes::getLine3d(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getLine3d() : glitch::core::line3d<float>{};
+}
+
+// 0x561858 _ZNK6glitch2io11CAttributes14getUserPointerEi
+void* CAttributes::getUserPointer(int index) const {
+    IAttribute* a = at(attributes, index);
+    return a ? a->getUserPointer() : nullptr;
+}
+
+// 0x560de8 _ZN6glitch2io11CAttributes12setAttributeEiPKw
+void CAttributes::setAttribute(int index, const wchar_t* value) {
+    if (IAttribute* a = at(attributes, index)) a->setString(value);
+}
+
+// 0x561120 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core4rectIiEE
+void CAttributes::setAttribute(int index, glitch::core::rect<std::int32_t> value) {
+    if (IAttribute* a = at(attributes, index)) a->setRect(value);
+}
+
+// 0x5612ac _ZN6glitch2io11CAttributes12setAttributeEiNS_4core10quaternionE
+void CAttributes::setAttribute(int index, glitch::core::quaternion value) {
+    if (IAttribute* a = at(attributes, index)) a->setQuaternion(value);
+}
+
+// 0x5613b0 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core8aabbox3dIfEE
+void CAttributes::setAttribute(int index, const glitch::core::aabbox3d<float>& value) {
+    if (IAttribute* a = at(attributes, index)) a->setBBox(value);
+}
+
+// 0x5614b0 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core7plane3dIfEE
+void CAttributes::setAttribute(int index, const glitch::core::plane3d<float>& value) {
+    if (IAttribute* a = at(attributes, index)) a->setPlane(value);
+}
+
+// 0x5615d4 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core10triangle3dIfEE
+void CAttributes::setAttribute(int index, const glitch::core::triangle3d<float>& value) {
+    if (IAttribute* a = at(attributes, index)) a->setTriangle(value);
+}
+
+// 0x5616e4 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line2dIfEE
+void CAttributes::setAttribute(int index, const glitch::core::line2d<float>& value) {
+    if (IAttribute* a = at(attributes, index)) a->setLine2d(value);
+}
+
+// 0x5617e4 _ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line3dIfEE
+void CAttributes::setAttribute(int index, const glitch::core::line3d<float>& value) {
+    if (IAttribute* a = at(attributes, index)) a->setLine3d(value);
+}
+
 }  // namespace glitch::io

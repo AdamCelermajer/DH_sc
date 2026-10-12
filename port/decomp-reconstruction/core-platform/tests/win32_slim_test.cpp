@@ -30,6 +30,11 @@ int main() {
 
     // TouchScreenBase slot allocation and queries.
     struct Touch : TouchScreenBase {
+        Touch() : TouchScreenBase(960, 640) {}
+        int getLeftBound() const override { return 0; }
+        int getRightBound() const override { return 960; }
+        int getTopBound() const override { return 0; }
+        int getBottomBound() const override { return 640; }
         void setSlot(int i, bool touched, bool valid) {
             slots_[i].touched_ = touched;
             slots_[i].valid_ = valid;
@@ -47,7 +52,7 @@ int main() {
     CHECK(t.getTouchPoint(2) == nullptr);
     t.clear();
     CHECK(!t.hasTouch());
-    CHECK(TouchScreenWin32().getLeftBound() == 0);
+    CHECK(TouchScreenWin32(960, 640).getLeftBound() == 0);
 
     // Accelerometer: iPhone negates each axis before storing.
     AccelerometerIPhone acc;

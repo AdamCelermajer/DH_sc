@@ -1,0 +1,121 @@
+elf_address,symbol,status,source_file,notes
+0x896038,_ZN10AdpcmStateC2Ev,reconstructed,vox-audio/src/adpcm_state.cpp,Default member initializers in vox-audio/include/vox-audio/vox/adpcm_state.hpp
+0x89604c,_ZN10AdpcmStateC1Ev,reconstructed,vox-audio/src/adpcm_state.cpp,C1 variant of the same default initializers
+0x896060,_ZN10AdpcmStateD2Ev,reconstructed,vox-audio/src/adpcm_state.cpp,Trivial destructor
+0x896064,_ZN10AdpcmStateD1Ev,reconstructed,vox-audio/src/adpcm_state.cpp,D1 variant of trivial destructor
+0x874e64,_Z5fgetcPN3vox21StreamCursorInterfaceE,reconstructed,vox-audio/src/stdio_shim.cpp,"Returns the byte even when Read reports nothing (EOF yields 0), as the original"
+0x874e98,_Z5freadPvjjPN3vox21StreamCursorInterfaceE,reconstructed,vox-audio/src/stdio_shim.cpp,Element count is bytes read divided by size; size 0 gives 0
+0x874ed8,_Z5ftellPN3vox21StreamCursorInterfaceE,reconstructed,vox-audio/src/stdio_shim.cpp,
+0x874efc,_Z5fseekPN3vox21StreamCursorInterfaceEii,reconstructed,vox-audio/src/stdio_shim.cpp,Original discards the Seek result and returns 0 when the cursor is valid
+0x874f24,_Z6fclosePN3vox21StreamCursorInterfaceE,reconstructed,vox-audio/src/stdio_shim.cpp,Returns 0 without touching the cursor
+0x310444,_Z7VoxFreePv,reconstructed,vox-audio/src/vox_alloc.cpp,
+0x3104f8,_Z8VoxAllocj,partial,vox-audio/src/vox_alloc.cpp,Out-of-memory statistics and gAssertLevel assert path replaced by vox::SetOutOfMemoryHook
+0x310648,_Z8VoxAllocjN3vox10VoxMemHintE,partial,vox-audio/src/vox_alloc.cpp,Hint > 0 selects CustomMemalign in the original; port ignores the hint (only malloc available)
+0x310664,_Z8VoxAllocjN3vox10VoxMemHintEPKcS2_i,partial,vox-audio/src/vox_alloc.cpp,Debug variant with file/function/line: those arguments are not used by the port
+0x31068c,_Z8VoxAllocjPKcS0_i,partial,vox-audio/src/vox_alloc.cpp,Debug variant with file/function/line: arguments not used by the port
+0x889490,VoxFree_c,reconstructed,vox-audio/src/vox_alloc.cpp,VoxFree_c alias of free
+0x889494,VoxAlloc_c,partial,vox-audio/src/vox_alloc.cpp,"Calls CustomAlloc(p1,p2,p4,0) in the original; custom allocator not reconstructed, port aliases VoxAlloc"
+0x88af5c,_Z8VoxAllocjN3vox10VoxMemHintE,skipped,,Compiler/decompiler thunk: pseudocode calls itself; the real body is 0x3104f8/0x310648
+0x88c910,_Z7VoxFreePv,skipped,,Compiler/decompiler thunk: pseudocode calls itself; the real body is 0x310444
+0x892f80,_ZN3vox5Mutex4LockEv,skipped,vox-audio/include/vox-audio/vox/mutex.hpp,Decompiler artifact: body calls itself; the real Lock is at 0x89347c
+0x89347c,_ZN3vox5Mutex4LockEv,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Lock; std::mutex in the port instead of pthread_mutex_lock
+0x893464,_ZN3vox5Mutex7TryLockEv,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,TryLock returns true when acquired; original maps pthread result 0 to 1
+0x893478,_ZN3vox5Mutex6UnlockEv,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Unlock
+0x893590,_ZN3vox5MutexC1ERKS0_,skipped,vox-audio/include/vox-audio/vox/mutex.hpp,Memberwise copy of pthread object; copying is deleted in the port
+0x89359c,_ZN3vox5MutexC2ERKS0_,skipped,vox-audio/include/vox-audio/vox/mutex.hpp,Memberwise copy of pthread object; copying is deleted in the port
+0x8935a8,_ZN3vox5MutexD1Ev,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Destructor; std::mutex destroys itself
+0x8935bc,_ZN3vox5MutexD2Ev,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Destructor variant
+0x8935d0,_ZN3vox5MutexC1Ev,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Default constructor; std::mutex initializes itself
+0x8935e8,_ZN3vox5MutexC2Ev,reconstructed,vox-audio/include/vox-audio/vox/mutex.hpp,Default constructor variant
+0x888fc0,_ZN3vox18StreamMemoryBuffer7GetTypeEv,reconstructed,vox-audio/src/stream_memory_buffer.cpp,GetType returns 0
+0x888fc8,_ZN3vox24StreamMemoryBufferCursor10IsSeekableEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,IsSeekable returns true; inline in header
+0x888fd0,_ZN3vox24StreamMemoryBufferCursor4TellEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Tell returns position; inline in header
+0x888fd8,_ZN3vox24StreamMemoryBufferCursor20AllowBufferReferenceEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,AllowBufferReference returns true; inline in header
+0x888fe0,_ZN3vox24StreamMemoryBufferCursorD1Ev,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Trivial cursor destructor
+0x888fe4,_ZN3vox24StreamMemoryBufferCursorD0Ev,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Deleting cursor destructor variant
+0x888ff8,_ZN3vox18StreamMemoryBuffer13DestroyCursorEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/stream_memory_buffer.cpp,DestroyCursor: virtual destructor then VoxFree
+0x889024,_ZN3vox18StreamMemoryBufferD1Ev,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Destructor frees data only when owned
+0x889070,_ZN3vox18StreamMemoryBufferD0Ev,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Deleting destructor variant
+0x88908c,_ZN3vox18StreamMemoryBufferD2Ev,reconstructed,vox-audio/src/stream_memory_buffer.cpp,D2 variant of destructor
+0x8890d8,_ZN3vox18StreamMemoryBuffer15CreateNewCursorEv,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Null when no data; else VoxAlloc(sizeof cursor) and construct (asm)
+0x88912c,_ZN3vox18StreamMemoryBufferC1EPNS_24StreamMemoryBufferParamsE,reconstructed,vox-audio/src/stream_memory_buffer.cpp,"Copy branch keeps size on success, zero only when VoxAlloc fails (asm 0x889204 resolves the old size=0 question)"
+0x889204,_ZN3vox18StreamMemoryBufferC2EPNS_24StreamMemoryBufferParamsE,reconstructed,vox-audio/src/stream_memory_buffer.cpp,C2 variant; same as C1 (asm)
+0x8891dc,_ZN3vox25StreamMemoryBufferFactoryEPv,reconstructed,vox-audio/src/stream_memory_buffer.cpp,Allocates sizeof(StreamMemoryBuffer) (0x10 in the 32-bit original) and constructs from params (asm)
+0x8892b4,_ZN3vox24StreamMemoryBufferCursor11EndOfStreamEv,reconstructed,vox-audio/src/stream_memory_buffer.cpp,EndOfStream: position equals size
+0x8892f0,_ZN3vox24StreamMemoryBufferCursor4SeekEii,reconstructed,vox-audio/src/stream_memory_buffer.cpp,"Seek: whence 1 relative, 2 is size + ~offset, 0 absolute; target must be within [0, size]"
+0x889394,_ZN3vox24StreamMemoryBufferCursor7ReadRefERPhi,reconstructed,vox-audio/src/stream_memory_buffer.cpp,"ReadRef: returns pointer into data and advances by min(size, remaining)"
+0x889408,_ZN3vox24StreamMemoryBufferCursor4ReadEPhi,reconstructed,vox-audio/src/stream_memory_buffer.cpp,"Read: copies min(size, remaining), advances position, returns count (asm 0x889408)"
+0x888718,_ZN3vox11StreamCFile7GetTypeEv,reconstructed,vox-audio/src/stream_cfile.cpp,GetType returns 1
+0x888720,_ZN3vox17StreamCFileCursor10IsSeekableEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,IsSeekable returns true; inline in header
+0x888728,_ZN3vox17StreamCFileCursor4InitEv,partial,vox-audio/src/stream_cfile.cpp,Opens path via owner file system with mode 6; the owner +0x1c check is read as path non-empty
+0x888778,_ZN3vox17StreamCFileCursor4TellEv,reconstructed,vox-audio/src/stream_cfile.cpp,Tell caches the file position
+0x8887e4,_ZN3vox11StreamCFileD1Ev,reconstructed,vox-audio/src/stream_cfile.cpp,Destructor; std::string owns the path
+0x888830,_ZN3vox11StreamCFile13DestroyCursorEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/stream_cfile.cpp,DestroyCursor: virtual destructor then VoxFree
+0x88885c,_ZN3vox17StreamCFileCursor4ReadEPhi,reconstructed,vox-audio/src/stream_cfile.cpp,"Window copy, refill with Read(buf,1,0x8000) after base += fill; position advanced once at the end; returns total (asm 0x88885c)"
+0x8889c0,_ZN3vox17StreamCFileCursor8ShutdownEv,reconstructed,vox-audio/src/stream_cfile.cpp,Shutdown: CloseFile through owner fs or GetInstance() (asm)
+0x888a2c,_ZN3vox17StreamCFileCursorD1Ev,reconstructed,vox-audio/src/stream_cfile.cpp,Cursor destructor calls Shutdown
+0x888a60,_ZN3vox11StreamCFile4InitEv,partial,vox-audio/src/stream_cfile.cpp,Size from seek-to-end and Tell; path check uses the path string (open question in NOTES.md)
+0x888aec,_ZN3vox11StreamCFile15CreateNewCursorEv,reconstructed,vox-audio/src/stream_cfile.cpp,"Allocates cursor (0x801c in original, sizeof here), constructs, calls cursor Init (asm)"
+0x888c34,_ZN3vox11StreamCFileC2EPKc,reconstructed,vox-audio/src/stream_cfile.cpp,C2 constructor: std::string copies the path
+0x888cb4,_ZN3vox17StreamCFileCursorD0Ev,reconstructed,vox-audio/src/stream_cfile.cpp,Deleting cursor destructor variant
+0x888cf0,_ZN3vox17StreamCFileCursor11EndOfStreamEv,reconstructed,vox-audio/src/stream_cfile.cpp,EndOfStream: true when no file; else last index <= position
+0x888d64,_ZN3vox11StreamCFileD0Ev,reconstructed,vox-audio/src/stream_cfile.cpp,Deleting destructor variant
+0x888db8,_ZN3vox17StreamCFileCursor4SeekEii,reconstructed,vox-audio/src/stream_cfile.cpp,"Seek per asm: whence 1/2/0 set target first, window hit moves index, else reset window and file Seek(target,0)"
+0x888f18,_ZN3vox11StreamCFileC1EPKc,reconstructed,vox-audio/src/stream_cfile.cpp,C1 constructor
+0x888f98,_ZN3vox18StreamCFileFactoryEPv,reconstructed,vox-audio/src/stream_cfile.cpp,Allocates sizeof(StreamCFile) and constructs from the path (asm)
+0x887068,_ZN3vox27VoxNativeSubDecoderIMAADPCM11DecodeBlockEPvPNS_12SegmentStateE,partial,vox-audio/src/ima_adpcm.cpp,"Algorithm (headers, nibble decode, interleave, frame count) ported in vox::ImaAdpcmDecodeBlock and tested. Stream read, seek and segment clipping wrapper not ported: NativeChunks and SegmentState layouts not reconstructed"
+0x3691e4,_ZN3vox6HandleD1Ev,reconstructed,vox-audio/src/handle.cpp,Handle destructor (empty)
+0x3691e8,_ZNK3vox6Handle5GetIdEv,reconstructed,vox-audio/include/vox-audio/vox/handle.hpp,"GetId: 64-bit id at +0x8, inline"
+0x3691f4,_ZNK3vox6Handle16GetObjectPointerEv,reconstructed,vox-audio/include/vox-audio/vox/handle.hpp,"GetObjectPointer: +0x18, inline"
+0x3691fc,_ZNK3vox6Handle12GetTimeStampERjS1_,reconstructed,vox-audio/src/handle.cpp,GetTimeStamp: +0x10 and +0x14
+0x369210,_ZN3vox6Handle12SetTimeStampEjj,reconstructed,vox-audio/src/handle.cpp,SetTimeStamp: +0x10 and +0x14
+0x3694a0,_ZN3vox6HandleD0Ev,reconstructed,vox-audio/src/handle.cpp,"Deleting destructor variant; original frees with CustomFree, which the port handles through the compiler"
+0x863110,_ZNK3vox6HandleeqERKS0_,reconstructed,vox-audio/src/handle.cpp,operator== on the 64-bit id
+0x863144,_ZN3vox18HandlableContainer4FindEx,reconstructed,vox-audio/src/handlable.cpp,Find: exact-match lower_bound on id; null when absent
+0x8631e8,_ZN3vox18HandlableContainer15GetFreeHandleIdEv,reconstructed,vox-audio/src/handlable.cpp,"GetFreeHandleId: returns next id, advances 64-bit counter"
+0x863214,_ZN3vox18HandlableContainer5beginEv,reconstructed,vox-audio/include/vox-audio/vox/handlable.hpp,begin: map begin (leftmost node)
+0x863220,_ZN3vox18HandlableContainer3endEv,reconstructed,vox-audio/include/vox-audio/vox/handlable.hpp,end: map end (header)
+0x8636e0,_ZN3vox9HandlableD1Ev,reconstructed,vox-audio/src/handlable.cpp,Handlable destructor D1; mutex destroyed as member
+0x869984,_ZN3vox9HandlableD0Ev,reconstructed,vox-audio/src/handlable.cpp,Handlable deleting destructor D0
+0x863a0c,_ZN3vox18HandlableContainer5ClearEv,reconstructed,vox-audio/src/handlable.cpp,"Clear: deletes every Handlable, then empties the tree"
+0x863ad0,_ZN3vox18HandlableContainerD1Ev,reconstructed,vox-audio/src/handlable.cpp,HandlableContainer destructor D1: Clear
+0x863b0c,_ZN3vox18HandlableContainerD2Ev,reconstructed,vox-audio/src/handlable.cpp,HandlableContainer destructor D2: Clear
+0x863b48,_ZN3vox18HandlableContainer5EraseEx,reconstructed,vox-audio/src/handlable.cpp,Erase: exact id; destroys the value and removes the node (asm)
+0x8648f4,_ZN3vox18HandlableContainer3AddEPNS_9HandlableE,reconstructed,vox-audio/src/handlable.cpp,Add: keyed by handlable->id; null ignored; existing key value replaced
+0x8649c8,_ZN3vox18HandlableContainer5MergeEPS0_,reconstructed,vox-audio/src/handlable.cpp,Merge: adds every non-null value of other in key order
+0x865bf4,_ZN3vox9Handlable7ReleaseEv,reconstructed,vox-audio/src/handlable.cpp,"Release: lock, decrement if positive, unlock (asm)"
+0x865c24,_ZN3vox9Handlable6RetainEv,reconstructed,vox-audio/src/handlable.cpp,"Retain: lock, increment, unlock (asm)"
+0x86a504,_ZN3vox18HandlableContainer6DetachEx,reconstructed,vox-audio/src/handlable.cpp,Detach: exact id; removes node and returns value without deleting (asm)
+0x863c24,_ZN3vox7DataObjD1Ev,partial,vox-audio/src/data_obj.cpp,Destructor D1: list and mutexes torn down by members; original frees emitter nodes explicitly
+0x863cac,_ZN3vox7DataObjD0Ev,reconstructed,vox-audio/src/data_obj.cpp,Deleting destructor D0
+0x865878,_ZN3vox7DataObj11GetUserDataEv,reconstructed,vox-audio/src/data_obj.cpp,GetUserData under Handlable mutex (asm)
+0x8658a0,_ZN3vox7DataObj11SetUserDataERNS_18DataHandleUserDataE,reconstructed,vox-audio/src/data_obj.cpp,SetUserData stores first word of the record (asm)
+0x8658cc,_ZN3vox7DataObj7IsReadyEv,reconstructed,vox-audio/src/data_obj.cpp,IsReady: state == 0 under state mutex (asm)
+0x8658fc,_ZN3vox7DataObj11GetDurationEv,partial,vox-audio/src/data_obj.cpp,GetDuration: zero when not ready; duration helpers at 0x30e2e0/0x30e964/0x30ec94 not reconstructed
+0x865954,_ZN3vox7DataObj12GetDebugInfoERNS_21DebugChunk_dataSourceE,partial,vox-audio/src/data_obj.cpp,GetDebugInfo: DebugChunk_dataSource layout not reconstructed
+0x8659ec,_ZN3vox7DataObj10PrintDebugEv,partial,vox-audio/src/data_obj.cpp,PrintDebug: debug output not reconstructed
+0x865a0c,_ZN3vox7DataObj7IsGroupEj,reconstructed,vox-audio/src/data_obj.cpp,IsGroup: (mask & (1 << group)) != 0 (asm)
+0x865a48,_ZN3vox7DataObj8GetGroupEv,reconstructed,vox-audio/src/data_obj.cpp,GetGroup (asm)
+0x865a70,_ZN3vox7DataObj9ShouldDieEv,partial,vox-audio/src/data_obj.cpp,ShouldDie: only the state == -1 result; emitter list walk and flag checks not reconstructed
+0x865aec,_ZN3vox7DataObj9NeedToDieEv,reconstructed,vox-audio/src/data_obj.cpp,"NeedToDie: sets flag, then state 4 under state mutex (asm)"
+0x865b30,_ZN3vox7DataObj17UnregisterEmitterEx,partial,vox-audio/src/data_obj.cpp,UnregisterEmitter: removes by id; the original matches a second word and frees the node
+0x865ba8,_ZN3vox7DataObj15RegisterEmitterEx,partial,vox-audio/src/data_obj.cpp,RegisterEmitter: appends pair; node layout (0x10 bytes) not reconstructed
+0x866dec,_ZN3vox7DataObj6UpdateEv,partial,vox-audio/src/data_obj.cpp,Update: early return when state 0; the state machine through external objects is not reconstructed
+0x881a74,_ZN3vox12SegmentGroupD2Ev,reconstructed,vox-audio/src/groups.cpp,"SegmentGroup D2 destructor, empty"
+0x881a78,_ZN3vox12SegmentGroupD1Ev,reconstructed,vox-audio/src/groups.cpp,"SegmentGroup D1 destructor, empty"
+0x881a7c,_ZN3vox12SegmentGroup13GetSelectModeEv,reconstructed,vox-audio/include/vox-audio/vox/groups.hpp,"GetSelectMode: +0x08, inline"
+0x881a84,_ZN3vox12SegmentGroup7IsValidEv,reconstructed,vox-audio/include/vox-audio/vox/groups.hpp,"IsValid: +0x04, inline"
+0x881a8c,_ZN3vox12SegmentGroup8SetStateERS0_,reconstructed,vox-audio/src/groups.cpp,"SegmentGroup::SetState copies valid, select mode and six state words"
+0x882c4c,_ZN3vox12SegmentGroupD0Ev,reconstructed,vox-audio/src/groups.cpp,SegmentGroup deleting destructor variant
+0x881d30,_ZN3vox15SequentialGroup8GetStateEPNS_20SequentialGroupStateE,reconstructed,vox-audio/src/groups.cpp,"SequentialGroup::GetState, six words in order (asm)"
+0x881d64,_ZN3vox15SequentialGroup22PeekAtNextGroupElementENS_13GroupPeekModeE,reconstructed,vox-audio/src/groups.cpp,"PeekAtNextGroupElement: mode 0 returns -1 when a state word is 0; else element at index, unchecked as original"
+0x881da0,_ZN3vox15SequentialGroup5ResetEi,reconstructed,vox-audio/src/groups.cpp,Reset: saves current state and index; reset mode 0 restores the second word pair
+0x881dd8,_ZN3vox15SequentialGroup8SetStateERS0_,reconstructed,vox-audio/src/groups.cpp,SetState(SequentialGroup&): base copy plus index and saved index
+0x881dfc,_ZN3vox15SequentialGroup8SetStateEPNS_20SequentialGroupStateE,reconstructed,vox-audio/src/groups.cpp,SetState(state record)
+0x881e30,_ZN3vox15SequentialGroup18SetToPreviousStateEv,reconstructed,vox-audio/src/groups.cpp,SetToPreviousState: current from saved values
+0x88387c,_ZN3vox15SequentialGroup10AddElementEi,reconstructed,vox-audio/src/groups.cpp,AddElement: push_back (original's overflow insert path is the same operation)
+0x882888,_ZN3vox15SequentialGroupD1Ev,reconstructed,vox-audio/src/groups.cpp,SequentialGroup D1 destructor; vector freed by member
+0x8828d0,_ZN3vox15SequentialGroupD2Ev,reconstructed,vox-audio/src/groups.cpp,SequentialGroup D2 destructor
+0x882c68,_ZN3vox15SequentialGroupD0Ev,reconstructed,vox-audio/src/groups.cpp,SequentialGroup deleting destructor variant
+0x881c0c,_ZN3vox11RandomGroup22PeekAtNextGroupElementENS_13GroupPeekModeE,reconstructed,vox-audio/src/groups.cpp,"RandomGroup::PeekAtNextGroupElement: first word of element at current index, -1 when index negative"
+0x8836b0,_ZN3vox11RandomGroup10AddElementEPNS_18RandomGroupElementE,partial,vox-audio/src/groups.cpp,RandomGroup::AddElement: asm allocates an 8-byte block for the element insert; port pushes the pointer

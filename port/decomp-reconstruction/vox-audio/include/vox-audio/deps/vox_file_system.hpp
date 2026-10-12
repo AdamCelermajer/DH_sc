@@ -1,0 +1,38 @@
+// Minimal stand-in for the vox file-system types used by the stream cursors.
+// The real FileSystemInterface lives in the vox::FileSystem category; only the
+// slots that the reconstructed stream code calls are declared here.
+#pragma once
+
+#include <cstddef>
+
+namespace vox {
+
+enum VoxFileAccessMode : int {
+    kVoxFileRead = 6,  // mode value passed by StreamCFile::Init / Cursor::Init
+};
+
+// File handle returned by FileSystemInterface::OpenFile.
+// Vtable slots used by the stream code: +0x8 Read, +0xc Seek, +0x10 Tell.
+class FileInterface {
+public:
+    virtual ~FileInterface() = default;
+    virtual int Read(void* dst, std::size_t size, std::size_t count) = 0;  // +0x8
+    virtual int Seek(int offset, int whence) = 0;                          // +0xc
+    virtual int Tell() = 0;                                                // +0x10
+};
+
+// Vtable slots used by the stream code: +0x8 OpenFile, +0xc CloseFile.
+class FileSystemInterface {
+public:
+    virtual ~FileSystemInterface() = default;
+    virtual FileInterface* OpenFile(const char* name, VoxFileAccessMode mode) = 0;  // +0x8
+    virtual void CloseFile(FileInterface* file) = 0;                                // +0xc
+
+    // Process-wide instance, as FileSystemInterface::GetInstance() in the original.
+    static FileSystemInterface* GetInstance();
+};
+
+// Test hook: installs the instance returned by GetInstance.
+void SetFileSystemInstanceForTests(FileSystemInterface* fs);
+
+}  // namespace vox

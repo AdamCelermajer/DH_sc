@@ -314,3 +314,34 @@ elf_address,symbol,status,source_file,notes
 0x6e0620,_ZN6glitch5video11CNullShaderD0Ev,skipped,,compiler generated deleting destructor thunk
 0x6e17bc,_ZN6glitch5video18ICodeShaderManagerD0Ev,skipped,,compiler generated deleting destructor thunk
 0x6e20c8,_ZN6glitch5video11IShaderCodeD0Ev,skipped,,compiler generated deleting destructor thunk
+0x6e055c,_ZNK6glitch5video11CNullShader10updateHashEv,reconstructed,glitch-video/src/null_shader.cpp,
+0x6e0570,_ZNK6glitch5video11CNullShader13getShaderSizeEv,reconstructed,glitch-video/src/null_shader.cpp,
+0x6e0590,_ZNK6glitch5video11CNullShader12getHashValueEv,reconstructed,glitch-video/src/null_shader.cpp,
+0x6e05d0,_ZN6glitch5video11CNullShader21deserializeAttributesEPNS_2io11IAttributesE,partial,glitch-video/src/null_shader.cpp,IShader base deserializeAttributes not modelled; only updateHash is called
+0x6e05ec,_ZN6glitch5video11CNullShaderD1Ev,partial,glitch-video/src/null_shader.cpp,D1; IShader base dtor not modelled
+0x6e063c,_ZN6glitch5video11CNullShaderD2Ev,partial,glitch-video/src/null_shader.cpp,D2; IShader base dtor not modelled
+0x6e0670,_ZN6glitch5video11CNullShaderC1EPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 driver ctor; IShader(0,"",driver) base not modelled
+0x6e06b8,_ZN6glitch5video11CNullShaderC2EPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C2 driver ctor; IShader base not modelled
+0x6e0700,_ZN6glitch5video11CNullShaderC1EtPKcPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 named ctor; IShader base not modelled, id/hash/mask reconstructed
+0x6e0744,_ZN6glitch5video11CNullShaderC2EtPKcPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C2 named ctor; IShader base not modelled
+0x6e0804,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerC1Ev,partial,glitch-video/src/shader_code.cpp,C1 CShaderCodeManager; SIDedCollection base replaced by a name table stand-in
+0x6e0818,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerC2Ev,partial,glitch-video/src/shader_code.cpp,C2 CShaderCodeManager; SIDedCollection stand-in
+0x6e1758,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerD1Ev,partial,glitch-video/src/shader_code.cpp,D1 CShaderCodeManager; collection stand-in
+0x6e1828,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerD2Ev,partial,glitch-video/src/shader_code.cpp,D2 CShaderCodeManager; collection stand-in
+0x6e0ca4,_ZN6glitch5video18ICodeShaderManagerC1Ev,partial,glitch-video/src/shader_code.cpp,C1 ICodeShaderManager; IShaderManager base not modelled (defaulted in header)
+0x6e0cf0,_ZN6glitch5video18ICodeShaderManagerC2Ev,partial,glitch-video/src/shader_code.cpp,C2 ICodeShaderManager; IShaderManager base not modelled
+0x6e176c,_ZN6glitch5video18ICodeShaderManagerD1Ev,partial,glitch-video/src/shader_code.cpp,D1 ICodeShaderManager; IShaderManager base dtor not modelled
+0x6e17d8,_ZN6glitch5video18ICodeShaderManagerD2Ev,partial,glitch-video/src/shader_code.cpp,D2 ICodeShaderManager; base dtor not modelled
+0x6e1b08,_ZNK6glitch5video18ICodeShaderManager13getShaderCodeEPKc,partial,glitch-video/src/shader_code.cpp,getShaderCode on the name-table stand-in; returns null for unknown names
+0x6e1d70,_ZN6glitch5video18ICodeShaderManager13addShaderCodeERKN5boost13intrusive_ptrINS0_11IShaderCodeEEE,partial,glitch-video/src/shader_code.cpp,addShaderCode keys on m_name; the original calls the virtual name getter
+0x6e2028,_ZN6glitch5video18ICodeShaderManager23removeUnusedShaderCodesEv,partial,glitch-video/src/shader_code.cpp,removeUnusedShaderCodes clears the stand-in table, not SIDedCollection::removeAll
+0x6e2034,_ZN6glitch5video18ICodeShaderManager19removeUnusedShadersEv,partial,glitch-video/src/shader_code.cpp,IShaderManager::removeUnusedShaders base call not modelled
+0x6e207c,_ZN6glitch5video11IShaderCodeD1Ev,reconstructed,glitch-video/src/shader_code.cpp,D1 IShaderCode; string member releases the heap buffer
+0x6e20e4,_ZN6glitch5video11IShaderCodeD2Ev,reconstructed,glitch-video/src/shader_code.cpp,D2 IShaderCode
+0x6e2130,_ZN6glitch5video11IShaderCodeC1EPKc,reconstructed,glitch-video/src/shader_code.cpp,C1 IShaderCode: refcount 0, name string copy
+0x6e2178,_ZN6glitch5video11IShaderCodeC2EPKc,reconstructed,glitch-video/src/shader_code.cpp,C2 IShaderCode
+0x5b9b80,_ZN6glitch5video18CNullShaderManagerD1Ev,partial,glitch-video/src/null_shader_manager.cpp,D1 CNullShaderManager; IShaderManager base dtor not modelled
+0x5b9cf0,_ZN6glitch5video18CNullShaderManagerD0Ev,skipped,,compiler generated deleting destructor thunk
+0x5b9bb4,_ZN6glitch5video18CNullShaderManager17createEmptyShaderEPKc,reconstructed,glitch-video/src/null_shader_manager.cpp,createEmptyShader; name argument unused, as in the original
+0x5b9bf4,_ZN6glitch5video18CNullShaderManager12createShaderEPKc,partial,glitch-video/src/null_shader_manager.cpp,lookup and creation approximated; IShaderManager::addShader not modelled
+0x5b9cec,_ZN6glitch5video18CNullShaderManager19removeUnusedShadersEv,partial,glitch-video/src/null_shader_manager.cpp,clears the local table; SIDedCollection::removeAll not modelled

@@ -39,6 +39,40 @@ template <typename T>
 struct rect {
     T X1, Y1, X2, Y2;  // upper-left and lower-right corners
 };
+// Modelled on upstream Irrlicht 1.8.5 (quaternion.h, triangle3d.h, line2d.h,
+// line3d.h, dimension2d.h, aabbox3d.h, plane3d.h, matrix4.h); plain members only.
+struct quaternion {
+    float X, Y, Z, W;
+};
+template <typename T>
+struct triangle3d {
+    vector3d<T> A, B, C;
+};
+template <typename T>
+struct line2d {
+    vector2d<T> start, end;
+};
+template <typename T>
+struct line3d {
+    vector3d<T> start, end;
+};
+template <typename T>
+struct dimension2d {
+    T Width, Height;
+};
+template <typename T>
+struct aabbox3d {
+    vector3d<T> MinEdge, MaxEdge;
+};
+template <typename T>
+struct plane3d {
+    vector3d<T> Normal;
+    T D;
+};
+template <typename T>
+struct CMatrix4 {
+    T M[16];  // row-major, as in the original
+};
 }  // namespace glitch::core
 
 namespace glitch::video {

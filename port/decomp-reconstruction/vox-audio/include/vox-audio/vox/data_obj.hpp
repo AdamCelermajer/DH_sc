@@ -1,0 +1,52 @@
+// vox::DataObj: a loaded data source (a Handlable). Layout from the asm:
+// +0x00 vtable (Handlable), +0x08 id, +0x10 ref count, +0x18 Handlable mutex,
+// +0x1c group index (bit selected by IsGroup), +0x40 emitter list sentinel,
+// +0x48 user data word, +0x4c need-to-die flag, +0x50 state word,
+// +0x58 state mutex.
+#pragma once
+
+#include <cstdint>
+#include <list>
+#include <utility>
+
+#include "vox-audio/vox/handlable.hpp"
+#include "vox-audio/vox/mutex.hpp"
+
+namespace vox {
+
+// Opaque user-data record as the original passes it: only the first word is used.
+struct DataHandleUserData {
+    std::uintptr_t word = 0;
+};
+
+class DataObj : public Handlable {
+public:
+    DataObj() = default;
+    ~DataObj() override;  // 0x863c24 (D1), 0x863cac (D0)
+
+    std::uintptr_t GetUserData();                                 // 0x865878
+    void SetUserData(const DataHandleUserData& user_data);        // 0x8658a0
+    bool IsReady();                                               // 0x8658cc: state == 0
+    std::uint32_t GetDuration();                                  // 0x8658fc (partial)
+    void GetDebugInfo(void* chunk);                               // 0x865954 (partial)
+    void PrintDebug();                                            // 0x8659ec (partial)
+    bool IsGroup(std::uint32_t groups);                           // 0x865a0c
+    int GetGroup();                                               // 0x865a48
+    bool ShouldDie();                                             // 0x865a70 (partial)
+    void NeedToDie();                                             // 0x865aec
+    void UnregisterEmitter(std::int64_t emitter_id, void* emitter);  // 0x865b30 (partial)
+    void RegisterEmitter(std::int64_t emitter_id, void* emitter);    // 0x865ba8 (partial)
+    void Update();                                                // 0x866dec (partial)
+
+    int group_ = 0;                  // +0x1c
+    std::uintptr_t user_data_ = 0;   // +0x48
+    bool need_to_die_ = false;       // +0x4d
+    int state_ = 0;                  // +0x50
+    Mutex state_mutex_;              // +0x58
+    // +0x40 emitter list: entries of (emitter id, emitter). The list node
+    // word at +0x10 of each entry is not established, so the port keeps the
+    // pair only.
+    std::list<std::pair<std::int64_t, void*>> emitters_;
+};
+
+}  // namespace vox

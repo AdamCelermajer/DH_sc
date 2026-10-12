@@ -1,28 +1,84 @@
-// TouchScreenBase: eight-slot touch tracker. Each slot is 0x30 bytes in the original;
-// the field roles below are inferred from the accessors.
+// TouchScreenBase: eight-slot touch tracker with a 16-entry event ring.
+// Slot records are 0x30 bytes in the original. Field roles are inferred from
+// the accessors and handlers in the decompiled code (see NOTES.md).
 #pragma once
+
+#include <array>
+#include <list>
+
+#include "core-platform/deps/game_types.hpp"
+#include "core-platform/deps/glitch_core.hpp"
 
 class TouchScreenBase {
 public:
-    struct Slot {
-        float point_[2] = {0, 0};  // position (the original returns the address at +0xc)
-        bool valid_ = false;       // +0x20
-        bool touched_ = false;     // +0x28
-        int swipe_ = 0;            // +0x24
-        int id_ = 0;               // +0x2c
-        int state_ = 0;            // +0x30 (queue state, 2 = ended)
+    enum TouchEventType : int { kTouchBegan = 0, kTouchMoved = 1, kTouchEnded = 2 };
+
+    // Queued event: 12 bytes in the original (type, x, y as shorts, touch id).
+    struct QueuedEvent {
+        int type = 0;      // +0x0
+        short x = 0;       // +0x4
+        short y = 0;       // +0x6
+        int id = 0;        // +0x8
     };
 
-    bool hasTouch() const;                 // 0x33b2ec
-    int getID(long id);                    // 0x33b3dc
-    void clear();                          // 0x33b4d8
-    const float* getTouchPoint(long slot) const;     // 0x33b1a4
-    const float* getFirstTouchPoint(long slot) const; // 0x33b1e0
-    int getSwipeDirection(long slot) const;          // 0x33b2bc
-    bool _IsQueueEmpty() const;            // 0x33a9a4
+    // One touch slot, 0x30 bytes in the original.
+    struct Slot {
+        int mark_ = 0;               // +0x00 (written as 0/1/2 by the handlers of the previous slot)
+        short begin_[2] = {0, 0};    // +0x08 point where the touch began
+        short cur_[2] = {0, 0};      // +0x0c current point
+        short prev_[2] = {0, 0};     // +0x10 previous point
+        double time_ = 0;            // +0x18 time of the last sample
+        bool valid_ = false;         // +0x20
+        int swipe_ = 0;              // +0x24 0 none, 1 left, 2 right
+        bool touched_ = false;       // +0x28
+        int id_ = 0;                 // +0x2c (-1 when released)
+    };
+
+    TouchScreenBase(short width, short height);
+    virtual ~TouchScreenBase() = default;
+
+    // Pure in the original: TouchScreenWin32 and friends supply the bounds.
+    virtual int getLeftBound() const = 0;    // vtable +0x08
+    virtual int getRightBound() const = 0;   // vtable +0x0c
+    virtual int getTopBound() const = 0;     // vtable +0x10
+    virtual int getBottomBound() const = 0;  // vtable +0x14
+
+    Rct<short> getDimension() const;                 // vtable +0x18, normalised min/max
+    void getDimension(Rct<short>& out) const;        // vtable +0x1c, not normalised
+
+    virtual void touchBegan(const Point2D<short>& p, long slot);     // +0x20
+    virtual void touchMoved(const Point2D<short>& p, long slot);     // +0x24
+    virtual void touchEnded(const Point2D<short>& p, long slot);     // +0x28
+    virtual void touchCancelled(const Point2D<short>& p, long slot); // +0x2c
+
+    int getTouchIDInitiatedInRegion(const glitch::core::rect<float>& r) const; // +0x34
+    int getTouchIDInRegion(const glitch::core::rect<float>& r) const;          // +0x38
+    const short* getTouchPoint(long slot) const;                               // +0x3c
+    const short* getFirstTouchPoint(long slot) const;                          // +0x40
+    Point2D<short> getTouchDisplacement(long slot) const;                      // +0x44
+    int getSwipeDirection(long slot) const;                                    // +0x48
+    std::list<long> getTouchIDList() const;                                    // +0x4c
+    bool hasTouch();                                                           // +0x50
+
+    int getID(long id);
+    void clear();
+    void update(double now);
+    float ProcessEvents();
+    bool _IsQueueEmpty() const;
+    void _PopFromQueue();
+    const QueuedEvent* _GetNextEventInQueue() const;
 
 protected:
-    Slot slots_[8];                        // +0x0 .. +0x0f0
-    int queueHead_ = 0;                    // +0x1a0
-    int queueTail_ = 0;                    // +0x1a4
+    void _AddToQueue(TouchEventType type, const Point2D<float>& p, long slot);
+
+    std::array<Slot, 9> slots_{};     // +0x000 .. +0x120 (slot 8 only holds mark_)
+    double time_now_ = 0;             // +0x188
+    int active_ = 0;                  // +0x190 one past the highest touched slot
+    std::array<QueuedEvent, 16> queue_{};  // +0x194 (vector in the original)
+    int queueHead_ = 0;               // +0x1a0
+    int queueTail_ = 0;               // +0x1a4
+    int orientation_ = 0;             // +0x1a8 2 or 3 mirrors X
+    short width_ = 0;                 // +0x1ac
+    short height_ = 0;                // +0x1ae
+    float scale_ = 1.0f;              // +0x1b0
 };

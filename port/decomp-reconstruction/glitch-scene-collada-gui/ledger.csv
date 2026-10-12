@@ -186,3 +186,31 @@ elf_address,symbol,status,source_file,notes
 0x61bf58,_ZNK6glitch7collada16CColladaDatabase4findEPKcRj,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,probes getAnimation; getAnimationClip; getImage; getEffect; getMaterial; getGeometry; getController; getVisualScene in that order; mask returns matched bit
 0x60e2bc,_ZNK6glitch7collada16CColladaDatabase19getAnimationSegmentEi,partial,glitch-scene-collada-gui/src/collada_database.cpp,signed-count negative branch unrepresentable with std::vector; empty and found/last paths match
 0x60e28c,_ZNK6glitch7collada16CColladaDatabase20linkInstanceMaterialEPNS0_17SInstanceMaterialE,reconstructed,glitch-scene-collada-gui/src/collada_database.cpp,pushes onto intrusive list head at tables.instanceMaterials (+0x08); link at +0x38
+0x35a8e0,_ZNK6glitch5scene10ISceneNode25getAbsoluteTransformationEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,returns address of +0x24 transform
+0x596e24,_ZNK6glitch5scene10ISceneNode20getRenderVertexCountEPv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,returns 0xffffffff
+0x596f5c,_ZNK6glitch5scene10ISceneNode5getIDEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x596f64,_ZN6glitch5scene10ISceneNode5setIDEi,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x596fe4,_ZNK6glitch5scene10ISceneNode6getUIDEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,returns empty string
+0x596ff4,_ZNK6glitch5scene10ISceneNode10getScopeIDEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,returns empty string
+0x597094,_ZNK6glitch5scene10ISceneNode12getAnimatorsEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,member at +0xfc
+0x59709c,_ZNK6glitch5scene10ISceneNode18getBindedAnimatorsEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,member at +0x104
+0x5970a4,_ZNK6glitch5scene10ISceneNode11getMaterialEj,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,base node has no materials; returns null
+0x5970b0,_ZNK6glitch5scene10ISceneNode16getMaterialCountEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5970b8,_ZN6glitch5scene10ISceneNode21notifyMaterialChangedEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,empty body
+0x5971a4,_ZN6glitch5scene10ISceneNode16setIsDebugObjectEb,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,bit 7 of flags at +0x11c
+0x5971bc,_ZNK6glitch5scene10ISceneNode13isDebugObjectEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,bit 7 of flags at +0x11c
+0x5971c8,_ZNK6glitch5scene10ISceneNode11getChildrenEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,member at +0xf0
+0x5971d0,_ZNK6glitch5scene10ISceneNode15getUserPropertyEv,partial,glitch-scene-collada-gui/src/scene_node.cpp,original returns 0; property type not mapped
+0x5971d8,_ZNK6glitch5scene10ISceneNode18getUserPropertyStrEv,partial,glitch-scene-collada-gui/src/scene_node.cpp,original returns 0; string property type not mapped
+0x596ec0,_ZN6glitch5scene10ISceneNode21onChangedSceneManagerEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,empty body
+0x5974c4,_ZN6glitch5scene10ISceneNode5cloneEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,base returns null
+0x5974cc,_ZN6glitch5scene10ISceneNode11setGameDataEPv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974d4,_ZNK6glitch5scene10ISceneNode11getGameDataEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974dc,_ZN6glitch5scene10ISceneNode15setCameraOffsetEf,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974e4,_ZNK6glitch5scene10ISceneNode15getCameraOffsetEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974ec,_ZN6glitch5scene10ISceneNode17setRenderingLayerEi,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974f4,_ZNK6glitch5scene10ISceneNode17getRenderingLayerEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x5974fc,_ZN6glitch5scene10ISceneNode17onMaterialChangedEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,empty body
+0x597254,_ZNK6glitch5scene10ISceneNode19getTriangleSelectorEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,
+0x597298,_ZNK6glitch5scene10ISceneNode7getTypeEv,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,returns 0x6e6b6e75 unkn
+0x597544,_ZN6glitch5scene10ISceneNode14resetTransformEb,reconstructed,glitch-scene-collada-gui/src/scene_node.cpp,empty body

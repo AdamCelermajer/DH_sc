@@ -48,13 +48,33 @@ public:
     virtual void setVector3d(const glitch::core::vector3d<float>&) {}     // +0xb0
     virtual void setVector4d(const glitch::core::vector4d<float>&) {}     // +0xb4
     virtual void setPosition(glitch::core::position2d<std::int32_t>) {}   // +0xb8
-    virtual void setRect(glitch::core::rect<std::int32_t>) {}              // 0x31d86c
     virtual void setVector2di(glitch::core::vector2d<std::int32_t>) {}    // +0xcc
     virtual void setVector3di(const glitch::core::vector3d<std::int32_t>&) {}  // +0xd0
     virtual void setVector4di(const glitch::core::vector4d<std::int32_t>&) {}  // +0xd4
     virtual void setUserPointer(void*) {}                                 // +0xf4
     virtual void setEnum(const char*, const char* const*) {}              // +0xf8
     virtual int getType() const { return 0; }                             // +0x104
+    // Base defaults from the original bodies (0x31d690 .. 0x31d7dc).
+    virtual glitch::core::quaternion getQuaternion() const { return {0.f, 0.f, 0.f, 1.f}; }  // 0x31d690
+    virtual glitch::core::triangle3d<float> getTriangle() const { return {}; }               // 0x31d6ac
+    virtual glitch::core::line2d<float> getLine2d() const { return {{0.f, 0.f}, {1.f, 1.f}}; }   // 0x31d724
+    virtual glitch::core::line2d<std::int32_t> getLine2di() const { return {{0, 0}, {1, 1}}; }  // 0x31d740
+    virtual glitch::core::line3d<float> getLine3d() const { return {{0.f, 0.f, 0.f}, {1.f, 1.f, 1.f}}; }  // 0x31d75c
+    virtual glitch::core::line3d<std::int32_t> getLine3di() const { return {{0, 0, 0}, {1, 1, 1}}; }     // 0x31d780
+    virtual glitch::core::dimension2d<std::int32_t> getDimension2d() const { return {}; }    // 0x31d7a4
+    virtual glitch::core::aabbox3d<float> getBBox() const { return {{-1.f, -1.f, -1.f}, {1.f, 1.f, 1.f}}; }  // 0x31d7b4
+    virtual glitch::core::plane3d<float> getPlane() const { return {{0.f, 1.f, 0.f}, -0.f}; }  // 0x31d7dc
+    virtual void setQuaternion(const glitch::core::quaternion&) {}                          // 0x31d870
+    virtual void setTriangle(const glitch::core::triangle3d<float>&) {}                     // 0x31d888
+    virtual void setLine2d(glitch::core::line2d<float>) {}                                  // 0x31d898
+    virtual void setLine2d(glitch::core::line2d<std::int32_t>) {}                           // 0x31d89c
+    virtual void setLine3d(glitch::core::line3d<float>) {}                                  // 0x31d8a0
+    virtual void setLine3d(glitch::core::line3d<std::int32_t>) {}                           // 0x31d8a4
+    virtual void setDimension2d(glitch::core::dimension2d<std::int32_t>) {}                 // 0x31d8a8
+    virtual void setBBox(glitch::core::aabbox3d<float>) {}                                  // 0x31d8b4
+    virtual void setPlane(glitch::core::plane3d<float>) {}                                  // 0x31d8b8
+    virtual void setString(const wchar_t*) {}                                               // +0x94
+    virtual void setRect(glitch::core::rect<std::int32_t>) {}                               // 0x31d86c
 };
 
 class CAttributes {
@@ -97,6 +117,22 @@ public:
     void setAttribute(int index, void* data, int size);                    // 0x56117c
     void setAttribute(int index, const char* value, const char* const* choices);  // 0x5611b4
     void setAttribute(int index, void* userPointer);                        // 0x56189c
+    void setAttribute(int index, const wchar_t* value);                     // 0x560de8
+    void setAttribute(int index, glitch::core::rect<std::int32_t> value);  // 0x561120
+    void setAttribute(int index, glitch::core::quaternion value);          // 0x5612ac
+    void setAttribute(int index, const glitch::core::aabbox3d<float>& value);      // 0x5613b0
+    void setAttribute(int index, const glitch::core::plane3d<float>& value);       // 0x5614b0
+    void setAttribute(int index, const glitch::core::triangle3d<float>& value);    // 0x5615d4
+    void setAttribute(int index, const glitch::core::line2d<float>& value);        // 0x5616e4
+    void setAttribute(int index, const glitch::core::line3d<float>& value);        // 0x5617e4
+    glitch::video::SColor getColor(int index) const;                           // 0x560954
+    glitch::core::quaternion getQuaternion(int index) const;                   // 0x561224
+    glitch::core::aabbox3d<float> getBox3d(int index) const;                   // 0x561314
+    glitch::core::plane3d<float> getPlane3d(int index) const;                  // 0x561424
+    glitch::core::triangle3d<float> getTriangle3d(int index) const;            // 0x561514
+    glitch::core::line2d<float> getLine2d(int index) const;                    // 0x561660
+    glitch::core::line3d<float> getLine3d(int index) const;                    // 0x561748
+    void* getUserPointer(int index) const;                                     // 0x561858
 };
 
 }  // namespace glitch::io
