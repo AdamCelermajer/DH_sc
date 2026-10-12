@@ -1,0 +1,387 @@
+elf_address,symbol,status,source_file,notes
+0x364b80,_ZN6Arrays19GetMemberIDByStringINS_8AnimDictEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x37ba84,_ZN6Arrays19GetMemberIDByStringINS_6SoundsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x39c2c8,_ZN6Arrays19GetMemberIDByStringINS_9LevelListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x3a1084,_ZN6Arrays19GetMemberIDByStringINS_22DestructibleContainersEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x3a1708,_ZN6Arrays19GetMemberIDByStringINS_18OpenableContainersEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x3e8bcc,_ZN6Arrays19GetMemberIDByStringINS_11SpawnGroupsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac5c0,_ZN6Arrays19GetMemberIDByStringINS_15StrID_LanguagesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac664,_ZN6Arrays19GetMemberIDByStringINS_14GameObjectDictEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac6d8,_ZN6Arrays19GetMemberIDByStringINS_14ProjectileDictEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac74c,_ZN6Arrays19GetMemberIDByStringINS_10EffectDictEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac7c0,_ZN6Arrays19GetMemberIDByStringINS_9ModelDictEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac864,_ZN6Arrays19GetMemberIDByStringINS_15WorldMapLockersEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac924,_ZN6Arrays19GetMemberIDByStringINS_8WorldMapEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac9f0,_ZN6Arrays19GetMemberIDByStringINS_8v2QuestsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4acabc,_ZN6Arrays19GetMemberIDByStringINS_8v2EventsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4acb88,_ZN6Arrays19GetMemberIDByStringINS_12v2ConditionsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4accf8,_ZN6Arrays19GetMemberIDByStringINS_10Sounds_bakEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4acdc4,_ZN6Arrays19GetMemberIDByStringINS_18SoundGroupsRoutingEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ace84,_ZN6Arrays19GetMemberIDByStringINS_17SoundBankPlaybackEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4acf44,_ZN6Arrays19GetMemberIDByStringINS_9ListenersEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad010,_ZN6Arrays19GetMemberIDByStringINS_15CharSoundsTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad0dc,_ZN6Arrays19GetMemberIDByStringINS_10SkillTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad1a8,_ZN6Arrays19GetMemberIDByStringINS_14SkillListTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad24c,_ZN6Arrays19GetMemberIDByStringINS_15ProjectileTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad318,_ZN6Arrays19GetMemberIDByStringINS_12NumProbArrayEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad3bc,_ZN6Arrays19GetMemberIDByStringINS_13MerchantTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad488,_ZN6Arrays19GetMemberIDByStringINS_9LootTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad554,_ZN6Arrays19GetMemberIDByStringINS_12ItemTypeListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad6c8,_ZN6Arrays19GetMemberIDByStringINS_8ItemListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad76c,_ZN6Arrays19GetMemberIDByStringINS_14InventoryTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad810,_ZN6Arrays19GetMemberIDByStringINS_21DropTilePriorityTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad8b4,_ZN6Arrays19GetMemberIDByStringINS_20ItemAudioVisualTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ad9d8,_ZN6Arrays19GetMemberIDByStringINS_14FastTravelListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adaa4,_ZN6Arrays19GetMemberIDByStringINS_21ItemBonusAttrMonopolyEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adb48,_ZN6Arrays19GetMemberIDByStringINS_14ItemPowerTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adc14,_ZN6Arrays19GetMemberIDByStringINS_13ItemPowerListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adcb8,_ZN6Arrays19GetMemberIDByStringINS_9HintPagesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4add78,_ZN6Arrays19GetMemberIDByStringINS_9HelpPagesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ade38,_ZN6Arrays19GetMemberIDByStringINS_12TriggerTrapsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adf04,_ZN6Arrays19GetMemberIDByStringINS_13TriggerPlatesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4adfd0,_ZN6Arrays19GetMemberIDByStringINS_14TriggerObjectsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae09c,_ZN6Arrays19GetMemberIDByStringINS_10TimerTrapsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae168,_ZN6Arrays19GetMemberIDByStringINS_15ProjectileTrapsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae28c,_ZN6Arrays19GetMemberIDByStringINS_15LiftableObjectsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae330,_ZN6Arrays19GetMemberIDByStringINS_17GameObjectDamagerEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae3fc,_ZN6Arrays19GetMemberIDByStringINS_14ExplosiveTrapsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae4c8,_ZN6Arrays19GetMemberIDByStringINS_5DoorsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae5ec,_ZN6Arrays19GetMemberIDByStringINS_11FontPaletteEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae6ac,_ZN6Arrays19GetMemberIDByStringINS_10FaeryTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae778,_ZN6Arrays19GetMemberIDByStringINS_14FaeryListTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae81c,_ZN6Arrays19GetMemberIDByStringINS_19FootstepEffectTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae8e8,_ZN6Arrays19GetMemberIDByStringINS_15CharEffectTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ae9b4,_ZN6Arrays19GetMemberIDByStringINS_19AnimatedEffectTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aea80,_ZN6Arrays19GetMemberIDByStringINS_7DialogsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aeb24,_ZN6Arrays19GetMemberIDByStringINS_12DialogActorsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aebf0,_ZN6Arrays19GetMemberIDByStringINS_15GameOptionTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aecbc,_ZN6Arrays19GetMemberIDByStringINS_16GameDifficultiesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aed88,_ZN6Arrays19GetMemberIDByStringINS_19DesignSettingsTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aee58,_ZN6Arrays19GetMemberIDByStringINS_9RectTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aef24,_ZN6Arrays19GetMemberIDByStringINS_18Charater_TemplatesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4aefc8,_ZN6Arrays19GetMemberIDByStringINS_13StatListTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af06c,_ZN6Arrays19GetMemberIDByStringINS_25StatAutoAssignSchemeTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af16c,_ZN6Arrays19GetMemberIDByStringINS_10ClassTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af210,_ZN6Arrays19GetMemberIDByStringINS_13CharAnimTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af2e0,_ZN6Arrays19GetMemberIDByStringINS_15CamAnimSetTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af3ac,_ZN6Arrays19GetMemberIDByStringINS_9AnimTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af478,_ZN6Arrays19GetMemberIDByStringINS_14AIFactionTableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4af51c,_ZN6Arrays19GetMemberIDByStringINS_7AITableEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Arrays table: loop over m_memberNames[size]
+0x4ac574,_ZN7Structs19GetMemberIDByStringINS_12SoundAutoGenEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4ac634,_ZN7Structs19GetMemberIDByStringINS_13LangSheetListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ac834,_ZN7Structs19GetMemberIDByStringINS_11ColladaFileEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ac8d8,_ZN7Structs19GetMemberIDByStringINS_14WorldMapLockerEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4ac998,_ZN7Structs19GetMemberIDByStringINS_14WldMapLocationEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4aca64,_ZN7Structs19GetMemberIDByStringINS_7v2QuestEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 17 m_dataNames entries (loop form)
+0x4acb30,_ZN7Structs19GetMemberIDByStringINS_7v2EventEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4acbfc,_ZN7Structs19GetMemberIDByStringINS_9v2CondAndEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4acc48,_ZN7Structs19GetMemberIDByStringINS_6TrophyEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 7 m_dataNames entries (loop form)
+0x4acca0,_ZN7Structs19GetMemberIDByStringINS_10SpawnGroupEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4acd6c,_ZN7Structs19GetMemberIDByStringINS_5SoundEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 9 m_dataNames entries (loop form)
+0x4ace38,_ZN7Structs19GetMemberIDByStringINS_10SoundGroupEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4acef8,_ZN7Structs19GetMemberIDByStringINS_9SoundBankEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4acfb8,_ZN7Structs19GetMemberIDByStringINS_8ListenerEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 6 m_dataNames entries (loop form)
+0x4ad084,_ZN7Structs19GetMemberIDByStringINS_10CharSoundsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 6 m_dataNames entries (loop form)
+0x4ad150,_ZN7Structs19GetMemberIDByStringINS_5SkillEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 15 m_dataNames entries (loop form)
+0x4ad21c,_ZN7Structs19GetMemberIDByStringINS_9SkillListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad2c0,_ZN7Structs19GetMemberIDByStringINS_10ProjectileEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 20 m_dataNames entries (loop form)
+0x4ad38c,_ZN7Structs19GetMemberIDByStringINS_11NumProbListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad430,_ZN7Structs19GetMemberIDByStringINS_8MerchantEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4ad4fc,_ZN7Structs19GetMemberIDByStringINS_4LootEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4ad5c8,_ZN7Structs19GetMemberIDByStringINS_16ItemTypeListListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad66c,_ZN7Structs19GetMemberIDByStringINS_4ItemEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 38 m_dataNames entries (loop form)
+0x4ad73c,_ZN7Structs19GetMemberIDByStringINS_17ItemListEntryListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad7e0,_ZN7Structs19GetMemberIDByStringINS_9InventoryEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad884,_ZN7Structs19GetMemberIDByStringINS_14TileOffsetListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ad928,_ZN7Structs19GetMemberIDByStringINS_15ItemAudioVisualEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4ad980,_ZN7Structs19GetMemberIDByStringINS_16LevelDeclarationEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 15 m_dataNames entries (loop form)
+0x4ada4c,_ZN7Structs19GetMemberIDByStringINS_21FastTravelDestinationEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4adb18,_ZN7Structs19GetMemberIDByStringINS_17ItemBonusAttrListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4adbbc,_ZN7Structs19GetMemberIDByStringINS_12ItemPowerRefEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 8 m_dataNames entries (loop form)
+0x4adc88,_ZN7Structs19GetMemberIDByStringINS_18ItemPowerEntryListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4add2c,_ZN7Structs19GetMemberIDByStringINS_8HintPageEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4addec,_ZN7Structs19GetMemberIDByStringINS_8HelpPageEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4adeac,_ZN7Structs19GetMemberIDByStringINS_11TriggerTrapEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4adf78,_ZN7Structs19GetMemberIDByStringINS_12TriggerPlateEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 7 m_dataNames entries (loop form)
+0x4ae044,_ZN7Structs19GetMemberIDByStringINS_13TriggerObjectEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4ae110,_ZN7Structs19GetMemberIDByStringINS_9TimerTrapEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 6 m_dataNames entries (loop form)
+0x4ae1dc,_ZN7Structs19GetMemberIDByStringINS_14ProjectileTrapEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 8 m_dataNames entries (loop form)
+0x4ae234,_ZN7Structs19GetMemberIDByStringINS_17OpenableContainerEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 8 m_dataNames entries (loop form)
+0x4ae300,_ZN7Structs19GetMemberIDByStringINS_14LiftableObjectEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ae3a4,_ZN7Structs19GetMemberIDByStringINS_16GameObjectDamageEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4ae470,_ZN7Structs19GetMemberIDByStringINS_13ExplosiveTrapEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4ae53c,_ZN7Structs19GetMemberIDByStringINS_4DoorEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4ae594,_ZN7Structs19GetMemberIDByStringINS_21DestructibleContainerEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 15 m_dataNames entries (loop form)
+0x4ae660,_ZN7Structs19GetMemberIDByStringINS_12FontColorDefEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 2 m_dataNames entries (fixed form)
+0x4ae720,_ZN7Structs19GetMemberIDByStringINS_5FaeryEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 7 m_dataNames entries (loop form)
+0x4ae7ec,_ZN7Structs19GetMemberIDByStringINS_9FaeryListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4ae890,_ZN7Structs19GetMemberIDByStringINS_14FootstepEffectEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4ae95c,_ZN7Structs19GetMemberIDByStringINS_10CharEffectEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4aea28,_ZN7Structs19GetMemberIDByStringINS_9AnimFXTplEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4aeaf4,_ZN7Structs19GetMemberIDByStringINS_14DialogStepListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4aeb98,_ZN7Structs19GetMemberIDByStringINS_11DialogActorEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4aec64,_ZN7Structs19GetMemberIDByStringINS_10GameOptionEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 7 m_dataNames entries (loop form)
+0x4aed30,_ZN7Structs19GetMemberIDByStringINS_14GameDifficultyEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4aedfc,_ZN7Structs19GetMemberIDByStringINS_14DesignSettingsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 43 m_dataNames entries (loop form)
+0x4aeecc,_ZN7Structs19GetMemberIDByStringINS_4RectEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 4 m_dataNames entries (loop form)
+0x4aef98,_ZN7Structs19GetMemberIDByStringINS_12CharTemplateEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4af03c,_ZN7Structs19GetMemberIDByStringINS_12StatListListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4af0e0,_ZN7Structs19GetMemberIDByStringINS_24StatAutoAssignTargetListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4af110,_ZN7Structs19GetMemberIDByStringINS_19CharacterPropertiesEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 224 m_dataNames entries (loop form)
+0x4af1e0,_ZN7Structs19GetMemberIDByStringINS_13ClassFuncListEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4af284,_ZN7Structs19GetMemberIDByStringINS_8CharAnimEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 37 m_dataNames entries (loop form)
+0x4af354,_ZN7Structs19GetMemberIDByStringINS_10CamAnimSetEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 5 m_dataNames entries (loop form)
+0x4af420,_ZN7Structs19GetMemberIDByStringINS_7AnimTplEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 3 m_dataNames entries (loop form)
+0x4af4ec,_ZN7Structs19GetMemberIDByStringINS_10AIFactionsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 1 m_dataNames entries (fixed form)
+0x4af590,_ZN7Structs19GetMemberIDByStringINS_7AIPropsEEEiPKc,reconstructed,pydata-accessors/src/member_ids.cpp,Structs table: first 15 m_dataNames entries (loop form)
+0x4a3808,_ZN6Arrays6Sounds13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a3988,_ZN6Arrays15StrID_Languages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a3b08,_ZN6Arrays14GameObjectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a3c88,_ZN6Arrays14ProjectileDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a3e08,_ZN6Arrays10EffectDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a3f88,_ZN6Arrays8AnimDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4108,_ZN6Arrays9ModelDict13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4288,_ZN6Arrays15WorldMapLockers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4408,_ZN6Arrays8WorldMap13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4588,_ZN6Arrays8v2Quests13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4708,_ZN6Arrays8v2Events13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4888,_ZN6Arrays12v2Conditions13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a49fc,_ZN6Arrays11TrophyTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4b70,_ZN6Arrays11SpawnGroups13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4cf0,_ZN6Arrays10Sounds_bak13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4e70,_ZN6Arrays18SoundGroupsRouting13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a4fe4,_ZN6Arrays17SoundBankPlayback13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5164,_ZN6Arrays9Listeners13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a52e4,_ZN6Arrays15CharSoundsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5464,_ZN6Arrays10SkillTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a55e4,_ZN6Arrays14SkillListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5764,_ZN6Arrays15ProjectileTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a58e4,_ZN6Arrays12NumProbArray13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5a64,_ZN6Arrays13MerchantTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5be4,_ZN6Arrays9LootTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a5d64,_ZN6Arrays12ItemTypeList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6064,_ZN6Arrays8ItemList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a61e4,_ZN6Arrays14InventoryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6358,_ZN6Arrays21DropTilePriorityTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a64d8,_ZN6Arrays20ItemAudioVisualTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6658,_ZN6Arrays9LevelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a67d8,_ZN6Arrays14FastTravelList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6958,_ZN6Arrays21ItemBonusAttrMonopoly13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6ad8,_ZN6Arrays14ItemPowerTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6c58,_ZN6Arrays13ItemPowerList13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6dd8,_ZN6Arrays9HintPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a6f58,_ZN6Arrays9HelpPages13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a70d8,_ZN6Arrays12TriggerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7258,_ZN6Arrays13TriggerPlates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a73cc,_ZN6Arrays14TriggerObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a754c,_ZN6Arrays10TimerTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a76c0,_ZN6Arrays15ProjectileTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7840,_ZN6Arrays18OpenableContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a79c0,_ZN6Arrays15LiftableObjects13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7b34,_ZN6Arrays17GameObjectDamager13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7cb4,_ZN6Arrays14ExplosiveTraps13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7e34,_ZN6Arrays5Doors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a7fb4,_ZN6Arrays22DestructibleContainers13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8134,_ZN6Arrays11FontPalette13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a82b4,_ZN6Arrays10FaeryTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8434,_ZN6Arrays14FaeryListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a85b4,_ZN6Arrays19FootstepEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8728,_ZN6Arrays15CharEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a88a8,_ZN6Arrays19AnimatedEffectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8a28,_ZN6Arrays7Dialogs13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8ba8,_ZN6Arrays12DialogActors13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8d28,_ZN6Arrays15GameOptionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a8e9c,_ZN6Arrays16GameDifficulties13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a901c,_ZN6Arrays19DesignSettingsTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a919c,_ZN6Arrays9RectTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a931c,_ZN6Arrays18Charater_Templates13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a949c,_ZN6Arrays13StatListTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a961c,_ZN6Arrays25StatAutoAssignSchemeTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a979c,_ZN6Arrays14CharacterTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a991c,_ZN6Arrays10ClassTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a9a9c,_ZN6Arrays13CharAnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a9c1c,_ZN6Arrays15CamAnimSetTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a9d9c,_ZN6Arrays9AnimTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4a9f1c,_ZN6Arrays14AIFactionTable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4aa09c,_ZN6Arrays7AITable13finalizeNamesEv,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::FinalizeNameTable), matches reference after normalisation
+0x4aff90,_ZN6Arrays12ItemTypeList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b012c,_ZN6Arrays12NumProbArray9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b02c8,_ZN6Arrays13MerchantTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0464,_ZN6Arrays14SkillListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0600,_ZN6Arrays15ProjectileTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b079c,_ZN6Arrays15CharSoundsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0938,_ZN6Arrays10SkillTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0ad0,_ZN6Arrays17SoundBankPlayback9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0c68,_ZN6Arrays9Listeners9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0e00,_ZN6Arrays10Sounds_bak9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0f98,_ZN6Arrays18SoundGroupsRouting9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1130,_ZN6Arrays11TrophyTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b12c8,_ZN6Arrays11SpawnGroups9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1460,_ZN6Arrays8v2Events9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b15f8,_ZN6Arrays12v2Conditions9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1790,_ZN6Arrays8WorldMap9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1c5c,_ZN6Arrays15WorldMapLockers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1df8,_ZN6Arrays10EffectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1f94,_ZN6Arrays8AnimDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2130,_ZN6Arrays14GameObjectDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b22cc,_ZN6Arrays14ProjectileDict9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2468,_ZN6Arrays10FaeryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2604,_ZN6Arrays14FaeryListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b27a0,_ZN6Arrays22DestructibleContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2938,_ZN6Arrays11FontPalette9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2ad4,_ZN6Arrays19AnimatedEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2c6c,_ZN6Arrays7Dialogs9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2e08,_ZN6Arrays19FootstepEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2fa0,_ZN6Arrays15CharEffectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b313c,_ZN6Arrays6Sounds9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b32d4,_ZN6Arrays15StrID_Languages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b3470,_ZN6Arrays12DialogActors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b360c,_ZN6Arrays15GameOptionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b48bc,_ZN6Arrays8ItemList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4a58,_ZN6Arrays15CamAnimSetTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4bf0,_ZN6Arrays9AnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4d8c,_ZN6Arrays20ItemAudioVisualTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4f28,_ZN6Arrays9LevelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b50c0,_ZN6Arrays14InventoryTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b525c,_ZN6Arrays21DropTilePriorityTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b57d4,_ZN6Arrays16GameDifficulties9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b596c,_ZN6Arrays15ProjectileTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b5b04,_ZN6Arrays18OpenableContainers9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b5c9c,_ZN6Arrays14TriggerObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b5e34,_ZN6Arrays10TimerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b5fcc,_ZN6Arrays14ExplosiveTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6164,_ZN6Arrays5Doors9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b62fc,_ZN6Arrays15LiftableObjects9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6494,_ZN6Arrays17GameObjectDamager9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6630,_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b67c8,_ZN6Arrays13ItemPowerList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6964,_ZN6Arrays14FastTravelList9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6afc,_ZN6Arrays21ItemBonusAttrMonopoly9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6c98,_ZN6Arrays12TriggerTraps9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6e30,_ZN6Arrays13TriggerPlates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6fc8,_ZN6Arrays9HintPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7164,_ZN6Arrays9HelpPages9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7300,_ZN6Arrays14AIFactionTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b749c,_ZN6Arrays7AITable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7638,_ZN6Arrays19DesignSettingsTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b77d4,_ZN6Arrays9RectTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7970,_ZN6Arrays18Charater_Templates9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7b08,_ZN6Arrays13StatListTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7ca4,_ZN6Arrays25StatAutoAssignSchemeTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7e40,_ZN6Arrays14CharacterTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7fd8,_ZN6Arrays10ClassTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b8174,_ZN6Arrays13CharAnimTable9readNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4aff8c,_ZN6Arrays9LootTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0128,_ZN6Arrays12ItemTypeList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b02c4,_ZN6Arrays12NumProbArray9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0460,_ZN6Arrays13MerchantTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b05fc,_ZN6Arrays14SkillListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0798,_ZN6Arrays15ProjectileTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b0934,_ZN6Arrays15CharSoundsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1c58,_ZN6Arrays9ModelDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1df4,_ZN6Arrays15WorldMapLockers9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b1f90,_ZN6Arrays10EffectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b212c,_ZN6Arrays8AnimDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b22c8,_ZN6Arrays14GameObjectDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2464,_ZN6Arrays14ProjectileDict9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2600,_ZN6Arrays10FaeryTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b279c,_ZN6Arrays14FaeryListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2ad0,_ZN6Arrays11FontPalette9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b2e04,_ZN6Arrays7Dialogs9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b3138,_ZN6Arrays15CharEffectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b346c,_ZN6Arrays15StrID_Languages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b3608,_ZN6Arrays12DialogActors9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4d88,_ZN6Arrays9AnimTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b4f24,_ZN6Arrays20ItemAudioVisualTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b662c,_ZN6Arrays17GameObjectDamager9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6960,_ZN6Arrays13ItemPowerList9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b6c94,_ZN6Arrays21ItemBonusAttrMonopoly9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7160,_ZN6Arrays9HintPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b72fc,_ZN6Arrays9HelpPages9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7498,_ZN6Arrays14AIFactionTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7634,_ZN6Arrays7AITable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b77d0,_ZN6Arrays19DesignSettingsTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b796c,_ZN6Arrays9RectTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7ca0,_ZN6Arrays13StatListTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b7e3c,_ZN6Arrays25StatAutoAssignSchemeTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x4b8170,_ZN6Arrays10ClassTable9skipNamesEP11IStreamBase,reconstructed,pydata-accessors/src/name_readers.cpp,shared name-table body (pydata::ReadNameTable), matches reference after normalisation
+0x456394,_Z27GetNewScriptCmdDataInstanceIN7Structs13FlushMessagesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4563d0,_Z27GetNewScriptCmdDataInstanceIN7Structs10DoTutorialEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45640c,_Z27GetNewScriptCmdDataInstanceIN7Structs12LockTutorialEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45644c,_Z27GetNewScriptCmdDataInstanceIN7Structs31SkipAllCharMenuTutorialMessagesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456488,_Z27GetNewScriptCmdDataInstanceIN7Structs27SkipCharMenuTutorialMessageEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4564c4,_Z27GetNewScriptCmdDataInstanceIN7Structs30EnqueueCharMenuTutorialMessageEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456504,_Z27GetNewScriptCmdDataInstanceIN7Structs23SkipAllTutorialMessagesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456540,_Z27GetNewScriptCmdDataInstanceIN7Structs19SkipTutorialMessageEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45657c,_Z27GetNewScriptCmdDataInstanceIN7Structs22EnqueueTutorialMessageEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4565c0,_Z27GetNewScriptCmdDataInstanceIN7Structs13BlockSaveGameEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4565fc,_Z27GetNewScriptCmdDataInstanceIN7Structs8SaveGameEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456638,_Z27GetNewScriptCmdDataInstanceIN7Structs12ShowTrophiesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456674,_Z27GetNewScriptCmdDataInstanceIN7Structs20AwardEndGameTrophiesEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4566b0,_Z27GetNewScriptCmdDataInstanceIN7Structs11AwardTrophyEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4566f0,_Z27GetNewScriptCmdDataInstanceIN7Structs7EndGameEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45672c,_Z27GetNewScriptCmdDataInstanceIN7Structs11ChangeLevelEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456768,_Z27GetNewScriptCmdDataInstanceIN7Structs12RestartLevelEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4567a4,_Z27GetNewScriptCmdDataInstanceIN7Structs24SetWorldMapLocationStateEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4567e8,_Z27GetNewScriptCmdDataInstanceIN7Structs13SetLevelStateEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45682c,_Z27GetNewScriptCmdDataInstanceIN7Structs14SpawnContainerEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456868,_Z27GetNewScriptCmdDataInstanceIN7Structs22DeactivateTriggerPlateEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4568a4,_Z27GetNewScriptCmdDataInstanceIN7Structs20ActivateTriggerPlateEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4568e0,_Z27GetNewScriptCmdDataInstanceIN7Structs24DeactivateProjectileTrapEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45691c,_Z27GetNewScriptCmdDataInstanceIN7Structs22ActivateProjectileTrapEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456958,_Z27GetNewScriptCmdDataInstanceIN7Structs9CloseDoorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456994,_Z27GetNewScriptCmdDataInstanceIN7Structs8OpenDoorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4569d0,_Z27GetNewScriptCmdDataInstanceIN7Structs9SetStaticEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456a0c,_Z27GetNewScriptCmdDataInstanceIN7Structs12ReEquipHandsEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456a48,_Z27GetNewScriptCmdDataInstanceIN7Structs12UnEquipHandsEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456a84,_Z27GetNewScriptCmdDataInstanceIN7Structs19UnEquipItemFromSlotEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456ac0,_Z27GetNewScriptCmdDataInstanceIN7Structs9AutoEquipEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456afc,_Z27GetNewScriptCmdDataInstanceIN7Structs8DropLootEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456b3c,_Z27GetNewScriptCmdDataInstanceIN7Structs14SetActorMasterEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456b7c,_Z27GetNewScriptCmdDataInstanceIN7Structs16SetActorPositionEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456bbc,_Z27GetNewScriptCmdDataInstanceIN7Structs13PlayActorAnimEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456bf8,_Z27GetNewScriptCmdDataInstanceIN7Structs9KillActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456c34,_Z27GetNewScriptCmdDataInstanceIN7Structs9HideActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456c70,_Z27GetNewScriptCmdDataInstanceIN7Structs9ShowActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456cac,_Z27GetNewScriptCmdDataInstanceIN7Structs9LookActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456cec,_Z27GetNewScriptCmdDataInstanceIN7Structs9MoveActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456d2c,_Z27GetNewScriptCmdDataInstanceIN7Structs9StopActorEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456d68,_Z27GetNewScriptCmdDataInstanceIN7Structs8AISetIntEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456da8,_Z27GetNewScriptCmdDataInstanceIN7Structs14AIChangeScriptEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456de8,_Z27GetNewScriptCmdDataInstanceIN7Structs7AISetHPEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456e28,_Z27GetNewScriptCmdDataInstanceIN7Structs9AIDoSkillEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456e64,_Z27GetNewScriptCmdDataInstanceIN7Structs12AIResetTimerEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456ea0,_Z27GetNewScriptCmdDataInstanceIN7Structs13AIEnableTimerEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456ee0,_Z27GetNewScriptCmdDataInstanceIN7Structs23MarkCharacterAsScriptedEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456f1c,_Z27GetNewScriptCmdDataInstanceIN7Structs18PutCharacterInIdleEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456f58,_Z27GetNewScriptCmdDataInstanceIN7Structs14SpawnCharacterEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456f94,_Z27GetNewScriptCmdDataInstanceIN7Structs20PutCharacterInLimbusEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x456fd0,_Z27GetNewScriptCmdDataInstanceIN7Structs13IncFaeryLevelEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457010,_Z27GetNewScriptCmdDataInstanceIN7Structs13SetFaeryStateEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457054,_Z27GetNewScriptCmdDataInstanceIN7Structs4WaitEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457094,_Z27GetNewScriptCmdDataInstanceIN7Structs15UnlockCharacterEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4570d0,_Z27GetNewScriptCmdDataInstanceIN7Structs13LockCharacterEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45710c,_Z27GetNewScriptCmdDataInstanceIN7Structs9HideFlashEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457148,_Z27GetNewScriptCmdDataInstanceIN7Structs9ShowFlashEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457184,_Z27GetNewScriptCmdDataInstanceIN7Structs10StopEffectEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4571c4,_Z27GetNewScriptCmdDataInstanceIN7Structs10PlayEffectEEPNS0_9ScriptCmdEv,partial,pydata-accessors/src/script_cmd.cpp,a word is stored as a link-time address; left null (partial)
+0x457214,_Z27GetNewScriptCmdDataInstanceIN7Structs14PlayAnimByNameEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457254,_Z27GetNewScriptCmdDataInstanceIN7Structs12PlayAnimByIdEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457290,_Z27GetNewScriptCmdDataInstanceIN7Structs13LeaveSafeZoneEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4572cc,_Z27GetNewScriptCmdDataInstanceIN7Structs13EnterSafeZoneEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457308,_Z27GetNewScriptCmdDataInstanceIN7Structs14PlayLevelMusicEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457348,_Z27GetNewScriptCmdDataInstanceIN7Structs9StopSoundEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457390,_Z27GetNewScriptCmdDataInstanceIN7Structs9PlaySoundEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4573dc,_Z27GetNewScriptCmdDataInstanceIN7Structs10WaitDialogEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457418,_Z27GetNewScriptCmdDataInstanceIN7Structs13StartDialogIDEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457458,_Z27GetNewScriptCmdDataInstanceIN7Structs11StartDialogEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4574a0,_Z27GetNewScriptCmdDataInstanceIN7Structs6NilCmdEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4574dc,_Z27GetNewScriptCmdDataInstanceIN7Structs15SetCameraTargetEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457518,_Z27GetNewScriptCmdDataInstanceIN7Structs10WaitCameraEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45755c,_Z27GetNewScriptCmdDataInstanceIN7Structs13SetCameraClipEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4575a0,_Z27GetNewScriptCmdDataInstanceIN7Structs10PlayCameraEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4575e4,_Z27GetNewScriptCmdDataInstanceIN7Structs9SetCameraEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457624,_Z27GetNewScriptCmdDataInstanceIN7Structs7CONSOLEEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x457660,_Z27GetNewScriptCmdDataInstanceIN7Structs16ExitCutSceneModeEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x45769c,_Z27GetNewScriptCmdDataInstanceIN7Structs17EnterCutSceneModeEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
+0x4576d8,_Z27GetNewScriptCmdDataInstanceIN7Structs10ExecScriptEEPNS0_9ScriptCmdEv,reconstructed,pydata-accessors/src/script_cmd.cpp,zero-initialised words; allocation sizes per original word count
