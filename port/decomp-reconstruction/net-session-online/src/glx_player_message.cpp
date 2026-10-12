@@ -36,6 +36,16 @@ char* CopyField(const std::vector<std::string>& list, std::int32_t index, std::i
 }
 }  // namespace
 
+// 0x8368e0 _ZN16GLXPlayerMessageC1Ev (C2 0x836980, same body)
+// Partial: the original allocates a 0x428-byte GLXPlayerHttp into +0x20 here. The header has no
+// typed slot for it yet, so the allocation is not made. LoadConfig, current id -1 and the
+// clearMsgCount reset are reproduced.
+GLXPlayerMessage::GLXPlayerMessage() {
+    LoadConfig();
+    currentMsgId_ = -1;
+    clearMsgCount();
+}
+
 // 0x83681c _ZN16GLXPlayerMessageD1Ev
 // The original clears the lists and frees the body; the base destructor follows.
 GLXPlayerMessage::~GLXPlayerMessage() {

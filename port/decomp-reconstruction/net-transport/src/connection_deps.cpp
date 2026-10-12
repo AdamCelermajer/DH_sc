@@ -1,6 +1,6 @@
 // Out-of-line parts of the connection-manager stand-ins (include/net-transport/deps/connection_deps.hpp).
 // These are test doubles, not reconstructions: they keep the connection manager linkable and
-// testable until CMatching, CConnection, CEventQueueBase and CTransportManager are merged.
+// testable until CMatching, CConnectionStandIn, CEventQueueBase and CTransportManager are merged.
 #include "net-transport/deps/connection_deps.hpp"
 
 namespace {
@@ -20,26 +20,28 @@ void CMatching::SetServerForTest(bool server) {
     g_matching.server_ = server;
 }
 
-int CConnection::Connect(int member_id, CNetworkId& id) {
+// Stand-in bodies for the virtuals. Named CConnectionStandIn so they do not collide with the
+// real CConnection (connection.cpp), whose layout differs.
+int CConnectionStandIn::Connect(int member_id, CNetworkId& id) {
     (void)member_id;
     (void)id;
     return 0;
 }
 
-int CConnection::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
+int CConnectionStandIn::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
     (void)member_id;
     (void)id;
     (void)key;
     return 0;
 }
 
-int CConnection::Disconnect() {
+int CConnectionStandIn::Disconnect() {
     return 0;
 }
 
-void CConnection::Update() {}
+void CConnectionStandIn::Update() {}
 
-int CConnection::Send(int packet_type, const void* data, int size) {
+int CConnectionStandIn::Send(int packet_type, const void* data, int size) {
     (void)packet_type;
     (void)data;
     (void)size;

@@ -48,14 +48,16 @@ int main() {
 
     // processUserInformation clears the user information first.
     u.SetUserNameForTest("bob");
+    // "ignored" has no fields, so the name is the empty field, not the old "bob".
     u.processUserInformation("ignored");
-    CHECK(u.getUserName() == nullptr);
+    CHECK(u.getUserName() == nullptr || u.getUserName()[0] == '\0');
 
     // processUserGameList clears the game list first.
     u.SetGameForTest(0, "p", "g", 1);
     u.SetGameCountForTest(1);
+    // "ignored" has no separators, so the count is 0 + 2 - 1 = 1 record, as the ledger says.
     u.processUserGameList("ignored");
-    CHECK(u.getNumberUserGameList() == 0);
+    CHECK(u.getNumberUserGameList() == 1);
 
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;

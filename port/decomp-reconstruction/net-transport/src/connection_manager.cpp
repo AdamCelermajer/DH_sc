@@ -12,7 +12,7 @@
 
 namespace {
 
-// CConnection::state values used by the original (+0x18).
+// CConnectionStandIn::state values used by the original (+0x18).
 constexpr int kStateConnected = 4;  // IsConnected, SendToAll, Disconnect checks
 constexpr int kStateDropped = 1;    // Update removes a connection in this state
 
@@ -62,7 +62,7 @@ CNetMutex CConnectionManager::m_connections_mutex;
 CConnectionManager::CConnectionManager() {
     // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 with its list sentinel
     // at +0x10 and capacity 100 at +0x18. Those are set up by the CEventQueueBase stand-in.
-    for (CConnection*& slot : connections_) {
+    for (CConnectionStandIn*& slot : connections_) {
         slot = nullptr;
     }
     initialized_ = false;
@@ -83,7 +83,7 @@ int CConnectionManager::GetImpl() {
 // 0x7fcc30 _ZN18CConnectionManager6UpdateEv
 int CConnectionManager::Update() {
     transport_manager_calls::Update(GetTransportMgr());
-    for (CConnection*& slot : connections_) {
+    for (CConnectionStandIn*& slot : connections_) {
         if (!slot) {
             continue;
         }
@@ -115,8 +115,8 @@ bool CConnectionManager::IsInitialized() {
 }
 
 // 0x7fbda0 _ZN18CConnectionManager24GetConnectionByNetworkIdER10CNetworkId
-CConnection* CConnectionManager::GetConnectionByNetworkId(CNetworkId& id) {
-    for (CConnection* conn : connections_) {
+CConnectionStandIn* CConnectionManager::GetConnectionByNetworkId(CNetworkId& id) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn && conn->NetworkId().IsEqual(id)) {
             return conn;
         }
@@ -126,7 +126,7 @@ CConnection* CConnectionManager::GetConnectionByNetworkId(CNetworkId& id) {
 
 // 0x7fbdf8 _ZN18CConnectionManager11GetMemberIdER10CNetworkId
 int CConnectionManager::GetMemberId(CNetworkId& id) {
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn && conn->NetworkId().IsEqual(id)) {
             return conn->MemberId();
         }
@@ -136,7 +136,7 @@ int CConnectionManager::GetMemberId(CNetworkId& id) {
 
 // 0x7fbe54 _ZN18CConnectionManager13DisconnectAllEv
 int CConnectionManager::DisconnectAll() {
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn) {
             conn->Disconnect();
         }
@@ -147,7 +147,7 @@ int CConnectionManager::DisconnectAll() {
 // 0x7fbe94 _ZN18CConnectionManager18GetConnectionCountEb
 int CConnectionManager::GetConnectionCount(bool connected_only) {
     int count = 0;
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn && (!connected_only || conn->State() == kStateConnected)) {
             ++count;
         }
@@ -157,7 +157,7 @@ int CConnectionManager::GetConnectionCount(bool connected_only) {
 
 // 0x7fbeec _ZN18CConnectionManager9SendToAllE12tPACKET_TYPEPvi
 int CConnectionManager::SendToAll(tPACKET_TYPE type, void* data, int size) {
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn && conn->State() == kStateConnected) {
             conn->Send(type, data, size);
         }
@@ -211,7 +211,7 @@ void CConnectionManager::PingConnections() {}
 // 0x7fc070 _ZN18CConnectionManager21SetConnectionTimeoutsEj
 // The pseudocode returns the loop index; the value is not used, so this returns void.
 void CConnectionManager::SetConnectionTimeouts(std::uint32_t timeout) {
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn) {
             conn->SetTimeout(timeout);
         }
@@ -251,7 +251,7 @@ void CConnectionManager::GetBandwidth(int& in, int& out) {
 int CConnectionManager::KeepAliveConnections() {
     const std::uint32_t now = KeepAliveNowMs();
     m_connections_mutex.Lock();
-    for (CConnection* conn : connections_) {
+    for (CConnectionStandIn* conn : connections_) {
         if (conn) {
             conn->SendKeepAlive(now);
         }
@@ -266,7 +266,7 @@ int CConnectionManager::sReceiverCallback(tPACKET_TYPE type, CNetworkId& from, c
     // Types 7 and 8 bypass the registration check (unsigned (type - 7) <= 1).
     if (static_cast<unsigned int>(type - 7) <= 1u || IsPacketTypeRegistered(type)) {
         NetIdCallback by_netid = nullptr;
-        CConnection* conn = self->GetConnectionByNetworkId(from);
+        CConnectionStandIn* conn = self->GetConnectionByNetworkId(from);
         if (conn) {
             const int member = conn->MemberId();
             conn->SetLastRecvTime();
@@ -311,7 +311,7 @@ int CConnectionManager::SendBroadcast(tPACKET_TYPE type, void* data, int size) {
 }
 
 // 0x7fc438 _ZN18CConnectionManager23GetConnectionByMemberIdEi
-CConnection* CConnectionManager::GetConnectionByMemberId(int member_id) {
+CConnectionStandIn* CConnectionManager::GetConnectionByMemberId(int member_id) {
     const int index = CMatching::Get()->GetMemberIndex(member_id);
     if (index < 0 || index >= kConnectionSlots) {
         return nullptr;
@@ -321,7 +321,7 @@ CConnection* CConnectionManager::GetConnectionByMemberId(int member_id) {
 
 // 0x7fc464 _ZN18CConnectionManager20PingReceiverCallbackER10CNetworkIdPci
 // partial: the ping packet layout is inferred (flag byte at +0x0c, member id at +0x04) and
-// CConnection::ProcessPing is a stand-in whose result is not used.
+// CConnectionStandIn::ProcessPing is a stand-in whose result is not used.
 void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int size) {
     (void)size;
     PingPacket packet{};
@@ -331,7 +331,7 @@ void CConnectionManager::PingReceiverCallback(CNetworkId& from, char* data, int 
         SendTo(kPingPacketType, from, &packet, static_cast<int>(sizeof(packet)));
         return;
     }
-    if (CConnection* conn = GetConnectionByMemberId(packet.member_id)) {
+    if (CConnectionStandIn* conn = GetConnectionByMemberId(packet.member_id)) {
         conn->ProcessPing(&packet);
     }
 }
@@ -352,7 +352,7 @@ void CConnectionManager::ProcessConnectionFinalize(CNetworkId& from, NetBitStrea
     std::memcpy(&key_word0, key, sizeof(key_word0));
     const int member = GetMemberId(from);
     if (member == key_word0) {
-        if (CConnection* conn = GetConnectionByMemberId(member)) {
+        if (CConnectionStandIn* conn = GetConnectionByMemberId(member)) {
             conn->ProcessConnectFinalize(from);
         }
     }
@@ -366,7 +366,7 @@ void CConnectionManager::ProcessConnectionResponse(CNetworkId& from, NetBitStrea
     stream.ReadByteArray(key_words, sizeof(key_words));
     const int member = GetMemberId(from);
     if (member == key_words[0]) {
-        if (CConnection* conn = GetConnectionByMemberId(member)) {
+        if (CConnectionStandIn* conn = GetConnectionByMemberId(member)) {
             conn->ProcessConnectResponse(from);
         }
     }
@@ -379,7 +379,7 @@ void CConnectionManager::ProcessConnectionResponse(CNetworkId& from, NetBitStrea
 
 // 0x7fc5f8 _ZN18CConnectionManager6SendToE12tPACKET_TYPEiPvi
 int CConnectionManager::SendTo(tPACKET_TYPE type, int member_id, void* data, int size) {
-    CConnection* conn = GetConnectionByMemberId(member_id);
+    CConnectionStandIn* conn = GetConnectionByMemberId(member_id);
     if (!conn) {
         return 0;
     }
@@ -395,7 +395,7 @@ int CConnectionManager::SendToServer(tPACKET_TYPE type, void* data, int size) {
 
 // 0x7fc680 _ZN18CConnectionManager14DisconnectPeerEi
 int CConnectionManager::DisconnectPeer(int member_id) {
-    CConnection* conn = GetConnectionByMemberId(member_id);
+    CConnectionStandIn* conn = GetConnectionByMemberId(member_id);
     if (!conn) {
         return 0;
     }
@@ -405,7 +405,7 @@ int CConnectionManager::DisconnectPeer(int member_id) {
 // 0x7fc6a8 _ZN18CConnectionManager18GetMemberNetworkIdEi
 CNetworkId CConnectionManager::GetMemberNetworkId(int member_id) {
     CNetworkId out;
-    if (CConnection* conn = GetConnectionByMemberId(member_id)) {
+    if (CConnectionStandIn* conn = GetConnectionByMemberId(member_id)) {
         out = conn->NetworkId();
     } else {
         out.Reset();
@@ -415,7 +415,7 @@ CNetworkId CConnectionManager::GetMemberNetworkId(int member_id) {
 
 // 0x7fc6f4 _ZN18CConnectionManager11IsConnectedEi
 bool CConnectionManager::IsConnected(int member_id) {
-    CConnection* conn = GetConnectionByMemberId(member_id);
+    CConnectionStandIn* conn = GetConnectionByMemberId(member_id);
     return conn != nullptr && conn->State() == kStateConnected;
 }
 
@@ -475,7 +475,7 @@ int CConnectionManager::ProcessDisconnectPeer(CNetworkId& from, NetBitStream& st
 }
 
 // 0x7fc8d0 _ZN18CConnectionManager13AddConnectionEiP11CConnection
-int CConnectionManager::AddConnection(int member_id, CConnection* conn) {
+int CConnectionManager::AddConnection(int member_id, CConnectionStandIn* conn) {
     const int index = CMatching::Get()->GetMemberIndex(member_id);
     if (!conn || index < 0 || index > kConnectionSlots - 1) {
         return -1;
@@ -490,9 +490,9 @@ int CConnectionManager::AddConnection(int member_id, CConnection* conn) {
 // 0x7fc930 _ZN18CConnectionManager7ConnectEiR10CNetworkId
 // The original allocates 0x1c0 bytes with a custom operator new; this uses nothrow new.
 int CConnectionManager::Connect(int member_id, CNetworkId& id) {
-    CConnection* conn = GetConnectionByMemberId(member_id);
+    CConnectionStandIn* conn = GetConnectionByMemberId(member_id);
     if (!conn) {
-        conn = new (std::nothrow) CConnection();
+        conn = new (std::nothrow) CConnectionStandIn();
         if (!conn) {
             return -1;
         }
@@ -509,10 +509,10 @@ int CConnectionManager::Connect(int member_id, CNetworkId& id) {
 // partial: the original's vtable call at +0x0c passes one more argument than Accept's
 // signature (the first word of the connection object); that argument is not reproduced.
 int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
-    if (CConnection* existing = GetConnectionByMemberId(member_id)) {
+    if (CConnectionStandIn* existing = GetConnectionByMemberId(member_id)) {
         return existing->Accept(member_id, id, key);
     }
-    CConnection* conn = new (std::nothrow) CConnection();
+    CConnectionStandIn* conn = new (std::nothrow) CConnectionStandIn();
     const int added = AddConnection(member_id, conn);
     if (added < 0) {
         delete conn;
@@ -537,8 +537,8 @@ int CConnectionManager::ProcessConnectionRequest(CNetworkId& from, NetBitStream&
         static_cast<std::uint32_t>(words[2]);
 
     if (member < 0) {
-        CConnection* found = nullptr;
-        for (CConnection* conn : connections_) {
+        CConnectionStandIn* found = nullptr;
+        for (CConnectionStandIn* conn : connections_) {
             if (conn && conn->Key() == key) {
                 found = conn;
                 break;
@@ -590,7 +590,7 @@ void CConnectionManager::sPacketReceiverCallback(CNetworkId& from, char* data, i
 int CConnectionManager::TerminateInternal() {
     initialized_ = false;
     DisconnectAll();
-    for (CConnection*& slot : connections_) {
+    for (CConnectionStandIn*& slot : connections_) {
         m_connections_mutex.Lock();
         if (slot) {
             delete slot;
@@ -628,7 +628,7 @@ int CConnectionManager::InitializeInternal() {
     for (int protocol = 0; protocol < kTransportSlots; ++protocol) {
         transports_[protocol] = CMatching::Get()->TransportHandle(protocol);
     }
-    for (CConnection*& slot : connections_) {
+    for (CConnectionStandIn*& slot : connections_) {
         slot = nullptr;
     }
     transport_manager_calls::Initialize(GetTransportMgr());
@@ -657,7 +657,7 @@ int CConnectionManager::Initialize() {
 std::vector<int> CConnectionManager::GetConnMemberIdList(bool all) {
     std::vector<int> ids;
     if (CMatching::Get()->IsServer() || all) {
-        for (CConnection* conn : connections_) {
+        for (CConnectionStandIn* conn : connections_) {
             if (conn) {
                 ids.push_back(conn->MemberId());
             }

@@ -6,13 +6,47 @@ elf_address,symbol,status,source_file,notes
 0x3106f4,_ZN6CMutex4LockEv,reconstructed,net-transport/src/sync.cpp,
 0x310704,_ZN6CMutex6UnlockEv,reconstructed,net-transport/src/sync.cpp,
 0x310720,_ZN6CMutex8IsLockedEv,reconstructed,net-transport/src/sync.cpp,returns 1 only when count is 0 (as original)
-0x316568,_ZNK6Buffer4readEjPvj,partial,net-transport/src/buffer.cpp,Hex-Rays re-run: block walk matches. Partial: the original memcpy()s from a null or missing block (crash); the port stops the read there. Debug ASSERT dropped
+0x316430,_ZNK12StreamBuffer4sizeEv,reconstructed,net-transport/src/stream_buffer.cpp,StreamBuffer::size()
+0x31643c,_ZNK12StreamBuffer4sizeEi,reconstructed,net-transport/src/stream_buffer.cpp,"StreamBuffer::size(int): block bytes, capped at one block"
+0x316458,_ZNK12StreamBuffer7canReadEv,reconstructed,net-transport/src/stream_buffer.cpp,canRead always true
+0x316460,_ZNK12StreamBuffer8canWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,canWrite always false
+0x316468,_ZN12StreamBuffer4skipEy,reconstructed,net-transport/src/stream_buffer.cpp,skip = seek(tell + n) through the virtual slot
+0x316488,_ZNK12StreamBuffer9tellWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,tellWrite
+0x316494,_ZN12StreamBuffer4readEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"read = peek through the virtual slot, then advance"
+0x3164cc,_ZNK12StreamBuffer4tellEv,reconstructed,net-transport/src/stream_buffer.cpp,tell
+0x3164d8,_ZN12StreamBuffer4seekEy,reconstructed,net-transport/src/stream_buffer.cpp,seek clamps to size
+0x316510,_ZN12StreamBuffer9seekWriteEy,reconstructed,net-transport/src/stream_buffer.cpp,seekWrite clamps to size
+0x316568,_ZNK6Buffer4readEjPvj,partial,net-transport/src/buffer.cpp,Hex-Rays re-run: block-chunked copy matches. Partial: a null or missing block stops the read here; the original memcpy()s from null. Debug ASSERT dropped.
+0x3166bc,_ZNK12StreamBuffer4peekEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"peek clips to size - read position (64-bit, wraps as original)"
 0x31692c,_ZN6Buffer5clearEv,reconstructed,net-transport/src/buffer.cpp,
 0x316988,_ZN6BufferD1Ev,reconstructed,net-transport/src/buffer.cpp,
+0x3169c4,_ZN12StreamBufferD1Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D1
+0x3169f8,_ZN12StreamBufferD0Ev,skipped,net-transport/src/stream_buffer.cpp,deleting destructor D0 is compiler-generated from the virtual dtor
+0x316a14,_ZN12StreamBufferD2Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D2
+0x316a48,_ZN12StreamBuffer5clearEv,reconstructed,net-transport/src/stream_buffer.cpp,clear buffer and both positions
+0x316d3c,_ZN12StreamBufferC1Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C1); block size 0x800 from Buffer default
 0x316d98,_ZN6Buffer12ensureBufferEjj,reconstructed,net-transport/src/buffer.cpp,std::vector grow with trailing nullptr sentinel; see NOTES.md
 0x316f0c,_ZN6Buffer5writeEjPKvj,reconstructed,net-transport/src/buffer.cpp,
-0x317014,_ZN6Buffer7setSizeEj,partial,net-transport/src/buffer.cpp,Hex-Rays re-run: body matches. Partial: the debug ASSERT that the buffer is empty is dropped
-0x317e10,_ZN6ThreadD1Ev,partial,net-transport/src/sync.cpp,"Hex-Rays re-run: original destructor is empty. Partial: this port joins a still-running worker (std::thread requirement), which the pseudocode does not show"
+0x316fd4,_ZN12StreamBuffer5writeEPKvy,reconstructed,net-transport/src/stream_buffer.cpp,"write at write position, advance it"
+0x317014,_ZN6Buffer7setSizeEj,partial,net-transport/src/buffer.cpp,"Hex-Rays re-run: reserve, one block of size, null sentinel, sized flag, size and block size set. Partial: debug ASSERT(buffer_.size()==0) dropped."
+0x317180,_ZN12StreamBuffer6expandEy,reconstructed,net-transport/src/stream_buffer.cpp,"expand: clear, one block of given size, reset positions"
+0x3171b8,_ZN12StreamBufferC2EP11IStreamBase,partial,net-transport/src/stream_buffer.cpp,Hex-Rays re-run: body matches. Partial: debug ASSERT on the sized flag dropped
+0x3172d8,_ZN12StreamBufferC1EP11IStreamBase,skipped,net-transport/src/stream_buffer.cpp,"C1 variant of 0x3171b8 (StreamBuffer(IStreamBase*)): same body, implemented once; body partial as 0x3171b8"
+0x3173f8,_ZN12StreamBufferC2Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C2)
+0x317e10,Thread::~Thread(),partial,net-transport/src/sync.cpp,Partial: Hex-Rays body is empty; the port joins a running worker so std::thread does not terminate.
+0x317e14,_ZN16updateJob_threadC2Ei,reconstructed,net-transport/src/update_job_thread.cpp,"updateJob_thread ctor C2 (flag set, argument stored)"
+0x317e44,_ZN16updateJob_threadC1Ei,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread ctor C1
+0x317e74,_ZN16updateJob_threadD2Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D2; joins a running worker (deviation)
+0x317e78,_ZN16updateJob_threadD1Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D1
+0x317e7c,_ZN16updateJob_thread3RunEv,reconstructed,net-transport/src/update_job_thread.cpp,Run: empty in the original
+0x317e80,_ZN16updateJob_thread6KernelEv,reconstructed,net-transport/src/update_job_thread.cpp,Kernel returns 1
+0x317e88,_ZN16updateJob_thread7PrepareEv,reconstructed,net-transport/src/update_job_thread.cpp,Prepare returns 1
+0x317e90,_ZN16updateJob_thread22IsCurrectThreadRunningEv,reconstructed,net-transport/src/update_job_thread.cpp,IsCurrectThreadRunning returns 1
+0x317e98,_ZN16updateJob_thread6Start2Ev,partial,net-transport/src/update_job_thread.cpp,"Hex-Rays re-run. Partial: worker is threadfun3, outside this category (SavegameManager::saveSettings); reconstructed as an empty Run() stand-in. Already-running guard added."
+0x317ef8,_ZN16updateJob_thread5StartEv,partial,net-transport/src/update_job_thread.cpp,"Hex-Rays re-run. Partial: worker is threadfun2, outside this category (Savegame::UpdateJobs); empty Run() stand-in. Already-running guard added. Debug trace dropped."
+0x317f58,_ZN16updateJob_thread4StopEv,partial,net-transport/src/update_job_thread.cpp,Partial: the original only prints a debug trace and returns 1.
+0x317f74,_ZN16updateJob_thread6FinishEv,partial,net-transport/src/update_job_thread.cpp,Partial: the original only prints a debug trace and returns 1.
+0x317fcc,_ZN16updateJob_threadD0Ev,skipped,net-transport/src/update_job_thread.cpp,deleting destructor D0 is compiler-generated
 0x317fe8,_ZN6ThreadD0Ev,skipped,net-transport/src/sync.cpp,deleting-destructor thunk; C++ delete covers it
 0x36d250,_ZN13NetStructUIntILj8EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
 0x36d27c,_ZN13NetStructBoolD1Ev,reconstructed,net-transport/src/net_struct.cpp,
@@ -34,13 +68,19 @@ elf_address,symbol,status,source_file,notes
 0x39f610,_ZN13NetStructUIntILj1EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
 0x39f624,_ZN13NetStructUIntILj32EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
 0x3a2f18,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a2f24,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<18,...> dtor D1 (empty)"
 0x3a2f28,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a2f34,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<16,...> dtor D1 (empty)"
 0x3a2f38,_ZN20NetStructRangedFloatILj16ELin1ELi1EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
+0x3a3578,_ZN22NetStructInterpolationIfED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,NetStructInterpolation<float> dtor D1 (empty; header template)
 0x3a360c,_ZN20NetStructRangedFloatILj16ELin1ELi1EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
 0x3a3654,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
 0x3a3698,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE9TestValueERKf,reconstructed,net-transport/src/net_struct.cpp,
 0x3a3764,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x3a37cc,_ZN22NetStructInterpolationIfED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,deleting destructor D0 is compiler-generated
+0x3a3808,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<18,...> instance)"
 0x3a3850,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
+0x3a388c,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<16,...> instance)"
 0x3a38d4,_ZN20NetStructRangedFloatILj16ELin1ELi1EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
 0x3a3c64,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,"Hex-Rays re-run: Read = min + raw/262140 * 400000 (18 bits, range -200000..200000)"
 0x3a3cc4,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,"Hex-Rays re-run: Read = min + raw/65535 * 100000 (16 bits, range -50000..50000)"
@@ -48,28 +88,102 @@ elf_address,symbol,status,source_file,notes
 0x3a3d7c,_ZN20NetStructRangedFloatILj18ELin200000ELi200000EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,"Hex-Rays re-run: Write = saturating u32 of (value + 200000) / 400000 * 262140, 18 bits"
 0x3a3dc4,_ZN20NetStructRangedFloatILj16ELin50000ELi50000EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,"Hex-Rays re-run: Write = saturating u32 of (value + 50000) / 100000 * 65535, 16 bits"
 0x3a3e0c,_ZN20NetStructRangedFloatILj16ELin1ELi1EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,"Hex-Rays re-run: Write = saturating u32 of (value + 1) * 0.5 * 65535, 16 bits"
+0x3a3e64,_ZN22NetStructInterpolationIfE8AddValueEfj,partial,net-transport/src/net_struct_interpolation.cpp,Partial: wrap-around boundary fields (words 43-45) and their multiply-shift are not recovered; eviction is by count against the window of 40; returns 20
+0x3a3f50,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EE8PostLoadEj,reconstructed,net-transport/src/net_struct_interpolation.cpp,"PostLoad<18,...>: AddValue(value, time); depends on the partial AddValue"
+0x3a3f60,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EE8PostLoadEj,reconstructed,net-transport/src/net_struct_interpolation.cpp,"PostLoad<16,...>: AddValue(value, time); depends on the partial AddValue"
+0x3a681c,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EEC1Ef,partial,net-transport/src/net_struct_interpolation.cpp,"Partial: NetStructMember::SetChanged not in this port; value set, sample ring starts zeroed, window 40"
+0x3a6920,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EEC1Ef,partial,net-transport/src/net_struct_interpolation.cpp,"Partial: NetStructMember::SetChanged not in this port; value set, sample ring starts zeroed, window 40"
+0x42b1e4,_ZN14BufferedStream10FillBufferEP11IStreamBase,partial,net-transport/src/buffered_stream.cpp,"Hex-Rays re-run: loop matches. Partial: the original spins on a zero-byte read; the port stops the loop, so the buffer is short"
 0x7fb93c,_ZNK10CNetworkId7IsEqualERS_,reconstructed,net-transport/src/net_network_id.cpp,48-bit address model; sum of present fields compared in two passes
+0x7fbd4c,_ZN18CConnectionManager7GetImplEv,reconstructed,net-transport/src/connection_manager.cpp,"virtual GetImpl, returns 0"
+0x7fbd54,_ZN18CConnectionManager11GetInstanceEv,reconstructed,net-transport/src/connection_manager.cpp,static GetInstance; returns the singleton
+0x7fbd78,_ZN18CConnectionManager13IsInitializedEv,reconstructed,net-transport/src/connection_manager.cpp,static IsInitialized
+0x7fbda0,_ZN18CConnectionManager24GetConnectionByNetworkIdER10CNetworkId,reconstructed,net-transport/src/connection_manager.cpp,GetConnectionByNetworkId(CNetworkId&) over 32 slots
+0x7fbdf8,_ZN18CConnectionManager11GetMemberIdER10CNetworkId,reconstructed,net-transport/src/connection_manager.cpp,GetMemberId returns -1 when not found
+0x7fbe54,_ZN18CConnectionManager13DisconnectAllEv,reconstructed,net-transport/src/connection_manager.cpp,DisconnectAll calls CConnection::Disconnect (vtable +0x10)
+0x7fbe94,_ZN18CConnectionManager18GetConnectionCountEb,reconstructed,net-transport/src/connection_manager.cpp,GetConnectionCount(bool): connected_only counts state 4
+0x7fbeec,_ZN18CConnectionManager9SendToAllE12tPACKET_TYPEPvi,reconstructed,net-transport/src/connection_manager.cpp,SendToAll sends to connected slots via CConnection::Send (vtable +0x18)
+0x7fbf5c,_ZN18CConnectionManager18RegisterPacketTypeE12tPACKET_TYPE14tPROTOCOL_TYPEPFviPciE,reconstructed,net-transport/src/connection_manager.cpp,RegisterPacketType overload with member callback; table is s_recvCBMap
+0x7fbf98,_ZN18CConnectionManager18RegisterPacketTypeE12tPACKET_TYPE14tPROTOCOL_TYPEPFvR10CNetworkIdPciE,reconstructed,net-transport/src/connection_manager.cpp,RegisterPacketType overload with CNetworkId callback
+0x7fbfd4,_ZN18CConnectionManager22IsPacketTypeRegisteredE12tPACKET_TYPE,reconstructed,net-transport/src/connection_manager.cpp,"static IsPacketTypeRegistered; no bounds check, as the original"
+0x7fc014,_ZN18CConnectionManager22GetPacketTransportTypeE12tPACKET_TYPE,reconstructed,net-transport/src/connection_manager.cpp,GetPacketTransportType via the protocol of the registered type
+0x7fc060,_ZN18CConnectionManager16GetTransportTypeE14tPROTOCOL_TYPE,partial,net-transport/src/connection_manager.cpp,out-of-range protocol returns 0; original reads past the 3-entry table
+0x7fc06c,_ZN18CConnectionManager15PingConnectionsEv,reconstructed,net-transport/src/connection_manager.cpp,PingConnections: empty in original
+0x7fc070,_ZN18CConnectionManager21SetConnectionTimeoutsEj,reconstructed,net-transport/src/connection_manager.cpp,SetConnectionTimeouts writes CConnection timeout; return value of pseudocode not used
+0x7fc094,_ZN18CConnectionManager15ReportStatisticEi21tCONNECTION_STATISTICi,reconstructed,net-transport/src/connection_manager.cpp,"ReportStatistic(int,...): empty in original"
+0x7fc098,_ZN18CConnectionManager15ReportStatisticE15tTRANSPORT_TYPER10CNetworkId21tCONNECTION_STATISTICi,reconstructed,net-transport/src/connection_manager.cpp,"ReportStatistic(tTRANSPORT_TYPE,...): empty in original"
+0x7fc09c,_ZN18CConnectionManager15PrintStatisticsEv,reconstructed,net-transport/src/connection_manager.cpp,PrintStatistics: empty in original
+0x7fc0a0,_ZN18CConnectionManager21PrintMergedStatisticsEv,reconstructed,net-transport/src/connection_manager.cpp,PrintMergedStatistics: empty in original
+0x7fc0a4,_ZN18CConnectionManager12GetBandwidthERiS0_,reconstructed,net-transport/src/connection_manager.cpp,GetBandwidth: empty in original; outputs not written
+0x7fc0a8,_ZN18CConnectionManagerC1Ev,partial,net-transport/src/connection_manager.cpp,"C1 ctor; CEventQueue sentinel/capacity (+0x10..+0x18) not reproduced, see CEventQueueBase stand-in"
+0x7fc140,_ZN18CConnectionManagerC2Ev,skipped,net-transport/src/connection_manager.cpp,"C2 ctor, identical body to C1 at 0x7fc0a8; compiler-generated variant"
+0x7fc1d8,_ZN18CConnectionManager20KeepAliveConnectionsEv,reconstructed,net-transport/src/connection_manager.cpp,KeepAliveConnections; ARM checked; clock = steady_clock ms instead of GetOnline slot 0
+0x7fc244,_ZN18CConnectionManager17sReceiverCallbackE12tPACKET_TYPER10CNetworkIdPci,reconstructed,net-transport/src/connection_manager.cpp,sReceiverCallback; ARM checked; types 7 and 8 bypass registration check
+0x7fc33c,_ZN18CConnectionManager20UnregisterPacketTypeE12tPACKET_TYPE,reconstructed,net-transport/src/connection_manager.cpp,UnregisterPacketType clears the entry; returns -1
 0x7fc384,_ZN10CNetworkId5ResetEv,reconstructed,net-transport/src/net_network_id.cpp,
+0x7fc3ac,_ZN18CConnectionManager6SendToE12tPACKET_TYPER10CNetworkIdPvi,partial,net-transport/src/connection_manager.cpp,"SendTo(type,CNetworkId&,...): CTransportManager::Send not reconstructed (stand-in sends nothing)"
+0x7fc3ec,_ZN18CConnectionManager13SendBroadcastE12tPACKET_TYPEPvi,partial,net-transport/src/connection_manager.cpp,SendBroadcast: CTransportManager::Send not reconstructed (stand-in sends nothing)
+0x7fc438,_ZN18CConnectionManager23GetConnectionByMemberIdEi,reconstructed,net-transport/src/connection_manager.cpp,GetConnectionByMemberId via CMatching::GetMemberIndex; slots 0..31
+0x7fc464,_ZN18CConnectionManager20PingReceiverCallbackER10CNetworkIdPci,partial,net-transport/src/connection_manager.cpp,"PingReceiverCallback: ping packet layout inferred (flag at +0x0c, member at +0x04); CConnection::ProcessPing stand-in"
+0x7fc4e0,_ZN18CConnectionManager21sPingReceiverCallbackER10CNetworkIdPci,reconstructed,net-transport/src/connection_manager.cpp,static sPingReceiverCallback: forwards to the singleton
+0x7fc508,_ZN18CConnectionManager25ProcessConnectionFinalizeER10CNetworkIdR12NetBitStream,partial,net-transport/src/connection_manager.cpp,ProcessConnectionFinalize: key compared by its first word as in pseudocode; rest of 16-byte key not understood
+0x7fc568,_ZN18CConnectionManager25ProcessConnectionResponseER10CNetworkIdR12NetBitStream,partial,net-transport/src/connection_manager.cpp,ProcessConnectionResponse: CMatching matching-state update uses provisional slot names (+0x6c/+0x70)
+0x7fc5f8,_ZN18CConnectionManager6SendToE12tPACKET_TYPEiPvi,reconstructed,net-transport/src/connection_manager.cpp,"SendTo(type,int member,...) returns CConnection::Send result or 0"
+0x7fc638,_ZN18CConnectionManager12SendToServerE12tPACKET_TYPEPvi,partial,net-transport/src/connection_manager.cpp,SendToServer: server member id from CMatching vtable +0x74 (provisional name)
+0x7fc680,_ZN18CConnectionManager14DisconnectPeerEi,reconstructed,net-transport/src/connection_manager.cpp,DisconnectPeer returns CConnection::Disconnect result or 0
+0x7fc6a8,_ZN18CConnectionManager18GetMemberNetworkIdEi,reconstructed,net-transport/src/connection_manager.cpp,"GetMemberNetworkId returns copy of connection network id, or reset id"
+0x7fc6f4,_ZN18CConnectionManager11IsConnectedEi,reconstructed,net-transport/src/connection_manager.cpp,IsConnected: connection state == 4
+0x7fc718,_ZN18CConnectionManager10DisconnectEib,partial,net-transport/src/connection_manager.cpp,"Disconnect: server packet (type 5, subtype 3, 8-byte payload) and DisconnectPeer/DisconnectAll branch reconstructed; local member id read from CMatching vtable +0x6c (provisional); payload pad bytes zeroed"
+0x7fc830,_ZN18CConnectionManager17ProcessDisconnectER10CNetworkIdR12NetBitStream,reconstructed,net-transport/src/connection_manager.cpp,ProcessDisconnect reads 8-byte payload
+0x7fc864,_ZN18CConnectionManager21ProcessDisconnectPeerER10CNetworkIdR12NetBitStream,reconstructed,net-transport/src/connection_manager.cpp,ProcessDisconnectPeer reads 4-byte member id
+0x7fc8d0,_ZN18CConnectionManager13AddConnectionEiP11CConnection,reconstructed,net-transport/src/connection_manager.cpp,"AddConnection: refuses null conn, out of range or occupied slot"
+0x7fc930,_ZN18CConnectionManager7ConnectEiR10CNetworkId,reconstructed,net-transport/src/connection_manager.cpp,Connect: new CConnection (nothrow new; original custom operator new 0x1c0)
+0x7fc9cc,_ZN18CConnectionManager6AcceptEiR10CNetworkIdy,partial,net-transport/src/connection_manager.cpp,Accept: vtable +0x0c call in original passes one extra argument (first word of object); not reproduced
+0x7fca74,_ZN18CConnectionManager24ProcessConnectionRequestER10CNetworkIdR12NetBitStream,partial,net-transport/src/connection_manager.cpp,ProcessConnectionRequest: new member id from CMatching vtable +0xac (provisional name) when no key match
+0x7fcb2c,_ZN18CConnectionManager22PacketReceiverCallbackER10CNetworkIdPci,reconstructed,net-transport/src/connection_manager.cpp,PacketReceiverCallback: subtype switch 0..4; SetBuffer then ReadByteArray as original
+0x7fcc08,_ZN18CConnectionManager23sPacketReceiverCallbackER10CNetworkIdPci,reconstructed,net-transport/src/connection_manager.cpp,static sPacketReceiverCallback: forwards to the singleton
+0x7fcc30,_ZN18CConnectionManager6UpdateEv,reconstructed,net-transport/src/connection_manager.cpp,Update; ARM checked; state 1 connections are disconnected and deleted
+0x7fcd04,_ZN18CConnectionManager17TerminateInternalEv,partial,net-transport/src/connection_manager.cpp,TerminateInternal: original calls CTransportManager::Terminate with leftover r0; port calls it on GetTransportMgr()
+0x7fcd98,_ZN18CConnectionManager9TerminateEv,reconstructed,net-transport/src/connection_manager.cpp,static Terminate; returns void (original returns leftover r0 of the deleting dtor call)
+0x7fcdec,_ZN18CConnectionManager18InitializeInternalEv,partial,net-transport/src/connection_manager.cpp,InitializeInternal: transport handles from CMatching vtable +0x34 (name not recovered); CTransportManager::Initialize receiver differs from original (ARM passes this+0x1c)
+0x7fcec0,_ZN18CConnectionManager10InitializeEv,reconstructed,net-transport/src/connection_manager.cpp,static Initialize: creates singleton (nothrow new; original operator new 0xac)
+0x7fd284,_ZN18CConnectionManager19GetConnMemberIdListEb,partial,net-transport/src/connection_manager.cpp,GetConnMemberIdList: non-server path uses CMatching vtable +0x74 (provisional name)
+0x7fd400,_ZN18CConnectionManagerD1Ev,partial,net-transport/src/connection_manager.cpp,D1 dtor: CEvent list clear at +0x10 left to the event queue stand-in; CNetMutex destroyed by member dtor
+0x7fd454,_ZN18CConnectionManagerD0Ev,skipped,net-transport/src/connection_manager.cpp,D0 deleting destructor; compiler-generated
+0x7fd4b4,_ZN18CConnectionManagerD2Ev,skipped,net-transport/src/connection_manager.cpp,"D2 dtor, identical body to D1 at 0x7fd400; compiler-generated variant"
+0x7fe728,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE25ProcessAcknowledgedPacketEii,partial,net-transport/src/net_struct_array.cpp,"Template in include/net-transport/net_struct_array.hpp. Partial: returns the last element result; the original returns the array pointer when empty (unused), this port returns 0."
+0x7fe788,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE17ProcessLostPacketEii,partial,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp. Partial: same return-value note as ProcessAcknowledgedPacket.
+0x7fe7e8,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE13HasDataToSendEi,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp. Element stride sizeof(T) = 432 bytes.
+0x7fe894,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE9SerializeER12NetBitStreamii,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp.
+0x7fe964,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE4LoadER12NetBitStreamii,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp.
+0x7fea58,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE5EraseER12NetBitStream,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp. Returns 0.
+0x801ae8,_ZN21CBluetoothNetRoomInfoD0Ev,skipped,net-transport/src/bluetooth_net_room_info.cpp,"deleting destructor: compiler-generated, calls the D1 body then frees the object."
 0x801b04,_ZN18NetStructNetworkIdD1Ev,reconstructed,net-transport/src/net_struct.cpp,
 0x801bc8,_ZN18NetStructNetworkIdD0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
 0x801cf0,_ZN10CNetworkId4LoadER12NetBitStream,reconstructed,net-transport/src/net_network_id.cpp,
 0x801de0,_ZN18NetStructNetworkId4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
 0x801e24,_ZN10CNetworkId9SerializeER12NetBitStream,reconstructed,net-transport/src/net_network_id.cpp,
 0x801f14,_ZN18NetStructNetworkId5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x8056c0,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE13HasDataToSendEi,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp. Element stride sizeof(T) = 344 bytes.
+0x805730,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE25ProcessAcknowledgedPacketEii,partial,net-transport/src/net_struct_array.cpp,Template. Partial: same return-value note as the MemberInfo instantiation.
+0x805790,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE17ProcessLostPacketEii,partial,net-transport/src/net_struct_array.cpp,Template. Partial: same return-value note as the MemberInfo instantiation.
+0x8058c8,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE9SerializeER12NetBitStreamii,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp.
+0x8059f8,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE5EraseER12NetBitStream,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp. Returns 0.
+0x805a64,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE4LoadER12NetBitStreamii,reconstructed,net-transport/src/net_struct_array.cpp,Template in include/net-transport/net_struct_array.hpp.
 0x80e2cc,_ZN10CSemaphoreC2Ei,reconstructed,net-transport/src/sync.cpp,
 0x80e2d4,_ZN10CSemaphoreC1Ei,reconstructed,net-transport/src/sync.cpp,
 0x80e2dc,_ZN10CSemaphoreD2Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
 0x80e2e0,_ZN10CSemaphoreD1Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
-0x80e2e4,_ZN10CSemaphore4WaitEv,partial,net-transport/src/sync.cpp,"Hex-Rays re-run: body confirmed empty. Kept partial per NOTES: a no-op, not a real semaphore wait"
-0x80e2e8,_ZN10CSemaphore7ReleaseEi,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty (count not changed). Kept partial per NOTES
+0x80e2e4,_ZN10CSemaphore4WaitEv,partial,net-transport/src/sync.cpp,"Hex-Rays re-run: body confirmed empty. Kept partial: a no-op, not a real semaphore wait"
+0x80e2e8,_ZN10CSemaphore7ReleaseEi,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty (count not changed). Kept partial
 0x80e2ec,_ZN14CReadWriteLockC2Ev,reconstructed,net-transport/src/sync.cpp,vtable pointer only
 0x80e310,_ZN14CReadWriteLockC1Ev,reconstructed,net-transport/src/sync.cpp,vtable pointer only
 0x80e334,_ZN14CReadWriteLockD2Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
 0x80e338,_ZN14CReadWriteLockD1Ev,reconstructed,net-transport/src/sync.cpp,empty dtor
-0x80e33c,_ZN14CReadWriteLock9LockWriteEv,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty. Kept partial per NOTES: not a real lock
-0x80e340,_ZN14CReadWriteLock11UnlockWriteEv,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty. Kept partial per NOTES: not a real lock
-0x80e344,_ZN14CReadWriteLock8LockReadEv,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty. Kept partial per NOTES: not a real lock
-0x80e348,_ZN14CReadWriteLock10UnlockReadEv,partial,net-transport/src/sync.cpp,Hex-Rays re-run: body confirmed empty. Kept partial per NOTES: not a real lock
+0x80e33c,_ZN14CReadWriteLock9LockWriteEv,partial,net-transport/src/sync.cpp,"Hex-Rays body is empty; kept as no-op, not real synchronisation (same decision as CSemaphore)"
+0x80e340,_ZN14CReadWriteLock11UnlockWriteEv,partial,net-transport/src/sync.cpp,Hex-Rays body is empty; kept as no-op
+0x80e344,_ZN14CReadWriteLock8LockReadEv,partial,net-transport/src/sync.cpp,Hex-Rays body is empty; kept as no-op
+0x80e348,_ZN14CReadWriteLock10UnlockReadEv,partial,net-transport/src/sync.cpp,Hex-Rays body is empty; kept as no-op
 0x80e34c,_ZN14CReadWriteLockD0Ev,skipped,net-transport/src/sync.cpp,deleting-destructor thunk; C++ delete covers it
 0x80e368,_ZN9CNetMutex6UnlockEv,reconstructed,net-transport/src/sync.cpp,pthread_mutex_unlock mapped to std::recursive_mutex
 0x80e36c,_ZN9CNetMutex4LockEv,reconstructed,net-transport/src/sync.cpp,pthread_mutex_lock mapped to std::recursive_mutex
@@ -97,7 +211,7 @@ elf_address,symbol,status,source_file,notes
 0x80e980,_ZN17NetBitStreamArrayC1Eii,reconstructed,net-transport/src/net_bit_stream_array.cpp,
 0x80e9e8,_ZN17NetBitStreamArrayC2Eii,reconstructed,net-transport/src/net_bit_stream_array.cpp,
 0x80ea50,_ZN12NetBitStreamC2Ej,reconstructed,net-transport/src/net_bit_stream.cpp,
-0x80eac8,_ZN12NetBitStream12ShiftMemCopyEPvjPKvji,partial,net-transport/src/net_bit_stream.cpp,"Hex-Rays re-run: call arguments are lost in the pseudocode. Split into CopyBitsIn and CopyBitsOut with bounds guards that are inferred, not recovered"
+0x80eac8,"NetBitStream::ShiftMemCopy(void*,uint,void const*,uint,int)",partial,net-transport/src/net_bit_stream.cpp,"Partial: Hex-Rays arguments now mapped (write uses a5, read uses a3, shift 0 uses min); port split into CopyBitsIn/CopyBitsOut with bounds guards the original lacks."
 0x80ebc8,_ZN12NetBitStream21ReadByteArray_BitSizeEPvj,reconstructed,net-transport/src/net_bit_stream.cpp,
 0x80ec28,_ZN12NetBitStream13ReadByteArrayEPvj,reconstructed,net-transport/src/net_bit_stream.cpp,
 0x80ec30,_ZN12NetBitStream10ReadStringEv,reconstructed,net-transport/src/net_bit_stream.cpp,returns std::string of the read bytes
@@ -105,25 +219,124 @@ elf_address,symbol,status,source_file,notes
 0x80ed54,_ZN12NetBitStream11WriteStreamERS_,reconstructed,net-transport/src/net_bit_stream.cpp,
 0x80ed60,_ZN17NetBitStreamArray14CopyAllStreamsER12NetBitStream,reconstructed,net-transport/src/net_bit_stream_array.cpp,
 0x80eda8,_ZN12NetBitStream14WriteByteArrayEPKvj,reconstructed,net-transport/src/net_bit_stream.cpp,
-0x80edb0,_ZN12NetBitStream11WriteStringESsj,partial,net-transport/src/net_bit_stream.cpp,Hex-Rays re-run: string argument layout is not recovered (non-standard string object); length is std::string size with max_len 0 meaning no limit (inferred); third argument unused in the pseudocode
+0x80edb0,"NetBitStream::WriteString(std::string,uint)",partial,net-transport/src/net_bit_stream.cpp,"Partial: length from the string object is not recovered; text.size() used. Third argument is not read by the original, so no cap (earlier cap removed)."
 0x80ee0c,_ZN12NetBitStream9GetBufferEPcj,reconstructed,net-transport/src/net_bit_stream.cpp,second argument unused by original
 0x80ee3c,_ZN12NetBitStream9SetBufferEPKcj,reconstructed,net-transport/src/net_bit_stream.cpp,copy length clamped to buffer size
-0x80ee5c,_ZN12NetBitStreamaSERKS_,partial,net-transport/src/net_bit_stream.cpp,Hex-Rays re-run: copies bytes and size/read/write positions. Partial: the original memsets a null buffer after a failed allocation (crash); the port skips that memset (nothrow new)
-0x80eef4,_ZN12NetBitStreamC1ERKS_,partial,net-transport/src/net_bit_stream.cpp,"Hex-Rays re-run: copies size, read and write positions and bytes. Partial: nothrow allocation; the original memsets a null buffer (crash), the port skips the copy"
-0x80ef8c,_ZN12NetBitStreamC2ERKS_,partial,net-transport/src/net_bit_stream.cpp,"Hex-Rays re-run: copies size, read and write positions and bytes. Partial: nothrow allocation; the original memsets a null buffer (crash), the port skips the copy"
+0x80ee5c,NetBitStream::operator=(NetBitStream const&),partial,net-transport/src/net_bit_stream.cpp,Partial: the original memsets a null buffer after a failed allocation (crash); the port skips that memset.
+0x80eef4,NetBitStream::NetBitStream(NetBitStream const&),partial,net-transport/src/net_bit_stream.cpp,"Partial: nothrow allocation; the original memsets a null buffer after a failed allocation (crash), the port skips it. Copies size and both positions."
+0x80ef8c,NetBitStream::NetBitStream(NetBitStream const&),partial,net-transport/src/net_bit_stream.cpp,Partial: same body as the other copy constructor; same null-allocation difference.
 0x80f024,_ZN12NetBitStreameqERKS_,reconstructed,net-transport/src/net_bit_stream.cpp,Hex-Rays re-run: returns memcmp == 0 (the earlier inverted note was a misreading)
 0x80f074,_ZN7CNetLogD1Ev,reconstructed,net-transport/src/net_log.cpp,
 0x80f078,_ZN7CNetLog6UpdateEv,reconstructed,net-transport/src/net_log.cpp,Hex-Rays re-run: body is empty; reconstructed as an empty function
 0x80f07c,_ZN7CNetLog11GetInstanceEv,reconstructed,net-transport/src/net_log.cpp,
 0x80f0f0,_ZN7CNetLogD0Ev,skipped,net-transport/src/net_log.cpp,deleting-destructor thunk; C++ delete covers it
+0x8151c8,_ZN14CPacketManager11GetInstanceEv,reconstructed,net-transport/src/packet_manager.cpp,
+0x8151ec,_ZN14CPacketManager13IsInitializedEv,reconstructed,net-transport/src/packet_manager.cpp,
+0x815214,_ZN14CPacketManager9TerminateEv,reconstructed,net-transport/src/packet_manager.cpp,Deletes the singleton through the deleting destructor and clears the pointer; returns 0.
+0x815258,_ZN14CPacketManager18RegisterPacketSlotE12PACKET_SLOTSPFbiiR12NetBitStreamEPFviiS2_EPFviiES8_,reconstructed,net-transport/src/packet_manager.cpp,
+0x8152c0,_ZN14CPacketManager20UnregisterPacketSlotE12PACKET_SLOTS,reconstructed,net-transport/src/packet_manager.cpp,
+0x815324,_ZN14CPacketManager16IsPacketSlotUsedE12PACKET_SLOTS,reconstructed,net-transport/src/packet_manager.cpp,
+0x81534c,_ZN14CPacketManager14GetPacketCountEv,reconstructed,net-transport/src/packet_manager.cpp,Queue length (std::list size).
+0x815378,_ZN14CPacketManager19ArePacketsAvailableEv,reconstructed,net-transport/src/packet_manager.cpp,
+0x8153a8,_ZN14CPacketManager18SequenceMoreRecentEjj,reconstructed,net-transport/src/packet_manager.cpp,First argument (the original's this slot) is compared with the second; third argument unused.
+0x8153e0,_ZN14CPacketManager17GetSequenceOffsetEjj,reconstructed,net-transport/src/packet_manager.cpp,
+0x8153fc,_ZN14CPacketManager15PrintStatisticsEv,reconstructed,net-transport/src/packet_manager.cpp,Empty in the original.
+0x815400,_ZN14CPacketManager10ReadHeaderER12NetBitStream,reconstructed,net-transport/src/packet_manager.cpp,"Field order and widths as in the original: 16, 16, 32, 16 (matching_id), 16 (connection_id), 8."
+0x815474,_ZN14CPacketManager11WriteHeaderERNS_16tPacketMgrHeaderER12NetBitStream,reconstructed,net-transport/src/packet_manager.cpp,
+0x816150,CDataStats<int>::~CDataStats(),reconstructed,net-transport/src/c_data_stats.cpp,"Destructor D1: tree and lock destroyed by members (header, template)."
+0x8161b8,CDataStats<int>::~CDataStats(),skipped,net-transport/src/c_data_stats.cpp,"Deleting destructor (D0): compiler-generated, calls the destructor then frees."
+0x8162a4,_ZN14CPacketManagerC1Ev,partial,net-transport/src/packet_manager.cpp,"Partial: sets the queue, mutex and initialized flag. Missing: CConnectionManager::RegisterPacketType(6), CNetworkEmulation::Initialize, CDataStats members."
+0x8164e8,_ZN14CPacketManager10InitializeEv,partial,net-transport/src/packet_manager.cpp,"Singleton create. Partial: uses the partial constructor, so CConnectionManager packet-type registration is missing."
+0x816540,_ZN14CPacketManagerC2Ev,partial,net-transport/src/packet_manager.cpp,Same as C1 (partial): see the C1 note.
+0x816ab8,_ZN14CPacketManagerD2Ev,partial,net-transport/src/packet_manager.cpp,"Partial: clears the queue. Missing: CConnectionManager::UnregisterPacketType(6), CNetworkEmulation::Terminate, CDataStats teardown."
+0x816c68,_ZN14CPacketManager13GetNextPacketEv,reconstructed,net-transport/src/packet_manager.cpp,Copies the front packet and removes it. Caller must check ArePacketsAvailable.
+0x81704c,_ZN14CPacketManagerD1Ev,partial,net-transport/src/packet_manager.cpp,Same as D1 (partial): see the D1 note.
+0x8171b8,_ZN14CPacketManagerD0Ev,skipped,net-transport/src/packet_manager.cpp,"deleting destructor: compiler-generated, calls the D1 body then frees the object."
+0x817c9c,_ZN14CPacketManager22PacketReceiverCallbackEiPci,reconstructed,net-transport/src/packet_manager.cpp,"Source id argument unused, as in the original. Buffer is at least 4088 bytes."
 0x817d74,_ZN13NetStructUIntILj5EED1Ev,reconstructed,net-transport/src/net_struct.cpp,
 0x817e28,_ZN13NetStructUIntILj5EE9TestValueERKj,reconstructed,net-transport/src/net_struct.cpp,
 0x817f00,_ZN13NetStructUIntILj5EED0Ev,skipped,net-transport/src/net_struct.cpp,deleting-destructor thunk; C++ delete covers it
 0x817f34,_ZN13NetStructUIntILj5EE4ReadER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
 0x817f6c,_ZN13NetStructUIntILj5EE5WriteER12NetBitStream,reconstructed,net-transport/src/net_struct.cpp,
+0x81a9dc,CTransportManager::AbortNetwork(),reconstructed,net-transport/src/transport_manager.cpp,Empty body in the original.
+0x81a9e0,CTransportManager::GetInstance(),reconstructed,net-transport/src/transport_manager.cpp,Returns the singleton pointer.
+0x81aa04,CTransportManager::IsInitialized(),reconstructed,net-transport/src/transport_manager.cpp,"Returns the initialized flag (+0x04) of the singleton, false when none."
+0x81aa2c,CTransportManager::Terminate(),partial,net-transport/src/transport_manager.cpp,"Partial: two virtual slots (+0x04, +0x18) on the instance are not named; the port deletes the instance."
+0x81aa8c,CTransportManager::EnableBroadcast(CNetworkId),partial,net-transport/src/transport_manager.cpp,Partial: StartBroadcast on the transport whose local id matches; no-match return value not recovered.
+0x81ab0c,CTransportManager::DisableBroadcast(CNetworkId),partial,net-transport/src/transport_manager.cpp,Partial: StopBroadcast on the matching transport; no-match return value not recovered.
+0x81ab8c,"CTransportManager::GetTransportByPeer(tTRANSPORT_TYPE,CNetworkId)",partial,net-transport/src/transport_manager.cpp,"Partial: type and peer tests go through transport_slots stand-ins (vtable +0x20, +0x28)."
+0x81ac0c,CTransportManager::IsConnectedTo(CNetworkId&),partial,net-transport/src/transport_manager.cpp,"Partial: result is the transport state slot (+0x24), not named in transport.hpp; stand-in."
+0x81ac78,CTransportManager::IsMainThreadBlocked(),reconstructed,net-transport/src/transport_manager.cpp,Constant 0 in the original.
+0x81ac80,CTransportManager::SetThreadTimestamp(),partial,net-transport/src/transport_manager.cpp,Partial: time source is connection_env's millisecond clock instead of GetOnline() slot 0.
+0x81aca4,CTransportManager::Update(),skipped,net-transport/src/transport_manager.cpp,Thunk to SetThreadTimestamp; not reimplemented.
+0x81ad30,CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE),partial,net-transport/src/transport_manager.cpp,"Partial: types 3 and 4 (field2, field3) have no public setter in CNetworkId, so they are skipped; listening flag and local id via transport_slots."
+0x81ae94,CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE),partial,net-transport/src/transport_manager.cpp,Partial: field2 nonzero test replaced by presence bit 2 (no value accessor). Types outside 1..4 return true.
 0x81af10,_ZN10CNetworkId5ResetE15tTRANSPORT_TYPE,reconstructed,net-transport/src/net_network_id.cpp,tTRANSPORT_TYPE kept numeric (1..4)
+0x81af88,CTransportManager::PrepareConnectionNetworkId(CNetworkId&),partial,net-transport/src/transport_manager.cpp,Partial: argument roles mixed in the pseudocode; copy of the peer id then Reset(type) for connected transports (stand-ins).
+0x81b010,"CTransportManager::Send(CTransport*,CNetworkId&,tPACKET_TYPE,void*,int)",partial,net-transport/src/transport_manager.cpp,"Partial: packet layout inferred from the receiver (magic, length, type, payload at +8); ReportStatistic not reproduced; transport send is a stand-in."
+0x81b11c,"CTransportManager::ReceiverCallback(CTransport*,CNetworkId&,char*,int)",partial,net-transport/src/transport_manager.cpp,"Partial: argument roles unclear in Hex-Rays, symbol order used; framing per packet; keep-alive reply inferred; statistics call and IsInitialized gating not reproduced; deviation: length below header ends the pass."
+0x81b290,"CTransportManager::Send(tTRANSPORT_TYPE,CNetworkId&,tPACKET_TYPE,void*,int)",reconstructed,net-transport/src/transport_manager.cpp,"Looks up the transport by type and peer, then sends (body complete; lookup uses stand-ins)."
+0x81b2fc,"CTransportManager::Send(tTRANSPORT_TYPE,tPACKET_TYPE,void*,int)",partial,net-transport/src/transport_manager.cpp,"Partial: types 1 and 2 use the broadcast id (port 6776, address -1); types 3 and 4 need field2/field3 set, not settable through CNetworkId, so no packet is sent."
+0x81b3c8,CTransportManager::Receive(),partial,net-transport/src/transport_manager.cpp,Partial: lock and receive pass over all transports; per-transport receive (vtable +0x10) is a stand-in.
+0x81b440,CTransportManager::Disconnect(CNetworkId&),partial,net-transport/src/transport_manager.cpp,Partial: CanDisconnectFrom (vtable +0x2c) is a stand-in; removed transports deleted through the deleting destructor (+0x04).
+0x81b4c4,CTransportManager::AddTransport(CTransport*),reconstructed,net-transport/src/transport_manager.cpp,Stores the transport in the first free slot under the mutex.
+0x81b52c,"CTransportManager::AcceptCallback(tTRANSPORT_TYPE,CTransport*)",reconstructed,net-transport/src/transport_manager.cpp,Static in the original's use: adds the transport to the singleton; type unused.
+0x81b544,CTransportManager::InitializeInternal(),partial,net-transport/src/transport_manager.cpp,"Partial: table cleared, timestamp set, flag set; the virtual call (vtable +0x08) with the timestamp high word is not reproduced."
+0x81b5b4,CTransportManager::ReceiverThreadExecute(),partial,net-transport/src/transport_manager.cpp,"Partial: blocked-and-server branch calls an unnamed virtual slot (+0x10), not reproduced; connection manager null-checked (deviation)."
+0x81b604,CTransportManager::Connect(CNetworkId&),partial,net-transport/src/transport_manager.cpp,Partial: the second argument of ConnectTransport in the pseudocode is unclear; prepared id passed alone.
+0x81b644,CTransportManager::InitializeTransport(tTRANSPORT_TYPE),reconstructed,net-transport/src/transport_manager.cpp,Forwards to CTransportFactory::InitializeTransport.
+0x81b64c,CTransportManager::TerminateInternal(),partial,net-transport/src/transport_manager.cpp,"Partial: virtual call (vtable +0x0c) before the teardown is not reproduced; transports deleted, factory terminated."
+0x81b6d4,CTransportManager::~CTransportManager(),reconstructed,net-transport/src/transport_manager.cpp,Destructor D2: the mutex is destroyed by its member; transports are not freed (as the original).
+0x81b708,CTransportManager::~CTransportManager(),skipped,net-transport/src/transport_manager.cpp,Deleting destructor (D0): compiler-generated.
+0x81b724,CTransportManager::~CTransportManager(),reconstructed,net-transport/src/transport_manager.cpp,Destructor D1: same body as D2.
+0x81b758,CTransportManager::CTransportManager(),reconstructed,net-transport/src/transport_manager.cpp,"Constructor C1: flags cleared, timestamp zero."
+0x81b7ac,CTransportManager::CTransportManager(),reconstructed,net-transport/src/transport_manager.cpp,Constructor C2: same body as C1.
+0x81b800,CTransportManager::Initialize(),partial,net-transport/src/transport_manager.cpp,Partial: creates CTransportManagerImpl when none exists; the virtual call on the new instance (vtable slot 0) is not reproduced.
 0x81b970,_ZN10CNetworkId20GetTransportTypeListEv,reconstructed,net-transport/src/net_network_id.cpp,
+0x81baec,"CTransportManager::SendToAllTransport(tPACKET_TYPE,CNetworkId&,void*,int)",reconstructed,net-transport/src/transport_manager.cpp,Sends to every transport type in the id's type list.
+0x81bb88,CTransportManager::KeepAlive(CNetworkId&),reconstructed,net-transport/src/transport_manager.cpp,Packet type 7 to every transport type of the peer.
+0x824c80,_ZN16CBluetoothSocket16RestartBluetoothEv,reconstructed,net-transport/src/bluetooth_socket.cpp,RestartBluetooth: empty in the original
+0x824c84,_ZN16CBluetoothSocket22DisconnectFromAllPeersEv,reconstructed,net-transport/src/bluetooth_socket.cpp,DisconnectFromAllPeers returns 1 (no Bluetooth stack in the Android build)
+0x824da8,_ZN24CBluetoothSocketAbstract21GetDeviceNameByPeerIdEj,reconstructed,net-transport/src/bluetooth_socket.cpp,GetDeviceNameByPeerId returns an empty string (the original ignores the peer)
+0x8250dc,CTransportManagerImpl::~CTransportManagerImpl(),reconstructed,net-transport/src/transport_manager_impl.cpp,Destructor D2/D1. Deviation: a running receiver thread is asked to stop and joined.
+0x825110,CTransportManagerImpl::GetHostname(CNetworkId&),partial,net-transport/src/transport_manager_impl.cpp,Partial: address word from address1 (flag bit 0) or address0; value taken as zero when the address is absent (GetAddress fills only when present).
+0x825178,CTransportManagerImpl::GetLocalhostname(),reconstructed,net-transport/src/transport_manager_impl.cpp,gethostname into a 1024-byte buffer; empty string on failure.
+0x82521c,CTransportManagerImpl::StopReceiverThread(),reconstructed,net-transport/src/transport_manager_impl.cpp,Joins the receiver thread; -1 when none is joinable (pthread_join failure). Caller must set the terminating flag first.
+0x825240,CTransportManagerImpl::Sleep(unsigned int),reconstructed,net-transport/src/transport_manager_impl.cpp,sleep_for in microseconds; returns 0 as usleep does on success.
+0x825248,CTransportManagerImpl::StartReceiverThread(),partial,net-transport/src/transport_manager_impl.cpp,Partial: the original creates a joinable thread unconditionally; this port refuses when one is already joinable (guard added).
+0x8252b4,CTransportManagerImpl::ReceiverThreadInternal(),reconstructed,net-transport/src/transport_manager_impl.cpp,Receive pass and 10 us pause until the terminating flag is set.
+0x8252ec,CTransportManagerImpl::ReceiverThread(void*),reconstructed,net-transport/src/transport_manager_impl.cpp,"Thread entry: runs ReceiverThreadInternal, returns 0."
+0x8252fc,CTransportManagerImpl::~CTransportManagerImpl(),skipped,net-transport/src/transport_manager_impl.cpp,Deleting destructor (D0): compiler-generated.
+0x825338,_ZN11CConnection10IsToServerEv,reconstructed,net-transport/src/connection.cpp,
+0x825360,_ZN11CConnection15PrintStatisticsEv,reconstructed,net-transport/src/connection.cpp,Name kept from the symbol. Body is IsServer() or IsToServer(); nothing is printed.
+0x825388,CDataStats<int>::GetAverage(float),partial,net-transport/src/c_data_stats.cpp,"Partial: window in 1000000 ticks, newest-first walk stops at first older sample; rb-tree neighbour walk in Hex-Rays not unambiguous. Re-run from Hex-Rays."
+0x8255c4,_ZN11CConnection4PingEv,reconstructed,net-transport/src/connection.cpp,Static counter kept (not read in this export); returns the clock.
+0x8255f4,_ZN11CConnection11CheckForLagEj,reconstructed,net-transport/src/connection.cpp,Return value (leftover register in Hex-Rays) not reproduced; returns void.
+0x825688,_ZN11CConnection13SendKeepAliveEj,reconstructed,net-transport/src/connection.cpp,Keep-alive timing as the original; sends through the transport shim.
+0x8256e4,_ZN11CConnection19SendConnectFinalizeEv,reconstructed,net-transport/src/connection.cpp,Connect handshake payload (16 bytes) sent as type 2 on transport 5.
+0x825788,_ZN11CConnection19SendConnectResponseEv,reconstructed,net-transport/src/connection.cpp,Connect handshake payload (16 bytes) sent as type 1 on transport 5.
+0x825828,_ZN11CConnection21ProcessConnectRequestER10CNetworkId,skipped,net-transport/src/connection.cpp,thunk: forwards to SendConnectResponse; not reimplemented
+0x82582c,_ZN11CConnection10DisconnectEv,reconstructed,net-transport/src/connection.cpp,"Sends type 4 with the local id, then queues event 0x600002. Returns 0 as the original."
+0x8258f0,_ZN11CConnection4SendE12tPACKET_TYPEPvi,reconstructed,net-transport/src/connection.cpp,Returns the transport send result as int (the original pointer return type is a Hex-Rays artifact); the early nullptr path returns 0.
+0x82596c,_ZN11CConnection7TimeoutEv,reconstructed,net-transport/src/connection.cpp,Calls the virtual Disconnect (vtable +0x10) as the original does.
+0x8259a8,_ZN11CConnectionC1Ev,partial,net-transport/src/connection.cpp,C1 ctor. Partial: CDataStats constructor fields (500 at +0x20 per element) and the event queue base init are not reproduced (stand-in types).
+0x825ab8,_ZN11CConnectionC2Ev,skipped,net-transport/src/connection.cpp,C2 copy of 0x8259a8 (identical body); implemented once
+0x825be8,CDataStats<int>::GetSum(float),partial,net-transport/src/c_data_stats.cpp,"Partial: symbol says (float), body takes no window; sums samples within 1000000 ticks, newest first. Walk direction not unambiguous in Hex-Rays."
+0x825d9c,CDataStats<int>::AddData(int),reconstructed,net-transport/src/c_data_stats.cpp,Insert keyed by clock() tick; trims oldest samples past the cap (500).
+0x825f08,_ZN11CConnection15MergeStatisticsEP10CDataStatsIiE,reconstructed,net-transport/src/connection.cpp,"dst[i] takes stats_[i] sum (i=0..3) or average with windows 5,1,1,1,30 (i=4..8), only when server or to-server."
+0x82600c,_ZN11CConnection15ReportStatisticE21tCONNECTION_STATISTICi,reconstructed,net-transport/src/connection.cpp,"Statistic 8 only, clamped at zero."
+0x82605c,_ZN11CConnection18SendConnectRequestEv,reconstructed,net-transport/src/connection.cpp,Sets last_send_time_ then sends the type 0 handshake.
+0x826114,_ZN11CConnection11ProcessPingER8tMsgPing,reconstructed,net-transport/src/connection.cpp,tMsgPing fields seq and timestamp; statistic 8 reported; static lastSeq kept.
+0x8261a4,_ZN11CConnection15SetLastRecvTimeEv,reconstructed,net-transport/src/connection.cpp,
+0x8261c4,_ZN11CConnection7ConnectEiR10CNetworkId,partial,net-transport/src/connection.cpp,"Connection key uses KeyOf(listen id), which lacks the field2 and field3 terms: CNetworkId has no accessor for them (see NOTES). Dead stores before the key are not reproduced."
+0x826370,_ZN11CConnectionD2Ev,partial,net-transport/src/connection.cpp,D2 dtor. Partial: the event queue base Clear is not reproduced (queue base not reconstructed); disconnect and member destruction are in place.
+0x8263f4,_ZN11CConnectionD1Ev,skipped,net-transport/src/connection.cpp,D1 copy of 0x826370 (identical body); implemented once
+0x826478,_ZN11CConnectionD0Ev,skipped,net-transport/src/connection.cpp,D0 deleting dtor: compiler-generated; calls D1 then frees
 0x8264d8,_ZN10CNetworkId3SetES_,reconstructed,net-transport/src/net_network_id.cpp,copies whole 8-byte address record including padding
+0x826640,_ZN11CConnection6AcceptEiR10CNetworkIdy,reconstructed,net-transport/src/connection.cpp,Peer copied with CNetworkId::Set; key from argument; sends the connect response.
+0x8266ec,_ZN11CConnection22ProcessConnectFinalizeER10CNetworkId,partial,net-transport/src/connection.cpp,"Stores the handshake id with CNetworkId::Set. The original returns the Set result, not reproduced; the IsEqual call before it has no effect and is dropped."
+0x826730,_ZN11CConnection22ProcessConnectResponseER10CNetworkId,reconstructed,net-transport/src/connection.cpp,"Stores the handshake id, then sends the connect finalize."
+0x826780,_ZN11CConnection6UpdateEv,partial,net-transport/src/connection.cpp,"Connected test compares KeyOf(peer) with KeyOf(handshake id), which lacks the field2 and field3 terms (see NOTES). Return value not reproduced; returns void."
 0x826a84,_ZN17CNetworkEmulation11GetInstanceEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x826aa8,_ZN17CNetworkEmulation13IsInitializedEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x826ad0,_ZN17CNetworkEmulation9TerminateEv,reconstructed,net-transport/src/net_network_emulation.cpp,
@@ -140,96 +353,45 @@ elf_address,symbol,status,source_file,notes
 0x826ee0,_ZN17CNetworkEmulationD2Ev,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x826f24,_ZN17CNetworkEmulation14CalcPercentageEfff,reconstructed,net-transport/src/net_network_emulation.cpp,Hex-Rays re-run: roll = (abs(lrand48) % 10000) / 100; result = (100 - param) / 100 * roll + prev * param / 100; the rate argument is unused. lrand48 emulated in-file
 0x826fbc,_ZN17CNetworkEmulation9CalcDelayEii,reconstructed,net-transport/src/net_network_emulation.cpp,
-0x826fec,_ZN17CNetworkEmulation22GetCurrentConditionSetEv,partial,net-transport/src/net_network_emulation.cpp,Hex-Rays re-run: peak timer logic matches. Partial: GetOnline() time (vtable slot 0) replaced by steady_clock (NowMs)
+0x826fec,_ZN17CNetworkEmulation22GetCurrentConditionSetEv,partial,net-transport/src/net_network_emulation.cpp,Re-checked against Hex-Rays: peak timer and set selection match; the clock is steady_clock standing in for GetOnline() time
 0x827084,_ZN17CNetworkEmulation15GetReorderDelayEv,reconstructed,net-transport/src/net_network_emulation.cpp,"Hex-Rays re-run: returns CalcDelay(reorder_a, reorder_b) when roll < rate, else 0"
 0x8270e0,_ZN17CNetworkEmulation18IsPacketDuplicatedEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x827120,_ZN17CNetworkEmulation14GetPacketDelayEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x827140,_ZN17CNetworkEmulation12IsPacketLostEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x827190,_ZN17CNetworkEmulation10InitializeEv,reconstructed,net-transport/src/net_network_emulation.cpp,
 0x8271e8,_ZN17CNetworkEmulationD0Ev,skipped,net-transport/src/net_network_emulation.cpp,deleting-destructor thunk; C++ delete covers it
-0x84559c,_ZN6Thread22IsCurrectThreadRunningEv,partial,net-transport/src/sync.cpp,"Hex-Rays re-run: pthread_kill(tid, 0) probe replaced by joinable(); std::thread has no equivalent probe"
-0x8455c0,_ZN6Thread3RunEv,partial,net-transport/src/sync.cpp,"Hex-Rays re-run: loop matches. Partial: XP_DEBUG_OUT ""PthredSelf"" log dropped"
-0x84560c,_ZN6Thread4StopEv,reconstructed,net-transport/src/sync.cpp,
-0x845688,_ZN6Thread5StartEv,reconstructed,net-transport/src/sync.cpp,pthread_create mapped to std::thread
-0x840880,_ZN14CAndroidSocket4InitEv,reconstructed,net-transport/src/android_socket.cpp,
-0x840884,_ZN14CAndroidSocket12IsReadyForRWEv,reconstructed,net-transport/src/android_socket.cpp,fd bitmap at +0x86c; out-of-range fds return false
-0x8408ac,_ZN14CAndroidSocket13SendBroadcastEPKcii,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT log dropped
-0x8409a0,_ZN14CAndroidSocket12SetBroadcastEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT on failure dropped
-0x840a04,_ZN14CAndroidSocket6ListenEi,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: listen() matches. Partial: ""Listen failed"" log dropped; the original returns the log call result on failure, which is not recovered"
-0x840a30,_ZN14CAndroidSocket13GetSocketPortEv,reconstructed,net-transport/src/android_socket.cpp,Hex-Rays re-run: getsockname; port taken from sa_data[0..1] in network order (same as ntohs of sin_port)
-0x840ab4,_ZN14CAndroidSocket13GetSocketAddrEv,reconstructed,net-transport/src/android_socket.cpp,gethostname then gethostbyname; inet_ntoa static buffer as original
-0x840b4c,_ZN14CAndroidSocket16RecvFromUnkownIPEPciPS0_Pi,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT log dropped
-0x840c60,_ZN14CAndroidSocket11GetHostNameEPPc,reconstructed,net-transport/src/android_socket.cpp,buffer zeroed first (original uninitialised on failure)
-0x840cc8,_ZN14CAndroidSocket8RecvFromEPci,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT log dropped
-0x840de0,_ZN14CAndroidSocket6SendToEPKciS1_i,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: body matches (null host returns 0, as in the pseudocode). Partial: XP_DEBUG_OUT log dropped"
-0x840ed0,_ZN14CAndroidSocket16CreateIcmpSocketEv,reconstructed,net-transport/src/android_socket.cpp,SOCK_DGRAM+IPPROTO_ICMP unsupported on Winsock (returns false)
-0x840f04,_ZN14CAndroidSocket15CreateUdpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
-0x840f38,_ZN14CAndroidSocket15CreateTcpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
-0x840f68,_ZN14CAndroidSocket12CreateSocketEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT on failure dropped
-0x840fc8,_ZN14CAndroidSocket4BindEPct,reconstructed,net-transport/src/android_socket.cpp,"Hex-Rays re-run: SO_REUSEADDR, then bind to port, port+1, ... until one binds (no exit if none does, as in the original); inet_addr result discarded, so INADDR_ANY"
-0x8410d8,_ZN14CAndroidSocket4RecvEPci,reconstructed,net-transport/src/android_socket.cpp,XP_API_GET_TIME result unused and dropped
-0x8410f8,_ZN14CAndroidSocket4SendEPci,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT log dropped
-0x8411e8,_ZN14CAndroidSocket6SelectEN15GLXPlayerSocket17XSocketSelectFlagE,reconstructed,net-transport/src/android_socket.cpp,fd bitmap modelled with FD_SET/FD_ISSET; fds >= 1024 return -1
-0x8412b4,_ZN14CAndroidSocket11CloseSocketEv,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: body matches. Partial: ""CloseSocket() [%d]"" debug line dropped"
-0x8412f0,_ZN14CAndroidSocket9ConnectToEPci,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: state machine matches. Partial: XP_DEBUG_OUT log dropped
-0x84152c,_ZN14CAndroidSocket7ConnectEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: a null host_ is treated as failure (the original would crash); XP_DEBUG_OUT dropped
-0x841790,_ZN14CAndroidSocket13ConnectByNameEPct,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: body matches; port argument unused, as in the original (port_ is used). Partial: XP_DEBUG_OUT log dropped"
-0x841ad0,_ZN14CAndroidSocket14SetNonBlockingEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: body matches. Partial: XP_DEBUG_OUT log dropped
-0x841b98,_ZN14CAndroidSocket12GetLastErrorEv,reconstructed,net-transport/src/android_socket.cpp,errno or WSAGetLastError
-0x841ca8,_ZN14CAndroidSocket13GetHostByNameEPc,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: cache lookup and worker-state check match. Partial: a miss stores the first address as a plain copy; the original's STRNEW copy is not reproduced
-0x841e4c,_ZN14CAndroidSocket9GetHostIPEPc,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: pseudocode tail is truncated; cache store completed from the ARM listing shape. Partial
-0x841fbc,_ZN14CAndroidSocket10GetLocalIPEPc,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: POSIX SIOCGIFCONF walk matches. Partial: the probe socket is closed on the ioctl-failure path (the original leaks it); _WIN32 uses gethostbyname (no SIOCGIFCONF)
-0x84210c,_ZN14CAndroidSocket7ClearupEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: host cache clear matches. Partial: Winsock cleanup added for _WIN32 (not in the pseudocode)
-0x842208,_ZN14CAndroidSocket7StartupEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: SIGPIPE ignore and cache reset match. Partial: the original uses sigaction (signal() here); two unnamed globals not reproduced; WSAStartup added for _WIN32
-0x842260,_ZN14CAndroidSocketD1Ev,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: destructor matches except the worker join, which needs the GLXPlayerSocket base (not reconstructed)"
-0x8422b8,_ZN14CAndroidSocketD0Ev,skipped,net-transport/src/android_socket.cpp,deleting-destructor thunk; C++ delete covers it
-0x8422d4,_ZN14CAndroidSocketD2Ev,partial,net-transport/src/android_socket.cpp,"Hex-Rays re-run: destructor matches except the worker join, which needs the GLXPlayerSocket base (not reconstructed)"
-0x84232c,_ZN14CAndroidSocketC1EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: constructor. Partial: GLXPlayerSocket base constructor not reconstructed; only the port is stored
-0x842360,_ZN14CAndroidSocket6AcceptEv,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: accept and fd return match. Partial: construction of the new 0xcf4-byte CAndroidSocket for the accepted connection is not reconstructed
-0x842430,_ZN14CAndroidSocketC2EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,Hex-Rays re-run: constructor. Partial: GLXPlayerSocket base constructor not reconstructed; only the port is stored
-0x316430,_ZNK12StreamBuffer4sizeEv,reconstructed,net-transport/src/stream_buffer.cpp,StreamBuffer::size()
-0x31643c,_ZNK12StreamBuffer4sizeEi,reconstructed,net-transport/src/stream_buffer.cpp,"StreamBuffer::size(int): block bytes, capped at one block"
-0x316458,_ZNK12StreamBuffer7canReadEv,reconstructed,net-transport/src/stream_buffer.cpp,canRead always true
-0x316460,_ZNK12StreamBuffer8canWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,canWrite always false
-0x316468,_ZN12StreamBuffer4skipEy,reconstructed,net-transport/src/stream_buffer.cpp,skip = seek(tell + n) through the virtual slot
-0x316488,_ZNK12StreamBuffer9tellWriteEv,reconstructed,net-transport/src/stream_buffer.cpp,tellWrite
-0x316494,_ZN12StreamBuffer4readEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"read = peek through the virtual slot, then advance"
-0x3164cc,_ZNK12StreamBuffer4tellEv,reconstructed,net-transport/src/stream_buffer.cpp,tell
-0x3164d8,_ZN12StreamBuffer4seekEy,reconstructed,net-transport/src/stream_buffer.cpp,seek clamps to size
-0x316510,_ZN12StreamBuffer9seekWriteEy,reconstructed,net-transport/src/stream_buffer.cpp,seekWrite clamps to size
-0x3166bc,_ZNK12StreamBuffer4peekEPvy,reconstructed,net-transport/src/stream_buffer.cpp,"peek clips to size - read position (64-bit, wraps as original)"
-0x3169c4,_ZN12StreamBufferD1Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D1
-0x3169f8,_ZN12StreamBufferD0Ev,skipped,net-transport/src/stream_buffer.cpp,deleting destructor D0 is compiler-generated from the virtual dtor
-0x316a14,_ZN12StreamBufferD2Ev,reconstructed,net-transport/src/stream_buffer.cpp,virtual dtor D2
-0x316a48,_ZN12StreamBuffer5clearEv,reconstructed,net-transport/src/stream_buffer.cpp,clear buffer and both positions
-0x316d3c,_ZN12StreamBufferC1Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C1); block size 0x800 from Buffer default
-0x316fd4,_ZN12StreamBuffer5writeEPKvy,reconstructed,net-transport/src/stream_buffer.cpp,"write at write position, advance it"
-0x317180,_ZN12StreamBuffer6expandEy,reconstructed,net-transport/src/stream_buffer.cpp,"expand: clear, one block of given size, reset positions"
-0x3171b8,_ZN12StreamBufferC2EP11IStreamBase,partial,net-transport/src/stream_buffer.cpp,Hex-Rays re-run: body matches. Partial: debug ASSERT on the sized flag dropped
-0x3172d8,_ZN12StreamBufferC1EP11IStreamBase,partial,net-transport/src/stream_buffer.cpp,Hex-Rays re-run: body matches. Partial: debug ASSERT on the sized flag dropped
-0x3173f8,_ZN12StreamBufferC2Ev,reconstructed,net-transport/src/stream_buffer.cpp,default ctor (C2)
-0x42b1e4,_ZN14BufferedStream10FillBufferEP11IStreamBase,partial,net-transport/src/buffered_stream.cpp,"Hex-Rays re-run: loop matches. Partial: the original spins on a zero-byte read; the port stops the loop, so the buffer is short"
-0x8491cc,_ZN10DataPacketD1Ev,reconstructed,net-transport/src/data_packet.cpp,DataPacket virtual dtor D1
-0x8491d0,_ZN10DataPacket7addBlobEPcs,reconstructed,net-transport/src/data_packet.cpp,addBlob: no-op returning 0
-0x8491d8,_ZN10DataPacket7getBlobERPcRs,reconstructed,net-transport/src/data_packet.cpp,getBlob: no-op returning 0
-0x8491e0,_ZN10DataPacket11InitMessageEi,reconstructed,net-transport/src/data_packet.cpp,InitMessage: no-op
-0x8491e4,_ZN10DataPacket14GetMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMessageType returns -1
-0x8491ec,_ZN10DataPacket14InitMMOMessageEs,reconstructed,net-transport/src/data_packet.cpp,InitMMOMessage: no-op
-0x8491f0,_ZN10DataPacket17GetMMOMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMMOMessageType returns -1
-0x8496a0,_ZN10DataPacketD0Ev,skipped,net-transport/src/data_packet.cpp,deleting destructor D0 is compiler-generated (operator delete)
+0x827204,_ZN17CTransportFactory18TerminateTransportEv,reconstructed,net-transport/src/transport_factory.cpp,Calls the four TerminateTransport functions in order; returns 0.
+0x827220,_ZN17CTransportFactory19InitializeTransportE15tTRANSPORT_TYPE,partial,net-transport/src/transport_factory.cpp,"Partial: types 1 (UDP) and 2 (TCP) reconstructed. Types 3 and 4 (Bluetooth InitializeTransport) not reconstructed yet, so they only return 0."
+0x8272c4,_ZN17CTransportFactory16ConnectTransportER10CNetworkId,partial,net-transport/src/transport_factory.cpp,Partial: TCP branch (presence bit 2) reconstructed. Bluetooth branches (bits 4 and 8) need Bluetooth Create and the CTransportManagerImpl host lookup; not reconstructed.
 0x8274e8,_ZN10CTransportD1Ev,reconstructed,net-transport/src/transport.cpp,CTransport virtual dtor D1
 0x8274ec,_ZN10CTransport7ConnectER10CNetworkId,reconstructed,net-transport/src/transport.cpp,CTransport::Connect returns 0
 0x8274f4,_ZN10CTransport10DisconnectEv,reconstructed,net-transport/src/transport.cpp,CTransport::Disconnect returns 0
 0x8274fc,_ZN10CTransport14StartBroadcastEv,reconstructed,net-transport/src/transport.cpp,StartBroadcast: no-op
 0x827500,_ZN10CTransport13StopBroadcastEv,reconstructed,net-transport/src/transport.cpp,StopBroadcast: no-op
+0x827504,_ZN4CUdp11IsConnectedEv,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnected always true
+0x82750c,_ZN4CUdp17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::CanDisconnectFrom returns 0
+0x827514,_ZN4CUdp7GetTypeEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetType returns 1
+0x82751c,_ZN4CUdp18TerminateTransportEv,reconstructed,net-transport/src/cudp.cpp,CUdp::TerminateTransport clears s_initialized
+0x827544,_ZN4CUdp13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnectedTo: true when the id has no field2 (flag bit 2)
+0x827554,_ZN4CUdp16GetPeerNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetPeerNetworkId returns a reset id
+0x827568,_ZN4CUdp17GetLocalNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,"CUdp::GetLocalNetworkId: address1 = local port and IPv4, flag bit 0"
+0x8275b0,_ZN4CUdp7ReceiveEv,partial,net-transport/src/cudp.cpp,"Hex-Rays: datagram loop, sender kept as address1 (presence bit 0). Partial: ReceiverCallback is the CTransportManager stand-in (no-op); the pseudocode first argument to it is not the manager, so GetTransportMgr() is used"
+0x82770c,_ZN4CUdp4SendER10CNetworkIdPvi,reconstructed,net-transport/src/cudp.cpp,CUdp::Send via CSocket::SendTo to the address1 of the peer id
+0x827764,_ZN4CUdp11CloseSocketEv,reconstructed,net-transport/src/cudp.cpp,CUdp::CloseSocket closes the CSocket when it is open
+0x827780,_ZN4CUdp10OpenSocketEtb,reconstructed,net-transport/src/cudp.cpp,"Hex-Rays re-run: OpenUDP with option 3 (broadcast) or 2; local address and port looked up and discarded, as in the original"
 0x8277d0,_ZN10CTransportD0Ev,skipped,net-transport/src/transport.cpp,deleting destructor D0 is compiler-generated
+0x827804,_ZN4CUdpD1Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D1 closes the socket
+0x827844,_ZN4CUdpD0Ev,skipped,net-transport/src/cudp.cpp,deleting destructor D0 is compiler-generated
+0x827860,_ZN4CUdpD2Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D2 closes the socket
+0x8278a0,_ZN4CUdp12CreateByPortEtj,reconstructed,net-transport/src/cudp.cpp,"CUdp::CreateByPort: new transport, flags kept, opened with broadcast from bit 1"
+0x8278fc,_ZN4CUdp19InitializeTransportEv,partial,net-transport/src/cudp.cpp,Hex-Rays re-run: body matches (two UDP transports created once). Partial: AddTransport is a no-op stand-in; port 0x1a78 taken from the ARM listing (Hex-Rays shows it as an elf_hash_bucket address)
 0x827b18,_ZN15CSocketAbstractD1Ev,reconstructed,net-transport/src/socket_abstract.cpp,CSocketAbstract virtual dtor D1
 0x827b1c,_ZN15CSocketAbstract6AssignEij,reconstructed,net-transport/src/socket_abstract.cpp,Assign: slot 0 and +0x14 inferred from the CSocket vtable
-0x828b30,_ZN15CSocketAbstractD0Ev,skipped,net-transport/src/socket_abstract.cpp,deleting destructor D0 is compiler-generated
 0x827b5c,_ZN7CSocketC2Ev,reconstructed,net-transport/src/csocket.cpp,"ctor C2: handle -1, flags cleared"
 0x827bb0,_ZN7CSocketC1Ev,reconstructed,net-transport/src/csocket.cpp,ctor C1
 0x827c04,_ZN7CSocket11IsConnectedEv,reconstructed,net-transport/src/csocket.cpp,"IsConnected: select with zero timeout, writable means connected (POSIX and Winsock via fd_set macros)"
 0x827cdc,_ZN7CSocket13DataAvailableEi,reconstructed,net-transport/src/csocket.cpp,DataAvailable: select on the read set with the given timeout
+0x827da0,_ZN7CSocket15GetLocalAddressEv,partial,net-transport/src/csocket.cpp,"Hex-Rays re-run: POSIX SIOCGIFCONF interface scan kept. Partial: Winsock has no SIOCGIFCONF, so the Windows path uses gethostbyname."
 0x827ee0,_ZN7CSocket5CloseEv,reconstructed,net-transport/src/csocket.cpp,"Close: clears flags, closes the handle, reports close errors"
 0x827f3c,_ZN7CSocketD1Ev,reconstructed,net-transport/src/csocket.cpp,dtor D1 calls Close
 0x827f70,_ZN7CSocketD2Ev,reconstructed,net-transport/src/csocket.cpp,dtor D2 calls Close
@@ -246,49 +408,16 @@ elf_address,symbol,status,source_file,notes
 0x8285ec,_ZN7CSocket6AcceptER7in_addrRt,reconstructed,net-transport/src/csocket.cpp,Hex-Rays re-run: returns the accept() result (0 when no data); listening handle gets O_NONBLOCK; peer address and port stored in the object
 0x8286e4,_ZN7CSocket6ListenEv,reconstructed,net-transport/src/csocket.cpp,"Listen with backlog 10, sets the listening flag"
 0x828738,_ZN7CSocket7ConnectERK7in_addrt,reconstructed,net-transport/src/csocket.cpp,"Hex-Rays re-run: connect ok, WouldBlock or EISCONN (106) return 0; EINPROGRESS (115) sets the connecting flag and returns 1; other errors close and return -1"
-0x828b14,_ZN7CSocketD0Ev,skipped,net-transport/src/csocket.cpp,deleting destructor D0 is compiler-generated
-0x827da0,_ZN7CSocket15GetLocalAddressEv,partial,net-transport/src/csocket.cpp,Hex-Rays re-run: SIOCGIFCONF walk matches on POSIX. Partial: the probe socket is closed on every path (the original leaks it on two); Winsock branch is a gethostbyname stand-in
 0x828868,_ZN7CSocket7OpenTCPEtj,reconstructed,net-transport/src/csocket.cpp,"Hex-Rays re-run: socket, nonblocking, SetSocketOptions (vtable slot 0), then bind; a failed step closes the socket"
 0x8289bc,_ZN7CSocket7OpenUDPEtj,reconstructed,net-transport/src/csocket.cpp,"Hex-Rays re-run: socket, bind, nonblocking, SetSocketOptions; a failed step closes the socket"
-0x827504,_ZN4CUdp11IsConnectedEv,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnected always true
-0x82750c,_ZN4CUdp17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::CanDisconnectFrom returns 0
-0x827514,_ZN4CUdp7GetTypeEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetType returns 1
-0x82751c,_ZN4CUdp18TerminateTransportEv,reconstructed,net-transport/src/cudp.cpp,CUdp::TerminateTransport clears s_initialized
-0x827544,_ZN4CUdp13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnectedTo: true when the id has no field2 (flag bit 2)
-0x827554,_ZN4CUdp16GetPeerNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetPeerNetworkId returns a reset id
-0x827568,_ZN4CUdp17GetLocalNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,"CUdp::GetLocalNetworkId: address1 = local port and IPv4, flag bit 0"
-0x82770c,_ZN4CUdp4SendER10CNetworkIdPvi,reconstructed,net-transport/src/cudp.cpp,CUdp::Send via CSocket::SendTo to the address1 of the peer id
-0x827764,_ZN4CUdp11CloseSocketEv,reconstructed,net-transport/src/cudp.cpp,CUdp::CloseSocket closes the CSocket when it is open
-0x827780,_ZN4CUdp10OpenSocketEtb,reconstructed,net-transport/src/cudp.cpp,"Hex-Rays re-run: OpenUDP with option 3 (broadcast) or 2; local address and port looked up and discarded, as in the original"
-0x827804,_ZN4CUdpD1Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D1 closes the socket
-0x827844,_ZN4CUdpD0Ev,skipped,net-transport/src/cudp.cpp,deleting destructor D0 is compiler-generated
-0x827860,_ZN4CUdpD2Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D2 closes the socket
-0x8278a0,_ZN4CUdp12CreateByPortEtj,reconstructed,net-transport/src/cudp.cpp,"CUdp::CreateByPort: new transport, flags kept, opened with broadcast from bit 1"
-0x8278fc,_ZN4CUdp19InitializeTransportEv,partial,net-transport/src/cudp.cpp,Hex-Rays re-run: two UDP transports created once (port 0x1a78 flags 4; port 0 flags 3). Partial: AddTransport is a no-op stand-in (CTransportManager not reconstructed)
-0x829fc4,_ZN4CTcp17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: tail call to IsConnectedTo; its result is returned
-0x829fd8,_ZN4CTcp7GetTypeEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::GetType returns 2
-0x829fe0,_ZN4CTcp18TerminateTransportEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::TerminateTransport clears s_initialized
-0x82a008,_ZN4CTcp13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: GetPeerNetworkId().IsEqual(peer)
-0x82a040,_ZN4CTcp11IsConnectedEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::IsConnected delegates to CSocket::IsConnected
-0x82a048,_ZN4CTcp16GetPeerNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetPeerNetworkId: address0 = peer port and IPv4, flag bit 1"
-0x82a090,_ZN4CTcp17GetLocalNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetLocalNetworkId: address0 = local port and IPv4, flag bit 1"
-0x82a0d8,_ZN4CTcp14ReceivePacketsEv,partial,net-transport/src/ctcp.cpp,Hex-Rays re-run: packet loop matches (21 packets of 4096 bytes). Partial: ReceiverCallback is a no-op stand-in (CTransportManager not reconstructed)
-0x82a1dc,_ZN4CTcp4SendER10CNetworkIdPvi,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: gate is IsConnectedTo(peer) through vtable slot +0x28; returns -1 otherwise
-0x82a228,_ZN4CTcp7ConnectER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,CTcp::Connect via CSocket::Connect to the address0 of the peer id
-0x82a284,_ZN4CTcp11CloseSocketEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::CloseSocket closes the socket when valid
-0x82a2a4,_ZN4CTcp10OpenSocketEtb,reconstructed,net-transport/src/ctcp.cpp,"Hex-Rays re-run: OpenTCP with option 6; listen when asked; local address and port looked up and discarded, as in the original"
-0x82a36c,_ZN4CTcpD1Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D1 closes the socket
-0x82a3ac,_ZN4CTcpD0Ev,skipped,net-transport/src/ctcp.cpp,deleting destructor D0 is compiler-generated
-0x82a3c8,_ZN4CTcpD2Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D2 closes the socket
-0x82a408,_ZN4CTcp12CreateByPortEtj,reconstructed,net-transport/src/ctcp.cpp,"CTcp::CreateByPort: new transport, opened and listening when bit 0 is set"
-0x82a464,_ZN4CTcp19InitializeTransportEv,partial,net-transport/src/ctcp.cpp,"Hex-Rays re-run: one listening transport on port 0, created once. Partial: AddTransport is a no-op stand-in"
-0x82a4b8,_ZN4CTcp16CreateBySocketIdEij,reconstructed,net-transport/src/ctcp.cpp,CTcp::CreateBySocketId: adopts the accepted handle with options 4 (CSocketAbstract::Assign)
-0x82a540,_ZN4CTcp17AcceptConnectionsEv,partial,net-transport/src/ctcp.cpp,"Hex-Rays re-run: accepts one peer. Partial: AcceptCallback is a no-op stand-in, so the new CTcp is not handed to the manager"
-0x82a5dc,_ZN4CTcp7ReceiveEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::Receive: accepts when listening, otherwise reads packets"
-0x828f78,_ZN16CBluetoothSocketD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocket dtor D1 (members only)
-0x829140,_ZN16CBluetoothSocketD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
-0x824c80,_ZN16CBluetoothSocket16RestartBluetoothEv,reconstructed,net-transport/src/bluetooth_socket.cpp,RestartBluetooth: empty in the original
-0x824c84,_ZN16CBluetoothSocket22DisconnectFromAllPeersEv,reconstructed,net-transport/src/bluetooth_socket.cpp,DisconnectFromAllPeers returns 1 (no Bluetooth stack in the Android build)
+0x828b14,_ZN7CSocketD0Ev,skipped,net-transport/src/csocket.cpp,deleting destructor D0 is compiler-generated
+0x828b30,_ZN15CSocketAbstractD0Ev,skipped,net-transport/src/socket_abstract.cpp,deleting destructor D0 is compiler-generated
+0x828c14,_ZN24CBluetoothSocketAbstract16SetSocketOptionsEj,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::SetSocketOptions returns 0
+0x828c1c,_ZN24CBluetoothSocketAbstract14GetSocketErrorEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::GetSocketError returns 0
+0x828c24,_ZN24CBluetoothSocketAbstract10WouldBlockEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::WouldBlock returns false
+0x828c2c,_ZNK24CBluetoothSocketAbstract12IsConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::IsConnecting returns false
+0x828c34,_ZN24CBluetoothSocketAbstract9TerminateEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::Terminate: empty
+0x828c38,_ZN24CBluetoothSocketAbstract16UpdateConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::UpdateConnecting: empty
 0x828c3c,_ZNK16CBluetoothSocket11IsConnectedEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocket::IsConnected returns 0 (original constant)
 0x828c44,_ZN16CBluetoothSocket12OpenReliableESsjb,reconstructed,net-transport/src/bluetooth_socket.cpp,OpenReliable returns 0 (original constant; Bluetooth OS calls absent)
 0x828c4c,_ZN16CBluetoothSocket14OpenUnreliableESsjb,reconstructed,net-transport/src/bluetooth_socket.cpp,OpenUnreliable returns 0 (original constant)
@@ -305,44 +434,6 @@ elf_address,symbol,status,source_file,notes
 0x828ca4,_ZNK16CBluetoothSocket8IsServerEv,reconstructed,net-transport/src/bluetooth_socket.cpp,IsServer returns false (original constant)
 0x828cac,_ZN16CBluetoothSocket14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_socket.cpp,StartBroadcast: empty in the original
 0x828cb0,_ZN16CBluetoothSocket13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_socket.cpp,StopBroadcast: empty in the original
-0x828fe0,_ZNK16CBluetoothSocket19GetRemoteDeviceNameEv,reconstructed,net-transport/src/bluetooth_socket.cpp,GetRemoteDeviceName returns an empty string
-0x824da8,_ZN24CBluetoothSocketAbstract21GetDeviceNameByPeerIdEj,reconstructed,net-transport/src/bluetooth_socket.cpp,GetDeviceNameByPeerId returns an empty string (the original ignores the peer)
-0x828c14,_ZN24CBluetoothSocketAbstract16SetSocketOptionsEj,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::SetSocketOptions returns 0
-0x828c1c,_ZN24CBluetoothSocketAbstract14GetSocketErrorEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::GetSocketError returns 0
-0x828c24,_ZN24CBluetoothSocketAbstract10WouldBlockEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::WouldBlock returns false
-0x828c2c,_ZNK24CBluetoothSocketAbstract12IsConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::IsConnecting returns false
-0x828c34,_ZN24CBluetoothSocketAbstract9TerminateEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::Terminate: empty
-0x828c38,_ZN24CBluetoothSocketAbstract16UpdateConnectingEv,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract::UpdateConnecting: empty
-0x828fac,_ZN24CBluetoothSocketAbstractD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract dtor D1 (device name member)
-0x829104,_ZN24CBluetoothSocketAbstractD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
-0x317e14,_ZN16updateJob_threadC2Ei,reconstructed,net-transport/src/update_job_thread.cpp,"updateJob_thread ctor C2 (flag set, argument stored)"
-0x317e44,_ZN16updateJob_threadC1Ei,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread ctor C1
-0x317e74,_ZN16updateJob_threadD2Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D2; joins a running worker (deviation)
-0x317e78,_ZN16updateJob_threadD1Ev,reconstructed,net-transport/src/update_job_thread.cpp,updateJob_thread dtor D1
-0x317e7c,_ZN16updateJob_thread3RunEv,reconstructed,net-transport/src/update_job_thread.cpp,Run: empty in the original
-0x317e80,_ZN16updateJob_thread6KernelEv,reconstructed,net-transport/src/update_job_thread.cpp,Kernel returns 1
-0x317e88,_ZN16updateJob_thread7PrepareEv,reconstructed,net-transport/src/update_job_thread.cpp,Prepare returns 1
-0x317e90,_ZN16updateJob_thread22IsCurrectThreadRunningEv,reconstructed,net-transport/src/update_job_thread.cpp,IsCurrectThreadRunning returns 1
-0x317e98,_ZN16updateJob_thread6Start2Ev,partial,net-transport/src/update_job_thread.cpp,Hex-Rays re-run: pthread_create(threadfun3). Partial: the worker is an empty Run() stand-in; threadfun3 is outside this category (SavegameManager::saveSettings). Already-running guard added; pthread failure trace dropped
-0x317ef8,_ZN16updateJob_thread5StartEv,partial,net-transport/src/update_job_thread.cpp,Hex-Rays re-run: pthread_create(threadfun2). Partial: the worker is an empty Run() stand-in; threadfun2 is outside this category (Savegame::UpdateJobs). Already-running guard added; pthread failure trace dropped
-0x317f58,_ZN16updateJob_thread4StopEv,partial,net-transport/src/update_job_thread.cpp,Hex-Rays re-run: returns 1. Partial: the _DEBUG_OUT trace is dropped
-0x317f74,_ZN16updateJob_thread6FinishEv,partial,net-transport/src/update_job_thread.cpp,Hex-Rays re-run: returns 1. Partial: the _DEBUG_OUT trace is dropped
-0x317fcc,_ZN16updateJob_threadD0Ev,skipped,net-transport/src/update_job_thread.cpp,deleting destructor D0 is compiler-generated
-0x8296bc,_ZN20CBluetoothUnreliable7GetTypeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::GetType returns 3
-0x8296c4,_ZN20CBluetoothUnreliable17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::CanDisconnectFrom returns 0
-0x8296cc,_ZN20CBluetoothUnreliable10InitializeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Initialize sets the initialized flag
-0x8296e8,_ZN20CBluetoothUnreliable10DisconnectEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Disconnect clears the initialized flag
-0x829704,_ZN20CBluetoothUnreliable11IsConnectedEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnected returns 0
-0x82970c,_ZN20CBluetoothUnreliable13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnectedTo returns 0
-0x829714,_ZN20CBluetoothUnreliable6IsPeerEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsPeer returns 0
-0x82971c,_ZN20CBluetoothUnreliable8IsClientEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsClient returns 0
-0x829724,_ZN20CBluetoothUnreliable11IsListeningEv,reconstructed,net-transport/src/bluetooth_transport.cpp,"CBluetoothUnreliable::IsListening: initialized, server role and listening bit"
-0x829764,_ZN20CBluetoothUnreliable14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StartBroadcast: empty
-0x829768,_ZN20CBluetoothUnreliable13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StopBroadcast: empty
-0x82976c,_ZN20CBluetoothUnreliable4SendER10CNetworkIdPvi,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Send returns -1
-0x829774,_ZN20CBluetoothUnreliable7ReceiveEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Receive returns -1
-0x82977c,_ZN20CBluetoothUnreliable7SetModeE19_tBLUETOOTH_SESSION,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::SetMode: empty
-0x829780,_ZN20CBluetoothUnreliable18TerminateTransportEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::TerminateTransport clears s_initialized
 0x828cb4,_ZN18CBluetoothReliable7GetTypeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::GetType returns 4
 0x828cbc,_ZN18CBluetoothReliable17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::CanDisconnectFrom returns 0
 0x828cc4,_ZN18CBluetoothReliable10InitializeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Initialize sets the initialized flag
@@ -358,9 +449,332 @@ elf_address,symbol,status,source_file,notes
 0x828d6c,_ZN18CBluetoothReliable7ReceiveEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::Receive returns -1
 0x828d74,_ZN18CBluetoothReliable7SetModeE19_tBLUETOOTH_SESSION,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::SetMode: empty
 0x828d78,_ZN18CBluetoothReliable18TerminateTransportEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothReliable::TerminateTransport clears s_initialized
-0x3a3578,_ZN22NetStructInterpolationIfED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,NetStructInterpolation<float> dtor D1 (empty; header template)
-0x3a37cc,_ZN22NetStructInterpolationIfED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,deleting destructor D0 is compiler-generated
-0x3a2f24,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<18,...> dtor D1 (empty)"
-0x3a2f34,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED1Ev,reconstructed,net-transport/src/net_struct_interpolation.cpp,"NetStructInterpolatedRangedFloat<16,...> dtor D1 (empty)"
-0x3a3808,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<18,...> instance)"
-0x3a388c,_ZN32NetStructInterpolatedRangedFloatILj16ELin50000ELi50000EED0Ev,skipped,net-transport/src/net_struct_interpolation.cpp,"deleting destructor D0 is compiler-generated (<16,...> instance)"
+0x828da0,_ZN18CBluetoothReliable17AcceptConnectionsEv,partial,net-transport/src/bluetooth_transport.cpp,Partial: accept_enabled_ (+0x30) is set by no recovered code; transport type passed is GetType() (the pseudocode passes manager and this only)
+0x828df0,_ZN18CBluetoothReliable7ConnectER10CNetworkId,partial,net-transport/src/bluetooth_transport.cpp,"Partial: vtable slot +0x28 takes no argument; taken to be IsConnected(), which the stubs answer false"
+0x828e58,_ZN18CBluetoothReliable4OpenESsSsi,partial,net-transport/src/bluetooth_transport.cpp,Partial: unnamed field store (+0x04) and temporary string copy dropped; returns 0 (as CBluetoothUnreliable::Open)
+0x828ec8,_ZN18CBluetoothReliable6ListenESsSs,partial,net-transport/src/bluetooth_transport.cpp,Partial: forwards to Open with channel 0 (channel not recovered)
+0x828f78,_ZN16CBluetoothSocketD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocket dtor D1 (members only)
+0x828fac,_ZN24CBluetoothSocketAbstractD1Ev,reconstructed,net-transport/src/bluetooth_socket.cpp,CBluetoothSocketAbstract dtor D1 (device name member)
+0x828fe0,_ZNK16CBluetoothSocket19GetRemoteDeviceNameEv,reconstructed,net-transport/src/bluetooth_socket.cpp,GetRemoteDeviceName returns an empty string
+0x82900c,_ZN18CBluetoothReliableC2Ev,reconstructed,net-transport/src/bluetooth_transport.cpp,"C2 body; peer id reset. Address and name std::string members (+0x34, +0x50) not modelled"
+0x8290dc,_ZN18CBluetoothReliable16GetPeerNetworkIdEv,partial,net-transport/src/bluetooth_transport.cpp,"Partial: original sets presence bit 3 with field3 = 0; CNetworkId has no field3 setter, so a reset id is returned"
+0x829104,_ZN24CBluetoothSocketAbstractD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
+0x829140,_ZN16CBluetoothSocketD0Ev,skipped,net-transport/src/bluetooth_socket.cpp,deleting destructor D0 is compiler-generated
+0x82917c,_ZN18CBluetoothReliableD1Ev,reconstructed,net-transport/src/bluetooth_transport.cpp,"D1 body: RestartBluetooth, then members destroyed by the compiler"
+0x8291e0,_ZN18CBluetoothReliableD0Ev,skipped,net-transport/src/bluetooth_transport.cpp,deleting-destructor thunk; C++ delete covers it
+0x8291fc,_ZN18CBluetoothReliableD2Ev,skipped,net-transport/src/bluetooth_transport.cpp,D2 variant with the same body as 0x82917c; covered by that destructor
+0x829260,_ZN18CBluetoothReliableC2Ejb,reconstructed,net-transport/src/bluetooth_transport.cpp,"C2(uint,bool) body; channel and listen arguments unused by the pseudocode"
+0x829330,_ZN18CBluetoothReliableC1Ev,skipped,net-transport/src/bluetooth_transport.cpp,C1 variant with the same body as 0x82900c; covered by that constructor
+0x829400,_ZN18CBluetoothReliable6CreateESsSsi,partial,net-transport/src/bluetooth_transport.cpp,"Partial: Create argument order and channel not recovered (garbled string copies), as CBluetoothUnreliable::Create"
+0x8294cc,_ZN18CBluetoothReliable19InitializeTransportEv,partial,net-transport/src/bluetooth_transport.cpp,Partial: session name comes from a transport-manager virtual call (not recovered); returns 0 and leaves the flag unset
+0x8295c4,_ZN18CBluetoothReliableC1Ejb,skipped,net-transport/src/bluetooth_transport.cpp,C1 variant with the same body as 0x829260; covered by that constructor
+0x829694,_ZN18CBluetoothReliable17GetLocalNetworkIdEv,partial,net-transport/src/bluetooth_transport.cpp,Partial: same as GetPeerNetworkId (field3 presence bit not set)
+0x8296bc,_ZN20CBluetoothUnreliable7GetTypeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::GetType returns 3
+0x8296c4,_ZN20CBluetoothUnreliable17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::CanDisconnectFrom returns 0
+0x8296cc,_ZN20CBluetoothUnreliable10InitializeEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Initialize sets the initialized flag
+0x8296e8,_ZN20CBluetoothUnreliable10DisconnectEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Disconnect clears the initialized flag
+0x829704,_ZN20CBluetoothUnreliable11IsConnectedEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnected returns 0
+0x82970c,_ZN20CBluetoothUnreliable13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsConnectedTo returns 0
+0x829714,_ZN20CBluetoothUnreliable6IsPeerEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsPeer returns 0
+0x82971c,_ZN20CBluetoothUnreliable8IsClientEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::IsClient returns 0
+0x829724,_ZN20CBluetoothUnreliable11IsListeningEv,reconstructed,net-transport/src/bluetooth_transport.cpp,"CBluetoothUnreliable::IsListening: initialized, server role and listening bit"
+0x829764,_ZN20CBluetoothUnreliable14StartBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StartBroadcast: empty
+0x829768,_ZN20CBluetoothUnreliable13StopBroadcastEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::StopBroadcast: empty
+0x82976c,_ZN20CBluetoothUnreliable4SendER10CNetworkIdPvi,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Send returns -1
+0x829774,_ZN20CBluetoothUnreliable7ReceiveEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::Receive returns -1
+0x82977c,_ZN20CBluetoothUnreliable7SetModeE19_tBLUETOOTH_SESSION,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::SetMode: empty
+0x829780,_ZN20CBluetoothUnreliable18TerminateTransportEv,reconstructed,net-transport/src/bluetooth_transport.cpp,CBluetoothUnreliable::TerminateTransport clears s_initialized
+0x8297a8,_ZN20CBluetoothUnreliable17AcceptConnectionsEv,partial,net-transport/src/bluetooth_transport.cpp,accept_enabled_ (+0x30) is set by no recovered code; socket check is CBluetoothSocket vtable +0x5c (IsServer); AcceptCallback is a no-op stand-in
+0x8297f8,_ZN20CBluetoothUnreliable7ConnectER10CNetworkId,reconstructed,net-transport/src/bluetooth_transport.cpp,
+0x829860,_ZN20CBluetoothUnreliable4OpenESsSsi,partial,net-transport/src/bluetooth_transport.cpp,"Writes an unidentified field at +0x04 and frees temporary string copies; not reproduced, returns 0"
+0x8298d0,_ZN20CBluetoothUnreliable6ListenESsSs,partial,net-transport/src/bluetooth_transport.cpp,"Forwards to Open; the channel argument of the forwarded call is not recovered, passes 0"
+0x829980,_ZN20CBluetoothUnreliableC2Ev,reconstructed,net-transport/src/bluetooth_transport.cpp,"C1 variant at 0x829c2c has the same body. The two std::string members (+0x34, +0x50) are not modelled"
+0x829a50,_ZN20CBluetoothUnreliable16GetPeerNetworkIdEv,partial,net-transport/src/bluetooth_transport.cpp,"Pseudocode sets field2 presence bit (flags 0x4); CNetworkId has no field2 accessor, so the id is reset only"
+0x829a78,_ZN20CBluetoothUnreliableD1Ev,reconstructed,net-transport/src/bluetooth_transport.cpp,D2 variant at 0x829af8 has the same body
+0x829adc,_ZN20CBluetoothUnreliableD0Ev,skipped,net-transport/src/bluetooth_transport.cpp,"deleting destructor (D0), compiler-generated: calls D1 then frees"
+0x829af8,_ZN20CBluetoothUnreliableD2Ev,skipped,net-transport/src/bluetooth_transport.cpp,"D2 variant, same body as 0x829a78 (covered by that definition)"
+0x829b5c,_ZN20CBluetoothUnreliableC2Ejb,partial,net-transport/src/bluetooth_transport.cpp,"channel and listen arguments unused by the pseudocode; default-initialised, same as the default constructor"
+0x829c2c,_ZN20CBluetoothUnreliableC1Ev,skipped,net-transport/src/bluetooth_transport.cpp,"C1 variant, same body as 0x829980 (covered by that definition)"
+0x829cfc,_ZN20CBluetoothUnreliable6CreateESsSsi,partial,net-transport/src/bluetooth_transport.cpp,"Open arguments follow the pseudocode order; channel value never assigned in the decompile, passed through"
+0x829dc8,_ZN20CBluetoothUnreliable19InitializeTransportEv,partial,net-transport/src/bluetooth_transport.cpp,Default transport creation not reproduced: Create arguments not fully recovered; returns 0 and leaves s_initialized unset
+0x829ecc,_ZN20CBluetoothUnreliableC1Ejb,skipped,net-transport/src/bluetooth_transport.cpp,"C1 variant, same body as 0x829b5c (covered by that definition)"
+0x829f9c,_ZN20CBluetoothUnreliable17GetLocalNetworkIdEv,partial,net-transport/src/bluetooth_transport.cpp,Same as GetPeerNetworkId: field2 presence bit not set (no accessor)
+0x829fc4,_ZN4CTcp17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: tail call to IsConnectedTo; its result is returned
+0x829fd8,_ZN4CTcp7GetTypeEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::GetType returns 2
+0x829fe0,_ZN4CTcp18TerminateTransportEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::TerminateTransport clears s_initialized
+0x82a008,_ZN4CTcp13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: GetPeerNetworkId().IsEqual(peer)
+0x82a040,_ZN4CTcp11IsConnectedEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::IsConnected delegates to CSocket::IsConnected
+0x82a048,_ZN4CTcp16GetPeerNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetPeerNetworkId: address0 = peer port and IPv4, flag bit 1"
+0x82a090,_ZN4CTcp17GetLocalNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetLocalNetworkId: address0 = local port and IPv4, flag bit 1"
+0x82a0d8,_ZN4CTcp14ReceivePacketsEv,partial,net-transport/src/ctcp.cpp,Re-checked against Hex-Rays: up to 21 reads of 4096 bytes match; ReceiverCallback is a no-op stand-in (CTransportManager not reconstructed)
+0x82a1dc,_ZN4CTcp4SendER10CNetworkIdPvi,reconstructed,net-transport/src/ctcp.cpp,Hex-Rays re-run: gate is IsConnectedTo(peer) through vtable slot +0x28; returns -1 otherwise
+0x82a228,_ZN4CTcp7ConnectER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,CTcp::Connect via CSocket::Connect to the address0 of the peer id
+0x82a284,_ZN4CTcp11CloseSocketEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::CloseSocket closes the socket when valid
+0x82a2a4,_ZN4CTcp10OpenSocketEtb,reconstructed,net-transport/src/ctcp.cpp,"Hex-Rays re-run: OpenTCP with option 6; listen when asked; local address and port looked up and discarded, as in the original"
+0x82a36c,_ZN4CTcpD1Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D1 closes the socket
+0x82a3ac,_ZN4CTcpD0Ev,skipped,net-transport/src/ctcp.cpp,deleting destructor D0 is compiler-generated
+0x82a3c8,_ZN4CTcpD2Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D2 closes the socket
+0x82a408,_ZN4CTcp12CreateByPortEtj,reconstructed,net-transport/src/ctcp.cpp,"CTcp::CreateByPort: new transport, opened and listening when bit 0 is set"
+0x82a464,_ZN4CTcp19InitializeTransportEv,partial,net-transport/src/ctcp.cpp,"Re-checked: CreateByPort(0,5) and AddTransport stand-in; Hex-Rays passes an extra argument that is not recovered"
+0x82a4b8,_ZN4CTcp16CreateBySocketIdEij,reconstructed,net-transport/src/ctcp.cpp,CTcp::CreateBySocketId: adopts the accepted handle with options 4 (CSocketAbstract::Assign)
+0x82a540,_ZN4CTcp17AcceptConnectionsEv,partial,net-transport/src/ctcp.cpp,Re-checked: accept path matches; CreateBySocketId third argument (peer address) and peer CNetworkId not passed on; AcceptCallback no-op stand-in
+0x82a5dc,_ZN4CTcp7ReceiveEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::Receive: accepts when listening, otherwise reads packets"
+0x840880,_ZN14CAndroidSocket4InitEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840884,_ZN14CAndroidSocket12IsReadyForRWEv,reconstructed,net-transport/src/android_socket.cpp,fd bitmap at +0x86c; out-of-range fds return false
+0x8408ac,_ZN14CAndroidSocket13SendBroadcastEPKcii,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT log dropped; returns the sendto() result
+0x8409a0,_ZN14CAndroidSocket12SetBroadcastEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT on failure dropped; returns the setsockopt() result (SOL_SOCKET/SO_BROADCAST)
+0x840a04,_ZN14CAndroidSocket6ListenEi,partial,net-transport/src/android_socket.cpp,"Hex-Rays redo: body matches. Partial: listen() result returned; 'Listen failed!' log dropped, so the original's log return value is not recovered"
+0x840a30,_ZN14CAndroidSocket13GetSocketPortEv,reconstructed,net-transport/src/android_socket.cpp,Hex-Rays re-run: getsockname; port taken from sa_data[0..1] in network order (same as ntohs of sin_port)
+0x840ab4,_ZN14CAndroidSocket13GetSocketAddrEv,reconstructed,net-transport/src/android_socket.cpp,gethostname then gethostbyname; inet_ntoa static buffer as original
+0x840b4c,_ZN14CAndroidSocket16RecvFromUnkownIPEPciPS0_Pi,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT dropped; on success *ip_out is a new[] copy of the sender address and *port_out the host-order port
+0x840c60,_ZN14CAndroidSocket11GetHostNameEPPc,reconstructed,net-transport/src/android_socket.cpp,buffer zeroed first (original uninitialised on failure)
+0x840cc8,_ZN14CAndroidSocket8RecvFromEPci,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT dropped; the sender address is read and discarded; returns the recvfrom() result
+0x840de0,_ZN14CAndroidSocket6SendToEPKciS1_i,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: null host returns 0; XP_DEBUG_OUT dropped; returns the sendto() result
+0x840ed0,_ZN14CAndroidSocket16CreateIcmpSocketEv,reconstructed,net-transport/src/android_socket.cpp,SOCK_DGRAM+IPPROTO_ICMP unsupported on Winsock (returns false)
+0x840f04,_ZN14CAndroidSocket15CreateUdpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840f38,_ZN14CAndroidSocket15CreateTcpSocketEv,reconstructed,net-transport/src/android_socket.cpp,
+0x840f68,_ZN14CAndroidSocket12CreateSocketEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT on failure dropped; status_ set to 7 as in the original
+0x840fc8,_ZN14CAndroidSocket4BindEPct,reconstructed,net-transport/src/android_socket.cpp,"Hex-Rays re-run: SO_REUSEADDR, then bind to port, port+1, ... until one binds (no exit if none does, as in the original); inet_addr result discarded, so INADDR_ANY"
+0x8410d8,_ZN14CAndroidSocket4RecvEPci,reconstructed,net-transport/src/android_socket.cpp,XP_API_GET_TIME result unused and dropped
+0x8410f8,_ZN14CAndroidSocket4SendEPci,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT dropped (the original copies the payload into a 4 KB stack buffer for the log only); returns the send() result
+0x8411e8,_ZN14CAndroidSocket6SelectEN15GLXPlayerSocket17XSocketSelectFlagE,reconstructed,net-transport/src/android_socket.cpp,fd bitmap modelled with FD_SET/FD_ISSET; fds >= 1024 return -1
+0x8412b4,_ZN14CAndroidSocket11CloseSocketEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: 'CloseSocket() [%d]' debug line dropped; always returns true (1)
+0x8412f0,_ZN14CAndroidSocket9ConnectToEPci,partial,net-transport/src/android_socket.cpp,"Hex-Rays redo: body matches. Partial: state machine matches (0 idle, 1 in progress, 2 done, 3 failed); XP_DEBUG_OUT dropped"
+0x84152c,_ZN14CAndroidSocket7ConnectEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: a null host_ is treated as a failure (the original would crash); XP_DEBUG_OUT dropped
+0x841790,_ZN14CAndroidSocket13ConnectByNameEPct,partial,net-transport/src/android_socket.cpp,"Hex-Rays redo: body matches. Partial: port argument unused, as in the original (port_ is used); XP_DEBUG_OUT dropped"
+0x841ad0,_ZN14CAndroidSocket14SetNonBlockingEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: XP_DEBUG_OUT dropped; failure closes the socket and sets status_ 7
+0x841b98,_ZN14CAndroidSocket12GetLastErrorEv,reconstructed,net-transport/src/android_socket.cpp,errno or WSAGetLastError
+0x841ca8,_ZN14CAndroidSocket13GetHostByNameEPc,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: cache lookup and worker-state check match. Cache entries now keep the requested name (was the canonical h_name). Partial: the STRNEW copy of the address is not reproduced (4-byte copy); 'Add/Existed' debug lines dropped
+0x841e4c,_ZN14CAndroidSocket9GetHostIPEPc,partial,net-transport/src/android_socket.cpp,"Hex-Rays redo: body matches. Partial: full body now used (the old 'truncated tail' note was wrong); cache stores the requested name. Partial: debug lines dropped; a cache hit returns a hostent view of the entry, not the original's entry layout"
+0x841fbc,_ZN14CAndroidSocket10GetLocalIPEPc,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: POSIX SIOCGIFCONF walk matches. Partial: the probe socket is closed on the ioctl-failure path (the original leaks it); _WIN32 uses gethostbyname (no SIOCGIFCONF)
+0x84210c,_ZN14CAndroidSocket7ClearupEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: host cache clear matches. Winsock cleanup added for _WIN32 (not in the pseudocode)
+0x842208,_ZN14CAndroidSocket7StartupEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: body matches. Partial: SIGPIPE ignored with signal() instead of sigaction; the two unnamed globals are not reproduced; WSAStartup added for _WIN32
+0x842260,_ZN14CAndroidSocketD1Ev,partial,net-transport/src/android_socket.cpp,"Hex-Rays redo: destructor matches except the worker join (pthread_join when worker_state_ is set) and the GLXPlayerSocket base destructor, which are not reconstructed"
+0x8422b8,_ZN14CAndroidSocketD0Ev,skipped,net-transport/src/android_socket.cpp,deleting-destructor thunk; C++ delete covers it
+0x8422d4,_ZN14CAndroidSocketD2Ev,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: same body as D1 (0x842260). Partial: worker join and GLXPlayerSocket base destructor not reconstructed
+0x84232c,_ZN14CAndroidSocketC1EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: C1 calls the GLXPlayerSocket base constructor (not reconstructed) then sets the vtable. Partial: only the port is stored
+0x842360,_ZN14CAndroidSocket6AcceptEv,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: accept() and the returned fd match. Partial: the original builds a new 0xcf4-byte CAndroidSocket for the accepted connection; that object is not built here (returns the fd)
+0x842430,_ZN14CAndroidSocketC2EPciP23GLXPlayerSocketObserver,partial,net-transport/src/android_socket.cpp,Hex-Rays redo: same body as C1 (0x84232c). Partial: GLXPlayerSocket base constructor not reconstructed; only the port is stored
+0x84559c,Thread::IsCurrectThreadRunning(),partial,net-transport/src/sync.cpp,"Partial: original probes with pthread_kill(tid,0); joinable() stands in for it."
+0x8455c0,Thread::Run(),partial,net-transport/src/sync.cpp,Partial: the debug trace (XP_DEBUG_OUT) is dropped; loop calls Step while not stopped.
+0x84560c,_ZN6Thread4StopEv,reconstructed,net-transport/src/sync.cpp,
+0x845688,_ZN6Thread5StartEv,reconstructed,net-transport/src/sync.cpp,pthread_create mapped to std::thread
+0x8456fc,_ZN10Connection21getNextIncomingPacketEv,reconstructed,net-transport/src/connection_base.cpp,Pops the first incoming packet; caller owns it
+0x845754,_ZN10Connection11isConnectedEv,reconstructed,net-transport/src/connection_base.cpp,
+0x84575c,_ZN10Connection13set_connectedEb,reconstructed,net-transport/src/connection_base.cpp,
+0x845764,_ZN10Connection14cleanRetryDataEv,reconstructed,net-transport/src/connection_base.cpp,Resets the retry copy (was a virtual delete through vtable +4)
+0x845798,_ZN10Connection19getTimeOfLastReqestEv,reconstructed,net-transport/src/connection_base.cpp,
+0x8457a4,_ZN10Connection13saveRetryDataEP10DataPacket,partial,net-transport/src/connection_base.cpp,"Partial: the body copy comes from the DataPacket stand-in (deps/data_packet_payload.hpp), so the retry body is empty until DataPacket declares its accessors"
+0x84581c,_ZN10Connection7connectEv,partial,net-transport/src/connection_base.cpp,Partial: guard added for a missing socket (original dereferences it after disconnect); connect-attempt count kept on the socket stand-in
+0x845944,_ZN10Connection17addIncomingPacketEP10DataPacket,partial,net-transport/src/connection_base.cpp,"Partial: error branch (head without tail, debug print) cannot occur with the deque queue and is not reproduced"
+0x8459b4,_ZN10Connection17addOutgoingPacketEP10DataPacket,partial,net-transport/src/connection_base.cpp,Partial: return value is 0 (original returns the sendData result); debug branch as addIncomingPacket; packet ownership taken by the queue
+0x845a50,_ZN10Connection13sendRetryDataEv,partial,net-transport/src/connection_base.cpp,Partial: body copy goes through the DataPacket stand-in (see saveRetryData)
+0x845ad8,_ZN10Connection19keepConnectionAliveEv,reconstructed,net-transport/src/connection_base.cpp,Keep-alive when the last send is more than 10000 ms old
+0x845b60,_ZN10Connection24sendKickOutPlayerPackageEPc,partial,net-transport/src/connection_base.cpp,Partial: null-name path returns 0 where the original returns this
+0x845c0c,_ZN10Connection24sendUpdateSessionPackageEi,reconstructed,net-transport/src/connection_base.cpp,
+0x845ca4,_ZN10Connection21sendFinishGamePackageEv,reconstructed,net-transport/src/connection_base.cpp,
+0x845d24,_ZN10Connection20sendStartGamePackageEv,reconstructed,net-transport/src/connection_base.cpp,
+0x845da4,_ZN10Connection29sendListSessionsByDataPackageEhiPci,reconstructed,net-transport/src/connection_base.cpp,"Signature from the mangled name: (unsigned char, int, char*, int); the last int is the byte length"
+0x845e88,_ZN10Connection29sendListSessionsByNamePackageEhiPc,reconstructed,net-transport/src/connection_base.cpp,
+0x845f70,_ZN10Connection26sendListSessionsAllPackageEhi,reconstructed,net-transport/src/connection_base.cpp,
+0x846034,_ZN10Connection23sendListSessionsPackageEhi,reconstructed,net-transport/src/connection_base.cpp,
+0x8460e4,_ZN10Connection23sendLeaveSessionPackageEv,reconstructed,net-transport/src/connection_base.cpp,
+0x846164,_ZN10Connection22sendJoinSessionPackageEPc,reconstructed,net-transport/src/connection_base.cpp,
+0x846208,_ZN10Connection20sendQuickGamePackageEv,reconstructed,net-transport/src/connection_base.cpp,
+0x846288,_ZN10Connection24sendCreateSessionPackageEPcS0_i,partial,net-transport/src/connection_base.cpp,Partial: null password is sent as spaces with the original byte count (the original reads past its one-space literal)
+0x846364,_ZN10Connection27sendFinishConnectionPackageEv,reconstructed,net-transport/src/connection_base.cpp,Queued without a retry copy; sets and returns the last request time
+0x8463d0,_ZN10Connection16sendLoginPackageEPc,partial,net-transport/src/connection_base.cpp,Partial: debug print of the user name dropped
+0x846488,_ZN10Connection30sendEstablishConnectionPackageEv,partial,net-transport/src/connection_base.cpp,"Partial: debug print of the random value dropped; random value from the platform stand-in (the original passes the connection name, which the stand-in ignores)"
+0x8465b8,_ZN10Connection10disconnectEv,reconstructed,net-transport/src/connection_base.cpp,"Closes and drops the socket, clears retry copy and both queues, zeroes buffers and timers; state and receive step kept as original"
+0x8466fc,_ZN10Connection14receiveDataLenEv,partial,net-transport/src/connection_base.cpp,Partial: debug prints of the error paths dropped; socket guard added for a missing socket
+0x84699c,_ZN10Connection8sendDataEv,partial,net-transport/src/connection_base.cpp,"Partial: debug prints dropped; body bytes come from the DataPacket stand-in, so an empty body is sent until DataPacket declares its accessors"
+0x846b14,_ZN10ConnectionD1Ev,partial,net-transport/src/connection_base.cpp,Partial: the owned object at +0x2018 (type not recovered) is not freed; other members are released by the compiler
+0x846bb0,_ZN10ConnectionD0Ev,skipped,net-transport/src/connection_base.cpp,deleting-destructor thunk; C++ delete covers it
+0x846bcc,_ZN10ConnectionD2Ev,skipped,net-transport/src/connection_base.cpp,D2 variant with the same body as 0x846b14; covered by that destructor
+0x846c68,_ZN10Connection7setNameEPc,reconstructed,net-transport/src/connection_base.cpp,A null name is stored as an empty string
+0x846ca4,_ZN10ConnectionC1EPci,reconstructed,net-transport/src/connection_base.cpp,"C1 body: host copied (null becomes empty), socket created for it"
+0x846dac,_ZN10ConnectionC2EPci,skipped,net-transport/src/connection_base.cpp,C2 variant with the same body as 0x846ca4; covered by that constructor
+0x846eb4,_ZN15ConnectionLobby13sendRetryDataEv,partial,net-transport/src/connection_lobby.cpp,"Return value (time or object pointer, Hex-Rays) not reproduced; returns void."
+0x846f3c,_ZN15ConnectionLobby19keepConnectionAliveEv,reconstructed,net-transport/src/connection_lobby.cpp,"Sends message 9 without saving a retry copy, as the original."
+0x846fb0,_ZN15ConnectionLobby13saveRetryDataEP10DataPacket,partial,net-transport/src/connection_lobby.cpp,"Reads the body through DataPacketLobby: the DataPacket base does not declare getMessageBody and getMessageLen yet, so the packet is downcast. Every send* in this file goes through it."
+0x847028,_ZN15ConnectionLobby20sendGetPlayerCounterEv,reconstructed,net-transport/src/connection_lobby.cpp,Message 101.
+0x847080,_ZN15ConnectionLobby34sendGetLobbyForFriendWithGameParamEihhPciP23CLobbyParameterAndQuery,reconstructed,net-transport/src/connection_lobby.cpp,Message 99. Query block through the lobby_query shim.
+0x8471d0,_ZN15ConnectionLobby32sendGetLobbyForNameWithGameParamEPc,reconstructed,net-transport/src/connection_lobby.cpp,Message 97.
+0x847288,_ZN15ConnectionLobby36sendGetLobbyListPackageWithGameParamEiiihP23CLobbyParameterAndQueryh,reconstructed,net-transport/src/connection_lobby.cpp,Message 96. Shares SendLobbyListMessage with sendGetLobbyListPackage; first argument unused.
+0x8473b0,_ZN15ConnectionLobby18sendKickOutPackageEPc,reconstructed,net-transport/src/connection_lobby.cpp,Message 24.
+0x84742c,_ZN15ConnectionLobby26sendCancelAutoMatchPackageEv,reconstructed,net-transport/src/connection_lobby.cpp,Message 74.
+0x847484,_ZN15ConnectionLobby20sendAutoMatchPackageEPciS0_iss,reconstructed,net-transport/src/connection_lobby.cpp,Message 56.
+0x847554,_ZN15ConnectionLobby21sendGetLobbyForFriendEihhPci,reconstructed,net-transport/src/connection_lobby.cpp,Message 54.
+0x84763c,_ZN15ConnectionLobby19sendGetLobbyForNameEPc,reconstructed,net-transport/src/connection_lobby.cpp,Message 52.
+0x8476f4,_ZN15ConnectionLobby16sendGetLobbyInfoEi,reconstructed,net-transport/src/connection_lobby.cpp,Message 22.
+0x847764,_ZN15ConnectionLobby20sendSetUserParameterEPcs,reconstructed,net-transport/src/connection_lobby.cpp,Message 36.
+0x8477dc,_ZN15ConnectionLobby20sendSetGameParameterEPcsP23CLobbyParameterAndQuery,reconstructed,net-transport/src/connection_lobby.cpp,Message 33.
+0x8478ac,_ZN15ConnectionLobby22sendRejoinLobbyPackageEi,reconstructed,net-transport/src/connection_lobby.cpp,Message 45.
+0x84791c,_ZN15ConnectionLobby26sendSetPlayerStatusPackageEh,reconstructed,net-transport/src/connection_lobby.cpp,Message 39.
+0x84798c,_ZN15ConnectionLobby25sendLunchLobbyGamePackageEv,reconstructed,net-transport/src/connection_lobby.cpp,Message 42.
+0x8479e4,_ZN15ConnectionLobby21sendLeaveLobbyPackageEv,reconstructed,net-transport/src/connection_lobby.cpp,Message 19.
+0x847a3c,_ZN15ConnectionLobby23sendGetLobbyListPackageEiiihP23CLobbyParameterAndQueryh,reconstructed,net-transport/src/connection_lobby.cpp,Message 13. Shares SendLobbyListMessage; first argument unused.
+0x847b64,_ZN15ConnectionLobby30sendJoinPredefinedLobbyPackageEPciS0_iiP23CLobbyParameterAndQueryS2_,reconstructed,net-transport/src/connection_lobby.cpp,Message 103. Two query blocks in the original null-branch order.
+0x847ce8,_ZN15ConnectionLobby20sendJoinLobbyPackageEihPci,reconstructed,net-transport/src/connection_lobby.cpp,Message 15.
+0x847d90,_ZN15ConnectionLobby36sendCreateLobbyPackageWithGameCenterEiPchhiS0_iS0_iP23CLobbyParameterAndQuerySt4listISsSaISsEE,reconstructed,net-transport/src/connection_lobby.cpp,"Message 11 with a string list. Returns the constant 16556 after queueing, as the original does."
+0x847fe0,_ZN15ConnectionLobby22sendCreateLobbyPackageEiPchhiS0_iS0_iP23CLobbyParameterAndQuery,reconstructed,net-transport/src/connection_lobby.cpp,Message 11.
+0x848140,_ZN15ConnectionLobby35sendLobbyLoginPackageWithGameCenterElPcshhS0_S0_,reconstructed,net-transport/src/connection_lobby.cpp,Message 5. Two string fields and two byte fields.
+0x848258,_ZN15ConnectionLobby21sendLobbyLoginPackageElPcsh,reconstructed,net-transport/src/connection_lobby.cpp,Message 5.
+0x848300,_ZN15ConnectionLobby24sendKickOutPlayerPackageEPc,partial,net-transport/src/connection_lobby.cpp,Null name: the original returns the object pointer (Hex-Rays return this); the port returns 0 without queuing.
+0x8483ac,_ZN15ConnectionLobby24sendUpdateSessionPackageEi,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, e (no InitMessage)."
+0x848444,_ZN15ConnectionLobby21sendFinishGamePackageEv,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, f (no InitMessage)."
+0x8484c4,_ZN15ConnectionLobby20sendStartGamePackageEv,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, s (no InitMessage)."
+0x848544,_ZN15ConnectionLobby29sendListSessionsByDataPackageEhiPci,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, l, then d."
+0x848628,_ZN15ConnectionLobby29sendListSessionsByNamePackageEhiPc,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, l, then n."
+0x848710,_ZN15ConnectionLobby26sendListSessionsAllPackageEhi,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, l, then a."
+0x8487d4,_ZN15ConnectionLobby23sendListSessionsPackageEhi,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, l."
+0x848884,_ZN15ConnectionLobby23sendLeaveSessionPackageEv,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, q."
+0x848904,_ZN15ConnectionLobby22sendJoinSessionPackageEPc,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, j."
+0x8489a8,_ZN15ConnectionLobby20sendQuickGamePackageEv,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, u."
+0x848a28,_ZN15ConnectionLobby24sendCreateSessionPackageEPcS0_i,reconstructed,net-transport/src/connection_lobby.cpp,"Command bytes g, r, c. A null second name is sent as a single space, as the original does."
+0x848b04,_ZN15ConnectionLobby16sendLoginPackageEPc,partial,net-transport/src/connection_lobby.cpp,Debug trace sendLoginPackage user=[...] dropped.
+0x848bbc,_ZN15ConnectionLobby27sendFinishConnectionPackageEv,reconstructed,net-transport/src/connection_lobby.cpp,Message 3. Queued without saveRetryData; stores the time and returns it.
+0x848c34,_ZN15ConnectionLobby30sendEstablishConnectionPackageEv,reconstructed,net-transport/src/connection_lobby.cpp,"Message 1. Clears the receive state, stores two times, returns the second."
+0x848cd0,_ZN15ConnectionLobby14receiveDataLenEv,partial,net-transport/src/connection_lobby.cpp,"Two-step read (2-byte length, then body). Return values (last recv or disconnect result) not reproduced; returns void. Debug traces dropped. The length check is 4096 (the original trace text says 2048)."
+0x848fac,_ZN15ConnectionLobby8sendDataEv,partial,net-transport/src/connection_lobby.cpp,Send of the outgoing queue head. Return value (Hex-Rays pointer artifact) not reproduced; returns void. Debug traces dropped. Uses a downcast to DataPacketLobby for the body accessors.
+0x8490e0,_ZN15ConnectionLobbyD1Ev,reconstructed,net-transport/src/connection_lobby.cpp,D2 dtor: base dtor only.
+0x849114,_ZN15ConnectionLobbyD0Ev,skipped,net-transport/src/connection_lobby.cpp,D0 deleting dtor: compiler-generated; calls D1 then frees
+0x849130,_ZN15ConnectionLobbyD2Ev,skipped,net-transport/src/connection_lobby.cpp,D1 copy of 0x8490e0 (identical body); implemented once
+0x849164,_ZN15ConnectionLobbyC1EPci,reconstructed,net-transport/src/connection_lobby.cpp,C1 ctor: base ctor with host and port.
+0x849198,_ZN15ConnectionLobbyC2EPci,skipped,net-transport/src/connection_lobby.cpp,C2 copy of 0x849164 (identical body); implemented once
+0x8491cc,_ZN10DataPacketD1Ev,reconstructed,net-transport/src/data_packet.cpp,DataPacket virtual dtor D1
+0x8491d0,_ZN10DataPacket7addBlobEPcs,reconstructed,net-transport/src/data_packet.cpp,addBlob: no-op returning 0
+0x8491d8,_ZN10DataPacket7getBlobERPcRs,reconstructed,net-transport/src/data_packet.cpp,getBlob: no-op returning 0
+0x8491e0,_ZN10DataPacket11InitMessageEi,reconstructed,net-transport/src/data_packet.cpp,InitMessage: no-op
+0x8491e4,_ZN10DataPacket14GetMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMessageType returns -1
+0x8491ec,_ZN10DataPacket14InitMMOMessageEs,reconstructed,net-transport/src/data_packet.cpp,InitMMOMessage: no-op
+0x8491f0,_ZN10DataPacket17GetMMOMessageTypeEv,reconstructed,net-transport/src/data_packet.cpp,GetMMOMessageType returns -1
+0x8491f8,_ZN15DataPacketLobby16addByteLenStringEPKch,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849200,_ZN15DataPacketLobby16getByteLenStringERPcRh,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849208,_ZN15DataPacketLobby20addByteLenWideStringEPKwh,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849210,_ZN15DataPacketLobby20getByteLenWideStringERPwRh,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849218,_ZN15DataPacketLobby21addShortLenWideStringEPKwh,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849220,_ZN15DataPacketLobby21getShortLenWideStringERPwRh,reconstructed,net-transport/src/data_packet_lobby.cpp,Original body is a constant return of 0; reproduced
+0x849228,_ZN15DataPacketLobby11InitMessageEi,reconstructed,net-transport/src/data_packet_lobby.cpp,"Writes type bytes 1 and 2 via addByte, then addInt through the virtual slots"
+0x849270,_ZN15DataPacketLobby14InitMMOMessageEs,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns addShort through the virtual slot
+0x849284,_ZN15DataPacketLobby14GetMessageTypeEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Reads an int through getInt
+0x8492b0,_ZN15DataPacketLobby17GetMMOMessageTypeEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Reads a short through getShort
+0x8492dc,_ZN15DataPacketLobby10WillBeFullEi,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns position + bytes > capacity
+0x8492f8,_ZN15DataPacketLobby7getByteERh,reconstructed,net-transport/src/data_packet_lobby.cpp,Reads one byte; fails with 0 at the end
+0x849334,_ZN15DataPacketLobby8getShortERs,reconstructed,net-transport/src/data_packet_lobby.cpp,Big-endian short; fails unless two bytes remain
+0x84939c,_ZN15DataPacketLobby6getIntERi,reconstructed,net-transport/src/data_packet_lobby.cpp,Big-endian int; fails unless four bytes remain
+0x84943c,_ZN15DataPacketLobby8getFloatERf,reconstructed,net-transport/src/data_packet_lobby.cpp,"Float from four little-endian bytes, as the original copies them"
+0x8494c0,_ZN15DataPacketLobby13getMessageLenEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the length
+0x8494c8,_ZN15DataPacketLobby14getMessageBodyEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the body buffer
+0x8494d0,_ZN15DataPacketLobby11packMessageEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Length = position; header is big-endian (length - 2)
+0x8494fc,_ZN15DataPacketLobby13getNextPacketEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the next packet
+0x849504,_ZN15DataPacketLobby13setNextPacketEP10DataPacket,reconstructed,net-transport/src/data_packet_lobby.cpp,Stores the next packet; pseudocode return of this is not kept
+0x84950c,_ZN15DataPacketLobby11IsSendByTcpEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Data type 1 or 3
+0x849524,_ZN15DataPacketLobby11IsSendByUdpEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Data type 2
+0x849538,_ZN15DataPacketLobby11getDataTypeEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the data type
+0x849540,_ZN15DataPacketLobby11setDataTypeEi,reconstructed,net-transport/src/data_packet_lobby.cpp,Stores the data type
+0x849548,_ZN15DataPacketLobby7getPortEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the port
+0x849550,_ZN15DataPacketLobby7setPortEi,reconstructed,net-transport/src/data_packet_lobby.cpp,Stores the port
+0x849558,_ZN15DataPacketLobby5getIPEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Returns the IP string pointer (char* in the original)
+0x849560,_ZN15DataPacketLobby13String2PacketEPci,partial,net-transport/src/data_packet_lobby.cpp,"Partial: header read at the current position, body added from data + 2 (not from the position), as in the original; the port keeps that"
+0x8495b8,_ZN15DataPacketLobby13Packet2StringEPcRi,reconstructed,net-transport/src/data_packet_lobby.cpp,"Header is big-endian length (bytes at +0x11 and +0x10), then body; out length = 2 + length"
+0x849600,_ZN15DataPacketLobby14setMessageBodyEPhi,partial,net-transport/src/data_packet_lobby.cpp,Partial: the original copies size bytes with no capacity check; the port copies at most the capacity and records that length
+0x849624,_ZN15DataPacketLobbyD1Ev,reconstructed,net-transport/src/data_packet_lobby.cpp,D1 destructor; the members release the IP string and body buffer. D2 0x8496b4 and D0 0x849684 are variants
+0x849684,_ZN15DataPacketLobbyD0Ev,skipped,net-transport/src/data_packet_lobby.cpp,"Deleting destructor (D0): compiler-generated, calls the D1 destructor then frees the object"
+0x8496a0,_ZN10DataPacketD0Ev,skipped,net-transport/src/data_packet.cpp,deleting destructor D0 is compiler-generated (operator delete)
+0x8496b4,_ZN15DataPacketLobbyD2Ev,skipped,net-transport/src/data_packet_lobby.cpp,"D2 variant: same body as 0x849624, implemented once"
+0x849714,_ZN15DataPacketLobby5setIPEPc,partial,net-transport/src/data_packet_lobby.cpp,Partial: a null ip clears the stored address; the original would call STRNEW on null
+0x849748,_ZN15DataPacketLobby17getShortLenStringERPcRs,partial,net-transport/src/data_packet_lobby.cpp,"Partial: length compared as unsigned 16-bit (original: signed short). Empty string returns 0, as the original; the position still advances by 2 on failure"
+0x84980c,_ZN15DataPacketLobby7getBlobERPcRs,reconstructed,net-transport/src/data_packet_lobby.cpp,"Reads a short length through getShort, then a new char array with a terminating zero"
+0x8498bc,_ZN15DataPacketLobby18AllocateMoreMomeryEv,reconstructed,net-transport/src/data_packet_lobby.cpp,Doubles the capacity; keeps the bytes up to the position
+0x849924,_ZN15DataPacketLobby9addPacketEP10DataPacket,partial,net-transport/src/data_packet_lobby.cpp,Partial: the original checks the body length only and prints a debug line when growth fails (dropped). Body and length come from deps/data_packet_payload.hpp stand-ins
+0x8499d8,_ZN15DataPacketLobby17addShortLenStringEPKcs,partial,net-transport/src/data_packet_lobby.cpp,"Partial: the original checks the body length only; the port checks the 2-byte header too, so the write cannot run past the buffer"
+0x849a68,_ZN15DataPacketLobby14addQueryStringEPKcs,reconstructed,net-transport/src/data_packet_lobby.cpp,Appends raw bytes without a header
+0x849ad8,_ZN15DataPacketLobby7addBlobEPcs,reconstructed,net-transport/src/data_packet_lobby.cpp,"Writes a short length (addShort), then the bytes; null or negative length writes an empty blob"
+0x849b6c,_ZN15DataPacketLobby8addFloatEf,reconstructed,net-transport/src/data_packet_lobby.cpp,Float bits as four little-endian bytes
+0x849bfc,_ZN15DataPacketLobby6addIntEi,reconstructed,net-transport/src/data_packet_lobby.cpp,Big-endian int
+0x849c78,_ZN15DataPacketLobby8addShortEs,reconstructed,net-transport/src/data_packet_lobby.cpp,Big-endian short
+0x849cd4,_ZN15DataPacketLobby7addByteEh,reconstructed,net-transport/src/data_packet_lobby.cpp,One byte
+0x849d20,_ZN15DataPacketLobbyC1EP10DataPacket,partial,net-transport/src/data_packet_lobby.cpp,"Partial: source data type, body and length come from DataPacket stand-ins (deps/data_packet_payload.hpp) that return empty values until DataPacket declares those slots. C2 0x849dcc is the same body"
+0x849dcc,_ZN15DataPacketLobbyC2EP10DataPacket,skipped,net-transport/src/data_packet_lobby.cpp,"C2 variant of the DataPacket* constructor (0x849d20): same body, implemented once"
+0x849e78,_ZN15DataPacketLobbyC1Ev,reconstructed,net-transport/src/data_packet_lobby.cpp,"Default constructor: position 2, data type 1, capacity 4096 zeroed. C2 0x849f5c is the same body"
+0x849ee8,_ZN15DataPacketLobby9getPacketERP10DataPacket,reconstructed,net-transport/src/data_packet_lobby.cpp,"Creates a packet from the next length-prefixed blob. No bounds check, as the original"
+0x849f5c,_ZN15DataPacketLobbyC2Ev,skipped,net-transport/src/data_packet_lobby.cpp,"C2 variant of the default constructor (0x849e78): same body, implemented once"
+0x849fcc,_ZN17DefaultDataPacket14addQueryStringEPKcs,reconstructed,net-transport/src/default_data_packet.cpp,Stub in the original: returns 0 and writes nothing
+0x849fd4,_ZN17DefaultDataPacket17addShortLenStringEPKcs,reconstructed,net-transport/src/default_data_packet.cpp,Stub in the original: returns 0 and writes nothing
+0x849fdc,_ZN17DefaultDataPacket17getShortLenStringERPcRs,reconstructed,net-transport/src/default_data_packet.cpp,Stub in the original: returns 0 and writes nothing
+0x849fe4,_ZN17DefaultDataPacket21addShortLenWideStringEPKwh,reconstructed,net-transport/src/default_data_packet.cpp,Stub in the original: returns 0 and writes nothing
+0x849fec,_ZN17DefaultDataPacket21getShortLenWideStringERPwRh,reconstructed,net-transport/src/default_data_packet.cpp,Stub in the original: returns 0 and writes nothing
+0x849ff4,_ZN17DefaultDataPacket7addByteEh,reconstructed,net-transport/src/default_data_packet.cpp,Writes at the write cursor (+0x1008); refused at 4096 bytes
+0x84a01c,_ZN17DefaultDataPacket7getByteERh,reconstructed,net-transport/src/default_data_packet.cpp,Reads at the read cursor (+0x1004). Returns 1 or 0; the original returns a pointer-typed 1 or NULL; on failure the out byte is 0
+0x84a060,_ZN17DefaultDataPacket8addShortEs,reconstructed,net-transport/src/default_data_packet.cpp,Big-endian 2 bytes; refused when fewer than 2 bytes of room remain
+0x84a0a4,_ZN17DefaultDataPacket8getShortERs,reconstructed,net-transport/src/default_data_packet.cpp,Big-endian; out is 0 on failure; cursor advances by 2 on success
+0x84a114,_ZN17DefaultDataPacket6addIntEi,reconstructed,net-transport/src/default_data_packet.cpp,Big-endian 4 bytes; refused when fewer than 4 bytes of room remain
+0x84a17c,_ZN17DefaultDataPacket6getIntERi,reconstructed,net-transport/src/default_data_packet.cpp,Big-endian 4 bytes; out is 0 on failure
+0x84a224,_ZN17DefaultDataPacket8addFloatEf,reconstructed,net-transport/src/default_data_packet.cpp,"Float bytes written little-endian (low byte first), as in the original"
+0x84a2a4,_ZN17DefaultDataPacket8getFloatERf,reconstructed,net-transport/src/default_data_packet.cpp,Float bytes read little-endian; out is 0.0 on failure
+0x84a330,_ZN17DefaultDataPacket13getMessageLenEv,reconstructed,net-transport/src/default_data_packet.cpp,"Returns the write cursor (message length, +0x1008)"
+0x84a33c,_ZN17DefaultDataPacket14getMessageBodyEv,reconstructed,net-transport/src/default_data_packet.cpp,Returns the body (+0x04)
+0x84a344,_ZN17DefaultDataPacket11packMessageEv,reconstructed,net-transport/src/default_data_packet.cpp,Empty in the original
+0x84a348,_ZN17DefaultDataPacket13getNextPacketEv,reconstructed,net-transport/src/default_data_packet.cpp,Returns the next-packet pointer (+0x100c)
+0x84a354,_ZN17DefaultDataPacket13setNextPacketEP10DataPacket,reconstructed,net-transport/src/default_data_packet.cpp,Stores the next-packet pointer (+0x100c)
+0x84a360,_ZN17DefaultDataPacket11IsSendByTcpEv,reconstructed,net-transport/src/default_data_packet.cpp,Data type 1 or 3 (+0x1010)
+0x84a37c,_ZN17DefaultDataPacket11IsSendByUdpEv,reconstructed,net-transport/src/default_data_packet.cpp,Data type 2 (+0x1010)
+0x84a394,_ZN17DefaultDataPacket11getDataTypeEv,reconstructed,net-transport/src/default_data_packet.cpp,Returns the data type (+0x1010)
+0x84a3a0,_ZN17DefaultDataPacket11setDataTypeEi,reconstructed,net-transport/src/default_data_packet.cpp,Stores the data type (+0x1010)
+0x84a3ac,_ZN17DefaultDataPacket7getPortEv,reconstructed,net-transport/src/default_data_packet.cpp,Returns the port (+0x1018)
+0x84a3b8,_ZN17DefaultDataPacket7setPortEi,reconstructed,net-transport/src/default_data_packet.cpp,Stores the port (+0x1018)
+0x84a3c4,_ZN17DefaultDataPacket5getIPEv,reconstructed,net-transport/src/default_data_packet.cpp,Returns the IP string pointer (+0x1014); the original returns it as an int-sized value
+0x84a3d0,_ZN17DefaultDataPacket13String2PacketEPci,reconstructed,net-transport/src/default_data_packet.cpp,"Reads a big-endian 2-byte length, then calls setMessageBody (virtual in the original). Returns -1 when the length does not fit. setMessageBody is not bounded by 4096, so a wire length above 4096 overflows the body, as in the original"
+0x84a410,_ZN17DefaultDataPacket13Packet2StringEPcRi,partial,net-transport/src/default_data_packet.cpp,"Writes a big-endian 2-byte length then the body; out_size is 2 + length. Partial: the original returns the memcpy destination pointer, which is not returned here"
+0x84a460,_ZN17DefaultDataPacket9addPacketEP10DataPacket,partial,net-transport/src/default_data_packet.cpp,"NOT DEFINED (BLOCKED): needs DataPacket to declare getMessageLen (vtable +0x60) and getMessageBody (+0x64) as virtuals. DataPacket is outside this slice, so the declarations are not added"
+0x84a4dc,_ZN17DefaultDataPacket14setMessageBodyEPhi,partial,net-transport/src/default_data_packet.cpp,"Copies length bytes into the body and resets read to 0 and write to length. Partial: the original returns the memcpy destination pointer, which is not returned here; the copy is not bounded by 4096, as in the original"
+0x84a508,_ZN17DefaultDataPacketC1EP10DataPacket,partial,net-transport/src/default_data_packet.cpp,"NOT DEFINED (BLOCKED): needs DataPacket to declare getDataType (vtable +0x74), getMessageBody (+0x64) and getMessageLen (+0x60)"
+0x84a5a4,_ZN17DefaultDataPacketC2EP10DataPacket,partial,net-transport/src/default_data_packet.cpp,NOT DEFINED (BLOCKED): same body as C1 (0x84a508); needs the same DataPacket virtuals
+0x84a640,_ZN17DefaultDataPacket20addByteLenWideStringEPKwh,reconstructed,net-transport/src/default_data_packet.cpp,"One length byte (characters), then the characters as 32-bit little-endian units (the original's 4-byte wchar_t); refused when the body has no room"
+0x84a6c4,_ZN17DefaultDataPacket16addByteLenStringEPKch,reconstructed,net-transport/src/default_data_packet.cpp,"One length byte, then the characters; a null string or zero length advances the cursor without copying, as in the original"
+0x84a740,_ZN17DefaultDataPacketD1Ev,reconstructed,net-transport/src/default_data_packet.cpp,D1: frees the owned IP string. D2 at 0x84a7a8 has the same body
+0x84a78c,_ZN17DefaultDataPacketD0Ev,skipped,net-transport/src/default_data_packet.cpp,"Deleting destructor D0 is compiler-generated (calls D1, then operator delete)"
+0x84a7a8,_ZN17DefaultDataPacketD2Ev,skipped,net-transport/src/default_data_packet.cpp,"Compiler-generated D2 variant with the same body as D1 (0x84a740), which covers it"
+0x84a7f4,_ZN17DefaultDataPacket5setIPEPc,partial,net-transport/src/default_data_packet.cpp,"Frees the old IP string and stores an owned copy. Partial: the original returns the new string pointer, which is not returned here; a null argument stores nullptr (not in the pseudocode)"
+0x84a830,_ZN17DefaultDataPacket20getByteLenWideStringERPwRh,reconstructed,net-transport/src/default_data_packet.cpp,"As getByteLenString: length byte consumed before the bounds check; allocates length+1 wide units and null-terminates. The length byte is read without a bounds check (as in the original), so a cursor at the end of the body reads one byte past it"
+0x84a8e0,_ZN17DefaultDataPacket16getByteLenStringERPcRh,reconstructed,net-transport/src/default_data_packet.cpp,"Length byte consumed before the bounds check (cursor moves even on failure); allocates length+1 bytes and null-terminates. The length byte is read without a bounds check (as in the original), so a cursor at the end of the body reads one byte past it"
+0x84a988,_ZN17DefaultDataPacketC1Ev,reconstructed,net-transport/src/default_data_packet.cpp,"C1 default constructor: data type 1, cursors and IP/port cleared, body zeroed. C2 at 0x84aa7c has the same body"
+0x84a9fc,_ZN17DefaultDataPacket9getPacketERP10DataPacket,partial,net-transport/src/default_data_packet.cpp,"Creates a DefaultDataPacket, reads a big-endian 2-byte length and passes the body on through setMessageBody. Partial: the original returns the value of that setMessageBody call through the vtable (a truncated pointer); this returns 1"
+0x84aa7c,_ZN17DefaultDataPacketC2Ev,skipped,net-transport/src/default_data_packet.cpp,"Compiler-generated C2 variant of the default constructor (0x84a988), same body"
+0x89e5b0,_ZN15LCAndroidSocket4InitEv,reconstructed,net-transport/src/lc_android_socket.cpp,Original body is empty
+0x89e5b4,_ZNK15LCAndroidSocket12IsReadyForRWEv,partial,net-transport/src/lc_android_socket.cpp,fds outside the 1024-bit bitmap report false (original indexes without a check)
+0x89e5dc,_ZN15LCAndroidSocket13SendBroadcastEPKcii,partial,net-transport/src/lc_android_socket.cpp,XP_DEBUG-style LC_DEBUG_OUT logging dropped; sends to 255.255.255.255
+0x89e6d0,_ZN15LCAndroidSocket12SetBroadcastEv,partial,net-transport/src/lc_android_socket.cpp,Error log dropped
+0x89e734,_ZN15LCAndroidSocket6ListenEi,partial,net-transport/src/lc_android_socket.cpp,Listen failed! log dropped
+0x89e760,_ZN15LCAndroidSocket13GetSocketPortEv,reconstructed,net-transport/src/lc_android_socket.cpp,
+0x89e7e8,_ZN15LCAndroidSocket13GetSocketAddrEv,partial,net-transport/src/lc_android_socket.cpp,Adds a null guard on the first address (original would dereference it); inet_ntoa static buffer as original
+0x89e880,_ZN15LCAndroidSocket16RecvFromUnkownIPEPciPPcPi,partial,net-transport/src/lc_android_socket.cpp,"Error and debug logs dropped; ip is a new[] copy, port host order"
+0x89e998,_ZN15LCAndroidSocket11GetHostNameEPPc,reconstructed,net-transport/src/lc_android_socket.cpp,"Always returns nullptr, as the original"
+0x89ea00,_ZN15LCAndroidSocket8RecvFromEPci,partial,net-transport/src/lc_android_socket.cpp,Sender address is received but its only use (debug log) is dropped
+0x89eb1c,_ZN15LCAndroidSocket6SendToEPKciS1_i,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; returns 0 when ip is null
+0x89ec0c,_ZN15LCAndroidSocket15CreateUdpSocketEv,reconstructed,net-transport/src/lc_android_socket.cpp,UDP type value 2 confirmed by the ARM listing
+0x89ec40,_ZN15LCAndroidSocket15CreateTcpSocketEv,reconstructed,net-transport/src/lc_android_socket.cpp,TCP type value 1 as stored by the original
+0x89ec70,_ZN15LCAndroidSocket12CreateSocketEv,partial,net-transport/src/lc_android_socket.cpp,Debug logs dropped
+0x89ece4,_ZN15LCAndroidSocket4BindEPct,partial,net-transport/src/lc_android_socket.cpp,"inet_addr(ip) result discarded in the original, so it binds INADDR_ANY; port-retry loop has no exit when no port binds (kept); SO_REUSEADDR result ignored"
+0x89edfc,_ZN15LCAndroidSocket4RecvEPci,partial,net-transport/src/lc_android_socket.cpp,Timing and echo debug log dropped
+0x89ee4c,_ZN15LCAndroidSocket4SendEPci,partial,net-transport/src/lc_android_socket.cpp,Timing and echo debug log dropped
+0x89ef3c,_ZN15LCAndroidSocket6SelectEN15LCXPlayerSocket17XSocketSelectFlagE,partial,net-transport/src/lc_android_socket.cpp,"Ready bitmap rewritten from a local fd_set; fds >= 1024 return -1 (guard added); read flag value 0 assumed, write flag 1 confirmed by the call sites"
+0x89f004,_ZN15LCAndroidSocket11CloseSocketEv,partial,net-transport/src/lc_android_socket.cpp,Two debug logs dropped
+0x89f054,_ZN15LCAndroidSocket9ConnectToEPci,partial,net-transport/src/lc_android_socket.cpp,Debug log on failure dropped; state 1 wait has no timeout (as the original)
+0x89f290,_ZN15LCAndroidSocket7ConnectEv,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; adds a null guard on server_addr; 30 s connect timeout
+0x89f4fc,_ZN15LCAndroidSocket13ConnectByNameEPc,partial,net-transport/src/lc_android_socket.cpp,"Debug logs dropped; port argument ignored, uses server_port_ (as the original); 9999 ms lookup timeout; adds a null guard on the first address"
+0x89f7c8,_ZN15LCAndroidSocket14SetNonBlockingEv,partial,net-transport/src/lc_android_socket.cpp,Error log dropped; Winsock uses FIONBIO
+0x89f890,_ZN15LCAndroidSocket12GetLastErrorEv,partial,net-transport/src/lc_android_socket.cpp,"Platform substitution: errno on POSIX, WSAGetLastError on Winsock"
+0x89f9a0,_ZN15LCAndroidSocket9GetHostIPEPc,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; cache entries copy the first address as raw bytes (decompile reads it as a C string); null slots skipped
+0x89fb04,_ZN15LCAndroidSocket13GetHostByNameEPc,partial,net-transport/src/lc_android_socket.cpp,"Lookup worker threadGetHostByNameProcessLC not reconstructed: empty stand-in thread, busy flag never cleared; cache hits as original"
+0x89fc1c,_ZN15LCAndroidSocket9TransToIpERPc,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; *name points at inet_ntoa static buffer (as the original; caller must not free it)
+0x89fc78,_ZN15LCAndroidSocket7ClearupEv,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; null entries skipped (original dereferences them); WSACleanup added for Winsock
+0x89fd84,_ZN15LCAndroidSocket10GetLocalIPEPc,partial,net-transport/src/lc_android_socket.cpp,POSIX: SIOCGIFCONF walk with sizeof(ifreq) stride (32 bytes in the original); socket closed on failure (original leaks it); unbounded strcpy as original. Winsock: gethostbyname substitute without the IFF_UP check
+0x89feec,_ZN15LCAndroidSocket7StartupEv,partial,net-transport/src/lc_android_socket.cpp,Debug log dropped; SIGPIPE ignored via sigaction; cache slots cleared but l_countLC not reset (as the original); WSAStartup added for Winsock
+0x89ff54,_ZN15LCAndroidSocketD1Ev,partial,net-transport/src/lc_android_socket.cpp,"LCXPlayerSocket base destructor not run; lookup thread joined when started, then CloseSocket. D2 at 0x89ffc8 has the same body"
+0x89ffac,_ZN15LCAndroidSocketD0Ev,skipped,net-transport/src/lc_android_socket.cpp,"deleting destructor (D0), compiler-generated: calls D1 then frees"
+0x89ffc8,_ZN15LCAndroidSocketD2Ev,skipped,net-transport/src/lc_android_socket.cpp,"D2 variant, same body as 0x89ff54 (covered by that definition)"
+0x8a0020,_ZN15LCAndroidSocketC1EPciP23LCXPlayerSocketObserver,partial,net-transport/src/lc_android_socket.cpp,"LCXPlayerSocket base constructor not reconstructed (port taken as server_port_, observer ignored); Startup runs as in the original; C2 at 0x8a013c has the same body"
+0x8a0068,_ZN15LCAndroidSocket6AcceptEv,partial,net-transport/src/lc_android_socket.cpp,"Returns LCAndroidSocket, not LCXPlayerSocket (base not reconstructed); accept IP, port and TCP type stored in this class's members"
+0x8a013c,_ZN15LCAndroidSocketC2EPciP23LCXPlayerSocketObserver,skipped,net-transport/src/lc_android_socket.cpp,"C2 variant, same body as 0x8a0020 (covered by that definition)"
