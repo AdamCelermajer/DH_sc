@@ -915,40 +915,25 @@ elf_address,symbol,status,source_file,notes
 0x89a7d8,_ZN13ALicenseCheck16createUniqueCodeEv,reconstructed,net-session-online/src/a_license_check.cpp,srand48/lrand48 reproduced locally (mingw has none); same constants.
 0x89a820,_ZN13ALicenseCheck3XOREPKcS1_Pc,reconstructed,net-session-online/src/a_license_check.cpp,"Result built in a 512-byte buffer, then strcpy to output (as decompiled)."
 0x89a8e0,_ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,partial,net-session-online/src/a_license_check.cpp,"Partial: JNI NewStringUTF, CallStaticObjectMethod and GetByteArrayRegion are a stand-in (deps/jni_stand_in.hpp), so output stays empty on Windows."
-0x89a914,FUN_008aa914,skipped,net-session-online/src/a_license_check.cpp,"IDA chunk: tail of ALicenseCheck::CallJNIFuncChar(_jclass*,_jmethodID*,char*,int,char*) at 0x89a8e0; the parent's Hex-Rays body covers these bytes."
 0x89a9a4,_ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPci,partial,net-session-online/src/a_license_check.cpp,"Partial: as the 5-argument overload; JNI calls are a stand-in, output stays empty."
 0x89aa38,_ZN13ALicenseCheck10LoadConfigEv,partial,net-session-online/src/a_license_check.cpp,"Partial: ConfigFile::Decode is a stand-in (deps/config_file_stand_in.hpp), so the decoded EKEY, EPID and SERVER stay empty. Config buffer on the heap (0x40000)."
-0x89aa98,FUN_008aaa98,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::LoadConfig (decode call and stack check); covered by the LoadConfig Hex-Rays body.
-0x89ab04,FUN_008aab04,skipped,net-session-online/src/a_license_check.cpp,Not code: a halt_baddata word (1 byte) between chunks; no behaviour.
 0x89ab08,_ZN13ALicenseCheck4InitEP7_JNIEnvP7_jclass,partial,net-session-online/src/a_license_check.cpp,"Partial: JNI global refs, method ids and FindClass are stand-ins (names and signatures as in the listing: d, db, dc, da, android/content/Context). With no Context class the config load is skipped."
-0x89ab6c,FUN_008aab6c,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::Init (Context branch and LoadConfig call); covered by the Init Hex-Rays body.
 0x89acc4,ALicenseCheck_InitLicense,skipped,net-session-online/src/a_license_check.cpp,thunk: forwards to ALicenseCheck::Init; not reimplemented.
 0x89acfc,_ZN13ALicenseCheck7getIMEIEPci,partial,net-session-online/src/a_license_check.cpp,"Partial: the TELEPHONY_SERVICE lookup chain (getSystemService, getDeviceId) is a stand-in that yields an empty string."
-0x89ad08,FUN_008aad08,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::getIMEI (telephony calls and cleanup); covered by the getIMEI Hex-Rays body.
 0x89aed4,_ZN13ALicenseCheck15CallJNIFuncVoidEP7_jclassP10_jmethodID,partial,net-session-online/src/a_license_check.cpp,"Partial: CallStaticVoidMethod is a stand-in (no JVM), so the call does nothing on Windows."
 0x89aef4,_ZN13ALicenseCheck7DestroyEv,reconstructed,net-session-online/src/a_license_check.cpp,m_http is deleted through its virtual destructor (the original calls the deleting-dtor slot). RMS_PATH is freed with delete[] because SetRMS_PATH used new[].
-0x89af20,FUN_008aaf20,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::Destroy (RMS_PATH free); covered by the Destroy Hex-Rays body.
 0x89af5c,_ZN13ALicenseCheck13getPhpAddressEPc,partial,net-session-online/src/a_license_check.cpp,Partial: when no third separator exists the original reads before the URL (index -2); the port starts at 0. Copy clamped to the 256-byte temporary.
 0x89b044,_ZN13ALicenseCheck7getHostEPc,partial,net-session-online/src/a_license_check.cpp,Partial: when no second separator exists the original reads before the URL; the port starts at 0. Copy clamped to the 256-byte temporary.
-0x89b0b4,FUN_008ab0b4,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::getHost (host copy and strlen); covered by the getHost Hex-Rays body.
 0x89b16c,_ZN13ALicenseCheck11initXPlayerEv,reconstructed,net-session-online/src/a_license_check.cpp,"Host and PHP address are copies; the HTTP object is built with LCXPlayerHttp(host, ""4"", php) and both copies are freed afterwards. Depends on the LCXPlayerHttp constructor (partial, other slice)."
 0x89b200,_ZN13ALicenseCheck11SetRMS_PATHEPKc,reconstructed,net-session-online/src/a_license_check.cpp,"Copies the path with new[]. As decompiled, a previous path is not released."
-0x89b250,FUN_008ab250,skipped,net-session-online/src/a_license_check.cpp,Not code: a halt_baddata word (4 bytes) between chunks; no behaviour.
 0x89b258,ALicenseCheck_SetRMS_PATH,skipped,net-session-online/src/a_license_check.cpp,thunk: forwards to ALicenseCheck::SetRMS_PATH; not reimplemented.
 0x89b25c,_ZN13ALicenseCheck7LoadRMSEv,partial,net-session-online/src/a_license_check.cpp,"Partial: file read, key check (XOR with the MAP_CHARS/IK table, read from the binary's .rodata listing), count-block range check, IMEI check and checksum are rebuilt. Block layout inferred from the listing; out-of-range reads return 0. Round trip with SaveRMS is tested."
 0x89b65c,_ZN13ALicenseCheck7SaveRMSEb,partial,net-session-online/src/a_license_check.cpp,"Partial: random fill, valid-save blocks (key, count, IMEI, checksum) and the invalid-save stride reset are rebuilt. The Hex-Rays body reuses temporaries across branches; each stored value follows the listing. Round trip with LoadRMS is tested."
-0x89b670,FUN_008ab670,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: the iglu.bin write loop inside ALicenseCheck::SaveRMS; covered by the SaveRMS Hex-Rays body.
 0x89bacc,_ZN13ALicenseCheck16validateResponseEPc,partial,net-session-online/src/a_license_check.cpp,"Partial: ConfigFile::mParams (three 255-byte response codes filled at run time by the original) is a zeroed stand-in, so the code comparisons cannot match real responses."
-0x89bb9c,FUN_008abb9c,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: the success branch of ALicenseCheck::validateResponse (SaveRMS calls); covered by the validateResponse Hex-Rays body.
 0x89bc38,_ZN13ALicenseCheck16sendRequestByGetEv,partial,net-session-online/src/a_license_check.cpp,"Partial: the blob codec (SSEncDec_String2BlobLC / SSEncDec_Blob2StringLC) is a stand-in returning null, so the request and reply are empty here. Request buffer enlarged to 1024 so the text is not truncated (deviation)."
-0x89bcd4,FUN_008abcd4,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::sendRequestByGet (response decode and validation); covered by the sendRequestByGet Hex-Rays body.
-0x89bd60,FUN_008abd60,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: a 4-byte bare return inside the sendRequestByGet chunk; no behaviour.
 0x89bdc0,_ZN13ALicenseCheck14ValidateServerEb,partial,net-session-online/src/a_license_check.cpp,"Partial: the call order is rebuilt. getIMEI, createUniqueCode, the KEY read and the request go through the JNI and codec stand-ins, so the result depends on them."
-0x89bdd8,FUN_008abdd8,skipped,net-session-online/src/a_license_check.cpp,IDA chunk: tail of ALicenseCheck::ValidateServer (LoadRMS failure exit and tracking call); covered by the ValidateServer Hex-Rays body.
-0x89beac,FUN_008abeac,skipped,net-session-online/src/a_license_check.cpp,Not code: a halt_baddata word (1 byte) between chunks; no behaviour.
 0x89becc,ALicenseCheck_ValidateLicense,skipped,net-session-online/src/a_license_check.cpp,thunk: forwards to ALicenseCheck::ValidateServer; not reimplemented.
 0x89cf04,LC_API_IP_STR2INT,reconstructed,net-session-online/src/glx_84ae28.cpp,Deviation: each dotted part is clamped to 15 bytes (the original copies into a 16-byte buffer unchecked). Otherwise as decompiled. Declared in lc_api_net.hpp.
-0x89d0a0,FUN_008ad0a0,partial,net-session-online/src/glx_84ae28.cpp,"Not reconstructed: Ghidra-only fragment (FUN_008ad0a0), no Hex-Rays body. A 6-bit key-table encoder (SSEncDec_GetCharFromKeyByIndexLC) with register-based inputs (destination, source, length, start, padding flag); the caller is not identified. BLOCKED."
 0x89d1d0,LC_API_PARSE_DATA_NEW,partial,net-session-online/src/glx_84ae28.cpp,"Partial: the field scan and allocation follow the listing. Quirks kept as decompiled: a last field that ends at the NUL loses its final character (copy is length-1); when no field starts the original reads src[-1], the port copies nothing and returns -1. Verify against the binary."
 0x89d31c,LC_API_STRNEW,reconstructed,net-session-online/src/glx_84ae28.cpp,Null input returns null (the original would fault).
 0x89d360,LC_API_FREE,skipped,core-platform/src/lc_api.cpp,thunk: forwards to LC_API_FREE_0 (libc free wrapper); the port frees with delete[] or unique_ptr at the owner.
@@ -972,13 +957,9 @@ elf_address,symbol,status,source_file,notes
 0x89d9f8,_ZN13LCXPlayerHttpC2EPcS0_S0_,skipped,net-session-online/src/lcx_player_http.cpp,"C2 alias of 0x89d950, identical body (same partial note)"
 0x89daa0,_ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_,partial,net-session-online/src/lcx_player_http.cpp,"sendVideoByPost: Host value is a stand-in; multipart body and total length as decompiled; the caller query is copied, not appended in place"
 0x89dd70,_ZN13LCXPlayerHttp12downloadFileEPcS0_S0_S0_ll,reconstructed,net-session-online/src/lcx_player_http.cpp,downloadFile: request text as decompiled; request buffer bounded to 0x3ff bytes (original unbounded)
-0x89deec,FUN_008adeec,skipped,net-session-online/src/lcx_player_http.cpp,"FUN_008adeec: outlined tail of downloadFile (Range/Start block), no entry point; body is in 0x89dd70"
 0x89e048,_ZN13LCXPlayerHttp10sendByPostEPcS0_,partial,net-session-online/src/lcx_player_http.cpp,"sendByPost: Host value is a stand-in; the caller query is copied, not appended in place"
 0x89e2e8,_ZN13LCXPlayerHttp9sendByGetEPcS0_,partial,net-session-online/src/lcx_player_http.cpp,sendByGet: Host value is a stand-in
 0x89e57c,_ZN22LCXPlayerSocketFactory9GetSocketEPciP23LCXPlayerSocketObserver,partial,net-session-online/src/lcx_player_socket.cpp,LCXPlayerSocketFactory::GetSocket: builds the base LCXPlayerSocket; original builds LCAndroidSocket (0xcf0 bytes)
-0x89e718,FUN_008ae718,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008ae718: LCAndroidSocket::SetBroadcast error trace (platform socket, not ported)"
-0x8a0158,FUN_008b0158,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b0158: LCAndroidSocket::Startup call fragment (platform socket, not ported)"
-0x8a0180,FUN_008b0180,skipped,net-session-online/src/lcx_player_socket.cpp,FUN_008b0180: 4-byte fragment that loads +0x824; not an entry point (GetAcceptIP at 0x8a0184 has the body)
 0x8a0184,_ZN15LCXPlayerSocket11GetAcceptIPEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
 0x8a018c,_ZN15LCXPlayerSocket13GetAcceptPortEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,
 0x8a0194,_ZN15LCXPlayerSocket13SetAcceptPortEi,reconstructed,net-session-online/src/lcx_player_socket.cpp,
@@ -995,23 +976,8 @@ elf_address,symbol,status,source_file,notes
 0x8a0464,_ZN15LCXPlayerSocketD1Ev,reconstructed,net-session-online/src/lcx_player_socket.cpp,"D1: members released by unique_ptr and std::string; the original frees accept address, server name and content"
 0x8a0500,_ZN15LCXPlayerSocketD0Ev,skipped,net-session-online/src/lcx_player_socket.cpp,D0 deleting destructor variant; the delete expression covers it
 0x8a051c,_ZN15LCXPlayerSocketD2Ev,skipped,net-session-online/src/lcx_player_socket.cpp,"D2 alias of 0x8a0464, identical body"
-0x8a0548,FUN_008b0548,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b0548: outlined member cleanup of ~LCXPlayerSocket, no entry point; folded into D1"
-0x8a0578,FUN_008b0578,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b0578: outlined string buffer release of ~LCXPlayerSocket, no entry point; folded into D1"
 0x8a05b8,_ZN15LCXPlayerSocket15ParseHttpHeaderEPc,reconstructed,net-session-online/src/lcx_player_socket.cpp,ParseHttpHeader: header block = content before CRLF CRLF; name searched in the lower-cased block; -1 when absent
 0x8a090c,_ZN15LCXPlayerSocket16RemoveHttpHeaderEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,RemoveHttpHeader: drops content up to and including the first CRLF CRLF when it is after position 0
 0x8a0af0,_ZN15LCXPlayerSocket19ParseChunkedContentEv,partial,net-session-online/src/lcx_player_socket.cpp,"ParseChunkedContent: first chunk as decompiled; second and later chunks reproduce the pseudocode offsets (size line length = absolute CRLF index; next offset = data end + 4 + absolute CRLF index), which look wrong; debug traces not kept; original throws where the port returns 0"
-0x8a0f2c,FUN_008b0f2c,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b0f2c: outlined loop block of ParseChunkedContent, no entry point"
-0x8a0f80,FUN_008b0f80,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b0f80: outlined loop block of ParseChunkedContent, no entry point"
-0x8a1240,FUN_008b1240,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1240: outlined debug/range-check block of ParseChunkedContent, no entry point"
-0x8a1270,FUN_008b1270,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1270: outlined tmpPosChunkSize block of ParseChunkedContent, no entry point"
 0x8a1534,_ZN15LCXPlayerSocket20CalculateTotalLengthEv,reconstructed,net-session-online/src/lcx_player_socket.cpp,"CalculateTotalLength: Content-Length (upper-case, then lower-case) in the header block; value to the next CRLF; atoi; 0 when absent, -1 when the block or the value line is incomplete"
-0x8a15e8,FUN_008b15e8,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b15e8: outlined block of CalculateTotalLength, no entry point"
-0x8a1610,FUN_008b1610,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1610: outlined string allocation block of CalculateTotalLength, no entry point"
-0x8a1704,FUN_008b1704,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1704: outlined value copy block of CalculateTotalLength, no entry point"
-0x8a1830,FUN_008b1830,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1830: outlined CRLF scan block of the LCX parse functions, no entry point"
-0x8a1858,FUN_008b1858,skipped,net-session-online/src/lcx_player_socket.cpp,FUN_008b1858: thunk to the std::string block allocator
-0x8a19e4,FUN_008b19e4,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b19e4: outlined name compare loop of ParseHttpHeader, no entry point"
 0x8a1c1c,_ZN15LCXPlayerSocket3RunEv,partial,net-session-online/src/lcx_player_socket.cpp,"Run (vtable +0x10): no-op here. The receive step (header parse on first data, content length check, observer callback, timing traces) needs the platform socket"
-0x8a1dd4,FUN_008b1dd4,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1dd4: outlined tail of Run (receive complete path), no entry point"
-0x8a1dfc,FUN_008b1dfc,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1dfc: outlined tail of Run, no entry point"
-0x8a1e70,FUN_008b1e70,skipped,net-session-online/src/lcx_player_socket.cpp,"FUN_008b1e70: outlined tail of Run, no entry point"

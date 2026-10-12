@@ -504,7 +504,6 @@ elf_address,symbol,status,source_file,notes
 0x516004,_ZrsRSiR9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode class and its virtual slots are not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
 0x5175e0,_ZlsRSoRK9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode::Accept slot not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
 0x517870,_ZlsRSsRK9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode::Accept slot not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
-0x51eaf8,FUN_0052eaf8,skipped,core-platform/src/w7_global_02.cpp,No Hex-Rays pseudocode and no ARM listing returned for this address (tool names it FUN_0052eaf8); not recovered
 0x52f0dc,appTrackBall,skipped,core-platform/src/w7_global_02.cpp,app* UI handler; owned by UI session
 0x52f0e8,getState,reconstructed,core-platform/src/w7_global_02.cpp,"Returns constant 1; declared extern C in w7_global_02.hpp. Called from Java JNI glue, but the function itself is not JNI"
 0x52f0f0,appKeyPressed,skipped,core-platform/src/w7_global_02.cpp,app* UI handler; owned by UI session
@@ -550,31 +549,8 @@ elf_address,symbol,status,source_file,notes
 0x8456e4,_Z9threadfunPv,skipped,core-platform/src/w7_global_04.cpp,"Needs Thread::Run from the threading category (no Thread declaration in this port) and pthread_exit (POSIX, not targeted)"
 0x876e8c,_ZL21convert_samples_shortiPPsiiPPfii,reconstructed,core-platform/src/w7_global_04.cpp,"channel_selector and channel_position tables taken from the IDA .rodata listing (no ELF in container). Copy path ignores in_offset as in the original. Original re-runs the identical downmix once per output channel; done once here. Return type int in Hex-Rays, made void"
 0x8771bc,_ZL34convert_channels_short_interleavediPsiPPfii,reconstructed,core-platform/src/w7_global_04.cpp,"channel_position taken from the IDA .rodata listing. Original repeats the identical conversion once per output channel; done once here. Return type int in Hex-Rays, made void"
-0x89c04c,FUN_008ac04c,skipped,core-platform/src/w7_global_04.cpp,"Ghidra-only body (IDA has no function start at this address); config-file decode routine with unresolved register inputs; not rebuilt, needs a hand pass from the ARM listing"
-0x89c1c0,FUN_008ac1c0,skipped,core-platform/src/w7_global_04.cpp,"Ghidra fragment: ""#"" substitution loop then an Android ConfigFile assert print and stack-guard tail; inputs unresolved; not rebuilt"
-0x89c400,FUN_008ac400,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment (compare then __stack_chk_fail); no body of its own
-0x89c61c,FUN_008ac61c,skipped,core-platform/src/w7_global_04.cpp,"Ghidra output garbled (flag-register bit tests, SBORROW); UTF-8 to UTF-16 decoder shape; IDA has no function start here; not rebuilt"
 0x89c6ac,_Z26ConvertUnicodeToUTF8_OldLCPcPKt,reconstructed,core-platform/src/w7_global_04.cpp,Same behaviour as ConvertUnicodeToUTF8_Old; the LC variant only differs in how the masks are written
-0x89c868,FUN_008ac868,skipped,core-platform/src/w7_global_04.cpp,Ghidra fragment: UTF-8 output-length loop with carry-flag inputs; IDA has no function start here; not rebuilt
-0x89e810,FUN_008ae810,skipped,core-platform/src/w7_global_04.cpp,Android LC socket local-address helper (gethostname/gethostbyname/inet_ntoa) with stack-guard tail and unresolved inputs; platform not targeted
-0x89e8e0,FUN_008ae8e0,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::RecvFromUnkownIP; Android socket platform, not targeted"
-0x89ead0,FUN_008aead0,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment
-0x89ecbc,FUN_008aecbc,skipped,core-platform/src/w7_global_04.cpp,"CAndroid::CreateSocket error path; Android socket platform, not targeted"
-0x89ecec,FUN_008aecec,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket bind loop; Android socket platform, not targeted"
-0x89ed28,FUN_008aed28,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket bind loop; Android socket platform, not targeted"
-0x89f0b8,FUN_008af0b8,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::ConnectTo; Android socket platform, not targeted"
-0x89f2a4,FUN_008af2a4,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket connect path; Android socket platform, not targeted"
-0x89f2d4,FUN_008af2d4,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment
-0x89f4b8,FUN_008af4b8,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket state fragment (sets state 7); Android socket platform, not targeted"
-0x89f4e8,FUN_008af4e8,skipped,core-platform/src/w7_global_04.cpp,"4-byte stack-guard branch to __stack_chk_fail, part of LCAndroidSocket::Connect (IDA loc_89F4E8), not a thunk of its own"
-0x89f5d4,FUN_008af5d4,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::ConnectByName; Android socket platform, not targeted"
-0x89f858,FUN_008af858,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::SetNonBlocking error path; Android socket platform, not targeted"
 0x89f8a0,_Z28threadGetHostByNameProcessLCPv,partial,core-platform/src/w7_global_04.cpp,"LC_DEBUG_OUT (0x89c304) has an empty body in the binary, so its call is dropped; LC_API_STRNEW replaced by local new[] copy; request layout as threadGetHostByNameProcess"
-0x89f8d0,FUN_008af8d0,skipped,core-platform/src/w7_global_04.cpp,Compiler split of the host-slot capacity check in threadGetHostByNameProcessLC (IDA loc_ inside another function); no separate function
-0x89fc74,FUN_008afc74,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::Clearup (frees the LC host cache); IDA range is a 4-byte stub; Android socket platform, not rebuilt here"
-0x89fe78,FUN_008afe78,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket interface enumeration via ioctl 0x8913; Android socket platform, not targeted"
-0x89ffd4,FUN_008affd4,skipped,core-platform/src/w7_global_04.cpp,LCXPlayerSocket constructor fragment; net-session-online owns LCXPlayerSocket; Android socket platform
-0x89fffc,FUN_008afffc,skipped,core-platform/src/w7_global_04.cpp,"LCXPlayerSocket destructor fragment (pthread_join, CloseSocket); net-session-online owns LCXPlayerSocket; Android socket platform"
 0x52f0e4,nativepauseAllMusic,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
 0x531150,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGameRenderer,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
 0x531154,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeConfig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
