@@ -289,6 +289,27 @@ B117 resolved in accepted v21.1: exact shipped crash reproduced with full physic
 
 | ID | Observed | State | Implementation owner | Reviewer |
 |---|---|---|---|---|
-| B118 | User reports resuming crashes; clarified **Continue from the main menu**. | OPEN; fresh worker and reviewer assigned immediately. Current profile/world/selective checkpoint/tutorial progress copied read-only to `.local-inputs/b118/user-seed`; reproduction pending. | `/root/b118_continue_crash`; root integration | `/root/b118_continue_review` |
 
 Accepted packages and original saves remain untouched. Reproduce the actual normal frontend Continue using further isolated copies before changing code; preserve authored restore/identity admission and inspect mutable saved state rather than weakening the guard. B116 may be related but no relation is established yet.
+
+B118 resolved in Continue-only v21.2: exact copied-user-save crash reproduced independently; restore-specific spawn-slot reconciliation preserves normal release guards;22/22 focused tests and independent Continue/movement/save/quit/reopen plus package audit pass. Original saves preserved, progress copied separately. B131 death/checkpoint failure below is a distinct newly reproduced path.
+
+### v21.1 user batch — 2026-10-12 (parallel sessions)
+
+User confirms all eight screenshots are v21.1; loot, potions and Equipment stopped together after the same fight/death. Current saved profiles predate the screenshot session. Thirteen fresh implementation owners, three domain reviewers and seven bounded support sessions dispatched concurrently; integration lead `/root/batch_integration` owns shared main/core/build in v201int. Brief/evidence/ownership: `coordination/v21.3/BUGFIX-BRIEF.md`. Source audit, helper pass or non-reproduction is not resolution.
+
+| ID | Report | Current state | Implementation owner | Reviewer |
+|---|---|---|---|---|
+| B119 | No sell sound | OPEN integration review; original PickupGold caller recovered, normal omission reproduced, candidate cue/duplicate/refusal checks pass; final combined build pending | `/root/b119_sell_sound` | `/root/batch_audio_review` |
+| B120 | No buy sound | OPEN; exact MenuConfirm/PickupGold caller gates recovered, integrated candidate pending normal branch proof | `/root/b120_buy_sound` | `/root/batch_audio_review` |
+| B121 | No point allocation sound | OPEN integration review; normal omission reproduced, callback-backed MenuSpending integrated candidate passes; final combined build pending | `/root/b121_point_sound` | `/root/batch_audio_review` |
+| B122 | Deep broader missing-sound research/repair | OPEN; actual shipped samples verified (stale absence claims corrected), caller/output audit and remaining exact-URI gaps documented; production/output verification pending | `/root/b122_audio_research` | `/root/batch_audio_review` |
+| B123 | Similar/repeated merchant stock | OPEN; original allows repeated instances/labels, do not deduplicate; actual generated powers/value/name/RNG are lost by current port and preservation patch underway | `/root/b123_merchant_stock` | `/root/batch_menu_review` |
+| B124 | Hard to scroll/navigate lists | OPEN; source ButtonsList and PC adaptation investigated, real module API/private tests pass; ordinary wheel/key/drag integration pending | `/root/b124_list_navigation` | `/root/batch_menu_review` |
+| B125 | Rusted Ring shows no stats | OPEN; Ring01 bare stats legitimately empty, but production suppresses generated power lines; canonical resolver/private patch underway, actual instance verification pending | `/root/b125_ring_stats` | `/root/batch_menu_review` |
+| B126 | Mobs again refuse to die/disappear | OPEN; normal moth deaths pass; exact reported lizard/moth state and source sequence still require reproduction, no guessed death patch | `/root/b126_mob_death` | `/root/batch_gameplay_review` |
+| B127 | Brown “bogmonp” untargetable | OPEN; strongest candidate is authored Troll (separate from captain/TRUNGUS); screenshot-time identity/admission not proven; normal TrollReturn/target sequence required | `/root/b127_brown_target` | `/root/batch_gameplay_review` |
+| B128 | Cannot take loot after fight | OPEN; normal chest walkover/idle-deferred pickup pass; actual postfight refusal/Conscript Armor identity unresolved | `/root/b128_loot_pickup` | `/root/batch_gameplay_review` |
+| B129 | Equipment tab unresponsive | OPEN; baseline and normal postcombat Details pass; reported postdeath route blocked by B131 restore failure, must verify after repair | `/root/b129_equipment_input` | `/root/batch_menu_review` |
+| B130 | Potions stop working with stock6 | OPEN; normal pointer/key use and full-vitals refusal pass, original missing PotionDrink caller being wired; reported postfight/live-after-death case pending | `/root/b130_potion` | `/root/batch_gameplay_review` |
+| B131 | Death/checkpoint click returns/stays unresponsive | OPEN; independent natural death+real Space/mouse Continue reproduce CanRespawn admission failure followed by invalid movement context; source-backed restore repair underway | `/root/b131_death_checkpoint` | `/root/batch_gameplay_review` |
