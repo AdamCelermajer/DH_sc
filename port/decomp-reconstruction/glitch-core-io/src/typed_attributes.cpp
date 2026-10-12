@@ -1,5 +1,7 @@
 #include "glitch-core-io/io/typed_attributes.hpp"
 
+#include <cstdint>
+#include <cstring>
 #include <cwchar>
 #include <string>
 #include <vector>
@@ -110,5 +112,75 @@ const wchar_t* CColorAttribute::getTypeString() const { return L"color"; }
 
 // 0x560504 _ZNK6glitch2io16CMatrixAttribute13getTypeStringEv
 const wchar_t* CMatrixAttribute::getTypeString() const { return L"matrix"; }
+
+}  // namespace glitch::io
+
+// ---- CColorAttribute / CColorfAttribute integer view ----------------------
+// Both classes use the same bodies. The original stores the four colour bytes
+// into a stack word, reads that word back (so the result is the packed colour
+// rotated left by one byte), and for setInt writes four floats byte / 255 into
+// the float list at +0x30: element 0 from bits 8..15, element 1 from bits
+// 16..23, element 2 from bits 24..31 and element 3 from bits 0..7.
+
+namespace glitch::io {
+namespace {
+
+// 0x3b808081 is the single-precision constant the original multiplies by.
+float byteScale() {
+    const std::uint32_t bits = 0x3b808081u;
+    float f;
+    std::memcpy(&f, &bits, sizeof f);
+    return f;
+}
+
+// Rotate left by one byte: the byte order the original's stack round trip produces.
+std::uint32_t rotatedColor(std::uint32_t packed) { return (packed << 8) | (packed >> 24); }
+
+int colorInt(const IAttribute& attribute) {
+    return static_cast<int>(rotatedColor(attribute.getColor().color));
+}
+
+float colorFloat(const IAttribute& attribute) {
+    return static_cast<float>(rotatedColor(attribute.getColor().color));
+}
+
+// Stores the four bytes of value as unit floats. The original writes without a
+// size check; the guard below only matters for a list shorter than four.
+void storeColorBytes(std::vector<float>& floats, int value) {
+    const auto v = static_cast<std::uint32_t>(value);
+    const float parts[4] = {
+        static_cast<float>((v >> 8) & 0xffu) * byteScale(),
+        static_cast<float>((v >> 16) & 0xffu) * byteScale(),
+        static_cast<float>((v >> 24) & 0xffu) * byteScale(),
+        static_cast<float>(v & 0xffu) * byteScale(),
+    };
+    for (std::size_t i = 0; i < 4 && i < floats.size(); ++i) floats[i] = parts[i];
+}
+
+}  // namespace
+
+// 0x31f12c _ZN6glitch2io15CColorAttribute6getIntEv
+int CColorAttribute::getInt() const { return colorInt(*this); }
+
+// 0x31f18c _ZN6glitch2io15CColorAttribute8getFloatEv
+float CColorAttribute::getFloat() const { return colorFloat(*this); }
+
+// 0x31f1f0 _ZN6glitch2io15CColorAttribute6setIntEi
+void CColorAttribute::setInt(int value) { storeColorBytes(floatValues, value); }
+
+// 0x31f284 _ZN6glitch2io15CColorAttribute8setFloatEf
+void CColorAttribute::setFloat(float value) { setInt(static_cast<int>(value)); }
+
+// 0x31ef94 _ZN6glitch2io16CColorfAttribute6getIntEv
+int CColorfAttribute::getInt() const { return colorInt(*this); }
+
+// 0x31eff4 _ZN6glitch2io16CColorfAttribute8getFloatEv
+float CColorfAttribute::getFloat() const { return colorFloat(*this); }
+
+// 0x31f058 _ZN6glitch2io16CColorfAttribute6setIntEi
+void CColorfAttribute::setInt(int value) { storeColorBytes(floatValues, value); }
+
+// 0x31f0ec _ZN6glitch2io16CColorfAttribute8setFloatEf
+void CColorfAttribute::setFloat(float value) { setInt(static_cast<int>(value)); }
 
 }  // namespace glitch::io

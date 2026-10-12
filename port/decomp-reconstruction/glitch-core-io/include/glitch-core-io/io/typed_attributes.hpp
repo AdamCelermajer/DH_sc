@@ -11,6 +11,10 @@
 
 namespace glitch::io {
 
+// CColorAttribute and CColorfAttribute share the same integer view of the colour
+// (the ARM bodies are identical). getInt returns the packed colour rotated left by
+// one byte (the original stores the bytes in a stack word, then reads it back
+// shifted); setInt is its inverse and writes four floats byte/255 into the float list.
 class CColorAttribute : public CNumbersAttribute {
 public:
     CColorAttribute() = default;
@@ -18,6 +22,10 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x31f2ac
     const wchar_t* getTypeString() const override;  // 0x31f2b4
+    int getInt() const override;          // 0x31f12c
+    float getFloat() const override;      // 0x31f18c
+    void setInt(int value) override;      // 0x31f1f0
+    void setFloat(float value) override;  // 0x31f284
 };
 
 class CColorfAttribute : public CNumbersAttribute {
@@ -27,6 +35,10 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x31f114
     const wchar_t* getTypeString() const;  // 0x31f11c
+    int getInt() const override;          // 0x31ef94
+    float getFloat() const override;      // 0x31eff4
+    void setInt(int value) override;      // 0x31f058
+    void setFloat(float value) override;  // 0x31f0ec
 };
 
 class CVector2DAttribute : public CNumbersAttribute {

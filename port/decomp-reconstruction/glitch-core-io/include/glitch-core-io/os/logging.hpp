@@ -3,6 +3,8 @@
 // its virtual-time state in statics.
 #pragma once
 
+#include <cstdint>
+
 namespace glitch::os {
 
 enum ELOG_LEVEL { ELL_DEBUG = 0, ELL_INFORMATION = 1, ELL_WARNING = 2, ELL_ERROR = 3, ELL_NONE = 4 };
@@ -36,9 +38,25 @@ public:
     // initialisation and are not recovered.
     static float VirtualTimerSpeed;            // _ZN6glitch2os5Timer17VirtualTimerSpeedE
     static int VirtualTimerStopCounter;        // _ZN6glitch2os5Timer23VirtualTimerStopCounterE
+    // Real-time bookkeeping (32-bit milliseconds, as in the original).
+    static std::uint32_t StaticTime;           // _ZN6glitch2os5Timer10StaticTimeE
+    static std::uint32_t StartRealTime;        // _ZN6glitch2os5Timer13StartRealTimeE
+    static std::uint32_t LastVirtualTime;      // _ZN6glitch2os5Timer15LastVirtualTimeE
+    static std::uint32_t TickCount;            // _ZN6glitch2os5Timer9TickCountE
 
     static float getSpeed();                   // 0x60ae9c
     static bool isStopped();                   // 0x60aebc
+    static std::uint32_t getTime();            // 0x60aee4
+    static void stopTimer();                   // 0x60af68
+    static std::int64_t getMicroSeconds();     // 0x60b094
+    static void initVirtualTimer();            // 0x60b10c
+    static void initTimer();                   // 0x60b144 (tail branch to initVirtualTimer)
+    static void setTime(std::uint32_t time);   // 0x60b148
+    static void setSpeed(float speed);         // 0x60b194
+    static void startTimer();                  // 0x60b1dc
+    static void tick();                        // 0x60b22c
+    // Milliseconds of wall-clock time, 32-bit (0x60b0cc). Not in the queue; a helper.
+    static std::uint32_t getRealTime();
 };
 
 }  // namespace glitch::os

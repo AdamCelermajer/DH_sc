@@ -27,6 +27,17 @@ int main() {
     CHECK(rect.getType() == 0xe);
     CHECK(light.getType() == 0x1b);
 
+    // The integer view round-trips: setInt stores the bytes as unit floats and
+    // getInt packs them back (rotated by one byte, as the original does).
+    CColorfAttribute colorInt("ci", glitch::video::SColorf{0.f, 0.f, 0.f, 0.f}, false);
+    colorInt.setInt(0x11223344);
+    CHECK(colorInt.floatValues.size() == 4);
+    CHECK(colorInt.getInt() == 0x11223344);
+    CHECK(colorInt.floatValues[0] > 0.2f && colorInt.floatValues[0] < 0.21f);  // 0x33 / 255
+    CColorAttribute colorPacked("cp", glitch::video::SColorf{0.f, 0.f, 0.f, 0.f}, false);
+    colorPacked.setFloat(static_cast<float>(0x00112233));  // exact in float; truncates to int
+    CHECK(colorPacked.getInt() == 0x00112233);
+
     std::printf("%s\n", failures ? "typed_attributes: FAILED" : "typed_attributes: ok");
     return failures != 0;
 }
