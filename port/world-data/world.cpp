@@ -48,11 +48,6 @@ bool name_first(unsigned c) {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 bool name_next(unsigned c) { return name_first(c) || (c >= '0' && c <= '9') || c == '-' || c == '.'; }
-bool translation_only(const Transform& t) {
-    for (unsigned i = 0; i < 3; ++i)
-        if (t.rotation_degrees[i] != 0 || t.scale[i] != 1) return false;
-    return true;
-}
 
 struct Parser {
     const std::uint8_t* p;
