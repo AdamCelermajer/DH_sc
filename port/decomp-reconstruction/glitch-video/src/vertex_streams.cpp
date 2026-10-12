@@ -69,4 +69,54 @@ bool CVertexStreams::isHomogeneous(uint32_t mask) const {
     return true;
 }
 
+// 0x5a0bfc _ZN6glitch5video14CVertexStreams25updateHomogeneityInternalEb
+// Only consecutive pairs of non-null buffers are compared, so a null entry
+// between two streams never makes the table inhomogeneous. With no streams the
+// original reads past the end of its inline array; this port treats the table
+// as homogeneous, which is the only reading that does not touch memory it does
+// not own.
+void CVertexStreams::updateHomogeneityInternal(bool flag) {
+    if (!flag) {
+        bool homogeneous = true;
+        for (size_t i = 0; i + 1 < m_streams.size(); ++i) {
+            IBuffer* a = m_streams[i].buffer.get();
+            IBuffer* b = m_streams[i + 1].buffer.get();
+            if (a != nullptr && b != nullptr && a != b) {
+                homogeneous = false;
+                break;
+            }
+        }
+        if (homogeneous) {
+            m_flags = static_cast<uint16_t>(m_flags | kFlagHomogeneous);
+            return;
+        }
+    }
+    m_flags = static_cast<uint16_t>(m_flags & ~kFlagHomogeneous);
+}
+
+// 0x5a0d80 _ZN6glitch5video14CVertexStreams20updateStatesInternalEb
+void CVertexStreams::updateStatesInternal(bool flag) {
+    uint16_t flags = flag ? static_cast<uint16_t>(m_flags & ~kFlagHomogeneous)
+                          : static_cast<uint16_t>(m_flags | kFlagHomogeneous);
+    m_flags = static_cast<uint16_t>(flags | kFlagHasData);
+
+    IBuffer* prev = nullptr;
+    for (const SVertexStream& s : m_streams) {
+        IBuffer* cur = s.buffer.get();
+        if (cur != nullptr) {
+            if (cur->m_data == nullptr) {
+                m_flags = static_cast<uint16_t>(m_flags & ~kFlagHasData);
+            }
+            if (prev != nullptr && prev != cur) {
+                m_flags = static_cast<uint16_t>(m_flags & ~kFlagHomogeneous);
+            }
+        }
+        prev = cur;
+    }
+}
+
+// 0x5a0e24 _ZN6glitch5video14CVertexStreams12updateStatesEb
+// Thunk: the ARM body is `b #0x5a0d80`, so this forwards to updateStatesInternal.
+void CVertexStreams::updateStates(bool flag) { updateStatesInternal(flag); }
+
 }  // namespace glitch::video
