@@ -55,6 +55,20 @@ struct vector2d {
 template <typename T>
 struct vector3d {
     T X, Y, Z;
+
+    // 0x35e8e0 vector3d<float>::normalize(void): when the squared length v2 = X*X + Y*Y + Z*Z is
+    // nonzero, every component is multiplied by 1 / sqrt(v2) (a reciprocal, not a division). A zero
+    // vector is left unchanged. Returns this, as the original returns its argument.
+    vector3d& normalize() {
+        const T v2 = static_cast<T>((X * X + Y * Y) + Z * Z);
+        if (v2 != T(0)) {
+            const T inv = static_cast<T>(T(1) / std::sqrt(v2));
+            X = X * inv;
+            Y = Y * inv;
+            Z = Z * inv;
+        }
+        return *this;
+    }
 };
 template <typename T>
 struct vector4d {
@@ -102,6 +116,11 @@ struct quaternion {
     float X, Y, Z, W;
 };
 template <typename T>
+struct line3d;
+template <typename T>
+struct aabbox3d;
+
+template <typename T>
 struct triangle3d {
     vector3d<T> A, B, C;
 
@@ -121,6 +140,78 @@ struct triangle3d {
         const T y = d11 * d20 - d01 * d21;  // u numerator
         const T z = (x + y) - (d00 * d11 - d01 * d01);
         return !std::signbit(x) && !std::signbit(y) && std::signbit(z);
+    }
+
+    // 0x585bb8 triangle3d<float>::isOnSameSide(p1, p2, a, b) const. The receiver is unused. With
+    // e = b - a, w = p1 - a and z = p2 - a, the listing computes dot((e x w), (e x z)) >= 0, with the
+    // cross-product terms written as in the listing (the sign flips are negations of e's components).
+    bool isOnSameSide(const vector3d<T>& p1, const vector3d<T>& p2, const vector3d<T>& a,
+                      const vector3d<T>& b) const {
+        const T ex = b.X - a.X, ey = b.Y - a.Y, ez = b.Z - a.Z;
+        const T wx = p1.X - a.X, wy = p1.Y - a.Y, wz = p1.Z - a.Z;
+        const T zx = p2.X - a.X, zy = p2.Y - a.Y, zz = p2.Z - a.Z;
+        const T t1 = (wz * -ey) + (ez * wy);
+        const T b1 = (-ey * zz) + (ez * zy);
+        const T t2 = (wx * -ez) + (ex * wz);
+        const T b2 = (-ez * zx) + (ex * zz);
+        const T t3 = (wy * -ex) + (ey * wx);
+        const T b3 = (-ex * zy) + (ey * zx);
+        return (((t1 * b1) + (t2 * b2)) + (t3 * b3)) >= T(0);
+    }
+
+    // 0x585de8 triangle3d<float>::isPointInside(p) const: p is on the inner side of all three edges.
+    bool isPointInside(const vector3d<T>& p) const {
+        return isOnSameSide(p, A, B, C) && isOnSameSide(p, B, A, C) && isOnSameSide(p, C, A, B);
+    }
+
+    // 0x585e80 triangle3d<float>::getIntersectionOfPlaneWithLine(start, dir, out) const. The plane
+    // normal is cross(C - A, B - A) (listing: v29), normalized with vector3d::normalize. Returns false
+    // when |N . dir| <= 1e-6 (double compare, as in the listing); otherwise out = start + t * dir with
+    // t = (N . A - N . start) / (N . dir).
+    bool getIntersectionOfPlaneWithLine(const vector3d<T>& start, const vector3d<T>& dir,
+                                        vector3d<T>& out) const {
+        const T ux = B.X - A.X, uy = B.Y - A.Y, uz = B.Z - A.Z;
+        const T vx = C.X - A.X, vy = C.Y - A.Y, vz = C.Z - A.Z;
+        vector3d<T> n{(vz * -uy) + (uz * vy), (vx * -uz) + (ux * vz), (vy * -ux) + (uy * vx)};
+        n.normalize();
+        const T nd = ((n.X * dir.X) + (n.Y * dir.Y)) + (n.Z * dir.Z);
+        if (std::fabs(static_cast<double>(nd)) <= 0.000001) return false;
+        const T ns = ((n.X * start.X) + (n.Y * start.Y)) + (n.Z * start.Z);
+        const T na = ((n.X * A.X) + (n.Y * A.Y)) + (n.Z * A.Z);
+        const T t = (na - ns) / nd;
+        out.X = start.X + (t * dir.X);
+        out.Y = start.Y + (t * dir.Y);
+        out.Z = start.Z + (t * dir.Z);
+        return true;
+    }
+
+    // 0x58615c triangle3d<float>::getIntersectionWithLine(start, dir, out) const: the plane hit, and
+    // then the inside test on that point.
+    bool getIntersectionWithLine(const vector3d<T>& start, const vector3d<T>& dir, vector3d<T>& out) const {
+        if (!getIntersectionOfPlaneWithLine(start, dir, out)) return false;
+        return isPointInside(out);
+    }
+
+    // 0x586188 triangle3d<float>::getIntersectionWithLineSegment(segment, lengthSq, dir, box, out) const.
+    // lengthSq is compared with squared distances (out to segment.start and out to segment.end). The
+    // box test rejects the triangle when its corners all lie past one face of the box on some axis.
+    // dir is the segment direction passed on to getIntersectionWithLine.
+    bool getIntersectionWithLineSegment(const line3d<T>& segment, T lengthSq, const vector3d<T>& dir,
+                                        const aabbox3d<T>& box, vector3d<T>& out) const {
+        const T minX = box.MinEdge.X, maxX = box.MaxEdge.X;
+        const T minY = box.MinEdge.Y, maxY = box.MaxEdge.Y;
+        const T minZ = box.MinEdge.Z, maxZ = box.MaxEdge.Z;
+        if (minX > A.X && minX > B.X && minX > C.X) return false;
+        if (A.X > maxX && maxX < B.X && maxX < C.X) return false;
+        if (minY > A.Y && minY > B.Y && minY > C.Y) return false;
+        if (A.Y > maxY && maxY < B.Y && maxY < C.Y) return false;
+        if (minZ > A.Z && minZ > B.Z && minZ > C.Z) return false;
+        if (!((A.Z <= maxZ) || (maxZ >= B.Z) || (maxZ >= C.Z))) return false;
+        if (!getIntersectionWithLine(segment.start, dir, out)) return false;
+        const T dx = out.X - segment.start.X, dy = out.Y - segment.start.Y, dz = out.Z - segment.start.Z;
+        if (!(lengthSq > ((dx * dx + dy * dy) + dz * dz))) return false;
+        const T ex = out.X - segment.end.X, ey = out.Y - segment.end.Y, ez = out.Z - segment.end.Z;
+        return lengthSq > ((ex * ex + ey * ey) + ez * ez);
     }
 };
 template <typename T>
@@ -211,24 +302,44 @@ struct plane3d {
     vector3d<T> Normal;  // +0x00
     T D;                 // +0x0c
 
-    // 0x561bdc PARTIAL: Normal = (c - a) x (b - a), normalized; D = -dot(a, Normal).
-    // The decompile's sign flips give exactly this cross product. The normalize step is assumed
-    // to be the usual length division; a zero-length normal is left as it is (the original's
-    // zero case is not visible in the listing).
+    // 0x561bdc setPlane(a, b, c): Normal = (c - a) x (b - a), normalized with vector3d::normalize
+    // (0x35e8e0, confirmed from the listing: a call, then D = -dot(a, Normal) with a sign-bit flip).
     void setPlane(const vector3d<T>& a, const vector3d<T>& b, const vector3d<T>& c) {
         const T ux = b.X - a.X, uy = b.Y - a.Y, uz = b.Z - a.Z;  // edge a->b
         const T wx = c.X - a.X, wy = c.Y - a.Y, wz = c.Z - a.Z;  // edge a->c
         Normal.X = wy * uz - wz * uy;
         Normal.Y = wz * ux - wx * uz;
         Normal.Z = wx * uy - wy * ux;
-        const T length = static_cast<T>(std::sqrt(Normal.X * Normal.X + Normal.Y * Normal.Y +
-                                                  Normal.Z * Normal.Z));
-        if (length != T(0)) {
-            Normal.X /= length;
-            Normal.Y /= length;
-            Normal.Z /= length;
-        }
+        Normal.normalize();
         D = -(a.X * Normal.X + a.Y * Normal.Y + a.Z * Normal.Z);
+    }
+
+    // 0x34033c getIntersectionWithLine(start, dir, out) const: returns false when N . dir == 0 (exact
+    // compare). Otherwise t = -(N . start + D) / (N . dir) and out = start + t * dir.
+    bool getIntersectionWithLine(const vector3d<T>& start, const vector3d<T>& dir, vector3d<T>& out) const {
+        const T nd = ((Normal.X * dir.X) + (Normal.Y * dir.Y)) + (Normal.Z * dir.Z);
+        if (nd == T(0)) return false;
+        const T ns = ((Normal.X * start.X) + (Normal.Y * start.Y)) + (Normal.Z * start.Z);
+        const T t = -(ns + D) / nd;
+        out.X = start.X + (t * dir.X);
+        out.Y = start.Y + (t * dir.Y);
+        out.Z = start.Z + (t * dir.Z);
+        return true;
+    }
+
+    // 0x40f0b4 getIntersectionWithLimitedLine(start, end, out) const: the hit must exist and must lie
+    // on the segment, i.e. its squared distance to start and to end are both at most the squared
+    // segment length. Writes out before the segment test, as the listing does.
+    bool getIntersectionWithLimitedLine(const vector3d<T>& start, const vector3d<T>& end, vector3d<T>& out) const {
+        const vector3d<T> d{end.X - start.X, end.Y - start.Y, end.Z - start.Z};
+        if (!getIntersectionWithLine(start, d, out)) return false;
+        const T lx = end.X - start.X, ly = end.Y - start.Y, lz = end.Z - start.Z;
+        const T len2 = ((lx * lx) + (ly * ly)) + (lz * lz);
+        const T sx = out.X - start.X, sy = out.Y - start.Y, sz = out.Z - start.Z;
+        const T distStart = ((sx * sx) + (sy * sy)) + (sz * sz);
+        const T ex = out.X - end.X, ey = out.Y - end.Y, ez = out.Z - end.Z;
+        const T distEnd = ((ex * ex) + (ey * ey)) + (ez * ez);
+        return len2 >= distStart && len2 >= distEnd;
     }
 };
 template <typename T>
@@ -269,6 +380,11 @@ struct CMatrix4 {
 
     T M[16];  // row-major, as in the original
     mutable bool flag = false;  // +0x40: byte after the 16 values; set by the identity constructor and by isIdentity
+
+    // 0x35e998 CMatrix4<float>::operator*(const CMatrix4&) const: this * other, through
+    // detail::CMatrix4Base<float>::mult (0x35e118). DECLARED ONLY: the definition is in
+    // glitch-core-io/core/matrix4_operators.hpp, so include that header to use it.
+    CMatrix4 operator*(const CMatrix4& other) const;
 
     // 0x31f790 getTransposed: out[i] = this[(i % 4) * 4 + i / 4]; the flag is copied.
     void getTransposed(CMatrix4& out) const {
