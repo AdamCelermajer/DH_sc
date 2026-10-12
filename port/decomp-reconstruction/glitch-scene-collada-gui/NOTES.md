@@ -449,3 +449,49 @@ Ledger: 111 rows this wave (109 reconstructed, 2 partial). Host and Windows buil
   CGUIListBox, CGUIContextMenu, CGUIComboBox, CGUIButton::setSprite (the sprite table at +0x168 is only partly
   known), CGUIEditBox, CGUIFileOpenDialog getFileName (word at +0x1a4) and sendSelectedEvent (needs SEvent).
 
+
+## Hex-Rays re-run (partial rows)
+Source: IDA Hex-Rays (`recovered/native/hexrays-all/`). Where a body was ambiguous, the IDA
+listing was checked with `tools/decomp_asm.py --address` (getBuiltInFont, one getType tag).
+Partial rows at the start of the re-run: 152. Now: 83 reconstructed, 69 partial.
+
+- Reconstructed (83):
+  - 80 stubs in generated_stubs.hpp: each constant or empty body was checked against the
+    Hex-Rays pseudocode (script check, now also in tests/generated_stubs_test.cpp). They stay
+    address-named free function templates until each is attached to its owning class.
+  - ISceneNode::getUserProperty and getUserPropertyStr: return null, as the original's 0.
+    The pointer return type is the port's stand-in for the property word, which is not mapped.
+  - CGUIEnvironment::getBuiltInFont: list begin at +0x178, end at +0x17c, font at +0x18
+    (checked in the IDA listing).
+- IGUIElement::getTypeName stays partial. The name table (GUIElementTypeNames, 23 words, the
+  last one null) is now shared from gui_simple_accessors.cpp. The lookup is exact for guiType
+  0 to 0x16. Values from 0x17 up read past the table in the original and return null here.
+- Still partial, with the blocker:
+  - Helpers not ported: os::Timer::TickCount (CBatchMesh::setBoundingBox and getBoundingBox),
+    updateBoundingBox, breakText (CGUIStaticText and CGUIEditBox::setWordWrap),
+    computeBoundingBox (CModularSkinnedMesh::getBoundingBox), vector3d::normalize,
+    vector2d::getAngle and vector3d::rotateXZBy (CSceneNodeAnimatorFlyStraight and
+    CSceneNodeAnimatorCameraMaya).
+  - Refcount release: the vector erase in CMesh::clear, CMeshCache::clear and
+    CDynamicAnimationSet::clearSet drops references without a count model.
+  - getUID and the transformed-box getters: the 32-bit word read through the holder is
+    returned unchanged; its string or box type is inferred.
+  - getExternalLightSceneNode (both overloads) tail-calls the anonymous-namespace
+    getExternalLightSceneNodeDefault (0x62ff80, 1049 bytes, file lookup through
+    CResFileManager::Inst). Not reconstructed.
+  - getAnimationSegment: the count < 0 branch needs a corrupt table, not reproduced.
+  - CGUISkin::getColor: an index above 0x14 leaves the colour bytes unset in the original.
+  - PS_NEW, irr_malloc and irr_free: the allocator is core-platform's (GlitchAlloc and
+    GlitchFree). std::malloc and std::free are used.
+  - CAnimationSetTransformationTemplate C1, C2, D1 and D2: the base IAnimationSetTemplate is
+    not ported.
+  - Particle emitters and affectors: emitt() and affect() need the per-particle loop
+    (normalize, the Randomizer and SParticle buffer growth, all not ported). The mesh emitter's
+    buffer loop uses IMesh vtable slots. Constructors: the member stores are as in the existing
+    body (only the cylinder C2 position, normal, radius and length stores were compared with the pseudocode); the vptr and VTT stores
+    are not reproduced because the interface bases are not ported. Decision for the
+    coordinator: if the no-vtable simplification is accepted, the constructor rows can
+    become reconstructed after a member-by-member check.
+- Ledger format: the file was rewritten with the csv module and LF line endings. The 111
+  rows added in wave 7 had CRLF endings, and 7 legacy rows had unquoted commas in notes. Those
+  notes are quoted now, with the text unchanged.

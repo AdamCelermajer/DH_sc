@@ -2,6 +2,7 @@
 #include "glitch-scene-collada-gui/gui_elements.hpp"
 #include "glitch-scene-collada-gui/gui_simple_accessors.hpp"
 
+#include <cstring>
 #include <cstdio>
 
 using namespace glitch::gui;
@@ -93,7 +94,12 @@ int main() {
     CHECK(button.isPushButton() && button.isDrawingBorder() && button.isAlphaChannelUsed());
     CHECK(!button.isPressed());
 
+    // GUIElementTypeNames: index 3 is "contextMenu"; the table's last word (index 22) is null.
     element.guiType = 3;
+    CHECK(element.getTypeName() != nullptr && std::strcmp(element.getTypeName(), "contextMenu") == 0);
+    element.guiType = 0;
+    CHECK(std::strcmp(element.getTypeName(), "button") == 0);
+    element.guiType = 22;
     CHECK(element.getTypeName() == nullptr);
 
     SBuiltInFontNode fontNode;

@@ -186,11 +186,11 @@ CDefaultGUIElementFactory::CDefaultGUIElementFactory(IGUIEnvironment* env) : env
 // last one null). Entries 9, 17 and 19 are tail-merged literals: "image" and "table" were
 // located inside longer strings; "tab" is inferred from the enum order (its literal is not
 // in strings.csv).
-static const char* const kGUIElementTypeNames[0x16] = {
+const char* const kGUIElementTypeNames[0x17] = {
     "button",   "checkBox",     "comboBox",   "contextMenu", "menu",         "editBox",
     "fileOpenDialog", "colorSelectDialog", "inOutFader", "image", "listBox", "meshViewer",
     "messageBox", "modalScreen", "scrollBar", "spinBox",     "staticText",  "tab",
-    "tabControl", "table",      "toolBar",    "window",
+    "tabControl", "table",      "toolBar",    "window",      nullptr,
 };
 
 // 0x6a5cd0 _ZNK6glitch3gui25CDefaultGUIElementFactory27getCreateableGUIElementTypeEi

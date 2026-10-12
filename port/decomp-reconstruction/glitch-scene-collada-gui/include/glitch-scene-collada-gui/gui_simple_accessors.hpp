@@ -417,6 +417,10 @@ public:
     ~IGUIElementFactory() = default;
 };
 
+// Name table of glitch::gui::GUIElementTypeNames (23 words, the last one null), defined in
+// gui_simple_accessors.cpp. IGUIElement::getTypeName indexes it by guiType.
+extern const char* const kGUIElementTypeNames[0x17];
+
 // Element type ids in the factory's name table (glitch's order; the upstream
 // EGUIElementTypes.h list is the same up to EGUIET_WINDOW minus its tree-view entry).
 enum EGUI_ELEMENT_TYPE : std::uint32_t {

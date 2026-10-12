@@ -61,7 +61,7 @@ public:
     const char* getName() const;
     // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
     const std::vector<IGUIElement*>& getChildren() const;
-    // 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv (partial: the name table is not mapped)
+    // 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv (partial: guiType >= 0x17 reads past the table in the original)
     const char* getTypeName() const;
     // 0x534e48 _ZNK6glitch3gui11IGUIElement13isPointInsideERKNS_4core10position2dIiEE
     // True when the point lies inside the absolute rectangle (both edges included).
@@ -94,7 +94,7 @@ public:
     IGUIElement* getFocus() const;
     // 0x53562c _ZNK6glitch3gui15CGUIEnvironment8hasFocusEPNS0_11IGUIElementE
     bool hasFocus(IGUIElement* element) const;
-    // 0x535bf8 _ZNK6glitch3gui15CGUIEnvironment14getBuiltInFontEv (partial: list links are not mapped)
+    // 0x535bf8 _ZNK6glitch3gui15CGUIEnvironment14getBuiltInFontEv
     CGUIFont* getBuiltInFont() const;
     // 0x535640 _ZNK6glitch3gui15CGUIEnvironment14getVideoDriverEv
     video::IVideoDriver* getVideoDriver() const;

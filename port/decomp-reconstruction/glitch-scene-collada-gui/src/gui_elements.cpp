@@ -1,6 +1,8 @@
 // glitch::gui element and widget accessors (see gui_elements.hpp for the layout).
 #include "glitch-scene-collada-gui/gui_elements.hpp"
 
+#include "glitch-scene-collada-gui/gui_simple_accessors.hpp"
+
 namespace glitch::gui {
 
 // 0x534f90 _ZNK6glitch3gui11IGUIElement9isVisibleEv
@@ -65,16 +67,12 @@ bool IGUIElement::isPointInside(const core::position2d<int>& point) const {
 }
 
 // 0x535014 _ZNK6glitch3gui11IGUIElement11getChildrenEv
-// Name table indexed by guiType. The original reads it from a static table
-// (glitch::gui::GUIElementTypeNames) that is not mapped yet, so it stays null
-// and getTypeName then returns null.
-namespace {
-const char* const* guiElementTypeNames = nullptr;
-}  // namespace
-
 // 0x5350a4 _ZNK6glitch3gui11IGUIElement11getTypeNameEv
+// partial: the in-range lookup is exact (guiType indexes GUIElementTypeNames, 23 words).
+// The original has no bounds check and reads past the table for guiType >= 0x17; that
+// memory is not reproduced, so such values return null here.
 const char* IGUIElement::getTypeName() const {
-    return guiElementTypeNames ? guiElementTypeNames[guiType] : nullptr;
+    return (guiType >= 0 && guiType < 0x17) ? kGUIElementTypeNames[guiType] : nullptr;
 }
 
 const std::vector<IGUIElement*>& IGUIElement::getChildren() const {
