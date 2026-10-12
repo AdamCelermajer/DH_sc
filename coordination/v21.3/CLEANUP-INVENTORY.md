@@ -16,6 +16,17 @@ Large immediate-file entries include `ida-ghidra-review`, `windows-foundation-bu
 - `b117-chest-crash` and `b118-continue-crash` are the two task-attached app-managed worktrees. Root handles their app archive operations after release. They are clean at this capture.
 - Accepted package directories and user saves under `.local-inputs` remain preserved.
 
+
+## Reparse points and ignored data
+
+A bounded follow-up checked only immediate entries in each worktree and immediate children of `.local-inputs`. It found 61 top-level `.local-inputs` junctions in extra worktrees; all target `C:\Users\adamc\Desktop\workspace\DH_sc\.local-inputs`. The primary `.local-inputs` is a regular ignored directory, not a reparse point, and its 4,957 immediate entries had no reparse points. Every worktree’s ignored top-level entry is `.local-inputs` under `.gitignore` rule `/.local-inputs/`. During cleanup, remove a worktree junction itself without traversing its target; a recursive operation that follows it could enter the primary accepted packages, saves, source captures, or evidence.
+
+Three extra worktrees have no `.local-inputs`: `b118-continue-crash`, `generic-level-loader`, and `v20rene`. Two have their own ignored local data: `b117-chest-crash/.local-inputs/b117/baseline`, and `npc-marker-motion/.local-inputs/npc-marker-motion/runtime` plus `npc-marker-motion/.local-inputs/windows-foundation-build`. The latter immediate build directory contains `dh-foundation.exe` (20,019,712 bytes), build metadata, and libraries. Preserve these local entries as worktree-owned test/runtime artifacts until root rechecks them. No recursive contents were scanned.
+
+The primary ignored `.local-inputs` includes 941 immediate entries with names matching package, preview, save, source, evidence, campaign, release, frozen, build, executable, or zip markers. The machine safety inventory lists these absolute paths for review. Confirmed accepted packages are `windows-source-clock-v19-preview-11`, `-12`, and `-13`; all three contain frozen `dh-foundation.exe` files (15,079,936; 15,114,752; 15,150,592 bytes) and package receipts. Preview 11 also contains `character.save` and `gameplay.save`. Preserve these packages, plus `.local-inputs/dh2-save-slot0-backup.bin` and `dh2-save-slot0-current.bin` (9,249 bytes each). Keep all remaining evidence/source captures in `.local-inputs` unless root verifies each item is obsolete and recoverable.
+
+See [CLEANUP-SAFETY.json](CLEANUP-SAFETY.json) for the full immediate-entry target map and artifact candidates. The earlier `CLEANUP-SAFETY.jsonl` is a short pointer to that compact inventory.
+
 ## Git reachability notes
 
 The 67 registered worktrees break down as 64 clean and 3 dirty. The dirty counts are recorded per tree in the table and JSON. The root branch tracks cached `publish/windows-foundation` and is 1 commit ahead / 0 behind at this capture. Most feature worktree branches have no upstream configured, so a zero upstream-ahead count must not be inferred. No fetch/network check was made. Cached local refs not merged into `windows-foundation` include `codex/b112`, `codex/b114`, `codex/b115`, `codex/b117-chest-crash`, `codex/v20-death-flow`, `codex/v20-gate-teleport-fx`, `fix/b058`, `fix/b059`, `fix/b068`, `fix/b079`, `fix/b092`, `fix/b094`, `fix/b101-b105`, `p15/levelupfx`, `p16/fire2`, `p16/levelup3`, `p17/fire3`, `v20.1/integrate`, and `v20/rene`. Retain branches or cherry-pick/publish required work before unregistering their worktrees.
@@ -124,5 +135,6 @@ After release, prioritize identifying and removing obsolete per-worktree build o
 | `windows-main-frontend-v1` | 55.5 MiB | 1 |
 
 Sizes count files directly inside each listed directory only; nested files are excluded.
+
 
 

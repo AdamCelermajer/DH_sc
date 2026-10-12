@@ -4,9 +4,11 @@ The user requests completion of the current bug batch, commits and pushes to the
 
 ## Current review
 
-Root inspected the independent frozen 4C60 brown-pier captures `gameplay-review/brown-Type2-fixed/f240.png` and `f600.png`, and the original green death sequence `B126/original-liz-death6915-6935.jpg` under `.local-inputs/v21.3`. The brown axe-bearing Champion matches the reported actor and visibly has a red target circle and named HP plate at frame240. At frame600 the adjacent green lizard stands upright while the brown body has fallen. Original green sequence visibly tips backward and remains horizontal. Death identity/timing is supplied by reviewer logs, not inferred from these stills alone. B127 still needs older-save compatibility; B126 needs the death-pose repair and normal sequence verification.
+Root inspected the independent frozen 4C60 brown-pier captures `gameplay-review/brown-Type2-fixed/f240.png` and `f600.png`, and the original green death sequence `B126/original-liz-death6915-6935.jpg` under `.local-inputs/v21.3`. The brown axe-bearing Champion matches the reported actor and visibly has a red target circle and named HP plate at frame240. At frame600 the adjacent green lizard appears upright while the brown body has fallen. Original green sequence visibly tips backward and remains horizontal. This apparent mismatch was subsequently disproved as a geometry defect: B126's production pose diagnostic retains the actual Died clip at800ms, same indexed Z bounds and pelvis quaternion as the flat source terminal; camera/yaw project its long body vertically on screen. No guessed pose correction is justified. Death identity/timing comes from reviewer logs, not these stills alone. B127 still needs older-save compatibility and B126 retains lifecycle/restore verification.
 
 Audio reviewer accepts B119–B121 source-faithful callback/output repairs on frozen 4C60, including exact PickupGold token and nonzero final WinMM PCM. This is device-bound output evidence; no acoustic comparison is claimed. Final combined regression and B122 active-caller classification remain pending.
+
+Root's frozen 4B42 moving/idle B117 regressions both exit0 through440frames: interaction260, marker289, open303, end332, and subsequent movement370–390. Sequential303/332/400 images show opening, upright recovery/drops and movement away; logs and args are `.local-inputs/v21.3/root/chest-4b42`. This is a regression check for the prior accepted chest fix, not acceptance of remaining checkpoint bugs.
 
 ## Release and cleanup order
 
