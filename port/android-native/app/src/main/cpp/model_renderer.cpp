@@ -2854,7 +2854,7 @@ bool native_level_save_read_object_facts_v1(void* raw,
   return true;
  }
  if(!row.save_facts_ready) {
-  error="LevelSavegame ObjectBase +0x28/+0x81 facts are unavailable for this manager row";
+  error="LevelSavegame ObjectBase +0x28/+0x81 facts are unavailable for this manager row: "+row.name;
   return true;
  }
 
@@ -37281,17 +37281,7 @@ bool native_level_execute_scripts(void* raw,std::uintptr_t level_identity,
  catch(const std::exception& ex){error=ex.what();return false;}
  catch(...){error="Existing Level ScriptManager frame failed";return false;}
 }
-// Temporary: report the first stage that changes the Player's current HP.
-void trace_player_hp(const char* stage) noexcept {
- static std::int32_t last=-2147483647;
- if(prince_combat.properties.resolved.size()<=36)return;
- const auto hp=prince_combat.properties.resolved[36];
- if(hp!=last&&last!=-2147483647)__android_log_print(ANDROID_LOG_WARN,"DH2Native",
-     "Player HP changed | %d -> %d | before %s",int(last),int(hp),stage);
- last=hp;
-}
 int native_frame_scene_v1(void* raw,std::uint32_t timestamp_ms) noexcept {
- trace_player_hp("native_frame_scene_v1");
  auto& context=*static_cast<NativeFrameContextV1*>(raw);
  try{
   if(!advance_authored_faery_scene_animations(timestamp_ms,context.error))
@@ -37311,7 +37301,6 @@ int native_frame_scene_v1(void* raw,std::uint32_t timestamp_ms) noexcept {
  catch(...){prince_scene_phase=false;context.error="Unknown scene animation provider failure";return 1;}
 }
 int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
- trace_player_hp("native_frame_level_v1");
  auto& context=*static_cast<NativeFrameContextV1*>(raw);
  try{
   // Original Level::Update runs script/event work before PhysicalWorld; a
@@ -37342,7 +37331,6 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
    dh2::native::level_sg_update_v1::ResultV1 result{};
    if(!dh2::native::level_sg_update_v1::dispatch_v1(frame,services,result,context.error))
     throw std::runtime_error(context.error);
-   trace_player_hp("after Level SG_Update/ScriptManager");
    // Source Level::Update invokes GameEventManager::Update after the local
    // Character SG_Update/ScriptManager boundary and before PhysicalWorld.
    if(active_level_assets.name=="SWAMP"&&
@@ -37354,9 +37342,7 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
    // Character, Save and QEST owners are not all bound to this frame.
    advance_native_level_script(dt_ms);
   }
-  trace_player_hp("before request_prince_death");
   request_prince_death();
-  trace_player_hp("after request_prince_death");
   // Application::Update -> PlayerManager::Update reaches _CheckLocalDeaths each
   // gameplay frame; only its dead-Player branch has an effect offline.
   if(prince_combat.life.dead&&native_host_pm_check_local_deaths(&native_host,context.error))
@@ -37405,7 +37391,6 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
 }
 int native_frame_physics_v1(void* raw,std::uint32_t dt_ms,float dt_seconds,
                             std::uint32_t iterations) noexcept {
- trace_player_hp("native_frame_physics_v1");
  auto& context=*static_cast<NativeFrameContextV1*>(raw);
  try{
   if(iterations!=10||!std::isfinite(dt_seconds))throw std::runtime_error("Source PhysicalWorld Step arguments rejected");
@@ -38009,7 +37994,6 @@ void advance_native_actor(unsigned dt_ms){
  if(native_actor_frames==1||native_actor_frames%120==0)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Native actor frame | scene %u | Step %u | actor %u | source phase %u | clip %d | ms %d | replays %u | body %.6g %.6g | contacts %u %u | state %d | body present %d | timeline scale %.9g",prince_locomotion.root_timestamp,native_physics_steps,native_actor_frames,result.phase,prince_locomotion.current_clip(),prince_locomotion.current_timeline().current_ms,prince_locomotion.restarts,physical_position.x,physical_position.y,prince_body_owner.additions,prince_body_owner.results,prince_state.current,int(bool(prince_body.body)),prince_locomotion.current_timeline().scale);
 }
 int native_frame_actors_v1(void* raw,std::uint32_t dt_ms) noexcept {
- trace_player_hp("native_frame_actors_v1");
  auto& context=*static_cast<NativeFrameContextV1*>(raw);
  try{advance_native_actor(dt_ms);return 0;}
  catch(const std::exception& e){context.error=e.what();return 1;}
