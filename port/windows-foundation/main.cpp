@@ -6359,7 +6359,7 @@ int main(int argc,char** argv) {
                         if(!done)std::cerr<<"Equipment confirmed action diagnostic: "<<error<<" instance="<<request.instance_id<<'\n';
                         else if(runtimeEquipmentPage&&!runtimeEquipmentPage->reselect_details_near(equipmentConfirmListIndex,error))throw std::runtime_error("Equipment Details reselection: "+error);
                     } else if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::rejected&&!error.empty())std::cerr<<"Equipment confirmation rejected: "<<error<<'\n';
-                    equipmentConfirmationText.clear();continue;
+                    if(!equipmentActionConfirmation.visible())equipmentConfirmationText.clear();continue;
                 }
                 if(merchantOpen&&merchantUi) {
                     if(merchantSuppressRelease)continue;
@@ -6479,9 +6479,10 @@ int main(int argc,char** argv) {
                                 const std::vector<dh2::ui::LocalizationArgumentV1> args{{0.f,true,itemName},{0.f,true,transmute?std::to_string(amount):std::string()}};
                                 if(!promptText->parsed_string_v4(symbol,args,promptEnv,equipmentConfirmationText,error))throw std::runtime_error("Equipment confirmation prompt: "+error);
                                 equipmentConfirmListIndex=runtimeEquipmentPage->details_selected_index();
+                                if(transmute)playMenuUiCue("MenuSelect");
                                 if(!equipmentActionConfirmation.open(transmute?f::equipment_menu::confirmation_v1::Action::transmute:f::equipment_menu::confirmation_v1::Action::drop,
                                     *ownedAt,pending.source_slot,amount,equipmentSourceVisitEpoch,error))throw std::runtime_error("Equipment confirmation open: "+error);
-                                playMenuUiCue(transmute?"MenuSelect":"MenuConfirm");
+                                if(!transmute)playMenuUiCue("MenuConfirm");
                             } else std::cerr<<"Equipment action requires a gameplay owner: command="<<static_cast<int>(pending.command)<<" instance="<<pending.selected_instance_id<<'\n';
                         } else if(!error.empty())throw std::runtime_error(error);
                         f::equipment_menu::RuntimeEquipmentRenderChangeV1 changed;
@@ -8420,6 +8421,13 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     f::character_menu::Frame menu;
                     if(merchantOpen&&merchantUi){merchantUi->update_properties(*player,*bindings.properties);if(!merchantUi->frame(window.width(),window.height(),menu,error))throw std::runtime_error("Merchant frame: "+error);}
                     else if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
+                    if(characterMenu.is_open()&&equipmentActionConfirmation.visible()) {
+                        const auto& confirm=f::merchant::merchant_art().confirm;
+                        menu.art.batches.insert(menu.art.batches.end(),confirm.batches.begin(),confirm.batches.end());
+                        menu.solids.insert(menu.solids.end(),confirm.solids.begin(),confirm.solids.end());
+                        for(const auto& field:confirm.text_fields)if(field.path.find("/confirm_msg/")!=std::string::npos&&!equipmentConfirmationText.empty())
+                            menu.text.push_back({field,equipmentConfirmationText});
+                    }
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -8820,7 +8828,6 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                 }
                 // Preview 15 B049: "Confirm character point allocation?" over the Character menu (original WarningBox frame).
                 if(characterMenu.is_open()&&statConfirmOpen)drawPauseArt(pauseConfirmArt,true,"GAMEPLAYMENUS_POINTS_CONFIRM");
-                if(characterMenu.is_open()&&equipmentActionConfirmation.visible())drawPauseArt(pauseConfirmArt,true,nullptr,&equipmentConfirmationText);
                 // I024 DEATH: the source sprite742 death screen or sprite743 fade draws after the HUD and above the menus.
                 if(deathHost.modal()) {
                     std::string deathDrawError;
