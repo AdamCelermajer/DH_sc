@@ -52,7 +52,7 @@ std::int32_t CMatchingLocal::LeaveRoom() {
 
 // 0x8079d4 _ZN14CMatchingLocal21CreateJoinRoomInternalEbR15CRoomAttributes
 // Partial: the member-table writes of the original (the NetStruct member entry for the local
-// member and its listen address, at member-table offsets +0x4d10 and +0x4d70) are not
+// member and its listen address, at member-table offsets +0x4d10 and +0x4d38 (both within the 408-byte entry of the member index)) are not
 // reproduced because the member-info records are not in this port yet.
 std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes) {
     if (!initialized_) {
