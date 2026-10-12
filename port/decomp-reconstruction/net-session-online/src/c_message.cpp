@@ -10,15 +10,15 @@ CMatching& Matching() { return *CMatching::Get(); }
 }  // namespace
 
 // 0x80a160 _ZN8CMessageD1Ev / 0x80a194 _ZN8CMessageD2Ev
-// The original also destroys a std::string at +0x14 (STL private layout), which
-// is not modelled here.
+// Destroys typeName_ (the std::string at +0x14), as the original does.
 CMessage::~CMessage() = default;
 
 // 0x80a61c _ZN8CMessageC1EPKcb (C2 0x80a540 is the same body; skipped).
 // Partial. Hex-Rays stores the serial (when requested) at +0x04 and the type id byte at
 // +0x10 (the port's Header names +0x10 "reserved"). Sender is the local member, lifetime
-// is the online clock (GetOnline()+0x28). The type-name string at +0x14 is not modelled.
-// The name argument is only used to look up the type id, as in the original.
+// is the online clock (GetOnline()+0x28). The name argument is only used to look up the
+// type id, as in the original; typeName_ is left to SetDefaultProperties and the subclass.
+// Not modelled: the byte at +0x3c that the original zeroes (no field identified).
 CMessage::CMessage(const char* typeName, bool withSerial) {
     header_ = Header{};
     header_.reserved = static_cast<std::uint32_t>(FindTypeId(typeName)) & 0xffu;  // +0x10 byte
@@ -29,8 +29,10 @@ CMessage::CMessage(const char* typeName, bool withSerial) {
 }
 
 // 0x80a33c _ZN8CMessage20SetDefaultPropertiesEv
-// Partial: the type-name fill of the string at +0x14 is not modelled. Flags as decompiled.
+// The original's string fill (its copy loop is decompiled garbage) always leaves the
+// text "TYPE STRING NOT DEFINED" in the string at +0x14.
 void CMessage::SetDefaultProperties() {
+    typeName_ = "TYPE STRING NOT DEFINED";  // +0x14
     trackSent_ = 100;        // +0x38
     timestamp_ = 0;          // +0x34
     sendMode_ = 0;           // +0x2c

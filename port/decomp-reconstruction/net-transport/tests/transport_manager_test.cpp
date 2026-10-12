@@ -18,9 +18,10 @@ int main() {
     CHECK(CTransportManager::GetInstance() == nullptr);
     CHECK(CTransportManager::Initialize() == 0);
     CHECK(CTransportManager::GetInstance() != nullptr);
-    // Initialize does not run InitializeInternal (partial), so the flag stays clear.
-    CHECK(!CTransportManager::IsInitialized());
+    // Initialize calls InitializeInternal on the instance, which sets the initialized flag.
+    CHECK(CTransportManager::IsInitialized());
     CTransportManager::Terminate();
+    CHECK(!CTransportManager::IsInitialized());
     CHECK(CTransportManager::GetInstance() == nullptr);
 
     {

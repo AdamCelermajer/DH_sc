@@ -2,10 +2,25 @@
 
 #include <cstdio>
 
+#include "net-session-online/deps/matching.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// Member n owns bit (1 << n). Server is 1, local player is 2.
+class FakeMatching : public CMatching {
+public:
+    std::uint32_t MemberBit(int memberId) const override { return 1u << memberId; }
+    int LocalMemberId() const override { return 2; }
+    int ServerMemberId() const override { return 1; }
+    bool IsServer() const override { return false; }
+    std::uint32_t GetRoomMask() const override { return 0x7; }
+};
+
 int main() {
+    FakeMatching matching;
+    CMatching::Set(&matching);
+
     CHECK(CMessaging::IsInitialized() == 0);
     CHECK(CMessaging::Update() == 0);
     CMessaging::SetInstanceForTest(new CMessaging(), false);
@@ -34,6 +49,32 @@ int main() {
     CMessaging::sProcessLostPacket(3, 4);
     CMessaging::sProcessAcknowledgedPacket(3, 4);
     CMessaging::Terminate();
+
+    // Send path: an empty queue writes a single 0 bit and returns 0.
+    CMessaging::Initialize();
+    CMessaging* box = CMessaging::GetInstance();
+    CHECK(box->AreMessagesAcknowledged(nullptr) == 0);
+    NetBitStream empty(16);
+    CHECK(CMessaging::sWritePacketData(2, 7, empty) == 0);
+    CHECK(empty.Size() == 1);
+
+    // SendMsg queues the message; it is acknowledged for the local member, so PackMessages
+    // skips it and WritePacketData writes the 1-bit header and the 0-bit terminator.
+    box->SendMsg(new CMessage());
+    CHECK(box->AreMessagesAcknowledged(nullptr) == 1);
+    NetBitStream packed(16);
+    CHECK(box->WritePacketData(2, 7, packed) == 1);
+    CHECK(packed.Size() == 2);
+
+    // Receive path: AddToRecvQueue and ProcessRecvQueue keep the queue consistent (no nulls).
+    box->AddToRecvQueue(new CMessage());
+    box->ProcessRecvQueue();
+    CHECK(box->IsMessageReceived("") == false);  // partial: type match not reconstructed
+
+    // AddMissingMessages with an empty range is a no-op.
+    box->AddMissingMessages(2, 5, 5);
+    CMessaging::Terminate();
+    CMatching::Set(nullptr);
 
     std::printf("%s\n", failures ? "c_messaging: FAILED" : "c_messaging: ok");
     return failures != 0;

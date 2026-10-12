@@ -3,7 +3,7 @@
 // Partial: the registry creator is not recovered (see the header).
 CMsgAttackResult::CMsgAttackResult(bool withSerial) : CMessage("CMsgAttackResult", withSerial) {}
 
-// 0x3af330 _ZN15CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb
+// 0x3af330 _ZN16CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb
 // Partial: see the header. The level tag is 0 here.
 CMessage* CMsgAttackResult::Create(int first, int second, const Character::AttackResult& result,
                                    bool flag) {

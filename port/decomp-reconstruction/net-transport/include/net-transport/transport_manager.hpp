@@ -37,6 +37,11 @@ public:
     static void Terminate();                  // 0x81aa2c _ZN17CTransportManager9TerminateEv
 
     void AbortNetwork();                                  // 0x81a9dc _ZN17CTransportManager12AbortNetworkEv
+
+    // Receiver-thread hooks. The base vtable has these slots pure (+0x08 start, +0x0c stop);
+    // CTransportManagerImpl overrides them. The base defaults do nothing.
+    virtual int StartReceiverThread() { return 0; }       // vtable +0x08
+    virtual int StopReceiverThread() { return 0; }        // vtable +0x0c
     void EnableBroadcast(const CNetworkId& id);           // 0x81aa8c _ZN17CTransportManager15EnableBroadcastE10CNetworkId
     void DisableBroadcast(const CNetworkId& id);          // 0x81ab0c _ZN17CTransportManager16DisableBroadcastE10CNetworkId
     CTransport* GetTransportByPeer(tTRANSPORT_TYPE type, const CNetworkId& peer) const;  // 0x81ab8c

@@ -6,6 +6,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 #include "net-session-online/deps/net_bit_stream.hpp"
 
@@ -73,6 +74,9 @@ public:
     // as static arrays in the class.
     static void InitializeMessageRegistration();
     static void TerminateMessageRegistration();
+    // Sets the serial counter (CMessage::m_messageSerial) back to 0. CMessaging::ResetQueues
+    // does this on its map-reset path.
+    static void ResetSerial() { messageSerial_ = 0; }
     static CMessage* CreateMessage(int typeId, bool arg);
     static CMessage* CreateMessage(const char* typeName, bool arg);
     static int FindTypeId(const char* typeName);
@@ -84,6 +88,10 @@ public:
 protected:
     // Field names are inferred from use; see NOTES.md for the layout table.
     Header header_;                       // +0x04 .. +0x13
+    // The type name of the concrete message (STL string at +0x14..+0x2b in the original).
+    // SetDefaultProperties fills the default text; each CMsg* constructor and SetProperties
+    // assign their own class name.
+    std::string typeName_;                // +0x14
     bool reliable_ = false;               // +0x30
     bool local_ = false;                  // +0x31
     std::uint32_t sendMode_ = 0;          // +0x2c: 0 = route via server, 1 = remote, >1 never local
@@ -99,8 +107,8 @@ protected:
     std::uint32_t lifetime_ = 0;          // +0x4c
 
 private:
-    // 0x80a33c _ZN8CMessage20SetDefaultPropertiesEv. Partial: the type-name string at +0x14
-    // (the "TYPE STRING NOT DEFINED" fill) is not modelled. The flags and words are set.
+    // 0x80a33c _ZN8CMessage20SetDefaultPropertiesEv: sets the type name to
+    // "TYPE STRING NOT DEFINED", then the flags and words.
     void SetDefaultProperties();
 
     // The serial counter (CMessage::m_messageSerial in the original).

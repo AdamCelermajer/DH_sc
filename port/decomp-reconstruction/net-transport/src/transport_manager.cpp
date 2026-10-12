@@ -63,22 +63,26 @@ bool CTransportManager::IsInitialized() {
 }
 
 // 0x81b800 _ZN17CTransportManager10InitializeEv
-// Partial: the original calls one virtual slot (vtable +0x00) on the instance after it is
-// created. The slot is not named in the pseudocode, so that call is not reproduced.
+// Creates the CTransportManagerImpl singleton when none exists, then calls InitializeInternal
+// (vtable +0x00) on the instance, every time, as the original does (the call is outside its
+// create branch).
 int CTransportManager::Initialize() {
     if (s_transportManager == nullptr) {
         s_transportManager = new (std::nothrow) CTransportManagerImpl();
+    }
+    if (s_transportManager != nullptr) {
+        s_transportManager->InitializeInternal();
     }
     return s_transportManager != nullptr ? 0 : -1;
 }
 
 // 0x81aa2c _ZN17CTransportManager9TerminateEv
-// Partial: the original calls two virtual slots (+0x04, +0x18) on the instance before it
-// clears the pointer. Their meaning is not recovered; the port deletes the instance, and
-// the deleting destructor (+0x04 in the original's Impl vtable) does the same job.
+// Calls TerminateInternal (vtable +0x04) on the instance, then deletes it through its deleting
+// destructor (vtable +0x18) and clears the pointer.
 void CTransportManager::Terminate() {
     CTransportManager* manager = s_transportManager;
     if (manager != nullptr) {
+        manager->TerminateInternal();
         delete manager;
         s_transportManager = nullptr;
     }
@@ -392,14 +396,17 @@ void CTransportManager::AcceptCallback(tTRANSPORT_TYPE type, CTransport* transpo
 }
 
 // 0x81b544 _ZN17CTransportManager17InitializeInternalEv
-// Partial: the original calls a virtual slot (vtable +0x08) with the high word of the
-// timestamp after the table is cleared; that call is not reproduced.
+// Clears the transport table, sets the thread timestamp, starts the receiver thread (vtable
+// +0x08, the Impl's StartReceiverThread) and sets the initialized flag. The original passes the
+// high word of the timestamp in a register; StartReceiverThread takes no argument, so it is not
+// passed here.
 int CTransportManager::InitializeInternal() {
     mutex_.Lock();
     for (auto& transport : transports_) {
         transport = nullptr;
     }
     SetThreadTimestamp();
+    StartReceiverThread();
     initialized_ = true;
     mutex_.Unlock();
     return 0;
@@ -407,13 +414,13 @@ int CTransportManager::InitializeInternal() {
 
 // 0x81b5b4 _ZN17CTransportManager21ReceiverThreadExecuteEv
 // Partial: the blocked branch (main thread blocked and this device is the server) calls
-// a virtual slot (vtable +0x10) that is not named; it is not reproduced. Matching checks
-// use matching_calls::IsServer (stand-in). The connection manager is null-checked here,
+// AbortNetwork (vtable +0x10, empty body) as the original does. Matching checks use
+// matching_calls::IsServer (stand-in). The connection manager is null-checked here,
 // where the original calls it unguarded.
 void CTransportManager::ReceiverThreadExecute() {
     if (IsMainThreadBlocked()) {
         if (matching_calls::IsServer()) {
-            // Virtual slot (vtable +0x10) not reconstructed.
+            AbortNetwork();
         }
         return;
     }
@@ -425,8 +432,8 @@ void CTransportManager::ReceiverThreadExecute() {
 }
 
 // 0x81b604 _ZN17CTransportManager7ConnectER10CNetworkId
-// Partial: the original passes a second register value to CTransportFactory::ConnectTransport
-// that the pseudocode does not show. The port passes the prepared id only.
+// The prepared id (sret buffer in the original) is the only argument ConnectTransport reads; the
+// second register value in the pseudocode is not used by the callee.
 int CTransportManager::Connect(const CNetworkId& peer) {
     if (!initialized_) {
         return -1;
@@ -442,11 +449,12 @@ int CTransportManager::InitializeTransport(tTRANSPORT_TYPE type) {
 }
 
 // 0x81b64c _ZN17CTransportManager17TerminateInternalEv
-// Partial: the original calls a virtual slot (vtable +0x0c) on the instance first; that
-// call is not reproduced.
+// Sets the terminating flag, clears the initialized flag, stops the receiver thread (vtable
+// +0x0c, StopReceiverThread) and then deletes every transport and terminates the factory.
 void CTransportManager::TerminateInternal() {
     terminating_ = true;
     initialized_ = false;
+    StopReceiverThread();
     mutex_.Lock();
     for (int i = 0; i < kTransportSlots; ++i) {
         if (transports_[i] != nullptr) {

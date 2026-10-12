@@ -13,7 +13,7 @@ class NetStructInterpolation : public NetStructMember {
 public:
     ~NetStructInterpolation() override = default;   // 0x3a3578 _ZN22NetStructInterpolationIfED1Ev (float instance)
 
-    // 0x3a3e64 _ZN22NetStructInterpolationIfE8AddValueEfj (partial, see the body).
+    // 0x3a3e64 _ZN22NetStructInterpolationIfE8AddValueEfj (partial: GetFrameTime is a stand-in).
     // Adds a sample and returns 20, the constant the original returns on every path.
     int AddValue(T value, unsigned int time) {
         const unsigned int frame_time = GetFrameTime();
@@ -37,7 +37,25 @@ public:
         average_ = total_ / static_cast<int>(count);
         // The new sample goes into the ring at the head; the head then moves forward (20 slots).
         samples_[head_] = Sample{time, value};
-        head_ = (head_ + 1) % kSamples;
+        // Ring boundary (words 43-45, Hex-Rays). When the new head reaches the oldest index, the
+        // oldest index moves on by one (mod 20) and both marks take it. Otherwise mark_b_ is set
+        // to the oldest index when the head lands on it. The marks are not read by any recovered
+        // code in this slice.
+        const unsigned int new_head = (head_ + 1) % kSamples;
+        unsigned int boundary = mark_b_;
+        const bool full = oldest_ == new_head;
+        if (full) {
+            boundary = (new_head + 1) % kSamples;
+        }
+        head_ = new_head;
+        if (full) {
+            oldest_ = boundary;
+            mark_a_ = boundary;
+            mark_b_ = boundary;
+        }
+        if (new_head == boundary) {
+            mark_b_ = oldest_;
+        }
         return 20;
     }
 
@@ -58,6 +76,12 @@ protected:
     int total_ = 0;                            // word 48
     int average_ = 0;                          // word 50 (read by the interpolation getter, not in this slice)
     unsigned int head_ = 0;                    // word 46
+    // Ring boundary words, not named in the original. oldest_ (word 43, +0xac) is taken to be the
+    // index of the oldest sample; mark_a_ (word 44, +0xb0) and mark_b_ (word 45, +0xb4) are its
+    // copies. Their initial values are assumed to be 0 (the constructor is not recovered).
+    unsigned int oldest_ = 0;                  // word 43
+    unsigned int mark_a_ = 0;                  // word 44
+    unsigned int mark_b_ = 0;                  // word 45
 };
 
 template <unsigned Bits, int Min, int Max>

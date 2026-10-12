@@ -394,6 +394,22 @@ int CConnectionManager::SendToServer(tPACKET_TYPE type, void* data, int size) {
     return SendTo(type, server, data, size);
 }
 
+// 0x7fcf94 _ZN18CConnectionManager13GetServerPingEv
+// The server returns 0, and so does a client without a connection to the server member.
+// partial: the average of the connection's ping samples (a list of (time, ping) entries under a
+// CReadWriteLock, in the original's CConnection at +0x17c and +0x180) is not reconstructed: the
+// port's CConnection has no such list, so a client with a server connection also returns 0.
+int CConnectionManager::GetServerPing() {
+    if (CMatching::Get()->IsServer()) {
+        return 0;
+    }
+    CConnection* server = GetConnectionByMemberId(CMatching::Get()->ServerMemberId());
+    if (server == nullptr) {
+        return 0;
+    }
+    return 0;
+}
+
 // 0x7fc680 _ZN18CConnectionManager14DisconnectPeerEi
 int CConnectionManager::DisconnectPeer(int member_id) {
     CConnection* conn = GetConnectionByMemberId(member_id);
@@ -507,8 +523,10 @@ int CConnectionManager::Connect(int member_id, CNetworkId& id) {
 }
 
 // 0x7fc9cc _ZN18CConnectionManager6AcceptEiR10CNetworkIdy
-// partial: the original's vtable call at +0x0c passes one more argument than Accept's
-// signature (the first word of the connection object); that argument is not reproduced.
+// The original's vtable call at +0x0c (CConnection::Accept) passes six words: this, the member id,
+// the peer, the connection's first word, and the 64-bit key. The first word lands in the register
+// that the 64-bit key cannot use (AAPCS alignment), so the key goes on the stack as usual. Passing
+// the key directly is therefore the same call.
 int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key) {
     if (CConnection* existing = GetConnectionByMemberId(member_id)) {
         return existing->Accept(member_id, id, key);

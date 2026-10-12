@@ -64,7 +64,7 @@ void GLXPlayerSereverConfig::GetCurTimeDate(GameDate* out) {
 // 0x82ecfc _ZN22GLXPlayerSereverConfig8GetValueEPKc
 // A map lookup. A missing key gives s_emptyUrl, which is a one-byte zeroed object in .bss (the symbol
 // size is 1), so it is the empty string.
-const char* GLXPlayerSereverConfig::GetValue(const char* key) const {
+const char* GLXPlayerSereverConfig::GetValue(const char* key) {
     static const char kEmptyUrl[] = "";
     const auto it = s_urlMap.find(key != nullptr ? key : "");
     return it == s_urlMap.end() ? kEmptyUrl : it->second.c_str();
@@ -90,7 +90,7 @@ const char* GLXPlayerSereverConfig::GetChatServer() const { return GetValue("Cha
 const char* GLXPlayerSereverConfig::GetwebURLType() const { return GetValue("type"); }
 
 // 0x82ef5c _ZN22GLXPlayerSereverConfig9GetPhpVerEv
-const char* GLXPlayerSereverConfig::GetPhpVer() const { return GetValue("XPPHPVerNo"); }
+const char* GLXPlayerSereverConfig::GetPhpVer() { return GetValue("XPPHPVerNo"); }
 
 // 0x82ef6c _ZN22GLXPlayerSereverConfig15GetXPlayerMPURLEv
 const char* GLXPlayerSereverConfig::GetXPlayerMPURL() const { return GetValue("XPlayMPURL"); }
@@ -99,7 +99,7 @@ const char* GLXPlayerSereverConfig::GetXPlayerMPURL() const { return GetValue("X
 const char* GLXPlayerSereverConfig::GetXPlayerDWURL() const { return GetValue("XplayDWURL"); }
 
 // 0x82ef8c _ZN22GLXPlayerSereverConfig13GetXPlayerURLEv
-const char* GLXPlayerSereverConfig::GetXPlayerURL() const { return GetValue("XplayerURL"); }
+const char* GLXPlayerSereverConfig::GetXPlayerURL() { return GetValue("XplayerURL"); }
 
 void GLXPlayerSereverConfig::SetValueForTest(const std::string& key, const std::string& value) {
     s_urlMap[key] = value;

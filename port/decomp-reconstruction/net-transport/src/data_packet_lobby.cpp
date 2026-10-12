@@ -195,9 +195,10 @@ const char* DataPacketLobby::getIP() const {
 }
 
 // 0x849560 _ZN15DataPacketLobby13String2PacketEPci
-// Partial: as in the original, the 2-byte big-endian length is read at the current position,
-// the body is then added from data + 2 (not from the position), and the position is left at
-// the header end. The original reads the body from the start of the source; the port keeps that.
+// The 2-byte big-endian length is read at the current position and the position moves past it.
+// If length + 1 >= size the call fails with -1 (position already moved). Otherwise the body is
+// added through addBlob (vtable +0x68) from data + 2, as the original does, and length + 2 is
+// returned.
 int DataPacketLobby::String2Packet(char* data, int size) {
     const std::size_t at = position_;
     const auto hi = static_cast<std::uint8_t>(data[at]);

@@ -8,8 +8,8 @@ constexpr std::size_t kLengthOffset = 0x14;  // +0x64 relative to +0x50
 }  // namespace
 
 // 0x328c84 _ZN12CMsgDropLootC1Eb
-// Partial: the type-name string at +0x14 is not modelled.
 CMsgDropLoot::CMsgDropLoot(bool withSerial) : CMessage("CMsgDropLoot", withSerial) {
+    typeName_ = "CMsgDropLoot";
     sendMode_ = 1;
     includeLocalMember_ = false;
 }
@@ -66,6 +66,7 @@ std::uint32_t CMsgDropLoot::WriteData(NetBitStream& stream) {
 
 // 0x327908 _ZN12CMsgDropLoot13SetPropertiesEv
 void CMsgDropLoot::SetProperties() {
+    typeName_ = "CMsgDropLoot";
     sendMode_ = 1;
     includeLocalMember_ = false;
 }

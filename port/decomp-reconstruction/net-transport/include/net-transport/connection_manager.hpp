@@ -76,6 +76,7 @@ public:
     void SetConnectionTimeouts(std::uint32_t timeout);               // 0x7fc070
     int KeepAliveConnections();                                      // 0x7fc1d8
     void PingConnections();                                          // 0x7fc06c
+    int GetServerPing();                                             // 0x7fcf94 _ZN18CConnectionManager13GetServerPingEv
 
     // Packet type registration.
     static int RegisterPacketType(tPACKET_TYPE type, tPROTOCOL_TYPE protocol, MemberCallback cb);     // 0x7fbf5c

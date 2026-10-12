@@ -1,13 +1,41 @@
 #include "net-transport/packet_manager.hpp"
 
+#include <chrono>
+#include <iterator>
+
+#include "net-transport/connection_manager.hpp"
+#include "net-transport/deps/connection_deps.hpp"
+
+namespace {
+
+// Original time source: GetOnline() vtable slot 0, a 32-bit millisecond clock. Here steady_clock
+// in ms, truncated to 32 bits (as in connection_manager.cpp).
+std::uint32_t PacketNowMs() {
+    const auto now = std::chrono::steady_clock::now().time_since_epoch();
+    return static_cast<std::uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
+}
+
+// Static `validFlag` of SendPackets (mark-and-sweep generation of member_info_ entries).
+std::uint8_t send_packets_valid_flag = 0;
+
+// Key of a sent packet: (member << 16) + sequence. The member id is kept to 16 bits, as the original.
+std::uint32_t SentKey(std::uint32_t member, std::uint32_t sequence) {
+    return sequence + (static_cast<std::uint32_t>(static_cast<std::uint16_t>(member)) << 16);
+}
+
+}  // namespace
+
 CPacketManager* CPacketManager::s_packetManager = nullptr;
 tPacketSlot CPacketManager::s_PacketSlots[CPacketManager::kPacketSlotCount];
 std::uint8_t CPacketManager::s_packetSlotBitMap = 0;
 
 // 0x8162a4 _ZN14CPacketManagerC1Ev, 0x816540 _ZN14CPacketManagerC2Ev
-// Partial: sets up the state (queue, mutex, initialized flag). The original also registers the
-// receive callback with CConnectionManager (packet type 6), initialises CNetworkEmulation and
-// creates the CDataStats members, none of which are in this port yet.
+// Partial: sets up the queue, mutex and initialized flag. The Hex-Rays body also registers the
+// receive callback with CConnectionManager (CConnectionManager::RegisterPacketType(6, 0, ...)),
+// takes the packet-list lock, clears the sorted containers, calls CNetworkEmulation::Initialize,
+// sets the initialized flag and unlocks. The member maps (tPacketMemberInfo, tSendPacket) and the
+// four CDataStats<int> members are not modelled in the header, and the registered callback
+// (CPacketManager::sPacketReceiverCallback) is not declared, so those steps are missing.
 CPacketManager::CPacketManager() {
     initialized_ = true;
 }
@@ -159,4 +187,297 @@ int CPacketManager::PacketReceiverCallback(int source, char* data, int size) {
     stream.SetBuffer(data, static_cast<std::size_t>(size));
     packets_.push_back(stream);
     return mutex_.Unlock();
+}
+
+// 0x815504 _ZN14CPacketManager26ProcessAcknowledgedPacketsEv
+// Runs the ack callback of every used slot for each acknowledged key, then empties the list.
+// The original's ReportStatistic call is empty and is dropped.
+void CPacketManager::ProcessAcknowledgedPackets() {
+    for (std::uint32_t key : acked_) {
+        const int member = static_cast<int>(key >> 16);
+        const int sequence = static_cast<int>(key & 0xFFFFu);
+        for (int slot = 0; slot < kPacketSlotCount; ++slot) {
+            const tPacketSlot& entry = s_PacketSlots[slot];
+            if (entry.used && entry.ack != nullptr) {
+                entry.ack(member, sequence);
+            }
+        }
+    }
+    acked_.clear();
+}
+
+// 0x815cac _ZN14CPacketManager17AcknowledgePacketERNS_16tPacketMgrHeaderE
+// Records a received packet in the sender's bit field. The original returns the member entry,
+// which no caller uses. The shift follows ARM LSL semantics: a shift of 32 or more gives 0.
+void CPacketManager::AcknowledgePacket(tPacketMgrHeader& header) {
+    tPacketMemberInfo& info = member_info_[static_cast<int>(header.matching_id)];
+    const int offset = GetSequenceOffset(info.last_recv_sequence, header.sequence);
+    const std::int8_t narrow = static_cast<std::int8_t>(offset);
+    if (offset < 0) {
+        info.last_recv_sequence = header.sequence;
+        const std::uint8_t shift = static_cast<std::uint8_t>(-narrow);
+        info.ack_bits = shift < 32 ? (info.ack_bits << shift) : 0u;
+        info.ack_bits |= 1u;
+    } else if (offset <= 31) {
+        info.ack_bits |= 1u << narrow;
+    }
+    info.ack_bits &= 0xFFFFu;  // the original stores the low 16 bits back
+}
+
+// 0x815d80 _ZN14CPacketManager13IsPacketValidERNS_16tPacketMgrHeaderE
+// A packet is new when it is addressed to this member and its sequence is not yet in the bit field.
+bool CPacketManager::IsPacketValid(const tPacketMgrHeader& header) {
+    if (static_cast<int>(header.connection_id) != CMatching::Get()->LocalMemberId()) {
+        return false;
+    }
+    const tPacketMemberInfo& info = member_info_[static_cast<int>(header.matching_id)];
+    const int offset = GetSequenceOffset(info.last_recv_sequence, header.sequence);
+    if (offset < 0) {
+        return true;
+    }
+    if (offset > 31) {
+        return false;
+    }
+    return (info.ack_bits & (1u << offset)) == 0;
+}
+
+// 0x815e10 _ZN14CPacketManager19PreparePacketHeaderEiR12NetBitStream
+// Writes the header for a packet to `member`. Returns the sequence number that was written.
+std::uint32_t CPacketManager::PreparePacketHeader(int member, NetBitStream& stream) {
+    const tPacketMemberInfo& info = member_info_[member];
+    tPacketMgrHeader header;
+    header.sequence = static_cast<std::uint16_t>(info.last_sent_sequence + 1);
+    header.ack = info.last_recv_sequence;
+    header.ack_bits = info.ack_bits;
+    header.connection_id = static_cast<std::uint32_t>(member);
+    header.matching_id = static_cast<std::uint32_t>(CMatching::Get()->LocalMemberId());
+    header.slot_mask = s_packetSlotBitMap;
+    WriteHeader(header, stream);
+    return header.sequence;
+}
+
+// 0x815ec8 _ZN14CPacketManager17PreparePacketDataEijR12NetBitStream
+// Each slot writes one flag bit. A registered slot that the member has also registered writes
+// [flag 1][tag 32 bits][payload][block length 16 bits], where the tag is the slot index times
+// 0x01020304 (the original's running counter) and the length is the bit count of the block. If the
+// payload fails or the packet passes 0x578 bytes, the block is reverted and the flag is 0.
+// partial: the original also reverts on a write overflow (bit 1 of the stream flags at +0x1c).
+// NetBitStream does not expose those flags, so only the size limit is checked.
+void CPacketManager::PreparePacketData(int member, std::uint32_t sequence, NetBitStream& stream) {
+    std::uint32_t tag = 0;
+    for (int slot = 0; slot < kPacketSlotCount; ++slot, tag += 0x01020304u) {
+        const tPacketSlot& entry = s_PacketSlots[slot];
+        const std::uint8_t mask = member_info_[member].slot_mask;
+        if (!entry.used || entry.write == nullptr || ((mask >> slot) & 1u) == 0) {
+            stream.WriteByte(0, 1);
+            continue;
+        }
+        const std::uint32_t saved_size = stream.Size();
+        const std::uint32_t saved_write = stream.WritePosition();
+        stream.SetRevertPoint();
+        stream.WriteByte(1, 1);
+        stream.WriteU32(tag, 32);
+        if (!entry.write(member, static_cast<int>(sequence), stream)) {
+            stream.Revert();
+            stream.WriteByte(0, 1);
+            continue;
+        }
+        const std::uint32_t write_pos = stream.WritePosition();
+        const std::uint32_t bytes = (write_pos >> 3) + ((write_pos & 7u) != 0 ? 1u : 0u);
+        if (bytes > 0x578u) {
+            stream.Revert();
+            stream.WriteByte(0, 1);
+            continue;
+        }
+        const std::int64_t block_bits = 8 * static_cast<std::int64_t>(saved_size) - saved_write -
+                                        (8 * static_cast<std::int64_t>(stream.Size()) - write_pos);
+        stream.WriteU32(static_cast<std::uint32_t>(block_bits), 16);
+    }
+}
+
+// 0x81684c _ZN14CPacketManager18SendWaitingPacketsEv
+// Sends the queued packets in key order and removes each one after it is sent.
+// partial: when the CConnectionManager singleton is missing the queue is left as it is; the
+// original dereferences the singleton. tSendPacket keeps only member, data and bit count.
+void CPacketManager::SendWaitingPackets() {
+    if (waiting_.empty()) {
+        return;
+    }
+    CConnectionManager* connections = CConnectionManager::GetInstance();
+    if (connections == nullptr) {
+        return;
+    }
+    do {
+        auto first = waiting_.begin();
+        tSendPacket& packet = first->second;
+        const std::uint32_t bytes = (packet.bits >> 3) + ((packet.bits & 7u) != 0 ? 1u : 0u);
+        connections->SendTo(6, packet.member, packet.data.data(), static_cast<int>(bytes));
+        waiting_.erase(first);
+    } while (!waiting_.empty());
+}
+
+// 0x8168fc _ZN14CPacketManager18ProcessLostPacketsEv
+// A sent packet older than 1000 ms is lost: every used slot's lost callback runs and the entry is
+// removed. An entry whose member is no longer known is removed and the scan stops, as the original does.
+void CPacketManager::ProcessLostPackets() {
+    auto it = sent_times_.begin();
+    while (it != sent_times_.end()) {
+        const auto next = std::next(it);
+        const int member = static_cast<int>(it->first >> 16);
+        const int sequence = static_cast<int>(it->first & 0xFFFFu);
+        if (member_info_.find(member) == member_info_.end()) {
+            sent_times_.erase(it);
+            return;
+        }
+        if (static_cast<std::int32_t>(PacketNowMs() - it->second) > 1000) {
+            for (int slot = 0; slot < kPacketSlotCount; ++slot) {
+                const tPacketSlot& entry = s_PacketSlots[slot];
+                if (entry.used && entry.lost != nullptr) {
+                    entry.lost(member, sequence);
+                }
+            }
+            sent_times_.erase(it);
+        }
+        it = next;
+    }
+}
+
+// 0x816ca8 _ZN14CPacketManager29ProcessPacketAcknowledgementsERNS_16tPacketMgrHeaderE
+// Bit i of ack_bits acknowledges sequence (ack - i) of the sender. A sent packet found for that
+// sequence moves to acked_ and leaves sent_times_.
+void CPacketManager::ProcessPacketAcknowledgements(const tPacketMgrHeader& header) {
+    const std::uint32_t member_part = static_cast<std::uint32_t>(static_cast<std::uint16_t>(header.matching_id)) << 16;
+    std::uint16_t sequence = static_cast<std::uint16_t>(header.ack);
+    for (std::uint32_t bits = header.ack_bits; bits != 0; bits >>= 1) {
+        if ((bits & 1u) != 0) {
+            const std::uint32_t key = sequence + member_part;
+            const auto found = sent_times_.find(key);
+            if (found != sent_times_.end()) {
+                acked_.push_back(key);
+                sent_times_.erase(found);
+            }
+        }
+        sequence = static_cast<std::uint16_t>(sequence - 1);
+    }
+}
+
+// 0x816eac _ZN14CPacketManager14ReceivePacketsEv
+// Reads queued packets under the mutex. A packet that is new for this member is read slot by slot
+// and then acknowledged. A slot that is unknown here ends the packet without an acknowledgement.
+// Returns the result of the mutex unlock.
+int CPacketManager::ReceivePackets() {
+    mutex_.Lock();
+    if (!ArePacketsAvailable()) {
+        return mutex_.Unlock();
+    }
+    while (true) {
+        NetBitStream stream = GetNextPacket();
+        tPacketMgrHeader header = ReadHeader(stream);
+        member_info_[static_cast<int>(header.matching_id)].slot_mask = header.slot_mask;
+        if (IsPacketValid(header)) {
+            ProcessPacketAcknowledgements(header);
+            int slot = 0;
+            while (slot < kPacketSlotCount) {
+                if (stream.ReadByte(1) == 0) {
+                    ++slot;
+                    continue;
+                }
+                stream.ReadU32(32);  // slot tag: read, not checked (as the original)
+                const tPacketSlot& entry = s_PacketSlots[slot];
+                if (!entry.used || entry.read == nullptr) {
+                    return mutex_.Unlock();
+                }
+                entry.read(static_cast<int>(header.matching_id), static_cast<int>(header.sequence), stream);
+                ++slot;
+                stream.ReadU32(16);  // block length: read, not checked (as the original)
+            }
+            AcknowledgePacket(header);
+        }
+        if (!ArePacketsAvailable()) {
+            return mutex_.Unlock();
+        }
+    }
+}
+
+// 0x817814 _ZN14CPacketManager10SendPacketEi
+// Sends one packet to a connected member. Returns 1 when the packet was built (even when it is too
+// large to send), 0 when the member is not connected.
+// partial: a missing CConnectionManager singleton returns 0 here; the original dereferences it.
+int CPacketManager::SendPacket(int member) {
+    CConnectionManager* connections = CConnectionManager::GetInstance();
+    if (connections == nullptr || !connections->IsConnected(member)) {
+        return 0;
+    }
+    NetBitStream stream(0xFF8u);
+    const std::uint32_t sequence = PreparePacketHeader(member, stream);
+    PreparePacketData(member, sequence, stream);
+    const std::uint32_t now = PacketNowMs();
+    member_info_[member].last_sent_sequence = sequence;
+    sent_times_[SentKey(static_cast<std::uint32_t>(member), sequence)] = now;
+    const std::uint32_t bits = stream.WritePosition();
+    const std::uint32_t bytes = (bits >> 3) + ((bits & 7u) != 0 ? 1u : 0u);
+    if (bytes <= 0x578u) {
+        std::vector<char> buffer(bytes);
+        stream.GetBuffer(buffer.data(), bytes);
+        connections->SendTo(6, member, buffer.data(), static_cast<int>(bytes));
+    }
+    return 1;
+}
+
+// 0x8179d0 _ZN14CPacketManager11SendPacketsEv
+// Runs the acknowledgement and loss passes, then, when forced or after 50 ms, sends one packet to
+// each member in the list and sweeps the member map for members that were not sent to. The sweep
+// flag toggles on every sweep. Returns -1 when the manager is not initialised, 0 otherwise.
+// partial: the send interval uses the steady clock, while the original reads a cached COnline
+// time field. A missing CConnectionManager singleton sends nothing.
+int CPacketManager::SendPackets() {
+    if (!initialized_) {
+        return -1;
+    }
+    ProcessAcknowledgedPackets();
+    ProcessLostPackets();
+    const std::uint32_t now = PacketNowMs();
+    if (force_send_ || static_cast<std::uint32_t>(now - last_send_time_) > 50u) {
+        bool sent_any = false;
+        CConnectionManager* connections = CConnectionManager::GetInstance();
+        if (connections != nullptr) {
+            for (int member : connections->GetConnMemberIdList(false)) {
+                if (SendPacket(member) != 0) {
+                    sent_any = true;
+                }
+                const auto info = member_info_.find(member);
+                if (info != member_info_.end()) {
+                    info->second.valid_flag = send_packets_valid_flag;
+                }
+            }
+        }
+        for (auto it = member_info_.begin(); it != member_info_.end();) {
+            if (it->second.valid_flag != send_packets_valid_flag) {
+                it = member_info_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        send_packets_valid_flag = static_cast<std::uint8_t>(send_packets_valid_flag ^ 1u);
+        if (sent_any) {
+            last_send_time_ = now;
+        }
+    }
+    force_send_ = false;
+    SendWaitingPackets();
+    PrintStatistics();
+    return 0;
+}
+
+// 0x817d1c _ZN14CPacketManager23sPacketReceiverCallbackEiPci
+// Passes data from a connected member to the packet manager. Returns 0 when the member is not
+// connected.
+// partial: a missing CConnectionManager or CPacketManager singleton returns 0 here; the original
+// dereferences them.
+int CPacketManager::sPacketReceiverCallback(int member, char* data, int size) {
+    CConnectionManager* connections = CConnectionManager::GetInstance();
+    if (connections == nullptr || !connections->IsConnected(member) || s_packetManager == nullptr) {
+        return 0;
+    }
+    return s_packetManager->PacketReceiverCallback(member, data, size);
 }

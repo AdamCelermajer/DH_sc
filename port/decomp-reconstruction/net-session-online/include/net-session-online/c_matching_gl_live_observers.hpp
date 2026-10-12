@@ -98,6 +98,10 @@ public:
     // Thunk: forwards to Terminate (0x821448).
     virtual void OnMPDisconnectSuccess();
 
+    // 0x82153c _ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSameAccountLoginEP10DataPacket:
+    // queues sign-in event 9 on the CSignIn singleton. The packet is not read.
+    std::int32_t OnMPProcessPushSameAccountLogin(DataPacket* packet);
+
     // Test seams. Not in the original.
     std::int32_t StateForTest() const { return state_; }
     bool LoggedInForTest() const { return loggedIn_; }

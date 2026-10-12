@@ -16,7 +16,6 @@
 class CMsgDropLoot : public CMessage {
 public:
     // 0x328c84 _ZN12CMsgDropLootC1Eb
-    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
     explicit CMsgDropLoot(bool withSerial);
     ~CMsgDropLoot() override;  // 0x31ffa8 D1 (the deleting destructor 0x3243c0 is skipped)
 
@@ -33,7 +32,6 @@ public:
     // Returns the size from before the write, as the original does.
     std::uint32_t WriteData(NetBitStream& stream) override;
     // 0x327908 _ZN12CMsgDropLoot13SetPropertiesEv
-    // Original also assigns the type name string at +0x14 (not modelled).
     void SetProperties();
 
     // Not in the original: test seam for the block length.

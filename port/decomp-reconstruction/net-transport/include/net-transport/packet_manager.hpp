@@ -1,14 +1,16 @@
 // CPacketManager: packet slots, sequence numbers and the incoming packet queue.
 // Reconstructed from libDungeonHunter2.so pseudocode (CPacketManager.cpp).
 //
-// Only the self-contained part is here: slot registry, sequence arithmetic, header
-// (de)serialisation, the incoming queue and the singleton accessors. The send and
-// acknowledge paths depend on CConnectionManager and CMatching, which are not in this
-// port yet; they are not reconstructed in this file.
+// Slot registry, sequence arithmetic, header (de)serialisation, the incoming queue, the
+// per-member state, the acknowledgement and loss bookkeeping, and the send and receive paths.
+// The send and receive paths use the CConnectionManager stand-in surface and CMatching from
+// deps/connection_deps.hpp.
 #pragma once
 
 #include <cstdint>
 #include <list>
+#include <map>
+#include <vector>
 
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/sync.hpp"
@@ -38,6 +40,23 @@ public:
         std::uint32_t connection_id = 0;   // +0x0c
         std::uint32_t matching_id = 0;     // +0x10
         std::uint8_t slot_mask = 0;        // +0x14
+    };
+
+    // Per-member state (value of the member map, key = member id). Offsets from the original node.
+    struct tPacketMemberInfo {
+        std::uint32_t last_sent_sequence = 0;  // +0x00 sequence of the last packet sent to the member
+        std::uint32_t last_recv_sequence = 0;  // +0x04 newest sequence received from the member
+        std::uint32_t ack_bits = 0;            // +0x08 received bit field (kept to 16 bits)
+        std::uint8_t slot_mask = 0;            // +0x0c slots the member has registered
+        std::uint8_t valid_flag = 0;           // +0x0d mark-and-sweep flag used by SendPackets
+    };
+
+    // Queued packet for SendWaitingPackets. Only member, data and the bit count are recovered;
+    // the original's other fields (+0x04, +0x0c, +0x10) are not used by SendWaitingPackets.
+    struct tSendPacket {
+        int member = 0;                  // +0x00
+        std::vector<char> data;          // +0x08 (the original keeps a pointer)
+        std::uint32_t bits = 0;          // +0x14 bit count of the packet
     };
 
     CPacketManager();                                             // 0x8162a4 C1, 0x816540 C2 (partial)
@@ -71,6 +90,19 @@ public:
     NetBitStream GetNextPacket();                                 // 0x816c68 (caller checks ArePacketsAvailable)
     int PacketReceiverCallback(int source, char* data, int size); // 0x817c9c
 
+    void ProcessAcknowledgedPackets();                            // 0x815504 _ZN14CPacketManager26ProcessAcknowledgedPacketsEv
+    void AcknowledgePacket(tPacketMgrHeader& header);             // 0x815cac _ZN14CPacketManager17AcknowledgePacketERNS_16tPacketMgrHeaderE
+    bool IsPacketValid(const tPacketMgrHeader& header);           // 0x815d80 _ZN14CPacketManager13IsPacketValidERNS_16tPacketMgrHeaderE
+    std::uint32_t PreparePacketHeader(int member, NetBitStream& stream);  // 0x815e10 _ZN14CPacketManager19PreparePacketHeaderEiR12NetBitStream (returns the sequence)
+    void PreparePacketData(int member, std::uint32_t sequence, NetBitStream& stream);  // 0x815ec8 _ZN14CPacketManager17PreparePacketDataEijR12NetBitStream
+    void SendWaitingPackets();                                    // 0x81684c _ZN14CPacketManager18SendWaitingPacketsEv
+    void ProcessLostPackets();                                    // 0x8168fc _ZN14CPacketManager18ProcessLostPacketsEv
+    void ProcessPacketAcknowledgements(const tPacketMgrHeader& header);  // 0x816ca8 _ZN14CPacketManager29ProcessPacketAcknowledgementsERNS_16tPacketMgrHeaderE
+    int ReceivePackets();                                         // 0x816eac _ZN14CPacketManager14ReceivePacketsEv
+    int SendPacket(int member);                                   // 0x817814 _ZN14CPacketManager10SendPacketEi
+    int SendPackets();                                            // 0x8179d0 _ZN14CPacketManager11SendPacketsEv
+    static int sPacketReceiverCallback(int member, char* data, int size);  // 0x817d1c _ZN14CPacketManager23sPacketReceiverCallbackEiPci
+
     static constexpr int kPacketSlotCount = 8;                    // 8 * 92 bytes = 736 (0x2e0) in the original
 
     static CPacketManager* s_packetManager;                       // _ZN14CPacketManager15s_packetManagerE
@@ -81,4 +113,10 @@ private:
     bool initialized_ = false;                                    // +0x04 (set true by the constructor)
     CNetMutex mutex_;                                             // +0x08
     std::list<NetBitStream> packets_;                             // +0x24 incoming packets, in arrival order
+    std::multimap<std::uint32_t, tSendPacket> waiting_;           // +0x0c packets queued for SendWaitingPackets
+    std::map<int, tPacketMemberInfo> member_info_;                // +0x34 per-member state, key = member id
+    std::uint32_t last_send_time_ = 0;                            // +0x2c ms of the last send round
+    bool force_send_ = false;                                     // +0x30 send on the next SendPackets call
+    std::map<std::uint32_t, std::uint32_t> sent_times_;           // +0x4c key = (member << 16) + sequence, value = send time (ms)
+    std::vector<std::uint32_t> acked_;                            // +0x64 acknowledged keys, drained by ProcessAcknowledgedPackets
 };

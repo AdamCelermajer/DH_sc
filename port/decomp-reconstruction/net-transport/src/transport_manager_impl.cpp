@@ -35,8 +35,7 @@ CTransportManagerImpl::~CTransportManagerImpl() {
 // 0x825110 _ZN22CTransportManagerImpl11GetHostnameER10CNetworkId
 // The address is the high word of address1 when the id's bit 0 (address1) is set, else of
 // address0 (the original reads the raw words at +0x0c and +0x04, and the flags at +0x18).
-// Partial: the value is zero when the address is absent, since GetAddress0/1 only fill the
-// words when present.
+// GetAddress0/1 copy the stored words whether or not the presence bit is set, as the raw reads do.
 std::string CTransportManagerImpl::GetHostname(CNetworkId& id) {
     std::uint16_t lo = 0;
     std::uint32_t hi = 0;

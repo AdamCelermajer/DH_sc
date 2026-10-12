@@ -8,8 +8,8 @@ constexpr std::size_t kHeaderBytes = 8;
 }  // namespace
 
 // 0x3291f8 _ZN14CMsgQuestsSyncC1Eb
-// Partial: the type-name string at +0x14 is not modelled.
 CMsgQuestsSync::CMsgQuestsSync(bool withSerial) : CMessage("CMsgQuestsSync", withSerial) {
+    typeName_ = "CMsgQuestsSync";
     reliable_ = true;
     includeLocalMember_ = false;
     sendMode_ = 1;
@@ -62,6 +62,7 @@ std::uint32_t CMsgQuestsSync::WriteData(NetBitStream& stream) {
 
 // 0x32793c _ZN14CMsgQuestsSync13SetPropertiesEv
 void CMsgQuestsSync::SetProperties() {
+    typeName_ = "CMsgQuestsSync";
     reliable_ = true;
     includeLocalMember_ = false;
     sendMode_ = 1;

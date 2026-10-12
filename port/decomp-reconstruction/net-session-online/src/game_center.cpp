@@ -105,7 +105,7 @@ void GameCenter::GCAddToJoinPlayerList(const char* id) {
     playerList_.emplace_back(id != nullptr ? id : "");
 }
 
-// 0x499440 _ZNK10GameCenter22GCStartGameTimeoutExpiredEv
+// 0x499440 _ZN10GameCenter25GCStartGameTimeoutExpiredEv
 // Partial: see game_center.hpp. The elapsed time is compared with 150000 ms.
 bool GameCenter::GCStartGameTimeoutExpired() const {
     Timeval now{0, 0};
@@ -114,7 +114,7 @@ bool GameCenter::GCStartGameTimeoutExpired() const {
     return stateForTimeDiff.timevaldiff(&gameStartTime_, &now) > 150000;
 }
 
-// 0x499f24 _ZN10GameCenter19GCStartMultiplayerGameEv
+// 0x499f24 _ZN10GameCenter22GCStartMultiplayerGameEv
 // Partial: see game_center.hpp. Only the GameCenter-owned steps run here.
 void GameCenter::GCStartMultiplayerGame() {
     if (startGate_) {
@@ -128,7 +128,7 @@ void GameCenter::GCStartMultiplayerGame() {
     // callback, and OnlineGameState::Init(4).
 }
 
-// 0x499fc8 _ZN10GameCenter19GCStartMultiplayerGameEb
+// 0x499fc8 _ZN10GameCenter22GCStartMultiplayerGameEb
 void GameCenter::GCStartMultiplayerGame(bool /*unused*/) {
     startGate_ = false;
     GCStartMultiplayerGame();

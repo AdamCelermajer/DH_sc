@@ -14,7 +14,7 @@ public:
     // Partial: the registry creator is not recovered. This is the plain base constructor call.
     explicit CMsgAttackResult(bool withSerial);
 
-    // 0x3af330 _ZN15CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb
+    // 0x3af330 _ZN16CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb
     // Partial: the original stores the current level's field at +0x3c (level +60), which is not
     // ported (Application and Level are missing), so the tag is stored as 0. The result copy, the
     // two shorts and the flag are reproduced. Returns null when the type is not registered.
