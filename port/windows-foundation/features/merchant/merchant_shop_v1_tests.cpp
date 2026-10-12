@@ -262,6 +262,7 @@ int main(int argc,char** argv) {
         CHECK(ui.release(180,190,e).kind==ShopUi::Command::Kind::buy_potions);
     }
     {   // B149: BUY rows and the BUY details name use the stock colour callback (not the plain binding); SELL keeps its own.
+        // B150: the confirmation is a modal layer (menu_confirm2 art + prompt); its prompt keeps the plain name.
         const auto items=table();// ShopUi keeps a reference: the table must outlive it
         Shop stock({40,120,{}});stock.add_stock(items,{{0,1}});CharacterState owned;owned.gold=1000;
         owned.inventory.push_back({"own1","Sword",1});
@@ -282,8 +283,11 @@ int main(int argc,char** argv) {
         CHECK(ui.set_mode(ShopUi::Mode::sell,e));
         CHECK(ui.frame(960,640,frame,e));
         CHECK(starts_with(frame,"SELL:")&&!starts_with(frame,"STOCK:"));
-        CHECK(ui.set_mode(ShopUi::Mode::buy,e)&&ui.frame(960,640,frame,e)); // BUY rows keep the stock colour after a round trip
-        CHECK(starts_with(frame,"STOCK:"));
+        CHECK(ui.set_mode(ShopUi::Mode::buy,e));
+        CHECK(ui.release(270,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());
+        CHECK(ui.frame(960,640,frame,e));
+        CHECK(std::any_of(frame.art.batches.begin(),frame.art.batches.end(),[](const auto& b){return b.role.compare(0,14,"menu_confirm2/")==0;}));
+        CHECK(std::any_of(frame.text.begin(),frame.text.end(),[](const auto& t){return t.field.path.find("/confirm_msg/")!=std::string::npos&&t.value.find("PLAIN:Sword")!=std::string::npos;}));
     }
     if (failures) { std::cerr << failures << " failures\n"; return 1; }
     std::cout << "merchant_shop_v1_tests passed\n";

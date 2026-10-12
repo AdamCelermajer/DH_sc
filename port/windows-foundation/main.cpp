@@ -9062,7 +9062,26 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     };
                     // P16 MAP: the level is drawn after the sheet backdrop batch and before the MapSheet art (icons, legend, buttons).
                     bool mapDrawn=false;
+                    // B150: the merchant confirmation is a modal layer above the whole page, as the original WarningBox is: its
+                    // full-window dim (black, alpha 191/255; B133 evidence) and art are drawn once, after the page text, just before
+                    // the first menu_confirm2 text (the prompt itself is last). Page batches and text stay beneath it.
+                    const bool merchantModal=merchantOpen&&merchantUi&&merchantUi->confirmation_visible();
+                    bool merchantModalDrawn=false;
+                    const auto drawMerchantModal=[&]() {
+                        merchantModalDrawn=true;
+                        const std::vector<f::OverlayTriangleVertex> dim{
+                            {0,0,0,0},{float(window.width()),0,0,0},{float(window.width()),float(window.height()),0,0},
+                            {0,0,0,0},{float(window.width()),float(window.height()),0,0},{0,float(window.height()),0,0}};
+                        if(!overlay.drawTriangles(dim,0,{0,0,0,191.f/255.f}))throw std::runtime_error("Merchant confirmation dim draw rejected");
+                        for(const auto& batch:menu.art.batches) {
+                            if(batch.role.compare(0,14,"menu_confirm2/")!=0)continue;
+                            std::vector<f::OverlayTriangleVertex> vertices;
+                            for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
+                            if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Merchant confirmation art draw rejected");
+                        }
+                    };
                     for(const auto& batch:menu.art.batches) {
+                        if(merchantModal&&batch.role.compare(0,14,"menu_confirm2/")==0)continue;
                         if(!merchantOpen&&!mapDrawn&&characterMenu.tab()==f::character_menu::Tab::map&&batch.role.compare(0,14,"menu_MapSheet/")==0){drawMapPage();mapDrawn=true;}
                         if((merchantOpen||characterMenu.tab()==f::character_menu::Tab::equipment)&&runtimeEquipment)
                             for(std::size_t i=0;i<sourcePanes.size();++i)
@@ -9106,6 +9125,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             throw std::runtime_error("Original menu glyph affine draw rejected");
                     };
                     for(const auto& text:menu.text) {
+                        if(merchantModal&&!merchantModalDrawn&&text.field.path.compare(0,14,"menu_confirm2/")==0)drawMerchantModal();
                         const auto popupPage=text.field.path.find("MerchantErrorPopup/")!=std::string::npos?250:text.field.path.compare(0,14,"menu_confirm2/")==0?785:0;
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
                             return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
@@ -9179,6 +9199,7 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             drawMenuGlyph(text.field,baseline,glyph,0,handle->second,color);
                         }
                     }
+                    if(merchantModal&&!merchantModalDrawn)drawMerchantModal();
                     if(equipmentActionConfirmation.visible()) {
                         // The source WarningBox is a modal display-list above the
                         // whole page. Draw its dim layer and art after the page
