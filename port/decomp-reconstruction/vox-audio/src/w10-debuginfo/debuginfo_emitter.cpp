@@ -11,7 +11,7 @@
 namespace vox {
 
 // 0x866818 _ZN3vox10EmitterObj12GetDebugInfoERNS_18DebugChunk_emitterE
-void EmitterObj::GetDebugInfo(DebugChunk_emitter& out) {
+int EmitterObj::GetDebugInfo(DebugChunk_emitter& out) {
     mutex.Lock();
     out.emitter_id = id;                                                // +0x08 -> +0x00
     out.data_id = data_ != nullptr ? data_->id : 0;                    // DataObj +0x08 -> +0x08
@@ -31,7 +31,7 @@ void EmitterObj::GetDebugInfo(DebugChunk_emitter& out) {
     for (int i = 0; i < 7; ++i) {
         out.params[i] = float_params_[i];                               // +0xc4..+0xdc -> +0x58..+0x70
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 }  // namespace vox

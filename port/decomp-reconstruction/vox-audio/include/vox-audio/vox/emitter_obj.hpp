@@ -116,11 +116,11 @@ public:
     int LoadAsync();                        // 0x86d238 (partial, see the .cpp)
     void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
     float GetPlayCursor();                  // 0x8654f8
-    void SetDSPParameter(int param, void* value);  // 0x866acc (partial: copies the name to +0xf0)
+    int SetDSPParameter(int param, void* value);   // 0x866acc (partial: null value path, see the .cpp)
     void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
-    void GetDebugInfo(DebugChunk_emitter& out);  // 0x866818 (partial: unnamed words, see DebugChunk_emitter)
+    int GetDebugInfo(DebugChunk_emitter& out);   // 0x866818 (partial: param0 override, see the .cpp)
     // Wave 9 (src/w9-emitter-slots): the cursor-to-source pull and the 3D push.
     int ProcessNonNativeData(float dt);     // 0x863228: pulls one ring block from the cursor
     int ProcessNativeData(float dt);        // 0x866b30 (partial, see the .cpp)

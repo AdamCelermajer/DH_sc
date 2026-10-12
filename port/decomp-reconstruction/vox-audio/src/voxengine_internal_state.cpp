@@ -173,7 +173,8 @@ int VoxEngineInternal::GetStatus(EmitterHandle& emitter) {
 void VoxEngineInternal::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {
-        obj->SetDSPParameter(param, value);
+        // The unlock int of EmitterObj::SetDSPParameter is not carried by this void chain (see NOTES).
+        (void)obj->SetDSPParameter(param, value);
     }
     emitter_access_.ReleaseReadAccess();
 }

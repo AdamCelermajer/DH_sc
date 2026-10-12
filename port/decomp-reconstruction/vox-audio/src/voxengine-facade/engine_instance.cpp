@@ -142,9 +142,10 @@ void VoxEngine::Initialize() {
     last_update_time_ = EngineGetTime();
 }
 
-// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: the listing returns an int, the
-// word left in r0 (this when the engine is absent, else the result of the UpdateEmitters call);
-// the port's signature is void, and the thread callback never reads it).
+// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: the listing returns the result of
+// VoxEngineInternal::UpdateEmitters (0x86db40), which ends in AccessController::ReleaseReadAccess or
+// ReleaseWriteAccess (0x89351c, 0x8935xx). Those return the unlock int in the binary but are void in the
+// port, so the int is dropped. The port's void signature matches the thread callback type that Initialize casts to.)
 // The elapsed time uses the previous stamp, the stamp never moves backwards, and the engine
 // receives the delta as a float, as the listing does.
 void VoxEngine::UpdateEmittersThreaded() {

@@ -47,7 +47,7 @@ public:
     static void PrintDebug();                       // 0x8618a8
     static int SetOutputMode(VoxOutputMode mode);   // 0x8618d0 (0 without an engine)
     static VoxOutputMode GetOutputMode();           // 0x8618f8 (-1 without an engine)
-    static void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928
+    static int SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x861928 (0 without an engine)
     static void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x861950
     static void SetSFXPresetActive(int preset, bool active, float level);  // 0x861978
     static void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,

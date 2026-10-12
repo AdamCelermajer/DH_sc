@@ -26,14 +26,17 @@ void SetOutOfMemoryHook(OutOfMemoryHook hook) { g_out_of_memory_hook = hook; }
 void* VoxAlloc(std::size_t size) { return AllocOrReport(size); }
 
 // 0x310648 _Z8VoxAllocjN3vox10VoxMemHintE (partial: a hint > 0 forwards to CustomMemalign(hint, size)
-// at 0x3105b4, which is not ported; the port ignores the hint and uses malloc.)
+// at 0x3105b4. That function ignores its first argument and returns CustomAlloc(size), so the port's
+// malloc path matches. Missing: the gAssertLevel 1/2 branches of CustomMemalign and of CustomAlloc (0x310454),
+// which are not modelled because gAssertLevel is not in the port, and ShowMemoryStats.)
 void* VoxAlloc(std::size_t size, vox::VoxMemHint hint) {
     (void)hint;
     return AllocOrReport(size);
 }
 
-// 0x310664 _Z8VoxAllocjN3vox10VoxMemHintEPKcS2_i (partial: a hint > 0 forwards to CustomMemalign,
-// which is not ported, so the port uses malloc; file, function and line are not used.)
+// 0x310664 _Z8VoxAllocjN3vox10VoxMemHintEPKcS2_i (partial: a hint > 0 forwards to CustomMemalign, which
+// ignores the hint and returns CustomAlloc(size). Missing: the gAssertLevel branches of CustomMemalign and
+// CustomAlloc (0x310454) and ShowMemoryStats. File, function and line are not used by the listing.)
 void* VoxAlloc(std::size_t size, vox::VoxMemHint hint, const char* file, const char* function, int line) {
     (void)hint;
     (void)file;
@@ -42,8 +45,9 @@ void* VoxAlloc(std::size_t size, vox::VoxMemHint hint, const char* file, const c
     return AllocOrReport(size);
 }
 
-// 0x31068c _Z8VoxAllocjPKcS0_i (partial: the debug CustomAlloc at 0x310660 is not ported; file,
-// function and line are not used.)
+// 0x31068c _Z8VoxAllocjPKcS0_i (partial: the thunk CustomAlloc(uint,char const*,uint,char const*) at 0x310660
+// forwards to CustomAlloc(uint) at 0x310454. Missing: the gAssertLevel branches and ShowMemoryStats of that
+// function, which the port replaces with the out-of-memory hook. File, function and line are not used.)
 void* VoxAlloc(std::size_t size, const char* file, const char* function, int line) {
     (void)file;
     (void)function;

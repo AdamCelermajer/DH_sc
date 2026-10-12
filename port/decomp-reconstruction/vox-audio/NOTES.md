@@ -1010,3 +1010,20 @@ Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledge
   StreamCursorInterface (mpc_getsize), the MPC seek register and zero-sample decode
   (DecoderMPC8Cursor::Decode), the ParseFile header words, the ADPCM step table bytes
   (not in the checkout), and the native and group slots listed in the ledger.
+
+
+## Wave 12 (w12-rem-1): remaining rows (VoxAlloc, VoxEngine facade and threads, EmitterObj, PriorityBank)
+- Return values changed to the Mutex::Unlock int (Mutex::Unlock returns 0 in the port, as the binary does):
+  VoxEngineInternal::SetMasterGain and SetGroupGain (vtable +0x28, +0x24) now return int; VoxEngineInternal::SetInteractiveMusicState
+  (declared int, body still missing at 0x86764c); PriorityBankManager::GetDebugInfo; EmitterObj::SetDSPParameter and
+  EmitterObj::GetDebugInfo. VoxEngine::SetInteractiveMusicState returns 0 without an engine (the listing returns m_internal).
+- Kept void on purpose: VoxEngine::SetMasterGain, SetGroupGain, UpdateEmittersThreaded, UpdateThreaded, Initialize. Their listings
+  return an int* or a double's low word left in r0 (a register leftover). The thread callbacks are void(*)(void*, void*), as the
+  VoxThread cast in Initialize shows.
+- Found: VoxEngineInternal::UpdateEmitters (0x86db40) returns the AccessController release int on both tails (ReleaseReadAccess and
+  ReleaseWriteAccess now return int upstream). The port's UpdateEmitters is still void, so the int is dropped there and in
+  VoxEngine::UpdateEmittersThreaded. That is the one item left in those rows.
+- Found: CustomMemalign (0x3105b4) ignores its alignment argument and returns CustomAlloc(size). So VoxAlloc with a hint > 0 is the same
+  allocation as the hint-less path. The remaining gap in the VoxAlloc rows is the gAssertLevel branches (CustomAlloc 0x310454).
+- VoxThread destructor and VoxEngine::Shutdown are now present, so the Shutdown blocker is gone. D1/D2/D0 and DestroyVoxEngine stay
+  partial only for VoxEngineInternal::~VoxEngineInternal (0x86be68).
