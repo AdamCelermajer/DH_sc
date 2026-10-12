@@ -66,6 +66,33 @@ int main(int argc, char** argv) {
             require(row >= 0 && levels.levels[row].file == levels.levels[i].file, "row lookup is not a left inverse");
         }
 
+        { // B143: Continue loads the level of the profile's LevelList row (FS_ContinueGame 0x420e64 / SG_SetLevelId).
+            CharacterState profile;
+            std::string uri = "untouched";
+            require(!mm::resume_level_uri(profile, levels, uri) && uri == "untouched", "a legacy profile (metadata unknown) must keep the caller's level");
+            mm::initialize_fresh_menu_metadata(profile, 1760000000u);
+            require(mm::resume_level_uri(profile, levels, uri) && uri == "data/scene/" + levels.levels[41].file && uri == "data/scene/001_swamp.mlx",
+                    "a fresh profile resumes the swamp");
+            std::int32_t other = -1;
+            for (std::size_t i = 0; i < levels.levels.size() && other < 0; ++i)
+                if (i != 41 && !levels.levels[i].file.empty()) other = std::int32_t(i);
+            require(other >= 0, "LevelList has no second level");
+            mm::stamp_menu_metadata(profile, 1760000100u, other);   // save point or level load in another level
+            require(mm::resume_level_uri(profile, levels, uri) && uri == "data/scene/" + levels.levels[std::size_t(other)].file,
+                    "the stamped level is not the Continue level");
+            require(mm::find_level_row(levels, uri) == other, "stamp/resume do not round-trip through the LevelList");
+            profile.menu_metadata.level_row[1] = -1;
+            profile.current_difficulty = 1;                          // levels[] is per difficulty: this slot is unset
+            const auto keep = uri;
+            require(!mm::resume_level_uri(profile, levels, uri) && uri == keep, "an unset difficulty slot must not invent a level");
+            profile.current_difficulty = 0;
+            profile.menu_metadata.level_row[0] = 4000;
+            require(!mm::resume_level_uri(profile, levels, uri) && uri == keep, "a row outside the LevelList must be refused");
+            profile.menu_metadata.known = false;
+            profile.menu_metadata.level_row[0] = 41;
+            require(!mm::resume_level_uri(profile, levels, uri), "unknown metadata must be refused even with a stale row");
+        }
+
         // Localization and CharacterTable.
         AssetCatalog assets(argv[1]);
         character_menu::MenuLocalization text;

@@ -43,6 +43,12 @@ void stamp_menu_metadata(CharacterState&, std::uint32_t now, std::int32_t level_
 void stamp_menu_metadata_for_level(CharacterState&, std::uint32_t now,
                                    const dh2::data::LevelTables*, std::string_view level_uri);
 
+// B143 Continue (MenuBase::FS_ContinueGame 0x420e64): the level to load is the profile's levels[CurrentDifficulty]
+// LevelList row (written by SG_SetLevelId on every level load and save point). Returns the asset-relative level path
+// (data/scene/<file>, the form --level and the transition table use). False, outputs untouched, for a legacy profile
+// without metadata, an unset row or a row outside the table: the caller keeps its own level then.
+bool resume_level_uri(const CharacterState&, const dh2::data::LevelTables&, std::string& level_uri);
+
 // Sets one visited-module byte keeping visited_modules sorted/unique.
 void set_visited_module(CharacterState&, const std::string& level_uri,
                         std::uint32_t module_id, bool visited);

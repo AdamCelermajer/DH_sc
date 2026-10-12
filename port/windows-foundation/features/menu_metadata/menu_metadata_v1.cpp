@@ -75,6 +75,15 @@ void stamp_menu_metadata_for_level(CharacterState& state, std::uint32_t now,
     stamp_menu_metadata(state, now, levels ? find_level_row(*levels, level_uri) : -1);
 }
 
+bool resume_level_uri(const CharacterState& state, const dh2::data::LevelTables& levels, std::string& level_uri) {
+    const auto& meta = state.menu_metadata;
+    if (!meta.known) return false;
+    const auto row = meta.level_row[std::size_t(std::clamp(state.current_difficulty, 0, 2))];
+    if (row < 0 || std::size_t(row) >= levels.levels.size() || levels.levels[std::size_t(row)].file.empty()) return false;
+    level_uri = "data/scene/" + levels.levels[std::size_t(row)].file;
+    return true;
+}
+
 void set_visited_module(CharacterState& state, const std::string& level_uri,
                         std::uint32_t module_id, bool visited) {
     auto& list = state.visited_modules;

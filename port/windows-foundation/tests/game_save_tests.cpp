@@ -273,5 +273,44 @@ int main(int argc,char** argv){try{
     check(!world.replace_actors(invalid_actors,{1,0},error)&&world.find_actor(2)->health==original_signed256(limbusHp)&&rng.seed==previous_rng.seed,
         "failed transactional actor restore altered world/RNG");
     std::filesystem::remove(corrupt_path);
+    { // B143: a level-world snapshot restores the world; the Character comes from the live session (the profile), never the snapshot's older copy.
+        const auto older=saved; // hero at (13,27,4), enemy dead, the Character as it was when the snapshot was written
+        auto newer=character;newer.experience+=777;newer.gold+=41;newer.source_skill_points=3;newer.source_points_known=true;
+        auto* hero=world.find_actor(1);check(hero->transform.position[0]==13,"B143 fixture: hero is not at the snapshot position");
+        const auto snapshotPosition=hero->transform.position;hero->transform.position={90,91,5};
+        GameSave liveNow;check(capture_game_save("original/level",1,newer,world,liveNow,error),error);
+        auto adopted=older;
+        check(adopt_live_character_for_world_restore(adopted,liveNow,true,error),error);
+        check(adopted.character.experience==newer.experience&&adopted.character.gold==newer.gold&&adopted.character.source_skill_points==3&&
+              adopted.character.experience!=older.character.experience,"adopted snapshot does not carry the live Character");
+        check(adopted.actors[0].actor.transform.position==snapshotPosition,"saved hero position was not kept");
+        check(adopted.actors[1].actor.source_limbus&&adopted.actors[1].actor.action==CharacterAction::dead&&adopted.random.seed==older.random.seed&&
+              adopted.random.calls==older.random.calls,"adoption changed non-hero world state");
+        auto livePose=older;check(adopt_live_character_for_world_restore(livePose,liveNow,false,error),error);
+        check(livePose.actors[0].actor.transform.position[0]==90,"keep=false must take the live hero transform");
+        auto untouched=older;auto foreign=liveNow;foreign.actors[0].actor.definition_id="other-definition";
+        check(!adopt_live_character_for_world_restore(untouched,foreign,true,error)&&!error.empty()&&
+              untouched.character.experience==older.character.experience&&untouched.actors[0].actor.definition_id==older.actors[0].actor.definition_id,
+              "definition mismatch must refuse and leave the snapshot untouched");
+        auto otherControlled=liveNow;otherControlled.controlled_actor_id=2;
+        check(!adopt_live_character_for_world_restore(untouched,otherControlled,true,error)&&untouched.character.experience==older.character.experience,
+              "different controlled actor must refuse");
+        auto restoredCharacter=older.character;
+        check(restore_game_save(adopted,"original/level",world,restoredCharacter,error),"restore of the adopted snapshot failed: "+error);
+        check(restoredCharacter.experience==newer.experience&&restoredCharacter.gold==newer.gold&&restoredCharacter.source_skill_points==3&&
+              world.find_actor(1)->transform.position==snapshotPosition&&world.find_actor(2)->action==CharacterAction::dead,
+              "restore of the adopted snapshot: profile/world split differs");
+        check(restore_game_save(older,"original/level",world,restoredCharacter,error)&&restoredCharacter.experience==older.character.experience,
+              "F9/checkpoint restores still bring back the snapshot Character");
+        // Components (transition entry, procedural seed) are not part of the GameSave file: a restore keeps the live ones.
+        check(loaded.character.components.empty(),"GameSave files are not expected to carry character components");
+        auto withComponents=character;withComponents.components.push_back({"dh2.test.component",{1,2,3}});
+        check(restore_game_save(loaded,"original/level",world,withComponents,error)&&withComponents.components.size()==1&&
+              withComponents.components[0].id=="dh2.test.component"&&withComponents.components[0].bytes==std::vector<std::uint8_t>{1,2,3},
+              "restore dropped the live character components");
+        auto adoptedComponents=older;auto liveWithComponents=liveNow;liveWithComponents.character.components=withComponents.components;
+        check(adopt_live_character_for_world_restore(adoptedComponents,liveWithComponents,true,error)&&adoptedComponents.character.components.size()==1,
+              "adoption dropped the live character components");
+    }
     std::cout<<"game_save PASS: original stat/equipment sheets, live vitals/pose, enemy death, exact RNG, transient reset, atomic failures\n";
 }catch(const std::exception& ex){std::cerr<<ex.what()<<'\n';return 1;}}

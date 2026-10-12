@@ -1126,6 +1126,24 @@ int main(int argc,char** argv) {
                 options.combat.playerProfileId=selected->class_id;
                 options.combat.playerId=std::numeric_limits<f::ActorId>::max();
                 if(options.level.empty())options.level="data/scene/001_swamp.mlx";
+                // B143 Continue: MenuBase::FS_ContinueGame (0x420e64) loads LevelList[levels[CurrentDifficulty]] of the SELECTED profile
+                // (the row Character::SG_SetLevelId writes on every level load and save point), not a fixed level. --level is only the
+                // default for a profile that records no level (legacy save, new profile). The level must be playable from the profile:
+                // either its per-level world save exists, or the profile recorded the entry point it arrived at (SG_SetLevelEntryPoint).
+                {
+                    std::string profileLevel;
+                    const auto* levelTables=loadMetadataLevels(menuSource);
+                    if(levelTables&&f::menu_metadata::resume_level_uri(*selected,*levelTables,profileLevel)&&profileLevel!=options.level.generic_string()) {
+                        std::string recordedLevel;int recordedEntry=-1;
+                        const bool entryKnown=f::transitions::entry_component(*selected,recordedLevel,recordedEntry)&&recordedLevel==profileLevel;
+                        std::error_code worldProbe;
+                        const bool worldKnown=fs::exists(f::transitions::level_world_path(slotPath(assignedSlot),profileLevel),worldProbe);
+                        if(entryKnown||worldKnown) {
+                            std::cout<<"Continue profile level="<<profileLevel<<" launch level="<<options.level.generic_string()<<" entry="<<(entryKnown?recordedEntry:-1)<<" world="<<int(worldKnown)<<'\n';
+                            options.level=profileLevel;
+                        } else std::cout<<"Continue profile level="<<profileLevel<<" ignored: no recorded entry point or level world; launch level "<<options.level.generic_string()<<" kept\n";
+                    }
+                }
                 options.movable=true;frontendStarted=true;e.clear();return true;
             };
             f::frontend::FrontendRuntimeServicesV1 frontendServices;
@@ -1353,9 +1371,22 @@ int main(int argc,char** argv) {
                 if(!f::load_game(resumeWorldPath,resumeSnapshot,resumeError))std::cout<<"Continue level world status=unreadable detail="<<resumeError<<'\n';
                 else if(resumeSnapshot.level_uri!=options.level.generic_string())std::cout<<"Continue level world status=other_level saved="<<resumeSnapshot.level_uri<<'\n';
                 else if(resumeSnapshot.character.id!=state.id)std::cout<<"Continue level world status=other_profile\n";
+                else if(f::procedural::is_procedural_level_uri(options.level.generic_string())&&
+                        f::procedural::saved_seeds(state)[std::size_t(std::clamp(f::character_current_difficulty(state),0,2))]==0)
+                    std::cout<<"Continue level world status=seed_unknown level="<<options.level.generic_string()<<" (the profile keeps no procedural seed, so a regenerated layout cannot match the saved world)\n";
                 else {
                     options.loadFrame=0;options.resumeGame=true;options.resumeLevelWorld=true;
                     std::cout<<"Continue level world status=valid level="<<options.level.generic_string()<<" actors="<<resumeSnapshot.actors.size()<<" path="<<resumeWorldPath.generic_string()<<'\n';
+                }
+            }
+            // B143: with no usable level world, Continue is a plain LoadLevel at the entry point the profile recorded for this level
+            // (Character::SG_SetLevelEntryPoint / LEPT), exactly like the arrival of a transition. A profile without a record for this
+            // level (every v21.3 swamp-only save) keeps the launch placement.
+            if(!options.resumeLevelWorld) {
+                std::string recordedLevel;int recordedEntry=-1;
+                if(f::transitions::entry_component(state,recordedLevel,recordedEntry)&&recordedLevel==options.level.generic_string()) {
+                    options.transitionEntryId=recordedEntry;
+                    std::cout<<"Continue arrival at the recorded entry level="<<recordedLevel<<" entry="<<recordedEntry<<'\n';
                 }
             }
         }
@@ -2479,13 +2510,18 @@ int main(int argc,char** argv) {
                     if(!migrateAdmittedActors(worldSnapshot,worldError))std::cout<<"Level world admission migration status=refused detail="<<worldError<<'\n';
                     else {
                     combatSession->actor(combatSession->player_id())->persistent_character_id=state.id; // same binding as the reload path
-                    // The fresh start and a loaded character name equipment slots differently (slot-N vs source-type/N); the same worn
-                    // instance keeps its live slot name, so the identity check compares equal (the equipment is the same).
-                    if(const auto* live=combatSession->actor(combatSession->player_id()))for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)
-                        for(auto& saved:persisted.actor.equipment)for(const auto& now:live->equipment)if(saved.item_instance_id&&now.item_instance_id&&*saved.item_instance_id==*now.item_instance_id)saved.slot=now.slot;
+                    // B143: the snapshot restores the WORLD of this level. The Character and the hero are the live ones, built from the
+                    // profile this session loaded; the Character embedded in the snapshot is only as new as the snapshot and used to
+                    // overwrite later progress (return to a level after gaining loot/skill points elsewhere). The same worn instance also
+                    // keeps its live slot name (slot-N vs source-type/N), so the identity check compares equal.
+                    f::GameSave liveNow;
+                    std::string detachError;
+                    if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),liveNow,worldError)||
+                       !f::adopt_live_character_for_world_restore(worldSnapshot,liveNow,true,worldError))
+                        std::cout<<"Level world restore status=live_hero_refused detail="<<worldError<<'\n';
+                    else {
                     for(auto& persisted:worldSnapshot.actors)if(persisted.actor.id==worldSnapshot.controlled_actor_id)persisted.actor.transform.position={options.actorPosition.x,options.actorPosition.y,options.actorPosition.z};
                     // Session restore rule: release the session's bindings, replace the world, then rebind before the next update.
-                    std::string detachError;
                     if(!combatSession->detach_for_restore([](std::string&){return true;},detachError))
                         std::cout<<"Level world restore status=detach_refused detail="<<detachError<<'\n';
                     else {
@@ -2500,6 +2536,7 @@ int main(int argc,char** argv) {
                             if(arrivedEntryId>=0)f::transitions::set_entry_component(state,options.level.generic_string(),arrivedEntryId);
                             std::cout<<"Level world restored level="<<options.level.generic_string()<<" objects="<<worldSnapshot.objects.size()<<" actors="<<worldSnapshot.actors.size()<<" path="<<worldPath.generic_string()<<'\n';
                         }
+                    }
                     }
                     }
                 }
@@ -7165,7 +7202,21 @@ int main(int argc,char** argv) {
                     if(!f::save_character(options.save,state,error))std::cerr<<error<<'\n';else std::cout<<"Saved character\n";
                 }
             }
-            if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")) {
+            // B143: F9 restores THE CHECKPOINT OF THIS LEVEL AND PROFILE. gameplay.save is one file that F5 writes; after a level transition,
+            // before any F5 in the level, or with another profile it holds a different level/character, whose restore used to abort the whole
+            // process (roster/identity error thrown from the restore). A checkpoint that does not belong here is refused and the session goes on.
+            // The Continue restore at the start frame reads the profile level world, which startup already validated.
+            const auto liveCheckpointAdmitted=[&]()->bool {
+                if(!combatSession||(options.resumeLevelWorld&&drawn==options.loadFrame))return true;
+                std::error_code probeExists;
+                if(!fs::exists(options.liveSave,probeExists)){std::cout<<"Restore refused frame="<<drawn<<": no gameplay checkpoint has been saved (F5)\n";return false;}
+                f::GameSave probe;std::string probeError;
+                if(!f::load_game(options.liveSave,probe,probeError)){std::cout<<"Restore refused frame="<<drawn<<": the gameplay checkpoint is unreadable: "<<probeError<<"\n";return false;}
+                if(probe.level_uri!=options.level.generic_string()){std::cout<<"Restore refused frame="<<drawn<<": the gameplay checkpoint belongs to another level saved="<<probe.level_uri<<"\n";return false;}
+                if(probe.character.id!=state.id){std::cout<<"Restore refused frame="<<drawn<<": the gameplay checkpoint belongs to another profile\n";return false;}
+                return true;
+            };
+            if((pressed(VK_F9)||drawn==options.loadFrame)&&!campaignSaveRefused("Restore")&&checkpointAllowed("Restore")&&liveCheckpointAdmitted()) {
                 traceState("restore-before");
                 scriptRoutes.clear(); // restored actor bindings must not inherit an earlier session's movement goals
                 if(options.combatText)combatText.clear_for_reload();
@@ -7177,6 +7228,16 @@ int main(int argc,char** argv) {
                     if(continueRestore)std::cout<<"Continue restore frame="<<drawn<<" path="<<restorePath.generic_string()<<'\n';
                     f::GameSave snapshot;if(!f::load_game(restorePath,snapshot,error))throw std::runtime_error("Read live save: "+error);
                     if(!migrateAdmittedActors(snapshot,error))throw std::runtime_error("Live save authored-actor migration: "+error);
+                    if(continueRestore) {
+                        // B143: Continue restores the WORLD and the hero's position from the level save; the Character is the profile the
+                        // menu selected (this session was built from it). The Character embedded in the level save can be older than the
+                        // profile (progress made in another level after the world was written) and must not replace it.
+                        f::GameSave liveNow;
+                        if(!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),liveNow,error)||
+                           !f::adopt_live_character_for_world_restore(snapshot,liveNow,true,error))
+                            throw std::runtime_error("Continue live hero: "+error);
+                        std::cout<<"Continue profile Character kept level="<<options.level.generic_string()<<" xp="<<state.experience<<" gold="<<state.gold<<'\n';
+                    }
                     if(!combatSession->detach_for_restore([&](std::string& e) {
                         retireSourceEffects();
                         clearNativeBodies();
