@@ -248,3 +248,67 @@ classes, and tail calls hidden behind strlen in the pseudocode.
 - Strings: wcsicmp, getUTF8charValue, iterateUTF8String (garbled); getTypeString for bool, int,
   rect, bbox, line2d, line3d and enum (literal addresses not in strings.csv).
 - CFileList heapsink/heapsort are partial (element compare not verified).
+
+## Wave 5 (202 new ledger rows: 155 reconstructed, 45 partial, 2 skipped)
+
+Rows by family:
+- `CAttributes::addStringAs*` and `addString(name, wide value)` (22 rows, `src/attributes_string_as.cpp`).
+  The pseudocode for this family garbles the tail: the decompiler reads the `strlen` call as a
+  noreturn tail, so the body looked like it only allocates. The ARM (`bl` to 0x30de54 is strlen,
+  then the name is copied and the object is pushed) shows the real order: the typed attribute is
+  built with its default value and the flag, appended to the current group (vector at group +0x48),
+  then `setString(wide)` is called through IAttribute's vtable slot +0x94 on the appended element.
+  Defaults come from the pseudocode stores: line2d (0,0)-(1,1), line3d (0,0,0)-(1,1,1), plane
+  normal (0,1,0) with D = -0.0, box (-1,-1,-1)-(1,1,1), quaternion (0,0,0,1), colour (0,0,0,1),
+  matrix identity with the byte at +0x40 set to 1. `addStringAsTexture` is partial (texture
+  constructor), `addStringAsBool/Float/UserPointer` are partial (the value field is never written
+  by the original). `addString(char, char)` (0x56a818) and the narrow CStringAttribute constructor
+  (0x567d60) are not done; the Light and Binary variants (0x568124, 0x56840c) need the
+  CLightAttribute constructor (0x566c90) and a CBinaryAttribute constructor, not in the port yet.
+- `glitch::CTimer` (9 rows, `os/ctimer.hpp`, `src/ctimer.cpp`). Each queued body is a 4- or 8-byte
+  branch. The targets come from the ARM listing (the listing address equals the ELF address; the
+  pseudocode header adds 0x10000): tick -> os::Timer::tick (0x60b22c), isStopped (0x60aebc),
+  getSpeed (0x60ae9c), setSpeed (0x60b194), startTimer (0x60b1dc), stopTimer (0x60af68), setTime
+  (0x60b148), getTime (0x60aee4), getRealTime (0x60b0cc). The two destructors are skipped.
+- `boost::intrusive_ptr` instances (10 rows). The template gained `operator=(T*)` for CImage
+  (0x603414). Stand-ins were added to deps for IShader, IShaderCode, IBuffer, CImage,
+  scene::CMeshBuffer (drop() at +0x04) and CVertexStreams (count at +0x00, direct delete, like
+  CMaterial). The CLight destructors and operator= (0x5aa3c8, 0x5b9118, 0x5bb650) and
+  intrusive_ptr<CVertexStreams>/<const CMaterialRenderer> (0x5a10fc, 0x65afc0) are partial: the
+  original releases them with an inline Matrix4 pool return or a direct destructor call.
+- `glitch::core::detail::SIDedCollection` (159 rows over five instances, `core/sided_collection.hpp`).
+  The address map is at the top of the header. Layout (32-bit offsets, kept as comments):
+  name map header at +0x00..+0x10 (count at +0x10), `vector<SEntry>` at +0x18..+0x20, next free
+  id (uint16) at +0x24, live count (uint16) at +0x26. SEntry is the value plus its map iterator:
+  8 bytes for a pointer value (ITexture, IShader, IShaderCode, CMaterialRenderer) and 20 bytes for
+  SShaderParameterDef (16-byte value, iterator at +0x10). The name map node is 0x38 bytes: the
+  key SName at +0x10 (name +0x00, managed +0x04) and the mapped SIdValue at +0x18 (id at +0x1c,
+  inside the value, so the id is at node +0x34). The port uses std::map and std::vector with the
+  same key order (strcmp), so idBegin/idEnd/removeAll visit names in the original order.
+  Decisions: `remove(id, force)` only removes a value whose count (+0x04) is 1 unless forced;
+  `remove` lowers the next free id and cuts trailing unset entries from the vector. `add` is a
+  test helper (not a queued function). SShaderParameterDef values hold a shared-string
+  reference at +0x00 that the port copies without counting, so its SEntry set/reset/copy and
+  destructor are partial.
+  Not done: the four `rename(unsigned short, char const*, bool)` entries (0x5bb3cc, 0x5dc444,
+  0x5e7050, 0x6e1d88): their pseudocode was not read this wave.
+- Skipped (compiler-generated): the CTimer destructors (0x6714a4, 0x6715fc).
+
+Partial rows are listed in the ledger notes. The main causes: the CMatrix4 and CNumbers
+copies that drop the flag byte, the CLight pool release, and the SShaderParameterDef
+shared-string count.
+
+Checked and not reconstructed this wave (reasons):
+- `IAttributes::getEnum<E>` and `addEnum<E>` templates (0x5a03cc, 0x5e09cc, 0x5ba66c, ...):
+  they call vtable slots +0xf4, +0x100 and +0x104 of IAttributes and `getStringsInternal` (the
+  glitch::video enum string tables). The port's IAttributes interface has no virtuals yet.
+- `CMatrix4<float>::isIdentity`, `getScale`, `transformPlane`, `buildShadowMatrix`: the
+  pseudocode tail-calls `__aeabi_fadd`/`__aeabi_fmul` with garbled arguments. `operator*` needs
+  `CMatrix4Base::mult` (304 bytes, not reconstructed).
+- `CMatrix4<float>::CMatrix4(eConstructor)` (0x631c14, 0x6c0ce4): GCC `.clone` copies, so they are
+  skipped; the constructor body is identity with the flag byte at +0x40 set to 1 (the same
+  matrix as addStringAsMatrix uses). Its base constructor is not in the queue as a small body.
+- `CFileSystem`, `CZipReader`, `CUnZipReader`, `CZipWriter`, `CXMLWriter`, `CXMLReaderImpl`
+  text/parse helpers, `CLimitReadFile`, `CFile`, the process buffer heap, `Printer::logf` and
+  `Randomizer`: queued, but not started in this wave. `Printer::logf` forwards a variadic call to
+  a logger virtual (vtable +0x24) that the port's ILogger does not declare.
