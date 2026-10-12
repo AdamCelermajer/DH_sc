@@ -48,6 +48,14 @@ public:
     virtual std::int32_t IsInProgress() const;
     // 0x8300e8 _ZN15GLXPlayerSocket15IsErrorOccurredEv, vtable +0x1c
     virtual bool IsErrorOccurred() const { return state_ == 7; }
+    // vtable +0x58 and +0x74: the platform hooks the ping probe calls. Pure in the original
+    // base. The port's defaults report failure (-1) for the send and no connection (0).
+    virtual std::int32_t SendTo(const void* data, std::int32_t length, const char* address,
+                                std::int32_t port) {
+        (void)data; (void)length; (void)address; (void)port;
+        return -1;
+    }
+    virtual std::int32_t Connect() { return 0; }
     // vtable +0x3c: called by Cancel. Pure in the original base; the port makes it a no-op.
     virtual void OnCancelled() {}
 
