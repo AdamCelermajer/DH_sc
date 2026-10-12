@@ -249,7 +249,7 @@ unsigned int SynchronizedSet::getSynchronizationSegment(int at) const {
     unsigned int result = segmentCount - 1;
     if (segmentCount != 0) {
         for (unsigned int i = 0; i < segmentCount; ++i) {
-            if (getSegmentTimestamp(i) <= static_cast<unsigned int>(at)) {
+            if (static_cast<int>(getSegmentTimestamp(i)) <= at) {
                 result = i;
             }
         }
@@ -392,7 +392,7 @@ GuiElement* GuiElement::getElementFromPoint(const glitch::core::position2d<int>&
     return nullptr;
 }
 
-// 0x534ef8 helper (children walk)
+// Child walk used by draw (0x534eb8); no separate symbol.
 void GuiElement::drawChildren() {
     if (!visible) {
         return;
