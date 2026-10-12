@@ -67,4 +67,14 @@ int VoxEngineInternal::IsReady(DataHandle& data) {
     return ready;
 }
 
+// 0x869314 _ZN3vox17VoxEngineInternal19GetFreeDataObjectIdEv
+// Write access to the data table (+0x54), then the next free id from the data object
+// HandlableContainer (+0x08).
+std::int64_t VoxEngineInternal::GetFreeDataObjectId() {
+    data_objects_access_.GetWriteAccess();
+    std::int64_t id = data_objects_.GetFreeHandleId();
+    data_objects_access_.ReleaseWriteAccess();
+    return id;
+}
+
 }  // namespace vox

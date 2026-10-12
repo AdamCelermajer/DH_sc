@@ -7,11 +7,14 @@
 #include <cstdint>
 
 #include "vox-audio/vox/decoder.hpp"
+#include "vox-audio/vox/stream.hpp"
+#include "vox-audio/vox/wave_chunk.hpp"
 
 namespace vox {
 
-// Interface of the WAV sub-decoder (Decode +0x08, Seek +0x0c, HasData +0x10). The loop
-// flag the cursor sets lives at +0x28 in the original.
+// Interface of the WAV sub-decoder (Decode +0x08, Seek +0x0c, HasData +0x10). The fields
+// below are shared by the PCM and IMA ADPCM sub-decoders and are set by their constructors
+// (the original constructors write them inline, so there is no base constructor).
 class VoxMSWavSubDecoder {
 public:
     virtual ~VoxMSWavSubDecoder() = default;  // 0x875414: empty body in the original
@@ -19,6 +22,25 @@ public:
     virtual int Seek(unsigned int frame) = 0;
     virtual bool HasData() = 0;
 
+protected:
+    // 0x896068 _ZN3vox18VoxMSWavSubDecoder17GoToNextDataChunkEv
+    // Moves to the next data chunk of the WAV block (the first one when no chunk is current):
+    // seeks the stream to its data, sets the chunk's current size and clears the byte position.
+    // Without a chunk or a stream it does nothing. Past the last chunk it clears the current
+    // chunk and its size.
+    void GoToNextDataChunk();
+
+    StreamCursorInterface* stream_ = nullptr;  // +0x04
+    WaveChunk* chunk_ = nullptr;               // +0x08
+    DataNode* node_ = nullptr;                 // +0x0c, current data chunk
+    int channels_ = 0;                         // +0x10
+    int sample_rate_ = 0;                      // +0x14
+    int bits_per_sample_ = 0;                  // +0x18
+    std::uint32_t total_frames_ = 0;           // +0x1c, all frames of the file's data
+    std::uint32_t node_pos_ = 0;               // +0x20, bytes read from the current chunk
+    std::uint32_t frame_pos_ = 0;              // +0x24, frames decoded so far
+
+public:
     bool loop_ = false;  // +0x28
 };
 

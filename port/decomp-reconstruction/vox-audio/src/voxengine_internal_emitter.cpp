@@ -291,4 +291,14 @@ void VoxEngineInternal::DecreaseEmitterObjectRefCount(EmitterHandle& emitter) {
     emitter_access_.ReleaseReadAccess();
 }
 
+// 0x869068 _ZN3vox17VoxEngineInternal22GetFreeEmitterObjectIdEv
+// Write access to the emitter table (+0xc4), then the next free id from the emitter
+// HandlableContainer (+0x78). The id is a 64-bit value in the original as well.
+std::int64_t VoxEngineInternal::GetFreeEmitterObjectId() {
+    emitter_access_.GetWriteAccess();
+    std::int64_t id = emitters_.GetFreeHandleId();
+    emitter_access_.ReleaseWriteAccess();
+    return id;
+}
+
 }  // namespace vox

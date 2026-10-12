@@ -156,6 +156,15 @@ public:
     DataHandle LoadDataSourceAsync(int a, void* b, int c, void* d, int e, VoxSourceLoadingFlags flags);  // 0x86aee8
     DataHandle LoadDataSource(int a, void* b, int c, void* d, int e);
 
+    // Next free id for a new emitter (0x869068) or data object (0x869314). Each takes write
+    // access to its table's AccessController and returns the id from the HandlableContainer.
+    std::int64_t GetFreeEmitterObjectId();
+    std::int64_t GetFreeDataObjectId();
+
+    // The process-wide engine (0x869d3c). Created with VoxAlloc on first use. The original
+    // constructor (0x869a94) is not reconstructed yet.
+    static VoxEngineInternal* GetVoxEngineInternal();
+
     // Emitter lookup (0x8674cc) and the emitter fast path use these. Offsets from the original.
     EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
     EmitterObj* DetachEmitterObject(std::int64_t id);      // 0x86a5d0 (declared only)
