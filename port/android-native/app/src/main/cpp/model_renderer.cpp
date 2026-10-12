@@ -1315,6 +1315,8 @@ struct RuntimeLevelAssets {
  std::shared_ptr<dh2::random_level::CryptRuleDocumentV1> crypt_rules;
  std::shared_ptr<dh2::random_level::CryptModuleAssetBytesV1> crypt_asset_bytes;
  std::shared_ptr<dh2::random_level::CryptModuleCatalogueV1> crypt_catalogue;
+ // Generated rule header: <rules music="..."> label and scriptFile table stem.
+ std::string generated_music_label,generated_script_stem;
 };
 struct GeneratedWorldPayload {
  std::vector<std::uint8_t> dwld_v1;
@@ -1380,13 +1382,140 @@ constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
 }
+namespace {
+// Generated rule-driven LevelList rows (LevelList names a .rule.xml). The rule
+// supplies its folder, music label and scriptFile. Row 23 keeps the original
+// Crypt names and paths unchanged.
+struct GeneratedRuleLevelV1 {std::int32_t row;const char* name;const char* level_file;};
+constexpr GeneratedRuleLevelV1 generated_rule_levels[]{
+ {0,"ABBEY_ENTRANCE_01","009_abbey.rule.xml"},
+ {9,"DESERT_CAVE_01","016_red_desert_cave_01.rule.xml"},
+ {10,"DESERT_CAVE_02","017_red_desert_cave_02.rule.xml"},
+ {11,"DESERT_CAVE_03","018_red_desert_cave_03.rule.xml"},
+ {12,"EARTH_TEMPLE_01","011_earth_temple_01.rule.xml"},
+ {13,"EARTH_TEMPLE_02","012_earth_temple_02.rule.xml"},
+ {14,"EARTH_TEMPLE_03","013_earth_temple_03.rule.xml"},
+ {15,"ELEMENTAL_AIR","030_el_air.rule.xml"},
+ {16,"ELEMENTAL_EARTH","014_el_earth.rule.xml"},
+ {17,"ELEMENTAL_FIRE","032_el_fire.rule.xml"},
+ {18,"ELEMENTAL_LIGHT","010_el_lightning.rule.xml"},
+ {19,"ELEMENTAL_WATER","024_el_water.rule.xml"},
+ {21,"GOTHICUS_CASTLE_01","008_gothicus_castle_01.rule.xml"},
+ {22,"GOTHICUS_CASTLE_02","021_gothicus_castle_02.rule.xml"},
+ {23,"GOTHICUS_CRYPT_01","007_crypt_01.rule.xml"},
+ {24,"GOTHICUS_CRYPT_02","020_crypt_02.rule.xml"},
+ {25,"ICY_CAVERN_01","026_icy_cavern_01.rule.xml"},
+ {26,"ICY_CAVERN_02","027_icy_cavern_02.rule.xml"},
+ {27,"ICY_CAVERN_03","028_icy_cavern_03.rule.xml"},
+ {30,"LIGHT_HOUSE_01","019_light_house_01.rule.xml"},
+ {31,"LIGHT_HOUSE_02","019_light_house_02.rule.xml"},
+ {32,"LIGHT_HOUSE_03","019_light_house_03.rule.xml"},
+ {39,"ROOT_DEN_01","004_root_den.rule.xml"},
+ {40,"SECRET_BASEMENT_01","006_basement.rule.xml"},
+ {42,"SWAMP_02","022_swamp2.rule.xml"},
+ {43,"SWAMP_CAVE_TROLL_A","022_swamp2_trollcave.rule.xml"},
+ {44,"SWAMP_CAVE_WITCH_A","002_swamp_witchcave.rule.xml"},
+ {46,"VOID_MAZE_01","033_voidmaze_01.rule.xml"},
+ {47,"VOID_MAZE_02","034_voidmaze_02.rule.xml"},
+ {48,"VOID_MAZE_03","035_voidmaze_03.rule.xml"},
+ {49,"WATER_TEMPLE_01","023_watertemple.rule.xml"},
+ {50,"WIND_TEMPLE_01","029_wind_temple.rule.xml"},
+};
+// Rule <rules music="..."> label resolved to the Sounds.xml UID. CatacombsMusic
+// (void maze) has no sounds.xml row, so its UID is absent and no cue is queued.
+struct GeneratedRuleMusicV1 {const char* label;std::uint16_t uid;};
+constexpr GeneratedRuleMusicV1 generated_rule_music[]{
+ {"CryptOneAmbientMusic",486},{"SecretCryptAmbientMusic",487},{"AbbeyRuinsOneAmbientMusic",484},
+ {"GothicusCastleHubAmbientMusic",477},{"FireTowerAmbientMusic",478},{"EartheTowerAmbientMusic",479},
+ {"WaterTowerAmbientMusic",480},{"AirTowerAmbientMusic",481},{"LightTowerAmbientMusic",482},
+ {"EarthTempleAmbientMusic",474},{"RedDesertCaveOneAmbientMusic",489},{"RedDesertCaveTwoAmbientMusic",490},
+ {"RedDesertThreeAmbientMusic",491},{"LighthouseTempleAmbientMusic",492},{"IcyCaveTwoAmbientMusic",496},
+ {"IcyCaveThreeAmbientMusic",497},{"IcyCaveOneTwoAmbientMusic",499},{"WindTempleAmbientMusic",501},
+ {"WaterTempleCaveAmbientMusic",470},{"RootDenOneAmbientMusic",472},{"SecretBasementAmbientMusic",476},
+ {"SwampHubAmbientMusic",467},{"SwampWitchCaveAmbientMusic",468},
+};
+// Rule folder to base BDAE (the folder's own file, read from original-cache).
+struct GeneratedRuleBdaeV1 {const char* folder;const char* bdae;};
+constexpr GeneratedRuleBdaeV1 generated_rule_bdae[]{
+ {"data/3d/modules/crypt","crypt.bdae"},{"data/3d/modules/castle","castle.bdae"},
+ {"data/3d/modules/desert_cave","room_cave.bdae"},{"data/3d/modules/earth_temple","earth_temple.bdae"},
+ {"data/3d/modules/icy_cavern","icy_cavern.bdae"},{"data/3d/modules/lighthousse","lighthouse.bdae"},
+ {"data/3d/modules/root_den","root_den_rooms.bdae"},{"data/3d/modules/swamp","swamp.bdae"},
+ {"data/3d/modules/void_maze","void_maze.bdae"},{"data/3d/modules/water_temple","water_temple.bdae"},
+ {"data/3d/modules/wind_temple","wind_temple.bdae"},
+};
+const GeneratedRuleLevelV1* generated_rule_level(std::int32_t row,const std::string& name,
+                                                 const std::string& level_file){
+ for(const auto& level:generated_rule_levels)
+  if(level.row==row&&name==level.name&&level_file==level.level_file)return &level;
+ return nullptr;
+}
+bool generated_rule_level_name(const std::string& name,const std::string& level_file){
+ for(const auto& level:generated_rule_levels)
+  if(name==level.name&&level_file==level.level_file)return true;
+ return false;
+}
+// Descriptor/scene stem: Crypt keeps "crypt"; other rows use the rule file stem.
+std::string generated_rule_stem(const std::string& level_file){
+ static constexpr char suffix[]=".rule.xml";
+ constexpr std::size_t suffix_size=sizeof(suffix)-1;
+ if(level_file=="007_crypt_01.rule.xml")return "crypt";
+ std::string stem=level_file;
+ if(stem.size()>=suffix_size&&stem.compare(stem.size()-suffix_size,suffix_size,suffix)==0)
+  stem.resize(stem.size()-suffix_size);
+ return stem;
+}
+std::string generated_rule_scene_path(const std::string& level_file){
+ return "data/scene/generated_"+generated_rule_stem(level_file)+".mlx";
+}
+std::string generated_rule_bres(const std::string& level_file,const std::string& folder){
+ if(level_file=="007_crypt_01.rule.xml")return "crypt.bdae";
+ for(const auto& entry:generated_rule_bdae)
+  if(folder==entry.folder)return folder+"/"+entry.bdae;
+ return std::string();
+}
+// Attribute of the <rules ...> header element (e.g. music, scriptFile).
+std::string generated_rule_header_attribute(std::string_view xml,std::string_view name){
+ const auto begin=xml.find("<rules");
+ if(begin==std::string_view::npos)return {};
+ const auto end=xml.find('>',begin);
+ if(end==std::string_view::npos)return {};
+ const auto header=xml.substr(begin,end-begin);
+ const std::string key=std::string(name)+"=\"";
+ for(auto at=header.find(key);at!=std::string_view::npos;at=header.find(key,at+1)){
+  if(at==0||!std::isspace(static_cast<unsigned char>(header[at-1])))continue;
+  const auto value=at+key.size();
+  const auto close=header.find('"',value);
+  if(close==std::string_view::npos)return {};
+  return std::string(header.substr(value,close-value));
+ }
+ return {};
+}
+std::uint16_t generated_rule_music_uid(const std::string& label){
+ for(const auto& music:generated_rule_music)if(label==music.label)return music.uid;
+ return 0;
+}
+// Script table stem: the rule scriptFile basename, lowercase, without extension.
+std::string generated_rule_script_stem(const std::string& script_file){
+ auto base=script_file;
+ const auto slash=base.find_last_of("/\\");
+ if(slash!=std::string::npos)base=base.substr(slash+1);
+ const auto dot=base.rfind('.');
+ if(dot!=std::string::npos)base.resize(dot);
+ for(auto& ch:base)ch=static_cast<char>(std::tolower(static_cast<unsigned char>(ch)));
+ return base;
+}
+} // namespace
 const char* static_level_name_for_row(std::int32_t row){
  for(const auto& level:static_mlx_levels)if(level.row==row)return level.name;
+ for(const auto& level:generated_rule_levels)if(level.row==row)return level.name;
  return nullptr;
 }
 bool gameplay_startup_loaded(const std::string& startup){
  if(startup.rfind("Crypt |",0)==0)return true;
  for(const auto& level:static_mlx_levels)
+  if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
+ for(const auto& level:generated_rule_levels)
   if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
  return false;
 }
@@ -1414,6 +1543,8 @@ std::uint16_t source_level_vxn_music_uid() noexcept {
  if(active_level_assets.row==23&&
     active_level_assets.name=="GOTHICUS_CRYPT_01"&&
     active_level_assets.level_file=="007_crypt_01.rule.xml")return 486;
+ if(generated_rule_level(active_level_assets.row,active_level_assets.name,active_level_assets.level_file))
+  return generated_rule_music_uid(active_level_assets.generated_music_label);
  return 0;
 }
 // MenuMainMenu's preview selection is separate from PlayerInfo::saveSlot664.
@@ -20849,10 +20980,10 @@ bool load_source_level_camera_clip_planes(AAssetManager* assets,
    source_path=static_mlx_scene_path(*static_level);
    bytes=read(assets,source_path.c_str(),"original-cache");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
-  }else if(level.name=="GOTHICUS_CRYPT_01"&&level.level_file=="007_crypt_01.rule.xml"){
-   bytes=read(assets,"007_crypt_01.rule.xml","worlds");
+  }else if(generated_rule_level_name(level.name,level.level_file)){
+   bytes=read(assets,level.level_file,"worlds");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
-   source_path="007_crypt_01.rule.xml";
+   source_path=level.level_file;
   }else{
    error="No source LevelConfig camera clip fields for "+level.name+" / "+level.level_file;
    return false;
@@ -21060,17 +21191,20 @@ bool crypt_safe_asset_directory(std::string_view value){
  return true;
 }
 
-bool load_crypt_rule_assets(AAssetManager* assets,
+bool load_crypt_rule_assets(AAssetManager* assets,const std::string& rule_file,
     std::shared_ptr<dh2::random_level::CryptRuleDocumentV1>& rules,
     std::shared_ptr<dh2::random_level::CryptModuleAssetBytesV1>& source_bytes,
     std::shared_ptr<dh2::random_level::CryptModuleCatalogueV1>& catalogue,
+    std::string& music_label,std::string& script_stem,
     std::string& error){
  using namespace dh2::random_level;
  try{
-  const auto rule_bytes=read(assets,"007_crypt_01.rule.xml","worlds");
+  const auto rule_bytes=read(assets,rule_file,"worlds");
   const std::string_view rule_xml(reinterpret_cast<const char*>(rule_bytes.data()),rule_bytes.size());
   const auto parsed=parse_crypt_rule_v1(rule_xml);
   if(!parsed){error="Crypt rule parse failed: "+parsed.error;return false;}
+  music_label=generated_rule_header_attribute(rule_xml,"music");
+  script_stem=generated_rule_script_stem(generated_rule_header_attribute(rule_xml,"scriptFile"));
   if(!crypt_safe_asset_directory(parsed.document->folder)){
    error="Crypt rule has an unsafe source module folder";return false;
   }
@@ -21257,7 +21391,7 @@ bool build_generated_crypt_handle_ledger(
   const auto& xml=runtime.generated_crypt_source_xml;
   const auto status=source_handle_ledger_v1::build(
       reinterpret_cast<const std::uint8_t*>(xml.data()),xml.size(),
-      runtime.name.c_str(),"data/scene/generated_crypt.mlx",
+      runtime.name.c_str(),generated_rule_scene_path(runtime.level_file).c_str(),
       files.data(),files.size(),first_source_handle,root_offset,*ledger,error);
   if(status!=source_handle_ledger_v1::Status::ok){
    error="Generated Crypt ObjectManager order rejected: "+error;return false;
@@ -21281,7 +21415,7 @@ bool compile_generated_crypt_spawnpoint(
  if(xml.empty()){error="Generated Crypt Level XML is empty";return false;}
  return dh2::world::compile_generated_spawnpoint_v1(
      reinterpret_cast<const std::uint8_t*>(xml.data()),xml.size(),
-     "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+     runtime.name.c_str(),generated_rule_scene_path(runtime.level_file).c_str(),
      views.data(),views.size(),entrypoint,output,error);
 }
 
@@ -21338,14 +21472,18 @@ bool prepare_native_transition_runtime_v1(
    error="Source SWAMP transition DWLD asset is unavailable";return false;
   }
  }else if(plan.runtime_kind==dh2::ui::NativeDestinationRuntimeKindV1::crypt_generated){
-  if(plan.level_row!=23||plan.level_name!="GOTHICUS_CRYPT_01"||
-     plan.load.file!="007_crypt_01.rule.xml"){
+  if(!generated_rule_level(plan.level_row,plan.level_name,plan.load.file)){
    error="Generated Crypt transition adapter does not match its source LevelList row";return false;
   }
-  runtime.descriptor=plan.descriptor;runtime.bres=plan.bres;
+  runtime.descriptor=plan.descriptor;
   runtime.spawns=plan.spawns;runtime.objects=plan.objects;
-  if(!load_crypt_rule_assets(transition.assets,runtime.crypt_rules,
-      runtime.crypt_asset_bytes,runtime.crypt_catalogue,error))return false;
+  if(!load_crypt_rule_assets(transition.assets,plan.load.file,runtime.crypt_rules,
+      runtime.crypt_asset_bytes,runtime.crypt_catalogue,runtime.generated_music_label,
+      runtime.generated_script_stem,error))return false;
+  runtime.bres=generated_rule_bres(plan.load.file,runtime.crypt_rules->folder);
+  if(runtime.bres.empty()){
+   error="Generated rule folder has no base BDAE: "+runtime.crypt_rules->folder;return false;
+  }
   const auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
@@ -21433,7 +21571,7 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
    // Crypt row 23 and the authored static MLX levels other than the
    // campaign's first (SWAMP) are available as debug launch overrides.
    if(context.debug_level_row!=23&&!static_level_name_for_row(context.debug_level_row)){
-    failure="Only source Crypt row 23 and the authored static MLX rows are available as debug launch overrides";return false;
+    failure="Only source LevelList rows with a native loader are available as debug launch overrides";return false;
    }
    for(auto& row:view.level_rows)row=context.debug_level_row;
   }
@@ -21518,12 +21656,17 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   payload.dwld_v1=read(assets,runtime.descriptor,"worlds");
   if(std::string(static_level->name)!="SWAMP"&&
      !static_level_entrypoint_fallback(assets,runtime.spawns,plan.entry_point,error))return false;
- }else if(plan.level_row==23&&plan.level_name=="GOTHICUS_CRYPT_01"&&
-          plan.level_file=="007_crypt_01.rule.xml"){
-  runtime.descriptor="generated-crypt.dwld";runtime.bres="crypt.bdae";
-  runtime.spawns="generated-crypt.spwn";runtime.objects="generated-crypt.dact";
-  if(!load_crypt_rule_assets(assets,runtime.crypt_rules,
-      runtime.crypt_asset_bytes,runtime.crypt_catalogue,error))return false;
+ }else if(generated_rule_level(plan.level_row,plan.level_name,plan.level_file)){
+  const auto stem=generated_rule_stem(plan.level_file);
+  runtime.descriptor="generated-"+stem+".dwld";
+  runtime.spawns="generated-"+stem+".spwn";runtime.objects="generated-"+stem+".dact";
+  if(!load_crypt_rule_assets(assets,plan.level_file,runtime.crypt_rules,
+      runtime.crypt_asset_bytes,runtime.crypt_catalogue,runtime.generated_music_label,
+      runtime.generated_script_stem,error))return false;
+  runtime.bres=generated_rule_bres(plan.level_file,runtime.crypt_rules->folder);
+  if(runtime.bres.empty()){
+   error="Generated rule folder has no base BDAE: "+runtime.crypt_rules->folder;return false;
+  }
   auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
@@ -21541,7 +21684,8 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
    error="Generated Crypt SpawnPoint compile failed: "+error;return false;
   }
   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
-    "Source Crypt generated | seed %u | modules %zu | Step rows %zu | candidates %zu | rollbacks %zu | spawn entrypoint %d | rule entries %zu | exact tuples %zu | MGX/MVX %zu/%zu | MGP/MVP %zu/%zu",
+    "%s | seed %u | modules %zu | Step rows %zu | candidates %zu | rollbacks %zu | spawn entrypoint %d | rule entries %zu | exact tuples %zu | MGX/MVX %zu/%zu | MGP/MVP %zu/%zu",
+    stem=="crypt"?"Source Crypt generated":"Source generated rule level",
     runtime.source_load_seed,runtime.generated_crypt_modules.size(),
     generated.generation_result.rows_tried,
     generated.generation_result.one_step_candidates_tried,
@@ -23507,8 +23651,10 @@ void initialize_crypt_script(AAssetManager* assets,bool restore,
   seeds.push_back(seed);
  }
  const auto& source=dh2_crypt_spawn_trigger::GHOST_AMBUSH_01;
+ const std::string script_stem=active_level_assets.generated_script_stem.empty()?
+     std::string("007_crypt_01"):active_level_assets.generated_script_stem;
  std::string error;
- if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,"007_crypt_01_pyscriptnames.bin","scripts"),read(assets,"007_crypt_01_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,{nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,native_level_script_actor_command},error))throw std::runtime_error(error);
+ if(!native_level_script_session.load(read(assets,"scripts_pyscriptnames.bin","scripts"),read(assets,"scripts_pyscripts.bin","scripts"),read(assets,script_stem+"_pyscriptnames.bin","scripts"),read(assets,script_stem+"_pyscripts.bin","scripts"),seeds.data(),seeds.size(),source.trigger_name,source.script_name,source.activation_limit,{nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,native_level_script_actor_command},error))throw std::runtime_error(error);
  crypt_trigger_position=position;crypt_trigger_scale=scale;crypt_trigger_room=trigger_room;
  dh2_crypt_spawn_trigger::init_state(&crypt_trigger_state);
  native_level_script_generation=source_level.generation;
@@ -35505,7 +35651,7 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
       candidate.source_updates_enabled&&
       native_character_classification(candidate,
         dh2::character_ai_classification::Query::monster)!=0;
-  const bool crypt=active_level_assets.name=="GOTHICUS_CRYPT_01"&&
+  const bool crypt=generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
       active_level_assets.generated_crypt_layout&&
       native_source_crypt_monster_candidate(candidate);
   return swamp||crypt;
@@ -36956,7 +37102,7 @@ const dh2::data::AiProps* native_actor_cached_ai_props(
  return dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);
 }
 bool native_source_crypt_monster_candidate(ObjectActor& actor){
- if(active_level_assets.name!="GOTHICUS_CRYPT_01"||
+ if(!generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)||
     !active_level_assets.generated_crypt_layout||actor.kind!=1||
     actor.gated_spawn||actor.source_handle<0||
     !actor.source_room_zone_managed||
@@ -39454,13 +39600,13 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         level_assets.source_level_handle_ledger->occurrences.size(),
         level_assets.source_level_handle_ledger->entries.size());
     }
-    auto raw=read(assets,level_assets.bres,source_static_level?"original-cache":"worlds");dh2::resources::BresView view{};
+    auto raw=read(assets,level_assets.bres,(source_static_level||level_assets.bres.find('/')!=std::string::npos)?"original-cache":"worlds");dh2::resources::BresView view{};
     if(dh2_bres_open(&view,raw.data(),raw.size())!=dh2::resources::BresError::ok)throw std::runtime_error("World BRES rejected");
     dh2::world::Level candidate;
     const bool validate_descriptor_spawn=!level_assets.generated_crypt_layout||source_spawn_bytes.empty();
     if(!dh2::world::load(view,selected_descriptor,selected_descriptor_size,candidate,error,validate_descriptor_spawn))throw std::runtime_error(error);
     if(source_static_level||
-       (level_assets.name=="GOTHICUS_CRYPT_01"&&
+       (generated_rule_level_name(level_assets.name,level_assets.level_file)&&
         (level_assets.generated_crypt_layout||level_assets.development_layout))){
      std::vector<std::uint8_t> backup_mlx;
      const auto* source_mlx=&source_mlx_bytes;
@@ -39677,7 +39823,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
       if(!dh2::world::compile_generated_crypt_dact_v1(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           generated_crypt_mgps.data(),generated_crypt_mgps.size(),
           character_table,model_table,*level_assets.generated_crypt_handle_ledger,
           generated_crypt_actor_sources,source_object_bytes,actor_count,
@@ -39750,13 +39896,13 @@ std::vector<dh2::world::EntryPoint> entrypoints;
        census_mgps.push_back({mgp.source_path,mgp.data,mgp.size});
       if(!handle_ledger||!dh2::world::census_source_characters_with_handles_for_level(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           census_mgps.data(),census_mgps.size(),*handle_ledger,
           source_character_census,error))
        throw std::runtime_error("Generated Crypt source Character census rejected: "+error);
       if(!handle_ledger||!dh2::world::census_source_objects_with_handles_for_level(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           census_mgps.data(),census_mgps.size(),nullptr,*handle_ledger,
           level_assets.source_object_census,error))
        throw std::runtime_error("Generated Crypt generic ObjectManager census rejected: "+error);
@@ -40211,7 +40357,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
      if(!dh2::world::compile_generated_crypt_animated_decor_v1(
           source_mlx_bytes.data(),source_mlx_bytes.size(),
-          "GOTHICUS_CRYPT_01","data/scene/generated_crypt.mlx",
+          level_assets.name.c_str(),generated_rule_scene_path(level_assets.level_file).c_str(),
           generated_crypt_mvps.data(),generated_crypt_mvps.size(),
           *level_assets.generated_crypt_handle_ledger,
           generated_crypt_animated_decors,generated_crypt_deferred_mvp_count,
@@ -41221,7 +41367,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     initialize_gated_characters(assets,true);
     initialize_source_merchant_inventories();
     initialize_active_crypt_room_zones(assets);
-    if(active_level_assets.name=="GOTHICUS_CRYPT_01"&&
+    if(generated_rule_level_name(active_level_assets.name,active_level_assets.level_file)&&
        active_level_assets.generated_crypt_layout)
       initialize_gated_characters(assets,false,false,true);
     if(!ensure_native_world_items(error))throw std::runtime_error("World item runtime restore failed: "+error);
@@ -41298,7 +41444,7 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     bind_native_player_skill_state_callbacks();
     bind_native_player_cast_state_callbacks();
     initialize_native_monster_scripts(assets);
-    if(level_assets.name=="GOTHICUS_CRYPT_01"){
+    if(generated_rule_level_name(level_assets.name,level_assets.level_file)){
       if(level_assets.generated_crypt_layout){
        const auto trigger=std::find_if(level_assets.generated_crypt_triggers.begin(),
           level_assets.generated_crypt_triggers.end(),[](const auto& candidate){

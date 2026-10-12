@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 474,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_darkwood_sfx_void_maze.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "EarthTempleAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "474"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_void_maze.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 11692544,
+  "source_crc32": "2ecf0a4b",
+  "source_sha256": "416ea9cb2dd9d4cbe865dd62a76e01b46ec94c24fca5e49dd09b2733dea2b2cc",
+  "vxn": {
+    "file_bytes": 11692544,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      },
+      {
+        "state": "combat",
+        "source_offset": 5846016,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "earth_temple_ambient_music.wav",
+      "bytes": 5846076,
+      "sha256": "be3493e6979128c7184e801c2571a8003e5450a15d94febc629e9b130a03d188",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "ambient"
+    },
+    {
+      "asset": "earth_temple_combat_music.wav",
+      "bytes": 5846076,
+      "sha256": "b9a2482322d8049b3a42852b448a6c06042451958349d2685a0092e11112b9af",
+      "source_segment_offset": 5846016,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "combat"
+    }
+  ]
+}

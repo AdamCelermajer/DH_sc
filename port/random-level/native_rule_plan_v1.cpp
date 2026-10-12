@@ -158,7 +158,13 @@ class CryptXmlParser {
         skip_space();
         if (position_ >= source_.size() || source_[position_] != '>') return fail("expected closing '>'");
         ++position_;
-        if (closing_name != node.name) return fail("mismatched closing element");
+        // Authored source data contains case-only closing-tag typos (020_crypt_02:
+        // <ForceBlock> closed by </Forceblock>) that the original loader accepts.
+        const auto lower = [](char c) { return c >= 'A' && c <= 'Z' ? static_cast<char>(c + 32) : c; };
+        bool same_name = closing_name.size() == node.name.size();
+        for (std::size_t i = 0; same_name && i < closing_name.size(); ++i)
+            same_name = lower(closing_name[i]) == lower(node.name[i]);
+        if (!same_name) return fail("mismatched closing element");
         return true;
       }
       if (source_[position_] == '<') {
@@ -285,11 +291,14 @@ bool parse_selector(std::string_view source, RuleSelectorV1& output, std::string
 }
 
 bool parse_rule_node(const XmlNode& xml, RuleNodeV1& output, std::string& error) {
-  if (xml.name == "RootRule") {
+  // Authored rule files mix case in these element names (Forceblock, path).
+  std::string kind_name = xml.name;
+  for (auto& ch : kind_name) if (ch >= 'A' && ch <= 'Z') ch = static_cast<char>(ch + 32);
+  if (kind_name == "rootrule") {
     output.kind = RuleKindV1::root;
-  } else if (xml.name == "ForceBlock") {
+  } else if (kind_name == "forceblock") {
     output.kind = RuleKindV1::force_block;
-  } else if (xml.name == "Path") {
+  } else if (kind_name == "path") {
     output.kind = RuleKindV1::path;
   } else {
     error = "unsupported Crypt rule element: " + xml.name;

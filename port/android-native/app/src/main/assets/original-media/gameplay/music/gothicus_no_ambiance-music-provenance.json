@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 477,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_gothicus_no_ambiance.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "GothicusCastleHubAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "477"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_gothicus_no_ambiance.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 9515520,
+  "source_crc32": "2d518e18",
+  "source_sha256": "d87bd34a575f9043d96ef3fe24d062222ea3650d90136a108b830f26702ec1a5",
+  "vxn": {
+    "file_bytes": 9515520,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 4757504,
+        "sample_frames": 4724364
+      },
+      {
+        "state": "combat",
+        "source_offset": 4757504,
+        "source_bytes": 4757504,
+        "sample_frames": 4724364
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "gothicus_no_ambiance_ambient_music.wav",
+      "bytes": 4757564,
+      "sha256": "fed671e6c1fc642ca0783b134d7683da4ddaafe834795cbd8d2d8f8e12635f5a",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 4757504,
+      "sample_frames": 4724364,
+      "state": "ambient"
+    },
+    {
+      "asset": "gothicus_no_ambiance_combat_music.wav",
+      "bytes": 4757564,
+      "sha256": "3b338691525df9234f901d69babe494a10e2d6202afb321e7dfde46b88480f5a",
+      "source_segment_offset": 4757504,
+      "source_segment_bytes": 4757504,
+      "sample_frames": 4724364,
+      "state": "combat"
+    }
+  ]
+}

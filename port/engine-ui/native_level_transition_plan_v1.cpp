@@ -107,13 +107,18 @@ bool build_native_level_transition_plan_v1(
         candidate.bres = static_level->bres;
         candidate.spawns = prefix + ".spwn";
         candidate.objects = prefix + ".dact";
-    } else if (selected_row == 23 && selected->name == "GOTHICUS_CRYPT_01" &&
-               selected->level_file == "007_crypt_01.rule.xml") {
+    } else if (selected->level_file.size() > 9 &&
+               selected->level_file.compare(selected->level_file.size() - 9, 9, ".rule.xml") == 0) {
+        // Every generated rule row uses this adapter. model_renderer accepts
+        // only rows in its generated table and resolves bres from the rule folder.
+        const std::string file = selected->level_file;
+        const std::string stem = file == "007_crypt_01.rule.xml" ? std::string("crypt")
+                                                                 : file.substr(0, file.size() - 9);
         candidate.runtime_kind = NativeDestinationRuntimeKindV1::crypt_generated;
-        candidate.descriptor = "generated-crypt.dwld";
-        candidate.bres = "crypt.bdae";
-        candidate.spawns = "generated-crypt.spwn";
-        candidate.objects = "generated-crypt.dact";
+        candidate.descriptor = "generated-" + stem + ".dwld";
+        candidate.bres.clear();
+        candidate.spawns = "generated-" + stem + ".spwn";
+        candidate.objects = "generated-" + stem + ".dact";
     }
 
     candidate.saved_seed = static_cast<std::uint32_t>(
