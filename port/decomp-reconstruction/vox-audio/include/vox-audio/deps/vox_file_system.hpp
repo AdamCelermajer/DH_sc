@@ -15,10 +15,15 @@ enum VoxFileAccessMode : int {
 // Vtable slots used by the stream code: +0x8 Read, +0xc Seek, +0x10 Tell.
 class FileInterface {
 public:
-    virtual ~FileInterface() = default;
+    virtual ~FileInterface() = default;  // 0x8939e4 (D1), 0x893e60 (D0)
+
+    void* GetFilePtr() const { return file_handle_; }  // 0x8939e8: word at +0x4
     virtual int Read(void* dst, std::size_t size, std::size_t count) = 0;  // +0x8
     virtual int Seek(int offset, int whence) = 0;                          // +0xc
     virtual int Tell() = 0;                                                // +0x10
+
+protected:
+    void* file_handle_ = nullptr;  // +0x04 (the native handle the implementation stores)
 };
 
 // Vtable slots used by the stream code: +0x8 OpenFile, +0xc CloseFile.

@@ -137,3 +137,204 @@ elf_address,symbol,status,source_file,notes
 0x8939f0,_ZN3vox11FileLimitedD1Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Destructor: empty body (asm bx lr)
 0x893e74,_ZN3vox11FileLimitedD0Ev,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,Deleting destructor variant; storage released by the caller
 0x86fb44,DecoderCursorInterface::DecodeRef,partial,vox-audio/src/decoder.cpp,calls Decode(dst;count) here; original passes count only to slot +0x10
+0x8616f8,_ZN3vox9VoxEngine13SuspendEngineEv,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::Suspend
+0x861734,_ZN3vox9VoxEngine12ResumeEngineEv,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::Resume
+0x861770,_ZN3vox9VoxEngine17IsEngineSuspendedEv,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::IsSuspended
+0x8617b4,_ZN3vox9VoxEngine6UpdateEf,reconstructed,vox-audio/src/voxengine.cpp,reconstructed: empty body in the original
+0x8617b8,_ZN3vox9VoxEngine13UpdateSourcesEv,reconstructed,vox-audio/src/voxengine.cpp,reconstructed: empty body in the original
+0x8617bc,_ZN3vox9VoxEngine14UpdateEmittersEf,reconstructed,vox-audio/src/voxengine.cpp,reconstructed: empty body in the original
+0x8617c0,_ZN3vox9VoxEngine13SetMasterGainEff,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::SetMasterGain
+0x8617fc,_ZN3vox9VoxEngine12SetGroupGainEjff,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::SetGroupGain
+0x861838,_ZN3vox9VoxEngine41RegisterForEmitterStateChangeNotificationERNS_13EmitterHandleEPFvS2_PvNS_18EmitterExternStateEES3_,reconstructed,vox-audio/src/voxengine.cpp,
+0x86183c,_ZN3vox9VoxEngine43UnregisterForEmitterStateChangeNotificationERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine.cpp,
+0x861840,_ZN3vox9VoxEngine21UpdateSourcesThreadedEv,partial,vox-audio/src/voxengine.cpp,"target VoxEngineInternal::UpdateSources, vtable +0x18"
+0x86187c,_ZN3vox9VoxEngine21UpdateSourcesThreadedEPvS1_,reconstructed,vox-audio/src/voxengine.cpp,reconstructed: empty body in the original
+0x861880,_ZN3vox9VoxEngine12GetDebugInfoERNS_9DebugInfoE,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::GetDebugInfo
+0x8618a8,_ZN3vox9VoxEngine10PrintDebugEv,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::PrintDebug
+0x8618d0,_ZN3vox9VoxEngine13SetOutputModeENS_13VoxOutputModeE,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::SetOutputMode
+0x8618f8,_ZN3vox9VoxEngine13GetOutputModeEv,partial,vox-audio/src/voxengine.cpp,target VoxEngineInternal::GetOutputMode
+0x861928,_ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861950,_ZN3vox9VoxEngine22SetDSPEmitterParameterERNS_13EmitterHandleEiPv,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861978,_ZN3vox9VoxEngine18SetSFXPresetActiveEibf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8619a0,_ZN3vox9VoxEngine16SetRoutingVolumeEPcS1_NS_22VoxDSPGeneralParameter14BusRoutingTypeEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8619e0,_ZN3vox9VoxEngine20SetDynamicBusRoutingEPc,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861a08,_ZN3vox9VoxEngine19SetStaticBusRoutingEPc,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861a30,_ZN3vox9VoxEngine22Get3DGeneralParameteriEiRi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861a58,_ZN3vox9VoxEngine22Get3DGeneralParameterfEiRf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861a80,_ZN3vox9VoxEngine21Get3DGeneralParameterERNS_22Vox3DGeneralParametersE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861aa8,_ZN3vox9VoxEngine24Get3DListenerOrientationERfS1_S1_S1_S1_S1_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861ae8,_ZN3vox9VoxEngine21Get3DListenerVelocityERfS1_S1_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861b10,_ZN3vox9VoxEngine21Get3DListenerPositionERfS1_S1_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861b38,_ZN3vox9VoxEngine22Set3DGeneralParameteriEii,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861b60,_ZN3vox9VoxEngine22Set3DGeneralParameterfEif,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861b88,_ZN3vox9VoxEngine21Set3DGeneralParameterERKNS_22Vox3DGeneralParametersE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861bb0,_ZN3vox9VoxEngine24Set3DListenerOrientationEffffff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861bf0,_ZN3vox9VoxEngine21Set3DListenerVelocityEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861c18,_ZN3vox9VoxEngine21Set3DListenerPositionEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861c40,_ZN3vox9VoxEngine22Get3DEmitterParameteriERNS_13EmitterHandleEiRi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861c68,_ZN3vox9VoxEngine22Get3DEmitterParameterfERNS_13EmitterHandleEiRf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861c90,_ZN3vox9VoxEngine22Get3DEmitterParametersERNS_13EmitterHandleERNS_22Vox3DEmitterParametersE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861cb8,_ZN3vox9VoxEngine21Get3DEmitterDirectionERNS_13EmitterHandleERfS3_S3_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861cf0,_ZN3vox9VoxEngine20Get3DEmitterVelocityERNS_13EmitterHandleERfS3_S3_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861d28,_ZN3vox9VoxEngine20Get3DEmitterPositionERNS_13EmitterHandleERfS3_S3_,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861d60,_ZN3vox9VoxEngine22Set3DEmitterParameteriERNS_13EmitterHandleEii,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861d88,_ZN3vox9VoxEngine22Set3DEmitterParameterfERNS_13EmitterHandleEif,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861db0,_ZN3vox9VoxEngine22Set3DEmitterParametersERNS_13EmitterHandleERKNS_22Vox3DEmitterParametersE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861dd8,_ZN3vox9VoxEngine21Set3DEmitterDirectionERNS_13EmitterHandleEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861e10,_ZN3vox9VoxEngine20Set3DEmitterVelocityERNS_13EmitterHandleEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861e48,_ZN3vox9VoxEngine20Set3DEmitterPositionERNS_13EmitterHandleEfff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861e80,_ZN3vox9VoxEngine12GetGroupGainEi,partial,vox-audio/src/voxengine.cpp,returns 0 without an engine
+0x861eb0,_ZN3vox9VoxEngine13GetMasterGainEv,partial,vox-audio/src/voxengine.cpp,returns 0 without an engine
+0x861ee0,_ZN3vox9VoxEngine9GetStatusERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861f08,_ZN3vox9VoxEngine6IsDoneERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,true without an engine
+0x861f38,_ZN3vox9VoxEngine9IsPlayingERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861f60,_ZN3vox9VoxEngine7IsAliveERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861f88,_ZN3vox9VoxEngine7IsValidERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861fb0,_ZN3vox9VoxEngine7IsReadyERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x861fd8,_ZN3vox9VoxEngine13SetPlayCursorERNS_13EmitterHandleEf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862000,_ZN3vox9VoxEngine13GetPlayCursorERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,0 without an engine
+0x862030,_ZN3vox9VoxEngine8GetGroupERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862058,_ZN3vox9VoxEngine8SetGroupERNS_13EmitterHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862080,_ZN3vox9VoxEngine17ResumeAllEmittersEjf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8620a8,_ZN3vox9VoxEngine16PauseAllEmittersEjf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8620d0,_ZN3vox9VoxEngine15StopAllEmittersEjf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8620f8,_ZN3vox9VoxEngine15PlayAllEmittersEjf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862120,_ZN3vox9VoxEngine14GetAllEmittersEPNS_13EmitterHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862148,_ZN3vox9VoxEngine6ResumeERNS_13EmitterHandleEf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862170,_ZN3vox9VoxEngine5PauseERNS_13EmitterHandleEf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862198,_ZN3vox9VoxEngine4StopERNS_13EmitterHandleEf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8621c0,_ZN3vox9VoxEngine4PlayERNS_13EmitterHandleEbf,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8621e8,_ZN3vox9VoxEngine8GetPitchERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,0 without an engine
+0x862218,_ZN3vox9VoxEngine8SetPitchERNS_13EmitterHandleEff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862240,_ZN3vox9VoxEngine7SetLoopERNS_13EmitterHandleEb,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862268,_ZN3vox9VoxEngine7GetGainERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,0 without an engine
+0x862298,_ZN3vox9VoxEngine7SetGainERNS_13EmitterHandleEff,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8622c0,_ZN3vox9VoxEngine20SetAutoKillAfterDoneERNS_13EmitterHandleEb,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862348,_ZN3vox9VoxEngine11KillEmitterERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862370,_ZN3vox9VoxEngine11GetUserDataERNS_13EmitterHandleE,partial,vox-audio/src/voxengine.cpp,-1 without an engine
+0x8623a8,_ZN3vox9VoxEngine11SetUserDataERNS_13EmitterHandleERNS_21EmitterHandleUserDataE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8624a0,_ZN3vox9VoxEngine11GetDurationERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,0 without an engine
+0x8624d0,_ZN3vox9VoxEngine7IsValidERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8624f8,_ZN3vox9VoxEngine7IsReadyERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862520,_ZN3vox9VoxEngine17GetAllDataSourcesEPNS_10DataHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862548,_ZN3vox9VoxEngine17GetEmitterHandlesERNS_10DataHandleEPNS_13EmitterHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862570,_ZN3vox9VoxEngine17ReleaseDatasourceEj,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862598,_ZN3vox9VoxEngine17ReleaseDatasourceERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x8625c0,_ZN3vox9VoxEngine6GetUidERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,-1 without an engine
+0x8625f0,_ZN3vox9VoxEngine6SetUidERNS_10DataHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862618,_ZN3vox9VoxEngine17SetPriorityBankIdERNS_10DataHandleEi,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862640,_ZN3vox9VoxEngine11GetUserDataERNS_10DataHandleE,partial,vox-audio/src/voxengine.cpp,-1 without an engine
+0x862678,_ZN3vox9VoxEngine11SetUserDataERNS_10DataHandleERNS_18DataHandleUserDataE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862858,_ZN3vox9VoxEngine15SetPriorityBankEiiiNS_20PriorityBankBehaviorE,partial,vox-audio/src/voxengine.cpp,"forwards to VoxEngineInternal (declared only, not reconstructed)"
+0x862898,_ZN3vox9VoxEngine19RegisterDecoderTypeEPFPNS_16DecoderInterfaceEPvE,partial,vox-audio/src/voxengine.cpp,-1 without an engine
+0x8628c8,_ZN3vox9VoxEngine18RegisterStreamTypeEPFPNS_15StreamInterfaceEPvE,partial,vox-audio/src/voxengine.cpp,-1 without an engine
+0x876298,_Z26get_stb_vorbis_struct_sizev,skipped,,stb_vorbis-derived: returns the 0x5a8-byte stb_vorbis struct size; not retyped; see NOTES.md
+0x8762a0,_Z28stb_vorbis_get_stream_offsetP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x8762d4,_Z22stb_vorbis_get_channelP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x8762e0,_Z30stb_vorbis_get_previous_windowP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87630c,_Z21stb_vorbis_get_bufferP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876338,_Z21stb_vorbis_set_streamP10stb_vorbisPN3vox21StreamCursorInterfaceE,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876348,_Z26stb_vorbis_get_blocksize_1P10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876354,_Z15stb_vorbis_copyP10stb_vorbisS0_,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876e18,_Z28stb_vorbis_get_sample_offsetP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876e2c,_Z19stb_vorbis_get_infoP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876e64,_Z20stb_vorbis_get_errorP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876e78,_Z24stb_vorbis_open_filenamePcPiP16stb_vorbis_alloc,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x8775f4,_ZL17setup_temp_mallocP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877680,_ZL12setup_mallocP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877738,_ZL15setup_temp_freeP10stb_vorbisPvj,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87777c,_ZL10setup_freeP10stb_vorbisPv,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x8777a8,_ZL4getnP10stb_vorbisPhi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877828,_ZL4get8P10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87787c,_ZL5get32P10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877a5c,_ZL12next_segmentP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877b5c,_ZL15get8_packet_rawP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877bb8,_ZL8get_bitsP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877c80,_ZL12prep_huffmanP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877ce8,_ZL18maybe_start_packetP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877f58,_Z26stb_vorbis_get_file_offsetP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877f8c,_ZL4skipP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x877fec,_ZL15set_file_offsetP10stb_vorbisj,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87836c,_Z35stb_vorbis_stream_length_in_samplesP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x8784c8,_Z35stb_vorbis_stream_length_in_secondsP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x878634,_Z17inverse_mdct_slowPfiP10stb_vorbisi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87871c,_ZL14init_blocksizeP10stb_vorbisii,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87a9bc,_Z16stb_vorbis_closeP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87a9e0,_ZL26codebook_decode_scalar_rawP10stb_vorbisP8Codebook,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87abac,_ZL35codebook_decode_deinterleave_repeatP10stb_vorbisP8CodebookPPfiPiS5_ii,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87ae5c,_ZL21codebook_decode_startP10stb_vorbisP8Codebooki,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87debc,_Z21stb_vorbis_seek_startP10stb_vorbis,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87def0,_Z22stb_vorbis_open_memoryPhiPiP16stb_vorbis_alloc,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87dfe4,_Z28stb_vorbis_open_file_sectionPN3vox21StreamCursorInterfaceEiPiP16stb_vorbis_allocj,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e0c8,_Z20stb_vorbis_open_filePN3vox21StreamCursorInterfaceEiPiP16stb_vorbis_alloc,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e138,_Z26stb_vorbis_get_frame_floatP10stb_vorbisPiPPPf,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e1f0,_Z28stb_vorbis_get_samples_floatP10stb_vorbisiPPfi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e358,_Z40stb_vorbis_get_samples_float_interleavedP10stb_vorbisiPfi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e4a8,_Z28stb_vorbis_get_samples_shortP10stb_vorbisiPPsi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e578,_Z40stb_vorbis_get_samples_short_interleavedP10stb_vorbisiPsi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e658,_Z26stb_vorbis_get_frame_shortP10stb_vorbisiPPsi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e6c4,_Z38stb_vorbis_get_frame_short_interleavedP10stb_vorbisiPsi,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e750,_Z24stb_vorbis_decode_memoryPhiPiS0_PPs,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87e894,_Z26stb_vorbis_decode_filenamePcPiPPs,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87f1b0,_Z15stb_vorbis_seekP10stb_vorbisj,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x87f1b8,_Z21stb_vorbis_seek_frameP10stb_vorbisj,skipped,,"stb_vorbis-derived (Gameloft build modified for vox::StreamCursorInterface I/O), not retyped; see NOTES.md"
+0x876c58,_ZL19vorbis_finish_frameP10stb_vorbisiii,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x877590,_ZL11vorbis_initP10stb_vorbisP16stb_vorbis_alloc,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x877d90,_ZL21vorbis_decode_initialP10stb_vorbisPiS1_S1_S1_S1_,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87809c,_ZL16vorbis_find_pageP10stb_vorbisPjS1_,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87a73c,_ZL13vorbis_deinitP10stb_vorbis,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87af70,_ZL20vorbis_decode_packetP10stb_vorbisPiS1_S1_,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87de80,_ZL23vorbis_pump_first_frameP10stb_vorbis,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87e9dc,_ZL27vorbis_seek_frame_from_pageP10stb_vorbisjjji,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x87ebc8,_ZL16vorbis_seek_baseP10stb_vorbisji,skipped,,"stb_vorbis-derived internal (vorbis_*) of the Gameloft build, not retyped; see NOTES.md"
+0x8715d8,_ZNK3vox13StringCompareclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_,reconstructed,vox-audio/src/string_compare.cpp,memcmp over the shorter length; tie goes to the shorter string (asm 0x8715d8)
+0x88b778,_ZNK3vox10stringcompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_,reconstructed,vox-audio/src/string_compare.cpp,vox::stringcomp: same body as StringCompare (asm 0x88b778)
+0x894bac,_ZNK3vox10StringCompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_,reconstructed,vox-audio/src/string_compare.cpp,vox::StringComp: same body as StringCompare (asm 0x894bac)
+0x88a4d0,_ZNK3vox12c8stringcompclEPKcS2_,reconstructed,vox-audio/src/string_compare.cpp,ASCII case-insensitive order; the original calls strcasecmp and keeps the sign bit
+0x86fb2c,_ZN3vox16DecoderInterfaceD1Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Virtual destructor D1 (default)
+0x86fdd8,_ZN3vox16DecoderInterfaceD0Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Deleting destructor D0 (compiler-generated)
+0x86fb30,_ZN3vox16DecoderInterface4InitEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Init: empty
+0x86fb34,_ZN3vox16DecoderInterface8ShutdownEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Shutdown: empty
+0x86fb38,_ZN3vox22DecoderCursorInterfaceD1Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Virtual destructor D1 (default)
+0x86fdec,_ZN3vox22DecoderCursorInterfaceD0Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Deleting destructor D0 (compiler-generated)
+0x86fb3c,_ZN3vox22DecoderCursorInterface4InitEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Init: empty
+0x86fb40,_ZN3vox22DecoderCursorInterface8ShutdownEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Shutdown: empty
+0x86fb5c,_ZN3vox22DecoderCursorInterface5ResetEv,reconstructed,vox-audio/src/decoder.cpp,Reset calls the virtual Seek(0) (vtable +0x28); result dropped
+0x86fb74,_ZN3vox22DecoderCursorInterface14GetRewindLimitEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,GetRewindLimit returns 0
+0x86fb7c,_ZN3vox22DecoderCursorInterface6RewindEi,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,Rewind: empty
+0x86fb80,_ZN3vox22DecoderCursorInterface7SetLoopEb,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,SetLoop stores the flag at +0x1c (now the base loop_ member)
+0x86fb88,_ZN3vox22DecoderCursorInterface15GetStreamCursorEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,GetStreamCursor returns the base stream_ at +0x18
+0x86fb90,_ZN3vox22DecoderCursorInterface20AllowBufferReferenceEv,reconstructed,vox-audio/include/vox-audio/vox/decoder.hpp,AllowBufferReference returns false
+0x8886d8,_ZN3vox15StreamInterfaceD1Ev,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Virtual destructor D1 (default)
+0x8887bc,_ZN3vox15StreamInterfaceD0Ev,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Deleting destructor D0 (compiler-generated)
+0x8886dc,_ZN3vox15StreamInterface4InitEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Init: empty
+0x8886e0,_ZN3vox15StreamInterface8ShutdownEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Shutdown: empty
+0x8886ec,_ZN3vox21StreamCursorInterfaceD1Ev,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Virtual destructor D1 (default)
+0x8887d0,_ZN3vox21StreamCursorInterfaceD0Ev,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Deleting destructor D0 (compiler-generated)
+0x8886f0,_ZN3vox21StreamCursorInterface4InitEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Init: empty
+0x8886f4,_ZN3vox21StreamCursorInterface8ShutdownEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,Shutdown: empty
+0x8886f8,_ZN3vox21StreamCursorInterface7ReadRefERPhi,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,"ReadRef calls the virtual Read(ref, size) (asm 0x8886f8); the old header default returned 0"
+0x888710,_ZN3vox21StreamCursorInterface20AllowBufferReferenceEv,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,AllowBufferReference returns false
+0x86366c,_Z8DestructIN3vox15StreamInterfaceEEvPT_,reconstructed,vox-audio/include/vox-audio/vox/stream.hpp,"Destruct<vox::StreamInterface>: complete-object destructor through vtable slot 0, storage not freed"
+0x8939e4,_ZN3vox13FileInterfaceD1Ev,reconstructed,vox-audio/include/vox-audio/deps/vox_file_system.hpp,Virtual destructor D1 (default)
+0x893e60,_ZN3vox13FileInterfaceD0Ev,reconstructed,vox-audio/include/vox-audio/deps/vox_file_system.hpp,Deleting destructor D0 (compiler-generated)
+0x8939e8,_ZN3vox13FileInterface10GetFilePtrEv,reconstructed,vox-audio/include/vox-audio/deps/vox_file_system.hpp,GetFilePtr returns the handle word at +0x4
+0x863528,_ZN3vox10EmitterObj15SetGainModifierEf,reconstructed,vox-audio/src/emitter_obj.cpp,SetGainModifier stores the float at +0x44
+0x863530,_ZN3vox10EmitterObj7IsReadyEv,reconstructed,vox-audio/src/emitter_obj.cpp,"IsReady: inverted byte at +0x1c, no lock (asm)"
+0x8653c0,_ZN3vox10EmitterObj11SetUserDataERNS_21EmitterHandleUserDataE,reconstructed,vox-audio/src/emitter_obj.cpp,SetUserData stores the first word of the record at +0x134 under the mutex (asm)
+0x8655e0,_ZN3vox10EmitterObj5ResetEv,reconstructed,vox-audio/src/emitter_obj.cpp,Reset sets the byte at +0x99 to 1 under the mutex (asm)
+0x865608,_ZN3vox10EmitterObj7SetLoopEb,reconstructed,vox-audio/src/emitter_obj.cpp,SetLoop writes +0x8d; GetLoop reads +0x8c (both kept as in asm; see NOTES.md)
+0x865630,_ZN3vox10EmitterObj7GetLoopEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetLoop reads +0x8c (asm 0x865630); see NOTES.md
+0x865658,_ZN3vox10EmitterObj8SetStateEi,reconstructed,vox-audio/src/emitter_obj.cpp,SetState writes +0x94 under the mutex (asm)
+0x865680,_ZN3vox10EmitterObj8GetStateEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetState reads +0x90 under the mutex (asm); see NOTES.md
+0x8656f8,_ZN3vox10EmitterObj7IsGroupEj,reconstructed,vox-audio/src/emitter_obj.cpp,"IsGroup: (groups & (1 << group)) != 0, group index at +0x28 (asm)"
+0x865734,_ZN3vox10EmitterObj8SetGroupEi,reconstructed,vox-audio/src/emitter_obj.cpp,SetGroup stores +0x28 under the mutex (asm)
+0x86575c,_ZN3vox10EmitterObj8GetGroupEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetGroup returns +0x28 under the mutex (asm)
+0x870504,_ZN3vox12DecoderMSWav7GetTypeEv,reconstructed,vox-audio/src/decoder_mswav.cpp,GetType returns 1
+0x87050c,_ZN3vox12DecoderMSWav8GetParamEv,reconstructed,vox-audio/src/decoder_mswav.cpp,GetParam returns null (the original returns 0)
+0x870a9c,_ZN3vox12DecoderMSWav13DestroyCursorEPNS_22DecoderCursorInterfaceE,reconstructed,vox-audio/src/decoder_mswav.cpp,DestroyCursor: virtual destructor then VoxFree
+0x871098,_ZN3vox13DecoderNative7GetTypeEv,reconstructed,vox-audio/src/decoder_native.cpp,GetType returns 4
+0x8710a0,_ZN3vox13DecoderNative8GetParamEv,reconstructed,vox-audio/src/decoder_native.cpp,GetParam returns null (the original returns 0)
+0x871a50,_ZN3vox13DecoderNative13DestroyCursorEPNS_22DecoderCursorInterfaceE,reconstructed,vox-audio/src/decoder_native.cpp,DestroyCursor: virtual destructor then VoxFree
+0x893600,_ZN3vox9VoxThread14GetCurThreadIdEv,partial,vox-audio/src/vox_thread.cpp,GetCurThreadId: pthread_self replaced by a hash of std::thread::id (pthread_t has no portable form)
+0x893604,_ZN3vox9VoxThread5SleepEj,reconstructed,vox-audio/src/vox_thread.cpp,Sleep: sleep_for(ms) in place of usleep(ms * 1000)

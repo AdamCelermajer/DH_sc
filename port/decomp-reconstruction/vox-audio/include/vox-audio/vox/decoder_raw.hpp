@@ -28,10 +28,7 @@ public:
 
 private:
     friend struct DecoderRawCursorTestAccess;
-    TrackParams params_;                    // +0x04..+0x13
-    DecoderInterface* decoder_ = nullptr;   // +0x14
-    StreamCursorInterface* stream_ = nullptr;  // +0x18
-    bool loop_ = false;                     // +0x1c
+    TrackParams params_;  // +0x04..+0x13; decoder_, stream_ and loop_ are inherited (+0x14..+0x1c)
 };
 
 class DecoderRaw final : public DecoderInterface {

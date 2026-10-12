@@ -14,18 +14,16 @@ namespace vox {
 //   +0x18 Tell, +0x1c Read, +0x20 ReadRef, +0x24 EndOfStream, +0x28 AllowBufferReference.
 class StreamCursorInterface {
 public:
-    virtual ~StreamCursorInterface() = default;
+    virtual ~StreamCursorInterface() = default;  // 0x8886ec (D1), 0x8887d0 (D0)
     virtual void Init() {}
     virtual void Shutdown() {}
     virtual int Seek(int offset, int whence) = 0;
     virtual bool EndOfStream() = 0;
     virtual int Tell() = 0;
     virtual int Read(std::uint8_t* dst, int size) = 0;
-    virtual int ReadRef(std::uint8_t*& ref, int size) {
-        (void)ref;
-        (void)size;
-        return 0;
-    }
+    // 0x8886f8: the original calls the virtual Read(ref, size) with the current
+    // pointer value, so a cursor without a buffer reference copies into ref.
+    virtual int ReadRef(std::uint8_t*& ref, int size) { return Read(ref, size); }
     virtual bool IsSeekable() const = 0;
     virtual bool AllowBufferReference() const { return false; }
 };
@@ -33,7 +31,9 @@ public:
 // Stream source (vox::StreamInterface). Vtable slot +0x10 is Size().
 class StreamInterface {
 public:
-    virtual ~StreamInterface() = default;
+    virtual ~StreamInterface() = default;  // 0x8886d8 (D1), 0x8887bc (D0)
+    virtual void Init() {}                 // 0x8886dc
+    virtual void Shutdown() {}             // 0x8886e0
     virtual int GetType() const = 0;
     virtual int Size() const = 0;
     virtual StreamCursorInterface* CreateNewCursor() = 0;
@@ -140,6 +140,13 @@ void* StreamMemoryBufferFactory(void* hint);
 void* StreamCFileFactory(void* hint);
 
 }  // namespace vox
+
+// Destruct<vox::StreamInterface> (0x86366c): runs the complete-object destructor
+// through the vtable (slot 0) without freeing the object. Global in the original.
+template <typename T>
+void Destruct(T* object) {
+    object->~T();
+}
 
 // stdio-style helpers over a StreamCursorInterface (global in the original).
 int fgetc(vox::StreamCursorInterface* cursor);

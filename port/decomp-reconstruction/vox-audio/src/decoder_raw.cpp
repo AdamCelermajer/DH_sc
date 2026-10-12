@@ -9,8 +9,6 @@ namespace vox {
 
 namespace {
 
-// Size of a DecoderRawCursor allocation in the original (VoxAlloc(0x20)).
-constexpr std::size_t kCursorAllocSize = 0x20;
 
 void CopyParams(TrackParams& dst, const std::int32_t* src) {
     dst.channels = src[0];
@@ -22,8 +20,9 @@ void CopyParams(TrackParams& dst, const std::int32_t* src) {
 }  // namespace
 
 // 0x874b20 / 0x874abc
-DecoderRawCursor::DecoderRawCursor(DecoderInterface* decoder, StreamCursorInterface* stream)
-    : decoder_(decoder), stream_(stream) {
+DecoderRawCursor::DecoderRawCursor(DecoderInterface* decoder, StreamCursorInterface* stream) {
+    decoder_ = decoder;
+    stream_ = stream;
     CopyParams(params_, decoder->GetParam());
 }
 
@@ -113,7 +112,9 @@ std::int32_t* DecoderRaw::GetParam() {
 
 // 0x874dfc
 DecoderCursorInterface* DecoderRaw::CreateNewCursor(StreamCursorInterface* stream) {
-    void* mem = VoxAlloc(kCursorAllocSize, kVoxMemHintDefault);
+    // The original allocates 0x20 bytes (32-bit layout). sizeof is used here so the
+    // 64-bit object fits; the cursor no longer fits in 0x20 once the base fields are added.
+    void* mem = VoxAlloc(sizeof(DecoderRawCursor), kVoxMemHintDefault);
     return new (mem) DecoderRawCursor(this, stream);
 }
 
