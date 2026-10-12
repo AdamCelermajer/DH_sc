@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdarg>
+#include <cstdio>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
@@ -47,6 +49,27 @@ struct Options {
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
+    // Verification probes (faery-follow / faery-skill / skill-matrix). They use
+    // only public renderer/UI entries and own no gameplay state.
+    bool faery_follow_scenario = false;
+    bool faery_skill_scenario = false;
+    bool skill_matrix_scenario = false;
+    // faery-skill: press the authored HUD faery button with a touch instead of
+    // calling the NativeHUDSpell entry directly.
+    bool faery_hud_tap = false;
+    // 1280x720 reference-layout touch point used by --faery-hud-tap (default: faery button).
+    int hud_tap_x = 1176, hud_tap_y = 281;
+    // skill-matrix: test only this SkillTree row (a failed train poisons later rows).
+    std::int32_t matrix_only = -1;
+    std::filesystem::path capture_series;
+    std::uint64_t capture_every = 300;
+    // faery-follow ends by leaving the level so the source LevelSavegame (which
+    // serializes every Character position, the Faery's included) is published.
+    std::string follow_exit_destination;
+    double follow_exit_entry = 0.0;
+    bool probe_scenario() const {
+        return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario;
+    }
 };
 
 Options parse(int argc, char** argv) {
@@ -85,6 +108,17 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
+        else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--hud-tap-xy") {
+            const auto xy = value("--hud-tap-xy");
+            const auto comma = xy.find(',');
+            if (comma == std::string::npos) throw std::runtime_error("--hud-tap-xy expects X,Y");
+            options.hud_tap_x = std::stoi(xy.substr(0, comma));
+            options.hud_tap_y = std::stoi(xy.substr(comma + 1));
+        }
+        else if (arg == "--matrix-only") options.matrix_only = std::stoi(value("--matrix-only"));
+        else if (arg == "--capture-series") options.capture_series = value("--capture-series");
+        else if (arg == "--capture-every") options.capture_every = std::stoull(value("--capture-every"));
         else if (arg == "--scenario") {
             const auto scenario = value("--scenario");
             if (scenario == "move-attack") options.movement_attack_scenario = true;
@@ -93,6 +127,9 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
+            else if (scenario == "faery-follow") options.faery_follow_scenario = true;
+            else if (scenario == "faery-skill") options.faery_skill_scenario = true;
+            else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -119,6 +156,13 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
+                         "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
+                         "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
+                         "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
+                         "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
+                         "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
+                         "  --faery-hud-tap       faery-skill: touch the authored HUD faery button instead of calling the spell entry\n"
+                         "  --capture-series PREFIX [--capture-every N] save PREFIX_<frame>.ppm every N frames (any bounded gameplay run)\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
@@ -126,9 +170,22 @@ Options parse(int argc, char** argv) {
         } else throw std::runtime_error("Unknown argument: " + arg);
     }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
-        unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario);
+        unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
+        unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
+        unsigned(options.skill_matrix_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
-    if (options.movement_attack_scenario) {
+    if (options.probe_scenario()) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (options.faery_follow_scenario && options.follow_exit_destination.empty()) {
+            // Valid SpawnPoint entry ids from the authored .spwn files (SWAMP 0/3/13, DARKWOOD 10/3/11).
+            if (options.level_row == 41) { options.follow_exit_destination = "DARKWOOD"; options.follow_exit_entry = 3.0; }
+            else if (options.level_row == 4) { options.follow_exit_destination = "SWAMP"; options.follow_exit_entry = 0.0; }
+        }
+        if (!frames_supplied)
+            options.frames = options.faery_follow_scenario ? 1800 :
+                             options.faery_skill_scenario ? 2400 : 12000;
+        if (options.frames < 4) throw std::runtime_error("probe scenarios require at least four gameplay frames");
+    } else if (options.movement_attack_scenario) {
         if (options.level_row < 0) options.level_row = 23;
         if (!frames_supplied) options.frames = 300;
         if (options.frames < 4) throw std::runtime_error("move-attack requires at least four gameplay frames");
@@ -307,6 +364,950 @@ bool steer_toward_fixed_position(const std::array<float, 3>& target,
     model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
                               (dy - dx) * inverse_sqrt_two / distance);
     return true;
+}
+
+// ---------------------------------------------------------------------------
+// Verification probes: faery-follow, faery-skill, skill-matrix.
+// They drive the same public entries the HUD uses (move_axis, player_attack,
+// NativeHUDSkill/NativeHUDSpell equivalents, NativeSkillsTrainSkill, ...) and
+// observe through the public read-only snapshots. They own no gameplay state.
+// ---------------------------------------------------------------------------
+using Vec3 = std::array<float, 3>;
+
+std::string fmt(const char* format, ...) {
+    char text[1024];
+    va_list args;
+    va_start(args, format);
+    std::vsnprintf(text, sizeof text, format, args);
+    va_end(args);
+    return text;
+}
+
+void plog(const std::string& line) { std::cout << "PROBE " << line << std::endl; }
+
+float planar_distance(const Vec3& a, const Vec3& b) { return std::hypot(a[0] - b[0], a[1] - b[1]); }
+
+std::string vec_text(const Vec3& v) { return fmt("%.0f,%.0f,%.0f", v[0], v[1], v[2]); }
+
+bool probe_route(const Vec3& target, model_renderer::GameplayRouteSnapshotV1& route) {
+    std::string error;
+    if (!model_renderer::gameplay_route_snapshot(target, route, error)) return false;
+    return route.query_status == 0 && route.path_found && !route.waypoints.empty();
+}
+
+// World-space direction -> move_axis (inverts its recovered +45 degree basis).
+void steer_world(float dx, float dy) {
+    const float distance = std::hypot(dx, dy);
+    if (!(distance > 0.0f) || !std::isfinite(distance)) {
+        model_renderer::move_axis(0.0f, 0.0f);
+        return;
+    }
+    constexpr float inverse_sqrt_two = 0.7071067811865475f;
+    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+                              (dy - dx) * inverse_sqrt_two / distance);
+}
+
+void halt_player() {
+    model_renderer::move_axis(0.0f, 0.0f);
+    model_renderer::stop_movement();
+}
+
+enum class March { moving, arrived, no_route };
+
+March march_to(const Vec3& player, const Vec3& target, float arrive_radius) {
+    model_renderer::GameplayRouteSnapshotV1 route;
+    if (!probe_route(target, route)) return March::no_route;
+    if (planar_distance(route.waypoints.back(), player) <= arrive_radius) {
+        model_renderer::move_axis(0.0f, 0.0f);
+        return March::arrived;
+    }
+    std::size_t next = 0;
+    while (next + 1 < route.waypoints.size() &&
+           planar_distance(route.waypoints[next], player) <= 48.0f)
+        ++next;
+    steer_world(route.waypoints[next][0] - player[0], route.waypoints[next][1] - player[1]);
+    return March::moving;
+}
+
+struct EnemySum {
+    int count = 0, dead = 0;
+    double hp = 0.0;
+};
+
+// Every live-world Monster record that the public enemy snapshot exposes.
+EnemySum all_enemy_hp() {
+    EnemySum sum;
+    for (std::int32_t index = 0; index < 4096; ++index) {
+        model_renderer::GameplayEnemyStateSnapshotV1 enemy;
+        std::string error;
+        if (!model_renderer::gameplay_enemy_state_snapshot(index, enemy, error)) continue;
+        ++sum.count;
+        if (enemy.dead || enemy.hp <= 0) ++sum.dead;
+        else sum.hp += enemy.hp / 256.0;
+    }
+    return sum;
+}
+
+// Names every Character-sheet value the public stats read exposes that differs.
+std::string stats_diff(const model_renderer::UiPlayerStatsReadV1& a, const model_renderer::UiPlayerStatsReadV1& b) {
+    std::string out;
+#define DIFF(field) if (a.field != b.field) out += fmt(" " #field " %d->%d;", int(a.field), int(b.field));
+    DIFF(max_hp) DIFF(max_mp) DIFF(strength) DIFF(dexterity) DIFF(endurance) DIFF(energy) DIFF(points)
+    DIFF(rating_attack) DIFF(rating_critical) DIFF(rating_defense) DIFF(rating_dodge) DIFF(rating_block)
+    DIFF(resistance_fire) DIFF(resistance_earth) DIFF(resistance_water) DIFF(resistance_air) DIFF(resistance_lightning)
+    DIFF(damage_min_main_hand) DIFF(damage_max_main_hand) DIFF(damage_elemental_min_main_hand)
+    DIFF(damage_elemental_max_main_hand) DIFF(damage_elemental_type_main_hand)
+    DIFF(damage_fire_min_main_hand) DIFF(damage_fire_max_main_hand) DIFF(damage_water_min_main_hand)
+    DIFF(damage_lightning_min_main_hand) DIFF(damage_air_min_main_hand) DIFF(damage_earth_min_main_hand)
+    DIFF(menu_average_melee_to_hit) DIFF(physical_armor) DIFF(spell_rating_dodge) DIFF(menu_melee_damage_reduction)
+    DIFF(spell_rating_critical) DIFF(menu_average_spell_to_hit)
+    DIFF(spell_damage_bonus_fire) DIFF(spell_damage_bonus_earth) DIFF(spell_damage_bonus_water)
+    DIFF(spell_damage_bonus_air) DIFF(spell_damage_bonus_lightning)
+    DIFF(regen_hp) DIFF(regen_mp) DIFF(leech_hp) DIFF(leech_mp) DIFF(special_loot_gold_multiplier)
+    DIFF(special_loot_magical_chance) DIFF(stun_resist_chance)
+#undef DIFF
+    return out.empty() ? " none" : out;
+}
+
+class ProbeRunner {
+public:
+    ProbeRunner(const Options& options, bool& died, bool& revived)
+        : options_(options), died_(died), revived_(revived) {}
+
+    void tick(std::uint64_t frame, std::uint64_t milliseconds) {
+        frame_ = frame;
+        milliseconds_ = milliseconds;
+        if (!ready_ && !initialize()) return;
+        if (!refresh_player()) return;
+        if (options_.faery_follow_scenario) follow_tick();
+        else if (options_.faery_skill_scenario) faery_skill_tick();
+        else if (options_.skill_matrix_scenario) matrix_tick();
+    }
+
+    void finish() {
+        if (!ready_) {
+            plog("finish | scenario never initialised (no player identity)");
+            return;
+        }
+        if (options_.faery_follow_scenario) follow_finish();
+        else if (options_.faery_skill_scenario) faery_skill_finish();
+        else if (options_.skill_matrix_scenario) matrix_finish();
+    }
+
+    bool failed() const { return !failure_.empty(); }
+    // The matrix / faery-skill scenarios stop the run themselves once their
+    // fixed work list is exhausted (they have no use for the remaining frames).
+    bool finished() const {
+        return (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
+               (options_.faery_skill_scenario && fs_phase_ == FsPhase::done);
+    }
+    // HUD touch hand-off for --faery-hud-tap: action 0 = press, 1 = release.
+    bool take_tap(int& action) {
+        if (!tap_queue_.empty() && frame_ >= tap_queue_.front().first) {
+            action = tap_queue_.front().second;
+            tap_queue_.erase(tap_queue_.begin());
+            return true;
+        }
+        return false;
+    }
+    const std::string& failure() const { return failure_; }
+
+private:
+    // ----- shared -----------------------------------------------------------
+    const Options& options_;
+    bool& died_;
+    bool& revived_;
+    std::uint64_t frame_ = 0, milliseconds_ = 0;
+    bool ready_ = false;
+    std::uintptr_t player_ = 0;
+    std::string error_, failure_;
+    model_renderer::GameplayPoseSnapshotV1 pose_;
+    bool have_pose_ = false, pose_valid_once_ = false;
+    model_renderer::UiPlayerHudProjectionV1 hud_{};
+    unsigned deaths_ = 0;
+    std::uint64_t first_ms_ = 0;
+    std::vector<std::pair<std::uint64_t, int>> tap_queue_;  // (frame, 2 move / 0 press / 1 release)
+
+    bool initialize() {
+        if (!model_renderer::ui_player_identity(player_, error_) || !player_) return false;
+        ready_ = true;
+        first_ms_ = milliseconds_;
+        plog(fmt("init | frame %llu | player identity %llu | level row %d | scenario %s",
+                 (unsigned long long)frame_, (unsigned long long)player_, options_.level_row,
+                 options_.faery_follow_scenario ? "faery-follow" :
+                 options_.faery_skill_scenario ? "faery-skill" : "skill-matrix"));
+        return true;
+    }
+
+    // Player death/revive bookkeeping shared with the Continue-tap block in main().
+    bool refresh_player() {
+        const auto vitals = model_renderer::player_vitals();
+        if (vitals[4] != 0) {
+            if (!died_ || revived_) {
+                ++deaths_;
+                plog(fmt("player died | frame %llu | deaths %u", (unsigned long long)frame_, deaths_));
+            }
+            died_ = true;
+            revived_ = false;
+            have_pose_ = false;
+            return false;
+        }
+        if (died_ && !revived_) {
+            revived_ = true;
+            plog(fmt("player revived | frame %llu | HP %.1f", (unsigned long long)frame_,
+                     vitals[0] / 256.0));
+        }
+        // The pose scan walks every world object; refresh it on the 15-frame
+        // cadence the other scenarios use and keep the last value in between.
+        if (frame_ % 15 == 0 || !pose_valid_once_) {
+            have_pose_ = model_renderer::gameplay_pose_snapshot(pose_, error_);
+            pose_valid_once_ = true;
+        }
+        return true;
+    }
+
+    float seconds() const { return float(milliseconds_ - first_ms_) / 1000.0f; }
+
+    bool read_hud(bool refresh = true) {
+        std::string error;
+        return model_renderer::ui_player_hud_projection(player_, refresh, hud_, error);
+    }
+
+    // ----- faery-follow -----------------------------------------------------
+    bool leg_active_ = false;
+    Vec3 leg_start_{}, leg_end_{}, leg_progress_pos_{}, start_pos_{}, last_sample_pos_{};
+    std::uint64_t leg_progress_frame_ = 0;
+    unsigned legs_ = 0;
+    double total_path_ = 0.0, max_from_start_ = 0.0;
+    bool have_start_ = false;
+    unsigned fight_attacks_ = 0, samples_ = 0;
+
+    bool pick_leg(const Vec3& player) {
+        constexpr int directions = 16;
+        constexpr float radii[] = {900.0f, 1800.0f, 3000.0f, 4500.0f};
+        double best_score = 0.0;
+        Vec3 best_end{};
+        bool found = false;
+        const Vec3 avoid = legs_ ? leg_start_ : player;
+        for (const float radius : radii) {
+            for (int d = 0; d < directions; ++d) {
+                const float angle = 6.2831853f * float(d) / float(directions);
+                const Vec3 candidate{player[0] + radius * std::cos(angle),
+                                     player[1] + radius * std::sin(angle), player[2]};
+                model_renderer::GameplayRouteSnapshotV1 route;
+                if (!probe_route(candidate, route)) continue;
+                const Vec3& end = route.waypoints.back();
+                double score = planar_distance(end, player);
+                if (score < 600.0) continue;
+                if (planar_distance(end, avoid) < 1000.0) score *= 0.25;
+                if (score > best_score) {
+                    best_score = score;
+                    best_end = end;
+                    found = true;
+                }
+            }
+        }
+        if (!found) return false;
+        leg_start_ = player;
+        leg_end_ = best_end;
+        leg_progress_pos_ = player;
+        leg_progress_frame_ = frame_;
+        leg_active_ = true;
+        ++legs_;
+        plog(fmt("follow leg %u | frame %llu | from %s | to %s | straight %.0f",
+                 legs_, (unsigned long long)frame_, vec_text(player).c_str(),
+                 vec_text(best_end).c_str(), planar_distance(best_end, player)));
+        return true;
+    }
+
+    void follow_tick() {
+        if (have_pose_ && !have_start_) {
+            have_start_ = true;
+            start_pos_ = last_sample_pos_ = pose_.player_position;
+            plog(fmt("follow start | player %s", vec_text(start_pos_).c_str()));
+        }
+        if (frame_ % 15 == 0) follow_decide();
+        if (frame_ % 60 == 0) follow_sample();
+    }
+
+    void follow_decide() {
+        if (!have_pose_) return;
+        const Vec3& player = pose_.player_position;
+        if (pose_.enemy_index >= 0 && pose_.enemy_hp > 0 && pose_.enemy_in_melee_range) {
+            halt_player();
+            model_renderer::player_attack();
+            ++fight_attacks_;
+            return;
+        }
+        bool need_leg = !leg_active_;
+        if (leg_active_ && frame_ - leg_progress_frame_ >= 240) {
+            if (planar_distance(player, leg_progress_pos_) < 100.0f) {
+                plog(fmt("follow leg %u stuck | frame %llu | at %s", legs_,
+                         (unsigned long long)frame_, vec_text(player).c_str()));
+                need_leg = true;
+            } else {
+                leg_progress_frame_ = frame_;
+                leg_progress_pos_ = player;
+            }
+        }
+        if (need_leg && !pick_leg(player)) {
+            plog(fmt("follow no reachable far leg from %s", vec_text(player).c_str()));
+            halt_player();
+            leg_active_ = false;
+            return;
+        }
+        const auto result = march_to(player, leg_end_, 150.0f);
+        if (result == March::arrived) {
+            plog(fmt("follow leg %u arrived | frame %llu", legs_, (unsigned long long)frame_));
+            leg_active_ = false;
+        } else if (result == March::no_route) {
+            leg_active_ = false;
+        }
+    }
+
+    void follow_sample() {
+        if (!have_pose_) return;
+        const Vec3& player = pose_.player_position;
+        const double moved = planar_distance(player, last_sample_pos_);
+        total_path_ += moved;
+        const double from_start = planar_distance(player, start_pos_);
+        max_from_start_ = std::max(max_from_start_, from_start);
+        last_sample_pos_ = player;
+        std::int32_t faery_id = -1, faery_level = -1;
+        std::string error;
+        model_renderer::ui_player_active_faery(player_, faery_id, faery_level, error);
+        const bool hud_ok = read_hud();
+        const auto vitals = model_renderer::player_vitals();
+        ++samples_;
+        plog(fmt("follow sample | frame %llu | t %.1fs | player %s | moved %.0f | total %.0f | "
+                 "from-start %.0f | leg %u -> %.0f | state %d | HP %.1f/%.1f MP %.1f | "
+                 "faery id %d level %d | HUD faery cd %d%% usable %d%s | nearest enemy %d hp %.1f melee %d | "
+                 "attacks %u | deaths %u",
+                 (unsigned long long)frame_, seconds(), vec_text(player).c_str(), moved, total_path_,
+                 from_start, legs_, leg_active_ ? planar_distance(player, leg_end_) : 0.0f,
+                 model_renderer::gameplay_player_state(), vitals[0] / 256.0, vitals[1] / 256.0,
+                 vitals[2] / 256.0, faery_id, faery_level, hud_.infos[6], hud_.infos[7],
+                 hud_ok ? "" : " (hud read failed)", pose_.enemy_index, pose_.enemy_hp / 256.0,
+                 int(pose_.enemy_in_melee_range), fight_attacks_, deaths_));
+    }
+
+    void follow_finish() {
+        plog(fmt("follow summary | samples %u | legs %u | path %.0f | max distance from start %.0f | "
+                 "melee attacks %u | deaths %u",
+                 samples_, legs_, total_path_, max_from_start_, fight_attacks_, deaths_));
+    }
+
+    // ----- faery-skill ------------------------------------------------------
+    enum class FsPhase { setup, switch_wait, approach, watch, cooldown_wait, done };
+    FsPhase fs_phase_ = FsPhase::setup;
+    std::vector<std::int32_t> fs_queue_;
+    std::size_t fs_pos_ = 0;
+    unsigned fs_cast_for_faery_ = 0, fs_total_casts_ = 0, fs_effective_ = 0;
+    std::uint64_t fs_wait_until_ = 0, fs_cast_frame_ = 0;
+    int fs_last_state_ = -1, fs_state_frames_ = 0;
+    std::string fs_transitions_;
+    bool fs_use_ok_ = false;
+    std::string fs_use_error_;
+    std::array<int, 7> fs_pre_vitals_{};
+    EnemySum fs_pre_enemies_;
+    int fs_pre_cd_ = 0, fs_pre_usable_ = 0, fs_peak_cd_ = 0, fs_min_usable_ = 1;
+    int fs_pre_state_ = -1;
+    bool fs_saw_spell_state_ = false, fs_stuck_before_ = false;
+    int fs_target_ = -1;
+    double fs_target_hp_before_ = 0.0, fs_target_hp_min_ = 0.0;
+    double fs_player_hp_peak_ = 0.0;
+    struct FsRecord {
+        std::int32_t faery, level;
+        unsigned cast;
+        std::string verdict;
+    };
+    std::vector<FsRecord> fs_records_;
+
+    void faery_skill_tick() {
+        switch (fs_phase_) {
+        case FsPhase::setup: fs_setup(); break;
+        case FsPhase::switch_wait:
+            if (frame_ >= fs_wait_until_) fs_phase_ = FsPhase::approach;
+            break;
+        case FsPhase::approach:
+            if (frame_ % 15 == 0) fs_approach();
+            break;
+        case FsPhase::watch: fs_watch(); break;
+        case FsPhase::cooldown_wait:
+            if (frame_ % 30 == 0) fs_cooldown_wait();
+            break;
+        case FsPhase::done: break;
+        }
+    }
+
+    void fs_setup() {
+        std::int32_t active = -1, level = -1;
+        std::string error;
+        if (!model_renderer::ui_player_active_faery(player_, active, level, error)) {
+            failure_ = "faery-skill: ui_player_active_faery failed: " + error;
+            fs_phase_ = FsPhase::done;
+            return;
+        }
+        plog(fmt("faery-skill setup | active faery id %d level %d", active, level));
+        std::vector<std::int32_t> unlocked;
+        for (std::uint32_t id = 0; id < 5; ++id) {
+            bool is_unlocked = false;
+            if (!model_renderer::ui_player_faery_unlocked(player_, id, is_unlocked, error))
+                plog(fmt("faery-skill setup | faery %u unlocked query failed: %s", id, error.c_str()));
+            plog(fmt("faery-skill setup | faery %u unlocked %d%s", id, int(is_unlocked),
+                     std::int32_t(id) == active ? " (active)" : ""));
+            if (is_unlocked) unlocked.push_back(std::int32_t(id));
+        }
+        // Active faery first, then the other unlocked rows.
+        fs_queue_.clear();
+        if (active >= 0) fs_queue_.push_back(active);
+        for (const auto id : unlocked)
+            if (id != active) fs_queue_.push_back(id);
+        if (active >= 0) {
+            // NativeHUDSetActiveFaery: ChangeFaery + Level::PlaceFaeryAndFollowers.
+            std::string place_error;
+            const bool placed = model_renderer::ui_player_set_active_faery(player_, std::uint32_t(active), place_error);
+            plog(fmt("faery-skill setup | set-active-faery %d (ChangeFaery + PlaceFaeryAndFollowers): %s%s", active,
+                     placed ? "ok" : "ERROR: ", place_error.c_str()));
+        }
+        read_hud();
+        plog(fmt("faery-skill setup | HUD faery id %d cd %d%% usable %d | skill slots %d %d %d | queue size %zu",
+                 hud_.faery_id, hud_.infos[6], hud_.infos[7], hud_.skill_slots[0], hud_.skill_slots[1],
+                 hud_.skill_slots[2], fs_queue_.size()));
+        if (fs_queue_.empty()) {
+            failure_ = "faery-skill: no unlocked faery";
+            fs_phase_ = FsPhase::done;
+            return;
+        }
+        fs_pos_ = 0;
+        fs_cast_for_faery_ = 0;
+        fs_phase_ = FsPhase::approach;
+    }
+
+    void fs_approach() {
+        if (!have_pose_) return;
+        if (pose_.enemy_index >= 0 && pose_.enemy_hp > 0 && pose_.enemy_in_melee_range) {
+            halt_player();
+            fs_cast();
+            return;
+        }
+        if (pose_.enemy_index >= 0) {
+            if (march_to(pose_.player_position, pose_.enemy_position, 40.0f) == March::no_route)
+                plog("faery-skill approach | no selected-floor route to nearest enemy");
+        }
+    }
+
+    void fs_cast() {
+        fs_target_ = pose_.enemy_index;
+        fs_target_hp_before_ = fs_target_hp_min_ = pose_.enemy_hp / 256.0;
+        fs_pre_vitals_ = model_renderer::player_vitals();
+        fs_pre_enemies_ = all_enemy_hp();
+        read_hud();
+        fs_pre_cd_ = hud_.infos[6];
+        fs_pre_usable_ = hud_.infos[7];
+        fs_peak_cd_ = fs_pre_cd_;
+        fs_min_usable_ = fs_pre_usable_;
+        fs_pre_state_ = model_renderer::gameplay_player_state();
+        fs_last_state_ = fs_pre_state_;
+        fs_state_frames_ = 0;
+        fs_saw_spell_state_ = false;
+        // A Player already in state 6/7 makes the source guard (AI_IsSpellUsable) a no-op.
+        fs_stuck_before_ = fs_pre_state_ == 6 || fs_pre_state_ == 7;
+        fs_player_hp_peak_ = fs_pre_vitals_[0] / 256.0;
+        fs_transitions_.clear();
+        std::string error;
+        if (options_.faery_hud_tap) {
+            // Authored HUD faery button: press now, release 6 frames later (the
+            // GameSWF onRelease is what reaches NativeHUDSpell).
+            // Pointer move first (GameSWF hit-tests the cursor), press, hold, release.
+            tap_queue_ = {{frame_, 2}, {frame_ + 2, 0}, {frame_ + 8, 1}};
+            fs_use_ok_ = true;
+            fs_use_error_.clear();
+        } else {
+            fs_use_ok_ = model_renderer::ui_player_use_spell(player_, error);
+            fs_use_error_ = error;
+        }
+        fs_cast_frame_ = frame_;
+        ++fs_cast_for_faery_;
+        ++fs_total_casts_;
+        std::int32_t faery_id = -1, faery_level = -1;
+        model_renderer::ui_player_active_faery(player_, faery_id, faery_level, error);
+        const int state_after = model_renderer::gameplay_player_state();
+        if (!fs_stuck_before_ && (state_after == 6 || state_after == 7)) fs_saw_spell_state_ = true;
+        plog(fmt("faery-skill CAST begin | frame %llu | player at %s | faery %d level %d cast #%u | %s %s%s%s | state %d -> %d | "
+                 "HUD cd %d%% usable %d | player HP %.1f MP %.1f | nearest enemy %d HP %.1f | all enemies live %d hp-sum %.1f dead %d",
+                 (unsigned long long)frame_, vec_text(pose_.player_position).c_str(), faery_id, faery_level, fs_cast_for_faery_,
+                 options_.faery_hud_tap ? "HUD tap" : "ui_player_use_spell",
+                 fs_use_ok_ ? "ok" : "ERROR", fs_use_ok_ ? "" : ": ", fs_use_ok_ ? "" : fs_use_error_.c_str(),
+                 fs_pre_state_, state_after, fs_pre_cd_, fs_pre_usable_, fs_pre_vitals_[0] / 256.0,
+                 fs_pre_vitals_[2] / 256.0, fs_target_, fs_target_hp_before_,
+                 fs_pre_enemies_.count - fs_pre_enemies_.dead, fs_pre_enemies_.hp, fs_pre_enemies_.dead));
+        fs_phase_ = FsPhase::watch;
+    }
+
+    void fs_watch() {
+        const std::uint64_t elapsed = frame_ - fs_cast_frame_;
+        const int state = model_renderer::gameplay_player_state();
+        if (state != fs_last_state_) {
+            fs_transitions_ += fmt("%d@+%llu ", state, (unsigned long long)elapsed);
+            fs_last_state_ = state;
+        }
+        if (!fs_stuck_before_ && (state == 6 || state == 7)) {
+            fs_saw_spell_state_ = true;
+            ++fs_state_frames_;
+        }
+        if (elapsed % 10 == 0) {
+            read_hud();
+            fs_peak_cd_ = std::max(fs_peak_cd_, hud_.infos[6]);
+            fs_min_usable_ = std::min(fs_min_usable_, hud_.infos[7]);
+            const auto vitals = model_renderer::player_vitals();
+            fs_player_hp_peak_ = std::max(fs_player_hp_peak_, vitals[0] / 256.0);
+            model_renderer::GameplayEnemyStateSnapshotV1 target;
+            std::string error;
+            if (fs_target_ >= 0 && model_renderer::gameplay_enemy_state_snapshot(fs_target_, target, error))
+                fs_target_hp_min_ = std::min(fs_target_hp_min_, target.dead ? 0.0 : target.hp / 256.0);
+        }
+        const bool settled = elapsed >= 150 && state != 6 && state != 7;
+        if (!settled && elapsed < 240) return;
+        const auto vitals = model_renderer::player_vitals();
+        const auto enemies = all_enemy_hp();
+        read_hud();
+        std::int32_t faery_id = -1, faery_level = -1;
+        std::string error;
+        model_renderer::ui_player_active_faery(player_, faery_id, faery_level, error);
+        const double enemy_delta = enemies.hp - fs_pre_enemies_.hp;
+        const bool mp_spent = vitals[2] < fs_pre_vitals_[2];
+        const bool cooldown = fs_peak_cd_ > 0 || fs_min_usable_ == 0;
+        std::string verdict;
+        if (fs_stuck_before_ && fs_use_ok_)
+            verdict = fmt("BLOCKED: Player already in state %d before the call (source AI_IsSpellUsable guard = silent no-op)",
+                          fs_pre_state_);
+        else if (!fs_use_ok_) verdict = "ERROR use call failed: " + fs_use_error_;
+        else if (!fs_saw_spell_state_ && !cooldown && !mp_spent && enemy_delta >= -0.01 &&
+                 fs_player_hp_peak_ <= fs_pre_vitals_[0] / 256.0 + 0.01)
+            verdict = "NO-EFFECT (no state 6/7, no cooldown, no MP spent, no HP change)";
+        else {
+            verdict = "EFFECT:";
+            if (fs_saw_spell_state_) verdict += fmt(" state6/7 %d frames;", fs_state_frames_);
+            if (cooldown) verdict += fmt(" cooldown peak %d%%;", fs_peak_cd_);
+            if (mp_spent) verdict += fmt(" MP %.1f->%.1f;", fs_pre_vitals_[2] / 256.0, vitals[2] / 256.0);
+            if (enemy_delta < -0.01) verdict += fmt(" enemy HP-sum %.1f->%.1f;", fs_pre_enemies_.hp, enemies.hp);
+            if (fs_player_hp_peak_ > fs_pre_vitals_[0] / 256.0 + 0.01)
+                verdict += fmt(" player HP rose to %.1f (from %.1f);", fs_player_hp_peak_, fs_pre_vitals_[0] / 256.0);
+        }
+        verdict += fmt(" | Player state at end %d", state);
+        if (fs_use_ok_ && !fs_stuck_before_ && (fs_saw_spell_state_ || cooldown || mp_spent || enemy_delta < -0.01))
+            ++fs_effective_;
+        plog(fmt("faery-skill CAST end | frame %llu (+%llu) | player at %s | faery %d level %d cast #%u | transitions [%s] | "
+                 "player HP %.1f -> %.1f (peak %.1f) MP %.1f -> %.1f | target %d HP %.1f -> min %.1f | "
+                 "all enemies hp-sum %.1f -> %.1f (live %d -> %d) | HUD cd peak %d%% usable min %d, now cd %d%% usable %d | %s",
+                 (unsigned long long)frame_, (unsigned long long)elapsed, vec_text(pose_.player_position).c_str(),
+                 faery_id, faery_level, fs_cast_for_faery_, fs_transitions_.c_str(), fs_pre_vitals_[0] / 256.0,
+                 vitals[0] / 256.0, fs_player_hp_peak_, fs_pre_vitals_[2] / 256.0, vitals[2] / 256.0,
+                 fs_target_, fs_target_hp_before_, fs_target_hp_min_, fs_pre_enemies_.hp, enemies.hp,
+                 fs_pre_enemies_.count - fs_pre_enemies_.dead, enemies.count - enemies.dead, fs_peak_cd_,
+                 fs_min_usable_, hud_.infos[6], hud_.infos[7], verdict.c_str()));
+        fs_records_.push_back({faery_id, faery_level, fs_cast_for_faery_, verdict});
+        if (state == 6 || state == 7) {
+            // Is the cast lock permanent? Try the ordinary ways out: Stop, then a basic attack.
+            halt_player();
+            const auto attack = model_renderer::player_attack();
+            plog(fmt("faery-skill recovery attempt from state %d | stop + player_attack -> \"%s\" | state now %d", state,
+                     attack.c_str(), model_renderer::gameplay_player_state()));
+        }
+        if (fs_cast_for_faery_ >= 2) {
+            // Next faery (re-placed through the HUD's NativeHUDSetActiveFaery path).
+            ++fs_pos_;
+            fs_cast_for_faery_ = 0;
+            if (fs_pos_ >= fs_queue_.size()) {
+                fs_phase_ = FsPhase::done;
+                return;
+            }
+            const auto next = fs_queue_[fs_pos_];
+            std::string switch_error;
+            const bool ok = model_renderer::ui_player_set_active_faery(player_, std::uint32_t(next), switch_error);
+            plog(fmt("faery-skill switch to faery %d | %s%s", next, ok ? "ok" : "ERROR: ", switch_error.c_str()));
+            fs_wait_until_ = frame_ + 180;
+            fs_phase_ = FsPhase::switch_wait;
+            return;
+        }
+        fs_wait_until_ = frame_ + 300;
+        fs_phase_ = FsPhase::cooldown_wait;
+    }
+
+    void fs_cooldown_wait() {
+        read_hud();
+        if (hud_.infos[7] != 0 || frame_ >= fs_wait_until_) {
+            plog(fmt("faery-skill cooldown wait over | frame %llu | HUD cd %d%% usable %d%s",
+                     (unsigned long long)frame_, hud_.infos[6], hud_.infos[7],
+                     hud_.infos[7] ? "" : " (timeout; casting anyway)"));
+            // A spell needs no melee target: later casts go out where the Player stands.
+            if (have_pose_) fs_cast();
+            else fs_phase_ = FsPhase::approach;
+        }
+    }
+
+    void faery_skill_finish() {
+        plog(fmt("faery-skill summary | casts %u | casts with an observable effect %u | deaths %u | final Player state %d",
+                 fs_total_casts_, fs_effective_, deaths_, model_renderer::gameplay_player_state()));
+        for (const auto& record : fs_records_)
+            plog(fmt("faery-skill result | faery %d level %d cast #%u | %s", record.faery, record.level,
+                     record.cast, record.verdict.c_str()));
+    }
+
+    // ----- skill-matrix -----------------------------------------------------
+    enum class MxPhase { setup, prepare, approach, use, watch, wait, done };
+    MxPhase mx_phase_ = MxPhase::setup;
+    std::vector<model_renderer::UiSkillReadV1> mx_rows_;
+    std::size_t mx_k_ = 0;
+    unsigned mx_attempt_ = 0, mx_level_ups_ = 0;
+    std::uint64_t mx_wait_until_ = 0, mx_use_frame_ = 0;
+    int mx_last_state_ = -1, mx_state6_frames_ = 0;
+    bool mx_saw6_ = false, mx_use_ok_ = false;
+    std::string mx_use_error_, mx_transitions_;
+    std::array<int, 7> mx_pre_vitals_{};
+    EnemySum mx_pre_enemies_;
+    int mx_pre_cd_ = 0, mx_pre_usable_ = 0, mx_peak_cd_ = 0, mx_min_usable_ = 1, mx_target_ = -1;
+    double mx_target_before_ = 0.0, mx_target_min_ = 0.0;
+    unsigned mx_deaths_at_use_ = 0;
+    model_renderer::UiPlayerStatsReadV1 mx_stats_pre_, mx_stats_mid_;
+    bool mx_stats_mid_taken_ = false;
+    struct MxRecord {
+        std::size_t index;
+        std::int32_t id;
+        std::string verdict;
+    };
+    std::vector<MxRecord> mx_records_;
+
+    void matrix_tick() {
+        if (frame_ + 3 >= options_.frames && mx_phase_ != MxPhase::done) {
+            mx_record_unfinished("frame bound reached");
+            mx_phase_ = MxPhase::done;
+        }
+        switch (mx_phase_) {
+        case MxPhase::setup: mx_setup(); break;
+        case MxPhase::prepare: mx_prepare(); break;
+        case MxPhase::approach:
+            if (frame_ % 15 == 0) mx_approach();
+            break;
+        case MxPhase::use: mx_use(); break;
+        case MxPhase::watch: mx_watch(); break;
+        case MxPhase::wait: mx_wait(); break;
+        case MxPhase::done: break;
+        }
+    }
+
+    void mx_record_unfinished(const char* why) {
+        if (mx_k_ < mx_rows_.size() && mx_records_.size() <= mx_k_) {
+            mx_records_.push_back({mx_k_, mx_rows_[mx_k_].id, std::string("NOT-TESTED: ") + why});
+            plog(fmt("matrix skill %zu (id %d) NOT-TESTED: %s", mx_k_, mx_rows_[mx_k_].id, why));
+        }
+    }
+
+    void mx_setup() {
+        std::string error;
+        for (std::uint32_t k = 0; k < 256; ++k) {
+            model_renderer::UiSkillReadV1 row;
+            if (!model_renderer::ui_player_skill(player_, k, row, error)) {
+                if (k == 0) {
+                    failure_ = "skill-matrix: ui_player_skill(0) failed: " + error;
+                    mx_phase_ = MxPhase::done;
+                    return;
+                }
+                break;
+            }
+            mx_rows_.push_back(row);
+        }
+        std::array<std::int32_t, 3> slots{};
+        model_renderer::ui_player_skill_slots(player_, slots, error);
+        std::int32_t points = -1;
+        model_renderer::ui_player_skill_points(player_, points, error);
+        model_renderer::UiPlayerStatsReadV1 stats;
+        model_renderer::ui_player_stats(player_, stats, error);
+        plog(fmt("matrix setup | class '%s' | character level %d | skill points %d | max HP %d max MP %d (raw stats) | HUD slots %d %d %d | skills in tree %zu",
+                 stats.class_name.c_str(), stats.level, points, stats.max_hp, stats.max_mp, slots[0],
+                 slots[1], slots[2], mx_rows_.size()));
+        for (std::size_t k = 0; k < mx_rows_.size(); ++k) {
+            const auto& r = mx_rows_[k];
+            plog(fmt("matrix row %zu | skill id %d | saved level %d | slot %d | required char level %d | assignable %d | "
+                     "can-increment %d | name text %d | icon %s",
+                     k, r.id, r.level, r.slot, r.required_level, int(r.assignable), int(r.can_increment),
+                     r.name_text, r.icon.c_str()));
+        }
+        mx_k_ = 0;
+        mx_phase_ = MxPhase::prepare;
+    }
+
+    bool mx_reload(std::size_t k) {
+        std::string error;
+        return model_renderer::ui_player_skill(player_, std::uint32_t(k), mx_rows_[k], error);
+    }
+
+    void mx_prepare() {
+        if (mx_k_ >= mx_rows_.size()) {
+            mx_phase_ = MxPhase::done;
+            return;
+        }
+        const std::size_t k = mx_k_;
+        mx_attempt_ = 0;
+        mx_reload(k);
+        auto& row = mx_rows_[k];
+        std::string error;
+        if (options_.matrix_only >= 0 && std::int32_t(k) != options_.matrix_only) {
+            mx_finish_skill("SKIPPED (--matrix-only)");
+            return;
+        }
+        if (!row.assignable && row.icon == "blank") {
+            mx_finish_skill(fmt("NOT-A-SKILL: placeholder row (skill id %d, icon 'blank', required char level %d, not assignable)",
+                                row.id, row.required_level));
+            return;
+        }
+        // Train once through the same NativeSkillsTrainSkill/IncSkill entry the
+        // skills menu uses. Level-ups use the real Character::LevelUp path to
+        // satisfy the character-level / skill-point gates.
+        if (row.level <= 0) {
+            unsigned ups = 0;
+            for (; ups < 80 && !row.can_increment; ++ups) {
+                std::int32_t points = 0;
+                model_renderer::ui_player_skill_points(player_, points, error);
+                if (row.character_level >= row.required_level && points > 0) break;  // another gate
+                if (!model_renderer::ui_player_apply_level_up_state(player_, error)) {
+                    plog(fmt("matrix skill %zu | LevelUp failed: %s", k, error.c_str()));
+                    break;
+                }
+                ++mx_level_ups_;
+                mx_reload(k);
+            }
+            mx_reload(k);
+            std::int32_t points = 0;
+            model_renderer::ui_player_skill_points(player_, points, error);
+            plog(fmt("matrix skill %zu (id %d) | prepare | level-ups used %u | character level %d (required %d) | skill points %d | can-increment %d",
+                     k, row.id, ups, row.character_level, row.required_level, points, int(row.can_increment)));
+            if (row.can_increment) {
+                std::uint32_t source_return = 0;
+                std::int32_t points_after = 0;
+                model_renderer::UiPlayerStatsReadV1 stats_before, stats_after;
+                std::string stats_error;
+                model_renderer::ui_player_stats(player_, stats_before, stats_error);
+                std::int32_t potions_before_a = 0, potions_before_b = 0, potions_after_a = 0, potions_after_b = 0;
+                model_renderer::ui_player_potions(player_, potions_before_a, potions_before_b, stats_error);
+                const bool trained = model_renderer::ui_player_train_skill(
+                    player_, std::uint32_t(k), false, source_return, points_after, error);
+                plog(fmt("matrix skill %zu (id %d) | train | %s%s | source return %u | points left %d", k, row.id,
+                         trained ? "ok" : "ERROR: ", error.c_str(), source_return, points_after));
+                mx_reload(k);
+                model_renderer::ui_player_stats(player_, stats_after, stats_error);
+                model_renderer::ui_player_potions(player_, potions_after_a, potions_after_b, stats_error);
+                if (!row.assignable) {
+                    // Passive row: nothing to press; verify the trained level reaches the Character sheet.
+                    std::string delta = stats_diff(stats_before, stats_after);
+                    if (potions_before_a != potions_after_a || potions_before_b != potions_after_b)
+                        delta += fmt(" potions %d/%d->%d/%d;", potions_before_a, potions_before_b, potions_after_a,
+                                     potions_after_b);
+                    const bool changed = delta != " none";
+                    mx_finish_skill(fmt("PASSIVE %s: trained %s (saved level %d); Character-sheet delta right after training:%s",
+                                        (trained && row.level > 0 && changed) ? "OK" :
+                                        (trained && row.level > 0) ? "NO-SHEET-CHANGE" : "TRAIN-FAILED",
+                                        trained ? "ok" : "ERROR", row.level, delta.c_str()));
+                    return;
+                }
+            }
+        }
+        if (!row.assignable) {
+            mx_finish_skill(fmt("PASSIVE NOT-TESTABLE: could not train (level %d, char level %d, required %d, can-increment %d)",
+                                row.level, row.character_level, row.required_level, int(row.can_increment)));
+            return;
+        }
+        if (row.level <= 0) {
+            mx_finish_skill(fmt("NOT-TESTABLE: could not train (level %d, char level %d, required %d, can-increment %d)",
+                                row.level, row.character_level, row.required_level, int(row.can_increment)));
+            return;
+        }
+        if (!model_renderer::ui_player_equip_skill(player_, 0, std::int32_t(k), error)) {
+            mx_finish_skill("EQUIP-REJECTED: " + error);
+            return;
+        }
+        std::array<std::int32_t, 3> slots{};
+        model_renderer::ui_player_skill_slots(player_, slots, error);
+        plog(fmt("matrix skill %zu (id %d) | equipped in HUD slot 0 | level %d | HUD slots now %d %d %d", k, row.id,
+                 row.level, slots[0], slots[1], slots[2]));
+        mx_phase_ = MxPhase::approach;
+    }
+
+    void mx_approach() {
+        if (!have_pose_) return;
+        if (pose_.enemy_index >= 0 && pose_.enemy_hp > 0 && pose_.enemy_in_melee_range) {
+            halt_player();
+            mx_phase_ = MxPhase::use;
+            return;
+        }
+        if (pose_.enemy_index >= 0 &&
+            march_to(pose_.player_position, pose_.enemy_position, 40.0f) == March::no_route)
+            plog("matrix approach | no selected-floor route to nearest enemy");
+    }
+
+    void mx_use() {
+        halt_player();
+        if (!have_pose_ || pose_.enemy_index < 0 || pose_.enemy_hp <= 0 || !pose_.enemy_in_melee_range) {
+            mx_phase_ = MxPhase::approach;
+            return;
+        }
+        ++mx_attempt_;
+        mx_target_ = pose_.enemy_index;
+        mx_target_before_ = mx_target_min_ = pose_.enemy_hp / 256.0;
+        mx_pre_vitals_ = model_renderer::player_vitals();
+        mx_pre_enemies_ = all_enemy_hp();
+        read_hud();
+        mx_pre_cd_ = hud_.infos[8];
+        mx_pre_usable_ = hud_.infos[9];
+        mx_peak_cd_ = mx_pre_cd_;
+        mx_min_usable_ = mx_pre_usable_;
+        mx_last_state_ = model_renderer::gameplay_player_state();
+        mx_state6_frames_ = 0;
+        mx_saw6_ = false;
+        mx_transitions_.clear();
+        mx_deaths_at_use_ = deaths_;
+        std::string error;
+        mx_stats_mid_taken_ = false;
+        model_renderer::ui_player_stats(player_, mx_stats_pre_, error);
+        mx_use_ok_ = model_renderer::ui_player_use_skill_slot(player_, 0, error);
+        mx_use_error_ = error;
+        mx_use_frame_ = frame_;
+        const int after = model_renderer::gameplay_player_state();
+        if (after == 6) mx_saw6_ = true;
+        plog(fmt("matrix skill %zu (id %d) USE attempt %u | frame %llu | use %s%s%s | state %d -> %d | HUD slot0 cd %d%% usable %d | "
+                 "player HP %.1f MP %.1f | target enemy %d HP %.1f | all enemies live %d hp-sum %.1f",
+                 mx_k_, mx_rows_[mx_k_].id, mx_attempt_, (unsigned long long)frame_, mx_use_ok_ ? "ok" : "ERROR",
+                 mx_use_ok_ ? "" : ": ", mx_use_ok_ ? "" : mx_use_error_.c_str(), mx_last_state_, after,
+                 mx_pre_cd_, mx_pre_usable_, mx_pre_vitals_[0] / 256.0, mx_pre_vitals_[2] / 256.0, mx_target_,
+                 mx_target_before_, mx_pre_enemies_.count - mx_pre_enemies_.dead, mx_pre_enemies_.hp));
+        mx_phase_ = MxPhase::watch;
+    }
+
+    void mx_watch() {
+        const std::uint64_t elapsed = frame_ - mx_use_frame_;
+        const int state = model_renderer::gameplay_player_state();
+        if (state != mx_last_state_) {
+            mx_transitions_ += fmt("%d@+%llu ", state, (unsigned long long)elapsed);
+            mx_last_state_ = state;
+        }
+        if (state == 6) {
+            mx_saw6_ = true;
+            ++mx_state6_frames_;
+        }
+        if (elapsed >= 20 && !mx_stats_mid_taken_) {
+            // Buff-type skills (no direct damage) show up on the Character sheet while active.
+            std::string stats_error;
+            mx_stats_mid_taken_ = model_renderer::ui_player_stats(player_, mx_stats_mid_, stats_error);
+        }
+        if (elapsed % 10 == 0) {
+            read_hud();
+            mx_peak_cd_ = std::max(mx_peak_cd_, hud_.infos[8]);
+            mx_min_usable_ = std::min(mx_min_usable_, hud_.infos[9]);
+            model_renderer::GameplayEnemyStateSnapshotV1 target;
+            std::string error;
+            if (mx_target_ >= 0 && model_renderer::gameplay_enemy_state_snapshot(mx_target_, target, error))
+                mx_target_min_ = std::min(mx_target_min_, target.dead ? 0.0 : target.hp / 256.0);
+        }
+        const bool settled = elapsed >= 90 && state != 6;
+        if (!settled && elapsed < 360) return;
+        const auto vitals = model_renderer::player_vitals();
+        const auto enemies = all_enemy_hp();
+        read_hud();
+        const double enemy_delta = enemies.hp - mx_pre_enemies_.hp;
+        const bool mp_spent = vitals[2] < mx_pre_vitals_[2];
+        const bool cooldown = mx_peak_cd_ > 0 || mx_min_usable_ == 0;
+        const bool died = deaths_ != mx_deaths_at_use_;
+        plog(fmt("matrix skill %zu (id %d) USE end | attempt %u | frame +%llu | transitions [%s] | state-6 frames %d | "
+                 "player HP %.1f -> %.1f, MP %.1f -> %.1f | target %d HP %.1f -> min %.1f | all enemies hp-sum %.1f -> %.1f "
+                 "(live %d -> %d) | HUD slot0 cd peak %d%% usable min %d | player died %d",
+                 mx_k_, mx_rows_[mx_k_].id, mx_attempt_, (unsigned long long)elapsed, mx_transitions_.c_str(),
+                 mx_state6_frames_, mx_pre_vitals_[0] / 256.0, vitals[0] / 256.0, mx_pre_vitals_[2] / 256.0,
+                 vitals[2] / 256.0, mx_target_, mx_target_before_, mx_target_min_, mx_pre_enemies_.hp, enemies.hp,
+                 mx_pre_enemies_.count - mx_pre_enemies_.dead, enemies.count - enemies.dead, mx_peak_cd_,
+                 mx_min_usable_, int(died)));
+        std::string verdict;
+        if (!mx_use_ok_) {
+            verdict = "ERROR: use call failed: " + mx_use_error_;
+        } else if (mx_saw6_) {
+            verdict = fmt("WORKS: entered skill state 6 for %d frames", mx_state6_frames_);
+            if (enemy_delta < -0.01)
+                verdict += fmt("; enemy HP-sum %.1f -> %.1f (-%.1f)", mx_pre_enemies_.hp, enemies.hp, -enemy_delta);
+            else verdict += "; no enemy damage observed";
+            if (mp_spent) verdict += fmt("; MP %.1f -> %.1f", mx_pre_vitals_[2] / 256.0, vitals[2] / 256.0);
+            if (cooldown) verdict += fmt("; cooldown peak %d%%", mx_peak_cd_);
+            if (mx_stats_mid_taken_) {
+                const auto sheet = stats_diff(mx_stats_pre_, mx_stats_mid_);
+                if (sheet != " none") verdict += "; Character-sheet change while active:" + sheet;
+            }
+        } else if (cooldown || mp_spent || enemy_delta < -0.01) {
+            verdict = fmt("PARTIAL: use ok, never entered state 6, but side effects: %s%s%s",
+                          cooldown ? "cooldown " : "", mp_spent ? "MP-spent " : "",
+                          enemy_delta < -0.01 ? "enemy-damage" : "");
+        } else {
+            verdict = fmt("REFUSED/NO-EFFECT: use ok but no state 6, no MP spent, no cooldown (MP %.1f, HUD usable %d)",
+                          vitals[2] / 256.0, mx_pre_usable_);
+        }
+        const bool needs_retry = mx_use_ok_ && !mx_saw6_ && !cooldown && !mp_spent && mx_attempt_ < 4 && !died;
+        if (needs_retry) {
+            plog(fmt("matrix skill %zu (id %d) | attempt %u gave no effect; waiting for mana/cooldown, then retrying",
+                     mx_k_, mx_rows_[mx_k_].id, mx_attempt_));
+            mx_wait_until_ = frame_ + 240;
+            mx_phase_ = MxPhase::wait;
+            return;
+        }
+        mx_finish_skill(verdict);
+    }
+
+    void mx_wait() {
+        // Keep the Player alive and the enemy engaged while mana/cooldown recover.
+        if (have_pose_ && pose_.enemy_in_melee_range && pose_.enemy_hp > 0 && frame_ % 45 == 0) {
+            halt_player();
+            model_renderer::player_attack();
+        }
+        if (frame_ >= mx_wait_until_) mx_phase_ = MxPhase::approach;
+    }
+
+    void mx_finish_skill(const std::string& verdict) {
+        const auto id = mx_rows_[mx_k_].id;
+        plog(fmt("matrix RESULT skill %zu (id %d) | %s", mx_k_, id, verdict.c_str()));
+        mx_records_.push_back({mx_k_, id, verdict});
+        ++mx_k_;
+        mx_phase_ = MxPhase::prepare;
+    }
+
+    void matrix_finish() {
+        unsigned works = 0, partial = 0, passive_ok = 0, placeholder = 0, other = 0;
+        for (const auto& r : mx_records_) {
+            if (r.verdict.rfind("WORKS", 0) == 0) ++works;
+            else if (r.verdict.rfind("PARTIAL", 0) == 0) ++partial;
+            else if (r.verdict.rfind("PASSIVE OK", 0) == 0) ++passive_ok;
+            else if (r.verdict.rfind("NOT-A-SKILL", 0) == 0) ++placeholder;
+            else ++other;
+        }
+        plog(fmt("matrix summary | skill rows %zu | recorded %zu | active WORKS %u | active PARTIAL %u | passive OK %u | "
+                 "placeholder rows %u | other (failures/not tested) %u | level-ups applied %u | deaths %u",
+                 mx_rows_.size(), mx_records_.size(), works, partial, passive_ok, placeholder, other, mx_level_ups_,
+                 deaths_));
+        for (const auto& r : mx_records_)
+            plog(fmt("matrix table | skill %zu | id %d | %s", r.index, r.id, r.verdict.c_str()));
+    }
+};
+
+// Copies every published source LevelSavegame in the runtime directory next to
+// the capture series (PREFIX_<tag>_<file>) so the Character rows can be diffed.
+void copy_level_saves(const std::filesystem::path& runtime, const std::filesystem::path& prefix,
+                      const std::string& tag) {
+    std::error_code ec;
+    for (const auto& entry : std::filesystem::directory_iterator(runtime, ec)) {
+        const auto name = entry.path().filename().string();
+        const std::string suffix = "_level.savegame";
+        if (name.size() < suffix.size() || name.compare(name.size() - suffix.size(), suffix.size(), suffix) != 0)
+            continue;
+        const auto target = std::filesystem::path(prefix.string() + "_" + tag + "_" + name);
+        std::filesystem::copy_file(entry.path(), target, std::filesystem::copy_options::overwrite_existing, ec);
+        plog("levelsave copy | " + tag + " | " + name + (ec ? " | FAILED " + ec.message() : " | ok"));
+    }
 }
 
 struct PlayerUiFrame {
@@ -745,6 +1746,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_last_hp = 0;
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
+        ProbeRunner probe_runner(options, scenario_player_died, scenario_revived);
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -889,6 +1891,28 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
+            if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
+                copy_level_saves(options.runtime, options.capture_series, "entry");
+            if (gameplay && options.probe_scenario() && rendered_frames >= 2) {
+                probe_runner.tick(rendered_frames, SDL_GetTicks64());
+                int tap_action = -1;
+                if (probe_runner.take_tap(tap_action)) {
+                    // Centre of the authored HUD faery button on the 1280x720 reference layout.
+                    int window_width = 1, window_height = 1;
+                    SDL_GetWindowSize(window, &window_width, &window_height);
+                    if (!dispatch_touch(original_ui, window, window_width * options.hud_tap_x / 1280,
+                                        window_height * options.hud_tap_y / 720,
+                                        tap_action, ui_error))
+                        plog("HUD faery button tap failed: " + ui_error);
+                    else plog(tap_action == 2 ? "HUD pointer moved onto the tap point" :
+                              tap_action == 0 ? "HUD tap point pressed" : "HUD tap point released");
+                }
+                if (probe_runner.failed()) {
+                    plog("scenario failure: " + probe_runner.failure());
+                    running = false;
+                }
+                if (probe_runner.finished()) running = false;
+            }
             // move-kill: steer to the nearest enemy and keep attacking it through the
             // normal player_attack() route until its source HP reaches zero.
             if (options.movement_kill_scenario && scenario_started &&
@@ -1001,7 +2025,8 @@ int main(int argc, char** argv) {
             }
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
-            if ((options.movement_defend_scenario || options.movement_kill_scenario) &&
+            if ((options.movement_defend_scenario || options.movement_kill_scenario ||
+                 options.probe_scenario()) &&
                 scenario_player_died && !scenario_revived &&
                 (rendered_frames % 120 == 60 || rendered_frames % 120 == 66)) {
                 // Press and release on separate frames so GameSWF sees the edge.
@@ -1200,6 +2225,12 @@ int main(int argc, char** argv) {
             if (gameplay && !options.transition_to.empty() && rendered_frames == 300) {
                 original_ui.queue_level_transition(options.transition_to, options.transition_entry);
             }
+            if (gameplay && options.faery_follow_scenario && !options.follow_exit_destination.empty() &&
+                options.frames > 8 && rendered_frames + 3 == options.frames) {
+                probe_runner.finish();
+                plog("leaving the level to publish its LevelSavegame | " + options.follow_exit_destination);
+                original_ui.queue_level_transition(options.follow_exit_destination, options.follow_exit_entry);
+            }
             if (gameplay && original_ui.consume_launch_request(launch_request)) {
                 // NativeGoToZone / Script_ChangeLevel: the shared transition owner.
                 if (launch_request.kind ==
@@ -1277,6 +2308,12 @@ int main(int argc, char** argv) {
                 scenario_started = true;
                 if (!options.initial_capture.empty()) save_capture(options.initial_capture, width, height);
             }
+            if (gameplay && !options.capture_series.empty() && options.capture_every &&
+                rendered_frames && rendered_frames % options.capture_every == 0) {
+                char suffix[32];
+                std::snprintf(suffix, sizeof suffix, "_%05llu.ppm", (unsigned long long)rendered_frames);
+                save_capture(std::filesystem::path(options.capture_series.string() + suffix), width, height);
+            }
             bool capture_saved_this_frame = false;
             if (options.frames && rendered_frames + 1 == options.frames && !options.capture.empty()) {
                 save_capture(options.capture, width, height);
@@ -1316,6 +2353,14 @@ int main(int argc, char** argv) {
         }
 
         model_renderer::stop_movement();
+        if (options.faery_follow_scenario && gameplay && !options.capture_series.empty())
+            copy_level_saves(options.runtime, options.capture_series, "exit");
+        if (options.probe_scenario() && gameplay) {
+            if (!(options.faery_follow_scenario && !options.follow_exit_destination.empty() && options.frames > 8))
+                probe_runner.finish();
+            if (probe_runner.failed())
+                throw std::runtime_error("probe scenario failed: " + probe_runner.failure());
+        }
         if (options.fixed_cultist_kill_scenario && gameplay) {
             if (!fixed_receipt_before_ready)
                 throw std::runtime_error("Fixed Crypt kill scenario did not capture its initial Player receipt");
