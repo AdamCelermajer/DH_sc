@@ -13,7 +13,11 @@ namespace glitch::io {
 
 class CColorAttribute : public CNumbersAttribute {
 public:
+    CColorAttribute() = default;
+    CColorAttribute(const char* attrName, const glitch::video::SColorf& value, bool f)
+        : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x31f2ac
+    const wchar_t* getTypeString() const override;  // 0x31f2b4
 };
 
 class CColorfAttribute : public CNumbersAttribute {
@@ -104,6 +108,7 @@ public:
     CMatrixAttribute(const char* attrName, const glitch::core::CMatrix4<float>& value, bool f)
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x5604fc
+    const wchar_t* getTypeString() const override;  // 0x560504
 };
 
 class CQuaternionAttribute : public CNumbersAttribute {

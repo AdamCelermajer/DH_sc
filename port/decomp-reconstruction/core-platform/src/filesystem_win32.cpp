@@ -1,5 +1,6 @@
 #include "core-platform/filesystem_win32.hpp"
 
+#include "core-platform/deps/io_stream.hpp"
 #include "core-platform/filesystem_base.hpp"
 
 #include <cerrno>
@@ -248,3 +249,16 @@ void FileSystemWin32::getFilesMatching(const char* dir, const char* pattern,
         }
     }
 }
+
+// 0x34ebcc FileSystemWin32::closeFile(IFileStream*&)
+// The original calls vtable slot +0x4 (the deleting destructor) and clears the pointer.
+void FileSystemWin32::closeFile(IFileStream*& stream) {
+    if (stream != nullptr) {
+        delete stream;
+        stream = nullptr;
+    }
+}
+
+// 0x34ebfc FileSystemWin32::getFolders(char const*, std::vector<std::string>&) const
+// Empty in the original.
+void FileSystemWin32::getFolders(const char*, std::vector<std::string>&) const {}

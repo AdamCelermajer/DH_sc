@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <initializer_list>
 #include <vector>
 
 #include "glitch-core-io/io/attributes.hpp"
@@ -68,6 +69,22 @@ public:
     std::vector<std::int32_t> getIntArray();                             // 0x3270d8
     void setFloatArray(std::vector<float>& values);                      // 0x31ee9c
     void setIntArray(std::vector<std::int32_t>& values);                 // 0x324564
+    glitch::core::vector4d<float> getVector4d() const override;             // 0x31ddac
+    void setVector4d(const glitch::core::vector4d<float>& value) override;  // 0x324f18
+    glitch::core::plane3d<float> getPlane() const override;                 // 0x31e6a4
+    void setPlane(glitch::core::plane3d<float> value) override;             // 0x3256d8
+    glitch::core::line2d<float> getLine2d() const override;                 // 0x31ea00
+    void setLine2d(glitch::core::line2d<float> value) override;             // 0x325a6c
+    void setLine2d(glitch::core::line2d<std::int32_t> value) override;      // 0x325918
+    glitch::core::line3d<float> getLine3d() const override;                 // 0x31eb54
+    glitch::core::aabbox3d<float> getBBox() const override;                 // 0x31e7fc
+    void setBoundingBox(glitch::core::aabbox3d<float> value);               // 0x325518
+    glitch::core::triangle3d<float> getTriangle() const override;           // 0x31e3b0
+    void setTriangle3d(glitch::core::triangle3d<float> value);              // 0x3252bc
+    glitch::video::SColor getColor() const override;                        // 0x31e080
+    void setColor(glitch::video::SColor value) override;                    // 0x3249f8
+    void setColor(glitch::video::SColorf value) override;                   // 0x324b78
+    void setMatrix(const glitch::core::CMatrix4<float>& value) override;    // 0x325bc4
 
 protected:
     // Element access on the active list (float or int), with the original's conversions:
@@ -78,9 +95,22 @@ protected:
     void setActive(std::size_t i, std::int32_t value);
     // Zeroes the first count elements of the active list.
     void clearActive();
+    // Clears the active list, then writes values[i] to element i while i < count.
+    // Int lists truncate float values (f2iz), float lists keep them.
+    template <typename T>
+    void setComponents(std::initializer_list<T> values) {
+        clearActive();
+        std::size_t i = 0;
+        for (T v : values) {
+            if (i >= count) break;
+            setActive(i++, v);
+        }
+    }
+    // Element i of the active list as a float, or 0 past the end (the original zero-fills).
+    float componentF(std::size_t i) const { return i < count ? activeFloat(i) : 0.f; }
 
 public:
-    const wchar_t* getTypeString() const;              // 0x31ee70
+    const wchar_t* getTypeString() const override;     // 0x31ee70
 
     void setInt(int value) override;                   // 0x31ed50
     void setFloat(float value) override;               // 0x31edc4

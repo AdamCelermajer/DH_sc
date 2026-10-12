@@ -20,6 +20,7 @@ public:
     void setBool(bool v) override;        // 0x31d958
     int getType() const override;         // 0x31d960 (returns 3)
     void setString(const char* text) override;  // 0x323220 ("true" only)
+    std::wstring getStringW() const override;   // 0x325f30
 };
 
 class CIntAttribute : public IAttribute {
@@ -35,6 +36,7 @@ public:
     void setFloat(float v) override;      // 0x31d9a8
     int getType() const override;         // 0x31d9c0 (returns 0)
     void setString(const char* text) override;  // 0x320908 (atoi)
+    std::wstring getStringW() const override;   // 0x325fdc
 };
 
 class CFloatAttribute : public IAttribute {

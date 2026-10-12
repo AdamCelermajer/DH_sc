@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+class IFileStream;
+
 class FileSystemWin32 {
 public:
     class _FileHandle {
@@ -38,6 +40,8 @@ public:
     const char* getResourcesPath() const;    // 0x34ebac (+0x234)
     const char* getSavefilesPath() const;    // 0x34ebb4 (+0x43c)
     void copySavefile(const char* name);     // 0x34ebc0: no-op
+    void closeFile(IFileStream*& stream);    // 0x34ebcc: deletes the stream and clears it
+    void getFolders(const char* dir, std::vector<std::string>& out) const;  // 0x34ebfc: no-op
     bool _getFileInfo(const char* a, const char* b, void* info) const;  // 0x34ebc4
     bool isFileNewerThan(const char* a, const char* b) const;           // 0x34ec00
 

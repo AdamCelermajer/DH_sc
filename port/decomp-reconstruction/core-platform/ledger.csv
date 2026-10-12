@@ -372,3 +372,61 @@ elf_address,symbol,status,source_file,notes
 0x8451dc,_ZN4slim11XmlDocument14loadFromMemoryEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"clears children, rejects UTF-16 and UTF-8 byte-order marks, length 2 or less"
 0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,string punctuation not all recoverable; only the first attribute is visible in the listing
 0x845518,_ZNK4slim7XmlNode15writeChildNodesERSsi,reconstructed,core-platform/src/slim_xml.cpp,
+0x311730,_ZN12PerfCounters12CounterEntryC1ERKS0_,reconstructed,core-platform/src/perf_counters.cpp,"copy of name, the three values and the history"
+0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,node block (0x3e84 bytes) taken with CustomAlloc; no vector reserve; std::list allocates nodes
+0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,"same body as the C2 constructor; node block modelled, not the node allocator"
+0x3115c4,_ZN12PerfCountersD1Ev,partial,core-platform/src/perf_counters.cpp,frees the node block; entries and history released by member destructors
+0x311620,_ZN12PerfCountersD2Ev,partial,core-platform/src/perf_counters.cpp,same body as the D1 destructor
+0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,missing name returns nullptr; the original's search runs past the end
+0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,partial,core-platform/src/perf_counters.cpp,"missing counter ignored; the three values stored at +0x18, +0x1c, +0x20"
+0x31177c,_ZN12PerfCounters6UpdateEf,partial,core-platform/src/perf_counters.cpp,sampling layout inferred; time advances by dt after each sample
+0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,"glitch rendering (material, bars) not reconstructed; checks kept"
+0x34ebcc,_ZN15FileSystemWin329closeFileERP11IFileStream,reconstructed,core-platform/src/filesystem_win32.cpp,deletes the stream (vtable slot +0x4 is the deleting destructor) and clears the pointer
+0x34ebfc,_ZNK15FileSystemWin3210getFoldersEPKcRSt6vectorISsSaISsEE,reconstructed,core-platform/src/filesystem_win32.cpp,empty in the original
+0x34e1ac,_ZNK14FileSystemBase14formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,reconstructed,core-platform/src/filesystem_base.cpp,returns a copy of the path; the Win32 override does the separator rewrite
+0x34df94,_ZN14FileSystemBase14doesFileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,stdio existence check stands in for the derived class's virtual test
+0x34dfe0,_ZN14FileSystemBase18doesResourceExistsEPKc,partial,core-platform/src/filesystem_base.cpp,stdio existence check; resource-directory lookup in the derived class not reconstructed
+0x34e150,_ZN14FileSystemBase18doesSavefileExistsEPKc,partial,core-platform/src/filesystem_base.cpp,Savegame job flush not reconstructed; stdio existence check
+0x34e96c,_ZNK14FileSystemBase18ApplyFilenameHacksEPKc,partial,core-platform/src/filesystem_base.cpp,name substitutions not visible in the pseudocode; name returned unchanged
+0x34e5f4,_ZNK14FileSystemBase15getAbsolutePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_base.cpp,derived normalisation and CFileSystem::getAbsolutePath not reconstructed; path unchanged
+0x34e688,_ZN14FileSystemBase17createAndOpenFileEPKc,partial,core-platform/src/filesystem_base.cpp,RES_PATH prefix rule kept; normalisation (vtable +0xb8) missing; file created with stdio
+0x31f78c,_ZN11GCSingletonI10GameCenterED1Ev,reconstructed,core-platform/include/core-platform/gc_singleton.hpp,empty destructor body
+0x31fbec,_ZN11GCSingletonI10GameCenterED0Ev,skipped,core-platform/include/core-platform/gc_singleton.hpp,compiler-generated deleting destructor; the original frees through CustomFree
+0x32bd08,_ZN11GCSingletonI10GameCenterE11GetInstanceEv,partial,core-platform/include/core-platform/gc_singleton.hpp,constructs in a CustomAlloc block of sizeof(T); constructor skipped when allocation fails (the original calls it on null)
+0x48b7fc,_ZN7Array2dIPN3rnd4TileEEclEii,reconstructed,core-platform/include/core-platform/array2d.hpp,rows_[y - minY_][x - minX_] after growing to include the cell
+0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,partial,core-platform/include/core-platform/array2d.hpp,starts empty; the original's deque map allocation is not modelled
+0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,partial,core-platform/include/core-platform/array2d.hpp,resets each cell to T() and keeps the shape; the original refills the deque map in place
+0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,partial,core-platform/include/core-platform/array2d.hpp,growth rules from the branches; the empty-grid start point is inferred
+0x33d71c,_ZN17AccelerometerBaseD1Ev,reconstructed,core-platform/include/core-platform/accelerometer.hpp,"empty destructor, compiler-generated in the header"
+0x33aebc,_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,skipped,core-platform/src/touch_screen_base.cpp,return value is a float product whose operands are only partly visible; no body reconstructed
+0x897b64,switchD_008a7b5c::caseD_ffffffef,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
+0x897bbc,switchD_008a7b5c::caseD_5,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
+0x8902fc,switchD_008a02e8::caseD_3,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
+0x842464,_ZNK3rss5writeEPN4slim7XmlNodeE,reconstructed,core-platform/src/rss.cpp,empty in the original
+0x844050,_ZN3rss4readEPKN4slim7XmlNodeE,partial,core-platform/src/rss.cpp,"one channel per ""channel"" child; channel::read is a stand-in no-op in this category"
+0x88ef38,_ZN7_JNIEnv19CallStaticIntMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper (vararg env call); not a Windows target
+0x88ed78,_ZN7_JNIEnv11GetMethodIDEP7_jclassPKcS3_,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x52ea74,_ZN7_JNIEnv23CallStaticBooleanMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x52eaf8,_ZN7_JNIEnv22CallStaticObjectMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x88ee94,_ZN7_JNIEnv9NewObjectEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x89acc8,_ZN7_JNIEnv16CallObjectMethodEP8_jobjectP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x89aea0,_ZN7_JNIEnv20CallStaticVoidMethodEP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x88eec8,_ZN7_JNIEnv24CallNonvirtualVoidMethodEP8_jobjectP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x88ef00,_ZN7_JNIEnv23CallNonvirtualIntMethodEP8_jobjectP7_jclassP10_jmethodIDz,skipped,core-platform/src,Android JNI function-table wrapper; not a Windows target
+0x52edb0,_ZN7ADevice11getHostNameEPc,skipped,core-platform/include/core-platform/adevice.hpp,Android device wrapper over JNI getHostName; Windows uses Device (device.hpp)
+0x52edf8,_ZN7ADevice14getGameVersionEPc,skipped,core-platform/include/core-platform/adevice.hpp,Android device wrapper over JNI; Windows uses Device (device.hpp)
+0x52eaa8,_ZN7ADevice15CallJNIFuncBoolEP7_jclassP10_jmethodID,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncBool forwards through the JNI env; Windows uses Device (device.hpp)
+0x52eac8,_ZN7ADevice12isWifiEnableEv,skipped,core-platform/include/core-platform/adevice.hpp,JNI wifi query; Windows uses Device (device.hpp)
+0x52eb2c,_ZN7ADevice18CallJNIFuncSendIntEP7_jclassP10_jmethodIDi,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncSendInt forwards through the JNI env; Windows uses Device (device.hpp)
+0x52eb54,_ZN7ADevice13setUniqueCodeEi,skipped,core-platform/include/core-platform/adevice.hpp,JNI setUniqueCode; Windows uses Device (device.hpp)
+0x52ed38,_ZN7ADevice12getUserAgentEPc,skipped,core-platform/include/core-platform/adevice.hpp,JNI user agent; Windows uses Device (device.hpp)
+0x52ee00,_ZN7ADevice13getLineNumberEPc,skipped,core-platform/include/core-platform/adevice.hpp,JNI line number; Windows uses Device (device.hpp)
+0x52ee38,_ZN7ADevice15getOperatorNameEPc,skipped,core-platform/include/core-platform/adevice.hpp,JNI operator name; Windows uses Device (device.hpp)
+0x52ee70,_ZN7ADevice7getIMEIEPc,skipped,core-platform/include/core-platform/adevice.hpp,JNI IMEI; Windows uses Device (device.hpp)
+0x52ed70,_ZN7ADevice11getHostNameEPci,skipped,core-platform/include/core-platform/adevice.hpp,JNI host name with length; Windows uses Device (device.hpp)
+0x52edb8,_ZN7ADevice14getGameVersionEPci,skipped,core-platform/include/core-platform/adevice.hpp,JNI game version with length; Windows uses Device (device.hpp)
+0x52eb88,_ZN7ADevice19CallJNIFuncSendCharEP7_jclassP10_jmethodIDPc,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncSendChar forwards through the JNI env; Windows uses Device (device.hpp)
+0x52eca4,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPci,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncChar forwards through the JNI env; Windows uses Device (device.hpp)
+0x52ebe0,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncChar with two buffers; Windows uses Device (device.hpp)
+0x52eee8,_ZN7ADevice4InitEP7_JNIEnvP7_jclass,skipped,core-platform/include/core-platform/adevice.hpp,JNI initialisation of the Android device; Windows uses Device (device.hpp)
+0x52eea8,_ZN7ADevice11currentTimeEv,partial,core-platform/include/core-platform/adevice.hpp,milliseconds from TimeNow(); the original's high word is not reproduced

@@ -413,4 +413,112 @@ void CNumbersAttribute::setIntArray(std::vector<std::int32_t>& values) {
     for (std::size_t i = 0; i < values.size() && i < count; ++i) setActive(i, values[i]);
 }
 
+// 0x31ddac _ZN6glitch2io17CNumbersAttribute11getVector4dEv
+glitch::core::vector4d<float> CNumbersAttribute::getVector4d() const {
+    return {componentF(0), componentF(1), componentF(2), componentF(3)};
+}
+
+// 0x324f18 _ZN6glitch2io17CNumbersAttribute11setVector4dERKNS_4core8vector4dIfEE
+void CNumbersAttribute::setVector4d(const glitch::core::vector4d<float>& value) {
+    setComponents<float>({value.X, value.Y, value.Z, value.W});
+}
+
+// 0x31e6a4 _ZNK6glitch2io17CNumbersAttribute8getPlaneEv
+glitch::core::plane3d<float> CNumbersAttribute::getPlane() const {
+    return {{componentF(0), componentF(1), componentF(2)}, componentF(3)};
+}
+
+// 0x3256d8 _ZN6glitch2io17CNumbersAttribute8setPlaneENS_4core7plane3dIfEE
+void CNumbersAttribute::setPlane(glitch::core::plane3d<float> value) {
+    setComponents<float>({value.Normal.X, value.Normal.Y, value.Normal.Z, value.D});
+}
+
+// 0x31ea00 _ZNK6glitch2io17CNumbersAttribute9getLine2dEv
+glitch::core::line2d<float> CNumbersAttribute::getLine2d() const {
+    return {{componentF(0), componentF(1)}, {componentF(2), componentF(3)}};
+}
+
+// 0x325a6c _ZN6glitch2io17CNumbersAttribute9setLine2dENS_4core6line2dIfEE
+void CNumbersAttribute::setLine2d(glitch::core::line2d<float> value) {
+    setComponents<float>({value.start.X, value.start.Y, value.end.X, value.end.Y});
+}
+
+// 0x325918 _ZN6glitch2io17CNumbersAttribute9setLine2dENS_4core6line2dIiEE
+void CNumbersAttribute::setLine2d(glitch::core::line2d<std::int32_t> value) {
+    setComponents<std::int32_t>({value.start.X, value.start.Y, value.end.X, value.end.Y});
+}
+
+// 0x31eb54 _ZNK6glitch2io17CNumbersAttribute9getLine3dEv
+glitch::core::line3d<float> CNumbersAttribute::getLine3d() const {
+    return {{componentF(0), componentF(1), componentF(2)}, {componentF(3), componentF(4), componentF(5)}};
+}
+
+// 0x31e7fc _ZNK6glitch2io17CNumbersAttribute7getBBoxEv
+glitch::core::aabbox3d<float> CNumbersAttribute::getBBox() const {
+    return {{componentF(0), componentF(1), componentF(2)}, {componentF(3), componentF(4), componentF(5)}};
+}
+
+// 0x325518 _ZN6glitch2io17CNumbersAttribute14setBoundingBoxENS_4core8aabbox3dIfEE
+void CNumbersAttribute::setBoundingBox(glitch::core::aabbox3d<float> value) {
+    setComponents<float>({value.MinEdge.X, value.MinEdge.Y, value.MinEdge.Z,
+                          value.MaxEdge.X, value.MaxEdge.Y, value.MaxEdge.Z});
+}
+
+// 0x31e3b0 _ZNK6glitch2io17CNumbersAttribute11getTriangleEv
+glitch::core::triangle3d<float> CNumbersAttribute::getTriangle() const {
+    return {{componentF(0), componentF(1), componentF(2)},
+            {componentF(3), componentF(4), componentF(5)},
+            {componentF(6), componentF(7), componentF(8)}};
+}
+
+// 0x3252bc _ZN6glitch2io17CNumbersAttribute12setTriangle3dENS_4core11triangle3dIfEE
+void CNumbersAttribute::setTriangle3d(glitch::core::triangle3d<float> value) {
+    setComponents<float>({value.A.X, value.A.Y, value.A.Z, value.B.X, value.B.Y, value.B.Z,
+                          value.C.X, value.C.Y, value.C.Z});
+}
+
+// 0x31e080 _ZN6glitch2io17CNumbersAttribute8getColorEv
+// Packs the four components (x255 truncated to bytes, as the original does) into one word:
+// byte 0 = component 0, byte 1 = component 1, byte 2 = component 2, byte 3 = component 3.
+glitch::video::SColor CNumbersAttribute::getColor() const {
+    const glitch::video::SColorf c = getColorf();
+    const auto toByte = [](float v) {
+        return static_cast<std::uint32_t>(static_cast<std::uint8_t>(static_cast<std::uint32_t>(v * 255.0f)));
+    };
+    return {toByte(c.r) | (toByte(c.g) << 8) | (toByte(c.b) << 16) | (toByte(c.a) << 24)};
+}
+
+// 0x3249f8 _ZN6glitch2io17CNumbersAttribute8setColorENS_5video6SColorE
+// Int lists take the raw bytes; float lists take byte / 255.
+void CNumbersAttribute::setColor(glitch::video::SColor value) {
+    clearActive();
+    const std::uint32_t c = value.color;
+    const std::uint32_t parts[4] = {c & 0xffu, (c >> 8) & 0xffu, (c >> 16) & 0xffu, c >> 24};
+    for (std::size_t i = 0; i < 4 && i < count; ++i) {
+        if (isFloatList) {
+            setActive(i, static_cast<float>(parts[i]) / 255.0f);
+        } else {
+            setActive(i, static_cast<std::int32_t>(parts[i]));
+        }
+    }
+}
+
+// 0x324b78 _ZN6glitch2io17CNumbersAttribute8setColorENS_5video7SColorfE
+// Int lists take component x255 (truncated); float lists take the components unchanged.
+void CNumbersAttribute::setColor(glitch::video::SColorf value) {
+    clearActive();
+    const float parts[4] = {value.r, value.g, value.b, value.a};
+    for (std::size_t i = 0; i < 4 && i < count; ++i) {
+        setActive(i, isFloatList ? parts[i] : parts[i] * 255.0f);
+    }
+}
+
+// 0x325bc4 _ZN6glitch2io17CNumbersAttribute9setMatrixENS_4core8CMatrix4IfEE
+// Row-major copy of the first count elements. The original also stores a zero byte just past
+// the matrix argument (argument+0x40); that stray store is not reproduced.
+void CNumbersAttribute::setMatrix(const glitch::core::CMatrix4<float>& value) {
+    clearActive();
+    for (std::size_t i = 0; i < 16 && i < count; ++i) setActive(i, value.M[i]);
+}
+
 }  // namespace glitch::io

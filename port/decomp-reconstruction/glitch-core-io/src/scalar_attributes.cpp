@@ -1,5 +1,8 @@
 #include "glitch-core-io/io/scalar_attributes.hpp"
 
+#include <cwchar>
+#include <string>
+
 #include <cinttypes>
 #include <cstdint>
 #include <cstdio>
@@ -161,5 +164,16 @@ CUserPointerAttribute::CUserPointerAttribute(const char* attrName, void* p, bool
     name = attrName;
     flag = f;
 }
+
+}  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x325f30 _ZN6glitch2io14CBoolAttribute10getStringWEv
+std::wstring CBoolAttribute::getStringW() const { return value ? L"true" : L"false"; }
+
+// 0x325fdc _ZN6glitch2io13CIntAttribute10getStringWEv
+// Decimal text, as int2stringw produces it.
+std::wstring CIntAttribute::getStringW() const { return std::to_wstring(value); }
 
 }  // namespace glitch::io

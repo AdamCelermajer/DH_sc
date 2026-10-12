@@ -211,3 +211,45 @@ void CAttributes::setAttribute(const char* name, const glitch::core::CMatrix4<fl
 }
 
 }  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x56a528 _ZN6glitch2io11CAttributes8addColorEPKcNS_5video6SColorEb
+// Each byte of the colour (low byte first) becomes one float, byte / 255.
+void CAttributes::addColor(const char* name, glitch::video::SColor value, bool flag) {
+    const std::uint32_t c = value.color;
+    const float parts[4] = {
+        static_cast<float>(c & 0xffu) * (1.0f / 255.0f),
+        static_cast<float>((c >> 8) & 0xffu) * (1.0f / 255.0f),
+        static_cast<float>((c >> 16) & 0xffu) * (1.0f / 255.0f),
+        static_cast<float>(c >> 24) * (1.0f / 255.0f),
+    };
+    currentAttributes().push_back(new CColorAttribute(name, glitch::video::SColorf{parts[0], parts[1], parts[2], parts[3]}, flag));
+}
+
+// 0x56a3ec _ZN6glitch2io11CAttributes16addStringAsColorEPKcPKwb
+// The listing builds the colour from four zero bytes and never reads the string argument.
+void CAttributes::addStringAsColor(const char* name, const wchar_t* value, bool flag) {
+    (void)value;
+    addColor(name, glitch::video::SColor{0u}, flag);
+}
+
+// 0x56abe8 _ZN6glitch2io11CAttributes12setAttributeEPKcNS_5video6SColorE
+void CAttributes::setAttribute(const char* name, glitch::video::SColor value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setColor(value);
+        return;
+    }
+    addColor(name, value, false);
+}
+
+// 0x56b25c _ZN6glitch2io11CAttributes12setAttributeEPKcNS_5video7SColorfE
+void CAttributes::setAttribute(const char* name, glitch::video::SColorf value) {
+    if (IAttribute* a = getAttributeP(name)) {
+        a->setColor(value);
+        return;
+    }
+    addColorf(name, value, false);
+}
+
+}  // namespace glitch::io

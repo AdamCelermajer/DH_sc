@@ -102,3 +102,13 @@ std::vector<std::wstring> CStringWArrayAttribute::getArray() const { return arra
 void CStringWArrayAttribute::setArray(const std::vector<std::wstring>& value) { array = value; }
 
 }  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x31f2b4 _ZNK6glitch2io15CColorAttribute13getTypeStringEv
+const wchar_t* CColorAttribute::getTypeString() const { return L"color"; }
+
+// 0x560504 _ZNK6glitch2io16CMatrixAttribute13getTypeStringEv
+const wchar_t* CMatrixAttribute::getTypeString() const { return L"matrix"; }
+
+}  // namespace glitch::io

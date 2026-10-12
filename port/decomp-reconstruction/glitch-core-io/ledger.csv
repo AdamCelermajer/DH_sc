@@ -378,3 +378,69 @@ elf_address,symbol,status,source_file,notes
 0x3270d8,_ZN6glitch2io17CNumbersAttribute11getIntArrayEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,CNumbersAttribute::getIntArray: refills int list from converted float list when float list is active
 0x31ee9c,_ZN6glitch2io17CNumbersAttribute13setFloatArrayERSt6vectorIfNS_4core10SAllocatorIfLNS_6memory13E_MEMORY_HINTE0EEEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setFloatArray: clears active list, copies up to count"
 0x324564,_ZN6glitch2io17CNumbersAttribute11setIntArrayERSt6vectorIiNS_4core10SAllocatorIiLNS_6memory13E_MEMORY_HINTE0EEEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setIntArray: clears active list, copies up to count"
+0x31ddac,_ZN6glitch2io17CNumbersAttribute11getVector4dEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getVector4d: components 0..3, zero past count, int lists converted (i2f)"
+0x324f18,_ZN6glitch2io17CNumbersAttribute11setVector4dERKNS_4core8vector4dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setVector4d: clear active list, write up to count (int lists f2iz)"
+0x31e6a4,_ZN6glitch2io17CNumbersAttribute8getPlaneEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getPlane: normal xyz then D, zero past count"
+0x3256d8,_ZN6glitch2io17CNumbersAttribute8setPlaneENS_4core7plane3dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setPlane: normal xyz then D, up to count"
+0x31ea00,_ZN6glitch2io17CNumbersAttribute9getLine2dEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getLine2d: start xy, end xy, zero past count"
+0x325a6c,_ZN6glitch2io17CNumbersAttribute9setLine2dENS_4core6line2dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,CNumbersAttribute::setLine2d(line2d<float>): four floats
+0x325918,_ZN6glitch2io17CNumbersAttribute9setLine2dENS_4core6line2dIiEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setLine2d(line2d<int>): int list stores ints, float list converts (i2f)"
+0x31eb54,_ZN6glitch2io17CNumbersAttribute9getLine3dEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getLine3d: six components, zero past count"
+0x31e7fc,_ZN6glitch2io17CNumbersAttribute7getBBoxEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getBBox: min xyz, max xyz, zero past count"
+0x325518,_ZN6glitch2io17CNumbersAttribute14setBoundingBoxENS_4core8aabbox3dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setBoundingBox: six components, up to count"
+0x31e3b0,_ZN6glitch2io17CNumbersAttribute11getTriangleEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::getTriangle: nine components, zero past count"
+0x3252bc,_ZN6glitch2io17CNumbersAttribute13setTriangle3dENS_4core10triangle3dIfEE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setTriangle3d: nine components, up to count"
+0x31e080,_ZN6glitch2io17CNumbersAttribute8getColorEv,reconstructed,glitch-core-io/src/numbers_attribute.cpp,CNumbersAttribute::getColor: each component x255 truncated to a byte; packed low byte first (ARM confirmed)
+0x3249f8,_ZN6glitch2io17CNumbersAttribute8setColorENS_5video6SColorE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setColor(SColor): int lists take raw bytes, float lists byte/255 (ARM confirmed)"
+0x324b78,_ZN6glitch2io17CNumbersAttribute8setColorENS_5video7SColorfE,reconstructed,glitch-core-io/src/numbers_attribute.cpp,"CNumbersAttribute::setColor(SColorf): int lists take component x255 truncated, float lists unchanged (ARM confirmed)"
+0x325bc4,_ZN6glitch2io17CNumbersAttribute9setMatrixENS_4core8CMatrix4IfEE,partial,glitch-core-io/src/numbers_attribute.cpp,setMatrix: row-major copy up to count; the stray zero byte stored at argument+0x40 in the pseudocode is not reproduced
+0x32675c,_ZN6glitch2io17CNumbersAttributeD1Ev,skipped,glitch-core-io/src/numbers_attribute.cpp,compiler-generated complete destructor (vector members released implicitly)
+0x3267dc,_ZN6glitch2io17CNumbersAttributeD0Ev,skipped,glitch-core-io/src/numbers_attribute.cpp,compiler-generated deleting destructor thunk
+0x3267f8,_ZN6glitch2io17CNumbersAttributeD2Ev,skipped,glitch-core-io/src/numbers_attribute.cpp,compiler-generated base-object destructor
+0x326aa8,_ZN6glitch2io10IAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/attributes.hpp,compiler-generated IAttribute destructor (std::string name released implicitly)
+0x326bf0,_ZN6glitch2io10IAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/attributes.hpp,compiler-generated IAttribute deleting destructor thunk
+0x327554,_ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb.clone.16,skipped,glitch-core-io/src/numbers_attribute.cpp,"GCC .clone of the C2 SColorf constructor (0x565a54); same body, not separately built"
+0x404bbc,_ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb.clone.2,skipped,glitch-core-io/src/numbers_attribute.cpp,"GCC .clone of the C2 SColorf constructor (0x565a54); same body, not separately built"
+0x40e574,_ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_5video7SColorfEb.clone.2,skipped,glitch-core-io/src/numbers_attribute.cpp,"GCC .clone of the C2 SColorf constructor (0x565a54); same body, not separately built"
+0x56085c,_ZN6glitch2io11CAttributes22getAttributeTypeStringEi,partial,glitch-core-io/src/attributes.cpp,"getAttributeTypeString(int): out of range gives L""unknown""; otherwise the virtual type string. IAttribute base default L""unknown"" is assumed"
+0x562388,_ZN6glitch2io11CAttributes22getAttributeTypeStringEPKc,partial,glitch-core-io/src/attributes.cpp,"getAttributeTypeString(name): missing name gives L""unknown""; base IAttribute type string default assumed"
+0x563b74,_ZN6glitch2io11CAttributes12setAttributeEiRKNS_4core8CMatrix4IfEE,reconstructed,glitch-core-io/src/attributes.cpp,"setAttribute(int, CMatrix4): in-range index forwards to the virtual setMatrix"
+0x56a528,_ZN6glitch2io11CAttributes8addColorEPKcNS_5video6SColorEb,reconstructed,glitch-core-io/src/attributes_add.cpp,"addColor(name, SColor, flag): four float components byte/255 in a CColorAttribute (float list)"
+0x56a3ec,_ZN6glitch2io11CAttributes16addStringAsColorEPKcPKwb,partial,glitch-core-io/src/attributes_add.cpp,addStringAsColor: listing builds a zero colour and never reads the string argument
+0x56abe8,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_5video6SColorE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, SColor): existing attribute gets setColor, otherwise addColor with flag false"
+0x56b25c,_ZN6glitch2io11CAttributes12setAttributeEPKcNS_5video7SColorfE,reconstructed,glitch-core-io/src/attributes_add.cpp,"setAttribute(name, SColorf): existing attribute gets setColor, otherwise addColorf with flag false"
+0x326d20,_ZN6glitch2io10IAttribute9setStringEPKw,partial,glitch-core-io/src/attributes.cpp,IAttribute::setString(wchar_t): narrows by truncation (conversion helper not resolved) and calls the virtual char setter
+0x31f2b4,_ZNK6glitch2io15CColorAttribute13getTypeStringEv,reconstructed,glitch-core-io/src/typed_attributes.cpp,"CColorAttribute::getTypeString: L""color"""
+0x560504,_ZNK6glitch2io16CMatrixAttribute13getTypeStringEv,reconstructed,glitch-core-io/src/typed_attributes.cpp,"CMatrixAttribute::getTypeString: L""matrix"""
+0x566848,_ZN6glitch2io16CMatrixAttributeC1EPKcNS_4core8CMatrix4IfEEb,reconstructed,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,"CMatrixAttribute(name, CMatrix4, flag) C1: inline constructor over CNumbersAttribute (16 values)"
+0x325f30,_ZN6glitch2io14CBoolAttribute10getStringWEv,reconstructed,glitch-core-io/src/scalar_attributes.cpp,"CBoolAttribute::getStringW: L""true"" or L""false"""
+0x325fdc,_ZN6glitch2io13CIntAttribute10getStringWEv,reconstructed,glitch-core-io/src/scalar_attributes.cpp,CIntAttribute::getStringW: decimal text of the value (int2stringw assumed decimal)
+0x3265c4,_ZN6glitch2io14CBoolAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CBoolAttribute (no members beyond IAttribute)
+0x326e5c,_ZN6glitch2io14CBoolAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CBoolAttribute (deleting variant)
+0x32665c,_ZN6glitch2io13CIntAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CIntAttribute
+0x327344,_ZN6glitch2io13CIntAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CIntAttribute (deleting variant)
+0x326610,_ZN6glitch2io15CFloatAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CFloatAttribute
+0x327438,_ZN6glitch2io15CFloatAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CFloatAttribute (deleting variant)
+0x564714,_ZN6glitch2io21CUserPointerAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CUserPointerAttribute
+0x564ab8,_ZN6glitch2io21CUserPointerAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/scalar_attributes.hpp,compiler-generated destructor of CUserPointerAttribute (deleting variant)
+0x564c3c,_ZN6glitch2io16CMatrixAttributeD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,compiler-generated destructor of CMatrixAttribute
+0x564e28,_ZN6glitch2io16CMatrixAttributeD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/typed_attributes.hpp,compiler-generated destructor of CMatrixAttribute (deleting variant)
+0x56ed1c,_ZN6glitch2io15CMemoryReadFileC1Ev,reconstructed,glitch-core-io/src/memory_read_file.cpp,"CMemoryReadFile() C1: empty block, position 0, empty name, refcount 1"
+0x56ed8c,_ZN6glitch2io15CMemoryReadFileC2Ev,reconstructed,glitch-core-io/src/memory_read_file.cpp,CMemoryReadFile() C2: same body as C1
+0x56edfc,_ZN6glitch2io15CMemoryReadFile3setEPvlPKc,reconstructed,glitch-core-io/src/memory_read_file.cpp,"set(block, size, name): resets the read position; the owned block is left as it was"
+0x56f150,_ZNK6glitch2io15CMemoryReadFile5cloneEv,reconstructed,glitch-core-io/src/memory_read_file.cpp,"clone(): new file with the same block (shared owner), size, position and name"
+0x56f2ec,_ZN6glitch2io15CMemoryReadFileC1EPvlPKcb,reconstructed,glitch-core-io/src/memory_read_file.cpp,"CMemoryReadFile(block, size, name, takeOwnership) C1; takeOwnership resets the shared owner with the default deleter"
+0x56f3b8,_ZN6glitch2io15CMemoryReadFileC2EPvlPKcb,reconstructed,glitch-core-io/src/memory_read_file.cpp,"CMemoryReadFile(block, size, name, takeOwnership) C2: same body as C1"
+0x56f1b4,_ZN6glitch2io15CMemoryReadFileD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/memory_read_file.hpp,compiler-generated destructor: the shared owner of the block is released implicitly
+0x56f210,_ZN6glitch2io15CMemoryReadFileD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/memory_read_file.hpp,compiler-generated deleting destructor thunk
+0x56f22c,_ZN6glitch2io15CMemoryReadFileD2Ev,skipped,glitch-core-io/include/glitch-core-io/io/memory_read_file.hpp,compiler-generated destructor (base-object variant)
+0x6b4418,_ZN6glitch2io9CFileListC1Ev,reconstructed,glitch-core-io/src/file_list.cpp,"CFileList() C1: refcount 1, empty path and entry vector"
+0x6b4480,_ZN6glitch2io9CFileListC2Ev,reconstructed,glitch-core-io/src/file_list.cpp,CFileList() C2: same body as C1
+0x6b3e78,_ZNK6glitch2io9CFileList12getFileCountEv,reconstructed,glitch-core-io/src/file_list.cpp,getFileCount: entry vector size
+0x6b3ea4,_ZNK6glitch2io9CFileList11getFileNameEj,reconstructed,glitch-core-io/src/file_list.cpp,"getFileName(index): entry name, or null when out of range"
+0x6b3ee4,_ZNK6glitch2io9CFileList11isDirectoryEj,reconstructed,glitch-core-io/src/file_list.cpp,"isDirectory(index): entry flag, false when out of range"
+0x6b4188,_ZN6glitch2io9CFileList9FileEntryC1ERKS2_,reconstructed,glitch-core-io/src/file_list.cpp,"FileEntry copy constructor: name, full name, id and directory flag"
+0x6b404c,_ZN6glitch2io9CFileList9FileEntryaSERKS2_,reconstructed,glitch-core-io/src/file_list.cpp,"FileEntry copy assignment: self-assignment guarded, copies id and directory flag"
+0x6b3f58,_ZN6glitch2io9CFileList9FileEntryD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/file_list.hpp,compiler-generated FileEntry destructor (two std::string members released implicitly)
+0x6b3fe0,_ZN6glitch2io9CFileListD1Ev,skipped,glitch-core-io/include/glitch-core-io/io/file_list.hpp,compiler-generated CFileList destructor (complete object)
+0x6b4030,_ZN6glitch2io9CFileListD0Ev,skipped,glitch-core-io/include/glitch-core-io/io/file_list.hpp,compiler-generated CFileList destructor (base-object variant)

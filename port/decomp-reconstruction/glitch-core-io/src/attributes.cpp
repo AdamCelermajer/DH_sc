@@ -329,3 +329,33 @@ std::wstring CAttributes::getStringW(int index) const {
 }
 
 }  // namespace glitch::io
+
+namespace glitch::io {
+
+// 0x326d20 _ZN6glitch2io10IAttribute9setStringEPKw
+// Narrows the wide string by truncation (as getString does) and forwards it to the
+// virtual char setter.
+void IAttribute::setString(const wchar_t* value) {
+    std::string narrow;
+    for (const wchar_t* p = value; p && *p; ++p) narrow.push_back(static_cast<char>(*p));
+    setString(narrow.c_str());
+}
+
+// 0x56085c _ZN6glitch2io11CAttributes22getAttributeTypeStringEi
+const wchar_t* CAttributes::getAttributeTypeString(int index) const {
+    IAttribute* a = at(currentAttributes(), index);
+    return a ? a->getTypeString() : L"unknown";
+}
+
+// 0x562388 _ZN6glitch2io11CAttributes22getAttributeTypeStringEPKc
+const wchar_t* CAttributes::getAttributeTypeString(const char* name) const {
+    IAttribute* a = getAttributeP(name);
+    return a ? a->getTypeString() : L"unknown";
+}
+
+// 0x563b74 _ZN6glitch2io11CAttributes12setAttributeEiRKNS_4core8CMatrix4IfEE
+void CAttributes::setAttribute(int index, const glitch::core::CMatrix4<float>& value) {
+    if (IAttribute* a = at(currentAttributes(), index)) a->setMatrix(value);
+}
+
+}  // namespace glitch::io

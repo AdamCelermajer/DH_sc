@@ -69,6 +69,8 @@ public:
     virtual void setVector4di(const glitch::core::vector4d<std::int32_t>&) {}  // +0xd4
     virtual void setUserPointer(void*) {}                                 // +0xf4
     virtual void setEnum(const char*, const char* const*) {}              // +0xf8
+    // Type name (L"unknown" here; the base default is not recovered from the binary).
+    virtual const wchar_t* getTypeString() const { return L"unknown"; }  // +0x108
     virtual int getType() const { return 0; }                             // +0x104
     // Base defaults from the original bodies (0x31d690 .. 0x31d7dc).
     virtual glitch::core::quaternion getQuaternion() const { return {0.f, 0.f, 0.f, 1.f}; }  // 0x31d690
@@ -89,7 +91,7 @@ public:
     virtual void setDimension2d(glitch::core::dimension2d<std::int32_t>) {}                 // 0x31d8a8
     virtual void setBBox(glitch::core::aabbox3d<float>) {}                                  // 0x31d8b4
     virtual void setPlane(glitch::core::plane3d<float>) {}                                  // 0x31d8b8
-    virtual void setString(const wchar_t*) {}                                               // +0x94
+    virtual void setString(const wchar_t* value);  // 0x326d20                                               // +0x94
     virtual void setRect(glitch::core::rect<std::int32_t>) {}                               // 0x31d86c
     virtual void setMatrix(const glitch::core::CMatrix4<float>&) {}                         // 0x31d884
 };
@@ -175,6 +177,9 @@ public:
     void setAttribute(int index, const glitch::core::triangle3d<float>& value);    // 0x5615d4
     void setAttribute(int index, const glitch::core::line2d<float>& value);        // 0x5616e4
     void setAttribute(int index, const glitch::core::line3d<float>& value);        // 0x5617e4
+    void setAttribute(int index, const glitch::core::CMatrix4<float>& value);      // 0x563b74
+    const wchar_t* getAttributeTypeString(int index) const;                         // 0x56085c
+    const wchar_t* getAttributeTypeString(const char* name) const;                 // 0x562388
     glitch::video::SColor getColor(int index) const;                           // 0x560954
     glitch::core::quaternion getQuaternion(int index) const;                   // 0x561224
     glitch::core::aabbox3d<float> getBox3d(int index) const;                   // 0x561314
@@ -218,6 +223,8 @@ public:
     void addPlane3d(const char* name, glitch::core::plane3d<float> value, bool flag);                // 0x569998
     void addQuaternion(const char* name, glitch::core::quaternion value, bool flag);                 // 0x569d00
     void addColorf(const char* name, glitch::video::SColorf value, bool flag);                       // 0x56a31c
+    void addColor(const char* name, glitch::video::SColor value, bool flag);                         // 0x56a528
+    void addStringAsColor(const char* name, const wchar_t* value, bool flag);                        // 0x56a3ec
     void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag);         // 0x56a70c
 
     // By name: set the existing attribute, or append a new one with flag false.
@@ -237,6 +244,8 @@ public:
     void setAttribute(const char* name, const glitch::core::plane3d<float>& value);         // 0x56bf4c
     void setAttribute(const char* name, glitch::core::quaternion value);                    // 0x56add0
     void setAttribute(const char* name, const glitch::core::CMatrix4<float>& value);        // 0x56aee4
+    void setAttribute(const char* name, glitch::video::SColor value);                       // 0x56abe8
+    void setAttribute(const char* name, glitch::video::SColorf value);                      // 0x56b25c
 
     // Name lookup in the current group (0x5628f4 .. 0x562374).
     unsigned int findAttribute(const char* name) const;   // 0x5628f4: index, or 0xffffffff
