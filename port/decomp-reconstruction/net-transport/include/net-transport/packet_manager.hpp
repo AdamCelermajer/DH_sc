@@ -41,7 +41,7 @@ public:
     };
 
     CPacketManager();                                             // 0x8162a4 C1, 0x816540 C2 (partial)
-    virtual ~CPacketManager();                                    // 0x816ab8 D1, 0x81704c D2 (partial)
+    virtual ~CPacketManager();                                    // 0x816ab8 D2, 0x81704c D1 (partial)
     CPacketManager(const CPacketManager&) = delete;
     CPacketManager& operator=(const CPacketManager&) = delete;
 
@@ -52,28 +52,28 @@ public:
 
     static int RegisterPacketSlot(PACKET_SLOTS slot, bool (*write)(int, int, NetBitStream&),
                                   void (*read)(int, int, NetBitStream&),
-                                  void (*ack)(int, int), void (*lost)(int, int));  // 0x815258
-    static int UnregisterPacketSlot(PACKET_SLOTS slot);           // 0x8152c0
-    static bool IsPacketSlotUsed(PACKET_SLOTS slot);              // 0x815324
+                                  void (*ack)(int, int), void (*lost)(int, int));  // 0x815258 _ZN14CPacketManager18RegisterPacketSlotE12PACKET_SLOTSPFbiiR12NetBitStreamEPFviiS2_EPFviiES8_
+    static int UnregisterPacketSlot(PACKET_SLOTS slot);           // 0x8152c0 _ZN14CPacketManager20UnregisterPacketSlotE12PACKET_SLOTS
+    static bool IsPacketSlotUsed(PACKET_SLOTS slot);              // 0x815324 _ZN14CPacketManager16IsPacketSlotUsedE12PACKET_SLOTS
 
-    int GetPacketCount() const;                                   // 0x81534c
-    bool ArePacketsAvailable() const;                             // 0x815378
+    int GetPacketCount() const;                                   // 0x81534c _ZN14CPacketManager14GetPacketCountEv
+    bool ArePacketsAvailable() const;                             // 0x815378 _ZN14CPacketManager19ArePacketsAvailableEv
 
     // Sequence arithmetic on 16-bit sequence numbers (wrap-around at 0x8000).
-    static bool SequenceMoreRecent(std::uint32_t a, std::uint32_t b);   // 0x8153a8
-    static int GetSequenceOffset(std::uint32_t a, std::uint32_t b);     // 0x8153e0
+    static bool SequenceMoreRecent(std::uint32_t a, std::uint32_t b);   // 0x8153a8 _ZN14CPacketManager18SequenceMoreRecentEjj
+    static int GetSequenceOffset(std::uint32_t a, std::uint32_t b);     // 0x8153e0 _ZN14CPacketManager17GetSequenceOffsetEjj
 
-    void PrintStatistics() const;                                 // 0x8153fc (empty in the original)
+    void PrintStatistics() const;                                 // 0x8153fc _ZN14CPacketManager15PrintStatisticsEv (empty in the original)
 
     static tPacketMgrHeader ReadHeader(NetBitStream& stream);     // 0x815400
-    static void WriteHeader(const tPacketMgrHeader& header, NetBitStream& stream);  // 0x815474
+    static void WriteHeader(const tPacketMgrHeader& header, NetBitStream& stream);  // 0x815474 _ZN14CPacketManager11WriteHeaderERNS_16tPacketMgrHeaderER12NetBitStream
 
     NetBitStream GetNextPacket();                                 // 0x816c68 (caller checks ArePacketsAvailable)
     int PacketReceiverCallback(int source, char* data, int size); // 0x817c9c
 
     static constexpr int kPacketSlotCount = 8;                    // 8 * 92 bytes = 736 (0x2e0) in the original
 
-    static CPacketManager* s_packetManager;                       // _ZN14CPacketManager16s_packetManagerE
+    static CPacketManager* s_packetManager;                       // _ZN14CPacketManager15s_packetManagerE
     static tPacketSlot s_PacketSlots[kPacketSlotCount];           // _ZN14CPacketManager13s_PacketSlotsE
     static std::uint8_t s_packetSlotBitMap;                       // _ZN14CPacketManager18s_packetSlotBitMapE
 

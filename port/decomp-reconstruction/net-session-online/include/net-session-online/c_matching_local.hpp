@@ -47,6 +47,81 @@ public:
     // 4-byte server id into +0x363c, then posts event 0x80000b carrying it.
     void ProcessChangeServerMessage(std::int32_t from, class NetBitStream& stream);
 
+    // Lifecycle (c_matching_local_lifecycle.cpp). Base CMatching calls are not in this port.
+    // 0x807c70 _ZN14CMatchingLocal10InitializeEi
+    std::int32_t Initialize(std::int32_t arg);
+    // 0x80605c _ZN14CMatchingLocal9TerminateEv
+    std::int32_t Terminate();
+    // 0x806098 _ZN14CMatchingLocal9PingRoomsEv: posts event 0x800010.
+    std::int32_t PingRooms();
+
+    // Rooms (c_matching_local_rooms.cpp). Room flags are set through the NetStruct members in
+    // the original; here they are the plain fields below.
+    // 0x806d64 _ZN14CMatchingLocal8HideRoomEv
+    std::int32_t HideRoom();
+    // 0x806e4c _ZN14CMatchingLocal9CloseRoomEv
+    std::int32_t CloseRoom();
+    // 0x806fc8 _ZN14CMatchingLocal8ShowRoomEv
+    std::int32_t ShowRoom();
+    // 0x8070bc _ZN14CMatchingLocal8OpenRoomEb
+    std::int32_t OpenRoom(bool open);
+    // 0x80795c _ZN14CMatchingLocal9LeaveRoomEv
+    std::int32_t LeaveRoom();
+    // 0x8079d4 _ZN14CMatchingLocal21CreateJoinRoomInternalEbR15CRoomAttributes
+    std::int32_t CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes);
+    // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER16CRoomSearchFilterbh
+    std::int32_t SearchRoomInternal(const CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
+    // 0x808774 _ZN14CMatchingLocal16JoinRoomInternalEy
+    std::int32_t JoinRoomInternal(std::uint64_t key);
+    // 0x808694 _ZN14CMatchingLocal24GetSearchRoomAttributesEy
+    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+
+    // Members (c_matching_local_members.cpp)
+    // 0x805c04 _ZNK14CMatchingLocal14GetMemberCountEv
+    std::int32_t GetMemberCount() const;
+    // 0x805c1c _ZN14CMatchingLocal8IsInRoomEi (partial: see the .cpp)
+    bool IsInRoom(std::int32_t memberId) const;
+    // 0x805d38 _ZN14CMatchingLocal10KickMemberEi
+    std::int32_t KickMember(std::int32_t memberId);
+    // 0x80675c _ZN14CMatchingLocal19GenerateNewMemberIdEv (partial: see the .cpp)
+    std::int32_t GenerateNewMemberId();
+
+    // Servers (c_matching_local_servers.cpp)
+    // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes (partial)
+    std::int32_t AddServer(std::int32_t memberId, const CNetworkId& address, std::int32_t rank,
+                           const CRoomAttributes& attributes);
+    // 0x8072d8 _ZN14CMatchingLocal12RemoveServerER10CNetworkId
+    void RemoveServer(const CNetworkId& address);
+    // 0x8073c4 _ZN14CMatchingLocal12PurgeServersEv
+    std::int32_t PurgeServers();
+    // 0x8097c4 _ZN14CMatchingLocal17ProcessServerMessageER10CNetworkIdR12NetBitStream
+    void ProcessServerMessage(const CNetworkId& from, class NetBitStream& stream);
+    // 0x808538 _ZN14CMatchingLocal13GetMemberNameEi (partial: transport names are stand-ins)
+    std::string GetMemberName(std::int32_t memberId) const;
+
+    // Messages (c_matching_local_messages.cpp)
+    // 0x805d58 _ZN14CMatchingLocal22SendChangeServerMessageEv
+    std::int32_t SendChangeServerMessage();
+    // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: room attributes not written)
+    std::int32_t SendServerResponse(bool flag);
+    // 0x805f2c _ZN14CMatchingLocal17SendClientRequestEv
+    std::int32_t SendClientRequest();
+    // 0x805ee0 _ZN14CMatchingLocal19ProcessClientMessageER10CNetworkIdR12NetBitStream (partial)
+    void ProcessClientMessage(const CNetworkId& from, class NetBitStream& stream);
+    // 0x805fa8 _ZN14CMatchingLocal21PacketReceiverCallbackEiPci
+    void PacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
+    // 0x80601c _ZN14CMatchingLocal22sPacketReceiverCallbackEiPci
+    static void sPacketReceiverCallback(std::int32_t from, char* data, std::uint32_t size);
+    // 0x8098cc _ZN14CMatchingLocal28BroadcastPacketReceiverCallbackER10CNetworkIdPci
+    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size);
+    // 0x80995c _ZN14CMatchingLocal29sBroadcastPacketReceiverCallbackER10CNetworkIdPci
+    static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::uint32_t size);
+    // 0x80890c _ZN14CMatchingLocal6UpdateEv (partial: see update.cpp)
+    std::int32_t Update();
+
+    // The matching object the static callbacks route to (CMatching::s_Matching in the original).
+    static CMatchingLocal* s_Matching;
+
     // Test seams. Not in the original.
     void SetRoomFlagsForTest(bool closed, bool hiddenFlag) {
         roomClosed_ = closed ? 1 : 0;
@@ -60,4 +135,23 @@ private:
     std::int32_t serverMemberId_ = 0;  // +0x363c (name inferred, as in CMatchingGLLive)
     std::uint8_t roomClosed_ = 0;   // +0x4b6d
     std::uint8_t roomHiddenFlag_ = 0;  // +0x4b8d
+
+    // Base-class fields of the original (CMatching). Their writers are not in this port yet.
+    bool initialized_ = false;             // +0x0c (set by the base Initialize)
+    bool hiddenBeforeClose_ = false;       // +0x0d (CloseRoom saves IsRoomHidden() here)
+    bool baseRoomClosed_ = false;          // +0x0e (read by ShowRoom and OpenRoom)
+    std::int32_t joinThreshold_ = 0;       // +0x08 (rank limit used by JoinRoomInternal and ProcessServerMessage)
+
+    bool roomOperationPending_ = false;    // +0x3630
+    std::int32_t nextPeerKey_ = 1;         // +0x3634 (key of the next server entry)
+    std::int32_t memberIdCounter_ = 0;     // +0x4bd8 (value of the member-id counter, see GenerateNewMemberId)
+    std::int32_t serverPollTime_ = 0;      // +0x465c (online clock at the last server poll)
+    CNetMutex serversMutex_;               // +0x463c
+    std::map<std::uint64_t, tMatchingPeer> servers_;  // +0x4644 (the map; its count is at +0x4654)
+    CRoomAttributes roomAttributes_;       // +0x4660
+    CRoomSearchFilter roomSearchFilter_;   // +0x49f8
+
+    // Vtable slot +0x58 of ProcessClientMessage. Not named in the vtable dump; the port
+    // treats the request as not accepted (see c_matching_local_messages.cpp).
+    bool ClientRequestAccepted(const CNetworkId& from) const;
 };

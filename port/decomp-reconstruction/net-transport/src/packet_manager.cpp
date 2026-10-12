@@ -12,7 +12,7 @@ CPacketManager::CPacketManager() {
     initialized_ = true;
 }
 
-// 0x816ab8 _ZN14CPacketManagerD1Ev, 0x81704c _ZN14CPacketManagerD2Ev
+// 0x816ab8 _ZN14CPacketManagerD2Ev, 0x81704c _ZN14CPacketManagerD1Ev
 // Partial: releases the queue. The original also unregisters packet type 6 and tears down the
 // CNetworkEmulation and CDataStats members, which this port does not have yet.
 CPacketManager::~CPacketManager() {
@@ -51,7 +51,7 @@ int CPacketManager::Terminate() {
     return 0;
 }
 
-// 0x815258 _ZN14CPacketManager16RegisterPacketSlotE12PACKET_SLOTSPFbiiR12NetBitStreamEPFviiS2_EPFviiEPFviiE
+// 0x815258 _ZN14CPacketManager18RegisterPacketSlotE12PACKET_SLOTSPFbiiR12NetBitStreamEPFviiS2_EPFviiES8_
 // A slot that is already in use is left unchanged, as in the original.
 int CPacketManager::RegisterPacketSlot(PACKET_SLOTS slot, bool (*write)(int, int, NetBitStream&),
                                        void (*read)(int, int, NetBitStream&),
@@ -68,29 +68,29 @@ int CPacketManager::RegisterPacketSlot(PACKET_SLOTS slot, bool (*write)(int, int
     return 0;
 }
 
-// 0x8152c0 _ZN14CPacketManager18UnregisterPacketSlotE12PACKET_SLOTS
+// 0x8152c0 _ZN14CPacketManager20UnregisterPacketSlotE12PACKET_SLOTS
 int CPacketManager::UnregisterPacketSlot(PACKET_SLOTS slot) {
     s_PacketSlots[slot] = tPacketSlot{};
     s_packetSlotBitMap = static_cast<std::uint8_t>(s_packetSlotBitMap & ~(1u << slot));
     return s_packetSlotBitMap;
 }
 
-// 0x815324 _ZN14CPacketManager15IsPacketSlotUsedE12PACKET_SLOTS
+// 0x815324 _ZN14CPacketManager16IsPacketSlotUsedE12PACKET_SLOTS
 bool CPacketManager::IsPacketSlotUsed(PACKET_SLOTS slot) {
     return s_PacketSlots[slot].used;
 }
 
-// 0x81534c _ZNK14CPacketManager14GetPacketCountEv
+// 0x81534c _ZN14CPacketManager14GetPacketCountEv
 int CPacketManager::GetPacketCount() const {
     return static_cast<int>(packets_.size());
 }
 
-// 0x815378 _ZNK14CPacketManager19ArePacketsAvailableEv
+// 0x815378 _ZN14CPacketManager19ArePacketsAvailableEv
 bool CPacketManager::ArePacketsAvailable() const {
     return !packets_.empty();
 }
 
-// 0x8153a8 _ZN14CPacketManager16SequenceMoreRecentEjj
+// 0x8153a8 _ZN14CPacketManager18SequenceMoreRecentEjj
 // The original compares its first argument (passed as `this`) with the second; the third
 // argument is unused.
 bool CPacketManager::SequenceMoreRecent(std::uint32_t a, std::uint32_t b) {
@@ -117,7 +117,7 @@ int CPacketManager::GetSequenceOffset(std::uint32_t a, std::uint32_t b) {
     return result;
 }
 
-// 0x8153fc _ZNK14CPacketManager15PrintStatisticsEv
+// 0x8153fc _ZN14CPacketManager15PrintStatisticsEv
 void CPacketManager::PrintStatistics() const {}
 
 // 0x815400 _ZN14CPacketManager10ReadHeaderER12NetBitStream
@@ -132,7 +132,7 @@ CPacketManager::tPacketMgrHeader CPacketManager::ReadHeader(NetBitStream& stream
     return header;
 }
 
-// 0x815474 _ZN14CPacketManager11WriteHeaderERNS_17tPacketMgrHeaderER12NetBitStream
+// 0x815474 _ZN14CPacketManager11WriteHeaderERNS_16tPacketMgrHeaderER12NetBitStream
 void CPacketManager::WriteHeader(const tPacketMgrHeader& header, NetBitStream& stream) {
     stream.WriteU32(header.sequence, 16);
     stream.WriteU32(header.ack, 16);

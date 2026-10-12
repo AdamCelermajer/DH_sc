@@ -41,6 +41,16 @@ public:
     // The post body length when sending by POST, otherwise the length of the inline text.
     std::uint32_t GetRequestLength() const;
 
+    // 0x89d3c0 _ZN13LCXPlayerHttp13UpdateRequestEv: runs one receive step of the socket.
+    void UpdateRequest();
+    // 0x89d3dc _ZN13LCXPlayerHttp12IsInProgressEv: the socket's IsInProgress (0 without a socket).
+    bool IsInProgress() const;
+    // 0x89d3f8 _ZN13LCXPlayerHttp15IsErrorOccurredEv: the socket's IsErrorOccurred (false without a socket).
+    bool IsErrorOccurred() const;
+    // 0x89d42c _ZN13LCXPlayerHttp6CancelEv: cancels the socket, then frees the post body and
+    // the response and clears the response length. The original leaves the pointers set.
+    void Cancel();
+
     // 0x89d4a0 _ZN13LCXPlayerHttp15SetResponseDataEPci
     // Copies size bytes into a new owned buffer and terminates it. size is assumed >= 0.
     void SetResponseData(const char* data, std::int32_t size);
@@ -66,6 +76,7 @@ public:
     void SetRequestForTest(const char* text);
     void SetPostForTest(const char* body, std::int32_t length, bool byPost);
     void SetResponseForTest(const char* text);
+    void SetSocketForTest(LCXPlayerSocket* socket) { socket_ = socket; }
 
 private:
     LCXPlayerSocket* socket_ = nullptr;                   // +0x04
