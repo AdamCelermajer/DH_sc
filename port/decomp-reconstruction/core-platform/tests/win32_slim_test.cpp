@@ -1,6 +1,7 @@
 #include "core-platform/accelerometer.hpp"
 #include "core-platform/filesystem_win32.hpp"
 #include "core-platform/slim_text.hpp"
+#include "core-platform/slim_xml.hpp"
 #include "core-platform/touch_screen_base.hpp"
 #include "core-platform/touch_screen_win32.hpp"
 

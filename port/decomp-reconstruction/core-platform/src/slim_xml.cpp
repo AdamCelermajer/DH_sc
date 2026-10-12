@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 namespace slim {
@@ -123,9 +124,10 @@ XmlNode* XmlNode::findNextChild(const char* name, ChildIterator& it) const {
 }
 
 // 0x845268 slim::XmlNode::writeNode(slim::String&, int) const
-// Partial: the listing's string literals (the tag punctuation and the newline)
-// are not recoverable; plain ASCII tags are used. Attributes are written as
-// name="value" in the usual order.
+// Partial: the listing's string literals (the tag punctuation and line ends) are
+// not all recoverable. The layout used here is one node per line with tab indent
+// per depth, attributes as name="value", and "/>" for an empty element. Only the
+// first attribute is visible in the listing; the rest are written the same way.
 void XmlNode::writeNode(std::string& out, int depth) const {
     if (depth < 0) {
         writeChildNodes(out, depth);
@@ -135,7 +137,7 @@ void XmlNode::writeNode(std::string& out, int depth) const {
     if (type_ == kComment) {
         out += "<!--";
         out += name_;
-        out += "-->";
+        out += "-->\n";
         return;
     }
     out += '<';
@@ -148,7 +150,7 @@ void XmlNode::writeNode(std::string& out, int depth) const {
         out += '"';
     }
     if (children_.empty() && value_.empty()) {
-        out += "/>";
+        out += "/>\n";
         return;
     }
     out += '>';
@@ -161,7 +163,7 @@ void XmlNode::writeNode(std::string& out, int depth) const {
     }
     out += "</";
     out += name_;
-    out += '>';
+    out += ">\n";
 }
 
 // 0x845518 slim::XmlNode::writeChildNodes(slim::String&, int) const
@@ -173,6 +175,14 @@ void XmlNode::writeChildNodes(std::string& out, int depth) const {
 
 // 0x8449c4 / 0x8449e0 slim::XmlDocument::XmlDocument()
 XmlDocument::XmlDocument() : XmlNode(kDocument, nullptr) {}
+
+// 0x844180 slim::XmlDocument::loadFromStream
+// The stream loader is unsupported in the original and reports failure.
+bool XmlDocument::loadFromStream() { return false; }
+
+// 0x844188 slim::XmlDocument::save(char const*, slim::Encode) const
+// Also unsupported in the original; reports success without writing.
+bool XmlDocument::save(const char*) const { return true; }
 
 // 0x844574 slim::XmlDocument::loadFromFile(char const*)
 // The original does not load files: a non-null name returns false, and a null
@@ -206,19 +216,20 @@ bool XmlDocument::loadFromMemory(const char* data, unsigned length) {
 }
 
 // 0x844464 slim::XmlDocument::findLabel(char const*&, unsigned int, char const*&, unsigned int&)
-// Finds the next '<'. A comment runs to its "-->"; any other label runs to its '>'.
-// Sets labelStart to the character after '<' and labelLen to the label's length,
-// and moves the cursor past the label.
+// Finds the next '<'. A comment runs to its first "-->" after the "<!--"; any other
+// label runs to its '>'. Sets labelStart to the character after '<' and labelLen to
+// the label's length, and moves the cursor past the label.
 bool XmlDocument::findLabel(const char*& cursor, std::size_t length, const char*& labelStart,
                             unsigned& labelLen) {
+    const char* const limit = cursor + length;
     const void* lt = std::memchr(cursor, '<', length);
     if (lt == nullptr) {
         return false;
     }
     const char* s = static_cast<const char*>(lt) + 1;
     labelStart = s;
-    std::size_t rest = static_cast<std::size_t>(cursor + length - s);
-    const bool isComment = rest >= 7 && s[0] == '!' && s[1] == '-' && s[2] == '-';
+    const std::size_t rest = static_cast<std::size_t>(limit - s);
+    const bool isComment = rest >= 3 && s[0] == '!' && s[1] == '-' && s[2] == '-';
     if (!isComment) {
         const void* gt = std::memchr(s, '>', rest);
         if (gt == nullptr) {
@@ -229,90 +240,58 @@ bool XmlDocument::findLabel(const char*& cursor, std::size_t length, const char*
         cursor = end + 1;
         return labelLen != 0;
     }
-    rest -= 5;
-    const char* p = s + 4;
-    while (const void* dash = std::memchr(p, '-', rest)) {
-        const char* d = static_cast<const char*>(dash);
-        if (d[1] == '-' && d[2] == '>') {
+    // The closing "-->" may start right after the "<!--", so the search begins at s + 3.
+    for (const char* d = s + 3; d + 3 <= limit; ++d) {
+        if (d[0] == '-' && d[1] == '-' && d[2] == '>') {
             labelLen = static_cast<unsigned>((d + 2) - s);
             cursor = d + 3;
             return true;
         }
-        rest = rest - static_cast<std::size_t>(d - p) - 1;
-        p = d + 1;
     }
     return false;
 }
 
 // 0x844db8 slim::XmlDocument::parseLabel(slim::XmlNode*, char const*, unsigned int)
-// Partial: the listing's two-argument string assignments for the attribute value
-// are read as the range from the opening to the closing quote.
+// The label is the text between '<' and '>'. The element name runs to the first
+// '/', space or '>'. Attributes follow as name="value" pairs, each value running
+// between its two double quotes. Partial: the listing's two-argument string
+// assignments for the attribute value are read as that quoted range, and a
+// malformed attribute stops the scan without storing the rest.
 void XmlDocument::parseLabel(XmlNode* node, const char* label, unsigned length) {
-    const char* end = label + length;
+    const char* const end = label + length;
     const char* p = label;
-    if (*p == '/' || *p == ' ' || *p == '>') {
-        node->name_.clear();
-    } else {
-        while (true) {
+    while (p < end && *p != '/' && *p != ' ' && *p != '>') {
+        ++p;
+    }
+    node->name_.assign(label, static_cast<std::size_t>(p - label));
+
+    for (;;) {
+        while (p < end && *p == ' ') {
             ++p;
-            if (*p == '/' || *p == ' ' || *p == '>') {
-                break;
-            }
-            if (*p == '\0' && p >= end) {
-                break;
-            }
         }
-        node->name_.assign(label, p);
-    }
-    if (*p != ' ') {
-        return;
-    }
-    char c = ' ';
-    p = p;  // the attribute scan starts at the space that ended the name
-    const char* scan = p;
-    if (scan >= end) {
-        return;
-    }
-    do {
-        while (c == ' ') {
-            ++scan;
-            c = *scan;
+        if (p >= end || *p == '=' || *p == '/' || *p == '>') {
+            return;
         }
-        const char* nameStart = scan;
-        std::size_t nameLen = 0;
-        if (c != '=' && c != '/' && c != '>') {
-            const char* q = scan;
-            do {
-                ++q;
-                const char d = *q;
-                if (d == '=' || d == ' ' || d == '/') {
-                    break;
-                }
-            } while (*q != '>');
-            nameLen = static_cast<std::size_t>(q - scan);
-            const void* open = std::memchr(q, '"', static_cast<std::size_t>(end - q));
-            if (open == nullptr) {
-                return;
-            }
-            const char* valueStart = static_cast<const char*>(open) + 1;
-            const void* close = std::memchr(valueStart, '"', static_cast<std::size_t>(end - valueStart));
-            if (close == nullptr) {
-                return;
-            }
-            const char* valueEnd = static_cast<const char*>(close);
-            XmlAttribute* attribute = node->addAttribute(nullptr, nullptr);
-            attribute->name.assign(nameStart, nameLen);
-            attribute->value.assign(valueStart, static_cast<std::size_t>(valueEnd - valueStart));
-            scan = valueEnd + 1;
-            if (scan >= end) {
-                return;
-            }
-            c = *scan;
-            continue;
+        const char* nameStart = p;
+        while (p < end && *p != '=' && *p != ' ' && *p != '/' && *p != '>') {
+            ++p;
         }
-        // A name with no value (or a stray '=' or '/'): nothing to store.
-        return;
-    } while (scan < end);
+        const char* nameEnd = p;
+        const void* open = std::memchr(p, '"', static_cast<std::size_t>(end - p));
+        if (open == nullptr) {
+            return;
+        }
+        const char* valueStart = static_cast<const char*>(open) + 1;
+        const void* close = std::memchr(valueStart, '"', static_cast<std::size_t>(end - valueStart));
+        if (close == nullptr) {
+            return;
+        }
+        const char* valueEnd = static_cast<const char*>(close);
+        XmlAttribute* attribute = node->addAttribute(nullptr, nullptr);
+        attribute->name.assign(nameStart, static_cast<std::size_t>(nameEnd - nameStart));
+        attribute->value.assign(valueStart, static_cast<std::size_t>(valueEnd - valueStart));
+        p = valueEnd + 1;
+    }
 }
 
 // 0x844fdc slim::XmlDocument::parse(char const*, unsigned int)
@@ -361,10 +340,7 @@ bool XmlDocument::parse(const char* data, unsigned length) {
             current = element;
         }
     }
-    if (open != 0) {
-        return false;
-    }
-    return true;
+    return open == 0;
 }
 
 }  // namespace slim

@@ -131,6 +131,11 @@ ITriangleSelector* ISceneNode::getTriangleSelector() const {
     return triangleSelector;
 }
 
+// 0x59719c _ZN6glitch5scene10ISceneNode19setAutomaticCullingENS0_14E_CULLING_TYPEE
+void ISceneNode::setAutomaticCulling(std::uint32_t culling) {
+    automaticCulling = culling;
+}
+
 // 0x597298 _ZNK6glitch5scene10ISceneNode7getTypeEv
 // 0x6e6b6e75 is the four-character code "unkn" in the original.
 std::uint32_t ISceneNode::getType() const {

@@ -349,3 +349,26 @@ elf_address,symbol,status,source_file,notes
 0x42d734,_Z17FlushTextCallbackRN7gameswf12render_stateEPv,skipped,core-platform/src/misc_util.cpp,gameswf text flush; the root object belongs to the gameswf category
 0x7a8cd8,_Z38sprite_can_handle_mouse_event_callbackPN7gameswf9characterE,skipped,core-platform/src/misc_util.cpp,gameswf character mouse handling; depends on the gameswf character type
 0x8212d0,_ZL15PrintDatapacketP10DataPacket,skipped,core-platform/src/misc_util.cpp,forwards to DataPacket virtuals of the net-transport category
+0x844464,_ZN4slim11XmlDocument9findLabelERPKcjS3_Rj,reconstructed,core-platform/src/slim_xml.cpp,"findLabel; the comment ""-->"" search is bounded to the buffer"
+0x844574,_ZN4slim11XmlDocument12loadFromFileEPKc,reconstructed,core-platform/src/slim_xml.cpp,original does not load files; null name asserts and aborts
+0x8445bc,_ZNK4slim7XmlNode13findAttributeEPKc,reconstructed,core-platform/src/slim_xml.cpp,
+0x844660,_ZNK4slim7XmlNode13findNextChildEPKcRNSt4priv14_List_iteratorIPS0_St13_Const_traitsIS5_EEE,reconstructed,core-platform/src/slim_xml.cpp,steps past the iterator before comparing
+0x84473c,_ZNK4slim7XmlNode14findFirstChildEPKcRNSt4priv14_List_iteratorIPS0_St13_Const_traitsIS5_EEE,reconstructed,core-platform/src/slim_xml.cpp,
+0x844828,_ZNK4slim7XmlNode9findChildEPKc,reconstructed,core-platform/src/slim_xml.cpp,
+0x844908,_ZN4slim7XmlBaseC2Ev,reconstructed,core-platform/src/slim_xml.cpp,
+0x84494c,_ZN4slim7XmlNodeC1ENS_8NodeTypeEPS0_,reconstructed,core-platform/src/slim_xml.cpp,
+0x844988,_ZN4slim7XmlNodeC2ENS_8NodeTypeEPS0_,reconstructed,core-platform/src/slim_xml.cpp,same body as the C1 constructor
+0x8449c4,_ZN4slim11XmlDocumentC1Ev,reconstructed,core-platform/src/slim_xml.cpp,
+0x8449e0,_ZN4slim11XmlDocumentC2Ev,reconstructed,core-platform/src/slim_xml.cpp,same body as the C1 constructor
+0x8449fc,_ZN4slim7XmlNode14clearAttributeEv,reconstructed,core-platform/src/slim_xml.cpp,
+0x844acc,_ZN4slim7XmlBaseD2Ev,reconstructed,core-platform/src/slim_xml.cpp,
+0x844b44,_ZN4slim7XmlNodeD1Ev,reconstructed,core-platform/src/slim_xml.cpp,
+0x844bd8,_ZN4slim7XmlNode10clearChildEv,reconstructed,core-platform/src/slim_xml.cpp,
+0x844c8c,_ZN4slim7XmlNodeD2Ev,reconstructed,core-platform/src/slim_xml.cpp,same body as the D1 destructor
+0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,partial,core-platform/src/slim_xml.cpp,listing shows only the 0x30-byte allocation; list insertion and name/value stores inferred
+0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,partial,core-platform/src/slim_xml.cpp,attribute value read as the range between its two quotes; malformed attributes stop the scan
+0x844f44,_ZN4slim7XmlNode8addChildEPKcNS_8NodeTypeE,reconstructed,core-platform/src/slim_xml.cpp,other node types return null as in the original
+0x844fdc,_ZN4slim11XmlDocument5parseEPKcj,partial,core-platform/src/slim_xml.cpp,closing tag names are not compared; text rule and open-depth check taken from the listing
+0x8451dc,_ZN4slim11XmlDocument14loadFromMemoryEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"clears children, rejects UTF-16 and UTF-8 byte-order marks, length 2 or less"
+0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,string punctuation not all recoverable; only the first attribute is visible in the listing
+0x845518,_ZNK4slim7XmlNode15writeChildNodesERSsi,reconstructed,core-platform/src/slim_xml.cpp,

@@ -96,10 +96,4 @@ bool detectUtf8(const char* src, unsigned len) {
     return true;
 }
 
-// 0x844180 slim::XmlDocument::loadFromStream
-bool XmlDocument::loadFromStream() { return false; }
-
-// 0x844188 slim::XmlDocument::save(char const*, slim::Encode) const
-bool XmlDocument::save(const char*) const { return true; }
-
 }  // namespace slim

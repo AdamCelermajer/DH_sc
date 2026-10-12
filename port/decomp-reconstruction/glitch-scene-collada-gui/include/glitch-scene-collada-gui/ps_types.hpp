@@ -6,27 +6,36 @@
 
 namespace glitch::ps {
 
-// Emitter distribution shapes; the type tag is the shape index.
+// Emitter distribution shapes; the type tag is the shape index. The shapes are
+// stand-ins without the PDomain base, so each destructor is its own empty body.
 class PDPoint {
 public:
+    // 0x69ac90 _ZN6glitch2ps7PDPointD1Ev (empty)
+    ~PDPoint() = default;
     // 0x69ac94 _ZNK6glitch2ps7PDPoint7getTypeEv (returns 3)
     std::uint32_t getType() const;
 };
 
 class PDLine {
 public:
+    // 0x69ac9c _ZN6glitch2ps6PDLineD1Ev (empty)
+    ~PDLine() = default;
     // 0x69aca0 _ZNK6glitch2ps6PDLine7getTypeEv (returns 4)
     std::uint32_t getType() const;
 };
 
 class PDBox {
 public:
+    // 0x69aca8 _ZN6glitch2ps5PDBoxD1Ev (empty)
+    ~PDBox() = default;
     // 0x69acac _ZNK6glitch2ps5PDBox7getTypeEv (returns 0)
     std::uint32_t getType() const;
 };
 
 class PDCylinder {
 public:
+    // 0x69acb4 _ZN6glitch2ps10PDCylinderD1Ev (empty)
+    ~PDCylinder() = default;
     // 0x69acb8 _ZNK6glitch2ps10PDCylinder7getTypeEv (returns 2)
     std::uint32_t getType() const;
 };
@@ -35,7 +44,9 @@ public:
 template <typename Particle>
 class IParticleSystem {
 public:
-    // getWorldMatrixPtr: returns the pointer stored at +0x0c.
+    // 0x637bcc _ZNK6glitch2ps15IParticleSystemINS0_12GNPSParticleEE17getWorldMatrixPtrEv
+    // 0x64bbc8 _ZNK6glitch2ps15IParticleSystemINS0_9SParticleEE17getWorldMatrixPtrEv
+    // Returns the pointer stored at +0x0c, for both particle types.
     const float* getWorldMatrixPtr() const { return worldMatrixPtr; }
 
     const float* worldMatrixPtr = nullptr;  // +0x0c

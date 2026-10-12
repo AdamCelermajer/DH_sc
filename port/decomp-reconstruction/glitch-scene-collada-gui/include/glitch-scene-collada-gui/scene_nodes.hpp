@@ -78,7 +78,7 @@ public:
 
 class CLightSceneNode {
 public:
-    // 0x583bec _ZNK6glitch5scene15CLightSceneNode7getTypeEv (tag "ligh")
+    // 0x583bec _ZNK6glitch5scene15CLightSceneNode7getTypeEv (tag "lght")
     std::uint32_t getType() const;
 };
 
@@ -90,7 +90,7 @@ public:
 
 class CSceneManagerRootNode {
 public:
-    // 0x588fdc _ZNK6glitch5scene21CSceneManagerRootNode7getTypeEv (tag "smrg")
+    // 0x588fdc _ZNK6glitch5scene21CSceneManagerRootNode7getTypeEv (tag "smgr")
     std::uint32_t getType() const;
 };
 
@@ -144,7 +144,7 @@ public:
 
 class CBatchSceneNode {
 public:
-    // 0x50cd2c _ZNK6glitch5scene15CBatchSceneNode7getTypeEv (tag "batc")
+    // 0x50cd2c _ZNK6glitch5scene15CBatchSceneNode7getTypeEv (tag "basn")
     std::uint32_t getType() const;
     // 0x50cd38 _ZN6glitch5scene15CBatchSceneNode20preRegisterSceneNodeEv (empty)
     void preRegisterSceneNode();
