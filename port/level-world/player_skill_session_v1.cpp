@@ -1,9 +1,12 @@
 #include "player_skill_session_v1.hpp"
+#include "script_object_methods_v1.hpp"
 #include "../adam-script-runtime/script_function_alias.h"
 #include "../lua-numeric/numeric.h"
 #include <cstdio>
 #include <cstring>
+#include <set>
 #include <stdexcept>
+#include <string>
 
 namespace dh2::player_skill_session_v1 {
 namespace prep=character_player_skills_preparation_v3;
@@ -15,14 +18,39 @@ bool span(const void* p,std::size_t n,std::size_t a){auto v=reinterpret_cast<std
 bool overlap(const void* p,std::size_t n,const void* q,std::size_t m){auto a=reinterpret_cast<std::uintptr_t>(p),b=reinterpret_cast<std::uintptr_t>(q);return a<=b?b-a<n:a-b<m;}
 void number(dh2_script_value& v,float n){v={};v.type=DH2_SCRIPT_NUMBER;v.number=n;}
 int discard(void*,const dh2_script_first_return_v1*,char*,std::size_t){return 0;}
+// Both transports hand the callback the same method-bearing GameObject tables
+// (`__dh2_player_object`, installed by bind_character) that GetSelf and
+// GetTargetListTop return, so `attacker:GetID()` resolves in a stolen
+// OnTargetHit handler exactly like `target:PlayFX(...)` in a spell script.
 constexpr char combat_identity_transport[] = R"lua(
 function __dh2_player_combat(callback_name, attacker, defender)
-    return _G[callback_name]({_this = attacker}, {_this = defender})
+    return _G[callback_name](__dh2_player_object(attacker), __dh2_player_object(defender))
 end
 )lua";
 constexpr char projectile_identity_transport[] = R"lua(
 function __dh2_player_projectile_delayed(callback_name, target, skill_script)
-    return _G[callback_name]({_this = target}, skill_script)
+    return _G[callback_name](__dh2_player_object(target), skill_script)
+end
+)lua";
+// Player-VM tail of the shared GameObject table convention. The two functions
+// below are the Player-visible natives that return a GameObject UserData in the
+// original (GameObject::_GetSelf pushUserData(this); GameObject::_GetTargetListTop
+// pushUserData(top) followed by distance, angle, IsCharacter and the extra
+// word, or pushPointer(nullptr) for an empty list).
+constexpr char player_object_functions[] = R"lua(
+__dh2_player_object = __dh2_object
+local __dh2_native_GetSelf = GetSelf
+function GetSelf()
+    local identity = __dh2_native_GetSelf()
+    if identity == nil then return nil end
+    return __dh2_object(identity)
+end
+local __dh2_native_GetTargetListTop = GetTargetListTop
+function GetTargetListTop(...)
+    local identity, distance, angle, is_character, extra = __dh2_native_GetTargetListTop(...)
+    -- An empty list returns the null Pointer alone.
+    if distance == nil then return identity end
+    return __dh2_object(identity), distance, angle, is_character, extra
 end
 )lua";
 int discard_returns(void*,const dh2_script_first_return_v1*,std::uint32_t,
@@ -75,14 +103,18 @@ struct Session::Impl {
             if(!s.config.providers.native)return s.failure(text,size,b.request.name);
             int status=s.config.providers.native(s.config.providers.context,b.request,args,count,out,capacity,returned,text,size);
             if(status==DH2_SCRIPT_REQUIRED_SERVICE_FAILURE){++s.stats.required_failures;return status;}
-            if(status<0)return s.failure(text,size,b.request.name);
+            if(status<0) {
+                // Keep a reason the provider already wrote; fall back to the native's name.
+                if(text && size && text[0]){++s.stats.required_failures;return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;}
+                return s.failure(text,size,b.request.name);
+            }
             return status;
         }catch(...){return s.failure(text,size,"native player provider exception");}
     }
-    int bind(NativeRequest request) {
+    int bind(NativeRequest request,const char* global_name=nullptr) {
         auto b=std::make_unique<Binding>();b->self=this;b->request=request;
         auto* live=b.get();bindings.push_back(std::move(b));
-        return dh2_script_vm_bind_source_values(vm.get(),request.name,native,live);
+        return dh2_script_vm_bind_source_values(vm.get(),global_name?global_name:request.name,native,live);
     }
     static int open_library(void* p,std::uintptr_t id,ais_native_bindings::Library l) {
         auto& s=*static_cast<Impl*>(p);if(id!=reinterpret_cast<std::uintptr_t>(s.vm.get()))return -1;
@@ -99,13 +131,29 @@ struct Session::Impl {
         return ais_native_bindings::bind_all(&state,&services,&result)==ais_native_bindings::Status::complete?0:-1;
     }
     int bind_character() {
+        // Source Kind::method rows. `GetID` keeps the shared prelude's
+        // `self._this` (the method is the receiver's own Pointer); every other
+        // row becomes a hidden native installed into the object method table.
+        std::set<std::string> methods;
         for(int group=0;group<2;++group) {
             std::size_t count=0;auto* table=group?character_native_bindings::character_own_bindings(&count):character_native_bindings::game_object_bindings(&count);
             for(std::size_t i=0;i<count;++i)if(table[i].kind==character_native_bindings::Kind::function) {
                 auto userdata=table[i].context==character_native_bindings::Context::character?config.character:0;
                 if(bind({Domain::character,table[i].name,{},table[i].function,config.character,userdata}))return -1;
                 ++stats.character_function_bindings;
+            } else if(std::strcmp(table[i].name,"GetID")!=0 && methods.insert(table[i].name).second) {
+                const std::string global=std::string("__dh2_method_")+table[i].name;
+                if(bind({Domain::character,table[i].name,{},table[i].function,config.character,0,true},global.c_str()))return -1;
+                ++stats.method_bindings;
             }
+        }
+        std::string chunk(DH2_SCRIPT_OBJECT_METHODS_PRELUDE_V1);
+        for(const auto& name:methods)chunk+="__dh2_object_methods."+name+" = __dh2_method_"+name+"\n";
+        chunk+=player_object_functions;
+        if(dh2_script_vm_load(vm.get(),chunk.data(),chunk.size(),"player-gameobject-method-table")){
+            error=dh2_script_vm_error(vm.get());
+            if(error.empty())error="Player GameObject method table load failed";
+            return -1;
         }
         return 0;
     }

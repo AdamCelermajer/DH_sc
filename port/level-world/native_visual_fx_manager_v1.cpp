@@ -127,6 +127,10 @@ struct Owner::SetData {
     std::array<float, 3> position{};
     std::array<float, 3> origin{};
     void* source_game_object{};
+    // PlayAnimFX's GameObject argument (AnimatedFX+0x28) for the attached
+    // overload; null for the Point3D overload.
+    void* target_character{};
+    void* target_object{};
     SetData* parent{};
     bool end_of_loop_pending{};
     bool completed{};
@@ -374,6 +378,35 @@ Status Owner::PlayAnimFXSetByName(std::string_view source_name,
     if (it == catalog_->sequences.end()) return Status::ok; // source lookup miss: no-op
     return PlayAnimFXSet(static_cast<std::int32_t>(it->row), position,
                          source_game_object, matched, launched, error);
+}
+
+Status Owner::PlayAnimFXSetAttached(std::int32_t id, void* source_game_object,
+                                    void* target_character, void* target_object,
+                                    bool& matched, bool& launched,
+                                    std::string& error) {
+    error.clear();
+    matched = false;
+    launched = false;
+    if (!catalog_) {
+        error = "VisualFXManager cannot play a source set without its catalog";
+        return Status::catalog_missing;
+    }
+    if ((target_character != nullptr) == (target_object != nullptr)) {
+        error = "PlayAnimFXSet attach requires exactly one bound GameObject projection";
+        return Status::invalid_request;
+    }
+    if (!sequence(id)) return Status::ok; // source integer overload returns unchanged
+    matched = true;
+    static constexpr std::array<float, 3> source_origin{};
+    try {
+        // GameObject overload: PlayAnimFXSet(id, Vec3f_Origin, object, data).
+        return begin_anim_fx_set(id, source_origin, source_origin,
+                                 source_game_object, nullptr, 0, launched,
+                                 error, target_character, target_object);
+    } catch (const std::bad_alloc&) {
+        error = "PlayAnimFXSet source data allocation failed";
+        return Status::allocation_failed;
+    }
 }
 
 Status Owner::PlayAnimFXSet(std::int32_t id,
@@ -638,7 +671,9 @@ Status Owner::begin_anim_fx_set(std::int32_t id,
                                 const std::array<float, 3>& origin,
                                 void* source_game_object,
                                 SetData* parent, std::size_t depth,
-                                bool& launched, std::string& error) {
+                                bool& launched, std::string& error,
+                                void* target_character,
+                                void* target_object) {
     launched = false;
     const auto* selected = sequence(id);
     if (!selected) {
@@ -680,6 +715,8 @@ Status Owner::begin_anim_fx_set(std::int32_t id,
     set_data->position = position;
     set_data->origin = origin;
     set_data->source_game_object = source_game_object;
+    set_data->target_character = target_character;
+    set_data->target_object = target_object;
     set_data->parent = parent;
     auto* retained = set_data.get();
     set_data_.push_back(std::move(set_data)); // source row list owns this until Flush
@@ -701,15 +738,16 @@ Status Owner::dispatch_anim_fx_set_step(SetData& set_data, bool& launched,
         bool child_launched = false;
         const auto status = begin_anim_fx_set(step.effect_dict_id, set_data.position,
             set_data.origin, set_data.source_game_object, &set_data,
-            set_data.depth + 1, child_launched, error);
+            set_data.depth + 1, child_launched, error,
+            set_data.target_character, set_data.target_object);
         if (status == Status::ok) { launched = child_launched; return Status::ok; }
         return status;
     }
     void* instance = nullptr;
     const auto status = start_step_instance(set_data.effect_table_id,
         set_data.step_index, set_data.step_index, set_data.loops_remaining,
-        false, false, set_data.source_game_object, nullptr, nullptr, nullptr, &instance,
-        error, &set_data);
+        false, false, set_data.source_game_object, set_data.target_character,
+        set_data.target_object, nullptr, &instance, error, &set_data);
     if (status == Status::pool_exhausted) {
         // PlayAnimFX returns without effect when _GetAnimFX cannot allocate.
         error.clear();

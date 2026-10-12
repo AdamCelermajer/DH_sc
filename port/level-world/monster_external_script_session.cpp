@@ -1,5 +1,6 @@
 #include "monster_external_script_session.hpp"
 #include "ais_native_bindings.hpp"
+#include "script_object_methods_v1.hpp"
 #include "../adam-script-runtime/script_game_bindings.h"
 
 #include "../adam-script-runtime/script_function_alias.h"
@@ -61,14 +62,7 @@ bool valid_source(Source source) {
 // GetID is the original binding's pointer token (gameplay-object-callbacks
 // row 1). The other methods forward to the __dh2_obj_* globals, which need
 // ObjectServices providers and raise a Lua error when a provider is missing.
-constexpr char identity_transport[] = R"lua(
-local __dh2_object_methods = {}
-function __dh2_object_methods:GetID() return self._this end
-local __dh2_object_mt = {__index = __dh2_object_methods}
-local function __dh2_object(identity)
-    return setmetatable({_this = identity}, __dh2_object_mt)
-end
-local function __dh2_flag(identity, query)
+constexpr char identity_transport[] = DH2_SCRIPT_OBJECT_METHODS_PRELUDE_V1 R"lua(local function __dh2_flag(identity, query)
     return __dh2_obj_query(identity, query) == 1
 end
 function __dh2_object_methods:GetName() return __dh2_obj_name(self._this) end

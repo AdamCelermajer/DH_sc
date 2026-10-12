@@ -23,6 +23,12 @@ struct NativeRequest {
     ais_native_bindings::Function ais_function{};
     character_native_bindings::Function character_function{};
     std::uintptr_t character=0,userdata=0;
+    // True for a source Kind::method row. The receiver GameObject is the first
+    // argument (a `{_this=identity}` object table projected to a type-7
+    // identity by the source-value binder); the remaining arguments are the
+    // source method's own Arguments. Appended so existing positional
+    // aggregate initializers keep their meaning.
+    bool method=false;
 };
 struct Providers {
     void* context=nullptr;
@@ -51,6 +57,7 @@ struct Statistics {
     std::uint32_t resolutions=0,load_calls=0,cache_hits=0,declarations=0;
     std::uint32_t init_vcb_calls=0,native_calls=0,required_failures=0;
     std::uint32_t combat_callback_calls=0,combat_callback_failures=0;
+    std::uint32_t method_bindings=0;
 };
 using LoadResult=lua_script_load_once::Result;
 
@@ -58,8 +65,12 @@ using LoadResult=lua_script_load_once::Result;
 // paused draft. ONE transferred VM; no inventory/property/timer/frame owner.
 // Original Player lifecycle/select/publication remain caller-owned. Bind the
 // AIS globals, then Character globals after genuine SetCharacter association.
-// Method/object Binder registration is external; these stages install only the
-// source function entries. This is not a complete Binder or Player AI body.
+// bind_character_functions installs the source function entries and the
+// Kind::method rows as hidden natives behind the shared `{_this=identity}`
+// GameObject table convention (script_object_methods_v1.hpp), so
+// `target:Method()` resolves. Each method reaches the provider with
+// NativeRequest::method set and the receiver as argument 0. This is not a
+// complete Binder or Player AI body.
 class Session {
 public:
     static std::unique_ptr<Session> adopt(Vm,Configuration,std::string& error);

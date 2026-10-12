@@ -235,6 +235,20 @@ public:
                          void* source_game_object,
                          bool& matched, bool& launched,
                          std::string& error);
+    // Source PlayAnimFXSet(id, const GameObject*, data) (0x495f04), the
+    // overload GameObject::_PlayFX calls for `PlayFX(id)` / `obj:PlayFX(id)`.
+    // It forwards the Point3D overload with Vec3f_Origin and the GameObject,
+    // and VisualFXManager::PlayAnimFX stores that GameObject at AnimatedFX+0x28
+    // and syncs it, so every launched leaf follows the object. The renderer
+    // supplies the object as the typed Character projection (BindCharacter
+    // semantics) or, for a non-Character GameObject, `target_object`
+    // (BindTargetObject); exactly one of them must be non-null. Nested sets
+    // keep the binding.
+    Status PlayAnimFXSetAttached(std::int32_t effect_table_id,
+                                 void* source_game_object,
+                                 void* target_character, void* target_object,
+                                 bool& matched, bool& launched,
+                                 std::string& error);
     const std::vector<std::int32_t>& registered_effect_sets() const noexcept {
         return registered_effect_sets_;
     }
@@ -319,7 +333,9 @@ private:
                              const std::array<float, 3>& origin,
                              void* source_game_object,
                              SetData* parent, std::size_t depth,
-                             bool& launched, std::string& error);
+                             bool& launched, std::string& error,
+                             void* target_character = nullptr,
+                             void* target_object = nullptr);
     Status dispatch_anim_fx_set_step(SetData& set_data, bool& launched,
                                      std::string& error);
     Status handle_anim_fx_set_end(const SetData* set_data,

@@ -55,6 +55,8 @@
 #include "../../../../../../port/level-world/source_level_owner_v1.hpp"
 #include "../../../../../level-world/player_skill_progression_v1.hpp"
 #include "../../../../../level-world/character_target_search.hpp"
+#include "../../../../../level-world/player_skill_target_top_v1.hpp"
+#include "native_player_skill_host_v1.hpp"
 #include "../../../../../../port/level-world/character_target_list_backup_v1.hpp"
 #include "../../../../../../port/level-world/player_sct_position_provider_v1.hpp"
 #include "../../../../../../port/level-world/character_ai_sight.hpp"
@@ -321,6 +323,8 @@
 #include <cstring>
 #include <deque>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <string_view>
 #include <sys/time.h>
 
@@ -17324,6 +17328,13 @@ std::int32_t source_ooi_interaction_type_impl(ObjectActor& actor) {
 }
 
 void update_player_object_of_interest(std::uint32_t dt_ms) {
+ // Character::UpdateObjectOfInterest builds its own local ObjectSearcher::
+ // TargetList. The Player's script-visible TargetList (GameObject +0x304, filled
+ // by TargetListSearch in OnPreSkill and read by OnSkill) is a different list,
+ // so this 500 ms refresh must not run on prince_skill_targets: its projection
+ // sync resets that owner and a faery/skill cast whose do_spell/do_skill marker
+ // follows its OnPreSkill would find an uninitialized list.
+ static PlayerSkillTargetList ooi_targets;
  prince_character.clear_ooi_changed();
  const auto old_identity=prince_character.ooi_identity();
  if(old_identity) {
@@ -17333,9 +17344,9 @@ void update_player_object_of_interest(std::uint32_t dt_ms) {
       dh2::target_search::is_interactive,0,old_identity,prince_character.identity()};
   const dh2::target_search::Request24 type_request{
       dh2::target_search::interaction_type,0,old_identity,prince_character.identity()};
-  if(player_skill_target_service(&prince_skill_targets,&interactive_request,
+  if(player_skill_target_service(&ooi_targets,&interactive_request,
          &interactive)!=0||!interactive.word||
-     player_skill_target_service(&prince_skill_targets,&type_request,
+     player_skill_target_service(&ooi_targets,&type_request,
          &interaction_type)!=0||
      static_cast<std::int32_t>(interaction_type.word)==-1)
    prince_character.clear_ooi_target();
@@ -17355,10 +17366,10 @@ void update_player_object_of_interest(std::uint32_t dt_ms) {
   throw std::runtime_error("Character::UpdateObjectOfInterest lacks source CharacterDesign/OOI_Distance");
  const float radius=static_cast<float>(radius_constant.value);
  // Character::UpdateObjectOfInterest uses ObjectSearcher::TargetList over the
- // complete RoomObjectList. Reuse the active Player target projection, its
- // ObjectManager cursor, source virtual providers and search kernel; this is
- // a caller-local heap, not a second ObjectManager/list authority.
- auto& targets=prince_skill_targets;
+ // complete RoomObjectList. Reuse the Player target projection type, its
+ // ObjectManager cursor, source virtual providers and search kernel on this
+ // caller-local instance; it is not a second ObjectManager/list authority.
+ auto& targets=ooi_targets;
  struct OoiProjectionRouteRestore {
   PlayerSkillTargetList& targets;
   const std::int32_t character_filter;
@@ -17629,6 +17640,7 @@ int player_skill_gameplay_native(void*,std::uint32_t,const void*,
 int player_spell_combat_native(void*,std::uint32_t,const void*,
     std::uint32_t,void*,std::uint32_t,std::uint32_t*,char*,
     std::size_t,const char*);
+dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1();
 int native_player_buff_fx_service_v1(void* raw,
     const dh2::character_player_buffs_v1::Request* request,
     dh2::character_player_buffs_v1::Response* response) {
@@ -17738,6 +17750,7 @@ void initialize_native_player_skills(AAssetManager* assets,bool restore){
  b.skill_gameplay_context=&prince_skill_targets;
  b.skill_gameplay_native=player_skill_gameplay_native;
  b.spell_combat_roll_native=player_spell_combat_native;
+ b.host=native_player_skill_host_services_v1();
  b.buff_fx={&prince_search_projection.character,
             native_player_buff_fx_service_v1};
  b.fx_count=native_fx_catalog&&
@@ -21279,7 +21292,11 @@ bool menu_debug_switch_value(AAssetManager*,const char* key,bool& value,std::str
  value=queried!=0;error.clear();return true;
 }
 bool create_menu_save_slot(AAssetManager* assets,const std::string& name,const std::string& class_name,std::int32_t& slot,bool& published,std::string& error,void* count_context,bool (*count)(void*,std::uint32_t*,std::string&)){
- return dh2::native::menu::create_profile(assets,runtime_root,&native_save_difficulty,&native_host.online,count_context,count,name,class_name,slot,published,error);
+ // Development override for headless runs: DH2_DEBUG_PROFILE_CLASS=MagePlayerBase
+ // creates the profile with that PlayerBase row instead of the caller's class.
+ const char* debug_class=std::getenv("DH2_DEBUG_PROFILE_CLASS");
+ const std::string effective_class=debug_class&&*debug_class?std::string(debug_class):class_name;
+ return dh2::native::menu::create_profile(assets,runtime_root,&native_save_difficulty,&native_host.online,count_context,count,name,effective_class,slot,published,error);
 }
 static dh2::player_local_selection_v1::Services menu_selection_services(dh2::player_locality_v1::Services& queries){
  using namespace dh2::player_local_selection_v1;
@@ -27800,8 +27817,18 @@ std::int32_t player_cast_state_callback(void* raw,
   const auto callback=request->argument==32u?
       dh2::native::player_skills::SkillCallback::pre:
       dh2::native::player_skills::SkillCallback::post;
-  return prince_skills->invoke_faery_callback(static_cast<std::uint32_t>(slot),
-      callback,result,error)==0?0:-1;
+  const int status=prince_skills->invoke_faery_callback(static_cast<std::uint32_t>(slot),
+      callback,result,error);
+  // CSCast::OnFocus (0x3c39d0) raises event 32 and then unconditionally runs
+  // SM_SetAnim/ANIM_SetSpeed/CancelSneaking: Character::RaiseEvent discards
+  // CharAI::_SpellFocus's OnPreSkill bool and LuaScript::Call swallows script
+  // errors. OnBlur does the same for event 33. A script or provider failure must
+  // therefore never abort the state callback (it would leave the Player in
+  // state 7 with no cast animation to end it); keep it loud in the log instead.
+  if(status!=0)__android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "CSCast %s script call failed; the source ignores it and the cast continues | faery slot %d | status %d | %s",
+      request->argument==32u?"OnPreSkill":"OnPostSkill",slot,status,error.c_str());
+  return 0;
  }
  case Operation::set_animation:{
   std::uintptr_t machine=0;
@@ -28292,9 +28319,14 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
   if(count) {
    auto* info=native_host.registry.entries?native_host.registry.entries[0]:nullptr;
    auto* record=info?native_host.record_for(info):nullptr;
-   if(!info||!record||!record->number_678||
-      record->character_660!=prince_character.identity()){
-    state.projection_error="PlayerList +0x678/friendly-character owner is not proven for this PlayerInfo";return;
+   // PlayerList::GetChar is PlayerManager::GetPlayer(index, true)->+0x660:
+   // _GetInternalIDByFriendlyID (0x36e5b4) takes the index-th registry entry
+   // whose Character word (+0x660) is nonzero. The sole offline PlayerInfo is
+   // that entry exactly when it carries the live Player Character. Its ordinal
+   // word (+0x678) is the zero-based player number (0 for the first player) and
+   // takes no part in the selection.
+   if(!info||!record||record->character_660!=prince_character.identity()){
+    state.projection_error="PlayerList friendly-character owner is not proven for this PlayerInfo";return;
    }
    state.player_candidate=record->character_660;
    if(!add_identity(state.player_candidate))return;
@@ -28329,7 +28361,10 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
   state.source_methods={&state,
    [](void* raw)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s)return 1;s->source_cursor=0;return 0;},
    [](void* raw,std::uint32_t* end)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!end)return 1;*end=s->source_cursor>=s->source_count;return 0;},
-   [](void* raw,Target** out)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!out||s->source_cursor>=s->source_count||!s->player_candidate)return 1;const auto it=s->by_identity.find(s->player_candidate);if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;*out=&s->objects[it->second];return 0;},
+   [](void* raw,Target** out)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s||!out||s->source_cursor>=s->source_count||!s->player_candidate)return 1;const auto it=s->by_identity.find(s->player_candidate);if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
+    // The source's PlayerList entry for the searching Player is that same GameObject,
+    // which the search skips (`object!=owner`); keep that identity, not a second copy.
+    *out=s->player_candidate==s->owner.identity?&s->owner:&s->objects[it->second];return 0;},
    [](void* raw)->int {auto* s=static_cast<PlayerSkillTargetList*>(raw);if(!s)return 1;++s->source_cursor;return 0;}};
  } else if(state.candidate_route==PlayerSkillTargetList::CandidateRoute::characters) {
   state.source_methods={&state,
@@ -28348,7 +28383,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
     if(m.get_char(m.context,&c)!=0||!c)return 1;
     const auto it=s->by_identity.find(c->identity);
     if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
-    *out=&s->objects[it->second];return 0;
+    *out=c->identity==s->owner.identity?&s->owner:&s->objects[it->second];return 0;
    },
    [](void* raw)->int {
     auto* s=static_cast<PlayerSkillTargetList*>(raw);const auto& m=native_characters.methods();
@@ -28372,7 +28407,7 @@ void skill_sync_target_objects(PlayerSkillTargetList& state){
     if(s->room_cursor.owner!=&m||!m.room_object_cursor_get(&s->room_cursor,&id))return 1;
     const auto it=s->by_identity.find(id);
     if(it==s->by_identity.end()||it->second>=s->objects.size())return 1;
-    *out=&s->objects[it->second];return 0;
+    *out=id==s->owner.identity?&s->owner:&s->objects[it->second];return 0;
    },
    [](void* raw)->int {
     auto* s=static_cast<PlayerSkillTargetList*>(raw);
@@ -31102,7 +31137,9 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   value=args[i].number;return std::isfinite(value);
  };
  const auto identity_arg=[&](std::uint32_t i,std::uintptr_t& value){
-  if(!args||i>=count||args[i].type!=2||!args[i].identity)return false;
+  // Value::getUserData/getPointer accept the Pointer (2) and UserData (7)
+  // tags alike; GameObjects reach scripts as method-bearing UserData tables.
+  if(!args||i>=count||(args[i].type!=2&&args[i].type!=7)||!args[i].identity)return false;
   value=args[i].identity;return true;
  };
  switch(fn){
@@ -31166,7 +31203,7 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   }
   float search_center[3]={actor_position[0],actor_position[1],actor_position[2]};
   std::uint32_t backup_index=2;
-  if(count>2&&args[2].type==2){
+  if(count>2&&(args[2].type==2||args[2].type==7)){
    const auto center_identity=args[2].identity;
    if(center_identity==prince_character.identity()){
     std::copy(actor_position.begin(),actor_position.end(),search_center);
@@ -31251,9 +31288,12 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   if(!out||!capacity)return fail("missing result buffer");
   out[0]={};out[0].type=3;out[0].number=float(state->list.count);*returned=1;return 0;
  case Fn::game_object_get_target_list_top:{
-  if(!state->list.owner||!state->list.count)return 0;
-  if(!out||!capacity)return fail("missing target result buffer");
-  out[0]={};out[0].type=2;out[0].identity=state->list.heap[0].identity;*returned=1;return 0;
+  // GameObject::_GetTargetListTop 0x38eb68: userdata, distance, angle in
+  // degrees, IsCharacter and the extra TargetInfo word; an empty list returns
+  // the null Pointer alone.
+  if(dh2::player_skill_target_top_v1::write(state->list,out,capacity,returned))
+   return fail("missing target result buffer");
+  return 0;
  }
  case Fn::game_object_pop_target_list:{
   if(!state->list.owner)return fail("target list has not been initialized");
@@ -31331,6 +31371,431 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
  }
 }
 }
+namespace {
+int player_input_target_debug_service(void*,
+    const dh2::character::set_target::Request*,
+    dh2::character::set_target::Response*);
+// Providers behind native_player_skill_host_v1: GameObject facts and effects
+// for the Player skill VM's PlayFX/PlaySound3D/GetPosition/GetHP/... natives
+// and the `target:Method()` layer. Every provider reads or drives the existing
+// canonical owner (Player combat/state, ObjectActor + SpawnOwner, the level
+// VisualFXManager, the spatial audio queue, the status/kill closures); none
+// keeps state of its own.
+namespace skill_host=dh2::native::player_skill_host_v1;
+
+// The frame GameObject::GetPosition (+0x160) reports and PlayAnimFXSet /
+// Play3D consume: the live source position of the Player or an actor.
+bool skill_host_position(std::uintptr_t identity,float (&out)[3]){
+ const float* position=nullptr;
+ if(identity==prince_character.identity()){
+  if(!native_actor_ready)return false;
+  position=prince_runtime.subobjects.position;
+ }else{
+  auto* actor=native_char_ai_actor(identity);
+  if(!actor||actor->identity!=identity)return false;
+  position=actor->position.data();
+  if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+   position=actor->spawn_owner->runtime.subobjects.position;
+ }
+ for(unsigned i=0;i<3;++i){
+  if(!std::isfinite(position[i]))return false;
+  out[i]=position[i];
+ }
+ return true;
+}
+void skill_host_copy_name(skill_host::ObjectFacts& facts,const std::string& name){
+ const auto n=std::min<std::size_t>(name.size(),sizeof(facts.name)-1);
+ std::memcpy(facts.name,name.data(),n);facts.name[n]='\0';
+}
+// Character::_GetCharAIFlags: AITable[GetCharAIId()].Flags, where GetCharAIId
+// falls back to row 8 (Basic) outside the table.
+void skill_host_ai_flags(skill_host::ObjectFacts& facts,const dh2::data::PropertySheet& props){
+ if(actor_ai_tables.rows.empty())return;
+ auto id=props[1];
+ if(id<0||std::size_t(id)>=actor_ai_tables.rows.size())id=8;
+ if(std::size_t(id)>=actor_ai_tables.rows.size())return;
+ facts.ai_flags=actor_ai_tables.rows[std::size_t(id)].flags;facts.has_ai_flags=true;
+}
+int skill_host_object_facts(void*,std::uintptr_t identity,skill_host::ObjectFacts* facts){
+ if(!identity||!facts)return 1;
+ *facts={};
+ float position[3]{};
+ if(!skill_host_position(identity,position))return 1;
+ std::copy(position,position+3,facts->position);
+ if(identity==prince_character.identity()){
+  const auto& props=prince_combat.properties.resolved;
+  facts->is_character=true;facts->is_player=true;
+  facts->is_dead=prince_combat.life.dead!=0;
+  facts->state=prince_state.current;
+  if(props.size()>38){facts->hp_raw=props[36];facts->max_hp_raw=props[38];}
+  skill_host_ai_flags(*facts,props);
+  // Same name the monster object layer reports for the local Player.
+  skill_host_copy_name(*facts,"PlayerCharacter_0");
+  return 0;
+ }
+ auto* actor=native_char_ai_actor(identity);
+ if(!actor)return 1;
+ skill_host_copy_name(*facts,actor->name);
+ facts->is_character=actor->kind==1;
+ if(facts->is_character){
+  try {
+   facts->is_player=native_character_classification(*actor,
+       dh2::character_ai_classification::Query::player)!=0;
+  }catch(...){return 1;}
+  facts->is_dead=actor->combat_state.dead!=0;
+  facts->state=actor->spawn_owner?actor->spawn_owner->character.state.current:-1;
+  const auto& props=actor->properties.resolved;
+  if(props.size()>38){facts->hp_raw=props[36];facts->max_hp_raw=props[38];}
+  skill_host_ai_flags(*facts,props);
+ }
+ return 0;
+}
+// VisualFXManager::PlayAnimFXSet. A GameObject receiver takes the attached
+// overload (PlayAnimFX stores the GameObject at AnimatedFX+0x28 and syncs it);
+// an explicit position takes the Point3D overload with no GameObject.
+int skill_host_play_fx(void*,std::int32_t effect,std::uintptr_t attach,
+    const float* position,std::string& error){
+ if(!native_fx_owner){error="level VisualFXManager is not bound";return 1;}
+ bool matched=false,launched=false;
+ if(!attach){
+  if(!position){error="PlayFX has neither a GameObject nor a position";return 1;}
+  const std::array<float,3> point{position[0],position[1],position[2]};
+  return native_fx_owner->PlayAnimFXSet(effect,point,nullptr,matched,launched,error)==
+      dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+ }
+ void* character=nullptr;
+ void* object=nullptr;
+ if(attach==prince_character.identity()){
+  if(!native_actor_ready){error="Player is not live";return 1;}
+  sync_prince_search_projection();
+  character=&prince_search_projection.character;
+ }else{
+  auto* actor=native_char_ai_actor(attach);
+  if(!actor||actor->identity!=attach){error="PlayFX target is not a live GameObject";return 1;}
+  sync_search_projection(*actor);
+  if(actor->kind==1)character=&actor->search_projection.character;
+  else object=&actor->search_projection.object;
+ }
+ return native_fx_owner->PlayAnimFXSetAttached(effect,character?character:object,
+     character,object,matched,launched,error)==
+     dh2::native_visual_fx_manager_v1::Status::ok?0:1;
+}
+// VoxSoundManager::Play3D(soundId, position, false, ...). Sounds are named by
+// the SDD Sounds table; a name outside that table resolves to id -1 (no-op), and
+// a known row without retained PCM is the source no-launch case.
+int skill_host_play_sound_3d(void*,const char* name,std::size_t bytes,
+    const float position[3],std::string& error){
+ const auto resolved=dh2::player_gameplay_audio::resolve_source_sound_name(
+     std::string_view(name?name:"",name?bytes:0));
+ using SoundStatus=dh2::player_gameplay_audio::SourceSoundStatusV1;
+ if(resolved.status!=SoundStatus::playable)return 0;
+ if(!resolved.source||!resolved.playback){error="Sound resolver returned an invalid source/playback pair";return 1;}
+ const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{
+     position[0],position[1],position[2]};
+ dh2::engine_audio::spatial_playback_contract_v1::Request request{};
+ auto& vox=dh2::engine_audio::native_level_listener_v1::process_vox_state();
+ if(!dh2::engine_audio::native_level_listener_v1::make_spatial_request(
+        vox,resolved.source->id,emitter,request)||
+    !dh2::player_gameplay_audio::enqueue_spatial_source_sound(
+        resolved.source->id,prince_character.identity(),false,0,request)){
+  error="Sound ID has no spatial playback backend";return 1;
+ }
+ return 0;
+}
+int skill_host_weapon_flags(void*,std::uint32_t* flags,std::string& error){
+ if(!flags||!native_actor_ready||!prince_character.identity()||!prince_combat.inventory||
+    prince_combat.inventory->properties()!=&prince_combat.properties){
+  error="the canonical Player inventory/property owner is unavailable";return 1;
+ }
+ auto properties=dh2::data::property_view(actor_property_rules,prince_combat.properties);
+ dh2::data::PlayerEquipmentQueriesLiveV1 equipment(*prince_combat.inventory,properties);
+ dh2::data::EquipmentWeaponFacts12V1 facts{};
+ if(!equipment.facts(facts,error))return 1;
+ *flags=facts.flags;return 0;
+}
+int skill_host_regen_hp(void*,std::int32_t raw_amount,std::string& error){
+ if(!native_actor_ready){error="Player is not live";return 1;}
+ // Character::RegenHP caps at Max_HP and adds through PROPS_Add; the vitals
+ // kernel is the owner Ctrl_UsePotion already uses for RegenHP(-1).
+ auto view=dh2::data::property_view(actor_property_rules,prince_combat.properties);
+ dh2::data::VitalsChange change{};
+ if(dh2_vitals_regen(&view,0,raw_amount,&change)){error="HP vitals kernel rejected the request";return 1;}
+ return 0;
+}
+int skill_host_set_targetable(void*,std::uintptr_t receiver,bool targetable,std::string& error){
+ // Character+0x415 aliases the embedded CharAI+0x4d.
+ if(receiver==prince_character.identity()){
+  if(!prince_source_ai){error="Player CharAI is unavailable";return 1;}
+  prince_source_ai->state.targetable_4d=targetable?1:0;return 0;
+ }
+ auto* actor=native_char_ai_actor(receiver);
+ if(!actor||actor->kind!=1||!actor->native_ai){error="receiver has no CharAI";return 1;}
+ actor->native_ai->state.targetable_4d=targetable?1:0;return 0;
+}
+int skill_host_set_target(void*,std::uintptr_t receiver,std::uintptr_t target,std::string& error){
+ // CharAI::AI_SetTarget(target, false) on the Player's retained CharAI, with
+ // the Player target services (debug switches, IsDead, AI_IsInSight).
+ if(receiver!=prince_character.identity()||!prince_source_ai){
+  error="AI_SetTarget is only attached to the Player CharAI";return 1;
+ }
+ auto& source=prince_source_ai->state;
+ auto& owner=prince_combat.target_owner;
+ if(owner.identity!=prince_character.identity()){error="Player CharAI target owner differs";return 1;}
+ dh2::character::set_target::State state{
+  prince_source_ai->ai_identity,&owner,source.requested_target_3c,
+  source.target_40,source.last_target_44,source.alive_48,source.sight_49,
+  source.sticky_4c,0};
+ const dh2::character::set_target::Services services{
+  nullptr,0,player_input_target_debug_service};
+ const int status=dh2::character::set_target::dh2_character_ai_set_target(
+     &state,target,0,&services);
+ // AI_SetTarget writes its prefix before its services; keep what was reached.
+ source.requested_target_3c=state.requested_target;
+ source.target_40=state.target;
+ source.last_target_44=state.last_target;
+ source.alive_48=state.alive_snapshot;
+ source.sight_49=state.sight_snapshot;
+ source.sticky_4c=state.sticky;
+ if(status!=dh2::character::set_target::complete){error="AI_SetTarget service failed";return 1;}
+ return 0;
+}
+// CharAI::AI_IsInMeleeRange(receiver AI, receiver's current CharAI target):
+// the shared source kernel with this Character's own radius/position owners.
+struct SkillMeleeContext {
+ dh2::character_ai_melee_range::ResolvedObject resolved{};
+ dh2::character_ai_melee_range::Point points[2]{};
+ std::string error;
+};
+bool skill_melee_radius(std::uintptr_t identity,float& radius,std::string& error){
+ if(identity==prince_character.identity()){
+  if(!player_melee_radius_v1(radius)){error="Player AI_GetMeleeRadius provider is unavailable";return false;}
+  return true;
+ }
+ auto* actor=native_char_ai_actor(identity);
+ if(!actor||actor->kind!=1||actor->identity!=identity){
+  error="AI_GetMeleeRadius has no canonical Character owner";return false;
+ }
+ // AI_GetMeleeRadius falls back to the AITable row when ItemInventory
+ // reports no melee weapon (unequipped/template Characters).
+ std::string inventory_error;
+ if(actor->source_inventory&&actor->source_inventory->melee_radius(*actor,radius,inventory_error))
+  return true;
+ if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+      actor->properties.resolved[1],&radius)!=
+    dh2::character::player_attack_melee_radius_v1::Status::complete){
+  error=inventory_error.empty()?"AI_GetMeleeRadius AITable fallback failed":inventory_error;
+  return false;
+ }
+ return true;
+}
+std::int32_t skill_melee_range_service(void* raw,
+    dh2::character_ai_melee_range::State* state,
+    const dh2::character_ai_melee_range::Request* request,
+    dh2::character_ai_melee_range::Response* response){
+ using namespace dh2::character_ai_melee_range;
+ auto* context=static_cast<SkillMeleeContext*>(raw);
+ if(!context||!state||!request||!response)return 1;
+ *response={};
+ const auto unavailable=[&](const char* why){context->error=why;return 1;};
+ switch(request->operation){
+ case Operation::resolve_object:{
+  if(!request->subject)return unavailable("melee candidate is null");
+  if(request->subject!=prince_character.identity()){
+   auto* candidate=native_char_ai_actor(request->subject);
+   if(!candidate||candidate->kind!=1||candidate->identity!=request->subject)
+    return unavailable("melee candidate has no canonical Character owner");
+  }
+  context->resolved={request->subject,0};response->view=&context->resolved;return 0;
+ }
+ case Operation::interaction_type:{
+  std::uint32_t enemy=0;
+  if(!source_relation_for_ooi(state->owner,request->subject,
+      dh2::character_ai_relations::Relation::enemy,enemy))
+   return unavailable("melee InteractionType requires source AI_IsEnemy");
+  response->word=enemy?8u:3u;return 0;
+ }
+ case Operation::target_position:{
+  float position[3]{};
+  if(!native_character_position_for_target(request->subject,position))
+   return unavailable("melee GetTargetPosition provider is unavailable");
+  const unsigned slot=request->subject==state->owner?0u:1u;
+  for(unsigned axis=0;axis<3;++axis)
+   std::memcpy(&context->points[slot].words[axis],&position[axis],sizeof(float));
+  response->view=&context->points[slot];return 0;
+ }
+ case Operation::melee_radius:{
+  const auto identity=request->kind==Subject::original_ai?state->owner:request->subject;
+  float radius=0.f;std::string error;
+  if(!skill_melee_radius(identity,radius,error))return unavailable(error.c_str());
+  std::memcpy(&response->word,&radius,sizeof(radius));return 0;
+ }
+ case Operation::diagnostic_switch:{
+  if(!native_debug)return unavailable("melee debug-switch owner is unavailable");
+  if(native_debug->runtime().load(native_debug->globals(),native_debug->services())!=
+     dh2::debug_switches::Status::complete)return unavailable("melee debug-switch load failed");
+  const char* key=request->key==1?"IsTracingCharAITarget":
+      request->key==2?"isTracingCharAITarget":nullptr;
+  if(!key)return unavailable("melee debug-switch key is invalid");
+  std::uint8_t value=0;
+  if(native_debug->runtime().get_switch(key,native_debug->globals(),
+      native_debug->services(),value)!=dh2::debug_switches::Status::complete)
+   return unavailable("melee debug-switch query failed");
+  response->word=value;return 0;
+ }
+ case Operation::interaction_range:
+  return unavailable("melee fallback InteractionRange path is not source-bound");
+ }
+ return unavailable("melee-range operation is unsupported");
+}
+int skill_host_target_in_melee_range(void*,std::uintptr_t receiver,bool* value,
+    std::string& error){
+ if(!value){error="missing result";return 1;}
+ std::uintptr_t ai=0,target=0;
+ if(receiver==prince_character.identity()){
+  if(!prince_source_ai){error="Player CharAI is unavailable";return 1;}
+  ai=prince_source_ai->ai_identity;target=prince_source_ai->state.target_40;
+ }else{
+  auto* actor=native_char_ai_actor(receiver);
+  if(!actor||actor->kind!=1||!actor->native_ai){error="receiver has no CharAI";return 1;}
+  ai=actor->native_ai->ai_identity;target=actor->native_ai->state.target_40;
+ }
+ dh2::character_ai_melee_range::State state{ai,receiver,target};
+ SkillMeleeContext context;
+ const dh2::character_ai_melee_range::Services services{&context,skill_melee_range_service};
+ dh2::character_ai_melee_range::Result result{};
+ if(dh2::character_ai_melee_range::evaluate_object(&state,0,&services,&result)!=
+    dh2::character_ai_melee_range::Status::complete){
+  error=context.error.empty()?"AI_IsInMeleeRange source provider failed":context.error;return 1;
+ }
+ *value=result.value!=0;return 0;
+}
+// Character::_CreateBuff/_RemoveBuff/_ApplyBuff on another Character: that
+// Character's own BuffOwner, the same one its monster VM and ApplyResult use.
+int skill_host_buff_command(void*,skill_host::BuffCommand command,std::uintptr_t receiver,
+    const dh2_script_value* arguments,std::uint32_t count,dh2_script_value* results,
+    std::uint32_t capacity,std::uint32_t* returned,char* text,std::size_t bytes){
+ const auto fail=[&](const char* why){
+  if(text&&bytes)std::snprintf(text,bytes,"%s",why);
+  return DH2_SCRIPT_REQUIRED_SERVICE_FAILURE;
+ };
+ auto* actor=native_char_ai_actor(receiver);
+ if(!actor||actor->kind!=1||actor->identity!=receiver||!actor->spawn_owner||
+    !actor->spawn_owner->buffs||actor->spawn_owner->buffs->character_identity()!=receiver)
+  return fail("receiver has no canonical BuffOwner");
+ dh2::character_player_buffs_v1::CallbackBindings callbacks{actor->spawn_owner->buffs.get()};
+ switch(command){
+ case skill_host::BuffCommand::create:
+  return dh2::character_player_buffs_v1::create_buff(&callbacks,arguments,count,results,
+      capacity,returned,text,bytes);
+ case skill_host::BuffCommand::remove:
+  return dh2::character_player_buffs_v1::remove_buff(&callbacks,arguments,count,results,
+      capacity,returned,text,bytes);
+ case skill_host::BuffCommand::apply:
+  return dh2::character_player_buffs_v1::apply_buff(&callbacks,arguments,count,results,
+      capacity,returned,text,bytes);
+ }
+ return fail("unknown buff command");
+}
+int skill_host_get_property(void*,std::uintptr_t receiver,std::uint32_t id,
+    std::int32_t* value,std::string& error){
+ auto* actor=native_char_ai_actor(receiver);
+ if(!value||!actor||actor->kind!=1||actor->identity!=receiver||id>=actor->properties.resolved.size()){
+  error="receiver has no resolved property sheet";return 1;
+ }
+ *value=actor->properties.resolved[id];return 0;
+}
+// Character::_SetStunState/_SetScareState/_SetKnockBackState end in the
+// CharStateMachine SM_Set*State closure; it is the one ApplyResult's status
+// tail runs, bound to this Character's own Coordinator, buffs and properties.
+int skill_host_state_status(std::uintptr_t receiver,
+    dh2::character_apply_result::Operation operation,std::uint32_t word0,
+    std::uint32_t word1,std::string& error){
+ SpellNpcStatusContext status_context{};
+ PlayerSpellCombatContext context{};
+ if(receiver==prince_character.identity()){
+  status_context.player=true;
+ }else{
+  auto* actor=native_char_ai_actor(receiver);
+  if(!actor||actor->kind!=1){error="receiver is not a Character";return 1;}
+  status_context.actor=actor;context.defender=actor;
+ }
+ if(!spell_npc_status_owner(&status_context,receiver)){
+  error="receiver has no complete status owner (Coordinator, buffs, properties)";return 1;
+ }
+ auto bindings=spell_status_bindings(context,status_context);
+ if(bindings.character!=receiver){error="status bindings do not identify the receiver";return 1;}
+ dh2::character_apply_result::Request request{};
+ request.operation=operation;request.subject=receiver;request.defender=receiver;
+ request.word0=word0;request.word1=word1;request.word2=0;
+ dh2::character_apply_result::Reply reply{};
+ const auto status=dh2::character_combat_status_v1::execute(&request,&bindings,&reply,error);
+ return status==dh2::character_combat_status_v1::Status::complete?0:1;
+}
+int skill_host_object_command(void*,skill_host::ObjectCommand command,
+    std::uintptr_t receiver,std::uintptr_t other,std::uint32_t duration,bool flag,
+    std::string& error){
+ using Command=skill_host::ObjectCommand;
+ using Operation=dh2::character_apply_result::Operation;
+ switch(command){
+ case Command::lock:case Command::unlock:{
+  // GameObject::_Lock/_Unlock: ++/-- (floor 0) of the ObjectBase+0x29 byte.
+  auto* row=source_level_owner.object_manager().find_by_identity(receiver);
+  if(!row||row->identity!=receiver){error="receiver has no ObjectManager row";return 1;}
+  if(command==Command::lock){if(row->locked_29!=UINT8_MAX)++row->locked_29;}
+  else if(row->locked_29)--row->locked_29;
+  return 0;
+ }
+ case Command::kill:{
+  // Character::_Kill -> v2Controller::Cmd_Kill(controller, killer, false).
+  if(receiver==prince_character.identity()){
+   error="Player Ctrl_Kill provider is unavailable";return 1;
+  }
+  auto* actor=native_char_ai_actor(receiver);
+  if(!actor||actor->kind!=1||!actor->native_ai||!actor->spawn_owner){
+   error="receiver is not a canonical source NPC";return 1;
+  }
+  if(actor->combat_state.dead)return 0; // Ctrl_Kill skips an already dead target
+  if(other==prince_character.identity())
+   return native_group_ctrl_kill_player(*actor,other,false,error)?0:1;
+  if(other){error="Kill by a non-Player killer is not attached";return 1;}
+  // Null killer (Script_KillActor shape): no XP or loot attribution.
+  struct NullKillerScope{
+   NullKillerScope(){native_script_null_killer_kill=true;}
+   ~NullKillerScope(){native_script_null_killer_kill=false;}
+  } scope;
+  PlayerToNpcKillContextV1 context{actor,0,false,{}};
+  dh2::data::CombatResult result{};
+  if(player_to_npc_before_dead_v1(&context,result)!=0||!context.source_kill_completed||
+     actor->combat_state.dead!=1){
+   error="null-killer Character::Kill continuation failed";return 1;
+  }
+  return 0;
+ }
+ case Command::stun:
+  return skill_host_state_status(receiver,Operation::stun,duration,flag?1u:0u,error);
+ case Command::scare:
+  return skill_host_state_status(receiver,Operation::fear,duration,flag?1u:0u,error);
+ case Command::knock_back:
+  return skill_host_state_status(receiver,Operation::push,flag?1u:0u,0u,error);
+ }
+ error="unknown GameObject command";return 1;
+}
+dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1(){
+ skill_host::Services services{};
+ services.object_facts=skill_host_object_facts;
+ services.play_fx=skill_host_play_fx;
+ services.play_sound_3d=skill_host_play_sound_3d;
+ services.weapon_flags=skill_host_weapon_flags;
+ services.regen_hp=skill_host_regen_hp;
+ services.set_targetable=skill_host_set_targetable;
+ services.set_target=skill_host_set_target;
+ services.object_command=skill_host_object_command;
+ services.target_in_melee_range=skill_host_target_in_melee_range;
+ services.buff_command=skill_host_buff_command;
+ services.get_property=skill_host_get_property;
+ return services;
+}
+} // namespace
 namespace {
 int clear_kill_selection_projection(void* raw,std::uintptr_t victim){
  auto* actor=static_cast<ObjectActor*>(raw);
@@ -37495,9 +37960,14 @@ std::int32_t player_skill_state_callback(void* raw,
        dh2::native::player_skills::SkillCallback::post;
    const auto status=prince_skills->invoke_skill_callback(prince_source_ai->state.word_cc,
        callback,result,error);
-   if(status!=0)__android_log_print(ANDROID_LOG_WARN,"DH2Native","CSSkill %s callback failed | status %d | %s",
-       request->argument0==0x1e?"pre":"post",status,error.c_str());
-   return status==0?0:-1;}
+   // CSSkill::OnFocus/OnBlur raise events 30/31 and continue regardless of the
+   // script result (CharAI::_SkillFocus/_SkillBlur return OnPreSkill/OnPostSkill's
+   // bool to Character::RaiseEvent, which discards it; LuaScript::Call swallows
+   // script errors). Keep the failure loud but let the state callback finish.
+   if(status!=0)__android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "CSSkill %s script call failed; the source ignores it and the skill continues | status %d | %s",
+       request->argument0==0x1e?"OnPreSkill":"OnPostSkill",status,error.c_str());
+   return 0;}
  case Operation::set_animation:{
   if(!request->subject||!prince_skills)return -1;
   std::int32_t animation=-1;std::string error;
@@ -44648,6 +45118,88 @@ Matrix source_map_camera_projection(int width,int height){
   throw std::runtime_error("Source minimap CameraBase projection rejected the live pose");
  return frame.view_projection;
 }
+// Development probe for headless desktop runs (no HUD input): environment
+// switches that issue the same entries the authored HUD calls.
+//   DH2_DEBUG_CAST_FAERY_AT_FRAME=N[:EVERY]     NativeHUDSpell at actor frame N
+//                                               (and every EVERY frames after)
+//   DH2_DEBUG_USE_SKILL_SLOT_AT_FRAME=N:S[:EVERY]  NativeHUDSkill for HUD slot S
+//   DH2_DEBUG_PLAYER_LUA_FILE=path, DH2_DEBUG_PLAYER_LUA_AT_FRAME=N[:EVERY]
+//     loads the Lua file(s) (';'-separated, one chunk each) into the retained
+//     Player VM once and calls the global debug_main() at frame N (and every
+//     EVERY frames), logging its first result.
+// Each use logs its result; nothing happens when the variables are unset.
+static void debug_player_cast_probe(){
+ struct Probe{long cast_frame=0,cast_every=0,skill_frame=0,skill_every=0;int skill_slot=0;};
+ static const Probe probe=[]{
+  Probe p;
+  if(const char* value=std::getenv("DH2_DEBUG_CAST_FAERY_AT_FRAME")){
+   p.cast_frame=std::atol(value);
+   if(const char* colon=std::strchr(value,':'))p.cast_every=std::atol(colon+1);
+  }
+  if(const char* value=std::getenv("DH2_DEBUG_USE_SKILL_SLOT_AT_FRAME")){
+   p.skill_frame=std::atol(value);
+   if(const char* colon=std::strchr(value,':')){
+    p.skill_slot=std::atoi(colon+1);
+    if(const char* again=std::strchr(colon+1,':'))p.skill_every=std::atol(again+1);
+   }
+  }
+  return p;
+ }();
+ static long next_cast=probe.cast_frame,next_skill=probe.skill_frame;
+ struct LuaProbe{std::vector<std::string> sources;long frame=0,every=0;};
+ static LuaProbe lua=[]{
+  LuaProbe p;
+  const char* file=std::getenv("DH2_DEBUG_PLAYER_LUA_FILE");
+  const char* at=std::getenv("DH2_DEBUG_PLAYER_LUA_AT_FRAME");
+  if(file&&at){
+   const std::string list(file);
+   for(std::size_t begin=0;begin<=list.size();){
+    auto end=list.find(';',begin);
+    if(end==std::string::npos)end=list.size();
+    if(end>begin){
+     std::ifstream input(list.substr(begin,end-begin),std::ios::binary);
+     p.sources.emplace_back(std::istreambuf_iterator<char>(input),std::istreambuf_iterator<char>());
+    }
+    begin=end+1;
+   }
+   p.frame=std::atol(at);
+   if(const char* colon=std::strchr(at,':'))p.every=std::atol(colon+1);
+  }
+  return p;
+ }();
+ static long next_lua=lua.frame;static bool lua_loaded=false;
+ if(!world_mode||!native_actor_ready||(!probe.cast_frame&&!probe.skill_frame&&!lua.frame))return;
+ if(lua.frame&&lua.sources.empty())lua.frame=next_lua=0;
+ std::uintptr_t player=0;std::string error;
+ if(!ui_player_identity(player,error)||!player)return;
+ const long frame=long(native_actor_frames);
+ if(next_lua>0&&frame>=next_lua&&prince_skills){
+  next_lua=lua.every>0?frame+lua.every:0;
+  std::string result;
+  bool loaded=lua_loaded;
+  if(!loaded){
+   loaded=true;
+   for(const auto& source:lua.sources)
+    if(!prince_skills->debug_load_lua(source,error)){loaded=false;break;}
+  }
+  lua_loaded=lua_loaded||loaded;
+  const bool called=loaded&&prince_skills->debug_call_lua("debug_main",result,error);
+  __android_log_print(called?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native",
+      "Debug player Lua | frame %ld | %s | result '%s' | %s",frame,called?"ok":"error",result.c_str(),error.c_str());
+ }
+ if(next_cast>0&&frame>=next_cast){
+  next_cast=probe.cast_every>0?frame+probe.cast_every:0;
+  const bool used=ui_player_use_spell(player,error);
+  __android_log_print(used?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native",
+      "Debug faery cast | frame %ld | %s | %s",frame,used?"ok":"error",error.c_str());
+ }
+ if(next_skill>0&&frame>=next_skill){
+  next_skill=probe.skill_every>0?frame+probe.skill_every:0;
+  const bool used=ui_player_use_skill_slot(player,probe.skill_slot,error);
+  __android_log_print(used?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native",
+      "Debug skill use | frame %ld | slot %d | %s | %s",frame,probe.skill_slot,used?"ok":"error",error.c_str());
+ }
+}
 void draw(int width,int height){
   if(!enabled||!program)return;
   unsigned frame_dt_ms=0;
@@ -44705,6 +45257,7 @@ void draw(int width,int height){
             throw std::runtime_error("Source AnimatedFX frame update failed: "+fx_error);
         }
         advance_source_map_camera(frame_dt_ms);
+        debug_player_cast_probe();
       }
     }
     const auto& target=inspected_object>=0?world_objects[inspected_object].position:actor_position;
