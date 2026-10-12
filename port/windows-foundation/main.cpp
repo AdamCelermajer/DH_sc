@@ -493,6 +493,7 @@ struct Options {
     int captionAutoTapMs=0; // OPENING2: verification only; taps tap-wait captions after N ms (0 = the player taps)
     struct ScheduledSourceCommand {std::string script;std::size_t index=0;int frame=0;};
     std::vector<ScheduledSourceCommand> sourceCommands;
+    std::vector<std::pair<std::string,int>> diagnosticCameraTargets; // QA only: existing source camera owner, no actor writes
     // P16 SPAWN: --spawn-test TEMPLATE@X,Y,Z@FRAME (debug; empty by default).
     std::vector<f::spawn::SpawnTestRequestV1> spawnTests;
     std::vector<std::pair<std::string,std::string>> containerScriptOverrides; // P16 CONTAINERS2 debug: --container-script DECL=SCRIPT (default none)
@@ -626,6 +627,12 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-enter-frame") o.campaignEnterFrames.push_back(std::stoi(value())); // SKIP16
         else if(arg=="--caption-auto-tap-ms") o.captionAutoTapMs=std::stoi(value()); // OPENING2 (verification input)
         else if(arg=="--campaign-start") o.campaignStart=value(); // P16 CINE
+        else if(arg=="--source-camera-target") {
+            const auto text=value();const auto at=text.rfind('@');
+            if(at==std::string::npos||at==0||at+1==text.size()||text.substr(at+1).find_first_not_of("0123456789")!=std::string::npos)
+                throw std::runtime_error("Source camera QA target must be NAME@FRAME");
+            o.diagnosticCameraTargets.emplace_back(text.substr(0,at),std::stoi(text.substr(at+1)));
+        }
         else if(arg=="--campaign-command") {auto text=value();std::istringstream parts(text);Options::ScheduledSourceCommand c;std::string index,frame,extra;if(!std::getline(parts,c.script,':')||!std::getline(parts,index,':')||!std::getline(parts,frame,':')||std::getline(parts,extra,':')||c.script.empty()||index.empty()||frame.empty()||index.find_first_not_of("0123456789")!=std::string::npos||frame.find_first_not_of("0123456789")!=std::string::npos)throw std::runtime_error("Campaign command must be SCRIPT:INDEX:FRAME");c.index=std::stoull(index);c.frame=std::stoi(frame);o.sourceCommands.push_back(std::move(c));}
         else if(arg=="--combat-react") {auto c=choice(value());o.combat.profiles[c.first].reaction=c.second;}
         else if(arg=="--combat-death") {auto c=choice(value());o.combat.profiles[c.first].death=c.second;}
@@ -6850,6 +6857,24 @@ int main(int argc,char** argv) {
                 despawnServices.log=[&](const std::string& line){std::cout<<line<<'\n';};
                 std::string despawnError;
                 if(!f::spawn::despawn_character_v1(spawnPool,placed->definition.stableId,despawnServices,despawnError))std::cout<<"SPAWN despawn rejected name="<<request.name<<" reason="<<despawnError<<'\n';
+            }
+            for(const auto& inspection:options.diagnosticCameraTargets)if(inspection.second==drawn) {
+                f::ActorId id=0;bool found=false;std::array<float,3> currentPosition{};
+                if(!options.sourceCamera||!sourceObjects.named_object(inspection.first,-1,id,found,error)||!found)
+                    throw std::runtime_error("Source camera QA current named actor unavailable: "+inspection.first+": "+error);
+                const auto* actor=combatSession?combatSession->actor(id):nullptr;
+                const auto* body=nativeBodies.physical(id);
+                if(!actor||actor->is_dead()||!body||!body->native().body||!hostServices.actor_verbs.position_of||
+                   !hostServices.actor_verbs.position_of(id,currentPosition,error))
+                    throw std::runtime_error("Source camera QA requires actual live actor/body/current position: "+inspection.first+": "+error);
+                f::OriginalCampaignCommand command;command.kind=8;command.class_name="Script_SetCameraTarget";
+                command.strings[16]=inspection.first;command.scalars[8]=0;command.scalars[20]=0;
+                bool handled=false,blocking=false;
+                if(!sourceCameraTargets.command(f::CampaignCommandPhase::execute,command,false,handled,blocking,error)||!handled||blocking||sourceCameraTargets.target()!=id)
+                    throw std::runtime_error("Source camera QA command failed: "+error);
+                std::cout<<"Source camera QA frame="<<drawn<<" actor="<<id<<" name="<<inspection.first
+                         <<" currentPosition="<<currentPosition[0]<<','<<currentPosition[1]<<','<<currentPosition[2]
+                         <<" sourceState="<<combatSession->original_actor_state(id)<<" actualBody=1 target="<<sourceCameraTargets.target()<<'\n';
             }
             for(const auto& scheduled:options.sourceCommands)if(scheduled.frame==drawn) {
                 const auto id=sourceCampaign.script_id(scheduled.script);
