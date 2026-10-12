@@ -5494,21 +5494,43 @@ int main(int argc,char** argv) {
             f::CombatSession* session=nullptr;
             f::persistence::death_flow::DeathCheckpointSnapshotV1 snapshot;
             bool loaded=false;
+            const bool* state_trace_enabled=nullptr;
+            const int* state_trace_frame=nullptr;
         } deathRestore;
         struct DeathProfileCountsV1 { std::size_t inventory=0,equipment=0; std::uint64_t xp=0,gold=0; } deathProfileBefore;
         deathRestore.bodies=&nativeBodies;
+        deathRestore.state_trace_enabled=&stateTraceEnabled;deathRestore.state_trace_frame=&stateTraceFrame;
         const auto deathCurrentStates=[](void* raw,f::ActorId id,bool& limbus,bool& preSpawn,std::optional<bool>& canRespawn,
                                          std::optional<bool>& physical,std::string& e)->bool {
             auto& r=*static_cast<DeathRestoreStateV1*>(raw);
-            // The port has no Limbus or PreSpawn owner, so both report not-already; CanRespawn stays unknown and
-            // any saved state that needs it fails closed in source_character_restore_plan_v1.
+            // Exact current-state predicates: SM_IsInLimbus is state 0 and SM_IsInPreSpawn is state 17.
+            // CanRespawn is separate and stays unknown until its source byte/property/group owners are bound.
             limbus=false;preSpawn=false;canRespawn.reset();physical.reset();
-            // "Already" facts come from the live Session state: 1 Spawn and 17 PreSpawn (lifecycle program targets).
-            if(r.session){const auto live=r.session->original_actor_state(id);preSpawn=(live==1||live==17);}
+            // Current Session state is the source FSM witness; state 1 is Spawn, not PreSpawn.
+            const auto liveState=r.session?r.session->original_actor_state(id):-1;
+            if(r.session){preSpawn=(liveState==17);limbus=(liveState==0);}
             // Physical-body presence: the live body registry when it has an entry for this Character, otherwise the
             // actor's recorded source_physical_present fact (published by the body assembly). Unknown stays unknown.
             if(r.bodies)if(const auto* body=r.bodies->physical(id))physical=body->native().body!=nullptr;
-            if(!physical&&r.world)if(const auto* actor=r.world->find_actor(id))physical=actor->source_physical_present;
+            const auto* liveActor=r.world?r.world->find_actor(id):nullptr;
+            if(!physical&&liveActor)physical=liveActor->source_physical_present;
+            if(r.state_trace_enabled&&*r.state_trace_enabled) {
+                const auto saved=std::find_if(r.snapshot.actors.begin(),r.snapshot.actors.end(),[&](const auto& entry){return entry.id==id;});
+                const auto* properties=r.session?r.session->world()->combat_properties(id):nullptr;
+                const auto property11=properties?properties->sheets.resolved[11]:std::numeric_limits<std::int32_t>::min();
+                std::cout<<"STATE_TRACE edge=death-restore-actor frame="<<(r.state_trace_frame?*r.state_trace_frame:0)<<" actor="<<id
+                    <<" savedState="<<(saved==r.snapshot.actors.end()?-1:std::int32_t(saved->source_cs_state))
+                    <<" savedDead="<<(saved==r.snapshot.actors.end()?0:saved->source_dead)
+                    <<" liveState="<<liveState<<" liveDead="<<(liveActor?liveActor->source_dead:0)
+                    <<" property11="<<(property11==std::numeric_limits<std::int32_t>::min()?"unknown":std::to_string(property11))
+                    <<" limbus="<<limbus<<" preSpawn="<<preSpawn<<" canRespawn="<<(canRespawn?(*canRespawn?"true":"false"):"unknown")
+                    <<" physical="<<(physical?(*physical?"true":"false"):"unknown")<<" groupOwner=unavailable"
+                    <<" levelCheckpoint="<<r.snapshot.checkpoint_name<<" key="<<r.snapshot.checkpoint_key_position[0]<<','
+                    <<r.snapshot.checkpoint_key_position[1]<<','<<r.snapshot.checkpoint_key_position[2]
+                    <<" revive="<<r.snapshot.revive_position[0]<<','<<r.snapshot.revive_position[1]<<','<<r.snapshot.revive_position[2];
+                if(liveActor)std::cout<<" livePos="<<liveActor->transform.position[0]<<','<<liveActor->transform.position[1]<<','<<liveActor->transform.position[2];
+                std::cout<<'\n';
+            }
             e.clear();return true;
         };
         const auto deathInitializeQest=[](void* raw,std::vector<std::uint8_t>& bytes,std::string& e)->bool {
