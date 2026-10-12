@@ -995,3 +995,18 @@ Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledge
 - VoxEngineInternal::GetData reproduces the second ReleaseReadAccess on the null-data path (asm 0x869028 and 0x869030). The read count drops once more on that path, as in the binary.
 - VoxEngineInternal::SetInteractiveMusicState (0x86764c) is in src/w12-rem-2/voxengine_interactive_music.cpp. Partial: a non-zero data state word makes the binary call a null decoder; the port skips the call.
 - Test: tests/w12_rem2_unlock_result_test.cpp checks the int results and the transport state.
+## Wave 12 (w12-rem-3): VoxUtils loaders, MPC and native remainders
+
+- VoxEngine::LoadDataSource and LoadDataSourceAsync take (stream_type, stream_arg,
+  decoder_type, decoder_arg, group), as VoxEngineInternal does. The listing (asm
+  0x86f558, 0x86f3b4, 0x86f5fc) passes a path load as (1, path, format, 0, user) and a RAM
+  load as (0, block, format, 0, user). The port's VoxUtils had these arguments shifted;
+  voxutils.cpp now uses the listing order. The static facade drops the engine instance.
+- ConvertToRawSource (asm 0x86f5a0): the engine is the instance pointer and the loaded
+  handle is the argument. The earlier Hex-Rays reading (engine as the argument) was wrong.
+- get_stb_vorbis_struct_size (0x876298) returns 0x5a8. Reconstructed as a size query in
+  src/w12-rem-3/; the stb_vorbis library itself stays unported (see Decisions).
+- Rows still partial name one missing item each in the ledger notes: the owner word of
+  StreamCursorInterface (mpc_getsize), the MPC seek register and zero-sample decode
+  (DecoderMPC8Cursor::Decode), the ParseFile header words, the ADPCM step table bytes
+  (not in the checkout), and the native and group slots listed in the ledger.
