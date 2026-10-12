@@ -460,3 +460,53 @@ Open questions:
 - The indexed `SColorf` setter on CMaterial calls `SColorf::equals` with a tolerance (value not
   recovered); the port compares exactly (partial row).
 - The `PTR` getters' null check and the shared-count release are not checked against the ARM yet.
+
+
+## Hex-Rays re-run (partial rows redone from the IDA Hex-Rays export)
+
+Scope: 306 partial rows at the start. This pass re-read 98 of them from `recovered/native/hexrays-all/`
+(addresses in `ledger.csv`, notes start "Hex-Rays re-run"). Result: 36 rows changed to reconstructed,
+1 to skipped (a compiler-generated destructor), and 61 stay partial. 269 partial rows remain in total:
+61 re-read and kept partial, and 208 not yet re-read (the wave-7 material-parameter instances,
+the SIDedCollection instances, the pak, zip and file-system readers, and the rest of the CAttributes
+string families). A later pass should start from `--redo-partial` and skip the addresses already noted.
+
+Sources checked with `tools/decomp_asm.py` (the IDA listing in `recovered/native/ida-asm/`):
+- Type-name literals are UTF-32LE data in the listing, each cross-referenced only from its own
+  getTypeString. Corrected: CBBoxAttribute returns `box3d` (the port had `bbox`). `light`,
+  `stringwarray` and the base default `unknown` are confirmed too.
+- `fast_atof_table` (0x8be9a4) holds 16 floats: entries 0..9 as DCFS data, entries 10..15 as the
+  bytes after them (nearest floats of 10^-10..10^-15). Entry 0 is 0.0, not 1.0.
+- The wide-to-narrow range copy at 0x3209f8 stores the low byte of each element (STRB), so
+  narrowing by truncation is confirmed (stringw2stringc, IAttribute::getString and setString).
+- IAttribute slots: +0x20 getStringW, +0x90 setString(char), +0x94 setString(wchar_t),
+  +0xec setBBox, +0xf8 setEnum, +0xfc setTexture, +0x108 getTypeString.
+- The process buffer startup size is the immediate 0x40000 (`mov r0, #0x40000`).
+- CColorAttribute::setString packing is confirmed from the listing: (first<<24) | (fourth<<16) |
+  (third<<8) | second.
+
+Changed to reconstructed (36): the getTypeString literals (bool, int, enum, position, rect, box3d,
+plane, line2d, line3d, binary, texture, light, stringwarray, unknown), the base type-name accessors,
+aabbox3d::addInternalBox (both corners folded in, invalid boxes included), CNumbersAttribute::setMatrix,
+stringw2stringc, IAttribute::getString and setString(wchar_t), the process buffer size accessors and
+processBufferHeapInit, CStringWArrayAttribute and CTextureAttribute constructors (both keep their
+argument; the Ghidra decompile had dropped it), the narrow CStringAttribute constructor (it sets the
+value through setString), addStringAsColor (it now also sets the text through setString(wchar_t)),
+addString, addStringAsUserPointer, addStringAsBool, addStringAsFloat, addStringAsTexture, addTexture,
+the array and texture setAttribute overloads, addArray.
+
+Partial, with the reason in the ledger notes:
+- CustomFree and the glitch allocator (intrusive_ptr releases of CMaterial and CMaterialRenderer).
+- fast_atof_move reads past its table for 16 or more fraction digits; the port uses pow there. This
+  keeps fast_atof_move, CFloatAttribute::setString and CStringAttribute::getFloat partial.
+- Library digit generation (CStringAttribute::setFloat, CFloatAttribute::getStringW).
+- Uninitialised fields and null inputs that the original never defines (CColorAttribute::setString on
+  short text, CAttributes::pop on the root, CAttributes::setGroup out of range). The port picks a fixed
+  behaviour there, which the rule against guessing does not allow to count as reconstructed.
+- CLight stand-in: the original counts a light at +0x00 and the port's stand-in counts at +0x04; all
+  light constructors, setters and the light getter stay partial for that reason, though they retain
+  the light as the original does.
+- enum: CEnumAttribute's setEnum and choice table (+0x3c) are not reconstructed, so the enum constructors
+  and the enum setters stay partial. The compiler-generated ~CEnumAttribute is skipped.
+- CVector4DAttribute::getMatrix reads four floats with no length check; the port zero-fills past the list.
+- CFileSystem, CFile, CPakReader, CZipReader and the archive containers are not in the port yet.
