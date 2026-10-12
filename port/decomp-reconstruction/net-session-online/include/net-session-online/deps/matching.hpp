@@ -20,6 +20,12 @@ public:
     virtual bool IsServer() const = 0;
     virtual std::uint32_t GetRoomMask() const = 0;
 
+    // Not in the stand-in's original: the alpha-server switch, a byte at +0x67ed of the
+    // matching object (CMatchingGLLive). The name is not identified. Default: false.
+    virtual bool UseAlphaServer() const { return false; }
+    // CMatchingGLLive::SetGCState (0x81f178) is not in the port. Default: no-op.
+    virtual void SetGCState(std::int32_t /*state*/) {}
+
     // The original reaches the matching object through a static accessor.
     static CMatching* Get() { return Current(); }
     static void Set(CMatching* matching) { Current() = matching; }

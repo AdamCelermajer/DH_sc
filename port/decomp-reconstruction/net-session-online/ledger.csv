@@ -521,3 +521,79 @@ elf_address,symbol,status,source_file,notes
 0x89d41c,_ZN13LCXPlayerHttp14GetResponseLenEv,reconstructed,net-session-online/src/lcx_player_http.cpp,
 0x89d424,_ZN13LCXPlayerHttp14SetResponseLenEi,reconstructed,net-session-online/src/lcx_player_http.cpp,
 0x89d484,_ZN13LCXPlayerHttp16GetRequestLengthEv,reconstructed,net-session-online/src/lcx_player_http.cpp,GET path is strlen of the inline buffer (LC_API_STRLEN tail call)
+0x499194,_ZN10GameCenter16EnableGCFeaturesEv,reconstructed,net-session-online/include/net-session-online/game_center.hpp,inline in the header
+0x4991a0,_ZN10GameCenter17DisableGCFeaturesEv,reconstructed,net-session-online/include/net-session-online/game_center.hpp,inline in the header
+0x4991ac,_ZN10GameCenter15ConnectToServerEi,reconstructed,net-session-online/src/game_center.cpp,no-op
+0x4991b0,_ZN10GameCenter9GCFriendsEi,reconstructed,net-session-online/src/game_center.cpp,no-op
+0x4991b4,_ZN10GameCenter17ProcessGCAPIErrorEPKcS1_,reconstructed,net-session-online/src/game_center.cpp,no-op
+0x4991b8,_ZN10GameCenter21GetGCPlayerAttributesEv,reconstructed,net-session-online/src/game_center.cpp,returns 0xffff0000
+0x4991c4,_ZN10GameCenter10GetUserUidEv,reconstructed,net-session-online/include/net-session-online/game_center.hpp,inline in the header
+0x4991cc,_ZN10GameCenter10GetHostUidEv,reconstructed,net-session-online/include/net-session-online/game_center.hpp,inline in the header
+0x499324,_ZN10GameCenter6IsHostEv,partial,net-session-online/src/game_center.cpp,"the original calls strcmp on both UIDs, so a null UID is undefined there. The port returns false for a null UID"
+0x49a0c4,_ZN19MultiplayerCallback9idleStateEPv,reconstructed,net-session-online/src/multiplayer_callback.cpp,
+0x49a0cc,_ZN19MultiplayerCallback11ingameStateEPv,reconstructed,net-session-online/src/multiplayer_callback.cpp,
+0x4a00a0,_ZN15OnlineGameState11timevaldiffEP7timevalS1_,reconstructed,net-session-online/src/online_game_state.cpp,"milliseconds from the first timeval to the second, 32-bit arithmetic as in the original"
+0x4a02f8,_ZN15OnlineGameState32GlliveRoomCreationTimeOutExpiredEv,reconstructed,net-session-online/src/online_game_state.cpp,uses GetTimeOfDay from deps/time_of_day.hpp in place of gettimeofday
+0x4a0340,_ZN15OnlineGameState29GlliveStartGameTimeOutExpiredEv,reconstructed,net-session-online/src/online_game_state.cpp,uses GetTimeOfDay from deps/time_of_day.hpp in place of gettimeofday
+0x81bbe8,_ZN15CMatchingGLLive11SetMemberIdEi,reconstructed,net-session-online/include/net-session-online/c_matching_gl_live.hpp,inline in the header
+0x81bbf4,_ZN15CMatchingGLLive19GenerateNewMemberIdEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns -1
+0x81bbfc,_ZN15CMatchingGLLive25SendConnectRequestMessageE12tPACKET_TYPEi,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0; the packet type is an int here
+0x81bc04,_ZN15CMatchingGLLive28ProcessConnectRequestMessageER10CNetworkIdR12NetBitStream,reconstructed,net-session-online/src/c_matching_gl_live.cpp,no-op
+0x81bc08,_ZN15CMatchingGLLive17ReceiveInvitationEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc10,_ZN15CMatchingGLLive19GetInvitationRoomIdEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc1c,_ZN15CMatchingGLLive9CloseRoomEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc24,_ZN15CMatchingGLLive8OpenRoomEb,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc2c,_ZN15CMatchingGLLive8HideRoomEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc34,_ZN15CMatchingGLLive8ShowRoomEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc3c,_ZN15CMatchingGLLive12IsRoomClosedEv,reconstructed,net-session-online/include/net-session-online/c_matching_gl_live.hpp,inline in the header; the closed flag is at +0x0e
+0x81bc44,_ZN15CMatchingGLLive12IsRoomHiddenEv,reconstructed,net-session-online/include/net-session-online/c_matching_gl_live.hpp,inline in the header; the hidden flag is at +0x0d
+0x81bc4c,_ZN15CMatchingGLLive19ProcessFriendEventsEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,returns 0
+0x81bc74,_ZN15CMatchingGLLive29ProcessConnectResponseMessageER10CNetworkIdR12NetBitStream,reconstructed,net-session-online/src/c_matching_gl_live.cpp,no-op
+0x81bc94,_ZN15CMatchingGLLive20ProcessClientMessageER10CNetworkIdR12NetBitStream,reconstructed,net-session-online/src/c_matching_gl_live.cpp,no-op
+0x81bc98,_ZN15CMatchingGLLive13InitGLFriendsEv,reconstructed,net-session-online/src/c_matching_gl_live.cpp,no-op
+0x81bc9c,_ZN15CMatchingGLLive19GLFriendsListLoadedEv,reconstructed,net-session-online/include/net-session-online/c_matching_gl_live.hpp,inline in the header
+0x81bca8,_ZN15CMatchingGLLive19GLFriendsListLoadedEb,reconstructed,net-session-online/include/net-session-online/c_matching_gl_live.hpp,inline in the header
+0x7fd508,_ZN7COnline16DetectDisconnectEv,reconstructed,net-session-online/include/net-session-online/c_online.hpp,"no-op, inline in the header"
+0x7fd50c,_ZN7COnline15SetIsOnlineGameEb,reconstructed,net-session-online/include/net-session-online/c_online.hpp,inline in the header
+0x7fd514,_ZN7COnline15IsAgeRestrictedEv,reconstructed,net-session-online/include/net-session-online/c_online.hpp,"returns 0, inline in the header"
+0x7fd588,_ZN7COnline16GetLocalMemberIdEv,reconstructed,net-session-online/src/c_online.cpp,1 when offline; otherwise CMatching::LocalMemberId (stand-in in deps/matching.hpp)
+0x7fd5b4,_ZN7COnline8IsServerEv,reconstructed,net-session-online/src/c_online.cpp,true when offline; otherwise CMatching::IsServer (stand-in in deps/matching.hpp)
+0x7fd5d8,_ZN7COnline12IsTimeSyncedEv,reconstructed,net-session-online/src/c_online.cpp,
+0x801b08,_ZN14CMatchingLocal12IsRoomClosedEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
+0x801b14,_ZN14CMatchingLocal12IsRoomHiddenEv,reconstructed,net-session-online/src/c_matching_local.cpp,"the hidden flag, else the closed flag"
+0x801b3c,_ZN14CMatchingLocal11SetMemberIdEi,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
+0x805664,_ZN14CMatchingLocal13GetMemberMaskEi,reconstructed,net-session-online/src/c_matching_local.cpp,body shared with CMatchingGLLive::GetMemberMask through member_mask.hpp
+0x805694,_ZN14CMatchingLocal19GetInvitationRoomIdEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,"returns 0, inline in the header"
+0x81bc78,_ZN15CMatchingGLLive13GetMemberMaskEi,reconstructed,net-session-online/src/c_matching_gl_live.cpp,body shared with CMatchingLocal::GetMemberMask through member_mask.hpp
+0x824e50,_ZN11COnlineImpl10IsSignedInEv,reconstructed,net-session-online/include/net-session-online/c_online_impl.hpp,"returns 1, inline in the header"
+0x824e58,_ZN11COnlineImpl18IsNetworkConnectedEv,reconstructed,net-session-online/include/net-session-online/c_online_impl.hpp,"returns 1, inline in the header"
+0x824ed4,_ZN11COnlineImpl15GetAbsoluteTimeEv,reconstructed,net-session-online/src/c_online_impl.cpp,
+0x824e60,_ZN11COnlineImpl13ElapsedTimeMsEl,reconstructed,net-session-online/src/c_online_impl.cpp,elapsed time from the stored timeval; a due check restarts it
+0x824f20,_ZN11COnlineImpl6SignInEv,reconstructed,net-session-online/src/c_online_impl.cpp,
+0x52e0d0,_ZN15CXPlayerManager11SwitchStateE20CXPlayerManagerState,reconstructed,net-session-online/src/cxplayer_manager.cpp,
+0x52e0d8,_ZN15CXPlayerManager7IsReadyEv,reconstructed,net-session-online/src/cxplayer_manager.cpp,
+0x8400ec,_ZN13GLXPlayerPing6FinishEv,reconstructed,net-session-online/include/net-session-online/glx_player_ping.hpp,inline in the header
+0x824904,_ZN21CSignInGLLiveObserver6UpdateEv,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,returns 0
+0x82490c,_ZNK21CSignInGLLiveObserver22IsErrorInvalidNicknameEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 0x71
+0x824920,_ZNK21CSignInGLLiveObserver19IsErrorNicknameUsedEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 0x6e
+0x824934,_ZNK21CSignInGLLiveObserver32IsErrorLoginAuthenticationFailedEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 0x61
+0x824948,_ZNK21CSignInGLLiveObserver24IsErrorUsernameNotExistsEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 0x43
+0x82495c,_ZNK21CSignInGLLiveObserver32IsErrorInvalidUsernameOrPasswordEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 0x31
+0x824970,_ZNK21CSignInGLLiveObserver17IsErrorNoUsernameEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == 1
+0x824984,_ZNK21CSignInGLLiveObserver19IsErrorNoConnectionEv,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,inline: lastError == -2
+0x824998,_ZN21CSignInGLLiveObserver9TerminateEv,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,"clears both flags, error and the 0x80-byte address buffer"
+0x8249b4,_ZN21CSignInGLLiveObserverD1Ev,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,D1: calls Terminate
+0x8249e8,_ZN21CSignInGLLiveObserverD2Ev,skipped,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,compiler-generated deleting dtor (D0): calls D1 then frees
+0x824a1c,_ZN21CSignInGLLiveObserverC1Ev,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,C1 ctor: defaulted; same body as C2 at 0x824a68
+0x824a68,_ZN21CSignInGLLiveObserverC2Ev,reconstructed,net-session-online/include/net-session-online/c_sign_in_gl_live_observer.hpp,C2 ctor: same body as C1 at 0x824a1c
+0x824ab4,_ZN21CSignInGLLiveObserver16OnRequestFailureEii,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,code 0xf cancels and posts 5 or 6; stores the error
+0x824b4c,_ZN21CSignInGLLiveObserver16OnRequestTimeoutEi,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,"error 0x29, cancels, posts 8"
+0x824b84,_ZN21CSignInGLLiveObserver14OnNetworkErrorEv,reconstructed,net-session-online/src/c_sign_in_gl_live_observer.cpp,"error -2, cancels, posts 7"
+0x824bbc,_ZN21CSignInGLLiveObserver16OnRequestSuccessEiPci,partial,net-session-online/src/c_sign_in_gl_live_observer.cpp,"GLXPlayerSereverConfig::GetXPlayerURL (0x82ef8c, queued) call omitted (its result is discarded); code 1 SetGCState goes through the CMatching seam; code 0x6b alpha switch via seam; length clamped to 0x7f"
+0x81a6ac,_ZN7CSignIn3GetEv,partial,net-session-online/src/c_sign_in.cpp,"CSignIn::Get: provider 0 creates CSignInDummy; provider 1 (CSignInGLLive, 0x8246b8, queued) creates nothing and returns null"
+0x4991d4,_ZN10GameCenter14GetPlayerCountEv,reconstructed,net-session-online/src/game_center.cpp,GetPlayerCount: list size stored at +0x2c and returned
+0x4999b8,_ZN10GameCenter15ResetPlayerListEv,reconstructed,net-session-online/src/game_center.cpp,"ResetPlayerList: clear, then append the local user UID; a null UID is taken as empty (deviation)"
+0x4995f4,_ZN10GameCenter16GetGCPlayerAliasEv,reconstructed,net-session-online/include/net-session-online/game_center.hpp,inline: returns a copy of the alias std::string (sret)
+0x499618,_ZN10GameCenter16SetGCPlayerAliasEPc,reconstructed,net-session-online/src/game_center.cpp,SetGCPlayerAlias: stores the alias; a null alias is taken as empty (deviation)
+0x81ce00,_ZN14GameCenterInfoD1Ev,reconstructed,net-session-online/src/game_center_info.cpp,GameCenterInfo D1: clears the list at +0x10; other members not identified
+0x52e2d4,_ZN15CXPlayerManager14OnNetworkErrorEv,reconstructed,net-session-online/src/cxplayer_manager.cpp,"prints the network error, sets the error code (+0x7c, name inferred) to 3, switches to state 0x11"

@@ -18,6 +18,20 @@ CSignIn*& CSignIn::Instance() {
 
 void CSignIn::SetInstanceForTest(CSignIn* instance) { Instance() = instance; }
 
+std::int32_t& CSignIn::Provider() {
+    static std::int32_t provider = 0;  // stands in for s_SignInProvider
+    return provider;
+}
+
+// 0x81a6ac _ZN7CSignIn3GetEv
+// Partial: provider 1 (CSignInGLLive) is not created, so a null singleton is returned then.
+CSignIn* CSignIn::Get() {
+    if (Instance() == nullptr && Provider() == 0) {
+        Instance() = new CSignInDummy();
+    }
+    return Instance();
+}
+
 // 0x81a4dc _ZN7CSignIn10InitializeEv
 std::int32_t CSignIn::Initialize() {
     if (!active_) {

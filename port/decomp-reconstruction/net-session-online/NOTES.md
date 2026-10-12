@@ -166,3 +166,112 @@ int32 at +0x50; second header word at +0x54; block owned at +0x58. GetDataSize =
   and the dtors are stubs (partial). Their request client type is not identified.
 - CMessage(const char*, bool) base constructor is not recovered. The std::string at +0x14 in CMessage is
   not modelled either.
+
+## Wave 6: sign-in, observers, GameCenter, CXPlayerManager, COnline (this session)
+
+Ledger: 598 rows in total, 202 added this session (185 reconstructed, 14 partial, 3 skipped).
+Queue: 1268 rows, 670 still unledgered. Every ledger address is in queue.csv (checked numerically).
+
+### Layouts (original 32-bit offsets, kept as comments)
+
+- CSignIn (`c_sign_in.hpp`): +0x00 vptr, +0x04 credentials (name, password, context), +0x10 active
+  flag, +0x11 logged-in flag, +0x14 CEventQueueBase. Virtual slots: +0x08 Initialize, +0x0c and
+  +0x10 SignIn, +0x14 SignOut, +0x18 CancelLogin, +0x1c Update, +0x20 Terminate, +0x24 Destroy.
+  Singleton s_SignIn; provider switch s_SignInProvider (0 = CSignInDummy, 1 = CSignInGLLive).
+- CSignInGLLiveObserver (`c_sign_in_gl_live_observer.hpp`): +0x04 server-configured flag (set by
+  code 1), +0x05 logged-in flag (set by 0xf, cleared by 0x11), +0x06 server address (0x80 bytes),
+  +0x88 last error code. Error codes: 1 no user name, 0x31 wrong user name or password,
+  0x43 user name does not exist, 0x61 authentication failed, 0x6e nickname used, 0x71 invalid
+  nickname, -2 no connection, 0x29 request timeout.
+- CXPlayerManager (`cxplayer_manager.hpp`): +0x14 state (0x10 ready, 0x11 error or logged out),
+  +0x7c last error (name inferred; 3 after a network error). +0x08, +0x0c and +0x10 are owned
+  objects deleted through their virtual dtor (types not identified, not modelled).
+- GameCenter (`game_center.hpp`): +0x07 features enabled, +0x24 player-ID list (the STL list
+  sentinel, now std::list<std::string>), +0x2c player count, +0x30 host UID, +0x34 local user UID,
+  +0x4c player alias (std::string), +0x70 achievement list tail (SaveGCAchievement, queued).
+- GameCenterInfo (`game_center_info.hpp`): +0x10 list of strings. Other members not identified.
+- COnline (`c_online.hpp`): +0x05 online-game flag, +0x30 time-synced flag. Non-virtual.
+- COnlineImpl (`c_online_impl.hpp`): +0x04 initialized flag, +0x08 event queue, +0x40 last-check timeval.
+- CMatchingLocal (`c_matching_local.hpp`): +0x3638 local member id, +0x4b6d room closed, +0x4b8d room hidden.
+- CMatchingGLLive (`c_matching_gl_live.hpp`): +0x0d room hidden, +0x0e room closed, +0x3640 local
+  member id, +0x3644 server member id, +0x6700 friends, +0x6be0 friend list loaded. The byte at
+  +0x67ed is the alpha-server switch read by the sign-in observer (reached through the CMatching seam).
+- CMatchingGLLiveLobbyObserver: +0x04 logged-in, +0x05 connected, +0x06 game started, +0x14 state,
+  +0x48 last result. The friend observer has a flag at +0x04. The message observer has only a vptr.
+- GLXPlayerLogin: +0x40 keep-alive enabled, +0x44 time of last keep-alive, APNS strings and ports
+  at +0x48..+0x60, product arrays at +0x64..+0x70. Keep-alive interval 90000 ms.
+- GLXPlayerMessage: message arrays at +0x3c..+0x5c, count +0x60, current id +0x64, body +0x68,
+  boxCounts_[6][3] at +0x6c..+0xb3 (group mapping in getMsgCount), sent count +0xb4.
+- GLXPlayerLeaderboard: entry count +0x3c, name and score arrays +0x40..+0x50, current player
+  fields +0x58..+0x64. A missing score is 0xfff5d3d6.
+- GLXPlayerSocket and LCXPlayerSocket: +0x04 state (7 = error), +0x08 handle, +0x820 socket type,
+  +0x824 accept address (owned string), +0x828 accept port, +0x850 send percentage (GLX only).
+- GLXPlayerHttp and LCXPlayerHttp: +0x04 socket pointer, +0x08 request buffer (0x400 bytes),
+  +0x408 response text, +0x40c response length, +0x410 server address (GLX), +0x41c post body,
+  +0x420 post body length, +0x424 send-by-post flag.
+- GLXPlayerPing: +0x24 probe state, 1 when finished.
+- OnlineGameState: +0x3c start-game timeval, +0x44 room-creation timeval (`time_of_day.hpp` stand-in).
+
+### Decisions and deviations
+
+- CSignIn::Get (partial): provider 0 creates a CSignInDummy. Provider 1 would create CSignInGLLive,
+  which is not ported, so Get returns null then. s_SignInProvider is a static that defaults to 0 and
+  nothing in this port sets it.
+- The observer is a standalone class. Its vtable (first slot OnNetworkError) is not modelled, and the
+  request handlers are direct calls. Events are posted through CSignIn::Get() each time, and a null
+  singleton is skipped. The original would dereference it.
+- OnRequestSuccess (partial): the code-1 branch omits GLXPlayerSereverConfig::GetXPlayerURL (queued),
+  because its result is discarded. Code 0x6b copies the address with strncpy and keeps the NUL inside
+  the 0x80-byte buffer. The original does not check the length. This port clamps it to 0x7f.
+- Code 0x6b with the alpha flag set copies "alpha01.gameloft.com:7500" (26 bytes with the NUL). The
+  pseudocode shows the strncpy after the branch, but the ARM listing (0x824c2c-0x824c78) returns after
+  the memcpy. The ARM is authoritative, and the strncpy is not run on that path.
+- The CMatching stand-in (`deps/matching.hpp`) gains two non-pure seams: UseAlphaServer() (default
+  false) and SetGCState(int) (default no-op). CMatchingGLLive::SetGCState (0x81f178) is not ported.
+- GameCenter list and alias: a null user UID or null alias is taken as an empty string. The original
+  would construct std::string from a null pointer. GetGCPlayerAlias returns the std::string by value,
+  which matches the sret in the pseudocode.
+- GameCenterInfo: only the destructor is reconstructed. Its list at +0x10 is std::list<std::string>.
+- CXPlayerManager::OnNetworkError prints the same line as the original, with puts.
+- CMessage::CompareMsgSendPriority (0x80a6f8, 24 bytes) reads a uint at +0x38. The CMessage header
+  names +0x38 as trackSent_ (a bool, described as int in the original). The two readings conflict,
+  so the comparator is not ported yet. Resolve the field name before adding it.
+- Earlier-wave decisions still apply: XP_API_STRNEW uses new[] and pairs with XP_API_FREE; the
+  GLXPlayerSocket accept-address leak is fixed; the box and bounds checks are in the GLX message and
+  leaderboard getters; IsHost treats a null UID as not the host; the observers are standalone;
+  COnline is non-virtual; time uses the std::chrono stand-in in deps/time_of_day.hpp.
+- Several bodies were garbled in the pseudocode (tail calls to memcpy, strncpy or __aeabi helpers
+  shown as noreturn). The ARM listing was used for those, and the ARM is authoritative.
+
+### What remains
+
+Queue rows left, by owner and class (670 in total):
+- lib-online-glx CMatchingGLLive 81, CMatchingLocal 55, CMatching 40, CMatchingBluetooth 17,
+  tMatchingPeer 7. The matching layer is large and is still mostly queued.
+- CMessaging 40, CMessage 4 (the ctor at 0x80a540/0x80a61c and CompareMsgSendPriority; see above),
+  CMsgRaisedEvent 2, CMsgAttackResult 1 (CMsgAttackResult::Create at 0x3af330).
+- Struct copies tFriendInfo 3, tRoomInfo 2, tGLRoomInfo 1, tMemberInfo 1, channel 6 and item 6 (slim
+  XML objects), _LiveFeed 1 (its destructor at 0x83ab64).
+- CSignInGLLive 14 (Initialize, SignIn, CancelLogin, SignOut, LoginLobby, SignIn(credentials), ctors,
+  dtors, Terminate, Destroy). It needs CMatchingGLLive::GetGLXPlayerLogin and GLXPlayerLogin::SendLogout.
+  CSignIn 4 (ctors 0x81a58c/0x81a61c and dtors 0x81a7b4/0x81a8b4; the CSignIn ctor sets an event queue
+  expiry of 100 that the port does not model).
+- GameCenter 15 (ctor 0x32bc34, dtors, GCStartMultiplayerGame family, GetJoinPlayerList,
+  GCAddToJoinPlayerList, CoinTossForHost, SetPlayerIDStatus, SaveGCAchievement, ReportGCScore and
+  ReportGCAchievement, GCStartGameTimeoutExpired, DumpPlayerIDStatusList). MultiplayerCallback 22.
+- GLX and LCX services: GLXPlayerSereverConfig 27, GLXPlayerLogin 21, GLXPlayerMessage 21,
+  GLXPlayerHttp 17, GLXPlayerLeaderboard 15, LCXPlayerHttp 15, GLXPlayerUserFriend 13,
+  GLXPlayerSocket 13, LCXPlayerSocket 13, GLXPlayerPing 11, GLXPlayerMPLobby 5, GLXPlayerMPBase 4,
+  GLXPlayerUser 3.
+- CXPlayerManager 13 (Init is garbled: its tail call goes to an allocator. Login, Logout, IsLoggedIn,
+  OnRequestSuccess, OnRequestFailure, OnRequestTimeout, UploadMyScore, ctors and dtors). The owned
+  objects at +0x08, +0x0c and +0x10 need their types.
+- COnline 17 (GetPing, SendPackets, ReceivePackets, SendSyncTime, Initialize, Terminate, Destroy,
+  ReportDisconnect, ctors). These need CConnectionManager, which is not in deps/.
+- COnlineImpl 10, OnlineGameState 9 (Update, Destroy, ctors, dtors, timeout helpers), and
+  OnlineSingleton<OnlineGameState> 3. OnlineGameState::Update needs MultiplayerStateMachine and COnline.
+- ALicenseCheck 21 and ALicenseCheck_GetUserAgent 1.
+- XP_API quick wins still queued: XP_API_ITOA (82a66c), XP_API_TOLOWER (82ad54), XP_API_IP_INT2STR,
+  XP_API_IP_STR2INT, XP_API_FTOA, XP_API_GET_RANDOM, XP_API_GET_TIME, XP_API_PARSE_DATA,
+  XP_API_STRCHRFIND, the XP_API_FILE_* family, and the XP_DEBUG_*_LOG functions.
+- No Json:: functions are queued for this category, so no upstream rows are needed.

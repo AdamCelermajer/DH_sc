@@ -58,6 +58,19 @@ int main() {
     probe.Destroy();                  // no singleton left: nothing happens
     CHECK(deletedCount == 1);
 
+    // Get creates the dummy provider once, and returns the same object after that.
+    CSignIn::SetInstanceForTest(nullptr);
+    CSignIn::Provider() = 0;
+    CSignIn* got = CSignIn::Get();
+    CHECK(got != nullptr);
+    CHECK(CSignIn::Get() == got);
+    CHECK(dynamic_cast<CSignInDummy*>(got) != nullptr);
+    got->Destroy();  // deletes the singleton
+    CHECK(CSignIn::Get() != nullptr);
+    CSignIn::Get()->Destroy();
+    CHECK(CSignIn::Get() != nullptr);
+    CSignIn::Get()->Destroy();
+
     std::printf("%s\n", failures ? "c_sign_in: FAILED" : "c_sign_in: ok");
     return failures != 0;
 }

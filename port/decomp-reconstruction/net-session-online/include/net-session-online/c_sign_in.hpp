@@ -58,6 +58,14 @@ public:
     // original reads the global s_SignIn and does not use this.
     virtual void Destroy();
 
+    // 0x81a6ac _ZN7CSignIn3GetEv: returns the singleton. With none and provider 0 it creates
+    // a CSignInDummy. Provider 1 (CSignInGLLive, 0x8246b8) is queued, so no object is made.
+    static CSignIn* Get();
+    // The provider switch s_SignInProvider (0 = dummy, 1 = Gameloft Live). Not set by this port.
+    static std::int32_t& Provider();
+    // Not in the original: the event queue at +0x14, which the observers post to.
+    CEventQueueBase& EventQueue() { return events_; }
+
     // Test seams. Not in the original.
     bool ActiveForTest() const { return active_; }
     bool LoggedInForTest() const { return loggedIn_; }
