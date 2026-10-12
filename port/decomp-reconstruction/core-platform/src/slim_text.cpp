@@ -43,9 +43,11 @@ int utf8toutf16(const char* src, unsigned srcLen, std::uint32_t* dst, unsigned d
     return count;
 }
 
-// 0x844270 slim::utf16toutf8
-// Partial: the decompiled bit operations are mangled by the ~ casts. This emits
-// standard UTF-8 (1, 2 or 3 bytes) instead of reproducing the exact byte stores.
+// 0x844270 _ZN4slim11utf16toutf8EPKwjPcj
+// Partial: the listing's byte stores are standard UTF-8 (the ~ pairs are a
+// sign-extension with logical shifts, so they keep 0xC0/0xE0 leads and 0x80
+// continuations). The listing returns the byte count written; the header declares
+// void, so that count is not returned here.
 void utf16toutf8(const std::uint32_t* src, unsigned count, char* dst, unsigned dstMax) {
     unsigned out = 0;
     for (unsigned i = 0; i < count; ++i) {
@@ -59,7 +61,7 @@ void utf16toutf8(const std::uint32_t* src, unsigned count, char* dst, unsigned d
             dst[out++] = static_cast<char>(0x80 | (c & 0x3f));
         } else {
             if (out + 3 > dstMax) return;
-            dst[out++] = static_cast<char>(0xe0 | (c >> 12));
+            dst[out++] = static_cast<char>(0xe0 | ((c >> 12) & 0x1f));
             dst[out++] = static_cast<char>(0x80 | ((c >> 6) & 0x3f));
             dst[out++] = static_cast<char>(0x80 | (c & 0x3f));
         }

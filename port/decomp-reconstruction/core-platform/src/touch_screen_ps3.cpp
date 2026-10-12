@@ -1,8 +1,8 @@
 #include "core-platform/touch_screen_ps3.hpp"
 
-// 0x33d3f4 / 0x33d440 TouchScreenPS3::TouchScreenPS3()
-// The original sets the active count (+0x190) to zero and points +0x1b4 at a
-// data address that is not recovered; nullptr stands in for it.
+// 0x33d3f4 _ZN14TouchScreenPS3C1Ev (and 0x33d440 _ZN14TouchScreenPS3C2Ev, same body)
+// Partial: the listing stores the address off_95C4F0 at +0x1b4 (eventReceiverVtable_).
+// That table is not recovered, so nullptr stands in for it.
 TouchScreenPS3::TouchScreenPS3() : TouchScreenBase(0, 0) {}
 
 // 0x33d1f4 TouchScreenPS3::getLeftBound() const

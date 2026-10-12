@@ -322,10 +322,12 @@ std::list<long> TouchScreenBase::getTouchIDList() const {
     return ids;
 }
 
-// 0x33c568 TouchScreenBase::ProcessEvents()
-// Partial: the original's return value comes from a tail call to float
-// multiply, and the empty-queue path returns whatever register is left over.
-// Zero is returned here for that path.
+// 0x33c568 _ZN15TouchScreenBase13ProcessEventsEv
+// Partial, and not the listing's logic. The listing drains the whole queue, raising an
+// event per entry through EventManager::Raise (not declared in this category, with
+// vtables off_95C390/off_95B458/off_95C3A8 not recovered), gated by DebugSwitches, and
+// returns int. The header declares float ProcessEvents(), which this file cannot change,
+// so this body is a stand-in that pops one event and returns its scaled X.
 float TouchScreenBase::ProcessEvents() {
     if (_IsQueueEmpty()) {
         return 0.0f;

@@ -176,9 +176,10 @@ bool ParseDedicatedServerInfo(_tDedicatedServerInfo& info, DataPacket* packet) {
 }
 
 // 0x828b64 _Z8_DBG_OUTPKcz
-// Partial: the original ends in __android_log_print(4, "WIFI", ...) and returns
-// its result. Here the line goes to appDebugLog with the same tag, and the
-// returned count is the length of the formatted text.
+// Partial: the original formats with vsprintf into a stack buffer of about 1 KB, prints the
+// text, and returns the result of __android_log_print(4, "WIFI", "%s", text). Here the
+// text is formatted with a 1024-byte bound, printed, and sent to appDebugLog with the same
+// tag. The return value is the text length, not the log-call result.
 int _DBG_OUT(const char* format, ...) {
     char buffer[1024];
     va_list args;

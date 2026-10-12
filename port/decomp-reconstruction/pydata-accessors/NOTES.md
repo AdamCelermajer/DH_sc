@@ -383,3 +383,17 @@ internal to the port, not binary-compatible with the original.
   is the listing's 12-byte record, and the host sizeof is used. Confirm against their read bodies before
   relying on either.
 - Build: host passes 201 tests and the static library has no duplicate symbols.
+
+## Wave 8: partial redo (Hex-Rays, Haiku workers)
+
+Eight workers re-derived the 99 partial rows of the pydata-accessors queue from Hex-Rays
+(slices py_D to py_H). Ledger now: 2110 reconstructed, 72 partial, 20 skipped.
+- Arrays27: LevelList and FastTravelList now use sizeof(element) as stride (were 72 and 28).
+  Their element classes declare no read slot, so those two rows stay partial.
+- ItemPowerRef::read (0x4ecdc8): Hex-Rays' element vtable is AttrBonusEntry's, so the loop
+  is reconstructed with stride sizeof(AttrBonusEntry) in memory (listing 16).
+- Structs read rows that call Structs::v2Condition::read or ItemBase::read stay partial;
+  those functions are not in the port. StatAutoAssignTargetList::read now uses
+  BuildAndReadTable<StatAutoAssignTarget>.
+- ScriptCmd and Arrays read rows: bodies match Hex-Rays; partial because ElementVtable<X>
+  is not defined for several element classes, and the two StatList tables lack finalize.

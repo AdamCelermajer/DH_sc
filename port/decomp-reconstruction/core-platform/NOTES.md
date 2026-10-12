@@ -249,3 +249,17 @@ Still differing from the listing, and left as they are:
 - The `swf::MemHint` operator new/new[] forms (0x752ba4, 0x752ba8, 0x752b44, 0x752b48) tail-call
   `gameswf::malloc_internal`, which is not in this category. The port forwards them to `SwfAlloc`. The two
   4-arg rows (0x752b44, 0x752b48) stay `partial`.
+
+## Wave 8: partial redo (Hex-Rays, Haiku workers)
+
+Eight workers re-derived the 77 partial rows of the core-platform queue from Hex-Rays
+(slices core_A, core_B, core_C). Ledger now: 297 reconstructed, 68 partial, 314 skipped.
+- PerfCounters::GetEntry (0x312584): the pseudocode inserts a new entry when the name is
+  missing (LABEL_4 path) and returns it. It no longer returns nullptr for a missing name;
+  the test was updated to match.
+- XmlNode::writeNode (0x845268): the listing's literals are CRLF ("\r\n" at asc_8C0008,
+  "/>\r\n", ">\r\n", "-->\r\n"). The slim XML test expectation was updated to CRLF.
+- Remaining partials are blocked by stand-in types or missing functions in this tree
+  (EventManager::Raise, gameswf::malloc_internal, the Application device object, the
+  debug-draw owner, ISceneNode, ObjectHandle, VoxSoundManager, XP_DEBUG_OUT).
+- Character-type gameplay rows in w7_global (0x41f834, 0x4218e4, 0x433d00) are skipped.

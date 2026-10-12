@@ -32,7 +32,7 @@ extern ObjectManager* g_ObjectManagerInstance;  // dword_99F764
 // dword_99F73C is the debug-draw owner; the driver is at its +0x10. The call goes
 // through the driver's vtable slot at byte offset +0x28 (not named in the tree).
 extern void* g_DbgDrawOwner;  // dword_99F73C
-void DbgDrawBoxViaDriverSlot28(void* driver, const float rect[6], std::uint32_t packedColor);
+int DbgDrawBoxViaDriverSlot28(void* driver, const float rect[6], std::uint32_t packedColor);
 
 // ---- Player and character stand-ins -----------------------------------------
 // The local player's Character class id (short at byte offset 5064 of the

@@ -31,10 +31,13 @@ void AccelerometerBase::clear() {
 // 0x33d744 AccelerometerBase::update(double): a thunk to clear().
 void AccelerometerBase::update(double) { clear(); }
 
-// 0x33d8dc AccelerometerBase::moved(float, float, float)
+// 0x33d8dc _ZN17AccelerometerBase5movedEfff
 // Stores the sample, lowers the min and raises the max of each axis, and
 // recomputes the angles. Partial: the listing then raises an event (type 6 with
-// the three components) through EventManager; that call is not reproduced here.
+// the three components) through EventManager::Raise on the global at dword_99F740,
+// and its event vtable (off_95C580) is not recovered. Neither is declared in this
+// category (the stand-in EventManager in w7_console_01.hpp has Attach/Detach only),
+// so the call is not reproduced here.
 void AccelerometerBase::moved(float x, float y, float z) {
     x_ = x;
     y_ = y;

@@ -134,7 +134,7 @@ elf_address,symbol,status,source_file,notes
 0x34ef58,_ZNK15FileSystemWin3211_FileHandle4peekEPvy,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch CFile peek; stdio stand-in
 0x34f004,_ZN11IFileStreamD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x34f068,_ZN15FileSystemWin329_getPathsEv,reconstructed,core-platform/src/filesystem_win32.cpp,
-0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: backup via glitch file objects; stdio stand-in
+0x34f10c,_ZNK15FileSystemWin3214backupSavefileEPKcS1_,reconstructed,core-platform/src/filesystem_win32.cpp,Unlink destination (ENOENT ok) then rename; trace-switch lookups on failure kept as DebugSwitches stand-in calls.
 0x34f274,_ZNK15FileSystemWin3214deleteSavefileEPKc,partial,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: delete via glitch file system; stdio stand-in, trace logging omitted"
 0x34f34c,_ZN15FileSystemWin3212makeFullPathEPKcS1_Pci,reconstructed,core-platform/src/filesystem_win32.cpp,
 0x34f35c,_ZN15FileSystemWin3212makeFullPathEPKwS1_Pwi,skipped,core-platform/src/filesystem_win32.cpp,wide-char makeFullPath overload not reconstructed
@@ -143,7 +143,7 @@ elf_address,symbol,status,source_file,notes
 0x34f6c0,_ZN15FileSystemWin32D2Ev,skipped,core-platform/src/filesystem_win32.cpp,compiler-generated destructor
 0x34f6f4,_ZN15FileSystemWin32C1Ev,reconstructed,core-platform/src/filesystem_win32.cpp,"Hex-Rays re-run: five 0x104-byte path buffers zeroed, then _getPaths (confirmed by the listing)"
 0x34f788,_ZN15FileSystemWin32C2Ev,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as the C1 constructor
-0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: glitch path normalisation (676-byte listing) not reproduced; stdio stand-in
+0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,reconstructed,core-platform/src/filesystem_win32.cpp,Hex-Rays loop reduces to replacing every '/' with '\'; glitch string return represented by std::string.
 0x34fb7c,_ZN15FileSystemWin3211_FileHandleD1Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: releases the glitch CFile (ISharedObject drop) and sets the vtable; FILE close stands in
 0x34fbbc,_ZN15FileSystemWin3211_FileHandleD0Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: deleting destructor (D1 then CustomFree); FILE close stands in for the CFile release
 0x34fbd8,_ZN15FileSystemWin3211_FileHandleD2Ev,partial,core-platform/src/filesystem_win32.cpp,Hex-Rays re-run: same body as D1; FILE close stands in for the CFile release
@@ -363,21 +363,21 @@ elf_address,symbol,status,source_file,notes
 0x844b44,_ZN4slim7XmlNodeD1Ev,reconstructed,core-platform/src/slim_xml.cpp,
 0x844bd8,_ZN4slim7XmlNode10clearChildEv,reconstructed,core-platform/src/slim_xml.cpp,
 0x844c8c,_ZN4slim7XmlNodeD2Ev,reconstructed,core-platform/src/slim_xml.cpp,same body as the D1 destructor
-0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: 0x30-byte attribute object and list insertion at the sentinel (+0x34); member offsets of the attribute inferred
-0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,partial,core-platform/src/slim_xml.cpp,Hex-Rays re-run: name and attribute scan visible; the attribute loop (= and quote handling) is only approximated; not fully transcribed
+0x844d20,_ZN4slim7XmlNode12addAttributeEPKcS2_,reconstructed,core-platform/src/slim_xml.cpp,"Name and value stored when given, attribute appended at list tail as in listing; node allocator replaced by container push_back"
+0x844db8,_ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"Name scan, attribute loop (empty name for '=' '/' '>' as listing), quoted value ranges match listing"
 0x844f44,_ZN4slim7XmlNode8addChildEPKcNS_8NodeTypeE,reconstructed,core-platform/src/slim_xml.cpp,other node types return null as in the original
 0x844fdc,_ZN4slim11XmlDocument5parseEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: walk, closing-tag text rule (element with no children), comment and self-closing checks match the listing; closing names not compared"
 0x8451dc,_ZN4slim11XmlDocument14loadFromMemoryEPKcj,reconstructed,core-platform/src/slim_xml.cpp,"clears children, rejects UTF-16 and UTF-8 byte-order marks, length 2 or less"
-0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,partial,core-platform/src/slim_xml.cpp,"Hex-Rays re-run: tab indent per depth, ""<"" name, attributes as "" name=\""value\"""", comments as ""<!--body-->"" then CRLF; attribute loop and element tail not fully transcribed"
+0x845268,_ZNK4slim7XmlNode9writeNodeERSsi,reconstructed,core-platform/src/slim_xml.cpp,"Tab indent, attributes, CRLF literals (""-->\r\n"", ""/>\r\n"", "">\r\n"", ""</"") per listing; attribute-object null assert not reproduced"
 0x845518,_ZNK4slim7XmlNode15writeChildNodesERSsi,reconstructed,core-platform/src/slim_xml.cpp,
 0x311730,_ZN12PerfCounters12CounterEntryC1ERKS0_,reconstructed,core-platform/src/perf_counters.cpp,"copy of name, the three values and the history"
 0x3110c4,_ZN12PerfCountersC2Ev,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: node block of 0x3e84 bytes via operator new[], list head at +0x14; std containers differ"
 0x311118,_ZN12PerfCountersC1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the C2 constructor
-0x3115c4,_ZN12PerfCountersD1Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: frees the node block and clears the list; node allocator differs
-0x311620,_ZN12PerfCountersD2Ev,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: same as the D1 destructor
+0x3115c4,_ZN12PerfCountersD1Ev,reconstructed,core-platform/src/perf_counters.cpp,Frees node block; entries and history released by member destructors (listing clears list and frees history)
+0x311620,_ZN12PerfCountersD2Ev,reconstructed,core-platform/src/perf_counters.cpp,Same as the D1 destructor
 0x312584,_ZN12PerfCounters8GetEntryERKSs,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: a missing name is created (appended to the list, history sized to count + 1) and returned; the reconstruction returns nullptr"
-0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,partial,core-platform/src/perf_counters.cpp,"Hex-Rays re-run: gated by the EnablePerfCounters switch (DebugSwitches), which the reconstruction does not check; values stored at +0x18, +0x1c, +0x20"
-0x31177c,_ZN12PerfCounters6UpdateEf,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: sampling layout inferred; time advances by dt
+0x312734,_ZN12PerfCounters15SetCounterValueERKSsfff,reconstructed,core-platform/src/perf_counters.cpp,"Gated by EnablePerfCounters switch; value, extra1, extra2 stored per listing; creation of a missing entry follows GetEntry (partial)"
+0x31177c,_ZN12PerfCounters6UpdateEf,reconstructed,core-platform/src/perf_counters.cpp,"Each counter's value pushed to its history, time pushed to the global history, time advanced by dt, as in listing"
 0x311914,_ZN12PerfCounters4DrawEv,partial,core-platform/src/perf_counters.cpp,Hex-Rays re-run: glitch rendering not reproduced; checks kept
 0x34ebcc,_ZN15FileSystemWin329closeFileERP11IFileStream,reconstructed,core-platform/src/filesystem_win32.cpp,deletes the stream (vtable slot +0x4 is the deleting destructor) and clears the pointer
 0x34ebfc,_ZNK15FileSystemWin3210getFoldersEPKcRSt6vectorISsSaISsEE,reconstructed,core-platform/src/filesystem_win32.cpp,empty in the original
@@ -392,9 +392,9 @@ elf_address,symbol,status,source_file,notes
 0x31fbec,_ZN11GCSingletonI10GameCenterED0Ev,skipped,core-platform/include/core-platform/gc_singleton.hpp,compiler-generated deleting destructor; the original frees through CustomFree
 0x32bd08,_ZN11GCSingletonI10GameCenterE11GetInstanceEv,partial,core-platform/include/core-platform/gc_singleton.hpp,"Hex-Rays re-run: allocates CustomAlloc(0x7C) and runs the constructor before the null check; sizeof(T) used; assert text ""m_instance != 0"" at GameCenter.h:27 not reproduced"
 0x48b7fc,_ZN7Array2dIPN3rnd4TileEEclEii,reconstructed,core-platform/include/core-platform/array2d.hpp,rows_[y - minY_][x - minX_] after growing to include the cell
-0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body builds an 8-slot deque map with one node at the middle; the STL map is not modelled, the grid starts empty"
-0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque internals (_M_fill_insert, erase, map re-init); observable shape kept, map layout not reproduced"
-0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,partial,core-platform/include/core-platform/array2d.hpp,"Hex-Rays re-run: body is libstdc++ deque growth (map reallocation, node allocation); growth rules kept, map layout not reproduced"
+0x487dd8,_ZN7Array2dIPN3rnd4TileEEC1Ev,reconstructed,core-platform/include/core-platform/array2d.hpp,"Empty grid with origin (0,0) and width 0. The original's 8-slot deque map pre-allocation is a libstdc++ detail not reproduced."
+0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,reconstructed,core-platform/include/core-platform/array2d.hpp,"Erases all rows and resets origin and width to 0, so the grid is empty afterwards. Replaces the earlier version that kept the shape."
+0x48b578,_ZN7Array2dIPN3rnd4TileEE14EnsurePositionEii,reconstructed,core-platform/include/core-platform/array2d.hpp,"Growth order and counts match Hex-Rays: x left/right, then y top/bottom, new rows at current width. The earlier empty-grid special case (origin at first cell) is removed; Hex-Rays starts from origin 0."
 0x33d71c,_ZN17AccelerometerBaseD1Ev,reconstructed,core-platform/include/core-platform/accelerometer.hpp,"empty destructor, compiler-generated in the header"
 0x33aebc,_ZNK15TouchScreenBase15isRegionPressedERKN6glitch4core4rectIfEE,skipped,core-platform/src/touch_screen_base.cpp,return value is a float product whose operands are only partly visible; no body reconstructed
 0x897b64,switchD_008a7b5c::caseD_ffffffef,skipped,core-platform/src,"Ghidra switch-case label inside a jump table, not a function body"
@@ -643,11 +643,11 @@ elf_address,symbol,status,source_file,notes
 0x3ef18c,_Z22DBG_GetLoadingStepNamei,skipped,core-platform/src/w7_global_rem.cpp,Needs the string table s_LoadingStepsNames (not recovered); the index guard alone is not a function
 0x3ef9fc,_Z25DBG_DisplayLoadLevelStatsPKc,reconstructed,core-platform/src/w7_global_rem.cpp,Global s_dbgLevelLoadCount declared extern in w7_global_rem.hpp; owner is the level-loading category
 0x3fda1c,_ZltRKN13ItemInventory4ItemES2_,skipped,core-platform/src/w7_global_rem.cpp,"Thunk to II_Item_sortbyvalue (not in tree); ItemInventory::Item is undeclared, so the forwarder cannot be written yet"
-0x41f834,_Z18playerClassAsStrIDi,partial,core-platform/src/w7_global_rem.cpp,Class ids 263/325/290 and the StrID offsets follow the listing. Local-character read is a stand-in (LocalCharacterClassId); PyDataConstants::getConstant is a stand-in
-0x4218e4,_Z16playerClassAsStrv,partial,core-platform/src/w7_global_rem.cpp,Names mage/rogue/warrior follow the listing. Local-character read is a stand-in (LocalCharacterClassId)
+0x41f834,_Z18playerClassAsStrIDi,skipped,core-platform/src/w7_global_rem.cpp,"Reads the local player Character class id through PlayerManager and Character, which are gameplay classes owned by the other session. Existing stand-in body left in place and not reviewed."
+0x4218e4,_Z16playerClassAsStrv,skipped,core-platform/src/w7_global_rem.cpp,"Reads the local player Character class id through PlayerManager and Character, which are gameplay classes owned by the other session. Existing stand-in body left in place and not reviewed."
 0x429c10,_Z24DisplayBuildInfoOnSplashv,reconstructed,core-platform/src/w7_global_rem.cpp,Empty body (BX LR); input body_bytes 4
 0x429c14,_Z21HideBuildInfoOnSplashv,reconstructed,core-platform/src/w7_global_rem.cpp,Empty body (BX LR); input body_bytes 4
-0x433d00,_Z15ParsePlayerNameRKSs,partial,core-platform/src/w7_global_rem.cpp,"Local player character, SG_GetPlayerName and StringManager::parse are stand-ins; the meaning of the ""^$"" pattern argument is not recovered"
+0x433d00,_Z15ParsePlayerNameRKSs,skipped,core-platform/src/w7_global_rem.cpp,Uses the local player Character (Character::SG_GetPlayerName) and StringManager; Character is owned by the other session. Existing stand-in body left in place and not reviewed.
 0x43a8f0,_Z17UpdateSavedValuesv,partial,core-platform/src/w7_global_rem.cpp,Reads AutoOrientation and applies it. Application::GetSavedOption and ResetOrientation are stand-ins
 0x43acb4,_Z21NatvieResumeAllSoundsRKN7gameswf7fn_callE,partial,core-platform/src/w7_global_rem.cpp,"VoxSoundManager is a stand-in; ResumeAllSounds return value is declared int, not confirmed"
 0x441dcc,_Z15fillLeaderBoardv,skipped,core-platform/src/w7_global_rem.cpp,"Needs gameswf::as_value layout (set_string, drop_refs, operator=), RenderFX::InvokeASCallback, MenuManager, GLXPlayerLeaderboard accessors and CMatching; none in tree"

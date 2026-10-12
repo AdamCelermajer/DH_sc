@@ -149,6 +149,7 @@ PyDataArrays::ClassFactory& PyDataArrays::registerClassByName(const char* name, 
 // 0x4aa21c _ZN12PyDataArrays4LoadEv
 // Partial, covering all 70 file states (cases 0..69) and the terminal state 70. The loader's open and
 // release calls use the PyDataFileLoader stand-in because the loader class is not recovered.
+// partial: g_pyDataLoader has no definition in the port, and PyDataArrays::reloadData (vtable +8) is declared only.
 int PyDataArrays::Load() {
     const int state = m_state;
     PyDataFileLoader* const loader = g_pyDataLoader;

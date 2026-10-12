@@ -1,22 +1,33 @@
 // Structs records, slice structs_3 (see include/pydata-accessors/w7_structs_3.hpp).
+#include <cstring>
+
 #include "pydata-accessors/w7_structs_3.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"  // Item family (superset layout)
 #include "pydata-accessors/array_element.hpp"
 
 namespace {
 
-// Element stride of the ItemPowerRef table (the listing's 16 * count and element step of 16).
-constexpr std::size_t kItemPowerElementStride = 16;
+// Element of the ItemPowerRef table: AttrBonusEntry (its vtable is off_96B368, the vptr the listing stores
+// into each element). The listing's stride is 16; the in-memory stride is sizeof(element).
+constexpr std::size_t kItemPowerElementStride = sizeof(Structs::AttrBonusEntry);
+
+// The vptr of AttrBonusEntry: the first word of a polymorphic object (Itanium ABI).
+const void* AttrBonusEntryVptr() {
+    Structs::AttrBonusEntry probe;
+    const void* vptr = nullptr;
+    std::memcpy(&vptr, &probe, sizeof vptr);
+    return vptr;
+}
 
 // Original loop of ItemPowerRef::finalize (0x4d573c). Destroys the elements from the last to the first
-// through vtable slot 0 (the virtual destructor of pydata::ArrayElement), then frees the table block at
-// members - 8. The caller clears its count and table pointer.
+// through vtable slot 0 (the virtual destructor), then frees the table block at members - 8. The caller
+// clears its count and table pointer.
 void ReleaseElementTable(void* members) {
     auto* header = static_cast<std::uint32_t*>(members) - 2;  // header[0] = stride, header[1] = count
     const std::uint32_t count = header[1];
     auto* bytes = static_cast<unsigned char*>(members);
     for (std::uint32_t i = count; i > 0; --i) {
-        reinterpret_cast<pydata::ArrayElement*>(bytes + kItemPowerElementStride * (i - 1))->~ArrayElement();
+        reinterpret_cast<Structs::AttrBonusEntry*>(bytes + kItemPowerElementStride * (i - 1))->~AttrBonusEntry();
     }
     CustomFree(header);
 }
@@ -63,7 +74,8 @@ void ItemAudioVisual::read(IStreamBase* stream) {
     if (m_w4 != nullptr) CustomFree(m_w4);               // +0x10
     m_w4 = MemoryHintState(static_cast<std::size_t>(m_w3) + 1, 1);
     // PARTIAL: the listing passes a 5th, 64-bit argument to readStringEx (high word 1, low word undefined in
-    // the listing). The stand-in readStringEx takes four arguments, so it is not passed.
+    // the listing), and returns the readStringEx result as a bool. The stand-in readStringEx takes four
+    // arguments and returns void, so neither is passed or returned.
     StreamReader::readStringEx(stream, static_cast<char*>(m_w4), m_w3, 0);
     static_cast<char*>(m_w4)[m_w3] = 0;
 }
@@ -110,19 +122,28 @@ void ItemPowerRef::finalize() {
 }
 
 // 0x4ecdc8 _ZN7Structs12ItemPowerRef4readEP11IStreamBase
-// PARTIAL: the fixed fields, the table header and the table allocation are reconstructed. Not reconstructed:
-// the listing stores the element vtable (off_96B368) into each element and calls each element's read through
-// vtable slot +0xc, in order. The element class of this table is not identified, so the vtable is not available.
+// The table elements are AttrBonusEntry (vtable off_96B368, see 0x4fef00). Each element's vptr is stored, then
+// each element's read (vtable slot +0xc) runs in order, before the trailing words are read. Listing stride 16,
+// in-memory stride sizeof(AttrBonusEntry).
 void ItemPowerRef::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int8_t>(stream);   // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream); // +0xc
     if (m_w4 != nullptr) ReleaseElementTable(m_w4);     // +0x10 (old table)
     const std::uint32_t count = m_w3;
-    auto* header = static_cast<std::uint32_t*>(MemoryHintState(16 * static_cast<std::size_t>(count) + 8, 1));
-    header[0] = 16;     // element stride
-    header[1] = count;  // element count
-    m_w4 = header + 2;
+    const std::size_t stride = kItemPowerElementStride;
+    auto* header = static_cast<std::uint32_t*>(MemoryHintState(stride * static_cast<std::size_t>(count) + 8, 1));
+    header[0] = static_cast<std::uint32_t>(stride);  // element stride
+    header[1] = count;                               // element count
+    auto* data = reinterpret_cast<std::uint8_t*>(header + 2);
+    const void* vptr = AttrBonusEntryVptr();
+    for (std::uint32_t i = 0; i < count; ++i) {
+        std::memcpy(data + stride * i, &vptr, sizeof vptr);
+    }
+    m_w4 = data;
+    for (std::uint32_t i = 0; i < count; ++i) {
+        reinterpret_cast<Structs::AttrBonusEntry*>(data + stride * i)->read(stream);
+    }
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
     m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c

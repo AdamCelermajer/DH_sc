@@ -22,9 +22,9 @@ XmlNode::~XmlNode() {
     clearChild();
 }
 
-// 0x844d20 slim::XmlNode::addAttribute(char const*, char const*)
-// Partial: the listing shows only the allocation of the 0x30-byte attribute; the
-// list insertion and the name and value stores are inferred from the parser.
+// 0x844d20 _ZN4slim7XmlNode12addAttributeEPKcS2_
+// Allocates the 0x30-byte attribute, stores the name and value when given, and appends
+// it to the node's attribute list (the listing inserts at the list tail).
 XmlAttribute* XmlNode::addAttribute(const char* name, const char* value) {
     auto* attribute = new XmlAttribute();
     if (name != nullptr) {
@@ -123,11 +123,12 @@ XmlNode* XmlNode::findNextChild(const char* name, ChildIterator& it) const {
     }
 }
 
-// 0x845268 slim::XmlNode::writeNode(slim::String&, int) const
-// Partial: the listing's string literals (the tag punctuation and line ends) are
-// not all recoverable. The layout used here is one node per line with tab indent
-// per depth, attributes as name="value", and "/>" for an empty element. Only the
-// first attribute is visible in the listing; the rest are written the same way.
+// 0x845268 _ZNK4slim7XmlNode9writeNodeERSsi
+// Tab indent per depth, "<" name, attributes as ' name="value"', then "/>\r\n" for an
+// empty element, or ">" with the text (no children) or "\r\n" plus the children and
+// their indent, closed by "</name>\r\n". A comment is "<!--name-->\r\n". The literals
+// (including the CRLF line ends) are as the listing has them.
+// Reconstructed; the listing's attribute-object null assert is not reproduced.
 void XmlNode::writeNode(std::string& out, int depth) const {
     if (depth < 0) {
         writeChildNodes(out, depth);
@@ -137,7 +138,7 @@ void XmlNode::writeNode(std::string& out, int depth) const {
     if (type_ == kComment) {
         out += "<!--";
         out += name_;
-        out += "-->\n";
+        out += "-->\r\n";
         return;
     }
     out += '<';
@@ -150,20 +151,20 @@ void XmlNode::writeNode(std::string& out, int depth) const {
         out += '"';
     }
     if (children_.empty() && value_.empty()) {
-        out += "/>\n";
+        out += "/>\r\n";
         return;
     }
     out += '>';
     if (children_.empty()) {
         out += value_;
     } else {
-        out += '\n';
+        out += "\r\n";
         writeChildNodes(out, depth);
         out.append(static_cast<std::size_t>(depth), '\t');
     }
     out += "</";
     out += name_;
-    out += ">\n";
+    out += ">\r\n";
 }
 
 // 0x845518 slim::XmlNode::writeChildNodes(slim::String&, int) const
@@ -251,12 +252,11 @@ bool XmlDocument::findLabel(const char*& cursor, std::size_t length, const char*
     return false;
 }
 
-// 0x844db8 slim::XmlDocument::parseLabel(slim::XmlNode*, char const*, unsigned int)
+// 0x844db8 _ZN4slim11XmlDocument10parseLabelEPNS_7XmlNodeEPKcj
 // The label is the text between '<' and '>'. The element name runs to the first
-// '/', space or '>'. Attributes follow as name="value" pairs, each value running
-// between its two double quotes. Partial: the listing's two-argument string
-// assignments for the attribute value are read as that quoted range, and a
-// malformed attribute stops the scan without storing the rest.
+// '/', space or '>'. Attributes follow as name="value" pairs. Follows the listing:
+// the attribute loop only starts after a space, and a name that is empty (a '=', '/'
+// or '>' where a name would go) still takes the next quoted value, as the listing does.
 void XmlDocument::parseLabel(XmlNode* node, const char* label, unsigned length) {
     const char* const end = label + length;
     const char* p = label;
@@ -264,20 +264,25 @@ void XmlDocument::parseLabel(XmlNode* node, const char* label, unsigned length) 
         ++p;
     }
     node->name_.assign(label, static_cast<std::size_t>(p - label));
+    if (p >= end || *p != ' ') {
+        return;
+    }
 
-    for (;;) {
+    while (p < end) {
         while (p < end && *p == ' ') {
             ++p;
         }
-        if (p >= end || *p == '=' || *p == '/' || *p == '>') {
+        if (p >= end) {
             return;
         }
         const char* nameStart = p;
-        while (p < end && *p != '=' && *p != ' ' && *p != '/' && *p != '>') {
-            ++p;
+        if (*p != '=' && *p != '/' && *p != '>') {
+            while (p < end && *p != '=' && *p != ' ' && *p != '/' && *p != '>') {
+                ++p;
+            }
         }
         const char* nameEnd = p;
-        const void* open = std::memchr(p, '"', static_cast<std::size_t>(end - p));
+        const void* open = std::memchr(nameEnd, '"', static_cast<std::size_t>(end - nameEnd));
         if (open == nullptr) {
             return;
         }

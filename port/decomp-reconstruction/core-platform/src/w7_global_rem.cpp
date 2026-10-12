@@ -11,7 +11,7 @@
 // Partial: the box extents and the packed colour follow the listing (rect order
 // x-r, y-r, z-r, x+r, y+r, z+r; colour bytes packed R | G<<8 | B<<16 | A<<24).
 // The driver call at vtable +0x28 is a stand-in (DbgDrawBoxViaDriverSlot28); the
-// slot's method name is not recovered.
+// slot's method name is not recovered. The stand-in's result is returned, as the listing does.
 int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glitch::video::SColor& color, int size) {
     const float half = static_cast<float>(size / 2);
     const float rect[6] = {
@@ -24,8 +24,7 @@ int DBG_DisplayPointAsBox(const glitch::core::vector3d<float>& point, const glit
                                  (static_cast<std::uint32_t>(bytes[2]) << 16) |
                                  (static_cast<std::uint32_t>(bytes[3]) << 24);
     void* driver = *reinterpret_cast<void**>(static_cast<char*>(g_DbgDrawOwner) + 0x10);
-    DbgDrawBoxViaDriverSlot28(driver, rect, packed);
-    return 0;
+    return DbgDrawBoxViaDriverSlot28(driver, rect, packed);
 }
 
 // 0x342478 _ZlsRSoR12ObjectHandle
