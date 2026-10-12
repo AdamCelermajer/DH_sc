@@ -34823,7 +34823,9 @@ bool ui_player_enemy_hud_projection(std::uintptr_t identity,
    view.level=source_level(actor->properties.resolved[19]);
    view.hp_fraction=(float(actor->properties.resolved[36])/256.f)/
                     (float(actor->properties.resolved[38])/256.f);
-   view.present=true;view.is_character=true;
+   // Target HP 0 means the monster is dead: report no target so the HUD hides
+   // the enemy group (InfoHUDManager hides on target clear).
+   view.present=view.hp_fraction>0.f;view.is_character=true;
    view.is_monster=native_character_classification(*actor,
        dh2::character_ai_classification::Query::monster)!=0;
    view.is_boss=native_character_classification(*actor,

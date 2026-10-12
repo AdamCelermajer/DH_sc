@@ -169,14 +169,15 @@ bool AuthoredGameplayHudV1::update(const std::array<std::int32_t,17>& infos,
     *q.slot=number>=0&&number<=2?static_cast<unsigned>(number):0;return true;},error))return false;
   }
   if(style_>1){
-   // The authored onPush hides an unassigned fixed-layout button, but leaves
-   // its btimg child visible on placeholder frame zero. Keep the button shell
-   // reachable and preserve that authored child for empty Save slots; onPush
-   // remains the only producer of an assigned skill icon frame.
+   // IDA setSkillsButtons fixed-layout branch: btn_skillN._visible is
+   // CurUsedSkillsIDs[N-1] > -1, so an empty Save slot stays hidden. Forcing
+   // every shell visible here reintroduced the three-button row. The btimg child
+   // is kept visible so the placeholder frame still exists; onPush remains the
+   // only producer of an assigned skill icon frame.
    // Fixed layouts may assign the three visual buttons to Save slots in a
    // different order. Use the same authored SlotId selected above for both
    // availability and cooldown/usable projection.
-   if(!movie_.set_visible(controls_[4+n].c_str(),true,error)||
+   if(!movie_.set_visible(controls_[4+n].c_str(),skill_slots[n]>=0,error)||
       !movie_.set_visible((controls_[4+n]+".btimg").c_str(),true,error))return false;
   }
   // FastUpdate owns cooldown/Grey projection; source onPush owns icon frames.
