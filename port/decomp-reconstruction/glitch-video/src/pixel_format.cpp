@@ -4,7 +4,7 @@ namespace glitch::video::pixel_format {
 
 namespace detail {
 // Placeholder: the .rodata table is not in the repo, so every entry is zero.
-SFormatEntry PFDTable[kFormatCount] = {};
+// PFDTable is defined in pixel_format_table.cpp (bytes from the original binary).
 }  // namespace detail
 
 namespace {
