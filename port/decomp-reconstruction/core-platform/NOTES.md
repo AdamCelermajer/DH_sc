@@ -2,13 +2,15 @@
 
 ## Status
 
-224 ledger rows (103 reconstructed, 49 partial, 72 skipped). 455 queue rows remain.
-Host and Windows (MinGW under Wine) builds pass with 8 of 8 tests.
+431 ledger rows (213 reconstructed, 102 partial, 116 skipped). 248 queue rows remain:
+Console (43) and `<global>` (205: the Java/JNI helpers, gameswf and Box2D code, FUN_*
+stubs and scene-graph helpers, not yet read in detail).
+Host and Windows (MinGW under Wine) builds pass with 24 of 24 tests.
 
-Not yet started: Console (43 functions), slim XML parse/write (23), ADevice (17,
-JNI-bound), TouchScreenIPhone/PS3 (32), PerfCounters (9), Array2d (4), GCSingleton (3),
-and most of `<global>` (the Java/JNI helpers, gameswf and Box2D code, FUN_* stubs).
-TouchScreenBase and TouchScreenWin32 are finished in this pass.
+Wave 3 added 207 rows (224 at the start of the wave). Finished in this wave: the slim
+XML parser and writer, the lc_api, utf, touch (iPhone and PS3), vorbis, stream and
+allocator groups, PerfCounters, the FileSystemBase and FileSystemWin32 remainder,
+GCSingleton, Array2d, rss, and the ADevice and _JNIEnv rows (skipped as Android JNI).
 
 ## Layouts inferred
 
@@ -52,8 +54,9 @@ TouchScreenBase and TouchScreenWin32 are finished in this pass.
 - `tolower` is the Android libc function; not rebuilt.
 - `threadfun2/3` wrap Savegame calls from another category; skipped.
 - `IStreamBase`, `CFileSystem` and the Savegame lookups are not declared
-  locally. `FileSystemBase` existence, path and savefile checks, and the
-  constructors/destructors that chain into the glitch base are skipped.
+  locally. The constructors/destructors that chain into the glitch base are
+  skipped. The `FileSystemBase` existence, path and create checks are partial
+  stdio stand-ins (see the wave 3 section).
 
 ## FileSystemWin32 (added in the second pass)
 
@@ -71,11 +74,64 @@ TouchScreenBase and TouchScreenWin32 are finished in this pass.
   flush in `openSavefile`. `getFiles` uses `<filesystem>` instead of the Win32
   finder.
 
+## Wave 3 layouts and decisions
+
+- Slim XML (`slim_xml.hpp`): `name_` at +0x10 (element name or comment body),
+  `value_` at +0x28 (element text), `type_` at +0x30, attribute list at +0x34,
+  `parent_` at +0x3c, child list at +0x40 (both lists are sentinel lists in the
+  original). Attributes are 0x30 bytes; their member offsets are inferred.
+  `XmlDocument` lives in `slim_xml.hpp`; `slim_text.hpp` keeps only the UTF-8 helpers.
+  `loadFromStream` and `save` stay the original's unsupported stubs.
+- Slim writer: one node per line, tab indent per depth, `/>` for an empty
+  element, a comment as `<!--body-->`. The original's exact punctuation and line
+  ends are not all recoverable, so this layout is partial. Comment search in the
+  parser is bounded to the buffer.
+- Slim parser: closing tags are not compared with the open element's name (the
+  listing does not show a name check). The element text is taken from the text
+  before a closing tag only when the element has no children.
+- PerfCounters (`perf_counters.hpp`): `time_` at +0x0, history vector at +0x8,
+  entry list at +0x14, node block pointer at +0x1c. `CounterEntry`: name at +0x10,
+  `value_` at +0x18, `extra1_` at +0x1c, `extra2_` at +0x20, history vector at
+  +0x24. Counters are created by code outside this unit; `AddEntry` is a test hook.
+- `Array2d<T>` (`array2d.hpp`): `minX_` at +0x0, `minY_` at +0x4, `width_` at
+  +0x8, rows in a deque of deques (outer index y, inner index x). The original is
+  instantiated for `rnd::Tile*`; the template is generic here.
+- `GCSingleton<T>` (`gc_singleton.hpp`): static `m_instance`. `GetInstance`
+  allocates with `CustomAlloc`, then placement-constructs. The block is `sizeof(T)`
+  (the original uses 0x7c for GameCenter).
+- `rss` is a `std::vector<channel>`. `channel::read` belongs to another category;
+  the stand-in in `rss.cpp` does nothing.
+- `FileSystemBase`: `formatFilePath` copies the path (the separator rewrite is in
+  `FileSystemWin32`). `doesFileExists`, `doesResourceExists` and
+  `doesSavefileExists` are stdio existence checks. `createAndOpenFile` adds the
+  RES_PATH prefix unless the name has `.config` or `.glsl` or starts with
+  `/sdcard/`, then creates the file with stdio.
+- `FileSystemWin32::closeFile` deletes the stream: vtable slot +0x4 of
+  IFileStream is the deleting destructor (see `deps/io_stream.hpp`).
+- Stand-ins in `deps/`: `debug_switches.hpp` (`DebugSwitches`, all switches off by
+  default), `io_stream.hpp` (`IFileStream`), `game_center.hpp` (`GameCenter`).
+- Skipped: the `_JNIEnv` function-table wrappers and the ADevice JNI calls
+  (Android only; the Windows build reads device facts through `Device`), three
+  `switchD_*` case labels (jump-table entries, not functions), and
+  `TouchScreenBase::isRegionPressed` (the return value is a float product whose
+  operands are not visible in the pseudocode).
+- Stream operators (`stream_ops.cpp`) read and write values separated by one
+  character, assumed to be ','. The separator literal is not recoverable.
+- Allocators: `CustomFree` (0x310440) is a helper; `CustomRealloc` returns the new
+  block; `CustomMemalign` and `internal_malloc_aligned` return `malloc` results.
+- `lc_api.cpp`: the LC_* functions whose listing is a bare return are empty
+  stubs. `LC_API_ITOA` is partial (least significant digit only).
+
 ## Still open (core-platform)
 
-- slim XML parse/write (`parse`, `parseLabel`, `writeNode`, `findChild` and friends).
-- PerfCounters (9), Array2d<rnd::Tile*> (4), ADevice (17, JNI-bound), Console (43).
-- Remaining FileSystemBase members (`doesFileExists` and related, `createAndOpenFile`).
+- Console (43): its `_setMenu*` builders call the menu and event system, which is
+  not in this tree. `Toggle`, `_addToList`, `_getMaxNumberOfItem` and the small
+  setters are the feasible next step.
+- `<global>` (205): not read in detail in this wave.
+- `isRegionPressed` (0x33aebc): skipped; needs the ARM listing.
+- Partial bodies to revisit: the FileSystemBase checks (they need the derived
+  class's virtuals), `Array2d` (the deque map), the PerfCounters node block, and
+  the GCSingleton block size.
 
 ## TouchScreenBase layout (inferred from the decompiled handlers)
 
