@@ -50,6 +50,19 @@ foreach(cat IN LISTS DH2_DECOMP_CATEGORIES)
   endforeach()
 endforeach()
 
+# Engine categories call into the lower ones (core-io holds the core value types, the
+# quaternion math and os::Printer). Link them in that order so tests resolve.
+if(TARGET dh2_glitch_video AND TARGET dh2_glitch_core_io)
+  target_link_libraries(dh2_glitch_video PUBLIC dh2_glitch_core_io)
+endif()
+if(TARGET dh2_glitch_scene_collada_gui)
+  foreach(dep dh2_glitch_video dh2_glitch_core_io)
+    if(TARGET ${dep})
+      target_link_libraries(dh2_glitch_scene_collada_gui PUBLIC ${dep})
+    endif()
+  endforeach()
+endif()
+
 # The include directories a game translation unit sees: the game class headers first,
 # then every engine and library category, addressed as <category>/<file>.hpp.
 set(DH2_GAME_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/game/include ${CMAKE_CURRENT_SOURCE_DIR}/shared/include)

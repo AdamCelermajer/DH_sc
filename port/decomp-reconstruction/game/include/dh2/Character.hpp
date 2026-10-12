@@ -30,6 +30,7 @@
 #define CustomFree CustomFree_net_transport
 #define MemoryHintState MemoryHintState_net_transport
 #include "net-transport/net_struct.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
 #undef CustomFree
 #undef MemoryHintState
 
@@ -94,9 +95,9 @@ public:
         std::uint8_t m_posZ_opaque[0xf8];                               // +0x320
         NetStructRangedFloat<16u, -1, 1> m_dirX;                        // +0x418 from GameObject +0x1b8
         NetStructRangedFloat<16u, -1, 1> m_dirY;                        // +0x440 from GameObject +0x1bc
-        NetStructUInt<32u> m_hp;                                        // +0x468 HP + 1, 0 = dead (original type NetStructInt<32>)
-        NetStructUInt<32u> m_killerNetId;                               // +0x490 network id of the killer (NetStructInt<32>)
-        NetStructUInt<16u> m_state;                                     // +0x4b8 CharStateMachine state, -1 = none (NetStructInt<16>)
+        NetStructInt<32u>  m_hp;                                        // +0x468 HP + 1, 0 = dead 
+        NetStructInt<32u>  m_killerNetId;                               // +0x490 network id of the killer 
+        NetStructInt<16u>  m_state;                                     // +0x4b8 CharStateMachine state, -1 = none 
         NetStructBool m_enabled;                                        // +0x4e0 from ObjectBase +0x8a
         NetStructBool m_killerIsPlayer;                                 // +0x500
         NetStructBool m_visible;                                        // +0x520 from ObjectBase +0x80

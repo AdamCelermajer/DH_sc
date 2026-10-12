@@ -62,8 +62,8 @@ public:
     b2Shape* _addShape(b2ShapeDef* shape, bool updateMass);             // 0x46edb8
 
     // _vptr (in PhysicalBaseObject)                                    // +0x00
-    PhysicalWorld* m_world;                                             // +0x04
-    GameObject* m_owner;                                                // +0x08 may be null (no body is built then)
+    // PhysicalBaseObject::m_world                                      // +0x04
+    // PhysicalBaseObject::m_owner                                      // +0x08 may be null (no body is built then)
     float m_radius;                                                     // +0x0c half of the larger AABB side, metres
     bool m_isCircle;                                                    // +0x10
     uint8_t pad_11[3];                                                  // +0x11

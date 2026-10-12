@@ -7,6 +7,7 @@
 #include <cstdint>
 
 #include "net-transport/net_struct.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
 
 #include "dh2/ZoneEx.hpp"
 
@@ -22,9 +23,9 @@ public:
         ~NetStructTrigger() override;                                   // 0x398b5c, 0x399064
 
         // NetStruct occupies +0x00 .. +0x12f.
-        NetStructUInt<32> m_timer;                                       // +0x130 Trigger::m_timer (original type NetStructInt<32>)
-        NetStructUInt<32> m_numActivations;                              // +0x158 Trigger::m_numActivations (NetStructInt<32>)
-        NetStructUInt<32> unk_180;                                       // +0x180 mirrors Trigger::unk_3c0 (NetStructInt<32>)
+        NetStructInt<32>  m_timer;                                       // +0x130 Trigger::m_timer 
+        NetStructInt<32>  m_numActivations;                              // +0x158 Trigger::m_numActivations 
+        NetStructInt<32>  unk_180;                                       // +0x180 mirrors Trigger::unk_3c0 
     };
 
     Trigger(ObjectBase::GO_IDS id, bool hasPhysics, bool playerOnly);   // 0x398f44 / 0x398fd4

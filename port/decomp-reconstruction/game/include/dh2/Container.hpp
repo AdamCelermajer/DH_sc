@@ -8,6 +8,7 @@
 #include <string>
 
 #include "net-transport/net_struct.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
 
 #include "dh2/GameObject.hpp"
 
@@ -42,7 +43,7 @@ public:
 
         // NetStruct occupies +0x00 .. +0x12f.
         NetStructUInt<1> m_opened;                                      // +0x130 state is ACTIVATE or OPENED
-        NetStructUInt<16> m_openerId;                                    // +0x158 network id of the opening object (original type NetStructInt<16>)
+        NetStructInt<16>  m_openerId;                                    // +0x158 network id of the opening object 
         NetStructUInt<32> unk_180;                                      // +0x180 copy of GameObject +0xfc (sent when forced)
     };
 
