@@ -1,7 +1,8 @@
 # net-transport notes
 
 Low-level multiplayer networking. Queue: 794 functions (`queue.csv`). Ledger: 365 rows
-(259 reconstructed, 78 partial, 28 skipped); 429 queued functions are still unledgered.
+(285 reconstructed, 52 partial, 28 skipped, after the Hex-Rays re-run); 429 queued
+functions are still unledgered.
 Wave 3 added 177 rows (139 reconstructed, 25 partial, 13 skipped).
 
 ## Classes completed
@@ -119,12 +120,13 @@ SetNonBlocking (fcntl on POSIX, ioctlsocket on Windows). The socket headers use
 std::uint32_t where the original uses in_addr_t (not defined under Winsock), and htons/ntohs
 for byte order.
 
-Socket options (CSocket::SetSocketOptions, bit mask): bit1 SO_REUSEADDR, bit0 SO_BROADCAST,
-bit2 TCP_NODELAY. OpenTCP and OpenUDP do not check the result of SetSocketOptions. The
-pseudocode shows no check, so the port does not add one (partial).
+Socket options (CSocket::SetSocketOptions, bit mask): bit1 (value 2) SO_REUSEADDR, bit0
+(value 1) SO_BROADCAST, bit2 (value 4) TCP_NODELAY. SetSocketOptions returns the result of
+the last setsockopt call made. OpenTCP and OpenUDP check it: a negative result closes the
+socket and is returned (Hex-Rays re-run).
 
-Accept sets O_NONBLOCK on the listening handle and records the peer. The accepted handle is
-returned; the original does not store it.
+Accept sets O_NONBLOCK on the listening handle and records the peer address and port. The
+accepted handle is returned and is not stored in the object, as in the original.
 
 GetLocalAddress uses SIOCGIFCONF on POSIX. Winsock has no SIOCGIFCONF, so it uses
 gethostbyname instead (partial). The probe socket is closed on every path.
@@ -160,22 +162,26 @@ argument and uses port_.
 ## Decisions and original quirks (reproduced, flagged for review)
 
 - Debug ASSERT and XP_DEBUG_OUT logging is dropped (gAssertLevel, debug prints).
-  Functions that lose that output are marked `partial`. Wave 3 examples: the sized-flag
-  ASSERT in the StreamBuffer(IStreamBase) constructors, the static printed counter in
-  CSocket::Receive, and the error logs in CSocket.
+  Functions that lose that output are marked `partial`. Examples: the sized-flag ASSERT in
+  the StreamBuffer(IStreamBase) constructors, and XP_DEBUG_OUT in CAndroidSocket.
+  A call whose result is discarded and that prints nothing is dropped without marking the
+  function partial: strerror_r and inet_ntoa in CSocket, and GetLocalAddress and
+  GetLocalPort in CUdp/CTcp::OpenSocket. The static `printed` counter in CSocket::Receive is
+  incremented and never read in the export, so it is not kept.
 - CSemaphore Wait/Release and CReadWriteLock methods are empty in the original. They
   are kept as no-ops (`partial`), so they are not real synchronisation. Real
   primitives need a decision before the game runs multi-threaded.
-- NetBitStream copy constructor and operator= do not store size, so a copied
-  stream reports size 0 (copy ctor). operator= keeps the old size after a
-  reallocation. Both are reproduced and marked `partial`.
-- NetBitStream::operator== returns the raw memcmp value in the original (inverted).
-  The intended equality is implemented.
+- NetBitStream copy constructor and operator= copy size and both bit positions
+  (Hex-Rays re-run; the earlier "do not store size" note was a misreading). Both use
+  nothrow allocation, and the original memsets a null buffer after a failed allocation
+  (a crash) that the port skips, so both stay `partial`.
+- NetBitStream::operator== returns memcmp == 0 (Hex-Rays re-run; the earlier "inverted"
+  note was a misreading).
 - WriteByte keeps the original `avail > 8` condition, so the last 8 bits of a
   stream cannot be written with WriteByte.
-- Decompile dropped call arguments in a few places (WriteU32's per-byte width,
-  the ShiftMemCopy arguments, SetNetConditionPreset's default branch). Those are
-  inferred and marked `partial`.
+- Decompile dropped call arguments in ShiftMemCopy and WriteString. Those are inferred
+  and marked `partial`. WriteU32's per-byte width and SetNetConditionPreset's default
+  zeros are explicit in the Hex-Rays re-run.
 - CNetworkId::IsEqual compares sums of present fields in two passes (as the
   original). Two ids compare equal when they share a present field and their sums
   match.
@@ -183,12 +189,13 @@ argument and uses port_.
   steady_clock, and lrand48 is emulated in-file.
 - std::thread replaces pthread_create/join; the destructor of Thread joins a running
   worker, which the original does not do. updateJob_thread does the same: its
-  destructor joins a running worker, and Start/Start2 fail while a worker runs.
-- CSocket::SendTo returns the sendto result. The decompile shows no return value (partial).
-- CTcp::IsConnectedTo returns GetPeerNetworkId().IsEqual(peer). The decompile does not
-  show the return value, so this is inferred. CTcp::CanDisconnectFrom assumes its tail call
-  passes the result through. CTcp::Send assumes IsConnectedTo(peer) because the decompiled
-  check is a virtual call with no arguments (all three partial).
+  destructor joins a running worker. Start/Start2 return -1 while a worker runs; the
+  original has no such guard (Hex-Rays re-run). Their worker is an empty Run() stand-in,
+  because threadfun2 and threadfun3 are outside this category.
+- CSocket::SendTo returns the sendto result (Hex-Rays re-run; the earlier "no return
+  value" note was a misreading). CTcp::IsConnectedTo is GetPeerNetworkId().IsEqual(peer),
+  CTcp::Send gates on IsConnectedTo(peer) through vtable slot +0x28, and
+  CTcp::CanDisconnectFrom passes the IsConnectedTo result through (all reconstructed).
 - CTcp::ReceivePackets reads up to 21 packets of 4096 bytes. CUdp::InitializeTransport
   calls AddTransport and CTcp calls AcceptCallback and AddTransport on the CTransportManager
   stand-in (deps/transport_manager.hpp). Those calls are no-ops for now.
@@ -196,6 +203,67 @@ argument and uses port_.
 - No Bluetooth on Windows: CBluetooth* OS calls are constant-return stubs, as the
   original stubs are. The port keeps the logic and the constant results.
 - Deleting destructors (D0) are compiler-generated and are marked `skipped`.
+
+## Hex-Rays re-run
+
+The 78 `partial` rows were re-done from the IDA Hex-Rays export (primary source), in place.
+Result: 26 rows are now `reconstructed`, 52 stay `partial`, none skipped.
+
+Now reconstructed:
+- CSocket: GetPeerAddress, Receive, SendTo, SetSocketOptions (now `int`), Accept (returns
+  the fd, 0 when no data, or the accept error), Connect, OpenTCP, OpenUDP.
+- CUdp::OpenSocket; CTcp::OpenSocket, Send, IsConnectedTo, CanDisconnectFrom.
+- CAndroidSocket::Bind (SO_REUSEADDR, then port+1, port+2, ... with no exit when none
+  binds, as the original) and GetSocketPort (network-order port from sa_data).
+- NetBitStream: WriteU32 and operator==.
+- NetStructRangedFloat Read and Write for <18,-200000,200000>, <16,-50000,50000> and
+  <16,-1,1> (6 rows). Divisors are 262140 for 18 bits and 65535 for 16 bits, as in the
+  pseudocode. Writes saturate to u32 (ARM VCVT semantics).
+- CNetworkEmulation::SetNetConditionPreset and GetReorderDelay (now `int`).
+  CalcPercentage stays reconstructed with corrected notes.
+- CNetLog::Update (empty body).
+
+Corrections to earlier notes (Hex-Rays shows the original does this):
+- NetBitStream copy constructor and operator= do store size and positions.
+- NetBitStream::operator== is not inverted.
+- CSocket::SendTo and CSocket::Accept return values (sendto result, accepted fd).
+- OpenTCP and OpenUDP check the SetSocketOptions result.
+- CalcPercentage uses its param and prev arguments; the rate argument is unused.
+- CTcp::Send gates on IsConnectedTo(peer) (vtable slot +0x28).
+- SetNetConditionPreset's default zeros and WriteU32's per-byte width are explicit.
+
+Still partial (52), by main reason:
+- Debug output only (18): 317014 setSize (debug ASSERT), 3171b8 and 3172d8 StreamBuffer
+  ctors (debug ASSERT), 8455c0 Thread::Run, 317f58 and 317f74 updateJob Stop/Finish, and
+  CAndroidSocket SendBroadcast, SetBroadcast, RecvFromUnkownIP, RecvFrom, SendTo,
+  CreateSocket, Send, CloseSocket, ConnectTo, ConnectByName, SetNonBlocking (XP_DEBUG_OUT).
+  CAndroidSocket Listen (840a04) is also debug-only, but its failure-path return value is
+  not recovered either, so it is listed with the debug rows.
+- Empty originals kept as no-ops per the decision above (6): CSemaphore Wait and Release,
+  CReadWriteLock LockWrite, UnlockWrite, LockRead, UnlockRead. Hex-Rays confirms the bodies
+  are empty. Real primitives need a decision.
+- Stand-ins for CTransportManager (4): CUdp::InitializeTransport 8278fc, CTcp::ReceivePackets
+  82a0d8, CTcp::InitializeTransport 82a464, CTcp::AcceptConnections 82a540.
+- Platform substitutions (5): GetLocalAddress 827da0 and GetLocalIP 841fbc (no SIOCGIFCONF
+  on Winsock), Clearup 84210c and Startup 842208 (Winsock init, signal() for sigaction),
+  IsCurrectThreadRunning 84559c (joinable() instead of the pthread_kill probe).
+- Null guards where the original would crash (5): Buffer::read 316568, Connect 84152c,
+  operator= 80ee5c, copy ctors 80eef4 and 80ef8c.
+- Inferred or truncated pseudocode (5): ShiftMemCopy 80eac8 (arguments lost), WriteString
+  80edb0 (string layout), GetHostIP 841e4c (tail truncated), GetHostByName 841ca8 (STRNEW
+  copy not reproduced), GetCurrentConditionSet 826fec (steady_clock).
+- Object construction not reconstructed (5): the GLXPlayerSocket base is not reconstructed,
+  so CAndroidSocket destructors 842260 and 8422d4 and constructors 84232c and 842430 are
+  partial. Accept 842360 does not build the new socket object.
+- Thread destructor 317e10 joins a running worker (std::thread), which the pseudocode
+  does not show.
+- updateJob_thread Start 317ef8 and Start2 317e98: the worker is threadfun2 or threadfun3,
+  which are outside this category (Savegame::UpdateJobs, SavegameManager::saveSettings).
+- BufferedStream::FillBuffer 42b1e4: the original spins on a zero-byte read; this port stops.
+
+Tests added or extended: buffer_test (block-spanning read and write), net_struct_test
+(18-bit RangedFloat round trip), net_bit_stream_test (copy and assign keep size and
+positions; operator==). transport_test's FakeSocket now overrides `int SetSocketOptions`.
 
 ## Test coverage
 

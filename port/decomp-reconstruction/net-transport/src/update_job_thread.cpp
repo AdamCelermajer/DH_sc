@@ -38,8 +38,10 @@ bool updateJob_thread::IsCurrectThreadRunning() const {
 }
 
 // 0x317e98 _ZN16updateJob_thread6Start2Ev
-// Partial: the worker is updateJob_thread::Run (threadfun3 is not reconstructed). Returns -1
-// when a worker is already running, where the original would overwrite its handle.
+// Partial: Hex-Rays shows pthread_create(threadfun3, this). threadfun3 is outside this category
+// (it calls SavegameManager::saveSettings), so the worker here is Run(), which is an empty stand-in.
+// The -1 return for an already-running worker is a guard this port adds; the original has none.
+// The pthread_create failure path (debug trace, return -1) is replaced by std::thread semantics.
 int updateJob_thread::Start2() {
     if (thread_.joinable()) {
         return -1;
@@ -49,7 +51,9 @@ int updateJob_thread::Start2() {
 }
 
 // 0x317ef8 _ZN16updateJob_thread5StartEv
-// Partial: same worker as Start2 (threadfun2 is not reconstructed).
+// Partial: Hex-Rays shows pthread_create(threadfun2, this). threadfun2 is outside this category
+// (it calls Savegame::UpdateJobs), so the worker is the same empty Run() stand-in as Start2.
+// The already-running guard and the failure debug trace are handled as in Start2.
 int updateJob_thread::Start() {
     if (thread_.joinable()) {
         return -1;

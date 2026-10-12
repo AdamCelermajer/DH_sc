@@ -232,7 +232,8 @@ int CAndroidSocket::Listen(int backlog) {
 }
 
 // 0x840a30 _ZN14CAndroidSocket13GetSocketPortEv
-// Partial: the return type is inferred from the stack-check tail (the port value).
+// Hex-Rays returns int, built from sa_data[0..1] in network order, which is ntohs(sin_port).
+// The port fits in 16 bits, so std::uint16_t is used.
 std::uint16_t CAndroidSocket::GetSocketPort() const {
     sockaddr_in addr{};
     SockLen len = sizeof(addr);
