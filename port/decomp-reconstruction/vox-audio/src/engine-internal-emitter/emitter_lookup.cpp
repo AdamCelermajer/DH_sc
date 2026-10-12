@@ -8,20 +8,25 @@
 namespace vox {
 
 // 0x868f9c _ZN3vox17VoxEngineInternal7GetDataERNS_13EmitterHandleE
-// A missing emitter, or one with no data object, gives the empty data handle.
-// Partial: the emitter with a null data pointer (+0x118) releases the emitter read access twice
-// in the binary (asm 0x869028 and 0x869030, checked). A missing emitter releases it once. The
-// port releases once on both paths, because a second release of an unlocked access is not
-// reproduced on purpose.
+// A missing emitter, or one with no data object, gives the empty data handle. The read access is
+// released once when the emitter is missing or has data, and twice when the emitter exists with a
+// null data pointer (+0x118): the binary's two release calls at 0x869028 and 0x869030 (asm checked).
+// The second release is reproduced as written, so the read count drops once more on that path.
 DataHandle VoxEngineInternal::GetData(EmitterHandle& emitter) {
     emitter_access_.GetReadAccess();
     EmitterObj* obj = GetEmitterObject(emitter);
-    DataObj* data = obj != nullptr ? obj->data_ : nullptr;
-    DataHandle result = data != nullptr
-                            ? DataHandle(data->id, &s_voxEngineInternal, nullptr, 0, 0)
-                            : DataHandle(-1, nullptr, nullptr, 0, 0);
+    if (obj == nullptr) {
+        emitter_access_.ReleaseReadAccess();
+        return DataHandle(-1, nullptr, nullptr, 0, 0);
+    }
+    if (obj->data_ == nullptr) {
+        emitter_access_.ReleaseReadAccess();
+        emitter_access_.ReleaseReadAccess();
+        return DataHandle(-1, nullptr, nullptr, 0, 0);
+    }
+    const std::int64_t id = obj->data_->id;
     emitter_access_.ReleaseReadAccess();
-    return result;
+    return DataHandle(id, &s_voxEngineInternal, nullptr, 0, 0);
 }
 
 // 0x86a5d0 _ZN3vox17VoxEngineInternal19DetachEmitterObjectEx
@@ -38,15 +43,15 @@ EmitterObj* VoxEngineInternal::DetachEmitterObject(std::int64_t id) {
 }
 
 // 0x867608 _ZN3vox17VoxEngineInternal11SetUserDataERNS_13EmitterHandleERNS_21EmitterHandleUserDataE
-// Partial: the listing returns the int from AccessController::ReleaseReadAccess; the port's void
-// signature drops it. The record is read as one word: the listing passes the record to
-// EmitterObj::SetUserData (0x8653c0), which loads only its first word (asm checked).
-void VoxEngineInternal::SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data) {
+// The record is read as one word: the listing passes the record to EmitterObj::SetUserData
+// (0x8653c0), which loads only its first word (asm checked). The result is the int that
+// AccessController::ReleaseReadAccess returns, as the binary tail-calls it.
+int VoxEngineInternal::SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {
         obj->SetUserData(user_data.word);
     }
-    emitter_access_.ReleaseReadAccess();
+    return emitter_access_.ReleaseReadAccess();
 }
 
 }  // namespace vox

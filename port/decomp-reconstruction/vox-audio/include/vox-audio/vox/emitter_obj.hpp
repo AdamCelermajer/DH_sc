@@ -106,12 +106,12 @@ public:
 
     // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet, except
     // SetGain and SetPitch, which restart the gain and pitch fades (partial, see the .cpp).
-    void Play(float fade);                  // 0x86e304 (partial: resume fade, see transport .cpp)
-    void Pause(float fade);                 // 0x86e428 (partial)
-    void Stop(float fade);                  // 0x86e868 (partial)
-    void Resume(float time);                // 0x86c1d4 (partial, see the .cpp)
-    void SetGain(float gain, float time);   // 0x86bb24
-    void SetPitch(float pitch, float time); // 0x86bc40
+    int Play(float fade);                   // 0x86e304 (returns the Mutex::Unlock result)
+    int Pause(float fade);                  // 0x86e428
+    int Stop(float fade);                   // 0x86e868
+    int Resume(float time);                 // 0x86c1d4
+    int SetGain(float gain, float time);    // 0x86bb24
+    int SetPitch(float pitch, float time);  // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
     int LoadAsync();                        // 0x86d238 (partial, see the .cpp)
     void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)

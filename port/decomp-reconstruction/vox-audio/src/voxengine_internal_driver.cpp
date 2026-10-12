@@ -142,8 +142,8 @@ void VoxEngineInternal::SetPriorityBank(int index, int min_priority, int max_pri
 // group is a bit mask over the 32 groups. For each set bit the group's record restarts its
 // fade: the current value is where the old fade has reached, the target is the clamped gain,
 // the elapsed time is zero and the duration is time + 0.001 (the 0x3a83126f constant).
-// Partial: the original returns the int result of Mutex::Unlock; the port's Mutex::Unlock is void.
-void VoxEngineInternal::SetGroupGain(unsigned int group, float gain, float time) {
+// Returns the Mutex::Unlock result.
+int VoxEngineInternal::SetGroupGain(unsigned int group, float gain, float time) {
     float target = ClampGainUnit(gain);
     mutex_.Lock();
     if (group != 0) {
@@ -153,15 +153,15 @@ void VoxEngineInternal::SetGroupGain(unsigned int group, float gain, float time)
             }
         }
     }
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 // 0x86bd5c _ZN3vox17VoxEngineInternal13SetMasterGainEff
-// Partial: same unlock-result difference as SetGroupGain.
-void VoxEngineInternal::SetMasterGain(float gain, float time) {
+// Returns the Mutex::Unlock result.
+int VoxEngineInternal::SetMasterGain(float gain, float time) {
     mutex_.Lock();
     RestartFade(master_fade_, ClampGainUnit(gain), time);
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 }  // namespace vox

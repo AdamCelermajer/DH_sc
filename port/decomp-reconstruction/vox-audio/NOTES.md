@@ -988,3 +988,10 @@ Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledge
   StreamCFile file-name word (owner+0x1c); the DriverAndroid JNI bodies (no JNIEnv type or
   m_updateStartTime/m_dataDuration statics in the port); VoxAlloc_c (needs the 4-argument VoxAlloc).
 
+
+## Wave 12 (w12-rem-2): int returns from Mutex::Unlock
+- Functions that the binary ends with a tail call to Mutex::Unlock (or to AccessController::ReleaseReadAccess, which tail-calls Mutex::Unlock) now return that int. Changed: AccessController::ReleaseReadAccess; EmitterObj::SetGain, SetPitch, Resume, Play, Pause, Stop; VoxEngineInternal::SetGroupGain and SetMasterGain (virtual slots +0x24 and +0x28); VoxEngineInternal::SetUserData(EmitterHandle), SetGain(EmitterHandle), Resume(EmitterHandle), Resume, Pause and Stop (EmitterObj*). The null-emitter path of the EmitterObj* wrappers returns 0, as the binary's SUBS leaves 0 in the result register.
+- Callers left void (not changed in this slice): VoxEngine::SetGroupGain, SetMasterGain, SetInteractiveMusicState and the other facade wrappers in src/voxengine.cpp, and the VoxEngineInternal handle wrappers Play, Stop, Pause and SetPitch (EmitterHandle). Their asm was not checked for the tail call in this wave, so their int results are dropped at those points.
+- VoxEngineInternal::GetData reproduces the second ReleaseReadAccess on the null-data path (asm 0x869028 and 0x869030). The read count drops once more on that path, as in the binary.
+- VoxEngineInternal::SetInteractiveMusicState (0x86764c) is in src/w12-rem-2/voxengine_interactive_music.cpp. Partial: a non-zero data state word makes the binary call a null decoder; the port skips the call.
+- Test: tests/w12_rem2_unlock_result_test.cpp checks the int results and the transport state.

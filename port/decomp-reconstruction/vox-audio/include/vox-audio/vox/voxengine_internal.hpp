@@ -37,8 +37,8 @@ public:
     virtual void UpdateSources();                                          // +0x18
     virtual void UpdateEmitters(float dt);                                 // +0x1c
     virtual void KillEmitter(EmitterObj* emitter);                         // +0x20
-    virtual void SetGroupGain(unsigned int group, float gain, float time); // +0x24
-    virtual void SetMasterGain(float gain, float time);                    // +0x28
+    virtual int SetGroupGain(unsigned int group, float gain, float time);  // +0x24 (Mutex::Unlock result)
+    virtual int SetMasterGain(float gain, float time);                     // +0x28 (Mutex::Unlock result)
 
     // Non-virtual entry points that the facade calls directly (no vtable slot).
     void GetDebugInfo(DebugInfo& info);
@@ -48,7 +48,7 @@ public:
     int GetOutputMode();                    // 0x8630b8: driver result, -1 without a driver
     void UpdateDSP(float dt);               // 0x86308c: forwards to the driver's Update
     void _SetDefault3DParameters();         // 0x8630b0 (empty in the binary)
-    void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);
+    int SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x86764c (Mutex::Unlock result)
     void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);
     void SetSFXPresetActive(int preset, bool active, float level);
     void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,
@@ -106,15 +106,15 @@ public:
     void DecreaseDataObjectRefCount(DataHandle& data);
 
     int GetAllEmitters(EmitterHandle* out, int max_count);  // 0x868468: returns the count written
-    void Resume(EmitterHandle& emitter, float fade);
+    int Resume(EmitterHandle& emitter, float fade);
     void Pause(EmitterHandle& emitter, float fade);
     void Stop(EmitterHandle& emitter, float fade);
     void Play(EmitterHandle& emitter, bool loop, float fade);
     // Overloads on the emitter object itself (the handle versions look it up first).
     void Play(EmitterObj* emitter, bool loop, float fade);     // 0x86ef8c
-    void Pause(EmitterObj* emitter, float fade);               // 0x86e618
-    void Stop(EmitterObj* emitter, float fade);                // 0x86ed00
-    void Resume(EmitterObj* emitter, float fade);              // 0x86c2cc
+    int Pause(EmitterObj* emitter, float fade);                // 0x86e618
+    int Stop(EmitterObj* emitter, float fade);                 // 0x86ed00
+    int Resume(EmitterObj* emitter, float fade);               // 0x86c2cc
     void RegisterForEmitterStateChangeNotification(EmitterHandle& emitter, EmitterStateCallback callback,
                                                    void* user_data);  // 0x868008
     void UnregisterForEmitterStateChangeNotification(EmitterHandle& emitter);  // 0x867fcc
@@ -122,11 +122,11 @@ public:
     void SetPitch(EmitterHandle& emitter, float pitch, float time);
     void SetLoop(EmitterHandle& emitter, bool loop);
     float GetGain(EmitterHandle& emitter);
-    void SetGain(EmitterHandle& emitter, float gain, float time);
+    int SetGain(EmitterHandle& emitter, float gain, float time);
     void SetAutoKillAfterDone(EmitterHandle& emitter, bool on);
     void KillEmitter(EmitterHandle& emitter);
     std::uintptr_t GetUserData(EmitterHandle& emitter);   // word from EmitterObj::GetUserData; 0 without an emitter
-    void SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data);
+    int SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data);
 
     std::uint32_t GetDuration(DataHandle& data);
     int IsValid(DataHandle& data);

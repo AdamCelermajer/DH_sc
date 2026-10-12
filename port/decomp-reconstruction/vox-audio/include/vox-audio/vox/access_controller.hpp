@@ -9,7 +9,7 @@ namespace vox {
 class AccessController {
 public:
     void GetReadAccess();        // 0x893548
-    void ReleaseReadAccess();    // 0x89351c
+    int ReleaseReadAccess();     // 0x89351c (returns the Mutex::Unlock result)
     void GetWriteAccess();       // 0x8934ac
     void ReleaseWriteAccess();   // 0x893480
 

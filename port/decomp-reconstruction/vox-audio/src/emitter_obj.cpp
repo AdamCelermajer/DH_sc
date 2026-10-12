@@ -246,40 +246,39 @@ float EmitterObj::GetGain() {
 }
 
 // 0x86bb24 _ZN3vox10EmitterObj7SetGainEff
-// partial: the original tail-calls Mutex::Unlock and returns its int result. The port's
-// Mutex::Unlock is void and SetGain returns void, so the dropped result is not observable.
+// Returns the Mutex::Unlock result, as the original tail-calls Mutex::Unlock.
 // The requested gain is stored raw (+0x40) and not clamped. The fade starts from where the
 // previous fade has reached, and its duration is the time as given, with no +0.001.
 // GetGain still reads gain_ (+0x3c), which SetGain does not write.
-void EmitterObj::SetGain(float gain, float time) {
+int EmitterObj::SetGain(float gain, float time) {
     mutex.Lock();
     requested_gain_ = gain;
     RestartFadeWithDuration(gain_fade_, gain, time);
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86bc40 _ZN3vox10EmitterObj8SetPitchEff
-// partial: same unlock-result difference as SetGain. The requested pitch is stored raw at +0x74
-// (pitch_) and is also the fade target at +0x7c. The fade restarts with the duration as given.
-void EmitterObj::SetPitch(float pitch, float time) {
+// The requested pitch is stored raw at +0x74 (pitch_) and is also the fade target at +0x7c.
+// The fade restarts with the duration as given. Returns the Mutex::Unlock result.
+int EmitterObj::SetPitch(float pitch, float time) {
     mutex.Lock();
     pitch_ = pitch;
     RestartFadeWithDuration(pitch_fade_, pitch, time);
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86c1d4 _ZN3vox10EmitterObj6ResumeEf
-// partial: the original returns the unlock result (see SetGain). The logic is exact: an emitter
+// Returns the Mutex::Unlock result. An emitter
 // whose sub-state is 2, or whose state is 2 and whose sub-state is not 3, becomes playing (sub-state
 // 1) and starts a fade toward 1.0 over the time given, with no +0.001. The fade record is at
 // +0x5c; the name resume_fade_ is ours, the original does not name it.
-void EmitterObj::Resume(float time) {
+int EmitterObj::Resume(float time) {
     mutex.Lock();
     if (state_set_ == 2 || (state_ == 2 && state_set_ != 3)) {
         state_set_ = 1;
         RestartFadeWithDuration(resume_fade_, 1.0f, time);
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x866abc _ZN3vox10EmitterObj30SetInteractiveMusicStateChangeEPKc
