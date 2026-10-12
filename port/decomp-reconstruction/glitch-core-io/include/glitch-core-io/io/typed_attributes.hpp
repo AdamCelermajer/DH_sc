@@ -189,7 +189,7 @@ public:
 
 class CLightAttribute : public IAttribute {
 public:
-    void* light = nullptr;  // +0x24 (boost::intrusive_ptr<CLight> in the original)
+    boost::intrusive_ptr<glitch::video::CLight> light;  // +0x24
     bool getBool() const override;  // 0x5606c4
     void setString(const char*) override;  // 0x5606d4 (no-op)
     int getType() const override;  // 0x5606d8
@@ -197,7 +197,7 @@ public:
 
 class CTextureAttribute : public IAttribute {
 public:
-    void* texture = nullptr;  // +0x24 (boost::intrusive_ptr<ITexture> in the original)
+    boost::intrusive_ptr<glitch::video::ITexture> texture;  // +0x24
     bool getBool() const override;  // 0x560654
     int getType() const override;  // 0x560690
 };

@@ -88,14 +88,14 @@ const wchar_t* CStringAttribute::getTypeString() const { return L"string"; }
 // 0x5606d8 _ZNK6glitch2io15CLightAttribute7getTypeEv
 int CLightAttribute::getType() const { return 0x1b; }
 // 0x5606c4 _ZN6glitch2io15CLightAttribute7getBoolEv
-bool CLightAttribute::getBool() const { return light != nullptr; }
+bool CLightAttribute::getBool() const { return light.get() != nullptr; }
 // 0x5606d4 _ZN6glitch2io15CLightAttribute9setStringEPKc
 void CLightAttribute::setString(const char*) {}
 
 // 0x560690 _ZNK6glitch2io17CTextureAttribute7getTypeEv
 int CTextureAttribute::getType() const { return 0x1a; }
 // 0x560654 _ZN6glitch2io17CTextureAttribute7getBoolEv
-bool CTextureAttribute::getBool() const { return texture != nullptr; }
+bool CTextureAttribute::getBool() const { return texture.get() != nullptr; }
 
 // 0x562f10 _ZN6glitch2io22CStringWArrayAttribute8getArrayEv
 std::vector<std::wstring> CStringWArrayAttribute::getArray() const { return array; }

@@ -538,3 +538,24 @@ elf_address,symbol,status,source_file,notes
 0x5728cc,_ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE15getParserFormatEv,reconstructed,glitch-core-io/src/xml_reader.cpp,CXMLReaderImpl<wchar_t>::getParserFormat: word at +0x20
 0x5739cc,_ZNK6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEE18getAttributeByNameEPKw,reconstructed,glitch-core-io/src/xml_reader.cpp,CXMLReaderImpl<wchar_t>::getAttributeByName: first record whose name equals the argument (nullptr argument gives nullptr)
 0x322bc8,_ZN6glitch4core14fast_atof_moveEPKcRf,partial,glitch-core-io/src/core_strings.cpp,"fast_atof_move: integer and decimal parts, exponent only after '.', '-' sign only (as the ARM). Scale table is upstream Irrlicht fast_atof_table (first 16 entries), not read from the binary; pow for longer fractions"
+0x56eb4c,_ZN5boost6detail15sp_counted_base7destroyEv,reconstructed,glitch-core-io/src/shared_count.cpp,sp_counted_base::destroy: delete this
+0x56f050,_ZN5boost6detail15sp_counted_base7releaseEv,reconstructed,glitch-core-io/src/shared_count.cpp,"sp_counted_base::release: last use disposes, then drops the implicit weak use"
+0x56efb0,_ZN5boost6detail15sp_counted_base12weak_releaseEv,reconstructed,glitch-core-io/src/shared_count.cpp,sp_counted_base::weak_release: last weak use calls destroy
+0x56ef50,_ZN5boost6detail17sp_counted_impl_pIcE7disposeEv,reconstructed,glitch-core-io/src/shared_count.cpp,sp_counted_impl_p<char>::dispose: delete ptr
+0x56ec9c,_ZN5boost6detail17sp_counted_impl_pIcE11get_deleterERKPv,reconstructed,glitch-core-io/src/shared_count.cpp,"sp_counted_impl_p<char>::get_deleter: no deleter, returns null"
+0x56ef58,_ZN5boost6detail12shared_countC1IcEEPT_,reconstructed,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,shared_count(char*): takes a new counter with one use
+0x56ee7c,_ZN5boost6detail12shared_countC1ERKS1_,reconstructed,glitch-core-io/src/shared_count.cpp,shared_count copy ctor: shares the counter and adds a use; null stays null
+0x56f0f8,_ZN5boost10shared_ptrIcEaSERKS1_,reconstructed,glitch-core-io/src/shared_count.cpp,"shared_ptr<char>::operator=: takes a use of the new counter, then releases the old one"
+0x56ee34,_ZN5boost6detail5yieldEj,partial,glitch-core-io/src/shared_count.cpp,"boost::detail::yield: thresholds (<=3 return, <=31 or odd yield, else 1000 ns sleep) match the ARM; the platform helpers 0x30e088 and 0x30e748 are assumed to be sched_yield and nanosleep, not checked"
+0x56eb68,_ZN5boost6detail26sp_enable_shared_from_thisEz,reconstructed,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,sp_enable_shared_from_this(...): no-op hook
+0x56eb48,_ZN5boost6detail15sp_counted_baseD1Ev,skipped,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,sp_counted_base complete dtor: compiler-generated; the port uses a defaulted virtual destructor
+0x56ef3c,_ZN5boost6detail15sp_counted_baseD0Ev,skipped,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,sp_counted_base deleting dtor: compiler-generated thunk
+0x56ec98,_ZN5boost6detail17sp_counted_impl_pIcED1Ev,skipped,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,sp_counted_impl_p<char> complete dtor: compiler-generated
+0x56ef28,_ZN5boost6detail17sp_counted_impl_pIcED0Ev,skipped,glitch-core-io/include/glitch-core-io/boost/shared_count.hpp,sp_counted_impl_p<char> deleting dtor: compiler-generated thunk
+0x31d7fc,_ZN6glitch2io10IAttribute10getTextureEv,reconstructed,glitch-core-io/src/attribute_handles.cpp,IAttribute::getTexture: returns a null texture
+0x31d808,_ZN6glitch2io10IAttribute8getLightEv,reconstructed,glitch-core-io/src/attribute_handles.cpp,IAttribute::getLight: returns a null light
+0x31d8c4,_ZN6glitch2io10IAttribute10setTextureERKN5boost13intrusive_ptrINS_5video8ITextureEEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,IAttribute::setTexture: base no-op
+0x31d8c8,_ZN6glitch2io10IAttribute8setLightEN5boost13intrusive_ptrINS_5video6CLightEEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,IAttribute::setLight: base no-op
+0x41742c,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEED1Ev,reconstructed,glitch-core-io/include/glitch-core-io/boost/intrusive_ptr.hpp,intrusive_ptr<ITexture> dtor: drops the reference if set
+0x384df8,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEEaSERKS4_,reconstructed,glitch-core-io/include/glitch-core-io/boost/intrusive_ptr.hpp,"intrusive_ptr<ITexture>::operator=: adds a use to the new object, then drops the old one"
+0x417974,_ZN5boost13intrusive_ptrIN6glitch5video8ITextureEEaSERKS4_.clone.1,skipped,glitch-core-io/include/glitch-core-io/boost/intrusive_ptr.hpp,intrusive_ptr<ITexture>::operator= GCC .clone copy: compiler-generated clone of the same body as 0x384df8

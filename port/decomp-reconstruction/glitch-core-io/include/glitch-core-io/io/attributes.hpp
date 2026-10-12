@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 
 namespace glitch::io {
@@ -93,6 +94,11 @@ public:
     virtual void setPlane(glitch::core::plane3d<float>) {}                                  // 0x31d8b8
     virtual void setString(const wchar_t* value);  // 0x326d20                                               // +0x94
     virtual void setRect(glitch::core::rect<std::int32_t>) {}                               // 0x31d86c
+    // boost::intrusive_ptr accessors. The base returns null and ignores the value.
+    virtual boost::intrusive_ptr<glitch::video::ITexture> getTexture() const;  // 0x31d7fc (+0x78)
+    virtual boost::intrusive_ptr<glitch::video::CLight> getLight() const;      // 0x31d808 (+0x7c)
+    virtual void setTexture(const boost::intrusive_ptr<glitch::video::ITexture>&) {}  // 0x31d8c4
+    virtual void setLight(boost::intrusive_ptr<glitch::video::CLight>) {}             // 0x31d8c8
     virtual void setMatrix(const glitch::core::CMatrix4<float>&) {}                         // 0x31d884
 };
 
