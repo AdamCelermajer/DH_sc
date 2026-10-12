@@ -69,15 +69,19 @@ inline float keyScaled(const SInputReader& reader, int index) {
 template <std::size_t Dim, std::size_t Component>
 inline const std::uint32_t* storeKeyedValue(const SAnimationAccessor& acc, void* out, float value) {
     static_assert(Component < Dim, "the component word must lie inside the value");
-    auto* words = static_cast<std::uint32_t*>(out);
+    // Words are written with memcpy so the caller can read them back as floats
+    // without violating strict aliasing.
+    auto* bytes = static_cast<unsigned char*>(out);
     const std::uint32_t* defaults = acc.getDefaultValue();
     if (defaults != nullptr) {
         for (std::size_t i = 0; i < Dim; ++i) {
-            words[i] = defaults[i];
+            std::memcpy(bytes + i * sizeof(std::uint32_t), &defaults[i], sizeof(std::uint32_t));
         }
-        words[Component] = toWord(value);
+        const std::uint32_t bits = toWord(value);
+        std::memcpy(bytes + Component * sizeof(std::uint32_t), &bits, sizeof bits);
     } else {
-        words[0] = toWord(value);
+        const std::uint32_t bits = toWord(value);
+        std::memcpy(bytes, &bits, sizeof bits);
     }
     return defaults;
 }
