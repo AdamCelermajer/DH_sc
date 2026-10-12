@@ -13,12 +13,6 @@ namespace glitch::video {
 class CLight;
 }  // namespace glitch::video
 
-namespace glitch::video::detail::part1b {
-void destroyLight(glitch::video::CLight*) {}
-void textureAddRef(glitch::video::ITexture*) {}
-void textureDrop(glitch::video::ITexture*) {}
-std::uint32_t textureStateWord(const glitch::video::ITexture*) { return 0; }
-}  // namespace glitch::video::detail::part1b
 
 using glitch::video::CMaterial;
 using glitch::video::ITexture;

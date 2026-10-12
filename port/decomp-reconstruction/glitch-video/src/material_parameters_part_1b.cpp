@@ -852,4 +852,36 @@ int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, vector2
     return materialGetArray(m, id, out, stride);
 }
 
+// ---- Reference and release hooks used by the intrusive rows above. Declared in the header.
+
+// CLight last-reference release (the body of boost::intrusive_ptr<CLight>::~intrusive_ptr at 0x5aa3c8,
+// after the count reaches zero). The original pushes the node at +0x50 onto glitch::memory::Matrix4Pool
+// when the flag at +0x54 is clear, then clears +0x50 and frees the object (LC_API_FREE_0). The constructors
+// set +0x54 to 1, so the push is not reached from a constructed light. The pool push is partial: the port's
+// Matrix4Pool (material_parameters.cpp) holds Matrix* nodes and does not take the +0x50 handle.
+void destroyLight(glitch::video::CLight* light) {
+    if (light == nullptr) return;
+    light->m_sourceHandle = 0;
+    delete light;
+}
+
+// ITexture count add (++ at +0x04). Reconstructed; the port's ITexture keeps the count in m_refCount.
+void textureAddRef(glitch::video::ITexture* texture) {
+    if (texture) ++texture->m_refCount;
+}
+
+// IReferenceCounted::drop (0x31d584) for an ITexture: decrement the count at +0x04, and on zero free the
+// object. Partial: the original calls onDelete (vtable +0x08) before the deleting destructor (+0x04); the port's
+// ITexture has no vtable, so onDelete is not called and the object is freed with delete.
+void textureDrop(glitch::video::ITexture* texture) {
+    if (texture == nullptr) return;
+    if (texture->m_refCount-- == 1) delete texture;
+}
+
+// Packed state word of an ITexture at +0x38 (format, cube and wrap fields). The caller reads bits 0-1 as the
+// texture type. Reconstructed: the word is returned as stored.
+std::uint32_t textureStateWord(const glitch::video::ITexture* texture) {
+    return texture ? texture->m_flags38 : 0u;
+}
+
 }  // namespace glitch::video::detail::part1b
