@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 
 void XP_DEBUG_INIT();       // 0x82a664, no-op
 void XP_DEBUG_FINALIZE();   // 0x82a668, no-op
@@ -35,3 +36,55 @@ char* XP_API_STRCHR(char* s, int c, int mode);
 char* XP_API_STRTRIM(char* s);
 // 0x82acdc _Z21XP_API_GetNationalityPc: no-op.
 void XP_API_GetNationality(char* out);
+
+// ---- wave 7 additions -------------------------------------------------------
+
+// 0x82a66c: writes value in base (digit table 0-9 then A-Z) to out, NUL-terminated, returns out.
+// A zero value gives "0". A negative value gets a leading '-'.
+char* XP_API_ITOA(int value, char* out, int base);
+// 0x82a610: pointer to the character after the count-th occurrence of target in s, or nullptr
+// when fewer than count occurrences are found. count 0 returns s.
+char* XP_API_STRCHRFIND(char* s, int target, int count);
+// 0x82abd4: copies the field at position index (fields are split by delim) into out and
+// returns the source offset of the first copied character, or -1 when nothing was copied.
+int XP_API_PARSE_DATA(char* text, char* out, int index, int delim);
+// 0x82ace0 (getValue): the same field copy as XP_API_PARSE_DATA, but the return is always 0.
+int getValue(char* text, char* out, int index, int delim);
+// 0x82ad54: lowercases the ASCII letters of src into dst and NUL-terminates dst.
+void XP_API_TOLOWER(const char* src, char* dst);
+// 0x82adc0 / 0x82ade8: fwrite to the receive / send debug log.
+void XP_DEBUG_SAVE_RECVDATA_LOG(const char* data, int length);
+void XP_DEBUG_SAVE_SENDDATA_LOG(const char* data, int length);
+// 0x82aeb0 / 0x82aef0: open log_recv.txt / log_send.txt for writing ("wt").
+void XP_DEBUG_OPEN_RECVDATA_LOG();
+void XP_DEBUG_OPEN_SENDDATA_LOG();
+// 0x82ae3c / 0x82ae5c: close the receive / send debug log.
+void XP_DEBUG_CLOSE_RECVDATA_LOG();
+void XP_DEBUG_CLOSE_SENDDATA_LOG();
+// 0x82ae10: fwrite to the file in handle slot (1-based).
+void XP_API_FILE_WRITE(const void* data, std::size_t size, std::size_t count, int handle);
+// 0x82b1e8: fread from the file in handle slot (1-based).
+void XP_API_FILE_READ(void* data, std::size_t size, std::size_t count, int handle);
+// 0x82ae7c: closes the file in handle slot and frees the slot.
+void XP_API_FILE_CLOSE(int handle);
+// 0x82b178: length of the open file in bytes (seeks to the start afterwards).
+int XP_API_FILE_GET_LENGTH(int handle);
+// 0x82b214: opens RES_PATH + name with mode in the first free slot (8 slots). Returns the
+// 1-based handle, or 0 when the file cannot be opened or no slot is free.
+int XP_API_FILE_OPEN(const char* name, const char* mode);
+// 0x82af30: writes a packed IPv4 address (low byte first) as "a.b.c.d" into out.
+char* XP_API_IP_INT2STR(std::uint32_t ip, char* out);
+// 0x82b368: parses a dotted IPv4 address into the packed form that IP_INT2STR reads back.
+std::uint32_t XP_API_IP_STR2INT(char* text);
+// 0x82af78: formats a float with "%f" into out and returns out.
+char* XP_API_FTOA(float value, char* out);
+// 0x82afb0: reseeds drand48 from the clock, adds the sum of the signed bytes of text (if any)
+// to one lrand48 value and returns the result (32-bit, as on ARM).
+long XP_API_GET_RANDOM(char* text);
+// 0x82b634: copies the field at index into a new[] buffer stored in *out. Returns the source
+// offset of the field, or -1 when the field is not found (the buffer is then empty).
+int XP_API_PARSE_DATA_NEW(char* text, char** out, int index, int delim);
+
+// Not in the original: test seams for the drand48 generator used by XP_API_GET_RANDOM.
+void XP_API_Srand48ForTest(long seed);
+long XP_API_Lrand48ForTest();

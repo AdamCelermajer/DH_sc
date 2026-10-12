@@ -57,6 +57,65 @@ int main() {
     XP_DEBUG_FINALIZE();
     XP_API_GetNationality(buf);
 
+    // Wave 7: integer and string helpers.
+    char num[40];
+    CHECK(std::strcmp(XP_API_ITOA(0, num, 10), "0") == 0);
+    CHECK(std::strcmp(XP_API_ITOA(1234, num, 10), "1234") == 0);
+    CHECK(std::strcmp(XP_API_ITOA(-77, num, 10), "-77") == 0);
+    CHECK(std::strcmp(XP_API_ITOA(255, num, 16), "FF") == 0);
+    CHECK(std::strcmp(XP_API_ITOA(35, num, 36), "Z") == 0);
+
+    CHECK(XP_API_STRCHRFIND((char*)"a|b|c", '|', 1) == (char*)"a|b|c" + 2);
+    CHECK(XP_API_STRCHRFIND((char*)"a|b|c", '|', 2) == (char*)"a|b|c" + 4);
+    CHECK(XP_API_STRCHRFIND((char*)"a|b|c", '|', 3) == nullptr);
+    CHECK(XP_API_STRCHRFIND((char*)"a|b", '|', 0) == (char*)"a|b");
+
+    char field[32];
+    CHECK(XP_API_PARSE_DATA((char*)"alpha/beta/gamma", field, 1, '/') == 6);
+    CHECK(std::strcmp(field, "beta") == 0);
+    CHECK(XP_API_PARSE_DATA((char*)"x", field, 3, '/') == -1);
+    CHECK(getValue((char*)"one:two", field, 0, ':') == 0);
+    CHECK(std::strcmp(field, "one") == 0);
+
+    char lower[16];
+    XP_API_TOLOWER("MiXeD 9!", lower);
+    CHECK(std::strcmp(lower, "mixed 9!") == 0);
+
+    char ip[24];
+    CHECK(std::strcmp(XP_API_IP_INT2STR(0x0100007f, ip), "127.0.0.1") == 0);
+    CHECK(XP_API_IP_STR2INT((char*)"127.0.0.1") == 0x0100007f);
+    CHECK(XP_API_IP_STR2INT((char*)"10.20.30.40") == 0x281e140a);
+
+    char ftoa[32];
+    CHECK(std::strncmp(XP_API_FTOA(2.5f, ftoa), "2.500000", 8) == 0);
+
+    // drand48 with seed 1 matches glibc: the first lrand48 is 89400484.
+    XP_API_Srand48ForTest(1);
+    CHECK(XP_API_Lrand48ForTest() == 89400484L);
+    CHECK(XP_API_Lrand48ForTest() == 976015093L);
+    CHECK(XP_API_GET_RANDOM(nullptr) >= 0);
+
+    char* split = nullptr;
+    // The field starts at offset 3. The copy runs to the next field start, so it keeps the delimiter.
+    CHECK(XP_API_PARSE_DATA_NEW((char*)"ab;cd;ef", &split, 1, ';') == 3);
+    CHECK(std::strcmp(split, "cd;") == 0);
+    delete[] split;
+
+    // File handles: open, write, measure, read back, close.
+    const char* tmpName = "xp_api_wave7.tmp";
+    int h = XP_API_FILE_OPEN(tmpName, "wb");
+    CHECK(h == 1);
+    XP_API_FILE_WRITE("hello", 1, 5, h);
+    XP_API_FILE_CLOSE(h);
+    h = XP_API_FILE_OPEN(tmpName, "rb");
+    CHECK(h == 1);
+    CHECK(XP_API_FILE_GET_LENGTH(h) == 5);
+    char back[8] = {};
+    XP_API_FILE_READ(back, 5, 1, h);
+    CHECK(std::memcmp(back, "hello", 5) == 0);
+    XP_API_FILE_CLOSE(h);
+    std::remove(tmpName);
+
     std::printf("%s\n", failures ? "xp_api: FAILED" : "xp_api: ok");
     return failures != 0;
 }

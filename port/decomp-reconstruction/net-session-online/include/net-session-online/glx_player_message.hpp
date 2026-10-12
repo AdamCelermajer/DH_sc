@@ -57,6 +57,20 @@ public:
     // 0x834fd4 _ZN16GLXPlayerMessage13clearMsgCountEv: zeroes the six box groups.
     void clearMsgCount();
 
+    // Request senders: "f|kind|i|GGI|u|UID|..." requests handed to SendByGet.
+    // 0x835aac _ZN16GLXPlayerMessage26SendGetMySentMessageHeaderEii (kind 0x5c, "a|" and "c|" fields)
+    void SendGetMySentMessageHeader(std::int32_t first, std::int32_t count);
+    // 0x835b74 _ZN16GLXPlayerMessage25SendGetMySentMessageCountEv (kind 0x5b)
+    void SendGetMySentMessageCount();
+    // 0x835c30 _ZN16GLXPlayerMessage20SendDelMySentMessageEi (kind 0x5e, "m|" field)
+    void SendDelMySentMessage(std::int32_t messageId);
+    // 0x835cf4 _ZN16GLXPlayerMessage17SendDeleteMessageEi (kind 0x4e, "m|" field)
+    void SendDeleteMessage(std::int32_t messageId);
+    // 0x835fcc _ZN16GLXPlayerMessage21SendReadMySentMessageEi (kind 0x5d). Stores the id at +0x64.
+    void SendReadMySentMessage(std::int32_t messageId);
+    // 0x836094 _ZN16GLXPlayerMessage15SendReadMessageEi (kind 0x4c). Stores the id at +0x64.
+    void SendReadMessage(std::int32_t messageId);
+
     // Not in the original: test seams that fill the parsed lists.
     void SetMessageForTest(std::int32_t index, std::int32_t id, std::int32_t type,
                            std::int32_t sender, bool read, const char* title);

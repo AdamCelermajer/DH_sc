@@ -47,6 +47,32 @@ public:
     // 0x83341c _ZN14GLXPlayerLogin19ShouldSendKeepAliveEv
     // True when keep-alive is enabled and more than 90000 ms have passed since the last one.
     bool ShouldSendKeepAlive() const;
+    // Not a method in the original: CXPlayerManager reads the byte at +0x40 directly.
+    bool KeepAliveEnabled() const { return keepAliveEnabled_; }
+
+    // Request senders. Each builds an "f|kind|i|GGI|u|UID|..." request and hands it to SendByGet.
+    // 0x83345c _ZN14GLXPlayerLogin32SendGameInvitationGetLobbyServerEPc (kind 0x6c, "cn|" field)
+    void SendGameInvitationGetLobbyServer(const char* invitation);
+    // 0x833528 _ZN14GLXPlayerLogin18SendGetLobbyServerEv (kind 0x6b)
+    void SendGetLobbyServer();
+    // 0x8335ec _ZN14GLXPlayerLogin32SendGetLobbyServerWithGameCenterEPcS0_S0_ (kind 0x6b). Partial:
+    // the two appended fields use format strings that are not identified; they are not built.
+    void SendGetLobbyServerWithGameCenter(const char* uid, const char* gameCenterA, const char* gameCenterB);
+    // 0x83370c _ZN14GLXPlayerLogin18SendGetProductInfoEPc (kind 0x5f, "l|" field). Partial: a null
+    // list makes the original call strlen on null; this port sends the request with an empty list.
+    void SendGetProductInfo(const char* list);
+    // 0x833814 _ZN14GLXPlayerLogin15SendGetAPNSInfoEi (kind 0x53, "t|" field)
+    void SendGetAPNSInfo(std::int32_t type);
+    // 0x8338d8 _ZN14GLXPlayerLogin13SendKeepAliveEv (kind 0x10). Stores the time in +0x44.
+    void SendKeepAlive();
+    // 0x83399c _ZN14GLXPlayerLogin9KeepAliveEv: sends a keep-alive when one is due.
+    void KeepAlive();
+    // 0x8339c0 _ZN14GLXPlayerLogin10SendLogoutEv (kind 0x11). Clears the keep-alive flag first.
+    void SendLogout();
+    // 0x8343e0 _ZN14GLXPlayerLogin6UpdateEv: keep-alive, then the web component update.
+    void Update() override;
+    // 0x8343f8 _ZN14GLXPlayerLogin16clearProductInfoEv: empties the product lists and the count.
+    void clearProductInfo();
 
     // Not in the original: test seams for the fields the getters read.
     void SetAPNSIPForTest(const char* value);
@@ -57,6 +83,9 @@ public:
         keepAliveEnabled_ = enabled;
         lastKeepAliveMs_ = lastTimeMs;
     }
+
+public:
+    ~GLXPlayerLogin() override;  // 0x834928 D1, 0x834a8c D2 (clears the product lists)
 
 private:
     bool keepAliveEnabled_ = false;                    // +0x40

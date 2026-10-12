@@ -597,3 +597,80 @@ elf_address,symbol,status,source_file,notes
 0x499618,_ZN10GameCenter16SetGCPlayerAliasEPc,reconstructed,net-session-online/src/game_center.cpp,SetGCPlayerAlias: stores the alias; a null alias is taken as empty (deviation)
 0x81ce00,_ZN14GameCenterInfoD1Ev,reconstructed,net-session-online/src/game_center_info.cpp,GameCenterInfo D1: clears the list at +0x10; other members not identified
 0x52e2d4,_ZN15CXPlayerManager14OnNetworkErrorEv,reconstructed,net-session-online/src/cxplayer_manager.cpp,"prints the network error, sets the error code (+0x7c, name inferred) to 3, switches to state 0x11"
+0x82a66c,XP_API_ITOA,reconstructed,net-session-online/src/xp_api.cpp,returns out; the ARM writes digits low first and reverses them in place
+0x82a610,XP_API_STRCHRFIND,reconstructed,net-session-online/src/xp_api.cpp,"returns the position after the count-th match, or null; count 0 returns s"
+0x82abd4,XP_API_PARSE_DATA,reconstructed,net-session-online/src/xp_api.cpp,returns the source offset of the first copied character (-1 when none)
+0x82ace0,getValue,reconstructed,net-session-online/src/xp_api.cpp,same field walk as XP_API_PARSE_DATA; always returns 0
+0x82ad54,_Z14XP_API_TOLOWERPKcPc,reconstructed,net-session-online/src/xp_api.cpp,lowercases ASCII capitals only
+0x82adc0,_Z26XP_DEBUG_SAVE_RECVDATA_LOGPKci,reconstructed,net-session-online/src/xp_api.cpp,fwrite to the receive debug log
+0x82ade8,_Z26XP_DEBUG_SAVE_SENDDATA_LOGPKci,reconstructed,net-session-online/src/xp_api.cpp,fwrite to the send debug log
+0x82ae10,XP_API_FILE_WRITE,reconstructed,net-session-online/src/xp_api.cpp,fwrite to the slot's FILE*
+0x82ae3c,_Z27XP_DEBUG_CLOSE_RECVDATA_LOGv,reconstructed,net-session-online/src/xp_api.cpp,"fclose of the receive debug log (no null check, as the original)"
+0x82ae5c,_Z27XP_DEBUG_CLOSE_SENDDATA_LOGv,reconstructed,net-session-online/src/xp_api.cpp,"fclose of the send debug log (no null check, as the original)"
+0x82ae7c,XP_API_FILE_CLOSE,reconstructed,net-session-online/src/xp_api.cpp,fclose and frees the slot
+0x82aeb0,_Z26XP_DEBUG_OPEN_RECVDATA_LOGv,reconstructed,net-session-online/src/xp_api.cpp,"opens log_recv.txt with ""wt"""
+0x82aef0,_Z26XP_DEBUG_OPEN_SENDDATA_LOGv,reconstructed,net-session-online/src/xp_api.cpp,"opens log_send.txt with ""wt"""
+0x82af30,XP_API_IP_INT2STR,reconstructed,net-session-online/src/xp_api.cpp,"packed address, low byte first; ARM confirmed the argument order"
+0x82af78,XP_API_FTOA,reconstructed,net-session-online/src/xp_api.cpp,"sprintf ""%f"" of the float promoted to double"
+0x82afb0,XP_API_GET_RANDOM,reconstructed,net-session-online/src/xp_api.cpp,"ARM shows the strlen call is a loop summing signed bytes, added to lrand48; drand48 is ported in place (libc constants); return is 32-bit"
+0x82b178,XP_API_FILE_GET_LENGTH,reconstructed,net-session-online/src/xp_api.cpp,two seeks and ftell; rewinds afterwards
+0x82b1e8,XP_API_FILE_READ,reconstructed,net-session-online/src/xp_api.cpp,fread from the slot's FILE*
+0x82b214,XP_API_FILE_OPEN,reconstructed,net-session-online/src/xp_api.cpp,RES_PATH is empty in the port (value not recovered); the Android log lines are not reproduced
+0x82b368,XP_API_IP_STR2INT,reconstructed,net-session-online/src/xp_api.cpp,ARM confirms the packed result; the 16-byte token is clamped to 15 characters (original has no check)
+0x82b634,XP_API_PARSE_DATA_NEW,partial,net-session-online/src/xp_api.cpp,when the field is not found the original copies from one byte before the text; this port returns an empty buffer
+0x82b784,XP_DEBUG_OUT,skipped,net-session-online/src/xp_api.cpp,XP_DEBUG_OUT body: an 80 KB stack buffer is cleared and the text goes to a tail call; the port keeps the debug trace stand-in in deps/xp_api.hpp
+0x52df10,_ZN15CXPlayerManagerC2Ev,reconstructed,net-session-online/src/cxplayer_manager.cpp,C2 body (same as C1); GLXPlayerObserver base; members zeroed
+0x52df54,_ZN15CXPlayerManagerC1Ev,reconstructed,net-session-online/src/cxplayer_manager.cpp,C1 body
+0x52df98,_ZN15CXPlayerManagerD2Ev,reconstructed,net-session-online/src/cxplayer_manager.cpp,"D2: deletes the +0x10, +0x08 and +0x0c objects (original uses the vtable dtor slot)"
+0x52e034,_ZN15CXPlayerManagerD1Ev,reconstructed,net-session-online/src/cxplayer_manager.cpp,D1: same body as D2
+0x52e0ec,_ZN15CXPlayerManager10IsLoggedInEv,reconstructed,net-session-online/src/cxplayer_manager.cpp,keep-alive byte read through GLXPlayerLogin::KeepAliveEnabled
+0x52e15c,_ZN15CXPlayerManager16OnRequestTimeoutEi,reconstructed,net-session-online/src/cxplayer_manager.cpp,debug line printed without the value (its argument is missing in the pseudocode)
+0x52e1b4,_ZN15CXPlayerManager16OnRequestFailureEii,partial,net-session-online/src/cxplayer_manager.cpp,first debug line has no arguments in the pseudocode and is not reproduced; error mapping follows the switch (case 0x30 and 0x32-0x42 fall to error 3)
+0x52e304,_ZN15CXPlayerManager6LogoutEv,reconstructed,net-session-online/src/cxplayer_manager.cpp,logout with a login object goes to state 5 and clears the score
+0x52e358,_ZN15CXPlayerManager5LoginEPcS0_,reconstructed,net-session-online/src/cxplayer_manager.cpp,credentials copied with a bounded copy (46-byte field); original strcpy is unbounded
+0x52e3f8,_ZN15CXPlayerManager16OnRequestSuccessEiPci,reconstructed,net-session-online/src/cxplayer_manager.cpp,creates GLXPlayerLogin and GLXPlayerLeaderboard as observers (original uses CustomAlloc and placement ctor)
+0x52e524,_ZN15CXPlayerManager4InitEv,partial,net-session-online/src/cxplayer_manager.cpp,only the initialized-flag test is recovered; the debug-switch load and the 20-byte string are not reconstructed
+0x52e6cc,_ZN15CXPlayerManager13UploadMyScoreEi,reconstructed,net-session-online/src/cxplayer_manager.cpp,returns the byte as bool; debug lines reproduced with their arguments
+0x83345c,_ZN14GLXPlayerLogin32SendGameInvitationGetLobbyServerEPc,reconstructed,net-session-online/src/glx_player_login_requests.cpp,kind 0x6c with the cn field
+0x833528,_ZN14GLXPlayerLogin18SendGetLobbyServerEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,kind 0x6b; stores the time at +0x44
+0x8335ec,_ZN14GLXPlayerLogin32SendGetLobbyServerWithGameCenterEPcS0_S0_,partial,net-session-online/src/glx_player_login_requests.cpp,the two appended fields use format strings that are not identified; the base request is built
+0x83370c,_ZN14GLXPlayerLogin18SendGetProductInfoEPc,partial,net-session-online/src/glx_player_login_requests.cpp,null list: the original calls strlen on null; the port sends an empty list field
+0x833814,_ZN14GLXPlayerLogin15SendGetAPNSInfoEi,reconstructed,net-session-online/src/glx_player_login_requests.cpp,kind 0x53 with the t field
+0x8338d8,_ZN14GLXPlayerLogin13SendKeepAliveEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,kind 0x10; stores the time at +0x44; the time is 0 in the glx stand-in
+0x83399c,_ZN14GLXPlayerLogin9KeepAliveEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,sends only when ShouldSendKeepAlive is true
+0x8339c0,_ZN14GLXPlayerLogin10SendLogoutEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,"clears the keep-alive flag (+0x40) first, then kind 0x11"
+0x8343e0,_ZN14GLXPlayerLogin6UpdateEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,KeepAlive then the web component Update
+0x8343f8,_ZN14GLXPlayerLogin16clearProductInfoEv,reconstructed,net-session-online/src/glx_player_login_requests.cpp,product lists are vectors in the port; the owned arrays are freed by clear()
+0x834928,_ZN14GLXPlayerLoginD1Ev,reconstructed,net-session-online/src/glx_player_login_requests.cpp,D1: clears the product lists; the owned strings are unique_ptr members
+0x834a8c,_ZN14GLXPlayerLoginD2Ev,reconstructed,net-session-online/src/glx_player_login_requests.cpp,D2: same body as D1
+0x834a70,_ZN14GLXPlayerLoginD0Ev,skipped,net-session-online/src/glx_player_login_requests.cpp,compiler-generated deleting destructor; the virtual dtor covers it
+0x835aac,_ZN16GLXPlayerMessage26SendGetMySentMessageHeaderEii,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x5c with the a and c fields
+0x835b74,_ZN16GLXPlayerMessage25SendGetMySentMessageCountEv,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x5b
+0x835c30,_ZN16GLXPlayerMessage20SendDelMySentMessageEi,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x5e with the m field
+0x835cf4,_ZN16GLXPlayerMessage17SendDeleteMessageEi,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x4e with the m field
+0x835fcc,_ZN16GLXPlayerMessage21SendReadMySentMessageEi,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x5d; stores the id in the current message id (+0x64)
+0x836094,_ZN16GLXPlayerMessage15SendReadMessageEi,reconstructed,net-session-online/src/glx_player_message_requests.cpp,kind 0x4c; stores the id in the current message id (+0x64)
+0x832cc4,_ZN20GLXPlayerLeaderboard23sendRankGetAroundPlayerEiii,partial,net-session-online/src/glx_player_leaderboard_requests.cpp,kind 0x70 with the p and t fields; the optional field for a non-negative first argument is not identified
+0x832dc4,_ZN20GLXPlayerLeaderboard11sendRankGetEiiiib,partial,net-session-online/src/glx_player_leaderboard_requests.cpp,"kind 0x6f with p, t, x and c; the optional field for a non-negative first argument is not identified; the flag at +0x68 is stored"
+0x832ee4,_ZN20GLXPlayerLeaderboard13sendHighScoreEPc,partial,net-session-online/src/glx_player_leaderboard_requests.cpp,"kind 0x6e; the appended field (the argument) has no identified format, so it is not sent"
+0x832fb8,_ZN20GLXPlayerLeaderboard13sendHighScoreEiii,reconstructed,net-session-online/src/glx_player_leaderboard_requests.cpp,"kind 0x6e: s, then l when not negative, then t"
+0x82e898,_ZN22GLXPlayerSereverConfigC1EPKc,partial,net-session-online/src/glx_player_serever_config.cpp,the two date objects are not allocated; the original's trailing 8-byte allocation is not recovered
+0x82e94c,_ZN22GLXPlayerSereverConfigC2EPKc,partial,net-session-online/src/glx_player_serever_config.cpp,C2 body as C1: the trailing 8-byte allocation is not recovered
+0x82e7ac,_ZN22GLXPlayerSereverConfigD1Ev,reconstructed,net-session-online/src/glx_player_serever_config.cpp,D1 deletes the two date objects (the original frees them in the same order)
+0x82e830,_ZN22GLXPlayerSereverConfigD2Ev,reconstructed,net-session-online/src/glx_player_serever_config.cpp,D2: same body as D1
+0x82e814,_ZN22GLXPlayerSereverConfigD0Ev,skipped,net-session-online/src/glx_player_serever_config.cpp,compiler-generated deleting destructor; the virtual dtor covers it
+0x82dffc,_ZN22GLXPlayerSereverConfig6GetGgiEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,returns the static GGI
+0x82e01c,_ZN22GLXPlayerSereverConfig14GetGameVersionEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,returns the static version buffer (0x32 bytes)
+0x82e038,_ZN22GLXPlayerSereverConfig11isOutOfDateEi,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"server date before local date by year, then by day plus the offset"
+0x82e084,_ZN22GLXPlayerSereverConfig14GetCurTimeDateEP8GameDate,reconstructed,net-session-online/src/glx_player_serever_config.cpp,localtime year and day of year (std::localtime)
+0x82ecfc,_ZN22GLXPlayerSereverConfig8GetValueEPKc,partial,net-session-online/src/glx_player_serever_config.cpp,"the memcmp walk over the URL map is garbled; this port returns the stored value for the key, or null"
+0x82eefc,_ZN22GLXPlayerSereverConfig17GetGameMinVersionEv,partial,net-session-online/src/glx_player_serever_config.cpp,key at DAT_0091a518 is not recovered; the port passes an empty key
+0x82ef0c,_ZN22GLXPlayerSereverConfig20GetGameLatestVersionEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""latest"" to GetValue"
+0x82ef1c,_ZN22GLXPlayerSereverConfig17GetChatRoomDomainEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""ChatRoomDomain"" to GetValue"
+0x82ef2c,_ZN22GLXPlayerSereverConfig13GetChatDomainEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""ChatDomain"" to GetValue"
+0x82ef3c,_ZN22GLXPlayerSereverConfig13GetChatServerEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""ChatServer"" to GetValue"
+0x82ef4c,_ZN22GLXPlayerSereverConfig13GetwebURLTypeEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""type"" to GetValue"
+0x82ef5c,_ZN22GLXPlayerSereverConfig9GetPhpVerEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XPPHPVerNo"" to GetValue"
+0x82ef6c,_ZN22GLXPlayerSereverConfig15GetXPlayerMPURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XPlayMPURL"" to GetValue"
+0x82ef7c,_ZN22GLXPlayerSereverConfig15GetXPlayerDWURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XplayDWURL"" to GetValue"
+0x82ef8c,_ZN22GLXPlayerSereverConfig13GetXPlayerURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XplayerURL"" to GetValue"
