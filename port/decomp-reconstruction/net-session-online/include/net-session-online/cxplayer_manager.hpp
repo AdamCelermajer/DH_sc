@@ -48,8 +48,8 @@ public:
     void Login(const char* user, const char* password);
     // Observer slot 2: 0x52e3f8 _ZN15CXPlayerManager16OnRequestSuccessEiPci
     void OnRequestSuccess(std::int32_t functionId, const char* data, std::int32_t dataLength);
-    // 0x52e524 _ZN15CXPlayerManager4InitEv (partial: the flag test and the debug switches are
-    // recovered; the rest of the body is a garbled allocation and is not reconstructed).
+    // 0x52e524 _ZN15CXPlayerManager4InitEv (partial: the server-config request is not ported,
+    // so the services are never created; see the .cpp).
     void Init();
     // 0x52e6cc _ZN15CXPlayerManager13UploadMyScoreEi: the original returns a byte (0 or 1).
     bool UploadMyScore(std::int32_t score);

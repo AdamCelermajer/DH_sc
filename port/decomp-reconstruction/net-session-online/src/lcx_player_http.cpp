@@ -30,16 +30,32 @@ std::string Text(const std::unique_ptr<char[]>& text) {
     return text ? std::string(text.get()) : std::string();
 }
 
-// Stand-in for the original's host extraction (LC_API_PARSE_DATA on the URL, not recovered).
-// The host is not extracted, so the Host header is empty. This is why the send functions
-// are partial.
+// The Host value. The original skips two '/' with LC_API_PARSE_DATA (core-platform 0x89c88c)
+// and then copies the field up to the next '/', so the host is field 2 of the URL split on
+// '/' (for "http://host:port/path" that is "host:port"). A URL without that field gives an
+// empty host; the original reads before the URL there (deviation).
 std::string HostOf(const char* url) {
-    (void)url;
-    return std::string();
+    std::string host;
+    if (url == nullptr) {
+        return host;
+    }
+    int field = 0;
+    for (const char* p = url; *p != '\0'; ++p) {
+        if (*p == '/') {
+            if (++field > 2) {
+                break;
+            }
+            continue;
+        }
+        if (field == 2) {
+            host.push_back(*p);
+        }
+    }
+    return host;
 }
 
-// Stand-in for ALicenseCheck_GetUserAgent (the ALicenseCheck functions are not identified).
-// The User-Agent is empty.
+// ALicenseCheck_GetUserAgent (0x52f0e0, glx_320e98.cpp) has an empty body in the original,
+// so the User-Agent is empty.
 std::string UserAgent() {
     return std::string();
 }

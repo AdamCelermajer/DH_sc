@@ -28,6 +28,7 @@ class GLXPlayerLeaderboard;
 class GLXPlayerMPLobby;
 class GameCenterInfo;
 class GLXPlayerLogin;
+class GLXPlayerUserFriend;
 
 class CMatchingGLLive {
 public:
@@ -79,6 +80,19 @@ public:
     std::int32_t ProcessFriendEvents() const;
     // 0x81bc98 _ZN15CMatchingGLLive13InitGLFriendsEv: no-op.
     void InitGLFriends() const;
+    // The four GL friend accessors below use the friend list at +0x6700 (glxUserFriend_),
+    // which may be null.
+    // 0x81c098 _ZN15CMatchingGLLive15GetGLFriendsCountEv: count, or 0 when the list is null.
+    std::int32_t GetGLFriendsCount() const;
+    // 0x81c0ac _ZN15CMatchingGLLive15GetGLFriendStateEi: state of a friend, -1 out of range.
+    std::int32_t GetGLFriendState(std::int32_t index) const;
+    // 0x81c0e8 _ZN15CMatchingGLLive17SendGLFriendInviteEPc. Partial: the original returns the
+    // result of sendAddUserFriend; the port's version returns void, so this returns 0.
+    std::int32_t SendGLFriendInvite(const char* name) const;
+    // 0x81c0fc _ZN15CMatchingGLLive15GetGLFriendsNameEi: name of a friend, null out of range.
+    const char* GetGLFriendsName(std::int32_t index) const;
+    // 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeE14tPROTOCOL_TYPE: table {1, 2, 1}, 0 above 2.
+    static std::int32_t GetTransportType(std::uint32_t protocolType);
     // 0x81bc9c _ZN15CMatchingGLLive19GLFriendsListLoadedEv
     bool GLFriendsListLoaded() const { return glFriendsListLoaded_ != 0; }
     // 0x81bca8 _ZN15CMatchingGLLive19GLFriendsListLoadedEb
@@ -166,6 +180,7 @@ public:
     void SetGameCenterActiveForTest(bool value) { gameCenterActive_ = value; }
     void SetRoomKeyForTest(std::int32_t key) { roomKey_ = key; }
     const CRoomSearchFilter& SearchFilterForTest() const { return searchFilter_; }
+    void SetGLFriendListForTest(GLXPlayerUserFriend* list) { glxUserFriend_ = list; }
 
 private:
     std::uint8_t roomHidden_ = 0;          // +0x0d
@@ -188,4 +203,5 @@ private:
     std::map<std::uint64_t, CRoomAttributes> roomAttributes_;  // +0x6720 (room id -> room settings)
     CRoomSearchFilter searchFilter_;       // +0x6738 (copied by SearchRoomInternal)
     std::int32_t roomKey_ = 0;             // +0x680c (room id used by GetRoomAttributes)
+    GLXPlayerUserFriend* glxUserFriend_ = nullptr;  // +0x6700 (friend list, null until created)
 };

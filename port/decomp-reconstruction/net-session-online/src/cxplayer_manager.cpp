@@ -3,6 +3,9 @@
 #include <cstdio>
 #include <cstring>
 
+#include "net-session-online/deps/debug_switches.hpp"
+#include "net-session-online/glx_player_serever_config.hpp"
+
 namespace {
 
 // Size of the user name and password fields (+0x20 and +0x4e in the original).
@@ -180,18 +183,32 @@ void CXPlayerManager::OnRequestSuccess(std::int32_t /*functionId*/, const char* 
 }
 
 // 0x52e524 _ZN15CXPlayerManager4InitEv (partial)
-// Hex-Rays: when the flag at +0x04 is clear, it loads the debug switches and looks up
-// "ConnectToBetaServer". The config version is "1.0.1" when that switch is set, else "1.0.0".
-// It creates GLXPlayerSereverConfig (0x44 bytes), sends the server-config request, registers
-// this as observer, and prints the error code. On code 1 it creates the login service (0x88
-// bytes) and the leaderboard (0x6c bytes), registers both, sets the leaderboard flag at +0x54
-// and the state to 4. Not reproduced here: the debug switches, the config request (no
-// SendGetServerConfig in the port) and the services. Only the flag test is reproduced, so
-// Init does nothing beyond it.
+// When the initialized flag (+0x04) is clear: the config version is "1.0.1" when the
+// "ConnectToBetaServer" debug switch is set, else "1.0.0". The server-config object is created
+// and this manager is registered as its observer, then the error code is printed. Code 1
+// creates the login and leaderboard services and waits in state 4.
+// Partial: the server-config request (SendGetServerConfig) has no port equivalent yet, so the
+// error code keeps its initial value 0 (the original's out-argument starts at the flag value,
+// which is 0 here). The services are therefore never created by this port.
 void CXPlayerManager::Init() {
     if (initialized_) {
         return;
     }
+    DebugSwitches::s_inst.load();
+    const bool betaServer = DebugSwitches::s_inst.GetSwitch("ConnectToBetaServer");
+    third_ = new GLXPlayerSereverConfig(betaServer ? "1.0.1" : "1.0.0");
+    std::int32_t errorCode = 0;  // SendGetServerConfig(config, &errorCode) is not ported.
+    third_->RegisterObserver(this);
+    std::printf("ServerConfig error code: %d\n", errorCode);
+    if (errorCode == 1) {
+        login_ = new GLXPlayerLogin();
+        login_->RegisterObserver(this);
+        leaderboard_ = new GLXPlayerLeaderboard();
+        leaderboard_->RegisterObserver(this);
+        leaderboard_->SetScoreDataCount(1);
+        state_ = 4;
+    }
+    initialized_ = true;
 }
 
 // 0x52e6cc _ZN15CXPlayerManager13UploadMyScoreEi
