@@ -466,6 +466,19 @@ static Error execute_command(Runtime *runtime, Task *task,
                 command->fields[1].kind != DH2_SCRIPT_VALUE_STRING) {
                 return ERROR_INVALID_ARGUMENT;
             }
+            if (runtime->spawn_services.host_command != NULL) {
+                // Script_SetCameraTarget 0x...: CameraTarget::SetTarget(name or
+                // LocalPlayer, blend ms = field 0); the host owns the camera.
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted == 1) return ERROR_OK;
+                if (accepted == 0)
+                    return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                                command->command_id, 0, "camera target")
+                        ? ERROR_OK : runtime->error;
+                if (accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
             const dh2_script_string target = command->fields[1].value.string;
             char name[MAX_NAME_BYTES];
             if (!copy_string(name, sizeof(name), target.data, target.size)) {
@@ -505,10 +518,23 @@ static Error execute_command(Runtime *runtime, Task *task,
                 ? ERROR_OK : runtime->error;
         }
         case 24:  // LockCharacter("All") sets the native shared player block flag.
-            set_player_lock(runtime, task, command, 1);
-            return runtime->error;
         case 25:  // UnlockCharacter("All") clears the native shared player block flag.
-            set_player_lock(runtime, task, command, 0);
+            if (runtime->spawn_services.host_command != NULL) {
+                // Script_LockCharacter 0x45... : "All" writes v2Controller::s_blocked,
+                // a name writes that Character's controller+8 lock; the host owns both.
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted == 1 || accepted == 0) {
+                    if (accepted == 1 && string_field_is(command, 0, "All", true))
+                        runtime->player_locked = command->command_id == 24 ? 1 : 0;
+                    return accepted == 1 ? ERROR_OK
+                        : (emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task, command->command_id,
+                                0, "lock target") ? ERROR_OK : runtime->error);
+                }
+                if (accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
+            set_player_lock(runtime, task, command, command->command_id == 24 ? 1 : 0);
             return runtime->error;
         case 26: {  // Wait::Execute resets elapsed; Update adds dt; IsBlocking compares target.
             if (command->field_count != 1 ||

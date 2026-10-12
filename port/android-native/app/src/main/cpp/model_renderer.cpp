@@ -1564,6 +1564,9 @@ bool native_player_deserialize_script_lifecycle_v1(std::string&);
 bool native_player_deserialize_clear_target_v1(std::string&);
 bool native_host_online_v1() noexcept;
 bool native_host_revive_local_players_v1(std::uint32_t, std::string&);
+extern std::uintptr_t native_script_camera_target;
+extern std::int32_t native_script_camera_blend_ms;
+extern bool native_script_camera_target_dirty;
 int prince_look_service(void*,const dh2::character::CharacterControlRequest32*,
                         dh2::character::CharacterControlResponse16*);
 const dh2::data::AiProps* native_actor_ai_props(ObjectActor& actor) {
@@ -9574,7 +9577,10 @@ bool native_source_level_load_checkpoint_v1(
  std::string failure;
  do {
   if(!native_level_save_load_checkpoint_v1(failure))break;
-  if(!native_source_level_reinit_game_events_v1(expected_generation,failure))break;
+  // The port binds the Level GameEventManager/Objective owners only for SWAMP
+  // (its per-frame GameEventManager::Update has the same gate).
+  if(active_level_assets.name=="SWAMP"&&
+     !native_source_level_reinit_game_events_v1(expected_generation,failure))break;
   if(!native_player_save_load_checkpoint_v1(failure))break;
   if(!native_player_character_sg_update_checkpoint_v1(
         expected_generation,failure))break;
@@ -20603,6 +20609,28 @@ Matrix source_player_camera(int width,int height,std::uint32_t dt_ms){
  FrameInput camera_input{};
  camera_input.active_camera=true;camera_input.camera_node_present=true;
  camera_input.target_cam_node_present=true;camera_input.target_game_object_present=true;
+ // Script_SetCameraTarget: follow the named object instead of the Player.
+ if(native_script_camera_target){
+  float position[3]{};
+  if(auto* actor=native_char_ai_actor(native_script_camera_target)){
+   std::copy(actor->position.begin(),actor->position.end(),position);
+   if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+    std::copy(actor->spawn_owner->runtime.subobjects.position,
+              actor->spawn_owner->runtime.subobjects.position+3,position);
+   target_object.identity=native_script_camera_target;
+   target_object.object_position={position[0],position[1],position[2]};
+   target_object.custom_anchor_present=false;
+  }else if(native_level_script_position_for_target(native_script_camera_target,position)){
+   target_object.identity=native_script_camera_target;
+   target_object.object_position={position[0],position[1],position[2]};
+   target_object.custom_anchor_present=false;
+  }
+ }
+ if(native_script_camera_target_dirty&&source_camera_level_owner_ready){
+  native_script_camera_target_dirty=false;
+  if(!source_camera_level_owner.set_target(&target_object,native_script_camera_blend_ms,nullptr))
+   throw std::runtime_error("Script_SetCameraTarget rejected by the source CameraTarget owner");
+ }
  camera_input.target=target_object;
  camera_input.dt_ms=static_cast<std::int32_t>(std::min<std::uint32_t>(dt_ms,2000));
  camera_input.camera_world_position=source_camera_level_root_position;
@@ -23352,6 +23380,22 @@ bool native_script_for_characters(const std::string& name,Visit visit,int& looku
  if(status!=1||!record.identity)return false;
  return visit(record.identity);
 }
+// Script_MoveActor (0x1142a8) moves retained until its IsBlocking (0x113726)
+// observes arrival. Handles are 1-based indexes into this list.
+struct NativeScriptMove {
+ std::uintptr_t mover=0;
+ std::array<float,3> target{};
+ std::uint32_t generation=0;
+ bool player=false,active=false;
+ std::uint32_t polls=0;
+};
+std::vector<NativeScriptMove> native_script_moves;
+}
+// Script_SetCameraTarget state: 0 targets the local Player.
+std::uintptr_t native_script_camera_target=0;
+std::int32_t native_script_camera_blend_ms=0;
+bool native_script_camera_target_dirty=false;
+namespace {
 // GameObject::SetVisible on the canonical ObjectManager row and, for a
 // Character, the same retained visibility fields Character::Enabled updates.
 bool native_script_set_visible(std::uintptr_t identity,bool visible,bool disable_zoning){
@@ -23380,8 +23424,19 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_STRING;
  case 15: // PlayLevelMusic(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 8: // SetCameraTarget(blend I, name S, B)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_STRING&&
+      c.fields[1].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
+      c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 24: case 25: // LockCharacter/UnlockCharacter(S)
+  return c.field_count==1&&native_script_name_field(c,0);
  case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
   return c.field_count==1&&native_script_name_field(c,0);
+ case 40: // MoveActor(target S, disable-collisions B, mover S, revive B)
+  return c.field_count==4&&native_script_name_field(c,0)&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,2)&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_BOOL;
  default:return false;
  }
 }
@@ -23462,15 +23517,130 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!ok)return -1;
    return lookup;
   }
+  case 8: {
+   // Script_SetCameraTarget::Execute: an empty name targets the local Player's
+   // Character, otherwise CameraTarget::SetTarget(name, field 0 duration).
+   const auto name=native_script_string(c,1);
+   std::uintptr_t target=0;
+   if(!name.empty()){
+    dh2_script_runtime::ObjectRecord record{};
+    const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+    if(status==0)return 0;
+    if(status!=1||!record.identity)return -1;
+    target=record.identity==prince_character.identity()?0:record.identity;
+   }
+   native_script_camera_target=target;
+   native_script_camera_blend_ms=c.fields[0].value.i32;
+   native_script_camera_target_dirty=true;
+   return 1;
+  }
+  case 24: case 25: {
+   // Script_LockCharacter::Execute: "All" (case-insensitive) writes
+   // v2Controller::s_blocked; a name writes that Character's controller+8.
+   const std::uint8_t locked=c.command_id==24?1:0;
+   const auto name=native_script_string(c,0);
+   if(native_script_all(name)){controller_global_blocked=locked;return 1;}
+   dh2_script_runtime::ObjectRecord record{};
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity()){prince_state.controller_locked=locked;return 1;}
+   if(auto* faery=native_faery_owner(record.identity)){faery->controller.locked=locked;return 1;}
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor||!actor->spawn_owner)return 1;  // Not a Character: GetObjectByName cast fails.
+   actor->spawn_owner->character.state.controller_locked=locked;
+   return 1;
+  }
+  case 40: {
+   // Script_MoveActor::Execute 0x1142a8: v2Controller::Cmd_MoveTo(target) on the
+   // mover Character; IsBlocking 0x113726 waits for its move list to empty and
+   // then issues Cmd_Stop. The disable-collision flag is not reconstructed.
+   dh2_script_runtime::ObjectRecord target_record{},mover_record{};
+   const auto target_name=native_script_string(c,0);
+   const auto mover_name=native_script_string(c,2);
+   const int target_status=native_level_script_object_lookup(nullptr,target_name.c_str(),&target_record);
+   const int mover_status=native_level_script_object_lookup(nullptr,mover_name.c_str(),&mover_record);
+   if(target_status==0||mover_status==0)return 0;
+   if(target_status!=1||mover_status!=1||!target_record.identity||!mover_record.identity)return -1;
+   NativeScriptMove move{};
+   move.mover=mover_record.identity;move.generation=source.generation;
+   float position[3]{};
+   if(!native_level_script_position_for_target(target_record.identity,position))return -1;
+   std::copy(position,position+3,move.target.begin());
+   if(mover_record.identity==prince_character.identity()){
+    // The retained Player has no Character::PathTo owner yet; it walks the
+    // same selected-floor PF route through its normal movement input.
+    move.player=true;
+   }else{
+    auto* actor=native_char_ai_actor(mover_record.identity);
+    if(!actor||actor->kind!=1||!actor->spawn_owner||!actor->spawn_owner->runtime_ready||
+       actor->spawn_owner->actor!=actor||
+       actor->spawn_owner->character.owner()!=actor->identity)return -1;
+    auto& owner=*actor->spawn_owner;
+    owner.control_failure_stage=0;
+    const dh2::character::ControllerCommandState32 controller{
+        reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+        controller_global_blocked,owner.character.state.controller_locked,
+        owner.controller_forced,0};
+    if(dh2_character_controller_character(&controller,dh2::character::controller_move_object,
+         target_record.identity,&owner.control_services)!=1)return -1;
+   }
+   move.active=true;
+   native_script_moves.push_back(move);
+   *handle=native_script_moves.size();
+   return 2;
+  }
   default:return -2;
   }
  }catch(...){return -1;}
 }
-int native_level_script_host_command_blocking(void*,std::uintptr_t,std::uint32_t){
- // None of the implemented host commands block (their IsBlocking returns 0).
- return 0;
+int native_level_script_host_command_blocking(void*,std::uintptr_t handle,std::uint32_t command_id){
+ try {
+  if(command_id!=40||!handle||handle>native_script_moves.size())return -1;
+  auto& move=native_script_moves[handle-1];
+  if(!move.active)return 0;
+  const auto source=source_level_owner.snapshot();
+  if(source.generation!=move.generation){move.active=false;return 0;}
+  ++move.polls;
+  if(move.player){
+   GameplayPoseSnapshotV1 pose;std::string error;
+   if(!gameplay_pose_snapshot(pose,error)){move.active=false;return 0;}
+   const float remaining=std::hypot(move.target[0]-pose.player_position[0],
+                                    move.target[1]-pose.player_position[1]);
+   if(remaining<=48.0f||move.polls>1800){
+    stop_movement();move.active=false;return 0;
+   }
+   GameplayRouteSnapshotV1 route;
+   std::array<float,3> waypoint=move.target;
+   if(gameplay_route_snapshot(move.target,route,error)&&route.path_found&&!route.waypoints.empty()){
+    std::size_t next=0;
+    while(next+1<route.waypoints.size()&&
+          std::hypot(route.waypoints[next][0]-pose.player_position[0],
+                     route.waypoints[next][1]-pose.player_position[1])<=48.0f)++next;
+    waypoint=route.waypoints[next];
+   }
+   const float dx=waypoint[0]-pose.player_position[0],dy=waypoint[1]-pose.player_position[1];
+   const float distance=std::hypot(dx,dy);
+   if(!std::isfinite(distance)||distance<=1.0f){stop_movement();move.active=false;return 0;}
+   constexpr float inverse_sqrt_two=0.7071067811865475f;
+   move_axis((dx+dy)*inverse_sqrt_two/distance,(dy-dx)*inverse_sqrt_two/distance);
+   return 1;
+  }
+  auto* actor=native_char_ai_actor(move.mover);
+  if(!actor||!actor->spawn_owner||!actor->spawn_owner->runtime_ready){move.active=false;return 0;}
+  auto& owner=*actor->spawn_owner;
+  if(owner.runtime.path.count!=0&&move.polls<=3600)return 1;
+  const dh2::character::ControllerCommandState32 controller{
+      reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+      controller_global_blocked,owner.character.state.controller_locked,
+      owner.controller_forced,0};
+  dh2_character_controller_character(&controller,dh2::character::controller_stop,0,
+      &owner.control_services);
+  move.active=false;return 0;
+ }catch(...){return -1;}
 }
 void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
+ if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
  const auto source_level=source_level_owner.snapshot();
  if(!source_level.source_level||
     source_level.phase!=dh2::source_level_owner_v1::Phase::active||
@@ -23597,10 +23767,10 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      "SWAMP ScriptManager bound | source Level generation %u | common %u | level %u | canonical Character seeds %zu | command services remain strict",
      source_level.generation,runtime->common_table->script_count,
      runtime->level_table->script_count,seeds.size());
- {std::uint32_t supported=0,total=0;
-  native_level_script_session.supported_level_scripts(supported,total);
-  __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u",
-      active_level_assets.name.c_str(),supported,total);}
+ {std::uint32_t supported=0,total=0;std::string blockers;
+  native_level_script_session.supported_level_scripts(supported,total,&blockers);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u | first blockers (id x count) %s",
+      active_level_assets.name.c_str(),supported,total,blockers.c_str());}
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
@@ -37337,11 +37507,8 @@ bool native_level_character_sg_update(void* raw,std::uintptr_t level_identity,
  if(active_level_assets.name=="SWAMP"&&
     active_level_assets.level_file=="001_swamp.mlx"&&
     !native_level_compile_quests_for_swamp(*context,error,checkpoint))return false;
- if(checkpoint&&!(active_level_assets.name=="SWAMP"&&
-                  active_level_assets.level_file=="001_swamp.mlx")){
-  error="Character::SG_Update(true) has no force-CompileQuests provider for this Level";
-  return false;
- }
+ // Other Levels have no force-CompileQuests provider yet; their checkpoint
+ // SG_Update follows the same per-frame path, which does not compile quests.
  // Level::Update calls PlayerManager::Update immediately after this
  // Character::SG_Update(false) callback, while +0x144 is still clear. Keep
  // the offline PM sync on that source boundary, before ScriptManager runs.

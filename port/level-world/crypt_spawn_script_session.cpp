@@ -1,3 +1,4 @@
+#include <map>
 #include "crypt_spawn_script_session.hpp"
 #include <cstring>
 #include <set>
@@ -623,13 +624,31 @@ bool SpawnSession::running() const {
 const dh2_script_runtime::Runtime* SpawnSession::runtime() const {
     return impl_ ? &impl_->scheduler : nullptr;
 }
-void SpawnSession::supported_level_scripts(std::uint32_t& supported, std::uint32_t& total) const {
+void SpawnSession::supported_level_scripts(std::uint32_t& supported, std::uint32_t& total,
+                                           std::string* blockers) const {
     supported = total = 0;
     if (!impl_ || !impl_->scheduler.level_table) return;
     const auto& table = *impl_->scheduler.level_table;
+    std::map<std::uint32_t, std::uint32_t> first_blocker;
     for (std::uint32_t i = 0; i < table.script_count; ++i) {
         ++total;
-        if (spawn_program(table.scripts[i], impl_->dispatch)) ++supported;
+        const auto& script = table.scripts[i];
+        if (spawn_program(script, impl_->dispatch)) { ++supported; continue; }
+        // Find the first single command that fails the provider check.
+        for (std::uint32_t c = 0; c < script.command_count; ++c) {
+            dh2_script one = script;
+            one.commands = &script.commands[c];
+            one.command_count = 1;
+            if (!spawn_program(one, impl_->dispatch)) {
+                ++first_blocker[script.commands[c].command_id];
+                break;
+            }
+        }
+    }
+    if (blockers) {
+        blockers->clear();
+        for (const auto& [id, count] : first_blocker)
+            *blockers += std::to_string(id) + "x" + std::to_string(count) + " ";
     }
 }
 std::uint32_t SpawnSession::dispatch_count() const { return impl_ ? impl_->dispatched : 0; }

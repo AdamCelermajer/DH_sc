@@ -132,7 +132,8 @@ public:
     const dh2_script_runtime::Runtime* runtime() const;
     std::uint32_t dispatch_count() const;
     // Diagnostic: level-table programs whose every command has a bound provider.
-    void supported_level_scripts(std::uint32_t& supported, std::uint32_t& total) const;
+    void supported_level_scripts(std::uint32_t& supported, std::uint32_t& total,
+                                 std::string* blockers = nullptr) const;
     void clear();
 };
 
