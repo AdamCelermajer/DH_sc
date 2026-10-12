@@ -14,8 +14,8 @@ namespace vox {
 
 class NativeSubDecoderState {
 public:
-    // C1 0x8860dc, C2 0x88621c (partial: the original copies the source manager; the port's
-    // manager has no copy constructor, so a default manager is built).
+    // C1 0x8860dc, C2 0x88621c (partial: the manager is copied from the argument; the
+    // original's non-zero scalar defaults are not reproduced, see the .cpp).
     explicit NativeSubDecoderState(NativePlaylistsManager* manager);
     // D1 0x88547c and D2 0x8854e8 (the same body): destroys the manager and frees it.
     // D0 0x8854cc is the deleting variant.

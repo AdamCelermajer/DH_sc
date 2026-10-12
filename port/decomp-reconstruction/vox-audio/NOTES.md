@@ -589,3 +589,53 @@ Decisions:
 - No test links the facade yet. voxengine.o references the three skipped targets and EmitterObj
   GetPlayCursor, SetPlayCursor, PrintDebug and Update, so any test that pulls it fails to link.
   Add a null-default test once those land.
+## Wave 9 playlists (layouts and decisions)
+
+Layouts (32-bit offsets, from the Hex-Rays bodies and the ARM listings):
+
+- `vox::NativePlaylist`: +0x00 valid, +0x04 field_04 (the reset flag the walk tests),
+  +0x08 total repeats, +0x0c current group, +0x10 current element, +0x14 remaining repeats,
+  +0x18 previous group, +0x1c previous element, +0x20 saved repeats, +0x24..+0x2c the
+  SegmentGroup* vector, +0x30..+0x38 the PlaylistElement* vector (changed in this wave from the
+  int32 table).
+- `vox::PlaylistElement` (0x14 bytes): +0x00 word 3 of the element info, +0x04 unset (0),
+  +0x08 word 4, +0x0c word 5, +0x10 word 6 (the default is 1). The element accessors return the
+  element pointer, as the original returns the pointer word.
+- `vox::RandomGroupElement` (the record RandomGroup::AddElement stores): +0x00 value (element
+  info word 1), +0x04 weight (element info word 7).
+- `vox::NativePlaylistsManager`: +0x00 valid, +0x04 field_04, +0x08 count, +0x0c NativePlaylist*
+  array.
+- `vox::SegmentGroup` vtable slots (vptr-relative, the entry the ARM code calls with `ldr pc,
+  [vptr, #n]`). Slot 0x00 D1, 0x04 D0, 0x08 GetGroupElementPosition(), 0x0c
+  PeekAtNextGroupElement(GroupPeekMode), 0x10 Reset(int reset_mode), 0x14 SegmentGroup::SetState
+  (SegmentGroup&), 0x18 SetToPreviousState(), 0x1c GetState(record), 0x20 SetState(group&),
+  0x24 SetState(record). The derived classes fill 0x08 to 0x24 with their own functions
+  (`vtables-001.json`, symbol offset + 8). Slot 0x10 has a return-type conflict in the port
+  (SequentialGroup::Reset is void, RandomGroup::Reset is int), and slots 0x1c and 0x24 take
+  different record types per kind, so the playlist code calls the group functions by the
+  group's select mode instead of through SegmentGroup.
+
+Decisions:
+
+- The element table is a `std::vector<PlaylistElement*>`. Each element is a VoxAlloc block owned
+  by its playlist (freed by the destructor, copied by the copy constructor).
+- Accessors that return an element return `PlaylistElement*` (GetCurrentElement, the two
+  GetPlaylistElement overloads, PeekAtNextElement, and the manager's GetPlaylistElement and
+  PeekAtNextPlaylistElement). The original returns the element pointer in an int-typed function.
+- Group dispatch: AddGroup builds a RandomGroup for a nonzero select mode and a SequentialGroup
+  otherwise, so the select mode gives the dynamic type. The walk and state code cast on that
+  basis; the calls reach the same functions as the vtable slots.
+- Reset calls on each group pass 1 as the reset mode. The Hex-Rays body in the walk hides the
+  argument; the ARM listing sets r1 to 1 before each call (0x88202c and 0x882124).
+- A RandomGroup element record is copied to a heap RandomGroupElement owned by the group, as the
+  original's AddElement copies its two-word argument.
+- The NativeSubDecoderState constructor copies the manager argument (manager copy constructor).
+  Its scalar defaults stay unreproduced (partial).
+
+Build: `tools/decomp_build.sh host vox-audio` passes 46 of 46 (the 45 tests already on the branch
+plus native_playlist_elements_test from this slice). MinGW and Wine
+are not installed in this container, so the Windows build was not run.
+
+Still open in this area: VoxNativeSubDecoder and the PCM and IMA ADPCM sub-decoder constructors
+(skipped) need NativeChunks, States, AudioSegments, TransitionRules and the TransitionParams
+vectors; those types are not ported.
