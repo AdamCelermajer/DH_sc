@@ -47,6 +47,42 @@ int main() {
     gc.SetGCPlayerAlias(nullptr);
     CHECK(gc.GetGCPlayerAlias().empty());
 
+    // Player-ID status list: an ID is replaced in place, a new ID is appended.
+    gc.SetPlayerIDStatus("p1", "ready", false);
+    gc.SetPlayerIDStatus("p2", "away", true);
+    CHECK(gc.PlayerIdStatusForTest().size() == 2);
+    gc.SetPlayerIDStatus("p1", "left", true);
+    CHECK(gc.PlayerIdStatusForTest().size() == 2);
+    CHECK(gc.PlayerIdStatusForTest().front().status == "left");
+    CHECK(gc.PlayerIdStatusForTest().front().skip);
+    gc.SetPlayerIDStatus(nullptr, "x", false);
+    CHECK(gc.PlayerIdStatusForTest().size() == 2);
+    gc.DumpPlayerIDStatusList();
+
+    // Achievements and scores are queued only when the gate is open.
+    gc.SaveGCAchievement("first");
+    CHECK(gc.AchievementsForTest().size() == 1);
+    gc.ReportGCScore(42);
+    CHECK(!gc.ScoreFlagForTest());
+    gc.ReportGCAchievement("ach");
+    CHECK(!gc.AchievementFlagForTest());
+    gc.SetGateForTest(true);
+    gc.ReportGCScore(42);
+    CHECK(gc.ScoreFlagForTest());
+    CHECK(gc.PendingScoreForTest() == 42);
+    gc.ReportGCAchievement("ach");
+    CHECK(gc.AchievementFlagForTest());
+    CHECK(gc.PendingAchievementForTest() == "ach");
+
+    // Join list: adds to the same list as the player IDs, and a copy comes back.
+    gc.GCAddToJoinPlayerList("zed");
+    gc.GCAddToJoinPlayerList("alpha");
+    CHECK(gc.GetJoinPlayerList().size() == gc.PlayerListForTest().size());
+    gc.CoinTossForHost();
+    auto second = gc.PlayerListForTest().begin();
+    ++second;  // the list holds "" (from the reset above), then "alpha", "zed" after the sort
+    CHECK(*second == "alpha");
+
     {
         GameCenterInfo info;
         info.IdsForTest().push_back("a");

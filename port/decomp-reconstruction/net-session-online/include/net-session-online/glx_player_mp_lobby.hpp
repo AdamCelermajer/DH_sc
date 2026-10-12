@@ -17,7 +17,9 @@
 #pragma once
 
 #include <cstdint>
+#include <list>
 #include <memory>
+#include <string>
 
 #include "net-session-online/deps/connection_lobby.hpp"
 #include "net-session-online/deps/glx_stand_ins.hpp"
@@ -52,6 +54,17 @@ public:
                                               CLobbyParameterAndQuery* query);
     // 0x8377c0 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihiPci
     void mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, std::int32_t c, char* d, std::int32_t e);
+    // 0x837a88 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihP19GLXPlayerUserFriend
+    // Packs the friend names (up to 30, last friend first) and sends them.
+    void mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, GLXPlayerUserFriend* friends);
+    // 0x8387a4 _ZN16GLXPlayerMPLobby21mpSendCreateLobbyEPchhiPciPciP23CLobbyParameterAndQuery
+    void mpSendCreateLobby(char* a, std::uint8_t b, std::uint8_t c, std::int32_t d, char* e,
+                           std::int32_t f, char* g, std::int32_t h, CLobbyParameterAndQuery* q);
+    // 0x83a744 _ZN16GLXPlayerMPLobby30mpSendCreateLobbyWithGameCenterEPchhiPciPciP23CLobbyParameterAndQueryRSt4listISsSaISsEE
+    // The name list is copied before it is handed to ConnectionLobby.
+    void mpSendCreateLobbyWithGameCenter(char* a, std::uint8_t b, std::uint8_t c, std::int32_t d,
+                                         char* e, std::int32_t f, char* g, std::int32_t h,
+                                         CLobbyParameterAndQuery* q, std::list<std::string>& names);
     // 0x837cc8 _ZN16GLXPlayerMPLobby34mpSendGetLobbyForNameWithGameParamEPc
     void mpSendGetLobbyForNameWithGameParam(char* name);
     // 0x837d58 _ZN16GLXPlayerMPLobby31mpSendGetLobbyListWithGameParamEiihP23CLobbyParameterAndQueryh

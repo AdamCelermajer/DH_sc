@@ -70,6 +70,31 @@ int CUdp::CloseSocket() {
     return socket_.Close();
 }
 
+// 0x8275b0 _ZN4CUdp7ReceiveEv
+// Partial: the datagram loop and sender ids match the pseudocode. The sender is stored as
+// address1 (presence flag bit 0). ReceiverCallback is the CTransportManager stand-in, a no-op,
+// and the pseudocode's first argument to it is not the manager, so the call uses GetTransportMgr().
+int CUdp::Receive() {
+    if (!socket_.IsValid()) {
+        return -1;
+    }
+    char buffer[4096];
+    std::int64_t received = 0;
+    for (;;) {
+        CNetworkId from;
+        from.Reset();
+        in_addr source{};
+        std::uint16_t source_port = 0;
+        received = socket_.ReceiveFrom(source, source_port, buffer, sizeof(buffer));
+        if (received <= 0) {
+            break;
+        }
+        from.SetAddress1(source_port, source.s_addr);
+        GetTransportMgr().ReceiverCallback(this, from, buffer, static_cast<int>(received));
+    }
+    return static_cast<int>(received);
+}
+
 // 0x827780 _ZN4CUdp10OpenSocketEtb
 // Opens the socket only when it is not open yet; the local address and port are then
 // looked up and discarded, as the original does (its inet_ntoa of the address is never read).

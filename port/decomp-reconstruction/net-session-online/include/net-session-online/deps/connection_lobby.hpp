@@ -5,6 +5,8 @@
 #pragma once
 
 #include <cstdint>
+#include <list>
+#include <string>
 
 class CLobbyParameterAndQuery;
 
@@ -13,6 +15,13 @@ public:
     std::uint32_t requestTimeMs = 0;  // +0x2050, written by GLXPlayerMPLobby after each request
 
     void sendGetPlayerCounter() {}
+    // Create-lobby packets (0x8387a4 and 0x83a744). The int16 arguments of the original
+    // are passed as 32-bit values here, as the mangled names of the callers give them.
+    void sendCreateLobbyPackage(std::int32_t, char*, std::uint8_t, std::uint8_t, std::int32_t, char*,
+                                std::int32_t, char*, std::int32_t, CLobbyParameterAndQuery*) {}
+    void sendCreateLobbyPackageWithGameCenter(std::int32_t, char*, std::uint8_t, std::uint8_t,
+                                              std::int32_t, char*, std::int32_t, char*, std::int32_t,
+                                              CLobbyParameterAndQuery*, const std::list<std::string>&) {}
     void sendGetLobbyForFriend(std::int32_t, std::uint8_t, std::uint8_t, char*, std::int32_t) {}
     void sendGetLobbyForFriendWithGameParam(std::int32_t, std::uint8_t, std::uint8_t, char*,
                                             std::int32_t, CLobbyParameterAndQuery*) {}
