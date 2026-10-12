@@ -533,3 +533,18 @@ Four layout workers write header-only member declarations from the Hex-Rays offs
 each: layouts/animation_track.hpp, layouts/scene.hpp, layouts/collada_db.hpp, layouts/gui.hpp.
 Each header compiles alone. Partial rows (1487 of them, from the ledger) are rerun against these
 headers in a later wave.
+
+## Layout headers (layouts/)
+- animation_track.hpp: partial. Covers SAnimationAccessor, the applicator and CAnimationTrackEx
+  bases. The CVirtualEx, CInterpreter and CApplyValueEx classes are not declared.
+- scene.hpp: ISceneNode, IMesh, CMesh, CMeshBuffer, CBatchMesh, CBatchSceneNode, CSceneManager
+  (flags only), with about 45 offsets confirmed by static_assert. Defines the same class names as
+  scene_node.hpp and scene_nodes.hpp, so it cannot share a translation unit with them.
+- gui.hpp: IGUIElement (complete for the fields the category touches), CGUIComboBox, CGUIContextMenu.
+  Corrections to gui_elements.hpp: absoluteRect is at +0x38 (+0x48 is the clipping rect), and the
+  children list is an intrusive sentinel at +0x04/+0x08, not a std::vector. Also defines IGUIElement,
+  so it cannot share a translation unit with gui_elements.hpp.
+- collada_db.hpp: pending from its worker.
+- Float constants in layouts.hpp corrected: -1082130432 is 0xBF800000, which is -1.0f.
+- Open: the IGUIComboBox destructor writes vtable words at +0x158/+0x15c, which conflicts with those
+  slots being element pointers.
