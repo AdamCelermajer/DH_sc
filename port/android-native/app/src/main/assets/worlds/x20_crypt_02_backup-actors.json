@@ -1,0 +1,332 @@
+{
+  "source_layout": "data/scene/x20_crypt_02_backup.mlx",
+  "selected_characters": 7,
+  "source_character_records": 53,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -20667.25,
+        -10969.18,
+        -775.54
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 6
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster01_001",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -21030.1,
+        -9448.005,
+        -775.54
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster02",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -20472.35,
+        -8381.09,
+        10.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster03_001",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -18439.88,
+        -10969.18,
+        -775.54
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 11
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster04",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -17493.82,
+        -9854.431,
+        -775.54
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 12
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster05_001",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -19449.569,
+        -8381.09,
+        10.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 15
+    },
+    {
+      "kind": 1,
+      "room": 6,
+      "name": "_prim_Monster06",
+      "character": "Crypt_Ugly_Dog",
+      "model": "ugly_dog.bdae",
+      "model_path": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "animation_table": 74,
+      "position": [
+        -19449.569,
+        -9942.177,
+        -386.538
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "source_mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "source_record": 16
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 74,
+      "character": "Ugly_Dog",
+      "state": "Idle",
+      "sequence": 736
+    },
+    {
+      "table": 74,
+      "character": "Ugly_Dog",
+      "state": "Walk",
+      "sequence": 742
+    },
+    {
+      "table": 74,
+      "character": "Ugly_Dog",
+      "state": "Attack",
+      "sequence": 729
+    },
+    {
+      "table": 74,
+      "character": "Ugly_Dog",
+      "state": "Died",
+      "sequence": 733
+    }
+  ],
+  "clip_ids": [
+    1385,
+    1386,
+    1388,
+    1395,
+    1396,
+    1397,
+    1399,
+    1400,
+    1405
+  ],
+  "dact": {
+    "bytes": 1808,
+    "sha256": "d578cb28deee06a3ae2ef453d73c74e732c8ff0acd13d6714830722bd039dc98"
+  },
+  "assets": [
+    {
+      "asset": "actors/ugly_dog.bdae",
+      "bytes": 77148,
+      "sha256": "affe3b4a863729b1746ecc76b49953e5d6107a8581d07aedf29ed34c16da46bf",
+      "source": "data/3d/characters/uglydog/ugly_dog.bdae",
+      "source_file": "ugly_dog.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_attack_01.bdae",
+      "bytes": 11600,
+      "sha256": "28c9b69df2dd7c917a6629429e6dde32697b13d2b8dd2e6d3b192d91333abe8b",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_attack_01.bdae",
+      "source_file": "ugly_dog_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_attack_02.bdae",
+      "bytes": 10680,
+      "sha256": "5f41db84f829ba01f0fd7ce757c64cacd5fa9fe3ac5178437ce9f8601c9b0e1d",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_attack_02.bdae",
+      "source_file": "ugly_dog_attack_02.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_dying_01.bdae",
+      "bytes": 14092,
+      "sha256": "7d2a71379586577308ad67e5bdead1991b6e9895521fb67828579710e5cac5b4",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_dying_01.bdae",
+      "source_file": "ugly_dog_dying_01.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_idle_01.bdae",
+      "bytes": 13896,
+      "sha256": "a6d5e79d1ffedcbd120420116a48f2ebe9fce82ea3a1cc4d2d2dcc078ad05411",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_idle_01.bdae",
+      "source_file": "ugly_dog_idle_01.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_post_attack_01.bdae",
+      "bytes": 9688,
+      "sha256": "8d3d99348b802109c84543f57b0f2cf9a7407e99109fd4149dfb9bc5fb6d816f",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_post_attack_01.bdae",
+      "source_file": "ugly_dog_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_post_attack_02.bdae",
+      "bytes": 9364,
+      "sha256": "f462115ddaa411f9d4eb5e3fa2f07895b24a3202b4bc39eb01e1ef47afda7697",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_post_attack_02.bdae",
+      "source_file": "ugly_dog_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_pre_attack_01.bdae",
+      "bytes": 8232,
+      "sha256": "cb5c4e8ce7e78d75c436da77a3f02b508e99e7e5197cc1133ab36afd6daa83aa",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_pre_attack_01.bdae",
+      "source_file": "ugly_dog_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_pre_attack_02.bdae",
+      "bytes": 8392,
+      "sha256": "c0124eca1d88ede4dc44a0b4f5718540bcae0771ef3a839f1ceb3ea26675a14f",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_pre_attack_02.bdae",
+      "source_file": "ugly_dog_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/ugly_dog_walk_01.bdae",
+      "bytes": 12812,
+      "sha256": "b32845835a024b0dc557cc0d92223dff3577e4b55d2261963e5087c15d0ab981",
+      "source": "data/3d/characters/uglydog/animations/ugly_dog_walk_01.bdae",
+      "source_file": "ugly_dog_walk_01.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

@@ -1,0 +1,396 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1553.14,
+      -1315.92,
+      306.415
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -1553.14,
+      -1315.92,
+      306.415
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x14_el_earth_backup.dae": {
+      "bytes": 245,
+      "sha256": "08611ff24484a83025686eba477ee9baaa04f56e43bedd68df99fa342a4dd753"
+    },
+    "x14_el_earth_backup.dwld": {
+      "bytes": 1088,
+      "sha256": "82497bb16c0420b7a24dcc39ff0fef007046223eebd9236beb4b4330bb111825"
+    },
+    "x14_el_earth_backup.spwn": {
+      "bytes": 160,
+      "sha256": "e331c4ebac01af3a9044317e034adc556e14afcc5ed374a8ec17ab591052cf3a"
+    }
+  },
+  "level_list": {
+    "level_file": "014_el_earth.rule.xml",
+    "name": "ELEMENTAL_EARTH",
+    "row": 16
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 7,
+  "modules": [
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "mgp_records": 9,
+      "module_index": 0,
+      "mvp": "data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "mvp_records": 2,
+      "name": "deadend_n_0",
+      "node_id": "_module_deadend_n-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        -1.73028e-05
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_earth_straighta_ns_01.mgp",
+      "mgp_records": 10,
+      "module_index": 1,
+      "mvp": "data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "mvp_records": 4,
+      "name": "straighta_ns_1",
+      "node_id": "_module_straighta_ns-node",
+      "position": [
+        0.0,
+        6000.0,
+        2.4534
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_earth_corner_se_01.mgp",
+      "mgp_records": 17,
+      "module_index": 2,
+      "mvp": "data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "mvp_records": 4,
+      "name": "corner_se_2",
+      "node_id": "_module_corner_se-node",
+      "position": [
+        0.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 3,
+      "mvp": "data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "mvp_records": 4,
+      "name": "straightb_ew_3",
+      "node_id": "_module_straightb_ew-node",
+      "position": [
+        6000.0,
+        12000.0,
+        -0.000213623
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_earth_t_new_01.mgp",
+      "mgp_records": 19,
+      "module_index": 4,
+      "mvp": "data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "mvp_records": 6,
+      "name": "t_new_4",
+      "node_id": "_module_t_new-node",
+      "position": [
+        12000.0,
+        12000.0,
+        -0.940888
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/el_earth_deadend_w_01.mgp",
+      "mgp_records": 11,
+      "module_index": 5,
+      "mvp": "data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "mvp_records": 4,
+      "name": "deadend_w_5",
+      "node_id": "_module_deadend_w-node",
+      "position": [
+        18000.0,
+        12000.0,
+        -660.911
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/castle/castle.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/castle/mgp/boss_earth.mgp",
+      "mgp_records": 5,
+      "module_index": 6,
+      "mvp": "data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "mvp_records": 3,
+      "name": "objectiveroom_s_6",
+      "node_id": "_module_objectiveroom_s-node",
+      "position": [
+        12000.0,
+        18000.0,
+        361.335
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "bytes": 31252,
+      "path": "data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "sha256": "84098bbb6d5daac56fcd84c4a0e1248924a068da29bc436ac1f859d73997c9e8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/castle/lustre_castle.bdae",
+      "bytes": 55416,
+      "path": "data/3d/animateddecors/castle/lustre_castle.bdae",
+      "sha256": "7eba53074deca5a20ecec6ceeeb62c280884864908fba9df9af37ddddd3e768b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/castle.bdae",
+      "bytes": 5090680,
+      "path": "data/3d/modules/castle/castle.bdae",
+      "sha256": "4161190c1a4531767050be2c20af154e5ce436dac96ed9aadaaadeba7caaf287"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/boss_earth.mgp",
+      "bytes": 1906,
+      "path": "data/3d/modules/castle/mgp/boss_earth.mgp",
+      "sha256": "38a4a92aff8834d530f4d543f6fc2058a034f6fd7dd7da04dc5441fe75fb65bd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_earth_corner_se_01.mgp",
+      "bytes": 7681,
+      "path": "data/3d/modules/castle/mgp/el_earth_corner_se_01.mgp",
+      "sha256": "ea77b7fb15bccf2290d3507d6c51f2b778ee5981596260808702bb415134741b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "bytes": 3768,
+      "path": "data/3d/modules/castle/mgp/el_earth_deadend_n_01.mgp",
+      "sha256": "328018f51370e9684eb5aa062d327a8b177d5bbbd6f78372e28976836fa67f8c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_earth_deadend_w_01.mgp",
+      "bytes": 5139,
+      "path": "data/3d/modules/castle/mgp/el_earth_deadend_w_01.mgp",
+      "sha256": "4821b576107eb7aeaa37a76bb6fa6c21dbdc95387735e6c09da408c85b33074e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_earth_straighta_ns_01.mgp",
+      "bytes": 5336,
+      "path": "data/3d/modules/castle/mgp/el_earth_straighta_ns_01.mgp",
+      "sha256": "3cf9e804e1b8da41386663d8ba0807fa2aa39944a8bf51eac0a466d033124b93"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mgp/el_earth_t_new_01.mgp",
+      "bytes": 8778,
+      "path": "data/3d/modules/castle/mgp/el_earth_t_new_01.mgp",
+      "sha256": "781c1b9ba9cf5eeaa0d1da02baca3cb32ecfd12913c7525ec860231bd2a5c72c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "bytes": 2127,
+      "path": "data/3d/modules/castle/mvp/elemental_corner_se_01.mvp",
+      "sha256": "af388b80d8783fba103f35070e7c902e9c0495940eea1cfd5988d3fa01e7455d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "bytes": 1203,
+      "path": "data/3d/modules/castle/mvp/elemental_deadend_startroom.mvp",
+      "sha256": "33433451c0a4949755a2c00316392d48769b59d62913145c56bfe99aaf9f37d4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "bytes": 2131,
+      "path": "data/3d/modules/castle/mvp/elemental_deadend_w_01.mvp",
+      "sha256": "89b451f7ef309495b5f0f347c700d35d4adecbdf129f23bd22aeabbfd44449ab"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "bytes": 1656,
+      "path": "data/3d/modules/castle/mvp/elemental_objectiveroom_s_01.mvp",
+      "sha256": "f83254208b74f2aa5c2255f492c1cc155c8523c951db131ad57304edd2cd4c4b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "bytes": 2132,
+      "path": "data/3d/modules/castle/mvp/elemental_straighta_ns_01.mvp",
+      "sha256": "d1f56d4bf06842ce39c418aa40b2c47689c789d2532f69b6bca7690e5c4350de"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "bytes": 2122,
+      "path": "data/3d/modules/castle/mvp/elemental_straightb_ew_01.mvp",
+      "sha256": "b05902f038ab576069a68710a711b930c32b523ff36f5d3b4aa81702beae205a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "bytes": 3085,
+      "path": "data/3d/modules/castle/mvp/elemental_t_new_01.mvp",
+      "sha256": "53ba7be0a3d8ae69a0d6d50915049e25acdd041a0f7ff40befa4da19fdec7b3b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x14_el_earth_backup.mlx",
+      "bytes": 7415,
+      "path": "data/scene/x14_el_earth_backup.mlx",
+      "sha256": "eef77afeaf455a75c20f3a15317a6ac73d82995dd26658c0c74a522514f1659f"
+    }
+  ],
+  "source_layout": "data/scene/x14_el_earth_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/castle/castle.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_castle.tga",
+        "data/3d/textures/env_castle_spec.tga",
+        "data/3d/textures/pvr2_env_castle_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

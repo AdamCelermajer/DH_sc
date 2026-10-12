@@ -1,0 +1,495 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1691.89,
+      -46.0549,
+      1407.6
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -90.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_001",
+    "source_path": "data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -1691.89,
+      -46.0549,
+      1407.6
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -90.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x26_icy_cavern_01_backup.dae": {
+      "bytes": 430,
+      "sha256": "cc720ed70dac3e869455ccc7c926390544f54e757d914386b1ad523a86c04cde"
+    },
+    "x26_icy_cavern_01_backup.dwld": {
+      "bytes": 1304,
+      "sha256": "9eb3900d8fac5625c1ac5af2376baa7ef87ae2c55917ff5a27d7b3732ff48360"
+    },
+    "x26_icy_cavern_01_backup.spwn": {
+      "bytes": 160,
+      "sha256": "fee7b8f4fd89ebef46fdf0d85b935421b4a3905ba04e74213733a95c50217471"
+    }
+  },
+  "level_list": {
+    "level_file": "026_icy_cavern_01.rule.xml",
+    "name": "ICY_CAVERN_01",
+    "row": 25
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 10,
+  "modules": [
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+      "mgp_records": 5,
+      "module_index": 0,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_entrance_icycavern_w_00_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_icycavern_w_00_0",
+      "node_id": "_module_deadend_icycavern_w_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_se_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 1,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_se_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_icycavern_se_00_1",
+      "node_id": "_module_corner_icycavern_se_00-node",
+      "position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_ns_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 2,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_ns_00_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_icycavern_ns_00_2",
+      "node_id": "_module_straight_icycavern_ns_00-node",
+      "position": [
+        -6000.0,
+        -6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_nw_00_01.mgp",
+      "mgp_records": 8,
+      "module_index": 3,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_nw_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_icycavern_nw_00_3",
+      "node_id": "_module_corner_icycavern_nw_00-node",
+      "position": [
+        -6000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_se_00_01.mgp",
+      "mgp_records": 9,
+      "module_index": 4,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_se_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_icycavern_se_00_4",
+      "node_id": "_module_corner_icycavern_se_00-node",
+      "position": [
+        -12000.0,
+        -12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_t_icycavern_nse_00_01.mgp",
+      "mgp_records": 7,
+      "module_index": 5,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_t_icycavern_nse_00_01.mvp",
+      "mvp_records": 0,
+      "name": "t_icycavern_nse_00_5",
+      "node_id": "_module_t_icycavern_nse_00-node",
+      "position": [
+        -12000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_ne_00_01.mgp",
+      "mgp_records": 6,
+      "module_index": 6,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_ne_00_01.mvp",
+      "mvp_records": 0,
+      "name": "corner_icycavern_ne_00_6",
+      "node_id": "_module_corner_icycavern_ne_00-node",
+      "position": [
+        -12000.0,
+        -24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_we_00_01.mgp",
+      "mgp_records": 7,
+      "module_index": 7,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_we_00_01.mvp",
+      "mvp_records": 0,
+      "name": "straight_icycavern_we_00_7",
+      "node_id": "_module_straight_icycavern_we_00-node",
+      "position": [
+        -6000.0,
+        -24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "mgp_records": 10,
+      "module_index": 8,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_bossroom_icycavern_w_00_01.mvp",
+      "mvp_records": 1,
+      "name": "bossroom_icycavern_w_00_8",
+      "node_id": "_module_bossroom_icycavern_w_00-node",
+      "position": [
+        0.0,
+        -24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_cavern/mgp/ic01_deadend_icycavern_w_00_01.mgp",
+      "mgp_records": 1,
+      "module_index": 9,
+      "mvp": "data/3d/modules/icy_cavern/mvp/ic01_deadend_icycavern_w_00_01.mvp",
+      "mvp_records": 0,
+      "name": "deadend_icycavern_w_00_9",
+      "node_id": "_module_deadend_icycavern_w_00-node",
+      "position": [
+        -6000.0,
+        -18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "bytes": 3007276,
+      "path": "data/3d/modules/icy_cavern/icy_cavern.bdae",
+      "sha256": "41a8fa21ff428730b0616e696ac4dcc0585fdec7d43e6566b54214c67e495014"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "bytes": 4272,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+      "sha256": "7289f18798fa813de067814fad154d8f97fd94ceb920cf9d43ddbbfaa81304e7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_ne_00_01.mgp",
+      "bytes": 3349,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_ne_00_01.mgp",
+      "sha256": "06bbb6cb42c85b35ac098f2ae890136d297d4af99d18a9507a0bfbcc0cc832ed"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_nw_00_01.mgp",
+      "bytes": 4473,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_nw_00_01.mgp",
+      "sha256": "0037f703d1964eeba199f1749133ed4c9f964745d992f5f6791b6bcfa6e2f973"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_se_00_01.mgp",
+      "bytes": 5018,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_se_00_01.mgp",
+      "sha256": "ff3d064c6721cb6ba9979619703402b59490a9e786e3455b9fac869cb0fa97bf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_deadend_icycavern_w_00_01.mgp",
+      "bytes": 810,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_deadend_icycavern_w_00_01.mgp",
+      "sha256": "013937818126f5ca1811f8392f8e032ac2614ea69ff1a32eb27d263ada785453"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+      "bytes": 1835,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+      "sha256": "4d117bfd753a10cb006352e8d71dbadf84e9743f891a976a9417c1147b1232f2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_ns_00_01.mgp",
+      "bytes": 4537,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_ns_00_01.mgp",
+      "sha256": "813e10b4d871866b738249e6086aef7e3483f3c7105fcb7686cb890cc0a47078"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_we_00_01.mgp",
+      "bytes": 3889,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_straight_icycavern_we_00_01.mgp",
+      "sha256": "eaf088ded67dd247fe489b1ea857c10703dbe49ecd20c9bfd97ba9325845e2b3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mgp/ic01_t_icycavern_nse_00_01.mgp",
+      "bytes": 3173,
+      "path": "data/3d/modules/icy_cavern/mgp/ic01_t_icycavern_nse_00_01.mgp",
+      "sha256": "1eb5fcb74ac608b0cdb1a6ea3df99560adf59086a52834ccb17adf5ceb4dbcbf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_bossroom_icycavern_w_00_01.mvp",
+      "bytes": 744,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_bossroom_icycavern_w_00_01.mvp",
+      "sha256": "041e877639cf8e2ee19731bad0d9a53486fed2f2bb32a8023259ba7a42a27e05"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_ne_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_ne_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_nw_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_nw_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_se_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_corner_icycavern_se_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_deadend_icycavern_w_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_deadend_icycavern_w_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_entrance_icycavern_w_00_01.mvp",
+      "bytes": 777,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_entrance_icycavern_w_00_01.mvp",
+      "sha256": "1559ac788c8f13626df9733338feb68f8b550c1c3d3352aaa462b5a7c70a72d5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_ns_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_ns_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_we_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_straight_icycavern_we_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_cavern/mvp/ic01_t_icycavern_nse_00_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_cavern/mvp/ic01_t_icycavern_nse_00_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x26_icy_cavern_01_backup.mlx",
+      "bytes": 10607,
+      "path": "data/scene/x26_icy_cavern_01_backup.mlx",
+      "sha256": "2a54ab7b194c9c5ea2a5a983022b543a321dde04936e8c6d5a6c384557812795"
+    }
+  ],
+  "source_layout": "data/scene/x26_icy_cavern_01_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/icy_cavern/icy_cavern.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_icy_cavern.tga",
+        "data/3d/textures/env_icy_cavern_spec.tga",
+        "data/3d/textures/pvr2_env_icy_cavern_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

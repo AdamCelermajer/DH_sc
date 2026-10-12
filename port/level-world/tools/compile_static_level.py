@@ -322,11 +322,15 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                 child_fields = [field for field in ("mgp", "mvp") if module.get(field)]
                 if child_fields and len(child_fields) != 2:
                     raise CompileError(f"module row {module_index} has only one of mgp/mvp")
-                has_children = len(child_fields) == 2
                 paths: dict[str, str] = {}
-                if has_children:
+                if len(child_fields) == 2:
+                    # Module::LoadModule (0x38a88c) loads each child file through
+                    # Level::LoadFile (0x3f3b40), which returns "done" when no folder holds
+                    # the file: a child file the cache lacks contributes no records.
                     for field in ("mgp", "mvp"):
-                        paths[field] = add_source(module.get(field), MAX_XML_BYTES)
+                        if canonical_cache_path(module.get(field)) in source_index:
+                            paths[field] = add_source(module.get(field), MAX_XML_BYTES)
+                has_children = bool(paths)
                 dae_value = module.get("dae")
                 if not dae_value:
                     raise CompileError(f"module row {module_index} lacks dae")
@@ -340,12 +344,11 @@ def compile_level(cache_path: Path, output: Path, *, row: int, level_name: str,
                         f"module row {module_index} node {module_id!r} is absent from {dae_value}")
 
                 children = []
-                if has_children:
-                    mgp_raw, _ = source_assets[paths["mgp"]]
-                    mvp_raw, _ = source_assets[paths["mvp"]]
-                    mgp = parse_xml(mgp_raw, "Module", paths["mgp"])
-                    mvp = parse_xml(mvp_raw, "Module", paths["mvp"])
-                    children = [("mgp", mgp, paths["mgp"]), ("mvp", mvp, paths["mvp"])]
+                for field in ("mgp", "mvp"):
+                    if field in paths:
+                        raw_child, _ = source_assets[paths[field]]
+                        children.append((field, parse_xml(raw_child, "Module", paths[field]),
+                                         paths[field]))
 
                 # A repeated node id is a separate room instance of the same template
                 # (visual-only placements, and the repeated tiles of a generated

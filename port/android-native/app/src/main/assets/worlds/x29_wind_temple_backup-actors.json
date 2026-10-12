@@ -1,0 +1,453 @@
+{
+  "source_layout": "data/scene/x29_wind_temple_backup.mlx",
+  "selected_characters": 8,
+  "source_character_records": 41,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 4,
+      "name": "_prim_Monster06",
+      "character": "WindYeti_1",
+      "model": "yeti.bdae",
+      "model_path": "data/3d/characters/yeti/yeti.bdae",
+      "animation_table": 77,
+      "position": [
+        10274.72,
+        -322.812,
+        2214.42
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_nw_01.mgp",
+      "source_record": 4
+    },
+    {
+      "kind": 1,
+      "room": 4,
+      "name": "_prim_Monster07_001",
+      "character": "WindYeti_1",
+      "model": "yeti.bdae",
+      "model_path": "data/3d/characters/yeti/yeti.bdae",
+      "animation_table": 77,
+      "position": [
+        10274.72,
+        -6.81421,
+        2214.42
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/corner_windtemp_nw_01.mgp",
+      "source_record": 5
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster",
+      "character": "Wind_Moth_Champion",
+      "model": "moth2.bdae",
+      "model_path": "data/3d/characters/moth/moth2.bdae",
+      "animation_table": 42,
+      "position": [
+        -2995.48,
+        24413.686,
+        2920.999941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.1,
+        1.1,
+        1.1
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 7
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster01_001",
+      "character": "Wind_Moth_Type0_RE",
+      "model": "moth2.bdae",
+      "model_path": "data/3d/characters/moth/moth2.bdae",
+      "animation_table": 42,
+      "position": [
+        -3639.29,
+        25270.95,
+        2805.169941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 8
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster02",
+      "character": "Wind_Moth_Type0_RE",
+      "model": "moth2.bdae",
+      "model_path": "data/3d/characters/moth/moth2.bdae",
+      "animation_table": 42,
+      "position": [
+        -3639.29,
+        24075.3809,
+        2805.169941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster03_001",
+      "character": "Wind_Moth_Type0_RE",
+      "model": "moth2.bdae",
+      "model_path": "data/3d/characters/moth/moth2.bdae",
+      "animation_table": 42,
+      "position": [
+        -3639.29,
+        24687.359,
+        2805.169941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster04",
+      "character": "WindYeti_1",
+      "model": "yeti.bdae",
+      "model_path": "data/3d/characters/yeti/yeti.bdae",
+      "animation_table": 77,
+      "position": [
+        -6414.77,
+        23948.5469,
+        2115.419941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -8.42792
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 16
+    },
+    {
+      "kind": 1,
+      "room": 10,
+      "name": "_prim_Monster05_001",
+      "character": "WindYeti_1",
+      "model": "yeti.bdae",
+      "model_path": "data/3d/characters/yeti/yeti.bdae",
+      "animation_table": 77,
+      "position": [
+        -5833.524,
+        23859.514,
+        2115.419941
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -8.42792
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/wind_temple/mgp/midboss_windtemp_ws_01.mgp",
+      "source_record": 17
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 42,
+      "character": "Moth",
+      "state": "Idle",
+      "sequence": 447
+    },
+    {
+      "table": 42,
+      "character": "Moth",
+      "state": "Walk",
+      "sequence": 455
+    },
+    {
+      "table": 42,
+      "character": "Moth",
+      "state": "Attack",
+      "sequence": 441
+    },
+    {
+      "table": 42,
+      "character": "Moth",
+      "state": "Died",
+      "sequence": 445
+    },
+    {
+      "table": 77,
+      "character": "Yeti",
+      "state": "Idle",
+      "sequence": 778
+    },
+    {
+      "table": 77,
+      "character": "Yeti",
+      "state": "Walk",
+      "sequence": 784
+    },
+    {
+      "table": 77,
+      "character": "Yeti",
+      "state": "Attack",
+      "sequence": 772
+    },
+    {
+      "table": 77,
+      "character": "Yeti",
+      "state": "Died",
+      "sequence": 776
+    }
+  ],
+  "clip_ids": [
+    874,
+    880,
+    886,
+    887,
+    891,
+    893,
+    900,
+    901,
+    1427,
+    1428,
+    1430,
+    1436,
+    1437,
+    1438,
+    1440,
+    1441,
+    1446
+  ],
+  "dact": {
+    "bytes": 2064,
+    "sha256": "572869ba827698798875bae8af895bc2a53f271c4d077cce3550ceb813504361"
+  },
+  "assets": [
+    {
+      "asset": "actors/moth2.bdae",
+      "bytes": 60716,
+      "sha256": "24925bc4a7f46980939db15d26f46b586ad977b2aa0bfc7914a813ed0bb33a30",
+      "source": "data/3d/characters/moth/moth2.bdae",
+      "source_file": "moth2.bdae"
+    },
+    {
+      "asset": "actors/moth_attack_01.bdae",
+      "bytes": 17264,
+      "sha256": "dbf8f7964563775e18e13c874a8710cce457664e4b269c438800b5bb0a59c82b",
+      "source": "data/3d/characters/moth/animations/moth_attack_01.bdae",
+      "source_file": "moth_attack_01.bdae"
+    },
+    {
+      "asset": "actors/moth_dying_01.bdae",
+      "bytes": 16944,
+      "sha256": "369c261a9a1b6691e1f4dcf4c9b7f36635a0f6c9f0766000afc22807055f48ab",
+      "source": "data/3d/characters/moth/animations/moth_dying_01.bdae",
+      "source_file": "moth_dying_01.bdae"
+    },
+    {
+      "asset": "actors/moth_idle_01.bdae",
+      "bytes": 15896,
+      "sha256": "0f9a37ef7e97f5834e6fa083fb80a59c8d21fdea4c8c6cc96268f3215479179d",
+      "source": "data/3d/characters/moth/animations/moth_idle_01.bdae",
+      "source_file": "moth_idle_01.bdae"
+    },
+    {
+      "asset": "actors/moth_idle_02.bdae",
+      "bytes": 15936,
+      "sha256": "16cd25cabb373b319185dcdd66cdd373de9cb2f8f9368afa0546a4ae29f501fa",
+      "source": "data/3d/characters/moth/animations/moth_idle_02.bdae",
+      "source_file": "moth_idle_02.bdae"
+    },
+    {
+      "asset": "actors/moth_post_attack_01.bdae",
+      "bytes": 18244,
+      "sha256": "79ead2c3a542309d27f9b35ecb39e86ce4d03ebdbb8c2adf0d39e3e1d7b71ac1",
+      "source": "data/3d/characters/moth/animations/moth_post_attack_01.bdae",
+      "source_file": "moth_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/moth_pre_attack_01.bdae",
+      "bytes": 17088,
+      "sha256": "8909bbbc32deb1ec8df5411f9a849e861d0d365795243adf628011dcf8b5ac5d",
+      "source": "data/3d/characters/moth/animations/moth_pre_attack_01.bdae",
+      "source_file": "moth_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/moth_walk_01.bdae",
+      "bytes": 16928,
+      "sha256": "4413061ff7fd54dd4e08a58327beb84a3d5540162d20bb19a1b8870795e402fe",
+      "source": "data/3d/characters/moth/animations/moth_walk_01.bdae",
+      "source_file": "moth_walk_01.bdae"
+    },
+    {
+      "asset": "actors/moth_walk_02.bdae",
+      "bytes": 16772,
+      "sha256": "e101727d3288b8bd5eaaf4057aab5dd14584512f845ed09f633c31a8dea69eea",
+      "source": "data/3d/characters/moth/animations/moth_walk_02.bdae",
+      "source_file": "moth_walk_02.bdae"
+    },
+    {
+      "asset": "actors/yeti.bdae",
+      "bytes": 47380,
+      "sha256": "bb47684cddc1e2f098cd2cfaf38a5847d33611387f22f534d7e5399fba5db7cf",
+      "source": "data/3d/characters/yeti/yeti.bdae",
+      "source_file": "yeti.bdae"
+    },
+    {
+      "asset": "actors/yeti_attack_01.bdae",
+      "bytes": 7668,
+      "sha256": "6ed2f5929f65a1d614c991290ed76036d537e0b432186c49b8a5a5e3432766a5",
+      "source": "data/3d/characters/yeti/animations/yeti_attack_01.bdae",
+      "source_file": "yeti_attack_01.bdae"
+    },
+    {
+      "asset": "actors/yeti_attack_02.bdae",
+      "bytes": 6952,
+      "sha256": "961816f19ee30da24aca426bae335990bd5ba58c157ea334c34ae3fd5e3fcc09",
+      "source": "data/3d/characters/yeti/animations/yeti_attack_02.bdae",
+      "source_file": "yeti_attack_02.bdae"
+    },
+    {
+      "asset": "actors/yeti_dying.bdae",
+      "bytes": 9792,
+      "sha256": "1253c04dad47b2cdaa607d5e5afee1853da250086d231c1127ffb80a6a3dbdc5",
+      "source": "data/3d/characters/yeti/animations/yeti_dying.bdae",
+      "source_file": "yeti_dying.bdae"
+    },
+    {
+      "asset": "actors/yeti_idle.bdae",
+      "bytes": 23812,
+      "sha256": "58aebda608da14e2fbbf20361f9607a113402600f1c19e020f2d98b4c56eddea",
+      "source": "data/3d/characters/yeti/animations/yeti_idle.bdae",
+      "source_file": "yeti_idle.bdae"
+    },
+    {
+      "asset": "actors/yeti_post_attack_01.bdae",
+      "bytes": 7560,
+      "sha256": "5f2ad8171abe1fcd5461ec49df20d2831e794b37ab908da0e09989620acea0c9",
+      "source": "data/3d/characters/yeti/animations/yeti_post_attack_01.bdae",
+      "source_file": "yeti_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/yeti_post_attack_02.bdae",
+      "bytes": 7996,
+      "sha256": "aa7ce7f0f0b0077a56874a895da1e0849d68f4ca812066020b1a061a5b23b2a0",
+      "source": "data/3d/characters/yeti/animations/yeti_post_attack_02.bdae",
+      "source_file": "yeti_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/yeti_pre_attack_01.bdae",
+      "bytes": 9428,
+      "sha256": "1031c9a861f288aa124514b408a69cc6d1145591bc7f274f84b6d808d3980b6d",
+      "source": "data/3d/characters/yeti/animations/yeti_pre_attack_01.bdae",
+      "source_file": "yeti_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/yeti_pre_attack_02.bdae",
+      "bytes": 6372,
+      "sha256": "caea8275953dc60c9db9bd780186d86784829c13d8428582482a6daa25a64b95",
+      "source": "data/3d/characters/yeti/animations/yeti_pre_attack_02.bdae",
+      "source_file": "yeti_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/yeti_walk.bdae",
+      "bytes": 11668,
+      "sha256": "d350fc22844d1b9bb6ee220de589ae24fb34f6aa8a11b0c559a1222026ff1b91",
+      "source": "data/3d/characters/yeti/animations/yeti_walk.bdae",
+      "source_file": "yeti_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

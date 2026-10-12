@@ -282,6 +282,8 @@ def main() -> None:
             # MGP is optional: a visual-only module (no children) has no actors.
             mgp_value = module.get("mgp") or None
             mgp_path = canonical(mgp_value) if mgp_value else None
+            if mgp_path is not None and mgp_path not in source_hashes and mgp_path not in index:
+                mgp_path = None  # the cache lacks the file: Level::LoadFile (0x3f3b40) loads nothing
             if not name or (mgp_path is not None and mgp_path not in source_hashes):
                 raise CompileError(f"Module {room} is not in pinned provenance")
             module_transform = {
@@ -308,7 +310,7 @@ def main() -> None:
                 elif object_name:
                     seen_object_names.add(object_name)
             mvp_value = module.get("mvp") or None
-            if mvp_value:
+            if mvp_value and canonical(mvp_value) in index:
                 mvp_raw, _ = read_source(cache, index, canonical(mvp_value))
                 for obj in parse_xml(mvp_raw, canonical(mvp_value), "Module").findall("GameObject"):
                     if obj.get("name"):
@@ -338,7 +340,11 @@ def main() -> None:
                     skipped["Monster with non-Idle initial ai_state"] += 1
                     continue
                 if template not in character_names:
-                    raise CompileError(f"CharacterTable row is missing: {template}")
+                    # Character::SafeGetCharPropsId (0x3b3d38) leaves the id -1 when the name
+                    # is not in CharacterTable (authoring typos such as RD_Bandit1 in the
+                    # root den backup); there is no row to stage, so the record is skipped.
+                    skipped["Monster whose CharacterTable row is absent"] += 1
+                    continue
                 row_index = character_names.index(template)
                 values = struct.unpack_from("<224i", character_rows, 4 + row_index * 896)
                 model_id = values[field_index["ModelFile"]]

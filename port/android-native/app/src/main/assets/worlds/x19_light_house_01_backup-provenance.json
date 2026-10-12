@@ -1,0 +1,314 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -287.965,
+      -1894.73,
+      1.7
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      180.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      2712.035,
+      -1894.73,
+      1.7
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      180.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x19_light_house_01_backup.dae": {
+      "bytes": 220,
+      "sha256": "d25c5dd09fb557e1a4052b86953338146ef125df50ed1367630df5146ca163ea"
+    },
+    "x19_light_house_01_backup.dwld": {
+      "bytes": 664,
+      "sha256": "dcca04a03cdd91c85c920108019c07aa379d06f3b4879f62b00899069baca50c"
+    },
+    "x19_light_house_01_backup.spwn": {
+      "bytes": 304,
+      "sha256": "a62b18d86c26dbecdd12949307bab90a2b034a9b054a7c2862dc60d4cc4911a3"
+    }
+  },
+  "level_list": {
+    "level_file": "019_light_house_01.rule.xml",
+    "name": "LIGHT_HOUSE_01",
+    "row": 30
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 5,
+  "modules": [
+    {
+      "dae": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "mgp_records": 19,
+      "module_index": 0,
+      "mvp": "data/3d/modules/lighthousse/mvp/lh01_startroom_01.mvp",
+      "mvp_records": 2,
+      "name": "startroom_0",
+      "node_id": "_module_startroom-node",
+      "position": [
+        3000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "mgp_records": 33,
+      "module_index": 1,
+      "mvp": "data/3d/modules/lighthousse/mvp/lh01_lv03_open_03_01.mvp",
+      "mvp_records": 2,
+      "name": "open_03_1",
+      "node_id": "_module_open_03-node",
+      "position": [
+        21000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "mgp_records": 32,
+      "module_index": 2,
+      "mvp": "data/3d/modules/lighthousse/mvp/lh01_lv04_open_03_01.mvp",
+      "mvp_records": 2,
+      "name": "open_03_2",
+      "node_id": "_module_open_03-node",
+      "position": [
+        39000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "mgp_records": 34,
+      "module_index": 3,
+      "mvp": "data/3d/modules/lighthousse/mvp/lh01_lv05_close_01_01.mvp",
+      "mvp_records": 2,
+      "name": "close_01_3",
+      "node_id": "_module_close_01-node",
+      "position": [
+        57000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "mgp_records": 38,
+      "module_index": 4,
+      "mvp": "data/3d/modules/lighthousse/mvp/lh01_lv06_close_02_01.mvp",
+      "mvp_records": 2,
+      "name": "close_02_4",
+      "node_id": "_module_close_02-node",
+      "position": [
+        75000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    42
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/lighthouse.bdae",
+      "bytes": 4667892,
+      "path": "data/3d/modules/lighthousse/lighthouse.bdae",
+      "sha256": "581eaf04c510bea471c86ed6de28d9d379580fedbdb2b93c83ebdbb231dfb604"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "bytes": 13800,
+      "path": "data/3d/modules/lighthousse/mgp/lh01_lv03_open_03_01.mgp",
+      "sha256": "06da42dcc89f47bf50b85d38d02da35cfb0c5f1e29e846c7137a40e4a4cc6b93"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "bytes": 13169,
+      "path": "data/3d/modules/lighthousse/mgp/lh01_lv04_open_03_01.mgp",
+      "sha256": "0c23d069ef22b933feb83bfa0dadf0e16fc225cb6f988f095c0938bd130ff7e5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "bytes": 13737,
+      "path": "data/3d/modules/lighthousse/mgp/lh01_lv05_close_01_01.mgp",
+      "sha256": "00bb2a5c1d025019a8efe9bfbcce43a89016e9f2ea216602d30910bdf94463fc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "bytes": 14088,
+      "path": "data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+      "sha256": "a7ef1db393567b573d6c16826ba6f46c93ea083adc0d1f8b7ac71ab7c0cde47a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "bytes": 5606,
+      "path": "data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+      "sha256": "c44c1cc5aac890d84a43361df026cc49988fcc476aef1e07704b65f3b80880a0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mvp/lh01_lv03_open_03_01.mvp",
+      "bytes": 1301,
+      "path": "data/3d/modules/lighthousse/mvp/lh01_lv03_open_03_01.mvp",
+      "sha256": "2202fac037e68db5b2b52b423507f5cb2445dbc09eb7954cf849fd66cd9bbcd9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mvp/lh01_lv04_open_03_01.mvp",
+      "bytes": 1301,
+      "path": "data/3d/modules/lighthousse/mvp/lh01_lv04_open_03_01.mvp",
+      "sha256": "0f97656afe97f26766e6f9b790f2d60155325b97feacbde4142e2b336092237c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mvp/lh01_lv05_close_01_01.mvp",
+      "bytes": 1301,
+      "path": "data/3d/modules/lighthousse/mvp/lh01_lv05_close_01_01.mvp",
+      "sha256": "cad591d79e7d9494e5916afff4b5b8ab668ede55cf18436b2d1b6a6d9483f528"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mvp/lh01_lv06_close_02_01.mvp",
+      "bytes": 1347,
+      "path": "data/3d/modules/lighthousse/mvp/lh01_lv06_close_02_01.mvp",
+      "sha256": "d89d1e35b0878df033aa88d382864ddd2ba1e387adfaf75f72ad6c03aa1b250e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/lighthousse/mvp/lh01_startroom_01.mvp",
+      "bytes": 1303,
+      "path": "data/3d/modules/lighthousse/mvp/lh01_startroom_01.mvp",
+      "sha256": "e2a0d1b55a420ea78692d81b12a479a17cadc2be3f119f58fc8c34bbaf0d7ac3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x19_light_house_01_backup.mlx",
+      "bytes": 5751,
+      "path": "data/scene/x19_light_house_01_backup.mlx",
+      "sha256": "bd520267806141bb0cfbf53d4bd3dc42f77eaa6055a096be61b8d3877c9f32a8"
+    }
+  ],
+  "source_layout": "data/scene/x19_light_house_01_backup.mlx",
+  "spawn_point_count": 2,
+  "texture_hints": {
+    "data/3d/modules/lighthousse/lighthouse.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_lighthousse.tga",
+        "data/3d/textures/env_lighthousse_spec.tga",
+        "data/3d/textures/pvr2_env_lighthousse_alpha.tga",
+        "data/3d/textures/skybox_wind.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

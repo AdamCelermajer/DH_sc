@@ -1,0 +1,600 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      1234.43,
+      1120.72,
+      7.86108
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_fromDW",
+    "source_path": "data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      1234.43,
+      1120.72,
+      7.86108
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x20_crypt_02_backup.dae": {
+      "bytes": 363,
+      "sha256": "40db953928da13622d64d113ce1d7d2437fa00428c3fe6184b9a67b83454b424"
+    },
+    "x20_crypt_02_backup.dwld": {
+      "bytes": 1432,
+      "sha256": "0c68fdd3c09fa0283542fefcd6ed7218d8d9782a5ba16fa1ee2a7b39721918fc"
+    },
+    "x20_crypt_02_backup.spwn": {
+      "bytes": 160,
+      "sha256": "11290eb3c0a00d473d05035a32d1944d8f796619a2741494c4252e87daa78031"
+    }
+  },
+  "level_list": {
+    "level_file": "020_crypt_02.rule.xml",
+    "name": "GOTHICUS_CRYPT_02",
+    "row": 24
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 11,
+  "modules": [
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "mgp_records": 11,
+      "module_index": 0,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_deadend_w_01.mvp",
+      "mvp_records": 12,
+      "name": "deadend_w_0",
+      "node_id": "_module_deadend_w-node",
+      "position": [
+        0.0,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "mgp_records": 9,
+      "module_index": 1,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_straight_b_ew_01.mvp",
+      "mvp_records": 6,
+      "name": "straight_b_ew_1",
+      "node_id": "_module_straight_b_ew-node",
+      "position": [
+        -4800.0,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "mgp_records": 7,
+      "module_index": 2,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_straight_a_01.mvp",
+      "mvp_records": 7,
+      "name": "straight_a_ew_2",
+      "node_id": "_module_straight_a_ew-node",
+      "position": [
+        -9600.0,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "mgp_records": 7,
+      "module_index": 3,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_straight_d_ew_01.mvp",
+      "mvp_records": 7,
+      "name": "straight_d_ew_3",
+      "node_id": "_module_straight_d_ew-node",
+      "position": [
+        -14400.0,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": null,
+      "mgp_records": 0,
+      "module_index": 4,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_corner_se_01.mvp",
+      "mvp_records": 9,
+      "name": "corner_se_4",
+      "node_id": "_module_corner_se-node",
+      "position": [
+        -19200.0,
+        -0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_t_nse_01.mgp",
+      "mgp_records": 1,
+      "module_index": 5,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_t_nse_01.mvp",
+      "mvp_records": 10,
+      "name": "t_nse_5",
+      "node_id": "_module_t_nse-node",
+      "position": [
+        -19200.0,
+        -4800.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "mgp_records": 17,
+      "module_index": 6,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_deadend_n_01.mvp",
+      "mvp_records": 6,
+      "name": "deadend_n_6",
+      "node_id": "_module_deadend_n-node",
+      "position": [
+        -19200.0,
+        -9600.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_corner_sw_01.mgp",
+      "mgp_records": 10,
+      "module_index": 7,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_corner_sw_01.mvp",
+      "mvp_records": 8,
+      "name": "corner_sw_7",
+      "node_id": "_module_corner_sw-node",
+      "position": [
+        -14400.0,
+        -4800.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_corner_ne_01.mgp",
+      "mgp_records": 12,
+      "module_index": 8,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_corner_ne_01.mvp",
+      "mvp_records": 11,
+      "name": "corner_ne_8",
+      "node_id": "_module_corner_ne-node",
+      "position": [
+        -14400.0,
+        -9600.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_corner_nw_01.mgp",
+      "mgp_records": 3,
+      "module_index": 9,
+      "mvp": "data/3d/modules/crypt/mvp/crypt2_corner_nw_01.mvp",
+      "mvp_records": 8,
+      "name": "corner_nw_9",
+      "node_id": "_module_corner_nw-node",
+      "position": [
+        -9600.0,
+        -9600.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "mgp_records": 9,
+      "module_index": 10,
+      "mvp": "data/3d/modules/crypt/mvp/crypt_kings_chamber_s_01.mvp",
+      "mvp_records": 11,
+      "name": "kings_chamber_s_10",
+      "node_id": "_module_kings_chamber_s-node",
+      "position": [
+        -9600.0,
+        -4800.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candle1.bdae",
+      "bytes": 24628,
+      "path": "data/3d/animateddecors/crypt/crypt_candle1.bdae",
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candle1_small.bdae",
+      "bytes": 24772,
+      "path": "data/3d/animateddecors/crypt/crypt_candle1_small.bdae",
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candle2.bdae",
+      "bytes": 24532,
+      "path": "data/3d/animateddecors/crypt/crypt_candle2.bdae",
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candle_big.bdae",
+      "bytes": 24668,
+      "path": "data/3d/animateddecors/crypt/crypt_candle_big.bdae",
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candles.bdae",
+      "bytes": 31880,
+      "path": "data/3d/animateddecors/crypt/crypt_candles.bdae",
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candles2_small.bdae",
+      "bytes": 28448,
+      "path": "data/3d/animateddecors/crypt/crypt_candles2_small.bdae",
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candlestand.bdae",
+      "bytes": 44268,
+      "path": "data/3d/animateddecors/crypt/crypt_candlestand.bdae",
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_candlestand_big.bdae",
+      "bytes": 33752,
+      "path": "data/3d/animateddecors/crypt/crypt_candlestand_big.bdae",
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_cryptwater.bdae",
+      "bytes": 36332,
+      "path": "data/3d/animateddecors/crypt/crypt_cryptwater.bdae",
+      "sha256": "70d47416a0ac6a744a44df80be4f04a7088393fd7ae197ffc962392990a09216"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/crypt/crypt_flame.bdae",
+      "bytes": 35452,
+      "path": "data/3d/animateddecors/crypt/crypt_flame.bdae",
+      "sha256": "f75781657408d0ef2d5f3fb08a85f35ceb5b14f16f187fd5e41b634d658ec8c1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/crypt.bdae",
+      "bytes": 3922816,
+      "path": "data/3d/modules/crypt/crypt.bdae",
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_corner_ne_01.mgp",
+      "bytes": 5831,
+      "path": "data/3d/modules/crypt/mgp/crypt2_corner_ne_01.mgp",
+      "sha256": "24f1c6d448c15c7281ef5db099bc0c40156fc04e43189bb9233cf8153fd09825"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_corner_nw_01.mgp",
+      "bytes": 1923,
+      "path": "data/3d/modules/crypt/mgp/crypt2_corner_nw_01.mgp",
+      "sha256": "313ae52d1232c31cd7b9e3efe5e858df2a72cd9f43952d7709f0dd8231cc8740"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_corner_sw_01.mgp",
+      "bytes": 5252,
+      "path": "data/3d/modules/crypt/mgp/crypt2_corner_sw_01.mgp",
+      "sha256": "82fec47fbc393b4f533fa7966c6d6802cfb30c537d54b01ca3f5dfaf1ba5a808"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "bytes": 6351,
+      "path": "data/3d/modules/crypt/mgp/crypt2_deadend_n_02.mgp",
+      "sha256": "64ef98a37d6714bf1cf741492bad8378d084316ffc9f988bbbcd3efb0a3b58ba"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "bytes": 4411,
+      "path": "data/3d/modules/crypt/mgp/crypt2_deadend_w_01.mgp",
+      "sha256": "c348fb57cc40dbcc3a0dbac880423ec8b209a72fa041c04029136834a1cfba33"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "bytes": 4130,
+      "path": "data/3d/modules/crypt/mgp/crypt2_kingsroom_s_01.mgp",
+      "sha256": "495f16883bbf190e95dd5044b744629e3918fbdbb79204f8e11ee40d73ac5765"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "bytes": 3458,
+      "path": "data/3d/modules/crypt/mgp/crypt2_straight_a_ew_01.mgp",
+      "sha256": "b6d53d84b9b90d91a546fd8bee267482cd9cf75f2d740bc55d3779e1d7464bb2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "bytes": 4596,
+      "path": "data/3d/modules/crypt/mgp/crypt2_straight_b_ew_01.mgp",
+      "sha256": "c7a5605ce8bcc58b440208b11999fd50299804bbb839a9b26dff60a2914fe2a3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "bytes": 3891,
+      "path": "data/3d/modules/crypt/mgp/crypt2_straight_d_ew_01.mgp",
+      "sha256": "a6413b545fcc45ce9090e889a9873bc8e8343ef333d3d89241b878b9e0ec05a9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt2_t_nse_01.mgp",
+      "bytes": 548,
+      "path": "data/3d/modules/crypt/mgp/crypt2_t_nse_01.mgp",
+      "sha256": "0ac70f5eb18c0c14f728c322ef92e44c719b3ae11e0482d977862e5b0c0a84ae"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_corner_ne_01.mvp",
+      "bytes": 5571,
+      "path": "data/3d/modules/crypt/mvp/crypt2_corner_ne_01.mvp",
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_corner_nw_01.mvp",
+      "bytes": 4127,
+      "path": "data/3d/modules/crypt/mvp/crypt2_corner_nw_01.mvp",
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_corner_se_01.mvp",
+      "bytes": 4685,
+      "path": "data/3d/modules/crypt/mvp/crypt2_corner_se_01.mvp",
+      "sha256": "4dca6137768e099191411b3797a5459d2bc4ba28020d51e2a3e6906ffbe6ece4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_corner_sw_01.mvp",
+      "bytes": 4172,
+      "path": "data/3d/modules/crypt/mvp/crypt2_corner_sw_01.mvp",
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_deadend_n_01.mvp",
+      "bytes": 3144,
+      "path": "data/3d/modules/crypt/mvp/crypt2_deadend_n_01.mvp",
+      "sha256": "6129dfba3b5ccbaf9f3e5dbc72e37bf45e1c7cb64375c3b4bf9f5b28e08cfc0c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_deadend_w_01.mvp",
+      "bytes": 6017,
+      "path": "data/3d/modules/crypt/mvp/crypt2_deadend_w_01.mvp",
+      "sha256": "23e7780a0dfd0280feac0201de33971869afabd4a6682c4d246530293a61bf9a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_a_01.mvp",
+      "bytes": 3560,
+      "path": "data/3d/modules/crypt/mvp/crypt2_straight_a_01.mvp",
+      "sha256": "fb5a982377b9fa0f6c5f5d428e300f56440aedde7818422071c81d8f041f5783"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_b_ew_01.mvp",
+      "bytes": 3105,
+      "path": "data/3d/modules/crypt/mvp/crypt2_straight_b_ew_01.mvp",
+      "sha256": "51441e7a58bb5eb418dc3247fcfbe648a8b657b91ada34d7e061d15467dc4d23"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_d_ew_01.mvp",
+      "bytes": 3598,
+      "path": "data/3d/modules/crypt/mvp/crypt2_straight_d_ew_01.mvp",
+      "sha256": "00cbafc859cc422b4993c7c7fad58b811dcfa9e37fe51b0f587bbdbbe5a1d1c7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_t_nse_01.mvp",
+      "bytes": 5205,
+      "path": "data/3d/modules/crypt/mvp/crypt2_t_nse_01.mvp",
+      "sha256": "319f3fcb4586eb505448782cf16b16234491b41498ca02f7098ab9683885eec7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_kings_chamber_s_01.mvp",
+      "bytes": 5608,
+      "path": "data/3d/modules/crypt/mvp/crypt_kings_chamber_s_01.mvp",
+      "sha256": "c7407eee441f922e9bec19e077bbff5571375e7cb55237291dce93d39acf68f1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x20_crypt_02_backup.mlx",
+      "bytes": 9785,
+      "path": "data/scene/x20_crypt_02_backup.mlx",
+      "sha256": "0e0952103bc55635ce03272862f1aa56d89bff00a73a6225abfbb019ffb29cc2"
+    }
+  ],
+  "source_layout": "data/scene/x20_crypt_02_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/crypt/crypt.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_crypt.tga",
+        "data/3d/textures/env_crypt_spec.tga",
+        "data/3d/textures/pvr2_env_crypt_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

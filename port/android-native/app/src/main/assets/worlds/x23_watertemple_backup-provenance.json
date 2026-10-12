@@ -1,0 +1,607 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      59.9922,
+      1136.72,
+      252.545
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_01",
+    "source_path": "data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      59.9922,
+      1136.72,
+      252.545
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "x23_watertemple_backup.dae": {
+      "bytes": 611,
+      "sha256": "816b261a1454533a9efddfa5850cb2a81e21e21b55f4b9a30f4c64baac0ea7de"
+    },
+    "x23_watertemple_backup.dwld": {
+      "bytes": 1688,
+      "sha256": "72e81eface57d01abe2570fb034279421affe84bdb83fd574cadc77ed2847723"
+    },
+    "x23_watertemple_backup.spwn": {
+      "bytes": 160,
+      "sha256": "13df5b6fbf15705ccb07365c576fabdc36a478d7aefac688404394024971db61"
+    }
+  },
+  "level_list": {
+    "level_file": "023_watertemple.rule.xml",
+    "name": "WATER_TEMPLE_01",
+    "row": 49
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 13,
+  "modules": [
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "mgp_records": 10,
+      "module_index": 0,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_deadend_objstart_w_01.mvp",
+      "mvp_records": 2,
+      "name": "objstart_watertemp_s_00_0",
+      "node_id": "_module_objstart_watertemp_s_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "mgp_records": 11,
+      "module_index": 1,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_corner_ne_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_watertemp_ne_00_1",
+      "node_id": "_module_corner_watertemp_ne_00-node",
+      "position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "mgp_records": 3,
+      "module_index": 2,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_straight_ns_01.mvp",
+      "mvp_records": 1,
+      "name": "straight_watertemp_ns_00_2",
+      "node_id": "_module_straight_watertemp_ns_00-node",
+      "position": [
+        -6000.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "mgp_records": 5,
+      "module_index": 3,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_straight_ns_01.mvp",
+      "mvp_records": 1,
+      "name": "straight_watertemp_ns_00_3",
+      "node_id": "_module_straight_watertemp_ns_00-node",
+      "position": [
+        -6000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "mgp_records": 11,
+      "module_index": 4,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_t_nsw_01.mvp",
+      "mvp_records": 1,
+      "name": "t_watertemp_nsw_00_4",
+      "node_id": "_module_T_watertemp_nsw_00-node",
+      "position": [
+        -6000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "mgp_records": 8,
+      "module_index": 5,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_deadend_e_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_watertemp_e_00_5",
+      "node_id": "_module_deadend_watertemp_e_00-node",
+      "position": [
+        -12000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "mgp_records": 6,
+      "module_index": 6,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_straight_objmid_ns_01.mvp",
+      "mvp_records": 1,
+      "name": "objmid_watertemp_ns_00_6",
+      "node_id": "_module_objmid_watertemp_ns_00-node",
+      "position": [
+        -6000.0,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_t_wse_02.mgp",
+      "mgp_records": 8,
+      "module_index": 7,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_t_wse_01.mvp",
+      "mvp_records": 1,
+      "name": "t_watertemp_wse_00_7",
+      "node_id": "_module_T_watertemp_wse_00-node",
+      "position": [
+        -6000.0,
+        30000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "mgp_records": 5,
+      "module_index": 8,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_corner_sw_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_watertemp_sw_00_8",
+      "node_id": "_module_corner_watertemp_sw_00-node",
+      "position": [
+        0.0,
+        30000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "mgp_records": 7,
+      "module_index": 9,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_corner_ne_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_watertemp_ne_00_9",
+      "node_id": "_module_corner_watertemp_ne_00-node",
+      "position": [
+        0.0,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "mgp_records": 8,
+      "module_index": 10,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_corner_wn_01.mvp",
+      "mvp_records": 1,
+      "name": "corner_watertemp_wn_00_10",
+      "node_id": "_module_corner_watertemp_wn_00-node",
+      "position": [
+        6000.0,
+        24000.0,
+        0.280029
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "mgp_records": 22,
+      "module_index": 11,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_deadend_objend_s_01.mvp",
+      "mvp_records": 2,
+      "name": "objend_watertemp_s_00_11",
+      "node_id": "_module_objend_watertemp_s_00-node",
+      "position": [
+        6000.0,
+        30000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 12
+    },
+    {
+      "dae": "data/3d/modules/water_temple/water_temple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "mgp_records": 8,
+      "module_index": 12,
+      "mvp": "data/3d/modules/water_temple/mvp/watertemple_deadend_e_01.mvp",
+      "mvp_records": 1,
+      "name": "deadend_watertemp_e_00_12",
+      "node_id": "_module_deadend_watertemp_e_00-node",
+      "position": [
+        -12000.0,
+        30000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 13
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/water_temple_watercaustics.bdae",
+      "bytes": 569456,
+      "path": "data/3d/animateddecors/water_temple_watercaustics.bdae",
+      "sha256": "1a4d4d9cd8fca36605c0d8435018c139c285d33f94edbff682a2f9885d2f55a0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "bytes": 3638,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_02.mgp",
+      "sha256": "c0e48d5660b1aeea8d82e2cfb1d55c0c9ba0ae7428e9d8e63edca1e1cd523a89"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "bytes": 5295,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_03.mgp",
+      "sha256": "2fec23ff1ff4d6004b417f1c4166821146efdbaa38e57b1a8bef73608fc12ae4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "bytes": 2557,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_corner_sw_01.mgp",
+      "sha256": "7a3257de5f371513918ca744ae6b68fddb353774df6ff1aed28ba1ec066eefac"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "bytes": 3992,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_corner_wn_01.mgp",
+      "sha256": "155ca9576f7f676c6a15625dd38601664e2751d95595b4b2b7a6e4316365390d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "bytes": 3262,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_deadend_e_01.mgp",
+      "sha256": "569129ea448a030c86371a54701b1378f8dd3bedd9720429d4c7a1816f2525a5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "bytes": 7986,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_deadend_objend_s_01.mgp",
+      "sha256": "e0ab04a9532d6c3b8bf1c6c87d16b72106bca44cc624635758bdef4dbceedc3a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "bytes": 4169,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_deadend_objstart_w_01.mgp",
+      "sha256": "602d1bf266f0355c19c5c363293da3e0c0afe9f0dd11b47388691020704bc48c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "bytes": 3008,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_straight_ns_01.mgp",
+      "sha256": "cd1f7fbe9dea484929e4bba86514f7e7b1ed522648425bf750fc052949eab1d9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "bytes": 1446,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_straight_ns_02.mgp",
+      "sha256": "ecd68798740344a611c04526c6b6591deb9dab4562ef03f8773d043a799823d3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "bytes": 2921,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_straight_objmid_ns_01.mgp",
+      "sha256": "de94e2eb2411c3f88515a2333ab619a6c8fdcd0f4b0a619d960b52ad4ec0f9c2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "bytes": 4923,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_t_nsw_01.mgp",
+      "sha256": "cd5b87dbfe383ca897ced1130b70adb21fa432394afc09489df0dc0a7235d621"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mgp/watertemple_t_wse_02.mgp",
+      "bytes": 3463,
+      "path": "data/3d/modules/water_temple/mgp/watertemple_t_wse_02.mgp",
+      "sha256": "e67d2c4b20ddf3d3a66f87c21f7662eb745bd59b1a790dc569d98a9759e6d285"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_corner_ne_01.mvp",
+      "bytes": 759,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_corner_ne_01.mvp",
+      "sha256": "8576fe973e6ebfa7ad3453e62eae6cae76eaae20fc9a700558df80ff6e9bf701"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_corner_sw_01.mvp",
+      "bytes": 759,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_corner_sw_01.mvp",
+      "sha256": "073af83c2d2837c1048d511d00d1c53ce5e52facea3780ea0d302f08ac47a16c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_corner_wn_01.mvp",
+      "bytes": 759,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_corner_wn_01.mvp",
+      "sha256": "2ed0115e9c5de00c8cd7b96b736cba84df66a5fad93d443fefcaaf32bffea20f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_deadend_e_01.mvp",
+      "bytes": 725,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_deadend_e_01.mvp",
+      "sha256": "deab220ff940d9bc0d8311d97ee5f8f7f2ee98e1fbbbfb4e370c9748faaf889f"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_deadend_objend_s_01.mvp",
+      "bytes": 1318,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_deadend_objend_s_01.mvp",
+      "sha256": "563c445d14dd19e3df640b560d9e9d809edbf293d16ccb9c135e0b1f0afa8620"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_deadend_objstart_w_01.mvp",
+      "bytes": 1247,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_deadend_objstart_w_01.mvp",
+      "sha256": "c4848f670e1fcf028840140799f8084c0c664577ab2578b88a1857ca7280e3f0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_straight_ns_01.mvp",
+      "bytes": 763,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_straight_ns_01.mvp",
+      "sha256": "a2ee04a3886fe2a33ecb16ce7b485ac2dc4e258fb4c27541a7880c875bde9044"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_straight_objmid_ns_01.mvp",
+      "bytes": 759,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_straight_objmid_ns_01.mvp",
+      "sha256": "725369b8c3cf672aa0f41ffc0617176ff7c7cbabb71c77b587e6a0236094b651"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_t_nsw_01.mvp",
+      "bytes": 751,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_t_nsw_01.mvp",
+      "sha256": "e5bab2fc0c126624a0c496c1d0c04bcc01d33200ab540be272020da20dba6dbd"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/mvp/watertemple_t_wse_01.mvp",
+      "bytes": 751,
+      "path": "data/3d/modules/water_temple/mvp/watertemple_t_wse_01.mvp",
+      "sha256": "a934eea855eb3555ff59efe87365fb4adb57d6d310c2030f15f307796440f9ef"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/water_temple/water_temple.bdae",
+      "bytes": 3308748,
+      "path": "data/3d/modules/water_temple/water_temple.bdae",
+      "sha256": "35f7850aef03c06d97fed7ad6325f5cba98d980045bf1886aa7d6cdbcc545ba1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x23_watertemple_backup.mlx",
+      "bytes": 13398,
+      "path": "data/scene/x23_watertemple_backup.mlx",
+      "sha256": "be5e07b1c7f0baf8738dbc2615646c8ea23c44d0dac98075466c9df1c69b2116"
+    }
+  ],
+  "source_layout": "data/scene/x23_watertemple_backup.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/water_temple/water_temple.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_water_temple.tga",
+        "data/3d/textures/env_water_temple_spec.tga",
+        "data/3d/textures/fx_waterfall_fog_01.tga",
+        "data/3d/textures/pvr2_env_water_temple_alpha.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

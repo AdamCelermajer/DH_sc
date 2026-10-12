@@ -1458,6 +1458,33 @@ constexpr GeneratedBackupLevelV1 generated_backup_levels[]{
  {{14,"EARTH_TEMPLE_03","x13_earth_temple_03_backup.mlx","x13_earth_temple_03_backup",
    "data/3d/modules/earth_temple/earth_temple.bdae",6,474,0,"013_earth_temple_03"},
   "013_earth_temple_03.rule.xml"},
+ {{16,"ELEMENTAL_EARTH","x14_el_earth_backup.mlx","x14_el_earth_backup",
+   "data/3d/modules/castle/castle.bdae",8,479,0,"014_elemental_earth_room"},
+  "014_el_earth.rule.xml"},
+ {{24,"GOTHICUS_CRYPT_02","x20_crypt_02_backup.mlx","x20_crypt_02_backup",
+   "data/3d/modules/crypt/crypt.bdae",12,487,0,"007_crypt_01"},
+  "020_crypt_02.rule.xml"},
+ {{25,"ICY_CAVERN_01","x26_icy_cavern_01_backup.mlx","x26_icy_cavern_01_backup",
+   "data/3d/modules/icy_cavern/icy_cavern.bdae",11,499,0,"026_icy_caverns_01"},
+  "026_icy_cavern_01.rule.xml"},
+ {{27,"ICY_CAVERN_03","x28_icy_cavern_03_backup.mlx","x28_icy_cavern_03_backup",
+   "data/3d/modules/icy_cavern/icy_cavern.bdae",12,497,0,"028_icy_caverns_03"},
+  "028_icy_cavern_03.rule.xml"},
+ {{30,"LIGHT_HOUSE_01","x19_light_house_01_backup.mlx","x19_light_house_01_backup",
+   "data/3d/modules/lighthousse/lighthouse.bdae",6,492,0,"019_light_house_01"},
+  "019_light_house_01.rule.xml"},
+ {{31,"LIGHT_HOUSE_02","x19_light_house_02_backup.mlx","x19_light_house_02_backup",
+   "data/3d/modules/lighthousse/lighthouse.bdae",10,492,0,"019_light_house_01"},
+  "019_light_house_02.rule.xml"},
+ {{39,"ROOT_DEN_01","x04_root_den_backup.mlx","x04_root_den_backup",
+   "data/3d/modules/root_den/root_den_rooms.bdae",9,472,0,"004_root_den"},
+  "004_root_den.rule.xml"},
+ {{49,"WATER_TEMPLE_01","x23_watertemple_backup.mlx","x23_watertemple_backup",
+   "data/3d/modules/water_temple/water_temple.bdae",14,470,0,"023_watertemple_01"},
+  "023_watertemple.rule.xml"},
+ {{50,"WIND_TEMPLE_01","x29_wind_temple_backup.mlx","x29_wind_temple_backup",
+   "data/3d/modules/wind_temple/wind_temple.bdae",13,501,0,"029_wind_temple"},
+  "029_wind_temple.rule.xml"},
  {{15,"ELEMENTAL_AIR","x30_el_air_backup.mlx","x30_el_air_backup",
    "data/3d/modules/castle/castle.bdae",8,481,0,"030_elemental_air_room"},
   "030_el_air.rule.xml"},
@@ -1511,6 +1538,15 @@ const GeneratedBackupLevelV1* generated_backup_level(std::int32_t row,const std:
   if(backup.level.row==row&&name==backup.level.name&&level_file==backup.rule_level_file&&
      generated_backup_mlx_name(level_file)==backup.level.level_file)return &backup;
  return nullptr;
+}
+// Development switch: DH2_FORCE_GENERATION_FAILURE=1 behaves as if
+// Level::GenerateRandomLevel (0x3f07f8) had failed, to exercise the _BACKUP path.
+template<class Result>void force_generation_failure_for_debug(Result& generated){
+ const char* force=std::getenv("DH2_FORCE_GENERATION_FAILURE");
+ if(force&&force[0]=='1'&&generated.status==dh2::random_level::CryptLevelGeneratorStatusV1::success){
+  generated.status=dh2::random_level::CryptLevelGeneratorStatusV1::no_solution;
+  generated.message="forced by DH2_FORCE_GENERATION_FAILURE";
+ }
 }
 // Rule <rules music="..."> label resolved to the Sounds.xml UID. CatacombsMusic
 // (void maze) has no sounds.xml row, so its UID is absent and no cue is queued.
@@ -5282,7 +5318,9 @@ bool NativeCryptRoomRuntime::initialize(
   if(static_mlx_level_active()) {
    for(const auto& source:active_level_assets.source_character_census) {
     if(source.template_name!="Faery")continue;
-    if(source.duplicate_name||source.source_handle<0||source.name.empty()||
+    // ObjectManager::Add destroys a later same-name Faery (a repeated _BACKUP tile).
+    if(source.duplicate_name)continue;
+    if(source.source_handle<0||source.name.empty()||
        source.character.empty()||!source.script.empty()) {
      error="SWAMP authored Faery row lacks a unique un-scripted Character owner";
      clear();return false;
@@ -11805,7 +11843,9 @@ void initialize_char_ai_registry() {
        });
    if(source==active_level_assets.source_character_census.end())
     throw std::runtime_error("Source Character GroupInfo join has no exact census/handle provenance");
-   if(!actor->source_character_construction&&!source->char_group.empty()) {
+   // Static MLX levels adopt every Character through construct_direct_source_character_v1
+   // later in the same load, so their Character::InitPost owns AddToGroup.
+   if(!actor->source_character_construction&&!static_mlx_level_active()&&!source->char_group.empty()) {
     // Renderer-only legacy rows have no adopted Character InitPost owner;
     // keep their existing startup GroupInfo projection. Direct-adopted rows
     // join from their ordered Character::InitPost callback below.
@@ -21675,8 +21715,9 @@ bool prepare_native_transition_runtime_v1(
   if(runtime.bres.empty()){
    error="Generated rule folder has no base BDAE: "+runtime.crypt_rules->folder;return false;
   }
-  const auto generated=dh2::random_level::generate_crypt_level_v1(
+  auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
+  force_generation_failure_for_debug(generated);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
    // Level::_LoadProcess (0x3f6990) case 7: load the "_BACKUP.mlx" layout.
    const auto* backup=generated_backup_level(plan.level_row,plan.level_name,plan.load.file);
@@ -21882,6 +21923,7 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   }
   auto generated=dh2::random_level::generate_crypt_level_v1(
       *runtime.crypt_rules,*runtime.crypt_catalogue,runtime.source_load_seed);
+  force_generation_failure_for_debug(generated);
   if(generated.status!=dh2::random_level::CryptLevelGeneratorStatusV1::success){
    // Level::_LoadProcess (0x3f6990) case 7: a failed GenerateRandomLevel loads
    // the "_BACKUP.mlx" authored layout (generated_backup_levels) instead.
@@ -39850,6 +39892,11 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           }
           read_error.clear();return true;
         }catch(const std::exception& exception){
+          // Level::LoadFile (0x3f3b40) finishes with no records for a file no
+          // folder holds (el_earth_straightb_ew_01.mgp is absent from the cache).
+          if(std::strncmp(exception.what(),"Bundled asset missing",21)==0){
+            bytes.clear();read_error.clear();return true;
+          }
           read_error=std::string("Authored module cache read failed for ")+path+
               ": "+exception.what();
           return false;
@@ -40110,18 +40157,24 @@ std::vector<dh2::world::EntryPoint> entrypoints;
     if(dh2_pycst_open(&quest_constants.view,quest_constants_bytes->data(),std::uint32_t(quest_constants_bytes->size())))throw std::runtime_error("Native original quest constants rejected");
     quest_constants.owner=quest_constants_bytes;
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Quest catalogue | definitions %u | immutable table and constants generation",quest_tables.borrow().count());
-    const auto selected_level_row=level_assets.row>=0?level_assets.row:
+    const auto requested_level_row=level_assets.row>=0?level_assets.row:
       dh2::data::find_level(level_tables,"GOTHICUS_CRYPT_01");
-    if(selected_level_row<0||std::size_t(selected_level_row)>=level_tables.levels.size())
+    if(requested_level_row<0||std::size_t(requested_level_row)>=level_tables.levels.size())
       throw std::runtime_error("Selected level catalogue row missing");
-    const auto& selected_declaration=level_tables.levels.at(std::size_t(selected_level_row));
+    const auto& requested_declaration=level_tables.levels.at(std::size_t(requested_level_row));
     dh2::level_construction_fields::State candidate_level_fields{};
     dh2::level_construction_fields::Result candidate_level_scan{};
-    const auto candidate_level_file=level_assets.level_file.empty()?selected_declaration.level_file:level_assets.level_file;
+    const auto candidate_level_file=level_assets.level_file.empty()?requested_declaration.level_file:level_assets.level_file;
     const auto candidate_level_difficulty=active_native_start_plan?
       active_native_start_plan->requested_difficulty_for_load:0;
-    if(dh2::level_construction_fields::initialize(&level_tables,candidate_level_file,candidate_level_difficulty,&candidate_level_fields,&candidate_level_scan)!=dh2::level_construction_fields::Status::selected || candidate_level_fields.level_list_index_3c!=selected_level_row)
+    if(dh2::level_construction_fields::initialize(&level_tables,candidate_level_file,candidate_level_difficulty,&candidate_level_fields,&candidate_level_scan)!=dh2::level_construction_fields::Status::selected)
       throw std::runtime_error("Source Level constructor field selection failed");
+    // Level::Level (0x3f3128) takes only the file name (GSLevel::Ctor 0x386190) and
+    // sets +0x3c to the FIRST LevelList row whose lowercased LevelFile is a substring
+    // of it. Rows sharing a file (PORTAL_ROOM/DARKWOOD*) therefore resolve to the
+    // first row, with that row's hub and is_random.
+    const auto selected_level_row=candidate_level_fields.level_list_index_3c;
+    const auto& selected_declaration=level_tables.levels.at(std::size_t(selected_level_row));
     const auto source_entry_point=active_native_start_plan?active_native_start_plan->entry_point:0;
     if(!source_level_owner.request_level(selected_level_row,source_entry_point,
          candidate_level_fields.difficulty_118)||!source_level_owner.begin_source_load())
@@ -40401,8 +40454,11 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           !source.character.empty();
        if(!direct_source_character)continue;
        const auto* ai_id=dh2::data::property(character_table,source.character,"AI");
-       const auto* ai=ai_id?dh2::data::ai_props(ai_tables,*ai_id):nullptr;
-       if(!ai_id||!ai)
+       // Character::SafeGetCharPropsId (0x3b3d38) leaves id -1 for a name absent from
+       // CharacterTable (the root den backup's RD_Bandit1 typo): no Character is built.
+       if(!ai_id)continue;
+       const auto* ai=dh2::data::ai_props(ai_tables,*ai_id);
+       if(!ai)
         throw std::runtime_error("SWAMP source CharacterTable AI/CharType row is unresolved: "+source.name);
        const bool source_char_type_7_merchant=source_merchant&&ai&&ai->type==7;
        if(source_char_type_7_merchant)++char_type_7_candidates;
@@ -41329,7 +41385,9 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           collect(state-animation_tables.sequences.data(),0,reaction?reaction_ids:ids);}
         if(std::any_of(object_records.begin(),object_records.end(),[&](const auto& record){return record.gated_spawn&&record.model==object.model;})) {
           const auto* state=dh2::data::animation_state(animation_tables,animation_table,"Spawn");
-          if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0,ids);
+          // A table without a Spawn state leaves the guarded SetAnim on the current clip (like the optional reaction states).
+          if(!state)__android_log_print(ANDROID_LOG_WARN,"DH2Native","Gated actor Spawn state absent | %s | AnimTable %d",object.model.c_str(),animation_table);
+          else collect(state-animation_tables.sequences.data(),0,ids);
         }
         std::set<int> optional_ids;for(int id:reaction_ids)if(!ids.count(id))optional_ids.insert(id);ids.insert(optional_ids.begin(),optional_ids.end());
         for(int id:ids){dh2::data::AnimationStep ref;ref.anim=id;const auto* path=dh2::data::animation_clip(ref,clip_table);if(!path)throw std::runtime_error("Actor clip bank path missing");const auto separator=path->find_last_of("/\\");auto raw_clip=read(assets,path->substr(separator==std::string::npos?0:separator+1),"actors");auto& playback=group.clips[id];
