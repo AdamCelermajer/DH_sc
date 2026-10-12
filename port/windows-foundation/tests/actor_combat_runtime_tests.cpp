@@ -506,6 +506,43 @@ void yielded_death_pose_not_reasserted() {
         check(runtime.update(0.05,events,error)&&!runtime.owns_pose(1),"Dead actor re-asserted its death pose after the hand-over");
     check(runtime.yield_pose(99,error),"Hand-over of an unbound actor must be a no-op");
 }
+// B152: a dead actor handed to the lifecycle (yield_pose) keeps yielded=true. A respawned/revived actor is a fresh
+// live occurrence, so its next death must start the Died pose again. Before the fix the stale yield suppressed it
+// (no death animation, body left standing).
+void yielded_actor_revived_new_death() {
+    // Variant 0: a death that ran to its end. Variant 1: a source-dead terminal restored from a save (Deserialize),
+    // handed to the lifecycle while hidden and then respawned.
+    for(int restored=0;restored<2;++restored)
+    for(int producer=0;producer<3;++producer) {
+        TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);kill_actor_state(world.actors[2]);world.actors[2].action=CharacterAction::dead;
+        Visual visual;visual.add("death",0,200,1000);
+        CombatSystem combat(world);ActorCombatRuntime runtime(combat);std::string error;
+        CombatPoseBindings poses;poses.death_clip_id="death";poses.restore_dead_terminal=restored!=0;
+        check(runtime.bind(world.actors[2],visual.binding(),poses,error),error);
+        std::vector<DamageEvent> events;
+        if(!restored) {
+            check(runtime.update(0.05,events,error)&&runtime.owns_pose(2),"Dead actor did not take its death pose");
+            check(runtime.update(0.2,events,error)&&runtime.death_complete(2),"Death pose did not complete");
+        } else check(runtime.restored_dead(2)&&runtime.death_complete(2),"Restored terminal corpse did not hold its pose");
+        check(runtime.yield_pose(2,error)&&!runtime.owns_pose(2),"Hand-over did not release the death pose");
+        // Respawn: the actor is alive again and the runtime sees it as a live occurrence.
+        revive_actor_state(world.actors[2]);
+        check(runtime.update(0.05,events,error)&&!runtime.owns_pose(2),"Revived actor took a stale death pose");
+        if(producer==0) {
+            kill_actor_state(world.actors[2]);world.actors[2].action=CharacterAction::dead;
+            check(runtime.update(0.05,events,error),error);
+        } else if(producer==1) {
+            DamageEvent hit;
+            check(runtime.apply_calculated_hit(1,2,"ally-source-result","lethal-after-respawn",500,{}, {},hit,error)&&
+                  hit.applied&&hit.target_died,error);
+        } else {
+            kill_actor_state(world.actors[2]);
+            check(runtime.death_event(2,error),error);
+        }
+        check(runtime.owns_pose(2)&&!runtime.death_complete(2),
+              "Respawned actor's next death did not start its death pose (yielded occurrence leaked into new death)");
+    }
+}
 void scripted_kill_uses_death_without_hit() {
     TestWorld world;world.actors[1]=actor(1);world.actors[2]=actor(2);
     Visual visual;visual.add("death",0,100,1000);
@@ -560,6 +597,7 @@ int main() {
         restored_dead_source_gate();
         revived_restored_actor_new_death();
         yielded_death_pose_not_reasserted();
+        yielded_actor_revived_new_death();
         synchronous_source_delivery();
         source_outcome_reactions();
         source_injury_gate();
