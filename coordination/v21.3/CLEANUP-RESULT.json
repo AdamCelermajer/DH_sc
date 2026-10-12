@@ -1,0 +1,17 @@
+{
+  "release": "v21.3",
+  "exeSha256": "276C83146351F41E879F296143F8F59F74A0D3552F224D9015AEF87C3037779A",
+  "extraWorktreesRemoved": 67,
+  "manualWorktreesRemoved": 65,
+  "appWorktreesArchived": 2,
+  "sharedJunctionsUnlinked": 61,
+  "archiveHeadsPublished": 67,
+  "genericSourceSnapshot": "8b322ec56fe2c778d7e759a3103838c4d0f5ca50",
+  "obsoleteBuildDirectoriesRemoved": 61,
+  "cacheBytesRemoved": 2345464142,
+  "freeBeforeBytes": 23863402496,
+  "freeAfterBytes": 142450335744,
+  "freeIncreaseBytes": 118586933248,
+  "freeIncreaseGiB": 110.44,
+  "retained": "Primary checkout, accepted packages, progress, unique ignored artifacts, source/test/runtime evidence, scratch directories"
+}

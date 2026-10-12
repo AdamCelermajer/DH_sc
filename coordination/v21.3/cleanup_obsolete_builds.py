@@ -56,19 +56,27 @@ if not options.apply:
     print(json.dumps(dict(build_directories=len(records), bytes=sum(r['bytes'] for r in records),
                           preserve_files=sum(len(r['preserve']) for r in records))))
     raise SystemExit(0)
-if receipt.exists():
-    raise FileExistsError('Preserving existing cleanup receipt')
 backup.mkdir(parents=True, exist_ok=True)
-result = dict(timeUtc=datetime.now(timezone.utc).isoformat(), freeBefore=shutil.disk_usage(root).free, builds=[])
+result = json.loads(receipt.read_text()) if receipt.exists() else dict(timeUtc=datetime.now(timezone.utc).isoformat(), freeBefore=shutil.disk_usage(root).free, builds=[])
+completed = {r['path'] for r in result['builds'] if r.get('removed')}
 for record in records:
+    if record['path'] in completed:
+        continue
     preserved = []
     for source in record.pop('preserve'):
         digest = sha(source)
         destination = backup/(digest+'.bin')
-        if not destination.exists():
-            shutil.copy2(source, destination)
-        if sha(destination) != digest:
-            raise ValueError('Backup hash mismatch')
+        if not destination.exists() or sha(destination) != digest:
+            temporary = backup/(digest+'.pending')
+            if temporary.exists():
+                raise FileExistsError('Preserving an unexplained temporary backup')
+            try:
+                os.link(source, temporary)
+            except OSError:
+                shutil.copy2(source, temporary)
+            if sha(temporary) != digest:
+                raise ValueError('Backup hash mismatch')
+            os.replace(temporary, destination)
         if sha(source) != digest:
             raise ValueError('Build evidence changed during copy')
         preserved.append(dict(source=str(source), sha256=digest, backup=str(destination)))
@@ -79,6 +87,7 @@ for record in records:
     record['removed'] = not target.exists()
     result['builds'].append(record)
     receipt.write_text(json.dumps(result, indent=2)+'\n')
+    print('Removed '+record['path'], flush=True)
 result['freeAfter'] = shutil.disk_usage(root).free
 receipt.write_text(json.dumps(result, indent=2)+'\n')
 print(json.dumps(dict(removed=len(records), freeBefore=result['freeBefore'], freeAfter=result['freeAfter'])))
