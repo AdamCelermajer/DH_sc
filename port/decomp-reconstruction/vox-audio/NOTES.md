@@ -535,3 +535,34 @@ Still open in this slice:
 - FileSystemInterface::CloseFile needs the vtable slot +0x18 (not in the port).
 - The owner of the FileInterface slots (off_A33EB4..off_A33EC0 through m_IOFunc) is still
   not identified.
+
+## Wave 9 (w9-emitter-slots): driver and decoder vtable slots
+
+Source of truth: `recovered/native/symbols/libDungeonHunter2.so/vtables-001.json`. Its
+entries are symbol-relative, so the offsets below are vptr-relative (symbol offset minus 8).
+Pure slots have no entry in the base vtable, so their names come from the concrete
+overrides and from the emitter call sites.
+
+- `vox::DriverSourceInterface` (emitter `dsp_source_` at +0x110): +0x08 Play, +0x0c Stop,
+  +0x10 Pause, +0x14 Reset, +0x18 GetState, +0x1c GetByteOffset, +0x20 SetByteOffset,
+  +0x24 NeedData, +0x28 UploadData, +0x2c SetGain, +0x30 SetPitch, +0x34 GetGain, +0x38
+  GetPitch, +0x3c Set3DParameter, +0x40 SetDSPParameter, +0x44 Update, +0x48
+  AllowBufferReference, +0x4c FreeDisposableData, +0x50 PrintDebug, +0x54 GetBufferCount,
+  +0x58 Init, +0x5c Cleanup. The header declares them with empty defaults (the base slots are
+  pure in the binary, and driver_test derives a plain source from the base).
+- `vox::DriverInterface`: +0x08 Init(void*) and +0x0c Shutdown (named by DriverAndroid only,
+  not declared), +0x10 Suspend, +0x14 Resume, +0x18 RampOut, +0x1c RampIn, +0x20 Update,
+  +0x24 Set3DParameter, +0x28 SetDSPParameter, +0x2c SetStaticBusRouting, +0x30
+  SetDynamicBusRouting, +0x34 SetSFXPresetActive, +0x38 SetOutputMode, +0x3c GetOutputMode,
+  +0x40 PrintDebug, +0x44 CreateDriverSource and +0x48 DestroyDriverSource (DriverAndroid).
+- `vox::DecoderCursorInterface` (the cursor at emitter +0x114): +0x08 Init, +0x0c Shutdown,
+  +0x10 Decode (pure), +0x14 DecodeRef, +0x18 HasData (pure), +0x1c Reset, +0x20
+  GetRewindLimit, +0x24 Rewind, +0x28 Seek (pure), +0x2c SetLoop, +0x30 GetStreamCursor,
+  +0x34 AllowBufferReference. HasData moved to +0x18 in the header (it was last).
+- `vox::DecoderInterface` (the decoder at DataObj +0x3c): +0x08 Init, +0x0c Shutdown, +0x10
+  CreateNewCursor, +0x14 DestroyCursor, +0x18 GetType (1 MSWav, 3 MPC8, 4 Native), +0x1c
+  GetParam. The header order was GetType, GetParam, CreateNewCursor, DestroyCursor; the
+  slots are now commented and reordered to match.
+- Call-site arguments in the Hex-Rays output are not reliable: the decompiler prints a
+  leftover register as an argument (for example Reset is called with a float). Use the
+  vtable names above, not the printed argument lists.
