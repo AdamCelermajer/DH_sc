@@ -555,6 +555,9 @@ struct ObjectActor:dh2::objects::Record {
  std::int32_t source_handle=-1;
  std::string source_activate_condition,source_deactivate_condition;
  unsigned visual_root=std::numeric_limits<unsigned>::max();
+ // VisualObject::SetPosition (0x470c24) replaces the loaded xrefobject root's local translation
+ // with the GameObject position, so the root's authored library offset is not drawn.
+ std::array<float,3> visual_root_origin{0.f,0.f,0.f};
  // Live source GameObject zoning fields for the bounded Crypt actor adapter.
  // The RoomZone identity is an opaque port token, never a native pointer.
  std::uintptr_t room_zone_2f4=0;
@@ -41436,7 +41439,9 @@ std::vector<dh2::world::EntryPoint> entrypoints;
       instance.source_module_index=mvp.module_index;instance.source_record=mvp.source_record;
       instance.source_handle=mvp.source_handle;instance.source_visual_path=mvp.dae_path;
       instance.packaged_actor_asset=mvp.packaged_actor_asset;
-      instance.visual_root=root_index;found->instances.push_back(std::move(instance));
+      instance.visual_root=root_index;
+      {const auto& rest_world=found->resource.scene.graph[root_index].world;for(unsigned axis=0;axis<3;++axis)instance.visual_root_origin[axis]=rest_world[12+axis];}
+      found->instances.push_back(std::move(instance));
     }
      auto itemdrops_bytes=read(assets,"itemdrops.bdae","actors");
      if(!dh2::objects::load_resource(itemdrops_bytes.data(),itemdrops_bytes.size(),
@@ -44374,7 +44379,7 @@ void draw(int width,int height){
         glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);glBufferSubData(GL_ARRAY_BUFFER,0,vertices.size()*sizeof(Vertex),vertices.data());
       }
       auto transform=owner?projection:dh2::scene::multiply(projection,instance.placement);
-      if(primitive.skin.nodes.empty())transform=dh2::scene::multiply(transform,scene.graph[primitive.node].world);submit(batch,transform);
+      if(primitive.skin.nodes.empty()){auto node_world=scene.graph[primitive.node].world;if(instance.visual_root!=std::numeric_limits<unsigned>::max())for(unsigned axis=0;axis<3;++axis)node_world[12+axis]-=instance.visual_root_origin[axis];transform=dh2::scene::multiply(transform,node_world);}submit(batch,transform);
     }};
     if(group.animation_table<0){
       const auto& clip=group.resource.animation;int ms=clip.start;
