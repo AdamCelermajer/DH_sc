@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "core-platform/debug_out.hpp"
+
 #include "core-platform/memory.hpp"  // gAssertLevel
 
 namespace {
@@ -149,17 +151,9 @@ void TouchScreenBase::touchCancelled(const Point2D<short>& p, long slot) {
 }
 
 // 0x33aeb8 TouchScreenBase::touchEnded(Point2D<short> const&, long)
-// Partial: the ELF symbol is 4 bytes but the decompiled body matches
-// touchCancelled exactly; the body is written out in full here.
+// A thunk: the listing tail-calls touchCancelled with the same arguments.
 void TouchScreenBase::touchEnded(const Point2D<short>& p, long slot) {
-    Slot& s = slots_[slot];
-    s.id_ = -1;
-    s.touched_ = false;
-    slots_[slot + 1].mark_ = 2;
-    if (active_ - 1 == slot) {
-        active_ = static_cast<int>(slot);
-    }
-    _AddToQueue(kTouchEnded, Point2D<float>{static_cast<float>(p.X), static_cast<float>(p.Y)}, slot);
+    touchCancelled(p, slot);
 }
 
 // 0x33b2ec TouchScreenBase::hasTouch()
@@ -189,17 +183,18 @@ int TouchScreenBase::getID(long id) {
 }
 
 // 0x33b4d8 TouchScreenBase::clear()
-// Partial: the original logs "TouchScreenBase::clear()" through _DEBUG_OUTPKcz;
-// that debug line is omitted here.
+// Logs the banner line through _DEBUG_OUT, then clears the touched flag of the
+// first eight slots (the listing's 0x30-byte records, stepping by 48 bytes).
 void TouchScreenBase::clear() {
+    _DEBUG_OUT("*************************TouchScreenBase::clear()");
     for (int i = 0; i < 8; ++i) {
         slots_[i].touched_ = false;
     }
 }
 
 // 0x33b1a4 TouchScreenBase::getTouchPoint(long)
-// Returns the current point (+0xc). The null path for untouched slots is as
-// recovered from the earlier pass; not re-verified against the listing.
+// Returns the current point (+0xc) when the slot is touched (+0x28) and valid
+// (+0x20); otherwise nullptr.
 const short* TouchScreenBase::getTouchPoint(long slot) const {
     const Slot& s = slots_[slot];
     if (s.touched_ && s.valid_) {
@@ -209,10 +204,11 @@ const short* TouchScreenBase::getTouchPoint(long slot) const {
 }
 
 // 0x33b1e0 TouchScreenBase::getFirstTouchPoint(long)
+// Like getTouchPoint, but returns the point where the touch began (+0x8).
 const short* TouchScreenBase::getFirstTouchPoint(long slot) const {
     const Slot& s = slots_[slot];
     if (s.touched_ && s.valid_) {
-        return s.cur_;
+        return s.begin_;
     }
     return nullptr;
 }
