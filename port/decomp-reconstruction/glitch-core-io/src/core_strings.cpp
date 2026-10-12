@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <cstdio>
+#include <cstring>
+#include <cwchar>
 
 namespace glitch::core {
 
@@ -121,6 +123,65 @@ std::string stringw2stringc(const wchar_t* text) {
         out.push_back(static_cast<char>(*c));
     }
     return out;
+}
+
+// 0x542390 _ZN6glitch4core7wcsicmpEPKwS2_
+int wcsicmp(const wchar_t* a, const wchar_t* b) {
+    const std::size_t lenA = std::wcslen(a);
+    const std::size_t lenB = std::wcslen(b);
+    int result = static_cast<int>(lenA) - static_cast<int>(lenB);
+    if (result == 0 && lenA != 0) {
+        for (std::size_t i = 0; i < lenA; ++i) {
+            const int x = static_cast<int>(a[i]);
+            const int y = static_cast<int>(b[i]);
+            if (x != y && y != x - 0x41 && x != y - 0x41) ++result;
+        }
+    }
+    return result;
+}
+
+// 0x55bd58 _ZN6glitch4core16getUTF8charValueEPKc
+int getUTF8charValue(const char* text) {
+    const auto b = [text](std::size_t i) { return static_cast<unsigned char>(text[i]); };
+    switch (std::strlen(text)) {
+        case 1:
+            return b(0) & 0x7f;
+        case 2:
+            return ((b(0) & 0x1f) << 6) | (b(1) & 0x3f);
+        case 3:
+            return ((b(0) & 0x0f) << 12) | ((b(1) & 0x3f) << 6) | (b(2) & 0x3f);
+        case 4:
+            return ((b(0) & 0x07) << 18) | ((b(1) & 0x3f) << 12) | ((b(2) & 0x3f) << 6) | (b(3) & 0x3f);
+        default:
+            return 0;
+    }
+}
+
+// 0x55be04 _ZN6glitch4core17iterateUTF8StringERPKc
+int iterateUTF8String(const char*& position) {
+    const auto lead = static_cast<unsigned char>(*position);
+    char buffer[5] = {0, 0, 0, 0, 0};
+    if ((lead & 0x80) == 0) {
+        // One byte: the value is the byte itself.
+        buffer[0] = static_cast<char>(lead);
+        position += 1;
+    } else if ((lead & 0xe0) == 0xc0) {
+        buffer[0] = static_cast<char>(lead);
+        buffer[1] = position[1];
+        position += 2;
+    } else if ((lead & 0xf0) == 0xe0) {
+        buffer[0] = static_cast<char>(lead);
+        buffer[1] = position[1];
+        buffer[2] = position[2];
+        position += 3;
+    } else if ((lead & 0xf8) == 0xf0) {
+        std::memcpy(buffer, position, 4);
+        position += 4;
+    } else {
+        // Not a lead byte: skipped, and it decodes as an empty string (0).
+        position += 1;
+    }
+    return getUTF8charValue(buffer);
 }
 
 }  // namespace glitch::core
