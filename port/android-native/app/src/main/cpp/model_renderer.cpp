@@ -6107,8 +6107,16 @@ bool NativeCryptRoomRuntime::initialize_source_destructible_containers(
     return false;
    }
    if(!source.spawn_probability.empty()&&source.spawn_probability!="100") {
-    error="DestructibleContainer InitPost spawn_prob needs the source random provider: "+source.name;
-    return false;
+    // GameObject::CheckSpawnProbability (0x38bd64): Random::GetRandom draws
+    // s_seed % 99 once; a draw >= spawn_prob deletes the object at InitPost.
+    char* parsed_end=nullptr;
+    const long probability=std::strtol(source.spawn_probability.c_str(),&parsed_end,10);
+    if(!parsed_end||*parsed_end||probability<0||probability>1000){
+     error="DestructibleContainer spawn_prob is not a source integer: "+source.name;return false;
+    }
+    const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+    if(roll<0||roll>=99){error="DestructibleContainer spawn_prob roll failed";return false;}
+    if(roll>=probability)continue;
    }
    auto parse_source_bool=[&](const std::string& value,const char* property,
                               bool default_value,bool& result)->bool {
@@ -14418,15 +14426,23 @@ struct NativeMonsterInitialization {
    try { bytes=read(s.asset_manager,path,"scripts"); }
    catch(const std::exception& e) {
     const std::string message=e.what();
-    if(message.rfind("Bundled asset missing: ",0)==0){*loaded=false;return 0;}
+    if(message.rfind("Bundled asset missing: ",0)==0){
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native","Native skill script absent | %s",path.c_str());
+     *loaded=false;return 0;
+    }
     throw;
    }
    dh2::monster_external_script::LoadResult result{};std::string error;
    const auto status=s.vm.load_resolved(path.c_str(),{bytes.data(),bytes.size()},&result,error);
    if(status==dh2::monster_external_script::Status::script_error&&result.vm_status>0){*loaded=false;return 0;}
-   if(status!=dh2::monster_external_script::Status::complete)return 1;
+   if(status!=dh2::monster_external_script::Status::complete){
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script load failed | %s | %s",path.c_str(),error.c_str());
+    return 1;
+   }
    *loaded=result.source_success;return 0;
-  } catch(...) {return 1;}
+  } catch(const std::exception& e) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script load threw | %s",e.what());return 1;
+  }
  }
  static int discard_skill_returns(void*,const dh2_script_first_return_v1*,std::uint32_t,
                                   char*,std::size_t) {return 0;}
@@ -14434,6 +14450,7 @@ struct NativeMonsterInitialization {
      const dh2_script_value* arguments,std::uint32_t count) {
   auto& s=self(raw);if(!function||!s.vm.ready())return 1;std::string error;
   const int status=s.vm.call_all(function,arguments,count,discard_skill_returns,nullptr,error);
+  if(status!=0)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script call failed | %s | %s",function,error.c_str());
   return status==0?0:1;
  }
  static std::int32_t skill_update_service(void* raw,dh2::character_ai_update_all_skills::State* state,
@@ -14508,8 +14525,12 @@ struct NativeMonsterInitialization {
      &s.catalogue->tables->skills(),&s.catalogue->tables->faeries(),&s.script_path,0,&s.catalogue->faery_constants,
      &native_debug->globals(),&native_debug->services(),&s,skills_init_vcb,
      &s,skill_load,skill_call};
-    if(s.skills.prepare(bindings,s.last_skills)!=dh2::native::ghost_skills::Status::complete)
-     throw std::runtime_error("Native Ghost SetSkillsAndSpells failed");
+    const auto skills_status=s.skills.prepare(bindings,s.last_skills);
+    if(skills_status!=dh2::native::ghost_skills::Status::complete)
+     throw std::runtime_error("Native Ghost SetSkillsAndSpells failed | status "+
+         std::to_string(int(skills_status))+" | source "+std::to_string(int(s.last_skills.source_status))+
+         " | skill list "+std::to_string(s.last_skills.skill_list_property)+" | faery list "+
+         std::to_string(s.last_skills.faery_list_property));
     break;
    }
    case script_update_skills: {
@@ -17062,6 +17083,12 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
       const auto packaged_relative=folder+"/"+packaged;
       a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
     }
+  }
+  // Source script paths keep the cache's data/scripts/ prefix; the packaged
+  // copies live under scripts/<rest>.
+  if(!a&&folder=="scripts"&&path.rfind("data/scripts/",0)==0){
+    const auto packaged_relative="scripts/"+path.substr(13);
+    a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
   }
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
