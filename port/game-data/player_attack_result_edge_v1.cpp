@@ -51,6 +51,16 @@ Status execute(const Request* request, Result* output) {
         if(candidate.provider_status){*output=candidate;return Status::service_failed;}
         ++candidate.steps_completed;
     }
+    // F_ApplyResult runs RegenHP/MP and then, for a living defender, the status
+    // calls before CancelSneaking. The provider re-reads the live AttackResult
+    // outcomes (the kernel above may have added idle/dead cleanup bits).
+    candidate.last_step=Step::statuses;++candidate.steps_attempted;
+    try{candidate.provider_status=request->invoke(request->service_context,
+          Step::statuses,request->attacker_character,
+          request->defender_character,*request->application->result);}
+    catch(...){candidate.provider_status=-1;}
+    if(candidate.provider_status){*output=candidate;return Status::service_failed;}
+    ++candidate.steps_completed;
     constexpr Step prefix[]={Step::cancel_sneaking,Step::combat_text};
     for(const auto step:prefix){
         candidate.last_step=step;++candidate.steps_attempted;

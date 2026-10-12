@@ -16017,6 +16017,18 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
      !native_character_classification(actor,dh2::character_ai_classification::Query::monster))
    throw std::runtime_error("Monster Dead-focus LookAt requires its live actor runtime");
   const dh2::character::CharacterControlServices16 services{&owner,controller_service};
+  // look_at argument0 selects the source call: 1 is the gated controller
+  // Cmd_LookAt (CSDead focus, CSInteract); 0 and 2 are the direct
+  // GameObject::LookAt (CSKnockedBack::OnFocus 0x3c4a48, CSAttack::OnUpdate
+  // 0x3c14f8, CSAttack::OnEvent(0x1a) 0x3c1288), which ignore the controller
+  // lock. State 10 sets that lock first, so the gated call never turned a
+  // knocked-back monster toward its attacker. A null target is a no-op in both.
+  if(request->argument[0]!=1){
+   if(dh2_character_control(actor.identity,dh2::character::controller_look_object,
+        request->identity,&services)!=1)
+    throw std::runtime_error("Monster GameObject::LookAt failed");
+   break;
+  }
   // CSDead focus, CSAttack update/0x1a and CSInteract all raise LookAt; only
   // the dead state owns the death label and the controller+8 lock.
   const bool dead_focus=state->current==12;
@@ -27856,6 +27868,16 @@ int player_before_dead_v1(void* raw,dh2::data::CombatResult&){
  }catch(...){return -1;}
 }
 }
+namespace {
+namespace {
+// Character::F_ApplyResult status tail for basic melee; defined with the
+// Spell/Skill status owners below.
+bool apply_melee_statuses(const std::int32_t* attacker_sheet,
+    std::uintptr_t attacker_id,std::uintptr_t defender_id,
+    ObjectActor* defender_actor,dh2::data::CombatResult& result,
+    std::string& error);
+}
+}
 void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAction& action){
  if(prince_combat.life.dead)return;
  if(attacker.ai_attack&&enemy_ai_enabled&&!actor_player_range(attacker).melee)return;
@@ -27878,6 +27900,18 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
  dh2::data::melee_pipeline::Exchange exchange;
  if(dh2::data::melee_pipeline::monster_to_player(&request,&exchange)!=dh2::data::melee_pipeline::Status::complete){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player defender application failed");enabled=false;return;}
  auto& result=exchange.result;auto& applied=exchange.application;
+ // Character::F_ApplyResult 0x3b10b4 runs its status tail (PROPS_AddDot,
+ // SM_SetDodging/Blocking/Injure/KnockBack/Stun/Scare State, PROPS_DebuffSlow)
+ // for a living defender right after RegenHP/MP and before CancelSneaking.
+ {
+  std::string status_error;
+  if(!apply_melee_statuses(attacker.properties.resolved.data(),attacker.identity,
+       prince_character.identity(),nullptr,result,status_error)){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Incoming Monster result stopped | Character::F_ApplyResult status tail failed | %s",
+       status_error.c_str());enabled=false;return;
+  }
+ }
  // Character::F_ApplyResult source order after HitFor/HP/death: cancel
  // sneaking, scrolling combat text, combat sound (void/ignored result), then
  // reread mask and dispatch the AIS result. The Player SCT receiver borrows
@@ -27902,7 +27936,6 @@ void apply_actor_to_player(ObjectActor& attacker,const dh2::data::CombatEventAct
  ++combat_hits;++prince_combat.received;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Prince damage received | attacker %s | attempt %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u | low health armed %u | cue %u | checksum %016llx",attacker.name.c_str(),prince_combat.received,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,prince_combat.life.dead,attacker.combat_state.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests,prince_combat.life.low_health_armed,applied.health.low_health_cue,static_cast<unsigned long long>(snapshot_checksum(prince_combat.properties.resolved)));
  if(applied.health.low_health_cue)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Player low health request | HP %d | maximum %d | audio pending",applied.health.after,prince_combat.properties.resolved[38]);
- if(applied.status_requests)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Player status services pending | requests %u",applied.status_requests);
  if(applied.health.kill_requested){
   // Character::Ctrl_Kill, its actual Player continuation, OnDied and state
   // event 2 already ran synchronously from HitFor's exact zero-HP boundary.
@@ -27938,10 +27971,19 @@ void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction
  CombatAggroBeforeHit aggro{&defender->aggro,&attacker.aggro,defender->identity,attacker.identity,aggro_facts};
  const dh2::data::MonsterApplicationRequest request{&result,&ap,&dp,&attacker.combat_state,&defender->combat_state,&add_combat_threat_before_hit,&aggro};
  if(dh2_combat_melee(&result,&av,&dv,&combat_random,action.offhand,0)||dh2_combat_apply_monster(&applied,&request)){__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native combat application failed");enabled=false;return;}
+ // F_ApplyResult status tail (living defender) precedes the AIS result callbacks.
+ {
+  std::string status_error;
+  if(!apply_melee_statuses(attacker.properties.resolved.data(),attacker.identity,
+       defender->identity,defender,result,status_error)){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Native combat result stopped | Character::F_ApplyResult status tail failed | %s | %s",
+       defender->name.c_str(),status_error.c_str());enabled=false;return;
+  }
+ }
  if(!dispatch_combat_result(&attacker,defender,attacker.identity,defender->identity,result)){enabled=false;return;}
  ++combat_hits;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native combat hit | %s | target %s | hit %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u | threat %.9g",attacker.name.c_str(),defender->name.c_str(),combat_hits,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,defender->combat_state.dead,attacker.combat_state.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests,double(applied.threat));
- if(applied.status_requests)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat status services pending | %s | requests %u",defender->name.c_str(),applied.status_requests);
  if(applied.health.kill_requested){
   defender->pending_death=true;defender->loot_killer_identity=attacker.identity;
   // Character::F_ApplyResult reaches synchronous Character::Kill before its
@@ -29573,6 +29615,117 @@ bool spell_status_subset_ready(PlayerSpellCombatContext& context,
   return false;
  return true;
 }
+// Character::F_ApplyResult 0x3b10b4 status tail for basic melee. F_MeleeAttack
+// 0x3b3368 -> _F_CalculateResult -> F_ApplyResult is the same result owner as
+// F_SkillAttack/F_SpellAttack, so a melee hit runs the same Character status
+// closure (character_combat_status_v1) as the generic SkillCombatRoll tail. The
+// source runs it after HitFor/Kill and RegenHP/MP, guarded by !IsDead(defender),
+// in this order: PROPS_AddDot, [SM_IsIdle outcome fix-up and the 215/214/222
+// Player counters, already applied by the combat kernel], SM_SetDodgingState,
+// SM_SetBlockingState, SM_SetInjureState(special), SM_SetKnockBackState(great,
+// attacker, special), SM_SetStunState, SM_SetScareState, PROPS_DebuffSlow. The
+// outcome byte is re-read after every call, as the source does. Word layout:
+// dot duration>>8/amount/element; hurt word0 special; push word0 great, word2
+// special; stun/fear duration>>8, true, special. A defender whose Character
+// status owners are not complete keeps the previous behaviour (statuses skipped,
+// logged) instead of applying a partial tail.
+bool apply_melee_statuses(const std::int32_t* attacker_sheet,
+    std::uintptr_t attacker_id,std::uintptr_t defender_id,
+    ObjectActor* defender_actor,dh2::data::CombatResult& result,
+    std::string& error) {
+ using dh2::character_apply_result::Operation;
+ error.clear();
+ const bool player=defender_id==prince_character.identity();
+ if(!attacker_sheet||!attacker_id||!defender_id||attacker_id==defender_id||
+    player==(defender_actor!=nullptr)||
+    (defender_actor&&defender_actor->identity!=defender_id)) {
+  error="melee status tail lost its canonical attacker/defender Characters";
+  return false;
+ }
+ // IsDead(defender) guards the whole block (the lethal HitFor already ran Kill).
+ if(player?prince_combat.life.dead:defender_actor->combat_state.dead)return true;
+ const bool has_dot=result.dot_duration>0&&result.dot_amount>0;
+ if(!has_dot&&(result.outcomes&0x1f6u)==0)return true;
+ const char* defender_name=player?"Prince":defender_actor->name.c_str();
+ PlayerSpellCombatContext context{};
+ context.defender=defender_actor;context.apply_defender=defender_id;
+ SpellNpcStatusContext status_context{defender_actor,player};
+ dh2::character_combat_status_v1::Bindings bindings{};
+ if(spell_status_subset_ready(context,result)&&
+    spell_npc_status_owner(&status_context,defender_id))
+  bindings=spell_status_bindings(context,status_context);
+ if(bindings.character!=defender_id) {
+  // Reached for a Player defender until the Prince Coordinator registers the
+  // source state handlers and binds combat facts; log the first few only.
+  static unsigned skipped[2]{};
+  if(skipped[player?1:0]++<4) {
+   char detail[160];
+   if(player)
+    std::snprintf(detail,sizeof detail,
+        "skills %d init %d callbacks %d | handlers %d bound %d | status props %d buffs %d",
+        prince_skills?1:0,prince_skills&&prince_skills->initialized()?1:0,
+        prince_skills&&prince_skills->skill_state_callbacks_bound()?1:0,
+        prince_character.source_state_handlers_complete()?1:0,
+        prince_character.bound()?1:0,
+        prince_skills&&prince_skills->combat_status_properties()?1:0,
+        prince_skills&&prince_skills->combat_status_buffs()?1:0);
+   else {
+    const auto* owner=defender_actor->spawn_owner.get();
+    std::snprintf(detail,sizeof detail,"spawn owner %d runtime %d | handlers %d buffs %d",
+        owner?1:0,owner&&owner->runtime_ready?1:0,
+        owner&&owner->character.source_state_handlers_complete()?1:0,
+        owner&&owner->buffs?1:0);
+   }
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Melee statuses skipped | %s | outcomes %#x | dot %d/%d | Character status owners incomplete | %s",
+       defender_name,result.outcomes,result.dot_duration,result.dot_amount,detail);
+  }
+  return true;
+ }
+ const auto asr8=[](std::uint32_t value)->std::uint32_t {
+  return (value>>8)|((value&0x80000000u)?0xff000000u:0u);
+ };
+ const std::uint32_t special=(result.mask&0x18000000u)!=0?1u:0u;
+ const auto flags=[&result]()->std::uint32_t {return result.outcomes&0xffu;};
+ dh2::character_apply_result::Reply reply{};
+ const auto run=[&](Operation operation,std::uintptr_t peer,std::uint32_t word0,
+                    std::uint32_t word1,std::uint32_t word2)->bool {
+  const dh2::character_apply_result::Request request{operation,defender_id,peer,
+      0,nullptr,&result,attacker_id,defender_id,word0,word1,word2,0};
+  reply={};
+  return dh2::character_combat_status_v1::execute(&request,&bindings,&reply,
+      error)==dh2::character_combat_status_v1::Status::complete;
+ };
+ const auto entry_outcomes=result.outcomes;
+ if(has_dot&&!run(Operation::apply_dot,0,asr8(std::uint32_t(result.dot_duration)),
+      std::uint32_t(result.dot_amount),std::uint32_t(result.dot_element)))
+  return false;
+ if((flags()&2u)!=0&&!run(Operation::dodge,attacker_id,0,0,0))return false;
+ if((flags()&4u)!=0&&!run(Operation::block,attacker_id,0,0,0))return false;
+ if((flags()&0x10u)!=0&&!run(Operation::hurt,attacker_id,special,0,0))return false;
+ if((flags()&0x80u)!=0&&
+    !run(Operation::push,attacker_id,(result.mask>>20)&1u,0,special))return false;
+ if((flags()&0x40u)!=0) {
+  const auto duration=asr8(std::uint32_t(attacker_sheet[(result.mask&0x1000u)?185:140]));
+  if(!run(Operation::stun,attacker_id,duration,1,0))return false;
+ }
+ if((flags()&0x20u)!=0) {
+  const auto duration=asr8(std::uint32_t(attacker_sheet[(result.mask&0x4000u)?187:143]));
+  if(duration!=0&&!run(Operation::fear,attacker_id,duration,1,special))return false;
+ }
+ if((result.outcomes&0x100u)!=0) {
+  const auto duration=asr8(std::uint32_t(attacker_sheet[(result.mask&0x10000u)?189:146]));
+  if(!run(Operation::slow,0,duration,0,0))return false;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Melee F_ApplyResult statuses applied | %s | outcomes %#x | mask %#x | dot %d | dodge %u block %u hurt %u push %u great %u stun %u fear %u slow %u | machine state %d",
+     defender_name,entry_outcomes,result.mask,has_dot?1:0,(entry_outcomes>>1)&1u,
+     (entry_outcomes>>2)&1u,(entry_outcomes>>4)&1u,(entry_outcomes>>7)&1u,
+     (result.mask>>20)&1u,(entry_outcomes>>6)&1u,(entry_outcomes>>5)&1u,
+     (entry_outcomes>>8)&1u,
+     player?prince_state.current:defender_actor->spawn_owner->character.state.current);
+ return true;
+}
 int spell_apply_result(void* raw,std::uintptr_t attacker_id,
     std::uintptr_t defender_id,std::uint32_t mode,
     dh2::data::CombatResult* result,std::string& error) {
@@ -29757,6 +29910,10 @@ int spell_apply_result(void* raw,std::uintptr_t attacker_id,
   case dh2::data::player_attack_result_edge_v1::Step::lethal_hit:
    if(current->kill.source_kill_completed)return 0;
    return complete_player_enemy_kill(*current->defender,source_attacker)?0:-1;
+  case dh2::data::player_attack_result_edge_v1::Step::statuses:
+   // This fallback is reached only when the generic F_ApplyResult cannot own the
+   // statuses; they stay retained (logged after the edge), as before.
+   return 0;
   case dh2::data::player_attack_result_edge_v1::Step::cancel_sneaking:
    // The resolved `skill_target` is an ObjectActor Character, never the
    // active Player; source CancelSneaking's non-Player branch returns here.
@@ -36512,6 +36669,18 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
   case dh2::data::player_attack_result_edge_v1::Step::lethal_hit:
    if(context->kill.source_kill_completed)return 0;
    return complete_player_enemy_kill(*context->defender,attacker_id)?0:-1;
+  case dh2::data::player_attack_result_edge_v1::Step::statuses:{
+   // Character::F_ApplyResult's status tail (dot, dodge, block, hurt, push,
+   // stun, fear, slow) runs for a living defender after RegenHP/MP and before
+   // CancelSneaking, through the same Character status owners as skill hits.
+   std::string error;
+   if(apply_melee_statuses(prince_combat.properties.resolved.data(),attacker_id,
+        defender_id,context->defender,applied_result,error))return 0;
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "Player melee result stopped | F_ApplyResult status tail failed | %s | %s",
+       context->defender->name.c_str(),error.c_str());
+   return -1;
+  }
   case dh2::data::player_attack_result_edge_v1::Step::cancel_sneaking:
    // Character::CancelSneaking first checks IsPlayer, then IsSneaking. This
    // enemy projection proves the ordinary non-sneaking branch from the same
@@ -36553,7 +36722,6 @@ void player_authored_event(const dh2::animation::TriggeredEvent& event,int clip)
  applied=result_edge.application;
  ++combat_hits;++prince_combat.attempts;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Prince combat hit | target %s | attempt %u | result %d %d %d %d %d %d %u %u %d %d | HP %d %d | dead %u | combo %u | RNG %u %u | statuses %u",target->name.c_str(),prince_combat.attempts,result.amount,result.dot_element,result.dot_duration,result.dot_amount,result.hp_leech,result.mp_leech,result.outcomes,result.mask,result.weapon_category,result.element,applied.health.before,applied.health.after,target->combat_state.dead,prince_combat.life.combo_hits,combat_random.seed,combat_random.calls,applied.status_requests);
- if(applied.status_requests)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Combat status services pending | %s | requests %u",target->name.c_str(),applied.status_requests);
 }
 }
 namespace {
