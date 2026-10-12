@@ -1,0 +1,96 @@
+// CMessage: base class of every multiplayer message (the CMsg* subclasses).
+// It owns the routing header (type, destination mask, sender), the
+// acknowledgement and sent bookkeeping, and the type registry that maps type
+// names to creator functions. Offsets are the original 32-bit layout.
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+
+#include "net-session-online/deps/net_bit_stream.hpp"
+
+class CMessage {
+public:
+    using CreatorFn = CMessage* (*)(bool);
+
+    static constexpr int kMaxTypes = 0x100;
+    static constexpr std::size_t kTypeNameLen = 0x40;
+
+    // Header block exchanged verbatim by ReadHeader / WriteHeader (16 bytes at +0x04).
+    struct Header {
+        std::uint32_t type = 0;       // +0x04 low byte is the wire type id
+        std::uint32_t destMask = 0;   // +0x08
+        std::int32_t sender = 0;      // +0x0c
+        std::uint32_t reserved = 0;   // +0x10
+    };
+    static_assert(sizeof(Header) == 16, "wire header is 16 bytes");
+
+    CMessage() = default;
+    virtual ~CMessage();                                    // D1 / D2 / D0
+
+    // Vtable slots (names not all recovered, see NOTES.md).
+    virtual void* GetDataPtr();                             // +0x00
+    virtual void PreInitialize();                           // +0x04 (unnamed slot)
+    virtual std::uint32_t GetDataSize() const;              // +0x08
+    virtual void ResetData();                               // +0x0c
+    virtual std::uint32_t WriteData(NetBitStream& stream);  // +0x10
+    virtual std::uint32_t ReadData(NetBitStream& stream);   // +0x14
+    virtual CMessage* Duplicate();                          // +0x20
+
+    bool IsReliable() const { return reliable_; }
+    void Acknowledge(std::uint32_t mask) { ackMask_ |= mask; }
+    bool IsFrom(int memberId) const { return header_.sender == memberId; }
+
+    void Initialize();
+    void Serialize(NetBitStream& stream);
+    std::uint32_t WriteHeader(NetBitStream& stream);
+    std::uint32_t ReadHeader(NetBitStream& stream);
+
+    bool IsFor(int memberId) const;
+    bool IsForServer() const;
+    bool IsForMe() const;
+    bool IsFromMe() const;
+    bool IsFromServer() const;
+    bool IsLocal() const;
+    short GetHash() const;
+    void SetSentFlag(int memberId, bool sent);
+    void SetDestinationMask(std::uint32_t mask);
+    bool IsAcknowledgedBy(int memberId) const;
+    void AcknowledgeMember(int memberId);
+    bool MustForward() const;
+    bool HasBeenSentTo(int memberId) const;
+    bool IsAcknowledged() const;
+    bool IsExpired() const;
+
+    // Registry: type names map to creator functions. The original keeps these
+    // as static arrays in the class.
+    static void InitializeMessageRegistration();
+    static void TerminateMessageRegistration();
+    static CMessage* CreateMessage(int typeId, bool arg);
+    static CMessage* CreateMessage(const char* typeName, bool arg);
+    static int FindTypeId(const char* typeName);
+    static int RegisterTypeStr(const char* typeName);
+    static int RegisterMessageType(const char* typeName, CreatorFn creator);
+    static CMessage* Unserialize(NetBitStream& stream);
+    static short CreateHash(int memberId, int type);
+
+protected:
+    // Field names are inferred from use; see NOTES.md for the layout table.
+    Header header_;                       // +0x04 .. +0x13
+    bool reliable_ = false;               // +0x30
+    bool local_ = false;                  // +0x31
+    std::uint32_t sendMode_ = 0;          // +0x2c: 0 = route via server, 1 = remote, >1 never local
+    bool includeLocalMember_ = false;     // +0x33
+    std::uint32_t timestamp_ = 0;         // +0x34
+    bool flag32_ = false;                 // +0x32 (set by the CMsg* SetProperties)
+    bool trackSent_ = false;              // +0x38 (int in the original)
+    std::uint32_t ackMask_ = 0;           // +0x40
+    std::uint32_t sentMask_ = 0;          // +0x48
+    std::uint32_t lifetime_ = 0;          // +0x4c
+
+private:
+    static inline char messageTypeArray_[kMaxTypes][kTypeNameLen] = {};
+    static inline CreatorFn messageCreationArray_[kMaxTypes] = {};
+    static inline bool registrationInitialized_ = false;
+    static inline bool registrationTerminated_ = false;
+};

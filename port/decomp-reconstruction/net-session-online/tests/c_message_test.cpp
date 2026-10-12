@@ -1,0 +1,130 @@
+#include "net-session-online/c_message.hpp"
+
+#include <cstdio>
+#include <cstring>
+
+#include "net-session-online/deps/matching.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"
+
+static int failures = 0;
+#define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+// Matching stand-in: member n owns bit (1 << n). Server is 1, local player is 2.
+class FakeMatching : public CMatching {
+public:
+    std::uint32_t MemberBit(int memberId) const override { return 1u << memberId; }
+    int LocalMemberId() const override { return 2; }
+    int ServerMemberId() const override { return 1; }
+    bool IsServer() const override { return isServer; }
+    std::uint32_t GetRoomMask() const override { return 0x7; }
+    bool isServer = false;
+};
+
+// Concrete message with a 4-byte payload.
+class TestMsg : public CMessage {
+public:
+    void* GetDataPtr() override { return payload; }
+    std::uint32_t GetDataSize() const override { return 4; }
+
+    void SetHeader(std::uint32_t type, std::uint32_t mask, std::int32_t sender) {
+        header_.type = type;
+        header_.destMask = mask;
+        header_.sender = sender;
+    }
+    void SetPayload(const char* text) { std::memcpy(payload, text, 4); }
+    const char* Payload() const { return reinterpret_cast<const char*>(payload); }
+    void SetTimes(std::uint32_t ts, std::uint32_t life) { timestamp_ = ts; lifetime_ = life; }
+    void SetSendMode(std::uint32_t mode) { sendMode_ = mode; }
+    void SetLocal(bool local) { local_ = local; }
+
+    unsigned char payload[4] = {};
+};
+
+static CMessage* MakeTest(bool) { return new TestMsg(); }
+
+int main() {
+    FakeMatching matching;
+    CMatching::Set(&matching);
+    OnlineClockStorage() = 1000;
+
+    // Registry.
+    const int typeId = CMessage::RegisterMessageType("TestMsgA", MakeTest);
+    CHECK(typeId >= 0);
+    CHECK(CMessage::FindTypeId("TestMsgA") == typeId);
+    CHECK(CMessage::FindTypeId("NoSuchType") == -1);
+    CHECK(CMessage::RegisterTypeStr("TestMsgA") == typeId);
+    CHECK(CMessage::CreateMessage(typeId, false) != nullptr);
+    CHECK(CMessage::CreateMessage(0x1ff, false) == nullptr);
+
+    // Membership queries use the destination mask and the sender.
+    TestMsg msg;
+    msg.SetHeader(static_cast<std::uint32_t>(typeId), 0, 2);
+    msg.SetDestinationMask(matching.MemberBit(1));  // mask targets the server
+    CHECK(msg.IsForServer());
+    CHECK(!msg.IsForMe());
+    CHECK(msg.IsFromMe());
+    CHECK(!msg.IsFromServer());
+    CHECK(msg.GetHash() == static_cast<short>((matching.MemberBit(2) & 0xf) + typeId * 0x10));
+
+    // Send mode 0 routes through the server: the destination becomes the server bit.
+    TestMsg routed;
+    routed.SetHeader(static_cast<std::uint32_t>(typeId), 0, 1);
+    routed.SetSendMode(0);
+    routed.SetDestinationMask(0xff);
+    CHECK(routed.IsFor(1));
+    CHECK(routed.IsFromServer());
+    CHECK(routed.IsLocal());
+
+    // Acknowledgements.
+    TestMsg acked;
+    acked.SetHeader(static_cast<std::uint32_t>(typeId), 0, 2);
+    CHECK(!acked.IsAcknowledgedBy(3));
+    acked.AcknowledgeMember(3);
+    CHECK(acked.IsAcknowledgedBy(3));
+    acked.Acknowledge(matching.MemberBit(0));
+    CHECK(acked.IsAcknowledgedBy(0));
+
+    // Expiry: 50 ms lifetime from timestamp 1000.
+    TestMsg timed;
+    timed.SetHeader(static_cast<std::uint32_t>(typeId), 0, 2);
+    CHECK(!timed.IsExpired());  // timestamp 0 never expires
+    timed.SetTimes(1000, 50);
+    OnlineClockStorage() = 1050;
+    CHECK(!timed.IsExpired());
+    OnlineClockStorage() = 1051;
+    CHECK(timed.IsExpired());
+
+    // Serialize and unserialize round trip, including the 16-byte header.
+    TestMsg source;
+    source.SetHeader(static_cast<std::uint32_t>(typeId), 0x6, 2);
+    source.SetPayload("wxyz");
+    NetBitStream wire(64);
+    source.Serialize(wire);
+    wire.Rewind();
+    CMessage* received = CMessage::Unserialize(wire);
+    CHECK(received != nullptr);
+    if (received != nullptr) {
+        auto* typed = static_cast<TestMsg*>(received);
+        CHECK(std::strncmp(typed->Payload(), "wxyz", 4) == 0);
+        CHECK(typed->IsFor(1));  // mask 0x6 covers members 1 and 2
+        CHECK(typed->IsFor(2));
+        CHECK(!typed->IsFor(0));
+        CHECK(typed->IsFrom(2));
+        delete received;
+    }
+
+    // Duplicate is a serialize + unserialize of the same message.
+    TestMsg dupSource;
+    dupSource.SetHeader(static_cast<std::uint32_t>(typeId), 0, 2);
+    dupSource.SetPayload("dup!");
+    CMessage* dup = dupSource.Duplicate();
+    CHECK(dup != nullptr);
+    if (dup != nullptr) {
+        CHECK(std::strncmp(static_cast<TestMsg*>(dup)->Payload(), "dup!", 4) == 0);
+        delete dup;
+    }
+
+    std::printf("%s\n", failures ? "c_message: FAILED" : "c_message: ok");
+    CMatching::Set(nullptr);
+    return failures != 0;
+}

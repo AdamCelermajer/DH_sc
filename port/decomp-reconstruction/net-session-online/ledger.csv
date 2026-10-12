@@ -1,0 +1,153 @@
+elf_address,symbol,status,source_file,notes
+0x7fde40,_ZN6CEventD1Ev,reconstructed,net-session-online/src/c_event.cpp,
+0x7fde88,_ZN6CEventD0Ev,skipped,net-session-online/src/c_event.cpp,compiler-generated deleting destructor; virtual dtor covers it
+0x7fdea4,_ZN6CEventD2Ev,reconstructed,net-session-online/src/c_event.cpp,
+0x7fdeec,_ZN6CEvent9IsExpiredEj,reconstructed,net-session-online/src/c_event.cpp,
+0x7fdf24,_ZN6CEvent8CopyDataEPvi,reconstructed,net-session-online/src/c_event.cpp,
+0x7fdfe0,_ZN6CEvent4InitEiPvi,reconstructed,net-session-online/src/c_event.cpp,
+0x7fe03c,_ZN6CEventaSERKS_,reconstructed,net-session-online/src/c_event.cpp,deviation: freed payload pointer is nulled before re-init (original left it dangling)
+0x7fe084,_ZN6CEventC1ERKS_,reconstructed,net-session-online/src/c_event.cpp,
+0x7fe0d4,_ZN6CEventC2ERKS_,reconstructed,net-session-online/src/c_event.cpp,
+0x7fe124,_ZN6CEventC1EiPvi,reconstructed,net-session-online/src/c_event.cpp,
+0x7fe164,_ZN6CEventC2EiPvi,reconstructed,net-session-online/src/c_event.cpp,
+0x31d8d0,_ZN8CMessage10GetDataPtrEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809998,_ZNK8CMessage11GetDataSizeEv,reconstructed,net-session-online/src/c_message.cpp,
+0x8099a0,_ZN8CMessage28TerminateMessageRegistrationEv,reconstructed,net-session-online/src/c_message.cpp,decompiled body stores 0 into the terminated flag (name suggests 1); kept as decompiled
+0x8099c8,_ZN8CMessage10IsReliableEv,reconstructed,net-session-online/include/net-session-online/c_message.hpp,inline in header
+0x8099d0,_ZN8CMessage11AcknowledgeEj,reconstructed,net-session-online/include/net-session-online/c_message.hpp,inline in header
+0x8099e0,_ZN8CMessage6IsFromEi,reconstructed,net-session-online/include/net-session-online/c_message.hpp,inline in header
+0x8099f4,_ZN8CMessage9ResetDataEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809a38,_ZN8CMessage29InitializeMessageRegistrationEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809aa0,_ZN8CMessage8ReadDataER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,
+0x809af0,_ZN8CMessage10ReadHeaderER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,
+0x809b10,_ZN8CMessage9WriteDataER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,
+0x809b60,_ZN8CMessage11WriteHeaderER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,
+0x809b80,_ZN8CMessage9SerializeER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,
+0x809bc4,_ZN8CMessage5IsForEi,reconstructed,net-session-online/src/c_message.cpp,
+0x809bf4,_ZN8CMessage11IsForServerEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809c1c,_ZN8CMessage7IsForMeEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809c44,_ZN8CMessage8IsFromMeEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809c6c,_ZN8CMessage12IsFromServerEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809c94,_ZN8CMessage7IsLocalEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809ccc,_ZN8CMessage10CreateHashEii,reconstructed,net-session-online/src/c_message.cpp,
+0x809cfc,_ZN8CMessage7GetHashEv,reconstructed,net-session-online/src/c_message.cpp,return type short inferred from tail call to CreateHash
+0x809d08,_ZN8CMessage11SetSentFlagEib,reconstructed,net-session-online/src/c_message.cpp,
+0x809d70,_ZN8CMessage18SetDestinationMaskEj,reconstructed,net-session-online/src/c_message.cpp,
+0x809e44,_ZN8CMessage16IsAcknowledgedByEi,reconstructed,net-session-online/src/c_message.cpp,
+0x809e74,_ZN8CMessage17AcknowledgeMemberEi,reconstructed,net-session-online/src/c_message.cpp,
+0x809ea4,_ZN8CMessage10InitializeEv,partial,net-session-online/src/c_message.cpp,calls unnamed vtable slot +0x04 (PreInitialize, body not recovered)
+0x809efc,_ZN8CMessage13CreateMessageEib,reconstructed,net-session-online/src/c_message.cpp,deviation: returns nullptr for an out-of-range or unregistered type instead of calling through it
+0x809f34,_ZN8CMessage11UnserializeER12NetBitStream,reconstructed,net-session-online/src/c_message.cpp,wire type read as signed char as in original
+0x809f78,_ZN8CMessage9DuplicateEv,reconstructed,net-session-online/src/c_message.cpp,
+0x809fd0,_ZN8CMessage11MustForwardEv,reconstructed,net-session-online/src/c_message.cpp,
+0x80a038,_ZN8CMessage13HasBeenSentToEi,reconstructed,net-session-online/src/c_message.cpp,
+0x80a0b4,_ZN8CMessage14IsAcknowledgedEv,reconstructed,net-session-online/src/c_message.cpp,
+0x80a128,_ZN8CMessage9IsExpiredEv,reconstructed,net-session-online/src/c_message.cpp,
+0x80a160,_ZN8CMessageD1Ev,partial,net-session-online/src/c_message.cpp,std::string member at +0x14 (STL private layout) not modelled
+0x80a194,_ZN8CMessageD2Ev,partial,net-session-online/src/c_message.cpp,std::string member at +0x14 (STL private layout) not modelled
+0x80a1c8,_ZN8CMessageD0Ev,skipped,net-session-online/src/c_message.cpp,compiler-generated deleting destructor
+0x80a1e4,_ZN8CMessage10FindTypeIdEPKc,reconstructed,net-session-online/src/c_message.cpp,
+0x80a244,_ZN8CMessage13CreateMessageEPKcb,reconstructed,net-session-online/src/c_message.cpp,
+0x80a25c,_ZN8CMessage15RegisterTypeStrEPKc,reconstructed,net-session-online/src/c_message.cpp,
+0x80a2e8,_ZN8CMessage19RegisterMessageTypeEPKcPFPS_bE,reconstructed,net-session-online/src/c_message.cpp,
+0x7fde10,_ZN15CEventQueueBase9HasEventsEv,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fdf64,_ZN15CEventQueueBase12GetEventDataEiPvi,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe204,_ZN15CEventQueueBase8AddEventEiPvi,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe2b8,_ZN15CEventQueueBase5ClearEi,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe330,_ZN15CEventQueueBase9FindEventEib,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe3f0,_ZN15CEventQueueBase12ConsumeEventEi,reconstructed,net-session-online/include/net-session-online/c_event_queue_base.hpp,"inline in header (ConsumeEvent = FindEvent(type,true))"
+0x7fe3f8,_ZN15CEventQueueBase15HasEventOccuredEib,reconstructed,net-session-online/include/net-session-online/c_event_queue_base.hpp,"inline in header (HasEventOccured = FindEvent(type,consume))"
+0x7fe3fc,_ZN15CEventQueueBaseD1Ev,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe438,_ZN15CEventQueueBase5ClearEv,reconstructed,net-session-online/src/c_event_queue_base.cpp,
+0x7fe460,_ZN15CEventQueueBaseD0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,compiler-generated deleting destructor; covered by CEventQueueBase::~CEventQueueBase
+0x7fcd00,_ZN11CEventQueueIN18CConnectionManager6EVENTSELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x7fd3c4,_ZN11CEventQueueIN18CConnectionManager6EVENTSELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7fd470,_ZN11CEventQueueIN18CConnectionManager6EVENTSELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7fd6cc,_ZN11CEventQueueIN7COnline6EVENTSELj0EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x7fd8d8,_ZN11CEventQueueIN7COnline6EVENTSELj0EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7fdb14,_ZN11CEventQueueIN7COnline6EVENTSELj0EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7fe88c,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x7fe890,_ZN11CEventQueueIN9CMatching6EVENTSELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x7ffb28,_ZN11CEventQueueIN9CMatching6EVENTSELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7ffb6c,_ZN11CEventQueueIN9CMatching6EVENTSELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7ffba8,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x7ffbe4,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x810b74,_ZN11CEventQueueIN17CNetPlayerManager6EVENTSELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x810b78,_ZN11CEventQueueIN17CNetPlayerManager15EVENTS_INTERNALELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x810fb8,_ZN11CEventQueueIN17CNetPlayerManager6EVENTSELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x810ff4,_ZN11CEventQueueIN17CNetPlayerManager15EVENTS_INTERNALELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x811030,_ZN11CEventQueueIN17CNetPlayerManager15EVENTS_INTERNALELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x811074,_ZN11CEventQueueIN17CNetPlayerManager6EVENTSELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x81a588,_ZN11CEventQueueI13_tSignInEventLj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x81a778,_ZN11CEventQueueI13_tSignInEventLj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x81a870,_ZN11CEventQueueI13_tSignInEventLj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x81bcd0,_ZN11CEventQueueI23_EVENTS_GLLIVE_INTERNALLj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x81cd44,_ZN11CEventQueueI23_EVENTS_GLLIVE_INTERNALLj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x81cd80,_ZN11CEventQueueI23_EVENTS_GLLIVE_INTERNALLj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x8246b4,_ZN11CEventQueueI28EVENTS_SIGNINGLLIVE_INTERNALLj0EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x8247b0,_ZN11CEventQueueI28EVENTS_SIGNINGLLIVE_INTERNALLj0EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x824864,_ZN11CEventQueueI28EVENTS_SIGNINGLLIVE_INTERNALLj0EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x824c8c,_ZN11CEventQueueI17_BLUETOOTH_EVENTSLj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x824dd0,_ZN11CEventQueueI17_BLUETOOTH_EVENTSLj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x824e0c,_ZN11CEventQueueI17_BLUETOOTH_EVENTSLj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x8259a4,_ZN11CEventQueueIN11CConnection6EVENTSELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x826020,_ZN11CEventQueueIN11CConnection6EVENTSELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x826494,_ZN11CEventQueueIN11CConnection6EVENTSELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x31f4dc,_ZN23CMsgAskResendAttributes10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f4e4,_ZNK23CMsgAskResendAttributes11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x31fed8,_ZN23CMsgAskResendAttributesD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x3244ec,_ZN23CMsgAskResendAttributesD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327ad8,_ZN23CMsgAskResendAttributes13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f444,_ZN16CMsgAttackResult10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f44c,_ZNK16CMsgAttackResult11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x3200ac,_ZN16CMsgAttackResultD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x3242d0,_ZN16CMsgAttackResultD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327a40,_ZN16CMsgAttackResult13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f434,_ZN20CMsgControllerAction10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f43c,_ZNK20CMsgControllerAction11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x3200e0,_ZN20CMsgControllerActionD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324294,_ZN20CMsgControllerActionD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327a74,_ZN20CMsgControllerAction13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x328a64,_ZN20CMsgControllerActionC1Eb,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,"constructor needs base CMessage(const char*, bool), which is not recovered"
+0x31f4d4,_ZNK15CMsgGlobalDeath11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x31ff0c,_ZN15CMsgGlobalDeathD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x3244b0,_ZN15CMsgGlobalDeathD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327868,_ZN15CMsgGlobalDeath13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f498,_ZN16CMsgInitialSetup10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f4a0,_ZNK16CMsgInitialSetup11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x31ffdc,_ZN16CMsgInitialSetupD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x3243fc,_ZN16CMsgInitialSetupD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327974,_ZN16CMsgInitialSetup13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x328be4,_ZN16CMsgInitialSetupC1Eb,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,"constructor needs base CMessage(const char*, bool), which is not recovered"
+0x31f4c4,_ZN10CMsgIsHost10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f4cc,_ZNK10CMsgIsHost11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x31ff74,_ZN10CMsgIsHostD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324474,_ZN10CMsgIsHostD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x3278d4,_ZN10CMsgIsHost13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f464,_ZN13CMsgMenuReady10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f46c,_ZNK13CMsgMenuReady11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x320044,_ZN13CMsgMenuReadyD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324348,_ZN13CMsgMenuReadyD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x3279e0,_ZN13CMsgMenuReady13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f454,_ZN15CMsgRaisedEvent10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f45c,_ZNK15CMsgRaisedEvent11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x320078,_ZN15CMsgRaisedEventD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x32430c,_ZN15CMsgRaisedEventD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327a0c,_ZN15CMsgRaisedEvent13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x329630,_ZN15CMsgRaisedEventC1Eb,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,"constructor needs base CMessage(const char*, bool), which is not recovered"
+0x31f474,_ZN13CMsgScriptCmd10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f47c,_ZNK13CMsgScriptCmd11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x320010,_ZN13CMsgScriptCmdD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324384,_ZN13CMsgScriptCmdD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x3279a8,_ZN13CMsgScriptCmd13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x31f4b4,_ZN15CMsgSpawnObject10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f4bc,_ZNK15CMsgSpawnObject11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x31ff40,_ZN15CMsgSpawnObjectD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324438,_ZN15CMsgSpawnObjectD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x32789c,_ZN15CMsgSpawnObject13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
+0x32a66c,_ZN15CMsgSpawnObjectC1Eb,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,"constructor needs base CMessage(const char*, bool), which is not recovered"
+0x31f424,_ZN13CMsgStartGame10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
+0x31f42c,_ZNK13CMsgStartGame11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
+0x320114,_ZN13CMsgStartGameD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
+0x324258,_ZN13CMsgStartGameD0Ev,skipped,net-session-online/include/net-session-online/c_msg_fixed.hpp,compiler-generated deleting destructor; implicit virtual destructor covers it
+0x327aa0,_ZN13CMsgStartGame13SetPropertiesEv,partial,net-session-online/include/net-session-online/c_msg_fixed.hpp,sets the sendMode/flag fields; type-name string at +0x14 not modelled
