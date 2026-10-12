@@ -9,11 +9,13 @@
 // forms are getParameterArray / getParameterArrayCvt. The owner type selects the overload.
 //
 // Storage (offsets from the listings, kept as comments; no raw pointer arithmetic is used):
-//   G: entry table at +0x18 (20-byte entries in the original, entry count = size of the table),
-//      value buffer at +0x2c. Entry fields used: +0x00 shared-string reference (null = unset),
-//      +0x06 value type code, +0x08 element count, +0x0c offset of element 0 in the value buffer.
+//   G: entry table at +0x18 (part1a::SParamEntry, 20-byte records, entry count = size of the table),
+//      value buffer at +0x2c. Entry fields used: +0x00 ref (zero = unset), +0x06 value type code,
+//      +0x08 element count, +0x0c offset of element 0 in the value buffer.
 //   M: block pointer at +0x04, dirty markers at +0x0c (first) and +0x10 (last), inline values at +0x20.
-//      Block: count (uint16) at +0x0e, 16-byte entries at +0x20 (same fields as G).
+//      Block: count (uint16) at +0x0e, entry array at +0x20 (detail::SParameterEntry, 16-byte records).
+//      Entry fields used: +0x06 value type code, +0x08 element count, +0x0c offset of element 0.
+//      There is no set flag: every entry of a block is present.
 //
 // Port deviations (see the notes in the cpp): a stored pointer element takes sizeof(void*) bytes
 // instead of the original 4; the index and bounds checks read the entry count, and reads or writes
@@ -25,6 +27,8 @@
 #include <vector>
 
 #include "glitch-video/deps/glitch_core.hpp"
+#include "glitch-video/material_parameters.hpp"
+#include "glitch-video/material_parameters_part_1a.hpp"
 
 namespace glitch::video {
 class CLight;
@@ -33,24 +37,20 @@ class ITexture;
 
 namespace glitch::video::detail::part1b {
 
-// One parameter definition entry (G: 20-byte record, M: 16-byte record; only these fields are read).
-struct ParamEntry {
-    bool set = false;       // G: +0x00 non-null. M entries are always present.
-    std::uint8_t type = 0;  // +0x06 value type code
-    std::uint32_t count = 0;   // +0x08 element count
-    std::uint32_t offset = 0;  // +0x0c offset of element 0
-};
+// The entry records are the ones of the owners: part1a::SParamEntry for G, detail::SParameterEntry for M.
+static_assert(sizeof(part1a::SParamEntry) == 20, "G entry record is 20 bytes");
+static_assert(sizeof(detail::SParameterEntry) == 16, "M entry record is 16 bytes");
 
 // Owner G: IMaterialParameters<CGlobalMaterialParameterManager, SEmptyBase>.
 struct GlobalParameterStore {
-    std::vector<ParamEntry> entries;  // +0x18 entry table (size = entry count)
-    std::vector<std::uint8_t> values; // +0x2c value buffer
+    std::vector<part1a::SParamEntry> entries;  // +0x18 entry table (size = entry count)
+    std::vector<std::uint8_t> values;          // +0x2c value buffer
 };
 
 // Block header of owner M (ISharedMemoryBlockHeader<CMaterial>).
 struct MaterialParameterBlock {
-    std::uint16_t count = 0;            // +0x0e
-    std::vector<ParamEntry> entries;    // +0x20
+    std::uint16_t count = 0;                        // +0x0e
+    std::vector<detail::SParameterEntry> entries;   // +0x20
 };
 
 // Owner M: IMaterialParameters<CMaterial, ISharedMemoryBlockHeader<CMaterial>>.

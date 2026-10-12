@@ -27,31 +27,22 @@ using glitch::video::SColor;
 using glitch::video::SColorf;
 using boost::intrusive_ptr;
 
-// ---- table entries of the struct (the part 1a view is rebuilt from the mirror, the part 1b store is the source)
+// ---- table entries: the store holds the part 1a records, so the part 1a view and the part 1b rows read one table.
 
 void SGlobalParameterOwner::defineEntry(std::uint16_t id, std::uint8_t type, std::uint32_t count, std::uint32_t offset) {
-    if (m_store.entries.size() <= id) {
-        m_store.entries.resize(std::size_t(id) + 1);
-        m_entries.resize(std::size_t(id) + 1);
-    }
-    part1b::ParamEntry& e = m_store.entries[id];
-    e.set = true;
+    if (m_store.entries.size() <= id) m_store.entries.resize(std::size_t(id) + 1);
+    part1a::SParamEntry& e = m_store.entries[id];
+    e = part1a::SParamEntry{};
+    e.ref = 1;
     e.type = type;
     e.count = count;
     e.offset = offset;
-
-    part1a::SParamEntry& r = m_entries[id];
-    r = part1a::SParamEntry{};
-    r.ref = 1;
-    r.type = type;
-    r.count = count;
-    r.offset = offset;
 }
 
 part1a::GlobalParamTable SGlobalParameterOwner::table() const {
     part1a::GlobalParamTable t;
-    t.entries = m_entries.data();
-    t.entryCount = static_cast<std::uint32_t>(m_entries.size());
+    t.entries = m_store.entries.data();
+    t.entryCount = static_cast<std::uint32_t>(m_store.entries.size());
     t.values = const_cast<std::uint8_t*>(m_store.values.data());
     return t;
 }
