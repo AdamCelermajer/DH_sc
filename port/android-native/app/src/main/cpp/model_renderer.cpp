@@ -30345,7 +30345,18 @@ int native_host_pm_check_local_deaths(void* raw,std::string& error){
  const auto source=source_level_owner.snapshot();
  if(source.source_level_state==38){
   if(prince_combat.life.dead){
-   error="PlayerManager::_HandleLocalDeaths has no complete active-death continuation";return 1;
+   // Offline PlayerManager::_HandleLocalDeaths 0x375fe8: push the death fade
+   // menu once; its authored flow calls NativeReviveAllPlayers.
+   if(native_host.online){
+    error="PlayerManager::_HandleLocalDeaths online death timer is unsupported";return 1;
+   }
+   if(!native_gameplay_ui){
+    error="PlayerManager::_HandleLocalDeaths requires the gameplay MenuManager";return 1;
+   }
+   bool pushed=false;
+   if(!native_gameplay_ui->push_source_death_fade_menu(pushed,error))return 1;
+   if(pushed)__android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "PlayerManager::_HandleLocalDeaths | PushMenu menu_FadeToBlackScreen | sound group 1 muted pending");
   }
   error.clear();return 0;
  }
@@ -37234,6 +37245,10 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
   trace_player_hp("before request_prince_death");
   request_prince_death();
   trace_player_hp("after request_prince_death");
+  // Application::Update -> PlayerManager::Update reaches _CheckLocalDeaths each
+  // gameplay frame; only its dead-Player branch has an effect offline.
+  if(prince_combat.life.dead&&native_host_pm_check_local_deaths(&native_host,context.error))
+   throw std::runtime_error(context.error);
   if(active_crypt_room_runtime&&
      !active_crypt_room_runtime->source_move_in_zones.empty()) {
    std::string zone_error;

@@ -129,6 +129,9 @@ public:
     // leaving/loading. These calls target the existing shared menu symbol in
     // dqcharmenu's imported dqshared movie and preserve the live HUD/session.
     bool push_source_loading_menu(std::string&);
+    // PlayerManager::_HandleLocalDeaths (offline): PushMenu(menu_FadeToBlackScreen)
+    // only while that menu is not already visible.
+    bool push_source_death_fade_menu(bool& pushed,std::string&);
     bool pop_source_loading_menu(std::string&);
     bool source_loading_menu_visible(bool&,std::string&);
     // Retained source MenuMessageManager<DialogMsg, 1>. Text, actor names,

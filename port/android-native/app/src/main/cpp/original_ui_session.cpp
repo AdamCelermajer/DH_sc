@@ -3754,6 +3754,21 @@ bool OriginalUiSession::push_source_loading_menu(std::string& error){
     if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
     return Impl::push_game_menu(&self,"menu_Loading",error);
 }
+bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& error){
+    pushed=false;
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.character_menu_movie){
+        error="Source menu_FadeToBlackScreen requires the retained live gameplay UI session";
+        return false;
+    }
+    // MenuBase::IsVisible gate from PlayerManager::_HandleLocalDeaths 0x375fe8:
+    // the fade menu is visible exactly while it is on the gameplay MenuManager stack.
+    if(std::find(self.game_menu_stack.begin(),self.game_menu_stack.end(),
+                 "menu_FadeToBlackScreen")!=self.game_menu_stack.end()){error.clear();return true;}
+    if(!Impl::push_game_menu(&self,"menu_FadeToBlackScreen",error))return false;
+    pushed=true;error.clear();return true;
+}
 bool OriginalUiSession::pop_source_loading_menu(std::string& error){
     auto& self=*impl_;
     if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
