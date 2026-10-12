@@ -335,3 +335,17 @@ elf_address,symbol,status,source_file,notes
 0x8767cc,_ZL24imdct_step3_inner_r_loopiPfiiS_i,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
 0x876b34,_ZL7iter_54Pf,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
 0x8784f4,_Z11dct_iv_slowPfi,partial,core-platform/src/vorbis_util.cpp,listing only copies the input into a stack buffer; the DCT is not visible
+0x3ef1b8,_Z12Color255To01R7Point3DIfE,partial,core-platform/src/misc_util.cpp,only the first component is divided by 255.0f in the listing
+0x840000,_Z8in_cksumPti,reconstructed,core-platform/src/misc_util.cpp,
+0x3cb46c,_Z10SafeDeleteI17CharAISkillScriptEvRPT_,reconstructed,core-platform/include/core-platform/misc_util.hpp,template; SafeDelete<CharAISkillScript> is the instance used
+0x827970,_Z9TransToIpRPc,partial,core-platform/src/misc_util.cpp,listing copies the address into a local; written to the new buffer as dotted text instead
+0x42b150,_Z12fs_read_funcPviS_,reconstructed,core-platform/src/fs_callbacks.cpp,
+0x42b1a4,_Z13fs_close_funcPv,reconstructed,core-platform/src/fs_callbacks.cpp,
+0x42b260,_Z12fs_open_funcPKcS0_,partial,core-platform/src/fs_open.cpp,application file open and BufferedStream fill declared in deps; mode unused as in the original
+0x42b38c,_Z12get_fontfilePKcbbPci,skipped,core-platform/src/fs_callbacks.cpp,debug-switch font-name builder; the listing is a garbled tail into a string allocator
+0x7d3c24,_Z5crossPfS_S_,skipped,core-platform/src/misc_util.cpp,listing is a single tail-called product; the rest of the cross product is not visible
+0x7d4584,_Z9normalizePf,skipped,core-platform/src/misc_util.cpp,listing is a single tail-called product; normalisation is not visible
+0x4122bc,_Z13FlushCallbackRN7gameswf12render_stateEPv,skipped,core-platform/src/misc_util.cpp,gameswf display-list flush; the display list belongs to the gameswf category
+0x42d734,_Z17FlushTextCallbackRN7gameswf12render_stateEPv,skipped,core-platform/src/misc_util.cpp,gameswf text flush; the root object belongs to the gameswf category
+0x7a8cd8,_Z38sprite_can_handle_mouse_event_callbackPN7gameswf9characterE,skipped,core-platform/src/misc_util.cpp,gameswf character mouse handling; depends on the gameswf character type
+0x8212d0,_ZL15PrintDatapacketP10DataPacket,skipped,core-platform/src/misc_util.cpp,forwards to DataPacket virtuals of the net-transport category

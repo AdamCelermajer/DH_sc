@@ -204,6 +204,21 @@ public:
     void addBool(const char* name, bool value, bool flag);                    // 0x56871c
     void addUserPointer(const char* name, void* value, bool flag);            // 0x568038
     void addRect(const char* name, glitch::core::rect<std::int32_t> value, bool flag);  // 0x568ce0
+    void addVector2d(const char* name, const glitch::core::vector2d<float>& value, bool flag);       // 0x56a1a0
+    void addVector3d(const char* name, const glitch::core::vector3d<float>& value, bool flag);       // 0x56a030
+    void addVector4d(const char* name, const glitch::core::vector4d<float>& value, bool flag);       // 0x569ebc
+    void addVector2di(const char* name, const glitch::core::vector2d<std::int32_t>& value, bool flag);  // 0x5692c8
+    void addVector3di(const char* name, const glitch::core::vector3d<std::int32_t>& value, bool flag);  // 0x569158
+    void addVector4di(const char* name, const glitch::core::vector4d<std::int32_t>& value, bool flag);  // 0x568fe4
+    void addPosition2d(const char* name, glitch::core::position2d<std::int32_t> value, bool flag);   // 0x568e64
+    void addLine2d(const char* name, glitch::core::line2d<float> value, bool flag);                  // 0x569604
+    void addLine3d(const char* name, glitch::core::line3d<float> value, bool flag);                  // 0x56944c
+    void addTriangle3d(const char* name, glitch::core::triangle3d<float> value, bool flag);          // 0x5697ac
+    void addBox3d(const char* name, glitch::core::aabbox3d<float> value, bool flag);                 // 0x569b3c
+    void addPlane3d(const char* name, glitch::core::plane3d<float> value, bool flag);                // 0x569998
+    void addQuaternion(const char* name, glitch::core::quaternion value, bool flag);                 // 0x569d00
+    void addColorf(const char* name, glitch::video::SColorf value, bool flag);                       // 0x56a31c
+    void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag);         // 0x56a70c
 
     // By name: set the existing attribute, or append a new one with flag false.
     void setAttribute(const char* name, int value);                           // 0x56b11c
@@ -211,6 +226,17 @@ public:
     void setAttribute(const char* name, bool value);                          // 0x56b1bc
     void setAttribute(const char* name, void* value);                         // 0x56ad30
     void setAttribute(const char* name, glitch::core::rect<std::int32_t> value);  // 0x56b878
+    void setAttribute(const char* name, const glitch::core::vector2d<float>& value);       // 0x5659b4
+    void setAttribute(const char* name, const glitch::core::vector2d<std::int32_t>& value);  // 0x567a9c
+    void setAttribute(const char* name, const glitch::core::vector3d<float>& value);       // 0x56b7b8
+    void setAttribute(const char* name, const glitch::core::vector4d<float>& value);       // 0x56b6f8
+    void setAttribute(const char* name, const glitch::core::vector3d<std::int32_t>& value);  // 0x56b638
+    void setAttribute(const char* name, const glitch::core::vector4d<std::int32_t>& value);  // 0x56b578
+    void setAttribute(const char* name, glitch::core::position2d<std::int32_t> value);      // 0x56b978
+    void setAttribute(const char* name, glitch::core::line2d<float> value);                 // 0x56bcc4
+    void setAttribute(const char* name, const glitch::core::plane3d<float>& value);         // 0x56bf4c
+    void setAttribute(const char* name, glitch::core::quaternion value);                    // 0x56add0
+    void setAttribute(const char* name, const glitch::core::CMatrix4<float>& value);        // 0x56aee4
 
     // Name lookup in the current group (0x5628f4 .. 0x562374).
     unsigned int findAttribute(const char* name) const;   // 0x5628f4: index, or 0xffffffff
