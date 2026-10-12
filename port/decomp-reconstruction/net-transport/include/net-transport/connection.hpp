@@ -8,7 +8,7 @@
 //   +0x0c event list (inside the queue base)
 //   +0x14 event_capacity_, 100
 //   +0x18 state_: 0 idle, 1 disconnected, 2 connect requested, 3 accept pending, 4 connected
-//   +0x1c matching_key_, compared with CMatching's key by IsToServer
+//   +0x1c member_id_: set by Connect; IsToServer compares it with CMatching's slot 116 (ctor sentinel -14531089)
 //   +0x20 peer_id_ (CNetworkId, 28 bytes)
 //   +0x3c last_recv_time_, +0x40 last_send_time_, +0x44 last_keepalive_time_,
 //   +0x48 last_update_time_, +0x4c lag_start_time_, +0x50 timeout_ms_, +0x54 lag_flag_
@@ -63,6 +63,16 @@ public:
     void ProcessConnectFinalize(CNetworkId& id);             // 0x8266ec _ZN11CConnection22ProcessConnectFinalizeER10CNetworkId
     void ProcessConnectResponse(CNetworkId& id);             // 0x826730 _ZN11CConnection22ProcessConnectResponseER10CNetworkId
 
+    // Accessors used by CConnectionManager (offsets as in the layout comment above).
+    int State() const { return state_; }                              // +0x18
+    int MemberId() const { return member_id_; }                       // +0x1c
+    CNetworkId& NetworkId() { return peer_id_; }                      // +0x20
+    const CNetworkId& NetworkId() const { return peer_id_; }
+    std::uint64_t Key() const { return key_; }                        // +0x1b8
+    void SetTimeout(std::uint32_t ms) { timeout_ms_ = static_cast<std::int32_t>(ms); }  // +0x50
+    void SetState(int state) { state_ = state; }                      // test hook
+    void SetMemberId(int member_id) { member_id_ = member_id; }       // test hook
+
 private:
     // Sends one message: a type byte, then `bytes` bytes of payload, to every transport.
     void SendPacket(std::uint8_t type, const void* payload, std::size_t bytes);
@@ -71,7 +81,7 @@ private:
 
     std::int32_t event_capacity_ = 100;                // +0x14
     std::int32_t state_ = 0;                           // +0x18
-    std::int32_t matching_key_ = -14531089;            // +0x1c
+    std::int32_t member_id_ = -14531089;               // +0x1c
     CNetworkId peer_id_{};                             // +0x20
     std::int32_t last_recv_time_ = 0;                  // +0x3c
     std::int32_t last_send_time_ = 0;                  // +0x40

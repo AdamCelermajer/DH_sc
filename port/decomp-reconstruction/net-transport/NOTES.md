@@ -305,11 +305,11 @@ removed, because the templates are abstract.
 ## Wave 4 decisions (feature/decomp-net, 2026-10-12)
 
 - Ledgers merged from the 8 net-transport slices (one row per address). Duplicate claims keep the stronger status.
-- The connection manager's CConnection stand-in is renamed `CConnectionStandIn` (deps/connection_deps.hpp).
+- (Superseded) The stand-in was first renamed `CConnectionStandIn` to avoid the clash below.
   The real `CConnection` (connection.hpp / connection.cpp) has a different layout, so both cannot share one
   name in one binary: the test linked the stand-in methods against the real class's vtable and corrupted the heap.
-  Decision: keep the stand-in for the manager until the real class exposes State, MemberId, NetworkId, Key,
-  SetTimeout, SetState and SetMemberId. Then switch connection_manager.hpp to the real header and delete the stand-in.
-- Stand-in CConnection virtuals (Connect/Accept/Disconnect/Update/Send) are defined under CConnectionStandIn in
-  src/connection_deps.cpp.
+  Resolved: the real class now has the accessors (State, MemberId, NetworkId, Key, SetTimeout, SetState,
+  SetMemberId). The Hex-Rays evidence shows +0x1c is the member id (Connect stores its argument there, IsToServer
+  compares it with CMatching slot 116), not a matching key. The ctor sets it to -14531089. The stand-in is deleted and
+  the manager uses connection.hpp.
 - Host and MinGW/Wine: net-transport 30/30 tests pass.
