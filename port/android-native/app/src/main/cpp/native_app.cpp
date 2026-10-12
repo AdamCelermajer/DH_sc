@@ -15,6 +15,8 @@
 #include <string>
 #include <cstdio>
 #include <exception>
+#include "gameplay_scenario_v1.hpp"
+#include "campaign_profile_files_v1.hpp"
 
 namespace {
 constexpr const char* tag="DH2Native";
@@ -191,6 +193,14 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_resize(JNIEn
   report_model_frame=true;
   __android_log_print(ANDROID_LOG_INFO,tag,"Surface resized to %d x %d",surface_width,surface_height);
 }
+dh2::native::gameplay_scenario_v1::Driver debug_scenario;
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_debugScenario(JNIEnv* env,jclass,jstring name){
+ if(!name)return;
+ const char* raw=env->GetStringUTFChars(name,nullptr);if(!raw)return;
+ debug_scenario.mode=dh2::native::gameplay_scenario_v1::Driver::parse(raw);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Scenario","Debug scenario armed | %s | mode %d",raw,int(debug_scenario.mode));
+ env->ReleaseStringUTFChars(name,raw);
+}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*,jclass){
   glClearColor(0.08f,0.09f,0.11f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
   if(original_ui.active()&&!original_ui.overlays_player()){
@@ -208,6 +218,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
         },error);
         if(!ok&&!ui_frame_failed){__android_log_print(ANDROID_LOG_ERROR,tag,"Player HUD frame failed: %s",error.c_str());ui_frame_failed=true;}
       }
+      if(original_ui.overlays_player())debug_scenario.step(surface_width,surface_height,[](float x,float y,int action){
+        std::string touch_error;
+        if(!original_ui.touch(x,y,action,touch_error))
+          __android_log_print(ANDROID_LOG_WARN,"DH2Scenario","Scenario tap failed | %s",touch_error.c_str());
+      });
     } catch(const std::exception& e) {
       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
       model_renderer::deactivate();
@@ -351,8 +366,7 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_startMenu
  original_ui.deactivate();ui_frame_failed=false;report_model_frame=true;
  auto startup=model_renderer::start_menu_game(slot,AAssetManager_fromJava(env,assets),debugLevelRow,
      hasNumericDifficulty==JNI_TRUE,requestedDifficulty);
- const bool world_loaded=startup.find("Crypt |") == 0||startup.find("SWAMP |") == 0||
-     startup.find("DARKWOOD |") == 0;
+ const bool world_loaded=model_renderer::gameplay_startup_loaded(startup);
  std::string attach_error;
  const bool hud_attached=world_loaded&&original_ui.attach_player(menu_directory,attach_error);
  model_renderer::bind_gameplay_ui_session(hud_attached?&original_ui:nullptr);
@@ -376,6 +390,48 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_startMenu
    __android_log_print(ANDROID_LOG_ERROR,tag,"Front menu recovery after failed start failed: %s",error.c_str());
  }
  return result(env,startup);
+}
+// Debug-only (MainActivity gates on FLAG_DEBUGGABLE). Mirrors desktop_main.cpp
+// select_or_create_source_profile: reuse the first occupied campaign slot, else
+// create the desktop profile through the shared original UI session.
+extern "C" JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_debugSelectOrCreateProfile(JNIEnv* env,jclass,jobject assets){
+ if(!assets||menu_directory.empty()){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile unavailable: assets or runtime directory missing");
+  return -1;
+ }
+ AAssetManager* manager=AAssetManager_fromJava(env,assets);
+ std::string error;
+ for(std::uint32_t candidate=0;candidate<4;++candidate){
+  bool exists=false;
+  if(!dh2::data::campaign_profile_exists_v1(menu_directory,candidate,exists,error)){
+   __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile lookup failed: %s",error.c_str());
+   return -1;
+  }
+  if(!exists)continue;
+  if(!model_renderer::assign_menu_save_slot(static_cast<std::int32_t>(candidate),0,error)){
+   __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile assignment failed: %s",error.c_str());
+   return -1;
+  }
+  __android_log_print(ANDROID_LOG_INFO,tag,"Debug auto-start | using existing source campaign slot %u",candidate);
+  return static_cast<jint>(candidate);
+ }
+ std::int32_t slot=-1;
+ bool published=false;
+ if(!model_renderer::create_menu_save_slot(manager,"Desktop Knight","KnightPlayerBase",slot,published,error,
+     nullptr,difficulty_count)){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile creation failed: %s",error.c_str());
+  return -1;
+ }
+ if(!published||slot<0){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile creation did not publish a canonical campaign profile");
+  return -1;
+ }
+ if(!model_renderer::assign_menu_save_slot(slot,0,error)){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Debug auto-start profile assignment failed: %s",error.c_str());
+  return -1;
+ }
+ __android_log_print(ANDROID_LOG_INFO,tag,"Debug auto-start | created source campaign profile in slot %d",slot);
+ return static_cast<jint>(slot);
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_transitionLevel(JNIEnv* env,jclass,jstring destination,jdouble rawEntryPoint,jobject assets){
  if(!destination||!assets)return result(env,"NativeGoToZone input unavailable");

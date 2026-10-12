@@ -116,7 +116,7 @@ struct Fixture {
                       const factory::Record* record, save::Object* output,
                       std::string&) {
         auto& f=*static_cast<Fixture*>(raw); ++f.fact_reads;
-        if (!output || (record && record->game_object.identity!=live.identity)) return false;
+        if (!output || (record && record->game_object.identity!=live.identity)) return true;
         const bool generic_player=!record && f.generic_player_identity==live.identity;
         const bool generic_character=!record && (generic_player ||
             f.generic_character_identity==live.identity);
@@ -134,7 +134,7 @@ struct Fixture {
         output->is_local_player=(record||
             (generic_player&&admitted_generic_character))?1:0;
         output->source_flag_129=0;
-        return true;
+        return false;
     }
     static bool read_view(void* raw, const factory::Record& record,
                           chars::View* view, std::string&) {

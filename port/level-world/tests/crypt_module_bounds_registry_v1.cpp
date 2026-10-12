@@ -189,8 +189,10 @@ int main(int argc, char** argv) {
             draw_buffers == result.draw_buffers,
             "aggregate statistics differ from per-module entries");
 
-    // A rotated source module is unsupported. Failed builds leave the prior
-    // owner intact and identify the module that could not be bounded.
+    // A rotated Module is supported: descendants are placed by
+    // root * to_root * serialized, where to_root = R0^T * T(-origin) undoes the
+    // catalogue root. A 1 degree X rotation of the first module must therefore
+    // build, keep the module count and root identity, and move its bounds.
     std::string rotated_text(mlx.begin(), mlx.end());
     const auto module_marker = rotated_text.find("name=\"cemetery_entrance_0\"");
     require(module_marker != std::string::npos, "first Crypt module marker missing");
@@ -199,12 +201,26 @@ int main(int argc, char** argv) {
     rotated_text.replace(rotation, std::string("rotation=\"0.0,0.0,0.0\"").size(),
                          "rotation=\"1.0,0.0,0.0\"");
     const auto rotated = std::vector<std::uint8_t>(rotated_text.begin(), rotated_text.end());
-    Result failure{};
+    Owner rotated_owner{};
+    Result rotated_result{};
     status = build_from_assets("GOTHICUS_CRYPT_01", "data/scene/x07_crypt_backup.mlx",
-        rotated.data(), rotated.size(), bdae.data(), bdae.size(), &owner, &failure);
-    require(status == Status::unsupported_root && failure.failed_module_index == 0,
-            "unsupported module rotation did not fail closed");
-    require_owner_preserved(owner, "unsupported-root failure replaced the previous owner");
+        rotated.data(), rotated.size(), bdae.data(), bdae.size(), &rotated_owner, &rotated_result);
+    require(status == Status::complete, "rotated module build did not succeed");
+    require(rotated_owner.modules.size() == 8 && rotated_result.module_count == 8 &&
+            rotated_owner.modules[0].root_id == expected_roots[0],
+            "rotated module changed module count or selected root");
+    bool moved = false;
+    for (unsigned axis = 0; axis != 3; ++axis) {
+        const auto& bounds = rotated_owner.modules[0].bounds;
+        require(std::isfinite(bounds.minimum[axis]) && std::isfinite(bounds.maximum[axis]) &&
+                bounds.minimum[axis] < bounds.maximum[axis],
+                "rotated module bounds are non-finite or empty");
+        moved = moved || !near(bounds.minimum[axis], expected_bounds[0][axis]) ||
+                !near(bounds.maximum[axis], expected_bounds[0][axis + 3]);
+    }
+    require(moved, "rotated module bounds did not change from the unrotated bounds");
+    require_owner_preserved(owner, "rotated build replaced the unrotated owner");
+    Result failure{};
 
     // Change one instance type to a non-geometry type while leaving geometry
     // in the root. The registry must reject the partial approximation.

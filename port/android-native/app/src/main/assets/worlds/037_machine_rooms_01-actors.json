@@ -1,0 +1,113 @@
+{
+  "source_layout": "data/scene/037_machine_rooms_01.mlx",
+  "selected_characters": 1,
+  "source_character_records": 58,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "Hellhole",
+      "character": "EarthTemple_SmallPlant",
+      "model": "small_plant.bdae",
+      "model_path": "data/3d/characters/plants/small_plant.bdae",
+      "animation_table": 66,
+      "position": [
+        1410.7700000000004,
+        11700.84,
+        0.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ],
+      "source_mgp": "data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+      "source_record": 14
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Idle",
+      "sequence": 625
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Walk",
+      "sequence": 629
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Attack",
+      "sequence": -1
+    },
+    {
+      "table": 66,
+      "character": "SmallPlant",
+      "state": "Died",
+      "sequence": 624
+    }
+  ],
+  "clip_ids": [
+    1271,
+    1273
+  ],
+  "dact": {
+    "bytes": 272,
+    "sha256": "195a8f2ed65a24e02cbdf202f29cfd4c3efd55f5f231b0ef40b423c7c9e91619"
+  },
+  "assets": [
+    {
+      "asset": "actors/small_plant.bdae",
+      "bytes": 35480,
+      "sha256": "f3901f72f0f45fb46ce497a0030635f6fd61b039a5ed48cc35f950a14baff4d4",
+      "source": "data/3d/characters/plants/small_plant.bdae",
+      "source_file": "small_plant.bdae"
+    },
+    {
+      "asset": "actors/small_plant_dying.bdae",
+      "bytes": 8444,
+      "sha256": "06e0ef0bdd375c581e724512f72508adb1294ca8ac1e39af1bebe4c351ef0aba",
+      "source": "data/3d/characters/plants/animations/small_plant_dying.bdae",
+      "source_file": "small_plant_dying.bdae"
+    },
+    {
+      "asset": "actors/small_plant_idle.bdae",
+      "bytes": 7840,
+      "sha256": "da582fa3d354e72762d5915efa805c0728e6eba0bb424e2b35fb583d063ef44c",
+      "source": "data/3d/characters/plants/animations/small_plant_idle.bdae",
+      "source_file": "small_plant_idle.bdae"
+    },
+    {
+      "asset": "textures/env_earth_temple.tga",
+      "bytes": 524348,
+      "sha256": "2853699d71695bdab8315640346a403e31b66ca6af6031913af85eb1d213b17c",
+      "source": "data/3d/textures/env_earth_temple.tga",
+      "source_file": "env_earth_temple.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_alpha.tga",
+      "bytes": 262204,
+      "sha256": "d1ef48eeb7dc850a6b8efe346af16fe1fbe12bc13e8cb90e998b14f2a5dd2495",
+      "source": "data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "source_file": "pvr2_env_earth_temple_alpha.tga"
+    },
+    {
+      "asset": "textures/env_earth_temple_spec.tga",
+      "bytes": 131132,
+      "sha256": "0bc3b02490bb0814dc821eef69a7b91b0ce482a2a3b498ff2d6409e2e009e634",
+      "source": "data/3d/textures/env_earth_temple_spec.tga",
+      "source_file": "env_earth_temple_spec.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

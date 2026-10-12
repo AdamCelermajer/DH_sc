@@ -1,0 +1,69 @@
+{
+  "schema": "dh2-level-music-source-export-v1",
+  "uid": 471,
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "sounds_sha256": "4bc1de654d65470d49e48cee354d5d5cdd45006c18d65420ddc07acf5b400a6e",
+  "sounds_row": {
+    "bank": "1",
+    "filename": "m_level_darkwood_sfx_darkwood.vxn",
+    "format": "vxn",
+    "group": "2",
+    "label": "DarkWoodHubAmbientMusic",
+    "loadingflags": "none",
+    "loop": "yes",
+    "priority": "1",
+    "uid": "471"
+  },
+  "source_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_darkwood_sfx_darkwood.vxn",
+  "source_kind": "vxn",
+  "source_bytes": 11692544,
+  "source_crc32": "6c5bfbc5",
+  "source_sha256": "6e5cd6dba229f351bc3d23a65d5575637523a8d768607ab91b6c86cf7f4c78e0",
+  "vxn": {
+    "file_bytes": 11692544,
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ],
+    "segments": [
+      {
+        "state": "ambient",
+        "source_offset": 0,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      },
+      {
+        "state": "combat",
+        "source_offset": 5846016,
+        "source_bytes": 5846016,
+        "sample_frames": 5805166
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "asset": "darkwood_ambient_music.wav",
+      "bytes": 5846076,
+      "sha256": "e778f78b4eb301ba93a645c4141b1f32ee24db511fa10ec06741a35fb974cac3",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "ambient"
+    },
+    {
+      "asset": "darkwood_combat_music.wav",
+      "bytes": 5846076,
+      "sha256": "80f14b85aec66cb23860a3973306149f14ebc8344cffb230cf48f9595f92ef5e",
+      "source_segment_offset": 5846016,
+      "source_segment_bytes": 5846016,
+      "sample_frames": 5805166,
+      "state": "combat"
+    }
+  ]
+}

@@ -1,0 +1,470 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1228.93,
+      -2399.19,
+      1481.22
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -179.749
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/darktemple/mgp/dt_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      -12.400000000000091,
+      -2399.1901055450003,
+      1481.22
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -179.749
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "038_dark_temple.dwld": {
+      "bytes": 1048,
+      "sha256": "a2992310d27674293184ac2fc6017d15e4d0fd5d3ad1895d91a9a3ce6213c99b"
+    },
+    "038_dark_temple.spwn": {
+      "bytes": 304,
+      "sha256": "5362e143d7787d2beaa24cd2f79344e8fc5741ad23507aa4d7670ba197eacfda"
+    }
+  },
+  "level_list": {
+    "level_file": "038_dark_temple.mlx",
+    "name": "DARK_DUNGEON_TEMPLE_01",
+    "row": 7
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 8,
+  "modules": [
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_01.mgp",
+      "mgp_records": 11,
+      "module_index": 0,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_01.mvp",
+      "mvp_records": 12,
+      "name": "_module_01_001",
+      "node_id": "_module_01-node",
+      "position": [
+        1216.53,
+        -0.000105545,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_02.mgp",
+      "mgp_records": 12,
+      "module_index": 1,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_02.mvp",
+      "mvp_records": 14,
+      "name": "_module_02_001",
+      "node_id": "_module_02-node",
+      "position": [
+        1216.53,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_03.mgp",
+      "mgp_records": 5,
+      "module_index": 2,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_03.mvp",
+      "mvp_records": 6,
+      "name": "_module_03_001",
+      "node_id": "_module_03-node",
+      "position": [
+        -4783.47,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_04.mgp",
+      "mgp_records": 16,
+      "module_index": 3,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_04.mvp",
+      "mvp_records": 19,
+      "name": "_module_04_001",
+      "node_id": "_module_04-node",
+      "position": [
+        1216.53,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_05.mgp",
+      "mgp_records": 5,
+      "module_index": 4,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_05.mvp",
+      "mvp_records": 14,
+      "name": "_module_05_001",
+      "node_id": "_module_05-node",
+      "position": [
+        0.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_06.mgp",
+      "mgp_records": 12,
+      "module_index": 5,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_06.mvp",
+      "mvp_records": 7,
+      "name": "_module_06_001",
+      "node_id": "_module_06-node",
+      "position": [
+        6000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "mgp_records": 16,
+      "module_index": 6,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_07.mvp",
+      "mvp_records": 10,
+      "name": "_module_07_001",
+      "node_id": "_module_07-node",
+      "position": [
+        2563.15,
+        24000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/darktemple/darktemple.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_08.mgp",
+      "mgp_records": 14,
+      "module_index": 7,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_08.mvp",
+      "mvp_records": 9,
+      "name": "_module_08_001",
+      "node_id": "_module_08-node",
+      "position": [
+        2563.15,
+        30000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    1
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darktemple/block_levitan.bdae",
+      "bytes": 87204,
+      "path": "data/3d/animateddecors/darktemple/block_levitan.bdae",
+      "sha256": "9c791658903119dc20ff72e12d783924ccbac707fcd0c609a2202a35e92a8fe7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darktemple/dalle_levitan.bdae",
+      "bytes": 18000,
+      "path": "data/3d/animateddecors/darktemple/dalle_levitan.bdae",
+      "sha256": "74d1d09c8a263c1edb28ae9bd7da41a922b2f7feea1476f6806bce915090ef9e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darktemple/smog_visage.bdae",
+      "bytes": 14588,
+      "path": "data/3d/animateddecors/darktemple/smog_visage.bdae",
+      "sha256": "1773565dbc5303f174c74843a171f9701e62e101d88eef51ea50c4afca64f4d7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/darktemple.bdae",
+      "bytes": 1397184,
+      "path": "data/3d/modules/darktemple/darktemple.bdae",
+      "sha256": "f0a4240b1fcd2899b87db52b1cc8ba04c11cdfcc13f6bc0f1a87b8fbb47a8d06"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_01.mgp",
+      "bytes": 4387,
+      "path": "data/3d/modules/darktemple/mgp/dt_01.mgp",
+      "sha256": "bef5ae1b7370c2a88d48eb7798dced09b35cc2bbbc6a875a7382c833c69e7514"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_02.mgp",
+      "bytes": 6169,
+      "path": "data/3d/modules/darktemple/mgp/dt_02.mgp",
+      "sha256": "84ac8ef852bcc8a9dc8935dab8e6fae657a3153aeec7f012afb2d6def6f11663"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_03.mgp",
+      "bytes": 2786,
+      "path": "data/3d/modules/darktemple/mgp/dt_03.mgp",
+      "sha256": "1e5f52237f588b7df49e857bb30e346c0e6740b3edd99cbec096c6e1d06c6d71"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_04.mgp",
+      "bytes": 8629,
+      "path": "data/3d/modules/darktemple/mgp/dt_04.mgp",
+      "sha256": "fd2a26cf0f550998a3004ac4928640743f9eb951619dc237c843c6a840182853"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_05.mgp",
+      "bytes": 2742,
+      "path": "data/3d/modules/darktemple/mgp/dt_05.mgp",
+      "sha256": "a11b415e74823b1388f5a7fbd909d94cb10301b8ad54c0df1d80fe77cd68f267"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_06.mgp",
+      "bytes": 6385,
+      "path": "data/3d/modules/darktemple/mgp/dt_06.mgp",
+      "sha256": "873dd68d726f3ad68eb2164782e9fd8811db7305073515c5e617a95e85b9475b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "bytes": 7605,
+      "path": "data/3d/modules/darktemple/mgp/dt_07.mgp",
+      "sha256": "28d42986ef712c7245f6e99ad75e96ed3fdecbbf2317b7f17ed1280580c850de"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_08.mgp",
+      "bytes": 4989,
+      "path": "data/3d/modules/darktemple/mgp/dt_08.mgp",
+      "sha256": "288cdbc99dc94a561c07598d373cc7b5dfd2849c584e46883a30f19d2c99201d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_01.mvp",
+      "bytes": 6088,
+      "path": "data/3d/modules/darktemple/mvp/dt_01.mvp",
+      "sha256": "e120bdffc0fe02b14d3d31c63d3652287a4270f180fe5648b08117949d1d17f5"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_02.mvp",
+      "bytes": 7072,
+      "path": "data/3d/modules/darktemple/mvp/dt_02.mvp",
+      "sha256": "4dfe02d362577244e42ece26a96dd6b09eae6a2e8d57f355e13ce08d7d38fd68"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_03.mvp",
+      "bytes": 3157,
+      "path": "data/3d/modules/darktemple/mvp/dt_03.mvp",
+      "sha256": "5efd234c126b007404810c2b21654409274b80765c505c21cd99dda4e92b885c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_04.mvp",
+      "bytes": 9389,
+      "path": "data/3d/modules/darktemple/mvp/dt_04.mvp",
+      "sha256": "d6655e2e46c684faa54763d4aaf40c5ee31d53e9f571afffca430924e8d63b60"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_05.mvp",
+      "bytes": 6924,
+      "path": "data/3d/modules/darktemple/mvp/dt_05.mvp",
+      "sha256": "ea346d11c12b0eb56f41e239442d19c69ff9958131cf00c95c8b15cd1e7dd413"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_06.mvp",
+      "bytes": 3596,
+      "path": "data/3d/modules/darktemple/mvp/dt_06.mvp",
+      "sha256": "b51072dcab6959984ebdd5c8c33c194574e3bf7bf45ea3591f14b50bd938df69"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_07.mvp",
+      "bytes": 5020,
+      "path": "data/3d/modules/darktemple/mvp/dt_07.mvp",
+      "sha256": "db7a417823da49e56a89e9755a545c640e6c9e15fde5537f7b0b267ff41ee3e3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_08.mvp",
+      "bytes": 4572,
+      "path": "data/3d/modules/darktemple/mvp/dt_08.mvp",
+      "sha256": "7a09d70e0e3d3477dc59f4e01448c8d9cfe0c6d3a87bb319e87c1a07dd425f4b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_darktemple.bdae",
+      "bytes": 5964,
+      "path": "data/3d/skybox/skybox_darktemple.bdae",
+      "sha256": "1bf82d024e67458e899535a1020ff3332588de59925f9ee2030432aa0ab84c7b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darktemple.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_darktemple.tga",
+      "sha256": "af79ad2905fbb422ab224c36eb202e0a799086ce9826cef7edcfde2603407001"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_darktemple.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/skybox_darktemple.tga",
+      "sha256": "1973a30d0686443b68efb8c016f7f762e7339ad20e9b4ea7cc0773d9dd847835"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_darktemple_alpha.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/skybox_darktemple_alpha.tga",
+      "sha256": "ef6d05050f177eef434a0138c7fc2c91a6f927bf2d24fa2f6a923b47ebb63ff9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/038_dark_temple.mlx",
+      "bytes": 4810,
+      "path": "data/scene/038_dark_temple.mlx",
+      "sha256": "a495e624a3975ca531a4aad4da62616e1dd7a11f64efb4bcb972463c163ae87d"
+    }
+  ],
+  "source_layout": "data/scene/038_dark_temple.mlx",
+  "spawn_point_count": 2,
+  "texture_hints": {
+    "data/3d/modules/darktemple/darktemple.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

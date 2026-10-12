@@ -9,8 +9,6 @@ namespace dh2::character_skill_combat_roll_v1 {
 constexpr std::uint32_t userdata_type = 2;
 constexpr std::uint32_t object_type = 7;
 constexpr std::uint32_t false_value_tag = 8;
-constexpr std::uint32_t skill_type_active = 2;
-constexpr std::uint32_t skill_type_passive = 7;
 constexpr std::uint32_t dual_wield_flag = 0x00800000u;
 constexpr std::uint32_t offhand_attack_flag = 0x04000000u;
 

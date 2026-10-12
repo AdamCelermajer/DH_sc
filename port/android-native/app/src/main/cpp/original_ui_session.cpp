@@ -190,7 +190,8 @@ struct OriginalUiSession::Impl {
     // resets that source gate for the next merchant-menu lifetime.
     bool merchant_sell_one_shot_used=false;
     std::string active_menu_path()const{return "_root."+(menu_stack.empty()?std::string("menu_MainMenu"):menu_stack.back());}
-    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options";}
+    // menu_Loading is authored only in dqshared (not dqcharmenu or the HUD).
+    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options"||name=="menu_Loading";}
     static bool character_menu_state(const std::string& name){
         return name=="menu_CharacterMenu"||name=="menu_CharacterSheetNew"||
                name=="menu_CharacterSheetRecovery"||name=="menu_CharacterSheetMagic"||
@@ -199,7 +200,7 @@ struct OriginalUiSession::Impl {
                name=="menu_InventorySheetDetails"||name=="menu_SkillTreeSheetNew"||
                name=="menu_FaerySheet"||name=="menu_QuestLogSheetNEW"||
                name=="menu_MapSheet"||name=="menu_Specialisation"||
-               name=="menu_Merchant"||name=="menu_Loading"||name=="menu_MultiplayerLobbyMulti"||
+               name=="menu_Merchant"||name=="menu_MultiplayerLobbyMulti"||
                name=="menu_FriendInvitationMulti"||name=="menu_confirm2";
     }
     static bool gameplay_menu_state(const std::string& name){
@@ -3227,7 +3228,9 @@ struct OriginalUiSession::Impl {
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
         services.glyphs=fonts->borrowed_provider();
-        if(front_screen=="main"){
+        if(front_screen=="main"||live_player){
+            // The gameplay MenuManager keeps the same dqshared renderer
+            // (menu_Loading for NativeGoToZone/ChangeLevel lives only there).
             // Original RenderFX::Load (0x7ab7c0..0x7ab7e0) constructs a
             // separate player per renderer. Importing common definitions into
             // the main player does not activate the shared menu renderer.
@@ -3754,8 +3757,9 @@ bool OriginalUiSession::push_source_loading_menu(std::string& error){
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     return Impl::push_game_menu(&self,"menu_Loading",error);
 }
 bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& error){
@@ -3781,8 +3785,9 @@ bool OriginalUiSession::pop_source_loading_menu(std::string& error){
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     return Impl::pop_menu(&self,"menu_Loading",error);
 }
 bool OriginalUiSession::source_loading_menu_visible(bool& visible,std::string& error){
@@ -3794,8 +3799,9 @@ bool OriginalUiSession::source_loading_menu_visible(bool& visible,std::string& e
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     // MenuBase::IsVisible reads the actual source +0x74 visibility byte.
     visible=state.visible;
     error.clear();return true;
@@ -3860,7 +3866,9 @@ bool OriginalUiSession::complete_source_hud_refresh(std::string& error){
             if(!hud.identity()){nested_error.clear();return true;}
             if(!graph.invoke(hud,hud,"completeRefresh",{},result,callable,
                              nested_error))return false;
-            if(!callable){nested_error="Required source HUD completeRefresh callback is unavailable";return false;}
+            // RenderFX::InvokeASCallback on an undefined member returns undefined
+            // (e.g. while the HUD is closed for a Level transition).
+            if(!callable){nested_error.clear();return true;}
             owner.gameplay_hud_usable_refresh.invalidate();
             nested_error.clear();return true;
         },error);
@@ -4153,6 +4161,10 @@ bool OriginalUiSession::source_combat_text_constant(const char* group,const char
     if(!Impl::constant(&self,group,name,raw,error))return false;
     std::memcpy(&value,&raw,sizeof(value));return true;
 }
+bool OriginalUiSession::gameplay_text_ready() const noexcept{
+    const auto& self=*impl_;
+    return self.selected&&self.live_player&&self.loaded;
+}
 bool OriginalUiSession::source_combat_text_string(std::int32_t string_id,
     std::string& value,std::string& error){
     auto& self=*impl_;
@@ -4341,6 +4353,107 @@ bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
     if(self.source_dialog_messages.size()==1&&
        !self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
         return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error){
+    auto& self=*impl_;
+    if(!self.settings){error="Script_LockTutorial requires the retained settings owner";return false;}
+    if(!self.settings->lock_tutorial(id)){error.clear();return true;}
+    return Impl::save_settings(impl_.get(),error);
+}
+bool OriginalUiSession::show_script_flash(const std::string& name,std::string& error){
+    // Script_ShowFlash::Execute tests strstr(name,"HUD"). That branch runs
+    // DisplayRightHud/FillActionIcon/DisplayOfCurrentHud; no level script uses it.
+    if(name.find("HUD")!=std::string::npos){
+        error="ShowFlash HUD-named branch is not reconstructed";return false;
+    }
+    if(name.empty()||name.find(' ')!=std::string::npos){
+        error="ShowFlash requires a menu name";return false;
+    }
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="ShowFlash requires the retained gameplay HUD movie";return false;
+    }
+    struct Flash {const std::string& name;} context{name};
+    return self.movie->menu_action_script(&context,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            const auto& flash=static_cast<Flash*>(raw)->name;
+            ui::SwfAsValue root,menu,visibility,result;
+            bool visible=false,accepted=false,callable=false,found=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,("_root."+flash).c_str(),menu,nested_error))return false;
+            // MenuManager::GetMenuByName returning null is a source no-op.
+            if(!menu.identity()){nested_error.clear();return true;}
+            if(!graph.get_member(menu,"_visible",visibility,found,nested_error))return false;
+            if(!found){nested_error="Authored flash visibility member absent";return false;}
+            if(!graph.to_boolean(visibility,visible,nested_error))return false;
+            // MenuBase::Show returns early when the menu is already visible.
+            if(visible){nested_error.clear();return true;}
+            if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(true),
+                                 accepted,nested_error))return false;
+            if(!accepted){nested_error="Authored flash visibility write rejected";return false;}
+            // MenuBase::Show invokes onPush through RenderFX::InvokeASCallback.
+            return graph.invoke(menu,menu,"onPush",{},result,callable,nested_error);
+        },error);
+}
+bool OriginalUiSession::hide_script_flash(const std::string& name,std::string& error){
+    // Script_HideFlash::Execute uses the same HUD-name split as ShowFlash.
+    if(name.find("HUD")!=std::string::npos){
+        error="HideFlash HUD-named branch is not reconstructed";return false;
+    }
+    if(name.empty()||name.find(' ')!=std::string::npos){
+        error="HideFlash requires a menu name";return false;
+    }
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||!self.movie){
+        error="HideFlash requires the retained gameplay HUD movie";return false;
+    }
+    struct Flash {const std::string& name;} context{name};
+    return self.movie->menu_action_script(&context,
+        [](void* raw,ui::SwfAsGraph& graph,std::string& nested_error){
+            const auto& flash=static_cast<Flash*>(raw)->name;
+            ui::SwfAsValue root,menu,visibility,result;
+            bool visible=false,accepted=false,callable=false,found=false;
+            if(!graph.root_value(root,nested_error)||
+               !graph.find_target(root,("_root."+flash).c_str(),menu,nested_error))return false;
+            if(!menu.identity()){nested_error.clear();return true;}
+            if(!graph.get_member(menu,"_visible",visibility,found,nested_error))return false;
+            if(!found){nested_error="Authored flash visibility member absent";return false;}
+            if(!graph.to_boolean(visibility,visible,nested_error))return false;
+            // MenuBase::Hide returns early when the menu is already hidden.
+            if(!visible){nested_error.clear();return true;}
+            if(!graph.set_member(menu,"_visible",ui::SwfAsValue::boolean(false),
+                                 accepted,nested_error))return false;
+            if(!accepted){nested_error="Authored flash visibility write rejected";return false;}
+            return graph.invoke(menu,menu,"onPop",{},result,callable,nested_error);
+        },error);
+}
+bool OriginalUiSession::source_tutorial_active(std::int32_t id,bool& active,std::string& error)const{
+    active=false;
+    const auto& self=*impl_;
+    if(!self.settings){error="Settings tutorial byte requires the retained settings owner";return false;}
+    const auto& tutorials=self.settings->tutorials();
+    if(id<0||std::size_t(id)>=tutorials.size()){
+        error="Settings tutorial id is out of range";return false;
+    }
+    active=tutorials[std::size_t(id)]!=0;error.clear();return true;
+}
+void OriginalUiSession::queue_level_transition(const std::string& destination,double raw_entry_point){
+    NativeStartGameIntentV1 request{};
+    request.kind=NativeStartGameIntentV1::Kind::level_transition;
+    request.destination_name=destination;
+    request.raw_entry_point=raw_entry_point;
+    impl_->launch_requests.push_back(std::move(request));
+    __android_log_print(ANDROID_LOG_INFO,tag,"Script ChangeLevel queued | %s | raw entry %.9g",
+        destination.c_str(),raw_entry_point);
+}
+bool OriginalUiSession::flush_source_messages(std::string& error){
+    auto& self=*impl_;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()){
+        error="Source message flush requires the retained gameplay HUD session";return false;
+    }
+    self.source_dialog_messages.flush();
+    self.source_status_messages.flush();
     error.clear();return true;
 }
 bool OriginalUiSession::source_dialog_active(bool& active,std::string& error)const{

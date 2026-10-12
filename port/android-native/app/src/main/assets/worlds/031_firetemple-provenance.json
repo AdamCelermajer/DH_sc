@@ -1,0 +1,715 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": "EDWARD_FOLLOW",
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      1774.82,
+      62.5515,
+      1461.85
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 7,
+    "name": "_prim_EntryPoint_fromRDH",
+    "source_path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      46829.72,
+      3273.7315,
+      1461.85
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 2,
+  "entrypoint_zero_policy": "first_source_order_conditional",
+  "entrypoint_zero_spread": 16.639900000000125,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "031_firetemple.dwld": {
+      "bytes": 1560,
+      "sha256": "3283d861b516d34d2da71ecadd8d07acd664c965220593ad4b46d5070c4e300b"
+    },
+    "031_firetemple.spwn": {
+      "bytes": 16,
+      "sha256": "e4a8952a59f8d9ba39d473eaa02baa6eab6a32006f191d6ee3edb714a8bd7449"
+    }
+  },
+  "level_list": {
+    "level_file": "031_firetemple.mlx",
+    "name": "FIRE_TEMPLE_01",
+    "row": 20
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 12,
+  "modules": [
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_06.mgp",
+      "mgp_records": 9,
+      "module_index": 0,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_06.mvp",
+      "mvp_records": 3,
+      "name": "_module_corner_firetemple_nw_00_001",
+      "node_id": "_module_corner_firetemple_nw_00-node",
+      "position": [
+        51056.4,
+        16337.1,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_08.mgp",
+      "mgp_records": 7,
+      "module_index": 1,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_08.mvp",
+      "mvp_records": 4,
+      "name": "_module_corner_firetemple_se_00_001",
+      "node_id": "_module_corner_firetemple_se_00-node",
+      "position": [
+        45053.5,
+        21210.7,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_07.mgp",
+      "mgp_records": 8,
+      "module_index": 2,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_07.mvp",
+      "mvp_records": 2,
+      "name": "_module_corner_firetemple_sw_00_001",
+      "node_id": "_module_corner_firetemple_sw_00-node",
+      "position": [
+        51056.4,
+        21215.6,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_04.mgp",
+      "mgp_records": 8,
+      "module_index": 3,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_04.mvp",
+      "mvp_records": 3,
+      "name": "_module_T_firetemple_nse_00_001",
+      "node_id": "_module_T_firetemple_nse_00-node",
+      "position": [
+        39054.2,
+        15211.8,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_10.mgp",
+      "mgp_records": 6,
+      "module_index": 4,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_10.mvp",
+      "mvp_records": 5,
+      "name": "_module_fallentowerrepeat_firetemple_ns_00_001",
+      "node_id": "_module_fallentowerrepeat_firetemple_ns_00-node",
+      "position": [
+        39053.3,
+        27212.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_12.mgp",
+      "mgp_records": 16,
+      "module_index": 5,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_12.mvp",
+      "mvp_records": 4,
+      "name": "_module_boss_firetemple_s_00_001",
+      "node_id": "_module_boss_firetemple_s_00-node",
+      "position": [
+        39047.1,
+        39215.2,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_11.mgp",
+      "mgp_records": 7,
+      "module_index": 6,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_11.mvp",
+      "mvp_records": 3,
+      "name": "_module_fallentowertop_firetemple_ns_00_001",
+      "node_id": "_module_fallentowertop_firetemple_ns_00-node",
+      "position": [
+        39046.8,
+        33213.1,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+      "mgp_records": 13,
+      "module_index": 7,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_01.mvp",
+      "mvp_records": 7,
+      "name": "_module_entrance_firetemple_en_00_001",
+      "node_id": "_module_entrance_firetemple_en_00-node",
+      "position": [
+        45054.9,
+        3211.18,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_02.mgp",
+      "mgp_records": 5,
+      "module_index": 8,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_02.mvp",
+      "mvp_records": 6,
+      "name": "_module_T_firetemple_nsw_00_001",
+      "node_id": "_module_T_firetemple_nsw_00-node",
+      "position": [
+        45054.8,
+        9211.18,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_03.mgp",
+      "mgp_records": 6,
+      "module_index": 9,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_03.mvp",
+      "mvp_records": 2,
+      "name": "_module_corner_firetemple_ne_00_001",
+      "node_id": "_module_corner_firetemple_ne_00-node",
+      "position": [
+        39054.7,
+        9211.73,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_05.mgp",
+      "mgp_records": 15,
+      "module_index": 10,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_05.mvp",
+      "mvp_records": 5,
+      "name": "_module_T_firetemple_nse_01_001",
+      "node_id": "_module_T_firetemple_nse_01-node",
+      "position": [
+        45054.8,
+        15211.2,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/firetemple/firetemple.bdae",
+      "mgp": "data/3d/modules/firetemple/mgp/firetemple_09.mgp",
+      "mgp_records": 11,
+      "module_index": 11,
+      "mvp": "data/3d/modules/firetemple/mvp/firetemple_09.mvp",
+      "mvp_records": 5,
+      "name": "_module_towerknockdown_firetemple_ns_00_001",
+      "node_id": "_module_towerknockdown_firetemple_ns_00-node",
+      "position": [
+        39053.4,
+        21211.7,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 12
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/firetemple/cloud.bdae",
+      "bytes": 7940,
+      "path": "data/3d/animateddecors/firetemple/cloud.bdae",
+      "sha256": "690ac3eb4c27ea2b428678a831375dc94d2ec1fcf7be431a398a4032de78e5b2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/firetemple/fire02.bdae",
+      "bytes": 8600,
+      "path": "data/3d/animateddecors/firetemple/fire02.bdae",
+      "sha256": "1195e9eb758306bb679d23bdbfad5e8b15dc4ad89a5647b462e1fe00543582da"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/firetemple/fire03.bdae",
+      "bytes": 12768,
+      "path": "data/3d/animateddecors/firetemple/fire03.bdae",
+      "sha256": "f1dddc25dd2aad6ee6779bbdd7d8d35cb2a7c1aca899dc32ba8832e9c7ab5a34"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/firetemple.bdae",
+      "bytes": 3954808,
+      "path": "data/3d/modules/firetemple/firetemple.bdae",
+      "sha256": "38749e09f79e3ba36768eb599b4c3905121d7d0d01593eae50958ee08892b19e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+      "bytes": 4751,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+      "sha256": "6ec1967ea352ad33154ac5f74bb3306e18d32e7b4d90fa103fe63aa4cdd6a68c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_02.mgp",
+      "bytes": 2927,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_02.mgp",
+      "sha256": "a090c67c8e052b88134b64543c1af6082737cf7b64c701d486a2397482748550"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_03.mgp",
+      "bytes": 3588,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_03.mgp",
+      "sha256": "e5ee2e7a0b8792941bedc8a82888c016f02b40ffb6ddf1033fc8ad14dfe60913"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_04.mgp",
+      "bytes": 3813,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_04.mgp",
+      "sha256": "e49a5ce0104efe9eb57a8049448f77a4ce8f44f7ca79b58f40dfcad20221c445"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_05.mgp",
+      "bytes": 6849,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_05.mgp",
+      "sha256": "98901ed92499f26dd7fc2ad758bd433c53810ba365aa5cd6db2760c2dab4c135"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_06.mgp",
+      "bytes": 4420,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_06.mgp",
+      "sha256": "4e3d41b31bf660e3fd9b12d2546dcafc1d7d832918176be3ce0273a68c56c34a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_07.mgp",
+      "bytes": 3803,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_07.mgp",
+      "sha256": "80b3e5b4695e256597b8224c5b97a488cc0d20ce49cb0c9bb0e07d8f321645f3"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_08.mgp",
+      "bytes": 4152,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_08.mgp",
+      "sha256": "fdda59302cf6dc6fbb0d4c1d24c8c8a1972b175a3ff7f58873be98e44ced91fc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_09.mgp",
+      "bytes": 4359,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_09.mgp",
+      "sha256": "9642cabacad1e2dfdd912b52ae49cb7900efe157560563116274dba97d4afe18"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_10.mgp",
+      "bytes": 3226,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_10.mgp",
+      "sha256": "ea4ec081cb341497ff65c1555108220d4f71abf220bf4fd5d7097c5ff044617a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_11.mgp",
+      "bytes": 3537,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_11.mgp",
+      "sha256": "7e39e1c4770b61e0f957377eb75770e99d2a91d8147ee2332e103ae45b7c618a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mgp/firetemple_12.mgp",
+      "bytes": 5907,
+      "path": "data/3d/modules/firetemple/mgp/firetemple_12.mgp",
+      "sha256": "0981d4530583653b01e923086f037ae2ff638698fe60ab7d31b970bf46cd537e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_01.mvp",
+      "bytes": 3514,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_01.mvp",
+      "sha256": "8860ff8cc6b0649d85664eb771c1b702e52372475106e1fa715c6e0fef3b4540"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_02.mvp",
+      "bytes": 2986,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_02.mvp",
+      "sha256": "eb85171862054cb44e7d9b721f960123f180438d61835cdd8bc32be88ccedb11"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_03.mvp",
+      "bytes": 1161,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_03.mvp",
+      "sha256": "b2f5409bb0e11be1b1e932d2387bec058a720301dcd5c0e4a389c8cb204db2d6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_04.mvp",
+      "bytes": 1611,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_04.mvp",
+      "sha256": "5ee5c393b3d9e68b8eb829b5f85e305e6bad50d5bf2b75d1320c6d2d11f0a263"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_05.mvp",
+      "bytes": 2516,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_05.mvp",
+      "sha256": "b97c38f3d41e6651202ff2389407acd99d5b8031daf26d5a4d7fae8026f2a164"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_06.mvp",
+      "bytes": 1617,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_06.mvp",
+      "sha256": "c3997c88cfb212039e6d2ac68f8561574f5658dd4203a7c99220933f86621562"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_07.mvp",
+      "bytes": 1164,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_07.mvp",
+      "sha256": "dd81f33bafd11b0201de18ad9d40d1d5472e0e8193aa4a71939099b1581db0a4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_08.mvp",
+      "bytes": 2078,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_08.mvp",
+      "sha256": "5838c26e17c0ccc8244ee93fadde89d968b3558e610fd691d67142256b43ecda"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_09.mvp",
+      "bytes": 2518,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_09.mvp",
+      "sha256": "8667512d7ba9ef44402dc57aec3de97d2de7d525ac60d6dbd67af7df7278fcc1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_10.mvp",
+      "bytes": 2510,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_10.mvp",
+      "sha256": "3a63a5c8d2bf318853e41b6a56a074a2143dd86401e50f5208294bcb296580ba"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_11.mvp",
+      "bytes": 1624,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_11.mvp",
+      "sha256": "d4c0bc9d4638b5e3bb904d1a5790f5fab659fbb8d4407459e26f1dd6c757dae4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/firetemple/mvp/firetemple_12.mvp",
+      "bytes": 2177,
+      "path": "data/3d/modules/firetemple/mvp/firetemple_12.mvp",
+      "sha256": "fc11bc785f0af9bfa2858552d941652ac967950bd258fcf283b54e7023304c36"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_firetemple.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_firetemple.tga",
+      "sha256": "8e96046c4f07b9321e50a54d72197f505ba0272f6fca17735f2319c0568a3f51"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_firetemple_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_firetemple_spec.tga",
+      "sha256": "2d42e05b72424a1e7be188b9030b7c5ffe696eb6631764d73da66cf56a489998"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_firetemple_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_firetemple_alpha.tga",
+      "sha256": "3586c0d110c907772513a033fe7df4a433a205e4716fcb70f89b12c0c7610ac7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/031_firetemple.mlx",
+      "bytes": 7215,
+      "path": "data/scene/031_firetemple.mlx",
+      "sha256": "1df2339e068fef8b05182c42c41571ca4b56c3452b7000da744a91c5c8405362"
+    }
+  ],
+  "source_layout": "data/scene/031_firetemple.mlx",
+  "spawn_point_count": 2,
+  "texture_hints": {
+    "data/3d/modules/firetemple/firetemple.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 0,
+      "local_position": [
+        1774.82,
+        62.5515,
+        1461.85
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_fromRDH",
+      "source_path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+      "source_record": 0,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        46829.72,
+        3273.7315,
+        1461.85
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": null,
+      "deactivate_condition": "IsAfter_KillFlaminite",
+      "entrypoint_id": 0,
+      "local_position": [
+        1774.82,
+        79.1914,
+        1461.85
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_fromRDH02",
+      "source_path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+      "source_record": 12,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_deactivation"
+      ],
+      "world_position": [
+        46829.72,
+        3290.3714,
+        1461.85
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 0,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_fromRDH",
+          "source_path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+          "source_record": 0
+        },
+        {
+          "activate_condition": null,
+          "deactivate_condition": "IsAfter_KillFlaminite",
+          "module_index": 7,
+          "name": "_prim_EntryPoint_fromRDH02",
+          "source_path": "data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+          "source_record": 12
+        }
+      ]
+    }
+  ]
+}

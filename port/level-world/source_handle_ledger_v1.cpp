@@ -104,25 +104,28 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
         }
 
         const auto module_count = static_cast<std::size_t>(imported.value.module_count);
+        // Only Modules with an MGP/MVP pair own ordered files. A visual-only Module
+        // (no children) still takes its root handle slot in the register loop below.
+        std::size_t expected_files = 0;
+        for (std::size_t m = 0; m < module_count; ++m)
+            if (imported.value.modules[m].cache_mgp) expected_files += 2;
         if (!module_count || module_count > max_module_files / 2 ||
-            file_count != module_count * 2) {
-            set_error(error, "Need one ordered MGP and MVP file per source Module");
+            file_count != expected_files) {
+            set_error(error, "Need one ordered MGP and MVP file per source Module with children");
             return Status::invalid_file_order;
         }
 
-        for (std::size_t index = 0; index < file_count; ++index) {
-            const auto& file = ordered_files[index];
-            const auto expected_module = index / 2;
-            if (file.module_index != expected_module ||
-                !file.source_path || !file.data || !file.size) {
-                set_error(error, "Module file inputs are incomplete or out of load order");
-                return Status::invalid_file_order;
-            }
-            const auto pair_begin = expected_module * 2;
-            if ((index == pair_begin && file.kind != ModuleFileKind::mgp) ||
-                (index == pair_begin + 1 && file.kind != ModuleFileKind::mvp)) {
-                set_error(error, "Each Module needs MGP followed by MVP in source load order");
-                return Status::invalid_file_order;
+        std::size_t cursor = 0;
+        for (std::size_t m = 0; m < module_count; ++m) {
+            if (!imported.value.modules[m].cache_mgp) continue;
+            for (std::size_t k = 0; k < 2; ++k, ++cursor) {
+                const auto& file = ordered_files[cursor];
+                const auto wanted = k == 0 ? ModuleFileKind::mgp : ModuleFileKind::mvp;
+                if (file.module_index != m || file.kind != wanted ||
+                    !file.source_path || !file.data || !file.size) {
+                    set_error(error, "Module file inputs are incomplete or out of load order");
+                    return Status::invalid_file_order;
+                }
             }
         }
 
@@ -133,21 +136,17 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
         candidate.next_handle_after = first_source_handle;
         std::map<std::string, std::size_t, std::less<>> handle_by_name;
 
-        // _LoadFromXML sends root records to ObjectManager before InitPost
-        // loads Module contents. The generated SourceLevel supports one
-        // LevelConfig followed by ordered Module records; other root types are
-        // rejected by world-data rather than silently skipped here.
-        if (imported.value.config.source_begin >=
-            imported.value.modules[0].record.source_begin) {
-            set_error(error, "Generated LevelConfig must precede Module roots");
-            return Status::invalid_level;
-        }
-        auto registration = register_object(imported.value, imported.value.config,
-                                            candidate, handle_by_name, error);
-        if (registration != RegisterStatus::ok) {
-            return registration == RegisterStatus::handle_overflow
-                ? Status::handle_overflow : Status::invalid_level;
-        }
+        // _LoadFromXML sends root records to ObjectManager in file order
+        // before InitPost loads Module contents. The generated SourceLevel has
+        // one LevelConfig and ordered Module records; the LevelConfig may sit
+        // anywhere among them (UNDERWORLD_HUB/ABBEY place it after Modules).
+        bool config_registered = false;
+        RegisterStatus registration = RegisterStatus::ok;
+        const auto register_config = [&]() {
+            config_registered = true;
+            return register_object(imported.value, imported.value.config,
+                                   candidate, handle_by_name, error);
+        };
         for (std::uint32_t index = 0; index < imported.value.module_count; ++index) {
             const auto& module = imported.value.modules[index].record;
             if (index > 0 && module.source_begin <=
@@ -155,8 +154,19 @@ Status build(const std::uint8_t* level_xml, std::size_t level_size,
                 set_error(error, "Module root records are not in source load order");
                 return Status::invalid_level;
             }
-            registration = register_object(imported.value, module, candidate,
-                                           handle_by_name, error);
+            if (!config_registered &&
+                imported.value.config.source_begin < module.source_begin)
+                registration = register_config();
+            if (registration == RegisterStatus::ok)
+                registration = register_object(imported.value, module, candidate,
+                                               handle_by_name, error);
+            if (registration != RegisterStatus::ok) {
+                return registration == RegisterStatus::handle_overflow
+                    ? Status::handle_overflow : Status::invalid_level;
+            }
+        }
+        if (!config_registered) {
+            registration = register_config();
             if (registration != RegisterStatus::ok) {
                 return registration == RegisterStatus::handle_overflow
                     ? Status::handle_overflow : Status::invalid_level;

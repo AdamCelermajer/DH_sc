@@ -27,6 +27,9 @@
 #include <vector>
 #include <cstdint>
 
+// Defined in model_renderer.cpp; declared here to keep the scenario change within desktop_main.cpp.
+namespace model_renderer { std::int32_t gameplay_player_state() noexcept; }
+
 namespace {
 struct Options {
     std::filesystem::path assets;
@@ -38,8 +41,11 @@ struct Options {
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
     bool movement_defend_scenario = false;
+    std::string transition_to;
+    double transition_entry = 0.0;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
+    bool skill_kill_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -66,8 +72,15 @@ Options parse(int argc, char** argv) {
                 number > std::numeric_limits<std::int32_t>::max())
                 throw std::runtime_error("--level-row must be a nonnegative 32-bit integer");
             options.level_row = static_cast<std::int32_t>(number);
-            if (options.level_row != 4 && options.level_row != 23 && options.level_row != 41)
-                throw std::runtime_error("--level-row currently supports direct Crypt 23 or fresh-save SWAMP 41");
+            if (options.level_row != 23 && !model_renderer::static_level_name_for_row(options.level_row))
+                throw std::runtime_error("--level-row supports Crypt 23 and the authored static MLX rows");
+        }
+        else if (arg == "--transition-to") {
+            // Development check: queue NativeGoToZone/ChangeLevel to LEVEL[:entry].
+            const std::string spec = value("--transition-to");
+            const auto colon = spec.find(':');
+            options.transition_to = spec.substr(0, colon);
+            if (colon != std::string::npos) options.transition_entry = std::stod(spec.substr(colon + 1));
         }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
@@ -77,6 +90,8 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
+            else if (scenario == "skill-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -100,6 +115,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
+                         "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
@@ -478,9 +494,7 @@ bool start_from_authored_menu(const dh2::android_ui::NativeStartGameIntentV1& re
     ui.deactivate();
     const auto startup = model_renderer::start_menu_game(request.slot, assets, -1,
         request.has_numeric_difficulty, request.requested_difficulty);
-    const bool world_loaded = startup.rfind("Crypt |", 0) == 0 ||
-                              startup.rfind("SWAMP |", 0) == 0 ||
-                              startup.rfind("DARKWOOD |", 0) == 0;
+    const bool world_loaded = model_renderer::gameplay_startup_loaded(startup);
     std::string attach_error;
     const bool hud_attached = world_loaded && ui.attach_player(runtime.string(), attach_error);
     model_renderer::bind_gameplay_ui_session(hud_attached ? &ui : nullptr);
@@ -654,8 +668,8 @@ int main(int argc, char** argv) {
             const auto debug_level_row = options.level_row == 41 ? -1 : options.level_row;
             const auto loaded = model_renderer::start_menu_game(
                 slot, assets.get(), debug_level_row, false, 0);
-            const auto expected_prefix = options.level_row == 23 ? "Crypt |" :
-                                         options.level_row == 4 ? "DARKWOOD |" : "SWAMP |";
+            const std::string expected_prefix = options.level_row == 23 ? std::string("Crypt |") :
+                std::string(model_renderer::static_level_name_for_row(options.level_row)) + " |";
             if (loaded.rfind(expected_prefix, 0) != 0)
                 throw std::runtime_error("Canonical source-menu row " + std::to_string(options.level_row) +
                                          " resolved a different level: " + loaded);
@@ -699,6 +713,8 @@ int main(int argc, char** argv) {
         bool scenario_player_died = false, scenario_revived = false;
         unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
+        std::int32_t scenario_skill_state = -1;
+        unsigned scenario_skill_uses = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -847,9 +863,21 @@ int main(int argc, char** argv) {
             // normal player_attack() route until its source HP reaches zero.
             if (options.movement_kill_scenario && scenario_started &&
                 rendered_frames && rendered_frames % 15 == 0) {
+                [&] {  // returns early while the Player is dead
                 model_renderer::GameplayPoseSnapshotV1 pose;
-                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error))
-                    throw std::runtime_error("Shared attack pose snapshot failed: " + ui_error);
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                    // Monsters fight back: on death the Continue taps below
+                    // revive the Player and the kill loop resumes.
+                    if (!scenario_player_died)
+                        std::cout << "Scenario move-kill | Player died | " << ui_error << '\n';
+                    scenario_player_died = true;
+                    scenario_revived = false;
+                    return;
+                }
+                if (scenario_player_died && !scenario_revived) {
+                    scenario_revived = true;
+                    std::cout << "Scenario move-kill | Player revived | HP " << pose.player_hp << '\n';
+                }
                 if (scenario_target_index >= 0) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target;
                     if (model_renderer::gameplay_enemy_state_snapshot(scenario_target_index, target, ui_error) &&
@@ -864,6 +892,12 @@ int main(int argc, char** argv) {
                 model_renderer::GameplayWorldItemSnapshotV1 items;
                 const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
                     model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
+                if (options.skill_kill_scenario) {
+                    const auto state = model_renderer::gameplay_player_state();
+                    if (scenario_skill_state == 6 && state != 6)
+                        std::cout << "Scenario skill used | state " << state << " | uses " << ++scenario_skill_uses << '\n';
+                    scenario_skill_state = state;
+                }
                 if (have_items && scenario_last_item_count >= 0 && items.count < scenario_last_item_count) {
                     ++scenario_pickups;
                     std::cout << "Scenario pickup verified | world items " << scenario_last_item_count
@@ -881,12 +915,36 @@ int main(int argc, char** argv) {
                 } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
-                    const auto attack = model_renderer::player_attack();
-                    std::cout << "Scenario attack | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
-                              << '/' << pose.enemy_max_hp << " | " << attack << '\n';
+                    if (options.skill_kill_scenario) {
+                        // Same entry the authored HUD calls on release (NativeHUDSkill).
+                        if (scenario_skill_state != 6) {
+                            std::uintptr_t player = 0;std::array<std::int32_t, 3> slots{};
+                            if (!model_renderer::ui_player_identity(player, ui_error) || !player ||
+                                !model_renderer::ui_player_skill_slots(player, slots, ui_error) || slots[0] < 0)
+                                throw std::runtime_error("skill-kill requires a skill equipped in HUD slot 0: " + ui_error);
+                            const bool used = model_renderer::ui_player_use_skill_slot(player, 0, ui_error);
+                            std::cout << "Scenario skill | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
+                                      << '/' << pose.enemy_max_hp << " | slot 0 skill " << slots[0]
+                                      << " | state " << model_renderer::gameplay_player_state()
+                                      << " | use " << (used ? "ok" : "error: " + ui_error) << '\n';
+                            // A skill refused for mana/cooldown leaves the Player in its prior
+                            // state; after repeated refusals fall back to a basic attack.
+                            static unsigned refused = 0;
+                            refused = model_renderer::gameplay_player_state() == 6 ? 0 : refused + 1;
+                            if (refused > 6) {
+                                const auto attack = model_renderer::player_attack();
+                                std::cout << "Scenario skill fallback attack | " << attack << '\n';
+                            }
+                        }
+                    } else {
+                        const auto attack = model_renderer::player_attack();
+                        std::cout << "Scenario attack | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
+                                  << '/' << pose.enemy_max_hp << " | " << attack << '\n';
+                    }
                 } else if (pose.enemy_index >= 0) {
                     steer_toward_nearest_enemy();
                 }
+                }();
             }
             // move-defend: approach the nearest enemy without attacking and verify that
             // its source melee attack lowers the Player's HP.
@@ -913,7 +971,8 @@ int main(int argc, char** argv) {
             }
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
-            if (options.movement_defend_scenario && scenario_player_died && !scenario_revived &&
+            if ((options.movement_defend_scenario || options.movement_kill_scenario) &&
+                scenario_player_died && !scenario_revived &&
                 (rendered_frames % 120 == 60 || rendered_frames % 120 == 66)) {
                 // Press and release on separate frames so GameSWF sees the edge.
                 int window_width = 1, window_height = 1;
@@ -1108,7 +1167,25 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("Authored main menu frame failed: " + ui_error);
             }
             dh2::android_ui::NativeStartGameIntentV1 launch_request;
-            if (!gameplay && original_ui.consume_launch_request(launch_request)) {
+            if (gameplay && !options.transition_to.empty() && rendered_frames == 300) {
+                original_ui.queue_level_transition(options.transition_to, options.transition_entry);
+            }
+            if (gameplay && original_ui.consume_launch_request(launch_request)) {
+                // NativeGoToZone / Script_ChangeLevel: the shared transition owner.
+                if (launch_request.kind ==
+                    dh2::android_ui::NativeStartGameIntentV1::Kind::level_transition) {
+                    const auto transition = model_renderer::transition_level(
+                        launch_request.destination_name, launch_request.raw_entry_point,
+                        assets.get(), &original_ui,
+                        [](void* raw, bool source_flag, const std::string& first,
+                           const std::string& second, std::int32_t entry, std::string& error) {
+                            auto* ui = static_cast<dh2::android_ui::OriginalUiSession*>(raw);
+                            return ui && ui->display_fast_travel(source_flag, first, second, entry, error);
+                        });
+                    std::cout << "Level transition | " << launch_request.destination_name
+                              << " | " << transition << '\n';
+                }
+            } else if (!gameplay && original_ui.consume_launch_request(launch_request)) {
                 if (!start_from_authored_menu(launch_request, assets.get(), options.runtime,
                                               original_ui, gameplay, ui_error))
                     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s", ui_error.c_str());

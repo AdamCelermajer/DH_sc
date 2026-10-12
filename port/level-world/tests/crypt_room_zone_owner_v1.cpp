@@ -113,11 +113,14 @@ void activation_and_bounds() {
     assert(std::string(first.module_name) == "crypt_room_a");
     assert(first.position[0] == 0 && first.position[1] == 0 && first.position[2] == 2);
     assert(first.dimensions[0] == 4 && first.dimensions[1] == 4 && first.dimensions[2] == 4);
-    assert(first.relative_minimum[0] == -2 && first.relative_maximum[2] == 4);
-    // The source SetPosition(true) refreshes absolute bounds as relative + center.
+    // Relative extents are the world box minus its centre (0, 0, 2).
+    assert(first.relative_minimum[0] == -2 && first.relative_maximum[0] == 2);
+    assert(first.relative_minimum[2] == -2 && first.relative_maximum[2] == 2);
+    // The source SetPosition(true) refreshes absolute bounds as relative + center,
+    // which reproduces the original world box.
     assert(first.absolute_minimum[0] == -2 && first.absolute_maximum[0] == 2);
     assert(first.absolute_minimum[1] == -2 && first.absolute_maximum[1] == 2);
-    assert(first.absolute_minimum[2] == 2 && first.absolute_maximum[2] == 6);
+    assert(first.absolute_minimum[2] == 0 && first.absolute_maximum[2] == 4);
 }
 
 void membership_and_lifetime() {

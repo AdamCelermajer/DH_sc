@@ -36,14 +36,17 @@ Status initialize(RoomZone* zone, const Box3* box, const Services* services,
     *zone->dimensions[2] = depth;
     *zone->dimensions[0] = width;
 
-    for (unsigned axis = 0; axis != 3; ++axis)
-        *zone->relative_minimum[axis] = box->minimum[axis];
-    for (unsigned axis = 0; axis != 3; ++axis)
-        *zone->relative_maximum[axis] = box->maximum[axis];
-
     constexpr float half = 0.5f;
     for (unsigned axis = 0; axis != 3; ++axis)
         result->center[axis] = (box->maximum[axis] + box->minimum[axis]) * half;
+
+    // The box is world-space (module root bounds at the Module's world
+    // position). Zone::SetPosition(center) makes the absolute box equal
+    // relative + position, so the stored relative extents are box - center.
+    for (unsigned axis = 0; axis != 3; ++axis) {
+        *zone->relative_minimum[axis] = box->minimum[axis] - result->center[axis];
+        *zone->relative_maximum[axis] = box->maximum[axis] - result->center[axis];
+    }
 
     const Request request{Operation::set_position, zone->identity,
                           {result->center[0], result->center[1], result->center[2]}, 1};

@@ -57,6 +57,11 @@ public:
  bool set_language(std::int32_t,const SettingsLanguageServicesV1&,std::string&);
  const GameOptionRow32V1* descriptor(const char*)const;
  const std::array<std::uint8_t,14>& tutorials()const{return tutorials_;}
+ // Script_LockTutorial 0x45925c clears settings+41+id; out-of-range ids miss.
+ bool lock_tutorial(std::int32_t id){
+  if(id<0||std::size_t(id)>=tutorials_.size())return false;
+  tutorials_[std::size_t(id)]=0;return true;
+ }
  const std::vector<std::uint8_t>& file_bytes()const{return file_;}
  bool loaded()const{return loaded_;}bool new_settings()const{return new_settings_;}
  bool orientation()const{return orientation_;}std::int32_t language_hint()const{return language_hint_;}

@@ -33,10 +33,13 @@ extern "C" Error dh2_world_bind_module(ModuleBinding* output, const Module* modu
     const dh2::scene_payload::Scene* scene, Diagnostic* d) {
     if (!output || !module || !scene || !module->catalogue_node_id)
         return fail(d, Error::argument, "Missing module/scene binding input");
+    // Module rotation and scale are carried by the module root in the runtime scene
+    // (T*R*S). Here only the finite position is needed for the catalogue delta.
     const auto& transform = module->record.local;
     for (unsigned i = 0; i < 3; ++i)
-        if (!std::isfinite(transform.position[i]) || transform.rotation_degrees[i] != 0 || transform.scale[i] != 1)
-            return fail(d, Error::unsupported_transform, "Module placement must be finite translation only");
+        if (!std::isfinite(transform.position[i]) || !std::isfinite(transform.rotation_degrees[i]) ||
+            !std::isfinite(transform.scale[i]))
+            return fail(d, Error::unsupported_transform, "Module placement must be finite");
     ModuleBinding candidate{}; bool found = false;
     for (std::uint32_t v = 0; v < scene->visuals; ++v) {
         dh2::scene_payload::Visual visual{};
@@ -48,9 +51,13 @@ extern "C" Error dh2_world_bind_module(ModuleBinding* output, const Module* modu
                 return fail(d, Error::scene, "Invalid catalogue root");
             if (!node.id || std::strcmp(node.id, module->catalogue_node_id)) continue;
             if (found) return fail(d, Error::ambiguous_node, "Catalogue root ID is not unique");
-            if (node.rotation[0] != 0 || node.rotation[1] != 0 || node.rotation[2] != 0 ||
-                std::fabs(node.rotation[3]) != 1)
-                return fail(d, Error::unsupported_transform, "Catalogue root rotation is not identity");
+            for (unsigned i = 0; i < 4; ++i) {
+                if (!std::isfinite(node.rotation[i]))
+                    return fail(d, Error::unsupported_transform, "Catalogue root rotation is not finite");
+                candidate.catalogue_rotation[i] = node.rotation[i];
+            }
+            candidate.catalogue_rotated = node.rotation[0] != 0 || node.rotation[1] != 0 ||
+                node.rotation[2] != 0 || std::fabs(node.rotation[3]) != 1;
             for (unsigned i = 0; i < 3; ++i) {
                 if (node.scale[i] != 1 || !std::isfinite(node.position[i]))
                     return fail(d, Error::unsupported_transform, "Catalogue root is not finite/unit scale");
@@ -85,6 +92,8 @@ extern "C" Error dh2_world_module_records(std::uint32_t* records,
 extern "C" Error dh2_world_placement_matrix(dh2::math::Matrix4f* output,
     const ModuleBinding* binding, Diagnostic* d) {
     if (!output || !binding) return fail(d, Error::argument, "Missing placement correction input");
+    if (binding->catalogue_rotated)
+        return fail(d, Error::unsupported_transform, "Catalogue root rotation is not identity");
     dh2::math::Matrix4f candidate{};
     candidate.m[0] = candidate.m[5] = candidate.m[10] = candidate.m[15] = 1;
     for (unsigned i = 0; i < 3; ++i) {
@@ -99,6 +108,8 @@ extern "C" Error dh2_world_placement_matrix(dh2::math::Matrix4f* output,
 extern "C" Error dh2_world_place_matrix(dh2::math::Matrix4f* output,
     const ModuleBinding* binding, const dh2::math::Matrix4f* original, Diagnostic* d) {
     if (!output || !binding || !original) return fail(d, Error::argument, "Missing placement matrix input");
+    if (binding->catalogue_rotated)
+        return fail(d, Error::unsupported_transform, "Catalogue root rotation is not identity");
     auto placed = *original;
     for (float value : placed.m)
         if (!std::isfinite(value)) return fail(d, Error::unsupported_transform, "Nonfinite scene matrix");

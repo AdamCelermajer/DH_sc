@@ -1,0 +1,390 @@
+{
+  "source_layout": "data/scene/039_dark_temple_bossroom_01.mlx",
+  "selected_characters": 10,
+  "source_character_records": 19,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_01",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -1358.93,
+        -162.132,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        83.4958
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 2
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_02",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -1034.91,
+        882.621,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        37.6587
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 3
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_03",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -25.1653,
+        1350.64,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 4
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_04",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        953.322,
+        882.621,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -39.2408
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 5
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_05",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        1333.34,
+        -162.132,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -81.4557
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 6
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_06",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        951.328,
+        -1823.08,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -142.081
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 7
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_07",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -983.873,
+        -1823.08,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        152.162
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 8
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_08",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -19.1722,
+        -2088.96,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        180.0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 9
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_09",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        -1478.0,
+        -1154.76,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        125.883
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 10
+    },
+    {
+      "kind": 1,
+      "room": 0,
+      "name": "EnergySpawner_10",
+      "character": "MadrukEnergySpawner",
+      "model": "energyspawner.bdae",
+      "model_path": "data/3d/characters/npcs/energyspawner.bdae",
+      "animation_table": 45,
+      "position": [
+        1414.74,
+        -1154.76,
+        1013.32
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -124.867
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "source_mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "source_record": 11
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 45,
+      "character": "NPC_EnergySpawner",
+      "state": "Idle",
+      "sequence": 303
+    },
+    {
+      "table": 45,
+      "character": "NPC_EnergySpawner",
+      "state": "Walk",
+      "sequence": 312
+    },
+    {
+      "table": 45,
+      "character": "NPC_EnergySpawner",
+      "state": "Attack",
+      "sequence": 290
+    },
+    {
+      "table": 45,
+      "character": "NPC_EnergySpawner",
+      "state": "Died",
+      "sequence": 633
+    }
+  ],
+  "clip_ids": [
+    955,
+    957,
+    958,
+    960,
+    967,
+    969,
+    1023,
+    1040,
+    1041,
+    1114
+  ],
+  "dact": {
+    "bytes": 2576,
+    "sha256": "c0aaa7927d4574747256bdf22023ce78b43fdc51a9a6f3b9917b4eff04a9adfd"
+  },
+  "assets": [
+    {
+      "asset": "actors/energyspawner.bdae",
+      "bytes": 5240,
+      "sha256": "afd564041b179963a79683f97422dac3e12cc55b81bcb024633f7e1c6361520f",
+      "source": "data/3d/characters/npcs/energyspawner.bdae",
+      "source_file": "energyspawner.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "source_file": "prince_1hand_combo_01.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "source_file": "prince_1hand_combo_01_to_idle.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "source_file": "prince_1hand_combo_02.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "source_file": "prince_1hand_combo_02_to_idle.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+      "source": "data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "source_file": "prince_1hand_pre_combo_01.bdae"
+    },
+    {
+      "asset": "actors/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+      "source": "data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "source_file": "prince_1hand_pre_combo_02.bdae"
+    },
+    {
+      "asset": "actors/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "source": "data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "source_file": "prince_dying_01.bdae"
+    },
+    {
+      "asset": "actors/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "source": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "source_file": "prince_idle_shield.bdae"
+    },
+    {
+      "asset": "actors/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+      "source": "data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "source_file": "prince_idle_shield_02.bdae"
+    },
+    {
+      "asset": "actors/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "source": "data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "source_file": "prince_walk_1hand.bdae"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

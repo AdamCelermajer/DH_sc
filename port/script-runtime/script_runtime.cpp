@@ -466,6 +466,19 @@ static Error execute_command(Runtime *runtime, Task *task,
                 command->fields[1].kind != DH2_SCRIPT_VALUE_STRING) {
                 return ERROR_INVALID_ARGUMENT;
             }
+            if (runtime->spawn_services.host_command != NULL) {
+                // Script_SetCameraTarget 0x...: CameraTarget::SetTarget(name or
+                // LocalPlayer, blend ms = field 0); the host owns the camera.
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted == 1) return ERROR_OK;
+                if (accepted == 0)
+                    return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                                command->command_id, 0, "camera target")
+                        ? ERROR_OK : runtime->error;
+                if (accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
             const dh2_script_string target = command->fields[1].value.string;
             char name[MAX_NAME_BYTES];
             if (!copy_string(name, sizeof(name), target.data, target.size)) {
@@ -505,10 +518,23 @@ static Error execute_command(Runtime *runtime, Task *task,
                 ? ERROR_OK : runtime->error;
         }
         case 24:  // LockCharacter("All") sets the native shared player block flag.
-            set_player_lock(runtime, task, command, 1);
-            return runtime->error;
         case 25:  // UnlockCharacter("All") clears the native shared player block flag.
-            set_player_lock(runtime, task, command, 0);
+            if (runtime->spawn_services.host_command != NULL) {
+                // Script_LockCharacter 0x45... : "All" writes v2Controller::s_blocked,
+                // a name writes that Character's controller+8 lock; the host owns both.
+                uintptr_t handle = 0;
+                const int accepted = runtime->spawn_services.host_command(
+                    runtime->spawn_services.context, command, &handle);
+                if (accepted == 1 || accepted == 0) {
+                    if (accepted == 1 && string_field_is(command, 0, "All", true))
+                        runtime->player_locked = command->command_id == 24 ? 1 : 0;
+                    return accepted == 1 ? ERROR_OK
+                        : (emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task, command->command_id,
+                                0, "lock target") ? ERROR_OK : runtime->error);
+                }
+                if (accepted != -2) return ERROR_HOST_COMMAND_SERVICE;
+            }
+            set_player_lock(runtime, task, command, command->command_id == 24 ? 1 : 0);
             return runtime->error;
         case 26: {  // Wait::Execute resets elapsed; Update adds dt; IsBlocking compares target.
             if (command->field_count != 1 ||
@@ -659,9 +685,32 @@ static Error execute_command(Runtime *runtime, Task *task,
         }
         case 78:
             return execute_tutorial(runtime, task, command);
-        default:
-            return unsupported(runtime, task, command, NULL)
-                ? ERROR_OK : runtime->error;
+        default: {
+            if (runtime->spawn_services.host_command == NULL)
+                return unsupported(runtime, task, command, NULL)
+                    ? ERROR_OK : runtime->error;
+            uintptr_t handle = 0;
+            const int accepted = runtime->spawn_services.host_command(
+                runtime->spawn_services.context, command, &handle);
+            if (accepted == -2)
+                return unsupported(runtime, task, command, NULL)
+                    ? ERROR_OK : runtime->error;
+            if (accepted < 0) return ERROR_HOST_COMMAND_SERVICE;
+            if (accepted == 0)
+                return emit(runtime, EVENT_OBJECT_LOOKUP_MISS, task,
+                            command->command_id, 0, "host command target")
+                    ? ERROR_OK : runtime->error;
+            if (accepted == 2) {
+                if (runtime->spawn_services.host_command_blocking == NULL)
+                    return ERROR_HOST_COMMAND_SERVICE;
+                task->waiting_for_host = 1;
+                task->host_handle = handle;
+                task->host_command_id = command->command_id;
+                *yield_task = true;
+                return ERROR_OK;
+            }
+            return accepted == 1 ? ERROR_OK : ERROR_HOST_COMMAND_SERVICE;
+        }
     }
 }
 
@@ -704,6 +753,24 @@ static Error drain(Runtime *runtime, uint64_t runnable_ticket_limit, uint32_t de
             task->waiting_for_door = 0;
             task->door_identity = 0;
             task->door_command_id = 0;
+            ++task->pc;
+        }
+        if (task->waiting_for_host) {
+            if (runtime->spawn_services.host_command_blocking == NULL) {
+                runtime->error = ERROR_HOST_COMMAND_SERVICE;
+                return runtime->error;
+            }
+            const int blocking = runtime->spawn_services.host_command_blocking(
+                runtime->spawn_services.context, task->host_handle,
+                task->host_command_id);
+            if (blocking < 0) {
+                runtime->error = ERROR_HOST_COMMAND_SERVICE;
+                return runtime->error;
+            }
+            if (blocking != 0) continue;
+            task->waiting_for_host = 0;
+            task->host_handle = 0;
+            task->host_command_id = 0;
             ++task->pc;
         }
         if (task->waiting_for_dialog) {
@@ -936,6 +1003,7 @@ const char *error_name(Error error) {
         case ERROR_CHAR_MENU_TUTORIAL_SERVICE:
             return "bound source CharacterMenu tutorial service failed";
         case ERROR_DOOR_SERVICE: return "bound source Door command service failed";
+        case ERROR_HOST_COMMAND_SERVICE: return "bound host script command service failed";
         case ERROR_ACTOR_ANIMATION_SERVICE: return "bound source Character animator service failed";
         case ERROR_UNSUPPORTED_ONLINE: return "online ScriptManager routing is not implemented";
         default: return "unknown scheduler error";

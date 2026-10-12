@@ -242,6 +242,10 @@ public:
         return registered_effect_dicts_;
     }
     Status DropAnimatedFX(void** instance, std::string& error);
+    // Source VisualFXManager::DropAnimatedFXSetByID (0x494660) for the
+    // StopEffect(set) script command: releases the active AnimatedFX that the
+    // set started in its first step's EffectDict pool. No match is a no-op.
+    Status DropAnimatedFXSetByID(std::int32_t effect_table_id, std::string& error);
     // Source FX methods accept any still allocated AnimatedFX, even after the
     // manager returned it to a free pool. DropAnimatedFX separately requires
     // active membership; these direct source object operations do not.

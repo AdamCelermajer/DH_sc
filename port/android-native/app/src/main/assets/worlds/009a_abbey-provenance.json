@@ -1,0 +1,286 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -28.9126,
+      -1902.57,
+      8.00592
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -179.351
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -28.9126,
+      -1902.57,
+      8.00592
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -179.351
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "009a_abbey.dwld": {
+      "bytes": 152,
+      "sha256": "e3483a48690c2b55a0f3fe41437687901701a94701b9b37fc1f80174459506de"
+    },
+    "009a_abbey.spwn": {
+      "bytes": 880,
+      "sha256": "3b9a07329e2a1e566d44d365ba2ab70a96f9366517e23f4df6302cfad795834f"
+    }
+  },
+  "level_list": {
+    "level_file": "009a_abbey.mlx",
+    "name": "ABBEY_RUINS_01",
+    "row": 1
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 1,
+  "modules": [
+    {
+      "dae": "data/3d/modules/crypt/crypt.bdae",
+      "mgp": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "mgp_records": 64,
+      "module_index": 0,
+      "mvp": "data/3d/modules/crypt/mvp/abbey_entrance_ns_01.mvp",
+      "mvp_records": 7,
+      "name": "_module_straight_b_ns_001",
+      "node_id": "_module_straight_b_ns-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    42
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/crypt.bdae",
+      "bytes": 3922816,
+      "path": "data/3d/modules/crypt/crypt.bdae",
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "bytes": 20786,
+      "path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "sha256": "51781ec79e15cd102f8bd1ce6af1fefe5ba62056d3614a4161f8393afb42b6c1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/abbey_entrance_ns_01.mvp",
+      "bytes": 4136,
+      "path": "data/3d/modules/crypt/mvp/abbey_entrance_ns_01.mvp",
+      "sha256": "473294325eac2354f3dd1c4d8a7e164f2ac0f23c5b84e94fbb4a10d18fdc83d6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_crypt.tga",
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_crypt_spec.tga",
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/009a_abbey.mlx",
+      "bytes": 1554,
+      "path": "data/scene/009a_abbey.mlx",
+      "sha256": "b0c2a5e890adc5a6b200860afb1587b6b16fe380018cda074e29c23cad1311c7"
+    }
+  ],
+  "source_layout": "data/scene/009a_abbey.mlx",
+  "spawn_point_count": 8,
+  "texture_hints": {
+    "data/3d/modules/crypt/crypt.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": "IsBefore_LighthouseEmissary",
+      "deactivate_condition": null,
+      "entrypoint_id": 5,
+      "local_position": [
+        -30.6733,
+        829.069,
+        8.00592
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_fromLightning",
+      "source_path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "source_record": 9,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -30.6733,
+        829.069,
+        8.00592
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": null,
+      "deactivate_condition": "IsAfter_LighthouseEmissary",
+      "entrypoint_id": 5,
+      "local_position": [
+        29.6982,
+        823.144,
+        8.00592
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_fromLightning01",
+      "source_path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+      "source_record": 60,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_deactivation"
+      ],
+      "world_position": [
+        29.6982,
+        823.144,
+        8.00592
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 5,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "IsBefore_LighthouseEmissary",
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_fromLightning",
+          "source_path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+          "source_record": 9
+        },
+        {
+          "activate_condition": null,
+          "deactivate_condition": "IsAfter_LighthouseEmissary",
+          "module_index": 0,
+          "name": "_prim_EntryPoint_fromLightning01",
+          "source_path": "data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+          "source_record": 60
+        }
+      ]
+    }
+  ]
+}

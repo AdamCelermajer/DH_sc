@@ -61,7 +61,7 @@ player_save_section_writers_v1::Status write_properties_v1(
         overlaps(&error, sizeof(error), properties.resolved,
                  kSourcePropertyCount * sizeof(std::int32_t)))
         return Status::invalid_argument;
-    if (!properties.resolved ||
+    if (!properties.resolved || !properties.saved ||
         reinterpret_cast<std::uintptr_t>(properties.resolved) %
                 alignof(std::int32_t) !=
             0 ||
@@ -77,12 +77,13 @@ player_save_section_writers_v1::Status write_properties_v1(
 
     try {
         // IDA: PlayerSavegame::__SaveProperties at 0x4689d8 writes the fixed
-        // count first, then _GetProperty-equivalent current values in table
+        // count first, then the Character+2284 saved-delta sheet (base sheet +900, the same sheet
+        // __LoadProperties restores) in table
         // order as int32 words, then Save+0x194 as one bool byte.
         if (!word(stream, kSourcePropertyCount, error)) return Status::failed;
         for (std::uint32_t i = 0; i < kSourcePropertyCount; ++i) {
             std::uint32_t bits = 0;
-            std::memcpy(&bits, properties.resolved + i, sizeof(bits));
+            std::memcpy(&bits, properties.saved + i, sizeof(bits));
             if (!word(stream, bits, error)) return Status::failed;
         }
         const std::uint8_t saved = save.saved_properties_byte_194();

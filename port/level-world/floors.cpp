@@ -41,7 +41,30 @@ bool append(const resources::BresView& view,const scene::Scene& scene,const scen
   // BaseMeshSceneNode child with identity local TRS. _LoadNavMesh reads
   // properties/name from that CSceneNode, moves the child to its cached
   // absolute position, and copies the child's local rotation/scale.
-  const float position[]{node.world[12],node.world[13],node.world[14]},rotation[]{0,0,0,1},scale[]{1,1,1};
+  // The CSceneNode's absolute transform carries any parent room rotation
+  // (INFECTED_VILLAGE's floor sits under a -90 degree Z pivot); unrotated
+  // floors keep the identity rotation/unit scale exactly.
+  const float position[]{node.world[12],node.world[13],node.world[14]};
+  float rotation[]{0,0,0,1},scale[]{1,1,1};
+  {
+   const auto& m=node.world;
+   for(unsigned c=0;c<3;++c)scale[c]=std::sqrt(m[c*4]*m[c*4]+m[c*4+1]*m[c*4+1]+m[c*4+2]*m[c*4+2]);
+   const bool unit=std::fabs(scale[0]-1.f)<1e-4f&&std::fabs(scale[1]-1.f)<1e-4f&&std::fabs(scale[2]-1.f)<1e-4f;
+   const bool identity=unit&&std::fabs(m[0]-1.f)<1e-5f&&std::fabs(m[5]-1.f)<1e-5f&&std::fabs(m[10]-1.f)<1e-5f;
+   if(unit)scale[0]=scale[1]=scale[2]=1.f;
+   if(!identity){
+    require(scale[0]>0&&scale[1]>0&&scale[2]>0,"Floor node has a degenerate world scale");
+    // Column-major rotation r(row,col)=m[col*4+row]/scale[col].
+    const auto r=[&](unsigned row,unsigned col){return m[col*4+row]/scale[col];};
+    const float trace=r(0,0)+r(1,1)+r(2,2);
+    if(trace>0){const float t=std::sqrt(trace+1.f)*2.f;rotation[3]=.25f*t;rotation[0]=(r(2,1)-r(1,2))/t;rotation[1]=(r(0,2)-r(2,0))/t;rotation[2]=(r(1,0)-r(0,1))/t;}
+    else if(r(0,0)>r(1,1)&&r(0,0)>r(2,2)){const float t=std::sqrt(1.f+r(0,0)-r(1,1)-r(2,2))*2.f;rotation[3]=(r(2,1)-r(1,2))/t;rotation[0]=.25f*t;rotation[1]=(r(0,1)+r(1,0))/t;rotation[2]=(r(0,2)+r(2,0))/t;}
+    else if(r(1,1)>r(2,2)){const float t=std::sqrt(1.f+r(1,1)-r(0,0)-r(2,2))*2.f;rotation[3]=(r(0,2)-r(2,0))/t;rotation[0]=(r(0,1)+r(1,0))/t;rotation[1]=.25f*t;rotation[2]=(r(1,2)+r(2,1))/t;}
+    else{const float t=std::sqrt(1.f+r(2,2)-r(0,0)-r(1,1))*2.f;rotation[3]=(r(1,0)-r(0,1))/t;rotation[0]=(r(0,2)+r(2,0))/t;rotation[1]=(r(1,2)+r(2,1))/t;rotation[2]=.25f*t;}
+    // dh2_node_matrix uses the irrlicht quaternion handedness (conjugate).
+    for(unsigned axis=0;axis<3;++axis)rotation[axis]=-rotation[axis];
+   }
+  }
   require(dh2_floor_clone_matrix(&record->clone,position,rotation,scale)==0,"Floor clone transform rejected");
   assets::Mesh mesh{};require(dh2_mesh_open(&mesh,&view,instance.geometry)==assets::Error::ok,"Floor mesh rejected");require(mesh.primitives<=10000,"Too many floor mesh buffers");
   std::vector<floor_source::Part> parts;unsigned count=0;

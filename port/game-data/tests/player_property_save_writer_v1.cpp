@@ -52,8 +52,10 @@ void test_source_layout_and_values() {
 
     std::array<std::int32_t, 224> values{};
     fill_properties(values);
+    std::array<std::int32_t, 224> resolved{};
     PropertyView view{};
-    view.resolved = values.data();
+    view.resolved = resolved.data();  // __SaveProperties writes the saved sheet
+    view.saved = values.data();
 
     Sink sink;
     WriteServicesV1 services{&sink, write_bytes};
@@ -77,6 +79,7 @@ void test_missing_character_writes_no_prefix() {
     std::array<std::int32_t, 224> values{};
     PropertyView view{};
     view.resolved = values.data();
+    view.saved = values.data();
     Sink sink;
     WriteServicesV1 services{&sink, write_bytes};
     std::string error;
@@ -106,6 +109,7 @@ void test_stream_failure_retains_accepted_prefix() {
     fill_properties(values);
     PropertyView view{};
     view.resolved = values.data();
+    view.saved = values.data();
     Sink sink;
     // Accept the count and four values, then reject the fifth call.
     sink.fail_on_call = 6;

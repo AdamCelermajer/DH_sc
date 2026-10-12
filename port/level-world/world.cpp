@@ -1,4 +1,5 @@
 #include "world.hpp"
+#include "../engine-math/math.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -7,6 +8,20 @@ namespace dh2::world {
 namespace {
 unsigned word(const std::uint8_t* p){return p[0]|(unsigned(p[1])<<8)|(unsigned(p[2])<<16)|(unsigned(p[3])<<24);}
 float value(const std::uint8_t* p){auto bits=word(p);float v;std::memcpy(&v,&bits,4);if(!std::isfinite(v)||std::abs(v)>10000000)throw std::runtime_error("World component exceeds limit");return v;}
+float literal(std::uint32_t bits){float v;std::memcpy(&v,&bits,4);return v;}
+// DWLD v2 module root: the original overwrites the root TRS with
+// position, quaternion::set(ry,-rx,-rz) of the authored degrees (converted by
+// 0x3c8efa35) and scale (|s|<0x38d1b717 resets to 1). Children are not
+// rotated by the module; only this root node carries the transform.
+void apply_module_root_transform(const std::uint8_t* record,scene::Node& node){
+ float radians[3];
+ for(unsigned j=0;j<3;++j)radians[j]=value(record+124+j*4)*literal(0x3c8efa35);
+ dh2::math::Quaternion q{};
+ dh2_quat_from_euler(&q,radians[1],-radians[0],-radians[2]);
+ if(q.x==0.0f&&q.y==0.0f&&q.z==0.0f&&q.w==1.0f)q={0,0,0,1};
+ node.quaternion[0]=q.x;node.quaternion[1]=q.y;node.quaternion[2]=q.z;node.quaternion[3]=q.w;
+ for(unsigned j=0;j<3;++j){const float s=value(record+136+j*4);node.scale[j]=std::fabs(s)<literal(0x38d1b717)?1.0f:s;}
+}
 void triangles(const resources::BresView& view,const scene::Instance& instance,unsigned room,Level& level){
  std::string error;if(!floors::append(view,level.scene,instance,room,*level.native_floor,error))throw std::runtime_error(error);
  const auto& record=*level.native_floor->records.back();if(level.floor.size()+record.triangles.size()>100000)throw std::runtime_error("Navigation triangle budget exceeded");
@@ -16,19 +31,27 @@ void triangles(const resources::BresView& view,const scene::Instance& instance,u
 bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::size_t size,
           Level& out,std::string& error,bool validate_descriptor_spawn){
  out={};error.clear();try{
-  if(!descriptor||size<24||std::memcmp(descriptor,"DWLD",4)||word(descriptor+4)!=1)throw std::runtime_error("World descriptor rejected");
-  const auto count=word(descriptor+8);if(!count||count>512||size!=24+std::uint64_t(count)*128)throw std::runtime_error("World room table rejected");
+  if(!descriptor||size<24||std::memcmp(descriptor,"DWLD",4))throw std::runtime_error("World descriptor rejected");
+  // v1: 128-byte records (id, position, reserved zero). v2: 152-byte records adding
+  // rotation degrees (rx,ry,rz), scale and flags (1 = has MGP/MVP children, 2 = visual-only).
+  const unsigned version=word(descriptor+4);
+  if(version!=1&&version!=2)throw std::runtime_error("World descriptor rejected");
+  const std::size_t record_size=version==1?128:152;
+  const auto count=word(descriptor+8);if(!count||count>512||size!=24+std::uint64_t(count)*record_size)throw std::runtime_error("World room table rejected");
   Level level;level.rooms=count;level.native_floor=std::make_unique<floors::World>();for(unsigned i=0;i<3;++i)level.spawn[i]=value(descriptor+12+i*4);
   scene::Scene source;if(!scene::load(view,source,error))throw std::runtime_error(error);level.scene.materials=source.materials;
-  for(unsigned room=0;room<count;++room){const auto* record=descriptor+24+room*128;auto* end=static_cast<const std::uint8_t*>(std::memchr(record,0,112));
-   if(!end||end==record||word(record+124))throw std::runtime_error("World room identifier rejected");
+  for(unsigned room=0;room<count;++room){const auto* record=descriptor+24+room*record_size;auto* end=static_cast<const std::uint8_t*>(std::memchr(record,0,112));
+   if(!end||end==record||(version==1&&word(record+124)))throw std::runtime_error("World room identifier rejected");
+   const unsigned flags=version==2?word(record+148):1;
+   if(flags!=1&&flags!=2)throw std::runtime_error("World room flags rejected");
    std::string id(reinterpret_cast<const char*>(record),end-record);auto root=std::find_if(source.graph.begin(),source.graph.end(),[&](const scene::Node& n){return n.id==id&&n.parent==-1;});
    if(root==source.graph.end())throw std::runtime_error("Missing room template: "+id);
    const unsigned root_index=root-source.graph.begin();
    std::vector<int> mapping(source.graph.size(),-1);const unsigned first=level.scene.graph.size();
    for(unsigned i=root_index;i<source.graph.size();++i){const auto& n=source.graph[i];if(i!=root_index&&(n.parent<0||mapping[n.parent]<0))continue;
     auto copied=n;copied.id="room"+std::to_string(room)+"/"+copied.id;copied.parent=i==root_index?-1:mapping[n.parent];
-    if(i==root_index)for(unsigned j=0;j<3;++j)copied.translation[j]=value(record+112+j*4);
+    if(i==root_index){for(unsigned j=0;j<3;++j)copied.translation[j]=value(record+112+j*4);
+     if(version==2)apply_module_root_transform(record,copied);}
     mapping[i]=level.scene.graph.size();level.scene.graph.push_back(std::move(copied));}
    level.scene.nodes=level.scene.graph.size();
    for(const auto& instance:source.instances){if(mapping[instance.node_index]<0)continue;auto copied=instance;copied.node_index=mapping[instance.node_index];copied.node=level.scene.graph[copied.node_index].id;level.scene.instances.push_back(std::move(copied));}
@@ -39,7 +62,8 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
     else if(i->node_index==first||(i->node_index>=first&&i->node.find("/_exit_")!=std::string::npos))i=level.scene.instances.erase(i);
     else ++i;
    }
-   if(!floors)throw std::runtime_error("Room has no navigation root: "+id);
+   // A module without floor nodes has no navigation (PFWorld::LoadRoom drops the empty
+   // room); its visual still loads. Visual-only modules (MACHINE_ROOMS_01) take the same path.
   }
   if(level.floor.empty()||level.scene.instances.empty())throw std::runtime_error("World has no floor or visual geometry");
   if(!floors::build_graph(*level.native_floor,error))throw std::runtime_error(error);

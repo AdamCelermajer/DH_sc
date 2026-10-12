@@ -57,6 +57,10 @@ bool select_menu_preview_slot(std::int32_t,bool,std::string&);
 bool restore_menu_preview(std::string&);
 bool request_menu_start(bool,std::int32_t,std::int32_t&,std::string&);
 bool request_menu_continue(std::int32_t&,std::string&);
+// Authored static MLX LevelList rows (debug launch overrides) and the
+// startup-report check shared by the Android and desktop hosts.
+const char* static_level_name_for_row(std::int32_t row);
+bool gameplay_startup_loaded(const std::string& startup);
 std::string start_menu_game(std::int32_t,AAssetManager*,std::int32_t debug_level_row=-1,
                             bool has_numeric_difficulty=false,std::int32_t requested_difficulty=0);
 // Retain the application's existing UI session for source Level callbacks

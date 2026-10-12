@@ -50,6 +50,7 @@
 #include "../../../../../../port/level-world/source_character_safeget_v1.hpp"
 #include "../../../../../../port/level-world/character_template_runtime_v1.hpp"
 #include "../../../../../../port/level-world/crypt_generated_mvp_v1.hpp"
+#include "../../../../../../port/level-world/source_animated_decor_v1.hpp"
 #include "../../../../../../port/level-world/character_oid_cache_v1.hpp"
 #include "../../../../../../port/level-world/source_level_owner_v1.hpp"
 #include "../../../../../level-world/player_skill_progression_v1.hpp"
@@ -324,6 +325,7 @@
 #include <sys/time.h>
 
 namespace model_renderer {
+static bool persist_after_inventory_mutation(std::uintptr_t identity,std::string& error);
 dh2::monster_external_script::ObjectServices native_monster_object_services();
 int native_player_death_aggro_service(void*,const dh2::player_ai_death_v1::Request*,
     dh2::player_ai_death_v1::Reply*,std::string&);
@@ -595,6 +597,9 @@ struct PlayerToNpcKillContextV1 {
  bool source_kill_completed=false;
  NativeSctActorContextV1 text{};
 };
+// Set only while the script KillActor path (Cmd_Kill with a null killer) runs.
+// Player-killer kills never see it, so their refusals stay unchanged.
+bool native_script_null_killer_kill=false;
 bool source_npc_kill_ready(ObjectActor&,std::uintptr_t);
 bool native_source_crypt_monster_candidate(ObjectActor&);
 int player_to_npc_before_dead_v1(void*,dh2::data::CombatResult&);
@@ -675,6 +680,21 @@ std::uint64_t snapshot_checksum(const dh2::data::PropertySheet& sheet){
  std::uint64_t result=14695981039346656037ull;for(auto value:sheet)for(unsigned i=0;i<4;++i){result^=(std::uint32_t(value)>>(8*i))&255;result*=1099511628211ull;}return result;
 }
 std::vector<ObjectGroup> object_groups;
+// SWAMP MVP AnimatedDecor VisualObjects named by level scripts. The owner keeps
+// the BDAE clip timeline and Animator pose; draws mirror the container
+// VisualObject path. Duplicate names stay in module order and PlayAnimByName
+// plays the first name match, as ObjectManager's name lookup does.
+struct SourceAnimatedDecor {
+ std::string name,dae_path,start_animation;
+ std::unique_ptr<dh2::destructible_container_visual_owner_v1::Owner> visual;
+ std::vector<Draw> visual_draws;std::vector<GLuint> visual_images;
+ Matrix placement{};
+};
+std::vector<SourceAnimatedDecor> source_animated_decors;
+void release_source_animated_decors(std::vector<SourceAnimatedDecor>& decors,bool gl_context) noexcept {
+ for(auto& decor:decors)release_source_container_visual_gpu(decor.visual_draws,decor.visual_images,gl_context);
+ decors.clear();
+}
 // Non-owning renderer view of an exact Player -> Faery Character+0x420 link.
 // The factory remains the only Record owner; both retire paths must unregister.
 struct FaeryVisualBinding {
@@ -1188,6 +1208,9 @@ struct PlayerCombat {
  std::shared_ptr<const std::vector<std::uint8_t>> inventory_loot_constants_bytes;
  dh2_pycst_view inventory_loot_constants{};
  std::int32_t automatic_pickup_type=-1;
+ // Script_UnEquipHands saves ItemInventory::GetItemIndex of hands 1/2 here
+ // (-1 when empty) for Script_ReEquipHands; Character fields 1341/1342.
+ std::int32_t hand_equip_index[2]={-1,-1};
  std::shared_ptr<dh2::data::ItemAudioVisualTableV1> item_audio_visuals;
  std::shared_ptr<dh2::data::ItemPowerTablesV5> item_power_tables;
  std::shared_ptr<dh2::data::LootPowerResourcesV7> loot_power_resources;
@@ -1247,6 +1270,8 @@ struct RuntimeLevelAssets {
  std::string descriptor="crypt01.dwld",bres="crypt.bdae",spawns="crypt01.spwn",objects="crypt01.dact";
  std::string camera_file="CameraTests.bdae",camera_name,camera_animset="Default";
  float camera_near_clip=0.0f,camera_far_clip=0.0f;
+ // LevelConfig planes; Script_SetCameraClip's -2 restores these.
+ float camera_near_clip_default=0.0f,camera_far_clip_default=0.0f;
  bool source_combat_music_enabled=true;
  // Source LevelConfig projection + authored idle rig and bounded per-frame
  // CameraLevel/CameraTarget follow/zoom composition; animation/input providers
@@ -1325,11 +1350,33 @@ RuntimeLevelAssets active_level_assets;
 struct StaticMlxLevelV1 {
  std::int32_t row;const char* name;const char* level_file;const char* prefix;
  const char* bres;std::uint32_t roots;
+ // Level::SetLevelConfig 0x3f150c: LevelConfig music / safezone_music names
+ // resolved through Arrays::Sounds (0 = not set).
+ std::uint16_t music_uid;std::uint16_t safezone_music_uid;
 };
 constexpr StaticMlxLevelV1 static_mlx_levels[]{
- {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10},
- {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25},
+ {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10,467,505},
+ {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25,471,0},
+ {38,"RED_DESERT_HUB","015_red_desert_hub.mlx","015_red_desert_hub","data/3d/modules/red_desert/red_desert.bdae",7,488,506},
+ {45,"UNDERWORLD_HUB","036_underworld_hub.mlx","036_underworld_hub","data/3d/modules/underworldhub/underworldhub.bdae",10,502,507},
+ {29,"INFECTED_VILLAGE_01","005_infectedvillage.mlx","005_infectedvillage","data/3d/modules/infectedvillage/infectedvillage.bdae",3,475,0},
+ {1,"ABBEY_RUINS_01","009a_abbey.mlx","009a_abbey","data/3d/modules/crypt/crypt.bdae",2,508,484},
+ {28,"ICY_HUB","025_icy_hub.mlx","025_icy_hub","data/3d/modules/icy_hub/icy_hub2.bdae",8,494,509},
+ {33,"MACHINE_ROOMS_01","037_machine_rooms_01.mlx","037_machine_rooms_01","data/3d/modules/machineroom/machineroom.bdae",14,503,0},
+ {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
+}
+const char* static_level_name_for_row(std::int32_t row){
+ for(const auto& level:static_mlx_levels)if(level.row==row)return level.name;
+ return nullptr;
+}
+bool gameplay_startup_loaded(const std::string& startup){
+ if(startup.rfind("Crypt |",0)==0)return true;
+ for(const auto& level:static_mlx_levels)
+  if(startup.rfind(std::string(level.name)+" |",0)==0)return true;
+ return false;
+}
+namespace {
 const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
  for(const auto& level:static_mlx_levels)
   if(name==level.name&&level_file==level.level_file)return &level;
@@ -1348,8 +1395,8 @@ std::string static_mlx_scene_path(const StaticMlxLevelV1& level){
  return std::string("data/scene/")+level.level_file;
 }
 std::uint16_t source_level_vxn_music_uid() noexcept {
- if(active_level_assets.row==41&&active_level_assets.name=="SWAMP"&&
-    active_level_assets.level_file=="001_swamp.mlx")return 467;
+ if(const auto* level=static_mlx_level(active_level_assets.name,active_level_assets.level_file))
+  if(level->row==active_level_assets.row)return level->music_uid;
  if(active_level_assets.row==23&&
     active_level_assets.name=="GOTHICUS_CRYPT_01"&&
     active_level_assets.level_file=="007_crypt_01.rule.xml")return 486;
@@ -1564,6 +1611,9 @@ bool native_player_deserialize_script_lifecycle_v1(std::string&);
 bool native_player_deserialize_clear_target_v1(std::string&);
 bool native_host_online_v1() noexcept;
 bool native_host_revive_local_players_v1(std::uint32_t, std::string&);
+extern std::uintptr_t native_script_camera_target;
+extern std::int32_t native_script_camera_blend_ms;
+extern bool native_script_camera_target_dirty;
 int prince_look_service(void*,const dh2::character::CharacterControlRequest32*,
                         dh2::character::CharacterControlResponse16*);
 const dh2::data::AiProps* native_actor_ai_props(ObjectActor& actor) {
@@ -3208,13 +3258,24 @@ std::int32_t NativeCryptRoomRuntime::transition_service(
  }
  if(request->actor)return 1;
  bool changed=false;
- if(request->operation==Operation::add_room_object) {
-  return self->manager.add_room_object(request->room_zone,&changed)==
-             dh2::object_manager_runtime_owner_v1::Status::ok&&changed?0:1;
- }
- if(request->operation==Operation::remove_room_object) {
-  return self->manager.remove_room_object(request->room_zone,&changed)==
-             dh2::object_manager_runtime_owner_v1::Status::ok?0:1;
+ if(request->operation==Operation::add_room_object||
+    request->operation==Operation::remove_room_object) {
+  // RoomZone::Activate/DeActivate call ObjectManager::AddRoomObjects/
+  // DelRoomObjects on the zone's member list (this+916), in list order.
+  // The RoomZone object itself is not on the RoomObjectList.
+  dh2::crypt_room_zone_owner_v1::ZoneView view{};
+  bool found_zone=false;
+  for(std::size_t i=0;i<self->zones.zone_count()&&!found_zone;++i)
+   if(self->zones.zone_at(i,&view)&&view.identity==request->room_zone)found_zone=true;
+  if(!found_zone)return 1;
+  const bool adding=request->operation==Operation::add_room_object;
+  for(std::size_t m=0;m<view.member_count;++m) {
+   const auto status=adding
+       ?self->manager.add_room_object(view.members[m],&changed)
+       :self->manager.remove_room_object(view.members[m],&changed);
+   if(status!=dh2::object_manager_runtime_owner_v1::Status::ok)return 1;
+  }
+  return 0;
  }
  return 1;
 }
@@ -5066,9 +5127,9 @@ bool NativeCryptRoomRuntime::initialize(
    actor->room_zone_2f4=0;actor->in_room_list_2ef=0;
    actor->zoning_enabled_2ee=1;actor->in_zone_2f0=0;actor->visible_80=1;
    actor->visual_object_2d8=actor->identity; // opaque renderer adapter token
-   // SWAMP's source MLX has no RoomZone root and its MGPs have no RoomZone
-   // objects. Do not synthesize one zone per Module; ordinary Characters
-   // follow ObjectManager::InitPost's updatable-object list directly.
+   // Each static MLX Module (SWAMP, DARKWOOD, ...) owns one RoomZone created by
+   // Module::InitPost. Characters start with updates disabled and are enabled
+   // by RoomZone enrollment (ZoneEntered / zone_state_callback), as in Crypt.
    actor->source_room_zone_managed=use_source_room_zones;
    actor->source_updates_enabled=!use_source_room_zones;
    actor->renderer_visible=true;
@@ -5144,7 +5205,8 @@ bool NativeCryptRoomRuntime::initialize(
        manager.find_by_source_handle(actor->source_handle))
      source_handles.push_back(actor->source_handle);
     else actors.erase(actor_entry.first);
-    error="Source ObjectManager/Character-list actor transaction failed";
+    error="Source ObjectManager/Character-list actor transaction failed | "+actor->name+
+        " | handle "+std::to_string(actor->source_handle)+" | status "+std::to_string(int(add_status));
     clear();return false;
    }
    source_handles.push_back(actor->source_handle);
@@ -5941,6 +6003,11 @@ bool NativeCryptRoomRuntime::exit_localized_level_name(void*,
  }
  const auto string_id=actor_level_tables.levels[
      static_cast<std::size_t>(level_row)].level_name_id;
+ if(string_id<0){
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native","TriggerZoneExitLevel LevelList row %d has no name string (%d) | %s",
+      level_row,string_id,actor_level_tables.levels[static_cast<std::size_t>(level_row)].name.c_str());
+  result.clear();error.clear();return true;
+ }
  return native_gameplay_ui->source_combat_text_string(string_id,result,error);
 }
 
@@ -5959,6 +6026,9 @@ bool NativeCryptRoomRuntime::update_source_exit_level_zones(
         std::string& error) {
  error.clear();
  if(source_exit_level_zones.empty())return true;
+ // The fast-travel popup is an AS callback on the live HUD movie; zones
+ // keep their state until that movie is attached (hub spawns stand inside).
+ if(!native_gameplay_ui||!native_gameplay_ui->gameplay_text_ready())return true;
  const auto active=source_level_owner.snapshot();
  if(active.phase!=dh2::source_level_owner_v1::Phase::active||
     !active.source_level||active.object_manager_identity!=
@@ -6073,8 +6143,16 @@ bool NativeCryptRoomRuntime::initialize_source_destructible_containers(
     return false;
    }
    if(!source.spawn_probability.empty()&&source.spawn_probability!="100") {
-    error="DestructibleContainer InitPost spawn_prob needs the source random provider: "+source.name;
-    return false;
+    // GameObject::CheckSpawnProbability (0x38bd64): Random::GetRandom draws
+    // s_seed % 99 once; a draw >= spawn_prob deletes the object at InitPost.
+    char* parsed_end=nullptr;
+    const long probability=std::strtol(source.spawn_probability.c_str(),&parsed_end,10);
+    if(!parsed_end||*parsed_end||probability<0||probability>1000){
+     error="DestructibleContainer spawn_prob is not a source integer: "+source.name;return false;
+    }
+    const auto roll=dh2_random_next(&dh2::random_lifecycle::process_state(),99,0);
+    if(roll<0||roll>=99){error="DestructibleContainer spawn_prob roll failed";return false;}
+    if(roll>=probability)continue;
    }
    auto parse_source_bool=[&](const std::string& value,const char* property,
                               bool default_value,bool& result)->bool {
@@ -7471,6 +7549,7 @@ bool NativeCryptRoomRuntime::detach_source_move_in_zones() noexcept {
  return true;
 }
 
+int native_room_clear_fail_line=0;
 bool NativeCryptRoomRuntime::clear() noexcept {
  // Authored Faeries retain a BuffOwner beside their factory Record rather
  // than inside an ObjectActor SpawnOwner. Retire that exact owner while the
@@ -7481,15 +7560,15 @@ bool NativeCryptRoomRuntime::clear() noexcept {
   if(!owner.record||owner.record->character.identity!=owner.identity||
      owner.buffs->character_identity()!=owner.identity||
      owner.buff_properties.resolved!=owner.properties.resolved.data())
-   return false;
+   return (native_room_clear_fail_line=__LINE__,false);
   dh2::character_player_buffs_v1::Result removed{},retired{};
   if(owner.buffs->remove_all(&removed)!=dh2::character_player_buffs_v1::Status::complete||
      owner.buffs->retire(&retired)!=dh2::character_player_buffs_v1::Status::complete)
-   return false;
+   return (native_room_clear_fail_line=__LINE__,false);
   owner.buffs.reset();owner.buff_properties={};
  }
- if(!detach_source_move_in_zones())return false;
- if(!detach_source_doors())return false;
+ if(!detach_source_move_in_zones())return (native_room_clear_fail_line=__LINE__,false);
+ if(!detach_source_doors())return (native_room_clear_fail_line=__LINE__,false);
  for(auto& container:source_destructible_containers)if(container&&container->owner.object) {
   if(container->navigation_obstacle_ready&&container->navigation_object_ready&&
      level.native_floor) {
@@ -7497,29 +7576,29 @@ bool NativeCryptRoomRuntime::clear() noexcept {
     &level.native_floor->collision_world,&live_registry,
     &container->navigation_object,
     reinterpret_cast<std::uintptr_t>(container->owner.object),150.f,10.f,0,0};
-   if(dh2_nav_init_obstacle(&remove))return false;
+   if(dh2_nav_init_obstacle(&remove))return (native_room_clear_fail_line=__LINE__,false);
    container->navigation_obstacle_ready=0;
   }
   if(container->body) {
-   try {actor_world.destroy(container->body);}catch(...) {return false;}
+   try {actor_world.destroy(container->body);}catch(...) {return (native_room_clear_fail_line=__LINE__,false);}
   }
   container->owner.object->physical_present_732=0;
   release_source_container_visual_gpu(container->visual_draws,
       container->visual_images,program!=0);
   if(container->owner.object->visual_object_2d8==container->visual_identity)
    container->owner.object->visual_object_2d8=0;
-  if(container->visual&&!container->visual->detach())return false;
+  if(container->visual&&!container->visual->detach())return (native_room_clear_fail_line=__LINE__,false);
   container->visual.reset();
   bool removed_room=false;
   if(manager.remove_room_object(container->owner.object->identity,&removed_room)!=
-      dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+      dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  for(std::size_t index=0;index<zones.zone_count();++index) {
   dh2::crypt_room_zone_owner_v1::ZoneView zone{};
   while(zones.zone_at(index,&zone)&&zone.member_count) {
    const auto identity=zone.members[0];
    const auto status=zones.forget_source_unlinked_actor(zone.module_index,identity);
-   if(status!=dh2::crypt_room_zone_owner_v1::Status::complete)return false;
+   if(status!=dh2::crypt_room_zone_owner_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
    const auto actor=actors.find(identity);
    if(actor!=actors.end()&&actor->second) {
     actor->second->room_zone_2f4=0;actor->second->in_room_list_2ef=0;
@@ -7529,10 +7608,10 @@ bool NativeCryptRoomRuntime::clear() noexcept {
   if(zones.zone_at(index,&zone)) {
    bool removed=false;
    if(manager.remove_room_object(zone.identity,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
   }
  }
- if(zones.clear()!=dh2::crypt_room_zone_owner_v1::Status::complete)return false;
+ if(zones.clear()!=dh2::crypt_room_zone_owner_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
  for(auto* actor:actor_records)if(actor) {
   actor->source_room_zone_managed=false;
   actor->room_zone_2f4=0;actor->in_room_list_2ef=0;
@@ -7542,29 +7621,34 @@ bool NativeCryptRoomRuntime::clear() noexcept {
  bool removed=false;
  if(player_identity) {
   if(manager.remove_no_room_object(player_identity,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  for(const auto handle:source_handles) {
   const auto faery=std::find_if(faeries.begin(),faeries.end(),[&](const auto& item){
    return item.source.source_handle==handle&&item.record;
   });
   if(faery!=faeries.end()) {
-   if(!character_factory)return false;
+   if(!character_factory)return (native_room_clear_fail_line=__LINE__,false);
+   bool external_skills_cleaned=false;
    if(faery->record) {
     if(faery->record->source_external_ais) {
      if(faery->external_skills&&faery->external_skills->prepared()) {
+      external_skills_cleaned=true;
       std::string cleanup_error;
       for(const auto list:{dh2::character_ai_set_skills_and_spells::List::skill,
                            dh2::character_ai_set_skills_and_spells::List::faery}) {
        dh2::native::ghost_skill_update_v1::CleanupResult cleanup_result{};
-       if(!dh2::native::ghost_skill_update_v1::cleanup_list(
+       // cleanup_list returns 0 on success.
+       if(dh2::native::ghost_skill_update_v1::cleanup_list(
             *faery->record->source_external_ais,*faery->external_skills,
-            faery->identity,list,cleanup_result,cleanup_error))return false;
+            faery->identity,list,cleanup_result,cleanup_error)){
+        __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Faery skill cleanup failed | list %d | %s",int(list),cleanup_error.c_str());
+        return (native_room_clear_fail_line=__LINE__,false);}
       }
      }
      std::string ais_error;
      const auto reset=faery->record->source_external_ais->reset(ais_error);
-     if(reset!=dh2::monster_external_script::Status::complete)return false;
+     if(reset!=dh2::monster_external_script::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
      if(faery->native_ai&&faery->native_ai->character_identity==faery->identity&&
         faery->native_ai->state.owner_04==faery->identity) {
       const auto vm_identity=faery->record->external_ais.identity;
@@ -7575,7 +7659,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
          (faery->native_ai->state.active_ais_1c&&
           faery->native_ai->state.active_ais_1c!=vm_identity)||
          (faery->native_ai->state.alternate_ais_20&&
-          faery->native_ai->state.alternate_ais_20!=vm_identity))return false;
+          faery->native_ai->state.alternate_ais_20!=vm_identity))return (native_room_clear_fail_line=__LINE__,false);
       faery->native_ai->state.active_ais_1c=0;
       faery->native_ai->state.alternate_ais_20=0;
      }
@@ -7586,32 +7670,34 @@ bool NativeCryptRoomRuntime::clear() noexcept {
      faery->record->source_external_script_path.clear();
     }
     if(faery->external_skills) {
-     if(faery->external_skills->prepared())return false;
+     // Prepared skill scripts must have run their _SkillCleanUp/_SpellCleanUp
+     // above on the same AIS VM before the runtime is discarded.
+     if(faery->external_skills->prepared()&&!external_skills_cleaned)return (native_room_clear_fail_line=__LINE__,false);
      faery->external_skills.reset();
      faery->last_external_skills={};
     }
     if(faery->record->faery_controller.navigation_ready) {
-     if(!level.native_floor)return false;
+     if(!level.native_floor)return (native_room_clear_fail_line=__LINE__,false);
      std::string navigation_error;
      const auto navigation_status=
          dh2::character_faery_controller_v1::retire_navigation(
              *faery->record,level.native_floor->collision_world,live_registry,
              navigation_error);
      if(navigation_status!=
-         dh2::character_faery_controller_v1::Status::complete)return false;
+         dh2::character_faery_controller_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
     }
     std::string physical_error;
     const auto detached=dh2::character_faery_source_physical_owner_v1::detach(
         *faery->record,physical_error);
     if(detached!=dh2::character_faery_source_physical_owner_v1::Status::complete)
-     return false;
+     return (native_room_clear_fail_line=__LINE__,false);
     faery->physics=0;
    }
    dh2::character_runtime_factory_v1::Result result{};
    std::string error;
    const auto status=character_factory->retire(handle,&result,error);
    if(status!=dh2::character_runtime_factory_v1::Status::complete&&
-      status!=dh2::character_runtime_factory_v1::Status::not_found)return false;
+      status!=dh2::character_runtime_factory_v1::Status::not_found)return (native_room_clear_fail_line=__LINE__,false);
    faery->registered=false;
    faery->constructed=false;
    faery->record=nullptr;
@@ -7624,20 +7710,20 @@ bool NativeCryptRoomRuntime::clear() noexcept {
    if(!character_factory||!(*script_npc)->actor||!(*script_npc)->record||
       (*script_npc)->record->source_handle!=handle||
       (*script_npc)->record->character.identity!=(*script_npc)->actor->identity||
-      (*script_npc)->record->source_handle<0)return false;
+      (*script_npc)->record->source_handle<0)return (native_room_clear_fail_line=__LINE__,false);
    const auto retired_identity=(*script_npc)->actor->identity;
    std::string cleanup_error;
    if(!retire_script_summon_runtime(**script_npc,cleanup_error)) {
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
      "CreateNPC lifetime retirement stopped before factory teardown | handle %d | %s",
      handle,cleanup_error.empty()?"same-owner cleanup failed":cleanup_error.c_str());
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
    }
    dh2::character_runtime_factory_v1::Result result{};
    std::string error;
    const auto status=character_factory->retire(handle,&result,error);
    if(status!=dh2::character_runtime_factory_v1::Status::complete&&
-      status!=dh2::character_runtime_factory_v1::Status::not_found)return false;
+      status!=dh2::character_runtime_factory_v1::Status::not_found)return (native_room_clear_fail_line=__LINE__,false);
    if((*script_npc)->record||(*script_npc)->actor->identity||
       (*script_npc)->actor->native_ai||(*script_npc)->actor->spawn_owner||
       (*script_npc)->actor->source_inventory||
@@ -7647,7 +7733,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
       source_char_ai.by_character.find(retired_identity)!=
           source_char_ai.by_character.end()||
       native_characters.contains_identity(retired_identity))
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
    continue;
   }
   const auto actor=std::find_if(actor_records.begin(),actor_records.end(),
@@ -7660,20 +7746,20 @@ bool NativeCryptRoomRuntime::clear() noexcept {
     if(dh2::native::character_roster_transaction::remove_after_remove(
         &manager,&native_characters,handle,&(*actor)->search_projection.character,
         &result)!=dh2::native::character_roster_transaction::Status::complete)
-     return false;
+     return (native_room_clear_fail_line=__LINE__,false);
    } else if(!listed&&occurrences==0) {
     if(manager.remove_object(handle,&removed)!=
-        dh2::object_manager_runtime_owner_v1::Status::ok)return false;
-   } else return false;
+        dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
+   } else return (native_room_clear_fail_line=__LINE__,false);
   } else if(handle==3&&manager.find_by_source_handle(handle)) {
    dh2::native::character_roster_transaction::Result result{};
    if(dh2::native::character_roster_transaction::remove_after_remove(
        &manager,&native_characters,handle,&prince_search_projection.character,
        &result)!=dh2::native::character_roster_transaction::Status::complete)
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
   } else {
    if(manager.remove_object(handle,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  }
  for(auto& faery:faeries) {
@@ -7681,13 +7767,13 @@ bool NativeCryptRoomRuntime::clear() noexcept {
       faery.identity) {
    std::string link_error;
    if(!prince_character.set_faery_character_420(
-       prince_character.identity(),0,link_error))return false;
+       prince_character.identity(),0,link_error))return (native_room_clear_fail_line=__LINE__,false);
   }
-  if(!retire_authored_faery_char_ai(faery))return false;
+  if(!retire_authored_faery_char_ai(faery))return (native_room_clear_fail_line=__LINE__,false);
   release_authored_faery_visual(faery,program!=0);
   faery.record=nullptr;
  }
- if(character_factory&&character_factory->size()!=0)return false;
+ if(character_factory&&character_factory->size()!=0)return (native_room_clear_fail_line=__LINE__,false);
  character_factory.reset();
  source_move_in_zones.clear();
  source_exit_level_zones.clear();
@@ -9574,7 +9660,10 @@ bool native_source_level_load_checkpoint_v1(
  std::string failure;
  do {
   if(!native_level_save_load_checkpoint_v1(failure))break;
-  if(!native_source_level_reinit_game_events_v1(expected_generation,failure))break;
+  // The port binds the Level GameEventManager/Objective owners only for SWAMP
+  // (its per-frame GameEventManager::Update has the same gate).
+  if(active_level_assets.name=="SWAMP"&&
+     !native_source_level_reinit_game_events_v1(expected_generation,failure))break;
   if(!native_player_save_load_checkpoint_v1(failure))break;
   if(!native_player_character_sg_update_checkpoint_v1(
         expected_generation,failure))break;
@@ -9981,7 +10070,7 @@ struct SpawnOwner {
  dh2::character::CharacterControlServices16 control_services{};
  dh2::physical::CharacterOwnerBounds owner_bounds{};
  float visual_scale[3]{1,1,1};
- int sampled_clip=-1;
+ int sampled_clip=-1;unsigned sampled_completions=0;
  bool runtime_ready=false;
  // SWAMP source Character PFObject allocation is held until the canonical
  // Level::_LoadFinalInit dispatch reaches this row. The Android body and
@@ -10252,9 +10341,18 @@ dh2::character::CombatFacts SpawnOwner::combat_facts(void* raw) {
   return sequence;
  };
  dh2::character::CombatFacts facts{};
- facts.scared_animation=selected(124/4,0x100u);
- facts.stunned_animation=selected(140/4,0x200u);
- facts.injured_animation=selected(60/4,0x1000u);
+ // Original Structs::CharAnim::read (0x4ef64c) lays the row out as vtable at +0,
+ // scalar k at +4(k+1) for k<=14, Interact array at +64/+68, scalar k in 16..30
+ // at +4(k+2), Spells array at +132/+136, scalar k in 32..36 at +4(k+3).
+ // Scared/Stunned/Injured are therefore fields 29/32/14, not dword 31/35/15.
+ const auto field_of=[&](const char* name)->std::size_t{
+  const auto& names=actor_animation_tables.state_names;
+  for(std::size_t i=0;i<names.size();++i)if(names[i]==name)return i;
+  throw std::logic_error("Spawn combat CharAnimTable field name is unavailable");
+ };
+ facts.scared_animation=selected(field_of("Scared"),0x100u);
+ facts.stunned_animation=selected(field_of("Stunned"),0x200u);
+ facts.injured_animation=selected(field_of("Injured"),0x1000u);
  facts.machine_flags_44=owner->character.source_machine_flags_44_528();
  facts.controller_present=owner->control_services.context==owner&&
       owner->control_services.invoke==SpawnOwner::controller_service?1u:0u;
@@ -10457,7 +10555,10 @@ bool run_direct_source_character_init_post_v1(NativeCryptRoomRuntime& runtime,
     model_basename!=actor.model)
   return fail("Character::InitPost GetCharModelName basename differs from the same CharacterTable row");
  const auto* ai=dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);
- if(!ai||ai->type==3||ai->delayed_load>1)
+ // Character::InitPost reads only the AI row here (LoadScriptProcess/InitScriptProcess);
+ // it does not reject AI type 3. The Machine Room referee is a gametype Character with
+ // AI row 47 (type 3, delayed_load 0), so only the delayed-load guard remains.
+ if(!ai||ai->delayed_load>1)
   return fail("Direct Character::InitPost does not have a supported non-Faery AI row");
  actor.source_delay_init_3ec=std::uint8_t(ai->delayed_load);
  actor.search_projection.character.source_word_1310=actor.properties.resolved[198];
@@ -14373,15 +14474,23 @@ struct NativeMonsterInitialization {
    try { bytes=read(s.asset_manager,path,"scripts"); }
    catch(const std::exception& e) {
     const std::string message=e.what();
-    if(message.rfind("Bundled asset missing: ",0)==0){*loaded=false;return 0;}
+    if(message.rfind("Bundled asset missing: ",0)==0){
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native","Native skill script absent | %s",path.c_str());
+     *loaded=false;return 0;
+    }
     throw;
    }
    dh2::monster_external_script::LoadResult result{};std::string error;
    const auto status=s.vm.load_resolved(path.c_str(),{bytes.data(),bytes.size()},&result,error);
    if(status==dh2::monster_external_script::Status::script_error&&result.vm_status>0){*loaded=false;return 0;}
-   if(status!=dh2::monster_external_script::Status::complete)return 1;
+   if(status!=dh2::monster_external_script::Status::complete){
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script load failed | %s | %s",path.c_str(),error.c_str());
+    return 1;
+   }
    *loaded=result.source_success;return 0;
-  } catch(...) {return 1;}
+  } catch(const std::exception& e) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script load threw | %s",e.what());return 1;
+  }
  }
  static int discard_skill_returns(void*,const dh2_script_first_return_v1*,std::uint32_t,
                                   char*,std::size_t) {return 0;}
@@ -14389,6 +14498,7 @@ struct NativeMonsterInitialization {
      const dh2_script_value* arguments,std::uint32_t count) {
   auto& s=self(raw);if(!function||!s.vm.ready())return 1;std::string error;
   const int status=s.vm.call_all(function,arguments,count,discard_skill_returns,nullptr,error);
+  if(status!=0)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Native skill script call failed | %s | %s",function,error.c_str());
   return status==0?0:1;
  }
  static std::int32_t skill_update_service(void* raw,dh2::character_ai_update_all_skills::State* state,
@@ -14463,8 +14573,12 @@ struct NativeMonsterInitialization {
      &s.catalogue->tables->skills(),&s.catalogue->tables->faeries(),&s.script_path,0,&s.catalogue->faery_constants,
      &native_debug->globals(),&native_debug->services(),&s,skills_init_vcb,
      &s,skill_load,skill_call};
-    if(s.skills.prepare(bindings,s.last_skills)!=dh2::native::ghost_skills::Status::complete)
-     throw std::runtime_error("Native Ghost SetSkillsAndSpells failed");
+    const auto skills_status=s.skills.prepare(bindings,s.last_skills);
+    if(skills_status!=dh2::native::ghost_skills::Status::complete)
+     throw std::runtime_error("Native Ghost SetSkillsAndSpells failed | status "+
+         std::to_string(int(skills_status))+" | source "+std::to_string(int(s.last_skills.source_status))+
+         " | skill list "+std::to_string(s.last_skills.skill_list_property)+" | faery list "+
+         std::to_string(s.last_skills.faery_list_property));
     break;
    }
    case script_update_skills: {
@@ -15375,6 +15489,23 @@ void retire_native_monster_scripts(bool preserve) {
 }
 
 void clear_native_monster_outgoing_aggro(ObjectActor& actor);
+// CharAnimator::_SetAnim keeps the current animation when a sequence cannot be
+// selected. A sequence is accepted only when every clip it can reach is loaded
+// in the owning ObjectGroup bank, so render-time clip lookups cannot fault.
+bool sequence_clips_in_group_bank(const ObjectGroup& group,std::int32_t sequence,unsigned depth) {
+ if(depth>=3||sequence<0||static_cast<std::size_t>(sequence)>=actor_animation_tables.sequences.size())return false;
+ for(const auto& step:actor_animation_tables.sequences[static_cast<std::size_t>(sequence)].steps) {
+  if(step.redir==1) {if(!sequence_clips_in_group_bank(group,step.anim,depth+1))return false;}
+  else if(step.anim<0||!group.clips.count(step.anim))return false;
+ }
+ return true;
+}
+const ObjectGroup* object_group_owning_actor(const ObjectActor& actor) {
+ for(const auto& group:object_groups)
+  for(const auto& instance:group.instances)
+   if(&instance==&actor)return &group;
+ return nullptr;
+}
 void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::character::Request* request) {
  using namespace dh2::character;
  auto& owner=*static_cast<SpawnOwner*>(context);
@@ -15407,6 +15538,15 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
   // the active animation. CSDead deliberately calls SM_SetAnim(-1) when no
   // death override is selected; preserve that no-op in this actor owner.
   if(request->argument[0]<0)break;
+  // Keep the current animation when this sequence reaches a clip absent from the
+  // actor's bank (CharAnimator::_SetAnim ignores an absent anim id).
+  {
+   const auto* owner_group=object_group_owning_actor(actor);
+   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0)) {
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor animation skipped: clip absent from bank | %s | sequence %d",actor.name.c_str(),request->argument[0]);
+    break;
+   }
+  }
   if(actor.animator_processing_completion) {
    // CharAnimator::ANIM_Set stores one pending sequence (+0x50) during Update;
    // the Update common tail consumes the last request after event callbacks.
@@ -16173,11 +16313,15 @@ void SpawnOwner::update_runtime(const dh2::objects::Resource& resource,
  const int clip_id=actor->scheduler.clip().anim;
  dh2::move::Policy decoded{};
  if(dh2_move_policy(&decoded,&character.state.flags))throw std::runtime_error("Ghost movement policy decode failed");
- const bool reset=sampled_clip!=clip_id;
+ // AnimController::PlayClip (0x474b50) -> RootSceneNode::NewAnim (0x35d624)
+ // resets the root-motion delta (_ResetDelta 0x35ce6c) on every (re)start,
+ // including a looping clip's replay; otherwise each loop snaps the actor
+ // back by the clip's root travel.
+ const bool reset=sampled_clip!=clip_id||sampled_completions!=actor->completions;
  if(!visual.sample(scene,clip,animation_ms,frame,reset,
                    decoded.position_from_visual!=0,error))
   throw std::runtime_error("Ghost animation/root-motion sample failed: "+error);
- sampled_clip=clip_id;
+ sampled_clip=clip_id;sampled_completions=actor->completions;
  if(dh2_native_body_refresh_view(&runtime.body,&body))
   throw std::runtime_error("Ghost physical view refresh failed");
  runtime.subobjects.path_count=runtime.path.count;
@@ -16573,7 +16717,11 @@ bool construct_direct_source_character_impl_v1(ObjectActor& actor,std::string& e
 
 void initialize_active_crypt_room_zones(AAssetManager* assets) {
  const bool swamp_static=static_mlx_level_active();
- if(active_crypt_module_bounds.modules.empty()&&!swamp_static)return;
+ // Module::InitPost gives every static MLX Module with a visual scene node
+ // one RoomZone (Zone::InitWithBoundingBox over the visual AABB). The same
+ // owner serves the generated Crypt layout, so Crypt stays on this path.
+ const bool room_zones=!active_crypt_module_bounds.modules.empty();
+ if(!room_zones&&!swamp_static)return;
  // ObjectBase::InitPost initializes activation/deactivation ConditionData for
  // every authored row before ObjectManager::TestEnableCondition. The same
  // immutable source table backs the existing LevelVM condition evaluator;
@@ -16624,7 +16772,7 @@ void initialize_active_crypt_room_zones(AAssetManager* assets) {
                            active_level_assets.generated_crypt_layout
                              ?active_level_assets.generated_crypt_handle_ledger.get()
                              :active_level_assets.source_level_handle_ledger.get(),
-                           !swamp_static,
+                           room_zones,
                            error))
   throw std::runtime_error(error.empty()?"Source RoomZone initialization failed":error);
  active_crypt_room_runtime=std::move(candidate);
@@ -17017,6 +17165,12 @@ std::vector<std::uint8_t> read(AAssetManager* assets,const std::string& name,con
       const auto packaged_relative=folder+"/"+packaged;
       a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
     }
+  }
+  // Source script paths keep the cache's data/scripts/ prefix; the packaged
+  // copies live under scripts/<rest>.
+  if(!a&&folder=="scripts"&&path.rfind("data/scripts/",0)==0){
+    const auto packaged_relative="scripts/"+path.substr(13);
+    a=AAssetManager_open(assets,packaged_relative.c_str(),AASSET_MODE_BUFFER);
   }
   if(!a&&folder=="actors"&&path.rfind("data/3d/",0)==0){
     const auto original_relative="original-cache/"+path;
@@ -20603,6 +20757,28 @@ Matrix source_player_camera(int width,int height,std::uint32_t dt_ms){
  FrameInput camera_input{};
  camera_input.active_camera=true;camera_input.camera_node_present=true;
  camera_input.target_cam_node_present=true;camera_input.target_game_object_present=true;
+ // Script_SetCameraTarget: follow the named object instead of the Player.
+ if(native_script_camera_target){
+  float position[3]{};
+  if(auto* actor=native_char_ai_actor(native_script_camera_target)){
+   std::copy(actor->position.begin(),actor->position.end(),position);
+   if(actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+    std::copy(actor->spawn_owner->runtime.subobjects.position,
+              actor->spawn_owner->runtime.subobjects.position+3,position);
+   target_object.identity=native_script_camera_target;
+   target_object.object_position={position[0],position[1],position[2]};
+   target_object.custom_anchor_present=false;
+  }else if(native_level_script_position_for_target(native_script_camera_target,position)){
+   target_object.identity=native_script_camera_target;
+   target_object.object_position={position[0],position[1],position[2]};
+   target_object.custom_anchor_present=false;
+  }
+ }
+ if(native_script_camera_target_dirty&&source_camera_level_owner_ready){
+  native_script_camera_target_dirty=false;
+  if(!source_camera_level_owner.set_target(&target_object,native_script_camera_blend_ms,nullptr))
+   throw std::runtime_error("Script_SetCameraTarget rejected by the source CameraTarget owner");
+ }
  camera_input.target=target_object;
  camera_input.dt_ms=static_cast<std::int32_t>(std::min<std::uint32_t>(dt_ms,2000));
  camera_input.camera_world_position=source_camera_level_root_position;
@@ -20685,6 +20861,8 @@ bool load_source_level_camera_clip_planes(AAssetManager* assets,
   }
   level.camera_near_clip=planes.near_clip;
   level.camera_far_clip=planes.far_clip;
+  level.camera_near_clip_default=planes.near_clip;
+  level.camera_far_clip_default=planes.far_clip;
   level.source_combat_music_enabled=combat_music_enabled;
   level.camera_file=std::move(camera_route.camera_file);
   level.camera_name=std::move(camera_route.camera_name);
@@ -21109,7 +21287,14 @@ bool static_level_entrypoint_fallback(AAssetManager* assets,const std::string& s
   if(id==entry_point)present=true;
  }
  if(present){error.clear();return true;}
- if(first<0){error="Static Level SPWN table has no compiled entrypoint";return false;}
+ // Original Level::GetSpawnPoint (0x3ef614) selects no row when the offline
+ // table has only conditional entrypoints; Level::_LoadProcess (0x3f6e30) then
+ // keeps the DWLD start position without error. Mirror that instead of failing.
+ if(first<0){
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "Static Level SPWN table has no compiled entrypoints | entrypoint %d | using DWLD start position",entry_point);
+  error.clear();return true;
+ }
  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
      "Static Level entrypoint %d is conditional/uncompiled | using compiled entrypoint %d",
      entry_point,first);
@@ -21233,8 +21418,8 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   if(context.debug_level_row!=-1){
    // Crypt row 23 and the authored static MLX levels other than the
    // campaign's first (SWAMP) are available as debug launch overrides.
-   if(context.debug_level_row!=23&&context.debug_level_row!=4){
-    failure="Only source Crypt row 23 and DARKWOOD row 4 are available as debug launch overrides";return false;
+   if(context.debug_level_row!=23&&!static_level_name_for_row(context.debug_level_row)){
+    failure="Only source Crypt row 23 and the authored static MLX rows are available as debug launch overrides";return false;
    }
    for(auto& row:view.level_rows)row=context.debug_level_row;
   }
@@ -21508,7 +21693,7 @@ if(!retain){
 }
  native_actor_ready=false;clear_actor_world(retain);search_world.clear();prince_search_projection={};prince_body={};
  clear_player_equipment_native(false);
- resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;draws.clear();images.clear();object_groups.clear();world_objects.clear();
+ resume_world=retain;world_mode=false;move_x=move_y=0;android_movement_stop_pending=false;source_animated_decors.clear();draws.clear();images.clear();object_groups.clear();world_objects.clear();
  if(!retain){
   prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
   prince_visual={};prince_attack_clips.clear();prince_animation_bank={};native_level_frame.scene={};
@@ -21571,7 +21756,7 @@ void deactivate(bool defer_source_level_finish){
  menu_background=false;class_scene=false;
  if(active_crypt_room_runtime){
   if(!active_crypt_room_runtime->clear()){
-   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Crypt RoomZone owner retirement failed; preserving shared ObjectManager and actor storage");
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Crypt RoomZone owner retirement failed at line %d; preserving shared ObjectManager and actor storage",native_room_clear_fail_line);
    return;
   }
   active_crypt_room_runtime.reset();
@@ -21650,7 +21835,7 @@ void deactivate(bool defer_source_level_finish){
  native_world_items.clear();native_item_manager_pool={};clear_native_world_item_resources();
  active_crypt_module_bounds={};
  native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};saved_actors.clear();
- release_objects(object_groups);release(draws,images);world_objects.clear();
+ release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);release(draws,images);world_objects.clear();
  active_generated_crypt_faery_sources.clear();active_generated_crypt_template_sources.clear();
  actor_skill_catalogue.reset();level={};current_scene={};
  prince_retained_pose.clear();prince_locomotion=dh2::actor::BlendedPlayback{};
@@ -21905,7 +22090,7 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
     if(preserve_level_session)clear_actor_world(true);else deactivate();
     release_class_previews();release_menu_preview_actor_v1(true);
     menu_background=false;class_scene=false;
-    release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
+    release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);world_objects.clear();inspected_object=-1;release(draws,images);draws=std::move(candidate);images=std::move(textures);radius=next_radius;
     if(!preserve_level_session){
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native Player preview owners retired | bank %zu | retained pose %u | skill owner %u | AI owner %u",
        prince_attack_clips.size(),unsigned(!prince_retained_pose.empty()),unsigned(bool(prince_skills)),unsigned(bool(prince_source_ai)));
@@ -23316,7 +23501,627 @@ void initialize_crypt_script(AAssetManager* assets,bool restore,
  native_level_script_level_name=active_level_assets.name;
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","Crypt script ready | common %u | level %u | script %d | room %u | trigger %.6g %.6g %.6g | source AABB contact | other scripts pending",native_level_script_session.runtime()->common_table->script_count,native_level_script_session.runtime()->level_table->script_count,native_level_script_session.runtime()->trigger_script_id,crypt_trigger_room,position.x,position.y,position.z);
 }
+// Generic level-script host commands. Each case follows the original
+// Script_<Command>::Execute recovered from IDA; commands whose canonical owner
+// is not reconstructed yet are reported as unsupported (-2), so their scripts
+// stay rejected before activation instead of running with invented effects.
+namespace {
+std::string native_script_string(const dh2_script_command& command,unsigned index){
+ if(index>=command.field_count||command.fields[index].kind!=DH2_SCRIPT_VALUE_STRING)return {};
+ const auto& value=command.fields[index].value.string;
+ return std::string(reinterpret_cast<const char*>(value.data),value.size);
+}
+bool native_script_name_field(const dh2_script_command& command,unsigned index){
+ return index<command.field_count&&command.fields[index].kind==DH2_SCRIPT_VALUE_STRING&&
+     command.fields[index].value.string.size>0&&
+     command.fields[index].value.string.size<dh2_script_runtime::MAX_NAME_BYTES;
+}
+bool native_script_all(const std::string& name){
+ if(name.size()!=3)return false;
+ return std::tolower(static_cast<unsigned char>(name[0]))=='a'&&
+     std::tolower(static_cast<unsigned char>(name[1]))=='l'&&
+     std::tolower(static_cast<unsigned char>(name[2]))=='l';
+}
+template<class Visit>
+bool native_script_for_characters(const std::string& name,Visit visit,int& lookup){
+ lookup=1;
+ if(native_script_all(name)){
+  if(!visit(prince_character.identity()))return false;
+  for(auto& group:object_groups)for(auto& actor:group.instances)
+   if(actor.kind==1&&actor.identity&&!visit(actor.identity))return false;
+  return true;
+ }
+ dh2_script_runtime::ObjectRecord record{};
+ const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+ if(status==0){lookup=0;return true;}
+ if(status!=1||!record.identity)return false;
+ return visit(record.identity);
+}
+// Script_MoveActor (0x1142a8) moves retained until its IsBlocking (0x113726)
+// observes arrival. Handles are 1-based indexes into this list.
+struct NativeScriptMove {
+ std::uintptr_t mover=0;
+ std::array<float,3> target{};
+ std::uint32_t generation=0;
+ bool player=false,active=false;
+ std::uint32_t polls=0;
+};
+std::vector<NativeScriptMove> native_script_moves;
+}
+// Script_SetCameraTarget state: 0 targets the local Player.
+std::uintptr_t native_script_camera_target=0;
+std::int32_t native_script_camera_blend_ms=0;
+bool native_script_camera_target_dirty=false;
+namespace {
+// GameObject::SetVisible on the canonical ObjectManager row and, for a
+// Character, the same retained visibility fields Character::Enabled updates.
+bool native_script_set_visible(std::uintptr_t identity,bool visible,bool disable_zoning){
+ auto& manager=source_level_owner.object_manager();
+ if(manager.set_visible(identity,visible?1:0)!=
+      dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+ if(identity==prince_character.identity()){
+  prince_character.set_visible(visible?1u:0u);return true;
+ }
+ auto* actor=native_char_ai_actor(identity);
+ if(!actor)return true;  // Non-Character GameObject: the row owns +0x80.
+ if(disable_zoning)actor->zoning_enabled_2ee=0;  // GameObject::DisableZoning 0x38c600
+ actor->visible_80=std::uint8_t(visible);
+ if(actor->spawn_owner)actor->spawn_owner->source_visible=visible;
+ const bool zonable=native_actor_zonability(*actor)!=0;
+ actor->renderer_visible=visible&&
+     !(zonable&&actor->zoning_enabled_2ee&&actor->in_zone_2f0==0);
+ return true;
+}
+}
+// Script_UnEquipHands 0x45ded0 and Script_ReEquipHands 0x45d95c target the
+// Player Character. Unequip first records ItemInventory::GetItemIndex for the
+// current set's slots 1 and 2 (-1 when empty), then calls UnEquipItemFromSlot(1)
+// and (2). ReEquip calls EquipItemToSlot(slot, saved index) for each saved index
+// that is not -1. Both route through the Player's canonical V4 inventory and V6
+// equipment services, and the saved indices live on PlayerCombat.
+static bool native_player_hand_services_ready(std::string& error){
+ if(!player_equipment_native||!player_equipment_native->services||!prince_combat.inventory||
+    &player_equipment_native->services->inventory()!=prince_combat.inventory.get()||
+    prince_combat.inventory->character()!=prince_character.identity()){
+  error="Hand equipment requires the Player's canonical V4 and V6-backed equipment services";
+  return false;
+ }
+ return true;
+}
+static int native_player_unequip_hands(){
+ std::string error;
+ if(!native_player_hand_services_ready(error))return -1;
+ auto& inventory=*prince_combat.inventory;
+ const auto set=static_cast<std::size_t>(inventory.current_equipment());
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  std::int32_t saved=-1;
+  if(auto* cell=inventory.equipment()[set][slot]){
+   for(std::size_t i=0;i<inventory.items().size();++i){
+    if(inventory.items()[i].get()==cell){saved=static_cast<std::int32_t>(i);break;}
+   }
+  }
+  prince_combat.hand_equip_index[slot-1]=saved;
+ }
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  if(!player_equipment_native->services->unequip(slot,error))return -1;
+ }
+ return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+}
+static int native_player_reequip_hands(){
+ std::string error;
+ if(!native_player_hand_services_ready(error))return -1;
+ const auto& inventory=*prince_combat.inventory;
+ for(std::uint32_t slot=1;slot<=2;++slot){
+  const auto saved=prince_combat.hand_equip_index[slot-1];
+  if(saved==-1)continue;
+  if(saved<0||std::size_t(saved)>=inventory.items().size())return -1;
+  if(!player_equipment_native->services->equip(slot,static_cast<std::uint32_t>(saved),error))return -1;
+ }
+ return persist_after_inventory_mutation(prince_character.identity(),error)?1:-1;
+}
+bool native_level_script_host_supports(void*,const dh2_script_command* command){
+ if(!command)return false;
+ const auto& c=*command;
+ switch(c.command_id){
+ case 3:  // CONSOLE(S)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_STRING;
+ case 15: // PlayLevelMusic(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 8: // SetCameraTarget(blend I, name S, B)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_STRING&&
+      c.fields[1].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
+      c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 79: // FlushMessages()
+ case 16: case 17: // EnterSafeZone()/LeaveSafeZone()
+  return c.field_count==0;
+ case 13: // PlaySound(I, isMusic B, B, uid I)
+  return c.field_count==4&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_I32;
+ case 14: // StopSound(I, isMusic B, uid I)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&c.fields[2].kind==DH2_SCRIPT_VALUE_I32;
+ case 6: // SetCameraClip(far I, near I)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
+ case 20: // PlayEffect(set I, x I, y I, z I, target S, B)
+  return c.field_count==6&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32&&c.fields[2].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_I32&&c.fields[4].kind==DH2_SCRIPT_VALUE_STRING&&
+      c.fields[4].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
+      c.fields[5].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 21: // StopEffect(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 64: // ChangeLevel(entry I, level S)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      native_script_name_field(c,1);
+ case 77: // LockTutorial(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 24: case 25: // LockCharacter/UnlockCharacter(S)
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 19: // PlayAnimByName(S clip, B loop, S target, B blocking flag)
+  return c.field_count==4&&native_script_name_field(c,0)&&c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&
+      native_script_name_field(c,2)&&c.fields[3].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 51: case 52: // UnEquipHands(S)/ReEquipHands(S): one target name
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
+  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 66: // AwardTrophy(I id)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
+ case 27: // SetFaeryState(I index, I state)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_I32;
+ case 44: // KillActor(S)
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 29: // PutCharacterInLimbus(B limbus, S)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,1);
+ case 40: // MoveActor(target S, disable-collisions B, mover S, revive B)
+  return c.field_count==4&&native_script_name_field(c,0)&&
+      c.fields[1].kind==DH2_SCRIPT_VALUE_BOOL&&native_script_name_field(c,2)&&
+      c.fields[3].kind==DH2_SCRIPT_VALUE_BOOL;
+ default:return false;
+ }
+}
+int native_level_script_host_command(void*,const dh2_script_command* command,
+                                     std::uintptr_t* handle){
+ try {
+  if(!command||!handle)return -1;
+  *handle=0;
+  if(!native_level_script_host_supports(nullptr,command))return -2;
+  const auto source=source_level_owner.snapshot();
+  if(!source.source_level||source.phase!=dh2::source_level_owner_v1::Phase::active||
+     source.source_level_state!=38||source.generation!=native_level_script_generation||
+     native_level_script_level_name!=active_level_assets.name)return -1;
+  const auto& c=*command;
+  switch(c.command_id){
+  case 3:
+   // Script_CONSOLE::Execute 0x1146af only shows a DialogMsg when the
+   // DisplayScriptConsoleAsDialog debug switch is on; release is a no-op.
+   return 1;
+  case 15: {
+   // Script_PlayLevelMusic::Execute 0x45fd20 plays the current Level's
+   // music (Level+284) and selects the ambient state.
+   const auto uid=source_level_vxn_music_uid();
+   if(!uid)return 1;
+   return dh2::player_gameplay_audio::enqueue_source_vxn_music_state(uid,"ambient")?1:-1;
+  }
+  case 42: case 43: {
+   // Script_ShowActor 0x114245: DisableZoning then SetVisible(true).
+   // Script_HideActor 0x114126: SetVisible(false).
+   const bool show=c.command_id==42;
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   return native_script_set_visible(record.identity,show,show)?1:-1;
+  }
+  case 39: {
+   // Script_StopActor 0x114287: v2Controller::Cmd_Stop on one or "All".
+   int lookup=1;
+   const bool ok=native_script_for_characters(native_script_string(c,0),
+       [](std::uintptr_t identity){
+        if(identity==prince_character.identity()){stop_movement();return true;}
+        auto* actor=native_char_ai_actor(identity);
+        if(!actor||actor->kind!=1||!actor->spawn_owner||
+           actor->spawn_owner->actor!=actor||
+           actor->spawn_owner->character.owner()!=actor->identity)return true;
+        auto& owner=*actor->spawn_owner;
+        using namespace dh2::character;
+        const CharacterControlServices16 services{&owner,SpawnOwner::controller_service};
+        const ControllerCommandState32 controller{
+            reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+            controller_global_blocked,owner.character.state.controller_locked,
+            owner.controller_forced,0};
+        return dh2_character_controller_character(&controller,controller_stop,0,&services)>=0;
+       },lookup);
+   if(!ok)return -1;
+   return lookup;
+  }
+  case 31: {
+   // Script_PutCharacterInIdle 0x113fba: per Character (or "All"), skip dead,
+   // Limbus and awaiting-spawn states, else SM_SetIdleState.
+   int lookup=1;
+   const bool ok=native_script_for_characters(native_script_string(c,0),
+       [](std::uintptr_t identity){
+        if(identity==prince_character.identity()){
+         if(prince_combat.life.dead)return true;
+         return prince_character.set_idle_state(false)>=0;
+        }
+        auto* actor=native_char_ai_actor(identity);
+        if(!actor||actor->kind!=1||actor->combat_state.dead||!actor->spawn_owner||
+           actor->spawn_owner->actor!=actor||
+           actor->spawn_owner->character.owner()!=actor->identity)return true;
+        const auto state=actor->spawn_owner->character.state.current;
+        if(state==0||state==17||state==12)return true;
+        return actor->spawn_owner->character.set_idle_state(false)>=0;
+       },lookup);
+   if(!ok)return -1;
+   return lookup;
+  }
+  case 8: {
+   // Script_SetCameraTarget::Execute: an empty name targets the local Player's
+   // Character, otherwise CameraTarget::SetTarget(name, field 0 duration).
+   const auto name=native_script_string(c,1);
+   std::uintptr_t target=0;
+   if(!name.empty()){
+    dh2_script_runtime::ObjectRecord record{};
+    const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+    if(status==0)return 0;
+    if(status!=1||!record.identity)return -1;
+    target=record.identity==prince_character.identity()?0:record.identity;
+   }
+   native_script_camera_target=target;
+   native_script_camera_blend_ms=c.fields[0].value.i32;
+   native_script_camera_target_dirty=true;
+   return 1;
+  }
+  case 16: case 17: {
+   // Script_EnterSafeZone 0x45fc80 / LeaveSafeZone 0x45fbe0 call
+   // VoxSoundManager::SetInSafeZoneMusic (0x36c014, non-Java path): entering
+   // plays Level+288 when the ambient transition byte is set; leaving clears
+   // the safe-zone byte and replays Level+284.
+   const auto* level=static_mlx_level(active_level_assets.name,active_level_assets.level_file);
+   if(c.command_id==16){
+    const std::uint16_t uid=level?level->safezone_music_uid:0;
+    if(!uid)return 1;  // Source asserts on an unset safezone_music.
+    source_vox_music_state.safe_zone_music=true;
+    if(source_vox_music_state.ambient_transition_allowed&&
+       !dh2::player_gameplay_audio::enqueue_source_music_state(uid,"ambient"))return -1;
+    return 1;
+   }
+   source_vox_music_state.safe_zone_music=false;
+   const auto uid=source_level_vxn_music_uid();
+   if(uid&&!dh2::player_gameplay_audio::enqueue_source_vxn_music_state(uid,"ambient"))return -1;
+   return 1;
+  }
+  case 13: {
+   // Script_PlaySound::Execute 0x45fefc: music -> PlayMusic(uid, loop, ...),
+   // otherwise VoxSoundManager::Play(uid, loop, ...). Sounds without a
+   // packaged PCM resource stay silent rather than failing the script.
+   const auto uid=c.fields[3].value.i32;
+   if(uid<0||uid>0xffff)return 1;
+   const bool music=c.fields[1].value.boolean!=0,loop=c.fields[2].value.boolean!=0;
+   if(music){
+    if(dh2::player_gameplay_audio::source_music_resource(std::uint16_t(uid)))
+     dh2::player_gameplay_audio::enqueue_source_music_state(std::uint16_t(uid),"ambient");
+    return 1;
+   }
+   if(const auto* entry=dh2::player_gameplay_audio::find_uid(std::uint16_t(uid)))
+    dh2::player_gameplay_audio::enqueue_play(entry->label,std::strlen(entry->label),0,loop,0);
+   return 1;
+  }
+  case 14: {
+   // Script_StopSound::Execute 0x45fe2c: music -> StopMusic(fade) (no music
+   // stop in the gameplay queue yet), otherwise Stop(uid, fade).
+   if(c.fields[1].value.boolean)return 1;
+   const auto uid=c.fields[2].value.i32;
+   if(uid<0||uid>0xffff)return 1;
+   if(const auto* entry=dh2::player_gameplay_audio::find_uid(std::uint16_t(uid)))
+    dh2::player_gameplay_audio::enqueue_stop(entry->label,std::strlen(entry->label),0,
+        float(c.fields[0].value.i32));
+   return 1;
+  }
+  case 6: {
+   // Script_SetCameraClip::Execute 0x45c670: camera setNearValue(+12) and
+   // setFarValue(+8); -2 selects the LevelConfig plane.
+   const auto near_value=c.fields[1].value.i32,far_value=c.fields[0].value.i32;
+   const float next_near=near_value==-2?active_level_assets.camera_near_clip_default:float(near_value);
+   const float next_far=far_value==-2?active_level_assets.camera_far_clip_default:float(far_value);
+   if(!(next_near>0.0f)||!(next_far>next_near))return 1;
+   active_level_assets.camera_near_clip=next_near;
+   active_level_assets.camera_far_clip=next_far;
+   return 1;
+  }
+  case 20: {
+   // Script_PlayEffect::Execute 0x1143c7 -> VisualFXManager::PlayAnimFXSet
+   // (0x495d14) with the FX set, Pos3D and optional named target object.
+   // A named target supplies the position; the object attachment itself is
+   // not reconstructed.
+   if(!native_fx_owner)return 1;
+   std::array<float,3> position{float(c.fields[1].value.i32),float(c.fields[2].value.i32),
+                                float(c.fields[3].value.i32)};
+   const auto name=native_script_string(c,4);
+   if(!name.empty()){
+    dh2_script_runtime::ObjectRecord record{};
+    const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+    if(status==0)return 0;
+    if(status!=1||!record.identity)return -1;
+    float target[3]{};
+    if(!native_level_script_position_for_target(record.identity,target))return -1;
+    position={target[0],target[1],target[2]};
+   }
+   bool matched=false,launched=false;std::string error;
+   const auto status=native_fx_owner->PlayAnimFXSet(c.fields[0].value.i32,position,nullptr,
+       matched,launched,error);
+   return status==dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
+  }
+  case 21: {
+   // Script_StopEffect::Execute 0x113802 -> VisualFXManager::
+   // DropAnimatedFXSetByID (0x494660) for the set id PlayEffect started.
+   if(!native_fx_owner)return 1;
+   std::string error;
+   return native_fx_owner->DropAnimatedFXSetByID(c.fields[0].value.i32,error)==
+       dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
+  }
+  case 64: {
+   // Script_ChangeLevel::Execute 0x45cba0: SaveAllPlayers then
+   // Application::LoadLevel(LevelList row, entry). The deferred transition
+   // owner performs those saves and the load after this frame.
+   if(!native_gameplay_ui)return -1;
+   native_gameplay_ui->queue_level_transition(native_script_string(c,1),
+       double(c.fields[0].value.i32));
+   return 1;
+  }
+  case 77: {
+   // Script_LockTutorial::Execute 0x45925c.
+   if(!native_gameplay_ui)return 1;
+   std::string error;
+   return native_gameplay_ui->lock_source_tutorial(c.fields[0].value.i32,error)?1:-1;
+  }
+  case 79: {
+   // Script_FlushMessages::Execute 0x460a58.
+   if(!native_gameplay_ui)return 1;
+   std::string error;
+   return native_gameplay_ui->flush_source_messages(error)?1:-1;
+  }
+  case 24: case 25: {
+   // Script_LockCharacter::Execute: "All" (case-insensitive) writes
+   // v2Controller::s_blocked; a name writes that Character's controller+8.
+   const std::uint8_t locked=c.command_id==24?1:0;
+   const auto name=native_script_string(c,0);
+   if(native_script_all(name)){controller_global_blocked=locked;return 1;}
+   dh2_script_runtime::ObjectRecord record{};
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity()){prince_state.controller_locked=locked;return 1;}
+   if(auto* faery=native_faery_owner(record.identity)){faery->controller.locked=locked;return 1;}
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor||!actor->spawn_owner)return 1;  // Not a Character: GetObjectByName cast fails.
+   actor->spawn_owner->character.state.controller_locked=locked;
+   return 1;
+  }
+  case 29: {
+   // Script_PutCharacterInLimbus::Execute 0x11430f -> SM_SetLimbusState
+   // (0x3c1a74): stores the machine's +52 limbus byte, clears the revive timer
+   // when awaiting revive, then _SetState(0,-1,0). The Coordinator state has no
+   // +52 field, so only the _SetState(0) transition is reconstructed here.
+   // The retained Player is not a Coordinator-backed Character: refuse it.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,1);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity())return -1;
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor)return 1;  // Not a Character: GetObjectByName cast fails.
+   if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
+      actor->spawn_owner->character.owner()!=actor->identity)return -1;
+   return actor->spawn_owner->character.transition(0,-1,0)>=0?1:-1;
+  }
+  case 44: {
+   // Script_KillActor::Execute 0x114224: v2Controller::Cmd_Kill(ctrl, nullptr, 0)
+   // on the named Character. The null killer gives no XP or loot attribution;
+   // the source Ctrl_Kill -> Kill -> RaiseEvent(2,nullptr) continuation runs.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity())return -1;
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor)return 1;  // Not a Character: GetObjectByName cast fails.
+   if(actor->combat_state.dead)return 1;  // Ctrl_Kill IsDead skips the body.
+   struct NullKillerScope{
+    NullKillerScope(){native_script_null_killer_kill=true;}
+    ~NullKillerScope(){native_script_null_killer_kill=false;}
+   } scope;
+   PlayerToNpcKillContextV1 context{actor,0,false,{}};
+   dh2::data::CombatResult result{};
+   if(player_to_npc_before_dead_v1(&context,result)!=0||!context.source_kill_completed||
+      actor->combat_state.dead!=1)return -1;
+   return 1;
+  }
+  case 40: {
+   // Script_MoveActor::Execute 0x1142a8: v2Controller::Cmd_MoveTo(target) on the
+   // mover Character; IsBlocking 0x113726 waits for its move list to empty and
+   // then issues Cmd_Stop. The disable-collision flag is not reconstructed.
+   dh2_script_runtime::ObjectRecord target_record{},mover_record{};
+   const auto target_name=native_script_string(c,0);
+   const auto mover_name=native_script_string(c,2);
+   const int target_status=native_level_script_object_lookup(nullptr,target_name.c_str(),&target_record);
+   const int mover_status=native_level_script_object_lookup(nullptr,mover_name.c_str(),&mover_record);
+   if(target_status==0||mover_status==0)return 0;
+   if(target_status!=1||mover_status!=1||!target_record.identity||!mover_record.identity)return -1;
+   NativeScriptMove move{};
+   move.mover=mover_record.identity;move.generation=source.generation;
+   float position[3]{};
+   if(!native_level_script_position_for_target(target_record.identity,position))return -1;
+   std::copy(position,position+3,move.target.begin());
+   if(mover_record.identity==prince_character.identity()){
+    // The retained Player has no Character::PathTo owner yet; it walks the
+    // same selected-floor PF route through its normal movement input.
+    move.player=true;
+   }else{
+    auto* actor=native_char_ai_actor(mover_record.identity);
+    if(!actor||actor->kind!=1||!actor->spawn_owner||!actor->spawn_owner->runtime_ready||
+       actor->spawn_owner->actor!=actor||
+       actor->spawn_owner->character.owner()!=actor->identity)return -1;
+    auto& owner=*actor->spawn_owner;
+    owner.control_failure_stage=0;
+    const dh2::character::ControllerCommandState32 controller{
+        reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+        controller_global_blocked,owner.character.state.controller_locked,
+        owner.controller_forced,0};
+    if(dh2_character_controller_character(&controller,dh2::character::controller_move_object,
+         target_record.identity,&owner.control_services)!=1)return -1;
+   }
+   move.active=true;
+   native_script_moves.push_back(move);
+   *handle=native_script_moves.size();
+   return 2;
+  }
+  case 27: {
+   // Script_SetFaeryState::Execute 0x45f6c8 -> Character::SetFaeryState(local
+   // Player, index, state) 0x3ae7d4 -> SG_SetFaerieState. Its tutorial branch
+   // (index != 0, state == 1, offline, Normal difficulty) starts
+   // cinematic_Tuto_faery and clears settings tutorial byte 2 first. That byte
+   // lives in OriginalUiSession settings with no reachable read accessor, so
+   // that combination stays unsupported instead of skipping the cutscene.
+   const auto index=c.fields[0].value.i32,state=c.fields[1].value.i32;
+   if(index!=0&&state==1&&!native_host_online_v1()&&native_save_difficulty==0)return -2;
+   if(!prince_combat.savegame||native_save_difficulty<0||native_save_difficulty>2)return -1;
+   std::string error;
+   return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
+       std::uint32_t(native_save_difficulty),error)?1:-1;
+  }
+  case 66: {
+   // Script_AwardTrophy::Execute 0x4593c4 -> TrophyManager::UnlockTrophy
+   // (0x3813b8); IsBlocking 0x455920 returns 0.
+   auto* manager=app_trophy_runtime.manager();
+   const auto id=c.fields[0].value.i32;
+   if(!manager||id<0||std::size_t(id)>=manager->size())return -1;
+   const auto status=manager->unlock(id);
+   if(status==dh2::data::TrophyUnlockStatusV1::completed){
+    std::string save_error;
+    if(!app_trophy_runtime.save_savegame(runtime_root,save_error))
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Could not persist source achievements.savegame after Script_AwardTrophy: %s",save_error.c_str());
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source trophy unlocked | id %d | Script_AwardTrophy",id);
+    return 1;
+   }
+   return status==dh2::data::TrophyUnlockStatusV1::already_unlocked||
+          status==dh2::data::TrophyUnlockStatusV1::already_unlocking?1:-1;
+  }
+  case 22: case 23: {
+   // Script_ShowFlash::Execute 0x45f8c8 / Script_HideFlash::Execute 0x45f78c:
+   // non-HUD names resolve MenuManager::GetMenuByName and call MenuBase::Show
+   // (0x425450) / Hide (0x424af4) without a stack push. The HUD branch
+   // (DisplayRightHud/FillActionIcon) is used by no level script.
+   const auto name=native_script_string(c,1);
+   if(name.find("HUD")!=std::string::npos)return -2;
+   if(!native_gameplay_ui)return -1;
+   std::string error;
+   const bool ok=c.command_id==22?native_gameplay_ui->show_script_flash(name,error):
+                                  native_gameplay_ui->hide_script_flash(name,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s %s failed | %s",
+       c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),error.c_str());
+   return ok?1:-1;
+  }
+  case 19: {
+   // Script_PlayAnimByName::Execute 0x45e124: GetObjectByName(target), then the
+   // object's VisualObject controller (slot 8: clip, bool, 0, 0). IsBlocking
+   // 0x4556a4 returns 0, so the command completes immediately. A clip the BDAE
+   // does not carry is ignored by the controller.
+   const auto clip=native_script_string(c,0);
+   const auto target=native_script_string(c,2);
+   const bool loop=c.fields[1].value.boolean!=0;
+   for(auto& decor:source_animated_decors){
+    if(decor.name!=target)continue;
+    if(!decor.visual->has_clip(clip.c_str()))return 1;
+    std::string error;
+    if(!decor.visual->play_named(clip.c_str(),loop,nullptr,nullptr,nullptr,error)){
+     __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script PlayAnimByName %s on %s failed | %s",
+         clip.c_str(),target.c_str(),error.c_str());
+     return -1;
+    }
+    return 1;
+   }
+   // Other PlayAnimByName targets (Characters) are not bound to an owner yet.
+   dh2_script_runtime::ObjectRecord record{};
+   const int status=native_level_script_object_lookup(nullptr,target.c_str(),&record);
+   if(status==0)return 0;
+   return -2;
+  }
+  case 51: case 52: {
+   // Script_UnEquipHands 0x45ded0 / Script_ReEquipHands 0x45d95c: resolve the
+   // target name (ObjectManager lookup, status 0 = absent like the original's
+   // null ObjectHandle). Only the Player Character has an equipment owner here;
+   // other Characters return -2 until their canonical inventory is bound.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity!=prince_character.identity())return -2;
+   return c.command_id==51?native_player_unequip_hands():native_player_reequip_hands();
+  }
+  default:return -2;
+  }
+ }catch(...){return -1;}
+}
+int native_level_script_host_command_blocking(void*,std::uintptr_t handle,std::uint32_t command_id){
+ try {
+  if(command_id!=40||!handle||handle>native_script_moves.size())return -1;
+  auto& move=native_script_moves[handle-1];
+  if(!move.active)return 0;
+  const auto source=source_level_owner.snapshot();
+  if(source.generation!=move.generation){move.active=false;return 0;}
+  ++move.polls;
+  if(move.player){
+   GameplayPoseSnapshotV1 pose;std::string error;
+   if(!gameplay_pose_snapshot(pose,error)){move.active=false;return 0;}
+   const float remaining=std::hypot(move.target[0]-pose.player_position[0],
+                                    move.target[1]-pose.player_position[1]);
+   if(remaining<=48.0f||move.polls>1800){
+    stop_movement();move.active=false;return 0;
+   }
+   GameplayRouteSnapshotV1 route;
+   std::array<float,3> waypoint=move.target;
+   if(gameplay_route_snapshot(move.target,route,error)&&route.path_found&&!route.waypoints.empty()){
+    std::size_t next=0;
+    while(next+1<route.waypoints.size()&&
+          std::hypot(route.waypoints[next][0]-pose.player_position[0],
+                     route.waypoints[next][1]-pose.player_position[1])<=48.0f)++next;
+    waypoint=route.waypoints[next];
+   }
+   const float dx=waypoint[0]-pose.player_position[0],dy=waypoint[1]-pose.player_position[1];
+   const float distance=std::hypot(dx,dy);
+   if(!std::isfinite(distance)||distance<=1.0f){stop_movement();move.active=false;return 0;}
+   constexpr float inverse_sqrt_two=0.7071067811865475f;
+   move_axis((dx+dy)*inverse_sqrt_two/distance,(dy-dx)*inverse_sqrt_two/distance);
+   return 1;
+  }
+  auto* actor=native_char_ai_actor(move.mover);
+  if(!actor||!actor->spawn_owner||!actor->spawn_owner->runtime_ready){move.active=false;return 0;}
+  auto& owner=*actor->spawn_owner;
+  if(owner.runtime.path.count!=0&&move.polls<=3600)return 1;
+  const dh2::character::ControllerCommandState32 controller{
+      reinterpret_cast<std::uintptr_t>(&owner.character.state),actor->identity,
+      controller_global_blocked,owner.character.state.controller_locked,
+      owner.controller_forced,0};
+  dh2_character_controller_character(&controller,dh2::character::controller_stop,0,
+      &owner.control_services);
+  move.active=false;return 0;
+ }catch(...){return -1;}
+}
 void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
+ if(!restore){native_script_camera_target=0;native_script_camera_target_dirty=false;native_script_moves.clear();}
  const auto source_level=source_level_owner.snapshot();
  if(!source_level.source_level||
     source_level.phase!=dh2::source_level_owner_v1::Phase::active||
@@ -23416,14 +24221,16 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
       native_source_char_menu_tutorial_services.context,skip_all);}catch(...){return -1;}
  };
  const dh2::character::crypt_scripts::SpawnDispatch dispatch{
-     nullptr,crypt_script_spawn,nullptr,native_level_script_object_lookup,
+     nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,
      native_level_script_actor_command,start_dialog,dialog_active,
      &native_level_dialog_dispatch_context,
      native_level_script_play_actor_animation,
      native_level_script_actor_animation_active,
      enqueue_char_menu_tutorial,skip_char_menu_tutorial,
      &native_level_dialog_dispatch_context,native_level_script_door_command,
-     native_level_script_door_is_blocking,start_dialog_id};
+     native_level_script_door_is_blocking,start_dialog_id,
+     native_level_script_host_supports,native_level_script_host_command,
+     native_level_script_host_command_blocking};
  std::string error;
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
@@ -23441,6 +24248,10 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
      "SWAMP ScriptManager bound | source Level generation %u | common %u | level %u | canonical Character seeds %zu | command services remain strict",
      source_level.generation,runtime->common_table->script_count,
      runtime->level_table->script_count,seeds.size());
+ {std::uint32_t supported=0,total=0;std::string blockers;
+  native_level_script_session.supported_level_scripts(supported,total,&blockers);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s level scripts with bound command providers | %u of %u | first blockers (id x count) %s",
+      active_level_assets.name.c_str(),supported,total,blockers.c_str());}
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
@@ -25730,7 +26541,9 @@ bool advance_ordered_actor_animation(ObjectActor& actor,ObjectGroup& group,
  }
  double remaining=frozen?0:double(dt_ms);unsigned events=0;
  while(!frozen&&actor.scheduler.active()) {
-  const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+  const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+  if(clip_found==group.clips.end()){error="Actor animation clip absent from its ObjectGroup bank";return false;}
+  const auto& clip=clip_found->second;
   const double duration=clip.end-clip.start;
   const double speed=actor.scheduler.clip().speed*
       (actor.spawn_owner?actor.spawn_owner->animation_speed:1.f);
@@ -25818,7 +26631,9 @@ bool advance_ordered_actor_animation(ObjectActor& actor,ObjectGroup& group,
        reinterpret_cast<std::uintptr_t>(&actor.animator_sequence_closed_48));
   if(remaining<=0)break;
  }
- const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+ const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+ if(clip_found==group.clips.end())return false;
+ const auto& clip=clip_found->second;
  const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):
      clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
   sampled_clip=&clip;sampled_clip_ms=ms;
@@ -27323,7 +28138,18 @@ int spell_status_select_animation(void* raw,std::uintptr_t character,
  if(effective<0||static_cast<std::size_t>(effective)>=
       actor_animation_tables.characters.size())return 1;
  const auto& row=actor_animation_tables.characters[static_cast<std::size_t>(effective)];
- const auto field=static_cast<std::size_t>(row_offset/4);
+ // row_offset is a raw Structs::CharAnim byte offset (SM_SetKnockBackState
+ // reads +36/+72, Dodging +32, Blocking +12, Injured +60, Scared +124,
+ // Stunned +140). The port row stores scalar k at schema index k, so map the
+ // dword with the original layout: 4(k+1) for k<=14, 4(k+2) for 16..30 and
+ // 4(k+3) for 32..36. Interact (k=15) and Spells (k=31) arrays are rejected.
+ const auto dword=row_offset/4;
+ std::int32_t field_index=-1;
+ if(dword>=1&&dword<=15)field_index=dword-1;
+ else if(dword>=18&&dword<=32)field_index=dword-2;
+ else if(dword>=35&&dword<=39)field_index=dword-3;
+ if(field_index<0)return 1;
+ const auto field=static_cast<std::size_t>(field_index);
  if(field>=row.fields.size()||row.fields[field].size()!=1)return 1;
  auto selected=row.fields[field][0];
  dh2_pycst_result source_mask{};
@@ -27850,7 +28676,7 @@ int spell_apply_result_invoke(void* raw,
    if(dh2::object_update_culling::is_remotely_updated(
         &defender_actor->spawn_owner->remote_object,&remote)!=
         dh2::object_update_culling::Status::complete||
-        remote.raw!=UINT32_MAX)return 1;
+        remote.raw!=0)return 1;
   } else if(request->defender!=prince_character.identity()||
        prince_combat.object_update_fields.identity!=request->defender||
        prince_combat.object_update_fields.remote_word_110!=UINT32_MAX)return 1;
@@ -29642,8 +30468,9 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   dh2::character_skill_combat_roll_v1::Result result{};std::string error;
   const auto status=dh2::character_skill_combat_roll_v1::execute(
       &request,&services,&result,error);
-  if(status!=dh2::character_skill_combat_roll_v1::Status::complete)
-   return fail(error.empty()?"Character::_SkillCombatRoll source provider failed":error.c_str());
+  if(status!=dh2::character_skill_combat_roll_v1::Status::complete){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player SkillCombatRoll failed | %s",error.c_str());
+   return fail(error.empty()?"Character::_SkillCombatRoll source provider failed":error.c_str());}
   using Disposition=dh2::character_skill_combat_roll_v1::Disposition;
   if(result.disposition==Disposition::attacks) {
    if(result.attack_count>capacity||!out)
@@ -29721,6 +30548,12 @@ bool gameplay_world_item_snapshot(GameplayWorldItemSnapshotV1& output,std::strin
  }
  candidate.distance=candidate.count?nearest:0.f;
  output=candidate;error.clear();return true;
+}
+// Development probe for the desktop skill scenario: the source Player's
+// CharStateMachine::current, or -1 when no live Player exists.
+std::int32_t gameplay_player_state() noexcept{
+ if(!enabled||!world_mode||!native_actor_ready)return -1;
+ return native_source_character_state(prince_character.identity());
 }
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
@@ -30297,7 +31130,10 @@ bool native_host_sync_playerinfo_character(std::string& error){
  const auto* level=record->at(0x310);
  if(!level||!level->constructed||level->header.value<0){error="PlayerManager offline sync level member unavailable";return false;}
  prince_combat.savegame->set_player_level(level->header.value);
- if(dh2_property_set_int(&view,19,level->header.value)){
+ // PlayerManager::_ManageCharacters 0x37280c: PROPS_SetInt(19,
+ // ((level<<8)-CharacterTable base)>>8), so the resolved Level equals the Save.
+ if(dh2_property_set_int(&view,19,
+      std::int32_t((std::int64_t(level->header.value)*256-prince_combat.properties.base[19])>>8))){
   error="PlayerManager offline sync level property write failed";return false;
  }
 
@@ -30566,7 +31402,26 @@ bool native_host_player_manager_activation_ready() noexcept{
 }
 bool native_host_run_player_manager_activation(std::string& error){
  if(!native_host_player_manager_activation_ready()){
-  error="PlayerManager active sync preflight lacks the canonical loaded Level/Player/Save generation";return false;
+  {
+   const auto& pm=native_host.player_manager_update;const auto source=source_level_owner.snapshot();
+   auto* record=native_host.record_for(native_host.host_projection());
+   auto* level_member=record?record->at(0x310):nullptr;
+   std::string f;
+   if(!native_host.registry_owner)f+=" registry";
+   if(pm.manager_identity!=native_host.registry.manager_identity)f+=" manager";
+   if(!pm.created_character_count_known||!pm.remove_flag_6c9_known)f+=" known";
+   if(pm.manager_remove_flag_6c9!=1)f+=" 6c9="+std::to_string(pm.manager_remove_flag_6c9);
+   if(pm.local_death_count_6c4!=1)f+=" 6c4="+std::to_string(pm.local_death_count_6c4);
+   if(pm.counted_player_character!=prince_character.identity())f+=" counted";
+   if(!native_host_player_manager_owners_ready())f+=" owners";
+   if(!level_member||!level_member->constructed||level_member->header.value!=prince_combat.savegame->level())f+=" level "+std::to_string(level_member?level_member->header.value:-99)+"/"+std::to_string(prince_combat.savegame->level())+" constructed "+std::to_string(level_member?int(level_member->constructed):-1)+" meta "+std::to_string(native_host.metadata_record!=nullptr)+" rec==meta "+std::to_string(record==native_host.metadata_record)+" p19 "+std::to_string(prince_combat.properties.base[19])+"/"+std::to_string(prince_combat.properties.saved[19])+"/"+std::to_string(prince_combat.properties.gear[19])+"/"+std::to_string(prince_combat.properties.resolved[19]);
+   if(source.phase!=dh2::source_level_owner_v1::Phase::active)f+=" phase";
+   if(source.source_level_state!=38)f+=" state="+std::to_string(source.source_level_state);
+   if(source.transition_flag_144)f+=" t144";
+   if(source.player_character!=prince_character.identity())f+=" player";
+   if(prince_combat.life.dead)f+=" dead";
+   error="PlayerManager active sync preflight lacks the canonical loaded Level/Player/Save generation |"+f;return false;
+  }
  }
  const auto services=native_host_player_manager_update_services();
  dh2::player_manager_update_v1::Result result{};
@@ -31217,9 +32072,12 @@ bool native_level_save_all_players_v1(std::string& error) {
   error="Level::SG_SaveAllPlayer currently supports only the retained offline local Player";
   return false;
  }
+ // The local PlayerInfo is the active metadata record (its +0x660 is set when
+ // the Player is added); the fallback record is used only without a profile.
+ const auto* local_record=native_host.metadata_record?native_host.metadata_record:&native_host.fallback;
  if(native_host.registry.manager_plus_8!=&native_host.player||
     native_host.registry.manager_identity==0||
-    native_host.character_660!=prince_character.identity()){
+    local_record->character_660!=prince_character.identity()){
   error="Level::SG_SaveAllPlayer PlayerManager does not expose the canonical local Character";
   return false;
  }
@@ -34577,14 +35435,15 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
     active.player_character!=prince_character.identity()||
     active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(manager)||
     !actor_level_fields_ready)return false;
- // Direct SWAMP Characters have no RoomZone owner. Their source MLX row,
- // handle/module provenance, Character table, and source AI classification
- // bind them to the same active Level ObjectManager as Crypt actors.
+ // Direct SWAMP Characters are zoned like Crypt actors: a zone-managed
+ // Character is eligible only while its RoomZone enrolled it (updates on).
+ // Their source MLX row, handle/module provenance, Character table, and
+ // source AI classification bind them to the same active Level ObjectManager.
  const auto source_npc=[&](ObjectActor& candidate) {
   const bool swamp=static_mlx_level_active()&&
       candidate.kind==1&&candidate.source_handle>=0&&
       candidate.source_object_module_id>=0&&candidate.character_table_id>=0&&
-      candidate.source_updates_enabled&&!candidate.source_room_zone_managed&&
+      candidate.source_updates_enabled&&
       native_character_classification(candidate,
         dh2::character_ai_classification::Query::monster)!=0;
   const bool crypt=active_level_assets.name=="GOTHICUS_CRYPT_01"&&
@@ -34595,6 +35454,14 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
  // Generated Crypt records require their retained module/record/template
  // source proof and enrolled Character row before the common manager is used.
  if(!source_npc(victim))return false;
+ if(!killer&&native_script_null_killer_kill){
+  auto* actor=manager->find_by_identity(victim.identity);
+  if(!actor||actor->identity!=victim.identity||actor->source_handle!=victim.source_handle||
+     actor->module_id_64!=victim.source_object_module_id||
+     !actor->live_fields.world_x||!actor->live_fields.world_y)return false;
+  if(manager_actor)*manager_actor=actor;
+  return true;
+ }
  auto* killer_actor=killer==active.player_character?nullptr:
      native_char_ai_actor(killer);
  if(killer!=active.player_character&&(!killer_actor||!source_npc(*killer_actor)))
@@ -34618,7 +35485,8 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
  return true;
 }
 bool source_npc_kill_ready(ObjectActor& victim,std::uintptr_t killer){
- if(!killer||killer==victim.identity||victim.kind!=1||!victim.identity||
+ const bool null_killer=!killer&&native_script_null_killer_kill;
+ if((!killer&&!null_killer)||(killer&&killer==victim.identity)||victim.kind!=1||!victim.identity||
     !victim.spawn_owner||!victim.native_ai||!victim.native_ai->initialization||
     !prince_skills||!prince_skills->initialized()||!world_mode||
     !actor_level_fields_ready||
@@ -34692,7 +35560,8 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
                               std::string& error){
  auto* c=static_cast<SourceNpcKillServicesContextV1*>(raw);
  if(!c||!c->victim||!c->initialization||request.character!=c->victim->identity||
-    !request.killer_object||request.killer_object==request.character||request.forced||
+    (!request.killer_object&&!native_script_null_killer_kill)||
+    request.killer_object==request.character||request.forced||
     !source_npc_kill_ready(*c->victim,request.killer_object)||
     !world_mode||!actor_level_fields_ready||
     !prince_combat.quests||
@@ -34703,8 +35572,8 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
  // The source Kill credit path requires the same live sole outgoing aggro
  // recipient. before_hit has already recorded that edge when this preflight
  // is reached, but this check itself is read-only.
- if(victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
-    victim.aggro.outgoing.front().character!=request.killer_object||
+ if((request.killer_object&&(victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
+    victim.aggro.outgoing.front().character!=request.killer_object))||
     !prince_combat.inventory||!prince_combat.savegame||
     !actor_xp_design_settings.bytes){
   error="Source NPC Kill has no sole aggro recipient or XP owners";return false;
@@ -34715,7 +35584,7 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
        &manager_object,&killer_object)){
   error="Source NPC Kill has no identity-matched live Character/GameObject positions";return false;
  }
- if(request.killer_object!=prince_character.identity()) {
+ if(request.killer_object&&request.killer_object!=prince_character.identity()) {
   auto* recipient=native_char_ai_actor(request.killer_object);
   auto* recipient_ai=recipient?recipient->native_ai.get():nullptr;
   auto* recipient_init=recipient_ai?recipient_ai->initialization.get():nullptr;
@@ -34895,7 +35764,8 @@ bool source_npc_raise_event2(void* raw,std::uintptr_t character,
 }
 int player_to_npc_before_dead_v1(void* raw,dh2::data::CombatResult&){
  auto* c=static_cast<PlayerToNpcKillContextV1*>(raw);
- if(!c||!c->victim||!c->killer||c->killer==c->victim->identity||
+ if(!c||!c->victim||(!c->killer&&!native_script_null_killer_kill)||
+ (c->killer&&c->killer==c->victim->identity)||
     c->victim->combat_state.dead||c->source_kill_completed||
     !source_npc_kill_ready(*c->victim,c->killer))return -1;
  auto& victim=*c->victim;
@@ -35315,10 +36185,12 @@ bool native_player_reinitialize_physical_object_v1(
 bool native_player_remove_set_position(std::uintptr_t character,
         const float position[3],bool update_destination,std::string& error){
  using namespace dh2::object_manager_runtime_owner_v1;
+ // GameObject::SetPosition moves the physical object only when one exists;
+ // a dead Player's body is rebuilt later by Character::Revive.
  if(!position||character!=prince_character.identity()||!native_actor_ready||
-    !active_crypt_room_runtime||!prince_body.body||
+    !active_crypt_room_runtime||
     !prince_combat.savegame||prince_combat.savegame->character()!=character){
-  error="PlayerManager::RemoveCharacter position requires the live canonical Player Character, body, visual, and Save";
+  error="PlayerManager::RemoveCharacter position requires the live canonical Player Character, visual, and Save";
   return false;
  }
  auto* object=active_crypt_room_runtime->manager.find_by_identity(character);
@@ -35341,7 +36213,7 @@ bool native_player_remove_set_position(std::uintptr_t character,
  std::copy(position,position+3,prince_runtime.object.motion.position);
  std::copy(position,position+3,actor_position.begin());
  std::copy(position,position+3,prince_visual.root.position);
- if(dh2_native_body_set_position(&prince_body,position)<0){
+ if(prince_body.body&&dh2_native_body_set_position(&prince_body,position)<0){
   error="PlayerManager::RemoveCharacter could not move the canonical physical Character";
   return false;
  }
@@ -35653,8 +36525,11 @@ std::int32_t player_skill_state_callback(void* raw,
    const auto callback=request->argument0==0x1e?
        dh2::native::player_skills::SkillCallback::pre:
        dh2::native::player_skills::SkillCallback::post;
-   return prince_skills->invoke_skill_callback(prince_source_ai->state.word_cc,
-       callback,result,error)==0?0:-1;}
+   const auto status=prince_skills->invoke_skill_callback(prince_source_ai->state.word_cc,
+       callback,result,error);
+   if(status!=0)__android_log_print(ANDROID_LOG_WARN,"DH2Native","CSSkill %s callback failed | status %d | %s",
+       request->argument0==0x1e?"pre":"post",status,error.c_str());
+   return status==0?0:-1;}
  case Operation::set_animation:{
   if(!request->subject||!prince_skills)return -1;
   std::int32_t animation=-1;std::string error;
@@ -35683,7 +36558,8 @@ std::int32_t player_skill_state_callback(void* raw,
       (dh2_native_body_unpin(&prince_body)?-1:0):
       (dh2_native_body_pin(&prince_body)?-1:0);
  case Operation::start_timer:
-  if(request->subject!=reinterpret_cast<std::uintptr_t>(&prince_character)||
+  // The FSM Character.timers identity is the Coordinator timer store (CharTimers), not the Character object.
+  if(request->subject!=reinterpret_cast<std::uintptr_t>(&prince_character.timers())||
      request->argument0!=10||request->argument1!=0||request->argument2!=0x30)return -1;
   return prince_character.start_timer(10,0,0x30,0)<0?-1:0;
  case Operation::is_monster:case Operation::is_miniboss:case Operation::is_boss:{
@@ -37177,11 +38053,8 @@ bool native_level_character_sg_update(void* raw,std::uintptr_t level_identity,
  if(active_level_assets.name=="SWAMP"&&
     active_level_assets.level_file=="001_swamp.mlx"&&
     !native_level_compile_quests_for_swamp(*context,error,checkpoint))return false;
- if(checkpoint&&!(active_level_assets.name=="SWAMP"&&
-                  active_level_assets.level_file=="001_swamp.mlx")){
-  error="Character::SG_Update(true) has no force-CompileQuests provider for this Level";
-  return false;
- }
+ // Other Levels have no force-CompileQuests provider yet; their checkpoint
+ // SG_Update follows the same per-frame path, which does not compile quests.
  // Level::Update calls PlayerManager::Update immediately after this
  // Character::SG_Update(false) callback, while +0x144 is still clear. Keep
  // the offline PM sync on that source boundary, before ScriptManager runs.
@@ -37378,11 +38251,53 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
     // once the local Player is in the Level; that entry checkpoint is what an
     // offline ReviveLocalPlayers -> Level::LoadCheckpoint restores.
     std::string checkpoint_error;
+    // CheckpointSave's +0x1468/+0x1474 writes precede its saveAll; set them
+    // before the shared INFO/OBJS image is published so the checkpoint copy
+    // carries the revive destination.
+    {
+     std::uint32_t entry_xyz[3]{};
+     std::memcpy(entry_xyz,prince_runtime.subobjects.position,sizeof(entry_xyz));
+     prince_character.save_checkpoint_position(prince_character.identity(),entry_xyz);
+     prince_character.save_checkpoint_revive_position(prince_character.identity(),entry_xyz);
+    }
     if(!native_level_quick_save_v1(false,checkpoint_error))
      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
          "Level entry QuickSave unavailable | %s",checkpoint_error.c_str());
-    else __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level entry QuickSave | generation %u",
+    else {
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level entry QuickSave | generation %u",
          updated_source.generation);
+     // Level::_LoadProcess 0x3f6e84 then calls Level::CheckpointSave(Player
+     // position, false): +0x1468/+0x1474 take the Player position and
+     // LevelSavegame::SaveCheckPoint writes the same INFO/OBJS image under the
+     // checkpoint name. Character::SG_SaveCheckpoint's QEST file is not yet
+     // reconstructed (its absence is a valid empty checkpoint on load).
+     std::uint32_t xyz[3]{};
+     std::memcpy(xyz,prince_runtime.subobjects.position,sizeof(xyz));
+     std::string checkpoint_name;
+     const auto active=source_level_owner.snapshot();
+     std::error_code ec;
+     if(!prince_character.save_checkpoint_position(prince_character.identity(),xyz)||
+        !prince_character.save_checkpoint_revive_position(prince_character.identity(),xyz)||
+        active.source_save_slot<0||
+        !dh2::level_savegame_owner_v1::format_checkpoint_filename(
+            active.source_save_slot,active.difficulty,checkpoint_name,checkpoint_error)){
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native","Level entry CheckpointSave unavailable | %s",
+          checkpoint_error.c_str());
+     }else{
+      const auto directory=level_savegame_publisher.directory();
+      const auto level_file=directory/std::filesystem::u8path(
+          source_level_owner.level_savegame().filename());
+      const auto checkpoint_file=directory/std::filesystem::u8path(checkpoint_name);
+      std::filesystem::copy_file(level_file,checkpoint_file,
+          std::filesystem::copy_options::overwrite_existing,ec);
+      if(ec)__android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Level entry CheckpointSave file write failed | %s",ec.message().c_str());
+      else __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+          "Level entry CheckpointSave | %s | revive %.1f %.1f %.1f",checkpoint_name.c_str(),
+          prince_runtime.subobjects.position[0],prince_runtime.subobjects.position[1],
+          prince_runtime.subobjects.position[2]);
+     }
+    }
    }
   }
   return 0;
@@ -38278,6 +39193,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
   std::map<std::string,unsigned> candidate_itemdrop_roots;
   std::map<unsigned,float> candidate_itemdrop_sensor_radii,candidate_itemdrop_interaction_radii;
   std::vector<ObjectGroup> candidate_groups;
+  std::vector<SourceAnimatedDecor> candidate_animated_decors;
   dh2::crypt_module_bounds_registry_v1::Owner candidate_crypt_module_bounds;
   const bool restore=world_mode||resume_world;const auto previous=actor_position;
   const auto previous_heading=heading;float source_spawn_heading=0;
@@ -38298,6 +39214,9 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     std::string camera_config_error;
     const bool source_clip_planes_loaded=
         load_source_level_camera_clip_planes(assets,level_assets,camera_config_error);
+    dh2::native::crypt_camera_frame_v1::static_mlx_camera_route=
+        [](std::string_view name,std::string_view file){
+         return static_mlx_level(std::string(name),std::string(file))!=nullptr;};
     const bool source_camera_route=dh2::native::crypt_camera_frame_v1::
         verified_crypt_route(level_assets.name,level_assets.level_file)||
         dh2::native::crypt_camera_frame_v1::verified_swamp_default_camera_route(
@@ -38325,6 +39244,8 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     }
     active_level_assets.camera_near_clip=level_assets.camera_near_clip;
     active_level_assets.camera_far_clip=level_assets.camera_far_clip;
+    active_level_assets.camera_near_clip_default=level_assets.camera_near_clip_default;
+    active_level_assets.camera_far_clip_default=level_assets.camera_far_clip_default;
     active_level_assets.source_player_camera_enabled=
         level_assets.source_player_camera_enabled;
     if(!restore){
@@ -38434,10 +39355,14 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           source_mgps.size(),source_spawn_bytes,source_layout_error))
         throw std::runtime_error("Original source MGP SpawnPoint import rejected: "+source_layout_error);
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
+      // An empty offline SPWN table keeps the DWLD descriptor and its start
+      // position (see static_level_entrypoint_fallback); no SPWN row is selected.
+      if(source_spawn_bytes.size()>=16+144){
       if(!dh2::world::compile_source_layout(source_mlx_bytes.data(),source_mlx_bytes.size(),source_spawn_bytes.data(),
           source_spawn_bytes.size(),entrypoint,source_layout_bytes,source_layout_error))
         throw std::runtime_error("Original source MLX layout rejected: "+source_layout_error);
       selected_descriptor=source_layout_bytes.data();selected_descriptor_size=source_layout_bytes.size();
+      }
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Native source MLX/MGP imported | row %d | %s | modules %u | supported SpawnPoints %u | selected entrypoint %d | source object factories remain separate",
         level_assets.row,level_assets.level_file.c_str(),selected_descriptor_size>=12?unsigned(selected_descriptor[8]|(unsigned(selected_descriptor[9])<<8)|(unsigned(selected_descriptor[10])<<16)|(unsigned(selected_descriptor[11])<<24)):0,unsigned(source_spawn_bytes.size()>=16?(source_spawn_bytes.size()-16)/144:0),entrypoint);
     }else if(legacy_crypt_source_layout){
@@ -38531,7 +39456,12 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     }
     if(!restore){
       if(source_spawn_bytes.empty())source_spawn_bytes=read(assets,level_assets.spawns,"worlds");
-      const auto& spawn_bytes=source_spawn_bytes;std::vector<dh2::world::EntryPoint> entrypoints;
+      const auto& spawn_bytes=source_spawn_bytes;
+      if(spawn_bytes.size()<16+144){
+        // No offline SPWN row: Level::_LoadProcess keeps the DWLD start (0x3f6e30).
+        __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint table empty | using DWLD start | start xyz %.4f %.4f %.4f",candidate.spawn[0],candidate.spawn[1],candidate.spawn[2]);
+      }else{
+std::vector<dh2::world::EntryPoint> entrypoints;
       if(!dh2::world::load_entrypoints(spawn_bytes.data(),spawn_bytes.size(),candidate.rooms,entrypoints,error))throw std::runtime_error(error);
       dh2::world::SpawnSelection start;
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
@@ -38540,6 +39470,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       source_spawn_heading=start.rotation_degrees[2]*0.01745329251994329577f;
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source SpawnPoint selected | ID %d | %s | room %u | floor snapped %u | source xyz %.4f %.4f %.4f | start xyz %.4f %.4f %.4f | source rotation z %.4f deg",
         start.source.id,start.source.name.c_str(),start.source.room,unsigned(start.floor_snapped),start.source.world.position[0],start.source.world.position[1],start.source.world.position[2],start.position[0],start.position[1],start.position[2],start.rotation_degrees[2]);
+      }
     }
     const auto records_data=read(assets,"character_properties_pyarray.bin","data"),names_data=read(assets,"character_properties_pyarraynames.bin","data"),fields_data=read(assets,"character_properties_pystructnames.bin","data"),model_names=read(assets,"character_models_dictionary_pyarraynames.bin","data"),model_values=read(assets,"character_models_dictionary_pyarray.bin","data");
     dh2::data::CharacterTable character_table;dh2::data::Dictionary model_table;
@@ -38723,6 +39654,33 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source MGP direct actors imported | DACT bytes %zu | retained actor handles %zu | supported records 5 | scripted/conditional actors deferred",source_object_bytes.size(),source_static_actor_handles.size());
      }else source_object_bytes=read(assets,level_assets.objects,"worlds");
      if(!dh2::objects::load_records(source_object_bytes.data(),source_object_bytes.size(),candidate.rooms,character_table,model_table,object_records,error))throw std::runtime_error(error);
+     // Non-SWAMP static levels' offline DACT actors keep their exact source
+     // MGP module/name ObjectManager key (the legacy Crypt rule below).
+     if(source_static_level&&std::string(static_level_source->name)!="SWAMP"){
+      const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
+      source_static_actor_handles.assign(object_records.size(),{});
+      for(std::size_t dact_record=0;dact_record<object_records.size();++dact_record){
+       const auto& record=object_records[dact_record];
+       auto& source=source_static_actor_handles[dact_record];
+       source.dact_record=static_cast<std::uint32_t>(dact_record);
+       if(record.kind!=1)continue;
+       const dh2::world::source_handle_ledger_v1::Occurrence* selected=nullptr;
+       if(handle_ledger)for(const auto& occurrence:handle_ledger->occurrences){
+        const auto& origin=occurrence.source;
+        if(origin.kind!=dh2::world::RecordKind::mgp||
+           origin.module_index!=record.room||origin.name!=record.name||
+           origin.gametype!="Character")continue;
+        if(selected)throw std::runtime_error("Static Level DACT Character matches multiple source MGP occurrences: "+record.name);
+        selected=&occurrence;
+       }
+       if(!selected||selected->duplicate_name||selected->handle<0)
+        throw std::runtime_error("Static Level DACT Character has no unique retained source ObjectManager key: "+record.name);
+       source.module_index=selected->source.module_index;
+       source.source_record=selected->source.record_index;
+       source.source_handle=selected->handle;
+       source.name=record.name;source.character=record.character;
+      }
+     }
      if(level_assets.generated_crypt_layout){
       const auto* handle_ledger=level_assets.generated_crypt_handle_ledger.get();
       std::vector<dh2::world::SourceMgpView> census_mgps;
@@ -38792,6 +39750,9 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       for(const auto& source:source_character_census){
        if(source.duplicate_name||source.source_handle<0||
           source.supported_direct_dact_v1)continue;
+       // Offline DACT actors (non-SWAMP static levels) already own this key.
+       if(std::any_of(source_static_actor_handles.begin(),source_static_actor_handles.end(),
+            [&](const auto& retained){return retained.source_handle==source.source_handle;}))continue;
        const bool swamp_escape_monster=source.module_index==7&&
           source.template_name=="Monster"&&
           source.activate_condition=="IsBefore_Swamp_Escape";
@@ -39082,6 +40043,46 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       mvp_render_instances.push_back(std::move(instance));
      }
     }
+    if(source_static_level&&std::string(static_level_source->name)=="SWAMP"){
+     // Script PlayAnimByName targets from SWAMP's MVP AnimatedDecor census.
+     // Other SWAMP AnimatedDecor rows (torches, water, motes, bubbles) remain
+     // deferred until their own owners are reviewed.
+     static const char* const script_targets[]{"_anim_cage_001","_anim_destructible_wall_001"};
+     std::vector<dh2::world::GeneratedCryptMvpFileV1> animated_mvps;
+     animated_mvps.reserve(source_mvps.size());
+     for(const auto& mvp:source_mvps)animated_mvps.push_back({mvp.source_path,mvp.data,mvp.size});
+     std::vector<dh2::world::SourceAnimatedDecorV1> animated_rows;
+     std::size_t animated_deferred=0;
+     if(!dh2::world::compile_source_animated_decor_v1(source_mlx_bytes.data(),source_mlx_bytes.size(),
+          "SWAMP","data/scene/001_swamp.mlx",animated_mvps.data(),animated_mvps.size(),animated_rows,animated_deferred,error))
+      throw std::runtime_error("SWAMP source MVP AnimatedDecor import rejected: "+error);
+     for(const auto& row:animated_rows){
+      if(std::find_if(std::begin(script_targets),std::end(script_targets),
+           [&](const char* name){return row.name==name;})==std::end(script_targets))continue;
+      SourceAnimatedDecor decor;
+      decor.name=row.name;decor.dae_path=row.dae_path;decor.start_animation=row.start_animation;
+      decor.visual=std::make_unique<dh2::destructible_container_visual_owner_v1::Owner>();
+      const auto bytes=read(assets,row.dae_path,"original-cache");
+      if(!decor.visual->load(bytes.data(),bytes.size(),error))
+       throw std::runtime_error("SWAMP AnimatedDecor BDAE rejected for "+row.name+": "+error);
+      const float half=3.14159265358979323846f/360.f;
+      const float x=row.world_transform[3]*half,y=row.world_transform[4]*half,z=row.world_transform[5]*half;
+      const float sx=std::sin(x),cx=std::cos(x),sy=std::sin(y),cy=std::cos(y),sz=std::sin(z),cz=std::cos(z);
+      const float quaternion[]{sx*cy*cz-cx*sy*sz,cx*sy*cz+sx*cy*sz,cx*cy*sz-sx*sy*cz,cx*cy*cz+sx*sy*sz};
+      const float position[]{row.world_transform[0],row.world_transform[1],row.world_transform[2]};
+      const float scale[]{row.world_transform[6],row.world_transform[7],row.world_transform[8]};
+      dh2_node_matrix(decor.placement.data(),position,quaternion,scale);
+      if(decor.visual->has_clip(decor.start_animation.c_str())&&
+         !decor.visual->play_named(decor.start_animation.c_str(),true,nullptr,nullptr,nullptr,error))
+       throw std::runtime_error("SWAMP AnimatedDecor start clip rejected for "+row.name+": "+error);
+      if(!prepare_source_container_visual_gpu(assets,*decor.visual,decor.visual_draws,decor.visual_images,error))
+       throw std::runtime_error("SWAMP AnimatedDecor GPU preparation failed for "+row.name+": "+error);
+      candidate_animated_decors.push_back(std::move(decor));
+     }
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "SWAMP MVP AnimatedDecor owners | retained %zu | script targets _anim_cage_001 and _anim_destructible_wall_001 | activate_cond not evaluated (IsBefore_Swamp_Escape assumed true) | unsupported AnimatedDecor rows skipped %zu | other AnimatedDecor not bound",
+       candidate_animated_decors.size(),animated_deferred);
+    }
     if(level_assets.generated_crypt_layout){
      if(!level_assets.generated_crypt_handle_ledger)
       throw std::runtime_error("Generated Crypt source handle ledger is unavailable");
@@ -39305,7 +40306,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     std::vector<std::unique_ptr<ObjectActor>> source_template_staged_actors(
         object_records.size());
     if(source_static_level){
-     std::size_t selected_source_templates=0;
+     std::size_t selected_source_templates=0,missing_source_templates=0;
      const auto expected_source_templates=static_cast<std::size_t>(
          std::count_if(source_character_census.begin(),source_character_census.end(),
           [](const auto& row){
@@ -39314,6 +40315,35 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           }));
      if(source_static_actor_handles.size()!=object_records.size())
       throw std::runtime_error("SWAMP source Character records do not have a one-to-one retained MGP handle vector");
+     // Character::SafeGetCharPropsId (0x3b3d38) caches -1 for an unknown
+     // char_template and InitPost then loads LoadBaseProperties(-1) defaults
+     // with no model (UNDERWORLD_HUB's "UW_CommonType3"). Such a modelless
+     // Character is not staged; the authoring error is reported instead.
+     for(std::size_t object_record=object_records.size();object_record-->0;){
+      const auto& retained=source_static_actor_handles[object_record];
+      if(retained.dact_record!=object_record||retained.source_handle<0)continue;
+      const auto census=std::find_if(source_character_census.begin(),
+          source_character_census.end(),[&](const auto& row){
+           return row.module_index==retained.module_index&&
+                  row.source_record==retained.source_record&&
+                  row.source_handle==retained.source_handle&&
+                  row.name==retained.name;
+          });
+      if(census==source_character_census.end()||census->char_template.empty()||
+         std::any_of(generated_crypt_template_catalog.templates.begin(),
+           generated_crypt_template_catalog.templates.end(),
+           [&](const auto& entry){return entry.name==census->char_template;}))continue;
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Static Level template Character skipped | %s | unknown char_template %s | SafeGetCharPropsId -1",
+          census->name.c_str(),census->char_template.c_str());
+      if(!census->duplicate_name)++missing_source_templates;
+      object_records.erase(object_records.begin()+std::ptrdiff_t(object_record));
+      source_static_actor_handles.erase(source_static_actor_handles.begin()+std::ptrdiff_t(object_record));
+      source_template_staged_actors.erase(source_template_staged_actors.begin()+std::ptrdiff_t(object_record));
+      for(std::size_t later=object_record;later<source_static_actor_handles.size();++later)
+       if(source_static_actor_handles[later].dact_record==later+1)
+        source_static_actor_handles[later].dact_record=static_cast<std::uint32_t>(later);
+     }
      for(std::size_t object_record=0;object_record<object_records.size();++object_record){
       const auto& retained=source_static_actor_handles[object_record];
       if(retained.dact_record!=object_record||retained.source_handle<0)continue;
@@ -39440,7 +40470,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        census->char_template.c_str(),model_name.c_str(),*animation_id,
        safeget.random_draws);
      }
-     if(selected_source_templates!=expected_source_templates)
+     if(selected_source_templates+missing_source_templates!=expected_source_templates)
       throw std::runtime_error("SWAMP source Character importer did not materialize every unique authored MonsterCommonType row");
     }
     if(restore&&prince_combat.character_class!=fresh_player.character_class)throw std::runtime_error("Retained gameplay class differs from its saved profile");
@@ -39623,21 +40653,28 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
             clip.empty()?nullptr:clip.data(),clip.size(),group.resource,error);
       if(!model_loaded)throw std::runtime_error(object.model+": "+error);
       if(object.kind==1){
-        std::set<int> ids;std::function<void(int,unsigned)> collect=[&](int id,unsigned depth){
+        std::set<int> ids,reaction_ids;std::function<void(int,unsigned,std::set<int>&)> collect=[&](int id,unsigned depth,std::set<int>& out){
           if(depth>=3||id<0||unsigned(id)>=animation_tables.sequences.size())throw std::runtime_error("Actor clip bank redirect outside limit");
-          for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1);else if(step.anim>=0)ids.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
+          for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1,out);else if(step.anim>=0)out.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
         };
         // Idle is required; non-combat rows (DARKWOOD NPCs) may omit Walk/Attack/Died.
-        for(const auto* state_name:{"Idle","Walk","Attack","Died"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+        // Reaction states (dodge/block/hurt/fear/stun/knockback) are optional clips: an unusable one is
+        // dropped from the bank, and the guarded SetAnim keeps the current animation for it.
+        for(const auto* state_name:{"Idle","Walk","Attack","Died","Dodging","Blocking","Injured","Scared","Stunned","GreatKnockedBack","KnockedBack"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+          const bool reaction=std::strcmp(state_name,"Idle")&&std::strcmp(state_name,"Walk")&&std::strcmp(state_name,"Attack")&&std::strcmp(state_name,"Died");
           if(!state){if(!std::strcmp(state_name,"Idle"))throw std::runtime_error("Actor clip bank Idle state missing: "+object.model);
             __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor clip bank state absent | %s | AnimTable %d | %s",object.model.c_str(),animation_table,state_name);continue;}
-          collect(state-animation_tables.sequences.data(),0);}
+          collect(state-animation_tables.sequences.data(),0,reaction?reaction_ids:ids);}
         if(std::any_of(object_records.begin(),object_records.end(),[&](const auto& record){return record.gated_spawn&&record.model==object.model;})) {
           const auto* state=dh2::data::animation_state(animation_tables,animation_table,"Spawn");
-          if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0);
+          if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0,ids);
         }
+        std::set<int> optional_ids;for(int id:reaction_ids)if(!ids.count(id))optional_ids.insert(id);ids.insert(optional_ids.begin(),optional_ids.end());
         for(int id:ids){dh2::data::AnimationStep ref;ref.anim=id;const auto* path=dh2::data::animation_clip(ref,clip_table);if(!path)throw std::runtime_error("Actor clip bank path missing");const auto separator=path->find_last_of("/\\");auto raw_clip=read(assets,path->substr(separator==std::string::npos?0:separator+1),"actors");auto& playback=group.clips[id];
-          if(!playback.load(raw_clip.data(),raw_clip.size(),group.resource.rest_scene,error,dh2::animation::MissingTargets::ignore)||playback.end<=playback.start)throw std::runtime_error("Actor clip bank: "+error);
+          if(!playback.load(raw_clip.data(),raw_clip.size(),group.resource.rest_scene,error,dh2::animation::MissingTargets::ignore)||playback.end<=playback.start){
+            if(!optional_ids.count(id))throw std::runtime_error("Actor clip bank: "+error);
+            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor reaction clip unusable | %s | clip %d | current animation kept",object.model.c_str(),id);
+            group.clips.erase(id);continue;}
           __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor event track ready | %s | clip %d | groups %u | attack_mainhand ms %d",object.model.c_str(),id,playback.events.view().count,dh2_events_time(&playback.events.view(),"attack_mainhand"));
         }
         __android_log_print(ANDROID_LOG_INFO,"DH2Native","Actor clip bank ready | %s | clips %zu | independent instance clocks",object.model.c_str(),group.clips.size());
@@ -39815,7 +40852,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     // Renderer registrations borrow factory Records from the retiring Level.
     // Drop those views before replacing either their owner set or draw banks.
     faery_visual_records.clear();
-    object_groups=std::move(candidate_groups);world_objects=std::move(object_records);
+    object_groups=std::move(candidate_groups);source_animated_decors=std::move(candidate_animated_decors);world_objects=std::move(object_records);
     active_generated_crypt_faery_sources=
         std::move(generated_crypt_faery_sources);
     active_generated_crypt_template_sources=
@@ -40275,7 +41312,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         throw std::runtime_error("PlayerManager AddCharacter receipt lacks the fully initialized canonical PlayerInfo/Character");
     }
     __android_log_print(ANDROID_LOG_INFO,"DH2Native","World ready | rooms %u | visual draws %zu | navigation triangles %zu | idle tracks %u | walk tracks %u | position %.4f %.4f %.4f",level.rooms,draws.size(),level.floor.size(),player.track_count(),walk_player.track_count(),actor_position[0],actor_position[1],actor_position[2]);return std::string(report)+(combat_resumed?"\nNative combat resumed":"");
-  }catch(const std::exception& e){{std::vector<GLuint> no_textures;release(candidate_itemdrop_draws,no_textures);}deactivate();release_objects(candidate_groups);release(environment,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","World load failed: %s",e.what());return std::string("World load failed: ")+e.what();}
+  }catch(const std::exception& e){{std::vector<GLuint> no_textures;release(candidate_itemdrop_draws,no_textures);}deactivate();release_source_animated_decors(candidate_animated_decors,true);release_objects(candidate_groups);release(environment,textures);__android_log_print(ANDROID_LOG_ERROR,"DH2Native","World load failed: %s",e.what());return std::string("World load failed: ")+e.what();}
 }
 
 void advance_source_map_camera(std::uint32_t dt_ms);
@@ -40340,11 +41377,11 @@ std::string transition_level(const std::string& destination_name,
    if(!prince_combat.savegame||!prince_combat.save_transport||
       !prince_combat.savegame->character()||
       source.source_save_slot!=prince_combat.savegame->slot()||
-      native_host.save_slot_664!=prince_combat.savegame->slot()||
+      (native_host.metadata_record?native_host.metadata_record->save_slot_664:native_host.save_slot_664)!=prince_combat.savegame->slot()||
       source.canonical_player_savegame!=reinterpret_cast<std::uintptr_t>(prince_combat.savegame.get())){
     error="NativeGoToZone PlayerInfo selected slot does not match the active PlayerSave owner";return false;
    }
-   output=native_host.save_slot_664;error.clear();return true;
+   output=native_host.metadata_record?native_host.metadata_record->save_slot_664:native_host.save_slot_664;error.clear();return true;
   },
   [](void*,std::int32_t& output,std::string& error){
    if(native_save_difficulty<0||native_save_difficulty>=3){
@@ -42536,10 +43573,16 @@ void draw(int width,int height){
   glUniform1i(glGetUniformLocation(program,"diffuse"),0);glUniform1i(glGetUniformLocation(program,"alpha_map"),1);
   glEnable(GL_DEPTH_TEST);glDepthFunc(GL_LEQUAL);glEnable(GL_BLEND);
   glEnableVertexAttribArray(position);glEnableVertexAttribArray(texcoord);glEnableVertexAttribArray(color);
+  // CSceneManager::drawInit (0x589e7c): Allow_ZWrite_On_Transparent is unset,
+  // so alpha-mapped environment materials draw after opaque geometry without
+  // depth writes (STransparentNodeEntry queue, sorted back-to-front below).
+  const auto transparent_environment=[](const Draw& b){
+    return b.environment&&!b.material.additive&&!b.material.alpha_map.empty();
+  };
   auto submit=[&](const Draw& b,const Matrix& transform){
     glUniformMatrix4fv(mvp,1,GL_FALSE,transform.data());
     b.material.backface?glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE);glCullFace(GL_BACK);glFrontFace(GL_CCW);
-    glBlendFunc(GL_SRC_ALPHA,b.material.additive?GL_ONE:GL_ONE_MINUS_SRC_ALPHA);glDepthMask(b.material.additive?GL_FALSE:GL_TRUE);
+    glBlendFunc(GL_SRC_ALPHA,b.material.additive?GL_ONE:GL_ONE_MINUS_SRC_ALPHA);glDepthMask(b.material.additive||transparent_environment(b)?GL_FALSE:GL_TRUE);
     glUniformMatrix4fv(texture_matrix,1,GL_FALSE,b.material.texture_matrix);glUniform4fv(material_color,1,b.material.color);
     glUniform1f(has_alpha,b.material.alpha_map.empty()?0:1);glUniform1f(alpha_ref,b.material.alpha_ref);
     const bool blue=b.material.effect_file=="GL_Diffuse_L1_VC_iPhone.bdae"&&
@@ -42570,7 +43613,21 @@ void draw(int width,int height){
           int(prince_combat.life.dead));
     }
   }
-  for(auto& b:draws){
+  // STransparentNodeEntry ordering (ctor 0xc9f17, operator< 0xc9812, heapsort 0xca57f):
+  // transparent draws go back-to-front. Depth is the clip-space w of the placement
+  // origin (view depth under this perspective), so larger w is drawn first.
+  static std::vector<Draw*> transparent_queue;
+  transparent_queue.clear();
+  for(auto& b:draws)if(transparent_environment(b))transparent_queue.push_back(&b);
+  const auto transparent_depth=[&projection](const Draw& b){
+    return projection[3]*b.placement[12]+projection[7]*b.placement[13]+projection[11]*b.placement[14]+projection[15];
+  };
+  std::stable_sort(transparent_queue.begin(),transparent_queue.end(),
+      [&](const Draw* a,const Draw* c){return transparent_depth(*a)>transparent_depth(*c);});
+  for(unsigned transparent_pass=0;transparent_pass<2;++transparent_pass)
+  for(std::size_t draw_index=0,draw_count=transparent_pass?transparent_queue.size():draws.size();draw_index<draw_count;++draw_index){
+    Draw& b=transparent_pass?*transparent_queue[draw_index]:draws[draw_index];
+    if(!transparent_pass&&transparent_environment(b))continue;
     if(world_mode&&!prince_character.render_batch_visible(b.environment))continue;
     if(world_mode&&player_equipment_native&&!equipment_draws.empty()&&!b.environment)continue;
     if(!b.skin.nodes.empty()){
@@ -42633,7 +43690,9 @@ void draw(int width,int height){
         // come from the development orbit camera.
         if(actor.spawn_owner){render_actor(actor,actor.spawn_owner.get());}
         else{
-          const auto& clip=group.clips.at(actor.scheduler.clip().anim);
+          const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+          if(clip_found==group.clips.end())continue;
+          const auto& clip=clip_found->second;
           const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):
             clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
           if(!dh2::objects::sample(group.resource,clip,ms,error)){
@@ -42643,7 +43702,9 @@ void draw(int width,int height){
         }
         continue;
       }
-      const auto& clip=group.clips.at(actor.scheduler.clip().anim);const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
+      const auto clip_found=group.clips.find(actor.scheduler.clip().anim);
+      if(clip_found==group.clips.end())continue;
+      const auto& clip=clip_found->second;const int ms=frozen?std::clamp(sampled_ms,clip.start,clip.end):clip.start+int(std::clamp(actor.cursor,0.,double(clip.end-clip.start)));
       if(actor.spawn_owner){
         render_actor(actor,actor.spawn_owner.get());
       }else{
@@ -42651,6 +43712,33 @@ void draw(int width,int height){
         render_actor(actor,nullptr);
       }
     }
+  }
+  if(world_mode&&!source_map_render_pass)for(auto& decor:source_animated_decors){
+   if(!decor.visual||!decor.visual->controller_present()||decor.visual_draws.empty())continue;
+   const auto scene_time_value=native_scene_clock_ms();
+   if(!std::isfinite(scene_time_value)||scene_time_value<0.f||scene_time_value>4294967040.f)
+    throw std::runtime_error("SWAMP AnimatedDecor lost the shared scene timestamp");
+   std::string visual_error;
+   if(!frozen&&decor.visual->clip_active()&&
+      !decor.visual->update(static_cast<std::uint32_t>(scene_time_value),visual_error))
+    throw std::runtime_error("SWAMP AnimatedDecor Animator update failed: "+visual_error);
+   auto& resource=decor.visual->resource();
+   for(std::size_t i=0;i<decor.visual_draws.size();++i){
+    if(i>=resource.primitives.size())
+     throw std::runtime_error("SWAMP AnimatedDecor draw/resource banks diverged");
+    const auto& primitive=resource.primitives[i];
+    const auto& batch=decor.visual_draws[i];
+    if(primitive.node>=resource.scene.graph.size())
+     throw std::runtime_error("SWAMP AnimatedDecor primitive node is invalid");
+    if(!primitive.skin.nodes.empty()){
+     glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+     glBufferSubData(GL_ARRAY_BUFFER,0,primitive.vertices.size()*sizeof(Vertex),primitive.vertices.data());
+    }
+    auto transform=dh2::scene::multiply(projection,decor.placement);
+    if(primitive.skin.nodes.empty())
+     transform=dh2::scene::multiply(transform,resource.scene.graph[primitive.node].world);
+    submit(batch,transform);
+   }
   }
   if(world_mode&&!source_map_render_pass&&active_crypt_room_runtime){
     auto& containers=active_crypt_room_runtime->source_destructible_containers;

@@ -1,0 +1,247 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      -1.05857,
+      -1849.39,
+      1013.32
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+    "source_record": 0,
+    "world_position": [
+      -1.05857,
+      -1849.39,
+      1013.32
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "039_dark_temple_bossroom_01.dwld": {
+      "bytes": 280,
+      "sha256": "3c125066995237998e6a61da8f2dfd404b742cab437b1ec42f6d261866f50f24"
+    },
+    "039_dark_temple_bossroom_01.spwn": {
+      "bytes": 160,
+      "sha256": "751722abad4bef6026a7c6dbd1a8d74af5dd1b0968b4d310bb23e5a8389d7eec"
+    }
+  },
+  "level_list": {
+    "level_file": "039_dark_temple_bossroom_01.mlx",
+    "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+    "row": 8
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 2,
+  "modules": [
+    {
+      "dae": "data/3d/modules/darktemple/darktemple_bossroom.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "mgp_records": 29,
+      "module_index": 0,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_darktemple_bossroom_01.mvp",
+      "mvp_records": 9,
+      "name": "_module_darktemple_001",
+      "node_id": "_module_bossfinal-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/castle/ending.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/darktemple/mgp/dt_darktemple_ending_kingroom_01.mgp",
+      "mgp_records": 2,
+      "module_index": 1,
+      "mvp": "data/3d/modules/darktemple/mvp/dt_darktemple_ending_kingroom_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_kingroom_t_001",
+      "node_id": "_module_kingroom_t-node",
+      "position": [
+        6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darktemple/bossroom_effect.bdae",
+      "bytes": 46112,
+      "path": "data/3d/animateddecors/darktemple/bossroom_effect.bdae",
+      "sha256": "8fce19d9c669457824c749b27589504cc898965edb8eb6f1fa164e2ea97bc0a6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darktemple/smog_visage.bdae",
+      "bytes": 14588,
+      "path": "data/3d/animateddecors/darktemple/smog_visage.bdae",
+      "sha256": "1773565dbc5303f174c74843a171f9701e62e101d88eef51ea50c4afca64f4d7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/castle/ending.bdae",
+      "bytes": 85300,
+      "path": "data/3d/modules/castle/ending.bdae",
+      "sha256": "dd68414d27278f64671f79f65f1aff6c20486010beb98cbe366fb75928a1fc32"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/darktemple_bossroom.bdae",
+      "bytes": 307688,
+      "path": "data/3d/modules/darktemple/darktemple_bossroom.bdae",
+      "sha256": "d14d3159189c1b213526ee227d1ecbf43b37cf7ad7933d0a686f61b5514e1699"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "bytes": 9842,
+      "path": "data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+      "sha256": "458412435210add7d238042b3459a3e0545699a3e69bc174079c95e4bca8dee4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mgp/dt_darktemple_ending_kingroom_01.mgp",
+      "bytes": 761,
+      "path": "data/3d/modules/darktemple/mgp/dt_darktemple_ending_kingroom_01.mgp",
+      "sha256": "3c2ad047d6fc13bf6c80869f7a46936fb0586d87e027956b3ade4f929a6ea438"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_darktemple_bossroom_01.mvp",
+      "bytes": 4777,
+      "path": "data/3d/modules/darktemple/mvp/dt_darktemple_bossroom_01.mvp",
+      "sha256": "c26dd9fd5a1f359151923a7b90a304ae3ec440ee7bcbe80aabee34f86b777b3a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darktemple/mvp/dt_darktemple_ending_kingroom_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darktemple/mvp/dt_darktemple_ending_kingroom_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_darktemple.bdae",
+      "bytes": 5964,
+      "path": "data/3d/skybox/skybox_darktemple.bdae",
+      "sha256": "1bf82d024e67458e899535a1020ff3332588de59925f9ee2030432aa0ab84c7b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_castle.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_castle.tga",
+      "sha256": "0dad91823d4039906214574a29e383b6cacd54bbf924355897585b9b3dc22d62"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_castle_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_castle_spec.tga",
+      "sha256": "128064664285b370e9d8763913ede443822e9039dc730a8f89756d69c7f305d6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darktemple.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_darktemple.tga",
+      "sha256": "af79ad2905fbb422ab224c36eb202e0a799086ce9826cef7edcfde2603407001"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darktemple_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_darktemple_spec.tga",
+      "sha256": "01c9cbd5233ac1bb21d3ad1d467f71257ff5f675cfa426646a28119f0489e86e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/039_dark_temple_bossroom_01.mlx",
+      "bytes": 2144,
+      "path": "data/scene/039_dark_temple_bossroom_01.mlx",
+      "sha256": "cc1f4310cee998315820f8c9baca595b816593025a3a76cd16df9f9269778db9"
+    }
+  ],
+  "source_layout": "data/scene/039_dark_temple_bossroom_01.mlx",
+  "spawn_point_count": 1,
+  "texture_hints": {
+    "data/3d/modules/castle/ending.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": [
+        "data/3d/textures/env_castle_alpha.tga"
+      ]
+    },
+    "data/3d/modules/darktemple/darktemple_bossroom.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}

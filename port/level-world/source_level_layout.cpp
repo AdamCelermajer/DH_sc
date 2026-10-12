@@ -27,6 +27,14 @@ void store_float(std::uint8_t* p, float value) {
     p[3] = static_cast<std::uint8_t>(bits >> 24);
 }
 
+// A fully empty MGP/MVP view is a visual-only Module (no children). A partially
+// filled view is still an input error.
+template <typename View>
+bool partial_view(const View& view) {
+    return (view.source_path != nullptr) != (view.data != nullptr) ||
+           (view.source_path != nullptr && view.size == 0);
+}
+
 bool fixed_string(const char* input, std::size_t capacity, std::string& value) {
     const auto* end = static_cast<const char*>(std::memchr(input, 0, capacity));
     if (!end || end == input) return false;
@@ -89,7 +97,7 @@ bool compile_source_spawnpoints(const std::uint8_t* mlx, std::size_t mlx_size,
     std::vector<dh2_world_source_mgp> source_mgps;
     source_mgps.reserve(mgp_count);
     for (std::size_t i = 0; i < mgp_count; ++i) {
-        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+        if (partial_view(mgps[i])) {
             error = "Original source MGP list contains an incomplete input";
             return false;
         }
@@ -125,7 +133,7 @@ bool compile_source_dact(const std::uint8_t* mlx, std::size_t mlx_size,
     std::vector<dh2_world_source_mgp> source_mgps;
     source_mgps.reserve(mgp_count);
     for (std::size_t i = 0; i < mgp_count; ++i) {
-        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+        if (partial_view(mgps[i])) {
             error = "Original source MGP list contains an incomplete input";
             return false;
         }
@@ -167,7 +175,7 @@ bool compile_source_dact_with_handles(const std::uint8_t* mlx,
     std::vector<dh2_world_source_mgp> source_mgps;
     source_mgps.reserve(mgp_count);
     for (std::size_t i = 0; i < mgp_count; ++i) {
-        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+        if (partial_view(mgps[i])) {
             error = "Source DACT handle mapping MGP input is incomplete";
             return false;
         }
@@ -248,7 +256,7 @@ bool census_source_characters_with_handles_for_level(const std::uint8_t* mlx,
     std::vector<dh2_world_source_mgp> source_mgps;
     source_mgps.reserve(mgp_count);
     for (std::size_t i = 0; i < mgp_count; ++i) {
-        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+        if (partial_view(mgps[i])) {
             error = "Source Character census MGP input is incomplete";
             return false;
         }
@@ -385,7 +393,7 @@ bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
     std::vector<dh2_world_source_mgp> source_mgps;
     source_mgps.reserve(mgp_count);
     for (std::size_t i = 0; i < mgp_count; ++i) {
-        if (!mgps[i].source_path || !mgps[i].data || !mgps[i].size) {
+        if (partial_view(mgps[i])) {
             error = "Generic source MGP census input is incomplete";
             return false;
         }
@@ -506,7 +514,7 @@ bool compile_source_mvp(const std::uint8_t* mlx, std::size_t mlx_size,
     std::vector<dh2_world_source_mvp> source_mvps;
     source_mvps.reserve(mvp_count);
     for (std::size_t i = 0; i < mvp_count; ++i) {
-        if (!mvps[i].source_path || !mvps[i].data || !mvps[i].size) {
+        if (partial_view(mvps[i])) {
             error = "Original source MVP list contains an incomplete input";
             return false;
         }

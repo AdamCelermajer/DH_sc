@@ -2204,7 +2204,7 @@ bool Runtime::begin_skill(std::uint32_t skill_index,
       request->index!=0xc355||request->related!=0){
     p.error="AI_BeginSkill state event differs from source C355 dispatch";return -1;
    }
-   if(!b.coordinator||b.coordinator->event(request->index,request->related)!=0){
+   if(!b.coordinator||b.coordinator->event(request->index,request->related)<0){
     p.error="AI_BeginSkill C355 reached the retained Coordinator without its live CSSkill dispatcher/animation services";return -1;
    }
    return 0;

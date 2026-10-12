@@ -806,6 +806,21 @@ Status Owner::DropAnimatedFX(void** instance, std::string& error) {
     return Status::ok;
 }
 
+Status Owner::DropAnimatedFXSetByID(std::int32_t id, std::string& error) {
+    error.clear();
+    if (!catalog_) { error = "StopEffect cannot drop without the source catalog"; return Status::catalog_missing; }
+    const auto* selected = sequence(id);
+    if (!selected || selected->steps.empty()) return Status::ok; // source range/empty no-op
+    const auto dict = selected->steps.front().effect_dict_id;
+    for (auto& slot : slots_) {
+        if (!slot.instance || !slot.active || slot.effect_table_id != id ||
+            slot.effect_dict_id != dict) continue;
+        void* instance = slot.instance;
+        return DropAnimatedFX(&instance, error);
+    }
+    return Status::ok;
+}
+
 Status Owner::BindCharacter(void* instance, void* character, std::string& error) {
     error.clear(); auto* slot = find(instance);
     if (!slot) { error = "Character bind uses an unowned AnimatedFX"; return Status::stale_instance; }

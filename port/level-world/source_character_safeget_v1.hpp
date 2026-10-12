@@ -95,7 +95,8 @@ inline bool resolve(const world::SourceCharacterCensusV1& source_row,
     if (property_id < 0 ||
         static_cast<std::size_t>(property_id) >= character_table.names.size() ||
         *owner_bindings.property_cache != property_id) {
-        error = "Source Character SafeGet result does not resolve to a CharacterTable row";
+        error = "Source Character SafeGet result does not resolve to a CharacterTable row (" +
+            authored.template_name + " -> " + std::to_string(property_id) + ")";
         return false;
     }
     const auto template_id = owner_bindings.template_cache

@@ -122,6 +122,8 @@ public:
     bool menu_text_input_active() const noexcept;
     bool menu_key_event(std::uint32_t key_code,bool down,std::string&);
     bool camera_pan_allowed() const noexcept;
+    // The live gameplay movie that owns StringManager text and AS callbacks.
+    bool gameplay_text_ready() const noexcept;
     // Android system Back uses the same live gameplay menu owner as the
     // authored NativeBackToHud callback; it never reloads the selected level.
     bool back_to_hud(std::string&);
@@ -143,6 +145,22 @@ public:
     // MenuMessageManager<DialogMsg, 1> queue and starts it only if idle.
     bool enqueue_source_dialog_id(std::int32_t dialog_id,std::string& error);
     bool source_dialog_active(bool& active,std::string& error) const;
+    // Script_FlushMessages 0x460a58: flushes the DialogMsg and StatusMsg
+    // MenuMessageManagers (Achievement/OnlineStatus are not reconstructed).
+    bool flush_source_messages(std::string& error);
+    // Script_ChangeLevel (0x45cba0) enters the same deferred LoadLevel
+    // transaction as NativeGoToZone through the retained launch queue.
+    void queue_level_transition(const std::string& destination,double raw_entry_point);
+    // Script_LockTutorial 0x45925c: clear the tutorial byte, then saveSettings.
+    bool lock_source_tutorial(std::int32_t id,std::string& error);
+    // Script_ShowFlash 0x45f8c8 / Script_HideFlash 0x45f78c for menu_* names:
+    // MenuBase::Show/Hide (0x425450/0x424af4) on the named clip of the retained
+    // HUD movie. No MenuManager stack push. HUD-named flashes are not reconstructed.
+    bool show_script_flash(const std::string& name,std::string& error);
+    bool hide_script_flash(const std::string& name,std::string& error);
+    // Character::SetFaeryState 0x3ae7d4 reads settings tutorial byte id (settings+41+id)
+    // before its offline Normal cinematic. Clearing reuses lock_source_tutorial.
+    bool source_tutorial_active(std::int32_t id,bool& active,std::string& error) const;
     // ScriptManager commands 74/75/76 and the authored Native callbacks share
     // the retained CharacterMenu tutorial queue owned by this UI session.
     bool enqueue_source_char_menu_tutorial(std::int32_t string_id,

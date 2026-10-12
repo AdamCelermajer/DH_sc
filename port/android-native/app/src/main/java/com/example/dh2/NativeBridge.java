@@ -28,6 +28,7 @@ final class NativeBridge {
     }
 
     static native String buildInfo();
+    static native void debugScenario(String scenario);
     static native void modDirectory(String directory);
     static native void runtimeDirectory(String directory);
     static native String profileSlot(int selectedSlot);
@@ -50,6 +51,8 @@ final class NativeBridge {
     static native NativeLaunchRequest consumeMenuLaunch();
     static native String startMenuGame(int slot,android.content.res.AssetManager assets,int debugLevelRow,
                                        boolean hasNumericDifficulty,int requestedDifficulty);
+    /** Debug-only: selects or creates a campaign profile slot (desktop select_or_create_source_profile). Returns -1 on failure. */
+    static native int debugSelectOrCreateProfile(android.content.res.AssetManager assets);
     /** Dispatches one deferred NativeGoToZone request on the GL owner thread. */
     static native String transitionLevel(String destination,double rawEntryPoint,
                                          android.content.res.AssetManager assets);

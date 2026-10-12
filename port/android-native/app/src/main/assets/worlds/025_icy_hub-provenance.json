@@ -1,0 +1,421 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      567.677,
+      -898.414,
+      1576.77
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      -165.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_FromDarkwoods",
+    "source_path": "data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+    "source_record": 1,
+    "world_position": [
+      -14641.423,
+      -39419.513999999996,
+      -252.58999999999992
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      -165.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 1,
+  "entrypoint_zero_policy": "unconditional_unique",
+  "entrypoint_zero_spread": 0.0,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "025_icy_hub.dwld": {
+      "bytes": 1088,
+      "sha256": "f580e2d2d4ccea6fb27348660856442445db2aa68340e9185c4b81b729367b77"
+    },
+    "025_icy_hub.spwn": {
+      "bytes": 592,
+      "sha256": "2e0e687785349e6b105dbf49ea705532e001be29b2f0f33cedb547e0fd17d737"
+    }
+  },
+  "level_list": {
+    "level_file": "025_icy_hub.mlx",
+    "name": "ICY_HUB",
+    "row": 28
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 7,
+  "modules": [
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "mgp_records": 18,
+      "module_index": 0,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_01.mvp",
+      "mvp_records": 9,
+      "name": "_module__001",
+      "node_id": "_module_-node",
+      "position": [
+        -15209.1,
+        -38521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 0
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "mgp_records": 11,
+      "module_index": 1,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_02.mvp",
+      "mvp_records": 7,
+      "name": "_module_01_001",
+      "node_id": "_module_01-node",
+      "position": [
+        -21209.1,
+        -38521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+      "mgp_records": 15,
+      "module_index": 2,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_03.mvp",
+      "mvp_records": 6,
+      "name": "_module_02_001",
+      "node_id": "_module_02-node",
+      "position": [
+        -21209.1,
+        -32521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_04.mgp",
+      "mgp_records": 15,
+      "module_index": 3,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_04.mvp",
+      "mvp_records": 7,
+      "name": "_module_03_001",
+      "node_id": "_module_03-node",
+      "position": [
+        -15209.1,
+        -32521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_05.mgp",
+      "mgp_records": 21,
+      "module_index": 4,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_05.mvp",
+      "mvp_records": 6,
+      "name": "_module_04_001",
+      "node_id": "_module_04-node",
+      "position": [
+        -15209.1,
+        -26521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_06.mgp",
+      "mgp_records": 14,
+      "module_index": 5,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_06.mvp",
+      "mvp_records": 5,
+      "name": "_module_05_001",
+      "node_id": "_module_05-node",
+      "position": [
+        -21209.1,
+        -26521.1,
+        -1829.36
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "has_children": true,
+      "mgp": "data/3d/modules/icy_hub/mgp/icyhub_07.mgp",
+      "mgp_records": 0,
+      "module_index": 6,
+      "mvp": "data/3d/modules/icy_hub/mvp/icyhub_07.mvp",
+      "mvp_records": 0,
+      "name": "_module_06_001",
+      "node_id": "_module_06-node",
+      "position": [
+        -22077.0,
+        -19365.7,
+        -5087.35
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        150.057
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    1,
+    3,
+    4
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/icyhub/icyhub_rayolight.bdae",
+      "bytes": 7164,
+      "path": "data/3d/animateddecors/icyhub/icyhub_rayolight.bdae",
+      "sha256": "ec933910aaf26c4c8d8137994437d0bfeebe50507174f486ddf4278fe0ad6a15"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/icyhub/wood.bdae",
+      "bytes": 6688,
+      "path": "data/3d/animateddecors/icyhub/wood.bdae",
+      "sha256": "b0362439e2ce400616fba2af41e493e88caa8e028346dbfaf936126164c43aa6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/icy_hub2.bdae",
+      "bytes": 2387260,
+      "path": "data/3d/modules/icy_hub/icy_hub2.bdae",
+      "sha256": "e3f5d647e4b177a9b0762f1cc726f534ede5f3aa28ab538fcf27077e9ebe786c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "bytes": 6758,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+      "sha256": "1a99d6841c03df21816ff360178168dbcb4f6b0e6d3f9f9e28275b568204ed81"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "bytes": 4228,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_02.mgp",
+      "sha256": "e002773895fb07f58192abbfb883829e95ce1309bac6ccf32c5aaf05c5106dcc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+      "bytes": 6550,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+      "sha256": "c99a6048cd273bd5280a5f6c6dbf18c48e2d4fe25a68e432829ba39a09a9355e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_04.mgp",
+      "bytes": 7766,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_04.mgp",
+      "sha256": "ac6d8a736b0a583d2c91b6dcde9cbc86cf02c0c74f839d0869722f462fd5acd9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_05.mgp",
+      "bytes": 9524,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_05.mgp",
+      "sha256": "9b7d50652c95c69457f16443ea5528f614f7a5b9256bc633a3234e618c63599c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_06.mgp",
+      "bytes": 6295,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_06.mgp",
+      "sha256": "4df47351acf0fb0e81aee5904a180f0c5c9cd3ecc1a6a02ef04568b3b65a5534"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mgp/icyhub_07.mgp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_hub/mgp/icyhub_07.mgp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_01.mvp",
+      "bytes": 4544,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_01.mvp",
+      "sha256": "0e86890fd7d3f82bac0b1005d03fcdfff28386b6c23d10623383eb8b3864ab72"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_02.mvp",
+      "bytes": 3567,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_02.mvp",
+      "sha256": "9bb87ad5446fabc667a0adbc9d414e6e34ee552d6c425b2231987fdf326ce070"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_03.mvp",
+      "bytes": 3150,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_03.mvp",
+      "sha256": "eaa7e8477e5f193727b42206fa79648c843dda74600c4cd09c33247dc3df26c2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_04.mvp",
+      "bytes": 3517,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_04.mvp",
+      "sha256": "43e05ed7f26bdefec58159735cbace198c3a2ef4590cfdb8e330a4f0f3583cd6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_05.mvp",
+      "bytes": 3098,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_05.mvp",
+      "sha256": "15310685bce4174f58172247acbb9356638c8ad70712530ec42cdf4b25c1688e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_06.mvp",
+      "bytes": 2689,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_06.mvp",
+      "sha256": "cfd2cbb36243bc4ca687b679969140f1fe967779c1627d4f27f8a1e1c672a375"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/icy_hub/mvp/icyhub_07.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/icy_hub/mvp/icyhub_07.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icy_lightmap.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_icy_lightmap.tga",
+      "sha256": "5e5ba2fa9fbb2b13834846a5c0386c2f9b8026a58cf2c75d40643696238433b7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icyhub.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_icyhub.tga",
+      "sha256": "599d761297158701b05df61d116ac8c5e7eb33ab042649d2bf04d591700bf46d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_icyhub_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_icyhub_alpha.tga",
+      "sha256": "72201bf51652b677fcaa11f597c024b234a7da50f0f63b7dec6ef4ef91ddc1db"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/025_icy_hub.mlx",
+      "bytes": 4336,
+      "path": "data/scene/025_icy_hub.mlx",
+      "sha256": "62c9e72c3f641bfaa49d153dcdb110db4e67d0dd51b4b9020e256ea7ce806efa"
+    }
+  ],
+  "source_layout": "data/scene/025_icy_hub.mlx",
+  "spawn_point_count": 4,
+  "texture_hints": {
+    "data/3d/modules/icy_hub/icy_hub2.bdae": {
+      "found_in_cache_not_copied": [],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [],
+  "unsupported_spawn_id_groups": []
+}
