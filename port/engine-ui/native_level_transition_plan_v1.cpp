@@ -83,6 +83,10 @@ bool build_native_level_transition_plan_v1(
          "data/3d/modules/infectedvillage/infectedvillage.bdae"},
         {1, "ABBEY_RUINS_01", "009a_abbey.mlx", "009a_abbey",
          "data/3d/modules/crypt/crypt.bdae"},
+        {28, "ICY_HUB", "025_icy_hub.mlx", "025_icy_hub",
+         "data/3d/modules/icy_hub/icy_hub2.bdae"},
+        {33, "MACHINE_ROOMS_01", "037_machine_rooms_01.mlx", "037_machine_rooms_01",
+         "data/3d/modules/machineroom/machineroom.bdae"},
         {20, "FIRE_TEMPLE_01", "031_firetemple.mlx", "031_firetemple",
          "data/3d/modules/firetemple/firetemple.bdae"},
     };

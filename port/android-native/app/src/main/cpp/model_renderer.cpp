@@ -1341,6 +1341,8 @@ constexpr StaticMlxLevelV1 static_mlx_levels[]{
  {45,"UNDERWORLD_HUB","036_underworld_hub.mlx","036_underworld_hub","data/3d/modules/underworldhub/underworldhub.bdae",10,502,507},
  {29,"INFECTED_VILLAGE_01","005_infectedvillage.mlx","005_infectedvillage","data/3d/modules/infectedvillage/infectedvillage.bdae",3,475,0},
  {1,"ABBEY_RUINS_01","009a_abbey.mlx","009a_abbey","data/3d/modules/crypt/crypt.bdae",2,508,484},
+ {28,"ICY_HUB","025_icy_hub.mlx","025_icy_hub","data/3d/modules/icy_hub/icy_hub2.bdae",8,494,509},
+ {33,"MACHINE_ROOMS_01","037_machine_rooms_01.mlx","037_machine_rooms_01","data/3d/modules/machineroom/machineroom.bdae",14,503,0},
  {20,"FIRE_TEMPLE_01","031_firetemple.mlx","031_firetemple","data/3d/modules/firetemple/firetemple.bdae",13,493,0},
 };
 }
@@ -10048,7 +10050,7 @@ struct SpawnOwner {
  dh2::character::CharacterControlServices16 control_services{};
  dh2::physical::CharacterOwnerBounds owner_bounds{};
  float visual_scale[3]{1,1,1};
- int sampled_clip=-1;
+ int sampled_clip=-1;unsigned sampled_completions=0;
  bool runtime_ready=false;
  // SWAMP source Character PFObject allocation is held until the canonical
  // Level::_LoadFinalInit dispatch reaches this row. The Android body and
@@ -16253,11 +16255,15 @@ void SpawnOwner::update_runtime(const dh2::objects::Resource& resource,
  const int clip_id=actor->scheduler.clip().anim;
  dh2::move::Policy decoded{};
  if(dh2_move_policy(&decoded,&character.state.flags))throw std::runtime_error("Ghost movement policy decode failed");
- const bool reset=sampled_clip!=clip_id;
+ // AnimController::PlayClip (0x474b50) -> RootSceneNode::NewAnim (0x35d624)
+ // resets the root-motion delta (_ResetDelta 0x35ce6c) on every (re)start,
+ // including a looping clip's replay; otherwise each loop snaps the actor
+ // back by the clip's root travel.
+ const bool reset=sampled_clip!=clip_id||sampled_completions!=actor->completions;
  if(!visual.sample(scene,clip,animation_ms,frame,reset,
                    decoded.position_from_visual!=0,error))
   throw std::runtime_error("Ghost animation/root-motion sample failed: "+error);
- sampled_clip=clip_id;
+ sampled_clip=clip_id;sampled_completions=actor->completions;
  if(dh2_native_body_refresh_view(&runtime.body,&body))
   throw std::runtime_error("Ghost physical view refresh failed");
  runtime.subobjects.path_count=runtime.path.count;
@@ -28453,7 +28459,7 @@ int spell_apply_result_invoke(void* raw,
    if(dh2::object_update_culling::is_remotely_updated(
         &defender_actor->spawn_owner->remote_object,&remote)!=
         dh2::object_update_culling::Status::complete||
-        remote.raw!=UINT32_MAX)return 1;
+        remote.raw!=0)return 1;
   } else if(request->defender!=prince_character.identity()||
        prince_combat.object_update_fields.identity!=request->defender||
        prince_combat.object_update_fields.remote_word_110!=UINT32_MAX)return 1;
