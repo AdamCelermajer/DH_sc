@@ -161,6 +161,26 @@ public:
     uint16_t m_flags = 0;                  // +0x0e, see kFlag* above
 };
 
+namespace detail {
+
+// .rodata table at 0x8e4ca4 in libDungeonHunter2.so (7 bytes, read from the ELF):
+// element size in bytes of each vertex attribute value type: 1 1 2 2 4 4 4.
+struct SVertexAttributeTypeInspection {
+    static const uint8_t ValueTypeSize[7];
+};
+
+}  // namespace detail
+
+// 0x5a2b18 copyVertex(vertex, src, dst, base, out, wholeVertex). With wholeVertex false, each
+// stream of src copies count * ValueTypeSize[type] bytes of vertex number `vertex` from its
+// mapped buffer (offset + stride * vertex) to out, and advances out. dst is not used by the
+// original. Partial: the wholeVertex branch (one memcpy of the table's vertex size, a
+// CVertexStreams word at +0x22 that is not in this layout) is not written. The buffers are
+// not reference counted, and the mapping is not released, as in the original.
+void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams>& src,
+                const boost::intrusive_ptr<CVertexStreams>& dst, const uint8_t* base, uint8_t*& out,
+                bool wholeVertex);
+
 // 0x5a08f4: fills the 30-byte attribute map (0xff = unset) with the index of each
 // stream whose attribute is the map slot. Attributes past the map are skipped here;
 // the original writes without a check.

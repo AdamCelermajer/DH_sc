@@ -5,9 +5,17 @@
 // IMaterialParameters<CMaterialRenderer, ISharedMemoryBlockHeader<CMaterialRenderer>>.
 // The value conversions are the same in all three. Only CMaterial tracks dirty
 // words (+0x0c and +0x10); the other two owners store without marking.
+//
+// Matrix parameters (CMatrix4<float>) are held in a table of 4-byte slots in the
+// original. Each slot holds a heap matrix, or null for the identity. The port keeps
+// the slots in m_matrixSlots, keyed by the original byte offset of the slot. The
+// accessors below are written for CMaterial and CMaterialRenderer only. The
+// CGlobalMaterialParameterManager instance has no matrix accessors here.
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <map>
 
 #include "glitch-video/deps/glitch_core.hpp"
 
@@ -18,6 +26,29 @@ class CMaterial;
 class CMaterialRenderer;
 
 namespace detail {
+
+// One entry of a parameter table, 16 bytes in the original. Only the fields the
+// matrix accessors read are named. +0x00..+0x05 and +0x07 are not read here.
+struct SParameterEntry {
+    uint8_t unknown00[6] = {};  // +0x00
+    uint8_t type = 0;           // +0x06, 11 selects a matrix parameter
+    uint8_t unknown07 = 0;      // +0x07
+    uint32_t count = 0;         // +0x08, number of matrices in the entry
+    uint32_t valueOffset = 0;   // +0x0c, byte offset of the first slot in the value area
+};
+
+// Header of a parameter table: count (uint16) at +0x0e and the entry array pointer at +0x20.
+// CMaterial reaches this through its block pointer at +0x04. CMaterialRenderer holds it inline.
+struct SParameterBlockHeader {
+    uint16_t count = 0;                        // +0x0e
+    const SParameterEntry* entries = nullptr;  // +0x20
+};
+
+// Matrix helpers of glitch::video::detail. getMatrixParameter copies the slot's matrix,
+// or the identity when the slot is null. setMatrixParameter stores into the slot (see the
+// .cpp for the identity and pool rules).
+void getMatrixParameter(const core::CMatrix4<float>* slot, core::CMatrix4<float>& out);
+void setMatrixParameter(core::CMatrix4<float>*& slot, const core::CMatrix4<float>& src);
 
 template <typename Owner, bool kTrackDirty>
 class IMaterialParameters {
@@ -37,14 +68,75 @@ public:
     void getParameterAt(const SColorf* src, core::vector4d<float>& value) const;
     void getParameterAt(const core::vector4d<float>* src, SColorf& value) const;
 
+    // Matrix accessors (CMaterial and CMaterialRenderer; explicit specializations below).
+    // Entry lookup: the entry for id, or null when id is out of range.
+    const SParameterEntry* getParameterDef(uint16_t id) const;
+    bool getParameter(uint16_t id, core::CMatrix4<float>* out, int stride) const;
+    bool getParameter(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+    bool setParameter(uint16_t id, const core::CMatrix4<float>* src, int stride);
+    bool setParameter(uint16_t id, uint32_t index, const core::CMatrix4<float>& src);
+    bool getParameter(uint16_t id, core::CMatrix4<float>& out) const;
+    bool getParameterCvt(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+    bool getParameterCvt(uint16_t id, core::CMatrix4<float>& out) const;
+
     // Test helpers, not in the original.
     uint32_t dirtyWord0() const { return m_dirty0; }
     uint32_t dirtyWord1() const { return m_dirty1; }
 
+    // Test helper: the number of matrix slots that have been written.
+    std::size_t matrixSlotCount() const { return m_matrixSlots.size(); }
+    // Test helpers: the inline header (CMaterialRenderer) and the block pointer (CMaterial).
+    SParameterBlockHeader& headerForTest() { return m_header; }
+    void setBlockForTest(SParameterBlockHeader* block) { m_block = block; }
+
 private:
     uint32_t m_dirty0 = 0;  // +0x0c, set to 0xffffffff by setDirty (tracking owners)
     uint32_t m_dirty1 = 0;  // +0x10
+
+    // CMaterial: block pointer at +0x04. Its count and entries are read through it.
+    SParameterBlockHeader* m_block = nullptr;
+    // CMaterialRenderer: count at +0x0e and entries at +0x20 of the object itself.
+    SParameterBlockHeader m_header;
+
+    // Matrix slots by original byte offset (CMaterial: inline values at +0x20,
+    // CMaterialRenderer: value buffer at +0x24). Null means identity.
+    std::map<uint32_t, core::CMatrix4<float>*> m_matrixSlots;
 };
+
+// Explicit specializations of the matrix accessors (defined in src/material_parameters.cpp).
+template <>
+const SParameterEntry* IMaterialParameters<CMaterial, true>::getParameterDef(uint16_t id) const;
+template <>
+bool IMaterialParameters<CMaterial, true>::getParameter(uint16_t id, core::CMatrix4<float>* out, int stride) const;
+template <>
+bool IMaterialParameters<CMaterial, true>::getParameter(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterial, true>::setParameter(uint16_t id, const core::CMatrix4<float>* src, int stride);
+template <>
+bool IMaterialParameters<CMaterial, true>::setParameter(uint16_t id, uint32_t index, const core::CMatrix4<float>& src);
+template <>
+bool IMaterialParameters<CMaterial, true>::getParameter(uint16_t id, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterial, true>::getParameterCvt(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterial, true>::getParameterCvt(uint16_t id, core::CMatrix4<float>& out) const;
+
+template <>
+const SParameterEntry* IMaterialParameters<CMaterialRenderer, false>::getParameterDef(uint16_t id) const;
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::getParameter(uint16_t id, core::CMatrix4<float>* out, int stride) const;
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::getParameter(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::setParameter(uint16_t id, const core::CMatrix4<float>* src, int stride);
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::setParameter(uint16_t id, uint32_t index, const core::CMatrix4<float>& src);
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::getParameter(uint16_t id, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::getParameterCvt(uint16_t id, uint32_t index, core::CMatrix4<float>& out) const;
+template <>
+bool IMaterialParameters<CMaterialRenderer, false>::getParameterCvt(uint16_t id, core::CMatrix4<float>& out) const;
 
 }  // namespace detail
 

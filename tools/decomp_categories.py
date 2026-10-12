@@ -45,9 +45,33 @@ RESERVED = re.compile(
 # Free functions that are gameplay/UI callbacks (gameswf natives, Lua bindings, AI).
 GLOBAL_RESERVED = re.compile(r"^(?:\S+ )?(Native|Trophy|Lua|lua_|Get[A-Z]|Set[A-Z]|Is[A-Z]|Has[A-Z]|Do[A-Z]|On[A-Z]|Spawn|Kill|Quest|Level|Player|Char|Item|Menu|HUD|Script|AI|Anim|Camera|FX)")
 
+def strip_return_type(d: str) -> str:
+    """Drop a leading return type, so a return type such as boost::enable_if<...>::type never decides the category.
+
+    The return type ends at the last space outside template brackets before the function's own
+    qualified name. A name that starts with "operator" is left alone.
+    """
+    depth, cut = 0, -1
+    for i, c in enumerate(d):
+        if c == "(":
+            break
+        if c == "<":
+            depth += 1
+        elif c == ">":
+            depth -= 1
+        elif c == " " and depth == 0:
+            cut = i
+    if cut < 0:
+        return d
+    rest = d[cut + 1:]
+    if rest.startswith("operator") or not re.match(r"[A-Za-z_]\w*(?:<|::)", rest):
+        return d
+    return rest
+
+
 def head(d: str) -> str:
-    """The function name without its parameter list, so a parameter type never decides the category."""
-    return d.split("(", 1)[0]
+    """The function name without its return type or parameter list, so neither decides the category."""
+    return strip_return_type(d).split("(", 1)[0]
 
 
 CATEGORY_RULES = [

@@ -327,3 +327,39 @@ GOT address against its relocation, then scan every `.text` function (from `.sym
   0x6de9f8 linkProgram (still needs os::Printer), 0x6def9c compileAndLink, 0x6df5a4 rmRecompileShader (also needs
   createShader and compileShader ported), 0x6df18c rmRegenerateShader (also needs linkProgram).
 - Open: CProgrammableGLDriver layout past +0x284 is not addressed here. It is a layout fact, not a GL entry.
+
+## Rerun glitch-video-3 (IShaderManager, CTextureManager, GL texture, render target, pixel_format conversions)
+
+- Reconstructed: SNewBufferAllocator<IVideoDriver>::allocate (include/glitch-video/s_new_buffer_allocator.hpp) and
+  CTextureManager::markTextureAsUnloadable (appends to m_textures when absent). Host test: tests/s_new_buffer_allocator_test.cpp.
+- Still blocked. The rerun note says SIDedCollection is available, but it lives only in glitch-core-io/include. glitch-video
+  deps have no SIDedCollection, IReferenceCounted, os::Printer, or glitch::core process buffer. Most of the 62 rows need one of these.
+- Also blocked: no IShaderManager class in the port; no CTexture nested class under CCommonGLDriver<CProgrammableGLDriver>;
+  STextureDesc in deps is an empty placeholder (ATC loadTextureHeader and loadImage write its fields); CRenderTargetBase has no
+  attachment layout.
+- Deferred (no external blocker found): convertPackedImpl specialisations and convertPacked (47 to 129 KB of pseudocode each).
+
+## Slice rerun-glitch-video-4 (61 rows: 1 reconstructed, 2 partial, 58 skipped)
+
+- SVertexAttributeTypeInspection::ValueTypeSize is in the ELF at 0x8e4ca4 (7 bytes: 1 1 2 2 4 4 4). It is now
+  defined in src/vertex_streams.cpp, which unblocks copyVertex (partial) and isVertexStreamHomolaced (still blocked).
+- isVertexStreamHomolaced and copyVertex whole-vertex branch read CVertexStreams word +0x22 (vertex stride). It is not in
+  the port layout; add it to CVertexStreams before those rows can be finished.
+- pixel_format convert (0x5f95ac): Hex-Rays header says 115097 bytes against the queue's 13320. Needs its own pass.
+- unpackPalettized (0x5ee104): the pseudocode steps the bit position with a right shift by bpp. Check the ARM before use.
+- CMaterialVertexAttributeMap (15 rows): all depend on totalMapCount, which reads a CMaterialRenderer technique table.
+
+## rerun-glitch-video-1 (IMaterialParameters matrix accessors, IRenderTarget::setViewport)
+
+- glitch_core.hpp gained glitch::core::CMatrix4<float> (M[16] then flag at +0x40; 68 bytes, the original stride).
+- material_parameters.hpp: SParameterEntry (type +0x06, count +0x08, valueOffset +0x0c) and SParameterBlockHeader
+  (count +0x0e, entries +0x20). CMaterial reaches its header through the block pointer at +0x04; CMaterialRenderer
+  holds it inline. Matrix slots are kept in m_matrixSlots, keyed by the original byte offset of the 4-byte slot.
+- 16 matrix rows reconstructed (getParameterDef, getParameter, setParameter and the Cvt forms for CMaterial and
+  CMaterialRenderer). Test: tests/material_matrix_parameters_test.cpp.
+- detail::getMatrixParameter (0x5ba62c) and setMatrixParameter (0x5badb8) are defined in material_parameters.cpp
+  without ledger rows of this slice. Pool is a free list with new in place of boost::pool growth (not recovered).
+- IRenderTarget (render_target.hpp, src/render_target.cpp): setViewport clamp reconstructed, partial. Driver hand-off
+  (vtable +0x1e8 and driver +0xcc current-target check) not identified.
+- Still blocked: CGlobalMaterialParameterManager rows (SIDedCollection), IAttributes serializers, grab/drop/init,
+  and the E_SHADER_PARAMETER_VALUE_TYPE dispatchers (need typed getParameter<T>/setParameter<T> in glitch-video).
