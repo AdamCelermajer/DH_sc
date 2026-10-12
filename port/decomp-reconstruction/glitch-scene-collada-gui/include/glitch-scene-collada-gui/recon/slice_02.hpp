@@ -293,6 +293,14 @@ public:
     void drawIcon(IGUIElement* element, int icon, int x, int y, std::uint32_t time, bool center,
                   const SRect* clip) override;         // 0x54abb0
     void setDefaultText(int which, const wchar_t* text); // 0x54d0bc
+    // Stubs: the 3D frame drawing is not ported. Signatures follow the listing; the
+    // alignment is passed as an int (EGUI_ALIGNMENT in the original).
+    void draw3DTabButton(IGUIElement* element, bool pressed, const SRect& rect, const SRect* clip,
+                         int alignment);               // 0x54b0ac
+    void draw3DTabBody(IGUIElement* element, bool border, bool background, const SRect& rect,
+                       const SRect* clip, int tabHeight, int alignment);  // 0x54b910
+    void draw3DWindowBackground(IGUIElement* element, bool border, std::uint32_t color,
+                                const SRect& rect, const SRect* clip);    // 0x54c40c
 
     IGUIFont* fonts[10] = {};            // font per slot (index 55..64, get/set bounds 9)
     IGUISpriteBank* spriteBank = nullptr; // +0xf0 (index 60)

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -101,6 +102,11 @@ struct SBatchConfig {
     SBatchConfig& operator=(const SBatchConfig& other);
 };
 
+// Stand-in for SDefaultEndOfBatchCallback: the batch configurations keyed by id.
+struct SDefaultEndOfBatchCallback {
+    std::map<std::uint32_t, SBatchConfig> configs;  // +0x14 tree
+};
+
 // Stand-in for STransparentNodeEntry (only the material reference is used here).
 struct STransparentNodeEntry {
     Material* material = nullptr;     // +0x08
@@ -157,5 +163,52 @@ void addBindedAnimator(SceneNode& self, SceneNodeAnimator* animator);
 
 // ---- SAnimatedMesh ----
 RefCounted* getMesh(const SAnimatedMesh& self, int index);
+
+// ---- CSceneManager, partial (see the cpp for the omitted part of each)
+RefCounted* getMeshFromFile(SceneManager& self, const void* readFile, int loaderIndex);
+RefCounted* getMeshFromName(SceneManager& self, const char* name);
+void writeSceneNode(SceneManager& self, const SceneNode& node, void* xmlWriter, void* userData);
+void saveScene(SceneManager& self, void* writeFile, void* userData);
+void loadScene(SceneManager& self, const void* readFile, void* userData);
+SceneManager* createNewSceneManager(SceneManager& self, bool copyRoot);
+void releaseSceneManagerMembers(SceneManager& self);
+void copyVertexData(AppendMeshBuffer& self, void* destination);
+void copyIndexData(AppendMeshBuffer& self, void* destination);
+void destroyEndOfBatchCallback(SDefaultEndOfBatchCallback& self);
+
+// ---- CTriangleSelector, partial
+void releaseTriangleSelector(TriangleSelector& self);
+void constructTriangleSelectorFromBox(TriangleSelector& self, const core::aabbox3d<float>& box,
+                                      const SceneNode* node, bool flag);
+void constructTriangleSelectorFromNode(TriangleSelector& self, const SceneNode* node, bool flag);
+void constructTriangleSelectorFromMesh(TriangleSelector& self, const RefCounted* mesh,
+                                       const SceneNode* node, bool flag);
+float getTrianglesInBox(TriangleSelector& self, int maxCount, int& outCount);
+bool getTrianglesOnLine(TriangleSelector& self, int maxCount, int& outCount);
+
+// ---- ISceneNode and IMeshSceneNode, partial
+void setNodeHierarchyAsShadowCaster(SceneNode& self, bool enabled);
+void setMeshHierarchyAsShadowCaster(SceneNode& self, bool enabled);
+void onDelete(SceneNode& self);
+void onUpdateTime(SceneNode& self, std::uint32_t time);
+void notifyVisibilityChanged(SceneNode& self, bool visibleInParent);
+void setVisible(SceneNode& self, bool visible);
+void remove(SceneNode& self);
+void setParent(SceneNode& self, SceneNode* parent);
+void cloneMembers(SceneNode& self, const SceneNode& other);
+void removeBindedAnimators(SceneNode& self);
+void removeBindedAnimator(SceneNode& self, SceneNodeAnimator* animator);
+void removeAnimators(SceneNode& self);
+void removeAnimator(SceneNode& self, SceneNodeAnimator* animator);
+void addAnimator(SceneNode& self, SceneNodeAnimator* animator);
+void removeAll(SceneNode& self);
+void logTree(const SceneNode& self, int depth, int maxDepth);
+void releaseSceneNodeMembers(SceneNode& self);
+void setRelativeTransformation(SceneNode& self, const void* transform);
+void setAbsoluteTransformation(SceneNode& self, const void* transform);
+
+// ---- SAnimatedMesh, partial
+std::uint32_t getMeshBufferCount(const SAnimatedMesh& self);
+RefCounted* getMeshBuffer(const SAnimatedMesh& self, unsigned index);
 
 }  // namespace glitch::collada::recon_06

@@ -788,6 +788,28 @@ void CGUISkin::drawIcon(IGUIElement* element, int icon, int x, int y, std::uint3
     (void)element; (void)icon; (void)x; (void)y; (void)time; (void)center; (void)clip;
 }
 
+// 0x54b0ac _ZN6glitch3gui8CGUISkin16draw3DTabButtonEPNS0_11IGUIElementEbRKNS_4core4rectIiEEPKS7_NS0_12EGUI_ALIGNMENTE
+// Stub: the tab button frame drawing is not ported in this pass.
+void CGUISkin::draw3DTabButton(IGUIElement* element, bool pressed, const SRect& rect, const SRect* clip,
+                               int alignment) {
+    (void)element; (void)pressed; (void)rect; (void)clip; (void)alignment;
+}
+
+// 0x54b910 _ZN6glitch3gui8CGUISkin14draw3DTabBodyEPNS0_11IGUIElementEbbRKNS_4core4rectIiEEPKS7_iNS0_12EGUI_ALIGNMENTE
+// Stub: the tab body frame drawing is not ported in this pass.
+void CGUISkin::draw3DTabBody(IGUIElement* element, bool border, bool background, const SRect& rect,
+                             const SRect* clip, int tabHeight, int alignment) {
+    (void)element; (void)border; (void)background; (void)rect; (void)clip; (void)tabHeight;
+    (void)alignment;
+}
+
+// 0x54c40c _ZN6glitch3gui8CGUISkin22draw3DWindowBackgroundEPNS0_11IGUIElementEbNS_5video6SColorERKNS_4core4rectIiEEPKS8_
+// Stub: the window background frame drawing is not ported in this pass.
+void CGUISkin::draw3DWindowBackground(IGUIElement* element, bool border, std::uint32_t color,
+                                      const SRect& rect, const SRect* clip) {
+    (void)element; (void)border; (void)color; (void)rect; (void)clip;
+}
+
 // 0x54d0bc _ZN6glitch3gui8CGUISkin14setDefaultTextENS0_17EGUI_DEFAULT_TEXTEPKw
 void CGUISkin::setDefaultText(int which, const wchar_t* text) {
     if (which >= 0 && which <= 7) {
