@@ -1056,3 +1056,15 @@ Tests:
 - `tests/w12_get_nb_available_zero_bytes_test.cpp` (new): zero buffer_bytes_ gives -1 for a free ring and 0 for a ready buffer.
 - `tests/native_subdecoder_base_test.cpp`: the SetState(int) check now sets field_38 to 0 and a state list, because UpdateSegmentsStates reads the playlist manager (the fixture has none).
 Host build passes all 65 tests. No MinGW or Wine run in this slice.
+
+## Wave 13 (w13-d1): stream owner word and the cursor parameter block
+
+- `vox::StreamCursorInterface` now keeps the owner word at +0x04 (`owner_stream_`, read through
+  `OwnerStream()`). The memory-buffer and file-backed cursors set it in their constructors.
+  `mpc_getsize` reads it and returns the owner's Size (slot +0x10), so the row is reconstructed.
+- The cursor parameter block (+0x04..+0x10 of the cursor) is still not in the port's
+  DecoderCursorInterface. LoadDataSource, ConvertToRawSource, CreateEmitter, the EmitterObj
+  cursor overloads and GetDebugInfo name it as the missing item. LoadDataSource no longer
+  dereferences a null GetParam result.
+- KillEmitter: the driver call at +0x48 takes the driver as its only argument, so it is not the
+  port's DestroyDriverSource (which takes a source). Left partial with the three named items.

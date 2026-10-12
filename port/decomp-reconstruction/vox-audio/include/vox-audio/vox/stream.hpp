@@ -9,6 +9,8 @@
 
 namespace vox {
 
+class StreamInterface;
+
 // Abstract read cursor over a stream. Vtable slots (original ABI):
 //   +0x08 Init, +0x0c Shutdown, +0x10 Seek, +0x14 IsSeekable,
 //   +0x18 Tell, +0x1c Read, +0x20 ReadRef, +0x24 EndOfStream, +0x28 AllowBufferReference.
@@ -26,6 +28,14 @@ public:
     virtual int ReadRef(std::uint8_t*& ref, int size) { return Read(ref, size); }
     virtual bool IsSeekable() const = 0;
     virtual bool AllowBufferReference() const { return false; }
+
+    // The owner word (+0x04) the cursor was made from.
+    StreamInterface* OwnerStream() const { return owner_stream_; }
+
+protected:
+    // +0x04: the owner word every stream cursor keeps, the stream it reads. The derived
+    // cursors set it in their constructors. mpc_getsize reads it (see mpc_reader.cpp).
+    StreamInterface* owner_stream_ = nullptr;
 };
 
 // Stream source (vox::StreamInterface). Vtable slot +0x10 is Size(), a non-pure
@@ -58,7 +68,7 @@ struct StreamMemoryBufferParams {
 // Cursor over a StreamMemoryBuffer. Layout: +0x00 vtable, +0x04 owner, +0x08 position.
 class StreamMemoryBufferCursor final : public StreamCursorInterface {
 public:
-    explicit StreamMemoryBufferCursor(StreamMemoryBuffer* owner) : owner_(owner) {}
+    explicit StreamMemoryBufferCursor(StreamMemoryBuffer* owner);  // defined in stream_memory_buffer.cpp
     ~StreamMemoryBufferCursor() override = default;
 
     int Seek(int offset, int whence) override;

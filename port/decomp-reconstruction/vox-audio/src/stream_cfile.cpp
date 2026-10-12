@@ -80,7 +80,9 @@ void* StreamCFileFactory(void* path) {
 // 0x888a2c _ZN3vox17StreamCFileCursorD1Ev and 0x888cb4 D0 (deleting).
 StreamCFileCursor::~StreamCFileCursor() { Shutdown(); }
 
-StreamCFileCursor::StreamCFileCursor(StreamCFile* owner) : owner_(owner) {}
+StreamCFileCursor::StreamCFileCursor(StreamCFile* owner) : owner_(owner) {
+    owner_stream_ = owner;  // +0x04 owner word, as StreamCursorInterface keeps it
+}
 
 // 0x888728 _ZN3vox17StreamCFileCursor4InitEv
 // Partial: same open question as StreamCFile::Init. The asm opens when the
