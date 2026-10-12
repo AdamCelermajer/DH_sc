@@ -1,8 +1,12 @@
 #include "vox-audio/vox/data_obj.hpp"
 
+#include <cstddef>
 #include <cstring>
+#include <new>
 
 #include "vox-audio/vox/decoder.hpp"
+#include "vox-audio/vox/decoder_raw.hpp"
+#include "vox-audio/vox/memory.hpp"
 #include "vox-audio/vox/stream.hpp"
 
 namespace vox {
@@ -150,15 +154,199 @@ void DataObj::RegisterEmitter(std::int64_t emitter_id) {
     mutex.Unlock();
 }
 
+namespace {
+
+// Track parameters of the decoder. The original copies the four words at cursor +4..+0x10
+// (channels, sample rate, bits, length) into the object at +0x28..+0x34. The port reads them
+// from the decoder's GetParam block, as LoadDataSource does. A decoder that returns null
+// leaves the parameters as they are.
+bool CopyTrackParams(DataObj& obj) {
+    const std::int32_t* track = obj.decoder_->GetParam();
+    if (track == nullptr) {
+        return false;
+    }
+    obj.channels_ = track[0];
+    obj.sample_rate_ = track[1];
+    obj.bits_per_sample_ = track[2];
+    obj.length_ = track[3];
+    return true;
+}
+
+// Replaces the object's stream and destroys the old one (Destruct, then VoxFree).
+void ReplaceStream(DataObj& obj, StreamInterface* stream) {
+    if (StreamInterface* old = obj.stream_) {
+        Destruct(old);
+        VoxFree(old);
+    }
+    obj.stream_ = stream;
+}
+
+// Builds a memory stream that owns the bytes. Returns null when the allocation fails.
+StreamInterface* MakeOwningBuffer(void* data, int size) {
+    StreamMemoryBufferParams params;
+    params.data = static_cast<const std::uint8_t*>(data);
+    params.size = size;
+    params.explicit_owns = false;
+    params.owns = true;
+    void* mem = VoxAlloc(sizeof(StreamMemoryBuffer));
+    if (mem == nullptr) {
+        return nullptr;
+    }
+    return new (mem) StreamMemoryBuffer(&params);
+}
+
+// Case 0 (source flags 0): one cursor from the stream, the track parameters from a decoder
+// cursor, then both cursors are destroyed. Ready when the channel count is positive.
+bool UpdateFromStreamCursor(DataObj& obj) {
+    if (obj.stream_ == nullptr || obj.decoder_ == nullptr) {
+        return false;
+    }
+    StreamCursorInterface* cursor = obj.stream_->CreateNewCursor();
+    if (cursor != nullptr) {
+        if (DecoderCursorInterface* decoder_cursor = obj.decoder_->CreateNewCursor(cursor)) {
+            CopyTrackParams(obj);
+            obj.decoder_->DestroyCursor(decoder_cursor);
+        }
+        obj.stream_->DestroyCursor(cursor);
+    }
+    return obj.channels_ > 0;
+}
+
+// Case 1 (source flags 1): the whole stream is read into memory and the object keeps
+// a memory stream over it. The track parameters come from a decoder cursor on that stream.
+bool UpdateBufferedStream(DataObj& obj) {
+    if (obj.stream_ == nullptr || obj.decoder_ == nullptr) {
+        return false;
+    }
+    const int size = obj.stream_->Size();
+    if (size <= 0) {
+        return false;
+    }
+    void* buffer = VoxAlloc(static_cast<std::size_t>(size));
+    if (buffer == nullptr) {
+        return false;
+    }
+    StreamCursorInterface* cursor = obj.stream_->CreateNewCursor();
+    if (cursor == nullptr) {
+        VoxFree(buffer);  // the original leaks this block on this path
+        return false;
+    }
+    const int read = cursor->Read(static_cast<std::uint8_t*>(buffer), size);
+    obj.stream_->DestroyCursor(cursor);
+    if (read != size) {
+        VoxFree(buffer);
+        return false;
+    }
+    StreamInterface* memory = MakeOwningBuffer(buffer, size);
+    if (memory == nullptr) {
+        VoxFree(buffer);
+        return false;
+    }
+    ReplaceStream(obj, memory);
+
+    StreamCursorInterface* memory_cursor = memory->CreateNewCursor();
+    if (memory_cursor == nullptr) {
+        return false;
+    }
+    if (DecoderCursorInterface* decoder_cursor = obj.decoder_->CreateNewCursor(memory_cursor)) {
+        CopyTrackParams(obj);
+        obj.decoder_->DestroyCursor(decoder_cursor);
+        obj.stream_->DestroyCursor(memory_cursor);
+        return true;
+    }
+    obj.stream_->DestroyCursor(memory_cursor);
+    return false;
+}
+
+// Case 2 (source flags 2): the whole stream is decoded into memory. The object gets a
+// memory stream over the decoded bytes and a raw decoder with the same track parameters.
+bool UpdateDecodedToMemory(DataObj& obj) {
+    if (obj.stream_ == nullptr || obj.decoder_ == nullptr) {
+        return false;
+    }
+    StreamCursorInterface* stream_cursor = obj.stream_->CreateNewCursor();
+    if (stream_cursor == nullptr) {
+        return false;
+    }
+    DecoderCursorInterface* decoder_cursor = obj.decoder_->CreateNewCursor(stream_cursor);
+    if (decoder_cursor == nullptr) {
+        obj.stream_->DestroyCursor(stream_cursor);
+        return false;
+    }
+    if (!CopyTrackParams(obj)) {
+        obj.stream_->DestroyCursor(stream_cursor);
+        obj.decoder_->DestroyCursor(decoder_cursor);
+        return false;
+    }
+    // Bytes = channels * frames * (bits >> 3), as the original computes them.
+    const int frame_bytes = obj.bits_per_sample_ >> 3;
+    const int size = obj.channels_ * (obj.length_ * frame_bytes);
+    void* buffer = nullptr;
+    if (size <= 0 || (buffer = VoxAlloc(static_cast<std::size_t>(size))) == nullptr) {
+        obj.stream_->DestroyCursor(stream_cursor);
+        obj.decoder_->DestroyCursor(decoder_cursor);
+        return false;
+    }
+    const int decoded = decoder_cursor->Decode(buffer, size);
+    obj.stream_->DestroyCursor(stream_cursor);
+    obj.decoder_->DestroyCursor(decoder_cursor);
+    if (decoded <= 0) {
+        VoxFree(buffer);
+        return false;
+    }
+    StreamInterface* memory = MakeOwningBuffer(buffer, size);
+    if (memory == nullptr) {
+        VoxFree(buffer);
+        return false;
+    }
+    ReplaceStream(obj, memory);
+
+    const TrackParams track{obj.channels_, obj.sample_rate_, obj.bits_per_sample_, obj.length_};
+    void* raw_mem = VoxAlloc(sizeof(DecoderRaw));
+    if (raw_mem == nullptr) {
+        return false;
+    }
+    DecoderRaw* raw = new (raw_mem) DecoderRaw(&track);
+    if (DecoderInterface* old = obj.decoder_) {
+        Destruct(old);
+        VoxFree(old);
+    }
+    obj.decoder_ = raw;
+    return true;
+}
+
+}  // namespace
+
 // 0x866dec _ZN3vox7DataObj6UpdateEv
-// Partial: the asm runs a state machine through two external objects (+0x38,
-// +0x3c) and sets the state word to 0 or -1. Only the early return is ported:
-// nothing happens while the state is 0.
+// Runs the load step while the object is in state 3 (loading). The source flags pick the
+// path: 0 reads one cursor, 1 buffers the whole stream, 2 decodes it into memory. Any other
+// flag value marks the object ready (state 0). A failed step sets state -1. The Hex-Rays
+// body is the switch above; the ARM listing matches the same branches.
 void DataObj::Update() {
     if (state_ == 0) {
         return;
     }
     mutex.Lock();
+    if (state_ != 3) {
+        mutex.Unlock();
+        return;
+    }
+    bool ready = false;
+    switch (source_flags_) {
+        case 0:
+            ready = UpdateFromStreamCursor(*this);
+            break;
+        case 1:
+            ready = UpdateBufferedStream(*this);
+            break;
+        case 2:
+            ready = UpdateDecodedToMemory(*this);
+            break;
+        default:
+            ready = true;
+            break;
+    }
+    state_ = ready ? 0 : -1;
     mutex.Unlock();
 }
 

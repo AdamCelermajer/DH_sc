@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/handlable.hpp"
@@ -47,6 +48,14 @@ struct DebugChunk_emitter {
 class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
+    // 0x866380 (C1) and 0x8665cc (C2, same body): an emitter with no decoder cursor yet.
+    // The data object supplies the play rate and length. Partial: the words at +0x38, +0x70,
+    // +0x120..+0x12c, +0x130 and +0x145 that the constructors write are not stored.
+    EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data);
+    // 0x86c5ec (C1) and 0x86ce1c (C2, same body): an emitter fed by a decoder cursor. Builds the
+    // buffer ring (see BuildBufferRing). Partial, see the .cpp.
+    EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
+               DecoderCursorInterface* cursor, DataObj* data);
     ~EmitterObj() override;  // D1 0x8699c0 and D2 0x869a38 (same body); D0 0x869a1c is the deleting variant
 
     void SetGainModifier(float gain);       // 0x863528: stores +0x44, no lock
@@ -105,6 +114,7 @@ public:
     void SetGain(float gain, float time);   // 0x86bb24
     void SetPitch(float pitch, float time); // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
+    int LoadAsync();                        // 0x86d238 (partial, see the .cpp)
     void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
     float GetPlayCursor();                  // 0x8654f8
     void SetDSPParameter(int param, void* value);  // 0x866acc (partial: copies the name to +0xf0)
@@ -165,11 +175,12 @@ public:
     DecoderCursorInterface* decoder_cursor_ = nullptr;  // +0x114, the cursor that feeds dsp_source_
     // Buffer ring (+0xf4 base, owned, freed by the destructor and CleanUp). Each slot points at
     // a block the cursor returned (DecodeRef) or owns (Decode).
-    void** buffer_ring_ = nullptr;          // +0xf4 (was owned_buffer_)
+    std::vector<void*> buffer_ring_;        // +0xf4 (begin), +0xf8 (end), +0xfc (capacity): std::vector<unsigned char*>
     int buffer_read_index_ = 0;             // +0x100
     int buffer_count_ = 0;                  // +0x104, ring slot count
     int buffer_chunk_bytes_ = 0;            // +0x108, bytes requested per DecodeRef
     int buffer_fill_ = 0;                   // +0x10c, reset to 0 by ProcessNativeData
+    int decoder_type_ = 0;                  // +0x140, the decoder GetType (0 when the data is not ready)
 };
 
 }  // namespace vox

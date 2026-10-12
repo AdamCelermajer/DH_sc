@@ -79,7 +79,7 @@ float EmitterObj::GetPlayCursor() {
 // number of wraps (next / count).
 int EmitterObj::ProcessNonNativeData(float dt) {
     (void)dt;
-    if (dsp_source_ == nullptr || decoder_cursor_ == nullptr || buffer_ring_ == nullptr ||
+    if (dsp_source_ == nullptr || decoder_cursor_ == nullptr || buffer_ring_.empty() ||
         buffer_count_ <= 0) {
         return 0;
     }

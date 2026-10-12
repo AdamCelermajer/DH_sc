@@ -35,7 +35,7 @@ void EmitterObj::SetDSPParameter(int param, void* value) {
 // freed entry and both DSP name pointers; the original leaves them set, so a second CleanUp would
 // free them again. The ring array itself is not freed here (the destructor does that).
 void EmitterObj::CleanUp() {
-    if (decoder_cursor_ != nullptr && buffer_ring_ != nullptr &&
+    if (decoder_cursor_ != nullptr && !buffer_ring_.empty() &&
         !decoder_cursor_->AllowBufferReference()) {
         for (int i = 0; i < buffer_count_; ++i) {
             if (buffer_ring_[i] != nullptr) {
