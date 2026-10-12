@@ -16,6 +16,7 @@ struct FactsServices {
     // Character::Serialize's IsPlayer must agree with these save-gate facts.
     // This is called for every row before source eligibility filtering, so it
     // must be a read-only identity-checked projection, not a guessed default.
+    // Returns true on failure.
     bool (*read_object_facts)(void*, const manager::GameObject&,
                               const factory::Record*,
                               level_savegame_owner_v1::Object*, std::string&){};

@@ -386,6 +386,9 @@ void bind_desktop_front_runtime(dh2::android_ui::OriginalUiSession& ui,
     services.save_game = [](void*, std::uintptr_t character, std::string& error) {
         return model_renderer::ui_player_save_game(character, error);
     };
+    services.revive_local_players = [](void*, std::string& error) {
+        return model_renderer::ui_revive_local_players(error);
+    };
     services.camera_zoom_lock = [](void*, bool locked) {
         model_renderer::camera_zoom_lock(locked);
     };
@@ -687,6 +690,8 @@ int main(int argc, char** argv) {
         bool scenario_started = false, scenario_attack_sent = false;
         unsigned scenario_kills = 0;
         bool scenario_damage_verified = false;
+        bool scenario_player_died = false, scenario_revived = false;
+        unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
@@ -861,13 +866,14 @@ int main(int argc, char** argv) {
             // move-defend: approach the nearest enemy without attacking and verify that
             // its source melee attack lowers the Player's HP.
             if (options.movement_defend_scenario && scenario_started &&
-                rendered_frames && rendered_frames % 15 == 0 && !scenario_damage_verified) {
+                rendered_frames && rendered_frames % 15 == 0 && !scenario_player_died) {
                 model_renderer::GameplayPoseSnapshotV1 pose;
                 if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
-                    std::cout << "Scenario defend | Player snapshot unavailable (dead) | " << ui_error << '\n';
-                    scenario_damage_verified = true;
+                    if (!scenario_player_died)
+                        std::cout << "Scenario defend | Player died | " << ui_error << '\n';
+                    scenario_damage_verified = scenario_player_died = true;
                 } else {
-                    if (scenario_last_hp > 0 && pose.player_hp < scenario_last_hp) {
+                    if (!scenario_damage_verified && scenario_last_hp > 0 && pose.player_hp < scenario_last_hp) {
                         std::cout << "Scenario damage verified | Player HP " << scenario_last_hp << " -> "
                                   << pose.player_hp << '/' << pose.player_max_hp << '\n';
                         scenario_damage_verified = true;
@@ -878,6 +884,24 @@ int main(int argc, char** argv) {
                     } else if (pose.enemy_index >= 0) {
                         steer_toward_nearest_enemy();
                     }
+                }
+            }
+            // After death, tap the authored death screen's btn_Continue (full-screen
+            // hit area) so its timeline reaches NativeReviveAllPlayers.
+            if (options.movement_defend_scenario && scenario_player_died && !scenario_revived &&
+                (rendered_frames % 120 == 60 || rendered_frames % 120 == 66)) {
+                // Press and release on separate frames so GameSWF sees the edge.
+                int window_width = 1, window_height = 1;
+                SDL_GetWindowSize(window, &window_width, &window_height);
+                const int phase = rendered_frames % 120 == 60 ? 0 : 1;
+                if (!dispatch_touch(original_ui, window, window_width / 2, window_height / 2, phase, ui_error))
+                    throw std::runtime_error("Death screen Continue tap failed: " + ui_error);
+                if (phase == 1) ++scenario_death_taps;
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (model_renderer::gameplay_pose_snapshot(pose, ui_error) && pose.player_hp > 0) {
+                    std::cout << "Scenario revive verified | Player HP " << pose.player_hp << '/'
+                              << pose.player_max_hp << " | taps " << scenario_death_taps << '\n';
+                    scenario_revived = true;
                 }
             }
             if (options.movement_attack_scenario && !options.movement_kill_scenario &&
@@ -1187,6 +1211,8 @@ int main(int argc, char** argv) {
         if (options.movement_defend_scenario && gameplay) {
             if (!scenario_damage_verified)
                 throw std::runtime_error("move-defend reached its frame bound without verified Player damage");
+            if (scenario_player_died && !scenario_revived)
+                throw std::runtime_error("move-defend Player died but the death screen never revived the Player");
             std::cout << "Scenario move-defend complete\n";
         }
         if (options.movement_kill_scenario && gameplay) {

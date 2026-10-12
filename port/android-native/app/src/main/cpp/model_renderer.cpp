@@ -2524,7 +2524,8 @@ AuthoredCryptFaeryOwner* native_level_save_factory_faery_v1(
     state_slot.character_record!=&record||!record.coordinator||
     record.coordinator->owner()!=record.character.identity||!ai||
     ai->owner_04!=record.character.identity||
-    record.coordinator->state.current<0||record.coordinator->state.current>=20) {
+    // -1 is the CharStateMachine constructor value of a Faery not yet focused.
+    record.coordinator->state.current<-1||record.coordinator->state.current>=20) {
   error="Faery Character save does not resolve one manager row and canonical component owners";
   return nullptr;
  }
@@ -9463,6 +9464,17 @@ bool native_level_save_load_checkpoint_v1(std::string& error) {
  std::string filename;
  if(!dh2::level_savegame_owner_v1::format_checkpoint_filename(
        active.source_save_slot,active.difficulty,filename,error))return false;
+ // Only Level::CheckpointSave writes this file. Before the first checkpoint,
+ // LevelSavegame::LoadCheckPoint caches an absent file and INFO/OBJS restore
+ // nothing; keep the live Level objects unchanged in that case.
+ {
+  std::error_code ec;
+  if(!std::filesystem::exists(level_savegame_publisher.directory()/
+       std::filesystem::u8path(filename),ec)){
+   if(ec){error="LevelSavegame checkpoint presence check failed: "+ec.message();return false;}
+   error.clear();return true;
+  }
+ }
  std::vector<std::uint8_t> image;
  if(!level_savegame_publisher.read_checkpoint(filename,image,error))return false;
  if(!source_level_owner.level_savegame().load_image(
@@ -9486,6 +9498,16 @@ bool native_player_save_load_checkpoint_v1(std::string& error) {
  try{filename=dh2::data::player_profile_filename_v1(
        static_cast<std::uint32_t>(active.source_save_slot),true,false);}
  catch(...){error="Player checkpoint filename formatting failed";return false;}
+ {
+  // As above: no Player checkpoint yet means Character::SG_LoadCheckpoint
+  // has no cached QEST chunk to apply.
+  std::error_code ec;
+  if(!std::filesystem::exists(level_savegame_publisher.directory()/
+       std::filesystem::u8path(filename),ec)){
+   if(ec){error="Player checkpoint presence check failed: "+ec.message();return false;}
+   error.clear();return true;
+  }
+ }
  std::vector<std::uint8_t> image;
  if(!level_savegame_publisher.read_player_checkpoint(filename,image,error))return false;
  return prince_combat.save_transport->load_checkpoint_quests(image,error);
@@ -30497,7 +30519,9 @@ bool native_host_revive_local_players_v1(std::uint32_t expected_generation,
     !prince_skills||!prince_skills->initialized()||
     !prince_source_ai||prince_source_ai->character_identity!=character||
     prince_source_ai->state.owner_04!=character||!prince_source_ai->ai_identity||
-    !prince_body.body||!native_characters.contains_identity(character,nullptr)||
+    // CSDead's event 0x22 removed the body; Character::Revive(…,true)
+    // rebuilds it through InitPhysicalObject below.
+    !native_characters.contains_identity(character,nullptr)||
     !actor_level_fields_ready||!actor_design.bytes||
     before.checkpoint_load_in_progress){
   error="PlayerManager::ReviveLocalPlayers requires the same loaded offline Level, local PlayerInfo, Character, Save, AIS, body and checkpoint owners";
@@ -35106,7 +35130,7 @@ bool native_player_reinitialize_physical_object_v1(
  if(!character||character!=prince_character.identity()||!native_actor_ready||
     !active_crypt_room_runtime||!prince_combat.savegame||
     prince_combat.savegame->character()!=character||!actor_world.backend()||
-    !prince_body.body||prince_body_owner.native!=&prince_body||
+    prince_body_owner.native!=&prince_body||
     !level.native_floor||!live_registry.entries||!prince_runtime.object.user){
   error="Character::InitPhysicalObject requires the live canonical Player, Save, body, PF, and ObjectManager owners";
   return false;
@@ -35115,14 +35139,17 @@ bool native_player_reinitialize_physical_object_v1(
  auto* object=manager.find_by_identity(character);
  std::size_t occurrences=0;
  std::uintptr_t bound_identity=0;
- auto* old_shape=prince_body.body->GetShapeList();
+ // A dead Player's body was already removed by CSDead (event 0x22); the
+ // source SetPhysicalObject then has no previous object to dispose.
+ const bool had_body=prince_body.body!=nullptr;
+ auto* old_shape=had_body?prince_body.body->GetShapeList():nullptr;
  if(!object||object->identity!=character||object->source_handle!=3||
     !native_characters.contains_identity(character,&occurrences)||occurrences!=1||
-    !old_shape||old_shape->GetNext()||
+    (had_body&&(!old_shape||old_shape->GetNext()||
     dh2::world_object_character_identity_v1::resolve(
        &prince_body_owner.character_identity,prince_body.body,&bound_identity)!=
        dh2::world_object_character_identity_v1::Status::complete||
-    bound_identity!=character){
+    bound_identity!=character))){
   error="Character::InitPhysicalObject lost the exact Player Character/ObjectManager/CharacterList/body identity";
   return false;
  }
@@ -35162,12 +35189,12 @@ bool native_player_reinitialize_physical_object_v1(
  // Original SetPhysicalObject disposes the newly constructed POCharacter and
  // leaves +0x2dc and PF state untouched when MP_NoPhysics is enabled.
  if(no_physics){destroy_replacement();error.clear();return true;}
- if(!prince_body_owner.retire_character_identity()){
+ if(had_body&&!prince_body_owner.retire_character_identity()){
   destroy_replacement();
   error="Character::InitPhysicalObject could not retire the prior body identity";
   return false;
  }
- actor_world.destroy(prince_body.body);
+ if(had_body)actor_world.destroy(prince_body.body);
  prince_body={replacement,config.radius,config.pinned};
  if(!prince_body_owner.bind_character_identity(character)){
   actor_world.destroy(prince_body.body);prince_body={};prince_body_owner.native=&prince_body;
@@ -37274,8 +37301,18 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
    // _ManageCharacters passes Level +0x144 to the Character's vtable +0x40
    // (0x372e8c); the next PlayerManager pass after the loaded byte is set
    // therefore re-enables the local Player that the loading pass hid.
-   if(!native_host.online&&updated_source.player_character==prince_character.identity())
+   if(!native_host.online&&updated_source.player_character==prince_character.identity()){
     prince_character.set_visible(1);
+    // PlayerManager::_AddCharacter 0x372490 ends with Level::QuickSave(false)
+    // once the local Player is in the Level; that entry checkpoint is what an
+    // offline ReviveLocalPlayers -> Level::LoadCheckpoint restores.
+    std::string checkpoint_error;
+    if(!native_level_quick_save_v1(false,checkpoint_error))
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "Level entry QuickSave unavailable | %s",checkpoint_error.c_str());
+    else __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level entry QuickSave | generation %u",
+         updated_source.generation);
+   }
   }
   return 0;
  }catch(const std::exception& e){context.error=e.what();return 1;}

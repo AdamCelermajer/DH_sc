@@ -197,9 +197,10 @@ Status save_all(level_savegame_owner_v1::Owner& save,
         row.character = record;
         row.save_facts.identity = live->identity;
         row.save_facts.manager_key.clear();
-        if (!facts->read_object_facts(facts->context, *live, record,
-                                      &row.save_facts, error)) {
-            if (error.empty()) error = "source ObjectManager save-facts provider failed";
+        // Returns true on failure, like serialize_noncharacter.
+        if (facts->read_object_facts(facts->context, *live, record,
+                                     &row.save_facts, error)) {
+            if (error.empty()) error = "source ObjectManager save-facts provider failed | " + live->name;
             return Status::facts_failed;
         }
         const auto& object = row.save_facts;
