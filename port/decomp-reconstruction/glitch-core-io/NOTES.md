@@ -93,12 +93,71 @@
 - Not started: CFileList FileEntry internals (SGI-style string members at +0x10..+0x2c
   need the glitch string layout first), CLimitReadFile, CZipReader, CPakReader,
   CFileSystem bodies, CXMLWriter write* functions (need IWriteFile).
-- Group handling in CAttributes (`setGroup`, `getGroupsCount`, `getGroupName`) uses
-  a group object at +0x44 with its own attribute vector at +0x20. Not modelled yet
-  (the header keeps one flat attribute list).
+- Group handling in CAttributes is modelled in wave 3 (see below).
+
+## Wave 3 (this session, 200 new ledger rows)
+Status of the session's rows: 166 reconstructed, 26 skipped, 8 partial.
+Layouts confirmed from the ARM listings of the group, add and accessor code:
+- `IAttribute`: refcounted; `name` (std::string, c_str read at +0x1c); flag byte at +0x20
+  (constructor argument, not read by the io code); CBool value +0x21; CInt, CFloat and
+  CUserPointer value +0x24.
+- `CAttributes`: refcounted; root `SContext` embedded at +0x08; +0x44 current group;
+  +0x48 pointer to the current group's attribute vector; +0x58 driver (refcounted,
+  may be null in tests). `SContext`: name +0x08, attribute vector +0x20, child vector
+  +0x2c, parent +0x38. `push(name)` / `push(int)` (named "group<n>") / `push(name, int)`
+  create or find a child via `getContext(create)`; `pop` returns to the parent.
+- `CNumbersAttribute`: int list +0x24, float list +0x30, count +0x3c, isFloatList +0x40.
+  Typed subclasses (CRect, CVector2D/3D/4D, CVector2DI/3DI/4DI, CPosition2D, CMatrix,
+  CQuaternion, CBBox, CPlane, CTriangle, CLine2d, CLine3d, CColorf, CColor) share
+  the layout; the typed ctors push components in declaration order.
+- `CMemoryReadFile`: refcount +0x04, buffer +0x0c, owner +0x10 (shared_ptr<char>),
+  size +0x18, position +0x1c, name +0x20.
+- `CFileList`: path string +0x08, entry vector +0x20..+0x28; `FileEntry` is 0x38 bytes:
+  name +0x00, full name +0x18, id +0x30, isDirectory +0x34.
+- Colour words: SColor packs component 0 in the low byte, then 1, 2, and alpha in the
+  top byte (getColor and setColor agree; confirmed from the ARM).
+
+Decisions:
+- Glitch strings are std::string. Entry names are read through c_str().
+- Refcounting follows `glitch::IReferenceCounted` (deps); the default count is 1.
+- Attribute containers own their entries: `clear()` deletes them, so tests allocate
+  attributes with `new` and never put stack objects in a container.
+- By-name setters: an existing attribute gets the virtual setter; otherwise the
+  attribute is added with flag false (confirmed for SColor, SColorf and the numbers).
+- Float-list colour from bytes multiplies by (1/255) like the original, not by dividing.
+- Compiler-generated destructors and GCC `.clone` copies of constructors are `skipped`.
+- Identity default matrix comes from `detail::identityMatrix()`.
+- IAttribute base `getTypeString()` returns L"unknown" (the base default is not
+  recovered). The type names of CBool and CInt are still left out because their
+  literal addresses do not resolve.
+
+Partial rows (8):
+- `CAttributes::pop` and `setGroup`: out-of-range and root-pop cases differ from the
+  original (see the ledger notes).
+- `IAttribute::getString`, `IAttribute::setString(wchar_t)`: the wide/narrow helper is
+  not resolved; characters are truncated.
+- `CNumbersAttribute::setMatrix`: the stray zero byte stored past the argument is not
+  reproduced.
+- `getAttributeTypeString` (int and name): base type-name default assumed.
+- `addStringAsColor`: the listing builds a zero colour and never reads the string.
 
 ## Remaining
-- About 1,630 queued functions are still open. Next candidates: CAttributes
-  getters for group and stack handling (pop, setGroup), CNumbersAttribute
-  vector/rect/matrix getters and setters, CReadFile/CWriteFile simple accessors,
-  and the heap/binary-search templates once the comparators are checked.
+- String-argument families in CAttributes: addStringAs* (except addStringAsColor),
+  addString(char/wchar), setAttribute(char, wchar), getString/getStringW of numbers.
+  Their listings end in noreturn strlen tails, so the parse helper is unresolved.
+- CStringAttribute, CEnumAttribute, CBinaryAttribute, CTextureAttribute,
+  CLightAttribute and the enum choices variants (addEnum/getEnum/setAttribute with
+  choices). Texture and light need ITexture/CLight stand-ins and boost::intrusive_ptr.
+- CNumbersAttribute::getString/getStringW/setString(char) (352-428 bytes): format
+  helpers not resolved.
+- CMatrixAttribute::getQuaternion, CFloatAttribute::getStringW (format unknown).
+- CXMLReaderImpl<char/wchar_t> (accessors are trivial but the class layout is not
+  inferred), CXMLWriter, CXMLAttributesReader/Writer (large read/write bodies).
+- CFileList::getFullFileName (lazy cache) and heapsink/heapsort<FileEntry>; the
+  comparator orders directories by flag first and then names with strcasecmp (not
+  yet verified against the ARM).
+- CMemoryReadFile read/seek/getBuffer virtuals, CLimitReadFile (9 functions),
+  CZipReader, CZipWriter, CUnZipReader, CPakReader, CFileSystem, SIDedCollection
+  (about 60 instantiations).
+- IAttributeExchangingObject and the serializeAttributes/deserializeAttributes
+  virtuals of other categories' classes.
