@@ -18,6 +18,7 @@
 #include <map>
 
 #include "glitch-video/deps/glitch_core.hpp"
+#include "glitch-video/material_parameters_typed.hpp"
 
 namespace glitch::video {
 
@@ -51,8 +52,15 @@ void getMatrixParameter(const core::CMatrix4<float>* slot, core::CMatrix4<float>
 void setMatrixParameter(core::CMatrix4<float>*& slot, const core::CMatrix4<float>& src);
 
 template <typename Owner, bool kTrackDirty>
-class IMaterialParameters {
+class IMaterialParameters : public IMaterialParametersTyped<IMaterialParameters<Owner, kTrackDirty>> {
 public:
+    using Base = IMaterialParametersTyped<IMaterialParameters<Owner, kTrackDirty>>;
+    // The typed member templates and dispatchers come from the mixin (material_parameters_typed.hpp).
+    using Base::getParameter;
+    using Base::getParameterCvt;
+    using Base::setParameter;
+    using Base::setParameterCvt;
+
     // setDirty: CMaterial sets both dirty words to 0xffffffff; the others do nothing.
     void setDirty();
 
@@ -89,6 +97,13 @@ public:
     SParameterBlockHeader& headerForTest() { return m_header; }
     void setBlockForTest(SParameterBlockHeader* block) { m_block = block; }
 
+    // Views for the typed bindings of CMaterialRenderer (material_parameters_bind_r.cpp): the inline
+    // header, the value buffer at +0x24 and the matrix slot map.
+    const SParameterBlockHeader& parameterHeader() const { return m_header; }
+    uint8_t* valueBuffer() const { return m_values; }
+    void setValueBuffer(uint8_t* values) { m_values = values; }
+    std::map<uint32_t, core::CMatrix4<float>*>& matrixSlots() { return m_matrixSlots; }
+
 private:
     uint32_t m_dirty0 = 0;  // +0x0c, set to 0xffffffff by setDirty (tracking owners)
     uint32_t m_dirty1 = 0;  // +0x10
@@ -97,6 +112,8 @@ private:
     SParameterBlockHeader* m_block = nullptr;
     // CMaterialRenderer: count at +0x0e and entries at +0x20 of the object itself.
     SParameterBlockHeader m_header;
+    // CMaterialRenderer: value buffer at +0x24. The owner sets it with setValueBuffer.
+    uint8_t* m_values = nullptr;
 
     // Matrix slots by original byte offset (CMaterial: inline values at +0x20,
     // CMaterialRenderer: value buffer at +0x24). Null means identity.
