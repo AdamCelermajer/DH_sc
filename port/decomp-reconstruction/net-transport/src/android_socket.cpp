@@ -160,15 +160,18 @@ sockaddr_in MakeInet(std::uint32_t addr_network, int port_host) {
 }  // namespace
 
 // 0x842208 _ZN14CAndroidSocket7StartupEv
-// Partial: the original sets SIGPIPE to ignore through sigaction (a plain signal() is used
-// here), clears the host cache head and count, and writes two unnamed globals that are not
-// reproduced. The Winsock initialisation is added for _WIN32 builds.
+// Partial: SIGPIPE is set to SIG_IGN through sigaction, as in the original (sigaction_0(13, ...)).
+// The original clears only the host cache head (l_host[0]) and writes three unnamed globals
+// (dword_A339FC/F4/F8) that are not reproduced; here the whole cache is cleared. The Winsock
+// initialisation is added for _WIN32 builds.
 void CAndroidSocket::Startup() {
 #ifdef _WIN32
     WSADATA data{};
     ::WSAStartup(MAKEWORD(2, 2), &data);
 #else
-    std::signal(SIGPIPE, SIG_IGN);
+    struct sigaction action {};
+    action.sa_handler = SIG_IGN;
+    ::sigaction(SIGPIPE, &action, nullptr);
 #endif
     ClearHostCache();
 }

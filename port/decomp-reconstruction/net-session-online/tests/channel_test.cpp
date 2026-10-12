@@ -21,7 +21,21 @@ int main() {
 
     channel c;
     c.read(&root);
+    CHECK(c.TitleForTest() == "News");
+    CHECK(c.LinkForTest() == "http://example/news");
+    CHECK(c.ItemCountForTest() == 2);
+    CHECK(c.ItemForTest(0).FieldForTest(0) == "a1");     // id
+    CHECK(c.ItemForTest(0).FieldForTest(1) == "First");  // title
+    CHECK(c.ItemForTest(1).FieldForTest(0) == "b2");
+
     channel copy(c);
-    CHECK(copy.read == nullptr);  // read is not a getter; placeholder removed below
-    return failures;
+    CHECK(copy.ItemCountForTest() == 2);
+    channel assigned;
+    assigned = c;
+    CHECK(assigned.TitleForTest() == "News");
+    assigned = assigned;  // self-assignment keeps the value
+    CHECK(assigned.TitleForTest() == "News");
+
+    if (failures == 0) std::printf("channel_test: all checks passed\n");
+    return failures == 0 ? 0 : 1;
 }

@@ -1,4 +1,5 @@
 #include "net-session-online/game_center.hpp"
+#include "net-session-online/online_game_state.hpp"
 
 #include <cstring>
 
@@ -102,4 +103,33 @@ std::int32_t GameCenter::CoinTossForHost() {
 // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc
 void GameCenter::GCAddToJoinPlayerList(const char* id) {
     playerList_.emplace_back(id != nullptr ? id : "");
+}
+
+// 0x499440 _ZNK10GameCenter22GCStartGameTimeoutExpiredEv
+// Partial: see game_center.hpp. The elapsed time is compared with 150000 ms.
+bool GameCenter::GCStartGameTimeoutExpired() const {
+    Timeval now{0, 0};
+    GetTimeOfDay(&now);
+    const OnlineGameState stateForTimeDiff{};
+    return stateForTimeDiff.timevaldiff(&gameStartTime_, &now) > 150000;
+}
+
+// 0x499f24 _ZN10GameCenter19GCStartMultiplayerGameEv
+// Partial: see game_center.hpp. Only the GameCenter-owned steps run here.
+void GameCenter::GCStartMultiplayerGame() {
+    if (startGate_) {
+        return;
+    }
+    startFlag_ = true;
+    GetTimeOfDay(&gameStartTime_);
+    CoinTossForHost();  // partial: the returned word is not stored (see game_center.hpp)
+    DumpPlayerIDStatusList();
+    // Not ported: OnlineGameState flag (+0x28 of the singleton), the GoToVerificationScreen
+    // callback, and OnlineGameState::Init(4).
+}
+
+// 0x499fc8 _ZN10GameCenter19GCStartMultiplayerGameEb
+void GameCenter::GCStartMultiplayerGame(bool /*unused*/) {
+    startGate_ = false;
+    GCStartMultiplayerGame();
 }

@@ -195,8 +195,9 @@ void LCXPlayerHttp::sendByPost(const char* url, const char* query) {
 
 // 0x89daa0 _ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_
 // Partial: the original appends to the caller's query in place; the port works on a copy.
-// Host comes from HostOf. The multipart part is built as the pseudocode has it: the video bytes between a part header and a closing boundary. The post buffer is the
-// HTTP head followed by that part. size is replaced by the total post length.
+// Host comes from HostOf. The multipart part is built as the pseudocode has it: the video bytes
+// between a part header and a closing boundary. The post buffer is the HTTP head followed by
+// that part. size is replaced by the total post length.
 void LCXPlayerHttp::sendVideoByPost(const char* url, const char* query, const char* data,
                                     std::int32_t& size, const char* videoId) {
     if (url == nullptr || query == nullptr) {

@@ -3,6 +3,7 @@
 // The original's std::string is 0x18 bytes, so the strings sit at +0x00, +0x18 and +0x30.
 #pragma once
 
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -29,6 +30,12 @@ public:
     // findNextChild result, which is not reproduced (void here). The item cursor follows the
     // stand-in in deps/slim_xml_node.hpp, which is inferred and not checked against the binary.
     void read(const slim::XmlNode* node);
+
+    // Test seams. Not in the original.
+    const std::string& TitleForTest() const { return title_; }
+    const std::string& LinkForTest() const { return link_; }
+    std::size_t ItemCountForTest() const { return items_.size(); }
+    const item& ItemForTest(std::size_t index) const { return items_[index]; }
 
 private:
     std::string title_;        // +0x00  tag "title"

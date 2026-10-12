@@ -58,17 +58,20 @@ std::vector<char> PackFriendNames(GLXPlayerUserFriend* friends, std::int32_t& co
 }
 }  // namespace
 
-// 0x83a4a4 _ZN16GLXPlayerMPLobby4InitEv
+// 0x83a6c8 _ZN16GLXPlayerMPLobbyC2EP23GLXPlayerMPBaseObserverPc
+// Copies the config text into an owned string at +0x7c (new[] copy, null stays null), then Init.
 GLXPlayerMPLobby::GLXPlayerMPLobby(GLXPlayerMPBaseObserver* observer, const char* config)
     : GLXPlayerMPBase(observer) {
-    // Original: config != 0 goes to XP_API_STRLEN, a non-returning tail call. Not recovered.
-    (void)config;
+    if (config != nullptr) {
+        const std::size_t length = std::strlen(config);
+        config_.reset(new char[length + 1]);
+        std::memcpy(config_.get(), config, length + 1);
+    }
     Init();
 }
 
 // 0x83a4f0 _ZN16GLXPlayerMPLobbyD1Ev, 0x83a5ac _ZN16GLXPlayerMPLobbyD2Ev
-// Partial: the original also frees the owned objects at +0x58 and +0x7c, whose
-// types are not recovered, so they are not freed here.
+// The owned config text at +0x7c is released by its unique_ptr member.
 GLXPlayerMPLobby::~GLXPlayerMPLobby() {
     if (connection_) {
         mpDisconnect();
