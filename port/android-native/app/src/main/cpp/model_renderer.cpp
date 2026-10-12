@@ -29702,6 +29702,22 @@ std::string player_attack(int supplied_target){
  return "Attacking";
 }
 std::array<int,7> player_vitals(){return {prince_combat.properties.resolved[36],prince_combat.properties.resolved[38],prince_combat.properties.resolved[41],prince_combat.properties.resolved[43],int(prince_combat.life.dead),int(prince_combat.life.low_health_armed),prince_state.current};}
+bool gameplay_world_item_snapshot(GameplayWorldItemSnapshotV1& output,std::string& error){
+ if(!enabled||!world_mode||!native_actor_ready){
+  error="World item snapshot requires a live source world";return false;
+ }
+ GameplayWorldItemSnapshotV1 candidate;
+ float nearest=std::numeric_limits<float>::infinity();
+ for(const auto& item:native_world_items){
+  if(!item||!item->item)continue;
+  ++candidate.count;
+  const float distance=std::hypot(item->position[0]-actor_position[0],
+                                  item->position[1]-actor_position[1]);
+  if(distance<nearest){nearest=distance;candidate.nearest=item->position;}
+ }
+ candidate.distance=candidate.count?nearest:0.f;
+ output=candidate;error.clear();return true;
+}
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
   error="Gameplay pose snapshot requires a live source Player and world";return false;

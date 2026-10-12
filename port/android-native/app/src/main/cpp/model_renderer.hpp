@@ -150,6 +150,14 @@ struct GameplayPoseSnapshotV1 {
  std::int32_t player_hp=0,player_max_hp=0;
 };
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
+// Development check: dropped world items (ItemManager projections) and the
+// one nearest the Player.
+struct GameplayWorldItemSnapshotV1 {
+ std::int32_t count=0;
+ std::array<float,3> nearest{};
+ float distance=0.f;
+};
+bool gameplay_world_item_snapshot(GameplayWorldItemSnapshotV1&,std::string&);
 // Computes a temporary selected-floor route for the desktop input check. It
 // does not install a Character path or issue Cmd_MoveTo; callers still steer
 // through move_axis and the live collision/controller owners.

@@ -691,6 +691,8 @@ int main(int argc, char** argv) {
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
         unsigned scenario_kills = 0;
+        unsigned scenario_pickups = 0, scenario_loot_frames = 0;
+        std::int32_t scenario_last_item_count = -1;
         bool scenario_damage_verified = false;
         bool scenario_player_died = false, scenario_revived = false;
         unsigned scenario_death_taps = 0;
@@ -855,7 +857,26 @@ int main(int argc, char** argv) {
                         ++scenario_kills;scenario_target_index = -1;
                     }
                 }
-                if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
+                // After a kill, walk onto the nearest dropped item and verify
+                // the normal pickup removes it from the world.
+                model_renderer::GameplayWorldItemSnapshotV1 items;
+                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
+                    model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
+                if (have_items && scenario_last_item_count >= 0 && items.count < scenario_last_item_count) {
+                    ++scenario_pickups;
+                    std::cout << "Scenario pickup verified | world items " << scenario_last_item_count
+                              << " -> " << items.count << '\n';
+                }
+                if (have_items) scenario_last_item_count = items.count;
+                if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
+                    scenario_loot_frames += 15;
+                    const float dx = items.nearest[0] - pose.player_position[0];
+                    const float dy = items.nearest[1] - pose.player_position[1];
+                    const float distance = std::hypot(dx, dy);
+                    constexpr float inverse_sqrt_two = 0.7071067811865475f;
+                    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+                                              (dy - dx) * inverse_sqrt_two / distance);
+                } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
                     const auto attack = model_renderer::player_attack();
@@ -1220,7 +1241,7 @@ int main(int argc, char** argv) {
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)
                 throw std::runtime_error("move-kill reached its frame bound without a verified enemy death");
-            std::cout << "Scenario move-kill complete | verified kills " << scenario_kills << '\n';
+            std::cout << "Scenario move-kill complete | verified kills " << scenario_kills << " | verified pickups " << scenario_pickups << '\n';
         } else if ((options.movement_attack_scenario || options.fixed_cultist_scenario) && gameplay) {
             if (!scenario_attack_sent) {
                 if (options.fixed_cultist_scenario) {
