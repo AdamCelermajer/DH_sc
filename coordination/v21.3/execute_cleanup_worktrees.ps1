@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$PrimaryRoot = 'C:\Users\adamc\Desktop\workspace\DH_sc',
     [string]$SafetyInventory = 'C:\Users\adamc\Desktop\workspace\DH_sc\coordination\v21.3\CLEANUP-SAFETY.json',
