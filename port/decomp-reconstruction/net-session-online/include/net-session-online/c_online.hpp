@@ -37,6 +37,38 @@ public:
     // 0x7fd5d8 _ZN7COnline12IsTimeSyncedEv: 1 on the server, else the synced flag.
     bool IsTimeSynced() const;
 
+    // Declared for the session loop (bodies in src/tb_session-online-COnline-0.cpp). Partial where noted there.
+    enum tDisconnectCause : std::int32_t {};
+    // 0x7fd744 _ZN7COnline11GetInstanceEv: the singleton, created on first use as a COnlineImpl.
+    static COnline* GetInstance();
+    // 0x7fd51c _ZN7COnline16ReportDisconnectENS_15tDisconnectCauseEi. Partial: the event queue at +0x08 is not declared.
+    void ReportDisconnect(tDisconnectCause cause, std::int32_t detail);
+    // 0x7fd568 _ZN7COnline7GetPingEv. Partial: the server ping is not in the stand-in (returns 0).
+    std::int32_t GetPing() const;
+    // 0x7fd634 _ZN7COnline11SendPacketsEv. Partial: CPacketManager and CMessaging send are not available.
+    void SendPackets();
+    // 0x7fd66c _ZN7COnline7DestroyEv. Partial: CMatching::Destroy is not in the stand-in.
+    static void Destroy();
+    // 0x7fd6d0 _ZN7COnline9TerminateEv. Partial: the initialized flag (+0x04) and event queue (+0x08) are not declared.
+    void Terminate();
+    // 0x7fd6f4 _ZN7COnline10InitializeEv. Partial: the initialized guard and the start-time store are not declared.
+    std::int32_t Initialize();
+    // 0x7fd914 _ZN7COnline14ReceivePacketsEv. Partial: start-time and counter fields and the packet manager are not declared.
+    std::int32_t ReceivePackets();
+    // 0x7fd974 _ZN7COnline12SendSyncTimeEv. Partial: the point-to-point send and sync-time field are not declared.
+    void SendSyncTime();
+    // 0x7fd9ec _ZN7COnline8SyncTimeEv. Partial: the list mutex and time-sync list are not declared.
+    void SyncTime();
+    // 0x7fdb58 _ZN7COnline6UpdateEf. Partial: the resend check needs the clock slot and sync fields.
+    void Update(float dt);
+    // 0x7fdbe4 _ZN7COnline22PacketReceiverCallbackEiPci. Partial: the server echo and the client sync list are not declared.
+    void PacketReceiverCallback(std::int32_t memberId, char* data, std::int32_t size);
+    // 0x7fdde8 _ZN7COnline23sPacketReceiverCallbackEiPci: forwards to the singleton.
+    static void sPacketReceiverCallback(std::int32_t memberId, char* data, std::int32_t size);
+
+    // The singleton (COnline::s_Online). Defined in the batch source.
+    static COnline* s_Online;
+
     // Test seam. Not in the original.
     void SetTimeSyncedForTest(bool value) { timeSynced_ = value; }
 

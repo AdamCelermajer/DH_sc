@@ -53,6 +53,10 @@ public:
     void Init();
     // 0x52e6cc _ZN15CXPlayerManager13UploadMyScoreEi: the original returns a byte (0 or 1).
     bool UploadMyScore(std::int32_t score);
+    // 0x52e784 _ZN15CXPlayerManager6UpdateEv: the per-frame state machine. It drives the
+    // third service (states 0), the login (2, 3, 4, 5, 6), the leaderboard (8 to 15), and the
+    // login keep-alive. Returns nothing; the original's int result is the unused this pointer.
+    void Update();
 
     // Observer slot 0 (OnDownloadError) is OnNetworkError in the original vtable.
     void OnDownloadError(std::int32_t code) override;

@@ -14,6 +14,14 @@
 
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
 
+namespace glitch::res {
+class onDemandReader;  // layout not mapped in this category
+}
+
+namespace glitch {
+class IReferenceCounted;
+}  // namespace glitch
+
 namespace glitch::collada {
 
 class CColladaFactory;
@@ -65,6 +73,11 @@ struct SAnimationSegment {
     std::int32_t begin;
     std::int32_t end;
     std::uint32_t reserved[4];
+
+    // 0x60bee4 _ZN6glitch7collada17SAnimationSegment7getDataERNS_3res14onDemandReaderE
+    // Declared only (partial). The body needs glitch::res::onDemandReader and
+    // onDemand<SAnimationData>::get, neither of which is mapped here.
+    SAnimationSegment* getData(glitch::res::onDemandReader& reader, int a3, int a4);
 };
 
 // SInstanceMaterial, reduced to the intrusive link that linkInstanceMaterial sets.
@@ -75,6 +88,7 @@ struct SInstanceMaterial {
 // Table holder: the record the original reaches as *(*this + 0x24) + 0x20.
 // The comments give the original count and base offsets of each table.
 struct SDatabaseTables {
+    std::uint32_t version = 0;                    // +0x00 read by getVersion()
     std::vector<SAnimation*> animations;          // +0x24 / +0x28
     std::vector<SAnimationClip*> animationClips;  // +0x34 / +0x38
     std::vector<SImage*> images;                  // +0x4c / +0x50
@@ -178,6 +192,19 @@ public:
     const SDatabaseTables& tables() const { return *record->data->tables; }
     const char* fileName() const { return record ? record->fileName : nullptr; }
 
+    // 0x60e2a8 getVersion() const
+    std::uint32_t getVersion() const;
+    // 0x60e334 getAnimationClipLibrary() const
+    void* getAnimationClipLibrary() const;
+    // 0x60e348 getScene() const
+    void* getScene() const;
+    // 0x60fa24 constructController(IVideoDriver*, SController*, CRootSceneNode*) const
+    // The original returns through a hidden out slot (intrusive_ptr); the out slot is the first argument here.
+    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
+                                                    SController* controller, CRootSceneNode* root) const;
+    // 0x60fb54 constructAnimator() const
+    void* constructAnimator() const;
+
     // 0x60e4bc getExternalLightSceneNode(intrusive_ptr<CMaterial const> const&, unsigned short, unsigned int, char const*) const
     void getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material, std::uint16_t a,
                                    std::uint32_t b, const char* name) const;
@@ -238,6 +265,18 @@ SGeometry* geometryAt(const SDatabaseTables& tables, int index);
 SForce* forceAt(const SDatabaseTables& tables, int index);
 SLight* lightAt(const SDatabaseTables& tables, int index);
 SCamera* cameraAt(const SDatabaseTables& tables, int index);
+// Index getters of the remaining CColladaDatabase::getX(int) members (see collada_database_create.cpp for
+// the members that are already written). Kept as free helpers: a member named getX would hide the free
+// getX(tables, name) lookups that the constructX members call unqualified.
+SAnimation* animationAt(const SDatabaseTables& tables, int index);        // 0x60e35c
+SAnimationClip* animationClipAt(const SDatabaseTables& tables, int index); // 0x60e374
+SImage* imageAt(const SDatabaseTables& tables, int index);                 // 0x60e3c8
+SMaterial* materialAt(const SDatabaseTables& tables, int index);           // 0x60e400
+SController* controllerAt(const SDatabaseTables& tables, int index);       // 0x60e434
+SEmitter* emitterAt(const SDatabaseTables& tables, int index);             // 0x60e468
+SGNPSEmitter* gnpsEmitterAt(const SDatabaseTables& tables, int index);     // 0x60e484
+SCoronas* coronasAt(const SDatabaseTables& tables, int index);             // 0x60e4a0
+SVisualScene* visualSceneAt(const SDatabaseTables& tables, int index);     // 0x60e54c
 
 }  // namespace glitch::collada
 

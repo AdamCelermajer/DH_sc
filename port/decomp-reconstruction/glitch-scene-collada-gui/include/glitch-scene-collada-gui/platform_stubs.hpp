@@ -11,6 +11,7 @@ namespace glitch {
 
 struct SEvent;
 class IEventReceiver;
+class IDevice;
 
 namespace video {
 class IVideoModeList;
@@ -56,6 +57,19 @@ public:
     ELOG_LEVEL level{};                  // +0x08
     IEventReceiver* receiver = nullptr;  // +0x0c
 };
+
+namespace os {
+
+// glitch::os::Printer as the Android device calls it. The original's log takes the
+// glitch::ELOG_LEVEL enum above (mangled NS_10ELOG_LEVEL). Only the two-argument
+// overload is declared here.
+class Printer {
+public:
+    // 0x60aca0 _ZN6glitch2os7Printer3logEPKcNS_10ELOG_LEVELE
+    static void log(const char* text, ELOG_LEVEL level);
+};
+
+}  // namespace os
 
 class IOSOperator {
 public:
@@ -140,8 +154,18 @@ public:
     void setResizeAble(bool);
     // 0x6a0348 _ZN6glitch16CAndroidOSDevice16getVideoModeListEv (null)
     video::IVideoModeList* getVideoModeList();
+    // 0x6a0454 _ZN6glitch16CAndroidOSDevice12createDriverEv
+    // Picks the video driver from the type word at +0x5c: 1 OpenGL ES 2, 0 null driver,
+    // 128 and 256 are not available on this platform. The driver is stored at +0x10 and
+    // returned. On failure the error is logged and nullptr is returned.
+    // The IDevice argument of the pseudocode is not read; see the source for the open points.
+    void* createDriver();
 
-    std::uint8_t pad_0000[0x109] = {};  // +0x00..+0x108 (not mapped)
+    std::uint8_t pad_0000[0x10] = {};   // +0x00..+0x0f (not mapped)
+    void* unk_0010 = nullptr;           // +0x10 video driver pointer (driver type not mapped)
+    std::uint8_t pad_0018[0x44] = {};   // +0x18..+0x5b (not mapped)
+    std::int32_t unk_005c = 0;          // +0x5c driver type selector (1 OpenGL ES 2, 0 null)
+    std::uint8_t pad_0060[0xa9] = {};   // +0x60..+0x108 (not mapped)
     bool running = false;               // +0x109 (cleared by closeDevice; initial value not mapped)
 };
 

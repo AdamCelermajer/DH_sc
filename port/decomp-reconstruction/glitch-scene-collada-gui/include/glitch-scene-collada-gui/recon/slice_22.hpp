@@ -209,13 +209,38 @@ public:
     int getClipIndex(const char* name) const;
 };
 
-// Stand-in for glitch::collada::IAnimationSetTemplate (layout not in layout headers; no members).
+// Stand-in for glitch::collada::IAnimationSetTemplate. The members below come from the
+// setUnAdded and addChannels pseudocode (batch e1-glitch-scene-collada-gui-glitch_collada_IAnimationSetTemplate-0).
+// The vtable word at +0x00 is not modelled: no virtual functions are declared here.
 class IAnimationSetTemplate {
 public:
+    // 16-byte record that addChannels allocates for each target. Field names are not recovered.
+    struct TargetRecord {
+        unsigned int reserved00 = 0;    // +0x00 not written by addChannels
+        unsigned int value04 = 0;       // +0x04 set from virtual slot +0x54 of the target's source (interface not mapped)
+        unsigned int kind08 = 0;        // +0x08 copied from Target::kind
+        unsigned int reserved0c = 0;    // +0x0c not written by addChannels
+    };
+    // Element of the targets vector. The vector stores one pointer per element (stride 4).
+    // The struct name is not recovered; it is a stand-in.
+    struct Target {
+        unsigned char added = 0;        // +0x00 flag: 0 = not added, 1 = added (setUnAdded clears it)
+        unsigned int kind = 0;          // +0x04 kind, the switch selector in addChannels (enumerators not mapped)
+        void* source = nullptr;         // +0x08 object whose virtual slot +0x54 gives TargetRecord::value04
+        TargetRecord* record = nullptr; // +0x0c record created by addChannels; setUnAdded clears it
+    };
+    Target** targetsBegin = nullptr;    // +0x04 vector begin
+    Target** targetsEnd = nullptr;      // +0x08 vector end
+
     // 0x667588 _ZN6glitch7collada21IAnimationSetTemplateD1Ev
     ~IAnimationSetTemplate();
     // 0x66762c _ZN6glitch7collada21IAnimationSetTemplateD2Ev
     void destroyCompleteObject();
+    // 0x667320 _ZN6glitch7collada21IAnimationSetTemplate10setUnAddedEv
+    IAnimationSetTemplate& setUnAdded();
+    // 0x667384 _ZN6glitch7collada21IAnimationSetTemplate11addChannelsEPSt6vectorIPKNS0_8SChannelENS_4core10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEPS2_IPKNS0_17CAnimationTrackExENS7_ISF_LS9_0EEEE
+    // The two vector arguments of the symbol are never read by the pseudocode, so they are unnamed.
+    void addChannels(void*, void*);
 };
 
 // Stand-in for glitch::collada::IParticleSystemSceneNode (layout not in layout headers; no members).

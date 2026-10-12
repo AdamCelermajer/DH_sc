@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/vertex_attribute_map.hpp"
 
 namespace glitch::video {
@@ -37,6 +38,13 @@ public:
     uint8_t m_techniqueIndex10 = 0;                       // +0x10, 1-based technique index used by totalMapCount
     STechniqueEntry* m_techniques18 = nullptr;            // +0x18, technique table (12-byte entries)
     const SRendererParameterBlock* m_blocks1c = nullptr;  // +0x1c, base of the parameter blocks
+
+    // 0x5d3034 setRenderState(uchar technique, uchar pass, SRenderState const&). Copies the first 32 bytes of
+    // state into the pass element (52 bytes, flag byte at +0x30 set to 1) unless they already match. Returns the
+    // int at state +0x10 when it copies, 0 otherwise (as the original does). See the .cpp for the const_cast.
+    int32_t setRenderState(uint8_t technique, uint8_t pass, const detail::renderpass::SRenderState& state);
+    // 0x5d4714 getTechniqueID(char const*) const: not declared here. Needs the SSharedStringHeapEntry::SData
+    // get/release (int* refcounted form), which the port does not declare. Not reconstructed.
 };
 
 class CMaterialVertexAttributeMap {

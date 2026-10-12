@@ -230,7 +230,7 @@ int main() {
 
         // Mesh: clear drops the buffers; the box setter stores the box.
         CMesh clearedMesh;
-        clearedMesh.buffers.push_back(7);
+        clearedMesh.buffers.push_back(CMesh::SBuffer{});
         clearedMesh.clear();
         CHECK(clearedMesh.buffers.empty());
         glitch::core::aabbox3d<float> sceneBox{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}};

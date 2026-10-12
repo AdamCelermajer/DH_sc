@@ -8,6 +8,11 @@
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
 
+namespace glitch::core {
+template <typename T>
+struct CMatrix4;
+}  // namespace glitch::core
+
 namespace glitch::video {
 
 // Stand-in for glitch::video::STransformationSource (not reconstructed here).
@@ -28,6 +33,10 @@ public:
     boost::intrusive_ptr<CLight> clone(STransformationSource** out) const;
     // 0x59feb8: heap allocation, returned with the count set to 1.
     static boost::intrusive_ptr<CLight> allocate(STransformationSource** out);
+
+    // 0x59fc00: copies 0x41 bytes of the matrix into the buffer at +0x50. Returns 1 on success,
+    // 0 with an error log when the light is attached to a transformation source (+0x54 set).
+    int setAbsoluteTransformation(const glitch::core::CMatrix4<float>& transform);
 
     uint32_t m_refCount = 0;          // +0x00
     uint32_t m_word04[3] = {};        // +0x04..+0x0c

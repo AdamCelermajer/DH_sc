@@ -95,6 +95,10 @@ public:
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value
     // (hidden result pointer); the copy is the same as the list at +0x24.
     std::list<std::string> GetJoinPlayerList() const { return playerList_; }
+    // 0x499694 _ZN10GameCenter16GetGCPlayerGroupEv. Partial: the group number is built from two
+    // savegame values (see the cpp). The inputs need PlayerSavegame and the object at
+    // dword_99F778 (not in this category's headers), so the body returns 0 until they are ported.
+    std::int32_t GetGCPlayerGroup();
 
     // Test seams. Not in the original.
     bool StartFlagForTest() const { return startFlag_; }

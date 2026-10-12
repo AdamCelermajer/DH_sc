@@ -31,6 +31,9 @@ public:
     bool ElapsedTimeMs(std::int32_t ms);
     // 0x824f20 _ZN11COnlineImpl6SignInEv: adds the sign-in event (0x500000) to the queue.
     void SignIn();
+    // 0x824f40 _ZN11COnlineImpl10InitializeEv: runs COnline::Initialize once and stamps the
+    // clock. Returns 0 when already initialized, else the base result.
+    std::int32_t Initialize();
     // 0x825068 _ZN11COnlineImpl13GetPlayerNameEv. Partial: the transport-manager branch (net-transport)
     // is stubbed; this always returns the fallback "PLAYER".
     std::string GetPlayerName() const;

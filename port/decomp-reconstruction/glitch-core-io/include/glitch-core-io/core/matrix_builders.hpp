@@ -73,4 +73,27 @@ CMatrix4<T> buildShadowMatrix(const vector3d<T>& light, plane3d<T> plane, T /*un
     return m;
 }
 
+// 0x582c88 buildProjectionMatrixPerspectiveFov<float>(float, float, float, float): perspective
+// projection from the vertical field of view (radians), the aspect ratio, zNear and zFar.
+// Definition in src/tb_core-io-glitch_core-0.cpp.
+template <typename T>
+CMatrix4<T> buildProjectionMatrixPerspectiveFov(T fieldOfViewRadians, T aspectRatio, T zNear, T zFar);
+
+// 0x582d90 buildProjectionMatrixPerspectiveFovInfinity<float>(float, float, float): perspective
+// projection with zFar at infinity. Definition in src/tb_core-io-glitch_core-0.cpp.
+template <typename T>
+CMatrix4<T> buildProjectionMatrixPerspectiveFovInfinity(T fieldOfViewRadians, T aspectRatio, T zNear);
+
+// 0x582e64 buildCameraLookAtMatrix<float>(vector3d const&, vector3d const&, vector3d const&): view
+// matrix for an eye position, a target and an up vector. Definition in src/tb_core-io-glitch_core-0.cpp.
+template <typename T>
+CMatrix4<T> buildCameraLookAtMatrix(const vector3d<T>& position, const vector3d<T>& target,
+                                    const vector3d<T>& up);
+
+// 0x58359c buildProjectionMatrixOrtho<float>(float, float, float, float): orthographic projection of
+// a view volume of the given width and height between zNear and zFar. Definition in
+// src/tb_core-io-glitch_core-0.cpp.
+template <typename T>
+CMatrix4<T> buildProjectionMatrixOrtho(T widthOfViewVolume, T heightOfViewVolume, T zNear, T zFar);
+
 }  // namespace glitch::core

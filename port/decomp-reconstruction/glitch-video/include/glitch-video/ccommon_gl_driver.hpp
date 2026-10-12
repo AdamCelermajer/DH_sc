@@ -16,6 +16,7 @@
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/deps/glitch_video_types.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/tb/renderpass_srenderstate.hpp"
 
 namespace glitch::video {
 
@@ -110,6 +111,14 @@ public:
     void unregisterBufferMap(uint32_t key);
     // 0x5b35d8: frees every copy and empties the map.
     void clearBufferMap();
+
+    // Render-state apply paths. In the original these are members of the template
+    // instance, applied to detail::renderpass::SRenderState only, so they are declared
+    // here for that one argument type.
+    // 0x5af3f8 applyRenderStateBlend<SRenderState>: blend enable, equation, factors, colour.
+    void applyRenderStateBlend(const detail::renderpass::SRenderState& state);
+    // 0x5af6fc applyRenderStateDepthTest<SRenderState>: depth test enable and depth function.
+    void applyRenderStateDepthTest(const detail::renderpass::SRenderState& state);
 
     // Test helper, not in the original: exposes the state for checks.
     uint32_t getColorMaskBits() const { return m_colorMask; }

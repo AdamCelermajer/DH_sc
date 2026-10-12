@@ -23,4 +23,14 @@ void CVector3dEx_getIdentityValue(float* out);
 // 0x6e4420 _ZNK6glitch7collada15animation_track11CVector3dEx10applyValueEPvS3_PNS1_15CApplicatorInfoE
 void CVector3dEx_applyValue(const CVector3dEx* self, const void* value, void* target);
 
+// 0x6e3fb0 _ZN6glitch7collada15animation_track11CVector3dEx17getBlendedValueExEPvPfiS3_
+// Partial: the original reads the key block (12-byte keys) from the object pointer. The
+// CVector3dEx layout maps only the vptr, so the key block is passed as `keys` (3 floats per key).
+// Return value for count not 2 and not >= 3 is the original's this-pointer bits; here 0.0f.
+float CVector3dEx_getBlendedValueEx(const float* keys, const float* weights, int count, float* out);
+
+// 0x6e41ec _ZN6glitch7collada15animation_track11CVector3dEx17getBlendedValueExEPvPfiS3_f
+// Partial: same key-block layout gap as the 4-argument overload.
+float CVector3dEx_getBlendedValueEx(const float* keys, const float* weights, int count, float* out, float factor);
+
 }  // namespace glitch::collada::animation_track

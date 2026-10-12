@@ -11,6 +11,11 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace glitch::res {
+template <typename T>
+class vector;
+}  // namespace glitch::res
+
 namespace glitch::collada {
 
 // Pointee of SAnimationAccessor +0x00. The name is not confirmed. Its fields are
@@ -28,6 +33,31 @@ struct SAnimationAccessorTrack {
 struct SAnimationAccessor {
     std::uint32_t track;            // +0x00 guest pointer to SAnimationAccessorTrack (dereferenced by every accessor helper)
     std::uint32_t outputs;          // +0x04 (guest 32-bit pointer) base of the output table. getOutput(i) returns outputs + 8 * keyframes[i].outputIndex + 4 (0x669e24)
+
+    // Accessor methods. Bodies are in src/tb_scene-collada-gui-glitch_collada_SAnimationAccessor-0.cpp.
+    // Guest words are read through the guest memory seam there, so every body is partial.
+    // Guest addresses are std::uint32_t; plain values are int, following the Hex-Rays return types.
+    int getTarget() const;                                              // 0x669e00
+    int getType(int index) const;                                       // 0x669e10
+    std::uint32_t getOutput(int index) const;                           // 0x669e24
+    std::uint32_t getChannel(int index) const;                          // 0x669e44
+    bool hasDefaultValue() const;                                       // 0x669e54
+    int getDefaultValue() const;                                        // 0x669e68
+    int getChannelsCount() const;                                       // 0x669e78
+    int getTimeInternalType(int index) const;                           // 0x669e84
+    int getInterpolationType(int index) const;                          // 0x669e9c
+    std::uint32_t getOffsets() const;                                   // 0x669eb4
+    std::uint32_t getScales() const;                                    // 0x669ec4
+    int getOffsetScaleType() const;                                     // 0x669ed4
+    std::uint32_t getKeyTime(int index) const;                          // 0x669eec
+    int getKeyTime(int index, int key) const;                           // 0x669f0c
+    int getStart(int index) const;                                      // 0x669fac
+    int getEnd(int index) const;                                        // 0x669fb4
+    int getLength(int index) const;                                     // 0x669fdc
+    std::uint32_t getAnimator() const;                                  // 0x66a004
+    int getValue(int index, void* out, int& outValue, bool flag) const; // 0x66a1a8
+    template <typename T, int N>
+    bool findKeyFrameNoEx(int index, const glitch::res::vector<T>& keys, int time, int& outIndex) const;  // 0x66a1f0
 };
 
 namespace animation_track {

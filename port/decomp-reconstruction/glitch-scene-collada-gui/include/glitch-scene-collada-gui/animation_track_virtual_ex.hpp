@@ -8,6 +8,11 @@
 #include <cstddef>
 #include <cstdint>
 
+namespace glitch::core {
+template <typename T>
+struct vector3d;
+}  // namespace glitch::core
+
 namespace glitch::collada::animation_track {
 
 // Empty D1 destructors of CVirtualEx<CApplyValueEx<...>> (48 instantiations). The
@@ -108,12 +113,59 @@ namespace glitch::collada::animation_track {
 //       CApplyValueEx<unsigned char [4], CMixin<unsigned char, 4, SMaterialSetParam<SAnimationTypes<unsigned char [4], SColor> >, -1, unsigned char> > 
 //   0x60edcc _ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA3_hNS1_6CMixinIhLi3ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEED1Ev
 //       CApplyValueEx<unsigned char [3], CMixin<unsigned char, 3, SMaterialSetParam<SAnimationTypes<unsigned char [3], SColor> >, -1, unsigned char> > 
+// Applicator types named by the float instantiation below. Their layouts are not mapped in
+// this category, so only the names are declared here.
+class CApplicatorInfo;
+template <typename Value, typename Mixin> class CApplyValueEx;
+template <typename Scalar, int N, typename Param, int Index, typename Value> class CMixin;
+template <typename Param> struct SMaterialSetParam;
+template <typename Value, typename Target> struct SAnimationTypes;
+
 template <typename Applicator>
 class CVirtualEx {
 public:
     // Every D1 address listed above has this empty body.
     ~CVirtualEx() = default;
+
+    // Bodies of the float instantiation (FloatApplyValueEx) are in
+    // glitch-scene-collada-gui/src/tb_scene-collada-gui-glitch_collada_animation_track_CVirtualEx_float-0.cpp.
+    int getValueSize() const;                                                        // 0x60ee94
+    int applyValue(void* value, void* target, CApplicatorInfo* info) const;          // 0x618fe4
+    int applyBlendedValue(void* values, float* weights, int count, void* target,
+                          CApplicatorInfo* info) const;                              // 0x620118
+    void getBlendedValue(void* values, float* weights, int count, void* out) const;  // 0x620134
+    int* getInstance();                                                              // 0x6107cc (position Z instance)
+    std::uint32_t* retrieveValue(void* source, void* out) const;                     // 0x6203c4 (position Z instance)
 };
+
+// CApplyValueEx<float, CMixin<float, 1, SMaterialSetParam<SAnimationTypes<float, float>>, -1, float>>.
+using FloatApplyValueEx =
+    CApplyValueEx<float, CMixin<float, 1, SMaterialSetParam<SAnimationTypes<float, float>>, -1, float>>;
+
+template <> int CVirtualEx<FloatApplyValueEx>::getValueSize() const;
+template <> int CVirtualEx<FloatApplyValueEx>::applyValue(void* value, void* target, CApplicatorInfo* info) const;
+template <> int CVirtualEx<FloatApplyValueEx>::applyBlendedValue(void* values, float* weights, int count,
+                                                                  void* target, CApplicatorInfo* info) const;
+template <> void CVirtualEx<FloatApplyValueEx>::getBlendedValue(void* values, float* weights, int count,
+                                                                 void* out) const;
+
+// CApplyValueEx<vector3d<float>, CSceneNodePositionComponentMixin<CSceneNodePositionZEx<float>, 2, float>>.
+// Member bodies are in glitch-scene-collada-gui/src/tb_scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0_position_z.cpp.
+template <class T>
+struct CSceneNodePositionZEx;
+template <typename Node, int Index, typename Value>
+struct CSceneNodePositionComponentMixin;
+using PositionZVec3Ex = CApplyValueEx<glitch::core::vector3d<float>,
+                                      CSceneNodePositionComponentMixin<CSceneNodePositionZEx<float>, 2, float>>;
+
+template <> int* CVirtualEx<PositionZVec3Ex>::getInstance();
+template <> int CVirtualEx<PositionZVec3Ex>::getValueSize() const;
+template <> std::uint32_t* CVirtualEx<PositionZVec3Ex>::retrieveValue(void* source, void* out) const;
+template <> int CVirtualEx<PositionZVec3Ex>::applyValue(void* value, void* target, CApplicatorInfo* info) const;
+template <> int CVirtualEx<PositionZVec3Ex>::applyBlendedValue(void* values, float* weights, int count,
+                                                               void* target, CApplicatorInfo* info) const;
+template <> void CVirtualEx<PositionZVec3Ex>::getBlendedValue(void* values, float* weights, int count,
+                                                              void* out) const;
 
 // getIdentityValue bodies of the instantiations listed below. The body zeroes Words
 // 32-bit words of the value; UnitW writes 1.0f (0x3f800000) to the fourth word, which
@@ -220,5 +272,41 @@ struct CIdentityValueWriter {
 //       3 words, unit w no (size 28)
 //   0x618fc4 _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELin1EhEEEEE16getIdentityValueEPv
 //       4 words, unit w no (size 32)
+
+// Stand-ins for the applicator and mixin templates named by the instantiation below. Only
+// their names and parameter lists are used here.
+template <typename Value, typename Mixin>
+class CApplyValueEx;
+template <typename Target, int Index, typename Scalar>
+class CSceneNodeScaleComponentMixin;
+template <typename T>
+class CSceneNodeScaleZEx;
+class CApplicatorInfo;
+
+// CVirtualEx<CApplyValueEx<vector3d<float>, CSceneNodeScaleComponentMixin<CSceneNodeScaleZEx<float>, 2, float>>>
+// (batch e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0).
+// The D1 destructor is at 0x60ed7c, the empty body listed above. The methods are declared
+// non-virtual: the vtable slot order of this instantiation is not mapped.
+template <>
+class CVirtualEx<CApplyValueEx<::glitch::core::vector3d<float>,
+                               CSceneNodeScaleComponentMixin<CSceneNodeScaleZEx<float>, 2, float>>> {
+public:
+    ~CVirtualEx() = default;
+
+    // 0x60ef1c getValueSize(): three float words.
+    int getValueSize() const;
+    // 0x610ebc getInstance(): function-local static instance. The original's guard and atexit
+    // registration are compiler-generated for the static. The vtable word it writes is not kept.
+    static CVirtualEx* getInstance();
+    // 0x620600 retrieveValue(node, out): copies the node's scale words to out.
+    const std::uint32_t* retrieveValue(void* node, void* out) const;
+    // 0x622bf8 applyValue(value, target, info): forwards to vtable slot +0x94 of target.
+    int applyValue(void* value, void* target, CApplicatorInfo* info) const;
+    // 0x62a2e0 getBlendedValue(values, weights, count, out): weighted sum of 3-float vectors.
+    void getBlendedValue(const float* values, const float* weights, int count, float* out) const;
+    // 0x62c3c4 applyBlendedValue(applicator, values, arg3, target, info): forwards to
+    // CApplyValueEx::applyBlendedValueEx, which is not reconstructed.
+    int applyBlendedValue(void* applicator, float* values, int arg3, void* target, CApplicatorInfo* info) const;
+};
 
 }  // namespace glitch::collada::animation_track

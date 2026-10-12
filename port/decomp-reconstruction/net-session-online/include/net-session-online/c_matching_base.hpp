@@ -79,6 +79,8 @@ public:
         std::int32_t previousMemberId = -1;          // element +0x1a8
     };
 
+    // 0x7fff9c / 0x80003c CMatching::CMatching(): partial, see src/tb_session-online-CMatching-0.cpp.
+    CMatchingBase();
     virtual ~CMatchingBase() = default;
 
     // Virtual slots (32-bit byte offsets in the comment). Names are the ones the bodies suggest.
@@ -112,6 +114,13 @@ public:
     // 0x7fe544 CMatching::IsMemberServer: memberId >= 0 and equal to ServerMemberId().
     bool IsMemberServer(int memberId) const { return memberId >= 0 && memberId == ServerMemberId(); }
 
+    // 0x7fe5e0 CMatching::GetTeamId(int): team value of the member's slot, 0 when the member is not in the table.
+    int GetTeamId(int memberId) const;
+    // 0x7fe618 CMatching::GetMemberIdByIndex(unsigned int). Partial: index past the 32-slot table returns -1
+    // (the original reads past the array).
+    std::int32_t GetMemberIdByIndex(std::uint32_t index) const;
+    // 0x7fe574 CMatching::LockRoom(bool). Partial: the virtual slot +0x48 call is not ported.
+    int LockRoom(bool callSlot);
     // 0x7fed84 CMatching::ProcessLostPacket(int,int). Partial: the room attributes receive the call;
     // the per-member NetStruct slot +0x44 is not ported.
     void ProcessLostPacket(int a2, int a3);
@@ -136,6 +145,8 @@ public:
     void SetTeamId(int memberId, std::uint8_t teamId);
 
 protected:
+    bool initialized_ = false;                   // +0x0c (IsServer requires it; same field as CMatchingLocal::initialized_)
+    bool baseRoomClosed_ = false;                // +0x0e (set by LockRoom)
     bool roomMaskDirty_ = false;                 // +0x10
     int memberCount_ = 0;                        // +0x1c
     MemberInfo members_[kMaxMembers];            // +0x20, stride 432

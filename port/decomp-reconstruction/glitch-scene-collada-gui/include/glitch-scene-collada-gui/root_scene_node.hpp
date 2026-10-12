@@ -61,12 +61,14 @@ class CRootSceneNode {
 public:
     // Original member offsets. Each SIntrusiveList here stands in for the
     // sentinel pair the original keeps at the listed offset.
+    std::uint32_t unk_011c = 0;                   // +0x11c flags word; onPostLoad sets bit 0x100
     CColladaUIDHolder* uidOwner = nullptr;        // +0x14c
     SIntrusiveList<void> particleSystems;         // +0x158
     SIntrusiveList<void> morphingMeshes;          // +0x168
     SIntrusiveList<void> cameras;                 // +0x170
     SIntrusiveList<void> materials;               // +0x178
     SIntrusiveList<void> lights;                  // +0x188
+    std::uint8_t unk_01a8 = 0;                    // +0x1a8 set to 1 by onPostLoad
 
     std::uint32_t getUID() const;                 // 0x65adc4
     void removeMaterial(const void* material);    // 0x65add4 (empty body)
@@ -76,6 +78,12 @@ public:
     void addLight(void* light);                   // 0x65b244
     void addMorphingMesh(void* morphingMesh);     // 0x65b278
     void addCamera(void* camera);                 // 0x65b2ac
+
+    // Post-load step (direct calls to the attach helpers, then the flag writes).
+    int onPostLoad();                             // 0x65b3dc
+    void attachSkin();                            // 0x65b380 (body not rebuilt)
+    void attachCameras();                         // 0x65b350 (body not rebuilt)
+    void attachParticleSystems();                 // 0x65ae70 (body not rebuilt)
 };
 
 }  // namespace glitch::collada

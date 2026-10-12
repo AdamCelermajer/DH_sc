@@ -18,6 +18,18 @@
 #include <cstdint>
 
 namespace glitch {
+class IReferenceCounted;
+namespace scene {
+class CMeshBuffer;
+}
+namespace video {
+class IVideoDriver;
+}
+namespace collada {
+class SSkinBuffer;
+class SSkin;
+}  // namespace collada
+
 namespace collada {
 
 // ---------------------------------------------------------------------------
@@ -71,6 +83,13 @@ struct IColladaSkinTechnique {
     std::uint8_t flag_0x04;                 // +0x04 bool, last argument of the derived constructors
     std::uint8_t pad_0x05[0x03];            // +0x05..+0x07 not confirmed
     std::uint32_t sharedBuffer_0x08;        // +0x08 refcounted holder (zeroed by the derived constructors)
+
+    // 0x670ec8 glitch::collada::detail::IColladaSkinTechnique::initProxyBuffer(CMeshBuffer*, SSkinBuffer&, SSkin&, IVideoDriver*)
+    // Partial: stub that returns nullptr. See src/tb_scene-collada-gui-glitch_collada_detail_IColladaSkinTechnique-0.cpp.
+    glitch::IReferenceCounted* initProxyBuffer(glitch::scene::CMeshBuffer* meshBuffer,
+                                               glitch::collada::SSkinBuffer& skinBuffer,
+                                               glitch::collada::SSkin& skin,
+                                               glitch::video::IVideoDriver* driver);
 };
 
 static_assert(offsetof(IColladaSkinTechnique, vptr_0x00) == 0x00, "IColladaSkinTechnique::vptr_0x00");

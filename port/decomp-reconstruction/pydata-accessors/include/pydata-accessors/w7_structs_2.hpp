@@ -178,6 +178,7 @@ class ItemListEntryList {
 public:
     virtual ~ItemListEntryList();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::uint32_t m_w1 = 0;  // +0x4, element count
     void* m_w2 = nullptr;  // +0x8, element array (ItemListEntry, stride 12)
 };
@@ -465,7 +466,10 @@ public:
 class Item : public ItemBase {
 public:
     void finalize() override;
+    void read(IStreamBase* stream) override;
     std::int32_t m_w1 = 0;  // +0x4, zeroed by finalize
+    std::int32_t m_w17 = 0;  // +0x44
+    std::int32_t m_w18 = 0;  // +0x48
     std::uint32_t m_w19 = 0;  // +0x4c, string length
     void* m_w20 = nullptr;  // +0x50, string buffer
 };

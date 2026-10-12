@@ -153,6 +153,31 @@ public:
     bool isALoadableFileExtension(const char* filename) const;
 };
 
+// The 52-byte PowerVR (version 2) header, decoded field by field from the 32-bit little-endian
+// file layout. The original keeps this in an anonymous namespace; it is shared here so the header
+// reader (readPVRHeader, 0x6058a4) and loadTextureHeader (0x605b10) use one definition.
+struct SPVRHeader {
+    uint32_t headerSize = 0;       // +0x00, must be 52
+    uint32_t height = 0;           // +0x04
+    uint32_t width = 0;            // +0x08
+    uint32_t mipMapCount = 0;      // +0x0c
+    uint32_t flags = 0;            // +0x10, low byte pixel format, 0x100 mip maps, 0x200 twiddled,
+                                   //        0x1000 cube map, 0x4000 volume, 0x8000 alternate format
+    uint32_t textureDataSize = 0;  // +0x14
+    uint32_t bitsPerPixel = 0;     // +0x18
+    uint32_t redBitMask = 0;       // +0x1c
+    uint32_t greenBitMask = 0;     // +0x20
+    uint32_t blueBitMask = 0;      // +0x24
+    uint32_t alphaBitMask = 0;     // +0x28
+    char pvrTag[4] = {};           // +0x2c, "PVR!"
+    uint32_t surfaceCount = 0;     // +0x30 (surface or cube-face count, or volume depth)
+};
+
+// 0x6058a4 (anonymous namespace in the original). Reads and checks the header. isBTEX is set when the
+// "BTEXpvr" wrapper is present. Returns false on a short read, a wrong tag or size, or a bad flag
+// combination. Defined by batch e1-glitch-video-glitch_video-0 (src/tb_video-glitch_video-0.cpp).
+bool readPVRHeader(io::IReadFile* file, SPVRHeader& header, bool& isBTEX);
+
 class CImageLoaderPVR : public IImageLoader {
 public:
     CImageLoaderPVR();  // 0x605740 (C2) / 0x60576c (C1)
@@ -160,6 +185,9 @@ public:
     bool isALoadableFileFormat(io::IReadFile* file) const;
     // 0x6061b4: ".pvr" or ".btex" in the name.
     bool isALoadableFileExtension(const char* filename) const;
+    // 0x605b10: reads the header with readPVRHeader, checks the data size against the file size,
+    // maps the PowerVR pixel format to a glitch format id and checks it against the twiddle flag.
+    bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const override;
     class CDataInfo {
     public:
         int32_t getFileDataSize() const;     // 0x605720

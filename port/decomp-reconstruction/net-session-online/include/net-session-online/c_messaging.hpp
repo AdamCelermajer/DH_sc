@@ -82,11 +82,35 @@ public:
     // 0x80e2a4 _ZN10CMessaging7SendMsgEP8CMessage
     void SendMsg(CMessage* message);
 
+    // 0x80a784 _ZN10CMessaging14PrintRecvQueueEv (partial: per-message routing fields print as '?').
+    void PrintRecvQueue();
+    // 0x80a82c _ZN10CMessaging14PrintSendQueueEv (partial: per-message routing fields print as '?').
+    void PrintSendQueue();
+    // 0x80d058 _ZN10CMessaging22ProcessMissingMessagesEP8CMessage (partial: no-op until CMessage sender and serial are reachable).
+    void ProcessMissingMessages(CMessage* message);
+    // 0x80d67c _ZN10CMessaging20HasMessageBeenQueuedEP8CMessage (partial: non-local messages report not queued).
+    bool HasMessageBeenQueued(CMessage* message);
+    // 0x80d8a0 _ZN10CMessaging16ProcessSendQueueEv (partial: the +0x3c flag write and the AcknowledgeMessage sender are not reconstructed).
+    void ProcessSendQueue();
+    // 0x80d9c0 _ZN10CMessaging14ReceiveMessageEP8CMessage (partial: the virtual slot +0x1c call at the end is not identified).
+    void ReceiveMessage(CMessage* message);
+    // 0x80da78 _ZN10CMessaging14UnpackMessagesER12NetBitStream
+    int UnpackMessages(NetBitStream& stream);
+    // 0x80dab4 _ZN10CMessaging14ReadPacketDataEiiR12NetBitStream
+    int ReadPacketData(int outerKey, int innerKey, NetBitStream& stream);
+    // 0x80dae8 _ZN10CMessaging15sReadPacketDataEiiR12NetBitStream: packet-manager callback, forwards to the singleton.
+    static int sReadPacketData(int outerKey, int innerKey, NetBitStream& stream);
+
     // Test hook: installs an instance for IsInitialized/Terminate tests.
     static void SetInstanceForTest(CMessaging* instance, bool initialized);
 
 private:
     static CMessaging* s_messaging;  // CMessaging::s_messaging
+
+    // Bodies of the sequence bookkeeping in ProcessMissingMessages and HasMessageBeenQueued. They take the
+    // sender (+0x0c), serial (+0x04) and hash that the original reads from the message. The caller holds ackMutex_.
+    bool HasQueuedSequence(int sender, int serial, std::uint16_t hash);
+    void ProcessMissingSequence(int sender, int serial, std::uint16_t hash);
 
     bool initialized_ = false;       // +0x04
     CNetMutex recvMutex_;            // +0x08 guards recvQueue_

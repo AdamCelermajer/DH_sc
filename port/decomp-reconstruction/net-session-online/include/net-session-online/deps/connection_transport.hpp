@@ -16,3 +16,10 @@ public:
 
 // Connection::isConnected(connection). The transport is not available here.
 inline bool ConnectionIsConnected(const ConnectionTransport* /*connection*/) { return false; }
+
+// Connection::sendLoginPackage(connection, login). Stand-in: no-op.
+inline void ConnectionSendLoginPackage(ConnectionTransport* /*connection*/, const char* /*login*/) {}
+// Connection::Connection(address, port) for the object at +0x54. Stand-in: no-op.
+inline void ConnectionConstruct(ConnectionTransport* /*connection*/, char* /*address*/, std::int32_t /*port*/) {}
+// Connection::setName(connection, name). Stand-in: no-op.
+inline void ConnectionSetName(ConnectionTransport* /*connection*/, const char* /*name*/) {}

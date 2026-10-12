@@ -14,4 +14,11 @@ CMatrix4<T> CMatrix4<T>::operator*(const CMatrix4<T>& other) const {
     return detail::mult(*this, other);  // float only: mult is declared for CMatrix4<float>
 }
 
+// 0x6651a0 operator*<float, glitch::collada::SMatrix>(CMatrix4<float> const&, SMatrix const&): lhs
+// times a 16-value rhs (the SMatrix). The rhs is read as 16 values at indices 0..15 only. Declared
+// here; the definition is in src/tb_core-io-glitch_core-0.cpp. The rhs type is a template parameter
+// because glitch::collada::SMatrix is not declared in this tree.
+template <typename T, typename Rhs>
+CMatrix4<T> operator*(const CMatrix4<T>& lhs, const Rhs& rhs);
+
 }  // namespace glitch::core

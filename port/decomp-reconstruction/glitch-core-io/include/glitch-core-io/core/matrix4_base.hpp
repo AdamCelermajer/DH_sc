@@ -21,4 +21,12 @@ CMatrix4<float>& mult34(const CMatrix4<float>& self, const CMatrix4<float>& othe
 // original, which is not reconstructed; it is written here as the same product as mult.
 void setbyproduct(CMatrix4<float>& self, const CMatrix4<float>& a, const CMatrix4<float>& b);
 
+// 0x40ea54 CMatrix4Base<float>::setbyproduct_nocheck(const CMatrix4Base&, const CMatrix4Base&): self = a * b
+// as a full 4x4 product with no identity short-cut; the flag of self is cleared.
+void setbyproduct_nocheck(CMatrix4<float>& self, const CMatrix4<float>& a, const CMatrix4<float>& b);
+
+// 0x50f6d8 CMatrix4Base<float>::multEq(const CMatrix4Base&): self *= other, in place. Returns self.
+// When other carries the identity flag, self is unchanged; when self is the identity, it becomes other.
+CMatrix4<float>& multEq(CMatrix4<float>& self, const CMatrix4<float>& other);
+
 }  // namespace glitch::core::detail

@@ -119,6 +119,7 @@ struct DropTilePriorityTable {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
     static void readNames(IStreamBase* stream);
+    static void skipNames(IStreamBase* stream);
 };
 struct EffectDict {
     static pydata::NameTable m_memberNames;
@@ -197,6 +198,7 @@ struct InventoryTable {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
     static void readNames(IStreamBase* stream);
+    static void skipNames(IStreamBase* stream);
 };
 struct ItemAudioVisualTable {
     static pydata::NameTable m_memberNames;
@@ -214,6 +216,7 @@ struct ItemList {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
     static void readNames(IStreamBase* stream);
+    static void skipNames(IStreamBase* stream);
 };
 struct ItemPowerList {
     static pydata::NameTable m_memberNames;
@@ -222,6 +225,11 @@ struct ItemPowerList {
     static void skipNames(IStreamBase* stream);
 };
 struct ItemPowerTable {
+    static pydata::NameTable m_memberNames;
+    static void finalizeNames();
+    static void readNames(IStreamBase* stream);
+};
+struct ItemTable {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
     static void readNames(IStreamBase* stream);
@@ -250,6 +258,7 @@ struct Listeners {
 struct LootTable {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
+    static void readNames(IStreamBase* stream);
     static void skipNames(IStreamBase* stream);
 };
 struct MerchantTable {
@@ -261,6 +270,7 @@ struct MerchantTable {
 struct ModelDict {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
+    static void readNames(IStreamBase* stream);
     static void skipNames(IStreamBase* stream);
 };
 struct NumProbArray {
@@ -400,6 +410,7 @@ struct v2Events {
 struct v2Quests {
     static pydata::NameTable m_memberNames;
     static void finalizeNames();
+    static void readNames(IStreamBase* stream);
 };
 
 template <class T>

@@ -13,6 +13,8 @@
 
 namespace glitch::video {
 class IVideoDriver;
+class CMaterial;
+class CMaterialVertexAttributeMap;
 }
 
 namespace glitch::io {
@@ -342,22 +344,57 @@ public:
     bool particlesAreGlobal = false;          // +0x180
 };
 
+class CMeshBuffer;
+
 class CMesh {
 public:
+    // glitch::scene::CMesh::SBuffer, 12 bytes (same shape as glitch::collada::CMesh::SBuffer).
+    // +0x00 is the mesh buffer, +0x04 the material and +0x08 the vertex attribute map.
+    struct SBuffer {
+        boost::intrusive_ptr<CMeshBuffer> buffer;                                     // +0x00
+        boost::intrusive_ptr<video::CMaterial> material;                              // +0x04
+        boost::intrusive_ptr<video::CMaterialVertexAttributeMap> vertexAttributeMap;  // +0x08
+    };
+
     // 0x6bba70 _ZN6glitch5scene5CMeshC2Ev
     // 0x6bbad4 _ZN6glitch5scene5CMeshC1Ev
     // The box starts as (-1, -1, -1) to (1, 1, 1) and the buffer list is empty.
     CMesh();
 
+    // 0x6bbb38 _ZNK6glitch5scene5CMesh18getMeshBufferCountEv
+    std::int32_t getMeshBufferCount() const;
+    // 0x6bbb60 _ZNK6glitch5scene5CMesh13getMeshBufferEj
+    // PARTIAL: the reference bump on the buffer (+0x00) is not performed (see the .cpp).
+    boost::intrusive_ptr<CMeshBuffer> getMeshBuffer(std::uint32_t index) const;
+    // 0x6bbbb8 _ZNK6glitch5scene5CMesh11getMaterialEj
+    // PARTIAL: the reference bump on the material (+0x04) is not performed.
+    boost::intrusive_ptr<video::CMaterial> getMaterial(std::uint32_t index) const;
+    // 0x6bbc10 _ZNK6glitch5scene5CMesh29getMaterialVertexAttributeMapEj
+    // PARTIAL: the reference bump on the attribute map (+0x08) is not performed.
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> getMaterialVertexAttributeMap(
+        std::uint32_t index) const;
+
     // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
     const core::aabbox3d<float>& getBoundingBox() const;
     // 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
     void setBoundingBox(const core::aabbox3d<float>& box);
+    // 0x6bbd6c _ZN6glitch5scene5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS4_INS5_27CMaterialVertexAttributeMapEEE
+    // PARTIAL: the reference counts of the new and the replaced material and map are not moved.
+    void setMaterial(std::uint32_t index, const boost::intrusive_ptr<video::CMaterial>& material,
+                     const boost::intrusive_ptr<video::CMaterialVertexAttributeMap>& vertexAttributeMap);
+    // 0x6bc664 _ZN6glitch5scene5CMesh13addMeshBufferERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS3_INS_5video9CMaterialEEERKNS3_INS8_27CMaterialVertexAttributeMapEEE
+    // PARTIAL: the reference counts of the stored handles are not moved (see the .cpp).
+    void addMeshBuffer(const boost::intrusive_ptr<CMeshBuffer>& buffer,
+                       const boost::intrusive_ptr<video::CMaterial>& material,
+                       const boost::intrusive_ptr<video::CMaterialVertexAttributeMap>& vertexAttributeMap);
     // 0x6bbedc _ZN6glitch5scene5CMesh5clearEv
     // Partial: the buffer entries are dropped without releasing their references.
     void clear();
 
-    std::vector<std::uint32_t> buffers;  // +0x08 (begin) .. +0x0c (end); buffer elements not mapped
+    // The destructor (0x6bc248, D1) is not declared: it only destroys the SBuffer vector, and
+    // the implicit destructor does that. The reference releases are not modelled (see the .cpp).
+
+    std::vector<SBuffer> buffers;        // +0x08 (begin) .. +0x0c (end), capacity +0x10
     core::aabbox3d<float> boundingBox;   // +0x14
 };
 

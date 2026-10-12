@@ -291,6 +291,10 @@ public:
     bool flag_0x29 = false;                      // +0x29 read by CResFactory::getTexture (role not confirmed)
     bool zipLoadingEnabled = true;               // +0x2a enables the zip path in getReadFile
     bool disableZipAfterFirstUse = true;         // +0x2b when set, getReadFile clears zipLoadingEnabled after one use
+
+    // 0x658c90 _ZN6glitch7collada15CResFileManager15postLoadProcessEPNS0_8CResFileEPNS_2io9IReadFileE
+    // Partial: see src/tb_scene-collada-gui-glitch_collada_CResFileManager-0.cpp.
+    int postLoadProcess(CResFile* file, glitch::io::IReadFile* reader);
 };
 
 // ---------------------------------------------------------------------------

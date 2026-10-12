@@ -263,6 +263,7 @@ class CharTemplate {
 public:
     virtual ~CharTemplate();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::uint32_t m_w1 = 0;  // +0x4, element count
     void* m_w2 = nullptr;    // +0x8, members (stride 8)
 };
@@ -292,6 +293,7 @@ class ClassFuncList {
 public:
     virtual ~ClassFuncList();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::uint32_t m_w1 = 0;  // +0x4, element count
     void* m_w2 = nullptr;    // +0x8, members (stride 24)
 };
@@ -301,8 +303,11 @@ class AnimTpl {
 public:
     virtual ~AnimTpl();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
     std::uint32_t m_w2 = 0;  // +0x8, element count
-    void* m_w3 = nullptr;    // +0xc, members (stride 56)
+    void* m_w3 = nullptr;    // +0xc, members (AnimStep, stride 56)
+    std::int32_t m_w4 = 0;  // +0x10
 };
 void DeletingDestructor(AnimTpl* self);
 

@@ -9,6 +9,10 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 
+namespace glitch {
+struct SEvent;
+}
+
 namespace glitch::gui {
 
 class IGUIFont;
@@ -356,6 +360,11 @@ public:
     void setChecked(bool checked);
     // 0x6a76b4 _ZNK6glitch3gui12CGUICheckBox9isCheckedEv
     bool isChecked() const;
+    // 0x6a7ed8 _ZN6glitch3gui12CGUICheckBox7onEventERKNS_6SEventE
+    // Partial: the body needs the IGUIElement base (enabled +0x99, parent +0x24, rectangle
+    // +0x48..+0x54) and the CGUICheckBox fields +0x150, +0x158, +0x15c, none of which this
+    // class declares yet. See the ledger note and the layout requests for the integrator.
+    bool onEvent(const glitch::SEvent& event);
 
     bool checked = false;  // +0x159
 };

@@ -8,6 +8,7 @@
 
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/deps/glitch_video_types.hpp"
+#include "glitch-video/deps/intrusive_ptr.hpp"
 #include "glitch-video/fps_counter.hpp"
 
 // CMaterial is declared in deps/glitch_video_types.hpp.
@@ -15,6 +16,11 @@
 namespace glitch::video {
 
 class IShader;
+class CLight;
+
+namespace detail {
+struct SGlobalParameterOwner;  // material_parameters_bind_g.hpp; the global parameter owner at +0xe4
+}  // namespace detail
 
 class IVideoDriver {
 public:
@@ -50,11 +56,20 @@ public:
     // 0x5a90b0: sets or clears option bits. Bit 0x100 calls a hook in the original
     // (vtable +0x1fc), which is not modelled here. Partial.
     void setOption(uint32_t option, bool enable);
+    // 0x5aaa40: appends a light to the global dynamic-light parameters while the count is below the
+    // limit. Parameter id is (count + base). Returns the limit (+0x3c) when nothing is stored, and
+    // the setParameter result otherwise. Partial: the element setter it calls
+    // (IMaterialParameters<G>::setParameter<intrusive_ptr<CLight>>, 0x5be68c) is ledgered skipped.
+    uint32_t addDynamicLight(const boost::intrusive_ptr<CLight>& light);
 
     // Test helper, not in the original: exposes the option word (+0x88).
     uint32_t getOptionFlags() const { return m_options; }
 
 private:
+    uint16_t m_dynamicLightBase = 0;                // +0x38, added to the count to give the parameter id
+    uint16_t m_dynamicLightCount = 0;               // +0x3a, lights stored so far
+    uint16_t m_dynamicLightLimit = 0;               // +0x3c, maximum number of dynamic lights
+    detail::SGlobalParameterOwner* m_globalParameters = nullptr;  // +0xe4, global parameter owner
     core::dimension2d<int32_t> m_maxTextureSize{};  // +0x44
     CFPSCounter m_fpsCounter;                       // +0x50 (CFPSCounter is 0x28 bytes)
     uint32_t m_framePrimitives = 0;                 // +0x78, cleared by beginScene

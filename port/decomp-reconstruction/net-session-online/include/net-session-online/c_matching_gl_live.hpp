@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
@@ -32,9 +33,14 @@ class GLXPlayerLogin;
 class GLXPlayerUserFriend;
 class GLXPlayerUser;
 class GLXPlayerMessage;
+class tFriendInfo;
 
 class CMatchingGLLive {
 public:
+    // Nested replicated element (NetStructArray<MemberInfoNetStruct,32>). Defined in
+    // tb/cmatching_gl_live_member_info_net_struct.hpp.
+    class MemberInfoNetStruct;
+
     // Constructors and destructor (C1/C2 and D1/D2 pairs share one definition each).
     CMatchingGLLive() = default;
     // 0x81e7f0 _ZN15CMatchingGLLiveC2Eb (C1 twin at 0x81e9dc). Partial, see the cpp.
@@ -199,6 +205,43 @@ public:
     std::int32_t LeaveRoom();
     // 0x81f524 _ZN15CMatchingGLLive6IsHostEv: the lobby's mpIsMaster (vtable slot 60).
     bool IsHost();
+
+    // 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii. Partial, see the cpp.
+    void ProcessLostPacket(std::int32_t a2, std::int32_t a3);
+    // 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii. Partial, see the cpp.
+    void ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
+    // 0x81c200 _ZN15CMatchingGLLive24ProcessMemberJoinMessageEiR12NetBitStream. Partial, see the cpp.
+    void ProcessMemberJoinMessage(std::int32_t a2, NetBitStream& stream);
+    // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.
+    std::int32_t SendClientRequest();
+    // 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
+    std::int64_t GetRoomId();
+    // 0x81c494 _ZN15CMatchingGLLive20GetMemberByMemberIdEi. Partial, see the cpp.
+    std::int32_t GetMemberByMemberId(std::int32_t memberId);
+    // 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv. Partial, see the cpp.
+    bool IsInRoom();
+    // 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv. Partial, see the cpp.
+    std::int32_t GetMemberCount() const;
+    // 0x81c6cc _ZN15CMatchingGLLive10IsMyFriendEPc. Partial, see the cpp.
+    std::int32_t IsMyFriend(char* name);
+    // 0x81c9e8 _ZN15CMatchingGLLive23sPacketReceiverCallbackEiPci. Partial, see the cpp.
+    static void sPacketReceiverCallback(std::int32_t from, char* data, int size);
+    // 0x81cec0 _ZN15CMatchingGLLive12IsFriendWithEPKcb. Partial, see the cpp.
+    bool IsFriendWith(const char* name, bool flag);
+    // 0x81cf30 _ZN15CMatchingGLLive16SendInvitationEPKcS1_b. Partial, see the cpp.
+    std::int32_t SendInvitation(const char* from, const char* to, bool flag);
+    // 0x81dba0 _ZN15CMatchingGLLive19GetGLLiveMemberIdListEv. Partial, see the cpp.
+    std::vector<std::int32_t> GetGLLiveMemberIdList();
+    // 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi. Partial, see the cpp.
+    bool IsInRoom(std::int32_t memberId);
+    // 0x81df90 _ZN15CMatchingGLLive13GetMemberNameEi. Partial, see the cpp.
+    std::string GetMemberName(std::int32_t memberId);
+    // 0x81e25c _ZN15CMatchingGLLive12SyncMemberIdEv. Partial, see the cpp.
+    void SyncMemberId();
+    // 0x81e4d0 _ZN15CMatchingGLLive14ReadPacketDataEiiR12NetBitStream. Partial, see the cpp.
+    void ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    // 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb. Partial, see the cpp.
+    std::vector<tFriendInfo> GetFriendsList(bool notInState3);
 
     // Not in the original: test seams for the room flags.
     void SetRoomFlagsForTest(bool closed, bool hidden) {

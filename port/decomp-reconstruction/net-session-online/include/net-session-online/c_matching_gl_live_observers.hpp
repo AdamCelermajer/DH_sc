@@ -14,8 +14,11 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 class DataPacket;
+class tMemberInfo;
 
 class CMatchingGLLiveFriendObserver {
 public:
@@ -101,6 +104,50 @@ public:
     // 0x82153c _ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSameAccountLoginEP10DataPacket:
     // queues sign-in event 9 on the CSignIn singleton. The packet is not read.
     std::int32_t OnMPProcessPushSameAccountLogin(DataPacket* packet);
+
+    // Room and member list handling (batch e1-net-session-online-CMatchingGLLiveLobbyObserver-0).
+    // The room list (+0x18..+0x20) and the member list (+0x24..+0x2c, 84-byte entries) are not
+    // modelled in this header yet (layout request), so the bodies that need them are partial.
+    // 0x8213ec _ZN28CMatchingGLLiveLobbyObserver13ClearRoomListEv. Partial: no-op.
+    void ClearRoomList();
+    // 0x821474 _ZN28CMatchingGLLiveLobbyObserver18GetRoomIndexByNameEPKc. Partial: returns -1.
+    std::int32_t GetRoomIndexByName(const char* name) const;
+    // 0x8214cc _ZN28CMatchingGLLiveLobbyObserver20GetMemberIndexByNameEPKc. Partial: returns -1.
+    std::int32_t GetMemberIndexByName(const char* name) const;
+    // 0x821bac _ZN28CMatchingGLLiveLobbyObserver17GetMemberIdVectorEv. Partial: returns an empty vector.
+    std::vector<std::int32_t> GetMemberIdVector() const;
+    // 0x822324 _ZN28CMatchingGLLiveLobbyObserver19GetMemberByMemberIdEi. Partial: returns nullptr.
+    tMemberInfo* GetMemberByMemberId(std::int32_t memberId);
+    // 0x822638 _ZN28CMatchingGLLiveLobbyObserver14SetPlayerParamESs. Partial: no-op.
+    void SetPlayerParam(std::string value);
+    // 0x822950 _ZN28CMatchingGLLiveLobbyObserver18CollapseMemberListEv. Partial: no-op.
+    void CollapseMemberList();
+
+    // Session and push handlers. Vtable slots as in the dump (virtual where the slot is known).
+    // 0x8216a8 _ZN28CMatchingGLLiveLobbyObserver29OnMPProcessPushGameserverAddrEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushGameserverAddr(DataPacket* packet);
+    // 0x8217a8 _ZN28CMatchingGLLiveLobbyObserver22OnMPListSessionSuccessEP10DataPacket (slot +0x18). Partial.
+    virtual void OnMPListSessionSuccess(DataPacket* packet);
+    // 0x822b78 _ZN28CMatchingGLLiveLobbyObserver23OnMPLeaveSessionSuccessEv (slot +0x20). Partial.
+    virtual std::int32_t OnMPLeaveSessionSuccess();
+    // 0x822c58 _ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushKickOutPlayerEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushKickOutPlayer(DataPacket* packet);
+    // 0x822db4 _ZN28CMatchingGLLiveLobbyObserver32OnMPProcessPushJoinLobbyLaunchedEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushJoinLobbyLaunched(DataPacket* packet);
+    // 0x822fa4 _ZN28CMatchingGLLiveLobbyObserver24OnMPCreateSessionSuccessEP10DataPacket (slot +0x14). Partial.
+    virtual void OnMPCreateSessionSuccess(DataPacket* packet);
+    // 0x8231e0 _ZN28CMatchingGLLiveLobbyObserver22OnMPJoinSessionSuccessEP10DataPacket (slot +0x1c). Partial.
+    virtual void OnMPJoinSessionSuccess(DataPacket* packet);
+    // 0x823510 _ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSetUserParameterEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushSetUserParameter(DataPacket* packet);
+    // 0x8235f8 _ZN28CMatchingGLLiveLobbyObserver34OnMPProcessPushJoinLobbyUnlaunchedEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushJoinLobbyUnlaunched(DataPacket* packet);
+    // 0x823808 _ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushRejoinGameEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushRejoinGame(DataPacket* packet);
+    // 0x823ac4 _ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushLeaveLobbyEP10DataPacket. Partial.
+    std::int32_t OnMPProcessPushLeaveLobby(DataPacket* packet);
+    // 0x823fd8 _ZN28CMatchingGLLiveLobbyObserver23OnMPProcessPushMessagesEP10DataPacketi (slot +0x3c). Partial.
+    virtual std::int32_t OnMPProcessPushMessages(DataPacket* packet, std::int32_t type);
 
     // Test seams. Not in the original.
     std::int32_t StateForTest() const { return state_; }

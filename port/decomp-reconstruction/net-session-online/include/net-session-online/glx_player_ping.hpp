@@ -45,6 +45,12 @@ public:
     std::int32_t WaitForEchoReply(std::int32_t fd);
     // 0x840454 _ZN13GLXPlayerPing15SendEchoRequestEv
     std::int32_t SendEchoRequest();
+    // 0x8402f8 _ZN13GLXPlayerPing13RecvEchoReplyEv
+    // Partial: the receive hook (GLXPlayerSocket vtable +0x5c) is not declared on the port's socket.
+    std::int32_t RecvEchoReply();
+    // 0x84069c _ZN13GLXPlayerPing6KernelEv
+    // Partial: the host resolve step (state 2) and the socket handle read (state 4) have no port hook.
+    std::int32_t Kernel();
 
     // Not in the original: test seams.
     std::int32_t StateForTest() const { return state_; }

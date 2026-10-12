@@ -10,6 +10,7 @@ after another. Rows already in ledger.csv or in a ledger.d/*.csv part are skippe
 --redo-partial selects rows whose current status is partial.
 """
 import argparse
+import hashlib
 import csv
 import json
 import re
@@ -31,8 +32,52 @@ def statuses(cat: Path) -> dict:
     return out
 
 
+BUCKET_OWNERS = {"engine-glitch", "lib-online-glx", "lib-vox-audio", "lib-image-zip-font", "<global>"}
+
+
+def owner_of(r: dict) -> str:
+    """The class a function belongs to. Bucket-level owners are replaced by the qualified
+    class in the demangled name (everything before the last ::), so one class's functions
+    share a batch chain; free functions stay with their bucket owner."""
+    if r["owner"] not in BUCKET_OWNERS:
+        return r["owner"]
+    head = r["demangled"].split("(", 1)[0]
+    depth, cut = 0, -1
+    for i, ch in enumerate(head):
+        if ch == "<":
+            depth += 1
+        elif ch == ">":
+            depth -= 1
+        elif ch == " " and depth == 0:
+            cut = i
+    head = head[cut + 1:]
+    depth, last = 0, -1
+    for i in range(len(head) - 1):
+        if head[i] == "<":
+            depth += 1
+        elif head[i] == ">":
+            depth -= 1
+        elif depth == 0 and head[i:i + 2] == "::":
+            last = i
+    return head[:last] if last > 0 else r["owner"]
+
+
 def slug(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9]+", "_", s).strip("_")[:48] or "global"
+
+
+def make(a, c: str, owners: list, rows: list, part: int, parts: int, pack=None) -> dict:
+    """One batch. The id is unique: a slug for reading plus a hash of the owner list."""
+    tag = hashlib.sha1("|".join(owners).encode("utf-8")).hexdigest()[:6]
+    name = f"pack{pack}" if pack is not None else slug(owners[0])[:40]
+    return {
+        "id": f"{a.prefix}-{c}-{name}-{tag}-{part}",
+        "category": c, "owner": owners[0] if len(owners) == 1 else " | ".join(owners), "owners": owners,
+        "part": part, "parts": parts,
+        "functions": [{"address": "0x" + r["elf_address"].lower().removeprefix("0x"), "bytes": int(r["body_bytes"] or 0),
+                       "owner": owner_of(r), "demangled": r["demangled"]} for r in rows],
+        "bytes": sum(int(r["body_bytes"] or 0) for r in rows),
+    }
 
 
 def main() -> int:
@@ -42,6 +87,8 @@ def main() -> int:
     ap.add_argument("--max-bytes", type=int, default=24000)
     ap.add_argument("--redo-partial", action="store_true")
     ap.add_argument("--prefix", default="b")
+    ap.add_argument("--pack-under", type=int, default=8,
+                    help="classes with fewer functions than this are packed together, whole, into shared batches")
     a = ap.parse_args()
     batches = []
     for c in a.categories:
@@ -53,7 +100,8 @@ def main() -> int:
             s = st.get(addr)
             if (a.redo_partial and s != "partial") or (not a.redo_partial and s is not None):
                 continue
-            by_owner.setdefault(r["owner"], []).append(r)
+            by_owner.setdefault(owner_of(r), []).append(r)
+        small = []
         for owner, rows in by_owner.items():
             rows.sort(key=lambda r: int(r["elf_address"], 16))
             parts, cur, size = [], [], 0
@@ -66,14 +114,24 @@ def main() -> int:
                 size += b
             if cur:
                 parts.append(cur)
+            if len(parts) == 1 and len(parts[0]) < a.pack_under:
+                small.append((owner, parts[0]))
+                continue
             for i, p in enumerate(parts):
-                batches.append({
-                    "id": f"{a.prefix}-{c}-{slug(owner)}-{i}",
-                    "category": c, "owner": owner, "part": i, "parts": len(parts),
-                    "functions": [{"address": "0x" + r["elf_address"].lower().removeprefix("0x"), "bytes": int(r["body_bytes"] or 0),
-                                   "demangled": r["demangled"]} for r in p],
-                    "bytes": sum(int(r["body_bytes"] or 0) for r in p),
-                })
+                batches.append(make(a, c, [owner], p, i, len(parts)))
+        # Pack whole small classes of this category into shared batches, keeping each class whole.
+        bins, cur, size = [], [], 0
+        for owner, rows in small:
+            b = sum(int(r["body_bytes"] or 0) for r in rows)
+            if cur and (sum(len(x[1]) for x in cur) + len(rows) > a.max_funcs or size + b > a.max_bytes):
+                bins.append(cur)
+                cur, size = [], 0
+            cur.append((owner, rows))
+            size += b
+        if cur:
+            bins.append(cur)
+        for k, bn in enumerate(bins):
+            batches.append(make(a, c, [o for o, _ in bn], [r for _, rows in bn for r in rows], 0, 1, pack=k))
     print(json.dumps(batches, indent=0))
     return 0
 

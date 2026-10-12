@@ -14,7 +14,22 @@
 
 namespace glitch::scene {
 class ISceneNode;
+class CMeshBuffer;
 }
+
+namespace glitch::video {
+class CMaterial;
+class CMaterialVertexAttributeMap;
+}
+
+namespace glitch {
+class IReferenceCounted;
+}
+
+namespace glitch::video {
+class CMaterial;
+class CMaterialVertexAttributeMap;
+}  // namespace glitch::video
 
 namespace glitch::collada {
 
@@ -36,6 +51,9 @@ struct SChannelRecord {
     std::uint32_t words[4] = {0, 0, 0, 0};
 };
 
+struct CColladaDatabase;
+struct SAnimation;
+
 class CDynamicAnimationSet {
 public:
     // 0x62dba0 _ZN6glitch7collada20CDynamicAnimationSet10getChannelEj
@@ -45,6 +63,27 @@ public:
     // 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
     // Partial: the database entries are dropped without releasing their references.
     void clearSet();
+    // 0x62dbb8 _ZN6glitch7collada20CDynamicAnimationSet16getDatabaseIndexERNS0_16CColladaDatabaseE
+    // Declared only: the database table element type (8 bytes) is not in the layout yet.
+    int getDatabaseIndex(CColladaDatabase& database);
+    // 0x62e8a8 _ZN6glitch7collada20CDynamicAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE
+    // Declared only: the base CAnimationSet::addAnimationLibrary is not reconstructed.
+    int addAnimationLibrary(const CColladaDatabase& database);
+    // 0x62ee9c _ZN6glitch7collada20CDynamicAnimationSet27addAnimationLibraryBindingsERKNS0_16CColladaDatabaseE
+    // Declared only: needs the binding and int vector members.
+    void addAnimationLibraryBindings(const CColladaDatabase& database);
+    // 0x62f354 _ZN6glitch7collada20CDynamicAnimationSet12addAnimationEPKNS0_10SAnimationE
+    // Declared only: needs the channel compatibility table and the track vector.
+    int addAnimation(const SAnimation* animation);
+    // 0x62f54c _ZN6glitch7collada20CDynamicAnimationSet11clearTracksEv
+    // Declared only: needs the binding, int and channel vector members.
+    void clearTracks();
+    // 0x62fc90 _ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE
+    // Declared only: needs the default CColladaDatabase value at +0x68.
+    void setDefaultAnimationLibrary(const CColladaDatabase& database);
+    // 0x62fcf8 _ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryEj
+    // Declared only: needs the default CColladaDatabase value at +0x68 and the database table.
+    void setDefaultAnimationLibrary(unsigned index);
 
     std::vector<std::uint32_t> databases;  // +0x24 (begin) .. +0x28 (end); elements not mapped
     std::uint8_t pad_0030[0x40] = {};      // +0x30..+0x6f (not mapped)
@@ -69,6 +108,38 @@ public:
     void setBoundingBox(const core::aabbox3d<float>& box);
 
     core::aabbox3d<float> boundingBox;  // +0x24
+
+    // glitch::collada::CMesh::SBuffer, 12 bytes (same shape as glitch::scene::CMesh::SBuffer in
+    // layouts/scene.hpp). The first word is a reference-counted buffer; +0x04 and +0x08 are
+    // intrusive_ptr handles copied with the buffer.
+    struct SBuffer {
+        // 0x644c88 _ZN6glitch7collada5CMesh7SBufferD1Ev
+        // Partial: see the note on the definition in src/tb_scene-collada-gui-glitch_collada_CMesh_SBuffer-0.cpp.
+        ~SBuffer();
+
+        glitch::IReferenceCounted* buffer = nullptr;                                  // +0x00
+        boost::intrusive_ptr<video::CMaterial> material;                              // +0x04
+        boost::intrusive_ptr<video::CMaterialVertexAttributeMap> vertexAttributeMap;  // +0x08
+    };
+
+    // 0x644a44 _ZNK6glitch7collada5CMesh18getMeshBufferCountEv
+    std::uint32_t getMeshBufferCount() const;
+    // 0x644a6c _ZNK6glitch7collada5CMesh13getMeshBufferEj
+    // PARTIAL: the reference bump on the buffer (+0x04) is not performed (see the .cpp).
+    glitch::IReferenceCounted* getMeshBuffer(std::uint32_t index) const;
+    // 0x644ac8 _ZNK6glitch7collada5CMesh11getMaterialEj
+    // PARTIAL: the reference bump on the material (+0x00) is not performed.
+    boost::intrusive_ptr<video::CMaterial> getMaterial(std::uint32_t index) const;
+    // 0x644b24 _ZNK6glitch7collada5CMesh24getMaterialVertexAttributeMapEj
+    // PARTIAL: the reference bump on the attribute map (+0x00) is not performed.
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> getMaterialVertexAttributeMap(
+        std::uint32_t index) const;
+    // 0x644bdc _ZN6glitch7collada5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS4_INS5_27CMaterialVertexAttributeMapEEE
+    // PARTIAL: the reference counts of the new and the replaced material and map are not moved.
+    void setMaterial(std::uint32_t index, const boost::intrusive_ptr<video::CMaterial>& material,
+                     const boost::intrusive_ptr<video::CMaterialVertexAttributeMap>& vertexAttributeMap);
+
+    std::vector<SBuffer> buffers;  // +0x18 (begin) .. +0x1c (end); 12-byte SBuffer stride in the original
 };
 
 class CMorphingMesh {
@@ -101,8 +172,18 @@ public:
     CModularSkinnedMesh* mesh = nullptr;  // +0x134
 };
 
+namespace animation_track {
+class CApplicatorInfo;
+}  // namespace animation_track
+
 class CSceneNodeAnimatorSet {
 public:
+    // 0x662c90 _ZN6glitch7collada21CSceneNodeAnimatorSetC2Ev
+    // Partial: the VTT-taking base constructor. The base ISceneNodeAnimator and the vtable stores are not mapped.
+    CSceneNodeAnimatorSet();
+    // 0x660c20 _ZN6glitch7collada21CSceneNodeAnimatorSetC1ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE
+    // 0x660ce4 _ZN6glitch7collada21CSceneNodeAnimatorSetC2ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE
+    explicit CSceneNodeAnimatorSet(const boost::intrusive_ptr<CAnimationSet>& set);
     // 0x65f0fc _ZN6glitch7collada21CSceneNodeAnimatorSet18getAnimationLengthEi
     std::uint32_t getAnimationLength(int index);
     // 0x65f104 _ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationStartEi
@@ -111,8 +192,29 @@ public:
     std::uint32_t getAnimationEnd(int index);
     // 0x65f17c _ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv
     std::uint32_t getTargetCount();
+    // 0x65f114 _ZNK6glitch7collada21CSceneNodeAnimatorSet19getCurrentAnimationEv
+    std::int32_t getCurrentAnimation() const;
+    // 0x65f188 _ZN6glitch7collada21CSceneNodeAnimatorSet13getTargetSizeEi
+    int getTargetSize(int index);
+    // 0x65f1ac _ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetsSizeEv
+    int getTargetsSize();
+    // 0x65f208 _ZN6glitch7collada21CSceneNodeAnimatorSet9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE
+    int setTarget(int index, void* target, const animation_track::CApplicatorInfo* applicator);
+    // 0x65f270 _ZN6glitch7collada21CSceneNodeAnimatorSet11animateNodeEPNS_5scene10ISceneNodeEj
+    void animateNode(glitch::scene::ISceneNode* node, unsigned int time);
+    // 0x65f418 _ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj
+    void applyAnimationValues(unsigned int time);
+    // 0x65f5dc _ZN6glitch7collada21CSceneNodeAnimatorSet22computeAnimationValuesEj
+    void computeAnimationValues(unsigned int time);
+    // 0x65f7b4 _ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationValueEiiPv
+    void* getAnimationValue(int a, int b, void* out);
+    // 0x65f8c8 _ZN6glitch7collada21CSceneNodeAnimatorSet19setCurrentAnimationEi
+    glitch::IReferenceCounted* setCurrentAnimation(int index);
+    // 0x660af4 _ZN6glitch7collada21CSceneNodeAnimatorSet4initERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE
+    void init(const boost::intrusive_ptr<CAnimationSet>& set);
 
     CAnimationSet* animationSet = nullptr;  // +0x24
+    std::int32_t currentAnimation = 0;      // +0x50 index passed to CAnimationSet::getDatabase
 };
 
 // Scene-node property block (pointed to by +0x154 of the node). The uid string is the
@@ -134,7 +236,18 @@ public:
     const char* getUID() const;
     // 0x65cd4c _ZNK6glitch7collada10CSceneNode10getScopeIDEv (returns "" when there is no block)
     const char* getScopeID() const;
+    // 0x65cd80 _ZNK6glitch7collada10CSceneNode18getUserPropertyStrEv
+    // PARTIAL: returns the uid word of the holder that the +0x48 word points to. The pointee cannot be
+    // followed on host pointer width (see the .cpp); the body returns nullptr.
+    const char* getUserPropertyStr() const;
+    // 0x65cda8 _ZN6glitch7collada10CSceneNode18computeBoundingBoxEv
+    // PARTIAL: child walk needs virtual slots and the intrusive child list (see the .cpp). Body is a no-op.
+    void computeBoundingBox();
+    // 0x65cf8c _ZNK6glitch7collada10CSceneNode18computeBoundingBoxERNS_4core8aabbox3dIfEE
+    // PARTIAL: same child walk as above, recursive for node children. Body returns 0 (see the .cpp).
+    int computeBoundingBox(core::aabbox3d<float>& box) const;
 
+    core::aabbox3d<float> boundingBox;              // +0x130 (24 bytes, written by computeBoundingBox)
     SNodeUserProperties* userProperties = nullptr;  // +0x154
 };
 
@@ -193,6 +306,9 @@ public:
     // The holder at +0x130 is used when set; otherwise the uid of the mesh
     // record at +0x134.
     const char* getUID() const;
+    // 0x646730 _ZN6glitch7collada14CMeshSceneNode6renderEPv
+    // The original returns the leftover r0 value; no caller uses it, so void here.
+    void render(void* context);
 
     SUidHolder* uidHolder = nullptr;      // +0x130
     SNamedMeshData* namedMesh = nullptr;  // +0x134

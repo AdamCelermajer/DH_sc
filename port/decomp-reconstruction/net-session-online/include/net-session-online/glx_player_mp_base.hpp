@@ -50,6 +50,13 @@ public:
     const char* getErrMsg() const;
     // 0x84ab9c _ZN15GLXPlayerMPBase9setErrMsgEPc
     void setErrMsg(const char* message);
+    // 0x84abd8 _ZN15GLXPlayerMPBase9setErrMsgEv. Partial, see the cpp.
+    void setErrMsg();
+
+    // 0x84ac64 _ZN15GLXPlayerMPBase11mpSendLoginEPc
+    void mpSendLogin(char* nickname);
+    // 0x84ad78 _ZN15GLXPlayerMPBase25mpSendEstablishConnectionEv. Partial, see the cpp.
+    void mpSendEstablishConnection();
 
     // Not in the original: test seams for the transport pointer (+0x54) and the state (+0x50).
     void SetTransportForTest(ConnectionTransport* transport) { transport_ = transport; }
@@ -71,8 +78,11 @@ public:
 protected:
     GLXPlayerMPBaseObserver* observer_ = nullptr;       // +0x04
     std::unique_ptr<char[]> errMsg_;                    // +0x4c
-    std::int32_t field58_ = 0;                          // +0x58
+    char field08_[0x44] = {};                           // +0x08..+0x4b: not recovered; name passed to setName
+    char* field58_ = nullptr;                           // +0x58 (address passed to the Connection ctor)
+    std::int32_t field5c_ = 0;                          // +0x5c (port passed to the Connection ctor)
     std::int32_t field50_ = 0;                          // +0x50 (set by mpSendDisconnect)
+    std::uint8_t field60_ = 0;                          // +0x60 (login flag: 1 selects the login path)
     ConnectionTransport* transport_ = nullptr;          // +0x54 (not owned)
     std::unique_ptr<ThreadHandle> aux68_;               // +0x68
     std::int32_t field6c_ = 0;                          // +0x6c

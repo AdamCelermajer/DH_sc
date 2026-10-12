@@ -15,10 +15,16 @@ struct SEvent;
 namespace glitch::io {
 class IWriteFile;
 }
+namespace glitch::video {
+class CLight;
+}
 
 namespace glitch::scene {
 
 class IMeshWriter;
+class IMesh;
+struct SViewFrustum;
+class ITimelineController;
 
 // Animator base defaults. Each virtual is a constant or an empty body in the
 // original; the type tag is 10.
@@ -43,6 +49,16 @@ public:
     virtual void computeAnimationValues(std::uint32_t time);
     // 0x599884 _ZN6glitch5scene18ISceneNodeAnimator20applyAnimationValuesEj (empty)
     virtual void applyAnimationValues(std::uint32_t time);
+
+    // 0x599868 _ZNK6glitch5scene18ISceneNodeAnimator15getTimelineCtrlEv (returns the +0x08 pointer)
+    ITimelineController* getTimelineCtrl() const;
+    // 0x599870 _ZN6glitch5scene18ISceneNodeAnimator15getTimelineCtrlEv (returns the +0x08 pointer)
+    ITimelineController* getTimelineCtrl();
+
+    // +0x08: timeline controller pointer, written by setTimelineCtrl at 0x599818 (which holds a
+    // reference on it). The 32-bit +0x04 word is not mapped, so no pad is declared here and the
+    // 64-bit offset of this member is not the original's.
+    ITimelineController* timelineCtrl = nullptr;
 };
 
 class CEmptySceneNode {
@@ -51,6 +67,12 @@ public:
     std::uint32_t getType() const;
     // 0x5839ac _ZN6glitch5scene15CEmptySceneNode6renderEPv (empty)
     void render(void* /*unused*/);
+    // 0x5839b0 _ZNK6glitch5scene15CEmptySceneNode14getBoundingBoxEv (returns the box at +0x130)
+    const core::aabbox3d<float>& getBoundingBox() const;
+
+    // Base region below +0x130 (ISceneNode base and the vptr words) is not mapped yet.
+    std::uint8_t pad_0x00[0x130];
+    core::aabbox3d<float> boundingBox;  // +0x130..+0x147 (min at +0x130, max at +0x13c)
 };
 
 // Base camera scene node: no target node in the original's default.
@@ -60,6 +82,12 @@ public:
     ISceneNode* getTargetNode() const;
     // 0x35beb8 _ZN6glitch5scene16ICameraSceneNode13getTargetNodeEv (returns null)
     ISceneNode* getTargetNode();
+    // 0x35bec0 _ZNK6glitch5scene16ICameraSceneNode12isOrthogonalEv (returns the flag byte at +0x134)
+    bool isOrthogonal() const;
+
+    // Base region below +0x134 (ISceneNode base and the vptr word at +0x130) is not mapped yet.
+    std::uint8_t pad_0x00[0x134];
+    std::uint8_t orthogonal = 0;  // +0x134 width=1 (ctor 0x582b18 writes 0)
 };
 
 class CCameraSceneNode {
@@ -72,21 +100,108 @@ public:
     bool isInputReceiverEnabled() const;
     // 0x582130 _ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv
     const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x581f50 _ZNK6glitch5scene16CCameraSceneNode19getProjectionMatrixEv
+    const core::CMatrix4<float>& getProjectionMatrix() const;
+    // 0x581f58 _ZNK6glitch5scene16CCameraSceneNode13getViewMatrixEv
+    const core::CMatrix4<float>& getViewMatrix() const;
+    // 0x581fe4 _ZN6glitch5scene16CCameraSceneNode9setTargetERKNS_4core8vector3dIfEE
+    void setTarget(const core::vector3d<float>& target);
+    // 0x582000 _ZNK6glitch5scene16CCameraSceneNode9getTargetEv
+    const core::vector3d<float>& getTarget() const;
+    // 0x582008 _ZN6glitch5scene16CCameraSceneNode11setUpVectorERKNS_4core8vector3dIfEE
+    void setUpVector(const core::vector3d<float>& upVector);
+    // 0x582024 _ZNK6glitch5scene16CCameraSceneNode11getUpVectorEv
+    const core::vector3d<float>& getUpVector() const;
+    // 0x58202c _ZNK6glitch5scene16CCameraSceneNode12getNearValueEv
+    float getNearValue() const;
+    // 0x582034 _ZNK6glitch5scene16CCameraSceneNode11getFarValueEv
+    float getFarValue() const;
+    // 0x58203c _ZNK6glitch5scene16CCameraSceneNode14getAspectRatioEv
+    float getAspectRatio() const;
+    // 0x582044 _ZNK6glitch5scene16CCameraSceneNode6getFOVEv
+    float getFOV() const;
+    // 0x58204c _ZN6glitch5scene16CCameraSceneNode17getFarToInifinityEv
+    bool getFarToInifinity();
+    // 0x582054 _ZN6glitch5scene16CCameraSceneNode12setNearValueEf
+    void setNearValue(float value);
+    // 0x58206c _ZN6glitch5scene16CCameraSceneNode11setFarValueEf
+    void setFarValue(float value);
+    // 0x582084 _ZN6glitch5scene16CCameraSceneNode14setAspectRatioEf
+    void setAspectRatio(float value);
+    // 0x58209c _ZN6glitch5scene16CCameraSceneNode6setFOVEf
+    void setFOV(float value);
+    // 0x5820b4 _ZN6glitch5scene16CCameraSceneNode6setMAGEf
+    void setMAG(float value);
+    // 0x5820cc _ZN6glitch5scene16CCameraSceneNode17setFarToInifinityEb
+    void setFarToInifinity(bool value);
+    // 0x5820e4 _ZN6glitch5scene16CCameraSceneNode6renderEPv
+    void render(void* /*unused*/);
+    // 0x582138 _ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv
+    SViewFrustum* getViewFrustum() const;
+    // 0x5823ac _ZN6glitch5scene16CCameraSceneNode19setProjectionMatrixERKNS_4core8CMatrix4IfEEb
+    void setProjectionMatrix(const core::CMatrix4<float>& matrix, bool isOrthogonal);
 
+    // Fields in offset order. The base region (ISceneNode, vptr at +0x130) is not mapped here.
+    std::uint8_t orthogonal = 0;                // +0x134 (ICameraSceneNode flag byte, written by setProjectionMatrix)
+    core::vector3d<float> target;               // +0x138
+    core::vector3d<float> upVector;             // +0x144
+    float mag = 0.0f;                           // +0x150
+    float fov = 0.0f;                           // +0x154
+    float aspectRatio = 0.0f;                   // +0x158
+    float nearValue = 0.0f;                     // +0x15c
+    float farValue = 0.0f;                      // +0x160
+    bool farToInfinity = false;                 // +0x164
     bool inputReceiverEnabled = false;          // +0x165
+    // SViewFrustum at +0x168 is not mapped (type and size unknown).
     core::aabbox3d<float> boundingBox;          // +0x1d4
+    core::CMatrix4<float> viewMatrix;           // +0x1ec
+    core::CMatrix4<float> projectionMatrix;     // +0x274
 };
 
 class CLightSceneNode {
 public:
     // 0x583bec _ZNK6glitch5scene15CLightSceneNode7getTypeEv (tag "lght")
     std::uint32_t getType() const;
+    // 0x583c18 _ZN6glitch5scene15CLightSceneNode13doLightRecalcEv
+    // Partial: needs glitch::video::CLight fields at +0x40 (float range, FLT_MAX means
+    // no culling box) and +0x58 (uint16 count). CLight has no definition in this category.
+    void doLightRecalc();
+    // 0x583cf0 _ZNK6glitch5scene15CLightSceneNode14getBoundingBoxEv
+    // Partial: compares recalcCount with light->+0x58, which is not reachable here.
+    const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x583d18 _ZN6glitch5scene15CLightSceneNode6renderEPv
+    // Partial: the driver is read from the scene manager at +0x110 (+0x14 of it), and that
+    // type is not mapped. The call is IVideoDriver::addDynamicLight(const intrusive_ptr<CLight>&).
+    int render(void* arg);
+    // 0x583d34 _ZN6glitch5scene15CLightSceneNode19onRegisterSceneNodeEv
+    // Partial: calls vtable slot +36 of the scene manager at +0x110. The slot's target
+    // and the manager's class are not identified.
+    int onRegisterSceneNode();
+
+    // Layout (original offsets). The base class is not reconstructed yet, so only these
+    // words are mapped here.
+    boost::intrusive_ptr<glitch::video::CLight> light;  // +0x134 (word 77), passed by address to addDynamicLight
+    std::uint32_t recalcCount = 0;                      // +0x138 (word 78), last light count seen by doLightRecalc
+    core::aabbox3d<float> boundingBox;                  // +0x13c..+0x154 (words 79..84), min then max
 };
 
 class CMeshSceneNode {
 public:
+    // Default state used by scene_nodes_test.cpp. The original has no default constructor.
+    CMeshSceneNode() = default;
+    // 0x585118 _ZN6glitch5scene14CMeshSceneNodeC2ERKN5boost13intrusive_ptrINS0_5IMeshEEEiRKNS_4core8vector3dIfEERKNS5_10quaternionES9_
+    // PARTIAL: the ISceneNode base constructor is not reconstructed, so id, position, rotation and scale are not forwarded.
+    CMeshSceneNode(const boost::intrusive_ptr<IMesh>& meshValue, int id, const core::vector3d<float>& position,
+                   const core::quaternion& rotation, const core::vector3d<float>& scale);
     // 0x584a98 _ZNK6glitch5scene14CMeshSceneNode7getTypeEv (tag "mesh")
     std::uint32_t getType() const;
+    // 0x585370 _ZN6glitch5scene14CMeshSceneNode6renderEPv
+    // PARTIAL: the mesh-buffer loop and the driver calls are not reconstructed (see the source file).
+    void render(void* context);
+
+    boost::intrusive_ptr<IMesh> mesh;  // +0x130 (reference counted in the original)
+    std::uint32_t renderCount = 0;     // +0x134 (incremented by render)
+    std::uint32_t field13c = 1;        // +0x13c (set to 1 by the constructor)
 };
 
 class CSceneManagerRootNode {
@@ -119,6 +234,17 @@ public:
     std::uint32_t getCurrentRenderedNode(void** node, std::int32_t* second) const;
     // 0x589538 _ZNK6glitch5scene13CSceneManager19getNextRenderedNodeEPPvPi
     std::uint32_t getNextRenderedNode(void** node, std::int32_t* second) const;
+
+    // 0x58ab28 _ZNK6glitch5scene13CSceneManager8isCulledEPKNS0_10ISceneNodeE (partial, see the .cpp)
+    bool isCulled(const ISceneNode* node) const;
+    // 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE (partial)
+    void drawAll(const std::vector<ISceneNode*>& nodes);
+    // 0x58b7f4 _ZN6glitch5scene13CSceneManager7drawAllEPNS0_10ISceneNodeE (partial)
+    void drawAll(ISceneNode* node);
+    // 0x58f348 _ZN6glitch5scene13CSceneManager24registerNodeForRenderingEPNS0_10ISceneNodeERKN5boost13intrusive_ptrINS_5video9CMaterialEEEPvNS0_24E_SCENE_NODE_RENDER_PASSEPKNS_4core8vector3dIfEEi (partial)
+    bool registerNodeForRendering(ISceneNode* node, const boost::intrusive_ptr<video::CMaterial>& material,
+                                  void* userData, std::uint32_t pass, const core::vector3d<float>* position,
+                                  int sortOrder);
 
     video::SColor shadowColors[4];         // +0xf4..+0x103 (four colour words)
     video::SColorf ambientLight;           // +0x104..+0x113

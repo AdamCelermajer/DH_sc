@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/deps/event_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
 
@@ -104,6 +105,11 @@ public:
     os::IOSOperator* getOSOperator() const;
     // 0x535768 _ZN6glitch3gui15CGUIEnvironment20setUserEventReceiverEPNS_14IEventReceiverE
     void setUserEventReceiver(IEventReceiver* receiver);
+    // 0x535710 _ZN6glitch3gui15CGUIEnvironment7onEventERKNS_6SEventE
+    // Partial: the list head at +0x08 (childrenSentinel) is inferred from the IGUIElement
+    // child list in layouts/gui.hpp and is not confirmed for the environment. The receiver
+    // method behind vtable +0x08 is named forwardEvent in deps/event_stand_ins.hpp.
+    bool onEvent(const glitch::SEvent& event);
     // 0x535770 _ZNK6glitch3gui15CGUIEnvironment7getSkinEv
     IGUISkin* getSkin() const;
     // 0x5357e8 _ZNK6glitch3gui15CGUIEnvironment35getRegisteredGUIElementFactoryCountEv
@@ -117,6 +123,9 @@ public:
     os::IOSOperator* osOperator = nullptr;                        // +0x1c8
     IGUISkin* skin = nullptr;                                     // +0x1bc
     IEventReceiver* userEventReceiver = nullptr;                  // +0x1c4
+    // List head of the environment's child list (prev word at +0x08). onEvent compares the
+    // caller of a GUI event with this address; the pointer value itself is not used.
+    void* childrenSentinel = nullptr;                             // +0x08
     std::vector<void*> guiElementFactories;                       // +0x16c..+0x170
     SBuiltInFontNode* builtInFontBegin = nullptr;                 // +0x178
     SBuiltInFontNode* builtInFontEnd = nullptr;                   // +0x17c, sentinel
@@ -321,6 +330,9 @@ public:
     void setUseAlphaChannel(bool use);
     // 0x6a5ee4 _ZNK6glitch3gui10CGUIButton18isAlphaChannelUsedEv
     bool isAlphaChannelUsed() const;
+    // 0x6a6eac _ZN6glitch3gui10CGUIButton7onEventERKNS_6SEventE
+    // Partial: stub body, see src/tb_scene-collada-gui-glitch_gui_CGUIButton-0.cpp.
+    bool onEvent(const glitch::SEvent& event);
 
     std::uint8_t pressed = 0;       // +0x158
     std::uint8_t pushButton = 0;    // +0x159

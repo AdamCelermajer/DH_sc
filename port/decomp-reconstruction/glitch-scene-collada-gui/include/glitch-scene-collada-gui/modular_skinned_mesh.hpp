@@ -12,6 +12,8 @@
 
 namespace glitch::collada {
 
+class ISkinnedMesh;
+
 struct SCountedRef {
     std::int32_t count = 0;  // +0x00 intrusive count (see skinned_mesh.hpp)
 };
@@ -52,8 +54,8 @@ public:
     };
 
     struct SModuleSlot {
-        std::int32_t moduleId = -1;  // first word of each 8-byte record
-        std::uint32_t reserved = 0;
+        std::int32_t moduleId = -1;             // +0x00 first word of each 8-byte record
+        ISkinnedMesh* module = nullptr;         // +0x04 module object (host-width pointer)
     };
 
     std::vector<SModularBuffer> buffers;     // +0x30..+0x34
@@ -85,6 +87,10 @@ public:
     // 0x646cdc _ZNK6glitch7collada19CModularSkinnedMesh14getBoundingBoxEv
     // partial: the refresh call taken when the dirty flag at +0x59 is set is not reconstructed.
     const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x646c1c _ZN6glitch7collada19CModularSkinnedMesh18computeBoundingBoxEv
+    // partial: the module bounding-box virtual (ISkinnedMesh vtable slot +0x24) is pure in the
+    // base and its name is not mapped; see the hook in the batch source.
+    void computeBoundingBox();
     void getMaterial(SCountedRef*& out, std::uint32_t index) const;    // 0x646bd4
     void getMaterialVertexAttributeMap(SCountedRef*& out, std::uint32_t index) const;  // 0x646bf8
 };

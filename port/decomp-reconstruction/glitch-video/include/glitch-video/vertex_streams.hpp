@@ -102,8 +102,10 @@ public:
     CVertexStreams(uint32_t field08, uint32_t attributeMask, uint8_t count0c, uint8_t streamCount,
                    const SVertexStream* source);
 
-    // 0x5a09e0 (D2): the original drops the buffer of each entry. Partial: no reference
-    // counts are kept, so there is nothing to drop; the vector frees the entries.
+    // 0x5a0a1c (D1, body in src/tb_video-glitch_video_CVertexStreams-0.cpp): releases the buffer
+    // of each entry that has one. Partial: the original calls IReferenceCounted::drop, which the
+    // port does not declare; the port's intrusive_ptr keeps no count, so the release nulls the
+    // reference and the vector frees the entries after it.
     ~CVertexStreams();
 
     // 0x5a1270 (7-argument allocate): creates a table. Partial: the original returns it

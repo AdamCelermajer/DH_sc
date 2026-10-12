@@ -17,6 +17,15 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 
+namespace glitch::video {
+class IVideoDriver;
+}  // namespace glitch::video
+
+namespace glitch::collada {
+struct SMesh;          // tag not confirmed; forward declaration only (CMeshBuffer constructor)
+struct SBufferConfig;  // tag not confirmed; forward declaration only (CMeshBuffer constructor)
+}  // namespace glitch::collada
+
 namespace glitch::scene {
 
 // glitch::scene::ISceneNode
@@ -112,6 +121,15 @@ struct CMeshBuffer {
     std::uint32_t owner;                  // +0x30 refcounted-style target pointer; its vtable slot 8 is called by onDelete
     std::uint8_t flag34;                  // +0x34 set to 1 by the constructor; role not confirmed
     std::uint8_t pad_0x35[3];             // +0x35..+0x37
+
+    // Declared for Track B batch e1-glitch-scene-collada-gui-glitch_scene_CMeshBuffer-0.
+    // Definitions: src/tb_scene-collada-gui-glitch_scene_CMeshBuffer-0.cpp (partial, see there).
+    CMeshBuffer() = default;
+    // 0x6bcf80 glitch::scene::CMeshBuffer::CMeshBuffer(glitch::video::IVideoDriver*, glitch::collada::SMesh&, unsigned int, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)
+    CMeshBuffer(video::IVideoDriver* driver, collada::SMesh& mesh, unsigned int primitiveIndex,
+                const collada::SBufferConfig& vertexConfig, const collada::SBufferConfig& indexConfig, bool onDemand);
+    // 0x6bc8c4 glitch::scene::CMeshBuffer::~CMeshBuffer()
+    ~CMeshBuffer();
 };
 static_assert(offsetof(CMeshBuffer, vertexStreams) == 0x14, "CMeshBuffer::vertexStreams");
 static_assert(offsetof(CMeshBuffer, primitiveWord24) == 0x24, "CMeshBuffer::primitiveWord24");

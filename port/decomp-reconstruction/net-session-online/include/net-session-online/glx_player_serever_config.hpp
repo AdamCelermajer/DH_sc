@@ -51,6 +51,17 @@ public:
     // 0x82f940 _ZN22GLXPlayerSereverConfig15OnUpdateFailureEi
     bool OnUpdateFailure(std::int32_t code) override;
 
+    // 0x82eaac _ZN22GLXPlayerSereverConfig19SendGetServerConfigERi. Status out: 1 when the config is
+    // already loaded, 0 when the request was sent by GET, -1 when the GGI or the version is missing
+    // (then the result is false). Partial: see the .cpp (blob codec and time stand-ins).
+    bool SendGetServerConfig(std::int32_t& status);
+    // 0x82faac _ZN22GLXPlayerSereverConfig19loadConfigFromLocalEv. Reads serverConfig.sav. Partial:
+    // the third completeness key (char[5]) is not recovered (see the .cpp).
+    bool loadConfigFromLocal();
+    // 0x82fec8 _ZN22GLXPlayerSereverConfig6UpdateEv. Overrides the base Update (vtable +0x08). Partial:
+    // the observer slot 0 argument is not in the pseudocode (see the .cpp).
+    void Update() override;
+
     // Getters. Each one forwards a fixed key to GetValue.
     // 0x82eefc _ZN22GLXPlayerSereverConfig17GetGameMinVersionEv. Key "min" (ARM literal).
     const char* GetGameMinVersion() const;

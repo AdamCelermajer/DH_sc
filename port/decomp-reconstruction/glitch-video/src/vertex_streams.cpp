@@ -195,9 +195,7 @@ CVertexStreams::CVertexStreams(uint32_t field08, uint32_t attributeMask, uint8_t
     }
 }
 
-// 0x5a09e0 _ZN6glitch5video14CVertexStreamsD2Ev
-// Partial: the original drops each buffer reference here; the port keeps none.
-CVertexStreams::~CVertexStreams() {}
+// ~CVertexStreams (0x5a0a1c D1) is defined in src/tb_video-glitch_video_CVertexStreams-0.cpp.
 
 // 0x5a1270 _ZN6glitch5video14CVertexStreams8allocateEjjhhPKNS0_13SVertexStreamEPKNS_4core8vector3dIfEE
 // Partial: returned by value; the trailing block is not kept.

@@ -11,9 +11,11 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "net-session-online/deps/matching_stand_ins.hpp"
 #include "net-session-online/deps/net_mutex.hpp"
+#include "net-session-online/t_friend_info.hpp"
 #include "net-session-online/t_matching_peer.hpp"
 
 // The 40-byte record that SendServerResponse writes and ProcessServerMessage reads
@@ -29,6 +31,11 @@ static_assert(sizeof(RoomServerHeader) == 40, "RoomServerHeader is the 40-byte w
 
 class CMatchingLocal {
 public:
+    // Nested replicated struct, defined in tb/cmatching_local_server_backup_net_struct.hpp.
+    class ServerBackupNetStruct;
+    // Nested replicated struct, defined in tb/cmatching_local_room_info_net_struct.hpp.
+    class RoomInfoNetStruct;
+
     // 0x807e44 _ZN14CMatchingLocalC2Ev: sets the counters and empty containers. The original
     // also runs Reset() and the NetStruct member constructors, which are not in this port yet.
     CMatchingLocal();
@@ -58,9 +65,26 @@ public:
     // 4-byte server id into +0x363c, then posts event 0x80000b carrying it.
     void ProcessChangeServerMessage(std::int32_t from, class NetBitStream& stream);
 
-    // 0x8074a4 _ZN14CMatchingLocal5ResetEv: resets the room state. Not in any slice yet; declared
-    // for the callers in this port. Tests supply a no-op.
+    // 0x8074a4 _ZN14CMatchingLocal5ResetEv: resets the room state (partial: see the batch source).
     void Reset();
+
+    // Batch e1-net-session-online-CMatchingLocal-0 (tb_session-online-CMatchingLocal-0.cpp).
+    // 0x801b30 _ZNK14CMatchingLocal11GetMemberIdEv: the local member id at +0x3638.
+    std::int32_t GetMemberId() const;
+    // 0x801b48 _ZNK14CMatchingLocal17GetServerMemberIdEv: the server member id at +0x363c.
+    std::int32_t GetServerMemberId() const;
+    // 0x805680 _ZN14CMatchingLocal14GetFriendsListEb (partial: element type inferred).
+    std::vector<tFriendInfo> GetFriendsList(bool flag);
+    // 0x8057f0 _ZN14CMatchingLocal17ProcessLostPacketEii (partial: returns 0).
+    std::int32_t ProcessLostPacket(std::int32_t a2, std::int32_t a3);
+    // 0x80585c _ZN14CMatchingLocal25ProcessAcknowledgedPacketEii (partial: returns 0).
+    std::int32_t ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
+    // 0x805b14 _ZN14CMatchingLocal14ReadPacketDataEiiR12NetBitStream (partial: returns 0).
+    std::int32_t ReadPacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
+    // 0x8063c4 _ZN14CMatchingLocal15WritePacketDataEiiR12NetBitStream (partial: returns 0).
+    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, class NetBitStream& stream);
+    // 0x805cc8 _ZN14CMatchingLocal8IsInRoomEv (partial: see the batch source).
+    bool IsInRoom();
 
     // Lifecycle (c_matching_local_lifecycle.cpp). Base CMatching calls are not in this port.
     // 0x807c70 _ZN14CMatchingLocal10InitializeEi

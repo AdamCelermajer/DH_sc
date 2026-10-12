@@ -3,8 +3,9 @@
 // from the original offsets (kept as comments; std::string stands in for the glitch strings):
 //   +0x0c name passed to the constructor, +0x24 full name, +0x3c size, +0x40 start,
 //   +0x44 end, +0x48 wrapped file, +0x4c current position.
-// Only the constructors, the destructors, init and clone are reconstructed here; the other
-// IReadFile slots keep the IReadFile defaults (they are not in the queue).
+// The constructors, destructors, init, clone, read, readAsync, seek and the getters are here.
+// Batch e1-glitch-core-io-glitch_io_CLimitReadFile-0 added read, readAsync (both forms), seek,
+// getSize, getPos, getFileName and getFullPath.
 #pragma once
 
 #include <string>
@@ -26,6 +27,21 @@ public:
     void init(const char* name2);
 
     IReadFile* clone() const override;  // 0x6b48bc
+
+    // 0x6b44e8: PARTIAL, see src. The original returns the byte count of the wrapped read; the
+    // port's IReadFile::read slot is void, so the position is not advanced here.
+    void read(void* buffer, unsigned int count) override;
+    // 0x6b4580: forwards to the position overload with getPos(); the result is dropped (slot is void).
+    void readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) override;
+    // 0x6b45d0: reads the window at position (relative to start), clamped to end.
+    bool readAsync(void* buffer, unsigned int count, long position, ReadAsyncCallBack callBack,
+                   void* context) override;
+    // 0x6b4644: window seek; the relative branch and the absolute branch both forward to the wrapped file.
+    bool seek(long offset, bool relative) override;
+    long getSize() const override;                    // 0x6b46d0
+    long getPos() const override;                     // 0x6b46d8: position minus start
+    const std::string& getFileName() const override;  // 0x6b46e8
+    const std::string& getFullPath() const override;  // 0x6b46f0
 
     CLimitReadFile(const CLimitReadFile&) = delete;
     CLimitReadFile& operator=(const CLimitReadFile&) = delete;

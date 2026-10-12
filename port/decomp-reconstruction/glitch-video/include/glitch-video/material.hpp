@@ -32,7 +32,7 @@ public:
     void setRenderStateInternal(uint8_t, uint8_t, const detail::material::SRenderState&);
 
     // Helpers used by the functions above, reconstructed elsewhere (not defined in this slice).
-    // getTechnique: the technique index selected for this material.
+    // 0x5c5d34: the technique index selected for this material. Partial, see the .cpp.
     int32_t getTechnique() const;
     // updateHashCode (0x5c5fd8) and updateParametersHashCode (0x5c5d88): refresh a cached hash.
     void updateHashCode(uint8_t technique) const;
@@ -47,8 +47,10 @@ public:
 private:
     uint32_t m_unknown00 = 0;                 // +0x00, not identified
     CMaterialRenderer* m_renderer = nullptr;  // +0x04, renderer whose technique table is read
+    uint8_t unk_08 = 0;                       // +0x08, byte; the fallback result of getTechnique
     uint32_t m_dirtyParameters = 0;           // +0x0c, one bit per parameter that changed
     mutable uint32_t m_dirtyHashes = 0;       // +0x10, one bit per technique whose hash is stale
+    uint8_t unk_14 = 0;                       // +0x14, byte; index into the owner's pointer table in getTechnique
     mutable uint32_t* m_hashCodes = nullptr;  // +0x18, one hash word per technique
 };
 

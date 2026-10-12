@@ -53,7 +53,28 @@ struct vector3d {
         }
         return *this;
     }
+
+    // float-only members, defined out of line in glitch-core-io/src/tb_core-io-glitch_core_vector3d_float-0.cpp
+    // (explicit specializations, declared after this struct).
+    vector3d operator/(const vector3d& other) const;              // 0x59a294
+    vector3d& operator/=(const vector3d& other);                  // 0x5a24b4
+    void rotateXYBy(double degrees, const vector3d& center);      // 0x630bfc
+    void rotateYZBy(double degrees, const vector3d& center);      // 0x630cf8
+    void rotateXZBy(double degrees, const vector3d& center);      // 0x630de8
+    vector3d getHorizontalAngle() const;                          // 0x6c7b6c
 };
+template <>
+vector3d<float> vector3d<float>::operator/(const vector3d<float>& other) const;
+template <>
+vector3d<float>& vector3d<float>::operator/=(const vector3d<float>& other);
+template <>
+void vector3d<float>::rotateXYBy(double degrees, const vector3d<float>& center);
+template <>
+void vector3d<float>::rotateYZBy(double degrees, const vector3d<float>& center);
+template <>
+void vector3d<float>::rotateXZBy(double degrees, const vector3d<float>& center);
+template <>
+vector3d<float> vector3d<float>::getHorizontalAngle() const;
 template <typename T>
 struct vector4d {
     T X{}, Y{}, Z{}, W{};
@@ -97,8 +118,35 @@ struct rect {
 };
 // Modelled on upstream Irrlicht 1.8.5 (quaternion.h, triangle3d.h, line2d.h,
 // line3d.h, dimension2d.h, aabbox3d.h, plane3d.h, matrix4.h); plain members only.
+template <typename T>
+struct CMatrix4;
+
 struct quaternion {
     float X{}, Y{}, Z{}, W{};
+
+    // Method declarations (bodies in glitch-core-io/src/tb_core-io-glitch_core_quaternion-0.cpp).
+    // 0x35bc90 operator*(vector3d const&) const: rotates a vector by this quaternion.
+    vector3d<float> operator*(const vector3d<float>& v) const;
+    // 0x60dd34 operator*(quaternion const&) const: Hamilton product this * other.
+    quaternion operator*(const quaternion& other) const;
+    // 0x35c8f0 normalize(): scales by 1/sqrt(|q|^2) unless |q|^2 == 1. Returns this.
+    quaternion& normalize();
+    // 0x35c9d8 set(float, float, float): from three angles in radians. Returns this.
+    quaternion& set(float a, float b, float c);
+    // 0x60cdbc fromAngleAxis(float angle, vector3d const& axis): static, returns the quaternion.
+    static quaternion fromAngleAxis(float angle, const vector3d<float>& axis);
+    // 0x612d00 slerp(quaternion, quaternion, float t): static, returns the interpolated quaternion.
+    static quaternion slerp(quaternion from, quaternion to, float t);
+    // 0x432e58 toEulerDegree(vector3d&) const.
+    void toEulerDegree(vector3d<float>& out) const;
+    // 0x50eeb4 operator=(CMatrix4 const&): quaternion from a rotation matrix. Returns this.
+    quaternion& operator=(const CMatrix4<float>& m);
+    // 0x432984 getMatrix(CMatrix4&) const: writes the (non-transposed) rotation matrix.
+    void getMatrix(CMatrix4<float>& out) const;
+    // 0x6d162c getMatrix() const: returns the transposed rotation matrix.
+    CMatrix4<float> getMatrix() const;
+    // 0x5602d0 getMatrix_transposed(CMatrix4&) const.
+    void getMatrix_transposed(CMatrix4<float>& out) const;
 };
 template <typename T>
 struct line3d;
@@ -198,11 +246,23 @@ struct triangle3d {
         const T ex = out.X - segment.end.X, ey = out.Y - segment.end.Y, ez = out.Z - segment.end.Z;
         return lengthSq > ((ex * ex + ey * ey) + ez * ez);
     }
+
+    // 0x5857ac triangle3d<float>::isTotalInsideBox(aabbox3d const&) const. True when all three corners
+    // lie inside the box (inclusive) on every axis. Body: glitch-core-io/src/tb_core-io-glitch_core_triangle3d_float-0.cpp.
+    bool isTotalInsideBox(const aabbox3d<T>& box) const;
 };
 template <typename T>
 struct line2d {
     vector2d<T> start, end;
+
+    // 0x525310 line2d<float>::intersectWith(line2d const&, vector2d<float>&) const. Recovered for
+    // float only: the explicit specialisation below is defined in
+    // glitch-core-io/src/tb_core-io-glitch_core_line2d_float-0.cpp. Returns 1 and writes the
+    // crossing point when the two segments meet, 0 otherwise.
+    int intersectWith(const line2d& other, vector2d<T>& out) const;
 };
+template <>
+int line2d<float>::intersectWith(const line2d<float>& other, vector2d<float>& out) const;
 template <typename T>
 struct line3d {
     vector3d<T> start, end;
@@ -232,6 +292,10 @@ struct aabbox3d {
         grow(MaxEdge.Z, p.Z);
         shrink(MinEdge.Z, p.Z);
     }
+
+    // 0x585638 getEdges(vector3d<T>* edges) const: writes the eight corners. Only the float
+    // specialization is defined (glitch-core-io/src/tb_core-io-glitch_core_aabbox3d_float-0.cpp).
+    void getEdges(vector3d<T>* edges) const;
 
     // 0x585970 intersectsWithLine_impl_1d (const): clips the parameter interval [tmin, tmax] of a
     // segment start..end (1-d) against the slab bmin..bmax. Returns false when the slab misses.
@@ -282,6 +346,8 @@ private:
         if (value < edge) edge = value;
     }
 };
+template <>
+void aabbox3d<float>::getEdges(vector3d<float>* edges) const;
 template <typename T>
 struct plane3d {
     vector3d<T> Normal;  // +0x00
@@ -326,6 +392,18 @@ struct plane3d {
         const T distEnd = ((ex * ex) + (ey * ey)) + (ez * ez);
         return len2 >= distStart && len2 >= distEnd;
     }
+
+    // 0x341260 getIntersectionWithPlane(other, linePoint, lineVect) const: the line where this plane
+    // meets other. Returns false when |det| < 1e-8, det = |N1| |N2| - (N2 . N1)^2. Otherwise
+    // linePoint = c1 * N1 + c2 * N2 with c1 = (-D1 |N2| + D2 (N2 . N1)) / det and
+    // c2 = (-D2 |N1| + D1 (N2 . N1)) / det, and lineVect = N2 x N1 (listing order). Implemented
+    // out of line in src/tb_core-io-glitch_core_plane3d_float-0.cpp.
+    bool getIntersectionWithPlane(const plane3d<T>& other, vector3d<T>& linePoint, vector3d<T>& lineVect) const;
+
+    // 0x3415d8 getIntersectionWithPlanes(p2, p3, out) const: the point where this, p2 and p3 meet.
+    // Calls getIntersectionWithPlane, then p3.getIntersectionWithLine on the result. Implemented out
+    // of line in src/tb_core-io-glitch_core_plane3d_float-0.cpp.
+    bool getIntersectionWithPlanes(const plane3d<T>& p2, const plane3d<T>& p3, vector3d<T>& out) const;
 };
 template <typename T>
 struct CMatrix4 {
@@ -370,6 +448,25 @@ struct CMatrix4 {
     // detail::CMatrix4Base<float>::mult (0x35e118). DECLARED ONLY: the definition is in
     // glitch-core-io/core/matrix4_operators.hpp, so include that header to use it.
     CMatrix4 operator*(const CMatrix4& other) const;
+
+    // Track B batch e1 (glitch-core-io/src/tb_core-io-glitch_core_CMatrix4_float-0.cpp): only the
+    // float specialisations are defined there, declared after this struct.
+    // 0x50fbb0 (and 11 identical clones): copy constructor, EM4CONST_COPY specialisation.
+    CMatrix4(const CMatrix4& other, eConstructor constructor);
+    // 0x312bf8 multiplyWith1x4Matrix(float*) const: row vector (4 values, in place) times this.
+    float multiplyWith1x4Matrix(T* row) const;
+    // 0x3232c0 getInverse(CMatrix4&) const: returns 1 and writes out, or returns 0 when singular.
+    int getInverse(CMatrix4& out) const;
+    // 0x5822f8 makeInverse(): replaces this with its inverse; returns 1 on success.
+    int makeInverse();
+    // 0x432bbc getRotationDegrees() const: Euler angles in degrees, each in [0, 360).
+    vector3d<T> getRotationDegrees() const;
+    // 0x587398 transformBox(aabbox3d&) const: no-op when the identity flag is set.
+    void transformBox(aabbox3d<T>& box) const;
+    // 0x597548 transformBoxEx(aabbox3d&) const: bounding box of the transformed box.
+    void transformBoxEx(aabbox3d<T>& box) const;
+    // 0x597788 postScale(const vector3d&): scales rows 0..2 (columns 0..2) by x, y, z.
+    void postScale(const vector3d<T>& scale);
 
     // 0x31f790 getTransposed: out[i] = this[(i % 4) * 4 + i / 4]; the flag is copied.
     void getTransposed(CMatrix4& out) const {
@@ -424,6 +521,23 @@ struct CMatrix4 {
         M[10] = cx * cy;
     }
 };
+// Float specialisations of the CMatrix4 members declared above (defined in tb_core-io-glitch_core_CMatrix4_float-0.cpp).
+template <>
+CMatrix4<float>::CMatrix4(const CMatrix4<float>& other, CMatrix4<float>::eConstructor constructor);
+template <>
+float CMatrix4<float>::multiplyWith1x4Matrix(float* row) const;
+template <>
+int CMatrix4<float>::getInverse(CMatrix4<float>& out) const;
+template <>
+int CMatrix4<float>::makeInverse();
+template <>
+vector3d<float> CMatrix4<float>::getRotationDegrees() const;
+template <>
+void CMatrix4<float>::transformBox(aabbox3d<float>& box) const;
+template <>
+void CMatrix4<float>::transformBoxEx(aabbox3d<float>& box) const;
+template <>
+void CMatrix4<float>::postScale(const vector3d<float>& scale);
 }  // namespace glitch::core
 
 namespace glitch::video {

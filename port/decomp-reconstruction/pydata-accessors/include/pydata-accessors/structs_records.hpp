@@ -48,7 +48,20 @@ class AnimStep {
 public:
     virtual ~AnimStep();
     virtual void finalize();
-    void* m_w9 = nullptr;  // +0x24
+    virtual void read(IStreamBase* stream);
+    bool m_w1 = false;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    bool m_w5 = false;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
+    bool m_w7 = false;  // +0x1c
+    std::uint32_t m_w8 = 0;  // +0x20, count of m_w9
+    void* m_w9 = nullptr;  // +0x24, int32 array
+    std::int32_t m_w10 = 0;  // +0x28
+    std::int32_t m_w11 = 0;  // +0x2c
+    float m_w12 = 0.0f;  // +0x30
+    bool m_w13 = false;  // +0x34
 };
 
 class CharacterProperties {
@@ -331,15 +344,59 @@ class CamAnimSet {
 public:
     virtual ~CamAnimSet();
     virtual void finalize();
-    void* m_w2 = nullptr;  // +0x8
+    virtual void read(IStreamBase* stream);
+    std::uint32_t m_w1 = 0;  // +0x4, count of m_w2
+    void* m_w2 = nullptr;  // +0x8, int32 array
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
 };
 
 class CharAnim {
 public:
     virtual ~CharAnim();
     virtual void finalize();
-    void* m_w17 = nullptr;  // +0x44
-    void* m_w34 = nullptr;  // +0x88
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
+    std::int32_t m_w7 = 0;  // +0x1c
+    std::int32_t m_w8 = 0;  // +0x20
+    std::int32_t m_w9 = 0;  // +0x24
+    std::int32_t m_w10 = 0;  // +0x28
+    std::int32_t m_w11 = 0;  // +0x2c
+    std::int32_t m_w12 = 0;  // +0x30
+    std::int32_t m_w13 = 0;  // +0x34
+    std::int32_t m_w14 = 0;  // +0x38
+    std::int32_t m_w15 = 0;  // +0x3c
+    std::uint32_t m_w16 = 0;  // +0x40, count of m_w17
+    void* m_w17 = nullptr;  // +0x44, int32 array
+    std::int32_t m_w18 = 0;  // +0x48
+    std::int32_t m_w19 = 0;  // +0x4c
+    std::int32_t m_w20 = 0;  // +0x50
+    std::int32_t m_w21 = 0;  // +0x54
+    std::int32_t m_w22 = 0;  // +0x58
+    std::int32_t m_w23 = 0;  // +0x5c
+    std::int32_t m_w24 = 0;  // +0x60
+    std::int32_t m_w25 = 0;  // +0x64
+    std::int32_t m_w26 = 0;  // +0x68
+    std::int32_t m_w27 = 0;  // +0x6c
+    std::int32_t m_w28 = 0;  // +0x70
+    std::int32_t m_w29 = 0;  // +0x74
+    std::int32_t m_w30 = 0;  // +0x78
+    std::int32_t m_w31 = 0;  // +0x7c
+    std::int32_t m_w32 = 0;  // +0x80
+    std::uint32_t m_w33 = 0;  // +0x84, count of m_w34
+    void* m_w34 = nullptr;  // +0x88, int32 array
+    std::int32_t m_w35 = 0;  // +0x8c
+    std::int32_t m_w36 = 0;  // +0x90
+    std::int32_t m_w37 = 0;  // +0x94
+    std::int32_t m_w38 = 0;  // +0x98
+    std::int32_t m_w39 = 0;  // +0x9c
 };
 
 class CharEffect {
@@ -358,12 +415,20 @@ class CharInfoName {
 public:
     virtual ~CharInfoName();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
 };
 
 class ClassFunc {
 public:
     virtual ~ClassFunc();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
 };
 
 class ClassFuncAddProp {
@@ -605,7 +670,9 @@ class FaeryList {
 public:
     virtual ~FaeryList();
     virtual void finalize();
-    void* m_w2 = nullptr;  // +0x8
+    virtual void read(IStreamBase* stream);
+    std::uint32_t m_w1 = 0;  // +0x4, count of m_w2
+    void* m_w2 = nullptr;  // +0x8, int32 array
 };
 
 class FastTravelDestination {
@@ -775,19 +842,41 @@ class Inventory {
 public:
     virtual ~Inventory();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int16_t m_w1 = 0;  // +0x4
 };
 
 class ItemBase {
 public:
     virtual ~ItemBase();
     virtual void finalize();
-    void* m_w2 = nullptr;  // +0x8
+    virtual void read(IStreamBase* stream);
+    std::uint32_t m_w1 = 0;  // +0x4, string length
+    void* m_w2 = nullptr;  // +0x8, string buffer (len + 1 bytes)
+    std::int32_t m_w3 = 0;  // +0xc
+    std::int32_t m_w4 = 0;  // +0x10
+    std::int32_t m_w5 = 0;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
+    bool m_w7 = false;  // +0x1c
+    float m_w8 = 0.0f;  // +0x20
+    float m_w9 = 0.0f;  // +0x24
+    float m_w10 = 0.0f;  // +0x28
+    float m_w11 = 0.0f;  // +0x2c
+    float m_w12 = 0.0f;  // +0x30
+    float m_w13 = 0.0f;  // +0x34
+    float m_w14 = 0.0f;  // +0x38
+    float m_w15 = 0.0f;  // +0x3c
+    float m_w16 = 0.0f;  // +0x40
 };
 
 class ItemListEntry {
 public:
     virtual ~ItemListEntry();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int16_t m_w2 = 0;  // +0x8
+    std::int8_t m_off10 = 0;  // +0xa
 };
 
 class ItemPowerEntry {
@@ -810,8 +899,24 @@ class LevelDeclaration {
 public:
     virtual ~LevelDeclaration();
     virtual void finalize();
-    void* m_w3 = nullptr;  // +0xc
-    void* m_w8 = nullptr;  // +0x20
+    virtual void read(IStreamBase* stream);
+    bool m_w1 = false;  // +0x4
+    std::uint32_t m_w2 = 0;  // +0x8, length of m_w3
+    void* m_w3 = nullptr;  // +0xc, string buffer (len + 1 bytes)
+    std::int32_t m_w4 = 0;  // +0x10
+    bool m_w5 = false;  // +0x14
+    std::int32_t m_w6 = 0;  // +0x18
+    std::uint32_t m_w7 = 0;  // +0x1c, length of m_w8
+    void* m_w8 = nullptr;  // +0x20, string buffer (len + 1 bytes)
+    std::int32_t m_w9 = 0;  // +0x24
+    std::int32_t m_w10 = 0;  // +0x28
+    std::int32_t m_w11 = 0;  // +0x2c
+    std::int32_t m_w12 = 0;  // +0x30
+    std::int32_t m_w13 = 0;  // +0x34
+    std::int32_t m_w14 = 0;  // +0x38
+    std::int32_t m_w15 = 0;  // +0x3c
+    std::int32_t m_w16 = 0;  // +0x40
+    std::int32_t m_w17 = 0;  // +0x44
 };
 
 class LiftableObject {
@@ -1029,16 +1134,34 @@ class Skill {
 public:
     virtual ~Skill();
     virtual void finalize();
-    void* m_w4 = nullptr;  // +0x10
-    void* m_w10 = nullptr;  // +0x28
-    void* m_w15 = nullptr;  // +0x3c
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    bool m_w2 = false;  // +0x8
+    std::uint32_t m_w3 = 0;  // +0xc, count of m_w4
+    void* m_w4 = nullptr;  // +0x10, int32 array
+    std::int32_t m_w5 = 0;  // +0x14
+    bool m_w6 = false;  // +0x18
+    std::int32_t m_w7 = 0;  // +0x1c
+    std::int32_t m_w8 = 0;  // +0x20
+    std::uint32_t m_w9 = 0;  // +0x24, length of m_w10
+    void* m_w10 = nullptr;  // +0x28, string buffer (len + 1 bytes)
+    bool m_w11 = false;  // +0x2c
+    std::int32_t m_w12 = 0;  // +0x30
+    std::int32_t m_w13 = 0;  // +0x34
+    std::uint32_t m_w14 = 0;  // +0x38, length of m_w15
+    void* m_w15 = nullptr;  // +0x3c, string buffer (len + 1 bytes)
+    std::int32_t m_w16 = 0;  // +0x40
+    std::int32_t m_w17 = 0;  // +0x44
+    std::int32_t m_w18 = 0;  // +0x48
 };
 
 class SkillList {
 public:
     virtual ~SkillList();
     virtual void finalize();
-    void* m_w2 = nullptr;  // +0x8
+    virtual void read(IStreamBase* stream);
+    std::uint32_t m_w1 = 0;  // +0x4, count of m_w2
+    void* m_w2 = nullptr;  // +0x8, int32 array
 };
 
 class SlimeProperties : public CharacterProperties {
@@ -1197,13 +1320,20 @@ class WldMapLocation {
 public:
     virtual ~WldMapLocation();
     virtual void finalize();
-    void* m_w4 = nullptr;  // +0x10
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::uint32_t m_w3 = 0;  // +0xc, count of m_w4
+    void* m_w4 = nullptr;  // +0x10, int32 array
 };
 
 class WorldMapLocker {
 public:
     virtual ~WorldMapLocker();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
 };
 
 class YetiProperties : public CharacterProperties {
@@ -1255,19 +1385,35 @@ class v2QuestScripts {
 public:
     virtual ~v2QuestScripts();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    // Fourteen length-prefixed strings: length word (+0x4 + 8*i), then buffer (+0x8 + 8*i, len + 1 bytes).
+    std::uint32_t m_w1 = 0;  // +0x4, length of m_w2
     void* m_w2 = nullptr;  // +0x8
+    std::uint32_t m_w3 = 0;  // +0xc, length of m_w4
     void* m_w4 = nullptr;  // +0x10
+    std::uint32_t m_w5 = 0;  // +0x14, length of m_w6
     void* m_w6 = nullptr;  // +0x18
+    std::uint32_t m_w7 = 0;  // +0x1c, length of m_w8
     void* m_w8 = nullptr;  // +0x20
+    std::uint32_t m_w9 = 0;  // +0x24, length of m_w10
     void* m_w10 = nullptr;  // +0x28
+    std::uint32_t m_w11 = 0;  // +0x2c, length of m_w12
     void* m_w12 = nullptr;  // +0x30
+    std::uint32_t m_w13 = 0;  // +0x34, length of m_w14
     void* m_w14 = nullptr;  // +0x38
+    std::uint32_t m_w15 = 0;  // +0x3c, length of m_w16
     void* m_w16 = nullptr;  // +0x40
+    std::uint32_t m_w17 = 0;  // +0x44, length of m_w18
     void* m_w18 = nullptr;  // +0x48
+    std::uint32_t m_w19 = 0;  // +0x4c, length of m_w20
     void* m_w20 = nullptr;  // +0x50
+    std::uint32_t m_w21 = 0;  // +0x54, length of m_w22
     void* m_w22 = nullptr;  // +0x58
+    std::uint32_t m_w23 = 0;  // +0x5c, length of m_w24
     void* m_w24 = nullptr;  // +0x60
+    std::uint32_t m_w25 = 0;  // +0x64, length of m_w26
     void* m_w26 = nullptr;  // +0x68
+    std::uint32_t m_w27 = 0;  // +0x6c, length of m_w28
     void* m_w28 = nullptr;  // +0x70
 };
 

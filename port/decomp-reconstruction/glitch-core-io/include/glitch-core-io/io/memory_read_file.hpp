@@ -18,6 +18,17 @@ public:
     void set(void* data, long length, const char* fileName);  // 0x56edfc: resets the read position
     CMemoryReadFile* clone() const;                           // 0x56f150: a new file sharing the block
 
+    // Accessors (batch e1-glitch-core-io-glitch_io_CMemoryReadFile-0).
+    void* getBuffer(long* size) override;                     // 0x56eb6c: block; *size = read position
+    bool isAllInMemory() const override;                      // 0x56eb80: always true
+    bool isValid() const;                                     // 0x56eb8c: block present and size >= 0
+    bool seek(long offset, bool relative) override;           // 0x56ec3c
+    long getSize() const override;                            // 0x56ec78
+    long getPos() const override;                             // 0x56ec80
+    // Not declared yet (see the batch ledger): read (0x56ecc4), readAsync (0x56ebac, 0x56ebe0),
+    // getFileName (0x56ec88) and getFullPath (0x56ec90). Their bodies need the count returned by
+    // read (IReadFile::read is declared void here) and the +0x34 field (not in this layout).
+
     // +0x0c: block start (void*)
     void* buffer = nullptr;
     // +0x10: owner of the block; the default deleter (delete) matches the original shared_ptr<char>

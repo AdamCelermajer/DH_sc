@@ -48,4 +48,9 @@ std::string randomString(int length);
 // the empty string.
 std::string stringw2stringc(const wchar_t* text);
 
+// 0x37c164 _ZN6glitch4core10hashStringEPKc: hash of the bytes of text (signed char values, as the
+// ARM code sign-extends them), seeded with 0, combined with the boost hash_combine step. Empty
+// string gives 0. Definition in src/tb_core-io-glitch_core-0.cpp.
+unsigned int hashString(const char* text);
+
 }  // namespace glitch::core

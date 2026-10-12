@@ -23,6 +23,9 @@ public:
     virtual uint32_t getSize() const { return 0; }
     // vtable +0x24: current position.
     virtual int32_t getPos() const { return 0; }
+    // vtable +0x28: file name as a C string. The default is a placeholder; the real
+    // return value comes from the file object.
+    virtual const char* getFileNameText() const { return ""; }
 };
 
 }  // namespace glitch::io

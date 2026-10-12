@@ -49,6 +49,13 @@ public:
     int Load();
     ClassFactory& registerClassByName(const char* name, ClassFactory factory);
 
+    // 0x4bd640 GetOID: looks the class name up in the registry and calls its factory with `arg`.
+    // Returns -1 when the class is not registered.
+    int GetOID(const char* className, const char* arg);
+
+    // 0x4be3e0 addFuncsForFile: appends one {read, finalize} pair to the file's entry (created if absent).
+    void addFuncsForFile(const char* fileName, FileRead read, FileFinalize finalize);
+
 private:
     std::map<std::string, std::vector<_Funcs>> m_files;  // original this+4 (header node) and the tree
     std::map<std::string, ClassFactory> m_classes;       // original this+28 (registry stand-in)
@@ -69,11 +76,21 @@ public:
     const char* getConstantName(const char* className, int value) const;
 
     // Returns true when the whole stream was parsed. The original returns its last intermediate value.
-    bool reloadData(IStreamBase* stream, const char* fileName);
+    // Vtable slot +8 in the original (Load calls it through the vtable).
+    virtual bool reloadData(IStreamBase* stream, const char* fileName);
+
+    // One step of the file loader: state 0..26 opens "pydata/<name>" and reloads it, state 27 returns 1.
+    // Returns 0 while files remain. Same shape as PyDataArrays::Load (original this+32 is the state).
+    int Load();
+
+    // Value of constant `constantName` in class `className`, or 0 when either is absent (original
+    // getConstant(char const*, char const*) const).
+    int getConstant(const char* className, const char* constantName) const;
 
 private:
     std::map<std::string, std::map<std::string, int>> m_classes;  // original this+4 tree
     DataReloaderManager* m_reloader = nullptr;                    // original this+28
+    int m_state = 0;                                              // original this+32, Load's file index
 };
 
 // Deleting destructor (D0 in the listing).
