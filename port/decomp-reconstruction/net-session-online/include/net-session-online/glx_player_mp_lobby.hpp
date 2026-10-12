@@ -7,7 +7,8 @@
 //   +0x48 request arg    +0x4c unknown, zeroed by Init
 //   +0x50 last result (-1 pending, 0x32 refused)
 //   +0x60 state (>1 can send, >2 in session or room, >4 in game)
-//   +0x61 Init sets 10, +0x62 Init sets 0, +0x64/+0x65 Init sets 0xff (unknown)
+//   +0x61 Init sets 10, +0x62 Init sets 0, +0x63/+0x64 Init sets 0xff (unknown)
+//   +0x18 establish-connection flag (in the base object in the original)
 //   +0x68 aux object (ThreadHandle, freed by mpDisconnect)
 //   +0x74 ConnectionLobby (allocated as 0x2058 bytes, time field at +0x2050)
 //   +0x78 auto-match flag  +0x80 request pending flag  +0x81 is master
@@ -50,8 +51,6 @@ public:
                                               CLobbyParameterAndQuery* query);
     // 0x8377c0 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihiPci
     void mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, std::int32_t c, char* d, std::int32_t e);
-    // 0x837a88 _ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihP19GLXPlayerUserFriend
-    void mpSendGetLobbyForFriend(std::int32_t a, std::uint8_t b, GLXPlayerUserFriend* friends);
     // 0x837cc8 _ZN16GLXPlayerMPLobby34mpSendGetLobbyForNameWithGameParamEPc
     void mpSendGetLobbyForNameWithGameParam(char* name);
     // 0x837d58 _ZN16GLXPlayerMPLobby31mpSendGetLobbyListWithGameParamEiihP23CLobbyParameterAndQueryh
@@ -123,8 +122,9 @@ private:
     std::uint8_t state_ = 0;                            // +0x60
     std::uint8_t unknown61_ = 0;                        // +0x61
     std::uint8_t unknown62_ = 0;                        // +0x62
+    std::uint8_t unknown63_ = 0;                        // +0x63
     std::uint8_t unknown64_ = 0;                        // +0x64
-    std::uint8_t unknown65_ = 0;                        // +0x65
+    std::uint8_t flag18_ = 0;                           // +0x18
     std::unique_ptr<ThreadHandle> aux68_;               // +0x68
     std::unique_ptr<ConnectionLobby> connection_;       // +0x74
     bool autoMatch_ = false;                            // +0x78
