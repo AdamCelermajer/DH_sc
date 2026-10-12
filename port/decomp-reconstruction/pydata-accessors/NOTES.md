@@ -308,3 +308,16 @@ internal to the port, not binary-compatible with the original.
   result.
 - Both are used in the port's own destructors and reload paths; no ABI is kept.
 
+## Wave 7 integration (worker output)
+
+- Arrays (121 rows, `src/w7_arrays_00..03.cpp`, `include/pydata-accessors/w7_arrays_*.hpp`): 89
+  reconstructed, 14 partial, 18 skipped. Layouts are host-approximate (ARM listing offsets for the
+  zeroed words). The four files define disjoint table storage. Their headers declare `Arrays::X` structs
+  that overlap `member_names.hpp`, so do not include both in one translation unit.
+- Partial Arrays rows (w7_arrays_02): read bodies whose element `Structs::X` is not in
+  `structs_records.hpp` yet. They compile, but they will not link until those classes exist.
+- Skipped Arrays rows (w7_arrays_03): elements without a read in the port (LevelList, FastTravelList),
+  and classes not yet in structs_records.hpp.
+- Structs (738 rows) and PyDataArrays/PyDataConstants (12 rows) are still queued. No Structs element-loop
+  wave ran in this pass.
+

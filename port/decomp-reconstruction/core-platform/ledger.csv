@@ -430,3 +430,234 @@ elf_address,symbol,status,source_file,notes
 0x52ebe0,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncChar with two buffers; Windows uses Device (device.hpp)
 0x52eee8,_ZN7ADevice4InitEP7_JNIEnvP7_jclass,skipped,core-platform/include/core-platform/adevice.hpp,JNI initialisation of the Android device; Windows uses Device (device.hpp)
 0x52eea8,_ZN7ADevice11currentTimeEv,reconstructed,core-platform/include/core-platform/adevice.hpp,"Hex-Rays re-run: 32-bit millisecond count via gettimeofday, returned as int (the earlier 64-bit return was wrong)"
+0x32fdc0,_ZN7Console12_destroyListEv,skipped,core-platform/src/w7_console_00.cpp,"List-widget virtual interface: calls slots +0x98 and +0x1C on objects at Console+0x40 and +0x44, not named in this repo; list-widget category"
+0x32fe28,_ZN7Console11_createListERSt6vectorISsSaISsEEPc,skipped,core-platform/src/w7_console_00.cpp,List-widget category: uses the engine global chain (dword_99F73C) and unnamed virtual slots; vector element stride in the listing (24 bytes) does not match the declared std::string vector (12 bytes elsewhere)
+0x330198,_ZN7Console10_addToListEPKc,skipped,core-platform/src/w7_console_00.cpp,"List-widget virtual slot +0x84 on Console+0x40; the listing passes a static buffer and ignores the argument, buffer size unknown; list-widget category"
+0x3301c4,_ZN7Console17_setMenuLevelListEv,partial,core-platform/src/w7_console_00.cpp,"Wrapper matches the listing (vector at Console+0x10, title LEVELS). Depends on _createList, which is skipped in this slice"
+0x3301d8,_ZN7Console15_setMenuCamerasEv,reconstructed,core-platform/src/w7_console_00.cpp,Empty body in the listing
+0x3301dc,_ZN7Console25_setMenuLoadQuestProgressEv,partial,core-platform/src/w7_console_00.cpp,"Wrapper matches the listing (vector at Console+0x34, title Load Quest Progress). Depends on _createList, which is skipped in this slice"
+0x33026c,_ZN7Console24SetShowRoomDisplayedAnimEi,reconstructed,core-platform/src/w7_console_00.cpp,Empty body in the listing; argument unused
+0x330270,_ZN7Console6UpdateEd,skipped,core-platform/src/w7_console_00.cpp,Virtual slot +0xA0 on Console+0x40 and GlitchMemoryDebugger::s_isUsingGlitchMemoryDebugger from the glitch category; field at +0x0C not named
+0x3306a8,_ZN7Console19CreateQuestSaveFileEv,skipped,core-platform/src/w7_console_00.cpp,"Needs Character::__SaveQuests, PlayerManager and the player object (Character/gameplay category); file-stream vtable not declared"
+0x3307ac,_ZNK7Console19_getMaxNumberOfItemEv,skipped,core-platform/src/w7_console_00.cpp,"Needs DebugSwitches, MenuDebugHUD, MenuManager, PlayerManager, VisualObject and the Arrays:: tables (menu, character and data categories)"
+0x3309d4,_ZN7Console15_cmdReloadLevelEv,skipped,core-platform/src/w7_console_00.cpp,Needs Application::GetCurrentLevel and Application::LoadLevel and the Singleton<Application> instance; not declared in this repo (application category)
+0x330b6c,_ZN7Console28_setMenuLoadModuleFolderListEv,skipped,core-platform/src/w7_console_00.cpp,Writes into the Console string layout at unnamed offsets and calls the STLport-private _M_assign; list-widget category
+0x330bf0,_ZN7Console16_setMenuAnimListEv,skipped,core-platform/src/w7_console_00.cpp,Needs Arrays::AnimDict tables and list-widget virtual slots (data and list-widget categories)
+0x330cc0,_ZN7Console18_setMenuVFXSetListEv,skipped,core-platform/src/w7_console_00.cpp,Needs Arrays::AnimatedEffectTable and list-widget virtual slots (data and list-widget categories)
+0x330d70,_ZN7Console15_setMenuVFXListEv,skipped,core-platform/src/w7_console_00.cpp,Needs Arrays::EffectDict and list-widget virtual slots (data and list-widget categories)
+0x330e20,_ZN7Console17_setLootTableListEv,skipped,core-platform/src/w7_console_00.cpp,Needs Arrays::LootTable and list-widget virtual slots (data and list-widget categories)
+0x330ee0,_ZN7Console19_setMenuCharModulesEv,skipped,core-platform/src/w7_console_00.cpp,"Needs PlayerManager, the Character type and VisualObject modular API (Character-type category)"
+0x330ff8,_ZN7Console15_setMenuScriptsEv,skipped,core-platform/src/w7_console_00.cpp,"Needs ScriptManager and the script table globals (script category, not declared in this repo)"
+0x331140,_ZN7Console13_setMenuMenusEv,skipped,core-platform/src/w7_console_00.cpp,Needs MenuManager and MenuBase (menu class owned by another session)
+0x3312bc,_ZN7Console17_setMenuListenersEv,skipped,core-platform/src/w7_console_00.cpp,"Needs Arrays::Listeners, Application::GetCurrentLevel and the level field at +0xE4; list-widget virtual slots"
+0x3313f8,_ZN7Console16_setMenuWorldMapEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"needs Character, PlayerManager and Arrays::WorldMap (Character-type class)"
+0x331548,_ZN7Console23_setMenuLevelListPyDataEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs Character::SG_GetLevelState and PlayerManager (Character-type class)
+0x33169c,_ZN7Console13_setMenuStatsEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"needs MenuDebugHUD, a menu class owned by another session"
+0x33179c,_ZN7Console20DBG_TryStartingLevelEPKc,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"needs Application::LoadLevel, PlayerManager, PlayerSavegame and Character (app and Character types)"
+0x331944,_ZN7ConsoleD1Ev,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,same body as 0x331a2c; one definition in w7_console_01.cpp serves both
+0x331a10,_ZN7ConsoleD0Ev,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,deleting destructor rebuilt as free function ConsoleDeletingDestructor (calls ~Console then CustomFree)
+0x331a2c,_ZN7ConsoleD2Ev,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,definition of ~Console; member destructors release the storage
+0x331b68,_ZN7Console21InitShowRoomCameraPosEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs show-room Character visual object layout and camera interface
+0x331cfc,_ZN7Console23UpdateToggleDisplayListEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"needs glitch scene-node layout (node flags, scene list); not in include or deps"
+0x331f7c,_ZN7Console23UpdateCharacterShowRoomEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs Character and VisualObject types (Character-type class)
+0x3320ec,_ZN7Console17_setMenuQuestListEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs Character::SG_GetQuestByName and Quest (gameplay classes)
+0x332488,_ZN7Console16_setMenuCommandsEv,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,COMMAND_LABELS table is declared extern; its contents belong to the data category
+0x3325cc,_ZN7Console17LoadQuestSaveFileEPKc,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"needs Character, PlayerManager and Character::__LoadQuests (gameplay classes)"
+0x33271c,_ZN7Console16onEventNotOpenedEPK6IEventPK12EventManager,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"about 28 KB listing across Application, scene, camera and Character types; not rebuilt"
+0x33394c,_ZN7Console22_setMenuLoadModuleListEj,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,list at +0x1C is indexed with a 24-byte stride here but destroyed as std::string elements; element type not recovered
+0x333a4c,_ZN7ConsoleC1Ev,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,same body as 0x33401c; one definition in w7_console_01.cpp serves both
+0x33401c,_ZN7ConsoleC2Ev,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,definition of Console(); DebugSwitches defaults rebuilt from the listing
+0x334764,_ZN7Console20_setMenuDebugModulesEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,iterates global module map at 0x9A1D30 with no declared type; entry label text not recovered
+0x334940,_ZN7Console21_setMenuDebugSwitchesEv,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"iterates the DebugSwitches map, which the deps stand-in keeps private and may not be edited"
+0x334b1c,_ZN7Console8_setMenuEv,reconstructed,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"switch dispatch rebuilt; case 0x11 listing casts this to std::string*, rebuilt as a plain member call"
+0x334bd8,_ZN7Console6ToggleEv,partial,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,flow matches listing; resource lister behind dword_99F73C+52 is a declared stand-in (ListFiles)
+0x334d1c,_ZN7Console11_selectItemEi,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,"gameplay cheat dispatch on Character, ItemInventory, Quest and Application types"
+0x335b14,_ZN7Console7onEventEPK6IEventPK12EventManager,skipped,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,needs Application::GetCurrentLevel and the IEvent layout (app UI handler)
+0x30ef50,_Z8ObjToStrPcRN6glitch4core8vector3dIfEE,skipped,core-platform/src/w7_global_00.cpp,"Already reconstructed in core-platform/src/obj_str.cpp with the same %f,%f,%f body at the same address; not redefined here to avoid a duplicate symbol"
+0x310750,_ZdvRK8Vector3Df,reconstructed,core-platform/src/w7_global_00.cpp,Component-wise divide by scalar; Vector3D declared in w7_global_00.hpp
+0x313498,_ZrsRSiRSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/w7_global_00.cpp,"Compiles. Uncertain: char-read call used for separators (_M_formatted_get argument), handling of ' ' separator in loop condition, and the Point3D element reader (0x operator>><float>) is reimplemented as X,sep,Y,sep,Z"
+0x3301f0,_Z25HideAllIrrlicheNodeExceptPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_00.cpp,"Needs Singleton<Application> instance layout (child list at +0x1C/+0xF4, node flags at +0x11C) and dword_99F73C, owned by the application/gameplay category; no declarations exist in core-platform"
+0x33971c,ClearSubtitles,partial,core-platform/src/w7_global_00.cpp,"Compiles. Deque-of-entries clear is reconstructed. Uncertain: node release uses CustomFree where the original calls the SGI node allocator (__node_alloc, 0x80 bytes), so it must match the unrecovered allocator used by LoadSubtitles. Globals g_SubtitlesQueue and g_CurrentSubtitle are defined in w7_global_00.cpp; drop them if the subtitle owner defines them"
+0x47fa34,_Z26TempHackScriptIDAreStringsPKc,skipped,core-platform/src/w7_global_01.cpp,needs ScriptManager::s_inst and ScriptManager::GetIDFromName; ScriptManager not declared in repo (another category)
+0x50e228,_Z36DBG_TraceAllLoadedResfileInformationv,skipped,core-platform/src/w7_global_01.cpp,"needs glitch::collada::CResFileManager::Inst (undeclared global); body is a tree walk whose trace output is stripped, so nothing observable to reproduce"
+0x50e2b8,_Z36DBG_TraceAllLoadedTextureInformationv,skipped,core-platform/src/w7_global_01.cpp,"needs dword_99F73C (undeclared global), SIDedCollection and IReferenceCounted layouts; refcount sweep only"
+0x50e3d8,_Z14RecursiveCountPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,"traversal matches listing; child-list offsets 244 and 4 are 32-bit ARM layout, invalid for Windows port without ISceneNode declaration"
+0x50e46c,_Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb,partial,core-platform/src/w7_global_01.cpp,flag bit 0x200 at byte 284 is 32-bit ARM layout; pseudocode return of node arg treated as register residue so void
+0x50e484,_Z22RecursiveSetBoolOnNodePN6glitch5scene10ISceneNodeEbPFvS2_bE,partial,core-platform/src/w7_global_01.cpp,callback invoked as callback(node enable) from mangled signature since pseudocode shows no args; child-list offsets are ARM32 layout
+0x50e4d0,_Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE,partial,core-platform/src/w7_global_01.cpp,"vtable slot 96 (byte offset, index 24 in ARM vtable) method name not recovered; child-list offsets are ARM32 layout; return value treated as void"
+0x50e6a0,_Z29DBG_DrawGlitchNodeBoundingBoxPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_01.cpp,"needs dword_99F73C, driver and camera vtable slots, and bounding-box color packing; none declared in repo"
+0x50e7c4,_Z18DBG_TraceSceneNodePN6glitch5scene10ISceneNodeEiPFbS2_E,skipped,core-platform/src/w7_global_01.cpp,needs GetNodePolyCount (not declared in repo) and ARM32 child-list layout
+0x50e8a4,_Z45TraceEveryGlitchRefCountingShitKnownToManKindPKc,skipped,core-platform/src/w7_global_01.cpp,"5.7KB refcount sweep over undeclared collada, texture, material and shader managers; needs SIDedCollection and dword_99F73C"
+0x50eb90,_Z15ChangeMaterialsPN6glitch5scene10ISceneNodeENS_5video15E_MATERIAL_TYPEE,reconstructed,core-platform/src/w7_global_01.cpp,listing and pseudocode show only ASSERT(false) at irrutils.cpp:838; E_MATERIAL_TYPE opaque with int underlying type assumed
+0x50ec18,_Z15ChangeMaterialsPN6glitch5scene10ISceneNodeENS_5video15E_MATERIAL_TYPEES4_,reconstructed,core-platform/src/w7_global_01.cpp,listing and pseudocode show only ASSERT(false) at irrutils.cpp:805; E_MATERIAL_TYPE opaque with int underlying type assumed
+0x50eca0,_Z25DBG_TraverseAllGlitchNodePN6glitch5scene10ISceneNodeEPFvS2_EPFbS2_E,partial,core-platform/src/w7_global_01.cpp,assert path matches listing at irrutils.cpp:656; child-list offsets 244 and 4 are 32-bit ARM layout
+0x50f220,_Z14OptimizeStaticPN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_01.cpp,"needs ISceneNode::getAbsolutePosition, quaternion operator=, and vtable slots 184 164 156 56 (not named); none declared"
+0x50f2d0,_Z13AddToSceneMgrPN6glitch5scene10ISceneNodeES2_,skipped,core-platform/src/w7_global_01.cpp,"needs getAbsolutePosition, quaternion operator=, scene-manager vtable slot 92 and vtable slots 188 184 164 156 100 (not named)"
+0x50f3d4,_Z19PrintNodePropertiesPN6glitch5scene10ISceneNodeEbi,skipped,core-platform/src/w7_global_01.cpp,"needs getAnimators and many unnamed vtable slots; format string passes nullptr for a %s argument in the pseudocode, so the exact output is unclear"
+0x50f644,_Z9CleanNodePN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_01.cpp,"needs getChildren, vtable slots 36 and 104, and LC_API_STRSTR_0 (decompiler name; not confirmed as LC_API_STRSTR)"
+0x50f744,_Z14setCullingModePN6glitch5scene10ISceneNodeEi,skipped,core-platform/src/w7_global_01.cpp,needs ISceneNode::setAutomaticCulling and disableCullingMode; neither declared in repo
+0x50f778,_Z18disableCullingModePN6glitch5scene10ISceneNodeE,reconstructed,core-platform/src/w7_global_02.cpp,"Thunk: tail-branch forwarder to setCullingMode(node, 0); target declared in w7_global_02.hpp, body not in this slice"
+0x50f7fc,_Z13findSceneNodePN6glitch5scene10ISceneNodeEPKc,skipped,core-platform/src/w7_global_02.cpp,Needs ISceneNode layout (child list sentinel at +0xF4) and vtable slots 36/188; no header declares them; scene-node category
+0x50fadc,_Z18Draw3DWireFrameBoxRKN6glitch4core8aabbox3dIfEERKNS_5video6SColorE,skipped,core-platform/src/w7_global_02.cpp,"Needs video driver globals, CMaterialRendererManager, IVideoDriver vtable and boost::intrusive_ptr<CMaterial>; none declared in headers"
+0x50fbd0,_Z17OptimizeHierarchyPN6glitch5scene10ISceneNodeEb,skipped,core-platform/src/w7_global_02.cpp,"Needs ISceneNode vtable slots (188, 36, 64, 68, 84, 92, 104), CMatrix4 multEq and ASSERT paths; not declared"
+0x50fe78,_Z16FlushMeshBuffersPN6glitch5scene5IMeshEbbb,skipped,core-platform/src/w7_global_02.cpp,Needs IMesh/IBuffer/CVertexStreams layouts and vtable slots; not declared in headers
+0x51049c,_Z23DBG_GetDetailedNodeNamePN6glitch5scene10ISceneNodeE,skipped,core-platform/src/w7_global_02.cpp,"Needs glitch string allocator type, ISceneNode vtable slots 84/136/132 and file-system global; not declared"
+0x51073c,_Z27DBG_TraceSceneNodePolyStatsPN6glitch5scene10ISceneNodeEiPFbS2_E,skipped,core-platform/src/w7_global_02.cpp,"Needs PolyStat global storage layout, IsNodeMesh and GetNodePolyCount (not declared); debug tracing, scene-node category"
+0x516004,_ZrsRSiR9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode class and its virtual slots are not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
+0x5175e0,_ZlsRSoRK9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode::Accept slot not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
+0x517870,_ZlsRSsRK9TiXmlNode,skipped,core-platform/src/w7_global_02.cpp,Upstream TinyXML: TiXmlNode::Accept slot not declared; tixml_dh.hpp says upstream TinyXML is not rebuilt here
+0x51eaf8,FUN_0052eaf8,skipped,core-platform/src/w7_global_02.cpp,No Hex-Rays pseudocode and no ARM listing returned for this address (tool names it FUN_0052eaf8); not recovered
+0x52f0dc,appTrackBall,skipped,core-platform/src/w7_global_02.cpp,app* UI handler; owned by UI session
+0x52f0e8,getState,reconstructed,core-platform/src/w7_global_02.cpp,"Returns constant 1; declared extern C in w7_global_02.hpp. Called from Java JNI glue, but the function itself is not JNI"
+0x52f0f0,appKeyPressed,skipped,core-platform/src/w7_global_02.cpp,app* UI handler; owned by UI session
+0x52f11c,appOnTouch,skipped,core-platform/src/w7_global_02.cpp,app* UI handler; owned by UI session
+0x52f24c,pressNOInConfirmation,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x52f3ec,pressNOInExitConfirmation,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x52f5d4,pressMainMenuInMutiIGM,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x52f6e4,pressMainMenuInIGM,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x52fb78,pressExitButtonInMainMenu,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x52ff54,pressOKButtonInGLive,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x53013c,pressContinueInIGM,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x530280,pressBackButtonInGame,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+0x530380,pressPauseButtonInGame,skipped,core-platform/src/w7_global_02.cpp,press* menu handler; owned by menu session
+5305cc,appKeyReleased,skipped,core-platform/src/w7_global_03.cpp,app* UI handler (menu and press dispatch); owned by the menu session
+530974,appResume,skipped,core-platform/src/w7_global_03.cpp,app* UI handler; owned by the app/menu session
+5309d8,appPause,skipped,core-platform/src/w7_global_03.cpp,app* UI handler; owned by the app/menu session
+530a1c,appDestroy,skipped,core-platform/src/w7_global_03.cpp,app* UI handler; owned by the app/menu session
+530ba8,appInit,skipped,core-platform/src/w7_global_03.cpp,app* UI handler; owned by the app/menu session
+530fc8,appUpdate,skipped,core-platform/src/w7_global_03.cpp,app* UI handler; owned by the app/menu session
+532b6c,NotifyTrophy,skipped,core-platform/src/w7_global_03.cpp,Android JNI bridge (calls a Java method through mEnv)
+58a75c,_ZN12_GLOBAL__N_16SStats5resetEPN6glitch2io11IAttributesE.clone.3,skipped,core-platform/src/w7_global_03.cpp,needs glitch::io::IAttributes (only the vtable slot at +84 is known) and the Stats/culled counters; neither declared in this tree
+7a7c30,_ZL11fs_callbackPN7gameswf9characterEPKcS3_,reconstructed,core-platform/src/w7_global_03.cpp,
+7a8420,_ZL11message_logPKc,partial,core-platform/src/w7_global_03.cpp,stream taken as stdout (listing: __sF + 0x54); Windows FILE mapping not checked
+7a846c,_ZL12log_callbackbPKc,partial,core-platform/src/w7_global_03.cpp,second stream taken as stderr (listing: __sF + 0xA8); see message_log
+7a8c6c,_Z19CanHandleMouseEventPN7gameswf9characterE,skipped,core-platform/src/w7_global_03.cpp,Character-type class (gameswf::character field offsets); LC_API_STRSTR_0 not declared in tree
+7a9954,_ZL11file_openerPKc,partial,core-platform/src/w7_global_03.cpp,"operator new(0x28, swf::MemHint) reduced to ::operator new(0x28); tu_file ctor declared locally"
+7ad81c,_ZL26fscommand_callback_handlerPN7gameswf9characterEPKcS3_,skipped,core-platform/src/w7_global_03.cpp,Character-type class (gameswf::character field offsets); RenderFX::FSCommand not declared in tree
+7dcb6c,_ZL8LongAxisPd,reconstructed,core-platform/src/w7_global_03.cpp,magnitude compare uses fabs; differs from the bit-key compare only for NaN
+7decbc,_ZL13TopLeftRegionP12ActiveRegion,skipped,core-platform/src/w7_global_03.cpp,libtess mesh and ActiveRegion types not declared in tree
+7f5038,_ZL17ClipSegmentToLineP10ClipVertexS0_RK6b2Vec2f,partial,core-platform/src/w7_global_03.cpp,"segment clip transcribed; id choice on the crossing point taken from Hex-Rays ternary, not checked against listing"
+7f5234,_ZL14EdgeSeparationPK14b2PolygonShapeRK7b2XFormiS1_S4_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape and b2XForm layouts and b2PolygonShape::Support; not declared in tree
+7f5544,_ZL17FindMaxSeparationPiPK14b2PolygonShapeRK7b2XFormS2_S5_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape and b2XForm layouts; EdgeSeparation depends on the same types
+7f8018,_ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,three return paths transcribed from Hex-Rays; edge reductions not cross-checked against ARM listing
+7f881c,_ZL8InPointsRK6b2Vec2PS0_i,reconstructed,core-platform/src/w7_global_03.cpp,
+7f89e0,_ZL10ProcessTwoP6b2Vec2S0_S0_S0_S0_,partial,core-platform/src/w7_global_03.cpp,"b2Vec2::Normalize assumed (length, then scale by 1/length); body not in this slice"
+7f8bec,_Z15DistanceGenericI14b2PolygonShapeS0_EfP6b2Vec2S2_PKT_RK7b2XFormPKT0_S8_,skipped,core-platform/src/w7_global_03.cpp,needs b2PolygonShape::Support and b2XForm layout; not declared in tree
+7f91d4,_ZL10DistancePCP6b2Vec2S0_PK14b2PolygonShapeRK7b2XFormPK13b2CircleShapeS6_,skipped,core-platform/src/w7_global_03.cpp,"needs b2PolygonShape, b2CircleShape and b2XForm layouts; not declared in tree"
+0x8279d8,_Z24ParseDedicatedServerInfoR21_tDedicatedServerInfoP10DataPacket,partial,core-platform/src/w7_global_04.cpp,"Vtable slots 16/9/5 and field offsets 24/28/30/44 are the original byte offsets; no _tDedicatedServerInfo or DataPacket declaration in the port, so access is by offset. Return is bool (original returns the host pointer as truthy/null)"
+0x828b64,_Z8_DBG_OUTPKcz,partial,core-platform/src/w7_global_04.cpp,"__android_log_print(4,""WIFI"") mapped to appDebugLog with the same tag; return value approximated as formatted length (original returns the logger result)"
+0x82aa10,_Z24ConvertUnicodeToUTF8_OldPcPKt,reconstructed,core-platform/src/w7_global_04.cpp,Byte-pair reads for odd-aligned source are folded into one path (identical on little-endian)
+0x841ba8,_Z26threadGetHostByNameProcessPv,partial,core-platform/src/w7_global_04.cpp,"Request read at 32-bit layout offsets (flag ptr at 0, host at 4); XP_DEBUG_OUT trace routed to _DBG_OUT (XP_DEBUG_OUT 0x82b784 not reconstructed here); XP_API_STRNEW replaced by local new[] copy"
+0x843b2c,_Z11trimHTMLstrSs,reconstructed,core-platform/src/w7_global_04.cpp,"Entity replacement order and tag erase reproduced as found; erase count is (close+1) characters from the open bracket, as in the original (looks like a bug, kept)"
+0x8456e4,_Z9threadfunPv,skipped,core-platform/src/w7_global_04.cpp,"Needs Thread::Run from the threading category (no Thread declaration in this port) and pthread_exit (POSIX, not targeted)"
+0x876e8c,_ZL21convert_samples_shortiPPsiiPPfii,reconstructed,core-platform/src/w7_global_04.cpp,"channel_selector and channel_position tables taken from the IDA .rodata listing (no ELF in container). Copy path ignores in_offset as in the original. Original re-runs the identical downmix once per output channel; done once here. Return type int in Hex-Rays, made void"
+0x8771bc,_ZL34convert_channels_short_interleavediPsiPPfii,reconstructed,core-platform/src/w7_global_04.cpp,"channel_position taken from the IDA .rodata listing. Original repeats the identical conversion once per output channel; done once here. Return type int in Hex-Rays, made void"
+0x89c04c,FUN_008ac04c,skipped,core-platform/src/w7_global_04.cpp,"Ghidra-only body (IDA has no function start at this address); config-file decode routine with unresolved register inputs; not rebuilt, needs a hand pass from the ARM listing"
+0x89c1c0,FUN_008ac1c0,skipped,core-platform/src/w7_global_04.cpp,"Ghidra fragment: ""#"" substitution loop then an Android ConfigFile assert print and stack-guard tail; inputs unresolved; not rebuilt"
+0x89c400,FUN_008ac400,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment (compare then __stack_chk_fail); no body of its own
+0x89c61c,FUN_008ac61c,skipped,core-platform/src/w7_global_04.cpp,"Ghidra output garbled (flag-register bit tests, SBORROW); UTF-8 to UTF-16 decoder shape; IDA has no function start here; not rebuilt"
+0x89c6ac,_Z26ConvertUnicodeToUTF8_OldLCPcPKt,reconstructed,core-platform/src/w7_global_04.cpp,Same behaviour as ConvertUnicodeToUTF8_Old; the LC variant only differs in how the masks are written
+0x89c868,FUN_008ac868,skipped,core-platform/src/w7_global_04.cpp,Ghidra fragment: UTF-8 output-length loop with carry-flag inputs; IDA has no function start here; not rebuilt
+0x89e810,FUN_008ae810,skipped,core-platform/src/w7_global_04.cpp,Android LC socket local-address helper (gethostname/gethostbyname/inet_ntoa) with stack-guard tail and unresolved inputs; platform not targeted
+0x89e8e0,FUN_008ae8e0,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::RecvFromUnkownIP; Android socket platform, not targeted"
+0x89ead0,FUN_008aead0,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment
+0x89ecbc,FUN_008aecbc,skipped,core-platform/src/w7_global_04.cpp,"CAndroid::CreateSocket error path; Android socket platform, not targeted"
+0x89ecec,FUN_008aecec,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket bind loop; Android socket platform, not targeted"
+0x89ed28,FUN_008aed28,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket bind loop; Android socket platform, not targeted"
+0x89f0b8,FUN_008af0b8,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::ConnectTo; Android socket platform, not targeted"
+0x89f2a4,FUN_008af2a4,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket connect path; Android socket platform, not targeted"
+0x89f2d4,FUN_008af2d4,skipped,core-platform/src/w7_global_04.cpp,Stack-guard tail fragment
+0x89f4b8,FUN_008af4b8,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket state fragment (sets state 7); Android socket platform, not targeted"
+0x89f4e8,FUN_008af4e8,skipped,core-platform/src/w7_global_04.cpp,"4-byte stack-guard branch to __stack_chk_fail, part of LCAndroidSocket::Connect (IDA loc_89F4E8), not a thunk of its own"
+0x89f5d4,FUN_008af5d4,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::ConnectByName; Android socket platform, not targeted"
+0x89f858,FUN_008af858,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::SetNonBlocking error path; Android socket platform, not targeted"
+0x89f8a0,_Z28threadGetHostByNameProcessLCPv,partial,core-platform/src/w7_global_04.cpp,"LC_DEBUG_OUT (0x89c304) has an empty body in the binary, so its call is dropped; LC_API_STRNEW replaced by local new[] copy; request layout as threadGetHostByNameProcess"
+0x89f8d0,FUN_008af8d0,skipped,core-platform/src/w7_global_04.cpp,Compiler split of the host-slot capacity check in threadGetHostByNameProcessLC (IDA loc_ inside another function); no separate function
+0x89fc74,FUN_008afc74,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket::Clearup (frees the LC host cache); IDA range is a 4-byte stub; Android socket platform, not rebuilt here"
+0x89fe78,FUN_008afe78,skipped,core-platform/src/w7_global_04.cpp,"LCAndroidSocket interface enumeration via ioctl 0x8913; Android socket platform, not targeted"
+0x89ffd4,FUN_008affd4,skipped,core-platform/src/w7_global_04.cpp,LCXPlayerSocket constructor fragment; net-session-online owns LCXPlayerSocket; Android socket platform
+0x89fffc,FUN_008afffc,skipped,core-platform/src/w7_global_04.cpp,"LCXPlayerSocket destructor fragment (pthread_join, CloseSocket); net-session-online owns LCXPlayerSocket; Android socket platform"
+0x52f0e4,nativepauseAllMusic,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531150,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGameRenderer,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531154,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeConfig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531158,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnDrawFrame,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53115c,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGetJNIEnv,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53117c,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeResize,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531190,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnSurfaceChanged,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53119c,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeDone,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5311a0,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeRender,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5311c8,Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeInit,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531214,Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSounds,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53121c,Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSoundsOfSameInstance,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531224,Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeSetStopOnMusic,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531230,nativeLoadSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53128c,nativeLoadSoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5312d8,nativePlaySound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531348,nativePlaySoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5313c4,nativePauseSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531420,nativePauseSoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53146c,nativeResumeSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5314c8,nativeResumeSoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531514,nativeStopSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531570,nativeStopSoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5315bc,nativeUnloadSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531618,nativeUnloadSoundBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531664,nativeIsSoundLoaded,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5316c0,nativeIsSoundLoadedBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53170c,nativeSetVolume,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53177c,nativeSetVolumeBig,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5317f0,nativeResetSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53183c,nativeSetPitch,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5318ac,nativeStopAllSounds,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5318f4,nativeStopAllSoundPool,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531940,nativeStopAllBigSound,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53198c,nativeDestroySoundPool,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5319d4,nativeInitSoundPoolArray,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531a1c,nativeGetWidth,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531a64,nativeIsMediaPlaying,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531ab0,nativeDetectPhoneLang,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531af8,nativeGetSdFolderPath,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531bac,nativeLoadMovie,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x531ca4,Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeInit,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53224c,JNI_OnLoad,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5324c0,Java_com_gameloft_android_GAND_GloftD2SS_GLResLoader_nativeInit,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5325c4,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeInit,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532a8c,nativeSendAppBackground,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532ad4,nativeOpenIGP,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532b20,nativeOpenGLive,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532bb8,nativeExit,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532c00,nativeIsWifiAlive,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532c48,nativeOpenBrowser,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532cc8,nativeGet_PhoneLanguage,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532d10,nativeGet_PhoneManufacturer,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532d58,nativeGet_PhoneModel,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532da0,nativeUnlockDemo,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532de8,nativeLockDemo,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532e30,nativeDisableLaunchGame,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532e78,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetPhone,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532ea8,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeCanInterrupt,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532ec8,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeAccelerometer,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x532f68,nativeIncreaseLaunchTimes,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533400,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeOpenIGM,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533424,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativePause,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533428,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyUp,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533430,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeonTrackballEvent,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533438,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyDown,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533440,Java_com_gameloft_android_GAND_GloftD2SS_GameGLSurfaceView_nativeOnTouch,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5334dc,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeResume,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533500,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetOrientation,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533554,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetGameMusicVolume,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533558,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativegetState,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533570,nativeIsSupportMM,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5335d4,Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetInfo,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533658,Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeInitplayer,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533850,nativeSetPlaylist,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x53389c,nativeChangeStep,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5338e8,nativeResumeMusicBG,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533930,nativeStopMusicBG,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533978,nativeGetisplaying,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533980,nativePauseMusicBG,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x5339c8,nativePlayBGMusic,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533a10,nativeGetNumPlaylists,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533a58,nativeGetPlaylistName,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
+0x533b2c,Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeDisplayMusicTitle,skipped,core-platform/src,Android JNI or native sound/app glue; not rebuilt for Windows (wave 7 rule)
