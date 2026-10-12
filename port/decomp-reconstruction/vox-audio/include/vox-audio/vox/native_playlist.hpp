@@ -49,6 +49,8 @@ public:
 private:
     friend struct PlaylistElementTestAccess;
     friend class NativePlaylist;
+    friend class VoxNativeSubDecoder;      // the segment code reads these words
+    friend class NativeSubDecoderState;    // SetState and GetState copy them
     std::int32_t field_00_ = -1;  // +0x00
     std::int32_t field_04_ = 0;   // +0x04
     std::int32_t field_08_ = 0;   // +0x08
