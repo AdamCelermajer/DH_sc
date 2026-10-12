@@ -6,10 +6,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Stand-ins for the statics that c_matching_gl_live_glx04.cpp defines.
-bool CMatchingGLLive::s_IsGameStarting = false;
-CEventQueueBase CMatchingGLLive::s_eventQueueGLLiveInternal;
-
 int main() {
     // The callback must return for every message type, including the partial server branch
     // (type 1) and empty input. Type 2 hands the stream to ProcessClientMessage, a no-op here.

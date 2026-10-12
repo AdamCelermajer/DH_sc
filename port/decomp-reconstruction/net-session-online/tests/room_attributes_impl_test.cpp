@@ -7,9 +7,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only: the real GetGLXPlayerLogin (0x81c5e8) is reconstructed in another slice.
-GLXPlayerLogin* CMatchingGLLive::GetGLXPlayerLogin() { return nullptr; }
-
 namespace {
 struct NullObserver : GLXPlayerMPBaseObserver {};
 }  // namespace

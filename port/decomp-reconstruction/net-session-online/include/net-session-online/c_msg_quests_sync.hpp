@@ -16,7 +16,6 @@
 class CMsgQuestsSync : public CMessage {
 public:
     // 0x3291f8 _ZN14CMsgQuestsSyncC1Eb
-    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
     // The flags set here (reliable, send mode 1, no local member) are kept.
     explicit CMsgQuestsSync(bool withSerial);
     ~CMsgQuestsSync() override;  // 0x325d28 D1 (the deleting destructor 0x325d80 is skipped)
@@ -32,7 +31,6 @@ public:
     // Writes nothing and returns 0 when no block is set; otherwise returns the size.
     std::uint32_t WriteData(NetBitStream& stream) override;
     // 0x32793c _ZN14CMsgQuestsSync13SetPropertiesEv
-    // Original also assigns the type name string at +0x14 (not modelled).
     void SetProperties();
 
     // Not in the original: test seam for the block length.

@@ -90,18 +90,18 @@ public:
     NetBitStream GetNextPacket();                                 // 0x816c68 (caller checks ArePacketsAvailable)
     int PacketReceiverCallback(int source, char* data, int size); // 0x817c9c
 
-    void ProcessAcknowledgedPackets();                            // 0x815504 _ZN14CPacketManager25ProcessAcknowledgedPacketsEv
+    void ProcessAcknowledgedPackets();                            // 0x815504 _ZN14CPacketManager26ProcessAcknowledgedPacketsEv
     void AcknowledgePacket(tPacketMgrHeader& header);             // 0x815cac _ZN14CPacketManager17AcknowledgePacketERNS_16tPacketMgrHeaderE
     bool IsPacketValid(const tPacketMgrHeader& header);           // 0x815d80 _ZN14CPacketManager13IsPacketValidERNS_16tPacketMgrHeaderE
-    std::uint32_t PreparePacketHeader(int member, NetBitStream& stream);  // 0x815e10 returns the sequence
-    void PreparePacketData(int member, std::uint32_t sequence, NetBitStream& stream);  // 0x815ec8
-    void SendWaitingPackets();                                    // 0x81684c _ZN14CPacketManager16SendWaitingPacketsEv
-    void ProcessLostPackets();                                    // 0x8168fc _ZN14CPacketManager16ProcessLostPacketsEv
-    void ProcessPacketAcknowledgements(const tPacketMgrHeader& header);  // 0x816ca8
+    std::uint32_t PreparePacketHeader(int member, NetBitStream& stream);  // 0x815e10 _ZN14CPacketManager19PreparePacketHeaderEiR12NetBitStream (returns the sequence)
+    void PreparePacketData(int member, std::uint32_t sequence, NetBitStream& stream);  // 0x815ec8 _ZN14CPacketManager17PreparePacketDataEijR12NetBitStream
+    void SendWaitingPackets();                                    // 0x81684c _ZN14CPacketManager18SendWaitingPacketsEv
+    void ProcessLostPackets();                                    // 0x8168fc _ZN14CPacketManager18ProcessLostPacketsEv
+    void ProcessPacketAcknowledgements(const tPacketMgrHeader& header);  // 0x816ca8 _ZN14CPacketManager29ProcessPacketAcknowledgementsERNS_16tPacketMgrHeaderE
     int ReceivePackets();                                         // 0x816eac _ZN14CPacketManager14ReceivePacketsEv
     int SendPacket(int member);                                   // 0x817814 _ZN14CPacketManager10SendPacketEi
     int SendPackets();                                            // 0x8179d0 _ZN14CPacketManager11SendPacketsEv
-    static int sPacketReceiverCallback(int member, char* data, int size);  // 0x817d1c
+    static int sPacketReceiverCallback(int member, char* data, int size);  // 0x817d1c _ZN14CPacketManager23sPacketReceiverCallbackEiPci
 
     static constexpr int kPacketSlotCount = 8;                    // 8 * 92 bytes = 736 (0x2e0) in the original
 

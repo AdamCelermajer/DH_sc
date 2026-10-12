@@ -14,12 +14,10 @@
 #include <cstdint>
 #include <map>
 #include <string>
-#include <vector>
 
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
-#include "net-session-online/t_friend_info.hpp"
 
 class CNetworkId;
 class NetBitStream;
@@ -39,9 +37,9 @@ class CMatchingGLLive {
 public:
     // Constructors and destructor (C1/C2 and D1/D2 pairs share one definition each).
     CMatchingGLLive() = default;
-    // 0x81e7f0 _ZN15CMatchingGLLiveC1Eb. Partial, see the cpp.
+    // 0x81e7f0 _ZN15CMatchingGLLiveC2Eb (C1 twin at 0x81e9dc). Partial, see the cpp.
     explicit CMatchingGLLive(bool gameCenterActive);
-    // 0x81d2b4 _ZN15CMatchingGLLiveD1Ev. Partial, see the cpp.
+    // 0x81d2b4 _ZN15CMatchingGLLiveD1Ev (D2 twin at 0x81d614, D0 at 0x81d5f8). Partial, see the cpp.
     ~CMatchingGLLive();
 
     // Statics of the original (s_IsGameStarting, the GLLive event queue and the
@@ -160,47 +158,33 @@ public:
     // the observer copy and the RegisterObserver call are not reproduced (see the cpp).
     GLXPlayerLogin* GetGLXPlayerLogin();
 
-    // 0x81c37c _ZN15CMatchingGLLive19GetGLXPlayerUserFriendEv. Partial, see the cpp.
+    // 0x81c37c _ZN15CMatchingGLLive22GetGLXPlayerUserFriendEv. Partial, see the cpp.
     GLXPlayerUserFriend* GetGLXPlayerUserFriend();
-    // 0x81c138 _ZN15CMatchingGLLive15GetGLFriendsNumberEi
-    std::int32_t GetGLFriendsNumber(std::int32_t index) const;
-    // 0x81c174 _ZN15CMatchingGLLive19SendRequestLostPasswordEPc
+    // 0x81c138 _ZN15CMatchingGLLive18GetGLFriendsNumberEi
+    std::int32_t GetGLFriendsNumber(std::int32_t index);
+    // 0x81c174 _ZN15CMatchingGLLive23SendRequestLostPasswordEPc
     std::int32_t SendRequestLostPassword(char* name);
     // 0x81c748 _ZN15CMatchingGLLive16InitializeFriendEv
     std::int32_t InitializeFriend();
-    // 0x81c78c _ZN15CMatchingGLLive20SendGLFriendsGameInviteEPc. Partial, see the cpp.
+    // 0x81c78c _ZN15CMatchingGLLive23SendGLFriendsGameInviteEPc. Partial, see the cpp.
     std::int32_t SendGLFriendsGameInvite(char* name);
-    // 0x81cec0 _ZN15CMatchingGLLive12IsFriendWithEPKcb. Partial, see the cpp.
-    bool IsFriendWith(const char* name, bool includeAll) const;
-    // 0x81cf30 _ZN15CMatchingGLLive14SendInvitationEPKcS1_b. Partial, see the cpp.
-    std::int32_t SendInvitation(const char* title, const char* text, bool flag);
-    // 0x81ec5c _ZN15CMatchingGLLive15GetFriendsListEb. Partial, see the cpp.
-    std::vector<tFriendInfo> GetFriendsList(bool skipState3);
-    // 0x81c200 _ZN15CMatchingGLLive20ProcessMemberJoinMessageEiR12NetBitStream. Partial, see the cpp.
-    std::int32_t ProcessMemberJoinMessage(int from, NetBitStream& stream);
-    // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.
-    std::int32_t SendClientRequest();
     // 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv
     std::int32_t GetMemberId() const;
     // 0x81dd04 _ZNK15CMatchingGLLive17GetGLLiveMemberIdEv. Partial: the name lookup is not reproduced.
     std::int32_t GetGLLiveMemberId() const;
-    // 0x81dba0 _ZN15CMatchingGLLive21GetGLLiveMemberIdListEv. Partial: returns an empty list.
-    std::vector<std::int32_t> GetGLLiveMemberIdList() const;
-    // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamENSt..basic_string..Eb. Partial, see the cpp.
+    // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamESsb. Partial, see the cpp.
     void SetPlayerParam(std::string value, bool sendToLobby);
     // 0x81f858 _ZN15CMatchingGLLive9TerminateEv. Partial, see the cpp.
     std::int32_t Terminate();
-    // 0x81e25c _ZN15CMatchingGLLive12SyncMemberIdEv. Partial: only the guard is reproduced.
-    void SyncMemberId();
     // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
     // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
     CRoomAttributes* GetRoomAttributes();
-    // 0x820318 _ZN15CMatchingGLLive22GetSearchRoomAttributesEy: copy of the room settings stored
+    // 0x820318 _ZN15CMatchingGLLive23GetSearchRoomAttributesEy: copy of the room settings stored
     // under the key, or default settings when the key is not in the map.
     CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
-    // 0x821188 _ZN15CMatchingGLLive28BroadcastPacketReceiverCallbackER10CNetworkIdPcj. Partial: the
+    // 0x821188 _ZN15CMatchingGLLive31BroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial: the
     // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
-    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::size_t size);
+    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
     // 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
     std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
@@ -260,4 +244,9 @@ private:
     CRoomSearchFilter searchFilter_;       // +0x6738 (copied by SearchRoomInternal)
     std::int32_t roomKey_ = 0;             // +0x680c (room id used by GetRoomAttributes)
     GLXPlayerUserFriend* glxUserFriend_ = nullptr;  // +0x6700 (friend list, null until created)
+    CMatchingGLLiveFriendObserver* friendObserver_ = nullptr;  // +0x6704 (flag at +4 of the observer)
+    GLXPlayerMessage* glxMessage_ = nullptr;        // +0x6708 (sends invitations and game invites)
+    GLXPlayerUser* glxUser_ = nullptr;              // +0x6718 (password retrieval)
+    std::uint8_t glFriendsRequested_ = 0;           // +0x67e9 (set by InitializeFriend)
+    std::string playerParam_;                       // +0x67f0 (player parameter text, at most 0x80 bytes)
 };

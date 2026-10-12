@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "net-transport/deps/data_packet_payload.hpp"
+
 namespace {
 
 // The original's wchar_t is 4 bytes (ARM). Wide characters are written as 32-bit little-endian
@@ -38,6 +40,18 @@ void GetWideUnits(wchar_t* dst, const char* src, int count) {
 // 0x84a988 / 0x84aa7c _ZN17DefaultDataPacketC1Ev / _ZN17DefaultDataPacketC2Ev
 // Body zeroed, cursors and IP/port cleared, data type 1 (the member initialisers do this).
 DefaultDataPacket::DefaultDataPacket() = default;
+
+// 0x84a508 _ZN17DefaultDataPacketC1EP10DataPacket
+// 0x84a5a4 _ZN17DefaultDataPacketC2EP10DataPacket is the same body (skipped at that address).
+// Partial: the data type (vtable +0x74) and the body (+0x64, length from +0x60) of the source are
+// read through the DataPacket stand-ins, which return 0, nullptr and 0 until DataPacket declares
+// those slots. The copy then has the stand-in values. The original's ip and port are cleared, and
+// the next-packet link is cleared last, as the member initialisers and the body do here.
+DefaultDataPacket::DefaultDataPacket(DataPacket* source) {
+    data_type_ = PayloadDataType(*source);
+    setMessageBody(PayloadBody(*source), static_cast<int>(PayloadLength(*source)));
+    next_packet_ = nullptr;
+}
 
 // 0x84a740 / 0x84a7a8 _ZN17DefaultDataPacketD1Ev / _ZN17DefaultDataPacketD2Ev
 // Frees the owned IP string. The base destructor runs after this body.
@@ -278,6 +292,23 @@ int DefaultDataPacket::getPacket(DataPacket*& packet) {
     created->setMessageBody(reinterpret_cast<const unsigned char*>(body_ + start + 2), length);
     read_pos_ = start + 2 + length;
     return 1;
+}
+
+// 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket
+// Partial: the length (vtable +0x60) and the body (+0x64) of the source come from the DataPacket
+// stand-ins, so an empty message is appended until DataPacket declares them. The original returns
+// the memcpy destination, which is not returned here. Not bounded by kBodySize, as in the original.
+// Writes the length as two big-endian bytes, then the body, and advances the write cursor by both.
+void DefaultDataPacket::addPacket(DataPacket* packet) {
+    const std::size_t length = PayloadLength(*packet);
+    const std::uint8_t* body = PayloadBody(*packet);
+    body_[write_pos_] = ToChar(static_cast<std::uint8_t>(length >> 8));
+    body_[write_pos_ + 1] = ToChar(static_cast<std::uint8_t>(length));
+    write_pos_ += 2;
+    if (length != 0) {
+        std::memcpy(body_ + write_pos_, body, length);
+    }
+    write_pos_ += static_cast<int>(length);
 }
 
 // 0x84a344 _ZN17DefaultDataPacket11packMessageEv

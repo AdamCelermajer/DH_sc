@@ -15,6 +15,10 @@ public:
 
     // 0x84a988 / 0x84aa7c _ZN17DefaultDataPacketC1Ev, _ZN17DefaultDataPacketC2Ev
     DefaultDataPacket();
+    // 0x84a508 / 0x84a5a4 _ZN17DefaultDataPacketC1EP10DataPacket, _ZN17DefaultDataPacketC2EP10DataPacket
+    // (partial): copies the source's data type and body through the DataPacket stand-ins
+    // (deps/data_packet_payload.hpp), so the copy is empty until DataPacket declares its accessors.
+    explicit DefaultDataPacket(DataPacket* source);
     // 0x84a740 / 0x84a7a8 _ZN17DefaultDataPacketD1Ev, _ZN17DefaultDataPacketD2Ev
     ~DefaultDataPacket() override;
     DefaultDataPacket(const DefaultDataPacket&) = delete;
@@ -44,6 +48,9 @@ public:
 
     // 0x84a9fc _ZN17DefaultDataPacket9getPacketERP10DataPacket (returns 1; see the ledger)
     virtual int getPacket(DataPacket*& packet);
+    // 0x84a460 _ZN17DefaultDataPacket9addPacketEP10DataPacket (partial, vtable +0x54): appends the
+    // source's message as a big-endian 2-byte length and its body (stand-in accessors, see above).
+    virtual void addPacket(DataPacket* packet);
     // 0x84a344 packMessage: empty in the original.
     virtual void packMessage();
     virtual int getMessageLen();                                                    // 0x84a330

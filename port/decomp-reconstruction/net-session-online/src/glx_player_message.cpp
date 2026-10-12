@@ -37,17 +37,18 @@ char* CopyField(const std::vector<std::string>& list, std::int32_t index, std::i
 }  // namespace
 
 // 0x8368e0 _ZN16GLXPlayerMessageC1Ev (C2 0x836980, same body)
-// Partial: the original allocates a 0x428-byte GLXPlayerHttp into +0x20 here. The header has no
-// typed slot for it yet, so the allocation is not made. LoadConfig, current id -1 and the
-// clearMsgCount reset are reproduced.
+// Loads the service URL, builds the request client (+0x20) from the host, path and third string as the
+// original does, then sets the current id to -1 and clears the message count.
 GLXPlayerMessage::GLXPlayerMessage() {
-    LoadConfig();
+    GLXPlayerWebComponent::LoadConfig();
+    requestClient_ = std::make_unique<GLXPlayerHttp>(string10_.get(), string18_.get(), string14_.get());
     currentMsgId_ = -1;
     clearMsgCount();
 }
 
-// 0x83681c _ZN16GLXPlayerMessageD1Ev
-// The original clears the lists and frees the body; the base destructor follows.
+// 0x83681c _ZN16GLXPlayerMessageD1Ev, 0x83688c D2
+// The original clears the lists and frees the body; the base destructor follows. The body is the
+// unique_ptr at +0x68 and the request client is released by the base class.
 GLXPlayerMessage::~GLXPlayerMessage() {
     clearMessageList();
 }

@@ -1,16 +1,111 @@
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
 
+#include <cstdlib>
 #include <cstring>
+#include <string>
 
 #include "net-session-online/deps/xp_api.hpp"
+#include "net-session-online/xp_api.hpp"
+
+namespace {
+constexpr std::int32_t kMaxParameters = 10;  // GAME_PARAM_COUNT is capped at 10 in the original
+constexpr char kLineFeed = 10;
+constexpr char kCarriageReturn = 13;
+constexpr char kKeyDelimiter = 58;           // ':'
+constexpr char kTypeDelimiter = 124;         // '|'
+}  // namespace
 
 // 0x836e3c _ZN23CLobbyParameterAndQueryC1Ev
-// 0x837224 _ZN23CLobbyParameterAndQueryC2Ev
-// Partial. The original opens "oconf.bar", reads it and parses it with
-// XP_API_PARSE_DATA, then ends in a non-returning tail call. The file loader is
-// not a stand-in yet, so only the not-found path is kept.
+// 0x837224 _ZN23CLobbyParameterAndQueryC2Ev (same body; skipped as a variant)
+// Opens "oconf.bar" and parses it: the first line is read, then each following line is split
+// into "KEY:VALUE". GAME_PARAM_COUNT sets the count (capped at 10) and GAME_PARAM_TYPE stores
+// the '|'-separated type bytes while the count allows. A missing file is reported and leaves the
+// object empty. Deviation: the original copies the value text into fixed 32 and 256 byte buffers
+// and reads past a line without ':'; here the buffers are the size of the file, and a missing
+// value is empty.
 CLobbyParameterAndQuery::CLobbyParameterAndQuery() {
-    XP_DEBUG_OUT("[CLobbyParameterAndQuery] not found \n", "oconf.bar");
+    types_.assign(static_cast<std::size_t>(kMaxParameters), 0);
+
+    const int handle = XP_API_FILE_OPEN("oconf.bar", "r");
+    if (handle == 0) {
+        XP_DEBUG_OUT("[CLobbyParameterAndQuery] not found \n", "oconf.bar");
+        return;
+    }
+
+    const std::size_t length = static_cast<std::size_t>(XP_API_FILE_GET_LENGTH(handle));
+    std::vector<char> fileText(length + 1, 0);
+    XP_API_FILE_READ(fileText.data(), length, 1, handle);
+
+    std::vector<char> line(length + 1, 0);
+    std::vector<char> key(length + 1, 0);
+    std::vector<char> value(length + 1, 0);
+
+    XP_API_PARSE_DATA(fileText.data(), line.data(), 0, kLineFeed);
+    std::size_t lineLength = XP_API_STRLEN(line.data());
+    if (lineLength > 0) {
+        if (line[lineLength - 1] == kCarriageReturn) {
+            line[lineLength - 1] = 0;
+        }
+        for (int index = 1;; ++index) {
+            std::memset(key.data(), 0, key.size());
+            std::memset(value.data(), 0, value.size());
+            XP_API_PARSE_DATA(line.data(), key.data(), 0, kKeyDelimiter);
+            const int valueStart = XP_API_PARSE_DATA(line.data(), value.data(), 1, kKeyDelimiter);
+            std::memset(value.data(), 0, value.size());
+            lineLength = XP_API_STRLEN(line.data());
+            if (valueStart >= 0) {
+                std::memcpy(value.data(), line.data() + valueStart, lineLength - static_cast<std::size_t>(valueStart));
+            }
+            XP_API_STRTRIM(key.data());
+            XP_API_STRTRIM(value.data());
+
+            if (std::strcmp(key.data(), "GAME_PARAM_COUNT") == 0) {
+                const std::int32_t parsed = std::atoi(value.data());
+                count_ = parsed >= 11 ? kMaxParameters : parsed;
+            }
+
+            if (std::strcmp(key.data(), "GAME_PARAM_TYPE") == 0) {
+                const std::size_t valueLength = std::strlen(value.data());
+                if (valueLength > 0) {
+                    // The scan starts from the position the original's strcmp result leaves, 0.
+                    std::size_t position = 0;
+                    std::size_t segmentStart = 0;
+                    std::int32_t typeIndex = 0;
+                    do {
+                        do {
+                            ++position;
+                        } while (position != valueLength && value[position] != kTypeDelimiter);
+                        if (count_ > typeIndex) {
+                            const std::string token(value.data() + segmentStart, position - segmentStart);
+                            types_[static_cast<std::size_t>(typeIndex)] =
+                                static_cast<std::uint8_t>(std::atoi(token.c_str()));
+                            ++typeIndex;
+                            segmentStart = position + 1;
+                        }
+                    } while (position != valueLength);
+                }
+            }
+
+            std::memset(line.data(), 0, line.size());
+            XP_API_PARSE_DATA(fileText.data(), line.data(), index, kLineFeed);
+            lineLength = XP_API_STRLEN(line.data());
+            if (lineLength == 0) {
+                break;
+            }
+            if (line[lineLength - 1] == kCarriageReturn) {
+                line[lineLength - 1] = 0;
+            }
+        }
+    }
+    XP_API_FILE_CLOSE(handle);
+
+    // Deviation: a negative GAME_PARAM_COUNT is kept as 0 here (the original asks for a huge block).
+    if (count_ < 0) {
+        count_ = 0;
+    }
+    const std::size_t parameters = static_cast<std::size_t>(count_);
+    values_.assign(parameters, nullptr);
+    lengths_.assign(parameters, 0);
 }
 
 // 0x836d00 _ZN23CLobbyParameterAndQueryD1Ev

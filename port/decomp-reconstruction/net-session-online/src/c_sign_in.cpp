@@ -1,4 +1,5 @@
 #include "net-session-online/c_sign_in.hpp"
+#include "net-session-online/c_sign_in_gl_live.hpp"
 
 // 0x81a9c4 _ZN18CSignInCredentialsC2EPcS0_Pv (C1 is the same body at 0x81a9cc)
 CSignInCredentials::CSignInCredentials(char* name, char* password, void* context)
@@ -27,10 +28,15 @@ std::int32_t& CSignIn::Provider() {
 }
 
 // 0x81a6ac _ZN7CSignIn3GetEv
-// Partial: provider 1 (CSignInGLLive) is not created, so a null singleton is returned then.
+// Provider 0 creates the dummy and provider 1 the Gameloft Live sign-in. Any other provider
+// leaves the singleton null, as the original does.
 CSignIn* CSignIn::Get() {
-    if (Instance() == nullptr && Provider() == 0) {
-        Instance() = new CSignInDummy();
+    if (Instance() == nullptr) {
+        if (Provider() == 0) {
+            Instance() = new CSignInDummy();
+        } else if (Provider() == 1) {
+            Instance() = new CSignInGLLive();
+        }
     }
     return Instance();
 }

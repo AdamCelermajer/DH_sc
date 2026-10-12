@@ -76,7 +76,11 @@ CNetworkId CTcp::GetLocalNetworkId() {
 
 // 0x82a0d8 _ZN4CTcp14ReceivePacketsEv
 // Partial: reads up to 21 packets of at most 4096 bytes and hands each to the transport
-// manager. ReceiverCallback is a no-op stand-in (CTransportManager is not reconstructed).
+// manager (ReceiverCallback, 0x81b11c). The argument roles of that call are unclear in the
+// Hex-Rays pseudocode: the call passes the CTcp object, the peer id, the buffer and the length
+// in the order of the callee's symbol, which is what the port does.
+// The per-packet size passed in the original is the register holding the pointer to the
+// peer id, so the length argument may differ.
 int CTcp::ReceivePackets() {
     CNetworkId from;
     char buffer[0x1000];
@@ -164,9 +168,9 @@ CTcp* CTcp::CreateBySocketId(int handle, unsigned int flags) {
 }
 
 // 0x82a540 _ZN4CTcp17AcceptConnectionsEv
-// Partial: the accepted handle is wrapped in a new CTcp and handed to the transport manager
-// through AcceptCallback, a no-op stand-in (CTransportManager is not reconstructed). The
-// original's unused CNetworkId for the peer is not built here.
+// The accepted handle is wrapped in a new CTcp (options 0 at CreateBySocketId) and handed to the
+// transport manager through AcceptCallback with type 2 (TCP). The original also builds a peer
+// CNetworkId (address0 = port and IPv4) that is never read, so it is not built here.
 int CTcp::AcceptConnections() {
     if (socket_.IsValid() && socket_.IsListening()) {
         in_addr from{};
@@ -181,8 +185,8 @@ int CTcp::AcceptConnections() {
 }
 
 // 0x82a464 _ZN4CTcp19InitializeTransportEv
-// Partial: registers one listening TCP transport on any port, once (CreateByPort(0, 5)).
-// AddTransport is a no-op stand-in (deps/transport_manager.hpp).
+// Registers one listening TCP transport on port 0 with create flags 5 (CreateByPort(0, 5), as
+// the original's first two arguments), once.
 int CTcp::InitializeTransport() {
     if (!s_initialized_) {
         CTcp* listener = CreateByPort(0, 5);

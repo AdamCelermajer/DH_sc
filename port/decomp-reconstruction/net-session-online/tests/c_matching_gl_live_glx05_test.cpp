@@ -7,11 +7,6 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Stand-ins for the statics that c_matching_gl_live_glx04.cpp defines. This test does not link
-// that file, so the two definitions are provided here.
-bool CMatchingGLLive::s_IsGameStarting = false;
-CEventQueueBase CMatchingGLLive::s_eventQueueGLLiveInternal;
-
 namespace {
 struct CountingObserver : GLXPlayerMPBaseObserver {
     int invalid = 0;

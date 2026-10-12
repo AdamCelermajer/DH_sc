@@ -63,7 +63,7 @@ public:
     virtual void Destroy();
 
     // 0x81a6ac _ZN7CSignIn3GetEv: returns the singleton. With none and provider 0 it creates
-    // a CSignInDummy. Provider 1 (CSignInGLLive, 0x8246b8) is queued, so no object is made.
+    // a CSignInDummy, and with provider 1 a CSignInGLLive.
     static CSignIn* Get();
     // The provider switch s_SignInProvider (0 = dummy, 1 = Gameloft Live). Not set by this port.
     static std::int32_t& Provider();

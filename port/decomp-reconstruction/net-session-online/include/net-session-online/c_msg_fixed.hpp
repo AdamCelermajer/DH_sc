@@ -109,11 +109,18 @@ private:
 
 class CMsgSpawnObject : public CMessage {
 public:
+    // 0x32a66c _ZN15CMsgSpawnObjectC1Eb
+    explicit CMsgSpawnObject(bool withSerial) : CMessage("CMsgSpawnObject", withSerial) {
+        typeName_ = "CMsgSpawnObject";
+        flag32_ = true;                // +0x32 (the original's 16-bit store also clears +0x33)
+        includeLocalMember_ = false;   // +0x33
+        sendMode_ = 0;                 // +0x2c
+    }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 28; }
     // 0x32789c _ZN15CMsgSpawnObject13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgSpawnObject";
         flag32_ = true;
         includeLocalMember_ = false;
         sendMode_ = 0;
@@ -127,8 +134,11 @@ class CMsgRaisedEvent : public CMessage {
 public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 20; }
-    // Original also assigns the type name string at +0x14 (not modelled).
+    // 0x327a0c _ZN15CMsgRaisedEvent13SetPropertiesEv
+    // Note: a second CMsgRaisedEvent class lives in c_msg_raised_event.hpp (another worker);
+    // the two definitions conflict and must be merged before both are compiled together.
     void SetProperties() {
+        typeName_ = "CMsgRaisedEvent";
         reliable_ = true;
         sendMode_ = 1;
         includeLocalMember_ = true;
@@ -141,16 +151,16 @@ private:
 class CMsgControllerAction : public CMessage {
 public:
     // 0x328a64 _ZN20CMsgControllerActionC1Eb
-    // Partial: calls CMessage(const char*, bool); the type-name string is not modelled.
     // The original does not touch the local-member flag here, so the base value stays.
     explicit CMsgControllerAction(bool withSerial) : CMessage("CMsgControllerAction", withSerial) {
+        typeName_ = "CMsgControllerAction";
         sendMode_ = 1;
     }
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 20; }
     // 0x327a74 _ZN20CMsgControllerAction13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgControllerAction";
         sendMode_ = 1;
     }
 
@@ -163,8 +173,10 @@ public:
     void* GetDataPtr() override { return payload_; }
     std::uint32_t GetDataSize() const override { return 52; }
     // 0x327a40 _ZN16CMsgAttackResult13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
+    // Note: a second CMsgAttackResult class lives in c_msg_attack_result.hpp (another worker);
+    // the two definitions conflict and must be merged before both are compiled together.
     void SetProperties() {
+        typeName_ = "CMsgAttackResult";
         includeLocalMember_ = false;
         sendMode_ = 1;
     }
@@ -178,8 +190,8 @@ class CMsgGlobalDeath : public CMessage {
 public:
     std::uint32_t GetDataSize() const override { return 0; }
     // 0x327868 _ZN15CMsgGlobalDeath13SetPropertiesEv
-    // Partial: the original also assigns the type name string at +0x14 (not modelled).
     void SetProperties() {
+        typeName_ = "CMsgGlobalDeath";
         reliable_ = true;
         sendMode_ = 1;
         flag32_ = true;

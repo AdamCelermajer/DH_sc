@@ -38,7 +38,7 @@ public:
     static void GetCurTimeDate(GameDate* out);
     // 0x82ecfc _ZN22GLXPlayerSereverConfig8GetValueEPKc. Returns the stored value, or the empty
     // string (s_emptyUrl) when the key is missing.
-    const char* GetValue(const char* key) const;
+    static const char* GetValue(const char* key);
 
     // 0x82e0bc _ZN22GLXPlayerSereverConfig16SaveServerConfigEv. Writes serverConfig.sav.
     std::int32_t SaveServerConfig();
@@ -59,10 +59,10 @@ public:
     const char* GetChatDomain() const;          // 0x82ef2c, key "ChatDomain"
     const char* GetChatServer() const;          // 0x82ef3c, key "ChatServer"
     const char* GetwebURLType() const;          // 0x82ef4c, key "type"
-    const char* GetPhpVer() const;              // 0x82ef5c, key "XPPHPVerNo"
+    static const char* GetPhpVer();             // 0x82ef5c, key "XPPHPVerNo"
     const char* GetXPlayerMPURL() const;        // 0x82ef6c, key "XPlayMPURL"
     const char* GetXPlayerDWURL() const;        // 0x82ef7c, key "XplayDWURL"
-    const char* GetXPlayerURL() const;          // 0x82ef8c, key "XplayerURL"
+    static const char* GetXPlayerURL();         // 0x82ef8c, key "XplayerURL"
 
     // Not in the original: test seams.
     void SetValueForTest(const std::string& key, const std::string& value);

@@ -24,13 +24,13 @@
 class GLXPlayerMessage : public GLXPlayerWebComponent {
 public:
     // 0x8368e0 _ZN16GLXPlayerMessageC1Ev, 0x836980 _ZN16GLXPlayerMessageC2Ev
-    // Partial: the 0x428-byte request client at +0x20 is not allocated (see the .cpp).
+    // The 0x428-byte request client at +0x20 is built here (see the .cpp).
     GLXPlayerMessage();
     // 0x83688c _ZN16GLXPlayerMessageD2Ev, and 0x83681c _ZN16GLXPlayerMessageD1Ev (the body is
     // in glx_player_message.cpp: it clears the lists). The deleting variant 0x836870 (D0) is
     // the compiler's delete of this destructor and is not a separate function here.
     // The message list and body are released by their members. The request client at +0x20
-    // is not allocated here, so there is nothing else to free.
+    // is released by the base class.
     ~GLXPlayerMessage() override;
 
     // 0x834d2c _ZN16GLXPlayerMessage15getMsgListCountEv

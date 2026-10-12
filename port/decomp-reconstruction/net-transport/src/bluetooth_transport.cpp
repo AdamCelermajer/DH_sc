@@ -123,8 +123,8 @@ CBluetoothReliable::~CBluetoothReliable() {
 // 0x828da0 _ZN18CBluetoothReliable17AcceptConnectionsEv
 // Partial: accept_enabled_ (+0x30) is not set by any recovered code. The socket check is vtable
 // +0x5c of CBluetoothSocket, which is IsServer(). AcceptCallback is the transport-manager
-// stand-in (a no-op); the transport type passed is GetType() because the pseudocode passes only
-// the manager and this.
+// stand-in (a no-op). The pseudocode's first argument is the global `byte_4` (an unidentified
+// address, not a value), so the transport type passed is GetType(); that choice is a guess.
 int CBluetoothReliable::AcceptConnections() {
     if (accept_enabled_ && socket_.IsServer() && (flags_ & 1) != 0) {
         GetTransportMgr().AcceptCallback(GetType(), this);
@@ -133,15 +133,16 @@ int CBluetoothReliable::AcceptConnections() {
 }
 
 // 0x828df0 _ZN18CBluetoothReliable7ConnectER10CNetworkId
-// Partial: the pseudocode tests a virtual slot (+0x28) that takes no argument. It is taken to be
-// IsConnected(), which the Bluetooth stubs answer false, so the already-connected test never
-// passes here. Fails with -1 when the transport is not initialized; the stored peer itself
-// returns 0 without a copy, otherwise the peer is stored.
+// Partial: the pseudocode calls vtable slot +0x28 with `this` only. The vtable of this class puts
+// IsConnectedTo(CNetworkId&) in that slot, so the call is IsConnectedTo(peer) here. The decompile
+// shows no peer argument; the Bluetooth stub answers false whatever it is given. Fails with -1
+// when the transport is not initialized; the stored peer itself returns 0 without a copy,
+// otherwise the peer is stored.
 int CBluetoothReliable::Connect(CNetworkId& peer) {
     if (!initialized_) {
         return -1;
     }
-    if (IsConnected() || &peer == &peer_) {
+    if (IsConnectedTo(peer) || &peer == &peer_) {
         return 0;
     }
     peer_.Set(peer);

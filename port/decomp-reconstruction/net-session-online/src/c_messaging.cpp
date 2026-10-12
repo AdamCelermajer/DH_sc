@@ -105,8 +105,6 @@ void CMessaging::ClearMessageQueue(std::list<CMessage*>* queue, CNetMutex* mutex
 }
 
 // 0x80ae90 _ZN10CMessaging11ResetQueuesEb
-// Partial: the original also sets CMessage::m_messageSerial to 0 on this path.
-// That static is not modelled in c_message.hpp, so it is not reset here.
 void CMessaging::ResetQueues(bool resetMaps) {
     ClearMessageQueue(&sendQueue_, &sendMutex_);
     ClearMessageQueue(&recvQueue_, &recvMutex_);
@@ -118,6 +116,7 @@ void CMessaging::ResetQueues(bool resetMaps) {
     if (resetMaps) {
         seqMapA_.clear();
         seqMapB_.clear();
+        CMessage::ResetSerial();  // CMessage::m_messageSerial = 0 in the original
     }
     seqMutex_.Unlock();
     ackMutex_.Unlock();
