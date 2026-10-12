@@ -66,6 +66,21 @@ int main() {
         CHECK(u.CreateSocket());
         CHECK(u.CloseSocket());
     }
+    {
+        // Host lookup: the first call starts the worker and returns null; once the worker has cached
+        // the name, a later call returns the cached entry. The destructor joins the worker.
+        LCAndroidSocket h(nullptr, 0, nullptr);
+        char host[] = "localhost";
+        CHECK(h.GetHostByName(host) == nullptr);
+        bool cached = false;
+        for (int i = 0; i < 400 && !cached; ++i) {
+            cached = h.GetHostByName(host) != nullptr;
+            if (!cached) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            }
+        }
+        CHECK(cached);
+    }
     LCAndroidSocket::Clearup();
     std::printf("%s\n", failures ? "lc_android_socket: FAILED" : "lc_android_socket: ok");
     return failures != 0;

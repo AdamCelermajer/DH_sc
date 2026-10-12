@@ -145,6 +145,12 @@ public:
     // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
     // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
     CRoomAttributes* GetRoomAttributes();
+    // 0x820318 _ZN15CMatchingGLLive22GetSearchRoomAttributesEy: copy of the room settings stored
+    // under the key, or default settings when the key is not in the map.
+    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+    // 0x821188 _ZN15CMatchingGLLive28BroadcastPacketReceiverCallbackER10CNetworkIdPcj. Partial: the
+    // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
+    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::size_t size);
     // 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
     std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
