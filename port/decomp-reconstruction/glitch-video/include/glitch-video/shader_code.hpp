@@ -10,6 +10,10 @@
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
 
+namespace glitch::io {
+class IAttributes;
+}  // namespace glitch::io
+
 namespace glitch::video {
 
 class IShaderCode {
@@ -19,6 +23,12 @@ public:
 
     std::string m_name;   // +0x08, std::string built from the name argument
     uint32_t m_refCount = 0;  // +0x04, set to 0 by the ctor
+};
+
+class CGLSLShaderCode : public IShaderCode {
+public:
+    void serializeAttributes(io::IAttributes* attributes) const;  // 0x6df398, empty
+    void deserializeAttributes(io::IAttributes* attributes);      // 0x6df39c, empty
 };
 
 // Stand-in for SIDedCollection<intrusive_ptr<IShaderCode>, uint16_t, ...>.

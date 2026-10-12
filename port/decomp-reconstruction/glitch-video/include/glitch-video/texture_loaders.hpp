@@ -16,6 +16,8 @@ public:
     virtual ~IImageLoader() = default;
     virtual bool hasTextureLoadInterface();                               // 0x602c84
     virtual bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const;  // 0x602c8c
+
+    uint32_t m_refCount = 1;  // +0x04, set to 1 by the loader constructors
 };
 
 class CImageLoaderATC : public IImageLoader {
@@ -38,6 +40,7 @@ public:
 
 class CImageLoaderDDS : public IImageLoader {
 public:
+    CImageLoaderDDS();  // 0x604268 (C2) / 0x604294 (C1)
     class CDataInfo {
     public:
         int32_t getFileDataSize() const;     // 0x60422c
@@ -58,6 +61,7 @@ public:
 
 class CImageLoaderPVR : public IImageLoader {
 public:
+    CImageLoaderPVR();  // 0x605740 (C2) / 0x60576c (C1)
     // 0x6057e0: a 52-byte header with "PVR!" at offset 44, or "BTEXpvr" at offset 0.
     bool isALoadableFileFormat(io::IReadFile* file) const;
     // 0x6061b4: ".pvr" or ".btex" in the name.
@@ -77,6 +81,7 @@ public:
 // libjpeg source-manager callbacks used by the JPG loader.
 class CImageLoaderJPG {
 public:
+    CImageLoaderJPG();  // 0x604a7c (C2) / 0x604aa8 (C1)
     // 0x604b0c: "JFIF" (or the byte-swapped form) at offset 6.
     bool isALoadableFileFormat(io::IReadFile* file) const;
     // 0x604f6c: ".jpg" or ".JPG" in the name.
@@ -85,6 +90,14 @@ public:
     void init_source(jpeg_decompress_struct*);       // 0x604adc
     bool fill_input_buffer(jpeg_decompress_struct*); // 0x604ae0
     void term_source(jpeg_decompress_struct*);       // 0x604b08
+
+private:
+    uint32_t m_unknown04 = 1;  // +0x04, set to 1 by the constructors
 };
+
+// Factories: new object, default constructed, returned to the caller.
+CImageLoaderDDS* createImageLoaderDDS();  // 0x604344
+CImageLoaderJPG* createImageLoaderJPG();  // 0x604bc0
+CImageLoaderPVR* createImageLoaderPVR();  // 0x6057c0
 
 }  // namespace glitch::video

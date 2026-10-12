@@ -6,6 +6,36 @@
 
 namespace glitch::video {
 
+// 0x603480: new CImageLoaderBMP, default constructed.
+class CImageLoaderBMP;
+CImageLoaderBMP* createImageLoaderBMP();
+
+// 0x606990 (C2) / 0x6069bc (C1): writer with the reference word at +0x04 set to 1.
+class CImageWriterJPG {
+public:
+    CImageWriterJPG();  // 0x606990 (C2) / 0x6069bc (C1)
+    virtual ~CImageWriterJPG() = default;
+
+private:
+    uint32_t m_unknown04 = 1;  // +0x04
+};
+
+// 0x606d30 (C2) / 0x606d5c (C1): PNG writer, same layout as the JPG writer.
+class CImageWriterPNG {
+public:
+    CImageWriterPNG();  // 0x606d30 (C2) / 0x606d5c (C1)
+    virtual ~CImageWriterPNG() = default;
+
+private:
+    uint32_t m_unknown04 = 1;  // +0x04
+};
+
+// 0x606d10, 0x6072c0, 0x60762c: factories for the JPG, PNG and TGA writers.
+CImageWriterJPG* createImageWriterJPG();
+CImageWriterPNG* createImageWriterPNG();
+class CImageWriterTGA;
+CImageWriterTGA* createImageWriterTGA();
+
 class CImageLoaderBMP {
 public:
     CImageLoaderBMP();

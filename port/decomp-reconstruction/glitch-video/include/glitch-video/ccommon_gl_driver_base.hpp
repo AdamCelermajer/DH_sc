@@ -76,15 +76,15 @@ public:
     uint8_t getClearStencil() const;           // 0x6dcfac
     E_PIXEL_FORMAT getColorFormat() const;     // 0x6dcdcc
 
-private:
+protected:
     // Offsets are the original ones; the accessor names give the member names.
     bool m_blendEnable = false;                // +0x1c4
     bool m_cullFaceEnable = false;             // +0x1c5
     bool m_depthTestEnable = false;            // +0x1c6
     bool m_depthMask = false;                  // +0x1c7
     bool m_ditherEnable = false;               // +0x1c8
-    E_BLEND_FACTOR m_blendSrc = 0;             // +0x200 (byte)
-    E_BLEND_FACTOR m_blendDst = 0;             // +0x201 (byte)
+    uint8_t m_blendSrc = 0;                    // +0x200 (byte)
+    uint8_t m_blendDst = 0;                    // +0x201 (byte)
     E_BLEND_EQUATION m_blendEquation = 0;      // +0x1fc
     E_FACE_SIDE m_cullFace = 0;                // +0x1d8
     E_FACE_WINDING m_frontFace = 0;            // +0x1dc

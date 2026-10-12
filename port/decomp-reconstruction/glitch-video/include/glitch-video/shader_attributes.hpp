@@ -20,6 +20,7 @@ public:
 
     SShaderVertexAttributeDef* m_vertexAttributeDefs = nullptr;  // +0x24
     uint8_t m_vertexAttributeDefCount = 0;                       // +0x3c
+    uint32_t m_glProgram = 0;                                    // +0x4c, GL program name (set by CGLSLShader::createProgram)
 };
 
 }  // namespace glitch::video
