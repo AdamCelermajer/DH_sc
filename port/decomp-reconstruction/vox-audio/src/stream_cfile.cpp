@@ -20,11 +20,11 @@ StreamCFile::~StreamCFile() = default;
 int StreamCFile::GetType() const { return 1; }
 
 // 0x888a60 _ZN3vox11StreamCFile4InitEv
-// Partial: the asm opens with the word at +0x1c, which in the STLport string
-// layout is the string end pointer (_M_finish), not the C string. The port
-// opens path_.c_str(). This is the only open question (NOTES.md).
-// Everything else matches the asm: fs = GetInstance(); when the string is
-// non-empty and fs is set, open with mode 6, Seek(0, 2), size = Tell(), close.
+// The path string is the STLport layout at +0x08: +0x18 is _M_finish and +0x1c is the
+// data start, which is the C string. The asm compares the two (empty means no open) and
+// passes the data start to OpenFile(name, 6) on fs = GetInstance(). Then Seek(0, 2),
+// size = Tell(), and CloseFile through fs (vtable +0x0c). The port's c_str() is the
+// data start.
 void StreamCFile::Init() {
     size_ = 0;
     fs_ = FileSystemInterface::GetInstance();
@@ -85,11 +85,12 @@ StreamCFileCursor::StreamCFileCursor(StreamCFile* owner) : owner_(owner) {
 }
 
 // 0x888728 _ZN3vox17StreamCFileCursor4InitEv
-// Partial: same open question as StreamCFile::Init. The asm opens when the
-// owner is set, no handle is held yet, and the string word is non-null, with
-// mode 6 on owner->fs_. The port uses the path string.
+// The asm opens when the owner is set, no handle is held yet, and the owner's data-start word
+// (+0x1c) is non-null. A string's data pointer is never null, so the port always opens here,
+// with the same empty-string behaviour as the original (OpenFile on "" with mode 6). The port
+// also returns when owner_->fs_ is null; the original would call through a null pointer.
 void StreamCFileCursor::Init() {
-    if (owner_ == nullptr || file_ != nullptr || owner_->path_.empty()) {
+    if (owner_ == nullptr || file_ != nullptr) {
         return;
     }
     if (owner_->fs_ == nullptr) {

@@ -1123,3 +1123,34 @@ Tests: `tests/decoder_native_header_w13_test.cpp` builds a VoxN file with an Afm
 the header block (magic, body size, name words, base offset, Afmt id and size, format, field_0c, sample word
 and the 12 fmt tail bytes). Host build passes 67 of 67. No MinGW or Wine run in this slice.
 
+
+## Wave 13 (w13-d2): file close, stream name word, Set3D case
+
+Ledger part: `ledger.parts/w13-d2.csv` (22 rows: 4 reconstructed, 14 partial, 4 skipped).
+
+Decisions from the binary:
+- FileInterface vtable (listing, `vtable for vox::FileInterface`, 36 bytes): +0x00 D1, +0x04 D0,
+  +0x08 Read, +0x0c Seek, +0x10 Tell, +0x14 Write, +0x18 GetFilePtr. GetFilePtr is virtual in the
+  port now. CloseFile (0x893ff0) calls it through slot +0x18 and passes a nonzero result to the
+  close function (off_A33EC0, g_file_close). CloseFile returns int (-1 for null, else 0).
+- StreamCFile string words: the path string is the STLport layout at owner+0x08. +0x18 is _M_finish
+  and +0x1c is the data start (the C string). _M_assign (0x888b70) writes the characters at +0x1c and
+  moves +0x18. StreamCFile::Init (0x888a60) and StreamCFileCursor::Init (0x888728) pass +0x1c to
+  OpenFile with mode 6, on fs at +0x20 (asm checks). The port's path_.c_str() is that pointer. The
+  "open question" about +0x1c is closed; the port's std::string stays at +0x08 in the comment.
+- 0x890364 (FUN_008a0364) is not a standalone function. It is jump-table case 3 of
+  DriverCallbackInterface::_Set3DParameter (IDA loc_890364). The port's switch case 3 (listener
+  position) is the same copy.
+- RandomGroup C1 (0x881b40) writes the vptr, +0x24..+0x2c, the sentinel (+0x30, +0x34), +0x3c,
+  +0x40, +0x48 and +0x58 only. +0x38, +0x44, +0x50 and +0x54 keep no binary value.
+- RandomGroup::SetState(RandomGroup&) (0x8834f0): an empty removed list makes the original read the
+  sentinel's +0x08 word (this+0x38) as an element pointer. Still partial for that reason.
+
+Still partial, one named item each: DecodeBlock (IMA tables at .rodata 0x911a24 and 0x911a14, not
+labelled in the listing), UpdateCurrentSegmentState (element branch), DecodeSegment and
+DecodeCurrentSegmentWithOffset (UpdateSegmentsStates 0x885740), LoadXML (group, bank and event uid
+slots), the four FillBuffer mixers (ramp hand-off at a buffer boundary, not checked against asm),
+GetCurThreadId and the VoxThread constructors (Windows value and Windows priority step).
+
+Tests: `tests/w13_close_file_test.cpp` (null gives -1, handle goes to the close function, no handle
+does not call it). Host build: 67 tests, all pass.

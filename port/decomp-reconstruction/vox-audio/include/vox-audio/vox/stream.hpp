@@ -103,7 +103,7 @@ private:
 };
 
 // File-backed stream (vox::StreamCFile). Layout: +0x00 vtable, +0x04 size,
-// +0x18 path string (original vox string), +0x20 file system.
+// +0x08 path string (STLport layout: +0x18 finish, +0x1c data start, the C string), +0x20 file system.
 class StreamCFile final : public StreamInterface {
 public:
     explicit StreamCFile(const char* path);
@@ -118,7 +118,7 @@ public:
 
 private:
     friend class StreamCFileCursor;
-    std::string path_;                     // +0x18
+    std::string path_;                     // +0x08 (the original's string words are +0x18 and +0x1c)
     FileSystemInterface* fs_ = nullptr;    // +0x20
 };
 

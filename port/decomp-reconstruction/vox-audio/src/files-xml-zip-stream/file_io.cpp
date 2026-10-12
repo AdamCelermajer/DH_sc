@@ -237,19 +237,21 @@ FileInterface* FileSystemInterface::OpenFile(const char* name, VoxFileAccessMode
     return nullptr;
 }
 
-// 0x893ff0 _ZN3vox19FileSystemInterface9CloseFileEPNS_13FileInterfaceE (partial): the
-// listing calls vtable slot +0x18 of the file, and when it returns nonzero it calls
-// off_A33EC0 with that result. Then it calls vtable slot 0 and VoxFree, and returns 0 (or -1
-// for a null file). The port has no slot +0x18, so it closes the handle directly and
-// returns nothing (the overrides in the tests are void).
-void FileSystemInterface::CloseFile(FileInterface* file) {
+// 0x893ff0 _ZN3vox19FileSystemInterface9CloseFileEPNS_13FileInterfaceE. Null gives -1. Otherwise
+// the handle comes from the file's virtual GetFilePtr (vtable slot +0x18), and a nonzero handle is
+// passed to the close function (off_A33EC0, g_file_close). Then the file is destroyed (vtable slot
+// +0x00, the non-deleting destructor, then VoxFree in the original; the port allocates with new, so
+// delete does both) and the result is 0. Callers ignore the result.
+int FileSystemInterface::CloseFile(FileInterface* file) {
     if (file == nullptr) {
-        return;
+        return -1;
     }
-    if (file->GetFilePtr() != nullptr && g_file_close != nullptr) {
-        g_file_close(file->GetFilePtr());
+    void* handle = file->GetFilePtr();
+    if (handle != nullptr && g_file_close != nullptr) {
+        g_file_close(handle);
     }
     delete file;
+    return 0;
 }
 
 // 0x893e88 _ZN3vox19FileSystemInterface12GetDirectoryEPciS1_
