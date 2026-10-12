@@ -53,9 +53,15 @@ inline bool verified_crypt_route(std::string_view level_name,
     return level_name == kLevelName && level_file == kLevelFile;
 }
 
+// Other authored static MLX levels carry the same LevelConfig camera shape
+// (empty camera_file -> CameraTests.bdae); the renderer registers its static
+// level table here so they take the same source camera route as SWAMP.
+inline bool (*static_mlx_camera_route)(std::string_view, std::string_view) = nullptr;
+
 inline bool verified_swamp_default_camera_route(std::string_view level_name,
                                                 std::string_view level_file) noexcept {
-    return level_name == "SWAMP" && level_file == "001_swamp.mlx";
+    return (level_name == "SWAMP" && level_file == "001_swamp.mlx") ||
+           (static_mlx_camera_route && static_mlx_camera_route(level_name, level_file));
 }
 
 // CameraTests supplies optional authored rig animation for SWAMP. When it is
