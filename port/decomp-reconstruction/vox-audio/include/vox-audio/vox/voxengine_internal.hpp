@@ -10,9 +10,14 @@
 
 #include <cstdint>
 
+#include "vox-audio/vox/access_controller.hpp"
+#include "vox-audio/vox/handlable.hpp"
+#include "vox-audio/vox/mutex.hpp"
 #include "vox-audio/vox/voxengine_types.hpp"
 
 namespace vox {
+
+class DriverInterface;
 
 class VoxEngineInternal {
 public:
@@ -82,6 +87,13 @@ public:
     void PauseAllEmitters(unsigned int group, float fade);
     void StopAllEmitters(unsigned int group, float fade);
     void PlayAllEmitters(unsigned int group, float fade);
+    // Reference counts for handles (0x868054, 0x8682e0, 0x868d10, 0x86ab10). Declared
+    // only: the bodies need GetEmitterObject, which is not reconstructed yet.
+    void IncreaseEmitterObjectRefCount(EmitterHandle& emitter);
+    void DecreaseEmitterObjectRefCount(EmitterHandle& emitter);
+    void IncreaseDataObjectRefCount(DataHandle& data);
+    void DecreaseDataObjectRefCount(DataHandle& data);
+
     void GetAllEmitters(EmitterHandle* out, int max_count);
     void Resume(EmitterHandle& emitter, float fade);
     void Pause(EmitterHandle& emitter, float fade);
@@ -94,7 +106,7 @@ public:
     void SetGain(EmitterHandle& emitter, float gain, float time);
     void SetAutoKillAfterDone(EmitterHandle& emitter, bool on);
     void KillEmitter(EmitterHandle& emitter);
-    int GetUserData(EmitterHandle& emitter);
+    std::uintptr_t GetUserData(EmitterHandle& emitter);   // word from EmitterObj::GetUserData; 0 without an emitter
     void SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data);
 
     std::uint32_t GetDuration(DataHandle& data);
@@ -113,6 +125,20 @@ public:
     void SetPriorityBank(int index, int min_priority, int max_priority, PriorityBankBehavior behavior);
     int RegisterDecoderType(DecoderInterface* (*factory)(void*));
     int RegisterStreamType(StreamInterface* (*factory)(void*));
+
+    // Emitter lookup (0x8674cc) and the emitter fast path use these. Offsets from the original.
+    EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
+
+private:
+    AccessController data_access_;             // +0x60 (guards data_pending_)
+    HandlableContainer data_objects_;          // +0x08 (lookup by id)
+    HandlableContainer data_pending_;          // +0x28
+    AccessController emitter_pending_access_;  // +0xd0 (guards emitter_pending_)
+    AccessController emitter_access_;          // +0xc4 (read/write access for emitter calls)
+    HandlableContainer emitters_;              // +0x78 (lookup by id)
+    HandlableContainer emitter_pending_;       // +0x98
+    DriverInterface* driver_ = nullptr;        // +0x54c
+    Mutex mutex_;                              // +0x3f4
 };
 
 }  // namespace vox

@@ -7,18 +7,18 @@
 
 namespace vox {
 
-// 0x8715d8 _ZNK3vox13StringCompareclE...: memcmp over the shorter length; when
+// 0x8715d8 _ZNK3vox13StringCompareclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_...: memcmp over the shorter length; when
 // that is equal, the shorter string sorts first.
 struct StringCompare {
     bool operator()(const std::string& a, const std::string& b) const;
 };
 
-// 0x88b778 _ZNK3vox10stringcompclE...: same body as StringCompare.
+// 0x88b778 _ZNK3vox10stringcompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_...: same body as StringCompare.
 struct stringcomp {
     bool operator()(const std::string& a, const std::string& b) const;
 };
 
-// 0x894bac _ZNK3vox10StringCompclE...: same body as StringCompare.
+// 0x894bac _ZNK3vox10StringCompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_...: same body as StringCompare.
 struct StringComp {
     bool operator()(const std::string& a, const std::string& b) const;
 };

@@ -1,5 +1,7 @@
 #include "vox-audio/vox/emitter_obj.hpp"
 
+#include <limits>
+
 namespace vox {
 
 // 0x863528 _ZN3vox10EmitterObj15SetGainModifierEf
@@ -14,70 +16,299 @@ bool EmitterObj::IsReady() {
 
 // 0x8653c0 _ZN3vox10EmitterObj11SetUserDataERNS_21EmitterHandleUserDataE
 void EmitterObj::SetUserData(const std::uintptr_t& first_word) {
-    mutex_.Lock();
+    mutex.Lock();
     user_data_ = first_word;
-    mutex_.Unlock();
+    mutex.Unlock();
 }
 
 // 0x8655e0 _ZN3vox10EmitterObj5ResetEv
 void EmitterObj::Reset() {
-    mutex_.Lock();
+    mutex.Lock();
     reset_flag_ = 1;
-    mutex_.Unlock();
+    mutex.Unlock();
 }
 
 // 0x865608 _ZN3vox10EmitterObj7SetLoopEb
 // The original stores the flag at +0x8d; GetLoop reads +0x8c. Both are kept.
 void EmitterObj::SetLoop(bool loop) {
-    mutex_.Lock();
+    mutex.Lock();
     loop_ = loop ? 1 : 0;
-    mutex_.Unlock();
+    mutex.Unlock();
 }
 
 // 0x865630 _ZN3vox10EmitterObj7GetLoopEv
 bool EmitterObj::GetLoop() {
-    mutex_.Lock();
+    mutex.Lock();
     const bool loop = loop_read_ != 0;
-    mutex_.Unlock();
+    mutex.Unlock();
     return loop;
 }
 
 // 0x865658 _ZN3vox10EmitterObj8SetStateEi
 void EmitterObj::SetState(int state) {
-    mutex_.Lock();
+    mutex.Lock();
     state_set_ = state;
-    mutex_.Unlock();
+    mutex.Unlock();
 }
 
 // 0x865680 _ZN3vox10EmitterObj8GetStateEv
 int EmitterObj::GetState() {
-    mutex_.Lock();
+    mutex.Lock();
     const int state = state_;
-    mutex_.Unlock();
+    mutex.Unlock();
     return state;
 }
 
 // 0x8656f8 _ZN3vox10EmitterObj7IsGroupEj
 bool EmitterObj::IsGroup(std::uint32_t groups) {
-    mutex_.Lock();
+    mutex.Lock();
     const bool in_group = (groups & (std::uint32_t{1} << group_)) != 0;
-    mutex_.Unlock();
+    mutex.Unlock();
     return in_group;
 }
 
 // 0x865734 _ZN3vox10EmitterObj8SetGroupEi
 void EmitterObj::SetGroup(int group) {
-    mutex_.Lock();
+    mutex.Lock();
     group_ = group;
-    mutex_.Unlock();
+    mutex.Unlock();
 }
 
 // 0x86575c _ZN3vox10EmitterObj8GetGroupEv
 int EmitterObj::GetGroup() {
-    mutex_.Lock();
+    mutex.Lock();
     const int group = group_;
-    mutex_.Unlock();
+    mutex.Unlock();
     return group;
+}
+
+// 0x864e64 _ZN3vox10EmitterObj16Get3DParameterfvEiRNS_11VoxVector3fE
+void EmitterObj::Get3DParameterfv(int param, VoxVector3f& out) {
+    mutex.Lock();
+    switch (param) {
+        case 8: out = position_; break;
+        case 9: out = velocity_; break;
+        case 10: out = direction_; break;
+        default: break;
+    }
+    mutex.Unlock();
+}
+
+// 0x864f04 _ZN3vox10EmitterObj16Get3DParameter3fEiRfS1_S1_
+void EmitterObj::Get3DParameter3f(int param, float& x, float& y, float& z) {
+    mutex.Lock();
+    const VoxVector3f* src = nullptr;
+    switch (param) {
+        case 8: src = &position_; break;
+        case 9: src = &velocity_; break;
+        case 10: src = &direction_; break;
+        default: break;
+    }
+    if (src != nullptr) {
+        x = src->x;
+        y = src->y;
+        z = src->z;
+    }
+    mutex.Unlock();
+}
+
+// 0x864fa0 _ZN3vox10EmitterObj15Get3DParameterfEiRf
+// Parameter ids 1..7 map to float_params_[0..6]; other ids leave out untouched.
+void EmitterObj::Get3DParameterf(int param, float& out) {
+    mutex.Lock();
+    const unsigned index = static_cast<unsigned>(param) - 1u;
+    if (index < 7u) {
+        out = float_params_[index];
+    }
+    mutex.Unlock();
+}
+
+// 0x865044 _ZN3vox10EmitterObj15Get3DParameteriEiRi
+void EmitterObj::Get3DParameteri(int param, int& out) {
+    mutex.Lock();
+    if (param == 0) {
+        out = param0_;
+    }
+    mutex.Unlock();
+}
+
+// 0x865078 _ZN3vox10EmitterObj16Set3DParameterfvEiRKNS_11VoxVector3fE
+void EmitterObj::Set3DParameterfv(int param, const VoxVector3f& value) {
+    mutex.Lock();
+    switch (param) {
+        case 8:
+            position_ = value;
+            dirty_[8] = 1;
+            break;
+        case 9:
+            velocity_ = value;
+            dirty_[9] = 1;
+            break;
+        case 10:
+            direction_ = value;
+            dirty_[10] = 1;
+            break;
+        default: break;
+    }
+    mutex.Unlock();
+}
+
+// 0x865130 _ZN3vox10EmitterObj16Set3DParameter3fEifff
+void EmitterObj::Set3DParameter3f(int param, float x, float y, float z) {
+    mutex.Lock();
+    VoxVector3f* dst = nullptr;
+    switch (param) {
+        case 8: dst = &position_; break;
+        case 9: dst = &velocity_; break;
+        case 10: dst = &direction_; break;
+        default: break;
+    }
+    if (dst != nullptr) {
+        dst->x = x;
+        dst->y = y;
+        dst->z = z;
+        dirty_[param] = 1;
+    }
+    mutex.Unlock();
+}
+
+// 0x8651c0 _ZN3vox10EmitterObj15Set3DParameterfEif
+void EmitterObj::Set3DParameterf(int param, float value) {
+    mutex.Lock();
+    const unsigned index = static_cast<unsigned>(param) - 1u;
+    if (index < 7u) {
+        float_params_[index] = value;
+        dirty_[index + 1u] = 1;
+    }
+    mutex.Unlock();
+}
+
+// 0x865280 _ZN3vox10EmitterObj15Set3DParameteriEii
+void EmitterObj::Set3DParameteri(int param, int value) {
+    mutex.Lock();
+    if (param == 0) {
+        param0_ = value;
+        dirty_[0] = 1;
+    }
+    mutex.Unlock();
+}
+
+// 0x8652b8 _ZN3vox10EmitterObj20SetDefaultParametersEv
+// Defaults: param 0 = 0, params 1..6 = FLT_MAX, 100, 1, 360, 360, 0 (the ARM stores
+// 0x7f7fffff, 0x42c80000, 0x3f800000, 0x43b40000 twice, and 0), and the three vectors
+// zeroed through the setters so their dirty bytes are set.
+void EmitterObj::SetDefaultParameters() {
+    Set3DParameteri(0, 0);
+    Set3DParameterf(1, std::numeric_limits<float>::max());
+    Set3DParameterf(2, 100.0f);
+    Set3DParameterf(3, 1.0f);
+    Set3DParameterf(4, 360.0f);
+    Set3DParameterf(5, 360.0f);
+    Set3DParameterf(6, 0.0f);
+    position_ = VoxVector3f{};
+    Set3DParameterfv(8, position_);
+    velocity_ = VoxVector3f{};
+    Set3DParameterfv(9, velocity_);
+    direction_ = VoxVector3f{};
+    Set3DParameterfv(10, direction_);
+}
+
+// 0x86556c _ZN3vox10EmitterObj6IsDoneEv
+bool EmitterObj::IsDone() {
+    mutex.Lock();
+    const bool done = IsDoneUnlocked();
+    mutex.Unlock();
+    return done;
+}
+
+// 0x86559c _ZN3vox10EmitterObj9IsPlayingEv
+bool EmitterObj::IsPlaying() {
+    mutex.Lock();
+    const bool playing = state_ == 1 || state_set_ == 1;
+    mutex.Unlock();
+    return playing;
+}
+
+// 0x8656a8 _ZN3vox10EmitterObj8GetPitchEv
+float EmitterObj::GetPitch() {
+    mutex.Lock();
+    const float pitch = pitch_;
+    mutex.Unlock();
+    return pitch;
+}
+
+// 0x8656d0 _ZN3vox10EmitterObj7GetGainEv
+float EmitterObj::GetGain() {
+    mutex.Lock();
+    const float gain = gain_;
+    mutex.Unlock();
+    return gain;
+}
+
+// 0x865784 _ZN3vox10EmitterObj9ShouldDieEv
+bool EmitterObj::ShouldDie() {
+    mutex.Lock();
+    const bool die = ShouldDieUnlocked();
+    mutex.Unlock();
+    return die;
+}
+
+// 0x8657f4 _ZN3vox10EmitterObj7IsAliveEv
+// partial: the original takes the mutex here and then calls ShouldDie, which takes
+// it again. With a non-recursive mutex that deadlocks, so the port calls the
+// unlocked body instead. The result (not ShouldDie) is what IsAlive returns.
+bool EmitterObj::IsAlive() {
+    mutex.Lock();
+    const bool alive = !ShouldDieUnlocked();
+    mutex.Unlock();
+    return alive;
+}
+
+// 0x865828 _ZN3vox10EmitterObj9NeedToDieEv (the 20-byte body in the queue)
+void EmitterObj::NeedToDie() {
+    mutex.Lock();
+    need_to_die_ = true;
+    mutex.Unlock();
+}
+
+// 0x865850 _ZN3vox10EmitterObj20SetAutoKillAfterDoneEb
+void EmitterObj::SetAutoKillAfterDone(bool on) {
+    mutex.Lock();
+    auto_kill_ = on;
+    mutex.Unlock();
+}
+
+// 0x865398 _ZN3vox10EmitterObj11GetUserDataEv
+std::uintptr_t EmitterObj::GetUserData() {
+    mutex.Lock();
+    const std::uintptr_t data = user_data_;
+    mutex.Unlock();
+    return data;
+}
+
+// 0x86353c _ZN3vox10EmitterObj7_IsDoneEv
+// Reads the state pair (+0x90, +0x94). State 3 is done when the second word is 3;
+// state 0 is done when the second word is 0; any other state is not done.
+bool EmitterObj::IsDoneUnlocked() {
+    if (state_ == 3) {
+        return state_set_ == 3;
+    }
+    if (state_ == 0) {
+        return state_set_ == 0;
+    }
+    return false;
+}
+
+// Body of 0x865784 without the lock. Dies when done with no references left, when
+// the kill flag is set (+0x11c), or when the state word is -1.
+bool EmitterObj::ShouldDieUnlocked() {
+    if (IsDoneUnlocked() && ref_count == 0) {
+        return true;
+    }
+    if (need_to_die_) {
+        return true;
+    }
+    return state_ == -1;
 }
 
 }  // namespace vox

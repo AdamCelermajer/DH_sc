@@ -338,3 +338,99 @@ elf_address,symbol,status,source_file,notes
 0x871a50,_ZN3vox13DecoderNative13DestroyCursorEPNS_22DecoderCursorInterfaceE,reconstructed,vox-audio/src/decoder_native.cpp,DestroyCursor: virtual destructor then VoxFree
 0x893600,_ZN3vox9VoxThread14GetCurThreadIdEv,partial,vox-audio/src/vox_thread.cpp,GetCurThreadId: pthread_self replaced by a hash of std::thread::id (pthread_t has no portable form)
 0x893604,_ZN3vox9VoxThread5SleepEj,reconstructed,vox-audio/src/vox_thread.cpp,Sleep: sleep_for(ms) in place of usleep(ms * 1000)
+0x88fcdc,_ZN3vox15DriverInterfaceD1Ev,reconstructed,vox-audio/src/driver.cpp,"DriverInterface D1: defaulted in driver.hpp, empty body"
+0x891000,_ZN3vox15DriverInterfaceD0Ev,reconstructed,vox-audio/src/driver.cpp,DriverInterface D0: deleting destructor variant emitted by the compiler
+0x88fce0,_ZN3vox15DriverInterface6UpdateEf,reconstructed,vox-audio/src/driver.cpp,DriverInterface::Update: empty body
+0x88ed40,_ZN3vox15DriverInterface7RampOutEv,reconstructed,vox-audio/src/driver.cpp,RampOut: empty body
+0x88ed44,_ZN3vox15DriverInterface6RampInEv,reconstructed,vox-audio/src/driver.cpp,RampIn: empty body
+0x88ed48,_ZN3vox15DriverInterface15SetDSPParameterEiPv,reconstructed,vox-audio/src/driver.cpp,SetDSPParameter: empty body in the base class
+0x88ed4c,_ZN3vox15DriverInterface19SetStaticBusRoutingEPc,reconstructed,vox-audio/src/driver.cpp,SetStaticBusRouting: empty body in the base class
+0x88ed50,_ZN3vox15DriverInterface20SetDynamicBusRoutingEPc,reconstructed,vox-audio/src/driver.cpp,SetDynamicBusRouting: empty body in the base class
+0x88ed54,_ZN3vox15DriverInterface18SetSFXPresetActiveEibf,reconstructed,vox-audio/src/driver.cpp,SetSFXPresetActive: empty body in the base class
+0x88ed58,_ZN3vox15DriverInterface13SetOutputModeENS_13VoxOutputModeE,reconstructed,vox-audio/src/driver.cpp,SetOutputMode: base class returns 0
+0x88ed60,_ZN3vox15DriverInterface13GetOutputModeEv,reconstructed,vox-audio/src/driver.cpp,GetOutputMode: base class returns 1
+0x88fcc8,_ZN3vox21DriverSourceInterfaceD1Ev,reconstructed,vox-audio/src/driver.cpp,"DriverSourceInterface D1: defaulted, empty body"
+0x891014,_ZN3vox21DriverSourceInterfaceD0Ev,reconstructed,vox-audio/src/driver.cpp,DriverSourceInterface D0: deleting destructor variant emitted by the compiler
+0x88fccc,_ZN3vox21DriverSourceInterface6UpdateEf,reconstructed,vox-audio/src/driver.cpp,DriverSourceInterface::Update: empty body
+0x88ed3c,_ZN3vox21DriverSourceInterface15SetDSPParameterEiPv,reconstructed,vox-audio/src/driver.cpp,DriverSourceInterface::SetDSPParameter: empty body
+0x88fcd0,_ZN3vox21DriverSourceInterface20AllowBufferReferenceEv,reconstructed,vox-audio/src/driver.cpp,AllowBufferReference: base class returns 0
+0x88fcd8,_ZN3vox21DriverSourceInterface18FreeDisposableDataEiRiS1_,reconstructed,vox-audio/src/driver.cpp,FreeDisposableData: empty body
+0x8749cc,_ZN3vox10DecoderRaw7GetTypeEv,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRaw::GetType returns 0
+0x8749d4,_ZN3vox10DecoderRaw8GetParamEv,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRaw::GetParam returns the parameter block (this+4)
+0x8749dc,_ZN3vox16DecoderRawCursorD1Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_raw.hpp,"DecoderRawCursor D1: defaulted, empty body"
+0x8749e0,_ZN3vox16DecoderRawCursor20AllowBufferReferenceEv,reconstructed,vox-audio/src/decoder_raw.cpp,"DecoderRawCursor::AllowBufferReference: stream's flag, false without a stream"
+0x874a0c,_ZN3vox10DecoderRawC2EPNS_11TrackParamsE,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRaw C2 constructor; null params leave the block zeroed
+0x874a64,_ZN3vox10DecoderRawC1EPNS_11TrackParamsE,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRaw C1 constructor; same as C2
+0x874abc,_ZN3vox16DecoderRawCursorC2EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRawCursor C2 constructor; copies four parameter words from the decoder
+0x874b20,_ZN3vox16DecoderRawCursorC1EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_raw.cpp,DecoderRawCursor C1 constructor; same as C2
+0x874b84,_ZN3vox16DecoderRawCursor9DecodeRefERPvi,reconstructed,vox-audio/src/decoder_raw.cpp,"DecodeRef: ReadRef when the stream allows buffer references, else Decode"
+0x874c44,_ZN3vox16DecoderRawCursor6DecodeEPvi,reconstructed,vox-audio/src/decoder_raw.cpp,Decode: reads until count is filled; loop rewinds the stream at end of stream
+0x874cf0,_ZN3vox16DecoderRawCursor4SeekEj,reconstructed,vox-audio/src/decoder_raw.cpp,"Seek: -1 past the end, else seeks the stream to frame * channels * bytes"
+0x874d3c,_ZN3vox16DecoderRawCursor7HasDataEv,reconstructed,vox-audio/src/decoder_raw.cpp,HasData: looping rewinds an exhausted stream first
+0x874da4,_ZN3vox10DecoderRawD1Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_raw.hpp,"DecoderRaw D1: defaulted, empty body"
+0x874da8,_ZN3vox10DecoderRawD0Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_raw.hpp,DecoderRaw D0: deleting destructor variant
+0x874dbc,_ZN3vox16DecoderRawCursorD0Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_raw.hpp,DecoderRawCursor D0: deleting destructor variant
+0x874dd0,_ZN3vox10DecoderRaw13DestroyCursorEPNS_22DecoderCursorInterfaceE,reconstructed,vox-audio/src/decoder_raw.cpp,DestroyCursor: virtual destructor then VoxFree
+0x874dfc,_ZN3vox10DecoderRaw15CreateNewCursorEPNS_21StreamCursorInterfaceE,reconstructed,vox-audio/src/decoder_raw.cpp,"CreateNewCursor: allocation is sizeof(DecoderRawCursor) (64-bit layout), original allocates 0x20"
+0x864e64,_ZN3vox10EmitterObj16Get3DParameterfvEiRNS_11VoxVector3fE,reconstructed,vox-audio/src/emitter_obj.cpp,"Get3DParameterfv: ids 8, 9, 10 (position, velocity, direction) under the mutex"
+0x864f04,_ZN3vox10EmitterObj16Get3DParameter3fEiRfS1_S1_,reconstructed,vox-audio/src/emitter_obj.cpp,"Get3DParameter3f: ids 8, 9, 10 as three floats"
+0x864fa0,_ZN3vox10EmitterObj15Get3DParameterfEiRf,reconstructed,vox-audio/src/emitter_obj.cpp,Get3DParameterf: ids 1..7 map to float_params_[0..6]
+0x865044,_ZN3vox10EmitterObj15Get3DParameteriEiRi,reconstructed,vox-audio/src/emitter_obj.cpp,Get3DParameteri: id 0 only
+0x865078,_ZN3vox10EmitterObj16Set3DParameterfvEiRKNS_11VoxVector3fE,reconstructed,vox-audio/src/emitter_obj.cpp,Set3DParameterfv: stores the vector and sets its dirty byte
+0x865130,_ZN3vox10EmitterObj16Set3DParameter3fEifff,reconstructed,vox-audio/src/emitter_obj.cpp,Set3DParameter3f: stores three floats and sets the dirty byte
+0x8651c0,_ZN3vox10EmitterObj15Set3DParameterfEif,reconstructed,vox-audio/src/emitter_obj.cpp,Set3DParameterf: ids 1..7; dirty byte at parameter id
+0x865280,_ZN3vox10EmitterObj15Set3DParameteriEii,reconstructed,vox-audio/src/emitter_obj.cpp,Set3DParameteri: id 0 only
+0x8652b8,_ZN3vox10EmitterObj20SetDefaultParametersEv,reconstructed,vox-audio/src/emitter_obj.cpp,"SetDefaultParameters: FLT_MAX, 100, 1, 360, 360, 0 and zeroed vectors (asm checked)"
+0x86556c,_ZN3vox10EmitterObj6IsDoneEv,reconstructed,vox-audio/src/emitter_obj.cpp,IsDone: locked wrapper around IsDoneUnlocked
+0x86559c,_ZN3vox10EmitterObj9IsPlayingEv,reconstructed,vox-audio/src/emitter_obj.cpp,IsPlaying: state 1 or state_set 1
+0x8656a8,_ZN3vox10EmitterObj8GetPitchEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetPitch: returns the float at +0x74
+0x8656d0,_ZN3vox10EmitterObj7GetGainEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetGain: returns the float at +0x3c
+0x865784,_ZN3vox10EmitterObj9ShouldDieEv,reconstructed,vox-audio/src/emitter_obj.cpp,"ShouldDie: locked wrapper; done with no refs, kill flag, or state -1"
+0x8657f4,_ZN3vox10EmitterObj7IsAliveEv,partial,vox-audio/src/emitter_obj.cpp,"IsAlive: original locks the mutex twice (own lock, then ShouldDie); port calls the unlocked body. Double lock would deadlock on a non-recursive mutex; see NOTES.md"
+0x865828,_ZN3vox10EmitterObj9NeedToDieEv,reconstructed,vox-audio/src/emitter_obj.cpp,NeedToDie: sets the kill flag at +0x11c
+0x865850,_ZN3vox10EmitterObj20SetAutoKillAfterDoneEb,reconstructed,vox-audio/src/emitter_obj.cpp,SetAutoKillAfterDone: writes the byte at +0x11d
+0x865398,_ZN3vox10EmitterObj11GetUserDataEv,reconstructed,vox-audio/src/emitter_obj.cpp,GetUserData: returns the word at +0x134 under the mutex
+0x86353c,_ZN3vox10EmitterObj7_IsDoneEv,reconstructed,vox-audio/src/emitter_obj.cpp,"_IsDone (IsDoneUnlocked): no lock; state 3 needs second word 3, state 0 needs second word 0"
+0x868098,_ZN3vox13EmitterHandleC1ExPPNS_17VoxEngineInternalEPNS_9HandlableEjj,partial,vox-audio/src/engine_handles.cpp,"EmitterHandle C1 ctor: stores stamp, object, engine; engine refcount call goes to VoxEngineInternal (declared, not defined)"
+0x86812c,_ZN3vox13EmitterHandleC2ExPPNS_17VoxEngineInternalEPNS_9HandlableEjj,partial,vox-audio/src/engine_handles.cpp,EmitterHandle C2 ctor: same as C1; engine refcount call not defined
+0x8681c0,_ZN3vox13EmitterHandleC1ERKS0_,partial,vox-audio/src/engine_handles.cpp,"EmitterHandle copy C1: copies all words, then IncreaseEmitterObjectRefCount (not defined)"
+0x868250,_ZN3vox13EmitterHandleC2ERKS0_,partial,vox-audio/src/engine_handles.cpp,EmitterHandle copy C2: same as C1
+0x868324,_ZN3vox13EmitterHandleaSERKS0_,partial,vox-audio/src/engine_handles.cpp,EmitterHandle::operator=: Decrease/Increase engine refcount calls not defined
+0x8683ac,_ZN3vox13EmitterHandleD1Ev,partial,vox-audio/src/engine_handles.cpp,EmitterHandle D1: DecreaseEmitterObjectRefCount call not defined
+0x8683fc,_ZN3vox13EmitterHandleD0Ev,partial,vox-audio/src/engine_handles.cpp,EmitterHandle D0: deleting variant around the partial D1
+0x868418,_ZN3vox13EmitterHandleD2Ev,partial,vox-audio/src/engine_handles.cpp,EmitterHandle D2: DecreaseEmitterObjectRefCount call not defined
+0x868d54,_ZN3vox10DataHandleC1ExPPNS_17VoxEngineInternalEPNS_9HandlableEjj,partial,vox-audio/src/engine_handles.cpp,DataHandle C1 ctor: as EmitterHandle; IncreaseDataObjectRefCount not defined
+0x868de8,_ZN3vox10DataHandleC2ExPPNS_17VoxEngineInternalEPNS_9HandlableEjj,partial,vox-audio/src/engine_handles.cpp,DataHandle C2 ctor: same as C1
+0x868e7c,_ZN3vox10DataHandleC1ERKS0_,partial,vox-audio/src/engine_handles.cpp,DataHandle copy C1: IncreaseDataObjectRefCount not defined
+0x868f0c,_ZN3vox10DataHandleC2ERKS0_,partial,vox-audio/src/engine_handles.cpp,DataHandle copy C2: same as C1
+0x86aba0,_ZN3vox10DataHandleaSERKS0_,partial,vox-audio/src/engine_handles.cpp,DataHandle::operator=: Decrease/Increase data refcount calls not defined
+0x86ac28,_ZN3vox10DataHandleD1Ev,partial,vox-audio/src/engine_handles.cpp,DataHandle D1: DecreaseDataObjectRefCount not defined
+0x86ac78,_ZN3vox10DataHandleD0Ev,partial,vox-audio/src/engine_handles.cpp,DataHandle D0: deleting variant around the partial D1
+0x86b968,_ZN3vox10DataHandleD2Ev,partial,vox-audio/src/engine_handles.cpp,DataHandle D2: DecreaseDataObjectRefCount not defined
+0x8674cc,_ZN3vox17VoxEngineInternal16GetEmitterObjectERNS_13EmitterHandleE,partial,vox-audio/src/voxengine_internal_emitter.cpp,GetEmitterObject: fast path takes the handle's object pointer without the slot-table stamp check (+0x550); id search in emitters_ then emitter_pending_ kept. Stamp rewrite not reconstructed; see NOTES.md
+0x867724,_ZN3vox17VoxEngineInternal22Get3DEmitterParameteriERNS_13EmitterHandleEiRi,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterParameteri: forwards to EmitterObj::Get3DParameteri under emitter access
+0x867770,_ZN3vox17VoxEngineInternal22Get3DEmitterParameterfERNS_13EmitterHandleEiRf,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterParameterf: forwards to EmitterObj::Get3DParameterf
+0x8677bc,_ZN3vox17VoxEngineInternal22Get3DEmitterParametersERNS_13EmitterHandleERNS_22Vox3DEmitterParametersE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterParameters: parameter 0 then parameters 1..7 into Vox3DEmitterParameters
+0x867874,_ZN3vox17VoxEngineInternal21Get3DEmitterDirectionERNS_13EmitterHandleERfS3_S3_,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterDirection: parameter 10 (direction)
+0x8678d4,_ZN3vox17VoxEngineInternal20Get3DEmitterVelocityERNS_13EmitterHandleERfS3_S3_,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterVelocity: parameter 9 (velocity)
+0x867934,_ZN3vox17VoxEngineInternal20Get3DEmitterPositionERNS_13EmitterHandleERfS3_S3_,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Get3DEmitterPosition: parameter 8 (position)
+0x867994,_ZN3vox17VoxEngineInternal22Set3DEmitterParameteriERNS_13EmitterHandleEii,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterParameteri: forwards to EmitterObj::Set3DParameteri
+0x8679e0,_ZN3vox17VoxEngineInternal22Set3DEmitterParameterfERNS_13EmitterHandleEif,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterParameterf: forwards to EmitterObj::Set3DParameterf
+0x867a2c,_ZN3vox17VoxEngineInternal22Set3DEmitterParametersERNS_13EmitterHandleERKNS_22Vox3DEmitterParametersE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterParameters: parameter 0 then parameters 1..7
+0x867ae4,_ZN3vox17VoxEngineInternal21Set3DEmitterDirectionERNS_13EmitterHandleEfff,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterDirection: parameter 10
+0x867b44,_ZN3vox17VoxEngineInternal20Set3DEmitterVelocityERNS_13EmitterHandleEfff,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterVelocity: parameter 9
+0x867ba4,_ZN3vox17VoxEngineInternal20Set3DEmitterPositionERNS_13EmitterHandleEfff,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,Set3DEmitterPosition: parameter 8
+0x867c04,_ZN3vox17VoxEngineInternal8GetGroupERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,GetGroup: 0 without an emitter
+0x867c48,_ZN3vox17VoxEngineInternal8SetGroupERNS_13EmitterHandleEi,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,SetGroup: no-op without an emitter
+0x867d64,_ZN3vox17VoxEngineInternal6IsDoneERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IsDone: true without an emitter
+0x867dac,_ZN3vox17VoxEngineInternal9IsPlayingERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IsPlaying: 0 without an emitter
+0x867df0,_ZN3vox17VoxEngineInternal7IsAliveERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IsAlive: 0 without an emitter; calls EmitterObj::IsAlive (partial)
+0x867e34,_ZN3vox17VoxEngineInternal7IsValidERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IsValid: 1 when the lookup finds an object
+0x867e70,_ZN3vox17VoxEngineInternal7IsReadyERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IsReady: 0 without an emitter
+0x867eb4,_ZN3vox17VoxEngineInternal8GetPitchERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,GetPitch: 0 without an emitter
+0x867efc,_ZN3vox17VoxEngineInternal7SetLoopERNS_13EmitterHandleEb,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,SetLoop: no-op without an emitter
+0x867f40,_ZN3vox17VoxEngineInternal7GetGainERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,GetGain: 0 without an emitter
+0x867f88,_ZN3vox17VoxEngineInternal20SetAutoKillAfterDoneERNS_13EmitterHandleEb,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,SetAutoKillAfterDone: no-op without an emitter
+0x8675c0,_ZN3vox17VoxEngineInternal11GetUserDataERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,GetUserData: all ones without an emitter (original returns -1); return type widened to uintptr_t
+0x868054,_ZN3vox17VoxEngineInternal29IncreaseEmitterObjectRefCountERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,IncreaseEmitterObjectRefCount: Retain on the object under emitter access
+0x8682e0,_ZN3vox17VoxEngineInternal29DecreaseEmitterObjectRefCountERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_emitter.cpp,DecreaseEmitterObjectRefCount: Release on the object under emitter access

@@ -1,6 +1,7 @@
 // EmitterObj accessors: gain modifier, ready flag, group mask, state and user data.
 #include <cstdint>
 #include <cstdio>
+#include <limits>
 
 #include "vox-audio/vox/emitter_obj.hpp"
 
@@ -52,6 +53,57 @@ int main() {
     std::uintptr_t word = 0xabcd;
     e.SetUserData(word);
     CHECK(e.user_data_ == 0xabcd);
+
+
+    // 3D parameters: ids 8/9/10 are the position/velocity/direction vectors, 1..7 floats.
+    vox::EmitterObj p;
+    p.SetDefaultParameters();
+    CHECK(p.dirty_[8] == 1 && p.dirty_[9] == 1 && p.dirty_[10] == 1);
+    CHECK(p.float_params_[1] == 100.0f);  // parameter 2
+    CHECK(p.float_params_[2] == 1.0f);    // parameter 3
+    CHECK(p.float_params_[3] == 360.0f);  // parameter 4
+    CHECK(p.float_params_[4] == 360.0f);  // parameter 5
+    CHECK(p.float_params_[0] == std::numeric_limits<float>::max());  // parameter 1
+    float px = 9.0f, py = 9.0f, pz = 9.0f;
+    p.Get3DParameter3f(8, px, py, pz);
+    CHECK(px == 0.0f && py == 0.0f && pz == 0.0f);
+
+    p.Set3DParameter3f(9, 1.0f, 2.0f, 3.0f);  // velocity
+    vox::VoxVector3f v;
+    p.Get3DParameterfv(9, v);
+    CHECK(v.x == 1.0f && v.y == 2.0f && v.z == 3.0f);
+    p.Get3DParameterfv(10, v);                // direction is untouched
+    CHECK(v.x == 0.0f && v.y == 0.0f && v.z == 0.0f);
+
+    p.Set3DParameterf(3, 0.25f);              // parameter 3 is float_params_[2]
+    float f = 0.0f;
+    p.Get3DParameterf(3, f);
+    CHECK(f == 0.25f);
+    p.Set3DParameterf(8, 5.0f);               // not a float id: no effect
+    p.Get3DParameterf(8, f);
+    CHECK(f == 0.25f);
+
+    p.Set3DParameteri(0, 42);
+    int iv = 0;
+    p.Get3DParameteri(0, iv);
+    CHECK(iv == 42 && p.dirty_[0] == 1);
+
+    // Done/alive: a fresh emitter (state 0, state_set 0) is done with no references,
+    // so it should die. A held reference keeps it alive until NeedToDie is set.
+    vox::EmitterObj d;
+    CHECK(d.IsDone());
+    CHECK(d.ShouldDie());
+    CHECK(!d.IsAlive());
+    d.ref_count = 1;
+    CHECK(!d.ShouldDie());
+    CHECK(d.IsAlive());
+    d.NeedToDie();
+    CHECK(d.ShouldDie());
+    d.SetState(1);                           // writes state_set_ (+0x94)
+    CHECK(d.state_set_ == 1);
+    CHECK(d.IsPlaying());                    // state_set_ == 1 counts as playing
+    d.SetAutoKillAfterDone(true);
+    CHECK(d.auto_kill_);
 
     std::printf("emitter_obj_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;

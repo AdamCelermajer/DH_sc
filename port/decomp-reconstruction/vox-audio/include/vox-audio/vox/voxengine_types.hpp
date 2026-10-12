@@ -16,7 +16,6 @@ class EmitterObj;
 class VoxEngineInternal;
 struct DebugInfo;
 struct Vox3DGeneralParameters;
-struct Vox3DEmitterParameters;
 struct EmitterHandleUserData;
 struct DataHandleUserData;  // defined in vox/data_obj.hpp
 
@@ -27,6 +26,29 @@ enum EmitterExternState : int;
 
 struct VoxDSPGeneralParameter {
     enum BusRoutingType : int;
+};
+
+}  // namespace vox
+
+namespace vox {
+
+// Three-float vector used by the 3D emitter parameters (position, velocity,
+// direction). Layout matches three consecutive 12-byte blocks in EmitterObj.
+struct VoxVector3f {
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+}  // namespace vox
+
+namespace vox {
+
+// Per-emitter 3D parameters as Get3DEmitterParameters/Set3DEmitterParameters copy them:
+// parameter 0 (int) then parameters 1..7 (floats), eight words in all.
+struct Vox3DEmitterParameters {
+    std::int32_t param0 = 0;   // +0x00
+    float params[7] = {};      // +0x04..+0x1c, parameters 1..7
 };
 
 }  // namespace vox

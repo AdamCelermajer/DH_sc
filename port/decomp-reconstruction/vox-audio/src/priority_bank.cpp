@@ -74,7 +74,7 @@ bool PriorityBankManager::CanAddEmitter(int bank, int priority) {
     return result;
 }
 
-// 0x86e078 _ZN3vox19PriorityBankManager13RemoveEmitterEiPNS_9EmitterObjE
+// 0x86e078 _ZN3vox19PriorityBankManager13RemoveEmitterEiPNS_10EmitterObjE
 // Erases the first entry whose emitter matches. Returns false when the bank
 // is out of range, the emitter is null, or the emitter is not in the bank.
 bool PriorityBankManager::RemoveEmitter(int bank, void* emitter) {
