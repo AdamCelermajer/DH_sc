@@ -1,4 +1,4 @@
-// Stand-ins for the classes CConnectionManager calls into. CMatching, CConnectionStandIn,
+// Stand-ins for the classes CConnectionManager calls into. CMatching, CConnection,
 // CEventQueueBase and CTransportManager are owned by other slices; only the members the
 // connection manager uses are declared here. Slot numbers are the byte offsets of the
 // virtual calls in the original vtables. Bodies are no-op or simple test doubles and must
@@ -7,6 +7,7 @@
 
 #include <cstdint>
 
+#include "net-transport/connection.hpp"
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_network_id.hpp"
 
@@ -36,43 +37,7 @@ private:
     bool server_ = false;
 };
 
-// CConnectionStandIn: one peer connection. Members used by the connection manager.
-// Layout (original, 32-bit): +0x18 state, +0x1c member id, +0x20 network id,
-// +0x50 timeout, +0x1b8 key (two words). The vtable is +0x00/+0x04 dtors, +0x08 Connect,
-// +0x0c Accept, +0x10 Disconnect, +0x14 Update, +0x18 Send.
-class CConnectionStandIn {
-public:
-    CConnectionStandIn() = default;
-    virtual ~CConnectionStandIn() = default;
-
-    virtual int Connect(int member_id, CNetworkId& id);                       // +0x08
-    virtual int Accept(int member_id, CNetworkId& id, std::uint64_t key);     // +0x0c
-    virtual int Disconnect();                                                 // +0x10
-    virtual void Update();                                                    // +0x14
-    virtual int Send(int packet_type, const void* data, int size);            // +0x18
-
-    void SendKeepAlive(std::uint32_t now) { (void)now; }                       // _ZN11CConnection13SendKeepAliveEj
-    void SetLastRecvTime() {}                                                  // _ZN11CConnection15SetLastRecvTimeEv
-    void ProcessConnectFinalize(CNetworkId& id) { (void)id; }                  // _ZN11CConnection22ProcessConnectFinalizeER10CNetworkId
-    void ProcessConnectResponse(CNetworkId& id) { (void)id; }                  // _ZN11CConnection22ProcessConnectResponseER10CNetworkId
-    void ProcessPing(const void* packet) { (void)packet; }                     // _ZN11CConnection11ProcessPingEPv (provisional)
-
-    int State() const { return state_; }                 // +0x18
-    int MemberId() const { return member_id_; }          // +0x1c
-    CNetworkId& NetworkId() { return network_id_; }      // +0x20
-    const CNetworkId& NetworkId() const { return network_id_; }
-    std::uint64_t Key() const { return key_; }           // +0x1b8
-    void SetTimeout(std::uint32_t ms) { timeout_ = ms; } // +0x50
-    void SetState(int state) { state_ = state; }         // test hook
-    void SetMemberId(int member_id) { member_id_ = member_id; }  // test hook
-
-private:
-    int state_ = 0;
-    int member_id_ = -1;
-    CNetworkId network_id_{};
-    std::uint32_t timeout_ = 0;
-    std::uint64_t key_ = 0;
-};
+// CConnection is the real class in net-transport/connection.hpp.
 
 // CEventQueueBase: the event queue at +0x08 of the connection manager.
 // Vtable: +0x00 AddEvent, +0x0c Clear.

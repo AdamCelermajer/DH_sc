@@ -26,7 +26,7 @@ int main() {
     CHECK(cm->GetConnectionCount(false) == 1);
     CHECK(cm->GetConnectionCount(true) == 0);
 
-    CConnectionStandIn* conn = cm->GetConnectionByMemberId(3);
+    CConnection* conn = cm->GetConnectionByMemberId(3);
     CHECK(conn != nullptr);
     CHECK(cm->GetConnectionByMemberId(4) == nullptr);
     conn->SetState(4);

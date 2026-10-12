@@ -65,6 +65,8 @@ int CNetMutex::Unlock() {
 }
 
 // 0x317e10 _ZN6ThreadD1Ev (out-of-line destructor body)
+// Partial: Hex-Rays (re-run) shows an empty body; the original never joins a running worker.
+// The port joins it, because a joinable std::thread would terminate the process when destroyed.
 Thread::~Thread() {
     if (handle_.joinable()) {
         stop_ = true;
