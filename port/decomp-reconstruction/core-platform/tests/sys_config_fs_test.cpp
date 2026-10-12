@@ -26,13 +26,13 @@ int main() {
 
     // decodeObfuscatedData: index 0 adds ~0 (0xff) to the first byte, then 0xfe.
     unsigned char bytes[4] = {0, 0, 0, 0};
-    FileSystemBase::decodeObfuscatedData(0, bytes, 4);
+    FileSystemBase::decodeObfuscatedData(0, bytes, 4, nullptr);
     CHECK(bytes[0] == 0xff);
     CHECK(bytes[1] == 0xfe);
     CHECK(bytes[2] == 0xfd);
     CHECK(bytes[3] == 0xfc);
     unsigned char tail[4] = {1, 1, 1, 1};
-    FileSystemBase::decodeObfuscatedData(4, tail, 4);  // index >= 4: untouched
+    FileSystemBase::decodeObfuscatedData(4, tail, 4, nullptr);  // index >= 4: untouched
     CHECK(tail[0] == 1);
 
     FileSystemBase fsb;

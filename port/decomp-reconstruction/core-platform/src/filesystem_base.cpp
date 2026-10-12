@@ -20,21 +20,24 @@ char CFileSystem_WorkingDirectory[512] = {};
 // Defined in filesystem_win32.cpp (the RES_PATH global set by the platform layer).
 extern const char* RES_PATH;
 
-// 0x34e0fc FileSystemBase::decodeObfuscatedData(int, void*, int, void*)
-// Partial: the pseudocode has three arguments; the fourth mangled parameter is
-// not visible. Each of the first (4 - index) bytes gets the running key added,
-// where the key starts at ~index and decrements by one per byte.
-void FileSystemBase::decodeObfuscatedData(int index, void* data, int size) {
-    if (index < 4) {
-        int count = size;
-        if (4 - index <= count) {
-            count = 4 - index;
+// 0x34e0fc FileSystemBase::decodeObfuscatedData(int, void*, int, void*) (static)
+// Hex-Rays: for index <= 3, the count is the size compared as unsigned and clamped to
+// 4 - index; each of those bytes gets the running key added, where the key starts at
+// ~index (low byte) and decrements per byte. The fourth parameter is not used.
+void FileSystemBase::decodeObfuscatedData(int index, void* data, int size, void*) {
+    if (index <= 3) {
+        unsigned int count = static_cast<unsigned int>(size);
+        const unsigned int limit = 4u - static_cast<unsigned int>(index);
+        if (count >= limit) {
+            count = limit;
         }
-        auto* bytes = static_cast<unsigned char*>(data);
-        unsigned int key = ~static_cast<unsigned int>(index);
-        for (int i = 0; i < count; ++i) {
-            bytes[i] = static_cast<unsigned char>(bytes[i] + static_cast<unsigned char>(key));
-            key = (key & 0xffu) - 1;
+        if (static_cast<int>(count) > 0) {
+            auto* bytes = static_cast<unsigned char*>(data);
+            unsigned char key = static_cast<unsigned char>(~static_cast<unsigned int>(index));
+            for (unsigned int i = 0; i != count; ++i) {
+                bytes[i] = static_cast<unsigned char>(bytes[i] + key);
+                key = static_cast<unsigned char>(key - 1);
+            }
         }
     }
 }

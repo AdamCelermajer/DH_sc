@@ -7,7 +7,7 @@
 
 class ADevice {
 public:
-    // 0x52eea8: milliseconds since the epoch (partial: the original's high word is
-    // the compiler's division scratch and is not reproduced).
-    static std::int64_t currentTime();
+    // 0x52eea8: milliseconds since the epoch in the low 32 bits (usec / 1000 plus
+    // 1000 * sec, 32-bit arithmetic as in the listing).
+    static int currentTime();
 };

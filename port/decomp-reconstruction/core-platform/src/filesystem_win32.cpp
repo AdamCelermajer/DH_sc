@@ -19,7 +19,7 @@
 const char* RES_PATH = "./";
 
 // 0x34eba4 FileSystemWin32::getRootPath() const
-// Partial: returns the path buffer; the original returns the string object address.
+// Returns the root path buffer at +0x2c (Hex-Rays: this + 44).
 const char* FileSystemWin32::getRootPath() const { return rootPath_; }
 
 // 0x34ebac FileSystemWin32::getResourcesPath() const
@@ -34,12 +34,20 @@ void FileSystemWin32::copySavefile(const char*) {}
 // 0x34ebc4 FileSystemWin32::_getFileInfo(char const*, char const*, void*) const
 bool FileSystemWin32::_getFileInfo(const char*, const char*, void*) const { return true; }
 
-// 0x34ec00 FileSystemWin32::isFileNewerThan(char const*, char const*) const: no-op.
-// Partial: the original returns nothing visible; false is returned here.
-bool FileSystemWin32::isFileNewerThan(const char*, const char*) const { return false; }
+// 0x34ec00 FileSystemWin32::isFileNewerThan(char const*, char const*) const: empty.
+void FileSystemWin32::isFileNewerThan(const char*, const char*) const {}
 
 // 0x34f6f4 / 0x34f788 FileSystemWin32::FileSystemWin32()
-FileSystemWin32::FileSystemWin32() { _getPaths(); }
+// Zeroes the five 0x104-byte path buffers (at +0x2c, +0x130, +0x234, +0x338, +0x43c),
+// then fills them in _getPaths().
+FileSystemWin32::FileSystemWin32() {
+    std::memset(rootPath_, 0, sizeof rootPath_);
+    std::memset(cwdPath_, 0, sizeof cwdPath_);
+    std::memset(resourcesPath_, 0, sizeof resourcesPath_);
+    std::memset(dataPath_, 0, sizeof dataPath_);
+    std::memset(savefilesPath_, 0, sizeof savefilesPath_);
+    _getPaths();
+}
 
 // 0x34f068 FileSystemWin32::_getPaths()
 void FileSystemWin32::_getPaths() {
@@ -85,7 +93,7 @@ std::size_t FileSystemWin32::_FileHandle::read(void* buf, std::size_t n) {
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
     if (obfuscated_ && pos < 4) {
-        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n));
+        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), nullptr);
     }
     return got;
 }
@@ -107,7 +115,7 @@ int FileSystemWin32::_FileHandle::peek(void* buf, std::size_t n) const {
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
     if (obfuscated_ && pos < 4) {
-        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n));
+        FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), nullptr);
     }
     std::fseek(file_, -static_cast<long>(got), SEEK_CUR);
     return static_cast<int>(got);
@@ -131,11 +139,13 @@ long long FileSystemWin32::_FileHandle::size() const {
 }
 
 // 0x34fe50 FileSystemWin32::_createHandle(char const*, char const*, bool, bool)
-// Strips a leading "./" or ".\" from the name, as the original does, then opens.
+// A leading "./" or ".\" is stripped from the directory argument (Hex-Rays: the
+// prefix test is on a2, which is the directory), then the handle is opened. A handle
+// whose file did not open is released and nullptr is returned.
 FileSystemWin32::_FileHandle* FileSystemWin32::_createHandle(const char* dir, const char* name,
                                                              bool writable, bool readwrite) {
-    if (name[0] == '.' && (name[1] == '/' || name[1] == '\\')) {
-        name += 2;
+    if (dir[0] == '.' && (dir[1] == '/' || dir[1] == '\\')) {
+        dir += 2;
     }
     auto* h = new _FileHandle(dir, name, writable, readwrite);
     if (h->file_ == nullptr) {
@@ -166,8 +176,9 @@ FileSystemWin32::_FileHandle* FileSystemWin32::openTraceFile(const char* name) {
 }
 
 // 0x34ffb0 FileSystemWin32::openFile(char const*, bool, bool)
-// Partial: the original first tries an uncompiled-data path when the application
-// reports it is using uncompiled data; that path string is not recovered.
+// Partial: the listing first checks Application::IsUsingUncompiledData; when that is
+// true it tries _createHandle("Q:\\", name, 0, 0) and falls back to the root path.
+// The check is not reproduced here (no stand-in in deps), so the root path is always used.
 FileSystemWin32::_FileHandle* FileSystemWin32::openFile(const char* name, bool writable, bool readwrite) {
     return _createHandle(rootPath_, name, writable, readwrite);
 }

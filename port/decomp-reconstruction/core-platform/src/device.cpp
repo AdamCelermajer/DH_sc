@@ -6,8 +6,9 @@
 bool Device::IsFixedPipeline() { return (DeviceFeatureFlags() & 7u) != 0; }
 
 // 0x3816a8 Device::IsProgrammablePipeline()
-// Partial: the feature bits are read from the device object; the meaning of
-// the 0x78 mask is not named in the original, so it is kept as-is.
+// Partial: the listing calls virtual slot +0x5c of the feature object (global at
+// +0x10) and tests its result with mask 0x78; DeviceFeatureFlags() stands in for
+// that virtual call. The mask's meaning is not named in the original.
 bool Device::IsProgrammablePipeline() {
     if (!SHARP_DEVICES && !HTC_DEVICES && !Is_In_Multiplayer_Mode) {
         return (DeviceFeatureFlags() & 0x78u) != 0;
@@ -22,13 +23,8 @@ int Device::GetModel() { return -1; }
 bool Device::IsiOSVersionSupported(const char*) { return true; }
 
 // 0x38174c Device::IsHighPerformance()
-// Partial: same body as IsProgrammablePipeline in the original (see above).
-bool Device::IsHighPerformance() {
-    if (!SHARP_DEVICES && !HTC_DEVICES && !Is_In_Multiplayer_Mode) {
-        return (DeviceFeatureFlags() & 0x78u) != 0;
-    }
-    return false;
-}
+// A thunk: the listing returns Device::IsProgrammablePipeline(this).
+bool Device::IsHighPerformance() { return IsProgrammablePipeline(); }
 
 // 0x381750 Device::IsIphoneHighRez()
 bool Device::IsIphoneHighRez() { return true; }

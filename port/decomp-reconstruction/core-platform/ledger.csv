@@ -18,7 +18,7 @@ elf_address,symbol,status,source_file,notes
 0x30ee84,_Z8ObjToStrPcR7Point2DIiE,reconstructed,core-platform/src/obj_str.cpp,
 0x30eeb4,_Z8ObjToStrPcRb,reconstructed,core-platform/src/obj_str.cpp,
 0x30eec8,_Z8ObjToStrPcRf,reconstructed,core-platform/src/obj_str.cpp,
-0x30f010,_Z8StrToObjPKcRSt6vectorI7Point3DIfESaIS3_EE,partial,core-platform/src/obj_str.cpp,original only logs a NEED TO CHECK debug line; debug sink replaced by stdout
+0x30f010,_Z8StrToObjPKcRSt6vectorI7Point3DIfESaIS3_EE,reconstructed,core-platform/src/obj_str.cpp,Hex-Rays re-run: body is one _DEBUG_OUT call; vector left unchanged (debug sink is the _DEBUG_OUT stand-in)
 0x30f020,_Z8StrToObjPKcRb,reconstructed,core-platform/src/obj_str.cpp,
 0x30f288,_Z8StrToObjPKcRf,reconstructed,core-platform/src/obj_str.cpp,
 0x310414,_Z10InitMemoryv,reconstructed,core-platform/src/memory.cpp,
@@ -28,7 +28,7 @@ elf_address,symbol,status,source_file,notes
 0x310450,_Z10GlitchFreePv,reconstructed,core-platform/src/memory.cpp,
 0x310564,_Z8SwfAllocjN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
 0x310568,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
-0x310660,_Z11CustomAllocjPKcjS0_,partial,core-platform/src/memory.cpp,OOM assert level 2 calls abort() instead of the original null-pointer write; assert text not recovered
+0x310660,_Z11CustomAllocjPKcjS0_,reconstructed,core-platform/src/memory.cpp,"Hex-Rays re-run: thunk, forwards to the one-argument CustomAlloc"
 0x310698,_Z8SwfAllocjN3swf7MemHintEPKci,reconstructed,core-platform/src/memory.cpp,
 0x3106a8,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
 0x3106b8,_Z11GlitchAllocjN6glitch6memory13E_MEMORY_HINTEiPKciS3_,reconstructed,core-platform/src/memory.cpp,
@@ -37,7 +37,7 @@ elf_address,symbol,status,source_file,notes
 0x317848,_ZN3sys13printNoFormatEPKc,partial,core-platform/src/sys_print.cpp,"printf format string changed to ""%s"""
 0x31784c,_ZN3sys5printEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
 0x317914,_ZN3sys7printlnEPKcz,partial,core-platform/src/sys_print.cpp,"message printed with %s (format-string fix), see printNoFormat"
-0x317a04,_Z7strrstrPKcS0_,partial,core-platform/src/util.cpp,"tail call into unrecovered routine; implements last-occurrence search, unverified"
+0x317a04,_Z7strrstrPKcS0_,reconstructed,core-platform/src/util.cpp,"Hex-Rays re-run: backward scan from the haystack end, last occurrence; empty needle returns haystack"
 0x317a8c,_ZN9TimerUtilC2Ev,reconstructed,core-platform/src/timer_util.cpp,
 0x317aa0,_ZN9TimerUtilC1Ev,reconstructed,core-platform/src/timer_util.cpp,
 0x317ab4,_ZN9TimerUtil5StartEj,reconstructed,core-platform/src/timer_util.cpp,
@@ -171,11 +171,11 @@ elf_address,symbol,status,source_file,notes
 0x3faba8,_ZN7VarArgsD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x40691c,_ZN13EvGamepadAxisD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x406928,_ZN13EvGamepadAxisD0Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
-0x42b0c0,_Z13fs_write_funcPKviPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
-0x42b0c8,_Z12fs_seek_funciPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
-0x42b0f8,_Z19fs_seek_to_end_funcPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
-0x42b11c,_Z12fs_tell_funcPKv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
-0x42b12c,_Z15fs_get_eof_funcPv,partial,core-platform/src/fs_callbacks.cpp,"handle layout (size +4, pos +8) inferred from callback use"
+0x42b0c0,_Z13fs_write_funcPKviPv,reconstructed,core-platform/src/fs_callbacks.cpp,Hex-Rays re-run: returns size; no output
+0x42b0c8,_Z12fs_seek_funciPv,reconstructed,core-platform/src/fs_callbacks.cpp,"Hex-Rays re-run: range check on the position, pos stored at +8"
+0x42b0f8,_Z19fs_seek_to_end_funcPv,reconstructed,core-platform/src/fs_callbacks.cpp,Hex-Rays re-run: pos set to size when size >= 0; returns 0
+0x42b11c,_Z12fs_tell_funcPKv,reconstructed,core-platform/src/fs_callbacks.cpp,"Hex-Rays re-run: returns pos (+8), -1 for null"
+0x42b12c,_Z15fs_get_eof_funcPv,reconstructed,core-platform/src/fs_callbacks.cpp,Hex-Rays re-run: eof is pos >= size (+8 vs +4)
 0x48bbbc,tolower,skipped,core-platform/src,"C library tolower from the Android libc, not rebuilt"
 0x534178,_ZdaPvN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
 0x53417c,_ZdlPvN6glitch6memory13E_MEMORY_HINTEiPKci,reconstructed,core-platform/src/memory.cpp,
@@ -186,8 +186,8 @@ elf_address,symbol,status,source_file,notes
 0x5341a8,_ZnajN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
 0x5341ac,_ZnwjN6glitch6memory13E_MEMORY_HINTE,reconstructed,core-platform/src/memory.cpp,
 0x69f54c,_Z22util_number_is_power_2j,reconstructed,core-platform/src/util.cpp,
-0x752b44,_ZnajN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,decompiler dropped forwarded args; forwarding reconstructed from SwfAlloc signature
-0x752b48,_ZnwjN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,decompiler dropped forwarded args; forwarding reconstructed from SwfAlloc signature
+0x752b44,_ZnajN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Hex-Rays re-run: thunk to gameswf::malloc_internal(size, hint, file, line), not in this category; forwards to SwfAlloc instead"
+0x752b48,_ZnwjN3swf7MemHintEPKci,partial,core-platform/src/memory.cpp,"Hex-Rays re-run: thunk to gameswf::malloc_internal(size, hint, file, line), not in this category; forwards to SwfAlloc instead"
 0x752ba4,_ZnajN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
 0x752ba8,_ZnwjN3swf7MemHintE,reconstructed,core-platform/src/memory.cpp,
 0x844180,_ZN4slim11XmlDocument14loadFromStreamERSi,reconstructed,core-platform/src/slim_text.cpp,
@@ -228,31 +228,31 @@ elf_address,symbol,status,source_file,notes
 0x30eefc,_Z8ObjToStrPcRN6glitch4core11dimension2dIfEE,reconstructed,core-platform/src/obj_str.cpp,
 0x30f03c,_Z8StrToObjPKcRi,reconstructed,core-platform/src/obj_str.cpp,
 0x30f050,_Z8StrToObjPKcR7Point2DIiE,reconstructed,core-platform/src/obj_str.cpp,strtok on comma; whole string copied (original copies into a 256-byte buffer)
-0x30f0c8,_Z8StrToObjPKcRN6glitch4core11dimension2dIiEE,partial,core-platform/src/obj_str.cpp,decompiled stores and second parameter missing; Width/Height assumed
+0x30f0c8,_Z8StrToObjPKcRN6glitch4core11dimension2dIiEE,reconstructed,core-platform/src/obj_str.cpp,"Hex-Rays re-run: Width at +0, Height at +4 confirmed by stores and IDA listing; missing field leaves member unchanged"
 0x30f140,_Z8StrToObjPKcR7Point3DIiE,reconstructed,core-platform/src/obj_str.cpp,"first component via strtod, truncated toward zero"
 0x30f1dc,_Z8StrToObjPKcR7Point3DIfE,reconstructed,core-platform/src/obj_str.cpp,
-0x30f2a4,_Z8StrToObjPKcRN6glitch4core11dimension2dIfEE,partial,core-platform/src/obj_str.cpp,decompiled stores missing; Width/Height assumed
+0x30f2a4,_Z8StrToObjPKcRN6glitch4core11dimension2dIfEE,reconstructed,core-platform/src/obj_str.cpp,"Hex-Rays re-run: Width at +0, Height at +4 confirmed; missing field leaves member unchanged"
 0x30f334,_Z8StrToObjPKcRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/obj_str.cpp,
-0x30fdd0,_ZlsRSoRKN6glitch4core8vector3dIfEE,partial,core-platform/src/stream_ops.cpp,"separator written as ',' (one-character literal not recoverable)"
-0x30ff48,_ZlsRSoRKN6glitch4core8vector3dIiEE,partial,core-platform/src/stream_ops.cpp,"separator written as ',' (literal not recoverable)"
-0x310178,_ZlsRSoRKN6glitch5video6SColorE,partial,core-platform/src/stream_ops.cpp,"channels written as raw bytes; separator writes carry no visible literal, none written"
-0x3133e0,_ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/stream_ops.cpp,"element separator literal not recoverable; ', ' used"
+0x30fdd0,_ZlsRSoRKN6glitch4core8vector3dIfEE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: separator write passes a register clobbered by __put_num; separator text not recoverable, "","" written"
+0x30ff48,_ZlsRSoRKN6glitch4core8vector3dIiEE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: same unrecovered separator as the float overload; "","" written"
+0x310178,_ZlsRSoRKN6glitch5video6SColorE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: channels as chars confirmed; separator writes pass a clobbered register, none written"
+0x3133e0,_ZlsRSoRKSt6vectorI7Point3DIfESaIS2_EE,partial,core-platform/src/stream_ops.cpp,"Hex-Rays re-run: separator between elements is "";"" (literal confirmed); element writer 0x313360 separators not recoverable"
 0x31026c,_ZrsRSiRN6glitch4core11dimension2dIiEE,reconstructed,core-platform/src/stream_ops.cpp,one separator character skipped between values
 0x3102b4,_ZrsRSiRN6glitch5video6SColorE,reconstructed,core-platform/src/stream_ops.cpp,"three ints, low byte stored, alpha set to 0"
 0x31032c,_ZrsRSiRN6glitch4core8vector3dIiEE,reconstructed,core-platform/src/stream_ops.cpp,X at +0 confirmed from the listing
 0x310380,_ZrsRSiRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/stream_ops.cpp,X at +0 confirmed from the listing
-0x310454,_Z11CustomAllocj,partial,core-platform/src/memory.cpp,"assert condition text (DAT_008ce400) not recovered; ""allocation"" used"
+0x310454,_Z11CustomAllocj,reconstructed,core-platform/src/memory.cpp,"Hex-Rays re-run: assert condition text ""ptr"" and line 58 recovered; level 2 aborts where the original writes to address 0"
 0x310574,_Z13CustomReallocPvj,reconstructed,core-platform/src/memory.cpp,returns the new block (confirmed from listing); copies the full new size as the original does
 0x3105b4,_Z14CustomMemalignjj,reconstructed,core-platform/src/memory.cpp,"alignment ignored, returns CustomAlloc(size) as in the listing"
 0x317c00,_Z23internal_malloc_alignedjjPKcjS0_,reconstructed,core-platform/src/memory.cpp,alignment ignored; returns malloc(size) as in the listing
-0x317c98,_Z11AllocateMemjjPKcjS0_,partial,core-platform/src/memory.cpp,"decompiled internal_malloc call shows one argument; file, line and function forwarded"
+0x317c98,_Z11AllocateMemjjPKcjS0_,reconstructed,core-platform/src/memory.cpp,"Hex-Rays re-run: aligned path, plain fallback with file/line/func, out-of-memory assert confirmed by IDA listing; ShowMemoryStats is a stub here"
 0x320550,_Z7TimeNowv,reconstructed,core-platform/src/time_util.cpp,returns 32-bit milliseconds (confirmed from listing)
 0x862bf4,_Z8_GetTimev,reconstructed,core-platform/src/time_util.cpp,
 0x89d368,_Z10OS_GetTimev,reconstructed,core-platform/src/time_util.cpp,
 0x324114,_Z10_DEBUG_OUTPKcz,reconstructed,core-platform/src/debug_out.cpp,vsnprintf into the 1 KiB buffer
-0x533560,appDebugLog,partial,core-platform/src/debug_out.cpp,Android logcat write replaced by stderr
+0x533560,appDebugLog,partial,core-platform/src/debug_out.cpp,"Hex-Rays re-run: _android_log_write(ANDROID_LOG_INFO, tag, text) replaced by stderr"
 0x34e024,_Z11ToLowerCaseRSsii,reconstructed,core-platform/src/util.cpp,
-0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,partial,core-platform/src/util.cpp,template over the glitch string type; only data()/size() interface assumed
+0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,reconstructed,core-platform/src/util.cpp,Hex-Rays re-run: lowercase of A-Z within the clamped range; string layout accessed through data()/size()
 0x89c2f4,FUN_008ac2f4,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c2f8,LC_API_STRCHR,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c2fc,LC_DEBUG_INIT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
@@ -260,14 +260,14 @@ elf_address,symbol,status,source_file,notes
 0x89c304,LC_DEBUG_OUT,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary (varargs stub)
 0x89c310,LC_API_FTOA,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
 0x89c29c,LC_API_STRCHRFIND,reconstructed,core-platform/src/lc_api.cpp,counted search: pointer past the n-th match; n of 0 returns the string
-0x89c2cc,FUN_008ac2cc,partial,core-platform/src/lc_api.cpp,same search as LC_API_STRCHRFIND; register-passed entry state assumed equal
-0x89c314,LC_API_ITOA,partial,core-platform/src/lc_api.cpp,listing stores only the least significant digit and tail-calls a divide; no terminator after the digit
+0x89c2cc,FUN_008ac2cc,partial,core-platform/src/lc_api.cpp,"Hex-Rays re-run: no Hex-Rays body and no IDA block at this address; Ghidra loop kept as a search, unverified"
+0x89c314,LC_API_ITOA,reconstructed,core-platform/src/lc_api.cpp,Hex-Rays re-run: full radix conversion with sign and reversal (earlier single-digit note was wrong)
 0x89c42c,_Z22ConvertUnicodeToUTF8LCPcPKti,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUnicodeToUTF8; standard UTF-8 encoding
 0x89c514,_Z22ConvertUTF8ToUnicodeLCPtPKci,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch ConvertUTF8ToUnicode
-0x89c5dc,_Z19UTF8ToUnicode_OldLCPtPKc,partial,core-platform/src/utf_text.cpp,"legacy decoder; standard decoding assumed, control flow not reproduced"
+0x89c5dc,_Z19UTF8ToUnicode_OldLCPtPKc,reconstructed,core-platform/src/utf_text.cpp,Hex-Rays re-run: legacy decoder transliterated (shared with Old)
 0x89c88c,LC_API_PARSE_DATA,reconstructed,core-platform/src/lc_api.cpp,
 0x89c99c,_Z21LC_API_GetNationalityPc,reconstructed,core-platform/src/lc_api.cpp,bare return in the binary
-0x89c9a0,getValueLC,partial,core-platform/src/lc_api.cpp,listing returns 0 on every path; the copied text is the result
+0x89c9a0,getValueLC,reconstructed,core-platform/src/lc_api.cpp,Hex-Rays re-run: field copy; every return path is 0 (confirmed)
 0x89ca14,_Z14LC_API_TOLOWERPKcPc,reconstructed,core-platform/src/lc_api.cpp,
 0x89ca7c,_Z26LC_DEBUG_SAVE_RECVDATA_LOGPKci,reconstructed,core-platform/src/lc_api.cpp,
 0x89caa4,_Z26LC_DEBUG_SAVE_SENDDATA_LOGPKci,reconstructed,core-platform/src/lc_api.cpp,
@@ -280,7 +280,7 @@ elf_address,symbol,status,source_file,notes
 0x89cbec,LC_API_FILE_OPEN,reconstructed,core-platform/src/lc_api.cpp,"eight file slots, handles are 1-based"
 0x89cc4c,LC_API_IP_INT2STR,reconstructed,core-platform/src/lc_api.cpp,
 0x89cc98,LC_API_STRLEN,reconstructed,core-platform/src/lc_api.cpp,tail call to strlen
-0x89cc9c,LC_API_GET_RANDOM,partial,core-platform/src/lc_api.cpp,srand48/lrand48 replaced by std::rand (sequence differs)
+0x89cc9c,LC_API_GET_RANDOM,reconstructed,core-platform/src/lc_api.cpp,"Hex-Rays re-run: srand48 seeded from time, then lrand48 (POSIX 48-bit generator reproduced, matched to glibc) plus signed byte sum of name"
 0x89cd00,LC_API_STRTRIM,reconstructed,core-platform/src/lc_api.cpp,"only measures the string, as the listing does"
 0x89ce28,LC_API_FILE_GET_LENGTH,reconstructed,core-platform/src/lc_api.cpp,
 0x89ce98,LC_API_FILE_READ,reconstructed,core-platform/src/lc_api.cpp,
@@ -299,7 +299,7 @@ elf_address,symbol,status,source_file,notes
 0x89d2c0,_Z23TranslateUnicode2Utf8LCPPcPtii,reconstructed,core-platform/src/utf_text.cpp,shared with the glitch TranslateUnicode2Utf8
 0x82a788,_Z20ConvertUnicodeToUTF8PcPKti,reconstructed,core-platform/src/utf_text.cpp,shared with LC copy 0x89c42c
 0x82a868,_Z20ConvertUTF8ToUnicodePtPKci,reconstructed,core-platform/src/utf_text.cpp,shared with LC copy 0x89c514
-0x82a938,_Z17UTF8ToUnicode_OldPtPKc,partial,core-platform/src/utf_text.cpp,"legacy decoder; standard decoding assumed, control flow not reproduced"
+0x82a938,_Z17UTF8ToUnicode_OldPtPKc,reconstructed,core-platform/src/utf_text.cpp,Hex-Rays re-run: legacy decoder transliterated (shared with OldLC); 16-bit truncation as in the listing
 0x82b6cc,_Z21TranslateUtf82UnicodePPtPcii,reconstructed,core-platform/src/utf_text.cpp,
 0x82b728,_Z21TranslateUnicode2Utf8PPcPtii,reconstructed,core-platform/src/utf_text.cpp,
 0x33cc58,_ZNK17TouchScreenIPhone12getLeftBoundEv,reconstructed,core-platform/src/touch_screen_iphone.cpp,
@@ -331,17 +331,17 @@ elf_address,symbol,status,source_file,notes
 0x8763e0,_ZL4ilogi,reconstructed,core-platform/src/vorbis_util.cpp,"bit-length table assumed to be 0,1,2,2,3,3,3,3,4..4 (the table is not readable here)"
 0x8764d8,_ZL14uint32_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
 0x8764f8,_Z13point_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
-0x876518,_ZL22imdct_step3_iter0_loopiPfiiS_,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
-0x8767cc,_ZL24imdct_step3_inner_r_loopiPfiiS_i,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
-0x876b34,_ZL7iter_54Pf,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
-0x8784f4,_Z11dct_iv_slowPfi,partial,core-platform/src/vorbis_util.cpp,listing only copies the input into a stack buffer; the DCT is not visible
-0x3ef1b8,_Z12Color255To01R7Point3DIfE,partial,core-platform/src/misc_util.cpp,only the first component is divided by 255.0f in the listing
+0x876518,_ZL22imdct_step3_iter0_loopiPfiiS_,reconstructed,core-platform/src/vorbis_util.cpp,Hex-Rays re-run: full butterfly loop transliterated (the earlier note was wrong)
+0x8767cc,_ZL24imdct_step3_inner_r_loopiPfiiS_i,reconstructed,core-platform/src/vorbis_util.cpp,Hex-Rays re-run: full butterfly loop transliterated; stride parameter is int
+0x876b34,_ZL7iter_54Pf,reconstructed,core-platform/src/vorbis_util.cpp,Hex-Rays re-run: full eight-point butterfly transliterated
+0x8784f4,_Z11dct_iv_slowPfi,partial,core-platform/src/vorbis_util.cpp,"Hex-Rays re-run: DCT-IV loop and table recovered; the listing ends with VoxFree on the stack copy, not reproduced"
+0x3ef1b8,_Z12Color255To01R7Point3DIfE,reconstructed,core-platform/src/misc_util.cpp,"Hex-Rays re-run: X, Y and Z divided by 255.0f; returns the new Z (IDA listing confirms)"
 0x840000,_Z8in_cksumPti,reconstructed,core-platform/src/misc_util.cpp,
 0x3cb46c,_Z10SafeDeleteI17CharAISkillScriptEvRPT_,reconstructed,core-platform/include/core-platform/misc_util.hpp,template; SafeDelete<CharAISkillScript> is the instance used
-0x827970,_Z9TransToIpRPc,partial,core-platform/src/misc_util.cpp,listing copies the address into a local; written to the new buffer as dotted text instead
+0x827970,_Z9TransToIpRPc,reconstructed,core-platform/src/misc_util.cpp,"Hex-Rays re-run: 0x80-byte CustomAlloc buffer, memset, strcpy of inet_ntoa (confirmed)"
 0x42b150,_Z12fs_read_funcPviS_,reconstructed,core-platform/src/fs_callbacks.cpp,
 0x42b1a4,_Z13fs_close_funcPv,reconstructed,core-platform/src/fs_callbacks.cpp,
-0x42b260,_Z12fs_open_funcPKcS0_,partial,core-platform/src/fs_open.cpp,application file open and BufferedStream fill declared in deps; mode unused as in the original
+0x42b260,_Z12fs_open_funcPKcS0_,reconstructed,core-platform/src/fs_open.cpp,"Hex-Rays re-run: open through application file system, 12-byte handle zeroed at +0/+4/+8, BufferedStream fill, stream closed; mode unused"
 0x42b38c,_Z12get_fontfilePKcbbPci,skipped,core-platform/src/fs_callbacks.cpp,debug-switch font-name builder; the listing is a garbled tail into a string allocator
 0x7d3c24,_Z5crossPfS_S_,skipped,core-platform/src/misc_util.cpp,listing is a single tail-called product; the rest of the cross product is not visible
 0x7d4584,_Z9normalizePf,skipped,core-platform/src/misc_util.cpp,listing is a single tail-called product; normalisation is not visible
@@ -429,4 +429,4 @@ elf_address,symbol,status,source_file,notes
 0x52eca4,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPci,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncChar forwards through the JNI env; Windows uses Device (device.hpp)
 0x52ebe0,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,skipped,core-platform/include/core-platform/adevice.hpp,CallJNIFuncChar with two buffers; Windows uses Device (device.hpp)
 0x52eee8,_ZN7ADevice4InitEP7_JNIEnvP7_jclass,skipped,core-platform/include/core-platform/adevice.hpp,JNI initialisation of the Android device; Windows uses Device (device.hpp)
-0x52eea8,_ZN7ADevice11currentTimeEv,partial,core-platform/include/core-platform/adevice.hpp,milliseconds from TimeNow(); the original's high word is not reproduced
+0x52eea8,_ZN7ADevice11currentTimeEv,reconstructed,core-platform/include/core-platform/adevice.hpp,"Hex-Rays re-run: 32-bit millisecond count via gettimeofday, returned as int (the earlier 64-bit return was wrong)"

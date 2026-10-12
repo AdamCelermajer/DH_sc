@@ -1,7 +1,10 @@
 #include "core-platform/vorbis_util.hpp"
 
+#include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <vector>
 
 namespace {
 // Bit length of each 4-bit value: the table ilog indexes into.
@@ -64,24 +67,143 @@ unsigned int point_compare(const void* a, const void* b) {
 }
 
 // 0x876518 _ZL22imdct_step3_iter0_loopiPfiiS_
-void imdct_step3_iter0_loop(int, float*, int, int, float*) {
-    // The listing's only float subtraction feeds a tail call whose result is dropped.
+// Butterfly pass over n/4 groups of eight floats (Hex-Rays). `e` and `e + i_off`
+// are read and written going backwards; `a` steps through the twiddle table.
+void imdct_step3_iter0_loop(int n, float* e, int iOffset, int kOffset, float* a) {
+    float* ePos = e + iOffset;
+    float* kPos = ePos + kOffset;
+    for (int count = n >> 2; count > 0; --count) {
+        const float v9 = ePos[0] - kPos[0];
+        const float v10 = ePos[-1] - kPos[-1];
+        ePos[0] = ePos[0] + kPos[0];
+        ePos[-1] = ePos[-1] + kPos[-1];
+        kPos[0] = (v9 * a[0]) - (v10 * a[1]);
+        kPos[-1] = (v10 * a[0]) + (v9 * a[1]);
+
+        const float v11 = ePos[-2] - kPos[-2];
+        const float v12 = ePos[-3] - kPos[-3];
+        ePos[-2] = ePos[-2] + kPos[-2];
+        ePos[-3] = ePos[-3] + kPos[-3];
+        kPos[-2] = (v11 * a[8]) - (v12 * a[9]);
+        kPos[-3] = (v12 * a[8]) + (v11 * a[9]);
+
+        const float v13 = ePos[-4] - kPos[-4];
+        const float v14 = ePos[-5] - kPos[-5];
+        ePos[-4] = ePos[-4] + kPos[-4];
+        ePos[-5] = ePos[-5] + kPos[-5];
+        kPos[-4] = (v13 * a[16]) - (v14 * a[17]);
+        kPos[-5] = (v14 * a[16]) + (v13 * a[17]);
+
+        const float v15 = ePos[-6] - kPos[-6];
+        const float v16 = ePos[-7] - kPos[-7];
+        ePos[-6] = ePos[-6] + kPos[-6];
+        ePos[-7] = ePos[-7] + kPos[-7];
+        kPos[-6] = (v15 * a[24]) - (v16 * a[25]);
+        kPos[-7] = (v16 * a[24]) + (v15 * a[25]);
+
+        a += 32;
+        ePos -= 8;
+        kPos -= 8;
+    }
 }
 
 // 0x8767cc _ZL24imdct_step3_inner_r_loopiPfiiS_i
-void imdct_step3_inner_r_loop(int, float*, int, int, float, int) {
-    // Same as the iter0 loop: the visible subtraction's result is dropped.
+// Same butterfly as the iter0 loop, with four twiddle pointers that each step
+// `stride` groups of four floats (0x10 * stride bytes in the original).
+void imdct_step3_inner_r_loop(int n, float* e, int iOffset, int kOffset, float* a, int stride) {
+    const int count = n >> 2;
+    const int advance = 4 * stride;
+    float* ePos = e + iOffset;
+    float* kPos = ePos + kOffset;
+    float* t0 = a;
+    float* t1 = a + stride;
+    float* t2 = a + 2 * stride;
+    float* t3 = a + 3 * stride;
+    for (int i = 0; i < count; ++i) {
+        const float v15 = ePos[0] - kPos[0];
+        const float v16 = ePos[-1] - kPos[-1];
+        ePos[0] = ePos[0] + kPos[0];
+        ePos[-1] = ePos[-1] + kPos[-1];
+        kPos[0] = (v15 * t0[0]) - (v16 * t0[1]);
+        kPos[-1] = (v16 * t0[0]) + (v15 * t0[1]);
+        t0 += advance;
+
+        const float v17 = ePos[-2] - kPos[-2];
+        const float v18 = ePos[-3] - kPos[-3];
+        ePos[-2] = ePos[-2] + kPos[-2];
+        ePos[-3] = ePos[-3] + kPos[-3];
+        kPos[-2] = (v17 * t1[0]) - (v18 * t1[1]);
+        kPos[-3] = (v18 * t1[0]) + (v17 * t1[1]);
+        t1 += advance;
+
+        const float v19 = ePos[-4] - kPos[-4];
+        const float v20 = ePos[-5] - kPos[-5];
+        ePos[-4] = ePos[-4] + kPos[-4];
+        ePos[-5] = ePos[-5] + kPos[-5];
+        kPos[-4] = (v19 * t2[0]) - (v20 * t2[1]);
+        kPos[-5] = (v20 * t2[0]) + (v19 * t2[1]);
+        t2 += advance;
+
+        const float v21 = ePos[-6] - kPos[-6];
+        const float v22 = ePos[-7] - kPos[-7];
+        ePos[-6] = ePos[-6] + kPos[-6];
+        ePos[-7] = ePos[-7] + kPos[-7];
+        ePos -= 8;
+        kPos[-6] = (v21 * t3[0]) - (v22 * t3[1]);
+        kPos[-7] = (v22 * t3[0]) + (v21 * t3[1]);
+        kPos -= 8;
+        t3 += advance;
+    }
 }
 
 // 0x876b34 _ZL7iter_54Pf
-void iter_54(float*) {
-    // The visible subtraction's result is dropped by the listing.
+// Eight-point butterfly on the eight floats ending at z (Hex-Rays).
+void iter_54(float* z) {
+    const float v2 = z[0] - z[-4];
+    const float v3 = z[0] + z[-4];
+    const float v4 = z[-2] + z[-6];
+    const float v5 = z[-2] - z[-6];
+    z[0] = v3 + v4;
+    const float v6 = z[-7];
+    z[-2] = v3 - v4;
+    const float v7 = z[-3] - v6;
+    z[-4] = v2 + v7;
+    const float v8 = z[-1];
+    const float v9 = z[-5];
+    z[-6] = v2 - v7;
+    const float v10 = v8 - v9;
+    const float v11 = v8 + v9;
+    const float v12 = z[-3] + z[-7];
+    z[-1] = v11 + v12;
+    z[-3] = v11 - v12;
+    z[-5] = v10 - v5;
+    z[-7] = v10 + v5;
 }
 
 // 0x8784f4 _Z11dct_iv_slowPfi
+// Direct O(n^2) DCT-IV (Hex-Rays): table[i] = cos(i * pi/4 / n) for i < 8n, then
+// out[k] = sum_j in[j] * table[((2j+1)(2k+1)) & (8n-1)], written over the input.
+// Partial: the listing ends with a VoxFree call on the stack buffer that holds the
+// copy of the input; that call is not reproduced (the vector is released on return).
 void dct_iv_slow(float* data, int n) {
-    float scratch[2048];
-    if (n > 0 && n <= 2048) {
-        std::memcpy(scratch, data, static_cast<std::size_t>(n) * sizeof(float));
+    if (n <= 0) {
+        return;
+    }
+    const int m = 8 * n;
+    const std::vector<float> input(data, data + n);
+    std::vector<float> table(static_cast<std::size_t>(m));
+    for (int i = 0; i < m; ++i) {
+        table[static_cast<std::size_t>(i)] =
+            static_cast<float>(std::cos(static_cast<double>(i) * 0.785398163 / static_cast<double>(n)));
+    }
+    for (int k = 0; k < n; ++k) {
+        const int step = 2 * k + 1;
+        int index = step;
+        float sum = 0.0f;
+        for (int j = 0; j < n; ++j) {
+            sum = sum + input[static_cast<std::size_t>(j)] * table[static_cast<std::size_t>(index & (m - 1))];
+            index += 2 * step;
+        }
+        data[k] = sum;
     }
 }

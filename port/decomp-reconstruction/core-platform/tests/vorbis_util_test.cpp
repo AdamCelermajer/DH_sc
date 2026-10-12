@@ -1,5 +1,6 @@
 #include "core-platform/vorbis_util.hpp"
 
+#include <cmath>
 #include <cstdio>
 
 static int failures = 0;
@@ -29,6 +30,22 @@ int main() {
     unsigned short p = 4, q = 2;
     CHECK(point_compare(&p, &q) == 1u);
     CHECK(point_compare(&q, &p) == 0xFFFFFFFFu);
+
+    // DCT-IV (direct form): X[k] = sum_j x[j] * cos(pi/(4n) * (2j+1)(2k+1)).
+    {
+        const int n = 4;
+        const double pi = 3.14159265358979323846;
+        float data[4] = {1.0f, 2.0f, -1.0f, 0.5f};
+        const float in[4] = {1.0f, 2.0f, -1.0f, 0.5f};
+        dct_iv_slow(data, n);
+        for (int k = 0; k < n; ++k) {
+            double expect = 0.0;
+            for (int j = 0; j < n; ++j) {
+                expect += in[j] * std::cos(pi / (4.0 * n) * (2 * j + 1) * (2 * k + 1));
+            }
+            CHECK(std::fabs(data[k] - expect) < 1e-4);
+        }
+    }
 
     std::printf("%s\n", failures ? "vorbis_util: FAILED" : "vorbis_util: ok");
     return failures != 0;

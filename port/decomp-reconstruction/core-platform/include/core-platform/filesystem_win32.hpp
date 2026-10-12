@@ -43,7 +43,7 @@ public:
     void closeFile(IFileStream*& stream);    // 0x34ebcc: deletes the stream and clears it
     void getFolders(const char* dir, std::vector<std::string>& out) const;  // 0x34ebfc: no-op
     bool _getFileInfo(const char* a, const char* b, void* info) const;  // 0x34ebc4
-    bool isFileNewerThan(const char* a, const char* b) const;           // 0x34ec00
+    void isFileNewerThan(const char* a, const char* b) const;          // 0x34ec00 (empty)
 
     _FileHandle* openSavefile(const char* name, bool writable);  // 0x34fee4
     _FileHandle* openResource(const char* name);                 // 0x34ff28
