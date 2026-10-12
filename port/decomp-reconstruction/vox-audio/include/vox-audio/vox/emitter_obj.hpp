@@ -14,6 +14,13 @@
 namespace vox {
 
 class DriverSourceInterface;
+class DataObj;
+
+// Opaque user-data record as the original passes it: only the first word is stored
+// (EmitterObj +0x134). The record's full size is not confirmed.
+struct EmitterHandleUserData {
+    std::uintptr_t word = 0;
+};
 
 class EmitterObj : public Handlable {
 public:
@@ -93,6 +100,8 @@ public:
     VoxGainFade gain_fade_;                 // +0x48..+0x58: fade toward the SetGain target (target +0x4c)
     int group_ = 0;                         // +0x28
     int priority_ = 0;                      // +0x2c, compared by PriorityBankManager (writer not identified)
+    int stamp_index_ = 0;                   // +0x14, emitter slot for the handle stamp table (VoxEngineInternal +0x550)
+    DataObj* data_ = nullptr;               // +0x118, the data object this emitter plays (set by the constructor)
     int bank_ = 0;                          // +0x30, priority bank index (passed to PriorityBankManager)
     bool in_bank_ = false;                  // +0x34, emitter is registered with a priority bank
     float gain_modifier_ = 1.0f;            // +0x44
