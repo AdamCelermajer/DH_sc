@@ -595,6 +595,9 @@ struct PlayerToNpcKillContextV1 {
  bool source_kill_completed=false;
  NativeSctActorContextV1 text{};
 };
+// Set only while the script KillActor path (Cmd_Kill with a null killer) runs.
+// Player-killer kills never see it, so their refusals stay unchanged.
+bool native_script_null_killer_kill=false;
 bool source_npc_kill_ready(ObjectActor&,std::uintptr_t);
 bool native_source_crypt_monster_candidate(ObjectActor&);
 int player_to_npc_before_dead_v1(void*,dh2::data::CombatResult&);
@@ -23523,12 +23526,16 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       c.fields[3].kind==DH2_SCRIPT_VALUE_I32&&c.fields[4].kind==DH2_SCRIPT_VALUE_STRING&&
       c.fields[4].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
       c.fields[5].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 21: // StopEffect(I)
+  return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 64: // ChangeLevel(entry I, level S)
   return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
       native_script_name_field(c,1);
  case 77: // LockTutorial(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
+  return c.field_count==1&&native_script_name_field(c,0);
+ case 44: // KillActor(S)
   return c.field_count==1&&native_script_name_field(c,0);
  case 31: case 39: case 42: case 43: // PutCharacterInIdle/StopActor/ShowActor/HideActor(S)
   return c.field_count==1&&native_script_name_field(c,0);
@@ -23715,6 +23722,14 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
        matched,launched,error);
    return status==dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
   }
+  case 21: {
+   // Script_StopEffect::Execute 0x113802 -> VisualFXManager::
+   // DropAnimatedFXSetByID (0x494660) for the set id PlayEffect started.
+   if(!native_fx_owner)return 1;
+   std::string error;
+   return native_fx_owner->DropAnimatedFXSetByID(c.fields[0].value.i32,error)==
+       dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
+  }
   case 64: {
    // Script_ChangeLevel::Execute 0x45cba0: SaveAllPlayers then
    // Application::LoadLevel(LevelList row, entry). The deferred transition
@@ -23770,6 +23785,29 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
       actor->spawn_owner->character.owner()!=actor->identity)return -1;
    return actor->spawn_owner->character.transition(0,-1,0)>=0?1:-1;
+  }
+  case 44: {
+   // Script_KillActor::Execute 0x114224: v2Controller::Cmd_Kill(ctrl, nullptr, 0)
+   // on the named Character. The null killer gives no XP or loot attribution;
+   // the source Ctrl_Kill -> Kill -> RaiseEvent(2,nullptr) continuation runs.
+   dh2_script_runtime::ObjectRecord record{};
+   const auto name=native_script_string(c,0);
+   const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
+   if(status==0)return 0;
+   if(status!=1||!record.identity)return -1;
+   if(record.identity==prince_character.identity())return -1;
+   auto* actor=native_char_ai_actor(record.identity);
+   if(!actor)return 1;  // Not a Character: GetObjectByName cast fails.
+   if(actor->combat_state.dead)return 1;  // Ctrl_Kill IsDead skips the body.
+   struct NullKillerScope{
+    NullKillerScope(){native_script_null_killer_kill=true;}
+    ~NullKillerScope(){native_script_null_killer_kill=false;}
+   } scope;
+   PlayerToNpcKillContextV1 context{actor,0,false,{}};
+   dh2::data::CombatResult result{};
+   if(player_to_npc_before_dead_v1(&context,result)!=0||!context.source_kill_completed||
+      actor->combat_state.dead!=1)return -1;
+   return 1;
   }
   case 40: {
    // Script_MoveActor::Execute 0x1142a8: v2Controller::Cmd_MoveTo(target) on the
@@ -35170,6 +35208,14 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
  // Generated Crypt records require their retained module/record/template
  // source proof and enrolled Character row before the common manager is used.
  if(!source_npc(victim))return false;
+ if(!killer&&native_script_null_killer_kill){
+  auto* actor=manager->find_by_identity(victim.identity);
+  if(!actor||actor->identity!=victim.identity||actor->source_handle!=victim.source_handle||
+     actor->module_id_64!=victim.source_object_module_id||
+     !actor->live_fields.world_x||!actor->live_fields.world_y)return false;
+  if(manager_actor)*manager_actor=actor;
+  return true;
+ }
  auto* killer_actor=killer==active.player_character?nullptr:
      native_char_ai_actor(killer);
  if(killer!=active.player_character&&(!killer_actor||!source_npc(*killer_actor)))
@@ -35193,7 +35239,8 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
  return true;
 }
 bool source_npc_kill_ready(ObjectActor& victim,std::uintptr_t killer){
- if(!killer||killer==victim.identity||victim.kind!=1||!victim.identity||
+ const bool null_killer=!killer&&native_script_null_killer_kill;
+ if((!killer&&!null_killer)||(killer&&killer==victim.identity)||victim.kind!=1||!victim.identity||
     !victim.spawn_owner||!victim.native_ai||!victim.native_ai->initialization||
     !prince_skills||!prince_skills->initialized()||!world_mode||
     !actor_level_fields_ready||
@@ -35267,7 +35314,8 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
                               std::string& error){
  auto* c=static_cast<SourceNpcKillServicesContextV1*>(raw);
  if(!c||!c->victim||!c->initialization||request.character!=c->victim->identity||
-    !request.killer_object||request.killer_object==request.character||request.forced||
+    (!request.killer_object&&!native_script_null_killer_kill)||
+    request.killer_object==request.character||request.forced||
     !source_npc_kill_ready(*c->victim,request.killer_object)||
     !world_mode||!actor_level_fields_ready||
     !prince_combat.quests||
@@ -35278,8 +35326,8 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
  // The source Kill credit path requires the same live sole outgoing aggro
  // recipient. before_hit has already recorded that edge when this preflight
  // is reached, but this check itself is read-only.
- if(victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
-    victim.aggro.outgoing.front().character!=request.killer_object||
+ if((request.killer_object&&(victim.aggro.out_count!=1||victim.aggro.outgoing.size()<1||
+    victim.aggro.outgoing.front().character!=request.killer_object))||
     !prince_combat.inventory||!prince_combat.savegame||
     !actor_xp_design_settings.bytes){
   error="Source NPC Kill has no sole aggro recipient or XP owners";return false;
@@ -35290,7 +35338,7 @@ bool source_npc_tail_preflight(void* raw,const dh2::character_kill_death_tail_v1
        &manager_object,&killer_object)){
   error="Source NPC Kill has no identity-matched live Character/GameObject positions";return false;
  }
- if(request.killer_object!=prince_character.identity()) {
+ if(request.killer_object&&request.killer_object!=prince_character.identity()) {
   auto* recipient=native_char_ai_actor(request.killer_object);
   auto* recipient_ai=recipient?recipient->native_ai.get():nullptr;
   auto* recipient_init=recipient_ai?recipient_ai->initialization.get():nullptr;
@@ -35470,7 +35518,8 @@ bool source_npc_raise_event2(void* raw,std::uintptr_t character,
 }
 int player_to_npc_before_dead_v1(void* raw,dh2::data::CombatResult&){
  auto* c=static_cast<PlayerToNpcKillContextV1*>(raw);
- if(!c||!c->victim||!c->killer||c->killer==c->victim->identity||
+ if(!c||!c->victim||(!c->killer&&!native_script_null_killer_kill)||
+ (c->killer&&c->killer==c->victim->identity)||
     c->victim->combat_state.dead||c->source_kill_completed||
     !source_npc_kill_ready(*c->victim,c->killer))return -1;
  auto& victim=*c->victim;
