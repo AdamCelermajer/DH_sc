@@ -2,12 +2,29 @@
 import argparse
 import importlib.util
 import json
+import re
 from pathlib import Path
 import shutil
 spec = importlib.util.spec_from_file_location('hotfix_packager', Path(__file__).with_name('package_hotfix.py'))
 packager = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(packager)
 sha = packager.sha
+
+
+def verified_ctest_log(log, total):
+    if f'100% tests passed, 0 tests failed out of {total}' in log:
+        return True
+    # CTest's preserved LastTest.log records each complete test separately.
+    # Require the entire numbered roster and every final outcome, not a count
+    # copied from a release note or successful words in a test's own output.
+    roster = re.findall(r'^(\d+)/(\d+) Test: [^\r\n]+$', log, re.MULTILINE)
+    return (
+        len(roster) == total
+        and {int(index) for index, _ in roster} == set(range(1, total + 1))
+        and all(int(count) == total for _, count in roster)
+        and len(re.findall(r'^Test Passed\.$', log, re.MULTILINE)) == total
+        and not re.search(r'^Test Failed\.$', log, re.MULTILINE)
+    )
 
 
 def main():
@@ -24,8 +41,7 @@ def main():
         raise ValueError('Independent READY review must identify this frozen executable')
     tests = receipt['ctest']
     log = Path(tests['log']).read_text(encoding='utf-8-sig')
-    if tests['failed'] != 0 or tests['passed'] != tests['total'] or (
-            f"100% tests passed, 0 tests failed out of {tests['total']}" not in log):
+    if tests['failed'] != 0 or tests['passed'] != tests['total'] or not verified_ctest_log(log, tests['total']):
         raise ValueError('Recorded scoped tests do not pass')
     manifest = json.loads((target/'manifest.json').read_text(encoding='utf-8'))
     for entry in manifest['files']:

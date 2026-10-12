@@ -1,0 +1,21 @@
+{
+  "version": "v21.3",
+  "source_commit": "51c4ac5c469b01969b39d6af1be45a68e5eb2c57",
+  "ctest": {
+    "passed": 177,
+    "total": 177,
+    "failed": 0,
+    "scope": "complete Windows foundation suite, including legacy save compatibility, typed equipment, physical presence and source admission",
+    "log": "C:/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/v21.3/integration/ctest-177-51c4ac5c469b01969b39d6af1be45a68e5eb2c57.log"
+  },
+  "verification": {
+    "status": "Frozen candidate; independent combined production review pending",
+    "report": "C:/Users/adamc/Desktop/workspace/DH_sc/coordination/v21.3/FINAL-REVIEW.md"
+  },
+  "fix": {
+    "ids": ["B119", "B120", "B121", "B122", "B123", "B124", "B125", "B126", "B127", "B128", "B129", "B130", "B131", "B132", "B133", "B134", "B135", "B136"],
+    "fix": "Authentic merchant/stat/page/equipment/skill/Faery cues; source-generated merchant powers and item persistence; PC list navigation; powered item details/colors; ordinary saved enemy admission; brown Champion combat; native checkpoint body and consumer restoration; post-fight skill registry; item confirmations; canonical powered gear and camera providers before Continue.",
+    "evidence": "Per-bug source, focused and immutable normal production reports in coordination/v21.3; final combined review remains the acceptance gate."
+  },
+  "readme": "Dungeon Hunter II reconstruction — v21.3 (Windows x64)\n\nPlay.cmd opens the main menu. Play-swamp.cmd starts the Swamp directly.\nDevelopment preview: see package-receipt.json for acceptance and executable hash, and release-notes.json for verified fixes and remaining issues.\n\nKeep this folder separate from previous releases. Saved progress is copied separately after acceptance; no saves belong to the frozen package manifest. Previous packages and original saves are preserved.\n\nControls\nWASD: run. Shift: walk. Space: context action/basic attacks. Tab: select target.\n1/2/3: skills from left to right. 4: selected Faery skill. 5: potion.\nE: confirm displayed travel destination. C or portrait: character pages.\nEscape: pause/resume. Enter or SKIP: skip cinematics; caption click advances dialogue.\nDeath: click or press Space to Continue and restore the checkpoint.\nF5/F9: gameplay checkpoint save/load; active actions can reject checkpoints.\nMerchant lists: wheel, Up/Down, PageUp/PageDown or vertical drag.\nDrop and Transmute ask for confirmation before acting.\n\nRemaining preview limitations\n- Fire remains sharper and more patterned than the original video; the user accepted this caveat.\n- Broad water caustics and fog/lighting still differ; full visual parity is not claimed.\n- Repeated F9 after restoring a dead monster can reject a mutable targeting flag; that earlier preview caveat is retained.\n- Broader RoomZone, class/skill/passive and companion/later-act content remains partial.\n- Authentic audio callbacks, voices and nonzero device-bound PCM were verified; acoustic parity was not checked by ear. Source focus-in and conditional unreached audio paths remain documented.\n\nThe original video is v1.0.3; recovered source/assets include v1.0.2 and iPad v1.0.0 evidence. Unknown version differences are recorded in the reports.\n\nIncludes the prior v21.1 chest-crash and v21.2 main-menu Continue hotfixes.\n"
+}

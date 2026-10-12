@@ -1,0 +1,125 @@
+diff --git a/port/windows-foundation/features/equipment/equipment_main_page.hpp b/port/windows-foundation/features/equipment/equipment_main_page.hpp
+index 8c9f91f..c1f8cf0 100644
+--- a/port/windows-foundation/features/equipment/equipment_main_page.hpp
++++ b/port/windows-foundation/features/equipment/equipment_main_page.hpp
+@@ -32,6 +32,9 @@ struct NativeEquipmentActions {
+     std::function<bool(const std::string& instance_id, unsigned source_slot,
+                        std::string& error)> equip;
+     std::function<bool(unsigned source_slot, std::string& error)> unequip;
++    enum class CueAction { equip, unequip };
++    using ActionCue = std::function<void(CueAction, unsigned source_slot)>;
++    ActionCue action_cue;
+     bool bound() const noexcept { return bool(equip) && bool(unequip); }
+     bool partial() const noexcept { return bool(equip) != bool(unequip); }
+ };
+diff --git a/port/windows-foundation/features/equipment/equipment_main_page.cpp b/port/windows-foundation/features/equipment/equipment_main_page.cpp
+index e7a5780..1630722 100644
+--- a/port/windows-foundation/features/equipment/equipment_main_page.cpp
++++ b/port/windows-foundation/features/equipment/equipment_main_page.cpp
+@@ -94,12 +94,21 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string&
+                     error = "Canonical equipment action requires the selected source item and slot";
+                     return false;
+                 }
+-                if (!native_actions_.equip(id, slot, error)) return false;
++                const bool applied = native_actions_.equip(id, slot, error);
++                if (native_actions_.action_cue)
++                    native_actions_.action_cue(NativeEquipmentActions::CueAction::equip, slot);
++                if (!applied) return false;
+                 command = MainPageCommand::equipped;
+                 error.clear();
+                 return true;
+             }
+-            if (!equipment_.equip_selected(error)) return false;
++            {
++                const auto slot = equipment_.selected_slot();
++                const bool applied = equipment_.equip_selected(error);
++                if (native_actions_.action_cue)
++                    native_actions_.action_cue(NativeEquipmentActions::CueAction::equip, slot);
++                if (!applied) return false;
++            }
+             command = MainPageCommand::equipped;
+             return true;
+         case inventory::DetailAction::unequip:
+@@ -113,11 +122,15 @@ bool MainPage::release(float x, float y, MainPageCommand& command, std::string&
+                     error = "Canonical equipment action requires a selected source slot";
+                     return false;
+                 }
++                if (native_actions_.action_cue)
++                    native_actions_.action_cue(NativeEquipmentActions::CueAction::unequip, slot);
+                 if (!native_actions_.unequip(slot, error)) return false;
+                 command = MainPageCommand::unequipped;
+                 error.clear();
+                 return true;
+             }
++            if (native_actions_.action_cue)
++                native_actions_.action_cue(NativeEquipmentActions::CueAction::unequip, equipment_.selected_slot());
+             if (!equipment_.unequip_selected_slot(error)) return false;
+             command = MainPageCommand::unequipped;
+             return true;
+diff --git a/port/windows-foundation/features/equipment/equipment_main_page_tests.cpp b/port/windows-foundation/features/equipment/equipment_main_page_tests.cpp
+index 33cae8d..fb854b1 100644
+--- a/port/windows-foundation/features/equipment/equipment_main_page_tests.cpp
++++ b/port/windows-foundation/features/equipment/equipment_main_page_tests.cpp
+@@ -238,28 +238,49 @@ int main(int argc, char** argv) {
+         // This contract test ensures the page forwards the selected identity
+         // and never silently commits through the compatibility adapter.
+         unsigned native_equip_calls = 0, native_unequip_calls = 0;
++        bool refuse_equip = true, refuse_unequip = true;
++        std::vector<std::string> order;
+         equipment_menu::NativeEquipmentActions native_actions;
+         native_actions.equip = [&](const std::string& id, unsigned source_slot, std::string& e) {
+-            check(id == "suit-instance" && source_slot == 0,
+-                  "Native action did not receive the shared selected source identity");
+-            ++native_equip_calls; e.clear(); return true;
++            check(id == "suit-instance" && source_slot == 0, "Native action identity mismatch");
++            ++native_equip_calls; order.push_back("native-equip");
++            if (refuse_equip) { e = "native refusal"; return false; }
++            e.clear(); return true;
+         };
+         native_actions.unequip = [&](unsigned source_slot, std::string& e) {
+-            check(source_slot == 0, "Native unequip did not receive the selected source slot");
+-            ++native_unequip_calls; e.clear(); return true;
++            check(source_slot == 0, "Native unequip slot mismatch");
++            ++native_unequip_calls; order.push_back("native-unequip");
++            if (refuse_unequip) { e = "native refusal"; return false; }
++            e.clear(); return true;
++        };
++        native_actions.action_cue = [&](equipment_menu::NativeEquipmentActions::CueAction action, unsigned source_slot) {
++            check(source_slot == 0, "Cue source slot mismatch");
++            order.push_back(action == equipment_menu::NativeEquipmentActions::CueAction::equip ? "cue-equip" : "cue-unequip");
+         };
+         equipment_menu::MainPage native_page(equipment, inventory_page, details,
+-                                             inventory_text, details_text,
+-                                             std::move(native_actions));
++                                             inventory_text, details_text, std::move(native_actions));
+         check(native_page.release(slot_x, slot_y, command, error), error);
++        check(!native_page.release(equip_x, equip_y, command, error) &&
++              order == std::vector<std::string>{"native-equip", "cue-equip"} &&
++              native_equip_calls == 1 && character.equipment.empty() && actor.equipment.empty(),
++              "Admitted Equip did not cue once after refused native attempt");
++        refuse_equip = false; order.clear();
+         check(native_page.release(equip_x, equip_y, command, error), error);
+-        check(command == equipment_menu::MainPageCommand::equipped && native_equip_calls == 1 &&
+-              character.equipment.empty() && actor.equipment.empty(),
+-              "Canonical Gear callback did not remain the sole native mutation path");
++        check(command == equipment_menu::MainPageCommand::equipped &&
++              order == std::vector<std::string>{"native-equip", "cue-equip"} &&
++              native_equip_calls == 2 && character.equipment.empty() && actor.equipment.empty(),
++              "Equip cue was not exactly once after native attempt");
++        order.clear();
++        check(!native_page.release(unequip_x, unequip_y, command, error) &&
++              order == std::vector<std::string>{"cue-unequip", "native-unequip"} &&
++              native_unequip_calls == 1 && character.equipment.empty() && actor.equipment.empty(),
++              "Admitted Unequip did not cue once before refused native attempt");
++        refuse_unequip = false; order.clear();
+         check(native_page.release(unequip_x, unequip_y, command, error), error);
+-        check(command == equipment_menu::MainPageCommand::unequipped && native_unequip_calls == 1 &&
+-              character.equipment.empty() && actor.equipment.empty(),
+-              "Canonical Gear unequip callback fell through to compatibility mutation");
++        check(command == equipment_menu::MainPageCommand::unequipped &&
++              order == std::vector<std::string>{"cue-unequip", "native-unequip"} &&
++              native_unequip_calls == 2 && character.equipment.empty() && actor.equipment.empty(),
++              "Unequip cue was not exactly once before native attempt");
+ 
+         equipment_menu::NativeEquipmentActions partial_actions;
+         partial_actions.equip = [](const std::string&, unsigned, std::string& e) {

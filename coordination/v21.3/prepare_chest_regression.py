@@ -1,12 +1,21 @@
 """Prepare isolated chest regressions from the already verified B117 fixture."""
 import hashlib
 import json
+import argparse
 from pathlib import Path
 
 root = Path('C:/Users/adamc/Desktop/workspace/DH_sc')
-exe = root/'.local-inputs/v21.3/integration/dh-foundation-integration-4b42c44b.exe'
-assert hashlib.sha256(exe.read_bytes()).hexdigest().upper() == '4B42C44BB64707276153B101B2927DAA9758E5DAF2E4870BBF373E0B5D0B7AFD'
-output = root/'.local-inputs/v21.3/root/chest-4b42'
+parser = argparse.ArgumentParser()
+parser.add_argument('--exe', type=Path, required=True)
+parser.add_argument('--sha256', required=True)
+parser.add_argument('--case-name', required=True)
+options = parser.parse_args()
+exe = options.exe.resolve(strict=True)
+if hashlib.sha256(exe.read_bytes()).hexdigest().upper() != options.sha256.upper():
+    raise ValueError('Frozen executable hash mismatch')
+if not options.case_name or any(c not in 'abcdefghijklmnopqrstuvwxyz0123456789-' for c in options.case_name):
+    raise ValueError('Case name must be a single lowercase path component')
+output = root/'.local-inputs/v21.3/root'/options.case_name
 output.mkdir(parents=True, exist_ok=False)
 jobs = []
 for kind in ('moving-open', 'idle-open'):

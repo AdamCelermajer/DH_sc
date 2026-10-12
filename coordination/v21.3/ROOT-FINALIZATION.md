@@ -10,6 +10,8 @@ Audio reviewer accepts B119–B121 source-faithful callback/output repairs on fr
 
 Root's frozen 4B42 moving/idle B117 regressions both exit0 through440frames: interaction260, marker289, open303, end332, and subsequent movement370–390. Sequential303/332/400 images show opening, upright recovery/drops and movement away; logs and args are `.local-inputs/v21.3/root/chest-4b42`. This is a regression check for the prior accepted chest fix, not acceptance of remaining checkpoint bugs.
 
+The same independently prepared moving/idle regressions pass on source-bound commit `a77fe4f6762f8e63642999abb3ef4e499dfd81e5`, frozen EXE `5C8D77BB6BAB630FAC9EFEDE016403CAFF755EB89D7B07F0E28BE30ABD0F902A`: both exit0 through440 frames with interaction260, accepted marker289 and interaction end332. Root inspected moving303/332/400 sequential captures: open chest, visible Wet Wand drop/recovery, then movement away. Artifacts `.local-inputs/v21.3/root/chest-5c8d77bb`; output paths are fresh and executable hash is checked before preparation. This candidate remains unaccepted while item modal/color and Continue gates are under verification.
+
 ## Release and cleanup order
 
 Latest independent A433 B131 follow-up verifies real natural death, Continue, incoming damage, outgoing melee/lethal hit, and damaged potion use after revive. The separate source-position-only level-start fixture preserves actors/vitals/flags and captures its checkpoint before damage; it complements the exact user checkpoint-anchor proof. Restored player body and source position remain current. Old-v1 enemy visibility (B126) and powered frontend Continue (B135) still gate the combined release.

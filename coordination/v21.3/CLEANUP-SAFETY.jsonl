@@ -1,0 +1,1 @@
+Superseded: compact safety inventory is CLEANUP-SAFETY.json. This placeholder avoids retaining a duplicated per-worktree listing of the shared primary .local-inputs junction target.
