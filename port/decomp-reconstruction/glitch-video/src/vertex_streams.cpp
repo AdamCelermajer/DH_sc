@@ -301,4 +301,30 @@ uint8_t* makeDefaultAttributeMap(const CVertexStreams* streams, uint8_t* map) {
     return map;
 }
 
+namespace detail {
+
+// 0x8e4ca4 in the original (see the header).
+const uint8_t SVertexAttributeTypeInspection::ValueTypeSize[7] = {1, 1, 2, 2, 4, 4, 4};
+
+}  // namespace detail
+
+// 0x5a2b18 _ZN6glitch5video10copyVertexEtRKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS2_IS3_EEPKhRPhb
+// Partial: only the per-stream branch (wholeVertex false) is written. See the header.
+void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams>& src,
+                const boost::intrusive_ptr<CVertexStreams>& /*dst*/, const uint8_t* /*base*/, uint8_t*& out,
+                bool wholeVertex) {
+    if (wholeVertex) {
+        // Not written: the original copies the table's vertex size (word at +0x22) from base.
+        return;
+    }
+    for (const SVertexStream& stream : src->m_streams) {
+        // The original calls IBuffer::map(buffer, 1) without a null check, and does not unmap.
+        const uint8_t* mapped = stream.buffer->map(1);
+        const uint32_t byteCount = static_cast<uint32_t>(stream.field0c) *
+                                   detail::SVertexAttributeTypeInspection::ValueTypeSize[stream.field0a];
+        std::memcpy(out, mapped + stream.offset + static_cast<uint32_t>(stream.field0e) * vertex, byteCount);
+        out += byteCount;
+    }
+}
+
 }  // namespace glitch::video

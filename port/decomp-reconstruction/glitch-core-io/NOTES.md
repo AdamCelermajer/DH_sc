@@ -720,3 +720,20 @@ Open (not written):
   (0x5871c8) now have the triangle math they call. They are still blocked on ITriangleSelector and ISceneNode.
 - `glitch-video` uses its own `deps/glitch_core.hpp` and does not include this header. Its CMatrix4, triangle3d,
   aabbox3d and vector3d rows still need the same types in that file.
+
+## Rerun slice glitch-core-io-1 (XML reader, triangle, kd-tree, shared string)
+- CXMLReaderImpl<char/wchar_t> now runs the IrrXML parser (readFile, parseCurrentNode, parseOpeningXMLElement,
+  parseClosingXMLElement, parseComment, parseCDATA, setText, replaceSpecialCharacters, createSpecialCharacterList,
+  read). The narrow and wide readers share templates in src/xml_reader.cpp. Layout corrected from the pseudocode:
+  current read position P at +0x0c (was "unknown"), node name and node data at +0x24 in both (were +0x38 and +0x68),
+  wide special character list at +0xb8, attributes at +0x64 (char) and +0xc4 (wide). read() is no longer pure.
+- Special character table: each entry is the replacement character followed by the entity name with its ';'
+  ("&amp;" gives '&'). Verified from the IDA data in ida-asm (asm_chunk_018).
+- replaceSpecialCharacters keeps the original tail rule: the text after the last entity is copied only when at least
+  two characters remain (ARM compare against len-1 at 0x57539c). A single trailing character is dropped.
+- Deviations (malformed input only): NUL guards in the scan loops; the original runs past the terminator.
+- Open: IFileReadCallBack::read returns void in the port; the original's result test in readFile is missing (partial).
+- Open: parseOpeningXMLElement's push_back shows one argument in the pseudocode; the port pushes {name, value}.
+- Blocked: CKdTree (5 rows, 0x5a24f8..0x5a5030) needs the class and distanceKdTree / lessThanPlane.
+  SSharedStringHeapEntry::SData::release/get (0x6a4d9c, 0x6a5074) need the SharedStringHeap table.
+- Tests: tests/xml_reader_parse_test.cpp (narrow and wide documents; entity replacement; empty element; CDATA; comment).

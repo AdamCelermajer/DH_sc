@@ -1,5 +1,7 @@
 #include "glitch-video/pixel_format.hpp"
 
+#include <cstring>
+
 namespace glitch::video::pixel_format {
 
 namespace detail {
@@ -151,6 +153,58 @@ SPackedRGBtoLuminanceAlphaConverter::SPackedRGBtoLuminanceAlphaConverter(E_PIXEL
     alphaMask = row.key[3];                          // row word +0x10
     alphaScale = 255.0f / static_cast<float>(lsrOrZero(alphaMask, alphaShift));
     alphaMaxBits = (row.flags & 1) != 0 ? 0 : lsrOrZero(alphaMask, alphaShift);
+}
+
+// 0x5ed9d0 _ZN6glitch5video12pixel_format27computeRelativeSwizzleTableENS0_14E_PIXEL_FORMATES2_Ph
+uint8_t* computeRelativeSwizzleTable(E_PIXEL_FORMAT from, E_PIXEL_FORMAT to, uint8_t* table) {
+    const SFormatEntry& src = PFDTable[from];
+    const SFormatEntry& dst = PFDTable[to];
+    // Byte 0x20 of the destination row indexes the table; the source row supplies the value.
+    table[dst.unknown18[8]] = src.unknown18[8];
+    if ((dst.flags & 4) == 0) {
+        table[dst.unknown18[9]] = src.unknown18[9];    // +0x21
+        table[dst.unknown18[10]] = src.unknown18[10];  // +0x22
+    }
+    if ((src.flags & 1) != 0 && (dst.flags & 1) != 0) {
+        table[dst.unknown18[11]] = src.unknown18[11];  // +0x23
+    }
+    return table;
+}
+
+// 0x5edd9c _ZN6glitch5video12pixel_format9swapBytesENS0_14E_PIXEL_FORMATEPKvjbPv
+int swapBytes(E_PIXEL_FORMAT format, const void* src, uint32_t size, bool flag, void* dst) {
+    const SFormatEntry& row = PFDTable[format];
+    if ((row.flags & 8) != 0) return 0;
+    if (flag) return 0;
+    const uint8_t packedType = static_cast<uint8_t>(row.packedType);  // +0x14
+    if (packedType == 0) return 0;
+
+    const auto* in = static_cast<const uint8_t*>(src);
+    auto* out = static_cast<uint8_t*>(dst);
+    const uint32_t words = size >> 2;
+    if (packedType == 1 || packedType == 3) {
+        // Each word: the two bytes of each 16-bit half are swapped (result bytes 1,0,3,2).
+        for (uint32_t i = 0; i < words; ++i) {
+            uint32_t w;
+            std::memcpy(&w, in + 4 * i, 4);
+            const uint32_t r = ((w & 0xFF00FFFFu) >> 8) | ((w & 0x00FF00FFu) << 8);
+            std::memcpy(out + 4 * i, &r, 4);
+        }
+        if ((size & 3) != 0) {
+            // Tail (partial word): the original writes two bytes, low from in[4n+1], high from in[4n].
+            out[4 * words] = in[4 * words + 1];
+            out[4 * words + 1] = in[4 * words];
+        }
+        return 1;
+    }
+    // Other packed types: each whole word is reversed (bytes 3,2,1,0). A tail is not touched.
+    for (uint32_t i = 0; i < words; ++i) {
+        out[4 * i + 0] = in[4 * i + 3];
+        out[4 * i + 1] = in[4 * i + 2];
+        out[4 * i + 2] = in[4 * i + 1];
+        out[4 * i + 3] = in[4 * i + 0];
+    }
+    return 1;
 }
 
 }  // namespace glitch::video::pixel_format

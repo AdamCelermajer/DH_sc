@@ -34,6 +34,8 @@ public:
     // it was present. Partial: the original removes by id from the SIDedCollection; the
     // port's list is a plain vector, so presence in the list stands for the id removal.
     int32_t removeTexture(ITexture* texture);
+    // 0x5e8dd4: appends the texture to the m_textures list when it is not already in it.
+    void markTextureAsUnloadable(const boost::intrusive_ptr<ITexture>& texture);
     // 0x384eb4: clears the smart pointer and removes the texture. The reference drop is not
     // modelled (the stand-in pointer does not count references). Partial.
     uint32_t removeTexture(boost::intrusive_ptr<ITexture>& texture);
