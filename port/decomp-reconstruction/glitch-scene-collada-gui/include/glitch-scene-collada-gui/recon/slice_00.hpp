@@ -62,13 +62,13 @@ public:
 
     // 0x328994 _ZN6glitch8debugger10CTweakable11writeValuesEPNS_2io10IWriteFileE
     // Partial: XML writer is not part of this slice; writes nothing yet.
-    void writeValues();
+    void writeValues(void* writeFile);
     // 0x32b3b4 _ZN6glitch8debugger10CTweakable8setValueERNS_2io11CAttributesEi
     // Partial: the 10-way type switch depends on CAttributes getters; not mapped.
     void* setValue(void* attributes, int index);
     // 0x32b650 _ZN6glitch8debugger10CTweakable9loadGroupERNS_2io11CAttributesEb.clone.25
     // Partial: attribute-group recursion; the attribute walker is not mapped.
-    int loadGroup(void* attributes);
+    int loadGroup(void* attributes, bool flag);
     // 0x32b6b8 _ZN6glitch8debugger10CTweakable7loadXMLEPKcb
     // Partial: file read and XML attribute reader are not mapped.
     void loadXML(const char* file, bool flag);
@@ -152,7 +152,7 @@ public:
     // 0x367a24 ...getSynchronizationSegmentEi (partial: slot +156 call has no arg in pseudo)
     int getSynchronizationSegment(int at) const;
     // 0x367a88 _ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender16normalizeWeightsEv
-    float normalizeWeights();
+    void normalizeWeights();
     // 0x367b44 ...getSynchronizationPercentageEv
     int getSynchronizationPercentage() const;
 
@@ -200,12 +200,15 @@ public:
     virtual const char* getName() const;
     // +8: event forwarding slot used by onEvent
     virtual int forwardEvent();
+    // +12: recompute absolute rectangle (0x534920, skipped in this pass)
+    virtual int updateAbsolutePosition();
 
     // 0x534740 _ZN6glitch3gui11IGUIElement19setRelativePositionERKNS_4core4rectIiEE
     // Partial: scaled alignment fields (+0x78..) are not mapped yet.
     int setRelativePosition(const glitch::core::rect<int>& rectangle);
-    // 0x534840 partial: alignment fields and parent-size scaling not mapped.
-    float setAlignment(int horizontal, int vertical, int hEnd, int vEnd);
+    // 0x534840 partial: stores the four alignment modes; only the left-edge scale
+    // branch (mode 3) is reconstructed, the other three branches are not read yet.
+    void setAlignment(int a0, int a1, int a2, int a3);
     // 0x534eb8
     void drawChildren();
     // 0x534ef8
@@ -228,7 +231,6 @@ public:
     GuiElement* addChild(GuiElement* child);
     // 0x5362c8
     int setText(const wchar_t* text);
-    // 0x534920 skipped in this pass (1112-byte layout recompute; see ledger).
 
     // +0x04 children (intrusive list in the original)
     std::vector<GuiElement*> children;
@@ -236,6 +238,12 @@ public:
     GuiElement* parent = nullptr;
     // +0x58 .. +0x64 relative rectangle (UpperLeftCorner, LowerRightCorner)
     glitch::core::rect<int> relative{};
+    // +0x38 absolute rectangle of this element (parent rect is read from here)
+    glitch::core::rect<int> absolute{};
+    // +0x78 .. +0x84 scale fractions written by setRelativePosition/setAlignment
+    float alignScale[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    // +0x140 .. +0x14c alignment modes (3 means scaled)
+    int alignMode[4] = {0, 0, 0, 0};
     // +0x98 visible/enabled flag (byte)
     bool visible = true;
     // +0xa0 text (wide string)
