@@ -80,7 +80,7 @@ public final class MainActivity extends Activity {
         menuRequestedDifficulty=state!=null?state.getInt("menuRequestedDifficulty",0):0;
         boolean debugBuild=(getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0;
         debugLevelRow=debugBuild?getIntent().getIntExtra("debug_level_row",-1):-1;
-        if(debugLevelRow!=-1&&debugLevelRow!=23&&debugLevelRow!=4){Log.w("DH2Native","Ignoring unsupported debug LevelList row "+debugLevelRow);debugLevelRow=-1;}
+        if(debugLevelRow<-1){Log.w("DH2Native","Ignoring unsupported debug LevelList row "+debugLevelRow);debugLevelRow=-1;}
         if(debugLevelRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+debugLevelRow+" | profile save unchanged");
         // Debug builds only: drive the same move-kill/move-defend checks as the desktop runtime.
         if(debugBuild&&getIntent().getStringExtra("debug_scenario")!=null)
