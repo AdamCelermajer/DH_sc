@@ -1,0 +1,2845 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiler": "compile_static_level.py",
+  "entrypoint_zero": {
+    "activate_condition": "IsBefore_WT_Balrog",
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      684.784,
+      -2523.13,
+      0.00195313
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      170.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint_from_swamp02",
+    "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+    "source_record": 9,
+    "world_position": [
+      3661.494,
+      -23455.93,
+      -0.0004882800000000002
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      170.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "entrypoint_zero_candidates": 3,
+  "entrypoint_zero_policy": "first_source_order_conditional",
+  "entrypoint_zero_spread": 7.268337911791741,
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "003_darkwood.dwld": {
+      "bytes": 3096,
+      "sha256": "00e4ee5daaa152ebba086b93b5fd2936384890699930aef2dde14f9cec85df7b"
+    },
+    "003_darkwood.spwn": {
+      "bytes": 448,
+      "sha256": "75f569d34e44160bf67dd3e7322f4ed412de6386e4012a38ed263c0ce9939728"
+    }
+  },
+  "level_list": {
+    "level_file": "003_darkwood.mlx",
+    "name": "DARKWOOD",
+    "row": 4
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 24,
+  "modules": [
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "mgp_records": 13,
+      "module_index": 0,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_01_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_01_001",
+      "node_id": "_module_01-node",
+      "position": [
+        2976.71,
+        -20932.8,
+        -0.00244141
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_02_01.mgp",
+      "mgp_records": 2,
+      "module_index": 1,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_02_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_02_001",
+      "node_id": "_module_02-node",
+      "position": [
+        2976.71,
+        -14932.8,
+        -0.00244141
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "mgp_records": 7,
+      "module_index": 2,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_03_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_03_001",
+      "node_id": "_module_03-node",
+      "position": [
+        8976.82,
+        -14932.8,
+        -0.00418296
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_04_01.mgp",
+      "mgp_records": 7,
+      "module_index": 3,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_04_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_04_001",
+      "node_id": "_module_04-node",
+      "position": [
+        8976.69,
+        -8932.76,
+        0.00157361
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_08_01.mgp",
+      "mgp_records": 0,
+      "module_index": 4,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_08_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_08_001",
+      "node_id": "_module_08-node",
+      "position": [
+        2976.58,
+        -8932.77,
+        0.00331516
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_13_01.mgp",
+      "mgp_records": 4,
+      "module_index": 5,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_13_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_13_001",
+      "node_id": "_module_13-node",
+      "position": [
+        -3023.15,
+        -8932.76,
+        0.00331516
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "mgp_records": 9,
+      "module_index": 6,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_19_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_19_001",
+      "node_id": "_module_19-node",
+      "position": [
+        -9023.26,
+        -8932.77,
+        0.00505671
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "mgp_records": 13,
+      "module_index": 7,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_12_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_12_001",
+      "node_id": "_module_12-node",
+      "position": [
+        -3023.02,
+        -14932.8,
+        -0.00244141
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_23_01.mgp",
+      "mgp_records": 5,
+      "module_index": 8,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_23_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_23_001",
+      "node_id": "_module_23-node",
+      "position": [
+        -9023.02,
+        -14932.8,
+        -0.00265298
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_09_01.mgp",
+      "mgp_records": 17,
+      "module_index": 9,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_09_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_09_001",
+      "node_id": "_module_09-node",
+      "position": [
+        2977.08,
+        -2932.79,
+        0.00088113
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 10
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_05_01.mgp",
+      "mgp_records": 3,
+      "module_index": 10,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_05_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_05_001",
+      "node_id": "_module_05-node",
+      "position": [
+        8977.19,
+        -2932.77,
+        -0.000860421
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 11
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_06_01.mgp",
+      "mgp_records": 2,
+      "module_index": 11,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_06_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_06_001",
+      "node_id": "_module_06-node",
+      "position": [
+        8977.06,
+        3067.22,
+        0.00489615
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 12
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_10_01.mgp",
+      "mgp_records": 6,
+      "module_index": 12,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_10_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_10_001",
+      "node_id": "_module_10-node",
+      "position": [
+        2976.95,
+        3067.21,
+        0.0066377
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 13
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_15_01.mgp",
+      "mgp_records": 1,
+      "module_index": 13,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_15_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_15_001",
+      "node_id": "_module_15-node",
+      "position": [
+        -3022.77,
+        3067.22,
+        0.0066377
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 14
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_21_01.mgp",
+      "mgp_records": 2,
+      "module_index": 14,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_21_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_21_001",
+      "node_id": "_module_21-node",
+      "position": [
+        -9022.89,
+        3067.21,
+        0.00837925
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 15
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_20_01.mgp",
+      "mgp_records": 1,
+      "module_index": 15,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_20_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_20_001",
+      "node_id": "_module_20-node",
+      "position": [
+        -9022.76,
+        -2932.78,
+        0.00262268
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 16
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "mgp_records": 26,
+      "module_index": 16,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_14_01.mvp",
+      "mvp_records": 3,
+      "name": "_module_14_001",
+      "node_id": "_module_14-node",
+      "position": [
+        -3022.65,
+        -2932.77,
+        0.00088113
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 17
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_11_01.mgp",
+      "mgp_records": 1,
+      "module_index": 17,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_11_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_11_001",
+      "node_id": "_module_11-node",
+      "position": [
+        2977.01,
+        9067.47,
+        0.290925
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 18
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_16_01.mgp",
+      "mgp_records": 11,
+      "module_index": 18,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_16_01.mvp",
+      "mvp_records": 0,
+      "name": "_module_16_001",
+      "node_id": "_module_16-node",
+      "position": [
+        -3022.72,
+        9067.49,
+        0.290925
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 19
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "mgp_records": 11,
+      "module_index": 19,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_27_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_27_001",
+      "node_id": "_module_27-node",
+      "position": [
+        -9022.72,
+        9067.49,
+        0.291202
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 20
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "mgp_records": 20,
+      "module_index": 20,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_07_01.mvp",
+      "mvp_records": 2,
+      "name": "_module_07_001",
+      "node_id": "_module_07-node",
+      "position": [
+        8977.12,
+        9067.48,
+        0.289184
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 21
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "mgp_records": 32,
+      "module_index": 21,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_17_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_17_001",
+      "node_id": "_module_17-node",
+      "position": [
+        -3022.83,
+        15067.5,
+        0.292664
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 22
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "mgp_records": 11,
+      "module_index": 22,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_28_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_28_001",
+      "node_id": "_module_28-node",
+      "position": [
+        -15023.3,
+        -2932.77,
+        0.00496101
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 23
+    },
+    {
+      "dae": "data/3d/modules/darkwood/darkwood2.bdae",
+      "mgp": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "mgp_records": 15,
+      "module_index": 23,
+      "mvp": "data/3d/modules/darkwood/mvp/darkwood_29_01.mvp",
+      "mvp_records": 1,
+      "name": "_module_29_001",
+      "node_id": "_module_29-node",
+      "position": [
+        14976.7,
+        -8932.76,
+        0.00158691
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 24
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    10,
+    3,
+    11
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/darkwood/smog_hellgate.bdae",
+      "bytes": 14152,
+      "path": "data/3d/animateddecors/darkwood/smog_hellgate.bdae",
+      "sha256": "93c8fce49030fc34c13a40f85e01116f6f454c24e39bb598008c996cbcbc45ef"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/darkwood2.bdae",
+      "bytes": 5714348,
+      "path": "data/3d/modules/darkwood/darkwood2.bdae",
+      "sha256": "8b51825a87a8c7543ec3c6a62881aa09add3b424a7c77d6a458e008a43d3d134"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "bytes": 5134,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "sha256": "1ced8f44378009d855d8711ac54b37f27fb888574b0983416edf66ef8f1a3118"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_02_01.mgp",
+      "bytes": 1151,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_02_01.mgp",
+      "sha256": "ff452e759347ab9430f5cb67020387d7820333e813a6d09347ed280b0a8d4695"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "bytes": 3061,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "sha256": "f542dd9fcff5a70a29c28a3c9ef4303495ea93a969d27044fab6ccf26da75002"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_04_01.mgp",
+      "bytes": 3657,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_04_01.mgp",
+      "sha256": "a5cb1f485661cc4eb10db3d57eb4e64991970cccf46dceb775903bd741bc473b"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_05_01.mgp",
+      "bytes": 1953,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_05_01.mgp",
+      "sha256": "f5172fd6c1cdc4037a29f14368aa7f136235ec478374497f402cbcf208abda69"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_06_01.mgp",
+      "bytes": 915,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_06_01.mgp",
+      "sha256": "55d899654ccdd59670e76a8985a5026b422a6ed852dc871d96a6fed80bcfab89"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "bytes": 8044,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "sha256": "5af53c694b32b4f07de22dc30d471fc34019a5ae76dee58058ac6b84ddb34b9c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_08_01.mgp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_08_01.mgp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_09_01.mgp",
+      "bytes": 7157,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_09_01.mgp",
+      "sha256": "b0e32dcd86503b68fb363a3c1f05402c87503f2aebfdd76b4514dfd0ee79cfa7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_10_01.mgp",
+      "bytes": 2963,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_10_01.mgp",
+      "sha256": "61faa14fee486d0a97c793fda2eacf0fbedbd8a72c535005b869285790ddb42a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_11_01.mgp",
+      "bytes": 819,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_11_01.mgp",
+      "sha256": "3cb3f3a8e55942bac2a4bef85eb7eb7d8e46a2280bbb276ee940dbdb74b7e6d9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "bytes": 5763,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "sha256": "8abae9968792f018db5d577fedf905a6aae9ba7a8e39bba6aa69b4818e2a9050"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_13_01.mgp",
+      "bytes": 2253,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_13_01.mgp",
+      "sha256": "82e34d514ba7dac12920cdd98b3bb3aae4999e34acbd4acc254ef00bee0e88e4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "bytes": 9692,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+      "sha256": "c363092b6d2cb953bc1c7e9aa082f3e20c1845c4e148b2515b64f1978d1e87ef"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_15_01.mgp",
+      "bytes": 866,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_15_01.mgp",
+      "sha256": "e8295c0fd1054b231114bd26efb2ef4de8c68cd58db03c3c8fd9df1a272510a0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_16_01.mgp",
+      "bytes": 4984,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_16_01.mgp",
+      "sha256": "b0ffc4996ae80795a0ee139b85293d3d888793e21baa46e1165531a987e26a9a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "bytes": 10512,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+      "sha256": "4a55c5bf14f8675a7e46a7353ed44c998c093633115c6730ee4d1fc69eabd9a2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "bytes": 4229,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "sha256": "ede274ffe51b8786ce0093abcee51a3f5d1799ac29897ff247127bc89b443836"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_20_01.mgp",
+      "bytes": 630,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_20_01.mgp",
+      "sha256": "09dad3d5d4604b63b853eb999dece3050ab62aa36ac419e97a143fcbbeddd1ac"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_21_01.mgp",
+      "bytes": 1392,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_21_01.mgp",
+      "sha256": "00854ae630f47baddb43051045e45660c7e0707d0f6595a6b73965f17d33d9d4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_23_01.mgp",
+      "bytes": 2606,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_23_01.mgp",
+      "sha256": "0cc33bd3e0d96c20eba26f761928e0602e68c21a7e30ae02a5ceba9616b86fe2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "bytes": 4700,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "sha256": "f75d8b7853284bd565193c1d5dc805be9210b14f66651e935e2047d484ac43be"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "bytes": 4643,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "sha256": "c77bf4cfb563c3e6855a055deea272b2d4d5cd44cf4fce7090c58a641638b837"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "bytes": 5959,
+      "path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "sha256": "4adf9d7d434bac49e366acd7d9ebf178d76ffaed9015da7c77edf82b5f33040e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_01_01.mvp",
+      "bytes": 784,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_01_01.mvp",
+      "sha256": "165929d5204d17a20544bc5769768e92f7d6f9280f81c708a5380b90cf715ad7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_02_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_02_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_03_01.mvp",
+      "bytes": 783,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_03_01.mvp",
+      "sha256": "516981615c3e3039aa6a1340202407833bc952c66f119bc0632f677500fdadc8"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_04_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_04_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_05_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_05_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_06_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_06_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_07_01.mvp",
+      "bytes": 1310,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_07_01.mvp",
+      "sha256": "ddbf730d8b1abd4274709ce41751c9437833484d2fe7210b46993a8ad1034a03"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_08_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_08_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_09_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_09_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_10_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_10_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_11_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_11_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_12_01.mvp",
+      "bytes": 777,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_12_01.mvp",
+      "sha256": "0990de380b6b0f97c201da67f78c75e15fed56b3af523f4feeadc2bea1033883"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_13_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_13_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_14_01.mvp",
+      "bytes": 1753,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_14_01.mvp",
+      "sha256": "186f2ac274b087850f1bda8e9472afbdc89ac7e94e20beef7291a702e9b0064e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_15_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_15_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_16_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_16_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_17_01.mvp",
+      "bytes": 826,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_17_01.mvp",
+      "sha256": "b3d0ec793c8ba8afe998494d088cb7b1d9d2022da3acca822be1d943f3e7a860"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_19_01.mvp",
+      "bytes": 786,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_19_01.mvp",
+      "sha256": "4642c40248d0179f399b4f43338a6007387cdd5240373deff9350428badf3fe0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_20_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_20_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_21_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_21_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_23_01.mvp",
+      "bytes": 258,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_23_01.mvp",
+      "sha256": "46d27746b37feb89e29295e6acdf6faf90bf9636bee3a85e171fce561751b6ce"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_27_01.mvp",
+      "bytes": 829,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_27_01.mvp",
+      "sha256": "f9bfadfccbe49025207324b8cefe3619d43ec03cb8bf0dacede76ae6868dd27e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_28_01.mvp",
+      "bytes": 780,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_28_01.mvp",
+      "sha256": "35a2a6eefc6a157adb862f256382c93bb242c53d75b0ec66d24bfd013e978d02"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/darkwood/mvp/darkwood_29_01.mvp",
+      "bytes": 783,
+      "path": "data/3d/modules/darkwood/mvp/darkwood_29_01.mvp",
+      "sha256": "a8e6eccc60e4a62fc8128c4133cd708d9b94e840ad2124ff9405da5d914c893a"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darkwoods_alpha.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_darkwoods_alpha.tga",
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darkwoods_solide.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_darkwoods_solide.tga",
+      "sha256": "fbc1b66eedf326c7fe20c1da0f341422aa1b21e4c170a6c190f174dfb7a6c5ed"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/003_darkwood.mlx",
+      "bytes": 12309,
+      "path": "data/scene/003_darkwood.mlx",
+      "sha256": "07c75d2fc330fa095b250182711552982f8478449e5933a40f0d1bc34f6b02c5"
+    }
+  ],
+  "source_layout": "data/scene/003_darkwood.mlx",
+  "spawn_point_count": 37,
+  "texture_hints": {
+    "data/3d/modules/darkwood/darkwood2.bdae": {
+      "found_in_cache_not_copied": [
+        "data/3d/textures/env_hellgate.tga"
+      ],
+      "missing_from_cache": []
+    }
+  },
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": "IsBefore_WT_Balrog",
+      "deactivate_condition": null,
+      "entrypoint_id": 0,
+      "local_position": [
+        684.784,
+        -2523.13,
+        0.00195313
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_from_swamp02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "source_record": 9,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        3661.494,
+        -23455.93,
+        -0.0004882800000000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 0,
+      "local_position": [
+        691.44,
+        -2526.05,
+        0.00195313
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_from_swamp01_01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "source_record": 11,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        3668.15,
+        -23458.85,
+        -0.0004882800000000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 0,
+      "local_position": [
+        684.414,
+        -2522.17,
+        0.00195313
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 0,
+      "name": "_prim_EntryPoint_from_swamp01_02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+      "source_record": 12,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        3661.124,
+        -23454.97,
+        -0.0004882800000000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        170.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 9,
+      "local_position": [
+        -894.171,
+        81.7393,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 2,
+      "name": "_prim_EntryPoint_fromInfected",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "source_record": 0,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        8082.648999999999,
+        -14851.0607,
+        -0.00418296
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 9,
+      "local_position": [
+        -893.073,
+        86.9277,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 2,
+      "name": "_prim_EntryPoint_fromInfected01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "source_record": 4,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        8083.746999999999,
+        -14845.872299999999,
+        -0.00418296
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 9,
+      "local_position": [
+        -879.778,
+        83.8721,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 2,
+      "name": "_prim_EntryPoint_fromInfected02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "source_record": 5,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        8097.0419999999995,
+        -14848.927899999999,
+        -0.00418296
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 9,
+      "local_position": [
+        -889.809,
+        91.5713,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 2,
+      "name": "_prim_EntryPoint_fromInfected03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+      "source_record": 6,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        8087.0109999999995,
+        -14841.2287,
+        -0.00418296
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 2,
+      "local_position": [
+        -1210.42,
+        -990.327,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_from_rootDen",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "source_record": 1,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -10233.68,
+        -9923.097,
+        0.00505671
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 2,
+      "local_position": [
+        -1212.73,
+        -993.388,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_from_rootDen01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "source_record": 6,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -10235.99,
+        -9926.158000000001,
+        0.00505671
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 2,
+      "local_position": [
+        -1210.42,
+        -1007.57,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_from_rootDen02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "source_record": 7,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -10233.68,
+        -9940.34,
+        0.00505671
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 2,
+      "local_position": [
+        -1206.23,
+        -1018.67,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_from_rootDen03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+      "source_record": 8,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -10229.49,
+        -9951.44,
+        0.00505671
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -2587.19,
+        -346.379,
+        132.002
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_EarthTemple",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "source_record": 8,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5610.21,
+        -15279.179,
+        131.99955859000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -2598.05,
+        -340.147,
+        132.002
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_EarthTemple01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "source_record": 10,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5621.07,
+        -15272.947,
+        131.99955859000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -2598.05,
+        -340.449,
+        132.002
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_EarthTemple02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "source_record": 11,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5621.07,
+        -15273.249,
+        131.99955859000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        -2598.05,
+        -339.81,
+        132.002
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_EarthTemple03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+      "source_record": 12,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5621.07,
+        -15272.609999999999,
+        131.99955859000002
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 8,
+      "local_position": [
+        -2238.65,
+        2237.32,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 19,
+      "name": "_prim_EntryPoint8_fromAbbey",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "source_record": 4,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11261.369999999999,
+        11304.81,
+        0.291202
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 8,
+      "local_position": [
+        -2238.69,
+        2238.36,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 19,
+      "name": "_prim_EntryPoint8_fromAbbey01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "source_record": 8,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11261.41,
+        11305.85,
+        0.291202
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 8,
+      "local_position": [
+        -2239.04,
+        2239.42,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 19,
+      "name": "_prim_EntryPoint8_fromAbbey02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "source_record": 9,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11261.759999999998,
+        11306.91,
+        0.291202
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 8,
+      "local_position": [
+        -2240.36,
+        2238.33,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 19,
+      "name": "_prim_EntryPoint8_fromAbbey03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+      "source_record": 10,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11263.08,
+        11305.82,
+        0.291202
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 6,
+      "local_position": [
+        113.192,
+        -1291.17,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 8,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9090.312,
+        7776.3099999999995,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 7,
+      "local_position": [
+        837.214,
+        521.916,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts2",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 10,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9814.334,
+        9589.395999999999,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 6,
+      "local_position": [
+        113.192,
+        -1290.83,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts01_01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 13,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9090.312,
+        7776.65,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 6,
+      "local_position": [
+        113.192,
+        -1292.91,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts01_02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 14,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9090.312,
+        7774.57,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 6,
+      "local_position": [
+        113.192,
+        -1289.73,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts01_03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 15,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9090.312,
+        7777.75,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 7,
+      "local_position": [
+        835.118,
+        521.916,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts02_01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 16,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9812.238000000001,
+        9589.395999999999,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 7,
+      "local_position": [
+        836.146,
+        521.916,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts02_02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 17,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9813.266000000001,
+        9589.395999999999,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 7,
+      "local_position": [
+        834.378,
+        521.916,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 20,
+      "name": "_prim_EntryPoint_from_Crypts02_03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+      "source_record": 18,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        9811.498000000001,
+        9589.395999999999,
+        0.289184
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        -1807.66,
+        455.324,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 22,
+      "name": "_prim_EntryPoint_from_IcyCliff",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "source_record": 2,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -16830.96,
+        -2477.446,
+        0.00496101
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        -1807.66,
+        455.344,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 22,
+      "name": "_prim_EntryPoint_from_IcyCliff01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "source_record": 7,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -16830.96,
+        -2477.426,
+        0.00496101
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        -1807.66,
+        460.165,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 22,
+      "name": "_prim_EntryPoint_from_IcyCliff02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "source_record": 8,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -16830.96,
+        -2472.605,
+        0.00496101
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        -1807.66,
+        460.334,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 22,
+      "name": "_prim_EntryPoint_from_IcyCliff03",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+      "source_record": 9,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -16830.96,
+        -2472.436,
+        0.00496101
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 5,
+      "local_position": [
+        1357.62,
+        758.733,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 23,
+      "name": "_prim_EntryPoint_from_RedDesert",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "source_record": 1,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        16334.32,
+        -8174.027,
+        0.00158691
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 5,
+      "local_position": [
+        1358.65,
+        761.247,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 23,
+      "name": "_prim_EntryPoint_from_RedDesert01",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "source_record": 10,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        16335.35,
+        -8171.513,
+        0.00158691
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 5,
+      "local_position": [
+        1358.65,
+        758.966,
+        0.0
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 23,
+      "name": "_prim_EntryPoint_from_RedDesert02",
+      "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+      "source_record": 11,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        16335.35,
+        -8173.794,
+        0.00158691
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -60.4272
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 0,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "IsBefore_WT_Balrog",
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_from_swamp02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+          "source_record": 9
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_from_swamp01_01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+          "source_record": 11
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 0,
+          "name": "_prim_EntryPoint_from_swamp01_02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+          "source_record": 12
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 1,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_EarthTemple",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+          "source_record": 8
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_EarthTemple01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+          "source_record": 10
+        },
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_EarthTemple02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+          "source_record": 11
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_EarthTemple03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+          "source_record": 12
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 2,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_from_rootDen",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+          "source_record": 1
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_from_rootDen01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+          "source_record": 6
+        },
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_from_rootDen02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+          "source_record": 7
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_from_rootDen03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+          "source_record": 8
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 4,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 22,
+          "name": "_prim_EntryPoint_from_IcyCliff",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+          "source_record": 2
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 22,
+          "name": "_prim_EntryPoint_from_IcyCliff01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+          "source_record": 7
+        },
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 22,
+          "name": "_prim_EntryPoint_from_IcyCliff02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+          "source_record": 8
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 22,
+          "name": "_prim_EntryPoint_from_IcyCliff03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+          "source_record": 9
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 5,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 23,
+          "name": "_prim_EntryPoint_from_RedDesert",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+          "source_record": 1
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 23,
+          "name": "_prim_EntryPoint_from_RedDesert01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+          "source_record": 10
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 23,
+          "name": "_prim_EntryPoint_from_RedDesert02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+          "source_record": 11
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 6,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 8
+        },
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts01_01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 13
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts01_02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 14
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts01_03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 15
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 7,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts2",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 10
+        },
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts02_01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 16
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts02_02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 17
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 20,
+          "name": "_prim_EntryPoint_from_Crypts02_03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+          "source_record": 18
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 8,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 19,
+          "name": "_prim_EntryPoint8_fromAbbey",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+          "source_record": 4
+        },
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 19,
+          "name": "_prim_EntryPoint8_fromAbbey01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+          "source_record": 8
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 19,
+          "name": "_prim_EntryPoint8_fromAbbey02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+          "source_record": 9
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 19,
+          "name": "_prim_EntryPoint8_fromAbbey03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+          "source_record": 10
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 9,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 2,
+          "name": "_prim_EntryPoint_fromInfected",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+          "source_record": 0
+        },
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 2,
+          "name": "_prim_EntryPoint_fromInfected01",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+          "source_record": 4
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 2,
+          "name": "_prim_EntryPoint_fromInfected02",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+          "source_record": 5
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 2,
+          "name": "_prim_EntryPoint_fromInfected03",
+          "source_path": "data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+          "source_record": 6
+        }
+      ]
+    }
+  ]
+}
