@@ -14,6 +14,9 @@
 
 namespace vox {
 
+class StreamInterface;
+class DecoderInterface;
+
 // Opaque user-data record as the original passes it: only the first word is used.
 struct DataHandleUserData {
     std::uintptr_t word = 0;
@@ -41,6 +44,12 @@ public:
     int group_ = 0;                  // +0x1c
     int priority_bank_id_ = 0;       // +0x20 (set by VoxEngineInternal::SetPriorityBankId)
     int uid_ = 0;                    // +0x24 (returned by VoxEngineInternal::GetUid)
+    int slot_ = 0;                   // +0x14: stamp slot in VoxEngineInternal::data_stamps_
+    std::int32_t params_[4] = {};    // +0x28..+0x34: channels, unknown, bits, length (set by LoadDataSource)
+    StreamInterface* stream_ = nullptr;   // +0x38
+    DecoderInterface* decoder_ = nullptr; // +0x3c
+    bool queued_ = false;            // +0x4c: already on the engine data queue
+    std::uint16_t source_flags_ = 0; // +0x54: VoxSourceLoadingFlags of an async load
     std::uintptr_t user_data_ = 0;   // +0x48
     bool need_to_die_ = false;       // +0x4d
     int state_ = 0;                  // +0x50

@@ -10,6 +10,8 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
+#include <list>
 
 #include "vox-audio/vox/access_controller.hpp"
 #include "vox-audio/vox/gain_fade.hpp"
@@ -25,7 +27,8 @@ class DataObj;
 
 class VoxEngineInternal {
 public:
-    virtual ~VoxEngineInternal();
+    VoxEngineInternal();                                                   // 0x869a94, 0x869d8c (partial)
+    virtual ~VoxEngineInternal();                                          // 0x86be68 (D1), 0x86c02c (D2)
     virtual void Initialize();                                             // +0x08
     virtual void Suspend();                                                // +0x0c
     virtual void Resume();                                                 // +0x10
@@ -39,6 +42,7 @@ public:
     // Non-virtual entry points that the facade calls directly (no vtable slot).
     void GetDebugInfo(DebugInfo& info);
     void PrintDebug();
+    void Update3D();                        // 0x862ec0: sends the dirty 3D blocks to the driver
     int SetOutputMode(VoxOutputMode mode);  // 0x8630e4: driver result, 0 without a driver
     int GetOutputMode();                    // 0x8630b8: driver result, -1 without a driver
     void UpdateDSP(float dt);               // 0x86308c: forwards to the driver's Update
@@ -100,7 +104,7 @@ public:
     void IncreaseDataObjectRefCount(DataHandle& data);
     void DecreaseDataObjectRefCount(DataHandle& data);
 
-    void GetAllEmitters(EmitterHandle* out, int max_count);
+    int GetAllEmitters(EmitterHandle* out, int max_count);  // 0x868468: returns the count written
     void Resume(EmitterHandle& emitter, float fade);
     void Pause(EmitterHandle& emitter, float fade);
     void Stop(EmitterHandle& emitter, float fade);
@@ -126,8 +130,8 @@ public:
     std::uint32_t GetDuration(DataHandle& data);
     int IsValid(DataHandle& data);
     int IsReady(DataHandle& data);
-    void GetAllDataSources(DataHandle* out, int max_count);
-    void GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count);
+    int GetAllDataSources(DataHandle* out, int max_count);  // 0x86ac94: returns the count written
+    int GetEmitterHandles(DataHandle& data, EmitterHandle* out, int max_count);  // 0x8689bc: returns the count
     void ReleaseDatasource(unsigned int id);
     void ReleaseDatasource(DataHandle& data);
     int GetUid(DataHandle& data);
@@ -158,11 +162,16 @@ public:
     // The process-wide engine (0x869d3c). Created with VoxAlloc on first use. The original
     // constructor (0x869a94) is not reconstructed yet.
     static VoxEngineInternal* GetVoxEngineInternal();
+    // The process-wide instance (vox::VoxEngineInternal::s_voxEngineInternal). Handles keep its address.
+    static VoxEngineInternal* s_voxEngineInternal;
 
     // Emitter lookup (0x8674cc) and the emitter fast path use these. Offsets from the original.
     EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
     EmitterObj* DetachEmitterObject(std::int64_t id);      // 0x86a5d0 (declared only)
-    DataObj* GetDataObject(DataHandle& data);              // 0x8686bc (declared only)
+    DataObj* GetDataObject(DataHandle& data);              // 0x8686bc (partial, see the .cpp)
+    Handlable* DetachDataObject(std::int64_t id);          // 0x86a940
+    void ReleaseDatasource(DataObj* data);                 // 0x86a628: destroys a data object
+    void _ReleaseAllDatasource();                          // 0x86a710: releases every data object
 
 private:
     // Listener state (+0x3f8..+0x43a). Each Set marks its block dirty (the bytes the
@@ -176,7 +185,17 @@ private:
 
     VoxGainFade master_fade_;                  // +0xe0 (target at +0xe4 is read by GetMasterGain)
     PriorityBankManager* priority_bank_ = nullptr;  // +0xdc
+    // Emitters that UpdateEmitters found dead. The original is a vector of object pointers
+    // (+0xb8 begin, +0xbc end, +0xc0 capacity); UpdateEmitters pops them after the read pass.
+    std::vector<EmitterObj*> dead_emitters_;   // +0xb8..+0xc0
     VoxGainFade group_fades_[32];              // +0xf4, 32 records of 20 bytes (targets at +0xf8)
+    // Master times group gain per group, written by UpdateEmitters and read by each emitter's
+    // SetGainModifier call. The original keeps it at +0x374 (32 floats), right after the fades.
+    float group_gains_[32] = {};               // +0x374
+    // Handle stamps: one per emitter slot (16 slots). A handle keeps the stamp of its slot and
+    // the slot index (EmitterObj +0x14). Written by the constructor and SetTimeStamp, which are
+    // not reconstructed yet, so the values stay zero here.
+    std::uint32_t emitter_stamps_[16] = {};    // +0x550
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
     // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
     // decoders at +0x4c8 with the count at +0x548.
@@ -195,6 +214,12 @@ private:
     HandlableContainer emitter_pending_;       // +0x98
     DriverInterface* driver_ = nullptr;        // +0x54c
     Mutex mutex_;                              // +0x3f4
+    std::uint32_t data_stamps_[16] = {};       // +0x550: stamp per slot; a handle is current when it matches
+    unsigned int next_data_slot_ = 0;          // +0x590: slot for the next data object (mod 16)
+    std::list<DataObj*> data_queue_;           // +0x6c (sentinel), +0x70 (tail): data objects waiting for the update loop
+    Mutex data_queue_mutex_;                   // +0x74
+    // Adds a data object to data_queue_ unless its +0x4c flag (queued_) is already set.
+    void QueueForRelease(DataObj* data);
 };
 
 }  // namespace vox

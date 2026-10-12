@@ -12,10 +12,9 @@
 
 namespace vox {
 
-namespace {
 // The process-wide instance (vox::VoxEngineInternal::s_voxEngineInternal in the original).
-VoxEngineInternal* s_voxEngineInternal = nullptr;
-}  // namespace
+// Declared as a static member in voxengine_internal.hpp so the emitter handles can take its address.
+VoxEngineInternal* VoxEngineInternal::s_voxEngineInternal = nullptr;
 
 // 0x869d3c _ZN3vox17VoxEngineInternal20GetVoxEngineInternalEv
 // Partial: the original allocates 0x5a0 bytes and runs the constructor at 0x869a94, which is
