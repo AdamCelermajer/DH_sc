@@ -544,7 +544,10 @@ headers in a later wave.
   Corrections to gui_elements.hpp: absoluteRect is at +0x38 (+0x48 is the clipping rect), and the
   children list is an intrusive sentinel at +0x04/+0x08, not a std::vector. Also defines IGUIElement,
   so it cannot share a translation unit with gui_elements.hpp.
-- collada_db.hpp: pending from its worker.
+- collada_db.hpp: about 85 offsets confirmed. The segment table at +0x30 is a pointer to a {count, base}
+  record, not an inline vector. The streaming manager is 8 words (registry +0x00, cache +0x0c, byte limit
+  +0x18, usage +0x1c). Defines the same glitch::collada names as collada_database.hpp, so the two sets can't be
+  included together.
 - Float constants in layouts.hpp corrected: -1082130432 is 0xBF800000, which is -1.0f.
 - Open: the IGUIComboBox destructor writes vtable words at +0x158/+0x15c, which conflicts with those
   slots being element pointers.
