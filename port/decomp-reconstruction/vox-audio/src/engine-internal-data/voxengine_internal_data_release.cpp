@@ -76,10 +76,10 @@ void VoxEngineInternal::ReleaseDatasource(DataObj* data) {
     }
     ++data_stamps_[static_cast<unsigned int>(data->slot_) & 0xFu];
 
-    std::vector<std::pair<std::int64_t, void*>> emitters(data->emitters_.begin(), data->emitters_.end());
+    std::vector<std::int64_t> emitters(data->emitters_.begin(), data->emitters_.end());
     for (auto it = emitters.rbegin(); it != emitters.rend(); ++it) {
         emitter_access_.GetWriteAccess();
-        EmitterObj* detached = DetachEmitterObject(it->first);
+        EmitterObj* detached = DetachEmitterObject(*it);
         emitter_access_.ReleaseWriteAccess();
         KillEmitter(detached);
     }

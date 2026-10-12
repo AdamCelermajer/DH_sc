@@ -11,6 +11,8 @@
 #include <map>
 #include <string>
 
+#include "vox-audio/vox/string_compare.hpp"
+
 namespace vox {
 
 enum VoxFileAccessMode : int {
@@ -132,7 +134,7 @@ private:
     std::string archive_path_;                         // +0x08
     bool lowercase_names_ = false;                     // +0x20
     bool strip_directories_ = false;                   // +0x21
-    std::map<std::string, SZipFileEntry> files_;       // +0x24
+    std::map<std::string, SZipFileEntry, StringComp> files_;  // +0x24 (StringComp order)
 };
 
 // Test hook: installs the instance returned by GetInstance.

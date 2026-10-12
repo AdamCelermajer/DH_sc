@@ -9,10 +9,12 @@
 
 struct mpc_demux;  // opaque demuxer state (libmpcdec)
 
-// Frame output of mpc_demux_decode. The cursor reads only the first word: the number of
-// sample frames decoded into its buffer.
+// Frame output of mpc_demux_decode (32-bit offsets). The cursor sets buffer to its PCM buffer
+// before every call and reads samples, the number of sample frames decoded into that buffer.
 struct MpcFrameInfo {
-    std::int32_t samples = 0;  // +0x00
+    std::int32_t samples = 0;        // +0x00
+    std::int32_t reserved_04 = 0;    // +0x04, not read or written by the cursor
+    float* buffer = nullptr;         // +0x08, decoded float samples go here
 };
 
 // The libmpcdec entry points, called by name as the original does.

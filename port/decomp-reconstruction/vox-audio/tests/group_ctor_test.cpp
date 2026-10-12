@@ -20,6 +20,18 @@ struct NativeSubDecoderTestAccess : public VoxNativeSubDecoder {
         bits_ = bits;
     }
     using VoxNativeSubDecoder::MixMultipleSegments;
+    // Pure virtual slots of the base class. The decoders are not part of this test, so each
+    // slot reports an empty decode.
+    int Seek(unsigned int) override { return 0; }
+    int DecodeCurrentSegmentWithOffset(void*, int) override { return 0; }
+    int DecodeSegment(void*, int, vox::SegmentState*) override { return 0; }
+    unsigned int GetBytePositionFromSampleOffset(unsigned int) override { return 0; }
+    int GetDecodingBuffer() override { return -1; }
+    void ReleaseDecodingBuffer(int) override {}
+    int Seek(int, vox::SegmentState*) override { return 0; }
+    void SetDecodingBufferToSegmentPosition(vox::SegmentState*) override {}
+    int EmulateDecodeCurrentSegmentWithOffset(int) override { return 0; }
+    int EmulateDecodeSegment(int, vox::SegmentState*) override { return 0; }
 };
 }  // namespace vox
 
@@ -64,8 +76,12 @@ int main() {
     CHECK(params.bits_per_sample == 16);
     CHECK(params.length_frames == 0);
 
-    // MixMultipleSegments: the byte count divided by the frame size (2 channels, 2 bytes).
-    CHECK(sub.MixMultipleSegments(nullptr, 400) == 100);
+    // MixMultipleSegments with no segment playing: nothing decodes, so the mix is silence
+    // and the result is the largest decode count, 0.
+    std::int16_t out[200] = {};
+    out[0] = 7;
+    CHECK(sub.MixMultipleSegments(out, 400) == 0);
+    CHECK(out[0] == 0);
 
     // Clean frees the shared mixing buffer when it is set.
     vox::VoxNativeSubDecoder::s_pMixingBuffer = VoxAlloc(64);

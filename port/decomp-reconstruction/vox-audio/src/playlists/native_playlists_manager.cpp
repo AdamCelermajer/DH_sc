@@ -1,6 +1,7 @@
-// NativePlaylistsManager functions: AddPlaylist (reconstructed), the copy constructor,
-// the destructor, the forwarding functions and the state copies (partial, because each
-// one depends on a partial NativePlaylist function).
+// NativePlaylistsManager functions: AddPlaylist, the copy constructor, the destructor, the
+// forwarding functions and the state copies. Each forwards to the NativePlaylist function
+// of the same name.
+#include <cstddef>
 #include <new>
 
 #include "vox-audio/vox/groups.hpp"
@@ -10,7 +11,9 @@
 namespace vox {
 
 // 0x883eac _ZN3vox22NativePlaylistsManagerC1ERS0_ (C2 0x883f68 has the same body)
-// Partial: depends on the partial NativePlaylist copy constructor.
+// Copies the flag and field_04, then one playlist per source playlist with the NativePlaylist
+// copy constructor. A failed allocation, or a playlist copy that is not valid, clears the flag
+// and stops; the count is the number of playlists copied so far.
 NativePlaylistsManager::NativePlaylistsManager(const NativePlaylistsManager& other)
     : valid_(true), field_04_(other.field_04_), count_(0), playlists_(nullptr) {
     playlists_ = static_cast<NativePlaylist**>(
@@ -39,8 +42,7 @@ NativePlaylistsManager::NativePlaylistsManager(const NativePlaylistsManager& oth
 }
 
 // 0x8826b4 _ZN3vox22NativePlaylistsManagerD1Ev (D2 0x882720 has the same body)
-// Partial: depends on the partial NativePlaylist destructor. Each playlist is destroyed and
-// freed, then the pointer array is freed, as the original does.
+// Each playlist is destroyed and freed, then the pointer array is freed, as the original does.
 NativePlaylistsManager::~NativePlaylistsManager() {
     if (playlists_ == nullptr) {
         return;
@@ -56,10 +58,10 @@ NativePlaylistsManager::~NativePlaylistsManager() {
     playlists_ = nullptr;
 }
 
-// 0x882488 _ZN3vox22NativePlaylistsManager18GetPlaylistElementEiii (partial)
-// Mode 0 depends on the partial NativePlaylist::GetPlaylistElement(); modes 1 and 2 are
-// complete. Any other mode returns 0, as the original does.
-int NativePlaylistsManager::GetPlaylistElement(int index, int mode, int argument) {
+// 0x882488 _ZN3vox22NativePlaylistsManager18GetPlaylistElementEiii
+// Mode 0 walks the playlist, mode 1 returns its current element, mode 2 the element at
+// argument. Any other mode returns nullptr, as the original's switch falls through to 0.
+PlaylistElement* NativePlaylistsManager::GetPlaylistElement(int index, int mode, int argument) {
     NativePlaylist* playlist = playlists_[index];
     switch (mode) {
         case 0:
@@ -69,13 +71,12 @@ int NativePlaylistsManager::GetPlaylistElement(int index, int mode, int argument
         case 2:
             return playlist->GetPlaylistElement(argument);
         default:
-            return 0;
+            return nullptr;
     }
 }
 
-// 0x8824f4 _ZN3vox22NativePlaylistsManager8SetStateERS0_ (partial)
+// 0x8824f4 _ZN3vox22NativePlaylistsManager8SetStateERS0_
 // Copies the flag and field_04, then calls NativePlaylist::SetState on each playlist.
-// That call is partial, so the playlist state copy is incomplete.
 void NativePlaylistsManager::SetState(const NativePlaylistsManager& other) {
     valid_ = other.valid_;
     field_04_ = other.field_04_;
@@ -102,27 +103,25 @@ void NativePlaylistsManager::AddPlaylist(int index, const PlaylistInfos* info) {
     }
 }
 
-// 0x8839c8 _ZN3vox22NativePlaylistsManager18AddPlaylistElementEPNS_20PlaylistElementInfosE (partial)
-// Forwards to the playlist at info->words_[0] and takes its validity. Partial because
-// NativePlaylist::AddPlaylistElement is partial.
+// 0x8839c8 _ZN3vox22NativePlaylistsManager18AddPlaylistElementEPNS_20PlaylistElementInfosE
+// Forwards to the playlist at info->words_[0] and takes its validity.
 void NativePlaylistsManager::AddPlaylistElement(const PlaylistElementInfos* info) {
     NativePlaylist* playlist = playlists_[info->words_[0]];
     playlist->AddPlaylistElement(info);
     valid_ = playlist->IsValid();
 }
 
-// 0x883ca4 _ZN3vox22NativePlaylistsManager8AddGroupEPNS_10GroupInfosE (partial)
-// Forwards to the playlist at info->unknown_00_ (GroupInfos word 0, read here as the
-// index) and takes its validity. Partial because NativePlaylist::AddGroup is partial.
+// 0x883ca4 _ZN3vox22NativePlaylistsManager8AddGroupEPNS_10GroupInfosE
+// Forwards to the playlist at info->unknown_00_ (GroupInfos word 0, read here as the index)
+// and takes its validity.
 void NativePlaylistsManager::AddGroup(const GroupInfos* info) {
     NativePlaylist* playlist = playlists_[info->unknown_00_];
     playlist->AddGroup(info);
     valid_ = playlist->IsValid();
 }
 
-// 0x882c0c _ZN3vox22NativePlaylistsManager27TransposePlaylistParametersEii (partial)
-// Copies the state of playlist from into playlist to. Partial because the
-// NativePlaylist::SetState(PlaylistState*) it calls is partial.
+// 0x882c0c _ZN3vox22NativePlaylistsManager27TransposePlaylistParametersEii
+// Copies the state of playlist from into playlist to. Nothing happens when the indices match.
 void NativePlaylistsManager::TransposePlaylistParameters(int from, int to) {
     if (from == to) {
         return;

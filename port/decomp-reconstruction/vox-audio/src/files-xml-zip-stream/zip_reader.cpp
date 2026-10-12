@@ -69,13 +69,16 @@ CZipReader::~CZipReader() {
 int CZipReader::getFileCount() const { return static_cast<int>(files_.size()); }
 
 // 0x894efc _ZN3vox10CZipReader22deletePathFromFilenameERSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEE
-// (partial): removes everything up to the last separator. The original's test of the
-// first byte and its pointer roles in the string header are not reproduced exactly.
+// The listing scans backwards from the string end (the word at +0x10) toward its start (+0x14).
+// The first-byte test reads the char at the end, the terminator, so it never matches. A
+// separator at index 0 is found but not removed, so only a separator at index 1 or later
+// splits the name.
 void CZipReader::deletePathFromFilename(std::string& name) {
     const std::size_t slash = name.find_last_of("/\\");
-    if (slash != std::string::npos) {
-        name.erase(0, slash + 1);
+    if (slash == std::string::npos || slash == 0) {
+        return;
     }
+    name.erase(0, slash + 1);
 }
 
 // 0x894f74 _ZN3vox10CZipReader15extractFilenameEPNS_13SZipFileEntryE
@@ -125,9 +128,9 @@ void CZipReader::extractFilename(SZipFileEntry& entry) {
     }
 }
 
-// 0x89544c _ZN3vox10CZipReader11getFileInfoEPKcRiS3_ (partial): the key is the name
-// after the optional directory strip and the optional case fold. Only stored members
-// are reported, with their data offset and uncompressed size.
+// 0x89544c _ZN3vox10CZipReader11getFileInfoEPKcRiS3_: the key is the name after the
+// optional directory strip (flag +0x21) and the optional ASCII fold (flag +0x20). Only
+// stored members (method 0) are reported, with their data offset and uncompressed size.
 int CZipReader::getFileInfo(const char* name, int& offset, int& size) {
     std::string key(name);
     if (strip_directories_) {

@@ -30,8 +30,8 @@ void PlaylistElement::Reset() {
 }
 
 // 0x881eec _ZN3vox14NativePlaylist17GetCurrentElementEv
-int NativePlaylist::GetCurrentElement() const {
-    return elements_[current_];
+PlaylistElement* NativePlaylist::GetCurrentElement() const {
+    return elements_[static_cast<std::size_t>(current_)];
 }
 
 // 0x881efc _ZN3vox14NativePlaylist18GetCurrentPositionEv
@@ -45,12 +45,12 @@ bool NativePlaylist::IsValid() const {
 }
 
 // 0x881f40 _ZN3vox14NativePlaylist18GetPlaylistElementEi
-int NativePlaylist::GetPlaylistElement(int index) const {
-    const int count = static_cast<int>(elements_end_ - elements_);
+PlaylistElement* NativePlaylist::GetPlaylistElement(int index) const {
+    const int count = static_cast<int>(elements_.size());
     if (field_14_ != 0 && index >= 0 && index < count) {
-        return elements_[index];
+        return elements_[static_cast<std::size_t>(index)];
     }
-    return 0;
+    return nullptr;
 }
 
 // 0x882448 _ZN3vox22NativePlaylistsManagerC2Ev (C1 0x882464 has the same body)

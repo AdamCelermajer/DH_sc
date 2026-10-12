@@ -6,6 +6,7 @@
 #include "vox-audio/vox/native_playlist.hpp"
 #include "vox-audio/vox/native_sub_decoder.hpp"
 #include "vox-audio/vox/native_sub_decoder_state.hpp"
+#include "vox-audio/vox/memory.hpp"
 
 namespace vox {
 // Friend accessor for the private words of PlaylistElement (offset 0x00, 0x04, 0x08, 0x0c).
@@ -55,6 +56,18 @@ public:
     int Field3c() const { return field_3c_; }
     bool HasData() const { return has_data_; }
     int Field34() const { return field_34_; }
+    // Pure virtual slots of the base class. The decoders are not part of this test, so each
+    // slot reports an empty decode.
+    int Seek(unsigned int) override { return 0; }
+    int DecodeCurrentSegmentWithOffset(void*, int) override { return 0; }
+    int DecodeSegment(void*, int, vox::SegmentState*) override { return 0; }
+    unsigned int GetBytePositionFromSampleOffset(unsigned int) override { return 0; }
+    int GetDecodingBuffer() override { return -1; }
+    void ReleaseDecodingBuffer(int) override {}
+    int Seek(int, vox::SegmentState*) override { return 0; }
+    void SetDecodingBufferToSegmentPosition(vox::SegmentState*) override {}
+    int EmulateDecodeCurrentSegmentWithOffset(int) override { return 0; }
+    int EmulateDecodeSegment(int, vox::SegmentState*) override { return 0; }
 };
 
 }  // namespace
@@ -116,16 +129,21 @@ int main() {
     CHECK(stop.Seg(0).decoding_slot == 4);
     CHECK(stop.HasData() == false);
 
-    // MixSegmentInBuffer: 16 bytes of stereo 16-bit audio are 4 frames.
+    // MixSegmentInBuffer: 16 bytes of stereo 16-bit audio are 4 frames. With no gain ramp,
+    // the original zeroes the remaining count at the end of the call (the `!v17` block).
+    // The first call skips the 4 frames (remaining 10 covers them); a play mode of 3 sets
+    // the state to 1.
     TestSub mix;
+    std::int16_t src[16] = {};
+    vox::VoxNativeSubDecoder::s_pMixingBuffer = VoxAlloc(64 * sizeof(std::int32_t));
     vox::SegmentState seg;
     seg.remaining_frames = 10;
     seg.play_mode = 3;
-    mix.MixSegmentInBuffer(nullptr, 16, &seg);
-    CHECK(seg.remaining_frames == 6);
+    mix.MixSegmentInBuffer(src, 16, &seg);
+    CHECK(seg.remaining_frames == 0);
     CHECK(seg.state == 1);
     seg.remaining_frames = 2;
-    mix.MixSegmentInBuffer(nullptr, 16, &seg);
+    mix.MixSegmentInBuffer(src, 16, &seg);
     CHECK(seg.remaining_frames == 0);
 
     // UpdateCurrentSegmentState with no current element: segment C is marked, and with no

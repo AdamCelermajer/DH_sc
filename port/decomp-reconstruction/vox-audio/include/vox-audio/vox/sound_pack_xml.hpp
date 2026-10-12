@@ -1,7 +1,7 @@
 // vox::VoxSoundPackXML: the parsed sound-pack tables and their accessors. Four vectors hold
 // the records (sounds, groups, banks, events) and a case-insensitive map at +0x30 maps a sound
-// name to its uid. The XML loader (LoadXML, the constructors and the destructor) is not ported,
-// so the port starts from an empty pack and the tests fill the tables directly.
+// name to its uid. LoadXML is a partial stub (the TinyXML loader is not ported),
+// so a pack starts empty and the tests fill the tables directly.
 //
 // Layout (32-bit offsets, kept as comments): sounds_ +0x00 (68-byte records), groups_ +0x0c
 // (56-byte records), banks_ +0x18 (40-byte records), events_ +0x24 (44-byte records) and
@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cstdint>
+#include <list>
 #include <map>
 #include <string>
 #include <vector>
@@ -51,10 +52,12 @@ struct GroupRecordXML {
 struct EventRecordXML {
     std::int32_t uid = 0;                          // +0x00
     const char* name = nullptr;                    // +0x04
+    std::list<std::int32_t> used_sound_uids;       // +0x08: sounds taken out of sound_uids
     std::vector<std::int32_t> sound_uids;          // +0x10..+0x18
-    std::int16_t field_1c = 0;                     // +0x1c
-    std::int16_t field_1e = 0;                     // +0x1e
-    std::int16_t field_20 = 0;                     // +0x20
+    std::int16_t field_1c = 0;                     // +0x1c: selection mode (0 random without repeat, 1 in order)
+    std::int16_t field_1e = 0;                     // +0x1e: most sounds kept out of the pool
+    std::int16_t field_20 = 0;                     // +0x20: percent chance of no sound (-1 uid)
+    std::int16_t sequence_index = 0;               // +0x22: next index in mode 1
     std::int32_t custom_count = 0;                 // +0x24
     const char* const* custom_values = nullptr;    // +0x28
 };
@@ -154,8 +157,11 @@ public:
 
 class VoxSoundPackXML {
 public:
-    // Port-only: the original constructors (from an XML file name) are not reconstructed.
     VoxSoundPackXML() = default;
+    // 0x88ec4c and 0x88ecc4 (partial): the state is the member defaults, then LoadXML runs.
+    explicit VoxSoundPackXML(const char* path);
+    // 0x88d344 (partial): the TinyXML loader is not ported; this loads no records.
+    void LoadXML(const char* path);
 
     // Index accessors.
     int GetBankInfo(int index, int& field_0c, int& field_08, PriorityBankBehavior& behavior) const;  // 0x889498
@@ -196,6 +202,14 @@ public:
     int GetBankInfo(const char* name, int& bank_uid, int& field_0c, int& field_08,
                     PriorityBankBehavior& behavior) const;                                            // 0x88ba80
 
+    // Event selection and reset. The used list (+0x08) keeps the sounds taken out of the pool.
+    int GetEventSoundUid(int index, int& sound_uid);                            // 0x88bb6c
+    int GetEventSoundUid(const char* name, int& sound_uid);                     // 0x88bdac
+    int ResetEvent(int index);                                                  // 0x88be28
+    int ResetEvent(const char* name);                                           // 0x88bf10
+    int GetEmitterInfoFromSoundOrEvent(const char* name, EmitterInfoXML& out);  // 0x88bdd0
+    void GetGroupMask(const char* name, int& mask) const;                       // 0x88cc14
+
     // Test access: the tables are filled directly by the tests.
     friend struct VoxSoundPackXMLTestAccess;
 
@@ -205,6 +219,7 @@ private:
     std::vector<BankRecordXML> banks_;                              // +0x18
     std::vector<EventRecordXML> events_;                            // +0x24
     std::map<const char*, std::int32_t, c8stringcomp> sound_uids_;  // +0x30
+    std::map<std::string, std::int32_t, StringComp> group_masks_;   // +0x48
 };
 
 }  // namespace vox
