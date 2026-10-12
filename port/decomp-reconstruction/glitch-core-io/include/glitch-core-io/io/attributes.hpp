@@ -60,6 +60,7 @@ public:
     virtual void setBool(bool) {}                                         // +0xa4
     virtual void setBinary(void*, int) {}                                 // +0xa8
     virtual void setVector2d(glitch::core::vector2d<float>) {}            // +0xac
+    virtual void setVector2d(glitch::core::vector2d<std::int32_t>) {}     // +0x11c
     virtual void setVector3d(const glitch::core::vector3d<float>&) {}     // +0xb0
     virtual void setVector4d(const glitch::core::vector4d<float>&) {}     // +0xb4
     virtual void setPosition(glitch::core::position2d<std::int32_t>) {}   // +0xb8

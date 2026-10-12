@@ -107,4 +107,266 @@ CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::l
     flag = f;
 }
 
+
+// 0x565ce8 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core6line2dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::line2d<float>& value, bool f)
+    : floatValues{value.start.X, value.start.Y, value.end.X, value.end.Y}, count(4), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x565e94 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core10triangle3dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::triangle3d<float>& value, bool f)
+    : floatValues{value.A.X, value.A.Y, value.A.Z, value.B.X, value.B.Y, value.B.Z,
+                  value.C.X, value.C.Y, value.C.Z},
+      count(9), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x56616c _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core7plane3dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::plane3d<float>& value, bool f)
+    : floatValues{value.Normal.X, value.Normal.Y, value.Normal.Z, value.D}, count(4), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x566318 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core8aabbox3dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::aabbox3d<float>& value, bool f)
+    : floatValues{value.MinEdge.X, value.MinEdge.Y, value.MinEdge.Z,
+                  value.MaxEdge.X, value.MaxEdge.Y, value.MaxEdge.Z},
+      count(6), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x56653c _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core10quaternionEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::quaternion& value, bool f)
+    : floatValues{value.X, value.Y, value.Z, value.W}, count(4), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x566728 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core8CMatrix4IfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::CMatrix4<float>& value, bool f)
+    : floatValues(value.M, value.M + 16), count(16), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x5668ac _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector4dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector4d<float>& value, bool f)
+    : floatValues{value.X, value.Y, value.Z, value.W}, count(4), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x566a84 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector3dIfEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector3d<float>& value, bool f)
+    : floatValues{value.X, value.Y, value.Z}, count(3), isFloatList(true) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x5674ec _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core10position2dIiEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::position2d<std::int32_t>& value, bool f)
+    : intValues{value.X, value.Y}, count(2), isFloatList(false) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x567620 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector4dIiEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector4d<std::int32_t>& value, bool f)
+    : intValues{value.X, value.Y, value.Z, value.W}, count(4), isFloatList(false) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x5677f8 _ZN6glitch2io17CNumbersAttributeC2EPKcRKNS_4core8vector3dIiEEb
+CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::vector3d<std::int32_t>& value, bool f)
+    : intValues{value.X, value.Y, value.Z}, count(3), isFloatList(false) {
+    name = attrName;
+    flag = f;
+}
+
+// 0x31e120 _ZN6glitch2io17CNumbersAttribute7getRectEv
+// Components beyond the stored count take the defaults of the original: the
+// third is the first, the fourth is the second (as the pseudocode chains them).
+glitch::core::rect<std::int32_t> CNumbersAttribute::getRect() const {
+    glitch::core::rect<std::int32_t> r{0, 0, 0, 0};
+    if (isFloatList) {
+        if (count != 0) r.X1 = static_cast<std::int32_t>(floatValues[0]);
+        if (count >= 2) r.Y1 = static_cast<std::int32_t>(floatValues[1]);
+        r.X2 = count >= 3 ? static_cast<std::int32_t>(floatValues[2]) : r.X1;
+        r.Y2 = count >= 4 ? static_cast<std::int32_t>(floatValues[3]) : r.Y1;
+    } else {
+        if (count != 0) r.X1 = intValues[0];
+        if (count >= 2) r.Y1 = intValues[1];
+        r.X2 = count >= 3 ? intValues[2] : r.X1;
+        r.Y2 = count >= 4 ? intValues[3] : r.Y1;
+    }
+    return r;
+}
+
+// 0x3247b8 _ZN6glitch2io17CNumbersAttribute7setRectENS_4core4rectIiEE
+// Clears the active list, then writes up to four components from the rect.
+void CNumbersAttribute::setRect(glitch::core::rect<std::int32_t> value) {
+    if (count == 0) return;
+    const std::int32_t parts[4] = {value.X1, value.Y1, value.X2, value.Y2};
+    if (isFloatList) {
+        for (std::size_t i = 0; i < count; ++i) floatValues[i] = 0.f;
+        for (std::size_t i = 0; i < count && i < 4; ++i) floatValues[i] = static_cast<float>(parts[i]);
+    } else {
+        for (std::size_t i = 0; i < count; ++i) intValues[i] = 0;
+        for (std::size_t i = 0; i < count && i < 4; ++i) intValues[i] = parts[i];
+    }
+}
+
+// 0x31dbf8 _ZN6glitch2io17CNumbersAttribute11getVector2dEv
+glitch::core::vector2d<float> CNumbersAttribute::getVector2d() const {
+    glitch::core::vector2d<float> v{0.f, 0.f};
+    if (isFloatList) {
+        if (count != 0) v.X = floatValues[0];
+        if (count >= 2) v.Y = floatValues[1];
+    } else {
+        if (count != 0) v.X = static_cast<float>(intValues[0]);
+        if (count >= 2) v.Y = static_cast<float>(intValues[1]);
+    }
+    return v;
+}
+
+// 0x324d04 _ZN6glitch2io17CNumbersAttribute11setVector2dENS_4core8vector2dIfEE
+// Clears the active list, then writes up to two components (truncated for int lists).
+void CNumbersAttribute::setVector2d(glitch::core::vector2d<float> value) {
+    if (count == 0) return;
+    const float parts[2] = {value.X, value.Y};
+    if (isFloatList) {
+        for (std::size_t i = 0; i < count; ++i) floatValues[i] = 0.f;
+        floatValues[0] = parts[0];
+        if (count > 1) floatValues[1] = parts[1];
+    } else {
+        for (std::size_t i = 0; i < count; ++i) intValues[i] = 0;
+        intValues[0] = static_cast<int>(parts[0]);
+        if (count > 1) intValues[1] = static_cast<int>(parts[1]);
+    }
+}
+
+
+float CNumbersAttribute::activeFloat(std::size_t i) const {
+    return isFloatList ? floatValues[i] : static_cast<float>(intValues[i]);
+}
+
+std::int32_t CNumbersAttribute::activeInt(std::size_t i) const {
+    return isFloatList ? static_cast<std::int32_t>(floatValues[i]) : intValues[i];
+}
+
+void CNumbersAttribute::setActive(std::size_t i, float value) {
+    if (isFloatList) {
+        floatValues[i] = value;
+    } else {
+        intValues[i] = static_cast<std::int32_t>(value);
+    }
+}
+
+void CNumbersAttribute::setActive(std::size_t i, std::int32_t value) {
+    if (isFloatList) {
+        floatValues[i] = static_cast<float>(value);
+    } else {
+        intValues[i] = value;
+    }
+}
+
+void CNumbersAttribute::clearActive() {
+    for (std::size_t i = 0; i < count; ++i) {
+        if (isFloatList) {
+            floatValues[i] = 0.f;
+        } else {
+            intValues[i] = 0;
+        }
+    }
+}
+
+// 0x31db5c _ZNK6glitch2io17CNumbersAttribute11getPositionEv
+glitch::core::position2d<std::int32_t> CNumbersAttribute::getPosition() const {
+    glitch::core::position2d<std::int32_t> p{0, 0};
+    if (count != 0) p.X = activeInt(0);
+    if (count >= 2) p.Y = activeInt(1);
+    return p;
+}
+
+// 0x32490c _ZN6glitch2io17CNumbersAttribute11setPositionENS_4core10position2dIiEE
+void CNumbersAttribute::setPosition(glitch::core::position2d<std::int32_t> value) {
+    if (count == 0) return;
+    clearActive();
+    setActive(0, value.X);
+    if (count > 1) setActive(1, value.Y);
+}
+
+// 0x31dcb0 _ZNK6glitch2io17CNumbersAttribute11getVector3dEv
+glitch::core::vector3d<float> CNumbersAttribute::getVector3d() const {
+    glitch::core::vector3d<float> v{0.f, 0.f, 0.f};
+    if (count != 0) v.X = activeFloat(0);
+    if (count >= 2) v.Y = activeFloat(1);
+    if (count >= 3) v.Z = activeFloat(2);
+    return v;
+}
+
+// 0x324df4 _ZN6glitch2io17CNumbersAttribute11setVector3dERKNS_4core8vector3dIfEE
+void CNumbersAttribute::setVector3d(const glitch::core::vector3d<float>& value) {
+    if (count == 0) return;
+    clearActive();
+    setActive(0, value.X);
+    if (count > 1) setActive(1, value.Y);
+    if (count > 2) setActive(2, value.Z);
+}
+
+// 0x3251d0 _ZN6glitch2io17CNumbersAttribute11setVector2dENS_4core8vector2dIiEE
+void CNumbersAttribute::setVector2d(glitch::core::vector2d<std::int32_t> value) {
+    if (count == 0) return;
+    clearActive();
+    setActive(0, value.X);
+    if (count > 1) setActive(1, value.Y);
+}
+
+// 0x325830 _ZN6glitch2io17CNumbersAttribute14setDimension2dENS_4core11dimension2dIiEE
+void CNumbersAttribute::setDimension2d(glitch::core::dimension2d<std::int32_t> value) {
+    if (count == 0) return;
+    clearActive();
+    setActive(0, value.Width);
+    if (count > 1) setActive(1, value.Height);
+}
+
+// 0x31defc _ZNK6glitch2io17CNumbersAttribute9getColorfEv
+// Float lists read directly; int lists divide each value by 255. Missing components
+// are zero, the alpha included.
+glitch::video::SColorf CNumbersAttribute::getColorf() const {
+    glitch::video::SColorf c{0.f, 0.f, 0.f, 0.f};
+    if (count != 0) c.r = isFloatList ? floatValues[0] : static_cast<float>(intValues[0]) / 255.f;
+    if (count >= 2) c.g = isFloatList ? floatValues[1] : static_cast<float>(intValues[1]) / 255.f;
+    if (count >= 3) c.b = isFloatList ? floatValues[2] : static_cast<float>(intValues[2]) / 255.f;
+    if (count >= 4) c.a = isFloatList ? floatValues[3] : static_cast<float>(intValues[3]) / 255.f;
+    return c;
+}
+
+// 0x31e25c _ZN6glitch2io17CNumbersAttribute13getQuaternionEv
+// Missing components are zero (the W default of the original is overwritten).
+glitch::core::quaternion CNumbersAttribute::getQuaternion() const {
+    glitch::core::quaternion q{0.f, 0.f, 0.f, 0.f};
+    if (count != 0) q.X = activeFloat(0);
+    if (count >= 2) q.Y = activeFloat(1);
+    if (count >= 3) q.Z = activeFloat(2);
+    if (count >= 4) q.W = activeFloat(3);
+    return q;
+}
+
+// 0x32465c _ZN6glitch2io17CNumbersAttribute13setQuaternionERKNS_4core10quaternionE
+void CNumbersAttribute::setQuaternion(const glitch::core::quaternion& value) {
+    if (count == 0) return;
+    clearActive();
+    setActive(0, value.X);
+    if (count > 1) setActive(1, value.Y);
+    if (count > 2) setActive(2, value.Z);
+    if (count > 3) setActive(3, value.W);
+}
+
 }  // namespace glitch::io

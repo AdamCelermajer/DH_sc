@@ -247,3 +247,41 @@ elf_address,symbol,status,source_file,notes
 0x8286e4,_ZN7CSocket6ListenEv,reconstructed,net-transport/src/csocket.cpp,"Listen with backlog 10, sets the listening flag"
 0x828738,_ZN7CSocket7ConnectERK7in_addrt,partial,net-transport/src/csocket.cpp,Connect: EISCONN and EINPROGRESS handled as in the original; error log dropped
 0x828b14,_ZN7CSocketD0Ev,skipped,net-transport/src/csocket.cpp,deleting destructor D0 is compiler-generated
+0x827da0,_ZN7CSocket15GetLocalAddressEv,partial,net-transport/src/csocket.cpp,GetLocalAddress: SIOCGIFCONF walk on POSIX; Winsock uses gethostbyname (no SIOCGIFCONF); probe socket closed on every path
+0x828868,_ZN7CSocket7OpenTCPEtj,partial,net-transport/src/csocket.cpp,"OpenTCP: socket, nonblocking, options, bind; SetSocketOptions result not checked (returns nothing in port)"
+0x8289bc,_ZN7CSocket7OpenUDPEtj,partial,net-transport/src/csocket.cpp,"OpenUDP: socket(UDP), bind to port, nonblocking, options; SetSocketOptions result not checked"
+0x827504,_ZN4CUdp11IsConnectedEv,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnected always true
+0x82750c,_ZN4CUdp17CanDisconnectFromER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::CanDisconnectFrom returns 0
+0x827514,_ZN4CUdp7GetTypeEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetType returns 1
+0x82751c,_ZN4CUdp18TerminateTransportEv,reconstructed,net-transport/src/cudp.cpp,CUdp::TerminateTransport clears s_initialized
+0x827544,_ZN4CUdp13IsConnectedToER10CNetworkId,reconstructed,net-transport/src/cudp.cpp,CUdp::IsConnectedTo: true when the id has no field2 (flag bit 2)
+0x827554,_ZN4CUdp16GetPeerNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,CUdp::GetPeerNetworkId returns a reset id
+0x827568,_ZN4CUdp17GetLocalNetworkIdEv,reconstructed,net-transport/src/cudp.cpp,"CUdp::GetLocalNetworkId: address1 = local port and IPv4, flag bit 0"
+0x82770c,_ZN4CUdp4SendER10CNetworkIdPvi,reconstructed,net-transport/src/cudp.cpp,CUdp::Send via CSocket::SendTo to the address1 of the peer id
+0x827764,_ZN4CUdp11CloseSocketEv,reconstructed,net-transport/src/cudp.cpp,CUdp::CloseSocket closes the CSocket when it is open
+0x827780,_ZN4CUdp10OpenSocketEtb,partial,net-transport/src/cudp.cpp,CUdp::OpenSocket: OpenUDP with reuse (2) or reuse+broadcast (3); debug print of the local address dropped
+0x827804,_ZN4CUdpD1Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D1 closes the socket
+0x827844,_ZN4CUdpD0Ev,skipped,net-transport/src/cudp.cpp,deleting destructor D0 is compiler-generated
+0x827860,_ZN4CUdpD2Ev,reconstructed,net-transport/src/cudp.cpp,CUdp dtor D2 closes the socket
+0x8278a0,_ZN4CUdp12CreateByPortEtj,reconstructed,net-transport/src/cudp.cpp,"CUdp::CreateByPort: new transport, flags kept, opened with broadcast from bit 1"
+0x8278fc,_ZN4CUdp19InitializeTransportEv,partial,net-transport/src/cudp.cpp,CUdp::InitializeTransport: creates the two UDP transports once; AddTransport is a stand-in (deps/transport_manager.hpp)
+0x829fc4,_ZN4CTcp17CanDisconnectFromER10CNetworkId,partial,net-transport/src/ctcp.cpp,CTcp::CanDisconnectFrom: tail call into IsConnectedTo; result assumed to pass through
+0x829fd8,_ZN4CTcp7GetTypeEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::GetType returns 2
+0x829fe0,_ZN4CTcp18TerminateTransportEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::TerminateTransport clears s_initialized
+0x82a008,_ZN4CTcp13IsConnectedToER10CNetworkId,partial,net-transport/src/ctcp.cpp,CTcp::IsConnectedTo: compares the peer address0 id with the argument; return value not in the decompile
+0x82a040,_ZN4CTcp11IsConnectedEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::IsConnected delegates to CSocket::IsConnected
+0x82a048,_ZN4CTcp16GetPeerNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetPeerNetworkId: address0 = peer port and IPv4, flag bit 1"
+0x82a090,_ZN4CTcp17GetLocalNetworkIdEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::GetLocalNetworkId: address0 = local port and IPv4, flag bit 1"
+0x82a0d8,_ZN4CTcp14ReceivePacketsEv,partial,net-transport/src/ctcp.cpp,CTcp::ReceivePackets: up to 21 packets of 4096 bytes; ReceiverCallback is a stand-in
+0x82a1dc,_ZN4CTcp4SendER10CNetworkIdPvi,partial,net-transport/src/ctcp.cpp,CTcp::Send: the decompiled check is a virtual call with no arguments; IsConnectedTo(peer) assumed
+0x82a228,_ZN4CTcp7ConnectER10CNetworkId,reconstructed,net-transport/src/ctcp.cpp,CTcp::Connect via CSocket::Connect to the address0 of the peer id
+0x82a284,_ZN4CTcp11CloseSocketEv,reconstructed,net-transport/src/ctcp.cpp,CTcp::CloseSocket closes the socket when valid
+0x82a2a4,_ZN4CTcp10OpenSocketEtb,partial,net-transport/src/ctcp.cpp,"CTcp::OpenSocket: OpenTCP with option 6, listen when asked; debug print dropped"
+0x82a36c,_ZN4CTcpD1Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D1 closes the socket
+0x82a3ac,_ZN4CTcpD0Ev,skipped,net-transport/src/ctcp.cpp,deleting destructor D0 is compiler-generated
+0x82a3c8,_ZN4CTcpD2Ev,reconstructed,net-transport/src/ctcp.cpp,CTcp dtor D2 closes the socket
+0x82a408,_ZN4CTcp12CreateByPortEtj,reconstructed,net-transport/src/ctcp.cpp,"CTcp::CreateByPort: new transport, opened and listening when bit 0 is set"
+0x82a464,_ZN4CTcp19InitializeTransportEv,partial,net-transport/src/ctcp.cpp,"CTcp::InitializeTransport: one listening transport on any port, once; AddTransport is a stand-in"
+0x82a4b8,_ZN4CTcp16CreateBySocketIdEij,reconstructed,net-transport/src/ctcp.cpp,CTcp::CreateBySocketId: adopts the accepted handle with options 4 (CSocketAbstract::Assign)
+0x82a540,_ZN4CTcp17AcceptConnectionsEv,partial,net-transport/src/ctcp.cpp,CTcp::AcceptConnections: accepts one peer and hands the new CTcp to AcceptCallback (stand-in)
+0x82a5dc,_ZN4CTcp7ReceiveEv,reconstructed,net-transport/src/ctcp.cpp,"CTcp::Receive: accepts when listening, otherwise reads packets"

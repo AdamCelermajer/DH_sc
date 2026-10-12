@@ -37,6 +37,13 @@ public:
 
     std::uint32_t Flags() const { return flags_; }
 
+    // Address accessors for the transports (not in the original, which reads the fields directly).
+    // Address0 is presence bit 1 (flags 0x2); Address1 is presence bit 0 (flags 0x1).
+    void SetAddress0(std::uint16_t lo, std::uint32_t hi);
+    void SetAddress1(std::uint16_t lo, std::uint32_t hi);
+    bool GetAddress0(std::uint16_t& lo, std::uint32_t& hi) const;
+    bool GetAddress1(std::uint16_t& lo, std::uint32_t& hi) const;
+
 private:
     struct Address48 {
         std::uint16_t lo;   // 16 low bits

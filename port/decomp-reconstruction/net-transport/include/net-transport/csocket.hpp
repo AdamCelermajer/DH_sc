@@ -46,6 +46,7 @@ public:
     // Accepts one pending connection; returns the new handle or -1. Partial (see notes).
     int Accept(in_addr& from, std::uint16_t& from_port);   // 0x8285ec _ZN7CSocket6AcceptER7in_addrRt
     int Listen();                                    // 0x8286e4 _ZN7CSocket6ListenEv
+    bool IsListening() const { return listening_; }  // accessor, not in the original
     // Creates a UDP socket bound to port (0 for any) with the given option bits. Returns 0 or -1.
     int OpenUDP(std::uint16_t port, unsigned int options);  // 0x8289bc _ZN7CSocket7OpenUDPEtj
     // Creates a TCP socket bound to port. Returns 0 or -1.

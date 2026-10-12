@@ -236,3 +236,65 @@ elf_address,symbol,status,source_file,notes
 0x61b24c,_ZNK6glitch7collada16CColladaDatabase14constructLightEPKcPNS0_14CRootSceneNodeE,reconstructed,glitch-scene-collada-gui/src/collada_database_create.cpp,
 0x630008,_ZN6glitch7collada15CColladaFactory25getExternalLightSceneNodeERKNS0_16CColladaDatabaseERKN5boost13intrusive_ptrIKNS_5video17CMaterialRendererEEEtjPKc,partial,glitch-scene-collada-gui/src/collada_factory.cpp,default calls shared error helper 0x62ff80 (not reconstructed); body is empty here
 0x630010,_ZN6glitch7collada15CColladaFactory25getExternalLightSceneNodeERKNS0_16CColladaDatabaseERKN5boost13intrusive_ptrIKNS_5video9CMaterialEEEtjPKc,partial,glitch-scene-collada-gui/src/collada_factory.cpp,default calls shared error helper 0x62ff80 (not reconstructed); body is empty here
+0x534f90,_ZNK6glitch3gui11IGUIElement9isVisibleEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534f98,_ZN6glitch3gui11IGUIElement10setVisibleEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fa0,_ZNK6glitch3gui11IGUIElement12isSubElementEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fa8,_ZN6glitch3gui11IGUIElement13setSubElementEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fb0,_ZNK6glitch3gui11IGUIElement9isEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fb8,_ZN6glitch3gui11IGUIElement10setEnabledEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fc0,_ZNK6glitch3gui11IGUIElement7getTextEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fc8,_ZNK6glitch3gui11IGUIElement14getToolTipTextEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,stand-in string type for the returned member
+0x534fd0,_ZNK6glitch3gui11IGUIElement5getIDEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fd8,_ZN6glitch3gui11IGUIElement5setIDEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x534fe0,_ZNK6glitch3gui11IGUIElement7getNameEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535014,_ZNK6glitch3gui11IGUIElement11getChildrenEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,stand-in vector type for the child list member
+0x535598,_ZNK6glitch3gui15CGUIEnvironment8getFocusEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x53562c,_ZNK6glitch3gui15CGUIEnvironment8hasFocusEPNS0_11IGUIElementE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535640,_ZNK6glitch3gui15CGUIEnvironment14getVideoDriverEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535648,_ZNK6glitch3gui15CGUIEnvironment13getFileSystemEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535650,_ZNK6glitch3gui15CGUIEnvironment13getOSOperatorEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535768,_ZN6glitch3gui15CGUIEnvironment20setUserEventReceiverEPNS_14IEventReceiverE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x535770,_ZNK6glitch3gui15CGUIEnvironment7getSkinEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x5357e8,_ZNK6glitch3gui15CGUIEnvironment35getRegisteredGUIElementFactoryCountEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,factory list is a vector of pointers; count is (end-begin)/4
+0x53e26c,_ZNK6glitch3gui8CGUIFont13getSpriteBankEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x53de4c,_ZN6glitch3gui8CGUIFont15setKerningWidthEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x53de54,_ZN6glitch3gui8CGUIFont16setKerningHeightEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x53de5c,_ZNK6glitch3gui8CGUIFont16getKerningHeightEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x53dc14,_ZN6glitch3gui8CGUIFont11setTrackingEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,empty in original
+0x53dc18,_ZNK6glitch3gui8CGUIFont11getTrackingEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,returns constant 0
+0x53dc0c,_ZNK6glitch3gui8CGUIFont7getTypeEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,returns constant 0
+0x53dbfc,_ZNK6glitch3gui8CGUIFont12getDimensionEPKc,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,writes a zero dimension
+0x53dbdc,_ZN6glitch3gui8CGUIFont4drawEPKcRKNS_4core4rectIiEENS_5video6SColorEbbPS7_,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,empty in original
+0x53dbe8,_ZN6glitch3gui8CGUIFont13drawInTextureEPKwRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS6_6SColorEbb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,empty in original
+0x53dbec,_ZN6glitch3gui8CGUIFont13drawInTextureEPKcRKN5boost13intrusive_ptrINS_5video8ITextureEEENS_4core4rectIiEENS6_6SColorEbb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,empty in original
+0x53dbf0,_ZN6glitch3gui8CGUIFont9setBorderEjNS_5video6SColorE,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,empty in original
+0x540514,_ZN6glitch3gui9CGUIImage18setUseAlphaChannelEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54051c,_ZN6glitch3gui9CGUIImage13setScaleImageEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x540524,_ZNK6glitch3gui9CGUIImage13isImageScaledEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54052c,_ZNK6glitch3gui9CGUIImage18isAlphaChannelUsedEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x541dc4,_ZNK6glitch3gui11CGUIListBox11getSelectedEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x541ee4,_ZN6glitch3gui11CGUIListBox20setAutoScrollEnabledEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x541eec,_ZNK6glitch3gui11CGUIListBox19isAutoScrollEnabledEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x541c6c,_ZN6glitch3gui11CGUIListBox7addItemEPKw,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,virtual addItem(text; -1) through vtable slot 0x88
+0x548f2c,_ZNK6glitch3gui13CGUIScrollBar12getSmallStepEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x548f34,_ZN6glitch3gui13CGUIScrollBar12setSmallStepEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,non-positive step stores 10
+0x548f48,_ZNK6glitch3gui13CGUIScrollBar12getLargeStepEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x548f50,_ZN6glitch3gui13CGUIScrollBar12setLargeStepEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,non-positive step stores 50
+0x548f64,_ZNK6glitch3gui13CGUIScrollBar6getMaxEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x548fd0,_ZNK6glitch3gui13CGUIScrollBar6getPosEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54df38,_ZNK6glitch3gui11CGUISpinBox10getEditBoxEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54df5c,_ZNK6glitch3gui11CGUISpinBox6getMinEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54df64,_ZNK6glitch3gui11CGUISpinBox6getMaxEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54df6c,_ZNK6glitch3gui11CGUISpinBox11getStepSizeEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x54df74,_ZN6glitch3gui11CGUISpinBox11setStepSizeEf,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x552040,_ZNK6glitch3gui7CGUITab9getNumberEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x552048,_ZN6glitch3gui7CGUITab9setNumberEi,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x552050,_ZN6glitch3gui7CGUITab17setDrawBackgroundEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x5520f0,_ZNK6glitch3gui7CGUITab19isDrawingBackgroundEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5df0,_ZN6glitch3gui10CGUIButton13setDrawBorderEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5ec4,_ZN6glitch3gui10CGUIButton15setIsPushButtonEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5ecc,_ZNK6glitch3gui10CGUIButton9isPressedEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5ed4,_ZNK6glitch3gui10CGUIButton12isPushButtonEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5edc,_ZN6glitch3gui10CGUIButton18setUseAlphaChannelEb,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5ee4,_ZNK6glitch3gui10CGUIButton18isAlphaChannelUsedEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,
+0x6a5eec,_ZNK6glitch3gui10CGUIButton15isDrawingBorderEv,reconstructed,glitch-scene-collada-gui/src/gui_elements.cpp,

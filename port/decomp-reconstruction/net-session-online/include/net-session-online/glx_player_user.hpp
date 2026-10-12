@@ -80,6 +80,27 @@ public:
     // 0x83aa38 _ZN13GLXPlayerUser19processUploadAvatarEPc: empty in the original.
     void processUploadAvatar(char* data);
 
+    // Response handlers (src/glx_player_user_responses.cpp). Partial where noted there.
+    void setPassword(char* password);                                // 0x83b1ac
+    void processLiveFeeds(char* response);                           // 0x83adec (partial)
+    void processUserChatWarning(char* text);                         // 0x83afb8
+    void processPromoAttachment(char* text);                         // 0x83b028
+    void processRssAttachment(char* text);                           // 0x83b074
+    void processUserTrophyIcon(char* text);                          // 0x83b0c0 (partial)
+    void processGetPromo_RSS(char* response);                        // 0x83b1e0 (partial)
+    void processGetADV_RSS(char* response);                          // 0x83b280 (partial)
+    void processUserGameIcon(char* text);                            // 0x83b320 (partial)
+    void processUserAvatarList(char* text);                          // 0x83b424 (partial)
+    void processUserData(char* text);                                // 0x83b620 (partial)
+    void processDownloadAvatar(char* text);                          // 0x83b724 (partial)
+    void processUserAvatar(char* text);                              // 0x83b82c (partial)
+    void processUserBestScore(char* text);                           // 0x83bae4 (partial)
+    void processUserInformation(char* text);                         // 0x83bbf0 (partial)
+    void processUserTrophy(char* text);                              // 0x83c040 (partial)
+    void processUserState(char* text);                               // 0x83c14c (partial)
+    void processUserGameList(char* text);                            // 0x83c484 (partial)
+    void processUserReputation(char* text);                          // 0x83c6f8 (partial)
+
     // Request builders (src/glx_player_user_requests.cpp). Each one sends a request
     // through SendByGet or SendByPost, or reports a rejected argument to the observer.
     void sendGetLiveFeeds(std::int32_t kind);                        // 0x83cdc8
@@ -104,6 +125,22 @@ public:
     void sendChangeUserName(char* name, char* password, char* newName, bool keepOther);    // 0x83df58
     void sendGetUsedApp(char* name);                                 // 0x83e068
 
+    void sendGetCountry(char* name, char* name2, bool flag);         // 0x83e260
+    void sendChangeCountry(char* name, char* password, char* country);  // 0x83e158
+    void sendGetGeneralConditions(char* language);                   // 0x83e384 (POST)
+    void sendGetGameIcon(std::int32_t gameId, char* name);           // 0x83e448
+    void sendGetPromoAttachment(char* name, std::int32_t attachmentId);  // 0x83e598
+    void sendGetPromoRss(char* name, std::int32_t year, std::int32_t nid, char* language);  // 0x83e6a0 (POST)
+    void sendGetUserInfo(char* name, bool byUserName);               // 0x83ee20
+    void sendGetUserAvatar(char* name, bool byUserName);             // 0x83ef50
+    void sendGetUserBestScore(char* name, bool byUserName);          // 0x83f080
+    void sendGetReputation(char* name, bool byUserName);             // 0x83f1b0
+    void sendGetUserState(char* name, bool byUserName);              // 0x83f440
+
+    void sendGetUserStoreData(char* key, char* name, bool byUserName);  // 0x83f2e0
+    void sendGetUserGameList(char* name, std::int32_t first, std::int32_t count, bool byUserName);  // 0x83f570
+    void sendGetUserGameTrophyList(std::int32_t gameId, char* name, bool byUserName);  // 0x83e7b8
+
     // Clears (free the owned fields and reset the flags they feed).
     void clearUserInformation();                                     // 0x83aa3c
     void clearAvatarList();                                          // 0x83aba4
@@ -115,6 +152,11 @@ public:
     void SetGameForTest(std::int32_t index, const char* pid, const char* name, std::int32_t trophy);
     void SetAvatarForTest(std::int32_t index, const char* key, const char* lastUpdate, std::int32_t status);
     void SetGameCountForTest(std::int32_t count) { gameCount_ = count; }
+    const char* ChatWarningForTest() const { return chatWarning_.get(); }
+    const char* PromoAttachmentForTest() const { return promoAttachment_.get(); }
+    const char* RssAttachmentForTest() const { return rssAttachment_.get(); }
+    const char* IconText0ForTest() const { return iconText0_.get(); }
+    const char* IconText1ForTest() const { return iconText1_.get(); }
 
 private:
     std::unique_ptr<char[]> string40_;                               // +0x40
@@ -153,6 +195,8 @@ private:
     std::vector<std::unique_ptr<char[]>> avatarLastUpdates_;         // +0x10c
     std::vector<std::int32_t> avatarStatus_;                         // +0x110
     std::int32_t avatarCount_ = 0;                                   // +0x114
+    std::unique_ptr<char[]> iconText0_;                              // +0xcc
+    std::unique_ptr<char[]> iconText1_;                              // +0xd0
     std::unique_ptr<char[]> chatWarning_;                            // +0x118
     std::unique_ptr<char[]> string124_;                              // +0x124
 };

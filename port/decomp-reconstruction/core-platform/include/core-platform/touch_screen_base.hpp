@@ -52,7 +52,7 @@ public:
     virtual void touchCancelled(const Point2D<short>& p, long slot); // +0x2c
 
     int getTouchIDInitiatedInRegion(const glitch::core::rect<float>& r) const; // +0x34
-    int getTouchIDInRegion(const glitch::core::rect<float>& r) const;          // +0x38
+    virtual int getTouchIDInRegion(const glitch::core::rect<float>& r) const;  // +0x38 (iPhone overrides)
     const short* getTouchPoint(long slot) const;                               // +0x3c
     const short* getFirstTouchPoint(long slot) const;                          // +0x40
     Point2D<short> getTouchDisplacement(long slot) const;                      // +0x44

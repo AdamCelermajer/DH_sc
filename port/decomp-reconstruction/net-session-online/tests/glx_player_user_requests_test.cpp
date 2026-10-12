@@ -128,6 +128,46 @@ int main() {
     u.sendGetUsedApp(nullptr);  // without a name the user id is used
     CHECK(u.get == "f|57|i|12|u|alice|");
 
+    // Second group: optional name clauses and the country and promo requests.
+    u.sendGetUserInfo("bob", false);
+    CHECK(u.get == "f|81|i|12|u|alice|n|bob|");
+    u.sendGetUserAvatar("bob", true);
+    CHECK(u.get == "f|70|i|12|u|alice|un|bob|");
+    u.sendGetUserState("bob", true);
+    CHECK(u.get == "f|64|i|12|u|alice|un|bob|");
+    u.sendGetUserBestScore(nullptr, false);  // no name: base only
+    CHECK(u.get == "f|69|i|12|u|alice");
+    u.sendGetReputation("dan", false);
+    CHECK(u.get == "f|67|i|12|u|alice|n|dan|");
+
+    u.sendGetCountry("a", nullptr, true);
+    CHECK(u.get == "f|53|i|12|u|a|nf|1|");
+    u.sendGetCountry(nullptr, nullptr, false);
+    CHECK(obs.lastCode == 0x36 && obs.lastDetail == -100);
+    u.sendChangeCountry("a", "b", "c");
+    CHECK(u.get == "f|54|i|12|u|a|p|b|nc|c|");
+    u.sendGetGeneralConditions("en");
+    CHECK(u.post == "f|98|i|12|u|alice|l|en|");
+    u.sendGetGameIcon(3, "x");
+    CHECK(u.get == "f|90|i|12|u|alice|p|3|pn|x|");
+    u.sendGetGameIcon(-1, nullptr);
+    CHECK(u.get == "f|90|i|12|u|alice|");
+    u.sendGetPromoAttachment("z", 4);
+    CHECK(u.get == "f|205|i|12|a|4|u|z|");
+    u.sendGetPromoRss("z", 2, 7, "en");
+    CHECK(u.post == "f|204|i|12|y|2|nid|7|l|en|u|z|");
+
+    u.sendGetUserStoreData("k", "bob", false);
+    CHECK(u.get == "f|65|i|12|u|alice|k|k|n|bob|");
+    u.sendGetUserStoreData(nullptr, "bob", false);
+    CHECK(obs.lastCode == 0x40 && obs.lastDetail == -100);
+    u.sendGetUserGameList("bob", 0, 10, true);
+    CHECK(u.get == "f|63|i|12|u|alice|d|0|l|10|un|bob|");
+    u.sendGetUserGameList(nullptr, -1, 10, false);
+    CHECK(obs.lastCode == 0x3f && obs.lastDetail == -100);
+    u.sendGetUserGameTrophyList(3, "bob", false);
+    CHECK(u.get == "f|87|i|12|u|alice|p|3|n|bob|");
+
     // The upload is partial: only the null case is reproduced.
     u.sendUploadUserAvatar(nullptr);
     CHECK(obs.lastCode == 0x47 && obs.lastDetail == -100);

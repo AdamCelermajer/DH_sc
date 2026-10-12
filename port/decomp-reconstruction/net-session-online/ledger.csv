@@ -333,3 +333,36 @@ elf_address,symbol,status,source_file,notes
 0x83de3c,_ZN13GLXPlayerUser18sendChangePasswordEPcS0_S0_S0_,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,new password must equal its repeat
 0x83df58,_ZN13GLXPlayerUser18sendChangeUserNameEPcS0_S0_b,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
 0x83e068,_ZN13GLXPlayerUser14sendGetUsedAppEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,without a name the user id is used
+0x83e260,_ZN13GLXPlayerUser14sendGetCountryEPcS0_b,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83e158,_ZN13GLXPlayerUser17sendChangeCountryEPcS0_S0_,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83e384,_ZN13GLXPlayerUser24sendGetGeneralConditionsEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,sent by POST; trace text names GLXPlayerLogin as in the original
+0x83e448,_ZN13GLXPlayerUser15sendGetGameIconEiPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,optional p and pn clauses
+0x83e598,_ZN13GLXPlayerUser22sendGetPromoAttachmentEPci,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83e6a0,_ZN13GLXPlayerUser15sendGetPromoRssEPciiS0_,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,sent by POST
+0x83ee20,_ZN13GLXPlayerUser15sendGetUserInfoEPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,name clause n or un; base has no trailing bar
+0x83ef50,_ZN13GLXPlayerUser17sendGetUserAvatarEPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83f080,_ZN13GLXPlayerUser20sendGetUserBestScoreEPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83f1b0,_ZN13GLXPlayerUser17sendGetReputationEPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83f440,_ZN13GLXPlayerUser16sendGetUserStateEPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83f2e0,_ZN13GLXPlayerUser20sendGetUserStoreDataEPcS0_b,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83f570,_ZN13GLXPlayerUser19sendGetUserGameListEPciib,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,both numbers must be non-negative
+0x83e7b8,_ZN13GLXPlayerUser25sendGetUserGameTrophyListEiPcb,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,
+0x83b1ac,_ZN13GLXPlayerUser11setPasswordEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,
+0x83afb8,_ZN13GLXPlayerUser22processUserChatWarningEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,body from the ARM listing (pseudocode truncated)
+0x83b028,_ZN13GLXPlayerUser22processPromoAttachmentEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,body from the ARM listing (pseudocode truncated)
+0x83b074,_ZN13GLXPlayerUser20processRssAttachmentEPc,reconstructed,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,body from the ARM listing (pseudocode truncated)
+0x83b0c0,_ZN13GLXPlayerUser21processUserTrophyIconEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,"modes 0 and 1 stored; mode 2 token split (XP_API_PARSE helper, not identified) omitted"
+0x83b1e0,_ZN13GLXPlayerUser19processGetPromo_RSSEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,XML document reader (slim::XmlDocument) not reconstructed; empty body
+0x83b280,_ZN13GLXPlayerUser17processGetADV_RSSEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,XML document reader (slim::XmlDocument) not reconstructed; empty body
+0x83b320,_ZN13GLXPlayerUser19processUserGameIconEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,frees game icon; token parse into +0xc8/+0xdc/+0xe4 not reconstructed
+0x83b424,_ZN13GLXPlayerUser21processUserAvatarListEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears avatar list; array sizing and token parse not reconstructed
+0x83b620,_ZN13GLXPlayerUser15processUserDataEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,frees user data; token parse into +0xc0/+0xc4 not reconstructed
+0x83b724,_ZN13GLXPlayerUser21processDownloadAvatarEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears avatar data slot; copy of the text not reconstructed
+0x83b82c,_ZN13GLXPlayerUser17processUserAvatarEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,body not reconstructed
+0x83bae4,_ZN13GLXPlayerUser20processUserBestScoreEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,parse of the best score not reconstructed
+0x83bbf0,_ZN13GLXPlayerUser22processUserInformationEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears user information first; field parse not reconstructed
+0x83c040,_ZN13GLXPlayerUser17processUserTrophyEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,parse of the trophy count not reconstructed
+0x83c14c,_ZN13GLXPlayerUser16processUserStateEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears user state first; parse not reconstructed
+0x83c484,_ZN13GLXPlayerUser19processUserGameListEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,clears game list first; parse not reconstructed
+0x83c6f8,_ZN13GLXPlayerUser21processUserReputationEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,parse of the reputation not reconstructed
+0x83adec,_ZN13GLXPlayerUser16processLiveFeedsEPc,partial,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,live feed list (+0x12c _LiveFeed array) not modelled; body is empty

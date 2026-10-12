@@ -270,3 +270,196 @@ void GLXPlayerUser::sendGetUsedApp(char* name) {
     XP_DEBUG_OUT("GLXPlayerUser::sendGetUsedApp before String2Blob -> buffer = %s\n", buf);
     SendByGet(buf);
 }
+
+// 0x83e260 _ZN13GLXPlayerUser14sendGetCountryEPcS0_b
+void GLXPlayerUser::sendGetCountry(char* name, char* name2, bool flag) {
+    if (name == nullptr) {
+        if (observer_ != nullptr) observer_->OnResponseError(0x36, kInvalidArgument);
+        return;
+    }
+    char buf[kRequestBytes] = {};
+    if (name2 == nullptr) {
+        std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|nf|%d|", 0x35, static_cast<int>(GetGGI()), name,
+                      flag ? 1 : 0);
+    } else {
+        std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|n|%s|nf|%d|", 0x35, static_cast<int>(GetGGI()), name,
+                      name2, flag ? 1 : 0);
+    }
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetCountry before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83e158 _ZN13GLXPlayerUser17sendChangeCountryEPcS0_S0_
+void GLXPlayerUser::sendChangeCountry(char* name, char* password, char* country) {
+    if (name == nullptr || password == nullptr || country == nullptr) {
+        if (observer_ != nullptr) observer_->OnResponseError(0x36, kInvalidArgument);
+        return;
+    }
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|p|%s|nc|%s|", 0x36, static_cast<int>(GetGGI()), name,
+                  password, country);
+    XP_DEBUG_OUT("GLXPlayerUser::sendChangeCountry before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83e384 _ZN13GLXPlayerUser24sendGetGeneralConditionsEPc
+// Sent by POST. The trace text names GLXPlayerLogin, which the original logs here.
+void GLXPlayerUser::sendGetGeneralConditions(char* language) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|l|%s|", 0x62, static_cast<int>(GetGGI()), UidText(GetUID()),
+                  language);
+    XP_DEBUG_OUT("GLXPlayerLogin::SendGetGeneralConditions -> buffer = %s\n", buf);
+    SendByPost(buf);
+}
+
+// 0x83e448 _ZN13GLXPlayerUser15sendGetGameIconEiPc
+// The optional parts are appended only when the id is not -1 and the name is set.
+void GLXPlayerUser::sendGetGameIcon(std::int32_t gameId, char* name) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|", 0x5a, static_cast<int>(GetGGI()), UidText(GetUID()));
+    if (gameId != -1) {
+        std::strncat(buf, "p|", sizeof buf - std::strlen(buf) - 1);
+        char part[256] = {};
+        std::snprintf(part, sizeof part, "%d|", gameId);
+        std::strncat(buf, part, sizeof buf - std::strlen(buf) - 1);
+    }
+    if (name != nullptr) {
+        char part[256] = {};
+        std::snprintf(part, sizeof part, "pn|%s|", name);
+        std::strncat(buf, part, sizeof buf - std::strlen(buf) - 1);
+    }
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetAdvAttachment before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83e598 _ZN13GLXPlayerUser22sendGetPromoAttachmentEPci
+// The "u" part is appended when the name is set.
+void GLXPlayerUser::sendGetPromoAttachment(char* name, std::int32_t attachmentId) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|a|%d|", 0xcd, static_cast<int>(GetGGI()), attachmentId);
+    if (name != nullptr) {
+        char part[128] = {};
+        std::snprintf(part, sizeof part, "u|%s|", name);
+        std::strncat(buf, part, sizeof buf - std::strlen(buf) - 1);
+    }
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetPromoAttachment before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83e6a0 _ZN13GLXPlayerUser15sendGetPromoRssEPciiS0_
+// Sent by POST. The "u" part is appended when the name is set.
+void GLXPlayerUser::sendGetPromoRss(char* name, std::int32_t year, std::int32_t nid, char* language) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|y|%d|nid|%d|l|%s|", 0xcc, static_cast<int>(GetGGI()), year, nid,
+                  language);
+    if (name != nullptr) {
+        char part[128] = {};
+        std::snprintf(part, sizeof part, "u|%s|", name);
+        std::strncat(buf, part, sizeof buf - std::strlen(buf) - 1);
+    }
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetPromoRss before String2Blob -> buffer = %s\n", buf);
+    SendByPost(buf);
+}
+
+// Shared shape of the user queries below: a base request, then an optional "|n|name|"
+// or "|un|name|" clause chosen by the bool. The base of the first group has no trailing
+// '|' and the second group has one, as in the original.
+namespace {
+void AppendNameClause(char* buf, std::size_t size, const char* name, bool byUserName, const char* lead) {
+    if (name == nullptr) {
+        return;
+    }
+    char part[128] = {};
+    std::snprintf(part, sizeof part, byUserName ? "%sun|%s|" : "%sn|%s|", lead, name);
+    std::strncat(buf, part, size - std::strlen(buf) - 1);
+}
+}  // namespace
+
+// 0x83ee20 _ZN13GLXPlayerUser15sendGetUserInfoEPcb
+void GLXPlayerUser::sendGetUserInfo(char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s", 0x51, static_cast<int>(GetGGI()), UidText(GetUID()));
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserInfo before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83ef50 _ZN13GLXPlayerUser17sendGetUserAvatarEPcb
+void GLXPlayerUser::sendGetUserAvatar(char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|", 0x46, static_cast<int>(GetGGI()), UidText(GetUID()));
+    AppendNameClause(buf, sizeof buf, name, byUserName, "");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserAvatar before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83f080 _ZN13GLXPlayerUser20sendGetUserBestScoreEPcb
+void GLXPlayerUser::sendGetUserBestScore(char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s", 0x45, static_cast<int>(GetGGI()), UidText(GetUID()));
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserBestScore before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83f1b0 _ZN13GLXPlayerUser17sendGetReputationEPcb
+void GLXPlayerUser::sendGetReputation(char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s", 0x43, static_cast<int>(GetGGI()), UidText(GetUID()));
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetReputation before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83f440 _ZN13GLXPlayerUser16sendGetUserStateEPcb
+void GLXPlayerUser::sendGetUserState(char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s", 0x40, static_cast<int>(GetGGI()), UidText(GetUID()));
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserState before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83f2e0 _ZN13GLXPlayerUser20sendGetUserStoreDataEPcS0_b
+void GLXPlayerUser::sendGetUserStoreData(char* key, char* name, bool byUserName) {
+    if (key == nullptr) {
+        if (observer_ != nullptr) observer_->OnResponseError(0x40, kInvalidArgument);
+        return;
+    }
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|k|%s", 0x41, static_cast<int>(GetGGI()), UidText(GetUID()),
+                  key);
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserStoreData before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83f570 _ZN13GLXPlayerUser19sendGetUserGameListEPciib
+// Both numbers must be non-negative (the original tests their OR).
+void GLXPlayerUser::sendGetUserGameList(char* name, std::int32_t first, std::int32_t count, bool byUserName) {
+    if ((first | count) < 0) {
+        if (observer_ != nullptr) observer_->OnResponseError(0x3f, kInvalidArgument);
+        return;
+    }
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s|d|%d|l|%d", 0x3f, static_cast<int>(GetGGI()),
+                  UidText(GetUID()), first, count);
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserGameList before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}
+
+// 0x83e7b8 _ZN13GLXPlayerUser25sendGetUserGameTrophyListEiPcb
+// The "p" clause is added when the id is not -1; the name clause as in the other queries.
+void GLXPlayerUser::sendGetUserGameTrophyList(std::int32_t gameId, char* name, bool byUserName) {
+    char buf[kRequestBytes] = {};
+    std::snprintf(buf, sizeof buf, "f|%d|i|%d|u|%s", 0x57, static_cast<int>(GetGGI()), UidText(GetUID()));
+    if (gameId != -1) {
+        char part[128] = {};
+        std::snprintf(part, sizeof part, "|p|%d", gameId);
+        std::strncat(buf, part, sizeof buf - std::strlen(buf) - 1);
+    }
+    AppendNameClause(buf, sizeof buf, name, byUserName, "|");
+    XP_DEBUG_OUT("GLXPlayerUser::sendGetUserGameTrophyList before String2Blob -> buffer = %s\n", buf);
+    SendByGet(buf);
+}

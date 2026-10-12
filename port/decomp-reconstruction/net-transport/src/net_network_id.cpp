@@ -125,3 +125,30 @@ std::vector<tTRANSPORT_TYPE> CNetworkId::GetTransportTypeList() const {
     }
     return types;
 }
+
+// Accessors used by the transports (not in the original).
+void CNetworkId::SetAddress0(std::uint16_t lo, std::uint32_t hi) {
+    address0_.lo = lo;
+    address0_.pad = 0;
+    address0_.hi = hi;
+    flags_ |= 2;
+}
+
+void CNetworkId::SetAddress1(std::uint16_t lo, std::uint32_t hi) {
+    address1_.lo = lo;
+    address1_.pad = 0;
+    address1_.hi = hi;
+    flags_ |= 1;
+}
+
+bool CNetworkId::GetAddress0(std::uint16_t& lo, std::uint32_t& hi) const {
+    lo = address0_.lo;
+    hi = address0_.hi;
+    return (flags_ & 2) != 0;
+}
+
+bool CNetworkId::GetAddress1(std::uint16_t& lo, std::uint32_t& hi) const {
+    lo = address1_.lo;
+    hi = address1_.hi;
+    return (flags_ & 1) != 0;
+}

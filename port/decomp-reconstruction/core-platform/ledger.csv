@@ -302,3 +302,36 @@ elf_address,symbol,status,source_file,notes
 0x82a938,_Z17UTF8ToUnicode_OldPtPKc,partial,core-platform/src/utf_text.cpp,"legacy decoder; standard decoding assumed, control flow not reproduced"
 0x82b6cc,_Z21TranslateUtf82UnicodePPtPcii,reconstructed,core-platform/src/utf_text.cpp,
 0x82b728,_Z21TranslateUnicode2Utf8PPcPtii,reconstructed,core-platform/src/utf_text.cpp,
+0x33cc58,_ZNK17TouchScreenIPhone12getLeftBoundEv,reconstructed,core-platform/src/touch_screen_iphone.cpp,
+0x33cc64,_ZNK17TouchScreenIPhone13getRightBoundEv,reconstructed,core-platform/src/touch_screen_iphone.cpp,
+0x33cc70,_ZNK17TouchScreenIPhone11getTopBoundEv,reconstructed,core-platform/src/touch_screen_iphone.cpp,
+0x33cc7c,_ZNK17TouchScreenIPhone14getBottomBoundEv,reconstructed,core-platform/src/touch_screen_iphone.cpp,
+0x33cca8,_ZNK17TouchScreenIPhone18getTouchIDInRegionERKN6glitch4core4rectIfEE,reconstructed,core-platform/src/touch_screen_iphone.cpp,"first active, touched slot in the rect; base getTouchIDInRegion made virtual"
+0x33ccac,_ZNK17TouchScreenIPhone15isRegionPressedERKN6glitch4core4rectIfEE,skipped,core-platform/src/touch_screen_iphone.cpp,float tail call to __aeabi_fmul over a swipe-orientation value; needs the ARM listing (same open item as TouchScreenBase::isRegionPressed)
+0x33ccb0,_ZN17TouchScreenIPhoneD1Ev,skipped,core-platform/src/touch_screen_iphone.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33cce4,_ZN17TouchScreenIPhoneD0Ev,skipped,core-platform/src/touch_screen_iphone.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33cd00,_ZN17TouchScreenIPhoneD2Ev,skipped,core-platform/src/touch_screen_iphone.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33cd34,_ZN17TouchScreenIPhoneC1Efffff,reconstructed,core-platform/src/touch_screen_iphone.cpp,"constructor: bounds from left/top and width/height, scale stored at +0x1b0"
+0x33cdcc,_ZN17TouchScreenIPhoneC2Efffff,reconstructed,core-platform/src/touch_screen_iphone.cpp,constructor (C2 copy of C1)
+0x33ceb4,_ZN17TouchScreenIPhone10touchEndedEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchEnded assumed
+0x33cf84,_ZN17TouchScreenIPhone14touchCancelledEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchCancelled assumed
+0x33d054,_ZN17TouchScreenIPhone10touchBeganEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchBegan assumed
+0x33d124,_ZN17TouchScreenIPhone10touchMovedEffdiffl,partial,core-platform/src/touch_screen_iphone.cpp,id lookup visible; forwarding to TouchScreenBase::touchMoved assumed
+0x33d1f4,_ZNK14TouchScreenPS312getLeftBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
+0x33d1fc,_ZNK14TouchScreenPS313getRightBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
+0x33d204,_ZNK14TouchScreenPS311getTopBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
+0x33d20c,_ZNK14TouchScreenPS314getBottomBoundEv,reconstructed,core-platform/src/touch_screen_ps3.cpp,returns 0
+0x33d21c,_ZN14TouchScreenPS37onEventERKN6glitch6SEventE,reconstructed,core-platform/src/touch_screen_ps3.cpp,pointer events mapped to began/moved/ended
+0x33d340,_ZN14TouchScreenPS3D1Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33d390,_ZN14TouchScreenPS3D0Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33d3ac,_ZN14TouchScreenPS3D2Ev,skipped,core-platform/src/touch_screen_ps3.cpp,"compiler-generated destructor, nothing to rebuild"
+0x33d3f4,_ZN14TouchScreenPS3C1Ev,partial,core-platform/src/touch_screen_ps3.cpp,data address stored at +0x1b4 not recovered; nullptr used
+0x33d440,_ZN14TouchScreenPS3C2Ev,partial,core-platform/src/touch_screen_ps3.cpp,data address stored at +0x1b4 not recovered; nullptr used
+0x876364,_ZL11bit_reversej,reconstructed,core-platform/src/vorbis_util.cpp,
+0x8763e0,_ZL4ilogi,reconstructed,core-platform/src/vorbis_util.cpp,"bit-length table assumed to be 0,1,2,2,3,3,3,3,4..4 (the table is not readable here)"
+0x8764d8,_ZL14uint32_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
+0x8764f8,_Z13point_comparePKvS0_,reconstructed,core-platform/src/vorbis_util.cpp,
+0x876518,_ZL22imdct_step3_iter0_loopiPfiiS_,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
+0x8767cc,_ZL24imdct_step3_inner_r_loopiPfiiS_i,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
+0x876b34,_ZL7iter_54Pf,partial,core-platform/src/vorbis_util.cpp,listing reduces to a float subtraction whose result is dropped; no-op here
+0x8784f4,_Z11dct_iv_slowPfi,partial,core-platform/src/vorbis_util.cpp,listing only copies the input into a stack buffer; the DCT is not visible

@@ -3,19 +3,9 @@
 #include <cstddef>
 #include <cstring>
 
-namespace {
-// Owned copy of a string. Empty and null inputs give nullptr, as the original's
-// XP_API_STRLEN check does before its XP_API_STRNEW copy.
-std::unique_ptr<char[]> OwnedCopy(const char* text) {
-    if (text == nullptr || std::strlen(text) == 0) {
-        return nullptr;
-    }
-    const std::size_t length = std::strlen(text) + 1;
-    std::unique_ptr<char[]> copy(new char[length]);
-    std::memcpy(copy.get(), text, length);
-    return copy;
-}
+#include "net-session-online/owned_text.hpp"
 
+namespace {
 // Bounds shared by the indexed getters: index is at least 0 and below the size of
 // the stored list. The avatar getters also check the avatar count (+0x114).
 bool InRange(std::int32_t index, std::size_t size) {
@@ -204,7 +194,7 @@ void GLXPlayerUser::clearUserGameList() {
 }
 
 // Test seams. These are not in the original.
-void GLXPlayerUser::SetUserNameForTest(const char* name) { userName_ = OwnedCopy(name); }
+void GLXPlayerUser::SetUserNameForTest(const char* name) { userName_ = OwnedNonEmpty(name); }
 
 void GLXPlayerUser::SetGameForTest(std::int32_t index, const char* pid, const char* name,
                                    std::int32_t trophy) {
@@ -212,8 +202,8 @@ void GLXPlayerUser::SetGameForTest(std::int32_t index, const char* pid, const ch
     if (gamePid_.size() <= i) gamePid_.resize(i + 1);
     if (gameName_.size() <= i) gameName_.resize(i + 1);
     if (gameTrophy_.size() <= i) gameTrophy_.resize(i + 1, -1);
-    gamePid_[i] = OwnedCopy(pid);
-    gameName_[i] = OwnedCopy(name);
+    gamePid_[i] = OwnedNonEmpty(pid);
+    gameName_[i] = OwnedNonEmpty(name);
     gameTrophy_[i] = trophy;
 }
 
@@ -223,8 +213,8 @@ void GLXPlayerUser::SetAvatarForTest(std::int32_t index, const char* key, const 
     if (avatarKeys_.size() <= i) avatarKeys_.resize(i + 1);
     if (avatarLastUpdates_.size() <= i) avatarLastUpdates_.resize(i + 1);
     if (avatarStatus_.size() <= i) avatarStatus_.resize(i + 1, 0);
-    avatarKeys_[i] = OwnedCopy(key);
-    avatarLastUpdates_[i] = OwnedCopy(lastUpdate);
+    avatarKeys_[i] = OwnedNonEmpty(key);
+    avatarLastUpdates_[i] = OwnedNonEmpty(lastUpdate);
     avatarStatus_[i] = status;
     if (avatarCount_ <= index) avatarCount_ = index + 1;
 }
