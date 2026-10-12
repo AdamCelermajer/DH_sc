@@ -43,16 +43,21 @@ std::string actor_clip_name(std::int32_t dictionary_id) {
 namespace dh::foundation::campaign_host {
 
 std::set<std::string> collect_script_gameplay_actors(const OriginalCampaignRuntime& runtime) {
-    std::set<std::string> spawned, retired;
+    // B154: kind 30 SpawnCharacter, 31 PutCharacterInIdle and 44 KillActor name the actor at string 12,
+    // kind 29 PutCharacterInLimbus at string 16. A by-name Idle or Kill is a gameplay lifecycle step (see header).
+    std::set<std::string> spawned, retired, gameplay_named;
     for (const auto& script : runtime.scripts()) {
         for (const auto& command : script.commands) {
-            if (command.kind != 30 && command.kind != 29) continue;
-            const auto name = command.strings.find(command.kind == 30 ? 12u : 16u);
+            if (command.kind != 30 && command.kind != 29 && command.kind != 31 && command.kind != 44) continue;
+            const auto name = command.strings.find(command.kind == 29 ? 16u : 12u);
             if (name == command.strings.end() || name->second.empty()) continue;
-            (command.kind == 30 ? spawned : retired).insert(name->second);
+            if (command.kind == 30) spawned.insert(name->second);
+            else if (command.kind == 29) retired.insert(name->second);
+            else gameplay_named.insert(name->second);
         }
     }
-    for (const auto& name : retired) spawned.erase(name);
+    for (const auto& name : retired)
+        if (!gameplay_named.count(name)) spawned.erase(name);
     return spawned;
 }
 

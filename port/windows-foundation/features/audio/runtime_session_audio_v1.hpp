@@ -144,6 +144,9 @@ public:
     // B111: NativePlaySoundFX(name) from an authored in-game menu handler (e.g. "MenuSelect"): plain Play of the named
     // generated source sound. Unknown names are a source no-op (returns true).
     bool play_named_plain(const char* name,std::string& error);
+    // B154: LuaScript::_PlayMusic 0x37e420 (AI script PlayMusic(name, fade)): GetMemberIDByString<Sounds>(name), then
+    // VoxSoundManager::PlayMusic(id, change=1, 0, fade) - the same owner as script_play_music. Unknown names are a no-op.
+    bool play_named_music(const char* name,int fade_ms,std::string& error);
     // Typed diagnostics for original plain Play; retains ordinal/UID/own token.
     NamedUiCueResultV1 play_named_plain_result(const char* name,std::string& error);
     bool script_stop_plain(std::int32_t ordinal,int fade_ms,std::string& error);

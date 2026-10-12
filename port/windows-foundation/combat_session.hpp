@@ -473,6 +473,11 @@ public:
     bool request_actor_attack(ActorId,ActorId target,double dt,std::string& error);
     // v20 SCRIPTSVC: true for a bound scripted animation-only actor (rejects combat commands; never an enemy owner).
     bool is_animation_only(ActorId) const;
+    // B154: the source plan and sequence policies this session prepared for an actor (null when absent/detached).
+    // Borrow only while the current actor_binding_lease is retained; external source programs (monster skills)
+    // select from them through play_actor_source_sequence.
+    const OriginalCombatVisualPlan* actor_source_plan(ActorId) const noexcept;
+    const OriginalSequencePolicies* source_sequence_policies() const noexcept;
     bool script_kill_actor(ActorId,std::string& error);
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);

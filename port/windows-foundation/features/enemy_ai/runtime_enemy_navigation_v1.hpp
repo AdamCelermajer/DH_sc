@@ -60,6 +60,9 @@ public:
     bool stop(CombatSession&, ActorState&, std::string& error);
     // B077: whether the cached route of this actor found a path (source HasPath for follower scripts).
     bool route_found(ActorId id) const noexcept { const auto r = routes_.find(id); return r != routes_.end() && r->second.found; }
+    // B154: source MoveTo(point) + HasPath() as a pure query: the same sewn-floor FindPath with the actor's PFObject,
+    // without caching a route, selecting locomotion or moving the actor (a relative WarpTo follows it in the script).
+    bool path_exists(CombatSession&, const ActorState&, const std::array<float,3>& goal, bool& found, std::string& error);
 
 private:
     struct ActorRoute {

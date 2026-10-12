@@ -149,6 +149,36 @@ bool RuntimeEnemyNavigationV1::approach(CombatSession& session, ActorState& owne
     return move_to(session, owner, target.transform.position, target.id, false, error);
 }
 
+bool RuntimeEnemyNavigationV1::path_exists(CombatSession& session, const ActorState& owner,
+        const std::array<float,3>& goal, bool& found, std::string& error) {
+    error.clear();found=false;reset_for_session(session.actor_binding_lease());
+    if (&owner != session.actor(owner.id)) return fail(error,"Path query requires its live session actor");
+    const dh2::navigation::NavigationObject* pf = nullptr;
+    if (!validate_actor_geometry(owner.id, pf, error)) return false;
+    auto& world = *config_.navigation_world->floors;
+    const std::uint64_t capacity64 = std::uint64_t(world.graph.node_count) + 1;
+    if (!capacity64 || capacity64 > std::numeric_limits<std::uint32_t>::max())
+        return fail(error, "Original route graph exceeds bounded path storage");
+    const auto capacity = static_cast<std::uint32_t>(capacity64);
+    std::vector<dh2::navigation::PathSegment> segments(capacity);
+    std::vector<std::uint32_t> search(capacity);
+    dh2::navigation::PathObject path{};
+    path.route.flags = pf->motion.flags;
+    path.route.radius = pf->radius;
+    path.segments = segments.data();
+    path.capacity = capacity;
+    std::copy(owner.transform.position.begin(), owner.transform.position.end(), path.position);
+    dh2::navigation::RouteResult result{};
+    result.search.path = search.data();
+    result.search.path_capacity = capacity;
+    if (dh2::floors::find_path(world, path, goal.data(), std::numeric_limits<unsigned>::max(), result))
+        return fail(error, "Shared sewn-floor path kernel rejected the path query");
+    ++report_.paths_built;
+    found = result.found != 0;
+    if (!found) ++report_.paths_unreachable;
+    return true;
+}
+
 bool RuntimeEnemyNavigationV1::move_to(CombatSession& session, ActorState& owner,
         const std::array<float,3>& goal, ActorId goal_identity, bool ignore_collisions, std::string& error) {
     error.clear();reset_for_session(session.actor_binding_lease());
