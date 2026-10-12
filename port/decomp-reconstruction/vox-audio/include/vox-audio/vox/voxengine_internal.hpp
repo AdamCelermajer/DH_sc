@@ -24,12 +24,13 @@ namespace vox {
 class DriverInterface;
 class PriorityBankManager;
 class DataObj;
+class FileSystemInterface;
 
 class VoxEngineInternal {
 public:
     VoxEngineInternal();                                                   // 0x869a94, 0x869d8c (partial)
     virtual ~VoxEngineInternal();                                          // 0x86be68 (D1), 0x86c02c (D2)
-    virtual void Initialize();                                             // +0x08
+    virtual FileSystemInterface* Initialize();                             // +0x08 (returns FileSystemInterface::GetInstance())
     virtual void Suspend();                                                // +0x0c
     virtual void Resume();                                                 // +0x10
     virtual bool IsSuspended();                                            // +0x14

@@ -39,8 +39,8 @@ DataObj* VoxEngineInternal::GetDataObject(DataHandle& data) {
 }
 
 // 0x8687b0 _ZN3vox17VoxEngineInternal11GetUserDataERNS_10DataHandleE
-// Partial. The original returns the 32-bit user word (-1 without an object). The port's word is
-// pointer-sized; the header's int return keeps only its low 32 bits.
+// Returns the user word as the int the signature gives: -1 without an object. The port keeps the
+// word pointer-sized (DataObj::user_data_), so the value is its low 32 bits.
 int VoxEngineInternal::GetUserData(DataHandle& data) {
     data_objects_access_.GetReadAccess();
     int user = -1;

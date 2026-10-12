@@ -17,10 +17,8 @@ namespace vox {
 VoxEngineInternal* VoxEngineInternal::s_voxEngineInternal = nullptr;
 
 // 0x869d3c _ZN3vox17VoxEngineInternal20GetVoxEngineInternalEv
-// Partial: the original allocates 0x5a0 bytes and runs the constructor at 0x869a94, which is
-// not reconstructed. The port allocates sizeof(VoxEngineInternal) and placement-constructs
-// the object with the implicit default constructor, so the members start with the defaults
-// in the header and the 608-byte constructor's own writes are missing.
+// The original allocates 0x5a0 bytes and runs the constructor at 0x869a94. The port allocates
+// sizeof(VoxEngineInternal) and runs the port's constructor (its partial items are on that row).
 VoxEngineInternal* VoxEngineInternal::GetVoxEngineInternal() {
     if (s_voxEngineInternal != nullptr) {
         return s_voxEngineInternal;

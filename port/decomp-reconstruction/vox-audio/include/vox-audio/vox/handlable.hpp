@@ -49,6 +49,8 @@ public:
     void Add(Handlable* handlable);                   // 0x8648f4: keyed by handlable->id
     void Merge(HandlableContainer* other);            // 0x8649c8: Add every value of other
     Handlable* Detach(std::int64_t id);               // 0x86a504: removes without deleting
+    // Sets the id the next GetFreeHandleId returns (the VoxEngineInternal constructor sets 1).
+    void SetFirstHandleId(std::uint64_t id) { next_id_ = id; }
 
 private:
     Map map_;                       // +0x04..+0x10 (tree header and node count)

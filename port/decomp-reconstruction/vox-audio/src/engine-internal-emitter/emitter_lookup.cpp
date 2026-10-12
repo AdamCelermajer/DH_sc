@@ -9,9 +9,10 @@ namespace vox {
 
 // 0x868f9c _ZN3vox17VoxEngineInternal7GetDataERNS_13EmitterHandleE
 // A missing emitter, or one with no data object, gives the empty data handle.
-// Partial: the Hex-Rays body releases the emitter read access twice on the no-data path
-// (once before the branch and once at the shared exit). The port releases it once. The ARM
-// listing was not checked for the second release.
+// Partial: the emitter with a null data pointer (+0x118) releases the emitter read access twice
+// in the binary (asm 0x869028 and 0x869030, checked). A missing emitter releases it once. The
+// port releases once on both paths, because a second release of an unlocked access is not
+// reproduced on purpose.
 DataHandle VoxEngineInternal::GetData(EmitterHandle& emitter) {
     emitter_access_.GetReadAccess();
     EmitterObj* obj = GetEmitterObject(emitter);

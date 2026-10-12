@@ -945,3 +945,28 @@ group loop reads its uid into var_118 (asm 0x88df04), a slot the sound loop also
 int attributes, so the value before its first element is not established. The bank and event
 loops' uid query was not traced (the "uid" string is loaded at 0x88e298 for one of them). Until
 they are traced, a group, bank or event without a uid is still skipped.
+
+## Wave 11 (w11-partial-2): partial-row sweep
+
+Re-decided from Hex-Rays and the asm listings (decomp_asm.py). Rows are in ledger.parts/w11-partial-2.csv.
+
+- Reconstructed now (asm checked): EmitterHandle D1/D2/D0, DataHandle copy C1/C2, operator=, D1/D2/D0,
+  GetUserData, CreateEmitterAsync, Initialize, AddPriorityBank, GetVoxEngineInternal.
+- Decisions:
+  - VoxEngineInternal::Initialize (virtual +0x08) returns FileSystemInterface* (the GetInstance result, tail call in the binary).
+    CreateDriver is declared at the top of voxengine_internal_lifecycle.cpp; it is defined in files-xml-zip-stream/create_driver.cpp.
+  - PriorityBankManager::AddPriorityBank returns the new index, or -1 when the count does not equal the bank count (asm end compare).
+    The bank keeps its default values in the -1 case. tests/priority_bank_test.cpp checks index 2.
+  - HandlableContainer::SetFirstHandleId (handlable.hpp, one inline setter). The VoxEngineInternal constructor sets 1 on the four containers
+    (next-id words at container +0x18: data objects +0x20, pending data +0x40, emitters +0x90, pending emitters +0xb0).
+  - The destructor calls FileSystemInterface::DestroyInstance after the driver and before s_voxEngineInternal is cleared.
+  - GetData: the binary releases emitter_access_ twice on the null-data path. Kept partial, not reproduced.
+  - Mutex::Unlock returns void in the port. SetGroupGain, SetMasterGain, EmitterObj SetGain, SetPitch and Resume return the unlock int in the
+    binary. Kept partial until the mutex wrapper returns a result.
+- Named open items:
+  - Decoder cursor parameter block: the words at +4..+0x10 of the object returned by decoder vtable +0x10 (channels, rate, bits, length).
+    Rows 0x86b144, 0x86b694, 0x86c5ec, 0x86ca08 read them; the port cursor has no such block.
+  - VoxEngineInternal intrusive list sentinel at +0x43c/+0x440 and words at +0x598 and +0x59c: no owner in the port (rows 0x869a94, 0x869d8c, 0x86be68, 0x86c010, 0x86c02c).
+  - Default PriorityBankManager constructor: the binary leaves the bank count at +0 unwritten (rows 0x869858, 0x8698a0).
+- Slot names used: driver CreateDriverSource +0x44 and DestroyDriverSource +0x48; source AllowBufferReference +0x48 and GetBufferCount +0x54;
+  cursor AllowBufferReference +0x34 (decoder.hpp).
