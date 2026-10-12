@@ -146,6 +146,9 @@ public:
     // Script_FlushMessages 0x460a58: flushes the DialogMsg and StatusMsg
     // MenuMessageManagers (Achievement/OnlineStatus are not reconstructed).
     bool flush_source_messages(std::string& error);
+    // Script_ChangeLevel (0x45cba0) enters the same deferred LoadLevel
+    // transaction as NativeGoToZone through the retained launch queue.
+    void queue_level_transition(const std::string& destination,double raw_entry_point);
     // Script_LockTutorial 0x45925c: clear the tutorial byte, then saveSettings.
     bool lock_source_tutorial(std::int32_t id,std::string& error);
     // ScriptManager commands 74/75/76 and the authored Native callbacks share

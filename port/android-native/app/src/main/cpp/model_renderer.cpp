@@ -7479,6 +7479,7 @@ bool NativeCryptRoomRuntime::detach_source_move_in_zones() noexcept {
  return true;
 }
 
+int native_room_clear_fail_line=0;
 bool NativeCryptRoomRuntime::clear() noexcept {
  // Authored Faeries retain a BuffOwner beside their factory Record rather
  // than inside an ObjectActor SpawnOwner. Retire that exact owner while the
@@ -7489,15 +7490,15 @@ bool NativeCryptRoomRuntime::clear() noexcept {
   if(!owner.record||owner.record->character.identity!=owner.identity||
      owner.buffs->character_identity()!=owner.identity||
      owner.buff_properties.resolved!=owner.properties.resolved.data())
-   return false;
+   return (native_room_clear_fail_line=__LINE__,false);
   dh2::character_player_buffs_v1::Result removed{},retired{};
   if(owner.buffs->remove_all(&removed)!=dh2::character_player_buffs_v1::Status::complete||
      owner.buffs->retire(&retired)!=dh2::character_player_buffs_v1::Status::complete)
-   return false;
+   return (native_room_clear_fail_line=__LINE__,false);
   owner.buffs.reset();owner.buff_properties={};
  }
- if(!detach_source_move_in_zones())return false;
- if(!detach_source_doors())return false;
+ if(!detach_source_move_in_zones())return (native_room_clear_fail_line=__LINE__,false);
+ if(!detach_source_doors())return (native_room_clear_fail_line=__LINE__,false);
  for(auto& container:source_destructible_containers)if(container&&container->owner.object) {
   if(container->navigation_obstacle_ready&&container->navigation_object_ready&&
      level.native_floor) {
@@ -7505,29 +7506,29 @@ bool NativeCryptRoomRuntime::clear() noexcept {
     &level.native_floor->collision_world,&live_registry,
     &container->navigation_object,
     reinterpret_cast<std::uintptr_t>(container->owner.object),150.f,10.f,0,0};
-   if(dh2_nav_init_obstacle(&remove))return false;
+   if(dh2_nav_init_obstacle(&remove))return (native_room_clear_fail_line=__LINE__,false);
    container->navigation_obstacle_ready=0;
   }
   if(container->body) {
-   try {actor_world.destroy(container->body);}catch(...) {return false;}
+   try {actor_world.destroy(container->body);}catch(...) {return (native_room_clear_fail_line=__LINE__,false);}
   }
   container->owner.object->physical_present_732=0;
   release_source_container_visual_gpu(container->visual_draws,
       container->visual_images,program!=0);
   if(container->owner.object->visual_object_2d8==container->visual_identity)
    container->owner.object->visual_object_2d8=0;
-  if(container->visual&&!container->visual->detach())return false;
+  if(container->visual&&!container->visual->detach())return (native_room_clear_fail_line=__LINE__,false);
   container->visual.reset();
   bool removed_room=false;
   if(manager.remove_room_object(container->owner.object->identity,&removed_room)!=
-      dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+      dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  for(std::size_t index=0;index<zones.zone_count();++index) {
   dh2::crypt_room_zone_owner_v1::ZoneView zone{};
   while(zones.zone_at(index,&zone)&&zone.member_count) {
    const auto identity=zone.members[0];
    const auto status=zones.forget_source_unlinked_actor(zone.module_index,identity);
-   if(status!=dh2::crypt_room_zone_owner_v1::Status::complete)return false;
+   if(status!=dh2::crypt_room_zone_owner_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
    const auto actor=actors.find(identity);
    if(actor!=actors.end()&&actor->second) {
     actor->second->room_zone_2f4=0;actor->second->in_room_list_2ef=0;
@@ -7537,10 +7538,10 @@ bool NativeCryptRoomRuntime::clear() noexcept {
   if(zones.zone_at(index,&zone)) {
    bool removed=false;
    if(manager.remove_room_object(zone.identity,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
   }
  }
- if(zones.clear()!=dh2::crypt_room_zone_owner_v1::Status::complete)return false;
+ if(zones.clear()!=dh2::crypt_room_zone_owner_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
  for(auto* actor:actor_records)if(actor) {
   actor->source_room_zone_managed=false;
   actor->room_zone_2f4=0;actor->in_room_list_2ef=0;
@@ -7550,29 +7551,34 @@ bool NativeCryptRoomRuntime::clear() noexcept {
  bool removed=false;
  if(player_identity) {
   if(manager.remove_no_room_object(player_identity,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  for(const auto handle:source_handles) {
   const auto faery=std::find_if(faeries.begin(),faeries.end(),[&](const auto& item){
    return item.source.source_handle==handle&&item.record;
   });
   if(faery!=faeries.end()) {
-   if(!character_factory)return false;
+   if(!character_factory)return (native_room_clear_fail_line=__LINE__,false);
+   bool external_skills_cleaned=false;
    if(faery->record) {
     if(faery->record->source_external_ais) {
      if(faery->external_skills&&faery->external_skills->prepared()) {
+      external_skills_cleaned=true;
       std::string cleanup_error;
       for(const auto list:{dh2::character_ai_set_skills_and_spells::List::skill,
                            dh2::character_ai_set_skills_and_spells::List::faery}) {
        dh2::native::ghost_skill_update_v1::CleanupResult cleanup_result{};
-       if(!dh2::native::ghost_skill_update_v1::cleanup_list(
+       // cleanup_list returns 0 on success.
+       if(dh2::native::ghost_skill_update_v1::cleanup_list(
             *faery->record->source_external_ais,*faery->external_skills,
-            faery->identity,list,cleanup_result,cleanup_error))return false;
+            faery->identity,list,cleanup_result,cleanup_error)){
+        __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Faery skill cleanup failed | list %d | %s",int(list),cleanup_error.c_str());
+        return (native_room_clear_fail_line=__LINE__,false);}
       }
      }
      std::string ais_error;
      const auto reset=faery->record->source_external_ais->reset(ais_error);
-     if(reset!=dh2::monster_external_script::Status::complete)return false;
+     if(reset!=dh2::monster_external_script::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
      if(faery->native_ai&&faery->native_ai->character_identity==faery->identity&&
         faery->native_ai->state.owner_04==faery->identity) {
       const auto vm_identity=faery->record->external_ais.identity;
@@ -7583,7 +7589,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
          (faery->native_ai->state.active_ais_1c&&
           faery->native_ai->state.active_ais_1c!=vm_identity)||
          (faery->native_ai->state.alternate_ais_20&&
-          faery->native_ai->state.alternate_ais_20!=vm_identity))return false;
+          faery->native_ai->state.alternate_ais_20!=vm_identity))return (native_room_clear_fail_line=__LINE__,false);
       faery->native_ai->state.active_ais_1c=0;
       faery->native_ai->state.alternate_ais_20=0;
      }
@@ -7594,32 +7600,34 @@ bool NativeCryptRoomRuntime::clear() noexcept {
      faery->record->source_external_script_path.clear();
     }
     if(faery->external_skills) {
-     if(faery->external_skills->prepared())return false;
+     // Prepared skill scripts must have run their _SkillCleanUp/_SpellCleanUp
+     // above on the same AIS VM before the runtime is discarded.
+     if(faery->external_skills->prepared()&&!external_skills_cleaned)return (native_room_clear_fail_line=__LINE__,false);
      faery->external_skills.reset();
      faery->last_external_skills={};
     }
     if(faery->record->faery_controller.navigation_ready) {
-     if(!level.native_floor)return false;
+     if(!level.native_floor)return (native_room_clear_fail_line=__LINE__,false);
      std::string navigation_error;
      const auto navigation_status=
          dh2::character_faery_controller_v1::retire_navigation(
              *faery->record,level.native_floor->collision_world,live_registry,
              navigation_error);
      if(navigation_status!=
-         dh2::character_faery_controller_v1::Status::complete)return false;
+         dh2::character_faery_controller_v1::Status::complete)return (native_room_clear_fail_line=__LINE__,false);
     }
     std::string physical_error;
     const auto detached=dh2::character_faery_source_physical_owner_v1::detach(
         *faery->record,physical_error);
     if(detached!=dh2::character_faery_source_physical_owner_v1::Status::complete)
-     return false;
+     return (native_room_clear_fail_line=__LINE__,false);
     faery->physics=0;
    }
    dh2::character_runtime_factory_v1::Result result{};
    std::string error;
    const auto status=character_factory->retire(handle,&result,error);
    if(status!=dh2::character_runtime_factory_v1::Status::complete&&
-      status!=dh2::character_runtime_factory_v1::Status::not_found)return false;
+      status!=dh2::character_runtime_factory_v1::Status::not_found)return (native_room_clear_fail_line=__LINE__,false);
    faery->registered=false;
    faery->constructed=false;
    faery->record=nullptr;
@@ -7632,20 +7640,20 @@ bool NativeCryptRoomRuntime::clear() noexcept {
    if(!character_factory||!(*script_npc)->actor||!(*script_npc)->record||
       (*script_npc)->record->source_handle!=handle||
       (*script_npc)->record->character.identity!=(*script_npc)->actor->identity||
-      (*script_npc)->record->source_handle<0)return false;
+      (*script_npc)->record->source_handle<0)return (native_room_clear_fail_line=__LINE__,false);
    const auto retired_identity=(*script_npc)->actor->identity;
    std::string cleanup_error;
    if(!retire_script_summon_runtime(**script_npc,cleanup_error)) {
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
      "CreateNPC lifetime retirement stopped before factory teardown | handle %d | %s",
      handle,cleanup_error.empty()?"same-owner cleanup failed":cleanup_error.c_str());
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
    }
    dh2::character_runtime_factory_v1::Result result{};
    std::string error;
    const auto status=character_factory->retire(handle,&result,error);
    if(status!=dh2::character_runtime_factory_v1::Status::complete&&
-      status!=dh2::character_runtime_factory_v1::Status::not_found)return false;
+      status!=dh2::character_runtime_factory_v1::Status::not_found)return (native_room_clear_fail_line=__LINE__,false);
    if((*script_npc)->record||(*script_npc)->actor->identity||
       (*script_npc)->actor->native_ai||(*script_npc)->actor->spawn_owner||
       (*script_npc)->actor->source_inventory||
@@ -7655,7 +7663,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
       source_char_ai.by_character.find(retired_identity)!=
           source_char_ai.by_character.end()||
       native_characters.contains_identity(retired_identity))
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
    continue;
   }
   const auto actor=std::find_if(actor_records.begin(),actor_records.end(),
@@ -7668,20 +7676,20 @@ bool NativeCryptRoomRuntime::clear() noexcept {
     if(dh2::native::character_roster_transaction::remove_after_remove(
         &manager,&native_characters,handle,&(*actor)->search_projection.character,
         &result)!=dh2::native::character_roster_transaction::Status::complete)
-     return false;
+     return (native_room_clear_fail_line=__LINE__,false);
    } else if(!listed&&occurrences==0) {
     if(manager.remove_object(handle,&removed)!=
-        dh2::object_manager_runtime_owner_v1::Status::ok)return false;
-   } else return false;
+        dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
+   } else return (native_room_clear_fail_line=__LINE__,false);
   } else if(handle==3&&manager.find_by_source_handle(handle)) {
    dh2::native::character_roster_transaction::Result result{};
    if(dh2::native::character_roster_transaction::remove_after_remove(
        &manager,&native_characters,handle,&prince_search_projection.character,
        &result)!=dh2::native::character_roster_transaction::Status::complete)
-    return false;
+    return (native_room_clear_fail_line=__LINE__,false);
   } else {
    if(manager.remove_object(handle,&removed)!=
-       dh2::object_manager_runtime_owner_v1::Status::ok)return false;
+       dh2::object_manager_runtime_owner_v1::Status::ok)return (native_room_clear_fail_line=__LINE__,false);
  }
  }
  for(auto& faery:faeries) {
@@ -7689,13 +7697,13 @@ bool NativeCryptRoomRuntime::clear() noexcept {
       faery.identity) {
    std::string link_error;
    if(!prince_character.set_faery_character_420(
-       prince_character.identity(),0,link_error))return false;
+       prince_character.identity(),0,link_error))return (native_room_clear_fail_line=__LINE__,false);
   }
-  if(!retire_authored_faery_char_ai(faery))return false;
+  if(!retire_authored_faery_char_ai(faery))return (native_room_clear_fail_line=__LINE__,false);
   release_authored_faery_visual(faery,program!=0);
   faery.record=nullptr;
  }
- if(character_factory&&character_factory->size()!=0)return false;
+ if(character_factory&&character_factory->size()!=0)return (native_room_clear_fail_line=__LINE__,false);
  character_factory.reset();
  source_move_in_zones.clear();
  source_exit_level_zones.clear();
@@ -21606,7 +21614,7 @@ void deactivate(bool defer_source_level_finish){
  menu_background=false;class_scene=false;
  if(active_crypt_room_runtime){
   if(!active_crypt_room_runtime->clear()){
-   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Crypt RoomZone owner retirement failed; preserving shared ObjectManager and actor storage");
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Crypt RoomZone owner retirement failed at line %d; preserving shared ObjectManager and actor storage",native_room_clear_fail_line);
    return;
   }
   active_crypt_room_runtime.reset();
@@ -23455,6 +23463,9 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       c.fields[3].kind==DH2_SCRIPT_VALUE_I32&&c.fields[4].kind==DH2_SCRIPT_VALUE_STRING&&
       c.fields[4].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
       c.fields[5].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 64: // ChangeLevel(entry I, level S)
+  return c.field_count==2&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+      native_script_name_field(c,1);
  case 77: // LockTutorial(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
  case 24: case 25: // LockCharacter/UnlockCharacter(S)
@@ -23641,6 +23652,15 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    const auto status=native_fx_owner->PlayAnimFXSet(c.fields[0].value.i32,position,nullptr,
        matched,launched,error);
    return status==dh2::native_visual_fx_manager_v1::Status::ok?1:-1;
+  }
+  case 64: {
+   // Script_ChangeLevel::Execute 0x45cba0: SaveAllPlayers then
+   // Application::LoadLevel(LevelList row, entry). The deferred transition
+   // owner performs those saves and the load after this frame.
+   if(!native_gameplay_ui)return -1;
+   native_gameplay_ui->queue_level_transition(native_script_string(c,1),
+       double(c.fields[0].value.i32));
+   return 1;
   }
   case 77: {
    // Script_LockTutorial::Execute 0x45925c.
@@ -31016,7 +31036,26 @@ bool native_host_player_manager_activation_ready() noexcept{
 }
 bool native_host_run_player_manager_activation(std::string& error){
  if(!native_host_player_manager_activation_ready()){
-  error="PlayerManager active sync preflight lacks the canonical loaded Level/Player/Save generation";return false;
+  {
+   const auto& pm=native_host.player_manager_update;const auto source=source_level_owner.snapshot();
+   auto* record=native_host.record_for(native_host.host_projection());
+   auto* level_member=record?record->at(0x310):nullptr;
+   std::string f;
+   if(!native_host.registry_owner)f+=" registry";
+   if(pm.manager_identity!=native_host.registry.manager_identity)f+=" manager";
+   if(!pm.created_character_count_known||!pm.remove_flag_6c9_known)f+=" known";
+   if(pm.manager_remove_flag_6c9!=1)f+=" 6c9="+std::to_string(pm.manager_remove_flag_6c9);
+   if(pm.local_death_count_6c4!=1)f+=" 6c4="+std::to_string(pm.local_death_count_6c4);
+   if(pm.counted_player_character!=prince_character.identity())f+=" counted";
+   if(!native_host_player_manager_owners_ready())f+=" owners";
+   if(!level_member||!level_member->constructed||level_member->header.value!=prince_combat.savegame->level())f+=" level "+std::to_string(level_member?level_member->header.value:-99)+"/"+std::to_string(prince_combat.savegame->level())+" constructed "+std::to_string(level_member?int(level_member->constructed):-1)+" meta "+std::to_string(native_host.metadata_record!=nullptr)+" rec==meta "+std::to_string(record==native_host.metadata_record);
+   if(source.phase!=dh2::source_level_owner_v1::Phase::active)f+=" phase";
+   if(source.source_level_state!=38)f+=" state="+std::to_string(source.source_level_state);
+   if(source.transition_flag_144)f+=" t144";
+   if(source.player_character!=prince_character.identity())f+=" player";
+   if(prince_combat.life.dead)f+=" dead";
+   error="PlayerManager active sync preflight lacks the canonical loaded Level/Player/Save generation |"+f;return false;
+  }
  }
  const auto services=native_host_player_manager_update_services();
  dh2::player_manager_update_v1::Result result{};
@@ -31667,9 +31706,12 @@ bool native_level_save_all_players_v1(std::string& error) {
   error="Level::SG_SaveAllPlayer currently supports only the retained offline local Player";
   return false;
  }
+ // The local PlayerInfo is the active metadata record (its +0x660 is set when
+ // the Player is added); the fallback record is used only without a profile.
+ const auto* local_record=native_host.metadata_record?native_host.metadata_record:&native_host.fallback;
  if(native_host.registry.manager_plus_8!=&native_host.player||
     native_host.registry.manager_identity==0||
-    native_host.character_660!=prince_character.identity()){
+    local_record->character_660!=prince_character.identity()){
   error="Level::SG_SaveAllPlayer PlayerManager does not expose the canonical local Character";
   return false;
  }
@@ -40833,11 +40875,11 @@ std::string transition_level(const std::string& destination_name,
    if(!prince_combat.savegame||!prince_combat.save_transport||
       !prince_combat.savegame->character()||
       source.source_save_slot!=prince_combat.savegame->slot()||
-      native_host.save_slot_664!=prince_combat.savegame->slot()||
+      (native_host.metadata_record?native_host.metadata_record->save_slot_664:native_host.save_slot_664)!=prince_combat.savegame->slot()||
       source.canonical_player_savegame!=reinterpret_cast<std::uintptr_t>(prince_combat.savegame.get())){
     error="NativeGoToZone PlayerInfo selected slot does not match the active PlayerSave owner";return false;
    }
-   output=native_host.save_slot_664;error.clear();return true;
+   output=native_host.metadata_record?native_host.metadata_record->save_slot_664:native_host.save_slot_664;error.clear();return true;
   },
   [](void*,std::int32_t& output,std::string& error){
    if(native_save_difficulty<0||native_save_difficulty>=3){

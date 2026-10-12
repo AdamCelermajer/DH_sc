@@ -137,7 +137,10 @@ bool NativePlayerCharacterOwnerV1::unbind_session(std::string& error) {
         error.clear();
         return true;
     }
-    const bool association_matches = *player_character_660_ == identity();
+    // PlayerManager::RemoveCharacter clears PlayerInfo+0x660 before the
+    // Character is deleted; only a different live Character is a mismatch.
+    const bool association_matches = *player_character_660_ == identity() ||
+                                     *player_character_660_ == 0;
     if (association_matches) *player_character_660_ = 0;
     player_character_660_ = nullptr;
     save_ = nullptr;

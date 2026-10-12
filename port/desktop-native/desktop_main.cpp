@@ -38,6 +38,8 @@ struct Options {
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
     bool movement_defend_scenario = false;
+    std::string transition_to;
+    double transition_entry = 0.0;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
 };
@@ -68,6 +70,13 @@ Options parse(int argc, char** argv) {
             options.level_row = static_cast<std::int32_t>(number);
             if (options.level_row != 4 && options.level_row != 23 && options.level_row != 41)
                 throw std::runtime_error("--level-row currently supports direct Crypt 23 or fresh-save SWAMP 41");
+        }
+        else if (arg == "--transition-to") {
+            // Development check: queue NativeGoToZone/ChangeLevel to LEVEL[:entry].
+            const std::string spec = value("--transition-to");
+            const auto colon = spec.find(':');
+            options.transition_to = spec.substr(0, colon);
+            if (colon != std::string::npos) options.transition_entry = std::stod(spec.substr(colon + 1));
         }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
@@ -1122,7 +1131,25 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("Authored main menu frame failed: " + ui_error);
             }
             dh2::android_ui::NativeStartGameIntentV1 launch_request;
-            if (!gameplay && original_ui.consume_launch_request(launch_request)) {
+            if (gameplay && !options.transition_to.empty() && rendered_frames == 300) {
+                original_ui.queue_level_transition(options.transition_to, options.transition_entry);
+            }
+            if (gameplay && original_ui.consume_launch_request(launch_request)) {
+                // NativeGoToZone / Script_ChangeLevel: the shared transition owner.
+                if (launch_request.kind ==
+                    dh2::android_ui::NativeStartGameIntentV1::Kind::level_transition) {
+                    const auto transition = model_renderer::transition_level(
+                        launch_request.destination_name, launch_request.raw_entry_point,
+                        assets.get(), &original_ui,
+                        [](void* raw, bool source_flag, const std::string& first,
+                           const std::string& second, std::int32_t entry, std::string& error) {
+                            auto* ui = static_cast<dh2::android_ui::OriginalUiSession*>(raw);
+                            return ui && ui->display_fast_travel(source_flag, first, second, entry, error);
+                        });
+                    std::cout << "Level transition | " << launch_request.destination_name
+                              << " | " << transition << '\n';
+                }
+            } else if (!gameplay && original_ui.consume_launch_request(launch_request)) {
                 if (!start_from_authored_menu(launch_request, assets.get(), options.runtime,
                                               original_ui, gameplay, ui_error))
                     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s", ui_error.c_str());

@@ -190,7 +190,8 @@ struct OriginalUiSession::Impl {
     // resets that source gate for the next merchant-menu lifetime.
     bool merchant_sell_one_shot_used=false;
     std::string active_menu_path()const{return "_root."+(menu_stack.empty()?std::string("menu_MainMenu"):menu_stack.back());}
-    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options";}
+    // menu_Loading is authored only in dqshared (not dqcharmenu or the HUD).
+    static bool shared_state(const std::string& name){return name=="menu_HelpButtons"||name=="menu_Help"||name=="menu_About"||name=="menu_Options"||name=="menu_Loading";}
     static bool character_menu_state(const std::string& name){
         return name=="menu_CharacterMenu"||name=="menu_CharacterSheetNew"||
                name=="menu_CharacterSheetRecovery"||name=="menu_CharacterSheetMagic"||
@@ -199,7 +200,7 @@ struct OriginalUiSession::Impl {
                name=="menu_InventorySheetDetails"||name=="menu_SkillTreeSheetNew"||
                name=="menu_FaerySheet"||name=="menu_QuestLogSheetNEW"||
                name=="menu_MapSheet"||name=="menu_Specialisation"||
-               name=="menu_Merchant"||name=="menu_Loading"||name=="menu_MultiplayerLobbyMulti"||
+               name=="menu_Merchant"||name=="menu_MultiplayerLobbyMulti"||
                name=="menu_FriendInvitationMulti"||name=="menu_confirm2";
     }
     static bool gameplay_menu_state(const std::string& name){
@@ -3227,7 +3228,9 @@ struct OriginalUiSession::Impl {
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
         services.glyphs=fonts->borrowed_provider();
-        if(front_screen=="main"){
+        if(front_screen=="main"||live_player){
+            // The gameplay MenuManager keeps the same dqshared renderer
+            // (menu_Loading for NativeGoToZone/ChangeLevel lives only there).
             // Original RenderFX::Load (0x7ab7c0..0x7ab7e0) constructs a
             // separate player per renderer. Importing common definitions into
             // the main player does not activate the shared menu renderer.
@@ -3754,8 +3757,9 @@ bool OriginalUiSession::push_source_loading_menu(std::string& error){
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     return Impl::push_game_menu(&self,"menu_Loading",error);
 }
 bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& error){
@@ -3781,8 +3785,9 @@ bool OriginalUiSession::pop_source_loading_menu(std::string& error){
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     return Impl::pop_menu(&self,"menu_Loading",error);
 }
 bool OriginalUiSession::source_loading_menu_visible(bool& visible,std::string& error){
@@ -3794,8 +3799,9 @@ bool OriginalUiSession::source_loading_menu_visible(bool& visible,std::string& e
         return false;
     }
     ui::SwfClipInfo state;
-    if(!self.character_menu_movie->clip("_root.menu_Loading",state,error))return false;
-    if(!state.id){error="Original dqshared menu_Loading state is absent from dqcharmenu";return false;}
+    if(!self.shared_menu_movie){error="Source menu_Loading requires the retained dqshared movie";return false;}
+    if(!self.shared_menu_movie->clip("_root.menu_Loading",state,error))return false;
+    if(!state.id){error="Original menu_Loading state is absent from dqshared";return false;}
     // MenuBase::IsVisible reads the actual source +0x74 visibility byte.
     visible=state.visible;
     error.clear();return true;
@@ -3860,7 +3866,9 @@ bool OriginalUiSession::complete_source_hud_refresh(std::string& error){
             if(!hud.identity()){nested_error.clear();return true;}
             if(!graph.invoke(hud,hud,"completeRefresh",{},result,callable,
                              nested_error))return false;
-            if(!callable){nested_error="Required source HUD completeRefresh callback is unavailable";return false;}
+            // RenderFX::InvokeASCallback on an undefined member returns undefined
+            // (e.g. while the HUD is closed for a Level transition).
+            if(!callable){nested_error.clear();return true;}
             owner.gameplay_hud_usable_refresh.invalidate();
             nested_error.clear();return true;
         },error);
@@ -4348,6 +4356,15 @@ bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error)
     if(!self.settings){error="Script_LockTutorial requires the retained settings owner";return false;}
     if(!self.settings->lock_tutorial(id)){error.clear();return true;}
     return Impl::save_settings(impl_.get(),error);
+}
+void OriginalUiSession::queue_level_transition(const std::string& destination,double raw_entry_point){
+    NativeStartGameIntentV1 request{};
+    request.kind=NativeStartGameIntentV1::Kind::level_transition;
+    request.destination_name=destination;
+    request.raw_entry_point=raw_entry_point;
+    impl_->launch_requests.push_back(std::move(request));
+    __android_log_print(ANDROID_LOG_INFO,tag,"Script ChangeLevel queued | %s | raw entry %.9g",
+        destination.c_str(),raw_entry_point);
 }
 bool OriginalUiSession::flush_source_messages(std::string& error){
     auto& self=*impl_;

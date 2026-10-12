@@ -34,7 +34,14 @@ bool build_native_level_transition_plan_v1(
     if (player_slot < 0 || save.slot() != player_slot || !save.character() ||
         !save.level_name_loaded() ||
         !profile.identity || !profile.owner || !profile.campaign)
-        return fail("Native destination plan requires the active Character's loaded same-slot Save/profile and LNAM", error);
+    {
+        error = std::string("Native destination plan requires the active Character's loaded same-slot Save/profile and LNAM | slot ") +
+                    std::to_string(player_slot) + "/" + std::to_string(save.slot()) + " character " +
+                    std::to_string(save.character() != 0) + " LNAM " + std::to_string(save.level_name_loaded()) +
+                    " profile " + std::to_string(bool(profile.identity)) + std::to_string(bool(profile.owner)) +
+                    std::to_string(bool(profile.campaign));
+        return false;
+    }
 
     const data::LevelDeclaration* selected = nullptr;
     std::int32_t selected_row = -1;
