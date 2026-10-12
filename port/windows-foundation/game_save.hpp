@@ -36,4 +36,14 @@ bool load_game(const std::filesystem::path&,GameSave&,std::string& error);
 // assembles its existing pool from these facts before Step/update/render.
 bool restore_game_save(const GameSave&,const std::string& expected_level_uri,
                        PlayableActorWorld&,CharacterState&,std::string& error);
+// B143: a per-level world snapshot (LevelSavegame) restores the WORLD of its level. The original LevelSavegame::Load
+// deserializes the level's objects and the local player's position/state; the profile (inventory, skills, XP, points,
+// potions, quest state) is not reloaded from it (MenuBase::FS_ContinueGame + LevelSavegame::Load, see B086). The GameSave
+// of this port embeds a full Character, which is only as new as the snapshot and so can predate the profile. This makes
+// `snapshot` carry the live session instead: the Character of `live` (a capture of the session built from the profile)
+// and the live record of the controlled actor, whose saved transform is kept when `keep_saved_hero_transform`.
+// Every other actor, object and the RNG stay as snapshotted. Refuses (snapshot untouched) when the controlled actor of the
+// two saves differs by id or definition.
+bool adopt_live_character_for_world_restore(GameSave& snapshot,const GameSave& live,bool keep_saved_hero_transform,
+                                            std::string& error);
 } // namespace dh::foundation

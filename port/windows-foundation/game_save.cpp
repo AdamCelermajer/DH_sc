@@ -345,7 +345,9 @@ bool restore_game_save(const GameSave& g,const std::string& expected,PlayableAct
         if(!checkpoint_binding_compatible(p,*live,*combat,*traits,error))return false;
     }
     if(g.version>=2){
-        if(g.objects.size()!=world.objects().size()){error="Saved object roster differs from loaded level";return false;}
+        if(g.objects.size()!=world.objects().size()){
+            error="Saved object roster differs from loaded level (saved "+std::to_string(g.objects.size())+" live "+std::to_string(world.objects().size())+")";return false;
+        }
         for(const auto& object:g.objects){const auto* live=world.find_object(object.id);
             if(!live||live->name!=object.name||live->visual.model!=object.visual.model||live->visual.material!=object.visual.material){
                 error="Saved object ID/definition/visual differs from loaded level";return false;
@@ -353,12 +355,30 @@ bool restore_game_save(const GameSave& g,const std::string& expected,PlayableAct
         }
     }
     auto next_character=g.character;
+    // B143: character components (the transition entry point, the procedural level seed, future feature records) are
+    // feature-owned profile data that the GameSave character section does not serialize, so a snapshot read from disk
+    // carries none. A restore must never discard the live ones: after F9 the profile used to lose the seed of the level
+    // it was in, and the next Continue generated a different layout under the saved world.
+    next_character.components=character_state.components;
     // Old actor-only saves leave newly supported objects at their loaded state.
     // Version2 restores both subsets atomically; no callback/loot replay occurs.
     if(g.version>=2){if(!world.replace_state(g.actors,g.objects,g.random,error))return false;}
     else if(!world.replace_actors(g.actors,g.random,error))return false;
     character_state=std::move(next_character);error.clear();return true;
 }catch(const std::exception& ex){error=ex.what();return false;}}
+bool adopt_live_character_for_world_restore(GameSave& snapshot,const GameSave& live,bool keep_saved_hero_transform,std::string& error){
+    if(snapshot.controlled_actor_id!=live.controlled_actor_id){error="Level world and live session control different actors";return false;}
+    PersistedPlayableActor* saved=nullptr;const PersistedPlayableActor* now=nullptr;
+    for(auto& p:snapshot.actors)if(p.actor.id==snapshot.controlled_actor_id){saved=&p;break;}
+    for(const auto& p:live.actors)if(p.actor.id==live.controlled_actor_id){now=&p;break;}
+    if(!saved||!now){error="Controlled actor absent from the level world or the live session";return false;}
+    if(saved->actor.definition_id!=now->actor.definition_id){error="Level world controlled actor definition differs from the live hero";return false;}
+    auto record=*now;
+    if(keep_saved_hero_transform)record.actor.transform=saved->actor.transform;
+    *saved=std::move(record);
+    snapshot.character=live.character;
+    error.clear();return true;
+}
 bool save_game(const std::filesystem::path& path,const GameSave& g,std::string& error,bool checkpointWrite){
     std::filesystem::path temporary;bool created=false;
     try{
