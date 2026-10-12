@@ -183,3 +183,37 @@ elf_address,symbol,status,source_file,notes
 0x31d894,_ZN6glitch2io10IAttribute12setVector4diERKNS_4core8vector4dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
 0x31d8bc,_ZN6glitch2io10IAttribute14setUserPointerEPv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
 0x31d8c0,_ZN6glitch2io10IAttribute7setEnumEPKcPKS3_,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d690,_ZN6glitch2io10IAttribute13getQuaternionEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns (0,0,0,1)"
+0x31d6ac,_ZN6glitch2io10IAttribute11getTriangleEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero triangle
+0x31d724,_ZN6glitch2io10IAttribute9getLine2dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns (0,0)-(1,1)"
+0x31d740,_ZN6glitch2io10IAttribute10getLine2diEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns (0,0)-(1,1)"
+0x31d75c,_ZN6glitch2io10IAttribute9getLine3dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns (0,0,0)-(1,1,1)"
+0x31d780,_ZN6glitch2io10IAttribute10getLine3diEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns (0,0,0)-(1,1,1)"
+0x31d7a4,_ZN6glitch2io10IAttribute14getDimension2dEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base returns zero dimension
+0x31d7b4,_ZN6glitch2io10IAttribute7getBBoxEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns box (-1,-1,-1)-(1,1,1)"
+0x31d7dc,_ZN6glitch2io10IAttribute8getPlaneEv,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,"base returns normal (0,1,0), D=-0.0"
+0x31d870,_ZN6glitch2io10IAttribute13setQuaternionENS_4core10quaternionE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d888,_ZN6glitch2io10IAttribute11setTriangleENS_4core10triangle3dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d898,_ZN6glitch2io10IAttribute9setLine2dENS_4core6line2dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d89c,_ZN6glitch2io10IAttribute9setLine2dENS_4core6line2dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8a0,_ZN6glitch2io10IAttribute9setLine3dENS_4core6line3dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8a4,_ZN6glitch2io10IAttribute9setLine3dENS_4core6line3dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8a8,_ZN6glitch2io10IAttribute14setDimension2dENS_4core11dimension2dIiEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8b4,_ZN6glitch2io10IAttribute7setBBoxENS_4core8aabbox3dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x31d8b8,_ZN6glitch2io10IAttribute8setPlaneENS_4core7plane3dIfEE,reconstructed,glitch-core-io/include/glitch-core-io/io/attributes.hpp,base does nothing
+0x560954,_ZN6glitch2io11CAttributes8getColorEi,reconstructed,glitch-core-io/src/attributes.cpp,out-of-range returns 0; in-range calls virtual getColor (+0x18)
+0x561224,_ZN6glitch2io11CAttributes13getQuaternionEi,reconstructed,glitch-core-io/src/attributes.cpp,"out-of-range default is (0,1,0,0), not the IAttribute identity"
+0x561314,_ZN6glitch2io11CAttributes8getBox3dEi,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual getBBox (+0x70)
+0x561424,_ZN6glitch2io11CAttributes10getPlane3dEi,reconstructed,glitch-core-io/src/attributes.cpp,"calls virtual getPlane (+0x74); default normal (0,1,0), D=-0.0"
+0x561514,_ZN6glitch2io11CAttributes13getTriangle3dEi,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual getTriangle (+0x48)
+0x561660,_ZN6glitch2io11CAttributes9getLine2dEi,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual getLine2d (+0x5c)
+0x561748,_ZN6glitch2io11CAttributes9getLine3dEi,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual getLine3d (+0x64)
+0x561858,_ZN6glitch2io11CAttributes14getUserPointerEi,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual getUserPointer (+0x84)
+0x560de8,_ZN6glitch2io11CAttributes12setAttributeEiPKw,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setString(wchar_t) (+0x94); wchar overload added to IAttribute
+0x561120,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core4rectIiEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setRect (+0xbc)
+0x5612ac,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core10quaternionE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setQuaternion (+0xc0)
+0x5613b0,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core8aabbox3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setBBox (+0xec)
+0x5614b0,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core7plane3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setPlane (+0xf0)
+0x5615d4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core10triangle3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setTriangle (+0xc8)
+0x5616e4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line2dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setLine2d (+0xd8)
+0x5617e4,_ZN6glitch2io11CAttributes12setAttributeEiNS_4core6line3dIfEE,reconstructed,glitch-core-io/src/attributes.cpp,calls virtual setLine3d (+0xe0)

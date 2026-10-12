@@ -1,7 +1,7 @@
 # glitch-scene-collada-gui notes
 
-Queue: 4138 functions (all owner engine-glitch). Ledger: 187 rows
-(102 reconstructed, 81 partial, 4 skipped). Only collada functions are done so far.
+Queue: 4138 functions (all owner engine-glitch). Ledger: 215 rows
+(129 reconstructed, 82 partial, 4 skipped). Only collada functions are done so far.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base

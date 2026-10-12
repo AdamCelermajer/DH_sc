@@ -67,8 +67,8 @@ elf_address,symbol,status,source_file,notes
 0x33a99c,_ZN18EvTouchScreenPressD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33a9a0,_ZN17EvTouchScreenMoveD1Ev,skipped,core-platform/src,"compiler-generated destructor, nothing to rebuild"
 0x33a9a4,_ZNK15TouchScreenBase13_IsQueueEmptyEv,reconstructed,core-platform/src/touch_screen_base.cpp,
-0x33b1a4,_ZN15TouchScreenBase13getTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,returns point at slot+0x0; original returns slot+0xc
-0x33b1e0,_ZN15TouchScreenBase18getFirstTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,returns point at slot+0x0; original returns slot+0xc
+0x33b1a4,_ZN15TouchScreenBase13getTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,"returns current point (+0xc, shorts); null path as recovered in the earlier pass, not re-verified"
+0x33b1e0,_ZN15TouchScreenBase18getFirstTouchPointEl,partial,core-platform/src/touch_screen_base.cpp,"returns current point (+0xc, shorts); null path as recovered in the earlier pass, not re-verified"
 0x33b2bc,_ZNK15TouchScreenBase17getSwipeDirectionEl,reconstructed,core-platform/src/touch_screen_base.cpp,
 0x33b2ec,_ZN15TouchScreenBase8hasTouchEv,reconstructed,core-platform/src/touch_screen_base.cpp,
 0x33b3dc,_ZN15TouchScreenBase5getIDEl,reconstructed,core-platform/src/touch_screen_base.cpp,
@@ -203,3 +203,23 @@ elf_address,symbol,status,source_file,notes
 0x89bee8,_ZN10ConfigFile4SeedEv,reconstructed,core-platform/src/config_file.cpp,
 0x89bef0,_ZN10ConfigFile3XOREPKcS1_Pc,skipped,core-platform/src/config_file.cpp,"decompiler output is a tail call to strlen, real XOR body not recovered"
 0x89bfb4,_ZN10ConfigFile6DecodeEPKcPcS2_S2_,skipped,core-platform/src/config_file.cpp,Decode needs the XOR routine and the obfuscation tables; not reconstructed
+0x33a9bc,_ZN15TouchScreenBase11_AddToQueueENS_10TouchEventERK7Point2DIfEl,reconstructed,core-platform/src/touch_screen_base.cpp,ring of 16 with 15 usable entries; move events coalesce per touch id
+0x33aad8,_ZNK15TouchScreenBase12getDimensionEv,reconstructed,core-platform/src/touch_screen_base.cpp,sret form; bounds normalised to min/max
+0x33abbc,_ZNK15TouchScreenBase12getDimensionER3RctIsE,reconstructed,core-platform/src/touch_screen_base.cpp,writes unnormalised bounds
+0x33ac24,_ZN15TouchScreenBase10touchBeganERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33ad28,_ZN15TouchScreenBase10touchMovedERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,"swipe classification: |dx|>11, |dy|<5, sets 2 (right) or 1 (left)"
+0x33ae3c,_ZN15TouchScreenBase14touchCancelledERK7Point2DIsEl,reconstructed,core-platform/src/touch_screen_base.cpp,same body as touchEnded; queue type 2
+0x33aeb8,_ZN15TouchScreenBase10touchEndedERK7Point2DIsEl,partial,core-platform/src/touch_screen_base.cpp,"ELF symbol is 4 bytes; body written from the decompiled text, identical to touchCancelled"
+0x33b02c,_ZNK15TouchScreenBase27getTouchIDInitiatedInRegionERKN6glitch4core4rectIfEE,reconstructed,core-platform/src/touch_screen_base.cpp,tests begin point against the region
+0x33b0e8,_ZNK15TouchScreenBase18getTouchIDInRegionERKN6glitch4core4rectIfEE,reconstructed,core-platform/src/touch_screen_base.cpp,tests current point against the region
+0x33b21c,_ZNK15TouchScreenBase20getTouchDisplacementEl,reconstructed,core-platform/src/touch_screen_base.cpp,current minus previous point; zero when unchanged from begin
+0x33b334,_ZN15TouchScreenBase6updateEd,reconstructed,core-platform/src/touch_screen_base.cpp,releases invalid touches idle for more than 0.5 units
+0x33b510,_ZN15TouchScreenBase13_PopFromQueueEv,reconstructed,core-platform/src/touch_screen_base.cpp,assert text uses the original source path
+0x33b5c0,_ZNK15TouchScreenBase20_GetNextEventInQueueEv,reconstructed,core-platform/src/touch_screen_base.cpp,
+0x33bd2c,_ZNK15TouchScreenBase14getTouchIDListEv,reconstructed,core-platform/src/touch_screen_base.cpp,"std::list<long> of touched slot indices, sorted"
+0x33c298,_ZN15TouchScreenBaseC2Ess,reconstructed,core-platform/src/touch_screen_base.cpp,member initialisers replace the explicit zeroing loops
+0x33c3d8,_ZN15TouchScreenBaseC1Ess,reconstructed,core-platform/src/touch_screen_base.cpp,same as C2
+0x33c568,_ZN15TouchScreenBase13ProcessEventsEv,partial,core-platform/src/touch_screen_base.cpp,return value is a tail call to float multiply; empty queue returns 0 here (original leaves a register)
+0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,partial,core-platform/src/touch_screen_win32.cpp,begin passes id 0 (original passes no id); Point2D split by decompiler; isDown is a function static
+0x33d68c,_ZN16TouchScreenWin32C1Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,base constructor; secondary interface vtable at +0x1b4 not recovered
+0x33d6d0,_ZN16TouchScreenWin32C2Ess,reconstructed,core-platform/src/touch_screen_win32.cpp,same as C1
