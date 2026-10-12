@@ -261,6 +261,30 @@ int main(int argc,char** argv) {
         CHECK(ui.release(410,305,e).kind==ShopUi::Command::Kind::none&&ui.confirmation_visible());
         CHECK(ui.release(180,190,e).kind==ShopUi::Command::Kind::buy_potions);
     }
+    {   // B149: BUY rows and the BUY details name use the stock colour callback (not the plain binding); SELL keeps its own.
+        const auto items=table();// ShopUi keeps a reference: the table must outlive it
+        Shop stock({40,120,{}});stock.add_stock(items,{{0,1}});CharacterState owned;owned.gold=1000;
+        owned.inventory.push_back({"own1","Sword",1});
+        ActorState actor;OriginalCombatProperties props;OriginalPropertyDatabase db;std::string e;
+        inventory::DetailBindings bindings;
+        bindings.symbol=[](const std::string& s,std::string& out,std::string& e){out=s;e.clear();return true;};
+        bindings.item_name=[](const InventoryItem& i,const auto&,std::string& out,std::string& e){out="PLAIN:"+i.definition_id;e.clear();return true;};
+        equipment_menu::Options options;options.item_name=bindings.item_name;
+        ShopUi ui(owned,stock,items,actor,props,db,options,bindings);
+        ui.stock_item_name([](const InventoryItem& i,const auto&,std::string& out,std::string& e){out="STOCK:"+i.definition_id;e.clear();return true;});
+        ui.sell_item_name([](const InventoryItem& i,const auto&,std::string& out,std::string& e){out="SELL:"+i.definition_id;e.clear();return true;});
+        CHECK(ui.open(e));
+        const auto starts_with=[](const character_menu::Frame& f,const std::string& prefix){
+            return std::any_of(f.text.begin(),f.text.end(),[&](const auto& t){return t.value.compare(0,prefix.size(),prefix)==0;});};
+        character_menu::Frame frame;
+        CHECK(ui.frame(960,640,frame,e));
+        CHECK(starts_with(frame,"STOCK:")&&!starts_with(frame,"PLAIN:"));
+        CHECK(ui.set_mode(ShopUi::Mode::sell,e));
+        CHECK(ui.frame(960,640,frame,e));
+        CHECK(starts_with(frame,"SELL:")&&!starts_with(frame,"STOCK:"));
+        CHECK(ui.set_mode(ShopUi::Mode::buy,e)&&ui.frame(960,640,frame,e)); // BUY rows keep the stock colour after a round trip
+        CHECK(starts_with(frame,"STOCK:"));
+    }
     if (failures) { std::cerr << failures << " failures\n"; return 1; }
     std::cout << "merchant_shop_v1_tests passed\n";
     return 0;

@@ -5163,6 +5163,15 @@ int main(int argc,char** argv) {
             if(!item.source)dropNameCache[item.definition_id]=descriptors.base.name;
             out=descriptors.base.name;e.clear();return true;
         };
+        // B149: rarity-coloured ItemName for any owner (player row or merchant stock). Declared in the enclosing scope because
+        // the merchant ShopUi callbacks keep it after openMerchantShop returns; each caller validates its owner.
+        const auto coloredItemName=[&](const f::InventoryItem& item,std::string& out,std::string& e)->bool{
+            if(!itemNameFontPalette){e="Merchant ItemName requires genuine source FontPalette";return false;}
+            f::inventory::SourceOwnedDescriptors desc;
+            if(!sourceOwnedDescriptors(item,desc,e))return false;
+            return dh2::ui::character_menu_item_name_color_v1(desc.base.name,
+                f::loot::item_power_font_palette_row_v1(desc.powers.size()),*itemNameFontPalette,out,e);
+        };
         const auto merchantPotionStatus=[&]() {
             std::uint32_t held=0;const auto& table=menuSourceOwner.source().loot.items();
             for(const auto& i:state.inventory){const auto* row=dh2::data::item(table,dh2::data::item_id(table,i.definition_id));if(row&&dh2::data::item_type(*row)==14)held+=i.quantity;}
@@ -5241,11 +5250,10 @@ int main(int argc,char** argv) {
                    (live->source->value!=requested.source->value||live->source->identified!=requested.source->identified||live->source->power_names!=requested.source->power_names))) {
                     e="Merchant inventory ItemName no longer matches the current player row";return false;
                 }
-                if(!itemNameFontPalette){e="Merchant inventory ItemName requires genuine source FontPalette";return false;}
-                f::inventory::SourceOwnedDescriptors desc;
-                if(!sourceOwnedDescriptors(*live,desc,e))return false;
-                return dh2::ui::character_menu_item_name_color_v1(desc.base.name,
-                    f::loot::item_power_font_palette_row_v1(desc.powers.size()),*itemNameFontPalette,out,e);
+                return coloredItemName(*live,out,e);
+            });
+            merchantUi->stock_item_name([&](const f::InventoryItem& stock,const auto&,std::string& out,std::string& e) {
+                return coloredItemName(stock,out,e);
             });
             merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
                 dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;

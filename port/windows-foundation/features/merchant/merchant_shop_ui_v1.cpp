@@ -156,7 +156,9 @@ bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::st
     const bool buy = mode_ == Mode::buy;
     auto sellBindings=bindings_;
     if(sell_item_name_)sellBindings.item_name=sell_item_name_;
-    if (!pane().details->frame(buy?bindings_:sellBindings, f, error)) return false;
+    auto buyBindings=bindings_;
+    if(stock_item_name_)buyBindings.item_name=stock_item_name_;
+    if (!pane().details->frame(buy?buyBindings:sellBindings, f, error)) return false;
     const auto upper=[](const std::string& p){return p.find("/EquipedItem")!=std::string::npos||p.find("/EquipedSwordIcon/")!=std::string::npos||p.find("/btn_Unequip/")!=std::string::npos;};
     // BUY's comparison column is the player's equipment, never the merchant's inventory.
     if(buy){
