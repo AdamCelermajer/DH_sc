@@ -52,19 +52,17 @@ bool CVertexStreams::isHomogeneous(uint32_t mask) const {
     const SVertexStream* first = m_streams.data();
     const SVertexStream* end = first + m_streams.size();
     IBuffer* common = nullptr;
-    bool haveCommon = false;
     for (uint32_t bit = 0; mask != 0; ++bit) {
         uint32_t b = 1u << (bit & 0x1f);
         if ((b & mask) != 0) {
             const SVertexStream* found = getStream(bit, first, end);
             IBuffer* buf = (found == end) ? nullptr : found->buffer.get();
-            if (!haveCommon) {
+            if (common == nullptr) {
                 common = buf;
-                haveCommon = true;
             } else if (common != buf) {
                 return false;
             }
-            first = (found == end) ? end : found + 1;
+            first = found + 1;
             mask &= ~b;
         }
     }

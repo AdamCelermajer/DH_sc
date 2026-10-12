@@ -119,3 +119,13 @@ elf_address,symbol,status,source_file,notes
 0x882c68,_ZN3vox15SequentialGroupD0Ev,reconstructed,vox-audio/src/groups.cpp,SequentialGroup deleting destructor variant
 0x881c0c,_ZN3vox11RandomGroup22PeekAtNextGroupElementENS_13GroupPeekModeE,reconstructed,vox-audio/src/groups.cpp,"RandomGroup::PeekAtNextGroupElement: first word of element at current index, -1 when index negative"
 0x8836b0,_ZN3vox11RandomGroup10AddElementEPNS_18RandomGroupElementE,partial,vox-audio/src/groups.cpp,RandomGroup::AddElement: asm allocates an 8-byte block for the element insert; port pushes the pointer
+0x863578,_ZN3vox19PriorityBankManager14_CanAddEmitterEii,reconstructed,vox-audio/src/priority_bank.cpp,"_CanAddEmitter: index and min-priority gates, count against max, behaviour 0/1/2 rules (asm and pseudocode agree)"
+0x864b1c,_ZN3vox19PriorityBankManager13CanAddEmitterEii,reconstructed,vox-audio/src/priority_bank.cpp,"CanAddEmitter: lock, delegate, unlock (asm)"
+0x86418c,_ZN3vox19PriorityBankManagerD1Ev,reconstructed,vox-audio/src/priority_bank.cpp,Destructor: entry vectors and bank vector freed by members; mutex destroyed
+0x8697bc,_ZN3vox19PriorityBankManagerC1Ei,reconstructed,vox-audio/src/priority_bank.cpp,Constructor (int): stores bank count and pushes that many default banks
+0x8698e8,_ZN3vox19PriorityBankManagerC2Ei,reconstructed,vox-audio/src/priority_bank.cpp,C2 variant of the (int) constructor
+0x869858,_ZN3vox19PriorityBankManagerC1Ev,partial,vox-audio/src/priority_bank.cpp,Default constructor: the original does not write the count word; port sets 0 (empty)
+0x8698a0,_ZN3vox19PriorityBankManagerC2Ev,partial,vox-audio/src/priority_bank.cpp,C2 variant of the default constructor; same count-word question
+0x86e078,_ZN3vox19PriorityBankManager13RemoveEmitterEiPNS_10EmitterObjE,reconstructed,vox-audio/src/priority_bank.cpp,RemoveEmitter: erases the first entry whose emitter matches; false when out of range or not found (asm)
+0x8661bc,_ZN3vox19PriorityBankManager15SetPriorityBankEiiiNS_20PriorityBankBehaviorE,partial,vox-audio/src/priority_bank.cpp,"SetPriorityBank: sets min, max and behaviour when index valid; helper 0x8660fc on the entry vector not reconstructed"
+0x8696d0,_ZN3vox19PriorityBankManager15AddPriorityBankEiiNS_20PriorityBankBehaviorE,partial,vox-audio/src/priority_bank.cpp,"AddPriorityBank: appends a bank and bumps the count; asm return value (index or -1 by count compare) not reproduced, port returns true"

@@ -132,10 +132,7 @@ void GLXPlayerMPLobby::mpSendGetLobbyForFriendWithGameParam(std::int32_t a, std:
         if (count > kFriendListCap - 1) {
             count = kFriendListCap;
         }
-        if (count > 0) {
-            mpSendGetLobbyForFriendWithGameParam(a, b, count, nullptr, 0, query);
-        }
-        XP_DEBUG_OUT("\n");
+        mpSendGetLobbyForFriendWithGameParam(a, b, count, nullptr, 0, query);
     }
 }
 
