@@ -71,11 +71,12 @@ void CXPlayerManager::OnRequestTimeout(std::int32_t /*requestId*/) {
 }
 
 // 0x52e1b4 _ZN15CXPlayerManager16OnRequestFailureEii
-// Partial: the first debug line of the original has no arguments, so it is not reproduced.
-// Outside state 4 the error is 3, and state 0x0b first moves the score to the pending value.
-// In state 4 the error code decides: 0x2e and 0x43 give 1, 0x2f and 0x31 give 2, and the
-// rest give 3. A function id other than 0x0f is reported as a state mismatch.
+// Two debug lines first (the timeout line takes the function id; the failure line takes both
+// arguments). Outside state 4 the error is 3, and state 0x0b first moves the score to the
+// pending value. In state 4 the error code decides: 0x2e and 0x43 give 1, 0x2f and 0x31 give
+// 2, and the rest give 3. A function id other than 0x0f is reported as a state mismatch.
 void CXPlayerManager::OnRequestFailure(std::int32_t functionId, std::int32_t errorCode) {
+    std::printf("XPlayerManager: ERROR! REQUEST TIMEOUT %d\n", functionId);
     std::printf("XPlayerManager: ERROR! REQUEST FAILURE func_id = %d, error_code = %d\n", functionId, errorCode);
     if (state_ != 4) {
         if (state_ == 0xb) {
@@ -179,9 +180,14 @@ void CXPlayerManager::OnRequestSuccess(std::int32_t /*functionId*/, const char* 
 }
 
 // 0x52e524 _ZN15CXPlayerManager4InitEv (partial)
-// The original returns when the flag at +0x04 is set. Otherwise it loads the debug switches
-// (another category) and allocates a 20-byte string whose use is not recovered. Only the
-// flag test is reproduced.
+// Hex-Rays: when the flag at +0x04 is clear, it loads the debug switches and looks up
+// "ConnectToBetaServer". The config version is "1.0.1" when that switch is set, else "1.0.0".
+// It creates GLXPlayerSereverConfig (0x44 bytes), sends the server-config request, registers
+// this as observer, and prints the error code. On code 1 it creates the login service (0x88
+// bytes) and the leaderboard (0x6c bytes), registers both, sets the leaderboard flag at +0x54
+// and the state to 4. Not reproduced here: the debug switches, the config request (no
+// SendGetServerConfig in the port) and the services. Only the flag test is reproduced, so
+// Init does nothing beyond it.
 void CXPlayerManager::Init() {
     if (initialized_) {
         return;

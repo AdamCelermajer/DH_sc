@@ -28,6 +28,8 @@ public:
     void setFloat(float value) override;  // 0x31f284
     // 0x32324c: PARTIAL. Reads "%02x%02x%02x%02x" and passes the packed colour to setColor (+0xa0).
     void setString(const char* text) override;
+    // 0x326388: the packed colour (getColor) as "%02x%02x%02x%02x", high byte first, then widened.
+    std::wstring getStringW() const override;
 };
 
 class CColorfAttribute : public CNumbersAttribute {
@@ -170,6 +172,8 @@ public:
         : CNumbersAttribute(attrName, value, f) {}
     int getType() const override;  // 0x56055c
     const wchar_t* getTypeString() const;  // 0x560564
+    // 0x561d50: PARTIAL. The plane through the triangle's corners A, B, C (see plane3d::setPlane).
+    glitch::core::plane3d<float> getPlane() const;
 };
 
 class CLine2dAttribute : public CNumbersAttribute {
@@ -214,6 +218,9 @@ public:
     CStringAttribute(const char* attrName, const wchar_t* value, bool f);  // 0x565c00
     // 0x567d60: the name and flag are set, isWide is cleared, and the value goes through setString.
     CStringAttribute(const char* attrName, const char* value, bool f);
+    // 0x566f7c: name and flag are set, isWide is cleared and the data is written as lowercase
+    // hex text by setBinary (the narrow copy).
+    CStringAttribute(const char* attrName, void* data, int size, bool f);
     ~CStringAttribute() override = default;                                  // 0x3266a8
 
     std::string narrow;   // +0x24
@@ -231,6 +238,8 @@ public:
     bool getBool() const override;                   // 0x327798
     void setInt(int value) override;                 // 0x326ec4
     void setFloat(float value) override;             // 0x32d3d4
+    void getBinary(void* data, int size) const override;  // 0x31f324: PARTIAL, see typed_attributes.cpp
+    void setBinary(void* data, int size) override;        // 0x3274a0
 };
 
 class CLightAttribute : public IAttribute {
@@ -241,8 +250,7 @@ public:
     boost::intrusive_ptr<glitch::video::CLight> light;  // +0x24
     // Reference counted driver (+0x28).
     glitch::video::IVideoDriver* driver = nullptr;
-    // 0x566c90: PARTIAL. The light argument is not stored (the decompile clears the light); the
-    // driver is kept with a reference.
+    // 0x566c90: the light and the driver are kept with a reference each.
     CLightAttribute(const char* attrName, const boost::intrusive_ptr<glitch::video::CLight>& value,
                     glitch::video::IVideoDriver* drv, bool f);
     // 0x56377c: "light" when a light is set, else the empty string.

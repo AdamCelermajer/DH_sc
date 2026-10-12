@@ -90,7 +90,9 @@ int main() {
     CHECK(manager.GetNbPlaylists() == 0);
     vox::NativePlaylistsManagerTestAccess::SetCount(manager, 4);
     CHECK(manager.GetNbPlaylists() == 4);
-    VoxFree(vox::NativePlaylistsManagerTestAccess::Playlists(manager));
+    // The manager destructor frees the pointer array; count 0 keeps it from touching the
+    // uninitialised entries.
+    vox::NativePlaylistsManagerTestAccess::SetCount(manager, 0);
 
     std::printf("native_playlist_test: %s\n", g_failures == 0 ? "ok" : "FAILED");
     return g_failures == 0 ? 0 : 1;

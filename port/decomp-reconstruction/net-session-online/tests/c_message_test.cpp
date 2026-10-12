@@ -124,6 +124,22 @@ int main() {
         delete dup;
     }
 
+    // Constructor (name, serial flag): local sender and the SetDefaultProperties flags.
+    class NamedMsg : public CMessage {
+    public:
+        explicit NamedMsg(bool withSerial) : CMessage("TestMsgA", withSerial) {}
+    };
+    NamedMsg named(false);
+    CHECK(named.IsFromMe());   // sender is the local member (2)
+    CHECK(named.IsReliable());  // SetDefaultProperties sets reliable
+
+    // CompareMsgSendPriority orders by the +0x38 word: 100 for a constructed message, 0 for a
+    // default-constructed one.
+    CMessage plain;
+    CHECK(CMessage::CompareMsgSendPriority(&plain, &named) == true);
+    CHECK(CMessage::CompareMsgSendPriority(&named, &plain) == false);
+    CHECK(CMessage::CompareMsgSendPriority(&plain, &plain) == false);
+
     std::printf("%s\n", failures ? "c_message: FAILED" : "c_message: ok");
     CMatching::Set(nullptr);
     return failures != 0;

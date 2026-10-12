@@ -9,6 +9,23 @@ bool InRange(const std::vector<T>& list, std::int32_t index, std::int32_t count)
 }
 }  // namespace
 
+// 0x8368e0 _ZN16GLXPlayerMessageC1Ev, 0x836980 _ZN16GLXPlayerMessageC2Ev
+// Partial: the original allocates a 0x428-byte GLXPlayerHttp into the request client
+// slot (+0x20) from the three URL strings, and the port has no typed slot for it, so the
+// allocation is not made. The rest of the ctor is reproduced: LoadConfig is called as a
+// direct call, the current message id starts at -1, and the box counts are cleared.
+GLXPlayerMessage::GLXPlayerMessage() : GLXPlayerWebComponent() {
+    GLXPlayerWebComponent::LoadConfig();
+    currentMsgId_ = -1;
+    clearMsgCount();
+}
+
+// 0x83688c _ZN16GLXPlayerMessageD2Ev
+// The message list (+0x3c..+0x58), the body (+0x68) and the box counts are members, so
+// they are released with the object. The request client at +0x20 is not allocated (see
+// the ctor), so only the base destructor runs.
+GLXPlayerMessage::~GLXPlayerMessage() = default;
+
 // 0x834f54 _ZN16GLXPlayerMessage21getCurrentMsgPositionEv
 std::int32_t GLXPlayerMessage::getCurrentMsgPosition() const {
     for (std::int32_t i = 0;; ++i) {

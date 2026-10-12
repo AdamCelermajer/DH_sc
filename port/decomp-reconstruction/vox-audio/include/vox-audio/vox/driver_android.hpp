@@ -8,9 +8,11 @@
 #include <thread>
 
 #include "vox-audio/vox/driver.hpp"
+#include "vox-audio/vox/driver_callback.hpp"
 #include "vox-audio/vox/mutex.hpp"
 
 struct _JavaVM;
+struct _jarray;
 
 namespace vox {
 
@@ -18,8 +20,8 @@ class DriverAndroid : public DriverInterface {
 public:
     // 0x88fae4 (partial): the base constructor, mode 0 and the Init lock are in the original.
     DriverAndroid();
-    // D1 is not ported as a separate body; the deleting variant is 0x88fa28.
-    ~DriverAndroid() override = default;
+    // D1 0x88f9ec and D2 0x88fa44 (partial: the base destructor is not ported); D0 0x88fa28.
+    ~DriverAndroid() override;
 
     // 0x88ee78: dispatches Update to the audio thread (mode 1) or OSL (mode 2).
     void Update(float dt) override;
@@ -49,6 +51,13 @@ public:
     void _UpdateOSL(float dt);
     void _UpdateAT(float dt);
 
+    // 0x88f328 (partial): the audio thread entry; the AudioTrack calls are JNI and not ported.
+    int UpdateThreadedAT(void* unused);
+    // 0x88f14c (partial): one JNI write pass; the timing tail is not ported.
+    void DoCallbackAT(_jarray*& array);
+    // 0x88f660 (partial): the sample rate part; the AudioTrack setup is JNI and not ported.
+    int _InitAT(int sample_rate);
+
     // 0x88f618: running flag cleared, then the thread is joined (pthread_join in the
     // original, std::thread::join here).
     void _ShutdownAT();
@@ -77,3 +86,20 @@ void VoxSetJavaVM(_JavaVM* java_vm);           // 0x88ed8c
 void VoxSetJavaVMC(_JavaVM* java_vm);          // 0x88ee1c: VoxSetJavaVM, then the threshold 1.0
 void VoxSetDataThreshold(double ratio);        // 0x88edac: clamped to [0, 1]
 void VoxSetAndroidAPILevel(int level);         // 0x88ee38
+
+namespace vox {
+
+// vox::DriverAndroidSource: the callback source used by the Android driver.
+class DriverAndroidSource : public DriverCallbackSourceInterface {
+public:
+    // 0x88fbac (C1) and 0x88fc8c (C2): the base constructor, the vtable, then Init.
+    DriverAndroidSource(const std::int32_t* format, const std::int32_t* buffer_count,
+                        std::uint32_t flags);
+    // D1 0x88fb28 and D2 0x88fb78 (identical bodies); D0 0x88fb5c is the deleting form.
+    ~DriverAndroidSource() override = default;
+
+    // 0x88ee58: empty in the original.
+    void PrintDebug();
+};
+
+}  // namespace vox

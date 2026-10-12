@@ -112,4 +112,45 @@ int computeSizeInBytes(E_PIXEL_FORMAT format, uint32_t width, uint32_t height, u
     return computeSizeInBytes(format, width, height, 1u, levels, flag);
 }
 
+namespace {
+
+// Packed RGB to luminance/alpha converter. Built from one PFDTable row: three
+// channel weights (0.3, 0.59, 0.11), the channel masks and shifts of the row,
+// and the alpha mask, shift and scale. Layout offsets are the original's.
+struct SPackedRGBtoLuminanceAlphaConverter {
+    explicit SPackedRGBtoLuminanceAlphaConverter(E_PIXEL_FORMAT format);
+
+    float weight[3] = {};          // +0x00
+    uint32_t channelMask[3] = {};  // +0x0c
+    uint8_t channelShift[3] = {};  // +0x18
+    uint8_t alphaShift = 0;        // +0x1b
+    uint32_t alphaMask = 0;        // +0x1c
+    float alphaScale = 0.0f;       // +0x20, 255 / (alphaMask >> alphaShift)
+    uint32_t alphaMaxBits = 0;     // +0x24, 0 when the row flags bit 0 is set
+};
+
+}  // namespace
+
+// 0x5edca4 _ZN6glitch5video12pixel_format12_GLOBAL__N_135SPackedRGBtoLuminanceAlphaConverterC1ENS0_14E_PIXEL_FORMATE
+// (C1 only; the C2 form is not in the ARM listing.) Partial: PFDTable is zero-filled in
+// this port, so the divisions yield inf/NaN until the table data is supplied.
+SPackedRGBtoLuminanceAlphaConverter::SPackedRGBtoLuminanceAlphaConverter(E_PIXEL_FORMAT format) {
+    const SFormatEntry& row = PFDTable[format];
+    // Row bytes not named in SFormatEntry (+0x1c..+0x1e are the channel shifts, +0x1f the
+    // alpha shift). unknown18 starts at +0x18, so the shifts are unknown18[4..6] and [7].
+    // Luma weights 0.3, 0.59, 0.11 (float bit patterns 0x3e99999a, 0x3f170a3d, 0x3de147ae).
+    static constexpr float kWeights[3] = {0.3f, 0.59f, 0.11f};
+    for (int i = 0; i < 3; ++i) {
+        const uint32_t mask = row.key[i];            // row words +0x04, +0x08, +0x0c
+        const uint8_t shift = row.unknown18[4 + i];  // row bytes +0x1c, +0x1d, +0x1e
+        weight[i] = kWeights[i] / static_cast<float>(lsrOrZero(mask, shift));
+        channelMask[i] = mask;
+        channelShift[i] = shift;
+    }
+    alphaShift = row.unknown18[7];                   // row byte +0x1f
+    alphaMask = row.key[3];                          // row word +0x10
+    alphaScale = 255.0f / static_cast<float>(lsrOrZero(alphaMask, alphaShift));
+    alphaMaxBits = (row.flags & 1) != 0 ? 0 : lsrOrZero(alphaMask, alphaShift);
+}
+
 }  // namespace glitch::video::pixel_format

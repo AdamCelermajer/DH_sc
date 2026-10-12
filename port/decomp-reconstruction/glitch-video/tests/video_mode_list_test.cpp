@@ -24,6 +24,13 @@ int main() {
     CHECK(list.getDesktopResolution().Width == 1920);
     CHECK(list.getDesktopDepth() == 32);
 
+    glitch::video::CVideoModeList added;
+    added.addMode({800, 600}, 32);
+    added.addMode({800, 600}, 32);                     // duplicate: ignored
+    added.addMode({800, 600}, 16);                     // same size, other depth: kept
+    CHECK(added.getVideoModeCount() == 2);
+    CHECK(added.getVideoModeDepth(1) == 16);
+
     std::printf("%s\n", failures ? "video_mode_list: FAILED" : "video_mode_list: ok");
     return failures != 0;
 }

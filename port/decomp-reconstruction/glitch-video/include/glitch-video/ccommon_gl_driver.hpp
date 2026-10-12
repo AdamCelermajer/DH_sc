@@ -8,7 +8,9 @@
 // value, call flush() (vtable +0x1fc in the original), call GL, then store.
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <map>
 
 #include "glitch-video/ccommon_gl_driver_base.hpp"
 #include "glitch-video/deps/glitch_core.hpp"
@@ -89,9 +91,30 @@ public:
     void setBlendColor(SColor color);                           // 0x5af574
     void setClearColor(SColor color);                           // 0x5b0d4c
 
+    // 0x5b1860: forwards to IVideoDriver::beginScene and returns true.
+    bool beginScene();
+    // 0x5b1838: flush, glFlush, then IVideoDriver::endScene. The listing passes no
+    // time argument, so the port passes 0 (partial, see ledger).
+    bool endScene();
+    // 0x5b13f4: returns a new CBufferBase (intrusive reference taken by the wrapper).
+    // Partial: the original stores the result through a hidden return slot.
+    boost::intrusive_ptr<IBuffer> createBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size,
+                                               void* data, bool flag);
+
+    // Buffer map keyed by the 32-bit buffer name (red-black tree at +0x800 in the original).
+    // 0x5b5be4: copies byteCount bytes of data and inserts the entry (insert_unique: an
+    // existing key is kept and its copy is left allocated, as in the original).
+    void registerBufferMap(uint32_t key, uint32_t arg1, uint32_t arg2, uint32_t arg3, size_t byteCount,
+                           const void* data);
+    // 0x5b1f5c: frees the copy of the entry with this key and erases it.
+    void unregisterBufferMap(uint32_t key);
+    // 0x5b35d8: frees every copy and empties the map.
+    void clearBufferMap();
+
     // Test helper, not in the original: exposes the state for checks.
     uint32_t getColorMaskBits() const { return m_colorMask; }
     int32_t getScissorFlag() const { return m_scissorFlag; }
+    size_t getBufferMapSize() const { return m_bufferMap.size(); }
 
 protected:
     // Shared body of the capability setters: flush, enable or disable, store.
@@ -99,6 +122,16 @@ protected:
 
     bool m_frontFaceFlip = false;  // +0x4a0, byte at word index 0x128: inverts the winding map
     int32_t m_scissorFlag = 0;     // +0x23c, cached with the scissor rectangle
+    // BufferInfo entries; field names are not identified (arg1..arg3 are the three
+    // uint32 arguments of registerBufferMap; the key is not stored again).
+    struct BufferInfo {
+        uint32_t arg1 = 0;     // +0x14 in the node
+        uint32_t arg2 = 0;     // +0x18
+        uint32_t arg3 = 0;     // +0x1c
+        size_t byteCount = 0;  // +0x20
+        void* data = nullptr;  // +0x24, malloc copy, freed on unregister and clear
+    };
+    std::map<uint32_t, BufferInfo> m_bufferMap;  // +0x800 in the original
 };
 
 }  // namespace glitch::video

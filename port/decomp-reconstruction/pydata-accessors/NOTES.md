@@ -4,7 +4,7 @@
 
 1331 ledger rows: 1330 reconstructed, 1 partial (the PlayEffect factory, see the Hex-Rays re-run section).
 871 queue rows remain (of 2201): 738 Structs, 121
-Arrays, 6 PyDataArrays, 6 PyDataConstants. The ledger also holds CharacterProperties::read (0x4f2750),
+Arrays, 6 PyDataArrays, 6 PyDataConstants. (Wave 7 settled the Arrays element ABI, see the last section.) The ledger also holds CharacterProperties::read (0x4f2750),
 which is not a queue row (see the thunk section).
 
 - Earlier waves: GetMemberIDByString family (135, `src/member_ids.cpp`), Arrays name-table
@@ -264,3 +264,30 @@ Blockers, by cause. None of these has a decided model in these notes, so none is
   `_Rb_tree` member, and getConstantName (204 bytes) walks the nested tree by hand (it returns the string
   at node +0x24 for the first entry whose int at +0x28 equals the argument, else ""). reloadData (644 bytes) uses DebugSwitches, a 256-byte stack buffer for
   `readString`, and a stack-protector check. Needs the same std-map decision.
+
+## Arrays element ABI and PyDataArrays vtable (decided, not yet ported)
+
+Evidence: Hex-Rays and the ARM listing of `Arrays::Sounds::finalize` (0x4a38a4) and
+`Arrays::GameDifficulties::read` (0x4af5e8). Nothing here is ported yet; the Arrays bodies stay queued.
+
+- A `members` array holds polymorphic element records. The element's first word is its vtable pointer,
+  and the element stride is per class, not fixed:
+  - `Sounds::finalize` steps 12 bytes (`v2 += 12`) and walks from `members + 12 * count`, where
+    `count` is the word at `members - 4`.
+  - `GameDifficulties::read` writes one vtable pointer per element (`result[2] = off_96B698`) and steps 24
+    bytes (`result += 6`). Its header is `result[0] = 24`, `result[1] = count`, `members = result + 2`
+    (`result[0]` is not interpreted yet).
+- Element virtual slots, read from the listing: `[vptr+0x0]` is the deleting destructor, `[vptr+0x8]` is
+  finalize (`LDR PC,[R3,#8]` in `Sounds::finalize`), and `[vptr+0xc]` is read (`LDR PC,[R3,#0xC]` in
+  `GameDifficulties::read`). The Structs classes use the same slots (see the Structs section).
+- Decision: an element is a polymorphic record with a vptr at +0x0. The port models it as an abstract base
+  `pydata::ArrayElement` with `virtual ~ArrayElement()` (slot 0, D1), a deleting slot 1, `virtual void
+  finalize()` (slot 2, +0x8), and `virtual void read(IStreamBase&)` (slot 3, +0xc). A concrete element
+  keeps its own size, taken from the listing for each `Arrays::X`; no single 12-byte struct is assumed.
+- Consequence for Structs: the `read` and `finalize` members of the Structs records must be virtual, as this
+  notes' Structs section already says. `gen_structs.py` still emits them non-virtual, so the generator needs
+  this change before any Arrays wave.
+- PyDataArrays vtable (`decomp_vtable.py PyDataArrays`, 20 bytes): `+0x0` and `+0x4` are the destructor
+  (D1 and D0), `+0x8` is `reloadData(IStreamBase*, char const*)`. Decision: the port keeps that slot order.
+  The PyDataArrays and PyDataConstants `_Rb_tree` (std::map) stand-in is still undecided, so those 12
+  functions stay queued.

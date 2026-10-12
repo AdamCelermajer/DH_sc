@@ -1,6 +1,9 @@
 #include "glitch-core-io/os/device.hpp"
 
+#include "glitch-core-io/os/logging.hpp"
+
 #include <cstring>
+#include <string>
 
 namespace glitch {
 
@@ -40,6 +43,21 @@ int IDevice::getColorFormat() const {
 // attached) and the virtual call on the object at +0x18 (vtable +0x34) are not modelled.
 void IDevice::setEventReceiver(IEventReceiver* receiver) {
     eventReceiver = receiver;
+}
+
+// 0x671e84 _ZN6glitch7IDevice12checkVersionEPKc
+// The library version is "0.1.0.2". A mismatch logs one warning line (the original builds the
+// message through std::string appends and logs it through Printer::log at warning level).
+bool IDevice::checkVersion(const char* compiledVersion) {
+    static const char kLibraryVersion[] = "0.1.0.2";
+    if (std::strcmp(kLibraryVersion, compiledVersion) == 0) return true;
+    std::string message = "Warning: The library version of the Glitch Engine (";
+    message += kLibraryVersion;
+    message += ") does not match the version the application was compiled with (";
+    message += compiledVersion;
+    message += "). This may cause problems.";
+    os::Printer::log(message.c_str(), os::ELL_WARNING);
+    return false;
 }
 
 }  // namespace glitch

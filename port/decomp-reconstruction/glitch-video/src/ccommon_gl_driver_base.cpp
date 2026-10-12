@@ -13,7 +13,7 @@ void CCommonGLDriverBase::CTextureBase::unmapImpl() const {}
 
 // 0x6dcd54 _ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC2Ev
 // 0x6dcd90 _ZN6glitch5video19CCommonGLDriverBase18SCommonShadowStateC1Ev
-// Partial: the word names are not identified. Word +0x18 starts at 4, the rest at zero.
+// Word names are not identified; the constructor values (word +0x18 = 4, rest zero) are reproduced.
 CCommonGLDriverBase::SCommonShadowState::SCommonShadowState() : m_words{} {
     m_words[6] = 4;
 }

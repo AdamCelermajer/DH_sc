@@ -40,6 +40,23 @@ public:
     // 0x82ceec _ZN13GLXPlayerHttp6CancelEv
     void Cancel();
 
+    // Request builders. Partial: each one builds the request text, and the trailing virtual
+    // call (vtable +0x48, request start) is not ported. The original appends to the caller's
+    // buffer; the port does not change it.
+    // 0x82cf4c _ZN13GLXPlayerHttp12downloadFileEPcS0_S0_S0_ll (long is 32 bits on ARM)
+    void downloadFile(const char* host, const char* path, const char* cookie, const char* referer,
+                      std::int32_t rangeStart, std::int32_t rangeEnd);
+    // 0x82d444 _ZN13GLXPlayerHttp10sendByPostEPcS0_
+    void sendByPost(const char* url, const char* query);
+    // 0x82d6e0 _ZN13GLXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_. The original returns the freed
+    // response pointer; the port returns nothing.
+    void sendVideoByPost(const char* url, const char* query, const char* data, std::int32_t* length,
+                         const char* fileName);
+    // 0x82d9ac _ZN13GLXPlayerHttp9sendByGetEPcS0_
+    void sendByGet(const char* url, const char* query);
+    // 0x82dc3c _ZN13GLXPlayerHttp18sendByGetWithNoVerEPcS0_
+    void sendByGetWithNoVer(const char* url, const char* query);
+
     // 0x82ce00 _ZN13GLXPlayerHttp12IsSendByPostEv
     bool IsSendByPost() const { return sendByPost_; }
     // 0x82ce2c _ZN13GLXPlayerHttp16GetServerAddressEv

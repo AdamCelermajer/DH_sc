@@ -48,13 +48,13 @@ int main() {
 
     // processUserInformation clears the user information first.
     u.SetUserNameForTest("bob");
-    u.processUserInformation("ignored");
+    u.processUserInformation("");
     CHECK(u.getUserName() == nullptr);
 
     // processUserGameList clears the game list first.
     u.SetGameForTest(0, "p", "g", 1);
     u.SetGameCountForTest(1);
-    u.processUserGameList("ignored");
+    u.processUserGameList("");
     CHECK(u.getNumberUserGameList() == 0);
 
     if (failures == 0) std::printf("all checks passed\n");

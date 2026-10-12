@@ -6,6 +6,7 @@
 #include "net-session-online/deps/glx_stand_ins.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_observer.hpp"
+#include "net-session-online/glx_text.hpp"
 
 namespace {
 // Token buffers in the original are 256-byte stack arrays.
@@ -17,9 +18,19 @@ constexpr std::int32_t kGenericFunctionOffset = 500;  // 'g' kind offset
 GLXPlayerWebComponent::GLXPlayerWebComponent() = default;
 
 // 0x831f14 _ZN21GLXPlayerWebComponentD1Ev, 0x832000 _ZN21GLXPlayerWebComponentD2Ev
-// Partial: the original releases requestClient_ through a vtable slot of its
-// own type, which is not identified, so the client is not released here.
-GLXPlayerWebComponent::~GLXPlayerWebComponent() = default;
+// Partial: the original releases requestClient_ through vtable slot +0x14 of its type, which
+// is not identified. The port deletes the client through its unique_ptr. The owned strings
+// are released here, as in the original.
+GLXPlayerWebComponent::~GLXPlayerWebComponent() {
+    cursor_ = nullptr;
+    string10_.reset();
+    string14_.reset();
+    string18_.reset();
+    url_.reset();
+    requestClient_.reset();
+    requestTime_ = 0;
+    requestId_ = -1;
+}
 
 // 0x83155c _ZN21GLXPlayerWebComponent19StartResponseParserEPci
 void GLXPlayerWebComponent::StartResponseParser(const char* response, std::int32_t functionId) {
@@ -54,36 +65,82 @@ void GLXPlayerWebComponent::OnUpdateSuccess(std::int32_t arg) {
 void GLXPlayerWebComponent::LoadConfig() {}
 
 // 0x8319b0 _ZN21GLXPlayerWebComponent13OnUpdateParseEv
-// Partial: the 520-byte response parser is not reconstructed yet.
-void GLXPlayerWebComponent::OnUpdateParse() {}
+// Partial: the token dispatch is reconstructed. The observer slot +0x00 call on the failure
+// paths (OnDownloadError) passes an argument that the pseudocode does not show, so the port
+// passes 0 there. The original's StartResponseParser call passes the response length as the
+// function id, which this keeps.
+void GLXPlayerWebComponent::OnUpdateParse() {
+    const char* response = requestClient_ ? requestClient_->GetResponse() : nullptr;
+    const std::int32_t length = requestClient_ ? requestClient_->GetResponseLen() : 0;
+    StartResponseParser(response, length);
+
+    const auto notifyDownloadError = [this]() {
+        if (observer_ != nullptr) {
+            observer_->OnDownloadError(0);
+        }
+    };
+    if (cursor_ == nullptr || functionId_ == 0) {
+        notifyDownloadError();
+        return;
+    }
+
+    char token[0x1000] = {};
+    GetNextResponseToken(token);
+    char kind = 0;
+    if (std::strcmp(token, "f") == 0) {
+        kind = 'f';
+    } else if (std::strcmp(token, "g") == 0) {
+        kind = 'g';
+    } else {
+        notifyDownloadError();
+        return;
+    }
+    std::memset(token, 0, sizeof(token));
+    GetNextResponseToken(token);
+    const std::int32_t functionId = GetFunctionID(kind, std::atoi(token));
+    if (!IsNextResponseStringToken("r")) {
+        notifyDownloadError();
+        return;
+    }
+    std::memset(token, 0, sizeof(token));
+    GetNextResponseToken(token);
+    if (std::strcmp(token, "s") == 0) {
+        OnUpdateSuccess(functionId);
+    } else if (std::strcmp(token, "e") == 0) {
+        OnUpdateFailure(functionId);
+    }
+}
 
 // 0x831bd4 _ZN21GLXPlayerWebComponent10SendByPostEPc
-// Partial: the original sets enabled and encodes the request with
-// SSEncDec_String2Blob, then hands it to the request client. The encoder and the
-// client are not reconstructed, so only the enabled flag is set.
+// Partial: the original sets enabled and encodes the request with SSEncDec_String2Blob
+// (not identified), builds "b=<blob>" and hands it to the request client's POST slot. Only
+// the enabled flag is set here.
 void GLXPlayerWebComponent::SendByPost(char* request) {
     (void)request;
     enabled_ = true;
 }
 
 // 0x831cd4 _ZN21GLXPlayerWebComponent9SendByGetEPc
-// Partial: the original sets enabled, records the request id from the request text
-// (getValue, not reconstructed), stamps the time and calls the request client. Only
-// the enabled flag and the time stamp are set here.
+// Partial: the request id is the second '|' field of the request, read from the raw text,
+// and the time is stamped. The encoded "b=<blob>" text (SSEncDec_String2Blob, not identified)
+// and the client's GET send are not reconstructed.
 void GLXPlayerWebComponent::SendByGet(char* request) {
-    (void)request;
     enabled_ = true;
+    requestId_ = std::atoi(GLXField(request, 1, '|').c_str());
     requestTime_ = XP_API_GET_TIME();
 }
 
 // 0x831c88 _ZN21GLXPlayerWebComponent6CancelEv
-// Partial: the request client's abort slot (+0x38 of its vtable) is not identified and
-// is not called here.
+// The original returns the request client's cancel result (an int in the pseudocode). This
+// port returns nothing, since no caller uses it. The cancel call is the client's Cancel.
 void GLXPlayerWebComponent::Cancel() {
     enabled_ = false;
     XP_DEBUG_OUT("GLXPlayerWebComponent::Cancel(): m_enable is changed to false!!\n");
     cursor_ = nullptr;
     functionId_ = 0;
+    if (requestClient_) {
+        requestClient_->Cancel();
+    }
     requestId_ = -1;
     requestTime_ = 0;
 }

@@ -36,6 +36,9 @@ public:
     // to the object at +0x18 (vtable +0x34, not reconstructed).
     // PARTIAL: the +0x18 object is not modelled; see src/device.cpp.
     virtual void setEventReceiver(IEventReceiver* receiver);
+    // 0x671e84: true when the application's compiled version string equals the library version
+    // (0.1.0.2). Otherwise it logs a warning at ELL_WARNING and returns false.
+    bool checkVersion(const char* compiledVersion);
 
     // +0x28
     IEventReceiver* eventReceiver = nullptr;

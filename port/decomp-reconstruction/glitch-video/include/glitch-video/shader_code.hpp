@@ -70,7 +70,26 @@ public:
     void removeUnusedShaderCodes();                                          // 0x6e2028
     void removeUnusedShaders();                                              // 0x6e2034
 
+    // 0x6e0a3c. Partial: the original opens the additional config file through the driver,
+    // which is not ported. The text (if loaded) replaces '^' with newline. Until a text is
+    // loaded, m_additionalConfigLength stays -1 and the call is retried.
+    void initAdditionalConfig(const char* name);
+
+    // 0x6e0b64. Partial: returns std::string instead of a process-buffer char*. Parts are
+    // joined in the original order (a, b, c, then the additional config text when loaded).
+    // outLength (when not null) receives the total length.
+    std::string makeShaderCodeName(const char* a, uint32_t aLength, const char* b, uint32_t bLength,
+                                   const char* c, uint32_t cLength, uint32_t* outLength) const;
+    // 0x6e0c10. Partial: same as the overload above; null b or c count as empty.
+    std::string makeShaderCodeName(const char* a, const char* b, const char* c, uint32_t* outLength) const;
+
     CShaderCodeManager m_shaderCodes;  // +0x54
+
+    // Additional config text: +0x7c is the text pointer (null when not loaded) and +0x80 the
+    // length, -1 until a text is loaded. Only the flag and the text are modelled here.
+    std::string m_additionalConfig;               // +0x7c
+    bool m_hasAdditionalConfig = false;           // +0x7c non-null
+    int32_t m_additionalConfigLength = -1;        // +0x80
 };
 
 }  // namespace glitch::video

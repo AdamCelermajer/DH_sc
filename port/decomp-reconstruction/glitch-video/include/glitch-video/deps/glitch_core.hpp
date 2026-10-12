@@ -41,6 +41,10 @@ namespace glitch::video {
 // alpha as the byte at +3, consistent with that layout.
 struct SColor {
     uint32_t color = 0;
+
+    // 0x540f8c. Channels are bytes 0..3 of color (byte 0 is the low byte, as in
+    // memory). Result is the blend t * this + (1 - t) * other, with t clamped to [0, 1].
+    SColor getInterpolated(const SColor& other, float t) const;
 };
 
 // Float colour, four words (r, g, b, a) in the original.

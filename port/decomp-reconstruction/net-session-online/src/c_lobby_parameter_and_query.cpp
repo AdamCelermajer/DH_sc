@@ -56,28 +56,57 @@ char* CLobbyParameterAndQuery::PackParameter(std::int32_t& packedLength) {
     return out;
 }
 
+// Helper, not in the original: builds the record that both setters store. The
+// original allocates len + 5 bytes (the extra one stays zero), records len + 4 as
+// the slot length, and frees the previous slot value before the new one is set.
+void CLobbyParameterAndQuery::StoreRecord(std::int32_t index, std::uint8_t kind, const char* value) {
+    const std::size_t slot = static_cast<std::size_t>(index);
+    const std::size_t valueLen = std::strlen(value);
+
+    char* record = new char[valueLen + 5]();
+    record[0] = static_cast<char>(index);                          // slot index, low byte
+    record[1] = static_cast<char>(kind);                           // compareOpt or type
+    record[2] = static_cast<char>((valueLen >> 8) & 0xff);         // length, high byte
+    record[3] = static_cast<char>(valueLen & 0xff);                // length, low byte
+    std::memcpy(record + 4, value, valueLen);
+
+    delete[] values_[slot];
+    values_[slot] = record;
+    lengths_[slot] = static_cast<std::int32_t>(valueLen + 4);
+}
+
 // 0x836b10 _ZN23CLobbyParameterAndQuery17AddQueryConditionEi11compareOptTPc
-// Partial. Only the bounds guard is recovered. The original's tail call after
-// the guard is not identified, so nothing is stored.
-void CLobbyParameterAndQuery::AddQueryCondition(std::int32_t index, std::int32_t /*compareOpt*/,
+// The original's compareOpt argument is a char; the record keeps its low byte.
+void CLobbyParameterAndQuery::AddQueryCondition(std::int32_t index, std::int32_t compareOpt,
                                                 const char* value) {
     if (index < 0 || index >= count_ || value == nullptr) {
         return;
     }
+    StoreRecord(index, static_cast<std::uint8_t>(compareOpt), value);
 }
 
 // 0x836c0c _ZN23CLobbyParameterAndQuery17SetParameterValueEiPc
-// Partial. Same guard as AddQueryCondition; the store is not recovered.
+// The second record byte is the parameter type from the +0x08 table.
 void CLobbyParameterAndQuery::SetParameterValue(std::int32_t index, const char* value) {
     if (index < 0 || index >= count_ || value == nullptr) {
         return;
     }
+    StoreRecord(index, types_[static_cast<std::size_t>(index)], value);
 }
 
 void CLobbyParameterAndQuery::Reserve(std::int32_t count) {
     count_ = count;
-    values_.assign(count > 0 ? static_cast<std::size_t>(count) : 0, nullptr);
-    lengths_.assign(count > 0 ? static_cast<std::size_t>(count) : 0, 0);
+    const std::size_t n = count > 0 ? static_cast<std::size_t>(count) : 0;
+    types_.assign(n, 0);
+    values_.assign(n, nullptr);
+    lengths_.assign(n, 0);
+}
+
+void CLobbyParameterAndQuery::SetParameterType(std::int32_t index, std::uint8_t type) {
+    if (index < 0 || index >= count_) {
+        return;
+    }
+    types_[static_cast<std::size_t>(index)] = type;
 }
 
 void CLobbyParameterAndQuery::StoreParameter(std::int32_t index, const char* data,

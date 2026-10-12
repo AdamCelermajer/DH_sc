@@ -264,6 +264,8 @@ public:
     void addStringAsTexture(const char* name, const wchar_t* value, bool flag);      // 0x5682c0
     // 0x568124: PARTIAL. The light is null here, as in the original (see CLightAttribute).
     void addStringAsLight(const char* name, const wchar_t* value, bool flag);
+    void addBinary(const char* name, void* data, int size, bool flag);                      // 0x5684d8
+    void addStringAsBinary(const char* name, const wchar_t* value, bool flag);              // 0x56840c: PARTIAL
     void addString(const char* name, const wchar_t* value, bool flag);               // 0x56a798
     // 0x56a818: the narrow value is kept (see the narrow CStringAttribute constructor).
     void addString(const char* name, const char* value, bool flag);
@@ -315,6 +317,12 @@ public:
     void setAttribute(const char* name, const glitch::core::CMatrix4<float>& value);        // 0x56aee4
     void setAttribute(const char* name, glitch::video::SColor value);                       // 0x56abe8
     void setAttribute(const char* name, glitch::video::SColorf value);                      // 0x56b25c
+    // By name, with a fallback add (flag false). A null string value removes the existing attribute.
+    void setAttribute(const char* name, const char* value);                                 // 0x56a948
+    void setAttribute(const char* name, const wchar_t* value);                              // 0x56aa98
+    void setAttribute(const char* name, void* data, int size);                              // 0x56b4ac
+    void setAttribute(const char* name, glitch::core::line3d<float> value);                 // 0x56bb8c
+    void setAttribute(const char* name, const glitch::core::triangle3d<float>& value);      // 0x56bdcc
 
     // Name lookup in the current group (0x5628f4 .. 0x562374).
     unsigned int findAttribute(const char* name) const;   // 0x5628f4: index, or 0xffffffff

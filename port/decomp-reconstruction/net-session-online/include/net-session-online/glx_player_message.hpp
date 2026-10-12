@@ -23,6 +23,14 @@
 
 class GLXPlayerMessage : public GLXPlayerWebComponent {
 public:
+    // 0x8368e0 _ZN16GLXPlayerMessageC1Ev, 0x836980 _ZN16GLXPlayerMessageC2Ev
+    // Partial: the 0x428-byte request client at +0x20 is not allocated (see the .cpp).
+    GLXPlayerMessage();
+    // 0x83688c _ZN16GLXPlayerMessageD2Ev
+    // The message list and body are released by their members. The request client at +0x20
+    // is not allocated here, so there is nothing else to free.
+    ~GLXPlayerMessage() override;
+
     // 0x834d2c _ZN16GLXPlayerMessage15getMsgListCountEv
     std::int32_t getMsgListCount() const { return messageCount_; }
     // 0x834d34 _ZN16GLXPlayerMessage11getMsgCountEii

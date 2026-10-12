@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "net-session-online/deps/glx_stand_ins.hpp"
+
 namespace {
 
 constexpr std::size_t kNpos = std::string::npos;
@@ -46,7 +48,7 @@ void GLXPlayerSocket::Start() {
     std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
     socket_ = -1;
     state_ = 1;
-    field0c_ = 0;
+    connectHandle_ = 0;
 }
 
 // 0x83007c _ZN15GLXPlayerSocket6CancelEv
@@ -55,7 +57,7 @@ void GLXPlayerSocket::Cancel() {
     const std::int32_t state = state_;
     if (state != 0 && state != 7 && state != 6) {
         state_ = 8;
-        field85c_ = 0;
+        connecting_ = 0;
         OnCancelled();
     }
 }
@@ -105,8 +107,9 @@ std::int32_t GLXPlayerSocket::CalculateTotalLength() const {
 }
 
 // 0x830448 _ZN15GLXPlayerSocket15ParseHttpHeaderEPc
-// The original copies the header block with npos bytes when the CRLF CRLF terminator is
-// missing. That is undefined, so the port returns npos there. This is partial.
+// Partial: the found path matches the pseudocode (lower-cases the name and the header
+// block, then searches). When the CRLF CRLF terminator is missing, the original copies
+// npos bytes, which is undefined, so the port returns npos there.
 std::uint32_t GLXPlayerSocket::ParseHttpHeader(const char* name) const {
     const std::string lowerName = LowerCopy(name != nullptr ? name : "");
     const std::size_t end = content_.find("\r\n\r\n", 0, 4);
@@ -125,11 +128,12 @@ void GLXPlayerSocket::RemoveHttpHeader() {
     }
 }
 
-// 0x83067c _ZN15GLXPlayerSocket18ParseChunkedContentEv
+// 0x83067c _ZN15GLXPlayerSocket19ParseChunkedContentEv
 // Walks the chunks in the content, appends each chunk's data to content_ and returns 1.
 // The original computes the next chunk offset as (CRLF position + 2 + CRLF position), and
-// the size line is cut to the absolute CRLF position. Both are kept as decompiled. This
-// is partial: multi-chunk bodies may not decode the way the server meant.
+// the size line is cut at the absolute CRLF position (substr(next, crlf)). Both are kept as
+// decompiled, so multi-chunk bodies decode the way the original does, not necessarily the
+// way the server meant. The debug traces are not reproduced.
 std::int32_t GLXPlayerSocket::ParseChunkedContent() {
     const std::string raw = content_;
     content_.clear();
@@ -164,6 +168,163 @@ std::int32_t GLXPlayerSocket::ParseChunkedContent() {
         pos = next + 2 + crlf;
     }
     return 1;
+}
+
+// Error path of the Run states: LastError, the close hook and state 7.
+void GLXPlayerSocket::FailAndClose() {
+    LastError();
+    OnCancelled();
+    state_ = 7;
+}
+
+// Length of the response span. The original subtracts the two stored pointers.
+std::int32_t GLXPlayerSocket::ResponseSpan() const {
+    if (responseStart_ == nullptr || responseEnd_ == nullptr) {
+        return 0;
+    }
+    return static_cast<std::int32_t>(responseEnd_ - responseStart_);
+}
+
+// 0x830f20 _ZN15GLXPlayerSocket3RunEv
+// Partial: the state machine is reconstructed. Its transport calls are the virtual hooks,
+// and the port's base hooks report failure, so Run only advances with a transport. The
+// original's return values (the observer's result) are not kept: Run returns nothing.
+void GLXPlayerSocket::Run() {
+    // States 0 (idle), 7 (error) and 8 (cancelled) do nothing.
+    if (state_ == 0 || state_ == 7 || state_ == 8) {
+        return;
+    }
+    switch (state_) {
+        case 1: {  // started: open the connection, then begin the connect
+            if (connectHandle_ != 0 || (connectHandle_ = OpenConnection(host_.get())) != 0) {
+                if (BeginConnect() != 0) {
+                    state_ = 2;
+                }
+                // A failed begin leaves the state as it is, as the original does.
+            } else {
+                const auto elapsed = static_cast<std::int32_t>(XP_API_GET_TIME() - connectStartTime_);
+                if (elapsed > 9999) {
+                    LastError();
+                    state_ = 7;
+                    connectResult_ = 0;
+                }
+            }
+            return;
+        }
+        case 2: {  // connecting
+            if (IsConnected() != 0) {
+                sentBytes_ = 0;
+                sendPercentage_ = 0;
+                state_ = 3;
+                sendStartTime_ = XP_API_GET_TIME();
+                connecting_ = 0;
+            } else if (connecting_ == 1) {
+                // still connecting
+            } else {
+                FailAndClose();
+                connecting_ = 0;
+            }
+            return;
+        }
+        case 3: {  // sending the request from the observer's data
+            const std::int32_t ready = Poll(true);
+            if (ready < 0) {
+                FailAndClose();
+                return;
+            }
+            if (ready == 0) {
+                return;
+            }
+            const char* data = observer_ != nullptr ? observer_->RequestData() : nullptr;
+            const auto total = observer_ != nullptr
+                                   ? static_cast<std::int32_t>(observer_->RequestLength())
+                                   : 0;
+            std::int32_t chunk = total - sentBytes_;
+            if (chunk > 2048) {
+                chunk = 2048;
+            }
+            const std::int32_t sent =
+                SendBytes(data != nullptr ? data + sentBytes_ : nullptr, chunk);
+            if (sent < 0) {
+                FailAndClose();
+                return;
+            }
+            sentBytes_ += sent;
+            if (total > 0) {
+                sendPercentage_ = static_cast<std::uint32_t>(100 * sentBytes_ / total);
+            }
+            if (sentBytes_ == total) {
+                // Send successful: the reply starts with a header.
+                receiveLength_ = 0;
+                content_.clear();
+                responseFlag844_ = false;
+                headerPending_ = true;
+                contentLengthKnown_ = false;
+                state_ = 4;
+                receiveStartTime_ = XP_API_GET_TIME();
+            }
+            return;
+        }
+        case 4: {  // receiving the reply
+            if (Poll(false) <= 0) {
+                return;
+            }
+            std::memset(receiveBuffer_, 0, sizeof(receiveBuffer_));
+            const std::int32_t received = RecvBytes(receiveBuffer_, 2048);
+            if (received < 0) {
+                FailAndClose();
+                if (observer_ != nullptr) {
+                    observer_->OnReceived(0);
+                }
+                return;
+            }
+            if (received > 0) {
+                content_.append(receiveBuffer_, static_cast<std::size_t>(received));
+                if (headerPending_) {
+                    // The header ends at the first CRLF CRLF, which must not be at 0.
+                    const std::size_t end = content_.find("\r\n\r\n", 0, 4);
+                    if (end == std::string::npos || end == 0) {
+                        return;
+                    }
+                    if ((ParseHttpHeader("Content-Length") & 0x80000000u) == 0) {
+                        expectedLength_ = CalculateTotalLength();
+                        contentLengthKnown_ = true;
+                    }
+                    RemoveHttpHeader();
+                    headerPending_ = false;
+                }
+                const std::int32_t available = ResponseSpan();
+                if (observer_ != nullptr) {
+                    observer_->OnReceived(available);
+                }
+                if (contentLengthKnown_ && expectedLength_ == available) {
+                    state_ = 5;
+                }
+            } else {
+                // The peer closed the connection: decode a chunked body, then report it.
+                if (!contentLengthKnown_) {
+                    ParseChunkedContent();
+                }
+                if (observer_ != nullptr) {
+                    observer_->OnResponse(responseStart_, ResponseSpan());
+                }
+                content_.clear();
+                state_ = 6;
+            }
+            return;
+        }
+        case 5: {  // response complete: close, report, finish
+            OnCancelled();
+            if (observer_ != nullptr) {
+                observer_->OnResponse(responseStart_, ResponseSpan());
+            }
+            content_.clear();
+            state_ = 6;
+            return;
+        }
+        default:
+            return;
+    }
 }
 
 // 0x83006c _ZN15GLXPlayerSocket17GetSendPercentageEv

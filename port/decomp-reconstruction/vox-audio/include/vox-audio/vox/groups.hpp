@@ -32,6 +32,8 @@ public:
     // C2 0x8818d4, C1 0x881938: the reset flag selects the first state word (0 takes
     // reset_value_, otherwise 1); the state words are then filled from the record.
     SegmentGroup(const GroupInfos* info, int reset_flag);
+    // C2 0x88199c, C1 0x881a08: valid is set to true, select mode and the six words are copied.
+    SegmentGroup(const SegmentGroup& other);
     virtual ~SegmentGroup();  // 0x881a74 D2, 0x881a78 D1
 
     int GetSelectMode() const { return select_mode_; }  // 0x881a7c
@@ -59,6 +61,8 @@ public:
     };
 
     SequentialGroup() = default;
+    // C2 0x883ab8, C1 0x8839fc: the SegmentGroup copy, the indices, then the element vector.
+    SequentialGroup(const SequentialGroup& other);
     ~SequentialGroup() override;  // 0x882888 D1, 0x8828d0 D2, 0x882c68 deleting variant
 
     void GetState(State* state) const;                 // 0x881d30
@@ -76,17 +80,72 @@ private:
     int prev_index_ = 0;         // +0x34
 };
 
-// +0x24 vector of element pointers (first word of each is its value), +0x44 current index.
-class RandomGroupElement;
+// Element record: value (+0x00, the first word read by Peek) and weight (+0x04).
+struct RandomGroupElement {
+    std::int32_t value_ = 0;   // +0x00
+    std::int32_t weight_ = 0;  // +0x04
+};
+
+// Ring node of the removed-elements list: next +0x00, prev +0x04, element +0x08.
+// The list sentinel is RandomGroup::removed_ (its next and prev sit at +0x30 and +0x34).
+struct RandomGroupNode {
+    RandomGroupNode* next = nullptr;
+    RandomGroupNode* prev = nullptr;
+    RandomGroupElement* element = nullptr;
+};
+
+// State record written by RandomGroup::GetState. The last two members hold the addresses of
+// the group's element vector (+0x24) and list sentinel (+0x30), as the original stores them.
+struct RandomGroupState {
+    std::int32_t cycles = 0;                // [0] +0x14
+    std::int32_t remaining = 0;             // [1] +0x18
+    std::int32_t current = 0;               // [2] +0x44
+    std::int32_t total_weight = 0;          // [3] +0x48
+    std::int32_t cycle_remaining = 0;       // [4] +0x4c
+    std::int32_t saved_cycles = 0;          // [5] +0x1c
+    std::int32_t saved_remaining = 0;       // [6] +0x20
+    std::int32_t prev_index = 0;            // [7] +0x50
+    std::int32_t prev_cycle_remaining = 0;  // [8] +0x54
+    const std::vector<RandomGroupElement*>* elements = nullptr;  // [9] +0x24
+    const RandomGroupNode* removed = nullptr;                     // [10] +0x30
+};
+
+// Layout: SegmentGroup base, +0x24 element vector (begin, end, capacity), +0x30 removed-list
+// sentinel (next, prev), +0x38 element count, +0x3c exclusion window, +0x40 raw window
+// (GroupInfos field_0c), +0x44 current index, +0x48 total weight, +0x4c cycle remaining,
+// +0x50 saved index, +0x54 saved cycle remaining, +0x58 reinsert flag.
 class RandomGroup : public SegmentGroup {
 public:
-    RandomGroup() = default;
+    RandomGroup();
+    // C2 0x881ad0, C1 0x881b40 (+0x44 and +0x50..+0x54 are not written by the original).
+    RandomGroup(const GroupInfos* info, int reset_flag);
+    // C2 0x8832c0, C1 0x88317c: the element records are copied, the removed list is not.
+    RandomGroup(const RandomGroup& other);
+    ~RandomGroup() override;  // 0x882918 D1, 0x8829fc D2, 0x882c84 deleting variant
+
+    void GetState(RandomGroupState* state) const;     // 0x881bb0
+    void SetState(const RandomGroupState* state);     // 0x882f48
+    void SetState(const RandomGroup& other);          // 0x8834f0 (partial, see ledger)
     int PeekAtNextGroupElement(GroupPeekMode mode) const;  // 0x881c0c
-    void AddElement(RandomGroupElement* element);          // 0x8836b0 (partial, see ledger)
+    int GetActiveElementIndex() const;                // 0x882ca0
+    int GetGroupElementPosition();                    // 0x882d94
+    int Reset(int reset_mode);                        // 0x883088
+    void SetToPreviousState();                        // 0x883404
+    void AddElement(RandomGroupElement* element);     // 0x8836b0 (partial, see ledger)
 
 private:
+    friend struct RandomGroupTestAccess;
     std::vector<RandomGroupElement*> elements_;  // +0x24..+0x2c
-    int current_ = -1;                           // +0x44
+    RandomGroupNode removed_;                    // +0x30 (sentinel), +0x34
+    std::int32_t element_count_ = 0;             // +0x38
+    std::int32_t exclusion_window_ = 0;          // +0x3c
+    std::int32_t raw_window_ = 0;                // +0x40
+    std::int32_t current_ = -1;                  // +0x44
+    std::int32_t total_weight_ = 0;              // +0x48
+    std::int32_t cycle_remaining_ = 0;           // +0x4c
+    std::int32_t prev_index_ = 0;                // +0x50
+    std::int32_t prev_cycle_remaining_ = 0;      // +0x54
+    bool reinsert_flag_ = false;                 // +0x58
 };
 
 }  // namespace vox

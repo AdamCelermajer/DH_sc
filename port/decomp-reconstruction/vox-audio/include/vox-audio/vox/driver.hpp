@@ -30,6 +30,12 @@ public:
     virtual void SetSFXPresetActive(int preset, bool active, float level);  // 0x88ed54 (empty)
     virtual int SetOutputMode(VoxOutputMode mode);                     // 0x88ed58: returns 0
     virtual int GetOutputMode();                                       // 0x88ed60: returns 1
+    // Slot +0x24 (no symbol): the 3D parameter push that Update3D sends for each dirty block.
+    // Param 0..2 are the general block fields, 3..5 the listener position, velocity and orientation.
+    // The name is chosen here; the binary has no symbol for it. Empty in the base class.
+    virtual void Set3DParameter(int param, const void* value) {}
+    // Slot +0x40 (no symbol): the driver's own debug dump, called from VoxEngineInternal::PrintDebug.
+    virtual void PrintDebug() {}
 };
 
 class DriverSourceInterface {

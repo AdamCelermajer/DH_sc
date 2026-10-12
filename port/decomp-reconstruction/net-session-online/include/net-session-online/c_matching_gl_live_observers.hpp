@@ -55,7 +55,12 @@ public:
 
 class CMatchingGLLiveLobbyObserver {
 public:
-    virtual ~CMatchingGLLiveLobbyObserver() = default;  // D1/D2 queued
+    // 0x822538 _ZN28CMatchingGLLiveLobbyObserverC2Ev. Partial: the room list, member vector and
+    // name map (+0x18, +0x24, +0x30) are not modelled; the scalars are initialised.
+    CMatchingGLLiveLobbyObserver();
+    // 0x821ed8 _ZN28CMatchingGLLiveLobbyObserverD1Ev. Partial: runs Terminate; the containers
+    // are not modelled. The D2 twin at 0x821f7c has the same body.
+    virtual ~CMatchingGLLiveLobbyObserver();
 
     // 0x8212f8 _ZN28CMatchingGLLiveLobbyObserver30OnMPEstablishConnectionSuccessEv
     virtual void OnMPEstablishConnectionSuccess();
@@ -78,11 +83,19 @@ public:
     virtual std::int32_t OnMPProcessPushGameserverParams(DataPacket* packet);
     // 0x821384 _ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushAutomatchUserEP10DataPacket: returns 0.
     virtual std::int32_t OnMPProcessPushAutomatchUser(DataPacket* packet);
+    // 0x821560 _ZN28CMatchingGLLiveLobbyObserver24OnMPProcessPushStartGameEP10DataPacket: returns 0.
+    virtual std::int32_t OnMPProcessPushStartGame(DataPacket* packet);
+    // 0x821654 _ZN28CMatchingGLLiveLobbyObserver16OnMPNetworkErrorEi: records the error, clears the
+    // flags and queues event 12 for error -2.
+    virtual void OnMPNetworkError(std::int32_t error);
+    // 0x8215a4 _ZN28CMatchingGLLiveLobbyObserver17OnMPFunctionErrorEPci: maps the error code to
+    // a queued event. The decompiled return value (an AddEvent result) is not used, so void.
+    virtual void OnMPFunctionError(char* message, std::int32_t code);
     // 0x821448 _ZN28CMatchingGLLiveLobbyObserver9TerminateEv
     // Partial: calls ClearRoomList (not reconstructed; see the .cpp).
     void Terminate();
     // 0x821470 _ZN28CMatchingGLLiveLobbyObserver21OnMPDisconnectSuccessEv
-    // Partial: calls ClearRoomList (not reconstructed; see the .cpp).
+    // Thunk: forwards to Terminate (0x821448).
     virtual void OnMPDisconnectSuccess();
 
     // Test seams. Not in the original.
@@ -98,9 +111,12 @@ public:
     }
 
 private:
-    bool loggedIn_ = false;      // +0x04
-    bool connected_ = false;     // +0x05
-    bool gameStarted_ = false;   // +0x06
-    std::int32_t state_ = 0;     // +0x14
+    bool loggedIn_ = false;        // +0x04
+    bool connected_ = false;       // +0x05
+    bool gameStarted_ = false;     // +0x06
+    std::int32_t field08_ = -1;    // +0x08 (the constructor sets -1; not identified)
+    std::int32_t field0c_ = 0;     // +0x0c (not identified)
+    std::int32_t updateTime_ = 0;  // +0x10 (time of the last list update in the original)
+    std::int32_t state_ = 0;       // +0x14
     std::int32_t lastResult_ = 0;  // +0x48
 };

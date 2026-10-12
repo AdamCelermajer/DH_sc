@@ -31,7 +31,11 @@ public:
     uint32_t getDrawCall2DCount() const;        // 0x5aaae0
     uint32_t getTextureBindingCount() const;    // 0x5aaad8
     virtual bool checkDriverReset();            // 0x5a8cc8
-    uint32_t getMaximalPrimitiveCount() const;  // 0x5a90f4
+    virtual uint32_t getMaximalPrimitiveCount() const;  // 0x5a90f4 (vtable +0x60)
+    // 0x5aa8a0: true when count fits the maximal primitive count. The original logs
+    // "Could not draw triangles, too many primitives" through os::Printer, which is not ported.
+    // Partial: the log call is omitted.
+    bool checkPrimitiveCount(uint32_t count) const;
     void setMaxTextureSize(const core::dimension2d<int32_t>& size);  // 0x5a909c
     void onShaderDestroyed(IShader* shader);    // 0x5a8b90
     bool beginScene();                          // 0x5a8b74

@@ -1,5 +1,9 @@
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 
+#include <ctime>
+
+#include "net-session-online/c_matching_gl_live.hpp"
+
 // ---- CMatchingGLLiveFriendObserver ----
 
 // 0x821254 _ZN29CMatchingGLLiveFriendObserverC2Ev (C1 at 0x821280 is the same body)
@@ -59,6 +63,15 @@ void CMatchingGLLiveLobbyObserver::OnMPLoginSuccess(DataPacket* /*packet*/) {
 // 0x821328 _ZN28CMatchingGLLiveLobbyObserver24OnMPKickOutPlayerSuccessEv
 void CMatchingGLLiveLobbyObserver::OnMPKickOutPlayerSuccess() { lastResult_ = 0; }
 
+// 0x822538 _ZN28CMatchingGLLiveLobbyObserverC2Ev
+// Partial: the room list, member vector and name map are not modelled. The original leaves
+// +0x14 (state) unset, and the port initialises it to 0.
+CMatchingGLLiveLobbyObserver::CMatchingGLLiveLobbyObserver() = default;
+
+// 0x821ed8 _ZN28CMatchingGLLiveLobbyObserverD1Ev
+// Partial: runs Terminate. The containers the original destroys here are not modelled.
+CMatchingGLLiveLobbyObserver::~CMatchingGLLiveLobbyObserver() { Terminate(); }
+
 // 0x821334 _ZN28CMatchingGLLiveLobbyObserver20OnMPStartGameSuccessEP10DataPacket
 void CMatchingGLLiveLobbyObserver::OnMPStartGameSuccess(DataPacket* /*packet*/) {
     lastResult_ = 0;
@@ -99,6 +112,50 @@ std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushAutomatchUser(DataPack
     return 0;
 }
 
+// 0x821560 _ZN28CMatchingGLLiveLobbyObserver24OnMPProcessPushStartGameEP10DataPacket
+// The original also calls CMatching::Get(), whose result is unused here, so it is omitted.
+std::int32_t CMatchingGLLiveLobbyObserver::OnMPProcessPushStartGame(DataPacket* /*packet*/) {
+    if (gameStarted_) {
+        CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(11, nullptr, 0);
+    }
+    return 0;
+}
+
+// 0x8215a4 _ZN28CMatchingGLLiveLobbyObserver17OnMPFunctionErrorEPci
+// The original returns the AddEvent result (or this) through the decompiler's return slot.
+// Callers in the port ignore it, so the port returns void.
+void CMatchingGLLiveLobbyObserver::OnMPFunctionError(char* /*message*/, std::int32_t code) {
+    switch (code) {
+        case 16398:
+            CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(10, nullptr, 0);
+            lastResult_ = 16398;
+            break;
+        case 16399:
+            CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(9, nullptr, 0);
+            lastResult_ = code;
+            break;
+        case -2:
+            CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(12, nullptr, 0);
+            lastResult_ = code;
+            break;
+        default:
+            lastResult_ = code;
+            break;
+    }
+}
+
+// 0x821654 _ZN28CMatchingGLLiveLobbyObserver16OnMPNetworkErrorEi
+// As with OnMPFunctionError, the decompiled return value is not used, so the port returns void.
+void CMatchingGLLiveLobbyObserver::OnMPNetworkError(std::int32_t error) {
+    lastResult_ = error;
+    loggedIn_ = false;
+    connected_ = false;
+    gameStarted_ = false;
+    if (error == -2) {
+        CMatchingGLLive::s_eventQueueGLLiveInternal.AddEvent(12, nullptr, 0);
+    }
+}
+
 // The room list (ClearRoomList, 0x8213ec) is not reconstructed. The list is not modelled
 // here, so there is nothing to clear and this is a no-op until it is.
 static void ClearRoomList() {}
@@ -113,10 +170,5 @@ void CMatchingGLLiveLobbyObserver::Terminate() {
 }
 
 // 0x821470 _ZN28CMatchingGLLiveLobbyObserver21OnMPDisconnectSuccessEv
-void CMatchingGLLiveLobbyObserver::OnMPDisconnectSuccess() {
-    ClearRoomList();
-    state_ = 1;
-    lastResult_ = 0;
-    connected_ = false;
-    loggedIn_ = false;
-}
+// Thunk: the original is a direct tail call to Terminate (0x821448).
+void CMatchingGLLiveLobbyObserver::OnMPDisconnectSuccess() { Terminate(); }

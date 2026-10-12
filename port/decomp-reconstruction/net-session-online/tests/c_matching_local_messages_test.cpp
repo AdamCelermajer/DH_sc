@@ -1,0 +1,115 @@
+#include "net-session-online/c_matching_local.hpp"
+#include "net-session-online/deps/matching_queue.hpp"
+
+#include <cstdio>
+#include <cstring>
+
+static int failures = 0;
+#define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
+
+// Reset() is 0x8074a4 and belongs to no slice yet. The room bodies, which these tests pull in, call it.
+void CMatchingLocal::Reset() {}
+
+int main() {
+    // SendChangeServerMessage: type 4, point-to-point, then the local member id (4 bytes).
+    {
+        CMatchingLocal local;
+        GetConnectionMgr().ResetForTest();
+        local.SetMemberId(6);
+        CHECK(local.SendChangeServerMessage() == 0);
+        CHECK(!GetConnectionMgr().Sent().empty());
+        const auto& p = GetConnectionMgr().Sent().back();
+        CHECK(p.packetType == 4);
+        CHECK(!p.broadcast);
+        CHECK(p.bytes.size() == 5);
+        CHECK(p.bytes.size() == 5 && p.bytes[0] == 4);
+        std::int32_t id = 0;
+        if (p.bytes.size() == 5) std::memcpy(&id, p.bytes.data() + 1, 4);
+        CHECK(id == 6);
+    }
+
+    // SendServerResponse: type 1 record of 40 bytes (listen id, member id, count, flag), broadcast type 2.
+    {
+        CMatchingLocal local;
+        GetConnectionMgr().ResetForTest();
+        local.SetMemberId(7);
+        CHECK(local.SendServerResponse(true) == 0);
+        const auto& p = GetConnectionMgr().Sent().back();
+        CHECK(p.packetType == 2);
+        CHECK(p.broadcast);
+        CHECK(p.bytes.size() == 41);
+        if (p.bytes.size() == 41) {
+            CHECK(p.bytes[0] == 1);
+            std::int32_t id = 0;
+            std::memcpy(&id, p.bytes.data() + 1 + 28, 4);
+            CHECK(id == 7);
+            CHECK(p.bytes[1 + 36] == 1);  // flag
+        }
+    }
+
+    // SendClientRequest: a single type-2 byte, broadcast.
+    {
+        CMatchingLocal local;
+        GetConnectionMgr().ResetForTest();
+        CHECK(local.SendClientRequest() == 0);
+        const auto& p = GetConnectionMgr().Sent().back();
+        CHECK(p.packetType == 2 && p.broadcast && p.bytes.size() == 1 && p.bytes[0] == 2);
+    }
+
+    // ProcessClientMessage answers when this is the server and the request is not accepted.
+    {
+        CMatchingLocal local;
+        GetConnectionMgr().ResetForTest();
+        local.SetMemberId(1);
+        NetBitStream stream(8);
+        // serverMemberId_ is -2 until a change message arrives: no response.
+        local.ProcessClientMessage(CNetworkId{}, stream);
+        CHECK(GetConnectionMgr().Sent().empty());
+        std::int32_t server = 1;
+        NetBitStream change(8);
+        change.WriteByteArray(&server, sizeof server);
+        local.ProcessChangeServerMessage(0, change);
+        local.ProcessClientMessage(CNetworkId{}, stream);
+        CHECK(!GetConnectionMgr().Sent().empty());
+        CHECK(GetConnectionMgr().Sent().back().packetType == 2);
+    }
+
+    // PacketReceiverCallback: type 4 goes to ProcessChangeServerMessage with the rest of the buffer.
+    {
+        CMatchingLocal local;
+        std::uint8_t buffer[5] = {4, 0x2a, 0, 0, 0};
+        local.PacketReceiverCallback(3, reinterpret_cast<char*>(buffer), sizeof buffer);
+        CHECK(local.ServerMemberIdForTest() == 0x2a);
+        std::uint8_t other[5] = {9, 0x11, 0, 0, 0};
+        local.PacketReceiverCallback(3, reinterpret_cast<char*>(other), sizeof other);
+        CHECK(local.ServerMemberIdForTest() == 0x2a);  // other types are ignored
+    }
+
+    // The static callbacks route to CMatchingLocal::s_Matching.
+    {
+        CMatchingLocal local;
+        CMatchingLocal::s_Matching = &local;
+        std::uint8_t buffer[5] = {4, 0x07, 0, 0, 0};
+        CMatchingLocal::sPacketReceiverCallback(2, reinterpret_cast<char*>(buffer), sizeof buffer);
+        CHECK(local.ServerMemberIdForTest() == 7);
+
+        // Broadcast type 1 is a server record: it is added as a server (flag 0).
+        RoomServerHeader header{};
+        header.listenId.Bytes()[0] = 5;
+        header.memberId = 9;
+        header.memberCount = 1;
+        std::uint8_t record[41];
+        record[0] = 1;
+        std::memcpy(record + 1, &header, sizeof header);
+        GetConnectionMgr().ResetForTest();
+        local.SetJoinThresholdForTest(10);
+        CNetworkId from;
+        CMatchingLocal::sBroadcastPacketReceiverCallback(from, reinterpret_cast<char*>(record), sizeof record);
+        local.JoinRoomInternal(1);
+        CHECK(GetConnectionMgr().IsConnected(9));
+        CMatchingLocal::s_Matching = nullptr;
+    }
+
+    std::printf("%s\n", failures ? "c_matching_local_messages: FAILED" : "c_matching_local_messages: ok");
+    return failures != 0;
+}
