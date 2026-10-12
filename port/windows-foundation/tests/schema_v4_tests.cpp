@@ -115,19 +115,19 @@ int main() {
         const auto scratch = temp.path / "scratch.save";
         std::string error;
 
-        // 1. v4 round trip: values and bytes are exact; re-saving is byte-identical.
+        // 1. Current schema5 round trip: values and bytes are exact; re-saving is byte-identical.
         const auto original = fixture();
-        require(original.schema_version == 4 && character_schema_version == 4, "schema constant is not 4");
+        require(original.schema_version == 5 && character_schema_version == 5, "schema constant is not 5");
         require(validate_character_state(original).ok(), "fixture must validate");
         require(save_character(save, original, error), "save failed: " + error);
         const auto bytes = read_bytes(save);
         CharacterState loaded;
         require(load_character(save, loaded, error), "load failed: " + error);
-        require(same_v4(loaded, original), "v4 round trip differs");
+        require(same_v4(loaded, original), "schema5 round trip differs");
         require(character_current_difficulty(loaded) == 1 && character_unlocked_difficulty(loaded) == 2,
                 "difficulty accessors differ");
-        require(save_character(scratch, loaded, error) && read_bytes(scratch) == bytes, "v4 re-save is not byte exact");
-        require(bytes[schema_field_at] == 4, "schema field is not 4");
+        require(save_character(scratch, loaded, error) && read_bytes(scratch) == bytes, "schema5 re-save is not byte exact");
+        require(bytes[schema_field_at] == 5, "schema field is not 5");
         // Documented layout of the appended tail (see report): offsets from the tail start.
         const auto tail = bytes.size() - v4_tail_size(original);
         const auto u32_at = [&](std::size_t at) {
@@ -143,7 +143,7 @@ int main() {
         write_bytes(v3_path, v3);
         CharacterState legacy = fixture();
         require(load_character(v3_path, legacy, error), "schema 3 load failed: " + error);
-        require(legacy.schema_version == 4 && legacy.id == original.id && legacy.stats.level == 5 &&
+        require(legacy.schema_version == 5 && legacy.id == original.id && legacy.stats.level == 5 &&
                 legacy.current_difficulty == 0 && legacy.unlocked_difficulty == 0 &&
                 !legacy.menu_metadata.known && legacy.menu_metadata.save_time == 0 &&
                 legacy.menu_metadata.level_row == std::array<std::int32_t, 3>{-1, -1, -1} &&
@@ -151,7 +151,7 @@ int main() {
                 legacy.visited_modules.empty(), "schema 3 defaults differ");
         require(read_bytes(v3_path) == v3, "legacy read rewrote the file");
         require(save_character(v3_path, legacy, error) && read_bytes(v3_path).size() == v3.size() + v4_fixed_tail + component_count_tail &&
-                read_bytes(v3_path)[schema_field_at] == 4, "explicit save did not upgrade a v3 slot to v4");
+                read_bytes(v3_path)[schema_field_at] == 5, "explicit save did not upgrade a v3 slot to schema5");
         // v2 (no quest length either) and v1 representations of a generic character.
         auto plain = make_default_character("legacy-2", "Old", "KnightPlayerBase");
         require(save_character(scratch, plain, error), "plain save failed");
@@ -184,9 +184,9 @@ int main() {
         expect_load_rejected(scratch, bad_visited, "visited byte 2");
 
         // 4. Unknown versions reject without touching the destination.
-        auto unknown_schema = with_schema(bytes, 5);
-        expect_load_rejected(scratch, unknown_schema, "schema 5");
-        auto future = original; future.schema_version = 5;
+        auto unknown_schema = with_schema(bytes, 6);
+        expect_load_rejected(scratch, unknown_schema, "schema 6");
+        auto future = original; future.schema_version = 6;
         require(save_character(save, original, error), "reseed failed");
         const auto before_future = read_bytes(save);
         require(!save_character(save, future, error) && read_bytes(save) == before_future,

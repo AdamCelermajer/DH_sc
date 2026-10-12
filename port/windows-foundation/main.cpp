@@ -3435,7 +3435,7 @@ int main(int argc,char** argv) {
                     [](f::ActorId,bool& online,std::string&){online=false;return true;});
             }
         }
-        if((options.sourceCamera&&!options.sourceCommands.empty())||options.campaignTriggers) { // P16 HOST: camera admission also serves trigger scripts
+        if(options.sourceCamera||options.campaignTriggers) { // Bind whenever original camera or campaign triggers consume this provider.
             if(!combatSession)throw std::runtime_error("Source camera targets require the bound local player");
             // P16 CINE3: a Character camera anchor (IDA GameObject::GetCameraAnchorPosition returns the object's own
             // position unless an auxiliary anchor is attached; none is decoded) is the live position of its session or
@@ -5144,6 +5144,19 @@ int main(int argc,char** argv) {
                 for(unsigned i=0;i<4;++i)if(path.find("ItemInfo"+std::to_string(i+2))!=std::string::npos){if(i<desc.powers.size())out=desc.powers[i];break;}return true;
             };
             merchantShop=shop.get();merchantUi=std::make_unique<f::merchant::ShopUi>(state,*shop,table,*actor,*props,properties,std::move(menuOptions),std::move(bindings));
+            merchantUi->sell_item_name([&](const f::InventoryItem& requested,const auto&,std::string& out,std::string& e) {
+                const auto live=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& row){return row.instance_id==requested.instance_id;});
+                if(live==state.inventory.end()||live->definition_id!=requested.definition_id||live->quantity!=requested.quantity||
+                   live->source.has_value()!=requested.source.has_value()||(live->source&&
+                   (live->source->value!=requested.source->value||live->source->identified!=requested.source->identified||live->source->power_names!=requested.source->power_names))) {
+                    e="Merchant inventory ItemName no longer matches the current player row";return false;
+                }
+                if(!itemNameFontPalette){e="Merchant inventory ItemName requires genuine source FontPalette";return false;}
+                f::inventory::SourceOwnedDescriptors desc;
+                if(!sourceOwnedDescriptors(*live,desc,e))return false;
+                return dh2::ui::character_menu_item_name_color_v1(desc.base.name,
+                    f::loot::item_power_font_palette_row_v1(desc.powers.size()),*itemNameFontPalette,out,e);
+            });
             merchantUi->parsed_text([&](const std::string& symbol,const std::vector<std::string>& values,std::string& out,std::string& e) {
                 dh2::ui::HudTextV1* text=nullptr;dh2::ui::HudTextEnvironmentV1 env;
                 if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(text,env,e))return false;
@@ -5996,7 +6009,8 @@ int main(int argc,char** argv) {
                 if(!population.set_enabled(id,admitted,e)) {
                     e="Checkpoint captured population admission: "+e;return false;
                 }
-                std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted<<" receipt=captured-v2 frame="<<drawn<<'\n';
+                std::cout<<"Source restore population admission actor="<<id<<" enabled="<<admitted
+                         <<" receipt="<<(snapshot.version==2?"captured-v2":"authenticated-legacy-v1")<<" frame="<<drawn<<'\n';
             }
             initializeSourceNavigation();
             initializeSourceTargetNodes();
@@ -6263,6 +6277,9 @@ int main(int argc,char** argv) {
             } else if(cursorKnown) {
                 if(down&&!mouseHeld)semanticInput.pointer(0,f::platform_input::PointerPhase::down,{pointerX,pointerY});
                 else if(!down&&mouseHeld) {
+                    if(equipmentActionConfirmation.visible())
+                        std::cout<<"Equipment confirmation pointer-up frame="<<drawn<<" client="<<window.width()<<'x'<<window.height()
+                                 <<" raw="<<pointerX<<','<<pointerY<<" normalized="<<pointerX*480.f/window.width()<<','<<pointerY*320.f/window.height()<<'\n';
                     // P16 CINE: a release on the SKIP control of a running cutscene presses SKIP (ignored when hidden).
                     // OPENING2: a release advances a tap-wait caption (btn_next, PC adaptation: any tap on the screen).
                     if(campaignHost.enabled()&&campaignHost.cinematic_skip_hit(pointerX,pointerY,float(window.width()),float(window.height())))campaignHost.press_skip();
@@ -6481,6 +6498,9 @@ int main(int argc,char** argv) {
                     };
                     const auto button=contains(hits[0])?f::equipment_menu::confirmation_v1::Button::yes:
                         contains(hits[1])?f::equipment_menu::confirmation_v1::Button::no:f::equipment_menu::confirmation_v1::Button::other;
+                    std::cout<<"Equipment confirmation semantic-click frame="<<drawn<<" client="<<window.width()<<'x'<<window.height()
+                             <<" raw="<<click.position.x<<','<<click.position.y<<" normalized="<<x<<','<<y
+                             <<" button="<<int(button)<<'\n';
                     const auto released=equipmentActionConfirmation.release(button,*sharedCharacter,equipmentSourceVisitEpoch,
                         [&](const auto& request,const auto& current,std::string& checkError) {
                             const auto& admitted=request.admitted_item;
@@ -6513,6 +6533,9 @@ int main(int argc,char** argv) {
                             }
                             checkError.clear();return true;
                         },error);
+                    std::cout<<"Equipment confirmation result frame="<<drawn<<" outcome="<<int(released.outcome)
+                             <<" action="<<int(released.request.action)<<" instance="<<released.request.instance_id
+                             <<" error="<<error<<'\n';
                     if(released.outcome==f::equipment_menu::confirmation_v1::Outcome::confirmed) {
                         const auto& request=released.request;bool done=false;
                         if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
@@ -8592,13 +8615,6 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                     f::character_menu::Frame menu;
                     if(merchantOpen&&merchantUi){merchantUi->update_properties(*player,*bindings.properties);if(!merchantUi->frame(window.width(),window.height(),menu,error))throw std::runtime_error("Merchant frame: "+error);}
                     else if(!characterMenu.frame(bindings,window.width(),window.height(),menu,error))throw std::runtime_error("Character menu: "+error);
-                    if(characterMenu.is_open()&&equipmentActionConfirmation.visible()) {
-                        const auto& confirm=f::merchant::merchant_art().confirm;
-                        menu.art.batches.insert(menu.art.batches.end(),confirm.batches.begin(),confirm.batches.end());
-                        menu.solids.insert(menu.solids.end(),confirm.solids.begin(),confirm.solids.end());
-                        for(const auto& field:confirm.text_fields)if(field.path.find("/confirm_msg/")!=std::string::npos&&!equipmentConfirmationText.empty())
-                            menu.text.push_back({field,equipmentConfirmationText});
-                    }
                     const auto& transform=menu.transform;
                     auto drawMenuSolid=[&](const f::character_menu::MenuSolidBatch& solid) {
                         std::vector<f::OverlayTriangleVertex> vertices;
@@ -8928,7 +8944,9 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                         const auto sourceFlags=std::find_if(std::begin(f::character_menu::source_text_flag_rows_v1),std::end(f::character_menu::source_text_flag_rows_v1),[&](const auto& row) {
                             return row.movie==f::character_menu::SourceMenuMovieV1::character_menu&&row.field_character==text.field.character_id&&(!popupPage||row.page_character==popupPage);
                         });
-                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||text.value.find('\n')!=std::string::npos) {
+                        const bool hasColorFontMarkup=text.value.find("<font ")!=std::string::npos||text.value.find("<FONT ")!=std::string::npos;
+                        if((sourceFlags!=std::end(f::character_menu::source_text_flag_rows_v1)&&(sourceFlags->raw_flags&0x6000))||
+                           text.value.find('\n')!=std::string::npos||hasColorFontMarkup) {
                             f::character_menu::MenuTextLayoutFieldV1 field;
                             field.page_character=sourceFlags==std::end(f::character_menu::source_text_flag_rows_v1)?0:sourceFlags->page_character;field.field_character=text.field.character_id;
                             field.local_rect=text.field.local_bounds;field.matrix=text.field.matrix;field.margins=text.field.margins;
@@ -8993,6 +9011,50 @@ for(const auto& v:batch.triangles)vertices.push_back({v.x*scale,v.y*scale,v.u,v.
                             auto handle=textures.find(key);if(handle==textures.end()){auto texture=renderer.createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());if(!texture)throw std::runtime_error("Character menu glyph upload failed");handle=textures.emplace(key,texture).first;}
                             std::array<float,4> color{};for(unsigned channel=0;channel<4;++channel)color[channel]=text.field.rgba[channel]/255.f;
                             drawMenuGlyph(text.field,baseline,glyph,0,handle->second,color);
+                        }
+                    }
+                    if(equipmentActionConfirmation.visible()) {
+                        // The source WarningBox is a modal display-list above the
+                        // whole page. Draw its dim layer and art after the page
+                        // (and its avatar/text), then its localized prompt last.
+                        const std::vector<f::OverlayTriangleVertex> dim{
+                            {0,0,0,0},{float(window.width()),0,0,0},{float(window.width()),float(window.height()),0,0},
+                            {0,0,0,0},{float(window.width()),float(window.height()),0,0},{0,float(window.height()),0,0}};
+                        if(!overlay.drawTriangles(dim,0,{0,0,0,191.f/255.f}))throw std::runtime_error("Equipment confirmation dim draw rejected");
+                        const auto& confirm=f::merchant::merchant_art().confirm;
+                        for(const auto& solid:confirm.solids)if(solid.after_bitmap_role.empty())drawMenuSolid(solid);
+                        for(const auto& batch:confirm.batches) {
+                            std::vector<f::OverlayTriangleVertex> vertices;
+                            for(const auto& v:batch.triangles)vertices.push_back({transform.x+v.x*transform.scale_x,transform.y+v.y*transform.scale_y,v.u,v.v});
+                            if(!overlay.drawTriangles(vertices,hudTexture))throw std::runtime_error("Equipment confirmation art draw rejected");
+                            for(const auto& solid:confirm.solids)if(solid.after_bitmap_role==batch.role)drawMenuSolid(solid);
+                        }
+                        for(const auto& field:confirm.text_fields)if(field.path.find("/confirm_msg/")!=std::string::npos&&!equipmentConfirmationText.empty()) {
+                            f::character_menu::MenuTextLayoutFieldV1 layoutField;
+                            layoutField.page_character=785;layoutField.field_character=field.character_id;layoutField.local_rect=field.local_bounds;
+                            layoutField.matrix=field.matrix;layoutField.margins=field.margins;layoutField.alignment=field.align;
+                            layoutField.source_height=field.source_height;layoutField.paragraph_leading=field.leading;
+                            layoutField.source_font_character=static_cast<std::uint16_t>(field.font_id);
+                            for(unsigned channel=0;channel<4;++channel)layoutField.source_rgba[channel]=field.rgba[channel]/255.f;
+                            layoutField.font_descent=0.f;layoutField.font_leading=0.f;
+                            if(const auto* font=f::character_menu::original_menu_font(field.font_id)){layoutField.font_descent=font->descent;layoutField.font_leading=font->leading;layoutField.define_font3=font->define_font3;}
+                            f::character_menu::MenuTextLayoutV1 layout;
+                            if(!f::character_menu::menu_text_layout_v1(layoutField,equipmentConfirmationText,[&](std::string_view value,float& advance,std::string& e) {
+                                f::HudGlyphRun measured;if(!targetFont.raster(std::string(value),int(layoutField.source_height),transform.scale,measured,e))return false;
+                                advance=measured.advance;return true;
+                            },layout,error))throw std::runtime_error("Equipment confirmation text layout: "+error);
+                            for(const auto& line:layout.lines) {
+                                float cursor=0.f;
+                                for(const auto& styled:line.runs) {
+                                    f::HudGlyphRun run;if(!targetFont.raster(styled.text,int(layoutField.source_height),transform.scale,run,error))throw std::runtime_error("Equipment confirmation glyphs: "+error);
+                                    for(const auto& glyph:run.glyphs)if(glyph.width>0&&glyph.height>0) {
+                                        const auto key=glyphTextureKey(glyph,"confirm-menu-glyph");
+                                        auto handle=textures.find(key);if(handle==textures.end()){auto texture=renderer.createTexture(glyph.image.width,glyph.image.height,glyph.image.rgba.data());if(!texture)throw std::runtime_error("Equipment confirmation glyph upload failed");handle=textures.emplace(key,texture).first;}
+                                        drawMenuGlyph(field,line.baseline,glyph,cursor,handle->second,styled.rgba);
+                                    }
+                                    cursor+=styled.advance;
+                                }
+                            }
                         }
                     }
                     ++menuDrawn;

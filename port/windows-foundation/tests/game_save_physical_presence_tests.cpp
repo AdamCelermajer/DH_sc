@@ -62,7 +62,7 @@ int main(int argc,char** argv){try{
 
     GameSave captured;
     check(capture_game_save(level,1,character,world,captured,error),error);
-    check(captured.version==4&&captured.actors.size()==3&&
+    check(captured.version==6&&captured.actors.size()==3&&
           captured.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
           captured.actors[1].actor.source_physical_present==std::optional<bool>(false)&&
           !captured.actors[2].actor.source_physical_present,
@@ -72,7 +72,7 @@ int main(int argc,char** argv){try{
     check(save_game(path,captured,error),error);
     const auto v3bytes=read_bytes(path);GameSave loaded;
     check(load_game(path,loaded,error),error);
-    check(loaded.version==4&&loaded.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
+    check(loaded.version==6&&loaded.actors[0].actor.source_physical_present==std::optional<bool>(true)&&
           loaded.actors[1].actor.source_physical_present==std::optional<bool>(false)&&
           !loaded.actors[2].actor.source_physical_present&&loaded.actors[1].actor.health==0&&
           loaded.actors[1].actor.action==CharacterAction::dead,

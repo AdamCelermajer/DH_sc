@@ -48,6 +48,9 @@ public:
     void update_properties(const ActorState& actor, const OriginalCombatProperties& properties) { actor_=actor;properties_=properties; }
     using ParsedText = std::function<bool(const std::string&,const std::vector<std::string>&,std::string&,std::string&)>;
     void parsed_text(ParsedText callback) { parsed_=std::move(callback); }
+    using ItemName = std::function<bool(const InventoryItem&,const dh2::data::Item&,std::string&,std::string&)>;
+    // Only native inventory ItemName displays; raw names remain in confirmations/stock.
+    void sell_item_name(ItemName callback) { sell_item_name_=std::move(callback); }
     bool frame(int width, int height, character_menu::Frame& output, std::string& error) const;
 private:
     struct Pane;
@@ -58,6 +61,7 @@ private:
     OriginalCombatProperties properties_;
     inventory::DetailBindings bindings_;
     ParsedText parsed_;
+    ItemName sell_item_name_;
     std::unique_ptr<Pane> buy_, sell_;
     Mode mode_{Mode::buy};
     unsigned slot_{0};

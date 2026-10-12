@@ -153,12 +153,14 @@ ShopUi::Command ShopUi::release(float x, float y, std::string& error) {
 bool ShopUi::frame(int width, int height, character_menu::Frame& output, std::string& error) const {
     character_menu::Frame f;
     if (!character_menu::Presenter::viewport(width, height, f.transform, error)) return false;
-    if (!pane().details->frame(bindings_, f, error)) return false;
     const bool buy = mode_ == Mode::buy;
+    auto sellBindings=bindings_;
+    if(sell_item_name_)sellBindings.item_name=sell_item_name_;
+    if (!pane().details->frame(buy?bindings_:sellBindings, f, error)) return false;
     const auto upper=[](const std::string& p){return p.find("/EquipedItem")!=std::string::npos||p.find("/EquipedSwordIcon/")!=std::string::npos||p.find("/btn_Unequip/")!=std::string::npos;};
     // BUY's comparison column is the player's equipment, never the merchant's inventory.
     if(buy){
-        character_menu::Frame owned;if(!sell_->details->frame(bindings_,owned,error))return false;
+        character_menu::Frame owned;if(!sell_->details->frame(sellBindings,owned,error))return false;
         f.art.batches.erase(std::remove_if(f.art.batches.begin(),f.art.batches.end(),[&](const auto& b){return upper(b.role)||b.role.find("/btn_EquipItem/")!=std::string::npos;}),f.art.batches.end());
         f.text.erase(std::remove_if(f.text.begin(),f.text.end(),[&](const auto& t){return upper(t.field.path)||t.field.path.find("/btn_EquipItem/")!=std::string::npos;}),f.text.end());
         for(const auto& b:owned.art.batches)if(upper(b.role))f.art.batches.push_back(b);
