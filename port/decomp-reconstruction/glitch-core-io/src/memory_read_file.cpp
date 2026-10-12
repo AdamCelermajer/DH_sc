@@ -34,4 +34,9 @@ CMemoryReadFile::CMemoryReadFile(void* data, long length, const char* fileName, 
     if (takeOwnership) owned.reset(static_cast<char*>(data));
 }
 
+// 0x56f370 _ZN6glitch2io20createMemoryReadFileEPvlPKcb
+CMemoryReadFile* createMemoryReadFile(void* data, long length, const char* fileName, bool takeOwnership) {
+    return new CMemoryReadFile(data, length, fileName, takeOwnership);
+}
+
 }  // namespace glitch::io

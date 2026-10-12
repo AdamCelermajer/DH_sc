@@ -3,6 +3,7 @@
 // its virtual-time state in statics.
 #pragma once
 
+#include <cstdarg>
 #include <cstdint>
 
 namespace glitch::os {
@@ -30,6 +31,14 @@ public:
     static void log(const char* text, ELOG_LEVEL level);              // 0x60aca0
     static void log(const char* text, const char* hint, ELOG_LEVEL level);  // 0x60ace8
     static void log(const wchar_t* text, ELOG_LEVEL level);           // 0x60ad38
+    // 0x60b26c: vprintf to stdout, then a newline.
+    static void vprint(const char* format, std::va_list args);
+    // 0x60b280: variadic form of vprint.
+    static void print(const char* format, ...);
+    // 0x60afd4 and 0x60b034: forward a formatted message to the logger's +0x24 slot. The
+    // slot is not declared on ILogger here, so the forwarding call is not made (PARTIAL).
+    static void logf(const char* format, ...);
+    static void logf(ELOG_LEVEL level, const char* format, ...);
 };
 
 class Timer {

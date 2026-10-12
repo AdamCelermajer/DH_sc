@@ -1,5 +1,7 @@
 #include "glitch-core-io/os/logging.hpp"
 
+#include <cstdio>
+
 namespace glitch::os {
 
 ILogger* Printer::Logger = nullptr;
@@ -29,6 +31,35 @@ void Printer::log(const char* text, const char* hint, ELOG_LEVEL level) {
 // 0x60ad38 _ZN6glitch2os7Printer3logEPKwNS_10ELOG_LEVELE
 void Printer::log(const wchar_t* text, ELOG_LEVEL level) {
     if (Logger) Logger->log(text, level);
+}
+
+// 0x60b26c _ZN6glitch2os7Printer6vprintEPKcSt9__va_list
+void Printer::vprint(const char* format, std::va_list args) {
+    std::vprintf(format, args);
+    std::putchar('\n');
+}
+
+// 0x60b280 _ZN6glitch2os7Printer5printEPKcz
+void Printer::print(const char* format, ...) {
+    std::va_list args;
+    va_start(args, format);
+    vprint(format, args);
+    va_end(args);
+}
+
+// 0x60afd4 _ZN6glitch2os7Printer4logfEPKcz
+// PARTIAL: the original calls the logger's +0x24 slot with level 1 and the format; that slot
+// is not on ILogger, so only the null check is kept.
+void Printer::logf(const char* /*format*/, ...) {
+    if (Logger) {
+    }
+}
+
+// 0x60b034 _ZN6glitch2os7Printer4logfENS_10ELOG_LEVELEPKcz
+// PARTIAL: same forwarding as the one-level form (the +0x24 slot is not declared on ILogger).
+void Printer::logf(ELOG_LEVEL /*level*/, const char* /*format*/, ...) {
+    if (Logger) {
+    }
 }
 
 // 0x60ae9c _ZN6glitch2os5Timer8getSpeedEv

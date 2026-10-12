@@ -3,9 +3,12 @@
 namespace glitch::io {
 
 // 0x570b68 _ZN6glitch2io10CWriteFileC1EPKcb (C2 at 0x570c40)
-// PARTIAL: the pseudocode only copies the name and then tail-calls a noreturn
-// string helper. The bool is not used here and the file is not opened.
-CWriteFile::CWriteFile(const char* name, bool /*append*/) : fileName(name ? name : "") {}
+// PARTIAL: the pseudocode copies the name and then tail-calls a noreturn string helper.
+// createWriteFile needs the handle to be open right after construction, so the helper is
+// taken to be openFile(append).
+CWriteFile::CWriteFile(const char* name, bool append) : fileName(name ? name : "") {
+    openFile(append);
+}
 
 // 0x570a90 _ZN6glitch2io10CWriteFileD1Ev (0x570b08 is the same body)
 CWriteFile::~CWriteFile() {
@@ -60,6 +63,14 @@ void CWriteFile::flush() {
 std::size_t CWriteFile::write(const void* data, unsigned int count) {
     if (!file) return 0;
     return std::fwrite(data, 1, count, file);
+}
+
+// 0x570bf4 _ZN6glitch2io15createWriteFileEPKcb
+IWriteFile* createWriteFile(const char* name, bool append) {
+    auto* file = new CWriteFile(name, append);
+    if (file->isOpen()) return file;
+    file->drop();
+    return nullptr;
 }
 
 }  // namespace glitch::io

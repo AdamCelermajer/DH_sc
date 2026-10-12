@@ -30,4 +30,7 @@ public:
     std::string name;
 };
 
+// 0x56f370 _ZN6glitch2io20createMemoryReadFileEPvlPKcb: a memory reader over a block.
+CMemoryReadFile* createMemoryReadFile(void* data, long length, const char* fileName, bool takeOwnership);
+
 }  // namespace glitch::io

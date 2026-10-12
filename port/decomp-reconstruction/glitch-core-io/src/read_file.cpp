@@ -97,4 +97,31 @@ void CReadFile::openFile() {
     }
 }
 
+// The base slot +0x10 is abstract in the original. The port's default forwards to the
+// +0x14 overload at the current position, which is what CReadFile does.
+void IReadFile::readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) {
+    readAsync(buffer, count, getPos(), callBack, context);
+}
+
+// 0x5703f4 _ZN6glitch2io9CReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_
+// Forwards to the position overload (vtable +0x14) with the current position.
+void CReadFile::readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) {
+    readAsync(buffer, count, getPos(), callBack, context);
+}
+
+// 0x570444 _ZN6glitch2io9CReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_
+// The original body is `return 1`: the request is accepted and no callback is run here.
+bool CReadFile::readAsync(void* /*buffer*/, unsigned int /*count*/, long /*position*/,
+                          ReadAsyncCallBack /*callBack*/, void* /*context*/) {
+    return true;
+}
+
+// 0x5707b4 _ZN6glitch2io14createReadFileEPKc
+IReadFile* createReadFile(const char* name) {
+    auto* file = new CReadFile(name, false);
+    if (file->isOpen()) return file;
+    file->drop();
+    return nullptr;
+}
+
 }  // namespace glitch::io

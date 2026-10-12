@@ -143,6 +143,11 @@ class IVideoDriver : public glitch::IReferenceCounted {};
 // Reference-counted video objects held through boost::intrusive_ptr by the io code.
 class ITexture : public glitch::IReferenceCounted {};
 class CLight : public glitch::IReferenceCounted {};
+// Video mode list of a device (glitch::video::CVideoModeList); only its storage is needed here.
+class CVideoModeList {
+public:
+    CVideoModeList() = default;
+};
 struct SColor {
     std::uint32_t color;
 };
