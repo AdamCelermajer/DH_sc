@@ -40,7 +40,7 @@ public:
     virtual void Resume();                                                 // +0x10
     virtual bool IsSuspended();                                            // +0x14
     virtual void UpdateSources();                                          // +0x18
-    virtual void UpdateEmitters(float dt);                                 // +0x1c
+    virtual int UpdateEmitters(float dt);                                  // +0x1c (ReleaseReadAccess result)
     virtual void KillEmitter(EmitterObj* emitter);                         // +0x20
     virtual int SetGroupGain(unsigned int group, float gain, float time);  // +0x24 (Mutex::Unlock result)
     virtual int SetMasterGain(float gain, float time);                     // +0x28 (Mutex::Unlock result)
@@ -54,7 +54,7 @@ public:
     void UpdateDSP(float dt);               // 0x86308c: forwards to the driver's Update
     void _SetDefault3DParameters();         // 0x8630b0 (empty in the binary)
     int SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x86764c (Mutex::Unlock result)
-    void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);
+    int SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x8676d8 (ReleaseReadAccess result)
     void SetSFXPresetActive(int preset, bool active, float level);
     void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,
                           float volume, float fade_in, float fade_out);  // 0x8630b4 (empty)

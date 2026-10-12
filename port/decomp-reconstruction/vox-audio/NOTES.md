@@ -1154,3 +1154,39 @@ GetCurThreadId and the VoxThread constructors (Windows value and Windows priorit
 
 Tests: `tests/w13_close_file_test.cpp` (null gives -1, handle goes to the close function, no handle
 does not call it). Host build: 67 tests, all pass.
+
+## Wave 13 (w13-a): base virtuals and facade setters that drop an int
+Ledger part: `ledger.parts/w13-a.csv` (13 rows: 7 reconstructed, 6 partial).
+
+Decisions:
+- Driver source base slots. `DriverSourceInterface` +0x4c (FreeDisposableData, 0x88fcd8) is `BX LR` in the
+  binary, with no result set. The port's base now returns int 0 so that the override
+  `DriverCallbackSourceInterface::FreeDisposableData` keeps the Mutex::Unlock int. `DriverSourceInterface` +0x58
+  (Init) has no base body in the binary; the base returns int 0 for the same reason. The derived Init
+  (0x893108) and FreeDisposableData (0x89071c) return `mutex_.Unlock()`. `DriverAndroidSource`'s constructor
+  calls Init and discards the result, as the constructor (0x88fbac) does.
+- Facade setters. `VoxEngine::SetMasterGain`, `SetGroupGain`, `SetDSPEmitterParameter` and `UpdateEmittersThreaded`
+  (instance) return the int of their vtable or engine call; without an engine they return 0. The listing's
+  null-path value is an address or the this pointer (register leftovers) and has no int form.
+  `VoxEngineInternal::SetDSPEmitterParameter` returns the ReleaseReadAccess int (the EmitterObj int is dropped
+  by a plain BL in the listing, 0x8676d8).
+- Release and update chain. `AccessController::ReleaseWriteAccess` (0x893480) tail-calls Mutex::Unlock and
+  returns its int. `VoxEngineInternal::UpdateEmitters` (0x86db40) returns the release int of the last
+  lock it took; `UpdateThreaded` (0x862cf0) returns the emitters update int.
+- Thread entry points stay void: the static `VoxEngine::UpdateEmittersThreaded(void*, void*)` (the 0x862d0c
+  thunk) drops the int; it is the `void(*)(void*,void*)` the thread takes.
+- `RandomGroup::AddElement` (0x8836b0) copies the element into a group-owned block (the caller passes a stack
+  record, asm 0x8838c4). The element count, the exclusion window (when the raw window is -1) and the total
+  weight go up by the listing's rules. The random group test sets the exclusion window to 0 after its adds,
+  because its scenario was written for that value.
+- `_FillBuffer` (0x890548) stays void. Its float result is a register leftover that FillBuffer (0x8906a0)
+  never reads.
+
+Still partial in this slice (one named item each): Init (uninitialised template word), EmitterObj::SetDSPParameter
+(null value path), UpdateSegmentsStates (loop-list length), InterpretTransitionRule (pointer-valued return),
+SetState(int) (transition-table lookup), UpdateEmittersThreaded (stand-in clock), Initialize (start-time int).
+
+Callers outside this slice that ignore the new int results: VoxSoundManager (gameplay), and the facade wrappers in
+voxengine.cpp. Rows elsewhere whose notes say a result is dropped (ReleaseWriteAccess, UpdateEmitters,
+VoxEngineInternal::SetDSPEmitterParameter, VoxEngine::SetDSPEmitterParameter) now return the int; their
+ledger rows belong to other slices and were not re-ledgered here.

@@ -80,10 +80,13 @@ public:
     virtual void SetDSPParameter(int param, void* value);              // +0x40, 0x88ed3c (empty)
     virtual void Update(float dt);                                     // +0x44, 0x88fccc (empty)
     virtual int AllowBufferReference();                                // +0x48, 0x88fcd0: returns 0
-    virtual void FreeDisposableData(int id, int& first, int& second);  // +0x4c, 0x88fcd8 (empty)
+    // +0x4c, 0x88fcd8: the binary's base body is BX LR (no result set). Returns 0 here so that the
+    // derived int results (the Mutex::Unlock result of DriverCallbackSourceInterface) keep their type.
+    virtual int FreeDisposableData(int id, int& first, int& second);
     virtual void PrintDebug() {}                                       // +0x50 (DriverAndroidSource::PrintDebug)
     virtual int GetBufferCount() const { return 0; }                   // +0x54
-    virtual void Init() {}                                             // +0x58
+    // +0x58: no base body in the binary (the derived Init returns the Mutex::Unlock int). Returns 0 here.
+    virtual int Init() { return 0; }
     virtual void Cleanup() {}                                          // +0x5c
 };
 

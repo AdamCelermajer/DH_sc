@@ -136,7 +136,7 @@ public:
     float GetGain();
 
     // 0x893108: resets the gains and 3D fields, and grows the ring to the buffer count.
-    void Init();
+    int Init();
     // 0x8909e8: copies one emitter 3D parameter (0..10) when the 3D flag is set.
     void Set3DParameter(int which, const void* value);
     // 0x890be8: sets the pitch in Q14 and the per-period step.
@@ -144,7 +144,7 @@ public:
     // 0x890d40: stores a block of data in the write buffer when it is free.
     void UploadData(const void* data, int size);
     // 0x89071c: frees disposable data from the ring and reports the counts.
-    void FreeDisposableData(int id, int& first, int& second) override;
+    int FreeDisposableData(int id, int& first, int& second) override;
     // 0x8915c0: copies up to bytes of mixed data into out; returns the bytes copied.
     std::size_t GetWorkData(std::uint8_t* out, int bytes, int step);
     // 0x892f68: mixes count frames into out (two ints per frame) through the active path.

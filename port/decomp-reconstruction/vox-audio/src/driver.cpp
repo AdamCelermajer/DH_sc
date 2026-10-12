@@ -77,10 +77,11 @@ int DriverSourceInterface::AllowBufferReference() {
 }
 
 // 0x88fcd8 _ZN3vox21DriverSourceInterface18FreeDisposableDataEiRiS1_
-void DriverSourceInterface::FreeDisposableData(int id, int& first, int& second) {
+int DriverSourceInterface::FreeDisposableData(int id, int& first, int& second) {
     (void)id;
     (void)first;
     (void)second;
+    return 0;
 }
 
 // DriverInterface::CreateDriverSource (+0x44): null in the base class. The base slot has no symbol.

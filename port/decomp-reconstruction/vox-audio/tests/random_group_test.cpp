@@ -12,6 +12,8 @@ struct RandomGroupTestAccess {
         g.element_count_ = count;
         g.total_weight_ = total;
     }
+    static int Exclusion(const RandomGroup& g) { return g.exclusion_window_; }
+    static void SetExclusion(RandomGroup& g, int window) { g.exclusion_window_ = window; }
     static std::size_t VectorSize(const RandomGroup& g) { return g.elements_.size(); }
     static int TotalWeight(const RandomGroup& g) { return g.total_weight_; }
     static int RemovedCount(const RandomGroup& g) {
@@ -35,13 +37,6 @@ int g_failures = 0;
         }                                                                 \
     } while (0)
 
-// Elements are released by the group destructors with VoxFree, so they come from VoxAlloc.
-vox::RandomGroupElement* MakeElement(int value, int weight) {
-    auto* e = static_cast<vox::RandomGroupElement*>(VoxAlloc(sizeof(vox::RandomGroupElement)));
-    e->value_ = value;
-    e->weight_ = weight;
-    return e;
-}
 }  // namespace
 
 int main() {
@@ -72,9 +67,17 @@ int main() {
     rinfo.field_14_ = 2;
     vox::RandomGroup rg(&rinfo, 0);
     CHECK(rg.IsValid());
-    rg.AddElement(MakeElement(10, 0));
-    rg.AddElement(MakeElement(20, 0));
-    rg.AddElement(MakeElement(30, 1));
+    // AddElement copies each record, so the test records can be locals.
+    vox::RandomGroupElement e10{10, 0};
+    vox::RandomGroupElement e20{20, 0};
+    vox::RandomGroupElement e30{30, 1};
+    rg.AddElement(&e10);
+    rg.AddElement(&e20);
+    rg.AddElement(&e30);
+    // The raw window is -1, so each AddElement counts one for the exclusion window (asm 0x8836b0).
+    CHECK(vox::RandomGroupTestAccess::Exclusion(rg) == 3);
+    // The scenario below was written for an exclusion window of 0.
+    vox::RandomGroupTestAccess::SetExclusion(rg, 0);
     vox::RandomGroupTestAccess::SetCounts(rg, 3, 1);
     CHECK(rg.GetActiveElementIndex() == 2);
     CHECK(rg.Reset(0) == 2);
@@ -114,8 +117,10 @@ int main() {
     winfo.reset_value_ = 2;
     winfo.field_14_ = 2;
     vox::RandomGroup wg(&winfo, 0);
-    wg.AddElement(MakeElement(10, 1));
-    wg.AddElement(MakeElement(20, 1));
+    vox::RandomGroupElement w10{10, 1};
+    vox::RandomGroupElement w20{20, 1};
+    wg.AddElement(&w10);
+    wg.AddElement(&w20);
     vox::RandomGroupTestAccess::SetCounts(wg, 2, 2);
     wg.Reset(0);
     const int first = wg.GetGroupElementPosition();

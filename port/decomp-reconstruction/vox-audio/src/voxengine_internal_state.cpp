@@ -170,13 +170,14 @@ int VoxEngineInternal::GetStatus(EmitterHandle& emitter) {
 }
 
 // 0x8676d8 _ZN3vox17VoxEngineInternal22SetDSPEmitterParameterERNS_13EmitterHandleEiPv
-void VoxEngineInternal::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
+int VoxEngineInternal::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {
-        // The unlock int of EmitterObj::SetDSPParameter is not carried by this void chain (see NOTES).
+        // The listing drops the int of EmitterObj::SetDSPParameter (a plain BL) and returns the
+        // ReleaseReadAccess result (tail call), so that is the value this function returns.
         (void)obj->SetDSPParameter(param, value);
     }
-    emitter_access_.ReleaseReadAccess();
+    return emitter_access_.ReleaseReadAccess();
 }
 
 // 0x868008 _ZN3vox17VoxEngineInternal41RegisterForEmitterStateChangeNotificationERNS_13EmitterHandleEPFvS2_PvNS_18EmitterExternStateEES3_

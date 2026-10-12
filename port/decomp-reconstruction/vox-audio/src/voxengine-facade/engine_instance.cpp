@@ -108,9 +108,9 @@ void VoxEngine::Shutdown() {
     }
 }
 
-// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (partial: the MPC8 decoder factory (0x8704dc) is skipped in
-// the ledger, and the VoxThread constructor (0x893784) does not apply the priority adjustment;
-// the listing also returns the low word of the start time, which the port does not carry)
+// 0x862d10 _ZN3vox9VoxEngine10InitializeEv (partial: the VoxThread constructor (0x893784) does not apply
+// the priority adjustment. The listing also returns the low word of the start time (_GetTime, a double);
+// the port's clock has a different epoch (see EngineGetTime), so that int is not carried.)
 // Initializes the engine object, registers the stream and decoder factories in the
 // order the listing uses, starts the two update threads and records the start time.
 void VoxEngine::Initialize() {
@@ -140,15 +140,15 @@ void VoxEngine::Initialize() {
     last_update_time_ = EngineGetTime();
 }
 
-// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: the listing returns the result of
-// VoxEngineInternal::UpdateEmitters (0x86db40), which ends in AccessController::ReleaseReadAccess or
-// ReleaseWriteAccess (0x89351c, 0x8935xx). Those return the unlock int in the binary but are void in the
-// port, so the int is dropped. The port's void signature matches the thread callback type that Initialize casts to.)
+// 0x862c4c _ZN3vox9VoxEngine22UpdateEmittersThreadedEv (partial: VoxEngineInternal::UpdateEmitters
+// (0x86db40) has no body in the port; the int it returns is the AccessController release result,
+// carried by UpdateEmitters now.)
 // The elapsed time uses the previous stamp, the stamp never moves backwards, and the engine
-// receives the delta as a float, as the listing does.
-void VoxEngine::UpdateEmittersThreaded() {
+// receives the delta as a float, as the listing does. The result is the UpdateEmitters int; without
+// an engine the port returns 0 (the listing returns the this pointer, a register leftover).
+int VoxEngine::UpdateEmittersThreaded() {
     if (m_internal == nullptr) {
-        return;
+        return 0;
     }
     double now = EngineGetTime();
     float dt = static_cast<float>(EngineGetTimeDelta(last_update_time_, now));
@@ -156,22 +156,24 @@ void VoxEngine::UpdateEmittersThreaded() {
         now = last_update_time_;
     }
     last_update_time_ = now;
-    m_internal->UpdateEmitters(dt);
+    return m_internal->UpdateEmitters(dt);
 }
 
 // 0x862d0c _ZN3vox9VoxEngine22UpdateEmittersThreadedEPvS1_ is a thunk to 0x862c4c. The thread
-// callback needs a (void*, void*) function; this static overload is that entry point.
+// callback needs a (void*, void*) function, so this static overload is void and drops the int
+// (the thread entry points stay void).
 void VoxEngine::UpdateEmittersThreaded(void* engine, void* unused) {
     (void)unused;
-    static_cast<VoxEngine*>(engine)->UpdateEmittersThreaded();
+    (void)static_cast<VoxEngine*>(engine)->UpdateEmittersThreaded();
 }
 
-// 0x862cf0 _ZN3vox9VoxEngine14UpdateThreadedEv (partial: returns the emitters update's int word,
-// which the port's void signature does not carry)
-// The listing calls the sources update and then the emitters update.
-void VoxEngine::UpdateThreaded() {
+// 0x862cf0 _ZN3vox9VoxEngine14UpdateThreadedEv (partial: VoxEngineInternal::UpdateSources (0x8617b8
+// slot +0x18) has no body in the port; the sources update result is dropped as in the listing)
+// The listing calls the sources update and then tail-calls the emitters update, so the emitters
+// result is the result of this function.
+int VoxEngine::UpdateThreaded() {
     UpdateSourcesThreaded();
-    UpdateEmittersThreaded();
+    return UpdateEmittersThreaded();
 }
 
 }  // namespace vox

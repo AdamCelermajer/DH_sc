@@ -45,10 +45,10 @@ void AccessController::GetWriteAccess() {
 }
 
 // 0x893480 _ZN3vox16AccessController18ReleaseWriteAccessEv
-void AccessController::ReleaseWriteAccess() {
+int AccessController::ReleaseWriteAccess() {
     mutex_.Lock();
     --write_flag_;
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 }  // namespace vox

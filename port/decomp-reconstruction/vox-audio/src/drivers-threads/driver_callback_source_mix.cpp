@@ -100,13 +100,12 @@ std::size_t DriverCallbackSourceInterface::GetWorkData(std::uint8_t* out, int by
 // released (first) and the bytes released (second). The walk starts one buffer behind the
 // write position, and stops at the buffer where the free space exceeds the buffer span
 // (3 blocks and the Doppler and period scaling).
-void DriverCallbackSourceInterface::FreeDisposableData(int requested, int& first, int& second) {
+int DriverCallbackSourceInterface::FreeDisposableData(int requested, int& first, int& second) {
     mutex_.Lock();
     first = 0;
     second = 0;
     if (requested <= 0) {
-        mutex_.Unlock();
-        return;
+        return mutex_.Unlock();
     }
     const std::int32_t block = buffer_bytes_;
     std::int32_t count = buffer_count_;
@@ -150,8 +149,7 @@ void DriverCallbackSourceInterface::FreeDisposableData(int requested, int& first
 
     int idx = start_write != 0 ? start_write - 1 : count - 1;
     if (count <= 0) {
-        mutex_.Unlock();
-        return;
+        return mutex_.Unlock();
     }
     std::int32_t visited = 0;
     std::int32_t accumulated = 0;
@@ -178,15 +176,13 @@ void DriverCallbackSourceInterface::FreeDisposableData(int requested, int& first
                     }
                 }
                 second = second - buffers_begin_[idx].size_ + size;
-                mutex_.Unlock();
-                return;
+                return mutex_.Unlock();
             }
             if (requested <= accumulated) {
                 buffer.size_ = consumed + accumulated - requested;
                 read_index_ = (idx + 1) % buffer_count_;
                 second = second - buffer.size_ + size;
-                mutex_.Unlock();
-                return;
+                return mutex_.Unlock();
             }
             buffer.ready_ = 1;
             ++first;
@@ -200,8 +196,7 @@ void DriverCallbackSourceInterface::FreeDisposableData(int requested, int& first
             idx = count - 1;
         }
         if (count <= visited) {
-            mutex_.Unlock();
-            return;
+            return mutex_.Unlock();
         }
     }
 }
