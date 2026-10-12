@@ -1,0 +1,4 @@
+elf_address,symbol,status,source_file,notes
+0x30eea0,_Z8ObjToStrPcRi,reconstructed,core-platform/src/obj_str.cpp,
+0x30ef50,_Z8ObjToStrPcRN6glitch4core8vector3dIfEE,reconstructed,core-platform/src/obj_str.cpp,
+0x30f03c,_Z8StrToObjPKcRi,reconstructed,core-platform/src/obj_str.cpp,
