@@ -32,6 +32,18 @@ int main() {
     CHECK(bytes != nullptr && std::strcmp(bytes, "ok") == 0);
     delete[] bytes;
 
+    // Legacy decoder (UTF8ToUnicode_Old / _OldLC): ASCII, 2-byte, 3-byte, a 4-byte
+    // sequence truncated to 16 bits, and a stray lead byte that is stored raw.
+    std::uint16_t legacy[16] = {0};
+    UTF8ToUnicode_Old(legacy, "A\xC3\xA9\xE2\x82\xAC");
+    CHECK(legacy[0] == 0x41 && legacy[1] == 0xE9 && legacy[2] == 0x20AC && legacy[3] == 0);
+    std::uint16_t quad[16] = {0};
+    UTF8ToUnicode_OldLC(quad, "\xF0\x9F\x98\x80z");
+    CHECK(quad[0] == 0xF600 && quad[1] == 'z' && quad[2] == 0);
+    std::uint16_t raw[16] = {0};
+    UTF8ToUnicode_OldLC(raw, "\xFEq");
+    CHECK(raw[0] == 0xFFFE && raw[1] == 'q' && raw[2] == 0);
+
     std::printf("%s\n", failures ? "utf_text: FAILED" : "utf_text: ok");
     return failures != 0;
 }

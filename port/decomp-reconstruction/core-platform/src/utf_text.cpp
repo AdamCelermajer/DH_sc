@@ -78,3 +78,69 @@ void TranslateUnicode2Utf8(char** out, const std::uint16_t* in, int count, int a
     std::memset(*out, 0, bytes);
     ConvertUnicodeToUTF8(*out, in, count);
 }
+
+namespace {
+// Shared body of UTF8ToUnicode_Old and UTF8ToUnicode_OldLC (their listings differ
+// only in how they count output units). Transliterated from the Hex-Rays control
+// flow, including the quirks: a lead byte with bit 7 clear is copied sign-extended;
+// otherwise the run of set bits after the lead gives the sequence length, and
+// (4 * lead) and (2 * ...) are taken as signed chars.
+void DecodeLegacyUtf8(std::uint16_t* out, const char* in) {
+    if (*in == '\0') {
+        return;
+    }
+    const char* p = in;
+    std::size_t k = 0;
+    int lead = static_cast<unsigned char>(*p);
+    for (;;) {
+        if ((lead & 0x80) == 0) {
+            out[k++] = static_cast<std::uint16_t>(static_cast<signed char>(lead));
+            lead = static_cast<unsigned char>(*++p);
+            if (*p == '\0') {
+                return;
+            }
+            continue;
+        }
+        int v4 = static_cast<signed char>(4 * lead);
+        int v5 = 1;
+        int shift = 2;
+        if (v4 < 0) {
+            do {
+                v4 = static_cast<signed char>(2 * v4);
+                ++v5;
+            } while (v4 < 0);
+            if (v5 > 5) {
+                // Not decoded: store the signed lead value and advance one byte.
+                out[k++] = static_cast<std::uint16_t>(static_cast<signed char>(lead));
+                lead = static_cast<unsigned char>(*++p);
+                if (*p == '\0') {
+                    return;
+                }
+                continue;
+            }
+            shift = v5 + 1;
+        }
+        std::uint16_t value = static_cast<std::uint16_t>(v4 >> shift);
+        for (int j = 1; j <= v5; ++j) {
+            value = static_cast<std::uint16_t>((static_cast<unsigned char>(p[j]) & 0x3F) | (value << 6));
+        }
+        out[k++] = value;
+        p += 1 + v5;
+        lead = static_cast<unsigned char>(*p);
+        if (*p == '\0') {
+            return;
+        }
+    }
+}
+}  // namespace
+
+// 0x82a938 UTF8ToUnicode_Old
+std::uint16_t* UTF8ToUnicode_Old(std::uint16_t* out, const char* in) {
+    DecodeLegacyUtf8(out, in);
+    return out;
+}
+
+// 0x89c5dc UTF8ToUnicode_OldLC
+void UTF8ToUnicode_OldLC(std::uint16_t* out, const char* in) {
+    DecodeLegacyUtf8(out, in);
+}

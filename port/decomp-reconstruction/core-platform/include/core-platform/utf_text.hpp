@@ -24,3 +24,11 @@ void TranslateUtf82Unicode(std::uint16_t** out, const char* in, int count, int a
 // 0x82b728 TranslateUnicode2Utf8(char**, unsigned short*, int, int) and the LC copy
 // 0x89d2c0. Zeroes a (3 * count + 1) byte buffer, then converts.
 void TranslateUnicode2Utf8(char** out, const std::uint16_t* in, int count, int allocate);
+
+// 0x82a938 UTF8ToUnicode_Old(unsigned short*, char const*) and the LC copy
+// 0x89c5dc UTF8ToUnicode_OldLC. The legacy decoder: ASCII bytes are copied, 2-,
+// 3- and 4-byte sequences are decoded by their lead-bit count (the listing does
+// not check continuation bytes), and any other lead stores the signed lead value.
+// Results are truncated to 16 bits. Both write to `out` without a size limit.
+std::uint16_t* UTF8ToUnicode_Old(std::uint16_t* out, const char* in);
+void UTF8ToUnicode_OldLC(std::uint16_t* out, const char* in);
