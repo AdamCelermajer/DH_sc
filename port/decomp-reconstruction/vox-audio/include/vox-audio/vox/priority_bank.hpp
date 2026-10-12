@@ -29,6 +29,16 @@ struct PriorityBank {
     std::vector<PriorityBankEntry> entries;                               // +0xc..+0x14
 };
 
+// One bank as the debug output reports it (20 bytes in the original): index, behaviour,
+// minimum priority, maximum count and the number of entries.
+struct DebugChunk_bank {
+    std::int32_t index = 0;          // +0x00
+    std::int32_t behaviour = 0;      // +0x04
+    std::int32_t min_priority = 0;   // +0x08
+    std::int32_t max_count = 0;      // +0x0c
+    std::int32_t count = 0;          // +0x10
+};
+
 class PriorityBankManager {
 public:
     explicit PriorityBankManager(int bank_count);  // 0x8697bc, 0x8698e8
@@ -40,6 +50,9 @@ public:
     bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (declared only, body not reconstructed)
     bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc (partial)
     bool AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0 (partial)
+    // Fills one record per bank (0x864a80). Partial: the original returns the value of the
+    // unlock call, and the port's Mutex::Unlock is void, so nothing is returned.
+    void GetDebugInfo(DebugChunk_bank* out);
 
 private:
     bool CanAddEmitterLocked(int bank, int priority) const;  // 0x863578

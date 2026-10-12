@@ -38,6 +38,18 @@ int main() {
     CHECK(!fill.RemoveEmitter(0, nullptr));
     CHECK(!fill.RemoveEmitter(0, &g_e1));  // not in the bank
 
+    // Debug info: one record per bank with its settings and entry count.
+    {
+        vox::PriorityBankManager debug(2);
+        CHECK(debug.SetPriorityBank(1, 3, 4, 2));
+        vox::DebugChunk_bank records[2];
+        debug.GetDebugInfo(records);
+        CHECK(records[0].index == 0 && records[0].count == 0);
+        CHECK(records[1].index == 1 && records[1].min_priority == 3);
+        CHECK(records[1].max_count == 4 && records[1].behaviour == 2);
+        CHECK(records[1].count == 0);  // AddEmitter is not reconstructed, so no entries
+    }
+
     if (g_failures == 0) {
         std::printf("priority_bank_test: all checks passed\n");
         return 0;

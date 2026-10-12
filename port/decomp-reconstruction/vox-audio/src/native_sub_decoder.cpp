@@ -21,6 +21,9 @@ bool VoxNativeSubDecoder::HasData() {
 // Both bodies are empty.
 VoxNativeSubDecoderPCM::~VoxNativeSubDecoderPCM() {}
 
+// 0x8884f8 _ZN3vox22VoxNativeSubDecoderPCMD0Ev: deleting variant. The compiler emits it for
+// the class above; a `delete` through the base pointer runs it.
+
 // 0x887b0c _ZN3vox22VoxNativeSubDecoderPCM4SeekEj
 int VoxNativeSubDecoderPCM::Seek(unsigned int sample_offset) {
     (void)sample_offset;

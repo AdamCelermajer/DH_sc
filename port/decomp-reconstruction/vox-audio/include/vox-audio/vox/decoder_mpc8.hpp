@@ -23,6 +23,10 @@ public:
     int GetType() const override;          // 0x86fb98: returns 3
     std::int32_t* GetParam() override;     // 0x86fba0: returns null
 
+    // 0x870160: a cursor (null is ignored) is destroyed through its virtual destructor and its
+    // storage released with VoxFree, as the original does.
+    void DestroyCursor(DecoderCursorInterface* cursor) override;
+
 private:
     std::int32_t param_ = -1;              // +0x04
 };

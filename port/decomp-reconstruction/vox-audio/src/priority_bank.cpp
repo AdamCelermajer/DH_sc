@@ -128,4 +128,22 @@ bool PriorityBankManager::AddPriorityBank(int min_priority, int max_count, int b
     return true;
 }
 
+// 0x864a80 _ZN3vox19PriorityBankManager12GetDebugInfoEPNS_15DebugChunk_bankE
+// Under the lock, one DebugChunk_bank per bank: the index, the bank's behaviour, minimum
+// priority, maximum count and the number of entries (the entry vector's size).
+void PriorityBankManager::GetDebugInfo(DebugChunk_bank* out) {
+    mutex_.Lock();
+    const int count = bank_count_ < static_cast<int>(banks_.size()) ? bank_count_ : static_cast<int>(banks_.size());
+    for (int i = 0; i < count; ++i) {
+        const PriorityBank& bank = banks_[static_cast<std::size_t>(i)];
+        DebugChunk_bank& record = out[i];
+        record.index = i;
+        record.behaviour = bank.behaviour;
+        record.min_priority = bank.min_priority;
+        record.max_count = bank.max_count;
+        record.count = static_cast<std::int32_t>(bank.entries.size());
+    }
+    mutex_.Unlock();
+}
+
 }  // namespace vox

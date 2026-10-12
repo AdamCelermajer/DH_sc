@@ -23,9 +23,9 @@ inline float ClampGainUnit(float gain) {
 }
 
 // The value a fade has reached when a new fade starts: linear from current to target over
-// elapsed / duration. Past the duration, or with no duration, the value is the target (or the
-// current value when the duration is zero). The original evaluates the same expression for
-// the groups and the master gain.
+// elapsed / duration while elapsed is below duration, else the target. A zero duration with
+// zero elapsed therefore gives the target, as the original's comparison does. The original
+// evaluates the same expression for the groups and the master gain.
 inline float CurrentOfFade(const VoxGainFade& fade) {
     if (fade.elapsed < fade.duration) {
         if (fade.duration > 0.0f) {
