@@ -101,7 +101,7 @@ int main() {
 
     // getTargetCount: type 0 returns the count byte, 1 and 2 test the handles,
     // 3 needs both handles equal, anything else is zero.
-    CCommonGLDriverBase::CRenderTargetBase target;
+    CCommonGLDriverBase::CRenderTargetBase target(nullptr);
     int handleA = 0;
     int handleB = 0;
     target.setTargetStateForTest(nullptr, nullptr, 3);

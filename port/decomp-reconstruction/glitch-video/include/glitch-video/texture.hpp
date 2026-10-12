@@ -22,6 +22,12 @@ public:
     // bits in the bitmap that follows the per-mip sizes. The flag forces the dirty bits
     // even when no data pointer is set. The clone with flag == 0 is not reconstructed.
     void setDataDirty(bool flag) const;
+    // 0x5fdf74: replaces the data pointer. `owned` sets bit 0 of +0x3f, and the texture then
+    // frees the previous data with delete[] when it replaces it (ITexture::map passes 1 for its
+    // own new[] buffer). `rangeSizes` sets bit 1 of +0x3f when the texture has more than one mip.
+    // When the pointer changes to a non-null value, or the dirty bitmap is touched, setDataDirty(false)
+    // runs. The null-data path clears dirty word bit 0x2, and bit 0x1 only when +0x3f bit 0x8 is set.
+    void setData(void* data, bool owned, bool rangeSizes);
     // 0x5ff26c: allocates a copy of the texture data and returns non-zero on success.
     // Partial: the original tail-calls memcpy, and the source-null case is undefined there.
     uint32_t copy();

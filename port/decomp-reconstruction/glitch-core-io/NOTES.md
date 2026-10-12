@@ -737,3 +737,65 @@ Open (not written):
 - Blocked: CKdTree (5 rows, 0x5a24f8..0x5a5030) needs the class and distanceKdTree / lessThanPlane.
   SSharedStringHeapEntry::SData::release/get (0x6a4d9c, 0x6a5074) need the SharedStringHeap table.
 - Tests: tests/xml_reader_parse_test.cpp (narrow and wide documents; entity replacement; empty element; CDATA; comment).
+
+## Dependency slice dep-kdtree-sharedstr (CKdTree and SharedStringHeap layouts)
+
+Headers: shared/include/glitch-shared/kd_tree.hpp and shared_string_heap.hpp (canonical, because
+glitch-video and sid_collection use the same types); core-io copies in include/glitch-core-io/core/
+(kd_tree.hpp differs only in its deps include). Tests: tests/kd_tree_helpers_test.cpp,
+tests/shared_string_heap_test.cpp.
+
+Confirmed from the pseudocode and listings (addresses in brackets):
+- Element, 28 bytes: id uint at +0x00, aabbox3d<float> at +0x04 (min xyz +0x04..+0x0c, max xyz +0x10..+0x18).
+  Centre = (min + max) * 0.5 per axis [lessThanPlane 0x5a20d4, distanceKdTree 0x5a2160/0x5a2268/0x5a2370].
+- Node: vector begin/end/end-of-storage at +0x00/+0x04/+0x08 [addElemInternal 0x5a3120, removeElemInternal
+  0x5a44b4]; split plane float +0x0c; lower child +0x10 (taken when lessThanPlane is true), upper child
+  +0x14; axis byte +0x18 [addElemInternal, findKNearestElemsInternal 0x5a4e24]. The child axis is
+  (axis + 1) % 3 and its plane is the centre of the box along that axis [addElemInternal].
+- construct (0x5a2dd4) zeroes +0x00, +0x04, +0x08, +0x10, +0x14; the creator writes +0x0c and +0x18.
+- Tree: the root node is the tree object at +0x00 [kdTreeClustering 0x5a6568 passes &p as this and as the
+  node; findKNearest 0x5a5030 passes this as the node with no load]. Pool at +0x1c [addElemInternal].
+  Query box aabbox3d at +0x38 [findFarthestElemInternal 0x5a24f8]. Element count int at +0x50
+  [removeElemInternal: -= removed; the 1227133513 factors are the inverse of 7 mod 2^32 (7 * 1227133513 = -1)].
+- addElemInternal(elem, node, uint depth, box): descends while the uint is nonzero, passing depth - 1 [asm
+  0x5a3120: SUB R3, R10, #1 before the recursive BL]; a zero value appends to the node's vector.
+  The kdTreeClustering call passes a nonzero value [0x5a6568].
+- SKdDistance, 8 bytes: float distance at +0x00, element pointer at +0x04 [findKNearestElemsInternal;
+  findKNearest reads the element at +0x04].
+- SharedStringHeap is a pointer global (ELF 0x9f765c). The object is 0x24 bytes [initSharedStringHeap 0x6a5538]:
+  maxLoadFactor float +0x08 (1.0f), rehash threshold +0x0c = ceil(mlf * count), bucket array +0x14,
+  bucket count +0x18, cursor +0x1c, size +0x20 [release 0x6a4d9c, get 0x6a5074].
+- Record, 8 bytes [get, GlitchAlloc(8)]: SData pointer +0x00, next link +0x04. Bucket and chain pointers are
+  the link (record + 4) [release frees link - 4].
+- SData: uncommitted = {char* text, 0} [get]; committed = {0, text at +0x04} with allocation max(strlen+5, 8)
+  [commit 0x6a4cb8]. release picks a1 + 1 when the word at +0x04 is nonzero, else *a1 [0x6a4d9c].
+- Hash [get 0x6a5074, asm SXTAB at 0x6a50d8 and EOR]: h ^= (h << 6) + int8(c) + 0x9E3779B9 + (h >> 2) over the
+  bytes, from h = 0; index = h % count [__aeabi_uidivmod at 0x6a5100].
+- Prime table: 40 uint entries at ELF 0x8eafc0 (5, 11, 17, ..., 4294967291), read from the binary.
+  Initial count = first entry above 10 = 11 [init]. Growth in get: new size = max(size + size/2, size + 1),
+  divided by mlf (floor), first prime above that value; rehash moves records to the new buckets.
+- Insert [get]: the record goes at the head of its bucket; size++; the cursor moves down when the new slot is lower.
+- get(text, create) returns 0 for a null or empty text. The lookup-only branch returns the stored SData.
+
+Still open (not confirmed, not coded):
+- SKdNode total size (the pool's requested size is set in a constructor not in the port). The 28-byte node
+  and the 28-byte pool gap at +0x1c..+0x38 are consistent with the offsets but not proven.
+- The distance type of SKdDistance's ordering (std::less on SKdDistance, operator< not recovered).
+- The meaning of the uint depth in addElemInternal beyond "nonzero descends": the caller passes v10 + 1 and
+  v45 [kdTreeClustering]; the origin of those values is in the clustering category.
+- Empty committed text: release would read a null text (the word at +0x04 is zero). Not seen in any caller here.
+- get's public wrapper returns the SData block (*node), not block + 4. The callers of get are not in this
+  category; whether they read the text at +0x04 is open.
+- The boost hash table find and rehash functions (0x6a4d04, 0x6a4f84, 0x6a4fd8, 0x6a4f18) are boost code; their
+  instances here follow the layout above but are not ported as source.
+- sizeof(SData) and the table's allocation are open: the table object size 0x24 is from operator new(0x24).
+
+Rows this slice unblocks (once implemented in src/ by the owning category):
+- CKdTree: 0x5a24f8 findFarthestElemInternal, 0x5a3120 addElemInternal, 0x5a44b4 removeElemInternal,
+  0x5a4e24 findKNearestElemsInternal, 0x5a5030 findKNearest. Still needed from the standard library: the
+  std::remove_if and heap helpers used by remove (0x5a4374) and findKNearest (0x5a37d4, 0x5a3814), which are
+  not ledgered in this category.
+- SSharedStringHeapEntry: 0x6a4d9c SData::release, 0x6a5074 SData::get, 0x6a4cb8 commit (its owner was not
+  identified; the layout is now known). 0x6a4d04 find is the same chain search.
+- glitch-video kdTreeClustering 0x5a6568 can use the CKdTree header (it calls addElemInternal, removeElemInternal
+  and findKNearest); its ledger row says the clustering helper was blocked on core types.

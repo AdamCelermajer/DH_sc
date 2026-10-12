@@ -19,6 +19,58 @@ uint32_t ITexture::getSizeInBytes() const {
     return aligned * multiplier + size;
 }
 
+// 0x5fdf74 _ZN6glitch5video8ITexture7setDataEPvbb
+// Flag names: owned = a3 (bit 0 of +0x3f, freed on replace), rangeSizes = a4 (bit 1 of +0x3f).
+void ITexture::setData(void* data, bool owned, bool rangeSizes) {
+    bool refreshDirty = false;  // original v10: the pointer changed to a non-null value
+    bool noData = false;        // original jump to LABEL_19
+    if (data == m_data) {
+        noData = (data == nullptr);
+    } else {
+        if (m_data != nullptr && (m_flags3f & 1) != 0) {
+            delete[] m_data;
+        }
+        m_data = static_cast<uint8_t*>(data);
+        noData = (data == nullptr);
+        refreshDirty = !noData;
+    }
+
+    if (noData) {
+        // LABEL_19: no data. Bit 0 of +0x3f is always set here; the dirty word loses bit 0x2,
+        // and bit 0x1 only when +0x3f bit 0x8 is set.
+        const uint8_t flags = static_cast<uint8_t>(m_flags3f | 1);
+        m_flags3f = flags;
+        if ((flags & 8) != 0) {
+            m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 & ~1u);
+        }
+        m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 & 0xfffdu);
+        if (m_mipCount3e > 1 && rangeSizes) {
+            m_flags3f = static_cast<uint8_t>(m_flags3f | 2);
+        } else {
+            m_flags3f = static_cast<uint8_t>(m_flags3f & ~2);
+        }
+        return;
+    }
+
+    // LABEL_7: a non-null pointer.
+    uint8_t flags = owned ? static_cast<uint8_t>(m_flags3f | 1) : static_cast<uint8_t>(m_flags3f & 0xfe);
+    const uint32_t mipCount = m_mipCount3e;
+    if (mipCount > 1 && rangeSizes) {
+        if ((flags & 2) == 0) {
+            // The dirty bitmap follows the mipCount + 1 per-mip sizes.
+            uint32_t* bitmap = reinterpret_cast<uint32_t*>(m_levelSizes) + mipCount + 1;
+            std::memset(bitmap, 0, 4 * ((mipCount + 31) >> 5));
+        }
+        flags = static_cast<uint8_t>(flags | 2);
+    } else {
+        flags = static_cast<uint8_t>(flags & ~2);
+    }
+    m_flags3f = flags;
+    if (refreshDirty) {
+        setDataDirty(false);
+    }
+}
+
 // 0x5fdc84 _ZN6glitch5video8ITexture6unlockEv
 void ITexture::unlock() {
     uint8_t count = m_lockCount42;

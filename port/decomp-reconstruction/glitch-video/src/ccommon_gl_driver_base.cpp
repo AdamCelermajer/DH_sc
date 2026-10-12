@@ -40,20 +40,27 @@ E_PIXEL_FORMAT CCommonGLDriverBase::CRenderTargetBase::getColorFormat() const {
     return m_colorFormat;
 }
 
+// 0x6ddbec _ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC2EPS1_
+// 0x6ddb2c _ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseC1EPS1_
+// PARTIAL: see the header. The four slots and the two single attachments start empty (kind 255),
+// the colour format is 39, the target count is 0 and the byte at +0x5a is 1. The IRenderTarget
+// base call and the vtable store are not reproduced.
+CCommonGLDriverBase::CRenderTargetBase::CRenderTargetBase(CCommonGLDriverBase*) {}
+
 // 0x6dcbfc _ZNK6glitch5video19CCommonGLDriverBase17CRenderTargetBase14getTargetCountENS0_13IRenderTarget17E_ATTACHMENT_TYPEE
 int32_t CCommonGLDriverBase::CRenderTargetBase::getTargetCount(int32_t attachmentType) const {
     switch (attachmentType) {
         case 0:
             return m_targetCount;
         case 1:
-            return m_attachment0 != nullptr ? 1 : 0;
+            return m_attachment0.object != nullptr ? 1 : 0;
         case 2:
-            return m_attachment1 != nullptr ? 1 : 0;
+            return m_attachment1.object != nullptr ? 1 : 0;
         case 3:
-            if (m_attachment0 == nullptr) {
+            if (m_attachment0.object == nullptr) {
                 return 0;
             }
-            return m_attachment0 == m_attachment1 ? 1 : 0;
+            return m_attachment0.object == m_attachment1.object ? 1 : 0;
         default:
             return 0;
     }

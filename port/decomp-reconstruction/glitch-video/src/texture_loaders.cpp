@@ -1,6 +1,7 @@
 #include "glitch-video/texture_loaders.hpp"
 
 #include <cstring>
+#include <vector>
 
 #include "glitch-video/pixel_format.hpp"
 
@@ -29,6 +30,44 @@ bool CImageLoaderATC::isALoadableFileFormat(io::IReadFile* file) const {
     file->read(&b1, 1);
     uint16_t value = static_cast<uint16_t>(b0 | (b1 << 8));
     return static_cast<uint16_t>(value + 0x736e) < 2;
+}
+
+// 0x602e34 _ZNK6glitch5video15CImageLoaderATC17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE
+// Header layout (little-endian): width (2 bytes), height (2), magic (2), one unused 2-byte field, data
+// size (4). The data block is read and must be complete. Partial: see the header (no log on failure).
+bool CImageLoaderATC::loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const {
+    file->seek(0, false);
+    uint8_t width[2] = {};
+    uint8_t height[2] = {};
+    uint8_t magic[2] = {};
+    uint8_t unused[2] = {};
+    uint8_t sizeBytes[4] = {};
+    file->read(width, 2);
+    file->read(height, 2);
+    file->read(magic, 2);
+    file->read(unused, 2);
+    file->read(sizeBytes, 4);
+    const uint32_t dataSize = static_cast<uint32_t>(sizeBytes[0]) | (static_cast<uint32_t>(sizeBytes[1]) << 8) |
+                              (static_cast<uint32_t>(sizeBytes[2]) << 16) |
+                              (static_cast<uint32_t>(sizeBytes[3]) << 24);
+    std::vector<uint8_t> data(dataSize);
+    if (static_cast<size_t>(file->read(data.data(), dataSize)) != dataSize) {
+        // Original: logs "corrupt ATC file" here (os::Printer not in port).
+        return false;
+    }
+    const uint32_t magicValue = static_cast<uint32_t>(magic[0]) | (static_cast<uint32_t>(magic[1]) << 8);
+    desc.type = 0;
+    desc.unknown08 = 0;
+    desc.width = static_cast<uint32_t>(width[0]) | (static_cast<uint32_t>(width[1]) << 8);
+    desc.height = static_cast<uint32_t>(height[0]) | (static_cast<uint32_t>(height[1]) << 8);
+    desc.depth = 1;
+    desc.flag = 1;
+    if (magicValue == 35986) {
+        desc.format = 21;
+    } else if (magicValue == 35987) {
+        desc.format = 22;
+    }
+    return true;
 }
 
 // 0x603254 _ZNK6glitch5video15CImageLoaderATC24isALoadableFileExtensionEPKc

@@ -35,7 +35,18 @@ class CVertexStreams;
 class CPrimitiveStream;
 class CDriverBinding;
 
-struct STextureDesc {};  // placeholder for the texture load descriptor
+// Texture load descriptor. Only the fields written by the ATC header reader (0x602e34) are named;
+// the DDS reader (0x604398) uses the same +0x00, +0x04, +0x10, +0x14, +0x18 and +0x1c fields.
+struct STextureDesc {
+    uint32_t type = 0;          // +0x00, zeroed by the ATC reader
+    uint32_t format = 0;        // +0x04, 21 or 22 for ATC; left unchanged for other magic values
+    uint32_t unknown08 = 0;     // +0x08, zeroed by the ATC reader; meaning not identified
+    uint32_t unknown0c = 0;     // +0x0c, not written by the ATC reader
+    uint32_t width = 0;         // +0x10
+    uint32_t height = 0;        // +0x14
+    uint32_t depth = 0;         // +0x18
+    uint8_t flag = 0;           // +0x1c, set to 1 by the ATC reader
+};
 
 namespace detail::driver {
 // Placeholder for the driver render-state block. Layout not reconstructed.

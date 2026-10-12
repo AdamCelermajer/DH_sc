@@ -51,6 +51,20 @@ public:
 
     class CRenderTargetBase {
     public:
+        // One attachment slot, 8 bytes in the original: a 16-bit kind (255 = empty), two flag
+        // bytes, then a reference-counted object pointer at +4.
+        struct SAttachment {
+            uint16_t kind = 255;      // +0x00
+            uint8_t flagA = 0;        // +0x02
+            uint8_t flagB = 0;        // +0x03
+            const void* object = nullptr;  // +0x04, reference-counted in the original
+        };
+
+        // 0x6ddbec (C2) / 0x6ddb2c (C1). PARTIAL: the IRenderTarget base constructor (which
+        // takes the driver and {-1, -1}) and the vtable store (off_98B088) are not ported, so
+        // the driver pointer is not kept. The member initialisers below give the state that
+        // the constructor writes after the base call.
+        explicit CRenderTargetBase(CCommonGLDriverBase* driver);
         E_PIXEL_FORMAT getColorFormat() const;  // 0x6dcd4c
         // 0x6dcbfc: number of targets for an IRenderTarget::E_ATTACHMENT_TYPE (int32 alias).
         // Type 0 returns the byte at +0x59, types 1 and 2 test the two handles, and type 3
@@ -58,15 +72,18 @@ public:
         int32_t getTargetCount(int32_t attachmentType) const;
         // Test helper, not in the original: sets the three fields that getTargetCount reads.
         void setTargetStateForTest(const void* attachment0, const void* attachment1, uint8_t count) {
-            m_attachment0 = attachment0;
-            m_attachment1 = attachment1;
+            m_attachment0.object = attachment0;
+            m_attachment1.object = attachment1;
             m_targetCount = count;
         }
     private:
-        const void* m_attachment0 = nullptr;  // +0x4c, handle name inferred from the switch
-        const void* m_attachment1 = nullptr;  // +0x54, handle name inferred from the switch
-        uint8_t m_targetCount = 0;            // +0x59, byte
-        uint8_t m_colorFormat = 0;            // +0x58, byte
+        uint32_t m_unknown24 = 0;              // +0x24, zeroed by the constructor (not named)
+        SAttachment m_slots[4];                // +0x28..+0x47, four attachment slots
+        SAttachment m_attachment0;             // +0x48, object pointer at +0x4c
+        SAttachment m_attachment1;             // +0x50, object pointer at +0x54
+        E_PIXEL_FORMAT m_colorFormat = static_cast<E_PIXEL_FORMAT>(39);  // +0x58, set by the constructor
+        uint8_t m_targetCount = 0;             // +0x59, byte
+        uint8_t m_flag5a = 1;                  // +0x5a, set by the constructor (meaning not named)
     };
 
     virtual ~CCommonGLDriverBase() = default;

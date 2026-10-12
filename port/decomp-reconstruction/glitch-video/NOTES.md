@@ -363,3 +363,140 @@ GOT address against its relocation, then scan every `.text` function (from `.sym
   (vtable +0x1e8 and driver +0xcc current-target check) not identified.
 - Still blocked: CGlobalMaterialParameterManager rows (SIDedCollection), IAttributes serializers, grab/drop/init,
   and the E_SHADER_PARAMETER_VALUE_TYPE dispatchers (need typed getParameter<T>/setParameter<T> in glitch-video).
+
+## Dependency: SIDedCollection (dep-sided)
+
+- Header: include/glitch-video/deps/sid_collection.hpp. It includes the shared layout
+  (../shared/include/glitch-shared/sid_collection.hpp, copied from glitch-core-io core/sid_collection.hpp)
+  by a relative path, so no -I flag is needed. It exposes glitch::core::detail::SIDedCollection<T, IdType, Flag, Props, Traits>
+  (alias) and glitch::core::detail::sidedcollection::SValueTraits. Test: scratch only, $SP/dep-build/sid_deps_test.cpp (passes).
+- Confirmed by binary (ARM, symbols and disassembly):
+  - ITexture, STextureProperties: size 0x5e83a4, get 0x5e83ac (LSL #3, ASR #3 bound, invalid entry), getProperties 0x5e83e4 / 0x5e83f8 (entry+4, +0x18), ctor 0x5e840c.
+  - IShader, SShaderProperties: size 0x5e53d4, get 0x5e539c, getProperties 0x5e53f0, ctor 0x5e5404. Same shape as ITexture.
+  - CMaterialRenderer, materialrenderermanager::SProperties: size 0x5d7d78, get 0x5d7d40, getProperties 0x5d7d9c, ctor 0x5d7db0. Same shape.
+  - IShaderCode, SEmptyProperties: size 0x6e07c0, get 0x6e0788, getProperties 0x6e0860, ctor 0x6e07d0. Same shape.
+  - Global, SShaderParameterDef value entries, globalmaterialparametermanager::SPropeties: size 0x5b9d8c (ldrh +0x26),
+    get 0x5b9da0 (bound count = (end-begin)/20 by multiply with 0xCCCCCCCD, element = begin + id*0x14 via MLA),
+    getProperties 0x5b9f04 (iterator at +0x10, record at node +0x18), SEntry() 0x5b9fb8, ctor 0x5b9e1c.
+- Not confirmed as the shared template: the global instance stores values (SShaderParameterDef), not pointers, so
+  SEntry::set/reset (0x5b9fb8 family) and the release path differ from the pointer template. Only its header
+  (+0x18 begin, +0x1c end, +0x26 count, iterator +0x10) is confirmed. Needs its own template or a value-traits variant.
+- Open questions: the Flag bool (false in every symbol) is not modelled; IdType is fixed to uint16 in the shared template;
+  the shared template's namespace is glitch::core::detail::sid_layout, the original name is glitch::core::detail::SIDedCollection
+  (the alias above provides the original name); SIdValue+0x18 (int 39) meaning unknown.
+- Rows that depended only on the collection shape (still need their owning class, so not fully unblocked):
+  CTextureManager 0x3849a0 / 0x384eb4 (partial), CMaterialRendererManager C1 0x5d8f24 (partial),
+  CShaderCodeManager C1/C2 0x6e0804 / 0x6e0818 (stand-in), CNullShaderManager::createShader 0x5b9bf4 (stand-in).
+
+## dep-gl-stride: CVertexStreams layout (dependency worker)
+
+- Layout confirmed from pseudocode: refcount +0x00 (allocate 0x5a1270, `++*obj`), attribute mask +0x04, field08 +0x08,
+  count0c +0x0c (ctor 0x5a113c arg a4), streamCount +0x0d (ctor a5), flags +0x0e (ctor stores 3), end pointer +0x10
+  (= this + 20 + 16 * streamCount), entries from +0x14 at 16 bytes each, trailing block 24 * count0c + 24 bytes after them.
+  Allocation size is 20 + 16 * streamCount + 24 * count0c + 24 (0x5a1270 `operator new[]`).
+- Entry fields, confirmed by copyVertex 0x5a2b18 and setStream 0x7d46fc: +0x00 buffer, +0x04 offset, +0x08 attribute,
+  +0x0a value type (index into ValueTypeSize), +0x0c component count, +0x0e per-vertex stride.
+- Stride word +0x22 is entry 0 field0e (entry 0 at +0x14). Read by copyVertex (LDRH r4,[r2,#0x22] at 0x5a2c00) and
+  isVertexStreamHomolaced (LDRH [r2,#0xe] at 0x5a2410 after ADD r2,#0x14). The constructor writes it as entry 0 field0e.
+  isVertexStreamHomolaced compares only entries 1 and later against it.
+- Open: empty table. Constructor with streamCount 0 leaves +0x22 inside the trailing block, and isVertexStreamHomolaced
+  dereferences entry 0 with v6 = 0 (null read at 12) when the table is empty. The port's getVertexStride returns 0.
+- Open: the port keeps entries in std::vector, so the +0x22 word is not a real memory word here; getVertexStride reads
+  entry 0 instead.
+- Unblocked (layout only, not implemented here): 0x5a23f4 isVertexStreamHomolaced; 0x5a2b18 copyVertex whole-vertex
+  branch (memcpy of stride bytes from base + stride * vertex). Candidate in glitch-core-io: 0x6b58a8 getVertexStreamsStride.
+
+## Dependency pass: IReferenceCounted and CCommonGLDriver template instance (dep worker)
+
+Headers: `shared/include/glitch-shared/reference_counted.hpp` (shared copy, IReferenceCounted),
+`include/glitch-video/ccommon_gl_driver_template.hpp` (offsets of the template instance only).
+Test: `tests/reference_counted_shared_test.cpp`. Not registered in CMake.
+
+IReferenceCounted (confirmed from pseudocode):
+- Vtable (`_ZTVN6glitch17IReferenceCountedE`, 20 bytes): +0x00 D1 (0x31d580, empty), +0x04 D0 deleting dtor
+  (0x31fd58: sets base vptr, CustomFree), +0x08 onDelete (0x31d5cc, empty).
+- Object: +0x00 vptr, +0x04 counter.
+- drop (0x31d584): `if (count-- != 1) return 0;` then onDelete (+0x08), then D0 (+0x04), return 1.
+- No constructor symbol. Derived constructors inline the base: store vptr, set +0x04 to 1
+  (CMemoryWriteFile C1 0x6b4d04, CPakReader C1 0x57002c). Initial count 1 is confirmed.
+
+CCommonGLDriver template instance (offsets, each from the instance method shown):
+- Driver: +0x4c unit count (0x5b28dc, 0x5b5610, 0x5b280c); +0x9c caps word (0x5afd40, 0x5afff0, 0x5b1244,
+  0x5b1bd8); +0xf0 last-material pointer (0x5b73e0, type open); +0x1dc frontFace (0x5b1244); +0x254 bound
+  buffer per target, index = buffer target byte (0x5b051c, 0x5b2468, 0x5b3a1c, 0x5b6374, 0x5b67b0: array at
+  +596 + 4*target); +0x268 active unit (0x5b280c, 0x5b5610); +0x26c unpack alignment (0x5afff0);
+  +0x420 texture table, 32-byte rows per type, 4 bytes per unit (0x5b28dc, 0x5b5610); +0x4a0 frontFaceFlip
+  (0x5b1244); +0x4a8 float max anisotropy (0x5afd40); +0x4b0 format table, 20-byte rows: +0 internal format,
+  +4 format, +8 type (0x5afff0); +0x7ec caps word, bit 0x80000 max level (0x5afd40).
+- CBuffer (IBuffer subobject, 0x20 bytes per 0x5b1480): +0x08 data, +0x0c size, +0x10 target, +0x11 usage,
+  +0x12 flags, +0x13 map state (count low 5 bits, access bits 5-6; 0x5b3a1c), +0x14 driver, +0x18 GL name,
+  +0x1c mapped pointer (0x5b2468 writes 0). Flag bits: 0x02 dirty (mapImpl sets when usage != 4; update clears),
+  0x08 bind pending (bindImpl sets, unbind clears with & 0xe7), 0x10 upload failed, 0x20 unmap callback (unmap
+  clears with & 0xdf).
+- CTexture (ITexture subobject): +0x1c name (log text in 0x5afd40, 0x5afff0), +0x20 width, +0x24 height,
+  +0x2c data, +0x30 level sizes (mipCount+1 words, dirty bitmap after them), +0x34 driver, +0x38 packed state
+  (type bits 0-1, pixel format bits 4-9, min filter 12-14, mag filter 15-17, wrap S 18-20, wrap T 21-23),
+  +0x3e mip count byte, +0x3f flag byte, +0x40 dirty uint16, +0x44 float max aniso, +0x50 float max level
+  (GL 0x813d), +0x54 GL name, +0x58 byte passed as updateData's a2 (TexImage2D vs TexSubImage2D).
+  Dirty bits: 0x001 data, 0x002 mipmaps, 0x004 min, 0x008 mag, 0x010 wrap S, 0x020 wrap T, 0x040 wrap R,
+  0x080 aniso, 0x400 max level. update() calls updateParameters when dirty & 0x1ffc, updateData when dirty & 1.
+- CRenderBuffer: +0x18 GL name. CFramebuffer: +0x08 driver (bind), +0x14 attachment block, +0x34 saved
+  GL_FRAMEBUFFER_BINDING (ctor, 0x8ca6).
+
+Open questions (not coded):
+1. CFramebuffer ctor 0x5b1bd8 reads driver +0x9c but does not store the driver; bind 0x5b1244 reads driver
+   from this+0x08. Base CFramebufferBase ctor not read; the store may be in it.
+2. CBuffer base ctor signature (driver, target, usage, size, data, flag) is inferred from the cloneImpl call
+   site (0x5b1480). Its pseudocode was not read.
+3. mapImpl 0x5b3a1c indexes a table named BlendFactorMap at a2+73. Hex-Rays label is suspect; the real
+   map-access table is not identified.
+4. updateParameters 0x5afd40: the 0x40 (wrap R) branch calls glTexParameteri with 0x2803 (WRAP_T), not 0x8072.
+   Left as seen in the pseudocode.
+5. Dirty bits 0x100, 0x200, 0x800, 0x1000 are in the 0x1ffc mask but no branch handles them.
+6. Max unit count (+0x4c) and the 32-byte row width (8 units?) are not confirmed.
+7. Format-table rows: bytes 0x0c..0x13 of each row are not read by these methods; table data is not in the repo.
+8. Texture flag byte +0x3f: bits 0x02, 0x08, 0x10 seen, 0x20 unknown; +0x3e meaning (count vs max level) open.
+9. Driver vtable slots +0x6c, +0x70, +0xa8, +0x1e8 not named. +0x48 (buffer data) and +0x50 (delete buffer) are
+   called with the argument lists shown in 0x5b67b0 and 0x5b051c.
+10. DRV::setTexture (used by 0x5b28dc and 0x5b280c) has no address here. ITexture::setData, IBuffer::reset and
+    the CBufferBase constructor are also needed by 0x5b5610 and 0x5b67b0.
+11. applyRenderStates 0x5b73e0: driver +0xf0 type, the 12-byte technique entry and the 52-byte render-state
+    block are not modelled.
+
+Ledger rows that the layout may unblock (the pseudocode they need is read; each still needs its named helper):
+- CBuffer: 0x5b051c, 0x5b1480, 0x5b2468, 0x5b3a1c, 0x5b6374, 0x5b67b0 (open: 2 and the IBuffer helpers).
+- CTexture: 0x5afd40, 0x5afff0, 0x5b044c (open: question 4 for wrap R; question 5 for unhandled dirty bits);
+  0x5b280c, 0x5b28dc (open: DRV::setTexture); 0x5b5610 (open: ITexture::setData).
+- CRenderBuffer: 0x5b11ec, 0x5b130c (GL calls only). CFramebuffer: 0x5b1244 and 0x5b1bd8 (open: question 1).
+Still blocked: 0x5b73e0 (open: question 11).
+
+## wave2-glitch-video-1 (rerun slice: IMaterialParameters, CFramebuffer, SDrawSetup, ITexture, DDS, CPerFaceLoading)
+
+- ITexture::setData (0x5fdf74) reconstructed in src/texture.cpp. Its a3 sets bit 0 of +0x3f and the body frees the
+  old pointer when that bit is set, so bit 0 means "owned". ITexture::map passes 1 for its own new[] buffer, which
+  agrees. ITexture::copy (0x5ff26c) reads the same bit as "not owned" (ownsData = (flags & 1) == 0), which looks
+  inverted against setData. Not changed here; the copy owner should re-check it.
+- Test: tests/texture_setdata_test.cpp (ASan and UBSan clean).
+- Still blocked in this slice: the Global and CMaterial/CMaterialRenderer typed dispatchers (need typed templates),
+  IAttributes serializers, the type-0x12 release path (Matrix4Pool), the ITexture ctor and map (unnamed vtable slots),
+  the DDS loader (STextureDesc placeholder, logf) and CPerFaceLoading.
+
+## wave2-glitch-video-4 (worker findings)
+
+- CMaterialVertexAttributeMap (new: include/glitch-video/material_vertex_attribute_map.hpp, src/material_vertex_attribute_map.cpp):
+  +0x00 count, +0x04 renderer (count at renderer +0x00), +0x08 slot array (totalMapCount slots). totalMapCount reads the renderer
+  (passed as this): entry = techniques[(byte +0x10) - 1], result = entry count byte (+4) + (entry block list (+8) - renderer block base
+  (+0x1c)) / 52. set() uses technique index without the minus one, slot = (block - base) / 52. Both divisions are exact; the
+  constants in the binary (991146299 = inverse of -13, 330382100 = 4 * inverse of 13) are these divisions.
+- CMaterialRenderer is a stand-in in that header (only +0x00, +0x10, +0x18, +0x1c named) until the class is reconstructed.
+- STextureDesc (deps/glitch_video_types.hpp) now names +0x00 type, +0x04 format, +0x08, +0x0c, +0x10 width, +0x14 height,
+  +0x18 depth, +0x1c flag byte. Written by the ATC header reader only; the DDS reader uses the same offsets.
+- CVertexAttributeMap(streams) one-argument constructor (0x5a0958) is skipped in its own slice. It is now possible with
+  makeDefaultAttributeMap. Three CMaterialVertexAttributeMap rows (0x5df59c, 0x5df668, 0x5df624) wait for it.
+- isVertexStreamHomolaced (0x5a23f4): the first entry sets the stride, later entries must match. Span check is
+  running max + count * ValueTypeSize[type of widest entry] - min <= stride.
+- glitch-core-io now has core/shared_string_heap.hpp and core/kd_tree.hpp (added by other workers). glitch-video deps do not
+  include them; the sort, string-helper and kd-tree rows still need them brought in.
+- Still open in this slice: string helpers (process buffer and ctype bit 0x04 not identified), the three convertPackedImpl
+  instantiations (about 50 KB Hex-Rays each), the clustering helpers (vector3d and aabbox3d not in glitch-video deps),
+  CGenericBaker (needs the CMaterial parameter layout), and the CTexture nested class under the CCommonGLDriver instance.

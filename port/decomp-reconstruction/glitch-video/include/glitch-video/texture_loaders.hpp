@@ -125,6 +125,11 @@ public:
     bool isALoadableFileFormat(io::IReadFile* file) const;
     // 0x603254: ".atc" or ".ATC" in the name.
     bool isALoadableFileExtension(const char* filename) const;
+    // 0x602e34: reads the ATC header (little-endian 16-bit fields, 32-bit data size), reads the
+    // whole data block to check its size, then fills desc. Returns false when the block is short.
+    // Partial: the failure path's os::Printer::log("corrupt ATC file") is not called (os::Printer
+    // is not in deps).
+    bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const override;
 };
 
 class CImageLoaderDDS : public IImageLoader {

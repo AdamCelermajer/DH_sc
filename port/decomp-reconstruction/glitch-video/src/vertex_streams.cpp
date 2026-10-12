@@ -48,6 +48,12 @@ SVertexStream* CVertexStreams::getStream(uint32_t attribute, SVertexStream* firs
     return end;
 }
 
+// Vertex stride word at +0x22: entry 0's field0e (see the header layout comment).
+// 0x5a2c00 (copyVertex) and 0x5a2410 (isVertexStreamHomolaced) read it as LDRH [entry0 + 0x0e].
+uint16_t CVertexStreams::getVertexStride() const {
+    return m_streams.empty() ? static_cast<uint16_t>(0) : m_streams.front().field0e;
+}
+
 // 0x5a0b34 _ZN6glitch5video14CVertexStreams9addOffsetEi
 void CVertexStreams::addOffset(int32_t delta) {
     for (SVertexStream& s : m_streams) {
@@ -325,6 +331,44 @@ void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams
         std::memcpy(out, mapped + stream.offset + static_cast<uint32_t>(stream.field0e) * vertex, byteCount);
         out += byteCount;
     }
+}
+
+// 0x5a23f4 _ZN6glitch5video23isVertexStreamHomolacedERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERi
+// Partial: the empty-table case is not the original's behaviour (see the header).
+bool isVertexStreamHomolaced(const boost::intrusive_ptr<const CVertexStreams>& streams, int32_t& minOffset) {
+    const std::vector<SVertexStream>& entries = streams->m_streams;
+    if (entries.empty()) {
+        minOffset = 0x7fffffff;
+        return false;
+    }
+    const uint16_t stride = streams->getVertexStride();
+    int32_t lowest = 0x7fffffff;       // v5
+    int32_t running = -2147483647;     // v8, running maximum (starts at the original's sentinel)
+    const SVertexStream* widest = nullptr;  // v6, the entry that last raised the running maximum
+    for (size_t i = 0; i < entries.size(); ++i) {
+        const SVertexStream& entry = entries[i];
+        // Entry 0 defines the stride; every later entry must match it, checked before it is read.
+        if (i > 0 && entry.field0e != stride) {
+            minOffset = 0;
+            return false;
+        }
+        const int32_t offset = static_cast<int32_t>(entry.offset);
+        if (lowest >= offset) lowest = offset;
+        if (offset > running) widest = &entry;
+        if (offset > running) running = offset;
+    }
+    minOffset = lowest;
+    if (widest == nullptr) {
+        // Only reachable when the offset is 0x80000000 (not greater than the sentinel). The original
+        // dereferences a null entry there.
+        return false;
+    }
+    // (running + count * ValueTypeSize[type] - lowest) <= stride, in 32-bit two's complement as in the original.
+    const uint32_t span = static_cast<uint32_t>(running) +
+                          static_cast<uint32_t>(widest->field0c) *
+                              detail::SVertexAttributeTypeInspection::ValueTypeSize[widest->field0a] -
+                          static_cast<uint32_t>(lowest);
+    return static_cast<int32_t>(span) <= static_cast<int32_t>(stride);
 }
 
 }  // namespace glitch::video

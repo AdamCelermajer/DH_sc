@@ -5,9 +5,49 @@
 namespace glitch::video {
 
 // 0x5d7c5c _ZN6glitch5video24CMaterialRendererManager14SCreationStateC1EPc
-// Partial: the list heads at +0x08..+0x34 are set by the original to point at themselves; they
-// are not modelled here.
-CMaterialRendererManager::SCreationState::SCreationState(char* name) : m_name(name) {}
+// Partial: the list heads point at the sentinel (set here as in the original). The other list
+// heads at +0x08..+0x23 (technique and parameter lists) are not modelled.
+CMaterialRendererManager::SCreationState::SCreationState(char* name) : m_name(name) {
+    m_pinkSentinel.next = &m_pinkSentinel;
+    m_pinkSentinel.prev = &m_pinkSentinel;
+    m_pinkCursor = &m_pinkSentinel;
+}
+
+// Frees the pink-bind nodes. The original destructor is not reconstructed; this only releases
+// the nodes that addPinkBind allocates.
+CMaterialRendererManager::SCreationState::~SCreationState() {
+    SPinkBindNode* node = m_pinkSentinel.next;
+    while (node != &m_pinkSentinel) {
+        SPinkBindNode* next = node->next;
+        delete node;
+        node = next;
+    }
+}
+
+// 0x5d9788 _ZN6glitch5video24CMaterialRendererManager14SCreationState11addPinkBindENS1_12STemporaryIDEt
+void CMaterialRendererManager::SCreationState::addPinkBind(STemporaryID id, uint16_t value) {
+    const uint8_t flag = static_cast<uint8_t>(m_pinkCounter24 - 1);
+    if (m_pinkCursor == &m_pinkSentinel) {
+        // The cursor is at the end: append a node at the tail.
+        SPinkBindNode* node = new SPinkBindNode();
+        node->data.flag = flag;
+        node->data.value = value;
+        node->data.id = id;
+        SPinkBindNode* tail = m_pinkSentinel.prev;
+        node->next = &m_pinkSentinel;
+        node->prev = tail;
+        tail->next = node;
+        m_pinkSentinel.prev = node;
+        m_pinkCursor = &m_pinkSentinel;
+    } else {
+        // Reuse the node under the cursor and advance the cursor.
+        SPinkBindNode* node = m_pinkCursor;
+        node->data.id = id;
+        node->data.value = value;
+        node->data.flag = flag;
+        m_pinkCursor = node->next;
+    }
+}
 
 // 0x5d8f24 _ZN6glitch5video24CMaterialRendererManagerC1EPNS0_12IVideoDriverE
 // 0x5d8fa0 _ZN6glitch5video24CMaterialRendererManagerC2EPNS0_12IVideoDriverE

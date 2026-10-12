@@ -1,7 +1,20 @@
-// glitch::video::CVertexStreams: the vertex stream table of a mesh. The
-// original stores 16-byte SVertexStream entries in an inline-or-heap array
-// with begin at +0x14 and end pointer at +0x10. Here the array is a vector;
-// offsets are kept as comments.
+// glitch::video::CVertexStreams: the vertex stream table of a mesh.
+//
+// Layout of the original object (from the constructor 0x5a113c / 0x5a148c, allocate 0x5a1270,
+// copyVertex 0x5a2b18, isVertexStreamHomolaced 0x5a23f4, getActiveAttributeMask 0x5a0a58):
+//   +0x00  intrusive reference count (allocate 0x5a1270 does ++*(obj))
+//   +0x04  attribute mask (ctor argument 3)
+//   +0x08  field08 (ctor argument 2), meaning not identified
+//   +0x0c  count0c: count of the trailing block, which is 24 * count0c + 24 bytes (ctor, memcpy/memset of a4)
+//   +0x0d  streamCount: number of SVertexStream entries (ctor: end = this + 20 + 16 * streamCount)
+//   +0x0e  flags, 16 bits; the constructor stores 3 (kFlagHomogeneous | kFlagHasData)
+//   +0x10  end pointer of the entry array (ctor: stored as this + 20 + 16 * streamCount)
+//   +0x14  SVertexStream entries, 16 bytes each, inline (begin = this + 20, so entry i is at +0x14 + 16 * i)
+//   after the entries: trailing block of 24 * count0c + 24 bytes (not modelled; see the class comment)
+//   +0x22  vertex stride word: this is SVertexStream[0].field0e (entry 0 at +0x14, field0e at +0x0e).
+//          Both copyVertex (0x5a2b18, LDRH r4,[r2,#0x22] at 0x5a2c00) and isVertexStreamHomolaced
+//          (0x5a23f4, LDRH at 0x5a2410) read it, and the constructor writes it as entry 0's field0e.
+// The port stores the entries in a std::vector, so these offsets are comments, not the memory layout.
 #pragma once
 
 #include <cstdint>
@@ -16,10 +29,14 @@ namespace glitch::video {
 struct SVertexStream {
     boost::intrusive_ptr<IBuffer> buffer;  // +0x00
     uint32_t offset = 0;                   // +0x04, changed by CVertexStreams::addOffset
-    uint16_t attribute = 0;                // +0x08, E_VERTEX_ATTRIBUTE index
-    uint16_t field0a = 0;                  // +0x0a, copied by setStream; meaning not identified
-    uint16_t field0c = 0;                  // +0x0c, copied by setStream; meaning not identified
-    uint16_t field0e = 0;                  // +0x0e, copied by setStream; meaning not identified
+    uint16_t attribute = 0;                // +0x08, E_VERTEX_ATTRIBUTE index (ctor 0x5a113c, getActiveAttributeMask 0x5a0a58)
+    uint16_t field0a = 0;                  // +0x0a, value type: index into SVertexAttributeTypeInspection::ValueTypeSize
+                                           //        (copyVertex 0x5a2b18, ValueTypeSize[*(u16*)(entry+10)]); 0xff = unset
+    uint16_t field0c = 0;                  // +0x0c, component count: bytes copied = count * ValueTypeSize[field0a]
+                                           //        (copyVertex 0x5a2b18, v11 = *(u16*)(entry+12))
+    uint16_t field0e = 0;                  // +0x0e, per-vertex stride in bytes (copyVertex 0x5a2b18, v12 = *(u16*)(entry+14):
+                                           //        source = map + offset + stride * vertex). Entry 0's field0e is the
+                                           //        table word at +0x22, see getVertexStride.
 
     // 0x62fe18 SVertexStream::unmapBuffer() const: releases one map reference on buffer.
     // Partial: IBuffer::unmap does not call the unmap callback (vtable +0x18).
@@ -125,6 +142,14 @@ public:
     // 0x5a0a58: bit mask of the attributes whose stream has a buffer.
     uint32_t getActiveAttributeMask() const;
 
+    // Vertex stride word at +0x22 of the original object. It is SVertexStream[0].field0e
+    // (entry 0 at +0x14), so the value is the stride of the first stream. Read by copyVertex
+    // (0x5a2b18, the wholeVertex branch: memcpy length and vertex offset) and
+    // isVertexStreamHomolaced (0x5a23f4: stride every later entry must match). Returns 0
+    // for an empty table. Open: the original reads the first byte pair of the trailing
+    // block there, which is not modelled.
+    uint16_t getVertexStride() const;
+
     // 0x5a0aac / 0x5a0af0: first stream in [first, end) with attribute >= wanted; the
     // end pointer when the attribute is not present.
     const SVertexStream* getStream(uint32_t attribute, const SVertexStream* first, const SVertexStream* end) const;
@@ -153,12 +178,12 @@ public:
     static constexpr uint16_t kFlagHomogeneous = 0x0001;  // bit 0, every bound stream shares one buffer
     static constexpr uint16_t kFlagHasData = 0x0002;      // bit 1, set on entry, cleared on a data-less buffer
 
-    std::vector<SVertexStream> m_streams;  // +0x10..+0x24 (inline array in the original)
+    std::vector<SVertexStream> m_streams;  // entries at +0x14 (16 bytes each), end pointer at +0x10 in the original
     uint32_t m_attributeMask = 0;          // +0x04, attributes present in the table
     uint32_t m_field08 = 0;                // +0x08, set by the constructor; meaning not identified
     uint8_t m_count0c = 0;                 // +0x0c, count of the trailing block (24 * count + 24 bytes)
-    uint8_t m_streamCount0d = 0;           // +0x0d, number of stream entries
-    uint16_t m_flags = 0;                  // +0x0e, see kFlag* above
+    uint8_t m_streamCount0d = 0;           // +0x0d, number of stream entries (constructor: a5)
+    uint16_t m_flags = 0;                  // +0x0e, see kFlag* above (constructor stores 3)
 };
 
 namespace detail {
@@ -180,6 +205,14 @@ struct SVertexAttributeTypeInspection {
 void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams>& src,
                 const boost::intrusive_ptr<CVertexStreams>& dst, const uint8_t* base, uint8_t*& out,
                 bool wholeVertex);
+
+// 0x5a23f4 isVertexStreamHomolaced(streams, minOffset): true when every stream after the first has
+// the same stride as entry 0 (getVertexStride) and all streams fit in one vertex. minOffset receives
+// the smallest stream offset (0 when a stride differs). Partial: the original reads the entry
+// at null + 12 when the table is empty (crash on device); this port returns false with minOffset
+// INT32_MAX for an empty table. A field0a value past the 7-entry ValueTypeSize table reads past it
+// in the original and is not guarded here.
+bool isVertexStreamHomolaced(const boost::intrusive_ptr<const CVertexStreams>& streams, int32_t& minOffset);
 
 // 0x5a08f4: fills the 30-byte attribute map (0xff = unset) with the index of each
 // stream whose attribute is the map slot. Attributes past the map are skipped here;
