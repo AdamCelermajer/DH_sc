@@ -87,12 +87,14 @@ std::vector<SourceRuleExitCandidateV1> match_source_block_names_v1(
 bool filter_and_shuffle_rule_impl_exits_v1(
     std::vector<SourceRuleExitCandidateV1>& candidates,
     RandomGeneratorV1& random) {
-  candidates.erase(
-      std::remove_if(candidates.begin(), candidates.end(), [](const auto& candidate) {
+  // The native loop (0x48e690) erases only the first matching pair: after
+  // _M_erase it jumps past the scan (goto LABEL_16) straight to random_shuffle.
+  const auto first_start = std::find_if(
+      candidates.begin(), candidates.end(), [](const auto& candidate) {
         return candidate.destination_block_name.find("_start") !=
                std::string::npos;
-      }),
-      candidates.end());
+      });
+  if (first_start != candidates.end()) candidates.erase(first_start);
   return source_shuffle(candidates, random);
 }
 

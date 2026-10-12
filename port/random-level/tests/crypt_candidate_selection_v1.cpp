@@ -113,14 +113,9 @@ int main() {
       exit_candidate(0, "hall"), exit_candidate(1, "crypt_start_room"),
       exit_candidate(2, "pre_start_mid"), exit_candidate(3, "crypt_Start"),
       exit_candidate(4, "_start")};
+  // Rule::Impl::FilterExits (0x48e690) erases only the first "_start" match.
   auto expected_filtered = filter_input;
-  expected_filtered.erase(
-      std::remove_if(expected_filtered.begin(), expected_filtered.end(),
-                     [](const auto& candidate) {
-                       return candidate.destination_block_name.find("_start") !=
-                              std::string::npos;
-                     }),
-      expected_filtered.end());
+  expected_filtered.erase(expected_filtered.begin() + 1);
   RandomGeneratorV1 filter_rng(1234);
   RandomGeneratorV1 expected_filter_rng(1234);
   check(source_shuffle(expected_filtered, expected_filter_rng),
@@ -128,8 +123,8 @@ int main() {
   check(filter_and_shuffle_rule_impl_exits_v1(filter_input, filter_rng) &&
             same_exit_order(filter_input, expected_filtered) &&
             filter_rng.state() == expected_filter_rng.state() &&
-            filter_input.size() == 2,
-        "Rule FilterExits removes case-sensitive _start substring then shuffles");
+            filter_input.size() == 4,
+        "Rule FilterExits removes only the first case-sensitive _start match then shuffles");
 
   const auto distributions = catalog({{{0, 1, 0, 0, 0, 0}},
                                       {{0, 1, 0, 0, 0, 0}},
