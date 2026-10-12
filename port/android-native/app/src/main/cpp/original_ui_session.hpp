@@ -172,6 +172,12 @@ public:
     // PlayerManager::RemoveCharacter's RenderFX::InvokeASCallback tail on the
     // retained authored gameplay movie. Succeeds as a no-op when HUDRoot is absent.
     bool complete_source_hud_refresh(std::string&);
+    // Script_EnterCutSceneMode 0x45a384 / Script_ExitCutSceneMode 0x4599ac:
+    // StartCutscene / StopCutscene on the retained HUD root movie, toggling the
+    // source cutscene byte. Neither command blocks (IsBlocking returns 0).
+    bool enter_source_cutscene(std::string& error);
+    bool exit_source_cutscene(std::string& error);
+    bool source_cutscene_active() const noexcept;
     bool active() const;
     bool overlays_player() const;
     void deactivate();
