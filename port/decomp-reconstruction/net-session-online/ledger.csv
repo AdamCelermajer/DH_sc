@@ -674,3 +674,13 @@ elf_address,symbol,status,source_file,notes
 0x82ef6c,_ZN22GLXPlayerSereverConfig15GetXPlayerMPURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XPlayMPURL"" to GetValue"
 0x82ef7c,_ZN22GLXPlayerSereverConfig15GetXPlayerDWURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XplayDWURL"" to GetValue"
 0x82ef8c,_ZN22GLXPlayerSereverConfig13GetXPlayerURLEv,reconstructed,net-session-online/src/glx_player_serever_config.cpp,"forwards key ""XplayerURL"" to GetValue"
+0x82c584,_ZN19GLXPlayerUserFriend23sendGetUserFriendsCountEv,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,kind 0x49
+0x82c640,_ZN19GLXPlayerUserFriend18sendGetUserFriendsEii,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,kind 0x3d with the a and c fields
+0x82c708,_ZN19GLXPlayerUserFriend17sendDelUserFriendEPcb,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,kind 0x3c; the flag picks n or un
+0x82c7f4,_ZN19GLXPlayerUserFriend21sendConfirmUserFriendEPcib,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,kind 0x3e; flag stored as 0 or 1
+0x82c8ec,_ZN19GLXPlayerUserFriend17sendAddUserFriendEPcS0_b,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,kind 0x3b; optional m field appended
+0x82cb60,_ZN19GLXPlayerUserFriendC1Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,C1: default; the per-entry vectors start empty
+0x82cbf8,_ZN19GLXPlayerUserFriendC2Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,C2: same as C1
+0x82cacc,_ZN19GLXPlayerUserFriendD1Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,D1: vectors release the lists (original clearFriendsList first)
+0x82cb24,_ZN19GLXPlayerUserFriendD2Ev,reconstructed,net-session-online/src/glx_player_user_friend_requests.cpp,D2: same as D1
+0x82cb08,_ZN19GLXPlayerUserFriendD0Ev,skipped,net-session-online/src/glx_player_user_friend_requests.cpp,compiler-generated deleting destructor; the virtual dtor covers it

@@ -19,8 +19,14 @@
 #include <string>
 #include <vector>
 
-class GLXPlayerUserFriend {
+#include "net-session-online/glx_player_web_component.hpp"
+
+// The original derives from the GLXPlayerWebComponent base (+0x00..+0x3b), which the offsets above assume.
+class GLXPlayerUserFriend : public GLXPlayerWebComponent {
 public:
+    GLXPlayerUserFriend();                 // 0x82cb60 C1, 0x82cbf8 C2
+    ~GLXPlayerUserFriend() override;       // 0x82cacc D1, 0x82cb24 D2
+
     // 0x82b9f4 _ZN19GLXPlayerUserFriend15GetFriendsCountEv
     std::int32_t GetFriendsCount() const { return count_; }
 
@@ -50,6 +56,21 @@ public:
     std::int32_t GetAvatarLastUpdate(std::int32_t index) const;
     // 0x82bc48 GetAvatarKey(int): default 0.
     std::int32_t GetAvatarKey(std::int32_t index) const;
+
+    // Request senders: "f|kind|i|GGI|u|UID|..." requests handed to SendByGet.
+    // 0x82c584 _ZN19GLXPlayerUserFriend23sendGetUserFriendsCountEv (kind 0x49)
+    void sendGetUserFriendsCount();
+    // 0x82c640 _ZN19GLXPlayerUserFriend18sendGetUserFriendsEii (kind 0x3d, "a|" and "c|" fields)
+    void sendGetUserFriends(std::int32_t first, std::int32_t count);
+    // 0x82c708 _ZN19GLXPlayerUserFriend17sendDelUserFriendEPcb (kind 0x3c). The flag picks the
+    // "n|" field (false) or the "un|" field (true).
+    void sendDelUserFriend(const char* name, bool byUserName);
+    // 0x82c7f4 _ZN19GLXPlayerUserFriend21sendConfirmUserFriendEPcib (kind 0x3e, "c|" field). The
+    // flag is stored as 0 or 1 and the int picks the "n|" or "un|" field.
+    void sendConfirmUserFriend(const char* name, std::int32_t confirm, bool byUserName);
+    // 0x82c8ec _ZN19GLXPlayerUserFriend17sendAddUserFriendEPcS0_b (kind 0x3b). The message, when
+    // not null, is appended as an "m|" field.
+    void sendAddUserFriend(const char* name, const char* message, bool byUserName);
 
     // Not in the original: test seam. Sizes every per-entry array to count entries.
     void ReserveForTest(std::int32_t count);
