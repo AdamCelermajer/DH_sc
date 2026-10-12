@@ -439,3 +439,18 @@ Blocked groups, each needing a structural decision rather than another row:
   the native sound bridge.
 - Native decoder cursor Seek, Decode and Rewind: need the sub-decoder Seek and Decode slots.
 - VoxMSWav/MPC8 demux calls: libmusepack demux functions are declared but not in the port.
+
+## Wave 9 (w9-mpc: DecoderMPC8 cursor and streaminfo rows)
+
+Hex-Rays and the asm listing (decomp_asm.py) were checked against the port. Changes:
+- Reader wrappers: the cursor constructor stores mpc_read, mpc_seek, mpc_tell, mpc_getsize and
+  mpc_canseek at reader +0x00..+0x10 (0x87018c). mpc_reader_t now has typed slots (read, seek,
+  tell, get_size, can_seek, data at +0x14).
+- Frame block for mpc_demux_decode: samples at +0x00, the PCM buffer at +0x08. The Decode loop
+  stores the PCM buffer there before each call (asm at 0x86ff24).
+- Decode loop restart: the if-path seeks to the pre-update position (+0x20 read before the
+  update). The else-path argument is clobbered on the ARM side, so it is not recoverable (partial).
+- No new named vtable slots in this slice: the DecoderMPC8 virtuals are the DecoderInterface and
+  DecoderCursorInterface slots already in the port. Slot offsets were not re-measured here.
+- New test decoder_mpc8_cursor_demux_test drives the cursor through a fake demuxer.
+- streaminfo_gain and streaminfo_encoder_info stay skipped (Musepack rule, name not confirmed).
