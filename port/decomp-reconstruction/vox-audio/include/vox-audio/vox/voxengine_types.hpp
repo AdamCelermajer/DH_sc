@@ -24,6 +24,9 @@ enum VoxSourceLoadingFlags : int;
 enum PriorityBankBehavior : int;
 enum EmitterExternState : int;
 
+// Callback the engine raises on an emitter state change: (emitter, user data, state).
+using EmitterStateCallback = void (*)(EmitterHandle&, void*, EmitterExternState);
+
 struct VoxDSPGeneralParameter {
     enum BusRoutingType : int;
 };

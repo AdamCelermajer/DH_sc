@@ -37,6 +37,7 @@ public:
 
     bool CanAddEmitter(int bank, int priority);    // 0x864b1c
     bool RemoveEmitter(int bank, void* emitter);   // 0x86e078
+    bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (declared only, body not reconstructed)
     bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc (partial)
     bool AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0 (partial)
 

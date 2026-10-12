@@ -11,6 +11,8 @@
 
 namespace vox {
 
+class DriverSourceInterface;
+
 class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
@@ -54,14 +56,43 @@ public:
     bool IsDoneUnlocked();                  // 0x86353c (_IsDone): no lock
     bool ShouldDieUnlocked();               // body of 0x865784 without the lock
 
+    // State-change callback slot (+0x138 callback, +0x13c user data, pending byte +0x98).
+    void RegisterStateChangedCallback(EmitterStateCallback callback, void* user_data);  // 0x864ce0
+    void UnregisterStateChangedCallback();  // 0x864cb4
+    // Hands out a pending callback once; returns false when none is pending.
+    bool NeedToSendStateChangedCallback(EmitterStateCallback& callback, void*& user_data,
+                                        EmitterExternState& status);  // 0x864bec
+    int GetStatus();                        // 0x864b5c (locks; codes 0, 2, 4, 0x11, 0x21)
+
+    // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet.
+    void Play(float fade);                  // 0x86e304 (fade state machine, not reconstructed)
+    void Pause(float fade);                 // 0x86e428
+    void Stop(float fade);                  // 0x86e868
+    void Resume(float fade);                // 0x86c1d4
+    void SetGain(float gain, float time);   // 0x86bb24
+    void SetPitch(float pitch, float time); // 0x86bc40
+    void Update(float dt);                  // 0x86d5b8
+    void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
+    float GetPlayCursor();                  // 0x8654f8
+    void SetDSPParameter(int param, void* value);  // 0x866acc
+    void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
+    void PrintDebug();                      // 0x864e28
+
+    // Source and DSP buffer (+0xec, +0xf0, +0x110). UpdateDSP forwards to the source.
+    void UpdateDSP(float dt);               // 0x8638e4
+
     // Words and bytes the accessors above touch (original offsets in comments).
     std::uint8_t ready_flag_ = 0;           // +0x1c
     float gain_ = 0.0f;                     // +0x3c, returned by GetGain
     int group_ = 0;                         // +0x28
+    int bank_ = 0;                          // +0x30, priority bank index (passed to PriorityBankManager)
+    bool in_bank_ = false;                  // +0x34, emitter is registered with a priority bank
     float gain_modifier_ = 1.0f;            // +0x44
     float pitch_ = 0.0f;                    // +0x74, returned by GetPitch
     std::uint8_t loop_read_ = 0;            // +0x8c, read by GetLoop
     std::uint8_t loop_ = 0;                 // +0x8d, written by SetLoop
+    bool callback_pending_ = false;         // +0x98, set when a state change needs a callback
+    std::uint8_t flag_6c_ = 0;              // +0x6c, tested by GetStatus while the state is 1
     int state_ = 0;                         // +0x90, read by GetState
     int state_set_ = 0;                     // +0x94, written by SetState
     VoxVector3f position_;                  // +0x9c (parameter 8)
@@ -71,6 +102,11 @@ public:
     float float_params_[7] = {};            // +0xc4..+0xdc (parameters 1..7)
     std::uint8_t dirty_[11] = {};           // +0xe0..+0xea, one byte per parameter id
     std::uint8_t reset_flag_ = 0;           // +0x99, set by Reset
+    void* dsp_buffer_ = nullptr;            // +0xec, freed by UpdateDSP when dsp_buffer_size_ is set
+    std::uint32_t dsp_buffer_size_ = 0;     // +0xf0
+    EmitterStateCallback state_callback_ = nullptr;  // +0x138
+    void* state_callback_user_ = nullptr;   // +0x13c
+    DriverSourceInterface* dsp_source_ = nullptr;    // +0x110, the playing source (vtable +0x44 is Update)
     bool need_to_die_ = false;              // +0x11c, set by NeedToDie
     bool auto_kill_ = false;                // +0x11d, set by SetAutoKillAfterDone
     std::uintptr_t user_data_ = 0;          // +0x134

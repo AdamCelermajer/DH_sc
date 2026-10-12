@@ -39,6 +39,8 @@ public:
     void Update();                                                // 0x866dec (partial)
 
     int group_ = 0;                  // +0x1c
+    int priority_bank_id_ = 0;       // +0x20 (set by VoxEngineInternal::SetPriorityBankId)
+    int uid_ = 0;                    // +0x24 (returned by VoxEngineInternal::GetUid)
     std::uintptr_t user_data_ = 0;   // +0x48
     bool need_to_die_ = false;       // +0x4d
     int state_ = 0;                  // +0x50

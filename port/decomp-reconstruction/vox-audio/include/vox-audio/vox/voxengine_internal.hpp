@@ -20,6 +20,7 @@ namespace vox {
 
 class DriverInterface;
 class PriorityBankManager;
+class DataObj;
 
 // One of the 32 group slots at +0xf8 (stride 20 bytes). Only the gain word is used
 // by the accessors reconstructed so far.
@@ -110,6 +111,14 @@ public:
     void Pause(EmitterHandle& emitter, float fade);
     void Stop(EmitterHandle& emitter, float fade);
     void Play(EmitterHandle& emitter, bool loop, float fade);
+    // Overloads on the emitter object itself (the handle versions look it up first).
+    void Play(EmitterObj* emitter, bool loop, float fade);     // 0x86ef8c
+    void Pause(EmitterObj* emitter, float fade);               // 0x86e618
+    void Stop(EmitterObj* emitter, float fade);                // 0x86ed00
+    void Resume(EmitterObj* emitter, float fade);              // 0x86c2cc
+    void RegisterForEmitterStateChangeNotification(EmitterHandle& emitter, EmitterStateCallback callback,
+                                                   void* user_data);  // 0x868008
+    void UnregisterForEmitterStateChangeNotification(EmitterHandle& emitter);  // 0x867fcc
     float GetPitch(EmitterHandle& emitter);
     void SetPitch(EmitterHandle& emitter, float pitch, float time);
     void SetLoop(EmitterHandle& emitter, bool loop);
@@ -134,11 +143,23 @@ public:
     void SetUserData(DataHandle& data, DataHandleUserData& user_data);
 
     void SetPriorityBank(int index, int min_priority, int max_priority, PriorityBankBehavior behavior);
-    int RegisterDecoderType(DecoderInterface* (*factory)(void*));
-    int RegisterStreamType(StreamInterface* (*factory)(void*));
+    int RegisterDecoderType(DecoderInterface* (*factory)(void*));  // 0x862e94
+    int RegisterStreamType(StreamInterface* (*factory)(void*));    // 0x862e70
+    void UpdateDebugServer();                                       // 0x862ebc (empty)
+
+    // Source loading (declared only; the facade forwards to these).
+    DataHandle GetData(EmitterHandle& emitter);                                       // 0x868f9c
+    EmitterHandle CreateEmitterAsync(DataHandle& data, int flags, void* user);
+    EmitterHandle CreateEmitter(DataHandle& data, int flags, void* user);
+    DataHandle ConvertToRamBufferSource(DataHandle& data);
+    DataHandle ConvertToRawSource(DataHandle& data);
+    DataHandle LoadDataSourceAsync(int a, void* b, int c, void* d, int e, VoxSourceLoadingFlags flags);  // 0x86aee8
+    DataHandle LoadDataSource(int a, void* b, int c, void* d, int e);
 
     // Emitter lookup (0x8674cc) and the emitter fast path use these. Offsets from the original.
     EmitterObj* GetEmitterObject(EmitterHandle& emitter);  // 0x8674cc (partial, see the .cpp)
+    EmitterObj* DetachEmitterObject(std::int64_t id);      // 0x86a5d0 (declared only)
+    DataObj* GetDataObject(DataHandle& data);              // 0x8686bc (declared only)
 
 private:
     // Listener state (+0x3f8..+0x43a). Each Set marks its block dirty (the bytes the
@@ -154,7 +175,14 @@ private:
     PriorityBankManager* priority_bank_ = nullptr;  // +0xdc
     VoxGroupSlot group_slots_[32];             // +0xf8, 32 slots of 20 bytes
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
+    // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
+    // decoders at +0x4c8 with the count at +0x548.
+    StreamInterface* (*stream_factories_[31])(void*) = {};    // +0x444
+    int stream_factory_count_ = 0;                            // +0x4c4
+    DecoderInterface* (*decoder_factories_[31])(void*) = {};  // +0x4c8
+    int decoder_factory_count_ = 0;                           // +0x548
 
+    AccessController data_objects_access_;     // +0x54 (guards data_objects_ in the data forwarders)
     AccessController data_access_;             // +0x60 (guards data_pending_)
     HandlableContainer data_objects_;          // +0x08 (lookup by id)
     HandlableContainer data_pending_;          // +0x28

@@ -10,6 +10,9 @@ public:
 
     int Tell() const { return position_; }  // 0x893e20: +0x14
 
+    // 0x8939f4 _ZN3vox11FileLimited5WriteEPKvii: the window is read-only, so Write returns 0.
+    int Write(const void*, int, int) { return 0; }
+
 private:
     int position_ = 0;  // +0x14
 };

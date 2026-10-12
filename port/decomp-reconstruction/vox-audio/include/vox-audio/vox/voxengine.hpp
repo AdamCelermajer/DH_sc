@@ -110,6 +110,14 @@ public:
     static void SetUserData(DataHandle& data, DataHandleUserData& user_data);  // 0x862678
 
     static void SetPriorityBank(int index, int min_priority, int max_priority, PriorityBankBehavior behavior);  // 0x862858
+    static DataHandle GetData(EmitterHandle& emitter);                                    // 0x8622e8 (partial)
+    static EmitterHandle CreateEmitterAsync(DataHandle& data, int flags, void* user);     // 0x8623d0 (partial)
+    static EmitterHandle CreateEmitter(DataHandle& data, int flags, void* user);          // 0x862438 (partial)
+    static DataHandle ConvertToRamBufferSource(DataHandle& data);                         // 0x8626a0 (partial)
+    static DataHandle ConvertToRawSource(DataHandle& data);                               // 0x862700 (partial)
+    static DataHandle LoadDataSourceAsync(int a, void* b, int c, void* d, int e,
+                                          VoxSourceLoadingFlags flags);                   // 0x862760 (partial)
+    static DataHandle LoadDataSource(int a, void* b, int c, void* d, int e);              // 0x8627e0 (partial)
     static int RegisterDecoderType(DecoderInterface* (*factory)(void*));  // 0x862898 (-1 without an engine)
     static int RegisterStreamType(StreamInterface* (*factory)(void*));   // 0x8628c8 (-1 without an engine)
 

@@ -99,3 +99,31 @@ int RandomGroup::PeekAtNextGroupElement(GroupPeekMode mode) const {
 void RandomGroup::AddElement(RandomGroupElement* element) { elements_.push_back(element); }
 
 }  // namespace vox
+
+namespace vox {
+
+// 0x881cc0 _ZN3vox15SequentialGroup23GetGroupElementPositionEv
+// Partial: an empty element vector returns -1 here; the original reads element 0 of an
+// empty (null) vector in that case.
+int SequentialGroup::GetGroupElementPosition() {
+    std::uint32_t remaining = words_[3];  // +0x18
+    std::uint32_t cycles = words_[2];     // +0x14
+    if (remaining == 0 || cycles == 0 || elements_.empty()) {
+        return -1;
+    }
+    int index = index_;                   // +0x30, read before the advance
+    int next = index + 1;
+    index_ = next;
+    int count = static_cast<int>(elements_.size());
+    if (count <= next) {
+        words_[4] = cycles;               // +0x1c: saved cycle count
+        index_ = 0;
+        words_[2] = cycles - 1;           // +0x14: one cycle used up
+    }
+    prev_index_ = index;                  // +0x34
+    words_[3] = remaining - 1;            // +0x18
+    words_[5] = remaining;                // +0x20: saved remaining count
+    return elements_[static_cast<std::size_t>(index)];
+}
+
+}  // namespace vox

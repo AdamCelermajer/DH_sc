@@ -460,3 +460,65 @@ elf_address,symbol,status,source_file,notes
 0x864d44,_ZN3vox17VoxEngineInternal6ResumeEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,driver vtable +0x14 (no symbol) when the count falls from 1 to 0
 0x864d10,_ZN3vox17VoxEngineInternal11IsSuspendedEv,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,
 0x866258,_ZN3vox17VoxEngineInternal15SetPriorityBankEiiiNS_20PriorityBankBehaviorE,reconstructed,vox-audio/src/voxengine_internal_driver.cpp,tail-calls PriorityBankManager::SetPriorityBank (partial) when the manager exists
+0x86ef8c,_ZN3vox17VoxEngineInternal4PlayEPNS_10EmitterObjEbf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,"bank remove, bank add, then EmitterObj Play/SetLoop; AddEmitter and EmitterObj::Play not reconstructed yet"
+0x86f254,_ZN3vox17VoxEngineInternal4PlayERNS_13EmitterHandleEbf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,handle lookup then the object version
+0x86ed00,_ZN3vox17VoxEngineInternal4StopEPNS_10EmitterObjEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,"bank remove when the flag is set, then EmitterObj::Stop (not reconstructed yet)"
+0x86ef48,_ZN3vox17VoxEngineInternal4StopERNS_13EmitterHandleEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,handle lookup then the object version
+0x86e618,_ZN3vox17VoxEngineInternal5PauseEPNS_10EmitterObjEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::Pause (not reconstructed yet)
+0x86e824,_ZN3vox17VoxEngineInternal5PauseERNS_13EmitterHandleEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,handle lookup then the object version
+0x86c2cc,_ZN3vox17VoxEngineInternal6ResumeEPNS_10EmitterObjEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::Resume (not reconstructed yet)
+0x86c4d8,_ZN3vox17VoxEngineInternal6ResumeERNS_13EmitterHandleEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,handle lookup then the object version
+0x86bbf4,_ZN3vox17VoxEngineInternal7SetGainERNS_13EmitterHandleEff,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::SetGain (not reconstructed yet)
+0x86bd10,_ZN3vox17VoxEngineInternal8SetPitchERNS_13EmitterHandleEff,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::SetPitch (not reconstructed yet)
+0x867c94,_ZN3vox17VoxEngineInternal13SetPlayCursorERNS_13EmitterHandleEf,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::SetPlayCursor (not reconstructed yet)
+0x867cd8,_ZN3vox17VoxEngineInternal13GetPlayCursorERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_state.cpp,returns 0 without an emitter; EmitterObj::GetPlayCursor not reconstructed yet
+0x867d20,_ZN3vox17VoxEngineInternal9GetStatusERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_state.cpp,returns 0 without an emitter; uses EmitterObj::GetStatus
+0x8676d8,_ZN3vox17VoxEngineInternal22SetDSPEmitterParameterERNS_13EmitterHandleEiPv,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj::SetDSPParameter (not reconstructed yet)
+0x868008,_ZN3vox17VoxEngineInternal41RegisterForEmitterStateChangeNotificationERNS_13EmitterHandleEPFvS2_PvNS_18EmitterExternStateEES3_,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj state callback slot
+0x867fcc,_ZN3vox17VoxEngineInternal43UnregisterForEmitterStateChangeNotificationERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_state.cpp,forwards to EmitterObj state callback slot
+0x86a8dc,_ZN3vox17VoxEngineInternal11KillEmitterERNS_13EmitterHandleE,reconstructed,vox-audio/src/voxengine_internal_state.cpp,"write access, DetachEmitterObject (declared, not reconstructed), then the virtual KillEmitter(EmitterObj*)"
+0x86883c,_ZN3vox17VoxEngineInternal6GetUidERNS_10DataHandleE,reconstructed,vox-audio/src/voxengine_internal_data.cpp,"returns -1 without a data object; GetDataObject (declared, not reconstructed yet)"
+0x86887c,_ZN3vox17VoxEngineInternal6SetUidERNS_10DataHandleEi,reconstructed,vox-audio/src/voxengine_internal_data.cpp,writes DataObj uid at +0x24; GetDataObject not reconstructed yet
+0x8688b8,_ZN3vox17VoxEngineInternal17SetPriorityBankIdERNS_10DataHandleEi,reconstructed,vox-audio/src/voxengine_internal_data.cpp,writes DataObj priority bank id at +0x20; GetDataObject not reconstructed yet
+0x8688f4,_ZN3vox17VoxEngineInternal11GetDurationERNS_10DataHandleE,reconstructed,vox-audio/src/voxengine_internal_data.cpp,returns 0 without a data object; GetDataObject not reconstructed yet
+0x86893c,_ZN3vox17VoxEngineInternal7IsValidERNS_10DataHandleE,reconstructed,vox-audio/src/voxengine_internal_data.cpp,returns 1 when the lookup finds an object; GetDataObject not reconstructed yet
+0x868978,_ZN3vox17VoxEngineInternal7IsReadyERNS_10DataHandleE,reconstructed,vox-audio/src/voxengine_internal_data.cpp,returns DataObj::IsReady; GetDataObject not reconstructed yet
+0x864ce0,_ZN3vox10EmitterObj28RegisterStateChangedCallbackEPFvRNS_13EmitterHandleEPvNS_18EmitterExternStateEES3_,reconstructed,vox-audio/src/emitter_obj_state.cpp,
+0x864cb4,_ZN3vox10EmitterObj30UnregisterStateChangedCallbackEv,reconstructed,vox-audio/src/emitter_obj_state.cpp,
+0x864bec,_ZN3vox10EmitterObj30NeedToSendStateChangedCallbackERPFvRNS_13EmitterHandleEPvNS_18EmitterExternStateEERS3_RS4_,reconstructed,vox-audio/src/emitter_obj_state.cpp,"status map from the state word: 1 gives 1, 2 gives 2, 0 and 3 give 4, others 0"
+0x864b5c,_ZN3vox10EmitterObj9GetStatusEv,reconstructed,vox-audio/src/emitter_obj_state.cpp,"state 1 reports 2 when the flag at +0x6c is set, else 0x11 or 0x21; the +0x6c flag meaning is not identified"
+0x8638e4,_ZN3vox10EmitterObj9UpdateDSPEf,partial,vox-audio/src/emitter_obj_state.cpp,"the owner of the buffer at +0xec is not identified; the pointer is freed without being cleared, as in the original"
+0x862e70,_ZN3vox17VoxEngineInternal18RegisterStreamTypeEPFPNS_15StreamInterfaceEPvE,reconstructed,vox-audio/src/voxengine_internal_registry.cpp,"stream factory table (31 slots, count at +0x4c4)"
+0x862e94,_ZN3vox17VoxEngineInternal19RegisterDecoderTypeEPFPNS_16DecoderInterfaceEPvE,reconstructed,vox-audio/src/voxengine_internal_registry.cpp,"decoder factory table (31 slots, count at +0x548)"
+0x862ebc,_ZN3vox17VoxEngineInternal17UpdateDebugServerEv,reconstructed,vox-audio/src/voxengine_internal_registry.cpp,empty in the original (bare return)
+0x8622e8,_ZN3vox9VoxEngine7GetDataERNS_13EmitterHandleE,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::GetData(EmitterHandle&), declared, not reconstructed; invalid handle without an engine"
+0x8623d0,_ZN3vox9VoxEngine18CreateEmitterAsyncERNS_10DataHandleEiPv,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::CreateEmitterAsync, declared, not reconstructed; invalid handle without an engine"
+0x862438,_ZN3vox9VoxEngine13CreateEmitterERNS_10DataHandleEiPv,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::CreateEmitter, declared, not reconstructed; invalid handle without an engine"
+0x8626a0,_ZN3vox9VoxEngine24ConvertToRamBufferSourceERNS_10DataHandleE,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::ConvertToRamBufferSource, declared, not reconstructed; invalid handle without an engine"
+0x862700,_ZN3vox9VoxEngine18ConvertToRawSourceERNS_10DataHandleE,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::ConvertToRawSource, declared, not reconstructed; invalid handle without an engine"
+0x862760,_ZN3vox9VoxEngine19LoadDataSourceAsyncEiPviS1_iNS_21VoxSourceLoadingFlagsE,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::LoadDataSourceAsync (0x86aee8), not reconstructed; invalid handle without an engine"
+0x8627e0,_ZN3vox9VoxEngine14LoadDataSourceEiPviS1_i,partial,vox-audio/src/voxengine_sources.cpp,"target VoxEngineInternal::LoadDataSource, declared, not reconstructed; invalid handle without an engine"
+0x8939f4,_ZN3vox11FileLimited5WriteEPKvii,reconstructed,vox-audio/include/vox-audio/vox/file_limited.hpp,read-only window: returns 0
+0x863870,_ZN3vox12PriorityBankD1Ev,skipped,vox-audio/src/priority_bank.cpp,compiler-generated destructor of PriorityBank; the vector member releases the same storage the original clears and frees
+0x86fba8,_Z8mpc_readP12mpc_reader_tPvi,reconstructed,vox-audio/src/mpc_reader.cpp,game reader wrapper over the stream cursor (Read); mpc_reader_t stand-in in deps/mpc_reader.hpp
+0x86fbd4,_Z8mpc_seekP12mpc_reader_ti,reconstructed,vox-audio/src/mpc_reader.cpp,seek to the absolute position; returns 1 on success
+0x86fc0c,_Z8mpc_tellP12mpc_reader_t,reconstructed,vox-audio/src/mpc_reader.cpp,forwards to the cursor Tell
+0x86fc38,_Z11mpc_getsizeP12mpc_reader_t,partial,vox-audio/src/mpc_reader.cpp,"the original asks the owning stream for its size through the cursor's owner pointer; the port has no owner slot, so it returns 0"
+0x86fc70,_Z11mpc_canseekP12mpc_reader_t,reconstructed,vox-audio/src/mpc_reader.cpp,always 1
+0x87057c,_ZN3vox18DecoderMSWavCursor6DecodeEPvi,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,forwards to the WAV sub-decoder (+0x24); 0 without one
+0x8705a8,_ZN3vox18DecoderMSWavCursor4SeekEj,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,forwards to the sub-decoder; -1 without one
+0x8705d4,_ZN3vox18DecoderMSWavCursor7SetLoopEb,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,writes the sub-decoder loop flag (+0x28); nothing without one
+0x8705e4,_ZN3vox18DecoderMSWavCursor7HasDataEv,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,forwards to the sub-decoder; false without one
+0x875414,_ZN3vox18VoxMSWavSubDecoderD1Ev,reconstructed,vox-audio/include/vox-audio/vox/decoder_mswav_cursor.hpp,empty destructor (defaulted in the port)
+0x881cc0,_ZN3vox15SequentialGroup23GetGroupElementPositionEv,partial,vox-audio/src/groups.cpp,cycles through the elements; an empty element vector returns -1 where the original reads a null vector
+0x86fb98,_ZN3vox11DecoderMPC87GetTypeEv,reconstructed,vox-audio/src/decoder_mpc8.cpp,returns 3
+0x86fba0,_ZN3vox11DecoderMPC88GetParamEv,reconstructed,vox-audio/src/decoder_mpc8.cpp,returns null
+0x86fc78,_ZN3vox11DecoderMPC8C2EPNS_17DecoderMPC8ParamsE,reconstructed,vox-audio/src/decoder_mpc8.cpp,"C2 variant of the constructor; parameter word at +0x04, -1 without parameters"
+0x86fcb0,_ZN3vox11DecoderMPC8C1EPNS_17DecoderMPC8ParamsE,reconstructed,vox-audio/src/decoder_mpc8.cpp,C1 variant of the constructor; same body as C2
+0x86fdc0,_ZN3vox11DecoderMPC8D1Ev,reconstructed,vox-audio/src/decoder_mpc8.cpp,empty destructor body
+0x86fdc4,_ZN3vox11DecoderMPC8D0Ev,reconstructed,vox-audio/src/decoder_mpc8.cpp,deleting destructor variant; the compiler emits it for the class above
+0x874e54,_ZN3vox16DecoderStbVorbis7GetTypeEv,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,returns 2; the stb_vorbis decoder itself is upstream and not retyped
+0x874e5c,_ZN3vox16DecoderStbVorbis8GetParamEv,reconstructed,vox-audio/src/decoder_stb_vorbis.cpp,"returns null; the cursor and CreateNewCursor are not ported, so the class stays abstract"
+0x8709d8,_ZN3vox18DecoderMSWavCursorD1Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,"destroys the sub-decoder through its virtual destructor, then VoxFree; D1 and D2 share the body"
+0x870a48,_ZN3vox18DecoderMSWavCursorD2Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,D2 variant; same body as D1
+0x870a2c,_ZN3vox18DecoderMSWavCursorD0Ev,reconstructed,vox-audio/src/decoder_mswav_cursor.cpp,deleting destructor variant; the compiler emits it for the class above
