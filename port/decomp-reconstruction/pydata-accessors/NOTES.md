@@ -343,6 +343,6 @@ internal to the port, not binary-compatible with the original.
     listing. This is correct only where pointers are 4 bytes (ARM and Win32). On a 64-bit host the copy
     overruns the stride.
   - `ItemBase::read` (0x4ec47c) is not queued or ported, so 12 read bodies in structs_2 are partial.
-- Queue after this wave: pydata-accessors has about 500 rows remaining, mostly in the pending slices and
-  the v2 classes.
+- Queue after this wave: pydata-accessors has 285 rows remaining: 246 in the pending slices, 27 in arrays_03,
+  and 12 PyData constant and registry rows. core-platform has none left.
 
