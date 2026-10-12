@@ -12,6 +12,10 @@ Root's frozen 4B42 moving/idle B117 regressions both exit0 through440frames: int
 
 ## Release and cleanup order
 
+Latest independent A433 B131 follow-up verifies real natural death, Continue, incoming damage, outgoing melee/lethal hit, and damaged potion use after revive. The separate source-position-only level-start fixture preserves actors/vitals/flags and captures its checkpoint before damage; it complements the exact user checkpoint-anchor proof. Restored player body and source position remain current. Old-v1 enemy visibility (B126) and powered frontend Continue (B135) still gate the combined release.
+
+B133 and B134 ended without final production closure and have fresh GPT-6.1 Sol medium owners, `/root/b133_confirmation_retry` and `/root/b134_colors_retry`, under the user's escalation rule. Their existing source/private evidence is retained. B123 normal buy/sell/buyback and serialized ordered affix payload pass; actual frontend Continue and remaining refill/refusal branches remain under review.
+
 1. Finish named bug implementations and independent frozen production checks, including the shared post-death loot, Equipment and potion failures. Commit integration changes and merge reviewed source into the primary checkout.
 2. Run the relevant combined checks, package and verify the accepted candidate. Preserve previous packages and copy user progress separately with hashes.
 3. Commit reports, source and cleanup receipts; push to `publish` (AdamCelermajer fork). Preserve every extra worktree HEAD and every unique dirty/untracked source change in recoverable refs/snapshots before removing a checkout. Do not push to the Noam `origin` remote.
