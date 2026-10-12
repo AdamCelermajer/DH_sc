@@ -1,0 +1,456 @@
+{
+ "core-platform": {
+  "functions": 679,
+  "bytes": 82635,
+  "top_owners": [
+   [
+    "<global>",
+    355
+   ],
+   [
+    "Console",
+    43
+   ],
+   [
+    "FileSystemWin32",
+    39
+   ],
+   [
+    "TouchScreenBase",
+    28
+   ],
+   [
+    "slim",
+    28
+   ],
+   [
+    "ADevice",
+    17
+   ],
+   [
+    "TouchScreenIPhone",
+    15
+   ],
+   [
+    "lib-libnativeinterface",
+    15
+   ],
+   [
+    "FileSystemBase",
+    14
+   ],
+   [
+    "Device",
+    11
+   ],
+   [
+    "TouchScreenPS3",
+    10
+   ],
+   [
+    "TouchScreenWin32",
+    10
+   ]
+  ]
+ },
+ "done-claimed": {
+  "functions": 2500,
+  "bytes": 528164,
+  "top_owners": [
+   [
+    "engine-glitch",
+    477
+   ],
+   [
+    "lib-box2d",
+    266
+   ],
+   [
+    "Character",
+    229
+   ],
+   [
+    "runtime-stl",
+    123
+   ],
+   [
+    "CharAI",
+    120
+   ],
+   [
+    "GameObject",
+    92
+   ],
+   [
+    "lib-lua",
+    63
+   ],
+   [
+    "<global>",
+    57
+   ],
+   [
+    "LuaScript",
+    47
+   ],
+   [
+    "CharProperties",
+    47
+   ],
+   [
+    "ItemInventory",
+    44
+   ],
+   [
+    "PlayerSavegame",
+    38
+   ]
+  ]
+ },
+ "glitch-core-io": {
+  "functions": 1812,
+  "bytes": 293324,
+  "top_owners": [
+   [
+    "engine-glitch",
+    1812
+   ]
+  ]
+ },
+ "glitch-scene-collada-gui": {
+  "functions": 4138,
+  "bytes": 528472,
+  "top_owners": [
+   [
+    "engine-glitch",
+    4138
+   ]
+  ]
+ },
+ "glitch-video": {
+  "functions": 1345,
+  "bytes": 293580,
+  "top_owners": [
+   [
+    "engine-glitch",
+    1345
+   ]
+  ]
+ },
+ "net-session-online": {
+  "functions": 1268,
+  "bytes": 165094,
+  "top_owners": [
+   [
+    "lib-online-glx",
+    905
+   ],
+   [
+    "CMessage",
+    44
+   ],
+   [
+    "CMessaging",
+    43
+   ],
+   [
+    "CEventQueue",
+    33
+   ],
+   [
+    "GameCenter",
+    28
+   ],
+   [
+    "MultiplayerCallback",
+    24
+   ],
+   [
+    "CSignInGLLiveObserver",
+    17
+   ],
+   [
+    "CSignInGLLive",
+    14
+   ],
+   [
+    "CEvent",
+    11
+   ],
+   [
+    "CSignIn",
+    11
+   ],
+   [
+    "CEventQueueBase",
+    10
+   ],
+   [
+    "CMsgDropLoot",
+    9
+   ]
+  ]
+ },
+ "net-transport": {
+  "functions": 794,
+  "bytes": 66240,
+  "top_owners": [
+   [
+    "CConnectionManager",
+    56
+   ],
+   [
+    "DataPacketLobby",
+    50
+   ],
+   [
+    "ConnectionLobby",
+    48
+   ],
+   [
+    "DefaultDataPacket",
+    42
+   ],
+   [
+    "CAndroidSocket",
+    36
+   ],
+   [
+    "LCAndroidSocket",
+    36
+   ],
+   [
+    "CTransportManager",
+    35
+   ],
+   [
+    "Connection",
+    35
+   ],
+   [
+    "CPacketManager",
+    33
+   ],
+   [
+    "CBluetoothReliable",
+    30
+   ],
+   [
+    "CBluetoothUnreliable",
+    30
+   ],
+   [
+    "NetBitStream",
+    28
+   ]
+  ]
+ },
+ "other-session-gameplay": {
+  "functions": 4652,
+  "bytes": 673196,
+  "top_owners": [
+   [
+    "<global>",
+    375
+   ],
+   [
+    "Character",
+    162
+   ],
+   [
+    "rnd",
+    156
+   ],
+   [
+    "MenuBase",
+    94
+   ],
+   [
+    "PlayerSavegame",
+    66
+   ],
+   [
+    "CharAI",
+    60
+   ],
+   [
+    "Level",
+    60
+   ],
+   [
+    "SimpleTypeProperty",
+    57
+   ],
+   [
+    "SceneManager",
+    56
+   ],
+   [
+    "Application",
+    54
+   ],
+   [
+    "ObjectManager",
+    53
+   ],
+   [
+    "MenuManager",
+    50
+   ]
+  ]
+ },
+ "pydata-accessors": {
+  "functions": 2201,
+  "bytes": 240648,
+  "top_owners": [
+   [
+    "Structs",
+    1829
+   ],
+   [
+    "Arrays",
+    360
+   ],
+   [
+    "PyDataArrays",
+    6
+   ],
+   [
+    "PyDataConstants",
+    6
+   ]
+  ]
+ },
+ "skip-runtime-stl": {
+  "functions": 5794,
+  "bytes": 690498,
+  "top_owners": [
+   [
+    "runtime-stl",
+    5794
+   ]
+  ]
+ },
+ "skip-thunk": {
+  "functions": 397,
+  "bytes": 4696,
+  "top_owners": [
+   [
+    "thunk",
+    397
+   ]
+  ]
+ },
+ "skip-wrapper-stormgloft": {
+  "functions": 3333,
+  "bytes": 458258,
+  "top_owners": [
+   [
+    "wrapper-stormgloft",
+    3333
+   ]
+  ]
+ },
+ "tinyxml-and-c-libs": {
+  "functions": 1846,
+  "bytes": 549592,
+  "top_owners": [
+   [
+    "lib-image-zip-font",
+    1495
+   ],
+   [
+    "<global>",
+    132
+   ],
+   [
+    "TiXmlNode",
+    37
+   ],
+   [
+    "TiXmlElement",
+    37
+   ],
+   [
+    "TiXmlDeclaration",
+    19
+   ],
+   [
+    "TiXmlDocument",
+    17
+   ],
+   [
+    "TiXmlAttribute",
+    16
+   ],
+   [
+    "TiXmlBase",
+    14
+   ],
+   [
+    "TiXmlPrinter",
+    13
+   ],
+   [
+    "TiXmlComment",
+    13
+   ],
+   [
+    "TiXmlText",
+    12
+   ],
+   [
+    "TiXmlVisitor",
+    10
+   ]
+  ]
+ },
+ "upstream-vendored-box2d": {
+  "functions": 52,
+  "bytes": 4520,
+  "top_owners": [
+   [
+    "lib-box2d",
+    52
+   ]
+  ]
+ },
+ "upstream-vendored-gameswf": {
+  "functions": 2460,
+  "bytes": 435532,
+  "top_owners": [
+   [
+    "lib-gameswf",
+    2460
+   ]
+  ]
+ },
+ "upstream-vendored-lua": {
+  "functions": 514,
+  "bytes": 87500,
+  "top_owners": [
+   [
+    "lib-lua",
+    514
+   ]
+  ]
+ },
+ "vox-audio": {
+  "functions": 1374,
+  "bytes": 127416,
+  "top_owners": [
+   [
+    "lib-vox-audio",
+    1314
+   ],
+   [
+    "<global>",
+    56
+   ],
+   [
+    "AdpcmState",
+    4
+   ]
+  ]
+ }
+}

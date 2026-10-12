@@ -90,3 +90,4 @@ tools/rea-local/
 **/.checks/
 **/build/
 compatibility-work-test*.zip
+reports/decomp-reconstruction/inventory.csv
