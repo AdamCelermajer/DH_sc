@@ -349,12 +349,20 @@ struct Runtime::Impl {
    }
    r->word=stance;return 0;
   }
-  case Operation::relations:case Operation::clear_relations:{
+  case Operation::relations:case Operation::retain_peer:case Operation::contains_mirror:
+  case Operation::erase_mirror:case Operation::clear_relations:case Operation::notify_deaggro:
+  case Operation::release_peer:
+   if(s.bindings.death_aggro.invoke)
+    return s.bindings.death_aggro.invoke(s.bindings.death_aggro.context,q,r,why);
+   if(q->operation!=Operation::relations&&q->operation!=Operation::clear_relations){
+    why="Player death reached unbound aggro relation provider";return 1;
+   }
+   {
    auto& tree=q->direction==Direction::outgoing?s.bindings.source_ai->tree_7c:s.bindings.source_ai->tree_94;
    const auto header=reinterpret_cast<std::uintptr_t>(&tree);
    if(tree.count||tree.parent||tree.left!=header||tree.right!=header){why="Player death reached unbound nonempty source aggro graph";return 1;}
    r->count=0;r->peers=nullptr;return 0;
-  }
+   }
   case Operation::skill_cleanup:case Operation::spell_cleanup:{
    using List=dh2::character_player_skills_preparation_v3::source::List;
    dh2::player_skill_cleanup_session_v1::Result result{};

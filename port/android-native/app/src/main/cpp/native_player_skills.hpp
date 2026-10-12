@@ -81,6 +81,9 @@ struct Bindings {
     character_ai_initialization::State* source_ai=nullptr;
     character::set_target::OwnerFacts* target_owner=nullptr;
     character_sm_set_dead_state_v1::AnimStanceServices death_anim_stance{};
+    // The canonical Player CharAI aggro relation owner for OnDeath cleanup
+    // (relations/retain/mirror/clear/notify/release). Unbound means empty only.
+    player_ai_death_v1::Backend death_aggro{};
     const std::uintptr_t* group_identity=nullptr;
     const data::AiTables* ai_tables=nullptr;
     const data::AnimationTables* animation_tables=nullptr;

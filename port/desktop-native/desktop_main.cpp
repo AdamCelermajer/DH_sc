@@ -37,6 +37,7 @@ struct Options {
     std::int32_t level_row = -1;
     bool movement_attack_scenario = false;
     bool movement_kill_scenario = false;
+    bool movement_defend_scenario = false;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
 };
@@ -75,6 +76,7 @@ Options parse(int argc, char** argv) {
             if (scenario == "move-attack") options.movement_attack_scenario = true;
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
+            else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -684,6 +686,8 @@ int main(int argc, char** argv) {
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
         unsigned scenario_kills = 0;
+        bool scenario_damage_verified = false;
+        std::int32_t scenario_last_hp = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -852,6 +856,28 @@ int main(int argc, char** argv) {
                               << '/' << pose.enemy_max_hp << " | " << attack << '\n';
                 } else if (pose.enemy_index >= 0) {
                     steer_toward_nearest_enemy();
+                }
+            }
+            // move-defend: approach the nearest enemy without attacking and verify that
+            // its source melee attack lowers the Player's HP.
+            if (options.movement_defend_scenario && scenario_started &&
+                rendered_frames && rendered_frames % 15 == 0 && !scenario_damage_verified) {
+                model_renderer::GameplayPoseSnapshotV1 pose;
+                if (!model_renderer::gameplay_pose_snapshot(pose, ui_error)) {
+                    std::cout << "Scenario defend | Player snapshot unavailable (dead) | " << ui_error << '\n';
+                    scenario_damage_verified = true;
+                } else {
+                    if (scenario_last_hp > 0 && pose.player_hp < scenario_last_hp) {
+                        std::cout << "Scenario damage verified | Player HP " << scenario_last_hp << " -> "
+                                  << pose.player_hp << '/' << pose.player_max_hp << '\n';
+                        scenario_damage_verified = true;
+                    }
+                    scenario_last_hp = pose.player_hp;
+                    if (pose.enemy_index >= 0 && pose.enemy_in_melee_range) {
+                        keys.fill(false);update_movement(keys);model_renderer::stop_movement();
+                    } else if (pose.enemy_index >= 0) {
+                        steer_toward_nearest_enemy();
+                    }
                 }
             }
             if (options.movement_attack_scenario && !options.movement_kill_scenario &&
@@ -1063,7 +1089,7 @@ int main(int argc, char** argv) {
                         fixed_target_dead_frame = rendered_frames + 1;
                 }
             }
-            if (gameplay && (options.movement_attack_scenario || options.fixed_cultist_scenario ||
+            if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
                              options.fixed_cultist_kill_scenario) && !scenario_started) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
@@ -1157,6 +1183,11 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("fixed-cultist07-kill reached its frame bound before verified death");
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
+        }
+        if (options.movement_defend_scenario && gameplay) {
+            if (!scenario_damage_verified)
+                throw std::runtime_error("move-defend reached its frame bound without verified Player damage");
+            std::cout << "Scenario move-defend complete\n";
         }
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)

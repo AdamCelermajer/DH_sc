@@ -325,6 +325,8 @@
 
 namespace model_renderer {
 dh2::monster_external_script::ObjectServices native_monster_object_services();
+int native_player_death_aggro_service(void*,const dh2::player_ai_death_v1::Request*,
+    dh2::player_ai_death_v1::Reply*,std::string&);
 namespace game_object_init_final_v1 = dh2::game_object_init_final_v1;
 namespace {
 extern dh2::data::Dictionary actor_model_table;
@@ -13457,12 +13459,18 @@ struct NativeMonsterInitialization {
     if(!player_melee_radius_v1(radius))return unavailable("Player AI_GetMeleeRadius provider is unavailable");
     std::memcpy(&response->word,&radius,sizeof(radius));return 0;
    }
-   if(!radius_owner||!radius_owner->source_inventory){
-    return unavailable("Monster AI_GetMeleeRadius lacks the target Character's retained V4 inventory");
-   }
+   if(!radius_owner)
+    return unavailable("Monster AI_GetMeleeRadius has no canonical Character owner");
    float radius=0.f;std::string error;
-   if(!radius_owner->source_inventory->melee_radius(*radius_owner,radius,error))
-    return unavailable(error.c_str());
+   // AI_GetMeleeRadius falls back to the AITable row when ItemInventory
+   // reports no melee weapon (unequipped/template Characters).
+   if(!radius_owner->source_inventory||
+      !radius_owner->source_inventory->melee_radius(*radius_owner,radius,error)){
+    if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+         radius_owner->properties.resolved[1],&radius)!=
+       dh2::character::player_attack_melee_radius_v1::Status::complete)
+     return unavailable(error.empty()?"Monster AI_GetMeleeRadius AITable fallback failed":error.c_str());
+   }
    std::memcpy(&response->word,&radius,sizeof(radius));return 0;
   }
   case Operation::diagnostic_switch:{
@@ -13797,8 +13805,9 @@ struct NativeMonsterInitialization {
   case attack_owner_player:response->word=actor.identity==prince_character.identity();return;
   case attack_current_in_melee:{
    AttackBridge range_bridge{};range_bridge.init=&init;
+   // CharAI::AI_IsInMeleeRange(0) evaluates the CharAI's current target (+0x40).
    dh2::character_ai_melee_range::State range_state{
-     init.ai->ai_identity,actor.identity,std::uintptr_t(request->payload)};
+     init.ai->ai_identity,actor.identity,init.ai->state.target_40};
    const dh2::character_ai_melee_range::Services services{&range_bridge,attack_range_service};
    dh2::character_ai_melee_range::Result result{};
    const auto status=dh2::character_ai_melee_range::evaluate_object(
@@ -15504,8 +15513,10 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
      !native_character_classification(actor,dh2::character_ai_classification::Query::monster))
    throw std::runtime_error("Monster Dead-focus LookAt requires its live actor runtime");
   const dh2::character::CharacterControlServices16 services{&owner,controller_service};
-  actor.state="Died";
-  owner.death_completion_sent=false;
+  // CSDead focus, CSAttack update/0x1a and CSInteract all raise LookAt; only
+  // the dead state owns the death label and the controller+8 lock.
+  const bool dead_focus=state->current==12;
+  if(dead_focus){actor.state="Died";owner.death_completion_sent=false;}
   const dh2::character::ControllerCommandState32 controller{
    reinterpret_cast<std::uintptr_t>(&owner.character.state),actor.identity,
    controller_global_blocked,state->controller_locked,owner.controller_forced,0};
@@ -15514,7 +15525,7 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
    throw std::runtime_error("Monster v2Controller Cmd_LookAt failed");
   // CSDead writes controller+8 only after Cmd_LookAt returns, including when
   // the command gate suppressed the controllable call.
-  state->controller_locked=1;
+  if(dead_focus)state->controller_locked=1;
   break;
  }
  case scare_focus:case scare_blur:{
@@ -17137,6 +17148,7 @@ void initialize_native_player_skills(AAssetManager* assets,bool restore){
  prince_combat.target_owner.character_ai_id=prince_combat.properties.resolved[1];
  b.target_owner=&prince_combat.target_owner;
  b.death_anim_stance={nullptr,prince_dead_state_get_anim_stance};
+ b.death_aggro={nullptr,native_player_death_aggro_service};
  b.group_identity=&prince_source_ai->state.group_info_identity;
  b.ai_tables=&actor_ai_tables;b.animation_tables=&actor_animation_tables;
  b.self_fx=&prince_combat.self_fx_1484;b.state_fx=&prince_combat.state_fx_148c;b.highlight_fx=&prince_combat.highlight_fx_14a0;
@@ -24166,6 +24178,66 @@ void clear_native_player_aggro(bool incoming){
       "Player CharAI cleanup failed to retire source outgoing map");
 }
 }
+namespace {
+// CharAI::OnDeath relation cleanup for the Player, over the same canonical
+// prince_combat.aggro maps and peer callbacks used by Monster death.
+struct NativePlayerDeathAggro {
+ NativeAggroClearContext aggro{nullptr,false,true};
+ std::vector<dh2::character_aggro_cleanup::PeerRef> peers;
+};
+}
+int native_player_death_aggro_service(void*,const dh2::player_ai_death_v1::Request* request,
+    dh2::player_ai_death_v1::Reply* reply,std::string& error){
+ using dh2::player_ai_death_v1::Direction;using dh2::player_ai_death_v1::Operation;
+ static NativePlayerDeathAggro state;auto* self=&state;
+ if(!request||!reply||!prince_source_ai||
+    request->character!=prince_character.identity()){
+  error="Player death aggro owner differs";return 1;
+ }
+ const bool incoming=request->direction==Direction::incoming;
+ if(!incoming&&request->direction!=Direction::outgoing){
+  error="Player death aggro direction is invalid";return 1;
+ }
+ switch(request->operation){
+ case Operation::relations:{
+  const auto count=incoming?prince_combat.aggro.in_count:prince_combat.aggro.out_count;
+  const auto& entries=incoming?prince_combat.aggro.incoming:prince_combat.aggro.outgoing;
+  const auto tree_count=incoming?prince_source_ai->state.tree_94.count:
+                                 prince_source_ai->state.tree_7c.count;
+  if(count>entries.size()||tree_count!=count||!native_aggro_map_valid(entries,count)){
+   error="Player death canonical aggro relation owner differs";return 1;
+  }
+  self->peers.clear();self->peers.reserve(count);
+  for(std::uint32_t i=0;i<count;++i)self->peers.push_back({entries[i].character,0});
+  reply->count=count;reply->peers=self->peers.data();return 0;
+ }
+ case Operation::retain_peer:
+  self->aggro.incoming=incoming;
+  return native_retain_aggro_peer(&self->aggro,request->subject,&reply->lifetime_handle);
+ case Operation::contains_mirror:
+  reply->word=(incoming?native_peer_outgoing_contains_owner:native_peer_incoming_contains)(
+      nullptr,request->subject,request->lifetime_handle,request->character)?1:0;
+  return 0;
+ case Operation::erase_mirror:
+  (incoming?native_peer_erase_outgoing:native_peer_erase_incoming)(
+      nullptr,request->subject,request->lifetime_handle,request->character);
+  return 0;
+ case Operation::clear_relations:
+  self->aggro.incoming=incoming;
+  if(incoming)native_clear_owner_incoming(&self->aggro,request->character);
+  else native_clear_owner_outgoing(&self->aggro,request->character);
+  return 0;
+ case Operation::notify_deaggro:
+  self->aggro.incoming=incoming;
+  if(incoming)native_notify_owner_deaggro(&self->aggro,request->subject,request->lifetime_handle,request->character);
+  else native_notify_peer_deaggro(&self->aggro,request->subject,request->lifetime_handle,request->character);
+  return 0;
+ case Operation::release_peer:
+  native_release_aggro_peer(nullptr,request->subject,request->lifetime_handle);return 0;
+ default:break;
+ }
+ error="Player death aggro operation is unsupported";return 1;
+}
 void SpawnOwner::clear_all_aggro_toward_me_false(){
  if(!actor||character.owner()!=actor->identity)
   throw std::runtime_error("CharAI TowardMe Character owner changed");
@@ -24773,12 +24845,29 @@ dh2::data::AiRangeResult actor_player_range(const ObjectActor& actor){
  // current main-hand reach (0x3d4c34), not just its AITable base radius.
  float radii[2]{},npc_position[3]{},player_position[3]{};
  std::string error;
- if(!actor.source_inventory||
-    !actor.source_inventory->melee_radius(actor,radii[0],error)||
-    !player_melee_radius_v1(radii[1])||
-    !native_character_position_for_target(actor.identity,npc_position)||
-    !native_character_position_for_target(prince_character.identity(),player_position))
+ const char* failed=nullptr;
+ if(actor.source_inventory){
+  if(!actor.source_inventory->melee_radius(actor,radii[0],error))failed="Monster melee radius";
+ }else if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+            actor.properties.resolved[1],&radii[0])!=
+          dh2::character::player_attack_melee_radius_v1::Status::complete){
+  failed="Monster AITable melee radius";
+ }
+ if(!failed&&!player_melee_radius_v1(radii[1]))failed="Player melee radius";
+ if(!failed&&!native_character_position_for_target(actor.identity,npc_position)){
+  // GetTargetPosition falls back to the live runtime position (+0x160).
+  const float* live=actor.spawn_owner&&actor.spawn_owner->runtime_ready?
+      actor.spawn_owner->runtime.subobjects.position:actor.position.data();
+  std::copy(live,live+3,npc_position);
+ }
+ if(!failed&&!native_character_position_for_target(prince_character.identity(),player_position))
+  std::copy(prince_runtime.subobjects.position,prince_runtime.subobjects.position+3,player_position);
+ if(failed){
+  static int warned=0;
+  if(warned++<4)__android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "AI_IsInMeleeRange unavailable | %s | %s | %s",actor.name.c_str(),failed,error.c_str());
   return result;
+ }
  result.melee=dh2_attack_melee_distance(npc_position,player_position,radii)==1;
  return result;
 }
@@ -29530,6 +29619,10 @@ bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  }
  GameplayPoseSnapshotV1 candidate;
  candidate.player_position=actor_position;
+ if(prince_combat.properties.resolved.size()>38){
+  candidate.player_hp=prince_combat.properties.resolved[36];
+  candidate.player_max_hp=prince_combat.properties.resolved[38];
+ }
  double nearest=std::numeric_limits<double>::infinity();
  for(std::size_t i=0;i<world_objects.size();++i){
   auto* enemy=player_target(static_cast<int>(i));

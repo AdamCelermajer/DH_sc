@@ -146,6 +146,8 @@ struct GameplayPoseSnapshotV1 {
  std::int32_t enemy_hp=0,enemy_max_hp=0;
  // Read through the same live reach provider used by player_attack().
  bool enemy_in_melee_range=false;
+ // Player current/max HP property values (24.8 fixed point).
+ std::int32_t player_hp=0,player_max_hp=0;
 };
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
 // Computes a temporary selected-floor route for the desktop input check. It
