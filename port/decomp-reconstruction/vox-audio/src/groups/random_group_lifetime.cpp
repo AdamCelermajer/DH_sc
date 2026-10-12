@@ -1,0 +1,83 @@
+// vox::RandomGroup constructors and destructor (groups slice).
+#include "vox-audio/vox/groups.hpp"
+#include "vox-audio/vox/memory.hpp"
+
+namespace vox {
+
+// The removed-elements list is a ring whose sentinel is removed_. The sentinel must point
+// at itself before the list is used, so every constructor below does that.
+
+// Default constructor: the port only. The original has no such constructor; it exists so the
+// sentinel is never left with null pointers.
+RandomGroup::RandomGroup() {
+    removed_.next = &removed_;
+    removed_.prev = &removed_;
+}
+
+// 0x881ad0 _ZN3vox11RandomGroupC2EPNS_10GroupInfosEi, 0x881b40 _ZN3vox11RandomGroupC1EPNS_10GroupInfosEi
+// Partial: the original writes +0x38 (element count), +0x44 (current index), +0x50 and +0x54
+// nowhere in this body. They keep the port defaults (0, -1, 0, 0), which assume the storage
+// the caller provides is not read before the first Reset or GetActiveElementIndex.
+RandomGroup::RandomGroup(const GroupInfos* info, int reset_flag) : SegmentGroup(info, reset_flag) {
+    removed_.next = &removed_;
+    removed_.prev = &removed_;
+    const std::int32_t window = info->field_0c_;  // +0x0c of the record
+    exclusion_window_ = window != -1 ? window : 0;
+    raw_window_ = window;
+    total_weight_ = 0;
+    reinsert_flag_ = false;
+}
+
+// 0x8832c0 _ZN3vox11RandomGroupC2ERS0_, 0x88317c _ZN3vox11RandomGroupC1ERS0_ (same body).
+// Each element is copied into a new 8-byte record (value and weight). The removed list is
+// not copied. The element count is counted up from 0 while the elements are copied; the
+// original does not zero +0x38 first, so the port's 0 is an assumption (see the ledger).
+RandomGroup::RandomGroup(const RandomGroup& other) : SegmentGroup(other) {
+    removed_.next = &removed_;
+    removed_.prev = &removed_;
+    element_count_ = 0;
+    for (RandomGroupElement* source : other.elements_) {
+        auto* copy = static_cast<RandomGroupElement*>(VoxAlloc(sizeof(RandomGroupElement)));
+        copy->value_ = source->value_;
+        copy->weight_ = source->weight_;
+        elements_.push_back(copy);
+        ++element_count_;
+    }
+    exclusion_window_ = other.exclusion_window_;
+    raw_window_ = other.raw_window_;
+    total_weight_ = other.total_weight_;
+    cycle_remaining_ = element_count_;
+    prev_cycle_remaining_ = element_count_;
+    current_ = GetActiveElementIndex();
+    prev_index_ = -1;
+    reinsert_flag_ = other.reinsert_flag_;
+}
+
+// 0x882918 _ZN3vox11RandomGroupD1Ev, 0x8829fc _ZN3vox11RandomGroupD2Ev (same body).
+// 0x882c84 _ZN3vox11RandomGroupD0Ev is the compiler's deleting variant: it calls this body
+// and frees the object, so it is not written out here.
+// The original frees every element record, first the ones in the vector and then the ones on
+// the removed list, then the list nodes. The vector's own buffer is released by its member
+// destructor here; the original calls VoxFree on it explicitly.
+RandomGroup::~RandomGroup() {
+    for (RandomGroupElement* element : elements_) {
+        if (element != nullptr) {
+            VoxFree(element);
+        }
+    }
+    for (RandomGroupNode* node = removed_.next; node != &removed_; node = node->next) {
+        if (node->element != nullptr) {
+            VoxFree(node->element);
+        }
+    }
+    RandomGroupNode* node = removed_.next;
+    while (node != &removed_) {
+        RandomGroupNode* next = node->next;
+        VoxFree(node);
+        node = next;
+    }
+    removed_.next = &removed_;
+    removed_.prev = &removed_;
+}
+
+}  // namespace vox
