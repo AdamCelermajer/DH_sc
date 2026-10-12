@@ -87,7 +87,7 @@ std::vector<SourceSkillInfoText> read_source_skill_info_text(const std::string& 
 
 int main(int argc, char** argv) {
     try {
-        CHECK(argc == 3);
+        CHECK(argc == 4);
         const std::string root = argv[1];
         auto skill_data = read(root + "/original-cache/data/pydata/skills_pyarray.bin");
         auto skill_names = read(root + "/original-cache/data/pydata/skills_pyarraynames.bin");
@@ -405,24 +405,6 @@ int main(int argc, char** argv) {
                                                expected_guard, error));
             CHECK(training_blocked.next_level == expected_guard);
 
-            const auto unaudited = std::find_if(list.begin(), list.end(), [&](int id) {
-                return id >= 0 && static_cast<std::size_t>(id) < tables.skills().size() &&
-                       tables.skills()[static_cast<std::size_t>(id)].script != fixture.script &&
-                       tables.skills()[static_cast<std::size_t>(id)].script !=
-                           "prince_warrior_bashdown" &&
-                       tables.skills()[static_cast<std::size_t>(id)].script !=
-                           "prince_rogue_jump_kick";
-            });
-            CHECK(unaudited != list.end());
-            const auto unaudited_position = static_cast<int>(unaudited - list.begin());
-            character_menu::SkillPageCurrentNextRequestV1 unknown_script{
-                &actual, static_cast<int>(list_id), unaudited_position, *unaudited, 1,
-                actual.stats.level};
-            character_menu::SkillPageCurrentNextTextV1 unavailable;
-            CHECK(details_services.skill_level_text(actual, unknown_script, unavailable, error));
-            CHECK(!unavailable.available && unavailable.current_level.empty() &&
-                  unavailable.next_level.empty() && !unavailable.unavailable_reason.empty());
-
             CharacterState detached = actual;
             character_menu::SkillPageCurrentNextRequestV1 stale{
                 &detached, static_cast<int>(list_id), position, table_id, 1, actual.stats.level};
@@ -431,6 +413,285 @@ int main(int argc, char** argv) {
             CHECK(error.find("different CharacterState owner") != std::string::npos);
         }
         CHECK(detailed_rows == 4);
+
+        // ---- B147: every player SkillList row, every NativeGetSkillDetails state ----
+        // Independent oracle: the SetTempProps class token is parsed straight from
+        // the original skill script text (argv[3]), not from the provider's table.
+        struct ScriptInfo { bool simple{}; std::string token; };
+        const auto parse_script = [&](const std::string& path) {
+            std::ifstream in(path, std::ios::binary);
+            if (!in) throw std::runtime_error("missing original skill script: " + path);
+            std::string text((std::istreambuf_iterator<char>(in)), {});
+            std::string clean;
+            {   // strip `--` line comments and CR
+                std::istringstream lines(text);
+                std::string line;
+                while (std::getline(lines, line)) {
+                    const auto comment = line.find("--");
+                    if (comment != std::string::npos) line.erase(comment);
+                    line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+                    clean += line + "\n";
+                }
+            }
+            ScriptInfo info;
+            const auto head = clean.find("local function OnSkillInfo_(slvl)");
+            CHECK(head != std::string::npos);
+            const auto begin = head + std::strlen("local function OnSkillInfo_(slvl)");
+            const auto end = clean.find("\nend", begin);
+            CHECK(end != std::string::npos);
+            std::istringstream body(clean.substr(begin, end - begin));
+            std::vector<std::string> statements;
+            std::string statement;
+            while (std::getline(body, statement)) {
+                const auto first = statement.find_first_not_of(" \t");
+                if (first == std::string::npos) continue;
+                const auto last = statement.find_last_not_of(" \t");
+                statements.push_back(statement.substr(first, last - first + 1));
+            }
+            CHECK(!statements.empty());
+            const std::string prefix = "SetTempProps(", suffix = ", slvl);";
+            const auto& first = statements[0];
+            if (first.rfind(prefix, 0) != 0 || first.size() < prefix.size() + suffix.size() ||
+                first.compare(first.size() - suffix.size(), suffix.size(), suffix) != 0) return info;
+            for (std::size_t i = 1; i < statements.size(); ++i)
+                if (statements[i].rfind("return ", 0) != 0) return info;
+            const auto variable = first.substr(prefix.size(), first.size() - prefix.size() - suffix.size());
+            std::size_t declaration = std::string::npos;
+            for (std::size_t at = clean.find("local " + variable); at != std::string::npos;
+                 at = clean.find("local " + variable, at + 1)) {
+                const auto after = at + 6 + variable.size();
+                if (after < clean.size() && (clean[after] == ' ' || clean[after] == '	' || clean[after] == '=')) {
+                    declaration = at;
+                    break;
+                }
+            }
+            if (declaration == std::string::npos) return info;
+            const auto quote_a = clean.find("GetPyOID(\"ClassTable\", \"", declaration);
+            if (quote_a == std::string::npos || quote_a > clean.find('\n', declaration)) return info;
+            const auto name_begin = quote_a + std::strlen("GetPyOID(\"ClassTable\", \"");
+            info.token = clean.substr(name_begin, clean.find('"', name_begin) - name_begin);
+            info.simple = !info.token.empty();
+            return info;
+        };
+        std::size_t audited_scripts = 0, magi_checked = 0, unaudited_scripts = 0;
+        for (std::size_t i = 0; i < tables.skills().size(); ++i) {
+            const auto& script = tables.skills()[i].script;
+            if (script.rfind("prince_", 0) != 0) continue;
+            const auto info = parse_script(std::string(argv[3]) + "/" + script + ".luac");
+            const char* provider_token = audited_skill_info_class_v1(script, 0);
+            if (script == "prince_mage_magi_shielding") {
+                CHECK(!info.simple && provider_token && std::string(provider_token) == "Skill_Mage_MagisShielding");
+                CHECK(audited_skill_info_class_v1(script, 1000) != nullptr &&
+                      audited_skill_info_class_v1(script, 1001) == nullptr);
+                ++magi_checked;
+            } else if (info.simple) {
+                CHECK(provider_token && info.token == provider_token);
+                ++audited_scripts;
+            } else {
+                CHECK(provider_token == nullptr);
+                CHECK(script == "prince_warrior_charge" || script == "prince_paladin_energy_balance");
+                ++unaudited_scripts;
+            }
+        }
+        CHECK(magi_checked == 1 && unaudited_scripts == 2 && audited_scripts >= 60);
+
+        struct PlayerList { const char* character; };
+        const PlayerList player_lists[] = {
+            {"KnightPlayerBase"}, {"KnightPlayerBase_Berserker"}, {"KnightPlayerBase_Paladin"},
+            {"MagePlayerBase"}, {"MagePlayerBase_Illusionist"}, {"MagePlayerBase_Necromancer"},
+            {"RoguePlayerBase"}, {"RoguePlayerBase_Archer"}, {"RoguePlayerBase_Assassin"}};
+        std::size_t matrix_rows = 0, matrix_locked = 0, matrix_rank0 = 0, matrix_ranked = 0,
+                    matrix_capped = 0, matrix_blocked = 0, matrix_unaudited = 0;
+        for (const auto& player : player_lists) {
+            const auto character = std::find(characters.names.begin(), characters.names.end(), player.character);
+            CHECK(character != characters.names.end());
+            const auto character_row = static_cast<std::size_t>(character - characters.names.begin());
+            const auto list_id = characters.rows[character_row][skill_tree_column];
+            const auto& list = tables.lists()[static_cast<std::size_t>(list_id)];
+            dh2::data::PropertyState base_properties;
+            dh2::data::reset_properties(rules, base_properties, &characters.rows[character_row]);
+            CHECK(dh2::data::recalc_properties_with_class(classes, rules, base_properties, error));
+
+            CharacterState actual;
+            actual.id = std::string("matrix-") + player.character;
+            actual.class_id = player.character;
+            character_menu::MenuLocalization matrix_localization;
+            CHECK(matrix_localization.load(assets, "original-cache/data", 0, error));
+            CHECK(matrix_localization.bind_profile(&actual, error));
+            ServicesV1 matrix_services;
+            RuntimeSkillsTextProviderV1 matrix_provider;
+            CHECK(matrix_provider.bind(characters, tables, matrix_localization, actual, matrix_services, error));
+            dh2::data::PropertySheet resolved = base_properties.resolved;
+            const auto set_level = [&](std::uint32_t level) {
+                actual.stats.level = level;
+                resolved[19] = static_cast<std::int32_t>(level * 256u);
+            };
+            RuntimeSkillsDetailsBindingsV1 matrix_bindings;
+            matrix_bindings.classes = &classes;
+            matrix_bindings.property_rules = &rules;
+            matrix_bindings.current_resolved = [&](const CharacterState& owner,
+                    dh2::data::PropertySheet& result, std::string&) {
+                if (&owner != &actual) return false;
+                result = resolved;
+                return true;
+            };
+            std::int32_t cap = 9;
+            bool can_increment = true;
+            matrix_bindings.max_skill_level = [&](const CharacterState&, std::int32_t& value, std::string&) {
+                value = cap; return true;
+            };
+            matrix_bindings.can_increment = [&](const CharacterState&, int, bool& value, std::string&) {
+                value = can_increment; return true;
+            };
+            CHECK(matrix_provider.bind_details(matrix_bindings, matrix_services, error));
+            dh2::ui::HudTextV1* hud = nullptr;
+            dh2::ui::HudTextEnvironmentV1 environment;
+            CHECK(matrix_localization.borrow_text(hud, environment, error));
+            const auto parse_symbol_text = [&](const char* symbol, int argument, bool with_argument) {
+                std::string templated, output;
+                std::int32_t id{};
+                CHECK(matrix_localization.constant("StrID", symbol, id, error));
+                CHECK(matrix_localization.string_id(id, templated, error));
+                const dh2::ui::HudTextVariantV1 value{static_cast<float>(argument), argument, nullptr};
+                bool changed = false;
+                CHECK(hud->parse_ex(templated.c_str(), with_argument ? &value : nullptr,
+                                    with_argument ? 1 : 0, environment, output, changed, error));
+                return output;
+            };
+            const std::string needs_points = parse_symbol_text("GAMEPLAYMENUS_NEEDS_SKILL_POINTS", 0, false);
+            const std::string max_level = parse_symbol_text("GAMEPLAYMENUS_MAX_SKILL_LEVEL", 0, false);
+            const std::string training_blocked_text =
+                parse_symbol_text("GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING", 0, false);
+            CHECK(!needs_points.empty() && !max_level.empty() && !training_blocked_text.empty());
+
+            for (std::size_t position = 0; position < list.size(); ++position) {
+                const auto table_id = list[position];
+                const auto& record = tables.skills()[static_cast<std::size_t>(table_id)];
+                if (record.script.empty()) continue; // blank SpecializationSkill placeholder
+                const auto required = signed_word(record.scalar.words[8]);
+                ScriptInfo oracle;
+                if (record.script.rfind("prince_", 0) == 0)
+                    oracle = parse_script(std::string(argv[3]) + "/" + record.script + ".luac");
+                if (record.script == "prince_mage_magi_shielding") {
+                    oracle.simple = true;
+                    oracle.token = "Skill_Mage_MagisShielding";
+                }
+                const auto expected_dynamic = [&](std::uint32_t rank, int oid_word) {
+                    SkillTempPropertiesV1 sheet;
+                    CHECK(evaluate_skill_temp_properties_v1(classes, rules, resolved, oracle.token, rank, sheet, error));
+                    std::vector<dh2::ui::HudTextVariantV1> args;
+                    for (const auto property : record.display_props) {
+                        const auto fixed = sheet.properties[static_cast<std::size_t>(property)];
+                        const auto integer = fixed >= 0 ? fixed / 256 :
+                            -1 - static_cast<std::int32_t>((~static_cast<std::uint32_t>(fixed)) >> 8);
+                        args.push_back({static_cast<float>(fixed) * (1.0f / 256.0f), integer, nullptr});
+                    }
+                    std::string templated, output;
+                    const auto oid = signed_word(record.scalar.words[oid_word]);
+                    CHECK(oid >= 0);
+                    CHECK(matrix_localization.string_id(oid, templated, error));
+                    bool changed = false;
+                    CHECK(hud->parse_ex(templated.c_str(), args.empty() ? nullptr : args.data(),
+                                        args.size(), environment, output, changed, error));
+                    return output;
+                };
+                const auto query = [&](std::uint32_t rank, character_menu::SkillPageCurrentNextTextV1& result) {
+                    character_menu::SkillPageCurrentNextRequestV1 request{
+                        &actual, static_cast<int>(list_id), static_cast<int>(position), table_id, rank,
+                        actual.stats.level};
+                    if (!matrix_services.skill_level_text(actual, request, result, error))
+                        throw std::runtime_error(std::string("matrix details query failed for ") + record.script + " rank " + std::to_string(rank) + " level " + std::to_string(actual.stats.level) + ": " + error);
+                    CHECK(result.state == &actual && result.saved_rank == rank &&
+                          result.skill_table_id == table_id && result.class_skill_position == static_cast<int>(position));
+                };
+                ++matrix_rows;
+
+                // Locked by level: static string, no script involved (even for scripts
+                // the projection has not audited).
+                if (required > 0) {
+                    set_level(static_cast<std::uint32_t>(required - 1));
+                    cap = 9; can_increment = true;
+                    for (std::uint32_t rank : {0u, 1u}) {
+                        character_menu::SkillPageCurrentNextTextV1 locked;
+                        query(rank, locked);
+                        CHECK(locked.available && locked.next_level.empty() &&
+                              locked.current_level == parse_symbol_text("GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL", required, true));
+                        CHECK(locked.current_level.find(std::to_string(required)) != std::string::npos);
+                    }
+                    ++matrix_locked;
+                }
+
+                set_level(static_cast<std::uint32_t>(std::max(required, 0) + 5));
+                cap = 9; can_increment = true;
+                character_menu::SkillPageCurrentNextTextV1 rank0;
+                query(0, rank0);
+                CHECK(rank0.available && rank0.current_level == needs_points);
+                if (oracle.simple) {
+                    const auto expected = expected_dynamic(1, 17);
+                    CHECK(!expected.empty() && rank0.next_level == expected);
+                } else {
+                    CHECK(rank0.next_level.empty() && !rank0.unavailable_reason.empty());
+                }
+                ++matrix_rank0;
+
+                for (std::uint32_t rank : {1u, 3u}) {
+                    character_menu::SkillPageCurrentNextTextV1 ranked;
+                    query(rank, ranked);
+                    if (oracle.simple) {
+                        CHECK(ranked.available);
+                        CHECK(ranked.current_level == expected_dynamic(rank, 12));
+                        CHECK(ranked.next_level == expected_dynamic(rank + 1, 17));
+                        CHECK(!ranked.current_level.empty() && !ranked.next_level.empty());
+                        ++matrix_ranked;
+                    } else {
+                        CHECK(!ranked.available && ranked.current_level.empty() && ranked.next_level.empty());
+                        ++matrix_unaudited;
+                    }
+                }
+
+                cap = 1;
+                character_menu::SkillPageCurrentNextTextV1 at_cap;
+                query(1, at_cap);
+                CHECK(at_cap.next_level == max_level);
+                CHECK(oracle.simple ? at_cap.current_level == expected_dynamic(1, 12) : at_cap.current_level.empty());
+                ++matrix_capped;
+
+                cap = 9; can_increment = false;
+                character_menu::SkillPageCurrentNextTextV1 blocked;
+                query(2, blocked);
+                CHECK(blocked.next_level == training_blocked_text);
+                CHECK(oracle.simple ? blocked.current_level == expected_dynamic(2, 12) : blocked.current_level.empty());
+                ++matrix_blocked;
+                can_increment = true;
+                cap = 9;
+
+                if (player.character == std::string("KnightPlayerBase") && position < 8) {
+                    set_level(static_cast<std::uint32_t>(required));
+                    character_menu::SkillPageCurrentNextTextV1 s0, s1, s2;
+                    query(0, s0);
+                    query(1, s1);
+                    query(2, s2);
+                    std::cout << "KNIGHT " << tables.skill_names()[static_cast<std::size_t>(table_id)]
+                              << " [" << record.script << "] req=" << required << "\n"
+                              << "  rank0 current=[" << s0.current_level << "] next=[" << s0.next_level << "]\n"
+                              << "  rank1 current=[" << s1.current_level << "] next=[" << s1.next_level << "]\n"
+                              << "  rank2 current=[" << s2.current_level << "] next=[" << s2.next_level << "]\n";
+                    if (required > 0) {
+                        set_level(static_cast<std::uint32_t>(required - 1));
+                        character_menu::SkillPageCurrentNextTextV1 lk;
+                        query(0, lk);
+                        std::cout << "  locked(level " << required - 1 << ") current=[" << lk.current_level
+                                  << "] next=[" << lk.next_level << "]\n";
+                    }
+                }
+            }
+        }
+        CHECK(matrix_rows > 100 && matrix_locked > 0 && matrix_rank0 == matrix_rows);
+        std::cout << "B147 matrix: " << matrix_rows << " player SkillList rows (" << audited_scripts
+                  << " simple + " << magi_checked << " guarded scripts audited, " << unaudited_scripts
+                  << " unaudited), locked=" << matrix_locked << " rank0=" << matrix_rank0
+                  << " ranked=" << matrix_ranked << " capped=" << matrix_capped
+                  << " blocked=" << matrix_blocked << " unaudited-ranked=" << matrix_unaudited << "\n";
 
         std::size_t names = 0, descriptions = 0, faery_dependent = 0;
         for (std::size_t i = 0; i < tables.skills().size(); ++i) {
