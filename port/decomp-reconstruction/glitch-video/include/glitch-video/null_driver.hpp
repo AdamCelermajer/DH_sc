@@ -6,6 +6,10 @@
 #include "glitch-video/deps/glitch_video_types.hpp"
 #include "glitch-video/video_driver.hpp"
 
+namespace glitch {
+class IDevice;
+}  // namespace glitch
+
 namespace glitch::video {
 
 // glitch::video::CNullDriver and its nested buffer/texture/framebuffer stubs.
@@ -165,5 +169,8 @@ public:
 private:
     core::rect<int32_t> m_scissorStub{};  // placeholder, see getScissor
 };
+
+// 0x5b9b38: partial, see null_driver.cpp.
+CNullDriver* createNullDriver(IDevice* device);
 
 }  // namespace glitch::video

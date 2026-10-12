@@ -67,6 +67,11 @@ void CNullDriver::CFramebuffer::bind() {}
 void CNullDriver::CFramebuffer::unbind() {}
 
 
+// 0x5b9b38 _ZN6glitch5video16createNullDriverEPNS_7IDeviceE
+// Partial: the original builds a CNullDriver through its IDevice constructor (0x5b9840), which
+// the port does not have. Only a default-constructed null driver is returned; the device is unused.
+CNullDriver* createNullDriver(IDevice*) { return new CNullDriver(); }
+
 // 0x5b8de0 _ZN6glitch5video11CNullDriver10beginSceneEv
 bool CNullDriver::beginScene() { return true; }
 

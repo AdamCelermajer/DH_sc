@@ -25,10 +25,20 @@ public:
     uint32_t m_refCount = 0;  // +0x04, set to 0 by the ctor
 };
 
+class CProgrammableGLDriver;
+
 class CGLSLShaderCode : public IShaderCode {
 public:
+    // 0x6df690 (C1) / 0x6df6e4 (C2). Partial: the base is built with an empty name. The driver
+    // is kept at +0x2c; the word at +0x30 and the byte at +0x34 are zeroed (not identified).
+    explicit CGLSLShaderCode(CProgrammableGLDriver* driver);
     void serializeAttributes(io::IAttributes* attributes) const;  // 0x6df398, empty
     void deserializeAttributes(io::IAttributes* attributes);      // 0x6df39c, empty
+
+private:
+    CProgrammableGLDriver* m_driver = nullptr;  // +0x2c
+    uint32_t m_unknown30 = 0;                   // +0x30, not identified
+    uint8_t m_unknown34 = 0;                    // +0x34, not identified
 };
 
 // Stand-in for SIDedCollection<intrusive_ptr<IShaderCode>, uint16_t, ...>.

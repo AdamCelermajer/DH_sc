@@ -1,6 +1,5 @@
-Ledger: 581 rows (349 reconstructed, 70 partial, 162 skipped). Queue total 1345, 764 still open.
-
-Ledger: 315 rows (221 reconstructed, 10 partial, 84 skipped). Queue total 1345, about 1030 still open.
+Ledger: 812 rows (369 reconstructed, 106 partial, 337 skipped). Queue total 1345, 533 still open.
+Wave 7 added 231 rows (see the Wave 7 section at the end).
 
 ## Layouts inferred
 
@@ -132,3 +131,79 @@ Still open:
 - IVideoDriver: vtable slots +0x1f8 (binding), +0x0c (render buffer release) and the setMaterial overloads are
   not identified.
 - Image writer encode paths and the libjpeg/libpng callbacks; IBuffer::map and copy-to-buffer paths.
+  (IBuffer::map for E_BUFFER_MAP_ACCESS is done in wave 7; the read overload is still open.)
+
+## Wave 7
+
+Ledger after this wave: 812 rows (369 reconstructed, 106 partial, 337 skipped). Wave 7 added 231 rows: 20 reconstructed,
+36 partial, 175 skipped. Of the skipped rows, 50 are queue entries outside glitch::video (see Decisions).
+
+Source: the Hex-Rays export (recovered/native/hexrays-all, commit 9476235b) is the primary pseudocode source. Bodies
+written before the switch to Hex-Rays were checked against the same addresses there. The ARM listings were used
+for thunk and tail-call questions only.
+
+Class layouts added or confirmed (offsets from the original, names from the call pattern):
+
+- IBuffer (buffer.hpp): +0x04 m_refCount, +0x08 m_data, +0x0c m_size, +0x10 m_type, +0x11 m_usage, +0x12 m_flags12
+  (bit 0 data not owned, bit 1 has data, bit 5 unmap callback), +0x13 m_mapCount13 (low 5 bits count, bits 5-6 access).
+  Virtual slots used by map(): index 5 (+0x14) mapImpl, index 6 (+0x18) unmap callback, index 7 (+0x1c) getMappedData.
+  The indices come from the call pattern, not from a vtable dump, so the slot names are inferred.
+- CCommonGLDriverBase::CBufferBase: derives from IBuffer; +0x14 driver, +0x18 word not identified, +0x1c mapped pointer.
+- CCommonGLDriverBase::CTextureBase: +0x54 word and +0x58 byte zeroed by the constructor (names not identified).
+- CCommonGLDriverBase::CRenderTargetBase: +0x4c and +0x54 attachment handles, +0x58 colour format byte, +0x59 target
+  count byte. getTargetCount reads them by attachment type (0 count, 1 and 2 handle set, 3 handles equal).
+- CCommonGLDriverBase::SCommonShadowState: twelve words; word +0x18 starts at 4, the others at 0.
+- CNullDriver::CTexture: constructor arguments are not stored (ITexture base not ported).
+- CGLSLShaderCode: +0x2c driver pointer; +0x30 word and +0x34 byte not identified.
+- CGLSLShader: +0x44 and +0x48 words and +0x50 byte not identified; +0x4c is IShader::m_glProgram.
+- CMaterialRendererManager (material_renderer_manager.hpp, new): +0x90 flag word; getTechnique and getParameterDef
+  take an STemporaryID (one word) and return it when the flag is set and the id is non-zero.
+- ITextureDataLoading (texture_loaders.hpp): m_file +0x04, m_source +0x08, m_desc +0x0c, m_info +0x10,
+  m_sourceStep +0x1c, flags +0x20 (read failed), +0x21 (set by the constructors), +0x22 (pitch known).
+- STextureLoadInfo: format +0x04, layoutType +0x08, width +0x10, height +0x14, depth +0x18.
+  STextureHeaderBlock: width +0x24, height +0x28. STextureDataInfo: header pointer +0x00, swapBytes +0x0d.
+- SDDSSurfaceFormatHeader: 0x7c bytes; pixelFormatSize +0x48 (0x20 expected).
+- CPrimitiveStream: m_count +0x08, m_primitiveType +0x16 (uint16).
+- ITexture: m_refCount +0x04, m_width +0x20, m_data +0x2c, m_levelSizes +0x30 (per-mip sizes, then the dirty bitmap),
+  m_flags38 +0x38, m_mipCount3e +0x3e, m_flags3f +0x3f, m_dirtyFlags40 +0x40, m_lockCount42 +0x42, m_lockFlags43 +0x43.
+- CTextureManager: m_placeHolders +0x48, m_textures vector at +0x68.
+
+Decisions:
+
+- Compiler clones, deleting destructors and 4-byte thunks: none are left in the queue. Earlier clones and destructor
+  chains keep their wave-5 policy.
+- Partial constructors: when the base constructor is not ported (ITexture, IShader, IShaderCode base, IVideoDriver),
+  the body keeps only the fields that follow the base call. Such rows are partial, not reconstructed.
+- Out-of-video queue entries: 50 functions in glitch-video/queue.csv belong to glitch::collada (22), glitch::res (10),
+  glitch::scene (9), glitch::gui (6) and glitch::ps (3). They are outside glitch::video. They are ledgered as skipped with
+  source "(outside glitch-video)" so the queue is consistent. They should be reassigned or confirmed by the coordinator.
+- Hex-Rays header sizes do not match queue.csv body_bytes (for example 5b93ec: header 496, queue 64). The queue is used
+  for addresses and symbols, and the bodies follow the pseudocode.
+- IBuffer::map has one overload in the port. E_BUFFER_READ_MAP_ACCESS is an int32 alias here, so 0x5a1adc would
+  collide with it and is not ported.
+- Data tables are still absent from the repo: the PFD table (pixel_format), ValueTypeSize (SVertexAttributeTypeInspection)
+  and the string tables. Anything that needs them stays open.
+- libpng and libjpeg callbacks are still skipped (wave 5).
+
+Still open (533 queue entries, all inside glitch::video):
+
+- CCommonGLDriver<CProgrammableGLDriver<CGLSLShaderHandler>, CProgrammableGLFunctionPointerSet> and its nested
+  classes, about 98 entries. Bodies use the GL function table, driver state and vtable slots that are not identified.
+- IMaterialParameters templates for CMaterial, CMaterialRenderer and CGlobalMaterialParameterManager, about 63 entries.
+  The value switches and the ISharedMemoryBlockHeader layout (count +0x0e, base +0x20) are not in the port.
+- CMaterialRendererManager (about 52 entries, minus the two getters written here). It has no class in the port beyond
+  the lookups.
+- CVertexStreams and CMaterialVertexAttributeMap, about 46 entries. setupStreams needs the GL attribute table.
+- IVideoDriver, about 40 entries. Includes the constructors (956 bytes) and the draw dispatch, which needs
+  CDriverBinding.
+- Shader classes (IShader, IShaderManager, CGLSLShader link path, CGLSLShaderManager, CShaderCodeManager), about 38
+  entries. Most use SIDedCollection; linkProgram (0x6de9f8) is 1432 bytes.
+- CMaterial, about 28 entries. The heap block, hash words and parameter blocks are not in the port.
+- CTextureManager, about 27 entries. Its texture collection is an SIDedCollection, which is not in the port.
+- CImage, about 23 entries. Pixel access and copy paths need the PFD table.
+- SColor and pixel_format, about 21 entries (needs the PFD table; SColor interpolation not rechecked against Hex-Rays).
+- C2DDriver (15), CNullDriver (9), ITexture (7), IBuffer::reset (2473 bytes) and IBuffer::map for E_BUFFER_READ_MAP_ACCESS.
+- Image loaders for BMP, ATC, DDS, PVR, JPG, PNG and TGA: decode paths are not reconstructed in this wave.
+- Smaller groups: CLight, CBatchDriver, COpenGLES2Driver constructors, CGenericBaker, the anonymous-namespace blit and
+  preprocess helpers, IMaterialTechniqueMapsReader, the clustering helpers, and the SShaderParameterDef and
+  SShaderVertexAttributeDef serializers.
