@@ -1320,6 +1320,33 @@ dh2::android_ui::OriginalUiSession* native_gameplay_ui=nullptr;
 std::unique_ptr<dh2::ui::NativeLevelTransitionOwnerV1> native_level_transition_owner;
 std::optional<dh2::data::NativeStartGamePlanV1> active_native_start_plan;
 RuntimeLevelAssets active_level_assets;
+// Authored static MLX levels whose world/spawn/actor tables are precompiled to
+// worlds/<prefix>.dwld/.spwn/.dact. roots = LevelConfig + Module root names.
+struct StaticMlxLevelV1 {
+ std::int32_t row;const char* name;const char* level_file;const char* prefix;
+ const char* bres;std::uint32_t roots;
+};
+constexpr StaticMlxLevelV1 static_mlx_levels[]{
+ {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10},
+ {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25},
+};
+const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
+ for(const auto& level:static_mlx_levels)
+  if(name==level.name&&level_file==level.level_file)return &level;
+ return nullptr;
+}
+const StaticMlxLevelV1* static_mlx_level_for_row(std::int32_t row,const std::string& name,
+                                                 const std::string& level_file){
+ const auto* level=static_mlx_level(name,level_file);
+ return level&&level->row==row?level:nullptr;
+}
+bool static_mlx_level_active(){
+ return !active_level_assets.development_layout&&
+     static_mlx_level(active_level_assets.name,active_level_assets.level_file);
+}
+std::string static_mlx_scene_path(const StaticMlxLevelV1& level){
+ return std::string("data/scene/")+level.level_file;
+}
 std::uint16_t source_level_vxn_music_uid() noexcept {
  if(active_level_assets.row==41&&active_level_assets.name=="SWAMP"&&
     active_level_assets.level_file=="001_swamp.mlx")return 467;
@@ -4529,8 +4556,12 @@ bool source_condition_pointer_present(
  const auto* definition=dh2::data::condition_data_v1::find(
      *native_source_character_conditions,owned_name.c_str());
  if(!definition) {
-  error="ObjectManager InitPost ConditionData row is missing: "+owned_name;
-  return false;
+  // ConditionData::Init 0x33eb28 leaves +0x1c null when the authored name is
+  // not a v2Conditions row (DARKWOOD's IsLowerThanDW_Phase_3), so the object
+  // is unconditional for this activation/deactivation slot.
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Authored condition is not a v2Conditions row; treated as absent | %s",owned_name.c_str());
+  return true;
  }
  *present=true;
  return true;
@@ -4939,8 +4970,7 @@ bool NativeCryptRoomRuntime::initialize(
   actor_records.reserve(ordered_actors.size());
   std::vector<dh2::world::GeneratedCryptFaerySourceV1> authored_faery_sources=
       active_generated_crypt_faery_sources;
-  if(active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx") {
+  if(static_mlx_level_active()) {
    for(const auto& source:active_level_assets.source_character_census) {
     if(source.template_name!="Faery")continue;
     if(source.duplicate_name||source.source_handle<0||source.name.empty()||
@@ -4962,8 +4992,17 @@ bool NativeCryptRoomRuntime::initialize(
         std::size_t(character-actor_character_names.begin())][
         std::size_t(ai_field-actor_character_fields.begin())];
     const auto* ai=dh2::data::ai_props(actor_ai_tables,ai_id);
+    if(ai&&ai->type!=3&&active_level_assets.name!="SWAMP") {
+     // Faery-template rows bound to a non-Faery CharType (DARKWOOD's CharType 6
+     // DummyLightningFaery cinematic prop) are not companion Faery owners.
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "Static Level Faery-template row deferred | %s | %s | CharType %d",
+         source.name.c_str(),source.character.c_str(),int(ai->type));
+     continue;
+    }
     if(!ai||ai->type!=3) {
-     error="SWAMP Faery source Character does not resolve to canonical CharType 3";
+     error="Static Level Faery source Character does not resolve to canonical CharType 3: "+
+         source.name+" / "+source.character+" / type "+(ai?std::to_string(ai->type):std::string("none"));
      clear();return false;
     }
     const auto duplicate=std::find_if(authored_faery_sources.begin(),
@@ -5231,8 +5270,7 @@ bool NativeCryptRoomRuntime::initialize(
    error="Source Door InitPost registration failed: "+error;
    clear();return false;
   }
-  if(active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx") {
+  if(static_mlx_level_active()) {
    for(auto* actor:ordered_actors) {
     if(!actor||actor->kind!=1)continue;
     std::string construction_error;
@@ -10948,8 +10986,7 @@ bool NativeCharacterInventoryOwnerV1::initialize_source_monster(
    error="Monster V4 inventory cannot bind an incomplete or foreign Character constructor projection";return false;
   }
   constructor_inventory_projection=&adoption.inventory;
- }else if(active_level_assets.name=="SWAMP"&&
-          active_level_assets.level_file=="001_swamp.mlx"){
+ }else if(static_mlx_level_active()){
   // Script Summon uses the canonical Character factory, whose constructor
   // owns this exact ItemInventory projection on its Record rather than the
   // static-MGP adoption facade above.
@@ -15923,8 +15960,7 @@ void SpawnOwner::initialize_runtime(const ObjectGroup& group,
  std::copy(actor->position.begin(),actor->position.end(),runtime.path.position);
  std::copy(actor->position.begin(),actor->position.end(),runtime.path.target);
  const bool defer_source_final=actor->kind==1&&
-     active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx"&&
+     static_mlx_level_active()&&
      std::any_of(active_level_assets.source_character_census.begin(),
        active_level_assets.source_character_census.end(),[&](const auto& row){
         return !row.duplicate_name&&row.module_index==actor->source_module_index&&
@@ -16536,9 +16572,7 @@ bool construct_direct_source_character_impl_v1(ObjectActor& actor,std::string& e
 }
 
 void initialize_active_crypt_room_zones(AAssetManager* assets) {
- const bool swamp_static=!active_level_assets.development_layout&&
-     active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx";
+ const bool swamp_static=static_mlx_level_active();
  if(active_crypt_module_bounds.modules.empty()&&!swamp_static)return;
  // ObjectBase::InitPost initializes activation/deactivation ConditionData for
  // every authored row before ObjectManager::TestEnableCondition. The same
@@ -20621,10 +20655,10 @@ bool load_source_level_camera_clip_planes(AAssetManager* assets,
   if(level.generated_crypt_layout&&!level.generated_crypt_source_xml.empty()){
    xml=level.generated_crypt_source_xml;
    source_path="generated Crypt LevelConfig";
-  }else if(level.name=="SWAMP"&&level.level_file=="001_swamp.mlx"){
-   bytes=read(assets,"data/scene/001_swamp.mlx","original-cache");
+  }else if(const auto* static_level=static_mlx_level(level.name,level.level_file)){
+   source_path=static_mlx_scene_path(*static_level);
+   bytes=read(assets,source_path.c_str(),"original-cache");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
-   source_path="data/scene/001_swamp.mlx";
   }else if(level.name=="GOTHICUS_CRYPT_01"&&level.level_file=="007_crypt_01.rule.xml"){
    bytes=read(assets,"007_crypt_01.rule.xml","worlds");
    xml={reinterpret_cast<const char*>(bytes.data()),bytes.size()};
@@ -21173,8 +21207,10 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
   view.entry_points=save.level_entry_points();
   view.use_spawn_points=save.use_spawn_points();
   if(context.debug_level_row!=-1){
-   if(context.debug_level_row!=23){
-    failure="Only source Crypt row 23 is available as a debug launch override";return false;
+   // Crypt row 23 and the authored static MLX levels other than the
+   // campaign's first (SWAMP) are available as debug launch overrides.
+   if(context.debug_level_row!=23&&context.debug_level_row!=4){
+    failure="Only source Crypt row 23 and DARKWOOD row 4 are available as debug launch overrides";return false;
    }
    for(auto& row:view.level_rows)row=context.debug_level_row;
   }
@@ -21252,10 +21288,33 @@ bool prepare_native_menu_start(std::int32_t slot,bool has_numeric_difficulty,
  runtime={};runtime.row=plan.level_row;runtime.name=plan.level_name;runtime.level_file=plan.level_file;
  runtime.source_load_seed=application_seed.ordinary_seed;
  runtime.source_load_synchronized_seed=application_seed.synchronized_seed;
- if(plan.level_row==41&&plan.level_name=="SWAMP"&&plan.level_file=="001_swamp.mlx"){
-  runtime.descriptor="001_swamp.dwld";runtime.bres="data/3d/modules/swamp/swamp.bdae";
-  runtime.spawns="001_swamp.spwn";runtime.objects="001_swamp.dact";runtime.development_layout=false;
+ if(const auto* static_level=static_mlx_level_for_row(plan.level_row,plan.level_name,plan.level_file)){
+  const std::string prefix=static_level->prefix;
+  runtime.descriptor=prefix+".dwld";runtime.bres=static_level->bres;
+  runtime.spawns=prefix+".spwn";runtime.objects=prefix+".dact";runtime.development_layout=false;
   payload.dwld_v1=read(assets,runtime.descriptor,"worlds");
+  if(std::string(static_level->name)!="SWAMP"){
+   // Conditional SpawnPoints are not in the offline SPWN table. When the
+   // requested entrypoint is one of them (DARKWOOD's ID 0), this launch uses
+   // the first compiled unconditional entrypoint for every later consumer.
+   const auto spawn=read(assets,runtime.spawns,"worlds");
+   std::uint32_t count=0;
+   if(spawn.size()>=16)std::memcpy(&count,spawn.data()+8,sizeof(count));
+   count=std::min<std::uint32_t>(count,std::uint32_t(spawn.size()<16?0:(spawn.size()-16)/144));
+   bool present=false;std::int32_t first=-1;
+   for(std::uint32_t i=0;i<count;++i){
+    std::int32_t id=0;std::memcpy(&id,spawn.data()+16+i*144,sizeof(id));
+    if(i==0)first=id;
+    if(id==plan.entry_point)present=true;
+   }
+   if(!present){
+    if(first<0){error="Static Level SPWN table has no compiled entrypoint";return false;}
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "Static Level entrypoint %d is conditional/uncompiled | using compiled entrypoint %d",
+        plan.entry_point,first);
+    plan.entry_point=first;
+   }
+  }
  }else if(plan.level_row==23&&plan.level_name=="GOTHICUS_CRYPT_01"&&
           plan.level_file=="007_crypt_01.rule.xml"){
   runtime.descriptor="generated-crypt.dwld";runtime.bres="crypt.bdae";
@@ -23257,9 +23316,8 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
  const auto source_level=source_level_owner.snapshot();
  if(!source_level.source_level||
     source_level.phase!=dh2::source_level_owner_v1::Phase::active||
-    active_level_assets.name!="SWAMP"||
-    active_level_assets.level_file!="001_swamp.mlx")
-  throw std::runtime_error("SWAMP ScriptManager binding requires its active source Level");
+    !static_mlx_level_active())
+  throw std::runtime_error("Static Level ScriptManager binding requires its active source Level");
  if(restore&&native_level_script_session.ready()&&
     native_level_script_generation==source_level.generation&&
     native_level_script_level_name==active_level_assets.name)return;
@@ -23366,8 +23424,10 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
  if(!native_level_script_session.load_level(
       read(assets,"scripts_pyscriptnames.bin","scripts"),
       read(assets,"scripts_pyscripts.bin","scripts"),
-      read(assets,"001_swamp_pyscriptnames.bin","scripts"),
-      read(assets,"001_swamp_pyscripts.bin","scripts"),
+      read(assets,(std::string(static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)->prefix)+"_pyscriptnames.bin").c_str(),"scripts"),
+      read(assets,(std::string(static_mlx_level(active_level_assets.name,
+           active_level_assets.level_file)->prefix)+"_pyscripts.bin").c_str(),"scripts"),
       seeds.data(),static_cast<std::uint32_t>(seeds.size()),dispatch,error))
   throw std::runtime_error("SWAMP Level ScriptManager table bind failed: "+error);
  native_level_script_generation=source_level.generation;
@@ -23380,7 +23440,7 @@ void initialize_swamp_level_script_session(AAssetManager* assets,bool restore) {
 }
 void update_crypt_contact() {
  // The GhostAmbush01 spawn trigger belongs to the Crypt ScriptManager only.
- if(!native_level_script_session.ready()||active_level_assets.name=="SWAMP")return;
+ if(!native_level_script_session.ready()||static_mlx_level_active())return;
  const auto* box=prince_runtime.subobjects.absolute_bounds;
  const dh2_crypt_spawn_trigger::PlayerAabb player{{box[0],box[1],box[2],box[3],box[4],box[5]},1};
  // The selected original program never marks/locks a player and this local
@@ -29623,7 +29683,14 @@ std::string player_attack(int supplied_target){
   return "Gated actor combat services are pending";
  if(prince_state.current==5)return "Attack is already in progress";
  int target=supplied_target;float nearest=INFINITY;
- if(target==-1)for(unsigned i=0;i<world_objects.size();++i)if(auto* actor=player_target(i);actor&&player_reach(*actor)){
+ // Auto-target only Characters the Player's CharAI classifies as enemies
+ // (AI_IsEnemy); friendly NPCs and followers are never attack candidates.
+ const auto hostile=[](const ObjectActor& actor){
+  std::uint32_t enemy=0;
+  return source_relation_for_ooi(prince_character.identity(),actor.identity,
+      dh2::character_ai_relations::Relation::enemy,enemy)&&enemy!=0;
+ };
+ if(target==-1)for(unsigned i=0;i<world_objects.size();++i)if(auto* actor=player_target(i);actor&&hostile(*actor)&&player_reach(*actor)){
   const float distance=std::hypot(actor->position[0]-actor_position[0],actor->position[1]-actor_position[1]);if(distance<nearest){nearest=distance;target=i;}
  }
  auto* defender=player_target(target);if(!defender||!player_reach(*defender))return "Walk closer to an enemy";
@@ -34494,9 +34561,7 @@ bool source_npc_active_level_objects_v1(ObjectActor& victim,std::uintptr_t kille
  // handle/module provenance, Character table, and source AI classification
  // bind them to the same active Level ObjectManager as Crypt actors.
  const auto source_npc=[&](ObjectActor& candidate) {
-  const bool swamp=active_level_assets.row==41&&
-      active_level_assets.name=="SWAMP"&&
-      active_level_assets.level_file=="001_swamp.mlx"&&
+  const bool swamp=static_mlx_level_active()&&
       candidate.kind==1&&candidate.source_handle>=0&&
       candidate.source_object_module_id>=0&&candidate.character_table_id>=0&&
       candidate.source_updates_enabled&&!candidate.source_room_zone_managed&&
@@ -35967,8 +36032,7 @@ bool native_source_static_character_actor(const ObjectActor& actor) {
  if(active_crypt_room_runtime&&actor.identity&&
     active_crypt_room_runtime->script_npcs_by_identity.find(actor.identity)!=
       active_crypt_room_runtime->script_npcs_by_identity.end())return false;
- return active_level_assets.name=="SWAMP"&&
-     active_level_assets.level_file=="001_swamp.mlx"&&actor.kind==1&&
+ return static_mlx_level_active()&&actor.kind==1&&
      actor.source_handle>=0&&actor.source_module_index!=invalid&&
      actor.source_record!=invalid;
 }
@@ -36140,7 +36204,8 @@ bool evaluate_source_zone_condition(const std::string& name,bool default_value,
  }
  using namespace dh2::data::condition_data_v1;
  const auto* definition=find(*native_source_character_conditions,name.c_str());
- if(!definition){error="Source ObjectBase ConditionData row is missing: "+name;return false;}
+ // ConditionData::Init: an unknown authored name leaves no ConditionList.
+ if(!definition){value=default_value;error.clear();return true;}
  dh2::native::quests::QuestLookupContextV1 lookup{
      prince_combat.quests.get(),&native_save_difficulty,&native_host.online,
      dh2::native::quests::QuestLookupStatusV1::unavailable};
@@ -38195,7 +38260,11 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       active_level_assets=level_assets;
     }
   }
-  const bool source_static_level=!level_assets.development_layout&&level_assets.name=="SWAMP";
+  const auto* static_level_source=level_assets.development_layout?nullptr:
+     static_mlx_level(level_assets.name,level_assets.level_file);
+ const bool source_static_level=static_level_source!=nullptr;
+ const std::string static_scene_path=static_level_source?
+     static_mlx_scene_path(*static_level_source):std::string();
   const bool legacy_crypt_source_layout=level_assets.development_layout&&
       !level_assets.generated_crypt_layout&&
       level_assets.name=="GOTHICUS_CRYPT_01"&&
@@ -38328,13 +38397,14 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         throw std::runtime_error("Generated Crypt MVP inputs rejected: "+generated_mgp_error);
     }else if(source_static_level){
       std::string source_layout_error;
-      source_mlx_bytes=read(assets,"data/scene/001_swamp.mlx","original-cache");
+      source_mlx_bytes=read(assets,static_scene_path.c_str(),"original-cache");
       constexpr std::uint32_t first_source_handle=4;
       const auto module_bundle_status=
           dh2::world::source_authored_module_bundle_v1::load(
             source_mlx_bytes.data(),source_mlx_bytes.size(),
-            level_assets.name.c_str(),"data/scene/001_swamp.mlx",
-            source_module_services,first_source_handle,10,source_module_bundle,error);
+            level_assets.name.c_str(),static_scene_path.c_str(),
+            source_module_services,first_source_handle,static_level_source->roots,
+            source_module_bundle,error);
       if(module_bundle_status!=
           dh2::world::source_authored_module_bundle_v1::Status::complete)
         throw std::runtime_error("SWAMP authored Module bundle rejected: "+error);
@@ -38349,7 +38419,14 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
             std::make_shared<dh2::world::source_handle_ledger_v1::Ledger>(
                 source_module_bundle.handle_ledger);
       }
-      if(!dh2::world::compile_source_spawnpoints(source_mlx_bytes.data(),source_mlx_bytes.size(),source_mgps.data(),
+      // compile_source_spawnpoints reproduces SWAMP's reviewed entrypoints
+      // (0/3/13). Other static levels use their offline-compiled SPWN v1 table
+      // (compile_static_level.py) from the same original MLX/MGP sources.
+      if(std::string(static_level_source->name)!="SWAMP"){
+        source_spawn_bytes=read(assets,(std::string(static_level_source->prefix)+".spwn").c_str(),"worlds");
+        if(source_spawn_bytes.size()<16)
+          throw std::runtime_error("Static Level SPWN table is missing or truncated");
+      }else if(!dh2::world::compile_source_spawnpoints(source_mlx_bytes.data(),source_mlx_bytes.size(),source_mgps.data(),
           source_mgps.size(),source_spawn_bytes,source_layout_error))
         throw std::runtime_error("Original source MGP SpawnPoint import rejected: "+source_layout_error);
       const auto entrypoint=active_native_start_plan?active_native_start_plan->entry_point:0;
@@ -38402,7 +38479,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
       backup_mlx=read(assets,"x07_crypt_backup.mlx","worlds");
       source_mlx=&backup_mlx;
      }
-     const char* source_path=source_static_level?"data/scene/001_swamp.mlx":
+     const char* source_path=source_static_level?static_scene_path.c_str():
        level_assets.generated_crypt_layout?"data/scene/generated_crypt.mlx":
        "data/scene/x07_crypt_backup.mlx";
      dh2::crypt_module_bounds_registry_v1::Result bounds_result{};
@@ -38625,6 +38702,13 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        "Generated Crypt MGP actors imported | DACT bytes %zu | source-owned direct Monsters %zu | source/deferred records %zu | retained authored Faery Character descriptors %zu | CharType=3 rows validated | duplicate manager candidates omitted",
        source_object_bytes.size(),actor_count,deferred_count,
        generated_crypt_faery_sources.size());
+     }else if(source_static_level&&std::string(static_level_source->name)!="SWAMP"){
+      // compile_source_dact_with_handles reproduces SWAMP's reviewed direct
+      // actors. Other static levels use their offline DACT (DARKWOOD has no
+      // direct actors; its Monsters are char_template rows).
+      source_object_bytes=read(assets,level_assets.objects,"worlds");
+      __android_log_print(ANDROID_LOG_INFO,"DH2Native","Static Level offline DACT | %s | bytes %zu",
+          level_assets.objects.c_str(),source_object_bytes.size());
      }else if(source_static_level){
       const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
       if(!handle_ledger||!dh2::world::compile_source_dact_with_handles(
@@ -38659,19 +38743,29 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
      }
      if(source_static_level){
       const auto* handle_ledger=level_assets.source_level_handle_ledger.get();
-      if(!handle_ledger||!dh2::world::census_source_characters_with_handles(
-          source_mlx_bytes.data(),source_mlx_bytes.size(),source_mgps.data(),
+      if(!handle_ledger||!dh2::world::census_source_characters_with_handles_for_level(
+          source_mlx_bytes.data(),source_mlx_bytes.size(),level_assets.name.c_str(),
+          static_scene_path.c_str(),source_mgps.data(),
           source_mgps.size(),*handle_ledger,source_character_census,error))
        throw std::runtime_error("Original SWAMP Character census rejected: "+error);
       if(!dh2::world::census_source_objects_with_handles_for_level(
-          source_mlx_bytes.data(),source_mlx_bytes.size(),"SWAMP",
-          "data/scene/001_swamp.mlx",source_mgps.data(),source_mgps.size(),
+          source_mlx_bytes.data(),source_mlx_bytes.size(),level_assets.name.c_str(),
+          static_scene_path.c_str(),source_mgps.data(),source_mgps.size(),
           nullptr,*handle_ledger,level_assets.source_object_census,error))
        throw std::runtime_error("Original SWAMP generic ObjectManager census rejected: "+error);
+      const bool swamp_level=std::string(static_level_source->name)=="SWAMP";
+      std::size_t deferred_move_in_zones=0;
       for(const auto& source:level_assets.source_object_census)
-       if(source.gametype=="QuestMoveInZone")
-        level_assets.source_move_in_zone_census.push_back(source);
-      if(level_assets.source_move_in_zone_census.size()!=1||
+       if(source.gametype=="QuestMoveInZone"){
+        // Only SWAMP's reviewed Witch zone has a bound QuestMoveInZone owner.
+        if(swamp_level)level_assets.source_move_in_zone_census.push_back(source);
+        else ++deferred_move_in_zones;
+       }
+      if(!swamp_level){
+       __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+           "%s QuestMoveInZone rows deferred | %zu | no reviewed zone owner yet",
+           level_assets.name.c_str(),deferred_move_in_zones);
+      }else if(level_assets.source_move_in_zone_census.size()!=1||
          level_assets.source_move_in_zone_census.front().name!="_prim_WitchQuestStart"||
          level_assets.source_move_in_zone_census.front().template_name!="QuestMoveInZone"||
          level_assets.source_move_in_zone_census.front().module_index!=4||
@@ -38682,7 +38776,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
          level_assets.source_move_in_zone_census.front().duplicate_name||
          level_assets.source_move_in_zone_census.front().source_handle<0)
        throw std::runtime_error("SWAMP QuestMoveInZone source row differs from the reviewed Witch MGP occurrence");
-      __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      if(swamp_level)__android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "SWAMP source QuestMoveInZone census retained | exact Witch MGP row %u | handle %d | activate_cond %s | source transform and Property44 default dimensions",
        level_assets.source_move_in_zone_census.front().source_record,
        level_assets.source_move_in_zone_census.front().source_handle,
@@ -38808,9 +38902,10 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        appended_direct_characters,appended_monsters,appended_merchants,char_type_7_candidates,
        conditional_char_type_7_merchants,source_character_census.size(),
        source_static_actor_handles.size());
-      if(appended_monsters!=4||appended_merchants!=1||
+      // These reviewed counts are SWAMP's authored contract only.
+      if(swamp_level&&(appended_monsters!=4||appended_merchants!=1||
          char_type_7_candidates!=1||
-         conditional_char_type_7_merchants!=0)
+         conditional_char_type_7_merchants!=0))
        throw std::runtime_error("SWAMP source Character import lost four gated bossroom Monsters or the one source NPC resolved as CharType 7");
       __android_log_print(ANDROID_LOG_INFO,"DH2Native",
        "Source SWAMP direct Character rows retained | exact MGP ledger identity | activation conditions retained for post-construction reconciliation | templates and Faery use their canonical source Character owners");
@@ -38961,7 +39056,12 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
        template_result.random_draws,unsigned(source.gated_spawn));
      }
     }
-    if(source_static_level){
+    if(source_static_level&&std::string(static_level_source->name)!="SWAMP"){
+     // compile_source_mvp is SWAMP's exact ten-row Decor allowlist.
+     __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+         "%s source MVP static Decor deferred | no reviewed allowlist for this level",
+         level_assets.name.c_str());
+    }else if(source_static_level){
      if(!dh2::world::compile_source_mvp(source_mlx_bytes.data(),source_mlx_bytes.size(),source_mvps.data(),source_mvps.size(),source_mvp_decors,error))
       throw std::runtime_error("Original source MVP decor import rejected: "+error);
      __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source MVP static decor imported | records %zu | shared prop_swamp_corpses.bdae | conditional/animated objects deferred",source_mvp_decors.size());
@@ -39523,7 +39623,11 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
           if(depth>=3||id<0||unsigned(id)>=animation_tables.sequences.size())throw std::runtime_error("Actor clip bank redirect outside limit");
           for(const auto& step:animation_tables.sequences[id].steps){if(step.redir==1)collect(step.anim,depth+1);else if(step.anim>=0)ids.insert(step.anim);else throw std::runtime_error("Actor clip bank contains an empty clip");}
         };
-        for(const auto* state_name:{"Idle","Walk","Attack","Died"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);if(!state)throw std::runtime_error("Actor clip bank state missing");collect(state-animation_tables.sequences.data(),0);}
+        // Idle is required; non-combat rows (DARKWOOD NPCs) may omit Walk/Attack/Died.
+        for(const auto* state_name:{"Idle","Walk","Attack","Died"}){const auto* state=dh2::data::animation_state(animation_tables,animation_table,state_name);
+          if(!state){if(!std::strcmp(state_name,"Idle"))throw std::runtime_error("Actor clip bank Idle state missing: "+object.model);
+            __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor clip bank state absent | %s | AnimTable %d | %s",object.model.c_str(),animation_table,state_name);continue;}
+          collect(state-animation_tables.sequences.data(),0);}
         if(std::any_of(object_records.begin(),object_records.end(),[&](const auto& record){return record.gated_spawn&&record.model==object.model;})) {
           const auto* state=dh2::data::animation_state(animation_tables,animation_table,"Spawn");
           if(!state)throw std::runtime_error("Gated actor Spawn sequence missing");collect(state-animation_tables.sequences.data(),0);
@@ -39940,8 +40044,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
     actor_level_fields=candidate_level_fields;
     actor_level_file=candidate_level_file;
     actor_level_fields_ready=true;
-    if(active_level_assets.name=="SWAMP"&&
-       active_level_assets.level_file=="001_swamp.mlx")
+    if(static_mlx_level_active())
       initialize_source_character_condition_table(assets);
     // The source Character OID cache and projectile owner belong to the
     // already loaded SourceLevel generation. Bind them before direct
@@ -40041,7 +40144,7 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         __android_log_print(ANDROID_LOG_INFO,"DH2Native","Generated Crypt has no authored GhostAmbush01 TriggerZone in this selected module set");
        }
       }else initialize_crypt_script(assets,restore);
-    }else if(level_assets.name=="SWAMP"&&level_assets.level_file=="001_swamp.mlx"){
+    }else if(static_mlx_level(level_assets.name,level_assets.level_file)){
       initialize_swamp_level_script_session(assets,restore);
     }else{
       native_level_script_session.clear();native_level_script_generation=0;
