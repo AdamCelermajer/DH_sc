@@ -1152,6 +1152,15 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
         // must contribute twice. Main/off selectors claim distinct occurrences.
         auto equipment=config.equippedItemIds;
         if(equipment.size()>character_collection_limit)throw std::runtime_error("Equipped occurrence count exceeds limit");
+        const auto sourceSlotFor=[](const EquipmentBinding& binding)->std::optional<std::int32_t>{
+            if(binding.equipment_set==0&&binding.source_slot>=0&&binding.source_slot<9)return binding.source_slot;
+            if(binding.equipment_set!=-1||binding.source_slot!=-1)return std::nullopt;
+            if(binding.slot=="main_hand")return 1;
+            if(binding.slot=="off_hand")return 2;
+            if(binding.slot.size()==6&&binding.slot.compare(0,5,"slot-")==0&&binding.slot[5]>='0'&&binding.slot[5]<='8')
+                return std::int32_t(binding.slot[5]-'0');
+            return std::nullopt;
+        };
         std::optional<std::size_t> mainIndex,offIndex;
         auto hand=[&](const std::string& name,std::optional<std::size_t> excluded)->std::optional<std::size_t>{
             if(name.empty())return std::nullopt;
@@ -1161,6 +1170,38 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
         };
         mainIndex=hand(config.mainItemId,std::nullopt);
         offIndex=hand(config.offItemId,mainIndex);
+        // A selected profile identifies hands by native source slots, which is
+        // stronger than the definition-name selectors (duplicate definitions
+        // can be distinct instances in either order).
+        if(config.selectedPlayerProfile){
+            const auto& profile=*config.selectedPlayerProfile;
+            std::vector<const EquipmentBinding*> activeBindings;
+            for(const auto& binding:profile.equipment)
+                if(binding.equipment_set==0||binding.equipment_set==-1)activeBindings.push_back(&binding);
+            if(activeBindings.size()!=config.selectedPlayerGear.size()||activeBindings.size()!=equipment.size()){
+                error="Selected set-0 gear occurrences do not match CharacterState bindings";return false;
+            }
+            mainIndex.reset();offIndex.reset();
+            for(std::size_t i=0;i<activeBindings.size();++i){
+                const auto sourceSlot=sourceSlotFor(*activeBindings[i]);
+                if(!sourceSlot||config.selectedPlayerGear[i].equipment_set!=activeBindings[i]->equipment_set||
+                   config.selectedPlayerGear[i].source_slot!=*sourceSlot){
+                    error="Selected gear source-slot projection is not bound to a valid set-0/legacy textual slot";return false;
+                }
+                const auto slot=*sourceSlot;
+                if(slot==1)mainIndex=i;
+                if(slot==2)offIndex=i;
+            }
+            if(mainIndex&&equipment[*mainIndex]!=config.mainItemId){
+                error="Selected main-hand instance differs from its definition selector";return false;
+            }
+            if(offIndex&&equipment[*offIndex]!=config.offItemId){
+                error="Selected off-hand instance differs from its definition selector";return false;
+            }
+            if((!mainIndex&&!config.mainItemId.empty())||(!offIndex&&!config.offItemId.empty())){
+                error="Selected hand definition selector has no exact active source-slot occurrence";return false;
+            }
+        }
         std::vector<OriginalEquippedItem> equipped;
         std::optional<dh2::data::ItemRecord164> main,off;
         if(!equipment.empty()){
@@ -1172,7 +1213,56 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
                 equipped.push_back({item->record,offIndex&&occurrence==*offIndex,{}});
                 if(mainIndex&&occurrence==*mainIndex)main=item->record;if(offIndex&&occurrence==*offIndex)off=item->record;
             }
-            next->logs.push_back("Equipment base records bound; generated instance powers remain a host gap");
+            if(config.selectedPlayerProfile){
+                const auto& profile=*config.selectedPlayerProfile;
+                std::vector<const EquipmentBinding*> activeBindings;
+                for(const auto& binding:profile.equipment)
+                    if(binding.equipment_set==0||binding.equipment_set==-1)activeBindings.push_back(&binding);
+                if(activeBindings.size()!=equipment.size()||config.selectedPlayerGear.size()!=equipment.size()){
+                    error="Selected profile gear projection must cover every equipped occurrence";return false;
+                }
+                std::set<std::string> instanceIds;
+                std::set<std::int32_t> activeSlots;
+                for(std::size_t occurrence=0;occurrence<equipment.size();++occurrence){
+                    const auto& supplied=config.selectedPlayerGear[occurrence];
+                    const auto& current=equipped[occurrence];
+                    const auto& binding=*activeBindings[occurrence];
+                    const auto sourceSlot=sourceSlotFor(binding);
+                    const auto owned=std::find_if(profile.inventory.begin(),profile.inventory.end(),[&](const InventoryItem& item){
+                        return item.instance_id==binding.item_instance_id;
+                    });
+                    if(owned==profile.inventory.end()){
+                        error="Selected profile gear instance is absent from CharacterState inventory";return false;
+                    }
+                    if(supplied.item_instance_id.empty()||!instanceIds.insert(supplied.item_instance_id).second||
+                       supplied.item_instance_id!=binding.item_instance_id||
+                       supplied.definition_id!=equipment[occurrence]||supplied.definition_id!=owned->definition_id||
+                       !sourceSlot||supplied.equipment_set!=binding.equipment_set||supplied.source_slot!=*sourceSlot||
+                       supplied.source_slot<0||supplied.source_slot>=9||!activeSlots.insert(supplied.source_slot).second||
+                       supplied.source.left_hand!=current.left_hand||
+                       !std::equal(std::begin(supplied.source.record.words),std::end(supplied.source.record.words),
+                                   std::begin(current.record.words))){
+                        error="Selected profile gear projection differs from its exact equipped occurrence";return false;
+                    }
+                    if((owned->source&&supplied.authentication!=CombatSessionConfig::SelectedPlayerGearV1::Authentication::saved_source_metadata)||
+                       (!owned->source&&supplied.authentication!=CombatSessionConfig::SelectedPlayerGearV1::Authentication::verified_legacy_bare)){
+                        error="Selected profile gear lacks positive source metadata/legacy-bare authentication";return false;
+                    }
+                    if(!owned->source&&!supplied.source.powers.empty()){
+                        error="Legacy-bare selected gear cannot carry unauthenticated powers";return false;
+                    }
+                    if(supplied.source_slot==1&&(!mainIndex||*mainIndex!=occurrence)){
+                        error="Selected main-hand instance differs from source slot 1";return false;
+                    }
+                    if(supplied.source_slot==2&&(!offIndex||*offIndex!=occurrence)){
+                        error="Selected off-hand instance differs from source slot 2";return false;
+                    }
+                    equipped[occurrence].powers=supplied.source.powers;
+                }
+            }
+            next->logs.push_back(config.selectedPlayerProfile?
+                "Authenticated selected gear source properties bound before profile projection":
+                "Equipment base records bound; generated instance powers remain a host gap");
         }
         struct Staged {ActorId id;CharacterVisual visual;CharacterVisual* destination;CombatPoseBindings poses;Impl::Entry entry;
                        std::optional<OriginalCombatVisualPlan> sequencePlan;std::optional<OriginalAttackSelection> sequenceSelection;};
