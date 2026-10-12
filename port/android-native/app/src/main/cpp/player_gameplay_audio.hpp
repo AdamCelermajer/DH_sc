@@ -302,8 +302,9 @@ struct SourceMusicResource {
     const char* source_filename;
     bool has_vxn_states;
 };
-inline constexpr std::array<SourceMusicResource,6> source_music_resources{{
+inline constexpr std::array<SourceMusicResource,7> source_music_resources{{
     {467,"SwampHubAmbientMusic","m_level_swamp_sfx_swamp.vxn",true},
+    {471,"DarkWoodHubAmbientMusic","m_level_darkwood_sfx_darkwood.vxn",true},
     {484,"AbbeyRuinsOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
     {485,"PortalRoomAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},
     {486,"CryptOneAmbientMusic","m_level_cathedral_sfx_catacomb.vxn",true},

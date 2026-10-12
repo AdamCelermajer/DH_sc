@@ -1325,10 +1325,13 @@ RuntimeLevelAssets active_level_assets;
 struct StaticMlxLevelV1 {
  std::int32_t row;const char* name;const char* level_file;const char* prefix;
  const char* bres;std::uint32_t roots;
+ // Level::SetLevelConfig 0x3f150c: LevelConfig music / safezone_music names
+ // resolved through Arrays::Sounds (0 = not set).
+ std::uint16_t music_uid;std::uint16_t safezone_music_uid;
 };
 constexpr StaticMlxLevelV1 static_mlx_levels[]{
- {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10},
- {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25},
+ {41,"SWAMP","001_swamp.mlx","001_swamp","data/3d/modules/swamp/swamp.bdae",10,467,505},
+ {4,"DARKWOOD","003_darkwood.mlx","003_darkwood","data/3d/modules/darkwood/darkwood2.bdae",25,471,0},
 };
 const StaticMlxLevelV1* static_mlx_level(const std::string& name,const std::string& level_file){
  for(const auto& level:static_mlx_levels)
@@ -1348,8 +1351,8 @@ std::string static_mlx_scene_path(const StaticMlxLevelV1& level){
  return std::string("data/scene/")+level.level_file;
 }
 std::uint16_t source_level_vxn_music_uid() noexcept {
- if(active_level_assets.row==41&&active_level_assets.name=="SWAMP"&&
-    active_level_assets.level_file=="001_swamp.mlx")return 467;
+ if(const auto* level=static_mlx_level(active_level_assets.name,active_level_assets.level_file))
+  if(level->row==active_level_assets.row)return level->music_uid;
  if(active_level_assets.row==23&&
     active_level_assets.name=="GOTHICUS_CRYPT_01"&&
     active_level_assets.level_file=="007_crypt_01.rule.xml")return 486;
@@ -23430,6 +23433,7 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       c.fields[1].value.string.size<dh2_script_runtime::MAX_NAME_BYTES&&
       c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
  case 79: // FlushMessages()
+ case 16: case 17: // EnterSafeZone()/LeaveSafeZone()
   return c.field_count==0;
  case 77: // LockTutorial(I)
   return c.field_count==1&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32;
@@ -23536,6 +23540,25 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    native_script_camera_target=target;
    native_script_camera_blend_ms=c.fields[0].value.i32;
    native_script_camera_target_dirty=true;
+   return 1;
+  }
+  case 16: case 17: {
+   // Script_EnterSafeZone 0x45fc80 / LeaveSafeZone 0x45fbe0 call
+   // VoxSoundManager::SetInSafeZoneMusic (0x36c014, non-Java path): entering
+   // plays Level+288 when the ambient transition byte is set; leaving clears
+   // the safe-zone byte and replays Level+284.
+   const auto* level=static_mlx_level(active_level_assets.name,active_level_assets.level_file);
+   if(c.command_id==16){
+    const std::uint16_t uid=level?level->safezone_music_uid:0;
+    if(!uid)return 1;  // Source asserts on an unset safezone_music.
+    source_vox_music_state.safe_zone_music=true;
+    if(source_vox_music_state.ambient_transition_allowed&&
+       !dh2::player_gameplay_audio::enqueue_source_music_state(uid,"ambient"))return -1;
+    return 1;
+   }
+   source_vox_music_state.safe_zone_music=false;
+   const auto uid=source_level_vxn_music_uid();
+   if(uid&&!dh2::player_gameplay_audio::enqueue_source_vxn_music_state(uid,"ambient"))return -1;
    return 1;
   }
   case 77: {
@@ -35661,10 +35684,12 @@ bool native_player_reinitialize_physical_object_v1(
 bool native_player_remove_set_position(std::uintptr_t character,
         const float position[3],bool update_destination,std::string& error){
  using namespace dh2::object_manager_runtime_owner_v1;
+ // GameObject::SetPosition moves the physical object only when one exists;
+ // a dead Player's body is rebuilt later by Character::Revive.
  if(!position||character!=prince_character.identity()||!native_actor_ready||
-    !active_crypt_room_runtime||!prince_body.body||
+    !active_crypt_room_runtime||
     !prince_combat.savegame||prince_combat.savegame->character()!=character){
-  error="PlayerManager::RemoveCharacter position requires the live canonical Player Character, body, visual, and Save";
+  error="PlayerManager::RemoveCharacter position requires the live canonical Player Character, visual, and Save";
   return false;
  }
  auto* object=active_crypt_room_runtime->manager.find_by_identity(character);
@@ -35687,7 +35712,7 @@ bool native_player_remove_set_position(std::uintptr_t character,
  std::copy(position,position+3,prince_runtime.object.motion.position);
  std::copy(position,position+3,actor_position.begin());
  std::copy(position,position+3,prince_visual.root.position);
- if(dh2_native_body_set_position(&prince_body,position)<0){
+ if(prince_body.body&&dh2_native_body_set_position(&prince_body,position)<0){
   error="PlayerManager::RemoveCharacter could not move the canonical physical Character";
   return false;
  }
@@ -37721,11 +37746,53 @@ int native_frame_level_v1(void* raw,std::uint32_t dt_ms) noexcept {
     // once the local Player is in the Level; that entry checkpoint is what an
     // offline ReviveLocalPlayers -> Level::LoadCheckpoint restores.
     std::string checkpoint_error;
+    // CheckpointSave's +0x1468/+0x1474 writes precede its saveAll; set them
+    // before the shared INFO/OBJS image is published so the checkpoint copy
+    // carries the revive destination.
+    {
+     std::uint32_t entry_xyz[3]{};
+     std::memcpy(entry_xyz,prince_runtime.subobjects.position,sizeof(entry_xyz));
+     prince_character.save_checkpoint_position(prince_character.identity(),entry_xyz);
+     prince_character.save_checkpoint_revive_position(prince_character.identity(),entry_xyz);
+    }
     if(!native_level_quick_save_v1(false,checkpoint_error))
      __android_log_print(ANDROID_LOG_WARN,"DH2Native",
          "Level entry QuickSave unavailable | %s",checkpoint_error.c_str());
-    else __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level entry QuickSave | generation %u",
+    else {
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level entry QuickSave | generation %u",
          updated_source.generation);
+     // Level::_LoadProcess 0x3f6e84 then calls Level::CheckpointSave(Player
+     // position, false): +0x1468/+0x1474 take the Player position and
+     // LevelSavegame::SaveCheckPoint writes the same INFO/OBJS image under the
+     // checkpoint name. Character::SG_SaveCheckpoint's QEST file is not yet
+     // reconstructed (its absence is a valid empty checkpoint on load).
+     std::uint32_t xyz[3]{};
+     std::memcpy(xyz,prince_runtime.subobjects.position,sizeof(xyz));
+     std::string checkpoint_name;
+     const auto active=source_level_owner.snapshot();
+     std::error_code ec;
+     if(!prince_character.save_checkpoint_position(prince_character.identity(),xyz)||
+        !prince_character.save_checkpoint_revive_position(prince_character.identity(),xyz)||
+        active.source_save_slot<0||
+        !dh2::level_savegame_owner_v1::format_checkpoint_filename(
+            active.source_save_slot,active.difficulty,checkpoint_name,checkpoint_error)){
+      __android_log_print(ANDROID_LOG_WARN,"DH2Native","Level entry CheckpointSave unavailable | %s",
+          checkpoint_error.c_str());
+     }else{
+      const auto directory=level_savegame_publisher.directory();
+      const auto level_file=directory/std::filesystem::u8path(
+          source_level_owner.level_savegame().filename());
+      const auto checkpoint_file=directory/std::filesystem::u8path(checkpoint_name);
+      std::filesystem::copy_file(level_file,checkpoint_file,
+          std::filesystem::copy_options::overwrite_existing,ec);
+      if(ec)__android_log_print(ANDROID_LOG_WARN,"DH2Native",
+          "Level entry CheckpointSave file write failed | %s",ec.message().c_str());
+      else __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+          "Level entry CheckpointSave | %s | revive %.1f %.1f %.1f",checkpoint_name.c_str(),
+          prince_runtime.subobjects.position[0],prince_runtime.subobjects.position[1],
+          prince_runtime.subobjects.position[2]);
+     }
+    }
    }
   }
   return 0;

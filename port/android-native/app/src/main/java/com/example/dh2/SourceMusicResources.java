@@ -21,6 +21,10 @@ final class SourceMusicResources {
             return new Resource(soundUid,"SwampHubAmbientMusic",
                     "original-media/gameplay/music/swamp_"+state+"_music.wav",state,
                     6_138_880,6_096_650);
+        if (soundUid==471 && ("ambient".equals(state)||"combat".equals(state)))
+            return new Resource(soundUid,"DarkWoodHubAmbientMusic",
+                    "original-media/gameplay/music/darkwood_"+state+"_music.wav",state,
+                    5_846_016,5_805_166);
         if (soundUid>=484&&soundUid<=487&&
                 ("ambient".equals(state)||"combat".equals(state)))
             return new Resource(soundUid,sharedLabel(soundUid),
