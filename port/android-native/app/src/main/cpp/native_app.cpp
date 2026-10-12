@@ -15,6 +15,7 @@
 #include <string>
 #include <cstdio>
 #include <exception>
+#include "gameplay_scenario_v1.hpp"
 
 namespace {
 constexpr const char* tag="DH2Native";
@@ -191,6 +192,14 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_resize(JNIEn
   report_model_frame=true;
   __android_log_print(ANDROID_LOG_INFO,tag,"Surface resized to %d x %d",surface_width,surface_height);
 }
+dh2::native::gameplay_scenario_v1::Driver debug_scenario;
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_debugScenario(JNIEnv* env,jclass,jstring name){
+ if(!name)return;
+ const char* raw=env->GetStringUTFChars(name,nullptr);if(!raw)return;
+ debug_scenario.mode=dh2::native::gameplay_scenario_v1::Driver::parse(raw);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Scenario","Debug scenario armed | %s | mode %d",raw,int(debug_scenario.mode));
+ env->ReleaseStringUTFChars(name,raw);
+}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*,jclass){
   glClearColor(0.08f,0.09f,0.11f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
   if(original_ui.active()&&!original_ui.overlays_player()){
@@ -208,6 +217,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
         },error);
         if(!ok&&!ui_frame_failed){__android_log_print(ANDROID_LOG_ERROR,tag,"Player HUD frame failed: %s",error.c_str());ui_frame_failed=true;}
       }
+      if(original_ui.overlays_player())debug_scenario.step(surface_width,surface_height,[](float x,float y,int action){
+        std::string touch_error;
+        if(!original_ui.touch(x,y,action,touch_error))
+          __android_log_print(ANDROID_LOG_WARN,"DH2Scenario","Scenario tap failed | %s",touch_error.c_str());
+      });
     } catch(const std::exception& e) {
       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
       model_renderer::deactivate();

@@ -80,8 +80,11 @@ public final class MainActivity extends Activity {
         menuRequestedDifficulty=state!=null?state.getInt("menuRequestedDifficulty",0):0;
         boolean debugBuild=(getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0;
         debugLevelRow=debugBuild?getIntent().getIntExtra("debug_level_row",-1):-1;
-        if(debugLevelRow!=-1&&debugLevelRow!=23){Log.w("DH2Native","Ignoring unsupported debug LevelList row "+debugLevelRow);debugLevelRow=-1;}
-        if(debugLevelRow==23)Log.i("DH2Native","Debug LevelList row override armed | row 23 | profile save unchanged");
+        if(debugLevelRow!=-1&&debugLevelRow!=23&&debugLevelRow!=4){Log.w("DH2Native","Ignoring unsupported debug LevelList row "+debugLevelRow);debugLevelRow=-1;}
+        if(debugLevelRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+debugLevelRow+" | profile save unchanged");
+        // Debug builds only: drive the same move-kill/move-defend checks as the desktop runtime.
+        if(debugBuild&&getIntent().getStringExtra("debug_scenario")!=null)
+            NativeBridge.debugScenario(getIntent().getStringExtra("debug_scenario"));
         inspectionMode=getIntent().hasExtra("world")||getIntent().hasExtra("model")||getIntent().hasExtra("texture");
         boolean resumeOpeningCinematic=state!=null&&state.getBoolean("openingCinematicPending",false);
         int openingCinematicPositionMs=state!=null?state.getInt("openingCinematicPositionMs",0):0;
@@ -714,7 +717,7 @@ public final class MainActivity extends Activity {
         super.onNewIntent(intent);setIntent(intent);
         if(intent.hasExtra("debug_level_row")&&(getApplicationInfo().flags&ApplicationInfo.FLAG_DEBUGGABLE)!=0){
             int requestedRow=intent.getIntExtra("debug_level_row",-1);
-            if(requestedRow==-1||requestedRow==23){debugLevelRow=requestedRow;if(requestedRow==23)Log.i("DH2Native","Debug LevelList row override armed | row 23 | profile save unchanged");}
+            if(requestedRow==-1||requestedRow==23||requestedRow==4){debugLevelRow=requestedRow;if(requestedRow!=-1)Log.i("DH2Native","Debug LevelList row override armed | row "+requestedRow+" | profile save unchanged");}
             else Log.w("DH2Native","Ignoring unsupported debug LevelList row "+requestedRow);
         }
         if(intent.hasExtra("enemy_ai"))enemyAi=intent.getBooleanExtra("enemy_ai",true);

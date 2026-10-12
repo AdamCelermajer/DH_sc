@@ -28,6 +28,7 @@ final class NativeBridge {
     }
 
     static native String buildInfo();
+    static native void debugScenario(String scenario);
     static native void modDirectory(String directory);
     static native void runtimeDirectory(String directory);
     static native String profileSlot(int selectedSlot);
