@@ -142,6 +142,7 @@ private:
     std::uint8_t flag18_ = 0;                           // +0x18
     std::unique_ptr<ConnectionLobby> connection_;       // +0x74
     bool autoMatch_ = false;                            // +0x78
+    std::unique_ptr<char[]> config_;                    // +0x7c (copy of the config text)
     bool pendingActive_ = false;                        // +0x80
     bool isMaster_ = false;                             // +0x81
     std::int32_t pendingKind_ = 0;                      // +0x84

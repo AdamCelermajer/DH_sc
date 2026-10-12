@@ -86,12 +86,16 @@ bool LCXPlayerSocket::IsInProgress() const {
 void LCXPlayerSocket::Run() {}
 
 // 0x8a02fc _ZN15LCXPlayerSocket11SetAcceptIPEPc
-// Partial: see the header. A null argument is copied as an empty string here.
+// The copy is LC_API_STRNEW (0x89d31c): null gives null. The previous address is released
+// here; the original overwrites it and leaks it (deviation).
 void LCXPlayerSocket::SetAcceptIP(const char* address) {
-    const char* text = address != nullptr ? address : "";
-    const std::size_t length = std::strlen(text);
+    if (address == nullptr) {
+        acceptIp_.reset();
+        return;
+    }
+    const std::size_t length = std::strlen(address);
     acceptIp_.reset(new char[length + 1]);
-    std::memcpy(acceptIp_.get(), text, length + 1);
+    std::memcpy(acceptIp_.get(), address, length + 1);
 }
 
 // 0x8a05b8 _ZN15LCXPlayerSocket15ParseHttpHeaderEPc

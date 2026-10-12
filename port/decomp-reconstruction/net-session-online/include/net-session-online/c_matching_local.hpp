@@ -133,6 +133,8 @@ public:
     static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
     // 0x80890c _ZN14CMatchingLocal6UpdateEv (partial: see update.cpp)
     std::int32_t Update();
+    // 0x801b54 _ZN16CMatchingLocal17GetRoomAttributesEv: the room attributes at +0x4660.
+    CRoomAttributes* GetRoomAttributes() { return &roomAttributes_; }
 
     // The matching object the static callbacks route to (CMatching::s_Matching in the original).
     static CMatchingLocal* s_Matching;

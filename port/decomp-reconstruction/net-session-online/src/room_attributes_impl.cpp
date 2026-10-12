@@ -1,0 +1,41 @@
+#include "net-session-online/c_matching_gl_live.hpp"
+
+#include <cstdlib>
+
+#include "net-session-online/glx_player_mp_lobby.hpp"
+
+namespace {
+
+// Stand-in for the "un" token of GLXPlayerLogin (+0x78, unique_ptr<char[]> unToken_). The
+// accessor is not in glx_player_login.hpp and that class is outside this slice, so this
+// returns nullptr. Partial: the lobby id is therefore 0 until the accessor exists.
+const char* LoginUnTokenStandIn(GLXPlayerLogin* /*login*/) { return nullptr; }
+
+}  // namespace
+
+// 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv
+// The original is std::map<unsigned long long, CRoomAttributes>::operator[](key) at this+0x6720,
+// with the key read from the int at +0x680c. The key is widened to 64 bits (sign rule not
+// confirmed for negative keys).
+CRoomAttributes* CMatchingGLLive::GetRoomAttributes() {
+    return &roomAttributes_[static_cast<std::uint64_t>(roomKey_)];
+}
+
+// 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh
+// Partial. Done: the filter copy into +0x6738, the lobby list request (query 0, game-param mask
+// 0xF, mode forwarded), the room state set to 7 at +0x6834, return 0. The bool argument is unused,
+// as in the original. Missing: the login "un" token (see LoginUnTokenStandIn); the original calls
+// atoi on that token directly, the port passes 0 when it is absent.
+std::int32_t CMatchingGLLive::SearchRoomInternal(CRoomSearchFilter& filter, bool /*flag*/,
+                                                 std::uint8_t mode) {
+    searchFilter_ = filter;  // CRoomSearchFilter::operator= on this+0x6738
+
+    GLXPlayerLogin* login = GetGLXPlayerLogin();
+    const char* unToken = LoginUnTokenStandIn(login);
+    GLXPlayerMPLobby* lobby = GetGLXPlayerMPLobby();
+    const int lobbyId = unToken != nullptr ? std::atoi(unToken) : 0;
+    lobby->mpSendGetLobbyListWithGameParam(lobbyId, 0, 0x0F, nullptr, mode);
+
+    roomOp_ = 7;  // +0x6834
+    return 0;
+}

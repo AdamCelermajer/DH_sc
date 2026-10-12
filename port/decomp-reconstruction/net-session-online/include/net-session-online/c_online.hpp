@@ -16,6 +16,14 @@
 
 class COnline {
 public:
+    // 0x7fd798 _ZN7COnlineC1Ev and 0x7fd838 _ZN7COnlineC2Ev. Partial: the flags are set to
+    // their defaults. The two CNetMutex members and the two list heads (+0x0c..+0x3c) are not
+    // modelled here, so the sentinels and mutexes are not initialised.
+    COnline() = default;
+    // 0x7fda38 _ZN7COnlineD2Ev and 0x7fda98 _ZN7COnlineD1Ev. Partial: the list clears and the
+    // CNetMutex destructors are not modelled (see the constructor).
+    ~COnline() = default;
+
     // 0x7fd508 _ZN7COnline16DetectDisconnectEv: no-op.
     void DetectDisconnect() {}
     // 0x7fd50c _ZN7COnline15SetIsOnlineGameEb

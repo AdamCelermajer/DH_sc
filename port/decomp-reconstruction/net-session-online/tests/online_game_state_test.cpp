@@ -26,6 +26,10 @@ int main() {
     state.SetRoomCreationTimeForTest(longAgo);
     CHECK(state.GlliveRoomCreationTimeOutExpired());
 
+    // Update runs the (empty) state machine; Destroy frees its entries.
+    state.Update();
+    state.Destroy();
+
     std::printf("%s\n", failures ? "online_game_state: FAILED" : "online_game_state: ok");
     return failures != 0;
 }

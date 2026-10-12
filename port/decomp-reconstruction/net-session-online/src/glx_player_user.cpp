@@ -20,8 +20,9 @@ bool InRange(std::int32_t index, std::size_t size) {
 GLXPlayerUser::GLXPlayerUser() : GLXPlayerWebComponent() { GLXPlayerWebComponent::LoadConfig(); }
 
 // 0x83fb24 _ZN13GLXPlayerUserD1Ev, 0x83fda0 _ZN13GLXPlayerUserD2Ev
-// Partial: the original also destroys the vector<channel> pair at +0xe8 and +0xf8
-// and the _LiveFeed array at +0x12c, which are not modelled here.
+// Partial: the original also destroys the vector<channel> pair at +0xe8 and +0xf8, and the
+// field at +0x3c, which are not modelled here. The _LiveFeed array at +0x12c is released by
+// its vector member.
 GLXPlayerUser::~GLXPlayerUser() = default;
 
 // 0x83a880 _ZN13GLXPlayerUser11getUserNameEv

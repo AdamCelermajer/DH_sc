@@ -16,6 +16,8 @@
 #include <memory>
 #include <string>
 
+#include "net-session-online/deps/time_of_day.hpp"
+
 class GameCenter {
 public:
     // 0x499194 _ZN10GameCenter16EnableGCFeaturesEv
@@ -76,11 +78,28 @@ public:
     // 0x49a03c _ZN10GameCenter21GCAddToJoinPlayerListEPKc. Partial: a null ID is taken as ""
     // (the original would construct a string from a null pointer).
     void GCAddToJoinPlayerList(const char* id);
+    // 0x499440 _ZNK10GameCenter22GCStartGameTimeoutExpiredEv. Partial: the original reads the
+    // OnlineSingleton<OnlineGameState> instance, which is not ported. timevaldiff is called on a
+    // default OnlineGameState here. That is the same only because timevaldiff reads its two
+    // arguments and no member state (inferred from its signature; to be checked in the binary).
+    bool GCStartGameTimeoutExpired() const;
+    // 0x499f24 _ZN10GameCenter19GCStartMultiplayerGameEv. Partial: the OnlineGameState flag (+0x28
+    // of the singleton), OnlineGameState::Init(4), and the MenuManager "GoToVerificationScreen"
+    // callback are not ported (missing types). The coin-toss result is not stored: the original
+    // writes the int into the host UID pointer slot (+0x30), which is a decompile type clash.
+    // The original's return value is not reproduced (void here).
+    void GCStartMultiplayerGame();
+    // 0x499fc8 _ZN10GameCenter19GCStartMultiplayerGameEb. The bool argument is unused in the
+    // original. It clears the start gate (+0x15) and then calls the no-argument overload.
+    void GCStartMultiplayerGame(bool /*unused*/);
     // 0x499fe8 _ZN10GameCenter17GetJoinPlayerListEv. The original returns the list by value
     // (hidden result pointer); the copy is the same as the list at +0x24.
     std::list<std::string> GetJoinPlayerList() const { return playerList_; }
 
     // Test seams. Not in the original.
+    bool StartFlagForTest() const { return startFlag_; }
+    bool StartGateForTest() const { return startGate_; }
+    void SetStartGateForTest(bool open) { startGate_ = open; }
     bool FeaturesEnabledForTest() const { return featuresEnabled_; }
     const std::list<std::string>& PlayerListForTest() const { return playerList_; }
     const std::list<const char*>& AchievementsForTest() const { return achievements_; }
@@ -100,6 +119,10 @@ public:
 private:
     bool featuresEnabled_ = false;               // +0x07
     bool gateFlag_ = false;                      // +0x05 (role not identified)
+    bool startFlag_ = false;                     // +0x11 set when a multiplayer start runs
+    // +0x15: start gate, cleared by GCStartMultiplayerGame(bool). Its value at construction is
+    // not recovered (the ctor is queued), so it defaults to false here.
+    bool startGate_ = false;                     // +0x15
     bool achievementFlag_ = false;               // +0x0c
     bool scoreFlag_ = false;                     // +0x0d
     bool resultFlag_ = false;                    // +0x0e (cleared by both reports)
@@ -112,4 +135,5 @@ private:
     std::list<const char*> achievements_;        // +0x6c (list of pointers, not copies)
     std::list<PlayerIdStatus> playerIdStatus_;   // +0x74
     std::string gcPlayerAlias_;                  // +0x4c
+    Timeval gameStartTime_{0, 0};                // +0x1c (sec, usec), set by GCStartMultiplayerGame
 };

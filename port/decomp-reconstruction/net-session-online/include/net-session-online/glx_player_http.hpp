@@ -40,9 +40,9 @@ public:
     // 0x82ceec _ZN13GLXPlayerHttp6CancelEv
     void Cancel();
 
-    // Request builders. Partial: each one builds the request text, and the trailing virtual
-    // call (vtable +0x48, request start) is not ported. The original appends to the caller's
-    // buffer; the port does not change it.
+    // Request builders. Each one builds the request text and then calls Start() (vtable +0x48).
+    // sendByPost and sendVideoByPost append "&v=" to the caller's query in the original; the
+    // port does not change the caller's buffer (partial for those two).
     // 0x82cf4c _ZN13GLXPlayerHttp12downloadFileEPcS0_S0_S0_ll (long is 32 bits on ARM)
     void downloadFile(const char* host, const char* path, const char* cookie, const char* referer,
                       std::int32_t rangeStart, std::int32_t rangeEnd);

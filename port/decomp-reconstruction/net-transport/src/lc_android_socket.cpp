@@ -108,10 +108,35 @@ void CopyBounded(char* dst, const char* src, std::size_t size) {
     dst[n] = '\0';
 }
 
-// Stand-in for threadGetHostByNameProcessLC, which is outside this category. The lookup
-// result is never stored and the busy flag is never cleared (see GetHostByName).
+// Copy of the first address of a resolved host, h_length raw bytes (new[]; released with delete[]).
+char* NewAddressCopy(const hostent* host) {
+    std::size_t length = static_cast<std::size_t>(host->h_length);
+    char* copy = new char[length];
+    std::memcpy(copy, host->h_addr_list[0], length);
+    return copy;
+}
+
+// 0x89f8a0 threadGetHostByNameProcessLC (the binary's copy lives in core-platform, with its own
+// cache; this one fills the cache that GetHostIP and GetHostByName read). The busy flag is set
+// while the lookup runs and cleared after a successful lookup that is cached. A failed lookup
+// leaves the flag set, so GetHostByName starts no new lookup (as the original). The cache is
+// filled without a lock, as in the original.
 void ThreadGetHostByNameProcessLC(LCHostNameRequest* request) {
-    (void)request;
+    *request->flag_address = 1;
+    hostent* found = ::gethostbyname(request->server_name);
+    if (found == nullptr) {
+        return;
+    }
+    if (l_countLC <= 3 && found->h_addr_list[0] != nullptr) {
+        hostent* entry = new hostent{};
+        entry->h_length = found->h_length;
+        entry->h_name = NewCopy(request->server_name);
+        entry->h_addr_list = new char*[1]{};
+        entry->h_addr_list[0] = NewAddressCopy(found);
+        l_hostLC[l_countLC] = entry;
+        ++l_countLC;
+    }
+    *request->flag_address = 0;
 }
 
 }  // namespace
@@ -307,10 +332,11 @@ bool LCAndroidSocket::CreateSocket() {
 }
 
 // 0x89ece4 _ZN15LCAndroidSocket4BindEPct
-// Partial: the pseudocode discards inet_addr(ip), so the socket binds INADDR_ANY whatever the
-// address (as in the original). SO_REUSEADDR is set and its result ignored. When the port is
+// Reconstructed, bugs included: inet_addr(ip) has no effect in the original, so the socket binds
+// INADDR_ANY whatever the address. SO_REUSEADDR is set and its result ignored. When the port is
 // taken, the port is incremented until a bind succeeds. The original has no exit when no
-// port binds, and that is kept: the loop does not terminate in that case.
+// port binds, and that is kept: the loop does not terminate in that case. The return value is
+// retries + port, as the pseudocode's v6 + v4.
 int LCAndroidSocket::Bind(char* ip, std::uint16_t port) {
     (void)ip;
     sockaddr_in addr{};
@@ -563,9 +589,7 @@ hostent* LCAndroidSocket::GetHostIP(char* server_name) {
         entry->h_length = result->h_length;
         entry->h_name = NewCopy(server_name);
         entry->h_addr_list = new char*[1]{};
-        std::size_t length = static_cast<std::size_t>(result->h_length);
-        entry->h_addr_list[0] = new char[length];
-        std::memcpy(entry->h_addr_list[0], result->h_addr_list[0], length);
+        entry->h_addr_list[0] = NewAddressCopy(result);
         l_hostLC[l_countLC] = entry;
         ++l_countLC;
     }
@@ -573,10 +597,11 @@ hostent* LCAndroidSocket::GetHostIP(char* server_name) {
 }
 
 // 0x89fb04 _ZN15LCAndroidSocket13GetHostByNameEPc
-// Partial: the lookup worker threadGetHostByNameProcessLC is not reconstructed (it is outside
-// this category). The thread started here runs an empty stand-in, so the busy flag is never
-// cleared, and the result is never cached by this path. Cache hits (same name) return the
-// cached entry, as the original does. The thread start failure returns null.
+// Partial: the lookup runs on a std::thread (pthread_create in the original). The thread is
+// joined before a new one replaces a finished one, which the original does not do. The worker
+// caches the first address as raw bytes, not as a C string (see GetHostIP). Cache hits (same
+// name) return the cached entry, as the original does. The first call returns null while the
+// lookup runs; a later call returns the cached entry. The thread start failure returns null.
 hostent* LCAndroidSocket::GetHostByName(char* server_name) {
     if (server_name == nullptr || std::strlen(server_name) > kHostNameLimit) {
         return nullptr;
@@ -713,10 +738,11 @@ LCAndroidSocket::LCAndroidSocket(const char* server_name, int server_port, void*
 
 // 0x89ff54 _ZN15LCAndroidSocketD1Ev
 // 0x89ffc8 _ZN15LCAndroidSocketD2Ev is the same body (skipped).
-// Partial: the LCXPlayerSocket base destructor is not run. The lookup thread is joined when it
-// was started, then the socket is closed.
+// Partial: the LCXPlayerSocket base destructor is not run. The lookup thread is joined whenever
+// one is joinable, then the socket is closed. The original joins only while its busy flag is set;
+// a joinable std::thread must be joined here, because destroying it would terminate the program.
 LCAndroidSocket::~LCAndroidSocket() {
-    if (gethostbyname_state_ != 0 && host_thread_.joinable()) {
+    if (host_thread_.joinable()) {
         host_thread_.join();
     }
     CloseSocket();

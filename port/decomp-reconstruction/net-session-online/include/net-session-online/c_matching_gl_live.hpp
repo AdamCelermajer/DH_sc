@@ -12,8 +12,11 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 
 #include "net-session-online/c_event_queue_base.hpp"
+#include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/c_room_search_filter.hpp"
 
 class CNetworkId;
 class NetBitStream;
@@ -24,6 +27,8 @@ class GLXPlayerComponent;
 class GLXPlayerLeaderboard;
 class GLXPlayerMPLobby;
 class GameCenterInfo;
+class GLXPlayerLogin;
+class GLXPlayerUserFriend;
 
 class CMatchingGLLive {
 public:
@@ -75,6 +80,19 @@ public:
     std::int32_t ProcessFriendEvents() const;
     // 0x81bc98 _ZN15CMatchingGLLive13InitGLFriendsEv: no-op.
     void InitGLFriends() const;
+    // The four GL friend accessors below use the friend list at +0x6700 (glxUserFriend_),
+    // which may be null.
+    // 0x81c098 _ZNK15CMatchingGLLive17GetGLFriendsCountEv: count, or 0 when the list is null.
+    std::int32_t GetGLFriendsCount() const;
+    // 0x81c0ac _ZNK15CMatchingGLLive16GetGLFriendStateEi: state of a friend, -1 out of range.
+    std::int32_t GetGLFriendState(std::int32_t index) const;
+    // 0x81c0e8 _ZNK15CMatchingGLLive18SendGLFriendInviteEPKc. Partial: the original returns the
+    // result of sendAddUserFriend; the port's version returns void, so this returns 0.
+    std::int32_t SendGLFriendInvite(const char* name) const;
+    // 0x81c0fc _ZNK15CMatchingGLLive16GetGLFriendsNameEi: name of a friend, null out of range.
+    const char* GetGLFriendsName(std::int32_t index) const;
+    // 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj: table {1, 2, 1}, 0 above 2.
+    static std::int32_t GetTransportType(std::uint32_t protocolType);
     // 0x81bc9c _ZN15CMatchingGLLive19GLFriendsListLoadedEv
     bool GLFriendsListLoaded() const { return glFriendsListLoaded_ != 0; }
     // 0x81bca8 _ZN15CMatchingGLLive19GLFriendsListLoadedEb
@@ -122,6 +140,19 @@ public:
     // lobby on first use (socket URL from the login observer, a copy of the lobby observer,
     // a 0x94-byte allocation). That path is not reconstructed; this returns s_GLXPlayerMPLobby.
     GLXPlayerMPLobby* GetGLXPlayerMPLobby();
+    // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv. Declared only: the body belongs to its own slice.
+    GLXPlayerLogin* GetGLXPlayerLogin();
+    // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
+    // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
+    CRoomAttributes* GetRoomAttributes();
+    // 0x820318 _ZN15CMatchingGLLive22GetSearchRoomAttributesEy: copy of the room settings stored
+    // under the key, or default settings when the key is not in the map.
+    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+    // 0x821188 _ZN15CMatchingGLLive28BroadcastPacketReceiverCallbackER10CNetworkIdPcj. Partial: the
+    // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
+    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, std::size_t size);
+    // 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
+    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
     void StartGame();
     // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi. Partial: the CSignIn event (state 1) and the
@@ -153,6 +184,9 @@ public:
     std::int32_t RoomOpForTest() const { return roomOp_; }
     std::int32_t GcStateForTest() const { return gcState_; }
     void SetGameCenterActiveForTest(bool value) { gameCenterActive_ = value; }
+    void SetRoomKeyForTest(std::int32_t key) { roomKey_ = key; }
+    const CRoomSearchFilter& SearchFilterForTest() const { return searchFilter_; }
+    void SetGLFriendListForTest(GLXPlayerUserFriend* list) { glxUserFriend_ = list; }
 
 private:
     std::uint8_t roomHidden_ = 0;          // +0x0d
@@ -172,4 +206,8 @@ private:
     bool gameCenterActive_ = false;        // +0x67e8 (Game Center mode, gates SetGCState)
     std::int32_t roomOp_ = 0;              // +0x6834 (room operation state: 5 after LeaveRoom)
     std::int32_t gcState_ = 0;             // +0x6838 (Game Center state, see SetGCState)
+    std::map<std::uint64_t, CRoomAttributes> roomAttributes_;  // +0x6720 (room id -> room settings)
+    CRoomSearchFilter searchFilter_;       // +0x6738 (copied by SearchRoomInternal)
+    std::int32_t roomKey_ = 0;             // +0x680c (room id used by GetRoomAttributes)
+    GLXPlayerUserFriend* glxUserFriend_ = nullptr;  // +0x6700 (friend list, null until created)
 };

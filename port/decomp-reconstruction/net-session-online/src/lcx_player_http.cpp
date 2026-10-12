@@ -30,16 +30,32 @@ std::string Text(const std::unique_ptr<char[]>& text) {
     return text ? std::string(text.get()) : std::string();
 }
 
-// Stand-in for the original's host extraction (LC_API_PARSE_DATA on the URL, not recovered).
-// The host is not extracted, so the Host header is empty. This is why the send functions
-// are partial.
+// The Host value. The original skips two '/' with LC_API_PARSE_DATA (core-platform 0x89c88c)
+// and then copies the field up to the next '/', so the host is field 2 of the URL split on
+// '/' (for "http://host:port/path" that is "host:port"). A URL without that field gives an
+// empty host; the original reads before the URL there (deviation).
 std::string HostOf(const char* url) {
-    (void)url;
-    return std::string();
+    std::string host;
+    if (url == nullptr) {
+        return host;
+    }
+    int field = 0;
+    for (const char* p = url; *p != '\0'; ++p) {
+        if (*p == '/') {
+            if (++field > 2) {
+                break;
+            }
+            continue;
+        }
+        if (field == 2) {
+            host.push_back(*p);
+        }
+    }
+    return host;
 }
 
-// Stand-in for ALicenseCheck_GetUserAgent (the ALicenseCheck functions are not identified).
-// The User-Agent is empty.
+// ALicenseCheck_GetUserAgent (0x52f0e0, glx_320e98.cpp) has an empty body in the original,
+// so the User-Agent is empty.
 std::string UserAgent() {
     return std::string();
 }
@@ -64,9 +80,10 @@ LCXPlayerHttp::LCXPlayerHttp(const char* serverAddress, const char* phpScriptVer
       phpAddress_(CopyText(phpAddress)) {}
 
 // 0x89d4fc _ZN13LCXPlayerHttpD1Ev
-// Partial: the original calls LCXPlayerHttp::Cancel (0x89d42c) first, which is not ported
-// here. The owned text and buffers are released by their unique_ptr members.
+// Cancels the request first (LCXPlayerHttp::Cancel, 0x89d42c), then deletes the socket. The
+// owned text and buffers are released by their unique_ptr members.
 LCXPlayerHttp::~LCXPlayerHttp() {
+    Cancel();
     delete socket_;
 }
 
@@ -115,8 +132,9 @@ void LCXPlayerHttp::downloadFile(const char* server, const char* object, const c
 }
 
 // 0x89d6a8 _ZN13LCXPlayerHttp18sendByGetWithNoVerEPcS0_
-// Partial: the Host value and the User-Agent are stand-ins (see the helpers above).
-// The target is the PHP address when one was given, otherwise the URL.
+// Partial: the User-Agent is empty. The original appends ALicenseCheck_GetUserAgent's output
+// from an uninitialised 256-byte buffer, and that function writes nothing. The Host value
+// follows HostOf. The target is the PHP address when one was given, otherwise the URL.
 void LCXPlayerHttp::sendByGetWithNoVer(const char* url, const char* query) {
     if (url == nullptr || query == nullptr) {
         return;
@@ -135,7 +153,7 @@ void LCXPlayerHttp::sendByGetWithNoVer(const char* url, const char* query) {
 }
 
 // 0x89e2e8 _ZN13LCXPlayerHttp9sendByGetEPcS0_
-// Partial: the Host value is a stand-in. The version parameter is appended after the query.
+// The version parameter is appended after the query, and the Host value comes from HostOf.
 void LCXPlayerHttp::sendByGet(const char* url, const char* query) {
     if (url == nullptr || query == nullptr) {
         return;
@@ -153,9 +171,8 @@ void LCXPlayerHttp::sendByGet(const char* url, const char* query) {
 }
 
 // 0x89e048 _ZN13LCXPlayerHttp10sendByPostEPcS0_
-// Partial: the Host value is a stand-in. The post body is the request head followed by the
-// query (with "&v=<version>" appended); the original appends to the caller's query in place,
-// the port works on a copy.
+// Partial: the original appends "&v=<version>" to the caller's query in place; the port works
+// on a copy. The post body is the request head followed by the query. Host comes from HostOf.
 void LCXPlayerHttp::sendByPost(const char* url, const char* query) {
     if (url == nullptr || query == nullptr) {
         return;
@@ -177,9 +194,10 @@ void LCXPlayerHttp::sendByPost(const char* url, const char* query) {
 }
 
 // 0x89daa0 _ZN13LCXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_
-// Partial: the Host value is a stand-in. The multipart part is built as the pseudocode has
-// it: the video bytes between a part header and a closing boundary. The post buffer is the
-// HTTP head followed by that part. size is replaced by the total post length.
+// Partial: the original appends to the caller's query in place; the port works on a copy.
+// Host comes from HostOf. The multipart part is built as the pseudocode has it: the video bytes
+// between a part header and a closing boundary. The post buffer is the HTTP head followed by
+// that part. size is replaced by the total post length.
 void LCXPlayerHttp::sendVideoByPost(const char* url, const char* query, const char* data,
                                     std::int32_t& size, const char* videoId) {
     if (url == nullptr || query == nullptr) {

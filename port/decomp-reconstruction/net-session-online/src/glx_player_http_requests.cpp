@@ -55,7 +55,7 @@ void StorePostBody(std::unique_ptr<char[]>& body, std::int32_t& length, const st
 }  // namespace
 
 // 0x82cf4c _ZN13GLXPlayerHttp12downloadFileEPcS0_S0_S0_ll
-// Partial: builds the GET request text. The trailing virtual call (vtable +0x48) is not ported.
+// Builds the GET request text, then calls Start() (vtable +0x48), as the original does.
 // The response buffer is released and its length reset, as in the original.
 void GLXPlayerHttp::downloadFile(const char* host, const char* path, const char* cookie, const char* referer,
                                  std::int32_t rangeStart, std::int32_t rangeEnd) {
@@ -82,13 +82,14 @@ void GLXPlayerHttp::downloadFile(const char* host, const char* path, const char*
     StoreRequest(request_, sizeof request_, text);
 
     sendByPost_ = false;
+    Start();  // vtable +0x48 is GLXPlayerHttp::Start (0x82ce08)
     response_.reset();
     responseLength_ = 0;
 }
 
 // 0x82d444 _ZN13GLXPlayerHttp10sendByPostEPcS0_
 // Partial: the request line and headers go to the inline buffer, the body (headers + "query&v=version")
-// to the owned post body. The trailing virtual call (vtable +0x48) is not ported. The original appends
+// to the owned post body, then Start() (vtable +0x48). The original appends
 // "&v=" to the caller's buffer in place; the port leaves the caller's buffer alone.
 void GLXPlayerHttp::sendByPost(const char* url, const char* query) {
     XP_DEBUG_OUT("GLXPlayerHttp::sendByPost()\n");
@@ -107,12 +108,13 @@ void GLXPlayerHttp::sendByPost(const char* url, const char* query) {
     responseLength_ = 0;
     StorePostBody(postBody_, postLength_, header + body);
     sendByPost_ = true;
+    Start();  // vtable +0x48
 }
 
 // 0x82d6e0 _ZN13GLXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_
 // Partial: multipart/form-data POST with an AVI part. The header and multipart body go to the owned post
 // body; the inline buffer is not used. On return *length holds the total post length, as in the original.
-// The trailing virtual call (vtable +0x48) is not ported.
+// Then Start() (vtable +0x48).
 void GLXPlayerHttp::sendVideoByPost(const char* url, const char* query, const char* data, std::int32_t* length,
                                     const char* fileName) {
     const std::string address = Text(url);
@@ -138,11 +140,11 @@ void GLXPlayerHttp::sendVideoByPost(const char* url, const char* query, const ch
     StorePostBody(postBody_, postLength_, header + multipart);
     *length = postLength_;
     sendByPost_ = true;
+    Start();  // vtable +0x48
 }
 
 // 0x82d9ac _ZN13GLXPlayerHttp9sendByGetEPcS0_
-// Partial: builds "GET url?query&v=version" with the Host header. The trailing virtual call
-// (vtable +0x48) is not ported.
+// Builds "GET url?query&v=version" with the Host header, then Start() (vtable +0x48).
 void GLXPlayerHttp::sendByGet(const char* url, const char* query) {
     XP_DEBUG_OUT("GLXPlayerHttp::sendByGet()\n");
     if (url == nullptr || query == nullptr) {
@@ -154,13 +156,14 @@ void GLXPlayerHttp::sendByGet(const char* url, const char* query) {
                              "Host: " + HostOf(address) + "\r\n\r\n";
     StoreRequest(request_, sizeof request_, text);
     sendByPost_ = false;
+    Start();  // vtable +0x48
     response_.reset();
     responseLength_ = 0;
 }
 
 // 0x82dc3c _ZN13GLXPlayerHttp18sendByGetWithNoVerEPcS0_
-// Partial: as sendByGet without the "&v=" version field. The original's trace string says sendByGet and
-// is kept. The trailing virtual call (vtable +0x48) is not ported.
+// As sendByGet without the "&v=" version field. The original's trace string says sendByGet and
+// is kept. Then Start() (vtable +0x48).
 void GLXPlayerHttp::sendByGetWithNoVer(const char* url, const char* query) {
     XP_DEBUG_OUT("GLXPlayerHttp::sendByGet()\n");
     if (url == nullptr || query == nullptr) {
@@ -172,6 +175,7 @@ void GLXPlayerHttp::sendByGetWithNoVer(const char* url, const char* query) {
                              "\r\n\r\n";
     StoreRequest(request_, sizeof request_, text);
     sendByPost_ = false;
+    Start();  // vtable +0x48
     response_.reset();
     responseLength_ = 0;
 }

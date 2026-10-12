@@ -184,16 +184,27 @@ elf_address,symbol,status,source_file,notes
 0x7fe6ec,_ZN9CMatching18sProcessLostPacketEii,partial,net-session-online/src/glx_320e98.cpp,"forwards to vtable +0x18 (vtProcessLostPacket, name not identified); null instance returns 0"
 0x7fe88c,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
 0x7fe890,_ZN11CEventQueueIN9CMatching6EVENTSELj100EE5ClearEv,skipped,net-session-online/src/c_event_queue_base.cpp,"branch thunk to CEventQueueBase::Clear (0x7fe438); same body for every CEventQueue<T,N> instance"
+0x7fed84,_ZN9CMatching17ProcessLostPacketEii,partial,net-session-online/src/c_matching_base.cpp,Room attributes receive the call. Per-member NetStruct slot +0x44 loop (members 0..count-1) not ported. Returns void (decompiled int is the last callee's result).
+0x7ff008,_ZN9CMatching21SetRoomMemberAttibuteEiPKvi,partial,net-session-online/src/c_matching_base.cpp,Copies bytes into the member buffer (element +0x180). NetStructByteArray::SetBuffer change notification (Set slot +0x1c on the buffer) not ported. Negative size not verified (treated as empty).
+0x7ff054,_ZN9CMatching21GetRoomMemberAttibuteEiPvi,reconstructed,net-session-online/src/c_matching_base.cpp,Copies the stored size and returns it; the fourth argument is not read by the body.
 0x7ffb28,_ZN11CEventQueueIN9CMatching6EVENTSELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
 0x7ffb6c,_ZN11CEventQueueIN9CMatching6EVENTSELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
 0x7ffba8,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EED1Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
 0x7ffbe4,_ZN11CEventQueueIN9CMatching15EVENTS_INTERNALELj100EED0Ev,skipped,net-session-online/src/c_event_queue_base.cpp,"instantiation of the CEventQueueBase destructor body (list clear, mutex destroy) with this instance vtable"
+0x8000dc,_ZN9CMatching11GetRoomMaskEv,reconstructed,net-session-online/src/c_matching_base.cpp,"Cache is a function-local static shared by all instances, as decompiled. Server path ORs MemberBit over the vtable +0x88 list; name of that slot not identified."
+0x8001d4,_ZN9CMatching12TestRoomMaskEj,reconstructed,net-session-online/src/c_matching_base.cpp,True when (mask & bits) == mask.
+0x8002bc,_ZN9CMatching18UpdateMemberIdListEv,partial,net-session-online/src/c_matching_base.cpp,"Server add/clear of member slots, and the 0x800006/0x800007 event queue, follow the body. Not ported: NetStructMember::SetChanged and member Set slots (dirty flags). Gate at vtable +0x64 not named. Stack-slot compare before the id write is not identified; the port always stores. Return value not modelled (void)."
+0x800808,_ZN9CMatching15GetMemberIdListEv,reconstructed,net-session-online/src/c_matching_base.cpp,"Ids (element +0x150) that are >= 0, in slot order; returned by value."
+0x8008ac,_ZN9CMatching9SetTeamIdEih,partial,net-session-online/src/c_matching_base.cpp,Stores the team value (element +0x178) for a valid slot. NetStructMember change notification not ported. Argument is uint8 as in the symbol.
 0x801b08,_ZN14CMatchingLocal12IsRoomClosedEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
 0x801b14,_ZN14CMatchingLocal12IsRoomHiddenEv,reconstructed,net-session-online/src/c_matching_local.cpp,"the hidden flag, else the closed flag"
 0x801b3c,_ZN14CMatchingLocal11SetMemberIdEi,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline in the header
+0x801b54,_ZN16CMatchingLocal17GetRoomAttributesEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,inline accessor returning &roomAttributes_ (+0x4660)
 0x801b60,_ZN18CMatchingBluetooth16GetTransportTypeE14tPROTOCOL_TYPE,reconstructed,net-session-online/src/c_matching_bluetooth.cpp,"static; table CSWTCH.653 {3, 4, 4}; types above 2 give 0; object not read"
 0x801fb0,_ZN14CMatchingLocal14SendInvitationEPKcS1_b,reconstructed,net-session-online/src/c_matching_local.cpp,posts event 0x800015 to the matching internal queue (deps stand-in); returns 0; string and bool arguments unused
 0x801fe8,_ZN14CMatchingLocal17ReceiveInvitationEv,reconstructed,net-session-online/src/c_matching_local.cpp,posts event 0x800017 to the matching internal queue (deps stand-in); returns 0
+0x802560,_ZN13tMatchingPeerC1ERKS_,skipped,net-session-online/src/t_matching_peer.cpp,duplicate of 0x808208 (copy ctor already in t_matching_peer.cpp); same member-wise copy in the same field order; not defined twice
+0x8025c4,_ZN13tMatchingPeerC1Ev,skipped,net-session-online/include/net-session-online/t_matching_peer.hpp,"duplicate of 0x8081c4 (default ctor, = default in t_matching_peer.hpp); same body (CNetworkId reset, empty name, CRoomAttributes ctor); not defined twice"
 0x805664,_ZN14CMatchingLocal13GetMemberMaskEi,reconstructed,net-session-online/src/c_matching_local.cpp,body shared with CMatchingGLLive::GetMemberMask through member_mask.hpp
 0x805694,_ZN14CMatchingLocal19GetInvitationRoomIdEv,reconstructed,net-session-online/include/net-session-online/c_matching_local.hpp,"returns 0, inline in the header"
 0x8056a0,_ZN14CMatchingLocal16GetTransportTypeE14tPROTOCOL_TYPE,reconstructed,net-session-online/src/c_matching_local.cpp,"static; table CSWTCH.616 {1, 2, 1}; types above 2 give 0; object not read"
@@ -384,6 +395,7 @@ elf_address,symbol,status,source_file,notes
 0x81ce18,_ZN11tFriendInfoD1Ev,reconstructed,net-session-online/include/net-session-online/t_friend_info.hpp,defaulted; member names are placeholders named by offset (field names not recovered)
 0x81e024,_ZN11tFriendInfoC1ERKS_,reconstructed,net-session-online/include/net-session-online/t_friend_info.hpp,defaulted copy; member names are placeholders
 0x81ebc8,_ZN11tFriendInfoC1Ev,reconstructed,net-session-online/include/net-session-online/t_friend_info.hpp,the original leaves the int fields at +0x00 and +0x1c unset; the port zeroes them
+0x81edac,_ZN13tMatchingPeerC1Ev,skipped,net-session-online/include/net-session-online/t_matching_peer.hpp,"duplicate of 0x8081c4 (default ctor, = default in t_matching_peer.hpp); same body as 0x8025c4; not defined twice"
 0x81eedc,_ZN28CMatchingGLLiveLobbyObserverC1ERKS_,skipped,net-session-online/src/c_matching_gl_live_observers.cpp,"compiler-generated copy constructor covers the modelled scalars; room list, member vector and name map not modelled"
 0x81ef7c,_ZN15CMatchingGLLive19GetGLXPlayerMPLobbyEv,partial,net-session-online/src/c_matching_gl_live_glx05.cpp,"creation on first use not reconstructed (login observer accessor, socket URL, observer copy, 0x94-byte allocation); returns s_GLXPlayerMPLobby"
 0x81f128,_ZN15CMatchingGLLive9StartGameEv,reconstructed,net-session-online/src/c_matching_gl_live_glx05.cpp,adds event 11 and sends launch; lobby comes from GetGLXPlayerMPLobby (partial)
@@ -391,6 +403,8 @@ elf_address,symbol,status,source_file,notes
 0x81f44c,_ZN15CMatchingGLLive19SendSetPlayerStatusEc,partial,net-session-online/src/c_matching_gl_live_glx05.cpp,return value of the lobby call not recovered (void in port); returns 0
 0x81f464,_ZN15CMatchingGLLive9LeaveRoomEv,reconstructed,net-session-online/src/c_matching_gl_live_glx05.cpp,sets room operation (+0x6834) to 5; lobby from GetGLXPlayerMPLobby (partial)
 0x81f524,_ZN15CMatchingGLLive6IsHostEv,reconstructed,net-session-online/src/c_matching_gl_live_glx05.cpp,virtual slot 60 of GLXPlayerMPLobby is mpIsMaster
+0x81fadc,_ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh,partial,net-session-online/src/room_attributes_impl.cpp,"done: filter copy into +0x6738, mpSendGetLobbyListWithGameParam(id,0,0xF,nullptr,mode), state 7 at +0x6834, return 0. missing: login un-token (GLXPlayerLogin +0x78, no accessor) so the lobby id is 0 via LoginUnTokenStandIn; original calls atoi on the token directly"
+0x820508,_ZN15CMatchingGLLive17GetRoomAttributesEv,reconstructed,net-session-online/src/room_attributes_impl.cpp,"std::map<uint64,CRoomAttributes> at +0x6720 (real std::map, not a stand-in); key is the int at +0x680c widened to 64 bits; sign rule for negative keys not confirmed; operator[] creates the entry"
 0x821254,_ZN29CMatchingGLLiveFriendObserverC2Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
 0x821280,_ZN29CMatchingGLLiveFriendObserverC1Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
 0x8212ac,_ZN29CMatchingGLLiveFriendObserverD2Ev,reconstructed,net-session-online/src/c_matching_gl_live_observers.cpp,
