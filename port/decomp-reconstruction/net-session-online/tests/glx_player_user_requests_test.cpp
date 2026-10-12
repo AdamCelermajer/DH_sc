@@ -180,9 +180,10 @@ int main() {
     CHECK(u.getCount == getsBefore);
 
     // sendUploadUserAvatar: POST with the "d" key.
+    const int postsBefore = u.postCount;
     u.sendUploadUserAvatar(const_cast<char*>("p.png"));
     CHECK(u.post == "f|71|i|12|u|alice|d|p.png|");
-    CHECK(u.postCount == 2);
+    CHECK(u.postCount == postsBefore + 1);
 
     // sendAwardTrophy: ids joined with commas; a count of 1 gives an empty list.
     std::int32_t ids[] = {3, 4};

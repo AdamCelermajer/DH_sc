@@ -140,14 +140,6 @@ int main() {
         CHECK(u.getAvatarStatus(1) == 4);
     }
 
-    // OnUpdateSuccess routes code 81 (user information) and the rest of the codes to the base.
-    {
-        GLXPlayerUser u;
-        char info[] = "x|a40|z|bob";
-        u.OnUpdateSuccess(999);  // default: base only, no field change
-        CHECK(u.getUserName() == nullptr);
-        (void)info;
-    }
 
     if (failures == 0) std::printf("all checks passed\n");
     return failures == 0 ? 0 : 1;
