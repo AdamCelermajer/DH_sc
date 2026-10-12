@@ -40,7 +40,7 @@ int main() {
     CHECK(msg.getMsgCount(0x20, 2) == 0);
 
     CHECK(msg.getCurrentMsgPosition() == -1);    // no current id yet
-    CHECK(msg.getCurrentMsgID() == 0);
+    CHECK(msg.getCurrentMsgID() == -1);          // the ctor (0x8368e0) stores -1 at +0x64
 
     std::printf("%s\n", failures ? "glx_player_message: FAILED" : "glx_player_message: ok");
     return failures != 0;

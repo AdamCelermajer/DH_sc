@@ -62,7 +62,7 @@ public:
     // 0x82bfd8 _ZN19GLXPlayerUserFriend18processFriendsListEPc. Partial: six text fields are not stored
     // (see the .cpp).
     void processFriendsList(const char* text);
-    // 0x82ca20 _ZN19GLXPlayerUserFriend15OnUpdateSuccessEi. Partial: the base return is dropped.
+    // 0x82ca20 _ZN19GLXPlayerUserFriend15OnUpdateSuccessEi. Code 61 parses, 73 clears and reads the count.
     void OnUpdateSuccess(std::int32_t arg) override;
 
     // Request senders: "f|kind|i|GGI|u|UID|..." requests handed to SendByGet.
