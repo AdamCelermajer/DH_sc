@@ -78,4 +78,6 @@ private:
     static char s_GameVersion[0x32];
     static std::int32_t m_webConfig_ggi;
     static std::map<std::string, std::string> s_urlMap;
+    static bool s_isLoadConfig;   // set once the config is loaded from the server or the local file
+    static bool m_isConfigured;   // set by the "configured" token in the server response
 };

@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_online.hpp"
