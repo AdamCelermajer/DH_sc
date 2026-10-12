@@ -643,7 +643,7 @@ target_link_libraries(original_campaign_world_adapter_tests PRIVATE foundation_d
 add_test(NAME original_campaign_world_adapter COMMAND original_campaign_world_adapter_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-encounter-source")
 # P16 HOST (Preview 16): campaign script-host providers, executor dispatch router and generic trigger zones.
 # Additive; the live binding is off unless the EXE gets --campaign-triggers.
-target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/cinematics/source_campaign_dispatch_v1.cpp features/cinematics/script_source_services_v1.cpp)
+target_sources(foundation_data PRIVATE features/campaign_host/campaign_host.cpp features/campaign_host/trigger_zones.cpp features/campaign_host/actor_clip_manifest.cpp features/campaign_host/aborted_scene_repair.cpp features/cinematics/source_campaign_dispatch_v1.cpp features/cinematics/script_source_services_v1.cpp)
 add_executable(compiled_campaign_bank_tests tests/compiled_campaign_bank_tests.cpp)
 target_link_libraries(compiled_campaign_bank_tests PRIVATE foundation_data)
 add_test(NAME compiled_campaign_bank COMMAND compiled_campaign_bank_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
@@ -689,6 +689,9 @@ target_sources(foundation_data PRIVATE features/level_lighting/level_light_v1.cp
 add_executable(campaign_host_tests features/campaign_host/campaign_host_tests.cpp)
 target_link_libraries(campaign_host_tests PRIVATE foundation_data)
 add_test(NAME campaign_host COMMAND campaign_host_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets")
+add_executable(aborted_scene_repair_tests features/campaign_host/aborted_scene_repair_tests.cpp) # B145
+target_link_libraries(aborted_scene_repair_tests PRIVATE foundation_data)
+add_test(NAME aborted_scene_repair COMMAND aborted_scene_repair_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/v20/asset-stage/assets")
 add_executable(campaign_trigger_zone_tests features/campaign_host/trigger_zone_tests.cpp)
 target_link_libraries(campaign_trigger_zone_tests PRIVATE foundation_data)
 add_test(NAME campaign_trigger_zones COMMAND campaign_trigger_zone_tests "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-15-rc3/assets" "${CMAKE_CURRENT_SOURCE_DIR}/assets/original-cache" "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")

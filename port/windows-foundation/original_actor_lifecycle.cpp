@@ -39,6 +39,11 @@ bool OriginalActorLifecycle::change(Record&r,int target,std::string&error){
  else if(previous==1&&!(r.status.flags&0x2000))if(!emit(OriginalLifecycleOperation::init_physical))return false;
  if(previous==3&&!emit(OriginalLifecycleOperation::clear_idle_suppressed))return false;
  const bool carried_interactive=previous==17&&(r.status.flags&0x2000);
+ return focus(r,target,previous,carried_interactive,error);
+}
+// New-state OnFocus recipe + the RaiseEvent1d notification (everything after the old state's OnBlur in change()).
+bool OriginalActorLifecycle::focus(Record&r,int target,int previous,bool carried_interactive,std::string&error){
+ auto emit=[&](OriginalLifecycleOperation op){return call(r,op,previous,error);};
  r.status.state=target;
  if(target==0){
   r.status.flags=0;r.status.enabled=false;
@@ -90,6 +95,27 @@ void OriginalActorLifecycle::clear(){records_.clear();pre_spawn_baseline_.clear(
 void OriginalActorLifecycle::detach_for_restore(){records_.clear();}
 std::vector<ActorId> OriginalActorLifecycle::pre_spawn_baseline_ids()const{
  std::vector<ActorId> ids;ids.reserve(pre_spawn_baseline_.size());for(const auto&entry:pre_spawn_baseline_)ids.push_back(entry.first);return ids;
+}
+// B142: Character::Deserialize 0x3a6210 on a LIVE Character whose saved state is Spawn(1)/PreSpawn(17) (the death-checkpoint reload)
+// calls SM_SetPreSpawnState -> _SetState(17). The saved Character data (flags, position, vitals, dead bit, physical presence)
+// has already replaced everything the old state's OnBlur would undo, so only CSPreSpawn::OnFocus (0x3c688c: PreSpawn pose,
+// SetPhysicalObject(null), DisableCollisions) and the state notification run, through the same Focus recipe as the level start.
+bool OriginalActorLifecycle::enter_restored_pre_spawn(ActorId id,ActorState&actor,bool enabled,int previous_state,std::string&error){
+ const auto baseline=pre_spawn_baseline_.find(id);
+ if(actor.id!=id||baseline==pre_spawn_baseline_.end()){error="Restored actor has no preset PreSpawn lifecycle baseline";return false;}
+ if(records_.count(id)){error="Invalid or duplicate lifecycle actor identity";return false;}
+ if(!services_.invoke){error="Original actor lifecycle effect provider unavailable";return false;}
+ Record record;record.actor=&actor;record.facts=baseline->second;
+ record.status.state=previous_state;record.status.enabled=enabled;
+ auto entry=records_.emplace(id,std::move(record));
+ if(!focus(entry.first->second,17,previous_state,false,error)){records_.erase(entry.first);return false;}
+ return true;
+}
+// B145: true when the actor still stands on the authored initial anchor of its preset PreSpawn/Limbus baseline.
+bool OriginalActorLifecycle::at_pre_spawn_anchor(const ActorState&actor,float tolerance)const{
+ const auto baseline=pre_spawn_baseline_.find(actor.id);if(baseline==pre_spawn_baseline_.end())return false;
+ for(int axis=0;axis<3;++axis){const float d=actor.transform.position[axis]-baseline->second.initial_transform.position[axis];if(!std::isfinite(d)||std::fabs(d)>tolerance)return false;}
+ return true;
 }
 bool OriginalActorLifecycle::restore_pre_spawn(ActorId id,ActorState&actor,bool enabled,std::string&error){
  const auto baseline=pre_spawn_baseline_.find(id);

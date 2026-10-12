@@ -4,7 +4,9 @@
 #include "../level-loader/level_script_paths_v51.hpp"
 #include "../level-loader/script_manager_owner_v52.hpp"
 #include "../level-loader/script_command_receivers_v59.hpp"
+#include <algorithm>
 #include <cstring>
+#include <functional>
 #include <stdexcept>
 #include <utility>
 #include <memory>
@@ -135,6 +137,43 @@ void OriginalCampaignRuntime::restore_trigger_inside(const std::vector<std::stri
 void OriginalCampaignRuntime::restore_trigger_activations(const std::map<std::string,std::int32_t>& counts){
  for(auto& entry:trigger_state_) entry.second=TriggerState{};
  for(const auto& count:counts) trigger_state_[count.first].activations=count.second;
+}
+bool OriginalCampaignRuntime::rearm_trigger(const std::string& key){
+ if(triggers_.find(key)==triggers_.end())return false;
+ const auto state=trigger_state_.find(key);if(state!=trigger_state_.end())state->second=TriggerState{};
+ return true;
+}
+bool OriginalCampaignRuntime::trigger_scene_facts(const std::string& key,TriggerSceneFacts& out)const{
+ out=TriggerSceneFacts{};
+ const auto found=triggers_.find(key);if(found==triggers_.end())return false;
+ try{
+  const auto& source=found->second;
+  if(trigger_text(source,"gametype")!="TriggerZone"||trigger_text(source,"script").empty()||!trigger_text(source,"script_move_out").empty())return false;
+  const int root=script_id(trigger_text(source,"script"),false);if(root<0)return false;
+  const int max=trigger_int(source,"triggercount",1);const auto state=trigger_state_.find(key);
+  out.consumed=max>=0&&state!=trigger_state_.end()&&state->second.activations>=max;
+  bool blocked=false,analyzable=true;std::vector<int> stack;
+  const std::function<void(int)> walk=[&](int id){
+   if(!analyzable)return;
+   if(id<0||std::size_t(id)>=scripts_.size()||stack.size()>=16||std::find(stack.begin(),stack.end(),id)!=stack.end()){analyzable=false;return;}
+   stack.push_back(id);
+   for(const auto& c:scripts_[std::size_t(id)].commands){
+    if(c.kind==70)blocked=true;else if(c.kind==69)blocked=false;
+    else if(c.kind==30||c.kind==44){
+     const auto name=c.strings.find(12);
+     if(blocked&&name!=c.strings.end()&&!name->second.empty())(c.kind==30?out.blocked_spawn_targets:out.kill_targets).push_back(name->second);
+    }else if(c.kind==0){
+     if(word(c,16)!=0){analyzable=false;break;} // random choice: which child runs is not static
+     int child=signed_bits(word(c,12));if(!word(c,8))child+=int(common_count_);
+     walk(child);if(!analyzable)break;
+    }
+   }
+   stack.pop_back();
+  };
+  walk(root);
+  if(!analyzable){out=TriggerSceneFacts{};return false;}
+  return true;
+ }catch(const std::exception&){out=TriggerSceneFacts{};return false;}
 }
 bool OriginalCampaignRuntime::running(int id)const{return id>=0&&std::size_t(id)<contexts_.size()&&contexts_[id].state!=2;}
 bool OriginalCampaignRuntime::any_running()const{for(const auto&ctx:contexts_)if(ctx.state!=2)return true;return false;}
