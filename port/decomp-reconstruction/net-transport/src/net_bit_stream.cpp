@@ -211,6 +211,9 @@ std::uint32_t NetBitStream::ReadU32(std::uint32_t bits) {
 
 // 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji (write direction, a6 = shift >= 0)
 // Partial: one function in the original, split here into CopyBitsIn and CopyBitsOut.
+// Hex-Rays (re-run) argument roles: the write direction (shift >= 0) uses the bit count a5;
+// the read direction (shift < 0) uses a3; shift 0 uses min(a5, a3). The bounds guards below
+// are the port's addition (the original reads and writes one byte past the end).
 // dst is the byte holding the next write bit, shift = that bit offset in the byte.
 // shift 0: memcpy of ceil(bits/8) bytes, then the last byte keeps only its top bits.
 // shift > 0: the first byte is OR-ed into the existing data, following bytes are
@@ -317,15 +320,14 @@ void NetBitStream::WriteStream(const NetBitStream& other) {
 }
 
 // 0x80edb0 _ZN12NetBitStream11WriteStringESsj
-// Partial: Hex-Rays reads the length from the string object (end - begin, capped by
-// the object's second word when that is nonzero) and does not read the third
-// argument. The string layout is not recovered, so std::string::size() with max_len
-// (0 = no limit) is used. The length is written as one byte.
+// Partial: Hex-Rays (re-run) takes the length from the string object's own fields (end minus
+// start, capped by a second field when that is nonzero). The string layout is not recovered
+// here, so the length is text.size(). The third argument is never read by the original body,
+// so no cap is applied to it here (the earlier cap was a misreading). The length is written as
+// one byte, then the bytes.
 void NetBitStream::WriteString(const std::string& text, std::uint32_t max_len) {
+    (void)max_len;
     std::uint32_t length = static_cast<std::uint32_t>(text.size());
-    if (max_len != 0 && max_len <= length) {
-        length = max_len;
-    }
     WriteByte(static_cast<std::uint8_t>(length & 0xff), 8);
     WriteByteArray(text.data(), length);
 }
