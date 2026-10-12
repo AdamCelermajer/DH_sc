@@ -104,25 +104,18 @@ inline std::uint8_t truncateToByte(float value) {
     return static_cast<std::uint8_t>(static_cast<std::uint32_t>(value));
 }
 
-// ---- Float track (CMixin<float, 1>) ----
+// ---- Declarations of the rebuilt bodies (definitions in src/recon/slice_13.cpp) ----
+// Each name keeps the demangled member; the addresses and mangled names are in the cpp.
 
-// 0x6201a0 _ZNK6glitch7collada15animation_track10CVirtualExI...getAddedValue
-void float1GetAddedValue(void* self, const void* values, const float* weights, int count, float* out);
-// 0x62020c CInterpreter<CMixin<float,1>,float,1,SUseDefaultLerp<float>>::getKeyBasedValueEx
-float float1InterpGetKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, float* out);
-// 0x620284 CVirtualEx<CApplyValueEx<float,...>>::getKeyBasedValue
-float float1GetKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, int key, float t, float* out);
-// 0x6202a0 CApplyValueEx<float,...>::applyKeyBasedValueEx
-int float1ApplyKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, void* parameters, void* binding);
-// 0x6202d4 CVirtualEx<CApplyValueEx<float,...>>::applyKeyBasedValue
-int float1ApplyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, int key, float t, void* parameters, void* binding);
-
-// ---- Position and scale component retrieveValue ----
-
-// Copies the three words of the transform component into out. Returns the source words.
-const std::uint32_t* retrieveVector3Words(const std::uint32_t* source, std::uint32_t* out);
-
-// 0x62035c..0x6206d0 and 0x62076c, 0x6207a0 retrieveValue (position and scale)
+void* posYFloat_getKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, int a4, void* a5);
+float posYFloat_getKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, int a5, float a6, void* a7);
+void* posZFloat_getKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* a4);
+float posZFloat_getKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float a5, void* a6);
+void float1_getAddedValue(void* self, const void* values, const float* weights, int count, float* out);
+float float1_interp_getKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, float* out);
+float float1_getKeyBasedValue(void* self, SAnimationAccessor* accessor, int key, int a4, float t, float* out);
+int float1_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, void* parameters, void* binding);
+int float1_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int key, int a4, float t, void* parameters, void* binding);
 const std::uint32_t* posZChar_retrieveValue(void* self, void* node, void* out);
 const std::uint32_t* posZShort_retrieveValue(void* self, void* node, void* out);
 const std::uint32_t* posYChar_retrieveValue(void* self, void* node, void* out);
@@ -139,92 +132,79 @@ const std::uint32_t* scaleXChar_retrieveValue(void* self, void* node, void* out)
 const std::uint32_t* scaleXShort_retrieveValue(void* self, void* node, void* out);
 const std::uint32_t* scaleMixinChar_retrieveValue(void* self, void* node, void* out);
 const std::uint32_t* scaleMixinShort_retrieveValue(void* self, void* node, void* out);
-
-// ---- Quaternion applyValue (no value argument, see notes) ----
 int quatAngleChar_applyValue(void* self, void* a2, void* target);
 int quatAngleShort_applyValue(void* self, void* a2, void* target);
 int quatAngleFloat_applyValue(void* self, void* a2, void* target);
 int quatChar_applyValue(void* self, void* a2, void* target);
 int quatShort_applyValue(void* self, void* a2, void* target);
-
-// ---- Quaternion (CSceneNodeQuaternionMixin) tracks: float, short, char ----
 int quatFloat_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
-int quatFloat_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
+int quatFloat_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int key, void* target);
 int quatFloat_applyKeyBasedValueExT(SAnimationAccessor* accessor, int a2, int a3, float t, void* target);
 int quatFloat_applyKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float t, void* target);
-int quatFloat_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatFloat_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
 int quatFloat_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
 int quatFloat_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
+int quatShort_applyBlendedValueEx(void* values, const void* weights, int count, void* target);
+int quatShort_applyBlendedValue(void* self, void* values, const void* weights, int count, void* target);
+int quatShort_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
+int quatShort_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
 int quatShort_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
 int quatShort_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
 int quatShort_applyKeyBasedValueExT(SAnimationAccessor* accessor, int a2, int a3, float t, void* target);
 int quatShort_applyKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float t, void* target);
-int quatShort_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatShort_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
-int quatShort_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
-int quatShort_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
+int quatChar_applyBlendedValueEx(void* values, const void* weights, int count, void* target);
+int quatChar_applyBlendedValue(void* self, void* values, const void* weights, int count, void* target);
+int quatChar_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
+int quatChar_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
 int quatChar_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
 int quatChar_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
 int quatChar_applyKeyBasedValueExT(SAnimationAccessor* accessor, int a2, int a3, float t, void* target);
 int quatChar_applyKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float t, void* target);
-int quatChar_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatChar_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
-int quatChar_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
-int quatChar_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
-// ---- Quaternion angle tracks: float, short, char ----
 int quatAngleFloat_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
 int quatAngleFloat_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
 int quatAngleFloat_applyKeyBasedValueExT(SAnimationAccessor* accessor, int a2, int a3, float t, void* target);
 int quatAngleFloat_applyKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float t, void* target);
-int quatAngleFloat_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatAngleFloat_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
+int quatAngleFloat_applyBlendedValueEx(void* values, const void* weights, int count, void* target);
+int quatAngleFloat_applyBlendedValue(void* self, void* values, const void* weights, int count, void* target);
 int quatAngleFloat_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
 int quatAngleFloat_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
+int quatAngleShort_applyBlendedValueEx(void* values, const void* weights, int count, void* target);
+int quatAngleShort_applyBlendedValue(void* self, void* values, const void* weights, int count, void* target);
+int quatAngleShort_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
+int quatAngleShort_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
 int quatAngleShort_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
 int quatAngleShort_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
 int quatAngleShort_applyKeyBasedValueExT(SAnimationAccessor* accessor, int a2, int a3, float t, void* target);
 int quatAngleShort_applyKeyBasedValueT(void* self, SAnimationAccessor* accessor, int a3, int a4, float t, void* target);
-int quatAngleShort_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatAngleShort_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
-int quatAngleShort_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
-int quatAngleShort_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
-int quatAngleChar_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
-int quatAngleChar_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
-int quatAngleChar_applyBlendedValueEx(void* self, const void* weights, int count, void* target);
-int quatAngleChar_applyBlendedValue(void* self, void* a2, const void* weights, int count, void* target);
+int quatAngleChar_applyBlendedValueEx(void* values, const void* weights, int count, void* target);
+int quatAngleChar_applyBlendedValue(void* self, void* values, const void* weights, int count, void* target);
 int quatAngleChar_applyAddedValueEx(const void* values, const void* weights, int count, void* target);
 int quatAngleChar_applyAddedValue(void* self, const void* values, const void* weights, int count, void* target);
-
-// ---- Light colour (CVector3d with CLightColorMixin<unsigned char>) ----
+int quatAngleChar_applyKeyBasedValueEx(SAnimationAccessor* accessor, int key, void* target);
+int quatAngleChar_applyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, void* target);
 std::uintptr_t lightColorGetBlendedValue(void* self, const std::uint8_t* values, const float* weights, int count, std::uint8_t* out);
 std::uintptr_t lightColorGetAddedValue(void* self, const std::uint8_t* values, const float* weights, int count, std::uint8_t* out);
 float lightColorApplyBlendedValueEx(const std::uint8_t* values, const float* weights, int count, int applicator);
 float lightColorApplyBlendedValue(void* self, const std::uint8_t* values, const float* weights, int count, int applicator);
 float lightColorApplyAddedValueEx(const std::uint8_t* values, const float* weights, int count, int applicator);
 float lightColorApplyAddedValue(void* self, const std::uint8_t* values, const float* weights, int count, int applicator);
-
-// ---- Colour (unsigned char [3] with SColor parameter) ----
 std::uintptr_t colorGetBlendedValue(void* self, const std::uint8_t* values, const float* weights, int count, std::uint8_t* out);
 int colorApplyBlendedValue(void* self, const std::uint8_t* values, const float* weights, int count, void* parameters, void* binding);
 std::uintptr_t colorInterpGetKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, std::uint8_t* out);
-std::uintptr_t colorGetKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, int key, float t, std::uint8_t* out);
+std::uintptr_t colorGetKeyBasedValue(void* self, SAnimationAccessor* accessor, int key, int a4, float t, std::uint8_t* out);
 int colorApplyKeyBasedValueEx(SAnimationAccessor* accessor, int key, int a3, float t, void* parameters, void* binding);
-int colorApplyKeyBasedValue(void* self, SAnimationAccessor* accessor, int a3, int key, float t, void* parameters, void* binding);
+int colorApplyKeyBasedValue(void* self, SAnimationAccessor* accessor, int key, int a4, float t, void* parameters, void* binding);
 int colorApplyAddedValue(void* self, const std::uint8_t* values, const float* weights, int count, void* parameters, void* binding);
 std::uintptr_t colorGetAddedValue(void* self, const std::uint8_t* values, const float* weights, int count, std::uint8_t* out);
-
-// ---- Two-component float track (float [2] with CMixin<float, 2>) ----
+int vec2UnitApplyAddedValueEx(const float* values, const void* weights, int count, void* parameters, void* binding);
+int vec2UnitApplyAddedValue(void* self, const float* values, const void* weights, int count, void* parameters, void* binding);
+int vec2UnitApplyBlendedValueEx(const float* values, const void* weights, int count, void* parameters, void* binding);
+int vec2UnitApplyBlendedValue(void* self, const float* values, const void* weights, int count, void* parameters, void* binding);
 int vec2ApplyAddedValueEx(const float* values, const void* weights, int count, void* parameters, void* binding);
 int vec2ApplyAddedValue(void* self, const float* values, const void* weights, int count, void* parameters, void* binding);
 int vec2ApplyBlendedValueEx(const float* values, const void* weights, int count, void* parameters, void* binding);
 int vec2ApplyBlendedValue(void* self, const float* values, const void* weights, int count, void* parameters, void* binding);
+void vec2UnitGetBlendedValue(void* self, const float* values, const float* weights, int count, float* out);
 void vec2GetBlendedValue(void* self, const float* values, const float* weights, int count, float* out);
-void vec2GetAddedValue(void* self, const float* values, const float* weights, int count, float* out);
+void vec2ZeroGetAddedValue(void* self, const float* values, const float* weights, int count, float* out);
 
 }  // namespace glitch::collada::recon_13
