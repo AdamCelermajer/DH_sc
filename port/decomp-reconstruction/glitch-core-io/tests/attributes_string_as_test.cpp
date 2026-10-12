@@ -28,7 +28,7 @@ int main() {
     // Default values before the string is applied: the rectangle starts at zero, the
     // matrix at identity (its extra flag byte is not stored by the attribute).
     attrs.addStringAsRect("rect", L"", false);
-    CHECK(attrs.getRect("rect").X2 == 0 && attrs.getRect("rect").Y2 == 0);
+    CHECK(attrs.getRect("rect").LowerRightCorner.X == 0 && attrs.getRect("rect").LowerRightCorner.Y == 0);
     attrs.addStringAsMatrix("m", L"", false);
     CHECK(attrs.getMatrix("m").M[0] == 1.f && attrs.getMatrix("m").M[1] == 0.f);
 

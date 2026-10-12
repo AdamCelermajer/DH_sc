@@ -45,12 +45,12 @@ int main() {
     CHECK(attrs.getVector3di(0).Z == 7);
     CHECK(attrs.getVector4di(0).W == 8);
     CHECK(attrs.getPosition2d(0).Y == 10);
-    CHECK(attrs.getRect(0).X2 == 3 && attrs.getRect(0).Y2 == 4);
+    CHECK(attrs.getRect(0).LowerRightCorner.X == 3 && attrs.getRect(0).LowerRightCorner.Y == 4);
 
     // Out-of-range defaults.
     CHECK(attrs.getColorf(3).a == 1.f && attrs.getColorf(3).r == 0.f);
     CHECK(attrs.getVector2d(3).X == 0.f && attrs.getVector3d(-1).Z == 0.f);
-    CHECK(attrs.getVector4di(9).W == 0 && attrs.getRect(9).X1 == 0);
+    CHECK(attrs.getVector4di(9).W == 0 && attrs.getRect(9).UpperLeftCorner.X == 0);
 
     attrs.setAttribute(0, glitch::video::SColorf{1.f, 0.f, 0.f, 1.f});
     CHECK(h.setColorfCalls == 1);

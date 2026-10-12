@@ -76,7 +76,7 @@ void CNumbersAttribute::setBool(bool value) { setInt(value ? 1 : 0); }
 
 // 0x567340 _ZN6glitch2io17CNumbersAttributeC2EPKcNS_4core4rectIiEEb
 CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::rect<std::int32_t>& value, bool f)
-    : intValues{value.X1, value.Y1, value.X2, value.Y2}, count(4), isFloatList(false) {
+    : intValues{value.UpperLeftCorner.X, value.UpperLeftCorner.Y, value.LowerRightCorner.X, value.LowerRightCorner.Y}, count(4), isFloatList(false) {
     name = attrName;
     flag = f;
 }
@@ -198,15 +198,15 @@ CNumbersAttribute::CNumbersAttribute(const char* attrName, const glitch::core::v
 glitch::core::rect<std::int32_t> CNumbersAttribute::getRect() const {
     glitch::core::rect<std::int32_t> r{0, 0, 0, 0};
     if (isFloatList) {
-        if (count != 0) r.X1 = static_cast<std::int32_t>(floatValues[0]);
-        if (count >= 2) r.Y1 = static_cast<std::int32_t>(floatValues[1]);
-        r.X2 = count >= 3 ? static_cast<std::int32_t>(floatValues[2]) : r.X1;
-        r.Y2 = count >= 4 ? static_cast<std::int32_t>(floatValues[3]) : r.Y1;
+        if (count != 0) r.UpperLeftCorner.X = static_cast<std::int32_t>(floatValues[0]);
+        if (count >= 2) r.UpperLeftCorner.Y = static_cast<std::int32_t>(floatValues[1]);
+        r.LowerRightCorner.X = count >= 3 ? static_cast<std::int32_t>(floatValues[2]) : r.UpperLeftCorner.X;
+        r.LowerRightCorner.Y = count >= 4 ? static_cast<std::int32_t>(floatValues[3]) : r.UpperLeftCorner.Y;
     } else {
-        if (count != 0) r.X1 = intValues[0];
-        if (count >= 2) r.Y1 = intValues[1];
-        r.X2 = count >= 3 ? intValues[2] : r.X1;
-        r.Y2 = count >= 4 ? intValues[3] : r.Y1;
+        if (count != 0) r.UpperLeftCorner.X = intValues[0];
+        if (count >= 2) r.UpperLeftCorner.Y = intValues[1];
+        r.LowerRightCorner.X = count >= 3 ? intValues[2] : r.UpperLeftCorner.X;
+        r.LowerRightCorner.Y = count >= 4 ? intValues[3] : r.UpperLeftCorner.Y;
     }
     return r;
 }
@@ -215,7 +215,7 @@ glitch::core::rect<std::int32_t> CNumbersAttribute::getRect() const {
 // Clears the active list, then writes up to four components from the rect.
 void CNumbersAttribute::setRect(glitch::core::rect<std::int32_t> value) {
     if (count == 0) return;
-    const std::int32_t parts[4] = {value.X1, value.Y1, value.X2, value.Y2};
+    const std::int32_t parts[4] = {value.UpperLeftCorner.X, value.UpperLeftCorner.Y, value.LowerRightCorner.X, value.LowerRightCorner.Y};
     if (isFloatList) {
         for (std::size_t i = 0; i < count; ++i) floatValues[i] = 0.f;
         for (std::size_t i = 0; i < count && i < 4; ++i) floatValues[i] = static_cast<float>(parts[i]);

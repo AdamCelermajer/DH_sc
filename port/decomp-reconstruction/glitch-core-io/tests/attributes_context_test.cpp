@@ -40,7 +40,7 @@ int main() {
     CHECK(attrs.getColor("nope").color == 0);
     CHECK(attrs.getQuaternion("nope").Y == 1.f && attrs.getQuaternion("nope").W == 0.f);
     CHECK(attrs.getPlane3d("nope").Normal.Y == 1.f && std::signbit(attrs.getPlane3d("nope").D));
-    CHECK(attrs.getVector3d("nope").Z == 0.f && attrs.getRect("nope").X2 == 0);
+    CHECK(attrs.getVector3d("nope").Z == 0.f && attrs.getRect("nope").LowerRightCorner.X == 0);
     CHECK(attrs.getUserPointer("nope") == nullptr);
     CHECK(attrs.getArray("nope").empty());
     CHECK(attrs.getString("nope").empty());

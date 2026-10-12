@@ -22,7 +22,7 @@ int main() {
     CHECK(base.getVector4d().W == 0.f);
     CHECK(base.getVector2di().X == 0 && base.getVector3di().Z == 0 && base.getVector4di().W == 0);
     CHECK(base.getPosition().X == 0 && base.getPosition().Y == 0);
-    CHECK(base.getRect().X2 == 0 && base.getRect().Y2 == 0);
+    CHECK(base.getRect().LowerRightCorner.X == 0 && base.getRect().LowerRightCorner.Y == 0);
     CHECK(base.getArray().empty());
 
     // Base setters are no-ops: the value is not stored.

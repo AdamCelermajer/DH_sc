@@ -698,3 +698,66 @@ Open questions:
 3. The alpha-upscale converter types (SAlphaUpscalePackedConverter 0x5edfd4, SAlphaIndexed 0x5ededc) are still blocked; see
    the ledger rows that mention them.
 4. convert returns int here; the listing returns int too (r0). The copy helper and Printer::log are not ported.
+
+## wave4-glitch-video-2 (C2DDriver forwarders, ITexture attribute serializers)
+- IVideoDriver vtable slots (tools/decomp_vtable.py glitch::video::IVideoDriver): +0x2c draw2DLine(pos const&, pos const&, SColor),
+  +0x34 draw2DRectangle(rect, rect, SColor const*, rect const*) (pure in the base), +0x58 draw, +0x1f8 createBinding, +0x214 onShaderDestroyed.
+  video_driver.hpp does not declare these yet, so the C2DDriver static forwarders stay blocked.
+- C2DDriver forwarders: the static overloads take IVideoDriver*; the member overloads are reached through driver+0xd4 then +0x14
+  (asm: LDR R1,[R1,#0xD4]; LDR R1,[R1,#0x14]). The owner of +0xd4 is not identified.
+- IAttributes slots used by ITexture serializers (confirmed by the scene recon stand-in and the decompile): push +0x30, pop +0x3c,
+  addInt +0x4c, getInt +0x58, addFloat +0x64, getFloat +0x70, addString +0x7c, getString +0x84, addBool +0xd8, getBool +0xe4,
+  addEnum +0xf4, getEnum +0x100 (name, literals).
+- ITexture::deserializeAttributes Wrap R: the change test compares against bits 21-23 (the Wrap T field) but writes bits 24-26.
+  Reproduce this as written when the body is ported; it looks like an original bug.
+
+## Wave 4 glitch-video 1a (IMaterialParameters, CGlobalMaterialParameterManager typed rows)
+
+Files: glitch-video/include/glitch-video/material_parameters_part_1a.hpp, glitch-video/src/material_parameters_part_1a.cpp,
+glitch-video/tests/material_parameters_part_1a_test.cpp. Rows 0x5be68c..0x5c41d0 (75): 64 reconstructed, 11 skipped (blocked).
+
+- Layout from the listings: the global table entry is 20 bytes (ref at +0, type byte at +6, count at +8, value offset at +0xc),
+  stride 20 from the table at a1[6]; entry count = (a1[7]-a1[6])/20; value buffer at a1[11]. glitch-core-io's SShaderParameterDef
+  is 16 bytes and does not match these listings; its global-table entries should use the 20-byte record.
+- The pointer forms' 4th argument is a byte stride (the loops do `a += stride`), not a count. The typed header
+  (material_parameters_typed.hpp) names it `count`; the .cpp follows the listing. Stride 0 or the element size is the memcpy path.
+- Index forms of the Cvt family do not add the index to the offset (they read or write element 0). Kept as listed.
+- getParameterCvt<int> (pointer form) passes the gate for a float entry and writes nothing (listing ends with "if type != 1 return 1").
+- setParameterCvt<int>/<float> convert across int and float (code 1 and 5) in both directions.
+- Blocked (skipped): intrusive_ptr rows 0x5bf7dc, 0x5beaa4, 0x5c2198, 0x5c24d8, 0x5c3f40 and 0x5be68c (4-byte slots and
+  reference counts, CLight release through Matrix4Pool); setArrayParameter callers 0x5c0c94 and 0x5c0bd4 (helper 0x5bb7ec is
+  skipped); setParameterElement 0x5beb84, 0x5becc4, 0x5c0aa8 (ValueTypeBaseType and ValueTypeArraySize tables not in port).
+- The 0x5c41d0 listing prints its return type as a pointer (result is 1 or nullptr); written as int 1/0 like the rest.
+
+## wave4-glitch-video-1b (75 rows: IMaterialParameters accessors, owners G and M)
+Files: include/glitch-video/material_parameters_part_1b.hpp, src/material_parameters_part_1b.cpp,
+tests/material_parameters_part_1b_test.cpp (host test passes; g++ -std=c++17 -Wall with -Iglitch-video/include -Ishared/include).
+Result: 67 reconstructed, 8 partial. Partial: ITexture 0x5c48a0 and 0x5c4fa8 (need hooks textureAddRef,
+textureDrop, textureStateWord at +0x38); CLight 0x5c5be0, 0x5c5a40, 0x5c58ec, 0x5c518c, 0x5c540c, 0x5c568c (need hook
+destroyLight for the last-reference path: Matrix4Pool push and LC_API_FREE).
+Facts confirmed from the listing: Convertions = 19 words at ELF 0x8e2c58 (read from the binary); byte to float uses
+0x3B808081 (asm 0x5c7954); float to byte uses 0x437F0000 then __aeabi_f2uiz (asm 0x5c77c8).
+Quirks kept as in the original: the Cvt forms store or read element 0 (index only checked against the count); the M
+Cvt getters read element 0 too; the M pointer getter for int copies code 1 only (float stored: no write); the pointer
+forms with stride 0 copy only when the stored type is the accessor's own type; the M setters set the dirty markers
+to -1 when a value changes.
+Port deviation: a stored pointer takes sizeof(void*) bytes (original 4). Owners that allocate these value buffers must
+size the pointer slots accordingly. Bounds guards return 0 where the original would read past the buffer.
+
+## wave4-glitch-video-1d (typed CMaterialRenderer accessors, 73 rows: 56 reconstructed, 1 partial, 16 blocked)
+
+Files: include/glitch-video/material_parameters_part_d.hpp, src/material_parameters_part_d.cpp, tests/material_parameters_part_d_test.cpp (passes, ASan and UBSan clean).
+The owner is IMaterialParameters<CMaterialRenderer>. Its table is count (uint16) at +0x0e, entries at +0x20 and the value buffer at +0x24. The class in material_parameters.hpp has no value buffer, so the rows are free functions over SRendererValueTable in namespace glitch::video::detail::rparams. The integrator forwards the class members to them.
+
+Confirmed from the pseudocode (addresses in the rows):
+- The 4th argument of the pointer forms is a BYTE STRIDE (0 means contiguous), not an element count as the typed header comment says. Element k goes to base + k*stride.
+- Pointer Cvt forms: the memcpy path is taken only for the code the function is built for (e.g. 5d0c64 for code 8, 5d086c for code 17, 5d0a3c for code 16). Any other stored code with stride 0 writes nothing and returns 1.
+- Index Cvt forms check index < entry count but read the first element (the index is not added to the offset), for 5d0078 to 5d0734.
+- Element setters: uchar 5d404c writes at valueOffset + index + element (bytes); int 5d4154 and float 5d425c write at valueOffset + 4*(element + index). Kept literal.
+- Type tables read from the binary (symbols.csv addresses): Convertions 0x8e2c58, ValueTypeBaseType 0x8e2bf8 (19 words), ValueTypeArraySize 0x8e2bc4 (19 bytes). BaseType for codes 12..15 is 0xc..0xf and for code 18 is 0x12, so the port helper in glitch-core-io (returns 0xFF there) differs. The uchar element setter accepts codes 0 and 16 only, so its matrix branch is unreachable.
+- Byte-to-float scale is bits 0x3b808081 (1/255), as in the glitch-core-io note. Float-to-byte is (unsigned)(float)(v*255.0) truncated.
+
+Open or deviating:
+- 5d425c (partial): the type 11 matrix branch keeps the CMatrix4 in a side map keyed by valueOffset (the original stores a pointer in the 4-byte slot) and uses new in place of GlitchAlloc (0x44). Pool not recovered.
+- Codes at or above 19 are refused (the original reads past the tables).
+- Intrusive pointer rows (16) are blocked: CLight release is inlined with Matrix4Pool and LC_API_FREE_0; intrusive_ptr<CLight> operator= (0x5bb650) is partial; ITexture rows need IReferenceCounted::drop (0x31d584) and a decided host slot width for 4-byte ARM pointers; 5d57e4 and 5d599c call setArrayParameter (0x5bb7ec), which is skipped.

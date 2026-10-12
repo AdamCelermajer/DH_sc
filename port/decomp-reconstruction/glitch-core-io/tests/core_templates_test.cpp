@@ -53,9 +53,9 @@ int main() {
     glitch::core::rect<int> limit{0, 0, 100, 100};
     glitch::core::rect<int> box{90, 95, 110, 105};
     CHECK(box.constrainTo(limit));
-    CHECK(box.X2 == 100 && box.Y2 == 100 && box.X1 == 80 && box.Y1 == 90);
+    CHECK(box.LowerRightCorner.X == 100 && box.LowerRightCorner.Y == 100 && box.UpperLeftCorner.X == 80 && box.UpperLeftCorner.Y == 90);
     glitch::core::rect<int> huge{0, 0, 200, 10};
-    CHECK(!huge.constrainTo(limit) && huge.X2 == 200);
+    CHECK(!huge.constrainTo(limit) && huge.LowerRightCorner.X == 200);
 
     // The process buffer heap accessors start from an empty heap with the excess flag clear.
     CHECK(glitch::core::getProcessBufferHeapSize() == 0);

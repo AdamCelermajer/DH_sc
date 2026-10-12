@@ -799,3 +799,10 @@ Rows this slice unblocks (once implemented in src/ by the owning category):
   identified; the layout is now known). 0x6a4d04 find is the same chain search.
 - glitch-video kdTreeClustering 0x5a6568 can use the CKdTree header (it calls addElemInternal, removeElemInternal
   and findKNearest); its ledger row says the clustering helper was blocked on core types.
+
+## Shared value types (dedup pass, deps/glitch_core.hpp)
+- `include/glitch-core-io/deps/glitch_core.hpp` is now a forwarder to `glitch-shared/glitch_core.hpp`. The glitch::core value types and glitch::video::SColor/SColorf come from shared.
+- The core-io-only stand-ins (IReferenceCounted, IEventReceiver, IVideoDriver, ITexture, CLight, CVideoModeList, CMaterial, CMaterialRenderer, CVertexStreams, IShader, IShaderCode, IBuffer, CImage, CMeshBuffer) moved verbatim to `include/glitch-core-io/deps/glitch_core_objects.hpp`.
+- `rect` members are now `UpperLeftCorner` / `LowerRightCorner` (position2d) as in shared. Uses in src/numbers_attribute.cpp and seven tests were renamed. No header used X1/Y1/X2/Y2.
+- `core/sid_collection.hpp` is a forwarder to `glitch-shared/sid_collection.hpp`.
+- Checked: all src and tests compile with g++ -std=c++17 -Wall -fsyntax-only, and all 57 tests build and pass under dep-build (no warnings).

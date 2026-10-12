@@ -23,7 +23,7 @@ int main() {
     CHECK(attrs.getInt("i") == 4 && attrs.getAttributeP("i")->flag);
     CHECK(!attrs.getAttributeP("f")->flag && attrs.getFloat("f") == 1.5f);
     CHECK(attrs.getBool("b") && attrs.getUserPointer("p") == &token);
-    CHECK(attrs.getRect("r").X2 == 3 && attrs.getRect("r").Y2 == 4);
+    CHECK(attrs.getRect("r").LowerRightCorner.X == 3 && attrs.getRect("r").LowerRightCorner.Y == 4);
     CHECK(attrs.getAttributeP("r")->getType() == attrs.getAttributeType("r"));
 
     // By-name setters update the existing attribute ...
@@ -33,7 +33,7 @@ int main() {
     attrs.setAttribute("r", glitch::core::rect<std::int32_t>{5, 6, 7, 8});
     CHECK(attrs.getAttributeCount() == 5);
     CHECK(attrs.getInt("i") == 9 && attrs.getFloat("f") == 2.25f && !attrs.getBool("b"));
-    CHECK(attrs.getRect("r").X1 == 5 && attrs.getRect("r").Y2 == 8);
+    CHECK(attrs.getRect("r").UpperLeftCorner.X == 5 && attrs.getRect("r").LowerRightCorner.Y == 8);
 
     // ... and append a new one with flag false when the name is missing.
     attrs.setAttribute("n", 3);
