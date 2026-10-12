@@ -83,4 +83,15 @@ void DriverSourceInterface::FreeDisposableData(int id, int& first, int& second) 
     (void)second;
 }
 
+// DriverInterface::CreateDriverSource (+0x44): null in the base class. The base slot has no symbol.
+DriverSourceInterface* DriverInterface::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
+    (void)params;
+    (void)user;
+    (void)flags;
+    return nullptr;
+}
+
+// DriverInterface::DestroyDriverSource (+0x48): empty in the base class.
+void DriverInterface::DestroyDriverSource(DriverSourceInterface* source) { (void)source; }
+
 }  // namespace vox

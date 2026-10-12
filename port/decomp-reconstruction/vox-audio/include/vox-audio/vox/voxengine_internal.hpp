@@ -192,10 +192,6 @@ private:
     // Master times group gain per group, written by UpdateEmitters and read by each emitter's
     // SetGainModifier call. The original keeps it at +0x374 (32 floats), right after the fades.
     float group_gains_[32] = {};               // +0x374
-    // Handle stamps: one per emitter slot (16 slots). A handle keeps the stamp of its slot and
-    // the slot index (EmitterObj +0x14). Written by the constructor and SetTimeStamp, which are
-    // not reconstructed yet, so the values stay zero here.
-    std::uint32_t emitter_stamps_[16] = {};    // +0x550
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
     // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
     // decoders at +0x4c8 with the count at +0x548.
@@ -214,7 +210,9 @@ private:
     HandlableContainer emitter_pending_;       // +0x98
     DriverInterface* driver_ = nullptr;        // +0x54c
     Mutex mutex_;                              // +0x3f4
-    std::uint32_t data_stamps_[16] = {};       // +0x550: stamp per slot; a handle is current when it matches
+    // +0x550: stamp per slot, shared by data and emitter handles (CreateEmitter and the emitter
+    // constructors index the same words as GetDataObject). A handle is current when its stamp matches.
+    std::uint32_t data_stamps_[16] = {};
     unsigned int next_data_slot_ = 0;          // +0x590: slot for the next data object (mod 16)
     std::list<DataObj*> data_queue_;           // +0x6c (sentinel), +0x70 (tail): data objects waiting for the update loop
     Mutex data_queue_mutex_;                   // +0x74

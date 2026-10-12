@@ -73,12 +73,13 @@ void DriverAndroid::Init(void* context) {
 }
 
 // 0x88fbe8 _ZN3vox13DriverAndroid18CreateDriverSourceEPvS1_i (partial)
-void DriverAndroid::CreateDriverSource(void* a, void* b, int c) {
-    (void)a;
-    (void)b;
-    (void)c;
+DriverSourceInterface* DriverAndroid::CreateDriverSource(const std::int32_t* params, void* user, int flags) {
+    (void)params;
+    (void)user;
+    (void)flags;
     mutex_.Lock();
     mutex_.Unlock();
+    return nullptr;
 }
 
 // 0x88f59c _ZN3vox13DriverAndroid19DestroyDriverSourceEPNS_21DriverSourceInterfaceE (partial)

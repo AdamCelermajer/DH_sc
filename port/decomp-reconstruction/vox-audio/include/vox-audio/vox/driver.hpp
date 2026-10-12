@@ -23,6 +23,8 @@
 
 namespace vox {
 
+class DriverSourceInterface;
+
 class DriverInterface {
 public:
     virtual ~DriverInterface();                                        // D1 0x88fcdc, D0 0x891000
@@ -44,9 +46,14 @@ public:
     // Slot +0x40: the driver's own debug dump (DriverAndroid::PrintDebug in the binary's vtable),
     // called from VoxEngineInternal::PrintDebug. Empty in the base class.
     virtual void PrintDebug() {}
+    // Slot +0x44: creates the source a new emitter plays through, from the four track words
+    // (channels, sample rate, bits, length), the user pointer and the emitter flags. Null in
+    // the base; DriverAndroid returns null too (its source is not created, see NOTES.md).
+    virtual DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags);
+    // Slot +0x48: releases a source made by CreateDriverSource. Empty in the base.
+    virtual void DestroyDriverSource(DriverSourceInterface* source);
     // Slots +0x08 Init(void*) and +0x0c Shutdown() are pure in the base and named by the
-    // DriverAndroid and DriverCallbackInterface vtables; +0x44 CreateDriverSource and +0x48
-    // DestroyDriverSource are DriverAndroid members. Not declared here (see NOTES.md, wave 9).
+    // DriverAndroid and DriverCallbackInterface vtables.
 };
 
 class DriverSourceInterface {

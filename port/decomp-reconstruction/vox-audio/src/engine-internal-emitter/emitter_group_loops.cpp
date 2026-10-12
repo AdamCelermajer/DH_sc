@@ -87,7 +87,7 @@ void VoxEngineInternal::ResumeAllEmitters(unsigned int group, float fade) {
 
 // 0x868468 _ZN3vox17VoxEngineInternal14GetAllEmittersEPNS_13EmitterHandleEi
 // Writes up to max_count handles: live emitters first (in key order), then pending ones.
-// Returns how many were written. The handles' stamps come from emitter_stamps_.
+// Returns how many were written. The handles' stamps come from the stamp table at +0x550 (data_stamps_, shared by both kinds of handle).
 int VoxEngineInternal::GetAllEmitters(EmitterHandle* out, int max_count) {
     emitter_access_.GetReadAccess();
     emitter_pending_access_.GetReadAccess();
@@ -96,13 +96,13 @@ int VoxEngineInternal::GetAllEmitters(EmitterHandle* out, int max_count) {
         if (count >= max_count) {
             break;
         }
-        out[count++] = MakeEmitterHandle(static_cast<EmitterObj*>(entry.second), emitter_stamps_);
+        out[count++] = MakeEmitterHandle(static_cast<EmitterObj*>(entry.second), data_stamps_);
     }
     for (auto& entry : emitter_pending_) {
         if (count >= max_count) {
             break;
         }
-        out[count++] = MakeEmitterHandle(static_cast<EmitterObj*>(entry.second), emitter_stamps_);
+        out[count++] = MakeEmitterHandle(static_cast<EmitterObj*>(entry.second), data_stamps_);
     }
     emitter_pending_access_.ReleaseReadAccess();
     emitter_access_.ReleaseReadAccess();
@@ -124,7 +124,7 @@ int VoxEngineInternal::GetEmitterHandles(DataHandle& data, EmitterHandle* out, i
             }
             auto* emitter = static_cast<EmitterObj*>(entry.second);
             if (emitter->data_ == data_obj) {
-                out[count++] = MakeEmitterHandle(emitter, emitter_stamps_);
+                out[count++] = MakeEmitterHandle(emitter, data_stamps_);
             }
         }
         for (auto& entry : emitter_pending_) {
@@ -133,7 +133,7 @@ int VoxEngineInternal::GetEmitterHandles(DataHandle& data, EmitterHandle* out, i
             }
             auto* emitter = static_cast<EmitterObj*>(entry.second);
             if (emitter->data_ == data_obj) {
-                out[count++] = MakeEmitterHandle(emitter, emitter_stamps_);
+                out[count++] = MakeEmitterHandle(emitter, data_stamps_);
             }
         }
         emitter_pending_access_.ReleaseReadAccess();

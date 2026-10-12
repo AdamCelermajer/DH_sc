@@ -105,7 +105,7 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
     if (emitter == nullptr) {
         return;
     }
-    ++emitter_stamps_[emitter->stamp_index_];
+    ++data_stamps_[emitter->stamp_index_];
     if (emitter->in_bank_ && priority_bank_ != nullptr) {
         priority_bank_->RemoveEmitter(emitter->bank_, emitter);
     }
