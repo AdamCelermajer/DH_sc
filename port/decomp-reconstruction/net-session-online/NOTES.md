@@ -375,3 +375,12 @@ Not blocked, but large or layout-dependent: GLXPlayerLeaderboard and GLXPlayerMe
 (see the mismatches above), GLXPlayerSereverConfig SaveServerConfig and LoadConfig (std::map node
 walks), GLXPlayerMPBase and GLXPlayerMPLobby senders, LCXPlayerSocket and LCXPlayerHttp (receive
 buffer and state members), and the LC_API_FREE and LC_API_MALLOC thunks.
+
+## Wave 4 decisions (feature/decomp-net, 2026-10-12)
+
+- Ledgers merged from the 10 glx slices and 4 nso slices. Blocked rows are not in the ledger.
+- GLXPlayerMessage ctor (0x8368e0 / 0x836980) was missing from src. Added as partial: LoadConfig, current id -1 and
+  clearMsgCount are reproduced. The 0x428-byte GLXPlayerHttp at +0x20 is not allocated (no typed slot).
+- glx_player_user_responses_test expectations were aligned with the ledger: processUserInformation("ignored") gives an
+  empty name (not null), and processUserGameList("ignored") gives one record. Later replaced by the integrator's version.
+- Host 61/61 and MinGW/Wine 91/91 pass for net-transport and net-session-online together.

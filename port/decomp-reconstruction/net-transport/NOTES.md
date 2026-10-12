@@ -301,3 +301,15 @@ removed, because the templates are abstract.
 - CBluetoothNetRoomInfo (3): constructor and destructors.
 - CDataStats<int> (5): GetAverage, GetSum, AddData, destructors.
 - CTransportManagerImpl (9): GetHostname, GetLocalhostname, receiver thread start/stop.
+
+## Wave 4 decisions (feature/decomp-net, 2026-10-12)
+
+- Ledgers merged from the 8 net-transport slices (one row per address). Duplicate claims keep the stronger status.
+- The connection manager's CConnection stand-in is renamed `CConnectionStandIn` (deps/connection_deps.hpp).
+  The real `CConnection` (connection.hpp / connection.cpp) has a different layout, so both cannot share one
+  name in one binary: the test linked the stand-in methods against the real class's vtable and corrupted the heap.
+  Decision: keep the stand-in for the manager until the real class exposes State, MemberId, NetworkId, Key,
+  SetTimeout, SetState and SetMemberId. Then switch connection_manager.hpp to the real header and delete the stand-in.
+- Stand-in CConnection virtuals (Connect/Accept/Disconnect/Update/Send) are defined under CConnectionStandIn in
+  src/connection_deps.cpp.
+- Host and MinGW/Wine: net-transport 30/30 tests pass.
