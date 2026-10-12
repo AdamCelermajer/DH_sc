@@ -1,6 +1,7 @@
 #include "runtime_equipment_text_v1.hpp"
 
 #include "../inventory/source_item_descriptors.hpp"
+#include "../loot/world_drop_rules_v1.hpp"
 #include "../../../engine-ui/character_menu_potions_v4.hpp"
 #include "../../../engine-ui/item_text_owner_v5.hpp"
 
@@ -44,6 +45,7 @@ struct RuntimeEquipmentTextProviderV1::State {
     dh2::ui::HudTextV1* text{};
     dh2::ui::HudTextEnvironmentV1 environment;
     std::shared_ptr<dh2::ui::ItemTextOwnerV5> text_owner;
+    std::shared_ptr<const dh2::ui::CharacterMenuFontPaletteV1> font_palette;
     std::set<std::string> supported_unpowered;
     RuntimeEquipmentInstanceResolverV1 resolve_instance;
     std::string potion_format;
@@ -139,9 +141,10 @@ struct RuntimeEquipmentTextProviderV1::State {
               std::string& output, std::string& error) const {
         inventory::SourceOwnedDescriptors value;
         if (!present(inventory, supplied, value, error)) return false;
-        output = std::move(value.base.name);
-        error.clear();
-        return true;
+        if (!font_palette) {error="Runtime equipment actual FontPalette owner is unavailable";return false;}
+        return dh2::ui::character_menu_item_name_color_v1(value.base.name,
+            loot::item_power_font_palette_row_v1(value.powers.size()),
+            *font_palette, output, error);
     }
 
     bool symbol(const std::string& key, std::string& output, std::string& error) const {
@@ -313,6 +316,8 @@ bool RuntimeEquipmentTextProviderV1::bind(
         return false;
     }
     next->resolve_instance = std::move(resolve_instance);
+    if (!policy.font_palette) {error="Runtime equipment requires genuine source FontPalette rows";return false;}
+    next->font_palette=std::move(policy.font_palette);
     for (auto& definition : policy.supported_unpowered_definition_ids) {
         if (definition.empty() || !next->supported_unpowered.insert(definition).second) {
             error = "Runtime equipment unpowered-definition policy has an empty or duplicate ID";

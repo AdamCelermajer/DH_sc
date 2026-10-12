@@ -104,6 +104,7 @@
 #include "features/inventory/runtime_session_potion_use_v1.hpp"
 #include "features/frontend/menu_return/menu_return_v1.hpp"
 #include "features/persistence/death_checkpoint_snapshot_v1.hpp"
+#include "features/persistence/authenticated_ordinary_legacy_admission_v1.hpp"
 #include "features/persistence/death_checkpoint_zone_v1.hpp"
 #include "features/persistence/death_screen_runtime_v1.hpp"
 #include "features/persistence/death_fade_from_black_v1.hpp"
@@ -1872,6 +1873,61 @@ int main(int argc,char** argv) {
         struct HeroInteractV1 {bool active=false;std::size_t container=0;double clock=0,eventSeconds=0,durationSeconds=0;bool fired=false;} heroInteract;
         int lastActionIcon=-2; // P16 CONTEXT: last published HUD action-button frame (log on change)
         bool actionButtonHeld=false; // P16 HUDART: Space held this frame (pressed ring of the action button)
+        // B123/B125/B135: prepare the one canonical item/power/text owner before
+        // CombatSession initialization so saved equipped powers participate in
+        // the strict Continue binding check. These owners are reused by the
+        // equipment UI and DeathRewards later in this session.
+        auto menuLocalizationOwner=std::make_shared<f::character_menu::MenuLocalization>();
+        auto& menuLocalization=*menuLocalizationOwner;
+        if(!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
+        if(!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        dh2::ui::HudTextV1* dropHudText=nullptr;
+        dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
+        std::shared_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
+        std::shared_ptr<f::loot::RuntimeLootSourceOwnerV1> preparedRuntimeLootOwner;
+        f::loot::RuntimeLootSourceV1 preparedRuntimeLootSource;
+        std::shared_ptr<f::inventory::RuntimeItemResourcesV1> runtimeItemResources;
+        std::unique_ptr<f::inventory::SourceMetadataOwnerV1> playerMetadataOwner;
+        std::shared_ptr<dh2::ui::CharacterMenuFontPaletteV1> itemNameFontPalette;
+        const auto resolvePlayerInventoryRow=[&](const std::string& id,f::InventoryItem& out,std::string& e){
+            const auto found=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const f::InventoryItem& row){return row.instance_id==id;});
+            if(found==state.inventory.end()){e="Current player inventory instance is absent";return false;}out=*found;e.clear();return true;
+        };
+        const auto prepareRuntimeItemOwners=[&](std::string& e)->bool {
+            if(!menuSourceOwner.valid()){e="Canonical player item resources require the active creation source";return false;}
+            if(!preparedRuntimeLootOwner){
+                auto next=std::make_shared<f::loot::RuntimeLootSourceOwnerV1>();
+                if(!next->load(assets,menuSourceOwner,e))return false;
+                preparedRuntimeLootSource=next->borrow();
+                if(!preparedRuntimeLootSource.valid()){e="Prepared runtime loot source is incomplete";return false;}
+                preparedRuntimeLootOwner=std::move(next);
+            }
+            if(!menuLocalization.bind_profile(&state,e)||
+               !menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){
+                if(e.empty())e="Canonical ItemText owner unavailable";return false;
+            }
+            if(!itemNameFontPalette) {
+                const auto rows=f::read_content(assets,"data/fonts_pyarray.bin");
+                const auto schema=f::read_content(assets,"data/fonts_pystructnames.bin");
+                auto palette=std::make_shared<dh2::ui::CharacterMenuFontPaletteV1>();
+                if(!palette->load({rows.data(),rows.size()},{schema.data(),schema.size()},e))return false;
+                itemNameFontPalette=std::move(palette);
+            }
+            if(!dropTextOwner)dropTextOwner=std::make_shared<dh2::ui::ItemTextOwnerV5>(
+                preparedRuntimeLootSource.loot.items(),properties.characters,*dropHudText,dropTextEnvironment);
+            if(!f::inventory::bind_runtime_item_resources_v1(preparedRuntimeLootSource.loot,
+                preparedRuntimeLootSource.item_power_tables,preparedRuntimeLootSource.power_resources,
+                preparedRuntimeLootSource.properties,dropTextOwner,
+                std::static_pointer_cast<const void>(menuLocalizationOwner),runtimeItemResources,e))return false;
+            if(!playerMetadataOwner)playerMetadataOwner=runtimeItemResources->inventory(resolvePlayerInventoryRow);
+            e.clear();return true;
+        };
+        const auto refreshPlayerMetadataOwner=[&](std::string& e)->bool {
+            if(!prepareRuntimeItemOwners(e))return false;
+            if(playerMetadataOwner)playerMetadataOwner->invalidate();
+            playerMetadataOwner=runtimeItemResources->inventory(resolvePlayerInventoryRow);
+            e.clear();return true;
+        };
         const auto bindSourcePlayerLocomotion=[&](f::CombatSession& session) {
             if(!locomotionLibrary)return;
             const auto hands=currentLocomotionItems();
@@ -1890,17 +1946,53 @@ int main(int argc,char** argv) {
         std::vector<f::ActorId> newlyOrdinarySourceMonsterIds;
         auto initializeCombat=[&]() {
             if(options.meleeBindings.empty())return;
+            if(equipmentStateInitialized&&!refreshPlayerMetadataOwner(error))
+                throw std::runtime_error("Selected player item metadata: "+error);
             skillCastCoordinator=std::make_unique<f::generic_skills::RuntimeSkillCastCoordinatorV1>();
             lastSkillPhase=-1;lastSkillGeneration=0;
             if(equipmentStateInitialized) {
                 options.combat.equippedItemIds.clear();options.combat.mainItemId.clear();options.combat.offItemId.clear();
+                options.combat.selectedPlayerGear.clear();
+                const auto& itemTable=preparedRuntimeLootSource.loot.items();
+                const auto sourceSlotFor=[](const f::EquipmentBinding& binding)->std::optional<std::int32_t>{
+                    if(binding.equipment_set==0&&binding.source_slot>=0&&binding.source_slot<9)return binding.source_slot;
+                    if(binding.equipment_set!=-1||binding.source_slot!=-1)return std::nullopt;
+                    if(binding.slot=="main_hand")return 1;
+                    if(binding.slot=="off_hand")return 2;
+                    if(binding.slot.size()==6&&binding.slot.compare(0,5,"slot-")==0&&binding.slot[5]>='0'&&binding.slot[5]<='8')
+                        return std::int32_t(binding.slot[5]-'0');
+                    return std::nullopt;
+                };
                 for(const auto& equipped:state.equipment) {
-                    if(equipped.equipment_set>0)continue;
+                    if(equipped.equipment_set!=0&&equipped.equipment_set!=-1)continue;
                     const auto item=std::find_if(state.inventory.begin(),state.inventory.end(),[&](const auto& candidate){return candidate.instance_id==equipped.item_instance_id;});
                     if(item==state.inventory.end())throw std::runtime_error("Selected equipment instance is not owned");
                     options.combat.equippedItemIds.push_back(item->definition_id);
-                    if(equipped.source_slot==1||equipped.slot=="slot-1")options.combat.mainItemId=item->definition_id;
-                    if(equipped.source_slot==2||equipped.slot=="slot-2")options.combat.offItemId=item->definition_id;
+                    const auto slot=sourceSlotFor(equipped);
+                    if(!slot)throw std::runtime_error("Selected equipment binding has no authenticated source slot");
+                    if(*slot==1)options.combat.mainItemId=item->definition_id;
+                    if(*slot==2)options.combat.offItemId=item->definition_id;
+                    const auto itemIndex=dh2::data::item_id(itemTable,item->definition_id);
+                    const auto* itemRow=dh2::data::item(itemTable,itemIndex);
+                    if(!itemRow)throw std::runtime_error("Selected equipment definition is absent from the current ItemTable");
+                    f::CombatSessionConfig::SelectedPlayerGearV1 projected;
+                    projected.item_instance_id=item->instance_id;projected.definition_id=item->definition_id;
+                    projected.equipment_set=equipped.equipment_set;projected.source_slot=*slot;
+                    projected.source.record=itemRow->record;projected.source.left_hand=*slot==2;
+                    if(item->source) {
+                        if(!playerMetadataOwner->properties(*item,projected.source.powers,error))
+                            throw std::runtime_error("Selected source item powers: "+error);
+                        projected.authentication=f::CombatSessionConfig::SelectedPlayerGearV1::Authentication::saved_source_metadata;
+                    } else {
+                        // The legacy foundation save representation stored only
+                        // ItemTable identities; these rows are admitted as bare
+                        // only after exact current-table identity and source-domain checks.
+                        if(item->instance_id.empty()||!item->quantity||item->quantity>32767||
+                           dh2::data::item_type(*itemRow)==13)
+                            throw std::runtime_error("Selected legacy bare item is outside the supported source domain");
+                        projected.authentication=f::CombatSessionConfig::SelectedPlayerGearV1::Authentication::verified_legacy_bare;
+                    }
+                    options.combat.selectedPlayerGear.push_back(std::move(projected));
                 }
             }
             if(!meleeBindings.load(assets,options.meleeBindings,error))throw std::runtime_error("Melee bindings: "+error);
@@ -2058,6 +2150,57 @@ int main(int argc,char** argv) {
         f::GameSave sourceInitialActorSnapshot;
         if(combatSession&&!f::capture_game_save(options.level.generic_string(),combatSession->player_id(),state,*combatSession->world(),sourceInitialActorSnapshot,error))
             throw std::runtime_error("Source-initial actor receipt: "+error);
+        // A legacy V1 checkpoint did not serialize PopulationActor.enabled.
+        // Preserve only an immutable source-initial admission fact and derive a
+        // fallback for narrowly authenticated ordinary authored monsters.
+        std::map<f::ActorId,bool> sourceInitialPopulationAdmission;
+        for(const auto& placed:population.actors())
+            sourceInitialPopulationAdmission.emplace(placed.definition.stableId,placed.initially_enabled);
+        f::OriginalCampaignRuntime legacyAdmissionBanks;
+        bool legacyAdmissionBanksAvailable=false;
+        if(!options.save.empty()) {
+            auto legacyPath=f::transitions::level_world_path(options.save,options.level.generic_string());
+            legacyPath += ".source-checkpoint-v1";
+            if(fs::exists(legacyPath)) {
+                std::string bankError;
+                legacyAdmissionBanksAvailable=legacyAdmissionBanks.load_compiled_level(assets,options.level.generic_string(),bankError);
+                if(!legacyAdmissionBanksAvailable)
+                    std::cout<<"Legacy checkpoint admission remains unknown: compiled source bank unavailable: "<<bankError<<'\n';
+            }
+        }
+        const auto legacyCheckpointAdmission=[&](const f::persistence::death_flow::DeathCheckpointActorV1& saved)->std::optional<bool> {
+            using namespace f::persistence::death_flow;
+            if(saved.population_admission||saved.player||!legacyAdmissionBanksAvailable||!options.campaignCommands.empty())return std::nullopt;
+            const auto origin=std::find_if(population.definitions().begin(),population.definitions().end(),
+                [&](const f::ActorDefinition& row){return row.stableId==saved.id;});
+            if(origin==population.definitions().end())return std::nullopt;
+            const auto initial=sourceInitialPopulationAdmission.find(saved.id);
+            const auto placed=std::find_if(population.actors().begin(),population.actors().end(),
+                [&](const f::PopulationActor& row){return row.definition.stableId==saved.id;});
+            if(initial==sourceInitialPopulationAdmission.end()||placed==population.actors().end())return std::nullopt;
+            const auto* sourceProfile=profiles.find(placed->profileId);
+            if(!sourceProfile)return std::nullopt;
+            const auto aiProperty=sourceProfile->raw_properties.find("AI");
+            if(aiProperty==sourceProfile->raw_properties.end())return std::nullopt;
+            if(!derivedTablesLoaded) {
+                std::string tableError;
+                if(!f::spawn::load_profile_derivation_tables_v1(assets,"original-cache/data/pydata",derivedTables,tableError)) {
+                    std::cout<<"Legacy checkpoint admission remains unknown actor="<<saved.id
+                             <<" source AI tables unavailable: "<<tableError<<'\n';
+                    return std::nullopt;
+                }
+                derivedTablesLoaded=true;
+            }
+            const auto* sourceAi=dh2::data::ai_props(derivedTables.ai,std::int32_t(aiProperty->second.raw));
+            const std::optional<bool> sourceMonster=sourceAi?std::optional<bool>(sourceAi->script=="monster"):std::nullopt;
+            const auto admitted=authenticated_ordinary_legacy_admission_v1(*origin,saved.definition_id,
+                saved.source_cs_state,saved.source_dead,std::optional<bool>(initial->second),sourceMonster,
+                &legacyAdmissionBanks.scripts());
+            if(!admitted||!*admitted)return std::nullopt;
+            std::cout<<"Legacy checkpoint admission authenticated actor="<<saved.id
+                     <<" definition="<<saved.definition_id<<" source=ordinary-authored-monster initial=1\n";
+            return admitted;
+        };
         const auto migrateAdmittedActors=[&](f::GameSave& saved,std::string& e) {
             return f::migrate_missing_authored_actor_records_v1(saved,sourceInitialActorSnapshot.actors,newlyOrdinarySourceMonsterIds,e);
         };
@@ -3640,10 +3783,7 @@ int main(int argc,char** argv) {
             combatTextFractionMs=0;
         };
         bindCombatText();
-        auto menuLocalizationOwner=std::make_shared<f::character_menu::MenuLocalization>();
-        auto& menuLocalization=*menuLocalizationOwner;
-        if(options.hud&&combatSession&&!menuLocalization.load(assets,"original-cache/data",0,error))throw std::runtime_error("Character menu labels: "+error);
-        if(options.hud&&combatSession&&!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
+        if(!menuLocalization.bind_profile(&state,error))throw std::runtime_error("Character menu profile: "+error);
         // P16 CINE: caption lines resolve their authored StrID through the same original localization owner.
         // P16 OPENING: caption text substitutes the source $player token with the character name (the reference shows the name).
         if(options.campaignTriggers) campaignHost.set_caption_auto_tap_ms(std::uint32_t(options.captionAutoTapMs>0?options.captionAutoTapMs:0));
@@ -3827,10 +3967,6 @@ int main(int argc,char** argv) {
         std::shared_ptr<f::equipment_menu::RuntimeEquipmentPageV1> runtimeEquipmentPage;
         f::equipment_menu::RuntimeEquipmentTextProviderV1 runtimeEquipmentText;
         f::loot::RuntimeSessionDeathRewardsV1 deathRewards;
-        dh2::ui::HudTextV1* dropHudText=nullptr;dh2::ui::HudTextEnvironmentV1 dropTextEnvironment;
-        std::shared_ptr<dh2::ui::ItemTextOwnerV5> dropTextOwner;
-        std::shared_ptr<f::inventory::RuntimeItemResourcesV1> runtimeItemResources;
-        std::unique_ptr<f::inventory::SourceMetadataOwnerV1> playerMetadataOwner;
         std::map<std::string,std::unique_ptr<f::inventory::SourceMetadataOwnerV1>> merchantMetadataOwners;
         f::inventory::SourceMetadataOwnerV1* activeMerchantMetadataOwner=nullptr;
         std::map<std::string,std::string> dropNameCache;
@@ -3847,20 +3983,10 @@ int main(int argc,char** argv) {
         auto statTrainingVisit=std::make_shared<f::character_menu::StatTrainingVisitV1>();
         bool equipmentRebindRequested=false; // P14 DROPS: a pickup added a definition the equipment text policy must list
         const auto ensureDropTextOwner=[&](std::string& e)->bool {
-            if(dropTextOwner){e.clear();return true;}
-            if(!menuSourceOwner.valid()){e="Item text requires the current source loot tables";return false;}
-            const auto& itemTable=menuSourceOwner.source().loot.items();
-            if(!menuLocalization.bind_profile(&state,e)||!menuLocalization.borrow_text(dropHudText,dropTextEnvironment,e)||!dropHudText){if(e.empty())e="Item name text owner unavailable";return false;}
-            dropTextOwner=std::make_shared<dh2::ui::ItemTextOwnerV5>(itemTable,properties.characters,*dropHudText,dropTextEnvironment);
-            e.clear();return true;
+            return prepareRuntimeItemOwners(e);
         };
         const auto ensureRuntimeItemResources=[&](std::string& e)->bool {
-            if(!deathRewards.bound()){e="Runtime item resources require the current loot owner";return false;}
-            if(!ensureDropTextOwner(e))return false;
-            const auto& source=deathRewards.loot_source();
-            return f::inventory::bind_runtime_item_resources_v1(source.loot,source.item_power_tables,
-                source.power_resources,source.properties,dropTextOwner,
-                std::static_pointer_cast<const void>(menuLocalizationOwner),runtimeItemResources,e);
+            return prepareRuntimeItemOwners(e);
         };
         // B061: the gameplay body shows the equipped modular parts (helm/torso/gloves/boots),
         // using the same slot-to-part plan as the equipment page. A failure keeps the old body.
@@ -3916,6 +4042,7 @@ int main(int argc,char** argv) {
             config.table_root=fs::relative(f::resolve_content_path(assets,"data/pydata/loot_table_pyarray.bin").parent_path(),assets.root()).generic_string();
             f::equipment_menu::RuntimeEquipmentBareDefinitionPolicyV1 policy;
             policy.existing_text_owner=dropTextOwner;
+            policy.font_palette=itemNameFontPalette;
             std::set<std::string> heldDefinitions;
             for(const auto& item:state.inventory)heldDefinitions.insert(item.definition_id);
             policy.supported_unpowered_definition_ids.assign(heldDefinitions.begin(),heldDefinitions.end());
@@ -4022,7 +4149,7 @@ int main(int argc,char** argv) {
             runtimeEquipmentAttachments=nullptr;runtimeEquipmentPage.reset();runtimeEquipment.reset();equipmentAttemptLease.reset();
             if(playerMetadataOwner)playerMetadataOwner->invalidate();playerMetadataOwner.reset();
             for(auto& entry:merchantMetadataOwners)if(entry.second)entry.second->invalidate();
-            merchantMetadataOwners.clear();activeMerchantMetadataOwner=nullptr;runtimeItemResources.reset();dropTextOwner.reset();
+            merchantMetadataOwners.clear();activeMerchantMetadataOwner=nullptr;runtimeItemResources.reset();dropTextOwner.reset();itemNameFontPalette.reset();
             dropHudText=nullptr;dropTextEnvironment={};dropNameCache.clear();
             characterMenuBindings.actor=nullptr;characterMenuBindings.properties=nullptr;
         };
@@ -4224,6 +4351,7 @@ int main(int argc,char** argv) {
         const auto bindDeathRewards=[&]() {
             deathRewards.reset();
             if(!combatSession||!menuSourceOwner.valid())return;
+            if(!prepareRuntimeItemOwners(error))throw std::runtime_error("Prepared DeathRewards item source: "+error);
             // P14 schema: CurrentDifficulty/UnlockedDiff come from the shared profile (single accessor), not a fixed Normal.
             rewardContext->currentDifficulty=f::character_current_difficulty(state);rewardContext->unlockedDifficulty=f::character_unlocked_difficulty(state);
             if(!worldItems)worldItems=std::make_shared<f::loot::RuntimeWorldItemAdapterV1>(menuSourceOwner.loot_owner->borrow());
@@ -4263,7 +4391,7 @@ int main(int argc,char** argv) {
                 std::cout<<"Level up presentation frame="<<drawn<<" actor="<<id<<" level="<<level<<" "<<result.fx<<" "<<result.text<<'\n';
                 return ok;
             };
-            if(!deathRewards.bind(*combatSession,menuSourceOwner,assets,worldItems,std::move(rewardBindings),error))
+            if(!deathRewards.bind_prepared(*combatSession,menuSourceOwner,preparedRuntimeLootSource,worldItems,std::move(rewardBindings),error))
                 throw std::runtime_error("Source death rewards: "+error);
             // P15 B048: item drop/pickup cues. The ordinal comes from the item's own ItemAudioVisualTable row
             // (drop row+4, pickup row+8). A selected WAV that is absent stays silent and is logged, never substituted.
@@ -5836,6 +5964,12 @@ int main(int argc,char** argv) {
             f::persistence::death_flow::DeathCheckpointRestoreReceiptV1 receipt;
             const bool restored=detached&&f::persistence::death_flow::restore_death_checkpoint_snapshot_v1(
                 snapshot,options.level.generic_string(),*combatSession->world(),state,services,receipt,restoreError);
+            // V1 carries no admission bits. Publish only the narrow positive
+            // legacy classification after the actor snapshot has committed;
+            // unknown/scripted actors retain their current host projection.
+            if(restored&&snapshot.version==1)for(const auto& saved:snapshot.actors)
+                if(const auto admission=legacyCheckpointAdmission(saved))
+                    receipt.population_admission[saved.id]=*admission;
             if(restored) {actorLifecycle.clear();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();}
             std::string rebindError;
             const bool rebound=combatSession->rebind_after_restore(rebindError);
@@ -6355,6 +6489,20 @@ int main(int argc,char** argv) {
                             }
                             if(current.source&&(current.source->value!=admitted.source->value||current.source->identified!=admitted.source->identified||current.source->power_names!=admitted.source->power_names)) {
                                 checkError="Confirmed item metadata changed";return false;
+                            }
+                            if(current.source) {
+                                f::inventory::SourceInstanceLease lease;
+                                if(!playerMetadataOwner||!playerMetadataOwner->resolve(current,lease,checkError)||
+                                   !lease.item||!lease.owns||!lease.owns(lease.item)) {
+                                    if(checkError.empty())checkError="Confirmed source item lease expired";
+                                    return false;
+                                }
+                            } else {
+                                const auto& table=menuSourceOwner.source().loot.items();
+                                const auto* row=dh2::data::item(table,dh2::data::item_id(table,current.definition_id));
+                                if(!row||current.instance_id.empty()||!current.quantity||current.quantity>32767||dh2::data::item_type(*row)==13) {
+                                    checkError="Confirmed legacy bare item no longer has a supported source row";return false;
+                                }
                             }
                             if(request.action==f::equipment_menu::confirmation_v1::Action::transmute) {
                                 std::int32_t amount=0;

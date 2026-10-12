@@ -24,6 +24,22 @@ bool RuntimeSessionDeathRewardsV1::bind(
     std::shared_ptr<RuntimeWorldItemAdapterV1> world_items,
     RuntimeSessionDeathRewardBindingsV1 bindings,
     std::string& error) {
+    RuntimeLootSourceOwnerV1 next_owner;
+    if (!next_owner.load(assets, creation, error)) return false;
+    const auto source = next_owner.borrow();
+    if (!bind_prepared(session, creation, source, std::move(world_items),
+                       std::move(bindings), error)) return false;
+    loot_source_owner_ = std::move(next_owner);
+    return true;
+}
+
+bool RuntimeSessionDeathRewardsV1::bind_prepared(
+    dh::foundation::CombatSession& session,
+    const frontend::creation::RuntimeCreationSourceOwnerV1& creation,
+    RuntimeLootSourceV1 source,
+    std::shared_ptr<RuntimeWorldItemAdapterV1> world_items,
+    RuntimeSessionDeathRewardBindingsV1 bindings,
+    std::string& error) {
     error.clear();
     if (session_ || dispatching_) return fail(error, "Reset the existing session death-reward binding before rebinding");
     auto* world = session.world();
@@ -36,15 +52,11 @@ bool RuntimeSessionDeathRewardsV1::bind(
         !bindings.source_loot_entry || !bindings.query_debug_switch || !bindings.resolve_character)
         return fail(error, "Death-reward bind is missing same-gameplay source, context, or store owners");
 
-    RuntimeLootSourceOwnerV1 next_owner;
-    if (!next_owner.load(assets, creation, error)) return false;
-    auto source = next_owner.borrow();
     const auto exact_loot = creation.loot_owner->borrow();
     if (!source.valid() || source.properties.get() != creation.properties.get() ||
         !world_items->uses_loot_snapshot(exact_loot))
         return fail(error, "Death-reward source, creation owner, and existing world-item store are not the same source snapshot");
 
-    loot_source_owner_ = std::move(next_owner);
     loot_source_ = std::move(source);
     world_items_ = std::move(world_items);
     gameplay_context_lease_ = std::move(bindings.gameplay_context_lease);

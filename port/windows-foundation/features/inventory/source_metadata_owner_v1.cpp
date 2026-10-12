@@ -83,7 +83,7 @@ bool SourceMetadataOwnerV1::resolve(const InventoryItem& row,SourceInstanceLease
             if(names[std::size_t(node->item.powers[i])]!=row.source->power_names[i]){error="Saved ItemPower order differs from recovered AddPower result";return false;}
         s->nodes[row.instance_id]=node;
     }
-    SourceInstanceLease next;next.owner=node;next.item=&node->item;
+    SourceInstanceLease next;next.owner=node;next.item=&node->item;next.source_index=std::numeric_limits<std::uint32_t>::max();
     next.powers=s->presentation.get();next.power_definitions=s->definitions;
     next.text_owner=s->text;next.descriptors_current=true;
     const auto generation=s->generation;

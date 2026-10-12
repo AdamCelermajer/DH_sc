@@ -310,7 +310,7 @@ add_library(foundation_runtime_equipment_menu STATIC
   features/inventory/source_metadata_owner_v1.cpp
   features/inventory/runtime_item_resources_v1.cpp
   ../engine-ui/item_text_owner_v5.cpp ../engine-ui/item_text_varargs_v5.cpp
-  ../engine-ui/character_menu_potion_text_v4.cpp ../game-data/item_presentation_v5.cpp
+  ../engine-ui/character_menu_potion_text_v4.cpp ../engine-ui/character_menu_font_palette_v1.cpp ../game-data/item_presentation_v5.cpp
   ../game-data/player_equipment_v3.cpp ../game-data/item_power_tables_v5.cpp
   ../engine-skinning/visual_skin_owner_v6.cpp
   ../engine-skinning/visual_skin_selection_v6.cpp ../engine-skinning/skin_pose_cache_v32.cpp)

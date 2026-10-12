@@ -71,6 +71,14 @@ public:
               std::shared_ptr<RuntimeWorldItemAdapterV1>,
               RuntimeSessionDeathRewardBindingsV1,
               std::string& error);
+    // Reuses the caller's already prepared exact source snapshot instead of
+    // loading duplicate ItemPower/ItemText-adjacent owners during rebind.
+    bool bind_prepared(dh::foundation::CombatSession&,
+              const frontend::creation::RuntimeCreationSourceOwnerV1&,
+              RuntimeLootSourceV1,
+              std::shared_ptr<RuntimeWorldItemAdapterV1>,
+              RuntimeSessionDeathRewardBindingsV1,
+              std::string& error);
 
     bool after_update(dh::foundation::CombatSession&,
                       std::vector<RuntimeDeathRewardOutcomeV1>&,

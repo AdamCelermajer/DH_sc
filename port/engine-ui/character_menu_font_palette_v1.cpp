@@ -1,5 +1,6 @@
 #include "character_menu_font_palette_v1.hpp"
 #include <cstring>
+#include <cstdio>
 namespace dh2::ui {
 bool CharacterMenuFontPaletteV1::load(LocalizationBytes records,LocalizationBytes schema,std::string& e){
  auto word=[](const std::uint8_t* p){std::uint32_t v;std::memcpy(&v,p,4);return v;};
@@ -8,4 +9,12 @@ bool CharacterMenuFontPaletteV1::load(LocalizationBytes records,LocalizationByte
  std::vector<std::array<std::uint32_t,2>> rows(count);for(unsigned j=0;j<count;++j)rows[j]={word(records.data+4+8*j),word(records.data+8+8*j)};rows_=std::move(rows);return true;
 }
 bool CharacterMenuFontPaletteV1::text_color(std::int32_t row,std::uint32_t& out,std::string& e)const{if(row<0||std::size_t(row)>=rows_.size()){e="Source FontPalette index outside actual rows";return false;}out=rows_[row][1];return true;}
+bool character_menu_item_name_color_v1(const std::string& raw_name,std::int32_t row,
+ const CharacterMenuFontPaletteV1& palette,
+ std::string& output,std::string& error){
+ std::uint32_t color{};if(!palette.text_color(row,color,error))return false;
+ char hexadecimal[9];std::snprintf(hexadecimal,sizeof(hexadecimal),"%X",color);
+ std::string next="<font color='#";next+=hexadecimal;next+="'>";next+=raw_name;next+="</font>";
+ output=std::move(next);error.clear();return true;
+}
 }

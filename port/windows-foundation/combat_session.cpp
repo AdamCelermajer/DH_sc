@@ -1179,7 +1179,10 @@ bool CombatSession::initialize(const AssetCatalog& assets,const OriginalProperty
             for(const auto& binding:profile.equipment)
                 if(binding.equipment_set==0||binding.equipment_set==-1)activeBindings.push_back(&binding);
             if(activeBindings.size()!=config.selectedPlayerGear.size()||activeBindings.size()!=equipment.size()){
-                error="Selected set-0 gear occurrences do not match CharacterState bindings";return false;
+                error="Selected set-0 gear occurrences do not match CharacterState bindings (bindings="+
+                    std::to_string(activeBindings.size())+", projected="+std::to_string(config.selectedPlayerGear.size())+
+                    ", equipped="+std::to_string(equipment.size())+", main="+config.mainItemId+
+                    ", off="+config.offItemId+")";return false;
             }
             mainIndex.reset();offIndex.reset();
             for(std::size_t i=0;i<activeBindings.size();++i){

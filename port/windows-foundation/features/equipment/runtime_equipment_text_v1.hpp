@@ -4,6 +4,7 @@
 #include "../character_menu/menu_text.hpp"
 #include "../inventory/source_item_descriptors.hpp"
 #include "../../../game-data/items.hpp"
+#include "../../../engine-ui/character_menu_font_palette_v1.hpp"
 #include <functional>
 
 namespace dh::foundation::equipment_menu {
@@ -17,6 +18,7 @@ struct RuntimeEquipmentBareDefinitionPolicyV1 {
     // Reuse the caller's same authentic ItemText wrapper/cache epoch. Its
     // ItemTable metadata identity is checked before installing callbacks.
     std::shared_ptr<dh2::ui::ItemTextOwnerV5> existing_text_owner;
+    std::shared_ptr<const dh2::ui::CharacterMenuFontPaletteV1> font_palette;
 };
 
 // Resolves each live menu row against its current canonical item/effects/text
