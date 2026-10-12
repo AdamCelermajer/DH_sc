@@ -115,10 +115,11 @@ Status execute(const Request* request, const Services* services, Result* output,
                                         &skill_element, error),
                "GetCharSkill", error))
         return Status::provider_failed;
-    if (type != skill_type_active && type != skill_type_passive) {
-        error.clear();
-        return Status::complete;
-    }
+    // _SkillCombatRoll (0x3b9fbc) reads only the skill flags (+28) and element
+    // (+20). Its "+116 == 2 || 7" test is Arguments[1]'s Lua type tag
+    // (userdata/object, Arguments::operator[] 0x37baf8, 0x70 stride), already
+    // checked above; there is no skill-type gate.
+    (void)type;
 
     if ((flags & dual_wield_flag) != 0) {
         if (!services->has_main_hand_weapon) {

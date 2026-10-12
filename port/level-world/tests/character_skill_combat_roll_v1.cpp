@@ -11,7 +11,7 @@ void check(bool value, const char* message) {
 }
 struct Fixture {
     std::vector<std::string> calls;
-    std::uint32_t skill_type = k::skill_type_active;
+    std::uint32_t skill_type = 0;
     std::uint32_t flags = 0;
     std::int32_t skill_element = 4;
     std::uintptr_t target = 0x2000;
@@ -100,12 +100,12 @@ int main() {
           f.calls == std::vector<std::string>{"resolve", "skill", "attack", "apply"},
           "normal Character::_SkillCombatRoll order/result differs");
 
-    f.calls.clear(); f.skill_type = 3;
+    // The source reads no skill type: any table type (BashDown is 0) rolls.
+    f.calls.clear(); f.skill_type = 3; f.attack_number = 0;
     check(k::execute(&request, &services, &result, error) == k::Status::complete &&
-          result.disposition == k::Disposition::unchanged && !result.attack_count &&
-          f.calls == std::vector<std::string>{"resolve", "skill"},
-          "unsupported source skill type should not reach combat providers");
-    f.skill_type = k::skill_type_active;
+          f.calls == std::vector<std::string>{"resolve", "skill", "attack", "apply"},
+          "skill table type must not gate Character::_SkillCombatRoll");
+    f.skill_type = 0;
 
     f.calls.clear(); f.flags = k::dual_wield_flag; f.attack_number = 0;
     check(k::execute(&request, &services, &result, error) == k::Status::complete &&

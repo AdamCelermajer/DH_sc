@@ -10526,7 +10526,10 @@ bool run_direct_source_character_init_post_v1(NativeCryptRoomRuntime& runtime,
     model_basename!=actor.model)
   return fail("Character::InitPost GetCharModelName basename differs from the same CharacterTable row");
  const auto* ai=dh2::data::ai_props(actor_ai_tables,actor.properties.resolved[1]);
- if(!ai||ai->type==3||ai->delayed_load>1)
+ // Character::InitPost reads only the AI row here (LoadScriptProcess/InitScriptProcess);
+ // it does not reject AI type 3. The Machine Room referee is a gametype Character with
+ // AI row 47 (type 3, delayed_load 0), so only the delayed-load guard remains.
+ if(!ai||ai->delayed_load>1)
   return fail("Direct Character::InitPost does not have a supported non-Faery AI row");
  actor.source_delay_init_3ec=std::uint8_t(ai->delayed_load);
  actor.search_projection.character.source_word_1310=actor.properties.resolved[198];
@@ -30251,8 +30254,9 @@ int player_skill_gameplay_native(void* raw,std::uint32_t raw_function,
   dh2::character_skill_combat_roll_v1::Result result{};std::string error;
   const auto status=dh2::character_skill_combat_roll_v1::execute(
       &request,&services,&result,error);
-  if(status!=dh2::character_skill_combat_roll_v1::Status::complete)
-   return fail(error.empty()?"Character::_SkillCombatRoll source provider failed":error.c_str());
+  if(status!=dh2::character_skill_combat_roll_v1::Status::complete){
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Player SkillCombatRoll failed | %s",error.c_str());
+   return fail(error.empty()?"Character::_SkillCombatRoll source provider failed":error.c_str());}
   using Disposition=dh2::character_skill_combat_roll_v1::Disposition;
   if(result.disposition==Disposition::attacks) {
    if(result.attack_count>capacity||!out)
