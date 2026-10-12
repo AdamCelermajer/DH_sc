@@ -4,6 +4,7 @@
 #include "player_ai_death_v1.hpp"
 #include "player_enemy_kill_credit_v1.hpp"
 #include "player_hud_skill_slot_resolution_v1.hpp"
+#include "native_player_skill_host_v1.hpp"
 #include "../../../../../../port/level-world/character_ai_on_revived_v1.hpp"
 #include "../../../../../../port/level-world/character_skill_fsm_callbacks_v1.hpp"
 #include "../../../../../../port/level-world/character_cast_lifecycle_v1.hpp"
@@ -135,6 +136,11 @@ struct Bindings {
     // UINT32_MAX keeps the BuffOwner's source string/name guard explicitly
     // unresolved until the loaded AnimatedEffectTable is supplied.
     std::uint32_t fx_count=UINT32_MAX;
+    // Renderer-owned GameObject facts and effects behind the Player VM's
+    // GameObject/Character natives and `target:Method()` layer
+    // (native_player_skill_host_v1). Runtime fills `self`, the process RNG and
+    // the online flag; the renderer fills the callbacks and their context.
+    player_skill_host_v1::Services host{};
 };
 // Sole per-Prince skill VM/preparation owner, borrowing current properties,
 // Coordinator and immutable catalogue. Full Player AIS/savegame/skill-use
@@ -174,6 +180,11 @@ public:
     // computed properties, selected SkillList and retained Player VM. The
     // caller supplies the actual projected Character+0x415 byte; this method
     // does not create a second buff, property, script or skill-vector owner.
+    // Development probe (environment-gated by the renderer): load Lua source
+    // into the retained Player VM and call one global function on it, rendering
+    // its first result. No VM, owner or timer is created.
+    bool debug_load_lua(const std::string& source,std::string& error);
+    bool debug_call_lua(const char* entry,std::string& result,std::string& error);
     bool cancel_sneaking(std::uint8_t* character_byte_415,
                          std::string& error);
     bool recalculate_properties(bool source_argument,std::string& error);
