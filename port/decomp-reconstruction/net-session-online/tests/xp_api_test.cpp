@@ -101,6 +101,17 @@ int main() {
     CHECK(std::strcmp(split, "cd;") == 0);
     delete[] split;
 
+    // ARM 0x82b634 (BLT to the copy at 0x82b688): the field runs to the first non-delimiter
+    // after the delimiter, so the trailing '|' stays in the copy. Pinned from the listing.
+    split = nullptr;
+    CHECK(XP_API_PARSE_DATA_NEW((char*)"n|xyz|q", &split, 1, '|') == 2);
+    CHECK(std::strcmp(split, "xyz|") == 0);
+    delete[] split;
+    split = nullptr;
+    CHECK(XP_API_PARSE_DATA_NEW((char*)"n|xyz", &split, 1, '|') == 2);
+    CHECK(std::strcmp(split, "xyz") == 0);
+    delete[] split;
+
     // File handles: open, write, measure, read back, close.
     const char* tmpName = "xp_api_wave7.tmp";
     int h = XP_API_FILE_OPEN(tmpName, "wb");
