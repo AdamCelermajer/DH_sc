@@ -128,7 +128,7 @@ void GLXPlayerSocket::RemoveHttpHeader() {
     }
 }
 
-// 0x83067c _ZN15GLXPlayerSocket18ParseChunkedContentEv
+// 0x83067c _ZN15GLXPlayerSocket19ParseChunkedContentEv
 // Walks the chunks in the content, appends each chunk's data to content_ and returns 1.
 // The original computes the next chunk offset as (CRLF position + 2 + CRLF position), and
 // the size line is cut at the absolute CRLF position (substr(next, crlf)). Both are kept as

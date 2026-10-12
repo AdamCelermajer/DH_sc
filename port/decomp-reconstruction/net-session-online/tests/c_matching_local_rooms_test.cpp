@@ -106,7 +106,9 @@ int main() {
 
         Clean();
         local.SetJoinThresholdForTest(5);
-        CHECK(local.AddServer(12, CNetworkId{}, 9, CRoomAttributes()) == 0);  // key 2, rank 9
+        CNetworkId other;
+        other.Bytes()[0] = 2;
+        CHECK(local.AddServer(12, other, 9, CRoomAttributes()) == 0);  // key 2, rank 9
         CHECK(local.JoinRoomInternal(2) == 0);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000d, false));
         CHECK(!GetConnectionMgr().IsConnected(12));

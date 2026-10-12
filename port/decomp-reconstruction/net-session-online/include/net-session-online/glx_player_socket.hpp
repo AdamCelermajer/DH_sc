@@ -139,7 +139,7 @@ public:
     // 0x830cb0 _ZN15GLXPlayerSocket19CalculateTotalLengthEv: the Content-Length header
     // value, 0 when there is none, -1 when the header block is not complete.
     std::int32_t CalculateTotalLength() const;
-    // 0x83067c _ZN15GLXPlayerSocket18ParseChunkedContentEv: replaces content_ with the
+    // 0x83067c _ZN15GLXPlayerSocket19ParseChunkedContentEv: replaces content_ with the
     // de-chunked body. Returns 1 on success and 0 on a malformed chunk.
     std::int32_t ParseChunkedContent();
 

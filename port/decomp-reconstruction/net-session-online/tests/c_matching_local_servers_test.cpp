@@ -7,6 +7,9 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// Reset() is 0x8074a4 and belongs to no slice yet. The room bodies, which these tests pull in, call it.
+void CMatchingLocal::Reset() {}
+
 static CNetworkId Address(std::uint8_t tag) {
     CNetworkId id;
     id.Bytes()[0] = tag;

@@ -7,6 +7,9 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+// Reset() is 0x8074a4 and belongs to no slice yet. The room bodies, which these tests pull in, call it.
+void CMatchingLocal::Reset() {}
+
 int main() {
     // SendChangeServerMessage: type 4, point-to-point, then the local member id (4 bytes).
     {
