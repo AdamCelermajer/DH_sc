@@ -42,23 +42,22 @@ struct DebugChunk_bank {
 class PriorityBankManager {
 public:
     explicit PriorityBankManager(int bank_count);  // 0x8697bc, 0x8698e8
-    PriorityBankManager();                         // 0x869858, 0x8698a0 (partial)
+    PriorityBankManager();                         // 0x869858, 0x8698a0 (leaves the count word alone)
     ~PriorityBankManager();                        // 0x86418c
 
     bool CanAddEmitter(int bank, int priority);    // 0x864b1c
     bool RemoveEmitter(int bank, void* emitter);   // 0x86e078
     bool AddEmitter(int bank, void* emitter);      // 0x86ea54 (partial: Stop not ported; priority_bank_emitters.cpp)
     void Update();                                 // 0x86a3c8 (drops entries whose emitter stopped playing)
-    bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc (partial)
-    bool AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0 (partial)
-    // Fills one record per bank (0x864a80). Partial: the original returns the value of the
-    // unlock call, and the port's Mutex::Unlock is void, so nothing is returned.
-    void GetDebugInfo(DebugChunk_bank* out);
+    bool SetPriorityBank(int bank, int min_priority, int max_count, int behaviour);  // 0x8661bc
+    int AddPriorityBank(int min_priority, int max_count, int behaviour);            // 0x8696d0: new index, or -1
+    // Fills one record per bank (0x864a80) and returns the int of the unlock call.
+    int GetDebugInfo(DebugChunk_bank* out);
 
 private:
     bool CanAddEmitterLocked(int bank, int priority) const;  // 0x863578
 
-    int bank_count_ = 0;                  // +0
+    int bank_count_;                      // +0 (set by the bank-count constructor only)
     std::vector<PriorityBank> banks_;     // +4..+0xc
     Mutex mutex_;                         // +0x10
 };

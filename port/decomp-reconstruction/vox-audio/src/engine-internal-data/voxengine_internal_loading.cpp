@@ -44,8 +44,9 @@ DataObj* NewDataObj(std::int64_t id, StreamInterface* stream, DecoderInterface* 
 // 0x86b144 _ZN3vox17VoxEngineInternal14LoadDataSourceEiPviS1_i
 // Partial. The original creates a stream cursor, asks the decoder for a cursor on it, reads the
 // four track parameters from that cursor (words +4..+0x10), destroys the cursor, and stores the
-// parameters in the object. The port's cursor has no parameter block, so the parameters are read
-// from the decoder (GetParam) after the cursor is made. Channels must be above zero, as in the
+// parameters in the object. Missing item: the port's DecoderCursorInterface has no +0x04..+0x10
+// parameter block, so the words come from the decoder's GetParam instead. Only the Raw decoder
+// returns them there; a null GetParam fails the load. Channels must be above zero, as in the
 // original. A failed attempt destroys the stream and the decoder.
 DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, int decoder_type,
                                              void* decoder_arg, int group) {
@@ -85,11 +86,15 @@ DataHandle VoxEngineInternal::LoadDataSource(int stream_type, void* stream_arg, 
     bool has_channels = false;
     if (DecoderCursorInterface* cursor = decoder->CreateNewCursor(stream_cursor)) {  // decoder +0x10
         const std::int32_t* track = decoder->GetParam();  // decoder +0x1c (see the comment above)
-        for (int i = 0; i < 4; ++i) {
-            params[i] = track[i];
+        // GetParam returns null for MSWav, MPC8, Native and StbVorbis decoders, so the port cannot
+        // read the words there and the load fails instead of dereferencing null.
+        if (track != nullptr) {
+            for (int i = 0; i < 4; ++i) {
+                params[i] = track[i];
+            }
+            has_channels = params[0] > 0;
         }
         decoder->DestroyCursor(cursor);  // decoder +0x14
-        has_channels = params[0] > 0;
     }
     stream->DestroyCursor(stream_cursor);  // stream vtable +0x18
     if (!has_channels) {

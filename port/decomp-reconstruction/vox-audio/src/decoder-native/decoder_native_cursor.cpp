@@ -28,13 +28,16 @@ constexpr std::uint16_t kFormatImaAdpcm = 17;
 // select. Callers check sub_decoder_ for null first.
 bool DecoderNativeCursor::IsImaAdpcm() const {
     return decoder_ != nullptr &&
-           static_cast<const DecoderNative*>(decoder_)->format_tag_ == kFormatImaAdpcm;
+           static_cast<std::int16_t>(static_cast<const DecoderNative*>(decoder_)->header_words_.format_word) ==
+               static_cast<std::int16_t>(kFormatImaAdpcm);
 }
 
-// C1 0x8742f4 and C2 0x874678 (partial). Parses the file when the decoder still needs
-// it. A failed parse leaves the cursor empty. The original then creates the PCM or IMA
-// ADPCM sub-decoders with their states, the playlist manager, and copies the track
-// parameters; none of that is ported.
+// C1 0x8742f4 and C2 0x874678 (the same body). Parses the file when the decoder still needs
+// it; a failed parse leaves the cursor empty. The playlist manager is copied from the decoder,
+// and the sub-decoder is chosen by the format tag: 1 is PCM, 17 is IMA ADPCM. Each sub-decoder
+// gets two states of its own. The track parameters come from the sub-decoder, and the frame
+// capacity is 600 * channels * the second track word / 500. Any missing part leaves the track
+// parameters zero.
 DecoderNativeCursor::DecoderNativeCursor(DecoderInterface* decoder, StreamCursorInterface* stream) {
     decoder_ = decoder;
     stream_ = stream;
@@ -46,6 +49,51 @@ DecoderNativeCursor::DecoderNativeCursor(DecoderInterface* decoder, StreamCursor
         native->needs_parse_ = false;
     }
     state_names_ = &native->interactive_states_;
+
+    void* playlist_memory = VoxAlloc(sizeof(NativePlaylistsManager));
+    if (playlist_memory == nullptr) {
+        return;
+    }
+    playlists_ = new (playlist_memory) NativePlaylistsManager(native->playlists_);
+    if (!playlists_->IsValid()) {
+        return;
+    }
+
+    const std::int16_t format = static_cast<std::int16_t>(native->header_words_.format_word);
+    if (format == 1) {
+        void* memory = VoxAlloc(sizeof(VoxNativeSubDecoderPCM));
+        sub_decoder_ = new (memory) VoxNativeSubDecoderPCM(
+            stream, native->header_words_, &native->states_, &native->segments_,
+            &native->segment_cues_, &native->rules_, &native->transitions_,
+            &native->interactive_states_, playlists_);
+        state_a_ = new (VoxAlloc(sizeof(NativeSubDecoderPCMState)))
+            NativeSubDecoderPCMState(playlists_);
+        state_b_ = new (VoxAlloc(sizeof(NativeSubDecoderPCMState)))
+            NativeSubDecoderPCMState(playlists_);
+    } else if (format == kFormatImaAdpcm) {
+        void* memory = VoxAlloc(sizeof(VoxNativeSubDecoderIMAADPCM));
+        sub_decoder_ = new (memory) VoxNativeSubDecoderIMAADPCM(
+            stream, native->header_words_, &native->states_, &native->segments_,
+            &native->segment_cues_, &native->rules_, &native->transitions_,
+            &native->interactive_states_, playlists_);
+        state_a_ = new (VoxAlloc(sizeof(NativeSubDecoderIMAADPCMState)))
+            NativeSubDecoderIMAADPCMState(playlists_);
+        state_b_ = new (VoxAlloc(sizeof(NativeSubDecoderIMAADPCMState)))
+            NativeSubDecoderIMAADPCMState(playlists_);
+    }
+
+    if (sub_decoder_ == nullptr) {
+        return;
+    }
+    params_ = sub_decoder_->GetTrackParams();
+    if (state_a_ != nullptr && state_b_ != nullptr && state_a_->playlists_ != nullptr &&
+        state_b_->playlists_ != nullptr) {
+        // (int)(float)((float)(600 * channels * word 2) / 500.0)
+        frames_capacity_ = static_cast<int>(
+            static_cast<float>(600 * params_.channels * params_.unknown_08) / 500.0f);
+    } else {
+        params_ = TrackParams{};
+    }
 }
 
 // D1 0x872314 and D2 0x872440. Destroys the owned sub-decoder, the two states and the
@@ -203,12 +251,6 @@ void DecoderNativeCursor::SetLoop(bool on) {
     (void)on;
 }
 
-// 0x872cf0 (partial, not reproduced). The segment cue loop depends on the 24-byte
-// record layout and on a goto ordering that the decompiler output does not make clear
-// (the same value is pushed twice on one path). Left empty until that is traced.
-void DecoderNativeCursor::SetImplicitSegmentCues() {
-}
-
 // 0x873144. Looks up the state name and appends its index to the pending list.
 void DecoderNativeCursor::SetInteractiveMusicState(const char* name) {
     mutex_.Lock();
@@ -219,29 +261,6 @@ void DecoderNativeCursor::SetInteractiveMusicState(const char* name) {
         }
     }
     mutex_.Unlock();
-}
-
-// 0x8738bc (partial). Reads the 8-byte header through the stream, rewinding it first when
-// it is not at offset 0, and checks the "VoxN" magic. The chunk loop that follows
-// ('Afmt', 'Segm', 'Cues', 'Grpe', 'Rule', 'Plst', 'Stat' and the end chunk) is not
-// ported, so a file that passes the magic check still returns false here.
-bool DecoderNativeCursor::ParseFile() {
-    if (stream_ == nullptr) {
-        return false;
-    }
-    if (stream_->Tell() != 0) {
-        stream_->Seek(0, 0);
-    }
-    std::uint8_t header[8];
-    if (stream_->Read(header, static_cast<int>(sizeof(header))) != static_cast<int>(sizeof(header))) {
-        return false;
-    }
-    std::uint32_t magic = 0;
-    std::memcpy(&magic, header, sizeof(magic));
-    if (magic != kNativeMagic) {
-        return false;
-    }
-    return false;
 }
 
 // 0x871954. Pops the newest pending state index, or returns -1 when the list is empty.

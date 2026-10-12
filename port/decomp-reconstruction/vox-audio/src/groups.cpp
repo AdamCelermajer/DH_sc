@@ -1,4 +1,5 @@
 #include "vox-audio/vox/groups.hpp"
+#include "vox-audio/vox/memory.hpp"
 
 namespace vox {
 
@@ -94,9 +95,24 @@ int RandomGroup::PeekAtNextGroupElement(GroupPeekMode mode) const {
 }
 
 // 0x8836b0 _ZN3vox11RandomGroup10AddElementEPNS_18RandomGroupElementE
-// Partial: the asm allocates an 8-byte block and the element insert is not
-// reconstructed. The port appends the pointer.
-void RandomGroup::AddElement(RandomGroupElement* element) { elements_.push_back(element); }
+// Copies the element (value and weight words) into an 8-byte block owned by the group and appends
+// the block to the element vector. The element count (+0x38) goes up by one; when the raw window
+// (+0x40) is -1 the exclusion window (+0x3c) goes up too; the total weight (+0x48) gains the weight.
+// The original writes through the block without a null check, so a failed allocation stops here.
+void RandomGroup::AddElement(RandomGroupElement* element) {
+    auto* copy = static_cast<RandomGroupElement*>(VoxAlloc(sizeof(RandomGroupElement)));
+    if (copy == nullptr) {
+        return;
+    }
+    copy->value_ = element->value_;
+    copy->weight_ = element->weight_;
+    elements_.push_back(copy);
+    ++element_count_;
+    if (raw_window_ == -1) {
+        ++exclusion_window_;
+    }
+    total_weight_ += copy->weight_;
+}
 
 }  // namespace vox
 

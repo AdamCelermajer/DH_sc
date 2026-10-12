@@ -14,11 +14,11 @@ namespace vox {
 // The step is clamped to [0, 0.1] (a NaN step becomes 0). While the engine is suspended
 // (suspend_count_ > 0) nothing runs. The dead-emitter list is filled under the live read
 // access and drained under the write access, popping from the back as the original does.
-void VoxEngineInternal::UpdateEmitters(float dt) {
+// The result is the int of the last release in the path (each release ends in Mutex::Unlock).
+int VoxEngineInternal::UpdateEmitters(float dt) {
     mutex_.Lock();
     if (suspend_count_ > 0) {
-        mutex_.Unlock();
-        return;
+        return mutex_.Unlock();
     }
     if (dt >= 0.0f) {
         if (dt > 0.1f) {
@@ -77,7 +77,7 @@ void VoxEngineInternal::UpdateEmitters(float dt) {
     if (priority_bank_ != nullptr) {
         priority_bank_->Update();
     }
-    emitter_access_.ReleaseReadAccess();
+    int result = emitter_access_.ReleaseReadAccess();
 
     if (!dead_emitters_.empty()) {
         emitter_access_.GetWriteAccess();
@@ -86,8 +86,9 @@ void VoxEngineInternal::UpdateEmitters(float dt) {
             KillEmitter(static_cast<EmitterObj*>(emitters_.Detach(dead->id)));
             dead_emitters_.pop_back();
         }
-        emitter_access_.ReleaseWriteAccess();
+        result = emitter_access_.ReleaseWriteAccess();
     }
+    return result;
 }
 
 // 0x86e160 _ZN3vox17VoxEngineInternal11KillEmitterEPNS_10EmitterObjE
@@ -105,7 +106,7 @@ void VoxEngineInternal::KillEmitter(EmitterObj* emitter) {
     if (emitter == nullptr) {
         return;
     }
-    ++emitter_stamps_[emitter->stamp_index_];
+    ++data_stamps_[emitter->stamp_index_];
     if (emitter->in_bank_ && priority_bank_ != nullptr) {
         priority_bank_->RemoveEmitter(emitter->bank_, emitter);
     }

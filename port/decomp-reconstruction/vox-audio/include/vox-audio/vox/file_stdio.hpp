@@ -4,6 +4,7 @@
 // are void* as in the mangled names; they hold a std::FILE*.
 #pragma once
 
+#include <cstddef>
 #include <cstdio>
 
 #include "vox-audio/deps/vox_file_system.hpp"
@@ -26,20 +27,19 @@ std::FILE* openStdIO(const char* name, VoxFileAccessMode mode);
 // 0x8947d0. fclose on the handle.
 void closeStdIO(void* file);
 
-// 0x8948f8. fread(dst, size, count, file). The original tail-calls fread and so
-// returns its count in r0; the port keeps the pseudocode signature (void) and drops
-// the count. Partial for that reason (see NOTES.md).
-void readStdIO(void* dst, int size, int count, void* file);
+// 0x8948f8. fread(dst, size, count, file). The original is a tail call to fread, so
+// the count it returns is the function's result (r0).
+std::size_t readStdIO(void* dst, int size, int count, void* file);
 
 // 0x8948f4. fwrite(src, size, count, file). Same tail-call shape as readStdIO.
-void writeStdIO(const void* src, int size, int count, void* file);
+std::size_t writeStdIO(const void* src, int size, int count, void* file);
 
 // 0x8948dc. fseek with whence mapped as in the original (2 -> SEEK_END, 1 -> SEEK_CUR,
 // anything else -> SEEK_SET). The fseek result is discarded.
 void seekStdIO(void* file, int offset, VoxFileSeekOrigin whence);
 
-// 0x8948d8. ftell on the handle. The original tail-calls ftell and returns its result
-// in r0; the port keeps the pseudocode signature (void). Partial for that reason.
-void tellStdIO(void* file);
+// 0x8948d8. ftell on the handle. The original is a tail call to ftell, so the position
+// it returns is the function's result (r0).
+long tellStdIO(void* file);
 
 }  // namespace vox

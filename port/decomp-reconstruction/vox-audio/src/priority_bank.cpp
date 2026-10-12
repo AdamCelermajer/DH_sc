@@ -12,10 +12,14 @@ PriorityBankManager::PriorityBankManager(int bank_count) : bank_count_(bank_coun
 }
 
 // 0x869858 _ZN3vox19PriorityBankManagerC1Ev and 0x8698a0 C2.
-// Partial: the original's count word at +0 is not written by this constructor;
-// the port sets it to 0, which makes every bank index invalid, the same
-// outcome as the empty vector.
-PriorityBankManager::PriorityBankManager() = default;
+// The original writes the vector words at +0x04..+0x0c to zero and constructs the mutex at +0x10.
+// It does not write the bank count at +0 (the asm stores +4, +8 and +0xc only), so the count
+// stays as the caller's storage left it. The port keeps that: bank_count_ has no initializer.
+// The original also builds a one-bank manager on the stack and destroys it at once; that pair
+// is kept here (its only effect is the heap allocation and release).
+PriorityBankManager::PriorityBankManager() {
+    PriorityBankManager scratch(1);
+}
 
 // 0x86418c _ZN3vox19PriorityBankManagerD1Ev
 PriorityBankManager::~PriorityBankManager() = default;
@@ -95,9 +99,10 @@ bool PriorityBankManager::RemoveEmitter(int bank, void* emitter) {
 }
 
 // 0x8661bc _ZN3vox19PriorityBankManager15SetPriorityBankEiiiNS_20PriorityBankBehaviorE
-// Partial: the asm sets the bank's min, max and behaviour when the index is in
-// range, then calls a helper on the entry vector (0x8660fc) that is not
-// reconstructed. The port sets the three fields only.
+// The index is checked against the bank count word, the three fields are set under the lock,
+// and the function returns 1 (0 when the index is out of range). The listing then calls
+// std::vector<PriorityBankElement>::reserve(max_count) on the bank's entries (asm BL reserve(uint)).
+// The port does not call reserve: it changes capacity only, and the bank logic reads the size.
 bool PriorityBankManager::SetPriorityBank(int bank, int min_priority, int max_count, int behaviour) {
     mutex_.Lock();
     bool ok = bank >= 0 && bank < bank_count_;
@@ -112,26 +117,31 @@ bool PriorityBankManager::SetPriorityBank(int bank, int min_priority, int max_co
 }
 
 // 0x8696d0 _ZN3vox19PriorityBankManager15AddPriorityBankEiiNS_20PriorityBankBehaviorE
-// Partial: the asm builds a default bank with the given values, inserts it
-// (helper 0x86958c, not reconstructed) and returns the new index when the
-// count reaches the bank count, else -1. The port appends the bank and returns
-// its index.
-bool PriorityBankManager::AddPriorityBank(int min_priority, int max_count, int behaviour) {
+// Appends a default bank (minimum 0x80000001, maximum 0x7fffffff, behaviour 3) and counts it.
+// When the count then equals the number of banks, the new bank takes the given values and
+// returns its index; otherwise the bank keeps its defaults and the call returns -1 (asm: the
+// count compare at the end). The entry vector's reserve(max_count) is capacity only and is
+// not reproduced.
+int PriorityBankManager::AddPriorityBank(int min_priority, int max_count, int behaviour) {
     mutex_.Lock();
-    PriorityBank b;
-    b.min_priority = min_priority;
-    b.max_count = max_count;
-    b.behaviour = behaviour;
-    banks_.push_back(b);
+    banks_.push_back(PriorityBank{});
     ++bank_count_;
+    int index = -1;
+    if (bank_count_ == static_cast<int>(banks_.size())) {
+        index = bank_count_ - 1;
+        PriorityBank& bank = banks_[static_cast<std::size_t>(index)];
+        bank.min_priority = min_priority;
+        bank.max_count = max_count;
+        bank.behaviour = behaviour;
+    }
     mutex_.Unlock();
-    return true;
+    return index;
 }
 
 // 0x864a80 _ZN3vox19PriorityBankManager12GetDebugInfoEPNS_15DebugChunk_bankE
 // Under the lock, one DebugChunk_bank per bank: the index, the bank's behaviour, minimum
 // priority, maximum count and the number of entries (the entry vector's size).
-void PriorityBankManager::GetDebugInfo(DebugChunk_bank* out) {
+int PriorityBankManager::GetDebugInfo(DebugChunk_bank* out) {
     mutex_.Lock();
     const int count = bank_count_ < static_cast<int>(banks_.size()) ? bank_count_ : static_cast<int>(banks_.size());
     for (int i = 0; i < count; ++i) {
@@ -143,7 +153,7 @@ void PriorityBankManager::GetDebugInfo(DebugChunk_bank* out) {
         record.max_count = bank.max_count;
         record.count = static_cast<std::int32_t>(bank.entries.size());
     }
-    mutex_.Unlock();
+    return mutex_.Unlock();
 }
 
 }  // namespace vox

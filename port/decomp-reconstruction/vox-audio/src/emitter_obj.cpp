@@ -246,46 +246,46 @@ float EmitterObj::GetGain() {
 }
 
 // 0x86bb24 _ZN3vox10EmitterObj7SetGainEff
-// partial: the original tail-calls Mutex::Unlock and returns its int result. The port's
-// Mutex::Unlock is void and SetGain returns void, so the dropped result is not observable.
+// Returns the Mutex::Unlock result, as the original tail-calls Mutex::Unlock.
 // The requested gain is stored raw (+0x40) and not clamped. The fade starts from where the
 // previous fade has reached, and its duration is the time as given, with no +0.001.
 // GetGain still reads gain_ (+0x3c), which SetGain does not write.
-void EmitterObj::SetGain(float gain, float time) {
+int EmitterObj::SetGain(float gain, float time) {
     mutex.Lock();
     requested_gain_ = gain;
     RestartFadeWithDuration(gain_fade_, gain, time);
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86bc40 _ZN3vox10EmitterObj8SetPitchEff
-// partial: same unlock-result difference as SetGain. The requested pitch is stored raw at +0x74
-// (pitch_) and is also the fade target at +0x7c. The fade restarts with the duration as given.
-void EmitterObj::SetPitch(float pitch, float time) {
+// The requested pitch is stored raw at +0x74 (pitch_) and is also the fade target at +0x7c.
+// The fade restarts with the duration as given. Returns the Mutex::Unlock result.
+int EmitterObj::SetPitch(float pitch, float time) {
     mutex.Lock();
     pitch_ = pitch;
     RestartFadeWithDuration(pitch_fade_, pitch, time);
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x86c1d4 _ZN3vox10EmitterObj6ResumeEf
-// partial: the original returns the unlock result (see SetGain). The logic is exact: an emitter
+// Returns the Mutex::Unlock result. An emitter
 // whose sub-state is 2, or whose state is 2 and whose sub-state is not 3, becomes playing (sub-state
 // 1) and starts a fade toward 1.0 over the time given, with no +0.001. The fade record is at
 // +0x5c; the name resume_fade_ is ours, the original does not name it.
-void EmitterObj::Resume(float time) {
+int EmitterObj::Resume(float time) {
     mutex.Lock();
     if (state_set_ == 2 || (state_ == 2 && state_set_ != 3)) {
         state_set_ = 1;
         RestartFadeWithDuration(resume_fade_, 1.0f, time);
     }
-    mutex.Unlock();
+    return mutex.Unlock();
 }
 
 // 0x866abc _ZN3vox10EmitterObj30SetInteractiveMusicStateChangeEPKc
-// partial: the original takes no lock. It sets the byte at +0x144 and strcpy()s the state name
-// to +0x146. That buffer has no bound in the original, so the port keeps the name in a std::string.
-// A null name stores an empty string here; the original would crash on it.
+// The original takes no lock. Its body is the flag byte at +0x144 set to 1 (the byte at +0x145 is
+// a separate flag, written elsewhere), then strcpy(this+0x146, name). The copy is unbounded and
+// no code in vox-audio reads the name back, so a std::string holds the same content.
+// Deviation: a null name crashes the original in strcpy; the port stores an empty string.
 void EmitterObj::SetInteractiveMusicStateChange(const char* state) {
     interactive_state_set_ = true;
     interactive_state_ = state != nullptr ? state : std::string();
@@ -300,9 +300,10 @@ bool EmitterObj::ShouldDie() {
 }
 
 // 0x8657f4 _ZN3vox10EmitterObj7IsAliveEv
-// partial: the original takes the mutex here and then calls ShouldDie, which takes
-// it again. With a non-recursive mutex that deadlocks, so the port calls the
-// unlocked body instead. The result (not ShouldDie) is what IsAlive returns.
+// partial: the original takes the mutex here and then calls ShouldDie (0x865784), which locks the
+// same mutex again. pthread_mutex_init is called with a null attribute, so the mutex is a normal
+// (non-recursive) one and the original blocks on its own lock. The port calls the unlocked body
+// instead, which avoids the hang and returns the same value.
 bool EmitterObj::IsAlive() {
     mutex.Lock();
     const bool alive = !ShouldDieUnlocked();

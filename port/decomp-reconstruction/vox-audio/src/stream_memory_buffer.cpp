@@ -48,6 +48,10 @@ int StreamMemoryBuffer::GetType() const { return 0; }
 // 0x8890d8 _ZN3vox18StreamMemoryBuffer15CreateNewCursorEv
 // Returns null when there is no data. Otherwise allocates the cursor block
 // (0xc bytes in the 32-bit original, sizeof here) and constructs it in place.
+StreamMemoryBufferCursor::StreamMemoryBufferCursor(StreamMemoryBuffer* owner) : owner_(owner) {
+    owner_stream_ = owner;  // +0x04 owner word, as StreamCursorInterface keeps it
+}
+
 StreamCursorInterface* StreamMemoryBuffer::CreateNewCursor() {
     if (data_ == nullptr) {
         return nullptr;

@@ -1,18 +1,19 @@
 # Decompiled-function reconstruction: status
 
-Updated 2026-10-12 by the integrator, after merging `feature/decomp-glitch-core-video` at `67d30092`.
-Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once against its
-category's queue. 1,332 queued functions have no ledger row yet. They are still to do.
+Updated 2026-10-12 by the integrator, after merging core-video wave 4 (`db85055f`) and vox-audio (`7283788d`,
+merge `63c0f0b2`). Totals come from `python3 tools/decomp_progress.py`, which counts each ledger row once
+against its category's queue. 1,341 queued functions have no ledger row yet. They are still to do; 13 of
+them are video's C2DDriver functions.
 
 ## Totals
 
 | | functions |
 |---|---|
 | queued | 15,164 |
-| reconstructed | 7,046 |
+| reconstructed | 7,305 |
 | upstream (unmodified library code) | 1,796 |
-| partial | 2,761 |
-| skipped (deliberately not rebuilt) | 2,229 |
+| partial | 2,519 |
+| skipped (deliberately not rebuilt) | 2,203 |
 
 Hex-Rays is the primary pseudocode source (`recovered/native/hexrays-all/`). The IDA assembly
 listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Ghidra is the fallback
@@ -23,14 +24,14 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
 | category | queued | reconstructed | upstream | partial | skipped |
 |---|---|---|---|---|---|
 | core-platform | 653 | 284 | 0 | 82 | 287 |
-| glitch-core-io | 1,255 | 847 | 17 | 162 | 229 |
+| glitch-core-io | 1,255 | 848 | 17 | 165 | 225 |
 | glitch-scene-collada-gui | 4,354 | 1,279 | 0 | 1,487 | 581 |
-| glitch-video | 1,686 | 540 | 0 | 415 | 727 |
+| glitch-video | 1,686 | 672 | 0 | 271 | 730 |
 | net-session-online | 1,235 | 704 | 0 | 163 | 115 |
 | net-transport | 794 | 528 | 0 | 185 | 66 |
 | pydata-accessors | 2,201 | 2,082 | 0 | 99 | 20 |
 | tinyxml-and-c-libs | 1,846 | 0 | 1,734 | 1 | 58 |
-| vox-audio | 1,140 | 782 | 45 | 167 | 146 |
+| vox-audio | 1,140 | 908 | 45 | 66 | 121 |
 
 ## Decisions in force
 
@@ -65,6 +66,31 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   - The stub classes that core-video's copy of `glitch_core.hpp` also carried (IVideoDriver, ITexture, CLight,
     IShader, and so on, plus IReferenceCounted) are left out. Putting them in the shared folder would give
     every category that includes it a second definition of those classes.
+- Material-parameter binding (decided 2026-10-12 from the part headers and their listings). The 311 rows
+  moved from core-io are `IMaterialParameters` member templates (owners G, M and R). Their bodies are free
+  functions in four part files, and each row's address is cited in exactly one part header. The bindings:
+  - Binding point: `IMaterialParametersTyped<Derived>` in `material_parameters_typed.hpp`. The derived class
+    (`IMaterialParameters<Owner, ...>`) supplies its owner's table through one accessor and needs the
+    `using Base::...` lines that file lists. The member templates forward to the part free functions.
+  - Coverage: 282 part-file signatures, 0 implemented twice. Bind 271 of them (243 reconstructed and 28
+    partial). Owner G: 88 (part 1a 64, part 1b 24). Owner M: 100 (part 1b 51, part 1c 49). Owner R: 83
+    (part 1c 26, part d 57). 11 rows that part 1a cites as skipped stay unbound. 29 rows with no part
+    implementation (the intrusive_ptr rows, setArrayParameter and setParameterElement callers) stay unbound.
+    40 unbound rows in total. Each is recorded in its ledger note.
+  - Table records: owner G uses the 20-byte record (part 1a `SParamEntry`: type +0x06, count +0x08, offset
+    +0x0c, ref +0x00). Part 1b's `ParamEntry` has the same fields at the same offsets, so its `set` flag is
+    `ref != 0`. Owners M and R use the 16-byte `SParameterEntry` in `material_parameters.hpp`. Part 1b's M
+    record (`ParamEntry`, 16 bytes) and `MaterialParameterBlock` duplicate it and should be replaced.
+  - Pointer storage: owners M and R keep pointer slots as `boost::intrusive_ptr` in part 1c's
+    `SPointerSlots`, keyed by the original byte offset. The listings do the reference-count add before the
+    store and the release after it, and only an intrusive pointer reproduces that. Part 1b's raw-pointer
+    slots are a port deviation and are retired in favour of `SPointerSlots`.
+  - Stride: the 4th argument of the pointer forms is a byte stride, as the listings show (`a += stride`).
+    The typed header names it `count`. Its declarations should be corrected to `stride`.
+  - Pointer slot width: a stored pointer takes `sizeof(void*)` bytes on the host. The original stores 4.
+    The owners size their value buffers to match. This is a port deviation and stays documented.
+  - Not done yet: the member templates and the owner table accessors are not written. The binding is the
+    next step for glitch-video, with the 271-row set above as the acceptance test.
 - Musepack `mpc_*` queue rows are ledgered as `upstream`, matched by name. The bodies were not
   compared with upstream source. The vox thread later marked four of them (`0x87f28c`, `0x8803d4`,
   `0x8964ec`, `0x8965b4`) `skipped`, since it could not confirm the library function.
@@ -91,7 +117,14 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   the shared header.
 - glitch-video: the 311 moved rows are in its ledger, but the code is still under `glitch-core-io/include/
   glitch-core-io/video/`. Video should reconstruct them there, then remove the core-io copy.
-- glitch-video: 4 queued functions have no ledger row yet (`0x5eeef4`, `0x5f0f60`, `0x5f2fdc`, `0x5f4fe8`).
+- glitch-video: 13 queued functions have no ledger row yet, all video's C2DDriver family (`0x59f0b0` to
+  `0x59fbd4`, `0x5fea04`, `0x5fed6c`).
+- glitch-video: the material-parameter binding above is decided and not yet written (271 rows).
+- IDA archive `ida 2.zip` (new, 2026-10-12): `recovered/native/ida-types/` holds the local-types C header
+  and one listing. The header has no glitch:: class bodies (only forward declarations and std internals).
+  The type library names 105 `glitch::scene::` classes, but their layouts stay encoded in IDA's binary
+  format until the user exports them on the Windows PC. The scene threads are still blocked on those
+  layouts. Remote Control session needed.
 - glitch-scene-collada-gui: `layouts.hpp` is a notes file, not a type header, so it is not lifted.
 - glitch-scene-collada-gui: 80 generated stubs in `generated_stubs.hpp` are address-named templates, not yet
   attached to their owning classes.
@@ -106,9 +139,10 @@ listing is in `recovered/native/ida-asm/` for checks (`tools/decomp_asm.py`). Gh
   forward to it.
 - pydata-core branch: its core-platform queue is stale (679 rows against 653 at HEAD). HEAD's queue, as
   regenerated by the tool, is authoritative.
-- vox-audio: `ledger.parts/w9-fun.csv` still holds the three `FUN_` rows at pre-fix addresses (`0x89xxxx`).
-  `ledger.csv` is the file the progress tool reads, and it has the rows at the corrected addresses. The
-  parts file should be deleted or kept in step.
+- vox-audio: `ledger.parts/` still holds the pre-fix `FUN_` rows (`0x89xxxx`, `w9-fun.csv`). `ledger.csv` is
+  the file the progress tool reads, and it has them at the queue addresses. The vox thread should retire
+  `ledger.parts/`. `FUN_008a0364` is keyed at its queue address. Its note gives the IDA location: jump-table
+  case 3 of `vox::DriverCallbackInterface::_Set3DParameter` at `loc_890364`.
 - Thunks reimplemented rather than forwarded (core-platform 5, glitch-video 1, net-session-online 2)
   still need review.
 

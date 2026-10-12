@@ -26,8 +26,8 @@ EmitterHandle::EmitterHandle(std::int64_t id, VoxEngineInternal** engine, Handla
     }
 }
 
-// 0x8681c0 _ZN3vox13EmitterHandleC1ERKS0_
-// 0x868250 _ZN3vox13EmitterHandleC2ERKS0_
+// 0x8681c0 _ZN3vox13EmitterHandleC1ERKS0_ (reconstructed)
+// 0x868250 _ZN3vox13EmitterHandleC2ERKS0_ (reconstructed, same body)
 // Copies every word and counts a reference through the engine when one is live.
 EmitterHandle::EmitterHandle(const EmitterHandle& other)
     : Handle(other), engine_(other.engine_), handlable_(other.handlable_) {
@@ -36,7 +36,7 @@ EmitterHandle::EmitterHandle(const EmitterHandle& other)
     }
 }
 
-// 0x868324 _ZN3vox13EmitterHandleaSERKS0_
+// 0x868324 _ZN3vox13EmitterHandleaSERKS0_ (reconstructed)
 // Releases the old engine reference, copies the other handle, and counts the new one.
 EmitterHandle& EmitterHandle::operator=(const EmitterHandle& other) {
     if (this == &other) {

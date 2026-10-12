@@ -23,6 +23,8 @@
 
 namespace vox {
 
+class DriverSourceInterface;
+
 class DriverInterface {
 public:
     virtual ~DriverInterface();                                        // D1 0x88fcdc, D0 0x891000
@@ -44,9 +46,14 @@ public:
     // Slot +0x40: the driver's own debug dump (DriverAndroid::PrintDebug in the binary's vtable),
     // called from VoxEngineInternal::PrintDebug. Empty in the base class.
     virtual void PrintDebug() {}
+    // Slot +0x44: creates the source a new emitter plays through, from the four track words
+    // (channels, sample rate, bits, length), the user pointer and the emitter flags. Null in
+    // the base; DriverAndroid returns null too (its source is not created, see NOTES.md).
+    virtual DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags);
+    // Slot +0x48: releases a source made by CreateDriverSource. Empty in the base.
+    virtual void DestroyDriverSource(DriverSourceInterface* source);
     // Slots +0x08 Init(void*) and +0x0c Shutdown() are pure in the base and named by the
-    // DriverAndroid and DriverCallbackInterface vtables; +0x44 CreateDriverSource and +0x48
-    // DestroyDriverSource are DriverAndroid members. Not declared here (see NOTES.md, wave 9).
+    // DriverAndroid and DriverCallbackInterface vtables.
 };
 
 class DriverSourceInterface {
@@ -73,10 +80,13 @@ public:
     virtual void SetDSPParameter(int param, void* value);              // +0x40, 0x88ed3c (empty)
     virtual void Update(float dt);                                     // +0x44, 0x88fccc (empty)
     virtual int AllowBufferReference();                                // +0x48, 0x88fcd0: returns 0
-    virtual void FreeDisposableData(int id, int& first, int& second);  // +0x4c, 0x88fcd8 (empty)
+    // +0x4c, 0x88fcd8: the binary's base body is BX LR (no result set). Returns 0 here so that the
+    // derived int results (the Mutex::Unlock result of DriverCallbackSourceInterface) keep their type.
+    virtual int FreeDisposableData(int id, int& first, int& second);
     virtual void PrintDebug() {}                                       // +0x50 (DriverAndroidSource::PrintDebug)
     virtual int GetBufferCount() const { return 0; }                   // +0x54
-    virtual void Init() {}                                             // +0x58
+    // +0x58: no base body in the binary (the derived Init returns the Mutex::Unlock int). Returns 0 here.
+    virtual int Init() { return 0; }
     virtual void Cleanup() {}                                          // +0x5c
 };
 

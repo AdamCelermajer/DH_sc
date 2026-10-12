@@ -34,11 +34,15 @@ int mpc_tell(mpc_reader_t* reader) {
 }
 
 // 0x86fc38 _Z11mpc_getsizeP12mpc_reader_t
-// Partial: the original reads the owning stream from the cursor (+0x04) and asks it
-// for its size. StreamCursorInterface has no owner slot in the port, so this returns 0.
+// The original reads the cursor from the reader (+0x14), then the owning stream from the
+// cursor's owner word (+0x04), and returns that stream's Size (vtable slot +0x10). A missing
+// cursor or owner gives 0.
 int mpc_getsize(mpc_reader_t* reader) {
-    (void)reader;
-    return 0;
+    if (reader->data == nullptr) {
+        return 0;
+    }
+    vox::StreamInterface* owner = reader->data->OwnerStream();
+    return owner != nullptr ? owner->Size() : 0;
 }
 
 // 0x86fc70 _Z11mpc_canseekP12mpc_reader_t

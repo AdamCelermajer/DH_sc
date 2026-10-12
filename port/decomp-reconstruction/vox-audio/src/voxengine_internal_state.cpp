@@ -17,10 +17,8 @@ namespace vox {
 VoxEngineInternal* VoxEngineInternal::s_voxEngineInternal = nullptr;
 
 // 0x869d3c _ZN3vox17VoxEngineInternal20GetVoxEngineInternalEv
-// Partial: the original allocates 0x5a0 bytes and runs the constructor at 0x869a94, which is
-// not reconstructed. The port allocates sizeof(VoxEngineInternal) and placement-constructs
-// the object with the implicit default constructor, so the members start with the defaults
-// in the header and the 608-byte constructor's own writes are missing.
+// The original allocates 0x5a0 bytes and runs the constructor at 0x869a94. The port allocates
+// sizeof(VoxEngineInternal) and runs the port's constructor (its partial items are on that row).
 VoxEngineInternal* VoxEngineInternal::GetVoxEngineInternal() {
     if (s_voxEngineInternal != nullptr) {
         return s_voxEngineInternal;
@@ -70,15 +68,15 @@ void VoxEngineInternal::Play(EmitterHandle& emitter, bool loop, float fade) {
 }
 
 // 0x86ed00 _ZN3vox17VoxEngineInternal4StopEPNS_10EmitterObjEf
-void VoxEngineInternal::Stop(EmitterObj* emitter, float fade) {
+int VoxEngineInternal::Stop(EmitterObj* emitter, float fade) {
     if (emitter == nullptr) {
-        return;
+        return 0;
     }
     if (emitter->in_bank_ && priority_bank_ != nullptr) {
         priority_bank_->RemoveEmitter(emitter->bank_, emitter);
     }
     emitter->in_bank_ = false;
-    emitter->Stop(fade);
+    return emitter->Stop(fade);
 }
 
 // 0x86ef48 _ZN3vox17VoxEngineInternal4StopERNS_13EmitterHandleEf
@@ -90,10 +88,12 @@ void VoxEngineInternal::Stop(EmitterHandle& emitter, float fade) {
 }
 
 // 0x86e618 _ZN3vox17VoxEngineInternal5PauseEPNS_10EmitterObjEf
-void VoxEngineInternal::Pause(EmitterObj* emitter, float fade) {
+// The null check returns 0 (the binary's SUBS sets the result to the null emitter).
+int VoxEngineInternal::Pause(EmitterObj* emitter, float fade) {
     if (emitter != nullptr) {
-        emitter->Pause(fade);
+        return emitter->Pause(fade);
     }
+    return 0;
 }
 
 // 0x86e824 _ZN3vox17VoxEngineInternal5PauseERNS_13EmitterHandleEf
@@ -105,27 +105,28 @@ void VoxEngineInternal::Pause(EmitterHandle& emitter, float fade) {
 }
 
 // 0x86c2cc _ZN3vox17VoxEngineInternal6ResumeEPNS_10EmitterObjEf
-void VoxEngineInternal::Resume(EmitterObj* emitter, float fade) {
+int VoxEngineInternal::Resume(EmitterObj* emitter, float fade) {
     if (emitter != nullptr) {
-        emitter->Resume(fade);
+        return emitter->Resume(fade);
     }
+    return 0;
 }
 
 // 0x86c4d8 _ZN3vox17VoxEngineInternal6ResumeERNS_13EmitterHandleEf
-void VoxEngineInternal::Resume(EmitterHandle& emitter, float fade) {
+int VoxEngineInternal::Resume(EmitterHandle& emitter, float fade) {
     emitter_access_.GetReadAccess();
     EmitterObj* obj = GetEmitterObject(emitter);
     Resume(obj, fade);
-    emitter_access_.ReleaseReadAccess();
+    return emitter_access_.ReleaseReadAccess();
 }
 
 // 0x86bbf4 _ZN3vox17VoxEngineInternal7SetGainERNS_13EmitterHandleEff
-void VoxEngineInternal::SetGain(EmitterHandle& emitter, float gain, float time) {
+int VoxEngineInternal::SetGain(EmitterHandle& emitter, float gain, float time) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {
         obj->SetGain(gain, time);
     }
-    emitter_access_.ReleaseReadAccess();
+    return emitter_access_.ReleaseReadAccess();
 }
 
 // 0x86bd10 _ZN3vox17VoxEngineInternal8SetPitchERNS_13EmitterHandleEff
@@ -169,12 +170,14 @@ int VoxEngineInternal::GetStatus(EmitterHandle& emitter) {
 }
 
 // 0x8676d8 _ZN3vox17VoxEngineInternal22SetDSPEmitterParameterERNS_13EmitterHandleEiPv
-void VoxEngineInternal::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
+int VoxEngineInternal::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
     emitter_access_.GetReadAccess();
     if (EmitterObj* obj = GetEmitterObject(emitter)) {
-        obj->SetDSPParameter(param, value);
+        // The listing drops the int of EmitterObj::SetDSPParameter (a plain BL) and returns the
+        // ReleaseReadAccess result (tail call), so that is the value this function returns.
+        (void)obj->SetDSPParameter(param, value);
     }
-    emitter_access_.ReleaseReadAccess();
+    return emitter_access_.ReleaseReadAccess();
 }
 
 // 0x868008 _ZN3vox17VoxEngineInternal41RegisterForEmitterStateChangeNotificationERNS_13EmitterHandleEPFvS2_PvNS_18EmitterExternStateEES3_

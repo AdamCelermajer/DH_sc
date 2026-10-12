@@ -28,7 +28,7 @@ int main() {
     CHECK(m.SetPriorityBank(1, 0, 1, 1));
     CHECK(!m.CanAddEmitter(1, -1));  // below min priority 0
     CHECK(m.CanAddEmitter(1, 3));    // room: nothing in the bank yet
-    CHECK(m.AddPriorityBank(0, 1, 0));  // bank 2: behaviour 0
+    CHECK(m.AddPriorityBank(0, 1, 0) == 2);  // bank 2: behaviour 0, index 2 returned
     CHECK(m.CanAddEmitter(2, 0));
 
     // Fill bank 1 with a priority-4 emitter.

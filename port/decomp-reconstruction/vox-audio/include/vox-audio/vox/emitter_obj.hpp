@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "vox-audio/vox/gain_fade.hpp"
 #include "vox-audio/vox/handlable.hpp"
@@ -24,16 +25,15 @@ struct EmitterHandleUserData {
 };
 
 // One emitter as EmitterObj::GetDebugInfo reports it (0x74 bytes in the original). The
-// offsets are the original's chunk offsets. Fields +0x20 and +0x28 are not named by the port
-// (see the GetDebugInfo notes in the .cpp), so they are written as zero.
+// offsets are the original's chunk offsets.
 struct DebugChunk_emitter {
     std::int64_t emitter_id = 0;     // +0x00 (EmitterObj id)
     std::int64_t data_id = 0;        // +0x08 (DataObj id, 0 without a data object)
     VoxVector3f position;            // +0x10..+0x18 (parameter 8)
     std::int32_t state = 0;          // +0x1c (state_set_)
-    std::int32_t unnamed_20 = 0;     // +0x20 (EmitterObj +0x38, owner not identified)
+    float source_gain = 1.0f;        // +0x20 (EmitterObj source_gain_, +0x38)
     float gain = 0.0f;               // +0x24 (gain modifier * resume fade target * gain fade target)
-    std::int32_t unnamed_28 = 0;     // +0x28 (EmitterObj +0x70, not named in the port)
+    float source_pitch = 1.0f;       // +0x28 (EmitterObj source_pitch_, +0x70)
     float pitch = 0.0f;              // +0x2c (pitch_)
     std::int32_t loop = 0;           // +0x30 (loop_read_)
     std::int32_t ref_count = 0;      // +0x34 (Handlable ref_count)
@@ -47,6 +47,14 @@ struct DebugChunk_emitter {
 class EmitterObj : public Handlable {
 public:
     EmitterObj() = default;
+    // 0x866380 (C1) and 0x8665cc (C2, same body): an emitter with no decoder cursor yet.
+    // The data object supplies the play rate and length. Partial: a null or not-ready data object
+    // makes the original call GetType through a null pointer (the port stores 0 instead).
+    EmitterObj(std::int64_t id, int priority, int bank, DriverSourceInterface* source, DataObj* data);
+    // 0x86c5ec (C1) and 0x86ce1c (C2, same body): an emitter fed by a decoder cursor. Builds the
+    // buffer ring (see BuildBufferRing). Partial: the same null GetType path as C1, see the .cpp.
+    EmitterObj(std::int64_t id, int priority, int bank, int chunk_bytes, DriverSourceInterface* source,
+               DecoderCursorInterface* cursor, DataObj* data);
     ~EmitterObj() override;  // D1 0x8699c0 and D2 0x869a38 (same body); D0 0x869a1c is the deleting variant
 
     void SetGainModifier(float gain);       // 0x863528: stores +0x44, no lock
@@ -98,20 +106,21 @@ public:
 
     // Declared for the VoxEngineInternal forwarders. Bodies not reconstructed yet, except
     // SetGain and SetPitch, which restart the gain and pitch fades (partial, see the .cpp).
-    void Play(float fade);                  // 0x86e304 (partial: resume fade, see transport .cpp)
-    void Pause(float fade);                 // 0x86e428 (partial)
-    void Stop(float fade);                  // 0x86e868 (partial)
-    void Resume(float time);                // 0x86c1d4 (partial, see the .cpp)
-    void SetGain(float gain, float time);   // 0x86bb24
-    void SetPitch(float pitch, float time); // 0x86bc40
+    int Play(float fade);                   // 0x86e304 (returns the Mutex::Unlock result)
+    int Pause(float fade);                  // 0x86e428
+    int Stop(float fade);                   // 0x86e868
+    int Resume(float time);                 // 0x86c1d4
+    int SetGain(float gain, float time);    // 0x86bb24
+    int SetPitch(float pitch, float time);  // 0x86bc40
     void Update(float dt);                  // 0x86d5b8
-    void SetPlayCursor(float position);     // 0x8653ec (partial, see the .cpp notes)
+    int LoadAsync();                        // 0x86d238 (partial, see the .cpp)
+    int SetPlayCursor(float position);      // 0x8653ec (partial: the null-decoder path, see the .cpp)
     float GetPlayCursor();                  // 0x8654f8
-    void SetDSPParameter(int param, void* value);  // 0x866acc (partial: copies the name to +0xf0)
+    int SetDSPParameter(int param, void* value);   // 0x866acc (partial: null value path, see the .cpp)
     void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
-    void GetDebugInfo(DebugChunk_emitter& out);  // 0x866818 (partial: unnamed words, see DebugChunk_emitter)
+    int GetDebugInfo(DebugChunk_emitter& out);   // 0x866818 (partial: param0 override, see the .cpp)
     // Wave 9 (src/w9-emitter-slots): the cursor-to-source pull and the 3D push.
     int ProcessNonNativeData(float dt);     // 0x863228: pulls one ring block from the cursor
     int ProcessNativeData(float dt);        // 0x866b30 (partial, see the .cpp)
@@ -165,11 +174,23 @@ public:
     DecoderCursorInterface* decoder_cursor_ = nullptr;  // +0x114, the cursor that feeds dsp_source_
     // Buffer ring (+0xf4 base, owned, freed by the destructor and CleanUp). Each slot points at
     // a block the cursor returned (DecodeRef) or owns (Decode).
-    void** buffer_ring_ = nullptr;          // +0xf4 (was owned_buffer_)
+    std::vector<void*> buffer_ring_;        // +0xf4 (begin), +0xf8 (end), +0xfc (capacity): std::vector<unsigned char*>
     int buffer_read_index_ = 0;             // +0x100
     int buffer_count_ = 0;                  // +0x104, ring slot count
     int buffer_chunk_bytes_ = 0;            // +0x108, bytes requested per DecodeRef
     int buffer_fill_ = 0;                   // +0x10c, reset to 0 by ProcessNativeData
+    int decoder_type_ = 0;                  // +0x140, the decoder GetType (0 when the data is not ready)
+    // Read back from the source by Update (+0x38 gain, +0x70 pitch). The constructors set both to 1.0.
+    float source_gain_ = 1.0f;              // +0x38
+    float source_pitch_ = 1.0f;             // +0x70
+    std::uint8_t flag_145_ = 0;             // +0x145: set by the constructors and by Update; role not identified
+    // Words the constructors write. No reader was found in the EmitterObj listings (a scan of the
+    // pseudocode for these offsets found writes only), so they are kept as named placeholders.
+    std::uint32_t word_120_ = 0;            // +0x120, constructors store 0
+    float word_124_ = 1.0f;                 // +0x124, constructors store 1.0
+    std::uint32_t word_128_ = 0;            // +0x128, constructors store 0
+    std::uint32_t word_12c_ = 0;            // +0x12c, constructors store 0
+    std::uint8_t byte_130_ = 0;             // +0x130, constructors store 1
 };
 
 }  // namespace vox

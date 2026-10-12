@@ -139,11 +139,12 @@ DriverScratchBuffer& DriverCallbackInterface::GetWorkBuffer(int size) {
     return s_work_;
 }
 
-// 0x890548 _ZN3vox23DriverCallbackInterface11_FillBufferEPsi (partial)
-// The mix buffer is taken as 32-bit words, two per frame. Hex-Rays prints the element
-// index with a stride of 1 for the word read, which is not the layout the rest of the
-// function uses, so the port reads mix[i] as an int array. The original's float return
-// (the result of Set3DParameters) is dropped.
+// 0x890548 _ZN3vox23DriverCallbackInterface11_FillBufferEPsi
+// The mix buffer is 32-bit words, two per output sample (the listing allocates 8 * count bytes), and the
+// clamp loop covers 2 * count words, as the port's loop does. Each mixed source is
+// called through its FillBuffer slot (+0x60). The listing types the result as float, but the value in r0
+// at the exits is a register leftover (the mix buffer pointer on the full path). FillBuffer (0x8906a0)
+// does not read it, so the function is void here.
 void DriverCallbackInterface::_FillBuffer(std::int16_t* out, int count) {
     DriverCallbackSourceInterface::Set3DParameters(listener_);
 

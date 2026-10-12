@@ -24,20 +24,26 @@ namespace vox {
 class DriverInterface;
 class PriorityBankManager;
 class DataObj;
+class FileSystemInterface;
+
+// Node of the intrusive list at +0x43c. The first word is the next node (the destructor reads it).
+struct VoxListNode {
+    VoxListNode* next = nullptr;
+};
 
 class VoxEngineInternal {
 public:
     VoxEngineInternal();                                                   // 0x869a94, 0x869d8c (partial)
     virtual ~VoxEngineInternal();                                          // 0x86be68 (D1), 0x86c02c (D2)
-    virtual void Initialize();                                             // +0x08
+    virtual FileSystemInterface* Initialize();                             // +0x08 (returns FileSystemInterface::GetInstance())
     virtual void Suspend();                                                // +0x0c
     virtual void Resume();                                                 // +0x10
     virtual bool IsSuspended();                                            // +0x14
     virtual void UpdateSources();                                          // +0x18
-    virtual void UpdateEmitters(float dt);                                 // +0x1c
+    virtual int UpdateEmitters(float dt);                                  // +0x1c (ReleaseReadAccess result)
     virtual void KillEmitter(EmitterObj* emitter);                         // +0x20
-    virtual void SetGroupGain(unsigned int group, float gain, float time); // +0x24
-    virtual void SetMasterGain(float gain, float time);                    // +0x28
+    virtual int SetGroupGain(unsigned int group, float gain, float time);  // +0x24 (Mutex::Unlock result)
+    virtual int SetMasterGain(float gain, float time);                     // +0x28 (Mutex::Unlock result)
 
     // Non-virtual entry points that the facade calls directly (no vtable slot).
     void GetDebugInfo(DebugInfo& info);
@@ -47,8 +53,8 @@ public:
     int GetOutputMode();                    // 0x8630b8: driver result, -1 without a driver
     void UpdateDSP(float dt);               // 0x86308c: forwards to the driver's Update
     void _SetDefault3DParameters();         // 0x8630b0 (empty in the binary)
-    void SetInteractiveMusicState(EmitterHandle& emitter, const char* state);
-    void SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);
+    int SetInteractiveMusicState(EmitterHandle& emitter, const char* state);  // 0x86764c (Mutex::Unlock result)
+    int SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value);  // 0x8676d8 (ReleaseReadAccess result)
     void SetSFXPresetActive(int preset, bool active, float level);
     void SetRoutingVolume(char* from, char* to, VoxDSPGeneralParameter::BusRoutingType type,
                           float volume, float fade_in, float fade_out);  // 0x8630b4 (empty)
@@ -105,15 +111,15 @@ public:
     void DecreaseDataObjectRefCount(DataHandle& data);
 
     int GetAllEmitters(EmitterHandle* out, int max_count);  // 0x868468: returns the count written
-    void Resume(EmitterHandle& emitter, float fade);
+    int Resume(EmitterHandle& emitter, float fade);
     void Pause(EmitterHandle& emitter, float fade);
     void Stop(EmitterHandle& emitter, float fade);
     void Play(EmitterHandle& emitter, bool loop, float fade);
     // Overloads on the emitter object itself (the handle versions look it up first).
     void Play(EmitterObj* emitter, bool loop, float fade);     // 0x86ef8c
-    void Pause(EmitterObj* emitter, float fade);               // 0x86e618
-    void Stop(EmitterObj* emitter, float fade);                // 0x86ed00
-    void Resume(EmitterObj* emitter, float fade);              // 0x86c2cc
+    int Pause(EmitterObj* emitter, float fade);                // 0x86e618
+    int Stop(EmitterObj* emitter, float fade);                 // 0x86ed00
+    int Resume(EmitterObj* emitter, float fade);               // 0x86c2cc
     void RegisterForEmitterStateChangeNotification(EmitterHandle& emitter, EmitterStateCallback callback,
                                                    void* user_data);  // 0x868008
     void UnregisterForEmitterStateChangeNotification(EmitterHandle& emitter);  // 0x867fcc
@@ -121,11 +127,11 @@ public:
     void SetPitch(EmitterHandle& emitter, float pitch, float time);
     void SetLoop(EmitterHandle& emitter, bool loop);
     float GetGain(EmitterHandle& emitter);
-    void SetGain(EmitterHandle& emitter, float gain, float time);
+    int SetGain(EmitterHandle& emitter, float gain, float time);
     void SetAutoKillAfterDone(EmitterHandle& emitter, bool on);
     void KillEmitter(EmitterHandle& emitter);
     std::uintptr_t GetUserData(EmitterHandle& emitter);   // word from EmitterObj::GetUserData; 0 without an emitter
-    void SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data);
+    int SetUserData(EmitterHandle& emitter, EmitterHandleUserData& user_data);
 
     std::uint32_t GetDuration(DataHandle& data);
     int IsValid(DataHandle& data);
@@ -192,11 +198,17 @@ private:
     // Master times group gain per group, written by UpdateEmitters and read by each emitter's
     // SetGainModifier call. The original keeps it at +0x374 (32 floats), right after the fades.
     float group_gains_[32] = {};               // +0x374
-    // Handle stamps: one per emitter slot (16 slots). A handle keeps the stamp of its slot and
-    // the slot index (EmitterObj +0x14). Written by the constructor and SetTimeStamp, which are
-    // not reconstructed yet, so the values stay zero here.
-    std::uint32_t emitter_stamps_[16] = {};    // +0x550
     int suspend_count_ = 0;                    // +0x594 (nested Suspend/Resume depth)
+    // Intrusive list sentinel at +0x43c (next) and +0x440 (prev). The original points both words at
+    // the sentinel itself when the list is empty; the port uses nullptr for that. Nothing in the
+    // binary links a node into this list (no writer outside the constructor and destructor).
+    VoxListNode* list_head_ = nullptr;         // +0x43c
+    VoxListNode* list_tail_ = nullptr;         // +0x440
+    // +0x598: a buffer pointer the destructor frees with VoxFree when it is non-null. No other
+    // code in the binary writes it; the constructor zeroes it.
+    void* side_buffer_ = nullptr;              // +0x598
+    // +0x59c: zeroed by the constructor; the binary never reads it.
+    std::int32_t side_word_ = 0;               // +0x59c
     // Factory tables with 31 slots each. Streams at +0x444 with the count at +0x4c4;
     // decoders at +0x4c8 with the count at +0x548.
     StreamInterface* (*stream_factories_[31])(void*) = {};    // +0x444
@@ -214,7 +226,9 @@ private:
     HandlableContainer emitter_pending_;       // +0x98
     DriverInterface* driver_ = nullptr;        // +0x54c
     Mutex mutex_;                              // +0x3f4
-    std::uint32_t data_stamps_[16] = {};       // +0x550: stamp per slot; a handle is current when it matches
+    // +0x550: stamp per slot, shared by data and emitter handles (CreateEmitter and the emitter
+    // constructors index the same words as GetDataObject). A handle is current when its stamp matches.
+    std::uint32_t data_stamps_[16] = {};
     unsigned int next_data_slot_ = 0;          // +0x590: slot for the next data object (mod 16)
     std::list<DataObj*> data_queue_;           // +0x6c (sentinel), +0x70 (tail): data objects waiting for the update loop
     Mutex data_queue_mutex_;                   // +0x74

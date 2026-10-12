@@ -57,9 +57,10 @@ public:
         ++opens_;
         return new FakeFile(data_);
     }
-    void CloseFile(vox::FileInterface* file) override {
+    int CloseFile(vox::FileInterface* file) override {
         ++closes_;
         delete file;
+        return 0;
     }
     int opens_ = 0;
     int closes_ = 0;

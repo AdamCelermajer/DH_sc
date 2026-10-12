@@ -149,9 +149,7 @@ int main() {
         e.decoder_cursor_ = &c;
         e.buffer_count_ = 2;
         e.buffer_chunk_bytes_ = 16;
-        e.buffer_ring_ = static_cast<void**>(VoxAlloc(2 * sizeof(void*)));
-        e.buffer_ring_[0] = nullptr;
-        e.buffer_ring_[1] = nullptr;
+        e.buffer_ring_.assign(2, nullptr);
 
         CHECK(e.ProcessNonNativeData(0.1f) == 0);
         CHECK(c.decode_calls == 1);

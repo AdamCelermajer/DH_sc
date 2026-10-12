@@ -42,18 +42,25 @@ void VoxEngine::UpdateEmitters(float dt) {
     (void)dt;
 }
 
-// 0x8617c0 _ZN3vox9VoxEngine13SetMasterGainEff (partial: the target returns the unlock result (the listing returns it), the void facade drops it)
-void VoxEngine::SetMasterGain(float gain, float time) {
+// 0x8617c0 _ZN3vox9VoxEngine13SetMasterGainEff
+// The listing returns the vtable +0x28 result (the unlock int of VoxEngineInternal::SetMasterGain).
+// On the null path the binary returns the address of the m_internal global (a register leftover
+// with no int form); the port returns 0 there, as the EmitterObj wrappers do.
+int VoxEngine::SetMasterGain(float gain, float time) {
     if (m_internal != nullptr) {
-        m_internal->SetMasterGain(gain, time);
+        return m_internal->SetMasterGain(gain, time);
     }
+    return 0;
 }
 
-// 0x8617fc _ZN3vox9VoxEngine12SetGroupGainEjff (partial: the target returns the unlock result (the listing returns it), the void facade drops it)
-void VoxEngine::SetGroupGain(unsigned int group, float gain, float time) {
+// 0x8617fc _ZN3vox9VoxEngine12SetGroupGainEjff
+// The listing returns the vtable +0x24 result (the unlock int of VoxEngineInternal::SetGroupGain).
+// The null path returns a GOT-derived address in the binary (no int form); the port returns 0.
+int VoxEngine::SetGroupGain(unsigned int group, float gain, float time) {
     if (m_internal != nullptr) {
-        m_internal->SetGroupGain(group, gain, time);
+        return m_internal->SetGroupGain(group, gain, time);
     }
+    return 0;
 }
 
 // 0x861838 _ZN3vox9VoxEngine41RegisterForEmitterStateChangeNotificationERNS_13EmitterHandleEPFvS2_PvNS_18EmitterExternStateEES3_
@@ -114,18 +121,23 @@ VoxOutputMode VoxEngine::GetOutputMode() {
     return static_cast<VoxOutputMode>(-1);
 }
 
-// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (partial: target VoxEngineInternal::SetInteractiveMusicState is skipped in the ledger)
-void VoxEngine::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
+// 0x861928 _ZN3vox9VoxEngine24SetInteractiveMusicStateERNS_13EmitterHandleEPKc (partial: the target
+// VoxEngineInternal::SetInteractiveMusicState (0x86764c) has no body in the port yet)
+// The null path returns the engine pointer itself, which is 0 there, so 0 is returned.
+int VoxEngine::SetInteractiveMusicState(EmitterHandle& emitter, const char* state) {
     if (m_internal != nullptr) {
-        m_internal->SetInteractiveMusicState(emitter, state);
+        return m_internal->SetInteractiveMusicState(emitter, state);
     }
+    return 0;
 }
 
 // 0x861950 _ZN3vox9VoxEngine22SetDSPEmitterParameterERNS_13EmitterHandleEiPv (reconstructed)
-void VoxEngine::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
+// The listing returns the internal result, or 0 without an engine (BXEQ LR with r0 = 0).
+int VoxEngine::SetDSPEmitterParameter(EmitterHandle& emitter, int param, void* value) {
     if (m_internal != nullptr) {
-        m_internal->SetDSPEmitterParameter(emitter, param, value);
+        return m_internal->SetDSPEmitterParameter(emitter, param, value);
     }
+    return 0;
 }
 
 // 0x861978 _ZN3vox9VoxEngine18SetSFXPresetActiveEibf (reconstructed)

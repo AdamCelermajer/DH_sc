@@ -12,12 +12,19 @@ namespace vox {
 RandomGroup::RandomGroup() {
     removed_.next = &removed_;
     removed_.prev = &removed_;
+    element_count_ = 0;
+    current_ = -1;
+    cycle_remaining_ = 0;
+    prev_index_ = 0;
+    prev_cycle_remaining_ = 0;
 }
 
 // 0x881ad0 _ZN3vox11RandomGroupC2EPNS_10GroupInfosEi, 0x881b40 _ZN3vox11RandomGroupC1EPNS_10GroupInfosEi
-// Partial: the original writes +0x38 (element count), +0x44 (current index), +0x50 and +0x54
-// nowhere in this body. They keep the port defaults (0, -1, 0, 0), which assume the storage
-// the caller provides is not read before the first Reset or GetActiveElementIndex.
+// The original writes the sentinel, the vector words (+0x24..+0x2c), +0x30/+0x34, +0x3c, +0x40,
+// +0x48 and +0x58. It never writes +0x38 (element count), +0x44 (current), +0x4c, +0x50 or +0x54.
+// The caller, NativePlaylist::AddGroup (0x883c04), gets the 0x5c bytes from VoxAlloc without
+// zeroing them, so those words hold whatever the storage held. The port matches: the header
+// has no initializer for them and this body does not set them.
 RandomGroup::RandomGroup(const GroupInfos* info, int reset_flag) : SegmentGroup(info, reset_flag) {
     removed_.next = &removed_;
     removed_.prev = &removed_;

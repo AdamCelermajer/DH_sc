@@ -320,17 +320,26 @@ void VoxNativeSubDecoder::SwapOldAndCurrentSegments() {
     segments_[1].play_mode = 2;
 }
 
-// 0x8855e8 _ZN3vox19VoxNativeSubDecoder19ApplyTransitionRuleEPNS_14TransitionRuleE (partial)
-// Reproduced: the kind-1 branch with the next-dying test, the swap, and the frame count
-// check that clears the old records. Not reproduced: the playlist lookups
-// (GetPlaylistElement, TransposePlaylistParameters, SetPlaylistToPreviousState,
-// ResetPlaylist) and the copy of the found element into the current element record.
+// 0x8855e8 _ZN3vox19VoxNativeSubDecoder19ApplyTransitionRuleEPNS_14TransitionRuleE
+// The playlist lookups are the manager calls of the listing: field_44_ and field_40_ pick the
+// playlist to move (field_40_ is first reset to its previous state when they are equal), and
+// field_48_ is the playlist the element comes from. The element copy takes the five words of
+// the found element and then the rule's kind (+0x04) and field_08 (+0x08). Without an element
+// the current element index is -1. The listing returns an int that its only caller does not
+// read (UpdateSegmentsStates ignores it), so this returns void.
 void VoxNativeSubDecoder::ApplyTransitionRule(TransitionRule* rule) {
-    const int next_dying = GetNextDyingSegmentLifeState();
+    PlaylistElement* element = nullptr;
     if (rule->kind_ == 1) {
-        if (next_dying != 2) {
+        if (GetNextDyingSegmentLifeState() == 2) {
+            playlists_->TransposePlaylistParameters(field_44_, field_48_);
+        } else {
+            if (field_44_ == field_40_) {
+                playlists_->SetPlaylistToPreviousState(field_40_);
+            }
+            playlists_->TransposePlaylistParameters(field_40_, field_48_);
             SwapOldAndCurrentSegments();
         }
+        element = playlists_->GetPlaylistElement(field_48_, 1, -1);
         const int frames = static_cast<int>(static_cast<float>(field_0c_) * rule->length_);
         if (frames <= 0) {
             if (segments_[1].state > 2) {
@@ -342,39 +351,143 @@ void VoxNativeSubDecoder::ApplyTransitionRule(TransitionRule* rule) {
                 --active_segments_;
             }
         }
+    } else {
+        if (reset_pending_ != 0) {
+            playlists_->ResetPlaylist(field_48_);
+            reset_pending_ = 0;
+        }
+        element = playlists_->GetPlaylistElement(field_48_, 0, -1);
     }
-    current_element_.field_00_ = -1;
+
+    if (element != nullptr) {
+        current_element_ = *element;
+        current_element_.field_04_ = rule->kind_;
+        current_element_.field_08_ = rule->field_08_;
+    } else {
+        current_element_.field_00_ = -1;
+    }
 }
 
 // 0x885740 _ZN3vox19VoxNativeSubDecoder20UpdateSegmentsStatesEv (partial)
-// Reproduced: the history shift of the element words and the records. Not reproduced: the
-// element lookup (GetPlaylistElement) that the original makes when the two index words
-// differ, the transition rule branch, and the peek of the next element.
-void VoxNativeSubDecoder::UpdateSegmentsStates() {
+// The element lookup, the rule branch, the segment-state updates and the history shift are
+// ported in the order of the pseudocode. Returns the current element index (the word the
+// original returns, current_element_.field_00_, read after the update).
+// Missing (one item): the peek branch reads loop_lists[current chunk][2] and
+// loop_lists[peeked element][1] for next_event_ (+0x164). The original reads these words
+// without a length check; the port's loop lists are vector<int> and their length is not
+// established to be three or more, so the reads assume it.
+int VoxNativeSubDecoder::UpdateSegmentsStates() {
+    const std::size_t playlist = static_cast<std::size_t>(field_3c_);
+    const int playlist_index = (*states_)[playlist];                       // v4
+    TransitionRule* rule = nullptr;                                        // v6
     if (field_3c_ == field_38_ || field_38_ < 0) {
-        current_element_.field_00_ = -1;
-        UpdateCurrentSegmentState(nullptr, false);
+        PlaylistElement* found = playlists_->GetPlaylistElement(playlist_index, 0, -1);
+        if (found == nullptr) {
+            current_element_.field_00_ = -1;
+        } else {
+            current_element_ = *found;
+        }
+    } else {
+        rule = &(*transition_rules_)[static_cast<std::size_t>(field_90_)];
+        ApplyTransitionRule(rule);
     }
+
+    const std::int32_t element = current_element_.field_00_;
+    if (element < 0) {
+        if (element == -1) {
+            UpdateCurrentSegmentState(rule, false);
+        }
+    } else {
+        const bool extra = IsExtraSegmentNeeded(rule);
+        std::int32_t count = active_segments_;  // v13
+        bool over_limit = false;                // v14 > 2 on the extra path
+        if (extra) {
+            if (active_segments_ > 2) {
+                over_limit = true;
+            } else {
+                ++active_segments_;
+                count = active_segments_;
+            }
+        }
+        if (over_limit || count > 2) {
+            UpdateDyingSegmentState(rule);
+            UpdateOldSegmentState(rule);
+        } else if (count == 2) {
+            UpdateOldSegmentState(rule);
+        }
+        UpdateCurrentSegmentState(rule, extra);
+        if (segments_[2].sample_position != 0) {
+            segments_[2].reset_pending = true;
+        }
+        PlaylistElement* peek = nullptr;
+        if (segments_[2].entries_left == 1) {
+            peek = playlists_->PeekAtNextPlaylistElement(playlist_index);
+        }
+        if (peek != nullptr) {
+            const auto& loops = *loop_lists_;
+            const std::size_t chunk = static_cast<std::size_t>(segments_[2].chunk_index);
+            if (peek->field_08_ == 1) {
+                next_event_ = loops[chunk][2] - loops[static_cast<std::size_t>(peek->field_00_)][1];
+            } else if (current_element_.field_0c_ == 1) {
+                next_event_ = loops[chunk][2];
+            }
+        } else {
+            next_event_ = -1;
+        }
+    }
+
+    // LABEL_19: the history shift of the element words and the records.
+    const std::int32_t old_3c = field_3c_;
+    const std::int32_t old_44 = field_44_;
+    const std::int32_t old_48 = field_48_;
     field_34_ = field_38_;
-    field_38_ = field_3c_;
-    field_40_ = field_44_;
-    field_44_ = field_48_;
+    field_38_ = old_3c;
+    field_40_ = old_44;
+    field_44_ = old_48;
     prev_prev_element_ = prev_element_;
     prev_element_ = current_element_;
     field_8c_ = field_90_;
+    return current_element_.field_00_;
 }
 
 // 0x885984 _ZN3vox19VoxNativeSubDecoder23InterpretTransitionRuleEi (partial)
-// Not reproduced: the rule table and the playlist peek are not ported.
+// The rule table flag (type word, +0x04 of the 36-byte rule), the playlist peek and the
+// next_event_ computation are ported. Missing (one item): the return value. The original
+// returns UpdateSegmentsStates' result on the first two paths, the chunk index on the
+// kind-1 path and the peeked element pointer on the other path; the port returns void, and
+// the pointer result has no integer form. SetState returns this value in the original.
 void VoxNativeSubDecoder::InterpretTransitionRule(int index) {
-    (void)index;
+    if ((*transition_rules_)[static_cast<std::size_t>(index)].type_ == 0) {
+        UpdateSegmentsStates();
+        return;
+    }
+    PlaylistElement* peek =
+        playlists_->PeekAtNextPlaylistElement((*states_)[static_cast<std::size_t>(field_3c_)]);
+    if (peek == nullptr) {
+        UpdateSegmentsStates();
+        return;
+    }
+    const auto& loops = *loop_lists_;
+    const std::size_t chunk = static_cast<std::size_t>(segments_[2].chunk_index);
+    if (peek->field_08_ == 1) {
+        next_event_ = loops[chunk][2] - loops[static_cast<std::size_t>(peek->field_00_)][1];
+    } else {
+        next_event_ = loops[chunk][2];
+    }
 }
 
 // 0x885a3c _ZN3vox19VoxNativeSubDecoder8SetStateEi (partial)
-// Reproduced: the store of the index and the dispatch on the stored element. Not
-// reproduced: the list lookups that fill the element and the state word.
+// Reproduced: the store of the index, the current segment's chunk from the state list
+// (states[index] into segments_[2].chunk_index, the word at +0x120), and the dispatch on
+// the stored element. Missing (one item): the transition-table lookup that the original
+// makes when field_38 is 0 or more. It reads a 12-byte outer record whose first word points
+// to 8-byte entries (word at +0x00 goes to field_90, byte at +0x04 to +0x4c). The port's
+// transitions_ is vector<vector<TransitionParams>> with 36-byte records, so that layout is
+// not carried over yet. The return value of the dispatch (InterpretTransitionRule's result)
+// is not returned.
 void VoxNativeSubDecoder::SetState(int index) {
     field_3c_ = index;
+    segments_[2].chunk_index = (*states_)[static_cast<std::size_t>(index)];
     if (field_90_ >= 0) {
         InterpretTransitionRule(field_90_);
     } else if (field_38_ == -1) {

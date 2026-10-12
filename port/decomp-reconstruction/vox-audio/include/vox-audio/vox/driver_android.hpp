@@ -34,10 +34,10 @@ public:
 
     // 0x88f9a0 (partial): takes the lock; the rest of Init is not ported.
     void Init(void* context);
-    // 0x88fbe8 (partial): takes the lock; the source is not created.
-    void CreateDriverSource(void* a, void* b, int c);
+    // 0x88fbe8 (partial): takes the lock; the source is not created, so this returns null.
+    DriverSourceInterface* CreateDriverSource(const std::int32_t* params, void* user, int flags) override;
     // 0x88f59c (partial): takes the lock; the source is not released.
-    void DestroyDriverSource(DriverSourceInterface* source);
+    void DestroyDriverSource(DriverSourceInterface* source) override;
 
     // 0x88ee6c: the original prints nothing here.
     void PrintDebug();
