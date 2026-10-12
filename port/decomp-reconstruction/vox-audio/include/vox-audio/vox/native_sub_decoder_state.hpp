@@ -4,6 +4,8 @@
 // destructors here call it and are marked partial.
 #pragma once
 
+#include <cstdint>
+
 #include "vox-audio/vox/native_playlist.hpp"
 
 namespace vox {
@@ -34,6 +36,9 @@ public:
     explicit NativeSubDecoderIMAADPCMState(NativePlaylistsManager* manager);
     // D1 0x886f7c, D2 0x886fcc, D0 0x886fb0 (deleting): base destructor.
     ~NativeSubDecoderIMAADPCMState() override;
+
+    // Words 81..83 (+0x144..+0x14c): the decoding-slot flags that SetState and GetState copy.
+    std::int32_t decoding_slot_used_[3] = {0, 0, 0};
 };
 
 }  // namespace vox
