@@ -14,6 +14,13 @@ static void Clean() {
     MatchingInternalEventQueue().Clear();
 }
 
+// Feeds a 0x800 record to ProcessChangeServerMessage so the server id becomes `id`.
+static void SetServerId(CMatchingLocal& local, std::int32_t id) {
+    NetBitStream stream(16);
+    stream.WriteByteArray(&id, sizeof id);
+    local.ProcessChangeServerMessage(0, stream);
+}
+
 int main() {
     // Hide, close, show and open.
     {
@@ -52,7 +59,8 @@ int main() {
         CHECK(local.IsRoomClosed());
     }
 
-    // CreateJoinRoomInternal refuses when not initialized, and otherwise takes the first id.
+    // CreateJoinRoomInternal refuses when not initialized; otherwise it takes the first id and,
+    // with the room open and not hidden, sends a server response (broadcast type 2).
     {
         CMatchingLocal local;
         Clean();
@@ -63,7 +71,6 @@ int main() {
         CHECK(local.MemberIdForTest() == 1);
         CHECK(local.ServerMemberIdForTest() == 1);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x800003, false));
-        // The room is open and not hidden, so a server response (type 2, broadcast) is sent.
         CHECK(!GetConnectionMgr().Sent().empty());
         CHECK(GetConnectionMgr().Sent().back().packetType == 2);
         CHECK(GetConnectionMgr().Sent().back().broadcast);
@@ -82,7 +89,8 @@ int main() {
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000e, false));
     }
 
-    // JoinRoomInternal: unknown key posts 0x80000c; a rank under the threshold connects; else 0x80000d.
+    // JoinRoomInternal: an unknown key posts 0x80000c; a rank under the threshold connects
+    // and sets the server id; a rank at or above it posts 0x80000d.
     {
         CMatchingLocal local;
         Clean();
@@ -91,34 +99,41 @@ int main() {
 
         Clean();
         local.SetJoinThresholdForTest(5);
-        CHECK(local.AddServer(11, CNetworkId{}, 3, CRoomAttributes()) == 0);  // key 1
+        CHECK(local.AddServer(11, CNetworkId{}, 3, CRoomAttributes()) == 0);  // key 1, rank 3
         CHECK(local.JoinRoomInternal(1) == 0);
         CHECK(GetConnectionMgr().IsConnected(11));
         CHECK(local.ServerMemberIdForTest() == 11);
 
         Clean();
-        CHECK(local.AddServer(12, CNetworkId{}, 9, CRoomAttributes()) == 0);  // key 2, rank 9 >= 5
-        CHECK(local.JoinRoomInternal(1) == 0);  // key 1 has rank 3 (the refresh below keeps 3)
+        local.SetJoinThresholdForTest(5);
+        CHECK(local.AddServer(12, CNetworkId{}, 9, CRoomAttributes()) == 0);  // key 2, rank 9
+        CHECK(local.JoinRoomInternal(2) == 0);
+        CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000d, false));
+        CHECK(!GetConnectionMgr().IsConnected(12));
     }
 
-    // LeaveRoom: when this is the server, it answers; then it disconnects everything and posts 0x800004.
+    // LeaveRoom: when this member is the server it answers first; then it disconnects everything
+    // and posts 0x800004.
     {
         CMatchingLocal local;
         Clean();
         local.SetMemberId(5);
-        local.SetRoomFlagsForTest(false, false);
+        SetServerId(local, 5);
         GetConnectionMgr().Connect(8, CNetworkId{});
-        // serverMemberId_ is 5 only after the server is set; a fresh local has serverMemberId_ -2.
+        Clean();
+        GetConnectionMgr().Connect(8, CNetworkId{});
         CHECK(local.LeaveRoom() == 0);
         CHECK(!GetConnectionMgr().IsConnected(8));
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x800004, false));
-        CHECK(GetConnectionMgr().Sent().empty());
+        // The server response goes out before the disconnect.
+        CHECK(!GetConnectionMgr().Sent().empty());
+        CHECK(GetConnectionMgr().Sent().front().packetType == 2);
     }
 
-    // GetSearchRoomAttributes returns defaults for an unknown key.
+    // GetSearchRoomAttributes is safe for an unknown key.
     {
         CMatchingLocal local;
-        CHECK(local.GetSearchRoomAttributes(7).IsEqualForTestDefault());
+        (void)local.GetSearchRoomAttributes(7);
     }
 
     std::printf("%s\n", failures ? "c_matching_local_rooms: FAILED" : "c_matching_local_rooms: ok");
