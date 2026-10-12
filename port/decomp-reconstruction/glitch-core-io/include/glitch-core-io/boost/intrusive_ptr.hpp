@@ -31,6 +31,14 @@ public:
         if (oldPx) intrusive_ptr_release(oldPx);
         return *this;
     }
+    // 0x603414 (CImage): assigns a raw pointer. The new object gets a use and the old one is dropped.
+    intrusive_ptr& operator=(T* rhs) {
+        if (rhs) intrusive_ptr_add_ref(rhs);
+        T* oldPx = px;
+        px = rhs;
+        if (oldPx) intrusive_ptr_release(oldPx);
+        return *this;
+    }
     T* get() const { return px; }
     T* operator->() const { return px; }
     T& operator*() const { return *px; }

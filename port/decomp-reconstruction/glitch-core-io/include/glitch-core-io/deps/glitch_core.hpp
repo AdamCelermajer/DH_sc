@@ -163,6 +163,23 @@ public:
     mutable int referenceCounter = 1;  // +0x00
 };
 
+// CVertexStreams is released like CMaterial: the count is at +0x00 and the last release
+// deletes the object (0x5a10fc; the original calls its destructor first, not modelled).
+class CVertexStreams {
+public:
+    mutable int referenceCounter = 1;  // +0x00
+};
+inline void intrusive_ptr_add_ref(const CVertexStreams* p) { ++p->referenceCounter; }
+inline void intrusive_ptr_release(const CVertexStreams* p) {
+    if (--p->referenceCounter == 0) delete p;
+}
+
+// Reference-counted video objects that only need the +0x04 drop() release here.
+class IShader : public glitch::IReferenceCounted {};      // 0x5b9d6c
+class IShaderCode : public glitch::IReferenceCounted {};  // 0x5b9dfc
+class IBuffer : public glitch::IReferenceCounted {};      // 0x637b8c
+class CImage : public glitch::IReferenceCounted {};       // 0x603414
+
 // Found by argument-dependent lookup from boost::intrusive_ptr (0x310be8, 0x351e3c,
 // 0x3522b8 release through these).
 inline void intrusive_ptr_add_ref(const CMaterial* p) { ++p->referenceCounter; }
@@ -174,3 +191,8 @@ inline void intrusive_ptr_release(const CMaterialRenderer* p) {
     if (--p->referenceCounter == 0) delete p;
 }
 }  // namespace glitch::video
+
+namespace glitch::scene {
+// Mesh buffer stand-in for the intrusive_ptr release at 0x637bac (drop() at +0x04).
+class CMeshBuffer : public glitch::IReferenceCounted {};
+}  // namespace glitch::scene

@@ -237,6 +237,30 @@ public:
     void addColorf(const char* name, glitch::video::SColorf value, bool flag);                       // 0x56a31c
     void addColor(const char* name, glitch::video::SColor value, bool flag);                         // 0x56a528
     void addStringAsColor(const char* name, const wchar_t* value, bool flag);                        // 0x56a3ec
+    // String-valued adds: each creates the typed attribute with its default value, appends it
+    // to the current group, then sets the value from the wide string through setString (+0x94).
+    void addStringAsUserPointer(const char* name, const wchar_t* value, bool flag);  // 0x567f24
+    void addStringAsBool(const char* name, const wchar_t* value, bool flag);         // 0x568608
+    void addStringAsFloat(const char* name, const wchar_t* value, bool flag);        // 0x568808
+    void addStringAsInt(const char* name, const wchar_t* value, bool flag);          // 0x568a08
+    void addStringAsRect(const char* name, const wchar_t* value, bool flag);         // 0x568c08
+    void addStringAsPosition2d(const char* name, const wchar_t* value, bool flag);   // 0x568d94
+    void addStringAsVector4di(const char* name, const wchar_t* value, bool flag);    // 0x568f0c
+    void addStringAsVector3di(const char* name, const wchar_t* value, bool flag);    // 0x569084
+    void addStringAsVector2di(const char* name, const wchar_t* value, bool flag);    // 0x5691f8
+    void addStringAsLine3d(const char* name, const wchar_t* value, bool flag);       // 0x569368
+    void addStringAsLine2d(const char* name, const wchar_t* value, bool flag);       // 0x569528
+    void addStringAsTriangle3d(const char* name, const wchar_t* value, bool flag);   // 0x5696c0
+    void addStringAsPlane3d(const char* name, const wchar_t* value, bool flag);      // 0x5698b8
+    void addStringAsBox3d(const char* name, const wchar_t* value, bool flag);        // 0x569a54
+    void addStringAsQuaternion(const char* name, const wchar_t* value, bool flag);   // 0x569c18
+    void addStringAsVector4d(const char* name, const wchar_t* value, bool flag);     // 0x569de4
+    void addStringAsVector3d(const char* name, const wchar_t* value, bool flag);     // 0x569f5c
+    void addStringAsVector2d(const char* name, const wchar_t* value, bool flag);     // 0x56a0d0
+    void addStringAsColorf(const char* name, const wchar_t* value, bool flag);       // 0x56a240
+    void addStringAsMatrix(const char* name, const wchar_t* value, bool flag);       // 0x56a638
+    void addStringAsTexture(const char* name, const wchar_t* value, bool flag);      // 0x5682c0
+    void addString(const char* name, const wchar_t* value, bool flag);               // 0x56a798
     void addMatrix(const char* name, const glitch::core::CMatrix4<float>& value, bool flag);         // 0x56a70c
 
     // By name: set the existing attribute, or append a new one with flag false.
