@@ -320,9 +320,9 @@ elf_address,symbol,status,source_file,notes
 0x6e05d0,_ZN6glitch5video11CNullShader21deserializeAttributesEPNS_2io11IAttributesE,partial,glitch-video/src/null_shader.cpp,IShader base deserializeAttributes not modelled; only updateHash is called
 0x6e05ec,_ZN6glitch5video11CNullShaderD1Ev,partial,glitch-video/src/null_shader.cpp,D1; IShader base dtor not modelled
 0x6e063c,_ZN6glitch5video11CNullShaderD2Ev,partial,glitch-video/src/null_shader.cpp,D2; IShader base dtor not modelled
-0x6e0670,_ZN6glitch5video11CNullShaderC1EPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 driver ctor; IShader(0,"",driver) base not modelled
+0x6e0670,_ZN6glitch5video11CNullShaderC1EPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 driver ctor; IShader(0
 0x6e06b8,_ZN6glitch5video11CNullShaderC2EPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C2 driver ctor; IShader base not modelled
-0x6e0700,_ZN6glitch5video11CNullShaderC1EtPKcPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 named ctor; IShader base not modelled, id/hash/mask reconstructed
+0x6e0700,_ZN6glitch5video11CNullShaderC1EtPKcPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C1 named ctor; IShader base not modelled
 0x6e0744,_ZN6glitch5video11CNullShaderC2EtPKcPNS0_11CNullDriverE,partial,glitch-video/src/null_shader.cpp,C2 named ctor; IShader base not modelled
 0x6e0804,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerC1Ev,partial,glitch-video/src/shader_code.cpp,C1 CShaderCodeManager; SIDedCollection base replaced by a name table stand-in
 0x6e0818,_ZN6glitch5video18ICodeShaderManager18CShaderCodeManagerC2Ev,partial,glitch-video/src/shader_code.cpp,C2 CShaderCodeManager; SIDedCollection stand-in
@@ -334,32 +334,32 @@ elf_address,symbol,status,source_file,notes
 0x6e17d8,_ZN6glitch5video18ICodeShaderManagerD2Ev,partial,glitch-video/src/shader_code.cpp,D2 ICodeShaderManager; base dtor not modelled
 0x6e1b08,_ZNK6glitch5video18ICodeShaderManager13getShaderCodeEPKc,partial,glitch-video/src/shader_code.cpp,getShaderCode on the name-table stand-in; returns null for unknown names
 0x6e1d70,_ZN6glitch5video18ICodeShaderManager13addShaderCodeERKN5boost13intrusive_ptrINS0_11IShaderCodeEEE,partial,glitch-video/src/shader_code.cpp,addShaderCode keys on m_name; the original calls the virtual name getter
-0x6e2028,_ZN6glitch5video18ICodeShaderManager23removeUnusedShaderCodesEv,partial,glitch-video/src/shader_code.cpp,removeUnusedShaderCodes clears the stand-in table, not SIDedCollection::removeAll
+0x6e2028,_ZN6glitch5video18ICodeShaderManager23removeUnusedShaderCodesEv,partial,glitch-video/src/shader_code.cpp,removeUnusedShaderCodes clears the stand-in table
 0x6e2034,_ZN6glitch5video18ICodeShaderManager19removeUnusedShadersEv,partial,glitch-video/src/shader_code.cpp,IShaderManager::removeUnusedShaders base call not modelled
 0x6e207c,_ZN6glitch5video11IShaderCodeD1Ev,reconstructed,glitch-video/src/shader_code.cpp,D1 IShaderCode; string member releases the heap buffer
 0x6e20e4,_ZN6glitch5video11IShaderCodeD2Ev,reconstructed,glitch-video/src/shader_code.cpp,D2 IShaderCode
-0x6e2130,_ZN6glitch5video11IShaderCodeC1EPKc,reconstructed,glitch-video/src/shader_code.cpp,C1 IShaderCode: refcount 0, name string copy
+0x6e2130,_ZN6glitch5video11IShaderCodeC1EPKc,reconstructed,glitch-video/src/shader_code.cpp,C1 IShaderCode: refcount 0
 0x6e2178,_ZN6glitch5video11IShaderCodeC2EPKc,reconstructed,glitch-video/src/shader_code.cpp,C2 IShaderCode
 0x5b9b80,_ZN6glitch5video18CNullShaderManagerD1Ev,partial,glitch-video/src/null_shader_manager.cpp,D1 CNullShaderManager; IShaderManager base dtor not modelled
 0x5b9cf0,_ZN6glitch5video18CNullShaderManagerD0Ev,skipped,,compiler generated deleting destructor thunk
-0x5b9bb4,_ZN6glitch5video18CNullShaderManager17createEmptyShaderEPKc,reconstructed,glitch-video/src/null_shader_manager.cpp,createEmptyShader; name argument unused, as in the original
+0x5b9bb4,_ZN6glitch5video18CNullShaderManager17createEmptyShaderEPKc,reconstructed,glitch-video/src/null_shader_manager.cpp,createEmptyShader; name argument unused
 0x5b9bf4,_ZN6glitch5video18CNullShaderManager12createShaderEPKc,partial,glitch-video/src/null_shader_manager.cpp,lookup and creation approximated; IShaderManager::addShader not modelled
 0x5b9cec,_ZN6glitch5video18CNullShaderManager19removeUnusedShadersEv,partial,glitch-video/src/null_shader_manager.cpp,clears the local table; SIDedCollection::removeAll not modelled
 0x5e4940,_ZNK6glitch5video7IShader26getVertexAttributeDefIndexENS0_18E_VERTEX_ATTRIBUTEE,reconstructed,glitch-video/src/shader_attributes.cpp,
 0x5e80e8,_ZNK6glitch5video8ITexture14getSizeInBytesEv,reconstructed,glitch-video/src/texture.cpp,
 0x5fdc84,_ZN6glitch5video8ITexture6unlockEv,partial,glitch-video/src/texture.cpp,unlock callback (vtable +0x18) not modelled; counter and flag clearing reconstructed
-0x7d3bb4,_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE,reconstructed,glitch-video/src/texture.cpp,setWrap(E_TEXTURE_CLAMP); S bits 18..20, T bits 21..23, flags 0x10/0x20
+0x7d3bb4,_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE,reconstructed,glitch-video/src/texture.cpp,setWrap(E_TEXTURE_CLAMP); S bits 18..20
 0x6ce46c,_ZN6glitch5video8ITexture7setWrapENS0_15E_TEXTURE_CLAMPE.clone.1,reconstructed,glitch-video/src/texture.cpp,setWrap clone with clamp constant 2 (setWrapClamp)
 0x5a1c1c,_ZN6glitch5video7IBuffer4copyEv,partial,glitch-video/src/buffer.cpp,copy; a null source is skipped where the original memcpy would read null
 0x637a68,_ZNK6glitch5video7IBuffer5unmapEv,partial,glitch-video/src/buffer.cpp,unmap; unmap callback (vtable +0x18) not modelled
 0x5a0a58,_ZNK6glitch5video14CVertexStreams22getActiveAttributeMaskEv,reconstructed,glitch-video/src/vertex_streams.cpp,
-0x5a0aac,_ZNK6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPKNS0_13SVertexStreamES5_,reconstructed,glitch-video/src/vertex_streams.cpp,const getStream, lower-bound on attribute, end pointer on miss
+0x5a0aac,_ZNK6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPKNS0_13SVertexStreamES5_,reconstructed,glitch-video/src/vertex_streams.cpp,const getStream
 0x5a0af0,_ZN6glitch5video14CVertexStreams9getStreamENS0_18E_VERTEX_ATTRIBUTEEPNS0_13SVertexStreamES4_,reconstructed,glitch-video/src/vertex_streams.cpp,non-const getStream
 0x5a0b34,_ZN6glitch5video14CVertexStreams9addOffsetEi,reconstructed,glitch-video/src/vertex_streams.cpp,
 0x5a0b74,_ZNK6glitch5video14CVertexStreams13isHomogeneousEj,partial,glitch-video/src/vertex_streams.cpp,a missed lookup reads the array sentinel in the original; here it is a null buffer
-0x602cc4,_ZNK6glitch5video15CImageLoaderATC21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,ATC isALoadableFileFormat; 16-bit magic check, size >= 8
+0x602cc4,_ZNK6glitch5video15CImageLoaderATC21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,ATC isALoadableFileFormat; 16-bit magic check
 0x603254,_ZNK6glitch5video15CImageLoaderATC24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,ATC extension; bool result of the original pointer-or-1 return
-0x6042c0,_ZNK6glitch5video15CImageLoaderDDS21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,DDS isALoadableFileFormat; reads "DDS " magic
+0x6042c0,_ZNK6glitch5video15CImageLoaderDDS21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,"DDS isALoadableFileFormat; reads ""DDS "" magic"
 0x60490c,_ZNK6glitch5video15CImageLoaderDDS24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,DDS extension; lower case only
 0x604234,_ZNK6glitch5video15CImageLoaderDDS9CDataInfo12getFilePitchEh,partial,glitch-video/src/texture_loaders.cpp,pitch from header word 4 when flag 8 set; header pointer member is not filled by any reconstructed code yet
 0x6057e0,_ZNK6glitch5video15CImageLoaderPVR21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,PVR format probe; seeks back to the saved position
@@ -367,7 +367,7 @@ elf_address,symbol,status,source_file,notes
 0x604b0c,_ZNK6glitch5video15CImageLoaderJPG21isALoadableFileFormatEPNS_2io9IReadFileE,reconstructed,glitch-video/src/texture_loaders.cpp,JPG format probe; JFIF magic at offset 6
 0x604f6c,_ZNK6glitch5video15CImageLoaderJPG24isALoadableFileExtensionEPKc,reconstructed,glitch-video/src/texture_loaders.cpp,JPG extension
 0x5a90b0,_ZN6glitch5video12IVideoDriver9setOptionEjb,partial,glitch-video/src/video_driver.cpp,option bits; the vtable hook for bit 0x100 is not modelled
-0x5a8b74,_ZN6glitch5video12IVideoDriver10beginSceneEv,reconstructed,glitch-video/src/video_driver.cpp,beginScene clears the four frame counters, returns true
+0x5a8b74,_ZN6glitch5video12IVideoDriver10beginSceneEv,reconstructed,glitch-video/src/video_driver.cpp,beginScene clears the four frame counters
 0x5aab20,_ZN6glitch5video12IVideoDriver8endSceneEv,partial,glitch-video/src/video_driver.cpp,takes the timer value as a parameter (os::Timer::getRealTime in the original)
 0x5aaaf0,_ZNK6glitch5video12IVideoDriver22getPrimitiveCountDrawnEj,reconstructed,glitch-video/src/video_driver.cpp,
 0x5a8ba4,_ZN6glitch5video12IVideoDriver19onMaterialDestroyedEPNS0_9CMaterialE,reconstructed,glitch-video/src/video_driver.cpp,clears cached material pointers and their flag bytes
@@ -667,21 +667,21 @@ elf_address,symbol,status,source_file,notes
 0x6bc7d4,_ZN6glitch3res15onDemandPointerItED1Ev,skipped,glitch-video/src/texture_loaders.cpp,onDemandPointer<unsigned short> destructor: glitch::res not in port
 0x6dc71c,_ZN6glitch5video14CDriverBindingD1Ev,skipped,glitch-video/src/ccommon_gl_driver_base.cpp,CDriverBinding D1: teardown; CDriverBinding not in port
 0x6dc7c0,_ZN6glitch5video14CDriverBindingD2Ev,skipped,glitch-video/src/ccommon_gl_driver_base.cpp,CDriverBinding D0 variant: deleting destructor; not in port
-0x5cbf78,_ZN6glitch5video9CMaterialD1Ev,partial,glitch-video/src/material.cpp,CMaterial D1: 116-byte teardown (parameter blocks and hash words) not reconstructed; the port class has no owned storage
-0x5cc144,_ZN6glitch5video9CMaterialD2Ev,partial,glitch-video/src/material.cpp,CMaterial D0 variant: deleting form of the 116-byte teardown; not reconstructed
-0x5ea050,_ZN6glitch5video15CTextureManagerD2Ev,partial,glitch-video/src/texture_manager.cpp,"CTextureManager D1: 232-byte teardown (texture lists, loaders, writers) not reconstructed; relies on the port's vector members"
-0x5ea138,_ZN6glitch5video15CTextureManagerD1Ev,partial,glitch-video/src/texture_manager.cpp,CTextureManager D0 variant: deleting form of the 232-byte teardown; not reconstructed
-0x5fe310,_ZN6glitch5video8ITextureD1Ev,partial,glitch-video/src/texture.cpp,ITexture D1: 100-byte teardown (data array and placeholder release) not reconstructed
-0x5fe398,_ZN6glitch5video8ITextureD2Ev,partial,glitch-video/src/texture.cpp,ITexture D0 variant: deleting form of the 100-byte teardown; not reconstructed
-0x601804,_ZN6glitch5video6CImageD1Ev,partial,glitch-video/src/image.cpp,CImage D1: 172-byte teardown (pixel buffer release) not reconstructed; no pixel storage in the port
-0x6018b8,_ZN6glitch5video6CImageD2Ev,partial,glitch-video/src/image.cpp,CImage D0 variant: deleting form of the 172-byte teardown; not reconstructed
-0x5ad5b4,_ZN6glitch5video12IVideoDriverD2Ev,partial,glitch-video/src/video_driver.cpp,"IVideoDriver D1: 712-byte teardown (render targets, shaders, materials) not reconstructed"
-0x5ae2dc,_ZN6glitch5video12IVideoDriverD1Ev,partial,glitch-video/src/video_driver.cpp,IVideoDriver D0 variant: deleting form of the 712-byte teardown; not reconstructed
-0x5b262c,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD2Ev,partial,glitch-video/src/ccommon_gl_driver_base.cpp,CRenderTargetBase D1: 80-byte teardown of attachments not reconstructed
-0x6dd0b4,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD1Ev,partial,glitch-video/src/ccommon_gl_driver_base.cpp,CRenderTargetBase D0 variant: deleting form of the teardown; not reconstructed
-0x5b25e4,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase11SAttachmentD1Ev,partial,glitch-video/src/ccommon_gl_driver_base.cpp,SAttachment destructor: releases the attachment texture or buffer; release not reconstructed
-0x5b3688,_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEED2Ev,partial,glitch-video/src/ccommon_gl_driver.cpp,CCommonGLDriver D1: 96-byte teardown (GL state and buffer map) not reconstructed
-0x5b3808,_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEED1Ev,partial,glitch-video/src/ccommon_gl_driver.cpp,CCommonGLDriver D0 variant: deleting form of the 96-byte teardown; not reconstructed
+0x5cbf78,_ZN6glitch5video9CMaterialD1Ev,skipped,glitch-video/src/material.cpp,"CMaterial D1: 116-byte teardown (parameter blocks and hash words) not reconstructed; no port body, the implicit destructor is used"
+0x5cc144,_ZN6glitch5video9CMaterialD2Ev,skipped,glitch-video/src/material.cpp,"CMaterial D0 variant: deleting form of the 116-byte teardown; compiler generated, not reconstructed"
+0x5ea050,_ZN6glitch5video15CTextureManagerD2Ev,skipped,glitch-video/src/texture_manager.cpp,"CTextureManager D1: 232-byte teardown (texture lists, loaders, writers) not reconstructed; no port body, the implicit destructor is used"
+0x5ea138,_ZN6glitch5video15CTextureManagerD1Ev,skipped,glitch-video/src/texture_manager.cpp,"CTextureManager D0 variant: deleting form of the 232-byte teardown; compiler generated, not reconstructed"
+0x5fe310,_ZN6glitch5video8ITextureD1Ev,skipped,glitch-video/src/texture.cpp,"ITexture D1: 100-byte teardown (data array and placeholder release) not reconstructed; no port body, so m_data is not freed by the port"
+0x5fe398,_ZN6glitch5video8ITextureD2Ev,skipped,glitch-video/src/texture.cpp,"ITexture D0 variant: deleting form of the 100-byte teardown; compiler generated, not reconstructed"
+0x601804,_ZN6glitch5video6CImageD1Ev,skipped,glitch-video/src/image.cpp,"CImage D1: 172-byte teardown (pixel buffer release) not reconstructed; no port body, the port has no pixel storage"
+0x6018b8,_ZN6glitch5video6CImageD2Ev,skipped,glitch-video/src/image.cpp,"CImage D0 variant: deleting form of the 172-byte teardown; compiler generated, not reconstructed"
+0x5ad5b4,_ZN6glitch5video12IVideoDriverD2Ev,skipped,glitch-video/src/video_driver.cpp,"IVideoDriver D1: 712-byte teardown (render targets, shaders, materials) not reconstructed; no port body"
+0x5ae2dc,_ZN6glitch5video12IVideoDriverD1Ev,skipped,glitch-video/src/video_driver.cpp,"IVideoDriver D0 variant: deleting form of the 712-byte teardown; compiler generated, not reconstructed"
+0x5b262c,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD2Ev,skipped,glitch-video/src/ccommon_gl_driver_base.cpp,CRenderTargetBase D1: 80-byte teardown of attachments not reconstructed; no port body
+0x6dd0b4,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBaseD1Ev,skipped,glitch-video/src/ccommon_gl_driver_base.cpp,"CRenderTargetBase D0 variant: deleting form of the teardown; compiler generated, not reconstructed"
+0x5b25e4,_ZN6glitch5video19CCommonGLDriverBase17CRenderTargetBase11SAttachmentD1Ev,skipped,glitch-video/src/ccommon_gl_driver_base.cpp,SAttachment destructor: attachment release not reconstructed; no port body
+0x5b3688,_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEED2Ev,skipped,glitch-video/src/ccommon_gl_driver.cpp,CCommonGLDriver D1: 96-byte teardown (GL state and buffer map) not reconstructed; no port body
+0x5b3808,_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEED1Ev,skipped,glitch-video/src/ccommon_gl_driver.cpp,"CCommonGLDriver D0 variant: deleting form of the 96-byte teardown; compiler generated, not reconstructed"
 0x5a1878,_ZN6glitch5video18getStringsInternalEPNS0_12E_INDEX_TYPEE,skipped,glitch-video/src/video_driver.cpp,"string-table accessor: returns a pointer into a static name table whose contents are not in the repo; the E_* parameters are int32 aliases, so the overloads cannot be told apart"
 0x5a18a8,_ZN6glitch5video18getStringsInternalEPNS0_12E_LIGHT_TYPEE,skipped,glitch-video/src/video_driver.cpp,"string-table accessor: returns a pointer into a static name table whose contents are not in the repo; the E_* parameters are int32 aliases, so the overloads cannot be told apart"
 0x5a18d8,_ZN6glitch5video18getStringsInternalEPNS0_16E_PRIMITIVE_TYPEE,skipped,glitch-video/src/video_driver.cpp,"string-table accessor: returns a pointer into a static name table whose contents are not in the repo; the E_* parameters are int32 aliases, so the overloads cannot be told apart"

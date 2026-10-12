@@ -1,4 +1,4 @@
-Ledger: 812 rows (369 reconstructed, 106 partial, 337 skipped). Queue total 1345, 533 still open.
+Ledger: 812 rows (369 reconstructed, 91 partial, 352 skipped). Queue total 1345, 533 still open.
 Wave 7 added 231 rows (see the Wave 7 section at the end).
 
 ## Layouts inferred
@@ -135,8 +135,8 @@ Still open:
 
 ## Wave 7
 
-Ledger after this wave: 812 rows (369 reconstructed, 106 partial, 337 skipped). Wave 7 added 231 rows: 20 reconstructed,
-36 partial, 175 skipped. Of the skipped rows, 50 are queue entries outside glitch::video (see Decisions).
+Ledger after this wave: 812 rows (369 reconstructed, 91 partial, 352 skipped). Wave 7 added 231 rows: 20 reconstructed,
+21 partial, 190 skipped. Of the skipped rows, 50 are queue entries outside glitch::video (see Decisions).
 
 Source: the Hex-Rays export (recovered/native/hexrays-all, commit 9476235b) is the primary pseudocode source. Bodies
 written before the switch to Hex-Rays were checked against the same addresses there. The ARM listings were used
@@ -172,6 +172,8 @@ Decisions:
 
 - Compiler clones, deleting destructors and 4-byte thunks: none are left in the queue. Earlier clones and destructor
   chains keep their wave-5 policy.
+- Destructor teardowns (D1/D0) that have no port body are ledgered skipped, not partial. The port's implicit
+  destructors cover them; the notes say where a member is not freed (ITexture m_data).
 - Partial constructors: when the base constructor is not ported (ITexture, IShader, IShaderCode base, IVideoDriver),
   the body keeps only the fields that follow the base call. Such rows are partial, not reconstructed.
 - Out-of-video queue entries: 50 functions in glitch-video/queue.csv belong to glitch::collada (22), glitch::res (10),
