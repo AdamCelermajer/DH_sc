@@ -7,7 +7,9 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <map>
 #include <memory>
+#include <numeric>
 #include <string>
 #include <utility>
 
@@ -22,6 +24,10 @@ struct RuntimeTileV1 {
   std::vector<RuntimeTileV1*> children;
   CryptMgxTilePlacementV1 placement;
   bool active = false;
+  // Set when Tile::Spawn consumed this entry from a replacement=false list.
+  // Tile::Unspawn gives it back through ListRule::Replace (0x48ec74).
+  const CryptListV1* consumed_list = nullptr;
+  std::size_t consumed_index = 0;
 };
 
 struct RuntimeRuleV1 {
@@ -44,6 +50,9 @@ struct GenerationContextV1 {
   RandomGeneratorV1* random = nullptr;
   CryptTileMapV1 tile_map;
   RuntimeRuleV1 root_rule;
+  // Live ListRule::elems order for replacement=false lists, as indices into the
+  // document list. Spawn erases the first match; unspawn appends it again.
+  std::map<const CryptListV1*, std::vector<std::size_t>> remaining_order;
   std::vector<std::unique_ptr<RuntimeTileV1>> tiles;
   RuntimeTileV1* successful_root = nullptr;
   CryptRuleGenerationResultV1 last_generation;
@@ -138,8 +147,21 @@ bool validate_rule_tree(const GenerationContextV1& context,
     return false;
   }
   if (!is_root) {
-    if (node.kind != RuleKindV1::force_block && node.kind != RuleKindV1::path) {
+    if (node.kind != RuleKindV1::force_block && node.kind != RuleKindV1::path &&
+        node.kind != RuleKindV1::end_path) {
       error = "unsupported Crypt child rule kind";
+      return false;
+    }
+    if (node.exit) {
+      // Rule::Impl::FilterExits (0x48e690) and the ForceBlock/Path overrides
+      // narrow candidate exits by this value. That filter is not ported yet.
+      error = "Crypt rule exit filtering is not modeled";
+      return false;
+    }
+    if (node.kind == RuleKindV1::end_path) {
+      // EndPath::Impl::OneStep (0x48bd38) returns 1 without spawning a tile.
+      // Its step-kernel branch is not ported yet, so it is refused explicitly.
+      error = "Crypt EndPath generation is not modeled";
       return false;
     }
     if (!node.selector.is_list) {
@@ -149,10 +171,6 @@ bool validate_rule_tree(const GenerationContextV1& context,
     const auto* list = selected_list(context, node);
     if (!list) {
       error = "Crypt selector refers to a missing list";
-      return false;
-    }
-    if (!list->replacement) {
-      error = "consuming ListElem replacement is not modeled";
       return false;
     }
     std::vector<const CryptListEntryV1*> entries;
@@ -219,9 +237,25 @@ bool detach_child(RuntimeTileV1* child) {
   return true;
 }
 
+std::vector<std::size_t>& remaining_order(GenerationContextV1& context,
+                                          const CryptListV1& list) {
+  auto found = context.remaining_order.find(&list);
+  if (found == context.remaining_order.end()) {
+    std::vector<std::size_t> order(list.entries.size());
+    std::iota(order.begin(), order.end(), std::size_t{0});
+    found = context.remaining_order.emplace(&list, std::move(order)).first;
+  }
+  return found->second;
+}
+
 bool rollback_tile(GenerationContextV1& context, RuntimeTileV1* tile) {
   if (!tile || !tile->active) return true;
   bool ok = true;
+  if (tile->consumed_list) {
+    // ListRule::Replace appends the element copy to the owning list.
+    remaining_order(context, *tile->consumed_list).push_back(tile->consumed_index);
+    tile->consumed_list = nullptr;
+  }
   while (!tile->children.empty()) {
     const auto old_size = tile->children.size();
     if (!rollback_tile(context, tile->children.back())) ok = false;
@@ -322,7 +356,7 @@ CryptRuleCallbackStatusV1 candidate_exits(
     void* opaque, const CryptRuleExecutionFrameV1& child,
     std::size_t anchor_exit_index,
     std::vector<SourceRuleExitCandidateV1>& exits) {
-  const auto& context = *static_cast<const GenerationContextV1*>(opaque);
+  auto& context = *static_cast<GenerationContextV1*>(opaque);
   const auto* rule = static_cast<const RuntimeRuleV1*>(child.rule);
   const auto* tile = static_cast<const RuntimeTileV1*>(child.tile);
   if (!rule || !rule->source || !tile || !tile->asset || !tile->active ||
@@ -336,6 +370,17 @@ CryptRuleCallbackStatusV1 candidate_exits(
   if (!selected_entries(context, *rule->source, entries)) {
     return CryptRuleCallbackStatusV1::unsupported;
   }
+  const auto* list = selected_list(context, *rule->source);
+  if (list && !list->replacement && !rule->source->selector.list_index) {
+    // The live vector after earlier consumes and rollbacks, in its own order.
+    entries.clear();
+    for (const auto index : remaining_order(context, *list)) {
+      entries.push_back(&list->entries[index]);
+    }
+  }
+  // The owner token identifies the source list for try_spawn's consume step.
+  const auto owner_token = static_cast<std::uint64_t>(
+      reinterpret_cast<std::uintptr_t>(list));
   for (const auto* entry : entries) {
     const auto* asset = find_asset(context, entry->name, entry->gameplay,
                                    entry->visual);
@@ -349,7 +394,7 @@ CryptRuleCallbackStatusV1 candidate_exits(
       SourceRuleExitCandidateV1 candidate;
       candidate.source_exit_index = index;
       candidate.destination_block_name = asset->key.name;
-      candidate.elem = make_source_list_elem_v1(*entry);
+      candidate.elem = make_source_list_elem_v1(*entry, owner_token);
       exits.push_back(std::move(candidate));
     }
   }
@@ -438,6 +483,30 @@ CryptRuleSpawnStatusV1 try_spawn(
   }
   tile->placement = placement;
   tile->active = true;
+  if (candidate.elem.owner_token != 0) {
+    // Tile::Spawn (0x4919b0): with replacement=false, erase the first element of
+    // the owner list whose name and gameplay strings match the spawned element.
+    const auto* list = reinterpret_cast<const CryptListV1*>(
+        static_cast<std::uintptr_t>(candidate.elem.owner_token));
+    if (!list->replacement) {
+      auto& order = remaining_order(context, *list);
+      const auto found = std::find_if(
+          order.begin(), order.end(), [&](std::size_t index) {
+            const auto& entry = list->entries[index];
+            return entry.name == candidate.elem.name &&
+                   entry.gameplay == candidate.elem.gameplay;
+          });
+      if (found == order.end()) {
+        // The candidate was built from this list, so a missing element means
+        // the consume state is inconsistent. Undo the placement and report it.
+        (void)rollback_tile(context, tile);
+        return CryptRuleSpawnStatusV1::error;
+      }
+      tile->consumed_list = list;
+      tile->consumed_index = *found;
+      order.erase(found);
+    }
+  }
   spawned.tile = tile;
   spawned.token = tile;
   return CryptRuleSpawnStatusV1::spawned;

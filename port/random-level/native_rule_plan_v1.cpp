@@ -16,18 +16,29 @@ struct XmlNode {
   std::string name;
   std::map<std::string, std::string> attributes;
   std::vector<XmlNode> children;
+  // TinyXML keeps non-blank character data as a TiXmlText child. The native
+  // list loader only walks `elem` siblings, so list text is ignored; a rule
+  // element with text would hand a text node to Rule::NewRule.
+  bool has_text = false;
 };
 
+// Models the TinyXML 2.x document loop used by RandomGenerator::LoadRuleFile
+// (TiXmlDocument::Parse at 0x51a734, TiXmlElement::Parse at 0x519f1c,
+// TiXmlElement::ReadValue at 0x519d30). The native caller never checks the
+// document error state, so a malformed element aborts the parse but leaves the
+// partially linked tree in place: every open ancestor keeps the children read
+// so far and nothing after the failure point is parsed.
 class CryptXmlParser {
  public:
   explicit CryptXmlParser(std::string_view source) : source_(source) {}
 
   bool parse(XmlNode& root) {
     if (!skip_misc()) return false;
+    if (position_ >= source_.size() || source_[position_] != '<') return fail("expected root element");
     if (!parse_node(root)) return false;
-    if (!skip_misc()) return false;
-    skip_space();
-    if (position_ != source_.size()) return fail("trailing XML content");
+    // TiXmlDocument::Parse keeps linking sibling nodes after the root, but the
+    // native loader only reads the first <rules> child through TiXmlHandle.
+    // Trailing text or elements therefore do not affect the loaded rules.
     return true;
   }
 
@@ -143,28 +154,29 @@ class CryptXmlParser {
       skip_space();
       std::string value;
       if (!parse_attribute_value(value)) return false;
-      if (!node.attributes.emplace(std::move(key), std::move(value)).second) {
-        return fail("duplicate XML attribute");
-      }
+      // TiXmlElement::Parse stores the attribute through TiXmlAttributeSet::Find;
+      // a repeated name overwrites the earlier value instead of failing.
+      node.attributes[std::move(key)] = std::move(value);
     }
 
-    while (true) {
+    while (!aborted_) {
       if (!skip_misc()) return false;
-      if (position_ >= source_.size()) return fail("unterminated element " + node.name);
+      if (position_ >= source_.size()) {
+        // ReadValue reports TIXML_ERROR_READING_END_TAG and returns NULL.
+        aborted_ = true;
+        return true;
+      }
       if (source_.substr(position_, 2) == "</") {
-        position_ += 2;
-        std::string closing_name;
-        if (!parse_name(closing_name)) return false;
-        skip_space();
-        if (position_ >= source_.size() || source_[position_] != '>') return fail("expected closing '>'");
-        ++position_;
-        // Authored source data contains case-only closing-tag typos (020_crypt_02:
-        // <ForceBlock> closed by </Forceblock>) that the original loader accepts.
-        const auto lower = [](char c) { return c >= 'A' && c <= 'Z' ? static_cast<char>(c + 32) : c; };
-        bool same_name = closing_name.size() == node.name.size();
-        for (std::size_t i = 0; same_name && i < closing_name.size(); ++i)
-            same_name = lower(closing_name[i]) == lower(node.name[i]);
-        if (!same_name) return fail("mismatched closing element");
+        // TiXmlElement::Parse builds "</name>" and compares it with
+        // TiXmlBase::StringEqual(..., caseInsensitive=0). Source files contain
+        // case-only typos (020_crypt_02 closes <ForceBlock> with </Forceblock>);
+        // the native comparison rejects them, so the element is not closed.
+        const std::string expected = "</" + node.name + ">";
+        if (source_.substr(position_, expected.size()) != expected) {
+          aborted_ = true;
+          return true;
+        }
+        position_ += expected.size();
         return true;
       }
       if (source_[position_] == '<') {
@@ -173,19 +185,24 @@ class CryptXmlParser {
         node.children.push_back(std::move(child));
         continue;
       }
-      const auto text_begin = position_;
+      // TiXmlElement::ReadValue -> TiXmlText. Blank text is dropped by
+      // TiXmlText::Blank; non-blank text is linked as a child text node.
       const auto less = source_.find('<', position_);
-      if (less == std::string_view::npos) return fail("unterminated element text");
-      while (position_ < less) {
-        if (!is_space(source_[position_])) return fail("non-whitespace XML text unsupported");
-        ++position_;
+      if (less == std::string_view::npos) {
+        aborted_ = true;
+        return true;
       }
-      if (position_ == text_begin) return fail("invalid XML text");
+      for (std::size_t i = position_; i < less; ++i) {
+        if (!is_space(source_[i])) node.has_text = true;
+      }
+      position_ = less;
     }
+    return true;
   }
 
   std::string_view source_;
   std::size_t position_ = 0;
+  bool aborted_ = false;
   std::string error_;
 };
 
@@ -294,23 +311,43 @@ bool parse_rule_node(const XmlNode& xml, RuleNodeV1& output, std::string& error)
   // Authored rule files mix case in these element names (Forceblock, path).
   std::string kind_name = xml.name;
   for (auto& ch : kind_name) if (ch >= 'A' && ch <= 'Z') ch = static_cast<char>(ch + 32);
+  // Rule::NewRule (0x48de44) compares these names with strcasecmp.
   if (kind_name == "rootrule") {
     output.kind = RuleKindV1::root;
   } else if (kind_name == "forceblock") {
     output.kind = RuleKindV1::force_block;
   } else if (kind_name == "path") {
     output.kind = RuleKindV1::path;
+  } else if (kind_name == "endpath") {
+    output.kind = RuleKindV1::end_path;
   } else {
     error = "unsupported Crypt rule element: " + xml.name;
     return false;
   }
-  const auto* name = attribute(xml, "name");
-  if (!name || !parse_selector(*name, output.selector, error)) {
-    if (error.empty()) error = "Crypt rule is missing name";
+  // TiXmlNode text children reach Rule::NewRule, which returns NULL for them.
+  if (xml.has_text) {
+    error = "Crypt rule element contains character data";
     return false;
   }
-  if (attribute(xml, "exit") || attribute(xml, "id")) {
-    error = "Crypt rule exit/id metadata is outside this slice";
+  const auto* name = attribute(xml, "name");
+  if (!name) {
+    // Rule::LoadFromXml (0x490bdc) returns 0 before reading exit/id. The loader
+    // keeps the node and keeps going, so an unnamed EndPath stays a valid
+    // terminal. Other unnamed rules have no selector to generate from.
+    if (output.kind != RuleKindV1::end_path || !xml.children.empty()) {
+      error = "Crypt rule is missing name";
+      return false;
+    }
+    return true;
+  }
+  if (!parse_selector(*name, output.selector, error)) return false;
+  // Rule::LoadFromXml stores exit as the raw string (an empty value is still
+  // set) and hashes id for RoomPool::Find. Pools are outside this slice, so the
+  // raw id is kept for the room-pool stage to hash later.
+  if (const auto* exit = attribute(xml, "exit")) output.exit = *exit;
+  if (const auto* id = attribute(xml, "id")) output.id = *id;
+  if (output.kind == RuleKindV1::end_path && !xml.children.empty()) {
+    error = "Crypt EndPath children are outside this slice";
     return false;
   }
   if (output.kind == RuleKindV1::path) {
@@ -345,19 +382,17 @@ bool parse_list(const XmlNode& xml, CryptListV1& output, std::string& error) {
   if (const auto* replacement = attribute(xml, "replacement")) {
     output.replacement = *replacement == "true";
   }
+  // ListRule::LoadFromXml walks FirstChild("elem")/NextSibling("elem") only, so
+  // other children and text are skipped. ListElem::LoadFromXml (0x48c51c) reads
+  // name/gameplay/visual with an empty-string default for each missing one.
   for (const auto& child : xml.children) {
-    if (child.name != "elem") {
-      error = "unsupported child in Crypt list: " + child.name;
-      return false;
-    }
-    const auto* elem_name = attribute(child, "name");
-    const auto* gameplay = attribute(child, "gameplay");
-    const auto* visual = attribute(child, "visual");
-    if (!elem_name || !gameplay || !visual) {
-      error = "Crypt list element is missing name/gameplay/visual";
-      return false;
-    }
-    output.entries.push_back({*elem_name, *gameplay, *visual});
+    if (child.name != "elem") continue;
+    const auto value_or_empty = [&child](std::string_view key) {
+      const auto* value = attribute(child, key);
+      return value ? *value : std::string();
+    };
+    output.entries.push_back({value_or_empty("name"), value_or_empty("gameplay"),
+                              value_or_empty("visual")});
   }
   return true;
 }
@@ -368,6 +403,8 @@ bool build_plan_node(const CryptRuleDocumentV1& document,
                      std::string& error) {
   output.kind = source.kind;
   output.selector = source.selector;
+  output.exit = source.exit;
+  output.id = source.id;
   output.path = source.path;
   if (source.selector.is_list) {
     const auto* list = find_list_v1(document, source.selector.list_name);
