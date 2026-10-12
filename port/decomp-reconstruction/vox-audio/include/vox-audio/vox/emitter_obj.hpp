@@ -15,6 +15,7 @@ namespace vox {
 
 class DriverSourceInterface;
 class DataObj;
+class DecoderCursorInterface;
 
 // Opaque user-data record as the original passes it: only the first word is stored
 // (EmitterObj +0x134). The record's full size is not confirmed.
@@ -89,6 +90,10 @@ public:
     void CleanUp();                         // 0x863954 (partial: DSP buffers only, see the .cpp)
     void SetInteractiveMusicStateChange(const char* state);  // 0x866abc
     void PrintDebug();                      // 0x864e28
+    // Wave 9 (src/w9-emitter-slots): the cursor-to-source pull and the 3D push.
+    int ProcessNonNativeData(float dt);     // 0x863228: pulls one ring block from the cursor
+    int ProcessNativeData(float dt);        // 0x866b30 (partial, see the .cpp)
+    void Update3D();                        // 0x863318: sends dirty 3D parameters to the source
 
     // Source and DSP buffer (+0xec, +0xf0, +0x110). UpdateDSP forwards to the source.
     void UpdateDSP(float dt);               // 0x8638e4
@@ -123,7 +128,6 @@ public:
     float float_params_[7] = {};            // +0xc4..+0xdc (parameters 1..7)
     std::uint8_t dirty_[11] = {};           // +0xe0..+0xea, one byte per parameter id
     std::uint8_t reset_flag_ = 0;           // +0x99, set by Reset
-    void* owned_buffer_ = nullptr;          // +0xf4, freed by the destructor (owner not identified)
     void* dsp_buffer_ = nullptr;            // +0xec, the DSP name in use; UpdateDSP frees it when dsp_pending_ is set
     void* dsp_pending_ = nullptr;           // +0xf0, DSP name copied by SetDSPParameter until UpdateDSP applies it
     EmitterStateCallback state_callback_ = nullptr;  // +0x138
@@ -132,6 +136,18 @@ public:
     bool need_to_die_ = false;              // +0x11c, set by NeedToDie
     bool auto_kill_ = false;                // +0x11d, set by SetAutoKillAfterDone
     std::uintptr_t user_data_ = 0;          // +0x134
+    // Wave 9 fields. Playback length and rate (+0x24, +0x20): written by the constructors,
+    // which are not ported yet. GetPlayCursor reads them.
+    int play_rate_ = 0;                     // +0x20
+    int play_length_ = 0;                   // +0x24
+    DecoderCursorInterface* decoder_cursor_ = nullptr;  // +0x114, the cursor that feeds dsp_source_
+    // Buffer ring (+0xf4 base, owned, freed by the destructor and CleanUp). Each slot points at
+    // a block the cursor returned (DecodeRef) or owns (Decode).
+    void** buffer_ring_ = nullptr;          // +0xf4 (was owned_buffer_)
+    int buffer_read_index_ = 0;             // +0x100
+    int buffer_count_ = 0;                  // +0x104, ring slot count
+    int buffer_chunk_bytes_ = 0;            // +0x108, bytes requested per DecodeRef
+    int buffer_fill_ = 0;                   // +0x10c, reset to 0 by ProcessNativeData
 };
 
 }  // namespace vox

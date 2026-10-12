@@ -2,6 +2,7 @@
 // pending slot (+0xf0); UpdateDSP (emitter_obj_state.cpp) moves it into the slot in use (+0xec).
 #include <cstring>
 
+#include "vox-audio/vox/decoder.hpp"
 #include "vox-audio/vox/emitter_obj.hpp"
 #include "vox-audio/vox/memory.hpp"
 
@@ -29,11 +30,20 @@ void EmitterObj::SetDSPParameter(int param, void* value) {
 }
 
 // 0x863954 _ZN3vox10EmitterObj7CleanUpEv
-// partial: the original also walks the buffer ring at +0xf4 (a vector of buffers, read index
-// +0x100, count +0x104) and frees the buffers the decoder cursor does not reuse. The port's
-// EmitterObj has no ring, so only the two DSP name buffers (+0xec in use, +0xf0 pending) are freed.
-// The port clears both pointers after the free; the original leaves them set.
+// partial: when the cursor does not allow buffer reference (AllowBufferReference, cursor +0x34
+// returns false), the ring entries at +0xf4 (count +0x104) are freed. The port also clears each
+// freed entry and both DSP name pointers; the original leaves them set, so a second CleanUp would
+// free them again. The ring array itself is not freed here (the destructor does that).
 void EmitterObj::CleanUp() {
+    if (decoder_cursor_ != nullptr && buffer_ring_ != nullptr &&
+        !decoder_cursor_->AllowBufferReference()) {
+        for (int i = 0; i < buffer_count_; ++i) {
+            if (buffer_ring_[i] != nullptr) {
+                VoxFree(buffer_ring_[i]);
+                buffer_ring_[i] = nullptr;
+            }
+        }
+    }
     VoxFree(dsp_buffer_);
     dsp_buffer_ = nullptr;
     VoxFree(dsp_pending_);

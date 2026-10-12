@@ -670,3 +670,25 @@ are not installed in this container, so the Windows build was not run.
 Still open in this area: VoxNativeSubDecoder and the PCM and IMA ADPCM sub-decoder constructors
 (skipped) need NativeChunks, States, AudioSegments, TransitionRules and the TransitionParams
 vectors; those types are not ported.
+
+## Wave 9 (w9-emitter-slots): EmitterObj rows
+
+Ledger part: `ledger.parts/w9-emitter-slots.csv` (24 rows: 4 reconstructed, 11 partial, 9 skipped).
+New source: `src/w9-emitter-slots/emitter_obj_playback.cpp` (PrintDebug, Update3D, GetPlayCursor,
+ProcessNonNativeData). Edited in place: UpdateDSP (`src/emitter_obj_state.cpp`) and CleanUp
+(`src/emitter-obj/emitter_obj_dsp.cpp`). Test: `tests/emitter_obj_playback_w9_test.cpp`.
+
+- Emitter layout added (emitter_obj.hpp): play_rate_ +0x20, play_length_ +0x24, decoder_cursor_
+  +0x114 (the cursor that feeds dsp_source_), and the buffer ring: buffer_ring_ +0xf4 (was
+  owned_buffer_, a void*, now void**), buffer_read_index_ +0x100, buffer_count_ +0x104,
+  buffer_chunk_bytes_ +0x108, buffer_fill_ +0x10c. The constructors that write these are not ported.
+- UpdateDSP fix: the pending-name path calls source SetDSPParameter(0, name) and returns, so Update
+  does not run on that frame. The IDA listing shows r1 = 0 and r2 = the name at the call (+0x40).
+- Blocked: SetPlayCursor and the cursor-driven states need the cursor params block (+0x04..+0x13,
+  TrackParams). It lives in each cursor class, not in DecoderCursorInterface. Moving it into the
+  base would shift the derived classes' own params_ members, so it stays open.
+- Blocked: ProcessNativeData needs the byte at +0x145 named and the return of cursor slot +0x24
+  (Rewind(int) in the vtable) checked. The pseudocode uses its return value.
+- Deviations recorded in the rows: GetPlayCursor and CleanUp unlock or clear where the original
+  does not (the pseudocode shows the lock held or the pointers set). ProcessNonNativeData returns 0
+  when a pointer or the ring count is missing, where the original would fault.
