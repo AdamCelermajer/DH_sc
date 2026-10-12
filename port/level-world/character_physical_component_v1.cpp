@@ -128,6 +128,20 @@ Status Owner::observe(Transform* out) const noexcept {
     return Status::complete;
 }
 
+Status Owner::set_linear_velocity(const float xy[2]) noexcept {
+    return stop_set_linear_velocity(xy);
+}
+
+Status Owner::read_position(float xy[2]) const noexcept {
+    if (!xy) return Status::invalid_argument;
+    Transform transform{};
+    const auto status = observe(&transform);
+    if (status != Status::complete) return status;
+    xy[0] = transform.game_x;
+    xy[1] = transform.game_y;
+    return Status::complete;
+}
+
 Status Owner::stop_set_linear_velocity(const float xy[2]) noexcept {
     if (!xy) return Status::invalid_argument;
     if (!body_.body) return Status::not_created;

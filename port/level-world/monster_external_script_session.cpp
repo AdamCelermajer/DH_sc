@@ -42,6 +42,8 @@ const char* callback_name(Event event) {
         case Event::friend_spotted: return "OnFriendSpotted";
         case Event::neutral_spotted: return "OnNeutralSpotted";
         case Event::master_out_of_sight: return "OnMasterOutOfSight";
+        case Event::master_died: return "OnMasterDied";
+        case Event::master_in_sight: return "OnMasterInSight";
         case Event::master_out_of_range: return "OnMasterOutOfRange";
         case Event::master_in_ranged_range: return "OnMasterInRangedRange";
         case Event::master_in_close_range: return "OnMasterInCloseRange";

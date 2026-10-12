@@ -231,6 +231,7 @@ target_sources(dh2_level_world PRIVATE character_ai_set_skills_and_spells.cpp
  character_faery_selection_owner_v1.cpp
  character_faery_script_session_v1.cpp
  character_faery_controller_v1.cpp
+ character_faery_motion_v1.cpp
  character_faery_coordinator_v1.cpp
  character_faery_navigation_v1.cpp
  character_faery_record_session_v1.cpp

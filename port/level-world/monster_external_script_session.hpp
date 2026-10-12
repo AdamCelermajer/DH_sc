@@ -192,6 +192,10 @@ enum class Event : std::uint32_t {
     terminate = 17,
     // AISExternal::OnNeutralSpotted forwards the candidate Character userdata.
     neutral_spotted = 18,
+    // CharAI::_UpdateMaster events 18/21 reach AISExternal::OnMasterDied and
+    // OnMasterInSight, which call the named Lua functions without arguments.
+    master_died = 19,
+    master_in_sight = 20,
 };
 
 // Logical retained source AIS+0xb4 projection, not an ARM overlay. The current

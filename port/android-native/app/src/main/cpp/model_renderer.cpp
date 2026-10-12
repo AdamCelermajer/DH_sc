@@ -209,6 +209,7 @@
 #include "character_coordinator.hpp"
 #include "../../../../../level-world/faery_animation_owner_v1.hpp"
 #include "../../../../../level-world/character_faery_coordinator_v1.hpp"
+#include "../../../../../level-world/character_faery_motion_v1.hpp"
 #include "character_animation_events.hpp"
 #include "character_animation_stop_v1.hpp"
 #include "character_sm_set_dead_state_v1.hpp"
@@ -225,6 +226,7 @@
 #include "move_state.hpp"
 #include "../../../../../level-world/game_object_stop.hpp"
 #include "ghost_ai_owner.hpp"
+#include "native_faery_ai_frame_v1.hpp"
 #include "../../../../../level-world/player_ai_death_v1.hpp"
 #include "../../../../../level-world/character_ai_events.hpp"
 #include "../../../../../level-world/character_kill_field_14e4_v1.hpp"
@@ -801,14 +803,36 @@ struct AuthoredCryptFaeryOwner {
  std::array<float,3> visual_position{};
  std::array<float,4> visual_rotation{0.f,0.f,0.f,1.f};
  std::array<float,3> visual_scale{1.f,1.f,1.f};
+ // GameObject::Update trio state and the VisualObject root-motion owner of this
+ // Faery (see character_faery_motion_v1.hpp: translation is root motion, not a
+ // physics velocity).
+ dh2::character_faery_motion_v1::State motion;
+ // CharAI::Update owner (frame projection bound to this Faery's Coordinator).
+ std::unique_ptr<dh2::native::faery_ai_frame_v1::Owner> ai_frame;
  std::uint8_t init_post=0,init_final=0,physics=0,ai=0,visual=0,placement=0;
  bool constructed=false,registered=false;
 };
 bool construct_authored_faery_char_ai(AuthoredCryptFaeryOwner&,std::string&);
+// Placement of the model-space Faery pose scene: the VisualObject owner node
+// (GameObject position, rotation, scale) times the RootSceneNode helper that
+// cancels the animated root translation (SceneBinding::update_world order).
+Matrix faery_visual_placement(const AuthoredCryptFaeryOwner& owner,
+    const dh2::character_faery_visual_facade_v1::CharacterVisual& visual){
+ Matrix placement{},helper{};
+ dh2_node_matrix(placement.data(),visual.position.data(),visual.rotation.data(),
+                 visual.scale.data());
+ const float identity_rotation[4]{0.f,0.f,0.f,1.f};
+ const float unit_scale[3]{1.f,1.f,1.f};
+ dh2_node_matrix(helper.data(),
+     dh2::character_faery_motion_v1::placement_offset(owner.motion),
+     identity_rotation,unit_scale);
+ return dh2::scene::multiply(placement,helper);
+}
 AuthoredCryptFaeryOwner* native_faery_owner(std::uintptr_t identity);
 bool retire_authored_faery_char_ai(AuthoredCryptFaeryOwner&) noexcept;
 void release_authored_faery_visual(AuthoredCryptFaeryOwner&,bool gl_context=true) noexcept;
 std::int32_t authored_faery_stop(void*,std::uintptr_t);
+bool tick_authored_faery_ai_frame(AuthoredCryptFaeryOwner&,std::string&);
 bool advance_authored_faery_path(AuthoredCryptFaeryOwner&,std::uint32_t,
                                  std::string&);
 std::int32_t faery_external_has_master(void*,std::uintptr_t,std::uint32_t*);
@@ -1862,8 +1886,6 @@ bool native_level_script_position_for_target(std::uintptr_t identity,
 bool faery_external_visual_target_position(std::uintptr_t identity,
     const dh2::object_manager_runtime_owner_v1::GameObject& object,
     float (&position)[3]);
-bool advance_authored_faery_rotation(AuthoredCryptFaeryOwner&,
-    std::uint32_t dt_ms,std::string& error);
 int authored_faery_controller_service(void*,
     const dh2::character::CharacterControlRequest32*,
     dh2::character::CharacterControlResponse16*);
@@ -1988,7 +2010,9 @@ std::int32_t native_relation_object_f4(void* raw,
  // constructor GO_ID zero; all other current manager entries take the
  // non-Character branch. This is the source +0xf4 discriminator, not a handle.
  const auto* actor=native_char_ai_actor(identity);
- *value=(identity==prince_character.identity()||(actor&&actor->kind==1))?0u:1u;
+ // The authored Faery is a Character as well (ObjectBase GO_ID zero).
+ *value=(identity==prince_character.identity()||(actor&&actor->kind==1)||
+         native_faery_owner(identity))?0u:1u;
  return 0;
 }
 std::int32_t native_relation_faction(void* raw,
@@ -9569,6 +9593,7 @@ bool native_level_save_commit_factory_character_restore_v1(void* raw,
  record.faery_visual.visible=state.object_base_flag_80!=0;
  owner->visual_position={position[0],position[1],position[2]};
  owner->visual_rotation=quaternion;
+ dh2::character_faery_motion_v1::place(owner->motion,position);
  record.game_object.world_x=position[0];record.game_object.world_y=position[1];
  record.aggro_object.position[0]=position[0];
  record.aggro_object.position[1]=position[1];
@@ -12682,12 +12707,25 @@ bool bind_authored_faery_coordinator(AuthoredCryptFaeryOwner& owner,
  }
  auto& record=*owner.record;
  if(record.coordinator->bound())return true;
+ // CharAI::Update frame binding is all-or-nothing: the Faery's own CharAI
+ // identity, its canonical AIFrameOwner48 projection (owned by the frame
+ // Owner) and its controller identity.
+ if(!owner.native_ai->ai_identity||!record.faery_controller.controller) {
+  error="Faery Coordinator bind requires its CharAI identity and canonical controller";
+  return false;
+ }
+ if(!owner.ai_frame)
+  owner.ai_frame=std::make_unique<dh2::native::faery_ai_frame_v1::Owner>();
+ if(!owner.ai_frame->bind(owner.identity,owner.native_ai->ai_identity,
+        record.faery_controller.controller,&owner.native_ai->state)) {
+  error="Faery CharAI frame owner rejected its Character/CharAI/controller identities";
+  return false;
+ }
  const dh2::character::CoordinatorBindings bindings{
      &owner,&faery_coordinator_facts,{&owner,&faery_coordinator_service},
-     nullptr,nullptr,nullptr,&faery_route_timer_event,nullptr,nullptr,0,
-     // No Faery AIFrameOwner48 projection exists yet; the coordinator's
-     // frame binding is all-or-nothing, so leave it unestablished.
-     nullptr,0,
+     nullptr,nullptr,nullptr,&faery_route_timer_event,nullptr,nullptr,
+     owner.native_ai->ai_identity,owner.ai_frame->projection(),
+     record.faery_controller.controller,
      &faery_coordinator_combat_facts};
  const auto status=dh2::character_faery_coordinator_v1::bind(
      record,bindings,error);
@@ -19372,7 +19410,7 @@ bool faery_anim_interval(void* raw,std::uintptr_t identity,
 
 bool faery_anim_sample(void* raw,std::uintptr_t identity,
     std::int32_t dictionary,std::int32_t previous,std::int32_t current,
-    std::int32_t start,std::int32_t end,FaeryAnimationOwner::Phase,
+    std::int32_t start,std::int32_t end,FaeryAnimationOwner::Phase phase,
     std::string& error) {
  auto* owner=static_cast<AuthoredCryptFaeryOwner*>(raw);
  if(!owner||!owner->record||owner->record->character.identity!=identity||
@@ -19394,6 +19432,32 @@ bool faery_anim_sample(void* raw,std::uintptr_t identity,
  }
  if(!dh2::objects::sample(*pose->resource,player->second,current,error))
   return false;
+ // RootSceneNode::onAnimate -> _HandleDisplacement for this same step: the
+ // walk clip's animated root travel moves the VisualObject owner node when the
+ // Character's position-from-visual bit (flags bit0) is set. The model-space
+ // pose above is what is drawn; this only advances the owner node.
+ {
+  auto& record=*owner->record;
+  auto& motion=owner->motion;
+  if(!record.coordinator) {
+   error="Faery root motion requires its same-Record Coordinator";return false;
+  }
+  if(!motion.bound&&
+     !dh2::character_faery_motion_v1::bind(motion,pose->resource->scene,
+         owner->visual_position.data(),record.faery_visual.rotation.data(),
+         record.faery_visual.scale.data(),error))
+   return false;
+  // AnimController::PlayClip -> RootSceneNode::NewAnim(displacement): the
+  // flag is the authored AnimTable step MoveGo byte (AnimStep+28, written to
+  // the controller by CharAnimator::_SetAnimStep 0x3ca79c), not a Character
+  // flag. Whether UpdateSubObjects adopts the owner position is separate.
+  const bool displacement=record.faery_visual.animator.scheduler.active()&&
+      record.faery_visual.animator.scheduler.clip().move_go;
+  if(!dh2::character_faery_motion_v1::track_root_motion(motion,player->second,
+        dictionary,current,phase==FaeryAnimationOwner::Phase::replay,
+        displacement,error))
+   return false;
+ }
  // Pose bytes and the timeline cursor are both owned by this same
  // CharacterVisual. EventTrack dispatch is handled by the animator event
  // owner; this provider only applies the selected AnimDict pose.
@@ -19674,10 +19738,8 @@ bool faery_marker_footstep(void* raw,std::uintptr_t identity,
  }
  const char* node_name=foot==FaeryMarker::Foot::left?"Bip01_L_Foot":"Bip01_R_Foot";
  dh2::scene::Scene positioned=pose->resource->scene;
- Matrix placement{};
  const auto& visual=owner->record->faery_visual;
- dh2_node_matrix(placement.data(),visual.position.data(),visual.rotation.data(),
-                 visual.scale.data());
+ const Matrix placement=faery_visual_placement(*owner,visual);
  for(auto& node:positioned.graph)
   node.world=dh2::scene::multiply(placement,node.world);
  dh2::visual_node_queries_v1::View view{identity,&positioned};
@@ -19789,6 +19851,60 @@ std::int32_t faery_animator_event_dispatch(
    return -1;
   }
   return result;
+ }
+ if(request->service==animation_attack_begin||request->service==animation_attack_end||
+    request->service==animation_skill_begin||request->service==animation_skill_end||
+    request->service==animation_move_begin) {
+  // CharAI::_OnAnimStepBegin/_OnAnimSequenceBegin state consumers. The Move
+  // consumer is a no-op without a CharAI target (the Faery's target is null);
+  // the attack/skill consumers need target and controller providers a Faery
+  // has no path to, so any dependent request fails loudly.
+  auto* ai=owner.native_ai.get();
+  if(!ai||ai->character_identity!=owner.identity||ai->state.owner_04!=owner.identity||
+     !owner.record->faery_controller.controller) {
+   context->failed=true;
+   context->error="Faery state-specific animation callback lacks its same-Character CharAI/controller";
+   return -1;
+  }
+  auto& animation=ai->animation_state;
+  animation.owner=ai->ai_identity;
+  animation.controller=owner.record->faery_controller.controller;
+  animation.target=ai->state.target_40;animation.look_target=ai->state.target_40;
+  animation.animation_depth=static_cast<std::int32_t>(
+      record.faery_visual.animator.scheduler.frames().size())-1;
+  animation.owner_flags=record.coordinator->state.flags;
+  std::copy(owner.visual_position.begin(),owner.visual_position.end(),
+            animation.owner_position);
+  if(animation.animation_depth<0||animation.animation_depth>=3) {
+   context->failed=true;
+   context->error="Faery state-specific animation callback has an invalid CharAnimator depth";
+   return -1;
+  }
+  std::uint32_t operation=ai_step_begin;
+  switch(request->service) {
+  case animation_attack_begin:operation=ai_attack_begin;break;
+  case animation_attack_end:operation=ai_attack_end;break;
+  case animation_skill_begin:operation=ai_skill_begin;break;
+  case animation_skill_end:operation=ai_skill_end;break;
+  case animation_move_begin:operation=ai_move_begin;break;
+  default:break;
+  }
+  std::string unbound;
+  const AnimationAIServices16 ai_services{&unbound,
+      [](void* raw,AnimationAIState96*,const AnimationAIRequest32*,
+         AnimationAIResponse16*)->std::int32_t {
+       *static_cast<std::string*>(raw)="Faery animation AI callback reached an unbound source service";
+       return 1;
+      }};
+  int status=-1;
+  try {status=dh2_character_animation_ai(&animation,operation,&ai_services);}
+  catch(...) {unbound="Faery source CharAI animation consumer threw";}
+  if(status!=1||!unbound.empty()) {
+   context->failed=true;
+   context->error=unbound.empty()?"Faery source CharAI animation consumer failed":unbound;
+   return -1;
+  }
+  return 1;
  }
  context->failed=true;context->error="Unexpected Faery Animator event service";
  return -1;
@@ -20834,9 +20950,7 @@ bool source_combat_play_3d(void* raw,std::uint16_t sound_id,
   auto pose=std::dynamic_pointer_cast<AuthoredFaeryPose>(visual.pose);
   if(!pose)return false;
   auto scene=pose->bdae_resource().scene;
-  Matrix placement{};
-  dh2_node_matrix(placement.data(),visual.position.data(),
-                  visual.rotation.data(),visual.scale.data());
+  const Matrix placement=faery_visual_placement(owner,visual);
   for(auto& node:scene.graph)node.world=dh2::scene::multiply(placement,node.world);
   bool target_node=false;std::uint32_t node=UINT32_MAX;std::string error;
   if(!dh2::ui::resolve_scrolling_combat_target_node_v1(
@@ -23210,72 +23324,6 @@ bool native_level_script_position_for_target(std::uintptr_t identity,
     !std::isfinite(object->world_x)||!std::isfinite(object->world_y))return false;
  position[0]=object->world_x;position[1]=object->world_y;
  position[2]=selected->world.position[2];
- return true;
-}
-
-bool advance_authored_faery_rotation(AuthoredCryptFaeryOwner& owner,
-        std::uint32_t dt_ms,std::string& error) {
- error.clear();
- auto* record=owner.record;
- if(!record||record->character.identity!=owner.identity||
-    !record->coordinator||record->coordinator->state.current<0||
-    !record->source_properties_ready()||!owner.properties_ready||
-    owner.properties.resolved.size()!=224||
-    record->faery_controller.character!=owner.identity||
-    !record->faery_controller.controller||
-    !record->faery_controller.controllable) {
-  error=std::string("Faery rotation requires the live Character state, properties, and controller on its canonical Record (")+
-      (!record||record->character.identity!=owner.identity?"record":
-       !record->coordinator?"coordinator":record->coordinator->state.current<0?"state":
-       !record->source_properties_ready()?"source properties":!owner.properties_ready?"owner properties":
-       owner.properties.resolved.size()!=224?"property count":"controller")+")";
-  return false;
- }
- auto& character_state=record->coordinator->state;
- auto& controller=record->faery_controller;
- dh2::move::Policy policy_bits{};
- if(dh2_move_policy(&policy_bits,&character_state.flags)!=0) {
-  error="Faery Character rotation policy could not be decoded";return false;
- }
- // Character::UpdateRotation is the active source path only while neither
- // visual nor physical rotation owns the value. Those alternate source paths
- // need their own live providers; never overwrite them from this adapter.
- if(policy_bits.rotation_from_visual||policy_bits.rotation_from_physics) {
-  error="Faery source rotation is owned by an unsupported visual/physics update path";
-  return false;
- }
- float speed=0.f;
- if(dh2_move_rotation_speed(&speed,&character_state.flags,
-      owner.properties.resolved.data())!=0) {
-  error="Faery rotation speed property could not be resolved";return false;
- }
- auto& rotation=controller.rotation;
- rotation.heading_angle=controller.heading.angle;
- const bool visual_ready=dh2::character_faery_visual_facade_v1::ready(
-     record->faery_visual,owner.identity);
- const dh2::actor::RotationPolicy rotation_policy{speed,dt_ms,
-     std::uint32_t(visual_ready),policy_bits.visual_with_rotation};
- std::uint32_t sync_visual=0;
- const float previous=rotation.rotation[2];
- if(dh2_actor_update_rotation(&rotation,&rotation_policy,&sync_visual)!=0) {
-  error="Faery GameObject rotation kernel rejected its retained source state";
-  return false;
- }
- controller.heading.angle=rotation.heading_angle;
- if(sync_visual) {
-  const float half=rotation.rotation[2]*0.5f;
-  const std::array<float,4> quaternion{0.f,0.f,std::sin(half),std::cos(half)};
-  record->faery_visual.rotation=quaternion;
-  owner.visual_rotation=quaternion;
- }
- if(record->pofaerie_physical&&record->pofaerie_physical->created()&&
-    previous!=rotation.rotation[2]&&
-    record->pofaerie_physical->set_transform(record->game_object.world_x,
-       record->game_object.world_y,rotation.rotation[2])!=
-          dh2::character_physical_component_v1::Status::complete) {
-  error="Faery physical owner rejected the synchronized GameObject rotation";
-  return false;
- }
  return true;
 }
 
@@ -26523,7 +26571,8 @@ bool native_update_aggro_delay(ObjectActor& actor,unsigned dt_ms,
  }catch(...){return false;}
 }
 
-struct NativeAggroSearchContextV1 { ObjectActor* owner=nullptr; };
+// Exactly one searcher: an ObjectActor monster or an authored Faery Character.
+struct NativeAggroSearchContextV1 { ObjectActor* owner=nullptr; AuthoredCryptFaeryOwner* faery=nullptr; };
 struct NativeAggroInteractiveContextV1 {
  std::uintptr_t candidate=0,interacting_object=0;
  ObjectActor* actor=nullptr;
@@ -26630,8 +26679,10 @@ std::int32_t native_aggro_search_service(void* raw,
     dh2::character::aggro_search::Response* response) {
  using namespace dh2::character::aggro_search;
  auto* context=static_cast<NativeAggroSearchContextV1*>(raw);
- if(!context||!context->owner||!request||!response)return 1;
- auto& owner=*context->owner;*response={};
+ if(!context||(!context->owner==!context->faery)||!request||!response)return 1;
+ const std::uintptr_t owner_identity=context->owner?context->owner->identity:
+     context->faery->identity;
+ *response={};
  auto* candidate_actor=native_char_ai_actor(request->subject);
  const bool candidate_player=request->subject==prince_character.identity();
  auto* candidate_object=candidate_player?nullptr:candidate_actor;
@@ -26650,7 +26701,7 @@ std::int32_t native_aggro_search_service(void* raw,
   try {response->word=native_actor_zonability(*candidate_object);return 0;}
   catch(...) {native_aggro_fail="IsZonable threw";return 1;}
  case is_interactive: {
-  if(!request->other||request->other!=owner.identity){native_aggro_fail="IsInteractive: interacting object is not the searcher";return 1;}
+  if(!request->other||request->other!=owner_identity){native_aggro_fail="IsInteractive: interacting object is not the searcher";return 1;}
   NativeAggroInteractiveContextV1 context_interactive{};
   context_interactive.candidate=request->subject;
   context_interactive.interacting_object=request->other;
@@ -26703,6 +26754,17 @@ std::int32_t native_aggro_search_service(void* raw,
  }
  case ai_melee_radius: {
   std::string error;float radius=0.f;
+  if(context->faery) {
+   // The Faery owns no ItemInventory: AI_GetMeleeRadius is the AITable row.
+   if(request->subject!=owner_identity||
+      dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
+        context->faery->properties.resolved[1],&radius)!=
+        dh2::character::player_attack_melee_radius_v1::Status::complete){
+    native_aggro_fail="searcher AI melee radius unavailable: Faery AITable row";return 1;
+   }
+   response->number=radius;return 0;
+  }
+  auto& owner=*context->owner;
   if(request->subject==owner.identity&&!owner.source_inventory){
    // Unequipped Character: AI_GetMeleeRadius = weapon range 0 + AITable +32.
    if(dh2::character::player_attack_melee_radius_v1::query(nullptr,&actor_ai_tables,
@@ -27281,31 +27343,22 @@ bool update_ordered_character_v1(void* raw,
      return false;
     }
     if(!advance_authored_faery_animator(*faery,context.error))return false;
-    if(!advance_authored_faery_rotation(*faery,context.dt_ms,context.error))
-     return false;
     if(!advance_authored_faery_path(*faery,context.dt_ms,context.error))
      return false;
     decay_character_reaction_gate_14fc(
         record->source_reaction_gate_14fc,context.dt_ms);
     return true;
    }
-   if(record->source_external_ais->source_alias(
-       dh2::monster_external_script::Event::update)) {
-    std::string dispatch_error;
-    const auto status=record->source_external_ais->dispatch(
-        dh2::monster_external_script::Event::update,0,dispatch_error);
-    if(status!=dh2::monster_external_script::Status::complete) {
-     context.error="Faery AISExternal::OnUpdate failed: "+dispatch_error;
-     return false;
-    }
-   }
+   // Character::Update order: CharAI::Update (_UpdateTarget, _UpdateMaster,
+   // _UpdateAggro, CharAI::OnUpdate), CharStateMachine::Update,
+   // CharAnimator::Update, GameObject::Update (UpdatePath, UpdateRotation,
+   // UpdateSubObjects).
+   if(!tick_authored_faery_ai_frame(*faery,context.error))return false;
    if(record->coordinator->update_state(context.dt_ms)<0) {
     context.error="Faery Character::Update state-machine provider failed";
     return false;
    }
    if(!advance_authored_faery_animator(*faery,context.error))return false;
-   if(!advance_authored_faery_rotation(*faery,context.dt_ms,context.error))
-    return false;
    if(!advance_authored_faery_path(*faery,context.dt_ms,context.error))
     return false;
    decay_character_reaction_gate_14fc(
@@ -32804,9 +32857,7 @@ bool native_sct_killed_position_lookup_v1(void* raw,std::uintptr_t identity,
    return false;
   try {
    auto scene=std::make_unique<dh2::scene::Scene>(pose->bdae_resource().scene);
-   Matrix placement{};
-   dh2_node_matrix(placement.data(),visual.position.data(),
-                   visual.rotation.data(),visual.scale.data());
+   const Matrix placement=faery_visual_placement(owner,visual);
    for(auto& node:scene->graph)
     node.world=dh2::scene::multiply(placement,node.world);
    context->static_visual_scene=std::move(scene);
@@ -33651,8 +33702,7 @@ bool faery_external_visual_target_position(std::uintptr_t identity,
         faery->record->faery_visual,identity))return false;
   const auto& visual=faery->record->faery_visual;
   scene=&visual.pose->bdae_resource().scene;
-  dh2_node_matrix(instance_transform.data(),visual.position.data(),
-                  visual.rotation.data(),visual.scale.data());
+  instance_transform=faery_visual_placement(*faery,visual);
   apply_instance_transform=true;
  } else if(active_crypt_room_runtime) {
   const auto container=std::find_if(
@@ -33830,6 +33880,9 @@ int faery_external_warp_service(void* raw,
  owner.visual_position={accepted[0],accepted[1],accepted[2]};
  record->game_object.world_x=accepted[0];record->game_object.world_y=accepted[1];
  record->faery_visual.position=owner.visual_position;
+ // GameObject::WarpTo -> SetPosition -> VisualObject::SyncPosition: the owner
+ // node and the GameObject::Update snapshots follow the accepted point.
+ dh2::character_faery_motion_v1::place(owner.motion,accepted);
  std::copy(accepted,accepted+3,record->aggro_object.position);
  std::copy(accepted,accepted+3,record->aggro_object.target_position);
  object->world_x=accepted[0];object->world_y=accepted[1];
@@ -34000,56 +34053,450 @@ std::int32_t faery_external_move_to(void* raw,std::uintptr_t identity,
  return 0;
 }
 
-bool advance_authored_faery_path(AuthoredCryptFaeryOwner& owner,
-                                 std::uint32_t dt_ms,std::string& error) {
- (void)dt_ms;
- error.clear();
- if(!owner.record||owner.record->character.identity!=owner.identity||
-    !active_crypt_room_runtime||!active_crypt_room_runtime->level.native_floor)
-  return true;
- auto& state=owner.record->faery_controller;
- if(!state.navigation_ready||state.character!=owner.identity)return true;
- float position[3]{};
- if(!faery_external_character_position(owner.identity,position)) {
-  {
-   std::size_t occurrences=0;
-   const bool listed=native_characters.contains_identity(owner.identity,&occurrences);
-   const auto* object=active_crypt_room_runtime->manager.find_by_identity(owner.identity);
-   const bool node=object&&object->target_node_180;
-   error="Faery path update cannot resolve the live source GameObject position (listed "+
-       std::to_string(int(listed))+"x"+std::to_string(occurrences)+" row "+
-       std::to_string(object!=nullptr)+" target node "+std::to_string(int(node))+
-       " visual "+std::to_string(object?object->visual_object_2d8!=0:0)+")";
+// ---------------------------------------------------------------------------
+// CharAI::Update for the authored Faery (native_faery_ai_frame_v1.hpp). This
+// Host supplies the Faery's Character/GameObject/AIS facts and effects; the
+// source-order orchestration and every recovered kernel live in the Owner.
+// ---------------------------------------------------------------------------
+class FaeryAiHost final : public dh2::native::faery_ai_frame_v1::Host {
+public:
+ explicit FaeryAiHost(AuthoredCryptFaeryOwner& owner)
+     : owner_(owner),record_(*owner.record) {}
+
+ bool character_state(std::int32_t& state) override {
+  if(!record_.coordinator)return false;
+  state=record_.coordinator->state.current;return true;
+ }
+ bool target_position(std::uintptr_t identity,float out[3]) override {
+  float position[3]{};
+  if(!faery_external_character_position(identity,position))return false;
+  out[0]=position[0];out[1]=position[1];out[2]=position[2];return true;
+ }
+ bool is_dead(std::uintptr_t identity,bool& dead) override {
+  if(identity==prince_character.identity()) {
+   dead=prince_combat.life.dead!=0;return true;
+  }
+  if(auto* actor=native_char_ai_actor(identity)) {
+   if(actor->kind!=1)return false;
+   dead=actor->combat_state.dead!=0;return true;
+  }
+  if(auto* faery=native_faery_owner(identity)) {
+   if(!faery->record)return false;
+   dead=faery->record->serialized_dead_1449!=0;return true;
   }
   return false;
  }
- state.path.segments=state.path_storage.data();
- state.path.capacity=std::uint32_t(state.path_storage.size());
- std::copy(position,position+3,state.path.position);
- std::copy(position,position+3,state.navigation.motion.position);
- dh2::navigation::PathController path_controller{};
- std::copy(position,position+3,path_controller.position);
- std::copy(state.destination,state.destination+3,path_controller.destination);
- path_controller.heading=state.heading;
- path_controller.path_requested=state.moving;
- dh2::navigation::ControllerPolicy policy{1,0,0,0};
- dh2::navigation::ControllerWorkspace workspace{
-     state.path_scratch.data(),std::uint32_t(state.path_scratch.size()),0,
-     nullptr,0,0,nullptr,0,0};
- const dh2::navigation::ControllerRequest request{
-     &path_controller,&state.path,&state.navigation,
-     &active_crypt_room_runtime->level.native_floor->collision_world,
-     &active_crypt_room_runtime->level.native_floor->graph,nullptr,&policy,
-     &workspace,owner.identity,&state.moving};
- dh2::navigation::ControllerResult result{};
- if(dh2_nav_update_path(&result,&request)!=0) {
-  error="Faery source UpdatePath rejected its retained PathTo state";return false;
+ bool ai_row(float& view_radius,float& view_radius_no_aggro,
+             float& interact_radius) override {
+  const auto* props=dh2::data::ai_props(actor_ai_tables,ai_id());
+  if(!props)return false;
+  view_radius=props->view_radius;
+  view_radius_no_aggro=props->view_radius_no_aggro;
+  // AIProps+0x18 (Structs::AIProps::read 0x506f3c) is InteractRadius.
+  interact_radius=props->interact_radius;
+  return true;
  }
- std::copy(path_controller.destination,path_controller.destination+3,
-           state.destination);
- state.heading=path_controller.heading;
- if(owner.record->coordinator)
-  owner.record->coordinator->state.heading_active=state.heading.active;
+ bool melee_radius(bool owner_ai,std::uintptr_t identity,float& radius) override {
+  if(owner_ai) {
+   // The Faery owns no ItemInventory: AI_GetMeleeRadius is the AITable row.
+   return dh2::character::player_attack_melee_radius_v1::query(nullptr,
+       &actor_ai_tables,ai_id(),&radius)==
+       dh2::character::player_attack_melee_radius_v1::Status::complete;
+  }
+  if(identity==prince_character.identity())return player_melee_radius_v1(radius);
+  auto* actor=native_char_ai_actor(identity);
+  if(!actor||actor->kind!=1)return false;
+  std::string error;
+  if(actor->source_inventory&&actor->source_inventory->melee_radius(*actor,radius,error))
+   return true;
+  return dh2::character::player_attack_melee_radius_v1::query(nullptr,
+      &actor_ai_tables,actor->properties.resolved[1],&radius)==
+      dh2::character::player_attack_melee_radius_v1::Status::complete;
+ }
+ bool interaction_type(std::uintptr_t subject,std::uintptr_t other,
+                       std::uint32_t& type) override {
+  // Character::GetInteractionType 0x3a47e8 of `subject` for interactor `other`.
+  using Relation=dh2::character_ai_relations::Relation;
+  using Classification=dh2::character_ai_classification::Query;
+  std::uint32_t enemy=0,other_player=0,summoned=0,monster=0;
+  bool dead=false;
+  const auto missing=[&](const char* step){
+   const auto active=source_level_owner.snapshot();
+   auto* manager=&source_level_owner.object_manager();
+   const auto found=source_char_ai.by_character.find(subject);
+   const auto* subject_row=manager->find_by_identity(subject);
+   const auto* other_row=manager->find_by_identity(other);
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+     "Faery GetInteractionType provider unavailable | %s | subject %llu | other %llu | ready %d fields %d active %d level %d player %d fields_match %d manager_match %d ai %d subject_row %d (handle %d) other_row %d (handle %d)",
+     step,static_cast<unsigned long long>(subject),static_cast<unsigned long long>(other),
+     int(source_char_ai.ready),int(actor_level_fields_ready),
+     int(active.phase==dh2::source_level_owner_v1::Phase::active),int(active.source_level!=0),
+     int(active.player_character==prince_character.identity()),
+     int(active.level_fields==&actor_level_fields),
+     int(active.object_manager_identity==reinterpret_cast<std::uintptr_t>(manager)),
+     int(found!=source_char_ai.by_character.end()),int(subject_row!=nullptr),
+     subject_row?int(subject_row->source_handle):-1,int(other_row!=nullptr),
+     other_row?int(other_row->source_handle):-1);
+   return false;
+  };
+  if(other) {
+   if(!source_relation_for_ooi(subject,other,Relation::enemy,enemy))
+    return missing("AI_IsEnemy");
+   if(!native_character_classification_for_identity(other,Classification::player,other_player))
+    return missing("IsPlayer");
+  }
+  if(other&&enemy&&!other_player){type=8;return true;}
+  if(!native_character_classification_for_identity(subject,Classification::summoned,summoned))
+   return missing("IsSummoned");
+  if(!is_dead(subject,dead))return missing("IsDead");
+  if(summoned||dead){type=std::uint32_t(-1);return true;}
+  if(!native_character_classification_for_identity(subject,Classification::monster,monster))
+   return missing("IsMonster");
+  type=monster?8u:3u;return true;
+ }
+ bool interaction_spot(std::uintptr_t identity,float out[3],bool& node_present) override {
+  // GameObject::GetInteractionSpot 0x38b228: the "interaction_position" node of
+  // the object's visual when it has one, else its GetTargetPosition.
+  node_present=false;
+  const dh2::scene::Scene* scene=nullptr;
+  if(identity==prince_character.identity())scene=&current_scene;
+  else if(auto* actor=native_char_ai_actor(identity);
+          actor&&actor->kind==1&&actor->spawn_owner&&actor->spawn_owner->runtime_ready)
+   scene=ooi_actor_scene(*actor);
+  if(scene)for(const auto& node:scene->graph) {
+   if(node.id!="interaction_position"&&node.sid!="interaction_position"&&
+      node.name!="interaction_position")continue;
+   out[0]=node.world[12];out[1]=node.world[13];out[2]=node.world[14];
+   node_present=true;return true;
+  }
+  return target_position(identity,out);
+ }
+ bool resolve_object(std::uintptr_t identity) override {
+  if(!active_crypt_room_runtime||!identity)return false;
+  auto& manager=active_crypt_room_runtime->manager;
+  const auto* object=manager.find_by_identity(identity);
+  return object&&object->source_handle&&
+      manager.find_by_source_handle(object->source_handle)==object;
+ }
+ bool debug_switch(std::uint32_t key,std::uint32_t& value) override {
+  if(!native_debug)return false;
+  if(native_debug->runtime().load(native_debug->globals(),native_debug->services())!=
+     dh2::debug_switches::Status::complete)return false;
+  const char* name=key==1?"IsTracingCharAITarget":key==2?"isTracingCharAITarget":nullptr;
+  if(!name)return false;
+  std::uint8_t flag=0;
+  if(native_debug->runtime().get_switch(name,native_debug->globals(),
+      native_debug->services(),flag)!=dh2::debug_switches::Status::complete)return false;
+  value=flag;return true;
+ }
+ bool can_range_attack(bool& value) override {
+  // Character::CanRangeAttack 0x3a4d3c asks the Character's ItemInventory; the
+  // Faery equips nothing, so there is no bow.
+  value=false;return true;
+ }
+ bool char_ai_id(std::uint32_t& value) override {
+  value=std::uint32_t(ai_id());return true;
+ }
+
+ bool raise_event(std::uint32_t event,std::uintptr_t payload) override {
+  // Character::RaiseEvent 0x3a4d5c -> CharAI::RaiseAIEvent 0x3cbb34 (default arm).
+  using Event=dh2::monster_external_script::Event;
+  auto& controller=record_.faery_controller;
+  auto state_event=[&](std::uint32_t id,std::uintptr_t argument){
+   return record_.coordinator&&record_.coordinator->event(id,argument)>=0;
+  };
+  if(!controller.forced&&(controller_global_blocked||controller.locked))
+   return state_event(event,payload);
+  Event script{};bool pass_payload=false,then_state=false;
+  switch(event) {
+  case 7:script=Event::friend_spotted;pass_payload=true;break;
+  case 8:script=Event::neutral_spotted;pass_payload=true;break;
+  case 9:script=Event::enemy_spotted;pass_payload=true;then_state=true;break;
+  case 18:script=Event::master_died;break;
+  case 19:return true; // AISDefault::OnMasterRevived is empty; AISExternal does not override it.
+  case 20:script=Event::master_out_of_sight;break;
+  case 21:script=Event::master_in_sight;break;
+  case 22:script=Event::master_out_of_range;break;
+  case 23:script=Event::master_in_ranged_range;break;
+  case 24:script=Event::master_in_close_range;break;
+  case 25:script=Event::master_in_melee_range;break;
+  default:return false;
+  }
+  if(!dispatch_script(script,pass_payload?payload:0))return false;
+  return then_state?state_event(event,payload):true;
+ }
+ bool aggro_scan(float radius) override;
+ bool ais_script_on_update() override {
+  return dispatch_script(dh2::monster_external_script::Event::update,0);
+ }
+ bool ais_flags(std::uint32_t& flags) override {
+  // AISExternal::InitVCB 0x3dcec8: bit0 = OnUpdate registered in the VFTable.
+  flags=0;
+  if(!record_.source_external_ais)return false;
+  if(record_.source_external_ais->source_alias(dh2::monster_external_script::Event::update))
+   flags|=1u;
+  return true;
+ }
+ bool disable_zoning() override {
+  if(!active_crypt_room_runtime)return false;
+  auto* object=active_crypt_room_runtime->manager.find_by_identity(owner_.identity);
+  if(!object)return false;
+  object->zoning_enabled_2ee=0;return true;
+ }
+ bool sync_visibility() override {
+  // VisualObject::SyncVisibility 0x4713d0: visible = GameObject+0x80 (the Faery
+  // is never zonable).
+  record_.faery_visual.visible=record_.game_object.visible_80!=0;return true;
+ }
+
+private:
+ std::int32_t ai_id() const {
+  auto id=owner_.properties.resolved.size()>1?owner_.properties.resolved[1]:-1;
+  if(id<0||std::size_t(id)>=actor_ai_tables.rows.size())id=8; // GetCharAIId fallback
+  return id;
+ }
+ bool dispatch_script(dh2::monster_external_script::Event event,std::uintptr_t argument) {
+  auto* session=record_.source_external_ais.get();
+  if(!session||!session->ready())return false;
+  // LuaScript::Call of a name the script never registered with AddToVFTable
+  // is a no-op in the source.
+  if(!session->source_alias(event))return true;
+  std::string error;
+  const auto status=session->dispatch(event,argument,error);
+  if(status!=dh2::monster_external_script::Status::complete) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+     "Faery AIS callback failed | event %u | %s",unsigned(event),error.c_str());
+   return false;
+  }
+  return true;
+ }
+ AuthoredCryptFaeryOwner& owner_;
+ dh2::character_runtime_factory_v1::Record& record_;
+};
+
+bool FaeryAiHost::aggro_scan(float radius) {
+ // CharAI::_UpdateAggro 0x3cf3f0 acquisition for a Faerie without a master:
+ // TargetList(owner,0x7fffffff,2,1).Search(radius,6.2832) over the Level
+ // CharacterList (dword_99F764+96), then Character::RaiseEvent(9/7/8) per
+ // candidate in closest-first order (the same producer monsters use above).
+ if(!active_crypt_room_runtime||!owner_.native_ai)return false;
+ sync_prince_search_projection();
+ auto& roster=native_characters.source();
+ if(!dh2::character::aggro::object_manager_list::validate(&roster))return false;
+ auto* sentinel=&roster.sentinel;auto* entry=sentinel->next;
+ std::size_t visited=0;
+ while(entry&&entry!=sentinel) {
+  if(++visited>roster.character_count||!entry->character)return false;
+  auto* character=static_cast<dh2::character::aggro_search::Character*>(entry->character);
+  if(character->identity==prince_character.identity())sync_prince_search_projection();
+  else if(auto* peer=native_char_ai_actor(character->identity))sync_search_projection(*peer);
+  entry=entry->next;
+ }
+ if(visited!=roster.character_count||visited==0||visited>65536)return false;
+ using namespace dh2::character::aggro_search;
+ std::vector<TargetInfo> heap(visited);
+ TargetList targets{};
+ if(dh2_aggro_target_list_init(&targets,heap.data(),
+      static_cast<std::uint32_t>(heap.size()),&record_.character)!=complete)
+  return false;
+ dh2::character::aggro::object_manager_list::CharacterCursor cursor{};
+ cursor.owner=&roster;
+ const auto methods=dh2::character::aggro::object_manager_list::object_list_methods(&cursor);
+ NativeAggroSearchContextV1 context{nullptr,&owner_};
+ const Services services{&context,native_aggro_search_service};
+ constexpr float full_circle=6.28318548202514648437f;
+ if(dh2::character::aggro_character_list::dh2_aggro_target_search_object_list(
+      &targets,&methods,radius,full_circle,&services)!=0) {
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+    "Faery source TargetList acquisition provider failed: %s",
+    *native_aggro_fail?native_aggro_fail:"list topology/argument rejected");
+  return false;
+ }
+ dh2::character_aggro_candidate_events::State event_state{
+     owner_.native_ai->ai_identity,owner_.identity,
+     owner_.native_ai->state.target_40};
+ struct EventContext {FaeryAiHost* host;AuthoredCryptFaeryOwner* owner;};
+ EventContext event_context{this,&owner_};
+ const dh2::character_aggro_candidate_events::Services event_services{
+  &event_context,
+  [](void* raw,dh2::character_aggro_candidate_events::State*,
+     dh2::character_aggro_candidate_events::Relation relation,
+     std::uintptr_t owner,std::uintptr_t candidate,std::uint32_t* value)->std::int32_t {
+   if(!raw||!value)return 1;
+   const auto source_relation=relation==dh2::character_aggro_candidate_events::Relation::enemy?
+       dh2::character_ai_relations::Relation::enemy:
+       relation==dh2::character_aggro_candidate_events::Relation::friend_?
+       dh2::character_ai_relations::Relation::friend_:
+       dh2::character_ai_relations::Relation::neutral;
+   return source_relation_for_ooi(owner,candidate,source_relation,*value)?0:1;
+  },
+  [](void* raw,dh2::character_aggro_candidate_events::State*,
+     std::uintptr_t owner,std::uint32_t event,std::uintptr_t candidate)->std::int32_t {
+   auto* context=static_cast<EventContext*>(raw);
+   if(!context||owner!=context->owner->identity)return 1;
+   return context->host->raise_event(event,candidate)?0:1;
+  }};
+ dh2::character_aggro_candidate_events::Result event_result{};
+ return dh2::character_aggro_candidate_events::consume(
+     &event_state,&targets,&event_services,&event_result)==
+     dh2::character_aggro_candidate_events::Status::complete;
+}
+
+// CharAI::Update through the Faery's own Coordinator.
+bool tick_authored_faery_ai_frame(AuthoredCryptFaeryOwner& owner,
+                                  std::string& error) {
+ error.clear();
+ auto* record=owner.record;
+ if(!record||!record->coordinator||!owner.native_ai||!owner.ai_frame)return true;
+ FaeryAiHost host(owner);
+ dh2::native::faery_ai_frame_v1::FrameInput input{};
+ input.global_blocked=controller_global_blocked;
+ input.forced=record->faery_controller.forced;
+ if(active_crypt_room_runtime) {
+  if(const auto* object=active_crypt_room_runtime->manager.find_by_identity(owner.identity)) {
+   input.zoned=object->live_fields.zoning_enabled_2ee?
+       *object->live_fields.zoning_enabled_2ee:object->zoning_enabled_2ee;
+   input.in_zone=object->live_fields.in_zone_2f0?
+       *object->live_fields.in_zone_2f0:object->in_zone_2f0;
+  }
+ }
+ input.visual=record->game_object.visual_object_2d8;
+ dh2::native::faery_ai_frame_v1::Result result;
+ const auto status=owner.ai_frame->tick(*record->coordinator,host,input,&result);
+ if(status!=dh2::native::faery_ai_frame_v1::Status::complete) {
+  error="Faery CharAI::Update failed: "+result.error;
+  return false;
+ }
+ return true;
+}
+
+bool faery_trace_enabled() {
+ static const bool enabled=[]{
+  const char* value=std::getenv("DH2_TRACE_FAERY");
+  return value&&*value&&*value!='0';
+ }();
+ return enabled;
+}
+std::uint32_t faery_trace_frames=0;
+void trace_authored_faery_motion(AuthoredCryptFaeryOwner& owner,
+    const dh2::character_faery_motion_v1::Result& result) {
+ // DH2_TRACE_FAERY=1: one line per 30 Faery GameObject::Update frames.
+ auto* record=owner.record;
+ if(!record||(faery_trace_frames++%30u)!=0u)return;
+ if(faery_trace_frames==1) {
+  if(const auto* props=dh2::data::ai_props(actor_ai_tables,owner.properties.resolved[1]))
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Faery trace AITable | row %d | view %.1f | no_aggro %.1f | leash %.1f | melee %.1f | interact %.1f",
+     int(owner.properties.resolved[1]),props->view_radius,props->view_radius_no_aggro,
+     props->leash_distance,props->melee_radius,props->interact_radius);
+ }
+ const float* player=prince_runtime.subobjects.position;
+ const float dx=result.position[0]-player[0],dy=result.position[1]-player[1];
+ float body[2]{};
+ const bool body_ok=record->pofaerie_physical&&
+     record->pofaerie_physical->read_position(body)==
+         dh2::character_physical_component_v1::Status::complete;
+ const float* helper=dh2::character_faery_motion_v1::placement_offset(owner.motion);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+   "Faery trace | frame %u | player %.1f %.1f %.1f | faery %.1f %.1f %.1f | dist %.1f | state %d | master %llu | path %u | moving %u | rot %.3f | body %.1f %.1f | helper %.1f %.1f %.1f | movego %d | flags %x",
+   faery_trace_frames-1,player[0],player[1],player[2],result.position[0],
+   result.position[1],result.position[2],std::sqrt(dx*dx+dy*dy),
+   record->coordinator?record->coordinator->state.current:-1,
+   static_cast<unsigned long long>(owner.native_ai?owner.native_ai->state.master_50:0),
+   unsigned(record->faery_controller.path.count),
+   unsigned(record->faery_controller.moving),result.rotation_z,
+   body_ok?body[0]:0.f,body_ok?body[1]:0.f,helper[0],helper[1],helper[2],
+   int(record->faery_visual.animator.scheduler.active()&&
+       record->faery_visual.animator.scheduler.clip().move_go),
+   record->coordinator?record->coordinator->state.flags:0u);
+}
+
+bool advance_authored_faery_path(AuthoredCryptFaeryOwner& owner,
+                                 std::uint32_t dt_ms,std::string& error) {
+ // GameObject::Update 0x38cbe8 for the authored Faery: UpdatePath,
+ // UpdateRotation, UpdateSubObjects. The Faery translates by VisualObject root
+ // motion (Character flags bit0 in CSMove) applied through UpdateSubObjects,
+ // not by a physics velocity; see character_faery_motion_v1.hpp.
+ error.clear();
+ auto* record=owner.record;
+ if(!record||record->character.identity!=owner.identity||
+    !active_crypt_room_runtime||!active_crypt_room_runtime->level.native_floor)
+  return true;
+ auto& state=record->faery_controller;
+ if(!state.navigation_ready||state.character!=owner.identity)return true;
+ if(!record->coordinator||record->coordinator->state.current<0||
+    !record->source_properties_ready()||!owner.properties_ready||
+    owner.properties.resolved.size()!=224||!state.controller||
+    !state.controllable) {
+  error="Faery GameObject::Update requires the live Character state, properties, and controller on its canonical Record";
+  return false;
+ }
+ auto& visual=record->faery_visual;
+ const auto pose=std::dynamic_pointer_cast<AuthoredFaeryPose>(visual.pose);
+ if(!pose||!pose->resource||
+    !dh2::character_faery_visual_facade_v1::ready(visual,owner.identity))
+  return true; // No VisualObject yet: there is no owner node to update.
+ auto* object=active_crypt_room_runtime->manager.find_by_identity(owner.identity);
+ if(!object||object->identity!=owner.identity) {
+  error="Faery GameObject::Update lost its ObjectManager row";
+  return false;
+ }
+ if(!owner.motion.bound&&
+    !dh2::character_faery_motion_v1::bind(owner.motion,pose->resource->scene,
+        owner.visual_position.data(),visual.rotation.data(),visual.scale.data(),
+        error))
+  return false;
+ auto& floor=*active_crypt_room_runtime->level.native_floor;
+ dh2::character_faery_motion_v1::Request request{};
+ request.controller=&state;
+ request.body=record->pofaerie_physical.get();
+ request.geometry=&floor.collision_world;
+ request.graph=&floor.graph;
+ request.registry=&active_crypt_room_runtime->live_registry;
+ request.motion_policy=&live_motion_policy;
+ request.resolved224=owner.properties.resolved.data();
+ request.character_flags=record->coordinator->state.flags;
+ request.dt_ms=dt_ms;
+ request.key=owner.identity;
+ request.position[0]=record->game_object.world_x;
+ request.position[1]=record->game_object.world_y;
+ request.position[2]=owner.visual_position[2];
+ dh2::character_faery_motion_v1::Result result{};
+ if(dh2::character_faery_motion_v1::update(owner.motion,request,&result,error)!=
+    dh2::character_faery_motion_v1::Status::complete) {
+  if(error.empty())error="Faery GameObject::Update rejected its retained owners";
+  return false;
+ }
+ // Publish the accepted GameObject pose to every retained projection of this
+ // one Character: GameObject +0x160, the VisualObject placement, the
+ // ObjectManager row and the TargetList/aggro object (as WarpTo/SetPosition do).
+ const float* position=result.position;
+ owner.visual_position={position[0],position[1],position[2]};
+ record->game_object.world_x=position[0];
+ record->game_object.world_y=position[1];
+ visual.position=owner.visual_position;
+ std::copy(position,position+3,record->aggro_object.position);
+ std::copy(position,position+3,record->aggro_object.target_position);
+ record->aggro_object.forward[0]=std::cos(result.rotation_z);
+ record->aggro_object.forward[1]=std::sin(result.rotation_z);
+ record->aggro_object.forward[2]=0.f;
+ object->world_x=position[0];
+ object->world_y=position[1];
+ if(result.visual_rotation_requested) {
+  const float* quaternion=dh2::character_faery_motion_v1::owner_quaternion(owner.motion);
+  std::copy(quaternion,quaternion+4,visual.rotation.begin());
+  owner.visual_rotation=visual.rotation;
+ }
+ if(record->pofaerie_physical&&record->pofaerie_physical->created()&&
+    result.rotation_changed&&
+    record->pofaerie_physical->set_transform(position[0],position[1],
+        result.rotation_z)!=dh2::character_physical_component_v1::Status::complete) {
+  error="Faery physical owner rejected the synchronized GameObject rotation";
+  return false;
+ }
+ record->coordinator->state.heading_active=state.heading.active;
+ if(faery_trace_enabled())
+  trace_authored_faery_motion(owner,result);
  return true;
 }
 
@@ -34165,6 +34612,7 @@ int native_faery_placement_service(void*,const FaeryPlacement::Request& request,
    faery->record->game_object.world_x=request.vector->x;
    faery->record->game_object.world_y=request.vector->y;
    faery->record->faery_visual.position=faery->visual_position;
+   dh2::character_faery_motion_v1::place(faery->motion,faery->visual_position.data());
    std::copy(faery->visual_position.begin(),faery->visual_position.end(),
        faery->record->aggro_object.position);
    std::copy(faery->visual_position.begin(),faery->visual_position.end(),
@@ -44699,8 +45147,11 @@ void draw(int width,int height){
     continue;
    }
    Matrix placement{};
-   dh2_node_matrix(placement.data(),visual.position.data(),visual.rotation.data(),
-                   visual.scale.data());
+   if(const auto* faery_owner=native_faery_owner(identity))
+    placement=faery_visual_placement(*faery_owner,visual);
+   else
+    dh2_node_matrix(placement.data(),visual.position.data(),visual.rotation.data(),
+                    visual.scale.data());
    const auto owner_projection=dh2::scene::multiply(projection,placement);
    for(std::size_t n=0;n<resource.primitives.size();++n){
     const auto& primitive=resource.primitives[n];const auto& batch=group.draws[n];
@@ -44750,9 +45201,7 @@ void draw(int width,int height){
     if(visual.clip_time_ms<static_cast<std::uint32_t>(clip_start)||
        visual.clip_time_ms>static_cast<std::uint32_t>(clip_end))
      throw std::runtime_error("Authored Faery Animator cursor is outside the selected clip");
-    Matrix placement{};
-    dh2_node_matrix(placement.data(),owner.visual_position.data(),
-                    owner.visual_rotation.data(),owner.visual_scale.data());
+    const Matrix placement=faery_visual_placement(owner,visual);
     const auto owner_projection=dh2::scene::multiply(projection,placement);
     if(owner.visual_draws.size()!=resource.primitives.size())
      throw std::runtime_error("Authored Faery draw bank no longer matches its BDAE resource");
