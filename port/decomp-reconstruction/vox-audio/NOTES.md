@@ -145,6 +145,37 @@ Wave 5 additions:
 - `mpc_reader_t`: callbacks[5] at +0x00..+0x10 (not used by the wrappers), `data`
   (StreamCursorInterface*) at +0x14.
 
+Wave 9 native sub-decoder slots (w9-native-subdecoder). Offsets are from the vptr, which is
+the address point of the vtable symbol plus 8. The decompiled indirect calls use the same
+numbers (`*(this) + N`). Names come from the PCM and IMA ADPCM overrides in the vtable
+symbols (vtables-001.json) and from the call sites; the base class vtable has zero words
+(pure) in every slot not listed as a method.
+
+- `vox::VoxNativeSubDecoder` (14 slots): +0x00 D1, +0x04 D0, +0x08 HasData (defined),
+  +0x0c Seek(unsigned), +0x10 Reset (defined), +0x14 DecodeCurrentSegmentWithOffset(void*, int),
+  +0x18 DecodeSegment(void*, int, SegmentState*), +0x1c GetBytePositionFromSampleOffset(unsigned)
+  (returns unsigned), +0x20 GetDecodingBuffer(), +0x24 ReleaseDecodingBuffer(int),
+  +0x28 Seek(int, SegmentState*), +0x2c SetDecodingBufferToSegmentPosition(SegmentState*),
+  +0x30 EmulateDecodeCurrentSegmentWithOffset(int), +0x34 EmulateDecodeSegment(int, SegmentState*).
+  The first call of the decode path is Decode through +0x18 with the segment, the mix of
+  one segment through +0x14, and the emulated mix through +0x30 and +0x34.
+- `vox::VoxNativeSubDecoderIMAADPCM` adds +0x38 EmulateSetDecodingBufferToSegmentPosition(SegmentState*),
+  which the IMA-only vtable (68 bytes) holds after the shared 14 slots.
+- Segment record: 0x44 bytes, copied as 0x41 bytes (the record without padding). The three
+  records sit at +0x98 (A), +0xdc (B) and +0x120 (C) in VoxNativeSubDecoder, and at +0x6c, +0xb0
+  and +0xf4 in NativeSubDecoderState. Word n of a record is +4n: 0 chunk, 1 play mode, 2 byte
+  offset, 3 sample position, 4 loop start, 5 end frame, 6 entry count, 7 entries left, 8 restart
+  at end, 9 state, 10 remaining frames, 11 (field_2c), 12 ramp frames, 13 ramp step, 14 gain,
+  15 decoding slot, byte 16 reset flag.
+- Object words used by the segment code: +0x2c loop lists (vector<vector<int>>*), +0x30
+  playlists, +0x94 active segments, +0x164 next event, +0x168 pending seek, +0x16c has data,
+  +0x0a channels, +0x0c track word, +0x10 bytes per sample, +0x12 bits. The mixing buffer is
+  s_pMixingBuffer (32-bit sums) with s_nbSamplesMixingBuffer frames.
+- Constructors are blocked: the base C1 and C2 take the stream, chunks, states, audio segments,
+  loop lists, rules, parameters, a map, an int, a string compare and the playlists. The ARM
+  order (stream in r1, unused r2, states in r3) does not match the mangled order, so the
+  NativeChunks position is taken from the readers only. Needs the caller to settle it.
+
 ## Decisions
 
 - stb_vorbis is ledgered `skipped`, not `upstream`. The binary's copy is a

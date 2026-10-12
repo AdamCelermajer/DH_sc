@@ -7,14 +7,12 @@
 
 namespace vox {
 
-// 0x8860dc _ZN3vox21NativeSubDecoderStateC1EPNS_22NativePlaylistsManagerE (partial)
-// C2 0x88621c has the same body. The original builds the playlist manager as a copy of the
-// argument (the manager copy constructor, in the playlists category). A null argument,
-// which the original does not allow, builds a default manager here. Partial: the original
-// also stores about 50 non-zero defaults at its own offsets (words from +0x84 to +0x130,
-// and bytes at +0xac, +0xf0 and +0x134). The port's layout differs, so those stores are not
-// reproduced; the member initializers in native_sub_decoder_state.hpp carry the zero
-// defaults only.
+// 0x8860dc _ZN3vox21NativeSubDecoderStateC1EPNS_22NativePlaylistsManagerE
+// C2 0x88621c has the same body. The playlist manager is a copy of the argument (the
+// original allocates 0x10 bytes and copy-constructs it). The three segment records start
+// stopped (chunk -1, state 2, one loop-list entry, decoding slot -1), as SetStopped sets them.
+// The non-zero defaults at +0x84..+0x130 and the reset bytes at +0xac, +0xf0 and +0x134 are
+// the same words of the three records, so SetStopped covers them.
 NativeSubDecoderState::NativeSubDecoderState(NativePlaylistsManager* manager) {
     void* memory = VoxAlloc(sizeof(NativePlaylistsManager));
     if (manager != nullptr) {
