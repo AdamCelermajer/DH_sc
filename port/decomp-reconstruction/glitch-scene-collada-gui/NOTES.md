@@ -1,10 +1,12 @@
 # glitch-scene-collada-gui notes
 
-Queue: 4138 functions (all owner engine-glitch). Ledger: 372 rows
-(281 reconstructed, 87 partial, 4 skipped). Wave 3 added 157 rows: 84 from the
+Queue: 4138 functions (all owner engine-glitch). Ledger: 591 rows
+(461 reconstructed, 126 partial, 4 skipped). Wave 3 added 157 rows: 84 from the
 CColladaFactory, collada database creators and GUI accessors, then 73 from the
-scene, timeline, PS and collada-misc batch (two of them GUI partials). The
-`decomp_extract --remaining` count is 3406 unledgered.
+scene, timeline, PS and collada-misc batch (two of them GUI partials). Wave 4
+added 219 rows (180 reconstructed, 39 partial), all in glitch::scene particle
+emitters and affectors (see "Wave 4" below). The `decomp_extract --remaining`
+count is 3547 unledgered.
 
 ## Classes and inferred layouts
 - CVisibilityEx: visible flag is a 32-bit word at +0x11c, bit 0 = visible. Base
@@ -153,3 +155,70 @@ to its owning class, so those ledger rows are `partial`.
   rows reconstructed.
 - Intrusive_ptr add_ref/release (0x60bbd4, 0x60c598) and onUnbindAll need the
   CAnimationBlock layout.
+
+## Wave 4: particle emitters, affectors, mesh and animated-mesh emitters
+Files: include/glitch-scene-collada-gui/particle_emitters.hpp, particle_affectors.hpp,
+src/particle_emitters.cpp, src/particle_affectors.cpp, tests/particle_emitters_test.cpp,
+tests/particle_affectors_test.cpp. Classes: CParticleCylinderEmitter, CParticlePointEmitter,
+CParticleBoxEmitter, CParticleRingEmitter, CParticleSphereEmitter, CParticleMeshEmitter,
+CParticleAnimatedMeshSceneNodeEmitter, CParticleAttractionAffector, CParticleGravityAffector,
+CParticleRotationAffector, CParticleSizeAffector, CParticleSpinAffector, CParticleFadeOutAffector.
+
+- Emitter layout: vptr at +0x00. Cylinder, Point, Box, Ring and Sphere keep a particle
+  buffer (begin, end, capacity) at +0x04. Mesh and AnimatedMesh keep an IMesh or
+  IAnimatedMeshSceneNode reference at +0x04 instead. The accumulated time is +0x58 (Cylinder,
+  Mesh), +0x70 (Point), +0x4c (Box), +0x48 (Ring) and +0x44 (Sphere), with the emitted
+  count in the next word. Settings are at the offsets in the header comments.
+- Mesh emitter: the buffer loop in setMesh and the constructor calls IMesh vtable slot
+  +0x10 (buffer count) and slot +0x14 (buffer getter). It reads the buffer's vertex stream
+  at +0x14 and that stream's count at +0x08, sums the counts into +0x08, and appends each
+  count to the int vector at +0x14. The loop is not reconstructed because IMesh and
+  CVertexStreams are not mapped. The reference counts are on the pointee at +0x04.
+- AnimatedMesh emitter: +0x18 mesh buffer number, +0x28 everyMeshVertex, +0x29
+  useNormalDirection, +0x2c normalDirectionModifier, +0x3c direction, +0x48/+0x4c
+  particles per second, +0x50/+0x54 colours, +0x58/+0x5c lifetimes, +0x68 max angle. The
+  constructor code after the colour copies, the D1 (112 bytes) and setAnimatedMeshSceneNode
+  (532 bytes) are not done.
+- Affector layout: the IParticleAffector flag at +0x04 is set to 1 by every constructor and
+  tested by affect(); it is named `enabled`. Attraction: point +0x08, speed +0x14, flags
+  +0x18 (affectX), +0x19 (affectY), +0x1a (affectZ), +0x1b (attract), lastTime +0x1c.
+  Gravity: timeForceLost +0x08 (float), gravity +0x0c. Rotation: pivot +0x08, speed +0x14,
+  lastTime +0x20. Size: targetSize +0x08, variation +0x0c, growForTime +0x10 and fadeForTime
+  +0x14 (both floats, converted from uint in the constructor). Spin: spinTime +0x08 (uint),
+  variation +0x0c. FadeOut: targetColor at +0x05 (unaligned in the original), fadeOutTime
+  +0x0c.
+- Constructors: C2 and C1 store the same members. C1 also writes the virtual-base vtable
+  slots, for example +0x78/+0x7c in Point and +0x50/+0x54 in Sphere, and the VTT in r1 is
+  not a C++ parameter. The constructors are `partial` for that reason.
+- Ghidra marks the memcpy and float-helper tails as noreturn, which cuts the pseudocode of
+  constructors, emitt and affect short. Example: CParticleCylinderEmitter::emitt is 124
+  bytes in queue.csv but 1340 bytes of ARM. For these bodies read the ARM listing
+  (`recovered/native/assembly/libDungeonHunter2.so/`): the header line gives declared_size.
+  Helper addresses: 0x30e868 memcpy, 0x30e2e0 __aeabi_ui2f, 0x30ec94 __aeabi_fdiv,
+  0x8be2a0 __fixunssfsi (libgcc semantics: negative input gives 0, overflow gives UINT_MAX).
+- emitt() and affect(): the time accumulation (emitters) and the enabled/count guard
+  (affectors) are reconstructed. The particle generation, array growth and per-particle
+  updates are not, so every such row is `partial`. The mesh and animated-mesh emitt() return 0
+  in the original and are `reconstructed`.
+- Virtual methods: the emitter and affector interface bases are not reconstructed, so the
+  methods are plain members and the classes have no vtables here.
+- Destructors: D1 with owned storage calls std::free for GlitchFree (core-platform owns
+  GlitchFree and categories do not link to each other). Point's D1 is empty in the original
+  and stays empty. D0 (deleting) rows are not added, following the wave-3 decision; the four
+  skipped rows are from earlier waves.
+- Not taken this wave: the CVirtualEx<CApplyValueEx<...>> family (704 queued, 575 of them 120
+  bytes or less). Its small bodies forward through virtual slots (+0x98 to +0xa4) on
+  CApplicatorInfo or SAnimationAccessor pointers whose dynamic class is not identified. The
+  CApplicatorInfo vtable in vtables-001.json has only its destructors, so the slots cannot be
+  named. Map the derived applicator vtables before taking this family.
+
+## Remaining after wave 4
+- The CVirtualEx family above, and the other animation_track templates (CWeightEx 17,
+  CTextureTransformEx 16, CVector3dEx 14, CFloatEx 13, CVisibilityEx 21).
+- glitch::scene particle systems: CParticleSystemSceneNode (36 small bodies), PSManager,
+  IParticleContext, PRenderDataBillboardModel and the PD shape bases (PDomain, PDCone, PDBlob).
+- Mesh emitter setMesh and constructor loop; AnimatedMesh emitter D1, setAnimatedMeshSceneNode
+  and constructor tail; the emitt() and affect() particle paths for all emitters and affectors.
+- Large unfinished classes with many small bodies: CSceneManager, CColladaDatabase,
+  CGUIEnvironment, CGUITable, ISceneNode, CTerrainSceneNode, CGUITTFont, IGUIElement and
+  CSceneNodeAnimatorSynchronizedBlender.
