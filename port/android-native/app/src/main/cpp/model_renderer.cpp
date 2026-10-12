@@ -30310,6 +30310,12 @@ bool gameplay_world_item_snapshot(GameplayWorldItemSnapshotV1& output,std::strin
  candidate.distance=candidate.count?nearest:0.f;
  output=candidate;error.clear();return true;
 }
+// Development probe for the desktop skill scenario: the source Player's
+// CharStateMachine::current, or -1 when no live Player exists.
+std::int32_t gameplay_player_state() noexcept{
+ if(!enabled||!world_mode||!native_actor_ready)return -1;
+ return native_source_character_state(prince_character.identity());
+}
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
   error="Gameplay pose snapshot requires a live source Player and world";return false;
@@ -36279,8 +36285,11 @@ std::int32_t player_skill_state_callback(void* raw,
    const auto callback=request->argument0==0x1e?
        dh2::native::player_skills::SkillCallback::pre:
        dh2::native::player_skills::SkillCallback::post;
-   return prince_skills->invoke_skill_callback(prince_source_ai->state.word_cc,
-       callback,result,error)==0?0:-1;}
+   const auto status=prince_skills->invoke_skill_callback(prince_source_ai->state.word_cc,
+       callback,result,error);
+   if(status!=0)__android_log_print(ANDROID_LOG_WARN,"DH2Native","CSSkill %s callback failed | status %d | %s",
+       request->argument0==0x1e?"pre":"post",status,error.c_str());
+   return status==0?0:-1;}
  case Operation::set_animation:{
   if(!request->subject||!prince_skills)return -1;
   std::int32_t animation=-1;std::string error;
@@ -36309,7 +36318,8 @@ std::int32_t player_skill_state_callback(void* raw,
       (dh2_native_body_unpin(&prince_body)?-1:0):
       (dh2_native_body_pin(&prince_body)?-1:0);
  case Operation::start_timer:
-  if(request->subject!=reinterpret_cast<std::uintptr_t>(&prince_character)||
+  // The FSM Character.timers identity is the Coordinator timer store (CharTimers), not the Character object.
+  if(request->subject!=reinterpret_cast<std::uintptr_t>(&prince_character.timers())||
      request->argument0!=10||request->argument1!=0||request->argument2!=0x30)return -1;
   return prince_character.start_timer(10,0,0x30,0)<0?-1:0;
  case Operation::is_monster:case Operation::is_miniboss:case Operation::is_boss:{

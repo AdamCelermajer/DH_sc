@@ -1,5 +1,9 @@
 #include "character_skill_fsm_callbacks_v1.hpp"
 #include <cstddef>
+#include <cstdio>
+#if defined(__ANDROID__)
+#include <android/log.h>
+#endif
 
 namespace dh2::character_skill_fsm_callbacks_v1 {
 namespace {
@@ -9,21 +13,51 @@ bool range(const void* p,std::size_t n,std::size_t alignment,Range& out){
     out={at,at+n};return true;
 }
 bool overlap(Range a,Range b){return a.begin<b.end && b.begin<a.end;}
+const char* operation_name(Operation op){
+    switch(op){
+    case Operation::debug_load:return "debug_load";
+    case Operation::string_construct:return "string_construct";
+    case Operation::debug_query:return "debug_query";
+    case Operation::string_destroy:return "string_destroy";
+    case Operation::sync_last_target:return "sync_last_target";
+    case Operation::stop:return "stop";
+    case Operation::raise_event:return "raise_event";
+    case Operation::set_animation:return "set_animation";
+    case Operation::set_speed:return "set_speed";
+    case Operation::cancel_sneaking:return "cancel_sneaking";
+    case Operation::unpin:return "unpin";
+    case Operation::pin:return "pin";
+    case Operation::start_timer:return "start_timer";
+    case Operation::is_monster:return "is_monster";
+    case Operation::is_miniboss:return "is_miniboss";
+    case Operation::is_boss:return "is_boss";
+    }
+    return "unknown";
+}
+// Diagnostic only: names the source operation whose provider failed.
+void report(const char* phase,Operation op,const char* reason){
+    char text[192];std::snprintf(text,sizeof text,"CSSkill %s callback operation %s failed | %s",phase,operation_name(op),reason);
+#if defined(__ANDROID__)
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native","%s",text);
+#else
+    std::fprintf(stderr,"DH2Native: %s\n",text);
+#endif
+}
 template<class T>bool append(const T* p,Range* ranges,unsigned& count){
     Range next;if(!range(p,sizeof(T),alignof(T),next))return false;
     for(unsigned i=0;i<count;++i)if(overlap(next,ranges[i]))return false;
     ranges[count++]=next;return true;
 }
 struct Run {
-    State* state;Character character;std::uintptr_t debug;Services services;Result& out;
+    State* state;Character character;std::uintptr_t debug;Services services;Result& out;const char* phase;
     Status call(Operation operation,std::uintptr_t subject,std::uint32_t a=0,
                 std::uint32_t b=0,std::uint32_t c=0,std::uintptr_t string=0,Response* response=nullptr){
-        if(!services.invoke)return Status::service_unavailable;
+        if(!services.invoke){report(phase,operation,"service unavailable");return Status::service_unavailable;}
         Request request{operation,character.identity,subject,string,0,a,b,c,
             operation==Operation::string_construct?"isTracingCharState":nullptr};Response reply{};
         out.last_operation=operation;++out.calls;
-        try{if(services.invoke(services.context,state,&request,&reply))return Status::service_failed;}
-        catch(...){return Status::service_failed;}
+        try{if(services.invoke(services.context,state,&request,&reply)){report(phase,operation,"provider returned failure");return Status::service_failed;}}
+        catch(...){report(phase,operation,"provider threw");return Status::service_failed;}
         if(response)*response=reply;
         return Status::complete;
     }
@@ -61,7 +95,9 @@ struct Run {
         auto status=tracing();if(status!=Status::complete)return status;
         status=call(Operation::sync_last_target,character.ai);if(status!=Status::complete)return status;
         status=call(Operation::stop,character.identity);if(status!=Status::complete)return status;
-        status=call(Operation::raise_event,character.identity,0x1f);if(status!=Status::complete)return status;
+        // CSSkill::OnBlur (0x3c434c) calls RaiseEvent(31) and ignores its result.
+        // call() logs any failed OnPostSkill; the blur continues as in the source.
+        (void)call(Operation::raise_event,character.identity,0x1f);
         if(*character.flags_528&0x100u){
             out.timer_attempted=1;status=call(Operation::start_timer,character.timers,10,0,0x30);if(status!=Status::complete)return status;
         }else {
@@ -81,7 +117,7 @@ Status execute(State* state,Callback callback,const Globals* globals,const Servi
        !append(character.flags_520,ranges,count) || !append(character.flags_528,ranges,count) ||
        !append(character.ooi_intent_412,ranges,count) || !append(character.machine_moving_58,ranges,count) ||
        !append(character.physical_2dc,ranges,count))return Status::invalid_argument;
-    Run run{state,character,globals->debug_switches,*services,*out};*out={};out->character=character.identity;out->debug=run.debug;
+    Run run{state,character,globals->debug_switches,*services,*out,callback==Callback::focus?"focus":"blur"};*out={};out->character=character.identity;out->debug=run.debug;
     auto status=callback==Callback::focus?run.focus():run.blur();if(status==Status::complete)out->complete=1;return status;
 }
 } // namespace dh2::character_skill_fsm_callbacks_v1

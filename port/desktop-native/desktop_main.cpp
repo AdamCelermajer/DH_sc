@@ -27,6 +27,9 @@
 #include <vector>
 #include <cstdint>
 
+// Defined in model_renderer.cpp; declared here to keep the scenario change within desktop_main.cpp.
+namespace model_renderer { std::int32_t gameplay_player_state() noexcept; }
+
 namespace {
 struct Options {
     std::filesystem::path assets;
@@ -42,6 +45,7 @@ struct Options {
     double transition_entry = 0.0;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
+    bool skill_kill_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -86,6 +90,8 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = true;
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
+            else if (scenario == "skill-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -109,6 +115,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
+                         "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario fixed-cultist07 route to Crypt enemy 4; attack when nearest and in melee range\n"
                          "  --scenario fixed-cultist07-kill route to Crypt enemy 4; repeat normal attacks until death or frame bound\n"
                          "Controls: click/touch authored menus; type for character names; WASD move, Space attack, mouse drag orbit, wheel zoom, Esc quit.\n";
@@ -706,6 +713,8 @@ int main(int argc, char** argv) {
         bool scenario_player_died = false, scenario_revived = false;
         unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
+        std::int32_t scenario_skill_state = -1;
+        unsigned scenario_skill_uses = 0;
         std::uint64_t fixed_attack_frame = 0;
         std::uint64_t fixed_next_attack_frame = 0;
         std::uint64_t fixed_target_dead_frame = 0;
@@ -883,6 +892,12 @@ int main(int argc, char** argv) {
                 model_renderer::GameplayWorldItemSnapshotV1 items;
                 const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
                     model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
+                if (options.skill_kill_scenario) {
+                    const auto state = model_renderer::gameplay_player_state();
+                    if (scenario_skill_state == 6 && state != 6)
+                        std::cout << "Scenario skill used | state " << state << " | uses " << ++scenario_skill_uses << '\n';
+                    scenario_skill_state = state;
+                }
                 if (have_items && scenario_last_item_count >= 0 && items.count < scenario_last_item_count) {
                     ++scenario_pickups;
                     std::cout << "Scenario pickup verified | world items " << scenario_last_item_count
@@ -900,9 +915,24 @@ int main(int argc, char** argv) {
                 } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
-                    const auto attack = model_renderer::player_attack();
-                    std::cout << "Scenario attack | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
-                              << '/' << pose.enemy_max_hp << " | " << attack << '\n';
+                    if (options.skill_kill_scenario) {
+                        // Same entry the authored HUD calls on release (NativeHUDSkill).
+                        if (scenario_skill_state != 6) {
+                            std::uintptr_t player = 0;std::array<std::int32_t, 3> slots{};
+                            if (!model_renderer::ui_player_identity(player, ui_error) || !player ||
+                                !model_renderer::ui_player_skill_slots(player, slots, ui_error) || slots[0] < 0)
+                                throw std::runtime_error("skill-kill requires a skill equipped in HUD slot 0: " + ui_error);
+                            const bool used = model_renderer::ui_player_use_skill_slot(player, 0, ui_error);
+                            std::cout << "Scenario skill | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
+                                      << '/' << pose.enemy_max_hp << " | slot 0 skill " << slots[0]
+                                      << " | state " << model_renderer::gameplay_player_state()
+                                      << " | use " << (used ? "ok" : "error: " + ui_error) << '\n';
+                        }
+                    } else {
+                        const auto attack = model_renderer::player_attack();
+                        std::cout << "Scenario attack | enemy " << pose.enemy_index << " HP " << pose.enemy_hp
+                                  << '/' << pose.enemy_max_hp << " | " << attack << '\n';
+                    }
                 } else if (pose.enemy_index >= 0) {
                     steer_toward_nearest_enemy();
                 }
