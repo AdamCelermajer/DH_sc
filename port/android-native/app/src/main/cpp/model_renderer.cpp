@@ -39757,7 +39757,9 @@ std::string load_world(const std::uint8_t* descriptor,std::size_t size,AAssetMan
         load_source_level_camera_clip_planes(assets,level_assets,camera_config_error);
     dh2::native::crypt_camera_frame_v1::static_mlx_camera_route=
         [](std::string_view name,std::string_view file){
-         return static_mlx_level(std::string(name),std::string(file))!=nullptr;};
+         // Generated rule levels carry the same LevelConfig camera shape.
+         return static_mlx_level(std::string(name),std::string(file))!=nullptr||
+             generated_rule_level_name(std::string(name),std::string(file));};
     const bool source_camera_route=dh2::native::crypt_camera_frame_v1::
         verified_crypt_route(level_assets.name,level_assets.level_file)||
         dh2::native::crypt_camera_frame_v1::verified_swamp_default_camera_route(
