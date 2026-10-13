@@ -118,6 +118,16 @@ struct Services {
         std::uintptr_t user_ref) = nullptr;
     void (*stop_timer)(void*, std::uintptr_t character,
         std::uint32_t timer_id) = nullptr;
+    // Character::_Flee (0x3b91a0). The Lua argument is only type-checked; the
+    // provider reads the live CharAI target (+0x40) and issues the Point3D
+    // v2Controller::Cmd_MoveTo toward owner+(owner-target). A null CharAI target
+    // is the source no-op. Appended after the shipped fields so positional
+    // aggregates that stop at stop_timer stay valid.
+    std::int32_t (*flee)(void*, std::uintptr_t owner) = nullptr;
+    // Character::_GetStateTime (0x3b6d6c): CharStateMachine+0x60, the whole
+    // milliseconds spent in the current state (reset by _SetState on a change).
+    std::int32_t (*get_state_time)(void*, std::uintptr_t owner,
+                                   std::uint32_t* milliseconds) = nullptr;
 };
 
 // Optional GameObject providers for the identity-table methods (GetName, IsDead,
@@ -196,6 +206,11 @@ enum class Event : std::uint32_t {
     // OnMasterInSight, which call the named Lua functions without arguments.
     master_died = 19,
     master_in_sight = 20,
+    // CharAI::_UpdateTarget events 15/16 reach AISExternal::OnTargetInRangedRange
+    // (0x3dcdcc, flag 0x8) and OnTargetInCloseRange (0x3dcdb0, flag 0x10).
+    // Both call the named Lua function with zero arguments.
+    target_in_ranged_range = 21,
+    target_in_close_range = 22,
 };
 
 // Logical retained source AIS+0xb4 projection, not an ARM overlay. The current
