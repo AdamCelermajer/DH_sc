@@ -14135,10 +14135,74 @@ struct NativeMonsterInitialization {
     return unavailable("Monster AI_IsInRange debug-switch query failed");
    response->word=value;response->identity=reinterpret_cast<std::uintptr_t>(globals);return 0;
   }
-  case Operation::interaction_type:case Operation::interaction_range:
-   return unavailable("Monster AI_IsInRange reached an unsupported source branch");
+  case Operation::interaction_type:{
+   // AI_IsInCloseRange (0x3d63d8) asks the resolved candidate's virtual +0x90
+   // InteractionType for the owner; 8 is the enemy branch. AI_IsInRange has no
+   // such call, so only the close caller reaches this operation.
+   if(!request->subject)return unavailable("Monster close-range InteractionType candidate is null");
+   std::uint32_t enemy=0;
+   if(!source_relation_for_ooi(state->owner,request->subject,
+       dh2::character_ai_relations::Relation::enemy,enemy))
+    return unavailable("Monster close-range InteractionType requires source AI_IsEnemy");
+   response->word=enemy?8u:3u;return 0;
+  }
+  case Operation::interaction_range:
+   return unavailable("Monster AI_IsInCloseRange fallback InteractionRange path is not source-bound");
   }
   return unavailable("Monster AI_IsInRange operation is unsupported");
+ }
+ // CharAI::_UpdateTarget's range ladder (0x3cba10..0x3cbb30) after the Interactive
+ // recheck: Character::CanRangeAttack() (virtual +0x124, 0x3a4d3c) selects
+ // AI_IsInCloseRange (0x3d63d8) then AI_IsInRange (0x3d6604); without it
+ // AI_IsInMeleeRange (0x3d6188) decides event 17 versus 14. The melee leg stays
+ // with the caller's existing AI_IsInMeleeRange fact. Close and ranged run the
+ // maintained 556B/496B kernels over the Monster's V4 inventory, handle and
+ // GetTargetPosition providers above; ranged is only asked when close is false.
+ struct TargetRangeFacts {
+  bool owner_can_range=false,close=false,ranged=false;
+  std::uint32_t distance_bits=0,minimum=0,maximum=0;
+ };
+ static bool evaluate_target_range(NativeMonsterInitialization& init,
+                                   std::uintptr_t target,TargetRangeFacts& facts,
+                                   std::string& error) {
+  facts={};
+  if(!init.ai||!init.owner||!init.owner->actor||!target||!init.initialized||
+     !init.level_runtime||!init.level_context_current()){
+   error="Monster range ladder lacks its initialized AIS/Level owners";return false;
+  }
+  auto& actor=init.actor();
+  // An unequipped template or Limbus Character has no ItemInventory::
+  // CanRangeAttack answer yet; the source call is simply false for it.
+  if(!actor.source_inventory||!actor.source_inventory->source_init_equipment_complete)
+   return true;
+  bool capable=false;
+  if(!actor.source_inventory->can_range_attack(actor,capable,error))return false;
+  if(!capable)return true;
+  facts.owner_can_range=true;
+  AttackBridge bridge{};bridge.init=&init;
+  const dh2::character_ai_ranged_range::Services services{&bridge,attack_ranged_range_service};
+  dh2::character_ai_ranged_range::Result close{};
+  dh2::character_ai_ranged_range::State close_state{init.ai->ai_identity,actor.identity,target};
+  const auto close_status=dh2::character_ai_ranged_range::evaluate_close(
+      &close_state,target,&services,&close);
+  if(close_status!=dh2::character_ai_ranged_range::Status::complete||bridge.failed){
+   error=bridge.error.empty()?"Monster AI_IsInCloseRange source provider failed":bridge.error;
+   facts={};return false;
+  }
+  // Close aliases maximum with the projectile output, so only the minimum
+  // word is meaningful from this leg.
+  facts.distance_bits=close.distance_word;facts.minimum=close.minimum_word;
+  if(close.value){facts.close=true;return true;}
+  dh2::character_ai_ranged_range::Result ranged{};
+  dh2::character_ai_ranged_range::State ranged_state{init.ai->ai_identity,actor.identity,target};
+  const auto ranged_status=dh2::character_ai_ranged_range::evaluate_ranged(
+      &ranged_state,target,&services,&ranged);
+  if(ranged_status!=dh2::character_ai_ranged_range::Status::complete||bridge.failed){
+   error=bridge.error.empty()?"Monster AI_IsInRange source provider failed":bridge.error;
+   facts={};return false;
+  }
+  facts.ranged=ranged.value!=0;facts.maximum=ranged.maximum_word;
+  return true;
  }
  static std::uint32_t attack_query_service(void* raw,
         dh2::character::AttackQueryState16* state,
@@ -14819,6 +14883,53 @@ struct NativeMonsterInitialization {
   if(s.subject(id)&&s.owner&&s.owner->character.owner()==id)
    (void)s.owner->character.stop_timer(timer_id);
  }
+ // Character::_Flee (0x3b91a0). The Lua argument is only type-checked by the
+ // session; the source reads the CharAI target (Character+0x408 == CharAI+0x40),
+ // subtracts its GetTargetPosition from the owner's, re-reads the owner's
+ // position for the add (so the destination is owner+(owner-target)) and calls
+ // v2Controller::Cmd_MoveTo(Point3D const&) (0x4054e4): forced || (!blocked &&
+ // !locked) -> Character::Ctrl_MoveTo(Point3D const&) (0x3ada30), which is
+ // IsRemotelyUpdated ? nothing : GameObject::PathTo(point).
+ static std::int32_t character_flee(void* raw,std::uintptr_t id) {
+  if(!raw)return 1;
+  auto& s=self(raw);
+  if(!s.subject(id)||!s.ai||!s.owner||s.owner->actor!=&s.actor()||
+     s.owner->character.owner()!=id||!s.owner->runtime_ready)return 102;
+  const auto target=s.ai->state.target_40;
+  if(!target)return 0;
+  float owner_position[3]{},target_position[3]{};
+  if(!native_character_position_for_target(id,owner_position)||
+     !native_character_position_for_target(target,target_position))return 103;
+  float delta[3]{},destination[3]{};
+  for(unsigned axis=0;axis<3;++axis)delta[axis]=owner_position[axis]-target_position[axis];
+  if(!native_character_position_for_target(id,owner_position))return 103;
+  for(unsigned axis=0;axis<3;++axis)destination[axis]=delta[axis]+owner_position[axis];
+  if(!s.owner->controller_forced&&
+     (controller_global_blocked||s.owner->character.state.controller_locked))return 0;
+  s.owner->control_failure_stage=0;
+  dh2::character::CharacterControlResponse16 response{};
+  const auto call=[&](std::uint32_t service,const float* position)->bool{
+   dh2::character::CharacterControlRequest32 request{service,0,id,{0,0,0},0};
+   if(position)for(unsigned axis=0;axis<3;++axis)request.position[axis]=position[axis];
+   return s.owner->control_services.invoke&&
+       s.owner->control_services.invoke(s.owner->control_services.context,
+                                        &request,&response)==1;
+  };
+  if(!call(dh2::character::control_is_remotely_updated,nullptr))return 104;
+  if(response.word)return 0;
+  if(!call(dh2::character::control_path_to,destination))return 200+int(s.owner->control_failure_stage);
+  return 0;
+ }
+ // Character::_GetStateTime (0x3b6d6c) returns CharStateMachine+0x60, the
+ // milliseconds in the current state that _SetState resets on a state change.
+ static std::int32_t character_state_time(void* raw,std::uintptr_t id,
+                                          std::uint32_t* milliseconds) {
+  if(!raw||!milliseconds)return 1;
+  auto& s=self(raw);
+  if(!s.subject(id)||!s.owner||s.owner->character.owner()!=id)return 1;
+  *milliseconds=s.owner->character.state.elapsed_ms;
+  return 0;
+ }
  dh2::monster_external_script::Services script_services() {
   return {this,ai->character_identity,structure,property,constant,has_target,get_target,get_state,has_path,
    set_target,move_to,move_to,oid,position,host_level,difficulty,range,set_level,
@@ -14828,7 +14939,7 @@ struct NativeMonsterInitialization {
    native_monster_spawn_skill_projectile,
    native_monster_set_projectile_target,create_buff,remove_buff,apply_buff,
    set_skill_cooldown,set_spell_cooldown,start_native_script_timer,
-   stop_native_script_timer};
+   stop_native_script_timer,character_flee,character_state_time};
  }
  static std::int32_t construct_service(void* raw,dh2::ais_external_initialization::State* state,const dh2::ais_external_initialization::Request* request) {
   auto& s=self(raw);if(state!=&s.ais)return 1;
@@ -27379,7 +27490,24 @@ void update_enemy(ObjectActor& actor,int table,unsigned dt_ms){
   source.target_40=prince_character.identity();source.alive_48=std::uint8_t(!prince_combat.life.dead);
   source.sight_49=std::uint8_t(range.sight);
  }
- const unsigned facts=dh2::data::ai_target_present|dh2::data::ai_targetable|dh2::data::ai_callback_clears_dead|dh2::data::ai_callback_clears_sight|(prince_combat.life.dead?0u:dh2::data::ai_target_alive)|(range.sight?dh2::data::ai_target_sight:0u)|(range.melee?dh2::data::ai_target_melee_range:0u);
+ // CharAI::_UpdateTarget (0x3cb908) asks Character::CanRangeAttack() before any
+ // range query: true selects AI_IsInCloseRange (event 16) then AI_IsInRange
+ // (event 15, else 14); false keeps AI_IsInMeleeRange (event 17, else 14).
+ NativeMonsterInitialization::TargetRangeFacts range_facts{};
+ if(range.sight&&!prince_combat.life.dead&&actor.native_ai&&
+    actor.native_ai->initialization&&actor.native_ai->initialization->initialized&&
+    actor.native_ai->initialization->vm.ready()){
+  std::string range_error;
+  if(!NativeMonsterInitialization::evaluate_target_range(
+       *actor.native_ai->initialization,prince_character.identity(),range_facts,range_error)){
+   static unsigned range_warned=0;
+   if(range_warned++<8)
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "Monster range ladder unavailable | %s | %s",actor.name.c_str(),range_error.c_str());
+   range_facts={};
+  }
+ }
+ const unsigned facts=dh2::data::ai_target_present|dh2::data::ai_targetable|dh2::data::ai_callback_clears_dead|dh2::data::ai_callback_clears_sight|(prince_combat.life.dead?0u:dh2::data::ai_target_alive)|(range.sight?dh2::data::ai_target_sight:0u)|(range.melee?dh2::data::ai_target_melee_range:0u)|(range_facts.owner_can_range?dh2::data::ai_owner_can_range:0u)|(range_facts.close?dh2::data::ai_target_close_range:0u)|(range_facts.ranged?dh2::data::ai_target_ranged_range:0u);
  const dh2::data::AiTargetRequest request{actor.state=="Attack"?5:3,facts,actor.target_alive,actor.target_sight};dh2::data::AiTargetResult result{};
  if(dh2_ai_target_update(&result,&request)){enabled=false;return;}actor.target_alive=result.alive;actor.target_sight=result.sight;
  auto select=[&](const char* name){auto* sequence=dh2::data::animation_state(actor_animation_tables,table,name);std::string error;if(!sequence||!actor.scheduler.start(actor_animation_tables,sequence-actor_animation_tables.sequences.data(),actor_random,error)){enabled=false;__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Enemy controller animation failed");return;}actor.animator_sequence_closed_48=0;actor.animator_pending_sequence=-1;actor.state=name;actor.cursor=0;actor.completions=0;actor.event_cursor={};actor.animation_events=0;};
@@ -27388,6 +27516,29 @@ void update_enemy(ObjectActor& actor,int table,unsigned dt_ms){
  const auto* events=result.events;
  const auto* event_end=events+std::min<std::uint32_t>(result.event_count,3);
  const bool target_out_of_range=std::find(events,event_end,14)!=event_end;
+ // CharAI::OnTargetOutOfRange (0x3d1e00) clears CharAI+0x4c before the AIS call.
+ if(target_out_of_range&&actor.native_ai)actor.native_ai->state.sticky_4c=0;
+ if(range_facts.owner_can_range){
+  // One line per range-event change of a ranged-capable Monster (14 out of
+  // range, 15 ranged range, 16 close range); the per-frame repeats are silent.
+  static std::unordered_map<std::uint64_t,unsigned> last_range_event;
+  const unsigned range_event=result.event_count?result.events[result.event_count-1]:0u;
+  auto& last=last_range_event[actor.identity];
+  if(last!=range_event){
+   last=range_event;
+   float distance_squared=0.f;
+   std::memcpy(&distance_squared,&range_facts.distance_bits,sizeof(distance_squared));
+   // AI_IsInCloseRange never reads the upper bound (its maximum output aliases
+   // the projectile id), so it is only reported once AI_IsInRange ran.
+   char maximum_text[16]="close";
+   if(!range_facts.close)std::snprintf(maximum_text,sizeof(maximum_text),"%u",range_facts.maximum);
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Monster range event | %s | event %u | distance %.1f | range %u..%s | melee reach %d | state %s | FSM state %d",
+       actor.name.c_str(),range_event,std::sqrt(distance_squared),range_facts.minimum,
+       maximum_text,int(range.melee),actor.state.c_str(),
+       actor.spawn_owner?actor.spawn_owner->character.state.current:-1);
+  }
+ }
  const bool idle_or_attacking=actor.state=="Idle"||actor.state=="Walk"||actor.state=="Attack";
  if(target_out_of_range&&actor.target_seeking){
   auto initialization=actor.native_ai?actor.native_ai->initialization:nullptr;
@@ -27467,6 +27618,39 @@ void update_enemy(ObjectActor& actor,int table,unsigned dt_ms){
    __android_log_print(ANDROID_LOG_INFO,"DH2Native","Enemy melee selected | %s | target Prince | event 17 | distance squared bits %08x | clip %d | retained AIS callback then native animation route",actor.name.c_str(),range.distance_bits,actor.scheduler.clip().anim);
   }
   actor.source_attack_requested=false;
+ }
+ if(result.event_count&&(result.events[result.event_count-1]==15||
+                         result.events[result.event_count-1]==16)){
+  // Events 15/16 reach CharAI::OnTargetInRangedRange (0x3d1d4c) and
+  // OnTargetInCloseRange (0x3d1ca0), which forward to AISExternal virtual +0x54
+  // / +0x58. The AIS wrappers (0x3dcdcc / 0x3dcdb0) call the Lua function only
+  // when InitVCB retained its registration bit (0x8 / 0x10). The ranged-range
+  // CharAI wrapper first clears CharAI+0x4c; the Lua body (monster.luac) owns
+  // the Stop/Attack/DoSkill and buff/Flee decisions.
+  const bool ranged_event=result.events[result.event_count-1]==15;
+  if(!actor.native_ai||!actor.native_ai->initialization)
+   throw std::runtime_error("Monster range event has no retained AIS owner");
+  auto& ai=*actor.native_ai;auto& init=*ai.initialization;
+  if(init.ai!=&ai||!init.initialized||!init.vm.ready()||
+     init.lifecycle.owner!=actor.identity||init.lifecycle.active!=ai.state.active_ais_1c||
+     init.ais.identity!=ai.state.active_ais_1c||!actor.spawn_owner||
+     init.owner!=actor.spawn_owner||init.owner->character.owner()!=actor.identity)
+   throw std::runtime_error("Monster range event retained AIS/Character owner mismatch");
+  // CharAI::RaiseAIEvent (0x3cbb34) hands the event to the state machine instead
+  // of the AI virtual while the controller is blocked or locked and not forced.
+  const bool controller_open=init.owner->controller_forced||
+      (!controller_global_blocked&&!init.owner->character.state.controller_locked);
+  if(controller_open&&ranged_event)ai.state.sticky_4c=0;
+  if(controller_open&&(init.ais.flags_b8&(ranged_event?0x8u:0x10u))){
+   std::string callback_error;
+   const auto callback=init.vm.dispatch(
+       ranged_event?dh2::monster_external_script::Event::target_in_ranged_range
+                   :dh2::monster_external_script::Event::target_in_close_range,
+       0,callback_error);
+   if(callback!=dh2::monster_external_script::Status::complete)
+    throw std::runtime_error(std::string("Original OnTargetIn")+
+        (ranged_event?"RangedRange":"CloseRange")+" failed: "+callback_error);
+  }
  }
  if(direct_monster_path_pending(actor,dt_ms)){
   if(!source_monster_locomotion_owner(actor)&&actor.state!="Walk")select("Walk");
@@ -28507,6 +28691,15 @@ void apply_actor_attack(ObjectActor& attacker,const dh2::data::CombatEventAction
   // CharAI::_HandleProjectile as the hit callback. The shot is not tied to the
   // attack target: it flies along the owner's look vector and damages whatever
   // Character it collides with.
+  if(attacker.combat_target==-2){
+   const auto player_range=actor_player_range(attacker);
+   float distance_squared=0.f;
+   std::memcpy(&distance_squared,&player_range.distance_bits,sizeof(distance_squared));
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Monster ranged shot | %s | projectile row %d | target Prince | distance %.1f | in melee reach %d",
+       attacker.name.c_str(),action.sequence_step,std::sqrt(distance_squared),
+       int(player_range.melee));
+  }
   (void)spawn_basic_attack_projectile_v1(attacker.identity,action.sequence_step);
   return;
  }

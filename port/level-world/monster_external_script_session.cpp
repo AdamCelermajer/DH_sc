@@ -50,6 +50,8 @@ const char* callback_name(Event event) {
         case Event::master_in_close_range: return "OnMasterInCloseRange";
         case Event::master_in_melee_range: return "OnMasterInMeleeRange";
         case Event::terminate: return "OnTerminate";
+        case Event::target_in_ranged_range: return "OnTargetInRangedRange";
+        case Event::target_in_close_range: return "OnTargetInCloseRange";
     }
     return nullptr;
 }
@@ -119,9 +121,9 @@ struct Session::Impl {
                      create_buff, remove_buff, apply_buff, set_skill_cooldown,
                      set_spell_cooldown, start_timer, stop_timer, self_id,
                      obj_name, obj_query, obj_master, obj_set_target, obj_command,
-                     unsupported };
+                     flee, state_time_get, unsupported };
     struct Binding { Impl* session; Operation operation; const char* name; };
-    // 35 AIS + 33 Character/object globals; keep headroom for the next bridge.
+    // 35 AIS + 35 Character/object globals; keep headroom for the next bridge.
     static constexpr std::size_t max_bindings = 96;
     Services services;
     ObjectServices object_services;
@@ -417,6 +419,24 @@ struct Session::Impl {
                         static_cast<unsigned long long>(arguments[0].identity));
                     return reject(error,error_capacity,detail);
                 }
+                return 0;
+            }
+            if (binding.operation == flee) {
+                // Character::_Flee requires an object-typed first argument
+                // (type 2 or 7) but never reads it; a nonobject is a no-op.
+                if (count == 0 || !identity(arguments[0])) return 0;
+                if (arguments[0].type == 7) ++binding.session->object_table_arguments;
+                if (!services.flee || services.flee(services.context, services.owner) != 0)
+                    return reject(error, error_capacity, "monster Flee failed or unsupported");
+                return 0;
+            }
+            if (binding.operation == state_time_get) {
+                std::uint32_t milliseconds = 0;
+                if (!output || capacity < 1 || !services.get_state_time ||
+                    services.get_state_time(services.context, services.owner, &milliseconds) != 0)
+                    return reject(error, error_capacity, "monster GetStateTime failed or unsupported");
+                number(output[0], static_cast<float>(milliseconds));
+                *returned = 1;
                 return 0;
             }
             if (binding.operation == stop) {
@@ -724,7 +744,8 @@ struct Session::Impl {
             bind_extra("__dh2_obj_master", obj_master) &&
             bind_extra("__dh2_obj_set_target", obj_set_target) &&
             bind_extra("__dh2_obj_command", obj_command) &&
-            bind_extra("GetID", self_id);
+            bind_extra("GetID", self_id) &&
+            bind_extra("Flee", flee) && bind_extra("GetStateTime", state_time_get);
     }
 
     bool bind_functions() {
@@ -1278,7 +1299,8 @@ bool Session::uses_services(const Services& services) const noexcept {
         own.apply_buff == services.apply_buff &&
         own.set_skill_cooldown == services.set_skill_cooldown &&
         own.set_spell_cooldown == services.set_spell_cooldown &&
-        own.start_timer == services.start_timer && own.stop_timer == services.stop_timer;
+        own.start_timer == services.start_timer && own.stop_timer == services.stop_timer &&
+        own.flee == services.flee && own.get_state_time == services.get_state_time;
 }
 const char* Session::source_alias(Event event) const noexcept {
     const char* requested = callback_name(event);

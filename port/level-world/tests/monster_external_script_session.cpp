@@ -53,6 +53,9 @@ struct Fixture {
     unsigned character_skill_service_calls = 0;
     std::vector<std::uint32_t> character_skill_service_arities;
     unsigned character_timer_starts = 0, character_timer_stops = 0;
+    unsigned flees = 0, state_time_reads = 0, position_reads = 0;
+    std::uint32_t state_time = 0;
+    float position[3]{5.0f, 6.0f, 7.0f};
     std::uint32_t timer_duration = 0, timer_stopped = 0;
     std::int32_t timer_repeat = 0, timer_event = 0;
     std::uintptr_t timer_user_ref = 0;
@@ -281,6 +284,26 @@ int observe_projectile_returns(void*,const dh2_script_first_return_v1* values,
 }
 int observe_no_returns(void*,const dh2_script_first_return_v1*,std::uint32_t count,
     char*,std::size_t) {return count==0?0:1;}
+std::int32_t actor_position(void* raw, std::uintptr_t identity, float xyz[3]) {
+    auto& fixture = actor(raw, identity);
+    fixture.trace.emplace_back("Position");
+    ++fixture.position_reads;
+    for (unsigned axis = 0; axis < 3; ++axis) xyz[axis] = fixture.position[axis];
+    return 0;
+}
+std::int32_t actor_flee(void* raw, std::uintptr_t identity) {
+    auto& fixture = actor(raw, identity);
+    fixture.trace.emplace_back("Flee");
+    ++fixture.flees;
+    return 0;
+}
+std::int32_t actor_state_time(void* raw, std::uintptr_t identity, std::uint32_t* value) {
+    auto& fixture = actor(raw, identity);
+    fixture.trace.emplace_back("StateTime");
+    ++fixture.state_time_reads;
+    *value = fixture.state_time;
+    return 0;
+}
 Services bind(Fixture& fixture) {
     Services services{&fixture, owner, structure, property, constant, has_target, get_target,
                       get_state, has_path, set_target, head_to, move_to};
@@ -302,6 +325,9 @@ Services bind(Fixture& fixture) {
     services.set_spell_cooldown = character_skill_service;
     services.start_timer = character_timer_start;
     services.stop_timer = character_timer_stop;
+    services.get_position = actor_position;
+    services.flee = actor_flee;
+    services.get_state_time = actor_state_time;
     return services;
 }
 void initialized(Session& session, Fixture& fixture, Source commons, Source monster) {
@@ -737,6 +763,107 @@ AddToVFTable('OnTargetMissed', 'NativeCombatResult')
                     melee_range_fixture.attacks == 1 && melee_range_fixture.last_attack == enemy,
                 "source event 17 must execute OnTargetInMeleeRange on the same VM");
         trace(melee_range_fixture, {"Stop", "GetTarget", "Attack"});
+        ++cases;
+
+        // CharAI::_UpdateTarget event 15 -> AISExternal::OnTargetInRangedRange
+        // (0x3dcdcc): the same VM runs monster_OnTargetInRangedRange. Without a
+        // skill tree (SkillTree property -1) it is Stop() then Attack(target).
+        Session ranged_range; Fixture ranged_range_fixture;
+        ranged_range_fixture.target = enemy;
+        initialized(ranged_range, ranged_range_fixture, commons, monster);
+        require(std::string(ranged_range.source_alias(Event::target_in_ranged_range)) ==
+                    "monster_OnTargetInRangedRange" &&
+                    ranged_range.dispatch(Event::target_in_ranged_range, 0, error) == Status::complete &&
+                    ranged_range.ready() && ranged_range_fixture.stops == 1 &&
+                    ranged_range_fixture.attacks == 1 && ranged_range_fixture.last_attack == enemy,
+                "source event 15 must execute OnTargetInRangedRange on the same VM");
+        trace(ranged_range_fixture, {"Stop", "GetTarget", "Attack"});
+        ++cases;
+
+        // Event 16 -> OnTargetInCloseRange (0x3dcdb0): monster_OnTargetInCloseRange
+        // builds the speed buff once, then flees while the owner keeps moving,
+        // gives up (m_flee_flag=false, Stop) once it is stationary in Move state
+        // for more than 500 ms, and attacks after that. The globals normally set
+        // by monster_OnInit are predefined; OnInit itself is not part of this case.
+        const std::string close_script = monster_bytes + R"lua(
+BUFF_ID = 9
+m_flee_flag = true
+saved_X, saved_Y = 1, 2
+buff = {}
+)lua";
+        Session close_range; Fixture close_range_fixture;
+        close_range_fixture.target = enemy;
+        initialized(close_range, close_range_fixture, commons, source(close_script));
+        require(std::string(close_range.source_alias(Event::target_in_close_range)) ==
+                    "monster_OnTargetInCloseRange" &&
+                    close_range.dispatch(Event::target_in_close_range, 0, error) == Status::complete &&
+                    close_range.ready() && close_range_fixture.flees == 1 &&
+                    close_range_fixture.stops == 0 && close_range_fixture.attacks == 0 &&
+                    close_range_fixture.state_time_reads == 0 &&
+                    close_range_fixture.character_skill_service_calls == 0,
+                "source event 16 must flee on the same VM while the owner is moving");
+        trace(close_range_fixture, {"State", "Position", "GetTarget", "Flee"});
+        close_range_fixture.trace.clear();
+        // Same position as last call, Move state, 501 ms in state: stop fleeing.
+        close_range_fixture.state = 4;
+        close_range_fixture.state_time = 501;
+        require(close_range.dispatch(Event::target_in_close_range, 0, error) == Status::complete &&
+                    close_range_fixture.flees == 1 && close_range_fixture.stops == 1 &&
+                    close_range_fixture.state_time_reads == 1 &&
+                    close_range_fixture.character_skill_service_calls == 0,
+                "stationary Move-state close range must give up fleeing via GetStateTime");
+        trace(close_range_fixture, {"State", "Position", "Idle", "StateTime", "Stop"});
+        close_range_fixture.trace.clear();
+        require(close_range.dispatch(Event::target_in_close_range, 0, error) == Status::complete &&
+                    close_range_fixture.flees == 1 && close_range_fixture.attacks == 1 &&
+                    close_range_fixture.last_attack == enemy,
+                "close range after giving up fleeing must attack the target");
+        trace(close_range_fixture, {"State", "Position", "GetTarget", "Attack"});
+        close_range_fixture.trace.clear();
+        // A later in-ranged-range event removes the buff and re-arms fleeing.
+        require(close_range.dispatch(Event::target_in_ranged_range, 0, error) == Status::complete &&
+                    close_range_fixture.character_skill_service_calls == 1 &&
+                    close_range_fixture.stops == 2 && close_range_fixture.attacks == 2,
+                "ranged range after close range must remove the buff then attack");
+        // Without a retained buff the first close-range event creates and applies it.
+        const std::string buff_script = monster_bytes + R"lua(
+BUFF_ID = 9
+m_flee_flag = true
+saved_X, saved_Y = 1, 2
+)lua";
+        Session buff_range; Fixture buff_range_fixture;
+        buff_range_fixture.target = enemy;
+        initialized(buff_range, buff_range_fixture, commons, source(buff_script));
+        require(buff_range.dispatch(Event::target_in_close_range, 0, error) == Status::complete &&
+                    buff_range_fixture.character_skill_service_calls == 2 &&
+                    buff_range_fixture.flees == 1,
+                "close range without a buff must CreateBuff and ApplyBuff before fleeing");
+        auto changed_flee_services = bind(close_range_fixture);
+        changed_flee_services.flee = nullptr;
+        require(!close_range.uses_services(changed_flee_services),
+                "same-session ownership check ignored Flee provider");
+        changed_flee_services = bind(close_range_fixture);
+        changed_flee_services.get_state_time = nullptr;
+        require(!close_range.uses_services(changed_flee_services),
+                "same-session ownership check ignored GetStateTime provider");
+        ++cases;
+
+        // Character::_Flee ignores nonobject arguments and the VM keeps running.
+        const std::string flee_args_script = monster_bytes + R"lua(
+function NativeFleeArguments()
+    Flee()
+    Flee(nil)
+    Flee(false)
+    Flee(GetTarget())
+end
+AddToVFTable('OnDied', 'NativeFleeArguments')
+)lua";
+        Session flee_args; Fixture flee_args_fixture;
+        flee_args_fixture.target = enemy;
+        initialized(flee_args, flee_args_fixture, commons, source(flee_args_script));
+        require(flee_args.dispatch(Event::died, enemy, error) == Status::complete &&
+                    flee_args_fixture.flees == 1,
+                "Flee must only reach its provider for object arguments");
         ++cases;
 
         const std::string attack_script = monster_bytes + R"lua(
