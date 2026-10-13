@@ -69,6 +69,11 @@ struct SourceObjectCensusV1 {
              spawn_probability,min_difficulty,is_demo_only,dimensions,data_desc,data_desc_pydata,target_node,
              exit_level_id,exit_level_name,exit_entrypoint_id,exit_fasttravel,
              visible,skip_checkpoint,door_data,door_opened,door_collision;
+ // Trigger / TriggerZone authored property strings (empty = source default).
+ std::string trigger_count,trigger_delay,trigger_scope,trigger_type,trigger_cine_id,
+             trigger_script,trigger_script_move_out,trigger_script_all_player,
+             trigger_script_all_player_move_out,trigger_effect_one_player,
+             trigger_is_door_closed;
  Transform local,world;
 };
 struct SpawnSelection{EntryPoint source;Point position{};Point rotation_degrees{};bool floor_snapped=false;};

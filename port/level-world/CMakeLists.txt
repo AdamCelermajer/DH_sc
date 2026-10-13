@@ -268,7 +268,10 @@ target_sources(dh2_level_world PRIVATE destructible_container_source_owner_v1.cp
  destructible_container_visual_owner_v1.cpp destructible_container_interaction_v1.cpp
  destructible_container_external_script_v1.cpp)
 target_sources(dh2_level_world PRIVATE trigger_interaction_table_v1.cpp)
+target_sources(dh2_level_world PRIVATE game_object_trap_tables_v1.cpp timer_trap_v1.cpp
+ timer_trap_external_script_v1.cpp)
 target_sources(dh2_level_world PRIVATE trigger_zone_exit_level_update_v1.cpp)
+target_sources(dh2_level_world PRIVATE trigger_zone_source_v1.cpp)
 target_sources(dh2_level_world PRIVATE source_animated_decor_v1.cpp)
 target_sources(dh2_level_world PRIVATE door_source_runtime_v1.cpp)
 target_sources(dh2_level_world PRIVATE door_source_table_v1.cpp)
@@ -812,6 +815,11 @@ add_executable(object_manager_runtime_owner_v1_audit
  target_link_libraries(destructible_container_table_v1_audit PRIVATE dh2_level_world)
  target_compile_features(destructible_container_table_v1_audit PRIVATE cxx_std_17)
  target_compile_options(destructible_container_table_v1_audit PRIVATE
+  -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+ add_executable(timer_trap_v1_audit tests/timer_trap_v1.cpp)
+ target_link_libraries(timer_trap_v1_audit PRIVATE dh2_level_world)
+ target_compile_features(timer_trap_v1_audit PRIVATE cxx_std_17)
+ target_compile_options(timer_trap_v1_audit PRIVATE
   -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
  add_executable(trigger_interaction_table_v1_audit
   tests/trigger_interaction_table_v1.cpp)

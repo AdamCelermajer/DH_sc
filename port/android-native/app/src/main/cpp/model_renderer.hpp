@@ -141,6 +141,11 @@ std::string debug_player_skill_check(std::uint32_t slot);
 std::string debug_player_mana(std::uint32_t amount);
 std::string debug_player_scalar(std::int32_t value,bool write);
 std::string debug_player_death();
+// Development fixture for scenarios that observe sustained hazards: writes the
+// Player's resolved HP word (properties[36]) back to Max_HP (properties[38]); a
+// positive `raise_max_to` (whole HP) first raises Max_HP, so a level-1 test
+// Character survives a boss's first blow.
+std::string debug_player_refill_hp(std::int32_t raise_max_to=0);
 // Verification probes (desktop --start-script / --play-anim): start a Level
 // pyscript by name on the one ScriptManager session, and run Character::
 // _RegisterAnim/_PlayAnim (AnimDict names) on the Player or a named Monster.
@@ -190,6 +195,27 @@ bool quest_zone_probe_position(const std::string& exact_name,std::array<float,3>
 // One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
 // / StopActor 39) through the generic host provider; development scenarios only.
 bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string&);
+// Level ScriptManager state for the boss-natural scenario: the scripts running
+// now, every script started or completed since Level entry (in order), the
+// local Player's scripted/locked bytes and the cutscene flag.
+struct LevelScriptProbeV1 {
+ bool ready=false,player_scripted=false,cutscene_mode=false,controller_blocked=false;
+ std::vector<std::string> running,started,completed;
+ std::uint32_t tasks_active=0;
+};
+bool level_script_probe(LevelScriptProbeV1&,std::string&);
+// Quest::ExecScript (0x47ff20) stand-in for development scenarios: ScriptManager::
+// GetIDFromName(name, true) + StartScript(id, -1, true) on the Level's session,
+// the same entry the quest owner uses for its state scripts.
+bool boss_probe_start_level_script(const std::string& name,std::string&);
+// Development probe: GameObject::_SummonTimerTrap with the named ObjectManager
+// object as the owner (the call a Character script reaches through SummonTimerTrap).
+bool boss_probe_summon_timer_trap(const std::string& owner_name,const std::string& trap_name,
+                                  const std::array<float,3>& position,std::string& message);
+// Development probe: the local Player's GameObject::_Summon of a CharacterTable
+// member (for example RisenZombie) at an absolute point.
+bool boss_probe_summon_character(const std::string& character_name,
+                                 const std::array<float,3>& position,std::string& message);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {

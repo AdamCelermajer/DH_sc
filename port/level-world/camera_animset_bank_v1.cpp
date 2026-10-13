@@ -48,6 +48,9 @@ bool Owner::append(const camera_animset_v1::Resource& resource,ReadAsset reader,
        resource.clip_id<0||resource.path.empty()||resource.path.size()>4096){
         error="Camera AnimSet on-demand resource identity is invalid";return false;
     }
+    // The on-demand set stays bounded (the AnimSet holds a few cutscene cameras).
+    constexpr std::size_t kMaxOnDemandClips=64;
+    if(clips_.size()>=kMaxOnDemandClips){error="On-demand camera clip bank is full";return false;}
     Clip clip;clip.resource=resource;
     if(!reader(context,resource.path,clip.bdae,error)){
         if(error.empty())error="Camera AnimSet BDAE resource read failed";

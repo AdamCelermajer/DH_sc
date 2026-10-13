@@ -45,9 +45,12 @@ static bool copy_cstring(char *target, uint32_t target_size, const char *source)
 static bool emit(Runtime *runtime, EventType type, const Task *task,
                  uint32_t command_id, int32_t value, const char *detail) {
     if (runtime->event_count >= MAX_EVENTS) {
-        runtime->error = ERROR_EVENT_CAPACITY;
-        return false;
+        const uint32_t keep = MAX_EVENTS / 2;
+        memmove(&runtime->events[0], &runtime->events[runtime->event_count - keep],
+                keep * sizeof(Event));
+        runtime->event_count = keep;
     }
+    ++runtime->event_serial;
     Event *event = &runtime->events[runtime->event_count++];
     memset(event, 0, sizeof(*event));
     event->type = type;
@@ -314,7 +317,7 @@ static Error execute_command(Runtime *runtime, Task *task,
                         command->command_id, 1, "enter")
                 ? ERROR_OK : runtime->error;
         }
-        case 5: {  // Script_PlayCamera::Execute(bool, int)
+        case 5: {  // Script_PlayCamera::Execute(bool skipping, int) 0x460110
             if (command->field_count != 2 ||
                 command->fields[0].kind != DH2_SCRIPT_VALUE_I32 ||
                 command->fields[1].kind != DH2_SCRIPT_VALUE_BOOL) {
@@ -325,11 +328,23 @@ static Error execute_command(Runtime *runtime, Task *task,
                                    "source CameraLevel PlayAnim owner is unbound")
                     ? ERROR_OK : runtime->error;
             }
+            // ScriptManager::ExecuteScript passes (skip-script id != -1) as the
+            // bool: only a skipped cutscene plays the CamAnimSet Crit clip. The
+            // second field is the blocking flag Script_PlayCamera::IsBlocking reads.
             const int accepted = runtime->spawn_services.play_camera(
-                runtime->spawn_services.context,
-                command->fields[1].value.boolean,
-                command->fields[0].value.i32);
+                runtime->spawn_services.context, 0, command->fields[0].value.i32);
             if (accepted < 0) return ERROR_CAMERA_SERVICE;
+            if (command->fields[1].value.boolean &&
+                runtime->spawn_services.camera_active != NULL) {
+                const int active = runtime->spawn_services.camera_active(
+                    runtime->spawn_services.context);
+                if (active < 0) return ERROR_CAMERA_SERVICE;
+                if (active != 0) {
+                    task->waiting_for_camera = 1;
+                    *yield_task = true;
+                    return ERROR_OK;
+                }
+            }
             return ERROR_OK;
         }
         case 10: { // StartDialog(actor, style, textStringId)
@@ -758,6 +773,17 @@ static Error drain(Runtime *runtime, uint64_t runnable_ticket_limit, uint32_t de
             task->waiting_for_actor_animation=0;
             task->actor_animation_identity=0;
             task->actor_animation_state=-1;
+            ++task->pc;
+        }
+        if (task->waiting_for_camera) {
+            const int active = runtime->spawn_services.camera_active == NULL ? 0
+                : runtime->spawn_services.camera_active(runtime->spawn_services.context);
+            if (active < 0) {
+                runtime->error = ERROR_CAMERA_SERVICE;
+                return runtime->error;
+            }
+            if (active != 0) continue;
+            task->waiting_for_camera = 0;
             ++task->pc;
         }
         if (task->waiting_for_door) {
