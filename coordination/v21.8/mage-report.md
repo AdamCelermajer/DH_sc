@@ -95,5 +95,5 @@ Base: `windows-foundation` @ 93f4823f.
 
 ## Cleanup
 
-- Junctions: 929 junctions to primary `.local-inputs` directories plus 4 hardlinked files, created in `.claude/worktrees/mage/.local-inputs` (the list is `C:/dh218/mage-junctions.txt`). Removed with `cmd /c rmdir` per junction, no recursive delete.
+- Junctions: 929 junctions to primary `.local-inputs` directories, plus about 4,040 hardlinks of primary root files, all created in `.claude/worktrees/mage/.local-inputs` (list: `C:/dh218/mage-junctions.txt`). Junctions removed with `cmd /c rmdir` (no recursive delete, all verified as reparse points); hardlinks unlinked (primary files unaffected).
 - `subst M:` removed.
