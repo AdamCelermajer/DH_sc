@@ -1094,6 +1094,10 @@ add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_train
 add_executable(runtime_skill_use_profile_v1_tests features/generic_skills/runtime_skill_use_profile_v1_tests.cpp)
 add_test(NAME runtime_skill_use_profile_v1 COMMAND runtime_skill_use_profile_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# v21.8 skills-mage-sub: Illusionist/Necromancer use profile rows (DeathClaw, Figments), transcribed from the original Lua.
+add_executable(runtime_skill_use_profile_magesub_v1_tests features/generic_skills/runtime_skill_use_profile_magesub_v1_tests.cpp)
+add_test(NAME runtime_skill_use_profile_magesub_v1 COMMAND runtime_skill_use_profile_magesub_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
 # v21.8 skills-a: reusable timed buff / temporary property owner (Rogue Quickness), against a real source Session.
 add_executable(runtime_timed_buff_v1_tests features/generic_skills/runtime_timed_buff_v1_tests.cpp)
 target_link_libraries(runtime_timed_buff_v1_tests PRIVATE foundation_runtime_skill_cast)

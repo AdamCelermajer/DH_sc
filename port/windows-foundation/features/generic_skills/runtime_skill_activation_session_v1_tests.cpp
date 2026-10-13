@@ -46,6 +46,11 @@ struct RogueSkillFixtureSpecV1 {
     bool paired = false;             // SkillTable mask bit 0x800000 (one hit per equipped hand)
     std::uint32_t markers = 1;       // distinct do_skill markers in the authored clip; each runs OnSkill_ again
     bool buff = false;               // timed-buff skill (Quickness): no hits, the Use call applies the authored buff
+    // v21.8 skills-mage-sub: the saved/CharacterTable class row that owns the SkillList (a subclass row for Mage
+    // subclass skills), the base profile row for the visual plan and session profile, and the mesh skin.
+    const char* class_row = "RoguePlayerBase";
+    const char* profile_row = "RoguePlayerBase";
+    const char* skin = "_default_rogue-mesh-skin";
 };
 
 void run_rogue_source_slot0_fixture(
@@ -59,7 +64,7 @@ void run_rogue_source_slot0_fixture(
     const RogueSkillFixtureSpecV1& spec) {
     std::string error;
     const auto rogue_row = std::find(characters.names.begin(), characters.names.end(),
-                                     "RoguePlayerBase");
+                                     spec.class_row);
     const auto tree_column = std::find(characters.fields.begin(), characters.fields.end(),
                                        "SkillTree");
     check(rogue_row != characters.names.end() && tree_column != characters.fields.end(),
@@ -87,11 +92,11 @@ void run_rogue_source_slot0_fixture(
 
     OriginalActorProperties rogue_source;
     check(resolve_original_actor_properties(properties.characters, properties.classes,
-              "RoguePlayerBase", {256, true}, rogue_source, error), error);
+              spec.class_row, {256, true}, rogue_source, error), error);
     CharacterState rogue_state;
     rogue_state.id = "same-source-rogue-jumpkick-session";
     rogue_state.name = "Same Source Rogue";
-    rogue_state.class_id = "RoguePlayerBase";
+    rogue_state.class_id = spec.class_row;
     rogue_state.stats.level = std::max<std::int32_t>(static_cast<std::int32_t>(rogue_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
     rogue_state.stats.health = original_signed256(rogue_source.sheets.resolved[36]);
     rogue_state.stats.max_health = original_signed256(rogue_source.sheets.resolved[38]);
@@ -112,7 +117,7 @@ void run_rogue_source_slot0_fixture(
     CharacterState loaded_rogue;
     check(load_character(save_path, loaded_rogue, error), error);
     std::filesystem::remove(save_path);
-    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == "RoguePlayerBase" &&
+    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == spec.class_row &&
           loaded_rogue.skills.size() == source_list.size() && loaded_rogue.skills[saved_row].id == spec.skill_name &&
           loaded_rogue.skills[saved_row].rank == 1 && loaded_rogue.skill_slots.size() == 1 &&
           loaded_rogue.skill_slots[0].equipment_set == 0 && loaded_rogue.skill_slots[0].slot == 0 &&
@@ -120,11 +125,11 @@ void run_rogue_source_slot0_fixture(
           "Original Rogue source save roundtrip changed key1/source-slot0 skill identity");
 
     ActorCustomization rogue_customization;
-    rogue_customization.skin_id_contains = "_default_rogue-mesh-skin";
+    rogue_customization.skin_id_contains = spec.skin;
     rogue_customization.expected_controller_count = 4;
     rogue_customization.allow_missing_animation_targets = true;
     OriginalCombatVisualPlan rogue_base_plan;
-    check(build_original_combat_visual_plan(assets, bindings, "RoguePlayerBase",
+    check(build_original_combat_visual_plan(assets, bindings, spec.profile_row,
               rogue_customization, "same-source-rogue-player", rogue_base_plan, error), error);
     auto rogue_visual_config = rogue_base_plan.config;
     rogue_visual_config.motion_node_id = "auto";
@@ -156,7 +161,7 @@ void run_rogue_source_slot0_fixture(
     CombatSessionConfig config;
     config.diagnosticRngSeed = 23;
     config.playerId = 1;
-    config.playerProfileId = "RoguePlayerBase";
+    config.playerProfileId = spec.profile_row;
     config.tableRoot = "original-cache/data/pydata";
     config.playerVisualConfig = rogue_base_plan.config;
     CombatSessionProfile player_profile;
@@ -205,7 +210,7 @@ void run_rogue_source_slot0_fixture(
     check(population.actors().back().enabled && !session.world()->find_actor(99),
           "Render-only population test entry unexpectedly joined the combat Session");
     auto* player = session.actor(1);
-    check(player && player->definition_id == "RoguePlayerBase" &&
+    check(player && player->definition_id == spec.profile_row &&
           player->alive() && session.retained_actor_pose(1),
           "Rogue source player did not retain its initialized source actor/pose");
     player->persistent_character_id = loaded_rogue.id;
@@ -675,6 +680,16 @@ int main(int argc, char** argv) {
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness", 524, 0, 6, true, true, false, 1, true});
+        // v21.8 skills-mage-sub: Necromancer DeathClaw (SkillList of the MagePlayerBase_Necromancer row, root 415, level 21)
+        // and Illusionist Figments (MagePlayerBase_Illusionist row, root 417, level 18). Same full-session path.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"DeathClaw", "prince_necromancer_deathclaw", "Skill_Necromancer_DeathClaw", 415, 1, 21, true, true, false, 1,
+             false, "MagePlayerBase_Necromancer", "MagePlayerBase", "_default_mage-mesh-skin"});
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments", 417, 1, 18, true, true, false, 1,
+             false, "MagePlayerBase_Illusionist", "MagePlayerBase", "_default_mage-mesh-skin"});
         // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
         for (const bool main_only : {true, false}) {
             run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,

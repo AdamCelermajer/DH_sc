@@ -68,6 +68,9 @@ struct RuntimeSkillUseProfileV1 {
     bool shield_variant;
     // Timed-buff arm, or nullptr for hit-rolling skills.
     const RuntimeSkillBuffProfileV1* buff;
+    // Lua constant cooldown written by OnPreSkill_ (SetSkillCooldown(COOLDOWN)) that overrides the
+    // class projection of SnS_Cooldown. 0 = use the projected class value (default for every row).
+    float fixed_cooldown_ms = 0.0f;
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;

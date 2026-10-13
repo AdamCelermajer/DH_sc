@@ -1,6 +1,7 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
 #include "../faery_menu/faery_cast_sound_v1.hpp"
 #include "pc_cooldown_frame_v1.hpp"
+#include "runtime_skill_use_profile_magesub_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
@@ -123,6 +124,8 @@ bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
     // Admission is by the exact SkillTable (name, script) pair of a row in
     // kRuntimeSkillUseProfilesV1, transcribed from the original skill Lua.
     profile = find_skill_use_profile_v1(name, skill.script);
+    // v21.8 skills-mage-sub: Illusionist/Necromancer rows (runtime_skill_use_profile_magesub_v1.hpp).
+    if (!profile) profile = find_skill_use_profile_magesub_v1(name, skill.script);
     if (!profile) return false;
     token = profile->class_token;
     return true;
@@ -732,6 +735,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             *request.property_rules, current->sheets.resolved, class_token,
             visual.saved_rank, class_projection, cooldown_ms, projected_range,
             projected_range_growth, error)) return false;
+    // DeathClaw.luac OnPreSkill_: SetSkillCooldown(COOLDOWN_BASE) is a Lua constant, not the class SnS_Cooldown.
+    if (profile->fixed_cooldown_ms > 0.0f) cooldown_ms = static_cast<double>(profile->fixed_cooldown_ms);
     // Only the authored OnPre SetSkillCooldown owners start a source timer.
     if (profile->sets_cooldown && cooldown_ms > 0.0) {
         if (!timer_clock_bound_) {
