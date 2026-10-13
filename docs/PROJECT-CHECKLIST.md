@@ -1,8 +1,21 @@
 # Dungeon Hunter 2 — project completion checklist
 
-Updated: 2026-10-12. Branch: `feature/desktop-gameplay-loop` (off `development`).
+Updated: 2026-10-13. Branch: `feature/desktop-gameplay-loop` (off `development`).
 
-All LevelList rows round (2026-10-12, latest):
+Faery, skills and combat-status round (2026-10-13, latest):
+- [x] PORTAL_ROOM loads: Level::Level (0x3f3128) takes the first LevelList row whose LevelFile is a substring of the file name, so it resolves to row 4 (`29f3ccb2`).
+- [x] Nine more `_BACKUP` layouts staged (rows 16 24 25 27 30 31 39 49 50); absent module files load no records (Level::LoadFile 0x3f3b40); `DH2_FORCE_GENERATION_FAILURE=1` exercises the backup path (`29f3ccb2`).
+- [x] Dead monsters' AI timers count as retired at VM close (CharAI::AI_SetDead 0x3d6cdc); no more "Ghost timer owner mismatch" (`bac172ba`).
+- [x] Desktop probes `--scenario faery-follow|faery-skill|skill-matrix|tutorial-potion`, `--player-class knight|mage|rogue` (`2a5f4544`, merges below).
+- [x] Melee hits run the F_ApplyResult status tail (dodge/block/injure/knockback/stun/scare/slow) for monster defenders (`168bab64`) and the Player (`b26a8a36`); Player hurt/block observed in play, knockback/stun/scare verified with forced rolls (push chance is near zero by data).
+- [x] Level saves on generated layouts, live faery Euler in saves, absent SpawnPoint entry ids (`3d52f09b`); seven transition routes reach their destination.
+- [x] Tutorial cinematics (potionUse, levelUp, menuCharacterSheet, faery) start from the original triggers; DoTutorial/LockTutorial/BlockSaveGame/MarkCharacterAsScripted; StopActor raises the forced controller flag under LockCharacter("All"); LevelUp runs StatusMsg, PlayerLevelUp and FX 135 (`09abd722`, `6bed7c71`). FX 135's `level_up.bdae` is absent from the assets.
+- [x] Player skill VM host natives and `target:` object methods (PlayFX, PlaySound3D, GetSelf, GetID, buffs, status setters, GetTargetListTop five returns); failing skill scripts are tolerated like LuaScript::Call; faery casts work on SWAMP and DARKWOOD; Knight skill-matrix 8/8 incl. Leadership (`885a7f87`, `e8117615`).
+- [x] The Faery follows the Player (see the Faery entry below) and faeries 1-4 select and render (`3e22deec`).
+- [ ] Level exit after extended play (faery-follow probe): SWAMP→DARKWOOD Save does not publish; DARKWOOD→SWAMP after death/revive is blocked by unapplied rows.
+- [ ] Ranged basic attacks; Summon/MoveTo/WarpTo/HasPath/Stop/HeadTo/RegisterAnim/PlayAnim in the Player VM.
+
+All LevelList rows round (2026-10-12):
 - [x] Pre-release `native-static-levels-2026-10-12` published from merge `b1c76d0c` (PR #13/#14).
 - [x] Desktop HUD: enemy bar follows its target; arc skill layout is the default; empty fixed skill buttons are hidden (`ecda88bf`, `4418b884`).
 - [x] Cutscene mode drives the HUD StartCutscene/StopCutscene path (`379ecd44`, `0cfdcf0d`).
@@ -17,11 +30,11 @@ All LevelList rows round (2026-10-12, latest):
 - [x] Android emulator at `996d6939`: all 43 tested LevelList rows (0, 1, 4, 7-33, 38-50) start a playable level. Row 41 move-kill and move-defend verified; row 26 runs its `_BACKUP` level (verified note, not from a commit message).
 - [ ] MACHINE_ROOMS_01 renders sparsely on Android.
 - [ ] VOID_MAZE 01-03 are nearly empty: rules reference `vm011_*` files absent from the cache.
-- [ ] PORTAL_ROOM (row 35) does not load.
-- [ ] No `_BACKUP` level for rows 16, 23, 24, 39, 46-48.
-- [ ] Knockback not observed in play.
+- [x] PORTAL_ROOM (row 35) does not load. Fixed in `29f3ccb2`.
+- [x] No `_BACKUP` level for rows 16, 23, 24, 39, 46-48. Rows 16 24 39 staged in `29f3ccb2`; the Crypt and VOIDMAZE rows have no backup MLX in the cache.
+- [x] Knockback not observed in play. Melee and skill hits now reach SM_SetKnockBackState (`168bab64`, `b26a8a36`).
 - [ ] Save migration for profiles written before `4562ac61`.
-- [ ] Tutorial cinematics.
+- [x] Tutorial cinematics (`09abd722`, `6bed7c71`).
 
 Static-level and level-transition round (2026-10-12):
 - [x] Level transition SWAMP → DARKWOOD completes: the PROP save writer now writes the saved-delta sheet, so the PlayerManager activation accepts the new Level (`4562ac61`).
@@ -48,7 +61,7 @@ Static-level and level-transition round (2026-10-12):
 - [x] Android `debug_auto_start` (debug builds): selects or creates a profile and starts the debug level row; every debug LevelList row is accepted at launch (`9259471f`, `8ba7b94b`).
 - [x] Host tests follow rotated Crypt module bounds (DWLD v2), RoomZone relative extents and the read_object_facts true-on-failure convention (`6ac9dacd`).
 - [x] Android emulator verification (API 37/16 KiB) at `265b7af5`, verified note (not from a commit message): all 9 static levels start (rows 41 4 38 45 1 29 20 28 33); move-kill gives 6 kills plus death/revive; move-defend shows damage, death and revive.
-- [ ] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) not yet observed in play (`b091f7c7`).
+- [x] Knockback entry (SM_SetKnockBackState, GreatKnockedBack/KnockedBack) observed with forced rolls (`168bab64`, `b26a8a36`).
 - [ ] Spawn heading on the DWLD-start fallback.
 - [ ] Remaining level-script commands 19, 22/23, 27 and 51/52.
 - [ ] Save migration for profiles written before `4562ac61` (bad Level delta).
