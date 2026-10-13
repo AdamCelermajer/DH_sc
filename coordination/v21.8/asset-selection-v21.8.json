@@ -68,7 +68,8 @@
     ],
     "skill_fx_extra": [
       "3d/interface/spell_dh2_prince_rogue_quickness.bdae",
-      "3d/interface/skill_dh2_prince_mage_stone_escape_death.bdae"
+      "3d/interface/skill_dh2_prince_mage_stone_escape_death.bdae",
+      "3d/interface/skill_dh2_prince_mage_stone_escape_idle.bdae"
     ],
     "skill_projectiles": [
       "3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",

@@ -411,6 +411,12 @@ target_link_libraries(runtime_session_projectile_render_v1_tests PRIVATE foundat
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_session_projectile)
 add_test(NAME runtime_session_projectile_render_v1 COMMAND runtime_session_projectile_render_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
+# v21.8 magewire: the skill projectile AABBs are checked against the staged package when it exists (argv[2]).
+set(DH_STAGED_MAGEWIRE_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.8-staged-magewire/assets")
+if(EXISTS "${DH_STAGED_MAGEWIRE_ASSETS}/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae")
+  add_test(NAME runtime_session_projectile_render_v1_skill_models COMMAND runtime_session_projectile_render_v1_tests
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets" "${DH_STAGED_MAGEWIRE_ASSETS}")
+endif()
 
 target_link_libraries(dh-foundation PRIVATE foundation_data ${DH2_PLATFORM_LIBRARIES})
 add_library(foundation_frontend STATIC
@@ -1166,6 +1172,11 @@ add_executable(runtime_skill_activation_session_v1_tests
   ../level-world/character_path_commands.cpp)
 target_compile_definitions(runtime_skill_activation_session_v1_tests PRIVATE DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
 target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data)
+# v21.8 magewire: external owner of ChainLightning / Cyclone / StoneEscape (StoneEscape on a real session; error paths).
+add_executable(mage_skill_owner_v1_tests features/generic_skills/runtime_mage_skill_owner_v1_tests.cpp)
+target_link_libraries(mage_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast foundation_runtime_session_projectile foundation_runtime_equipment_menu)
+add_test(NAME mage_skill_owner_v1 COMMAND mage_skill_owner_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
 add_test(NAME runtime_skill_activation_session_v1 COMMAND runtime_skill_activation_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../.."
   1 "${CMAKE_CURRENT_BINARY_DIR}/runtime_skill_activation_session_v1_scratch")
 # Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
