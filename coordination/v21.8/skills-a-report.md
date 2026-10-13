@@ -30,7 +30,15 @@ Mana numbers are the observed MP after the key press (the prefix is committed be
 
 ## Tests
 
-- CTest (`ctest -j8`, `C:/dh218/skills-a-build`): baseline at 93f4823f = 172/187 passing, 15 failing. The failures are missing inputs in the primary `.local-inputs` (for example `windows-equipment-assets`, `windows-melee-bindings` contents, animation dictionary absent) plus a timing flake (frame_pacer). The same 14 environment failures remain after the change; frame_pacer passed in the later run. New test: `runtime_skill_use_profile_v1` PASS. Final count: see the final message.
+- CTest (full run on the final commit, `C:/dh218/skills-a-build`): 186/188 passing. The 2 failures are `private_save_transport_win32` and `source_level_config`. Both fail on the baseline too, and both need inputs absent from the primary `.local-inputs` (`publication/checkpoint/...` assets and `windows-camera-assets`). Baseline at 93f4823f, before the worktree junctions for `windows-equipment-assets`, `windows-melee-bindings`, `actors` and `windows-toolchain` were added: 172/187, with 15 failures. Most of those were the same missing-input class; `frame_pacer` was a timing flake. New test `runtime_skill_use_profile_v1` passes.
+- Run hygiene: `ctest` started through PowerShell `Start-Process` stalled repeatedly with no test child running. The same suite started from bash completed normally, so use bash for ctest in this environment.
+
+## Evidence per AGENTS.md (investigate before implementing)
+
+- Visual reference: NOT compared against the original footage in this session. The coverage matrix and the Lua headers were used instead. Real-run frames are the only visual evidence (see above), and they show the animation pose and the FX dispatch, not an original-video match.
+- Logic reference: the Lua sources (`prince_rogue_vicious_strike`, `prince_rogue_roundhouse`, `prince_rogue_quickness` and the four whitelisted scripts) for targeting, mana, cooldown, Use, Post and sound. The dual-wield branch comes from the IDA audit note (`character3.md` F2, IDA 0x3b9fbc), cross-checked against the port's Android kernel `character_skill_combat_v6.cpp`. I did not re-decompile 0x3b9fbc in this session.
+- Uncertainties: the hit side (damage on the targets) of ViciousStrike and Roundhouse was not logged in the EXE runs; the stun effect is not reproduced; mana numbers are the observed MP after the key press and were not cross-checked against the class projection; Quickness's buff row (`Skill_Rogue_Quickness_buff`) effect was not decoded.
+- Verification: unit (CTest table test, syntax-checked activation fixture), real EXE (animation, FX set, sound-cue status) as listed above.
 - `runtime_skill_activation_session_v1_tests` (PowerShell runner) compiles and links with the runner fix, but the binary crashes (access violation, rc 0xC0000005) or exits with "unsupported character schema version" / "Asset root is not an existing directory" depending on the launch environment. The same crash occurs at HEAD (checked with HEAD copies of the three coordinator/test files), so this is a pre-existing failure and not caused by this change. The new ViciousStrike and Roundhouse fixture rows are therefore unit-unverified.
 
 ## Gaps and next steps
@@ -39,4 +47,4 @@ Mana numbers are the observed MP after the key press (the prefix is committed be
 2. Stun/knockback/DOT tails of ViciousStrike and Roundhouse results are not reproduced by the port (documented in the header).
 3. Hit application for ViciousStrike and Roundhouse is unverified in the EXE (no damage log line; needs a seed with enemies in front, or a damage log). The one-hand dual-wield path (only main or only off hand) has no unit test.
 4. The activation session runner needs its crash/schema failure fixed before its fixtures count as unit evidence.
-5. Environment: the worktree `.local-inputs` holds 19 junctions to the primary (list in `C:/dh218/skills-a-junctions.txt`); remove with `cmd /c rmdir` before any worktree delete.
+5. Environment: the worktree `.local-inputs` junctions to the primary were removed at the end of this run (`cmd /c rmdir`); recreate them the same way before any build or test.
