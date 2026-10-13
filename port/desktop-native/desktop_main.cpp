@@ -1622,7 +1622,9 @@ private:
                     steer_world(qs_zone_center_[0] - pose_.player_position[0],
                                 qs_zone_center_[1] - pose_.player_position[1]);
             }
-            if (since > 1800 || (state > qs_first_state_ && state >= 6)) {
+            // talk-npc settles in a few hundred frames; the enter-zone walk to a far
+            // QuestMoveInZone needs thousands of frames plus authored cutscenes.
+            if (since > (talk ? 1800u : 9000u) || (state > qs_first_state_ && state >= 6)) {
                 qs_phase_ = QuestScenarioPhase::done;
                 qs_done_frame_ = frame_;
             }

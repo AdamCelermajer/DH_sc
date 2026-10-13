@@ -111,7 +111,11 @@ Status Owner::attach(physical::NativeWorld& world,
         shape.isSensor = true;
         shape.friction = 0.0f;
         shape.restitution = 0.0f;
-        shape.density = 0.0f;
+        // Box2D never pairs two static bodies, and a pinned Character body is
+        // static (mass 0). The POZone body therefore carries mass so the Player
+        // reaches the sensor pair at all; the sensor is still a non-colliding
+        // trigger (isSensor), so the density has no physical response.
+        shape.density = 1.0f;
         shape.filter.groupIndex = sensor.group_index;
         shape.filter.categoryBits = sensor.category_bits;
         shape.filter.maskBits = sensor.mask_bits;
