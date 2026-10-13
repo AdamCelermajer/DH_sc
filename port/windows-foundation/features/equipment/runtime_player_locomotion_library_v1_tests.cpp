@@ -168,6 +168,19 @@ int main(int argc, char** argv) {
         RuntimePlayerLocomotionLibraryV1 all_library;
         require(RuntimePlayerLocomotionLibraryV1::build(assets, base_visual, all_request, all_library, error), error);
         require(all_library.program_count() <= all_request.max_programs, "Equipment stance cache exceeded its bound");
+        {   // B159: stances() lists each preloaded stance once (the Push bank is prepared per stance).
+            const auto stances = all_library.stances();
+            require(!stances.empty() && stances.size() <= all_library.program_count(), "stances() is empty or exceeds the program count");
+            for (std::size_t i = 0; i < stances.size(); ++i) {
+                require(stances[i] >= 0, "stances() returned an invalid stance");
+                for (std::size_t j = i + 1; j < stances.size(); ++j) require(stances[i] != stances[j], "stances() repeated a stance");
+            }
+            for (const auto& pair : std::vector<std::pair<int,int>>{{sword,-1},{staff,-1},{sword,dagger},{-1,-1}}) {
+                RuntimePlayerLocomotionSelectionV1 chosen;
+                require(all_library.select_exact(pair.first, pair.second, chosen, error), error);
+                require(std::find(stances.begin(), stances.end(), chosen.stance) != stances.end(), "a selectable stance is missing from stances()");
+            }
+        }
         CharacterVisualConfig all_visual = base_visual;
         require(all_library.merge_named_clips(all_visual, error), error);
         for (const auto& pair : std::vector<std::pair<int,int>>{{sword,-1},{staff,-1},{sword,dagger},{-1,-1}}) {

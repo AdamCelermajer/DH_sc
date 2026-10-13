@@ -968,6 +968,15 @@ target_link_libraries(runtime_swampking_core_ai_v1_tests PRIVATE foundation_runt
 add_test(NAME runtime_swampking_core_ai_v1 COMMAND runtime_swampking_core_ai_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.6/assets"
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
+# B158: --follow-actor harness aid (hero follows a relocating boss in the continuous run).
+add_executable(follow_actor_aid_v1_tests features/test_aids/follow_actor_aid_v1_tests.cpp)
+add_test(NAME follow_actor_aid_v1 COMMAND follow_actor_aid_v1_tests)
+# B159: Mud Lord damage calibration against the recovered CF__CalcDamage inputs (monster level-2 sheet, SkillTree class sheets).
+add_executable(runtime_swampking_damage_calibration_v1_tests features/bosses/runtime_swampking_damage_calibration_v1_tests.cpp)
+target_link_libraries(runtime_swampking_damage_calibration_v1_tests PRIVATE foundation_runtime_bosses)
+add_test(NAME runtime_swampking_damage_calibration_v1 COMMAND runtime_swampking_damage_calibration_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v21.6/assets"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/assets-extra/android")
 add_executable(spawn_character_v1_tests features/spawn/spawn_character_v1_tests.cpp)
 target_link_libraries(spawn_character_v1_tests PRIVATE foundation_runtime_spawn)
 add_test(NAME spawn_character_v1 COMMAND spawn_character_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")

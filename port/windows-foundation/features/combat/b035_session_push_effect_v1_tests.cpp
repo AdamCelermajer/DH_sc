@@ -273,6 +273,9 @@ void run_case(const char* root, const PushCase& wanted) {
 
 int main(int argc,char** argv){try{
     check(argc==2,"Supply unified original assets root");
+    // B159: event 50011 registrations (CharStateMachine OnInit) - Idle is not the only accepting state.
+    for(const int accepted:{1,3,4,5,6,8,9,11,13,15,18,19})check(source_knockback_event_accepted_v1(accepted),"state accepts event 50011");
+    for(const int rejected:{-1,0,2,7,10,12,14,16,17,20,99})check(!source_knockback_event_accepted_v1(rejected),"state rejects event 50011");
     run_case(argv[1],{"ordinary",0x8u,true,false});
     run_case(argv[1],{"natural-lizard-push-injury-critical",0x98u,false,false});
     run_case(argv[1],{"controlled-push-critical",0x88u,false,true});

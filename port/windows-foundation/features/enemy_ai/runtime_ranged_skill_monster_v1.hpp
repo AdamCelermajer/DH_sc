@@ -128,8 +128,11 @@ RangedRangeEventV1 ranged_range_event_v1(float distance_squared, float range_min
 std::array<float, 3> source_look_vector_v1(float heading);
 // Character::_MoveTo/_WarpTo relative branch: position + x*cross(Z,look) + y*look + z*Z.
 std::array<float, 3> relative_point_v1(const std::array<float, 3>& position, float heading, const std::array<float, 3>& offset);
-// Skill formula sheet: original defaults, SnS_Level = level << 8, then the ClassTables row (mode-1 reads from the
-// live resolved sheet with the same SnS_Level), as the player skill coordinator builds it.
+// Skill formula sheet of a MONSTER skill: the attacker's live resolved sheet, SnS_Level = level << 8, then the
+// ClassTables row applied in place (mode-1 reads from the live sheet with the same SnS_Level). This is the original
+// ApplyPropClass(CLASS_ID) (0x3babdc -> PROPS_ApplyClass 0x3df3b8 -> _LoadClass 0x3e2e20 on CharProperties+2708): only the
+// class destinations change, every other attacker property (element 97 / 95-96, attack rating 50, bonus damage ...) is
+// the monster's own. (B159: it used to start from the property defaults, which dropped them.)
 bool ranged_skill_formula_sheet_v1(const dh2::data::CharacterTable&, const dh2::data::ClassTables&,
                                    const dh2::data::PropertyRules&, const dh2::data::PropertySheet& live,
                                    std::int32_t class_id, std::int32_t skill_level,

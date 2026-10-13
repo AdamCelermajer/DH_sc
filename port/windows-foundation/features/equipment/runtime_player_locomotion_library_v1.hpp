@@ -2,6 +2,7 @@
 
 #include "runtime_player_locomotion_program_v1.hpp"
 
+#include <algorithm>
 #include <memory>
 
 namespace dh::foundation::equipment_menu {
@@ -79,6 +80,12 @@ public:
     const std::string& profile_id() const noexcept { return profile_id_; }
     const std::string& role() const noexcept { return role_; }
     std::size_t program_count() const noexcept { return entries_.size(); }
+    // Distinct equipment stances with a preloaded program (B159: one source Push bank is prepared per stance).
+    std::vector<std::int32_t> stances() const {
+        std::vector<std::int32_t> out;
+        for (const auto& entry : entries_) if (entry.stance >= 0 && std::find(out.begin(), out.end(), entry.stance) == out.end()) out.push_back(entry.stance);
+        return out;
+    }
 };
 
 } // namespace dh::foundation::equipment_menu

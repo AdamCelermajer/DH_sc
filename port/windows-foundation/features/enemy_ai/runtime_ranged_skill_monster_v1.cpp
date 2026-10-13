@@ -460,16 +460,23 @@ std::array<float, 3> relative_point_v1(const std::array<float, 3>& p, float head
 }
 
 bool ranged_skill_formula_sheet_v1(const dh2::data::CharacterTable& characters, const dh2::data::ClassTables& classes,
-                                   const dh2::data::PropertyRules& rules, const dh2::data::PropertySheet& live,
+                                   const dh2::data::PropertyRules&, const dh2::data::PropertySheet& live,
                                    std::int32_t class_id, std::int32_t skill_level, dh2::data::PropertySheet& output,
                                    std::string& error) {
+    // Original Character::_ApplyPropClass 0x3babdc -> CharProperties::PROPS_ApplyClass 0x3df3b8 (no bool argument) ->
+    // _LoadClass 0x3e2e20 on the attacker's OWN resolved sheet (CharProperties+2708): the class rows (SnS_CleanUp, then the
+    // SnS_Min/MaxDamage... writes) overwrite only their destination properties in place. Every other property that
+    // CF__CalcDamage 0x3b1fb8 / CF__CalcMissOrDodge 0x3b1df0 read through PROPS_Get/_GetProperty(+4084) (attack rating 50,
+    // element 97 with its 95/96 range, bonus damage 83+, 92-94, 132/133...) stays the attacker's live value. Mode-1 source
+    // reads use RecalcProperty (the live level), which apply_class reproduces with the live snapshot as its read sheet.
+    // So the formula sheet starts from the live sheet, not from the property defaults.
     const auto column = std::find(characters.fields.begin(), characters.fields.end(), std::string("SnS_Level"));
     if (column == characters.fields.end()) return fail(error, "CharacterTable has no SnS_Level field");
     const auto index = static_cast<std::size_t>(column - characters.fields.begin());
     if (class_id < 0 || static_cast<std::size_t>(class_id) >= classes.names.size())
         return fail(error, "Skill CLASS_ID is outside ClassTables");
     if (skill_level < -32768 || skill_level > 32767) return fail(error, "Skill level outside the source fixed range");
-    auto next = rules.defaults;
+    auto next = live;
     next[index] = static_cast<std::int32_t>(static_cast<std::uint32_t>(skill_level) << 8);
     auto live_with_level = live;
     live_with_level[index] = next[index];
