@@ -46,11 +46,14 @@ struct RogueSkillFixtureSpecV1 {
     bool paired = false;             // SkillTable mask bit 0x800000 (one hit per equipped hand)
     std::uint32_t markers = 1;       // distinct do_skill markers in the authored clip; each runs OnSkill_ again
     bool buff = false;               // timed-buff skill (Quickness): no hits, the Use call applies the authored buff
-    // v21.8 skills-rogue: the CharacterProperties row that owns the skill tree (Rogue base or subclass).
-    const char* class_id = "RoguePlayerBase";
+    // The CharacterProperties/CharacterTable class row that owns the SkillList (Rogue base, Assassin or a Mage subclass row).
+    const char* class_row = "RoguePlayerBase";
     const char* buff_class = "Skill_Rogue_Quickness_buff"; // buff rows: the ClassTable row the Use call applies
     double buff_duration_ms = 4000.0;                      // buff rows: the projected duration at rank 1
     bool buff_speed_cells = false;                         // Quickness only: Speed_Modifier cells 46/47/48 move
+    // The base profile row for the visual plan and session profile (subclasses have no combat binding of their own), and the mesh skin.
+    const char* profile_row = "RoguePlayerBase";
+    const char* skin = "_default_rogue-mesh-skin";
 };
 
 void run_rogue_source_slot0_fixture(
@@ -62,9 +65,16 @@ void run_rogue_source_slot0_fixture(
     const dh2::data::Dictionary& animation_dictionary,
     const dh2::data::PropertyRules& property_rules,
     const RogueSkillFixtureSpecV1& spec) {
+    // The melee bindings input only carries the base classes (KnightPlayerBase, RoguePlayerBase, MagePlayerBase, KingPlayer), so
+    // the session actor definition (which must equal the CharacterState class) cannot be a subclass row yet. Subclass fixtures
+    // are reported as SKIP, never PASS, until the subclass actors have combat bindings.
+    if (!bindings.find_actor(spec.class_row)) {
+        std::printf("SKIP %s: no combat binding for subclass actor %s in original-melee-bindings.xml\n", spec.skill_name, spec.class_row);
+        return;
+    }
     std::string error;
     const auto rogue_row = std::find(characters.names.begin(), characters.names.end(),
-                                     spec.class_id);
+                                     spec.class_row);
     const auto tree_column = std::find(characters.fields.begin(), characters.fields.end(),
                                        "SkillTree");
     check(rogue_row != characters.names.end() && tree_column != characters.fields.end(),
@@ -92,11 +102,11 @@ void run_rogue_source_slot0_fixture(
 
     OriginalActorProperties rogue_source;
     check(resolve_original_actor_properties(properties.characters, properties.classes,
-              spec.class_id, {256, true}, rogue_source, error), error);
+              spec.class_row, {256, true}, rogue_source, error), error);
     CharacterState rogue_state;
     rogue_state.id = "same-source-rogue-jumpkick-session";
     rogue_state.name = "Same Source Rogue";
-    rogue_state.class_id = spec.class_id;
+    rogue_state.class_id = spec.class_row;
     rogue_state.stats.level = std::max<std::int32_t>(static_cast<std::int32_t>(rogue_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
     rogue_state.stats.health = original_signed256(rogue_source.sheets.resolved[36]);
     rogue_state.stats.max_health = original_signed256(rogue_source.sheets.resolved[38]);
@@ -117,7 +127,7 @@ void run_rogue_source_slot0_fixture(
     CharacterState loaded_rogue;
     check(load_character(save_path, loaded_rogue, error), error);
     std::filesystem::remove(save_path);
-    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == spec.class_id &&
+    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == spec.class_row &&
           loaded_rogue.skills.size() == source_list.size() && loaded_rogue.skills[saved_row].id == spec.skill_name &&
           loaded_rogue.skills[saved_row].rank == 1 && loaded_rogue.skill_slots.size() == 1 &&
           loaded_rogue.skill_slots[0].equipment_set == 0 && loaded_rogue.skill_slots[0].slot == 0 &&
@@ -125,11 +135,11 @@ void run_rogue_source_slot0_fixture(
           "Original Rogue source save roundtrip changed key1/source-slot0 skill identity");
 
     ActorCustomization rogue_customization;
-    rogue_customization.skin_id_contains = "_default_rogue-mesh-skin";
+    rogue_customization.skin_id_contains = spec.skin;
     rogue_customization.expected_controller_count = 4;
     rogue_customization.allow_missing_animation_targets = true;
     OriginalCombatVisualPlan rogue_base_plan;
-    check(build_original_combat_visual_plan(assets, bindings, spec.class_id,
+    check(build_original_combat_visual_plan(assets, bindings, spec.profile_row,
               rogue_customization, "same-source-rogue-player", rogue_base_plan, error), error);
     auto rogue_visual_config = rogue_base_plan.config;
     rogue_visual_config.motion_node_id = "auto";
@@ -161,7 +171,7 @@ void run_rogue_source_slot0_fixture(
     CombatSessionConfig config;
     config.diagnosticRngSeed = 23;
     config.playerId = 1;
-    config.playerProfileId = spec.class_id;
+    config.playerProfileId = spec.profile_row;
     config.tableRoot = "original-cache/data/pydata";
     config.playerVisualConfig = rogue_base_plan.config;
     CombatSessionProfile player_profile;
@@ -210,7 +220,7 @@ void run_rogue_source_slot0_fixture(
     check(population.actors().back().enabled && !session.world()->find_actor(99),
           "Render-only population test entry unexpectedly joined the combat Session");
     auto* player = session.actor(1);
-    check(player && player->definition_id == spec.class_id &&
+    check(player && player->definition_id == spec.profile_row &&
           player->alive() && session.retained_actor_pose(1),
           "Rogue source player did not retain its initialized source actor/pose");
     player->persistent_character_id = loaded_rogue.id;
@@ -686,13 +696,8 @@ int main(int argc, char** argv) {
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness", 524, 0, 6, true, true, false, 1, true,
              "RoguePlayerBase", "Skill_Rogue_Quickness_buff", 4000.0, true});
-        // v21.8 skills-rogue: Assassin subclass tree (RoguePlayerBase_Assassin). Blindness: SnS_Duration 8000+2000/level ms;
-        // PoisonSting: Dot_Duration 3000+750/level ms (the Lua reads Dot_Duration, cell 125). Rank 1 values.
-        // The melee bindings input only carries the base classes (KnightPlayerBase, RoguePlayerBase, MagePlayerBase, KingPlayer):
-        // no subclass actor has a combat binding yet. Until the bindings are extended the subclass fixtures are SKIP, never PASS.
-        if (!bindings.find_actor("RoguePlayerBase_Assassin")) {
-            std::puts("SKIP Rogue Blindness/PoisonSting: no combat binding for RoguePlayerBase_Assassin in original-melee-bindings.xml");
-        } else {
+        // v21.8 skills-rogue: Assassin subclass tree (class row RoguePlayerBase_Assassin, base-class visual profile).
+        // Blindness: SnS_Duration 8000+2000/level ms; PoisonSting: Dot_Duration 3000+750/level ms (cell 125). Rank 1 values.
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"Blindness", "prince_assassin_blindness", "Skill_Assassin_Blindness", 518, 0, 15, true, true, false, 1, true,
@@ -701,7 +706,16 @@ int main(int argc, char** argv) {
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"PoisonSting", "prince_assassin_poison_sting", "Skill_Assassin_PoisonSting", 520, 0, 18, true, true, false, 1, true,
              "RoguePlayerBase_Assassin", "Skill_Assassin_PoisonSting", 3750.0, false});
-        }
+        // v21.8 skills-mage-sub: Necromancer DeathClaw (SkillList of the MagePlayerBase_Necromancer row, root 415, level 21)
+        // and Illusionist Figments (MagePlayerBase_Illusionist row, root 417, level 18). Same full-session path.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"DeathClaw", "prince_necromancer_deathclaw", "Skill_Necromancer_DeathClaw", 415, 1, 21, true, true, false, 1,
+             false, "MagePlayerBase_Necromancer", "", 0.0, false, "MagePlayerBase", "_default_mage-mesh-skin"});
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments", 417, 1, 18, true, true, false, 1,
+             false, "MagePlayerBase_Illusionist", "", 0.0, false, "MagePlayerBase", "_default_mage-mesh-skin"});
         // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
         for (const bool main_only : {true, false}) {
             run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,

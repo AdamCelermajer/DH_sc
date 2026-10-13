@@ -755,6 +755,8 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             *request.property_rules, current->sheets.resolved, class_token,
             visual.saved_rank, class_projection, cooldown_ms, projected_range,
             projected_range_growth, error)) return false;
+    // DeathClaw.luac OnPreSkill_: SetSkillCooldown(COOLDOWN_BASE) is a Lua constant, not the class SnS_Cooldown.
+    if (profile->fixed_cooldown_ms > 0.0f) cooldown_ms = static_cast<double>(profile->fixed_cooldown_ms);
     // Only the authored OnPre SetSkillCooldown owners start a source timer.
     if (profile->sets_cooldown && cooldown_ms > 0.0) {
         if (!timer_clock_bound_) {
