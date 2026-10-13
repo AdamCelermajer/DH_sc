@@ -7,12 +7,38 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from types import SimpleNamespace
 from common import read_json, write_json, markdown_table
 
 MAX_GENERATED_BYTES = 40_000_000
 PACKAGES = {'A': 'r2_natives', 'B': 'r2_staging', 'C': 'r2_act2'}
 INITIAL_SCOPE_COMMIT = 'a0fd3078'
+
+def source_integrity(ctx):
+    """Compare physical originals with the immutable round-1 inventory."""
+    from common import physical_path
+    assets=read_json(ctx.out/'data/assets.json',[])
+    evidence=read_json(ctx.out/'data/source-manifest.json',{}).get('native_evidence_files',[])
+    expected=[{'path':r['path'],'sha256':r['sha256']} for r in assets]+evidence
+    def validate(row):
+        path=physical_path(ctx,row['path'])
+        actual=hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        return None if actual==row['sha256'] else {'path':row['path'],'expected_sha256':row['sha256'],'actual_sha256':actual}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        drift=[r for r in pool.map(validate,expected) if r]
+    result={'schema':'atlas-r2-original-integrity-v1','passed':bool(expected) and not drift,
+            'baseline':'unchanged round-1 data/assets.json and data/source-manifest.json',
+            'checked':len(expected),'drift':drift,
+            'restored_inputs':[{'path':'.local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin',
+                              'sha256':'7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f',
+                              'backup':'.local-inputs/combat-sound-v2/sounds_pyarraynames.bin'},
+                               {'path':'.local-inputs/assets-extra/android/data/pydata/loot_table_pyarray.bin',
+                                'sha256':'4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f',
+                                'backup':'.local-inputs/windows-source-clock-v21.8-staged2/assets/original-cache/data/pydata/loot_table_pyarray.bin'}],
+            'repair_reason':'Dossier output-path shadowing accidentally overwrote two inputs. Verified identical backups restored original bytes; generator fixed and physical original-input write guard added.'}
+    write_json(ctx.out/'r2/source-integrity.json',result)
+    return result
 
 def initial_inventory(ctx):
     """Keep the initial work identity compact and immutable across source repairs."""
@@ -148,6 +174,12 @@ def retention_check(ctx):
         path=ctx.root/row['path']
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=row['sha256']:
             errors.append('old oversized generated file changed: '+row['path'])
+    sealed=read_json(ctx.out/'r2/STEP0.json',{})
+    for row in sealed.get('initial_scope_manifest',[]):
+        if row['path'] not in ('natives/scope.json','act2/scope.json'):continue
+        path=ctx.out/'r2'/row['path']
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=row['sha256']:
+            errors.append('sealed initial scope bytes changed: '+row['path'])
     return {'name':'immutable initial identities and unchanged round-1 oversized files','passed':not errors,'errors':errors}
 
 def semantic_contract_check(ctx):
@@ -221,6 +253,7 @@ def report(ctx):
             native_gaps.append([row['name'],'; '.join(map(str,reasons))])
     questions=read_json(root/'questions.json',{}).get('questions',[])
     coverage=read_json(root/'act2/coverage.json',{}).get('counts',{})
+    availability=read_json(root/'act2/coverage.json',{}).get('source_availability_metrics',{})
     blockers=read_json(root/'act2/blocker-reach.json',{}).get('blockers',[])[:12]
     text=['# Original Data Atlas round 2','',
           'Source contracts, a staging ledger, and per-scene reconstruction dossiers. Original Android and iOS inputs are complementary partial corpora. There is no iPhone binary or verified iOS native ID mapping. Native contracts use the Android library; platform/version uncertainty remains explicit.',
@@ -244,19 +277,26 @@ def report(ctx):
              f'The source-transition closure contains {coverage.get("scenes",0)} scenes and {coverage.get("source_edges",0)} edges. It includes later content and Act 1 backlinks; narrative act boundaries are INFERENCE. {coverage.get("unique_entity_rows",0)} distinct character rows have source-linked dossiers. Repairs to malformed source rule text are logged; original bytes were not changed.',
              '',markdown_table(['Highest-reaching blocker','Affected scenes'],[[r.get('blocker'),r.get('blocked_scene_count')] for r in blockers]),
              'The conservative playable-support metric is '+str(coverage.get('verified_playable_fraction',{}))+'. Its denominator counts required per-level capabilities. Zero verified support here means this static investigation supplied no integrated runtime/visual proof; it does not assert every existing port feature fails.',
+             '', markdown_table(['Static inventory','Explicit denominator','Availability states'],
+                   [[label,availability.get(key,{}).get('denominator',0),availability.get(key,{}).get('status_counts') or availability.get(key,{}).get('port_semantic_status_counts',{})]
+                    for label,key in [('Linked or candidate logical media paths','resource_file_dependencies'),('Extracted AI native call sites','in_scope_ai_native_call_dependencies')]]),
              '', '[Coverage and denominator](act2/coverage.md) · [Implementation ranking](act2/blocker-reach.md) · [Scope expansions and retained frontier records](act2/scope-expansion.json)',
              '', markdown_table(['Unresolved transition frontier','Reason'],[[r.get('label'),r.get('reason') or r.get('resolution_reason')] for r in packages['C'].get('rows',[]) if r.get('state')=='UNRESOLVED']),
              '', '## Rebuild and verification','',
              'Run `./tools/atlas/regen.ps1 --round2` from the atlas2 worktree. It rebuilds source indexes in ignored scratch storage, then regenerates round-2 artifacts. Run `./tools/atlas/atlas.ps1 check --round2` for scope, contract, classification, staging, evidence and original known-answer checks. A remaining TODO makes the final check fail.',
              '', '[Check receipt](check.json) · [Immutable initial scope](STEP0.json) · [Tracked-file-size recommendation](TRACKED-FILE-SIZES.md)',
+             '', '[Original input integrity and exact recovery receipts](source-integrity.json): original bytes are checked against the unchanged round-1 inventory. Two accidentally overwritten inputs were restored from verified identical backups; output-path shadowing is fixed and source JSON writes are rejected before mutation.',
              '', 'All new generated files must stay below 40,000,000 bytes. Existing oversized round-1 outputs are preserved. A separate cleanup should untrack or shard regenerable snapshots and address historical Git blobs before a future push. This round does not push or rewrite history.','']
     (root/'README.md').write_text('\n'.join(text),encoding='utf-8',newline='\n')
 
 def check(ctx):
     import atlas
+    integrity=source_integrity(ctx)
     base = atlas.audit(ctx,write_result=False)
-    tests = [{'name':'original source audit and round-1 known answers','passed':base['passed']}]
+    tests = [{'name':'original bytes match unchanged round-1 inventory','passed':integrity['passed']},
+             {'name':'original source audit and round-1 known answers','passed':base['passed']}]
     errors = list(base['errors'])
+    errors.extend('original source drift: '+r['path'] for r in integrity['drift'])
     for letter,name in PACKAGES.items():
         current = package_progress(ctx,letter)
         if (not current or current.get('processed',0)!=current.get('total',-1)
@@ -300,6 +340,9 @@ def regenerate(ctx):
     scratch_root.mkdir(parents=True,exist_ok=True)
     scratch = Path(tempfile.mkdtemp(prefix='r2-source-regen-',dir=scratch_root))
     source_ctx = SimpleNamespace(root=ctx.root,inputs=ctx.inputs,out=scratch/'atlas')
+    print('Verifying original bytes against the unchanged round-1 source inventory',flush=True)
+    integrity=source_integrity(ctx)
+    if not integrity['passed']:raise RuntimeError('Original source drift: '+str(integrity['drift'][:10]))
     print('Rebuilding source dependency atlas in ignored scratch: '+str(source_ctx.out),flush=True)
     atlas.generate(source_ctx)
     print('Auditing freshly rebuilt original source indexes',flush=True)
@@ -311,7 +354,7 @@ def regenerate(ctx):
     # Frozen work identity is a generated historical input; current content
     # still rebuilds from source. Keep the initial Act 2 scope for retirement
     # dispositions when a malformed rule is recovered by the new parser.
-    for rel in ('STEP0.json','initial-inventory.json','act2/scope.json','act2/scope.md'):
+    for rel in ('STEP0.json','initial-inventory.json','natives/scope.json','natives/scope.md','act2/scope.json','act2/scope.md'):
         source=ctx.out/'r2'/rel
         if source.is_file():
             target=source_ctx.out/'r2'/rel

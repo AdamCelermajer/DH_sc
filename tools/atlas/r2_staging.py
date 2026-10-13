@@ -1087,9 +1087,15 @@ def _dry_preflight(ctx, selection_path, folder):
         sys.argv = old_argv
     if target.exists():
         raise RuntimeError(f'Stage preflight unexpectedly created its target: {target}')
-    return {'selection': selection_path.relative_to(ctx.root).as_posix(), 'passed': True,
+    base, _, _ = _manifest_catalog(ctx)
+    base_manifest = base / 'manifest.json'
+    return {'selection': 'coordination/atlas/' + selection_path.relative_to(ctx.out).as_posix(),
+            'selection_out_relative': selection_path.relative_to(ctx.out).as_posix(), 'passed': True,
             'target_created': False, 'stage_script': source_path.relative_to(ctx.root).as_posix(),
             'stage_script_sha256': source_hash,
+            'selection_sha256': _sha(selection_path),
+            'base_manifest': base_manifest.relative_to(ctx.inputs).as_posix(),
+            'base_manifest_sha256': _sha(base_manifest),
             'boundary': 'executed real stage_assets_v21_8.py main through all base/selection preflight checks, stopping before target.mkdir'}
 
 
@@ -1521,7 +1527,18 @@ def check(ctx):
     seen_selection = set()
     seen_destinations = set()
     selected_destinations = {}
+    selected_source_hashes = {}
     base, manifest, manifest_files = _manifest_catalog(ctx)
+    expected_selected = {}
+    for row in rows:
+        if row.get('classification') != 'ORIGINAL_EXISTS_NOT_STAGED':
+            continue
+        evidence = row.get('evidence') or {}
+        key = (str(evidence.get('source_root') or '').casefold(), _fold_path(evidence.get('source_relative')))
+        expected = (str(evidence.get('destination') or ''), str(evidence.get('sha256') or '').casefold(), evidence.get('size'))
+        if key in expected_selected and expected_selected[key] != expected:
+            errors.append(f'conflicting classified source evidence for selected path: {key}')
+        expected_selected[key] = expected
     for relative in progress.get('selection_files') or []:
         path = ctx.out / relative
         if not path.is_file():
@@ -1549,6 +1566,15 @@ def check(ctx):
                 src = ctx.inputs / selection['source_root'] / Path(rel)
                 if not src.is_file() or src.is_symlink():
                     errors.append(f'selection source is missing or not regular: {src}')
+                else:
+                    selected_source_hashes[key] = (_sha(src).casefold(), src.stat().st_size)
+                expected = expected_selected.get(key)
+                if expected is None:
+                    errors.append(f'selection contains a source with no ORIGINAL_EXISTS_NOT_STAGED classification: {key}')
+                elif dest != expected[0]:
+                    errors.append(f'selection destination differs from classified destination: {key}: {dest} != {expected[0]}')
+                elif src.is_file() and not src.is_symlink() and (selected_source_hashes.get(key) != (expected[1], expected[2])):
+                    errors.append(f'selection source bytes differ from classified SHA/size evidence: {key}')
     tests.append({'name': 'stage_selection_schema_unique_paths_and_new_destinations', 'files': len(progress.get('selection_files') or []), 'passed': not errors})
     unselected = []
     for row in rows:
@@ -1560,10 +1586,30 @@ def check(ctx):
             unselected.append((row.get('act'), row.get('reference_id'), key))
     if unselected:
         errors.append(f'original-present classification lacks an exact selection/destination: {unselected[:5]}')
+    unknown_classified_paths = sorted(set(expected_selected) - seen_selection)
+    if unknown_classified_paths:
+        errors.append(f'classified original-present paths missing from selections: {unknown_classified_paths[:5]}')
     tests.append({'name': 'every_original_present_gap_has_exact_selection', 'rows': sum(1 for r in rows if r.get('classification') == 'ORIGINAL_EXISTS_NOT_STAGED'),
                   'passed': not unselected})
     preflight = read_json(ctx.out / STAGING / 'preflight.json', {}) or {}
     checks = preflight.get('checks') or []
+    checks_by_selection = {c.get('selection_out_relative') or c.get('selection'): c for c in checks if c.get('selection_out_relative') or c.get('selection')}
+    for relative in progress.get('selection_files') or []:
+        selection_path = ctx.out / relative
+        receipt = checks_by_selection.get(relative)
+        if not receipt:
+            errors.append(f'no preflight receipt binds selection: {relative}')
+            continue
+        if not selection_path.is_file() or receipt.get('selection_sha256') != _sha(selection_path):
+            errors.append(f'preflight receipt selection hash mismatch: {relative}')
+        base_relative = preflight.get('staged2_manifest')
+        base_path = ctx.inputs / Path(str(base_relative or ''))
+        if (not base_path.is_file() or receipt.get('base_manifest') != base_relative or
+                receipt.get('base_manifest_sha256') != _sha(base_path)):
+            errors.append(f'preflight receipt base-manifest hash mismatch: {relative}')
+        stage_script = ctx.root / str(receipt.get('stage_script') or '')
+        if (not stage_script.is_file() or receipt.get('stage_script_sha256') != _sha(stage_script)):
+            errors.append(f'preflight receipt stage-script hash mismatch: {relative}')
     if len(checks) != len(progress.get('selection_files') or []) or any(not c.get('passed') or c.get('target_created') for c in checks):
         errors.append('stage_assets real-script scratch preflight missing, failed, or created output')
     if preflight.get('mutated_staged_or_base') is not False:

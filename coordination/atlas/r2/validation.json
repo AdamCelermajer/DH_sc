@@ -6,6 +6,12 @@
   "tests": [
     {
       "errors": [],
+      "expected": "reject",
+      "name": "original input write rejected before mutation",
+      "passed": true
+    },
+    {
+      "errors": [],
       "expected": "accept",
       "name": "valid native package accepted",
       "passed": true
@@ -82,10 +88,26 @@
     },
     {
       "errors": [
-        "initial dossier work row missing: 6b2f662bc32e54797884"
+        "initial dossier work row missing: 6b2f662bc32e54797884",
+        "sealed initial scope bytes changed: act2/scope.json"
       ],
       "expected": "reject",
       "name": "dropped initial dossier row rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "sealed initial scope bytes changed: act2/scope.json",
+        "sealed initial scope bytes changed: natives/scope.json"
+      ],
+      "expected": "reject",
+      "name": "changed frozen native scope rejected",
+      "passed": true
+    },
+    {
+      "errors": [],
+      "expected": "unresolved",
+      "name": "typed parent and diagnostic path cannot clear media gap",
       "passed": true
     }
   ]

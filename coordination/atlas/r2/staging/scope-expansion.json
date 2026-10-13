@@ -88838,7 +88838,7 @@
     "RESOLVED_STAGED": 54,
     "UNRESOLVED": 406
   },
-  "evidence_sha256": "21E239EEF903404E549A3F8BCD5EA8DD11B845AF0DB34C4AB4B1DE26CE90F83B",
+  "evidence_sha256": "C38BEBF5A994C73DB7EFC41C6297457602869B771DA3238B328A6620CFB05D26",
   "evidence_source": "r2/act2/scope-current.json",
   "initial_state": "TODO",
   "note": "Only references made reachable by Package C source-parse repairs are added; Step 0 remains immutable.",
@@ -225681,6 +225681,8 @@
   "source_parse_repairs": [
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "normalized_ForceBlock_case_variants",
       "scene": "004_root_den.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/004_root_den.rule.xml",
@@ -225688,6 +225690,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "006_basement.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
@@ -225695,6 +225699,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "normalized_ForceBlock_case_variants",
       "scene": "006_basement.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
@@ -225702,6 +225708,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
       "repairs": "removed_source_surplus_ForceBlock_close",
       "scene": "006_basement.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/006_basement.rule.xml",
@@ -225709,6 +225717,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "007_crypt_01.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/007_crypt_01.rule.xml",
@@ -225716,6 +225726,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "010_el_lightning.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/010_el_lightning.rule.xml",
@@ -225723,6 +225735,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "014_el_earth.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/014_el_earth.rule.xml",
@@ -225730,6 +225744,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "normalized_ForceBlock_case_variants",
       "scene": "019_light_house_02.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
@@ -225737,6 +225753,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
       "repairs": "removed_duplicate_trailing_root_closures",
       "scene": "019_light_house_02.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/019_light_house_02.rule.xml",
@@ -225744,6 +225762,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "020_crypt_02.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
@@ -225751,6 +225771,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "normalized_ForceBlock_case_variants",
       "scene": "020_crypt_02.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
@@ -225758,6 +225780,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "LIKELY",
+      "confidence_note": "Recovered tree association after narrow close-tag repair; authored attribute values remain separately evidenced.",
       "repairs": "removed_source_surplus_ForceBlock_close",
       "scene": "020_crypt_02.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/020_crypt_02.rule.xml",
@@ -225765,6 +225789,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "023_watertemple.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/023_watertemple.rule.xml",
@@ -225772,6 +225798,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "024_el_water.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/024_el_water.rule.xml",
@@ -225779,6 +225807,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "030_el_air.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/030_el_air.rule.xml",
@@ -225786,6 +225816,8 @@
     },
     {
       "claim_scope": "static_module_candidate_extraction",
+      "confidence": "PROVEN",
+      "confidence_note": "Lexical normalization preserves exact source attribute values.",
       "repairs": "quoted_unquoted_boolean_attributes",
       "scene": "032_el_fire.rule.xml",
       "source": ".local-inputs/assets-extra/android/data/scene/032_el_fire.rule.xml",

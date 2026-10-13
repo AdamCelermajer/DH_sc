@@ -74,13 +74,19 @@ The source-transition closure contains 39 scenes and 121 edges. It includes late
 | native:WarpBehind:PARTIAL | 38 |
 | native:Attack:PARTIAL | 37 |
 | native:GetHostPlayerLevel:PARTIAL | 37 |
-| native:ApplyBuff:REVIEW_REQUIRED | 31 |
-| native:CreateBuff:REVIEW_REQUIRED | 31 |
+| native:ApplyBuff:PARTIAL | 31 |
+| native:CreateBuff:PARTIAL | 31 |
 | native:HasPath:PARTIAL | 31 |
-| native:RemoveBuff:REVIEW_REQUIRED | 31 |
+| native:RemoveBuff:PARTIAL | 31 |
 | native:EnableCollisions:MISSING | 30 |
 
 The conservative playable-support metric is {'denominator': 234, 'numerator': 0, 'percent': 0.0}. Its denominator counts required per-level capabilities. Zero verified support here means this static investigation supplied no integrated runtime/visual proof; it does not assert every existing port feature fails.
+
+| Static inventory | Explicit denominator | Availability states |
+| --- | --- | --- |
+| Linked or candidate logical media paths | 535 | {"RESOLVED_STAGED": 33, "UNRESOLVED": 502} |
+| Extracted AI native call sites | 1680 | {"MISSING": 42, "PARTIAL": 562, "PORTED": 1076} |
+
 
 [Coverage and denominator](act2/coverage.md) · [Implementation ranking](act2/blocker-reach.md) · [Scope expansions and retained frontier records](act2/scope-expansion.json)
 
@@ -97,5 +103,7 @@ The conservative playable-support metric is {'denominator': 234, 'numerator': 0,
 Run `./tools/atlas/regen.ps1 --round2` from the atlas2 worktree. It rebuilds source indexes in ignored scratch storage, then regenerates round-2 artifacts. Run `./tools/atlas/atlas.ps1 check --round2` for scope, contract, classification, staging, evidence and original known-answer checks. A remaining TODO makes the final check fail.
 
 [Check receipt](check.json) · [Immutable initial scope](STEP0.json) · [Tracked-file-size recommendation](TRACKED-FILE-SIZES.md)
+
+[Original input integrity and exact recovery receipts](source-integrity.json): original bytes are checked against the unchanged round-1 inventory. Two accidentally overwritten inputs were restored from verified identical backups; output-path shadowing is fixed and source JSON writes are rejected before mutation.
 
 All new generated files must stay below 40,000,000 bytes. Existing oversized round-1 outputs are preserved. A separate cleanup should untrack or shard regenerable snapshots and address historical Git blobs before a future push. This round does not push or rewrite history.

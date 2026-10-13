@@ -1,6 +1,7 @@
 """Exercise atlas rejection branches on isolated output copies, never original assets."""
 from pathlib import Path
 from types import SimpleNamespace
+import hashlib
 import shutil
 import tempfile
 from common import read_json, write_json
@@ -12,9 +13,18 @@ def run(ctx):
     for rel in ('r2/natives','r2/staging'):
         shutil.copytree(ctx.out/rel,test.out/rel)
     for rel in ('README.md','data/calls.json','r2/package-a-progress.json','r2/package-b-progress.json',
-                'r2/package-c-progress.json','r2/initial-inventory.json','r2/questions.json','r2/tracked-size-baseline.json'):
+                'r2/package-c-progress.json','r2/initial-inventory.json','r2/questions.json','r2/tracked-size-baseline.json','r2/STEP0.json'):
         target=test.out/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ctx.out/rel,target)
     results=[]
+    source=ctx.inputs/'assets-extra/android/data/pydata/sounds_pyarraynames.bin'
+    before=hashlib.sha256(source.read_bytes()).hexdigest()
+    blocked=False
+    try:
+        write_json(source,{'invalid_source_write_fixture':True})
+    except ValueError:
+        blocked=True
+    results.append({'name':'original input write rejected before mutation','passed':blocked and before==hashlib.sha256(source.read_bytes()).hexdigest(),
+                    'expected':'reject','errors':[]})
     def verify(name,checker,needle=None,reject=False):
         result=checker(test)
         passed=(not result['passed'] and any(needle in e for e in result['errors'])) if reject else result['passed']
@@ -51,6 +61,17 @@ def run(ctx):
     p=test.out/'r2/package-c-progress.json';raw=p.read_bytes();c=read_json(p);c['rows'].pop(0);write_json(p,c)
     verify('dropped initial dossier row rejected',r2.retention_check,'initial dossier work row missing',True)
     p.write_bytes(raw)
+    scope=test.out/'r2/natives/scope.json';raw=scope.read_bytes();s=read_json(scope);s['state']='altered frozen metadata';write_json(scope,s)
+    verify('changed frozen native scope rejected',r2.retention_check,'sealed initial scope bytes changed',True)
+    scope.write_bytes(raw)
+    from r2_act2_dossier import _resource_stage_evidence
+    synthetic=[{'reference_id':'parent-key','kind':'model','name':'parent','classification':'NOT_NEEDED',
+                'reason':'typed key only','classification_act':'act_2_inferred','port_candidates':['data/actors/example.bdae']}]
+    resource={'profile':{'name':'parent'},'asset_candidates':[{'path':'data/actors/example.bdae'}]}
+    tested=_resource_stage_evidence(synthetic,'model',resource)
+    results.append({'name':'typed parent and diagnostic path cannot clear media gap',
+                    'passed':tested['status']=='UNRESOLVED' and tested['file_dependencies'][0]['status']=='UNRESOLVED',
+                    'expected':'unresolved','errors':[]})
     result={'schema':'atlas-r2-checker-rejection-v1','passed':all(r['passed'] for r in results),
             'tests':results,'source_mutation':False,'fixture_location':'ignored tools/atlas/.runtime scratch'}
     write_json(ctx.out/'r2/validation.json',result)
