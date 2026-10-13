@@ -110,7 +110,7 @@ public:
     static Structs::CharacterProperties s_temp;
     static std::vector<char*> s_propNames;
 
-private:
+public:
     // Per-sheet helpers. Property storage is at sheet + Structs::CharacterProperties::m_dataOffsets[id] + 4.
     int _GetProperty(const Structs::CharacterProperties& sheet, int propId) const;        // 0x3dedb4
     void _SetProperty(Structs::CharacterProperties& sheet, int propId, int value);        // 0x3deca0

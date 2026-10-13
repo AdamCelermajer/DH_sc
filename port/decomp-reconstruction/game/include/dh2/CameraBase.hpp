@@ -29,7 +29,7 @@ public:
 
     static CameraBase* s_activeCamera;                 // reset to null by the destructor of the active camera
 
-protected:
+public:
     // +0x00 vptr
     glitch::scene::ISceneNode* m_node;                 // +0x04 positioned through slots +0xa0/+0xa4 (Update of CameraTarget); reference counted, dropped in ~CameraBase
     glitch::scene::ICameraSceneNode* m_camera;         // +0x08 the glitch camera; reference counted, dropped in ~CameraBase

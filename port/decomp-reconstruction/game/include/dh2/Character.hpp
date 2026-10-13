@@ -325,12 +325,12 @@ public:
     const void* GetCharSkillList() const;                               // 0x3bc5fc
     int GetSkillIDFromOID(int oid) const;                               // 0x3bc62c
     const void* GetCharSkill(int skill) const;                          // 0x3bc784
-    void ResetSkills();                                                 // 0x3bc860
+    int ResetSkills();                                                  // 0x3bc860 (returns SG_Save(); 0 without a savegame)
     bool CanIncrementSkill(int skill);                                  // 0x3bc9ec
     bool IsSkillAvailable(int skill) const;                             // 0x3bca50
     bool IsSkillEquippable(int skill) const;                            // 0x3bca84
     bool IsSkillUsable(int skill);                                      // 0x3bcad8
-    void IncSkill(int skill, bool a);                                   // 0x3bcc58
+    bool IncSkill(int skill, bool a);                                   // 0x3bcc58 (true when a level was added, or when a is set and the skill could be raised)
     void VerifySpecialization();                                        // 0x3bd000
     void SetMP(int mp);                                                 // 0x3bd0c0
     void SetHP(int hp);                                                 // 0x3bd0d0
@@ -342,8 +342,8 @@ public:
     int ValidateHPMP();                                                 // 0x3bd140 (Hex-Rays int; tail-called by the equip wrappers)
     void ResetStatsChange(int a, int b, int c, int d);                  // 0x3bd1cc
     void ResetStats();                                                  // 0x3bd26c
-    int GetHPPercent() const;                                           // 0x3bd2dc
-    int GetMPPercent() const;                                           // 0x3bd338
+    float GetHPPercent() const;                                         // 0x3bd2dc (float in the binary: __aeabi_fdiv)
+    float GetMPPercent() const;                                         // 0x3bd338 (float in the binary: __aeabi_fdiv)
     float GetEffectiveThreatPerDamage() const;                          // 0x3bd394
     float GetEffectiveThreatPerHeal() const;                            // 0x3bd3bc
     float GetEffectiveThreatPerDamageToFriendly() const;                // 0x3bd3e4
@@ -406,7 +406,7 @@ public:
     void SG_SetSkillInSlot(int, unsigned int);  // 0x3bbe54
     int SG_GetSkillInSlot(int);  // 0x3bbe68
     int SG_GetSkillSlot(unsigned int);  // 0x3bbe84
-    bool SG_HasSkillSlots();  // 0x3bbea0
+    int SG_HasSkillSlots();  // 0x3bbea0 (-1 without a savegame; the original's return type is int)
     void SG_SetSkillLevel(unsigned int, int);  // 0x3bbebc
     int SG_GetSkillLevel(unsigned int) const;  // 0x3bbed0
     int SG_GetSkillId(unsigned int);  // 0x3bbeec
@@ -414,7 +414,7 @@ public:
     void SG_SetCurrentAct(int, int);  // 0x3bbf40
     void SG_SetCurrentPrimaryQuest(int, int);  // 0x3bbfbc
     void SG_SetCurrentQuest(int, int);  // 0x3bc01c
-    bool SG_NeedToResendQuestSyncMsg();  // 0x3bc07c
+    void SG_NeedToResendQuestSyncMsg();  // 0x3bc07c (no return value on any path; the caller ignores it)
     void SG_DBG_TraceDetailedQuestInformation(__sFILE*, int, int);  // 0x3bc1dc
     Quest* SG_GetNextQuest(bool (*cb)(Quest const*), int, int);  // 0x3bc228
     Quest* SG_GetQuestByName(char const*, int);  // 0x3bc274
@@ -422,13 +422,13 @@ public:
     Quest* SG_GetQuestByID(int, int);  // 0x3bc2f8
     int SG_GetNumQuests(bool (*cb)(Quest const*), int);  // 0x3bc33c
     int SG_GetNumQuests(int);  // 0x3bc37c
-    Quest* SG_GetCurrentPrimaryQuest(int);  // 0x3bc400
-    Quest* SG_GetCurrentQuest(int);  // 0x3bc440
-    void SG_Update(bool);  // 0x3bc480
+    int SG_GetCurrentPrimaryQuest(int);  // 0x3bc400 (PlayerSavegame returns int; -1 without a savegame)
+    int SG_GetCurrentQuest(int);  // 0x3bc440 (PlayerSavegame returns int; -1 without a savegame)
+    int SG_Update(bool);  // 0x3bc480 (PlayerSavegame::SG_Update result; 0 without a savegame)
     void SG_SaveCheckpoint();  // 0x3bc494
-    void SG_Save();  // 0x3bc4a8
+    int SG_Save();  // 0x3bc4a8 (PlayerSavegame::SG_Save result; 0 without a savegame)
     void SG_LoadCheckpoint(int);  // 0x3bc4bc
-    void SG_Load(int);  // 0x3bc4d0
+    int SG_Load(int);  // 0x3bc4d0 (PlayerSavegame::SG_Load result; 0 without a savegame)
     static void _ClearMaster(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* userData);  // 0x3b5678
     static void _LookAtTarget(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* userData);  // 0x3b5684
     static void _ClearTarget(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* userData);  // 0x3b5690

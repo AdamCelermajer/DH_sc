@@ -17,7 +17,7 @@ public:
 
     void AddProperty(const char* key, const char* value);               // 0x318e18: m_properties[key] = value
 
-private:
+public:
     void _ParseProperties(const char* props);                           // 0x31903c: splits on '\n' and parses each line; asserts when props is null
     void _ParseLine(char* line);                                        // 0x318fe4: splits at the first '='; a line without one is parsed as a key alone
     void _ParseKeyValue(char* key, char* value);                        // 0x318e5c: finds the key token, NUL-terminates it, unwraps a "%22" quoted value, then AddProperty

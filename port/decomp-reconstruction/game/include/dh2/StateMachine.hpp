@@ -40,7 +40,7 @@ public:
     void Sleep();                                      // 0x33a17c (calls slot +0x24 of every state, top first)
     void WakeUp();                                     // 0x33a1b4 (calls slot +0x28 of every state, bottom first)
 
-private:
+public:
     void _pushState(StateInfo& info);                  // 0x33a590
     void _popState(StateInfo* info);                   // 0x339f20
     void _popAllState();                               // 0x339fe0

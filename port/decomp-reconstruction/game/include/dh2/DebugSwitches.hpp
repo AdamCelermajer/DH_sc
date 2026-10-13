@@ -29,7 +29,7 @@ public:
     void load();                                                    // 0x337888
     void save();                                                    // 0x337d54
 
-private:
+public:
     void _loadSwitches(IStreamBase* stream);                        // 0x3374e4
     void _saveSwitches(IStreamBase* stream);                        // 0x337b4c
 

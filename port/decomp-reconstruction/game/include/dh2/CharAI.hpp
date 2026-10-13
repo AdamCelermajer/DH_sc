@@ -194,7 +194,7 @@ public:
     static int s_stepAvailableStep;
     static std::map<std::pair<std::string, int>, GroupInfo> s_groups;
 
-private:
+public:
     void _UpdatePointers();                       // 0x3cb34c
     int _UpdateRegen();                           // 0x3cb77c (returns the IsRemotelyUpdated result)
     int _UpdateTarget();                          // 0x3cb908 (returns the last event result)

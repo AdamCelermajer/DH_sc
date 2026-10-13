@@ -26,7 +26,7 @@ public:
     bool HandleDamping(Point3D<float>& position);      // 0x41165c
     bool HandleTransition();                           // 0x411830 true while a transition is running
 
-protected:
+public:
     // +0x00 CameraBase: vptr, +0x04 m_node, +0x08 m_camera
     GameObject* m_target;                              // +0x0c
     Point3D<float> m_transitionFrom;                   // +0x10 camera anchor position when the transition started

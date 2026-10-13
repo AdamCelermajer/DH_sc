@@ -77,7 +77,7 @@ public:
     int SM_SetInteractState(int interactKind, bool flag, void* target, bool immediate);  // 0x3c64ac
     int SM_SetSkillState(unsigned int skillId, bool flag, void* data, bool immediate);   // 0x3c6670
 
-private:
+public:
     bool _HasState(int stateId) const;            // 0x3c0084
     bool _HasEvent(int stateId, int eventId) const;  // 0x3c00e0
     StateInfo* _GetState(int stateId);            // 0x3c184c

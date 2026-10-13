@@ -33,6 +33,6 @@ public:
 
     // +0x3c: gameswf root pointer; +0x40: current context character; +0x58/+0x80/+0xa8/+0xd0:
     // RenderFX::Controller (4 of them, reset in MenuFX::Unload); +0x68: focus; +0xf8: flags word.
-protected:
+public:
     uint8_t pad_04[0xfc];  // +0x04, up to the original size 0x100
 };

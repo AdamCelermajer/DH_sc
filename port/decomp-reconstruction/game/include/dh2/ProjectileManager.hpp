@@ -43,7 +43,7 @@ public:
                       void* userData, bool unkFlag);                    // 0x3e701c (bool overload)
     void PreCache();                                                // 0x3e71cc: fills both pools to ten entries and despawns each
 
-private:
+public:
     Projectile* _Create(bool laser, bool second);                   // 0x3e693c: makes a projectile and adds it to a pool (second flag not named yet)
 
     // Raw three-word buffer at +0x04 .. +0x0f. The destructor frees the begin pointer.

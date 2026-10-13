@@ -85,6 +85,9 @@ glitch render backend exists. Game code may include `lua.h`, `Box2D.h` and `game
    `ByteArray` owns its buffer.
 7. The pydata generated headers are hand-maintained source. `gen_structs.py` and `gen_script_cmd.py` are retired.
 8. Claimed by Track A means nothing in Track B. Every row is ledgered on its own evidence.
+9. Access specifiers are not recoverable from the binary, and the original code reads other classes'
+   fields directly (for example `Character` reads `CharAI` +0x40). Game class members are `public`. Do not
+   add `private:` or `protected:` to game headers, and do not add getters only to get around access.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

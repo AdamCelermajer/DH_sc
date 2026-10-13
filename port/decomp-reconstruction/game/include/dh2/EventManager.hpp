@@ -37,7 +37,7 @@ public:
     void Update(double dt);                            // 0x33900c raises and deletes the queued events
     void Flush();                                      // 0x3384ac
 
-protected:
+public:
     // +0x00 vptr
     // +0x04 unused (alignment of the map header)
     std::map<int, std::list<ReceiverInfo>> m_receivers;  // +0x08 header, +0x18 node count (24 bytes)

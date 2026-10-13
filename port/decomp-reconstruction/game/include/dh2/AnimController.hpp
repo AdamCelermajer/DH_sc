@@ -45,7 +45,7 @@ public:
 
     static bool s_scalingEnabled;                      // gates SetScale
 
-protected:
+public:
     // +0x00 vptr
     RootSceneNode* m_node;                             // +0x04 reference counted (RootSceneNode is a glitch scene node)
 };

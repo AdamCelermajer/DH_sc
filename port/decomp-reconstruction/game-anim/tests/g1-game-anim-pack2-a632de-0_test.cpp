@@ -1,0 +1,185 @@
+// Test for the v2PS3MoveController functions of batch g1-game-anim-pack2-a632de-0 that run without the engine: the
+// constructor's stored fields, the destructor through a base pointer, and the Update exits (no gamepad, no connected
+// pad, and a released pad, which issues no command). The symbols that other batches own (the v2Controller base, the
+// Cmd_* forwards, the InputManager and DebugSwitches accessors, the target search and the Character queries) are
+// test-only definitions below, so the batch source links with this test alone. Returns non-zero on failure.
+#include <cstdio>
+#include <string>
+#include <vector>
+
+#include "dh2/Character.hpp"
+#include "dh2/CharAI.hpp"
+#include "dh2/CharStateMachine.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/InputManager.hpp"
+#include "dh2/ObjectSearcher.hpp"
+#include "dh2/v2Controllable.hpp"
+#include "dh2/v2PS3MoveController.hpp"
+
+// Engine assert level (core-platform/src/memory.cpp). Zero: the null-controllable assert prints nothing.
+int gAssertLevel = 0;
+
+namespace {
+
+int g_failures = 0;
+std::vector<std::string> g_log;  // records every Cmd_* the stubs receive
+int g_numGamepads = 0;
+Gamepad* g_firstPad = nullptr;
+int g_padMarker = 0;  // any non-null address serves as a connected pad; it is never dereferenced
+
+#define EXPECT(cond)                                                              \
+    do {                                                                          \
+        if (!(cond)) {                                                            \
+            std::printf("FAIL line %d: %s\n", __LINE__, #cond);                   \
+            ++g_failures;                                                         \
+        }                                                                         \
+    } while (0)
+
+void ResetStubs() {
+    g_log.clear();
+    g_numGamepads = 0;
+    g_firstPad = nullptr;
+}
+
+}  // namespace
+
+// ---- Test-only definitions of code owned by other batches ----
+
+v2Controller::v2Controller(v2Controllable* controllable)
+    : m_controllable(controllable), m_blocked(false), unk_009(false), unk_00a(false), m_character(nullptr) {}
+
+v2Controller::~v2Controller() {}
+
+void v2Controller::Update() {}
+
+void v2Controller::Cmd_Attack(GameObject*) { g_log.push_back("Attack"); }
+void v2Controller::Cmd_UseOOI(GameObject*) { g_log.push_back("UseOOI"); }
+void v2Controller::Cmd_HeadTo(const Point3D<float>&) { g_log.push_back("HeadTo"); }
+void v2Controller::Cmd_EndSkill(unsigned int) { g_log.push_back("EndSkill"); }
+void v2Controller::Cmd_BeginSkill(unsigned int) { g_log.push_back("BeginSkill"); }
+void v2Controller::Cmd_BeginCast(bool) { g_log.push_back("BeginCast"); }
+void v2Controller::Cmd_EndCast(bool) { g_log.push_back("EndCast"); }
+void v2Controller::Cmd_UsePotion() { g_log.push_back("UsePotion"); }
+void v2Controller::Cmd_OpenIGM() { g_log.push_back("OpenIGM"); }
+void v2Controller::Cmd_Stop() { g_log.push_back("Stop"); }
+
+// The stubs ignore `this`. Update reaches InputManager only through these calls (GetGamepad is virtual and is never
+// reached here, because every test uses index -1 or no gamepad).
+InputManager* InputManager::GetInstance() { return nullptr; }
+int InputManager::GetNumGamepads() const { return g_numGamepads; }
+Gamepad* InputManager::GetFirstConnectedGamepad() { return g_firstPad; }
+
+// Never reached: every pad control reads as released, so no debug switch is queried.
+DebugSwitches* DebugSwitches::GetInstance() { return nullptr; }
+void DebugSwitches::load() {}
+bool DebugSwitches::GetSwitch(const std::string&) { return false; }
+
+int Character::SG_GetSkillInSlot(int) { return -1; }
+bool CharAI::AI_CanAttack(GameObject*) const { return false; }
+bool CharStateMachine::SM_IsInteracting() const { return false; }
+
+ObjectSearcher::TargetList::TargetList(GameObject*, int, int, int) {}
+ObjectSearcher::TargetList::~TargetList() {}
+void ObjectSearcher::TargetList::Search(const Point3D<float>&, float, float, ObjectSearcher::IObjectList&) {}
+// Reached through the TargetList members' default construction and destruction (the default sorter and the backup map).
+bool ObjectSearcher::TargetSorter::_sortNoSort(const ObjectSearcher::TargetInfo&, const ObjectSearcher::TargetInfo&) {
+    return false;
+}
+// The IObjectList base destructor is needed by the BackupObjectList destructor below (and by the vtable of every
+// IObjectList subclass). The sibling test g1-game-world-ObjectSearcher-3d104b-1_test.cpp defines it the same way.
+ObjectSearcher::IObjectList::~IObjectList() {}
+// The BackupObjectList vtable is emitted with its destructor, so its virtual slots need definitions too.
+ObjectSearcher::BackupObjectList::~BackupObjectList() {}
+void ObjectSearcher::BackupObjectList::Reset() {}
+bool ObjectSearcher::BackupObjectList::AtEnd() { return true; }
+void ObjectSearcher::BackupObjectList::Next() {}
+int ObjectSearcher::BackupObjectList::Size() { return 0; }
+GameObject* ObjectSearcher::BackupObjectList::Get() { return nullptr; }
+Character* ObjectSearcher::BackupObjectList::GetChar() { return nullptr; }
+
+namespace {
+
+// The constructor stores the controllable and the gamepad index, and zeroes the three words it owns.
+void TestConstructorStoresFields() {
+    ResetStubs();
+    int dummyController = 0;
+    v2Controllable* controllable = reinterpret_cast<v2Controllable*>(&dummyController);
+    v2PS3MoveController controller(controllable, 2);
+    EXPECT(controller.m_controllable == controllable);
+    EXPECT(controller.m_gamepadIndex == 2);
+    EXPECT(controller.unk_14 == 0 && controller.unk_18 == 0 && controller.unk_1c == 0);
+    EXPECT(controller.m_character == nullptr);
+    EXPECT(!controller.m_blocked && !controller.unk_009 && !controller.unk_00a);
+
+    v2PS3MoveController firstConnected(controllable, -1);
+    EXPECT(firstConnected.m_gamepadIndex == -1);
+}
+
+// A null controllable is accepted at assert level 0, and the gamepad index is still stored.
+void TestConstructorNullControllableLevelZero() {
+    ResetStubs();
+    v2PS3MoveController controller(nullptr, 3);
+    EXPECT(controller.m_controllable == nullptr);
+    EXPECT(controller.m_gamepadIndex == 3);
+}
+
+// With no gamepads, Update returns before it reads any control, so nothing is issued.
+void TestUpdateWithoutGamepads() {
+    ResetStubs();
+    int dummyController = 0;
+    v2PS3MoveController controller(reinterpret_cast<v2Controllable*>(&dummyController), -1);
+    g_numGamepads = 0;
+    controller.Update();
+    EXPECT(g_log.empty());
+}
+
+// With a gamepad index that is not connected (index -1 and no first connected pad), Update returns early.
+void TestUpdateWithoutConnectedPad() {
+    ResetStubs();
+    int dummyController = 0;
+    v2PS3MoveController controller(reinterpret_cast<v2Controllable*>(&dummyController), -1);
+    g_numGamepads = 1;
+    g_firstPad = nullptr;
+    controller.Update();
+    EXPECT(g_log.empty());
+}
+
+// A connected, released pad: every control reads as released with no latch, so Update issues no command.
+void TestUpdateReleasedPadIssuesNothing() {
+    ResetStubs();
+    int dummyController = 0;
+    v2PS3MoveController controller(reinterpret_cast<v2Controllable*>(&dummyController), -1);
+    g_numGamepads = 1;
+    g_firstPad = reinterpret_cast<Gamepad*>(&g_padMarker);
+    controller.Update();
+    EXPECT(g_log.empty());
+}
+
+// Update is virtual: a call through a v2Controller pointer reaches the override, and deleting through the base runs the
+// destructor chain without a leak or crash.
+void TestVirtualUpdateAndDeleteThroughBase() {
+    ResetStubs();
+    int dummyController = 0;
+    v2Controller* base = new v2PS3MoveController(reinterpret_cast<v2Controllable*>(&dummyController), -1);
+    g_numGamepads = 0;
+    base->Update();
+    EXPECT(g_log.empty());
+    delete base;
+}
+
+}  // namespace
+
+int main() {
+    TestConstructorStoresFields();
+    TestConstructorNullControllableLevelZero();
+    TestUpdateWithoutGamepads();
+    TestUpdateWithoutConnectedPad();
+    TestUpdateReleasedPadIssuesNothing();
+    TestVirtualUpdateAndDeleteThroughBase();
+    if (g_failures != 0) {
+        std::printf("g1-game-anim-pack2-a632de-0 test: %d failure(s)\n", g_failures);
+        return 1;
+    }
+    std::printf("g1-game-anim-pack2-a632de-0 test: all checks passed\n");
+    return 0;
+}

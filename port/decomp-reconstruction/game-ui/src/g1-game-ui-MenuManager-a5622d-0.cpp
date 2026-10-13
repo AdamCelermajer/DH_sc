@@ -1,0 +1,210 @@
+// MenuManager bodies, batch g1-game-ui-MenuManager-a5622d-0 (part 1 of 3): the instance accessor, the menu list
+// queries, the root and camera getters, the event helpers and the debug draw. Rebuilt from the Hex-Rays pseudocode of
+// libDungeonHunter2.so and checked against the ARM assembly where the pseudocode is unclear.
+// Offsets in comments are the original 32-bit ARM offsets (see dh2/MenuManager.hpp).
+//
+// Facts shared by the functions:
+//   - The menu list is MenuManager::m_menus (original begin +0x64, end +0x68, 4-byte elements). Its count is
+//     m_menus.size(), the original (end - begin) >> 2.
+//   - A menu's name is the inline MenuFX::State::m_name at +0x08 of the MenuBase object (strcmp'd by the original).
+//   - dword_99F780 is Singleton<Application>::s_inst +0x54, which is Application::m_menuManager. The singleton is
+//     reached through ApplicationGetInstance() (dh2/global/ctrl_camera.hpp).
+//   - m_multiMenuManager (+0xf4) is a MultiMenuManager. dh2/MultiMenuManager.hpp is not in the tree, so every
+//     function that reads its menu-FX or camera slots is PARTIAL.
+//   - RenderFX::Event is only forward-declared (dh2/RenderFX.hpp is a placeholder), and IEvent has no header, so the
+//     event fields are not named here.
+
+#include <cstddef>
+#include <cstring>
+
+#include "dh2/Application.hpp"
+#include "dh2/HUDControls.hpp"
+#include "dh2/MenuBase.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuFlash2DCamera.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+
+// 0x42ca8c _ZN11MenuManager11GetInstanceEv
+// Returns dword_99F780, the Application::m_menuManager field (Application +0x54). The Application singleton is the
+// one ApplicationGetInstance() returns. The accessor is declared there and defined by the integrator.
+MenuManager* MenuManager::GetInstance() {
+    return ApplicationGetInstance().m_menuManager;
+}
+
+// 0x42caac _ZN11MenuManager17SetCursorPositionEff
+// Empty in the original (bx lr).
+void MenuManager::SetCursorPosition(float /*x*/, float /*y*/) {
+}
+
+// 0x42cab0 _ZN11MenuManager21ForceAllTextureToVRamEv
+// Empty in the original (bx lr).
+void MenuManager::ForceAllTextureToVRam() {
+}
+
+// 0x42cab4 _ZN11MenuManager13UnloadSWFFileEi
+// Unloads the legacy movie in slot index. The original calls Unload() on m_swfFiles[index] with no null check,
+// deletes that MenuFX when it is still set (re-read after the call), clears the slot, then deletes the camera in
+// m_cameras[index] when set and clears its slot. The index is not checked against the four slots, as in the original.
+// The original's int result (the last call's r0) is dropped for the void signature.
+void MenuManager::UnloadSWFFile(int index) {
+    m_swfFiles[index]->Unload();
+    MenuFX* fx = m_swfFiles[index];
+    if (fx) {
+        delete fx;
+    }
+    m_swfFiles[index] = nullptr;
+    MenuFlash2DCamera* camera = m_cameras[index];
+    if (camera) {
+        delete camera;
+    }
+    m_cameras[index] = nullptr;
+}
+
+// 0x42cb38 _ZNK11MenuManager11GetNumMenusEv
+// (end - begin) >> 2 of the menu list.
+int MenuManager::GetNumMenus() const {
+    return static_cast<int>(m_menus.size());
+}
+
+// 0x42cb4c _ZN11MenuManager11GetMenuByIDEi
+// Returns the menu at index id, or null when id is negative or not below GetNumMenus().
+MenuBase* MenuManager::GetMenuByID(int id) {
+    if (id < 0 || id >= GetNumMenus()) {
+        return nullptr;
+    }
+    return m_menus[static_cast<std::size_t>(id)];
+}
+
+// 0x42cb80 _ZN11MenuManager7GetRootEv
+// PARTIAL: the original returns m_multiMenuManager->m_menuFX[2] (multi-menu +0x13c). dh2/MultiMenuManager.hpp is not
+// in the tree, so the field cannot be named and the function returns null. Waits on dh2/MultiMenuManager.hpp.
+MenuFX* MenuManager::GetRoot() {
+    return nullptr;  // PARTIAL: return m_multiMenuManager->m_menuFX[2]; (see above)
+}
+
+// 0x42cb8c _ZN11MenuManager10GetHUDRootEv
+// PARTIAL: the original returns m_multiMenuManager->m_menuFX[3] (multi-menu +0x140). Waits on dh2/MultiMenuManager.hpp.
+MenuFX* MenuManager::GetHUDRoot() {
+    return nullptr;  // PARTIAL: return m_multiMenuManager->m_menuFX[3]; (see above)
+}
+
+// 0x42cb98 _ZN11MenuManager13GetRootCameraEv
+// PARTIAL: the original returns the camera word at m_multiMenuManager +0x14c. Waits on dh2/MultiMenuManager.hpp.
+MenuFlash2DCamera* MenuManager::GetRootCamera() {
+    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x14c>; (see above)
+}
+
+// 0x42cba4 _ZN11MenuManager16GetHUDRootCameraEv
+// PARTIAL: the original returns the camera word at m_multiMenuManager +0x150. Waits on dh2/MultiMenuManager.hpp.
+MenuFlash2DCamera* MenuManager::GetHUDRootCamera() {
+    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x150>; (see above)
+}
+
+// 0x42cbb0 _ZN11MenuManager14GetRootCamera2Ev
+// PARTIAL: reads the same multi-menu word as GetRootCamera (+0x14c). Waits on dh2/MultiMenuManager.hpp.
+MenuFlash2DCamera* MenuManager::GetRootCamera2() {
+    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x14c>; (see above)
+}
+
+// 0x42cbbc _ZNK11MenuManager26GetRawCurrentEventPositionERiS0_
+// PARTIAL: with m_currentEvent null the original writes nothing, and that case is done here. With an event set, the
+// original calls the event's vtable slot +0x08 and writes the event's int16 x (+0x08) and y (+0x0a) when that value
+// is 4, or when a second call of the same slot returns 5, and writes 0 to both otherwise. IEvent has no header in the
+// tree, so the type test and the position reads are not written, and x and y are left as they were.
+void MenuManager::GetRawCurrentEventPosition(int& /*x*/, int& /*y*/) const {
+    if (m_currentEvent == nullptr) {
+        return;
+    }
+    // PARTIAL: event-type test and position reads need IEvent's layout (see above).
+}
+
+// 0x42cc34 _ZN11MenuManager12consumeEventEv
+// Sets m_eventConsumed (+0xac) to 1.
+void MenuManager::consumeEvent() {
+    m_eventConsumed = 1;
+}
+
+// 0x42cc48 _ZN11MenuManager14CanHandleEventERN8RenderFX5EventE
+// Always true in the original (mov r0, #1).
+bool MenuManager::CanHandleEvent(RenderFX::Event& /*e*/) {
+    return true;
+}
+
+// 0x42cf68 _ZN11MenuManager11mySendEventEPcN8RenderFX9EventTypeE
+// PARTIAL: the original scans the four RenderFX slots of the multi-menu manager (multi +0x134..+0x143, m_menuFX[0..3])
+// for the first one where RenderFX::Find(slot, characterPath) returns a target. It then fills a RenderFX::Event
+// (target at +0x00, name pointer at +0x04, the type at +0x08, fields +0x0c..+0x25 zeroed; the name is read from the
+// target's string at +0x44, whose tag byte -1 selects the pointer at +0x0c and otherwise the inline text at +0x01),
+// sends it with RenderFX::SendEvent and returns 1. It returns 0 when no slot finds the target.
+// Not written: dh2/MultiMenuManager.hpp is absent, RenderFX::Find and RenderFX::SendEvent are not declared, and
+// RenderFX::Event has no layout in dh2/RenderFX.hpp. Waits on dh2/MultiMenuManager.hpp and on the RenderFX layout.
+bool MenuManager::mySendEvent(char* /*characterPath*/, RenderFX::EventType /*type*/) {
+    return false;  // PARTIAL: the send path is not written (see above).
+}
+
+// 0x42d060 _ZN11MenuManager7OnEventERN8RenderFX5EventE
+// PARTIAL: the original does two things. (1) When the event type is 6 and its name contains "btn_MENU_CONTINUE", it
+// sets the global lastOpenMenuID (ELF 0x9f63fc) to 9. (2) It forwards the event to HUDControls::GetInstance() through
+// vtable slot +0x0c (HUDControls::OnEvent), then to the HUD root menu (multi-menu +0x140, m_menuFX[3]) through
+// MenuFX::OnEvent (vtable slot +0x18). Written: the HUDControls forward. Not written: step (1), since RenderFX::Event has
+// no declared layout and lastOpenMenuID is not declared, and the HUD-root forward, which waits on
+// dh2/MultiMenuManager.hpp.
+void MenuManager::OnEvent(RenderFX::Event& e) {
+    HUDControls::GetInstance()->OnEvent(e);
+    // PARTIAL: btn_MENU_CONTINUE check (step 1) and HUD-root forward (step 2b) are not written; see above.
+}
+
+// 0x42d0ec _ZNK11MenuManager19DBG_Draw2DDeadZonesEv
+// Calls DBG_Draw2DDeadZones (vtable slot +0x48) on each visible menu, in list order. The count is taken once, as the
+// original does.
+void MenuManager::DBG_Draw2DDeadZones() const {
+    const std::size_t count = m_menus.size();
+    for (std::size_t i = 0; i < count; ++i) {
+        MenuBase* menu = m_menus[i];
+        if (menu->IsVisible()) {
+            menu->DBG_Draw2DDeadZones();
+        }
+    }
+}
+
+// 0x42d150 _ZNK11MenuManager14HasVisibleMenuEv
+// True when some menu in the list is visible.
+bool MenuManager::HasVisibleMenu() const {
+    const std::size_t count = m_menus.size();
+    for (std::size_t i = 0; i < count; ++i) {
+        if (m_menus[i]->IsVisible()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x42d19c _ZN11MenuManager12GetMenuBelowEPKc
+// Returns the menu directly below the menu called name: the element before the first later element whose name matches.
+// Nothing is returned when the list holds fewer than two menus.
+// PARTIAL: the original's loop runs one step past the last menu. On that last pass it reads the slot after the end of
+// m_menus (uninitialised vector storage) as the name owner, and could return a menu from there. That read is undefined
+// in the original and is not made here, so the last menu is never the match.
+MenuBase* MenuManager::GetMenuBelow(const char* name) {
+    const std::size_t count = m_menus.size();
+    if (count > 1) {
+        for (std::size_t i = 0; i + 1 < count; ++i) {
+            if (std::strcmp(name, m_menus[i + 1]->m_name) == 0) {
+                return m_menus[i];
+            }
+        }
+    }
+    return nullptr;
+}
+
+// 0x42d1f0 _ZN11MenuManager13GetMenuByNameEPKc
+// Returns the first menu in the list whose name equals name, or null.
+MenuBase* MenuManager::GetMenuByName(const char* name) {
+    for (MenuBase* menu : m_menus) {
+        if (std::strcmp(name, menu->m_name) == 0) {
+            return menu;
+        }
+    }
+    return nullptr;
+}

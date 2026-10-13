@@ -59,7 +59,7 @@ public:
     void ANIM_Set(int animId);                    // 0x3cacb0
     void ANIM_Swap(int newAnimId, int oldAnimId); // 0x3caccc
 
-private:
+public:
     bool _PlayItemSwooshSFX(ItemInstance* item);  // 0x3c94b8
     bool _PlayItemSwooshFX(ItemInstance* item, bool attached);  // 0x3c955c
     void _CompileAnimSet();                       // 0x3c9b7c

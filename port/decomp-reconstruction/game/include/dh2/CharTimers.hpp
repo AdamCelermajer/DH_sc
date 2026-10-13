@@ -49,7 +49,7 @@ public:
     void TMR_StopAll();                          // 0x3db2f8
     bool TMR_TimeLeft(unsigned int id, unsigned int& elapsed, unsigned int& interval) const;  // 0x3db344
 
-private:
+public:
     _Timer* _findTimerSlot();                    // 0x3dbd70
 
     // _vptr                                     // +0x00

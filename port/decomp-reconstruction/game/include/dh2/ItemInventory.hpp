@@ -128,7 +128,7 @@ public:
     // Quest gathering bookkeeping (defined in a separate, later part of the binary)
     void UnregisterQuestGatheringItemId(int itemId);  // 0x47d5fc
 
-private:
+public:
     int _AddItemInstance(ItemInstance* item, bool stack, bool convertGold);  // 0x3ff5d4
     void _DelItemInstance(ItemInstance* item);    // 0x3fe7d8
     int _HasItemInstanceLike(const ItemInstance* item, unsigned int& idx);   // 0x3fe1cc

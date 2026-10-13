@@ -65,7 +65,7 @@ public:
     int getLanguage() const;                                            // 0x46d514: "Language" option (device language when -1), else m_language
     void setLanguage(int language);                                     // 0x46d104: sets the "Language" option, refreshes item and character text, then switches the string pack
 
-private:
+public:
     void _initSettings(bool languageOnly);                              // 0x46e47c: clears m_options; fills it from Arrays::GameOptionTable unless languageOnly; sets the 14 tutorial flags
 
     // vptr                                                             // +0x00

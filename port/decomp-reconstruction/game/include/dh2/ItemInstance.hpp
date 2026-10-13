@@ -58,7 +58,7 @@ public:
     int GetColor(int powerCount);                                       // 0x3fa6dc
     int GetColor() const;                                               // 0x3fa710
 
-private:
+public:
     void _UpdateName();                                                 // 0x3fb754 rebuilds m_name from the row
     void _UpdateStats();                                                // 0x3fb290 rebuilds m_stats from the row
     void _UpdateReqs();                                                 // 0x3facdc rebuilds m_requirements from the row

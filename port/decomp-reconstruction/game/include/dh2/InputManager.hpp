@@ -29,7 +29,7 @@ public:
     static glitch::IEventReceiver* GetReceiver();      // 0x34db1c lazily creates the 0x118-byte key-state receiver
     static InputManager* GetInstance();                // 0x34dda4 lazily creates the InputManagerWin32
 
-protected:
+public:
     // +0x00 vptr
     int m_numMouses;                                   // +0x04
     int m_numKeyboards;                                // +0x08

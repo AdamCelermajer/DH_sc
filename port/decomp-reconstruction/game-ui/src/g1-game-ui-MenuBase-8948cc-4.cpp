@@ -1,0 +1,399 @@
+// MenuBase bodies, batch g1-game-ui-MenuBase-8948cc-4 (part 5 of 5 of MenuBase): the constructor (both copies), the
+// FSCommand registry (RegisterFSCommand, MyFSCommand), Show and Hide, the slide and drag-and-drop passes, and the
+// FSCommand handlers FS_GotoFrame through FS_StopDialog. Rebuilt from the Hex-Rays pseudocode of libDungeonHunter2.so.
+// Offsets in comments are the original 32-bit ARM offsets. Partial functions say in their comment which part is missing.
+//
+// Facts shared by these bodies:
+//   - Singleton<Application>::s_inst (0x99f72c) is reached through ApplicationGetInstance() (dh2/global/ctrl_camera.hpp).
+//     Its fields used here are dword_99F760 = m_stringManager (+0x34), dword_99F76C = m_playerManager (+0x40) and
+//     dword_99F778 = m_savegameManager (+0x4c). byte_99F818 is Application +0xec, which Application.hpp holds only as
+//     pad_ec[0] (not named), so the stores to it are PARTIAL.
+//   - Most bodies first run the trace read "isTracingMenuBase": DebugSwitches::load, then GetSwitch with the value
+//     discarded. DebugSwitches::s_inst is private, so DebugSwitches::GetInstance() (0x330740) supplies the object.
+//   - The original's a3[1] (State +0x04, the owning MenuFX) is m_menu. RenderFX.hpp is a placeholder: it declares none of
+//     Find, FindCharacters, SetMember, FormatHTML, InvokeASCallback or PlayAnim, and RenderFX::Event is incomplete. Every
+//     body that publishes to _root, looks up a character or calls those is PARTIAL.
+//   - The weak_ptr proxies at State +0x48 (m_characterProxy) and the cached character at +0x4c are void* in MenuFX.hpp and
+//     gameswf::weak_ptr is not declared, so the release the original makes before its callbacks is not made. The bodies
+//     that do it (Show, Hide, RegisterDragAndDrops) are PARTIAL.
+//   - Hide compares SavegameManager::getLanguage() as unsigned (> 7u), so -1 (the device language) also passes.
+//   - The static members m_FSCommandMap, m_isRolloverEventEnabled and s_igmOpened are defined in this file, because the
+//     constructor and RegisterFSCommand own the registry and no other batch defines them.
+
+#include <cstdlib>
+#include <cstring>
+#include <map>
+#include <string>
+
+#include "gameswf/gameswf.h"  // gameswf::rect (the complete type; MenuBase.hpp forward-declares it)
+#include "dh2/Application.hpp"
+#include "dh2/DebugCachedCharacter.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/DragAndDrop.hpp"
+#include "dh2/GSInit.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuBase.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/ctrl_camera.hpp"
+
+// Static members. The definitions sit here because the constructor and RegisterFSCommand own m_FSCommandMap.
+bool MenuBase::m_isRolloverEventEnabled = false;
+bool MenuBase::s_igmOpened = false;
+std::map<std::string, MenuBase::FSCommandFn> MenuBase::m_FSCommandMap;
+
+namespace {
+
+// DebugSwitches::load() then GetSwitch("isTracingMenuBase") on the switch singleton, with the value discarded. The
+// original reads the switch on s_inst; GetInstance (0x330740) returns &s_inst and s_inst is private.
+void ReadMenuBaseTraceSwitch() {
+    DebugSwitches* switches = DebugSwitches::GetInstance();
+    switches->load();
+    (void)switches->GetSwitch("isTracingMenuBase");
+}
+
+// True when the menu name equals expected (strcmp == 0 in the original).
+bool NameIs(const char* name, const char* expected) {
+    return std::strcmp(name, expected) == 0;
+}
+
+}  // namespace
+
+// 0x423d6c _ZNK8MenuBase15TestSlideEventsERN8RenderFX5EventE
+// PARTIAL: the original runs SlideEventCharacter::Test(entry, event, m_menu) over every entry of m_slideEvents (+0x60 begin,
+// +0x64 end), but only when the event type at RenderFX::Event +0x08 minus 4 is at most 1 (types 4 and 5). RenderFX::Event
+// is an incomplete type in this tree, so that test cannot be made and the loop is not run. Expected loop, once the
+// layout is declared: for each entry, entry->Test(event, m_menu).
+void MenuBase::TestSlideEvents(RenderFX::Event& event) const {
+    static_cast<void>(event);  // PARTIAL: event type guard and slide loop not run (see above).
+}
+
+// 0x423db8 _ZN8MenuBase20RegisterDragAndDropsEPFiPKN7gameswf9characterEE
+// PARTIAL: the original first frees the previous m_dragAndDrop (+0x5c) with its destructor and CustomFree (delete here
+// is the same destructor and free). Then, when
+// m_character (+0x4c) is set and its proxy (+0x48) is still valid, it creates a DragAndDrop and fills it. It collects the
+// "dragable" children of the menu (RenderFX::FindCharacters, not declared), finds each one's "draglimits" child by name
+// (the gameswf character name at +0x44 is a tu_string, not declared), and calls AddDragable with the filter (when one is
+// given). The "drop" children go to AddDropable. The object is kept only when it has an entry. When the proxy is not
+// valid, the original releases it and clears +0x48 and +0x4c. Only the free of the previous object is made here, so
+// m_dragAndDrop is null after the call.
+void MenuBase::RegisterDragAndDrops(int (*filter)(const gameswf::character*)) {
+    ReadMenuBaseTraceSwitch();
+    if (m_dragAndDrop != nullptr) {
+        delete m_dragAndDrop;
+        m_dragAndDrop = nullptr;
+    }
+    static_cast<void>(filter);  // PARTIAL: the drag and drop build is not made (see above).
+}
+
+// 0x424288 _ZN8MenuBase12FS_GotoFrameEPKcS1_Pv
+// args is "name|label". Without '|' the original returns 0, and so does this rebuild. With '|' it finds the character name in
+// the menu's RenderFX (RenderFX::Find, not declared) and then in the root of MenuManager (GetRoot, declared), and calls
+// GameSWFUtils::GotoFrame(character, label). The find and the GotoFrame are not made, so the result is false.
+// PARTIAL: see above. Only the '|' is located here: the original also copies both halves into 64-byte buffers, which this
+// rebuild does not do yet.
+bool MenuBase::FS_GotoFrame(const char*, const char* args, void*) {
+    const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
+    if (bar == nullptr) {
+        return false;
+    }
+    ReadMenuBaseTraceSwitch();
+    return false;  // PARTIAL: RenderFX::Find and GameSWFUtils::GotoFrame not called (see above).
+}
+
+// 0x4243e0 _ZN8MenuBase11FS_PlayAnimEPKcS1_Pv
+// The same "name|anim" split and lookups as FS_GotoFrame. The original then calls RenderFX::PlayAnim(menu, character, anim, 0),
+// which is not declared, so the result is false after the lookup. GameSWFUtils::PlayAnim (0x416fe0) takes a MenuFX and is a
+// different overload, so it is not substituted here.
+// PARTIAL: RenderFX::Find and RenderFX::PlayAnim not called (see above).
+bool MenuBase::FS_PlayAnim(const char*, const char* args, void*) {
+    const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
+    if (bar == nullptr) {
+        return false;
+    }
+    ReadMenuBaseTraceSwitch();
+    return false;  // PARTIAL: see above.
+}
+
+// 0x424540 _ZN8MenuBase11FS_SetText2EPKcS1_Pv
+// args is "name|symbol". Without '|' the original returns 0. Then it reads the trace switch and looks the symbol up with
+// StringManager::getStringFromSymbol (declared). A null string returns 0. Otherwise the original finds the character by
+// name (RenderFX::Find, then the root) and calls RenderFX::FormatHTML(menu, character, "%s", text), which is not declared,
+// so the result is false here.
+// PARTIAL: RenderFX::Find and RenderFX::FormatHTML not called (see above).
+bool MenuBase::FS_SetText2(const char*, const char* args, void*) {
+    const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
+    if (bar == nullptr) {
+        return false;
+    }
+    ReadMenuBaseTraceSwitch();
+    const char* text = ApplicationGetInstance().m_stringManager->getStringFromSymbol(bar + 1);
+    if (text == nullptr) {
+        return false;
+    }
+    return false;  // PARTIAL: see above.
+}
+
+// 0x424698 _ZN8MenuBase10FS_SetTextEPKcS1_Pv
+// args is "name|id", the id parsed with atoi. Without '|' the original returns 0. It reads the trace switch, then the string
+// StringManager::getString(id) (declared). A null string returns 0. Otherwise it calls RenderFX::FormatHTML(menu, name, "%s",
+// text), which is not declared, so the result is false here.
+// PARTIAL: RenderFX::FormatHTML not called (see above).
+bool MenuBase::FS_SetText(const char*, const char* args, void*) {
+    const char* bar = (args != nullptr) ? std::strchr(args, '|') : nullptr;
+    if (bar == nullptr) {
+        return false;
+    }
+    const int stringId = std::atoi(bar + 1);
+    ReadMenuBaseTraceSwitch();
+    const char* text = ApplicationGetInstance().m_stringManager->getString(stringId);
+    if (text == nullptr) {
+        return false;
+    }
+    return false;  // PARTIAL: see above.
+}
+
+// 0x4247c0 _ZN8MenuBase14FS_GetCharPropEPKcS1_Pv
+// args is a property id (atoi). The original reads the trace switch, then the local player's Character (PlayerManager
+// GetLocalPlayer(0, true)->character_660, the same as PlayerManager::GetLocalPlayerCharacter, 0x330794). With no Character it
+// returns false. Otherwise it reads CharProperties::_GetProperty(the Character's CharProperties base, its sheet at +0xff4,
+// id) and publishes the decimal text through RenderFX::SetMember(_root.retval), which is not declared, and returns true.
+// The read and the publish are not made here, but the return is the original's: false without a Character, true with one.
+// The Character and CharProperties headers cannot both be included in this translation unit (see batch 2 notes), so the
+// read is left out.
+// PARTIAL: CharProperties::_GetProperty and the _root.retval publish not made (see above).
+bool MenuBase::FS_GetCharProp(const char*, const char* args, void*) {
+    const int propId = (args != nullptr) ? std::atoi(args) : 0;
+    ReadMenuBaseTraceSwitch();
+    auto* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
+    if (character == nullptr) {
+        return false;
+    }
+    static_cast<void>(propId);  // PARTIAL: the property read and the publish are not made (see above).
+    return true;
+}
+
+// 0x4248dc _ZN8MenuBase17FS_IsMapLocLockedEPKcS1_Pv
+// The original takes the current Level (Application::GetCurrentLevel). It returns false when there is no level, when args is
+// null, or when args is empty. Otherwise it reads the trace switch, computes Level::SG_IsMapLocLocked(atoi(args)) and
+// publishes the boolean as _root.retval through RenderFX::SetMember(as_value), which is not declared. The original then
+// returns 1, so the return here is true.
+// PARTIAL: the _root.retval publish is not made (see above).
+bool MenuBase::FS_IsMapLocLocked(const char*, const char* args, void*) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || args == nullptr || *args == '\0') {
+        return false;
+    }
+    const bool locked = level->SG_IsMapLocLocked(std::atoi(args));
+    ReadMenuBaseTraceSwitch();
+    static_cast<void>(locked);  // PARTIAL: the boolean is not published (see above).
+    return true;
+}
+
+// 0x424af4 _ZN8MenuBase4HideEv
+// Runs only when IsValidMenu (vtable +0x3c) is true. It reads the trace switch, resets the drag-and-drop positions, clears
+// MenuManager::unk_60 (+0x60) for menu_CharacterMenu and menu_Merchant, resets the language to 0 and saves the settings when
+// the language is above 7 as an unsigned value (menu_language), clears s_igmOpened for menu_Ingame, menu_playlist and
+// menu_Merchant, clears byte_99F818 for menu_VerificationLoading, then hides the menu and unregisters it from MenuManager.
+// The original then releases the cached character's weak proxy and calls RenderFX::InvokeASCallback(menu, character,
+// "onPop", nullptr, 0), which are not made here.
+// PARTIAL: the byte_99F818 clear (Application +0xec, unnamed in Application.hpp), the proxy release and the "onPop" callback.
+void MenuBase::Hide() {
+    if (!IsValidMenu()) {
+        return;
+    }
+    ReadMenuBaseTraceSwitch();
+    if (m_dragAndDrop != nullptr) {
+        m_dragAndDrop->ResetPositions();
+    }
+    if (NameIs(m_name, "menu_CharacterMenu") || NameIs(m_name, "menu_Merchant")) {
+        MenuManager::GetInstance()->unk_60 = 0;
+    }
+    if (NameIs(m_name, "menu_language")) {
+        SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
+        if (static_cast<unsigned int>(savegame->getLanguage()) > 7u) {
+            savegame->setLanguage(0);
+            savegame->saveSettings();
+        }
+    }
+    if (NameIs(m_name, "menu_Ingame") || NameIs(m_name, "menu_playlist") || NameIs(m_name, "menu_Merchant")) {
+        s_igmOpened = false;
+    }
+    if (NameIs(m_name, "menu_VerificationLoading")) {
+        // PARTIAL: byte_99F818 = 0 (Application +0xec, pad_ec[0]); the flag has no name in Application.hpp.
+    }
+    SetVisible(false);
+    MenuManager::GetInstance()->UnRegisterListener(this);
+    // PARTIAL: the weak proxy release (+0x48, +0x4c) and RenderFX::InvokeASCallback(m_menu, character, "onPop", nullptr, 0)
+    // are not made (see above).
+}
+
+// 0x424ef0 _ZN8MenuBase19FS_GetParsedString2EPKcS1_Pv
+// The original looks args up as a string symbol (StringManager::getStringFromSymbol). It then builds a VarArgs list from the
+// root movie's ParsedStringArgs array (gameswf root and as_value calls, not declared), parses the string with
+// StringManager::parseEx (the VarArgs type is incomplete here), and publishes the result as _root.retval through
+// RenderFX::SetMember. A null args returns false. Otherwise the original returns 1, so the return here is true.
+// PARTIAL: the ParsedStringArgs gathering, StringManager::parseEx and the publish are not made (see above).
+bool MenuBase::FS_GetParsedString2(const char*, const char* args, void*) {
+    if (args == nullptr) {
+        return false;
+    }
+    return true;  // PARTIAL: see above.
+}
+
+// 0x425450 _ZN8MenuBase4ShowEv
+// Runs only when IsValidMenu (vtable +0x3c) is true. It reads the trace switch, sets m_isRolloverEventEnabled, runs
+// ProcessLocalization (vtable +0x40) when the menu is not localised yet, and shows it with SetVisible(true). It then resets
+// m_animOverCount (+0x78). For menu_language and menu_splash it clears the GSInit loading screen. For menu_Ingame,
+// menu_playlist and menu_Merchant it sets s_igmOpened. For menu_Options it makes a DebugCachedCharacter for "option_Custom"
+// under the current menu context and keeps its character. Last it registers the dead zones.
+// PARTIAL: the original releases the cached character's weak proxy and calls RenderFX::InvokeASCallback(menu, character,
+// "onPush", nullptr, 0) (not declared). It also sets byte_99F818 (Application +0xec, unnamed) to whether the name is
+// menu_VerificationLoading, and stores Application::IsLevelRunning() into the character at +0x9b, which the gameswf
+// character layout does not declare.
+void MenuBase::Show() {
+    if (!IsValidMenu()) {
+        return;
+    }
+    ReadMenuBaseTraceSwitch();
+    m_isRolloverEventEnabled = true;
+    if (!m_isLocalised) {
+        ProcessLocalization();
+    }
+    SetVisible(true);
+    // PARTIAL: the weak proxy release and the "onPush" callback are not made (see above).
+    m_animOverCount = 0;
+    // PARTIAL: byte_99F818 = (m_name == "menu_VerificationLoading") is not stored (see above).
+    if (NameIs(m_name, "menu_language") || NameIs(m_name, "menu_splash")) {
+        GSInit::s_inst.ClearLoadingScreen();
+    }
+    if (NameIs(m_name, "menu_Ingame") || NameIs(m_name, "menu_playlist") || NameIs(m_name, "menu_Merchant")) {
+        s_igmOpened = true;
+    }
+    if (NameIs(m_name, "menu_Options")) {
+        DebugCachedCharacter cache;
+        cache.RefreshCache("option_Custom", m_menu, GetCurrentMenuContext());
+        gameswf::character* optionCharacter = cache.GetChar();
+        static_cast<void>(optionCharacter);  // PARTIAL: the store at +0x9b is not made (see above).
+    }
+    RegisterDeadZones();
+}
+
+// 0x426980 _ZN8MenuBase17RegisterFSCommandEPKcPFbS1_S1_PvE
+// The original looks name up in m_FSCommandMap and returns 0 when it is already there. Otherwise it stores fn under name and
+// returns 1.
+bool MenuBase::RegisterFSCommand(const char* name, FSCommandFn fn) {
+    if (m_FSCommandMap.find(name) != m_FSCommandMap.end()) {
+        return false;
+    }
+    m_FSCommandMap[name] = fn;
+    return true;
+}
+
+// 0x4269dc _ZN8MenuBaseC1EPKc (complete-object constructor)
+// 0x427200 _ZN8MenuBaseC2EPKc (base-object constructor): the same body at a second address in the binary.
+// The MenuFX::State base takes the name. The original then zeroes the scalar members (+0x5c, +0x74 .. +0x7d, +0xb4 and the
+// vector and list heads, which the standard containers construct by default), reads the trace switch, sets
+// m_isRolloverEventEnabled and registers the 63 FSCommand handlers. +0x98 is not written by the constructor.
+MenuBase::MenuBase(const char* name) : MenuFX::State(name) {
+    m_dragAndDrop = nullptr;             // +0x5c
+    m_visible = false;                   // +0x74
+    m_isLocalised = false;               // +0x75
+    m_animOverCount = 0;                 // +0x78
+    m_registered = false;                // +0x7c
+    m_deleteOnUnload = false;            // +0x7d
+    m_deadZonesRegistered = false;       // +0xb4
+    ReadMenuBaseTraceSwitch();
+    m_isRolloverEventEnabled = true;
+    RegisterFSCommand("PushMenu", FS_PushMenu);
+    RegisterFSCommand("PopMenu", FS_PopMenu);
+    RegisterFSCommand("PopAllAbove", FS_PopAllAbove);
+    RegisterFSCommand("PopAllMenu", FS_PopAllMenu);
+    RegisterFSCommand("SwitchMenu", FS_SwitchMenu);
+    RegisterFSCommand("PushState", FS_PushState);
+    RegisterFSCommand("SetFocus", FS_SetFocus);
+    RegisterFSCommand("PlaySoundFX", FS_PlaySoundFX);
+    RegisterFSCommand("PlayMusic", FS_PlayMusic);
+    RegisterFSCommand("StopMusic", FS_StopMusic);
+    RegisterFSCommand("StartGame", FS_StartGame);
+    RegisterFSCommand("ReturnToGame", FS_ReturnToGame);
+    RegisterFSCommand("ContinueGame", FS_ContinueGame);
+    RegisterFSCommand("SetSaveSlot", FS_SetSaveSlot);
+    RegisterFSCommand("SetPlayerClass", FS_SetPlayerClass);
+    RegisterFSCommand("SetDifficulty", FS_SetDifficulty);
+    RegisterFSCommand("SetPlayerName", FS_SetPlayerName);
+    RegisterFSCommand("IsSaveSlotValid", FS_IsSaveSlotValid);
+    RegisterFSCommand("GetSaveSlot", FS_GetSaveSlot);
+    RegisterFSCommand("ResetSaveFile", FS_ResetSaveFile);
+    RegisterFSCommand("SkipScript", FS_SkipScript);
+    RegisterFSCommand("GoToMainMenu", FS_GoToMainMenu);
+    RegisterFSCommand("LoadLevel", FS_LoadLevel);
+    RegisterFSCommand("LoadLevel2", FS_LoadLevel2);
+    RegisterFSCommand("EndLoading", FS_EndLoading);
+    RegisterFSCommand("LoadWorldMap", FS_LoadWorldMap);
+    RegisterFSCommand("IsMapLocLocked", FS_IsMapLocLocked);
+    RegisterFSCommand("ExitGame", FS_ExitGame);
+    RegisterFSCommand("SetBtnImage", FS_SetBtnImage);
+    RegisterFSCommand("GetCharProperty", FS_GetCharProperty);
+    RegisterFSCommand("GetCharProp", FS_GetCharProp);
+    RegisterFSCommand("SetText", FS_SetText);
+    RegisterFSCommand("SetText2", FS_SetText2);
+    RegisterFSCommand("GetString", FS_GetString);
+    RegisterFSCommand("GetString2", FS_GetString2);
+    RegisterFSCommand("GetParsedString2", FS_GetParsedString2);
+    RegisterFSCommand("GetPlayerName", FS_GetPlayerName);
+    RegisterFSCommand("GetPlayerClass", FS_GetPlayerClass);
+    RegisterFSCommand("GetPlayerClass2", FS_GetPlayerClass2);
+    RegisterFSCommand("GetHasTwoHandWeapon", FS_GetHasTwoHandWeapon);
+    RegisterFSCommand("GetHasMainHandWeapon", FS_GetHasMainHandWeapon);
+    RegisterFSCommand("GetHasOffHandWeapon", FS_GetHasOffHandWeapon);
+    RegisterFSCommand("GetNumPotions", FS_GetNumPotions);
+    RegisterFSCommand("AssignPoint", FS_AssignPoint);
+    RegisterFSCommand("AutoEquipSlot", FS_AutoEquipSlot);
+    RegisterFSCommand("IncSkill", FS_IncSkill);
+    RegisterFSCommand("ResetDraggablePosition", FS_ResetDraggablePosition);
+    RegisterFSCommand("IncOption", FS_IncOption);
+    RegisterFSCommand("DecOption", FS_DecOption);
+    RegisterFSCommand("ToggleOption", FS_ToggleOption);
+    RegisterFSCommand("SetOption", FS_SetOption);
+    RegisterFSCommand("GetOption", FS_GetOption);
+    RegisterFSCommand("SetLanguage", FS_SetLanguage);
+    RegisterFSCommand("SaveOptions", FS_SaveOptions);
+    RegisterFSCommand("LoadOptions", FS_LoadOptions);
+    RegisterFSCommand("PlayAnim", FS_PlayAnim);
+    RegisterFSCommand("GotoFrame", FS_GotoFrame);
+    RegisterFSCommand("LockCharacter", FS_LockCharacter);
+    RegisterFSCommand("UnlockCharacter", FS_UnlockCharacter);
+    RegisterFSCommand("PauseGameplay", FS_PauseGameplay);
+    RegisterFSCommand("ResumeGameplay", FS_ResumeGameplay);
+    RegisterFSCommand("StopDialog", FS_StopDialog);
+    RegisterFSCommand("LaunchTwitter", FS_LaunchTwitter);
+}
+
+// 0x427a24 _ZN8MenuBase11MyFSCommandEPKcS1_
+// A null command returns true. The trace switch is read. The command is looked up in m_FSCommandMap: when it is absent the
+// result is false, otherwise the registered handler is called with (command, args, this) and its result is returned.
+bool MenuBase::MyFSCommand(const char* command, const char* args) {
+    if (command == nullptr) {
+        return true;
+    }
+    ReadMenuBaseTraceSwitch();
+    const auto found = m_FSCommandMap.find(command);
+    if (found == m_FSCommandMap.end()) {
+        return false;
+    }
+    return found->second(command, args, this);
+}
+
+// 0x427b08 _ZN8MenuBase13FS_StopDialogEPKcS1_Pv
+// The original pops the front DialogMsg of the dialog queue (Singleton<MenuMessageManager<DialogMsg,1>>::s_inst, 0x99fb88,
+// queue 0 at +0x04) when that queue is not empty. It then calls the skip function DialogMsg::s_SkipFuncName when one is set,
+// and if messages remain it calls the start function DialogMsg::s_StartFuncName[0]. None of that is reached here: the
+// MenuMessageManager instance accessor and the DialogMsg function names are not declared in this tree.
+// The original returns 1 on every path, so the return here is true.
+// PARTIAL: the queue pop and the skip and start invocations are not made (see above).
+bool MenuBase::FS_StopDialog(const char*, const char*, void*) {
+    return true;  // PARTIAL: see above.
+}
