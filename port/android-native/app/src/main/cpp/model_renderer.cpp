@@ -17964,6 +17964,12 @@ struct NativeAnimatedFXV1 {
   std::uint32_t node=0,material=0;
   std::int32_t random_state=123456789;
   std::uint64_t gpu_generation=0;
+  // PColorModel::applyPColor (0x64e830) DiffuseColorTrack: the emitter
+  // material's __irrlicht_Diffuse_color animation, sampled over each
+  // particle's age. Empty means the source no-track branch (material color).
+  // Only Projectile VisualObjects fill it.
+  std::vector<std::int32_t> color_track_times;
+  std::vector<std::array<float,4>> color_track_values;
  };
  std::int32_t dictionary_id=-1;
  std::string source_path;
@@ -18164,6 +18170,49 @@ bool native_fx_random_unit(void* raw,float* out) {
  *out=static_cast<float>(static_cast<double>(next)/2147483650.0);
  return std::isfinite(*out)&&*out>=0.0f&&*out<1.0f;
 }
+// Key search over an RGBA animation track: the last key at or before the time,
+// blended linearly toward the next, clamped at both ends.
+std::array<float,4> native_fx_sample_color_track(
+    const std::vector<std::int32_t>& times,
+    const std::vector<std::array<float,4>>& values,std::int32_t at) {
+ std::size_t key=0;
+ for(std::size_t i=1;i<times.size();++i)
+  if(at>=times[i])key=i;else break;
+ std::array<float,4> color=values[key];
+ if(key+1<times.size()&&at>times[key]&&times[key+1]>times[key]) {
+  float fraction=static_cast<float>(at-times[key])/
+                 static_cast<float>(times[key+1]-times[key]);
+  fraction=std::clamp(fraction,0.0f,1.0f);
+  for(unsigned c=0;c<4;++c)
+   color[c]=values[key][c]+(values[key+1][c]-values[key][c])*fraction;
+ }
+ return color;
+}
+// PColorModel::applyPColor (0x64e830): the DiffuseColorTrack is read at
+// (AnimOffset + age) ms, or with AnimKeyMappingType 1 at
+// (AnimOffset + age/life*AnimLength*AnimScale) ms, truncated to an integer
+// millisecond. initPColor draws its per-particle offset/length randoms only
+// when the emitter's variations are nonzero; every packaged projectile emitter
+// has zero variations, so the emitter's base values are exact.
+void native_fx_apply_color_track(NativeAnimatedFXV1::ParticleLayer& layer) {
+ const auto& times=layer.color_track_times;
+ const auto& values=layer.color_track_values;
+ if(times.empty()||times.size()!=values.size())return;
+ const auto& emitter=layer.emitter;
+ for(auto& particle:layer.system.particles()) {
+  const float seconds=emitter.animation_key_mapping_type==1&&particle.life_seconds>0.0f
+      ?particle.age_seconds/particle.life_seconds*emitter.animation_length*
+        emitter.animation_scale_multiplier+emitter.animation_offset
+      :particle.age_seconds+emitter.animation_offset;
+  const float milliseconds=seconds*1000.0f;
+  if(!std::isfinite(milliseconds))continue;
+  const std::int32_t at=milliseconds>=2147483000.0f?2147483000
+      :milliseconds<=-2147483000.0f?-2147483000:static_cast<std::int32_t>(milliseconds);
+  const auto color=native_fx_sample_color_track(times,values,at);
+  particle.color.r=color[0];particle.color.g=color[1];
+  particle.color.b=color[2];particle.color.a=color[3];
+ }
+}
 bool native_fx_advance_particles(NativeAnimatedFXV1& fx,unsigned dt_ms,
     std::string& error) {
  const float dt=static_cast<float>(dt_ms)*0.001f;
@@ -18185,6 +18234,7 @@ bool native_fx_advance_particles(NativeAnimatedFXV1& fx,unsigned dt_ms,
    error="AnimatedFX source particle update rejected emitter state (error "+
          std::to_string(static_cast<unsigned>(result.error))+")";return false;
   }
+  native_fx_apply_color_track(layer);
  }
  error.clear();return true;
 }
@@ -18298,7 +18348,27 @@ bool native_fx_material_texture(NativeAnimatedFXBackendV1& backend,
   error="AnimatedFX material image path is outside the restored texture cache";return false;
  }
  const auto path="data/3d/textures/"+basename;
- try { output=upload(backend.assets,path,backend.texture_cache,backend.textures,"original-cache"); }
+ try {
+  // The projectile asset import (projectiles-asset-provenance.json) packages
+  // its source textures under assets/textures, not in the restored original
+  // cache; use that copy when the cache lacks the file.
+  auto& cache=backend.texture_cache;
+  const auto cached_path=cache.find(path),cached_base=cache.find(basename);
+  if(cached_path!=cache.end())output=cached_path->second;
+  else if(cached_base!=cache.end())output=cached_base->second;
+  else {
+   bool restored_cache=true,packaged=false;
+   try { (void)read(backend.assets,path,"original-cache"); }
+   catch(const std::exception&) { restored_cache=false; }
+   if(!restored_cache) {
+    try { (void)read(backend.assets,basename,"textures");packaged=true; }
+    catch(const std::exception&) {}
+   }
+   output=packaged
+       ?upload(backend.assets,basename,cache,backend.textures,"textures")
+       :upload(backend.assets,path,cache,backend.textures,"original-cache");
+  }
+ }
  catch(const std::exception& exception) { error=exception.what();return false; }
  return output!=0;
 }
@@ -30710,6 +30780,8 @@ int skill_apply_result(void* raw,std::uintptr_t attacker_id,
 struct NativeSkillProjectileBridgeV1 {
  dh2::projectile_product_owner_v1::Owner* owner{};
 };
+bool native_projectile_apply_set_info_destination_v1(
+    const dh2::skill_projectile_delivery_v1::Launch&,std::uintptr_t);
 int native_skill_projectile_spawn_v1(void* raw,
     const dh2::skill_projectile_delivery_v1::Launch& launch,
     std::uintptr_t* projectile) {
@@ -30722,6 +30794,9 @@ int native_skill_projectile_spawn_v1(void* raw,
  if(result.status!=dh2::projectile_product_owner_v1::Status::ok){
   *projectile=0;return 0;
  }
+ // Projectile::SetInfo has already aimed the shot along its owner's look
+ // vector; an explicit script destination (applied after this call) replaces it.
+ (void)native_projectile_apply_set_info_destination_v1(launch,result.projectile);
  *projectile=result.projectile;return 0;
 }
 int native_skill_projectile_position_v1(void* raw,std::uintptr_t projectile,
@@ -30972,6 +31047,515 @@ bool ensure_native_projectile_body_v1(ProjectilePayload& payload,
  body->body_owner.projectile_identity=payload.identity;
  body->body_owner.contact={1,0,1,1,{0,32,0x51f,1},{}};
  output=body;error.clear();return true;
+}
+
+// Projectile VisualObject. Projectile::SetInfo (0x3e58cc) passes the
+// ProjectileDict model name to GameObject::SetVisualObject (0x394d34), which
+// builds a VisualObject (0x472a0c): AssetManager::loadSceneNode of the BDAE, so
+// the meshes and the particle emitters the model carries (arrow and bolt trails)
+// are one scene-node tree with one AnimController. SetInfo then plays clip 0
+// looped at speed 1 (AnimController::PlayClip 0x474b50). A pooled Projectile
+// keeps its VisualObject while the next Spawn names the same model (the strcmp
+// in SetVisualObject), and ProjectileManager::DeSpawn only clears the visible
+// byte (GameObject::SetVisible 0x38b0f0), so the model is drawn exactly while
+// the Projectile is active. Projectile inherits the GameObject defaults
+// IsUpdatingPositionFromPhysics = 1 (VisualObject::SyncPosition follows the
+// PhysicalObject) and IsUpdatingRotationFromVisual/Physics = 0: the
+// GameObject::SetRotation(owner+0x16c) in SetInfo is the only rotation the model
+// ever gets (VisualObject::SetRotation 0x472874, Euler (Y,-X,-Z)). The port
+// reuses the AnimatedFX BDAE loader, timeline, particle and billboard path.
+struct NativeProjectileVisualDeleterV1 {
+ void operator()(NativeAnimatedFXV1* fx) const noexcept {
+  native_fx_destroy(&native_fx_backend,fx);
+ }
+};
+struct NativeProjectileVisualV1 {
+ std::uintptr_t identity=0;
+ std::uint32_t spawn_serial=0;
+ std::string model_path;
+ std::unique_ptr<NativeAnimatedFXV1,NativeProjectileVisualDeleterV1> fx;
+ float rotation[3]{};
+ // LaserTypeProjectile (ProjectileTable IsLaser): the _bone_origin and
+ // _bone_target scene nodes of the beam model.
+ std::uint32_t bone_origin=UINT32_MAX,bone_target=UINT32_MAX;
+ // Diffuse-colour animation of the materials the model's meshes use (the
+ // AnimController animates material parameters with the clip timeline).
+ struct MeshColorTrack {
+  std::uint32_t material=0;
+  std::vector<std::int32_t> times;
+  std::vector<std::array<float,4>> values;
+ };
+ std::vector<MeshColorTrack> mesh_color_tracks;
+ bool pending_start=false,failed=false;
+};
+std::vector<std::unique_ptr<NativeProjectileVisualV1>> native_projectile_visuals;
+
+NativeProjectileVisualV1* native_projectile_visual_v1(std::uintptr_t identity) {
+ for(auto& visual:native_projectile_visuals)
+  if(visual&&visual->identity==identity)return visual.get();
+ return nullptr;
+}
+
+std::string native_projectile_model_path_v1(const ProjectilePayload& payload) {
+ auto path=payload.source_row.model_path;
+ std::transform(path.begin(),path.end(),path.begin(),
+     [](unsigned char c){return static_cast<char>(std::tolower(c));});
+ return path;
+}
+
+// GameObject::SetRotation(this, owner+364) copies the owner's x/y/z rotation.
+bool native_projectile_owner_rotation_v1(std::uintptr_t owner,float (&rotation)[3]) {
+ const float* source=nullptr;
+ float fallback[3]{};
+ if(owner==prince_character.identity()) {
+  source=prince_runtime.rotation.rotation;
+ } else if(const auto* actor=spell_actor_by_identity(owner)) {
+  if(actor->spawn_owner&&actor->spawn_owner->runtime_ready) {
+   source=actor->spawn_owner->runtime.rotation.rotation;
+  } else {
+   fallback[2]=actor->rotation_degrees[2]*(3.14159265358979f/180.f);
+   source=fallback;
+  }
+ }
+ if(!source||!std::isfinite(source[0])||!std::isfinite(source[1])||
+    !std::isfinite(source[2]))return false;
+ std::copy(source,source+3,rotation);
+ return true;
+}
+
+// Projectile::SetInfo (0x3e58cc) ends by aiming the shot: with no target and no
+// projectile_node it sets the destination 1000 units from the owner's target
+// position along GameObject::GetLookAtVec ({sin z, -cos z}). The float overload
+// (0x3e57cc, a skill launched with an angle) rotates that vector by the angle
+// in degrees (Point3D::rotateXY, factor 0.017453) after the same call. Skill
+// scripts such as npc_fireball and npc_arrow_default rely on this default.
+bool native_projectile_apply_set_info_destination_v1(
+    const dh2::skill_projectile_delivery_v1::Launch& launch,
+    std::uintptr_t projectile) {
+ if(!projectile||!launch.character||!active_crypt_level_projection||
+    !active_crypt_level_projection->projectile_owner)return false;
+ float rotation[3]{};
+ if(!native_projectile_owner_rotation_v1(launch.character,rotation))return false;
+ dh2::skill_projectile_delivery_v1::Point3f origin{};
+ if(native_skill_projectile_read_point_v1(nullptr,launch.character,&origin)!=0)
+  return false;
+ float x=std::sin(rotation[2]),y=-std::cos(rotation[2]);
+ if(launch.info_kind==
+      dh2::projectile_lifecycle_runtime_v1::SetInfoKind::angle_float) {
+  const float angle=launch.angle_degrees*0.017453f;
+  const float c=std::cos(angle),s=std::sin(angle);
+  const float rotated_x=x*c-y*s,rotated_y=x*s+y*c;
+  x=rotated_x;y=rotated_y;
+ }
+ const dh2::skill_projectile_delivery_v1::Point3f destination{
+     origin.x+x*1000.f,origin.y+y*1000.f,origin.z};
+ return active_crypt_level_projection->projectile_owner->set_destination(
+     projectile,destination)==dh2::projectile_product_owner_v1::Status::ok;
+}
+
+// Called from the Projectile's ordered update. A new SetInfo run (pool reuse
+// included) restarts the model's flight; a different model name drops the
+// pooled VisualObject like SetVisualObject does.
+void note_native_projectile_flight_v1(const ProjectilePayload& payload) {
+ auto* visual=native_projectile_visual_v1(payload.identity);
+ if(!visual) {
+  try {
+   auto next=std::make_unique<NativeProjectileVisualV1>();
+   next->identity=payload.identity;
+   visual=next.get();
+   native_projectile_visuals.push_back(std::move(next));
+  } catch(...) {return;}
+ }
+ if(visual->spawn_serial==payload.spawn_serial)return;
+ visual->spawn_serial=payload.spawn_serial;
+ const auto model_path=native_projectile_model_path_v1(payload);
+ if(visual->model_path!=model_path) {
+  visual->fx.reset();
+  visual->model_path=model_path;
+  visual->failed=false;
+  visual->bone_origin=visual->bone_target=UINT32_MAX;
+  visual->mesh_color_tracks.clear();
+ }
+ visual->pending_start=true;
+ if(!native_projectile_owner_rotation_v1(payload.owner_identity,visual->rotation)) {
+  // The owner left the Level between SetInfo and the first update; keep the
+  // shot pointing along its flight line (GetLookAtVec is {sin z, -cos z}).
+  visual->rotation[0]=visual->rotation[1]=0.f;
+  visual->rotation[2]=payload.has_destination
+      ?std::atan2(payload.destination.x-payload.start_position.x,
+                  -(payload.destination.y-payload.start_position.y)):0.f;
+ }
+}
+
+// AnimController::PlayClip(0, loop, speed 1): clip 0 of the model's library
+// (the whole authored range when it has no clip rows), looped; emitters restart.
+bool native_projectile_visual_start_v1(NativeAnimatedFXV1& fx,std::string& error) {
+ fx.source_game_object=nullptr;fx.target_character=nullptr;
+ fx.target_object=nullptr;fx.animator_character=nullptr;
+ fx.anim_fx_set_data_token=nullptr;fx.parent_anim_fx_set_data_token=nullptr;
+ fx.origin={};fx.speed=1.0f;fx.play_time=-1;fx.repeats_remaining=-1;
+ fx.elapsed_ms=fx.play_elapsed_ms=0.0;fx.loop=true;
+ fx.completion_pending=false;fx.callback_armed=false;
+ fx.buff_clip_index=-1;fx.buff_clip_selected=false;fx.buff_clip_enabled=true;
+ for(auto& layer:fx.particle_layers) {
+  layer.system.clear();layer.random_state=123456789;
+ }
+ fx.visible=true;fx.started=true;
+ const auto& animation=fx.resource.animation;
+ if(animation.end<=animation.start) {error.clear();return true;}
+ const bool has_clip=!fx.animation_clips.empty();
+ const auto begin=has_clip?fx.animation_clips.front().start:animation.start;
+ const auto end=has_clip?fx.animation_clips.front().end:animation.end;
+ if(!native_fx_configure_timeline(fx,has_clip?0:-1,begin,end,1.0f,true,error))
+  return false;
+ return dh2::objects::sample(fx.resource,begin,error);
+}
+
+bool native_projectile_visual_advance_v1(NativeAnimatedFXV1& fx,unsigned dt_ms,
+    std::string& error) {
+ const auto& animation=fx.resource.animation;
+ if(animation.end>animation.start) {
+  fx.timeline_timestamp_ms+=dt_ms;
+  std::int32_t absolute_ms{};
+  std::memcpy(&absolute_ms,&fx.timeline_timestamp_ms,sizeof(absolute_ms));
+  NativeFXTimelineBoundary boundary{&fx,nullptr};
+  const dh2::timeline::Services services{&boundary,native_fx_timeline_boundary};
+  if(dh2_timeline_update(&fx.timeline,absolute_ms,&services)!=0) {
+   error="Projectile VisualObject timeline update rejected its controller state";
+   return false;
+  }
+  if(!dh2::objects::sample(fx.resource,fx.timeline.current_ms,error))return false;
+ }
+ return native_fx_advance_particles(fx,dt_ms,error);
+}
+
+// CParticleSystemSceneNode::init (0x64fd60) hands each emitter material's
+// diffuse-colour animation (SChannel type 86 targeting the material id) to the
+// particle context as "DiffuseColorTrack"; the same tracks animate the diffuse
+// colour of the materials the model's meshes use (AnimController). Keys are RGBA
+// bytes with linear blending (the packaged tracks all use interpolation 1).
+bool native_projectile_load_color_tracks_v1(NativeProjectileVisualV1& visual,
+    const std::vector<std::uint8_t>& bytes,std::string& error) {
+ auto& fx=*visual.fx;
+ dh2::resources::BresView view{};
+ if(dh2_bres_open(&view,bytes.data(),bytes.size())!=dh2::resources::BresError::ok) {
+  error="Projectile BDAE color-track view is not a BRES resource";return false;
+ }
+ struct Track {
+  std::string target;
+  std::vector<std::int32_t> times;
+  std::vector<std::array<float,4>> values;
+ };
+ std::vector<Track> tracks;
+ const auto count=dh2_bres_library_count(&view,dh2::resources::Library::animation);
+ for(std::uint32_t i=0;i<count;++i) {
+  dh2::assets::Animation animation{};
+  if(dh2_animation_open(&animation,&view,static_cast<std::int32_t>(i),0)!=
+       dh2::assets::Error::ok||dh2_animation_channels(&animation)!=1||
+     dh2_animation_samplers(&animation)!=1||dh2_animation_type(&animation,0)!=86)
+   continue;
+  const char* target=dh2_animation_target(&animation);
+  dh2::assets::Vector keys{};
+  // A one-component type 86 stream is not an RGBA diffuse colour.
+  if(!target||!dh2_animation_vector(&animation,0,true,&keys)||keys.components!=4)
+   continue;
+  if(keys.count==0||dh2_animation_interpolation(&animation,0)>1) {
+   error="Projectile BDAE diffuse-color track has an unsupported layout";return false;
+  }
+  Track track{};
+  track.target=target;
+  for(std::uint32_t k=0;k<keys.count;++k) {
+   float key[4]{};
+   if(!dh2_vector_read(&keys,k,key)) {
+    error="Projectile BDAE diffuse-color key is unreadable";return false;
+   }
+   const auto time=dh2_animation_key_time(&animation,0,static_cast<std::int32_t>(k));
+   if(!track.times.empty()&&time<track.times.back()) {
+    error="Projectile BDAE diffuse-color keys are out of order";return false;
+   }
+   track.times.push_back(time);
+   // SColor channels are bytes; a float key stream is already 0..1.
+   const float scale=keys.type==6?1.0f:1.0f/255.0f;
+   track.values.push_back({key[0]*scale,key[1]*scale,key[2]*scale,key[3]*scale});
+  }
+  tracks.push_back(std::move(track));
+ }
+ const auto& materials=fx.resource.scene.materials;
+ for(auto& layer:fx.particle_layers) {
+  if(layer.material>=materials.size())continue;
+  for(const auto& track:tracks)
+   if(track.target==materials[layer.material].id) {
+    layer.color_track_times=track.times;
+    layer.color_track_values=track.values;
+    break;
+   }
+ }
+ std::set<std::uint32_t> mesh_materials;
+ for(const auto& primitive:fx.resource.primitives)
+  if(primitive.material<materials.size())mesh_materials.insert(primitive.material);
+ for(const auto material:mesh_materials)
+  for(const auto& track:tracks)
+   if(track.target==materials[material].id) {
+    visual.mesh_color_tracks.push_back({material,track.times,track.values});
+    break;
+   }
+ error.clear();return true;
+}
+
+// AnimController material animation: the clip's diffuse-colour tracks drive the
+// colour of the meshes' draw banks (rebuilt from the static scene material after
+// a GL context change, so this runs every frame).
+void native_projectile_apply_mesh_colors_v1(NativeProjectileVisualV1& visual) {
+ if(!visual.fx||visual.mesh_color_tracks.empty())return;
+ auto& fx=*visual.fx;
+ const auto at=fx.resource.animation.end>fx.resource.animation.start
+     ?fx.timeline.current_ms:std::int32_t(0);
+ for(const auto& track:visual.mesh_color_tracks) {
+  const auto color=native_fx_sample_color_track(track.times,track.values,at);
+  for(std::size_t i=0;i<fx.draws.size()&&i<fx.resource.primitives.size();++i)
+   if(fx.resource.primitives[i].material==track.material)
+    std::copy(color.begin(),color.end(),fx.draws[i].material.color);
+ }
+}
+
+// The packaged particle materials select their atlas cell through the effect's
+// default "diffuse-sampler-matrix" (a 3x3 affine stored in a 4x4: rows 0-1 scale,
+// row 2 translation, applied as [u v 1] * M). The scene loader only reads the
+// material's own texture-matrix parameter, so without this the whole atlas sheet
+// is drawn on every billboard. The renderer shader multiplies a column-vector
+// (u, v, 0, 1), which puts the translation in elements 12 and 13.
+bool native_projectile_apply_effect_texture_matrices_v1(NativeAnimatedFXV1& fx,
+    const std::vector<std::uint8_t>& bytes,std::size_t& patched,std::string& error) {
+ patched=0;
+ try {
+  dh2::resources::BresView view{};
+  if(dh2_bres_open(&view,bytes.data(),bytes.size())!=dh2::resources::BresError::ok) {
+   error="Projectile BDAE effect view is not a BRES resource";return false;
+  }
+  const auto effect_count=dh2_bres_library_count(&view,dh2::resources::Library::effect);
+  auto& materials=fx.resource.scene.materials;
+  for(std::size_t m=0;m<materials.size();++m) {
+   const auto& uri=materials[m].effect_uri;
+   if(uri.size()<2||uri.front()!='#')continue;
+   const auto wanted=uri.substr(1);
+   for(std::uint32_t e=0;e<effect_count;++e) {
+    const auto* row=dh2_bres_library_item(&view,dh2::resources::Library::effect,
+                                          static_cast<std::int32_t>(e));
+    if(!row)continue;
+    const auto base=static_cast<std::uint32_t>(row-view.bytes);
+    if(native_fx_text(view,native_fx_word(view,base))!=wanted)continue;
+    // Effect row words 4/5 are the COMMON profile's parameter count/array;
+    // each parameter is 24 bytes: name, type, ..., data pointer at +20.
+    const auto count=native_fx_word(view,base+16);
+    const auto array=native_fx_word(view,base+20);
+    if(count>256||array>view.size||std::uint64_t(count)*24>view.size-array)break;
+    for(std::uint32_t p=0;p<count;++p) {
+     const auto entry=std::uint64_t(array)+std::uint64_t(p)*24;
+     if(native_fx_word(view,entry+4)!=10||
+        native_fx_text(view,native_fx_word(view,entry))!="diffuse-sampler-matrix")
+      continue;
+     const auto data=native_fx_word(view,entry+20);
+     if(data>view.size||64>view.size-data)break;
+     float source[16]{};
+     for(unsigned i=0;i<16;++i) {
+      const auto bits=native_fx_word(view,std::uint64_t(data)+4u*i);
+      std::memcpy(&source[i],&bits,sizeof(float));
+      if(!std::isfinite(source[i]))throw std::runtime_error("effect texture matrix is not finite");
+     }
+     bool identity=true;
+     for(unsigned i=0;i<16;++i)
+      if(source[i]!=((i%5)==0?1.0f:0.0f))identity=false;
+     if(identity)break;
+     auto& target=materials[m].texture_matrix;
+     std::fill(target,target+16,0.0f);
+     target[0]=source[0];target[1]=source[1];target[4]=source[4];target[5]=source[5];
+     target[10]=1.0f;target[15]=1.0f;
+     target[12]=source[8];target[13]=source[9];
+     ++patched;
+     break;
+    }
+    break;
+   }
+  }
+  // Draw banks copied the material at construction; keep them in step.
+  for(std::size_t i=0;i<fx.draws.size()&&i<fx.resource.primitives.size();++i) {
+   const auto material=fx.resource.primitives[i].material;
+   if(material<materials.size())
+    std::copy(materials[material].texture_matrix,materials[material].texture_matrix+16,
+              fx.draws[i].material.texture_matrix);
+  }
+  for(auto& layer:fx.particle_layers)
+   if(layer.material<materials.size())
+    std::copy(materials[layer.material].texture_matrix,
+              materials[layer.material].texture_matrix+16,
+              layer.draw.material.texture_matrix);
+  error.clear();return true;
+ } catch(const std::exception& exception) {
+  error=exception.what();return false;
+ }
+}
+
+bool native_projectile_visual_materialize_v1(NativeProjectileVisualV1& visual,
+    const ProjectilePayload& payload,std::string& error) {
+ if(visual.fx) {error.clear();return true;}
+ const auto& row=payload.source_row;
+ if(row.model_index<0||visual.model_path.empty()) {
+  // ProjectileTable Model < 0: SetInfo calls SetVisualObject(0); no model.
+  error.clear();return false;
+ }
+ void* created=nullptr;
+ const auto result=native_fx_create(&native_fx_backend,row.model_index,
+                                    visual.model_path,&created,error);
+ if(result!=dh2::native_visual_fx_manager_v1::CreateResult::created||!created) {
+  if(result==dh2::native_visual_fx_manager_v1::CreateResult::source_no_launch)
+   error="packaged asset is missing: "+visual.model_path;
+  else if(error.empty())error="BDAE VisualObject construction failed";
+  return false;
+ }
+ visual.fx.reset(static_cast<NativeAnimatedFXV1*>(created));
+ try {
+  const auto bytes=read(native_fx_backend.assets,visual.model_path,"actors");
+  std::string track_error;
+  if(!native_projectile_load_color_tracks_v1(visual,bytes,track_error))
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Projectile VisualObject %s keeps its static particle colors | %s",
+       visual.model_path.c_str(),track_error.c_str());
+  std::size_t patched=0;
+  if(!native_projectile_apply_effect_texture_matrices_v1(*visual.fx,bytes,patched,
+                                                         track_error))
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Projectile VisualObject %s keeps its authored texture matrices | %s",
+       visual.model_path.c_str(),track_error.c_str());
+  else if(patched)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Projectile VisualObject %s | %zu effect sampler matrices applied",
+       visual.model_path.c_str(),patched);
+ } catch(const std::exception& exception) {
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Projectile VisualObject %s keeps its static particle colors | %s",
+      visual.model_path.c_str(),exception.what());
+ }
+ if(row.is_laser) {
+  // LaserTypeProjectile::SetInfo (0x3e4570) looks these two nodes up by name.
+  const auto& graph=visual.fx->resource.scene.graph;
+  for(std::size_t n=0;n<graph.size();++n) {
+   if(graph[n].name=="_bone_origin")visual.bone_origin=static_cast<std::uint32_t>(n);
+   else if(graph[n].name=="_bone_target")visual.bone_target=static_cast<std::uint32_t>(n);
+  }
+  if(visual.bone_origin==UINT32_MAX||visual.bone_target==UINT32_MAX) {
+   visual.fx.reset();
+   error="laser-type model has no _bone_origin/_bone_target nodes";
+   return false;
+  }
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Projectile VisualObject ready | row %d %s | model %s | primitives %zu | emitter layers %zu (color tracks %zu) | clips %zu | clip 0 %d..%d",
+     payload.projectile_id,row.table_name.c_str(),visual.model_path.c_str(),
+     visual.fx->resource.primitives.size(),visual.fx->particle_layers.size(),
+     static_cast<std::size_t>(std::count_if(visual.fx->particle_layers.begin(),
+         visual.fx->particle_layers.end(),[](const NativeAnimatedFXV1::ParticleLayer& layer){
+          return !layer.color_track_times.empty();})),
+     visual.fx->animation_clips.size(),
+     visual.fx->animation_clips.empty()?int(visual.fx->resource.animation.start)
+         :int(visual.fx->animation_clips.front().start),
+     visual.fx->animation_clips.empty()?int(visual.fx->resource.animation.end)
+         :int(visual.fx->animation_clips.front().end));
+ error.clear();return true;
+}
+
+// Frame update: the AnimController of every live Projectile VisualObject.
+void advance_native_projectile_visuals_v1(unsigned dt_ms) {
+ if(!active_crypt_level_projection||!active_crypt_level_projection->projectile_owner)
+  return;
+ auto& owner=*active_crypt_level_projection->projectile_owner;
+ for(auto& visual:native_projectile_visuals) {
+  if(!visual||!visual->fx||visual->failed||visual->pending_start)continue;
+  const auto* payload=owner.find(visual->identity);
+  if(!payload||!payload->active)continue;
+  std::string error;
+  if(!native_projectile_visual_advance_v1(*visual->fx,dt_ms,error)) {
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Projectile VisualObject update failed | model %s | %s",
+       visual->model_path.c_str(),error.c_str());
+   visual->failed=true;
+  }
+ }
+}
+
+// Draw: every active Projectile's VisualObject at its GameObject position and
+// the rotation SetInfo gave it. Runs inside the AnimatedFX submission window.
+void render_native_projectile_visuals_v1() {
+ if(!active_crypt_level_projection||!active_crypt_level_projection->projectile_owner)
+  return;
+ auto& owner=*active_crypt_level_projection->projectile_owner;
+ for(auto& visual:native_projectile_visuals) {
+  if(!visual||visual->failed)continue;
+  const auto* payload=owner.find(visual->identity);
+  if(!payload||!payload->active||!payload->has_position||payload->expired)continue;
+  if(visual->spawn_serial!=payload->spawn_serial)continue;
+  std::string error;
+  if(!visual->fx&&!native_projectile_visual_materialize_v1(*visual,*payload,error)) {
+   // One report per model: a pool of projectiles shares the same files.
+   static std::set<std::string> reported;
+   if(!error.empty()&&reported.insert(visual->model_path).second) {
+    // A collision-only model (invisible_bolt: SpawnTool, TeleportTool) is a
+    // valid VisualObject with nothing to draw, not a missing asset.
+    const bool nothing_to_draw=
+        error.find("has no visible primitives")!=std::string::npos;
+    __android_log_print(nothing_to_draw?ANDROID_LOG_INFO:ANDROID_LOG_WARN,
+        "DH2Native","Projectile VisualObject %s | row %d %s | %s",
+        nothing_to_draw?"has no drawable meshes":"unavailable",
+        payload->projectile_id,payload->source_row.table_name.c_str(),error.c_str());
+   }
+   visual->failed=true;
+   continue;
+  }
+  auto& fx=*visual->fx;
+  if(visual->pending_start) {
+   if(!native_projectile_visual_start_v1(fx,error)) {
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "Projectile VisualObject start failed | model %s | %s",
+        visual->model_path.c_str(),error.c_str());
+    visual->failed=true;
+    continue;
+   }
+   visual->pending_start=false;
+  }
+  native_projectile_apply_mesh_colors_v1(*visual);
+  if(payload->source_row.is_laser) {
+   // LaserTypeProjectile::Update (0x3e3fcc) puts _bone_origin on the owner's
+   // target position and _bone_target on the projectile's, every frame; its
+   // VisualObject is unparented at the origin, so the skinned beam spans them.
+   dh2::skill_projectile_delivery_v1::Point3f origin{};
+   if(native_skill_projectile_read_point_v1(nullptr,payload->owner_identity,&origin)!=0)
+    continue;
+   auto& graph=fx.resource.scene.graph;
+   const float head[3]{payload->position.x,payload->position.y,payload->position.z};
+   const float tail[3]{origin.x,origin.y,origin.z};
+   std::copy(tail,tail+3,graph[visual->bone_origin].translation);
+   std::copy(head,head+3,graph[visual->bone_target].translation);
+   if(!dh2::scene::update_world(fx.resource.scene,error)) {
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "Projectile VisualObject beam update failed | model %s | %s",
+        visual->model_path.c_str(),error.c_str());
+    visual->failed=true;
+    continue;
+   }
+   fx.placement={1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
+  } else {
+   float quaternion[4]{};
+   if(dh2_visual_rotation(quaternion,visual->rotation)!=0)continue;
+   const float position[3]{payload->position.x,payload->position.y,payload->position.z};
+   const float scale[3]{1.f,1.f,1.f};
+   dh2_node_matrix(fx.placement.data(),position,quaternion,scale);
+  }
+  if(!native_fx_render(&native_fx_backend,&fx,error)) {
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Projectile VisualObject draw failed | model %s | %s",
+       visual->model_path.c_str(),error.c_str());
+   visual->failed=true;
+  }
+ }
 }
 
 bool native_projectile_target_identity_v1(const ProjectileOwner& owner,
@@ -31424,6 +32008,7 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
   error="Projectile ordered update lost its canonical ObjectManager product";
   return false;
  }
+ note_native_projectile_flight_v1(*payload);
  if(payload->collision_expired) {
   if(process_native_projectile_pending_collision_v1(
        *active_crypt_level_projection->projectile_owner,*payload,error)) {
@@ -31584,6 +32169,7 @@ void sync_native_projectile_positions_after_step_v1(std::uint32_t dt_ms) {
 }
 
 void retire_native_projectile_bodies() noexcept {
+ native_projectile_visuals.clear();
  for(auto& body:native_projectile_bodies) {
   if(body&&body->body.body&&actor_world.backend())
    actor_world.destroy(body->body.body);
@@ -46583,6 +47169,7 @@ void draw(int width,int height){
           if(native_fx_owner->Update(fx_error)!=dh2::native_visual_fx_manager_v1::Status::ok)
             throw std::runtime_error("Source AnimatedFX frame update failed: "+fx_error);
         }
+        advance_native_projectile_visuals_v1(frame_dt_ms);
         advance_source_map_camera(frame_dt_ms);
         debug_player_cast_probe();
       }
@@ -46883,6 +47470,7 @@ void draw(int width,int height){
     native_fx_backend.submit=[&](const Draw& batch,const Matrix& transform){submit(batch,transform);};
     std::string fx_error;
     const auto status=native_fx_owner->Render(fx_error);
+    render_native_projectile_visuals_v1();
     native_fx_backend.submit={};native_fx_backend.projection=nullptr;
     if(status!=dh2::native_visual_fx_manager_v1::Status::ok)
       throw std::runtime_error("Source AnimatedFX draw submission failed: "+fx_error);

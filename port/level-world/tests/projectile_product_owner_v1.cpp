@@ -128,6 +128,8 @@ int main() {
         payload->owner_identity==character.identity&&payload->user_data==0x303&&
         payload->check_callback==0x3daff4&&payload->hit_callback==0x3dae7c&&
         payload->active&&payload->manager_identity==0x202);
+    // Each Projectile::SetInfo run is one VisualObject flight for the renderer.
+    assert(payload->spawn_serial==1);
     assert(objects.staged_update_object_count()==1);
     DeliveryFixture delivery{};
     delivery.projectile=spawned.projectile;delivery.target=target.identity;
@@ -154,6 +156,8 @@ int main() {
     assert(reused.status==projectile_product_owner_v1::Status::ok&&
         reused.projectile&&reused.projectile!=spawned.projectile&&
         projectiles.manager().ordinary_pool().active_count==2);
+    assert(projectiles.find(reused.projectile)->spawn_serial==1&&
+        projectiles.find(spawned.projectile)->spawn_serial==1);
 
     // CharAI::_OnAnimEvent's ranged basic attack: ProjectileManager::Spawn with
     // no target, no check callback, CharAI::_HandleProjectile (0x3cc280) as the

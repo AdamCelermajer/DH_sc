@@ -49,6 +49,11 @@ struct Payload {
     std::uint8_t collision_expired{};
     lifecycle::Point2f collision_point{};
     bool update_staged{};
+    // Counts Projectile::SetInfo (0x3e58cc) runs on this pooled Projectile.
+    // A pool slot reused by ProjectileManager::Spawn gets a new VisualObject
+    // flight (SetVisualObject, AnimController::PlayClip(0), Sync), so a
+    // renderer that retains the slot's visual restarts it when this changes.
+    std::uint32_t spawn_serial{};
 };
 
 enum class Status : std::uint8_t {
