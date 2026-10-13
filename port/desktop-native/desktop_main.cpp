@@ -151,6 +151,14 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
         else if (arg == "--boss-natural") options.boss_natural = true;
+        else if (arg == "--boss-intro") options.boss_intro_script = value("--boss-intro");
+        else if (arg == "--boss-trigger") {
+            const auto text = value("--boss-trigger");
+            if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_trigger[0], &options.boss_trigger[1],
+                            &options.boss_trigger[2]) != 3)
+                throw std::runtime_error("--boss-trigger expects X,Y,Z");
+            options.boss_trigger_given = true;
+        }
         else if (arg == "--boss-entry") {
             const auto text = value("--boss-entry");
             if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_entry[0], &options.boss_entry[1],
@@ -297,23 +305,41 @@ Options parse(int argc, char** argv) {
             if (options.boss_name.empty()) {
                 if (options.level_row == 41) options.boss_name = "_prim_Boss_SwampKing_01";
                 else if (options.level_row == 4) options.boss_name = "_prim_DarkQueen";
+                else if (options.level_row == 8) options.boss_name = "Madruk_A";
                 else throw std::runtime_error("boss-fight needs --boss NAME for this level row");
             }
             if (options.boss_natural) {
                 if (options.level_row == 41) {
                     // _prim_TriggerZone_17 (module 7 record 0): centre (-15437.4, 12000, -337.8),
-                    // dimensions 200 x scale (1.91, 8.55, 6.11). The approach spot lies east of it
-                    // inside the same Module.
-                    options.boss_intro_script = "Swamp_Serpent_Intro";
-                    options.boss_trigger = {-15437.4f, 12000.0f, -114.0f};
-                    options.boss_trigger_given = true;
-                    if (!options.boss_entry_given) options.boss_entry = {-14400.0f, 12000.0f, -114.0f};
+                    // dimensions 200 x scale (1.91, 8.55, 6.11). The Player starts at the
+                    // arena's PrinceSpot and walks east into it.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "Swamp_Serpent_Intro";
+                    if (!options.boss_trigger_given) {
+                        options.boss_trigger = {-15437.4f, 12000.0f, -114.0f};
+                        options.boss_trigger_given = true;
+                    }
+                    if (!options.boss_entry_given) {
+                        options.boss_entry = {-18985.0f, 11070.0f, -94.0f};
+                        options.boss_entry_given = true;
+                    }
+                } else if (options.level_row == 8) {
+                    // DARK_DUNGEON_TEMPLE_BOSSROOM _prim_TriggerZone -> Intro_boss, half
+                    // extents (1162, 556, 100). The entry SpawnPoint's script
+                    // (move_TriggerZone) puts the zone on _prim_Waypoint_Fix
+                    // (0, -1120, 1003.8), 730 units north of the Player's start.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "Intro_boss";
+                    if (!options.boss_trigger_given) {
+                        options.boss_trigger = {0.0f, -1120.0f, 1004.0f};
+                        options.boss_trigger_given = true;
+                    }
                 } else if (options.level_row == 4) {
-                    options.boss_intro_script = "HG2_boss_intro";
+                    // The Dark Queen's HG2_boss_intro is the Hell Gate quest's slot-10 script.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "HG2_boss_intro";
                 }
             }
             if (!options.boss_offset_given) {
-                if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
+                if (options.level_row == 8) options.boss_offset = {-500.0f, 0.0f, 20.0f};
+                else if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
                 else if (options.level_row == 4) options.boss_offset = {-582.6f, -498.5f, 20.0f};
                 else throw std::runtime_error("boss-fight needs --boss-offset X,Y,Z for this level row");
             }
@@ -980,7 +1006,14 @@ private:
         const auto since = frame_ - bf_phase_frame_;
         switch (bf_phase_) {
         case BossPhase::nat_place: {
-            if (options_.level_row == 41) {
+            if (options_.boss_trigger_given) {
+                if (!options_.boss_entry_given) {
+                    plog(fmt("boss natural | frame %llu | Player walks from the Level entry to the intro trigger",
+                             (unsigned long long)frame_));
+                    bf_phase_ = BossPhase::nat_walk;
+                    bf_phase_frame_ = frame_;
+                    return;
+                }
                 std::string place_error;
                 const Vec3 spot{options_.boss_entry[0], options_.boss_entry[1], options_.boss_entry[2]};
                 const bool placed = model_renderer::boss_probe_place_player(spot, place_error);

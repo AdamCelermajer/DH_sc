@@ -138,6 +138,15 @@ if __dh2_native_GetSelf then
         return __dh2_object(identity)
     end
 end
+-- GameObject::_Summon pushUserData(the new Character), or nothing when rejected.
+local __dh2_native_Summon = Summon
+if __dh2_native_Summon then
+    function Summon(...)
+        local identity = __dh2_native_Summon(...)
+        if identity == nil then return nil end
+        return __dh2_object(identity)
+    end
+end
 local __dh2_native_GetTargetListTop = GetTargetListTop
 if __dh2_native_GetTargetListTop then
     function GetTargetListTop(...)
