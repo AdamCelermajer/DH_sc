@@ -483,6 +483,10 @@ public:
     // select from them through play_actor_source_sequence.
     const OriginalCombatVisualPlan* actor_source_plan(ActorId) const noexcept;
     const OriginalSequencePolicies* source_sequence_policies() const noexcept;
+    // v21.8 es-passive: observer for the combat-result fan-out (original AISDefault::OnCombatResults, attacker receiver
+    // first, then target receiver). Called after a source hit was applied; outcomes & 3 != 0 means a miss.
+    using CombatResultObserver=std::function<void(ActorId attacker,ActorId target,std::uint32_t outcomes)>;
+    void set_combat_result_observer(CombatResultObserver observer);
     bool script_kill_actor(ActorId,std::string& error);
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);

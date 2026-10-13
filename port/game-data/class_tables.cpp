@@ -21,7 +21,9 @@ extern "C" unsigned dh2_class_formula(std::int32_t d,std::int32_t type,std::int3
  case 2:sheet[d]=sheet[d]<a?a:(sheet[d]<b?sheet[d]:b);break;
  case 4:if(!prop(a))return 4;sheet[d]=add(sheet[d],sheet[a]);break;
  case 5:if(!prop(a))return 4;sheet[d]=asr8(mul(sheet[d],sheet[a]));break;
- case 6:if(!prop(a))return 4;sheet[d]=add(asr8(mul(buff?buff[d]:sheet[d],sheet[a])),a);break;
+ // IDA CharProperties::_ScaleWithPercentageForBuff 0x3e2c10: dest = (sheet[P1] * (buff ? base dest : sheet dest)) >> 8.
+ // There is no added term (the earlier port code added the raw P1 index, which made the buff contribution wrong).
+ case 6:if(!prop(a))return 4;sheet[d]=asr8(mul(buff?buff[d]:sheet[d],sheet[a]));break;
  case 7:sheet[d]=add(sheet[d],a);break;
  case 9:sheet[d]=a;break;
  }return 0;

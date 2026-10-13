@@ -282,6 +282,8 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_activation_session_v1.cpp
   features/generic_skills/runtime_skill_animation_bank_v1.cpp
   features/generic_skills/runtime_timed_buff_v1.cpp
+  features/generic_skills/combat_result_event_bus_v1.cpp
+  features/generic_skills/passive_skill_owner_v1.cpp
   features/faery_menu/hotty_cast_v1.cpp
   features/faery_menu/hotty_cast_session_v1.cpp
   features/faery_menu/hotty_character_cast_v1.cpp
@@ -1164,6 +1166,10 @@ add_test(NAME runtime_skill_use_profile_magesub_v1 COMMAND runtime_skill_use_pro
 add_executable(runtime_timed_buff_v1_tests features/generic_skills/runtime_timed_buff_v1_tests.cpp)
 target_link_libraries(runtime_timed_buff_v1_tests PRIVATE foundation_runtime_skill_cast)
 add_test(NAME runtime_timed_buff_v1 COMMAND runtime_timed_buff_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 es-passive: OnTargetHit bus, generic passive owner, buff capacity admission (real session fixture).
+add_executable(passive_skill_owner_v1_tests features/generic_skills/passive_skill_owner_v1_tests.cpp)
+target_link_libraries(passive_skill_owner_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME passive_skill_owner_v1 COMMAND passive_skill_owner_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 # v21.8 skills-a: full-session Knight/Rogue skill cast fixture (real CombatSession, retained do_skill markers): per-hand hits of the
 # dual-wield rows (both hands and one-hand paths), ViciousStrike's three marker volleys, Quickness' timed buff, duplicate suppression.
 # The coordinator is compiled here with the Warrior-only switch (no Hotty/Celest closure), so it is built from source, not from the library.

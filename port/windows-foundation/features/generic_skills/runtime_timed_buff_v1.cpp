@@ -210,14 +210,35 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
         return false;
     }
 
+    // PROPS_AddBuff admission (IDA 0x3e232c): fewer than `capacity` instances of the class -> append. Full -> the
+    // weakest same-class instance with strength <= the new strength is replaced; otherwise nothing changes (rejected).
+    const std::uint32_t capacity = spec.capacity == 0 ? 128u : spec.capacity;
     auto& buffs = actors_[actor];
-    const bool replaced = std::any_of(buffs.instances.begin(), buffs.instances.end(),
-        [&](const auto& item) { return item->class_name == spec.class_name; });
-    for (auto it = buffs.instances.begin(); it != buffs.instances.end();) {
-        if ((*it)->class_name == spec.class_name) {
-            release_fx(**it);
-            it = buffs.instances.erase(it);
-        } else ++it;
+    std::size_t same_class = 0;
+    auto victim = buffs.instances.end();
+    for (auto it = buffs.instances.begin(); it != buffs.instances.end(); ++it) {
+        if ((*it)->class_name != spec.class_name) continue;
+        ++same_class;
+        if ((*it)->strength <= spec.strength && (victim == buffs.instances.end() || (*it)->strength < (*victim)->strength))
+            victim = it;
+    }
+    const bool full = same_class >= capacity;
+    if (full && victim == buffs.instances.end()) {
+        if (buffs.instances.empty()) actors_.erase(actor);
+        TimedBuffEventV1 event;
+        event.kind = TimedBuffEventV1::Kind::rejected;
+        event.actor = actor;
+        event.class_name = spec.class_name;
+        event.source = spec.source;
+        event.strength = spec.strength;
+        event.detail = "capacity " + std::to_string(capacity) + " reached by stronger instances";
+        events_.push_back(std::move(event));
+        return true;
+    }
+    const bool replaced = full && victim != buffs.instances.end();
+    if (replaced) {
+        release_fx(**victim);
+        buffs.instances.erase(victim);
     }
     std::string fx_error;
     if (!spec.fx_set_name.empty() && bindings_.fx.play) {

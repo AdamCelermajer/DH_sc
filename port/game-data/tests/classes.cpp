@@ -19,7 +19,10 @@ int main(int argc,char** argv){try{
  unsigned applications=0;for(unsigned i=0;i<table.rows.size();++i)for(int level:{256,512,2560,12800}){PropertySheet sheet{};sheet[19]=level;check(apply_class(table,i,sheet,error),error.c_str());++applications;}
  PropertySheet sheet{};sheet[19]=256;check(apply_class(table,18,sheet,error)&&sheet[38]==12160&&sheet[43]==5632,"BaseMonster level one stats differ");
  sheet[19]=2560;check(apply_class(table,18,sheet,error)&&sheet[38]==29440,"BaseMonster level ten health differs");
- ClassTables synthetic;synthetic.rows={{{0,9,256,0,0},{0,6,1,0,0},{0,8,0,0,0},{0,9,999,0,0}}};sheet={};sheet[1]=128;check(apply_class(synthetic,0,sheet,error)&&sheet[0]==129,"Buff fallthrough/type8 early return differs");
+ ClassTables synthetic;synthetic.rows={{{0,9,256,0,0},{0,6,1,0,0},{0,8,0,0,0},{0,9,999,0,0}}};sheet={};sheet[1]=128;check(apply_class(synthetic,0,sheet,error)&&sheet[0]==128,"Buff fallthrough/type8 early return differs");
+ // IDA _ScaleWithPercentageForBuff (0x3e2c10): type 6 is (sheet[P1] * dest) >> 8 with no added term; buff mode reads dest from the base.
+ {std::int32_t t[8]={0,0,0,0,0,0,0,0},base[8]={0,0,0,0,0,0,0,0};t[1]=256;base[0]=1000;check(dh2_class_formula(0,6,1,0,0,t,base)==0&&t[0]==(t[1]*base[0]>>8)&&t[0]==1000,"Type 6 buff mode must scale the base dest with no added term");
+ std::int32_t u[8]={0,0,0,0,0,0,0,0};u[1]=128;u[0]=512;check(dh2_class_formula(0,6,1,0,0,u,nullptr)==0&&u[0]==256,"Type 6 self mode must scale the sheet dest with no added term");}
  synthetic.rows={{{0,1,-666,1,7}}};sheet={};sheet[0]=20;sheet[1]=-257;check(apply_class(synthetic,0,sheet,error)&&sheet[0]==6,"Negative ASR/current-base differs");
  synthetic.rows={{{-1,0,0,-1,-1}}};auto before=sheet;check(!apply_class(synthetic,0,sheet,error)&&sheet==before,"Recursive class failure was not atomic");
  synthetic.rows={{{224,9,0,0,0}}};check(!apply_class(synthetic,0,sheet,error)&&sheet==before,"Invalid destination changed sheet");
