@@ -1,4 +1,5 @@
 #include "net-transport/connection_manager.hpp"
+#include "fake_matching.hpp"  // CMatching test double
 
 #include <cstdio>
 
@@ -43,7 +44,7 @@ int main() {
     CHECK(cm->GetImpl() == 0);
 
     // Disconnect as a client (not server): removes the peer.
-    CMatching::SetServerForTest(false);
+    SetServerForTest(false);
     CHECK(cm->Disconnect(3, false) == 0);
 
     // Terminate tears the singleton down.

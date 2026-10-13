@@ -1,6 +1,8 @@
-// Integrator decision 6: CMatchingGLLive derives from CMatchingBase and declares its members at the
+// Integrator decision 6: CMatchingGLLive derives from CMatching and declares its members at the
 // original offsets. These checks cover the base slots, the constructor, Initialize, JoinRoomInternal,
 // WritePacketData, CreateJoinRoomInternal and AddServer.
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
+static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_gl_live.hpp"
 
 #include <cstdio>
@@ -11,9 +13,11 @@
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_sign_in.hpp"
-#include "net-session-online/deps/connection_manager_stand_in.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 #include "net-session-online/glx_player_serever_config.hpp"
@@ -23,7 +27,7 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-static_assert(std::is_base_of<CMatchingBase, CMatchingGLLive>::value, "CMatchingGLLive derives from CMatching");
+static_assert(std::is_base_of<CMatching, CMatchingGLLive>::value, "CMatchingGLLive derives from CMatching");
 
 namespace {
 struct NullObserver : GLXPlayerMPBaseObserver {};
@@ -45,7 +49,7 @@ int main() {
     // The CMatching base slots are served by the GLLive methods (vtable +0x6c, +0x74, +0x84, +0x64, +0x88).
     {
         CMatchingGLLive m;
-        CMatchingBase& base = m;
+        CMatching& base = m;
         CMatchingGLLive::s_IsGameStarting = true;
         m.SetMemberId(20);
         CHECK(base.LocalMemberId() == 20);
@@ -68,7 +72,6 @@ int main() {
         NetBitStream stream(4);
         std::int32_t serverId = 1;
         stream.WriteByteArray(&serverId, sizeof serverId);
-        stream.Rewind();
         m.ProcessChangeServerMessage(0, stream);
         CHECK(!m.IsServer());  // not initialized yet
         m.SetInitializedForTest(true);
@@ -95,7 +98,7 @@ int main() {
     // Initialize: stores the capacity, builds the three services, registers the four packet types and
     // sets the server member id to 1. The status is -1 here: the GGI is empty, so no config request is sent.
     {
-        GetConnectionMgr().ResetForTest();
+        connection_manager_test::Reset();
         MatchingInternalEventQueue().Clear();
         CMatchingGLLive m;
         CHECK(m.ServerConfigForTest() == nullptr);
@@ -105,11 +108,11 @@ int main() {
         CHECK(m.UserForTest() != nullptr);
         CHECK(m.LobbyQueryForTest() != nullptr);
         CHECK(m.ServerMemberIdForTest() == 1);
-        CHECK(GetConnectionMgr().HasCallback(2));
-        CHECK(GetConnectionMgr().HasCallback(3));
-        CHECK(GetConnectionMgr().HasCallback(9));
-        CHECK(GetConnectionMgr().HasCallback(4));
-        GetConnectionMgr().ResetForTest();
+        CHECK(CConnectionManager::IsPacketTypeRegistered(2));
+        CHECK(CConnectionManager::IsPacketTypeRegistered(3));
+        CHECK(CConnectionManager::IsPacketTypeRegistered(9));
+        CHECK(CConnectionManager::IsPacketTypeRegistered(4));
+        connection_manager_test::Reset();
     }
 
     // Initialize on an initialized object: the base posts 0x400001 and Initialize returns 0 at once.
@@ -165,7 +168,6 @@ int main() {
         NetBitStream serverStream(4);
         std::int32_t serverId = 20;
         serverStream.WriteByteArray(&serverId, sizeof serverId);
-        serverStream.Rewind();
         m.ProcessChangeServerMessage(0, serverStream);
         m.SetInitializedForTest(true);
         CHECK(m.IsServer());
@@ -203,11 +205,11 @@ int main() {
         TransportNamesForTest().clear();
         CMatchingGLLive m;
         CNetworkId first;
-        first.Bytes()[0] = 0x11;
+        first.SetAddress0(0x11, 0);
         CNetworkId second;
-        second.Bytes()[0] = 0x22;
+        second.SetAddress0(0x22, 0);
         std::uint64_t key = 0;
-        std::memcpy(&key, first.Bytes(), sizeof key);
+        key = TransportKeyOf(first);
         TransportNamesForTest()[key] = "first.server";
         CRoomAttributes attributes;
         attributes.SetAttributeInt(1, 9);

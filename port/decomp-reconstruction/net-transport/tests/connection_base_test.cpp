@@ -8,7 +8,8 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    // The stand-in socket never connects, so connect() moves to the failed state and returns 0.
+    // The base GLXPlayerSocket has no transport: BeginConnect returns 0, so connect() moves to the
+    // failed state and returns 0.
     char host[] = "lobby.example";
     Connection conn(host, 9000);
     CHECK(!conn.isConnected());
@@ -36,8 +37,9 @@ int main() {
     delete out;
     CHECK(conn.getNextIncomingPacket() == nullptr);
 
-    // Once connected, a queued packet is sent and removed from the queue (the stand-in send
-    // accepts it), and the request sends keep a retry copy.
+    // Once connected, the send goes to the socket (Poll, then SendBytes). The base socket has no
+    // transport: Poll reports -1, so sendData returns with the packet still queued and the send time
+    // is not updated (the original does the same when select fails). The request sends keep a retry copy.
     conn.set_connected(true);
     CHECK(conn.isConnected());
     CHECK(conn.sendLoginPackage(host) == 0);
@@ -56,8 +58,8 @@ int main() {
     conn.setName(host);
     conn.setName(nullptr);
 
-    // The keep-alive check is quiet while the last send is recent.
-    CHECK(!conn.keepConnectionAlive());
+    // No send has succeeded, so the last send time is still 0 and the keep-alive is due.
+    CHECK(conn.keepConnectionAlive());
 
     // Disconnect clears the link and the retry copy, and is safe to repeat.
     conn.disconnect();

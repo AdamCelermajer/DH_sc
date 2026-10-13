@@ -5,6 +5,7 @@
 
 #define private public
 #include "net-transport/tb/c_net_player_manager.hpp"
+#include "fake_matching.hpp"  // CMatching test double
 #undef private
 
 static int failures = 0;

@@ -100,7 +100,6 @@ int main() {
     source.SetPayload("wxyz");
     NetBitStream wire(64);
     source.Serialize(wire);
-    wire.Rewind();
     CMessage* received = CMessage::Unserialize(wire);
     CHECK(received != nullptr);
     if (received != nullptr) {

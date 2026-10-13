@@ -1,5 +1,5 @@
 // Batch e2-net-session-online-CMatchingGLLive-07f9f6-0 (CMatchingGLLive, 12 functions), revised for the
-// CMatchingGLLive layout of c_matching_gl_live.hpp (CMatchingBase base, members at their original
+// CMatchingGLLive layout of c_matching_gl_live.hpp (CMatching base, members at their original
 // offsets). Integrator decision 6 applied: JoinRoomInternal is reconstructed; Initialize,
 // WritePacketData, AddServer, CreateJoinRoomInternal and the others keep a precise note of what is
 // still missing.
@@ -16,10 +16,12 @@
 #include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_sign_in_gl_live_observer.hpp"
-#include "net-session-online/deps/connection_manager_stand_in.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
-#include "net-session-online/deps/network_id.hpp"
+#include "net-transport/net_bit_stream.hpp"
+#include "net-transport/net_network_id.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
 #include "net-session-online/glx_player_serever_config.hpp"
@@ -29,7 +31,7 @@
 const char* CMatchingGLLive::s_serverConfigGameVersion = nullptr;
 
 // 0x81f264 _ZN15CMatchingGLLive10InitializeEi
-// Partial. Reproduced, in the original order: CMatching::Initialize (CMatchingBase::Initialize, itself partial),
+// Partial. Reproduced, in the original order: CMatching::Initialize (CMatching::Initialize, itself partial),
 // the early return when the base flag +0x0c is already set, the GLXPlayerSereverConfig (0x44 bytes, stored at
 // +0x6710) built from the game version pointer dword_A33870, the GLXPlayerUser (0x130 bytes, +0x6718), the
 // CLobbyParameterAndQuery (0x40 bytes, +0x6808), GLXPlayerSereverConfig::SendGetServerConfig with its status
@@ -44,7 +46,7 @@ const char* CMatchingGLLive::s_serverConfigGameVersion = nullptr;
 // base CMatching::Initialize is partial (see its row), and dword_A33870 is a null pointer here because no
 // writer is recovered (s_serverConfigGameVersion).
 std::int32_t CMatchingGLLive::Initialize(std::int32_t memberCapacity) {
-    CMatchingBase::Initialize(memberCapacity);
+    CMatching::Initialize(memberCapacity);
     if (initialized_) {
         return 0;
     }
@@ -63,7 +65,7 @@ std::int32_t CMatchingGLLive::Initialize(std::int32_t memberCapacity) {
         XP_DEBUG_OUT("oconf.bar not found!\n");
     }
 
-    CConnectionManager& manager = GetConnectionMgr();
+    CConnectionManager& manager = (*CConnectionManager::GetInstance());
     manager.RegisterPacketType(2, 2, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
     manager.RegisterPacketType(3, 1, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
     manager.RegisterPacketType(9, 0, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
@@ -186,7 +188,7 @@ std::int32_t CMatchingGLLive::UpdateRoom() {
 }
 
 // 0x820a6c _ZN15CMatchingGLLive6UpdateEv
-// Partial. The base CMatching::Update (CMatchingBase::Update, partial in its own row) runs first, as in the
+// Partial. The base CMatching::Update (CMatching::Update, partial in its own row) runs first, as in the
 // original. The original then, on the first call with the config loaded, creates the GLLive message,
 // friend and leaderboard components (+0x6708..+0x671c, +0x67eb). Then it reads the sign-in state, binds the
 // player UID, and processes the GLLive connection events (event 6291457 on the connection queue, Game Center
@@ -196,7 +198,7 @@ std::int32_t CMatchingGLLive::UpdateRoom() {
 // bootstrap, the sign-in branch and the connection-event branches are not reproduced, because the
 // components' observers, the sign-in update and the connection-manager event queue are not in this port.
 std::int32_t CMatchingGLLive::Update() {
-    CMatchingBase::Update();  // CMatching::Update (partial in its own row)
+    CMatching::Update();  // CMatching::Update (partial in its own row)
     const std::int32_t updated = UpdateRoom();
     const std::int32_t gl = ProcessGLLiveEvents() | updated;
     return gl | ProcessFriendEvents();
@@ -240,7 +242,7 @@ void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std
 }
 
 // 0x821110 _ZN15CMatchingGLLive20ProcessServerMessageER10CNetworkIdR12NetBitStream
-// Partial, no body. The original runs only when IsServer() is false (CMatchingBase::IsServer is reachable now).
+// Partial, no body. The original runs only when IsServer() is false (CMatching::IsServer is reachable now).
 // It then reads a 0x28-byte record (a 28-byte CNetworkId, the member id at +0x1c and the member count at +0x20),
 // unserializes the room attributes from the stream, calls AddServer(member id, address, member count,
 // attributes) and destroys the attributes. CRoomAttributes::Unserialize(NetBitStream&) is declared in

@@ -9,23 +9,28 @@
 #include <list>
 
 #include "net-session-online/c_event.hpp"
-#include "net-session-online/deps/net_mutex.hpp"
+#include "net-transport/sync.hpp"  // CNetMutex (the recursive mutex of net-transport)
 
+// Vtable of _ZTV15CEventQueueBase, in slot order: +0x00 AddEvent, +0x04 HasEventOccured,
+// +0x08 ConsumeEvent, +0x0c Clear(), +0x10 Clear(int), +0x14 GetEventData, +0x18/+0x1c the
+// destructor, +0x20 HasEvents. Every one of them is virtual in the binary.
 class CEventQueueBase {
 public:
     CEventQueueBase() = default;
     virtual ~CEventQueueBase();                                   // D1 / D2 (D0 skipped)
 
-    void AddEvent(int type, void* data, int size);                // 8AddEventEiPvi
-    bool HasEvents() const;                                       // 9HasEventsEv (no lock)
-    int GetEventData(int type, void* data, int size);             // 12GetEventDataEiPvi
-    void Clear(int type);                                         // 5ClearEi
-    void Clear();                                                 // 5ClearEv
-    bool FindEvent(int type, bool consume);                       // 9FindEventEib
-    bool ConsumeEvent(int type) { return FindEvent(type, true); }       // 12ConsumeEventEi
-    bool HasEventOccured(int type, bool consume) {                       // 15HasEventOccuredEib
+    // 0x7fe204 AddEvent. Returns the pthread_mutex_unlock result (0 on success).
+    virtual int AddEvent(int type, void* data, int size);         // +0x00
+    virtual bool HasEventOccured(int type, bool consume) {        // +0x04, 15HasEventOccuredEib
         return FindEvent(type, consume);
     }
+    virtual bool ConsumeEvent(int type) { return FindEvent(type, true); }  // +0x08, 12ConsumeEventEi
+    // 0x7fe438 Clear(). Returns the pthread_mutex_unlock result (0 on success).
+    virtual int Clear();                                          // +0x0c, 5ClearEv
+    virtual void Clear(int type);                                 // +0x10, 5ClearEi
+    virtual int GetEventData(int type, void* data, int size);     // +0x14, 12GetEventDataEiPvi
+    virtual bool HasEvents() const;                               // +0x20, 9HasEventsEv (no lock)
+    bool FindEvent(int type, bool consume);                       // 9FindEventEib
 
 private:
     CNetMutex mutex_;                  // +0x04

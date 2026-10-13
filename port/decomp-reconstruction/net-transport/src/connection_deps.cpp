@@ -1,43 +1,10 @@
-// Out-of-line parts of the connection-manager stand-ins (include/net-transport/deps/connection_deps.hpp).
+// Out-of-line parts of the CTransportManager stand-ins (include/net-transport/deps/connection_deps.hpp).
 // These are test doubles, not reconstructions: they keep the connection manager linkable and
-// testable until CMatching, CConnection, CEventQueueBase and CTransportManager are merged.
+// testable until CTransportManager is merged. CMatching and CEventQueueBase are defined once, in
+// net-session-online.
 #include "net-transport/deps/connection_deps.hpp"
 
-namespace {
-CMatching g_matching;
-}  // namespace
-
-CMatching* CMatching::Get() {
-    return &g_matching;
-}
-
-int CMatching::GetMemberIndex(int member_id) const {
-    // Stand-in mapping: the member id is the slot index.
-    return (member_id >= 0 && member_id < 32) ? member_id : -1;
-}
-
-void CMatching::SetServerForTest(bool server) {
-    g_matching.server_ = server;
-}
-
-void CMatching::SetRoomMaskForTest(std::uint32_t mask) {
-    g_matching.room_mask_ = mask;
-}
-
-void CMatching::SetInRoomForTest(bool in_room) {
-    g_matching.in_room_ = in_room;
-}
-
-int CEventQueueBase::AddEvent(int event, void* data, int size) {
-    (void)event;
-    (void)data;
-    (void)size;
-    return 0;
-}
-
-int CEventQueueBase::Clear() {
-    return 0;
-}
+#include "net-transport/deps/connection_env.hpp"  // SentPacketLog
 
 namespace transport_manager_calls {
 
@@ -68,9 +35,7 @@ int Send(CTransportManager& tm, std::intptr_t transport, const CNetworkId& to,
     (void)tm;
     (void)transport;
     (void)to;
-    (void)packet_type;
-    (void)data;
-    (void)size;
+    RecordSentPacket(packet_type, false, data, size);
     return 0;
 }
 
@@ -78,9 +43,7 @@ int Send(CTransportManager& tm, std::intptr_t transport, int packet_type,
          const void* data, int size) {
     (void)tm;
     (void)transport;
-    (void)packet_type;
-    (void)data;
-    (void)size;
+    RecordSentPacket(packet_type, true, data, size);
     return 0;
 }
 

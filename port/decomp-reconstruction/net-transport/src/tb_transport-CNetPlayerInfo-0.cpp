@@ -9,7 +9,7 @@
 
 #include "net-transport/tb/cnet_player_info.hpp"
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 #include "net-transport/tb/c_net_player_manager.hpp"
 
 // 0x36d208 CNetPlayerInfo::IsActivating()
@@ -32,8 +32,8 @@ bool CNetPlayerInfo::IsRemote() const {
 }
 
 // 0x80f180 CNetPlayerInfo::IsInRoom()
-// CMatching vtable +0x68 (IsInRoom(int)) with the connection index. CMatching is the net-transport
-// stand-in, so the result is the stand-in's.
+// CMatching vtable +0x68 (IsInRoom(int)) with the connection index. CMatching is the
+// net-session-online class (deps/matching.hpp).
 bool CNetPlayerInfo::IsInRoom() const {
     return CMatching::Get()->IsInRoom(conn_index_.GetValue());
 }

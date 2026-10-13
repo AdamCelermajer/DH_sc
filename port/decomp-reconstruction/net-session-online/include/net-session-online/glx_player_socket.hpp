@@ -110,6 +110,19 @@ public:
         return -1;
     }
     virtual std::int32_t Connect() { return 0; }
+    // vtable +0x38: the connect step of Connection::connect (0x84581c), called with the host and a flag of
+    // 0. Nonzero when the connection is up. The base has no transport and returns 0.
+    virtual std::int32_t Connect(const char* host, std::int32_t flags) {
+        (void)host; (void)flags;
+        return 0;
+    }
+    // vtable +0x4c: whether received data is waiting. Connection::receiveDataLen (0x8466fc) calls it after
+    // Poll(false). The base has none.
+    virtual bool HasPendingData() const { return false; }
+    // +0x85c as Connection::connect reads it: the connect attempt count (two failed attempts give up).
+    // The transport's Connect counts; the base never does.
+    std::int32_t ConnectAttempts() const { return connecting_; }
+    void SetConnectAttempts(std::int32_t attempts) { connecting_ = attempts; }
 
     // 0x83003c _ZN15GLXPlayerSocket11GetAcceptIPEv
     const char* GetAcceptIP() const { return acceptIp_.get(); }

@@ -1,12 +1,12 @@
 // CMatchingGLLive: the matching layer on top of the Gameloft Live services. The original class
-// derives from CMatching (ported as CMatchingBase, c_matching_base.hpp, the first 0x3630 bytes) and
+// derives from CMatching (ported as CMatching, c_matching_base.hpp, the first 0x3630 bytes) and
 // adds the members listed below. The object is 0x6c08 bytes on the 32-bit target (operator new
 // size in CMatching::Get, 0x800f8c). The port keeps every member in the original order with its
 // 32-bit offset as a comment; the 64-bit object is larger and nothing here depends on the
 // offsets. Pointer-width members are host pointers, and the STLport containers (std::map,
 // std::list, std::vector, std::string) are the host's.
 //
-// Base members that this class reads (declared in CMatchingBase): +0x08 member capacity,
+// Base members that this class reads (declared in CMatching): +0x08 member capacity,
 // +0x0c initialized, +0x0d room hidden, +0x0e room closed, +0x0f byte set to 3 by the constructor.
 //
 // Layout of the members declared here (original 32-bit offsets):
@@ -35,7 +35,7 @@
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
-#include "net-session-online/deps/net_mutex.hpp"
+#include "net-transport/sync.hpp"
 #include "net-session-online/deps/net_struct_stub.hpp"
 #include "net-session-online/gl_friend_info.hpp"
 #include "net-session-online/t_matching_peer_t.hpp"
@@ -58,7 +58,7 @@ class GLXPlayerUser;
 class GLXPlayerMessage;
 class tFriendInfo;
 
-class CMatchingGLLive : public CMatchingBase {
+class CMatchingGLLive : public CMatching {
 public:
     // The replicated per-member element (NetStructArray-like table of 32 at +0x3a00, 360 bytes each in
     // the original). Constructor and destructor bodies are in
@@ -142,7 +142,7 @@ public:
     static const char* s_serverConfigGameVersion;
 
     // ---- Virtual slots, in vtable order. The byte offset of the slot (32-bit vtable) is in the
-    // comment. Slots that CMatching implements and CMatchingBase declares non-virtual (+0x1c
+    // comment. Slots that CMatching implements and CMatching declares non-virtual (+0x1c
     // UpdateMemberIdList, +0x78 SetTeamId, +0x7c GetTeamId, +0x80 SetRoomMemberAttibute, +0x88
     // GetMemberIdList, +0x9c ReceiveGameBootInvitation, +0xb4 LimitRoomSlots) are inherited.
     // +0x90 GetRoomList and +0x34 GetTransportType (a static here) are noted at their places.
@@ -171,6 +171,8 @@ public:
     // +0x34 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj: table {1, 2, 1}, 0 above 2. The object is not
     // read, so the port declares it static.
     static std::int32_t GetTransportType(std::uint32_t protocolType);
+    // vtable +0x34 hook of CMatching: the table lookup above.
+    int TransportTypeForProtocol(int protocol) override { return GetTransportType(static_cast<std::uint32_t>(protocol)); }
     // +0x38 0x81c880 _ZN15CMatchingGLLive9PingRoomsEv: posts event 8388624, returns 0.
     virtual std::int32_t PingRooms();
     // +0x3c 0x81f464 _ZN15CMatchingGLLive9LeaveRoomEv
@@ -194,7 +196,7 @@ public:
     // +0x60 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv. Partial, see the cpp.
     virtual std::int32_t GetMemberCount() const;
     // +0x64 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv. Partial, see the cpp. The body only reads state, so
-    // the port declares it const to serve CMatchingBase::UnknownGate.
+    // the port declares it const to serve CMatching::UnknownGate.
     virtual bool IsInRoom() const;
     // +0x68 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi. Partial, see the cpp.
     virtual bool IsInRoom(std::int32_t memberId);
@@ -226,7 +228,7 @@ public:
     // +0xb0 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
     virtual std::int64_t GetRoomId();
 
-    // ---- CMatchingBase slots served by the methods above (the base names them by use).
+    // ---- CMatching slots served by the methods above (the base names them by use).
     // +0x6c LocalMemberId(), +0x74 ServerMemberId(), +0x84 MemberBit(int), +0x64 UnknownGate(),
     // +0x88 ConnectedMemberIds(): CMatching::GetMemberIdList(), +0xa4 GetRoomAttributes() (above).
     int LocalMemberId() const override { return GetMemberId(); }
@@ -237,9 +239,9 @@ public:
     bool UnknownGate() const override { return IsInRoom(); }
     std::vector<int> ConnectedMemberIds() const override { return GetMemberIdList(); }
     // CMatching::IsServer is non-virtual in the original; the base keeps it virtual so tests can override.
-    bool IsServer() const override { return CMatchingBase::IsServer(); }
-    // Seams for CConnectionManager (GetConnectionMgr() in the original), served by the stand-in in
-    // deps/connection_manager_stand_in.hpp.
+    bool IsServer() const override { return CMatching::IsServer(); }
+    // Seams for CConnectionManager ((*CConnectionManager::GetInstance()) in the original), served by the stand-in in
+    // deps/net-transport/connection_manager.hpp.
     std::vector<int> ConnectionMemberIdList() const override;
     bool IsConnectedMember(int memberId) const override;
     void DisconnectMember(int memberId) override;
@@ -416,7 +418,7 @@ public:
     std::list<GLFriendInfo>& GLFriendListForTest() { return glFriends_; }
 
 private:
-    // Members in the original order. Offsets are 32-bit; the CMatchingBase part occupies +0x00..+0x362f.
+    // Members in the original order. Offsets are 32-bit; the CMatching part occupies +0x00..+0x362f.
     bool roomOperationPending_ = false;            // +0x3630 (set by Create/Search in the sibling classes, cleared by Join; AddServer posts 8388622 when set)
     std::uint8_t pad_3631[7] = {};                 // +0x3631
     std::uint8_t roomStatus_[2] = {0, 0};          // +0x3638, +0x3639 (ProcessRoomStatusMessage bytes 0 and 1)

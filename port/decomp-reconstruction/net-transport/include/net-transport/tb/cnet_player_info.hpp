@@ -54,7 +54,7 @@ public:
     virtual void Reset();                   // +0x4c, 0x80f27c
     virtual bool IsLocal() const;           // +0x50, 0x80f1ec
     virtual bool IsLocalTo(int member_index) const;  // +0x54, 0x80f1a0
-    virtual bool IsInRoom() const;          // +0x58, 0x80f180, skipped (CMatching slot +0x68 is not identified)
+    virtual bool IsInRoom() const;          // +0x58, 0x80f180, reconstructed (CMatching::IsInRoom(int) at +0x68)
     virtual bool IsActive() const;          // +0x5c, 0x80f124
     virtual bool IsActivating() const;      // +0x60, 0x36d208
 

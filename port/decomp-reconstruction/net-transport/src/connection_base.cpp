@@ -27,7 +27,8 @@ unsigned char ByteLength(const char* text) {
 // The host is copied (a null host is stored as an empty string) and the socket is created for it.
 Connection::Connection(char* host, int port)
     : host_(host ? host : ""), port_(port) {
-    socket_ = GLXPlayerSocketFactory::GetSocket(host_, port_, 0);
+    // The factory's observer argument is 0 in the original, which is nullptr here.
+    socket_.reset(GLXPlayerSocketFactory::GetSocket(host_.c_str(), port_, nullptr));
 }
 
 // 0x846b14 _ZN10ConnectionD1Ev
@@ -58,10 +59,11 @@ void Connection::sendData() {
     if (length != 0) {
         std::memcpy(send_buffer_ + 1, PayloadBody(packet), length);
     }
-    if (socket_->Select(1) < 0) {
+    if (socket_->Poll(true) < 0) {  // vtable +0x40, write readiness
         return;
     }
-    if (socket_->Send(send_buffer_, static_cast<int>(length) + 1) < 0) {
+    if (socket_->SendBytes(reinterpret_cast<const char*>(send_buffer_), static_cast<int>(length) + 1) < 0) {  // +0x44
+
         disconnect();
         return;
     }
@@ -91,13 +93,14 @@ void Connection::receiveDataLen() {
     if (recv_buf_len_ == 0) {
         std::memset(recv_buffer_, 0, kBufferBytes);
     }
-    if (socket_->Select(0) < 0) {
+    if (socket_->Poll(false) < 0) {  // vtable +0x40, read readiness
         return;
     }
-    if (!socket_->HasPendingData()) {
+    if (!socket_->HasPendingData()) {  // vtable +0x4c
         return;
     }
-    const int result = socket_->Recv(recv_buffer_ + recv_buf_len_, need_recv_data_len_ - recv_buf_len_);
+    const int result = socket_->RecvBytes(reinterpret_cast<char*>(recv_buffer_ + recv_buf_len_),  // vtable +0x48
+                                          need_recv_data_len_ - recv_buf_len_);
     if (result < 0) {
         return;
     }
@@ -179,26 +182,26 @@ void Connection::saveRetryData(DataPacket* packet) {
 
 // 0x84581c _ZN10Connection7connectEv
 // Partial: a guard is added for a missing socket (the original dereferences it after a
-// disconnect). Connect attempt counting is kept on the socket stand-in (connect_attempts_).
+// disconnect). The connect attempt count lives in the socket (+0x85c, ConnectAttempts).
 int Connection::connect() {
     if (state_ == 1) {
         if (!socket_) {
             state_ = 3;
             return 0;
         }
-        const int result = socket_->Connect(host_.c_str(), 0);
+        const int result = socket_->Connect(host_.c_str(), 0);  // vtable +0x38
         if (result) {
             connected_ = true;
             sendEstablishConnectionPackage();
             receiveDataLen();
             last_send_time_ = platform_calls::GetTime();
             state_ = 2;
-            socket_->connect_attempts_ = 0;
+            socket_->SetConnectAttempts(0);
             return 1;
         }
-        if (socket_->connect_attempts_ >= 2) {
+        if (socket_->ConnectAttempts() >= 2) {
             state_ = 3;
-            socket_->connect_attempts_ = 0;
+            socket_->SetConnectAttempts(0);
         }
         return 0;
     }
@@ -206,7 +209,7 @@ int Connection::connect() {
         return 0;
     }
     if (!host_.empty() && port_ != 0 && socket_) {
-        state_ = socket_->Start() ? 1 : 3;
+        state_ = socket_->BeginConnect() ? 1 : 3;  // vtable +0x28
         return 0;
     }
     state_ = 3;
@@ -489,7 +492,7 @@ int Connection::sendEstablishConnectionPackage() {
 void Connection::disconnect() {
     connected_ = false;
     if (socket_) {
-        socket_->Close();
+        socket_->OnCancelled();  // vtable +0x3c, the close hook (Connection::disconnect calls it, then deletes)
         socket_.reset();
     }
     cleanRetryData();

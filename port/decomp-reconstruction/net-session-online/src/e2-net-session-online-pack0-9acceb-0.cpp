@@ -1,4 +1,4 @@
-// Track B batch e2-net-session-online-pack0-9acceb-0 (owner CMatching, ported as CMatchingBase).
+// Track B batch e2-net-session-online-pack0-9acceb-0 (owner CMatching, ported as CMatching).
 // Both functions are partial. The demangled owner in each comment is the original CMatching.
 #include "net-session-online/c_matching_base.hpp"
 
@@ -32,7 +32,7 @@
 //   - The CConnectionManager event queue at +0x08 (event 0x600004) and its member-id branch
 //     (posts 0x40000a with COnline::ReportDisconnect(6), or 0x40000e), which is the last block of the body.
 // Deviation: the original returns the last callee's pointer. The port returns void.
-void CMatchingBase::ProcessEvents() {
+void CMatching::ProcessEvents() {
     CEventQueueBase& internal = MatchingInternalEventQueue();
     CEventQueueBase& output = MatchingOutputEventQueue();
     std::int32_t payload = 0;
@@ -148,7 +148,7 @@ void CMatchingBase::ProcessEvents() {
 // original returns 0. Not reproduced: the initialized branch, which updates the message layer
 // (CMessaging::Get()->Update), the connection manager (vtable +0x08), the net player manager
 // (vtable +0x08, then CSignIn::Get()->vtable +0x1c) and the virtual call at vtable +0x1c on this.
-int CMatchingBase::Update() {
+int CMatching::Update() {
     ProcessEvents();
     roomMaskDirty_ = true;  // +0x10
     return 0;

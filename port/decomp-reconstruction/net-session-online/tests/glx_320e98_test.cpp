@@ -57,7 +57,7 @@ public:
 int main() {
     // Constant returns and the provider store.
     FakeMatching fake;
-    CHECK(CMatching::Get() == nullptr);
+    CHECK(CMatching::Get() != nullptr);  // created on first use from the provider (binary: CMatching::Get)
     CHECK(fake.ReceiveGameBootInvitation() == 0);
     CHECK(fake.GetRoomId() == 0);
     CHECK(fake.LimitRoomSlots(5) == 0);

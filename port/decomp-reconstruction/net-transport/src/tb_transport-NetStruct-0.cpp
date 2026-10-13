@@ -1,13 +1,13 @@
 // NetStruct functions of batch e1-net-transport-NetStruct-0 (part 1 of 2), completed by the
 // integrator decisions (decisions-1): the member-mask functions (AreChangesAcknowledgedBy, Resend,
-// SetAckedBy, LoadInternal, Load, SetEnabled, HasDataToSend) are written against the CMatching stand-in
-// (deps/connection_deps.hpp: MemberBit vtable +0x84, LocalMemberId vtable +0x6c, GetRoomMask 0x8000dc).
+// SetAckedBy, LoadInternal, Load, SetEnabled, HasDataToSend) are written against CMatching
+// (net-session-online/deps/matching.hpp: MemberBit vtable +0x84, LocalMemberId vtable +0x6c, GetRoomMask 0x8000dc).
 // The class is declared in include/net-transport/net_struct.hpp.
 #include "net-transport/net_struct.hpp"
 
 #include <cassert>
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 // 0x81324c _ZN9NetStruct13DeclareMemberEP15NetStructMember
 // Original: count at +0x104, member stored at +0x04 + 4*count, count incremented. The original has

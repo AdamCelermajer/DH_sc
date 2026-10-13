@@ -28,7 +28,6 @@ int main() {
     NetBitStream in(32);
     in.WriteByteArray(header, 8);
     in.WriteByteArray(block, 2);
-    in.Rewind();
 
     CMsgQuestsSync m(false);
     CHECK(m.GetDataSize() == 8);
@@ -38,7 +37,6 @@ int main() {
 
     NetBitStream out(32);
     CHECK(m.WriteData(out) == 10);
-    out.Rewind();
     unsigned char got[10];
     out.ReadByteArray(got, 10);
     CHECK(std::memcmp(got, header, 8) == 0);

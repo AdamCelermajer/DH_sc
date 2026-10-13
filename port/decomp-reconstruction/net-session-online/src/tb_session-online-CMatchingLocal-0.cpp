@@ -4,7 +4,11 @@
 // are named in each comment, and they return 0 (see the ledger notes).
 #include "net-session-online/c_matching_local.hpp"
 
-#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 // 0x801b30 _ZNK14CMatchingLocal11GetMemberIdEv
 std::int32_t CMatchingLocal::GetMemberId() const {
@@ -69,7 +73,7 @@ bool CMatchingLocal::IsInRoom() {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
         return true;
     }
-    if (GetConnectionMgr().IsConnected(serverMemberId_)) {
+    if (CConnectionManager::GetInstance()->IsConnected(serverMemberId_)) {
         return true;
     }
     // CConnectionManager::IsInitialized(nullptr) not in port: treated as not initialized.

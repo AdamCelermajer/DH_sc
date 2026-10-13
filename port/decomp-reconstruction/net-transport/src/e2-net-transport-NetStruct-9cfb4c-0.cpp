@@ -5,7 +5,7 @@
 // comment above each one names what is missing.
 #include "net-transport/net_struct.hpp"
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 // 0x8139bc _ZN9NetStructD0Ev
 // skipped: deleting destructor (D0). The compiler generates it for `delete`; the original sets the

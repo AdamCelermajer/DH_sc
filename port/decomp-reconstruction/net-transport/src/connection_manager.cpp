@@ -8,6 +8,7 @@
 #include <cstring>
 #include <new>
 
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 #include "net-transport/deps/transport_manager.hpp"  // GetTransportMgr()
 
 namespace {
@@ -61,7 +62,7 @@ CNetMutex CConnectionManager::m_connections_mutex;
 // The C2 variant at 0x7fc140 has the same body and is skipped.
 CConnectionManager::CConnectionManager() {
     // Original: vptr, CNetMutex at +0x0c, then the event queue at +0x08 with its list sentinel
-    // at +0x10 and capacity 100 at +0x18. Those are set up by the CEventQueueBase stand-in.
+    // at +0x10 and capacity 100 at +0x18. CEventQueueBase has no capacity field, so those are not reproduced.
     for (CConnection*& slot : connections_) {
         slot = nullptr;
     }
@@ -361,7 +362,7 @@ void CConnectionManager::ProcessConnectionFinalize(CNetworkId& from, NetBitStrea
 
 // 0x7fc568 _ZN18CConnectionManager25ProcessConnectionResponseER10CNetworkIdR12NetBitStream
 // partial: the matching-state update after the response (the vtable calls at +0x6c/+0x70 on
-// CMatching, provisional names) is applied with provisional slot names.
+// CMatching: LocalMemberId and SetMemberId, vtable +0x6c and +0x70).
 void CConnectionManager::ProcessConnectionResponse(CNetworkId& from, NetBitStream& stream) {
     std::int32_t key_words[4] = {};
     stream.ReadByteArray(key_words, sizeof(key_words));
@@ -374,7 +375,7 @@ void CConnectionManager::ProcessConnectionResponse(CNetworkId& from, NetBitStrea
     // Key word 1 is compared with the local member id and stored when different.
     CMatching* matching = CMatching::Get();
     if (key_words[1] != matching->LocalMemberId()) {
-        CMatching::Get()->SetLocalMemberId(key_words[1]);
+        CMatching::Get()->SetMemberId(key_words[1]);
     }
 }
 
@@ -544,7 +545,7 @@ int CConnectionManager::Accept(int member_id, CNetworkId& id, std::uint64_t key)
 }
 
 // 0x7fca74 _ZN18CConnectionManager24ProcessConnectionRequestER10CNetworkIdR12NetBitStream
-// partial: a new member id (CMatching vtable +0xac, provisional name) is taken when the
+// partial: a new member id (CMatching::GenerateNewMemberId, vtable +0xac) is taken when the
 // packet has no member id and no existing connection matches its key.
 int CConnectionManager::ProcessConnectionRequest(CNetworkId& from, NetBitStream& stream) {
     // Words: [0] member id, [1] unused here, [2] key low, [3] key high.
@@ -566,7 +567,7 @@ int CConnectionManager::ProcessConnectionRequest(CNetworkId& from, NetBitStream&
         if (found && found->MemberId() >= 0) {
             return Accept(found->MemberId(), from, key);
         }
-        member = CMatching::Get()->NewMemberId();
+        member = CMatching::Get()->GenerateNewMemberId();
     }
     return Accept(member, from, key);
 }
@@ -638,14 +639,14 @@ void CConnectionManager::Terminate() {
 }
 
 // 0x7fcdec _ZN18CConnectionManager18InitializeInternalEv (ARM checked)
-// partial: the transport handles come from CMatching vtable +0x34 (name not recovered). The ARM
+// partial: the transport types come from CMatching::GetTransportType (vtable +0x34). The ARM
 // calls CTransportManager::Initialize with this+0x1c (the memset return value); this port calls it
 // on GetTransportMgr().
 int CConnectionManager::InitializeInternal() {
     RegisterPacketType(kConnectionPacketType, 0, &CConnectionManager::sPacketReceiverCallback);
     RegisterPacketType(kPingPacketType, 0, &CConnectionManager::sPingReceiverCallback);
     for (int protocol = 0; protocol < kTransportSlots; ++protocol) {
-        transports_[protocol] = CMatching::Get()->TransportHandle(protocol);
+        transports_[protocol] = CMatching::Get()->TransportTypeForProtocol(protocol);
     }
     for (CConnection*& slot : connections_) {
         slot = nullptr;

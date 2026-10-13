@@ -1,5 +1,5 @@
 #include "net-session-online/c_matching_gl_live.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
 // 0x821188 _ZN15CMatchingGLLive31BroadcastPacketReceiverCallbackER10CNetworkIdPci
 // The first byte of the packet selects the handler: 1 is a server message and 2 is a client

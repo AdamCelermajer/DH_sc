@@ -4,7 +4,7 @@
 #include <iterator>
 
 #include "net-transport/connection_manager.hpp"
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 namespace {
 

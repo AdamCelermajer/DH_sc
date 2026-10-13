@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-#include "net-transport/deps/connection_deps.hpp"  // CMatching (stand-in)
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 #include "net-transport/tb/net_player_manager_deps.hpp"
 
@@ -183,8 +183,8 @@ void CNetPlayerManager::sProcessAcknowledgedPacket(int a2, int a3) {
 }
 
 // 0x8105dc CNetPlayerManager::GetLocalPlayer(int)
-// The member id comes from CMatching::LocalMemberId (vtable +0x6c, provisional name in
-// connection_deps.hpp). The lookup itself is GetPlayerByMemberId, which is partial.
+// The member id comes from CMatching::LocalMemberId (vtable +0x6c) in
+// net-session-online/deps/matching.hpp). The lookup itself is GetPlayerByMemberId, which is partial.
 CNetPlayerInfo* CNetPlayerManager::GetLocalPlayer(int second_key) const {
     const int member_id = CMatching::Get()->LocalMemberId();
     return GetPlayerByMemberId(member_id, second_key, false);

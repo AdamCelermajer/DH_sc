@@ -4,8 +4,8 @@
 //
 // It is a template over the room attributes type only because the port has two CRoomAttributes
 // definitions that cannot be included in one translation unit: the stand-in in
-// deps/matching_stand_ins.hpp (used by CMatchingLocal) and the real class in c_room_attributes.hpp
-// (used by CMatchingBase and CMatchingGLLive). t_matching_peer.hpp names the stand-in instance
+// deps/c_room_attributes.hpp and deps/platform_stand_ins.hpp (used by CMatchingLocal) and the real class in c_room_attributes.hpp
+// (used by CMatching and CMatchingGLLive). t_matching_peer.hpp names the stand-in instance
 // tMatchingPeer; c_matching_gl_live.hpp names the real instance tMatchingPeer. When the room layer
 // is unified the template collapses to one class.
 //
@@ -26,7 +26,7 @@
 #include <cstdint>
 #include <string>
 
-#include "net-session-online/deps/network_id.hpp"
+#include "net-transport/net_network_id.hpp"
 
 template <class RoomAttributes, int Variant = 0>
 class tMatchingPeerT {

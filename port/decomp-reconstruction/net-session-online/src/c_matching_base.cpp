@@ -1,5 +1,5 @@
 // CMatching member and room layer (base of CMatchingLocal, CMatchingGLLive, CMatchingBluetooth).
-// The class is ported as CMatchingBase (see c_matching_base.hpp); the demangled owner in each
+// The class is ported as CMatching (see c_matching_base.hpp); the demangled owner in each
 // comment is the original CMatching.
 #include "net-session-online/c_matching_base.hpp"
 
@@ -10,7 +10,7 @@
 // 0x7fed84 _ZN9CMatching17ProcessLostPacketEii
 // Partial: the room attributes receive the call. The original then calls the NetStruct slot +0x44 of
 // every member element (0..memberCount-1) with the same two arguments; that is not ported.
-void CMatchingBase::ProcessLostPacket(int a2, int a3) {
+void CMatching::ProcessLostPacket(int a2, int a3) {
     if (CRoomAttributes* room = GetRoomAttributes()) room->ProcessLostPacket(a2, a3);
 }
 
@@ -18,7 +18,7 @@ void CMatchingBase::ProcessLostPacket(int a2, int a3) {
 // Partial: the bytes are copied (NetStructByteArray<64>::SetBuffer copies into a ByteArray and then
 // calls the member's Set slot, which is not ported). A negative size is not verified and is treated
 // as empty.
-void CMatchingBase::SetRoomMemberAttibute(int memberId, const void* data, int size) {
+void CMatching::SetRoomMemberAttibute(int memberId, const void* data, int size) {
     const std::int32_t index = GetMemberIndex(memberId);
     if (index < 0 || index >= memberCount_) return;
     auto& buffer = members_[index].roomAttribute;  // element +0x180
@@ -32,7 +32,7 @@ void CMatchingBase::SetRoomMemberAttibute(int memberId, const void* data, int si
 
 // 0x7ff054 _ZN9CMatching21GetRoomMemberAttibuteEiPvi
 // The fourth argument is not read by the body. The stored size is copied and returned.
-int CMatchingBase::GetRoomMemberAttibute(int memberId, void* out, int /*outSize*/) {
+int CMatching::GetRoomMemberAttibute(int memberId, void* out, int /*outSize*/) {
     const std::int32_t index = GetMemberIndex(memberId);
     if (index < 0 || index >= memberCount_) return 0;
     const auto& buffer = members_[index].roomAttribute;  // element +0x180
@@ -43,7 +43,7 @@ int CMatchingBase::GetRoomMemberAttibute(int memberId, void* out, int /*outSize*
 
 // 0x8000dc _ZN9CMatching11GetRoomMaskEv
 // The cache is a function-local static in the original, so it is shared by every instance. Kept so.
-std::uint32_t CMatchingBase::GetRoomMask() {
+std::uint32_t CMatching::GetRoomMask() const {
     static std::uint32_t maskCache = 0;  // CMatching::GetRoomMask()::maskCache
     if (!roomMaskDirty_) return maskCache;
 
@@ -59,7 +59,7 @@ std::uint32_t CMatchingBase::GetRoomMask() {
 }
 
 // 0x8001d4 _ZN9CMatching12TestRoomMaskEj
-bool CMatchingBase::TestRoomMask(std::uint32_t bits) {
+bool CMatching::TestRoomMask(std::uint32_t bits) const {
     const std::uint32_t mask = GetRoomMask();
     return (mask & bits) == mask;
 }
@@ -69,7 +69,7 @@ bool CMatchingBase::TestRoomMask(std::uint32_t bits) {
 // notifications on each member field (NetStructMember::SetChanged, and the Set slots that the body
 // calls with the value). The original also compares the new id with a stack slot that is not
 // identified; the port always stores the new value.
-void CMatchingBase::UpdateMemberIdList() {
+void CMatching::UpdateMemberIdList() {
     if (!UnknownGate()) return;
 
     if (IsServer() && UnknownGate()) {
@@ -126,7 +126,7 @@ void CMatchingBase::UpdateMemberIdList() {
 
 // 0x800808 _ZN9CMatching15GetMemberIdListEv
 // Returns the ids (element +0x150) of the members that hold one, in slot order.
-std::vector<int> CMatchingBase::GetMemberIdList() const {
+std::vector<int> CMatching::GetMemberIdList() const {
     std::vector<int> ids;
     for (std::int32_t i = 0; i < memberCount_; ++i) {
         const int memberId = members_[i].memberId;
@@ -138,7 +138,7 @@ std::vector<int> CMatchingBase::GetMemberIdList() const {
 // 0x8008ac _ZN9CMatching9SetTeamIdEih
 // Partial: the team value is stored (team object +0x158, value +0x178). The NetStruct change
 // notification is not ported.
-void CMatchingBase::SetTeamId(int memberId, std::uint8_t teamId) {
+void CMatching::SetTeamId(int memberId, std::uint8_t teamId) {
     const std::int32_t index = GetMemberIndex(memberId);
     if (index < 0 || index >= memberCount_) return;
     members_[index].teamId = static_cast<std::int32_t>(teamId);

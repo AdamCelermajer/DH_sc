@@ -4,6 +4,8 @@
 #include <list>
 #include <string>
 
+// A player name for the packet senders: the real ConnectionLobby sends read it (the stand-in ignored it).
+static char kName[] = "lobby";
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
@@ -54,7 +56,7 @@ int main() {
     CHECK(!lobby.mpIsInSession());
 
     // Login has no state check: it always sends and sets kind 1.
-    lobby.mpSendLobbyLogin(1L, nullptr, 0, 0);
+    lobby.mpSendLobbyLogin(1L, kName, 0, 0);
     CHECK(lobby.PendingKindForTest() == 1);
 
     // The friend-list and create-lobby sends are allowed in state 2 and set their request kinds.
@@ -69,10 +71,10 @@ int main() {
         l.mpSendGetLobbyForFriend(1, 2, &friends);
         CHECK(l.PendingKindForTest() == 12);
         CHECK(l.PendingForTest());
-        l.mpSendCreateLobby(nullptr, 0, 0, 0, nullptr, 0, nullptr, 0, nullptr);
+        l.mpSendCreateLobby(kName, 0, 0, 0, kName, 0, kName, 0, nullptr);
         CHECK(l.PendingKindForTest() == 5);
         std::list<std::string> names;
-        l.mpSendCreateLobbyWithGameCenter(nullptr, 0, 0, 0, nullptr, 0, nullptr, 0, nullptr, names);
+        l.mpSendCreateLobbyWithGameCenter(kName, 0, 0, 0, kName, 0, kName, 0, nullptr, names);
         CHECK(l.PendingKindForTest() == 5);
         CHECK(obs.invalid == 1);  // none of the above was refused
     }

@@ -1,7 +1,7 @@
 elf_address,symbol,status,source_file,notes
 0x31d8d0,_ZN8CMessage10GetDataPtrEv,reconstructed,net-session-online/src/c_message.cpp,
-0x31d8d8,_ZN6IEventD1Ev,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,empty virtual destructor
-0x31d8dc,_ZNK6IEvent10getEventIDEv,reconstructed,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,returns the id at +0x04
+0x31d8d8,_ZN6IEventD1Ev,reconstructed,game/include/dh2/IEvent.hpp,empty virtual destructor u1-core: IEvent moved to the game header dh2/IEvent.hpp (getEventID is the virtual slot +0x08 there); net-session-online/i_event.hpp is retired by the unification map.
+0x31d8dc,_ZNK6IEvent10getEventIDEv,reconstructed,game/include/dh2/IEvent.hpp,returns the id at +0x04 u1-core: IEvent moved to the game header dh2/IEvent.hpp (getEventID is the virtual slot +0x08 there); net-session-online/i_event.hpp is retired by the unification map.
 0x31f424,_ZN13CMsgStartGame10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
 0x31f42c,_ZNK13CMsgStartGame11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
 0x31f434,_ZN20CMsgControllerAction10GetDataPtrEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header; returns the opaque payload bytes
@@ -28,7 +28,7 @@ elf_address,symbol,status,source_file,notes
 0x31f4e4,_ZNK23CMsgAskResendAttributes11GetDataSizeEv,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,inline in header
 0x31fb84,_ZN12CMsgDropLoot9ResetDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,zeroes byte +0x50 and +0x54..+0x67 as the original; frees the block and clears the pointer
 0x31fbc0,_ZN14CMsgQuestsSync9ResetDataEv,reconstructed,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,zeroes the 8-byte header and frees the block
-0x31fc20,_ZN6IEventD0Ev,skipped,port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp,compiler-generated deleting destructor; virtual dtor covers it
+0x31fc20,_ZN6IEventD0Ev,skipped,game/include/dh2/IEvent.hpp,compiler-generated deleting destructor; virtual dtor covers it u1-core: IEvent moved to the game header dh2/IEvent.hpp (getEventID is the virtual slot +0x08 there); net-session-online/i_event.hpp is retired by the unification map.
 0x31fed8,_ZN23CMsgAskResendAttributesD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
 0x31ff0c,_ZN15CMsgGlobalDeathD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
 0x31ff40,_ZN15CMsgSpawnObjectD1Ev,reconstructed,net-session-online/include/net-session-online/c_msg_fixed.hpp,implicit virtual destructor; base CMessage dtor
@@ -232,10 +232,10 @@ elf_address,symbol,status,source_file,notes
 0x7fe4ac,_ZN9CMatching9GetRoomIdEv,reconstructed,net-session-online/src/glx_320e98.cpp,returns 0 (64-bit)
 0x7fe4b8,_ZN9CMatching14LimitRoomSlotsEj,reconstructed,net-session-online/src/glx_320e98.cpp,returns 0
 0x7fe4c0,_ZN9CMatching19SetMatchingProviderENS_18MATCHING_PROVIDERSE,reconstructed,net-session-online/src/glx_320e98.cpp,stores the provider in CMatching::s_matchingProvider (stand-in static in deps/matching.hpp)
-0x7fe4e0,_ZN9CMatching8IsServerEv,reconstructed,net-session-online/src/tb_session-online-CMatching-0.cpp,"Out-of-line definition of the existing pure virtual CMatchingBase::IsServer (original is non-virtual). Reads initialized_ (+0x0c), then LocalMemberId() (vtable +0x6c) against ServerMemberId() (+0x74)."
-0x7fe544,_ZN9CMatching14IsMemberServerEi,reconstructed,net-session-online/src/glx_320e98.cpp,memberId >= 0 and equal to ServerMemberId() (vtable +0x74)
+0x7fe4e0,_ZN9CMatching8IsServerEv,reconstructed,net-session-online/src/tb_session-online-CMatching-0.cpp,"Out-of-line definition of CMatching::IsServer (the binary's IsServer is non-virtual; the port keeps it virtual so tests can override). Initialized flag (+0x0c), then local member id (vtable +0x6c) against server member id (vtable +0x74). CMatching is the one base class of CMatchingLocal and CMatchingGLLive."
+0x7fe544,_ZN9CMatching14IsMemberServerEi,reconstructed,net-session-online/include/net-session-online/c_matching_base.hpp,Inline in the header: memberId >= 0 and equal to ServerMemberId() (vtable +0x74). The out-of-line copy in glx_320e98.cpp was removed (one definition).
 0x7fe574,_ZN9CMatching8LockRoomEb,partial,net-session-online/src/tb_session-online-CMatching-0.cpp,Sets baseRoomClosed_ (+0x0e). The vtable +0x48 call made when the argument is true is not ported (slot not identified). The original returns that call's result or the object pointer; the port returns 0.
-0x7fe59c,_ZN9CMatching14GetMemberIndexEi,reconstructed,net-session-online/src/glx_320e98.cpp,lowest set bit of MemberBit() (vtable +0x84); -1 for empty mask
+0x7fe59c,_ZN9CMatching14GetMemberIndexEi,reconstructed,net-session-online/include/net-session-online/c_matching_base.hpp,Inline in the header: lowest set bit of MemberBit() (vtable +0x84); -1 for an empty mask. The out-of-line copy in glx_320e98.cpp was removed (one definition).
 0x7fe5e0,_ZN9CMatching9GetTeamIdEi,reconstructed,net-session-online/src/tb_session-online-CMatching-0.cpp,Team byte of the member found by GetMemberIndex (element +0x178). Returns 0 when the index is negative or at/after memberCount_.
 0x7fe618,_ZN9CMatching18GetMemberIdByIndexEj,partial,net-session-online/src/tb_session-online-CMatching-0.cpp,Returns the member id at element +0x150. Deviation: index >= 32 returns -1 (original reads past the table).
 0x7fe628,_ZN9CMatching15sReadPacketDataEiiR12NetBitStream,partial,net-session-online/src/glx_320e98.cpp,"forwards to vtable +0x10 (vtReadPacketData, name not identified); null instance returns 0 where the original dereferences"

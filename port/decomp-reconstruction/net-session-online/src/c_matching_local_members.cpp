@@ -3,7 +3,7 @@
 
 // 0x805c04 _ZNK14CMatchingLocal14GetMemberCountEv
 std::int32_t CMatchingLocal::GetMemberCount() const {
-    return GetConnectionMgr().GetConnectionCount(false) + 1;
+    return CConnectionManager::GetInstance()->GetConnectionCount(false) + 1;
 }
 
 // 0x805c1c _ZN14CMatchingLocal8IsInRoomEi
@@ -14,7 +14,7 @@ bool CMatchingLocal::IsInRoom(std::int32_t memberId) const {
     if (memberId_ == memberId) {
         return false;  // IsInRoom() of the local member: not in this port
     }
-    if (GetConnectionMgr().IsConnected(memberId)) {
+    if (CConnectionManager::GetInstance()->IsConnected(memberId)) {
         return true;
     }
     // Member-table check (entry +0x150 >= 0) is not reproduced.
@@ -23,7 +23,7 @@ bool CMatchingLocal::IsInRoom(std::int32_t memberId) const {
 
 // 0x805d38 _ZN14CMatchingLocal10KickMemberEi
 std::int32_t CMatchingLocal::KickMember(std::int32_t memberId) {
-    GetConnectionMgr().Disconnect(memberId, true);
+    CConnectionManager::GetInstance()->Disconnect(memberId, true);
     return 0;
 }
 

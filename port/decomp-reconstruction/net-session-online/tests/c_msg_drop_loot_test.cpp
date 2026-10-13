@@ -31,7 +31,6 @@ int main() {
     NetBitStream in(64);
     in.WriteByteArray(header, 0x18);
     in.WriteByteArray(block, 3);
-    in.Rewind();
 
     CMsgDropLoot m(true);
     CHECK(m.GetDataSize() == 24);  // empty block before the read
@@ -42,7 +41,6 @@ int main() {
 
     NetBitStream out(64);
     CHECK(m.WriteData(out) == 27);
-    out.Rewind();
     unsigned char got[27];
     out.ReadByteArray(got, 27);
     CHECK(std::memcmp(got, header, 0x18) == 0);

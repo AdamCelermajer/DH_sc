@@ -1,6 +1,6 @@
 // Test for the CNetPlayerInfo methods completed by the integrator decisions: Add, Reset, Remove, Disconnect,
 // SetState, IsHost, IsInRoom and Update. The player's state lives in NetStructMember blocks, so every store
-// goes through the block's SetValue (compare, store, SetChanged). The CMatching stand-in supplies the server flag
+// goes through the block's SetValue (compare, store, SetChanged). The CMatching test double supplies the server flag
 // (SetServerForTest), the local member id (0) and the in-room flag (SetInRoomForTest).
 #include <cstdio>
 
@@ -10,7 +10,7 @@
 #undef protected
 #undef private
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "fake_matching.hpp"  // CMatching test double (net-session-online/deps/matching.hpp)
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -47,7 +47,7 @@ int main() {
         p.Add();
         CHECK(p.state_.GetValue() == 1);
 
-        CMatching::SetServerForTest(true);
+        SetServerForTest(true);
         p.conn_index_.SetValue(2);
         p.unk_1c8.SetValue(3);
         p.Disconnect();
@@ -55,7 +55,7 @@ int main() {
         p.Remove();
         CHECK(p.state_.GetValue() == 0 && p.conn_index_.GetValue() == -1 && p.unk_1c8.GetValue() == -1);
 
-        CMatching::SetServerForTest(false);
+        SetServerForTest(false);
         p.Disconnect();
         CHECK(p.state_.GetValue() == 5);                           // client: 5
         p.Remove();
@@ -66,17 +66,17 @@ int main() {
         CHECK(p.unk_240.GetValue() == 7 && p.unk_240.IsChanged());
         p.SetState(static_cast<char>(7));
         CHECK(!p.unk_240.IsChanged());
-        CMatching::SetServerForTest(false);
+        SetServerForTest(false);
     }
 
     // IsInRoom (CMatching vtable +0x68 with the connection index) and IsHost (manager host member id).
     {
         CNetPlayerInfo p;
-        CMatching::SetInRoomForTest(false);
+        SetInRoomForTest(false);
         CHECK(!p.IsInRoom());
-        CMatching::SetInRoomForTest(true);
+        SetInRoomForTest(true);
         CHECK(p.IsInRoom());
-        CMatching::SetInRoomForTest(false);
+        SetInRoomForTest(false);
 
         CNetPlayerManager mgr;
         CNetPlayerManager* saved = CNetPlayerManager::s_playerManager;
@@ -98,7 +98,7 @@ int main() {
         mgr.id_list_dirty_ = false;
 
         CNetPlayerInfo p;
-        CMatching::SetServerForTest(false);
+        SetServerForTest(false);
         p.conn_index_.SetValue(0);          // the stand-in's local member id is 0
         p.unk_1c8.SetValue(0);
         p.member_id_.SetValue(1);
@@ -117,12 +117,12 @@ int main() {
 
         // State 0 with the struct enabled: once the changes are acknowledged the struct is disabled. The
         // server's room mask is 0 in the stand-in, so a server acknowledges at once.
-        CMatching::SetServerForTest(true);
+        SetServerForTest(true);
         p.state_.SetValue(0);
         p.Update();                         // applied 3 -> 0, Reset(), then the enabled/acknowledged tail
         CHECK(p.applied_state_ == 0);
         CHECK(!p.enabled_);
-        CMatching::SetServerForTest(false);
+        SetServerForTest(false);
         CNetPlayerManager::s_playerManager = saved;
     }
 

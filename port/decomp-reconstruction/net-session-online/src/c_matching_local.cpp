@@ -2,7 +2,7 @@
 
 #include "net-session-online/member_mask.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
 // 0x801b14 _ZN14CMatchingLocal12IsRoomHiddenEv
 bool CMatchingLocal::IsRoomHidden() const {

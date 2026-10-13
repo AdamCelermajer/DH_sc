@@ -13,8 +13,13 @@
 #include <string>
 #include <vector>
 
-#include "net-session-online/deps/matching_stand_ins.hpp"
-#include "net-session-online/deps/net_mutex.hpp"
+#include "net-session-online/c_matching_base.hpp"  // CMatching, the base class (one definition)
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
+#include "net-transport/sync.hpp"
 #include "net-session-online/t_friend_info.hpp"
 #include "net-session-online/t_matching_peer.hpp"
 
@@ -29,7 +34,7 @@ struct RoomServerHeader {
 };
 static_assert(sizeof(RoomServerHeader) == 40, "RoomServerHeader is the 40-byte wire record");
 
-class CMatchingLocal {
+class CMatchingLocal : public CMatching {
 public:
     // Nested replicated struct, defined in tb/cmatching_local_server_backup_net_struct.hpp.
     class ServerBackupNetStruct;
@@ -56,6 +61,8 @@ public:
     // 0x8056a0 _ZN14CMatchingLocal16GetTransportTypeE14tPROTOCOL_TYPE: table {1, 2, 1}
     // indexed by the protocol type; any type above 2 gives 0. The object is not read.
     static std::int32_t GetTransportType(std::uint32_t protocolType);
+    // vtable +0x34 hook of CMatching: the table lookup above.
+    int TransportTypeForProtocol(int protocol) override { return GetTransportType(static_cast<std::uint32_t>(protocol)); }
     // 0x801fb0 _ZN14CMatchingLocal14SendInvitationEPKcS1_b: posts event 0x800015, returns 0.
     // The original's names are not used by the body.
     std::int32_t SendInvitation(const char* from, const char* to, bool flag);
@@ -73,6 +80,13 @@ public:
     std::int32_t GetMemberId() const;
     // 0x801b48 _ZNK14CMatchingLocal17GetServerMemberIdEv: the server member id at +0x363c.
     std::int32_t GetServerMemberId() const;
+    // The CMatching virtuals of the binary's CMatchingLocal vtable: +0x6c GetMemberId, +0x74 GetServerMemberId,
+    // +0x84 GetMemberMask.
+    int LocalMemberId() const override { return GetMemberId(); }
+    int ServerMemberId() const override { return GetServerMemberId(); }
+    std::uint32_t MemberBit(int memberId) const override {
+        return static_cast<std::uint32_t>(GetMemberMask(memberId));
+    }
     // 0x805680 _ZN14CMatchingLocal14GetFriendsListEb (partial: element type inferred).
     std::vector<tFriendInfo> GetFriendsList(bool flag);
     // 0x8057f0 _ZN14CMatchingLocal17ProcessLostPacketEii (partial: returns 0).
@@ -182,9 +196,7 @@ private:
     std::uint8_t roomHiddenFlag_ = 0;  // +0x4b8d
 
     // Base-class fields of the original (CMatching). Their writers are not in this port yet.
-    bool initialized_ = false;             // +0x0c (set by the base Initialize)
-    bool hiddenBeforeClose_ = false;       // +0x0d (CloseRoom saves IsRoomHidden() here)
-    bool baseRoomClosed_ = false;          // +0x0e (read by ShowRoom and OpenRoom)
+    // (+0x0c initialized_, +0x0d roomHidden_, +0x0e baseRoomClosed_ are the CMatching base fields.)
     std::int32_t joinThreshold_ = 0;       // +0x08 (rank limit used by JoinRoomInternal and ProcessServerMessage)
 
     bool roomOperationPending_ = false;    // +0x3630

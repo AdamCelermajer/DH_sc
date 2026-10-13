@@ -20,7 +20,7 @@
 #include <map>
 #include <vector>
 
-#include "net-transport/deps/connection_deps.hpp"  // CMatching (stand-in, src/connection_deps.cpp)
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_struct.hpp"
 #include "net-transport/tb/cnet_player_info.hpp"

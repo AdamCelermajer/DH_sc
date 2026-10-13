@@ -21,7 +21,7 @@
 #include <memory>
 #include <string>
 
-#include "net-session-online/deps/connection_lobby.hpp"
+#include "net-transport/connection_lobby.hpp"  // ConnectionLobby (one definition, net-transport)
 #include "net-session-online/deps/glx_stand_ins.hpp"
 #include "net-session-online/glx_player_mp_base.hpp"
 #include "net-session-online/glx_player_user_friend.hpp"
@@ -122,7 +122,7 @@ public:
 
     // Not in the original: test seams that set state and read back the request kind.
     void SetStateForTest(std::uint8_t state) { state_ = state; }
-    void AttachConnectionForTest() { connection_ = std::make_unique<ConnectionLobby>(); }
+    void AttachConnectionForTest() { connection_ = std::make_unique<ConnectionLobby>(nullptr, 0); }
     std::int32_t LastResultForTest() const { return lastResult_; }
     std::int32_t PendingKindForTest() const { return pendingKind_; }
     bool PendingForTest() const { return pendingActive_; }

@@ -1,6 +1,7 @@
 // Acknowledgement bit field, header preparation and the send/receive entry points that do not
 // need a live connection.
 #include "net-transport/packet_manager.hpp"
+#include "fake_matching.hpp"  // CMatching test double
 
 #include <cstdio>
 

@@ -46,6 +46,9 @@ public:
 class ConnectionLobby : public Connection {
 public:
     ConnectionLobby(char* host, int port);             // 0x849164 _ZN15ConnectionLobbyC1EPci (C2 0x849198, same body)
+    // The request time at +0x2050 (word 2068), written by GLXPlayerMPLobby (mpSendGetPlayerCounter 0x837674 and
+    // the other request senders store XP_API_GET_TIME() there). The same slot as establish_time_ below.
+    void SetRequestTime(std::uint32_t timeMs) { establish_time_ = static_cast<int>(timeMs); }
     ~ConnectionLobby() override;                       // 0x8490e0 _ZN15ConnectionLobbyD1Ev (D1 0x849130, D0 0x849114)
     ConnectionLobby(const ConnectionLobby&) = delete;
     ConnectionLobby& operator=(const ConnectionLobby&) = delete;

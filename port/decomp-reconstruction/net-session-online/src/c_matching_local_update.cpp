@@ -1,6 +1,10 @@
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 // 0x80890c _ZN14CMatchingLocal6UpdateEv
 // Partial. Reproduced: the not-initialized return, the server change when there are no
@@ -13,7 +17,7 @@ std::int32_t CMatchingLocal::Update() {
         return -1;
     }
 
-    const bool hasConnections = GetConnectionMgr().GetConnectionCount(false) > 0;
+    const bool hasConnections = CConnectionManager::GetInstance()->GetConnectionCount(false) > 0;
     if (!hasConnections && memberId_ >= 0 && memberId_ != serverMemberId_) {
         // Server change: clear the room flags, announce the change, post 0x80000b.
         serverMemberId_ = memberId_;

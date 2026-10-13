@@ -4,7 +4,7 @@
 #include <cstring>
 
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -76,7 +76,6 @@ int main() {
         NetBitStream stream(4);
         std::int32_t id = 77;
         stream.WriteByteArray(&id, sizeof id);
-        stream.Rewind();
         CMatchingGLLive m;
         m.ProcessChangeServerMessage(0, stream);
         CHECK(m.ServerMemberIdForTest() == 77);
@@ -95,7 +94,6 @@ int main() {
         stream.WriteByteArray(head, sizeof head);
         stream.WriteByteArray(&first, sizeof first);
         stream.WriteByteArray(&second, sizeof second);
-        stream.Rewind();
         CMatchingGLLive m;
         m.ProcessRoomStatusMessage(0, stream);
         CHECK(m.RoomStatusForTest(0) == 0x11);

@@ -339,9 +339,12 @@ void NetBitStream::GetBuffer(char* out, std::uint32_t) {
 }
 
 // 0x80ee3c _ZN12NetBitStream9SetBufferEPKcj
+// The original copies the bytes and sets the write position to 8 * length (the store at +0x10 of
+// the disassembly). The copy is clamped to the buffer here, so the position is clamped too.
 void NetBitStream::SetBuffer(const char* src, std::size_t length) {
     if (length > size_) {
         length = size_;
     }
     std::memcpy(buffer_, src, length);
+    write_pos_ = static_cast<std::uint32_t>(length * 8);
 }

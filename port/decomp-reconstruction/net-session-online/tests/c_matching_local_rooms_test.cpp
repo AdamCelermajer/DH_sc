@@ -1,3 +1,5 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
+static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 
@@ -6,11 +8,9 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Reset() is 0x8074a4 and belongs to no slice yet. The room bodies only call it.
-void CMatchingLocal::Reset() {}
 
 static void Clean() {
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     MatchingInternalEventQueue().Clear();
 }
 
@@ -71,9 +71,9 @@ int main() {
         CHECK(local.MemberIdForTest() == 1);
         CHECK(local.ServerMemberIdForTest() == 1);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x800003, false));
-        CHECK(!GetConnectionMgr().Sent().empty());
-        CHECK(GetConnectionMgr().Sent().back().packetType == 2);
-        CHECK(GetConnectionMgr().Sent().back().broadcast);
+        CHECK(!SentPacketLog().empty());
+        CHECK(SentPacketLog().back().packetType == 2);
+        CHECK(SentPacketLog().back().broadcast);
     }
 
     // SearchRoomInternal posts 0x80000e only when the server list is not empty.
@@ -101,17 +101,17 @@ int main() {
         local.SetJoinThresholdForTest(5);
         CHECK(local.AddServer(11, CNetworkId{}, 3, CRoomAttributes()) == 0);  // key 1, rank 3
         CHECK(local.JoinRoomInternal(1) == 0);
-        CHECK(GetConnectionMgr().IsConnected(11));
+        CHECK(connection_manager_test::ConnectionRequested(11));
         CHECK(local.ServerMemberIdForTest() == 11);
 
         Clean();
         local.SetJoinThresholdForTest(5);
         CNetworkId other;
-        other.Bytes()[0] = 2;
+        other.SetAddress0(2, 0);
         CHECK(local.AddServer(12, other, 9, CRoomAttributes()) == 0);  // key 2, rank 9
         CHECK(local.JoinRoomInternal(2) == 0);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000d, false));
-        CHECK(!GetConnectionMgr().IsConnected(12));
+        CHECK(!CConnectionManager::GetInstance()->IsConnected(12));
     }
 
     // LeaveRoom: when this member is the server it answers first; then it disconnects everything
@@ -121,15 +121,15 @@ int main() {
         Clean();
         local.SetMemberId(5);
         SetServerId(local, 5);
-        GetConnectionMgr().Connect(8, CNetworkId{});
+        connection_manager_test::ConnectPeer(8);
         Clean();
-        GetConnectionMgr().Connect(8, CNetworkId{});
+        connection_manager_test::ConnectPeer(8);
         CHECK(local.LeaveRoom() == 0);
-        CHECK(!GetConnectionMgr().IsConnected(8));
+        CHECK(!CConnectionManager::GetInstance()->IsConnected(8));
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x800004, false));
         // The server response goes out before the disconnect.
-        CHECK(!GetConnectionMgr().Sent().empty());
-        CHECK(GetConnectionMgr().Sent().front().packetType == 2);
+        CHECK(!SentPacketLog().empty());
+        CHECK(SentPacketLog().front().packetType == 2);
     }
 
     // GetSearchRoomAttributes is safe for an unknown key.

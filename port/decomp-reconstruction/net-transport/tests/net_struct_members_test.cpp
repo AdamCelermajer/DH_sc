@@ -1,12 +1,12 @@
 // Test for the NetStruct functions of batch e1-net-transport-NetStruct-0 that the integrator decisions
 // completed: SetEnabled, Resend (both forms), SetAckedBy, LoadInternal / Load / Erase with PostLoad,
 // AreChangesAcknowledgedBy, HasDataToSend as a virtual slot, GetChangedBitMap and the declared member
-// count. The CMatching stand-in maps member id n to the bit 1 << n and the local member id is 0.
+// count. The CMatching test double maps member id n to the bit 1 << n and the local member id is 0.
 #include "net-transport/net_struct.hpp"
 
 #include <cstdio>
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "fake_matching.hpp"  // CMatching test double (net-session-online/deps/matching.hpp)
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -48,7 +48,7 @@ struct Overriding : NetStruct {
 }  // namespace
 
 int main() {
-    CMatching::SetRoomMaskForTest(3);
+    SetRoomMaskForTest(3);
 
     // HasDataToSend through the base pointer reaches the override.
     {
@@ -157,7 +157,7 @@ int main() {
         CHECK(cond.a.GetValue() == 0x11);
     }
 
-    CMatching::SetRoomMaskForTest(0);
+    SetRoomMaskForTest(0);
     if (failures == 0) {
         std::printf("net_struct_members_test: all checks passed\n");
         return 0;

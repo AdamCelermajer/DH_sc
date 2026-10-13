@@ -20,7 +20,7 @@
 #include "net-session-online/c_event.hpp"
 #include "net-session-online/c_event_queue_base.hpp"
 #include "net-session-online/c_sign_in.hpp"
-#include "net-session-online/deps/net_mutex.hpp"
+#include "net-transport/sync.hpp"
 
 class CSignInGLLive : public CSignIn {
 public:

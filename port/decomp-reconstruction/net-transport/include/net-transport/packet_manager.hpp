@@ -4,7 +4,7 @@
 // Slot registry, sequence arithmetic, header (de)serialisation, the incoming queue, the
 // per-member state, the acknowledgement and loss bookkeeping, and the send and receive paths.
 // The send and receive paths use the CConnectionManager stand-in surface and CMatching from
-// deps/connection_deps.hpp.
+// net-session-online/deps/matching.hpp.
 #pragma once
 
 #include <cstdint>

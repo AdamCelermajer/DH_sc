@@ -8,7 +8,7 @@
 #include "net-session-online/c_sign_in.hpp"
 #include "net-session-online/c_sign_in_gl_live_observer.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_component.hpp"
 #include "net-session-online/glx_player_leaderboard.hpp"
@@ -199,7 +199,7 @@ void CMatchingGLLive::PacketReceiverCallback(int from, char* data, int size) {
     const auto byteCount = static_cast<std::uint32_t>(size);
     NetBitStream stream(byteCount);
     stream.WriteByteArray(data, byteCount);
-    stream.Rewind();
+    // The read position is still at 0 (WriteByteArray does not move it), so the reads start at the beginning.
 
     std::uint8_t type = 0;
     stream.ReadByteArray(&type, 1);

@@ -195,7 +195,7 @@ Queue: 1235 rows, 239 still unledgered. Every ledger address is in queue.csv (ch
 - CMatchingGLLive (`c_matching_gl_live.hpp`): +0x0d room hidden, +0x0e room closed, +0x3640 local
   member id, +0x3644 server member id, +0x6700 friends, +0x6be0 friend list loaded. The byte at
   +0x67ed is the alpha-server switch read by the sign-in observer (reached through the CMatching seam).
-  The full layout is in "Decision 6" at the end of this file (CMatchingGLLive now derives from CMatchingBase).
+  The full layout is in "Decision 6" at the end of this file (CMatchingGLLive now derives from CMatching).
 - CMatchingGLLiveLobbyObserver: +0x04 logged-in, +0x05 connected, +0x06 game started, +0x14 state,
   +0x48 last result. The friend observer has a flag at +0x04. The message observer has only a vptr.
 - GLXPlayerLogin: +0x40 keep-alive enabled, +0x44 time of last keep-alive, APNS strings and ports
@@ -391,14 +391,14 @@ buffer and state members), and the LC_API_FREE and LC_API_MALLOC thunks.
   wrong place. The data-end constant (v58 = end + 4 in the pseudocode, +2 in the listing) is unresolved. Left partial
   until the wire format is checked against a real capture. Do not "fix" it to standard chunked semantics without that.
 
-## Decision 6: CMatchingGLLive on CMatchingBase (Track B integrator, applied)
+## Decision 6: CMatchingGLLive on CMatching (Track B integrator, applied)
 
-`CMatchingGLLive` now derives from `CMatchingBase` (the original CMatching, the first 0x3630 bytes) and declares every
+`CMatchingGLLive` now derives from `CMatching` (the original CMatching, the first 0x3630 bytes) and declares every
 member in original order with its 32-bit offset (`include/net-session-online/c_matching_gl_live.hpp`). The object is
 0x6c08 bytes in the original (operator new size in `CMatching::Get`, 0x800f8c). The constructor 0x81e7f0 runs the
 CMatching constructor first and the vtable (`_ZTV15CMatchingGLLive`) holds the CMatching slots, so the base fits.
 
-Base members added to `CMatchingBase`: +0x08 member capacity (the `Initialize(int)` argument), +0x0d room hidden, +0x0f a
+Base members added to `CMatching`: +0x08 member capacity (the `Initialize(int)` argument), +0x0d room hidden, +0x0f a
 byte (the GLLive constructor sets it to 3; it is the byte argument of `mpSendJoinLobby`). `Update` and `Initialize` are
 virtual in the base now (vtable +0x30 and +0x28, confirmed by `tools/decomp_vtable.py`). The base slots are served by
 `LocalMemberId` = `GetMemberId` (+0x6c), `ServerMemberId` = `GetServerMemberId` (+0x74), `MemberBit` = `GetMemberMask`
@@ -410,7 +410,7 @@ STLport `std::string` at +0x67f0 (`playerParam_`, 24 bytes: 16-byte buffer, fini
 binary (+0x3630 byte, +0x3650 CRoomAttributes, +0x6718 GLXPlayerUser*, +0x67ec byte, +0x6808 CLobbyParameterAndQuery*,
 +0x6834 room operation, +0x6838 Game Center state).
 
-Layout (offset, name, type; the CMatchingBase part is +0x00..+0x362f):
+Layout (offset, name, type; the CMatching part is +0x00..+0x362f):
 
 | offset | name | type |
 |---|---|---|
@@ -477,3 +477,50 @@ Decisions and deviations:
 - The destructor frees the objects Initialize creates (server config, GLXPlayerUser, lobby query). The original never
   frees the GLXPlayerUser; the port does.
 - Names that are guesses are avoided: `unk_<offset>` is used where no access shows a role.
+
+## Integrator ruling: CMatching is one class (2026-10-13)
+
+The binary decides. Its base class is `CMatching`: `CMatching::CMatching` (0x80003c, vtable `_ZTV9CMatching`),
+and `CMatchingLocal::CMatchingLocal` (0x807e44) and `CMatchingGLLive::CMatchingGLLive` (0x81e9dc) both call
+`CMatching::CMatching(this)` first. `CMatchingBase` was the port's name for that same base (its header says so),
+so the port has one class now:
+
+- `include/net-session-online/c_matching_base.hpp` defines `class CMatching` (the former CMatchingBase layout plus
+  the members of the former `deps/matching.hpp` stand-in). `deps/matching.hpp` only includes it, because the
+  game-app test includes that path.
+- `CMatchingLocal` and `CMatchingGLLive` derive from `CMatching`. CMatchingLocal's copies of the base fields
+  (initialized_ at +0x0c, the room hidden flag at +0x0d, baseRoomClosed_ at +0x0e) are removed; the base holds them.
+- Pure virtuals are only MemberBit, LocalMemberId, ServerMemberId and IsServer. The others have defaults, so the
+  game-app test's `FakeMatching` (overrides five members) still compiles.
+- `CMatching::Get()` returns `s_Matching` and creates the object on first use from `s_matchingProvider`, as the
+  binary's Get does (provider 0 or 1: CMatchingLocal; 3: CMatchingGLLive(false); 4: CMatchingGLLive(true)).
+  It is in `src/glx_320e98.cpp`. The constructors do not assign `s_Matching`. `Set()` remains as a test helper.
+- `CMatching::Initialize` calls `CConnectionManager::Initialize()` when it is not initialized. The binary reaches
+  it through `CSignIn::Get()`'s vtable +0x08; CSignIn is not ported, so the call is direct.
+- The transport hook is `TransportTypeForProtocol(int)` (vtable +0x34). The binary's name is GetTransportType,
+  but the derived classes keep their table lookups as statics named GetTransportType (tests call them), and a
+  virtual of the same name with another signature would clash with them. CMatchingLocal and CMatchingGLLive
+  override the hook to call their table.
+
+Not ported: **CMatchingBluetooth** (provider 2). The port has only its static functions and no instance state, so
+it cannot honestly derive from CMatching. `CMatching::Get()` returns null for provider 2 until it is reconstructed.
+
+## CConnectionManager, CNetworkId, NetStruct, ConnectionLobby (2026-10-13)
+
+- The real `CConnectionManager` (net-transport/connection_manager.hpp) replaces the stand-in. `GetConnectionMgr()`
+  is gone: call `CConnectionManager::GetInstance()`, which is null until `CConnectionManager::Initialize()`.
+  Tests initialize it through `tests/connection_manager_for_tests.hpp`.
+- Sends: `SendToAll` goes to connected connections only, as the binary does, so a server change with no connected
+  peer sends nothing. The transport stand-ins record what they are handed in `SentPacketLog()`
+  (net-transport/deps/connection_env.hpp); the tests read that log where they used to read `Sent()`.
+- The packet registrations live in the static `s_recvCBMap`, which `Terminate` does not clear. The test reset
+  unregisters them explicitly.
+- `CNetworkId`, `NetStruct`, `NetStructMemberType` and `ConnectionLobby` are the net-transport classes. The
+  net-session-online stand-ins are deleted. `NetStructMemberType<T>::TestValue` defaults to true (the binary's int
+  version returns 1), and its `(int size_bits)` constructor is public. `CMatchingLocal::MemberInfoNetStruct`'s
+  int and CNetworkId members use small subclasses whose Read and Write are no-ops, because the binary's vtables
+  for them are not identified (the stand-in never called them either).
+- `ConnectionLobby::SetRequestTime` writes the +0x2050 slot. GLXPlayerMPLobby writes the request time there, and
+  the real class names that slot `establish_time_`; they are the same slot.
+- Blocked CRoomAttributes::Serialize and Unserialize (declared in c_room_attributes.hpp, not ported) have
+  no-op bodies in `src/room_attributes_impl.cpp`, with the behaviour of the stand-in they replace.

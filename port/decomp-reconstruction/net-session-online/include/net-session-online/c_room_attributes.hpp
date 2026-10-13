@@ -41,7 +41,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
 class CRoomAttributes {
 public:

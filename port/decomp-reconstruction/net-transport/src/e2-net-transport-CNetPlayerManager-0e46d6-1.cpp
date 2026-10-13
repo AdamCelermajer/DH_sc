@@ -11,7 +11,7 @@
 #include <cstddef>
 #include <vector>
 
-#include "net-transport/deps/connection_deps.hpp"  // CMatching (stand-in)
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 #include "net-transport/tb/cnet_player_info.hpp"
 
 // 0x812d50 CNetPlayerManager::GetPlayerIdListByMemberId(int)
@@ -47,7 +47,7 @@ bool CNetPlayerManager::MemberHasActivePlayers(int a2) {
 
 // 0x812ea8 CNetPlayerManager::GetLocalPlayerIdList()
 // Local member id from CMatching (vtable +0x6c, LocalMemberId), then the lookup above. CMatching is
-// the connection_deps.hpp stand-in, whose LocalMemberId returns 0.
+// the CMatching object (net-session-online/deps/matching.hpp).
 std::vector<int>& CNetPlayerManager::GetLocalPlayerIdList() {
     return GetPlayerIdListByMemberId(CMatching::Get()->LocalMemberId());
 }

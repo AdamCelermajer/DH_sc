@@ -1,13 +1,13 @@
 // Test for batch e2-net-transport-NetStruct-9cfb4c-0 (packet history, the serialize entry points,
 // ProcessLostPacket / ProcessAcknowledgedPacket and SerializeInternal).
 // The test links the whole library, so it uses the real NetStruct (constructor, destructor, Load, Erase,
-// Resend, HasDataToSend, SetEnabled) and the CMatching stand-in of deps/connection_deps.hpp. The stand-in's
+// Resend, HasDataToSend, SetEnabled) and the CMatching test double (fake_matching.hpp). The double's
 // MemberBit(id) is 1 << id for ids 0..31 and its LocalMemberId() is 0.
 #include "net-transport/net_struct.hpp"
 
 #include <cstdio>
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "fake_matching.hpp"  // CMatching test double (net-session-online/deps/matching.hpp)
 #include "net-transport/tb/net_struct_int.hpp"
 
 static int failures = 0;
@@ -124,7 +124,7 @@ int main() {
     // SerializeInternal on an enabled struct with two 8-bit members. Member id 1 has the stand-in bit 2 and
     // the room mask is bits 0 and 1.
     {
-        CMatching::SetRoomMaskForTest(3);
+        SetRoomMaskForTest(3);
         TwoMembers p;
         p.a.SetValue(0x11);
         p.b.SetValue(0x22);
@@ -161,7 +161,7 @@ int main() {
         p.ProcessAcknowledgedPacket(1, 79);
         CHECK(!p.has(1, 79));
         CHECK(p.AreChangesAcknowledgedBy(1));
-        CMatching::SetRoomMaskForTest(0);
+        SetRoomMaskForTest(0);
     }
 
     if (failures == 0) {

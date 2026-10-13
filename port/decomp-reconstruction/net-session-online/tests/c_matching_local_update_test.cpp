@@ -1,3 +1,5 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
+static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 
@@ -7,7 +9,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 static void Clean() {
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     MatchingInternalEventQueue().Clear();
 }
 
@@ -17,7 +19,7 @@ int main() {
         CMatchingLocal local;
         Clean();
         CHECK(local.Update() == -1);
-        CHECK(GetConnectionMgr().Sent().empty());
+        CHECK(SentPacketLog().empty());
     }
 
     // Server change with no connections: the local id becomes the server id, the change message
@@ -29,10 +31,20 @@ int main() {
         local.SetMemberId(5);
         CHECK(local.Update() == 0);
         CHECK(local.ServerMemberIdForTest() == 5);
-        CHECK(!GetConnectionMgr().Sent().empty());
-        CHECK(GetConnectionMgr().Sent().back().packetType == 4);
+        // The change message goes to connected peers only (SendToAll); there are none, so nothing is sent.
+        CHECK(SentPacketLog().empty());
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000b, false));
-        CHECK(GetConnectionMgr().Sent().size() == 1);
+    }
+
+    // With a connected peer Update does not announce the server change (it runs only with no connections).
+    {
+        CMatchingLocal local;
+        Clean();
+        connection_manager_test::ConnectPeer(7);
+        local.SetInitializedForTest(true);
+        local.SetMemberId(5);
+        CHECK(local.Update() == 0);
+        CHECK(SentPacketLog().empty());
     }
 
     // Final step: with 0x80000a pending and this member as the server, a response goes out
@@ -49,9 +61,9 @@ int main() {
         local.SetRoomFlagsForTest(false, false);
         MatchingInternalEventQueue().AddEvent(0x80000a, nullptr, 0);
         CHECK(local.Update() == 0);
-        CHECK(!GetConnectionMgr().Sent().empty());
-        CHECK(GetConnectionMgr().Sent().back().packetType == 2);
-        CHECK(GetConnectionMgr().Sent().back().broadcast);
+        CHECK(!SentPacketLog().empty());
+        CHECK(SentPacketLog().back().packetType == 2);
+        CHECK(SentPacketLog().back().broadcast);
         CHECK(!MatchingInternalEventQueue().HasEventOccured(0x80000a, false));
     }
 
@@ -68,7 +80,7 @@ int main() {
         local.SetRoomFlagsForTest(false, true);
         MatchingInternalEventQueue().AddEvent(0x80000a, nullptr, 0);
         CHECK(local.Update() == 0);
-        CHECK(GetConnectionMgr().Sent().empty());
+        CHECK(SentPacketLog().empty());
     }
 
     std::printf("%s\n", failures ? "c_matching_local_update: FAILED" : "c_matching_local_update: ok");

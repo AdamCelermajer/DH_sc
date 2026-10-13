@@ -6,9 +6,6 @@
 
 namespace {
 
-// Base fields of intMember_ that the original constructor writes inline (no constructor call):
-// size 32 bits, change stamp 0, ackMask -1, sentMask -1, changeMask 0, changed false.
-constexpr stand_in::NetStructMember::Init kIntMemberInit{32, 0, 0xffffffffu, 0xffffffffu, 0, false};
 
 // CNetworkId::Reset on a local, as the original does before copying it into the member.
 CNetworkId ZeroNetworkId() {
@@ -39,15 +36,15 @@ CNetworkId ZeroNetworkId() {
 //     do not touch each other, so the order is not observable here.
 //   - Step 3 reads a value slot the original constructor never clears. In C++ the member starts
 //     at 0, so the reset branch cannot run. It is kept so the control flow matches the decompile.
-//   - The base is the stand-in in deps/net_struct_stand_in.hpp. The real NetStruct also owns the
+//   - The base is the real NetStruct (net-transport/net_struct.hpp). The NetStruct base also owns the
 //     std::map packet history (+0x10c), which is not modelled.
-//   - SetChanged() comes from the stand-in, not the real body (0x814f84). See that header.
+//   - SetChanged() is the real NetStructMember::SetChanged (0x814f84).
 CMatchingLocal_MemberInfoNetStruct::CMatchingLocal_MemberInfoNetStruct()
-    : stand_in::NetStruct(),
-      intMember_(kIntMemberInit, 0),
+    : NetStruct(),
+      intMember_(),
       networkIdMember_(ZeroNetworkId()) {
-    if (intMember_.RawValue() != 0) {
-        intMember_.RawValue() = 0;
+    if (intMember_.GetValue() != 0) {
+        intMember_.SetValue(0);
         intMember_.SetChanged();
     }
     DeclareMember(&intMember_);

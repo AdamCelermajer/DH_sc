@@ -7,7 +7,7 @@
 
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 #include "net-session-online/glx_player_component.hpp"
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/glx_player_message.hpp"

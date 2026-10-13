@@ -13,7 +13,7 @@
 #include <set>
 
 #include "net-session-online/c_message.hpp"
-#include "net-session-online/deps/net_mutex.hpp"
+#include "net-transport/sync.hpp"
 
 class CMessaging {
 public:

@@ -4,7 +4,9 @@
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in.hpp"
 #include "net-session-online/c_sign_in_gl_live_observer.hpp"
-#include "net-session-online/deps/connection_manager_stand_in.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
@@ -53,19 +55,19 @@ CMatchingGLLive::~CMatchingGLLive() {
     s_IsGameStarting = false;
 }
 
-// CMatchingBase seams for CConnectionManager (GetConnectionMgr() in the original). Not virtual slots of
-// CMatching: CMatchingBase::UpdateMemberIdList and ProcessEvents call the connection manager through them.
+// CMatching seams for CConnectionManager ((*CConnectionManager::GetInstance()) in the original). Not virtual slots of
+// CMatching: CMatching::UpdateMemberIdList and ProcessEvents call the connection manager through them.
 // CConnectionManager::GetConnMemberIdList(false).
 std::vector<int> CMatchingGLLive::ConnectionMemberIdList() const {
-    return GetConnectionMgr().GetConnMemberIdList(false);
+    return CConnectionManager::GetInstance()->GetConnMemberIdList(false);
 }
 // CConnectionManager::IsConnected(int).
 bool CMatchingGLLive::IsConnectedMember(int memberId) const {
-    return GetConnectionMgr().IsConnected(memberId);
+    return CConnectionManager::GetInstance()->IsConnected(memberId);
 }
 // CConnectionManager::Disconnect(int, false).
 void CMatchingGLLive::DisconnectMember(int memberId) {
-    GetConnectionMgr().Disconnect(memberId, false);
+    CConnectionManager::GetInstance()->Disconnect(memberId, false);
 }
 
 // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv

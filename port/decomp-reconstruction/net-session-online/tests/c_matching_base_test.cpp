@@ -9,7 +9,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 // Test double: member slot i holds the bit for member id i (MemberBit(id) = 1 << id).
-class TestMatching : public CMatchingBase {
+class TestMatching : public CMatching {
 public:
     int localId = 0;
     int serverId = 0;

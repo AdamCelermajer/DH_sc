@@ -1,7 +1,6 @@
-// CMatching base layout: the room and member layer that CMatchingLocal, CMatchingGLLive and
-// CMatchingBluetooth derive from. This header does not replace deps/matching.hpp (the stand-in
-// that the message layer uses). It records the layout recovered from the bodies below, so the
-// blocked rows can be written against real offsets.
+// CMatching: the room and member layer, the binary's base class of CMatchingLocal and CMatchingGLLive
+// (CMatchingBluetooth is not derived; see NOTES.md, integrator ruling). This header is the one definition
+// of the class; deps/matching.hpp includes it. It records the layout recovered from the bodies below.
 //
 // Source addresses (32-bit ARM, Hex-Rays bodies):
 //   ProcessLostPacket(int,int) 0x7fed84, SetRoomMemberAttibute 0x7ff008, GetRoomMemberAttibute 0x7ff054,
@@ -64,10 +63,48 @@
 #include <vector>
 
 #include "net-session-online/c_room_attributes.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
-class CMatchingBase {
+class CMatching {
 public:
+    // The matching object. The binary's CMatching::Get() returns the static CMatching::s_Matching and creates
+    // it on first use from s_matchingProvider (1 CMatchingLocal, 2 CMatchingBluetooth, 3 and 4 CMatchingGLLive);
+    // see src/tb_session-online-CMatching-0.cpp. Set() is a port helper for tests (the binary assigns the
+    // static inside Get, not in the constructors).
+    static CMatching* Get();
+    static void Set(CMatching* matching) { s_Matching = matching; }
+    static CMatching* s_Matching;                  // CMatching::s_Matching
+    enum MATCHING_PROVIDERS : std::int32_t {};
+    static inline std::int32_t s_matchingProvider = 0;  // CMatching::s_matchingProvider (set by SetMatchingProvider)
+    static void SetMatchingProvider(MATCHING_PROVIDERS provider);       // 0x7fe4c0
+    std::int32_t ReceiveGameBootInvitation() const;                     // 0x7fe4a4, returns 0
+    std::uint64_t GetRoomId() const;                                    // 0x7fe4ac, returns 0
+    std::int32_t LimitRoomSlots(std::uint32_t slots) const;             // 0x7fe4b8, returns 0
+    // Static forwarders to the matching object (s_Matching). Null instance returns 0.
+    static std::int32_t sReadPacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream);    // 0x7fe628
+    static std::int32_t sWritePacketData(std::int32_t a1, std::int32_t a2, NetBitStream& stream);   // 0x7fe66c
+    static std::int32_t sProcessAcknowledgedPacket(std::int32_t a1, std::int32_t a2);               // 0x7fe6b0
+    static std::int32_t sProcessLostPacket(std::int32_t a1, std::int32_t a2);                       // 0x7fe6ec
+    // Vtable slots +0x0c, +0x10, +0x14, +0x18 (names not identified).
+    virtual std::int32_t vtWritePacketData(std::int32_t, std::int32_t, NetBitStream&) { return 0; }
+    virtual std::int32_t vtReadPacketData(std::int32_t, std::int32_t, NetBitStream&) { return 0; }
+    virtual std::int32_t vtProcessAcknowledgedPacket(std::int32_t, std::int32_t) { return 0; }
+    virtual std::int32_t vtProcessLostPacket(std::int32_t, std::int32_t) { return 0; }
+    // vtable +0x34: CMatchingLocal::GetTransportType(tPROTOCOL_TYPE) (0x8056a0). The port names the hook
+    // TransportTypeForProtocol because the derived classes keep their table lookups as statics named
+    // GetTransportType. Base: 0 for an unknown protocol.
+    virtual int TransportTypeForProtocol(int protocol) { (void)protocol; return 0; }
+    // vtable +0x64/+0x68: IsInRoom(int), whether the member index is in the room. Default: false.
+    virtual bool IsInRoom(int memberIndex) { (void)memberIndex; return false; }
+    // vtable +0x70: CMatchingLocal::SetMemberId(int), the local member id. Default: no-op.
+    virtual void SetMemberId(int memberId) { (void)memberId; }
+    // vtable +0xac: CMatchingLocal::GenerateNewMemberId(). Default: 0.
+    virtual int GenerateNewMemberId() { return 0; }
+    // Not in the original's base, kept virtual so tests and the game can fake the room mask. Default: GetRoomMask.
+    // Alpha-server switch and SetGCState: not in the port's base; defaults.
+    virtual bool UseAlphaServer() const { return false; }
+    virtual void SetGCState(std::int32_t /*state*/) {}
+
     static constexpr int kMaxMembers = 32;           // NetStructArray<MemberInfoNetStruct,32>
     static constexpr int kMemberInfoStride = 432;    // 0x1b0 bytes per element
     static constexpr int kElementsBase = 0x20;       // first element, CMatching-relative
@@ -91,24 +128,24 @@ public:
     };
 
     // 0x7fff9c / 0x80003c CMatching::CMatching(): partial, see src/tb_session-online-CMatching-0.cpp.
-    CMatchingBase();
-    virtual ~CMatchingBase() = default;
+    CMatching();
+    virtual ~CMatching() = default;
 
     // Virtual slots (32-bit byte offsets in the comment). Names are the ones the bodies suggest.
     virtual int LocalMemberId() const = 0;                   // +0x6c
     virtual int ServerMemberId() const = 0;                  // +0x74
     virtual std::uint32_t MemberBit(int memberId) const = 0; // +0x84
-    virtual bool UnknownGate() const = 0;                    // +0x64 (IsInRoom() in the derived classes)
-    virtual std::vector<int> ConnectedMemberIds() const = 0; // +0x88 (CMatching::GetMemberIdList() in the vtables)
-    virtual CRoomAttributes* GetRoomAttributes() = 0;        // +0xa4
+    virtual bool UnknownGate() const { return false; }                    // +0x64 (IsInRoom() in the derived classes)
+    virtual std::vector<int> ConnectedMemberIds() const { return {}; } // +0x88 (CMatching::GetMemberIdList() in the vtables)
+    virtual CRoomAttributes* GetRoomAttributes() { return nullptr; }// +0xa4
 
     // Non-virtual in the original. The port keeps it virtual so tests can override.
-    virtual bool IsServer() const = 0;
+    virtual bool IsServer() const;  // 0x7fe4e0 CMatching::IsServer (c_matching_base.cpp)
 
-    // Seams for CConnectionManager (net-transport, GetConnectionMgr() in the original).
+    // Seams for CConnectionManager (net-transport, (*CConnectionManager::GetInstance()) in the original).
     // Not virtual slots of CMatching: the derived class forwards them to the manager.
-    virtual std::vector<int> ConnectionMemberIdList() const = 0;  // GetConnMemberIdList(false)
-    virtual bool IsConnectedMember(int memberId) const = 0;       // CConnectionManager::IsConnected
+    virtual std::vector<int> ConnectionMemberIdList() const { return {}; }  // GetConnMemberIdList(false)
+    virtual bool IsConnectedMember(int memberId) const { (void)memberId; return false; }// CConnectionManager::IsConnected
     // CConnectionManager::Disconnect(id, false). Not pure: a derived class that does not forward it keeps
     // the no-op. Added for CMatching::ProcessEvents (e2 batch); CMatchingLocal and the others do not forward it yet.
     virtual void DisconnectMember(int /*memberId*/) {}
@@ -145,9 +182,9 @@ public:
     // the body: the stored size is copied and returned.
     int GetRoomMemberAttibute(int memberId, void* out, int outSize);
     // 0x8000dc CMatching::GetRoomMask(). Non-virtual. Cache is a function-local static, as decompiled.
-    std::uint32_t GetRoomMask();
+    virtual std::uint32_t GetRoomMask() const;
     // 0x8001d4 CMatching::TestRoomMask(unsigned int): true when every bit of the room mask is in bits.
-    bool TestRoomMask(std::uint32_t bits);
+    bool TestRoomMask(std::uint32_t bits) const;
     // 0x8002bc CMatching::UpdateMemberIdList(). Partial: the NetStruct change notifications
     // (NetStructMember::SetChanged and the member Set slots) are not ported; the stored values and
     // the queued events are.
@@ -173,7 +210,7 @@ protected:
     bool roomHidden_ = false;                    // +0x0d (IsRoomHidden of CMatchingGLLive; CMatchingLocal saves the hidden state here)
     bool baseRoomClosed_ = false;                // +0x0e (set by LockRoom)
     std::uint8_t unk_0f = 0;                     // +0x0f (cleared by the constructor; CMatchingGLLive sets 3)
-    bool roomMaskDirty_ = false;                 // +0x10
+    mutable bool roomMaskDirty_ = false;         // +0x10 (cleared by GetRoomMask, which is const)
     int memberCount_ = 0;                        // +0x1c
     MemberInfo members_[kMaxMembers];            // +0x20, stride 432
 };

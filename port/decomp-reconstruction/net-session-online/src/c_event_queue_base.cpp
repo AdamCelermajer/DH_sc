@@ -3,11 +3,12 @@
 // 0x7fe3fc _ZN15CEventQueueBaseD1Ev (0x7fe460 is the deleting D0, skipped)
 CEventQueueBase::~CEventQueueBase() = default;
 
-// 0x7fe204 _ZN15CEventQueueBase8AddEventEiPvi
-void CEventQueueBase::AddEvent(int type, void* data, int size) {
+// 0x7fe204 _ZN15CEventQueueBase8AddEventEiPvi (returns the unlock result, 0)
+int CEventQueueBase::AddEvent(int type, void* data, int size) {
     mutex_.Lock();
     events_.emplace_back(type, data, static_cast<std::size_t>(size));
     mutex_.Unlock();
+    return 0;
 }
 
 // 0x7fde10 _ZN15CEventQueueBase9HasEventsEv (no lock taken in the original)
@@ -40,11 +41,12 @@ void CEventQueueBase::Clear(int type) {
     mutex_.Unlock();
 }
 
-// 0x7fe438 _ZN15CEventQueueBase5ClearEv
-void CEventQueueBase::Clear() {
+// 0x7fe438 _ZN15CEventQueueBase5ClearEv (returns the unlock result, 0)
+int CEventQueueBase::Clear() {
     mutex_.Lock();
     events_.clear();
     mutex_.Unlock();
+    return 0;
 }
 
 // 0x7fe330 _ZN15CEventQueueBase9FindEventEib

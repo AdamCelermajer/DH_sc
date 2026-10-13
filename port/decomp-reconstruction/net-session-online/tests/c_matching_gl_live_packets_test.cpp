@@ -1,5 +1,5 @@
 #include "net-session-online/c_matching_gl_live.hpp"
-#include "net-session-online/deps/network_id.hpp"
+#include "net-transport/net_network_id.hpp"
 
 #include <cstdio>
 

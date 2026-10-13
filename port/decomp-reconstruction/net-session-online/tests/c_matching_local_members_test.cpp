@@ -1,3 +1,5 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
+static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_local.hpp"
 
 #include <cstdio>
@@ -6,19 +8,19 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     CMatchingLocal local;
 
     // GetMemberCount is the connected peers plus the local member.
     CHECK(local.GetMemberCount() == 1);
-    GetConnectionMgr().Connect(3, CNetworkId{});
-    GetConnectionMgr().Connect(4, CNetworkId{});
+    connection_manager_test::ConnectPeer(3);
+    connection_manager_test::ConnectPeer(4);
     CHECK(local.GetMemberCount() == 3);
 
     // KickMember disconnects that member and returns 0.
     CHECK(local.KickMember(3) == 0);
-    CHECK(!GetConnectionMgr().IsConnected(3));
-    CHECK(local.GetMemberCount() == 2);
+    CHECK(!CConnectionManager::GetInstance()->IsConnected(3));
+    CHECK(local.GetMemberCount() == 3);  // the kicked peer keeps its connection object (binary DisconnectPeer): still counted
 
     // IsInRoom: a connected member is in the room; the local member is not (stand-in);
     // an unknown member is not.

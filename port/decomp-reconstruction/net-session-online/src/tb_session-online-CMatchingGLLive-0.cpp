@@ -15,18 +15,20 @@
 
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in.hpp"
-#include "net-session-online/deps/connection_manager_stand_in.hpp"
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/t_friend_info.hpp"
 
 // 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii
-// Partial. Calls CMatching::ProcessLostPacket (CMatchingBase::ProcessLostPacket, itself partial), then NetStruct
+// Partial. Calls CMatching::ProcessLostPacket (CMatching::ProcessLostPacket, itself partial), then NetStruct
 // vtable slot +0x44 on each of the 32 member entries at +0x3a00 (stride 0x168). The entry's slot is a stand-in
 // that does nothing (the packet history belongs to net-transport's NetStruct).
 void CMatchingGLLive::ProcessLostPacket(std::int32_t a2, std::int32_t a3) {
-    CMatchingBase::ProcessLostPacket(a2, a3);
+    CMatching::ProcessLostPacket(a2, a3);
     for (MemberInfoNetStruct& entry : memberInfo_) {
         entry.ProcessLostPacket(a2, a3);
     }
@@ -34,7 +36,7 @@ void CMatchingGLLive::ProcessLostPacket(std::int32_t a2, std::int32_t a3) {
 
 // 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii
 // Partial. Same shape as ProcessLostPacket: the original calls CMatching::ProcessAcknowledgedPacket (0x7fed08,
-// not ported in CMatchingBase) and then NetStruct slot +0x40 on each member entry. Only the loop over the entries
+// not ported in CMatching) and then NetStruct slot +0x40 on each member entry. Only the loop over the entries
 // runs here, and the entry's slot is a stand-in that does nothing.
 void CMatchingGLLive::ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3) {
     for (MemberInfoNetStruct& entry : memberInfo_) {
@@ -46,7 +48,7 @@ void CMatchingGLLive::ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3
 // Reads a signed count byte, then for each entry 32 bytes: a 4-byte member id followed by a 28-byte CNetworkId (the
 // original reads all 32 bytes into a stack object that holds the id and the address). An entry whose id is not
 // the local member id (LocalMemberId(), vtable +0x6c) and is not connected posts event 8388614 on the matching
-// queue with the id. The connection check uses the connection manager stand-in (deps/connection_manager_stand_in.hpp).
+// queue with the id. The connection check uses the connection manager stand-in (deps/net-transport/connection_manager.hpp).
 void CMatchingGLLive::ProcessMemberJoinMessage(std::int32_t /*a2*/, NetBitStream& stream) {
     const std::int8_t count = static_cast<std::int8_t>(stream.ReadByte(8));
     for (int i = 0; i < count; ++i) {
@@ -54,7 +56,7 @@ void CMatchingGLLive::ProcessMemberJoinMessage(std::int32_t /*a2*/, NetBitStream
         stream.ReadByteArray(entry, sizeof entry);
         std::int32_t memberId = 0;
         std::memcpy(&memberId, entry, sizeof memberId);
-        if (memberId != LocalMemberId() && !GetConnectionMgr().IsConnected(memberId)) {
+        if (memberId != LocalMemberId() && !CConnectionManager::GetInstance()->IsConnected(memberId)) {
             MatchingInternalEventQueue().AddEvent(8388614, &memberId, sizeof memberId);
         }
     }
@@ -64,12 +66,13 @@ void CMatchingGLLive::ProcessMemberJoinMessage(std::int32_t /*a2*/, NetBitStream
 // Writes one byte (2) to a 0x800-byte stream and broadcasts it as packet type 2 through the connection manager
 // (CConnectionManager::SendBroadcast; the original passes the buffer and its length rounded up to whole bytes).
 // Returns the send result. Partial only through the stand-in: the connection manager is the recording stand-in of
-// deps/connection_manager_stand_in.hpp, whose send reports 0.
+// deps/net-transport/connection_manager.hpp, whose send reports 0.
 std::int32_t CMatchingGLLive::SendClientRequest() {
     NetBitStream stream(0x800);
     const std::uint8_t kind = 2;
     stream.WriteByteArray(&kind, 1);
-    return GetConnectionMgr().SendBroadcast(2, stream);
+    auto bytes = StreamBytes(stream);
+    return CConnectionManager::GetInstance()->SendBroadcast(2, bytes.data(), static_cast<int>(bytes.size()));
 }
 
 // 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv
@@ -91,7 +94,7 @@ std::int32_t CMatchingGLLive::GetMemberByMemberId(std::int32_t /*memberId*/) { r
 bool CMatchingGLLive::IsInRoom() const {
     if (s_IsGameStarting) {
         if (IsServer()) return true;
-        return GetConnectionMgr().GetConnectionCount(false) > 0;
+        return CConnectionManager::GetInstance()->GetConnectionCount(false) > 0;
     }
     CSignIn* signIn = CSignIn::Get();
     if (signIn != nullptr && signIn->LoggedInForTest()) {
@@ -107,7 +110,7 @@ bool CMatchingGLLive::IsInRoom() const {
 // second case returns 0.
 std::int32_t CMatchingGLLive::GetMemberCount() const {
     if (s_IsGameStarting) {
-        return GetConnectionMgr().GetConnectionCount(false) + 1;
+        return CConnectionManager::GetInstance()->GetConnectionCount(false) + 1;
     }
     return 0;  // Partial: the observer's member vector size is not available.
 }
@@ -164,7 +167,7 @@ std::vector<std::int32_t> CMatchingGLLive::GetGLLiveMemberIdList() { return {}; 
 bool CMatchingGLLive::IsInRoom(std::int32_t memberId) {
     if (s_IsGameStarting) {
         if (memberId_ == memberId) return IsInRoom();
-        return GetConnectionMgr().IsConnected(memberId);
+        return CConnectionManager::GetInstance()->IsConnected(memberId);
     }
     return memberId >= 0 && memberId < GetMemberCount();
 }

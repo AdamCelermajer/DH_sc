@@ -13,7 +13,7 @@ std::int32_t CMatchingLocal::HideRoom() {
 
 // 0x806e4c _ZN14CMatchingLocal9CloseRoomEv
 std::int32_t CMatchingLocal::CloseRoom() {
-    hiddenBeforeClose_ = IsRoomHidden();
+    roomHidden_ = IsRoomHidden();
     roomClosed_ = 1;
     roomHiddenFlag_ = 1;
     MatchingInternalEventQueue().AddEvent(8388618, nullptr, 0);  // 0x80000a
@@ -44,7 +44,7 @@ std::int32_t CMatchingLocal::LeaveRoom() {
     if (memberId_ >= 0 && memberId_ == serverMemberId_) {
         SendServerResponse(true);
     }
-    GetConnectionMgr().DisconnectAll();
+    CConnectionManager::GetInstance()->DisconnectAll();
     Reset();
     MatchingInternalEventQueue().AddEvent(8388612, nullptr, 0);  // 0x800004
     return 0;
@@ -63,7 +63,7 @@ std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttrib
     const std::int32_t newId = GenerateNewMemberId();
     serverMemberId_ = newId;
     memberId_ = newId;
-    hiddenBeforeClose_ = false;
+    roomHidden_ = false;
     OpenRoom(open);
     MatchingInternalEventQueue().AddEvent(8388611, nullptr, 0);  // 0x800003
     roomAttributes_ = attributes;
@@ -97,7 +97,7 @@ std::int32_t CMatchingLocal::JoinRoomInternal(std::uint64_t key) {
         MatchingInternalEventQueue().AddEvent(8388620, nullptr, 0);  // 0x80000c
     } else if (it->second.rank < joinThreshold_) {
         serverMemberId_ = it->second.memberId;
-        GetConnectionMgr().Connect(it->second.memberId, it->second.address);
+        CConnectionManager::GetInstance()->Connect(it->second.memberId, it->second.address);
         roomOperationPending_ = false;
     } else {
         MatchingInternalEventQueue().AddEvent(8388621, nullptr, 0);  // 0x80000d

@@ -1,6 +1,10 @@
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes
 // Partial: the room filter always accepts (CRoomSearchFilter is a stand-in), and the transport
@@ -76,8 +80,8 @@ void CMatchingLocal::ProcessServerMessage(const CNetworkId& /*from*/, NetBitStre
         stream.ReadByteArray(&header, sizeof header);
         CRoomAttributes attributes;
         attributes.Unserialize(stream);
-        if (GetConnectionMgr().IsConnected(header.memberId) && header.memberCount > joinThreshold_) {
-            GetConnectionMgr().Disconnect(header.memberId, false);
+        if (CConnectionManager::GetInstance()->IsConnected(header.memberId) && header.memberCount > joinThreshold_) {
+            CConnectionManager::GetInstance()->Disconnect(header.memberId, false);
             MatchingInternalEventQueue().AddEvent(8388621, nullptr, 0);  // 0x80000d
         }
         if (header.flag != 0) {
@@ -95,7 +99,7 @@ std::string CMatchingLocal::GetMemberName(std::int32_t memberId) const {
     if (memberId == memberId_) {
         return GetLocalTransportName();
     }
-    const std::string full = GetTransportNameOf(GetConnectionMgr().GetMemberNetworkId(memberId));
+    const std::string full = GetTransportNameOf(CConnectionManager::GetInstance()->GetMemberNetworkId(memberId));
     const std::size_t dot = full.find('.');
     return dot == std::string::npos ? full : full.substr(0, dot);
 }

@@ -39,3 +39,10 @@ std::int32_t CMatchingGLLive::SearchRoomInternal(CRoomSearchFilter& filter, bool
     roomOp_ = 7;  // +0x6834
     return 0;
 }
+
+// Serialize(NetBitStream&, uint) and Unserialize(NetBitStream&) are declared in c_room_attributes.hpp
+// and blocked there: the NetStruct wire format is not ported. Stand-in bodies with the behaviour of the
+// CRoomAttributes stand-in this class replaced: Serialize writes nothing and Unserialize reads nothing.
+// The callers (CMatchingLocal::SendServerResponse, CMatchingLocal::AddServer) ignore the result.
+bool CRoomAttributes::Serialize(NetBitStream& /*stream*/, unsigned /*flags*/) { return true; }
+bool CRoomAttributes::Unserialize(NetBitStream& /*stream*/) { return true; }

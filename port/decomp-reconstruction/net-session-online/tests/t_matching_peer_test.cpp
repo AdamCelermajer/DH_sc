@@ -11,7 +11,7 @@ int main() {
     CHECK(empty.memberId == 0);
     CHECK(empty.lastSeenMs == 0);
     CHECK(empty.name.empty());
-    CHECK(empty.address.IsEqual(CNetworkId{}));
+    CHECK(!empty.address.IsEqual(CNetworkId{}));  // no presence bit in common (binary: IsEqual needs one)
 
     // Copy keeps every field, including the address bytes and the name.
     tMatchingPeer source;
@@ -20,7 +20,7 @@ int main() {
     source.rank = 7;
     source.timeOffset = -5;
     source.name = "room.server";
-    source.address.Bytes()[0] = 0xAB;
+    source.address.SetAddress0(0xAB, 0);
     tMatchingPeer copy(source);
     CHECK(copy.memberId == 42);
     CHECK(copy.lastSeenMs == 1000);
@@ -28,7 +28,7 @@ int main() {
     CHECK(copy.timeOffset == -5);
     CHECK(copy.name == "room.server");
     CHECK(copy.address.IsEqual(source.address));
-    CHECK(copy.address.Bytes()[0] == 0xAB);
+    { std::uint16_t lo = 0; std::uint32_t hi = 0; copy.address.GetAddress0(lo, hi); CHECK(lo == 0xAB); }
 
     // The copy is independent of the source.
     source.name = "changed";

@@ -3,6 +3,8 @@
 // cxplayer_manager.cpp); the blocked rows are listed in the ledger fragment.
 #include <cstdint>
 
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching.hpp"
 
 // 0x52f0e0 _Z26ALicenseCheck_GetUserAgentPc
@@ -23,27 +25,6 @@ void CMatching::SetMatchingProvider(MATCHING_PROVIDERS provider) {
     s_matchingProvider = static_cast<std::int32_t>(provider);
 }
 
-// 0x7fe544 _ZN9CMatching14IsMemberServerEi
-// Vtable +0x74 is ServerMemberId() in the stand-in.
-bool CMatching::IsMemberServer(std::int32_t memberId) const {
-    return memberId >= 0 && memberId == ServerMemberId();
-}
-
-// 0x7fe59c _ZN9CMatching14GetMemberIndexEi
-// Vtable +0x84 is MemberBit(). The original returns -1 for an empty mask and otherwise the
-// position of the lowest set bit.
-std::int32_t CMatching::GetMemberIndex(std::int32_t memberId) const {
-    std::uint32_t mask = MemberBit(memberId);
-    if (mask == 0) {
-        return -1;
-    }
-    std::int32_t index = 0;
-    while ((mask & 1u) == 0) {
-        mask >>= 1;
-        ++index;
-    }
-    return index;
-}
 
 // 0x7fe628 _ZN9CMatching15sReadPacketDataEiiR12NetBitStream
 // Partial: forwards to vtable +0x10 (vtReadPacketData, name not identified). The original
@@ -73,4 +54,27 @@ std::int32_t CMatching::sProcessAcknowledgedPacket(std::int32_t a1, std::int32_t
 std::int32_t CMatching::sProcessLostPacket(std::int32_t a1, std::int32_t a2) {
     CMatching* matching = Get();
     return matching != nullptr ? matching->vtProcessLostPacket(a1, a2) : 0;
+}
+
+// CMatching::s_Matching: the matching object. The binary's CMatching::Get() assigns it on first use (the
+// constructors do not), from s_matchingProvider: 0 or 1 CMatchingLocal, 3 CMatchingGLLive(false), 4
+// CMatchingGLLive(true). Provider 2 (CMatchingBluetooth) is not ported: CMatchingBluetooth is a static-only
+// stub that does not derive from CMatching, so Get() returns null for it.
+CMatching* CMatching::s_Matching = nullptr;
+
+CMatching* CMatching::Get() {
+    if (s_Matching != nullptr) {
+        return s_Matching;
+    }
+    if (s_matchingProvider == 0) {
+        s_matchingProvider = 1;
+    }
+    if (s_matchingProvider == 1) {
+        s_Matching = new CMatchingLocal();
+    } else if (s_matchingProvider == 3) {
+        s_Matching = new CMatchingGLLive(false);
+    } else if (s_matchingProvider == 4) {
+        s_Matching = new CMatchingGLLive(true);
+    }
+    return s_Matching;
 }

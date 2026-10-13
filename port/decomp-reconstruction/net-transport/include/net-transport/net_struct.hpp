@@ -138,13 +138,14 @@ public:
     void Erase(NetBitStream& stream) override;                   // vtable +0x00
 
     virtual void SetValue(const T& value) { value_ = value; }   // vtable +0x1c
-    virtual bool TestValue(const T& value) const = 0;           // vtable +0x20
+    virtual bool TestValue(const T& /*value*/) const { return true; }  // vtable +0x20; int returns 1 (0x36d474), explicit specializations below
     virtual const T& GetValue() const { return value_; }        // vtable +0x24 (returns a reference: this+0x20)
 
-protected:
     // Base-field initialisation with a bit size (see NetStructMember(int)); the value starts at T{}.
+    // Public: the net-session-online members (CMatchingLocal::MemberInfoNetStruct) are built with it.
     explicit NetStructMemberType(int size_bits) : NetStructMember(size_bits) {}
 
+protected:
     T value_{};                                                 // +0x20
 };
 

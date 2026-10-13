@@ -9,8 +9,8 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test double for the pure virtual slots of CMatchingBase.
-class TestMatching : public CMatchingBase {
+// Test double for the pure virtual slots of CMatching.
+class TestMatching : public CMatching {
 public:
     int localId = 0;
     int serverId = 0;

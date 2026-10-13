@@ -116,7 +116,7 @@ void GLXPlayerMPLobby::RefuseRequest() {
 }
 
 void GLXPlayerMPLobby::StampRequest(std::int32_t kind) {
-    connection_->requestTimeMs = XP_API_GET_TIME();
+    connection_->SetRequestTime(XP_API_GET_TIME());
     pendingKind_ = kind;
     pendingActive_ = true;
 }
@@ -463,12 +463,12 @@ void GLXPlayerMPLobby::mpSendDisconnect() {
     if (!connection_) {
         return;
     }
-    if (!Connection::isConnected()) {
+    if (!connection_->isConnected()) {
         lastResult_ = 0;
         return;
     }
     lastResult_ = kPending;
-    connection_->requestTimeMs = XP_API_GET_TIME();
+    connection_->SetRequestTime(XP_API_GET_TIME());
     pendingKind_ = kKindDisconnect;
     pendingActive_ = true;
 }
@@ -480,7 +480,7 @@ void GLXPlayerMPLobby::mpDisconnect() {
         ThreadStop();
         worker_.reset();
     }
-    Connection::disconnect(connection_.get());
+    connection_->disconnect();
     aux68_.reset();
     state_ = 0;
 }

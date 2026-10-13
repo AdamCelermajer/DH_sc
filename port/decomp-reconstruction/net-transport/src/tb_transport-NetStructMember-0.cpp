@@ -6,7 +6,7 @@
 
 #include "net-transport/net_struct.hpp"
 
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-session-online/deps/matching.hpp"  // CMatching (one definition, net-session-online)
 
 // The change counter is a process-wide 64-bit value. Its owner, NetStruct, is not in the port yet.
 std::uint64_t NetStruct::s_changeCounter = 0;
@@ -149,7 +149,7 @@ int NetStructMember::GetFrameTime() {
 // partial: the original asks CMatching whether this device is the server. If so it tests the room
 // mask against ackMask_ (+0x10). Otherwise it maps the member id from CMatching's vtable +0x74 to
 // its mask with vtable +0x84 and tests that mask. The control flow is the original's; CMatching is
-// the net-transport stand-in (deps/connection_deps.hpp), so the masks are the stand-in's.
+// the CMatching object of net-session-online (deps/matching.hpp).
 bool NetStructMember::AreChangesAcknowledged() {
     CMatching* matching = CMatching::Get();
     if (matching->IsServer()) {

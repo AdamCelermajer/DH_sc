@@ -32,8 +32,8 @@
 #include <memory>
 #include <string>
 
+#include "net-session-online/glx_player_socket.hpp"  // GLXPlayerSocket (one definition, net-session-online)
 #include "net-transport/data_packet.hpp"
-#include "net-transport/deps/glx_player_socket.hpp"
 
 class Connection {
 public:

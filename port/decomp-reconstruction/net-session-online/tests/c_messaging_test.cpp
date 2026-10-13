@@ -56,7 +56,7 @@ int main() {
     CHECK(box->AreMessagesAcknowledged(nullptr) == 0);
     NetBitStream empty(16);
     CHECK(CMessaging::sWritePacketData(2, 7, empty) == 0);
-    CHECK(empty.Size() == 1);
+    CHECK(empty.WritePosition() == 1);  // bits written
 
     // SendMsg queues the message; it is acknowledged for the local member, so PackMessages
     // skips it and WritePacketData writes the 1-bit header and the 0-bit terminator.
@@ -64,7 +64,7 @@ int main() {
     CHECK(box->AreMessagesAcknowledged(nullptr) == 1);
     NetBitStream packed(16);
     CHECK(box->WritePacketData(2, 7, packed) == 1);
-    CHECK(packed.Size() == 2);
+    CHECK(packed.WritePosition() == 2);  // bits written
 
     // Receive path: AddToRecvQueue and ProcessRecvQueue keep the queue consistent (no nulls).
     box->AddToRecvQueue(new CMessage());

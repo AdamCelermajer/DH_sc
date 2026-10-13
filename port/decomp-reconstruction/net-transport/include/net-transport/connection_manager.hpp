@@ -16,8 +16,9 @@
 #include <cstdint>
 #include <vector>
 
+#include "net-session-online/c_event_queue_base.hpp"  // CEventQueueBase (one definition, net-session-online)
 #include "net-transport/connection.hpp"
-#include "net-transport/deps/connection_deps.hpp"
+#include "net-transport/deps/connection_deps.hpp"  // CTransportManager calls
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/net_network_id.hpp"
 #include "net-transport/sync.hpp"

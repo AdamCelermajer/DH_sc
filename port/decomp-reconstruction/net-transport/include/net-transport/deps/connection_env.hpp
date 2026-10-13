@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <vector>
 
 #include "net-transport/net_network_id.hpp"
 
@@ -58,6 +59,24 @@ inline int PacketTransportType(int packet_type) {
 }  // namespace connection_manager_calls
 
 // GetTransportMgr() and the CTransportManager calls the connection code makes.
+// One packet handed to a transport stand-in. The send paths record here so that tests can check what
+// was sent (the stand-ins send nothing).
+struct SentPacketRecord {
+    int packetType;
+    bool broadcast;  // true for a send to every peer (no peer given)
+    std::vector<std::uint8_t> bytes;
+};
+// Packets handed to the transport stand-ins, in order.
+inline std::vector<SentPacketRecord>& SentPacketLog() {
+    static std::vector<SentPacketRecord> log;
+    return log;
+}
+inline void RecordSentPacket(int packetType, bool broadcast, const void* data, int size) {
+    const auto* bytes = static_cast<const std::uint8_t*>(data);
+    const std::size_t count = size > 0 ? static_cast<std::size_t>(size) : 0;
+    SentPacketLog().push_back({packetType, broadcast, std::vector<std::uint8_t>(bytes, bytes + count)});
+}
+
 namespace transport_calls {
 // CTransportManager::SendToAllTransport(transport, peer, data, size). Stand-in: nothing is sent.
 inline void SendToAllTransport(int transport_type, CNetworkId* peer, const void* data, int size) {
@@ -70,9 +89,7 @@ inline void SendToAllTransport(int transport_type, CNetworkId* peer, const void*
 inline int Send(int transport_type, CNetworkId& peer, int packet_type, const void* data, int size) {
     (void)transport_type;
     (void)peer;
-    (void)packet_type;
-    (void)data;
-    (void)size;
+    RecordSentPacket(packet_type, false, data, size);  // a point-to-point send
     return 0;
 }
 // CTransportManager::Connect(peer). Stand-in: returns 0.

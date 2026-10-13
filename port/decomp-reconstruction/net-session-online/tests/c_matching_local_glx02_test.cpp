@@ -1,6 +1,6 @@
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/net_bit_stream.hpp"
+#include "net-transport/net_bit_stream.hpp"
 
 #include <cstdio>
 

@@ -1,3 +1,5 @@
+#include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
+static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-session-online/deps/platform_stand_ins.hpp"
@@ -7,25 +9,23 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Reset() is 0x8074a4 and belongs to no slice yet. The room bodies, which these tests pull in, call it.
-void CMatchingLocal::Reset() {}
 
 static CNetworkId Address(std::uint8_t tag) {
     CNetworkId id;
-    id.Bytes()[0] = tag;
+    id.SetAddress0(tag, 0);
     return id;
 }
 
 // Joins key `key` with a threshold of 10, returning true when it connected to `member`.
 static bool JoinConnects(CMatchingLocal& local, std::uint64_t key, std::int32_t member) {
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     local.SetJoinThresholdForTest(10);
     local.JoinRoomInternal(key);
-    return GetConnectionMgr().IsConnected(member);
+    return connection_manager_test::ConnectionRequested(member);
 }
 
 int main() {
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     MatchingInternalEventQueue().Clear();
     OnlineClockStorage() = 100000;
 
@@ -37,9 +37,9 @@ int main() {
     CHECK(JoinConnects(local, 1, 11));
     CHECK(local.AddServer(11, Address(1), 9, attrs) == 0);  // refresh: rank 9 now
     local.SetJoinThresholdForTest(5);
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     local.JoinRoomInternal(1);
-    CHECK(!GetConnectionMgr().IsConnected(11));  // rank 9 is not under 5
+    CHECK(!CConnectionManager::GetInstance()->IsConnected(11));  // rank 9 is not under 5
     CHECK(local.AddServer(12, Address(2), 1, attrs) == 0);  // key 2
     local.SetJoinThresholdForTest(10);
     CHECK(JoinConnects(local, 2, 12));
@@ -47,7 +47,7 @@ int main() {
     // RemoveServer removes the entry with that address; the join then finds nothing.
     local.RemoveServer(Address(2));
     MatchingInternalEventQueue().Clear();
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     local.JoinRoomInternal(2);
     CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000c, false));
 
@@ -59,13 +59,13 @@ int main() {
     CHECK(purge.PurgeServers() == 0);
     purge.SetJoinThresholdForTest(10);
     MatchingInternalEventQueue().Clear();
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     purge.JoinRoomInternal(1);
-    CHECK(GetConnectionMgr().IsConnected(21));
+    CHECK(connection_manager_test::ConnectionRequested(21));
     OnlineClockStorage() = 120001;                          // age 20001: purged
     CHECK(purge.PurgeServers() == 0);
     MatchingInternalEventQueue().Clear();
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     purge.JoinRoomInternal(1);
     CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000c, false));
 
@@ -82,9 +82,9 @@ int main() {
         stream.WriteByteArray(&header, sizeof header);
         from.ProcessServerMessage(CNetworkId{}, stream);
     }
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     from.JoinRoomInternal(1);
-    CHECK(GetConnectionMgr().IsConnected(9));
+    CHECK(connection_manager_test::ConnectionRequested(9));
 
     header.flag = 1;
     {
@@ -93,7 +93,7 @@ int main() {
         from.ProcessServerMessage(CNetworkId{}, stream);
     }
     MatchingInternalEventQueue().Clear();
-    GetConnectionMgr().ResetForTest();
+    connection_manager_test::Reset();
     from.JoinRoomInternal(1);
     CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000c, false));
 

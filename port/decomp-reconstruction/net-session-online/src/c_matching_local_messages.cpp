@@ -1,6 +1,10 @@
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
-#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 // Packet type ids used by these bodies: 1 server message, 2 client message/request,
 // 4 change-server message (see the registrations in Initialize).
@@ -12,7 +16,8 @@ std::int32_t CMatchingLocal::SendChangeServerMessage() {
     stream.WriteByteArray(&type, 1);
     const std::int32_t id = memberId_;
     stream.WriteByteArray(&id, sizeof id);
-    return GetConnectionMgr().SendToAll(4, stream);
+    auto bytes = StreamBytes(stream);
+    return CConnectionManager::GetInstance()->SendToAll(4, bytes.data(), static_cast<int>(bytes.size()));
 }
 
 // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb
@@ -29,7 +34,8 @@ std::int32_t CMatchingLocal::SendServerResponse(bool flag) {
     header.flag = flag ? 1 : 0;
     stream.WriteByteArray(&header, sizeof header);
     roomAttributes_.Serialize(stream, 7);
-    return GetConnectionMgr().SendBroadcast(2, stream);
+    auto bytes = StreamBytes(stream);
+    return CConnectionManager::GetInstance()->SendBroadcast(2, bytes.data(), static_cast<int>(bytes.size()));
 }
 
 // 0x805f2c _ZN14CMatchingLocal17SendClientRequestEv
@@ -39,7 +45,8 @@ std::int32_t CMatchingLocal::SendClientRequest() {
     const std::uint8_t type = 2;
     stream.WriteByteArray(&type, 1);
     (void)GetListenNetworkId();
-    return GetConnectionMgr().SendBroadcast(2, stream);
+    auto bytes = StreamBytes(stream);
+    return CConnectionManager::GetInstance()->SendBroadcast(2, bytes.data(), static_cast<int>(bytes.size()));
 }
 
 // Stand-in (not an original function): the call through vtable slot +0x58 of ProcessClientMessage.

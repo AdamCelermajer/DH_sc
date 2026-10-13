@@ -6,9 +6,9 @@
 // and the event are reproduced. Nothing in this port sets initialized_ (+0x0c) to true yet.
 std::int32_t CMatchingLocal::Initialize(std::int32_t /*arg*/) {
     if (!initialized_) {
-        GetConnectionMgr().RegisterPacketType(2, 2, &CMatchingLocal::sBroadcastPacketReceiverCallback);
-        GetConnectionMgr().RegisterPacketType(3, 1, &CMatchingLocal::sBroadcastPacketReceiverCallback);
-        GetConnectionMgr().RegisterPacketType(4, 1, &CMatchingLocal::sPacketReceiverCallback);
+        CConnectionManager::GetInstance()->RegisterPacketType(2, 2, &CMatchingLocal::sBroadcastPacketReceiverCallback);
+        CConnectionManager::GetInstance()->RegisterPacketType(3, 1, &CMatchingLocal::sBroadcastPacketReceiverCallback);
+        CConnectionManager::GetInstance()->RegisterPacketType(4, 1, &CMatchingLocal::sPacketReceiverCallback);
         Reset();
         MatchingInternalEventQueue().AddEvent(8388609, nullptr, 0);  // 0x800001
     }
@@ -20,9 +20,9 @@ std::int32_t CMatchingLocal::Initialize(std::int32_t /*arg*/) {
 std::int32_t CMatchingLocal::Terminate() {
     if (initialized_) {
         initialized_ = false;
-        GetConnectionMgr().UnregisterPacketType(2);
-        GetConnectionMgr().UnregisterPacketType(3);
-        GetConnectionMgr().UnregisterPacketType(4);
+        CConnectionManager::GetInstance()->UnregisterPacketType(2);
+        CConnectionManager::GetInstance()->UnregisterPacketType(3);
+        CConnectionManager::GetInstance()->UnregisterPacketType(4);
     }
     return 0;
 }

@@ -25,10 +25,10 @@
 
 #include <cstdint>
 
-#include "net-session-online/deps/net_struct_stand_in.hpp"
-#include "net-session-online/deps/network_id.hpp"
+#include "net-transport/net_network_id.hpp"
+#include "net-transport/net_struct.hpp"
 
-class CMatchingLocal_MemberInfoNetStruct : public stand_in::NetStruct {
+class CMatchingLocal_MemberInfoNetStruct : public NetStruct {
 public:
     // 0x806b98 CMatchingLocal::MemberInfoNetStruct::MemberInfoNetStruct(void). Partial, see the .cpp.
     CMatchingLocal_MemberInfoNetStruct();
@@ -40,11 +40,27 @@ public:
     // Runs the complete-object destructor, then releases the block with CustomFree. Partial.
     static void DeletingDestructor(CMatchingLocal_MemberInfoNetStruct* self);
 
-    // Member accessors used by tests and the rest of the category (stand-ins for the raw slots).
-    stand_in::NetStructMemberType<std::int32_t>& IntMember() { return intMember_; }
-    stand_in::NetStructMemberType<CNetworkId>& NetworkIdMember() { return networkIdMember_; }
+    // The two members. NetStructMemberType<T> leaves Read and Write to its subclasses; the binary's
+    // vtables for these two members are not identified, so Read and Write are no-ops here (the
+    // stand-in this replaces never called them either).
+    class IntMember final : public NetStructMemberType<std::int32_t> {
+    public:
+        IntMember() : NetStructMemberType<std::int32_t>(32) {}  // base fields: size 32
+        void Read(NetBitStream& /*stream*/) override {}
+        void Write(NetBitStream& /*stream*/) const override {}
+    };
+    class NetworkIdMember final : public NetStructMemberType<CNetworkId> {
+    public:
+        explicit NetworkIdMember(const CNetworkId& id) : NetStructMemberType<CNetworkId>(id, 0) {}
+        void Read(NetBitStream& /*stream*/) override {}
+        void Write(NetBitStream& /*stream*/) const override {}
+    };
+
+    // Member accessors used by tests and the rest of the category.
+    IntMember& GetIntMember() { return intMember_; }
+    NetworkIdMember& GetNetworkIdMember() { return networkIdMember_; }
 
 private:
-    stand_in::NetStructMemberType<std::int32_t> intMember_;      // +0x130
-    stand_in::NetStructMemberType<CNetworkId> networkIdMember_;  // +0x158
+    IntMember intMember_;                 // +0x130
+    NetworkIdMember networkIdMember_;     // +0x158
 };

@@ -8,7 +8,11 @@
 
 #include "net-session-online/c_online_impl.hpp"
 #include "net-session-online/deps/matching.hpp"
-#include "net-session-online/deps/matching_stand_ins.hpp"
+#include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
+#include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
+#include "net-session-online/deps/platform_stand_ins.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
+#include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 
 namespace {
 // Event types from the immediates in ReportDisconnect.
@@ -76,7 +80,7 @@ void COnline::Destroy() {
 // Partial: the original clears the initialized flag (+0x04) and clears the event queue at +0x08.
 // Neither field is declared on COnline, so only the packet-type unregister is done.
 void COnline::Terminate() {
-    GetConnectionMgr().UnregisterPacketType(kSyncPacketType);
+    CConnectionManager::GetInstance()->UnregisterPacketType(kSyncPacketType);
 }
 
 // 0x7fd6f4 _ZN7COnline10InitializeEv
@@ -85,7 +89,7 @@ void COnline::Terminate() {
 // flag value as the protocol. The guard and the +0x20 store are not declared, so the registration
 // runs on every call. Map registration is idempotent, so the effect is the same.
 std::int32_t COnline::Initialize() {
-    GetConnectionMgr().RegisterPacketType(kSyncPacketType, 0, &COnline::sPacketReceiverCallback);
+    CConnectionManager::GetInstance()->RegisterPacketType(kSyncPacketType, 0, &COnline::sPacketReceiverCallback);
     return 0;
 }
 
@@ -134,7 +138,7 @@ void COnline::Update(float /*dt*/) {}
 // (+0x34, +0x38) and, once enough samples arrive, averages them and adjusts the local clock. None of
 // that is declared, so only the guard and the server-side check are kept.
 void COnline::PacketReceiverCallback(std::int32_t memberId, char* /*data*/, std::int32_t size) {
-    CConnectionManager& connections = GetConnectionMgr();
+    CConnectionManager& connections = (*CConnectionManager::GetInstance());
     if (!connections.IsConnected(memberId) || size != kSyncPacketSize) {
         return;
     }
