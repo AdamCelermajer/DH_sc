@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <map>
@@ -80,6 +81,9 @@ struct Options {
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
+    // touch-kill: move-kill, but the stick and the attack button are two fingers
+    // on the authored HUD (the Android MotionEvent entry), held together.
+    bool hud_touch_scenario = false;
     // Verification probes (faery-follow / faery-skill / skill-matrix). They use
     // only public renderer/UI entries and own no gameplay state.
     bool faery_follow_scenario = false;
@@ -235,6 +239,8 @@ Options parse(int argc, char** argv) {
                 options.movement_defend_scenario = options.tutorial_potion_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
+            else if (scenario == "touch-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = options.hud_touch_scenario = true;
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
@@ -274,6 +280,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
+                         "  --scenario touch-kill  move-kill driven through the HUD: a held joystick finger steers, a second finger holds the attack button while the stick stays down\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
@@ -423,6 +430,79 @@ void print_combat_receipt_delta(const CombatReceiptSnapshot& before,
     std::cout << " (UI slots 0..9)\n";
 }
 
+// --scenario touch-kill: steering drives the authored HUD joystick finger through
+// this hook instead of calling move_axis. A (0, 0) request keeps the finger held.
+std::function<void(float, float)> g_scenario_axis;
+void scenario_move_axis(float x, float y) {
+    if (g_scenario_axis) g_scenario_axis(x, y);
+    else model_renderer::move_axis(x, y);
+}
+
+// The Android MotionEvent bridge hands each pointer to OriginalUiSession::pointer
+// with a source finger index. This drives the same entry: finger 0 holds the
+// authored joystick, finger 1 holds the authored attack button, both at once.
+struct HudTouchDriver {
+    static constexpr unsigned kAttackControl = 7;    // ui::AuthoredHudControlV1::attack
+    static constexpr unsigned kJoystickControl = 8;  // ui::AuthoredHudControlV1::joystick
+    static constexpr unsigned kStickFinger = 0, kAttackFinger = 1;
+    dh2::android_ui::OriginalUiSession* session = nullptr;
+    SDL_Window* window = nullptr;
+    bool stick_down = false, attack_down = false, camera_down = false;
+    float stick_x = 0, stick_y = 0, attack_x = 0, attack_y = 0, camera_x = 0, camera_y = 0;
+    unsigned camera_drags = 0;
+    static constexpr unsigned kCameraFinger = 2;
+    // A free finger on the world while fingers 0 and 1 hold the HUD: it alone pans the camera.
+    bool drag_camera_finger(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!camera_down) {
+            camera_x = 0.55f * float(width);
+            camera_y = 0.3f * float(height);
+            if (!session->pointer(camera_x, camera_y, 0, kCameraFinger, error)) return false;
+            camera_down = true;
+            return true;
+        }
+        camera_y += (camera_drags++ % 2 ? -1.0f : 1.0f) * 0.04f * float(height);
+        return session->pointer(camera_x, camera_y, 2, kCameraFinger, error);
+    }
+
+    void size(int& width, int& height) const { SDL_GetWindowSizeInPixels(window, &width, &height); }
+    bool drive_stick(float axis_x, float axis_y, std::string& error) {
+        if (axis_x == 0.0f && axis_y == 0.0f) return true;
+        int width = 1, height = 1;
+        size(width, height);
+        if (!stick_down) {
+            if (!session->hud_control_screen_point(kJoystickControl, width, height, stick_x, stick_y, error))
+                return false;
+            if (!session->pointer(stick_x, stick_y, 0, kStickFinger, error)) return false;
+            stick_down = true;
+            std::cout << "Scenario touch | finger 0 pressed the HUD joystick at " << stick_x << ',' << stick_y << '\n';
+        }
+        // MovementControl axes are x right, y up; screen y points down. 0.2 of the
+        // height is past the authored stick radius, so the drag is at full magnitude.
+        const float reach = 0.2f * float(height);
+        return session->pointer(stick_x + axis_x * reach, stick_y - axis_y * reach, 2, kStickFinger, error);
+    }
+    bool press_attack(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!session->hud_control_screen_point(kAttackControl, width, height, attack_x, attack_y, error))
+            return false;
+        if (!session->pointer(attack_x, attack_y, 0, kAttackFinger, error)) return false;
+        attack_down = true;
+        return true;
+    }
+    bool release_all(std::string& error) {
+        bool ok = true;
+        if (camera_down) ok = session->pointer(camera_x, camera_y, 1, kCameraFinger, error) && ok;
+        camera_down = false;
+        if (attack_down) ok = session->pointer(attack_x, attack_y, 1, kAttackFinger, error) && ok;
+        if (stick_down) ok = session->pointer(stick_x, stick_y, 1, kStickFinger, error) && ok;
+        attack_down = stick_down = false;
+        return ok;
+    }
+};
+
 bool steer_toward_nearest_enemy() {
     model_renderer::GameplayPoseSnapshotV1 pose;
     std::string error;
@@ -455,7 +535,7 @@ bool steer_toward_nearest_enemy() {
     if (!std::isfinite(distance))
         throw std::runtime_error("Selected-floor route produced a non-finite waypoint");
     if (distance <= 48.0f) {
-        model_renderer::move_axis(0.0f, 0.0f);
+        scenario_move_axis(0.0f, 0.0f);
         return true;
     }
     std::cout << "Scenario steering toward source enemy " << pose.enemy_index
@@ -465,7 +545,7 @@ bool steer_toward_nearest_enemy() {
     // move_axis accepts Android MovementControl screen axes. Invert its
     // recovered fixed +45-degree basis for this selected-floor world vector.
     constexpr float inverse_sqrt_two = 0.7071067811865475f;
-    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+    scenario_move_axis((dx + dy) * inverse_sqrt_two / distance,
                               (dy - dx) * inverse_sqrt_two / distance);
     return true;
 }
@@ -1728,14 +1808,23 @@ bool dispatch_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* win
     return session.touch(float(x) * sx, float(y) * sy, action, error);
 }
 
+// One SDL finger as a source finger index (slot 0..3): the HUD sees it first, then the camera,
+// exactly like a MotionEvent pointer on Android.
+struct DesktopFinger {
+    bool down = false;
+    SDL_TouchID touch = 0;
+    SDL_FingerID finger = 0;
+    float x = 0.0f, y = 0.0f;
+};
+
 bool dispatch_finger_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* window,
-                           float normalized_x, float normalized_y, int action,
+                           float normalized_x, float normalized_y, int action, unsigned slot,
                            std::string& error) {
     int width = 1, height = 1;
-    SDL_GetWindowSize(window, &width, &height);
-    const auto x = static_cast<int>(std::lround(std::clamp(normalized_x, 0.0f, 1.0f) * width));
-    const auto y = static_cast<int>(std::lround(std::clamp(normalized_y, 0.0f, 1.0f) * height));
-    return dispatch_touch(session, window, x, y, action, error);
+    SDL_GetWindowSizeInPixels(window, &width, &height);
+    const auto x = std::clamp(normalized_x, 0.0f, 1.0f) * float(width);
+    const auto y = std::clamp(normalized_y, 0.0f, 1.0f) * float(height);
+    return session.pointer(x, y, action, slot, error);
 }
 
 bool desktop_difficulty_count(void* context, std::uint32_t* count, std::string& error) {
@@ -2141,10 +2230,8 @@ int main(int argc, char** argv) {
         std::cout << "Authored menu: mouse/touch and name typing | Gameplay: WASD move, Space attack nearest reachable enemy, drag orbit, wheel zoom | Esc quit\n";
 
         std::array<bool, 4> keys{};
-        bool running = true, dragging = false, finger_down = false;
-        SDL_TouchID active_touch = 0;
-        SDL_FingerID active_finger = 0;
-        float finger_x = 0.0f, finger_y = 0.0f;
+        bool running = true, dragging = false;
+        std::array<DesktopFinger, 4> fingers{};
         bool text_input_started = false;
         std::uint64_t rendered_frames = 0;
         int mouse_x = 0, mouse_y = 0;
@@ -2171,6 +2258,14 @@ int main(int argc, char** argv) {
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
         ProbeRunner probe_runner(options, scenario_player_died, scenario_revived);
+        // touch-kill: the stick (finger 0) and attack button (finger 1) are held together.
+        HudTouchDriver touch_driver;
+        touch_driver.session = &original_ui;
+        touch_driver.window = window;
+        bool touch_walk_attack_verified = false;
+        unsigned touch_hits = 0, touch_pans_before = 0;
+        std::int32_t touch_prev_state = -1, touch_state_before_press = -1;
+        std::int32_t touch_hit_enemy = -1, touch_hit_hp = 0;
         std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
         std::int32_t tutorial_hp_start = 0, tutorial_hp_end = 0, tutorial_hp_last = 0, tutorial_hp_lowest = 0;
         std::uint64_t tutorial_lock_frame = 0, tutorial_unlock_frame = 0;
@@ -2264,10 +2359,13 @@ int main(int argc, char** argv) {
                 } else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
                     if (dragging && !dispatch_touch(original_ui, window, mouse_x, mouse_y, 3, ui_error))
                         std::cerr << "HUD touch release on focus loss failed: " << ui_error << '\n';
-                    if (finger_down && !dispatch_finger_touch(original_ui, window, finger_x, finger_y, 3, ui_error))
-                        std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                    for (unsigned slot = 0; slot < fingers.size(); ++slot) {
+                        if (!fingers[slot].down) continue;
+                        if (!dispatch_finger_touch(original_ui, window, fingers[slot].x, fingers[slot].y, 3, slot, ui_error))
+                            std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                        fingers[slot].down = false;
+                    }
                     dragging = false;
-                    finger_down = false;
                     keys.fill(false);
                     if (gameplay) model_renderer::stop_movement();
                 } else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
@@ -2304,23 +2402,30 @@ int main(int argc, char** argv) {
                     if (!gameplay && original_ui.menu_text_input_active() &&
                         !send_menu_text(original_ui, event.text.text, ui_error))
                         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Menu text input failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERDOWN && !finger_down) {
-                    finger_down = true; active_touch = event.tfinger.touchId;
-                    active_finger = event.tfinger.fingerId;
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 0, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch down failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERMOTION && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 2, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch move failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERUP && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 1, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch up failed: %s", ui_error.c_str());
-                    finger_down = false;
+                } else if (event.type == SDL_FINGERDOWN || event.type == SDL_FINGERMOTION || event.type == SDL_FINGERUP) {
+                    // Up to four simultaneous fingers, each on its own source finger index.
+                    unsigned slot = unsigned(fingers.size());
+                    for (unsigned i = 0; i < fingers.size(); ++i)
+                        if (fingers[i].down && fingers[i].touch == event.tfinger.touchId &&
+                            fingers[i].finger == event.tfinger.fingerId) slot = i;
+                    if (event.type == SDL_FINGERDOWN && slot == fingers.size())
+                        for (unsigned i = 0; i < fingers.size() && slot == fingers.size(); ++i)
+                            if (!fingers[i].down) slot = i;
+                    if (slot < fingers.size()) {
+                        auto& finger = fingers[slot];
+                        const int action = event.type == SDL_FINGERDOWN ? 0 : event.type == SDL_FINGERMOTION ? 2 : 1;
+                        if (event.type == SDL_FINGERDOWN) {
+                            finger.down = true;
+                            finger.touch = event.tfinger.touchId;
+                            finger.finger = event.tfinger.fingerId;
+                        }
+                        finger.x = event.tfinger.x;
+                        finger.y = event.tfinger.y;
+                        if (!dispatch_finger_touch(original_ui, window, finger.x, finger.y, action, slot, ui_error))
+                            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch %s failed: %s",
+                                         action == 0 ? "down" : action == 2 ? "move" : "up", ui_error.c_str());
+                        if (event.type == SDL_FINGERUP) finger.down = false;
+                    }
                 } else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.which != SDL_TOUCH_MOUSEID &&
                            event.button.button == SDL_BUTTON_LEFT) {
                     dragging = true; mouse_x = event.button.x; mouse_y = event.button.y;
@@ -2366,6 +2471,18 @@ int main(int argc, char** argv) {
                 }
                 if (probe_runner.finished()) running = false;
             }
+            // touch-kill: the attack must begin while the movement stick finger is still down.
+            // Sampled every frame so the one-frame walk -> attack edge cannot be missed.
+            if (options.hud_touch_scenario && scenario_started && touch_driver.attack_down &&
+                touch_driver.stick_down) {
+                const auto state = model_renderer::gameplay_player_state();
+                if (!touch_walk_attack_verified && touch_prev_state == 4 && state == 5) {
+                    touch_walk_attack_verified = true;
+                    std::cout << "Scenario walk-attack verified | Player state 4 -> 5 with the stick finger and the attack"
+                                 " finger both held | frame " << rendered_frames << '\n';
+                }
+                touch_prev_state = state;
+            }
             // move-kill: steer to the nearest enemy and keep attacking it through the
             // normal player_attack() route until its source HP reaches zero.
             if (options.movement_kill_scenario && scenario_started &&
@@ -2395,13 +2512,18 @@ int main(int argc, char** argv) {
                     std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
                               << '/' << target.max_hp << " dead " << target.dead << '\n';
                     ++scenario_kills;
+                    if (options.hud_touch_scenario && touch_driver.attack_down && touch_driver.stick_down) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | killing blow on " << target.name
+                                  << " with the stick finger and the attack finger both held\n";
+                    }
                     if (index == scenario_target_index) scenario_target_index = -1;
                 }
                 scenario_dead_baseline = true;
                 // After a kill, walk onto the nearest dropped item and verify
                 // the normal pickup removes it from the world.
                 model_renderer::GameplayWorldItemSnapshotV1 items;
-                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
+                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 && !options.hud_touch_scenario &&
                     model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
                 if (options.skill_kill_scenario) {
                     const auto state = model_renderer::gameplay_player_state();
@@ -2423,6 +2545,59 @@ int main(int argc, char** argv) {
                     constexpr float inverse_sqrt_two = 0.7071067811865475f;
                     model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
                                               (dy - dx) * inverse_sqrt_two / distance);
+                } else if (options.hud_touch_scenario && pose.enemy_index >= 0 && pose.enemy_hp > 0 &&
+                           pose.enemy_in_melee_range) {
+                    // The walking half of the device report: the stick finger stays down and keeps
+                    // pushing at the enemy while a second finger presses and holds the attack button.
+                    scenario_target_index = pose.enemy_index;
+                    {
+                        const float dx = pose.enemy_position[0] - pose.player_position[0];
+                        const float dy = pose.enemy_position[1] - pose.player_position[1];
+                        const float distance = std::max(std::hypot(dx, dy), 1.0f);
+                        constexpr float inverse_sqrt_two = 0.7071067811865475f;
+                        if (!touch_driver.drive_stick((dx + dy) * inverse_sqrt_two / distance,
+                                                      (dy - dx) * inverse_sqrt_two / distance, ui_error))
+                            throw std::runtime_error("touch-kill stick drag failed: " + ui_error);
+                    }
+                    if (!touch_driver.attack_down) {
+                        touch_state_before_press = model_renderer::gameplay_player_state();
+                        if (!touch_driver.press_attack(ui_error))
+                            throw std::runtime_error("touch-kill attack button press failed: " + ui_error);
+                        // The HUD attack press starts the attack inside the touch entry itself.
+                        const auto state_after_press = model_renderer::gameplay_player_state();
+                        std::cout << "Scenario touch | finger 1 pressed the HUD attack button at "
+                                  << touch_driver.attack_x << ',' << touch_driver.attack_y
+                                  << " | stick finger held " << touch_driver.stick_down
+                                  << " | Player state " << touch_state_before_press << " -> "
+                                  << state_after_press << '\n';
+                        if (!touch_walk_attack_verified && touch_driver.stick_down &&
+                            touch_state_before_press == 4 && state_after_press == 5) {
+                            touch_walk_attack_verified = true;
+                            std::cout << "Scenario walk-attack verified | the attack press took the Player from walking"
+                                         " (state 4) to attacking (state 5) while the stick finger stayed down\n";
+                        }
+                    }
+                    {
+                        // A third, free finger on the world pans the camera; the two HUD fingers never do.
+                        unsigned pans = 0, applied = 0, pinches = 0;
+                        if (!touch_driver.camera_down) {
+                            original_ui.camera_gesture_counts(pans, applied, pinches);
+                            touch_pans_before = pans;
+                        }
+                        if (!touch_driver.drag_camera_finger(ui_error))
+                            throw std::runtime_error("touch-kill free camera finger failed: " + ui_error);
+                    }
+                    if (touch_hit_enemy != pose.enemy_index) {
+                        touch_hit_enemy = pose.enemy_index;
+                        touch_hit_hp = pose.enemy_hp;
+                    } else if (pose.enemy_hp < touch_hit_hp) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | enemy " << pose.enemy_index << " HP "
+                                  << touch_hit_hp << " -> " << pose.enemy_hp << " | stick held "
+                                  << touch_driver.stick_down << " | attack held " << touch_driver.attack_down
+                                  << " | Player state " << model_renderer::gameplay_player_state() << '\n';
+                        touch_hit_hp = pose.enemy_hp;
+                    }
                 } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
@@ -2858,6 +3033,12 @@ int main(int argc, char** argv) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
+                if (options.hud_touch_scenario)
+                    g_scenario_axis = [&](float x, float y) {
+                        std::string stick_error;
+                        if (!touch_driver.drive_stick(x, y, stick_error))
+                            std::cout << "Scenario touch | stick not ready yet: " << stick_error << '\n';
+                    };
                 if (any_fixed_cultist_scenario) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                     if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
@@ -2985,6 +3166,25 @@ int main(int argc, char** argv) {
             if (scenario_player_died && !scenario_revived)
                 throw std::runtime_error("move-defend Player died but the death screen never revived the Player");
             std::cout << "Scenario move-defend complete\n";
+        }
+        if (options.hud_touch_scenario && gameplay) {
+            if (!touch_driver.release_all(ui_error))
+                throw std::runtime_error("touch-kill finger release failed: " + ui_error);
+            std::cout << "Scenario touch-kill | walk attack verified " << touch_walk_attack_verified
+                      << " | hits with both fingers held " << touch_hits << '\n';
+            unsigned pans = 0, applied = 0, pinches = 0;
+            original_ui.camera_gesture_counts(pans, applied, pinches);
+            std::cout << "Scenario touch-kill | camera pans before the free finger " << touch_pans_before
+                      << " | pans from the free finger: delivered " << pans - touch_pans_before
+                      << " applied " << applied << " | pinch steps " << pinches << '\n';
+            if (touch_pans_before)
+                throw std::runtime_error("touch-kill: a HUD finger (stick or attack) panned the camera");
+            if (pans == touch_pans_before)
+                throw std::runtime_error("touch-kill: the free finger never panned the camera");
+            if (!touch_walk_attack_verified)
+                throw std::runtime_error("touch-kill never started an attack while the movement stick finger was held");
+            if (!touch_hits)
+                throw std::runtime_error("touch-kill landed no hit while the movement stick finger was held");
         }
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)

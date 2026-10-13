@@ -44,6 +44,12 @@ final class NativeBridge {
     static native String backToHud();
     /** Sends UI input in GLSurfaceView-local physical pixels (top-left origin); action uses MotionEvent DOWN/UP/MOVE/CANCEL values. */
     static native String menuTouch(float x,float y,int action);
+    /**
+     * Gameplay multi-touch: one finger event in GLSurfaceView-local pixels.
+     * {@code pointer} is the source finger index 0..3 from {@link GameplayTouchSlotsV1};
+     * the HUD sees it before the camera pan/pinch, as MenuManager::onEvent precedes ZoomHandler.
+     */
+    static native String menuTouchPointer(float x,float y,int action,int pointer);
     /** True only while the retained authored front menu is on EnterName. */
     static native boolean menuTextInputActive();
     /** Delivers a GameSWF key code on the GL thread while EnterName is active. */

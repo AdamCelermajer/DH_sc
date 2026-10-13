@@ -1,5 +1,6 @@
 #include "original_ui_session.hpp"
 #include "gameplay_main_menu_request_v1.hpp"
+#include "native_gameplay_touch_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
 #include "../../../../../engine-ui/hud_manager.hpp"
 #include "../../../../../engine-ui/native_use_potion_call_v1.hpp"
@@ -175,7 +176,10 @@ struct OriginalUiSession::Impl {
     // operation until the current authored HUD click has returned.
     dh2::native::GameplayMainMenuRequestV1 gameplay_main_menu_request;
     ui::DeferredHudRefreshV1 gameplay_hud_refresh;
-    bool gameplay_multitouch_enabled=false;
+    // NativeSetMultitouch writes MenuManager+0x110, which MenuManager::onEvent
+    // (0x430d68) reads as a lock: while it is set, fingers 1..3 are consumed
+    // without reaching any menu. The skill-tree drag raises it; it is clear by default.
+    bool gameplay_multitouch_locked=false;
     std::int32_t hud_style=-1;
     model_renderer::UiPlayerHudProjectionV1 gameplay_hud_state{};
     ui::HudManagerState gameplay_enemy_hud_state{};
@@ -188,7 +192,7 @@ struct OriginalUiSession::Impl {
     bool gameplay_hud_projection_warned=false;
     bool inventory_callback_probe_logged=false;
     std::uintptr_t gameplay_character_button{};
-    bool gameplay_character_button_pressed=false;
+    std::array<bool,4> gameplay_character_button_pressed{{false,false,false,false}};
     // NativeMerchantSellItem consumes MenuManager's one-shot gate. MenuBase::Hide
     // resets that source gate for the next merchant-menu lifetime.
     bool merchant_sell_one_shot_used=false;
@@ -259,8 +263,24 @@ struct OriginalUiSession::Impl {
     // current authored player; it creates no second SWF/player owner.
     std::unique_ptr<ui::AuthoredGameplayHudV1> gameplay_hud;
     bool gameplay_hud_bound=false;
-    int gameplay_hud_pointer=-1;
-    bool gameplay_ui_touch_owned=false;
+    // One entry per source finger index (MenuManager::onEvent cursor 0..3). The
+    // authored joystick and attack buttons are separate SWF buttons, so two
+    // fingers hold them at once; a control is captured by one finger only.
+    std::array<int,4> gameplay_hud_pointers{{-1,-1,-1,-1}};
+    // The menus consumed this finger's press, so ZoomHandler never sees it.
+    std::array<bool,4> gameplay_ui_touch_owned{{false,false,false,false}};
+    // ZoomHandler's finger map: fingers the menus left alone drive the camera.
+    dh2::native::gameplay_touch_v1::CameraFingerMap camera_fingers;
+    unsigned camera_pans_delivered=0,camera_pans_applied=0,camera_pinches_delivered=0;
+    bool hud_control_held(int control)const noexcept{
+        return std::find(gameplay_hud_pointers.begin(),gameplay_hud_pointers.end(),control)!=gameplay_hud_pointers.end();
+    }
+    // No menu covers the world: the gameplay HUD layer is active, and the only menu
+    // that may be open is the map, which drives its own CameraLevel.
+    bool camera_layer_open()const noexcept{
+        return front_screen.empty()&&live_player&&gameplay_hud_active&&
+            (game_menu_stack.empty()||game_menu_stack.back()=="menu_MapSheet");
+    }
     bool source_cutscene_active=false;
     ui::AuthoredJoystickStateV1 authored_joystick{};
     bool authored_joystick_ready=false;
@@ -632,7 +652,7 @@ struct OriginalUiSession::Impl {
         // calls the current Player controller's Cmd_Stop. Reuse the attached
         // HUD/joystick and Player controller; do not construct another HUD.
         self.gameplay_hud_input_reset_pending=true;
-        self.gameplay_hud_pointer=-1;
+        self.gameplay_hud_pointers.fill(-1);self.camera_fingers.reset();
         std::uintptr_t identity=0;
         if(!model_renderer::ui_player_identity(identity,error))return false;
         return ui::authored_joystick_release_v1(self.authored_joystick,identity!=0,
@@ -1484,9 +1504,9 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeSetMultitouch")){
-            // NativeSetMultitouch writes MenuManager+0x110. The native event
-            // path accepts four source cursor indices while this flag is set.
-            self.gameplay_multitouch_enabled=
+            // NativeSetMultitouch writes MenuManager+0x110. MenuManager::onEvent
+            // (0x430d60-0x430d74) dispatches fingers 1..3 only while it is clear.
+            self.gameplay_multitouch_locked=
                 fn.nargs==1?fn.arg(0).to_bool():true;
             return true;
         }
@@ -3320,7 +3340,7 @@ struct OriginalUiSession::Impl {
         if(hud_style<0||hud_style>3){error="Saved HUDStyle is outside the four authored Android layouts";return false;}
         if(!font_failure.empty()){error=font_failure;return false;}
         gameplay_hud=std::make_unique<ui::AuthoredGameplayHudV1>(*movie);
-        gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
+        gameplay_hud_bound=false;gameplay_hud_pointers.fill(-1);camera_fingers.reset();gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
         gameplay_hud_skills_refresh={};
         // DisplayRightHud performs the original selected-HUD onPush then
         // onShow sequence, including the skill/faery refresh. Do not call
@@ -3403,7 +3423,7 @@ struct OriginalUiSession::Impl {
     }
     bool reset_failed(std::string& error) {
         front_name_input_active.store(false,std::memory_order_release);
-        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;gameplay_hud_skills_refresh={};authored_joystick={};authored_joystick_ready=false;
+        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointers.fill(-1);camera_fingers.reset();gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;gameplay_hud_skills_refresh={};authored_joystick={};authored_joystick_ready=false;
         status.reset();character_menu_movie.reset();shared_menu_movie.reset();movie.reset();
         character_frame_owner.reset();shared_frame_owner.reset();frame_owner.reset();fonts.reset();loaded=false;selected=false;
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
@@ -3420,7 +3440,7 @@ struct OriginalUiSession::Impl {
         gameplay_main_menu_request.reset();
         gameplay_hud_refresh={};
         source_status_messages.flush();
-        gameplay_character_button=0;gameplay_character_button_pressed=false;
+        gameplay_character_button=0;gameplay_character_button_pressed.fill(false);
         launch_requests.clear();
         launch_delivered=false;
         input_dispatch_movie=nullptr;input_dispatch_frames=nullptr;last_menu_dt=0;
@@ -3534,9 +3554,12 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     if(gameplay&&!impl_->gameplay_hud_active&&impl_->game_menu_stack.empty()){error.clear();return true;}
     if(action<0||action>3||cursor_index>=4||!std::isfinite(x)||!std::isfinite(y)){error="Malformed native UI touch";return false;}
     const bool gameplay_menu=gameplay&&!impl_->game_menu_stack.empty();
-    struct TouchOwnerReset {Impl* self;int action;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned=false;}} owner_reset{impl_.get(),action};
-    if(gameplay&&action==0)impl_->gameplay_ui_touch_owned=gameplay_menu;
-    if(cursor_index!=0&&(!gameplay_menu||!impl_->gameplay_multitouch_enabled)){error.clear();return true;}
+    struct TouchOwnerReset {Impl* self;int action;std::uint32_t slot;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned[slot]=false;}} owner_reset{impl_.get(),action,cursor_index};
+    if(gameplay&&action==0)impl_->gameplay_ui_touch_owned[cursor_index]=gameplay_menu;
+    // MenuManager::onEvent (0x430d60-0x430d74) hands finger 0 to the menus
+    // always and fingers 1..3 unless NativeSetMultitouch locked them out. The
+    // front menu keeps its single-pointer FrontMenuTouchGesture contract.
+    if(cursor_index!=0&&(front||impl_->gameplay_multitouch_locked)){error.clear();return true;}
     auto* selected=front?impl_->active_menu_movie():
         gameplay_menu?impl_->menu_movie(impl_->game_menu_stack.back()):impl_->movie.get();
     // HUD-hosted gameplay menus (fade/death screens) share the HUD movie and its
@@ -3575,24 +3598,28 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                     Control::skill1,Control::skill2,Control::skill3,Control::attack,Control::joystick}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
-                if(geometry.hit){impl_->gameplay_ui_touch_owned=true;break;}
+                if(geometry.hit){impl_->gameplay_ui_touch_owned[cursor_index]=true;break;}
             }
         }
-        if(action==3&&impl_->gameplay_hud_pointer>=0){
-            if(impl_->gameplay_hud_pointer==joystick){
+        int& captured=impl_->gameplay_hud_pointers[cursor_index];
+        if(action==3&&captured>=0){
+            if(captured==joystick){
                 std::uintptr_t identity=0;std::string owner_error;
                 const bool has_player=model_renderer::ui_player_identity(identity,owner_error)&&identity!=0;
                 if(!ui::authored_joystick_release_v1(impl_->authored_joystick,has_player,
                     impl_->authored_joystick_services(),error))return false;
             }
-            impl_->gameplay_hud_pointer=-1;error.clear();return true;
+            captured=-1;error.clear();return true;
         }
-        if(action==0&&impl_->gameplay_hud_pointer<0){
+        if(action==0&&captured<0){
             for(const auto control:{Control::attack,Control::joystick}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
                 if(!geometry.hit)continue;
-                impl_->gameplay_hud_pointer=static_cast<int>(control);
+                // Each of these is one SWF button: a second finger on a control
+                // another finger already holds is consumed without a second press.
+                if(impl_->hud_control_held(static_cast<int>(control))){error.clear();return true;}
+                captured=static_cast<int>(control);
                 if(control==Control::joystick){
                     const bool pressed=ui::with_authored_hud_edge_layout_v6(*impl_->movie,*impl_->gameplay_hud,
                         [&](std::string& nested){
@@ -3601,7 +3628,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                 ui::authored_joystick_press_v1(impl_->authored_joystick,
                                     receiver.local[0],receiver.local[1],nested);
                     },error);
-                    if(!pressed){impl_->gameplay_hud_pointer=-1;return false;}
+                    if(!pressed){captured=-1;return false;}
                 }else{
                     std::uintptr_t interacted_identity=0;
                     std::string npc_interaction_error;
@@ -3610,14 +3637,14 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                             interacted_identity,npc_interaction_error);
                     if(!npc_interaction_error.empty()){
                         error=std::move(npc_interaction_error);
-                        impl_->gameplay_hud_pointer=-1;return false;
+                        captured=-1;return false;
                     }
                     std::string merchant_name,interaction_error;std::int32_t module_filter=-1;
                     std::uintptr_t merchant_identity=0;
                     if(!model_renderer::ui_player_merchant_interaction_target(
                            merchant_name,module_filter,merchant_identity,interaction_error)){
                         if(!interaction_error.empty()){
-                            error=std::move(interaction_error);impl_->gameplay_hud_pointer=-1;return false;
+                            error=std::move(interaction_error);captured=-1;return false;
                         }
                     }else{
                         struct MerchantOpen {
@@ -3640,7 +3667,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                 if(!callable){nested="Authored AdditionnalInfosForMerchant callback is unavailable";return false;}
                                 nested.clear();return true;
                             },error);
-                        impl_->gameplay_hud_pointer=-1;
+                        captured=-1;
                         if(!opened)return false;
                         __android_log_print(ANDROID_LOG_INFO,tag,
                             "Source Character::Interact merchant route | identity %zx | module filter %d | name %s | callbacks open then additionals",
@@ -3657,11 +3684,11 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD attack press | %s",response.c_str());
                 }
                 __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD pointer captured | control %d | style %d | source shape %d | %.1f %.1f",
-                    impl_->gameplay_hud_pointer,impl_->hud_style,geometry.character_id,x,y);
+                    captured,impl_->hud_style,geometry.character_id,x,y);
                 return true;
             }
         }
-        if(impl_->gameplay_hud_pointer==joystick&&action==2){
+        if(captured==joystick&&action==2){
             return ui::with_authored_hud_edge_layout_v6(*impl_->movie,*impl_->gameplay_hud,
                 [&](std::string& nested){
                     ui::AuthoredHudGeometryV1 receiver;
@@ -3683,8 +3710,8 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     return dragged;
                 },error);
         }
-        if(impl_->gameplay_hud_pointer>=0&&action==1){
-            const int held=impl_->gameplay_hud_pointer;impl_->gameplay_hud_pointer=-1;
+        if(captured>=0&&action==1){
+            const int held=captured;captured=-1;
             if(held==joystick){
                 std::uintptr_t identity=0;std::string owner_error;
                 const bool has_player=model_renderer::ui_player_identity(identity,owner_error)&&identity!=0;
@@ -3698,17 +3725,17 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         }
         // Keep the held attack out of the SWF cursor. Its source operation is
         // polled from render_player at the HUDControls::Update cadence.
-        if(impl_->gameplay_hud_pointer==attack&&action==2)return true;
+        if(captured==attack&&action==2)return true;
     }
     if(gameplay&&!gameplay_menu&&impl_->gameplay_character_button){
-        if(action==3)impl_->gameplay_character_button_pressed=false;
+        if(action==3)impl_->gameplay_character_button_pressed[cursor_index]=false;
         else if(action==0){
             bool hit=false;if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,error))return false;
-            impl_->gameplay_character_button_pressed=hit;
-            if(hit)impl_->gameplay_ui_touch_owned=true;
-        }else if(action==2&&impl_->gameplay_character_button_pressed){
+            impl_->gameplay_character_button_pressed[cursor_index]=hit;
+            if(hit)impl_->gameplay_ui_touch_owned[cursor_index]=true;
+        }else if(action==2&&impl_->gameplay_character_button_pressed[cursor_index]){
             bool hit=false;if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,error))return false;
-            if(!hit)impl_->gameplay_character_button_pressed=false;
+            if(!hit)impl_->gameplay_character_button_pressed[cursor_index]=false;
         }
     }
     struct Dispatch {Impl& self;ui::SwfMovie* previous_movie;ui::SwfFrameConnection* previous_frames;
@@ -3719,10 +3746,10 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     const auto dispatch_cursor=[&](std::string& nested){
         if(action==3)return selected->input_cancel(x,y,cursor_index,nested);
         if(!selected->input_cursor({x,y,0.f,(action==0||action==2)?1:0},cursor_index,nested))return false;
-        if(gameplay&&!gameplay_menu&&action==1&&impl_->gameplay_character_button_pressed){
+        if(gameplay&&!gameplay_menu&&action==1&&impl_->gameplay_character_button_pressed[cursor_index]){
             bool hit=false;
             if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,nested))return false;
-            impl_->gameplay_character_button_pressed=false;
+            impl_->gameplay_character_button_pressed[cursor_index]=false;
             if(hit&&impl_->game_menu_stack.empty())
                 return Impl::push_game_menu(impl_.get(),"menu_CharacterMenu",nested);
         }
@@ -3748,11 +3775,69 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     return succeeded;
 }
 bool OriginalUiSession::camera_pan_allowed()const noexcept{
-    if(!impl_||!impl_->front_screen.empty()||!impl_->live_player||!impl_->gameplay_hud_active)return false;
-    const bool map_menu=!impl_->game_menu_stack.empty()&&
-        impl_->game_menu_stack.back()=="menu_MapSheet";
-    return map_menu||
-        (impl_->game_menu_stack.empty()&&!impl_->gameplay_ui_touch_owned);
+    return camera_touch_allowed(0);
+}
+bool OriginalUiSession::camera_touch_allowed(std::uint32_t slot)const noexcept{
+    if(!impl_||slot>=4||!impl_->camera_layer_open())return false;
+    // With the map open (the only menu camera_layer_open admits) every finger is the map camera's.
+    return !impl_->game_menu_stack.empty()||!impl_->gameplay_ui_touch_owned[slot];
+}
+void OriginalUiSession::camera_gesture_counts(unsigned& pans_delivered,unsigned& pans_applied,unsigned& pinches) const noexcept{
+    pans_delivered=impl_?impl_->camera_pans_delivered:0;
+    pans_applied=impl_?impl_->camera_pans_applied:0;
+    pinches=impl_?impl_->camera_pinches_delivered:0;
+}
+bool OriginalUiSession::hud_control_screen_point(unsigned control,int width,int height,float& x,float& y,std::string& error){
+    // Development probe for desktop scenarios: sample the same geometry() hit
+    // test touch() uses and report the centroid of the area that accepts a press.
+    if(!impl_||!impl_->gameplay_hud||!impl_->gameplay_hud_bound||width<=0||height<=0||
+       control>static_cast<unsigned>(ui::AuthoredHudControlV1::joystick)){
+        error="Authored gameplay HUD control probe requires the bound HUD";return false;
+    }
+    const auto id=static_cast<ui::AuthoredHudControlV1>(control);
+    double sum_x=0,sum_y=0;unsigned hits=0;
+    const int step=std::max(4,std::min(width,height)/90);
+    for(int py=step/2;py<height;py+=step)for(int px=step/2;px<width;px+=step){
+        ui::AuthoredHudGeometryV1 geometry;
+        if(!impl_->gameplay_hud->geometry(id,static_cast<float>(px),static_cast<float>(py),geometry,error))return false;
+        if(!geometry.hit)continue;
+        sum_x+=px;sum_y+=py;++hits;
+    }
+    if(!hits){error="Authored HUD control has no pressable area on this viewport";return false;}
+    x=static_cast<float>(sum_x/hits);y=static_cast<float>(sum_y/hits);error.clear();return true;
+}
+bool OriginalUiSession::pointer(float x,float y,int action,std::uint32_t slot,std::string& error){
+    namespace gesture=dh2::native::gameplay_touch_v1;
+    if(!impl_||slot>=gesture::kFingerSlots){error="Malformed native UI pointer";return false;}
+    // MenuManager::onEvent runs first: the HUD (stick, attack, skills) and every
+    // menu get the finger. ZoomHandler, attached later, only sees what is left.
+    const bool delivered=touch(x,y,action,slot,error);
+    struct Context{OriginalUiSession* session;}context{this};
+    const gesture::CameraServices services{&context,
+        [](void* raw,std::int32_t dx,std::int32_t dy){
+            // A finger only reaches the camera map when the HUD left its press alone, so
+            // only the menu state can still veto a pan (the stick finger is a different finger).
+            auto& impl=*static_cast<Context*>(raw)->session->impl_;
+            if(!impl.camera_layer_open())return;
+            ++impl.camera_pans_delivered;
+            if(model_renderer::camera_touch_pan(dx,dy))++impl.camera_pans_applied;
+        },
+        [](void* raw,float previous,float current){
+            auto& impl=*static_cast<Context*>(raw)->session->impl_;
+            if(!impl.camera_layer_open())return;
+            ++impl.camera_pinches_delivered;
+            model_renderer::camera_pinch_zoom(previous,current);
+        },
+        [](void* raw,std::uint32_t pinch_slot,float pinch_x,float pinch_y){
+            // A pinch takes the fingers from the SWF cursor that saw their press.
+            std::string ignored;
+            (void)static_cast<Context*>(raw)->session->touch(pinch_x,pinch_y,3,pinch_slot,ignored);
+        }};
+    auto& fingers=impl_->camera_fingers;
+    if(action==0)fingers.down(slot,x,y,camera_touch_allowed(slot),services);
+    else if(action==2)fingers.move(slot,x,y,services);
+    else fingers.up(slot,services);
+    return delivered;
 }
 bool OriginalUiSession::back_to_hud(std::string& error){
     return Impl::back_to_hud(impl_.get(),error);
@@ -4600,7 +4685,7 @@ bool OriginalUiSession::attach_player(const std::string& directory,std::string& 
     impl_->hud_style=hud_style;
     impl_->directory=directory;impl_->live_player=true;impl_->selected=true;impl_->report_frame=true;
     if(!retain_loaded_gameplay_ui){
-        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;impl_->gameplay_hud_skills_refresh={};
+        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointers.fill(-1);impl_->camera_fingers.reset();impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;impl_->gameplay_hud_skills_refresh={};
     }else{
         __android_log_print(ANDROID_LOG_INFO,tag,
             "Gameplay HUD binding retained across surface recreation | style %d | movie %p | status %p",
@@ -4683,7 +4768,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     "Authored joystick update failed without a diagnostic");
         }
         if(self.gameplay_hud_active&&self.gameplay_hud_bound&&self.gameplay_hud&&
-           self.gameplay_hud_pointer==static_cast<int>(ui::AuthoredHudControlV1::attack)){
+           self.hud_control_held(static_cast<int>(ui::AuthoredHudControlV1::attack))){
             // Source HUDControls::Update polls the pressed attack flag every
             // player frame. Keep using the shared model_renderer combat owner;
             // its return text is intentionally not logged at frame cadence.
