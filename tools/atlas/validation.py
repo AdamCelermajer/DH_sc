@@ -9,7 +9,7 @@ def run(ctx):
     fixture=ctx.root/'tools/atlas/.runtime/check-fixture'
     (fixture/'data').mkdir(parents=True,exist_ok=True)
     for p in (ctx.out/'data').glob('*.json'):shutil.copy2(p,fixture/'data'/p.name)
-    testctx=SimpleNamespace(root=ctx.root,inputs=ctx.inputs,out=fixture)
+    testctx=SimpleNamespace(root=ctx.root,inputs=ctx.inputs,out=fixture,view_root=ctx.out)
     tests=[]
     baseline=audit(testctx)
     tests.append({'name':'unmodified generated atlas passes','passed':baseline['passed'],'errors':baseline['errors'][:5]})
@@ -67,6 +67,10 @@ def run(ctx):
         i=next(i for i,r in enumerate(rr) if r.get('rule','').startswith('BRES_EVENT'))
         rr.pop(i)
     test('missing script row fails','scripts',lambda rr:rr.pop(0),'script')
+    test('missing mob profile fails','mob-profiles',lambda rr:rr.pop(0),'mob profiles')
+    test('missing mob section fails','mob-profiles',lambda rr:rr[0]['sections'].pop('sounds'),'section coverage')
+    test('missing CharSounds reference fails','references',lambda rr:rr.__setitem__(slice(None),
+         [r for r in rr if not r.get('site','').endswith('[section=0,row=1].Die[0]')]),'CharSounds source reference')
     test('missing function row fails','functions',lambda rr:rr.pop(0),'function')
     test('missing XML/BRES reference site fails','references',drop_event,'reference')
     test('missing row status fails','calls',lambda rr:rr[0].pop('status'),'no status')

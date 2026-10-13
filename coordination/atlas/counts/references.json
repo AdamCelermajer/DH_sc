@@ -2,7 +2,7 @@
   "inventory_only": false,
   "reference_todo": 0,
   "reference_work_todo": 0,
-  "references": 61511,
+  "references": 61521,
   "references_by_kind": {
     "actor_name_candidate": 46,
     "anim": 4429,
@@ -29,14 +29,14 @@
     "script": 1164,
     "serialized_string": 7727,
     "skill": 268,
-    "sound": 3257,
+    "sound": 3267,
     "source_sound_ordinal": 202,
     "symbolic_reference": 2544,
     "texture": 5849
   },
   "sound_ledger_rows": 638,
   "table_rows_todo": 0,
-  "table_rows_unresolved": 1316,
+  "table_rows_unresolved": 1313,
   "table_rows_work_todo": 0,
   "tables": 8863
 }

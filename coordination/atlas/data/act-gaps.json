@@ -9,7 +9,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1538
+      "unresolved_source_references": 1517
     },
     {
       "act": "act_2",
@@ -20,7 +20,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1035
+      "unresolved_source_references": 1005
     },
     {
       "act": "act_3",

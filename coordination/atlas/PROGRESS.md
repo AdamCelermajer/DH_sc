@@ -1,6 +1,8 @@
 # Original Data Atlas progress
 
-Phase: **VERIFIED**. Processed rows: **86,299/86,299 (100.00%)**.
+Phase: **COVERAGE VERIFIED; MOB SEMANTICS PARTIAL**. Processed rows: **86,309/86,309 (100.00%)**.
+
+**Mob/boss semantics remain PARTIAL.** Joined profiles cover every character row, but unresolved Lua expressions, native contracts and runtime conditions remain. Resume with the named profile gaps in [mob profiles](general/mobs/index.md); root owns further source investigation.
 
 Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported != runtime verified.
 
@@ -9,7 +11,7 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
 | scripts | 219 | 219 | 0 | {"UNRESOLVED": 215, "DONE": 4} |
 | functions | 288 | 288 | 0 | {"UNRESOLVED": 257, "DONE": 31} |
 | calls | 7982 | 7982 | 0 | {"DONE": 4170, "UNRESOLVED": 3812} |
-| references | 61511 | 61511 | 0 | {"DONE": 61511} |
+| references | 61521 | 61521 | 0 | {"DONE": 61521} |
 | assets | 6733 | 6733 | 0 | {"DONE": 6733} |
 | levels | 190 | 190 | 0 | {"DONE": 175, "UNRESOLVED": 15} |
 | actors | 448 | 448 | 0 | {"DONE": 448} |
@@ -55,6 +57,37 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
   "script_file_rows": 67,
   "scripts": 1278,
   "work_status": "DONE"
+}
+```
+
+### character-sounds
+
+```json
+{
+  "bytes_consumed": 98,
+  "bytes_total": 11295,
+  "field_schema": "[i][i][i][i]bb",
+  "following_registered_tables_bytes": 11197,
+  "next_registered_table": "Listeners",
+  "next_registered_table_rows": 5,
+  "rows": 3,
+  "source": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin"
+}
+```
+
+### mobs
+
+```json
+{
+  "fully_certified_profiles": 0,
+  "meaning": "Joined lookup coverage; none certifies every gameplay rule or dynamic dependency.",
+  "profiles": 448,
+  "roles": {
+    "BOSS_FLAGGED": 59,
+    "BOSS_NAME_CANDIDATE": 6,
+    "MOB_AI_TYPE_4": 218,
+    "OTHER_ACTOR": 165
+  }
 }
 ```
 
@@ -135,7 +168,7 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
   "inventory_only": false,
   "reference_todo": 0,
   "reference_work_todo": 0,
-  "references": 61511,
+  "references": 61521,
   "references_by_kind": {
     "actor_name_candidate": 46,
     "anim": 4429,
@@ -162,14 +195,14 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
     "script": 1164,
     "serialized_string": 7727,
     "skill": 268,
-    "sound": 3257,
+    "sound": 3267,
     "source_sound_ordinal": 202,
     "symbolic_reference": 2544,
     "texture": 5849
   },
   "sound_ledger_rows": 638,
   "table_rows_todo": 0,
-  "table_rows_unresolved": 1316,
+  "table_rows_unresolved": 1313,
   "table_rows_work_todo": 0,
   "tables": 8863
 }
@@ -445,14 +478,14 @@ Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported 
   "category": "ACT-ORGANISED GENERATED VIEWS",
   "inventory": {
     "asset_reference_rows": {
-      "processed": 61511,
+      "processed": 61521,
       "states": {
         "AMBIGUOUS": 2,
-        "RESOLVED": 30194,
+        "RESOLVED": 30204,
         "UNRESOLVED": 31315
       },
       "todo": 0,
-      "total": 61511
+      "total": 61521
     },
     "backup_scene_rows": {
       "processed": 30,

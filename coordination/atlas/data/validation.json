@@ -16,6 +16,27 @@
       "passed": true
     },
     {
+      "name": "missing mob profile fails",
+      "observed": [
+        "mob profiles: missing, duplicate or stale actor profile"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing mob section fails",
+      "observed": [
+        "mob profiles: section coverage missing for AAA_DEFAULTS_DONT_DELETE"
+      ],
+      "passed": true
+    },
+    {
+      "name": "missing CharSounds reference fails",
+      "observed": [
+        "CharSounds source reference sites missing from ledger"
+      ],
+      "passed": true
+    },
+    {
       "name": "missing function row fails",
       "observed": [
         "call c48f63e9952d635521e0: function row absent",

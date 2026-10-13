@@ -1,0 +1,10 @@
+{
+  "bytes_consumed": 98,
+  "bytes_total": 11295,
+  "field_schema": "[i][i][i][i]bb",
+  "following_registered_tables_bytes": 11197,
+  "next_registered_table": "Listeners",
+  "next_registered_table_rows": 5,
+  "rows": 3,
+  "source": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin"
+}

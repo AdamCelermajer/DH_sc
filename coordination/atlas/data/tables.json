@@ -345714,44 +345714,82 @@
     "work_status": "DONE"
   },
   {
-    "candidate_note": "Names and local row index are proven from the native names stream. Payload schema for sounds has not yet been decoded in this atlas module; no field values or references are inferred.",
+    "candidate_note": null,
     "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "fields": {
+      "Die": [],
+      "Hurt": [],
+      "ImpactVsFlesh": [],
+      "ImpactVsMetal": [],
+      "IsFlesh": false,
+      "IsMetallic": false
+    },
     "id": "dfb124c762167051186b",
     "index": 0,
     "name": "AAA_DONT_DELETE",
-    "reason": "OTHER",
+    "reason": null,
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
     "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "sounds#group0",
     "work_status": "DONE"
   },
   {
-    "candidate_note": "Names and local row index are proven from the native names stream. Payload schema for sounds has not yet been decoded in this atlas module; no field values or references are inferred.",
+    "candidate_note": null,
     "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "fields": {
+      "Die": [
+        28
+      ],
+      "Hurt": [
+        29,
+        30,
+        31
+      ],
+      "ImpactVsFlesh": [
+        120,
+        121,
+        122
+      ],
+      "ImpactVsMetal": [
+        117,
+        118,
+        119
+      ],
+      "IsFlesh": false,
+      "IsMetallic": true
+    },
     "id": "fafe01d0b8a41de2b8f6",
     "index": 1,
     "name": "ArmoredHuman",
-    "reason": "OTHER",
+    "reason": null,
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
     "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "sounds#group0",
     "work_status": "DONE"
   },
   {
-    "candidate_note": "Names and local row index are proven from the native names stream. Payload schema for sounds has not yet been decoded in this atlas module; no field values or references are inferred.",
+    "candidate_note": null,
     "candidates": [],
     "confidence": "PROVEN",
-    "fields": {},
+    "fields": {
+      "Die": [],
+      "Hurt": [],
+      "ImpactVsFlesh": [],
+      "ImpactVsMetal": [],
+      "IsFlesh": true,
+      "IsMetallic": false
+    },
     "id": "f93e07b3f9ba3c48dc93",
     "index": 2,
     "name": "Default",
-    "reason": "OTHER",
+    "reason": null,
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
     "source_path": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarraynames.bin",
-    "status": "UNRESOLVED",
+    "status": "RESOLVED",
     "table": "sounds#group0",
     "work_status": "DONE"
   },

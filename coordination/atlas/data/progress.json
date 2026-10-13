@@ -29,6 +29,27 @@
       "scripts": 1278,
       "work_status": "DONE"
     },
+    "character-sounds": {
+      "bytes_consumed": 98,
+      "bytes_total": 11295,
+      "field_schema": "[i][i][i][i]bb",
+      "following_registered_tables_bytes": 11197,
+      "next_registered_table": "Listeners",
+      "next_registered_table_rows": 5,
+      "rows": 3,
+      "source": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin"
+    },
+    "mobs": {
+      "fully_certified_profiles": 0,
+      "meaning": "Joined lookup coverage; none certifies every gameplay rule or dynamic dependency.",
+      "profiles": 448,
+      "roles": {
+        "BOSS_FLAGGED": 59,
+        "BOSS_NAME_CANDIDATE": 6,
+        "MOB_AI_TYPE_4": 218,
+        "OTHER_ACTOR": 165
+      }
+    },
     "platforms": {
       "availability": {
         "ANDROID_OR_RECOVERED_ONLY": 6288,
@@ -98,7 +119,7 @@
       "inventory_only": false,
       "reference_todo": 0,
       "reference_work_todo": 0,
-      "references": 61511,
+      "references": 61521,
       "references_by_kind": {
         "actor_name_candidate": 46,
         "anim": 4429,
@@ -125,14 +146,14 @@
         "script": 1164,
         "serialized_string": 7727,
         "skill": 268,
-        "sound": 3257,
+        "sound": 3267,
         "source_sound_ordinal": 202,
         "symbolic_reference": 2544,
         "texture": 5849
       },
       "sound_ledger_rows": 638,
       "table_rows_todo": 0,
-      "table_rows_unresolved": 1316,
+      "table_rows_unresolved": 1313,
       "table_rows_work_todo": 0,
       "tables": 8863
     },
@@ -388,14 +409,14 @@
       "category": "ACT-ORGANISED GENERATED VIEWS",
       "inventory": {
         "asset_reference_rows": {
-          "processed": 61511,
+          "processed": 61521,
           "states": {
             "AMBIGUOUS": 2,
-            "RESOLVED": 30194,
+            "RESOLVED": 30204,
             "UNRESOLVED": 31315
           },
           "todo": 0,
-          "total": 61511
+          "total": 61521
         },
         "backup_scene_rows": {
           "processed": 30,
@@ -554,9 +575,9 @@
     }
   },
   "definition": "Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported != runtime verified.",
-  "not_TODO": 86299,
+  "not_TODO": 86309,
   "percent": 100.0,
-  "phase": "VERIFIED",
+  "phase": "COVERAGE VERIFIED; MOB SEMANTICS PARTIAL",
   "rows": {
     "actors": {
       "TODO": 0,
@@ -611,11 +632,11 @@
     },
     "references": {
       "TODO": 0,
-      "not_TODO": 61511,
+      "not_TODO": 61521,
       "states": {
-        "DONE": 61511
+        "DONE": 61521
       },
-      "total": 61511
+      "total": 61521
     },
     "scripts": {
       "TODO": 0,
@@ -635,5 +656,5 @@
       "total": 8863
     }
   },
-  "total": 86299
+  "total": 86309
 }

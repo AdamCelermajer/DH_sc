@@ -134,6 +134,8 @@ def progress(ctx,phase):
           'definition':'Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported != runtime verified.'}
     write_json(ctx.out/'data/progress.json',data)
     doc=['# Original Data Atlas progress','',f'Phase: **{phase}**. Processed rows: **{done:,}/{total:,} ({data["percent"]:.2f}%)**.',
+         '', '**Mob/boss semantics remain PARTIAL.** Joined profiles cover every character row, but unresolved Lua expressions, native contracts and runtime conditions remain. '
+         'Resume with the named profile gaps in [mob profiles](general/mobs/index.md); root owns further source investigation.',
          '',data['definition'],'',markdown_table(['Category','Rows','Processed','TODO','States'],
          [[k,v['total'],v['not_TODO'],v['TODO'],v['states']] for k,v in totals.items()]),
          '\n## Inventory category counts\n']
@@ -158,6 +160,8 @@ def run_modules(ctx, inventory_only=False):
         counts=mod.run(ctx,inventory_only=inventory_only)
         if counts is not None and name!='views':write_json(ctx.out/'counts'/f'{name.replace("_","-")}.json',counts)
         if name=='references' and not inventory_only:
+            import mob_sounds
+            mob_sounds.integrate(ctx)
             # The final views consume reference outcomes; sync the projections
             # before that pass, not only after all modules have finished.
             sync_projections(ctx)
@@ -439,6 +443,9 @@ def audit(ctx, include_sources=True):
             else:errors.append(name+': independent source coverage_check(ctx) missing')
         import coverage_extra
         errors.extend(coverage_extra.coverage_check(ctx))
+        import mobs, mob_sounds
+        errors.extend(mob_sounds.coverage_check(ctx))
+        errors.extend(mobs.coverage_check(ctx))
     checks=known_checks(ctx)
     for c in checks:
         if not c.get('passed'):errors.append('known answer failed: '+c.get('name','?')+' '+str(c.get('detail','')))
@@ -465,7 +472,9 @@ def report(ctx, check):
          f'Coverage check: **{"PASS" if check["passed"] else "FAIL"}**. Processed: **{p.get("not_TODO",0):,}/{p.get("total",0):,} ({p.get("percent",0):.2f}%)**.','',
          'Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.','',
          'Commands (PowerShell, from this worktree):','',
-         '```powershell\n./tools/atlas/regen.ps1\n. ./tools/atlas/use.ps1\natlas check\natlas find swampking\natlas find sound:517\natlas cleancheck\n```','',
+         '```powershell\n./tools/atlas/regen.ps1\n. ./tools/atlas/use.ps1\natlas check\natlas mob SwampKing\natlas mob Witch --json\natlas find sound:517\natlas cleancheck\n```','',
+         '[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. '
+         '**Profile coverage remains partial:** dynamic Lua bindings, undecoded payloads, encounter placement and runtime conditions are still explicit gaps. The processed percentage is not a claim that every mob is fully understood.','',
          'The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. '
          'Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.','',
          '## Coverage','',markdown_table(['Category','Total','Statuses'],[[k,v['total'],v['statuses']] for k,v in check['coverage'].items()]),
@@ -550,6 +559,8 @@ def generate(ctx, inventory_only=False):
     template=ctx.root/'tools/atlas/templates/atlas-method.md'
     (ctx.out/'reports').mkdir(parents=True,exist_ok=True)
     (ctx.out/'reports/atlas-method.md').write_text(template.read_text(encoding='utf-8'),encoding='utf-8',newline='\n')
+    for template in sorted((ctx.root/'tools/atlas/templates').glob('mob-*.md')):
+        (ctx.out/template.name).write_text(template.read_text(encoding='utf-8'), encoding='utf-8', newline='\n')
     old_count=ctx.out/'counts/table_sites.json'
     if old_count.is_file():old_count.unlink()
     write_json(ctx.out/'counts/assets.json',asset_inventory(ctx,inventory_only))
@@ -557,15 +568,18 @@ def generate(ctx, inventory_only=False):
     if not inventory_only:
         finalize_unresolved_rows(ctx)
         link_assets(ctx);sync_projections(ctx)
+        import mobs
+        mobs.run(ctx)
     platform_compare(ctx)
     source_manifest(ctx)
     return progress(ctx,'INVENTORY TODO' if inventory_only else 'MAPPED')
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('command',choices=('inventory','regen','check','find','selftest','cleancheck'))
+    ap.add_argument('command',choices=('inventory','regen','check','find','mob','selftest','cleancheck'))
     ap.add_argument('query',nargs='?')
     ap.add_argument('--inputs')
+    ap.add_argument('--json', action='store_true', help='Expand joined mob tables, references and calls as JSON')
     a=ap.parse_args();ctx=context(a.inputs)
     if a.command=='cleancheck':
         import cleancheck
@@ -578,6 +592,10 @@ def main():
     if a.command=='find':
         if a.query is None:ap.error('find needs a name, id, or typed id')
         return find(ctx,a.query)
+    if a.command=='mob':
+        if a.query is None:ap.error('mob needs an actor name or CharacterProperties row index')
+        import mobs
+        return mobs.lookup(ctx, a.query, a.json)
     ctx.out.mkdir(parents=True,exist_ok=True)
     if a.command in ('inventory','regen'):
         inventory_only=a.command=='inventory'
@@ -586,13 +604,19 @@ def main():
         if inventory_only:return 0
     check=audit(ctx)
     if a.command=='regen' and check['passed']:
+        import mob_checks
+        mob_verification=mob_checks.run(ctx)
+        if not mob_verification['passed']:
+            check['passed']=False
+            check['errors'].append('joined mob lookup focused checks failed; see data/mob-verification.json')
+            write_json(ctx.out/'data/check.json',check)
         import validation
         verification=validation.run(ctx)
         if not verification['passed']:
             check['passed']=False
             check['errors'].append('checker rejection-branch selftests failed; see data/validation.json')
             write_json(ctx.out/'data/check.json',check)
-    progress(ctx,'VERIFIED' if check['passed'] else 'CHECK FAILURES')
+    progress(ctx,'COVERAGE VERIFIED; MOB SEMANTICS PARTIAL' if check['passed'] else 'CHECK FAILURES')
     report(ctx,check)
     normalize_outputs(ctx)
     for k,v in check['coverage'].items():print(f'{k}: {v["total"]:,} '+json.dumps(v['statuses'],sort_keys=True))

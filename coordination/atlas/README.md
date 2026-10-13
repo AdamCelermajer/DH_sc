@@ -2,7 +2,7 @@
 
 Generated from the supplied Android, iOS and Android original-cache corpus and the frozen port source. This is a static data and source atlas. Port status records source coverage; it does not certify gameplay or audibility.
 
-Coverage check: **PASS**. Processed: **86,299/86,299 (100.00%)**.
+Coverage check: **PASS**. Processed: **86,309/86,309 (100.00%)**.
 
 Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.
 
@@ -12,10 +12,13 @@ Commands (PowerShell, from this worktree):
 ./tools/atlas/regen.ps1
 . ./tools/atlas/use.ps1
 atlas check
-atlas find swampking
+atlas mob SwampKing
+atlas mob Witch --json
 atlas find sound:517
 atlas cleancheck
 ```
+
+[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. **Profile coverage remains partial:** dynamic Lua bindings, undecoded payloads, encounter placement and runtime conditions are still explicit gaps. The processed percentage is not a claim that every mob is fully understood.
 
 The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.
 
@@ -26,12 +29,12 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | scripts | 219 | {"UNRESOLVED": 215, "DONE": 4} |
 | functions | 288 | {"UNRESOLVED": 257, "DONE": 31} |
 | calls | 7982 | {"DONE": 4170, "UNRESOLVED": 3812} |
-| references | 61511 | {"UNRESOLVED": 31315, "RESOLVED": 30194, "AMBIGUOUS": 2} |
-| assets | 6733 | {"ORPHAN": 963, "REFERENCED": 5770} |
+| references | 61521 | {"UNRESOLVED": 31315, "RESOLVED": 30204, "AMBIGUOUS": 2} |
+| assets | 6733 | {"ORPHAN": 962, "REFERENCED": 5771} |
 | levels | 190 | {"DONE": 91, "UNRESOLVED": 15, "RESOLVED": 78, "INFERENCE": 6} |
 | actors | 448 | {"RESOLVED": 448} |
 | bosses | 65 | {"PROVEN": 59, "UNRESOLVED": 6} |
-| tables | 8863 | {"RESOLVED": 7547, "UNRESOLVED": 1316} |
+| tables | 8863 | {"RESOLVED": 7550, "UNRESOLVED": 1313} |
 
 ## Reference resolution and port status
 
@@ -62,7 +65,7 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | script | 1164 | 576 | 0 | 588 | {"OTHER": 494, "FILE_MISSING": 94} | {"UNKNOWN": 633, "PARTIAL": 531} |
 | serialized_string | 7727 | 0 | 0 | 7727 | {"OTHER": 7727} | {"UNKNOWN": 7727} |
 | skill | 268 | 268 | 0 | 0 | {} | {"PARTIAL": 55, "UNKNOWN": 213} |
-| sound | 3257 | 2471 | 2 | 784 | {"OTHER": 55, "FILE_MISSING": 240, "NAME_NO_FILE": 489} | {"UNKNOWN": 2653, "PARTIAL": 604} |
+| sound | 3267 | 2481 | 2 | 784 | {"OTHER": 55, "FILE_MISSING": 240, "NAME_NO_FILE": 489} | {"UNKNOWN": 2653, "PARTIAL": 614} |
 | source_sound_ordinal | 202 | 202 | 0 | 0 | {} | {"PARTIAL": 202} |
 | symbolic_reference | 2544 | 424 | 0 | 2120 | {"OTHER": 2105, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 2544} |
 | texture | 5849 | 3435 | 0 | 2414 | {"FILE_MISSING": 244, "NAME_NO_FILE": 2170} | {"UNKNOWN": 5849} |
@@ -71,7 +74,7 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 
 | Corpus | Files | Referenced | ORPHAN |
 | --- | --- | --- | --- |
-| android | 6040 | 5148 | 892 |
+| android | 6040 | 5149 | 891 |
 | android-extra | 18 | 0 | 18 |
 | audio-cache | 265 | 254 | 11 |
 | ios | 256 | 254 | 2 |
@@ -370,6 +373,9 @@ Both supplied partial caches are used under the owner’s clarification. Each re
 | --- | --- |
 | unmodified generated atlas passes | True |
 | missing script row fails | True |
+| missing mob profile fails | True |
+| missing mob section fails | True |
+| missing CharSounds reference fails | True |
 | missing function row fails | True |
 | missing XML/BRES reference site fails | True |
 | missing row status fails | True |
@@ -404,7 +410,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1538
+      "unresolved_source_references": 1517
     },
     {
       "act": "act_2",
@@ -415,7 +421,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1035
+      "unresolved_source_references": 1005
     },
     {
       "act": "act_3",

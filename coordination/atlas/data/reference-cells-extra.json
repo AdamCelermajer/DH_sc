@@ -233,7 +233,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -581,7 +588,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -879,7 +893,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -1177,7 +1198,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -1475,7 +1503,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -1773,7 +1808,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -2071,7 +2113,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -2369,7 +2418,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -2667,7 +2723,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -2965,7 +3028,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -3310,7 +3380,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -3558,7 +3635,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -3884,7 +3968,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -4325,7 +4416,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -4830,7 +4928,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -5240,7 +5345,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -5745,7 +5857,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -6176,7 +6295,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -6537,7 +6663,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -7000,7 +7133,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -7405,7 +7545,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -7868,7 +8015,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -8331,7 +8485,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -8794,7 +8955,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -9257,7 +9425,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -9720,7 +9895,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -10125,7 +10307,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -10530,7 +10719,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -11032,7 +11228,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -11437,7 +11640,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -11842,7 +12052,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -12247,7 +12464,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -12652,7 +12876,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -13057,7 +13288,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -13462,7 +13700,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -13867,7 +14112,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -14334,7 +14586,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -14739,7 +14998,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -15144,7 +15410,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -15553,7 +15826,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -15958,7 +16238,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -16363,7 +16650,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -16768,7 +17062,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -17173,7 +17474,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -17578,7 +17886,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -17983,7 +18298,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -18395,7 +18717,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -18800,7 +19129,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -19205,7 +19541,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -19675,7 +20018,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -20080,7 +20430,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -20490,7 +20847,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -20895,7 +21259,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -21307,7 +21678,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -21709,7 +22087,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -22083,7 +22468,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -22456,7 +22848,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -22923,7 +23322,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -23328,7 +23734,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -23733,7 +24146,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -24142,7 +24562,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -24547,7 +24974,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -25047,7 +25481,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -25518,7 +25959,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -26017,7 +26465,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -26422,7 +26877,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -26831,7 +27293,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -27240,7 +27709,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -27649,7 +28125,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -28058,7 +28541,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -28463,7 +28953,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -28872,7 +29369,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -29281,7 +29785,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -29748,7 +30259,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -30211,7 +30729,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -30678,7 +31203,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -31141,7 +31673,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -31546,7 +32085,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -31951,7 +32497,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -32356,7 +32909,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -32761,7 +33321,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -33166,7 +33733,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -33575,7 +34149,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -33984,7 +34565,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -34389,7 +34977,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -34794,7 +35389,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -35199,7 +35801,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -35604,7 +36213,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -36013,7 +36629,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -36422,7 +37045,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -36885,7 +37515,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -37348,7 +37985,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -37815,7 +38459,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -38220,7 +38871,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -38625,7 +39283,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -39030,7 +39695,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -39415,7 +40087,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -39741,7 +40420,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -40118,7 +40804,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -40492,7 +41185,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -40994,7 +41694,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -41399,7 +42106,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -41804,7 +42518,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -42213,7 +42934,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -42618,7 +43346,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -43023,7 +43758,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -43489,7 +44231,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -43866,7 +44615,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -44164,7 +44920,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -44462,7 +45225,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -44842,7 +45612,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -45148,7 +45925,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -45454,7 +46238,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -45760,7 +46551,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -46066,7 +46864,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -46392,7 +47197,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -46800,7 +47612,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -47189,7 +48008,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -47515,7 +48341,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -47924,7 +48757,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -48329,7 +49169,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -48792,7 +49639,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -49255,7 +50109,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -49660,7 +50521,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -50120,7 +50988,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -50580,7 +51455,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -50985,7 +51867,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -51390,7 +52279,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -51853,7 +52749,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -52320,7 +53223,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -52822,7 +53732,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -53285,7 +54202,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -53748,7 +54672,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -54153,7 +55084,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -54613,7 +55551,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -55018,7 +55963,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -55485,7 +56437,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -55862,7 +56821,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -56188,7 +57154,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -56718,7 +57691,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -57227,7 +58207,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -57736,7 +58723,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -58241,7 +59235,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -58649,7 +59650,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -59087,7 +60095,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -59420,7 +60435,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -59762,7 +60784,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -60108,7 +61137,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -60450,7 +61486,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -60800,7 +61843,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -61143,7 +62193,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -61486,7 +62543,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -61784,7 +62848,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -62082,7 +63153,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -62380,7 +63458,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -62678,7 +63763,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -62926,7 +64018,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -63252,7 +64351,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -63657,7 +64763,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -64062,7 +65175,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -64467,7 +65587,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -64876,7 +66003,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -65281,7 +66415,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -65783,7 +66924,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -66246,7 +67394,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -66709,7 +67864,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -67172,7 +68334,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -67577,7 +68746,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -67954,7 +69130,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -68280,7 +69463,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -68685,7 +69875,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -69106,7 +70303,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -69404,7 +70608,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -69702,7 +70913,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -70000,7 +71218,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -70298,7 +71523,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -70596,7 +71828,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -70894,7 +72133,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -71192,7 +72438,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -71490,7 +72743,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -71788,7 +73048,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -72086,7 +73353,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -72384,7 +73658,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -72682,7 +73963,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -72980,7 +74268,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -73278,7 +74573,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -73576,7 +74878,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -73874,7 +75183,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -74172,7 +75488,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -74470,7 +75793,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -74768,7 +76098,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -75066,7 +76403,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -75364,7 +76708,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -75662,7 +77013,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -75960,7 +77318,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -76258,7 +77623,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -76556,7 +77928,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -76854,7 +78233,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -77152,7 +78538,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -77450,7 +78843,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -77748,7 +79148,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -78046,7 +79453,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -78344,7 +79758,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -78642,7 +80063,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -78940,7 +80368,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -79238,7 +80673,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -79536,7 +80978,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -79834,7 +81283,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -80132,7 +81588,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -80430,7 +81893,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -80773,7 +82243,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -81071,7 +82548,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -81369,7 +82853,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -81667,7 +83158,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -81965,7 +83463,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -82291,7 +83796,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -82700,7 +84212,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -83166,7 +84685,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -83571,7 +85097,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -83976,7 +85509,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -84381,7 +85921,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -84790,7 +86337,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -85199,7 +86753,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -85665,7 +87226,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -86070,7 +87638,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -86533,7 +88108,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -86938,7 +88520,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -87347,7 +88936,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -87752,7 +89348,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -88160,7 +89763,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -88565,7 +90175,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -89031,7 +90648,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -89436,7 +91060,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -89813,7 +91444,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -90163,7 +91801,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -90461,7 +92106,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -90759,7 +92411,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -91057,7 +92716,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -91355,7 +93021,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -91653,7 +93326,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -91951,7 +93631,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -92249,7 +93936,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -92547,7 +94241,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -92845,7 +94546,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -93143,7 +94851,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -93441,7 +95156,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -93739,7 +95461,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -94037,7 +95766,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -94335,7 +96071,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -94633,7 +96376,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -94959,7 +96709,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -95364,7 +97121,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -95769,7 +97533,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -96174,7 +97945,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -96583,7 +98361,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -96988,7 +98773,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -97393,7 +99185,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -97798,7 +99597,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -98203,7 +100009,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -98583,7 +100396,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -98881,7 +100701,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -99179,7 +101006,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -99516,7 +101350,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -100077,7 +101932,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -100546,7 +102422,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -101004,7 +102901,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -101512,7 +103416,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -101917,7 +103828,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -102326,7 +104244,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -102731,7 +104656,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -103136,7 +105068,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -103541,7 +105480,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -103946,7 +105892,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -104351,7 +106304,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -104756,7 +106716,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -105161,7 +107128,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -105570,7 +107544,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -105897,7 +107878,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -106195,7 +108183,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -106505,7 +108500,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -106909,7 +108911,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -107412,7 +109421,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -107789,7 +109805,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -108083,7 +110106,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -108507,7 +110537,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -108974,7 +111011,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -109426,7 +111470,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -109928,7 +111979,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -110431,7 +112489,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -110945,7 +113010,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -111506,7 +113592,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -111975,7 +114082,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -112405,7 +114533,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -112703,7 +114838,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -113048,7 +115190,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -113346,7 +115495,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -113644,7 +115800,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -113942,7 +116105,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -114240,7 +116410,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -114538,7 +116715,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -114864,7 +117048,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -115269,7 +117460,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -115674,7 +117872,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -116079,7 +118284,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -116484,7 +118696,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -116893,7 +119112,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -117302,7 +119528,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -117707,7 +119940,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -118112,7 +120352,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -118517,7 +120764,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -119019,7 +121273,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -119521,7 +121782,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -119926,7 +122194,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -120303,7 +122578,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -120593,7 +122875,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -120883,7 +123172,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -121173,7 +123469,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -121499,7 +123802,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -121970,7 +124280,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -122268,7 +124585,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -122594,7 +124918,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -123007,7 +125338,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -123309,7 +125647,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -123711,7 +126056,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -124124,7 +126476,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -124695,7 +127068,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -125164,7 +127558,28 @@
       {
         "index": 1,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [
+              28
+            ],
+            "Hurt": [
+              29,
+              30,
+              31
+            ],
+            "ImpactVsFlesh": [
+              120,
+              121,
+              122
+            ],
+            "ImpactVsMetal": [
+              117,
+              118,
+              119
+            ],
+            "IsFlesh": false,
+            "IsMetallic": true
+          },
           "index": 1,
           "name": "ArmoredHuman",
           "table": "sounds#group0"
@@ -125622,7 +128037,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -126131,7 +128553,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -126640,7 +129069,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -127149,7 +129585,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -127652,7 +130095,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -128157,7 +130607,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -128662,7 +131119,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -129170,7 +131634,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -129675,7 +132146,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -130152,7 +132630,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -130450,7 +132935,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -130748,7 +133240,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -131046,7 +133545,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -131344,7 +133850,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -131642,7 +134155,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -131940,7 +134460,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -132238,7 +134765,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -132536,7 +135070,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -132834,7 +135375,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -133132,7 +135680,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -133430,7 +135985,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -133756,7 +136318,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -134161,7 +136730,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -134566,7 +137142,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -134971,7 +137554,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -135376,7 +137966,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -135785,7 +138382,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -136190,7 +138794,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -136595,7 +139206,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -137000,7 +139618,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -137405,7 +140030,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -137913,7 +140545,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -138322,7 +140961,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -138727,7 +141373,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -139132,7 +141785,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -139541,7 +142201,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -139922,7 +142589,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -140220,7 +142894,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -140518,7 +143199,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -140816,7 +143504,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -141142,7 +143837,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -141547,7 +144249,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -141956,7 +144665,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -142358,7 +145074,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -142763,7 +145486,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -143168,7 +145898,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -143573,7 +146310,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -143950,7 +146694,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -144311,7 +147062,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -144716,7 +147474,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -145121,7 +147886,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -145526,7 +148298,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -145931,7 +148710,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -146336,7 +149122,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -146716,7 +149509,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -147042,7 +149842,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -147451,7 +150258,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -147860,7 +150674,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -148269,7 +151090,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -148671,7 +151499,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -149073,7 +151908,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -149588,7 +152430,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -149993,7 +152842,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -150398,7 +153254,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -150897,7 +153760,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -151396,7 +154266,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -151801,7 +154678,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -152206,7 +155090,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -152611,7 +155502,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -153016,7 +155914,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -153489,7 +156394,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -153898,7 +156810,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -154303,7 +157222,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -154708,7 +157634,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -155113,7 +158046,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -155576,7 +158516,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -156043,7 +158990,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -156452,7 +159406,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -156861,7 +159822,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -157266,7 +160234,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -157768,7 +160743,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -158270,7 +161252,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -158675,7 +161664,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -159084,7 +162080,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -159489,7 +162492,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -159894,7 +162904,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -160299,7 +163316,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -160704,7 +163728,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -161109,7 +164140,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -161518,7 +164556,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -161907,7 +164952,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -162316,7 +165368,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -162698,7 +165757,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -163024,7 +166090,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -163487,7 +166560,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -163950,7 +167030,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -164359,7 +167446,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -164768,7 +167862,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -165177,7 +168278,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -165586,7 +168694,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -165995,7 +169110,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -166400,7 +169522,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -166805,7 +169934,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -167210,7 +170346,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -167615,7 +170758,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -168020,7 +171170,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -168425,7 +171582,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -168830,7 +171994,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -169335,7 +172506,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -169743,7 +172921,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -170124,7 +173309,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -170474,7 +173666,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -170824,7 +174023,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -171163,7 +174369,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -171502,7 +174715,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -171841,7 +175061,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -172180,7 +175407,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -172530,7 +175764,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -172880,7 +176121,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"
@@ -173238,7 +176486,14 @@
       {
         "index": 2,
         "source_row": {
-          "fields": {},
+          "fields": {
+            "Die": [],
+            "Hurt": [],
+            "ImpactVsFlesh": [],
+            "ImpactVsMetal": [],
+            "IsFlesh": true,
+            "IsMetallic": false
+          },
           "index": 2,
           "name": "Default",
           "table": "sounds#group0"

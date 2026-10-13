@@ -1,0 +1,452 @@
+[
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "Die[0]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "Die",
+    "id": "eb376bb39f589817cf05",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 0,
+    "name": "28",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 28,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 50
+          },
+          "index": 28,
+          "name": "CharacterDie",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].Die[0]",
+    "sound_id": 28,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 28,
+    "target_name": "CharacterDie",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "Hurt[0]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "Hurt",
+    "id": "6cfa0d5f0f49428f2c10",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 0,
+    "name": "29",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 29,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 38
+          },
+          "index": 29,
+          "name": "CharacterHurt1",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].Hurt[0]",
+    "sound_id": 29,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 29,
+    "target_name": "CharacterHurt1",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "Hurt[1]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "Hurt",
+    "id": "04cbc45d38a66f663573",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 1,
+    "name": "30",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 30,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 39
+          },
+          "index": 30,
+          "name": "CharacterHurt2",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].Hurt[1]",
+    "sound_id": 30,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 30,
+    "target_name": "CharacterHurt2",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "Hurt[2]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "Hurt",
+    "id": "a68fae885fc4e29af599",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 2,
+    "name": "31",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 31,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 40
+          },
+          "index": 31,
+          "name": "CharacterHurt3",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].Hurt[2]",
+    "sound_id": 31,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 31,
+    "target_name": "CharacterHurt3",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsFlesh[0]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsFlesh",
+    "id": "5a448730fe7ec5ff18d3",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 0,
+    "name": "120",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 120,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 44
+          },
+          "index": 120,
+          "name": "ImpactMetalFlesh1",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsFlesh[0]",
+    "sound_id": 120,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 120,
+    "target_name": "ImpactMetalFlesh1",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsFlesh[1]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsFlesh",
+    "id": "9c9df87f8d692a7c4b99",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 1,
+    "name": "121",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 121,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 45
+          },
+          "index": 121,
+          "name": "ImpactMetalFlesh2",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsFlesh[1]",
+    "sound_id": 121,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 121,
+    "target_name": "ImpactMetalFlesh2",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsFlesh[2]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsFlesh",
+    "id": "34f9b68913ecb3073a47",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 2,
+    "name": "122",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 122,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 46
+          },
+          "index": 122,
+          "name": "ImpactMetalFlesh3",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsFlesh[2]",
+    "sound_id": 122,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 122,
+    "target_name": "ImpactMetalFlesh3",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsMetal[0]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsMetal",
+    "id": "c8f0eee769dc97350d70",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 0,
+    "name": "117",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 117,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 41
+          },
+          "index": 117,
+          "name": "ImpactMetal1",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsMetal[0]",
+    "sound_id": 117,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 117,
+    "target_name": "ImpactMetal1",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsMetal[1]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsMetal",
+    "id": "cfe40c5a3e38bbc3463b",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 1,
+    "name": "118",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 118,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 42
+          },
+          "index": 118,
+          "name": "ImpactMetal2",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsMetal[1]",
+    "sound_id": 118,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 118,
+    "target_name": "ImpactMetal2",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  },
+  {
+    "candidates": [],
+    "confidence": "PROVEN",
+    "context": {
+      "field": "ImpactVsMetal[2]",
+      "file": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin",
+      "index": 1,
+      "table": "sounds#group0"
+    },
+    "field": "ImpactVsMetal",
+    "id": "3f4b59e810270597b1d1",
+    "implementation": "port/level-world/character_combat_sound_v1.cpp",
+    "kind": "sound",
+    "member_index": 2,
+    "name": "119",
+    "port_status": "PARTIAL",
+    "resolves_to": [
+      {
+        "index": 119,
+        "source_row": {
+          "fields": {
+            "isEvent": 0,
+            "uid": 43
+          },
+          "index": 119,
+          "name": "ImpactMetal3",
+          "table": "sdd_dungeon_hunter_2_iphone"
+        },
+        "table": "sdd_dungeon_hunter_2_iphone",
+        "type": "table-row"
+      }
+    ],
+    "rule": "CharSounds vector member is a SoundAutoGen ordinal; resolve by the same index in the registered 638-row Sounds table.",
+    "schema_evidence": "Structs::CharSounds::read 0x4eade4; Arrays::CharSoundsTable::read 0x4b96bc",
+    "site": ".local-inputs/assets-extra/android/data/pydata/sounds_pyarray.bin[section=0,row=1].ImpactVsMetal[2]",
+    "sound_id": 119,
+    "source_index": 1,
+    "source_name": "ArmoredHuman",
+    "source_table": "sounds#group0",
+    "status": "RESOLVED",
+    "target_index": 119,
+    "target_name": "ImpactMetal3",
+    "target_table": "sdd_dungeon_hunter_2_iphone",
+    "work_status": "DONE"
+  }
+]

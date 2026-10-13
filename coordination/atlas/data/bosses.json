@@ -356,11 +356,18 @@
     "reason_code": null,
     "skills": "Assassin [0]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -736,11 +743,18 @@
     "reason_code": null,
     "skills": "Assassin [0]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -1098,11 +1112,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -1478,11 +1499,18 @@
     "reason_code": null,
     "skills": "Assassin [0]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -1858,11 +1886,18 @@
     "reason_code": null,
     "skills": "BalrogSkills [1]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -2229,11 +2264,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -2617,11 +2659,18 @@
     "shared_acts": [],
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -2979,11 +3028,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -3376,11 +3432,18 @@
     "shared_acts": [],
     "skills": "DarkQueen1 [4]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -3756,11 +3819,18 @@
     "reason_code": null,
     "skills": "DarkQueen2 [5]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -4118,11 +4188,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -4480,11 +4557,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -4842,11 +4926,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -5204,11 +5295,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -5566,11 +5664,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -5928,11 +6033,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -6290,11 +6402,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -6661,11 +6780,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -7023,11 +7149,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -7403,11 +7536,18 @@
     "reason_code": null,
     "skills": "EdwardBoss [8]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -7783,11 +7923,18 @@
     "reason_code": null,
     "skills": "RootTrollSkills [30]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -8163,11 +8310,18 @@
     "reason_code": null,
     "skills": "FireGeneralSkills [11]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -8543,11 +8697,18 @@
     "reason_code": null,
     "skills": "WitchSkills [35]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -8905,11 +9066,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -9276,11 +9444,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -9647,11 +9822,18 @@
     "reason_code": null,
     "skills": "FlaminiteSkills [12]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -10018,11 +10200,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -10380,11 +10569,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -10742,11 +10938,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -11113,11 +11316,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -11475,11 +11685,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -11846,11 +12063,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -12208,11 +12432,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -12588,11 +12819,18 @@
     "reason_code": null,
     "skills": "Emissary [9]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -12968,11 +13206,18 @@
     "reason_code": null,
     "skills": "DarkQueen2 [5]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -13348,11 +13593,18 @@
     "reason_code": null,
     "skills": "MadrukTorso [20]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -13728,11 +13980,18 @@
     "reason_code": null,
     "skills": "Madruk [17]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -14108,11 +14367,18 @@
     "reason_code": null,
     "skills": "Madruk [17]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -14479,11 +14745,18 @@
     "reason_code": null,
     "skills": "ResGod [26]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -14859,11 +15132,18 @@
     "reason_code": null,
     "skills": "RootTrollSkills [30]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -15239,11 +15519,18 @@
     "reason_code": null,
     "skills": "RootTrollSkills [30]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -15619,11 +15906,18 @@
     "reason_code": null,
     "skills": "RootTrollSkills [30]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -15999,11 +16293,18 @@
     "reason_code": null,
     "skills": "WindDragon [34]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -16379,11 +16680,18 @@
     "reason_code": null,
     "skills": "SandWormSkills [31]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -16776,11 +17084,18 @@
     "shared_acts": [],
     "skills": "SwampKingSkills [33]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -17155,11 +17470,18 @@
     "shared_acts": [],
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -17517,11 +17839,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -17879,11 +18208,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -18268,11 +18604,18 @@
     "shared_acts": [],
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -18630,11 +18973,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -18992,11 +19342,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -19372,11 +19729,18 @@
     "reason_code": null,
     "skills": "Emissary [9]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -19743,11 +20107,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -20105,11 +20476,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -20467,11 +20845,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -20829,11 +21214,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -21191,11 +21583,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -21588,11 +21987,18 @@
     "shared_acts": [],
     "skills": "WitchSkills [35]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -21950,11 +22356,18 @@
     "reason_code": null,
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -22314,11 +22727,18 @@
     "reason_code": "OTHER",
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -22687,11 +23107,18 @@
     "reason_code": "OTHER",
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -23060,11 +23487,18 @@
     "reason_code": "OTHER",
     "skills": "-1",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -23442,11 +23876,18 @@
     "reason_code": "OTHER",
     "skills": "RangedBandit [24]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -23824,11 +24265,18 @@
     "reason_code": "OTHER",
     "skills": "SandWormSkills [31]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {
@@ -24206,11 +24654,18 @@
     "reason_code": "OTHER",
     "skills": "SandWormSkills [31]",
     "sound_profile": {
-      "fields": {},
+      "fields": {
+        "Die": [],
+        "Hurt": [],
+        "ImpactVsFlesh": [],
+        "ImpactVsMetal": [],
+        "IsFlesh": true,
+        "IsMetallic": false
+      },
       "index": 2,
       "name": "Default",
       "reference_status": "RESOLVED",
-      "source_status": "UNRESOLVED",
+      "source_status": "RESOLVED",
       "table": "sounds#group0"
     },
     "sounds": {

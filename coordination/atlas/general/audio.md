@@ -647,9 +647,9 @@
 | sdd_dungeon_hunter_2_iphone | 635 | vfx_mp_follow | {"isEvent": 0, "uid": 460} | DONE |
 | sdd_dungeon_hunter_2_iphone | 636 | vfx_mp_help | {"isEvent": 0, "uid": 461} | DONE |
 | sdd_dungeon_hunter_2_iphone | 637 | vfx_mp_retreat | {"isEvent": 0, "uid": 463} | DONE |
-| sounds#group0 | 0 | AAA_DONT_DELETE | {} | DONE |
-| sounds#group0 | 1 | ArmoredHuman | {} | DONE |
-| sounds#group0 | 2 | Default | {} | DONE |
+| sounds#group0 | 0 | AAA_DONT_DELETE | {"Die": [], "Hurt": [], "ImpactVsFlesh": [], "ImpactVsMetal": [], "IsFlesh": false, "IsMetallic": false} | DONE |
+| sounds#group0 | 1 | ArmoredHuman | {"Die": [28], "Hurt": [29, 30, 31], "ImpactVsFlesh": [120, 121, 122], "ImpactVsMetal": [117, 118, 119], "IsFlesh": false, "IsMetallic": true} | DONE |
+| sounds#group0 | 2 | Default | {"Die": [], "Hurt": [], "ImpactVsFlesh": [], "ImpactVsMetal": [], "IsFlesh": true, "IsMetallic": false} | DONE |
 | sounds#group1 | 0 | AAA_DONT_DELETE_Listener | {} | DONE |
 | sounds#group1 | 1 | curListener | {} | DONE |
 | sounds#group1 | 2 | PlayerListener | {} | DONE |
