@@ -246,27 +246,34 @@ void Level::Draw() const {
 }
 
 // 0x3f2ae4 _ZN5Level13_LoadBatchingEv
-// PARTIAL. The IsDisablingCompiledBatching gate and the BUFFER SIZE print of each branch are reconstructed from LevelConfig
-// (high-performance devices read +0x2a0..+0x2a8, the others +0x2ac..+0x2b4). Device::IsHighPerformance is static and takes no
-// argument, so the clearRenderLists() result is not a Device pointer and nothing is passed to it. clearRenderLists itself is a
-// void call on the scene manager, which is glitch::IDevice +0x1c. Those IDevice data members are not declared, so that call,
-// the scene manager flag at +0x43c (SceneManager::unk_43c), the batch sizes written into the scene manager's batch object
-// (+0x1c, fields +0x22c and +0x230, each times 1.02), BatchNodeCompiler::Compile and the tail after it are not made.
+// PARTIAL. The gate, clearRenderLists on DeviceSceneManager() (device +0x1c), the unk_43c flag at +0x43c, the BUFFER SIZE print
+// of each branch (LevelConfig, high-performance +0x2a0..+0x2a8, otherwise +0x2ac..+0x2b4) and BatchNodeCompiler::Compile with
+// the branch's quantize flag are reconstructed. Not made: the batch sizes written into the scene manager's batch object (+0x1c
+// in the scene manager, fields +0x22c and +0x230, each times 1.02; the object's type is not declared) and the tail after the
+// compile (scene manager +0x04 slot 92 and the batch node's slot 72, both unnamed).
 void Level::_LoadBatching() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
         return;
     }
+    SceneManager* sceneManager = DeviceSceneManager();
+    sceneManager->clearRenderLists();
+    sceneManager->unk_43c = true;  // +0x43c
     LevelConfig* config = GetLevelConfig();  // the original reads this+0x38 directly; a null config faults there too
     if (Device::IsHighPerformance()) {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_progVertexBufferSize, config->m_progIndexBufferSize,
                     static_cast<int>(config->m_progQuantize));
-        // SEAM: the sizes and BatchNodeCompiler::Compile(m_batchNodeCompiler, m_progQuantize), see above.
+        // SEAM: the batch sizes written into the scene manager's batch object (+0x1c, fields +0x22c and +0x230, each times 1.02)
+        // need that object's type, which is not declared.
+        m_batchNodeCompiler->Compile(config->m_progQuantize);
     } else {
         std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_fixVertexBufferSize, config->m_fixIndexBufferSize,
                     static_cast<int>(config->m_fixQuantize));
-        // SEAM: the sizes and BatchNodeCompiler::Compile(m_batchNodeCompiler, m_fixQuantize), see above.
+        // SEAM: the batch sizes, see above.
+        m_batchNodeCompiler->Compile(config->m_fixQuantize);
     }
+    sceneManager->unk_43c = false;
+    // SEAM: the tail calls scene manager +0x04 slot 92 (unnamed) and the batch node's slot 72 (GOBatchSceneNode, unnamed).
 }
 
 // 0x3f2d38 _ZN5Level14_LoadBatchListEv

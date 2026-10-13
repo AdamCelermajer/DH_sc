@@ -5,10 +5,7 @@
 // ANIM_AddAnimDictToSet, _AddTemplateAnimTable, ANIM_Swap, and SetCharacter, ANIM_Stop, ANIM_Set.
 //
 // Partial rows and what is missing (each is marked at its use):
-//   VoxSoundManager::s_instance, Play3D and LoadSound: not declared (vox-audio/include/vox-audio/vox/sound_manager.hpp).
-//     Used by _PlayItemSwooshSFX, _SetAnimStep and _AddAnimTable.
-//   _SetAnimStep: also the random camera pick. The original calls Random::GetRandom(StepsSize-like count, -1), a second
-//     argument of -1 where the header declares bool synced. The call is not written until that is settled.
+//   The VoxSoundManager calls (Play3D, LoadSound) are written in _PlayItemSwooshSFX, _AddAnimTable and _SetAnimStep.
 //   _CompileAnimSet: the debug name needs the 32-bit const char* at Character +0x13c4. That word falls inside
 //     Character::m_charPropsName (std::string at +0x13b0), and the CharAnimTable name table is not read.
 //   SetAnimationSet: the CharSkillList loop. Character::GetCharSkillList() returns void*, and no record type exists
@@ -24,6 +21,8 @@
 // CustomFree(this), so no body is written here.
 
 #include "dh2/CharAnimator.hpp"
+
+#include "vox-audio/vox/sound_manager.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -101,9 +100,9 @@ void CallbackEventAdapter(const glitch::collada::STriggeredEvent& event, void* u
 }  // namespace
 
 // 0x3c94b8 _ZN12CharAnimator18_PlayItemSwooshSFXEP12ItemInstance
-// partial: returns 0 for a null item and for a sound id of -1 (Item +0x14, Structs::ItemBase m_w5). Otherwise the
-// original calls VoxSoundManager::Play3D with the target position of m_character (GameObject::GetTargetPosition) and
-// returns 1. Play3D is not declared (see the top of this file), so the sound is not played and the result stays 0.
+// Returns 0 for a null item and for a sound id of -1 (Item +0x14, Structs::ItemBase m_w5). Otherwise it plays the sound
+// in 3D at the target position of m_character (VoxSoundManager::Play3D(sound, pos, false, 1, -1, -1)) and returns 1.
+// The original calls Play3D with no null check on s_instance; the check here only avoids a null dereference.
 bool CharAnimator::_PlayItemSwooshSFX(ItemInstance* item) {
     if (item == nullptr) {
         return false;
@@ -112,8 +111,12 @@ bool CharAnimator::_PlayItemSwooshSFX(ItemInstance* item) {
     if (soundId == -1) {
         return false;
     }
-    // Missing: VoxSoundManager::s_instance->Play3D(soundId, m_character->GetTargetPosition(), 0, 1, -1.0f, -1.0f).
-    return false;
+    const Point3D<float>& target = m_character->GetTargetPosition();
+    const glitch::core::vector3d<float> at{target.X, target.Y, target.Z};
+    if (VoxSoundManager::s_instance != nullptr) {
+        VoxSoundManager::s_instance->Play3D(soundId, at, false, 1, -1.0f, -1.0f);
+    }
+    return true;
 }
 
 // 0x3c955c _ZN12CharAnimator17_PlayItemSwooshFXEP12ItemInstanceb
@@ -298,10 +301,10 @@ void CharAnimator::_AddTemplateAnimTable(int animSetId, int animTable, unsigned 
 }
 
 // 0x3c9d80 _ZN12CharAnimator13_AddAnimTableEiijjj
-// partial: the range test, the stance test ((stanceList & stanceMask) == stanceMask, or offset 0 when that is false), the
+// The range test, the stance test ((stanceList & stanceMask) == stanceMask, or offset 0 when that is false), the
 // isTracingChar_Init trace read and the step loop are written. A redirect step recurses with its anim and zero offsets
 // and stance masks. Any other step adds its anim to the set (AnimSetManager::AddAnim) and registers its FX set
-// (VisualFXManager::RegisterFXSetToLoad). Missing: VoxSoundManager::LoadSound of the step's sound (see the top of this file).
+// (VisualFXManager::RegisterFXSetToLoad), and its sound (step +0x2c) is loaded when s_instance is set.
 void CharAnimator::_AddAnimTable(int animSetId, int animTable, unsigned int offset, unsigned int stanceMask,
                                  unsigned int stanceList) {
     if (animTable < 0) {
@@ -324,7 +327,9 @@ void CharAnimator::_AddAnimTable(int animSetId, int animTable, unsigned int offs
             _AddAnimTable(animSetId, step.m_w2, 0, 0, 0);
         } else {
             AnimSetManager::s_inst.AddAnim(animSetId, step.m_w2);
-            // Missing: if (VoxSoundManager::s_instance) VoxSoundManager::LoadSound(s_instance, step.m_w11) (+0x2c).
+            if (VoxSoundManager::s_instance != nullptr) {
+                VoxSoundManager::s_instance->LoadSound(step.m_w11);  // +0x2c
+            }
             if (step.m_w6 >= 0) {  // FX set (+0x18)
                 VisualFXManager::s_inst.RegisterFXSetToLoad(step.m_w6);
             }
@@ -420,13 +425,12 @@ void CharAnimator::RequestAnimPurge() {
 }
 
 // 0x3ca79c _ZN12CharAnimator12_SetAnimStepEj
-// partial. The step index is stored in the top stack entry and event 38 is raised, as in the original. A redirect step
-// (Redir, +0x28 == 1) pushes its anim one level up through _SetAnim. Otherwise the step plays its camera shake, swoosh and
-// item sounds, its sound and FX, its controller timing and its playback. Missing:
-//   - VoxSoundManager::Play3D of the step's sound (m_w11, +0x2c), which is not declared;
-//   - the random camera pick (count m_w8 at +0x20 and array m_w9 at +0x24): Random::GetRandom is called with a second
-//     argument of -1 in the original (see the top of this file), so the pick and its PlayAnim are not written.
-// The camera part uses Level::m_camera (Level +0x128) and CameraLevel::CanPlayShakeAnim/PlayAnim.
+// The step index is stored in the top stack entry and event 38 is raised, as in the original. A redirect step (Redir,
+// +0x28 == 1) pushes its anim one level up through _SetAnim. Otherwise the step plays its camera shake, swoosh and item
+// sounds, its sound and FX, its controller timing and its playback. The camera part uses Level::m_camera (Level +0x128)
+// and CameraLevel::CanPlayShakeAnim/PlayAnim. When the step has no fixed clip (m_w4 == -1) and a random set (count m_w8,
+// int32 array m_w9), the clip is picked with Random::GetRandom(count, synced): the original passes -1 for `synced`, and
+// GetRandom tests it for truth, so it takes the synced stream.
 void CharAnimator::_SetAnimStep(unsigned int step) {
     StackEntry& top = m_animStack[m_animStackIdx];                     // +0x08 + 12 * m_animStackIdx
     const Structs::AnimTpl& record = AnimTableRecord(top.m_animId);
@@ -448,8 +452,10 @@ void CharAnimator::_SetAnimStep(unsigned int step) {
         if (camera != nullptr && camera->CanPlayShakeAnim(m_character)) {
             if (s.m_w4 != -1) {
                 camera->PlayAnim(s.m_w4, 0, true);
+            } else if (s.m_w8 != 0) {
+                const auto* clips = static_cast<const std::int32_t*>(s.m_w9);
+                camera->PlayAnim(clips[Random::GetRandom(static_cast<int>(s.m_w8), true)], 0, true);
             }
-            // Missing: the random pick of s.m_w9[Random::GetRandom(s.m_w8, -1)] when s.m_w4 == -1 (see above).
         }
     }
 
@@ -471,8 +477,10 @@ void CharAnimator::_SetAnimStep(unsigned int step) {
         }
     }
 
-    if (playStepSound) {
-        // Missing: VoxSoundManager::Play3D(s.m_w11, m_character->GetTargetPosition(), 0, 1, -1.0f, -1.0f) (see above).
+    if (playStepSound && VoxSoundManager::s_instance != nullptr) {
+        const Point3D<float>& target = m_character->GetTargetPosition();
+        const glitch::core::vector3d<float> at{target.X, target.Y, target.Z};
+        VoxSoundManager::s_instance->Play3D(s.m_w11, at, false, 1, -1.0f, -1.0f);  // +0x2c
     }
 
     if (playStepFx && s.m_w6 != -1) {                                   // FX set (+0x18)

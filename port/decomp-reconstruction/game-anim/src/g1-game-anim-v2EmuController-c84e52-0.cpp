@@ -5,19 +5,21 @@
 // (tools/decomp_asm.py).
 //
 // Status: the controller logic is rebuilt in v2EmuController_detail (the keyboard switch, the mouse command choice and
-// the head-towards offset) and covered by tests/g1-game-anim-v2EmuController-c84e52-0_test.cpp. The two input handlers
-// stay partial until their event headers exist:
-//   dh2/EvMouseButton.hpp  fields +0x08 (int), +0x0c (byte), +0x0e (int16 screen x), +0x10 (int16 screen y)
-//   dh2/EvKeyboard.hpp     fields +0x0c (int key id), +0x10 (byte pressed flag)
-// dh2/IEvent.hpp (getEventID, the vtable slot +0x08) and dh2/EventManager.hpp are present, so onEvent dispatches on the
+// the head-towards offset) and covered by tests/g1-game-anim-v2EmuController-c84e52-0_test.cpp. Both input handlers use
+// dh2/EvMouseButton.hpp and dh2/EvKeyboard.hpp. dh2/IEvent.hpp (getEventID, the vtable slot +0x08) and dh2/EventManager.hpp are present, so onEvent dispatches on the
 // event id and the constructor and destructor attach and detach the receiver on dword_99F740 (dh2/global/MenuManagerGlobals.hpp).
 // The v2Controller base constructor (field stores and the ASSERT) is v2Controller::v2Controller in
-// game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp. The handlers return false on every path in the stubs below.
+// game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp. Both handlers return false on every path.
 
 #include "dh2/v2EmuController.hpp"
 
 #include "dh2/Character.hpp"
+#include "dh2/EvKeyboard.hpp"
+#include "dh2/EvMouseButton.hpp"
 #include "dh2/EventManager.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/Point2D.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/IEvent.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
 #include "dh2/v2Controller.hpp"
@@ -160,15 +162,13 @@ v2EmuController::~v2EmuController() {
 // Asm verified: the event's type id comes from the IEvent vtable (slot +0x08, LDR PC,[R3,#8]). Type 0 tail-calls the
 // keyboard handler (B _onEvent(EvKeyboard)), type 2 tail-calls the mouse handler (B _onEvent(EvMouseButton)), and any
 // other type returns 0. Both handlers return 0 on every path, so this returns 0 on every path.
-// PARTIAL: the dispatch is written. Both handlers are stubs until their event headers exist, so the result is false.
 bool v2EmuController::onEvent(const IEvent* event, const EventManager* manager) {
     switch (event->getEventID()) {
         case 0:  // EvKeyboard
-            // Asm: the tail call passes the same pointer (MOV R1,R4), so no base adjustment happens. static_cast needs the
-            // complete type (dh2/EvKeyboard.hpp, absent), so the pointer is converted with reinterpret_cast.
-            return _onEvent(reinterpret_cast<const EvKeyboard*>(event), manager);
+            // Asm: the tail call passes the same pointer (MOV R1,R4), so no base adjustment happens.
+            return _onEvent(static_cast<const EvKeyboard*>(event), manager);
         case 2:  // EvMouseButton
-            return _onEvent(reinterpret_cast<const EvMouseButton*>(event), manager);
+            return _onEvent(static_cast<const EvMouseButton*>(event), manager);
         default:
             return false;
     }
@@ -180,11 +180,29 @@ bool v2EmuController::onEvent(const IEvent* event, const EventManager* manager) 
 // through v2EmuController_detail::MouseCommandForMask: MoveTo, WarpTo or LookAt. The command runs only when
 // PFWorld::TranslateScreenToWorld succeeds. Returns 0 on every path.
 bool v2EmuController::_onEvent(const EvMouseButton* event, const EventManager* manager) {
-    // PARTIAL: waits on dh2/EvMouseButton.hpp (fields +0x08, +0x0c, +0x0e, +0x10) and on dh2/PFWorld.hpp
-    // (Singleton<PFWorld>::s_inst and TranslateScreenToWorld(Point2D<float> const&, Point3D<float>&) returning bool).
-    // The command choice is v2EmuController_detail::MouseCommandForMask(unk_018), rebuilt and tested.
-    (void)event;
     (void)manager;
+    if (event->button == 0 && !event->pressed) {
+        // The command comes from the key-state mask. It runs only when the screen point maps to the world.
+        const v2EmuController_detail::MouseCommand command = v2EmuController_detail::MouseCommandForMask(unk_018);
+        Point2D<float> screen{static_cast<float>(event->x), static_cast<float>(event->y)};
+        Point3D<float> world{};
+        if (command != v2EmuController_detail::MouseCommand::kNone &&
+            Singleton<PFWorld>::s_inst.TranslateScreenToWorld(screen, world)) {
+            switch (command) {
+                case v2EmuController_detail::MouseCommand::kMoveTo:
+                    Cmd_MoveTo(world);
+                    break;
+                case v2EmuController_detail::MouseCommand::kWarpTo:
+                    Cmd_WarpTo(world);
+                    break;
+                case v2EmuController_detail::MouseCommand::kLookAt:
+                    Cmd_LookAt(world);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     return false;
 }
 
@@ -192,9 +210,7 @@ bool v2EmuController::_onEvent(const EvMouseButton* event, const EventManager* m
 // Asm verified. The key id at event+0x0c is the switch value and the byte at event+0x10 is the pressed flag. The switch
 // is v2EmuController_detail::RouteKey, rebuilt and tested. Returns 0 on every path.
 bool v2EmuController::_onEvent(const EvKeyboard* event, const EventManager* manager) {
-    // PARTIAL: waits on dh2/EvKeyboard.hpp (key id as int at +0x0c, pressed flag as bool at +0x10). Once it exists the
-    // body is v2EmuController_detail::RouteKey(*this, <key id>, <pressed>) followed by return false.
-    (void)event;
     (void)manager;
+    v2EmuController_detail::RouteKey(*this, event->key, event->pressed);
     return false;
 }
