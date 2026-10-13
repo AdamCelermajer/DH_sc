@@ -85,20 +85,32 @@ Pick the 3 largest functions marked "reconstructed" in port/decomp-reconstructio
 ok=false only for real defects (wrong logic, invented behaviour, a "reconstructed" row that is really partial, missing ledger rows, compile failure, stand-in structs). List each defect concretely (function address, what is wrong, what the original does). Do not edit any files.`
 }
 
-const results = await pipeline(chains, async (ch) => {
+async function runChain(ch) {
   const out = []
   for (const id of ch.ids) {
     let w = await agent(workPrompt(id, ch.c, ch.o, null), { label: `work:${id}`, phase: 'Build', model: 'haiku', schema: WORK })
     if (!w) { out.push({ id, failed: true }); continue }
     const v = await agent(verifyPrompt(id, ch.c, w), { label: `verify:${id}`, phase: 'Verify', model: 'sonnet', schema: VERDICT })
     if (v && !v.ok && v.problems.length) {
-      const w2 = await agent(workPrompt(id, ch.c, ch.o, v.problems.join('\n')), { label: `fix:${id}`, phase: 'Build', model: 'haiku', schema: WORK })
+      const w2 = await agent(workPrompt(id, ch.c, ch.o, v.problems.join(String.fromCharCode(10))), { label: `fix:${id}`, phase: 'Build', model: 'haiku', schema: WORK })
       if (w2) w = w2
     }
     out.push({ id, work: w, verdict: v })
   }
   return { chain: `${ch.c}/${ch.o}`, batches: out }
-})
+}
+// Concurrency cap: chains are dealt round-robin into LANES lanes; each lane runs its chains
+// one after another, and each chain runs one agent at a time, so at most LANES agents run.
+const LANES = Math.max(1, args.lanes || 8)
+const lanes = Array.from({ length: Math.min(LANES, chains.length) }, () => [])
+chains.forEach((ch, i) => lanes[i % lanes.length].push(ch))
+log(`${WAVE}: ${lanes.length} lanes (cap ${LANES})`)
+const laneResults = await parallel(lanes.map(lane => async () => {
+  const res = []
+  for (const ch of lane) res.push(await runChain(ch))
+  return res
+}))
+const results = laneResults.filter(Boolean).flat()
 const flat = results.filter(Boolean).flatMap(r => r.batches)
 const tot = { reconstructed: 0, partial: 0, skipped: 0, upstream: 0 }
 for (const b of flat) for (const k of Object.keys(tot)) tot[k] += (b.work && b.work.counts && b.work.counts[k]) || 0
