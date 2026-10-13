@@ -1,65 +1,77 @@
 // CNetPlayerInfo: per-player record of the net player manager, from libDungeonHunter2.so.
 //
-// Layout (32-bit offsets from the original, taken from the Hex-Rays pseudocode of the methods
-// in batch e1-net-transport-CNetPlayerInfo-0):
-//   +0x000..+0x12f  base NetStruct (vptr off_9924D8 / off_992370). NetStruct is not in the tree
-//                   yet, so the base range is not declared here.
-//   +0x130..+0x24f  NetStructMember-derived blocks, 0x28 bytes each (vptr at +0, the value
-//                   word at +0x20 of the block). The blocks are not declared as objects here.
-//   +0x178  member_id_    value of the block at +0x158: network member id (compared with the
-//                         host member id in IsHost, passed to the net player manager events).
-//   +0x1a0  conn_index_   value of the block at +0x180: connection slot index, -1 when none.
-//   +0x1c8  unk_1c8       value of the block at +0x1a8: -1 when none (its name is not known).
-//   +0x1f0  state_       value of the block at +0x1d0. Values seen: 1 and 2 are the activating
-//                         states (IsActivating), 3 is active (IsActive), 4 and 5 are the
-//                         disconnect states (4 on the server, 5 on a client), 6 is removed
-//                         (client side). 0 is the reset state (Reset, Remove on the server).
+// CNetPlayerInfo derives from NetStruct (the 0x130-byte replicated-struct base, vtable _ZTV14CNetPlayerInfo
+// = the NetStruct slots +0x00..+0x44 followed by the class's own slots), then declares eight
+// NetStructMember blocks, in this order (32-bit offsets; every block is 0x28 bytes with the value word at
+// block +0x20). The constructors 0x80f7b4 / 0x80fc28 build them and declare them with
+// NetStruct::DeclareMember in the same order.
+//
+//   +0x130  unk_150      NetStructInt<17u>   value at +0x150, name not recovered
+//   +0x158  member_id_   NetStructInt<8u>    value at +0x178: network member id (compared with the host
+//                                            member id in IsHost, passed to the net player manager events)
+//   +0x180  conn_index_  NetStructInt<17u>   value at +0x1a0: connection slot index, -1 when none
+//   +0x1a8  unk_1c8      NetStructInt<16u>   value at +0x1c8: -1 when none (its name is not known)
+//   +0x1d0  state_       NetStructUInt<8u>   value at +0x1f0. Values seen: 1 and 2 are the activating
+//                                            states (IsActivating), 3 is active (IsActive), 4 and 5 are the
+//                                            disconnect states (4 on the server, 5 on a client), 6 is
+//                                            removed (client side). 0 is the reset state (Reset, Remove on
+//                                            the server).
+//   +0x1f8  unk_218      NetStructUInt<8u>   value at +0x218, name not recovered
+//   +0x220  unk_240      NetStructUInt<8u>   value at +0x240, written by SetState(char), name not recovered
+//   +0x248  name_        NetStructString<32u> value at +0x268
 //   +0x280  applied_state_  copy of state_ made by Update (the original's +0x280 word).
+//   (object size 0x288, from CNetPlayerInfo::Create's operator new)
 //
-// Layout request (for the integrator): the base NetStruct (0x130 bytes, with a std::map of
-// NetStruct::tPacketHistory at +0x10c and the byte flags at +0x124 and +0x125), the
-// NetStructMember blocks at +0x130..+0x248 and the NetStructString<32> member at +0x248 must be
-// declared before the field offsets above can hold in a single class. Until then the class
-// declares only the fields the methods in this batch use, and the offsets are comments.
+// Initial values after the constructor: every block starts at 0, then Reset() writes -1 to conn_index_ and
+// unk_1c8 and 0 to state_ (it does not touch member_id_, which therefore ends at 0); applied_state_ is 0.
 //
-// Virtual slots (original vtable, from tools/decomp_vtable.py): +0x48 Update, +0x4c Reset,
-// +0x50 IsLocal, +0x54 IsLocalTo, +0x58 IsInRoom, +0x5c IsActive, +0x60 IsActivating. The NetStruct
-// virtuals in slots +0x00..+0x44 are not declared yet.
+// Virtual slots (tools/decomp_vtable.py): NetStruct's +0x00..+0x44, then +0x48 Update, +0x4c Reset,
+// +0x50 IsLocal, +0x54 IsLocalTo, +0x58 IsInRoom, +0x5c IsActive, +0x60 IsActivating.
 #pragma once
 
 #include <cstdint>
 
-class CNetPlayerInfo {
+#include "net-transport/net_struct.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
+#include "net-transport/tb/net_struct_string.hpp"
+
+class CNetPlayerInfo : public NetStruct {
 public:
-    CNetPlayerInfo();                        // 0x80fc28, partial (NetStruct base and member blocks missing)
-    virtual ~CNetPlayerInfo() = default;     // destructor: vtable +0x00 (D1), deleting form at +0x04 (used by Delete)
-    static CNetPlayerInfo* Create();         // 0x8103d4, partial (allocates sizeof(CNetPlayerInfo), not 0x288)
-    static void Delete(CNetPlayerInfo* p);   // 0x81009c, partial (second argument and return value not kept)
+    CNetPlayerInfo();                        // 0x80fc28 (C2), 0x80f7b4 (C1)
+    ~CNetPlayerInfo() override;              // 0x80f618 (D1), 0x80f6f4 (D2); the deleting form 0x80f6d8 is the compiler's
+    // The copy constructor (0x377448, 0x4417d8) and operator= (0x378708) copy the NetStruct base's member
+    // pointer array with memcpy, so a copy would declare the source's blocks; they are not ported.
+    CNetPlayerInfo(const CNetPlayerInfo&) = delete;
+    CNetPlayerInfo& operator=(const CNetPlayerInfo&) = delete;
+    static CNetPlayerInfo* Create();         // 0x8103d4
+    static void Delete(CNetPlayerInfo* p);   // 0x81009c
 
-    // Declared for the callers in the batch. Their bodies are not in this batch
-    // (see the ledger notes): SetState, IsHost, IsInRoom, the constructors, operator= and the
-    // destructors.
-    void SetState(char state);  // 0x36f40c, skipped
-    bool IsHost() const;        // 0x80f23c, skipped
-    bool IsInRoom() const;      // 0x80f180, skipped (vtable +0x58)
+    // Declared for the callers in the batch. Their bodies are not all written (see the ledger).
+    void SetState(char state);  // 0x36f40c
 
-    // Reconstructed or partial bodies.
-    virtual void Update();                  // 0x80f3d0, partial (vtable +0x48)
-    virtual void Reset();                   // 0x80f27c, partial (vtable +0x4c)
-    virtual bool IsLocal() const;           // 0x80f1ec, reconstructed (vtable +0x50)
-    virtual bool IsLocalTo(int member_index) const;  // 0x80f1a0, reconstructed (vtable +0x54)
-    virtual bool IsActive() const;          // 0x80f124, reconstructed (vtable +0x5c)
-    virtual bool IsActivating() const;      // 0x36d208, reconstructed (vtable +0x60)
+    // Slots after NetStruct's.
+    virtual void Update();                  // +0x48, 0x80f3d0, partial (the event-queue calls are not ported)
+    virtual void Reset();                   // +0x4c, 0x80f27c
+    virtual bool IsLocal() const;           // +0x50, 0x80f1ec
+    virtual bool IsLocalTo(int member_index) const;  // +0x54, 0x80f1a0
+    virtual bool IsInRoom() const;          // +0x58, 0x80f180, skipped (CMatching slot +0x68 is not identified)
+    virtual bool IsActive() const;          // +0x5c, 0x80f124
+    virtual bool IsActivating() const;      // +0x60, 0x36d208
 
-    bool IsRemote() const;                  // 0x80f164, reconstructed
-    void Add();                             // 0x80f260, partial
-    void Remove();                          // 0x80f2e0, partial
-    void Disconnect();                      // 0x80f374, partial
+    bool IsHost() const;                    // 0x80f23c
+    bool IsRemote() const;                  // 0x80f164
+    void Add();                             // 0x80f260
+    void Remove();                          // 0x80f2e0
+    void Disconnect();                      // 0x80f374
 
-    // Fields (32-bit offsets in the comments; see the layout notes above).
-    std::int32_t member_id_ = -1;     // +0x178
-    std::int32_t conn_index_ = -1;    // +0x1a0
-    std::int32_t unk_1c8 = -1;        // +0x1c8
-    std::int32_t state_ = 0;          // +0x1f0
-    std::int32_t applied_state_ = 0;  // +0x280
+    // Replicated members, in the original order (32-bit offsets of the block in the comments).
+    NetStructInt<17u> unk_150;              // +0x130
+    NetStructInt<8u> member_id_;            // +0x158
+    NetStructInt<17u> conn_index_;          // +0x180
+    NetStructInt<16u> unk_1c8;              // +0x1a8
+    NetStructUInt<8u> state_;               // +0x1d0
+    NetStructUInt<8u> unk_218;              // +0x1f8
+    NetStructUInt<8u> unk_240;              // +0x220
+    NetStructString<32u> name_;             // +0x248
+    std::int32_t applied_state_ = 0;        // +0x280
 };

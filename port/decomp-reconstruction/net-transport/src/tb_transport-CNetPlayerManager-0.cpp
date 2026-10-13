@@ -1,10 +1,13 @@
 // Batch e1-net-transport-CNetPlayerManager-0: the first 20 CNetPlayerManager functions of
 // libDungeonHunter2.so. Class: include/net-transport/tb/c_net_player_manager.hpp.
-// Shims for the calls into other owners: include/net-transport/tb/net_player_manager_deps.hpp.
+// The NetStruct calls (net_struct_ and the player virtuals) are real (decisions-1); the one shim left is
+// COnline in include/net-transport/tb/net_player_manager_deps.hpp.
 
 #include "net-transport/tb/c_net_player_manager.hpp"
 
 #include <cstdint>
+
+#include "net-transport/deps/connection_deps.hpp"  // CMatching (stand-in)
 
 #include "net-transport/tb/net_player_manager_deps.hpp"
 
@@ -53,8 +56,8 @@ CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int index) const {
 // GetLocalPlayer passes a member id here. Confirm the field name before merging.
 CNetPlayerInfo* CNetPlayerManager::GetPlayerInternal(int first_key, int second_key) const {
     for (CNetPlayerInfo* player : players_) {
-        if (player != nullptr && first_key == player->conn_index_ &&  // +0x1a0
-            second_key == player->unk_1c8) {                          // +0x1c8
+        if (player != nullptr && first_key == player->conn_index_.GetValue() &&  // +0x1a0
+            second_key == player->unk_1c8.GetValue()) {                          // +0x1c8
             return player;
         }
     }
@@ -88,7 +91,7 @@ int CNetPlayerManager::GetFreePlayerId() const {
     if (player_slot_count_ > 0) {  // +0x194
         for (int i = 0; i < player_slot_count_; ++i) {
             // As in the original, the state word is read without a null check.
-            if (players_[static_cast<std::size_t>(i)]->state_ == 0) {  // +0x1f0
+            if (players_[static_cast<std::size_t>(i)]->state_.GetValue() == 0) {  // +0x1f0
                 return i;
             }
         }
@@ -105,21 +108,21 @@ void CNetPlayerManager::RegisterPlayerInfoFunctions(CNetPlayerInfo* (*create)(),
 }
 
 // 0x8102f0 CNetPlayerManager::UnregisterPlayerInfoFunctions()
-// Partial: CNetPlayerInfo::Create and CNetPlayerInfo::Delete are not declared on the class yet;
-// the shims in net_player_manager_deps.hpp stand in for them.
+// Restores the default factory: CNetPlayerInfo::Create and CNetPlayerInfo::Delete.
 void CNetPlayerManager::UnregisterPlayerInfoFunctions() {
-    CreateNetPlayerInfo = np_deps::CreatePlayerInfo;
-    DeleteNetPlayerInfo = np_deps::DeletePlayerInfo;
+    CreateNetPlayerInfo = CNetPlayerInfo::Create;
+    DeleteNetPlayerInfo = CNetPlayerInfo::Delete;
 }
 
 // 0x810338 CNetPlayerManager::AreAllPlayersAcknowledged()
-// Partial: the check is vtable +0x2c of the player, a NetStruct slot that is not declared yet.
+// True when there are no players or every player reports AreChangesAcknowledged (vtable +0x2c). A null
+// slot ends the scan with false.
 bool CNetPlayerManager::AreAllPlayersAcknowledged() const {
     if (players_.empty()) {
         return true;
     }
     for (CNetPlayerInfo* player : players_) {
-        if (player == nullptr || !np_deps::PlayerSlot2C(player)) {
+        if (player == nullptr || !player->AreChangesAcknowledged()) {  // vtable +0x2c
             return false;
         }
     }
@@ -127,23 +130,25 @@ bool CNetPlayerManager::AreAllPlayersAcknowledged() const {
 }
 
 // 0x8103f4 CNetPlayerManager::ResendManagerInfo()
-// Partial: NetStruct::Resend (0x81347c) is a stand-in until NetStruct is merged.
-int CNetPlayerManager::ResendManagerInfo() {
-    return net_struct_.Resend();
+// NetStruct::Resend() (0x81347c) on the manager's replicated info. The tail call returns Resend's leftover
+// R0, which nothing reads, so the port returns void.
+void CNetPlayerManager::ResendManagerInfo() {
+    net_struct_.Resend();
 }
 
 // 0x8103fc CNetPlayerManager::ProcessLostPacket(int,int)
-// Partial: NetStruct::ProcessLostPacket and vtable +0x44 of the player are not declared yet.
+// NetStruct::ProcessLostPacket on the manager's info, then vtable +0x44 (ProcessLostPacket) of every
+// non-null player in both lists.
 void CNetPlayerManager::ProcessLostPacket(int a2, int a3) {
-    np_deps::NetStructProcessLostPacket(net_struct_, a2, a3);
+    net_struct_.NetStruct::ProcessLostPacket(a2, a3);
     for (std::size_t i = 0; i < players_.size(); ++i) {
         if (players_[i] != nullptr) {
-            np_deps::PlayerSlot44(players_[i], a2, a3);
+            players_[i]->ProcessLostPacket(a2, a3);  // vtable +0x44
         }
     }
     for (std::size_t i = 0; i < secondary_players_.size(); ++i) {
         if (secondary_players_[i] != nullptr) {
-            np_deps::PlayerSlot44(secondary_players_[i], a2, a3);
+            secondary_players_[i]->ProcessLostPacket(a2, a3);  // vtable +0x44
         }
     }
 }
@@ -155,17 +160,18 @@ void CNetPlayerManager::sProcessLostPacket(int a2, int a3) {
 }
 
 // 0x8104ec CNetPlayerManager::ProcessAcknowledgedPacket(int,int)
-// Partial: NetStruct::ProcessAcknowledgedPacket and vtable +0x40 of the player are not declared yet.
+// NetStruct::ProcessAcknowledgedPacket on the manager's info, then vtable +0x40 (ProcessAcknowledgedPacket)
+// of every non-null player in both lists.
 void CNetPlayerManager::ProcessAcknowledgedPacket(int a2, int a3) {
-    np_deps::NetStructProcessAcknowledgedPacket(net_struct_, a2, a3);
+    net_struct_.NetStruct::ProcessAcknowledgedPacket(a2, a3);
     for (std::size_t i = 0; i < players_.size(); ++i) {
         if (players_[i] != nullptr) {
-            np_deps::PlayerSlot40(players_[i], a2, a3);
+            players_[i]->ProcessAcknowledgedPacket(a2, a3);  // vtable +0x40
         }
     }
     for (std::size_t i = 0; i < secondary_players_.size(); ++i) {
         if (secondary_players_[i] != nullptr) {
-            np_deps::PlayerSlot40(secondary_players_[i], a2, a3);
+            secondary_players_[i]->ProcessAcknowledgedPacket(a2, a3);  // vtable +0x40
         }
     }
 }
@@ -185,22 +191,21 @@ CNetPlayerInfo* CNetPlayerManager::GetLocalPlayer(int second_key) const {
 }
 
 // 0x810610 CNetPlayerManager::WritePacketData(int,int,NetBitStream &)
-// Partial. Missing: the NetStruct::ConditionalSerialize body (a tail jump to SerializeInternal,
-// not declared yet), the player slots +0x0c and +0x28 and +0x08 (NetStruct vtable, not declared
-// yet), and the return of NetStruct::SetEnabled (unused in the original). The state branches
-// follow the Hex-Rays pseudocode exactly. The loops re-read the vectors as the original does.
+// Partial: COnline::IsServer (GetOnline(), net-session-online) is the np_deps stand-in. The NetStruct
+// calls are real: the manager info is enabled for the server and serialised with ConditionalSerialize
+// (0x814cd4), each player with its vtable +0x0c (ConditionalSerialize) and the secondary players with +0x28
+// (HasDataToSend) and +0x08 (Serialize). The state branches follow the Hex-Rays pseudocode exactly. The
+// loops re-read the vectors as the original does.
 int CNetPlayerManager::WritePacketData(int a2, int a3, NetBitStream& stream) {
     // COnline::IsServer(GetOnline()) feeds NetStruct::SetEnabled.
     net_struct_.SetEnabled(np_deps::GetOnline()->IsServer());
     const bool is_server = CMatching::Get()->IsServer();
-    int result = np_deps::NetStructConditionalSerialize(net_struct_, is_server, stream, a2, a3) != 0
-                     ? 1
-                     : 0;
+    int result = net_struct_.ConditionalSerialize(is_server, stream, a2, a3) != 0 ? 1 : 0;
 
     for (std::size_t i = 0; i < players_.size(); ++i) {
         CNetPlayerInfo* player = players_[i];
         // The state is read without a null check, as in the original.
-        const unsigned int state = static_cast<unsigned int>(player->state_);  // +0x1f0
+        const unsigned int state = player->state_.GetValue();  // +0x1f0
         bool send_flag = false;  // v22 in the pseudocode
         if (state <= 6) {
             const unsigned int bit = 1u << state;
@@ -218,8 +223,8 @@ int CNetPlayerManager::WritePacketData(int a2, int a3, NetBitStream& stream) {
                 }
             }
         }
-        // Vtable +0x0c of the player, with the send flag and the stream.
-        const int wrote = np_deps::PlayerSlot0C(players_[i], send_flag, &stream, a2, a3);
+        // Vtable +0x0c of the player (ConditionalSerialize), with the send flag and the stream.
+        const int wrote = players_[i]->ConditionalSerialize(send_flag, stream, a2, a3);
         if (wrote != 0) {
             result = 1;
         }
@@ -228,10 +233,10 @@ int CNetPlayerManager::WritePacketData(int a2, int a3, NetBitStream& stream) {
     const bool has_secondary = !secondary_players_.empty();
     for (std::size_t i = 0; i < secondary_players_.size(); ++i) {
         if (secondary_players_[i] != nullptr &&
-            np_deps::PlayerSlot28(secondary_players_[i], a2)) {  // vtable +0x28
+            secondary_players_[i]->HasDataToSend(a2)) {  // vtable +0x28
             stream.WriteByte(1, 1);
-            stream.WriteByte(static_cast<std::uint8_t>(secondary_players_[i]->unk_1c8), 8);  // +0x1c8
-            np_deps::PlayerSlot08(secondary_players_[i], &stream, a2, a3);  // vtable +0x08
+            stream.WriteByte(static_cast<std::uint8_t>(secondary_players_[i]->unk_1c8.GetValue()), 8);  // +0x1c8
+            secondary_players_[i]->Serialize(stream, a2, a3);  // vtable +0x08
         }
     }
     if (has_secondary) {

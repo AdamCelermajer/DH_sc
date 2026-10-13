@@ -22,40 +22,43 @@ std::int32_t Abs32(std::int32_t value) {
 // ---------------------------------------------------------------------------------------------
 // CNetPlayerInfo
 
-// 0x80fc28 CNetPlayerInfo::CNetPlayerInfo()   [partial]
+// 0x80fc28 CNetPlayerInfo::CNetPlayerInfo()   (C2; 0x80f7b4 is the C1 copy of the same body)
 // The original builds the NetStruct base (NetStruct::NetStruct), seven NetStructMember blocks at
-// +0x130, +0x158, +0x180, +0x1a8, +0x1d0, +0x1f8 and +0x220, a NetStructString<32> at +0x248,
-// declares the eight members with NetStruct::DeclareMember, and ends with Reset(). None of that
-// is in CNetPlayerInfo yet (see the layout request in cnet_player_info.hpp), so this body writes
-// the fields the class declares, with the values the original leaves in them:
-//   - the member id block (+0x158) has its value word zeroed, so member_id_ ends at 0;
-//   - the connection, unk and state blocks are zeroed by their constructors, and Reset() then
-//     writes -1, -1 and 0 (Reset's writes are repeated here in the same order);
-//   - applied_state_ (+0x280) is set to 0.
-// Not ported: the NetStruct base construction and vtable, the block vtables and sizes, the
-// NetStructMember::SetChanged calls, the NetStructString<32> member, and the DeclareMember calls.
-CNetPlayerInfo::CNetPlayerInfo() {
-    member_id_ = 0;
-    conn_index_ = -1;
-    unk_1c8 = -1;
-    state_ = 0;
-    applied_state_ = 0;
+// +0x130, +0x158, +0x180, +0x1a8, +0x1d0, +0x1f8 and +0x220 and a NetStructString<32> at +0x248 (the member
+// constructors are inline: each sets sizeBits, the -1 masks and a zero value, and the zero-value store is a
+// SetValue(0) that only calls SetChanged when the uninitialised memory was non-zero), clears the word at
+// +0x280, declares the eight members with NetStruct::DeclareMember in block order, and ends with a direct
+// call to Reset(). The member defaults are 0, so member_id_ stays 0 (Reset does not touch it) while
+// conn_index_ and unk_1c8 become -1 and state_ stays 0.
+CNetPlayerInfo::CNetPlayerInfo() : name_(std::string()) {
+    DeclareMember(&unk_150);     // +0x130
+    DeclareMember(&member_id_);  // +0x158
+    DeclareMember(&conn_index_); // +0x180
+    DeclareMember(&unk_1c8);     // +0x1a8
+    DeclareMember(&state_);      // +0x1d0
+    DeclareMember(&unk_218);     // +0x1f8
+    DeclareMember(&unk_240);     // +0x220
+    DeclareMember(&name_);       // +0x248
+    CNetPlayerInfo::Reset();     // BL CNetPlayerInfo::Reset
 }
 
-// 0x8103d4 CNetPlayerInfo::Create()   [partial]
-// The original calls operator new(0x288) and then the constructor, and returns the object. The
-// port allocates sizeof(CNetPlayerInfo), which differs from 0x288 until the NetStruct base and the
-// member blocks are declared. The Hex-Rays body takes a pointer argument it never uses, so the
-// port declares Create as a static member.
+// 0x80f618 CNetPlayerInfo::~CNetPlayerInfo()   (D1; 0x80f6f4 is the D2 copy, 0x80f6d8 the deleting form)
+// The original resets the vptrs, destroys the name string, resets every block's vptr and empties the
+// NetStruct packet history map. The members and the NetStruct base are destroyed by the compiler in the
+// same order; the deleting form (this destructor plus CustomFree) is `delete`.
+CNetPlayerInfo::~CNetPlayerInfo() {}
+
+// 0x8103d4 CNetPlayerInfo::Create()
+// operator new(0x288, 2) then the constructor. The Hex-Rays body takes a pointer argument it never uses,
+// so the port declares Create as a static member.
 CNetPlayerInfo* CNetPlayerInfo::Create() {
     return new CNetPlayerInfo();
 }
 
-// 0x81009c CNetPlayerInfo::Delete(CNetPlayerInfo*)   [partial]
+// 0x81009c CNetPlayerInfo::Delete(CNetPlayerInfo*)
 // A null pointer is returned unchanged. Otherwise the original calls the object's virtual slot +4
-// (the deleting destructor) with (this, a2). This port has no virtual destructor, so `delete`
-// runs the same destructor. The second argument (a2) and the return value are not kept, because
-// no caller in the tree uses them.
+// (the deleting destructor) with (this, a2), which `delete` does. The second argument (a2) and the return
+// value are not kept, because no caller in the tree uses them.
 void CNetPlayerInfo::Delete(CNetPlayerInfo* p) {
     delete p;
 }

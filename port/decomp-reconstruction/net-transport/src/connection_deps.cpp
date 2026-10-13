@@ -20,6 +20,14 @@ void CMatching::SetServerForTest(bool server) {
     g_matching.server_ = server;
 }
 
+void CMatching::SetRoomMaskForTest(std::uint32_t mask) {
+    g_matching.room_mask_ = mask;
+}
+
+void CMatching::SetInRoomForTest(bool in_room) {
+    g_matching.in_room_ = in_room;
+}
+
 int CEventQueueBase::AddEvent(int event, void* data, int size) {
     (void)event;
     (void)data;

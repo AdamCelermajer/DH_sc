@@ -195,6 +195,7 @@ Queue: 1235 rows, 239 still unledgered. Every ledger address is in queue.csv (ch
 - CMatchingGLLive (`c_matching_gl_live.hpp`): +0x0d room hidden, +0x0e room closed, +0x3640 local
   member id, +0x3644 server member id, +0x6700 friends, +0x6be0 friend list loaded. The byte at
   +0x67ed is the alpha-server switch read by the sign-in observer (reached through the CMatching seam).
+  The full layout is in "Decision 6" at the end of this file (CMatchingGLLive now derives from CMatchingBase).
 - CMatchingGLLiveLobbyObserver: +0x04 logged-in, +0x05 connected, +0x06 game started, +0x14 state,
   +0x48 last result. The friend observer has a flag at +0x04. The message observer has only a vptr.
 - GLXPlayerLogin: +0x40 keep-alive enabled, +0x44 time of last keep-alive, APNS strings and ports
@@ -389,3 +390,90 @@ buffer and state members), and the LC_API_FREE and LC_API_MALLOC thunks.
   Hex-Rays body and IDA listing use the absolute CR index as the next-data offset, so a second chunk reads from the
   wrong place. The data-end constant (v58 = end + 4 in the pseudocode, +2 in the listing) is unresolved. Left partial
   until the wire format is checked against a real capture. Do not "fix" it to standard chunked semantics without that.
+
+## Decision 6: CMatchingGLLive on CMatchingBase (Track B integrator, applied)
+
+`CMatchingGLLive` now derives from `CMatchingBase` (the original CMatching, the first 0x3630 bytes) and declares every
+member in original order with its 32-bit offset (`include/net-session-online/c_matching_gl_live.hpp`). The object is
+0x6c08 bytes in the original (operator new size in `CMatching::Get`, 0x800f8c). The constructor 0x81e7f0 runs the
+CMatching constructor first and the vtable (`_ZTV15CMatchingGLLive`) holds the CMatching slots, so the base fits.
+
+Base members added to `CMatchingBase`: +0x08 member capacity (the `Initialize(int)` argument), +0x0d room hidden, +0x0f a
+byte (the GLLive constructor sets it to 3; it is the byte argument of `mpSendJoinLobby`). `Update` and `Initialize` are
+virtual in the base now (vtable +0x30 and +0x28, confirmed by `tools/decomp_vtable.py`). The base slots are served by
+`LocalMemberId` = `GetMemberId` (+0x6c), `ServerMemberId` = `GetServerMemberId` (+0x74), `MemberBit` = `GetMemberMask`
+(+0x84), `UnknownGate` = `IsInRoom()` (+0x64), `ConnectedMemberIds` = `CMatching::GetMemberIdList` (+0x88).
+
+Discrepancy with the decision text: +0x6800 and +0x6804 are not members. They are the finish and start pointers of the
+STLport `std::string` at +0x67f0 (`playerParam_`, 24 bytes: 16-byte buffer, finish at +0x10, start at +0x14), which
+`JoinRoomInternal` and `CreateJoinRoomInternal` pass to the lobby as data and length. All other listed offsets match the
+binary (+0x3630 byte, +0x3650 CRoomAttributes, +0x6718 GLXPlayerUser*, +0x67ec byte, +0x6808 CLobbyParameterAndQuery*,
++0x6834 room operation, +0x6838 Game Center state).
+
+Layout (offset, name, type; the CMatchingBase part is +0x00..+0x362f):
+
+| offset | name | type |
+|---|---|---|
+| +0x3630 | roomOperationPending_ | bool (set by Create/Search in the sibling classes, cleared by JoinRoomInternal; AddServer posts 8388622 when set) |
+| +0x3638 | roomStatus_[2] | uint8 (ProcessRoomStatusMessage bytes 0, 1) |
+| +0x363c | nextPeerKey_ | int32 (key of the next server map entry; the constructor does not set it) |
+| +0x3640 | memberId_ | int32 (-1 from the constructor) |
+| +0x3644 | serverMemberId_ | int32 (Initialize sets 1) |
+| +0x3648, +0x364c | roomValue0_, roomValue1_ | int32 (ProcessRoomStatusMessage) |
+| +0x3650 | createRoomAttributes_ | CRoomAttributes (0x394 bytes) |
+| +0x39e8 | servers_ | std::map<uint64, tMatchingPeer> (STLport header 0x14 bytes) |
+| +0x3a00 | memberInfo_[32] | MemberInfoNetStruct (stride 360, ends at +0x6700) |
+| +0x6700 | glxUserFriend_ | GLXPlayerUserFriend* |
+| +0x6704 | friendObserver_ | CMatchingGLLiveFriendObserver* |
+| +0x6708 | glxMessage_ | GLXPlayerMessage* |
+| +0x670c | messageObserver_ | CMatchingGLLiveMessageObserver* (vtable off_992980) |
+| +0x6710 | glxServerConfig_ | GLXPlayerSereverConfig* (was glxComponent_) |
+| +0x6714 | pad_6714 | no access recovered |
+| +0x6718 | glxUser_ | GLXPlayerUser* |
+| +0x671c | glxLeaderboard_ | GLXPlayerLeaderboard* |
+| +0x6720 | roomAttributes_ | std::map<uint64, CRoomAttributes> |
+| +0x6738 | searchFilter_ | CRoomSearchFilter (0x24 bytes) |
+| +0x675c | serversMutex_ | CNetMutex (AddServer, JoinRoomInternal) |
+| +0x6760 | unk_6760 | CNetMutex |
+| +0x6764 | unk_6764 | int32 |
+| +0x6768 | pad_6768[0x80] | no access recovered |
+| +0x67e8 | gameCenterActive_ | bool |
+| +0x67e9 | glFriendsRequested_ | uint8 |
+| +0x67ea | unk_67ea | uint8 |
+| +0x67eb | glxComponentsCreated_ | uint8 (Update creates message, friend and leaderboard services once) |
+| +0x67ec | unk_67ec | bool (CreateJoinRoomInternal stores the negated flag; no reader) |
+| +0x67ed | useAlphaServer_ | bool (read by the sign-in observer; OnlineGameState::Init sets it) |
+| +0x67f0 | playerParam_ | std::string |
+| +0x6808 | lobbyQuery_ | CLobbyParameterAndQuery* (0x40 bytes) |
+| +0x680c | roomKey_ | int32 |
+| +0x6810 | glLiveEventFlag_ | uint8 |
+| +0x6811 | unk_6811 | uint8 |
+| +0x6814 | roomList_ | std::vector<tRoomInfo> (t_room_info.hpp, 968 bytes per element) |
+| +0x6820 | roomListTime_ | int32 (time(nullptr) at the last refresh) |
+| +0x6824 | unk_6824 | std::vector<int32> |
+| +0x6830 | unk_6830 | int32 |
+| +0x6834 | roomOp_ | int32 (3 create, 5 leave, 7 search, 9 join) |
+| +0x6838 | gcState_ | int32 |
+| +0x6840 | gcRoomAttributes_ | CRoomAttributes (Game Center room settings) |
+| +0x6bd8 | glFriends_ | std::list<GLFriendInfo> (gl_friend_info.hpp, 12-byte element) |
+| +0x6be0 | glFriendsListLoaded_ | uint8 |
+| +0x6be1 | userName_[16] | char |
+| +0x6bf1 | profileFlag_ | uint8 |
+| +0x6bf2 | password_[16] | char |
+| +0x6c02 | unk_6c02 | uint8 (CMatchingGLLiveMessageObserver::OnRequestSuccess sets it for codes 0x6f, 0x70) |
+| +0x6c03 | pad_6c03[5] | |
+
+Decisions and deviations:
+- `deps/matching_stand_ins.hpp` defines its own `CRoomAttributes` and `CRoomSearchFilter`, which cannot be included with
+  the real headers. The connection manager and transport stand-ins moved to `deps/connection_manager_stand_in.hpp`
+  (included by the old header), so GLLive reaches `GetConnectionMgr()` without the conflict. `tMatchingPeer` became the
+  template `tMatchingPeerT<RoomAttributes>` (`t_matching_peer_t.hpp`); `t_matching_peer.hpp` aliases the stand-in
+  instance (CMatchingLocal) and GLLive aliases the real one. When the room layer is unified the template collapses.
+- `MemberInfoNetStruct` is defined inside `CMatchingGLLive` (the owner holds 32 by value). `NetStructStringStub16`
+  moved to `deps/net_struct_stub.hpp`.
+- `JoinRoomInternal` is reconstructed. `Initialize`, `WritePacketData`, `AddServer`, `CreateJoinRoomInternal` stay
+  partial; each ledger note says what is missing (RegisterObserver on the login observer, NetStruct serializers in
+  net-transport, `CRoomAttributes::Serialize(char*, 0x80, 15)` and `Unserialize`, the stand-in transport name).
+- The destructor frees the objects Initialize creates (server config, GLXPlayerUser, lobby query). The original never
+  frees the GLXPlayerUser; the port does.
+- Names that are guesses are avoided: `unk_<offset>` is used where no access shows a role.

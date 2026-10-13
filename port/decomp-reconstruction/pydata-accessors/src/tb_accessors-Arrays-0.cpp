@@ -90,9 +90,8 @@ void DropTilePriorityTable::skipNames(IStreamBase* stream) {
 // ---------------------------------------------------------------------------------------------
 // Not defined in this file. Each row is partial in the ledger; the notes there say what is missing.
 //
-// 0x4a5f80 Arrays::ItemTable::finalize(void): needs ItemTable::members and size (the w7 layout,
-//   not in member_names.hpp) and the element stride. The listing stride is 164; the host element
-//   class (Structs::Item) is declared in w7_structs_2.hpp, which clashes with member_names.hpp.
+// 0x4a5f80 Arrays::ItemTable::finalize(void): defined in w7_arrays_01.cpp (FinalizeItemTable) with the storage and
+//   read of ItemTable in w7_arrays27.cpp, because Structs::Item (w7_structs_2.hpp) clashes with member_names.hpp.
 // 0x4b37a4 Arrays::CamAnimSetTable::read, 0x4b38f0 Arrays::AnimTable::read,
 // 0x4b3f5c Arrays::Charater_Templates::read, 0x4b4340 Arrays::CharacterTable::read,
 // 0x4b4484 Arrays::ClassTable::read, 0x4b45d0 Arrays::CharAnimTable::read,

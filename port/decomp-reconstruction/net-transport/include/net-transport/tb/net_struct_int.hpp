@@ -11,6 +11,7 @@
 template <unsigned Bits>
 class NetStructInt final : public NetStructMemberType<std::int32_t> {
 public:
+    NetStructInt() : NetStructMemberType<std::int32_t>(static_cast<int>(Bits)) {}   // inline constructor, sizeBits = Bits
     ~NetStructInt() override = default;                                 // 0x36d254 / 0x36d274 / 0x36d278 / 0x36d310 (D1)
     void Read(NetBitStream& stream) override;                           // NetStructInt<N>::Read(NetBitStream&)
     void Write(NetBitStream& stream) const override;                    // NetStructInt<N>::Write(NetBitStream&)

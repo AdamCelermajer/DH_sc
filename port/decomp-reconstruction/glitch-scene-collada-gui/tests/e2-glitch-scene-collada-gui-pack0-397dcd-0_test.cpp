@@ -68,6 +68,10 @@ int main() {
     const vector3d<float> position{10.0f, 20.0f, 30.0f};
     const vector3d<float> lookAt{1.0f, 2.0f, 3.0f};
     glitch::scene::CCameraSceneNode camera(7, position, lookAt, true);
+    // The id and the position now reach the ISceneNode base constructor.
+    check(camera.getID() == 7, "camera id forwarded to the ISceneNode base");
+    check(camera.getPosition().X == 10.0f && camera.getPosition().Y == 20.0f && camera.getPosition().Z == 30.0f,
+          "camera position forwarded to the ISceneNode base");
     check(camera.target.X == 1.0f && camera.target.Y == 2.0f && camera.target.Z == 3.0f, "camera target copied");
     check(camera.upVector.X == 0.0f && camera.upVector.Y == 1.0f && camera.upVector.Z == 0.0f, "camera up vector is (0,1,0)");
     check(bitsOf(camera.fov) == 0x3FA0D97Cu, "camera fov bits 0x3FA0D97C");

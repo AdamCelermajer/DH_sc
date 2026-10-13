@@ -1,15 +1,17 @@
 // Test for Arrays::SkillListTable::read (0x4b9964) from e2-pydata-accessors-Arrays-b90cc9-0.cpp.
 // Only the driver is exercised: the element class Structs::SkillList is stubbed here (its real read and
 // finalize live in other slices), and the table's finalize is a local stub that frees the block the same
-// way the shared finalize does. Checks: count and size, the header words (stride at members-8, count at
-// members-4), the element addresses at a sizeof(SkillList) stride, the element read order, and that the
-// stream is consumed exactly.
+// way the shared finalize does. Checks: count and size, the header words (the ORIGINAL 32-bit stride, 12, at
+// members-8, and the count at members-4), the element addresses at the host sizeof(SkillList) pitch (24 on a
+// 64-bit host, so the 32-bit stride is not the in-memory stride), the element read order, and that the
+// stream is consumed exactly. The stride arithmetic proper is covered by array_strides_test.
 
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <vector>
 
+#include "pydata-accessors/array_strides.hpp"
 #include "pydata-accessors/deps/stream_reader.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/structs_records.hpp"
@@ -106,7 +108,8 @@ int main() {
             std::uint32_t stride_word = 0, count_word = 0;
             std::memcpy(&stride_word, m - 8, 4);
             std::memcpy(&count_word, m - 4, 4);
-            CHECK(stride_word == kStride);
+            CHECK(stride_word == Arrays::ListingStride::SkillListTable);  // the original 32-bit stride, 12
+            CHECK(stride_word == 12);
             CHECK(count_word == 3);
             for (std::size_t i = 0; i < g_elems.size() && i < 3; ++i) {
                 CHECK(g_elems[i] == reinterpret_cast<std::uintptr_t>(m + kStride * i));

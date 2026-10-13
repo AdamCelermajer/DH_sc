@@ -84,21 +84,17 @@ NetStructByteArray<N>::~NetStructByteArray() {
 // Builds a temporary ByteArray p (data and size zero), fills it with ByteArray::SetBuffer, passes it
 // to the Set virtual (vtable +0x1c), then frees p's data if one was allocated.
 //
-// PARTIAL: the Set virtual is NetStructMemberType<ByteArray>::SetValue (0x36f264), which is not in this
-// batch. It compares the old and new bytes, deep-copies p into value_ with ByteArray::SetBuffer, and
-// calls SetChanged(), which is also not reconstructed. The generic NetStructMemberType<T>::SetValue in
-// net_struct.hpp copies shallowly (value_ = value), so until a ByteArray SetValue lands, value_ would
-// alias p's block and the CustomFree below would leave it dangling for any non-zero size.
+// The Set virtual is NetStructMemberType<ByteArray>::SetValue (0x36f264, e2-net-transport-NetStructMemberType-b42f13-0).
+// It compares the old and new bytes, deep-copies p into value_ with ByteArray::SetBuffer and calls
+// SetChanged(), so the member never aliases p's block and the release of p below is safe.
 template <unsigned N>
 void NetStructByteArray<N>::SetBuffer(const void* src, std::size_t size) {
     ByteArray p;
     p.data = nullptr;  // p[0]
     p.size = 0;        // p[1]
     p.SetBuffer(src, size);
-    SetValue(p);       // vtable +0x1c; see PARTIAL note above
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    SetValue(p);       // vtable +0x1c: NetStructMemberType<ByteArray>::SetValue deep-copies p
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // Explicit instantiations for the sizes in the original.

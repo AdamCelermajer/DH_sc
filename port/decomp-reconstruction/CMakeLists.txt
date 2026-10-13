@@ -5,6 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
+# MinGW: link the C++ runtime statically. Otherwise test executables pick up whichever
+# libstdc++-6.dll is first on PATH (Git's msvcrt-based copy on this machine), which gave
+# 0xc0000139 and heap errors that were not in the code.
+if(MINGW)
+  add_link_options(-static-libgcc -static-libstdc++ -static)
+endif()
+
 # Engine and library categories: each is an independent static library plus its tests.
 # Types that more than one category needs live in shared/include/glitch-shared/ and every
 # category includes that directory; the rest are declared locally under

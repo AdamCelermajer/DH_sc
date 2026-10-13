@@ -8,10 +8,13 @@
 
 #include "net-transport/net_struct.hpp"
 
+// In the binary NetStructInterpolation<float> is not a NetStructMember: it is a separate polymorphic base
+// (vtable _ZTV22NetStructInterpolationIfE, two destructor slots) that sits at +0x24 inside
+// NetStructInterpolatedRangedFloat, after the NetStructMemberType<float> part (0x3a681c).
 template <typename T>
-class NetStructInterpolation : public NetStructMember {
+class NetStructInterpolation {
 public:
-    ~NetStructInterpolation() override = default;   // 0x3a3578 _ZN22NetStructInterpolationIfED1Ev (float instance)
+    virtual ~NetStructInterpolation() = default;    // 0x3a3578 _ZN22NetStructInterpolationIfED1Ev (float instance)
 
     // 0x3a3e64 _ZN22NetStructInterpolationIfE8AddValueEfj (partial: GetFrameTime is a stand-in).
     // Adds a sample and returns 20, the constant the original returns on every path.
@@ -67,7 +70,8 @@ protected:
         T value;                               // word 2k+2 of the ring
     };
 
-    // NetStructMember::GetFrameTime (not reconstructed in this category). The stand-in returns 0.
+    // NetStructMember::GetFrameTime (0x8150a0, partial in tb_transport-NetStructMember-0.cpp: it reads
+    // GetOnline()+0x1c). The stand-in returns 0.
     unsigned int GetFrameTime() const { return 0; }
 
     Sample samples_[kSamples] = {};            // +0x04..+0x9f (relative to the NetStructInterpolation base)
@@ -87,27 +91,32 @@ protected:
 template <unsigned Bits, int Min, int Max>
 class NetStructInterpolatedRangedFloat : public NetStructMemberType<float>, public NetStructInterpolation<float> {
 public:
-    // 0x3a681c / 0x3a6920 _ZN32NetStructInterpolatedRangedFloat...C1Ef (partial: the change
-    // notification of the base, NetStructMember::SetChanged, is not in this port).
+    // 0x3a681c / 0x3a6920 _ZN32NetStructInterpolatedRangedFloat...C1Ef: sets the base fields (sizeBits =
+    // Bits), stores the value with SetChanged when it differs from the stored one, then clears the ring.
     explicit NetStructInterpolatedRangedFloat(float value);
     ~NetStructInterpolatedRangedFloat() override = default;
 
-    // 0x3a3f50 / 0x3a3f60 _ZN32NetStructInterpolatedRangedFloat...8PostLoadEj: feeds the current
-    // value to the interpolation with the given time. Returns AddValue's result (20).
-    int PostLoad(unsigned int time);
+    // 0x3a3f50 / 0x3a3f60 _ZN32NetStructInterpolatedRangedFloat...8PostLoadEj (vtable +0x0c): feeds the
+    // current value to the interpolation with the given time. The pseudocode returns AddValue's result
+    // (20), which is a leftover: the slot is called as void by NetStruct::Load, so the port returns void.
+    void PostLoad(std::uint32_t time) override;
 };
 
 template <unsigned Bits, int Min, int Max>
-NetStructInterpolatedRangedFloat<Bits, Min, Max>::NetStructInterpolatedRangedFloat(float value) {
+NetStructInterpolatedRangedFloat<Bits, Min, Max>::NetStructInterpolatedRangedFloat(float value)
+    : NetStructMemberType<float>(static_cast<int>(Bits)) {
     // The original sets the value and calls SetChanged when it differs from the stored value
-    // (the stored value starts at zero), then zeroes the sample ring and sets the window to 40.
-    // SetChanged is not reconstructed, so only the value is set here.
-    this->value_ = value;
+    // (the stored value starts at zero), then zeroes the sample ring and sets the window to 40
+    // (the member initialisers of NetStructInterpolation).
+    if (value != this->value_) {
+        this->value_ = value;
+        this->SetChanged();
+    }
 }
 
 template <unsigned Bits, int Min, int Max>
-int NetStructInterpolatedRangedFloat<Bits, Min, Max>::PostLoad(unsigned int time) {
-    return this->AddValue(this->value_, time);
+void NetStructInterpolatedRangedFloat<Bits, Min, Max>::PostLoad(std::uint32_t time) {
+    this->AddValue(this->value_, time);
 }
 
 // The two instantiations the binary uses. Their destructors are the empty virtual

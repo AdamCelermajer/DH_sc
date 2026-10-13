@@ -27,14 +27,36 @@ public:
     int LocalMemberId() const { return 0; }                 // vtable +0x6c
     void SetLocalMemberId(int value) { (void)value; }       // vtable +0x70 (provisional)
     int ServerMemberId() const { return 0; }                // vtable +0x74
+    // vtable +0x68, CMatchingLocal::IsInRoom(int): whether the member index is in the room. Stand-in: the
+    // value the test set (false by default).
+    bool IsInRoom(int member_index) const { (void)member_index; return in_room_; }
     int NewMemberId() const { return 0; }                   // vtable +0xac
     int TransportHandle(int protocol) const { (void)protocol; return 0; }  // vtable +0x34
 
+    // The member bit used by the replicated-struct masks (NetStruct::SetEnabled, Resend, HasDataToSend,
+    // ProcessLostPacket, ...). Stand-in for CMatching vtable +0x84: the bit of the member's slot
+    // (GetMemberIndex), 0 when the member has none. The real class is CMatchingBase::MemberBit in
+    // net-session-online.
+    std::uint32_t MemberBit(int member_id) const {  // vtable +0x84
+        const int index = GetMemberIndex(member_id);
+        return index >= 0 ? (1u << index) : 0u;
+    }
+    // 0x8000dc CMatching::GetRoomMask(), non-virtual. Stand-in: the mask the test set (0 by default).
+    std::uint32_t GetRoomMask() const { return room_mask_; }
+    // 0x8001d4 CMatching::TestRoomMask(bits): true when every bit of the room mask is in bits.
+    bool TestRoomMask(std::uint32_t bits) const { return (room_mask_ & bits) == room_mask_; }
+
     // Test hook for the stand-in: the server flag returned by IsServer().
     static void SetServerForTest(bool server);
+    // Test hook for the stand-in: the room mask returned by GetRoomMask().
+    static void SetRoomMaskForTest(std::uint32_t mask);
+    // Test hook for the stand-in: the value returned by IsInRoom(int).
+    static void SetInRoomForTest(bool in_room);
 
 private:
     bool server_ = false;
+    std::uint32_t room_mask_ = 0;
+    bool in_room_ = false;
 };
 
 // CConnection is the real class in net-transport/connection.hpp.

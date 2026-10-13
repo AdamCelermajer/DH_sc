@@ -2,8 +2,8 @@
 //
 // Layout (32-bit offsets from the original, kept as comments, never used for pointer arithmetic):
 //   +0x000..+0x01f  base part, not recovered (the class is not declared with its base here).
-//   +0x020          net_struct_ (NetStruct, the replicated manager info; ResendManagerInfo and the
-//                   packet callbacks forward to it).
+//   +0x020          net_struct_ (NetStructPlayerManager: NetStruct plus one member, the host member id at
+//                   +0x150; ResendManagerInfo and the packet callbacks forward to it).
 //   +0x178          initialized_ (byte). Its name follows the method IsInitialized.
 //   +0x17c          fallback_player_ (CNetPlayerInfo*). Returned when a lookup finds nothing.
 //                   Its name is not recovered.
@@ -22,11 +22,24 @@
 
 #include "net-transport/deps/connection_deps.hpp"  // CMatching (stand-in, src/connection_deps.cpp)
 #include "net-transport/net_bit_stream.hpp"
+#include "net-transport/net_struct.hpp"
 #include "net-transport/tb/cnet_player_info.hpp"
 #include "net-transport/tb/net_player_manager_deps.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
 
 class CNetPlayerManager {
 public:
+    // The replicated manager info (CNetPlayerManager::NetStructPlayerManager). NetStruct (0x130 bytes) plus one
+    // NetStructInt<6u> block at +0x130 that holds the host's member id: its constructor declares the block and
+    // sets it to -1, and CNetPlayerInfo::IsHost compares a player's member id with its value (manager +0x170).
+    class NetStructPlayerManager : public NetStruct {
+    public:
+        NetStructPlayerManager();                        // 0x810d90
+        ~NetStructPlayerManager() override;              // 0x810ec8 (D1); the deleting form 0x810f3c is the compiler's
+
+        NetStructInt<6u> host_member_id_;                // +0x130 (value at +0x150)
+    };
+
     virtual ~CNetPlayerManager() = default;
 
     // Singleton access.
@@ -50,7 +63,7 @@ public:
 
     // Packet bookkeeping over the NetStruct and every player.
     bool AreAllPlayersAcknowledged() const;                             // 0x810338
-    int ResendManagerInfo();                                            // 0x8103f4
+    void ResendManagerInfo();                                           // 0x8103f4
     void ProcessLostPacket(int a2, int a3);                             // 0x8103fc
     static void sProcessLostPacket(int a2, int a3);                     // 0x8104c0
     void ProcessAcknowledgedPacket(int a2, int a3);                     // 0x8104ec
@@ -93,7 +106,9 @@ public:
     static void (*DeleteNetPlayerInfo)(CNetPlayerInfo*);
 
 private:
-    np_deps::NetStructStandIn net_struct_;          // +0x20 (NetStruct; stand-in until merged)
+    friend class CNetPlayerInfo;  // IsHost reads the host member id at +0x170 (net_struct_.host_member_id_)
+
+    NetStructPlayerManager net_struct_;             // +0x20
     bool initialized_ = false;                      // +0x178
     CNetPlayerInfo* fallback_player_ = nullptr;     // +0x17c
     int player_slot_count_ = 0;                     // +0x194

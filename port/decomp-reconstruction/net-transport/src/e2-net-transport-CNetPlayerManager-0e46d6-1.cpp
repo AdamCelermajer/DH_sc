@@ -26,8 +26,8 @@ std::vector<int>& CNetPlayerManager::GetPlayerIdListByMemberId(int a2) {
             CNetPlayerInfo* player = players_[i];
             if (player != nullptr && player->IsActive()) {
                 id_list_dirty_ = true;
-                if (a2 == player->conn_index_) {
-                    player_list_caches_[a2].push_back(player->member_id_);
+                if (a2 == player->conn_index_.GetValue()) {
+                    player_list_caches_[a2].push_back(player->member_id_.GetValue());
                 }
             }
         }

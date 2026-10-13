@@ -88,6 +88,9 @@ struct CApplicatorInfo {
     std::uint32_t word_0x04;        // +0x04 type not confirmed. Copied by CMaterialApplicatorInfo::clone (0x667ed0)
     std::uint16_t parameterId;      // +0x08 read as uint16 by CTextureTransformEx::applyValueEx (0x6e38c4)
     std::uint8_t pad_0x0a[2];       // +0x0a not read by the pseudocode
+
+    // 0x667c34 _ZN6glitch7collada15animation_track15CApplicatorInfoD1Ev (empty)
+    ~CApplicatorInfo() = default;
 };
 
 // glitch::collada::animation_track::CMaterialApplicatorInfo. clone (0x667ed0)
@@ -98,6 +101,9 @@ struct CMaterialApplicatorInfo {
     std::uint32_t vptr;             // +0x00 guest vtable pointer (clone writes it)
     std::uint32_t word_0x04;        // +0x04 type not confirmed (copied by clone)
     std::uint32_t word_0x08;        // +0x08 type not confirmed (copied by clone)
+
+    // 0x667ccc _ZN6glitch7collada15animation_track23CMaterialApplicatorInfoD1Ev (empty)
+    ~CMaterialApplicatorInfo() = default;
 };
 
 // glitch::collada::CAnimationTrackEx. Only the vtable pointer is touched. Its
@@ -119,7 +125,7 @@ static_assert(offsetof(SAnimationAccessorTrack, channels) == 0x10, "track channe
 static_assert(offsetof(SAnimationAccessorTrack, animator) == 0x14, "track animator");
 static_assert(offsetof(animation_track::CApplicatorInfo, parameterId) == 0x08, "CApplicatorInfo::parameterId");
 static_assert(offsetof(animation_track::CMaterialApplicatorInfo, word_0x08) == 0x08, "CMaterialApplicatorInfo::word_0x08");
-static_assert(sizeof(animation_track::CMaterialApplicatorInfo) == 0x0c, "CMaterialApplicatorInfo is 0x0c bytes (clone)");
+static_assert(offsetof(animation_track::CMaterialApplicatorInfo, word_0x04) == 0x04, "CMaterialApplicatorInfo::word_0x04");
 
 }  // namespace glitch::collada
 

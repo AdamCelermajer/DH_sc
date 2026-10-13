@@ -14,6 +14,18 @@ struct SVideoMode {
     uint32_t Depth = 0;                      // 4 bytes; 12 bytes per entry in the original
 };
 
+// 0x6dac5c: the order heapsink<SVideoMode> (sort.hpp) uses: width, then height, then depth, each
+// compared as a signed int (the listing uses signed branches on the three words).
+inline bool operator<(const SVideoMode& a, const SVideoMode& b) {
+    const int32_t aw = static_cast<int32_t>(a.Resolution.Width);
+    const int32_t bw = static_cast<int32_t>(b.Resolution.Width);
+    if (aw != bw) return aw < bw;
+    const int32_t ah = static_cast<int32_t>(a.Resolution.Height);
+    const int32_t bh = static_cast<int32_t>(b.Resolution.Height);
+    if (ah != bh) return ah < bh;
+    return static_cast<int32_t>(a.Depth) < static_cast<int32_t>(b.Depth);
+}
+
 class CVideoModeList {
 public:
     CVideoModeList();

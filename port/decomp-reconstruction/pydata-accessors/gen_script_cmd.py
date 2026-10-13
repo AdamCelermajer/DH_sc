@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# RETIRED (Ghidra-era). DO NOT RERUN THIS SCRIPT.
+# It parses the old Ghidra text export (param_1, undefined4), not the Hex-Rays export, and it writes whole
+# files. A rerun would overwrite hand-maintained source and undo the Hex-Rays corrections made by hand since
+# (for example the string-read bodies in src/script_cmd_records.cpp).
+# The headers and sources it produced are hand-maintained source now (Track B decision 7):
+#   include/pydata-accessors/structs_records.hpp, include/pydata-accessors/script_cmd.hpp,
+#   src/structs_records.cpp, src/script_cmd_records.cpp, and the w7_structs_*.hpp/.cpp slices.
+# Edit those files directly. This script and slot_decls.py stay in the tree for history only.
 """Generator for the ScriptCmd command classes (include/pydata-accessors/script_cmd.hpp).
 
 Covers ScriptCmd itself and each `Structs::X : ScriptCmd` class in script_cmd.hpp: their destructors

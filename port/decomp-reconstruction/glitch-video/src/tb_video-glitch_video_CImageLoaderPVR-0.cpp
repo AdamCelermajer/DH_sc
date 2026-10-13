@@ -18,16 +18,13 @@ constexpr uint32_t kPVRFlagAltFormat = 0x8000;
 // Size of the PVR header that follows the container tag.
 constexpr uint32_t kPVRHeaderBytes = 52;
 
-// Name of the file for the log messages. The IReadFile stand-in in deps/glitch_io.hpp has no name
-// accessor (the original calls vtable +0x28), so the name argument is empty. Partial for that reason.
-constexpr const char* kUnnamedFile = "";
-
 }  // namespace
 
 // 0x605b10 _ZNK6glitch5video15CImageLoaderPVR17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE
-// Partial: the file name in the log messages is empty (see kUnnamedFile). The header, size and format
-// results are complete. The format mapping follows the Hex-Rays switch; the pixel-format table
-// (detail::PFDTable) is read for the twiddle check.
+// The header comes from readPVRHeader (glitch::video::readPVRHeader, 0x6058a4, exposed in
+// texture_loaders.hpp); the file name in the log messages is IReadFile::getFileNameText (vtable +0x28). The
+// format mapping follows the Hex-Rays switch; the pixel-format table (detail::PFDTable) is read for the
+// twiddle check. The log calls go to Printer::logf, whose output glitch-core-io still drops (its own row).
 bool CImageLoaderPVR::loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const {
     SPVRHeader header;
     bool isBTEX = false;
@@ -57,7 +54,7 @@ bool CImageLoaderPVR::loadTextureHeader(io::IReadFile* file, STextureDesc& desc)
     const uint32_t multiplier = desc.type == 2 ? 6u : 1u;
     const uint32_t fileSize = file->getSize();
     if (fileSize - kPVRHeaderBytes - trailer != header.textureDataSize * multiplier) {
-        os::Printer::logf(os::ELL_ERROR, "loading %s: file size mismatches header info", kUnnamedFile);
+        os::Printer::logf(os::ELL_ERROR, "loading %s: file size mismatches header info", file->getFileNameText());
         return false;
     }
 
@@ -96,7 +93,7 @@ bool CImageLoaderPVR::loadTextureHeader(io::IReadFile* file, STextureDesc& desc)
         case 86: format = 29; break;
         default:
             // The original format string is "%0x02u": a hex conversion with the 0 flag, then "02u".
-            os::Printer::logf(os::ELL_ERROR, "loading %s: pixel format %0x02u not supported", kUnnamedFile,
+            os::Printer::logf(os::ELL_ERROR, "loading %s: pixel format %0x02u not supported", file->getFileNameText(),
                               static_cast<unsigned>(flags & 0xff));
             return false;
     }
@@ -107,7 +104,7 @@ bool CImageLoaderPVR::loadTextureHeader(io::IReadFile* file, STextureDesc& desc)
     if ((flags & kPVRFlagTwiddled) == 0 || (pixel_format::detail::PFDTable[format].flags & 8u) != 0) {
         return true;
     }
-    os::Printer::logf(os::ELL_ERROR, "loading %s: twiddled format not supported", kUnnamedFile);
+    os::Printer::logf(os::ELL_ERROR, "loading %s: twiddled format not supported", file->getFileNameText());
     return false;
 }
 

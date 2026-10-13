@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 // NetStructMember header (the first 0x20 bytes of a member; value follows at +0x20).
 class NetStructMemberStub {
@@ -32,6 +33,18 @@ public:
 class NetStructBoolStub : public NetStructMemberStub {
 public:
     bool value = false;               // +0x1d
+};
+
+// NetStructString<16>: a string member. Stand-in for net-transport's tb/net_struct_string.hpp. Only the
+// value is modelled, at +0x20 of the member (absolute +0x150 in CMatchingGLLive::MemberInfoNetStruct),
+// as in NetStructMemberStub. Replace with the real NetStructString<16> when net-transport is linked
+// into this translation unit.
+class NetStructStringStub16 : public NetStructMemberStub {
+public:
+    NetStructStringStub16() = default;
+    explicit NetStructStringStub16(const std::string& initial) : value(initial) {}
+
+    std::string value;                // +0x20
 };
 
 // NetStruct base. Its own fields are not modelled; the port's NetStruct owns only the

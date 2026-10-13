@@ -9,8 +9,8 @@
 //  - Write passes the max length as the third argument. The assembly (0x371b78: mov r2,#0x20;
 //    0x800bb4: mov r2,#0x100) confirms it is N. The string copy the original makes for the call
 //    is elided: the port passes value_ by const reference.
-//  - The NetStruct base fields (bit limit, u64, -1 ids, flag byte) are not declared in the port's
-//    NetStructMember, so the constructors are partial.
+//  - The NetStructMember base fields (bit limit 8 * N, u64 0, -1 masks, flag byte) are set by the
+//    NetStructMember(int) constructor.
 //  - The deleting destructors (D0 variants: 0x371244, 0x800980, 0x81d1a4) are compiler-generated
 //    and skipped. The port's delete expression runs the non-deleting destructor and operator delete.
 
@@ -19,11 +19,13 @@
 // 0x371bec NetStructString<32u>::NetStructString(std::string const&)
 // 0x800c60 NetStructString<256u>::NetStructString(std::string const&)
 // 0x81e5a0 NetStructString<16u>::NetStructString(std::string const&)
-// partial: the original copies the argument, sets the NetStruct base fields (+0x04 = 8 * N, +0x08 = 0,
+// The original copies the argument, sets the NetStructMember base fields (+0x04 = 8 * N, +0x08 = 0,
 // +0x10 = -1, +0x14 = -1, +0x18 = 0, +0x1c = 0), allocates the 16-byte string buffer at +0x20, and calls
-// NetStructMemberType<std::string>::SetValue. Only the SetValue step is written here.
+// NetStructMemberType<std::string>::SetValue. The base fields are written by the NetStructMember(int)
+// constructor, the buffer by the std::string member, and SetValue (non-virtual) by the body.
 template <unsigned N>
-NetStructString<N>::NetStructString(const std::string& value) {
+NetStructString<N>::NetStructString(const std::string& value)
+    : NetStructMemberType<std::string>(static_cast<int>(8 * N)) {
     NetStructMemberType<std::string>::SetValue(value);
 }
 

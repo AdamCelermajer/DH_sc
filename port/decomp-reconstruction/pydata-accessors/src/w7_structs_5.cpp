@@ -6,82 +6,18 @@
 #include <cstring>
 
 #include "pydata-accessors/array_element.hpp"
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
+// Element tables (ItemPowerEntryList, AnimFXTpl, DialogStepList, ConditionalDialog, CharTemplate,
+// StatAutoAssignTargetList, ClassFuncList, AnimTpl, AIFactions): every table is built, read and destroyed through
+// pydata::NewElementTable / ReadElementTable / DeleteElementTable (element_table.hpp). The elements are host objects
+// constructed in place, so the vptr is real and the pointer words that the listing zeroes after the vptr store
+// (AnimFX +0x2c, DialogCondition +0xc) are the members' `= nullptr` defaults. The original 32-bit element stride is
+// Structs::ListingStride::X (struct_strides.hpp), written to the stride word of the block only.
+
 namespace {
-
-using pydata::ArrayElement;
-
-constexpr std::size_t kNoZeroWord = static_cast<std::size_t>(-1);
-
-// The vptr of Elem: the first word of a polymorphic object (the same convention as w7_arrays_02.cpp).
-template <class Elem>
-const void* VtableOf() {
-    Elem tmp;
-    const void* vptr = nullptr;
-    std::memcpy(&vptr, &tmp, sizeof vptr);
-    return vptr;
-}
-
-// Original element-table destructor loop: from the last element to the first, each destroyed through
-// vtable slot 0 (the non-deleting destructor), then the block at members - 8 is freed.
-void DestroyElements(void* members, std::size_t stride) {
-    std::uint8_t* const first = static_cast<std::uint8_t*>(members);
-    std::uint32_t count = 0;
-    std::memcpy(&count, first - 4, sizeof count);
-    std::uint8_t* cur = first + stride * count;
-    while (cur != first) {
-        cur -= stride;
-        reinterpret_cast<ArrayElement*>(cur)->~ArrayElement();
-    }
-    CustomFree(first - 8);
-}
-
-// Original operator new[](stride * count + 8, 1): header words (stride, count), members = block + 8.
-void* AllocElements(std::uint32_t count, std::size_t stride) {
-    std::uint8_t* const block = static_cast<std::uint8_t*>(MemoryHintState(stride * count + 8, 1));
-    const std::uint32_t header_stride = static_cast<std::uint32_t>(stride);
-    std::memcpy(block, &header_stride, sizeof header_stride);
-    std::memcpy(block + 4, &count, sizeof count);
-    return block + 8;
-}
-
-// Original vptr loop: the first word of each element is the vtable of Elem.
-template <class Elem>
-void InstallVtables(void* members, std::uint32_t count, std::size_t stride) {
-    const void* vptr = VtableOf<Elem>();
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::memcpy(static_cast<std::uint8_t*>(members) + stride * i, &vptr, sizeof vptr);
-    }
-}
-
-// Original zeroing of one pointer word of each element (ConditionalDialog +0xc, AnimFXTpl +0x2c, both char*
-// buffers). The offset is the host offsetof of that member, and the clear covers sizeof(void*) bytes.
-void ZeroElementWord(void* members, std::uint32_t count, std::size_t stride, std::size_t offset) {
-    const void* zero = nullptr;
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::memcpy(static_cast<std::uint8_t*>(members) + stride * i + offset, &zero, sizeof zero);
-    }
-}
-
-// Original read loop: each element reads itself through vtable slot 3 (read), in order.
-void ReadElements(void* members, std::uint32_t count, std::size_t stride, IStreamBase* stream) {
-    for (std::uint32_t i = 0; i < count; ++i) {
-        reinterpret_cast<ArrayElement*>(static_cast<std::uint8_t*>(members) + stride * i)->read(stream);
-    }
-}
-
-// Original element-table read after the count word: destroy the old elements, allocate the new block,
-// install the element vtables, zero the word at zero_offset when given, then read every element.
-template <class Elem>
-void BuildAndReadTable(IStreamBase* stream, std::uint32_t count, void*& members, std::size_t stride,
-                       std::size_t zero_offset) {
-    if (members != nullptr) DestroyElements(members, stride);
-    members = AllocElements(count, stride);
-    InstallVtables<Elem>(members, count, stride);
-    if (zero_offset != kNoZeroWord) ZeroElementWord(members, count, stride, zero_offset);
-    ReadElements(members, count, stride, stream);
-}
 
 // Original string read: free the old buffer, allocate length + 1 (hint 1), read `length` raw bytes,
 // then NUL-terminate. The readStringEx 4th argument is 0 (the value the script_cmd string reads use).
@@ -109,7 +45,7 @@ namespace Structs {
 // 0x4d9abc _ZN7Structs18ItemPowerEntryListD1Ev
 // 0x4d9b58 _ZN7Structs18ItemPowerEntryListD2Ev
 ItemPowerEntryList::~ItemPowerEntryList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(ItemPowerEntry));  // +0x8, listing stride 12
+    pydata::DeleteElementTable<ItemPowerEntry>(m_w2);  // +0x8, listing stride 12
 }
 
 // 0x4d9b3c _ZN7Structs18ItemPowerEntryListD0Ev
@@ -121,7 +57,7 @@ void DeletingDestructor(ItemPowerEntryList* self) {
 // 0x4d9a54 _ZN7Structs18ItemPowerEntryList8finalizeEv
 void ItemPowerEntryList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, sizeof(ItemPowerEntry));
+        pydata::DeleteElementTable<ItemPowerEntry>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -130,7 +66,8 @@ void ItemPowerEntryList::finalize() {
 // 0x4dc8fc _ZN7Structs18ItemPowerEntryList4readEP11IStreamBase
 void ItemPowerEntryList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<ItemPowerEntry>(stream, m_w1, m_w2, sizeof(ItemPowerEntry), kNoZeroWord);  // +0x8
+    pydata::DeleteElementTable<ItemPowerEntry>(m_w2);
+    m_w2 = pydata::NewAndReadElementTable<ItemPowerEntry>(ListingStride::ItemPowerEntry, m_w1, stream);  // +0x8
 }
 
 // 0x4d9c00 _ZN7Structs11TriggerTrapD1Ev
@@ -507,7 +444,7 @@ void AnimFX::read(IStreamBase* stream) {
 // 0x4da5e8 _ZN7Structs9AnimFXTplD1Ev
 // 0x4da684 _ZN7Structs9AnimFXTplD2Ev
 AnimFXTpl::~AnimFXTpl() {
-    if (m_w4 != nullptr) DestroyElements(m_w4, sizeof(AnimFX));  // +0x10, listing stride 48
+    pydata::DeleteElementTable<AnimFX>(m_w4);  // +0x10, listing stride 48
 }
 
 // 0x4da668 _ZN7Structs9AnimFXTplD0Ev
@@ -519,7 +456,7 @@ void DeletingDestructor(AnimFXTpl* self) {
 // 0x4da580 _ZN7Structs9AnimFXTpl8finalizeEv
 void AnimFXTpl::finalize() {
     if (m_w4 != nullptr) {
-        DestroyElements(m_w4, sizeof(AnimFX));
+        pydata::DeleteElementTable<AnimFX>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -532,14 +469,15 @@ void AnimFXTpl::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<bool>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    BuildAndReadTable<AnimFX>(stream, m_w3, m_w4, sizeof(AnimFX), offsetof(AnimFX, m_w11));  // +0x10, zeroes element +0x2c (m_w11)
+    pydata::DeleteElementTable<AnimFX>(m_w4);
+    m_w4 = pydata::NewAndReadElementTable<AnimFX>(ListingStride::AnimFX, m_w3, stream);  // +0x10, zeroes element +0x2c (m_w11)
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
 }
 
 // 0x4da830 _ZN7Structs14DialogStepListD1Ev
 // 0x4da8cc _ZN7Structs14DialogStepListD2Ev
 DialogStepList::~DialogStepList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(DialogStep));  // +0x8, listing stride 20
+    pydata::DeleteElementTable<DialogStep>(m_w2);  // +0x8, listing stride 20
 }
 
 // 0x4da8b0 _ZN7Structs14DialogStepListD0Ev
@@ -551,7 +489,7 @@ void DeletingDestructor(DialogStepList* self) {
 // 0x4da7c8 _ZN7Structs14DialogStepList8finalizeEv
 void DialogStepList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, sizeof(DialogStep));
+        pydata::DeleteElementTable<DialogStep>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -560,13 +498,14 @@ void DialogStepList::finalize() {
 // 0x4dca68 _ZN7Structs14DialogStepList4readEP11IStreamBase
 void DialogStepList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<DialogStep>(stream, m_w1, m_w2, sizeof(DialogStep), kNoZeroWord);  // +0x8
+    pydata::DeleteElementTable<DialogStep>(m_w2);
+    m_w2 = pydata::NewAndReadElementTable<DialogStep>(ListingStride::DialogStep, m_w1, stream);  // +0x8
 }
 
 // 0x4da9b0 _ZN7Structs17ConditionalDialogD1Ev
 // 0x4daa48 _ZN7Structs17ConditionalDialogD2Ev
 ConditionalDialog::~ConditionalDialog() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(DialogCondition));  // +0x8, listing stride 16
+    pydata::DeleteElementTable<DialogCondition>(m_w2);  // +0x8, listing stride 16
 }
 
 // 0x4daa2c _ZN7Structs17ConditionalDialogD0Ev
@@ -578,7 +517,7 @@ void DeletingDestructor(ConditionalDialog* self) {
 // 0x4da94c _ZN7Structs17ConditionalDialog8finalizeEv
 void ConditionalDialog::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, sizeof(DialogCondition));
+        pydata::DeleteElementTable<DialogCondition>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -587,7 +526,8 @@ void ConditionalDialog::finalize() {
 // 0x4dcbd4 _ZN7Structs17ConditionalDialog4readEP11IStreamBase
 void ConditionalDialog::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<DialogCondition>(stream, m_w1, m_w2, sizeof(DialogCondition), offsetof(DialogCondition, m_w3));  // +0x8, zeroes element +0xc (m_w3)
+    pydata::DeleteElementTable<DialogCondition>(m_w2);
+    m_w2 = pydata::NewAndReadElementTable<DialogCondition>(ListingStride::DialogCondition, m_w1, stream);  // +0x8, zeroes element +0xc (m_w3)
 }
 
 // 0x4daaec _ZN7Structs15DialogConditionD1Ev
@@ -679,7 +619,7 @@ void ColladaFile::read(IStreamBase* stream) {
 // 0x4dad74 _ZN7Structs12CharTemplateD1Ev
 // 0x4dae0c _ZN7Structs12CharTemplateD2Ev
 CharTemplate::~CharTemplate() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 8);  // +0x8, stride 8
+    pydata::DeleteElementTable<CharInfoName>(m_w2);  // +0x8, stride 8
 }
 
 // 0x4dadf0 _ZN7Structs12CharTemplateD0Ev
@@ -691,7 +631,7 @@ void DeletingDestructor(CharTemplate* self) {
 // 0x4dad10 _ZN7Structs12CharTemplate8finalizeEv
 void CharTemplate::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 8);
+        pydata::DeleteElementTable<CharInfoName>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -727,7 +667,7 @@ void StatListList::read(IStreamBase* stream) {
 // 0x4dafb0 _ZN7Structs24StatAutoAssignTargetListD1Ev
 // 0x4db048 _ZN7Structs24StatAutoAssignTargetListD2Ev
 StatAutoAssignTargetList::~StatAutoAssignTargetList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(StatAutoAssignTarget));  // +0x8, listing stride 16
+    pydata::DeleteElementTable<StatAutoAssignTarget>(m_w2);  // +0x8, listing stride 16
 }
 
 // 0x4db02c _ZN7Structs24StatAutoAssignTargetListD0Ev
@@ -739,7 +679,7 @@ void DeletingDestructor(StatAutoAssignTargetList* self) {
 // 0x4daf4c _ZN7Structs24StatAutoAssignTargetList8finalizeEv
 void StatAutoAssignTargetList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, sizeof(StatAutoAssignTarget));
+        pydata::DeleteElementTable<StatAutoAssignTarget>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -750,13 +690,14 @@ void StatAutoAssignTargetList::finalize() {
 // structs_records.cpp.
 void StatAutoAssignTargetList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<StatAutoAssignTarget>(stream, m_w1, m_w2, sizeof(StatAutoAssignTarget), kNoZeroWord);  // +0x8
+    pydata::DeleteElementTable<StatAutoAssignTarget>(m_w2);
+    m_w2 = pydata::NewAndReadElementTable<StatAutoAssignTarget>(ListingStride::StatAutoAssignTarget, m_w1, stream);  // +0x8
 }
 
 // 0x4db12c _ZN7Structs13ClassFuncListD1Ev
 // 0x4db1c8 _ZN7Structs13ClassFuncListD2Ev
 ClassFuncList::~ClassFuncList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, 24);  // +0x8, stride 24
+    pydata::DeleteElementTable<ClassFunc>(m_w2);  // +0x8, stride 24
 }
 
 // 0x4db1ac _ZN7Structs13ClassFuncListD0Ev
@@ -768,7 +709,7 @@ void DeletingDestructor(ClassFuncList* self) {
 // 0x4db0c4 _ZN7Structs13ClassFuncList8finalizeEv
 void ClassFuncList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, 24);
+        pydata::DeleteElementTable<ClassFunc>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -777,7 +718,7 @@ void ClassFuncList::finalize() {
 // 0x4db474 _ZN7Structs7AnimTplD1Ev
 // 0x4db510 _ZN7Structs7AnimTplD2Ev
 AnimTpl::~AnimTpl() {
-    if (m_w3 != nullptr) DestroyElements(m_w3, 56);  // +0xc, stride 56
+    pydata::DeleteElementTable<AnimStep>(m_w3);  // +0xc, stride 56
 }
 
 // 0x4db4f4 _ZN7Structs7AnimTplD0Ev
@@ -789,7 +730,7 @@ void DeletingDestructor(AnimTpl* self) {
 // 0x4db40c _ZN7Structs7AnimTpl8finalizeEv
 void AnimTpl::finalize() {
     if (m_w3 != nullptr) {
-        DestroyElements(m_w3, 56);
+        pydata::DeleteElementTable<AnimStep>(m_w3);
         m_w2 = 0;
         m_w3 = nullptr;
     }
@@ -798,7 +739,7 @@ void AnimTpl::finalize() {
 // 0x4db6bc _ZN7Structs10AIFactionsD1Ev
 // 0x4db758 _ZN7Structs10AIFactionsD2Ev
 AIFactions::~AIFactions() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, sizeof(AIFaction));  // +0x8, listing stride 12
+    pydata::DeleteElementTable<AIFaction>(m_w2);  // +0x8, listing stride 12
 }
 
 // 0x4db73c _ZN7Structs10AIFactionsD0Ev
@@ -810,7 +751,7 @@ void DeletingDestructor(AIFactions* self) {
 // 0x4db654 _ZN7Structs10AIFactions8finalizeEv
 void AIFactions::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, sizeof(AIFaction));
+        pydata::DeleteElementTable<AIFaction>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -819,7 +760,8 @@ void AIFactions::finalize() {
 // 0x4dd158 _ZN7Structs10AIFactions4readEP11IStreamBase
 void AIFactions::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    BuildAndReadTable<AIFaction>(stream, m_w1, m_w2, sizeof(AIFaction), kNoZeroWord);  // +0x8
+    pydata::DeleteElementTable<AIFaction>(m_w2);
+    m_w2 = pydata::NewAndReadElementTable<AIFaction>(ListingStride::AIFaction, m_w1, stream);  // +0x8
 }
 
 }  // namespace Structs

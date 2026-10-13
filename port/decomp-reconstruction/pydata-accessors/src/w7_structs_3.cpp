@@ -1,38 +1,11 @@
 // Structs records, slice structs_3 (see include/pydata-accessors/w7_structs_3.hpp).
 #include <cstring>
 
-#include "pydata-accessors/w7_structs_3.hpp"
-#include "pydata-accessors/w7_structs_2.hpp"  // Item family (superset layout)
 #include "pydata-accessors/array_element.hpp"
-
-namespace {
-
-// Element of the ItemPowerRef table: AttrBonusEntry (its vtable is off_96B368, the vptr the listing stores
-// into each element). The listing's stride is 16; the in-memory stride is sizeof(element).
-constexpr std::size_t kItemPowerElementStride = sizeof(Structs::AttrBonusEntry);
-
-// The vptr of AttrBonusEntry: the first word of a polymorphic object (Itanium ABI).
-const void* AttrBonusEntryVptr() {
-    Structs::AttrBonusEntry probe;
-    const void* vptr = nullptr;
-    std::memcpy(&vptr, &probe, sizeof vptr);
-    return vptr;
-}
-
-// Original loop of ItemPowerRef::finalize (0x4d573c). Destroys the elements from the last to the first
-// through vtable slot 0 (the virtual destructor), then frees the table block at members - 8. The caller
-// clears its count and table pointer.
-void ReleaseElementTable(void* members) {
-    auto* header = static_cast<std::uint32_t*>(members) - 2;  // header[0] = stride, header[1] = count
-    const std::uint32_t count = header[1];
-    auto* bytes = static_cast<unsigned char*>(members);
-    for (std::uint32_t i = count; i > 0; --i) {
-        reinterpret_cast<Structs::AttrBonusEntry*>(bytes + kItemPowerElementStride * (i - 1))->~AttrBonusEntry();
-    }
-    CustomFree(header);
-}
-
-}  // namespace
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"  // Item family (superset layout)
+#include "pydata-accessors/w7_structs_3.hpp"
 
 namespace Structs {
 
@@ -115,35 +88,23 @@ void ItemBonusAttrList::read(IStreamBase* stream) {
 // 0x4d573c _ZN7Structs12ItemPowerRef8finalizeEv
 void ItemPowerRef::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
 }
 
 // 0x4ecdc8 _ZN7Structs12ItemPowerRef4readEP11IStreamBase
-// The table elements are AttrBonusEntry (vtable off_96B368, see 0x4fef00). Each element's vptr is stored, then
-// each element's read (vtable slot +0xc) runs in order, before the trailing words are read. Listing stride 16,
-// in-memory stride sizeof(AttrBonusEntry).
+// The table elements are AttrBonusEntry (vtable off_96B368, see 0x4fef00). Each element is constructed (vptr
+// stored), then each element's read (vtable slot +0xc) runs in order, before the trailing words are read. Listing
+// stride 16 (Structs::ListingStride::AttrBonusEntry), kept in the stride word; the host elements are
+// sizeof(AttrBonusEntry) and reached through the typed pointer.
 void ItemPowerRef::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int8_t>(stream);   // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream); // +0xc
-    if (m_w4 != nullptr) ReleaseElementTable(m_w4);     // +0x10 (old table)
-    const std::uint32_t count = m_w3;
-    const std::size_t stride = kItemPowerElementStride;
-    auto* header = static_cast<std::uint32_t*>(MemoryHintState(stride * static_cast<std::size_t>(count) + 8, 1));
-    header[0] = static_cast<std::uint32_t>(stride);  // element stride
-    header[1] = count;                               // element count
-    auto* data = reinterpret_cast<std::uint8_t*>(header + 2);
-    const void* vptr = AttrBonusEntryVptr();
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::memcpy(data + stride * i, &vptr, sizeof vptr);
-    }
-    m_w4 = data;
-    for (std::uint32_t i = 0; i < count; ++i) {
-        reinterpret_cast<Structs::AttrBonusEntry*>(data + stride * i)->read(stream);
-    }
+    pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);     // +0x10 (old table)
+    m_w4 = pydata::NewAndReadElementTable<Structs::AttrBonusEntry>(ListingStride::AttrBonusEntry, m_w3, stream);
     m_w5 = StreamReader::readAs<std::int32_t>(stream);  // +0x14
     m_w6 = StreamReader::readAs<std::int32_t>(stream);  // +0x18
     m_w7 = StreamReader::readAs<std::int32_t>(stream);  // +0x1c
@@ -154,7 +115,7 @@ void ItemPowerRef::read(IStreamBase* stream) {
 // 0x4d5f38 _ZN7Structs11ItemPowerAR8finalizeEv
 void ItemPowerAR::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -170,7 +131,7 @@ void ItemPowerAR::read(IStreamBase* stream) {
 // 0x4d658c _ZN7Structs18ItemPowerAirDamage8finalizeEv
 void ItemPowerAirDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -186,7 +147,7 @@ void ItemPowerAirDamage::read(IStreamBase* stream) {
 // 0x4d68ec _ZN7Structs17ItemPowerAllStats8finalizeEv
 void ItemPowerAllStats::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -202,7 +163,7 @@ void ItemPowerAllStats::read(IStreamBase* stream) {
 // 0x4d607c _ZN7Structs14ItemPowerArmor8finalizeEv
 void ItemPowerArmor::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -218,7 +179,7 @@ void ItemPowerArmor::read(IStreamBase* stream) {
 // 0x4d59bc _ZN7Structs23ItemPowerAxeDamageBonus8finalizeEv
 void ItemPowerAxeDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -234,7 +195,7 @@ void ItemPowerAxeDamageBonus::read(IStreamBase* stream) {
 // 0x4d60e8 _ZN7Structs14ItemPowerBlock8finalizeEv
 void ItemPowerBlock::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -250,7 +211,7 @@ void ItemPowerBlock::read(IStreamBase* stream) {
 // 0x4d61c0 _ZN7Structs17ItemPowerCritical8finalizeEv
 void ItemPowerCritical::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -266,7 +227,7 @@ void ItemPowerCritical::read(IStreamBase* stream) {
 // 0x4d5ecc _ZN7Structs11ItemPowerDR8finalizeEv
 void ItemPowerDR::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -282,7 +243,7 @@ void ItemPowerDR::read(IStreamBase* stream) {
 // 0x4d58e4 _ZN7Structs26ItemPowerDaggerDamageBonus8finalizeEv
 void ItemPowerDaggerDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -298,7 +259,7 @@ void ItemPowerDaggerDamageBonus::read(IStreamBase* stream) {
 // 0x4d6010 _ZN7Structs15ItemPowerDamage8finalizeEv
 void ItemPowerDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -314,7 +275,7 @@ void ItemPowerDamage::read(IStreamBase* stream) {
 // 0x4d6814 _ZN7Structs18ItemPowerDexterity8finalizeEv
 void ItemPowerDexterity::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -330,7 +291,7 @@ void ItemPowerDexterity::read(IStreamBase* stream) {
 // 0x4d6154 _ZN7Structs14ItemPowerDodge8finalizeEv
 void ItemPowerDodge::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -346,7 +307,7 @@ void ItemPowerDodge::read(IStreamBase* stream) {
 // 0x4d6664 _ZN7Structs20ItemPowerEarthDamage8finalizeEv
 void ItemPowerEarthDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -362,7 +323,7 @@ void ItemPowerEarthDamage::read(IStreamBase* stream) {
 // 0x4d64b4 _ZN7Structs23ItemPowerEarthDotDamage8finalizeEv
 void ItemPowerEarthDotDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -378,7 +339,7 @@ void ItemPowerEarthDotDamage::read(IStreamBase* stream) {
 // 0x4d6520 _ZN7Structs25ItemPowerElectricalDamage8finalizeEv
 void ItemPowerElectricalDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -394,7 +355,7 @@ void ItemPowerElectricalDamage::read(IStreamBase* stream) {
 // 0x4d67a8 _ZN7Structs18ItemPowerEndurance8finalizeEv
 void ItemPowerEndurance::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -410,7 +371,7 @@ void ItemPowerEndurance::read(IStreamBase* stream) {
 // 0x4d673c _ZN7Structs15ItemPowerEnergy8finalizeEv
 void ItemPowerEnergy::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -426,7 +387,7 @@ void ItemPowerEnergy::read(IStreamBase* stream) {
 // 0x4d66d0 _ZN7Structs19ItemPowerFireDamage8finalizeEv
 void ItemPowerFireDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -442,7 +403,7 @@ void ItemPowerFireDamage::read(IStreamBase* stream) {
 // 0x4d63dc _ZN7Structs22ItemPowerFireDotDamage8finalizeEv
 void ItemPowerFireDotDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -458,7 +419,7 @@ void ItemPowerFireDotDamage::read(IStreamBase* stream) {
 // 0x4d6370 _ZN7Structs11ItemPowerHP8finalizeEv
 void ItemPowerHP::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -474,7 +435,7 @@ void ItemPowerHP::read(IStreamBase* stream) {
 // 0x4d6298 _ZN7Structs16ItemPowerHPRegen8finalizeEv
 void ItemPowerHPRegen::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -490,7 +451,7 @@ void ItemPowerHPRegen::read(IStreamBase* stream) {
 // 0x4d5bd8 _ZN7Structs18ItemPowerLifeLeech8finalizeEv
 void ItemPowerLifeLeech::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -506,7 +467,7 @@ void ItemPowerLifeLeech::read(IStreamBase* stream) {
 // 0x4d6304 _ZN7Structs11ItemPowerMP8finalizeEv
 void ItemPowerMP::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -522,7 +483,7 @@ void ItemPowerMP::read(IStreamBase* stream) {
 // 0x4d622c _ZN7Structs16ItemPowerMPRegen8finalizeEv
 void ItemPowerMPRegen::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -538,7 +499,7 @@ void ItemPowerMPRegen::read(IStreamBase* stream) {
 // 0x4d5950 _ZN7Structs24ItemPowerMaceDamageBonus8finalizeEv
 void ItemPowerMaceDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -554,7 +515,7 @@ void ItemPowerMaceDamageBonus::read(IStreamBase* stream) {
 // 0x4d5b6c _ZN7Structs18ItemPowerManaLeech8finalizeEv
 void ItemPowerManaLeech::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -570,7 +531,7 @@ void ItemPowerManaLeech::read(IStreamBase* stream) {
 // 0x4d5878 _ZN7Structs25ItemPowerRangeDamageBonus8finalizeEv
 void ItemPowerRangeDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -586,7 +547,7 @@ void ItemPowerRangeDamageBonus::read(IStreamBase* stream) {
 // 0x4d5d1c _ZN7Structs18ItemPowerResistAir8finalizeEv
 void ItemPowerResistAir::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -602,7 +563,7 @@ void ItemPowerResistAir::read(IStreamBase* stream) {
 // 0x4d5c44 _ZN7Structs18ItemPowerResistAll8finalizeEv
 void ItemPowerResistAll::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -618,7 +579,7 @@ void ItemPowerResistAll::read(IStreamBase* stream) {
 // 0x4d5df4 _ZN7Structs20ItemPowerResistEarth8finalizeEv
 void ItemPowerResistEarth::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -634,7 +595,7 @@ void ItemPowerResistEarth::read(IStreamBase* stream) {
 // 0x4d5cb0 _ZN7Structs25ItemPowerResistElectrical8finalizeEv
 void ItemPowerResistElectrical::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -650,7 +611,7 @@ void ItemPowerResistElectrical::read(IStreamBase* stream) {
 // 0x4d5e60 _ZN7Structs19ItemPowerResistFire8finalizeEv
 void ItemPowerResistFire::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -666,7 +627,7 @@ void ItemPowerResistFire::read(IStreamBase* stream) {
 // 0x4d5d88 _ZN7Structs20ItemPowerResistWater8finalizeEv
 void ItemPowerResistWater::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -682,7 +643,7 @@ void ItemPowerResistWater::read(IStreamBase* stream) {
 // 0x4d5b00 _ZN7Structs22ItemPowerSpellCritical8finalizeEv
 void ItemPowerSpellCritical::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -698,7 +659,7 @@ void ItemPowerSpellCritical::read(IStreamBase* stream) {
 // 0x4d5a94 _ZN7Structs19ItemPowerSpellToHit8finalizeEv
 void ItemPowerSpellToHit::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -714,7 +675,7 @@ void ItemPowerSpellToHit::read(IStreamBase* stream) {
 // 0x4d580c _ZN7Structs25ItemPowerStaffDamageBonus8finalizeEv
 void ItemPowerStaffDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -730,7 +691,7 @@ void ItemPowerStaffDamageBonus::read(IStreamBase* stream) {
 // 0x4d6880 _ZN7Structs17ItemPowerStrength8finalizeEv
 void ItemPowerStrength::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -746,7 +707,7 @@ void ItemPowerStrength::read(IStreamBase* stream) {
 // 0x4d5a28 _ZN7Structs25ItemPowerSwordDamageBonus8finalizeEv
 void ItemPowerSwordDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -762,7 +723,7 @@ void ItemPowerSwordDamageBonus::read(IStreamBase* stream) {
 // 0x4d5fa4 _ZN7Structs14ItemPowerToHit8finalizeEv
 void ItemPowerToHit::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -778,7 +739,7 @@ void ItemPowerToHit::read(IStreamBase* stream) {
 // 0x4d57a0 _ZN7Structs24ItemPowerWandDamageBonus8finalizeEv
 void ItemPowerWandDamageBonus::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -794,7 +755,7 @@ void ItemPowerWandDamageBonus::read(IStreamBase* stream) {
 // 0x4d65f8 _ZN7Structs20ItemPowerWaterDamage8finalizeEv
 void ItemPowerWaterDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }
@@ -810,7 +771,7 @@ void ItemPowerWaterDamage::read(IStreamBase* stream) {
 // 0x4d6448 _ZN7Structs23ItemPowerWaterDotDamage8finalizeEv
 void ItemPowerWaterDotDamage::finalize() {
     if (m_w4 != nullptr) {
-        ReleaseElementTable(m_w4);
+        pydata::DeleteElementTable<Structs::AttrBonusEntry>(m_w4);
         m_w3 = 0;
         m_w4 = nullptr;
     }

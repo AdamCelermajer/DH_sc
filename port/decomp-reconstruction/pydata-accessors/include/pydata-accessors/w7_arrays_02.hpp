@@ -1,34 +1,17 @@
 #pragma once
 
-// Arrays::X finalize() and read(IStreamBase*) for slice arrays_02 (see NOTES.md, "Arrays element ABI").
-// Each table has the static `members` (first element; count word at members - 4, block base at members - 8)
-// and `size`. Storage (members/size) is defined by the slice that owns the table's finalize().
-// Element classes are Structs::X; their vtables are named in the .cpp by ElementVtable<Structs::X>.
+// Arrays::X finalize() and read(IStreamBase*) for slice arrays_02 (see NOTES.md, "Element tables").
+// Each table has the static `members` (first element; the block header is the original 32-bit stride word at
+// members - 8, which is also the block base, and the count word at members - 4) and `size`. The storage is defined
+// in w7_arrays_02.cpp for the tables declared here that are not in w7_arrays_00.hpp (CharAnimTable, CamAnimSetTable,
+// AnimTable, AIFactionTable, AITable, GameDifficulties, DesignSettingsTable, RectTable, StatListTable,
+// StatAutoAssignSchemeTable); the other tables share the storage of w7_arrays_00.cpp.
+// Elements are host Structs::X records (element_table.hpp); the original 32-bit stride of each table is
+// Arrays::ListingStride::X (array_strides.hpp).
 #include <cstddef>
 #include <cstdint>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
-
-namespace pydata {
-// Vtable address point of the Structs element class Elem. Defined in the .cpp for the classes that
-// structs_records.hpp defines; for the others it is declared only (see the partial rows of the ledger).
-template <class Elem>
-const void* ElementVtable();
-}  // namespace pydata
-
-namespace Structs {
-class AIFactions;
-class CharSounds;
-class ColladaFile;
-class LangSheetList;
-class Sound;
-class SoundGroup;
-class SpawnGroup;
-class StatAutoAssignTargetList;
-class StatListList;
-class v2CondAnd;
-class v2Event;
-}  // namespace Structs
 
 namespace Arrays {
 
@@ -36,16 +19,19 @@ struct CharAnimTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);
 };
 struct CamAnimSetTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);
 };
 struct AnimTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void finalize();
+    static void read(IStreamBase* stream);
 };
 struct AIFactionTable {
     static std::uint8_t* members;

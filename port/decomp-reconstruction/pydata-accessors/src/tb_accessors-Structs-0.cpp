@@ -4,15 +4,17 @@
 // stream reads, the frees before each reallocation, and the allocation and its element loop.
 //
 // Element tables (ItemListEntryList, CharTemplate, ClassFuncList, AnimTpl) hold the element class found from
-// the vtable of the table's element pointer: ItemListEntry (stride 12), CharInfoName (8), ClassFunc (24) and
-// AnimStep (56). The stride is sizeof the host element. The table header (stride, count) sits before the
-// members, as in the original, so the destructor loop reads the count from the block.
+// the vtable of the table's element pointer: ItemListEntry (listing stride 12), CharInfoName (8), ClassFunc (24)
+// and AnimStep (56). They are built and destroyed through pydata::NewAndReadElementTable / DeleteElementTable
+// (element_table.hpp): host objects constructed in place at sizeof(Elem), reached through a typed pointer, with the
+// original 32-bit stride (Structs::ListingStride, struct_strides.hpp) written to the stride word. The table header
+// (stride, count) sits before the members, as in the original, so the destructor loop reads the count from the block.
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
-#include <new>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
@@ -40,40 +42,6 @@ void ReadStringField(IStreamBase* stream, std::uint32_t len, void*& buf) {
     chars[len] = '\0';
 }
 
-// Original element table block, operator new[](stride * count + 8, 1): the stride and count words, then the
-// members. Returns the members pointer. The stride word is the host sizeof, since the members are host objects.
-template <class Elem>
-void* AllocTable(std::uint32_t count) {
-    std::uint8_t* const block = static_cast<std::uint8_t*>(MemoryHintState(sizeof(Elem) * count + 8, 1));
-    const std::uint32_t stride = static_cast<std::uint32_t>(sizeof(Elem));
-    std::memcpy(block, &stride, sizeof stride);
-    std::memcpy(block + 4, &count, sizeof count);
-    return block + 8;
-}
-
-// Original element constructor loop: the element's vptr is stored at each element (here, by construction in
-// place; the element's default member values are the zeros the original stored).
-template <class Elem>
-void ConstructTable(void* members, std::uint32_t count) {
-    Elem* const elems = static_cast<Elem*>(members);
-    for (std::uint32_t i = 0; i < count; ++i) {
-        new (static_cast<void*>(&elems[i])) Elem();
-    }
-}
-
-// Original element-table destructor loop: from the last element to the first, each through its virtual
-// destructor (vtable slot 0), then the block at members - 8 is freed. The count is the header word at members - 4.
-template <class Elem>
-void DestroyTable(void* members) {
-    Elem* const elems = static_cast<Elem*>(members);
-    std::uint32_t count = 0;
-    std::memcpy(&count, static_cast<std::uint8_t*>(members) - 4, sizeof count);
-    for (std::uint32_t i = count; i > 0; --i) {
-        elems[i - 1].~Elem();
-    }
-    CustomFree(static_cast<std::uint8_t*>(members) - 8);
-}
-
 }  // namespace
 
 namespace Structs {
@@ -86,37 +54,22 @@ void Inventory::read(IStreamBase* stream) {
 // 0x4dc790 Structs::ItemListEntryList::read(IStreamBase*)
 void ItemListEntryList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4, element count
-    if (m_w2 != nullptr) DestroyTable<ItemListEntry>(m_w2);  // +0x8
-    m_w2 = AllocTable<ItemListEntry>(m_w1);  // +0x8
-    ConstructTable<ItemListEntry>(m_w2, m_w1);  // +0x8
-    ItemListEntry* const elems = static_cast<ItemListEntry*>(m_w2);
-    for (std::uint32_t i = 0; i < m_w1; ++i) {
-        elems[i].read(stream);  // element vtable slot +0xc
-    }
+    pydata::DeleteElementTable<ItemListEntry>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<ItemListEntry>(ListingStride::ItemListEntry, m_w1, stream);  // +0x8
 }
 
 // 0x4dcd38 Structs::CharTemplate::read(IStreamBase*)
 void CharTemplate::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4, element count
-    if (m_w2 != nullptr) DestroyTable<CharInfoName>(m_w2);  // +0x8
-    m_w2 = AllocTable<CharInfoName>(m_w1);  // +0x8
-    ConstructTable<CharInfoName>(m_w2, m_w1);  // +0x8
-    CharInfoName* const elems = static_cast<CharInfoName*>(m_w2);
-    for (std::uint32_t i = 0; i < m_w1; ++i) {
-        elems[i].read(stream);  // element vtable slot +0xc
-    }
+    pydata::DeleteElementTable<CharInfoName>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<CharInfoName>(ListingStride::CharInfoName, m_w1, stream);  // +0x8
 }
 
 // 0x4dcfec Structs::ClassFuncList::read(IStreamBase*)
 void ClassFuncList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4, element count
-    if (m_w2 != nullptr) DestroyTable<ClassFunc>(m_w2);  // +0x8
-    m_w2 = AllocTable<ClassFunc>(m_w1);  // +0x8
-    ConstructTable<ClassFunc>(m_w2, m_w1);  // +0x8
-    ClassFunc* const elems = static_cast<ClassFunc*>(m_w2);
-    for (std::uint32_t i = 0; i < m_w1; ++i) {
-        elems[i].read(stream);  // element vtable slot +0xc
-    }
+    pydata::DeleteElementTable<ClassFunc>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<ClassFunc>(ListingStride::ClassFunc, m_w1, stream);  // +0x8
 }
 
 // 0x4dd5a8 Structs::v2QuestScripts::read(IStreamBase*)
@@ -257,16 +210,10 @@ void CamAnimSet::read(IStreamBase* stream) {
 void AnimTpl::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8, element count
-    if (m_w3 != nullptr) DestroyTable<AnimStep>(m_w3);  // +0xc
-    m_w3 = AllocTable<AnimStep>(m_w2);  // +0xc
-    ConstructTable<AnimStep>(m_w3, m_w2);  // +0xc
-    AnimStep* const elems = static_cast<AnimStep*>(m_w3);
-    for (std::uint32_t i = 0; i < m_w2; ++i) {
-        elems[i].m_w11 = 0;  // element +0x2c, zeroed by the original's vptr loop
-    }
-    for (std::uint32_t i = 0; i < m_w2; ++i) {
-        elems[i].read(stream);  // element vtable slot +0xc
-    }
+    pydata::DeleteElementTable<AnimStep>(m_w3);  // +0xc
+    // The original's vptr loop also zeroes element +0x24 (AnimStep::m_w9, the int32 array pointer); construction gives
+    // it its default nullptr.
+    m_w3 = pydata::NewAndReadElementTable<AnimStep>(ListingStride::AnimStep, m_w2, stream);  // +0xc
     m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
 }
 

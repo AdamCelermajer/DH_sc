@@ -1,129 +1,32 @@
-// Arrays::X::finalize() and read(IStreamBase*) for slice arrays_02 (27 tables, 29 functions).
-// Shared bodies:
-//   FinalizeArrayTable: finalize slot +0x8 on each element (forward), then the element slot +0x0 (D1) from the
-//     last element back to the first, then the block at members - 8 is freed; members is cleared.
-//   ReadArrayTable: count (readAs<uint32>), Table::finalize(), size = count, one block of stride*count + 8 bytes
-//     with the header words (stride, count), members = block + 8, each element gets its vptr and the listed
-//     zeroed words, then each element's read slot +0xc runs in order.
-// In-memory stride: sizeof(Structs::X) of the port's element class (decision of the lead). The listing stride of
-// each table is kept as a comment next to its call. Tables whose element class is not identified stay on the
-// listing stride (partial, see the notes on each).
-// Zeroed words: a listing offset is zeroed only when it fits in the host element (offset + 4 <= sizeof(Elem));
-// listing offsets past the host element are skipped so no write leaves the element block.
-// Element layout note: a vptr is stored as the host pointer of the Structs class, and the zeroed words use the
-// listing's offsets. The port is not binary-compatible with the original (see NOTES.md).
-
-#include <cstring>
-#include <initializer_list>
-
-#include "pydata-accessors/array_element.hpp"
-#include "pydata-accessors/structs_records.hpp"
+// Arrays::X::finalize() and read(IStreamBase*) for slice arrays_02 (27 tables). Shared bodies (element_table.hpp):
+//   pydata::FinalizeArrayTable<Elem>: finalize slot +0x8 on each element (forward), then the element slot +0x0 (D1) from
+//     the last element back to the first, then the block at members - 8 is freed; members is cleared.
+//   pydata::ReadArrayTable<Elem>: count (readAs<uint32>), Table::finalize(), size = count, one block of count elements with
+//     the header words (the original 32-bit stride, count), members = first element, each element constructed (vptr and the
+//     listed zeroed words) and then read through its read slot +0xc, in order.
+// Element tables hold host objects. The file stream is read field by field by each element's read; the 32-bit stride
+// of the original (Arrays::ListingStride::X, array_strides.hpp, from the Hex-Rays `*result = N`) is only the size of the
+// original's in-memory element, kept in the stride word of the block. The host elements are constructed in place at
+// sizeof(Elem) and reached through the typed pointer; no 32-bit stride addresses host memory.
+// The words that the listing zeroes after the vptr store are pointer members; their `= nullptr` default does the same
+// (each read comment names the member, the offset is the original 32-bit one).
 #include "pydata-accessors/w7_arrays_02.hpp"
+
+#include <cstddef>
+#include <cstdint>
+
+#include "pydata-accessors/array_strides.hpp"
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_01.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
+#include "pydata-accessors/w7_structs_3.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
-
-namespace {
-
-// The vptr of Elem: the first word of a polymorphic object (Itanium ABI).
-template <class Elem>
-const void* VtableOfTemporary() {
-    Elem tmp;
-    const void* vptr = nullptr;
-    std::memcpy(&vptr, &tmp, sizeof vptr);
-    return vptr;
-}
-
-inline pydata::ArrayElement* ElementAt(std::uint8_t* p) {
-    return reinterpret_cast<pydata::ArrayElement*>(p);
-}
-
-template <class Table, std::size_t Stride>
-void FinalizeArrayTable() {
-    if (Table::members == nullptr) return;
-    if (Table::size != 0) {
-        for (std::uint32_t i = 0; i < Table::size; ++i) {
-            ElementAt(Table::members + Stride * i)->finalize();
-        }
-    }
-    if (Table::members != nullptr) {
-        std::uint32_t count = 0;
-        std::memcpy(&count, Table::members - 4, sizeof count);
-        std::uint8_t* first = Table::members;
-        std::uint8_t* last = first + Stride * count;
-        while (last != first) {
-            std::uint8_t* cur = last - Stride;
-            ElementAt(cur)->~ArrayElement();
-            last = cur;
-        }
-        CustomFree(first - 8);
-    }
-    Table::members = nullptr;
-}
-
-template <class Table, std::size_t Stride, class Elem>
-void ReadArrayTable(IStreamBase* stream, std::initializer_list<std::size_t> zeroed) {
-    const std::uint32_t count = StreamReader::readAs<std::uint32_t>(stream);
-    Table::finalize();
-    Table::size = count;
-    std::uint8_t* block = static_cast<std::uint8_t*>(MemoryHintState(Stride * count + 8, 1));
-    const std::uint32_t header_stride = Stride;
-    std::memcpy(block, &header_stride, sizeof header_stride);
-    std::memcpy(block + 4, &count, sizeof count);
-    Table::members = block + 8;
-    const void* vptr = pydata::ElementVtable<Elem>();
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::uint8_t* element = Table::members + Stride * i;
-        std::memcpy(element, &vptr, sizeof vptr);
-        for (std::size_t offset : zeroed) {
-            if (offset + sizeof(std::uint32_t) > sizeof(Elem)) continue;  // listing offset past the host element
-            const std::uint32_t zero = 0;
-            std::memcpy(element + offset, &zero, sizeof zero);
-        }
-    }
-    for (std::uint32_t i = 0; i < Table::size; ++i) {
-        ElementAt(Table::members + Stride * i)->read(stream);
-    }
-}
-
-}  // namespace
-
-namespace pydata {
-
-template <>
-const void* ElementVtable<Structs::GameDifficulty>() { return VtableOfTemporary<Structs::GameDifficulty>(); }
-
-template <>
-const void* ElementVtable<Structs::AIProps>() { return VtableOfTemporary<Structs::AIProps>(); }
-
-template <>
-const void* ElementVtable<Structs::DesignSettings>() { return VtableOfTemporary<Structs::DesignSettings>(); }
-
-template <>
-const void* ElementVtable<Structs::Rect>() { return VtableOfTemporary<Structs::Rect>(); }
-
-template <>
-const void* ElementVtable<Structs::SoundAutoGen>() { return VtableOfTemporary<Structs::SoundAutoGen>(); }
-
-template <>
-const void* ElementVtable<Structs::WorldMapLocker>() { return VtableOfTemporary<Structs::WorldMapLocker>(); }
-
-template <>
-const void* ElementVtable<Structs::WldMapLocation>() { return VtableOfTemporary<Structs::WldMapLocation>(); }
-
-template <>
-const void* ElementVtable<Structs::Trophy>() { return VtableOfTemporary<Structs::Trophy>(); }
-
-template <>
-const void* ElementVtable<Structs::SoundBank>() { return VtableOfTemporary<Structs::SoundBank>(); }
-
-template <>
-const void* ElementVtable<Structs::Listener>() { return VtableOfTemporary<Structs::Listener>(); }
-
-}  // namespace pydata
 
 namespace Arrays {
 
+// Static storage of the tables whose finalize or read this slice owns.
 std::uint8_t* CharAnimTable::members = nullptr;
 std::uint32_t CharAnimTable::size = 0;
 std::uint8_t* CamAnimSetTable::members = nullptr;
@@ -134,172 +37,226 @@ std::uint8_t* AIFactionTable::members = nullptr;
 std::uint32_t AIFactionTable::size = 0;
 std::uint8_t* AITable::members = nullptr;
 std::uint32_t AITable::size = 0;
+std::uint8_t* GameDifficulties::members = nullptr;
+std::uint32_t GameDifficulties::size = 0;
+std::uint8_t* DesignSettingsTable::members = nullptr;
+std::uint32_t DesignSettingsTable::size = 0;
+std::uint8_t* RectTable::members = nullptr;
+std::uint32_t RectTable::size = 0;
+std::uint8_t* StatListTable::members = nullptr;
+std::uint32_t StatListTable::size = 0;
+std::uint8_t* StatAutoAssignSchemeTable::members = nullptr;
+std::uint32_t StatAutoAssignSchemeTable::size = 0;
+
+// ---- finalize ----
 
 // 0x4a9b38 _ZN6Arrays13CharAnimTable8finalizeEv
-// partial: element class not identified in the headers; stays on the listing stride 160.
-void CharAnimTable::finalize() { FinalizeArrayTable<CharAnimTable, 160>(); }
+// listing stride 160 (ListingStride::CharAnimTable); element Structs::CharAnim
+void CharAnimTable::finalize() { pydata::FinalizeArrayTable<Structs::CharAnim>(members, size); }
 
 // 0x4a9cb8 _ZN6Arrays15CamAnimSetTable8finalizeEv
-// partial: element class not identified in the headers; stays on the listing stride 28.
-void CamAnimSetTable::finalize() { FinalizeArrayTable<CamAnimSetTable, 28>(); }
+// listing stride 28 (ListingStride::CamAnimSetTable); element Structs::CamAnimSet
+void CamAnimSetTable::finalize() { pydata::FinalizeArrayTable<Structs::CamAnimSet>(members, size); }
 
 // 0x4a9e38 _ZN6Arrays9AnimTable8finalizeEv
-// partial: element class not identified in the headers; stays on the listing stride 20.
-void AnimTable::finalize() { FinalizeArrayTable<AnimTable, 20>(); }
+// listing stride 20 (ListingStride::AnimTable); element Structs::AnimTpl
+void AnimTable::finalize() { pydata::FinalizeArrayTable<Structs::AnimTpl>(members, size); }
 
 // 0x4a9fb8 _ZN6Arrays14AIFactionTable8finalizeEv
-// listing stride 12
-void AIFactionTable::finalize() { FinalizeArrayTable<AIFactionTable, sizeof(Structs::AIFactions)>(); }
+// listing stride 12 (ListingStride::AIFactionTable); element Structs::AIFactions
+void AIFactionTable::finalize() { pydata::FinalizeArrayTable<Structs::AIFactions>(members, size); }
 
 // 0x4aa138 _ZN6Arrays7AITable8finalizeEv
-// listing stride 68
-void AITable::finalize() { FinalizeArrayTable<AITable, sizeof(Structs::AIProps)>(); }
+// listing stride 68 (ListingStride::AITable); element Structs::AIProps
+void AITable::finalize() { pydata::FinalizeArrayTable<Structs::AIProps>(members, size); }
+
+// 0x4a8f38 _ZN6Arrays16GameDifficulties8finalizeEv
+// listing stride 24 (ListingStride::GameDifficulties); element Structs::GameDifficulty
+// The shared body is Arrays::FinalizeGameDifficulties (w7_arrays_01.cpp, which owns this finalize row); this member forwards to it.
+void GameDifficulties::finalize() { FinalizeGameDifficulties(members, size); }
+
+// 0x4a90b8 _ZN6Arrays19DesignSettingsTable8finalizeEv
+// listing stride 176 (ListingStride::DesignSettingsTable); element Structs::DesignSettings
+// The shared body is Arrays::FinalizeDesignSettingsTable (w7_arrays_01.cpp, which owns this finalize row); this member forwards to it.
+void DesignSettingsTable::finalize() { FinalizeDesignSettingsTable(members, size); }
+
+// 0x4a9238 _ZN6Arrays9RectTable8finalizeEv
+// listing stride 20 (ListingStride::RectTable); element Structs::Rect
+// The shared body is Arrays::FinalizeRectTable (w7_arrays_01.cpp, which owns this finalize row); this member forwards to it.
+void RectTable::finalize() { FinalizeRectTable(members, size); }
+
+// 0x4a9538 _ZN6Arrays13StatListTable8finalizeEv
+// listing stride 12 (ListingStride::StatListTable); element Structs::StatListList
+// The shared body is Arrays::FinalizeStatListTable (w7_arrays_01.cpp, which owns this finalize row); this member forwards to it.
+void StatListTable::finalize() { FinalizeStatListTable(members, size); }
+
+// 0x4a96b8 _ZN6Arrays25StatAutoAssignSchemeTable8finalizeEv
+// listing stride 12 (ListingStride::StatAutoAssignSchemeTable); element Structs::StatAutoAssignTargetList
+// The shared body is Arrays::FinalizeStatAutoAssignSchemeTable (w7_arrays_01.cpp, which owns this finalize row); this member forwards to it.
+void StatAutoAssignSchemeTable::finalize() { FinalizeStatAutoAssignSchemeTable(members, size); }
+
+// ---- read ----
+
+// 0x4b45d0 _ZN6Arrays13CharAnimTable4readEP11IStreamBase
+// Element Structs::CharAnim, listing stride 160 (ListingStride::CharAnimTable). Listing zeroes: +0x44 (m_w17), +0x88 (m_w34).
+void CharAnimTable::read(IStreamBase* stream) {
+    pydata::ReadArrayTable<Structs::CharAnim>(members, size, ListingStride::CharAnimTable, stream, [] { finalize(); });
+}
+
+// 0x4b37a4 _ZN6Arrays15CamAnimSetTable4readEP11IStreamBase
+// Element Structs::CamAnimSet, listing stride 28 (ListingStride::CamAnimSetTable). Listing zeroes: +0x8 (m_w2).
+void CamAnimSetTable::read(IStreamBase* stream) {
+    pydata::ReadArrayTable<Structs::CamAnimSet>(members, size, ListingStride::CamAnimSetTable, stream, [] { finalize(); });
+}
+
+// 0x4b38f0 _ZN6Arrays9AnimTable4readEP11IStreamBase
+// Element Structs::AnimTpl, listing stride 20 (ListingStride::AnimTable). Listing zeroes: +0xc (m_w3).
+void AnimTable::read(IStreamBase* stream) {
+    pydata::ReadArrayTable<Structs::AnimTpl>(members, size, ListingStride::AnimTable, stream, [] { finalize(); });
+}
 
 // 0x4af5e8 _ZN6Arrays16GameDifficulties4readEP11IStreamBase
-// listing stride 24
+// Element Structs::GameDifficulty, listing stride 24 (ListingStride::GameDifficulties). Listing zeroes: none.
 void GameDifficulties::read(IStreamBase* stream) {
-    ReadArrayTable<GameDifficulties, sizeof(Structs::GameDifficulty), Structs::GameDifficulty>(stream, {});
+    pydata::ReadArrayTable<Structs::GameDifficulty>(members, size, ListingStride::GameDifficulties, stream, [] { finalize(); });
 }
 
 // 0x4b3a38 _ZN6Arrays14AIFactionTable4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::AIFactions> is declared only (no vtable definition in this slice).
+// Element Structs::AIFactions, listing stride 12 (ListingStride::AIFactionTable). Listing zeroes: +0x8 (m_w2).
 void AIFactionTable::read(IStreamBase* stream) {
-    ReadArrayTable<AIFactionTable, sizeof(Structs::AIFactions), Structs::AIFactions>(stream, {8});
+    pydata::ReadArrayTable<Structs::AIFactions>(members, size, ListingStride::AIFactionTable, stream, [] { finalize(); });
 }
 
 // 0x4b3b84 _ZN6Arrays7AITable4readEP11IStreamBase
-// listing stride 68; listing zeroed offset 44 is past sizeof(AIProps), so it is skipped.
+// Element Structs::AIProps, listing stride 68 (ListingStride::AITable). Listing zeroes: +0x2c (m_w11).
 void AITable::read(IStreamBase* stream) {
-    ReadArrayTable<AITable, sizeof(Structs::AIProps), Structs::AIProps>(stream, {44});
+    pydata::ReadArrayTable<Structs::AIProps>(members, size, ListingStride::AITable, stream, [] { finalize(); });
 }
 
 // 0x4b3cd0 _ZN6Arrays19DesignSettingsTable4readEP11IStreamBase
-// listing stride 176
+// Element Structs::DesignSettings, listing stride 176 (ListingStride::DesignSettingsTable). Listing zeroes: none.
 void DesignSettingsTable::read(IStreamBase* stream) {
-    ReadArrayTable<DesignSettingsTable, sizeof(Structs::DesignSettings), Structs::DesignSettings>(stream, {});
+    pydata::ReadArrayTable<Structs::DesignSettings>(members, size, ListingStride::DesignSettingsTable, stream, [] { finalize(); });
 }
 
 // 0x4b3e18 _ZN6Arrays9RectTable4readEP11IStreamBase
-// listing stride 20
+// Element Structs::Rect, listing stride 20 (ListingStride::RectTable). Listing zeroes: none.
 void RectTable::read(IStreamBase* stream) {
-    ReadArrayTable<RectTable, sizeof(Structs::Rect), Structs::Rect>(stream, {});
+    pydata::ReadArrayTable<Structs::Rect>(members, size, ListingStride::RectTable, stream, [] { finalize(); });
 }
 
 // 0x4b40a8 _ZN6Arrays13StatListTable4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::StatListList> is declared only.
-// partial: StatListTable::finalize() and the members/size storage are not defined anywhere in the port.
+// Element Structs::StatListList, listing stride 12 (ListingStride::StatListTable). Listing zeroes: +0x8 (m_w2).
 void StatListTable::read(IStreamBase* stream) {
-    ReadArrayTable<StatListTable, sizeof(Structs::StatListList), Structs::StatListList>(stream, {8});
+    pydata::ReadArrayTable<Structs::StatListList>(members, size, ListingStride::StatListTable, stream, [] { finalize(); });
 }
 
 // 0x4b41f4 _ZN6Arrays25StatAutoAssignSchemeTable4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::StatAutoAssignTargetList> is declared only.
-// partial: StatAutoAssignSchemeTable::finalize() and the members/size storage are not defined anywhere in the port.
+// Element Structs::StatAutoAssignTargetList, listing stride 12 (ListingStride::StatAutoAssignSchemeTable). Listing zeroes: +0x8 (m_w2).
 void StatAutoAssignSchemeTable::read(IStreamBase* stream) {
-    ReadArrayTable<StatAutoAssignSchemeTable, sizeof(Structs::StatAutoAssignTargetList),
-                   Structs::StatAutoAssignTargetList>(stream, {8});
+    pydata::ReadArrayTable<Structs::StatAutoAssignTargetList>(members, size, ListingStride::StatAutoAssignSchemeTable, stream, [] { finalize(); });
 }
 
 // 0x4b53f8 _ZN6Arrays15StrID_Languages4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::LangSheetList> is declared only.
+// Element Structs::LangSheetList, listing stride 12 (ListingStride::StrID_Languages). Listing zeroes: +0x8 (m_w2).
 void StrID_Languages::read(IStreamBase* stream) {
-    ReadArrayTable<StrID_Languages, sizeof(Structs::LangSheetList), Structs::LangSheetList>(stream, {8});
+    pydata::ReadArrayTable<Structs::LangSheetList>(members, size, ListingStride::StrID_Languages, stream, [] { finalize(); });
 }
 
 // 0x4b5544 _ZN6Arrays14GameObjectDict4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::ColladaFile> is declared only.
+// Element Structs::ColladaFile, listing stride 12 (ListingStride::GameObjectDict). Listing zeroes: +0x8 (m_w2).
 void GameObjectDict::read(IStreamBase* stream) {
-    ReadArrayTable<GameObjectDict, sizeof(Structs::ColladaFile), Structs::ColladaFile>(stream, {8});
+    pydata::ReadArrayTable<Structs::ColladaFile>(members, size, ListingStride::GameObjectDict, stream, [] { finalize(); });
 }
 
 // 0x4b5690 _ZN6Arrays6Sounds4readEP11IStreamBase
-// listing stride 12
+// Element Structs::SoundAutoGen, listing stride 12 (ListingStride::Sounds). Listing zeroes: none.
 void Sounds::read(IStreamBase* stream) {
-    ReadArrayTable<Sounds, sizeof(Structs::SoundAutoGen), Structs::SoundAutoGen>(stream, {});
+    pydata::ReadArrayTable<Structs::SoundAutoGen>(members, size, ListingStride::Sounds, stream, [] { finalize(); });
 }
 
 // 0x4b830c _ZN6Arrays14ProjectileDict4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::ColladaFile> is declared only.
+// Element Structs::ColladaFile, listing stride 12 (ListingStride::ProjectileDict). Listing zeroes: +0x8 (m_w2).
 void ProjectileDict::read(IStreamBase* stream) {
-    ReadArrayTable<ProjectileDict, sizeof(Structs::ColladaFile), Structs::ColladaFile>(stream, {8});
+    pydata::ReadArrayTable<Structs::ColladaFile>(members, size, ListingStride::ProjectileDict, stream, [] { finalize(); });
 }
 
 // 0x4b8458 _ZN6Arrays10EffectDict4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::ColladaFile> is declared only.
+// Element Structs::ColladaFile, listing stride 12 (ListingStride::EffectDict). Listing zeroes: +0x8 (m_w2).
 void EffectDict::read(IStreamBase* stream) {
-    ReadArrayTable<EffectDict, sizeof(Structs::ColladaFile), Structs::ColladaFile>(stream, {8});
+    pydata::ReadArrayTable<Structs::ColladaFile>(members, size, ListingStride::EffectDict, stream, [] { finalize(); });
 }
 
 // 0x4b85a4 _ZN6Arrays8AnimDict4readEP11IStreamBase
-// listing stride 12; ElementVtable<Structs::ColladaFile> is declared only.
+// Element Structs::ColladaFile, listing stride 12 (ListingStride::AnimDict). Listing zeroes: +0x8 (m_w2).
 void AnimDict::read(IStreamBase* stream) {
-    ReadArrayTable<AnimDict, sizeof(Structs::ColladaFile), Structs::ColladaFile>(stream, {8});
+    pydata::ReadArrayTable<Structs::ColladaFile>(members, size, ListingStride::AnimDict, stream, [] { finalize(); });
 }
 
 // 0x4b883c _ZN6Arrays15WorldMapLockers4readEP11IStreamBase
-// listing stride 12
+// Element Structs::WorldMapLocker, listing stride 12 (ListingStride::WorldMapLockers). Listing zeroes: none.
 void WorldMapLockers::read(IStreamBase* stream) {
-    ReadArrayTable<WorldMapLockers, sizeof(Structs::WorldMapLocker), Structs::WorldMapLocker>(stream, {});
+    pydata::ReadArrayTable<Structs::WorldMapLocker>(members, size, ListingStride::WorldMapLockers, stream, [] { finalize(); });
 }
 
 // 0x4b8980 _ZN6Arrays8WorldMap4readEP11IStreamBase
-// listing stride 20; listing zeroed offset 16 is past sizeof(WldMapLocation), so it is skipped.
+// Element Structs::WldMapLocation, listing stride 20 (ListingStride::WorldMap). Listing zeroes: +0x10 (m_w4).
 void WorldMap::read(IStreamBase* stream) {
-    ReadArrayTable<WorldMap, sizeof(Structs::WldMapLocation), Structs::WldMapLocation>(stream, {16});
+    pydata::ReadArrayTable<Structs::WldMapLocation>(members, size, ListingStride::WorldMap, stream, [] { finalize(); });
 }
 
 // 0x4b8c9c _ZN6Arrays8v2Events4readEP11IStreamBase
-// listing stride 24; ElementVtable<Structs::v2Event> is declared only.
+// Element Structs::v2Event, listing stride 24 (ListingStride::v2Events). Listing zeroes: +0xc (m_w3), +0x14 (m_w5).
 void v2Events::read(IStreamBase* stream) {
-    ReadArrayTable<v2Events, sizeof(Structs::v2Event), Structs::v2Event>(stream, {12, 20});
+    pydata::ReadArrayTable<Structs::v2Event>(members, size, ListingStride::v2Events, stream, [] { finalize(); });
 }
 
 // 0x4b8dec _ZN6Arrays12v2Conditions4readEP11IStreamBase
-// listing stride 16; ElementVtable<Structs::v2CondAnd> is declared only.
+// Element Structs::v2CondAnd, listing stride 16 (ListingStride::v2Conditions). Listing zeroes: +0x8 (m_w2).
 void v2Conditions::read(IStreamBase* stream) {
-    ReadArrayTable<v2Conditions, sizeof(Structs::v2CondAnd), Structs::v2CondAnd>(stream, {8});
+    pydata::ReadArrayTable<Structs::v2CondAnd>(members, size, ListingStride::v2Conditions, stream, [] { finalize(); });
 }
 
 // 0x4b8f28 _ZN6Arrays11TrophyTable4readEP11IStreamBase
-// listing stride 32
+// Element Structs::Trophy, listing stride 32 (ListingStride::TrophyTable). Listing zeroes: none.
 void TrophyTable::read(IStreamBase* stream) {
-    ReadArrayTable<TrophyTable, sizeof(Structs::Trophy), Structs::Trophy>(stream, {});
+    pydata::ReadArrayTable<Structs::Trophy>(members, size, ListingStride::TrophyTable, stream, [] { finalize(); });
 }
 
 // 0x4b9060 _ZN6Arrays11SpawnGroups4readEP11IStreamBase
-// listing stride 20; ElementVtable<Structs::SpawnGroup> is declared only.
+// Element Structs::SpawnGroup, listing stride 20 (ListingStride::SpawnGroups). Listing zeroes: +0x10 (m_w4).
 void SpawnGroups::read(IStreamBase* stream) {
-    ReadArrayTable<SpawnGroups, sizeof(Structs::SpawnGroup), Structs::SpawnGroup>(stream, {16});
+    pydata::ReadArrayTable<Structs::SpawnGroup>(members, size, ListingStride::SpawnGroups, stream, [] { finalize(); });
 }
 
 // 0x4b91ac _ZN6Arrays10Sounds_bak4readEP11IStreamBase
-// listing stride 44; ElementVtable<Structs::Sound> is declared only.
+// Element Structs::Sound, listing stride 44 (ListingStride::Sounds_bak). Listing zeroes: +0x10 (m_w4).
 void Sounds_bak::read(IStreamBase* stream) {
-    ReadArrayTable<Sounds_bak, sizeof(Structs::Sound), Structs::Sound>(stream, {16});
+    pydata::ReadArrayTable<Structs::Sound>(members, size, ListingStride::Sounds_bak, stream, [] { finalize(); });
 }
 
 // 0x4b92f8 _ZN6Arrays18SoundGroupsRouting4readEP11IStreamBase
-// listing stride 16; ElementVtable<Structs::SoundGroup> is declared only.
+// Element Structs::SoundGroup, listing stride 16 (ListingStride::SoundGroupsRouting). Listing zeroes: +0x8 (m_w2).
 void SoundGroupsRouting::read(IStreamBase* stream) {
-    ReadArrayTable<SoundGroupsRouting, sizeof(Structs::SoundGroup), Structs::SoundGroup>(stream, {8});
+    pydata::ReadArrayTable<Structs::SoundGroup>(members, size, ListingStride::SoundGroupsRouting, stream, [] { finalize(); });
 }
 
 // 0x4b9434 _ZN6Arrays17SoundBankPlayback4readEP11IStreamBase
-// listing stride 12
+// Element Structs::SoundBank, listing stride 12 (ListingStride::SoundBankPlayback). Listing zeroes: none.
 void SoundBankPlayback::read(IStreamBase* stream) {
-    ReadArrayTable<SoundBankPlayback, sizeof(Structs::SoundBank), Structs::SoundBank>(stream, {});
+    pydata::ReadArrayTable<Structs::SoundBank>(members, size, ListingStride::SoundBankPlayback, stream, [] { finalize(); });
 }
 
 // 0x4b9578 _ZN6Arrays9Listeners4readEP11IStreamBase
-// listing stride 28
+// Element Structs::Listener, listing stride 28 (ListingStride::Listeners). Listing zeroes: none.
 void Listeners::read(IStreamBase* stream) {
-    ReadArrayTable<Listeners, sizeof(Structs::Listener), Structs::Listener>(stream, {});
+    pydata::ReadArrayTable<Structs::Listener>(members, size, ListingStride::Listeners, stream, [] { finalize(); });
 }
 
 // 0x4b96bc _ZN6Arrays15CharSoundsTable4readEP11IStreamBase
-// listing stride 40; ElementVtable<Structs::CharSounds> is declared only.
+// Element Structs::CharSounds, listing stride 40 (ListingStride::CharSoundsTable). Listing zeroes: +0x8 (m_w2), +0x10 (m_w4), +0x18 (m_w6), +0x20 (m_w8).
 void CharSoundsTable::read(IStreamBase* stream) {
-    ReadArrayTable<CharSoundsTable, sizeof(Structs::CharSounds), Structs::CharSounds>(stream, {8, 16, 24, 32});
+    pydata::ReadArrayTable<Structs::CharSounds>(members, size, ListingStride::CharSoundsTable, stream, [] { finalize(); });
 }
 
 }  // namespace Arrays

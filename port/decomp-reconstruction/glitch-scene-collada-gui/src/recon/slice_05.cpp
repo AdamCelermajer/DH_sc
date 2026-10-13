@@ -197,13 +197,6 @@ CBillboardSceneNode* billboardClone(const CBillboardSceneNode& node) {
     return nullptr;
 }
 
-// 0x581f68 _ZN6glitch5scene16CCameraSceneNode7onEventERKNS_6SEventE
-bool cameraOnEvent(CCameraSceneNode& node, const glitch::SEvent& event) {
-    (void)node;
-    (void)event;
-    return false;
-}
-
 // 0x582290 _ZN6glitch5scene16CCameraSceneNode6removeEv
 bool cameraRemove(CCameraSceneNode& node) {
     (void)node;
@@ -214,11 +207,6 @@ bool cameraRemove(CCameraSceneNode& node) {
 bool cameraOnChangedSceneManager(CCameraSceneNode& node) {
     (void)node;
     return false;
-}
-
-// 0x582bd8 _ZN6glitch5scene12SViewFrustumC2Ev
-void viewFrustumConstruct(void* frustum) {
-    (void)frustum;
 }
 
 // 0x5839d8 0x583b34 _ZN6glitch5scene15CEmptySceneNodeC2Ei (constructor variants)

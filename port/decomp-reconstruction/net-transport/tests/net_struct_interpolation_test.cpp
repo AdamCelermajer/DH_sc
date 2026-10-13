@@ -26,10 +26,13 @@ int main() {
 
     // PostLoad feeds the value with the time. With a frame time of 0, the first sample has age 0,
     // so the average is 0, and the second sample (time 4) gives an age of -4 and an average of -2.
-    CHECK(probe.PostLoad(0) == 20);
+    probe.PostLoad(0);   // vtable +0x0c, void: AddValue's 20 is a leftover
     CHECK(probe.Average() == 0);
-    CHECK(probe.PostLoad(4) == 20);
+    probe.PostLoad(4);
     CHECK(probe.Average() == -2);
+    CHECK(probe.GetSizeBits() == 18);   // the constructor sets sizeBits to Bits (0x3a681c)
+    NetStructMember& as_member = probe;
+    as_member.PostLoad(8);              // NetStruct::Load reaches it through the NetStructMember slot
 
     // AddValue returns 20 on every path.
     CHECK(probe.AddValue(2.0f, 0) == 20);

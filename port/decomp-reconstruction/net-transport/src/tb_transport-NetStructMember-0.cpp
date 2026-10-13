@@ -20,29 +20,6 @@ std::int32_t OnlineFrameTimeStandIn() {
     return 0;
 }
 
-// CMatching members used by NetStructMember::AreChangesAcknowledged that the connection_deps
-// stand-in does not declare. The vtable slots are the byte offsets of the original virtual calls.
-//   +0x74 (no argument): returns a member id.
-//   +0x84 (member id): returns the acknowledgement mask of that member.
-//   TestRoomMask(bits): true when every bit of the room mask is in bits (0x8001d4).
-// Stand-ins: member id 0, mask 0, room-mask test false. The function is partial until these are real.
-int MatchingVtable74StandIn(CMatching& matching) {
-    (void)matching;
-    return 0;
-}
-
-std::uint32_t MatchingVtable84StandIn(CMatching& matching, int member) {
-    (void)matching;
-    (void)member;
-    return 0;
-}
-
-bool MatchingTestRoomMaskStandIn(CMatching& matching, std::uint32_t bits) {
-    (void)matching;
-    (void)bits;
-    return false;
-}
-
 }  // namespace
 
 // 0x36d204 NetStructMember::~NetStructMember()   (D1, complete-object destructor)
@@ -55,11 +32,10 @@ NetStructMember::~NetStructMember() {
 // CustomFree(this)). C++ delete runs ~NetStructMember and operator delete.
 
 // 0x36d1f8 NetStructMember::PostLoad(unsigned int)
-// partial: the original is an empty virtual (vtable +0x0c, returns void). It is not declared in
-// net_struct.hpp because NetStructInterpolatedRangedFloat::PostLoad (net_struct_interpolation.hpp:109)
-// is declared with an int return type, and an override with a different return type does not compile.
-// Fix: make that override return void, then declare `virtual void PostLoad(std::uint32_t)` on the base
-// and define the empty body here.
+// The empty virtual (vtable +0x0c, BX LR). NetStruct::Load calls it on every member after a load that
+// stored data; NetStructInterpolatedRangedFloat overrides it (net_struct_interpolation.hpp).
+void NetStructMember::PostLoad(std::uint32_t /*time*/) {
+}
 
 // 0x36d1fc NetStructMember::GetSizeBits()
 int NetStructMember::GetSizeBits() const {
@@ -172,14 +148,14 @@ int NetStructMember::GetFrameTime() {
 // 0x8150b0 NetStructMember::AreChangesAcknowledged()
 // partial: the original asks CMatching whether this device is the server. If so it tests the room
 // mask against ackMask_ (+0x10). Otherwise it maps the member id from CMatching's vtable +0x74 to
-// its mask with vtable +0x84 and tests that mask. CMatching's TestRoomMask and those two virtual
-// slots are stand-ins (see above), so the result is not yet the original's.
+// its mask with vtable +0x84 and tests that mask. The control flow is the original's; CMatching is
+// the net-transport stand-in (deps/connection_deps.hpp), so the masks are the stand-in's.
 bool NetStructMember::AreChangesAcknowledged() {
     CMatching* matching = CMatching::Get();
     if (matching->IsServer()) {
-        return MatchingTestRoomMaskStandIn(*matching, ackMask_);  // +0x10
+        return matching->TestRoomMask(ackMask_);  // CMatching::TestRoomMask (0x8001d4), arg +0x10
     }
-    int member = MatchingVtable74StandIn(*matching);
-    std::uint32_t mask = MatchingVtable84StandIn(*matching, member);
+    const int member = matching->ServerMemberId();                  // vtable +0x74
+    const std::uint32_t mask = matching->MemberBit(member);         // vtable +0x84
     return AreChangesAcknowledgedBy(mask);
 }

@@ -36,9 +36,7 @@ NetStructByteArray<N>::NetStructByteArray(const ByteArray& initial) {
     value_.data = nullptr;                    // +0x20
     value_.size = 0;                          // +0x24
     NetStructMemberType<ByteArray>::SetValue(p);  // 0x36f264 deep copy, see file header
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // 0x3702f8 _ZN18NetStructByteArrayILj36EE4ReadER12NetBitStream
@@ -59,9 +57,7 @@ void NetStructByteArray<N>::Read(NetBitStream& stream) {
     p.size = 0;        // p[1]
     p.SetBuffer(bytes.data(), count);
     SetValue(p);       // vtable +0x1c (virtual)
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // 0x7fe874 _ZN18NetStructByteArrayILj64EE12GetBufferPtrEv
@@ -134,9 +130,7 @@ void NetStructByteArray<N>::SetBuffer(const void* src, std::size_t size) {
     p.size = 0;        // p[1]
     p.SetBuffer(src, size);
     SetValue(p);       // vtable +0x1c
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // Instantiations. N = 64 is instantiated for the whole class (every member above is defined here).

@@ -19,24 +19,39 @@ bool CSceneManager_isBoxCulledByFrustumBox(const core::aabbox3d<float>& box,
     if (box.MinEdge.Z > frustumBox.MaxEdge.Z) return true;   // v15 > f[32]
     if (box.MaxEdge.X < frustumBox.MinEdge.X) return true;   // v16 < f[27]
     if (box.MaxEdge.Y < frustumBox.MinEdge.Y) return true;   // v17 < f[28]
-    return box.MaxEdge.Z < frustumBox.MinEdge.Z;             // v13 >= f[29] is visible
+    return !(box.MaxEdge.Z >= frustumBox.MinEdge.Z);         // v13 >= f[29] is visible; the original returns !v19
 }
 
 // 0x58ab28 _ZNK6glitch5scene13CSceneManager8isCulledEPKNS0_10ISceneNodeE
 // PARTIAL. The original (1922 bytes):
 //   returns 0 when the culling enable byte (+0x250) is clear or the camera pointer (+0xe4) is null;
 //   camera vtable +0x144 (listing +0x150, CCameraSceneNode::getViewFrustum) gives the frustum;
-//   the node's culling mode (+0x118) selects the test:
-//     mode 1 (box): CSceneManager_isBoxCulledByFrustumBox, using node vtable +0x34 for the box;
+//   the node's culling mode (+0x118) selects the test, on the node's transformed box (node vtable +0x34, listing
+//   +0x40, ISceneNode::getTransformedBoundingBox):
+//     mode 1 (box): CSceneManager_isBoxCulledByFrustumBox against the frustum's box;
 //     mode 2: !SViewFrustum::intersects(box), 0x35bec8;
-//     mode 8: !SViewFrustum::intersects3(box), 0x58aa8c (skipped in the ledger);
+//     mode 8: !SViewFrustum::intersects3(box), 0x58aa8c;
 //     any other mode: returns 0.
-// Missing: the enable byte (+0x250) and camera pointer (+0xe4) are not declared on CSceneManager, the
-// camera and node virtual slots are not declared on ICameraSceneNode and ISceneNode, and the frustum
-// intersection callees are not declared on glitch::scene::SViewFrustum. Until those are mapped, this
-// body reports "not culled" (false) for every node.
-bool CSceneManager::isCulled(const ISceneNode* /*node*/) const {
-    return false;
+// The enable byte, the active camera, the camera's getViewFrustum and the three frustum tests are mapped now.
+// Missing: the node box is a virtual call in the original. ISceneNode has no vptr in this category, so the base
+// ISceneNode::getTransformedBoundingBox is called directly (it is itself partial: its dirty-box branch, which
+// asks the node for its local box and transforms it, is not reconstructed), and a node class that overrides
+// the slot would be bypassed.
+bool CSceneManager::isCulled(const ISceneNode* node) const {
+    if (!cullingEnabled || activeCamera == nullptr) {  // +0x250, +0xe4
+        return false;
+    }
+    const SViewFrustum* frustum = activeCamera->getViewFrustum();
+    switch (node->automaticCulling) {  // +0x118
+        case 2:
+            return !frustum->intersects(node->getTransformedBoundingBox());
+        case 8:
+            return !frustum->intersects3(node->getTransformedBoundingBox());
+        case 1:
+            return CSceneManager_isBoxCulledByFrustumBox(node->getTransformedBoundingBox(), frustum->box);
+        default:
+            return false;
+    }
 }
 
 // 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE

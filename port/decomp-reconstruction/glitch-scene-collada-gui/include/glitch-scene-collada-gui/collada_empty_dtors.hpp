@@ -5,6 +5,8 @@
 // The deleting destructors (D0) are compiler-generated and are not listed here.
 #pragma once
 
+#include "glitch-scene-collada-gui/layouts/animation_track.hpp"
+
 namespace glitch::collada {
 
 class IEventsManager {
@@ -113,32 +115,17 @@ public:
     ~CResFactory() = default;
 };
 
-struct SAnimationAccessor;
-
+// SAnimationAccessor, animation_track::CApplicatorInfo and animation_track::CMaterialApplicatorInfo are
+// declared in layouts/animation_track.hpp (the destructors 0x667c34 and 0x667ccc, both empty, are declared
+// there). They are included here so one translation unit can hold both this header and the accessor.
 class CAnimationTrackEx {
 public:
     // 0x6e29b0 _ZN6glitch7collada17CAnimationTrackExD1Ev (empty)
     ~CAnimationTrackEx() = default;
 
     // 0x6e2c40 _ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRib
-    // Keyed or non-keyed value read. Declared in tb_scene-collada-gui-glitch_collada_CAnimationTrackEx-0.cpp.
-    int getValue(const SAnimationAccessor& accessor, int index, void* out, int& keyIndex, bool flag) const;
+    // Keyed or non-keyed value read. Defined in tb_scene-collada-gui-glitch_collada_CAnimationTrackEx-0.cpp.
+    int getValue(const SAnimationAccessor& accessor, int time, void* out, int& keyIndex, bool flag) const;
 };
-
-namespace animation_track {
-
-class CApplicatorInfo {
-public:
-    // 0x667c34 _ZN6glitch7collada15animation_track15CApplicatorInfoD1Ev (empty)
-    ~CApplicatorInfo() = default;
-};
-
-class CMaterialApplicatorInfo {
-public:
-    // 0x667ccc _ZN6glitch7collada15animation_track23CMaterialApplicatorInfoD1Ev (empty)
-    ~CMaterialApplicatorInfo() = default;
-};
-
-}  // namespace animation_track
 
 }  // namespace glitch::collada

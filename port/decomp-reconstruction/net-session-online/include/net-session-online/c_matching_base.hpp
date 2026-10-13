@@ -7,10 +7,19 @@
 //   ProcessLostPacket(int,int) 0x7fed84, SetRoomMemberAttibute 0x7ff008, GetRoomMemberAttibute 0x7ff054,
 //   GetRoomMask 0x8000dc, TestRoomMask 0x8001d4, UpdateMemberIdList 0x8002bc, GetMemberIdList 0x800808,
 //   SetTeamId 0x8008ac, WritePacketData 0x8010a4, CMatchingLocal::GetRoomAttributes 0x801b54.
-//   Also referenced: GetMemberIndex 0x7fe59c, IsMemberServer 0x7fe544, IsServer (non-virtual).
+//   Also referenced: GetMemberIndex 0x7fe59c, IsMemberServer 0x7fe544, IsServer (non-virtual), Initialize 0x7ff85c.
+//   The constructor initialises data up to +0x3628 (three words at +0x3620..+0x3628 follow the element
+//   array); the first member of every derived class (CMatchingLocal, CMatchingBluetooth,
+//   CMatchingGLLive) sits at +0x3630.
 //
 // Layout (original 32-bit offsets, kept as comments; the member array is 32 entries of 432 bytes):
 //   +0x00 vptr
+//   +0x04 not touched by the constructor or any recovered body.
+//   +0x08 member capacity (int). Initialize(int) stores its argument here; CMatchingGLLive::JoinRoomInternal
+//         refuses when GetMemberCount() is above it, and CreateJoinRoomInternal sends it to the lobby.
+//   +0x0c initialized flag (byte), +0x0d room hidden flag (byte), +0x0e room closed flag (byte; LockRoom
+//         sets it), +0x0f byte that the constructor clears. CMatchingGLLive's constructor sets it to 3 and
+//         passes it as the byte argument of GLXPlayerMPLobby::mpSendJoinLobby. The role is not identified.
 //   +0x10 room mask dirty flag (byte). GetRoomMask recomputes when set, then clears it.
 //   +0x18 NetStructArray<MemberInfoNetStruct,32> header. Its vptr is not identified.
 //   +0x1c member count (int, 0..32). Loops compare against this.
@@ -35,8 +44,10 @@
 //   +0x84 (132)  MemberBit(int) -> uint32 (bit for a member id in a mask).
 //   +0x88 (136)  connected member id list, returned by value through a hidden pointer. Name not identified.
 //   +0xa4 (164)  GetRoomAttributes() -> CRoomAttributes*. CMatchingLocal returns this+0x4660 (18016).
-// NOTE: the +0x34, +0x48 and +0xac slots named in the brief do not occur in these bodies. Only +0x84,
-// +0x6c and +0x74 appear in NOTES.md. Those three are not confirmed here.
+// The vtable listing (tools/decomp_vtable.py CMatchingGLLive) names the slots: +0x64 IsInRoom(), +0x6c GetMemberId()
+// (LocalMemberId), +0x74 GetServerMemberId() (ServerMemberId), +0x84 GetMemberMask(int) (MemberBit),
+// +0x88 CMatching::GetMemberIdList() (ConnectedMemberIds), +0xa4 GetRoomAttributes(). CMatchingGLLive
+// overrides them under the names below. Slot +0x28 is Initialize(int), +0x2c Terminate(), +0x30 Update().
 //
 // Not identified:
 //   - Vptr of the NetStructArray header at +0x18.
@@ -87,8 +98,8 @@ public:
     virtual int LocalMemberId() const = 0;                   // +0x6c
     virtual int ServerMemberId() const = 0;                  // +0x74
     virtual std::uint32_t MemberBit(int memberId) const = 0; // +0x84
-    virtual bool UnknownGate() const = 0;                    // +0x64 (name not identified)
-    virtual std::vector<int> ConnectedMemberIds() const = 0; // +0x88 (name not identified)
+    virtual bool UnknownGate() const = 0;                    // +0x64 (IsInRoom() in the derived classes)
+    virtual std::vector<int> ConnectedMemberIds() const = 0; // +0x88 (CMatching::GetMemberIdList() in the vtables)
     virtual CRoomAttributes* GetRoomAttributes() = 0;        // +0xa4
 
     // Non-virtual in the original. The port keeps it virtual so tests can override.
@@ -150,13 +161,18 @@ public:
     // 0x801120 CMatching::ProcessEvents(). Partial, see src/e2-net-session-online-pack0-9acceb-0.cpp.
     // The original returns the last callee's pointer; the port returns void.
     void ProcessEvents();
-    // 0x8018fc CMatching::Update(). Partial: the initialized branch is not ported. Declared non-virtual
-    // here; CMatchingLocal::Update hides it. The original's dispatch is not verified.
-    int Update();
+    // 0x8018fc CMatching::Update() (vtable +0x30, the vtables of CMatchingLocal and CMatchingGLLive replace
+    // it). Partial: the initialized branch is not ported.
+    virtual int Update();
+    // 0x7ff85c CMatching::Initialize(int) (vtable +0x28). Partial, see src/tb_session-online-CMatching-0.cpp.
+    virtual int Initialize(int memberCapacity);
 
 protected:
+    std::int32_t memberCapacity_ = 0;            // +0x08 (Initialize(int) argument)
     bool initialized_ = false;                   // +0x0c (IsServer requires it; same field as CMatchingLocal::initialized_)
+    bool roomHidden_ = false;                    // +0x0d (IsRoomHidden of CMatchingGLLive; CMatchingLocal saves the hidden state here)
     bool baseRoomClosed_ = false;                // +0x0e (set by LockRoom)
+    std::uint8_t unk_0f = 0;                     // +0x0f (cleared by the constructor; CMatchingGLLive sets 3)
     bool roomMaskDirty_ = false;                 // +0x10
     int memberCount_ = 0;                        // +0x1c
     MemberInfo members_[kMaxMembers];            // +0x20, stride 432

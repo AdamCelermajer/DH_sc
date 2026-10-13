@@ -14,20 +14,16 @@ static int failures = 0;
 // ReadPacketData, which this test does not call.
 void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
-// Test-only stub of the CNetPlayerInfo constructor. The real one (src/e2-net-transport-pack0-e3f33b-0.cpp)
-// pulls in the whole NetStruct graph, which this test does not link.
-CNetPlayerInfo::CNetPlayerInfo() {}
-
 static int destroyed = 0;
 static CNetPlayerInfo* MakePlayer() { return new CNetPlayerInfo(); }
 static void DestroyPlayer(CNetPlayerInfo* p) { ++destroyed; delete p; }
 
 static CNetPlayerInfo* MakeActive(int member_id) {
     CNetPlayerInfo* p = new CNetPlayerInfo();
-    p->member_id_ = member_id;
-    p->conn_index_ = 0;
-    p->unk_1c8 = 0;
-    p->state_ = 3;
+    p->member_id_.SetValue(member_id);
+    p->conn_index_.SetValue(0);
+    p->unk_1c8.SetValue(0);
+    p->state_.SetValue(3);
     return p;
 }
 
@@ -42,8 +38,8 @@ int main() {
     m.players_.push_back(MakeActive(7));
     m.players_.push_back(MakeActive(9));
     CNetPlayerInfo* idle = new CNetPlayerInfo();
-    idle->member_id_ = 11;
-    idle->state_ = 0;
+    idle->member_id_.SetValue(11);
+    idle->state_.SetValue(0);
     m.players_.push_back(idle);
     m.id_list_dirty_ = true;
     CHECK(m.GetPlayerCount() == 2);
@@ -51,7 +47,7 @@ int main() {
     CHECK(m.GetPlayerIdList()[1] == 9);
 
     // Cached: a second call does not rebuild (dirty flag cleared by the first).
-    m.players_[0]->member_id_ = 99;
+    m.players_[0]->member_id_.SetValue(99);
     CHECK(m.GetPlayerCount() == 2);
     CHECK(m.GetPlayerIdList()[0] == 7);
 
@@ -70,7 +66,8 @@ int main() {
     // set as InitPlayers would set it.
     m.player_slot_count_ = 3;
     CHECK(m.SetPlayerGamepadId(0, 5) == 1);
-    CHECK(m.players_[0]->unk_1c8 == 5);
+    CHECK(m.players_[0]->unk_1c8.GetValue() == 5);
+    CHECK(m.players_[0]->unk_1c8.IsChanged());   // SetPlayerGamepadId stores through the block's SetValue
     CHECK(m.SetPlayerGamepadId(-1, 5) == 0);
     CHECK(m.SetPlayerGamepadId(10, 5) == 0);
 

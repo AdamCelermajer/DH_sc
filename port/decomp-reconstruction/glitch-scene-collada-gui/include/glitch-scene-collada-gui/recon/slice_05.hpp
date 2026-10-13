@@ -86,17 +86,15 @@ void billboardConstruct(CBillboardSceneNode& node, video::IVideoDriver* driver, 
 // 0x581bc4 _ZNK6glitch5scene19CBillboardSceneNode5cloneEv
 CBillboardSceneNode* billboardClone(const CBillboardSceneNode& node);
 
-// CCameraSceneNode
-// 0x581f68 _ZN6glitch5scene16CCameraSceneNode7onEventERKNS_6SEventE
-bool cameraOnEvent(CCameraSceneNode& node, const glitch::SEvent& event);
+// CCameraSceneNode. onEvent (0x581f68) is now the member CCameraSceneNode::onEvent, and the SViewFrustum
+// constructor (0x582bd8) is the real SViewFrustum::SViewFrustum(); both stubs were removed from this slice.
 // 0x582290 _ZN6glitch5scene16CCameraSceneNode6removeEv
+// Still a stub: the real ISceneNode::remove (0x59706c) and CSceneManager::setActiveCamera (0x5890c0) are not
+// reconstructed as members.
 bool cameraRemove(CCameraSceneNode& node);
 // 0x582aa0 _ZN6glitch5scene16CCameraSceneNode21onChangedSceneManagerEv
+// Still a stub: the aspect ratio comes from the video driver's render-target size, which is not mapped.
 bool cameraOnChangedSceneManager(CCameraSceneNode& node);
-
-// SViewFrustum
-// 0x582bd8 _ZN6glitch5scene12SViewFrustumC2Ev
-void viewFrustumConstruct(void* frustum);
 
 // CEmptySceneNode
 // 0x5839d8 0x583b34 CEmptySceneNode constructor variants

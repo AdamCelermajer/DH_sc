@@ -90,9 +90,7 @@ NetStructByteArray<256u>::NetStructByteArray(const ByteArray& initial) {
     value_.data = nullptr;                        // +0x20
     value_.size = 0;                              // +0x24
     NetStructMemberType<ByteArray>::SetValue(p);  // 0x36f264 deep copy
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // 0x818290 _ZN18NetStructByteArrayILj256EE9SetBufferEPKvi
@@ -105,9 +103,7 @@ void NetStructByteArray<256u>::SetBuffer(const void* src, std::size_t size) {
     p.size = 0;        // p[1]
     p.SetBuffer(src, size);
     SetValue(p);       // vtable +0x1c (virtual)
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // 0x8182e0 _ZN18NetStructByteArrayILj256EE4ReadER12NetBitStream
@@ -125,9 +121,7 @@ void NetStructByteArray<256u>::Read(NetBitStream& stream) {
     p.size = 0;        // p[1]
     p.SetBuffer(bytes.data(), count);
     SetValue(p);       // vtable +0x1c (virtual)
-    if (p.data) {
-        CustomFree(p.data);
-    }
+    p.Free();  // if (p.data) CustomFree(p.data): the original's explicit release of the temporary
 }
 
 // 0x818398 _ZN18NetStructByteArrayILj256EED1Ev

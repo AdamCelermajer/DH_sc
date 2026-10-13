@@ -120,7 +120,7 @@ public:
     virtual void finalize();
     virtual void read(IStreamBase* stream);
     std::uint32_t m_w1 = 0;     // +0x4  element count
-    std::uint8_t* m_w2 = nullptr;  // +0x8  members (element block; header at members - 8 / - 4)
+    void* m_w2 = nullptr;       // +0x8  members (LangSheet elements, listing stride 20; header at members - 8 / - 4)
 };
 void DeletingDestructor(LangSheetList* self);
 
@@ -285,23 +285,22 @@ void DeletingDestructor(v2QuestDestroyGameObject* self);
 
 // ---- v2Event and v2Quest (no base in this slice) ----
 
-// The element class of v2Event's table (44-byte stride, vtable off_96A030) is not in any header.
-// The table is walked with the listing stride; its elements are not created by read (see ledger).
+// The element class of v2Event's table is v2QuestObjectiveStub (listing stride 44, vtable off_96A030).
 class v2Event {
 public:
     virtual ~v2Event();
     virtual void finalize();
-    virtual void read(IStreamBase* stream);  // partial: element creation missing
+    virtual void read(IStreamBase* stream);  // partial: readStringEx 5th argument, see ledger
     std::int32_t m_w1 = 0;    // +0x4
     std::uint32_t m_w2 = 0;   // +0x8  length of m_w3
     char* m_w3 = nullptr;     // +0xc
     std::uint32_t m_w4 = 0;   // +0x10 element count
-    std::uint8_t* m_w5 = nullptr;  // +0x14 members (element block)
+    void* m_w5 = nullptr;     // +0x14 members (v2QuestObjectiveStub elements, listing stride 44)
 };
 void DeletingDestructor(v2Event* self);
 
-// Only finalize is in this slice (no destructor or read). Five element tables, with listing strides
-// 16, 44, 16, 16, 16; the element classes are not in any header.
+// Five element tables at +0x18, +0x20, +0x28, +0x30, +0x38 with listing strides 16, 44, 16, 16, 16: v2ConditionStub,
+// v2QuestObjectiveStub, then v2QuestRewardStub three times (Hex-Rays vtables of 0x504a94).
 class v2Quest {
 public:
     virtual ~v2Quest();
@@ -312,15 +311,15 @@ public:
     std::int32_t m_w3 = 0;      // +0xc
     std::int32_t m_w4 = 0;      // +0x10
     std::uint32_t m_w5 = 0;     // +0x14 size of table 1
-    std::uint8_t* m_w6 = nullptr;  // +0x18 members of table 1 (stride 16)
+    void* m_w6 = nullptr;  // 0x18 v2ConditionStub elements (listing stride 16)
     std::uint32_t m_w7 = 0;     // +0x1c size of table 2
-    std::uint8_t* m_w8 = nullptr;  // +0x20 members of table 2 (stride 44)
+    void* m_w8 = nullptr;  // 0x20 v2QuestObjectiveStub elements (listing stride 44)
     std::uint32_t m_w9 = 0;     // +0x24 size of table 3
-    std::uint8_t* m_w10 = nullptr; // +0x28 members of table 3 (stride 16)
+    void* m_w10 = nullptr;  // 0x28 v2QuestRewardStub elements (listing stride 16)
     std::uint32_t m_w11 = 0;    // +0x2c size of table 4
-    std::uint8_t* m_w12 = nullptr; // +0x30 members of table 4 (stride 16)
+    void* m_w12 = nullptr;  // 0x30 v2QuestRewardStub elements (listing stride 16)
     std::uint32_t m_w13 = 0;    // +0x34 size of table 5
-    std::uint8_t* m_w14 = nullptr; // +0x38 members of table 5 (stride 16)
+    void* m_w14 = nullptr;  // 0x38 v2QuestRewardStub elements (listing stride 16)
 
     v2QuestObjectiveStub m_sub60;  // +0x3c, subobject destroyed after the body (listing call)
     v2QuestObjectiveStub m_sub104;  // +0x68, subobject destroyed after the body (listing call)

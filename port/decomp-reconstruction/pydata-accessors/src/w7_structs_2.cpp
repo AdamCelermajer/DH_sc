@@ -3,83 +3,25 @@
 // address and mangled symbol. Declarations are in include/pydata-accessors/w7_structs_2.hpp.
 //
 // Element arrays: a pointer field points at element data. The 8 bytes before it hold the stride and the
-// count (the listing's new[](stride * count + 8) block). An element is a pydata::ArrayElement: its vptr
-// is the first word, slot 0 is the destructor, slot 2 finalize, slot 3 read. The stride is the listing's,
-// widened to sizeof(element) when the host object is larger (host pointers are 8 bytes).
+// count (the listing's new[](stride * count + 8) block). Every element table is built, read and destroyed through
+// pydata::NewElementTable / ReadElementTable / DeleteElementTable (element_table.hpp): the elements are host objects
+// constructed in place, reached through a typed pointer, and the original 32-bit stride (Structs::ListingStride,
+// struct_strides.hpp) is only written to the stride word. A host record is never addressed with the 32-bit stride.
 //
-// Omitted bodies (see the ledger notes): ItemBase::read (0x4ec47c) is not in the port, so the read bodies
-// of the ItemBase-derived records skip its call. The read of v2CondAnd (0x505970) and the thunk of
-// v2QuestAutomatic::read (0x504a90) need v2QuestObjectiveStub::read or the element's read slot, which the
-// port does not declare. PlayEffect and ExecScript are declared in script_cmd.hpp without these methods.
+// Omitted bodies (see the ledger notes): the thunk of v2QuestAutomatic::read (0x504a90) needs
+// v2QuestObjectiveStub::read, which this slice does not declare. PlayEffect and ExecScript are declared in
+// script_cmd.hpp without these methods.
 #include "pydata-accessors/w7_structs_2.hpp"
 
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
+
 namespace Structs {
 namespace {
-
-pydata::ArrayElement* ElementAt(std::uint8_t* p) {
-    return reinterpret_cast<pydata::ArrayElement*>(p);
-}
-
-// Allocates count elements of the given stride (the listing's new[](stride * count + 8, 1)). The block is
-// zeroed, the header words are written, and the returned pointer is block + 8.
-std::uint8_t* AllocElements(std::size_t stride, std::uint32_t count) {
-    const std::size_t total = stride * count + 8;
-    auto* block = static_cast<std::uint8_t*>(MemoryHintState(total, 1));
-    std::memset(block, 0, total);
-    const std::uint32_t header_stride = static_cast<std::uint32_t>(stride);
-    std::memcpy(block, &header_stride, sizeof header_stride);
-    std::memcpy(block + 4, &count, sizeof count);
-    return block + 8;
-}
-
-// The listing's loop: from the last element back to the first, each element's slot 0 (D1), then the
-// header block (data - 8) is freed. Does nothing for a null pointer.
-void DestroyElements(void* data) {
-    if (data == nullptr) return;
-    auto* first = static_cast<std::uint8_t*>(data);
-    std::uint32_t stride = 0;
-    std::uint32_t count = 0;
-    std::memcpy(&stride, first - 8, sizeof stride);
-    std::memcpy(&count, first - 4, sizeof count);
-    for (std::uint32_t i = count; i > 0; --i) {
-        ElementAt(first + static_cast<std::size_t>(stride) * (i - 1))->~ArrayElement();
-    }
-    CustomFree(first - 8);
-}
-
-// The vptr of Elem: the first word of a polymorphic object (Itanium ABI).
-template <class Elem>
-const void* VtableOf() {
-    Elem tmp;
-    const void* vptr = nullptr;
-    std::memcpy(&vptr, &tmp, sizeof vptr);
-    return vptr;
-}
-
-template <class Elem>
-std::size_t ElementStride(std::size_t listing) {
-    return sizeof(Elem) > listing ? sizeof(Elem) : listing;
-}
-
-// Allocates count elements of Elem, sets each element's vptr, then calls each element's read slot (+0xc)
-// in order, as the listing's read bodies do.
-template <class Elem>
-void* ReadElementArray(IStreamBase* stream, std::uint32_t count, std::size_t listing_stride) {
-    const std::size_t stride = ElementStride<Elem>(listing_stride);
-    std::uint8_t* data = AllocElements(stride, count);
-    const void* vptr = VtableOf<Elem>();
-    for (std::uint32_t i = 0; i < count; ++i) {
-        std::memcpy(data + stride * i, &vptr, sizeof vptr);
-    }
-    for (std::uint32_t i = 0; i < count; ++i) {
-        ElementAt(data + stride * i)->read(stream);
-    }
-    return data;
-}
 
 // new[](4 * count, 1) of int32 words, each read with readAs<int> in order.
 void* ReadInt32Array(IStreamBase* stream, std::uint32_t count) {
@@ -202,16 +144,27 @@ void DeletingDestructor(v2QuestAutomatic* self) {
 // 0x4d09b4 _ZN7Structs9v2CondAnd8finalizeEv
 void v2CondAnd::finalize() {
     if (m_w2 != nullptr) {  // +0x8
-        DestroyElements(m_w2);
+        pydata::DeleteElementTable<v2ConditionStub>(m_w2);
         m_w1 = 0;  // +0x4
         m_w2 = nullptr;
     }
 }
 
+// 0x505970 _ZN7Structs9v2CondAnd4readEP11IStreamBase
+// Count word (+0x4), then the old v2ConditionStub table (+0x8) is destroyed, a new one of count elements is built
+// (listing stride 16, vtable off_96A318 = v2ConditionStub) and every element reads itself; the word at +0xc comes
+// last. The original returns that last readAs result; read is void here.
+void v2CondAnd::read(IStreamBase* stream) {
+    m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
+    pydata::DeleteElementTable<v2ConditionStub>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<v2ConditionStub>(ListingStride::v2ConditionStub, m_w1, stream);
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+}
+
 // 0x4d0ab0 _ZN7Structs9v2CondAndD2Ev
 // 0x4d0a18 _ZN7Structs9v2CondAndD1Ev
 v2CondAnd::~v2CondAnd() {
-    DestroyElements(m_w2);  // +0x8, v2ConditionStub elements, stride 16
+    pydata::DeleteElementTable<v2ConditionStub>(m_w2);  // +0x8, v2ConditionStub elements, listing stride 16
 }
 
 // 0x4d0a94 _ZN7Structs9v2CondAndD0Ev
@@ -225,7 +178,7 @@ void DeletingDestructor(v2CondAnd* self) {
 // 0x4d0b2c _ZN7Structs10SpawnGroup8finalizeEv
 void SpawnGroup::finalize() {
     if (m_w4 != nullptr) {  // +0x10
-        DestroyElements(m_w4);
+        pydata::DeleteElementTable<SpawnInfo>(m_w4);
         m_w3 = 0;  // +0xc
         m_w4 = nullptr;
     }
@@ -236,14 +189,14 @@ void SpawnGroup::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<bool>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) DestroyElements(m_w4);  // +0x10
-    m_w4 = ReadElementArray<SpawnInfo>(stream, m_w3, 16);
+    pydata::DeleteElementTable<SpawnInfo>(m_w4);  // +0x10
+    m_w4 = pydata::NewAndReadElementTable<SpawnInfo>(ListingStride::SpawnInfo, m_w3, stream);
 }
 
 // 0x4d0c28 _ZN7Structs10SpawnGroupD2Ev
 // 0x4d0b90 _ZN7Structs10SpawnGroupD1Ev
 SpawnGroup::~SpawnGroup() {
-    DestroyElements(m_w4);  // +0x10, SpawnInfo elements, stride 16
+    pydata::DeleteElementTable<SpawnInfo>(m_w4);  // +0x10, SpawnInfo elements, listing stride 16
 }
 
 // 0x4d0c0c _ZN7Structs10SpawnGroupD0Ev
@@ -509,7 +462,7 @@ void DeletingDestructor(ItemTypeListList* self) {
 // 0x4d3c40 _ZN7Structs8Merchant8finalizeEv
 void Merchant::finalize() {
     if (m_w4 != nullptr) {  // +0x10
-        DestroyElements(m_w4);
+        pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);
         m_w3 = 0;  // +0xc
         m_w4 = nullptr;
     }
@@ -520,14 +473,14 @@ void Merchant::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc
-    if (m_w4 != nullptr) DestroyElements(m_w4);  // +0x10
-    m_w4 = ReadElementArray<MerchandiseListEntry>(stream, m_w3, 12);
+    pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);  // +0x10
+    m_w4 = pydata::NewAndReadElementTable<MerchandiseListEntry>(ListingStride::MerchandiseListEntry, m_w3, stream);
 }
 
 // 0x4d3d44 _ZN7Structs8MerchantD2Ev
 // 0x4d3ca8 _ZN7Structs8MerchantD1Ev
 Merchant::~Merchant() {
-    DestroyElements(m_w4);  // +0x10, MerchandiseListEntry elements, stride 12
+    pydata::DeleteElementTable<MerchandiseListEntry>(m_w4);  // +0x10, MerchandiseListEntry elements, listing stride 12
 }
 
 // 0x4d3d28 _ZN7Structs8MerchantD0Ev
@@ -541,7 +494,7 @@ void DeletingDestructor(Merchant* self) {
 // 0x4d3dc4 _ZN7Structs14TileOffsetList8finalizeEv
 void TileOffsetList::finalize() {
     if (m_w2 != nullptr) {  // +0x8
-        DestroyElements(m_w2);
+        pydata::DeleteElementTable<TileOffset>(m_w2);
         m_w1 = 0;  // +0x4
         m_w2 = nullptr;
     }
@@ -550,14 +503,14 @@ void TileOffsetList::finalize() {
 // 0x4dc4e0 _ZN7Structs14TileOffsetList4readEP11IStreamBase
 void TileOffsetList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) DestroyElements(m_w2);  // +0x8
-    m_w2 = ReadElementArray<TileOffset>(stream, m_w1, 8);
+    pydata::DeleteElementTable<TileOffset>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<TileOffset>(ListingStride::TileOffset, m_w1, stream);
 }
 
 // 0x4d3ec0 _ZN7Structs14TileOffsetListD2Ev
 // 0x4d3e28 _ZN7Structs14TileOffsetListD1Ev
 TileOffsetList::~TileOffsetList() {
-    DestroyElements(m_w2);  // +0x8, TileOffset elements, stride 8
+    pydata::DeleteElementTable<TileOffset>(m_w2);  // +0x8, TileOffset elements, listing stride 8
 }
 
 // 0x4d3ea4 _ZN7Structs14TileOffsetListD0Ev
@@ -571,7 +524,7 @@ void DeletingDestructor(TileOffsetList* self) {
 // 0x4d3f3c _ZN7Structs11NumProbList8finalizeEv
 void NumProbList::finalize() {
     if (m_w2 != nullptr) {  // +0x8
-        DestroyElements(m_w2);
+        pydata::DeleteElementTable<NumProb>(m_w2);
         m_w1 = 0;  // +0x4
         m_w2 = nullptr;
     }
@@ -580,14 +533,14 @@ void NumProbList::finalize() {
 // 0x4dc638 _ZN7Structs11NumProbList4readEP11IStreamBase
 void NumProbList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) DestroyElements(m_w2);  // +0x8
-    m_w2 = ReadElementArray<NumProb>(stream, m_w1, 8);
+    pydata::DeleteElementTable<NumProb>(m_w2);  // +0x8
+    m_w2 = pydata::NewAndReadElementTable<NumProb>(ListingStride::NumProb, m_w1, stream);
 }
 
 // 0x4d4038 _ZN7Structs11NumProbListD2Ev
 // 0x4d3fa0 _ZN7Structs11NumProbListD1Ev
 NumProbList::~NumProbList() {
-    DestroyElements(m_w2);  // +0x8, NumProb elements, stride 8
+    pydata::DeleteElementTable<NumProb>(m_w2);  // +0x8, NumProb elements, listing stride 8
 }
 
 // 0x4d401c _ZN7Structs11NumProbListD0Ev
@@ -601,7 +554,7 @@ void DeletingDestructor(NumProbList* self) {
 // 0x4d40b4 _ZN7Structs17ItemListEntryList8finalizeEv
 void ItemListEntryList::finalize() {
     if (m_w2 != nullptr) {  // +0x8
-        DestroyElements(m_w2);
+        pydata::DeleteElementTable<ItemListEntry>(m_w2);
         m_w1 = 0;  // +0x4
         m_w2 = nullptr;
     }
@@ -610,7 +563,7 @@ void ItemListEntryList::finalize() {
 // 0x4d41b8 _ZN7Structs17ItemListEntryListD2Ev
 // 0x4d411c _ZN7Structs17ItemListEntryListD1Ev
 ItemListEntryList::~ItemListEntryList() {
-    DestroyElements(m_w2);  // +0x8, ItemListEntry elements, stride 12
+    pydata::DeleteElementTable<ItemListEntry>(m_w2);  // +0x8, ItemListEntry elements, listing stride 12
 }
 
 // 0x4d419c _ZN7Structs17ItemListEntryListD0Ev
@@ -624,12 +577,12 @@ void DeletingDestructor(ItemListEntryList* self) {
 // 0x4d4238 _ZN7Structs4Loot8finalizeEv
 void Loot::finalize() {
     if (m_w4 != nullptr) {  // +0x10
-        DestroyElements(m_w4);
+        pydata::DeleteElementTable<LootEntry>(m_w4);
         m_w3 = 0;  // +0xc
         m_w4 = nullptr;
     }
     if (m_w6 != nullptr) {  // +0x18
-        DestroyElements(m_w6);
+        pydata::DeleteElementTable<LootEntry>(m_w6);
         m_w5 = 0;  // +0x14
         m_w6 = nullptr;
     }
@@ -643,8 +596,8 @@ void Loot::finalize() {
 // 0x4d4414 _ZN7Structs4LootD2Ev
 // 0x4d4318 _ZN7Structs4LootD1Ev
 Loot::~Loot() {
-    DestroyElements(m_w4);  // +0x10, stride 36
-    DestroyElements(m_w6);  // +0x18, stride 36
+    pydata::DeleteElementTable<LootEntry>(m_w4);  // +0x10, LootEntry elements, listing stride 36
+    pydata::DeleteElementTable<LootEntry>(m_w6);  // +0x18, LootEntry elements, listing stride 36
     if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
 }
 

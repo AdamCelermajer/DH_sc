@@ -1,29 +1,22 @@
 #pragma once
 
-// Arrays::X::read(IStreamBase*) for slice arrays_27 (27 tables, see NOTES.md "Arrays element ABI").
-// Layout: one byte block per table, stride sizeof(element) (host; listing stride in the .cpp comments), count word
-// at members - 4, block base at members - 8. Elements are pydata::ArrayElement records; the read slot is vtable +0xc.
+// Arrays::X::read(IStreamBase*) for slice arrays_27 and the other tables whose storage is declared elsewhere
+// (see NOTES.md, "Element tables"). Layout: one byte block per table, count word at members - 4, the original
+// 32-bit stride word at members - 8 (block base). The elements are host Structs::X records at host stride,
+// constructed in place and reached through a typed pointer (element_table.hpp); the listing stride of each table
+// is Arrays::ListingStride::X (array_strides.hpp). The read slot of an element is vtable +0xc.
 //
-// Two shapes, following the existing headers:
-//  - 21 tables (not declared in w7_arrays_00.hpp): struct Arrays::X with the static storage `members` and
-//    `size` (defined in w7_arrays27.cpp) and a static read. The finalize step calls the free function that
-//    w7_arrays_01.hpp declares for the same table (FinalizeX).
-//  - 6 tables declared in w7_arrays_00.hpp (ProjectileTable, MerchantTable, ItemTypeList, ItemAudioVisualTable,
-//    LevelList, FastTravelList): that header has no read slot and is not edited here, so the read is a free
-//    function ReadX(IStreamBase*) in namespace Arrays. Its member wiring is pending.
+// This header declares the 28 tables that no other header declares (struct Arrays::X with the static storage
+// `members` and `size`, defined in w7_arrays27.cpp, and a static read). The finalize step of these tables calls
+// the free function that w7_arrays_01.hpp declares for the same table (FinalizeX).
+// The reads of the 11 tables that w7_arrays_00.hpp declares (ProjectileTable, MerchantTable, ItemTypeList,
+// ItemAudioVisualTable, LevelList, FastTravelList, LootTable, ItemList, DropTilePriorityTable, ModelDict,
+// v2Quests) are static members declared there and defined in w7_arrays27.cpp as well.
 #include <cstdint>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
 
 namespace Arrays {
-
-// Free functions for the tables declared in w7_arrays_00.hpp (see the header note above).
-void ReadProjectileTable(IStreamBase* stream);
-void ReadMerchantTable(IStreamBase* stream);
-void ReadItemTypeList(IStreamBase* stream);
-void ReadItemAudioVisualTable(IStreamBase* stream);
-void ReadLevelList(IStreamBase* stream);
-void ReadFastTravelList(IStreamBase* stream);
 
 struct ItemPowerTable {
     static std::uint8_t* members;
@@ -126,6 +119,41 @@ struct DialogActors {
     static void read(IStreamBase* stream);
 };
 struct GameOptionTable {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct ItemPowerList {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct FaeryTable {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct FaeryListTable {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct Charater_Templates {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct CharacterTable {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct ClassTable {
+    static std::uint8_t* members;
+    static std::uint32_t size;
+    static void read(IStreamBase* stream);
+};
+struct ItemTable {
     static std::uint8_t* members;
     static std::uint32_t size;
     static void read(IStreamBase* stream);

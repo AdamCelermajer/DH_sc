@@ -1,8 +1,13 @@
-// glitch::scene::SViewFrustum, declared for Track B batch e1-glitch-scene-collada-gui-glitch_scene_SViewFrustum-0.
-// No other header in this category declares the class under this name (recon/slice_00.hpp has a stand-in
-// named ViewFrustum in glitch::collada::recon_00 with the planes and box only). Offsets are the original
-// 32-bit layout, kept as comments and checked with static_assert. Only the members the reconstructed
-// functions touch are named; the rest of the object (its size is not confirmed) is not declared.
+// glitch::scene::SViewFrustum, declared for Track B batch e1-glitch-scene-collada-gui-glitch_scene_SViewFrustum-0
+// and completed for the camera (CCameraSceneNode holds one at +0x168). The 32-bit offsets of the original
+// layout are kept as comments and checked with offsetof (every member is a 4-byte float, so the offsets are the
+// same on a 64-bit build). The object is 0x21c bytes in the original (CCameraSceneNode spans +0x168..+0x384);
+// the size is not asserted, because TRACK-B.md forbids static_assert on 32-bit sizes.
+//
+// CCameraSceneNode::recalculateViewArea (0x582904) writes the camera's absolute position into the first three words and
+// builds the planes from the +0x150 matrix, which fixes their meaning (cameraPosition, viewProjectionMatrix).
+// The transform matrices follow the glitch E_TRANSFORMATION_STATE numbering used by setTransformState and by
+// CCameraSceneNode::render: 0 is the view, 1 the world, 2 the projection.
 #pragma once
 
 #include <cstddef>
@@ -27,52 +32,74 @@ namespace glitch::scene {
 
 class SViewFrustum {
 public:
+    // 0x582bd8 _ZN6glitch5scene12SViewFrustumC2Ev
+    // Zeroes the camera position, gives every plane the normal (0, 1, 0) and D = -0.0f, sets the box to
+    // (-1, -1, -1)..(1, 1, 1) and makes the six matrices identities with their identity flag set.
+    SViewFrustum();
+
     // 0x5826c0 _ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE
     // Builds the six planes from the columns of a column-major matrix, normalises them, then
     // recalculates the bounding box. Returns the result of recalculateBoundingBox().
     bool setFrom(const glitch::core::CMatrix4<float>& matrix);
 
     // 0x5823d4 _ZN6glitch5scene12SViewFrustum22recalculateBoundingBoxEv
-    // Seeds the box from header, then grows it with the four far-plane corners. Returns whether
+    // Seeds the box from cameraPosition, then grows it with the four far-plane corners. Returns whether
     // the last corner lowered the box minimum in z.
     bool recalculateBoundingBox();
 
+    // 0x35bec8 _ZNK6glitch5scene12SViewFrustum10intersectsERKNS_4core8aabbox3dIfEE
+    // True when the box overlaps the frustum's own box (+0x6c) and no plane rejects it. Planes 0 to 5, in order.
+    bool intersects(const glitch::core::aabbox3d<float>& box) const;
+
+    // 0x58aa8c _ZNK6glitch5scene12SViewFrustum11intersects3ERKNS_4core8aabbox3dIfEE
+    // The same overlap test with the frustum's box, then intersectsWithoutBoxTest3.
+    bool intersects3(const glitch::core::aabbox3d<float>& box) const;
+
+    // 0x50cacc _ZNK6glitch5scene12SViewFrustum25intersectsWithoutBoxTest3ERKNS_4core8aabbox3dIfEE
+    // Rejects the box with planes 2, 3 and 0 only, in that order (no overlap test with the frustum's box).
+    bool intersectsWithoutBoxTest3(const glitch::core::aabbox3d<float>& box) const;
+
     // 0x582348 _ZN6glitch5scene12SViewFrustum17setTransformStateENS_5video22E_TRANSFORMATION_STATEE
-    // state 0: matrix150 = matrix10c * matrix84; matrix194 = matrix84 (copy); matrix194 inverted.
-    // state 1: matrix1d8 = matrix150 * matrix0c8. Any other state does nothing.
+    // state 0 (view): viewProjectionMatrix = projectionMatrix * viewMatrix; inverseViewMatrix = viewMatrix (copy),
+    // then inverted.
+    // state 1 (world): worldViewProjectionMatrix = viewProjectionMatrix * worldMatrix.
+    // Any other state (the camera passes 2, the projection) does nothing.
     void setTransformState(glitch::video::E_TRANSFORMATION_STATE state);
 
-    // +0x00..+0x0b: three words copied into box min and max by recalculateBoundingBox. The original
-    // copies raw 32-bit words; the type is not confirmed, float is used here.
-    float header[3];
+    // +0x00..+0x0b: the apex of the frustum, the camera's absolute position (CCameraSceneNode::recalculateViewArea
+    // stores getAbsolutePosition() here). recalculateBoundingBox seeds the box from it.
+    glitch::core::vector3d<float> cameraPosition;
     // +0x0c: six planes, four floats each (normal x, y, z and D). Plane 0 is row3 - row2 and plane 5
     // is row3 - row1 (see setFrom).
     glitch::core::plane3d<float> planes[6];
-    // +0x6c: frustum bounding box; MinEdge at +0x6c, MaxEdge at +0x78.
+    // +0x6c: frustum bounding box; MinEdge at +0x6c, MaxEdge at +0x78. CCameraSceneNode::getBoundingBox returns it.
     glitch::core::aabbox3d<float> box;
     // Matrices are CMatrix4<float>: 16 values at +0x00 and the identity flag at +0x40, a 0x44 stride.
-    // +0x84: source of setTransformState (the 0x41-byte copy covers its 16 values and flag).
-    glitch::core::CMatrix4<float> matrix84;
-    // +0xc8: operand of setTransformState state 1. Written by no function in this batch.
-    glitch::core::CMatrix4<float> matrix0c8;
-    // +0x10c: operand of setTransformState state 0. Written by no function in this batch.
-    glitch::core::CMatrix4<float> matrix10c;
-    // +0x150: state 0 product matrix10c * matrix84; operand of state 1.
-    glitch::core::CMatrix4<float> matrix150;
-    // +0x194: state 0 copy of matrix84, then its inverse.
-    glitch::core::CMatrix4<float> matrix194;
-    // +0x1d8: state 1 product matrix150 * matrix0c8.
-    glitch::core::CMatrix4<float> matrix1d8;
+    // +0x84: transform state 0. The camera's view matrix (CCameraSceneNode::getViewMatrix); recalculateMatrices
+    // stores the look-at matrix here.
+    glitch::core::CMatrix4<float> viewMatrix;
+    // +0xc8: transform state 1, operand of setTransformState state 1. Written by no camera function.
+    glitch::core::CMatrix4<float> worldMatrix;
+    // +0x10c: transform state 2. The camera's projection matrix (CCameraSceneNode::getProjectionMatrix);
+    // recalculateProjectionMatrix and setProjectionMatrix store it here.
+    glitch::core::CMatrix4<float> projectionMatrix;
+    // +0x150: setTransformState state 0 product projectionMatrix * viewMatrix; recalculateViewArea builds the
+    // planes from it; operand of state 1.
+    glitch::core::CMatrix4<float> viewProjectionMatrix;
+    // +0x194: setTransformState state 0 copy of viewMatrix, then its inverse.
+    glitch::core::CMatrix4<float> inverseViewMatrix;
+    // +0x1d8: setTransformState state 1 product viewProjectionMatrix * worldMatrix.
+    glitch::core::CMatrix4<float> worldViewProjectionMatrix;
 };
 
-static_assert(offsetof(SViewFrustum, header) == 0x00);
+static_assert(offsetof(SViewFrustum, cameraPosition) == 0x00);
 static_assert(offsetof(SViewFrustum, planes) == 0x0c);
 static_assert(offsetof(SViewFrustum, box) == 0x6c);
-static_assert(offsetof(SViewFrustum, matrix84) == 0x84);
-static_assert(offsetof(SViewFrustum, matrix0c8) == 0xc8);
-static_assert(offsetof(SViewFrustum, matrix10c) == 0x10c);
-static_assert(offsetof(SViewFrustum, matrix150) == 0x150);
-static_assert(offsetof(SViewFrustum, matrix194) == 0x194);
-static_assert(offsetof(SViewFrustum, matrix1d8) == 0x1d8);
+static_assert(offsetof(SViewFrustum, viewMatrix) == 0x84);
+static_assert(offsetof(SViewFrustum, worldMatrix) == 0xc8);
+static_assert(offsetof(SViewFrustum, projectionMatrix) == 0x10c);
+static_assert(offsetof(SViewFrustum, viewProjectionMatrix) == 0x150);
+static_assert(offsetof(SViewFrustum, inverseViewMatrix) == 0x194);
+static_assert(offsetof(SViewFrustum, worldViewProjectionMatrix) == 0x1d8);
 
 }  // namespace glitch::scene

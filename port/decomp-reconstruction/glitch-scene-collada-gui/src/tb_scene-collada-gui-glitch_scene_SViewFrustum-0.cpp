@@ -24,6 +24,22 @@ void includeCorner(aabbox3d<float>& box, const vector3d<float>& p) {
     if (p.Z < box.MinEdge.Z) box.MinEdge.Z = p.Z;
 }
 
+// True when the box lies entirely on the positive side of the plane: the corner nearest the plane (x from MaxEdge
+// when the normal's x is negative, from MinEdge otherwise, and likewise for y and z) has a positive distance.
+bool planeRejectsBox(const plane3d<float>& plane, const aabbox3d<float>& box) {
+    const float x = plane.Normal.X < 0.0f ? box.MaxEdge.X : box.MinEdge.X;
+    const float y = plane.Normal.Y < 0.0f ? box.MaxEdge.Y : box.MinEdge.Y;
+    const float z = plane.Normal.Z < 0.0f ? box.MaxEdge.Z : box.MinEdge.Z;
+    return (((plane.Normal.X * x) + (plane.Normal.Y * y)) + (plane.Normal.Z * z)) + plane.D > 0.0f;
+}
+
+// The overlap test of intersects and intersects3: the frustum's box (+0x6c MinEdge, +0x78 MaxEdge) against the box.
+bool boxesOverlap(const aabbox3d<float>& frustumBox, const aabbox3d<float>& box) {
+    return frustumBox.MinEdge.X <= box.MaxEdge.X && frustumBox.MinEdge.Y <= box.MaxEdge.Y &&
+           frustumBox.MinEdge.Z <= box.MaxEdge.Z && frustumBox.MaxEdge.X >= box.MinEdge.X &&
+           frustumBox.MaxEdge.Y >= box.MinEdge.Y && frustumBox.MaxEdge.Z >= box.MinEdge.Z;
+}
+
 // Stores one plane as the four values the original writes into the frustum (normal x, y, z, then D).
 void storePlane(plane3d<float>& plane, float nx, float ny, float nz, float d) {
     plane.Normal.X = nx;
@@ -34,19 +50,72 @@ void storePlane(plane3d<float>& plane, float nx, float ny, float nz, float d) {
 
 }  // namespace
 
+// 0x582bd8 _ZN6glitch5scene12SViewFrustumC2Ev
+// The first three words are zeroed. Each of the six planes is written as the four words 0, 1.0f, 0, 0x80000000, i.e.
+// the normal (0, 1, 0) and D = -0.0f. The box words follow: (+0x6c..+0x77) = -1.0f and (+0x78..+0x83) = 1.0f. The
+// six matrices (+0x84, 0xc8, 0x10c, 0x150, 0x194, 0x1d8) are each cleared, given 1.0f on the diagonal and
+// the identity flag byte (+0x40) set to 1.
+SViewFrustum::SViewFrustum()
+    : cameraPosition{0.0f, 0.0f, 0.0f},
+      planes{},
+      box{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}},
+      viewMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      worldMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      projectionMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      viewProjectionMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      inverseViewMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY),
+      worldViewProjectionMatrix(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY) {
+    for (plane3d<float>& plane : planes) {
+        plane.Normal.X = 0.0f;
+        plane.Normal.Y = 1.0f;
+        plane.Normal.Z = 0.0f;
+        plane.D = -0.0f;  // the stored word is 0x80000000
+    }
+}
+
+// 0x35bec8 _ZNK6glitch5scene12SViewFrustum10intersectsERKNS_4core8aabbox3dIfEE
+bool SViewFrustum::intersects(const aabbox3d<float>& other) const {
+    if (!boxesOverlap(box, other)) {
+        return false;
+    }
+    for (const plane3d<float>& plane : planes) {
+        if (planeRejectsBox(plane, other)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// 0x50cacc _ZNK6glitch5scene12SViewFrustum25intersectsWithoutBoxTest3ERKNS_4core8aabbox3dIfEE
+// The planes are tested in the order 2, 3, 0 (float indices 11, 15 and 3 of the object).
+bool SViewFrustum::intersectsWithoutBoxTest3(const aabbox3d<float>& other) const {
+    if (planeRejectsBox(planes[2], other)) {
+        return false;
+    }
+    if (planeRejectsBox(planes[3], other)) {
+        return false;
+    }
+    return !planeRejectsBox(planes[0], other);
+}
+
+// 0x58aa8c _ZNK6glitch5scene12SViewFrustum11intersects3ERKNS_4core8aabbox3dIfEE
+bool SViewFrustum::intersects3(const aabbox3d<float>& other) const {
+    return boxesOverlap(box, other) && intersectsWithoutBoxTest3(other);
+}
+
 // 0x582348 _ZN6glitch5scene12SViewFrustum17setTransformStateENS_5video22E_TRANSFORMATION_STATEE
 // The Hex-Rays return value is the r0 left by the last callee (or this); the symbol gives no return
 // type, so the function is void here.
 void SViewFrustum::setTransformState(glitch::video::E_TRANSFORMATION_STATE state) {
     if (state == 0) {
         // +0x150 = (+0x10c) * (+0x84)
-        glitch::core::detail::setbyproduct_nocheck(matrix150, matrix10c, matrix84);
+        glitch::core::detail::setbyproduct_nocheck(viewProjectionMatrix, projectionMatrix, viewMatrix);
         // memcpy(+0x194, +0x84, 0x41): the 16 values and the identity flag at +0x40 of the matrix
-        matrix194 = matrix84;
-        matrix194.makeInverse();
+        inverseViewMatrix = viewMatrix;
+        inverseViewMatrix.makeInverse();
     } else if (state == 1) {
         // +0x1d8 = (+0x150) * (+0xc8)
-        glitch::core::detail::setbyproduct(matrix1d8, matrix150, matrix0c8);
+        glitch::core::detail::setbyproduct(worldViewProjectionMatrix, viewProjectionMatrix, worldMatrix);
     }
 }
 
@@ -55,13 +124,13 @@ void SViewFrustum::setTransformState(glitch::video::E_TRANSFORMATION_STATE state
 // as the Hex-Rays body does. The four corners are all where planes[0] (row3 - row2) meets two of
 // the side planes: (5, 2), (5, 3), (4, 2), (4, 3).
 bool SViewFrustum::recalculateBoundingBox() {
-    // Seed the box with the header point (+0x6c..+0x80).
-    box.MinEdge.X = header[0];
-    box.MinEdge.Y = header[1];
-    box.MinEdge.Z = header[2];
-    box.MaxEdge.X = header[0];
-    box.MaxEdge.Y = header[1];
-    box.MaxEdge.Z = header[2];
+    // Seed the box with the camera position (+0x00..+0x0b copied to +0x6c..+0x83).
+    box.MinEdge.X = cameraPosition.X;
+    box.MinEdge.Y = cameraPosition.Y;
+    box.MinEdge.Z = cameraPosition.Z;
+    box.MaxEdge.X = cameraPosition.X;
+    box.MaxEdge.Y = cameraPosition.Y;
+    box.MaxEdge.Z = cameraPosition.Z;
 
     vector3d<float> corner{};
     planes[0].getIntersectionWithPlanes(planes[5], planes[2], corner);

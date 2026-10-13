@@ -3,7 +3,9 @@
 //
 // The explicit specializations are declared in include/net-transport/net_struct.hpp, right after the
 // template. The member layout is value_ at +0x20 (the generic template). The bool instantiation
-// differs: the original keeps its value at +0x1d (see the PARTIAL notes below).
+// differs: the original keeps its value at +0x1d, so net_struct.hpp declares NetStructMemberType<bool>
+// as a full class specialization whose value_ follows the NetStructMember base (integrator decision 3);
+// its members below are ordinary member definitions, not `template <>` specializations.
 
 #include "net-transport/net_struct.hpp"
 
@@ -40,12 +42,11 @@ const std::string& NetStructMemberType<std::string>::GetValue() const {
 // skipped: empty compiler-generated destructor, same as 0x36d2e4.
 
 // 0x36d308 NetStructMemberType<bool>::GetValue() const
-// PARTIAL: the pseudocode returns a1 + 29, so the original value is at +0x1d. The port's template keeps
-// value_ at +0x20 for every instantiation, so this returns the reference to the port's value_. The
-// returned value is the same, but the layout does not match the binary.
-template <>
+// The pseudocode returns a1 + 29: the address of the byte at +0x1d. NetStructMemberType<bool> keeps
+// value_ right after the NetStructMember base (class specialization in net_struct.hpp), so this returns
+// a reference to it.
 const bool& NetStructMemberType<bool>::GetValue() const {
-    return value_;  // +0x1d in the original, +0x20 here
+    return value_;  // +0x1d
 }
 
 // 0x36d388 NetStructMemberType<ByteArray>::TestValue(ByteArray const&)
@@ -85,7 +86,6 @@ bool NetStructMemberType<std::uint32_t>::TestValue(const std::uint32_t& /*value*
 
 // 0x36d484 NetStructMemberType<bool>::TestValue(bool const&)
 // Always true (MOV R0, #1; BX LR).
-template <>
 bool NetStructMemberType<bool>::TestValue(const bool& /*value*/) const {
     return true;
 }
@@ -124,25 +124,24 @@ void NetStructMemberType<std::uint32_t>::SetValue(const std::uint32_t& value) {
 }
 
 // 0x36da20 NetStructMemberType<bool>::SetValue(bool const&)
-// PARTIAL: the pseudocode reads and writes the byte at +0x1d (SetValue compares the byte at +29 and
-// stores it there). The port's value_ is at +0x20, so the comparison and store use the port's member.
+// The pseudocode compares the byte at +0x1d with the argument and stores it there; value_ is that byte.
 // The SetChanged call and its ordering match.
-template <>
 void NetStructMemberType<bool>::SetValue(const bool& value) {
-    if (value_ != value) {  // +0x1d in the original, +0x20 here
-        value_ = value;     // +0x1d in the original, +0x20 here
+    if (value_ != value) {  // +0x1d
+        value_ = value;     // +0x1d
         SetChanged();       // NetStructMember::SetChanged (0x814f84)
     }
 }
 
 // 0x36dd64 NetStructMemberType<int>::Erase(NetBitStream &)
-// PARTIAL: the pseudocode saves the value, calls NetStructMember::Load(this, stream) and then restores
-// the saved value. Its result is returned as an int. The port's NetStructMember::Load returns bool, so
-// the value is converted to int; the original's return width is not confirmed.
+// Saves the value, calls NetStructMember::Load(this, stream) and then restores the saved value. The
+// pseudocode's int result is Load's leftover R0 (the function ends with the restore store and a bare
+// return). The only caller is the virtual slot +0x00 in NetStruct::LoadInternal (0x8134f4), which calls it
+// as void, and the function has no direct caller (IDA xrefs: vtable and literal-pool data references
+// only), so the port returns void.
 template <>
-int NetStructMemberType<std::int32_t>::Erase(NetBitStream& stream) {
+void NetStructMemberType<std::int32_t>::Erase(NetBitStream& stream) {
     const std::int32_t saved = value_;               // LDR R5, [R0, #0x20]
-    const int result = NetStructMember::Load(stream);  // BL NetStructMember::Load (0x81510c)
+    NetStructMember::Load(stream);                   // BL NetStructMember::Load (0x81510c)
     value_ = saved;                                  // STR R5, [R4, #0x20]
-    return result;
 }

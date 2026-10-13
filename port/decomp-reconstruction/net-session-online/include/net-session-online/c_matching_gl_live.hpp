@@ -1,33 +1,56 @@
-// CMatchingGLLive: the matching layer on top of the Gameloft Live services. This header
-// declares the members and methods that this port reconstructs so far. The class is
-// large in the original (the GLX service objects sit at +0x6700 and above, and the
-// CMatching base is not modelled), so only the fields these bodies use are listed.
+// CMatchingGLLive: the matching layer on top of the Gameloft Live services. The original class
+// derives from CMatching (ported as CMatchingBase, c_matching_base.hpp, the first 0x3630 bytes) and
+// adds the members listed below. The object is 0x6c08 bytes on the 32-bit target (operator new
+// size in CMatching::Get, 0x800f8c). The port keeps every member in the original order with its
+// 32-bit offset as a comment; the 64-bit object is larger and nothing here depends on the
+// offsets. Pointer-width members are host pointers, and the STLport containers (std::map,
+// std::list, std::vector, std::string) are the host's.
 //
-// Layout (original 32-bit offsets, kept as comments):
-//   +0x0d room hidden flag (byte)   +0x0e room closed flag (byte)
-//       (both are in the CMatching base in the original)
-//   +0x3640 local member id (int)
-//   +0x3644 server member id (int)
-//   +0x6be0 friend list loaded flag (byte)
+// Base members that this class reads (declared in CMatchingBase): +0x08 member capacity,
+// +0x0c initialized, +0x0d room hidden, +0x0e room closed, +0x0f byte set to 3 by the constructor.
+//
+// Layout of the members declared here (original 32-bit offsets):
+//   +0x3630 room operation pending flag    +0x3638 room status bytes (2)   +0x363c next peer key
+//   +0x3640 local member id                +0x3644 server member id        +0x3648 room status values (2)
+//   +0x3650 create-room attributes         +0x39e8 server map              +0x3a00 member info table (32 x 360)
+//   +0x6700..+0x671c GLX service pointers  +0x6720 room attributes map     +0x6738 search filter
+//   +0x675c server mutex                   +0x67e8 Game Center flags       +0x67f0 player parameter string
+//   +0x6808 lobby parameter and query      +0x680c room key                +0x6810 lobby event flag
+//   +0x6814 room list                      +0x6834 room operation          +0x6838 Game Center state
+//   +0x6840 Game Center room attributes    +0x6bd8 game friend list        +0x6be0 profile (user name, password)
+//
+// The offsets +0x6800 and +0x6804 that the bodies read are not members: they are the end and the
+// start of the STLport string at +0x67f0 (the string is 24 bytes: a 16-byte buffer, then the
+// finish pointer, then the start pointer). JoinRoomInternal and CreateJoinRoomInternal pass the
+// string's data and length (finish - start) to the lobby.
 #pragma once
 
 #include <cstdint>
+#include <list>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "net-session-online/c_event_queue_base.hpp"
+#include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "net-session-online/c_room_search_filter.hpp"
+#include "net-session-online/deps/net_mutex.hpp"
+#include "net-session-online/deps/net_struct_stub.hpp"
+#include "net-session-online/gl_friend_info.hpp"
+#include "net-session-online/t_matching_peer_t.hpp"
+#include "net-session-online/t_room_info.hpp"
 
 class CNetworkId;
 class NetBitStream;
+class CLobbyParameterAndQuery;
 class CMatchingGLLiveFriendObserver;
 class CMatchingGLLiveLobbyObserver;
+class CMatchingGLLiveMessageObserver;
 class CSignInGLLiveObserver;
-class GLXPlayerComponent;
 class GLXPlayerLeaderboard;
 class GLXPlayerMPLobby;
+class GLXPlayerSereverConfig;
 class GameCenterInfo;
 class GLXPlayerLogin;
 class GLXPlayerUserFriend;
@@ -35,18 +58,67 @@ class GLXPlayerUser;
 class GLXPlayerMessage;
 class tFriendInfo;
 
-class CMatchingGLLive {
+class CMatchingGLLive : public CMatchingBase {
 public:
-    // Nested replicated element (NetStructArray<MemberInfoNetStruct,32>). Defined in
-    // tb/cmatching_gl_live_member_info_net_struct.hpp.
-    class MemberInfoNetStruct;
+    // The replicated per-member element (NetStructArray-like table of 32 at +0x3a00, 360 bytes each in
+    // the original). Constructor and destructor bodies are in
+    // src/tb_session-online-CMatchingGLLive_MemberInfoNetStruct-0.cpp.
+    //
+    // Layout (original 32-bit offsets, kept as comments; the total size is 360):
+    //   +0x00            vptr (not modelled; the port has no virtual dispatch here)
+    //   +0x04..+0x10b    NetStruct base fields not recovered
+    //   +0x10c..+0x11f   packet history: std::map<int, std::map<int, NetStruct::tPacketHistory>>
+    //                    (the rb-tree header, root, leftmost, rightmost and node count)
+    //   +0x124           NetStruct enabled flag (net-transport's NetStruct keeps it at +0x124)
+    //   +0x130..+0x157   NetStructString<16> member (value std::string at +0x150): the member's user name
+    //
+    // Not modelled: the destructor also destroys a std::string at +0x38. Its owner and its
+    // constructor are not identified, and the NetStruct base occupies that range, so the port
+    // declares no field there (see the ledger note on the destructor).
+    class MemberInfoNetStruct : public NetStructBaseStub {
+    public:
+        // 0x81e680 _ZN15CMatchingGLLive19MemberInfoNetStructC2Ev (partial, see the .cpp)
+        MemberInfoNetStruct();
+        // 0x81d1f4 _ZN15CMatchingGLLive19MemberInfoNetStructD1Ev (partial, see the .cpp)
+        ~MemberInfoNetStruct();
+
+        // NetStruct::SetEnabled (0x81366c, net-transport). Stand-in: records the flag.
+        void SetEnabled(bool enabled) { enabled_ = enabled; }
+        bool Enabled() const { return enabled_; }
+        // NetStruct::Serialize(stream, memberId, packetId) (vtable +0x08, 0x814d00, net-transport).
+        // Stand-in: writes nothing and reports no data.
+        int Serialize(NetBitStream& /*stream*/, int /*memberId*/, int /*packetId*/) { return 0; }
+        // NetStruct::ProcessLostPacket (vtable +0x44, 0x814774) and ProcessAcknowledgedPacket (vtable +0x40,
+        // 0x814d28), net-transport's. Stand-ins: the packet history is not modelled, so they do nothing.
+        void ProcessLostPacket(int /*memberId*/, int /*packetId*/) {}
+        void ProcessAcknowledgedPacket(int /*memberId*/, int /*packetId*/) {}
+
+    private:
+        // +0x10c: packet history (std::map header in the original).
+        std::map<std::int32_t, std::map<std::int32_t, NetStructBaseStub::tPacketHistory>> packetHistory_;
+        bool enabled_ = false;  // +0x124
+        // +0x130: NetStructString<16> member. Its value is at +0x150.
+        NetStructStringStub16 member_;
+    };
+
+    // The value type of the server map at +0x39e8, with the real CRoomAttributes (CMatchingLocal
+    // instantiates the same template with the stand-in, see t_matching_peer.hpp).
+    using tMatchingPeer = tMatchingPeerT<CRoomAttributes, 1>;
+
+    // Number of elements of the member info table at +0x3a00 (the table is 0x2d00 bytes of 360-byte elements).
+    static constexpr int kMemberInfoCount = 32;
 
     // Constructors and destructor (C1/C2 and D1/D2 pairs share one definition each).
+    // Not in the original: a default constructor that leaves the local member id at 0 and does not read
+    // profile.sav. The tests use it.
     CMatchingGLLive() = default;
     // 0x81e7f0 _ZN15CMatchingGLLiveC2Eb (C1 twin at 0x81e9dc). Partial, see the cpp.
     explicit CMatchingGLLive(bool gameCenterActive);
     // 0x81d2b4 _ZN15CMatchingGLLiveD1Ev (D2 twin at 0x81d614, D0 at 0x81d5f8). Partial, see the cpp.
-    ~CMatchingGLLive();
+    ~CMatchingGLLive() override;
+
+    CMatchingGLLive(const CMatchingGLLive&) = delete;
+    CMatchingGLLive& operator=(const CMatchingGLLive&) = delete;
 
     // Statics of the original (s_IsGameStarting, the GLLive event queue and the
     // observer singletons). Defined in src/c_matching_gl_live_glx04.cpp.
@@ -63,12 +135,117 @@ public:
     // Both are defined in src/c_matching_gl_live_glx05.cpp.
     static GLXPlayerMPLobby* s_GLXPlayerMPLobby;
     static GameCenterInfo* s_GameCenterInfo;
+    // dword_A33870: the game version string that Initialize hands to the GLXPlayerSereverConfig
+    // constructor. It is a zero-initialised bss pointer in the binary and its only recovered reference
+    // is the literal pool of Initialize, so no writer is known. Defined in
+    // src/e2-net-session-online-CMatchingGLLive-07f9f6-0.cpp.
+    static const char* s_serverConfigGameVersion;
 
+    // ---- Virtual slots, in vtable order. The byte offset of the slot (32-bit vtable) is in the
+    // comment. Slots that CMatching implements and CMatchingBase declares non-virtual (+0x1c
+    // UpdateMemberIdList, +0x78 SetTeamId, +0x7c GetTeamId, +0x80 SetRoomMemberAttibute, +0x88
+    // GetMemberIdList, +0x9c ReceiveGameBootInvitation, +0xb4 LimitRoomSlots) are inherited.
+    // +0x90 GetRoomList and +0x34 GetTransportType (a static here) are noted at their places.
 
-    // 0x81bbe8 _ZN15CMatchingGLLive11SetMemberIdEi
-    void SetMemberId(std::int32_t memberId) { memberId_ = memberId; }
-    // 0x81bbf4 _ZN15CMatchingGLLive19GenerateNewMemberIdEv: always -1 (no generation here).
-    std::int32_t GenerateNewMemberId() const;
+    // +0x00 0x81f488 _ZN15CMatchingGLLive16JoinRoomInternalEy
+    virtual std::int32_t JoinRoomInternal(std::uint64_t roomId);
+    // +0x04 0x81f948 _ZN15CMatchingGLLive20CreateJoinRoomInternalEbR15CRoomAttributes. Partial, see the cpp.
+    virtual std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes);
+    // +0x08 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
+    virtual std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
+    // +0x0c 0x81f53c _ZN15CMatchingGLLive15WritePacketDataEiiR12NetBitStream. Partial, see the cpp.
+    virtual std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    // +0x10 0x81e4d0 _ZN15CMatchingGLLive14ReadPacketDataEiiR12NetBitStream. Partial, see the cpp.
+    virtual void ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
+    // +0x14 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii. Partial, see the cpp.
+    virtual void ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
+    // +0x18 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii. Partial, see the cpp.
+    virtual void ProcessLostPacket(std::int32_t a2, std::int32_t a3);
+    // +0x20/+0x24 destructors: declared above.
+    // +0x28 0x81f264 _ZN15CMatchingGLLive10InitializeEi. Partial, see the cpp.
+    std::int32_t Initialize(std::int32_t memberCapacity) override;
+    // +0x2c 0x81f858 _ZN15CMatchingGLLive9TerminateEv. Partial, see the cpp.
+    virtual std::int32_t Terminate();
+    // +0x30 0x820a6c _ZN15CMatchingGLLive6UpdateEv. Partial, see the cpp.
+    std::int32_t Update() override;
+    // +0x34 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj: table {1, 2, 1}, 0 above 2. The object is not
+    // read, so the port declares it static.
+    static std::int32_t GetTransportType(std::uint32_t protocolType);
+    // +0x38 0x81c880 _ZN15CMatchingGLLive9PingRoomsEv: posts event 8388624, returns 0.
+    virtual std::int32_t PingRooms();
+    // +0x3c 0x81f464 _ZN15CMatchingGLLive9LeaveRoomEv
+    virtual std::int32_t LeaveRoom();
+    // +0x40 0x81f6f8 _ZN15CMatchingGLLive10KickMemberEi. Partial, see the cpp.
+    virtual std::int32_t KickMember(std::int32_t memberId);
+    // +0x44 0x81bc24 _ZN15CMatchingGLLive8OpenRoomEb: returns 0.
+    virtual std::int32_t OpenRoom(bool value) const;
+    // +0x48 0x81bc1c _ZN15CMatchingGLLive9CloseRoomEv: returns 0.
+    virtual std::int32_t CloseRoom() const;
+    // +0x4c 0x81bc34 _ZN15CMatchingGLLive8ShowRoomEv: returns 0.
+    virtual std::int32_t ShowRoom() const;
+    // +0x50 0x81bc2c _ZN15CMatchingGLLive8HideRoomEv: returns 0.
+    virtual std::int32_t HideRoom() const;
+    // +0x54 0x81bc3c _ZN15CMatchingGLLive12IsRoomClosedEv
+    virtual bool IsRoomClosed() const { return baseRoomClosed_; }
+    // +0x58 0x81bc44 _ZN15CMatchingGLLive12IsRoomHiddenEv
+    virtual bool IsRoomHidden() const { return roomHidden_; }
+    // +0x5c 0x81df90 _ZN15CMatchingGLLive13GetMemberNameEi. Partial, see the cpp.
+    virtual std::string GetMemberName(std::int32_t memberId);
+    // +0x60 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv. Partial, see the cpp.
+    virtual std::int32_t GetMemberCount() const;
+    // +0x64 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv. Partial, see the cpp. The body only reads state, so
+    // the port declares it const to serve CMatchingBase::UnknownGate.
+    virtual bool IsInRoom() const;
+    // +0x68 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi. Partial, see the cpp.
+    virtual bool IsInRoom(std::int32_t memberId);
+    // +0x6c 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv
+    virtual std::int32_t GetMemberId() const;
+    // +0x70 0x81bbe8 _ZN15CMatchingGLLive11SetMemberIdEi
+    virtual void SetMemberId(std::int32_t memberId) { memberId_ = memberId; }
+    // +0x74 0x81bf98 _ZNK15CMatchingGLLive17GetServerMemberIdEv
+    virtual std::int32_t GetServerMemberId() const;
+    // +0x84 0x81bc78 _ZN15CMatchingGLLive13GetMemberMaskEi: see member_mask.hpp.
+    virtual std::int32_t GetMemberMask(std::int32_t memberId) const;
+    // +0x8c 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb. Partial, see the cpp.
+    virtual std::vector<tFriendInfo> GetFriendsList(bool notInState3);
+    // +0x90 GetRoomList (0x82051c) returns std::vector<tRoomInfo>; it is not reconstructed (queued).
+    // +0x94 0x81cf30 _ZN15CMatchingGLLive14SendInvitationEPKcS1_b. Partial, see the cpp.
+    virtual std::int32_t SendInvitation(const char* from, const char* to, bool flag);
+    // +0x98 0x81bc08 _ZN15CMatchingGLLive17ReceiveInvitationEv: returns 0.
+    virtual std::int32_t ReceiveInvitation() const;
+    // +0xa0 0x81bc10 _ZN15CMatchingGLLive19GetInvitationRoomIdEv: returns 0 (64-bit).
+    virtual std::uint64_t GetInvitationRoomId() const;
+    // +0xa4 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
+    // The original uses std::map<unsigned long long, CRoomAttributes> at +0x6720; the key is the int at +0x680c.
+    CRoomAttributes* GetRoomAttributes() override;
+    // +0xa8 0x820318 _ZN15CMatchingGLLive23GetSearchRoomAttributesEy: copy of the room settings stored
+    // under the key, or default settings when the key is not in the map.
+    virtual CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+    // +0xac 0x81bbf4 _ZN15CMatchingGLLive19GenerateNewMemberIdEv: always -1 (no generation here).
+    virtual std::int32_t GenerateNewMemberId() const;
+    // +0xb0 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
+    virtual std::int64_t GetRoomId();
+
+    // ---- CMatchingBase slots served by the methods above (the base names them by use).
+    // +0x6c LocalMemberId(), +0x74 ServerMemberId(), +0x84 MemberBit(int), +0x64 UnknownGate(),
+    // +0x88 ConnectedMemberIds(): CMatching::GetMemberIdList(), +0xa4 GetRoomAttributes() (above).
+    int LocalMemberId() const override { return GetMemberId(); }
+    int ServerMemberId() const override { return GetServerMemberId(); }
+    std::uint32_t MemberBit(int memberId) const override {
+        return static_cast<std::uint32_t>(GetMemberMask(memberId));
+    }
+    bool UnknownGate() const override { return IsInRoom(); }
+    std::vector<int> ConnectedMemberIds() const override { return GetMemberIdList(); }
+    // CMatching::IsServer is non-virtual in the original; the base keeps it virtual so tests can override.
+    bool IsServer() const override { return CMatchingBase::IsServer(); }
+    // Seams for CConnectionManager (GetConnectionMgr() in the original), served by the stand-in in
+    // deps/connection_manager_stand_in.hpp.
+    std::vector<int> ConnectionMemberIdList() const override;
+    bool IsConnectedMember(int memberId) const override;
+    void DisconnectMember(int memberId) override;
+
+    // ---- Non-virtual methods.
+
     // 0x81bbfc _ZN15CMatchingGLLive25SendConnectRequestMessageE12tPACKET_TYPEi: returns 0.
     std::int32_t SendConnectRequestMessage(int packetType, std::int32_t target) const;
     // 0x81bc04 _ZN15CMatchingGLLive28ProcessConnectRequestMessageER10CNetworkIdR12NetBitStream: no-op.
@@ -77,25 +254,6 @@ public:
     void ProcessConnectResponseMessage(CNetworkId& from, NetBitStream& stream) const;
     // 0x81bc94 _ZN15CMatchingGLLive20ProcessClientMessageER10CNetworkIdR12NetBitStream: no-op.
     void ProcessClientMessage(CNetworkId& from, NetBitStream& stream) const;
-
-    // 0x81bc08 _ZN15CMatchingGLLive17ReceiveInvitationEv: returns 0.
-    std::int32_t ReceiveInvitation() const;
-    // 0x81bc10 _ZN15CMatchingGLLive19GetInvitationRoomIdEv: returns 0 (64-bit).
-    std::uint64_t GetInvitationRoomId() const;
-    // 0x81bc1c _ZN15CMatchingGLLive9CloseRoomEv: returns 0.
-    std::int32_t CloseRoom() const;
-    // 0x81bc24 _ZN15CMatchingGLLive8OpenRoomEb: returns 0.
-    std::int32_t OpenRoom(bool value) const;
-    // 0x81bc2c _ZN15CMatchingGLLive8HideRoomEv: returns 0.
-    std::int32_t HideRoom() const;
-    // 0x81bc34 _ZN15CMatchingGLLive8ShowRoomEv: returns 0.
-    std::int32_t ShowRoom() const;
-    // 0x81bc3c _ZN15CMatchingGLLive12IsRoomClosedEv
-    bool IsRoomClosed() const { return roomClosed_ != 0; }
-    // 0x81bc44 _ZN15CMatchingGLLive12IsRoomHiddenEv
-    bool IsRoomHidden() const { return roomHidden_ != 0; }
-    // 0x81bc78 _ZN15CMatchingGLLive13GetMemberMaskEi: see member_mask.hpp.
-    std::int32_t GetMemberMask(std::int32_t memberId) const;
     // 0x81bc4c _ZN15CMatchingGLLive19ProcessFriendEventsEv: returns 0.
     std::int32_t ProcessFriendEvents() const;
     // 0x81bc98 _ZN15CMatchingGLLive13InitGLFriendsEv: no-op.
@@ -111,8 +269,6 @@ public:
     std::int32_t SendGLFriendInvite(const char* name) const;
     // 0x81c0fc _ZNK15CMatchingGLLive16GetGLFriendsNameEi: name of a friend, null out of range.
     const char* GetGLFriendsName(std::int32_t index) const;
-    // 0x81bc54 _ZN15CMatchingGLLive16GetTransportTypeEj: table {1, 2, 1}, 0 above 2.
-    static std::int32_t GetTransportType(std::uint32_t protocolType);
     // 0x81bc9c _ZN15CMatchingGLLive19GLFriendsListLoadedEv
     bool GLFriendsListLoaded() const { return glFriendsListLoaded_ != 0; }
     // 0x81bca8 _ZN15CMatchingGLLive19GLFriendsListLoadedEb
@@ -131,21 +287,18 @@ public:
     // 0x81bf88 _ZN15CMatchingGLLive10IsLoggedInEv. Partial: reads the sign-in logged-in flag
     // through CSignIn::LoggedInForTest() (no production accessor in c_sign_in.hpp yet).
     int IsLoggedIn();
-    // 0x81bf98 _ZNK15CMatchingGLLive17GetServerMemberIdEv
-    std::int32_t GetServerMemberId() const;
     // 0x81c084 _ZN15CMatchingGLLive15GLSendHighScoreEi. Partial: sendHighScore returns void
     // in the port, so the returned status is 0 and not the original's result.
     std::int32_t GLSendHighScore(std::int32_t score);
-    // 0x81c18c _ZN15CMatchingGLLive6GetGGIEv: GGI of the GLX component, 0 when none.
+    // 0x81c18c _ZN15CMatchingGLLive6GetGGIEv: GGI of the GLX server config component (+0x6710), 0 when none.
     unsigned long GetGGI();
     // 0x81c32c _ZN15CMatchingGLLive30GetGLXPlayerUserFriendObserverEv
     CMatchingGLLiveFriendObserver* GetGLXPlayerUserFriendObserver();
-    // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv
-    CMatchingGLLiveLobbyObserver* GetGLXPlayerMPLobbyObserver();
+    // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv. Only the static singleton is touched, so the
+    // port declares it const to serve the const slots (IsInRoom, GetMemberCount).
+    CMatchingGLLiveLobbyObserver* GetGLXPlayerMPLobbyObserver() const;
     // 0x81c598 _ZN15CMatchingGLLive25GetGLXPlayerLoginObserverEv
     CSignInGLLiveObserver* GetGLXPlayerLoginObserver();
-    // 0x81c880 _ZN15CMatchingGLLive9PingRoomsEv: posts event 8388624, returns 0.
-    std::int32_t PingRooms();
     // 0x81c1a0 _ZN15CMatchingGLLive26ProcessChangeServerMessageEiR12NetBitStream
     void ProcessChangeServerMessage(int from, NetBitStream& stream);
     // 0x81c8b8 _ZN15CMatchingGLLive24ProcessRoomStatusMessageEiR12NetBitStream
@@ -174,25 +327,14 @@ public:
     std::int32_t InitializeFriend();
     // 0x81c78c _ZN15CMatchingGLLive23SendGLFriendsGameInviteEPc. Partial, see the cpp.
     std::int32_t SendGLFriendsGameInvite(char* name);
-    // 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv
-    std::int32_t GetMemberId() const;
+    // 0x81ee10 _ZN15CMatchingGLLive19AddFriendInGameListE12GLFriendInfo: appends the entry to the list at +0x6bd8.
+    void AddFriendInGameList(GLFriendInfo info);
+    // 0x81ee6c _ZN15CMatchingGLLive16GetGLFriendsListEv: a copy of the list at +0x6bd8, in order.
+    std::list<GLFriendInfo> GetGLFriendsList() const;
     // 0x81dd04 _ZNK15CMatchingGLLive17GetGLLiveMemberIdEv. Partial: the name lookup is not reproduced.
     std::int32_t GetGLLiveMemberId() const;
     // 0x81f04c _ZN15CMatchingGLLive14SetPlayerParamESsb. Partial, see the cpp.
     void SetPlayerParam(std::string value, bool sendToLobby);
-    // 0x81f858 _ZN15CMatchingGLLive9TerminateEv. Partial, see the cpp.
-    std::int32_t Terminate();
-    // 0x820508 _ZN15CMatchingGLLive17GetRoomAttributesEv: &roomAttributes_[roomKey_] (creates the entry).
-    // The original uses std::map<unsigned long long, CRoomAttributes>; the key is the int at +0x680c.
-    CRoomAttributes* GetRoomAttributes();
-    // 0x820318 _ZN15CMatchingGLLive23GetSearchRoomAttributesEy: copy of the room settings stored
-    // under the key, or default settings when the key is not in the map.
-    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
-    // 0x821188 _ZN15CMatchingGLLive31BroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial: the
-    // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
-    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
-    // 0x81fadc _ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh. Partial, see the cpp.
-    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
     // 0x81f128 _ZN15CMatchingGLLive9StartGameEv
     void StartGame();
     // 0x81f178 _ZN15CMatchingGLLive10SetGCStateEi. Partial: the CSignIn event (state 1) and the
@@ -201,77 +343,42 @@ public:
     // 0x81f44c _ZN15CMatchingGLLive19SendSetPlayerStatusEc. Partial: the original returns the
     // lobby call's result; the port returns 0 because mpSendSetPlayerStatus is void here.
     std::int32_t SendSetPlayerStatus(std::uint8_t status);
-    // 0x81f464 _ZN15CMatchingGLLive9LeaveRoomEv
-    std::int32_t LeaveRoom();
     // 0x81f524 _ZN15CMatchingGLLive6IsHostEv: the lobby's mpIsMaster (vtable slot 60).
     bool IsHost();
-
-    // 0x81bfe4 _ZN15CMatchingGLLive17ProcessLostPacketEii. Partial, see the cpp.
-    void ProcessLostPacket(std::int32_t a2, std::int32_t a3);
-    // 0x81c034 _ZN15CMatchingGLLive23ProcessAcknowledgedPacketEii. Partial, see the cpp.
-    void ProcessAcknowledgedPacket(std::int32_t a2, std::int32_t a3);
     // 0x81c200 _ZN15CMatchingGLLive24ProcessMemberJoinMessageEiR12NetBitStream. Partial, see the cpp.
     void ProcessMemberJoinMessage(std::int32_t a2, NetBitStream& stream);
     // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.
     std::int32_t SendClientRequest();
-    // 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
-    std::int64_t GetRoomId();
     // 0x81c494 _ZN15CMatchingGLLive20GetMemberByMemberIdEi. Partial, see the cpp.
     std::int32_t GetMemberByMemberId(std::int32_t memberId);
-    // 0x81c4ac _ZN15CMatchingGLLive6IsInRoomEv. Partial, see the cpp.
-    bool IsInRoom();
-    // 0x81c524 _ZNK15CMatchingGLLive14GetMemberCountEv. Partial, see the cpp.
-    std::int32_t GetMemberCount() const;
     // 0x81c6cc _ZN15CMatchingGLLive10IsMyFriendEPc. Partial, see the cpp.
     std::int32_t IsMyFriend(char* name);
     // 0x81c9e8 _ZN15CMatchingGLLive23sPacketReceiverCallbackEiPci. Partial, see the cpp.
     static void sPacketReceiverCallback(std::int32_t from, char* data, int size);
     // 0x81cec0 _ZN15CMatchingGLLive12IsFriendWithEPKcb. Partial, see the cpp.
     bool IsFriendWith(const char* name, bool flag);
-    // 0x81cf30 _ZN15CMatchingGLLive16SendInvitationEPKcS1_b. Partial, see the cpp.
-    std::int32_t SendInvitation(const char* from, const char* to, bool flag);
     // 0x81dba0 _ZN15CMatchingGLLive19GetGLLiveMemberIdListEv. Partial, see the cpp.
     std::vector<std::int32_t> GetGLLiveMemberIdList();
-    // 0x81ded4 _ZN15CMatchingGLLive6IsInRoomEi. Partial, see the cpp.
-    bool IsInRoom(std::int32_t memberId);
-    // 0x81df90 _ZN15CMatchingGLLive13GetMemberNameEi. Partial, see the cpp.
-    std::string GetMemberName(std::int32_t memberId);
     // 0x81e25c _ZN15CMatchingGLLive12SyncMemberIdEv. Partial, see the cpp.
     void SyncMemberId();
-    // 0x81e4d0 _ZN15CMatchingGLLive14ReadPacketDataEiiR12NetBitStream. Partial, see the cpp.
-    void ReadPacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
-    // 0x81ec5c _ZN15CMatchingGLLive14GetFriendsListEb. Partial, see the cpp.
-    std::vector<tFriendInfo> GetFriendsList(bool notInState3);
-
-    // Batch e2-net-session-online-CMatchingGLLive-07f9f6-0 (declarations only; bodies in
-    // src/e2-net-session-online-CMatchingGLLive-07f9f6-0.cpp).
-    // 0x81f264 _ZN15CMatchingGLLive10InitializeEi. Partial, see the cpp.
-    std::int32_t Initialize(std::int32_t a2);
-    // 0x81f488 _ZN15CMatchingGLLive16JoinRoomInternalEy. Partial, see the cpp.
-    std::int32_t JoinRoomInternal(std::uint64_t roomId);
-    // 0x81f53c _ZN15CMatchingGLLive15WritePacketDataEiiR12NetBitStream. Partial, see the cpp.
-    std::int32_t WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream);
-    // 0x81f648 _ZN15CMatchingGLLive18SendGameParametersEv. Partial, see the cpp.
-    void SendGameParameters();
-    // 0x81f6f8 _ZN15CMatchingGLLive10KickMemberEi. Partial, see the cpp.
-    std::int32_t KickMember(std::int32_t memberId);
-    // 0x81f948 _ZN15CMatchingGLLive20CreateJoinRoomInternalEbR15CRoomAttributes. Partial, see the cpp.
-    std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes);
     // 0x82078c _ZN15CMatchingGLLive10UpdateRoomEv. Partial, see the cpp.
     std::int32_t UpdateRoom();
-    // 0x820a6c _ZN15CMatchingGLLive6UpdateEv. Partial, see the cpp.
-    std::int32_t Update();
-    // 0x820e7c _ZN15CMatchingGLLive9AddServerEiR10CNetworkIdiR15CRoomAttributes. Partial, see the cpp.
-    void AddServer(std::int32_t a2, CNetworkId& serverId, std::int32_t a4, CRoomAttributes& attributes);
+    // 0x81f648 _ZN15CMatchingGLLive18SendGameParametersEv. Partial, see the cpp.
+    void SendGameParameters();
+    // 0x821188 _ZN15CMatchingGLLive31BroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial: the
+    // type 1 (server) branch needs ProcessServerMessage, which is not reconstructed.
+    void BroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
+    // 0x820e7c _ZN15CMatchingGLLive9AddServerEiR10CNetworkIdiR15CRoomAttributes. See the cpp.
+    void AddServer(std::int32_t memberId, CNetworkId& serverId, std::int32_t rank, CRoomAttributes& attributes);
     // 0x821110 _ZN15CMatchingGLLive20ProcessServerMessageER10CNetworkIdR12NetBitStream. Partial, see the cpp.
     void ProcessServerMessage(CNetworkId& from, NetBitStream& stream);
     // 0x821218 _ZN15CMatchingGLLive30sBroadcastPacketReceiverCallbackER10CNetworkIdPci. Partial, see the cpp.
     static void sBroadcastPacketReceiverCallback(CNetworkId& from, char* data, int size);
 
-    // Not in the original: test seams for the room flags.
+    // Not in the original: test seams.
     void SetRoomFlagsForTest(bool closed, bool hidden) {
-        roomClosed_ = closed ? 1 : 0;
-        roomHidden_ = hidden ? 1 : 0;
+        baseRoomClosed_ = closed;
+        roomHidden_ = hidden;
     }
     std::int32_t MemberIdForTest() const { return memberId_; }
     std::int32_t ServerMemberIdForTest() const { return serverMemberId_; }
@@ -287,34 +394,85 @@ public:
     std::int32_t GcStateForTest() const { return gcState_; }
     void SetGameCenterActiveForTest(bool value) { gameCenterActive_ = value; }
     void SetRoomKeyForTest(std::int32_t key) { roomKey_ = key; }
+    std::int32_t RoomKeyForTest() const { return roomKey_; }
     const CRoomSearchFilter& SearchFilterForTest() const { return searchFilter_; }
     void SetGLFriendListForTest(GLXPlayerUserFriend* list) { glxUserFriend_ = list; }
+    void SetMemberCapacityForTest(std::int32_t capacity) { memberCapacity_ = capacity; }
+    std::int32_t MemberCapacityForTest() const { return memberCapacity_; }
+    void SetInitializedForTest(bool value) { initialized_ = value; }
+    bool RoomOperationPendingForTest() const { return roomOperationPending_; }
+    void SetRoomOperationPendingForTest(bool value) { roomOperationPending_ = value; }
+    std::int32_t NextPeerKeyForTest() const { return nextPeerKey_; }
+    const std::map<std::uint64_t, tMatchingPeer>& ServersForTest() const { return servers_; }
+    const CRoomAttributes& CreateRoomAttributesForTest() const { return createRoomAttributes_; }
+    bool Unk67ecForTest() const { return unk_67ec; }
+    const std::string& PlayerParamForTest() const { return playerParam_; }
+    const MemberInfoNetStruct& MemberInfoForTest(int index) const { return memberInfo_[index]; }
+    GLXPlayerSereverConfig* ServerConfigForTest() const { return glxServerConfig_; }
+    GLXPlayerUser* UserForTest() const { return glxUser_; }
+    CLobbyParameterAndQuery* LobbyQueryForTest() const { return lobbyQuery_; }
+    std::uint8_t UnkByte0fForTest() const { return unk_0f; }
+    const std::list<GLFriendInfo>& GLFriendListForTest() const { return glFriends_; }
+    std::list<GLFriendInfo>& GLFriendListForTest() { return glFriends_; }
 
 private:
-    std::uint8_t roomHidden_ = 0;          // +0x0d
-    std::uint8_t roomClosed_ = 0;          // +0x0e
-    std::uint8_t roomStatus_[2] = {0, 0};  // +0x3638, +0x3639 (fields not identified)
-    std::int32_t memberId_ = 0;            // +0x3640
-    std::int32_t serverMemberId_ = 0;      // +0x3644
-    std::int32_t roomValue0_ = 0;          // +0x3648 (not identified)
-    std::int32_t roomValue1_ = 0;          // +0x364c (not identified)
-    std::uint8_t glFriendsListLoaded_ = 0; // +0x6be0
-    char userName_[16] = {};               // +0x6be1 (GLLive user name, 16 bytes)
-    std::uint8_t profileFlag_ = 0;         // +0x6bf1 (remember flag in profile.sav)
-    char password_[16] = {};               // +0x6bf2 (GLLive password, 16 bytes)
-    GLXPlayerComponent* glxComponent_ = nullptr;      // +0x6710 (GGI source)
-    GLXPlayerLeaderboard* glxLeaderboard_ = nullptr;  // +0x671c (high-score sender)
-    std::uint8_t glLiveEventFlag_ = 0;     // +0x6810 (set by event 5, cleared by 6)
-    bool gameCenterActive_ = false;        // +0x67e8 (Game Center mode, gates SetGCState)
-    std::int32_t roomOp_ = 0;              // +0x6834 (room operation state: 5 after LeaveRoom)
-    std::int32_t gcState_ = 0;             // +0x6838 (Game Center state, see SetGCState)
-    std::map<std::uint64_t, CRoomAttributes> roomAttributes_;  // +0x6720 (room id -> room settings)
-    CRoomSearchFilter searchFilter_;       // +0x6738 (copied by SearchRoomInternal)
-    std::int32_t roomKey_ = 0;             // +0x680c (room id used by GetRoomAttributes)
+    // Members in the original order. Offsets are 32-bit; the CMatchingBase part occupies +0x00..+0x362f.
+    bool roomOperationPending_ = false;            // +0x3630 (set by Create/Search in the sibling classes, cleared by Join; AddServer posts 8388622 when set)
+    std::uint8_t pad_3631[7] = {};                 // +0x3631
+    std::uint8_t roomStatus_[2] = {0, 0};          // +0x3638, +0x3639 (ProcessRoomStatusMessage bytes 0 and 1)
+    std::uint8_t pad_363a[2] = {};                 // +0x363a
+    std::int32_t nextPeerKey_ = 0;                 // +0x363c (key of the next server map entry; the constructor does not set it)
+    std::int32_t memberId_ = 0;                    // +0x3640 (local member id, -1 from the constructor)
+    std::int32_t serverMemberId_ = 0;              // +0x3644 (Initialize sets 1)
+    std::int32_t roomValue0_ = 0;                  // +0x3648 (ProcessRoomStatusMessage bytes 4..7)
+    std::int32_t roomValue1_ = 0;                  // +0x364c (ProcessRoomStatusMessage bytes 8..11)
+    CRoomAttributes createRoomAttributes_;         // +0x3650 (copy of the attributes given to CreateJoinRoomInternal; 0x394 bytes)
+    std::uint8_t pad_39e4[4] = {};                 // +0x39e4 (alignment of the map)
+    std::map<std::uint64_t, tMatchingPeer> servers_;  // +0x39e8 (the rb-tree header, 0x14 bytes; node count at +0x39f8)
+    std::uint8_t pad_39fc[4] = {};                 // +0x39fc (alignment of the member info table)
+    MemberInfoNetStruct memberInfo_[kMemberInfoCount];  // +0x3a00 (32 elements of 360 bytes, ends at +0x6700)
     GLXPlayerUserFriend* glxUserFriend_ = nullptr;  // +0x6700 (friend list, null until created)
     CMatchingGLLiveFriendObserver* friendObserver_ = nullptr;  // +0x6704 (flag at +4 of the observer)
     GLXPlayerMessage* glxMessage_ = nullptr;        // +0x6708 (sends invitations and game invites)
-    GLXPlayerUser* glxUser_ = nullptr;              // +0x6718 (password retrieval)
+    CMatchingGLLiveMessageObserver* messageObserver_ = nullptr;  // +0x670c (4-byte object, vtable only; freed with CustomFree)
+    GLXPlayerSereverConfig* glxServerConfig_ = nullptr;  // +0x6710 (GGI source; created by Initialize, 0x44 bytes)
+    std::uint8_t pad_6714[4] = {};                  // +0x6714 (no recovered access)
+    GLXPlayerUser* glxUser_ = nullptr;              // +0x6718 (created by Initialize, 0x130 bytes; password retrieval)
+    GLXPlayerLeaderboard* glxLeaderboard_ = nullptr;  // +0x671c (high-score sender)
+    std::map<std::uint64_t, CRoomAttributes> roomAttributes_;  // +0x6720 (room id -> room settings; node count at +0x6730)
+    std::uint8_t pad_6734[4] = {};                  // +0x6734
+    CRoomSearchFilter searchFilter_;                // +0x6738 (copied by SearchRoomInternal; 0x24 bytes)
+    CNetMutex serversMutex_;                        // +0x675c (taken by AddServer and JoinRoomInternal)
+    CNetMutex unk_6760;                             // +0x6760 (constructed and destroyed only)
+    std::int32_t unk_6764 = 0;                      // +0x6764 (zeroed by the constructor)
+    std::uint8_t pad_6768[0x80] = {};               // +0x6768..+0x67e7 (no recovered access)
+    bool gameCenterActive_ = false;                 // +0x67e8 (Game Center mode, gates SetGCState; constructor argument)
     std::uint8_t glFriendsRequested_ = 0;           // +0x67e9 (set by InitializeFriend)
-    std::string playerParam_;                       // +0x67f0 (player parameter text, at most 0x80 bytes)
+    std::uint8_t unk_67ea = 0;                      // +0x67ea (zeroed by the constructor)
+    std::uint8_t glxComponentsCreated_ = 0;         // +0x67eb (Update creates the message, friend and leaderboard services once)
+    bool unk_67ec = false;                          // +0x67ec (CreateJoinRoomInternal stores the negated first argument; no reader recovered)
+    bool useAlphaServer_ = false;                   // +0x67ed (read by the sign-in observer; OnlineGameState::Init sets it; Terminate clears it)
+    std::uint8_t pad_67ee[2] = {};                  // +0x67ee
+    std::string playerParam_;                       // +0x67f0 (player parameter text, at most 0x80 bytes; the STLport string is 24 bytes: its finish pointer is at +0x6800 and its start pointer at +0x6804)
+    CLobbyParameterAndQuery* lobbyQuery_ = nullptr;  // +0x6808 (created by Initialize, 0x40 bytes)
+    std::int32_t roomKey_ = 0;                      // +0x680c (room id used by GetRoomAttributes)
+    std::uint8_t glLiveEventFlag_ = 0;              // +0x6810 (set by event 5, cleared by 6; UpdateRoom copies the lobby observer's +0x06 byte)
+    std::uint8_t unk_6811 = 0;                      // +0x6811 (zeroed by the constructor)
+    std::uint8_t pad_6812[2] = {};                  // +0x6812
+    std::vector<tRoomInfo> roomList_;               // +0x6814 (refreshed by UpdateRoom through GetRoomList; 12-byte STLport vector)
+    std::int32_t roomListTime_ = 0;                 // +0x6820 (time(nullptr) at the last room list refresh)
+    std::vector<std::int32_t> unk_6824;             // +0x6824 (12-byte vector, constructed and destroyed only)
+    std::int32_t unk_6830 = 0;                      // +0x6830 (zeroed by the constructor)
+    std::int32_t roomOp_ = 0;                       // +0x6834 (room operation state: 3 create, 5 leave, 7 search, 9 join)
+    std::int32_t gcState_ = 0;                      // +0x6838 (Game Center state, see SetGCState)
+    std::uint8_t pad_683c[4] = {};                  // +0x683c
+    CRoomAttributes gcRoomAttributes_;              // +0x6840 (Game Center room settings; SetGCState(3) creates the room with a copy; 0x394 bytes)
+    std::uint8_t pad_6bd4[4] = {};                  // +0x6bd4
+    std::list<GLFriendInfo> glFriends_;             // +0x6bd8 (game friend list: 8-byte STLport list head)
+    std::uint8_t glFriendsListLoaded_ = 0;          // +0x6be0
+    char userName_[16] = {};                        // +0x6be1 (GLLive user name, 16 bytes)
+    std::uint8_t profileFlag_ = 0;                  // +0x6bf1 (remember flag in profile.sav)
+    char password_[16] = {};                        // +0x6bf2 (GLLive password, 16 bytes)
+    std::uint8_t unk_6c02 = 0;                      // +0x6c02 (the message observer sets it for response codes 0x6f and 0x70; no reader recovered)
+    std::uint8_t pad_6c03[5] = {};                  // +0x6c03 (the object ends at +0x6c08)
 };

@@ -568,3 +568,32 @@ headers in a later wave.
 - core_stand_ins.hpp now includes shared/include/glitch-shared/glitch_layouts.hpp (glitch::core value types, glitch::video SColor/SColorf). The category's 20 includers need `-I../shared/include` (CMake root adds it).
 - glitch_core.hpp, sid_collection.hpp and gl_function_table.hpp exist only on feature/decomp-glitch-core-video (shared/include). Not pulled in here: glitch_core.hpp defines the same glitch::core names with different members, so including both in one TU clashes. Left for the integrator to reconcile.
 - ISceneNode decision (decompile wins): getAnimators returns this+0xfc and getBindedAnimators returns this+0x104, i.e. the objects are embedded at those offsets, not begin/end word pairs. animators and bindedAnimators are now two-word ListSentinel objects. getChildren returns this+0xf0; kept as a 3-word container. Whether +0xf4 is a sentinel is not confirmed by any accessor body; still open.
+
+## Camera layout (Track B integrator decisions, ledger.d/decisions-1.csv)
+- ICameraSceneNode derives from ISceneNode and glitch::IEventReceiver (the +0x130 sub-object, vptr word
+  off_95FC28; its onEvent slot is a thunk to the primary onEvent, here ICameraSceneNode::forwardEvent). Its 24 slots
+  (listing +0x100..+0x15c) are declared in slot order; ICameraSceneNode is abstract. orthogonal is the byte at +0x134.
+  A Hex-Rays call offset is the vtable listing offset minus 0x0c (the three header words), which settled the old doubt
+  about the vptr+0x158 call in setNearValue and the other setters: it is recalculateProjectionMatrix (listing +0x164).
+- CCameraSceneNode derives from ICameraSceneNode: target +0x138, upVector +0x144, mag +0x150, fov +0x154,
+  aspectRatio +0x158, nearValue +0x15c, farValue +0x160, farToInfinity +0x164, inputReceiverEnabled +0x165, then the
+  SViewFrustum member at +0x168 (0x21c bytes, up to +0x384). The IReferenceCounted virtual base follows at +0x384
+  and is not modelled. The camera owns no box or matrices of its own: getBoundingBox is frustum.box (+0x1d4),
+  getViewMatrix is frustum.viewMatrix (+0x1ec), getProjectionMatrix is frustum.projectionMatrix (+0x274), and the
+  CMatrix4 at +0x2b8 that recalculateViewArea reads is frustum.viewProjectionMatrix (frustum +0x150).
+- SViewFrustum (tb/glitch_scene_SViewFrustum.hpp): cameraPosition (apex, +0x00), planes[6] (+0x0c), box (+0x6c),
+  viewMatrix (+0x84, transform state 0), worldMatrix (+0xc8, state 1), projectionMatrix (+0x10c, state 2),
+  viewProjectionMatrix (+0x150), inverseViewMatrix (+0x194), worldViewProjectionMatrix (+0x1d8). setTransformState
+  does nothing for state 2. The constructor (0x582bd8), intersects (0x35bec8), intersects3 (0x58aa8c) and
+  intersectsWithoutBoxTest3 (0x50cacc) are members now (the recon_00::ViewFrustum stand-in stays for its test).
+- ISceneNode has a host constructor ISceneNode(id, position, rotation, scale) shared by 0x5990c0 and 0x599268
+  (still partial: IObject base, name string, list sentinels, vtable words) and a sceneManager member at +0x110.
+  ISceneNode itself has no vptr, so CCameraSceneNode's overrides of ISceneNode slots (getType, getBoundingBox, render,
+  onRegisterSceneNode) are plain members; make them overrides when ISceneNode gets its vtable.
+- Still partial: render (driver interface), remove, onChangedSceneManager, setActiveCamera, setSceneManager
+  (stubs in recon/slice_05.cpp), serializeAttributes and deserializeAttributes (recon_31 stand-ins), the complete-object
+  constructor (virtual base words), CSceneManager::isCulled (node box is a virtual call).
+- glitch-core-io matrix builders used by the camera are redeclared in core_matrix_builders.hpp, as setbyproduct is in
+  the SViewFrustum header.
+- collada_empty_dtors.hpp now includes layouts/animation_track.hpp for animation_track::CApplicatorInfo and
+  CMaterialApplicatorInfo (their empty D1 destructors are declared there), so one TU can hold both.

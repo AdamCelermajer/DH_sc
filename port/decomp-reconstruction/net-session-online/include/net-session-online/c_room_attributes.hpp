@@ -137,6 +137,11 @@ public:
     void ProcessLostPacket(int /*a1*/, int /*a2*/) {}
     void ProcessAcknowledgedPacket(int /*a1*/, int /*a2*/) {}
 
+    // NetStruct::SetEnabled(this + 8, enabled) (0x81366c, net-transport). Stand-in: records the flag.
+    // CMatchingGLLive::WritePacketData sets it to IsHost() before it serializes the room attributes.
+    void SetNetEnabled(bool enabled) { netEnabled_ = enabled; }
+    bool NetEnabled() const { return netEnabled_; }
+
     // Test access to the layout values.
     std::uint32_t IntActiveMask() const { return intActiveMask_; }
     std::uint32_t BinActiveMask() const { return binActiveMask_; }

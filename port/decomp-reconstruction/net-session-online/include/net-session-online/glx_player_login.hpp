@@ -17,7 +17,9 @@
 //   +0x80 "gct" token (char*)                 +0x84 "u" token of a refused login (char*)
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <memory>
 #include <string>
 #include <vector>
@@ -105,7 +107,19 @@ public:
     // 0x8343f8 _ZN14GLXPlayerLogin16clearProductInfoEv: empties the product lists and the count.
     void clearProductInfo();
 
+    // The nickname from the "n" token (+0x74). CMatchingGLLive reads the field directly (IsMyFriend, and
+    // CreateJoinRoomInternal for the lobby creator's name); the original has no named getter for it.
+    const char* nickName() const { return nickName_.get(); }
+
     // Not in the original: test seams for the fields the getters read.
+    void SetNickNameForTest(const char* value) {
+        nickName_.reset();
+        if (value != nullptr) {
+            const std::size_t length = std::strlen(value) + 1;
+            nickName_.reset(new char[length]);
+            std::memcpy(nickName_.get(), value, length);
+        }
+    }
     void SetAPNSIPForTest(const char* value);
     void SetAPNSPortForTest(std::int32_t value) { apnsPort_ = value; }
     void SetProductsForTest(std::vector<std::int32_t> ggis, std::vector<std::int32_t> ids,

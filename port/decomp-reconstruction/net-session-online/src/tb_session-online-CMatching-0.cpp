@@ -5,6 +5,8 @@
 
 #include "net-session-online/c_matching_base.hpp"
 
+#include "net-session-online/deps/matching_queue.hpp"
+
 // 0x7fe4e0 _ZN9CMatching8IsServerEv
 // The original is non-virtual; the port keeps the existing pure virtual declaration, so this is its
 // out-of-line definition. Reads the initialized flag (+0x0c), then compares the local member id with
@@ -46,8 +48,11 @@ std::int32_t CMatchingBase::GetMemberIdByIndex(std::uint32_t index) const {
 // ported: the vptr of the NetStructArray header (+0x18), the node-allocated container at +0x3620 (which
 // the destructor frees), and the NetStruct element constructors.
 CMatchingBase::CMatchingBase() {
+    memberCapacity_ = 0;       // +0x08
     initialized_ = false;      // +0x0c
+    roomHidden_ = false;       // +0x0d
     baseRoomClosed_ = false;   // +0x0e
+    unk_0f = 0;                // +0x0f
     roomMaskDirty_ = true;     // +0x10
     memberCount_ = kMaxMembers;  // +0x1c
 }
@@ -97,9 +102,33 @@ CMatchingBase::CMatchingBase() {
 // and the AddEvent code 4194306.
 
 // 0x7ff85c _ZN9CMatching10InitializeEi
-// Partial, no body. Needs CPacketManager::RegisterPacketSlot with the four CMatching forwarders
-// (ported as static stand-ins in deps/matching.hpp), CSignIn::Get, CConnectionManager::Initialize (not in
-// the port's stand-in), the room-attribute vtable +0x10 slot, and the AddEvent code 4194305.
+// Partial. Reproduced: when the matching object is already initialized (+0x0c) it posts 0x400001 on the
+// output queue (CMatching::m_eventQueue) and returns. Otherwise it stores the capacity (+0x08), clears the
+// room hidden (+0x0d) and room closed (+0x0e) flags, clears both matching queues, and resets every member
+// element (id -1, team 0, attribute buffer empty, previous id -1). The original returns 0 on both paths.
+// Not reproduced: CPacketManager::RegisterPacketSlot with the four static forwarders, the call through
+// CSignIn::Get()'s vtable +0x08 into CConnectionManager::Initialize, the room attributes' vtable +0x10
+// slot (not identified), the NetStructMember change notifications of the element resets, and
+// NetStruct::SetEnabled(element, false) on every element.
+int CMatchingBase::Initialize(int memberCapacity) {
+    if (initialized_) {
+        MatchingOutputEventQueue().AddEvent(0x400001, nullptr, 0);  // 4194305
+        return 0;
+    }
+    memberCapacity_ = memberCapacity;  // +0x08
+    baseRoomClosed_ = false;           // +0x0e
+    roomHidden_ = false;               // +0x0d
+    MatchingOutputEventQueue().Clear();    // CMatching::m_eventQueue
+    MatchingInternalEventQueue().Clear();  // CMatching::m_eventQueueInternal
+    for (std::int32_t i = 0; i < memberCount_; ++i) {
+        MemberInfo& member = members_[i];
+        member.memberId = -1;          // element +0x150
+        member.teamId = 0;             // element +0x178
+        member.roomAttribute.clear();  // element +0x180
+        member.previousMemberId = -1;  // element +0x1a8
+    }
+    return 0;
+}
 
 // 0x800f8c _ZN9CMatching3GetEv
 // Partial, no body. The port already has an inline CMatching::Get in deps/matching.hpp that returns the

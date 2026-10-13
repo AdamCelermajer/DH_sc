@@ -35,13 +35,11 @@ int main() {
     {
         NetStructByteArray<64u> obj(ByteArray{});
         ByteArray value;
-        value.data = std::malloc(5);
-        value.size = 5;
-        std::memcpy(value.data, "ABCDE", 5);
+        value.SetBuffer("ABCDE", 5);
         obj.SetValue(value);
         CHECK(obj.GetBufferPtr() != nullptr && obj.GetBufferPtr() != value.data);  // SetValue deep-copies
         CHECK(obj.GetBufferSize() == 5);
-        std::free(value.data);  // SetValue copied the bytes; the caller still owns its block
+        // value keeps its own block; its destructor frees it at the end of the scope
 
         unsigned char out[8] = {0};
         CHECK(obj.GetBuffer(out, 8) == 5);

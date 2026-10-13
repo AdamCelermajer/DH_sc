@@ -1,61 +1,124 @@
-// Batch e2-net-session-online-CMatchingGLLive-07f9f6-0 (CMatchingGLLive, 12 functions).
+// Batch e2-net-session-online-CMatchingGLLive-07f9f6-0 (CMatchingGLLive, 12 functions), revised for the
+// CMatchingGLLive layout of c_matching_gl_live.hpp (CMatchingBase base, members at their original
+// offsets). Integrator decision 6 applied: JoinRoomInternal is reconstructed; Initialize,
+// WritePacketData, AddServer, CreateJoinRoomInternal and the others keep a precise note of what is
+// still missing.
 //
-// Every body here is partial. The original code reads layout that the owner header does not
-// declare yet (the CMatching base at +0x0c..+0x6000, the room attribute copy at +0x3650, the
-// connected member table, the lobby buffer at +0x6800/+0x6804, the CLobbyParameterAndQuery
-// pointer at +0x6808, the member and room lists of the lobby observer) and calls lobby
-// methods whose argument lists are not declared in glx_player_mp_lobby.hpp. Per the Track B
-// rules, the bodies do not invent those fields. Each one keeps the part of its control flow
-// that the port can express, and the rest is named in its note. Layout requests for the
-// integrator are listed in the batch report and the ledger notes.
-//
-// Not reconstructed: GetRoomList (0x82051c). It returns a std::vector<tRoomInfo>, and tRoomInfo is
-// not declared in any header of this tree, so there is no definition and no declaration.
+// Not reconstructed: GetRoomList (0x82051c). It returns a std::vector<tRoomInfo>; the tRoomInfo
+// layout is now in t_room_info.hpp, but the body also needs the lobby observer's tGLRoomInfo list
+// (+0x18 of the observer), which the observer header does not declare.
 
 #include "net-session-online/c_matching_gl_live.hpp"
 
 #include <cstdint>
+#include <string>
 
+#include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/c_room_attributes.hpp"
+#include "net-session-online/c_sign_in_gl_live_observer.hpp"
+#include "net-session-online/deps/connection_manager_stand_in.hpp"
+#include "net-session-online/deps/matching_queue.hpp"
 #include "net-session-online/deps/net_bit_stream.hpp"
 #include "net-session-online/deps/network_id.hpp"
+#include "net-session-online/deps/xp_api.hpp"
+#include "net-session-online/glx_player_mp_lobby.hpp"
+#include "net-session-online/glx_player_serever_config.hpp"
+#include "net-session-online/glx_player_user.hpp"
+
+// dword_A33870: bss pointer, zero at load; the only recovered reference is Initialize's literal pool.
+const char* CMatchingGLLive::s_serverConfigGameVersion = nullptr;
 
 // 0x81f264 _ZN15CMatchingGLLive10InitializeEi
-// Partial. The original calls CMatching::Initialize (base, not in this port) and returns 0 when the
-// base flag at +0x0c is already set. It then creates the GLXPlayerSereverConfig (0x44 bytes, stored
-// at +0x6710) and copies the login observer's fields (+0x04, +0x05, +0x06 and 128 bytes from +0x06),
-// creates GLXPlayerUser (0x130 bytes, stored at +0x6718) and CLobbyParameterAndQuery (0x40 bytes,
-// stored at +0x6808), sends the server config request, and registers four packet types with
-// CConnectionManager (sBroadcastPacketReceiverCallback for types 2, 3 and 9, sPacketReceiverCallback
-// for type 4). Setting field +0x3644 to 1 is in the original as well. The config constructor
-// argument (dword_A33870), the observer copy, the GLXPlayerUser and lobby-parameter allocations and
-// the packet registration are not reproduced here. This returns 0 until those layouts exist.
-std::int32_t CMatchingGLLive::Initialize(std::int32_t /*a2*/) {
-    return 0;
+// Partial. Reproduced, in the original order: CMatching::Initialize (CMatchingBase::Initialize, itself partial),
+// the early return when the base flag +0x0c is already set, the GLXPlayerSereverConfig (0x44 bytes, stored at
+// +0x6710) built from the game version pointer dword_A33870, the GLXPlayerUser (0x130 bytes, +0x6718), the
+// CLobbyParameterAndQuery (0x40 bytes, +0x6808), GLXPlayerSereverConfig::SendGetServerConfig with its status
+// (1 sets the login observer's configured flag and calls SetGCState(1); -1 prints "oconf.bar not found!"),
+// the four packet registrations (types 2 and 3 and 9 to sBroadcastPacketReceiverCallback, type 4 to
+// sPacketReceiverCallback; the second argument 2, 1, 0, 1 is the channel), the server member id +0x3644 = 1,
+// and the return of the status.
+// Not reproduced: GLXPlayerComponent::RegisterObserver(config, s_GLXPlayerLoginObserver). RegisterObserver
+// takes a GLXPlayerObserver and CSignInGLLiveObserver is a standalone class in this port, so the config has
+// no observer. The stack copy of the login observer that the original builds (fields +0x04, +0x05, 128 bytes
+// from +0x06 and the word at +0x88) is never read and is destroyed at the end, so it is not built. The
+// base CMatching::Initialize is partial (see its row), and dword_A33870 is a null pointer here because no
+// writer is recovered (s_serverConfigGameVersion).
+std::int32_t CMatchingGLLive::Initialize(std::int32_t memberCapacity) {
+    CMatchingBase::Initialize(memberCapacity);
+    if (initialized_) {
+        return 0;
+    }
+    std::int32_t status = initialized_ ? 1 : 0;  // v13 = the byte at +0x0c, which is clear here
+
+    glxServerConfig_ = new GLXPlayerSereverConfig(s_serverConfigGameVersion);  // +0x6710
+    GetGLXPlayerLoginObserver();  // creates the observer the original copies and registers
+    glxUser_ = new GLXPlayerUser();                          // +0x6718
+    lobbyQuery_ = new CLobbyParameterAndQuery();             // +0x6808
+
+    glxServerConfig_->SendGetServerConfig(status);
+    if (status == 1) {
+        GetGLXPlayerLoginObserver()->SetConfigured(true);  // *(observer + 4) = 1
+        SetGCState(1);
+    } else if (status == -1) {
+        XP_DEBUG_OUT("oconf.bar not found!\n");
+    }
+
+    CConnectionManager& manager = GetConnectionMgr();
+    manager.RegisterPacketType(2, 2, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
+    manager.RegisterPacketType(3, 1, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
+    manager.RegisterPacketType(9, 0, &CMatchingGLLive::sBroadcastPacketReceiverCallback);
+    manager.RegisterPacketType(4, 1, &CMatchingGLLive::sPacketReceiverCallback);
+
+    serverMemberId_ = 1;  // +0x3644
+    return status;
 }
 
 // 0x81f488 _ZN15CMatchingGLLive16JoinRoomInternalEy
-// Partial. The original returns -1 when the member count (virtual slot +0x60) is above the
-// capacity at +0x08 of the base, then locks the mutex at +0x675c, calls GLXPlayerMPLobby::
-// mpSendJoinLobby(room id, byte at +0x0f, buffer at +0x6804, length from +0x6800 - +0x6804), sets
-// the room state at +0x6834 to 9, stores the room id at +0x680c, clears the byte at +0x3630 and
-// unlocks. The capacity field (+0x08 of the base), the mutex at +0x675c, the join-buffer pointer
-// and length, and the byte at +0x3630 are not declared, so no call is made here and the state is
-// not changed. Returns 0 without side effects.
-std::int32_t CMatchingGLLive::JoinRoomInternal(std::uint64_t /*roomId*/) {
+// Returns -1 when the member count (virtual slot +0x60) is above the member capacity (base +0x08). Otherwise,
+// under the mutex at +0x675c, it sends mpSendJoinLobby(room id, the byte at +0x0f, the player parameter
+// string's data and length), sets the room operation +0x6834 to 9, stores the room id in the int at +0x680c,
+// clears the pending flag at +0x3630, and returns 0. The room id argument is 64-bit; the lobby request and the
+// stored key use its low 32 bits, as the original does. The player parameter string is the STLport string at
+// +0x67f0: its start and finish pointers are the words the decompiled body reads at +0x6804 and +0x6800.
+// Deviation: the lobby is the existing s_GLXPlayerMPLobby; the original creates it on first use.
+std::int32_t CMatchingGLLive::JoinRoomInternal(std::uint64_t roomId) {
+    if (GetMemberCount() > memberCapacity_) {
+        return -1;
+    }
+    serversMutex_.Lock();
+    const std::int32_t lobbyId = static_cast<std::int32_t>(roomId);
+    GetGLXPlayerMPLobby()->mpSendJoinLobby(lobbyId, unk_0f, &playerParam_[0],
+                                           static_cast<std::int32_t>(playerParam_.size()));
+    roomOp_ = 9;                 // +0x6834
+    roomKey_ = lobbyId;          // +0x680c
+    roomOperationPending_ = false;  // +0x3630
+    serversMutex_.Unlock();
     return 0;
 }
 
 // 0x81f53c _ZN15CMatchingGLLive15WritePacketDataEiiR12NetBitStream
-// Partial. The original reads the room attributes through virtual slot +0xa4 (the copy at +0x3650),
-// sets the enabled flag of the room attribute NetStruct to IsHost(), serializes it, then serializes
-// the NetStructArray of 32 MemberInfoNetStruct entries at +0x18 and, for each entry, sets its
-// enabled flag (server, or the entry whose member index equals the local member) and serializes it
-// through its vtable. The returned value is 1 when any part wrote data. The NetStructArray at +0x18,
-// the per-entry NetStruct serializers and the room attribute NetStruct are not ported, so no
-// stream data is written and the function returns 0.
-std::int32_t CMatchingGLLive::WritePacketData(std::int32_t /*a2*/, std::int32_t /*a3*/, NetBitStream& /*stream*/) {
-    return 0;
+// Partial. Reproduced: the room attributes are fetched through virtual slot +0xa4 and their NetStruct enabled
+// flag is set to IsHost(); the 32 member info elements at +0x3a00 are each enabled when this object is the
+// server or the element index equals the local member's index (CMatching::GetMemberIndex of +0x3640), then
+// serialized, and any element that wrote makes the result 1.
+// Not reproduced: CRoomAttributes::Serialize(room, a2, a3, stream) and
+// NetStructArray<CMatching::MemberInfoNetStruct,32>::Serialize(this + 0x18, ...) (their result is OR-ed into the
+// return value): the NetStruct wire format lives in net-transport, and the (int, int, NetBitStream&)
+// overload of CRoomAttributes::Serialize is not declared. The element serializer is a stand-in that writes
+// nothing and reports no data, so the function always returns 0 and the stream is not written.
+std::int32_t CMatchingGLLive::WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) {
+    CRoomAttributes* room = GetRoomAttributes();
+    room->SetNetEnabled(IsHost());  // NetStruct::SetEnabled(room + 8, IsHost())
+    // CRoomAttributes::Serialize and NetStructArray<...>::Serialize: see above.
+    std::int32_t result = 0;
+    for (int i = 0; i < kMemberInfoCount; ++i) {
+        const bool enabled = IsServer() || GetMemberIndex(memberId_) == i;
+        memberInfo_[i].SetEnabled(enabled);
+        if (memberInfo_[i].Serialize(stream, a2, a3) != 0) {
+            result = 1;
+        }
+    }
+    return result;
 }
 
 // 0x81f648 _ZN15CMatchingGLLive18SendGameParametersEv
@@ -88,17 +151,22 @@ std::int32_t CMatchingGLLive::KickMember(std::int32_t /*memberId*/) {
 }
 
 // 0x81f948 _ZN15CMatchingGLLive20CreateJoinRoomInternalEbR15CRoomAttributes
-// Partial. Returns -1 when the user is not logged in (IsLoggedIn). Otherwise the original stores
-// !flag at +0x67ec, copies the room attributes into +0x3650, serializes them to a 128-byte buffer,
-// then sends either mpSendCreateLobbyWithGameCenter (when the game-center flag at +0x67e8 is set) or
-// mpSendCreateLobby with the login name (read from the login object at +0x74), sets the room state at
-// +0x6834 to 3, and returns 0. The room attribute copy at +0x3650, the char* Serialize overload and
-// the create-lobby argument lists are not declared, so only the logged-in guard is reproduced here.
-std::int32_t CMatchingGLLive::CreateJoinRoomInternal(bool /*flag*/, CRoomAttributes& /*attributes*/) {
+// Partial. Returns -1 when the user is not logged in (IsLoggedIn). Reproduced after that: the byte at +0x67ec
+// takes the negated flag, and the attributes are copied into the create-room attributes at +0x3650.
+// Not reproduced: the original then serializes the attributes into a 128-byte buffer
+// (CRoomAttributes::Serialize(char*, 0x80, 15), not declared), stores that buffer as parameter 0 of the
+// CLobbyParameterAndQuery at +0x6808 (virtual slot +0x08), sends mpSendCreateLobbyWithGameCenter (when the Game
+// Center flag +0x67e8 is set; its arguments are the globals dword_A33880, dword_A33884 and the name list
+// dword_A33888, none recovered) or mpSendCreateLobby (login name from GLXPlayerLogin +0x74, the flag, the base
+// byte +0x0e, the member capacity, the buffer, the player parameter string's data and length and the query),
+// and sets the room operation +0x6834 to 3. Because no request is sent, the room operation is left unchanged.
+std::int32_t CMatchingGLLive::CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes) {
     if (!IsLoggedIn()) {
         return -1;
     }
-    return 0;  // Partial: create-lobby send and room state update not reproduced.
+    unk_67ec = !flag;                 // +0x67ec
+    createRoomAttributes_ = attributes;  // +0x3650, CRoomAttributes::operator=
+    return 0;
 }
 
 // 0x82078c _ZN15CMatchingGLLive10UpdateRoomEv
@@ -118,41 +186,68 @@ std::int32_t CMatchingGLLive::UpdateRoom() {
 }
 
 // 0x820a6c _ZN15CMatchingGLLive6UpdateEv
-// Partial. The original runs the base CMatching::Update first, and on the first call with the config
-// loaded it creates the GLLive message, friend and leaderboard components. Then it reads the sign-in
-// state, binds the player UID, and processes the GLLive connection events (event 6291457 on the
-// connection queue, Game Center state 6 and 7, and the lobby lookup by name). Finally it runs
-// UpdateRoom, ProcessGLLiveEvents and ProcessFriendEvents and returns their OR. The part this port
-// has (UpdateRoom, ProcessGLLiveEvents, ProcessFriendEvents, combined in the original order) is
-// reproduced. The bootstrap, the sign-in and connection-event branches are not reproduced, because
-// the base update, the sign-in singleton and the connection-manager event queue are not in this port.
+// Partial. The base CMatching::Update (CMatchingBase::Update, partial in its own row) runs first, as in the
+// original. The original then, on the first call with the config loaded, creates the GLLive message,
+// friend and leaderboard components (+0x6708..+0x671c, +0x67eb). Then it reads the sign-in state, binds the
+// player UID, and processes the GLLive connection events (event 6291457 on the connection queue, Game Center
+// state 6 and 7, and the lobby lookup by name). Finally it runs UpdateRoom, ProcessGLLiveEvents and
+// ProcessFriendEvents and returns their OR. The part this port has (the base update, UpdateRoom,
+// ProcessGLLiveEvents, ProcessFriendEvents, combined in the original order) is reproduced. The component
+// bootstrap, the sign-in branch and the connection-event branches are not reproduced, because the
+// components' observers, the sign-in update and the connection-manager event queue are not in this port.
 std::int32_t CMatchingGLLive::Update() {
+    CMatchingBase::Update();  // CMatching::Update (partial in its own row)
     const std::int32_t updated = UpdateRoom();
     const std::int32_t gl = ProcessGLLiveEvents() | updated;
     return gl | ProcessFriendEvents();
 }
 
 // 0x820e7c _ZN15CMatchingGLLive9AddServerEiR10CNetworkIdiR15CRoomAttributes
-// Partial. The original locks the mutex at +0x675c and walks the server map at +0x39e8 (keyed by a
-// member counter at +0x363c, which it increments) looking for an entry whose network id equals the
-// argument. A matching entry gets its server field and room attributes replaced. Otherwise a new
-// tMatchingPeer is inserted, filled with the network id, the room attributes, the transport name
-// (through GetTransportMgr and its vtable slot +0x1c) and the server id. It then queues event 8388622
-// on CMatching's queue when the byte at +0x3630 is set, and unlocks. The server map type, the entry
-// layout and the transport manager are not declared in this port, so AddServer does nothing.
-void CMatchingGLLive::AddServer(std::int32_t /*a2*/, CNetworkId& /*serverId*/, std::int32_t /*a4*/,
-                                CRoomAttributes& /*attributes*/) {
-    // Partial: server map insert and event queueing not reproduced.
+// Under the mutex at +0x675c, walks the server map at +0x39e8 in key order for an entry whose address equals
+// the argument. A match gets its rank (+0x3c) replaced and its last-seen time (+0x20) set to the online clock,
+// and the function returns. Otherwise a tMatchingPeer is built with the member id, the address, the online
+// clock, the transport name of the address, the rank and a copy of the room attributes, and is inserted under
+// the next key (the counter at +0x363c, which is incremented). When the pending flag at +0x3630 is set it posts
+// event 8388622 on the matching queue.
+// Partial: the transport name comes from the transport stand-in (GetTransportNameOf, the original asks the
+// transport manager's vtable slot +0x1c) and the clock from the online clock stand-in. The peer's time offset
+// (+0x40) is copied from an uninitialised temporary in the original; the port keeps 0.
+void CMatchingGLLive::AddServer(std::int32_t memberId, CNetworkId& serverId, std::int32_t rank,
+                                CRoomAttributes& attributes) {
+    serversMutex_.Lock();
+    for (auto& entry : servers_) {
+        if (entry.second.address.IsEqual(serverId)) {
+            entry.second.lastSeenMs = OnlineNowMs();  // +0x20
+            entry.second.rank = rank;                 // +0x3c
+            serversMutex_.Unlock();
+            return;
+        }
+    }
+    tMatchingPeer peer;
+    peer.memberId = memberId;
+    peer.address = serverId;
+    peer.lastSeenMs = OnlineNowMs();
+    peer.name = GetTransportNameOf(serverId);
+    peer.rank = rank;
+    peer.roomAttributes = attributes;
+    const std::uint64_t key = static_cast<std::uint64_t>(static_cast<std::int64_t>(nextPeerKey_));
+    ++nextPeerKey_;  // +0x363c
+    servers_[key] = peer;
+    if (roomOperationPending_) {
+        MatchingInternalEventQueue().AddEvent(8388622, nullptr, 0);
+    }
+    serversMutex_.Unlock();
 }
 
 // 0x821110 _ZN15CMatchingGLLive20ProcessServerMessageER10CNetworkIdR12NetBitStream
-// The original runs only when the matching object is not the server (CMatching::IsServer, not
-// reachable here). Then it reads a 0x28-byte network id from the stream, unserializes the room
-// attributes, and calls AddServer with the network id's field 7 (member id), field 8 and the room
-// attributes, then destroys the room attributes. The server check is not declared on this class,
-// so no message is read and nothing is added.
+// Partial, no body. The original runs only when IsServer() is false (CMatchingBase::IsServer is reachable now).
+// It then reads a 0x28-byte record (a 28-byte CNetworkId, the member id at +0x1c and the member count at +0x20),
+// unserializes the room attributes from the stream, calls AddServer(member id, address, member count,
+// attributes) and destroys the attributes. CRoomAttributes::Unserialize(NetBitStream&) is declared in
+// c_room_attributes.hpp but not defined (the NetStruct wire format is net-transport's), so the attributes of
+// a server message cannot be read and nothing is added.
 void CMatchingGLLive::ProcessServerMessage(CNetworkId& /*from*/, NetBitStream& /*stream*/) {
-    // Partial: IsServer() check, stream read and AddServer call not reproduced.
+    // Partial: IsServer() check, stream read, Unserialize and the AddServer call not reproduced.
 }
 
 // 0x821218 _ZN15CMatchingGLLive30sBroadcastPacketReceiverCallbackER10CNetworkIdPci

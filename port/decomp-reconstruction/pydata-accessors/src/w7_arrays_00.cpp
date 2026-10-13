@@ -1,51 +1,21 @@
-// Arrays::X::finalize() for the 33 tables of slice arrays_00. One shared body (FinalizeArrayTable):
+// Arrays::X::finalize() for the 33 tables of slice arrays_00. One shared body (pydata::FinalizeArrayTable<Elem>,
+// element_table.hpp), identical in the 33 Hex-Rays bodies apart from the element stride:
 //   1. if members is set and size is nonzero, the element vtable slot +0x8 (finalize) runs on each element,
 //      in order;
 //   2. if members is still set, the element vtable slot +0x0 (D1, the virtual destructor) runs from the last
 //      element back to the first, then the block at members - 8 is freed (CustomFree);
 //   3. members is cleared.
-// The stride of each table is sizeof(its element class) in the port. The ARM listing stride of each table is
-// kept in the comment on its line (e.g. "listing stride 72"). Hex-Rays gives the listing strides; the ARM
-// listing was checked for v2Quests (284) and InventoryTable (8).
-#include <cstring>
-
-#include "pydata-accessors/array_element.hpp"
+// Elements are host objects reached through the typed pointer Elem*; the port never steps through the table by
+// the 32-bit stride. The original 32-bit stride of each table is `Arrays::ListingStride::X` (array_strides.hpp,
+// checked against Hex-Rays by check_array_strides.py) and appears in the comment on each function.
+#include "pydata-accessors/array_strides.hpp"
+#include "pydata-accessors/element_table.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 #include "pydata-accessors/w7_structs_3.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
-
-namespace {
-
-template <std::size_t Stride>
-void FinalizeArrayTable(std::uint8_t*& members, std::uint32_t& size) {
-    if (members == nullptr) return;
-    if (size != 0) {
-        for (std::uint32_t i = 0; i < size; ++i) {
-            reinterpret_cast<pydata::ArrayElement*>(members + Stride * i)->finalize();
-        }
-    }
-    if (members != nullptr) {
-        std::uint32_t count;
-        std::memcpy(&count, members - 4, sizeof count);
-        std::uint8_t* last = members + Stride * count;
-        if (last != members) {
-            for (;;) {
-                std::uint8_t* cur = last - Stride;
-                reinterpret_cast<pydata::ArrayElement*>(cur)->~ArrayElement();
-                last = members;
-                if (members == cur) break;
-                last = cur;
-            }
-        }
-        CustomFree(last - 8);
-    }
-    members = nullptr;
-}
-
-}  // namespace
 
 namespace Arrays {
 
@@ -118,134 +88,135 @@ std::uint32_t ItemBonusAttrMonopoly::size = 0;
 
 // 0x4a38a4 _ZN6Arrays6Sounds8finalizeEv
 // listing stride 12; element Structs::SoundAutoGen
-void Sounds::finalize() { FinalizeArrayTable<sizeof(Structs::SoundAutoGen)>(members, size); }
+void Sounds::finalize() { pydata::FinalizeArrayTable<Structs::SoundAutoGen>(members, size); }
 
 // 0x4a3a24 _ZN6Arrays15StrID_Languages8finalizeEv
 // listing stride 12; element Structs::LangSheetList
-void StrID_Languages::finalize() { FinalizeArrayTable<sizeof(Structs::LangSheetList)>(members, size); }
+void StrID_Languages::finalize() { pydata::FinalizeArrayTable<Structs::LangSheetList>(members, size); }
 
 // 0x4a3ba4 _ZN6Arrays14GameObjectDict8finalizeEv
 // listing stride 12; element Structs::ColladaFile
-void GameObjectDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
+void GameObjectDict::finalize() { pydata::FinalizeArrayTable<Structs::ColladaFile>(members, size); }
 
 // 0x4a3d24 _ZN6Arrays14ProjectileDict8finalizeEv
 // listing stride 12; element Structs::ColladaFile
-void ProjectileDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
+void ProjectileDict::finalize() { pydata::FinalizeArrayTable<Structs::ColladaFile>(members, size); }
 
 // 0x4a3ea4 _ZN6Arrays10EffectDict8finalizeEv
 // listing stride 12; element Structs::ColladaFile
-void EffectDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
+void EffectDict::finalize() { pydata::FinalizeArrayTable<Structs::ColladaFile>(members, size); }
 
 // 0x4a4024 _ZN6Arrays8AnimDict8finalizeEv
 // listing stride 12; element Structs::ColladaFile
-void AnimDict::finalize() { FinalizeArrayTable<sizeof(Structs::ColladaFile)>(members, size); }
+void AnimDict::finalize() { pydata::FinalizeArrayTable<Structs::ColladaFile>(members, size); }
 
 // 0x4a41a4 _ZN6Arrays9ModelDict8finalizeEv
-// listing stride 12; PARTIAL: no element class declared for ModelDict, stride left at the listing value
-void ModelDict::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::ColladaFile (vtable off_96B728 in 0x4b86f0, same class as the other Dict tables)
+void ModelDict::finalize() { pydata::FinalizeArrayTable<Structs::ColladaFile>(members, size); }
 
 // 0x4a4324 _ZN6Arrays15WorldMapLockers8finalizeEv
 // listing stride 12; element Structs::WorldMapLocker
-void WorldMapLockers::finalize() { FinalizeArrayTable<sizeof(Structs::WorldMapLocker)>(members, size); }
+void WorldMapLockers::finalize() { pydata::FinalizeArrayTable<Structs::WorldMapLocker>(members, size); }
 
 // 0x4a44a4 _ZN6Arrays8WorldMap8finalizeEv
 // listing stride 20; element Structs::WldMapLocation
-void WorldMap::finalize() { FinalizeArrayTable<sizeof(Structs::WldMapLocation)>(members, size); }
+void WorldMap::finalize() { pydata::FinalizeArrayTable<Structs::WldMapLocation>(members, size); }
 
 // 0x4a4624 _ZN6Arrays8v2Quests8finalizeEv
 // listing stride 284; element Structs::v2Quest
-void v2Quests::finalize() { FinalizeArrayTable<sizeof(Structs::v2Quest)>(members, size); }
+void v2Quests::finalize() { pydata::FinalizeArrayTable<Structs::v2Quest>(members, size); }
 
 // 0x4a47a4 _ZN6Arrays8v2Events8finalizeEv
 // listing stride 24; element Structs::v2Event
-void v2Events::finalize() { FinalizeArrayTable<sizeof(Structs::v2Event)>(members, size); }
+void v2Events::finalize() { pydata::FinalizeArrayTable<Structs::v2Event>(members, size); }
 
 // 0x4a4924 _ZN6Arrays12v2Conditions8finalizeEv
 // listing stride 16; element Structs::v2CondAnd
-void v2Conditions::finalize() { FinalizeArrayTable<sizeof(Structs::v2CondAnd)>(members, size); }
+void v2Conditions::finalize() { pydata::FinalizeArrayTable<Structs::v2CondAnd>(members, size); }
 
 // 0x4a4a98 _ZN6Arrays11TrophyTable8finalizeEv
 // listing stride 32; element Structs::Trophy
-void TrophyTable::finalize() { FinalizeArrayTable<sizeof(Structs::Trophy)>(members, size); }
+void TrophyTable::finalize() { pydata::FinalizeArrayTable<Structs::Trophy>(members, size); }
 
 // 0x4a4c0c _ZN6Arrays11SpawnGroups8finalizeEv
 // listing stride 20; element Structs::SpawnGroup
-void SpawnGroups::finalize() { FinalizeArrayTable<sizeof(Structs::SpawnGroup)>(members, size); }
+void SpawnGroups::finalize() { pydata::FinalizeArrayTable<Structs::SpawnGroup>(members, size); }
 
 // 0x4a4d8c _ZN6Arrays10Sounds_bak8finalizeEv
 // listing stride 44; element Structs::Sound
-void Sounds_bak::finalize() { FinalizeArrayTable<sizeof(Structs::Sound)>(members, size); }
+void Sounds_bak::finalize() { pydata::FinalizeArrayTable<Structs::Sound>(members, size); }
 
 // 0x4a4f0c _ZN6Arrays18SoundGroupsRouting8finalizeEv
 // listing stride 16; element Structs::SoundGroup
-void SoundGroupsRouting::finalize() { FinalizeArrayTable<sizeof(Structs::SoundGroup)>(members, size); }
+void SoundGroupsRouting::finalize() { pydata::FinalizeArrayTable<Structs::SoundGroup>(members, size); }
 
 // 0x4a5080 _ZN6Arrays17SoundBankPlayback8finalizeEv
 // listing stride 12; element Structs::SoundBank
-void SoundBankPlayback::finalize() { FinalizeArrayTable<sizeof(Structs::SoundBank)>(members, size); }
+void SoundBankPlayback::finalize() { pydata::FinalizeArrayTable<Structs::SoundBank>(members, size); }
 
 // 0x4a5200 _ZN6Arrays9Listeners8finalizeEv
 // listing stride 28; element Structs::Listener
-void Listeners::finalize() { FinalizeArrayTable<sizeof(Structs::Listener)>(members, size); }
+void Listeners::finalize() { pydata::FinalizeArrayTable<Structs::Listener>(members, size); }
 
 // 0x4a5380 _ZN6Arrays15CharSoundsTable8finalizeEv
 // listing stride 40; element Structs::CharSounds
-void CharSoundsTable::finalize() { FinalizeArrayTable<sizeof(Structs::CharSounds)>(members, size); }
+void CharSoundsTable::finalize() { pydata::FinalizeArrayTable<Structs::CharSounds>(members, size); }
 
 // 0x4a5500 _ZN6Arrays10SkillTable8finalizeEv
 // listing stride 76; element Structs::Skill
-void SkillTable::finalize() { FinalizeArrayTable<sizeof(Structs::Skill)>(members, size); }
+void SkillTable::finalize() { pydata::FinalizeArrayTable<Structs::Skill>(members, size); }
 
 // 0x4a5680 _ZN6Arrays14SkillListTable8finalizeEv
 // listing stride 12; element Structs::SkillList
-void SkillListTable::finalize() { FinalizeArrayTable<sizeof(Structs::SkillList)>(members, size); }
+void SkillListTable::finalize() { pydata::FinalizeArrayTable<Structs::SkillList>(members, size); }
 
 // 0x4a5800 _ZN6Arrays15ProjectileTable8finalizeEv
 // listing stride 72; element Structs::Projectile
-void ProjectileTable::finalize() { FinalizeArrayTable<sizeof(Structs::Projectile)>(members, size); }
+void ProjectileTable::finalize() { pydata::FinalizeArrayTable<Structs::Projectile>(members, size); }
 
 // 0x4a5980 _ZN6Arrays12NumProbArray8finalizeEv
 // listing stride 12; element Structs::NumProbList
-void NumProbArray::finalize() { FinalizeArrayTable<sizeof(Structs::NumProbList)>(members, size); }
+void NumProbArray::finalize() { pydata::FinalizeArrayTable<Structs::NumProbList>(members, size); }
 
 // 0x4a5b00 _ZN6Arrays13MerchantTable8finalizeEv
 // listing stride 20; element Structs::Merchant
-void MerchantTable::finalize() { FinalizeArrayTable<sizeof(Structs::Merchant)>(members, size); }
+void MerchantTable::finalize() { pydata::FinalizeArrayTable<Structs::Merchant>(members, size); }
 
 // 0x4a5c80 _ZN6Arrays9LootTable8finalizeEv
 // listing stride 36; element Structs::Loot
-void LootTable::finalize() { FinalizeArrayTable<sizeof(Structs::Loot)>(members, size); }
+void LootTable::finalize() { pydata::FinalizeArrayTable<Structs::Loot>(members, size); }
 
 // 0x4a5e00 _ZN6Arrays12ItemTypeList8finalizeEv
 // listing stride 12; element Structs::ItemTypeListList
-void ItemTypeList::finalize() { FinalizeArrayTable<sizeof(Structs::ItemTypeListList)>(members, size); }
+void ItemTypeList::finalize() { pydata::FinalizeArrayTable<Structs::ItemTypeListList>(members, size); }
 
 // 0x4a6100 _ZN6Arrays8ItemList8finalizeEv
-// listing stride 12; element Structs::ItemListEntry (matched by name; the element is not confirmed in the ledger)
-void ItemList::finalize() { FinalizeArrayTable<sizeof(Structs::ItemListEntry)>(members, size); }
+// listing stride 12; element Structs::ItemListEntryList (vtable off_96AD50 in 0x4ba27c is ItemListEntryList; the
+// earlier name match to Structs::ItemListEntry was wrong, that class is the element OF an ItemListEntryList)
+void ItemList::finalize() { pydata::FinalizeArrayTable<Structs::ItemListEntryList>(members, size); }
 
 // 0x4a6280 _ZN6Arrays14InventoryTable8finalizeEv
 // listing stride 8; element Structs::Inventory
-void InventoryTable::finalize() { FinalizeArrayTable<sizeof(Structs::Inventory)>(members, size); }
+void InventoryTable::finalize() { pydata::FinalizeArrayTable<Structs::Inventory>(members, size); }
 
 // 0x4a63f4 _ZN6Arrays21DropTilePriorityTable8finalizeEv
-// listing stride 12; PARTIAL: no element class declared for DropTilePriorityTable, stride left at the listing value
-void DropTilePriorityTable::finalize() { FinalizeArrayTable<12>(members, size); }
+// listing stride 12; element Structs::TileOffsetList (vtable off_96ACF0 in 0x4ba4fc)
+void DropTilePriorityTable::finalize() { pydata::FinalizeArrayTable<Structs::TileOffsetList>(members, size); }
 
 // 0x4a6574 _ZN6Arrays20ItemAudioVisualTable8finalizeEv
 // listing stride 20; element Structs::ItemAudioVisual
-void ItemAudioVisualTable::finalize() { FinalizeArrayTable<sizeof(Structs::ItemAudioVisual)>(members, size); }
+void ItemAudioVisualTable::finalize() { pydata::FinalizeArrayTable<Structs::ItemAudioVisual>(members, size); }
 
 // 0x4a66f4 _ZN6Arrays9LevelList8finalizeEv
 // listing stride 72; element Structs::LevelDeclaration
-void LevelList::finalize() { FinalizeArrayTable<sizeof(Structs::LevelDeclaration)>(members, size); }
+void LevelList::finalize() { pydata::FinalizeArrayTable<Structs::LevelDeclaration>(members, size); }
 
 // 0x4a6874 _ZN6Arrays14FastTravelList8finalizeEv
 // listing stride 28; element Structs::FastTravelDestination
-void FastTravelList::finalize() { FinalizeArrayTable<sizeof(Structs::FastTravelDestination)>(members, size); }
+void FastTravelList::finalize() { pydata::FinalizeArrayTable<Structs::FastTravelDestination>(members, size); }
 
 // 0x4a69f4 _ZN6Arrays21ItemBonusAttrMonopoly8finalizeEv
-// listing stride 12; element Structs::ItemBonusAttrList (matched by name; the element is not confirmed in the ledger)
-void ItemBonusAttrMonopoly::finalize() { FinalizeArrayTable<sizeof(Structs::ItemBonusAttrList)>(members, size); }
+// listing stride 12; element Structs::ItemBonusAttrList (vtable in 0x4baa30 confirms it)
+void ItemBonusAttrMonopoly::finalize() { pydata::FinalizeArrayTable<Structs::ItemBonusAttrList>(members, size); }
 
 }  // namespace Arrays

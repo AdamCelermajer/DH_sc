@@ -1,21 +1,17 @@
 #pragma once
 
-// Arrays::X::finalize for the 32 tables of arrays_01 (see NOTES.md, "Arrays element ABI").
-// The original static members `members` (element 0) and `size` belong to each table; they are not
-// declared in this category, so each function takes them by reference. The shared body is
-// pydata::FinalizeArrayTable. Element stride is per table (passed as the stride argument).
+// Arrays::X::finalize for the 32 tables of arrays_01 (see NOTES.md, "Element tables").
+// The static `members` (element 0) and `size` of these tables are owned by the slice that reads them
+// (w7_arrays27.hpp, w7_arrays_00.hpp), so each function takes them by reference. The shared body is
+// pydata::FinalizeArrayTable<Elem> (element_table.hpp); the element class is typed per table, so no stride
+// is passed.
 #include <cstddef>
 #include <cstdint>
 
-namespace pydata {
-
-// Shared body of the Arrays::X::finalize family. `members` is element 0; the element count the
-// destructor walks is the word at members-4 and the allocation starts at members-8. Sets members to null.
-void FinalizeArrayTable(std::uint8_t*& members, std::uint32_t size, std::size_t stride);
-
-}  // namespace pydata
-
 namespace Arrays {
+
+// 0x4a5f80  _ZN6Arrays9ItemTable8finalizeEv
+void FinalizeItemTable(std::uint8_t*& members, std::uint32_t size);
 
 // 0x4a6b74  _ZN6Arrays14ItemPowerTable8finalizeEv
 void FinalizeItemPowerTable(std::uint8_t*& members, std::uint32_t size);

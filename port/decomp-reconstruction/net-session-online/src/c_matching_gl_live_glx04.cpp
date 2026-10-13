@@ -12,6 +12,7 @@
 #include "net-session-online/deps/xp_api.hpp"
 #include "net-session-online/glx_player_component.hpp"
 #include "net-session-online/glx_player_leaderboard.hpp"
+#include "net-session-online/glx_player_serever_config.hpp"
 
 // Statics. The original keeps them as globals of the class.
 bool CMatchingGLLive::s_IsGameStarting = false;
@@ -134,8 +135,9 @@ std::int32_t CMatchingGLLive::GLSendHighScore(std::int32_t score) {
 }
 
 // 0x81c18c _ZN15CMatchingGLLive6GetGGIEv
+// The GGI of the GLXPlayerSereverConfig at +0x6710.
 unsigned long CMatchingGLLive::GetGGI() {
-    return glxComponent_ != nullptr ? glxComponent_->GetGGI() : 0UL;
+    return glxServerConfig_ != nullptr ? glxServerConfig_->GetGGI() : 0UL;
 }
 
 // 0x81c32c _ZN15CMatchingGLLive30GetGLXPlayerUserFriendObserverEv
@@ -147,7 +149,7 @@ CMatchingGLLiveFriendObserver* CMatchingGLLive::GetGLXPlayerUserFriendObserver()
 }
 
 // 0x81c410 _ZN15CMatchingGLLive27GetGLXPlayerMPLobbyObserverEv
-CMatchingGLLiveLobbyObserver* CMatchingGLLive::GetGLXPlayerMPLobbyObserver() {
+CMatchingGLLiveLobbyObserver* CMatchingGLLive::GetGLXPlayerMPLobbyObserver() const {
     if (s_GLXPlayerMPLobbyObserver == nullptr) {
         s_GLXPlayerMPLobbyObserver = new CMatchingGLLiveLobbyObserver();
     }
@@ -191,8 +193,8 @@ void CMatchingGLLive::ProcessRoomStatusMessage(int /*from*/, NetBitStream& strea
 }
 
 // 0x81c938 _ZN15CMatchingGLLive22PacketReceiverCallbackEiPci
-// Partial: message type 3 (ProcessMemberJoinMessage, 0x81c200) is not reconstructed yet, so
-// it is not dispatched here.
+// The first byte selects the handler: 3 is the member join message, 4 the server change and 5 the room status.
+// Other types are ignored.
 void CMatchingGLLive::PacketReceiverCallback(int from, char* data, int size) {
     const auto byteCount = static_cast<std::uint32_t>(size);
     NetBitStream stream(byteCount);
@@ -207,6 +209,9 @@ void CMatchingGLLive::PacketReceiverCallback(int from, char* data, int size) {
             break;
         case 5:
             ProcessRoomStatusMessage(from, stream);
+            break;
+        case 3:
+            ProcessMemberJoinMessage(from, stream);
             break;
         default:
             break;

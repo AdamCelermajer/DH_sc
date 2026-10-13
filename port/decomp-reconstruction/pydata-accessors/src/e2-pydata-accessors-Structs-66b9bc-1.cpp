@@ -1,63 +1,22 @@
 // Track B batch e2-pydata-accessors-Structs-66b9bc-1 (category pydata-accessors, owner Structs, part 2 of 2).
 // The read(IStreamBase*) bodies of 12 Structs record classes. Each body follows the Hex-Rays order of
-// reads, frees and allocations. The element arrays use the block layout of the Arrays readers
-// (e2-pydata-accessors-Arrays-b90cc9-0.cpp): an 8-byte header (stride word, count word), then the elements.
-// Element arrays are built with placement new, so the element's default member initialisers give the zeroed
-// buffer pointers that the listing clears (v2QuestObjectiveStub +0x14 and +0x1c).
+// reads, frees and allocations. The element arrays use the block of the Arrays readers
+// (e2-pydata-accessors-Arrays-b90cc9-0.cpp): an 8-byte header (stride word, count word), then the elements,
+// built by pydata::NewAndReadElementTable (element_table.hpp). The elements are host objects constructed in place
+// (so the element's default member initialisers give the zeroed buffer pointers that the listing clears:
+// v2QuestObjectiveStub +0x14 and +0x1c), reached through a typed pointer, and the stride word holds the original
+// 32-bit stride (Structs::ListingStride, struct_strides.hpp: 36 for LootEntry, 16 for v2ConditionStub and
+// v2QuestRewardStub, 44 for v2QuestObjectiveStub). A host table is never addressed with those strides.
 
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
-#include <new>
 
 #include "pydata-accessors/deps/stream_reader.hpp"
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
-
-namespace {
-
-// Frees an element array: the elements are destroyed from the last to the first (vtable slot 0, the
-// complete-object destructor), then the block (members - 8) is freed. The count is read from the header
-// word at members - 4, as the listing does (`*(v4 - 4)`).
-template <class Elem, class Ptr>
-void DestroyElementArray(Ptr& members) {
-    if (members == nullptr) return;
-    auto* base = reinterpret_cast<std::uint8_t*>(members);
-    std::uint32_t count = 0;
-    std::memcpy(&count, base - 4, sizeof count);
-    for (std::uint32_t i = count; i > 0; --i) {
-        reinterpret_cast<Elem*>(base + sizeof(Elem) * (i - 1))->~Elem();
-    }
-    CustomFree(base - 8);
-    members = nullptr;
-}
-
-// Allocates an element array of `count` elements (listing: operator new[](stride * count + 8, 1)) and
-// constructs each element in place (the vptr store of the listing).
-template <class Elem, class Ptr>
-void AllocElementArray(Ptr& members, std::uint32_t count) {
-    const std::uint32_t stride = static_cast<std::uint32_t>(sizeof(Elem));
-    auto* base = static_cast<std::uint8_t*>(MemoryHintState(static_cast<std::size_t>(stride) * count + 8, 1));
-    std::memcpy(base, &stride, sizeof stride);  // header word 0: stride
-    std::memcpy(base + 4, &count, sizeof count);  // header word 1: count
-    std::uint8_t* elements = base + 8;
-    for (std::uint32_t i = 0; i < count; ++i) {
-        new (elements + sizeof(Elem) * i) Elem();
-    }
-    members = static_cast<Ptr>(elements);
-}
-
-// Reads each element with its virtual read (vtable slot 3), in index order.
-template <class Elem, class Ptr>
-void ReadElementArray(IStreamBase* stream, Ptr members, std::uint32_t count) {
-    auto* base = reinterpret_cast<std::uint8_t*>(members);
-    for (std::uint32_t i = 0; i < count; ++i) {
-        reinterpret_cast<Elem*>(base + sizeof(Elem) * i)->read(stream);
-    }
-}
-
-}  // namespace
 
 namespace Structs {
 
@@ -79,16 +38,14 @@ void FastTravelDestination::read(IStreamBase* stream) {
 void Loot::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);  // +0x4
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
-    // Table A: LootEntry elements (stride 36).
+    // Table A: LootEntry elements (listing stride 36).
     m_w3 = StreamReader::readAs<std::uint32_t>(stream);  // +0xc, count of table A
-    DestroyElementArray<LootEntry>(m_w4);
-    AllocElementArray<LootEntry>(m_w4, m_w3);
-    ReadElementArray<LootEntry>(stream, m_w4, m_w3);
-    // Table B: LootEntry elements (stride 36).
+    pydata::DeleteElementTable<LootEntry>(m_w4);
+    m_w4 = pydata::NewAndReadElementTable<LootEntry>(ListingStride::LootEntry, m_w3, stream);
+    // Table B: LootEntry elements (listing stride 36).
     m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14, count of table B
-    DestroyElementArray<LootEntry>(m_w6);
-    AllocElementArray<LootEntry>(m_w6, m_w5);
-    ReadElementArray<LootEntry>(stream, m_w6, m_w5);
+    pydata::DeleteElementTable<LootEntry>(m_w6);
+    m_w6 = pydata::NewAndReadElementTable<LootEntry>(ListingStride::LootEntry, m_w5, stream);
     // Table C: plain int32 words (stride 4), no element header.
     m_w7 = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c, count of table C
     if (m_w8 != nullptr) CustomFree(m_w8);
@@ -144,31 +101,26 @@ void v2Quest::read(IStreamBase* stream) {
     m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
     m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
     m_w4 = StreamReader::readAs<std::int32_t>(stream);  // +0x10
-    // Table 1: v2ConditionStub elements (stride 16).
+    // Table 1: v2ConditionStub elements (listing stride 16).
     m_w5 = StreamReader::readAs<std::uint32_t>(stream);  // +0x14
-    DestroyElementArray<v2ConditionStub>(m_w6);
-    AllocElementArray<v2ConditionStub>(m_w6, m_w5);
-    ReadElementArray<v2ConditionStub>(stream, m_w6, m_w5);
-    // Table 2: v2QuestObjectiveStub elements (stride 44).
+    pydata::DeleteElementTable<v2ConditionStub>(m_w6);
+    m_w6 = pydata::NewAndReadElementTable<v2ConditionStub>(ListingStride::v2ConditionStub, m_w5, stream);
+    // Table 2: v2QuestObjectiveStub elements (listing stride 44).
     m_w7 = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
-    DestroyElementArray<v2QuestObjectiveStub>(m_w8);
-    AllocElementArray<v2QuestObjectiveStub>(m_w8, m_w7);
-    ReadElementArray<v2QuestObjectiveStub>(stream, m_w8, m_w7);
-    // Table 3: v2QuestRewardStub elements (stride 16).
+    pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w8);
+    m_w8 = pydata::NewAndReadElementTable<v2QuestObjectiveStub>(ListingStride::v2QuestObjectiveStub, m_w7, stream);
+    // Table 3: v2QuestRewardStub elements (listing stride 16).
     m_w9 = StreamReader::readAs<std::uint32_t>(stream);  // +0x24
-    DestroyElementArray<v2QuestRewardStub>(m_w10);
-    AllocElementArray<v2QuestRewardStub>(m_w10, m_w9);
-    ReadElementArray<v2QuestRewardStub>(stream, m_w10, m_w9);
-    // Table 4: v2QuestRewardStub elements (stride 16).
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w10);
+    m_w10 = pydata::NewAndReadElementTable<v2QuestRewardStub>(ListingStride::v2QuestRewardStub, m_w9, stream);
+    // Table 4: v2QuestRewardStub elements (listing stride 16).
     m_w11 = StreamReader::readAs<std::uint32_t>(stream);  // +0x2c
-    DestroyElementArray<v2QuestRewardStub>(m_w12);
-    AllocElementArray<v2QuestRewardStub>(m_w12, m_w11);
-    ReadElementArray<v2QuestRewardStub>(stream, m_w12, m_w11);
-    // Table 5: v2QuestRewardStub elements (stride 16).
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w12);
+    m_w12 = pydata::NewAndReadElementTable<v2QuestRewardStub>(ListingStride::v2QuestRewardStub, m_w11, stream);
+    // Table 5: v2QuestRewardStub elements (listing stride 16).
     m_w13 = StreamReader::readAs<std::uint32_t>(stream);  // +0x34
-    DestroyElementArray<v2QuestRewardStub>(m_w14);
-    AllocElementArray<v2QuestRewardStub>(m_w14, m_w13);
-    ReadElementArray<v2QuestRewardStub>(stream, m_w14, m_w13);
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w14);
+    m_w14 = pydata::NewAndReadElementTable<v2QuestRewardStub>(ListingStride::v2QuestRewardStub, m_w13, stream);
     // Two embedded objective stubs, then the scripts block.
     m_sub60.v2QuestObjectiveStub::read(stream);  // +0x3c
     m_sub104.v2QuestObjectiveStub::read(stream);  // +0x68

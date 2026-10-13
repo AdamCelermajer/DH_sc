@@ -1,7 +1,7 @@
 // Track B batch e2-glitch-scene-collada-gui-pack0-397dcd-0.
 //
-// Owners: glitch::scene::CCameraSceneNode (constructor only; the other camera functions are skipped, see
-// the ledger), and glitch::collada::animation_track::CVirtualEx<CApplyValueEx<vector3d<float>,
+// Owners: glitch::scene::CCameraSceneNode (constructor only; the other camera functions are in
+// tb_scene-collada-gui-glitch_scene_CCameraSceneNode-0.cpp), and glitch::collada::animation_track::CVirtualEx<CApplyValueEx<vector3d<float>,
 // CSceneNodeScaleComponentMixin<CSceneNodeScaleYEx<float>, 1, float>>>.
 //
 // The ScaleZ CVirtualEx bodies (0x60ef1c, 0x610ebc, 0x620600, 0x622bf8, 0x62a2e0, 0x62c3c4) are already defined in
@@ -29,18 +29,22 @@ float floatFromBits(std::uint32_t bits) {
 
 }  // namespace
 
-// 0x583734 _ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b
-// PARTIAL. The original first constructs the ICameraSceneNode base (its arguments are the id, the position,
-// a zero rotation and a unit scale), sets the vtable words at +0x00, +0x130 and +0x384, and then calls
-// setAutomaticCulling(0) on the ISceneNode base and recalculateProjectionMatrix(). None of that is reconstructed:
-// the base is not declared, the vtable words are not kept, and recalculateProjectionMatrix is skipped. The id
-// and the position are therefore not used. The member writes below are the reconstructed part: target
-// (+0x138), up vector (0, 1, 0) (+0x144), fov (+0x154), aspect (+0x158), near (+0x15c = 1.0), far (+0x160 =
-// 2048.0), farToInfinity (+0x164), inputReceiverEnabled (+0x165 = 1). The orthogonal flag (+0x134) and mag
-// (+0x150) are not written by this constructor.
+// 0x583734 _ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b (complete object)
+// 0x583878 _ZN6glitch5scene16CCameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_b (base object)
+// The ICameraSceneNode base gets (id, position, rotation (0, 0, 0), scale (1, 1, 1)). The members are then written
+// as the pseudocode writes them: target (+0x138), up vector (0, 1, 0) (+0x144), fov 0x3FA0D97C (+0x154),
+// aspect 0x3FAAAAAB (+0x158), near 1.0 (+0x15c), far 2048.0 = 0x45000000 (+0x160), farToInfinity (+0x164) and
+// inputReceiverEnabled = true (+0x165). The SViewFrustum member (+0x168) is constructed by its own constructor.
+// The orthogonal flag (+0x134) is written by the base and mag (+0x150) is not written by this constructor. The body
+// then calls recalculateProjectionMatrix() (the virtual at Hex-Rays +0x158) and ISceneNode::setAutomaticCulling(0).
+// PARTIAL for the complete-object variant 0x583734: that variant also stores the vtable word and the reference count
+// 1 of the IReferenceCounted virtual base (+0x384/+0x388), which ISceneNode does not model here. The base-object
+// variant 0x583878 never touches the virtual base, so this constructor is its full body.
 CCameraSceneNode::CCameraSceneNode(int id, const core::vector3d<float>& position,
-                                   const core::vector3d<float>& target, bool farToInfinityValue)
-    : target(target),
+                                   const core::vector3d<float>& targetPosition, bool farToInfinityValue)
+    : ICameraSceneNode(id, position, core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                       core::vector3d<float>{1.0f, 1.0f, 1.0f}),
+      target(targetPosition),
       upVector{0.0f, 1.0f, 0.0f},
       fov(floatFromBits(0x3FA0D97Cu)),
       aspectRatio(floatFromBits(0x3FAAAAABu)),
@@ -48,8 +52,8 @@ CCameraSceneNode::CCameraSceneNode(int id, const core::vector3d<float>& position
       farValue(2048.0f),
       farToInfinity(farToInfinityValue),
       inputReceiverEnabled(true) {
-    (void)id;
-    (void)position;
+    recalculateProjectionMatrix();
+    setAutomaticCulling(0);  // ISceneNode::setAutomaticCulling(this, 0)
 }
 
 }  // namespace glitch::scene

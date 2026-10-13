@@ -1,3 +1,5 @@
+# RETIRED (Ghidra-era helper of gen_structs.py and gen_script_cmd.py). Do not rerun those generators; the
+# files they produced are hand-maintained source now (Track B decision 7).
 """Virtual finalize/read slots for the Structs and ScriptCmd record classes.
 
 The original classes dispatch finalize (vtable +0x8) and read (+0xc) through the vtable: Arrays

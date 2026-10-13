@@ -6,12 +6,11 @@
 #include <cstdint>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/deps/event_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
+#include "glitch-scene-collada-gui/tb/glitch_scene_SViewFrustum.hpp"
 
-namespace glitch {
-struct SEvent;
-}
 namespace glitch::io {
 class IWriteFile;
 }
@@ -23,7 +22,6 @@ namespace glitch::scene {
 
 class IMeshWriter;
 class IMesh;
-struct SViewFrustum;
 class ITimelineController;
 
 // Animator base defaults. Each virtual is a constant or an empty body in the
@@ -75,95 +73,191 @@ public:
     core::aabbox3d<float> boundingBox;  // +0x130..+0x147 (min at +0x130, max at +0x13c)
 };
 
-// Base camera scene node: no target node in the original's default.
-class ICameraSceneNode {
+// glitch::scene::ICameraSceneNode: the camera interface. Layout (32-bit offsets), from the constructor 0x582b18 and
+// the vtable (tools/decomp_vtable.py ICameraSceneNode):
+//   +0x000 ISceneNode (0x130 bytes; its virtual base IReferenceCounted is placed at the end of the complete object)
+//   +0x130 the IEventReceiver sub-object (its vptr is the word off_95FC28 written by the constructor)
+//   +0x134 orthogonal flag byte
+// The primary vtable continues ISceneNode's 61 slots with the 24 camera slots below, in slot order (listing
+// offsets +0x100..+0x15c; a Hex-Rays call offset is the listing offset minus 0x0c). The IEventReceiver
+// sub-object has its own vtable (destructors and onEvent), whose onEvent entry is a thunk to the primary onEvent.
+//
+// The ISceneNode slots are not virtual in this category (scene_node.hpp has no vptr), so CCameraSceneNode's
+// overrides of them (getType, getBoundingBox, render, onRegisterSceneNode) are plain members that hide the base ones
+// until ISceneNode gets its vtable. The camera slots below are virtual. The overrides remove (0x582290) and
+// onChangedSceneManager (0x582aa0) are still the free-function stubs in recon/slice_05.hpp, because the real
+// ISceneNode::remove, CSceneManager::setActiveCamera and the driver's render-target size are not reconstructed.
+class ICameraSceneNode : public ISceneNode, public glitch::IEventReceiver {
 public:
-    // 0x35beb0 _ZNK6glitch5scene16ICameraSceneNode13getTargetNodeEv (returns null)
-    ISceneNode* getTargetNode() const;
-    // 0x35beb8 _ZN6glitch5scene16ICameraSceneNode13getTargetNodeEv (returns null)
-    ISceneNode* getTargetNode();
-    // 0x35bec0 _ZNK6glitch5scene16ICameraSceneNode12isOrthogonalEv (returns the flag byte at +0x134)
-    bool isOrthogonal() const;
+    // 0x582b18 _ZN6glitch5scene16ICameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_S6_
+    // Builds the rotation quaternion from the three angles (quaternion::set), forwards id, position, rotation and
+    // scale to the ISceneNode constructor, and clears the orthogonal flag. The vtable words are implicit.
+    ICameraSceneNode(int id, const core::vector3d<float>& position, const core::vector3d<float>& rotation,
+                     const core::vector3d<float>& scale);
+    // 0x35c3c4 _ZN6glitch5scene16ICameraSceneNodeD1Ev (listing +0x014/+0x018; skipped in the ledger)
+    ~ICameraSceneNode() override = default;
 
-    // Base region below +0x134 (ISceneNode base and the vptr word at +0x130) is not mapped yet.
-    std::uint8_t pad_0x00[0x134];
-    std::uint8_t orthogonal = 0;  // +0x134 width=1 (ctor 0x582b18 writes 0)
+    // Slot order of the primary vtable, listing offsets in the comments.
+    // +0x100
+    virtual void setProjectionMatrix(const core::CMatrix4<float>& projection, bool isOrthogonal) = 0;
+    // +0x104
+    virtual const core::CMatrix4<float>& getProjectionMatrix() const = 0;
+    // +0x108
+    virtual const core::CMatrix4<float>& getViewMatrix() const = 0;
+    // +0x10c
+    virtual bool onEvent(const glitch::SEvent& event) = 0;
+    // +0x110
+    virtual void setTarget(const core::vector3d<float>& target) = 0;
+    // +0x114
+    virtual const core::vector3d<float>& getTarget() const = 0;
+    // 0x35beb0 _ZNK6glitch5scene16ICameraSceneNode13getTargetNodeEv (returns null), +0x118
+    virtual ISceneNode* getTargetNode() const;
+    // 0x35beb8 _ZN6glitch5scene16ICameraSceneNode13getTargetNodeEv (returns null), +0x11c
+    virtual ISceneNode* getTargetNode();
+    // +0x120
+    virtual void setUpVector(const core::vector3d<float>& upVector) = 0;
+    // +0x124
+    virtual const core::vector3d<float>& getUpVector() const = 0;
+    // +0x128
+    virtual float getNearValue() const = 0;
+    // +0x12c
+    virtual float getFarValue() const = 0;
+    // +0x130
+    virtual float getAspectRatio() const = 0;
+    // +0x134
+    virtual float getFOV() const = 0;
+    // +0x138 (non-const in the original symbol)
+    virtual bool getFarToInifinity() = 0;
+    // +0x13c
+    virtual void setNearValue(float value) = 0;
+    // +0x140
+    virtual void setFarValue(float value) = 0;
+    // +0x144
+    virtual void setAspectRatio(float value) = 0;
+    // +0x148
+    virtual void setFOV(float value) = 0;
+    // +0x14c
+    virtual void setFarToInifinity(bool value) = 0;
+    // +0x150
+    virtual const SViewFrustum* getViewFrustum() const = 0;
+    // +0x154
+    virtual void setInputReceiverEnabled(bool enabled) = 0;
+    // +0x158
+    virtual bool isInputReceiverEnabled() const = 0;
+    // 0x35bec0 _ZNK6glitch5scene16ICameraSceneNode12isOrthogonalEv (returns the flag byte at +0x134), +0x15c
+    virtual bool isOrthogonal() const;
+
+    // The IEventReceiver sub-object's onEvent slot (listing +0x170 of the secondary vtable). The original entry is
+    // a non-virtual thunk that adjusts this by -0x130 and tail-calls the primary onEvent. The engine stand-in
+    // (deps/event_stand_ins.hpp) names the slot forwardEvent.
+    bool forwardEvent(const glitch::SEvent& event) override { return onEvent(event); }
+
+    // Members. +0x130 holds the IEventReceiver vptr word, which is implicit here.
+    bool orthogonal = false;  // +0x134 (the constructor writes 0; setProjectionMatrix stores its flag argument)
 };
 
-class CCameraSceneNode {
+// glitch::scene::CCameraSceneNode. Layout (32-bit offsets), from the constructors 0x583734 and 0x583878:
+//   +0x000 ICameraSceneNode (ISceneNode, the IEventReceiver sub-object at +0x130, the orthogonal byte at +0x134)
+//   +0x138 .. +0x167 the camera members below
+//   +0x168 SViewFrustum (0x21c bytes) up to +0x384
+//   +0x384 the IReferenceCounted virtual base (vptr, reference count): not modelled, see the constructor
+// The complete object is 0x38c bytes. The vtable (tools/decomp_vtable.py CCameraSceneNode) is the ICameraSceneNode one
+// with the camera overrides, plus two slots of its own: setMAG (+0x160) and recalculateProjectionMatrix (+0x164).
+class CCameraSceneNode : public ICameraSceneNode {
 public:
-    // 0x583734 CCameraSceneNode(int, vector3d const&, vector3d const&, bool) (e2, PARTIAL: the
-    // ICameraSceneNode/ISceneNode base constructor is not reconstructed, so id and position are not forwarded)
+    // 0x583734 _ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b (complete object)
+    // 0x583878 _ZN6glitch5scene16CCameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_b (base object)
+    // One C++ constructor covers both. The ICameraSceneNode base gets (id, position, rotation 0, scale 1).
+    // PARTIAL for the complete-object variant 0x583734: its virtual-base words (IReferenceCounted vptr at +0x384,
+    // reference count 1 at +0x388) are not modelled, because ISceneNode has no IReferenceCounted base here.
     CCameraSceneNode(int id, const core::vector3d<float>& position, const core::vector3d<float>& target,
                      bool farToInfinityValue);
-    // 0x581f34 _ZNK6glitch5scene16CCameraSceneNode7getTypeEv (tag "cam_")
-    std::uint32_t getType() const;
-    // 0x581f40 _ZN6glitch5scene16CCameraSceneNode23setInputReceiverEnabledEb
-    void setInputReceiverEnabled(bool enabled);
-    // 0x581f48 _ZNK6glitch5scene16CCameraSceneNode22isInputReceiverEnabledEv
-    bool isInputReceiverEnabled() const;
-    // 0x582130 _ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-    // 0x581f50 _ZNK6glitch5scene16CCameraSceneNode19getProjectionMatrixEv
-    const core::CMatrix4<float>& getProjectionMatrix() const;
-    // 0x581f58 _ZNK6glitch5scene16CCameraSceneNode13getViewMatrixEv
-    const core::CMatrix4<float>& getViewMatrix() const;
-    // 0x581fe4 _ZN6glitch5scene16CCameraSceneNode9setTargetERKNS_4core8vector3dIfEE
-    void setTarget(const core::vector3d<float>& target);
-    // 0x582000 _ZNK6glitch5scene16CCameraSceneNode9getTargetEv
-    const core::vector3d<float>& getTarget() const;
-    // 0x582008 _ZN6glitch5scene16CCameraSceneNode11setUpVectorERKNS_4core8vector3dIfEE
-    void setUpVector(const core::vector3d<float>& upVector);
-    // 0x582024 _ZNK6glitch5scene16CCameraSceneNode11getUpVectorEv
-    const core::vector3d<float>& getUpVector() const;
-    // 0x58202c _ZNK6glitch5scene16CCameraSceneNode12getNearValueEv
-    float getNearValue() const;
-    // 0x582034 _ZNK6glitch5scene16CCameraSceneNode11getFarValueEv
-    float getFarValue() const;
-    // 0x58203c _ZNK6glitch5scene16CCameraSceneNode14getAspectRatioEv
-    float getAspectRatio() const;
-    // 0x582044 _ZNK6glitch5scene16CCameraSceneNode6getFOVEv
-    float getFOV() const;
-    // 0x58204c _ZN6glitch5scene16CCameraSceneNode17getFarToInifinityEv
-    bool getFarToInifinity();
-    // 0x582054 _ZN6glitch5scene16CCameraSceneNode12setNearValueEf
-    void setNearValue(float value);
-    // 0x58206c _ZN6glitch5scene16CCameraSceneNode11setFarValueEf
-    void setFarValue(float value);
-    // 0x582084 _ZN6glitch5scene16CCameraSceneNode14setAspectRatioEf
-    void setAspectRatio(float value);
-    // 0x58209c _ZN6glitch5scene16CCameraSceneNode6setFOVEf
-    void setFOV(float value);
-    // 0x5820b4 _ZN6glitch5scene16CCameraSceneNode6setMAGEf
-    void setMAG(float value);
-    // 0x5820cc _ZN6glitch5scene16CCameraSceneNode17setFarToInifinityEb
-    void setFarToInifinity(bool value);
-    // 0x5820e4 _ZN6glitch5scene16CCameraSceneNode6renderEPv
-    void render(void* /*unused*/);
-    // 0x582138 _ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv
-    SViewFrustum* getViewFrustum() const;
-    // 0x5823ac _ZN6glitch5scene16CCameraSceneNode19setProjectionMatrixERKNS_4core8CMatrix4IfEEb
-    void setProjectionMatrix(const core::CMatrix4<float>& matrix, bool isOrthogonal);
 
-    // Fields in offset order. The base region (ISceneNode, vptr at +0x130) is not mapped here.
-    std::uint8_t orthogonal = 0;                // +0x134 (ICameraSceneNode flag byte, written by setProjectionMatrix)
+    // Overrides of the ICameraSceneNode slots, in slot order (listing offsets).
+    // 0x5823ac / +0x100 _ZN6glitch5scene16CCameraSceneNode19setProjectionMatrixERKNS_4core8CMatrix4IfEEb
+    void setProjectionMatrix(const core::CMatrix4<float>& matrix, bool isOrthogonal) override;
+    // 0x581f50 / +0x104 _ZNK6glitch5scene16CCameraSceneNode19getProjectionMatrixEv
+    const core::CMatrix4<float>& getProjectionMatrix() const override;
+    // 0x581f58 / +0x108 _ZNK6glitch5scene16CCameraSceneNode13getViewMatrixEv
+    const core::CMatrix4<float>& getViewMatrix() const override;
+    // 0x581f68 / +0x10c _ZN6glitch5scene16CCameraSceneNode7onEventERKNS_6SEventE
+    bool onEvent(const glitch::SEvent& event) override;
+    // 0x581fe4 / +0x110 _ZN6glitch5scene16CCameraSceneNode9setTargetERKNS_4core8vector3dIfEE
+    void setTarget(const core::vector3d<float>& target) override;
+    // 0x582000 / +0x114 _ZNK6glitch5scene16CCameraSceneNode9getTargetEv
+    const core::vector3d<float>& getTarget() const override;
+    // 0x582008 / +0x120 _ZN6glitch5scene16CCameraSceneNode11setUpVectorERKNS_4core8vector3dIfEE
+    void setUpVector(const core::vector3d<float>& upVector) override;
+    // 0x582024 / +0x124 _ZNK6glitch5scene16CCameraSceneNode11getUpVectorEv
+    const core::vector3d<float>& getUpVector() const override;
+    // 0x58202c / +0x128 _ZNK6glitch5scene16CCameraSceneNode12getNearValueEv
+    float getNearValue() const override;
+    // 0x582034 / +0x12c _ZNK6glitch5scene16CCameraSceneNode11getFarValueEv
+    float getFarValue() const override;
+    // 0x58203c / +0x130 _ZNK6glitch5scene16CCameraSceneNode14getAspectRatioEv
+    float getAspectRatio() const override;
+    // 0x582044 / +0x134 _ZNK6glitch5scene16CCameraSceneNode6getFOVEv
+    float getFOV() const override;
+    // 0x58204c / +0x138 _ZN6glitch5scene16CCameraSceneNode17getFarToInifinityEv
+    bool getFarToInifinity() override;
+    // 0x582054 / +0x13c _ZN6glitch5scene16CCameraSceneNode12setNearValueEf
+    void setNearValue(float value) override;
+    // 0x58206c / +0x140 _ZN6glitch5scene16CCameraSceneNode11setFarValueEf
+    void setFarValue(float value) override;
+    // 0x582084 / +0x144 _ZN6glitch5scene16CCameraSceneNode14setAspectRatioEf
+    void setAspectRatio(float value) override;
+    // 0x58209c / +0x148 _ZN6glitch5scene16CCameraSceneNode6setFOVEf
+    void setFOV(float value) override;
+    // 0x5820cc / +0x14c _ZN6glitch5scene16CCameraSceneNode17setFarToInifinityEb
+    void setFarToInifinity(bool value) override;
+    // 0x582138 / +0x150 _ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv
+    const SViewFrustum* getViewFrustum() const override;
+    // 0x581f40 / +0x154 _ZN6glitch5scene16CCameraSceneNode23setInputReceiverEnabledEb
+    void setInputReceiverEnabled(bool enabled) override;
+    // 0x581f48 / +0x158 _ZNK6glitch5scene16CCameraSceneNode22isInputReceiverEnabledEv
+    bool isInputReceiverEnabled() const override;
+
+    // The camera's own slots, after ICameraSceneNode's.
+    // 0x5820b4 / +0x160 _ZN6glitch5scene16CCameraSceneNode6setMAGEf
+    virtual void setMAG(float value);
+    // 0x58364c / +0x164 _ZN6glitch5scene16CCameraSceneNode25recalculateProjectionMatrixEv
+    // Rebuilds the projection matrix (orthographic from mag, perspective, or perspective with the far plane at
+    // infinity) into the frustum and calls setTransformState(2) on it.
+    virtual void recalculateProjectionMatrix();
+
+    // Members that hide ISceneNode slots (ISceneNode is not polymorphic here).
+    // 0x581f34 / +0x0c8 _ZNK6glitch5scene16CCameraSceneNode7getTypeEv (tag "cam_")
+    std::uint32_t getType() const;
+    // 0x582130 / +0x03c _ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv (the frustum's box)
+    const core::aabbox3d<float>& getBoundingBox() const;
+    // 0x5820e4 / +0x028 _ZN6glitch5scene16CCameraSceneNode6renderEPv (PARTIAL: the driver interface is not mapped)
+    void render(void* /*unused*/);
+    // 0x583534 / +0x01c _ZN6glitch5scene16CCameraSceneNode20onRegisterSceneNodeEv
+    int onRegisterSceneNode();
+
+    // Non-virtual helpers (direct calls in the original).
+    // 0x583280 _ZN6glitch5scene16CCameraSceneNode19recalculateMatricesEv
+    // Builds the look-at view matrix from the absolute position, the target and the up vector (nudging the up
+    // vector's x by 0.5 when it is parallel to the view direction), stores it in the frustum, sets transform state 0
+    // and recalculates the view area.
+    bool recalculateMatrices();
+    // 0x582904 _ZN6glitch5scene16CCameraSceneNode18recalculateViewAreaEv
+    // Stores the absolute position as the frustum apex and rebuilds the planes from the view-projection matrix.
+    bool recalculateViewArea();
+
+    // Members, in offset order.
     core::vector3d<float> target;               // +0x138
     core::vector3d<float> upVector;             // +0x144
-    float mag = 0.0f;                           // +0x150
+    float mag = 0.0f;                           // +0x150 (half the orthographic height; the constructor does not write it)
     float fov = 0.0f;                           // +0x154
     float aspectRatio = 0.0f;                   // +0x158
     float nearValue = 0.0f;                     // +0x15c
     float farValue = 0.0f;                      // +0x160
     bool farToInfinity = false;                 // +0x164
     bool inputReceiverEnabled = false;          // +0x165
-    // SViewFrustum at +0x168 is not mapped (type and size unknown).
-    // LAYOUT REQUEST (e2, integrator): tb/glitch_scene_SViewFrustum.hpp is 0x21c bytes, so it spans
-    // +0x168..+0x384. Its box (+0x6c = +0x1d4), matrix84 (+0x84 = +0x1ec) and matrix10c (+0x10c = +0x274)
-    // are the boundingBox, viewMatrix and projectionMatrix members below. recalculateViewArea also reads a
-    // third CMatrix4 at +0x2b8 (not declared). Make the frustum the owner of those members.
-    core::aabbox3d<float> boundingBox;          // +0x1d4
-    core::CMatrix4<float> viewMatrix;           // +0x1ec
-    core::CMatrix4<float> projectionMatrix;     // +0x274
+    // The frustum owns the camera's bounding box (+0x1d4), view matrix (+0x1ec), projection matrix (+0x274) and the
+    // view-projection matrix (+0x2b8) that recalculateViewArea reads.
+    SViewFrustum frustum;                       // +0x168 .. +0x384
 };
 
 class CLightSceneNode {
@@ -244,6 +338,7 @@ public:
     std::uint32_t getNextRenderedNode(void** node, std::int32_t* second) const;
 
     // 0x58ab28 _ZNK6glitch5scene13CSceneManager8isCulledEPKNS0_10ISceneNodeE (partial, see the .cpp)
+    // Culls against the active camera's frustum, by the node's automatic culling mode.
     bool isCulled(const ISceneNode* node) const;
     // 0x58b728 _ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE (partial)
     void drawAll(const std::vector<ISceneNode*>& nodes);
@@ -262,6 +357,8 @@ public:
     void* nextRenderedNode = nullptr;      // +0xac (written by getNextRenderedNode)
     std::int32_t nextRenderedSecond = 0;   // +0xb0
     std::uint32_t nextRenderedWord = 0;    // +0xa8 (returned)
+    ICameraSceneNode* activeCamera = nullptr;  // +0xe4 (read by CCameraSceneNode::onRegisterSceneNode and remove)
+    bool cullingEnabled = false;           // +0x250 (isCulled returns false when it is clear; name inferred from that use)
     std::uint32_t renderPass = 0;          // +0x174
     bool hierarchyChanged = false;   // +0x288
     bool visibilityChanged = false;  // +0x289

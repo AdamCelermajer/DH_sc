@@ -49,6 +49,9 @@ public:
     std::uint32_t Size() const { return size_; }
     std::uint32_t ReadPosition() const { return read_pos_; }
     std::uint32_t WritePosition() const { return write_pos_; }
+    // The overflow flags at +0x1c (bit0 read overflow, bit1 write overflow). Read inline by
+    // NetStruct::SerializeInternal (0x814b0c) to stop serialising once the stream is full.
+    std::uint32_t Flags() const { return flags_; }
 
 private:
     // 0x80eac8 _ZN12NetBitStream12ShiftMemCopyEPvjPKvji, write direction.

@@ -5,7 +5,8 @@
 // tb_transport-NetStructMemberType-0.cpp. The explicit specializations are declared in
 // include/net-transport/net_struct.hpp, after the template.
 //
-// Member layout: value_ at +0x20 for every instantiation in this batch except bool (see the notes).
+// Member layout: value_ at +0x20 for every instantiation in this batch except bool, whose value is the
+// byte at +0x1d (class specialization in net_struct.hpp).
 
 #include <cstring>
 #include <string>
@@ -13,27 +14,23 @@
 #include "net-transport/net_struct.hpp"
 
 // 0x36dd7c NetStructMemberType<unsigned int>::Erase(NetBitStream &)
-// PARTIAL: the pseudocode saves the value, calls NetStructMember::Load(this, stream) and restores the
-// saved value. Same shape as the int form (0x36dd64). The port's NetStructMember::Load returns bool,
-// and the original's return width is not confirmed, so the result is converted to int.
+// Saves the value, calls NetStructMember::Load and restores the saved value. Same shape and same void
+// return as the int form (0x36dd64): the pseudocode's int is Load's leftover R0, the slot is called as void
+// by NetStruct::LoadInternal, and there is no direct caller.
 template <>
-int NetStructMemberType<std::uint32_t>::Erase(NetBitStream& stream) {
+void NetStructMemberType<std::uint32_t>::Erase(NetBitStream& stream) {
     const std::uint32_t saved = value_;                 // LDR R5, [R0, #0x20]
-    const int result = NetStructMember::Load(stream);   // BL NetStructMember::Load (0x81510c)
+    NetStructMember::Load(stream);                      // BL NetStructMember::Load (0x81510c)
     value_ = saved;                                     // STR R5, [R4, #0x20]
-    return result;
 }
 
 // 0x36dd94 NetStructMemberType<bool>::Erase(NetBitStream &)
-// PARTIAL: the pseudocode saves the byte at +0x1d, calls NetStructMember::Load and restores that byte.
-// The port keeps the bool at +0x20 (see the bool notes in tb_transport-NetStructMemberType-0.cpp), so
-// the saved value is the port's value_. The return width is not confirmed, as above.
-template <>
-int NetStructMemberType<bool>::Erase(NetBitStream& stream) {
-    const bool saved = value_;                          // LDRB R5, [R0, #0x1d] in the original, +0x20 here
-    const int result = NetStructMember::Load(stream);   // BL NetStructMember::Load (0x81510c)
-    value_ = saved;                                     // STRB R5, [R4, #0x1d] in the original, +0x20 here
-    return result;
+// Saves the byte at +0x1d, calls NetStructMember::Load and restores that byte. value_ is that byte (class
+// specialization in net_struct.hpp). Void return, as the int form.
+void NetStructMemberType<bool>::Erase(NetBitStream& stream) {
+    const bool saved = value_;                          // LDRB R5, [R0, #0x1d]
+    NetStructMember::Load(stream);                      // BL NetStructMember::Load (0x81510c)
+    value_ = saved;                                     // STRB R5, [R4, #0x1d]
 }
 
 // 0x36f264 NetStructMemberType<ByteArray>::SetValue(ByteArray const&)
@@ -66,20 +63,35 @@ void NetStructMemberType<std::string>::SetValue(const std::string& value) {
 }
 
 // 0x36ff88 NetStructMemberType<ByteArray>::~NetStructMemberType() (D2, base destructor)
-// PARTIAL: the original resets the vptr to NetStructMemberType<ByteArray>'s vtable (off_963868) and
-// frees the value buffer (+0x20) with CustomFree, then nulls the pointer. The template declares no
-// destructor, so the port's implicit one runs and the ByteArray stand-in has no destructor to release
-// its buffer. The buffer is not freed here. Fixing this needs a destructor on the ByteArray stand-in,
-// which would change every user of that type.
+// 0x370778 NetStructMemberType<ByteArray>::~NetStructMemberType() (D0, deleting destructor)
+// The original resets the vptr to NetStructMemberType<ByteArray>'s vtable (off_963868), frees the value
+// buffer (+0x20) with CustomFree when it is non-null and nulls the pointer. The deleting form 0x370778 does
+// the same, resets the vptr to NetStructMember's vtable and frees the object with CustomFree; the port's
+// delete expression runs this destructor through the virtual slot and then operator delete, which is the
+// same sequence. ByteArray::~ByteArray frees the block again only when the pointer is still set, so the
+// buffer is released exactly once.
+template <>
+NetStructMemberType<ByteArray>::~NetStructMemberType() {
+    if (value_.data) {          // +0x20
+        CustomFree(value_.data);
+        value_.data = nullptr;  // +0x20
+    }
+}
 
 // 0x3704e8 NetStructMemberType<ByteArray>::Erase(NetBitStream &)
-// PARTIAL, not defined: the original is void and restores value_ directly, without SetChanged. The
-// template declares Erase as int, so the specialization cannot be declared. Restoring through
-// SetValue would set the changed flag, which the original does not do.
-
-// 0x370778 NetStructMemberType<ByteArray>::~NetStructMemberType() (D0, deleting destructor)
-// PARTIAL: same buffer gap as 0x36ff88. The original also frees the object with CustomFree. The port
-// deletes through NetStructMember's virtual destructor, and that part matches.
+// Copies the value into a temporary ByteArray (ByteArray::SetBuffer), loads from the stream into the member
+// (NetStructMember::Load, which reaches SetValue and so SetChanged), then restores the old bytes into
+// the member with ByteArray::SetBuffer directly, which does not call SetChanged. The temporary's block is
+// freed (by its destructor here).
+template <>
+void NetStructMemberType<ByteArray>::Erase(NetBitStream& stream) {
+    ByteArray saved;                                                          // p
+    saved.SetBuffer(value_.data, static_cast<std::size_t>(value_.size));      // ByteArray::SetBuffer(&p, +0x20, +0x24)
+    NetStructMember::Load(stream);                                            // BL NetStructMember::Load (0x81510c)
+    if (&value_ != &saved) {
+        value_.SetBuffer(saved.data, static_cast<std::size_t>(saved.size));   // ByteArray::SetBuffer(this + 0x20, p, size)
+    }
+}
 
 // 0x37111c NetStructMemberType<std::string>::~NetStructMemberType() (D2, base destructor)
 // skipped: the original resets the vptr and destroys the std::string at +0x20. The port's implicit
@@ -90,9 +102,17 @@ void NetStructMemberType<std::string>::SetValue(const std::string& value) {
 // original (CustomFree) through the virtual destructor.
 
 // 0x371ae8 NetStructMemberType<std::string>::Erase(NetBitStream &)
-// PARTIAL, not defined: same as the ByteArray Erase. The original is void and restores the string
-// with _M_assign, without SetChanged. The template declares Erase as int, so it cannot be declared
-// here.
+// Copies the string, loads from the stream into the member (NetStructMember::Load, which reaches SetValue and
+// so SetChanged), then restores the old string with _M_assign directly, which does not call SetChanged.
+// The copy is destroyed at the end.
+template <>
+void NetStructMemberType<std::string>::Erase(NetBitStream& stream) {
+    const std::string saved = value_;       // std::string::string(&v5, this + 0x20)
+    NetStructMember::Load(stream);          // BL NetStructMember::Load (0x81510c)
+    if (&value_ != &saved) {
+        value_ = saved;                     // std::string::_M_assign(this + 0x20, ...)
+    }
+}
 
 // 0x3a3574 NetStructMemberType<float>::~NetStructMemberType() (D1, base destructor)
 // skipped: the body is a bare return. The implicit destructor does the same.
@@ -128,13 +148,12 @@ void NetStructMemberType<float>::SetValue(const float& value) {
 }
 
 // 0x3a3e4c NetStructMemberType<float>::Erase(NetBitStream &)
-// PARTIAL: same shape as the int Erase (0x36dd64). The return width is not confirmed, as above.
+// Same shape and same void return as the int Erase (0x36dd64).
 template <>
-int NetStructMemberType<float>::Erase(NetBitStream& stream) {
+void NetStructMemberType<float>::Erase(NetBitStream& stream) {
     const float saved = value_;                         // LDR R5, [R0, #0x20]
-    const int result = NetStructMember::Load(stream);   // BL NetStructMember::Load (0x81510c)
+    NetStructMember::Load(stream);                      // BL NetStructMember::Load (0x81510c)
     value_ = saved;                                     // STR R5, [R4, #0x20]
-    return result;
 }
 
 // 0x801b80 NetStructMemberType<CNetworkId>::~NetStructMemberType() (D1, base destructor)

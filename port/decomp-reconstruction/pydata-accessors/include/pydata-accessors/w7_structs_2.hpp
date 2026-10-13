@@ -2,8 +2,8 @@
 
 // Structs::X records of slice structs_2 (pydata-accessors wave 7). Definitions are in
 // src/w7_structs_2.cpp. Field names follow structs_records.hpp: m_wN is word N (offset 4*N), m_offN an
-// unaligned offset. Each comment carries the original offset. Element arrays hold pydata::ArrayElement
-// records (NOTES.md, "Arrays element ABI"). See the notes in the .cpp for the omitted read bodies.
+// unaligned offset. Each comment carries the original offset. Element arrays hold host records reached through
+// typed pointers (element_table.hpp; NOTES.md, "Element tables"). See the notes in the .cpp for the omitted read bodies.
 #include <cstdint>
 
 #include "pydata-accessors/array_element.hpp"
@@ -29,6 +29,7 @@ class v2CondAnd {
 public:
     virtual ~v2CondAnd();
     virtual void finalize();
+    virtual void read(IStreamBase* stream);
     std::uint32_t m_w1 = 0;  // +0x4, element count
     void* m_w2 = nullptr;  // +0x8, element array (v2ConditionStub, stride 16)
     std::int32_t m_w3 = 0;  // +0xc

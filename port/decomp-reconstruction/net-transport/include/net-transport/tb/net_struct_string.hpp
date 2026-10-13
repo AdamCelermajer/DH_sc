@@ -5,9 +5,9 @@
 //
 // Layout (32-bit offsets, from the constructors and Write):
 //   +0x00 vptr
-//   +0x04 int, 8 * N (bit limit). NetStruct base field, not declared in the port's NetStructMember.
-//   +0x08 u64 0, +0x10 int -1, +0x14 int -1, +0x18 int 0, +0x1c byte 0. NetStruct base fields,
-//         not declared in the port's NetStructMember (see the partial constructor).
+//   +0x04 int, 8 * N (bit limit). NetStructMember::sizeBits_.
+//   +0x08 u64 0, +0x10 int -1, +0x14 int -1, +0x18 int 0, +0x1c byte 0. The other NetStructMember fields,
+//         set by NetStructMember(int).
 //   +0x20 std::string value (NetStructMemberType<std::string>::value_)
 #pragma once
 
@@ -18,7 +18,7 @@
 template <unsigned N>
 class NetStructString final : public NetStructMemberType<std::string> {
 public:
-    NetStructString(const std::string& value);     // 0x371bec (N=32), 0x800c60 (N=256), 0x81e5a0 (N=16)  partial
+    NetStructString(const std::string& value);     // 0x371bec (N=32), 0x800c60 (N=256), 0x81e5a0 (N=16)
     ~NetStructString() override;                   // 0x371150 (N=32), 0x800a00 (N=256), 0x81d078 (N=16)
     void Read(NetBitStream& stream) override;      // 0x371184 (N=32), 0x801970 (N=256), 0x81d134 (N=16)
     void Write(NetBitStream& stream) const override; // 0x371b78 (N=32), 0x800bb4 (N=256), 0x81e1e8 (N=16)

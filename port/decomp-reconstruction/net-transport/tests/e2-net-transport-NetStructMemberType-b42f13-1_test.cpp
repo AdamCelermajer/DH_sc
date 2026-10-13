@@ -6,26 +6,6 @@
 
 #include "net-transport/net_struct.hpp"
 
-// Stand-ins for the engine symbols this batch links against. The test links only this file and the
-// batch source, so the NetStructMember bodies that need NetBitStream are replaced here. Load is a no-op
-// (Erase must restore the value whatever Load does).
-NetStructMember::~NetStructMember() {}
-int NetStructMember::GetSizeBits() const { return 0; }
-bool NetStructMember::Load(NetBitStream&) { return true; }
-NetBitStream::NetBitStream(std::uint32_t) {}
-NetBitStream::~NetBitStream() {}
-// net_network_id.cpp links Load and Serialize, which are not exercised here.
-void NetBitStream::WriteU32(std::uint32_t, std::uint32_t) {}
-std::uint32_t NetBitStream::ReadU32(std::uint32_t) { return 0; }
-void NetBitStream::WriteByteArray(const void*, std::uint32_t) {}
-void NetBitStream::ReadByteArray(void*, std::uint32_t) {}
-void NetStructMember::SetChanged() { changed_ = true; }
-bool NetStructMember::IsChanged() {
-    const bool result = changed_;
-    changed_ = false;
-    return result;
-}
-
 namespace {
 
 int failures = 0;
@@ -117,9 +97,8 @@ void TestConstructor() {
 void TestErase() {
     NetworkIdMember m(MakeAddress0(0x0BEE, 0x11223344));
     m.IsChanged();
-    NetBitStream stream(8);      // Load stand-in ignores the stream
-    const int result = m.Erase(stream);
-    CHECK(result == 0);          // field2 of the saved value is 0 for this id
+    NetBitStream stream(8);      // Read is a no-op in the member, so Load leaves the value alone
+    m.Erase(stream);             // void: the pseudocode's int is a leftover R0
     CHECK(m.GetValue().Flags() == 2);
     std::uint16_t lo = 0;
     std::uint32_t hi = 0;

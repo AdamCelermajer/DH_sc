@@ -1,49 +1,18 @@
-// Runs the float CVirtualEx bodies (getValueSize, getBlendedValue, and the forwarders). The two
-// external stand-ins are defined here so the test links without the engine.
+// Runs the float CVirtualEx bodies: getValueSize, getBlendedValue, and the applyBlendedValue forwarder.
+//
+// An earlier version of this test defined two external stand-ins (setParameterCvtFloat and
+// applyBlendedValueExFloat) and expected the library to call them. The library never referenced those
+// names: the callees they stood for are declared and defined elsewhere (CApplyValueEx<float>::applyBlendedValueEx,
+// 0x62008c, in the library) or not mapped yet (the material setter setParameterCvt<float>, 0x5c6b8c in
+// glitch-video), so the checks on them could not pass. Against the binary:
+//   - 0x620118 applyBlendedValue is one tail call to the static CApplyValueEx<float>::applyBlendedValueEx with the
+//     same five arguments. This test checks that forward against the callee itself.
+//   - 0x618fe4 applyValue is a tail call to the material setter. The setter is not mapped, the body is partial,
+//     and its result is not asserted here.
 #include "glitch-scene-collada-gui/animation_track_virtual_ex.hpp"
+#include "glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_float.hpp"
 
-#include <cstdint>
 #include <cstdio>
-
-namespace glitch::collada::animation_track {
-
-namespace tb_standin {
-namespace {
-int g_set_calls = 0;
-void* g_set_target = nullptr;
-std::uint16_t g_set_index = 99;
-unsigned g_set_flags = 99;
-const float* g_set_value = nullptr;
-
-int g_blend_calls = 0;
-void* g_blend_values = nullptr;
-float* g_blend_weights = nullptr;
-int g_blend_count = -1;
-void* g_blend_target = nullptr;
-CApplicatorInfo* g_blend_info = nullptr;
-}  // namespace
-
-int setParameterCvtFloat(void* target, std::uint16_t index, unsigned flags, const float* value) {
-    ++g_set_calls;
-    g_set_target = target;
-    g_set_index = index;
-    g_set_flags = flags;
-    g_set_value = value;
-    return 7;
-}
-
-int applyBlendedValueExFloat(void* values, float* weights, int count, void* target, CApplicatorInfo* info) {
-    ++g_blend_calls;
-    g_blend_values = values;
-    g_blend_weights = weights;
-    g_blend_count = count;
-    g_blend_target = target;
-    g_blend_info = info;
-    return 42;
-}
-}  // namespace tb_standin
-
-}  // namespace glitch::collada::animation_track
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -51,7 +20,6 @@ static int failures = 0;
 int main() {
     using glitch::collada::animation_track::CVirtualEx;
     using glitch::collada::animation_track::FloatApplyValueEx;
-    namespace standin = glitch::collada::animation_track::tb_standin;
 
     CVirtualEx<FloatApplyValueEx> track;
     CHECK(track.getValueSize() == 4);
@@ -66,25 +34,19 @@ int main() {
     track.getBlendedValue(values, weights, 0, &out);
     CHECK(out == 0.0f);  // count 0 gives zero
 
+    track.getBlendedValue(values, weights, 2, &out);
+    CHECK(out == 1.0f);  // 1*0.5 + 2*0.25
+
     track.getBlendedValue(values, weights, 3, &out);
     CHECK(out == 7.0f);  // 1*0.5 + 2*0.25 + 3*2
 
-    int blended = track.applyBlendedValue(values, weights, 3, &out, nullptr);
-    CHECK(blended == 42);
-    CHECK(standin::g_blend_calls == 1);
-    CHECK(standin::g_blend_values == values);
-    CHECK(standin::g_blend_weights == weights);
-    CHECK(standin::g_blend_count == 3);
-    CHECK(standin::g_blend_target == &out);
-    CHECK(standin::g_blend_info == nullptr);
-
-    int set = track.applyValue(values, &out, nullptr);
-    CHECK(set == 7);
-    CHECK(standin::g_set_calls == 1);
-    CHECK(standin::g_set_target == &out);
-    CHECK(standin::g_set_index == 0);
-    CHECK(standin::g_set_flags == 0u);
-    CHECK(standin::g_set_value == values);
+    // The forwarder returns what the static callee returns for the same arguments, and it does not write the
+    // output buffer (the callee blends into a local and hands it to the material setter).
+    out = -1.0f;
+    const int forwarded = track.applyBlendedValue(values, weights, 3, &out, nullptr);
+    const int direct = FloatApplyValueEx::applyBlendedValueEx(values, weights, 3, &out, nullptr);
+    CHECK(forwarded == direct);
+    CHECK(out == -1.0f);
 
     std::printf("%s\n", failures ? "animation_track_CVirtualEx_float: FAILED" : "animation_track_CVirtualEx_float: ok");
     return failures != 0;

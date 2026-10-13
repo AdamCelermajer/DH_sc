@@ -54,12 +54,14 @@ int main() {
     CHECK(partial.m_w1 == 5);
     CHECK(partial.m_off6 == 0);
 
-    // AnimStep::finalize frees the pointer at +0x24. Clear it before the destructor runs.
+    // AnimStep::finalize (Hex-Rays 0x4db590): frees the pointer at +0x24 and clears it with its count at +0x20,
+    // so the destructor that runs next finds nothing to free.
     Structs::AnimStep step;
+    step.m_w8 = 4;
     step.m_w9 = std::malloc(16);
     CHECK(step.m_w9 != nullptr);
     step.finalize();
-    step.m_w9 = nullptr;
+    CHECK(step.m_w9 == nullptr && step.m_w8 == 0);
 
     // Deleting destructor: runs ~AIFaction, then frees the block (placement new over malloc).
     void* mem = std::malloc(sizeof(Structs::AIFaction));

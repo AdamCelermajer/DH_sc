@@ -71,8 +71,9 @@ bool CCameraSceneNode::isInputReceiverEnabled() const {
 }
 
 // 0x582130 _ZNK6glitch5scene16CCameraSceneNode14getBoundingBoxEv
+// Original returns this + 0x1d4, the box of the frustum member (frustum +0x6c).
 const core::aabbox3d<float>& CCameraSceneNode::getBoundingBox() const {
-    return boundingBox;
+    return frustum.box;
 }
 
 // 0x583bec _ZNK6glitch5scene15CLightSceneNode7getTypeEv

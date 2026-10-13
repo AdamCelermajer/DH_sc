@@ -9,14 +9,6 @@
 
 #include "net-transport/tb/net_struct_byte_array.hpp"
 
-// Stand-ins for the NetStructMember base (its real definitions live in tb_transport-NetStructMember-0.cpp,
-// which drags in the whole session layer). Same convention as the NetStructMemberType tests.
-NetStructMember::~NetStructMember() {}
-int NetStructMember::GetSizeBits() const { return sizeBits_; }
-bool NetStructMember::Load(NetBitStream&) { return true; }
-void NetStructMember::SetChanged() { changed_ = true; }
-bool NetStructMember::IsChanged() { return changed_; }
-
 static int failures = 0;
 #define CHECK(cond)                                                                 \
     do {                                                                            \
@@ -45,11 +37,8 @@ int main() {
     // Constructor with a value: the bytes are deep-copied into the member.
     {
         ByteArray init;
-        init.data = std::malloc(3);
-        init.size = 3;
-        std::memcpy(init.data, "XYZ", 3);
+        init.SetBuffer("XYZ", 3);
         NetStructByteArray<256u> obj(init);
-        std::free(init.data);
         CHECK(obj.GetBufferSize() == 3);
         unsigned char out[8] = {0};
         CHECK(obj.GetBuffer(out, 8) == 3);

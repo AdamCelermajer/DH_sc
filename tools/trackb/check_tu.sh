@@ -38,7 +38,7 @@ status=0
 if ((test_mode)); then
   t=$1; shift
   mapfile -t inc < <(includes_for "$(cd "$(dirname "$t")" && pwd)/$(basename "$t")")
-  if "$cxx" "${flags[@]}" "${inc[@]}" "$t" "$@" -o "$tmp/t.exe" -lws2_32 2>&1; then
+  if "$cxx" "${flags[@]}" "${inc[@]}" "$t" "$@" -o "$tmp/t.exe" -lws2_32 -static 2>&1; then
     "$tmp/t.exe"; status=$?
     echo "test exit $status"
   else

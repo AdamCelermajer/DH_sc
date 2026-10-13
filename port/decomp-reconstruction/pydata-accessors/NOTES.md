@@ -2,6 +2,10 @@
 
 ## Status
 
+Track B: the counts and wave history below date from the decomp phase. Current rows are `ledger.csv` plus
+`ledger.d/decisions-1.csv` (297 rows from the decision pass: element tables, finalize clears, generator retirement).
+Read "Retired generators" and "Element tables" first; the sections after them are history unless they say otherwise.
+
 1331 ledger rows: 1330 reconstructed, 1 partial (the PlayEffect factory, see the Hex-Rays re-run section).
 871 queue rows remain (of 2201): 738 Structs, 121
 Arrays, 6 PyDataArrays, 6 PyDataConstants. (Wave 7 settled the Arrays element ABI, see the last section.) The ledger also holds CharacterProperties::read (0x4f2750),
@@ -19,7 +23,116 @@ which is not a queue row (see the thunk section).
   rewrote the other 27 guard-form read bodies by hand (see below); `gen_script_cmd.py` would put the
   guard form back, so do not run it on this file.
 - Tests: `tests/member_ids_test.cpp`, `tests/script_cmd_test.cpp`, `tests/script_cmd_records_test.cpp`,
-  `tests/structs_records_test.cpp`, `tests/structs_forwarder_test.cpp`.
+  `tests/structs_records_test.cpp`, `tests/structs_forwarder_test.cpp`, and for the element tables
+  `tests/array_strides_test.cpp`, `tests/array_strides_02_test.cpp`, `tests/struct_tables_test.cpp` (helpers in
+  `tests/table_test_support.hpp`).
+
+## Retired generators (Track B decision 7)
+
+`gen_structs.py`, `gen_script_cmd.py` and their helper `slot_decls.py` parse the old Ghidra text export (`param_1`,
+`undefined4`). They are retired: each starts with a comment saying so, and they must not be rerun, because a rerun
+rewrites whole files and would undo the Hex-Rays corrections made by hand since (the string-read bodies of
+`script_cmd_records.cpp`, the finalize fix below, the typed element tables). The files they produced are
+hand-maintained source now: `structs_records.hpp/.cpp`, `script_cmd.hpp`, `script_cmd_records.cpp`, and the
+`w7_structs_*` slices. Each of those that used to say "generated, do not edit" now says that it is hand-maintained.
+The sections below that describe the generators ("Structs records", "ScriptCmd command classes", "Thunks") are history.
+
+`check_array_strides.py` is the one script added in this pass. It is a read-only checker, not a generator: it compares
+`array_strides.hpp` and `struct_strides.hpp` with the Hex-Rays export (`py -3
+port/decomp-reconstruction/pydata-accessors/check_array_strides.py`).
+
+Defect of the generators, found and fixed in this pass: the generated `finalize` bodies freed a buffer pointer but did
+not clear it, while the listing clears the length word and the pointer after the free (`CharAnim::finalize`
+0x4db248: `CustomFree(+0x44); +0x40 = 0; +0x44 = 0`). 55 bodies had the gap: 14 in `structs_records.cpp` (AIProps,
+AnimStep, CamAnimSet, CharAnim, Faery, FaeryList, FastTravelDestination, ItemBase, LevelDeclaration, Skill,
+SkillList, WldMapLocation, v2QuestObjectiveStub, v2QuestScripts) and 41 in `script_cmd_records.cpp`. An Arrays table runs `finalize` on every
+element and then the destructor, so the missing clear was a double free (it corrupted the heap in the first table
+test). The stores were added from the Hex-Rays body of each function; their ledger notes say so.
+
+## Element tables (Track B decisions 2 and 3)
+
+How a table is read. Every `Arrays::X` table and every `Structs` record with an element pointer is read from the
+stream as a PACKED sequence of fields: the count word, then each element's own `read` slot pulls the fields one value
+at a time (`StreamReader::readAs`, `readStringEx`). There is no stride in the file. One `Structs::Projectile` is 59
+bytes in the file (20 fields), 72 bytes in the original's memory (`operator new[](72 * count + 8)`, `*result = 72`) and
+80 bytes as a host object. The 32-bit stride of the Hex-Rays body is therefore the size of the ORIGINAL in-memory
+element, not a file stride. What had to be fixed was that the port copied that number into the host layout.
+
+Design (`include/pydata-accessors/element_table.hpp`). The block keeps the original shape: `[u32 stride][u32 count]`
+then the elements, `members` pointing at element 0, so `members - 4` is the count and `members - 8` the block base.
+Everything else is host-sized and typed:
+
+- `NewElementTable<Elem>(listing_stride, count)` allocates `sizeof(Elem) * count + 8` bytes, writes the original
+  32-bit stride and the count into the two header words, and constructs every element in place (`new (p) Elem()`).
+  Construction gives the real vptr and the member defaults. The words that the listing zeroes after its vptr store
+  are pointer members with `= nullptr` defaults (checked for every Arrays read: each zeroed offset is a pointer
+  member of the element, or of a base or embedded object), so no hand-zeroing is needed and none is done. The old
+  code wrote 4 zero bytes at the 32-bit offset into the host object, which hit the length word instead of the
+  8-byte pointer behind it (`TriggerTrap` +0x10) and left the pointer as heap garbage for `read` to free.
+- Elements are reached through the typed pointer (`first[i]`, `ReadElementTable<Elem>`, `FinalizeElementTable<Elem>`,
+  `DeleteElementTable<Elem>`, `FinalizeArrayTable<Elem>`, `ReadArrayTable<Elem>`). Nothing steps through the table
+  as `members + stride * i`, and no host record is filled by copying file bytes.
+- The 32-bit stride is a named constant, `Arrays::ListingStride::X` (`array_strides.hpp`, 71 tables) or
+  `Structs::ListingStride::Elem` (`struct_strides.hpp`, 20 element tables), each with the Hex-Rays addresses that
+  show it. It is written to the stride word of the block and checked by the tests and by `check_array_strides.py`.
+  It is never used to address memory. On a 32-bit host `sizeof(Elem)` equals it for most elements.
+- A table is destroyed back to front through the typed pointer, then `CustomFree(members - 8)`. The destroy helper
+  tolerates a null table, which is what the listing's `if (v1)` does at each site.
+
+What was wrong before (and is fixed):
+
+- `w7_arrays27.cpp` (27 tables), `w7_arrays_02.cpp` and the structs_5 tables built raw byte blocks, copied the vptr of
+  a temporary object with `memcpy` and never constructed the elements. The stride was already `sizeof(Elem)` after
+  wave 7d (STATUS.md and the summary still describe the 32-bit stride), but the zeroed words were wrong as above.
+- The destroy loops of `v2Quest` (16/44/16/16/16), `ItemPowerRef` (`w7_structs_4.cpp`, 16), `CharTemplate` (8),
+  `ClassFuncList` (24) and `AnimTpl` (56) still stepped by the 32-bit stride over tables that the reads had built at
+  the host stride, so any table with two or more elements corrupted the heap. `v2Quest::~v2Quest` also destroyed a
+  null table without the guard the listing has. `w7_structs_2.cpp` used `max(sizeof, listing)`.
+- `ItemList::finalize` named `Structs::ItemListEntry` as its element; the vtable in `ItemList::read` (0x4ba27c) says
+  `ItemListEntryList`. `DropTilePriorityTable::finalize`, `ModelDict`, `ItemPowerList`, `FaeryTable`, `FaeryListTable`,
+  `Charater_Templates`, `CharacterTable`, `ClassTable`, `CharAnimTable`, `CamAnimSetTable` and `AnimTable` kept the
+  listing stride because no element class was known. The Hex-Rays vtable of each read now names it
+  (`TileOffsetList`, `ColladaFile`, `ItemPowerEntryList`, `Faery`, `FaeryList`, `CharTemplate`, `CharacterProperties`
+  (224 words = 900 bytes), `ClassFuncList`, `CharAnim`, `CamAnimSet`, `AnimTpl`).
+- `LevelList`, `FastTravelList`, `LootTable`, `ItemList` and `DropTilePriorityTable` reads were not written because the
+  element classes had no read slot; `LevelDeclaration`, `FastTravelDestination` and `Loot` have one now
+  (`tb_accessors-Structs-0.cpp`, `e2-pydata-accessors-Structs-66b9bc-1.cpp`). `v2CondAnd` was declared without a read
+  slot, so its vtable was one slot short; `read` (0x505970) is now declared and defined.
+- Every Arrays read is one Hex-Rays shape (checked for all 71: one `readAs`, one `finalize` call, one element read slot,
+  one `operator new[]`, no frees), so each is one line over `pydata::ReadArrayTable<Elem>`. The 7 tables whose
+  storage no header declared (`ItemPowerList`, `FaeryTable`, `FaeryListTable`, `Charater_Templates`, `CharacterTable`,
+  `ClassTable`, `ItemTable`; `ItemTable` also had no finalize) and the 5 whose storage and finalize were missing from
+  `w7_arrays_02.cpp` (`GameDifficulties`, `DesignSettingsTable`, `RectTable`, `StatListTable`,
+  `StatAutoAssignSchemeTable`) are defined now. All 71 Arrays reads and finalizes are written.
+
+Tests (all in `tests/`, run by `ctest -R pydata`):
+
+- `array_strides_test.cpp` and `array_strides_02_test.cpp`: for all 71 Arrays reads, `ListingStride::X` equals the
+  Hex-Rays constant (hard-coded in the test), a table of 3 elements read from a stream that invents a distinct value
+  for every field holds in each host element exactly what the same element decodes to on its own from the same bytes
+  (non-pointer words compared byte for byte, pointer words null or non-null together), the stride word is the
+  32-bit listing stride, the count word and `size` are right, and the stream is consumed exactly as the standalone
+  decode plus the count word; the same for 0 elements. Explicit packed buffers (59-byte Projectile records, name
+  strings of different lengths for DestructibleContainer, nested LootEntry/ItemListEntry/TileOffset tables) check
+  every field of every element, that the tail of a Projectile lies past byte 72 of its slot (so the host elements
+  are not stepped at the listing stride) and that a second read replaces the first table.
+- `struct_tables_test.cpp`: 20 owner tables plus the five v2Quest tables read, finalized (pointer and count cleared),
+  read again and destroyed; stride words are the Hex-Rays constants; unread records destroy safely; explicit packed
+  `LangSheetList` and `AnimTpl` buffers.
+- The harness was checked for sensitivity: a table stepped at the 32-bit stride (the old design) is overwritten by its
+  own neighbour (element 1's vptr lands on element 0's last two floats) and crashes in the first read; a wrong
+  listing-stride constant fails the stride-word check.
+
+Item-family destructors (STATUS.md, "free `m_w2` twice"): the double free is in the binary, so it is kept. In
+`Structs::ArmorRef::~ArmorRef` (D1 0x4d4cc4) the listing frees `[this+8]` and `[this+0x50]`, then calls
+`ItemBase::~ItemBase` (D2 0x4d4954), which frees `[this+8]` again; nothing is cleared in between and `CustomFree`
+(0x310440) is a thunk to `free`. `Structs::Item::~Item` (0x4d5324) and the other ItemBase-derived destructors have
+the same shape. The ItemPower family repeats the loop of `ItemPowerRef::~ItemPowerRef` (0x4d69f0) in each derived
+destructor (for example 0x4d6a6c) and then calls the base, which walks and frees the same table pointer again. The
+original game presumably never destroys these records. Not changed. `v2QuestAutomatic::~v2QuestAutomatic` (0x4d01e0)
+has the same pattern against `v2QuestObjectiveStub`. The finalize path does not have the problem (`Item::finalize` clears both words), and `Arrays::ItemTable::finalize`
+runs every element's finalize before the destructors, so a table of Items is freed safely; only destroying an Item that
+was not finalized frees `m_w2` twice.
 
 ## Hex-Rays re-run (partial rows)
 
@@ -240,6 +353,9 @@ Source: the IDA Hex-Rays export (`recovered/native/hexrays-all/`) is primary. Th
 
 ## Remaining (871 queued)
 
+> History from wave 6/7. The Arrays and Structs element-table blockers listed here were resolved in later waves; see
+> "Element tables" above and the ledger for the current state.
+
 Blockers, by cause. None of these has a decided model in these notes, so none is written yet.
 
 - Structs (738 queued). The 100 classes that `gen_structs.py` leaves out ("unparsed function") fail on
@@ -266,6 +382,10 @@ Blockers, by cause. None of these has a decided model in these notes, so none is
   `readString`, and a stack-protector check. Needs the same std-map decision.
 
 ## Arrays element ABI and PyDataArrays vtable (decided, not yet ported)
+
+> Superseded in part by "Element tables" above: the Arrays element ABI (vptr at +0, slots D1/D0/finalize/read, a
+> stride per class) is unchanged, but the port now implements it with typed host objects, and the Arrays bodies are
+> all written.
 
 Evidence: Hex-Rays and the ARM listing of `Arrays::Sounds::finalize` (0x4a38a4) and
 `Arrays::GameDifficulties::read` (0x4af5e8). Nothing here is ported yet; the Arrays bodies stay queued.
@@ -349,6 +469,8 @@ internal to the port, not binary-compatible with the original.
 
 ## Wave 7c: PyData records and the Arrays stride blocker
 
+> Superseded: the stride question is settled in "Element tables" above (Track B decisions 2 and 3).
+
 - PyDataArrays and PyDataConstants (12 rows, `src/w7_pydata12.cpp`): 9 reconstructed, 3 partial.
   Decisions: the registry and the constant table use std::map as set out above. PyDataArrays::Load covers
   all 70 file states, with a stand-in loader open and release. The C2 constructor sets the members, but
@@ -363,6 +485,10 @@ internal to the port, not binary-compatible with the original.
   - The same overrun applies to the existing w7_arrays_02 tables and to structs_5's element tables.
 
 ## Wave 7d: element strides widened to the host sizeof
+
+> Superseded by "Element tables" above: tables are still host-sized, but the 32-bit stride is now a named constant
+> that is written to the stride word, the tables are reached through typed pointers, and no stride is passed to the
+> finalize helpers. The list of tables "still on the listing stride" below is closed: every table has its element class.
 
 - Decision (lead, binding): an in-memory element table uses `sizeof(element)` as its stride, not the
   32-bit stride from the ARM listing. The listing stride is kept in a comment on each table. Bytes that

@@ -18,6 +18,7 @@ namespace glitch::scene {
 class ISceneNode;
 class ISceneNodeAnimator;
 class ITriangleSelector;
+class CSceneManager;
 
 // Bit 0 of this word is the visible flag (see visibility_ex.hpp); bit 7 is the
 // debug-object flag.
@@ -25,6 +26,15 @@ inline constexpr std::uint32_t kSceneNodeDebugObjectBit = 0x80;
 
 class ISceneNode {
 public:
+    // The default state used by the tests; the original has no default constructor.
+    ISceneNode() = default;
+    // 0x5990c0 _ZN6glitch5scene10ISceneNodeC2EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_ (base object)
+    // 0x599268 _ZN6glitch5scene10ISceneNodeC1EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_ (complete object)
+    // PARTIAL, see scene_node.cpp: the IObject base, the name string, the virtual IReferenceCounted base and the
+    // vtable words are not modelled.
+    ISceneNode(int id, const core::vector3d<float>& position, const core::quaternion& rotation,
+               const core::vector3d<float>& scale);
+
     // 0x35a8e0 _ZNK6glitch5scene10ISceneNode25getAbsoluteTransformationEv
     // Returns the address of the absolute transform member (+0x24, 16 floats).
     const float* getAbsoluteTransformation() const;
@@ -149,6 +159,7 @@ public:
     std::vector<ISceneNodeAnimator*> animators;           // +0xfc
     std::vector<ISceneNodeAnimator*> bindedAnimators;     // +0x104
     int id = 0;                                           // +0x10c
+    CSceneManager* sceneManager = nullptr;                // +0x110 (the owning scene manager; read by the camera nodes)
     mutable std::uint32_t flags = 0;                      // +0x11c (mutable: getRelativeTransformation updates it)
     ITriangleSelector* triangleSelector = nullptr;        // +0x114
     void* gameData = nullptr;                             // +0x124

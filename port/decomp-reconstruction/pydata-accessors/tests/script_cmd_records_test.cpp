@@ -77,8 +77,8 @@ int main() {
         CHECK(d->m_w2 == -5);
         CHECK(d->m_w3 == 2);
         CHECK(d->m_w4 != nullptr && std::strcmp(d->m_w4, "hi") == 0);
-        d->finalize();  // frees the buffer at +0x10
-        d->m_w4 = nullptr;
+        d->finalize();  // frees the buffer at +0x10 and clears it with its length at +0xc (the listing does both)
+        CHECK(d->m_w4 == nullptr && d->m_w3 == 0);
         delete d;
     }
 

@@ -22,17 +22,18 @@ int main() {
     CHECK(empty.getType() == 0x79746d65u);
     empty.render(nullptr);
 
-    ICameraSceneNode base;
-    CHECK(base.getTargetNode() == nullptr);
-
     CCameraSceneNode camera(0, glitch::core::vector3d<float>(), glitch::core::vector3d<float>(), false);
+    // ICameraSceneNode is abstract (it has pure slots), so its default getTargetNode is reached through a camera.
+    const ICameraSceneNode& base = camera;
+    CHECK(base.getTargetNode() == nullptr);
+    CHECK(!base.isOrthogonal());
     CHECK(camera.getType() == 0x5f6d6163u);
     CHECK(camera.isInputReceiverEnabled());  // the constructor sets inputReceiverEnabled (+0x165 = 1)
     camera.setInputReceiverEnabled(false);
     CHECK(!camera.isInputReceiverEnabled());
     camera.setInputReceiverEnabled(true);
     CHECK(camera.isInputReceiverEnabled());
-    camera.boundingBox.MinEdge.X = 1.0f;
+    camera.frustum.box.MinEdge.X = 1.0f;  // the camera's box is the frustum's box
     CHECK(camera.getBoundingBox().MinEdge.X == 1.0f);
 
     CLightSceneNode light;

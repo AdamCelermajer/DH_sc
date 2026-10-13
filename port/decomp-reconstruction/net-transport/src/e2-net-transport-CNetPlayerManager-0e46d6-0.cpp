@@ -1,18 +1,33 @@
 // Batch e2-net-transport-CNetPlayerManager-0e46d6-0: the first 20 functions of the second CNetPlayerManager
 // group in libDungeonHunter2.so (player list maintenance, id-list cache, packet reads).
 // Class: include/net-transport/tb/c_net_player_manager.hpp.
-// Shims for calls into other owners: include/net-transport/tb/net_player_manager_deps.hpp.
+// The one shim left (COnline) is in include/net-transport/tb/net_player_manager_deps.hpp.
 // Status per function is in ledger.d/e2-net-transport-CNetPlayerManager-0e46d6-0.csv.
 //
-// Not defined here (skipped, see the ledger): ProcessEvents, the nested NetStructPlayerManager
-// constructor and destructors, the two GetPlayerName overloads, AddPlayer(int,int),
-// AddPlayer(NetBitStream&,int,int) and ~CNetPlayerManager.
+// Not defined here (skipped, see the ledger): ProcessEvents, the two GetPlayerName overloads,
+// AddPlayer(int,int), AddPlayer(NetBitStream&,int,int) and ~CNetPlayerManager. The nested
+// NetStructPlayerManager constructor and destructor are below (decisions-1).
 
 #include "net-transport/tb/c_net_player_manager.hpp"
 
 #include <cstdint>
 
 #include "net-transport/tb/net_player_manager_deps.hpp"
+
+// 0x810d90 CNetPlayerManager::NetStructPlayerManager::NetStructPlayerManager()
+// Builds the NetStruct base and one NetStructInt<6u> block at +0x130 (sizeBits 6, -1 masks), declares it
+// with NetStruct::DeclareMember, then stores -1 in it. The Hex-Rays text goes through a temporary block
+// holding -1 and the block's SetValue (vtable +0x1c); the effect is host_member_id_.SetValue(-1), which
+// marks the block changed because it started at 0.
+CNetPlayerManager::NetStructPlayerManager::NetStructPlayerManager() {
+    DeclareMember(&host_member_id_);  // +0x130
+    host_member_id_.SetValue(-1);
+}
+
+// 0x810ec8 CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager()   (D1)
+// 0x810f3c is the deleting form (this plus CustomFree). Resets the block's vptr, restores the NetStruct
+// vptr and empties the packet history map; the member and base destructors do that.
+CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager() {}
 
 // 0x8108c0 CNetPlayerManager::DisconnectPlayer(int)
 // The original calls CNetPlayerInfo::Disconnect on the lookup result without a null check; this
@@ -24,9 +39,9 @@ int CNetPlayerManager::DisconnectPlayer(int a2) {
 }
 
 // 0x810b7c CNetPlayerManager::SetPlayerGamepadId(int,int)
-// Partial: the field written is unk_1c8 (+0x1c8). Its name is not recovered; the method name
-// suggests a gamepad id, but that is not confirmed. The SetChanged call on the block at +0x1a8 is
-// not ported.
+// Partial: the field written is unk_1c8 (+0x1c8, the NetStructInt<16u> block at +0x1a8). Its name is not
+// recovered; the method name suggests a gamepad id, but that is not confirmed. The compare, store and
+// SetChanged are the block's SetValue.
 int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
     if (a2 < 0) {
         return 0;
@@ -38,38 +53,26 @@ int CNetPlayerManager::SetPlayerGamepadId(int a2, int a3) {
         return 0;
     }
     CNetPlayerInfo* player = players_[static_cast<std::size_t>(a2)];
-    if (a3 != player->unk_1c8) {  // +0x1c8
-        player->unk_1c8 = a3;
-        // NetStructMember::SetChanged(block at +0x1a8) not ported.
-    }
+    player->unk_1c8.SetValue(a3);  // +0x1c8: compare, store and NetStructMember::SetChanged (block +0x1a8)
     return 1;
 }
 
 // 0x810bd4 CNetPlayerManager::ReassignPlayer(int,int,int)
-// Partial. The SetChanged calls on the three fields (+0x180, +0x1a8, +0x1d0) are not ported.
-// The original returns the return value of NetStruct::SetEnabled when the member id changes;
-// that value is not recovered (the shim is void), so this returns 0 in that branch.
+// Partial. The three stores are the blocks' SetValue (+0x180, +0x1a8, +0x1d0). The original returns the
+// return value of NetStruct::SetEnabled when the connection index is not the local member; that value is a
+// leftover R0 (SetEnabled returns void here), so this returns 0 in that branch.
 int CNetPlayerManager::ReassignPlayer(int a2, int a3, int a4) {
     const bool is_server = CMatching::Get()->IsServer();
     int result = is_server ? 1 : 0;
     if (is_server) {
         CNetPlayerInfo* player = GetPlayer(a2, true);
-        if (a3 != player->conn_index_) {  // +0x1a0
-            player->conn_index_ = a3;
-            // SetChanged(block at +0x180) not ported.
-        }
-        if (a4 != player->unk_1c8) {  // +0x1c8
-            player->unk_1c8 = a4;
-            // SetChanged(block at +0x1a8) not ported.
-        }
-        if (player->state_ != 1) {  // +0x1f0
-            player->state_ = 1;
-            // SetChanged(block at +0x1d0) not ported.
-        }
+        player->conn_index_.SetValue(a3);  // +0x1a0, block +0x180
+        player->unk_1c8.SetValue(a4);      // +0x1c8, block +0x1a8
+        player->state_.SetValue(1);        // +0x1f0, block +0x1d0
         result = CMatching::Get()->LocalMemberId();  // vtable +0x6c
         if (a3 != result) {
-            np_deps::PlayerSetEnabled(players_[static_cast<std::size_t>(a2)], true);
-            return 0;  // SetEnabled's return value is not recovered.
+            players_[static_cast<std::size_t>(a2)]->SetEnabled(true);  // NetStruct::SetEnabled (0x81366c)
+            return 0;  // SetEnabled's leftover R0 is not kept.
         }
     }
     return result;
@@ -102,27 +105,21 @@ void CNetPlayerManager::ClearPlayers() {
 }
 
 // 0x8111ec CNetPlayerManager::InitPlayers()
-// Partial. The SetChanged calls on the member id (+0x158 block) are not ported. The original
+// The member id stores are the +0x158 block's SetValue (compare, store, SetChanged). The original
 // returns the leftover r0 of the last NetStruct::SetEnabled call; that value is not kept (void).
 void CNetPlayerManager::InitPlayers() {
     CNetPlayerInfo* fallback = CreateNetPlayerInfo();
     fallback_player_ = fallback;  // +0x17c
-    if (fallback->member_id_ != -64) {  // +0x178
-        fallback->member_id_ = -64;
-        // SetChanged(member id block at +0x158) not ported.
-    }
+    fallback->member_id_.SetValue(-64);  // +0x178, block +0x158
     fallback->Reset();  // vtable +0x4c
 
     for (int i = 0; i < player_slot_count_; ++i) {  // +0x194
         CNetPlayerInfo* player = CreateNetPlayerInfo();
         players_.push_back(player);  // +0x198, +0x19c
         CNetPlayerInfo* last = players_.back();
-        if (i != last->member_id_) {  // +0x178
-            last->member_id_ = i;
-            // SetChanged(member id block at +0x158) not ported.
-        }
+        last->member_id_.SetValue(i);  // +0x178, block +0x158
         last->Reset();  // vtable +0x4c
-        np_deps::PlayerSetEnabled(last, false);
+        last->SetEnabled(false);  // NetStruct::SetEnabled (0x81366c)
     }
 }
 
@@ -153,7 +150,7 @@ std::vector<int>& CNetPlayerManager::GetPlayerIdList() {
     for (std::size_t i = 0; i < players_.size(); ++i) {
         CNetPlayerInfo* player = players_[i];
         if (player != nullptr && player->IsActive()) {  // vtable +0x5c
-            player_id_list_.push_back(player->member_id_);  // +0x178
+            player_id_list_.push_back(player->member_id_.GetValue());  // +0x178
             id_list_dirty_ = true;
         }
     }
@@ -166,15 +163,15 @@ int CNetPlayerManager::GetPlayerCount() {
 }
 
 // 0x811d74 CNetPlayerManager::ReadPacketData(int,int,NetBitStream&)
-// Partial. NetStruct::Load and the player's virtual slot +0x18 are shims (np_deps). The
-// AddPlayer(NetBitStream&) call is not reconstructed (skipped in this batch), so this body
+// Partial. NetStruct::Load and the player's virtual slot +0x18 (ConditionalLoad) are the real NetStruct
+// calls. The AddPlayer(NetBitStream&) call is not reconstructed (skipped in this batch), so this body
 // calls an undefined member.
 NetBitStream* CNetPlayerManager::ReadPacketData(int a2, int a3, NetBitStream& stream) {
     net_struct_.Load(stream, a2, 0);
     for (std::size_t i = 0; i < players_.size(); ++i) {
         int flag = 0;
         CNetPlayerInfo* player = players_[i];
-        const std::uint32_t state = static_cast<std::uint32_t>(player->state_);  // +0x1f0
+        const std::uint32_t state = player->state_.GetValue();  // +0x1f0
         if (state <= 6) {
             const std::uint32_t bit = 1u << state;
             if ((bit & 0x71u) != 0) {
@@ -185,7 +182,7 @@ NetBitStream* CNetPlayerManager::ReadPacketData(int a2, int a3, NetBitStream& st
                 flag = CMatching::Get()->IsServer() ? 1 : 0;
             }
         }
-        np_deps::PlayerSlot18(player, flag != 0, &stream, a2, 0);
+        player->ConditionalLoad(flag != 0, stream, a2, 0);  // vtable +0x18
     }
     while (true) {
         if (stream.ReadByte(1) == 0) {

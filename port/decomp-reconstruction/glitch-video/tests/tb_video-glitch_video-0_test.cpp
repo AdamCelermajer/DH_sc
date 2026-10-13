@@ -110,6 +110,19 @@ int main() {
         MemoryReadFile f(b);
         CHECK(!readPVRHeader(&f, hdr, btex));
     }
+    {  // a short read decodes what it read and keeps the caller's previous bytes for the rest, as the
+       // original does by reading into the caller's struct in place
+        std::vector<uint8_t> b = plainHeader(8, 16, 3, 0x100, 0);
+        b.resize(30);  // the 8 + 22 bytes reach the fields up to and including +0x1c (the red mask)
+        MemoryReadFile f(b);
+        SPVRHeader pre;
+        pre.alphaBitMask = 0xDEADBEEFu;  // +0x28, past the end of the data
+        pre.redBitMask = 0x1111u;        // +0x1c, inside the data (it is read as 0)
+        CHECK(!readPVRHeader(&f, pre, btex));
+        CHECK(pre.height == 8 && pre.width == 16 && pre.mipMapCount == 3 && pre.flags == 0x100);
+        CHECK(pre.redBitMask == 0);
+        CHECK(pre.alphaBitMask == 0xDEADBEEFu);
+    }
     std::printf(failures ? "FAILED %d\n" : "OK\n", failures);
     return failures ? 1 : 0;
 }

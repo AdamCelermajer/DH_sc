@@ -1,11 +1,15 @@
 #include "net-session-online/c_matching_gl_live.hpp"
 
+#include "net-session-online/c_lobby_parameter_and_query.hpp"
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in.hpp"
 #include "net-session-online/c_sign_in_gl_live_observer.hpp"
+#include "net-session-online/deps/connection_manager_stand_in.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-session-online/glx_player_login.hpp"
 #include "net-session-online/glx_player_mp_lobby.hpp"
+#include "net-session-online/glx_player_serever_config.hpp"
+#include "net-session-online/glx_player_user.hpp"
 #include "net-session-online/glx_player_user_friend.hpp"
 
 // Singletons created on first use (the original keeps them as globals of the class).
@@ -13,23 +17,55 @@ GLXPlayerUserFriend* CMatchingGLLive::s_GLXPlayerUserFriend = nullptr;
 GLXPlayerLogin* CMatchingGLLive::s_GLXPlayerLogin = nullptr;
 
 // 0x81e7f0 _ZN15CMatchingGLLiveC2Eb (the C1 twin at 0x81e9dc has the same body).
-// Partial: the CMatching base, the CRoomAttributes, CRoomSearchFilter and CNetMutex members, the
-// 32 MemberInfoNetStruct entries (not in the port) and the friend-list head are not built here.
-// Sets the local member id to -1 and the Game Center flag from the argument, then loads
-// profile.sav as the original does. The byte at +0x0f (set to 3 in the original) is not modelled.
-CMatchingGLLive::CMatchingGLLive(bool gameCenterActive) : gameCenterActive_(gameCenterActive) {
-    memberId_ = -1;
+// The original runs the CMatching constructor, sets the local member id (+0x3640) to -1, constructs the
+// create-room attributes, the server map, the 32 member info elements, the GLX pointers (all null), the room
+// attributes map, the search filter, the two mutexes, the Game Center flag from the argument (+0x67e8), the
+// flags, the player parameter string, the room list and the other containers, then the Game Center
+// attributes and the friend list, loads profile.sav, and sets the base byte +0x0f to 3. The port builds the
+// same members through their default member initializers, in declaration order (the base first), so the
+// body keeps only the explicit stores. Words the original leaves unset (the peer key counter at +0x363c,
+// +0x3630) start at 0. The callee rows keep their own notes: the CMatching constructor and
+// MemberInfoNetStruct constructor are partial.
+CMatchingGLLive::CMatchingGLLive(bool gameCenterActive) {
+    memberId_ = -1;                   // +0x3640
+    gameCenterActive_ = gameCenterActive;  // +0x67e8
     LoadGLLiveProfile();
+    unk_0f = 3;                       // +0x0f
 }
 
 // 0x81d2b4 _ZN15CMatchingGLLiveD1Ev (the D2 twin at 0x81d614 is the same body; the D0 thunk at
 // 0x81d5f8 frees the object after this).
-// Partial: the original deletes the GLX objects it created and the GLLive singletons, then tears
-// down the CMatching base and the containers. The port does not release anything yet: the seams
-// (SetGLFriendListForTest and the lobby pointer in the tests) hand in objects the class does not
-// own, so deleting them here would be wrong. Only the Game Center flag is cleared, as in the original.
+// Partial. Released here: the lobby parameter and query (+0x6808), the server config (+0x6710) and the
+// GLXPlayerUser (+0x6718); the original does not delete the GLXPlayerUser (it leaks), the port frees it
+// because Initialize creates it. The message, friend, observer and leaderboard objects (+0x6700..+0x670c,
+// +0x671c) are not created by the port (Update's bootstrap is partial), and the friend list pointer is
+// handed in by the tests as a stack object, so none of them is deleted. The original also deletes the
+// GLXPlayerLogin, login observer, lobby and lobby observer singletons and resets them to null; the port
+// keeps those, because the tests hand in stack objects through the statics. The containers and the base
+// are destroyed by the compiler. Only the Game Center started flag is cleared, as in the original.
 CMatchingGLLive::~CMatchingGLLive() {
+    delete lobbyQuery_;
+    lobbyQuery_ = nullptr;
+    delete glxServerConfig_;
+    glxServerConfig_ = nullptr;
+    delete glxUser_;
+    glxUser_ = nullptr;
     s_IsGameStarting = false;
+}
+
+// CMatchingBase seams for CConnectionManager (GetConnectionMgr() in the original). Not virtual slots of
+// CMatching: CMatchingBase::UpdateMemberIdList and ProcessEvents call the connection manager through them.
+// CConnectionManager::GetConnMemberIdList(false).
+std::vector<int> CMatchingGLLive::ConnectionMemberIdList() const {
+    return GetConnectionMgr().GetConnMemberIdList(false);
+}
+// CConnectionManager::IsConnected(int).
+bool CMatchingGLLive::IsConnectedMember(int memberId) const {
+    return GetConnectionMgr().IsConnected(memberId);
+}
+// CConnectionManager::Disconnect(int, false).
+void CMatchingGLLive::DisconnectMember(int memberId) {
+    GetConnectionMgr().Disconnect(memberId, false);
 }
 
 // 0x81c5e8 _ZN15CMatchingGLLive17GetGLXPlayerLoginEv

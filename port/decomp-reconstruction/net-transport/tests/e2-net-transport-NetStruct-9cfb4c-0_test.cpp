@@ -1,36 +1,19 @@
-// Test for batch e2-net-transport-NetStruct-9cfb4c-0 (packet history and serialize forwarders).
-// The test links only the batch source and net_bit_stream.cpp. Symbols outside this batch are
-// stubbed below: the NetStruct constructor and destructor, the vtable's Load, Erase and GetSizeBits,
-// NetStruct::SerializeInternal (not reconstructed), NetStruct::Resend() (partial), and the change
-// counter, which is defined in tb_transport-NetStructMember-0.cpp.
+// Test for batch e2-net-transport-NetStruct-9cfb4c-0 (packet history, the serialize entry points,
+// ProcessLostPacket / ProcessAcknowledgedPacket and SerializeInternal).
+// The test links the whole library, so it uses the real NetStruct (constructor, destructor, Load, Erase,
+// Resend, HasDataToSend, SetEnabled) and the CMatching stand-in of deps/connection_deps.hpp. The stand-in's
+// MemberBit(id) is 1 << id for ids 0..31 and its LocalMemberId() is 0.
 #include "net-transport/net_struct.hpp"
 
 #include <cstdio>
 
+#include "net-transport/deps/connection_deps.hpp"
+#include "net-transport/tb/net_struct_int.hpp"
+
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-std::uint64_t NetStruct::s_changeCounter = 0;
-
-static int resend_calls = 0;
-static int serialize_calls = 0;
-static bool last_conditional = false;
-static int last_member = 0;
-static int last_packet = 0;
-
-NetStruct::NetStruct() {}
-NetStruct::~NetStruct() {}
-int NetStruct::Load(NetBitStream&, int, std::uint32_t) { return 0; }
-int NetStruct::Erase(NetBitStream&) { return 0; }
-int NetStruct::GetSizeBits() { return 0; }
-int NetStruct::Resend() { ++resend_calls; return 1234; }
-int NetStruct::SerializeInternal(bool conditional, NetBitStream&, int memberId, int packetId) {
-    ++serialize_calls;
-    last_conditional = conditional;
-    last_member = memberId;
-    last_packet = packetId;
-    return 555;
-}
+namespace {
 
 // Exposes the protected packet history to the test.
 struct Probe : NetStruct {
@@ -40,15 +23,26 @@ struct Probe : NetStruct {
     tPacketHistory get(int member, int packet) { return packetHistory_[member][packet]; }
 };
 
+// Two 8-bit members, declared in order.
+struct TwoMembers : Probe {
+    NetStructUInt<8> a;
+    NetStructUInt<8> b;
+    TwoMembers() {
+        DeclareMember(&a);
+        DeclareMember(&b);
+    }
+};
+
+}  // namespace
+
 int main() {
-    // AddPacketHistory stores the change counter and the mask; the return value is the mask as int.
+    // AddPacketHistory stores the change counter and the mask.
     {
         Probe p;
         NetStruct::s_changeCounter = 42;
-        const int r = p.AddPacketHistory(3, 7, 0, 0xABCDEF0123456789ull);
+        p.AddPacketHistory(3, 7, 0, 0xABCDEF0123456789ull);
         CHECK(p.get(3, 7).changeStamp == 42);
         CHECK(p.get(3, 7).changeMask == 0xABCDEF0123456789ull);
-        CHECK(r == 0x23456789);
 
         NetStruct::s_changeCounter = 50;
         p.AddPacketHistory(3, 8, 0, 5);
@@ -100,46 +94,80 @@ int main() {
         CHECK(p.count(2) == 0);
     }
 
-    // More than 64 packets for one member: the history is cleared and Resend() is returned.
+    // More than 64 packets for one member: the history is cleared and Resend() runs, which advances the
+    // change counter once (ResendInternal).
     {
         Probe p;
         for (int i = 0; i < 65; ++i) {
             p.AddPacketHistory(1, i, 0, static_cast<std::uint64_t>(i));
         }
         CHECK(p.count(1) == 65);
-        const int before = resend_calls;
-        const int r = p.AddPacketHistory(1, 100, 0, 7);
-        CHECK(resend_calls == before + 1);
-        CHECK(r == 1234);
+        NetStruct::s_changeCounter = 100;
+        p.AddPacketHistory(1, 100, 0, 7);
+        CHECK(NetStruct::s_changeCounter == 101);
         CHECK(p.count(1) == 0);
     }
 
-    // The serialize entry points forward to SerializeInternal with the original constant arguments.
+    // The serialize entry points forward to SerializeInternal with the original constant arguments. A
+    // disabled struct writes a 0 bit and returns 0 whatever the arguments are.
     {
         Probe p;
         NetBitStream stream(8);
-        serialize_calls = 0;
+        CHECK(p.Serialize(stream, 4, 9) == 0);            // true, disabled: HasDataToSend(4) is false
+        CHECK(p.SerializeDisabled(stream) == 0);          // false, -1, -1
+        CHECK(p.ConditionalSerialize(false, stream, 2, 3) == 0);
+        CHECK(p.ConditionalSerialize(true, stream, 6, 7) == 0);
+        CHECK(stream.WritePosition() == 4);               // four 0 bits
+        CHECK(p.total() == 0);                            // no packet was recorded
+    }
 
-        int r = p.Serialize(stream, 4, 9);
-        CHECK(r == 555 && serialize_calls == 1);
-        CHECK(last_conditional && last_member == 4 && last_packet == 9);
+    // SerializeInternal on an enabled struct with two 8-bit members. Member id 1 has the stand-in bit 2 and
+    // the room mask is bits 0 and 1.
+    {
+        CMatching::SetRoomMaskForTest(3);
+        TwoMembers p;
+        p.a.SetValue(0x11);
+        p.b.SetValue(0x22);
+        p.SetEnabled(true);   // local member 0: every member gets change mask 1 and is marked changed
+        NetStruct::s_changeCounter = 1000;
 
-        r = p.SerializeDisabled(stream);
-        CHECK(r == 555);
-        CHECK(!last_conditional && last_member == -1 && last_packet == -1);
+        NetBitStream stream(16);
+        CHECK(p.HasDataToSend(1));
+        // HasDataToSend trimmed the masks to the room mask; the sent mask holds bit 0 (local) only.
+        const int r = p.Serialize(stream, 1, 77);
+        // struct bit + two members of (presence bit + 8 bits) = 19 bits
+        CHECK(stream.WritePosition() == 19);
+        CHECK(r == 2);        // every member was written
+        CHECK(p.has(1, 77));
+        CHECK(p.get(1, 77).changeMask == 3);   // members 0 and 1
+        CHECK(p.get(1, 77).changeStamp == 1000);
 
-        r = p.ConditionalSerialize(false, stream, 2, 3);
-        CHECK(r == 555 && !last_conditional && last_member == 2 && last_packet == 3);
+        // The members are marked sent to member 1 now: nothing more to send for it.
+        NetBitStream again(16);
+        CHECK(!p.HasDataToSend(1));
+        CHECK(p.Serialize(again, 1, 78) == 0);
+        CHECK(again.WritePosition() == 1);     // a single 0 bit
+        CHECK(!p.has(1, 78));
 
-        r = p.ConditionalSerialize(true, stream, 6, 7);
-        CHECK(last_conditional && last_member == 6 && last_packet == 7);
-        CHECK(serialize_calls == 4);
+        // A lost packet clears the sent flag of the member bit again (the members never acknowledged it).
+        p.ProcessLostPacket(1, 77);
+        CHECK(!p.has(1, 77));
+        CHECK(p.HasDataToSend(1));
+
+        // An acknowledged packet makes AreChangesAcknowledgedBy(1) true for the members in the packet.
+        NetBitStream third(16);
+        CHECK(p.Serialize(third, 1, 79) == 2);
+        CHECK(!p.AreChangesAcknowledgedBy(1));
+        p.ProcessAcknowledgedPacket(1, 79);
+        CHECK(!p.has(1, 79));
+        CHECK(p.AreChangesAcknowledgedBy(1));
+        CMatching::SetRoomMaskForTest(0);
     }
 
     if (failures == 0) {
         std::printf("e2-net-transport-NetStruct-9cfb4c-0 test: all checks passed\n");
         return 0;
     }
-    std::printf("%d check(s) failed\n", failures);
+    std::printf("e2-net-transport-NetStruct-9cfb4c-0 test: %d failure(s)\n", failures);
     return 1;
 }

@@ -4,37 +4,13 @@
 #include <cstring>
 #include <new>
 
+#include "pydata-accessors/element_table.hpp"
+#include "pydata-accessors/struct_strides.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
 
 namespace Structs {
 
 namespace {
-
-// Element strides. The listing strides are 20 (LangSheet), 44 (v2Event), and 16 and 44 (v2Quest).
-// LangSheet has a concrete class here, so its stride is sizeof(LangSheet) on this host; the listing value
-// (20) is the 32-bit ARM size. The other element classes are not in any header, so their listing strides
-// are used as they are.
-constexpr std::size_t kLangSheetStride = sizeof(LangSheet);
-constexpr std::size_t kV2EventElementStride = 44;
-
-// Element block as in the listing: the block base is members - 8 (stride word), the count is members - 4.
-// Free the elements from the last to the first (vtable slot 0, the virtual destructor), then the block.
-void DestroyElements(std::uint8_t* members, std::size_t stride) {
-    std::uint32_t count = 0;
-    std::memcpy(&count, members - 4, sizeof count);
-    for (std::uint32_t i = count; i > 0; --i) {
-        reinterpret_cast<pydata::ArrayElement*>(members + stride * (i - 1))->~ArrayElement();
-    }
-    CustomFree(members - 8);
-}
-
-// Allocates a block for count elements of the given stride. Returns members (block + 8).
-std::uint8_t* AllocElements(std::size_t stride, std::uint32_t count) {
-    auto* block = static_cast<std::uint8_t*>(MemoryHintState(stride * count + 8, 1));
-    const std::uint32_t header[2] = {static_cast<std::uint32_t>(stride), count};
-    std::memcpy(block, header, sizeof header);
-    return block + 8;
-}
 
 // (length, buffer) pair as the listing finalizes it: free the buffer if set, then clear both words.
 void FinalizeStringField(std::uint32_t& len, char*& buf) {
@@ -265,7 +241,7 @@ void v2QuestRewardConsumeLoot::read(IStreamBase* stream) {
 // 0x4ceb00 _ZN7Structs13LangSheetList8finalizeEv
 void LangSheetList::finalize() {
     if (m_w2 != nullptr) {
-        DestroyElements(m_w2, kLangSheetStride);
+        pydata::DeleteElementTable<LangSheet>(m_w2);
         m_w1 = 0;
         m_w2 = nullptr;
     }
@@ -274,22 +250,16 @@ void LangSheetList::finalize() {
 // 0x4dc2ac _ZN7Structs13LangSheetList4readEP11IStreamBase
 void LangSheetList::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::uint32_t>(stream);  // +0x4
-    if (m_w2 != nullptr) DestroyElements(m_w2, kLangSheetStride);
-    const std::uint32_t count = m_w1;
-    std::uint8_t* members = AllocElements(kLangSheetStride, count);
-    for (std::uint32_t i = 0; i < count; ++i) {
-        new (members + kLangSheetStride * i) LangSheet();  // vptr set, words zeroed
-    }
-    m_w2 = members;
-    for (std::uint32_t i = 0; i < count; ++i) {
-        reinterpret_cast<pydata::ArrayElement*>(members + kLangSheetStride * i)->read(stream);
-    }
+    pydata::DeleteElementTable<LangSheet>(m_w2);
+    // Listing stride 20 (Structs::ListingStride::LangSheet); the elements are host LangSheet objects, constructed in
+    // place (vptr set, the two buffer pointers null as the listing zeroes +0x8 and +0x10).
+    m_w2 = pydata::NewAndReadElementTable<LangSheet>(ListingStride::LangSheet, m_w1, stream);
 }
 
 // 0x4ceb68 _ZN7Structs13LangSheetListD1Ev
 // 0x4cec04 _ZN7Structs13LangSheetListD2Ev
 LangSheetList::~LangSheetList() {
-    if (m_w2 != nullptr) DestroyElements(m_w2, kLangSheetStride);
+    pydata::DeleteElementTable<LangSheet>(m_w2);
 }
 
 // 0x4cebe8 _ZN7Structs13LangSheetListD0Ev
@@ -681,32 +651,32 @@ void v2Event::finalize() {
         m_w3 = nullptr;
     }
     if (m_w5 != nullptr) {
-        DestroyElements(m_w5, kV2EventElementStride);
+        pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w5);
         m_w4 = 0;
         m_w5 = nullptr;
     }
 }
 
 // 0x4ebc38 _ZN7Structs7v2Event4readEP11IStreamBase
-// partial: the element class (44-byte stride, vtable off_96A030) is not in any header. The port reads the
-// words and frees the old elements, but does not create the new element block or call the element reads.
-// readStringEx is ported with its 4 arguments (flag 0), and the returned value of the last read is dropped.
+// partial: readStringEx is ported with its 4 arguments (flag 0); the listing passes a fifth 64-bit argument
+// (high word 1, low word undefined) that the stand-in does not take. The element table is complete: the old
+// v2QuestObjectiveStub elements are destroyed, `m_w4` new ones are built (listing stride 44, vtable off_96A030,
+// pointer words +0x14 and +0x1c null by construction) and read in order. The original returns the last element
+// read's result; read is void here.
 void v2Event::read(IStreamBase* stream) {
     m_w1 = StreamReader::readAs<std::int32_t>(stream);   // +0x4
     m_w2 = StreamReader::readAs<std::uint32_t>(stream);  // +0x8
     ReadStringField(stream, m_w2, m_w3);                 // +0xc
     m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
-    if (m_w5 != nullptr) {
-        DestroyElements(m_w5, kV2EventElementStride);
-        m_w5 = nullptr;
-    }
+    pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w5);
+    m_w5 = pydata::NewAndReadElementTable<v2QuestObjectiveStub>(ListingStride::v2QuestObjectiveStub, m_w4, stream);
 }
 
 // 0x4cfd04 _ZN7Structs7v2EventD1Ev
 // 0x4cfdb0 _ZN7Structs7v2EventD2Ev
 v2Event::~v2Event() {
     if (m_w3 != nullptr) CustomFree(m_w3);
-    if (m_w5 != nullptr) DestroyElements(m_w5, kV2EventElementStride);
+    pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w5);
 }
 
 // 0x4cfd94 _ZN7Structs7v2EventD0Ev
@@ -716,41 +686,46 @@ void DeletingDestructor(v2Event* self) {
 }
 
 // 0x4cfe40 _ZN7Structs7v2Quest8finalizeEv
-// Five element tables, each freed by DestroyElements with its listing stride (16, 44, 16, 16, 16).
+// Five element tables (+0x18 v2ConditionStub, +0x20 v2QuestObjectiveStub, +0x28/+0x30/+0x38 v2QuestRewardStub; listing
+// strides 16, 44, 16, 16, 16), each destroyed back to front and freed, then its count and pointer cleared.
 void v2Quest::finalize() {
     if (m_w6 != nullptr) {
-        DestroyElements(m_w6, 16);
+        pydata::DeleteElementTable<v2ConditionStub>(m_w6);
         m_w5 = 0;
         m_w6 = nullptr;
     }
     if (m_w8 != nullptr) {
-        DestroyElements(m_w8, 44);
+        pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w8);
         m_w7 = 0;
         m_w8 = nullptr;
     }
     if (m_w10 != nullptr) {
-        DestroyElements(m_w10, 16);
+        pydata::DeleteElementTable<v2QuestRewardStub>(m_w10);
         m_w9 = 0;
         m_w10 = nullptr;
     }
     if (m_w12 != nullptr) {
-        DestroyElements(m_w12, 16);
+        pydata::DeleteElementTable<v2QuestRewardStub>(m_w12);
         m_w11 = 0;
         m_w12 = nullptr;
     }
     if (m_w14 != nullptr) {
-        DestroyElements(m_w14, 16);
+        pydata::DeleteElementTable<v2QuestRewardStub>(m_w14);
         m_w13 = 0;
         m_w14 = nullptr;
     }
 }
 
+// 0x4d06c0 _ZN7Structs7v2QuestD2Ev
+// 0x4d04dc _ZN7Structs7v2QuestD1Ev
+// Each table is destroyed only when its pointer is set (the listing tests it); the subobject destructors
+// (+0xa0, +0x68, +0x3c) run after this body as members.
 v2Quest::~v2Quest() {
-    DestroyElements(m_w6, 16);   // +0x18, stride 16
-    DestroyElements(m_w8, 44);   // +0x20, stride 44
-    DestroyElements(m_w10, 16);  // +0x28, stride 16
-    DestroyElements(m_w12, 16);  // +0x30, stride 16
-    DestroyElements(m_w14, 16);  // +0x38, stride 16
+    pydata::DeleteElementTable<v2ConditionStub>(m_w6);       // +0x18, listing stride 16
+    pydata::DeleteElementTable<v2QuestObjectiveStub>(m_w8);  // +0x20, listing stride 44
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w10);    // +0x28, listing stride 16
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w12);    // +0x30, listing stride 16
+    pydata::DeleteElementTable<v2QuestRewardStub>(m_w14);    // +0x38, listing stride 16
 }
 
 }  // namespace Structs

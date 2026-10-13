@@ -6,6 +6,7 @@
 // of the X-scale instantiation, so this batch's bodies live in this file instead.
 
 #include "glitch-scene-collada-gui/animation_track_virtual_ex.hpp"
+#include "glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_float.hpp"
 
 namespace glitch::collada::animation_track {
 
@@ -23,6 +24,10 @@ int CVirtualEx<FloatApplyValueEx>::getValueSize() const {
 // (glitch-video declares IMaterialParameters<Owner, bool kTrackDirty> with other template
 // arguments; the recon stand-ins are unconfirmed). Missing: that declaration. The info argument is
 // unused by the original. Returns 0 until the callee is mapped.
+// Binary check (decomp_asm 0x618fe4): the parameter id operand is LDRH R1,[R12,#8] with R12 = 0, a halfword load
+// from absolute address 8 (IDA label byte_8), which Hex-Rays folds into the constant 0 of the pseudocode. The
+// applicator-info pointer is never read, so the id is not a field of the info argument here. The read is of near-null
+// memory, so this body is probably never executed in the original.
 template <>
 int CVirtualEx<FloatApplyValueEx>::applyValue(void* value, void* target, CApplicatorInfo* info) const {
     (void)value;
@@ -32,19 +37,15 @@ int CVirtualEx<FloatApplyValueEx>::applyValue(void* value, void* target, CApplic
 }
 
 // 0x620118 glitch::collada::animation_track::CVirtualEx<...>::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const
-// partial: a forwarder. The original passes its five arguments on to
+// A forwarder: the original is one tail call that passes its five arguments on to
 // glitch::collada::animation_track::CApplyValueEx<float, CMixin<...>>::applyBlendedValueEx(values, weights, count, target, info),
-// a static member (no this argument is passed). That member is not declared in any header of this
-// category, so the forward cannot be written yet. Returns 0 until the callee is mapped.
+// a static member (no this argument is passed). The callee is declared in
+// tb/glitch_collada_animation_track_CApplyValueEx_float.hpp (0x62008c, still partial there: its material setter
+// is not mapped, so it returns 0 after computing the blend), and this forward returns whatever it returns.
 template <>
 int CVirtualEx<FloatApplyValueEx>::applyBlendedValue(void* values, float* weights, int count, void* target,
                                                      CApplicatorInfo* info) const {
-    (void)values;
-    (void)weights;
-    (void)count;
-    (void)target;
-    (void)info;
-    return 0;
+    return FloatApplyValueEx::applyBlendedValueEx(values, weights, count, target, info);
 }
 
 // 0x620134 glitch::collada::animation_track::CVirtualEx<...>::getBlendedValue(void*, float*, int, void*) const

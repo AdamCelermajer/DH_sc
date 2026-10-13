@@ -313,3 +313,37 @@ removed, because the templates are abstract.
   compares it with CMatching slot 116), not a matching key. The ctor sets it to -14531089. The stand-in is deleted and
   the manager uses connection.hpp.
 - Host and MinGW/Wine: net-transport 30/30 tests pass.
+
+## Track B integrator decisions 2 to 5 (decisions-1)
+
+- NetStruct is real: the vtable slots are declared in the original order (`tools/decomp_vtable.py NetStruct`), including
+  HasDataToSend (+0x28), ConditionalLoad (+0x18), IsChanged, GetChangedBitMap, AreChangesAcknowledged(By), SetAckedBy,
+  GetSizeBytes. Load, LoadInternal, Erase, SetEnabled, Resend (both forms), SetAckedBy, HasDataToSend, SerializeInternal,
+  ProcessLostPacket and ProcessAcknowledgedPacket are written against the CMatching stand-in
+  (`deps/connection_deps.hpp`: MemberBit = vtable +0x84, GetRoomMask 0x8000dc, LocalMemberId +0x6c; all test doubles).
+  The Resend family, SetAckedBy, SetEnabled and AddPacketHistory return void: the pseudocode's int is the last callee's
+  leftover R0 and nothing reads it.
+- NetStructMember has the first slots of the original vtable: `Erase` (+0x00, pure), Write, Read, `PostLoad` (+0x0c),
+  GetSizeBits, destructor. `NetStructMemberType<T>::Erase` is void for every T (the int/unsigned/bool/float/CNetworkId
+  forms returned Load's leftover R0; the slot is only called as void and IDA shows no direct caller). The ByteArray and
+  std::string forms restore without SetChanged, as the binary does.
+- `NetStructMemberType<bool>` is a full class specialization: `value_` follows the NetStructMember base, which puts it at
+  +0x1d as in the binary (a test checks it sits right after `changed_`). `NetStructBool` derives from it and
+  `NetStructNetworkId` from `NetStructMemberType<CNetworkId>`, as the vtables say. `NetStructInterpolation<float>` is no longer
+  a NetStructMember (it is a standalone polymorphic base at +0x24 of the interpolated float, as in 0x3a681c).
+- NetStructInt, NetStructUInt, NetStructBool, NetStructString and the interpolated float set their NetStructMember base
+  fields (`NetStructMember(int size_bits)`: bit size, -1 masks) in their constructors, as the inline constructors in
+  CNetPlayerInfo (0x80fc28) and Door::NetStructDoor (0x3e80d4) do.
+- ByteArray (the stand-in in `deps/byte_array.hpp`) owns its block: destructor, deep copy, move. Its allocation is
+  `ByteArrayAllocate` (malloc) so it always pairs with `CustomFree` (free). The old `new[]` / `free` pair corrupted the heap
+  whenever the test executable resolved `libstdc++-6.dll` from `C:\Program Files\Git\mingw64\bin` (msvcrt) ahead of the WinLibs
+  UCRT one. The same DLL mix explains the 0xc0000139 (entry point not found) failures of the three core-platform tests on this
+  machine: run the tests with the WinLibs `mingw64/bin` first on PATH.
+- CNetPlayerInfo derives from NetStruct (0x130 bytes) and declares its blocks: +0x130 NetStructInt<17>, +0x158 <8> (member_id_),
+  +0x180 <17> (conn_index_), +0x1a8 <16> (unk_1c8), +0x1d0 NetStructUInt<8> (state_), +0x1f8 <8>, +0x220 <8> (SetState), the
+  NetStructString<32> at +0x248, applied_state_ at +0x280. The member id defaults to 0 (Reset does not write it). Copy
+  construction and assignment are deleted (the original copies the member pointer array with memcpy).
+- CNetPlayerManager::net_struct_ is the nested `NetStructPlayerManager` (NetStruct plus a NetStructInt<6> host member id at
+  +0x130; manager +0x170). `net_player_manager_deps.hpp` keeps only the COnline stand-in. Still open: the two CEventQueueBase
+  subobjects of the manager (+0x04, +0x180) that CNetPlayerInfo::Update posts to, AddPlayer, GetPlayerName, the constructor,
+  Update(int) and ProcessEvents; CBluetoothNetRoomInfo can now use the real NetStruct base (not done here).

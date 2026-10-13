@@ -10,21 +10,16 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-// Test-only stubs. The real CNetPlayerInfo constructor pulls in the NetStruct graph, which this test
-// does not link. IsActive is stubbed with the state values the header lists (3 is active).
-CNetPlayerInfo::CNetPlayerInfo() {}
-void CNetPlayerInfo::Update() {}
-void CNetPlayerInfo::Reset() {}
-bool CNetPlayerInfo::IsLocal() const { return false; }
-bool CNetPlayerInfo::IsLocalTo(int) const { return false; }
-bool CNetPlayerInfo::IsActivating() const { return false; }
-bool CNetPlayerInfo::IsActive() const { return state_ == 3; }
+// Test-only stub: AddPlayer(NetBitStream&,int,int) is skipped in batch e2 and is referenced by
+// ReadPacketData (linked in through CNetPlayerInfo::Update's cache clear), which this test does not call.
+void CNetPlayerManager::AddPlayer(NetBitStream&, int, int) {}
 
 static CNetPlayerInfo* MakePlayer(int member_id, int conn_index, int state) {
     CNetPlayerInfo* p = new CNetPlayerInfo();
-    p->member_id_ = member_id;
-    p->conn_index_ = conn_index;
-    p->state_ = state;
+    p->member_id_.SetValue(member_id);
+    p->conn_index_.SetValue(conn_index);
+    p->unk_1c8.SetValue(0);          // IsActive needs all three indices to be non-negative
+    p->state_.SetValue(state);
     return p;
 }
 
@@ -50,7 +45,7 @@ int main() {
     CHECK(!m.MemberHasActivePlayers(5));
 
     // The per-key list is cached: a later change to a player does not rebuild it.
-    m.players_[0]->member_id_ = 99;
+    m.players_[0]->member_id_.SetValue(99);
     CHECK(m.GetMemberPlayerCount(0) == 2);
     CHECK(m.GetPlayerIdListByMemberId(0)[0] == 7);
 

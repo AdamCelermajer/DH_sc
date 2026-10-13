@@ -59,6 +59,10 @@ public:
     // flag is set.
     void OnRequestSuccess(std::int32_t code, char* data, std::int32_t length);
 
+    // Writes the server-configured flag (+0x04) directly. CMatchingGLLive::Initialize (0x81f264) stores
+    // the byte through the observer pointer when the server config is already loaded.
+    void SetConfigured(bool configured) { configured_ = configured; }
+
     // Accessors. Not in the original.
     bool ConfiguredForTest() const { return configured_; }
     bool LoggedInForTest() const { return loggedIn_; }

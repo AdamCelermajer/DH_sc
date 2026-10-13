@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstring>
 #include <string>
+#include <utility>
 
 #include "net-session-online/c_matching_gl_live_observers.hpp"
 #include "net-session-online/c_sign_in.hpp"
@@ -59,19 +60,48 @@ std::int32_t CMatchingGLLive::InitializeFriend() {
 }
 
 // 0x81c78c _ZN15CMatchingGLLive23SendGLFriendsGameInviteEPc
-// Partial: sends the invitation (title "title", text "Lets play Dungeon Hunter 2 !", type 8) to the
-// name through the GLXPlayerMessage object (+0x6708) and returns its result. The original then sets
-// the invited flag in the matching GL friend list entry; that list is GLFriendInfo, which the port does
-// not have, so the loop is not reproduced. A null message object returns 0.
+// Sends the invitation (title "title", text "Lets play Dungeon Hunter 2 !", type 8) to the name through the
+// GLXPlayerMessage object (+0x6708), then walks the game friend list (+0x6bd8) for the first entry whose name
+// equals the argument and sets its invited flag. The result is the last value computed, as in the original: the
+// send result when the list is empty, otherwise the last string comparison (0 once an entry matched).
+// Partial: the invitation goes through GLXPlayerMessage::SendOnlineMessage, whose bool argument and result are the
+// port's (the original's last argument is 0). A null message object skips the send here (result 0) and a
+// null name skips the list walk; the original dereferences both.
 std::int32_t CMatchingGLLive::SendGLFriendsGameInvite(char* name) {
-    if (glxMessage_ == nullptr) {
-        return 0;
-    }
     char title[sizeof(kInviteTitle)];
     char text[sizeof(kInviteText)];
     std::memcpy(title, kInviteTitle, sizeof(title));
     std::memcpy(text, kInviteText, sizeof(text));
-    return glxMessage_->SendOnlineMessage(name, 8, title, text, false);
+    std::int32_t result = 0;
+    if (glxMessage_ != nullptr) {
+        result = glxMessage_->SendOnlineMessage(name, 8, title, text, false);
+    }
+    if (name == nullptr) {
+        return result;
+    }
+    for (GLFriendInfo& entry : glFriends_) {
+        result = std::strcmp(entry.name.c_str(), name);  // LC_API_STRCMP_0
+        if (result == 0) {
+            entry.invited = true;  // node +0x11
+            return result;
+        }
+    }
+    return result;
+}
+
+// 0x81ee10 _ZN15CMatchingGLLive19AddFriendInGameListE12GLFriendInfo
+// Allocates a list node (0x14 bytes: links, then the three words of the entry) and links it at the tail of the
+// list whose head is at +0x6bd8.
+void CMatchingGLLive::AddFriendInGameList(GLFriendInfo info) {
+    glFriends_.push_back(std::move(info));
+}
+
+// 0x81ee6c _ZN15CMatchingGLLive16GetGLFriendsListEv
+// Builds a new list (returned through the hidden result pointer) with a copy of every node of the list at +0x6bd8,
+// in order. The entries' strings are copied by value here; the original copies the three words (the string
+// pointers are shared).
+std::list<GLFriendInfo> CMatchingGLLive::GetGLFriendsList() const {
+    return glFriends_;
 }
 
 // 0x81dea0 _ZNK15CMatchingGLLive11GetMemberIdEv

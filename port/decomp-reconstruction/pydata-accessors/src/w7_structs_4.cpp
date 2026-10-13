@@ -1,30 +1,23 @@
-// Structs::ItemPowerRef and Structs::ItemPower*  destructors, slice structs_4 (generated for the decomp
-// wave, see NOTES.md "Structs records" and "Arrays element ABI"). Each class's D1 and D2 are one C++
+// Structs::ItemPowerRef and Structs::ItemPower*  destructors, slice structs_4 (written for the decomp
+// wave, see NOTES.md "Structs records" and "Arrays element ABI"). Hand-maintained source (Track B
+// decision 7); no generator for this slice is in the tree. Each class's D1 and D2 are one C++
 // destructor; both addresses are in the comment. D0 is DeletingDestructor (self->X::~X(), then CustomFree).
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
 #include "pydata-accessors/array_element.hpp"
+#include "pydata-accessors/element_table.hpp"
 #include "pydata-accessors/w7_structs_4.hpp"
 
 namespace {
 
-constexpr std::size_t kElementStride = 16;  // listing: 16 * count, v3 - 16
-
-// Element loop of the ItemPowerRef destructor (listing: the vtable slot +0x0 of each element runs from the
-// last element back to the first, then CustomFree(members - 8)). members is the word at +0x10 and is never
-// cleared by the original, so a second call on the same pointer reads freed memory (a double free in the original, kept as listed).
+// Element loop of the ItemPowerRef destructor (listing: the vtable slot +0x0 of each AttrBonusEntry element runs
+// from the last element back to the first, then CustomFree(members - 8); the listing stride is 16, kept in the
+// stride word of the block, and the host elements are walked through the typed pointer). members is the word at
+// +0x10 and is never cleared by the original, so a second call on the same pointer reads freed memory (a double
+// free in the original, kept as listed).
 void DestroyElementArray(void* members_value) {
-    std::uint8_t* members = static_cast<std::uint8_t*>(members_value);
-    if (members == nullptr) return;
-    std::uint32_t count;
-    std::memcpy(&count, members - 4, sizeof count);
-    for (std::uint32_t i = count; i != 0; --i) {
-        std::uint8_t* cur = members + kElementStride * (i - 1);
-        reinterpret_cast<pydata::ArrayElement*>(cur)->~ArrayElement();
-    }
-    CustomFree(members - 8);
+    pydata::DeleteElementTable<Structs::AttrBonusEntry>(members_value);
 }
 
 }  // namespace

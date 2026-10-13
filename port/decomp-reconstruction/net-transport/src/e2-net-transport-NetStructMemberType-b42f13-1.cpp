@@ -45,15 +45,14 @@ std::uint64_t ChangeKey(const CNetworkId& id) {
 // 0x801bfc NetStructMemberType<CNetworkId>::Erase(NetBitStream &)
 // Copies the 28-byte value to the stack, calls NetStructMember::Load (non-virtual, 0x81510c), then
 // restores the copy. The original compares this+0x20 with the stack copy before the restore; they never
-// alias, so the restore always runs. The restore's LDMNE loads R0 with the saved word at +0x30, which
-// overwrites the Load result. The returned value is therefore the saved field2 (+0x30 of the saved value),
-// and the port returns it the same way.
+// alias, so the restore always runs. The pseudocode returns the saved field2 word (the restore's LDMNE
+// leaves the +0x30 word in R0); it is a leftover like the other Erase forms, the slot is called as void by
+// NetStruct::LoadInternal and there is no direct caller, so the port returns void.
 template <>
-int NetStructMemberType<CNetworkId>::Erase(NetBitStream& stream) {
+void NetStructMemberType<CNetworkId>::Erase(NetBitStream& stream) {
     const CNetworkId saved = value_;                        // +0x20..+0x38 copied to the stack
     NetStructMember::Load(stream);                          // BL NetStructMember::Load (result discarded)
     value_ = saved;                                         // restore the 28 bytes
-    return static_cast<int>(saved.Field2());                // +0x30 word left in R0
 }
 
 // 0x8020b8 NetStructMemberType<CNetworkId>::SetValue(CNetworkId const&)
