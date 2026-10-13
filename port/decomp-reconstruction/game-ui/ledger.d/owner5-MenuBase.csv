@@ -1,0 +1,4 @@
+elf_address,symbol,status,source_file,notes
+0x41f454,MenuBase::RemoveDeadZone(gameswf::rect const&),done,game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp,Rebuilt as vector::erase of the first rect whose m_x_max is within 0.0001 of zone.m_x_max. gameswf.h compiles in this TU. Compiles.
+0x4202a8,"MenuBase::FS_UnlockCharacter(char const*, char const*, void*)",done,game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp,"Both branches rebuilt; the per-player loop uses the PlayerManager global, PlayerInfo::unk_660 and v2Controllable m_controller->m_blocked. The include conflict noted before does not occur with the current headers. Compiles."
+0x420344,"MenuBase::FS_LockCharacter(char const*, char const*, void*)",done,game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp,"Mirror of FS_UnlockCharacter, storing true. Compiles."
