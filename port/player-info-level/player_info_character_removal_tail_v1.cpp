@@ -19,9 +19,12 @@ Status record_name(p::Record& record) {
 }
 
 Status clear_character_bytes(p::Record& record) {
+    // NetStructByteArray<36>::SetBuffer(nullptr, 0) accepts the member in either
+    // state: the constructed 36-byte payload, or the empty payload a previous
+    // RemoveCharacter already left (every Level exit after the first).
     auto* member = record.at(0x3b0);
     if (!member || !member->constructed || member->kind != n::Kind::byte_array ||
-        member->bytes.size != 36)
+        (member->bytes.size != 36 && member->bytes.size != 0))
         return Status::member_unavailable;
     return n::set_buffer(*member, {nullptr, 0}) == n::Status::complete
         ? Status::complete : Status::member_unavailable;

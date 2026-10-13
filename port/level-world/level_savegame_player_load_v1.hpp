@@ -85,7 +85,11 @@ struct ContainerDeserializeState {
     std::uint8_t state_394{};
 };
 enum class SourceNoncharacterKind : std::uint8_t {
-    game_object, door, trigger, container
+    game_object, door, trigger, container,
+    // The concrete Deserialize returns before reading the row (e.g. a
+    // non-KeepPhysics Container while Level +0xF3 or +0xF4 is set). Reported with
+    // supported=false; __LoadObjects seeks past the row.
+    skipped_by_source
 };
 struct SourceNoncharacterDeserializeState {
     SourceNoncharacterKind kind{};
@@ -93,6 +97,10 @@ struct SourceNoncharacterDeserializeState {
     std::int32_t door_state_3a8{};
     TriggerDeserializeState trigger{};
     ContainerDeserializeState container{};
+};
+
+enum class DirectCharacterDisposition : std::uint8_t {
+    apply, skipped_by_source, unsupported
 };
 
 struct CommitServices {
@@ -139,6 +147,27 @@ struct CommitServices {
     bool (*commit_source_noncharacter_restore)(
         void*, const manager::GameObject&,
         const SourceNoncharacterDeserializeState&, std::string&){};
+    // Character::Deserialize of a record-less direct Character (the static MGP
+    // Monsters, NPCs and followers that the factory does not own). The provider
+    // reports what the source Deserialize does with the row: `apply` runs the
+    // full closure, `skipped_by_source` is the early return (Monster rows while
+    // the Level +0xF3 flag is set) that LevelSavegame::__LoadObjects seeks past,
+    // `unsupported` means the row cannot be applied faithfully by this port.
+    bool (*classify_direct_character_restore)(
+        void*, const manager::GameObject&, const FactoryDeserializeState&,
+        DirectCharacterDisposition*, std::string&){};
+    bool (*prepare_direct_character_restore)(
+        void*, const manager::GameObject&, const FactoryDeserializeState&,
+        std::string&){};
+    bool (*commit_direct_character_restore)(
+        void*, const manager::GameObject&, const FactoryDeserializeState&,
+        std::string&){};
+    // Optional: true while the Record's delayed LoadNInit has not yet run (the
+    // authored Faery binds its Coordinator and AIS in its first Character::Update,
+    // which the source performs at Level::_LoadProcess step 32, before the Load).
+    // The row is then deferred -- reported, not applied, and not protecting the
+    // image -- because Level::PlaceFaeryAndFollowers overwrites its pose anyway.
+    bool (*defers_factory_character_restore)(void*, const factory::Record&){};
 };
 
 enum class Status : std::uint8_t {
@@ -160,6 +189,17 @@ struct Result {
 struct FactoryLifecycleResult {
     std::uint32_t rows_examined{};
     std::uint32_t rows_fully_applied{};
+    // LevelSavegame::__LoadObjects resolves every row with GetObjectByName and
+    // seeks past rows that no live object answers; Character::Deserialize also
+    // returns before reading Monster rows while Level +0xF3 is set. Both leave
+    // the live object untouched by source design, so neither makes the image
+    // stale.
+    std::uint32_t rows_skipped_by_source{};
+    std::uint32_t rows_deferred{};
+    // A live object answered the key but this port cannot apply the row
+    // faithfully. Only these rows keep the loaded image protected.
+    std::uint32_t rows_unsupported{};
+    std::vector<std::string> unsupported_detail;
     // The row is still incomplete: property values were applied, but the
     // original headers and all other Deserialize effects remain in the source
     // image and replacement-save protection stays active.
@@ -180,6 +220,15 @@ Status load_player(const std::uint8_t* image, std::size_t image_size,
 // factory Record. A row is counted as applied only after every source effect
 // in this admitted closure has been committed.
 Status restore_factory_character_rows(
+    const std::uint8_t* image, std::size_t image_size, manager::Owner&,
+    const factory::Owner&,
+    const level_savegame_object_manager_v1::FactsServices*,
+    const CommitServices*, FactoryLifecycleResult*, std::string& error);
+
+// Character::Deserialize for the record-less direct Characters (Monsters, NPCs,
+// followers). Rows are resolved by ObjectManager key and type like
+// LevelSavegame::__LoadObjects; a row no object answers is skipped.
+Status restore_direct_character_rows(
     const std::uint8_t* image, std::size_t image_size, manager::Owner&,
     const factory::Owner&,
     const level_savegame_object_manager_v1::FactsServices*,

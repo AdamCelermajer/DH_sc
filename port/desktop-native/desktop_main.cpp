@@ -61,6 +61,14 @@ struct Options {
     // instead of at frame 300 (die, revive, then leave the level).
     bool transition_after_revive = false;
     std::uint64_t transition_frame = 300;
+    // A -> B -> A: --return-to-origin ENTRY queues a second NativeGoToZone back to
+    // the level this run started in (entry ENTRY) --return-delay frames after the
+    // --transition-to destination finished loading, so the LevelSavegame the first
+    // visit wrote is read back on the second.
+    std::int32_t return_entry = -1;
+    std::uint64_t return_delay = 240;
+    // --enemy-census-at N (repeatable): log the Monster census at rendered frame N.
+    std::vector<std::uint64_t> census_frames;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
@@ -137,6 +145,9 @@ Options parse(int argc, char** argv) {
         }
         else if (arg == "--transition-after-revive") options.transition_after_revive = true;
         else if (arg == "--transition-at") options.transition_frame = std::stoull(value("--transition-at"));
+        else if (arg == "--return-to-origin") options.return_entry = std::stoi(value("--return-to-origin"));
+        else if (arg == "--return-delay") options.return_delay = std::stoull(value("--return-delay"));
+        else if (arg == "--enemy-census-at") options.census_frames.push_back(std::stoull(value("--enemy-census-at")));
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
@@ -188,6 +199,9 @@ Options parse(int argc, char** argv) {
                          "  --transition-to L[:E] queue NativeGoToZone to level L (entry E) at frame 300 (see --transition-at)\n"
                          "  --transition-at N     queue --transition-to at rendered frame N instead of 300\n"
                          "  --transition-after-revive  queue --transition-to 120 frames after the first Continue revive (move-defend/move-kill)\n"
+                         "  --return-to-origin E  after --transition-to arrives, go back to the --level-row level at entry E (A -> B -> A) and log enemy censuses\n"
+                         "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
+                         "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
@@ -218,6 +232,10 @@ Options parse(int argc, char** argv) {
         unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
         unsigned(options.skill_matrix_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
+    if (options.return_entry >= 0 &&
+        (options.transition_to.empty() || options.level_row < 0 ||
+         !model_renderer::static_level_name_for_row(options.level_row)))
+        throw std::runtime_error("--return-to-origin needs --transition-to and a static --level-row");
     if (options.probe_scenario()) {
         if (options.level_row < 0) options.level_row = 41;
         if (options.faery_follow_scenario && options.follow_exit_destination.empty()) {
@@ -1938,6 +1956,29 @@ int main(int argc, char** argv) {
             model_renderer::stop_movement();
             std::cout << "Returned to authored main menu\n";
         };
+        // --return-to-origin: A -> B -> A. The census lists every materialized
+        // ungated source Monster and the dead ones (HP <= 0) by name, so the
+        // departure and the return can be compared line for line.
+        const std::string origin_level = options.return_entry >= 0
+            ? std::string(model_renderer::static_level_name_for_row(options.level_row)) : std::string();
+        std::uint64_t return_due_frame = 0, return_census_frame = 0;
+        bool return_queued = false;
+        auto enemy_census = [&](const char* label) {
+            std::vector<std::string> dead;
+            unsigned monsters = 0;
+            std::string census_error;
+            for (std::int32_t index = 0; index < 1024; ++index) {
+                model_renderer::GameplayEnemyStateSnapshotV1 enemy;
+                if (!model_renderer::gameplay_enemy_state_snapshot(index, enemy, census_error)) continue;
+                ++monsters;
+                if (enemy.dead || enemy.hp <= 0) dead.push_back(enemy.name);
+            }
+            std::sort(dead.begin(), dead.end());
+            std::string names;
+            for (const auto& name : dead) names += (names.empty() ? "" : ",") + name;
+            std::cout << "Enemy census | " << label << " | frame " << rendered_frames << " | monsters "
+                      << monsters << " | dead " << dead.size() << " | " << names << '\n';
+        };
         auto pump_front_audio = [&] {
             for (auto cue = original_ui.consume_menu_sound(); !cue.empty();
                  cue = original_ui.consume_menu_sound()) {
@@ -2469,8 +2510,22 @@ int main(int argc, char** argv) {
                     transition_due = transition_revive_frame &&
                                      rendered_frames == transition_revive_frame + 120;
                 }
-                if (transition_due)
+                if (transition_due) {
+                    if (options.return_entry >= 0) enemy_census("departure");
                     original_ui.queue_level_transition(options.transition_to, options.transition_entry);
+                }
+            }
+            if (gameplay && std::find(options.census_frames.begin(), options.census_frames.end(),
+                                      rendered_frames) != options.census_frames.end())
+                enemy_census("requested");
+            if (gameplay && options.return_entry >= 0) {
+                if (return_due_frame && !return_queued && rendered_frames == return_due_frame) {
+                    return_queued = true;
+                    plog("returning to the origin level | " + origin_level);
+                    original_ui.queue_level_transition(origin_level, double(options.return_entry));
+                }
+                if (return_census_frame && rendered_frames == return_census_frame)
+                    enemy_census("return");
             }
             if (gameplay && options.faery_follow_scenario && !options.follow_exit_destination.empty() &&
                 options.frames > 8 && rendered_frames + 3 == options.frames) {
@@ -2492,6 +2547,12 @@ int main(int argc, char** argv) {
                         });
                     std::cout << "Level transition | " << launch_request.destination_name
                               << " | " << transition << '\n';
+                    if (options.return_entry >= 0) {
+                        if (!return_queued && !return_due_frame)
+                            return_due_frame = rendered_frames + options.return_delay;
+                        else if (return_queued && !return_census_frame)
+                            return_census_frame = rendered_frames + 10;
+                    }
                 }
             } else if (!gameplay && original_ui.consume_launch_request(launch_request)) {
                 if (!start_from_authored_menu(launch_request, assets.get(), options.runtime,
@@ -2600,6 +2661,11 @@ int main(int argc, char** argv) {
         }
 
         model_renderer::stop_movement();
+        if (options.return_entry >= 0 && gameplay) {
+            enemy_census("final");
+            if (!return_census_frame)
+                throw std::runtime_error("--return-to-origin never completed the A -> B -> A transitions inside the frame bound");
+        }
         if (options.faery_follow_scenario && gameplay && !options.capture_series.empty())
             copy_level_saves(options.runtime, options.capture_series, "exit");
         if (options.probe_scenario() && gameplay) {

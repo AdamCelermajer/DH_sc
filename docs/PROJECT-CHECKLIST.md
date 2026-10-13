@@ -76,6 +76,14 @@ Combat-loop and second-level round (2026-10-12, later):
 - [ ] DARKWOOD combat: the scripted player stalls ~330 units from its target and no monster aggro was observed; Decor allowlist, QuestMoveInZone owners and conditional entrypoint 0 are deferred there.
 - [ ] Android emulator run of this round's combat/death loop (previous APK reached SWAMP gameplay with no crash).
 
+Level revisit round (2026-10-13):
+- [x] Revisiting a Level applies its LevelSavegame like `Level::_LoadProcess` step 33 (0x3f7e44): the Load now runs after the Monster AIS VMs and the retained PlayerSkills owner exist (Player row's AI_ScriptCleanUp/Init no longer fails with "no retained PlayerSkills owner"), before `PlaceFaeryAndFollowers`. Row accounting follows `__LoadObjects` 0x461e90 (applied / skipped by the source / unsupported); only unsupported rows keep the loaded image protected.
+- [x] `Character::Deserialize` 0x3a6210 for record-less Characters (Monsters, NPCs, followers): properties, dead byte, `Character::Revive` (dead -> alive, incl. checkpoint reload), Limbus for Dead/Despawn/Limbus rows, CharAI cleanup/init, target clear, Monsters back to their initial pose. Monster rows are ignored while Level +0xF3 is set (`Level::Level` 0x3f3128: both hubs 0, or a non-zero destination hub that differs from the previous one) -- so SWAMP -> DARKWOOD -> SWAMP respawns Monsters, SWAMP -> SWAMP_02 -> SWAMP and a Continue restore them dead. Non-KeepPhysics Containers follow `Container::Deserialize` 0x39f6f0 (+0xF3/+0xF4 gate).
+- [x] Second Level transition: PlayerInfo class is re-published from the Save after `RemoveCharacter` (PlayerInfo::Prepare) and the 36-byte character buffer clear accepts the already-empty member.
+- [x] Pooled `Projectile_NNN` ObjectManager rows report the `ObjectBase` +0x28 save gate (0) instead of failing the LevelSavegame Save.
+- [x] Desktop `--return-to-origin ENTRY [--return-delay N]` (A -> B -> A) and `--enemy-census-at N`.
+- [ ] Faery row at Level entry is deferred (its delayed LoadNInit has not run before the port's Load); PreSpawn/awaiting-spawn rows and Dead rows in a live state are unsupported; `AIS::OnRevived` Lua is not dispatched on revive.
+
 Desktop gameplay-loop round (2026-10-12):
 - [x] Restore the Windows desktop build (stray brace closed `model_renderer` early) and clear ~40 world-load/runtime gates; SWAMP and Crypt load and run on desktop.
 - [x] Main menu renders the selected character model; player spawns visible at full HP (offline PlayerInfo unpack and +0x144 visibility fixed per IDA `_ManageCharacters`).
