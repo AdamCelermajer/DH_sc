@@ -187,8 +187,9 @@ Status set_character_flags(const Bindings& bindings, std::uint32_t mask,
         error = "Character combat flags writer is unavailable";
         return Status::provider_failed;
     }
-    bindings.coordinator->set_source_machine_flags_44_528(
-        bindings.coordinator->source_machine_flags_44_528() | mask);
+    // SM_SetStunState/SM_SetScareState OR 0x800/0x400 into CharStateMachine+0x24,
+    // which is Character+0x520 (the Character flags), not the +0x2c machine word
+    // that carries the stun/scare timer gates.
     return Status::complete;
 }
 

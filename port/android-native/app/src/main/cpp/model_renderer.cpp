@@ -10115,6 +10115,9 @@ std::uint64_t pending_character_services=0;
 void request_prince_death();
 int prince_event(unsigned,std::uint64_t);
 dh2::character::Facts prince_facts();
+dh2::character::CombatFacts prince_combat_facts(void*);
+void prince_scare_head_towards(bool focus);
+void prince_knockback_impact_event();
 int prince_dead_state_get_anim_stance(void*,std::uintptr_t,std::int32_t*);
 void character_service(void*,dh2::character::State*,const dh2::character::Request*);
 struct PlayerSkillStateCallbackHost {
@@ -29193,14 +29196,11 @@ int spell_status_set_machine_animation(void* raw,std::uintptr_t character,
  if(!spell_npc_status_owner(raw,character,&actor))return 1;
  auto* context=static_cast<SpellNpcStatusContext*>(raw);
  if(context&&context->player) {
-  if(!prince_skills)return 1;
-  std::int32_t selected=-1;std::string error;
-  if(!prince_skills->select_skill_animation(
-      reinterpret_cast<std::uintptr_t>(&prince_locomotion),animation,
-      selected,error))return 1;
-  if(selected<0)return 0;
-  return prince_locomotion.start(actor_animation_tables,selected,actor_random,
-      prince_attack_clips,prince_visual,current_scene,1,error)?0:1;
+  // SM_SetKnockBack/Injure/Dodging/BlockingState only write the machine's
+  // pending +0x28 sequence; the state that accepts the event plays it through
+  // SM_SetAnim(-1). A refused event (CSSkill, CSCast...) leaves it pending.
+  prince_state.animation_override=animation;
+  return 0;
  }
  if(!actor||!actor->spawn_owner||actor->spawn_owner->actor!=actor||
     actor->spawn_owner->character.owner()!=character)return 1;
@@ -29811,8 +29811,11 @@ int spell_apply_result_invoke(void* raw,
       request->attacker==prince_character.identity()&&request->result?
       player_critical_camera_before_regen(&context->camera,*request->result):1;
  case Operation::player_by_character: {
+  // The attacker tail and the Player-defender IncrementStat(3) both look up
+  // their PlayerInfo by Character (GetPlayerByCharacter(character,false)).
   if(request->subject!=native_application.identity||
-     request->peer!=request->attacker||request->peer==0||request->word0)return 1;
+     (request->peer!=request->attacker&&request->peer!=request->defender)||
+     request->peer==0||request->word0)return 1;
   auto locality=native_host.locality_services();
   dh2::player_locality_v1::Result selected{};
   if(dh2::player_locality_v1::get_player_by_character(&native_host.registry,
@@ -29851,6 +29854,45 @@ int spell_apply_result_invoke(void* raw,
      attacker_actor->source_inventory->inventory->character()!=request->subject)return 1;
   auto services=attacker_actor->source_inventory->adapter.inventory_services();
   return attacker_actor->source_inventory->inventory->add_gold(delta,services,error)?0:1;
+ }
+ // Player-defender status prelude/counters of F_ApplyResult. They act on the one
+ // Prince Character: its Coordinator state, property sheet and PlayerManager.
+ case Operation::state_machine_is_idle:
+  if(request->subject!=request->defender||request->defender!=prince_character.identity()||
+     request->word0)return 1;
+  reply->word=dh2_character_state_is_idle(prince_state.current,0)==1?1u:0u;return 0;
+ case Operation::player_property_add_int:
+  if(request->subject!=request->defender||request->defender!=prince_character.identity()||
+     request->word1!=1||request->word0>=224u)return 1;
+  return dh2_property_add(&defender_properties,static_cast<std::int32_t>(request->word0),256)?1:0;
+ case Operation::player_property_get_int:
+  if(request->subject!=request->defender||request->defender!=prince_character.identity()||
+     request->word1||request->word0>=224u||!defender_properties.resolved)return 1;
+  reply->word=static_cast<std::uint32_t>(defender_properties.resolved[request->word0]>>8);return 0;
+ case Operation::player_is_local: {
+  if(request->subject!=native_application.identity||request->peer!=request->defender)return 1;
+  const auto services=native_host.locality_services();
+  dh2::player_locality_v1::Result locality{};
+  if(dh2::player_locality_v1::is_local_player(&native_host.registry,&services,
+       request->peer,&locality)!=dh2::player_locality_v1::Status::complete)return 1;
+  reply->word=locality.value;return 0;
+ }
+ case Operation::trophy_lookup: {
+  auto* manager=app_trophy_runtime.manager();
+  if(!manager||!request->text)return 1;
+  const auto id=manager->find_id_by_name(request->text);
+  if(id<0)return 1;
+  reply->word=static_cast<std::uint32_t>(id);return 0;
+ }
+ case Operation::trophy_unlock: {
+  auto* manager=app_trophy_runtime.manager();
+  if(!manager||request->subject!=native_application.identity)return 1;
+  for(const char* name:{"epic_invisible","epic_invincible","knocked_down_50_times"}) {
+   if(manager->find_id_by_name(name)!=static_cast<std::int32_t>(request->word0))continue;
+   std::string error;
+   return unlock_source_trophy(name,"Character::F_ApplyResult",error)?0:1;
+  }
+  return 1;
  }
  default:
   return 1;
@@ -30047,7 +30089,8 @@ bool spell_status_subset_ready(PlayerSpellCombatContext& context,
 // dot duration>>8/amount/element; hurt word0 special; push word0 great, word2
 // special; stun/fear duration>>8, true, special. A defender whose Character
 // status owners are not complete keeps the previous behaviour (statuses skipped,
-// logged) instead of applying a partial tail.
+// logged) instead of applying a partial tail. The Player defender runs the same
+// closure on its one Coordinator (all 20 RegisterState handlers, prince_combat_facts).
 bool apply_melee_statuses(const std::int32_t* attacker_sheet,
     std::uintptr_t attacker_id,std::uintptr_t defender_id,
     ObjectActor* defender_actor,dh2::data::CombatResult& result,
@@ -30074,8 +30117,9 @@ bool apply_melee_statuses(const std::int32_t* attacker_sheet,
     spell_npc_status_owner(&status_context,defender_id))
   bindings=spell_status_bindings(context,status_context);
  if(bindings.character!=defender_id) {
-  // Reached for a Player defender until the Prince Coordinator registers the
-  // source state handlers and binds combat facts; log the first few only.
+  // Reached only while a defender's Character status owners are incomplete
+  // (the Player needs its RegisterState handlers, CombatFacts, skill callbacks
+  // and buff/property owners); log the first few only.
   static unsigned skipped[2]{};
   if(skipped[player?1:0]++<4) {
    char detail[160];
@@ -38187,6 +38231,65 @@ dh2::character::Facts prince_facts(){
  facts.has_ranged_weapon=std::uint32_t(weapon_facts.flags&dh2::data::weapon_ranged)!=0;
  return facts;
 }
+// Transient CombatFacts of the one Player Character for the combat states 8..11
+// (SpawnOwner::combat_facts is the monster counterpart). Scared/Stunned/Injured
+// are the source AnimStancedAnim-adjusted CharAnimTable sequences, the machine
+// word is the Coordinator's single Character+0x528 word, and the Player's
+// v2Controller exists (CSStunned::OnFocus locks it only for a Player).
+dh2::character::CombatFacts prince_combat_facts(void*){
+ const auto table=prince_combat.animation_table;
+ const auto effective=table>=0&&static_cast<std::size_t>(table)<
+     actor_animation_tables.characters.size()?table:17;
+ if(effective<0||static_cast<std::size_t>(effective)>=actor_animation_tables.characters.size())
+  throw std::logic_error("Player combat facts have no source CharAnimTable row");
+ const auto& row=actor_animation_tables.characters[static_cast<std::size_t>(effective)];
+ dh2_pycst_result source_mask{};
+ if(!actor_skill_catalogue||!actor_skill_catalogue->animations_constants.bytes||
+    dh2_pycst_get(&actor_skill_catalogue->animations_constants,"AnimStancedAnim",15,
+      "SL__LIST_IPHONE",15,&source_mask)!=0||!source_mask.found)
+  throw std::logic_error("Player combat AnimStancedAnim/SL__LIST_IPHONE is unavailable");
+ std::int32_t stance=0;bool stance_known=false;
+ const auto field_of=[&](const char* name)->std::size_t{
+  const auto& names=actor_animation_tables.state_names;
+  for(std::size_t i=0;i<names.size();++i)if(names[i]==name)return i;
+  throw std::logic_error("Player combat CharAnimTable field name is unavailable");
+ };
+ const auto selected=[&](const char* name,std::uint32_t mask)->std::int32_t {
+  const auto field=field_of(name);
+  if(field>=row.fields.size()||row.fields[field].size()!=1)
+   throw std::logic_error("Player combat CharAnimTable scalar is unavailable");
+  auto sequence=row.fields[field][0];
+  if((static_cast<std::uint32_t>(source_mask.value)&mask)==0)return sequence;
+  if(!stance_known){
+   if(prince_dead_state_get_anim_stance(nullptr,prince_character.identity(),&stance)!=0)
+    throw std::logic_error("Player combat Character::GetAnimStance failed");
+   stance_known=true;
+  }
+  const auto bits=static_cast<std::uint32_t>(sequence)+static_cast<std::uint32_t>(stance);
+  std::memcpy(&sequence,&bits,sizeof(sequence));
+  return sequence;
+ };
+ dh2::character::CombatFacts facts{};
+ facts.scared_animation=selected("Scared",0x100u);
+ facts.stunned_animation=selected("Stunned",0x200u);
+ facts.injured_animation=selected("Injured",0x1000u);
+ facts.machine_flags_44=prince_character.source_machine_flags_44_528();
+ facts.controller_present=1;
+ // CSInjured::OnBlur re-aims at Character+0x408 (the Player CharAI's current
+ // target); Character+0x441 is CharAI's retained attack-last byte.
+ if(prince_source_ai&&prince_source_ai->character_identity==prince_character.identity()&&
+    prince_source_ai->state.owner_04==prince_character.identity()&&
+    prince_source_ai->ai_identity){
+  facts.last_target=prince_source_ai->state.target_40;
+  facts.last_target_available=1;
+  const auto& animation=prince_source_ai->animation_state;
+  if(animation.owner==prince_source_ai->ai_identity&&animation.attack_last_79_available<=1){
+   facts.interrupted_byte_441=animation.attack_last;
+   facts.interrupted_byte_available=animation.attack_last_79_available;
+  }
+ }
+ return facts;
+}
 void refresh_prince_facts(){prince_character.refresh_facts();}
 int prince_look_service(void*,const dh2::character::CharacterControlRequest32* request,
                        dh2::character::CharacterControlResponse16* response){
@@ -38519,6 +38622,13 @@ void character_service(void*,dh2::character::State* state,const dh2::character::
  case set_animation:
   {
   std::int32_t selected_animation=request->argument[0];
+  if(selected_animation<0&&state->animation_override!=-1){
+   // CharStateMachine::SM_SetAnim(-1) (0x3c0b50) plays the machine's pending
+   // +0x28 sequence and resets it to -1. SM_SetKnockBackState/InjureState/
+   // StunState/ScareState/DeadState write it before their state event, so an
+   // event the current state refuses leaves the sequence pending, as in the source.
+   selected_animation=state->animation_override;state->animation_override=-1;
+  }
   if(selected_animation<0){
    std::int32_t pending_sequence=-1;
    std::uint8_t interaction_active=0;
@@ -38599,6 +38709,28 @@ void character_service(void*,dh2::character::State* state,const dh2::character::
   }
   break;
  }
+ case controller_lock:
+  // CSKnockedBack/CSStunned (Player) OnFocus write v2Controller+8; OnBlur clear it.
+  // The Player's Ctrl_* gates (input, HeadTowards, skills) read this one byte.
+  if(request->argument[0]!=0&&request->argument[0]!=1)
+   throw std::runtime_error("Player controller lock value is invalid");
+  state->controller_locked=std::uint32_t(request->argument[0]);
+  break;
+ case combat_machine_flags:{
+  const auto mask=std::uint32_t(request->argument[0]);
+  const auto value=std::uint32_t(request->argument[1]);
+  if(!mask||(value&~mask))throw std::runtime_error("Player combat machine flag update is invalid");
+  prince_character.set_source_machine_flags_44_528(
+      (prince_character.source_machine_flags_44_528()&~mask)|value);
+  break;
+ }
+ case scare_focus:case scare_blur:
+  prince_scare_head_towards(request->service==scare_focus);break;
+ case knockback_impact_event:
+  // argument[0] carries the event payload; CSKnockedBack raises this service only for event 35.
+  if(request->argument[1]||request->argument[2]||request->reserved)
+   throw std::runtime_error("Player knockback impact received a non-source request");
+  prince_knockback_impact_event();break;
  case raise_event:{
   const unsigned event=unsigned(request->argument[0]);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character state event | state %d | event %x | prior %d | flags %x",state->current,event,request->argument[1],state->flags);
@@ -38888,6 +39020,12 @@ void character_playback_event(void*,dh2::actor::BlendedPlayback& playback,const 
    throw std::runtime_error("Player source Attack step-begin event 0x26 failed");
  }else if(event.handoff.event_id==0x28){
   const dh2::animation::TriggeredEvent trigger{event.handoff.lag_ms,event.handoff.payload};player_authored_event(trigger,event.clip);
+ }else if((event.handoff.event_id==0x23||event.handoff.event_id==0x27)&&
+          prince_state.current==10){
+  // CharAnimator's pass-end notifications 35/39 reach the machine without a
+  // controller gate for a locked Player; CSKnockedBack::OnEvent consumes them
+  // (event 35: IsDead check, event 39: PhysicalObject::resetFilter).
+  if(prince_event(event.handoff.event_id,0)<0)throw std::runtime_error("Character knockback animation event failed");
  }else if(event.handoff.event_id==0x22){
   // The host playback close corresponds to CharAnimator::Update reaching its
   // terminal path. IDA shows that source path raises Character event 34; the
@@ -39467,7 +39605,17 @@ void initialize_native_actor(AAssetManager* assets,bool restore){
  }
  prince_locomotion.observer={nullptr,character_playback_event,character_playback_frame_step};
  prince_character.bind({nullptr,[](void*){return prince_facts();},
-                         {nullptr,character_service},prince_timer_before,prince_timer_after,nullptr,prince_timer_route});
+                         {nullptr,character_service},prince_timer_before,prince_timer_after,nullptr,prince_timer_route,
+                         nullptr,nullptr,0,nullptr,0,prince_combat_facts});
+ // Character::Character (0x3a9340) calls CharStateMachine::RegisterState for IDs
+ // 0..19 on every Character, the Player included: the one Coordinator keeps the
+ // executable handler token of each registered CharState on this Prince owner.
+ {
+  const auto handler=reinterpret_cast<std::uintptr_t>(&dh2_character_state_transition);
+  for(std::uint32_t registered=0;registered<20;++registered)
+   if(!prince_character.register_source_state(prince_character.identity(),registered,handler))
+    throw std::runtime_error("Player Character RegisterState could not retain its source handler");
+ }
  std::string target_fx_error;
  if(!initialize_player_target_fx(target_fx_error))
   throw std::runtime_error("Character::InitPost target-circle FX failed: "+target_fx_error);
@@ -40807,6 +40955,7 @@ bool native_host_player_manager_remove_ready(std::int32_t expected_level_state,
       roster_occurrences==1;
   }catch(...){return false;}
  }
+void clear_player_ai_target();
 void clear_player_ai_target_after_heading_away(const float* heading) {
  if(!heading||!prince_source_ai||!prince_source_ai->state.target_40)return;
  const auto target_identity=prince_source_ai->state.target_40;
@@ -40824,6 +40973,12 @@ void clear_player_ai_target_after_heading_away(const float* heading) {
      {heading[0],heading[1],heading[2]},true,false};
  if(!dh2::native::player_input_controller_v1::should_clear_ai_target(
       projected,target_direction,true,false,false))return;
+ clear_player_ai_target();
+}
+// Character::Ctrl_HeadTowards: AI_SetTarget(nullptr) followed by AI_SyncLastTarget,
+// reached by the Player's input HeadTowards and by CSScared's HeadTowards.
+void clear_player_ai_target() {
+ if(!prince_source_ai)return;
  auto& source=prince_source_ai->state;
  auto& owner=prince_combat.target_owner;
  if(owner.identity!=prince_character.identity())
@@ -40845,6 +41000,121 @@ void clear_player_ai_target_after_heading_away(const float* heading) {
  source.alive_48=state.alive_snapshot;
  source.sight_49=state.sight_snapshot;
  source.sticky_4c=state.sticky;
+}
+// Character control service for CSScared's Cmd_HeadTowards on the Player. It is
+// the Player counterpart of SpawnOwner::controller_service: every operation acts
+// on the one Prince Character/Coordinator/controller owner.
+int prince_head_towards_service(void*,const dh2::character::CharacterControlRequest32* request,
+                                dh2::character::CharacterControlResponse16* response){
+ using namespace dh2::character;
+ if(!request||!response||request->reserved)return -1;
+ if(request->service==control_target_position){
+  if(request->argument)return -1;
+  if(request->subject==prince_character.identity()){
+   std::copy(prince_runtime.subobjects.position,prince_runtime.subobjects.position+3,
+             response->position);
+   return 1;
+  }
+  return prince_look_service(nullptr,request,response);
+ }
+ if(request->service==control_look_at_point)return prince_look_service(nullptr,request,response);
+ if(request->subject!=prince_character.identity())return -1;
+ switch(request->service){
+ case control_is_remotely_updated:
+  if(request->argument)return -1;
+  response->word=prince_combat.object_update_fields.remote_word_110==UINT32_MAX?0u:1u;
+  return 1;
+ case control_stop_object:
+  return !request->argument&&prince_controller_stop_game_object(nullptr)==0?1:-1;
+ case control_character_event:
+  return request->argument==0x3fu&&prince_event(0x3f,0)>=0?1:-1;
+ case control_head_null_enabled:
+  // GameObject::SetHeadingDirection is the sole writer of the Character+0x1b5
+  // byte; State::heading_active is its projection.
+  if(request->argument)return -1;
+  response->word=prince_state.heading_active;
+  return response->word<=1?1:-1;
+ case control_is_using_skill:case control_is_casting:{
+  if(request->argument)return -1;
+  const dh2::character_skill_state_queries::Machine machine{&prince_state.current};
+  dh2::character_skill_state_queries::Result query{};
+  const auto status=request->service==control_is_using_skill?
+      dh2::character_skill_state_queries::is_using_skill(&machine,&query):
+      dh2::character_skill_state_queries::is_casting(&machine,&query);
+  if(status!=dh2::character_skill_state_queries::Status::complete||query.value>1)return -1;
+  response->word=query.value;
+  return 1;
+ }
+ case control_clear_ai_target:
+  if(request->argument)return -1;
+  clear_player_ai_target();return 1;
+ case control_sync_last_ai_target:
+  if(request->argument||!prince_source_ai)return -1;
+  prince_source_ai->state.last_target_44=prince_source_ai->state.target_40;
+  return 1;
+ case control_set_heading_direction:{
+  if(request->argument!=1)return -1;
+  const float direction[3]{request->position[0],request->position[1],request->position[2]};
+  for(const auto value:direction)if(!std::isfinite(value))return -1;
+  if(dh2_nav_set_heading(&prince_runtime.controller.heading,direction,1)!=0)return -1;
+  prince_runtime.rotation.heading_angle=prince_runtime.controller.heading.angle;
+  prince_state.heading_active=prince_runtime.controller.heading.active;
+  refresh_prince_facts();
+  return 1;
+ }
+ case control_raise_event:
+  // Character::RaiseEvent(0) maps to state event 50001 (0xc351).
+  return !request->argument&&prince_event(0xc351,0)>=0?1:-1;
+ }
+ return -1;
+}
+// CSScared::OnFocus (0x3c45c4) / OnBlur (0x3c4834): v2Controller::Cmd_HeadTowards.
+// Focus aims at a random direction (rand(9998)*1e-4+2e-4 per axis, each negated
+// when rand(100)<=49); Blur is HeadTowards(nullptr). Both pass the controller's
+// forced/blocked/locked gate and Character::Ctrl_HeadTowards before the
+// Player's heading, Stop, target clear or event 0xc351 are applied.
+void prince_scare_head_towards(bool focus){
+ using namespace dh2::character;
+ const ControllerCommandState32 controller{reinterpret_cast<std::uintptr_t>(&prince_state),
+     prince_character.identity(),controller_global_blocked,prince_state.controller_locked,
+     prince_controller_forced,0};
+ const CharacterHeadTowardsFacts24 facts{prince_character.identity(),
+     prince_source_ai?prince_source_ai->state.target_40:0,1,0};
+ const CharacterControlServices16 services{nullptr,prince_head_towards_service};
+ int status=0;
+ if(focus){
+  const std::uint32_t scale_bits=0x38D1B717u,offset_bits=0x3951B717u;
+  float scale=0,offset=0;
+  std::memcpy(&scale,&scale_bits,sizeof scale);std::memcpy(&offset,&offset_bits,sizeof offset);
+  volatile float x=float(dh2_combat_random(&combat_random,9998));
+  x=x*scale;x=x+offset;
+  volatile float y=float(dh2_combat_random(&combat_random,9998));
+  y=y*scale;y=y+offset;
+  float point[3]{x,y,0.f};
+  if(dh2_combat_random(&combat_random,100)<=49)point[0]=-point[0];
+  if(dh2_combat_random(&combat_random,100)<=49)point[1]=-point[1];
+  status=dh2_character_controller_character_point(&controller,point,&facts,&services);
+ }else{
+  status=dh2_character_controller_character_head_towards(&controller,0,&facts,&services);
+ }
+ if(status<0)throw std::runtime_error("Player scared-state Cmd_HeadTowards failed");
+}
+// CSKnockedBack::OnEvent(35) (0x3c5ab0): only for a dead Character, CharAnimator::
+// ANIM_Stop then CharStateMachine::SM_SetDeadState(true,nullptr,true). The Player's
+// ANIM_Stop animation-end event is superseded by CSDead::OnFocus's own SM_SetAnim.
+void prince_knockback_impact_event(){
+ if(prince_combat.life.dead>1)
+  throw std::runtime_error("Player Character::IsDead projection is not a source byte");
+ if(!prince_combat.life.dead)return;
+ auto properties=dh2::data::property_view(actor_property_rules,prince_combat.properties);
+ const dh2::character_sm_set_dead_state_v1::Bindings dead_bindings{
+     &prince_character,{prince_character.identity(),&properties},&actor_animation_tables,
+     &actor_skill_catalogue->animations_constants,{nullptr,&prince_dead_state_get_anim_stance}};
+ const dh2::character_sm_set_dead_state_v1::Request dead_request{1,0,1};
+ dh2::character_sm_set_dead_state_v1::Result dead_result{};std::string error;
+ if(dh2::character_sm_set_dead_state_v1::execute(dead_bindings,dead_request,&dead_result,
+      error)!=dh2::character_sm_set_dead_state_v1::Status::complete)
+  throw std::runtime_error("Player CharStateMachine::SM_SetDeadState failed: "+error);
 }
 void advance_native_actor(unsigned dt_ms){
  std::string error;
@@ -46654,6 +46924,9 @@ bool native_npc_to_player_interact_set_state(void* raw,
  // SM_SetAnim(-1), which consumes that slot and invokes ANIM_Set. Preserve
  // that sequence through the existing Player set_animation provider below.
  prince_character.set_source_interaction_row_48(animation);
+ // The source writes this same +0x28 field, replacing any combat sequence left
+ // pending by a refused SM_Set*State event.
+ prince_state.animation_override=-1;
  if(prince_character.event(50003,interactor)<0){
   error="SM_SetInteractState could not deliver RaiseStateEvent(50003) to the Player Coordinator";
   return false;

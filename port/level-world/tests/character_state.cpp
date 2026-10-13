@@ -297,6 +297,25 @@ int main(int argc,char** argv){
       fixture.calls[0].identity==0&&fixture.calls[1].service==set_animation&&
       fixture.calls[2].service==raise_event,
       "CSInjured Blur must preserve a known null Character+0x408 focus");
+  // IDA CSKnockedBack::OnFocus 0x3c4a48: the great-knock bit (0x10) replaces the whole
+  // Character+0x528 machine word with 0x20; a plain knock clears only bit 0x20.
+  {State great;great.current=3;great.body_present=1;CombatFacts great_facts=combat_facts;great_facts.machine_flags_44=0x18;
+   fixture.calls.clear();
+   require(dh2_character_combat_state_transition(&great,&combat_character_facts,&great_facts,10,50011,0x11,&services)==1&&great.current==10,"great knock entry");
+   require(fixture.calls.size()==8&&fixture.calls[0].service==set_animation&&fixture.calls[1].service==set_death_filter&&
+           fixture.calls[2].service==combat_machine_flags&&fixture.calls[2].argument[0]==-1&&fixture.calls[2].argument[1]==0x20&&
+           fixture.calls[3].service==controller_lock,"great knock replaces the machine word");}
+  // IDA CSScared::OnUpdate 0x3c4788 tests machine bit 4 and CSStunned::OnUpdate 0x3c549c bit 2.
+  {State scared;scared.current=8;CombatFacts timed=combat_facts;
+   timed.machine_flags_44=0x4;fixture.calls.clear();
+   require(dh2_character_combat_state_update(&scared,&combat_character_facts,&timed,16,&services)==1&&fixture.calls.empty(),"CSScared keeps its loop while bit 4 is set");
+   timed.machine_flags_44=0x12;fixture.calls.clear();
+   require(dh2_character_combat_state_update(&scared,&combat_character_facts,&timed,16,&services)==1&&fixture.calls.size()==1&&
+           fixture.calls[0].service==stop_loop,"CSScared stops looping once bit 4 clears");
+   State stunned;stunned.current=9;timed.machine_flags_44=0x2;fixture.calls.clear();
+   require(dh2_character_combat_state_update(&stunned,&combat_character_facts,&timed,16,&services)==1&&stunned.current==9&&fixture.calls.empty(),"CSStunned stays while bit 2 is set");
+   timed.machine_flags_44=0x4;
+   require(dh2_character_combat_state_update(&stunned,&combat_character_facts,&timed,16,&services)==1&&stunned.current==3,"CSStunned returns to Idle once bit 2 clears");}
   // IDA: CharAI::RaiseAIEvent(event2) calls CharAI::OnDied/AI_SetDead before
   // forwarding to the machine. The owner is already Dead(12); CSDead has no
   // event2 registration or OnEvent2 action, so this is an exact no-op.
