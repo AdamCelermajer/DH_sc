@@ -140,6 +140,20 @@ typedef struct dh2_world_source_object_row {
     // GameObject::GetTargetPosition returns the cached source position unless
     // InitPost resolved this authored node name to a visual child.
     char target_node[128];
+    // Trigger::DeclareProperties (0x398a88) and TriggerZone::DeclareProperties
+    // (0x39bfa4) authored values, retained verbatim; empty keeps the source
+    // property default (triggercount 1, triggerdelay 0, scope/triggertype/cineID 0).
+    char trigger_count[16];
+    char trigger_delay[16];
+    char trigger_scope[16];
+    char trigger_type[16];
+    char trigger_cine_id[16];
+    char trigger_script[96];
+    char trigger_script_move_out[96];
+    char trigger_script_all_player[96];
+    char trigger_script_all_player_move_out[96];
+    char trigger_effect_one_player[96];
+    char trigger_is_door_closed[96];
     float local_transform[9];
     float world_transform[9];
 } dh2_world_source_object_row;

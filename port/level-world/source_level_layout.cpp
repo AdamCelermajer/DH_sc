@@ -487,6 +487,17 @@ bool census_source_objects_with_handles_for_level(const std::uint8_t* mlx,
         object.visible = row.visible;
         object.skip_checkpoint = row.skip_checkpoint;
         object.target_node = row.target_node;
+        object.trigger_count = row.trigger_count;
+        object.trigger_delay = row.trigger_delay;
+        object.trigger_scope = row.trigger_scope;
+        object.trigger_type = row.trigger_type;
+        object.trigger_cine_id = row.trigger_cine_id;
+        object.trigger_script = row.trigger_script;
+        object.trigger_script_move_out = row.trigger_script_move_out;
+        object.trigger_script_all_player = row.trigger_script_all_player;
+        object.trigger_script_all_player_move_out = row.trigger_script_all_player_move_out;
+        object.trigger_effect_one_player = row.trigger_effect_one_player;
+        object.trigger_is_door_closed = row.trigger_is_door_closed;
         for (unsigned axis = 0; axis < 3; ++axis) {
             object.local.position[axis] = row.local_transform[axis];
             object.local.rotation_degrees[axis] = row.local_transform[3 + axis];

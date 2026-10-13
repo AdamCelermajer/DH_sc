@@ -70,6 +70,7 @@
 #include "../../../../../../port/level-world/destructible_container_table_v1.hpp"
 #include "../../../../../../port/level-world/trigger_interaction_table_v1.hpp"
 #include "../../../../../../port/level-world/trigger_zone_exit_level_update_v1.hpp"
+#include "../../../../../../port/level-world/trigger_zone_source_v1.hpp"
 #include "../../../../../../port/level-world/destructible_container_visual_provider_v1.hpp"
 #include "../../../../../../port/level-world/destructible_container_visual_owner_v1.hpp"
 #include "../../../../../../port/level-world/destructible_container_interaction_v1.hpp"
@@ -428,6 +429,19 @@ int player_skill_target_service(void*,const dh2::target_search::Request24*,
 bool dispatch_native_monster_script_timer(SpawnOwner&,std::uint32_t);
 namespace {
 bool native_start_level_script_by_name(const char* name,bool check_running,bool& started,std::string& error);
+// ScriptManager::IsScriptRunning(id) + StartScript(id, argument, false) of the
+// Level's one session (TriggerZone::SafeStartScriptOnlyOnce, 0x39b2a0).
+bool native_start_level_script_by_id(std::int32_t id,std::int32_t argument,std::string& error);
+// ScriptManager::GetIDFromName; `enter_location` reports the ScriptManager
+// entry flag +4 (a StartDialog with DialogStyles.EnterLocationDialog).
+bool native_resolve_level_script_name(const char* name,bool search_global,
+                                      std::int32_t& id,bool& enter_location);
+bool native_level_script_ready();
+// Character+0x1480 of the local Player (Script_MarkCharacterAsScripted).
+std::uint8_t native_player_scripted_1480=0;
+// Source line of the last Level-script actor / PlayActorAnim provider refusal
+// (diagnostic for the strict command providers).
+std::uint32_t native_script_actor_command_fail_line=0;
 }
 dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1();
 struct SourceCharacterConstructionOwnerV1 {
@@ -935,6 +949,26 @@ struct SourceExitLevelZone {
  std::array<float,3> half_extents{};
  dh2::object_manager_runtime_owner_v1::GameObject* object=nullptr;
 };
+// Position-marker GameObjects that scripts and AIS natives resolve by name:
+// `Dummy` (waypoints, camera marks, scripted props) and `SpawnPoint` (entry
+// points and the boss dive spots). Each is an ObjectManager row with a
+// position and no behaviour of its own here (Dummy::IsUpdatable, IsZonable and
+// IsInteractive are constant false, 0x340134..0x34014c).
+inline bool source_marker_gametype(const std::string& gametype) {
+ return gametype=="Dummy"||gametype=="SpawnPoint";
+}
+struct SourceDummyObject {
+ dh2::world::SourceObjectCensusV1 source;
+ dh2::object_manager_runtime_owner_v1::GameObject* object=nullptr;
+};
+// A source `TriggerZone` GameObject (Zone -> ZoneEx -> Trigger -> TriggerZone).
+struct SourceTriggerZone {
+ dh2::world::SourceObjectCensusV1 source;
+ std::array<float,3> half_extents{};
+ dh2::object_manager_runtime_owner_v1::GameObject* object=nullptr;
+ dh2::trigger_zone_source_v1::Definition definition;
+ dh2::trigger_zone_source_v1::State state;
+};
 bool source_container_visual_event(void*,const char*,std::int32_t,
                                   std::string&);
 bool source_container_visual_completion(void*,std::string&);
@@ -1038,6 +1072,8 @@ struct NativeCryptRoomRuntime {
  std::unordered_map<Address,ScriptSummonActorOwnerV1*> script_npcs_by_identity;
  std::vector<std::unique_ptr<SourceMoveInZone>> source_move_in_zones;
  std::vector<std::unique_ptr<SourceExitLevelZone>> source_exit_level_zones;
+ std::vector<std::unique_ptr<SourceDummyObject>> source_dummies;
+ std::vector<std::unique_ptr<SourceTriggerZone>> source_trigger_zones;
  std::unique_ptr<dh2::destructible_container_table_v1::Tables>
      destructible_container_tables;
  std::unique_ptr<dh2::trigger_interaction_table_v1::Tables>
@@ -1061,6 +1097,12 @@ struct NativeCryptRoomRuntime {
  bool initialize_source_move_in_zones(std::string&);
  bool initialize_source_exit_level_zones(std::string&);
  bool update_source_exit_level_zones(std::string&);
+ bool initialize_source_dummies(std::string&);
+ bool initialize_source_trigger_zones(std::string&);
+ bool update_source_trigger_zones(std::string&);
+ // Application::GetDt of the frame in flight, for Trigger::UpdateTimer.
+ std::uint32_t trigger_zone_dt_ms=0;
+ bool resolve_source_trigger_zone(SourceTriggerZone&,std::string&);
  static bool exit_fasttravel_unlocked(void*,std::uintptr_t,
      const std::string&,bool,std::int32_t,std::string&);
  static bool exit_player_touching(void*,std::uintptr_t,std::uintptr_t,
@@ -3418,6 +3460,30 @@ bool native_level_save_read_object_facts_v1(void* raw,
   return false;
  }
 
+ // Dummy has no Serialize override (GameObject::Serialize at 0x38b9e4); a
+ // TriggerZone dispatches the inherited Trigger::Serialize like the exit zone.
+ if(active_crypt_room_runtime) {
+  const auto dummy=std::find_if(active_crypt_room_runtime->source_dummies.begin(),
+      active_crypt_room_runtime->source_dummies.end(),
+      [&](const auto& candidate){return candidate&&candidate->object==&row;});
+  if(dummy!=active_crypt_room_runtime->source_dummies.end()) {
+   const auto* source=source_for_row((*dummy)->source.gametype.c_str());
+   if(!source||!publish_noncharacter_facts(*source)) {
+    error="LevelSavegame GameObject row lacks its exact marker source or InitPost facts";return true;
+   }
+   return false;
+  }
+  const auto trigger=std::find_if(active_crypt_room_runtime->source_trigger_zones.begin(),
+      active_crypt_room_runtime->source_trigger_zones.end(),
+      [&](const auto& candidate){return candidate&&candidate->object==&row;});
+  if(trigger!=active_crypt_room_runtime->source_trigger_zones.end()) {
+   const auto* source=source_for_row("TriggerZone");
+   if(!row.trigger_save_state_ready||!source||!publish_noncharacter_facts(*source)) {
+    error="LevelSavegame TriggerZone facts lack their canonical source, base-field, or Trigger save receipts";return true;
+   }
+   return false;
+  }
+ }
  // QuestMoveInZone has no Serialize override in the source image; its exact
  // MGP owner therefore dispatches GameObject::Serialize at 0x38b9e4.
  if(active_crypt_room_runtime) {
@@ -3634,6 +3700,26 @@ bool native_level_save_serialize_noncharacter_v1(void* raw,
   return !dh2::level_savegame_owner_v1::serialize_container(&fields,output,error);
  }
  if(active_crypt_room_runtime) {
+  const auto dummy=std::find_if(active_crypt_room_runtime->source_dummies.begin(),
+      active_crypt_room_runtime->source_dummies.end(),
+      [&](const auto& candidate){return candidate&&candidate->object==&row;});
+  if(dummy!=active_crypt_room_runtime->source_dummies.end()) {
+   if(!base_fields(source_for_row((*dummy)->source.gametype.c_str()),base)) {
+    error="GameObject::Serialize lacks its exact marker InitPost receipt";return true;
+   }
+   return !dh2::level_savegame_owner_v1::serialize_game_object(&base,output,error);
+  }
+  const auto trigger=std::find_if(active_crypt_room_runtime->source_trigger_zones.begin(),
+      active_crypt_room_runtime->source_trigger_zones.end(),
+      [&](const auto& candidate){return candidate&&candidate->object==&row;});
+  if(trigger!=active_crypt_room_runtime->source_trigger_zones.end()) {
+   if(!row.trigger_save_state_ready||!base_fields(source_for_row("TriggerZone"),base)) {
+    error="TriggerZone::Serialize lacks its exact Trigger and source InitPost receipts";return true;
+   }
+   const dh2::level_savegame_owner_v1::TriggerFields fields{
+       base,row.trigger_pending_3b8,row.trigger_max_count_3b4};
+   return !dh2::level_savegame_owner_v1::serialize_trigger(&fields,output,error);
+  }
   const auto found=std::find_if(active_crypt_room_runtime->source_move_in_zones.begin(),
       active_crypt_room_runtime->source_move_in_zones.end(),
       [&](const auto& candidate){return candidate&&candidate->object==&row;});
@@ -5605,6 +5691,28 @@ bool NativeCryptRoomRuntime::set_condition_enabled(
       reinterpret_cast<std::uintptr_t>(&manager),row.identity,enabled,error))
    return false;
  }
+ if(prior!=value) {
+  for(auto& zone:source_trigger_zones) {
+   if(!zone||zone->object!=&row)continue;
+   // ObjectBase::Enabled invokes SetVisible then TriggerZone::setUpdating(true);
+   // Disabled invokes setUpdating(false) (it clears the inside byte) then
+   // SetVisible(false). The update list consumes these fields directly.
+   if(enabled) {
+    row.visible_80=row.serialized_flag_8a;
+    row.updating_85=1;
+    row.pf_object_flags_1cc|=8u;
+    row.game_object_nav_dead_end_373=0;
+   } else {
+    row.updating_85=0;
+    dh2::trigger_zone_source_v1::set_updating(zone->state,false);
+    row.visible_80=0;
+    row.pf_object_flags_1cc&=~8u;
+    row.game_object_nav_dead_end_373=1;
+   }
+   if(row.live_fields.visible_80)*row.live_fields.visible_80=row.visible_80;
+   if(row.live_fields.updating_85)*row.live_fields.updating_85=row.updating_85;
+  }
+ }
  error.clear();
  return true;
 }
@@ -5941,6 +6049,14 @@ bool NativeCryptRoomRuntime::initialize(
    error="Source Door InitPost registration failed: "+error;
    clear();return false;
   }
+  if(!initialize_source_dummies(error)) {
+   error="Source Dummy registration failed: "+error;
+   clear();return false;
+  }
+  if(!initialize_source_trigger_zones(error)) {
+   error="Source TriggerZone registration failed: "+error;
+   clear();return false;
+  }
   if(direct_character_adoption_level_active()) {
    for(auto* actor:ordered_actors) {
     if(!actor||actor->kind!=1)continue;
@@ -6019,6 +6135,22 @@ bool NativeCryptRoomRuntime::initialize(
    if(!binding||!binding->object||
       !binding->object->object_init_post_ready) {
     error="TriggerZoneExitLevel Save facts lack the ordered InitPost receipt";
+    clear();return false;
+   }
+   binding->object->serialized_flag_8a_ready=1;
+   binding->object->save_facts_ready=1;
+  }
+  for(const auto& binding:source_dummies) {
+   if(!binding||!binding->object||!binding->object->object_init_post_ready) {
+    error="Dummy Save facts lack the ordered InitPost receipt";
+    clear();return false;
+   }
+   binding->object->serialized_flag_8a_ready=1;
+   binding->object->save_facts_ready=1;
+  }
+  for(const auto& binding:source_trigger_zones) {
+   if(!binding||!binding->object||!binding->object->object_init_post_ready) {
+    error="TriggerZone Save facts lack the ordered InitPost receipt";
     clear();return false;
    }
    binding->object->serialized_flag_8a_ready=1;
@@ -6683,6 +6815,364 @@ bool NativeCryptRoomRuntime::update_source_exit_level_zones(
  error.clear();return true;
 }
 
+namespace {
+// Shared ObjectBase/GameObject constructor projection of one authored MGP row
+// (ObjectBase ctor 0x33f15c, GameObject ctor, DeclareProperties defaults). The
+// ordered ObjectManager InitPost pass owns CheckSpawnProbability's RNG draw and
+// the TestEnableCondition result; the rows are published unready until then.
+bool source_row_projection(const dh2::world::SourceObjectCensusV1& source,
+        const char* class_name,std::uintptr_t identity,
+        dh2::object_manager_runtime_owner_v1::GameObject& projection,
+        std::string& error) {
+ const auto parse_bool=[&](const std::string& text,const char* property,
+                           bool fallback,bool& result)->bool {
+  result=fallback;
+  if(text.empty())return true;
+  if(text=="1"||text=="true"||text=="True")result=true;
+  else if(text=="0"||text=="false"||text=="False")result=false;
+  else {
+   error=std::string(class_name)+" MGP "+property+" is not a source boolean";
+   return false;
+  }
+  return true;
+ };
+ bool visible=true,skip_checkpoint=false;
+ if(!parse_bool(source.visible,"visible",true,visible)||
+    !parse_bool(source.skip_checkpoint,"skip_checkpoint",false,skip_checkpoint))
+  return false;
+ std::int32_t spawn_probability=100;
+ if(!source.spawn_probability.empty()) {
+  // SimpleTypeProperty<int>::FromString (0x38baac) is StrToObj -> atoi: the
+  // leading integer of the attribute, 0 when there is none (UNDERWORLD_HUB
+  // authors "30script = Epic_hello"). GameObject::CheckSpawnProbability
+  // compares the 0..98 roll with the raw property (Random >= +0x274 deletes
+  // the object), so values above 98 never delete and values at or below 0
+  // always do; the ordered InitPost pass stores 0..100, which preserves both.
+  const long value=std::strtol(source.spawn_probability.c_str(),nullptr,10);
+  spawn_probability=static_cast<std::int32_t>(std::min<long>(100,std::max<long>(0,value)));
+ }
+ projection=dh2::object_manager_runtime_owner_v1::GameObject{};
+ projection.identity=identity;
+ projection.source_handle=source.source_handle;
+ projection.name=source.name;
+ projection.module_id_64=source.source_module_id;
+ projection.world_x=source.world.position[0];
+ projection.world_y=source.world.position[1];
+ projection.zoning_enabled_2ee=1;
+ projection.visible_80=visible;
+ projection.visible_80_ready=1;
+ projection.serialized_flag_8a=1;
+ projection.serialized_flag_8a_ready=0;
+ projection.save_eligibility_28=std::uint8_t(!skip_checkpoint);
+ projection.deleted_81=0;
+ projection.save_facts_ready=0;
+ projection.locked_29=0;
+ projection.locked_29_ready=1;
+ projection.spawn_probability_result_270=-1;
+ projection.spawn_probability_274=spawn_probability;
+ projection.source_module_index=source.module_index;
+ projection.source_record=source.source_record;
+ projection.source_provenance_ready=1;
+ return true;
+}
+// Zone::InitPost (0x39771c): `dimensions` (default 200,200,200) scaled by the
+// authored world scale, halved around the object position.
+bool source_zone_half_extents(const dh2::world::SourceObjectCensusV1& source,
+        const char* class_name,std::array<float,3>& half_extents,
+        std::string& error) {
+ float dimensions[3]={200.f,200.f,200.f};
+ if(!source.dimensions.empty()) {
+  const char* cursor=source.dimensions.c_str();
+  for(unsigned axis=0;axis<3;++axis) {
+   while(*cursor==' '||*cursor=='\t'||*cursor==',')++cursor;
+   char* end=nullptr;errno=0;
+   const float value=std::strtof(cursor,&end);
+   if(errno||end==cursor||!std::isfinite(value)||value<=0.f) {
+    error=std::string(class_name)+" dimensions are not a positive finite source vector";
+    return false;
+   }
+   dimensions[axis]=value;cursor=end;
+  }
+  while(*cursor==' '||*cursor=='\t'||*cursor==',')++cursor;
+  if(*cursor) {
+   error=std::string(class_name)+" dimensions contain trailing source data";
+   return false;
+  }
+ }
+ for(unsigned axis=0;axis<3;++axis) {
+  const float extent=dimensions[axis]*std::fabs(source.world.scale[axis]);
+  if(!std::isfinite(extent)||extent<=0.f) {
+   error=std::string(class_name)+" InitPost produced an invalid scaled AABB";
+   return false;
+  }
+  half_extents[axis]=extent*0.5f;
+ }
+ return true;
+}
+}
+
+bool NativeCryptRoomRuntime::initialize_source_dummies(std::string& error) {
+ error.clear();
+ const auto& sources=active_level_assets.source_object_census;
+ const auto count=std::count_if(sources.begin(),sources.end(),[](const auto& row){
+  return source_marker_gametype(row.gametype)&&!row.duplicate_name;
+ });
+ if(!count)return true;
+ try {
+  source_dummies.reserve(static_cast<std::size_t>(count));
+  source_handles.reserve(source_handles.size()+static_cast<std::size_t>(count));
+  for(const auto& source:sources) {
+   if(!source_marker_gametype(source.gametype)||source.duplicate_name)continue;
+   if(source.source_handle<0||source.name.empty()||
+      source.source_record==std::numeric_limits<std::uint32_t>::max()||
+      source.source_module_id<0) {
+    error="Dummy MGP occurrence has no unique, exact ObjectManager provenance";
+    return false;
+   }
+   auto dummy=std::make_unique<SourceDummyObject>();
+   dummy->source=source;
+   const auto identity=reinterpret_cast<Address>(dummy.get());
+   GameObject projection{};
+   if(!source_row_projection(source,source.gametype.c_str(),identity,projection,error))
+    return false;
+   GameObject* stored=nullptr;
+   if(manager.add_named_object(source.source_handle,source.name,projection,&stored)!=
+          dh2::object_manager_runtime_owner_v1::Status::ok||!stored) {
+    error="Dummy could not register at its canonical source ObjectManager handle";
+    return false;
+   }
+   source_handles.push_back(source.source_handle);
+   dummy->object=stored;
+   source_dummies.push_back(std::move(dummy));
+  }
+ } catch(const std::exception& ex) {
+  error=std::string("Dummy source row publication failed: ")+ex.what();
+  return false;
+ } catch(...) {
+  error="Dummy source row publication allocation failed";
+  return false;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Source marker rows (Dummy, SpawnPoint) | exact MGP occurrences %zu | canonical Level ObjectManager handles (waypoints, camera marks, entry and boss spawn points)",
+     source_dummies.size());
+ return true;
+}
+
+bool NativeCryptRoomRuntime::initialize_source_trigger_zones(std::string& error) {
+ error.clear();
+ const auto& sources=active_level_assets.source_object_census;
+ const auto count=std::count_if(sources.begin(),sources.end(),[](const auto& row){
+  return row.gametype=="TriggerZone"&&!row.duplicate_name;
+ });
+ if(!count)return true;
+ try {
+  source_trigger_zones.reserve(static_cast<std::size_t>(count));
+  source_handles.reserve(source_handles.size()+static_cast<std::size_t>(count));
+  for(const auto& source:sources) {
+   if(source.gametype!="TriggerZone"||source.duplicate_name)continue;
+   if(source.source_handle<0||source.name.empty()||
+      source.source_record==std::numeric_limits<std::uint32_t>::max()||
+      source.source_module_id<0) {
+    error="TriggerZone MGP occurrence has no unique, exact ObjectManager provenance";
+    return false;
+   }
+   // PropertyMap int properties parse through StrToObj -> atoi (0x38baac).
+   const auto parse_integer=[&](const std::string& text,const char*,
+                                std::int32_t fallback,std::int32_t& result)->bool {
+    result=fallback;
+    if(text.empty())return true;
+    const long value=std::strtol(text.c_str(),nullptr,10);
+    result=static_cast<std::int32_t>(std::min<long>(std::numeric_limits<std::int32_t>::max(),
+        std::max<long>(std::numeric_limits<std::int32_t>::min(),value)));
+    return true;
+   };
+   auto zone=std::make_unique<SourceTriggerZone>();
+   zone->source=source;
+   std::int32_t trigger_count=1;
+   // Trigger::DeclareProperties (0x398a88): triggercount default 1, triggerdelay 0.
+   if(!parse_integer(source.trigger_count,"triggercount",1,trigger_count)||
+      !parse_integer(source.trigger_delay,"triggerdelay",0,
+                     zone->definition.trigger_delay_ms))return false;
+   zone->definition.script=source.trigger_script;
+   zone->definition.script_move_out=source.trigger_script_move_out;
+   zone->definition.script_all_player=source.trigger_script_all_player;
+   zone->definition.script_all_player_move_out=source.trigger_script_all_player_move_out;
+   zone->definition.effect_one_player=source.trigger_effect_one_player;
+   zone->definition.is_door_closed=source.trigger_is_door_closed;
+   if(!source_zone_half_extents(source,"TriggerZone",zone->half_extents,error))
+    return false;
+   const auto identity=reinterpret_cast<Address>(zone.get());
+   GameObject projection{};
+   if(!source_row_projection(source,"TriggerZone",identity,projection,error))
+    return false;
+   GameObject* stored=nullptr;
+   if(manager.add_named_object(source.source_handle,source.name,projection,&stored)!=
+          dh2::object_manager_runtime_owner_v1::Status::ok||!stored) {
+    error="TriggerZone could not register at its canonical source ObjectManager handle";
+    return false;
+   }
+   source_handles.push_back(source.source_handle);
+   zone->object=stored;
+   // Trigger::Trigger (0x398f44): +0x3a8 triggercount (property default 1),
+   // +0x3b4 and +0x3b8 start at zero; Trigger::Serialize writes the last two.
+   stored->trigger_count_3a8=trigger_count;
+   stored->trigger_max_count_3b4=0;
+   stored->trigger_pending_3b8=0;
+   stored->trigger_save_state_ready=1;
+   source_trigger_zones.push_back(std::move(zone));
+  }
+ } catch(const std::exception& ex) {
+  error=std::string("TriggerZone source row publication failed: ")+ex.what();
+  return false;
+ } catch(...) {
+  error="TriggerZone source row publication allocation failed";
+  return false;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Source TriggerZone rows | exact MGP occurrences %zu | canonical Level ObjectManager handles | scripts resolved at the first Update (ScriptManager session)",
+     source_trigger_zones.size());
+ return true;
+}
+
+// TriggerZone::InitPost (0x39c0a8): script names to ScriptManager ids
+// (GetIDFromName(name, false)), the +956 EnterLocationDialog byte and the
+// is_door_closed Door lookup.
+bool NativeCryptRoomRuntime::resolve_source_trigger_zone(SourceTriggerZone& zone,
+                                                          std::string& error) {
+ auto& state=zone.state;
+ const auto& definition=zone.definition;
+ bool enter_location=false;
+ const auto resolve=[&](const std::string& name,std::int32_t& id,bool* enter)->bool {
+  id=-1;
+  if(name.empty())return true;
+  bool dialog=false;
+  if(!native_resolve_level_script_name(name.c_str(),false,id,dialog)) {
+   error="TriggerZone "+zone.source.name+" script '"+name+"' cannot be resolved by the Level ScriptManager";
+   return false;
+  }
+  if(enter)*enter=dialog;
+  return true;
+ };
+ if(!resolve(definition.script,state.script_id,&enter_location)||
+    !resolve(definition.script_move_out,state.script_move_out_id,nullptr)||
+    !resolve(definition.script_all_player,state.script_all_player_id,nullptr)||
+    !resolve(definition.script_all_player_move_out,
+             state.script_all_player_move_out_id,nullptr))return false;
+ state.touch_required_956=(state.script_all_player_id==-1&&
+     state.script_all_player_move_out_id==-1&&state.script_id>=0&&enter_location)?1:0;
+ state.door_identity=0;
+ if(!definition.is_door_closed.empty()) {
+  const auto* door=manager.find_by_name(definition.is_door_closed,-1);
+  if(door&&door->door.definition_ready)state.door_identity=door->identity;
+ }
+ state.resolved=true;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "TriggerZone InitPost | %s | script %d '%s' | move-out %d | all-players %d/%d | touch-gated %d | door %s | count %d delay %d",
+     zone.source.name.c_str(),state.script_id,definition.script.c_str(),
+     state.script_move_out_id,state.script_all_player_id,
+     state.script_all_player_move_out_id,int(state.touch_required_956),
+     state.door_identity?definition.is_door_closed.c_str():"-",
+     zone.object?zone.object->trigger_count_3a8:0,definition.trigger_delay_ms);
+ return true;
+}
+
+bool NativeCryptRoomRuntime::update_source_trigger_zones(std::string& error) {
+ error.clear();
+ if(source_trigger_zones.empty()||!native_level_script_ready())return true;
+ struct Context {NativeCryptRoomRuntime* runtime;SourceTriggerZone* zone;std::int32_t dt;};
+ Context context{this,nullptr,static_cast<std::int32_t>(trigger_zone_dt_ms)};
+ const dh2::trigger_zone_source_v1::Services services{
+  &context,
+  [](void*,bool& scripted,std::string&)->bool {
+   scripted=native_player_scripted_1480!=0;return true;
+  },
+  [](void* raw,std::uintptr_t,bool& has_character,bool& touching,
+     std::string& failure)->bool {
+   auto* c=static_cast<Context*>(raw);
+   has_character=native_actor_ready;touching=false;
+   if(!c||!c->zone)return failure="TriggerZone touch query lost its zone",false;
+   if(!has_character)return true;
+   const auto* player=prince_runtime.subobjects.absolute_bounds;
+   touching=true;
+   for(unsigned axis=0;axis<3;++axis) {
+    const auto lo=player[axis],hi=player[axis+3];
+    const auto center=c->zone->source.world.position[axis];
+    const auto extent=c->zone->half_extents[axis];
+    if(!std::isfinite(lo)||!std::isfinite(hi)||lo>hi||!std::isfinite(center)||
+       !std::isfinite(extent))
+     return failure="TriggerZone touch query received invalid source/player bounds",false;
+    if(lo>center+extent||hi<center-extent){touching=false;break;}
+   }
+   return true;
+  },
+  [](void* raw,std::uintptr_t trigger,std::int32_t& players,std::int32_t& touching,
+     std::string& failure)->bool {
+   // PlayerManager+1732 is one offline; GetNumPlayerTouching counts the local
+   // Player's Character when it touches.
+   bool has_character=false,is_touching=false;
+   auto* c=static_cast<Context*>(raw);
+   if(!c||!c->zone)return failure="TriggerZone player count lost its zone",false;
+   players=c->runtime->player_identity?1:0;
+   has_character=native_actor_ready;
+   if(has_character) {
+    const auto* player=prince_runtime.subobjects.absolute_bounds;
+    is_touching=true;
+    for(unsigned axis=0;axis<3;++axis) {
+     const auto center=c->zone->source.world.position[axis];
+     const auto extent=c->zone->half_extents[axis];
+     if(player[axis]>center+extent||player[axis+3]<center-extent){is_touching=false;break;}
+    }
+   }
+   (void)trigger;
+   touching=is_touching?1:0;
+   return true;
+  },
+  [](void* raw,std::int32_t& dt,std::string&)->bool {
+   dt=static_cast<Context*>(raw)->dt;return true;
+  },
+  [](void*,std::int32_t script_id,std::int32_t argument,std::string& failure)->bool {
+   if(native_start_level_script_by_id(script_id,argument,failure))return true;
+   // A Level script whose commands this port cannot run yet is refused by the
+   // session before activation. ScriptManager::StartScript has no failure
+   // path, so the TriggerZone carries on (and counts the activation).
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "TriggerZone script %d could not be started | %s",script_id,failure.c_str());
+   failure.clear();
+   return true;
+  },
+  [](void* raw,std::uintptr_t door,std::int32_t& door_state,std::string& failure)->bool {
+   auto* c=static_cast<Context*>(raw);
+   const auto* row=c->runtime->manager.find_by_identity(door);
+   if(!row||!row->door.definition_ready)
+    return failure="TriggerZone linked Door lost its canonical row",false;
+   door_state=row->door.state_936;return true;
+  }};
+ for(auto& zone:source_trigger_zones) {
+  if(!zone||!zone->object||manager.find_by_identity(zone->object->identity)!=zone->object) {
+   error="TriggerZone Update lost its canonical ObjectManager row";
+   return false;
+  }
+  auto& row=*zone->object;
+  // A zone deleted by CheckSpawnProbability, or not yet through the ordered
+  // InitPost pass, is not in ObjectManager's update list.
+  if(row.deleted_81||!row.object_init_post_ready||!row.save_facts_ready||
+     !row.serialized_flag_8a_ready)continue;
+  if(!zone->state.resolved&&!resolve_source_trigger_zone(*zone,error))return false;
+  context.zone=zone.get();
+  const auto status=dh2::trigger_zone_source_v1::update(row,zone->definition,
+      zone->state,services,error);
+  if(status==dh2::trigger_zone_source_v1::Status::provider_failed||
+     status==dh2::trigger_zone_source_v1::Status::provider_unavailable||
+     status==dh2::trigger_zone_source_v1::Status::invalid_state) {
+   if(error.empty())error="TriggerZone::Update failed";
+   error=zone->source.name+": "+error;
+   return false;
+  }
+ }
+ error.clear();
+ return true;
+}
+
 bool NativeCryptRoomRuntime::initialize_source_destructible_containers(
         std::string& error) {
  error.clear();
@@ -7271,8 +7761,13 @@ bool door_play_sound(void* raw,std::uintptr_t identity,bool opening,
       vox,static_cast<std::uint16_t>(id),emitter,request)||
     !dh2::player_gameplay_audio::enqueue_spatial_source_sound(
       static_cast<std::uint16_t>(id),identity,false,0,request)) {
-  error="Door source Open/Close sound could not enter the existing spatial audio queue";
-  return false;
+  // VoxSoundManager::Play3D launches nothing for a Sounds row without retained
+  // PCM (the source no-launch case, as in skill_host_play_sound_3d); the door
+  // command itself still completes.
+  __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+      "Door %s sound %d has no spatial playback backend; no launch | %s",
+      opening?"open":"close",int(id),door->source.name.c_str());
+  error.clear();return true;
  }
  error.clear();return true;
 }
@@ -7856,6 +8351,36 @@ bool native_level_save_classify_source_noncharacter_v1(void*,
   *kind=Kind::container;*supported=true;error.clear();return false;
  }
  {
+  const auto dummy=std::find_if(runtime->source_dummies.begin(),
+      runtime->source_dummies.end(),[&](const auto& candidate) {
+       return candidate&&candidate->object==&row&&
+           source_marker_gametype(candidate->source.gametype)&&
+           source_row_matches(candidate->source);
+      });
+  const auto trigger=std::find_if(runtime->source_trigger_zones.begin(),
+      runtime->source_trigger_zones.end(),[&](const auto& candidate) {
+       return candidate&&candidate->object==&row&&
+           candidate->source.gametype=="TriggerZone"&&source_row_matches(candidate->source);
+      });
+  if(dummy!=runtime->source_dummies.end()||trigger!=runtime->source_trigger_zones.end()) {
+   // Dummy has no Deserialize override (GameObject::Deserialize); TriggerZone
+   // inherits Trigger::Deserialize (two ints) like TriggerZoneExitLevel.
+   if(active.phase!=dh2::source_level_owner_v1::Phase::active||
+      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
+      runtime->manager.find_by_identity(row.identity)!=&row||
+      !row.object_init_post_ready||!row.save_facts_ready||
+      !row.visible_80_ready||!row.serialized_flag_8a_ready||
+      !row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
+      row.visual_object_2d8||
+      (trigger!=runtime->source_trigger_zones.end()&&!row.trigger_save_state_ready)) {
+    error="Dummy/TriggerZone row lacks its exact canonical owners, InitPost receipts or has a VisualObject";
+    return false;
+   }
+   *kind=trigger!=runtime->source_trigger_zones.end()?Kind::trigger:Kind::game_object;
+   *supported=true;error.clear();return false;
+  }
+ }
+ {
   const auto zone=std::find_if(runtime->source_move_in_zones.begin(),
       runtime->source_move_in_zones.end(),[&](const auto& candidate) {
        return candidate&&candidate->object==&row&&
@@ -7920,9 +8445,31 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
  const auto& base=state.game_object;
  if(state.kind==Kind::game_object) {
   SourceMoveInZone* zone=nullptr;
+  SourceDummyObject* dummy=nullptr;
   if(runtime)for(auto& candidate:runtime->source_move_in_zones)
    if(candidate&&candidate->object==&row&&
       candidate->source.gametype=="QuestMoveInZone")zone=candidate.get();
+  if(runtime&&!zone)for(auto& candidate:runtime->source_dummies)
+   if(candidate&&candidate->object==&row&&source_marker_gametype(candidate->source.gametype))
+    dummy=candidate.get();
+  if(dummy) {
+   if(current!=&row||
+      active.phase!=dh2::source_level_owner_v1::Phase::active||
+      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
+      base.object_base_flag_80>1||base.object_base_flag_8a>1||
+      !row.object_init_post_ready||!row.save_facts_ready||
+      !row.visible_80_ready||!row.serialized_flag_8a_ready||
+      !row.condition_tested_ac_ready||!row.condition_tested_d0_ready||
+      row.visual_object_2d8||row.source_handle!=dummy->source.source_handle||
+      row.source_module_index!=dummy->source.module_index||
+      row.source_record!=dummy->source.source_record||
+      row.module_id_64!=dummy->source.source_module_id||
+      row.name!=dummy->source.name||!row.source_provenance_ready) {
+    error="Dummy Deserialize preflight lacks its exact canonical row, InitPost receipts or no-visual receiver";
+    return true;
+   }
+   error.clear();return false;
+  }
   if(!runtime||!zone||current!=&row||
      active.phase!=dh2::source_level_owner_v1::Phase::active||
      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
@@ -7943,9 +8490,36 @@ bool native_level_save_prepare_source_noncharacter_v1(void*,
  }
  if(state.kind==Kind::trigger) {
   SourceExitLevelZone* exit=nullptr;
+  SourceTriggerZone* trigger_zone=nullptr;
   if(runtime)for(auto& candidate:runtime->source_exit_level_zones)
    if(candidate&&candidate->object==&row&&
       candidate->source.gametype=="TriggerZoneExitLevel")exit=candidate.get();
+  if(runtime&&!exit)for(auto& candidate:runtime->source_trigger_zones)
+   if(candidate&&candidate->object==&row&&candidate->source.gametype=="TriggerZone")
+    trigger_zone=candidate.get();
+  if(trigger_zone) {
+   if(current!=&row||
+      active.phase!=dh2::source_level_owner_v1::Phase::active||
+      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
+      base.object_base_flag_80>1||base.object_base_flag_8a>1||
+      row.spawn_probability_result_270!=-2||
+      !row.object_init_post_ready||!row.save_facts_ready||
+      !row.visible_80_ready||!row.serialized_flag_8a_ready||
+      !row.trigger_save_state_ready||!row.condition_tested_ac_ready||
+      !row.condition_tested_d0_ready||
+      state.trigger.game_object.object_base_flag_80!=base.object_base_flag_80||
+      state.trigger.game_object.object_base_flag_8a!=base.object_base_flag_8a||
+      row.source_handle!=trigger_zone->source.source_handle||
+      row.source_module_index!=trigger_zone->source.module_index||
+      row.source_record!=trigger_zone->source.source_record||
+      row.module_id_64!=trigger_zone->source.source_module_id||
+      row.name!=trigger_zone->source.name||!row.source_provenance_ready||
+      row.visual_object_2d8) {
+    error="TriggerZone Deserialize preflight lacks its exact canonical row, InitPost cache, or no-visual receiver";
+    return true;
+   }
+   error.clear();return false;
+  }
   if(!runtime||!exit||current!=&row||
      active.phase!=dh2::source_level_owner_v1::Phase::active||
      active.object_manager_identity!=reinterpret_cast<std::uintptr_t>(&runtime->manager)||
@@ -8474,6 +9048,8 @@ bool NativeCryptRoomRuntime::clear() noexcept {
  character_factory.reset();
  source_move_in_zones.clear();
  source_exit_level_zones.clear();
+ source_dummies.clear();
+ source_trigger_zones.clear();
  source_destructible_containers.clear();
  trigger_interaction_tables.reset();
  destructible_container_tables.reset();
@@ -20286,6 +20862,36 @@ struct AuthoredFaeryPose final : FaeryVisual::CharacterPose {
   }
   start=player->start;end=player->end;return true;
  }
+ // CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14) -> AnimSetManager::AddAnim:
+ // Script_PlayActorAnim::Init adds the command's AnimDict ids to the named
+ // Character's own set. Install that one clip beside the AnimSet's clipbank.
+ bool add_animation_dictionary(std::int32_t dictionary,AAssetManager* assets,
+                               std::string& error) {
+  error.clear();
+  if(dictionary<0)return true;
+  if(!resource||!assets) {
+   error="Faery AddAnimDictToSet requires the retained BDAE pose and asset manager";
+   return false;
+  }
+  if(animation_dictionary_players.find(dictionary)!=animation_dictionary_players.end())
+   return true;
+  if(static_cast<std::size_t>(dictionary)>=actor_clip_table.values.size()) {
+   error="Faery AddAnimDictToSet id is outside the retained source clip dictionary";
+   return false;
+  }
+  try {
+   const auto bytes=read_faery_animation_dictionary(
+       assets,actor_clip_table.values[static_cast<std::size_t>(dictionary)]);
+   dh2::animation::Player player;
+   if(!player.load(bytes.data(),bytes.size(),resource->rest_scene,error,
+                   dh2::animation::MissingTargets::ignore))return false;
+   if(player.end<=player.start) {
+    error="Faery AddAnimDictToSet AnimDict has no playable source interval";return false;
+   }
+   animation_dictionary_players.emplace(dictionary,std::move(player));
+   return true;
+  } catch(const std::exception& failure) {error=failure.what();return false;}
+ }
  bool install_clipbank(const dh2::character_anim_set_owner_v1::AnimSetState& set,
                        AAssetManager* assets,std::string& error) {
   error.clear();
@@ -23562,7 +24168,7 @@ void deactivate(bool defer_source_level_finish){
  faery_visual_records.clear();
  native_world_items.clear();native_item_manager_pool={};clear_native_world_item_resources();
  active_crypt_module_bounds={};
- native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};saved_actors.clear();
+ native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};native_player_scripted_1480=0;saved_actors.clear();
  release_source_animated_decors(source_animated_decors,true);release_objects(object_groups);release(draws,images);world_objects.clear();
  active_generated_crypt_faery_sources.clear();active_generated_crypt_template_sources.clear();
  actor_skill_catalogue.reset();level={};current_scene={};
@@ -23824,7 +24430,7 @@ static std::string load_scene(const std::uint8_t* bytes,std::size_t size,AAssetM
        prince_attack_clips.size(),unsigned(!prince_retained_pose.empty()),unsigned(bool(prince_skills)),unsigned(bool(prince_source_ai)));
     }
     native_actor_ready=false;prince_body={};
-    if(!preserve_level_session){native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};}
+    if(!preserve_level_session){native_level_script_session.clear();native_level_script_generation=0;native_level_script_level_name.clear();crypt_trigger_state={};native_player_scripted_1480=0;}
     world_mode=false;resume_world=false;move_x=move_y=0;android_movement_stop_pending=false;
     for(unsigned i=0;i<3;++i)center[i]=(low[i]+high[i])*.5f;
     yaw=-1.57f;pitch=.35f;zoom=1;enabled=true;
@@ -24445,7 +25051,7 @@ int native_level_script_play_actor_animation(void*,
  try {
   if(!request||!output_identity||!request->actor_name[0]||
      request->animation_type<0||request->animation_type>INT32_MAX-8)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   *output_identity=0;
   const auto active=source_level_owner.snapshot();
   if(!active.source_level||
@@ -24454,7 +25060,7 @@ int native_level_script_play_actor_animation(void*,
      active.generation!=native_level_script_generation||
      native_level_script_level_name!=active_level_assets.name||
      !active_crypt_room_runtime||!active_crypt_room_runtime->assets)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   dh2_script_runtime::ObjectRecord resolved{};
   const int lookup=native_level_script_object_lookup(
       nullptr,request->actor_name,&resolved);
@@ -24463,21 +25069,24 @@ int native_level_script_play_actor_animation(void*,
   // incomplete Character cannot be treated as a miss: PlayActorAnim casts to
   // Character and mutates its CharAnimator, so refuse unsupported identities.
   if(!resolved.is_character||!resolved.identity||resolved.source_handle<0)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
 
   const auto* manager_object=source_level_owner.object_manager().find_by_identity(
       resolved.identity);
+  // "LocalPlayer" is the ObjectManager name of the local Player's Character
+  // (GetObjectByName special case), not its PlayerCharacter_0 row name.
   if(!manager_object||manager_object->identity!=resolved.identity||
      manager_object->source_handle!=resolved.source_handle||
-     manager_object->name!=request->actor_name||
+     (manager_object->name!=request->actor_name&&
+      resolved.identity!=prince_character.identity())||
      source_level_owner.object_manager().find_by_source_handle(
          resolved.source_handle)!=manager_object)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   if(!manager_object->go_ids_0f4_ready||manager_object->go_ids_0f4!=0)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   std::size_t character_occurrences=0;
   if(!native_characters.contains_identity(resolved.identity,&character_occurrences)||
-     character_occurrences!=1)return -1;
+     character_occurrences!=1)return (native_script_actor_command_fail_line=__LINE__,-1);
 
   const auto first_state=std::size_t(request->animation_type+2);
   const auto paired_state=std::size_t(request->animation_type+8);
@@ -24485,13 +25094,13 @@ int native_level_script_play_actor_animation(void*,
      paired_state>=actor_animation_tables.sequences.size()||
      actor_animation_tables.sequences[first_state].steps.empty()||
      actor_animation_tables.sequences[paired_state].steps.empty()||
-     request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return -1;
+     request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return (native_script_actor_command_fail_line=__LINE__,-1);
   if(resolved.identity==prince_character.identity()) {
    std::string error;
    if(request->anim_dictionary_a>=0&&std::size_t(request->anim_dictionary_a)>=
-        actor_clip_table.values.size())return -1;
+        actor_clip_table.values.size())return (native_script_actor_command_fail_line=__LINE__,-1);
    if(request->anim_dictionary_b>=0&&std::size_t(request->anim_dictionary_b)>=
-        actor_clip_table.values.size())return -1;
+        actor_clip_table.values.size())return (native_script_actor_command_fail_line=__LINE__,-1);
    actor_animation_tables.sequences[first_state].steps[0].anim=
        request->anim_dictionary_a;
    actor_animation_tables.sequences[paired_state].steps[0].anim=
@@ -24500,7 +25109,7 @@ int native_level_script_play_actor_animation(void*,
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
         "PlayActorAnim Player state selection failed | actor %s | type %d | %s",
         request->actor_name,request->animation_type,error.c_str());
-    return -1;
+    return (native_script_actor_command_fail_line=__LINE__,-1);
    }
    *output_identity=resolved.identity;return 1;
   }
@@ -24524,26 +25133,46 @@ int native_level_script_play_actor_animation(void*,
       visual.anim_set.phase!=dh2::character_anim_set_owner_v1::Phase::ready||
       !dh2::character_faery_visual_facade_v1::ready(visual,resolved.identity)||
       !manager_object->go_ids_0f4_ready||manager_object->go_ids_0f4!=0)
-    return -1;
+    return (native_script_actor_command_fail_line=__LINE__,-1);
    if(std::size_t(request->anim_dictionary_a)>=actor_clip_table.values.size()||
       (request->anim_dictionary_b>=0&&
        std::size_t(request->anim_dictionary_b)>=actor_clip_table.values.size()))
-    return -1;
-   const auto has_registration=[&](std::int32_t sequence,std::int32_t dictionary) {
-    return std::any_of(visual.anim_set.registrations.begin(),
-        visual.anim_set.registrations.end(),[&](const auto& row) {
-         return row.kind==dh2::character_anim_set_owner_v1::RegistrationKind::animation&&
-             row.source_sequence_id==sequence&&
-             row.animation_dictionary_id==dictionary;
-        });
-   };
-   if(!has_registration(static_cast<std::int32_t>(first_state),
-                        request->anim_dictionary_a)||
-      (request->anim_dictionary_b>=0&&
-       !has_registration(static_cast<std::int32_t>(paired_state),
-                         request->anim_dictionary_b)))
-    return -1;
+    return (native_script_actor_command_fail_line=__LINE__,-1);
+   // Script_PlayActorAnim::Init (0x45a2ec) added both AnimDict ids to this
+   // Character's set when the script loaded (CharAnimator::ANIM_AddAnimDictToSet).
    std::string error;
+   {
+    auto* faery_pose=dynamic_cast<AuthoredFaeryPose*>(visual.pose.get());
+    if(!faery_pose||
+       !faery_pose->add_animation_dictionary(request->anim_dictionary_a,
+           active_crypt_room_runtime->assets,error)||
+       !faery_pose->add_animation_dictionary(request->anim_dictionary_b,
+           active_crypt_room_runtime->assets,error))
+     return (native_script_actor_command_fail_line=__LINE__,-1);
+    // The retained AnimSet model keys its clips by (source sequence, AnimDict):
+    // bind the Init-time dictionaries to the two scripted AnimTable rows.
+    const auto bind=[&](std::int32_t sequence,std::int32_t dictionary) {
+     if(dictionary<0)return;
+     // The pose samples a scripted row through the one AnimDict it names now.
+     faery_pose->sequence_dictionaries[sequence]={dictionary};
+     auto& rows=visual.anim_set.registrations;
+     const bool present=std::any_of(rows.begin(),rows.end(),[&](const auto& row){
+      return row.kind==dh2::character_anim_set_owner_v1::RegistrationKind::animation&&
+          row.source_sequence_id==sequence&&row.animation_dictionary_id==dictionary;
+     });
+     if(!present) {
+      dh2::character_anim_set_owner_v1::Registration row{};
+      row.kind=dh2::character_anim_set_owner_v1::RegistrationKind::animation;
+      row.source_sequence_id=sequence;row.animation_table_sequence_id=sequence;
+      row.animation_dictionary_id=dictionary;
+      rows.push_back(row);
+     }
+     auto& ids=visual.anim_set.animation_dictionary_ids;
+     if(std::find(ids.begin(),ids.end(),dictionary)==ids.end())ids.push_back(dictionary);
+    };
+    bind(static_cast<std::int32_t>(first_state),request->anim_dictionary_a);
+    bind(static_cast<std::int32_t>(paired_state),request->anim_dictionary_b);
+   }
    actor_animation_tables.sequences[first_state].steps[0].anim=
        request->anim_dictionary_a;
    actor_animation_tables.sequences[paired_state].steps[0].anim=
@@ -24553,7 +25182,7 @@ int native_level_script_play_actor_animation(void*,
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
         "PlayActorAnim Faery state selection failed | actor %s | type %d | %s",
         request->actor_name,request->animation_type,error.c_str());
-    return -1;
+    return (native_script_actor_command_fail_line=__LINE__,-1);
    }
    *output_identity=resolved.identity;
    return 1;
@@ -24567,18 +25196,18 @@ int native_level_script_play_actor_animation(void*,
      actor->source_handle!=resolved.source_handle||actor->name!=request->actor_name||
      actor->properties.resolved.size()<=2||
      actor->properties.resolved[2]<0)
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   ObjectGroup* selected_group=nullptr;
   for(auto& group:object_groups) {
    const auto found=std::find_if(group.instances.begin(),group.instances.end(),
        [&](const ObjectActor& candidate){return &candidate==actor;});
    if(found==group.instances.end())continue;
-   if(selected_group)return -1;
+   if(selected_group)return (native_script_actor_command_fail_line=__LINE__,-1);
    selected_group=&group;
   }
   if(!selected_group||selected_group->animation_table<0||
-     selected_group->animation_table!=actor->properties.resolved[2])return -1;
-  if(request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return -1;
+     selected_group->animation_table!=actor->properties.resolved[2])return (native_script_actor_command_fail_line=__LINE__,-1);
+  if(request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return (native_script_actor_command_fail_line=__LINE__,-1);
   std::string error;
   if(!ensure_source_actor_anim_dictionary(*selected_group,
          request->anim_dictionary_a,active_crypt_room_runtime->assets,error)||
@@ -24589,7 +25218,7 @@ int native_level_script_play_actor_animation(void*,
        "PlayActorAnim AnimDict load failed | actor %s | ids %d,%d | %s",
        request->actor_name,request->anim_dictionary_a,
        request->anim_dictionary_b,error.c_str());
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   }
   // Source Execute writes both AnimTable first-step dictionaries before
   // SM_SetAnimState(type+2, false, true). These are the same global table and
@@ -24603,7 +25232,7 @@ int native_level_script_play_actor_animation(void*,
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "PlayActorAnim source state selection failed | actor %s | type %d | %s",
        request->actor_name,request->animation_type,error.c_str());
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   }
   actor->animator_sequence_closed_48=0;actor->animator_pending_sequence=-1;
   actor->cursor=0;actor->completions=0;
@@ -24614,7 +25243,7 @@ int native_level_script_play_actor_animation(void*,
  } catch(const std::exception& failure) {
   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
       "PlayActorAnim provider failed: %s",failure.what());
-  return -1;
+  return (native_script_actor_command_fail_line=__LINE__,-1);
  }
 }
 
@@ -25128,18 +25757,30 @@ int native_script_move_player_v1(const float* target_position) {
   sync_prince_search_projection();
   return 1;
 }
-int native_level_script_actor_command(void*,
+int native_level_script_actor_command_impl(void*,
+    const dh2_script_runtime::SpawnServices::ActorCommandRequest* request);
+int native_level_script_actor_command(void* context,
+    const dh2_script_runtime::SpawnServices::ActorCommandRequest* request) {
+ const int status=native_level_script_actor_command_impl(context,request);
+ if(status<0&&request)
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "Level script actor command failed | command %u (%s) | actor %s | target %s | refused at model_renderer.cpp:%u",
+      request->command_id,request->command_id==41?"LookActor":"SetActorPosition",
+      request->actor_name,request->target_name,native_script_actor_command_fail_line);
+ return status;
+}
+int native_level_script_actor_command_impl(void*,
     const dh2_script_runtime::SpawnServices::ActorCommandRequest* request) {
  try {
   // IDA: Script_LookActor::Execute (0x45ec50) and
   // Script_SetActorPosition::Execute (0x45e5c8) resolve actor from payload[1]
   // and target from payload[0]. Both calls are synchronous/nonblocking.
   if(!request||(request->command_id!=41&&request->command_id!=46)||
-     !request->actor_name[0]||!request->target_name[0])return -1;
+     !request->actor_name[0]||!request->target_name[0])return (native_script_actor_command_fail_line=__LINE__,-1);
   const auto source=source_level_owner.snapshot();
   if(!source.source_level||source.phase!=dh2::source_level_owner_v1::Phase::active||
      source.source_level_state!=38||source.generation!=native_level_script_generation||
-     native_level_script_level_name!=active_level_assets.name)return -1;
+     native_level_script_level_name!=active_level_assets.name)return (native_script_actor_command_fail_line=__LINE__,-1);
   dh2_script_runtime::ObjectRecord actor_record{},target_record{};
   const int actor_status=native_level_script_object_lookup(
       nullptr,request->actor_name,&actor_record);
@@ -25147,7 +25788,7 @@ int native_level_script_actor_command(void*,
       nullptr,request->target_name,&target_record);
   if(actor_status==0||target_status==0)return 0;
   if(actor_status!=1||target_status!=1||!actor_record.identity||
-     !target_record.identity)return -1;
+     !target_record.identity)return (native_script_actor_command_fail_line=__LINE__,-1);
   if(request->command_id==41) {
    using namespace dh2::character;
    CharacterControlServices16 services{};
@@ -25173,7 +25814,7 @@ int native_level_script_actor_command(void*,
        faery->controller.character!=actor_record.identity||
        faery->controllable.character!=actor_record.identity||
        faery->controller.controllable!=reinterpret_cast<std::uintptr_t>(&faery->controllable))
-     return -1;
+     return (native_script_actor_command_fail_line=__LINE__,-1);
     faery->controller.forced=1;
     record->faery_controller.forced=1;
     services={faery,authored_faery_controller_service};
@@ -25183,15 +25824,15 @@ int native_level_script_actor_command(void*,
         controller_look_object,target_record.identity,&services);
     faery->controller.forced=0;
     record->faery_controller.forced=0;
-    return dispatched==1?1:-1;
+    return dispatched==1?1:(native_script_actor_command_fail_line=__LINE__,-1);
    } else {
     auto* actor=native_char_ai_actor(actor_record.identity);
     if(!actor||actor->kind!=1||!actor->spawn_owner||
        !actor->spawn_owner->runtime_ready||actor->spawn_owner->actor!=actor||
-       actor->spawn_owner->character.owner()!=actor->identity)return -1;
+       actor->spawn_owner->character.owner()!=actor->identity)return (native_script_actor_command_fail_line=__LINE__,-1);
     std::size_t occurrences=0;
     if(!native_characters.contains_identity(actor->identity,&occurrences)||
-       occurrences!=1)return -1;
+       occurrences!=1)return (native_script_actor_command_fail_line=__LINE__,-1);
     auto& owner=*actor->spawn_owner;
     services={&owner,SpawnOwner::controller_service};
     controller={reinterpret_cast<std::uintptr_t>(&owner.character.state),
@@ -25199,44 +25840,57 @@ int native_level_script_actor_command(void*,
        owner.character.state.controller_locked,owner.controller_forced,0};
    }
    return dh2_character_controller_character(&controller,controller_look_object,
-       target_record.identity,&services)==1?1:-1;
+       target_record.identity,&services)==1?1:(native_script_actor_command_fail_line=__LINE__,-1);
   }
 
   float target_position[3]{};
   if(!native_level_script_position_for_target(target_record.identity,target_position))
-   return -1;
+   return (native_script_actor_command_fail_line=__LINE__,-1);
   if(actor_record.identity==prince_character.identity())
    return native_script_move_player_v1(target_position);
   if(auto* faery=native_faery_owner(actor_record.identity)) {
    if(!faery->record||faery->record->character.identity!=faery->identity||
       !faery->record->coordinator||
       faery->record->coordinator->owner()!=faery->identity||
-      faery->record->coordinator->transition(3)<0)return -1;
+      faery->record->coordinator->transition(3)<0)return (native_script_actor_command_fail_line=__LINE__,-1);
    using namespace dh2::character_faery_placement_v1;
    const Vector3 point{target_position[0],target_position[1],target_position[2]};
    Reply reply{};
    const Request set{Operation::set_position,faery->identity,0,0,&point,0};
-   if(native_faery_placement_service(nullptr,set,&reply)!=0)return -1;
+   if(native_faery_placement_service(nullptr,set,&reply)!=0)return (native_script_actor_command_fail_line=__LINE__,-1);
    const Request force{Operation::force_update_position,faery->identity,0,0,nullptr,0};
-   if(native_faery_placement_service(nullptr,force,&reply)!=0)return -1;
+   if(native_faery_placement_service(nullptr,force,&reply)!=0)return (native_script_actor_command_fail_line=__LINE__,-1);
    return 1;
   }
   auto* actor=native_char_ai_actor(actor_record.identity);
   if(!actor||actor->kind!=1||!actor->spawn_owner||
      actor->source_handle<0||!actor->spawn_owner->runtime_ready||
      actor->spawn_owner->actor!=actor||
-     actor->spawn_owner->character.owner()!=actor->identity)return -1;
+     actor->spawn_owner->character.owner()!=actor->identity)return (native_script_actor_command_fail_line=__LINE__,-1);
   auto& owner=*actor->spawn_owner;
   const auto* manager_object=source_level_owner.object_manager().find_by_identity(
       actor->identity);
   std::size_t occurrences=0;
   if(!manager_object||manager_object->source_handle!=actor->source_handle||
      !native_characters.contains_identity(actor->identity,&occurrences)||
-     occurrences!=1||!owner.body.body)return -1;
-  if(owner.character.transition(3)<0)return -1;
-  return move_direct_actor_v1(*actor,target_position)?1:-1;
+     occurrences!=1)return (native_script_actor_command_fail_line=__LINE__,-1);
+  // Script_SetActorPosition::Execute (0x45e5c8): CharStateMachine::SM_SetIdleState(0)
+  // (state 3, so CSLimbus::OnBlur revives and shows a Limbus Character), then
+  // GameObject::SetPosition + ForceUpdatePosition.
+  const bool was_limbus=owner.character.state.current==0;
+  if(owner.character.set_idle_state(false)<0)return (native_script_actor_command_fail_line=__LINE__,-1);
+  // A Limbus Character (auto_spawn 0: the bosses their intros bring in) has no
+  // PhysicalObject until it passes CSSpawn; CSIdle::OnFocus (0x3c3020) does not
+  // create one, so the original boss stays body-less after its intro. This port's
+  // movement, Player collision and AIS natives are body-driven, so the Character
+  // that just left Limbus receives the body its Spawn path would have given it.
+  if(was_limbus&&!owner.body.body&&owner.config.enabled) {
+   owner.create_body();owner.character.state.body_present=1;
+  }
+  if(!owner.body.body)return (native_script_actor_command_fail_line=__LINE__,-1);
+  return move_direct_actor_v1(*actor,target_position)?1:(native_script_actor_command_fail_line=__LINE__,-1);
  } catch(...) {
-  return -1;
+  return (native_script_actor_command_fail_line=__LINE__,-1);
  }
 }
 int native_level_script_door_command(void*,
@@ -25268,7 +25922,13 @@ int native_level_script_door_command(void*,
        request->force!=0,door->visual!=nullptr,false,false,false,services,error);
  if(status==dh2::door_source_runtime_v1::Status::invalid_state||
     status==dh2::door_source_runtime_v1::Status::provider_unavailable||
-    status==dh2::door_source_runtime_v1::Status::provider_failed)return -1;
+    status==dh2::door_source_runtime_v1::Status::provider_failed) {
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "Level script door command refused | command %u | door %s | status %u | state %d | %s",
+      request->command_id,request->door_name,unsigned(status),
+      object->door.state_936,error.c_str());
+  return -1;
+ }
  *identity=object->identity;return 1;
 }
 int native_level_script_door_is_blocking(void*,std::uintptr_t identity,
@@ -25297,13 +25957,25 @@ int crypt_script_camera(void*,std::uint8_t use_crit,std::int32_t clip_id) {
   }
   dh2::camera_animset_v1::PlayRequest request{};std::string error;
   if(!player_camera_animset_playback_owner.script_play_camera(
-       use_crit!=0,clip_id,request,error)){
+       use_crit!=0,clip_id,request,error,&actor_clip_table)){
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Crypt Script_PlayCamera source request rejected | useCrit %u | clip %d | %s",
        unsigned(use_crit),clip_id,error.c_str());
    return -1;
   }
   if(!request.present)return 0;
+  if(request.resource.registration_order<0&&
+     !player_camera_animset_bank.load_on_demand(request,read_camera_animset_asset,
+         player_camera_asset_manager,error)){
+   // AnimationSet::GetAnimation fails -> AnimatorSet::SetCurrentAnimation -1 ->
+   // AnimSetController::PlayClip returns 0: the camera keeps its current clip and
+   // the script command still completes (this bundle ships only the common
+   // camera clips, not the cutscene cameras).
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "Crypt Script_PlayCamera AnimDict is not available; camera keeps its clip | clip %d | %s",
+       clip_id,error.c_str());
+   return 0;
+  }
   const auto status=dh2::camera_animset_bank_playback_v1::start_rig(
       source_camera_level_owner,player_camera_animset_bank,request,
       *player_camera_rig,player_camera_playback,error);
@@ -25551,6 +26223,80 @@ bool native_start_level_script_by_name(const char* name,bool check_running,bool&
  __android_log_print(ANDROID_LOG_INFO,"DH2Native","%s started | %s | script id %d | start %u | Level %s",
      std::strncmp(name,"cinematic_Tuto_",15)?"Level script":"Tutorial script",name,id,count,
      active_level_assets.name.c_str());
+ return true;
+}
+bool native_level_script_ready(){
+ const auto source=source_level_owner.snapshot();
+ return native_level_script_session.ready()&&source.source_level&&
+     source.phase==dh2::source_level_owner_v1::Phase::active&&
+     source.source_level_state==38&&native_level_script_generation==source.generation&&
+     native_level_script_level_name==active_level_assets.name;
+}
+bool native_start_level_script_by_id(std::int32_t id,std::int32_t argument,std::string& error){
+ if(!native_level_script_ready()){
+  error="Current Level ScriptManager session is stale or unbound for this source Level";
+  return false;
+ }
+ // ScriptManager::StartScript ignores an out-of-range id and, offline, every
+ // start once all Players are dead.
+ if(id<0||prince_combat.life.dead){error.clear();return true;}
+ bool running=false;
+ if(!native_level_script_session.script_is_running(id,running,error))return false;
+ if(running){error.clear();return true;}
+ if(!native_level_script_session.start_script(id,argument,false,false,error))return false;
+ const auto* runtime=native_level_script_session.runtime();
+ const char* name="";
+ if(runtime){
+  const auto common=runtime->common_table?runtime->common_table->script_count:0u;
+  if(std::uint32_t(id)<common)name=reinterpret_cast<const char*>(runtime->common_table->scripts[id].name.data);
+  else if(runtime->level_table&&std::uint32_t(id)-common<runtime->level_table->script_count)
+   name=reinterpret_cast<const char*>(runtime->level_table->scripts[std::uint32_t(id)-common].name.data);
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level script started | id %d | argument %d | %s | Level %s",
+     id,argument,name,active_level_assets.name.c_str());
+ return true;
+}
+// DialogStyles.EnterLocationDialog (dialogs_pycst.bin), read once.
+std::int32_t native_enter_location_dialog_style(){
+ static bool loaded=false;static std::int32_t style=-2;
+ if(loaded)return style;
+ loaded=true;
+ try{
+  if(!active_crypt_room_runtime||!active_crypt_room_runtime->assets)return style;
+  static std::vector<std::uint8_t> bytes;
+  bytes=read(active_crypt_room_runtime->assets,"dialogs_pycst.bin","original-cache/data/pydata");
+  dh2_pycst_view view{};
+  dh2_pycst_result result{};
+  if(dh2_pycst_open(&view,bytes.data(),static_cast<std::uint32_t>(bytes.size()))==0&&
+     dh2_pycst_get(&view,"DialogStyles",sizeof("DialogStyles")-1,"EnterLocationDialog",
+         sizeof("EnterLocationDialog")-1,&result)==0&&result.found)
+   style=result.value;
+ }catch(...){}
+ return style;
+}
+bool native_resolve_level_script_name(const char* name,bool search_global,
+                                      std::int32_t& id,bool& enter_location){
+ id=-1;enter_location=false;
+ if(!native_level_script_ready()||!name)return false;
+ const auto* runtime=native_level_script_session.runtime();
+ id=dh2_script_resolve_id(runtime->common_table,runtime->level_table,
+     reinterpret_cast<const std::uint8_t*>(name),std::uint32_t(std::strlen(name)),
+     search_global?1:0);
+ if(id<0)return true;
+ const auto common=runtime->common_table?runtime->common_table->script_count:0u;
+ const dh2_script* script=nullptr;
+ if(std::uint32_t(id)<common)script=&runtime->common_table->scripts[id];
+ else if(runtime->level_table&&std::uint32_t(id)-common<runtime->level_table->script_count)
+  script=&runtime->level_table->scripts[std::uint32_t(id)-common];
+ if(!script)return true;
+ // Script_StartDialog::Init (0x459034): field 1 is the DialogStyles id.
+ const auto style=native_enter_location_dialog_style();
+ for(std::uint32_t i=0;i<script->command_count;++i){
+  const auto& command=script->commands[i];
+  if(command.command_id==10&&command.field_count>=2&&
+     command.fields[1].kind==DH2_SCRIPT_VALUE_I32&&command.fields[1].value.i32==style)
+   enter_location=true;
+ }
  return true;
 }
 // Shared body of the SetFaeryState/HitFor/LevelUp callers (their StartScript
@@ -25889,12 +26635,16 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    // Callback 0x4594a8: Set/Unset write Character+0x1480 on the named Character
    // or on every Character for "All". That byte is read by Character::CanUpdate
    // (culling bypass), TriggerZone::Update (local Player scripted: zones idle),
-   // CSAnim::OnUpdate and the network update gates, none of which this port
-   // reconstructs yet, so the command validates its target and has no further
-   // observable effect.
+   // CSAnim::OnUpdate and the network update gates. The Player's byte is
+   // retained (TriggerZone::Update reads it); the other readers are not
+   // reconstructed yet, so a non-Player target is only validated.
    int lookup=1;
+   const std::uint8_t scripted=c.fields[0].value.boolean?1u:0u;
    if(!native_script_for_characters(native_script_string(c,1),
-        [](std::uintptr_t){return true;},lookup))return -1;
+        [scripted](std::uintptr_t identity){
+         if(identity==prince_character.identity())native_player_scripted_1480=scripted;
+         return true;
+        },lookup))return -1;
    return lookup;
   }
   case 69: {
@@ -25928,11 +26678,12 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    return 1;
   }
   case 29: {
-   // Script_PutCharacterInLimbus::Execute 0x11430f -> SM_SetLimbusState
-   // (0x3c1a74): stores the machine's +52 limbus byte, clears the revive timer
-   // when awaiting revive, then _SetState(0,-1,0). The Coordinator state has no
-   // +52 field, so only the _SetState(0) transition is reconstructed here.
-   // The retained Player is not a Coordinator-backed Character: refuse it.
+   // Script_PutCharacterInLimbus::Execute 0x45f4e8 -> SM_SetLimbusState
+   // (0x3c1a74): stores the machine's +52 limbus byte (the respawn-timer gate
+   // CSLimbus::OnFocus reads, SpawnFacts.respawn_timer_eligible), clears the
+   // revive timer when awaiting revive, then _SetState(0,-1,0) through the
+   // spawn-family transition. The retained Player is not a Coordinator-backed
+   // Character: refuse it.
    dh2_script_runtime::ObjectRecord record{};
    const auto name=native_script_string(c,1);
    const int status=native_level_script_object_lookup(nullptr,name.c_str(),&record);
@@ -25943,7 +26694,8 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(!actor)return 1;  // Not a Character: GetObjectByName cast fails.
    if(!actor->spawn_owner||actor->spawn_owner->actor!=actor||
       actor->spawn_owner->character.owner()!=actor->identity)return -1;
-   return actor->spawn_owner->character.transition(0,-1,0)>=0?1:-1;
+   actor->spawn_owner->spawn.respawn_timer_eligible=c.fields[0].value.boolean?1u:0u;
+   return actor->spawn_owner->character.spawn_transition(0)>=0?1:-1;
   }
   case 44: {
    // Script_KillActor::Execute 0x114224: v2Controller::Cmd_Kill(ctrl, nullptr, 0)
@@ -26168,6 +26920,46 @@ int native_level_script_host_command_blocking(void*,std::uintptr_t handle,std::u
   move.active=false;return 0;
  }catch(...){return -1;}
 }
+// Script_PlayCamera::IsBlocking (0x459370): CameraLevel+132, the active
+// animation byte CameraLevel::PlayAnim raises and CameraLevel::__Callback clears.
+int native_level_script_camera_active(void*) {
+ if(!source_camera_level_owner_ready)return 0;
+ return source_camera_level_owner.animation_active()?1:0;
+}
+// Same for the generic host commands (visibility, FX, sound, Flash, ...).
+int native_level_script_host_command_logged(void* context,
+    const dh2_script_command* command,std::uintptr_t* handle) {
+ const int status=native_level_script_host_command(context,command,handle);
+ if(status<0&&command){
+  std::string text;
+  for(unsigned i=0;i<command->field_count&&i<DH2_SCRIPT_MAX_FIELDS;++i){
+   const auto& field=command->fields[i];
+   text+=" ";
+   if(field.kind==DH2_SCRIPT_VALUE_STRING)
+    text+="'"+std::string(reinterpret_cast<const char*>(field.value.string.data),
+                          field.value.string.size)+"'";
+   else if(field.kind==DH2_SCRIPT_VALUE_I32)text+=std::to_string(field.value.i32);
+   else if(field.kind==DH2_SCRIPT_VALUE_BOOL)text+=field.value.boolean?"true":"false";
+  }
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "Level script host command failed | id %u | status %d |%s",
+      command->command_id,status,text.c_str());
+ }
+ return status;
+}
+// The Level ScriptManager aborts the session on a provider failure; name the
+// failing PlayActorAnim command so the missing Character service is visible.
+int native_level_script_play_actor_animation_logged(void* context,
+    const dh2_script_runtime::SpawnServices::ActorAnimationRequest* request,
+    std::uintptr_t* identity) {
+ const int status=native_level_script_play_actor_animation(context,request,identity);
+ if(status<0&&request)
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "Level script PlayActorAnim failed | actor %s | AnimDict %d/%d | type %d | refused at model_renderer.cpp:%u",
+      request->actor_name,request->anim_dictionary_a,request->anim_dictionary_b,
+      request->animation_type,native_script_actor_command_fail_line);
+ return status;
+}
 dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch(){
  const auto source_level=source_level_owner.snapshot();
  native_level_dialog_dispatch_context={source_level.source_level,
@@ -26251,13 +27043,13 @@ dh2::character::crypt_scripts::SpawnDispatch native_level_script_dispatch(){
      nullptr,crypt_script_spawn,crypt_script_camera,native_level_script_object_lookup,
      native_level_script_actor_command,start_dialog,dialog_active,
      &native_level_dialog_dispatch_context,
-     native_level_script_play_actor_animation,
+     native_level_script_play_actor_animation_logged,
      native_level_script_actor_animation_active,
      enqueue_char_menu_tutorial,skip_char_menu_tutorial,
      &native_level_dialog_dispatch_context,native_level_script_door_command,
      native_level_script_door_is_blocking,start_dialog_id,
-     native_level_script_host_supports,native_level_script_host_command,
-     native_level_script_host_command_blocking};
+     native_level_script_host_supports,native_level_script_host_command_logged,
+     native_level_script_host_command_blocking,native_level_script_camera_active};
  return dispatch;
 }
 // Generated and static level scripts bind the same command providers.
@@ -26360,11 +27152,14 @@ void update_crypt_contact() {
 }
 void advance_native_level_script(unsigned dt_ms) {
  if(!native_level_script_session.ready())return;
- const auto before=native_level_script_session.runtime()->event_count;
+ const auto serial_before=native_level_script_session.runtime()->event_serial;
  std::string error;
  if(!native_level_script_session.advance(dt_ms,error))throw std::runtime_error(error);
  const auto* runtime=native_level_script_session.runtime();
- for(unsigned i=before;i<runtime->event_count;++i) {
+ // The bounded event log recycles its oldest half when full: take the entries
+ // emitted by this advance from the tail by serial number.
+ const auto fresh=std::min<std::uint64_t>(runtime->event_serial-serial_before,runtime->event_count);
+ for(unsigned i=runtime->event_count-static_cast<unsigned>(fresh);i<runtime->event_count;++i) {
   const auto& event=runtime->events[i];
   if(event.type==dh2_script_runtime::EVENT_WAIT_STARTED)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Level script Wait | duration %d | time %llu | dt %u | source check then update and return",event.value,static_cast<unsigned long long>(event.time_ms),dt_ms);
   if(event.type==dh2_script_runtime::EVENT_SCRIPT_COMPLETED)__android_log_print(ANDROID_LOG_INFO,"DH2Native","Level script completed | %s | time %llu | requests %u",event.detail,static_cast<unsigned long long>(event.time_ms),native_level_script_session.dispatch_count());
@@ -35733,6 +36528,45 @@ bool boss_probe_place_player(const std::array<float,3>& position,std::string& er
  if(native_script_move_player_v1(point)!=1){
   error="Player SetActorPosition provider rejected the placement";return false;
  }
+ error.clear();return true;
+}
+bool level_script_probe(LevelScriptProbeV1& output,std::string& error){
+ LevelScriptProbeV1 candidate;
+ if(!enabled||!world_mode||!native_actor_ready||!native_level_script_ready()){
+  error="Level script probe requires an active world and bound ScriptManager session";return false;
+ }
+ const auto* runtime=native_level_script_session.runtime();
+ candidate.ready=true;
+ candidate.player_scripted=native_player_scripted_1480!=0;
+ candidate.cutscene_mode=runtime->cutscene_mode!=0;
+ candidate.controller_blocked=controller_global_blocked!=0;
+ for(std::uint32_t i=0;i<runtime->task_slots_used&&i<dh2_script_runtime::MAX_TASKS;++i){
+  const auto& task=runtime->tasks[i];
+  if(!task.active||!task.script)continue;
+  ++candidate.tasks_active;
+  candidate.running.push_back(std::string(reinterpret_cast<const char*>(task.script->name.data),
+                                          task.script->name.size));
+ }
+ candidate.started=native_level_script_session.started_log();
+ candidate.completed=native_level_script_session.completed_log();
+ output=std::move(candidate);error.clear();return true;
+}
+bool boss_probe_start_level_script(const std::string& name,std::string& error){
+ if(!enabled||!world_mode||!native_actor_ready){
+  error="Boss probe script start requires an active world";return false;
+ }
+ std::int32_t id=-1;bool enter_location=false;
+ if(!native_resolve_level_script_name(name.c_str(),true,id,enter_location)){
+  error="Level ScriptManager session is not bound";return false;
+ }
+ if(id<0){error="the Level ScriptManager has no script named "+name;return false;}
+ bool running=false;
+ if(!native_level_script_session.script_is_running(id,running,error))return false;
+ if(running){error.clear();return true;}
+ if(!native_level_script_session.start_script(id,-1,true,false,error))return false;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native","Level script started | id %d | argument -1 | %s | Level %s | quest-state stand-in",
+     id,name.c_str(),active_level_assets.name.c_str());
+
  error.clear();return true;
 }
 bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string& error){
@@ -45183,6 +46017,9 @@ void advance_native_actor(unsigned dt_ms){
   std::string exit_error;
   if(!runtime.update_source_exit_level_zones(exit_error))
    throw std::runtime_error("TriggerZoneExitLevel::Update failed: "+exit_error);
+  runtime.trigger_zone_dt_ms=dt_ms;
+  if(!runtime.update_source_trigger_zones(exit_error))
+   throw std::runtime_error("TriggerZone::Update failed: "+exit_error);
   if(!runtime.source_move_in_zones.empty()&&
      !runtime.reconcile_source_move_in_zone_conditions(updates.error))
    throw std::runtime_error("QuestMoveInZone typed enable update failed: "+updates.error);
@@ -46138,6 +46975,12 @@ std::vector<dh2::world::EntryPoint> entrypoints;
           static_scene_path.c_str(),source_mgps.data(),source_mgps.size(),
           nullptr,*handle_ledger,level_assets.source_object_census,error))
        throw std::runtime_error("Original SWAMP generic ObjectManager census rejected: "+error);
+      {
+       std::map<std::string,int> histogram;
+       for(const auto& s:level_assets.source_object_census)++histogram[s.gametype];
+       std::string text;for(const auto& h:histogram)text+=h.first+"="+std::to_string(h.second)+" ";
+       __android_log_print(ANDROID_LOG_INFO,"DH2Native","Source object census | %s | %s",level_assets.name.c_str(),text.c_str());
+      }
       const bool swamp_level=std::string(static_level_source->name)=="SWAMP";
       std::size_t deferred_move_in_zones=0;
       for(const auto& source:level_assets.source_object_census)

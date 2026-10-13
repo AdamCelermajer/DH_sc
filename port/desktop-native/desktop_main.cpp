@@ -86,6 +86,18 @@ struct Options {
     // fixture (the existing nonlethal source health kernel) so one Player blow kills it.
     bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false,
          boss_weaken = false;
+    // --boss-natural: do not spawn the boss by hand. The Player is placed at the
+    // arena approach (--boss-entry X,Y,Z, default per level row) and walks into the
+    // authored intro TriggerZone (SWAMP _prim_TriggerZone_17 -> Swamp_Serpent_Intro);
+    // on DARKWOOD the Dark Queen's intro is a Quest::SetState(5) script
+    // (HG2_boss_intro), started the way Quest::ExecScript does. The scenario then
+    // follows the running Level scripts until the boss leaves Limbus.
+    bool boss_natural = false, boss_entry_given = false;
+    std::array<float, 3> boss_entry{};
+    // Distance (planar) from the Player to the intro trigger centre / intro script name.
+    std::string boss_intro_script;
+    std::array<float, 3> boss_trigger{};
+    bool boss_trigger_given = false;
     std::string boss_name;
     std::array<float, 3> boss_offset{};
     // Planar distance from the boss at which the Player is placed (the direction
@@ -138,6 +150,14 @@ Options parse(int argc, char** argv) {
             options.boss_offset_given = true;
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
+        else if (arg == "--boss-natural") options.boss_natural = true;
+        else if (arg == "--boss-entry") {
+            const auto text = value("--boss-entry");
+            if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_entry[0], &options.boss_entry[1],
+                            &options.boss_entry[2]) != 3)
+                throw std::runtime_error("--boss-entry expects X,Y,Z");
+            options.boss_entry_given = true;
+        }
         else if (arg == "--boss-weaken") options.boss_weaken = true;
         else if (arg == "--boss-distance") options.boss_distance = std::stof(value("--boss-distance"));
         else if (arg == "--runtime-dir") options.runtime = value("--runtime-dir");
@@ -240,6 +260,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
                          "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
+                         "  --scenario boss-fight --boss-natural [--boss-entry X,Y,Z] do not spawn: walk into the authored intro trigger (SWAMP) or start the quest-state intro (DARKWOOD), follow the intro script until the boss is active, then fight\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
                          "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
@@ -277,6 +298,19 @@ Options parse(int argc, char** argv) {
                 if (options.level_row == 41) options.boss_name = "_prim_Boss_SwampKing_01";
                 else if (options.level_row == 4) options.boss_name = "_prim_DarkQueen";
                 else throw std::runtime_error("boss-fight needs --boss NAME for this level row");
+            }
+            if (options.boss_natural) {
+                if (options.level_row == 41) {
+                    // _prim_TriggerZone_17 (module 7 record 0): centre (-15437.4, 12000, -337.8),
+                    // dimensions 200 x scale (1.91, 8.55, 6.11). The approach spot lies east of it
+                    // inside the same Module.
+                    options.boss_intro_script = "Swamp_Serpent_Intro";
+                    options.boss_trigger = {-15437.4f, 12000.0f, -114.0f};
+                    options.boss_trigger_given = true;
+                    if (!options.boss_entry_given) options.boss_entry = {-14400.0f, 12000.0f, -114.0f};
+                } else if (options.level_row == 4) {
+                    options.boss_intro_script = "HG2_boss_intro";
+                }
             }
             if (!options.boss_offset_given) {
                 if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
@@ -897,7 +931,7 @@ private:
     // arena waypoint with the Level ScriptManager's SetActorPosition provider,
     // then closes in and attacks while logging the boss's AIS VM counters, FSM
     // state, target and both sides' health.
-    enum class BossPhase { spawn, wait_init, place, fight, done };
+    enum class BossPhase { spawn, wait_init, place, fight, done, nat_place, nat_walk, nat_intro };
     BossPhase bf_phase_ = BossPhase::spawn;
     std::uint64_t bf_phase_frame_ = 0, bf_done_frame_ = 0;
     bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false;
@@ -908,6 +942,11 @@ private:
     std::string bf_last_state_;
     int bf_last_fsm_ = -2, bf_index_ = -1;
     std::string bf_last_attack_;
+    // --boss-natural bookkeeping.
+    bool bf_intro_started_ = false, bf_intro_completed_ = false;
+    std::uint64_t bf_intro_start_frame_ = 0, bf_intro_end_frame_ = 0;
+    std::string bf_last_running_;
+    std::uint32_t bf_max_running_ = 0;
 
     void boss_tick() {
         const std::string& boss = options_.boss_name;
@@ -940,8 +979,135 @@ private:
         }
         const auto since = frame_ - bf_phase_frame_;
         switch (bf_phase_) {
+        case BossPhase::nat_place: {
+            if (options_.level_row == 41) {
+                std::string place_error;
+                const Vec3 spot{options_.boss_entry[0], options_.boss_entry[1], options_.boss_entry[2]};
+                const bool placed = model_renderer::boss_probe_place_player(spot, place_error);
+                plog(fmt("boss natural | frame %llu | Player placed at the arena approach %s: %s%s",
+                         (unsigned long long)frame_, vec_text(spot).c_str(), placed ? "ok" : "ERROR ",
+                         place_error.c_str()));
+                if (!placed) {
+                    failure_ = "boss-fight: placing the Player failed: " + place_error;
+                    return;
+                }
+                bf_phase_ = BossPhase::nat_walk;
+            } else {
+                // DARKWOOD: HG2_boss_intro is the Dark Queen quest's slot-10 script, run by
+                // Quest::SetState(5) -> Quest::ExecScript(10) -> ScriptManager::StartScript.
+                std::string start_error;
+                const bool started = model_renderer::boss_probe_start_level_script(
+                    options_.boss_intro_script, start_error);
+                plog(fmt("boss natural | frame %llu | quest-state stand-in starts %s: %s%s",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         started ? "ok" : "ERROR ", start_error.c_str()));
+                if (!started) {
+                    failure_ = "boss-fight: starting the intro script failed: " + start_error;
+                    return;
+                }
+                bf_phase_ = BossPhase::nat_intro;
+            }
+            bf_phase_frame_ = frame_;
+            return;
+        }
+        case BossPhase::nat_walk: {
+            if (frame_ % 15 != 0) return;
+            model_renderer::LevelScriptProbeV1 probe;
+            std::string probe_error;
+            if (model_renderer::level_script_probe(probe, probe_error) &&
+                std::find(probe.started.begin(), probe.started.end(), options_.boss_intro_script) !=
+                    probe.started.end()) {
+                bf_intro_started_ = true;
+                bf_intro_start_frame_ = frame_;
+                halt_player();
+                plog(fmt("boss natural | frame %llu | %s started by its TriggerZone | Player at %s",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?"));
+                bf_phase_ = BossPhase::nat_intro;
+                bf_phase_frame_ = frame_;
+                return;
+            }
+            if (have_pose_) {
+                const Vec3 target{options_.boss_trigger[0], options_.boss_trigger[1],
+                                  options_.boss_trigger[2]};
+                if (march_to(pose_.player_position, target, 40.0f) != March::moving)
+                    steer_world(target[0] - pose_.player_position[0],
+                                target[1] - pose_.player_position[1]);
+            }
+            if (frame_ % 120 == 0 && have_pose_) {
+                model_renderer::GameplayRouteSnapshotV1 route;
+                const bool probed = probe_route({options_.boss_trigger[0], options_.boss_trigger[1],
+                                                 options_.boss_trigger[2]}, route);
+                plog(fmt("boss natural | route probe %d | found %d graph sewn %d nodes %u src %u dst %u status %u waypoints %zu",
+                         int(probed), int(route.path_found), int(route.graph_sewn), route.graph_nodes,
+                         route.source_node, route.target_node, route.query_status, route.waypoints.size()));
+            }
+            if (frame_ % 120 == 0)
+                plog(fmt("boss natural | frame %llu | walking to the intro trigger | Player at %s | distance %.0f",
+                         (unsigned long long)frame_,
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?",
+                         have_pose_ ? planar_distance(pose_.player_position,
+                                          {options_.boss_trigger[0], options_.boss_trigger[1],
+                                           options_.boss_trigger[2]}) : -1.0f));
+            if (since > 1500) failure_ = "boss-fight: the Player never triggered the boss intro script";
+            return;
+        }
+        case BossPhase::nat_intro: {
+            if (frame_ % 15 != 0) return;
+            model_renderer::LevelScriptProbeV1 probe;
+            std::string probe_error;
+            if (!model_renderer::level_script_probe(probe, probe_error)) return;
+            const bool started = std::find(probe.started.begin(), probe.started.end(),
+                                           options_.boss_intro_script) != probe.started.end();
+            const bool completed = std::find(probe.completed.begin(), probe.completed.end(),
+                                             options_.boss_intro_script) != probe.completed.end();
+            if (started && !bf_intro_started_) {
+                bf_intro_started_ = true;
+                bf_intro_start_frame_ = frame_;
+            }
+            std::string running;
+            for (const auto& name : probe.running) running += (running.empty() ? "" : ",") + name;
+            bf_max_running_ = std::max<std::uint32_t>(bf_max_running_, probe.tasks_active);
+            if (running != bf_last_running_) {
+                plog(fmt("boss intro | frame %llu | running [%s] | scripted %d | cutscene %d | blocked %d | boss fsm %d '%s'",
+                         (unsigned long long)frame_, running.c_str(), int(probe.player_scripted),
+                         int(probe.cutscene_mode), int(probe.controller_blocked),
+                         have ? snap.fsm_state : -1, have ? snap.animation_state.c_str() : "?"));
+                bf_last_running_ = running;
+            }
+            if (completed && !bf_intro_completed_) {
+                bf_intro_completed_ = true;
+                bf_intro_end_frame_ = frame_;
+                plog(fmt("boss intro | frame %llu | %s completed after %llu frames",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         (unsigned long long)(frame_ - bf_intro_start_frame_)));
+            }
+            if (bf_intro_completed_ && have && snap.fsm_state > 0) {
+                plog(fmt("boss active | frame %llu | script %s | fsm %d '%s' | HP %.1f/%.1f | at %s | source visible %d renderer visible %d",
+                         (unsigned long long)frame_, snap.script.c_str(), snap.fsm_state,
+                         snap.animation_state.c_str(), snap.hp / 256.0, snap.max_hp / 256.0,
+                         vec_text({snap.position[0], snap.position[1], snap.position[2]}).c_str(),
+                         int(snap.source_visible), int(snap.renderer_visible)));
+                if (options_.boss_weaken && snap.hp > 3 * 256) {
+                    const std::string hit = model_renderer::debug_character_hit(
+                        boss, std::uint32_t(snap.hp - 3 * 256));
+                    plog(fmt("boss weaken | HP %.1f -> 3 | %s", snap.hp / 256.0, hit.c_str()));
+                }
+                bf_phase_ = BossPhase::fight;
+                bf_phase_frame_ = frame_;
+            } else if (since > 9000) {
+                failure_ = fmt("boss-fight: the boss intro did not finish (started %d completed %d boss fsm %d)",
+                               int(bf_intro_started_), int(bf_intro_completed_), have ? snap.fsm_state : -1);
+            }
+            return;
+        }
         case BossPhase::spawn: {
             if (frame_ < 30) return;
+            if (options_.boss_natural) {
+                bf_phase_ = BossPhase::nat_place;
+                bf_phase_frame_ = frame_;
+                return;
+            }
             const std::string result = model_renderer::spawn_character(boss);
             plog(fmt("boss spawn | frame %llu | %s | %s", (unsigned long long)frame_, boss.c_str(),
                      result.c_str()));
@@ -1050,6 +1216,13 @@ private:
                  bf_boss_hp_start_, bf_boss_hp_min_ > 1e8 ? -1.0 : bf_boss_hp_min_, bf_player_hp_start_,
                  bf_player_hp_min_ > 1e8 ? -1.0 : bf_player_hp_min_, bf_max_callbacks_, bf_max_failed_,
                  bf_max_commands_, bf_max_events_, bf_attacks_, int(bf_ever_targeted_), deaths_));
+        if (options_.boss_natural)
+            plog(fmt("boss-fight natural | intro %s started %d completed %d (frames %llu..%llu) | max concurrent scripts %u",
+                     options_.boss_intro_script.c_str(), int(bf_intro_started_), int(bf_intro_completed_),
+                     (unsigned long long)bf_intro_start_frame_, (unsigned long long)bf_intro_end_frame_,
+                     bf_max_running_));
+        if (options_.boss_natural && failure_.empty() && !bf_intro_completed_)
+            failure_ = "boss-fight: the boss intro script never completed";
         if (!bf_ever_initialized_ && failure_.empty())
             failure_ = "boss-fight: the boss AIS VM never initialised";
     }
@@ -2517,7 +2690,9 @@ int main(int argc, char** argv) {
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
             // taps would so the probe is not parked behind the script until the bound.
-            if (options.skill_matrix_scenario && gameplay && rendered_frames % 20 == 0 &&
+            // boss-natural: the boss intro cutscene waits for the player's dialog taps.
+            if ((options.skill_matrix_scenario || options.boss_natural) && gameplay &&
+                rendered_frames % 20 == 0 &&
                 model_renderer::script_controllers_blocked() &&
                 !original_ui.flush_source_messages(ui_error))
                 throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);

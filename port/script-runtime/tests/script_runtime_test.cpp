@@ -46,8 +46,8 @@ static void test_play_camera_command() {
     runtime.tasks[0].script_id=0;runtime.tasks[0].active=1;
     runtime.task_slots_used=1;runtime.next_task_ticket=1;
     check(advance(&runtime,16)==ERROR_OK,"PlayCamera callback completes in the shared scheduler");
-    check(call.calls==1&&call.use_crit==1&&call.clip_id==44,
-          "PlayCamera preserves its typed Crit flag and external AnimDict ID");
+    check(call.calls==1&&call.use_crit==0&&call.clip_id==44,
+          "PlayCamera passes the not-skipping bool and its external AnimDict ID");
 
     CameraCall rejected={0,0,0,-1};
     Runtime failed={};failed.common_table=&common;failed.level_table=&level;

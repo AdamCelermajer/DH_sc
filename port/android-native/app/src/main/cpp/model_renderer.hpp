@@ -177,6 +177,19 @@ bool boss_probe_place_player(const std::array<float,3>&,std::string&);
 // One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
 // / StopActor 39) through the generic host provider; development scenarios only.
 bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string&);
+// Level ScriptManager state for the boss-natural scenario: the scripts running
+// now, every script started or completed since Level entry (in order), the
+// local Player's scripted/locked bytes and the cutscene flag.
+struct LevelScriptProbeV1 {
+ bool ready=false,player_scripted=false,cutscene_mode=false,controller_blocked=false;
+ std::vector<std::string> running,started,completed;
+ std::uint32_t tasks_active=0;
+};
+bool level_script_probe(LevelScriptProbeV1&,std::string&);
+// Quest::ExecScript (0x47ff20) stand-in for development scenarios: ScriptManager::
+// GetIDFromName(name, true) + StartScript(id, -1, true) on the Level's session,
+// the same entry the quest owner uses for its state scripts.
+bool boss_probe_start_level_script(const std::string& name,std::string&);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {

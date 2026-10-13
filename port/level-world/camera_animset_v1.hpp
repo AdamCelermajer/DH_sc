@@ -57,8 +57,15 @@ public:
                       PlayRequest&,std::string& error) const;
     bool combat_shake(bool critical_result,bool requester_is_player,bool shake_allowed,
                       PlayRequest&,std::string& error) const;
+    // Script_PlayCamera::Execute (0x460110) calls CameraLevel::PlayAnim(clip),
+    // whose AnimationSet::GetAnimation (0x3660f4) loads an AnimDict that
+    // CameraLevel::Load did not register on demand (LoadAnimation / LRU
+    // ReplaceAnimation). With `clips` an unregistered in-range clip therefore
+    // resolves to an on-demand cam_animation resource (registration_order -1)
+    // for camera_animset_bank_v1::Owner::load_on_demand.
     bool script_play_camera(bool use_crit,std::int32_t external_clip,
-                            PlayRequest&,std::string& error) const;
+                            PlayRequest&,std::string& error,
+                            const data::Dictionary* clips=nullptr) const;
 private:
     bool request(std::int32_t,Resource::Slot,Trigger,bool,PlayRequest&,
                  std::string&) const;

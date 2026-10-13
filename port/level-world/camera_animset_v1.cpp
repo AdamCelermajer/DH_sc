@@ -148,7 +148,8 @@ bool PlaybackOwner::combat_shake(bool critical_result,bool requester_is_player,
 }
 
 bool PlaybackOwner::script_play_camera(bool use_crit,std::int32_t external_clip,
-                                       PlayRequest& out,std::string& error) const {
+                                       PlayRequest& out,std::string& error,
+                                       const data::Dictionary* clips) const {
     out={};error.clear();
     if(use_crit){
         const auto crit=std::find_if(selection_.resources.begin(),selection_.resources.end(),
@@ -157,7 +158,15 @@ bool PlaybackOwner::script_play_camera(bool use_crit,std::int32_t external_clip,
         return request(crit->clip_id,Resource::Slot::crit,Trigger::script_crit,false,out,error);
     }
     if(external_clip<0){error="Script_PlayCamera external clip ID is invalid";return false;}
-    return request_clip(external_clip,Trigger::script_external,false,out,error);
+    if(request_clip(external_clip,Trigger::script_external,false,out,error))return true;
+    if(!clips||!bound_||static_cast<std::size_t>(external_clip)>=clips->values.size())return false;
+    const auto& path=clips->values[static_cast<std::size_t>(external_clip)];
+    if(path.empty()||path.size()>4096||path.find('\0')!=std::string::npos)return false;
+    out={};error.clear();
+    out.present=true;out.trigger=Trigger::script_external;
+    out.resource={Resource::Slot::cam_animation,-1,external_clip,path};
+    out.preserve_zoom=false;out.loop=false;out.speed=1.0f;
+    return true;
 }
 
 } // namespace dh2::camera_animset_v1

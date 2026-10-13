@@ -371,6 +371,10 @@ int Coordinator::set_idle_state(bool suppressed) {
     // SM_SetIdleState writes +0x60 before invoking _SetState. Preserve that
     // source prefix even if a later state transition provider rejects.
     state.idle_suppressed = suppressed ? 1u : 0u;
+    // _SetState(3) from Limbus / Spawn / PreSpawn runs the spawn-family blur
+    // (CSLimbus::OnBlur revive, CSSpawn::OnBlur body creation) before CSIdle.
+    if (state.current == 0 || state.current == 1 || state.current == 17)
+        return spawn_transition(3);
     return transition(3, -1, 0);
 }
 

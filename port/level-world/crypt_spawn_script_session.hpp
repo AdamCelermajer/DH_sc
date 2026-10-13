@@ -64,6 +64,8 @@ struct SpawnDispatch {
     bool (*host_supports)(void*, const dh2_script_command*) = nullptr;
     int (*host_command)(void*, const dh2_script_command*, std::uintptr_t*) = nullptr;
     int (*host_command_blocking)(void*, std::uintptr_t, std::uint32_t) = nullptr;
+    // Script_PlayCamera::IsBlocking: the CameraLevel active-animation byte.
+    int (*camera_active)(void*) = nullptr;
 };
 
 enum class TriggerScriptKind : std::uint8_t {
@@ -130,6 +132,11 @@ public:
     bool ready() const;
     bool running() const;
     const dh2_script_runtime::Runtime* runtime() const;
+    // Names of the scripts the scheduler started / completed, in order,
+    // gathered from the runtime's event stream at each advance (development
+    // probes; the source ScriptManager keeps no such log).
+    const std::vector<std::string>& started_log() const;
+    const std::vector<std::string>& completed_log() const;
     std::uint32_t dispatch_count() const;
     // Diagnostic: level-table programs whose every command has a bound provider.
     void supported_level_scripts(std::uint32_t& supported, std::uint32_t& total,
