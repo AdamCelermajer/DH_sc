@@ -325,6 +325,45 @@ Result compile_character_anim_set(
                          stance_mask, effects, error);
 }
 
+Result add_animation_dictionary(AnimSetState& state, Identity expected_character,
+                                std::int32_t animation_dictionary_id, bool& added,
+                                std::string& error) {
+    error.clear();
+    added = false;
+    if (!expected_character) {
+        error = "AnimDict registration requires a live Character identity";
+        return Result::invalid_identity;
+    }
+    if (state.character != expected_character || state.phase != Phase::ready) {
+        error = "AnimDict registration requires the ready AnimSet of the same Character";
+        return Result::identity_mismatch;
+    }
+    if (animation_dictionary_id < 0) return Result::already_registered;
+    // The source set is keyed by AnimDict id: an AnimDict an authored AddAnim
+    // already put in the set is found and nothing is loaded again. The
+    // `added_dictionary` row still records that the script path named it, so
+    // the sequence-keyed projection accepts it for any scripted AnimTable row.
+    const bool in_set = std::find(state.animation_dictionary_ids.begin(),
+                                  state.animation_dictionary_ids.end(),
+                                  animation_dictionary_id) !=
+        state.animation_dictionary_ids.end();
+    const bool recorded = std::any_of(state.registrations.begin(),
+        state.registrations.end(), [&](const Registration& row) {
+            return row.kind == RegistrationKind::added_dictionary &&
+                row.animation_dictionary_id == animation_dictionary_id;
+        });
+    if (!recorded) {
+        Registration registration;
+        registration.kind = RegistrationKind::added_dictionary;
+        registration.animation_dictionary_id = animation_dictionary_id;
+        state.registrations.push_back(registration);
+    }
+    if (in_set) return Result::already_registered;
+    state.animation_dictionary_ids.push_back(animation_dictionary_id);
+    added = true;
+    return Result::registered;
+}
+
 bool retire(character_faery_visual_facade_v1::CharacterVisual& visual,
             Identity expected_character) noexcept {
     if (!expected_character || visual.character != expected_character ||

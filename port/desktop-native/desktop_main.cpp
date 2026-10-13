@@ -73,6 +73,10 @@ struct Options {
     // Level's ScriptManager at rendered frame N (default 200).
     struct ScriptStart {std::string name; std::uint64_t frame;};
     std::vector<ScriptStart> script_starts;
+    // --flush-dialogs: while a level script holds the controllers (LockCharacter
+    // "All"), flush its dialogs every 20 frames like the player's taps would, so
+    // an unattended run is not parked behind a cutscene such as Swamp_Intro.
+    bool flush_dialogs = false;
     // --play-anim TARGET:DICT[:DICT2][:wait][@N] (repeatable): Character::
     // _RegisterAnim/_PlayAnim on the Player ("player") or a named Monster.
     struct PlayAnim {std::string target, dict, second; bool wait; std::uint64_t frame;};
@@ -214,6 +218,7 @@ Options parse(int argc, char** argv) {
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--flush-dialogs") options.flush_dialogs = true;
         else if (arg == "--hud-tap-xy") {
             const auto xy = value("--hud-tap-xy");
             const auto comma = xy.find(',');
@@ -267,6 +272,7 @@ Options parse(int argc, char** argv) {
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
                          "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
+                         "  --flush-dialogs     flush script dialogs every 20 frames while a script holds the controllers (unattended cutscenes)\n"
                          "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
@@ -2556,8 +2562,8 @@ int main(int argc, char** argv) {
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
             // taps would so the probe is not parked behind the script until the bound.
-            if (options.skill_matrix_scenario && gameplay && rendered_frames % 20 == 0 &&
-                model_renderer::script_controllers_blocked() &&
+            if ((options.skill_matrix_scenario || options.flush_dialogs) && gameplay &&
+                rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
                 !original_ui.flush_source_messages(ui_error))
                 throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
             // After death, tap the authored death screen's btn_Continue (full-screen

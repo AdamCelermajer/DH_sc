@@ -20,6 +20,9 @@ using ReadAsset = bool (*)(void*,const std::string&,std::vector<std::uint8_t>&,s
 class Owner {
 public:
     bool load(const camera_animset_v1::Selection&,ReadAsset,void*,std::string& error);
+    // AnimationSet::LoadAnimation (0x3659ec) for an AnimDict the set did not
+    // hold: the next registration ordinal, validated like a selected resource.
+    bool append(const camera_animset_v1::Resource&,ReadAsset,void*,std::string& error);
     void clear() noexcept;
     const Clip* resolve(const camera_animset_v1::PlayRequest&) const noexcept;
     const std::string& set_name() const noexcept { return set_name_; }

@@ -218,6 +218,13 @@ int dh2_character_anim_state_transition(dh2::character::State*,const dh2::charac
 int dh2_character_anim_spawn_state_transition(dh2::character::State*,const dh2::character::Facts*,
  const dh2::character::SpawnFacts*,const dh2::character::AnimFacts*,
  std::int32_t event,const dh2::character::Services*);
+// CSAnim (14) -> Limbus (0), e.g. Script_PutCharacterInLimbus (SM_SetLimbusState
+// 0x3c1a74 -> _SetState(0,-1,0)) on a cutscene actor that is still playing its
+// Script_PlayActorAnim row: CSAnim::OnBlur (0x3c2dd0) is empty and
+// CSLimbus::OnFocus hides the body, starts the respawn timer and clears aggro.
+int dh2_character_anim_limbus_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::SpawnFacts*,const dh2::character::AnimFacts*,
+ std::int32_t event,const dh2::character::Services*);
 // CSSkill (6) <-> CSAnim (14): CSSkill::OnBlur / OnFocus run through the same
 // callback projection the ordinary CSSkill transitions borrow.
 int dh2_character_anim_skill_state_transition(dh2::character::State*,const dh2::character::Facts*,

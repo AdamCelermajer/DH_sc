@@ -196,12 +196,15 @@ bool anim_partner(const State& s,int next,bool combat_present){
  return next==3||next==4||next==5||next==12||next==13||(combat_id(next)&&combat_present);
 }
 bool spawn_state_id(int value){return value==-1||value==0||value==1||value==3||value==17;}
-bool valid_spawn(const State* s,const Facts* f,const SpawnFacts* sf,const Services* c){
- return valid_base(s,f,c)&&spawn_state_id(s->current)&&sf&&sf->spawn_animation>=0&&
+bool valid_spawn_facts(const State* s,const Facts* f,const SpawnFacts* sf,const Services* c){
+ return valid_base(s,f,c)&&sf&&sf->spawn_animation>=0&&
   sf->reserved_zero==0&&sf->visual_present<=1&&std::isfinite(sf->raw_fade_in_argument)&&
   sf->raw_fade_in_argument>=0&&sf->respawn_timer_eligible<=1&&sf->can_respawn<=1&&
   sf->group_role3<=1&&sf->group_has_other_in_limbus<=1&&
   (!sf->group_has_other_in_limbus||sf->group_role3);
+}
+bool valid_spawn(const State* s,const Facts* f,const SpawnFacts* sf,const Services* c){
+ return valid_base(s,f,c)&&spawn_state_id(s->current)&&valid_spawn_facts(s,f,sf,c);
 }
 void limbus_blur(State& s,const SpawnFacts& sf,const Services& c){
  // CSLimbus::OnBlur first clears its controller lock byte, then invokes
@@ -466,6 +469,19 @@ extern "C" int dh2_character_anim_spawn_state_transition(dh2::character::State* 
  const int prior=s->current;
  source_blur(*s,*f,*sf,*c);s->current=14;s->elapsed_ms=0;
  focus(*s,*f,prior,0,*c,nullptr,anim);
+ call(*s,*c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
+ (void)event;return 1;
+}
+extern "C" int dh2_character_anim_limbus_transition(dh2::character::State* s,
+ const dh2::character::Facts* f,const dh2::character::SpawnFacts* sf,
+ const dh2::character::AnimFacts* anim,std::int32_t event,
+ const dh2::character::Services* c){
+ using namespace dh2::character;
+ if(!valid_spawn_facts(s,f,sf,c)||!anim_facts_valid(anim)||s->current!=14)return -1;
+ // CSAnim::OnBlur 0x3c2dd0 only reads the isTracingCharState switch.
+ const int prior=s->current;
+ s->current=0;s->elapsed_ms=0;
+ limbus_focus(*s,*sf,*c);
  call(*s,*c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }

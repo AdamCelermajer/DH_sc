@@ -896,9 +896,6 @@ bool bind_authored_faery_hit_for_services(
 bool authored_faery_stop_game_object(AuthoredCryptFaeryOwner&,std::string&);
 bool start_authored_faery_animation(AuthoredCryptFaeryOwner&,std::int32_t,
                                     std::uint32_t,std::string&);
-bool start_authored_faery_animation_for_record(
-    dh2::character_runtime_factory_v1::Record&,std::int32_t,std::uint32_t,
-    std::string&);
 bool advance_authored_faery_scene_animations(std::uint32_t,std::string&);
 bool advance_authored_faery_animator(AuthoredCryptFaeryOwner&,std::string&);
 dh2::faery_animation_owner_v1::Services faery_animator_services(
@@ -20253,6 +20250,63 @@ struct AuthoredFaeryPose final : FaeryVisual::CharacterPose {
  std::int32_t installed_anim_set_id=-1;
  std::map<std::int32_t,dh2::animation::Player> animation_dictionary_players;
  std::map<std::int32_t,std::vector<std::int32_t>> sequence_dictionaries;
+ // Last AnimDict sampled through the Character Animator. A scripted AnimTable
+ // row (Script_PlayActorAnim) is rewritten with each new AnimDict, so such a
+ // sequence no longer names exactly one clip; the Animator's selection does.
+ std::int32_t selected_dictionary=-1;
+ // AnimTable rows Script_PlayActorAnim rewrites (type+2 / type+8).
+ std::set<std::int32_t> scripted_sequences;
+ // The one AnimDict a sequence resolves to: its only registration, the
+ // Animator's selection for a scripted row, or its selection among several.
+ bool sequence_dictionary(std::int32_t selected,std::int32_t& dictionary,
+                          std::string& error) const {
+  const auto selected_clip=sequence_dictionaries.find(selected);
+  if(selected_clip==sequence_dictionaries.end()) {
+   error="Faery Character pose request is absent from its registered AnimSet";return false;
+  }
+  if(scripted_sequences.count(selected)&&selected_dictionary>=0&&
+     animation_dictionary_players.count(selected_dictionary)) {
+   dictionary=selected_dictionary;return true;
+  }
+  if(selected_clip->second.size()==1) {dictionary=selected_clip->second.front();return true;}
+  if(std::find(selected_clip->second.begin(),selected_clip->second.end(),
+               selected_dictionary)!=selected_clip->second.end()) {
+   dictionary=selected_dictionary;return true;
+  }
+  error="Faery AnimSet sequence has multiple AnimDict registrations and needs source step scheduling";
+  return false;
+ }
+ // CharAnimator::ANIM_AddAnimDictToSet resources: the AnimDict's clip joins
+ // this Character's bank (the sequence-independent source set). `sequence` is
+ // the scripted AnimTable row that will play it.
+ bool install_dictionary(std::int32_t dictionary,std::int32_t sequence,
+                         AAssetManager* assets,std::string& error) {
+  error.clear();
+  if(!resource||!assets||dictionary<0||sequence<0) {
+   error="Faery AnimDict installation requires the BDAE pose, assets and a scripted row";
+   return false;
+  }
+  try {
+   if(animation_dictionary_players.find(dictionary)==animation_dictionary_players.end()) {
+    const auto id=static_cast<std::size_t>(dictionary);
+    if(id>=actor_clip_table.values.size()) {
+     error="Faery AnimDict id is outside the retained source clip dictionary";return false;
+    }
+    const auto bytes=read_faery_animation_dictionary(assets,actor_clip_table.values[id]);
+    dh2::animation::Player player;
+    if(!player.load(bytes.data(),bytes.size(),resource->rest_scene,error,
+                    dh2::animation::MissingTargets::ignore))return false;
+    if(player.end<=player.start) {
+     error="Faery AnimDict has no playable source interval";return false;
+    }
+    animation_dictionary_players.emplace(dictionary,std::move(player));
+   }
+  } catch(const std::exception& failure) {error=failure.what();return false;}
+  auto& ids=sequence_dictionaries[sequence];
+  if(std::find(ids.begin(),ids.end(),dictionary)==ids.end())ids.push_back(dictionary);
+  scripted_sequences.insert(sequence);
+  return true;
+ }
  dh2::objects::Resource& bdae_resource() noexcept override {return *resource;}
  bool sample(std::int32_t selected,std::uint32_t time,std::string& error) override {
   if(!resource||time>static_cast<std::uint32_t>(INT32_MAX)) {
@@ -20260,11 +20314,9 @@ struct AuthoredFaeryPose final : FaeryVisual::CharacterPose {
   }
   const auto selected_clip=sequence_dictionaries.find(selected);
   if(selected_clip!=sequence_dictionaries.end()) {
-   if(selected_clip->second.size()!=1) {
-    error="Faery AnimSet sequence has multiple AnimDict registrations and needs source step scheduling";
-    return false;
-   }
-   const auto player=animation_dictionary_players.find(selected_clip->second.front());
+   std::int32_t dictionary=-1;
+   if(!sequence_dictionary(selected,dictionary,error))return false;
+   const auto player=animation_dictionary_players.find(dictionary);
    if(player==animation_dictionary_players.end()) {
     error="Faery AnimSet sequence references an unloaded AnimDict";return false;
    }
@@ -20282,11 +20334,9 @@ struct AuthoredFaeryPose final : FaeryVisual::CharacterPose {
   const dh2::animation::Player* player=nullptr;
   const auto selected_clip=sequence_dictionaries.find(selected);
   if(selected_clip!=sequence_dictionaries.end()) {
-   if(selected_clip->second.size()!=1) {
-    error="Faery AnimSet sequence has multiple AnimDict registrations and needs source step scheduling";
-    return false;
-   }
-   const auto found=animation_dictionary_players.find(selected_clip->second.front());
+   std::int32_t dictionary=-1;
+   if(!sequence_dictionary(selected,dictionary,error))return false;
+   const auto found=animation_dictionary_players.find(dictionary);
    if(found==animation_dictionary_players.end()) {
     error="Faery AnimSet sequence references an unloaded AnimDict";return false;
    }
@@ -20507,6 +20557,7 @@ bool faery_anim_interval(void* raw,std::uintptr_t identity,
     player->second.end<=player->second.start) {
   error="Faery AnimDict is not installed in the same Character pose";return false;
  }
+ pose->selected_dictionary=dictionary;
  *start=player->second.start;*end=player->second.end;error.clear();return true;
 }
 
@@ -20532,6 +20583,7 @@ bool faery_anim_sample(void* raw,std::uintptr_t identity,
   error="Faery AnimDict sample does not match the installed clip interval";
   return false;
  }
+ pose->selected_dictionary=dictionary;
  if(!dh2::objects::sample(*pose->resource,player->second,current,error))
   return false;
  // RootSceneNode::onAnimate -> _HandleDisplacement for this same step: the
@@ -21090,17 +21142,6 @@ bool start_authored_faery_animation(AuthoredCryptFaeryOwner& owner,
     status!=FaeryAnimationOwner::Status::queued_during_completion)return false;
  owner.record->coordinator->state.current_animation=sequence;
  error.clear();return true;
-}
-
-bool start_authored_faery_animation_for_record(
-    dh2::character_runtime_factory_v1::Record& record,std::int32_t sequence,
-    std::uint32_t timestamp,std::string& error) {
- auto* owner=native_faery_owner(record.character.identity);
- if(!owner||owner->record!=&record) {
-  error="Faery animation request does not resolve to its canonical factory Record";
-  return false;
- }
- return start_authored_faery_animation(*owner,sequence,timestamp,error);
 }
 
 bool advance_authored_faery_scene_animations(std::uint32_t timestamp,
@@ -24584,33 +24625,50 @@ int native_level_script_play_actor_animation(void*,
       (request->anim_dictionary_b>=0&&
        std::size_t(request->anim_dictionary_b)>=actor_clip_table.values.size()))
     return reject("a Faery AnimDict is outside the dictionary");
-   const auto has_registration=[&](std::int32_t sequence,std::int32_t dictionary) {
-    return std::any_of(visual.anim_set.registrations.begin(),
-        visual.anim_set.registrations.end(),[&](const auto& row) {
-         return row.kind==dh2::character_anim_set_owner_v1::RegistrationKind::animation&&
-             row.source_sequence_id==sequence&&
-             row.animation_dictionary_id==dictionary;
-        });
-   };
-   if(!has_registration(static_cast<std::int32_t>(first_state),
-                        request->anim_dictionary_a)||
-      (request->anim_dictionary_b>=0&&
-       !has_registration(static_cast<std::int32_t>(paired_state),
-                         request->anim_dictionary_b)))
-    return reject("the Faery anim set did not register these AnimDicts for the scripted rows "
-                  "(its ANIM_AddAnimDictToSet is not attached)");
+   // Script_PlayActorAnim::Init (0x45a2ec) calls CharAnimator::ANIM_AddAnimDictToSet
+   // for both AnimDicts on the Faery's CharAnimator: the AnimDict joins the
+   // Character's unique anim set (AnimSetManager::AddAnim 0x47653c).
    std::string error;
+   const auto pose=std::dynamic_pointer_cast<AuthoredFaeryPose>(visual.pose);
+   if(!pose)return reject("the Faery Character pose is not backed by the native BDAE renderer");
+   const std::int32_t added_dictionaries[2]{request->anim_dictionary_a,
+                                            request->anim_dictionary_b};
+   const std::int32_t added_rows[2]{static_cast<std::int32_t>(first_state),
+                                    static_cast<std::int32_t>(paired_state)};
+   for(int index=0;index<2;++index) {
+    if(added_dictionaries[index]<0)continue; // AddAnimDictToSet(-1) is the source no-op.
+    bool joined=false;
+    if(!pose->install_dictionary(added_dictionaries[index],added_rows[index],
+          active_crypt_room_runtime->assets,error)||
+       dh2::character_anim_set_owner_v1::add_animation_dictionary(
+          visual.anim_set,resolved.identity,added_dictionaries[index],joined,error)==
+          dh2::character_anim_set_owner_v1::Result::identity_mismatch) {
+     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+         "PlayActorAnim Faery ANIM_AddAnimDictToSet failed | actor %s | AnimDict %d | %s",
+         request->actor_name,added_dictionaries[index],error.c_str());
+     return -1;
+    }
+   }
+   // Execute writes both AnimTable first-step dictionaries before
+   // SM_SetAnimState(type+2,false,true): CSAnim::OnFocus plays the row through
+   // the Faery Coordinator's set_animation service (its one CharAnimator).
    actor_animation_tables.sequences[first_state].steps[0].anim=
        request->anim_dictionary_a;
    actor_animation_tables.sequences[paired_state].steps[0].anim=
        request->anim_dictionary_b;
-   if(!start_authored_faery_animation_for_record(*faery_record,
-       static_cast<std::int32_t>(first_state),native_scene_clock_ms(),error)) {
+   if(faery_record->coordinator->set_anim_state(
+        static_cast<std::int32_t>(first_state),false,true)!=1) {
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
-        "PlayActorAnim Faery state selection failed | actor %s | type %d | %s",
-        request->actor_name,request->animation_type,error.c_str());
+        "PlayActorAnim Faery SM_SetAnimState failed | actor %s | type %d | FSM state %d",
+        request->actor_name,request->animation_type,
+        faery_record->coordinator->state.current);
     return -1;
    }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "PlayActorAnim Faery CSAnim | actor %s | AnimDict %d,%d | rows %zu,%zu | FSM state %d flags %x",
+       request->actor_name,request->anim_dictionary_a,request->anim_dictionary_b,first_state,
+       paired_state,faery_record->coordinator->state.current,
+       faery_record->coordinator->state.flags);
    *output_identity=resolved.identity;
    return 1;
   }
@@ -25378,8 +25436,29 @@ int crypt_script_camera(void*,std::uint8_t use_crit,std::int32_t clip_id) {
    return -1;
   }
   dh2::camera_animset_v1::PlayRequest request{};std::string error;
-  if(!player_camera_animset_playback_owner.script_play_camera(
-       use_crit!=0,clip_id,request,error)){
+  bool played=player_camera_animset_playback_owner.script_play_camera(
+       use_crit!=0,clip_id,request,error);
+  if(!played&&!use_crit&&clip_id>=0) {
+   // CameraLevel::PlayAnim -> AnimationSet::GetAnimation loads an AnimDict the
+   // selected CamAnimSet does not hold (the intro cinematics play such clips).
+   dh2::camera_animset_v1::Resource loaded{};std::string load_error;
+   if(player_camera_animset_playback_owner.on_demand_resource(
+         clip_id,actor_clip_table,loaded,load_error)&&
+      player_camera_animset_bank.append(loaded,read_camera_animset_asset,
+         player_camera_asset_manager,load_error)&&
+      player_camera_animset_playback_owner.adopt_loaded(loaded)) {
+    played=player_camera_animset_playback_owner.script_play_camera(
+        false,clip_id,request,error);
+   } else if(!load_error.empty()) {
+    // AnimatorSet::SetCurrentAnimation finds no loadable clip: PlayAnim
+    // returns 0 and the script command ends without a camera change.
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "Crypt Script_PlayCamera clip %d could not be loaded on demand (CameraLevel::PlayAnim is a no-op) | %s",
+        clip_id,load_error.c_str());
+    return 0;
+   }
+  }
+  if(!played) {
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
        "Crypt Script_PlayCamera source request rejected | useCrit %u | clip %d | %s",
        unsigned(use_crit),clip_id,error.c_str());
@@ -40561,10 +40640,12 @@ bool ui_player_hud_projection(std::uintptr_t identity,bool refresh_usable,
   cooldown=percent(fraction);
   if(refresh)usable=source_usable?1:0;
  }
+ bool faery_unlocked=false;
  if(faery<0){value.infos[6]=0;value.infos[7]=0;}
  else{
   bool unlocked=false;
   if(!ui_player_faery_unlocked(identity,std::uint32_t(faery),unlocked,error))return false;
+  faery_unlocked=unlocked;
   if(!unlocked){value.infos[6]=0;value.infos[7]=0;}
   else{
    std::uint32_t source_usable=refresh?0u:static_cast<std::uint32_t>(value.infos[7]!=0);
@@ -40573,6 +40654,20 @@ bool ui_player_hud_projection(std::uintptr_t identity,bool refresh_usable,
         source_usable,fraction,error))return false;
    value.infos[6]=percent(fraction);
    if(refresh)value.infos[7]=(prince_state.current==6||prince_state.current==7)?0:(source_usable?1:0);
+  }
+ }
+ {
+  // Availability trace of the HUD faery button (Grey = !infos[7]): logged when
+  // the selected Faery, its unlock byte, the cooldown percent or the usable
+  // flag changes.
+  static std::int32_t traced[4]{-2,-2,-2,-2};
+  const std::int32_t state[4]{faery,faery_unlocked?1:0,value.infos[6],value.infos[7]};
+  if(!std::equal(state,state+4,traced)) {
+   std::copy(state,state+4,traced);
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "HUD faery availability | selected %d | unlocked %d | cooldown %d%% | usable %d | button %s",
+       faery,faery_unlocked?1:0,value.infos[6],value.infos[7],
+       faery<0?"empty slot":value.infos[7]?"usable":"greyed");
   }
  }
  value.infos[14]=prince_combat.inventory->num_potions();
