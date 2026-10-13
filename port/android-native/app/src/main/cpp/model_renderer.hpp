@@ -141,6 +141,12 @@ std::string debug_player_skill_check(std::uint32_t slot);
 std::string debug_player_mana(std::uint32_t amount);
 std::string debug_player_scalar(std::int32_t value,bool write);
 std::string debug_player_death();
+// Verification probes (desktop --start-script / --play-anim): start a Level
+// pyscript by name on the one ScriptManager session, and run Character::
+// _RegisterAnim/_PlayAnim (AnimDict names) on the Player or a named Monster.
+std::string debug_start_level_script(const std::string& name);
+std::string debug_character_play_anim(const std::string& target,const std::string& dict,
+    const std::string& second,bool wait_for_end);
 std::string set_combat_target(int index,int target);
 std::string player_attack(int target=-1);
 std::array<int,7> player_vitals();

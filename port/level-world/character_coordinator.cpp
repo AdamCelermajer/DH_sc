@@ -215,6 +215,14 @@ int Coordinator::event(std::uint32_t event_id, std::uint64_t payload) {
     }
     auto facts = bindings_.facts(bindings_.context);
     Scope scope(*this, facts, event_id);
+    if (state.current == 14) {
+        // CSAnim registers only 50001 (-> CSMove) and 50005 (-> CSSkill) and
+        // handles event 34 itself; everything else is a source no-op.
+        const auto anim = anim_facts();
+        const auto services = state_services();
+        return dh2_character_anim_state_event(&state, &facts, &anim,
+            bindings_.skill_projection, event_id, payload, &services);
+    }
     const bool cast_source_state=state.current==3||state.current==4||state.current==5;
     if(state.current==7||(event_id==50006u&&cast_source_state)){
         auto* projection=bindings_.cast_projection;
@@ -284,6 +292,9 @@ int Coordinator::raise_dead_state_event_50008(std::uint64_t payload) {
     auto facts = bindings_.facts(bindings_.context);
     Scope scope(*this, facts, event_id);
     const auto services = state_services();
+    // CSAnim::OnInit registers only 50001 and 50005, so RaiseStateEvent(50008)
+    // reaches no transition while a scripted animation is playing.
+    if (state.current == 14) return 0;
     if (state.current == 7) {
         auto* projection = bindings_.cast_projection;
         if (!projection || projection->character.coordinator_state != &state ||
@@ -337,6 +348,46 @@ int Coordinator::transition(std::int32_t next, std::int32_t event_id,
         return dh2_character_spawn_dead_transition(&state, &facts, &spawn,
                                                     payload, &services);
     }
+    if(next==14&&(state.current==0||state.current==1||state.current==17)){
+        // The outgoing Limbus/Spawn/PreSpawn state runs its source OnBlur with
+        // the same Spawn facts the other spawn entry points borrow.
+        if(!bindings_.spawn_facts)return -1;
+        const auto spawn = bindings_.spawn_facts(bindings_.context);
+        const auto anim = anim_facts();
+        return dh2_character_anim_spawn_state_transition(&state,&facts,&spawn,&anim,
+            event_id,&services);
+    }
+    if(state.current==14||next==14){
+        const auto anim = anim_facts();
+        if(state.current==6||state.current==7){
+            // CSSkill / CSCast leave through their own callback projections.
+            if(state.current==6){
+                auto* projection=bindings_.skill_projection;
+                if(!projection||projection->machine!=&state)return -1;
+                return dh2_character_anim_skill_state_transition(&state,&facts,&anim,
+                    projection,next,event_id,payload,&services);
+            }
+            auto* projection=bindings_.cast_projection;
+            if(!projection||projection->character.coordinator_state!=&state||
+               projection->character.flags_520!=&state.flags)return -1;
+            return dh2_character_anim_cast_state_transition(&state,&facts,&anim,
+                projection,next,event_id,payload,&services);
+        }
+        if(state.current==14&&next==6){
+            auto* projection=bindings_.skill_projection;
+            if(!projection||projection->machine!=&state)return -1;
+            return dh2_character_anim_skill_state_transition(&state,&facts,&anim,
+                projection,next,event_id,payload,&services);
+        }
+        const bool combat_side=(state.current>=8&&state.current<=11)||(next>=8&&next<=11);
+        CombatFacts combat{};
+        if(combat_side){
+            if(!bindings_.combat_facts)return -1;
+            combat=bindings_.combat_facts(bindings_.context);
+        }
+        return dh2_character_anim_state_transition(&state,&facts,&anim,
+            combat_side?&combat:nullptr,next,event_id,payload,&services);
+    }
     if((state.current>=8&&state.current<=11)||(next>=8&&next<=11)){
         if(!bindings_.combat_facts)return -1;
         const auto combat=bindings_.combat_facts(bindings_.context);
@@ -374,11 +425,29 @@ int Coordinator::set_idle_state(bool suppressed) {
     return transition(3, -1, 0);
 }
 
+int Coordinator::set_anim_state(std::int32_t row, bool wait_for_end,
+                                bool idle_on_update) {
+    if (!bound()) return -1;
+    // SM_SetAnimState writes +0x45, +0x28 and +0x44 before _SetState(14, -1, 0);
+    // keep that source prefix even if the transition provider rejects.
+    source_anim_idle_541_ = idle_on_update ? 1 : 0;
+    state.animation_override = row;
+    source_anim_wait_540_ = wait_for_end ? 1 : 0;
+    return transition(14, -1, 0);
+}
+
 int Coordinator::update_state(std::uint32_t dt_ms) {
     if (!bound()) return -1;
     if (source_state_handler_mask() && state.current >= 0 && state.current < 20 &&
         !source_state_registered(timers_.owner,
             static_cast<std::uint32_t>(state.current))) return -1;
+    if (state.current == 14) {
+        auto facts = bindings_.facts(bindings_.context);
+        Scope scope(*this, facts, event_cause_);
+        const auto anim = anim_facts();
+        const auto services = state_services();
+        return dh2_character_anim_state_update(&state, &facts, &anim, dt_ms, &services);
+    }
     if(state.current>=8&&state.current<=11){
         if(!bindings_.combat_facts)return -1;
         auto facts=bindings_.facts(bindings_.context);

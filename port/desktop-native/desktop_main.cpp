@@ -69,6 +69,14 @@ struct Options {
     std::uint64_t return_delay = 240;
     // --enemy-census-at N (repeatable): log the Monster census at rendered frame N.
     std::vector<std::uint64_t> census_frames;
+    // --start-script NAME[@N] (repeatable): start the named Level pyscript on the
+    // Level's ScriptManager at rendered frame N (default 200).
+    struct ScriptStart {std::string name; std::uint64_t frame;};
+    std::vector<ScriptStart> script_starts;
+    // --play-anim TARGET:DICT[:DICT2][:wait][@N] (repeatable): Character::
+    // _RegisterAnim/_PlayAnim on the Player ("player") or a named Monster.
+    struct PlayAnim {std::string target, dict, second; bool wait; std::uint64_t frame;};
+    std::vector<PlayAnim> play_anims;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
@@ -174,6 +182,35 @@ Options parse(int argc, char** argv) {
         else if (arg == "--return-to-origin") options.return_entry = std::stoi(value("--return-to-origin"));
         else if (arg == "--return-delay") options.return_delay = std::stoull(value("--return-delay"));
         else if (arg == "--enemy-census-at") options.census_frames.push_back(std::stoull(value("--enemy-census-at")));
+        else if (arg == "--start-script") {
+            std::string spec = value("--start-script");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            options.script_starts.push_back({spec, frame});
+        }
+        else if (arg == "--play-anim") {
+            std::string spec = value("--play-anim");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            std::vector<std::string> parts;
+            for (std::size_t begin = 0;;) {
+                const auto colon = spec.find(':', begin);
+                parts.push_back(spec.substr(begin, colon == std::string::npos ? colon : colon - begin));
+                if (colon == std::string::npos) break;
+                begin = colon + 1;
+            }
+            bool wait = false;
+            if (!parts.empty() && parts.back() == "wait") {wait = true; parts.pop_back();}
+            if (parts.size() < 2 || parts.size() > 3)
+                throw std::runtime_error("--play-anim expects TARGET:DICT[:DICT2][:wait][@FRAME]");
+            options.play_anims.push_back({parts[0], parts[1], parts.size() == 3 ? parts[2] : std::string(), wait, frame});
+        }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
@@ -229,6 +266,8 @@ Options parse(int argc, char** argv) {
                          "  --return-to-origin E  after --transition-to arrives, go back to the --level-row level at entry E (A -> B -> A) and log enemy censuses\n"
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
+                         "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
+                         "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
@@ -2736,6 +2775,18 @@ int main(int argc, char** argv) {
             if (gameplay && std::find(options.census_frames.begin(), options.census_frames.end(),
                                       rendered_frames) != options.census_frames.end())
                 enemy_census("requested");
+            if (gameplay) {
+                for (const auto& start : options.script_starts)
+                    if (rendered_frames == start.frame)
+                        plog("PROBE start-script " + start.name + " | frame " + std::to_string(rendered_frames) +
+                             " | " + model_renderer::debug_start_level_script(start.name));
+                for (const auto& anim : options.play_anims)
+                    if (rendered_frames == anim.frame)
+                        plog("PROBE play-anim " + anim.target + " " + anim.dict +
+                             (anim.second.empty() ? "" : "," + anim.second) +
+                             (anim.wait ? " wait" : "") + " | frame " + std::to_string(rendered_frames) + " | " +
+                             model_renderer::debug_character_play_anim(anim.target, anim.dict, anim.second, anim.wait));
+            }
             if (gameplay && options.return_entry >= 0) {
                 if (return_due_frame && !return_queued && rendered_frames == return_due_frame) {
                     return_queued = true;

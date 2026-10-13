@@ -94,6 +94,16 @@ class Coordinator {
     // Character Coordinator so registered event34 can select its source next
     // state without borrowing an animation label or a second FSM owner.
     std::int32_t source_interaction_row_48_ = -1;
+    // CSAnim's three Character bytes (see AnimFacts): the CharStateMachine
+    // +0x44/+0x45 bytes SM_SetAnimState stores (Character+0x540/+0x541) and the
+    // scripted byte Script_MarkCharacterAsScripted writes (Character+0x1480).
+    // The pending AnimTable row (+0x28) is State.animation_override.
+    std::uint8_t source_anim_wait_540_ = 0;
+    std::uint8_t source_anim_idle_541_ = 0;
+    std::uint8_t source_scripted_1480_ = 0;
+    AnimFacts anim_facts() const noexcept {
+        return {source_anim_wait_540_, source_anim_idle_541_, source_scripted_1480_};
+    }
     // Character::RegisterState populates the one source CharStateMachine with
     // IDs 0..19. The native dispatcher is shared, but each registered source
     // state retains its handler token on this same Coordinator owner.
@@ -170,6 +180,14 @@ public:
     void set_source_interaction_row_48(std::int32_t value) noexcept {
         source_interaction_row_48_ = value;
     }
+    // Character+0x1480, written by Script_MarkCharacterAsScripted (0x459550 /
+    // 0x45958c) and read by CSAnim::OnUpdate.
+    bool source_scripted_1480() const noexcept { return source_scripted_1480_ != 0; }
+    void set_source_scripted_1480(bool scripted) noexcept {
+        source_scripted_1480_ = scripted ? 1 : 0;
+    }
+    bool source_anim_wait_540() const noexcept { return source_anim_wait_540_ != 0; }
+    bool source_anim_idle_541() const noexcept { return source_anim_idle_541_ != 0; }
     bool register_source_state(std::uintptr_t character, std::uint32_t state,
                                std::uintptr_t handler) noexcept;
     bool unregister_source_state(std::uintptr_t character, std::uint32_t state,
@@ -197,6 +215,11 @@ public:
     // machine idle-suppression byte, then run the ordinary _SetState(3,-1,0)
     // transition on this same Coordinator.
     int set_idle_state(bool suppressed);
+    // Source CharStateMachine::SM_SetAnimState(row, wait_for_end, idle_on_update)
+    // 0x3c1aa8: stores the pending AnimTable row (+0x28) and the two bytes
+    // (+0x44/+0x45), then runs _SetState(14, -1, 0) on this same Coordinator.
+    // CSAnim::OnFocus plays the row through the ordinary set_animation service.
+    int set_anim_state(std::int32_t row, bool wait_for_end, bool idle_on_update);
     int spawn_transition(std::int32_t next);
     int spawn_event(std::uint32_t event, const char* exact_event_name = nullptr);
     int update_state(std::uint32_t dt_ms);

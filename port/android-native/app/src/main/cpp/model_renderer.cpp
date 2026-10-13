@@ -16737,13 +16737,22 @@ void clear_native_monster_outgoing_aggro(ObjectActor& actor);
 // CharAnimator::_SetAnim keeps the current animation when a sequence cannot be
 // selected. A sequence is accepted only when every clip it can reach is loaded
 // in the owning ObjectGroup bank, so render-time clip lookups cannot fault.
-bool sequence_clips_in_group_bank(const ObjectGroup& group,std::int32_t sequence,unsigned depth) {
+// A leaf step whose AnimDict is -1 is CharAnimator::_SetAnimStep's ANIM_Stop
+// branch (0x3ca7e4 tail); scripted rows (PlayAnim without a second clip,
+// Script_PlayActorAnim without a paired clip) end that way, so CSAnim callers
+// accept it with allow_stop.
+template<class Clips>
+bool sequence_clips_in_bank(const Clips& clips,std::int32_t sequence,unsigned depth,bool allow_stop=false) {
  if(depth>=3||sequence<0||static_cast<std::size_t>(sequence)>=actor_animation_tables.sequences.size())return false;
  for(const auto& step:actor_animation_tables.sequences[static_cast<std::size_t>(sequence)].steps) {
-  if(step.redir==1) {if(!sequence_clips_in_group_bank(group,step.anim,depth+1))return false;}
-  else if(step.anim<0||!group.clips.count(step.anim))return false;
+  if(step.redir==1) {if(!sequence_clips_in_bank(clips,step.anim,depth+1,allow_stop))return false;}
+  else if(step.anim==-1&&allow_stop) continue;
+  else if(step.anim<0||!clips.count(step.anim))return false;
  }
  return true;
+}
+bool sequence_clips_in_group_bank(const ObjectGroup& group,std::int32_t sequence,unsigned depth,bool allow_stop=false) {
+ return sequence_clips_in_bank(group.clips,sequence,depth,allow_stop);
 }
 // Character::SetAnimationSet (0x3c9f4c) registers every AnimDict of the Character's
 // CharAnimTable row and of its SkillList's skill sequences with the CharAnimator
@@ -16809,12 +16818,13 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
   // actor's bank (CharAnimator::_SetAnim ignores an absent anim id).
   {
    const auto* owner_group=object_group_owning_actor(actor);
-   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0)&&
+   const bool allow_stop=state->current==14;
+   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0,allow_stop)&&
       actor.kind==1&&owner.character.state.current==6&&active_crypt_room_runtime&&
       active_crypt_room_runtime->assets)
     load_sequence_clips_into_group_bank(*const_cast<ObjectGroup*>(owner_group),
         request->argument[0],0,active_crypt_room_runtime->assets);
-   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0)) {
+   if(owner_group&&!sequence_clips_in_group_bank(*owner_group,request->argument[0],0,allow_stop)) {
     __android_log_print(ANDROID_LOG_WARN,"DH2Native","Actor animation skipped: clip absent from bank | %s | sequence %d",actor.name.c_str(),request->argument[0]);
     break;
    }
@@ -16832,8 +16842,12 @@ void SpawnOwner::service(void* context,dh2::character::State* state,const dh2::c
   owner.animation_speed=1.f;
   actor.cursor=0;actor.completions=0;actor.event_cursor={};actor.animation_events=0;
   owner.death_completion_sent=false;
+  // CSAnim (state 14, SM_SetAnimState from PlayAnim / Script_PlayActorAnim)
+  // keeps the legacy "ScriptAnim" label so the string-keyed Monster logic
+  // does not mistake a scripted clip for Idle.
   actor.state=state->current==12?"Died":state->current==1?"Spawn":
-              state->current==5?"Attack":state->current==4?"Walk":"Idle";
+              state->current==5?"Attack":state->current==4?"Walk":
+              state->current==14?"ScriptAnim":"Idle";
   state->current_animation=request->argument[0];
   break;
  }
@@ -24341,24 +24355,27 @@ bool derive_player_animation_bank(AAssetManager* assets,
  output=std::move(derived);return true;
 }
 
-// Script_PlayActorAnim may add a Player AnimDict after the normal source bank
-// has been prepared. Extend the existing Player bank and rebuild the same
-// BlendedPlayback owner off to the side; no second animator or frame clock is
-// introduced. Existing occurrence order and the authored template stay first.
-bool start_source_player_animation(
-    const dh2_script_runtime::SpawnServices::ActorAnimationRequest& request,
-    std::int32_t sequence,std::string& error) {
+// CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14) for the Player, reached from
+// Character::_RegisterAnim (0x3b70d8) and Script_PlayActorAnim::Init (0x45a2ec):
+// the AnimDict joins the Character's unique anim set. The normal source bank is
+// compiled once from the SetAnimationSet request list, so a later AnimDict
+// extends that same bank (prince_attack_clips, in registration order after the
+// authored template) and rebuilds the one BlendedPlayback owner off to the
+// side; no second animator or frame clock is introduced. The rebuilt playback
+// owns no running sequence, so the prior root sequence is restarted on it before
+// it replaces the live one. A negative id is the source's silent no-op.
+bool register_source_player_anim_dictionaries(
+    std::int32_t first,std::int32_t second,std::string& error) {
  error.clear();
  if(!world_mode||!native_actor_ready||!active_crypt_room_runtime||
     !active_crypt_room_runtime->assets||prince_attack_clips.empty()||
     prince_animation_bank.template_clip_id<0||
     prince_animation_bank.registration_requests.empty()||
     current_scene.graph.empty()) {
-  error="PlayActorAnim has no active Player animation bank";return false;
+  error="AnimDict registration has no active Player animation bank";return false;
  }
  std::vector<std::int32_t> added;
- const std::int32_t requested[2]{request.anim_dictionary_a,
-                                  request.anim_dictionary_b};
+ const std::int32_t requested[2]{first,second};
  for(const auto id:requested) {
   if(id<0)continue;
   if(prince_attack_clips.find(id)!=prince_attack_clips.end())continue;
@@ -24380,6 +24397,9 @@ bool start_source_player_animation(
    return false;
   }
  }
+ // Every requested AnimDict is already in the bank (an earlier registration or
+ // the SetAnimationSet list): AddAnim finds it and changes nothing.
+ if(added.empty())return true;
 
  std::vector<std::int32_t> order=prince_animation_bank.registration_requests;
  for(const auto id:requested)if(id>=0&&
@@ -24423,7 +24443,13 @@ bool start_source_player_animation(
  candidate.observer={nullptr,character_playback_event,
                      character_playback_frame_step};
  candidate.root_timestamp=native_scene_clock_ms();
- if(!candidate.start(actor_animation_tables,sequence,actor_random,
+ // A fresh BlendedPlayback has no selected clip: carry the running root
+ // sequence over so the Player keeps animating (a later CSAnim OnFocus replaces
+ // it through the ordinary set_animation service).
+ const auto& frames=prince_locomotion.scheduler.frames();
+ const std::int32_t prior=prince_locomotion.scheduler.active()&&!frames.empty()?
+     frames.front().sequence:prince_state.current_animation;
+ if(prior>=0&&!candidate.start(actor_animation_tables,prior,actor_random,
        prince_attack_clips,prince_visual,current_scene,1.f,error)) {
   for(const auto inserted:added)prince_attack_clips.erase(inserted);
   return false;
@@ -24434,7 +24460,9 @@ bool start_source_player_animation(
        prince_animation_bank.registration_requests.end(),id)==
        prince_animation_bank.registration_requests.end())
   prince_animation_bank.registration_requests.push_back(id);
- prince_state.current_animation=sequence;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Player ANIM_AddAnimDictToSet | AnimDict %d,%d joined the retained bank | clips %zu | restarted sequence %d",
+     first,second,prince_attack_clips.size(),prior);
  return true;
 }
 } // namespace
@@ -24447,6 +24475,12 @@ int native_level_script_play_actor_animation(void*,
      request->animation_type<0||request->animation_type>INT32_MAX-8)
    return -1;
   *output_identity=0;
+  const auto reject=[&](const char* reason) {
+   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+       "PlayActorAnim refused | actor %s | type %d | %s",request->actor_name,
+       request->animation_type,reason);
+   return -1;
+  };
   const auto active=source_level_owner.snapshot();
   if(!active.source_level||
      active.phase!=dh2::source_level_owner_v1::Phase::active||
@@ -24454,7 +24488,7 @@ int native_level_script_play_actor_animation(void*,
      active.generation!=native_level_script_generation||
      native_level_script_level_name!=active_level_assets.name||
      !active_crypt_room_runtime||!active_crypt_room_runtime->assets)
-   return -1;
+   return reject("the Level script session or asset manager is stale");
   dh2_script_runtime::ObjectRecord resolved{};
   const int lookup=native_level_script_object_lookup(
       nullptr,request->actor_name,&resolved);
@@ -24463,21 +24497,25 @@ int native_level_script_play_actor_animation(void*,
   // incomplete Character cannot be treated as a miss: PlayActorAnim casts to
   // Character and mutates its CharAnimator, so refuse unsupported identities.
   if(!resolved.is_character||!resolved.identity||resolved.source_handle<0)
-   return -1;
+   return reject("the named object is not a complete Character record");
 
   const auto* manager_object=source_level_owner.object_manager().find_by_identity(
       resolved.identity);
+  // "LocalPlayer" is ObjectManager's alias for the local Player Character, whose
+  // own row carries the profile's object name.
+  const bool local_player_alias=std::strcmp(request->actor_name,"LocalPlayer")==0&&
+      resolved.identity==active.player_character;
   if(!manager_object||manager_object->identity!=resolved.identity||
      manager_object->source_handle!=resolved.source_handle||
-     manager_object->name!=request->actor_name||
+     (!local_player_alias&&manager_object->name!=request->actor_name)||
      source_level_owner.object_manager().find_by_source_handle(
          resolved.source_handle)!=manager_object)
-   return -1;
+   return reject("the ObjectManager row differs from the resolved Character");
   if(!manager_object->go_ids_0f4_ready||manager_object->go_ids_0f4!=0)
-   return -1;
+   return reject("ObjectBase+0xF4 gate is not clear");
   std::size_t character_occurrences=0;
   if(!native_characters.contains_identity(resolved.identity,&character_occurrences)||
-     character_occurrences!=1)return -1;
+     character_occurrences!=1)return reject("the Character is not listed exactly once");
 
   const auto first_state=std::size_t(request->animation_type+2);
   const auto paired_state=std::size_t(request->animation_type+8);
@@ -24485,23 +24523,40 @@ int native_level_script_play_actor_animation(void*,
      paired_state>=actor_animation_tables.sequences.size()||
      actor_animation_tables.sequences[first_state].steps.empty()||
      actor_animation_tables.sequences[paired_state].steps.empty()||
-     request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return -1;
+     request->anim_dictionary_a<0||request->anim_dictionary_b< -1)
+   return reject("the scripted AnimTable rows or AnimDict ids are invalid");
   if(resolved.identity==prince_character.identity()) {
    std::string error;
    if(request->anim_dictionary_a>=0&&std::size_t(request->anim_dictionary_a)>=
-        actor_clip_table.values.size())return -1;
+        actor_clip_table.values.size())return reject("AnimDict A is outside the dictionary");
    if(request->anim_dictionary_b>=0&&std::size_t(request->anim_dictionary_b)>=
-        actor_clip_table.values.size())return -1;
+        actor_clip_table.values.size())return reject("AnimDict B is outside the dictionary");
+   // Script_PlayActorAnim::Init registers both AnimDicts on the CharAnimator;
+   // Execute then writes the two scripted AnimTable rows and calls
+   // SM_SetAnimState(type+2,false,true): CSAnim::OnFocus plays the row through
+   // the Player's ordinary set_animation service.
+   if(!register_source_player_anim_dictionaries(request->anim_dictionary_a,
+         request->anim_dictionary_b,error)) {
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "PlayActorAnim Player AnimDict registration failed | actor %s | type %d | %s",
+        request->actor_name,request->animation_type,error.c_str());
+    return -1;
+   }
    actor_animation_tables.sequences[first_state].steps[0].anim=
        request->anim_dictionary_a;
    actor_animation_tables.sequences[paired_state].steps[0].anim=
        request->anim_dictionary_b;
-   if(!start_source_player_animation(*request,static_cast<std::int32_t>(first_state),error)) {
+   if(prince_character.set_anim_state(static_cast<std::int32_t>(first_state),false,true)!=1) {
     __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
-        "PlayActorAnim Player state selection failed | actor %s | type %d | %s",
-        request->actor_name,request->animation_type,error.c_str());
+        "PlayActorAnim Player SM_SetAnimState failed | actor %s | type %d | FSM state %d",
+        request->actor_name,request->animation_type,prince_state.current);
     return -1;
    }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "PlayActorAnim Player CSAnim | actor %s | AnimDict %d,%d | rows %zu,%zu | FSM state %d flags %x | scripted %u",
+       request->actor_name,request->anim_dictionary_a,request->anim_dictionary_b,first_state,
+       paired_state,prince_state.current,prince_state.flags,
+       unsigned(prince_character.source_scripted_1480()));
    *output_identity=resolved.identity;return 1;
   }
 
@@ -24524,11 +24579,11 @@ int native_level_script_play_actor_animation(void*,
       visual.anim_set.phase!=dh2::character_anim_set_owner_v1::Phase::ready||
       !dh2::character_faery_visual_facade_v1::ready(visual,resolved.identity)||
       !manager_object->go_ids_0f4_ready||manager_object->go_ids_0f4!=0)
-    return -1;
+    return reject("the Faery Record, anim set or ObjectBase+0xF4 gate is not ready");
    if(std::size_t(request->anim_dictionary_a)>=actor_clip_table.values.size()||
       (request->anim_dictionary_b>=0&&
        std::size_t(request->anim_dictionary_b)>=actor_clip_table.values.size()))
-    return -1;
+    return reject("a Faery AnimDict is outside the dictionary");
    const auto has_registration=[&](std::int32_t sequence,std::int32_t dictionary) {
     return std::any_of(visual.anim_set.registrations.begin(),
         visual.anim_set.registrations.end(),[&](const auto& row) {
@@ -24542,7 +24597,8 @@ int native_level_script_play_actor_animation(void*,
       (request->anim_dictionary_b>=0&&
        !has_registration(static_cast<std::int32_t>(paired_state),
                          request->anim_dictionary_b)))
-    return -1;
+    return reject("the Faery anim set did not register these AnimDicts for the scripted rows "
+                  "(its ANIM_AddAnimDictToSet is not attached)");
    std::string error;
    actor_animation_tables.sequences[first_state].steps[0].anim=
        request->anim_dictionary_a;
@@ -24567,18 +24623,19 @@ int native_level_script_play_actor_animation(void*,
      actor->source_handle!=resolved.source_handle||actor->name!=request->actor_name||
      actor->properties.resolved.size()<=2||
      actor->properties.resolved[2]<0)
-   return -1;
+   return reject("the Character has no retained ObjectActor/CharAnimTable owner");
   ObjectGroup* selected_group=nullptr;
   for(auto& group:object_groups) {
    const auto found=std::find_if(group.instances.begin(),group.instances.end(),
        [&](const ObjectActor& candidate){return &candidate==actor;});
    if(found==group.instances.end())continue;
-   if(selected_group)return -1;
+   if(selected_group)return reject("the ObjectActor belongs to two groups");
    selected_group=&group;
   }
   if(!selected_group||selected_group->animation_table<0||
-     selected_group->animation_table!=actor->properties.resolved[2])return -1;
-  if(request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return -1;
+     selected_group->animation_table!=actor->properties.resolved[2])
+   return reject("the ObjectGroup animation table differs from the Character's");
+  if(request->anim_dictionary_a<0||request->anim_dictionary_b< -1)return reject("invalid AnimDict ids");
   std::string error;
   if(!ensure_source_actor_anim_dictionary(*selected_group,
          request->anim_dictionary_a,active_crypt_room_runtime->assets,error)||
@@ -24598,6 +24655,28 @@ int native_level_script_play_actor_animation(void*,
       request->anim_dictionary_a;
   actor_animation_tables.sequences[paired_state].steps[0].anim=
       request->anim_dictionary_b;
+  if(auto* owner=actor->spawn_owner.get();
+     owner&&owner->runtime_ready&&owner->actor==actor&&
+     owner->character.owner()==actor->identity&&owner->character.bound()) {
+   // The Monster has its retained Character Coordinator: SM_SetAnimState(
+   // type+2,false,true) -> CSAnim::OnFocus -> the SpawnOwner set_animation
+   // service, which owns the ObjectActor scheduler/pending-sequence resets.
+   if(owner->character.set_anim_state(static_cast<std::int32_t>(first_state),false,true)!=1) {
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+        "PlayActorAnim Monster SM_SetAnimState failed | actor %s | type %d | FSM state %d",
+        request->actor_name,request->animation_type,owner->character.state.current);
+    return -1;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "PlayActorAnim Monster CSAnim | actor %s | AnimDict %d,%d | rows %zu,%zu | FSM state %d flags %x | scripted %u",
+       request->actor_name,request->anim_dictionary_a,request->anim_dictionary_b,first_state,
+       paired_state,owner->character.state.current,owner->character.state.flags,
+       unsigned(owner->character.source_scripted_1480()));
+   *output_identity=resolved.identity;
+   return 1;
+  }
+  // A static ObjectActor has no Coordinator to host CSAnim: start the scripted
+  // row on its scheduler directly.
   if(!actor->scheduler.start(actor_animation_tables,
       static_cast<std::int32_t>(first_state),actor_random,error)) {
    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
@@ -24644,7 +24723,7 @@ int native_level_script_actor_animation_active(void*,std::uintptr_t identity,
     return -1;
    const auto& frames=prince_locomotion.scheduler.frames();
    return prince_locomotion.scheduler.active()&&!frames.empty()&&
-       frames.front().sequence==expected_state?1:0;
+       frames.back().sequence==expected_state?1:0;
   }
   auto* faery_record=active_crypt_room_runtime&&
       active_crypt_room_runtime->character_factory
@@ -24666,17 +24745,20 @@ int native_level_script_actor_animation_active(void*,std::uintptr_t identity,
    const auto& scheduler=faery_record->faery_visual.animator.scheduler;
    const auto& frames=scheduler.frames();
    return scheduler.active()&&!frames.empty()&&
-       frames.front().sequence==expected_state?1:0;
+       frames.back().sequence==expected_state?1:0;
   }
   auto* actor=native_char_ai_actor(identity);
   if(!actor||actor->kind!=1||actor->identity!=identity||
      actor->source_handle!=manager_object->source_handle)return -1;
-  // Source Script_PlayActorAnim::IsBlocking compares Character+0x4e8 with
-  // type+2. The projected scheduler's root frame owns that same selected
-  // AnimTable state; nested redirect frames do not change the root state.
+  // Source Script_PlayActorAnim::IsBlocking compares Character+0x4e8 (the
+  // animator's last-selected AnimTable row, CharAnimator::_SetAnim 0x3cab38
+  // stores it for every layer, redirects included) with type+2. The projected
+  // scheduler's innermost frame is that row: once the first AnimDict ends and
+  // the paired row is entered, or ANIM_Stop ends the sequence, it no longer
+  // blocks.
   const auto& frames=actor->scheduler.frames();
   return actor->scheduler.active()&&!frames.empty()&&
-      frames.front().sequence==expected_state?1:0;
+      frames.back().sequence==expected_state?1:0;
  } catch(...) {return -1;}
 }
 
@@ -25624,9 +25706,20 @@ bool native_level_script_host_supports(void*,const dh2_script_command* command){
       native_script_name_field(c,2)&&c.fields[3].kind==DH2_SCRIPT_VALUE_BOOL;
  case 51: case 52: // UnEquipHands(S)/ReEquipHands(S): one target name
   return c.field_count==1&&native_script_name_field(c,0);
- case 22: case 23: // ShowFlash/HideFlash(I, name S, B)
-  return c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
-      native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL;
+ case 22: case 23: { // ShowFlash/HideFlash(count I, name S, blocking B)
+  if(!(c.field_count==3&&c.fields[0].kind==DH2_SCRIPT_VALUE_I32&&
+       native_script_name_field(c,1)&&c.fields[2].kind==DH2_SCRIPT_VALUE_BOOL))return false;
+  // Script_ShowFlash::IsBlocking 0x4556c4 / Script_HideFlash::IsBlocking
+  // 0x455708: with the blocking byte set and a positive count the command waits
+  // until the menu's frame counter (MenuBase+120, advanced by MenuBase::Update
+  // 0x421fd8 once RenderFX::IsAnimOver holds) exceeds it. The HUD-named branch
+  // has no menu and never blocks. The UI session does not expose that counter, so
+  // a blocking flash is reported unsupported instead of silently skipping its
+  // wait; every shipped script passes false.
+  const auto name=native_script_string(c,1);
+  return !(c.fields[2].value.boolean&&c.fields[0].value.i32>0&&
+           name.find("HUD")==std::string::npos);
+ }
  case 1: case 2: // EnterCutSceneMode()/ExitCutSceneMode()
   return true;
  case 69: // SaveGame()
@@ -25889,12 +25982,25 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    // Callback 0x4594a8: Set/Unset write Character+0x1480 on the named Character
    // or on every Character for "All". That byte is read by Character::CanUpdate
    // (culling bypass), TriggerZone::Update (local Player scripted: zones idle),
-   // CSAnim::OnUpdate and the network update gates, none of which this port
-   // reconstructs yet, so the command validates its target and has no further
-   // observable effect.
+   // CSAnim::OnUpdate (0x3c1a3c: a scripted Character stays in its scripted
+   // animation) and the network update gates. The byte lives on each
+   // Character's one Coordinator; the CSAnim reader is the only consumer this
+   // port reconstructs so far.
    int lookup=1;
+   const bool scripted=c.fields[0].value.boolean!=0;
    if(!native_script_for_characters(native_script_string(c,1),
-        [](std::uintptr_t){return true;},lookup))return -1;
+        [scripted](std::uintptr_t identity){
+         if(identity==prince_character.identity()){
+          prince_character.set_source_scripted_1480(scripted);return true;
+         }
+         auto* actor=native_char_ai_actor(identity);
+         if(actor&&actor->spawn_owner&&actor->spawn_owner->character.owner()==identity)
+          actor->spawn_owner->character.set_source_scripted_1480(scripted);
+         else if(auto* faery=native_faery_owner(identity);
+                 faery&&faery->record&&faery->record->coordinator)
+          faery->record->coordinator->set_source_scripted_1480(scripted);
+         return true;
+        },lookup))return -1;
    return lookup;
   }
   case 69: {
@@ -26031,8 +26137,12 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(index!=0&&state==1)native_tutorial_trigger(2,"cinematic_Tuto_faery","Character::SetFaeryState");
    if(!prince_combat.savegame||native_save_difficulty<0||native_save_difficulty>2)return -1;
    std::string error;
-   return prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
-       std::uint32_t(native_save_difficulty),error)?1:-1;
+   if(!prince_combat.savegame->set_faery_state(std::uint32_t(index),state,
+        std::uint32_t(native_save_difficulty),error))return -1;
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Script_SetFaeryState | faery %d | state %d | difficulty %d | SG_SetFaerieState applied",
+       index,state,native_save_difficulty);
+   return 1;
   }
   case 1: case 2: {
    // Script_EnterCutSceneMode 0x45a384 / Script_ExitCutSceneMode 0x4599ac:
@@ -26079,6 +26189,9 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
                                    native_gameplay_ui->hide_script_flash(name,error);
    if(!ok)__android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script %s %s failed | %s",
        c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),error.c_str());
+   else __android_log_print(ANDROID_LOG_INFO,"DH2Native","Script_%s | %s | %s | count %d",
+       c.command_id==22?"ShowFlash":"HideFlash",name.c_str(),
+       hud?"HUD branch (DisplayOfCurrentHud)":"MenuBase flash",c.fields[0].value.i32);
    return ok?1:-1;
   }
   case 19: {
@@ -26091,13 +26204,21 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    const bool loop=c.fields[1].value.boolean!=0;
    for(auto& decor:source_animated_decors){
     if(decor.name!=target)continue;
-    if(!decor.visual->has_clip(clip.c_str()))return 1;
+    if(!decor.visual->has_clip(clip.c_str())){
+     __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+         "Script_PlayAnimByName | %s | clip %s absent from the BDAE, ignored like the controller",
+         target.c_str(),clip.c_str());
+     return 1;
+    }
     std::string error;
     if(!decor.visual->play_named(clip.c_str(),loop,nullptr,nullptr,nullptr,error)){
      __android_log_print(ANDROID_LOG_ERROR,"DH2Native","Script PlayAnimByName %s on %s failed | %s",
          clip.c_str(),target.c_str(),error.c_str());
      return -1;
     }
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "Script_PlayAnimByName | %s | clip %s | loop %d | AnimatedDecor VisualObject controller",
+        target.c_str(),clip.c_str(),int(loop));
     return 1;
    }
    // Other PlayAnimByName targets (Characters) are not bound to an owner yet.
@@ -26117,7 +26238,12 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    if(status==0)return 0;
    if(status!=1||!record.identity)return -1;
    if(record.identity!=prince_character.identity())return -2;
-   return c.command_id==51?native_player_unequip_hands():native_player_reequip_hands();
+   const int result=c.command_id==51?native_player_unequip_hands():native_player_reequip_hands();
+   if(result==1)__android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Script_%s | %s | saved hand item indices %d %d",
+       c.command_id==51?"UnEquipHands":"ReEquipHands",name.c_str(),
+       prince_combat.hand_equip_index[0],prince_combat.hand_equip_index[1]);
+   return result;
   }
   default:return -2;
   }
@@ -34607,18 +34733,19 @@ std::uint32_t skill_host_anim_dict_size(void*){
 }
 // CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14): the clip joins the Character's
 // unique anim set. A negative id is the source's no-op. The Player's blended
-// bank is compiled once from its SetAnimationSet request list, so a clip that
-// list already registered is the call's post-condition; any other clip would
-// need the dynamic re-registration of that playback and is refused explicitly.
-// A Level actor's ObjectGroup bank loads the dictionary clip on demand.
+// bank is compiled from its SetAnimationSet request list; a clip outside that
+// list extends the same bank and rebuilds the one BlendedPlayback over it
+// (register_source_player_anim_dictionaries, shared with Script_PlayActorAnim::
+// Init). A Level actor's ObjectGroup bank loads the dictionary clip on demand.
 int skill_host_register_anim(void*,std::uintptr_t receiver,std::int32_t dict,
                              std::string& error){
  if(dict<0)return 0;
  if(receiver==prince_character.identity()){
   if(prince_attack_clips.find(dict)!=prince_attack_clips.end())return 0;
-  error="the Player's blended animation bank has no AnimDict "+std::to_string(dict)+
-      "; registering a clip after the SetAnimationSet list needs dynamic playback re-registration";
-  return 1;
+  if(std::size_t(dict)>=actor_clip_table.values.size()){
+   error="AnimDict "+std::to_string(dict)+" is outside the dictionary";return 1;
+  }
+  return register_source_player_anim_dictionaries(dict,-1,error)?0:1;
  }
  ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
  if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
@@ -34632,13 +34759,52 @@ int skill_host_register_anim(void*,std::uintptr_t receiver,std::int32_t dict,
         active_crypt_room_runtime->assets,error)?0:1;
  error="receiver has no installed ObjectGroup clip bank";return 1;
 }
-int skill_host_play_anim(void*,std::uintptr_t,const skill_host::PlayAnimRequest&,
+// Character::_PlayAnim (0x3ba388) after the Lua decode. A function-local static
+// SLOT, shared by every Character, rotates through the five scripted AnimTable
+// row pairs: idOne = AA_LUA_PLAYANIM_XXXX_FIRST_n (rows 16,17,18,19,15) with
+// idTwo = idOne+5 (AA_LUA_PLAYANIM_XXXX_REDIR_n). The first step of idOne takes
+// the first AnimDict; the first step of idTwo takes the second one, or -1 (the
+// ANIM_Stop leaf) when the script passed none. SM_SetAnimState(idOne, flag,
+// false) then enters CSAnim (0x3c324c) on the receiver's own Coordinator.
+int skill_host_play_anim(void*,std::uintptr_t receiver,const skill_host::PlayAnimRequest& request,
                          std::string& error){
- // Character::_PlayAnim ends in CharStateMachine::SM_SetAnimState, which enters
- // state 14 (CSAnim, 0x3c324c); that state and its pending-sequence row are not
- // part of the retained Character state kernel yet.
- error="CharStateMachine state 14 (CSAnim) and the scripted AnimTable rows are not attached";
- return 1;
+ static int slot=0;
+ dh2::character::Coordinator* machine=nullptr;
+ std::string label;
+ if(receiver==prince_character.identity()){
+  if(!native_actor_ready){error="the Player Character is not live";return 1;}
+  machine=&prince_character;label="Player";
+ }else{
+  ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+  if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+  machine=&owner->character;label=actor->name;
+ }
+ const auto dictionary_size=std::int32_t(actor_clip_table.values.size());
+ if(std::int32_t(request.anim_dict)>=dictionary_size||
+    (request.has_second&&request.second>=dictionary_size)){
+  error="PlayAnim AnimDict is outside the dictionary";return 1;
+ }
+ const int picked=slot++;
+ std::size_t row_one=0,row_two=0;
+ if(slot<=4){row_one=std::size_t(picked+16);row_two=std::size_t(picked+21);}
+ else{slot=0;row_one=15;row_two=20;}
+ auto& sequences=actor_animation_tables.sequences;
+ if(row_two>=sequences.size()||sequences[row_one].steps.empty()||sequences[row_two].steps.empty()){
+  error="the scripted AA_LUA_PLAYANIM AnimTable rows are absent";return 1;
+ }
+ sequences[row_one].steps[0].anim=std::int32_t(request.anim_dict);
+ sequences[row_two].steps[0].anim=request.has_second?request.second:-1;
+ if(machine->set_anim_state(std::int32_t(row_one),request.flag,false)!=1){
+  error="CharStateMachine::SM_SetAnimState(CSAnim) was rejected in FSM state "+
+      std::to_string(machine->state.current);
+  return 1;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Character PlayAnim CSAnim | %s | AnimDict %u,%d | rows %zu,%zu | wait-for-end %u | FSM state %d flags %x | animation %d",
+     label.c_str(),request.anim_dict,request.has_second?request.second:-1,row_one,row_two,
+     unsigned(request.flag),machine->state.current,machine->state.flags,
+     machine->state.current_animation);
+ return 0;
 }
 dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1(){
  skill_host::Services services{};
@@ -42568,6 +42734,13 @@ void character_service(void*,dh2::character::State* state,const dh2::character::
           prince_character.identity(),&selected_animation))
     throw std::runtime_error("CSInteract SM_SetAnim pending sequence is malformed");
   }
+  // CSAnim plays a scripted AnimTable row whose AnimDicts the script may never
+  // have registered; CharAnimator keeps the current animation when a clip is not
+  // part of the Character's anim set (the Monster owner does the same).
+  if(state->current==14&&!sequence_clips_in_bank(prince_attack_clips,selected_animation,0,true)){
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native","Character animation skipped: clip absent from the Player bank | state 14 | sequence %d",selected_animation);
+   break;
+  }
   state->current_animation=selected_animation;
   if(!prince_locomotion.start(actor_animation_tables,state->current_animation,actor_random,prince_attack_clips,prince_visual,current_scene,1,error))throw std::runtime_error(error);
   __android_log_print(ANDROID_LOG_INFO,"DH2Native","Character animation selected | state %d | flags %x | sequence %d | clip %d | %s",state->current,state->flags,state->current_animation,prince_locomotion.current_clip(),prince_scene_phase?"scene callback":"actor state service");
@@ -45487,6 +45660,63 @@ std::string debug_player_mana(std::uint32_t amount){
 std::string debug_player_scalar(std::int32_t value,bool write){
  if(!world_mode||!native_actor_ready||!prince_skills)return "Player scalar probe rejected";
  return prince_skills->scalar_probe(value,write);
+}
+// Verification probe: GetIDFromName + StartScript on the Level's one
+// ScriptManager session, exactly like the tutorial triggers (no new VM).
+std::string debug_start_level_script(const std::string& name){
+ if(!world_mode||!native_actor_ready)return "Level script start rejected: no live gameplay";
+ bool started=false;std::string error;
+ if(!native_start_level_script_by_name(name.c_str(),false,started,error))
+  return "Level script start failed: "+error;
+ return started?"Level script started":"Level script name not found (source no-op)";
+}
+// Verification probe: Character::_RegisterAnim then _PlayAnim through the same
+// native_player_skill_host_v1 decode and providers a skill/AI Lua call reaches
+// (only the Lua VM stack is replaced by the literal arguments).
+std::string debug_character_play_anim(const std::string& target,const std::string& dict_name,
+    const std::string& second_name,bool wait_for_end){
+ namespace host=dh2::native::player_skill_host_v1;
+ if(!world_mode||!native_actor_ready)return "PlayAnim probe rejected: no live gameplay";
+ const auto find=[](const std::string& name)->std::int32_t{
+  if(name.empty())return -1;
+  const auto found=std::find(actor_clip_table.names.begin(),actor_clip_table.names.end(),name);
+  return found==actor_clip_table.names.end()?-2:std::int32_t(found-actor_clip_table.names.begin());
+ };
+ const auto first=find(dict_name),second=find(second_name);
+ if(first<0||second==-2)return "PlayAnim probe AnimDict name not found";
+ std::uintptr_t receiver=0;
+ if(target.empty()||target=="player")receiver=prince_character.identity();
+ else for(auto& group:object_groups)for(auto& actor:group.instances)
+  if(actor.kind==1&&actor.name==target)receiver=actor.identity;
+ if(!receiver)return "PlayAnim probe target Character not found";
+ auto services=native_player_skill_host_services_v1();
+ services.self=prince_character.identity();
+ services.random=&dh2::random_lifecycle::process_state();
+ services.online=&native_host.online;
+ char text[256]{};std::uint32_t returned=0;
+ const auto call=[&](dh2::character_native_bindings::Function function,const char* label,const dh2_script_value* args,
+                     std::uint32_t count)->std::string{
+  text[0]=0;
+  if(host::invoke(services,function,label,receiver,args,count,nullptr,0,&returned,text,
+       sizeof(text))!=0)
+   return std::string(label)+" failed: "+(text[0]?text:"provider error");
+  return {};
+ };
+ dh2_script_value argument[3]{};
+ argument[0].type=DH2_SCRIPT_NUMBER;
+ for(const auto id:{first,second}){
+  if(id<0)continue;
+  argument[0].number=float(id);
+  if(auto failure=call(dh2::character_native_bindings::Function::character_register_anim,"RegisterAnim",argument,1);
+     !failure.empty())return failure;
+ }
+ argument[0].number=float(first);
+ if(second>=0){argument[1].type=DH2_SCRIPT_NUMBER;argument[1].number=float(second);}
+ else argument[1].type=DH2_SCRIPT_NIL;
+ argument[2].type=DH2_SCRIPT_BOOLEAN;argument[2].boolean=wait_for_end?1u:0u;
+ if(auto failure=call(dh2::character_native_bindings::Function::character_play_anim,"PlayAnim",argument,3);
+    !failure.empty())return failure;
+ return "PlayAnim entered CSAnim";
 }
 std::string debug_player_death(){
  if(!world_mode||!native_actor_ready||!prince_skills||!prince_skills->initialized()||prince_combat.life.dead)return "Player death fixture rejected";
