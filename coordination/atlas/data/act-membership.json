@@ -1,0 +1,788 @@
+{
+  "actor_assignment_gap": "No direct character spawn records are present in the supplied scene XML. Level scriptFile paths point to .pyscript files not included in assets-extra/android/data; procedural module files contain geometry blocks but no actor rows. Keep CharacterProperties rows unplaced until a level-to-script/module spawn link is evidenced.",
+  "actor_assignments": [],
+  "boundary_policy": "All act boundaries are INFERENCE until owner confirmation.",
+  "boundary_rows": [
+    {
+      "act": "act_1",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "Transition-chain / source-act analysis has not begun.",
+      "status": "TODO"
+    },
+    {
+      "act": "act_2",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "Transition-chain / source-act analysis has not begun.",
+      "status": "TODO"
+    },
+    {
+      "act": "act_3",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "Transition-chain / source-act analysis has not begun.",
+      "status": "TODO"
+    },
+    {
+      "act": "act_4",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "Transition-chain / source-act analysis has not begun.",
+      "status": "TODO"
+    },
+    {
+      "act": "act_5",
+      "confidence": "UNKNOWN",
+      "evidence": [],
+      "reason": "Transition-chain / source-act analysis has not begun.",
+      "status": "TODO"
+    }
+  ],
+  "inferences": [],
+  "level_rows": [
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "001_swamp.mlx",
+      "scene_id": "6b2f662bc32e54797884",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "002_swamp_witchcave.rule.xml",
+      "scene_id": "f6ed60ebabd20b89aaf1",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "003_darkwood.mlx",
+      "scene_id": "2e1304ff2c8ed98caa94",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "004_root_den.rule.xml",
+      "scene_id": "bf6ca7beefbed5a32c86",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "005_infectedvillage.mlx",
+      "scene_id": "1ee09bcff06fac62bcc3",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "006_basement.rule.xml",
+      "scene_id": "b392eb001343a839de27",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "007_crypt_01.rule.xml",
+      "scene_id": "00f4beec573704987fff",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "008_gothicus_castle_01.rule.xml",
+      "scene_id": "9e69404bebff0e9a7211",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "009_abbey.rule.xml",
+      "scene_id": "00d6b04d855fccf54bfd",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "009a_abbey.mlx",
+      "scene_id": "b5c805e540ccbf63b432",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "010_el_lightning.rule.xml",
+      "scene_id": "fa629399ded8e23c4fb7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "011_earth_temple_01.rule.xml",
+      "scene_id": "dedfd7d9431f2172275e",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "012_earth_temple_02.rule.xml",
+      "scene_id": "3ccb758ba39eee28aa87",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "013_earth_temple_03.rule.xml",
+      "scene_id": "45fe61c5ea04fd4f4dea",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "014_el_earth.rule.xml",
+      "scene_id": "87474d560b2e8c1f85b5",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "015_red_desert_hub.mlx",
+      "scene_id": "145c9b75ecc0bcae66e0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "016_red_desert_cave_01.rule.xml",
+      "scene_id": "5d5bf670c8e428777dbe",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "017_red_desert_cave_02.rule.xml",
+      "scene_id": "1670cdc190d298717e82",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "018_red_desert_cave_03.rule.xml",
+      "scene_id": "7cb216ae991b0f5391f8",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "019_light_house_01.rule.xml",
+      "scene_id": "b2b7ec3332bd71af7ff0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "019_light_house_02.rule.xml",
+      "scene_id": "247b44fa30e0237397a6",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "019_light_house_03.rule.xml",
+      "scene_id": "7939d43105cf511cd73e",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "020_crypt_02.rule.xml",
+      "scene_id": "a763713c29120b2d03f7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "021_gothicus_castle_02.rule.xml",
+      "scene_id": "2adb7adbe4e5653621e3",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "022_swamp2.rule.xml",
+      "scene_id": "6ee863765454d115924d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "022_swamp2_trollcave.rule.xml",
+      "scene_id": "a548290f261f5521bfe7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "023_watertemple.rule.xml",
+      "scene_id": "6add1b5bcc34b6249574",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "024_el_water.rule.xml",
+      "scene_id": "fc8f217aa6c8f4b41e89",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "025_icy_hub.mlx",
+      "scene_id": "4a600b19f18959411fdf",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "026_icy_cavern_01.rule.xml",
+      "scene_id": "283f20b8e682c7f9b20a",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "027_icy_cavern_02.rule.xml",
+      "scene_id": "9e6cb2d21b3bb5326d90",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "028_icy_cavern_03.rule.xml",
+      "scene_id": "b1af54e0aba90d48aa2d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "029_wind_temple.rule.xml",
+      "scene_id": "7bac2e2741f6bd3044a0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "030_el_air.rule.xml",
+      "scene_id": "04afe51fc8b013539656",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "031_firetemple.mlx",
+      "scene_id": "bf01948063f214749992",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "032_el_fire.rule.xml",
+      "scene_id": "1803d31bc622e52e4ca3",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "033_voidmaze_01.rule.xml",
+      "scene_id": "4f80125fe47e002ef26d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "034_voidmaze_02.rule.xml",
+      "scene_id": "300f7146ce3acdd727cd",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "035_voidmaze_03.rule.xml",
+      "scene_id": "7a26952703674a362230",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "036_underworld_hub.mlx",
+      "scene_id": "a9e0f80e1d8689ad5593",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "037_machine_rooms_01.mlx",
+      "scene_id": "9fc3c1a42c6b469bbf26",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "038_dark_temple.mlx",
+      "scene_id": "f5c436de2b255f87b02f",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "039_dark_temple_bossroom_01.mlx",
+      "scene_id": "0995df95dc10822639cb",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "050_earth_temple_demo.rule.xml",
+      "scene_id": "fd53aaa9131257ea80de",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "100_debug_cowardtest.mlx",
+      "scene_id": "2b95c86de2810d99273c",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "101_debug_machineroomtestmultiplayer.mlx",
+      "scene_id": "7f02f2f3599c6e77d903",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "102_debug_questtest.rule.xml",
+      "scene_id": "41e35674cc46db663570",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "103_debug_darktemple_test.mlx",
+      "scene_id": "32cc037c38dc940741df",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "104_debug_abbey.mlx",
+      "scene_id": "5564aaf6d2711af026ea",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "105_debug_alphatestlevel.mlx",
+      "scene_id": "7549a4dc0be0fb283d8b",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "106_debug_crypt1.mlx",
+      "scene_id": "ecaa33d30ea6ab5007d0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "107_debug_crypt2.mlx",
+      "scene_id": "3f11e1b9bef0c1a1bf7b",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "108_debug_firetemple.mlx",
+      "scene_id": "bdd536b8cd7347b0d394",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "109_debug_moveactor.mlx",
+      "scene_id": "85c82ab578b23aabbfec",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "110_debug_soundtest_01.mlx",
+      "scene_id": "2d1324cdb8cbf0da1aae",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "111_debug_soundtest_02.mlx",
+      "scene_id": "073fffd57582bf9fc178",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "112_debug_spawn.mlx",
+      "scene_id": "200071d8f6c5f0091064",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "113_debug_spiderquituelefps.mlx",
+      "scene_id": "d57da54ea45891497206",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "114_debug_swampcave.mlx",
+      "scene_id": "463f0824126152797b3d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "115_debug_dh1_oldcatacombs.mlx",
+      "scene_id": "cbc04ec13bdec43dc856",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "116_debug_dk_test.mlx",
+      "scene_id": "c61060f54503836b39a9",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "117_debug_modulespleindecrap.mlx",
+      "scene_id": "56f9731481b8fafb12f7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "118_debug_mvps_for_alex.mlx",
+      "scene_id": "2b597160b531677c6f6d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "119_debug_respawntest.mlx",
+      "scene_id": "1d4ea70eb225808c49c7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "120_debug_snaketest.mlx",
+      "scene_id": "7ff2951f63037d6375fc",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "121_debug_test2.rule.xml",
+      "scene_id": "202d08c35c552739478a",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "122_debug_test.rule.xml",
+      "scene_id": "267d20b120521bc744bb",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "123_debug_testbleh.mlx",
+      "scene_id": "02cd547da170996e8c85",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "124_debug_soundtest_all.mlx",
+      "scene_id": "a23e03f83e706cdedecd",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "125_debug_icyhub_mvps.mlx",
+      "scene_id": "1b91a85161042bd186d7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "125_randomforalexb.rule.xml",
+      "scene_id": "41293d5d381cf6d037a0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "126_debug_darkqueen.mlx",
+      "scene_id": "17fe413b1c5583810205",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "127_debug_flaminite.mlx",
+      "scene_id": "e316b9817b863124de37",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "128_debug_dragon_skygardian.mlx",
+      "scene_id": "3f00d959fb031f6afac0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "129_debug_roottroll.mlx",
+      "scene_id": "a3b0b8484244a6650239",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "130_debug_lighthouse_emissary.mlx",
+      "scene_id": "5900ff42af92c397bf6c",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x02_swamp_witchcave_backup.mlx",
+      "scene_id": "3742542e206449711b75",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x04_root_den_backup.mlx",
+      "scene_id": "c780a0b84ef165d698a4",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x06_basement_backup.mlx",
+      "scene_id": "7dd7c101641a22a2e543",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x07_crypt_backup.mlx",
+      "scene_id": "26bf5aad63cc6496713f",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x08_gothicus_castle_01_backup.mlx",
+      "scene_id": "bfc9316b8279529b2326",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x09_abbey_backup.mlx",
+      "scene_id": "a6cc28ba6c5d289eba86",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x10_el_lightning_backup.mlx",
+      "scene_id": "fb581f471dc28f4e274c",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x11_earth_temple_01_backup.mlx",
+      "scene_id": "07e6db8f453fa41eb30c",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x12_earth_temple_02_backup.mlx",
+      "scene_id": "f3fd6d83c28f71706b13",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x13_earth_temple_03_backup.mlx",
+      "scene_id": "a097760b1763d94fcde9",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x14_el_earth_backup.mlx",
+      "scene_id": "f345bc65f7f354a06cb0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x16_red_desert_cave_01_backup.mlx",
+      "scene_id": "2b1bba770721c9463e4a",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x17_red_desert_cave_02_backup.mlx",
+      "scene_id": "93d8a0e33402b68f38fe",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x18_red_desert_cave_03_backup.mlx",
+      "scene_id": "4669a8bda2faf6857e1f",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x19_light_house_01_backup.mlx",
+      "scene_id": "08ee89e498537a6a1f2e",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x19_light_house_02_backup.mlx",
+      "scene_id": "bbdef3758c29a44ca2a7",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x19_light_house_03_backup.mlx",
+      "scene_id": "f0716baf00a5f1d47789",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x20_crypt_02_backup.mlx",
+      "scene_id": "a9bcc1a61f26a2c76fc0",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x21_gothicus_castle_02_backup.mlx",
+      "scene_id": "d9dd538044cee571458d",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x22_swamp2_backup.mlx",
+      "scene_id": "77031c97df24c6984920",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x22_swamp2_trollcave_backup.mlx",
+      "scene_id": "bab670a6b1873aa5e604",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x23_watertemple_backup.mlx",
+      "scene_id": "a78fe8f2252b11b3891e",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x24_el_water_backup.mlx",
+      "scene_id": "d4ad36e62a1d1d8b9d42",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x26_icy_cavern_01_backup.mlx",
+      "scene_id": "6e7b0753de61a6519211",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x27_icy_cavern_02_backup.mlx",
+      "scene_id": "d37e6aa495d131b2690b",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x28_icy_cavern_03_backup.mlx",
+      "scene_id": "bf502e4ef117819e5cfe",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x29_wind_temple_backup.mlx",
+      "scene_id": "8d794c0b2238c1f4d70a",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x30_el_air_backup.mlx",
+      "scene_id": "8d804614e73f81fa1b92",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x32_el_fire_backup.mlx",
+      "scene_id": "83ac3269ecd9f93efc34",
+      "status": "TODO"
+    },
+    {
+      "act": null,
+      "reason": "Act membership not mapped during the inventory checkpoint.",
+      "scene": "x50_earth_temple_demo_backup.mlx",
+      "scene_id": "4a64f870b4755d38e4ca",
+      "status": "TODO"
+    }
+  ],
+  "schema": "atlas-act-membership-v1"
+}

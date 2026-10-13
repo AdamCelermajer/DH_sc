@@ -1,0 +1,36 @@
+{
+  "asset_digest": "53721a4922467b6d42cb694d7ff791c0f2ad269a7cee9df295bc9b107d139789",
+  "cache_path_note": "The supplied supplemental cache is .local-inputs/assets-extra/android/original-cache/data. Original recovered audio is also inventoried from audio-v34/cache.",
+  "corpora": [
+    {
+      "files": 6040,
+      "label": "android",
+      "path": ".local-inputs/assets-extra/android/data"
+    },
+    {
+      "files": 256,
+      "label": "ios",
+      "path": ".local-inputs/assets-extra/ios/data"
+    },
+    {
+      "files": 152,
+      "label": "original-cache",
+      "path": ".local-inputs/assets-extra/android/original-cache/data"
+    },
+    {
+      "files": 18,
+      "label": "android-extra",
+      "path": ".local-inputs/assets-extra/android/3d"
+    },
+    {
+      "files": 265,
+      "label": "audio-cache",
+      "path": ".local-inputs/audio-v34/cache"
+    }
+  ],
+  "missing_input_paths": [
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\original-cache"
+  ],
+  "runtime": "Private CPython 3.12 under tools/atlas/.runtime, bootstrapped from Codex app dependency bundle; never global Python.",
+  "source_commit": "64afbdc5"
+}

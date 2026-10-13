@@ -1,0 +1,30 @@
+[
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/game-data/animation_tables.cpp Reader::strings and load_animation_tables; port/game-data/effects_tables.cpp Reader::names.",
+    "id": "pydata-name-blocks",
+    "rule": "PyData name blocks are count-prefixed lists of length-prefixed UTF-8 strings; row index is zero-based in serialized order.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "port/engine-audio/reference/source-bindings-v38/ledger.json source_id, event, target; coordination/v21.8/SKILL-VERIFICATION-MATRIX.md.",
+    "id": "audio-row-index",
+    "rule": "Sound id indexes the 638-row sdd_dungeon_hunter_2_iphone table. Ordinary rows resolve to sounds.xml filename; isEvent rows expand their member sounds.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "atlas path-resolution implementation; source path inventory.",
+    "id": "path-case-resolution",
+    "rule": "Resolve a data URI against actual source file paths using exact case first, then case-insensitive comparison; preserve ambiguous candidates. Do not infer missing content from a similar basename.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "data/tables.json rows with empty fields and TODO status.",
+    "id": "unsupported-pyarray",
+    "rule": "Rows without an audited source schema remain TODO/UNRESOLVED until a matching recovered-source parser or native schema is available; do not infer fields from byte patterns.",
+    "status": "PROVEN"
+  }
+]

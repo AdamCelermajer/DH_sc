@@ -1,0 +1,17 @@
+{
+  "by_kind": {
+    "animation event": 521,
+    "character": 12050,
+    "data file": 156,
+    "model": 6013,
+    "script": 506,
+    "sound": 1542,
+    "texture": 5849
+  },
+  "event_decode_errors": [],
+  "reference_sites": 26637,
+  "source_files": {
+    "bdae": 2918,
+    "xml": 2335
+  }
+}

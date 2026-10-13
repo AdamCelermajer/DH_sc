@@ -1,0 +1,55 @@
+{
+  "calls": {
+    "by_mode": {
+      "global": 6998,
+      "local_function": 257,
+      "lua_builtin": 137,
+      "object_method": 498,
+      "qualified_function": 8,
+      "script_function": 84
+    },
+    "engine_candidates": 7504,
+    "todo": 7982,
+    "total": 7982
+  },
+  "engine_call_sites": 7504,
+  "engine_function_names": 314,
+  "engine_function_rows": {
+    "done": 0,
+    "todo": 314,
+    "total": 314
+  },
+  "known_answer_tests": {
+    "swampking_core.luac": "INVENTORIED_TODO",
+    "witch.luac": "INVENTORIED_TODO"
+  },
+  "native_addresses": 498,
+  "native_binding_matches": 271,
+  "port_status_candidates": {
+    "MISSING": 42,
+    "PARTIAL": 272
+  },
+  "script_file_format_counts": {
+    "lua-source": 219
+  },
+  "script_lines": 27037,
+  "script_references": {
+    "by_kind": {
+      "named_reference": 1939,
+      "numeric_reference": 294,
+      "script": 3,
+      "sound": 3
+    },
+    "todo": 2239,
+    "total": 2239
+  },
+  "script_rows": {
+    "done": 0,
+    "todo": 219,
+    "total": 219
+  },
+  "scripts": 219,
+  "scripts_by_platform": {
+    "android": 219
+  }
+}

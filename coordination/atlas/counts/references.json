@@ -1,0 +1,21 @@
+{
+  "inventory_only": true,
+  "reference_todo": 32460,
+  "references": 32460,
+  "references_by_kind": {
+    "anim": 2446,
+    "animation event": 521,
+    "character": 12050,
+    "data file": 156,
+    "effect set": 83,
+    "model": 6013,
+    "named_reference": 1935,
+    "numeric_reference": 292,
+    "script": 509,
+    "sound": 2606,
+    "texture": 5849
+  },
+  "sound_ledger_rows": 638,
+  "table_rows_todo": 8863,
+  "tables": 8863
+}
