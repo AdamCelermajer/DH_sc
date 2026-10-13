@@ -1,5 +1,6 @@
 // rnd::Exit: one open connection of a Block, facing a Direction. Holds the owning block, the grid
-// cell it sits on, a float weight and the list of exit names it accepts. Original 32-bit size 0x2c (44).
+// cell it sits on, a float weight and the list of exit names it accepts. Original 32-bit size 0x2c (44),
+// as far as the constructor writes go (no allocation site in the rnd code was found for it).
 // The side records of Block have the same fields in their first 0x2c bytes (see Block::Side).
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x48a380 / 0x48a3d4; LoadFromXml 0x48a5d0;
 // GetBlockUnitPosition 0x489ddc; the namespace helper TryIsZero 0x489aa4).
