@@ -277,6 +277,7 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/pc_cooldown_frame_v1.cpp
   features/generic_skills/runtime_skill_cast_prepare_v1.cpp
   features/generic_skills/runtime_skill_target_query_v1.cpp
+  features/generic_skills/runtime_mage_skill_owner_v1.cpp
   features/generic_skills/runtime_skill_activation_v1.cpp
   features/generic_skills/runtime_skill_activation_session_v1.cpp
   features/generic_skills/runtime_skill_animation_bank_v1.cpp

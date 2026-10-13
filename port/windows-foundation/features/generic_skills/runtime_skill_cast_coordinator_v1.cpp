@@ -785,6 +785,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.use_profile = profile;
     active.source_post_clears_target = profile->post_clear_target;
     active.class_token = class_token;
+    active.external_owner = request.external_owner;
     active.population_order = order;
     active.target_facts = request.target_facts;
     active.non_character_attackable_objects_absent = request.non_character_attackable_objects_absent;
@@ -884,6 +885,37 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
         }
 
+        if (profile->external_owner) {
+            // v21.8 mage: the skill's authored OnPreSkill_ body after UseMana (PlayFX, SpawnSkillProjectile, counters).
+            if (!active.external_owner || !active.external_owner->handles(*profile)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Authored skill Pre needs its host-supplied external owner";
+                output = active.receipt;
+                return fail(error, "Skill profile requires an external Pre/Use owner that the host did not supply");
+            }
+            RuntimeSkillExternalContextV1 external;
+            external.caster = request.actor;
+            external.generation = generation;
+            external.profile = profile;
+            external.skill_name = active.receipt.skill_name;
+            external.rank = active.receipt.mana.skill.saved_rank;
+            external.row_mask = active.row_mask;
+            external.element = active.element;
+            external.category = active.category;
+            external.characters = request.characters;
+            external.classes = request.classes;
+            external.rules = request.property_rules;
+            external.ordered_character_targets = &active.target_query.ordered_character_targets;
+            external.population_order = &active.population_order;
+            external.target_facts = &active.target_facts;
+            external.non_character_attackable_objects_absent = active.non_character_attackable_objects_absent;
+            if (!active.external_owner->pre(session, external, error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Authored skill OnPre external owner failed after the UseMana prefix";
+                output = active.receipt;
+                return false;
+            }
+        }
         return !downstream_focused||downstream_focused(focused_actor,error);
     };
     if (!session.play_actor_source_sequence(request.actor,*request.visual_plan,
@@ -1137,6 +1169,53 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
     }
 
+    if (profile.external_owner) {
+        // v21.8 mage: authored OnSkill_ body executed by the host-supplied owner (skill projectile / timer arms).
+        if (!active.external_owner || !active.external_owner->handles(profile)) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Authored skill Use needs its host-supplied external owner";
+            output = active.receipt;
+            return fail(error, "Skill profile requires an external Pre/Use owner that the host did not supply");
+        }
+        RuntimeSkillExternalContextV1 external;
+        external.caster = actor_id;
+        external.generation = generation;
+        external.profile = &profile;
+        external.skill_name = active.receipt.skill_name;
+        external.rank = active.receipt.mana.skill.saved_rank;
+        external.row_mask = active.row_mask;
+        external.element = active.element;
+        external.category = current->facts.main_damage_class;
+        external.formula_sheet = &active.formula_sheet;
+        external.class_projection = [&](const std::string& token, dh2::data::PropertySheet& output, std::string& projection_error) {
+            double ignored_cooldown = 0.0, ignored_range = 0.0, ignored_growth = 0.0;
+            return source_skill_class_projection(*active.characters, *active.classes, *active.property_rules,
+                current->sheets.resolved, token, active.receipt.mana.skill.saved_rank, output,
+                ignored_cooldown, ignored_range, ignored_growth, projection_error);
+        };
+        external.characters = active.characters;
+        external.classes = active.classes;
+        external.rules = active.property_rules;
+        external.ordered_character_targets = &use_targets.ordered_character_targets;
+        external.population_order = &active.population_order;
+        external.target_facts = &active.target_facts;
+        external.non_character_attackable_objects_absent = active.non_character_attackable_objects_absent;
+        active.receipt.applied_results.clear();
+        active.receipt.target_hit_fx_name.clear();
+        active.receipt.target_hit_fx_targets.clear();
+        if (!active.external_owner->use(session, external, error)) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Authored skill OnSkill_ external owner failed after the committed OnPre prefix";
+            output = active.receipt;
+            return false;
+        }
+        active.use_delivered = true;
+        active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
+        active.receipt.detail = "Authored source skill Use ran its external owner (skill projectile / timer arms)";
+        output = active.receipt;
+        error.clear();
+        return true;
+    }
     active.receipt.applied_results.clear();
     active.receipt.target_hit_fx_name.clear();
     active.receipt.target_hit_fx_targets.clear();

@@ -684,6 +684,15 @@ RuntimeSessionProjectileV1::visuals() const {
     return result;
 }
 
+bool RuntimeSessionProjectileV1::projectile_position(
+    std::uint64_t projectile_id, std::array<float, 3>& position) const {
+    if (!session_alive()) return false;
+    const auto found = projectiles_.find(projectile_id);
+    if (found == projectiles_.end() || !found->second.live) return false;
+    position = found->second.position;
+    return true;
+}
+
 std::vector<RuntimeSessionProjectileImpactV1>
 RuntimeSessionProjectileV1::take_impacts() {
     std::vector<RuntimeSessionProjectileImpactV1> result;

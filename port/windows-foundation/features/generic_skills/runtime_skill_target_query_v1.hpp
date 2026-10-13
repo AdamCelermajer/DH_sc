@@ -76,6 +76,17 @@ bool query_bashdown_character_targets_v1(
     std::optional<bool> non_character_attackable_objects_absent,
     SkillActorTargetQueryV1&, std::string& error);
 
+// v21.8 mage: TargetListSearch(range, angle, <GameObject>) / TargetListSearch(range, angle, x, y, z): the Lua skills that
+// search around another object or point (ChainLightning around the struck victim, the StoneEscape statue, the Cyclone
+// tornado). Only the search origin changes: position, look vector and the searcher's own AI_GetMeleeRadius. The
+// Enemy/AttackableOnly filters stay relative to the casting actor (inference: the Lua sets them once for the caster).
+struct SkillTargetOriginV1 {
+    std::array<float, 3> position{};
+    std::array<float, 3> look{0.0f, -1.0f, 0.0f};
+    float radius = 0.0f;
+    ActorId exclude = invalid_actor_id;  // the searcher when it is itself an actor
+};
+
 // General source TargetListSearch; optional typed arm includes real world objects. `sort` follows the
 // original heap values (0 NoSort, 1 ClosestFirst, 2 FrontalFirst); cone is in
 // radians and a value >= pi preserves the full authored radius. It uses the
@@ -87,7 +98,8 @@ bool query_source_character_targets_v1(
     std::optional<bool> non_character_attackable_objects_absent,
     float range, float cone_radians, SkillTargetSortV1 sort,
     SkillActorTargetQueryV1&, std::string& error,
-    const SkillObjectTargetArmV1* objects = nullptr);
+    const SkillObjectTargetArmV1* objects = nullptr,
+    const SkillTargetOriginV1* search_origin = nullptr);
 
 // Source GameObject::LookAt(Point) leaf on this same session actor. This does
 // not write ActorState::target_id: BashDown keeps its selected target in a Lua

@@ -227,7 +227,8 @@ bool query_source_character_targets_v1(
     std::optional<bool> non_character_attackable_objects_absent,
     float range, float cone_radians, SkillTargetSortV1 sort,
     SkillActorTargetQueryV1& output, std::string& error,
-    const SkillObjectTargetArmV1* objects) {
+    const SkillObjectTargetArmV1* objects,
+    const SkillTargetOriginV1* search_origin) {
     output = {};
     error.clear();
     if (!std::isfinite(range) || range < 0.0f || !std::isfinite(cone_radians) ||
@@ -241,10 +242,12 @@ bool query_source_character_targets_v1(
     if (authored_actor_order.size() > 65536 || source_facts.size() > 65536)
         return fail(error, "Source population order exceeds TargetSearch bounds");
     const float heading = caster->transform.rotation[2];
-    const float source_radius = world->target_radius(*caster);
+    float source_radius = world->target_radius(*caster);
+    if (search_origin) source_radius = search_origin->radius;
     if (!std::isfinite(heading) || !std::isfinite(source_radius) || source_radius < 0.0f)
         return fail(error, "Source facing or same-world radius is invalid");
-    const float look[3] = {std::sin(heading), -std::cos(heading), 0.0f};
+    float look[3] = {std::sin(heading), -std::cos(heading), 0.0f};
+    if (search_origin) for (unsigned axis = 0; axis < 3; ++axis) look[axis] = search_origin->look[axis];
     const float look_length = source_length(look);
     if (!std::isfinite(look_length) || look_length <= 0.0f)
         return fail(error, "Source-facing vector is unavailable");
@@ -261,7 +264,7 @@ bool query_source_character_targets_v1(
     for (const auto id : authored_actor_order) {
         if (id == invalid_actor_id || !seen.insert(id).second)
             return fail(error, "Source population order contains invalid or duplicate actor identity");
-        if (id == caster_id) continue;
+        if (id == caster_id || (search_origin && id == search_origin->exclude)) continue;
         const auto* candidate = session.actor(id);
         if (!candidate || candidate != world->find_actor(id))
             return fail(error, "Population actor is absent from this Session world");
@@ -292,7 +295,7 @@ bool query_source_character_targets_v1(
         if (!candidate_ai)
             return fail(error, "Original Character interaction-radius AI row/fallback8 is unavailable");
         const float* center = source_target_position(*candidate);
-        const float* origin = source_target_position(*caster);
+        const float* origin = search_origin ? search_origin->position.data() : source_target_position(*caster);
         const float delta[3] = {source_sub(center[0], origin[0]),
                                 source_sub(center[1], origin[1]),
                                 source_sub(center[2], origin[2])};
@@ -334,7 +337,7 @@ bool query_source_character_targets_v1(
             if (*facts.interaction_type != 8) continue;
             if (!facts.interaction_radius || !std::isfinite(*facts.interaction_radius) || *facts.interaction_radius < 0)
                 return fail(error, "Reached object interaction radius is unknown/invalid");
-            const auto* origin = source_target_position(*caster);
+            const float* origin = search_origin ? search_origin->position.data() : source_target_position(*caster);
             const auto& point = object->transform.position;
             const float delta[3] = {source_sub(point[0], origin[0]), source_sub(point[1], origin[1]), source_sub(point[2], origin[2])};
             const float distance = source_sub(source_sub(source_length(delta), *facts.interaction_radius), source_radius);

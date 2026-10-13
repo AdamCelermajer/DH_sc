@@ -3,6 +3,7 @@
 #include "runtime_skill_cast_prepare_v1.hpp"
 #include "runtime_skill_target_query_v1.hpp"
 #include "runtime_skill_use_profile_v1.hpp"
+#include "runtime_skill_external_owner_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
 #include "../../actor_population.hpp"
 #include "../../original_combat_visual_plan.hpp"
@@ -128,6 +129,8 @@ struct RuntimeSkillCastRequestV1 {
     OriginalAttackSelection selection;
     CombatSessionStateAnimationServices downstream_animation_services;
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
+    // v21.8 mage: executes the Pre/Use bodies of profile rows with `external_owner` (borrowed; the host owns it).
+    RuntimeSkillExternalOwnerV1* external_owner = nullptr;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,
@@ -207,6 +210,7 @@ private:
         // Data-driven source use profile (runtime_skill_use_profile_v1.hpp); never null once admitted.
         const RuntimeSkillUseProfileV1* use_profile = nullptr;
         std::string class_token;
+        RuntimeSkillExternalOwnerV1* external_owner = nullptr;
         std::vector<ActorId> population_order;
         std::vector<SkillTargetSourceFactsV1> target_facts;
         std::optional<bool> non_character_attackable_objects_absent;

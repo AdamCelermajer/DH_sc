@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
         const std::size_t table_size = sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]);
-        check(table_size == 7, "Use profile table admitted-row count changed");
+        check(table_size == 10, "Use profile table admitted-row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -54,12 +54,8 @@ int main(int argc, char** argv) {
               "Quickness must not be admitted before its timed buff owner exists");
         check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,
               "Use profile lookup must require the exact (name, script) pair");
-        check(find_skill_use_profile_v1("Cyclone", "prince_mage_cyclone") == nullptr,
-              "Cyclone needs its projectile/tick owner before it is admitted");
-        check(find_skill_use_profile_v1("ChainLightning", "prince_mage_chain_lightning") == nullptr,
-              "ChainLightning needs its chain projectile owner before it is admitted");
-        check(find_skill_use_profile_v1("StoneEscape", "prince_mage_stone_escape") == nullptr,
-              "StoneEscape needs its teleport/statue owner before it is admitted");
+        check(find_skill_use_profile_v1("Eclipse", "prince_illusionist_eclipse") == nullptr,
+              "Subclass rows are outside this owner");
 
         // prince_warrior_bashdown.luac: RANGE 160; OnSkill_ uses the OnPre-selected target only.
         const auto* bashdown = find_skill_use_profile_v1("BashDown", "prince_warrior_bashdown");
@@ -107,10 +103,28 @@ int main(int argc, char** argv) {
               cold_ray->post_clear_target && !cold_ray->sets_cooldown && !cold_ray->shield_variant &&
               std::string(cold_ray->class_token) == "Skill_Mage_ColdRay",
               "ColdRay Lua transcription changed");
+        // prince_mage_chain_lightning.luac: OnPre RANGE 1000 FrontalFirst + LookAt; OnSkill_ pops the Pre list (first
+        // Character) and SpawnSkillProjectile; no cooldown; Post ClearTarget; host-owned Use.
+        const auto* chain = find_skill_use_profile_v1("ChainLightning", "prince_mage_chain_lightning");
+        check(chain && near(chain->pre_range, 1000.0f) && chain->pre_look_at && chain->external_owner &&
+              chain->use_targets == SkillUseTargetsV1::pre_list_all && !chain->sets_cooldown &&
+              chain->post_clear_target && std::string(chain->class_token) == "Skill_Chain_Lightning",
+              "ChainLightning Lua transcription changed");
+        // prince_mage_cyclone.luac: OnPre LOOK_AT_RANGE 1500 ANGLE 360 + LookAt; Use = CreateTornado; Post ClearTarget.
+        const auto* cyclone = find_skill_use_profile_v1("Cyclone", "prince_mage_cyclone");
+        check(cyclone && near(cyclone->pre_range, 1500.0f) && cyclone->pre_look_at && cyclone->external_owner &&
+              cyclone->post_clear_target && !cyclone->sets_cooldown &&
+              std::string(cyclone->class_token) == "Skill_Cyclone", "Cyclone Lua transcription changed");
+        // prince_mage_stone_escape.luac: no OnPre query, SetSkillCooldown commented out, no Post.
+        const auto* stone = find_skill_use_profile_v1("StoneEscape", "prince_mage_stone_escape");
+        check(stone && near(stone->pre_range, 0.0f) && !stone->pre_look_at && stone->external_owner &&
+              !stone->post_clear_target && !stone->sets_cooldown &&
+              std::string(stone->class_token) == "Skill_Mage_StoneEscape", "StoneEscape Lua transcription changed");
+        check(!cold_ray->external_owner, "ColdRay is a plain SkillCombatRoll loop");
     } catch (const std::exception& error) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_v1: %s\n", error.what());
         return 1;
     }
-    std::puts("PASS runtime_skill_use_profile_v1: seven authored rows, exact admission, Lua-transcribed values");
+    std::puts("PASS runtime_skill_use_profile_v1: ten authored rows, exact admission, Lua-transcribed values");
     return 0;
 }

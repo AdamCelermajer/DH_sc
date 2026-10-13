@@ -184,6 +184,8 @@ public:
                 std::string& error);
 
     std::vector<RuntimeSessionProjectileVisualV1> visuals() const;
+    // v21.8 mage: current position / launch origin of a live projectile (Lua GetPosition on the projectile pointer).
+    bool projectile_position(std::uint64_t projectile_id, std::array<float, 3>& position) const;
     std::vector<RuntimeSessionProjectileImpactV1> take_impacts();
     std::vector<DamageEvent> take_results();
     std::size_t active_count() const noexcept;
