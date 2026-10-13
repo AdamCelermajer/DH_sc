@@ -726,7 +726,10 @@ struct Runtime::Impl {
   animation_constants_bytes=bindings.read(assets,"data/animations_pycst.bin");
   if(animation_constants_bytes.size()>UINT32_MAX||dh2_pycst_open(&animation_constants,animation_constants_bytes.data(),std::uint32_t(animation_constants_bytes.size())))
    throw std::runtime_error("Native Player animation constants rejected");
-  for(const auto& pair:std::vector<std::pair<std::string,std::string>>{{"AnimatedEffectTable","effects"},{"ProjectileTable","projectiles"}}){
+  // GetPyOID(category, name) rows the skill scripts resolve through the source
+  // PyData name arrays (summon skills name a CharacterTable row, animation
+  // skills an AnimDict row).
+  for(const auto& pair:std::vector<std::pair<std::string,std::string>>{{"AnimatedEffectTable","effects"},{"ProjectileTable","projectiles"},{"CharacterTable","character_properties"},{"AnimDict","animations_dictionary"}}){
    auto bytes=bindings.read(assets,"data/"+pair.second+"_pyarraynames.bin");
    const auto word=[&](std::size_t at){if(at>bytes.size()||bytes.size()-at<4)throw std::runtime_error("Player names truncated");std::uint32_t n;std::memcpy(&n,bytes.data()+at,4);return n;};
    std::size_t end=4;const auto count=word(0);

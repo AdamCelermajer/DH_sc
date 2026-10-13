@@ -72,6 +72,7 @@ struct Fixture {
     std::vector<Call> calls;
     std::map<std::string, std::shared_ptr<const std::vector<std::uint8_t>>> overlays;
     int list_mode = 0; // 0 empty, 1 one Character, 2 one object
+    int summon_mode = 0; // 0 rejected (no return), 1 returns the new Character
 
     explicit Fixture(const std::filesystem::path& assets) {
         const auto load = [&](const char* stem, const char* suffix) {
@@ -130,6 +131,12 @@ struct Fixture {
         }
         if (function == Fn::game_object_get_id && !q.method) {
             out[0] = {}; out[0].type = DH2_SCRIPT_IDENTITY; out[0].identity = CHAR; *returned = 1; return 0;
+        }
+        if (function == Fn::game_object_summon && !q.method) {
+            // GameObject::_Summon pushes the new Character, or nothing when the
+            // request is rejected.
+            if (f.summon_mode == 0) return 0;
+            out[0] = {}; out[0].type = DH2_SCRIPT_IDENTITY; out[0].identity = ENEMY + 1; *returned = 1; return 0;
         }
         if (function == Fn::game_object_get_target_list_top) {
             if (f.list_mode == 0) {
@@ -199,7 +206,10 @@ int main(int argc, char** argv) {
             "function t_method_hp() local t = GetTargetListTop(); local cur, max, pct = t:GetPropHP(); return cur + max + pct end\n"
             "function t_method_lock() local t = GetTargetListTop(); t:LOCK(); t:UNLOCK(); return 1 end\n"
             "function t_has_method(name) return type(GetSelf()[name]) end\n"
-            "function t_global_playfx() PlayFX(5); return 1 end\n");
+            "function t_global_playfx() PlayFX(5); return 1 end\n"
+            "function t_summon_type() local s = Summon(110, false, 1.0, 2.0, 3.0); return type(s) end\n"
+            "function t_summon_id() local s = Summon(110, false, 1.0, 2.0, 3.0); s:SetMaster(GetSelf()); return s:GetID() end\n"
+            "function t_summon_nil() return Summon(110, false, 1.0, 2.0, 3.0) == nil end\n");
 
         Return r;
         check(!f.call("t_self_type", r) && r.type == DH2_SCRIPT_STRING && r.text == "table", "GetSelf must return an object table");
@@ -244,6 +254,22 @@ int main(int argc, char** argv) {
         check(!f.call("t_global_playfx", r), "global PlayFX call");
         check(!f.calls.empty() && f.calls.back().name == "PlayFX" && !f.calls.back().method && f.calls.back().first_identity == 0,
               "PlayFX() on the Player is the receiver-less global call");
+
+        // Summon: the global returns the GameObject table of the new Character
+        // (so statue:SetMaster(GetSelf()) is a method call on it) or nil.
+        f.summon_mode = 1;
+        f.calls.clear();
+        check(!f.call("t_summon_type", r) && r.text == "table", "Summon returns an object table for the new Character");
+        check(f.calls.size() == 1 && f.calls[0].name == "Summon" && !f.calls[0].method && f.calls[0].count == 5 &&
+              f.calls[0].first_type == DH2_SCRIPT_NUMBER && f.calls[0].second_number == 0.f,
+              "Summon reaches the provider as the receiver-less global with the source arguments");
+        f.calls.clear();
+        check(!f.call("t_summon_id", r) && r.identity == ENEMY + 1, "summoned:GetID() is the new Character identity");
+        check(f.calls.size() >= 3 && f.calls[1].name == "GetSelf" && f.calls[2].name == "SetMaster" && f.calls[2].method &&
+              f.calls[2].first_identity == ENEMY + 1 && f.calls[2].first_type == 7,
+              "statue:SetMaster(GetSelf()) is a method call on the summoned Character");
+        f.summon_mode = 0;
+        check(!f.call("t_summon_nil", r) && r.type == DH2_SCRIPT_BOOLEAN && r.boolean, "a rejected Summon returns nil");
 
         // Every method name the shipped Player scripts call resolves.
         std::set<std::string> names;

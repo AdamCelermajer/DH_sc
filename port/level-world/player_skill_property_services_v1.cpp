@@ -98,10 +98,6 @@ bool property_id(const dh2_script_value& value, std::uint32_t& out) noexcept {
     return true;
 }
 
-bool source_skill_property(const data::PropertyRules& rules, std::uint32_t id) noexcept {
-    return id < 224 && rules.types[id] == 8;
-}
-
 void number_result(dh2_script_value& out, std::int32_t value) noexcept {
     out = {};
     out.type = DH2_SCRIPT_NUMBER;
@@ -156,9 +152,11 @@ int invoke(Bindings* bindings, std::uintptr_t character, Function function,
                 return fail(error_text, error_capacity, "external SetProp sheet identity is unresolved");
             std::uint32_t id = 0;
             std::int32_t value = 0;
-            if (!property_id(arguments[0], id) || !number_to_i32(arguments[1], value) ||
-                !source_skill_property(*bindings->rules, id))
+            if (!property_id(arguments[0], id) || !number_to_i32(arguments[1], value))
                 return fail(error_text, error_capacity, "unsupported SetProp value or property");
+            // CharProperties::PROPS_Set (0x3e07a0): a type-32 property (HP, MP,
+            // ...) writes the saved sheet and recalculates it, a type-8 skill
+            // property writes the resolved sheet, any other type is ignored.
             if (dh2_property_set(&owner_view, static_cast<std::int32_t>(id), value))
                 return fail(error_text, error_capacity, "source SetProp rejected property view");
             return 0;

@@ -4,7 +4,11 @@
 // HasBow 0x3b6f84, CanAttackInMelee 0x3b6f64, RegenHP 0x3b77ec,
 // SetIsTargetable 0x3b7a64, SetTarget 0x3b8f38, Kill 0x3b7e40,
 // SetStunState 0x3b9580, SetScareState 0x3b96b0, SetKnockBackState 0x3b7680,
-// GetState, Is*, GetPosition, GetName, LOCK/UNLOCK).
+// GetState, Is*, GetPosition, GetName, LOCK/UNLOCK) and the movement/summon
+// group (HasPath 0x38e98c, MoveTo 0x3bada8, HeadTo 0x3ba71c, WarpTo 0x3bb268,
+// Stop 0x3b56b4, SetMaster 0x3b9084, SetLevel 0x3b73a4, Summon 0x39193c,
+// RegisterAnim 0x3b70d8, PlayAnim 0x3ba388, SetProp 0x3b7eac and
+// ApplyPropClass 0x3babdc on a non-Player receiver).
 #include "../../android-native/app/src/main/cpp/native_player_skill_host_v1.hpp"
 
 #include <array>
@@ -46,6 +50,9 @@ dh2_script_value identity(std::uintptr_t id, std::uint32_t tag) {
     v.identity = id;
     return v;
 }
+dh2_script_value nilv() {
+    return dh2_script_value{};
+}
 dh2_script_value str(const char* text) {
     dh2_script_value v{};
     v.type = DH2_SCRIPT_STRING;
@@ -69,6 +76,21 @@ struct Fake {
     struct Buff { host::BuffCommand command; std::uintptr_t receiver; std::uint32_t count; };
     std::vector<Buff> buffs;
     std::vector<std::uintptr_t> melee_queries;
+    struct Control { host::ControlCommand command; std::uintptr_t receiver, object; float point[3]; };
+    std::vector<Control> controls;
+    struct PropSet { std::uintptr_t receiver; std::uint32_t id; std::int32_t value; };
+    std::vector<PropSet> prop_sets;
+    struct ClassApply { std::uintptr_t receiver; std::int32_t class_id; bool to_temp; };
+    std::vector<ClassApply> class_applies;
+    std::vector<std::pair<std::uintptr_t, std::uintptr_t>> masters;
+    std::vector<std::pair<std::uintptr_t, float>> levels;
+    struct Summoned { std::uintptr_t summoner; host::SummonRequest request; };
+    std::vector<Summoned> summons;
+    std::uintptr_t summon_result = 0x100000200ull;
+    std::vector<std::pair<std::uintptr_t, std::int32_t>> registered_anims;
+    struct Play { std::uintptr_t receiver; host::PlayAnimRequest request; };
+    std::vector<Play> plays;
+    bool path = true;
     bool fail_next = false;
     dh2_random_state random{{1234, 99}, {0, 0}};
     std::uint8_t online = 0;
@@ -84,6 +106,7 @@ struct Fake {
             out->hp_raw = 100 * 256;
             out->max_hp_raw = 200 * 256;
             out->position[0] = 10.f; out->position[1] = 20.f; out->position[2] = 30.f;
+            out->rotation[0] = 0.f; out->rotation[1] = 0.f; out->rotation[2] = 0.5f;
             std::strcpy(out->name, "PlayerCharacter_0");
             return 0;
         }
@@ -92,6 +115,7 @@ struct Fake {
             out->is_dead = true;
             out->state = 12;
             out->position[0] = 1.f; out->position[1] = 2.f; out->position[2] = 3.f;
+            out->rotation[0] = 0.1f; out->rotation[1] = 0.2f; out->rotation[2] = 1.25f;
             out->ai_flags = 0x44; out->has_ai_flags = true;
             std::strcpy(out->name, "Skeleton_01");
             return 0;
@@ -159,6 +183,51 @@ struct Fake {
         *value = f.in_melee;
         return 0;
     }
+    static int set_property(void* p, std::uintptr_t receiver, std::uint32_t id, std::int32_t value, std::string&) {
+        self(p).prop_sets.push_back({receiver, id, value});
+        return 0;
+    }
+    static int apply_class(void* p, std::uintptr_t receiver, std::int32_t class_id, bool to_temp, std::string&) {
+        self(p).class_applies.push_back({receiver, class_id, to_temp});
+        return 0;
+    }
+    static std::uint32_t class_table_size(void*) { return 50; }
+    static std::uint32_t character_table_size(void*) { return 20; }
+    static std::uint32_t anim_dict_size(void*) { return 100; }
+    static int control(void* p, host::ControlCommand command, std::uintptr_t receiver, std::uintptr_t object,
+                       const float point[3], std::string&) {
+        Control row{command, receiver, object, {0, 0, 0}};
+        if (point) std::memcpy(row.point, point, sizeof(row.point));
+        self(p).controls.push_back(row);
+        return 0;
+    }
+    static int has_path(void* p, std::uintptr_t, bool* value, std::string&) {
+        *value = self(p).path;
+        return 0;
+    }
+    static int set_master(void* p, std::uintptr_t receiver, std::uintptr_t master, std::string&) {
+        self(p).masters.emplace_back(receiver, master);
+        return 0;
+    }
+    static int set_level(void* p, std::uintptr_t receiver, float raw, std::string&) {
+        self(p).levels.emplace_back(receiver, raw);
+        return 0;
+    }
+    static int summon(void* p, std::uintptr_t summoner, const host::SummonRequest& request, std::uintptr_t* created,
+                      std::string&) {
+        auto& f = self(p);
+        f.summons.push_back({summoner, request});
+        *created = f.summon_result;
+        return 0;
+    }
+    static int register_anim(void* p, std::uintptr_t receiver, std::int32_t dict, std::string&) {
+        self(p).registered_anims.emplace_back(receiver, dict);
+        return 0;
+    }
+    static int play_anim(void* p, std::uintptr_t receiver, const host::PlayAnimRequest& request, std::string&) {
+        self(p).plays.push_back({receiver, request});
+        return 0;
+    }
 
     host::Services services() {
         host::Services s{};
@@ -178,6 +247,18 @@ struct Fake {
         s.target_in_melee_range = melee;
         s.buff_command = buff;
         s.get_property = get_property;
+        s.set_property = set_property;
+        s.apply_property_class = apply_class;
+        s.class_table_size = class_table_size;
+        s.character_table_size = character_table_size;
+        s.anim_dict_size = anim_dict_size;
+        s.control = control;
+        s.has_path = has_path;
+        s.set_master = set_master;
+        s.set_level = set_level;
+        s.summon = summon;
+        s.register_anim = register_anim;
+        s.play_anim = play_anim;
         return s;
     }
 };
@@ -209,11 +290,14 @@ int main() {
                    Fn::character_kill, Fn::character_set_stun_state, Fn::character_set_knock_back_state,
                    Fn::character_get_char_ai_flags, Fn::character_target_in_melee_range,
                    Fn::character_create_buff, Fn::character_remove_buff, Fn::character_apply_prop_class,
-                   Fn::character_get_prop})
+                   Fn::character_get_prop, Fn::character_set_prop, Fn::game_object_has_path,
+                   Fn::game_object_summon, Fn::character_move_to, Fn::character_head_to,
+                   Fn::character_warp_to, Fn::character_stop, Fn::character_set_master,
+                   Fn::character_set_level, Fn::character_register_anim, Fn::character_play_anim})
         check(host::handles(f), "host must own this native");
     for (auto f : {Fn::game_object_get_target_list_top, Fn::character_skill_combat_roll,
                    Fn::character_use_mana, Fn::character_look_at, Fn::character_clear_target,
-                   Fn::character_set_prop, Fn::character_start_timer})
+                   Fn::character_start_timer})
         check(!host::handles(f), "an existing owner must not be taken over");
 
     Fake fake;
@@ -326,8 +410,11 @@ int main() {
               fake.buffs.back().count == 4, "target:CreateBuff reaches the receiver BuffOwner");
         check(run(s, Fn::character_apply_prop_class, ENEMY, {num(9), identity(0xb0ffull, DH2_SCRIPT_IDENTITY)}).status == 0 &&
               fake.buffs.back().command == host::BuffCommand::apply, "target:ApplyBuff (class + buff Pointer)");
-        check(run(s, Fn::character_apply_prop_class, ENEMY, {num(9)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
-              "ApplyPropClass without a buff Pointer is not attached for another Character");
+        fake.class_applies.clear();
+        check(run(s, Fn::character_apply_prop_class, ENEMY, {num(9)}).status == 0 &&
+              fake.class_applies.size() == 1 && fake.class_applies[0].receiver == ENEMY &&
+              fake.class_applies[0].class_id == 9 && !fake.class_applies[0].to_temp,
+              "target:ApplyPropClass(class) applies to the receiver's resolved sheet");
         check(run(s, Fn::character_remove_buff, ENEMY, {num(9), identity(0xb0ffull, DH2_SCRIPT_IDENTITY)}).status == 0 &&
               fake.buffs.back().command == host::BuffCommand::remove, "target:RemoveBuff");
         check(run(s, Fn::character_create_buff, SELF, {num(9)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
@@ -422,6 +509,196 @@ int main() {
               "SetKnockBackState is great unless the first argument is the boolean false");
     }
 
+    // --- SetProp / ApplyPropClass on a non-Player receiver (PROPS_Set / PROPS_ApplyClass).
+    {
+        fake.prop_sets.clear();
+        check(run(s, Fn::character_set_prop, ENEMY, {num(19), num(3.9f * 256.f)}).status == 0 &&
+              fake.prop_sets.size() == 1 && fake.prop_sets[0].receiver == ENEMY && fake.prop_sets[0].id == 19 &&
+              fake.prop_sets[0].value == static_cast<std::int32_t>(3.9f * 256.f),
+              "target:SetProp(id, value) truncates the value like __aeabi_f2iz");
+        check(run(s, Fn::character_set_prop, ENEMY, {num(19), num(1), boolean(true)}).status == 0 &&
+              fake.prop_sets.size() == 2, "a boolean third argument still takes PROPS_Set");
+        run(s, Fn::character_set_prop, ENEMY, {num(224), num(1)});
+        run(s, Fn::character_set_prop, ENEMY, {str("19"), num(1)});
+        run(s, Fn::character_set_prop, ENEMY, {num(19), str("1")});
+        run(s, Fn::character_set_prop, ENEMY, {num(19)});
+        check(fake.prop_sets.size() == 2, "SetProp ignores an out-of-range id or non-number arguments");
+        check(run(s, Fn::character_set_prop, ENEMY, {num(19), num(1), identity(0, DH2_SCRIPT_IDENTITY)}).status == 0 &&
+              fake.prop_sets.size() == 2, "a null sheet Pointer does nothing");
+        check(run(s, Fn::character_set_prop, ENEMY, {num(19), num(1), identity(0xb0ffull, DH2_SCRIPT_IDENTITY)}).status ==
+              DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "PROPS_SetToSheet on another Character is not attached");
+        check(run(s, Fn::character_set_prop, SELF, {num(19), num(1)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
+              "the Player's properties belong to its property owner");
+
+        fake.class_applies.clear();
+        run(s, Fn::character_apply_prop_class, ENEMY, {num(9), boolean(true)});
+        run(s, Fn::character_apply_prop_class, ENEMY, {num(9), boolean(false)});
+        run(s, Fn::character_apply_prop_class, ENEMY, {num(9), num(1)});
+        run(s, Fn::character_apply_prop_class, ENEMY, {num(50)});
+        run(s, Fn::character_apply_prop_class, ENEMY, {num(51)});
+        run(s, Fn::character_apply_prop_class, ENEMY, {str("9")});
+        run(s, Fn::character_apply_prop_class, ENEMY);
+        check(fake.class_applies.size() == 4 && fake.class_applies[0].to_temp && !fake.class_applies[1].to_temp &&
+              !fake.class_applies[2].to_temp && fake.class_applies[3].class_id == 50,
+              "ApplyPropClass: boolean selects s_temp, class id <= ClassTable::size, non-number ignored");
+    }
+
+    // --- HasPath / Stop.
+    {
+        fake.path = true;
+        auto has = run(s, Fn::game_object_has_path, SELF);
+        check(has.returned == 1 && has.out[0].type == DH2_SCRIPT_BOOLEAN && has.out[0].boolean == 1, "HasPath pushes true");
+        fake.path = false;
+        check(run(s, Fn::game_object_has_path, ENEMY).out[0].boolean == 0, "HasPath pushes false");
+        fake.controls.clear();
+        check(run(s, Fn::character_stop, SELF).status == 0 && fake.controls.size() == 1 &&
+              fake.controls[0].command == host::ControlCommand::stop && fake.controls[0].receiver == SELF,
+              "Stop is Cmd_Stop on the receiver");
+        run(s, Fn::character_stop, ENEMY, {num(1)});
+        check(fake.controls.size() == 2 && fake.controls[1].receiver == ENEMY, "target:Stop ignores arguments");
+    }
+
+    // --- MoveTo / HeadTo / WarpTo argument shapes.
+    {
+        fake.controls.clear();
+        run(s, Fn::character_move_to, SELF);
+        run(s, Fn::character_move_to, SELF, {num(1), num(2)});
+        run(s, Fn::character_move_to, SELF, {num(1)});
+        run(s, Fn::character_move_to, SELF, {str("x"), str("y"), str("z")});
+        run(s, Fn::character_move_to, SELF, {boolean(true), nilv(), identity(ENEMY, 7)});
+        check(fake.controls.empty(), "MoveTo needs one object or three values with a number among the first three");
+
+        run(s, Fn::character_move_to, SELF, {identity(ENEMY, 7)});
+        run(s, Fn::character_move_to, SELF, {identity(ENEMY, DH2_SCRIPT_IDENTITY)});
+        run(s, Fn::character_head_to, SELF, {identity(ENEMY, 7)});
+        check(fake.controls.size() == 3 && fake.controls[0].command == host::ControlCommand::move_to_object &&
+              fake.controls[0].object == ENEMY && fake.controls[1].command == host::ControlCommand::move_to_object &&
+              fake.controls[2].command == host::ControlCommand::move_to_object && fake.controls[2].object == ENEMY,
+              "MoveTo(obj) and HeadTo(obj) both issue Cmd_MoveTo(GameObject*)");
+        fake.controls.clear();
+        run(s, Fn::character_warp_to, SELF, {identity(ENEMY, 7)});
+        check(fake.controls.size() == 1 && fake.controls[0].command == host::ControlCommand::warp_to_point &&
+              fake.controls[0].point[0] == 1.f && fake.controls[0].point[1] == 2.f && fake.controls[0].point[2] == 3.f,
+              "WarpTo(obj) passes the object's +0x160 point");
+        run(s, Fn::character_warp_to, SELF, {num(5), num(6), num(7), boolean(false)});
+        check(fake.controls.back().command == host::ControlCommand::warp_to_point &&
+              fake.controls.back().point[0] == 5.f && fake.controls.back().point[1] == 6.f &&
+              fake.controls.back().point[2] == 7.f, "WarpTo(x,y,z,false) is absolute");
+        run(s, Fn::character_move_to, SELF, {num(5), num(6), num(7)});
+        run(s, Fn::character_head_to, ENEMY, {num(5), num(6), num(7), num(1)});
+        check(fake.controls[fake.controls.size() - 2].command == host::ControlCommand::move_to_point &&
+              fake.controls.back().command == host::ControlCommand::head_to_point &&
+              fake.controls.back().receiver == ENEMY && fake.controls.back().point[2] == 7.f,
+              "MoveTo/HeadTo coordinate overloads; a non-boolean fourth argument stays absolute");
+        // First argument not a number, but the second is: the coordinates read the
+        // non-number as getNumber would (a string converts through lua_tonumber).
+        run(s, Fn::character_move_to, SELF, {str("4"), num(6), nilv()});
+        check(fake.controls.back().point[0] == 4.f && fake.controls.back().point[1] == 6.f &&
+              fake.controls.back().point[2] == 0.f, "Value::getNumber of string and nil");
+
+        // Relative form: position + a0 * (K x L) + a1 * L + a2 * K, L = (sin h, -cos h, 0).
+        run(s, Fn::character_move_to, SELF, {num(0), num(650), num(0), boolean(true)});
+        const float h = 0.5f;
+        check(std::fabs(fake.controls.back().point[0] - (10.f + 650.f * std::sin(h))) < 0.01f &&
+              std::fabs(fake.controls.back().point[1] - (20.f - 650.f * std::cos(h))) < 0.01f &&
+              fake.controls.back().point[2] == 30.f, "MoveTo(0, 650, 0, true) walks 650 forward");
+        run(s, Fn::character_warp_to, SELF, {num(100), num(0), num(50), boolean(true)});
+        check(std::fabs(fake.controls.back().point[0] - (10.f + 100.f * std::cos(h))) < 0.01f &&
+              std::fabs(fake.controls.back().point[1] - (20.f + 100.f * std::sin(h))) < 0.01f &&
+              fake.controls.back().point[2] == 80.f, "relative a0 is the lateral axis (K x L) and a2 is up");
+        check(run(s, Fn::character_move_to, SELF, {num(1), num(2), num(3), boolean(true)}).status == 0, "relative form succeeds");
+        host::Services no_facts = fake.services();
+        no_facts.object_facts = nullptr;
+        check(run(no_facts, Fn::character_move_to, SELF, {num(1), num(2), num(3), boolean(true)}).status ==
+              DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "the relative form needs the receiver's facts");
+    }
+
+    // --- SetMaster / SetLevel.
+    {
+        run(s, Fn::character_set_master, ENEMY, {identity(SELF, 7)});
+        run(s, Fn::character_set_master, ENEMY, {identity(SELF, DH2_SCRIPT_IDENTITY)});
+        run(s, Fn::character_set_master, ENEMY, {num(3)});
+        run(s, Fn::character_set_master, ENEMY);
+        check(fake.masters.size() == 2 && fake.masters[0] == std::make_pair(ENEMY, SELF) &&
+              fake.masters[1] == std::make_pair(ENEMY, SELF), "SetMaster takes a Pointer or UserData");
+        run(s, Fn::character_set_level, ENEMY, {num(5.f * 256.f)});
+        run(s, Fn::character_set_level, ENEMY, {str("5")});
+        run(s, Fn::character_set_level, ENEMY);
+        check(fake.levels.size() == 1 && fake.levels[0].first == ENEMY && fake.levels[0].second == 1280.f,
+              "SetLevel needs a numeric first argument and forwards the raw word");
+    }
+
+    // --- Summon (GameObject::_Summon argument decoding).
+    {
+        fake.summons.clear();
+        const auto oid = num(7);
+        check(run(s, Fn::game_object_summon, SELF).returned == 0 && run(s, Fn::game_object_summon, SELF, {oid}).returned == 0,
+              "Summon needs two arguments");
+        run(s, Fn::game_object_summon, SELF, {oid, num(1)});
+        run(s, Fn::game_object_summon, SELF, {str("7"), boolean(false)});
+        run(s, Fn::game_object_summon, SELF, {num(20), boolean(false), num(1), num(2), num(3)});
+        check(fake.summons.empty(), "Summon ignores a non-boolean spawn flag, a non-number id and an id >= CharacterTable::size");
+
+        auto absolute = run(s, Fn::game_object_summon, SELF, {oid, boolean(false), num(1), num(2), num(3)});
+        check(absolute.status == 0 && absolute.returned == 1 && absolute.out[0].type == DH2_SCRIPT_IDENTITY &&
+              absolute.out[0].identity == 0x100000200ull, "Summon pushes the new Character");
+        const auto& a = fake.summons.back();
+        check(a.summoner == SELF && a.request.character_table_oid == 7 && !a.request.request_spawn_state &&
+              a.request.position[0] == 1.f && a.request.position[1] == 2.f && a.request.position[2] == 3.f &&
+              a.request.rotation[2] == 0.5f && a.request.forward_anim_ms == 0, "Summon(oid, false, x, y, z) is absolute at the summoner's rotation");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(true), num(1), num(2), num(3), boolean(false)});
+        check(fake.summons.back().request.request_spawn_state && fake.summons.back().request.position[0] == 1.f,
+              "a false sixth argument stays absolute");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false), num(0), num(650), num(0), boolean(true)});
+        check(std::fabs(fake.summons.back().request.position[0] - (10.f + 650.f * std::sin(0.5f))) < 0.01f &&
+              std::fabs(fake.summons.back().request.position[1] - (20.f - 650.f * std::cos(0.5f))) < 0.01f,
+              "Summon(oid, b, 0, 650, 0, true) is 650 in front of the summoner");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false), identity(ENEMY, 7)});
+        check(fake.summons.back().request.position[0] == 1.f && fake.summons.back().request.position[2] == 3.f &&
+              fake.summons.back().request.rotation[2] == 1.25f, "Summon(oid, b, UserData) takes the object's position and rotation");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false)});
+        check(fake.summons.back().request.position[0] == 10.f && fake.summons.back().request.position[2] == 30.f &&
+              fake.summons.back().request.forward_anim_ms == 0, "Summon(oid, b) uses the summoner position");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false), num(300)});
+        check(fake.summons.back().request.position[1] == 20.f && fake.summons.back().request.forward_anim_ms == 300,
+              "Summon(oid, b, n) forwards the spawn animation n ms");
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false), num(1), num(2)});
+        run(s, Fn::game_object_summon, SELF, {oid, boolean(false), num(1), num(2), str("z")});
+        check(fake.summons.size() == 8 && fake.summons[6].request.position[0] == 10.f &&
+              fake.summons[7].request.position[0] == 10.f && fake.summons[7].request.forward_anim_ms == 0,
+              "any other shape falls back to the summoner position");
+        // getUInteger of a negative number is 0 (__aeabi_f2uiz): it names row 0.
+        run(s, Fn::game_object_summon, SELF, {num(-1), boolean(false), num(1), num(2), num(3)});
+        check(fake.summons.size() == 9 && fake.summons[8].request.character_table_oid == 0,
+              "a negative CharacterTable id converts to row 0");
+        fake.summon_result = 0;
+        check(run(s, Fn::game_object_summon, SELF, {oid, boolean(false)}).returned == 0, "a rejected request pushes nothing");
+        fake.summon_result = 0x100000200ull;
+    }
+
+    // --- RegisterAnim / PlayAnim.
+    {
+        run(s, Fn::character_register_anim, SELF, {num(12.7f)});
+        run(s, Fn::character_register_anim, SELF, {num(-1)});
+        run(s, Fn::character_register_anim, SELF, {str("12")});
+        run(s, Fn::character_register_anim, SELF);
+        check(fake.registered_anims.size() == 2 && fake.registered_anims[0].second == 12 && fake.registered_anims[1].second == -1,
+              "RegisterAnim(number) truncates; non-number ignored");
+        run(s, Fn::character_play_anim, SELF, {num(12)});
+        run(s, Fn::character_play_anim, SELF, {num(100)});
+        check(fake.plays.size() == 1 && fake.plays[0].request.anim_dict == 12 && !fake.plays[0].request.has_second &&
+              !fake.plays[0].request.flag, "PlayAnim(dict) below AnimDict::size");
+        run(s, Fn::character_play_anim, SELF, {num(-3)});
+        check(fake.plays.size() == 2 && fake.plays[1].request.anim_dict == 0, "a negative AnimDict id converts to 0");
+        fake.plays.pop_back();
+        run(s, Fn::character_play_anim, SELF, {num(12), num(14), boolean(true)});
+        check(fake.plays.back().request.has_second && fake.plays.back().request.second == 14 && fake.plays.back().request.flag,
+              "PlayAnim(dict, second, true)");
+        run(s, Fn::character_play_anim, SELF, {num(12), boolean(true), boolean(true)});
+        check(!fake.plays.back().request.has_second && fake.plays.back().request.flag,
+              "a non-number second argument is ignored and the flag is read at index 2");
+    }
+
     // --- Missing providers are explicit failures, never silent no-ops.
     {
         host::Services bare{};
@@ -431,8 +708,19 @@ int main() {
         check(run(bare, Fn::game_object_rand, SELF).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "no RNG");
         check(run(bare, Fn::character_set_knock_back_state, SELF).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "no command provider");
         check(run(bare, Fn::game_object_get_self, SELF).status == 0, "GetSelf needs no provider");
+        check(run(bare, Fn::game_object_has_path, SELF).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "no path provider");
+        check(run(bare, Fn::character_stop, SELF).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "no controller provider");
+        check(run(bare, Fn::character_move_to, SELF, {num(1), num(2), num(3)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
+              "no controller provider for MoveTo");
+        check(run(bare, Fn::character_set_master, ENEMY, {identity(SELF, 7)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
+              "no AI_SetMaster provider");
+        check(run(bare, Fn::character_set_level, ENEMY, {num(1)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "no SetLevel provider");
+        check(run(bare, Fn::character_register_anim, SELF, {num(1)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
+              "no animator provider");
+        check(run(bare, Fn::game_object_summon, SELF, {num(1), boolean(false)}).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE,
+              "no CharacterTable provider");
         check(run(s, Fn::character_look_at, SELF).status == DH2_SCRIPT_REQUIRED_SERVICE_FAILURE, "an unowned native is refused");
     }
-    std::puts("{\"validation\":\"PASS\",\"groups\":12}");
+    std::puts("{\"validation\":\"PASS\",\"groups\":18}");
     return 0;
 }

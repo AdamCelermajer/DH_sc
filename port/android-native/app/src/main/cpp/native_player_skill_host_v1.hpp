@@ -25,6 +25,18 @@
 //   TargetInMeleeRange Character::_TargetInMeleeRange 0x3b7020
 //   IsDead/IsCharacter/IsPlayer/IsDoor/IsDecor, GetState,
 //   LOCK/UNLOCK, Kill, SetStunState/SetScareState/SetKnockBackState
+//   HasPath       GameObject::_HasPath       0x38e98c
+//   MoveTo        Character::_MoveTo         0x3bada8
+//   HeadTo        Character::_HeadTo         0x3ba71c
+//   WarpTo        Character::_WarpTo         0x3bb268
+//   Stop          Character::_Stop           0x3b56b4
+//   SetMaster     Character::_SetMaster      0x3b9084
+//   SetLevel      Character::_SetLevel       0x3b73a4
+//   Summon        GameObject::_Summon        0x39193c
+//   RegisterAnim  Character::_RegisterAnim   0x3b70d8
+//   PlayAnim      Character::_PlayAnim       0x3ba388
+//   SetProp/ApplyPropClass on a receiver other than the Player
+//                 Character::_SetProp 0x3b7eac / _ApplyPropClass 0x3babdc
 //
 // Every original native is `(Arguments, ReturnValues, GameObject* this)`. The
 // receiver is the Player for a global call and the table's `_this` identity for
@@ -56,6 +68,8 @@ struct ObjectFacts {
     bool has_ai_flags=false;
     // GameObject+0x160 position (the frame PlayAnimFXSet / Play3D consume).
     float position[3]{};
+    // GameObject+0x16c EulerXYZ words (+0x174 is the heading GetLookAtVec uses).
+    float rotation[3]{};
     // ObjectBase+0x44 name.
     char name[128]{};
 };
@@ -73,6 +87,50 @@ enum class ObjectCommand : std::uint8_t {
     stun,scare,
     // CharStateMachine::SM_SetKnockBackState(great = `flag`, nullptr, false).
     knock_back,
+};
+
+// v2Controller::Cmd_* commands the Character natives issue on their own
+// controller. Each one is gated by the controller (forced || !blocked &&
+// !locked) and then runs the Character controllable body, which refuses a
+// remotely updated object itself.
+enum class ControlCommand : std::uint8_t {
+    // Cmd_MoveTo(const Point3D&) -> Character::Ctrl_MoveTo(Point3D) 0x3ada30:
+    // GameObject::PathTo(point).
+    move_to_point,
+    // Cmd_HeadTo(const Point3D&) -> Character::Ctrl_HeadTo(Point3D) 0x3adac8:
+    // SetHeadingDirection(point - position, true), SetDestination(point),
+    // RaiseEvent(0).
+    head_to_point,
+    // Cmd_WarpTo(const Point3D&) -> Character::Ctrl_WarpTo 0x3adcf4:
+    // PFWorld::ValidatePosition, SetPosition(point, true), ForceUpdatePosition,
+    // RaiseEvent(1); a rejected point does nothing.
+    warp_to_point,
+    // Cmd_MoveTo(GameObject*) -> Character::Ctrl_MoveTo(GameObject*) 0x3ad9e4:
+    // GameObject::PathTo(object->GetTargetPosition()).
+    move_to_object,
+    // Cmd_Stop() -> Character::Ctrl_Stop 0x3ad890: GameObject::Stop,
+    // RaiseEvent(63).
+    stop,
+};
+
+// GameObject::_Summon after argument decoding: the final world position (floor
+// handling and Character::SetInitialPosition are the provider's), the
+// EulerXYZ words handed to GameObject::SetRotation, the SM_SetSpawnState flag
+// and the RootSceneNode::ForwardAnim milliseconds.
+struct SummonRequest {
+    std::uint32_t character_table_oid=0;
+    bool request_spawn_state=false;
+    float position[3]{};
+    float rotation[3]{};
+    std::uint32_t forward_anim_ms=0;
+};
+
+// Character::_PlayAnim after argument decoding (see do_play_anim).
+struct PlayAnimRequest {
+    std::uint32_t anim_dict=0;
+    bool has_second=false;
+    std::int32_t second=-1;
+    bool flag=false;
 };
 
 struct Services {
@@ -119,6 +177,46 @@ struct Services {
     // CharacterProperties[id] of the receiver's resolved sheet (GetProp(id)).
     int (*get_property)(void*,std::uintptr_t receiver,std::uint32_t id,
                         std::int32_t* value,std::string& error)=nullptr;
+    // CharProperties::PROPS_Set(id, value) on the receiver's own CharProperties
+    // (Character+0x560): a type-32 property writes the saved sheet and
+    // recalculates it, a type-8 property writes the resolved sheet, any other
+    // type is ignored.
+    int (*set_property)(void*,std::uintptr_t receiver,std::uint32_t id,
+                        std::int32_t value,std::string& error)=nullptr;
+    // CharProperties::PROPS_ApplyClass(class, to_temp) on the receiver's own
+    // CharProperties: to_temp selects the shared s_temp sheet, otherwise the
+    // receiver's resolved sheet.
+    int (*apply_property_class)(void*,std::uintptr_t receiver,std::int32_t class_id,
+                                bool to_temp,std::string& error)=nullptr;
+    // Number of rows of Arrays::ClassTable / Arrays::CharacterTable.
+    std::uint32_t (*class_table_size)(void*)=nullptr;
+    std::uint32_t (*character_table_size)(void*)=nullptr;
+    // v2Controller::Cmd_* on the receiver (see ControlCommand). `object` is the
+    // GameObject for move_to_object, `point` the Point3D for the point forms.
+    int (*control)(void*,ControlCommand,std::uintptr_t receiver,std::uintptr_t object,
+                   const float point[3],std::string& error)=nullptr;
+    // GameObject::_HasPath: whether the receiver's path list is not empty.
+    int (*has_path)(void*,std::uintptr_t receiver,bool* value,std::string& error)=nullptr;
+    // CharAI::AI_SetMaster(Character*) on the receiver's CharAI.
+    int (*set_master)(void*,std::uintptr_t receiver,std::uintptr_t master,
+                      std::string& error)=nullptr;
+    // Character::_SetLevel with the raw fixed-point Level word the script passed.
+    int (*set_level)(void*,std::uintptr_t receiver,float raw_level,
+                     std::string& error)=nullptr;
+    // GameObject::_Summon: Character::CreateNPC + SetInitialPosition +
+    // SetPosition + SetRotation + the room/no-room/ZoneEntered tail. `created`
+    // is the new Character, or 0 when the source pushes nothing.
+    int (*summon)(void*,std::uintptr_t summoner,const SummonRequest&,
+                  std::uintptr_t* created,std::string& error)=nullptr;
+    // CharAnimator::ANIM_AddAnimDictToSet(receiver's animator, dict); a negative
+    // dict is the source's silent no-op after the animator's set id assignment.
+    int (*register_anim)(void*,std::uintptr_t receiver,std::int32_t anim_dict,
+                         std::string& error)=nullptr;
+    // Number of rows of Arrays::AnimDict.
+    std::uint32_t (*anim_dict_size)(void*)=nullptr;
+    // The scripted AnimTable rows plus CharStateMachine::SM_SetAnimState.
+    int (*play_anim)(void*,std::uintptr_t receiver,const PlayAnimRequest&,
+                     std::string& error)=nullptr;
 };
 
 // True when `function` is owned by this module. native_player_skills.cpp calls
