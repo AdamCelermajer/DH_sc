@@ -65,6 +65,33 @@ class Builder:
         result=[]
         key=mobs.target_key(target)
         if key in self.table_ids:result.append(self.table_ids[key])
+        if target.get('type')=='table' and target.get('table'):
+            namespace=target['table']
+            members=[row for row in self.index.tables if row['table']==namespace]
+            if members:
+                nid=self.node('table-namespace:'+namespace,target.get('name') or namespace,'Tables','table_namespace',
+                    platform='android',status='SOURCE_LINKED',confidence='PROVEN',fields={**target,'row_count':len(members)})
+                result.append(nid)
+                for path in {row.get('source_file') or row.get('source_path') for row in members}:
+                    for asset in self.files(path):self.edge(nid,'asset:'+asset['id'],'source_file',status='RESOLVED')
+        if target.get('type')=='ios_source_name':
+            iid=f"ios-name:{target['source_asset_id']}:{target['group']}:{target['ordinal']}"
+            if iid in self.nodes:result.append(iid)
+        if target.get('type')=='ios_table_source':
+            asset_id='asset:'+str(target.get('source_asset_id'))
+            if asset_id in self.nodes:
+                iid=f"ios-table:{target['source_asset_id']}:{target['group']}"
+                result.append(self.node(iid,target.get('name'),'Tables','ios_source_namespace',platform='ios',
+                    status='SOURCE_DECODED',confidence='LIKELY',site=target.get('source_file'),fields=target,
+                    reason='Validated iPad names stream association; native table IDs and runtime use are unverified.'))
+                self.edge(iid,asset_id,'source_file',status='SOURCE_DECODED',confidence='PROVEN')
+        if target.get('type')=='ios_stored_constant':
+            iid=f"ios-constant:{target['source_asset_id']}:{target['group']}:{target['ordinal']}"
+            result.append(self.node(iid,str(target.get('namespace'))+'.'+str(target.get('name')),
+                'Tables','ios_stored_constant',platform='ios',status='SOURCE_DECODED',confidence='PROVEN',
+                site=target.get('source_file'),fields=target,
+                reason='Decoded iPad stored constant; native provider return semantics are unverified.'))
+            self.edge('asset:'+target['source_asset_id'],iid,'stored_constant',status='SOURCE_DECODED',confidence='PROVEN')
         if target.get('type')=='table-field':
             # A registered struct field is its own namespace, not a PyData row
             # with the same ordinal or a claim about the returned runtime ID.
@@ -78,6 +105,13 @@ class Builder:
             else:
                 result.append(self.node('symbol:'+stable_id('Sounds',target.get('name')),target.get('name'),'Audio','sound_member_name',
                                         status='UNRESOLVED',reason='Native Sounds member lookup is established; exact unique catalog row is unavailable.',fields=target))
+        if target.get('type')=='source_sound':
+            tid=self.table_ids.get((target.get('table'),target.get('source_id')))
+            if tid:result.append(tid)
+            for receipts in (target.get('asset_files_by_platform') or {}).values():
+                for receipt in receipts:
+                    aid='asset:'+str(receipt.get('id'))
+                    if aid in self.nodes:result.append(aid)
         if target.get('type')=='campaign_script':
             id=f"campaign:{target['scene_id']}:{target['index']}"
             if id in self.nodes:return [id]
@@ -87,11 +121,15 @@ class Builder:
         tid=target.get('id')
         if tid and key not in self.table_ids and target.get('type') not in ('table-row','source-table-cell','source_script'):
             id='object:'+tid
-            category={'skill_icon_symbol':'UI','itemdrop_scene_object_symbol':'Items'}.get(target.get('type'),
+            category={'skill_icon_symbol':'UI','itemdrop_scene_object_symbol':'Items','source_sound':'Audio',
+                      'native_event':'Animations'}.get(target.get('type'),
                         'Levels' if 'object' in target.get('type','') else 'Tables')
             result.append(self.node(id,target.get('name'), category,
                                     target.get('type','source_target'),status=target.get('status','SOURCE_LINKED'),
-                                    fields=target,site=target.get('source_file') or target.get('module')))
+                                    fields=target,site=target.get('source_file') or target.get('module'),
+                                    confidence=target.get('confidence'),platform=target.get('source_platform')))
+            source_asset='asset:'+str(target.get('source_asset_id'))
+            if source_asset in self.nodes:self.edge(id,source_asset,'source_file',status='SOURCE_DECODED',confidence='PROVEN')
             cp=target.get('actor_id') or target.get('character_properties_id')
             if cp and 'table:'+cp in self.nodes:
                 self.edge(id,'table:'+cp,'character_definition',status='INFERENCE',confidence='LIKELY',
@@ -242,7 +280,10 @@ class Builder:
                               'symbolic_trace':ref.get('symbolic_trace'),'field_semantics':ref.get('field_semantics'),
                               'semantic_resolution':ref.get('semantic_resolution'),
                               'resolution_evidence':ref.get('resolution_evidence'),
-                              'file_resolution':ref.get('file_resolution')})
+                              'file_resolution':ref.get('file_resolution'),
+                              'ios_semantic_resolution':ref.get('ios_semantic_resolution'),
+                              'xml_semantics':ref.get('xml_semantics'),
+                              'resource_semantics':ref.get('resource_semantics')})
             context=ref.get('context') or {}
             owner=self.row_owner.get(ref['id']) or self.script_sites.get(context.get('script'))
             if ref.get('source_definition_id'):

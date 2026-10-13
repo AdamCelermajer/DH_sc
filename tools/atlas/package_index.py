@@ -12,6 +12,7 @@ first-four-byte offset only when the expected type validates successfully.
 from __future__ import annotations
 
 import csv
+from functools import lru_cache
 import hashlib
 import io
 import json
@@ -94,6 +95,16 @@ def _read_mapping(ctx) -> dict[str, str]:
     data = _data_root(ctx)
     plan = data / Path(*_MAPPING.split('/'))
     raw = plan.read_bytes()
+    transcribed_raw = (_ipa_root(ctx) / 'index_map.tsv').read_bytes()
+    # Key by both complete source byte strings, rather than mtime/size, so
+    # same-size input mutations still invalidate validation. Each caller gets
+    # its own dictionary; no source receipt can mutate the cached authority.
+    return dict(_validated_mapping(raw, transcribed_raw))
+
+
+@lru_cache(maxsize=4)
+def _validated_mapping(raw: bytes, transcribed_raw: bytes) -> dict[str, str]:
+    """Parse identical pack maps once while retaining full-byte validation."""
     mapping: dict[str, str] = {}
     for line_no, line in enumerate(raw.splitlines(), 1):
         try:
@@ -111,9 +122,7 @@ def _read_mapping(ctx) -> dict[str, str]:
     # index_map.tsv is a convenient sorted transcription used by the original
     # IPA investigation scripts; require exact agreement with the in-package
     # map before using it as evidence.
-    tsv = _ipa_root(ctx) / 'index_map.tsv'
-    with tsv.open('r', encoding='utf-8', newline='') as stream:
-        rows = list(csv.reader(stream, delimiter='\t'))
+    rows = list(csv.reader(io.StringIO(transcribed_raw.decode('utf-8'), newline=''), delimiter='\t'))
     transcribed = {}
     for row in rows:
         if len(row) != 2:

@@ -2,7 +2,7 @@
   "inventory_only": false,
   "reference_todo": 0,
   "reference_work_todo": 0,
-  "references": 95124,
+  "references": 96154,
   "references_by_kind": {
     "actor_name_candidate": 46,
     "anim": 4429,
@@ -37,7 +37,7 @@
     "skill": 268,
     "sound": 4754,
     "source_sound_ordinal": 202,
-    "symbolic_reference": 2544,
+    "symbolic_reference": 3574,
     "texture": 11688
   },
   "sound_ledger_rows": 638,

@@ -26,6 +26,8 @@ def fields(row):
 
 
 def target_key(target):
+    if target.get('type') in ('table-field','ios_source_name','ios_stored_constant','ios_table_source'):
+        return None
     source = target.get('source_row') or {}
     table = source.get('table', target.get('table'))
     index = source.get('index', target.get('index'))

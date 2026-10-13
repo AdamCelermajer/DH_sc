@@ -80,13 +80,11 @@
 | scripts/ai/follower.luac | 19921b1cfbabfd09916c | act_1, act_2 | [detail](assets/19921b1cfbabfd09916c.md) |
 | scripts/ai/monster.luac | 9b1caeb2ccf9b9424e45 | act_1, act_2 | [detail](assets/9b1caeb2ccf9b9424e45.md) |
 | scripts/ai/rene.luac | 2fbb332d04092f3fe22e | act_1, act_2 | [detail](assets/2fbb332d04092f3fe22e.md) |
-| sfx_magical_wall_loop.wav | 9edc26982e39c0e661e8 | act_1, act_2 | [detail](assets/9edc26982e39c0e661e8.md) |
 | sfx_npc_priest_hurt_2_22.wav | 4fcc3581ac2c20509a6a | act_1, act_2 | [detail](assets/4fcc3581ac2c20509a6a.md) |
 | sfx_npc_priest_hurt_3_22.wav | bbe2f9f70db6061bea9a | act_1, act_2 | [detail](assets/bbe2f9f70db6061bea9a.md) |
 | sfx_skill_rogue_ass_concealing_cloud.wav | 4a523f5384ec82b3d637 | act_1, act_2 | [detail](assets/4a523f5384ec82b3d637.md) |
 | sfx_swoosh_sword_1_22.wav | 29528629ca15069ea2b7 | act_1, act_2 | [detail](assets/29528629ca15069ea2b7.md) |
 | sfx_swoosh_sword_2_22.wav | 4f1d3f8cf46f3f869bc3 | act_1, act_2 | [detail](assets/4f1d3f8cf46f3f869bc3.md) |
-| sfx_telepoint_loop.wav | a35b5168b7446582ea18 | act_1, act_2 | [detail](assets/a35b5168b7446582ea18.md) |
 | sounds/sfx_bandit_attack.wav | 76d1cba0f0b6a01714a9 | act_1, act_2 | [detail](assets/76d1cba0f0b6a01714a9.md) |
 | sounds/sfx_bandit_hurt.wav | d64322964cbde70645e8 | act_1, act_2 | [detail](assets/d64322964cbde70645e8.md) |
 | sounds/sfx_bandit_killed.wav | a0e4195d35f6cbbf63ec | act_1, act_2 | [detail](assets/a0e4195d35f6cbbf63ec.md) |

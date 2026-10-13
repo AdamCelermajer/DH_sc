@@ -1,8 +1,22 @@
 {
   "actor_skill_slot_joins": 40,
   "campaign_relations": 9129,
+  "character_template_references": {
+    "char_template": {
+      "RESOLVED": 4162,
+      "UNRESOLVED": 38
+    },
+    "char_template_pydata": {
+      "RESOLVED": 4185,
+      "UNRESOLVED": 15
+    },
+    "charpropsname_pydata": {
+      "RESOLVED": 344
+    }
+  },
   "file_path_joins": 4396,
-  "non_resource_reference_sites": 2485,
+  "ios_source_associations": 1962,
+  "non_resource_reference_sites": 10818,
   "payload_gaps": [],
   "payloads": {
     "decoded_by_table": {
@@ -35,11 +49,38 @@
     "resolved_rows": 1316,
     "unresolved_rows": 0
   },
-  "semantic_reference_statuses": {
-    "AMBIGUOUS": 2,
-    "NOT-NEEDED": 2485,
-    "RESOLVED": 49682,
-    "UNRESOLVED": 42955
+  "resource_roles": {
+    "annotated_references": 1699,
+    "by_role": {
+      "animation_event": 846,
+      "named_animation_sound": 44,
+      "unresolved_event_marker": 196,
+      "unresolved_sound_label": 44,
+      "xml_sound_label": 569
+    },
+    "by_status": {
+      "RESOLVED": 1457,
+      "UNRESOLVED": 242
+    },
+    "missing_sound_members": 2,
+    "native_event_targets": 846,
+    "source_sound_targets": 613
   },
-  "symbolic_edges": 190
+  "semantic_reference_statuses": {
+    "NOT-NEEDED": 10818,
+    "RESOLVED": 60872,
+    "UNRESOLVED": 24464
+  },
+  "symbolic_edges": 444,
+  "xml_source_associations": {
+    "annotated_references": 14767,
+    "by_attribute": {
+      "_templateName": 14767
+    },
+    "by_status": {
+      "NOT-NEEDED": 7130,
+      "UNRESOLVED": 7637
+    },
+    "unique_xml_template_targets": 0
+  }
 }

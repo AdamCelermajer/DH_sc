@@ -1,0 +1,122 @@
+{
+  "check_count": 23,
+  "checks": [
+    {
+      "detail": null,
+      "name": "input refs remain untouched",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "stable IDs and idempotent output",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "do_skill keeps both state admission branches",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "do_spell state gate retained",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "attack main/offhand remain distinct",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "ev_ prefix resolves through AIS virtual",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "an_ camera callback is not treated as a file URI",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unknown callback retains explicit reason",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "BRES sound maps exact suffix to source SDD row",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "physical sound path retains Android/iOS union",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "only one leading event prefix is removed",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "catalog-known missing file stays unresolved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source random event retains both exact member files",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "XML member label matches source name exactly",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "XML label case mismatch is not normalized",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "XML sfx-looking label is not prefix-stripped",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iOS bare sound label keeps Android row inference explicit",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "duplicate exact XML sound labels remain ambiguous",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iOS event association states Android inference only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unknown source platform keeps Android event evidence likely only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unknown source platform sound association is not proven",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "case-only physical path stays missing with diagnostic candidate",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "generated corpus rows have terminal source semantic evidence",
+      "passed": true
+    }
+  ],
+  "failed": [],
+  "passed": true
+}

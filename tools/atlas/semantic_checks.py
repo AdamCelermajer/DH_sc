@@ -100,7 +100,10 @@ def run(ctx):
                 and t.get('index')==106+int(r.get('name')) for t in r.get('resolves_to',[]))
             for r in slot_refs),{'source_calls':len({r['context']['call_id'] for r in slot_refs}),'source_reference_sites':len(slot_refs)})
     record('every non-resource classification retains an evidence rule and reason',all(
-        r.get('reason') and (r.get('semantic_resolution') or {}).get('evidence')
+        r.get('reason') and r.get('rule') and (
+            (r.get('semantic_resolution') or {}).get('evidence')
+            or (r.get('ios_semantic_resolution') or {}).get('evidence')
+            or ((r.get('xml_semantics') or {}).get('resolver')=='xml_semantics.v1' and r.get('schema_evidence')))
         for r in refs if r.get('status')=='NOT-NEEDED'))
     core=by_id.get('0d186b6ccfc617e9d39a',{})
     tables=read_json(ctx.out/'data/tables.json',[]);assets=read_json(ctx.out/'data/assets.json',[])

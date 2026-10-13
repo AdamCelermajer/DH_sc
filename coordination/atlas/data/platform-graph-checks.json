@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "name": "iPad source names cannot resolve to Android rows",
+      "passed": true
+    },
+    {
+      "name": "iPad namespaces are scoped to their package source",
+      "passed": true
+    },
+    {
+      "name": "iPad namespace points to indexed source bytes",
+      "passed": true
+    },
+    {
+      "name": "registered struct fields never become missing gameplay table rows",
+      "passed": true
+    },
+    {
+      "detail": {
+        "Android_leaks": [],
+        "missing": [],
+        "rows": 5301
+      },
+      "name": "all generated iPad source associations have only scoped graph targets",
+      "passed": true
+    }
+  ]
+}

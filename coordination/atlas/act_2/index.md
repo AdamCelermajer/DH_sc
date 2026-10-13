@@ -711,7 +711,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | file005293.dat | 4048bb0cb2c7812ba450 | ORPHAN | [details](assets/4048bb0cb2c7812ba450.md) |
 | 3d/characters/dark_queen/animations/dark_queen1stform_hurt.bdae | 40d6091ce6a980fd3648 | ORPHAN | [details](assets/40d6091ce6a980fd3648.md) |
 | file004662.dat | 4106322c8e21193a5912 | ORPHAN | [details](assets/4106322c8e21193a5912.md) |
-| sounds/m_level_darkwood_sfx_darkwood.vxn | 410cf45e8f2aef0428b0 | ORPHAN | [details](assets/410cf45e8f2aef0428b0.md) |
 | 3d/characters/npcs/thamos_merchant.bdae | 41fedada55ffb8759356 | ORPHAN | [details](assets/41fedada55ffb8759356.md) |
 | 3d/characters/prince/animations/prince_1hand_combo_02.bdae | 4272f3fbd92520558594 | ORPHAN | [details](assets/4272f3fbd92520558594.md) |
 | 3d/characters/prince/animations/prince_stunned.bdae | 444721ae1b4f1f410751 | ORPHAN | [details](assets/444721ae1b4f1f410751.md) |
@@ -768,7 +767,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/interface/swoosh_prince_1hand_combo_03.bdae | 6ef63481382913ac92ba | ORPHAN | [details](assets/6ef63481382913ac92ba.md) |
 | sounds/sfx_dark_queen_attack.wav | 6f2d8d7c1da025e362a5 | ORPHAN | [details](assets/6f2d8d7c1da025e362a5.md) |
 | 3d/modules/darkwood/mvp/darkwood_05_01.mvp | 707aa5f6706d8fec655e | ORPHAN | [details](assets/707aa5f6706d8fec655e.md) |
-| m_level_darkwood_sfx_darkwood.vxn | 71170778b477b81b85f2 | ORPHAN | [details](assets/71170778b477b81b85f2.md) |
 | sfx_impact_arrow_object_2_22.wav | 724da0c3eff74749b247 | ORPHAN | [details](assets/724da0c3eff74749b247.md) |
 | file005633.dat | 72f8a11ae7dd39339e8f | ORPHAN | [details](assets/72f8a11ae7dd39339e8f.md) |
 | 3d/projectiles/elemental_bolt_fire.bdae | 75eb749e6ecd2fc0f475 | ORPHAN | [details](assets/75eb749e6ecd2fc0f475.md) |
@@ -827,7 +825,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/modules/darkwood/mvp/darkwood_12_01.mvp | 9cd61daad94bd13af7fc | ORPHAN | [details](assets/9cd61daad94bd13af7fc.md) |
 | 3d/modules/darkwood/mgp/darkwood_29_01.mgp | 9d61413a9743a0b91ada | ORPHAN | [details](assets/9d61413a9743a0b91ada.md) |
 | 3d/modules/darkwood/mgp/darkwood_06_01.mgp | 9e90c04b074e77569ba1 | ORPHAN | [details](assets/9e90c04b074e77569ba1.md) |
-| sfx_magical_wall_loop.wav | 9edc26982e39c0e661e8 | ORPHAN | [details](assets/9edc26982e39c0e661e8.md) |
 | 3d/modules/darkwood/mvp/darkwood_10_01.mvp | 9eebc2522fc8c71e8f1e | ORPHAN | [details](assets/9eebc2522fc8c71e8f1e.md) |
 | file004783.dat | 9ef54539dcbab477949d | ORPHAN | [details](assets/9ef54539dcbab477949d.md) |
 | file001952.dat | 9f315489390a7a48856f | ORPHAN | [details](assets/9f315489390a7a48856f.md) |
@@ -839,7 +836,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | file001316.dat | a166eb66d3c5194b23fa | ORPHAN | [details](assets/a166eb66d3c5194b23fa.md) |
 | 3d/gameobjects/itemdrops.bdae | a2acd30044d5739365dd | ORPHAN | [details](assets/a2acd30044d5739365dd.md) |
 | scripts/ai/darkqueen1.luac | a2e3866360ed767d346a | ORPHAN | [details](assets/a2e3866360ed767d346a.md) |
-| sfx_telepoint_loop.wav | a35b5168b7446582ea18 | ORPHAN | [details](assets/a35b5168b7446582ea18.md) |
 | 3d/modules/darkwood/mvp/darkwood_11_01.mvp | a3f9296e8a8ce480324d | ORPHAN | [details](assets/a3f9296e8a8ce480324d.md) |
 | 3d/modules/darkwood/mvp/darkwood_07_01.mvp | a4c13d7e57658238fbf3 | ORPHAN | [details](assets/a4c13d7e57658238fbf3.md) |
 | file004296.dat | a65482b40853d1217538 | ORPHAN | [details](assets/a65482b40853d1217538.md) |

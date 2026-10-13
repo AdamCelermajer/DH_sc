@@ -80,6 +80,8 @@ def _typed(table, index):
 def _edge_target(ref):
     targets = []
     for target in ref.get('resolves_to') or []:
+        if target.get('type') in ('table-field','ios_source_name','ios_stored_constant','ios_table_source'):
+            continue
         source = target.get('source_row') or {}
         table = source.get('table', target.get('table'))
         index = source.get('index', target.get('index'))

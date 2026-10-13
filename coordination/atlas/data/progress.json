@@ -46,8 +46,22 @@
     "enrichment": {
       "actor_skill_slot_joins": 40,
       "campaign_relations": 9129,
+      "character_template_references": {
+        "char_template": {
+          "RESOLVED": 4162,
+          "UNRESOLVED": 38
+        },
+        "char_template_pydata": {
+          "RESOLVED": 4185,
+          "UNRESOLVED": 15
+        },
+        "charpropsname_pydata": {
+          "RESOLVED": 344
+        }
+      },
       "file_path_joins": 4396,
-      "non_resource_reference_sites": 2485,
+      "ios_source_associations": 1962,
+      "non_resource_reference_sites": 10818,
       "payload_gaps": [],
       "payloads": {
         "decoded_by_table": {
@@ -80,38 +94,163 @@
         "resolved_rows": 1316,
         "unresolved_rows": 0
       },
-      "semantic_reference_statuses": {
-        "AMBIGUOUS": 2,
-        "NOT-NEEDED": 2485,
-        "RESOLVED": 49682,
-        "UNRESOLVED": 42955
+      "resource_roles": {
+        "annotated_references": 1699,
+        "by_role": {
+          "animation_event": 846,
+          "named_animation_sound": 44,
+          "unresolved_event_marker": 196,
+          "unresolved_sound_label": 44,
+          "xml_sound_label": 569
+        },
+        "by_status": {
+          "RESOLVED": 1457,
+          "UNRESOLVED": 242
+        },
+        "missing_sound_members": 2,
+        "native_event_targets": 846,
+        "source_sound_targets": 613
       },
-      "symbolic_edges": 190
+      "semantic_reference_statuses": {
+        "NOT-NEEDED": 10818,
+        "RESOLVED": 60872,
+        "UNRESOLVED": 24464
+      },
+      "symbolic_edges": 444,
+      "xml_source_associations": {
+        "annotated_references": 14767,
+        "by_attribute": {
+          "_templateName": 14767
+        },
+        "by_status": {
+          "NOT-NEEDED": 7130,
+          "UNRESOLVED": 7637
+        },
+        "unique_xml_template_targets": 0
+      }
+    },
+    "entity-native": {
+      "entity_native": {
+        "actors": 448,
+        "addresses_with_decompilation_snippets": 498,
+        "addresses_without_decompilation_snippets": 0,
+        "calls": 7982,
+        "entities_with_native_functions": 648,
+        "entity_kinds": {
+          "actor": 448,
+          "animated_effect": 284,
+          "animation_clip": 1447,
+          "animation_sequence": 785,
+          "character_animation": 80,
+          "effect_set": 276,
+          "faery": 16,
+          "faery_list": 4,
+          "item": 1322,
+          "item_power": 937,
+          "item_power_list": 121,
+          "level": 190,
+          "monopoly_item_power": 43,
+          "projectile": 41,
+          "projectile_model": 28,
+          "script": 219,
+          "skill": 127,
+          "skill_list": 36,
+          "sound": 638
+        },
+        "entity_rows": 7042,
+        "entity_script_association_status": {
+          "NO_SCRIPT_ASSOCIATION_IN_AVAILABLE_SOURCE_JOIN": 6188,
+          "SCRIPT_LINK_UNRESOLVED": 203,
+          "SOURCE_SCRIPT_ASSOCIATION_FOUND": 651
+        },
+        "entity_script_links": 1829,
+        "entity_unresolved_script_links": 212,
+        "functions_with_addresses": 271,
+        "functions_without_addresses": 17,
+        "items": 1322,
+        "levels": 190,
+        "lua_calls_with_source_excerpt": 7982,
+        "lua_calls_without_source_excerpt": 0,
+        "native_function_ledger_rows": 288,
+        "profiles": 6404,
+        "scripts": 219,
+        "skills": 127
+      },
+      "resource_attributions": {
+        "byte_status": {
+          "BYTES_PRESENT": 6334
+        },
+        "candidate_paths_with_source_gap_notes": 83,
+        "candidate_paths_without_source_match": 0,
+        "candidate_resource_path_edges": 108,
+        "candidate_resource_path_evidence": {
+          "UNRESOLVED|PROVEN|UNRESOLVED": 108
+        },
+        "confirmed_file_missing_resource_paths": 83,
+        "file_associations": {
+          "AUTHORED_RESOURCE_PATH_ASSOCIATION": 2227,
+          "DECODER_JOIN_ASSOCIATION_ONLY": 6,
+          "ORPHAN_IN_EXTRACTED_CORPUS": 82,
+          "PACKED_LOGICAL_PATH_CANDIDATE": 2901,
+          "SOURCE_DECODER_CONSUMER_ONLY": 1118
+        },
+        "file_types": {
+          "sound_file": 514,
+          "visual_resource_file": 5820
+        },
+        "missing_resource_path_edges": 83,
+        "owner_candidate_edges": 0,
+        "packed_logical_media_files": 2901,
+        "packed_logical_media_types": {
+          "visual_resource_file": 2901
+        },
+        "platform_unknown_files": 0,
+        "platform_unknown_profiles": 115,
+        "profile_associations": {
+          "DECLARED_OWNER_ASSOCIATION": 1096,
+          "SHARED_TABLE_ASSOCIATION_ONLY": 82,
+          "SOURCE_TABLE_ASSOCIATION_ONLY": 2401
+        },
+        "profiles_with_owner_candidates": 0,
+        "proven_owner_profiles": 1096,
+        "resource_files": 6334,
+        "resource_profile_kinds": {
+          "animated_effect": 284,
+          "animation_clip": 1447,
+          "animation_sequence": 785,
+          "character_animation": 80,
+          "effect_set": 276,
+          "projectile": 41,
+          "projectile_model": 28,
+          "sound": 638
+        },
+        "resource_profiles": 3579
+      }
     },
     "graph": {
       "by_category": {
         "Actors": 464,
-        "Animations": 2312,
+        "Animations": 2328,
         "Assets": 12204,
-        "Audio": 1159,
+        "Audio": 1279,
         "Campaign": 13984,
         "Effects": 639,
         "Functions": 730,
         "Items": 2405,
         "Levels": 6891,
-        "References": 95136,
+        "References": 96166,
         "Scripts": 11223,
         "Skills": 163,
-        "Tables": 22888,
+        "Tables": 22951,
         "Text": 42413,
         "UI": 14827
       },
-      "edges": 407505,
-      "nodes": 227438,
+      "edges": 421316,
+      "nodes": 228667,
       "profiles": 6852,
-      "reference_sites": 95124,
+      "reference_sites": 96154,
       "scope": "All supplied corpus rows and files; evidence/inference/unknown distinctions are preserved.",
-      "unresolved_reference_sites": 42955
+      "unresolved_reference_sites": 24464
     },
     "item-resources": {
       "derived_edges": 5338,
@@ -424,7 +563,7 @@
       "inventory_only": false,
       "reference_todo": 0,
       "reference_work_todo": 0,
-      "references": 95124,
+      "references": 96154,
       "references_by_kind": {
         "actor_name_candidate": 46,
         "anim": 4429,
@@ -459,7 +598,7 @@
         "skill": 268,
         "sound": 4754,
         "source_sound_ordinal": 202,
-        "symbolic_reference": 2544,
+        "symbolic_reference": 3574,
         "texture": 11688
       },
       "sound_ledger_rows": 638,
@@ -526,9 +665,9 @@
           "symbolic_reference": 2544
         },
         "statuses": {
-          "NOT-NEEDED": 2485,
-          "RESOLVED": 1130,
-          "UNRESOLVED": 1168
+          "NOT-NEEDED": 2852,
+          "RESOLVED": 1384,
+          "UNRESOLVED": 547
         },
         "todo": 0,
         "total": 4783
@@ -1022,15 +1161,14 @@
       "category": "ACT-ORGANISED GENERATED VIEWS",
       "inventory": {
         "asset_reference_rows": {
-          "processed": 95124,
+          "processed": 96154,
           "states": {
-            "AMBIGUOUS": 2,
-            "NOT-NEEDED": 2485,
-            "RESOLVED": 49682,
-            "UNRESOLVED": 42955
+            "NOT-NEEDED": 10818,
+            "RESOLVED": 60872,
+            "UNRESOLVED": 24464
           },
           "todo": 0,
-          "total": 95124
+          "total": 96154
         },
         "backup_scene_rows": {
           "processed": 30,
@@ -1143,9 +1281,9 @@
         "script_reference_rows": {
           "processed": 4783,
           "states": {
-            "NOT-NEEDED": 2485,
-            "RESOLVED": 1130,
-            "UNRESOLVED": 1168
+            "NOT-NEEDED": 2852,
+            "RESOLVED": 1384,
+            "UNRESOLVED": 547
           },
           "todo": 0,
           "total": 4783
@@ -1190,7 +1328,7 @@
     }
   },
   "definition": "Processed = DONE, UNRESOLVED(reason), or NOT-NEEDED(reason); resolved != ported != runtime verified.",
-  "not_TODO": 126534,
+  "not_TODO": 127564,
   "percent": 100.0,
   "phase": "COVERAGE VERIFIED; MOB SEMANTICS PARTIAL",
   "rows": {
@@ -1247,11 +1385,11 @@
     },
     "references": {
       "TODO": 0,
-      "not_TODO": 95124,
+      "not_TODO": 96154,
       "states": {
-        "DONE": 95124
+        "DONE": 96154
       },
-      "total": 95124
+      "total": 96154
     },
     "scripts": {
       "TODO": 0,
@@ -1271,5 +1409,5 @@
       "total": 8863
     }
   },
-  "total": 126534
+  "total": 127564
 }

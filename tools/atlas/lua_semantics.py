@@ -58,43 +58,71 @@ def _literal_args(call):
 
 
 def _pycst_groups(ctx):
-    """Decode the original Android constants cache with the source format."""
-    path = ctx.inputs / "assets-extra/android/data/pydata/ai_pycst.bin"
-    raw = path.read_bytes()
-    at = 0
+    """Decode PyDataConstants in the Android loader's exact registration order."""
+    root = ctx.inputs / "assets-extra/android/data/pydata"
+    manifest = ctx.root / "port/android-native/app/src/main/cpp/source_process_pydata_files_v101.hpp"
+    source = manifest.read_text(encoding="utf-8")
+    match = re.search(r"process_pydata_constants_v101\[\]\s*=\s*\{(.*?)\};", source, re.DOTALL)
+    if not match:
+        raise ValueError("Android PyDataConstants registration order is absent")
+    filenames = re.findall(r'\{"pydata/([^\"]+_pycst\.bin)"', match.group(1))
+    paths = [root / name for name in filenames if (root / name).is_file()]
+    groups, sources = {}, {}
 
-    def word():
-        nonlocal at
-        if at + 4 > len(raw):
-            raise ValueError("truncated Android ai_pycst.bin")
-        value = struct.unpack_from("<I", raw, at)[0]
-        at += 4
-        return value
+    class SourceNameStop(Exception):
+        pass
 
-    def name():
-        nonlocal at
-        size = word()
-        if size > 255 or size > len(raw) - at:
-            raise ValueError("invalid string in Android ai_pycst.bin")
-        value = raw[at:at + size].split(b"\0", 1)[0].decode("utf-8", "strict")
-        at += size
-        return value
+    def decode(path):
+        raw = path.read_bytes()
+        at = 0
 
-    groups = {}
-    count = word()
-    if count > 65536:
-        raise ValueError("invalid group count in Android ai_pycst.bin")
-    for _ in range(count):
-        group, entries = name(), word()
-        if entries > 100000:
-            raise ValueError("invalid entry count in Android ai_pycst.bin")
-        values = groups.setdefault(group, {})
-        for _ in range(entries):
-            key, value = name(), struct.unpack("<i", struct.pack("<I", word()))[0]
-            values[key] = value
-    if at != len(raw):
-        raise ValueError("trailing bytes in Android ai_pycst.bin")
-    return groups, ".local-inputs/assets-extra/android/data/pydata/ai_pycst.bin"
+        def word():
+            nonlocal at
+            if at + 4 > len(raw):
+                raise ValueError(f"truncated Android {path.name}")
+            value = struct.unpack_from("<I", raw, at)[0]
+            at += 4
+            return value
+
+        def name():
+            nonlocal at
+            size = word()
+            # The recovered source reader stops the current file at a name
+            # length >= 256, preserving only prior complete assignments.
+            if size >= 256:
+                raise SourceNameStop
+            if size > len(raw) - at:
+                raise ValueError(f"invalid string in Android {path.name}")
+            value = raw[at:at + size].split(b"\0", 1)[0].decode("utf-8", "strict")
+            at += size
+            return value
+
+        decoded = {}
+        try:
+            count = word()
+            if count > 65536:
+                raise ValueError(f"invalid group count in Android {path.name}")
+            for _ in range(count):
+                group, entries = name(), word()
+                if entries > 100000:
+                    raise ValueError(f"invalid entry count in Android {path.name}")
+                values = decoded.setdefault(group, {})
+                for _ in range(entries):
+                    key, value = name(), struct.unpack("<i", struct.pack("<I", word()))[0]
+                    values[key] = value
+        except SourceNameStop:
+            return decoded
+        if at != len(raw):
+            raise ValueError(f"trailing bytes in Android {path.name}")
+        return decoded
+
+    for path in paths:
+        site = ".local-inputs/" + path.relative_to(ctx.inputs).as_posix()
+        for group, entries in decode(path).items():
+            for key, value in entries.items():
+                groups.setdefault(group, {})[key] = value
+                sources[(group, key)] = site
+    return groups, sources
 
 
 def _character_property_fields(ctx):
@@ -117,6 +145,13 @@ def _target_row(rows_by_key, table, name):
 
 def _mark_not_needed(ref, rule, evidence):
     _store(ref, rule, evidence, status="NOT-NEEDED", reason="OTHER")
+
+
+def _android_source_call(ref, calls_by_id, scripts_by_id):
+    context = ref.get("context") or {}
+    call = calls_by_id.get(context.get("call_id"))
+    script = scripts_by_id.get(context.get("script_id") or (call or {}).get("script_id"))
+    return call, script if script and script.get("platform") == "android" else None
 
 
 def resolve(ctx, refs, tables, calls, scripts):
@@ -147,6 +182,8 @@ def resolve(ctx, refs, tables, calls, scripts):
     # Promote exact, already-proven call edges to the outer symbolic reference.
     # The edge's target is revalidated against this invocation's source rows.
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         if ref.get("kind") != "symbolic_reference" or ref.get("status") == "RESOLVED":
             continue
         edges = [edge for edge in ref.get("derived_edges", [])
@@ -184,6 +221,8 @@ def resolve(ctx, refs, tables, calls, scripts):
     # example StopSound). The native wrappers prove the same Sounds lookup.
     sound_contracts={'PlaySound':'0x0037e578','PlayMusic':'0x0037e420','StopSound':'0x0037e730'}
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         context=ref.get('context') or {}
         address=sound_contracts.get(context.get('call'))
         if not address or context.get('argument_index')!=1 or ref.get('status')=='RESOLVED':
@@ -210,6 +249,8 @@ def resolve(ctx, refs, tables, calls, scripts):
     # Resolve GetPyStruct's exact CharacterProperties field using its proven
     # 224-member registered schema. This is a schema member, not a data row.
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         if ref.get("kind") != "symbolic_reference" or ref.get("status") == "RESOLVED":
             continue
         context = ref.get("context") or {}
@@ -236,6 +277,8 @@ def resolve(ctx, refs, tables, calls, scripts):
     # constants blob. The generic native getter consumes a group and member;
     # every exact pair is a numeric constant, not a resource row.
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         if ref.get("kind") != "symbolic_reference" or ref.get("status") == "RESOLVED":
             continue
         context = ref.get("context") or {}
@@ -254,7 +297,7 @@ def resolve(ctx, refs, tables, calls, scripts):
         _mark_not_needed(ref,
                          "GetPyCst resolves this exact namespace/member as a source numeric constant, not an external resource.",
                          {"native_wrapper": "pseudocode-all.c LuaScript::_GetPyCst 0x0037f354 -> PyDataConstants::getConstant 0x004c4bdc",
-                          "source_cache": constants_source, "namespace": namespace, "name": value_name,
+                          "source_cache": constants_source.get((namespace, value_name)), "namespace": namespace, "name": value_name,
                           "signed_value": value, "call_id": call.get("id"), "script": call.get("site"),
                           "line": call.get("line")})
 
@@ -274,13 +317,74 @@ def resolve(ctx, refs, tables, calls, scripts):
         "OnTerminate": {"native_dispatch": "AISExternal::OnTerminate 0x003dce34", "dispatch_key": "OnTerminate",
                          "registration": "LuaScript::_AddToVFTable 0x0037ec70"},
     }
+    # The Android external-AI bridge dispatches these exact keys through
+    # AISExternal::On* wrappers. Registration alone is not proof that a
+    # callback will run: InitVCB and each caller retain their source gates.
+    for key, address in {
+        "OnMasterInMeleeRange": "0x003dccf4", "OnMasterInCloseRange": "0x003dcd10",
+        "OnMasterInRangedRange": "0x003dcd2c", "OnMasterOutOfRange": "0x003dcd48",
+        "OnMasterInSight": "0x003dcd64", "OnMasterOutOfSight": "0x003dcd74",
+        "OnMasterDied": "0x003dcd84", "OnTargetInMeleeRange": "0x003dcd94",
+        "OnTargetInRangedRange": "0x003dcdcc", "OnTargetOutOfRange": "0x003dcde8",
+        "OnTargetInSight": "0x003dce04", "OnTargetOutOfSight": "0x003dce14",
+        "OnInitPost": "0x003dce54", "OnUpdate": "0x003dce64",
+        "OnInit": "0x003dcea4", "OnCombatResults": "0x003dd250",
+        "OnProjectileHit": "0x003dd2a0", "OnEnemySpotted": "0x003dd2f4",
+        "OnNeutralSpotted": "0x003dd344", "OnFriendSpotted": "0x003dd394",
+        "OnRevived": "0x003dd3f0",
+    }.items():
+        callback_contracts.setdefault(key, {
+            "native_dispatch": f"AISExternal::{key} {address}", "dispatch_key": key,
+            "registration": "LuaScript::_AddToVFTable 0x0037ec70; AISExternal::InitVCB 0x003dcec8 and callback-specific callers gate delivery",
+        })
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         if ref.get("kind") != "symbolic_reference" or ref.get("status") == "RESOLVED":
             continue
         context = ref.get("context") or {}
-        if context.get("call") != "AddToVFTable" or context.get("argument_index") != 1:
-            continue
         call = calls_by_id.get(context.get("call_id"))
+        api = context.get("call")
+        arg_index = context.get("argument_index")
+        if api == "RegisterSkill" and isinstance(arg_index, int) and 1 <= arg_index <= 7:
+            script = scripts_by_id.get((call or {}).get("script_id"), {})
+            if ((call or {}).get("call_mode") not in ("global", "imported_script_function") or script.get("platform") != "android"
+                    or not str(script.get("site", "")).replace("\\", "/").startswith(".local-inputs/assets-extra/android/data/scripts/skills/")):
+                continue
+            args = call.get("arguments", [])
+            arg = next((entry for entry in args if entry.get("index") == arg_index), None)
+            name = ref.get("name", "")
+            key = {1: "update", 2: "check", 3: "pre", 4: "skill", 5: "post", 6: "delayed", 7: "info"}[arg_index]
+            if not arg or arg.get("expression") != name or not re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", name):
+                continue
+            ref["reference_kind"] = "skill_callback"
+            _mark_not_needed(ref, "RegisterSkill positional callback argument follows the Android _commons.luac callback schema.",
+                {"helper_source": ".local-inputs/assets-extra/android/data/scripts/skills/_commons.luac:41-49",
+                 "callback_field": key, "argument_index": arg_index, "call_id": call.get("id"),
+                 "script": script.get("site"), "line": call.get("line")})
+            continue
+        if api == "RegisterSkillEx" and arg_index == 1:
+            script = scripts_by_id.get((call or {}).get("script_id"), {})
+            arg = next((entry for entry in (call or {}).get("arguments", []) if entry.get("index") == 1), {})
+            expression = (arg.get("expression") or "").strip()
+            known_fields = {"update", "cleanup", "check", "pre", "skill", "post", "delayed", "delayed_check", "info"}
+            field = r"(?:update|cleanup|check|pre|skill|post|delayed|delayed_check|info)"
+            simple_callback_table = re.fullmatch(
+                rf"\{{\s*{field}\s*=\s*(?:[A-Za-z_][A-Za-z_0-9]*|nil)"
+                rf"(?:\s*,\s*{field}\s*=\s*(?:[A-Za-z_][A-Za-z_0-9]*|nil))*\s*,?\s*\}}",
+                expression, re.DOTALL)
+            fields = re.findall(rf"(?:\{{|,)\s*({field})\s*=", expression) if simple_callback_table else []
+            if ((call or {}).get("call_mode") not in ("global", "imported_script_function") or script.get("platform") != "android"
+                    or not str(script.get("site", "")).replace("\\", "/").startswith(".local-inputs/assets-extra/android/data/scripts/skills/")
+                    or not simple_callback_table or not fields or not set(fields) <= known_fields):
+                continue
+            ref["reference_kind"] = "skill_callback_table"
+            _mark_not_needed(ref, "RegisterSkillEx argument is an authored callback table using the helper's declared field schema.",
+                {"helper_source": ".local-inputs/assets-extra/android/data/scripts/skills/_commons.luac:52-78",
+                 "callback_fields": fields, "call_id": call.get("id"), "script": script.get("site"), "line": call.get("line")})
+            continue
+        if api != "AddToVFTable" or arg_index != 1:
+            continue
         args = _literal_args(call or {})
         key = _unquote(ref.get("name", ""))
         proof = callback_contracts.get(key)
@@ -300,13 +404,16 @@ def resolve(ctx, refs, tables, calls, scripts):
     # keeping them out of the resource-reference graph. DoSkill slots are
     # intentionally excluded: they select entries in the actor's SkillTree.
     scalar_contracts = {
-        ("PlayMusic", 2): ("number", "pseudocode-all.c LuaScript::_PlayMusic 0x0037e420"),
-        ("PlaySound", 2): ("boolean", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578"),
-        ("PlaySound", 3): ("number", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578"),
-        ("PlaySound", 4): ("boolean", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578"),
-        ("StopSound", 2): ("number", "pseudocode-all.c LuaScript::_StopSound 0x0037e730"),
+        ("PlayMusic", 2): ("number", "pseudocode-all.c LuaScript::_PlayMusic 0x0037e420", "music playback scalar"),
+        ("PlaySound", 2): ("boolean", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578", "sound playback boolean"),
+        ("PlaySound", 3): ("number", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578", "sound playback scalar"),
+        ("PlaySound", 4): ("boolean", "pseudocode-all.c LuaScript::_PlaySound 0x0037e578", "sound playback boolean"),
+        ("StopSound", 2): ("number", "pseudocode-all.c LuaScript::_StopSound 0x0037e730", "sound stop duration"),
+        ("TargetListSearch", 2): ("number", "pseudocode-all.c GameObject::_TargetListSearch 0x0038fcf0", "target search geometry parameter"),
     }
     for ref in result:
+        if not _android_source_call(ref, calls_by_id, scripts_by_id)[1]:
+            continue
         if ref.get("kind") == "symbolic_reference" and ref.get("status") == "RESOLVED":
             continue
         context = ref.get("context") or {}
@@ -319,7 +426,7 @@ def resolve(ctx, refs, tables, calls, scripts):
         if not arg:
             continue
         raw_value = arg.get("expression", "").strip()
-        expected_type, native_binding = contract
+        expected_type, native_binding, scalar_role = contract
         if expected_type == "boolean":
             if raw_value.lower() not in ("true", "false"):
                 continue
@@ -334,7 +441,7 @@ def resolve(ctx, refs, tables, calls, scripts):
                 continue
         ref["reference_kind"] = "native_scalar_argument"
         _mark_not_needed(ref,
-                         "Exact native sound API position consumes this literal as a scalar playback parameter.",
+                         f"Exact native API position consumes this literal as a {scalar_role}.",
                          {"native_binding": native_binding, "argument_index": context.get("argument_index"),
                           "scalar_type": expected_type, "literal_value": raw_value,
                           "call_id": call.get("id"), "script": call.get("site"), "line": call.get("line")})

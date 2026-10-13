@@ -70,6 +70,42 @@ are used only with Android Lua calls and Android native contracts. The
 independently proven `script_links.v1` edge is rechecked against the current
 Android table row before the outer symbolic expression is promoted.
 
+## Global callback and scalar contracts
+
+The global pass uses the Android `assets-extra/android/data/scripts/skills/_commons.luac`
+helper as the source contract, not callback-like names. `RegisterSkill` at lines
+41–49 maps arguments 1–7 to `update`, `check`, `pre`, `skill`, `post`, `delayed`,
+and `info`; only exact identifier operands in Android skill scripts whose call
+records show the imported helper mode are classified. `RegisterSkillEx` at
+lines 52–78 accepts a callback table, requires `update`, `check`, `pre`, and
+`skill` before registering, and copies the named callback fields into the
+working skill entry. The resolver classifies only a simple authored table whose
+keys are in that declared schema and whose values are identifiers or `nil`.
+Function bodies, computed fields, unknown keys, and other table shapes remain
+unclassified.
+
+`AddToVFTable` names are marked as callback keys only when the exact key appears
+in an Android `AISExternal::On*` dispatcher in the cited IDA export. The
+registration binding at `LuaScript::_AddToVFTable` (`0x0037ec70`) establishes
+the callback-key role. The bridge’s `AISExternal::InitVCB` (`0x003dcec8`) and
+individual callers still gate delivery; in particular the `OnTargetInCloseRange`
+path is guarded by bit `0x10`. These semantic labels do not claim that any
+callback executed. The callback and caller evidence is Android-only.
+
+The scalar metadata rule for `TargetListSearch` is restricted to argument 2,
+which Android IDA `GameObject::_TargetListSearch` (`0x0038fcf0`) consumes as a
+numeric target-search geometry parameter. It records literals such as `360`
+as call metadata; it does not claim that a target matched or that the search
+result was used. Existing `PlaySound`, `PlayMusic`, and `StopSound` scalar
+positions remain separately typed from their first-string `Sounds` lookup.
+
+`GetPyCst` cache loading follows the Android registration order in
+`source_process_pydata_files_v101.hpp`, rather than assuming `ai_pycst.bin` is
+the only provider. The decoder records the exact file for each pair and mirrors
+the recovered reader's stop when a name length reaches 256 bytes. Exact pairs
+such as `Elemental.Water` are classified as numeric constants only when present
+in that registered source cache. Unknown groups or names stay unresolved.
+
 ## Outcomes and known uncertainties
 
 On the current Android source snapshot, the focused Mud Lord outcomes are:
@@ -117,3 +153,11 @@ unresolved; the DoSkill slot remained unresolved as a semantic operand; and two
 consecutive calls produced byte-equivalent in-memory reference rows.
 No atlas outputs were regenerated and no UI/gameplay runtime test was performed
 in this bounded module task.
+
+The added `global_lua_checks.run(ctx)` is a read-only module check for the full
+indexed reference, call, script, and table ledgers. It checks repeatability and
+input immutability, verifies that successful results span AI, skill, and level
+scripts, and runs synthetic exact/missing/duplicate-row, wrong-namespace,
+argument-position, iOS-isolation, tuple-write, nested-scope, escaped-literal,
+and imported-global/local cases. These checks validate source attribution only;
+they are not integrated gameplay or visual verification.

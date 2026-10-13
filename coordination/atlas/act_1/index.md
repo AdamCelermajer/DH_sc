@@ -704,7 +704,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/slime/animations/slime_pre_stunned.bdae | 2dc64d9f739004098220 | ORPHAN | [details](assets/2dc64d9f739004098220.md) |
 | 3d/modules/swamp/mvp/corner_ruin_ws_00.mvp | 2e44382f0bb9dd158802 | ORPHAN | [details](assets/2e44382f0bb9dd158802.md) |
 | scripts/ai/rene.luac | 2fbb332d04092f3fe22e | ORPHAN | [details](assets/2fbb332d04092f3fe22e.md) |
-| m_level_swamp_sfx_witch.vxn | 307b276efee6b84d630e | ORPHAN | [details](assets/307b276efee6b84d630e.md) |
 | 3d/characters/lizardman/animations/lizardman_great_pushback_despawn.bdae | 30cd50ae97fae9a644b5 | ORPHAN | [details](assets/30cd50ae97fae9a644b5.md) |
 | 3d/characters/prince/animations/prince_1hand_combo_01.bdae | 30f51edd3c58f864b6e6 | ORPHAN | [details](assets/30f51edd3c58f864b6e6.md) |
 | 3d/characters/npcs/head_cultist.bdae | 33d08ad9d8e8ee25dcd4 | ORPHAN | [details](assets/33d08ad9d8e8ee25dcd4.md) |
@@ -724,7 +723,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | sounds/sfx_witch_magic_explosion.wav | 40418e424aaeee129552 | ORPHAN | [details](assets/40418e424aaeee129552.md) |
 | file001480.dat | 40ddfa57e3e7872660d7 | ORPHAN | [details](assets/40ddfa57e3e7872660d7.md) |
 | 3d/characters/prince/animations/prince_1hand_combo_02.bdae | 4272f3fbd92520558594 | ORPHAN | [details](assets/4272f3fbd92520558594.md) |
-| m_level_swamp_sfx_swamp.vxn | 43333c3cf818972b54a0 | ORPHAN | [details](assets/43333c3cf818972b54a0.md) |
 | 3d/characters/prince/animations/prince_stunned.bdae | 444721ae1b4f1f410751 | ORPHAN | [details](assets/444721ae1b4f1f410751.md) |
 | file004099.dat | 445e23a525acd3d1bced | ORPHAN | [details](assets/445e23a525acd3d1bced.md) |
 | sounds/sfx_serpent_spit_water.wav | 44c9d544caf157a46862 | ORPHAN | [details](assets/44c9d544caf157a46862.md) |
@@ -783,7 +781,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | sounds/sfx_bandit_attack.wav | 76d1cba0f0b6a01714a9 | ORPHAN | [details](assets/76d1cba0f0b6a01714a9.md) |
 | 3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp | 775cf46f5ef4043f72ba | ORPHAN | [details](assets/775cf46f5ef4043f72ba.md) |
 | 3d/characters/invisible_man/invisible_man.bdae | 776c8aa134973124d681 | ORPHAN | [details](assets/776c8aa134973124d681.md) |
-| sfx_magic_portal_loop.wav | 77dcfc4ca12c9e7b0c23 | ORPHAN | [details](assets/77dcfc4ca12c9e7b0c23.md) |
 | 3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae | 780f5b393dab705ea937 | ORPHAN | [details](assets/780f5b393dab705ea937.md) |
 | 3d/characters/slime/animations/slime_idle_02.bdae | 7a242c05f3fcfacbda6b | ORPHAN | [details](assets/7a242c05f3fcfacbda6b.md) |
 | 3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp | 7a652108fc6b33157fc8 | ORPHAN | [details](assets/7a652108fc6b33157fc8.md) |
@@ -827,7 +824,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | file002691.dat | 91824150b7be186627b8 | ORPHAN | [details](assets/91824150b7be186627b8.md) |
 | 3d/characters/moth/animations/moth_post_attack_01.bdae | 9288d8710d74325f0a19 | ORPHAN | [details](assets/9288d8710d74325f0a19.md) |
 | 3d/characters/moth/animations/moth_great_pushback.bdae | 9439d2145a460dfab556 | ORPHAN | [details](assets/9439d2145a460dfab556.md) |
-| sfx_cave_mouth_loop.wav | 96572b2fbf06a9088910 | ORPHAN | [details](assets/96572b2fbf06a9088910.md) |
 | 3d/characters/moth/animations/moth_idle_01.bdae | 96caf804e09ea44c74bd | ORPHAN | [details](assets/96caf804e09ea44c74bd.md) |
 | 3d/characters/swampking/animations/swampking_attack_01.bdae | 96d69c58fe5749e5cae2 | ORPHAN | [details](assets/96d69c58fe5749e5cae2.md) |
 | 3d/characters/moth/animations/moth_pre_attack_01.bdae | 9731018b6e541baa62ed | ORPHAN | [details](assets/9731018b6e541baa62ed.md) |
@@ -844,7 +840,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/slime/animations/slime_despawn.bdae | 9d6a1d4757aca6e94a69 | ORPHAN | [details](assets/9d6a1d4757aca6e94a69.md) |
 | 3d/characters/slime/animations/slime_spawn.bdae | 9e71b890b449c22e680d | ORPHAN | [details](assets/9e71b890b449c22e680d.md) |
 | 3d/characters/moth/animations/moth_spawn.bdae | 9e9987beb6853951853e | ORPHAN | [details](assets/9e9987beb6853951853e.md) |
-| sfx_magical_wall_loop.wav | 9edc26982e39c0e661e8 | ORPHAN | [details](assets/9edc26982e39c0e661e8.md) |
 | 3d/characters/swampking/animations/swampking_post_attack_02.bdae | 9ee89124cdb8f11b50b4 | ORPHAN | [details](assets/9ee89124cdb8f11b50b4.md) |
 | sounds/sfx_cave_troll_mace_attack.wav | 9faee3cfedb4a86a4b7e | ORPHAN | [details](assets/9faee3cfedb4a86a4b7e.md) |
 | file004834.dat | a0bb7b1ba7ce1f91dbb0 | ORPHAN | [details](assets/a0bb7b1ba7ce1f91dbb0.md) |
@@ -853,7 +848,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/swampking/animations/swampking_swim_small.bdae | a1ad1ef4ac1439e4c9af | ORPHAN | [details](assets/a1ad1ef4ac1439e4c9af.md) |
 | 3d/characters/witch/animations/witch_attack_01.bdae | a27a9b0676542c9d7c5c | ORPHAN | [details](assets/a27a9b0676542c9d7c5c.md) |
 | 3d/gameobjects/itemdrops.bdae | a2acd30044d5739365dd | ORPHAN | [details](assets/a2acd30044d5739365dd.md) |
-| sfx_telepoint_loop.wav | a35b5168b7446582ea18 | ORPHAN | [details](assets/a35b5168b7446582ea18.md) |
 | 3d/characters/troll/animations/troll_swamp_walk.bdae | a3e0c3d7168d6f76acb6 | ORPHAN | [details](assets/a3e0c3d7168d6f76acb6.md) |
 | sounds/sfx_moth_hurt_1.wav | a4797c8df1a4c3e520ae | ORPHAN | [details](assets/a4797c8df1a4c3e520ae.md) |
 | 3d/characters/slime/animations/slime_great_pushback_standup.bdae | a483a18ce3da5d3b8808 | ORPHAN | [details](assets/a483a18ce3da5d3b8808.md) |
@@ -941,7 +935,6 @@ Each page joins the source asset inventory to scene/MGP reference rows and carri
 | 3d/characters/moth/animations/moth_pre_stunned.bdae | daaa9d28f430d3c5d541 | ORPHAN | [details](assets/daaa9d28f430d3c5d541.md) |
 | file000912.dat | db7aceb2774360d1c2a3 | ORPHAN | [details](assets/db7aceb2774360d1c2a3.md) |
 | 3d/characters/troll/animations/troll_swamp_pre_attack_01.bdae | dbd0f70844fa244e785d | ORPHAN | [details](assets/dbd0f70844fa244e785d.md) |
-| sfx_bandit_lair_river_loop.wav | dc0882c7bd3146741eb6 | ORPHAN | [details](assets/dc0882c7bd3146741eb6.md) |
 | 3d/characters/swampking/animations/swampking_pre_attack_02.bdae | dc7da675aca210285cf1 | ORPHAN | [details](assets/dc7da675aca210285cf1.md) |
 | 3d/characters/npcs/animations/npc_m_lookingaround.bdae | ddb636673d3c96ebcad3 | ORPHAN | [details](assets/ddb636673d3c96ebcad3.md) |
 | scripts/ai/swampking_core.luac | de30ef870beeb632a45b | ORPHAN | [details](assets/de30ef870beeb632a45b.md) |

@@ -43,9 +43,9 @@
   },
   {
     "confidence": "PROVEN",
-    "evidence": "native Character::GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114 (CharSoundsTable) and :121-122 (Sounds_bak).",
+    "evidence": "GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114; tools/atlas/table_payloads.py and mob_sounds.py.",
     "id": "character-sounds-table-group",
-    "rule": "CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). This establishes only the row namespace; sound payload fields and any SDD/audio relationship remain undecoded. Sounds_bak is a separate later registration group.",
+    "rule": "CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). Source rows are decoded; producer-specific state and SDD joins are documented separately. Sounds_bak is a distinct later registration group.",
     "status": "PROVEN"
   },
   {
@@ -85,9 +85,9 @@
   },
   {
     "confidence": "PROVEN",
-    "evidence": "port/engine-audio/reference/source-bindings-v38/ledger.json; adapter.cpp sound event mapping; BDAE event sites from tools/atlas/sites.py.",
+    "evidence": "CharAI::_OnAnimEvent 0x3d4434; resource-semantics-report.md; original 638-row SDD array and sounds.xml.",
     "id": "bdae-sound-prefix",
-    "rule": "BDAE sound events strip exactly one leading `sfx_` before lookup in sounds.xml; preserve the resulting label verbatim, including malformed or missing names.",
+    "rule": "BDAE named-sound events strip exactly one leading sfx_ before an exact source Sounds-member lookup. The SDD row UID or event members then identify sounds.xml filenames. Duplicate XML labels alone do not override the source row; missing members remain explicit.",
     "status": "PROVEN"
   },
   {
@@ -130,6 +130,41 @@
     "evidence": "Character::_DoSkill 0x3b8bd8, GetCharSkill 0x3bc784, AI_BeginSkill 0x3d86bc; skill-slot-links-report.md.",
     "id": "actor-lua-skill-slot",
     "rule": "A literal global Android DoSkill argument is a zero-based receiver skill-list slot. Join only exact declared AI.Script consumers through each actor SkillTree and SkillList entries. A common target is resolved; divergent targets are ambiguous and incomplete lists remain unresolved. Runtime active/usability gates remain separate.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "PropertyMap::SetTemplate 0x513fec and LoadTemplate 0x51419c; xml-semantics-report.md.",
+    "id": "android-object-template-selector",
+    "rule": "Android GameObject._templateName is an internal property-map label, not a file URI or actor row. A coincident same-file Template name does not establish external loading; inheritance remains unsupported/unverified. iPad consumers are separate unknowns.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "SafeGetCharPropsTemplateId 0x3b36ec, GetCharPropertiesId 0x3b3d38, Character InitPost; character-template-semantics-report.md.",
+    "id": "character-template-source-fields",
+    "rule": "A Character char_template is an authored template name; char_template_pydata is a separate table selector. Exact gated Android names link to their own CharacterTemplate rows. iPad names and selectors link only to validated iPad source streams with native IDs unverified. Cached IDs, player/non-player selection and spawn gates do not become runtime execution claims.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "LIKELY",
+    "evidence": "ios-semantics-report.md; exact package map, validated names groups and stored constant bytes.",
+    "id": "ipad-provider-source-association",
+    "rule": "Exact iPad GetPyOID pairs can identify a likely source names-stream family through repeated unique source evidence; GetPyCst pairs record stored constants. Source positions and serialized values are not native API IDs. Android ordinals are never borrowed for these source links.",
+    "status": "INFERENCE"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "CharAI::_OnAnimEvent 0x3d4434 and source consumer handoffs; resource-semantics-report.md.",
+    "id": "animation-event-dispatch",
+    "rule": "Known Android animation event strings link to their original dispatcher role with state/caller gates preserved. Unknown markers retain a reason. iPad payload strings can only have likely associations to Android handler evidence. Named sfx_ events strip one exact prefix, then follow the source SDD member/event and full sounds URI across both caches.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "entity-native-report.md; data/entity-native.json and data/resource-attributions.json.",
+    "id": "entity-native-and-resource-attribution",
+    "rule": "Entity Lua membership, native handler evidence, port readiness and runtime execution are separate facts. Resource ownership requires a proven resolved field edge; candidates, source-table membership, decoder use and orphans retain distinct explanations. Packed media preserves its physical transport path and likely logical alias.",
     "status": "PROVEN"
   }
 ]

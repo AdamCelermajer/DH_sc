@@ -2,7 +2,7 @@
 
 Generated from the supplied Android, iOS and Android original-cache corpus and the frozen port source. This is a static data and source atlas. Port status records source coverage; it does not certify gameplay or audibility.
 
-Coverage check: **PASS**. Processed: **126,534/126,534 (100.00%)**.
+Coverage check: **PASS**. Processed: **127,564/127,564 (100.00%)**.
 
 Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.
 
@@ -25,6 +25,8 @@ atlas cleancheck
 
 [Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. **Semantic coverage remains partial:** dynamic Lua bindings, native contracts, encounter placement and runtime conditions are explicit gaps. All inventoried Android table payload rows are decoded; packed iOS table payloads retain their own evidence limits. The processed percentage is not a claim that every mob is fully understood.
 
+The local website uses a persistent SQLite index, paginated search and bounded entity packets. The portable HTML retains its embedded offline snapshot. The Native / IDA tab exposes entity-specific Lua associations and available Android handler evidence; an address alone does not prove a complete native contract. See [native evidence and resource attribution](entity-native-report.md), [entity-native index](data/entity-native.json), [resource attribution index](data/resource-attributions.json) and [website measurements](fast-backend-report.md).
+
 The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.
 
 ## Coverage
@@ -34,12 +36,117 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | scripts | 219 | {"UNRESOLVED": 215, "DONE": 4} |
 | functions | 288 | {"UNRESOLVED": 257, "DONE": 31} |
 | calls | 7982 | {"DONE": 4170, "UNRESOLVED": 3812} |
-| references | 95124 | {"UNRESOLVED": 42955, "RESOLVED": 49682, "AMBIGUOUS": 2, "NOT-NEEDED": 2485} |
-| assets | 13355 | {"ORPHAN": 2455, "REFERENCED": 10900} |
+| references | 96154 | {"UNRESOLVED": 24464, "RESOLVED": 60872, "NOT-NEEDED": 10818} |
+| assets | 13355 | {"ORPHAN": 2432, "REFERENCED": 10923} |
 | levels | 190 | {"DONE": 91, "UNRESOLVED": 15, "RESOLVED": 78, "INFERENCE": 6} |
 | actors | 448 | {"RESOLVED": 448} |
 | bosses | 65 | {"PROVEN": 59, "UNRESOLVED": 6} |
 | tables | 8863 | {"RESOLVED": 8863} |
+
+## Entity and resource attribution
+
+Each catalog row records a source association or an explicit missing, table-only, decoder-only or orphan reason. These distinctions concern the supplied corpus; static ownership does not certify runtime playback or rendering.
+
+```json
+{
+  "entity_native": {
+    "actors": 448,
+    "addresses_with_decompilation_snippets": 498,
+    "addresses_without_decompilation_snippets": 0,
+    "calls": 7982,
+    "entities_with_native_functions": 648,
+    "entity_kinds": {
+      "actor": 448,
+      "animated_effect": 284,
+      "animation_clip": 1447,
+      "animation_sequence": 785,
+      "character_animation": 80,
+      "effect_set": 276,
+      "faery": 16,
+      "faery_list": 4,
+      "item": 1322,
+      "item_power": 937,
+      "item_power_list": 121,
+      "level": 190,
+      "monopoly_item_power": 43,
+      "projectile": 41,
+      "projectile_model": 28,
+      "script": 219,
+      "skill": 127,
+      "skill_list": 36,
+      "sound": 638
+    },
+    "entity_rows": 7042,
+    "entity_script_association_status": {
+      "NO_SCRIPT_ASSOCIATION_IN_AVAILABLE_SOURCE_JOIN": 6188,
+      "SCRIPT_LINK_UNRESOLVED": 203,
+      "SOURCE_SCRIPT_ASSOCIATION_FOUND": 651
+    },
+    "entity_script_links": 1829,
+    "entity_unresolved_script_links": 212,
+    "functions_with_addresses": 271,
+    "functions_without_addresses": 17,
+    "items": 1322,
+    "levels": 190,
+    "lua_calls_with_source_excerpt": 7982,
+    "lua_calls_without_source_excerpt": 0,
+    "native_function_ledger_rows": 288,
+    "profiles": 6404,
+    "scripts": 219,
+    "skills": 127
+  },
+  "resource_attributions": {
+    "byte_status": {
+      "BYTES_PRESENT": 6334
+    },
+    "candidate_paths_with_source_gap_notes": 83,
+    "candidate_paths_without_source_match": 0,
+    "candidate_resource_path_edges": 108,
+    "candidate_resource_path_evidence": {
+      "UNRESOLVED|PROVEN|UNRESOLVED": 108
+    },
+    "confirmed_file_missing_resource_paths": 83,
+    "file_associations": {
+      "AUTHORED_RESOURCE_PATH_ASSOCIATION": 2227,
+      "DECODER_JOIN_ASSOCIATION_ONLY": 6,
+      "ORPHAN_IN_EXTRACTED_CORPUS": 82,
+      "PACKED_LOGICAL_PATH_CANDIDATE": 2901,
+      "SOURCE_DECODER_CONSUMER_ONLY": 1118
+    },
+    "file_types": {
+      "sound_file": 514,
+      "visual_resource_file": 5820
+    },
+    "missing_resource_path_edges": 83,
+    "owner_candidate_edges": 0,
+    "packed_logical_media_files": 2901,
+    "packed_logical_media_types": {
+      "visual_resource_file": 2901
+    },
+    "platform_unknown_files": 0,
+    "platform_unknown_profiles": 115,
+    "profile_associations": {
+      "DECLARED_OWNER_ASSOCIATION": 1096,
+      "SHARED_TABLE_ASSOCIATION_ONLY": 82,
+      "SOURCE_TABLE_ASSOCIATION_ONLY": 2401
+    },
+    "profiles_with_owner_candidates": 0,
+    "proven_owner_profiles": 1096,
+    "resource_files": 6334,
+    "resource_profile_kinds": {
+      "animated_effect": 284,
+      "animation_clip": 1447,
+      "animation_sequence": 785,
+      "character_animation": 80,
+      "effect_set": 276,
+      "projectile": 41,
+      "projectile_model": 28,
+      "sound": 638
+    },
+    "resource_profiles": 3579
+  }
+}
+```
 
 ## Reference resolution and port status
 
@@ -48,12 +155,12 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | actor_name_candidate | 46 | 32 | 0 | 14 | {"OTHER": 14} | {"UNKNOWN": 46} |
 | anim | 4429 | 4429 | 0 | 0 | {} | {"PARTIAL": 1897, "UNKNOWN": 2532} |
 | animated effect | 553 | 553 | 0 | 0 | {} | {"PARTIAL": 284, "UNKNOWN": 269} |
-| animation event | 1042 | 0 | 0 | 1042 | {"OTHER": 1042} | {"UNKNOWN": 1042} |
+| animation event | 1042 | 846 | 0 | 196 | {"OTHER": 196} | {"UNKNOWN": 1042} |
 | animation_dictionary | 854 | 854 | 0 | 0 | {} | {"PARTIAL": 854} |
 | campaign_script_target_index | 1004 | 1004 | 0 | 0 | {} | {"UNKNOWN": 1004} |
-| character | 25391 | 1105 | 0 | 24286 | {"OTHER": 24242, "NAME_NO_FILE": 44} | {"UNKNOWN": 24242, "PARTIAL": 1149} |
+| character | 25391 | 9452 | 0 | 8809 | {"NAME_NO_FILE": 44, "OTHER": 8765} | {"UNKNOWN": 24242, "PARTIAL": 1149} |
 | class | 511 | 511 | 0 | 0 | {} | {"PARTIAL": 511} |
-| data file | 698 | 225 | 0 | 473 | {"OTHER": 467, "FILE_MISSING": 2, "NAME_NO_FILE": 4} | {"UNKNOWN": 698} |
+| data file | 698 | 569 | 0 | 129 | {"FILE_MISSING": 2, "NAME_NO_FILE": 4, "OTHER": 123} | {"UNKNOWN": 698} |
 | dialog_style_id | 1812 | 0 | 0 | 1812 | {"OTHER": 1812} | {"UNKNOWN": 1812} |
 | dialog_text_string_id | 1812 | 0 | 0 | 1812 | {"OTHER": 1812} | {"UNKNOWN": 1812} |
 | effect set | 575 | 575 | 0 | 0 | {} | {"PARTIAL": 452, "UNKNOWN": 123} |
@@ -68,30 +175,30 @@ The wrapper stages an ignored portable interpreter from the Codex dependency bun
 | loot | 1141 | 1141 | 0 | 0 | {} | {"PARTIAL": 1141} |
 | model | 13397 | 11097 | 0 | 2300 | {"NAME_NO_FILE": 1991, "FILE_MISSING": 280, "OTHER": 29} | {"UNKNOWN": 11388, "PARTIAL": 2009} |
 | model component | 1245 | 0 | 0 | 1245 | {"OTHER": 1245} | {"PARTIAL": 1245} |
-| named_reference | 3864 | 46 | 0 | 2032 | {"OTHER": 2029, "FILE_MISSING": 3} | {"UNKNOWN": 3864} |
-| numeric_reference | 294 | 17 | 0 | 212 | {"OTHER": 198, "FILE_MISSING": 14} | {"UNKNOWN": 294} |
+| named_reference | 3864 | 141 | 0 | 1101 | {"OTHER": 1098, "FILE_MISSING": 3} | {"UNKNOWN": 3864} |
+| numeric_reference | 294 | 17 | 0 | 193 | {"OTHER": 179, "FILE_MISSING": 14} | {"UNKNOWN": 294} |
 | projectile | 150 | 150 | 0 | 0 | {} | {"PARTIAL": 110, "UNKNOWN": 40} |
 | quest | 154 | 154 | 0 | 0 | {} | {"PARTIAL": 154} |
 | scene_object_condition | 472 | 462 | 0 | 10 | {"OTHER": 10} | {"UNKNOWN": 472} |
 | script | 1628 | 681 | 0 | 947 | {"OTHER": 850, "FILE_MISSING": 97} | {"UNKNOWN": 1097, "PARTIAL": 531} |
 | serialized_string | 7727 | 4133 | 0 | 3594 | {"OTHER": 3594} | {"UNKNOWN": 7727} |
 | skill | 268 | 268 | 0 | 0 | {} | {"PARTIAL": 55, "UNKNOWN": 213} |
-| sound | 4754 | 2988 | 2 | 1764 | {"OTHER": 391, "FILE_MISSING": 395, "NAME_NO_FILE": 978} | {"UNKNOWN": 4140, "PARTIAL": 614} |
+| sound | 4754 | 3271 | 0 | 1483 | {"OTHER": 109, "FILE_MISSING": 396, "NAME_NO_FILE": 978} | {"UNKNOWN": 4140, "PARTIAL": 614} |
 | source_sound_ordinal | 202 | 202 | 0 | 0 | {} | {"PARTIAL": 202} |
-| symbolic_reference | 2544 | 1067 | 0 | 843 | {"OTHER": 828, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 2544} |
+| symbolic_reference | 3574 | 2342 | 0 | 250 | {"OTHER": 235, "NAME_NO_FILE": 4, "FILE_MISSING": 11} | {"UNKNOWN": 3574} |
 | texture | 11688 | 11186 | 0 | 502 | {"FILE_MISSING": 492, "NAME_NO_FILE": 10} | {"UNKNOWN": 11688} |
 
 ## Asset consumers and orphans
 
 | Corpus | Files | Referenced | ORPHAN |
 | --- | --- | --- | --- |
-| android | 6040 | 5170 | 870 |
+| android | 6040 | 5174 | 866 |
 | android-extra | 18 | 0 | 18 |
 | audio-cache | 265 | 254 | 11 |
 | ios | 256 | 254 | 2 |
 | ios-app-resources | 28 | 0 | 28 |
 | ios-glive | 50 | 0 | 50 |
-| ios-packed | 6157 | 5107 | 1050 |
+| ios-packed | 6157 | 5126 | 1031 |
 | original-cache | 152 | 112 | 40 |
 | port-runtime-original-cache | 387 | 1 | 386 |
 | sound-table | 2 | 2 | 0 |
@@ -441,7 +548,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1736
+      "unresolved_source_references": 1411
     },
     {
       "act": "act_2",
@@ -452,7 +559,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1043
+      "unresolved_source_references": 712
     },
     {
       "act": "act_3",
@@ -489,7 +596,7 @@ Act allocation and boundaries are **INFERENCE pending owner confirmation**. See 
     }
   ],
   "ranking_scope": "Act 2+ only. Campaign engine command rows include native kind, factory/reader address, descriptor source, port status, and current anchors; unresolved source rows include resolver metadata.",
-  "shared_asset_count": 85,
+  "shared_asset_count": 83,
   "shared_rule": "A stable asset ID is shared only when its source-linked references occur in at least two explicitly assigned acts.",
   "status": "DONE",
   "top20_acts_2_plus": [

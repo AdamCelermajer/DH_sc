@@ -25,7 +25,12 @@ _API_NAMESPACE = {
     "PlayAnim": (1, "AnimDict", "animations_dictionary#group0", "0x003ba388"),
     "RegisterAnim": (1, "AnimDict", "animations_dictionary#group0", "0x003b70d8"),
     "PlayFX": (1, "AnimatedEffectTable", "effect_sets", "0x003923cc"),
-    "SpawnSkillProjectile": (1, "ProjectileDict", "projectiles_dictionary#group0", "0x003b99d0"),
+    # _commons.luac prepends SKILL_ID, so authored argument 1 reaches native
+    # argument 1 (the projectile row) after the hidden skill slot is removed.
+    "SpawnSkillProjectile": (1, "ProjectileTable", "projectiles#group0", "0x003b99d0"),
+    "ApplyPropClass": (1, "ClassTable", "character_classes#group0", "0x003babdc"),
+    "CreateBuff": (1, "ClassTable", "character_classes#group0", "0x003b86a8"),
+    "ApplyBuff": (1, "ClassTable", "character_classes#group0", "0x003babdc"),
 }
 _API_STRING_MEMBER = {
     # These handlers call Arrays::GetMemberIDByString<Arrays::Sounds> on arg 0.
@@ -57,24 +62,81 @@ def _assignments(text):
     found = {}
     lines = text.splitlines()
     tokens = _tokens(text)
-    # Count every plain assignment token, including assignments inside
-    # conditional/inline statements and unsupported expressions. They make a
-    # binding ambiguous even when only one assignment has a simple RHS.
-    for index, token in enumerate(tokens[:-1]):
-        if token[0] != "id" or tokens[index + 1][1] != "=":
+    local_names = set()
+    block_depth = []
+    depth = 0
+    pending_loop_do = False
+    for token in tokens:
+        block_depth.append(depth)
+        value = token[1]
+        if value in ("function", "if", "repeat"):
+            depth += 1
+        elif value in ("for", "while"):
+            depth += 1
+            pending_loop_do = True
+        elif value == "do":
+            if pending_loop_do:
+                pending_loop_do = False
+            else:
+                depth += 1
+        elif value == "end":
+            depth = max(0, depth - 1)
+            pending_loop_do = False
+        elif value == "until":
+            depth = max(0, depth - 1)
+    # Imported snippets share their global environment, but a local declaration
+    # shadows that spelling for the whole chunk. Record declarations even when
+    # they have no initializer (`local X; X = ...`). A conservative whole-file
+    # name gate is used for imports, avoiding a cross-include local leak.
+    for index, token in enumerate(tokens):
+        if token[1] != "local" or index + 1 >= len(tokens):
             continue
-        if index + 2 < len(tokens) and tokens[index + 2][1] == "=":
+        cursor = index + 1
+        if tokens[cursor][1] == "function":
+            if cursor + 1 < len(tokens) and tokens[cursor + 1][0] == "id":
+                local_names.add(tokens[cursor + 1][1])
             continue
-        if index and tokens[index - 1][1] in (".", ":"):
+        while cursor < len(tokens) and tokens[cursor][0] == "id":
+            local_names.add(tokens[cursor][1])
+            cursor += 1
+            if cursor >= len(tokens) or tokens[cursor][1] != ",":
+                break
+            cursor += 1
+    # Count every simple identifier LHS, including assignments inside
+    # conditional/inline statements and unsupported expressions. For a tuple
+    # assignment, invalidate every identifier on its comma-separated LHS;
+    # recording only the final name would leave earlier names falsely unique.
+    for eq_index, token in enumerate(tokens):
+        if token[1] != "=" or eq_index == 0 or (eq_index + 1 < len(tokens) and tokens[eq_index + 1][1] == "="):
             continue
-        name, line_no = token[1], token[2]
-        source_line = lines[line_no - 1]
-        m = re.fullmatch(r"\s*(?:local\s+)?([A-Za-z_][A-Za-z_0-9]*)\s*=\s*(.*?)\s*;?\s*", source_line)
-        top_level = source_line == source_line.lstrip()
-        rhs = m.group(2) if top_level and m and m.group(1) == name else ""
-        if not (_GET_PYOID.fullmatch(rhs) or _IDENTIFIER.fullmatch(rhs) or _STRING.fullmatch(rhs) or _NUMBER.fullmatch(rhs)):
-            rhs = ""
-        found.setdefault(name, []).append({"line": line_no, "rhs": rhs, "source": source_line.strip()})
+        lhs = []
+        cursor = eq_index - 1
+        if tokens[cursor][0] == "id" and (cursor == 0 or tokens[cursor - 1][1] not in (".", ":")):
+            lhs.append(cursor)
+            cursor -= 1
+            while cursor >= 1 and tokens[cursor][1] == "," and tokens[cursor - 1][0] == "id":
+                lhs.append(cursor - 1)
+                cursor -= 2
+        if not lhs:
+            continue
+        lhs.reverse()
+        multiple_lhs = len(lhs) > 1
+        for index in lhs:
+            name, line_no = tokens[index][1], tokens[index][2]
+            source_line = lines[line_no - 1]
+            m = re.fullmatch(r"\s*(?:local\s+)?([A-Za-z_][A-Za-z_0-9]*)\s*=\s*(.*?)\s*;?\s*", source_line)
+            whole_line_assignment = bool(m and m.group(1) == name)
+            # Lua indentation is formatting, not scope. The token block depth
+            # is the scope gate; the whole-line regexp below proves syntax.
+            top_level = block_depth[index] == 0
+            rhs = m.group(2) if not multiple_lhs and top_level and whole_line_assignment else ""
+            if not (_GET_PYOID.fullmatch(rhs) or _IDENTIFIER.fullmatch(rhs) or _STRING.fullmatch(rhs) or _NUMBER.fullmatch(rhs)):
+                rhs = ""
+            found.setdefault(name, []).append({"line": line_no, "rhs": rhs, "source": source_line.strip(),
+                                               "scope_depth": block_depth[index],
+                                               "multiple_lhs": multiple_lhs,
+                                               "whole_line_assignment": whole_line_assignment,
+                                               "local_declared_in_file": name in local_names})
     return found
 
 
@@ -140,19 +202,29 @@ def _trace(ctx, script, calls_by_script, expression, use_line):
         all_options = assignments.get(current, [])
         # Reassignment, a later write, or multiple in-scope candidates means
         # lexical/runtime behavior could change the value; retain as unknown.
+        if all_options and (len(all_options) != 1 or len(options) != 1):
+            reason = "MULTIPLE_WRITES" if len(all_options) > 1 else "BINDING_AFTER_USE"
+            return None, {"status": "UNRESOLVED", "reason": reason, "variable": current, "bindings": bindings,
+                          "writes": [{"line": x["line"], "expression": x["rhs"]} for x in all_options]}
         if len(all_options) != 1 or len(options) != 1:
             # A global imported literal may be consumed without a local copy.
             imports = _included_sources(ctx, script, calls_by_script)
             imported = []
             for path in imports:
-                candidate = _assignments(path.read_text(encoding="utf-8-sig", errors="replace")).get(current, [])
+                imported_text = path.read_text(encoding="utf-8-sig", errors="replace")
+                candidate = _assignments(imported_text).get(current, [])
                 # A global binding only: imported locals are not visible.
                 for item in candidate:
-                    line_text = path.read_text(encoding="utf-8-sig", errors="replace").splitlines()[item["line"] - 1].lstrip()
-                    if line_text == line_text.lstrip() and not line_text.startswith("local "):
+                    line_text = imported_text.splitlines()[item["line"] - 1].lstrip()
+                    if (item.get("scope_depth") == 0 and not item.get("local_declared_in_file")
+                            and not re.match(r"local\s+", line_text)
+                            and item.get("rhs")):
                         imported.append((path, item, candidate))
             if len(imported) != 1 or len(imported[0][2]) != 1:
-                return None, {"status": "UNRESOLVED", "reason": "MISSING_OR_AMBIGUOUS_BINDING", "variable": current, "bindings": bindings}
+                reason = "MULTIPLE_WRITES" if len(all_options) > 1 else (
+                    "BINDING_AFTER_USE" if all_options and not options else "MISSING_OR_AMBIGUOUS_BINDING")
+                return None, {"status": "UNRESOLVED", "reason": reason, "variable": current, "bindings": bindings,
+                              "writes": [{"line": x["line"], "expression": x["rhs"]} for x in all_options]}
             path, item, _ = imported[0]
             source_site = ".local-inputs/" + path.relative_to(Path(ctx.inputs)).as_posix()
         else:
@@ -160,21 +232,44 @@ def _trace(ctx, script, calls_by_script, expression, use_line):
             path = source
             source_site = site
         bindings.append({"variable": current, "source": source_site, "line": item["line"], "expression": item["rhs"], "text": item["source"]})
+        if not item["rhs"]:
+            if item.get("multiple_lhs"):
+                reason = "MULTIPLE_ASSIGNMENT_LHS"
+            elif item.get("scope_depth", 0) > 0:
+                reason = "SCOPED_BINDING_NOT_ADMITTED"
+            elif item.get("whole_line_assignment"):
+                reason = "UNSUPPORTED_BINDING_EXPRESSION"
+            else:
+                reason = "INLINE_OR_UNSUPPORTED_ASSIGNMENT"
+            return None, {"status": "UNRESOLVED", "reason": reason, "variable": current,
+                          "bindings": bindings, "source": source_site, "line": item["line"]}
         current = item["rhs"].strip().rstrip(";").strip()
         # Follow exact GetPyOID calls as symbolic table/name pairs.
         query = _GET_PYOID.fullmatch(current)
         if query:
+            if "\\" in query.group(2) or "\\" in query.group(4):
+                return None, {"status": "UNRESOLVED", "reason": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+                              "expression": current, "bindings": bindings}
             return {"kind": "pydata", "namespace": query.group(2), "name": query.group(4)}, {"status": "TRACED", "bindings": bindings}
         literal = _STRING.fullmatch(current)
         if literal:
+            if "\\" in literal.group(2):
+                return None, {"status": "UNRESOLVED", "reason": "UNSUPPORTED_ESCAPED_STRING", "expression": current,
+                              "bindings": bindings}
             return {"kind": "string", "value": literal.group(2)}, {"status": "TRACED", "bindings": bindings}
         if _NUMBER.fullmatch(current):
             return {"kind": "number", "value": current}, {"status": "TRACED", "bindings": bindings}
     query = _GET_PYOID.fullmatch(current)
     if query:
+        if "\\" in query.group(2) or "\\" in query.group(4):
+            return None, {"status": "UNRESOLVED", "reason": "UNSUPPORTED_ESCAPED_GETPYOID_LITERAL",
+                          "expression": current, "bindings": bindings}
         return {"kind": "pydata", "namespace": query.group(2), "name": query.group(4)}, {"status": "TRACED", "bindings": bindings}
     literal = _STRING.fullmatch(current)
     if literal:
+        if "\\" in literal.group(2):
+            return None, {"status": "UNRESOLVED", "reason": "UNSUPPORTED_ESCAPED_STRING", "expression": current,
+                          "bindings": bindings}
         return {"kind": "string", "value": literal.group(2)}, {"status": "TRACED", "bindings": bindings}
     if _NUMBER.fullmatch(current):
         return {"kind": "number", "value": current}, {"status": "TRACED", "bindings": bindings}
@@ -202,6 +297,10 @@ def resolve(ctx, references, tables, calls, scripts):
         # Rebuild only annotations owned by this resolver. Other tools' edges
         # and the original reference row stay unchanged.
         existing_edges = ref.get("derived_edges")
+        has_owned_annotation = isinstance(existing_edges, list) and any(
+            isinstance(edge, dict) and edge.get("resolver") == _RESOLVER_ID for edge in existing_edges)
+        has_owned_annotation = has_owned_annotation or (
+            (ref.get("symbolic_trace") or {}).get("resolver") == _RESOLVER_ID)
         if isinstance(existing_edges, list):
             kept = [edge for edge in existing_edges if edge.get("resolver") != _RESOLVER_ID]
             if kept:
@@ -210,12 +309,12 @@ def resolve(ctx, references, tables, calls, scripts):
                 ref.pop("derived_edges", None)
         if (ref.get("symbolic_trace") or {}).get("resolver") == _RESOLVER_ID:
             ref.pop("symbolic_trace", None)
-        if ref.get("kind") != "symbolic_reference" or ref.get("status") == "RESOLVED":
+        if ref.get("kind") != "symbolic_reference" or (ref.get("status") == "RESOLVED" and not has_owned_annotation):
             continue
         context = ref.get("context") or {}
         call = calls_by_id.get(context.get("call_id"))
         script = scripts_by_id.get(context.get("script_id") or (call or {}).get("script_id"))
-        if not call or not script:
+        if not call or not script or script.get("platform") != "android":
             continue
         api = (call.get("name") or "").split(":")[-1].split(".")[-1]
         contract = _API_NAMESPACE.get(api)

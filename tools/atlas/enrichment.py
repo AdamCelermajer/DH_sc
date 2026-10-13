@@ -57,12 +57,16 @@ def run(ctx):
     refs=list(by_id.values())
     # Final semantic joins see the complete source union, while native Lua
     # contracts remain scoped to the Android call/script ledgers.
-    import lua_semantics,file_semantics,skill_slots
+    import lua_semantics,file_semantics,skill_slots,ios_semantics,xml_semantics,resource_semantics,character_template_semantics
     calls=read_json(ctx.out/'data/calls.json',[])
     scripts=read_json(ctx.out/'data/scripts.json',[])
     refs=lua_semantics.resolve(ctx,refs,tables,calls,scripts)
     refs=file_semantics.resolve(ctx,refs,tables,assets)
     refs=skill_slots.resolve(ctx,refs,tables,calls,scripts)
+    refs=ios_semantics.resolve(ctx,refs,tables,assets,packed)
+    refs=xml_semantics.resolve(ctx,refs,tables,assets)
+    refs=resource_semantics.resolve(ctx,refs,tables,assets)
+    refs=character_template_semantics.resolve(ctx,refs,tables,assets)
     # Update target snapshots so callers see the same payload as the canonical row.
     table_index={(r['table'],r['index']):r for r in tables}
     for ref in refs:
@@ -85,7 +89,14 @@ def run(ctx):
         'semantic_reference_statuses':dict(Counter(r['status'] for r in refs)),
         'non_resource_reference_sites':sum(r['status']=='NOT-NEEDED' for r in refs),
         'file_path_joins':sum(bool(r.get('file_resolution')) for r in refs),
-        'actor_skill_slot_joins':sum((r.get('semantic_resolution') or {}).get('resolver')=='skill_slots.v1' for r in refs)})
+        'actor_skill_slot_joins':sum((r.get('semantic_resolution') or {}).get('resolver')=='skill_slots.v1' for r in refs),
+        'ios_source_associations':sum(bool(r.get('ios_semantic_resolution')) for r in refs),
+        'xml_source_associations':xml_semantics.summarize(refs),
+        'resource_roles':resource_semantics.summarize(refs),
+        'character_template_references':{
+            attribute:dict(Counter(r['status'] for r in refs
+                if (r.get('context') or {}).get('attribute')==attribute))
+            for attribute in ('char_template','char_template_pydata','charpropsname_pydata')}})
     counts=read_json(ctx.out/'counts/references.json',{})
     counts.update(references=len(refs),table_rows_unresolved=sum(r['status']=='UNRESOLVED' for r in tables),
                   references_by_kind=dict(Counter(r.get('kind','') for r in refs)))

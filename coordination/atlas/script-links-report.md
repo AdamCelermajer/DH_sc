@@ -23,29 +23,47 @@ first string argument to `Arrays::GetMemberIDByString<Arrays::Sounds>`;
 `GameObject::_PlaySound3D` (`0x0039212c`, line 108463) performs the same member
 lookup for its first argument.
 
-The original registration manifest
+The Android registration manifest
 `port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp`
 maps those public namespaces to source arrays. The generated table names used by
-this resolver are `animations_dictionary#group0`, `effect_sets`, and
-`projectiles_dictionary#group0`. Direct GetPyOID table/name lookups are linked
-only when one exact row exists in the corresponding generated source table.
+this resolver are `animations_dictionary#group0`, `effect_sets`,
+`projectiles#group0`, and `character_classes#group0`. `ApplyPropClass`,
+`CreateBuff`, and `ApplyBuff` are linked only through their authored first
+argument when it is an exact `GetPyOID("ClassTable", name)` value and the
+corresponding class row is unique. This does **not** infer that a
+`GetProp(GetPyStruct("CharacterProperties", ...))` result is a class ID.
+
+The class handlers are `Character::_ApplyPropClass` (`0x003babdc`, which
+bounds-checks argument 1 against `Arrays::ClassTable::size` before applying the
+class properties) and `Character::_CreateBuff` (`0x003b86a8`, which likewise
+bounds-checks its class argument). The first argument of `ApplyBuff` reaches the
+same `_ApplyPropClass` implementation. These index checks prove the consumed
+table namespace; they do not prove a callback or gameplay action ran.
 
 ## Resolution rule
 
 The resolver follows one whole-line simple assignment at a time: a local or
 global identifier can bind to a literal, another identifier, or an exact literal
-`GetPyOID("namespace", "name")` call. It rejects loops, multiple writes,
-unbound names, computed expressions, mismatched namespaces, missing table rows,
-and duplicate row names. Explicitly included global constants can be followed
-when the included source is already present in the script import projection.
+`GetPyOID("namespace", "name")` call. Only a binding at Lua block depth zero
+is admitted, regardless of formatting indentation. Every write is counted,
+including writes inside functions, branches, and loops; a second write,
+multiple-assignment LHS, or unsupported scoped binding remains unknown. It
+rejects unbound names, computed expressions, escaped literals, mismatched
+namespaces, missing table rows, and duplicate row names. Explicitly imported
+global bindings are followed only when an exact source import is already in the
+script import projection; imported locals are not visible, including a local
+declaration without an initializer followed by a same-name assignment.
 Every successful edge stores the binding source path and line, raw source text,
 native consumer address, namespace, and target table row id. Existing resolved
 reference rows are never replaced.
 
-`RegisterSkill` and `RegisterSkillEx` are deliberately excluded: their first
-arguments are callback functions, not skill table identifiers. Sound and music
-edges stop at the proven `Sounds` member-name lookup; they do not claim an audio
-file exists or that playback is audible.
+`RegisterSkill` and `RegisterSkillEx` are classified in the companion Lua
+semantics resolver, not as resource-row links: the Android `_commons.luac`
+helper maps the seven positional `RegisterSkill` callback arguments to
+`update/check/pre/skill/post/delayed/info`, and maps `RegisterSkillEx` tables to
+named callback fields. Sound and music edges stop at the proven `Sounds`
+member-name lookup; they do not claim an audio file exists or that playback is
+audible.
 
 ## Known source examples
 
@@ -69,12 +87,15 @@ sound playback, or a skill activation occurred in gameplay.
 
 ## Verification boundary and remaining gaps
 
-Focused checks cover one exact link, direct API argument position, namespace
-mismatch, duplicate or missing rows, multiple assignments, binding cycles,
-dynamic expressions, imported globals, and preservation of already-resolved
-rows. This helper does not change the atlas generator or run gameplay. Conditional
-assignment values, concatenation, table lookups, function-return values, implicit
-loader globals, and platform-specific script differences remain unresolved.
+Focused checks cover exact effect and animation links, direct API argument
+position, class and projectile rows, namespace mismatch, duplicate or missing
+rows, tuple assignments, branch/function writes, imported global/local scope,
+escaped literals, iOS isolation, and preservation of already-resolved rows. The
+read-only `global_lua_checks.run(ctx)` additionally checks corpus-wide
+determinism and positive coverage. This helper does not change the atlas
+generator or run gameplay. Conditional assignment values, concatenation, table
+lookups, function-return values, implicit loader globals, duplicate table rows,
+and platform-specific script differences remain unresolved.
 Visual gameplay evidence is not applicable to this static source-link helper;
 the native data consumer and the preserved Android script source are its direct
 evidence. The supplied IDA export is Android-only; no iOS binding equivalence is

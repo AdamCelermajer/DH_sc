@@ -15,6 +15,26 @@ from pathlib import Path
 from common import read_json, stable_id, write_json, source_roots, source_site, markdown_table
 
 
+REVISED_RULES = {
+    'character-sounds-table-group': {
+        'rule': 'CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). Source rows are decoded; producer-specific state and SDD joins are documented separately. Sounds_bak is a distinct later registration group.',
+        'evidence': 'GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114; tools/atlas/table_payloads.py and mob_sounds.py.'},
+    'bdae-sound-prefix': {
+        'rule': 'BDAE named-sound events strip exactly one leading sfx_ before an exact source Sounds-member lookup. The SDD row UID or event members then identify sounds.xml filenames. Duplicate XML labels alone do not override the source row; missing members remain explicit.',
+        'evidence': 'CharAI::_OnAnimEvent 0x3d4434; resource-semantics-report.md; original 638-row SDD array and sounds.xml.'},
+}
+
+
+def refresh_rules(ctx, rules=None):
+    """Render the rule projection without changing any source-reference rows."""
+    rules=rules if rules is not None else read_json(ctx.out/'data/rules.json',[])
+    rules=[{**r,**REVISED_RULES.get(r['id'],{})} for r in rules]
+    write_json(ctx.out/'data/rules.json',rules)
+    (ctx.out/'RULES.md').write_text('# Reference resolution rules\n\n'+'\n'.join(
+        f"- **{r['id']}** ({r['status']}; {r['confidence']}) — {r['rule']} Evidence: `{r['evidence']}`"
+        for r in rules)+'\n',encoding='utf-8')
+
+
 def _string_groups(path: Path):
     """Read all count-prefixed groups in a PyData names stream."""
     b = path.read_bytes(); at = 0
@@ -904,8 +924,13 @@ def run(ctx, inventory_only=False):
       {'id':'ai-script-source-uri','rule':'An external AITable.Script bare stem identifies data/scripts/ai/<stem>.luac under the recovered Android loader rule. Exact logical URI receipts from either partial source cache are retained, with platform identity and native equivalence kept separate. Builtin names and unsupported authored path spellings are outside this subset.','evidence':'CharAI::StepCreateScript 0x3cf04c, SetScriptByName 0x3ceeb0, LuaManager::AddFile 0x37b23c; file-semantics-report.md.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'bdae-texture-logical-uri','rule':'A captured BDAE material texture basename can be associated with the exact indexed data/3d/textures/<basename> resource. The recovered RimLight consumer proves this URI construction; association of an arbitrary raw BDAE string with that consumer remains LIKELY and does not establish runtime material use.','evidence':'SceneManager::SetMaterialRimLightEffects 0x359d08 / 0x35a188; file-semantics-report.md; tools/atlas/file_semantics.py.','status':'INFERENCE','confidence':'LIKELY'},
       {'id':'actor-lua-skill-slot','rule':'A literal global Android DoSkill argument is a zero-based receiver skill-list slot. Join only exact declared AI.Script consumers through each actor SkillTree and SkillList entries. A common target is resolved; divergent targets are ambiguous and incomplete lists remain unresolved. Runtime active/usability gates remain separate.','evidence':'Character::_DoSkill 0x3b8bd8, GetCharSkill 0x3bc784, AI_BeginSkill 0x3d86bc; skill-slot-links-report.md.','status':'PROVEN','confidence':'PROVEN'}])
-    write_json(ctx.out/'data/rules.json',rules)
-    (ctx.out/'RULES.md').write_text('# Reference resolution rules\n\n'+'\n'.join(f"- **{r['id']}** ({r['status']}; {r['confidence']}) — {r['rule']} Evidence: `{r['evidence']}`" for r in rules)+'\n',encoding='utf-8')
+    rules.extend([
+      {'id':'android-object-template-selector','rule':'Android GameObject._templateName is an internal property-map label, not a file URI or actor row. A coincident same-file Template name does not establish external loading; inheritance remains unsupported/unverified. iPad consumers are separate unknowns.','evidence':'PropertyMap::SetTemplate 0x513fec and LoadTemplate 0x51419c; xml-semantics-report.md.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'character-template-source-fields','rule':'A Character char_template is an authored template name; char_template_pydata is a separate table selector. Exact gated Android names link to their own CharacterTemplate rows. iPad names and selectors link only to validated iPad source streams with native IDs unverified. Cached IDs, player/non-player selection and spawn gates do not become runtime execution claims.','evidence':'SafeGetCharPropsTemplateId 0x3b36ec, GetCharPropertiesId 0x3b3d38, Character InitPost; character-template-semantics-report.md.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'ipad-provider-source-association','rule':'Exact iPad GetPyOID pairs can identify a likely source names-stream family through repeated unique source evidence; GetPyCst pairs record stored constants. Source positions and serialized values are not native API IDs. Android ordinals are never borrowed for these source links.','evidence':'ios-semantics-report.md; exact package map, validated names groups and stored constant bytes.','status':'INFERENCE','confidence':'LIKELY'},
+      {'id':'animation-event-dispatch','rule':'Known Android animation event strings link to their original dispatcher role with state/caller gates preserved. Unknown markers retain a reason. iPad payload strings can only have likely associations to Android handler evidence. Named sfx_ events strip one exact prefix, then follow the source SDD member/event and full sounds URI across both caches.','evidence':'CharAI::_OnAnimEvent 0x3d4434 and source consumer handoffs; resource-semantics-report.md.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'entity-native-and-resource-attribution','rule':'Entity Lua membership, native handler evidence, port readiness and runtime execution are separate facts. Resource ownership requires a proven resolved field edge; candidates, source-table membership, decoder use and orphans retain distinct explanations. Packed media preserves its physical transport path and likely logical alias.','evidence':'entity-native-report.md; data/entity-native.json and data/resource-attributions.json.','status':'PROVEN','confidence':'PROVEN'}])
+    refresh_rules(ctx,rules)
     counts={'tables':len(tables),'table_rows_todo':sum(r.get('status')=='TODO' for r in tables),
             'table_rows_unresolved':sum(r.get('status')=='UNRESOLVED' for r in tables),
             'table_rows_work_todo':sum(r.get('work_status')=='TODO' for r in tables),

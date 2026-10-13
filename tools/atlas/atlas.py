@@ -271,7 +271,7 @@ def sync_projections(ctx):
         for r in rr:
             mapped=ledger.get(r['id'])
             if mapped:
-                for field in ('status','work_status','reason','reason_code','candidate_note','candidates','resolves_to','port_status','implementation','confidence','symbolic_trace','derived_edges','semantic_resolution','resolution_evidence','file_resolution','reference_kind','referenced_table','referenced_index','rule'):
+                for field in ('status','work_status','reason','reason_code','candidate_note','candidates','resolves_to','port_status','implementation','confidence','symbolic_trace','derived_edges','semantic_resolution','resolution_evidence','file_resolution','ios_semantic_resolution','xml_semantics','resource_semantics','reference_kind','referenced_table','referenced_index','rule'):
                     if field in mapped:r[field]=mapped[field]
         write_json(ctx.out/'data'/f'{name}.json',rr)
     counts=read_json(ctx.out/'counts/scripts.json',{})
@@ -475,6 +475,13 @@ def audit(ctx, include_sources=True):
         errors.extend(mobs.coverage_check(ctx))
         import graph
         errors.extend(graph.coverage_check(ctx))
+        import entity_native_checks
+        errors.extend(entity_native_checks.coverage_check(ctx))
+        import resource_semantics_checks
+        errors.extend(resource_semantics_checks.coverage_check(ctx))
+        import platform_graph_checks
+        scoped=platform_graph_checks.run(ctx)
+        errors.extend('platform graph: '+t['name'] for t in scoped['tests'] if not t['passed'])
     checks=known_checks(ctx)
     for c in checks:
         if not c.get('passed'):errors.append('known answer failed: '+c.get('name','?')+' '+str(c.get('detail','')))
@@ -506,9 +513,17 @@ def report(ctx, check):
          'Search by original name, English display name, URI or typed ID; Dependencies and Used by navigate in both directions.','',
          '[Mob, boss and actor profiles](general/mobs/index.md) join every CharacterProperties row to its available scripts, animation/effect/projectile dependencies, sound producers and loot graph. '
          '**Semantic coverage remains partial:** dynamic Lua bindings, native contracts, encounter placement and runtime conditions are explicit gaps. All inventoried Android table payload rows are decoded; packed iOS table payloads retain their own evidence limits. The processed percentage is not a claim that every mob is fully understood.','',
+         'The local website uses a persistent SQLite index, paginated search and bounded entity packets. The portable HTML retains its embedded offline snapshot. '
+         'The Native / IDA tab exposes entity-specific Lua associations and available Android handler evidence; an address alone does not prove a complete native contract. '
+         'See [native evidence and resource attribution](entity-native-report.md), [entity-native index](data/entity-native.json), '
+         '[resource attribution index](data/resource-attributions.json) and [website measurements](fast-backend-report.md).','',
          'The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. '
          'Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.','',
          '## Coverage','',markdown_table(['Category','Total','Statuses'],[[k,v['total'],v['statuses']] for k,v in check['coverage'].items()]),
+         '## Entity and resource attribution','',
+         'Each catalog row records a source association or an explicit missing, table-only, decoder-only or orphan reason. '
+         'These distinctions concern the supplied corpus; static ownership does not certify runtime playback or rendering.','',
+         '```json',json.dumps(read_json(ctx.out/'counts/entity-native.json',{}),ensure_ascii=False,indent=2),'```','',
          '## Reference resolution and port status','',markdown_table(['Kind','Total','Resolved','Ambiguous','Unresolved','Reasons','Port status'],[
           [kind,len(rr),sum(r['status']=='RESOLVED' for r in rr),sum(r['status']=='AMBIGUOUS' for r in rr),sum(r['status']=='UNRESOLVED' for r in rr),
            dict(Counter(r.get('reason_code',r.get('reason','')) for r in rr if r['status']=='UNRESOLVED')),
@@ -604,6 +619,9 @@ def generate(ctx, inventory_only=False):
         mobs.run(ctx)
         import graph
         graph.run(ctx)
+        import entity_native
+        native_counts=entity_native.run(ctx)
+        write_json(ctx.out/'counts/entity-native.json',native_counts)
     platform_compare(ctx)
     source_manifest(ctx)
     return progress(ctx,'INVENTORY TODO' if inventory_only else 'MAPPED')
@@ -646,6 +664,12 @@ def main():
         if inventory_only:return 0
     check=audit(ctx)
     if a.command=='regen' and check['passed']:
+        import link_checks
+        link_verification=link_checks.run(ctx)
+        if not link_verification['passed']:
+            check['passed']=False
+            check['errors'].append('global source link checks failed; see data/*-checks.json')
+            write_json(ctx.out/'data/check.json',check)
         import semantic_checks
         semantic_verification=semantic_checks.run(ctx)
         write_json(ctx.out/'data/semantic-verification.json',semantic_verification)

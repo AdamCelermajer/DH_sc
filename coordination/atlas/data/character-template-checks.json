@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "scope": "Source identity and table-selector links only; no runtime spawn or visual behavior asserted.",
+  "tests": [
+    {
+      "detail": null,
+      "name": "authored char_template resolves to exact Android template row",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "stable IDs and caller input are preserved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "resolution is idempotent",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "char_template_pydata resolves as a table selector, never as the template row key",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "char_template precedence blocks the competing CharacterTable selector",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "non-Character gametype is rejected",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "missing source selector gate stays unresolved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "reference spelling must equal the exact source key",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unregistered PyData alias does not select a row",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iPad exact source-name link is scoped to its names stream, with native ID unverified",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iPad table alias is a source-scoped table target, not an Android table node",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "iPad CharacterTable table alias uses its own names-only group zero",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "unknown platform cannot borrow the iPad names group",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "CharacterTable selector resolves only for direct charpropsname path",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "duplicate table names remain ambiguous",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "missing exact table row remains unresolved",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact source XML element attributes, not unrelated reference context, gate the link",
+      "passed": true
+    }
+  ]
+}

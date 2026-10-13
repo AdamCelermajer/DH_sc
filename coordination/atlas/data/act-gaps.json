@@ -9,7 +9,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1736
+      "unresolved_source_references": 1411
     },
     {
       "act": "act_2",
@@ -20,7 +20,7 @@
       "unmapped_actor_rows_global": 400,
       "unresolved_boss_candidates_global": 6,
       "unresolved_boss_candidates_status": "UNRESOLVED",
-      "unresolved_source_references": 1043
+      "unresolved_source_references": 712
     },
     {
       "act": "act_3",
@@ -57,7 +57,7 @@
     }
   ],
   "ranking_scope": "Act 2+ only. Campaign engine command rows include native kind, factory/reader address, descriptor source, port status, and current anchors; unresolved source rows include resolver metadata.",
-  "shared_asset_count": 85,
+  "shared_asset_count": 83,
   "shared_rule": "A stable asset ID is shared only when its source-linked references occur in at least two explicitly assigned acts.",
   "status": "DONE",
   "top20_acts_2_plus": [
