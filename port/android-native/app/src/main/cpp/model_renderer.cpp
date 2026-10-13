@@ -33207,6 +33207,24 @@ ProjectileStatus native_projectile_hit_v1(void* raw,
  } catch(...) {return ProjectileStatus::hook_failed;}
 }
 
+// Projectile::HandleImpactFX (0x3e4db0) ends in VoxSoundManager::Play3D at the
+// impact position; the sound row is chosen by ImpactType. Play3D is void, so a
+// row without retained PCM or a missing listener is silence.
+void native_projectile_play_impact_sound_v1(std::int32_t sound_row,
+    std::uintptr_t owner,float x,float y,float z) noexcept {
+ if(sound_row<0||sound_row>UINT16_MAX)return;
+ const dh2::engine_audio::spatial_playback_contract_v1::Vec3 emitter{x,y,z};
+ dh2::engine_audio::spatial_playback_contract_v1::Request request{};
+ auto& vox=dh2::engine_audio::native_level_listener_v1::process_vox_state();
+ const bool queued=dh2::engine_audio::native_level_listener_v1::make_spatial_request(
+      vox,static_cast<std::uint16_t>(sound_row),emitter,request)&&
+  dh2::player_gameplay_audio::enqueue_spatial_source_sound(
+      static_cast<std::uint16_t>(sound_row),owner,false,0,request);
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Projectile impact sound | source Sounds row %d | %s",sound_row,
+     queued?"queued":"no retained PCM or listener");
+}
+
 ProjectileStatus native_projectile_handle_collision_fx_v1(void* raw,
     dh2::object_manager_runtime_owner_v1::GameObject& projectile,
     dh2::object_manager_runtime_owner_v1::GameObject& target,
@@ -33215,6 +33233,20 @@ ProjectileStatus native_projectile_handle_collision_fx_v1(void* raw,
  if(!context||!context->payload||
     context->payload->identity!=projectile.identity)
   return ProjectileStatus::hook_failed;
+ {
+  // Projectile::HandleImpactFX(GameObject*, Point2f) 0x3e4eec: a Character target
+  // is ImpactType 4 (ImpactSFX at its target position); any other object is type
+  // 3 (ObjectImpactSFX, ImpactSFX when unset) at the contact point.
+  const auto& row=context->payload->source_row;
+  dh2::skill_projectile_delivery_v1::Point3f at{};
+  if(native_skill_projectile_read_point_v1(nullptr,target.identity,&at)==0) {
+   const bool character=native_projectile_is_character_v1(nullptr,target);
+   const auto sound=character||row.object_impact_sfx==-1?row.impact_sfx
+                                                        :row.object_impact_sfx;
+   native_projectile_play_impact_sound_v1(sound,projectile.identity,
+       character?at.x:point.x,character?at.y:point.y,at.z);
+  }
+ }
  if(context->payload->source_row.impact_fx<0)return ProjectileStatus::ok;
  if(!native_fx_owner)return ProjectileStatus::hook_unavailable;
  try {
@@ -33288,6 +33320,15 @@ ProjectileStatus native_projectile_handle_expire_fx_v1(void* raw,
  const auto& payload=*context->payload;
  const auto effect_id=impact_type==1 ? payload.source_row.expire_fx
                                     : payload.source_row.impact_fx;
+ {
+  // HandleImpactFX 0x3e4db0: type 0 nothing, 1 ExpireSFX, 2/3 ObjectImpactSFX
+  // (ImpactSFX when unset), otherwise ImpactSFX.
+  const auto& row=payload.source_row;
+  const std::int32_t sound=impact_type==0?-1:impact_type==1?row.expire_sfx:
+      (impact_type==2||impact_type==3)&&row.object_impact_sfx!=-1?
+          row.object_impact_sfx:row.impact_sfx;
+  native_projectile_play_impact_sound_v1(sound,payload.identity,point.x,point.y,point.z);
+ }
  if(effect_id<0)return ProjectileStatus::ok;
  if(!native_fx_owner)return ProjectileStatus::hook_unavailable;
  try {
