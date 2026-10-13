@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <limits>
 
 namespace dh::foundation::generic_skills {
 namespace {
@@ -93,6 +94,21 @@ void RuntimeTimedBuffOwnerV1::release_fx(TimedBuffInstanceV1& instance) {
     instance.fx_identity = 0;
 }
 
+std::optional<TimedBuffSpecV1> debuff_slow_spec_v1(std::uint32_t source_outcomes, std::uint32_t source_mask,
+                                                   const dh2::data::PropertySheet& attacker_resolved,
+                                                   bool defender_is_boss) {
+    if ((source_outcomes & 0x100u) == 0 || defender_is_boss) return std::nullopt;
+    const unsigned property = (source_mask & 0x10000u) != 0 ? 189u : 146u;
+    const std::int32_t duration = attacker_resolved[property] >> 8;
+    if (duration <= 0) return std::nullopt;
+    TimedBuffSpecV1 spec;
+    spec.class_name = "Debuff_Slow";
+    spec.strength = 0;
+    spec.duration_ms = static_cast<double>(duration);
+    spec.source = "debuff_slow";
+    return spec;
+}
+
 bool RuntimeTimedBuffOwnerV1::publish(CombatSession& session, ActorId actor, ActorBuffs& buffs,
                                       TimedBuffEventV1::Kind kind, const std::string& class_name,
                                       const std::string& source, std::uint32_t strength, double duration_ms,
@@ -156,8 +172,10 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
     error.clear();
     if (!bindings_.classes || !bindings_.rules) return fail(error, "Timed buff owner has no class/property tables");
     if (!bind_lease(session)) return fail(error, "Timed buff application requires a live CombatSession binding");
-    if (!(spec.duration_ms > 0.0) || !std::isfinite(spec.duration_ms))
-        return fail(error, "Timed buff duration must be finite and positive");
+    // Native PROPS_AddBuff starts an expiry timer only for a nonzero duration; a permanent buff (duration 0, the Celest
+    // passive) ends only by RemoveBuff. A zero duration without the permanent flag is rejected, as before.
+    if (!std::isfinite(spec.duration_ms) || (spec.permanent ? spec.duration_ms != 0.0 : !(spec.duration_ms > 0.0)))
+        return fail(error, "Timed buff duration must be positive (0 only with permanent set)");
     const auto* state = session.actor(actor);
     const auto* live = session.world() ? session.world()->combat_properties(actor) : nullptr;
     if (!state || !live) return fail(error, "Timed buff target is not an actor with a property sheet in this CombatSession");
@@ -174,7 +192,8 @@ bool RuntimeTimedBuffOwnerV1::apply_timed_buff(CombatSession& session, ActorId a
     instance->fx_set_name = spec.fx_set_name;
     instance->source = spec.source;
     instance->strength = spec.strength;
-    instance->total_ms = instance->remaining_ms = spec.duration_ms;
+    instance->total_ms = spec.duration_ms;
+    instance->remaining_ms = spec.permanent ? std::numeric_limits<double>::infinity() : spec.duration_ms;
     // CreateBuff: free sheet = defaults with the strength in SnS_Level; ApplyBuff: the class reads the owner's
     // resolved sheet, where the Lua SetProp(SnS_Level) has just put the same value.
     instance->sheet = bindings_.rules->defaults;

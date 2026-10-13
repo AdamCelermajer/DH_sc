@@ -5875,6 +5875,7 @@ int main(int argc,char** argv) {
         std::set<std::uint64_t> faerieActors;
         bool faerieActorsScanned=false;
         std::map<std::uint64_t,std::int32_t> faeryPlacedFor; // actor -> equipped slot + 1 it was last placed for
+        std::string faeryPassiveClass; // v21.8 faery passive: resistance ClassTable row currently applied to the player (empty = none)
         std::set<std::string> faeryBodyReported;
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
         // B159/B035: binds the Session's incoming-Push consumer (CombatSession hit-effect observer). Original: F_ApplyResult 0x3b10b4 calls
@@ -6976,6 +6977,32 @@ int main(int argc,char** argv) {
         dh::foundation::FramePacer framePacer; // B066: deadline pacing replaces sleep(1) (a 15.6 ms tick on Windows)
         // Poll can latch a platform close before the next iteration. Admit that iteration so the
         // Application::Quit save/retry handler below owns shutdown instead of bypassing it.
+        // v21.8 skills-a + faery: the shared timed buff owner is created on first use (Quickness cast, faery passive).
+        const auto ensureTimedBuffOwner=[&]() {
+            if(timedBuffs)return;
+                                f::generic_skills::TimedBuffBindingsV1 buffBindings;
+                                buffBindings.classes=&properties.classes;buffBindings.rules=&menuSkillPropertyRules;
+                                buffBindings.fx.play=[&](const std::string& setName,f::ActorId actorId,std::uintptr_t& identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    const auto& setNames=fxTables.set_names();
+                                    const auto setIt=std::find(setNames.begin(),setNames.end(),setName);
+                                    if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
+                                    std::uintptr_t managerIdentity{};bool found=false;
+                                    if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
+                                    // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
+                                    // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
+                                    if(!sourceEffectsFactory->manager().grab_marker_v28(std::int32_t(setIt-setNames.begin()),managerIdentity,identity,e))return false;
+                                    if(!identity){e="Buff FX grab created no instance";return false;}
+                                    return true;
+                                };
+                                buffBindings.fx.drop=[&](std::uintptr_t identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    return sourceEffectsFactory->manager().drop(identity,e);
+                                };
+                                timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
+        };
         while(true) {
             stateTraceFrame=drawn;
             // B086 Application::Quit: closing the window (or --quit-frame) quick-saves the level world and the profile first. An active
@@ -8382,30 +8409,7 @@ int main(int argc,char** argv) {
                             };
                             // v21.8 skills-a: timed buff owner (Quickness CreateBuff/ApplyBuff). The FX service plays the buff's
                             // AnimatedEffectTable set on the player as a retained looping marker (buff_fx_load = GrabAnimFX).
-                            if(!timedBuffs) {
-                                f::generic_skills::TimedBuffBindingsV1 buffBindings;
-                                buffBindings.classes=&properties.classes;buffBindings.rules=&menuSkillPropertyRules;
-                                buffBindings.fx.play=[&](const std::string& setName,f::ActorId actorId,std::uintptr_t& identity,std::string& e)->bool{
-                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
-                                    const auto fxTables=sourceEffectsTables.borrow();
-                                    const auto& setNames=fxTables.set_names();
-                                    const auto setIt=std::find(setNames.begin(),setNames.end(),setName);
-                                    if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
-                                    std::uintptr_t managerIdentity{};bool found=false;
-                                    if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
-                                    if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
-                                    // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
-                                    // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
-                                    if(!sourceEffectsFactory->manager().grab_marker_v28(std::int32_t(setIt-setNames.begin()),managerIdentity,identity,e))return false;
-                                    if(!identity){e="Buff FX grab created no instance";return false;}
-                                    return true;
-                                };
-                                buffBindings.fx.drop=[&](std::uintptr_t identity,std::string& e)->bool{
-                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
-                                    return sourceEffectsFactory->manager().drop(identity,e);
-                                };
-                                timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
-                            }
+                            ensureTimedBuffOwner();
                             request.timed_buffs=timedBuffs.get();
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                             if(motor)motor->setFacingRadians(combatSession->actor(request.actor)->transform.rotation[2]);
@@ -9025,6 +9029,20 @@ int main(int argc,char** argv) {
                     std::cout<<"Source combo boundary frame="<<drawn<<" actor="<<boundary.actor<<" generation="<<boundary.generation<<" begin="<<boundary.beginning<<" depth="<<boundary.depth<<" step="<<boundary.step<<" count="<<boundary.count<<" clip="<<boundary.source_clip<<'\n';
                 for(const auto& event:combatSession->events()) {
                     std::cout<<"Damage frame="<<drawn<<" attacker="<<event.attacker<<" target="<<event.target<<" marker="<<event.marker_name<<" removed="<<event.health_removed<<" dead="<<event.target_died<<" outcomes=0x"<<std::hex<<event.source_outcomes.value_or(0)<<" srcmask=0x"<<event.source_mask.value_or(0)<<std::dec<<'\n';
+                    // v21.8 slow (Character::F_ApplyResult byte+25 bit0 -> PROPS_DebuffSlow): Debuff_Slow on a non-boss target.
+                    if(event.source_outcomes&&(*event.source_outcomes&0x100u)!=0&&!event.target_died&&combatSession->original_ai_tables()) {
+                        const auto* attackerProps=combatSession->world()->combat_properties(event.attacker);
+                        const auto* defenderProps=combatSession->world()->combat_properties(event.target);
+                        const auto* defenderAi=defenderProps?dh2::data::ai_props(*combatSession->original_ai_tables(),defenderProps->sheets.resolved[1]):nullptr;
+                        const auto slow=(attackerProps&&defenderAi)?f::generic_skills::debuff_slow_spec_v1(*event.source_outcomes,event.source_mask.value_or(0),attackerProps->sheets.resolved,(defenderAi->flags&4u)!=0):std::nullopt;
+                        if(slow) {
+                            ensureTimedBuffOwner();
+                            std::string slowError;
+                            if(timedBuffs->apply_timed_buff(*combatSession,event.target,*slow,slowError))
+                                std::cout<<"Debuff slow applied target="<<event.target<<" durationMs="<<slow->duration_ms<<" frame="<<drawn<<'\n';
+                            else std::cerr<<"Debuff slow failed target="<<event.target<<": "<<slowError<<'\n';
+                        }
+                    }
                     if(options.testEnemyInjuryActor&&event.attacker==options.testEnemyInjuryActor) {
                         const auto* props=combatSession->world()->combat_properties(event.attacker);
                         const auto* defender=combatSession->world()->combat_properties(event.target);
@@ -9054,6 +9072,29 @@ int main(int argc,char** argv) {
                 const auto equipped=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].current_faery;
                 const auto* equippedAbility=f::faery_menu::faery_ability_for_list_slot_v1(sourceFaeryTables,state.source_faery_list_id,equipped);
                 const std::string equippedModel=equippedAbility?f::companions::faery_body_model_uri_v1(equippedAbility->model_file):std::string();
+                // v21.8 faery passive (faerie_celest.luac CheckFaeries, run from its OnSkillUpdate_): when the equipped element or
+                // level changes, RemoveBuff the previous resistance and CreateBuff(class, 0, false, 1) + ApplyBuff the new one.
+                // Duration 0 = permanent (no timer in PROPS_AddBuff), no FX. Trigger: any equipped faery (CheckFaeries reads
+                // GetEquippedFaeryElement); which script runs OnSkillUpdate_ at all is an inference, see faery2-report.md.
+                if(equippedAbility&&!equippedAbility->faery_name.empty()) {
+                    const auto& progress=state.faery_by_difficulty[std::size_t(f::faery_menu::active_faery_difficulty_v1())].faeries[std::size_t(equipped)];
+                    const char* wanted=f::faery_menu::faery_passive_buff_class_v1(equippedAbility->element,std::int32_t(progress.level));
+                    const std::string wantedClass=wanted?wanted:"";
+                    if(!wantedClass.empty()&&wantedClass!=faeryPassiveClass&&combatSession) {
+                        ensureTimedBuffOwner();
+                        std::string passiveError;
+                        const auto player=combatSession->player_id();
+                        if(!faeryPassiveClass.empty()&&!timedBuffs->remove_timed_buff(*combatSession,player,faeryPassiveClass,passiveError))
+                            std::cerr<<"Faery passive remove "<<faeryPassiveClass<<": "<<passiveError<<'\n';
+                        f::generic_skills::TimedBuffSpecV1 passiveSpec;
+                        passiveSpec.class_name=wantedClass;passiveSpec.strength=1;passiveSpec.duration_ms=0.0;passiveSpec.permanent=true;
+                        passiveSpec.source="faery passive "+std::string(equippedAbility->faery_name);
+                        if(timedBuffs->apply_timed_buff(*combatSession,player,passiveSpec,passiveError)) {
+                            std::cout<<"Faery passive applied class="<<wantedClass<<" element="<<equippedAbility->element<<" level="<<progress.level<<" frame="<<drawn<<'\n';
+                            faeryPassiveClass=wantedClass;
+                        } else std::cerr<<"Faery passive apply "<<wantedClass<<" failed: "<<passiveError<<'\n';
+                    }
+                }
                 const auto lower=[](std::string text){for(auto& c:text)c=char(std::tolower(static_cast<unsigned char>(c)));return text;};
                 // Level::PlaceFaeryAndFollowers: at level start and after NativeHUDSetActiveFaery (ChangeFaery) the faery stands at
                 // the master target position + the master's UNIT look vector; follower.luac takes over from there.

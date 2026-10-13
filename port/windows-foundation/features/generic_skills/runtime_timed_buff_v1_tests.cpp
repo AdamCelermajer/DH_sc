@@ -26,6 +26,22 @@ constexpr unsigned kWalk = 46, kRotation = 47, kAttack = 48, kSnsLevel = 172, kM
 
 int main(int argc, char** argv) {
     try {
+        // v21.8 slow decision (F_ApplyResult byte+25 bit0 -> PROPS_DebuffSlow): pure rules, no session needed.
+        {
+            dh2::data::PropertySheet attacker{};
+            attacker[189] = 2000 << 8; // SnS_Slow_Duration (Water faery, skill mask 0x10000)
+            attacker[146] = 500 << 8;  // default slow property
+            const auto a = debuff_slow_spec_v1(0x100u, 0x10000u, attacker, false);
+            check(a && a->class_name == "Debuff_Slow" && a->duration_ms == 2000.0 && a->strength == 0,
+                  "Slow outcome with mask 0x10000 must use property 189 as a Debuff_Slow duration");
+            const auto b = debuff_slow_spec_v1(0x100u, 0x0u, attacker, false);
+            check(b && b->duration_ms == 500.0, "Slow outcome without mask 0x10000 must use property 146");
+            check(!debuff_slow_spec_v1(0x80u, 0x10000u, attacker, false), "A push outcome must not slow");
+            check(!debuff_slow_spec_v1(0x0u, 0x10000u, attacker, false), "No outcome must not slow");
+            check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, true), "A boss defender must not be slowed");
+            attacker[189] = 0;
+            check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, false), "A zero slow duration must not slow");
+        }
         check(argc == 2, "Supply repository root");
         const std::filesystem::path repo(argv[1]);
         AssetCatalog assets(repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
@@ -224,8 +240,21 @@ int main(int argc, char** argv) {
         check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Unknown class must be rejected");
         bad = spec;
         bad.duration_ms = 0.0;
-        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Zero duration must be rejected");
+        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Zero duration must be rejected without permanent");
+        bad.duration_ms = -5.0;
+        bad.permanent = true;
+        check(!owner.apply_timed_buff(session, 1, bad, error) && live()[kWalk] == base[kWalk], "Permanent with a nonzero duration must be rejected");
         check(!owner.apply_timed_buff(session, 77, spec, error), "A foreign actor must be rejected");
+
+        // 9b. A permanent buff (duration 0, Celest passive CreateBuff(id, 0, false, 1)): no expiry until RemoveBuff.
+        bad = spec;
+        bad.duration_ms = 0.0;
+        bad.permanent = true;
+        check(owner.apply_timed_buff(session, 1, bad, error), error);
+        check(owner.advance(session, 600.0, error), error);
+        check(owner.active(1, spec.class_name), "A duration 0 (permanent) buff must not expire");
+        check(owner.remove_timed_buff(session, 1, spec.class_name, error), error);
+        check(!owner.active(1, spec.class_name) && live()[kWalk] == base[kWalk], "Removing a permanent buff must restore the sheet");
 
         // 10. A dead actor drops its buffs (the owner released them); nothing is published.
         check(owner.apply_timed_buff(session, 1, spec, error), error);

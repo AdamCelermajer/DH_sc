@@ -24,6 +24,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -33,7 +34,10 @@ namespace dh::foundation::generic_skills {
 struct TimedBuffSpecV1 {
     std::string class_name;       // ClassTable row evaluated into the buff sheet (Skill_Rogue_Quickness_buff)
     std::uint32_t strength = 0;   // CreateBuff strength = SnS_Level of the sheet (skill rank)
-    double duration_ms = 0.0;     // expiry timer; must be positive
+    double duration_ms = 0.0;     // expiry timer; must be positive unless permanent
+    // Permanent buff: no expiry timer (original CreateBuff with duration 0 -> PROPS_AddBuff starts no TMR). Ends only by
+    // RemoveBuff. Used by the Celest faery passive (faerie_celest.luac CheckFaeries); skills keep positive durations.
+    bool permanent = false;
     std::string fx_set_name;      // optional EffectsTables set (AnimatedEffectTable name); presentation only
     std::string source;           // label for logs
 };
@@ -48,6 +52,15 @@ public:
     // Source Lua OnSkill_: CreateBuff + ApplyBuff. Replaces an active buff of the same class.
     virtual bool apply_timed_buff(CombatSession&, ActorId, const TimedBuffSpecV1&, std::string& error) = 0;
 };
+
+// v21.8 slow (original Character::F_ApplyResult 0x3b10b4, the byte+25 bit 0 branch -> CharProperties::PROPS_DebuffSlow):
+// outcome bit 0x100 on a non-boss defender adds the ClassTable row Debuff_Slow with capacity 1, strength 0 and duration
+// = attacker property 189 (SnS_Slow_Duration) >> 8 when the skill mask has 0x10000, else property 146 >> 8.
+// PROPS_DebuffSlow does nothing for a zero duration. The original's AUTO_DEBUFF_SLOW FX is not requested here.
+// Returns nullopt when the outcome does not slow this defender.
+std::optional<TimedBuffSpecV1> debuff_slow_spec_v1(std::uint32_t source_outcomes, std::uint32_t source_mask,
+                                                   const dh2::data::PropertySheet& attacker_resolved,
+                                                   bool defender_is_boss);
 
 struct TimedBuffInstanceV1 {
     std::int32_t class_id = -1;
