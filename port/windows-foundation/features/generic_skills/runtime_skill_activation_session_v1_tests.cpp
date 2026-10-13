@@ -46,6 +46,11 @@ struct RogueSkillFixtureSpecV1 {
     bool paired = false;             // SkillTable mask bit 0x800000 (one hit per equipped hand)
     std::uint32_t markers = 1;       // distinct do_skill markers in the authored clip; each runs OnSkill_ again
     bool buff = false;               // timed-buff skill (Quickness): no hits, the Use call applies the authored buff
+    // v21.8 skills-rogue: the CharacterProperties row that owns the skill tree (Rogue base or subclass).
+    const char* class_id = "RoguePlayerBase";
+    const char* buff_class = "Skill_Rogue_Quickness_buff"; // buff rows: the ClassTable row the Use call applies
+    double buff_duration_ms = 4000.0;                      // buff rows: the projected duration at rank 1
+    bool buff_speed_cells = false;                         // Quickness only: Speed_Modifier cells 46/47/48 move
 };
 
 void run_rogue_source_slot0_fixture(
@@ -59,7 +64,7 @@ void run_rogue_source_slot0_fixture(
     const RogueSkillFixtureSpecV1& spec) {
     std::string error;
     const auto rogue_row = std::find(characters.names.begin(), characters.names.end(),
-                                     "RoguePlayerBase");
+                                     spec.class_id);
     const auto tree_column = std::find(characters.fields.begin(), characters.fields.end(),
                                        "SkillTree");
     check(rogue_row != characters.names.end() && tree_column != characters.fields.end(),
@@ -87,11 +92,11 @@ void run_rogue_source_slot0_fixture(
 
     OriginalActorProperties rogue_source;
     check(resolve_original_actor_properties(properties.characters, properties.classes,
-              "RoguePlayerBase", {256, true}, rogue_source, error), error);
+              spec.class_id, {256, true}, rogue_source, error), error);
     CharacterState rogue_state;
     rogue_state.id = "same-source-rogue-jumpkick-session";
     rogue_state.name = "Same Source Rogue";
-    rogue_state.class_id = "RoguePlayerBase";
+    rogue_state.class_id = spec.class_id;
     rogue_state.stats.level = std::max<std::int32_t>(static_cast<std::int32_t>(rogue_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
     rogue_state.stats.health = original_signed256(rogue_source.sheets.resolved[36]);
     rogue_state.stats.max_health = original_signed256(rogue_source.sheets.resolved[38]);
@@ -112,7 +117,7 @@ void run_rogue_source_slot0_fixture(
     CharacterState loaded_rogue;
     check(load_character(save_path, loaded_rogue, error), error);
     std::filesystem::remove(save_path);
-    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == "RoguePlayerBase" &&
+    check(loaded_rogue.id == rogue_state.id && loaded_rogue.class_id == spec.class_id &&
           loaded_rogue.skills.size() == source_list.size() && loaded_rogue.skills[saved_row].id == spec.skill_name &&
           loaded_rogue.skills[saved_row].rank == 1 && loaded_rogue.skill_slots.size() == 1 &&
           loaded_rogue.skill_slots[0].equipment_set == 0 && loaded_rogue.skill_slots[0].slot == 0 &&
@@ -124,7 +129,7 @@ void run_rogue_source_slot0_fixture(
     rogue_customization.expected_controller_count = 4;
     rogue_customization.allow_missing_animation_targets = true;
     OriginalCombatVisualPlan rogue_base_plan;
-    check(build_original_combat_visual_plan(assets, bindings, "RoguePlayerBase",
+    check(build_original_combat_visual_plan(assets, bindings, spec.class_id,
               rogue_customization, "same-source-rogue-player", rogue_base_plan, error), error);
     auto rogue_visual_config = rogue_base_plan.config;
     rogue_visual_config.motion_node_id = "auto";
@@ -156,7 +161,7 @@ void run_rogue_source_slot0_fixture(
     CombatSessionConfig config;
     config.diagnosticRngSeed = 23;
     config.playerId = 1;
-    config.playerProfileId = "RoguePlayerBase";
+    config.playerProfileId = spec.class_id;
     config.tableRoot = "original-cache/data/pydata";
     config.playerVisualConfig = rogue_base_plan.config;
     CombatSessionProfile player_profile;
@@ -205,7 +210,7 @@ void run_rogue_source_slot0_fixture(
     check(population.actors().back().enabled && !session.world()->find_actor(99),
           "Render-only population test entry unexpectedly joined the combat Session");
     auto* player = session.actor(1);
-    check(player && player->definition_id == "RoguePlayerBase" &&
+    check(player && player->definition_id == spec.class_id &&
           player->alive() && session.retained_actor_pose(1),
           "Rogue source player did not retain its initialized source actor/pose");
     player->persistent_character_id = loaded_rogue.id;
@@ -354,33 +359,38 @@ void run_rogue_source_slot0_fixture(
     const auto* final = coordinator.receipt(1);
     if (spec.buff) {
         // Timed-buff skill: the do_skill Use call creates the authored buff; no hit is rolled.
-        const std::string buff_class = "Skill_Rogue_Quickness_buff";
+        const std::string buff_class = spec.buff_class;
+        const std::string name = spec.skill_name;
         check(marker_count == 1 && completion_count == 1 && final && final->phase == RuntimeSkillCastPhaseV1::completed &&
               final->applied_results.empty() && final->timed_buff_class == buff_class,
-              "Quickness did not complete with one buff and no hit results");
-        // Rank 1: projected class SnS_Duration = 3000 + 1000 x 1 ms.
-        check(std::fabs(final->timed_buff_duration_ms - 4000.0) < 0.5, "Quickness duration is not the projected SnS_Duration 4000 ms");
+              name + " did not complete with one buff and no hit results");
+        // Rank 1 projected duration (Quickness SnS_Duration 4000; Blindness SnS_Duration 10000; PoisonSting Dot_Duration 3750).
+        check(std::fabs(final->timed_buff_duration_ms - spec.buff_duration_ms) < 0.5,
+              name + " duration is not the projected authored duration");
         const auto& sheet = session.world()->combat_properties(1)->sheets.resolved;
-        check(buff_owner.active(1, buff_class) && buff_owner.active_count(1) == 1, "Quickness buff is not active after its Use marker");
-        check(sheet[46] == walk_before + 5120 + 384 && sheet[47] == rot_before + 5120 + 384 && sheet[48] == atk_before + 5120 + 384 &&
-              std::fabs(original_speed_modifier(sheet[46]) - 1.215f) < 1e-4f,
-              "Quickness rank 1 did not raise Speed_Modifier_Walk by 21.5 percent");
+        check(buff_owner.active(1, buff_class) && buff_owner.active_count(1) == 1, name + " buff is not active after its Use marker");
+        if (spec.buff_speed_cells) {
+            check(sheet[46] == walk_before + 5120 + 384 && sheet[47] == rot_before + 5120 + 384 && sheet[48] == atk_before + 5120 + 384 &&
+                  std::fabs(original_speed_modifier(sheet[46]) - 1.215f) < 1e-4f,
+                  "Quickness rank 1 did not raise Speed_Modifier_Walk by 21.5 percent");
+        }
         check(final->mana.mana_spent && final->mana.mana_after < final->mana.mana_before && session.actor(1)->target_id == invalid_actor_id,
-              "Quickness did not spend mana and clear its target in Post");
+              name + " did not spend mana and clear its target in Post");
         const double remaining = buff_owner.remaining_ms(1, buff_class);
-        check(remaining > 0.0 && remaining <= 4000.0, "Quickness buff has no remaining time after the cast animation");
+        check(remaining > 0.0 && remaining <= spec.buff_duration_ms + 0.5, name + " buff has no remaining time after the cast animation");
         // The same marker again is suppressed: neither a second buff nor a restarted clock.
         RuntimeSkillCastReceiptV1 duplicate_buff;
         check(coordinator.apply_retained_use_event_v1(session, 1, final->generation,
                   RuntimeSkillSourceAnimStateV1::skill, actual_event, duplicate_buff, error), error);
         check(buff_owner.active_count(1) == 1 && buff_owner.remaining_ms(1, buff_class) == remaining,
-              "Duplicate Quickness marker restarted or stacked the buff");
+              "Duplicate " + name + " marker restarted or stacked the buff");
         // Expiry restores the sheet exactly.
         check(buff_owner.advance(session, (remaining + 1.0) / 1000.0, error), error);
-        check(!buff_owner.active(1, buff_class) && session.world()->combat_properties(1)->sheets.resolved[46] == walk_before,
-              "Quickness expiry did not restore Speed_Modifier_Walk");
-        std::cout << "PASS Rogue Quickness: markers=" << marker_count << " buff duration=" << final->timed_buff_duration_ms
-                  << "ms walk x1.215 for " << remaining << "ms, no hits, duplicate suppressed, expiry restored\n";
+        check(!buff_owner.active(1, buff_class) &&
+              (!spec.buff_speed_cells || session.world()->combat_properties(1)->sheets.resolved[46] == walk_before),
+              name + " expiry did not remove the buff" + (spec.buff_speed_cells ? " and restore Speed_Modifier_Walk" : ""));
+        std::cout << "PASS Rogue " << name << ": markers=" << marker_count << " buff duration=" << final->timed_buff_duration_ms
+                  << "ms for " << remaining << "ms, no hits, duplicate suppressed, expiry removed the buff\n";
         session.detach_for_restore();
         return;
     }
@@ -674,7 +684,18 @@ int main(int argc, char** argv) {
         // Quickness: timed buff (class Skill_Rogue_Quickness_buff, FX set spell_dh2_prince_rogue_quickness), level 6 row.
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
-            {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness", 524, 0, 6, true, true, false, 1, true});
+            {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness", 524, 0, 6, true, true, false, 1, true,
+             "RoguePlayerBase", "Skill_Rogue_Quickness_buff", 4000.0, true});
+        // v21.8 skills-rogue: Assassin subclass tree (RoguePlayerBase_Assassin). Blindness: SnS_Duration 8000+2000/level ms;
+        // PoisonSting: Dot_Duration 3000+750/level ms (the Lua reads Dot_Duration, cell 125). Rank 1 values.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Blindness", "prince_assassin_blindness", "Skill_Assassin_Blindness", 518, 0, 15, true, true, false, 1, true,
+             "RoguePlayerBase_Assassin", "Skill_Assassin_Blindness", 10000.0, false});
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"PoisonSting", "prince_assassin_poison_sting", "Skill_Assassin_PoisonSting", 520, 0, 18, true, true, false, 1, true,
+             "RoguePlayerBase_Assassin", "Skill_Assassin_PoisonSting", 3750.0, false});
         // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
         for (const bool main_only : {true, false}) {
             run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,

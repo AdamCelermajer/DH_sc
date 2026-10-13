@@ -37,6 +37,9 @@ struct RuntimeSkillBuffProfileV1 {
     const char* fx_set;           // AnimatedEffectTable name of BUFF_FX (spell_dh2_prince_rogue_quickness)
     float fallback_base_ms;       // TIME_BASE: used only when the projected SnS_Duration is 0
     float fallback_inc_ms;        // TIME_INC per skill level
+    // CharacterProperties index read as the buff duration (ms) after the projection. 176 = SnS_Duration
+    // (Lua BUFF_TIME = GetProp(SnS_Duration, true)); PoisonSting reads 125 = Dot_Duration.
+    int duration_prop_index = 176;
 };
 
 struct RuntimeSkillUseProfileV1 {

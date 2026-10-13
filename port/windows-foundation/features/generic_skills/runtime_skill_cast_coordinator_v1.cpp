@@ -1,6 +1,7 @@
 #include "runtime_skill_cast_coordinator_v1.hpp"
 #include "../faery_menu/faery_cast_sound_v1.hpp"
 #include "pc_cooldown_frame_v1.hpp"
+#include "runtime_skill_use_profile_rogue_v1.hpp"
 
 #include "../../playable_actor_world.hpp"
 #include "../../original_combat_properties.hpp"
@@ -123,6 +124,8 @@ bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
     // Admission is by the exact SkillTable (name, script) pair of a row in
     // kRuntimeSkillUseProfilesV1, transcribed from the original skill Lua.
     profile = find_skill_use_profile_v1(name, skill.script);
+    // v21.8 skills-rogue: Assassin-tree rows (runtime_skill_use_profile_rogue_v1.hpp), same exact-pair admission.
+    if (!profile) profile = find_skill_use_profile_rogue_v1(name, skill.script);
     if (!profile) return false;
     token = profile->class_token;
     return true;
@@ -1172,7 +1175,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             return fail(error, "Timed-buff Use requires its buff owner");
         }
         const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
-        double duration_ms = original_signed256(active.formula_sheet[176]); // CharacterProperties.SnS_Duration
+        // CharacterProperties.SnS_Duration (176) unless the authored Lua reads another duration cell (PoisonSting: Dot_Duration 125).
+        double duration_ms = original_signed256(active.formula_sheet[std::size_t(profile.buff->duration_prop_index)]);
         if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
             duration_ms = double(profile.buff->fallback_base_ms) + double(profile.buff->fallback_inc_ms) * double(rank);
         TimedBuffSpecV1 spec;
