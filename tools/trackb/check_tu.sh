@@ -13,21 +13,24 @@ cxx=${CXX:-g++}
 flags=(-std=c++17 -Wall -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unknown-pragmas)
 engine=(core-platform pydata-accessors net-transport net-session-online vox-audio tinyxml-and-c-libs glitch-core-io glitch-video glitch-scene-collada-gui)
 
-includes_for() {  # category of a path -> -I flags
+includes_for() {  # one include set for every folder: own include dir first, then everything (TRACK-B.md)
   local rel=${1#"$dr"/}; rel=${rel#port/decomp-reconstruction/}
   local cat=${rel%%/*}
-  if [[ $cat == game || $cat == game-* || $cat == vendor-* ]]; then
-    [[ $cat == vendor-* ]] && printf -- '-I%s\n' "$dr/$cat/include"
-    printf -- '-I%s\n' "$dr/game/include" "$dr/shared/include"
-    for c in "${engine[@]}"; do printf -- '-I%s\n' "$dr/$c/include"; done
-    printf -- '%s\n' -DNOMINMAX -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0
-    for v in vendor-lua/upstream/lua-5.1.4/src vendor-box2d/upstream/box2d-2.0.1/Include \
-             vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714; do
-      printf -- '-isystem\n%s\n' "$(cygpath -m "$dr/$v" 2>/dev/null || echo "$dr/$v")"
-    done
-  else
-    printf -- '-I%s\n' "$dr/$cat/include" "$dr/shared/include"
-  fi
+  local d
+  for d in "$dr/$cat/include" "$dr/game/include" "$dr/shared/include"; do
+    [[ -d $d ]] && echo "-I$d"
+  done
+  for c in "${engine[@]}" vendor-lua vendor-box2d vendor-gameswf; do
+    [[ -d $dr/$c/include ]] && echo "-I$dr/$c/include"
+  done
+  for d in -DNOMINMAX -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_THREAD=0; do
+    echo "$d"
+  done
+  for v in vendor-lua/upstream/lua-5.1.4/src vendor-box2d/upstream/box2d-2.0.1/Include \
+           vendor-box2d/upstream/box2d-2.0.1/Source vendor-gameswf/upstream/gameswf-r1714; do
+    echo "-isystem"
+    cygpath -m "$dr/$v" 2>/dev/null || echo "$dr/$v"
+  done
 }
 
 tmp=$(mktemp -d)
