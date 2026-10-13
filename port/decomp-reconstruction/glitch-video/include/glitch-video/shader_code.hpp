@@ -1,6 +1,14 @@
-// glitch::video::IShaderCode and the code-shader manager. The shader-code
-// collection is an SIDedCollection in the original; it is stood in for here by
-// a name-to-index table, so lookups keep the 0xffff "not found" convention.
+// glitch::video::IShaderCode, CGLSLShaderCode and the code-shader manager. Canonical definition of IShaderCode (engine
+// unification wave u1-video); the stand-in in glitch-core-io (deps/glitch_core_objects.hpp) is replaced by this header.
+// The shader-code collection is an SIDedCollection in the original; it is stood in for here by a name-to-index table, so
+// lookups keep the 0xffff "not found" convention.
+//
+// IShaderCode layout (32-bit; constructors 0x6e2130 C1 / 0x6e2178 C2, size 0x20):
+//   +0x00  vptr (vtable 0x98b208, five slots)
+//   +0x04  reference count; the constructor stores 0 (a new code is wrapped with intrusive_ptr<IShaderCode>(p, true))
+//   +0x08  std::string name (STLport, 0x18 bytes)
+// Vtable: +0x00 ~IShaderCode (D1 0x6e207c, D2 0x6e20e4; D0 0x6e20c8)  +0x04 deleting destructor  +0x08 onDelete
+//         +0x0c serializeAttributes(IAttributes*) const (pure)  +0x10 deserializeAttributes(IAttributes*) (pure)
 #pragma once
 
 #include <cstdint>
@@ -8,37 +16,45 @@
 #include <string>
 #include <vector>
 
+#include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
-
-namespace glitch::io {
-class IAttributes;
-}  // namespace glitch::io
+#include "glitch-video/video_types.hpp"
 
 namespace glitch::video {
 
-class IShaderCode {
+class IShaderCode : public glitch::IReferenceCounted {
 public:
     explicit IShaderCode(const char* name);  // 0x6e2130 (C1), 0x6e2178 (C2)
-    virtual ~IShaderCode() = default;        // 0x6e207c (D1), 0x6e20e4 (D2)
+    ~IShaderCode() override = default;       // 0x6e207c (D1), 0x6e20e4 (D2): frees the name
 
+    virtual void serializeAttributes(io::IAttributes* attributes) const = 0;  // +0x0c
+    virtual void deserializeAttributes(io::IAttributes* attributes) = 0;      // +0x10
+
+    // +0x04 is IReferenceCounted::referenceCounter.
     std::string m_name;   // +0x08, std::string built from the name argument
-    uint32_t m_refCount = 0;  // +0x04, set to 0 by the ctor
 };
 
 class CProgrammableGLDriver;
 
+// CGLSLShaderCode layout (constructors 0x6df690 / 0x6df6e4 driver only, 0x6df738 / 0x6df878 with source text; size 0x38):
+//   +0x20  char** source lines (new[] copies of the strings)   +0x24  line count
+//   +0x28  GL shader type (0x8b30 fragment, 0x8b31 vertex)     +0x2c  CProgrammableGLDriver*
+//   +0x30  GL shader object name                               +0x34  uint8, compiled flag (0 after construction)
 class CGLSLShaderCode : public IShaderCode {
 public:
-    // 0x6df690 (C1) / 0x6df6e4 (C2). Partial: the base is built with an empty name. The driver
-    // is kept at +0x2c; the word at +0x30 and the byte at +0x34 are zeroed (not identified).
+    // 0x6df690 (C1) / 0x6df6e4 (C2). The base is built with an empty name. The driver is kept at +0x2c; the GL shader
+    // name (+0x30) and the compiled flag (+0x34) are zeroed.
     explicit CGLSLShaderCode(CProgrammableGLDriver* driver);
-    void serializeAttributes(io::IAttributes* attributes) const;  // 0x6df398, empty
-    void deserializeAttributes(io::IAttributes* attributes);      // 0x6df39c, empty
+    void serializeAttributes(io::IAttributes* attributes) const override;  // 0x6df398, empty
+    void deserializeAttributes(io::IAttributes* attributes) override;      // 0x6df39c, empty
 
 private:
+    char** m_sourceLines = nullptr;             // +0x20
+    int32_t m_sourceLineCount = 0;              // +0x24
+    uint32_t m_glShaderType = 0;                // +0x28
     CProgrammableGLDriver* m_driver = nullptr;  // +0x2c
-    uint32_t m_unknown30 = 0;                   // +0x30, not identified
-    uint8_t m_unknown34 = 0;                    // +0x34, not identified
+    uint32_t m_unknown30 = 0;                   // +0x30, the GL shader object name
+    uint8_t m_unknown34 = 0;                    // +0x34, compiled flag
 };
 
 // Stand-in for SIDedCollection<intrusive_ptr<IShaderCode>, uint16_t, ...>.

@@ -26,7 +26,7 @@ void setPlaceHolder(CTextureManager& manager, int32_t placeHolder,
         manager.removeTexture(old);
         old = manager.m_placeHolders[index];
     }
-    if (old != nullptr && old->m_refCount == 1) {
+    if (old != nullptr && old->referenceCounter == 1) {
         manager.removeTexture(old);
     }
     manager.m_placeHolders[index] = raw;

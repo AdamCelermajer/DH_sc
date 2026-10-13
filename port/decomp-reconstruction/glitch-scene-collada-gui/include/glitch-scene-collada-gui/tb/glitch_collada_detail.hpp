@@ -39,4 +39,9 @@ constexpr unsigned compatibilityWordForType(unsigned row, unsigned type) noexcep
 // behind a one-time guard; this host version uses a zero-initialised static instead.
 SCompatibilityTable* constructCompatibilityTable();
 
+// The test the animators and animation sets make: CompatibilityTable row `rowType`, bit `type` (a std::bitset, so a type above
+// 0x5b is a std::out_of_range("bitset") error). Used by ISceneNodeAnimator::hasCompatibleTarget / setCompatibleTarget (0x6699c4,
+// 0x669574) and CAnimationSet::addAnimation (0x6601fc).
+bool channelTypeCompatible(std::uint32_t rowType, std::uint32_t type);
+
 }  // namespace glitch::collada::detail

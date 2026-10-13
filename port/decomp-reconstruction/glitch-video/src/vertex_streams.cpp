@@ -5,8 +5,6 @@
 namespace glitch::video {
 
 // 0x647f54 _ZN6glitch5video17SVertexStreamDataaSERNS0_13SVertexStreamE
-// Partial: the original adds and drops references on the buffer; the port's intrusive_ptr
-// does not count them.
 SVertexStreamData& SVertexStreamData::operator=(const SVertexStream& stream) {
     buffer = stream.buffer;
     offset = stream.offset;
@@ -158,20 +156,23 @@ uint32_t popcount32(uint32_t value) {
 }  // namespace
 
 // 0x62fe18 _ZNK6glitch5video13SVertexStream12unmapBufferEv
-// Partial: IBuffer::unmap does not call the unmap callback (vtable +0x18).
 void SVertexStream::unmapBuffer() const { buffer->unmap(); }
 
 // 0x5a113c _ZN6glitch5video14CVertexStreamsC1EjjhhPKNS0_13SVertexStreamEPKNS_4core8vector3dIfEE
 // 0x5a148c _ZN6glitch5video14CVertexStreamsC2EjjhhPKNS0_13SVertexStreamEPKNS_4core8vector3dIfEE
-// Partial: the trailing block of 24 * count0c + 24 bytes is not modelled.
+// The trailing block of 24 * count0c + 24 bytes is copied from `trailing`, or zeroed when it is null.
 CVertexStreams::CVertexStreams(uint32_t field08, uint32_t attributeMask, uint8_t count0c, uint8_t streamCount,
-                               const SVertexStream* source)
+                               const SVertexStream* source, const core::vector3d<float>* trailing)
     : m_attributeMask(attributeMask),
       m_field08(field08),
       m_count0c(count0c),
       m_streamCount0d(streamCount),
       m_flags(3) {
     m_streams.resize(streamCount);
+    m_quantization.resize(2u * (static_cast<size_t>(count0c) + 1u));
+    if (trailing != nullptr) {
+        for (size_t i = 0; i < m_quantization.size(); ++i) m_quantization[i] = trailing[i];
+    }
     uint32_t bit = 0;
     for (size_t i = 0; i < streamCount; ++i) {
         SVertexStream& entry = m_streams[i];
@@ -198,16 +199,16 @@ CVertexStreams::CVertexStreams(uint32_t field08, uint32_t attributeMask, uint8_t
 // ~CVertexStreams (0x5a0a1c D1) is defined in src/tb_video-glitch_video_CVertexStreams-0.cpp.
 
 // 0x5a1270 _ZN6glitch5video14CVertexStreams8allocateEjjhhPKNS0_13SVertexStreamEPKNS_4core8vector3dIfEE
-// Partial: returned by value; the trailing block is not kept.
 boost::intrusive_ptr<CVertexStreams> CVertexStreams::allocate(uint32_t field08, uint32_t attributeMask,
                                                               uint8_t count0c, uint8_t streamCount,
-                                                              const SVertexStream* source) {
+                                                              const SVertexStream* source,
+                                                              const core::vector3d<float>* trailing) {
+    // The constructor leaves the count at 0; allocate adds the first use (++*obj).
     return boost::intrusive_ptr<CVertexStreams>(
-        new CVertexStreams(field08, attributeMask, count0c, streamCount, source));
+        new CVertexStreams(field08, attributeMask, count0c, streamCount, source, trailing), true);
 }
 
 // 0x5a135c _ZN6glitch5video14CVertexStreams8allocateEj
-// Partial, as allocate(field08, ...).
 boost::intrusive_ptr<CVertexStreams> CVertexStreams::allocate(uint32_t attributeMask) {
     const uint32_t mask = attributeMask | 1u;
     const uint8_t count0c = static_cast<uint8_t>(popcount32(mask & 0x1fffeu));
@@ -216,7 +217,6 @@ boost::intrusive_ptr<CVertexStreams> CVertexStreams::allocate(uint32_t attribute
 }
 
 // 0x5a1404 _ZN6glitch5video14CVertexStreams8allocateEhj
-// Partial, as allocate(field08, ...).
 boost::intrusive_ptr<CVertexStreams> CVertexStreams::allocate(uint8_t count, uint32_t attributeMask) {
     uint32_t mask = (attributeMask & 0x3ffffffeu) | 1u;
     for (uint32_t k = 0; k < count; ++k) {
@@ -227,16 +227,15 @@ boost::intrusive_ptr<CVertexStreams> CVertexStreams::allocate(uint8_t count, uin
 }
 
 // 0x5a1310 _ZNK6glitch5video14CVertexStreams5cloneEv
-// Partial, as allocate(field08, ...).
 boost::intrusive_ptr<CVertexStreams> CVertexStreams::clone() const {
     boost::intrusive_ptr<CVertexStreams> result = allocate(m_field08, m_attributeMask, m_count0c,
-                                                           m_streamCount0d, m_streams.data());
+                                                           m_streamCount0d, m_streams.data(), m_quantization.data());
     result->m_flags = m_flags;
     return result;
 }
 
 // 0x5a0c60 _ZN6glitch5video14CVertexStreams10setStreamsERKN5boost13intrusive_ptrIS1_EEjib
-// Partial: buffers are not reference counted, so the original's add-ref and drop are missing.
+// The buffer assignments take a use of the source buffer and drop the old one, as the original does by hand.
 uint32_t CVertexStreams::setStreams(const boost::intrusive_ptr<CVertexStreams>& source, uint32_t mask,
                                     int32_t offsetDelta, bool flag) {
     const CVertexStreams* src = source.get();
@@ -268,8 +267,8 @@ uint32_t CVertexStreams::setStreams(const boost::intrusive_ptr<CVertexStreams>& 
 }
 
 // 0x5a178c _ZN6glitch5video14CVertexStreams12setupStreamsEPKNS0_17SVertexStreamDataEjb
-// Partial: buffers are not reference counted. Homogeneity is recomputed once after the
-// loop; the original recomputes it after each entry, which gives the same final flags.
+// Homogeneity is recomputed once after the loop; the original recomputes it after each entry, which gives the same
+// final flags.
 uint32_t CVertexStreams::setupStreams(const SVertexStreamData* data, uint32_t mask, bool flag) {
     const uint32_t active = m_attributeMask & mask;
     for (SVertexStream& entry : m_streams) {

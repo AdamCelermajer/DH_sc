@@ -8,6 +8,7 @@
 // getSize, getPos, getFileName and getFullPath.
 #pragma once
 
+#include <cstdint>
 #include <string>
 
 #include "glitch-core-io/io/read_file.hpp"
@@ -27,22 +28,23 @@ public:
     // given, otherwise the wrapped file's full path, a slash and the name.
     void init(const char* name2);
 
-    IReadFile* clone() const override;  // 0x6b48bc: the copy gets this reader's name and full name
-
-    // 0x6b44e8: PARTIAL, see src. The original returns the byte count of the wrapped read; the
-    // port's IReadFile::read slot is void, so the position is not advanced here.
-    void read(void* buffer, unsigned int count) override;
-    // 0x6b4580: forwards to the position overload with getPos(); the result is dropped (slot is void).
-    void readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) override;
+    // Vtable order (tools/decomp_vtable.py glitch::io::CLimitReadFile): +0x0c read, +0x10 and +0x14 readAsync,
+    // +0x18 seek, +0x1c clone, +0x20 getSize, +0x24 getPos, +0x28 getFileName, +0x2c getFullPath, then the
+    // IReadFile defaults.
+    // 0x6b44e8: syncs the wrapped file to position, clamps the count to end and adds the returned count to position.
+    std::int32_t read(void* buffer, std::uint32_t count) override;
+    // 0x6b4580: forwards to the position overload with getPos() and returns its result.
+    bool readAsync(void* buffer, std::uint32_t count, ReadAsyncCallBack callBack, void* context) override;
     // 0x6b45d0: reads the window at position (relative to start), clamped to end.
-    bool readAsync(void* buffer, unsigned int count, long position, ReadAsyncCallBack callBack,
+    bool readAsync(void* buffer, std::uint32_t count, long position, ReadAsyncCallBack callBack,
                    void* context) override;
     // 0x6b4644: window seek; the relative branch and the absolute branch both forward to the wrapped file.
     bool seek(long offset, bool relative) override;
+    IReadFile* clone() const override;                // 0x6b48bc: the copy gets this reader's name and full name
     long getSize() const override;                    // 0x6b46d0
     long getPos() const override;                     // 0x6b46d8: position minus start
-    const std::string& getFileName() const override;  // 0x6b46e8
-    const std::string& getFullPath() const override;  // 0x6b46f0
+    const char* getFileName() const override;         // 0x6b46e8
+    const char* getFullPath() const override;         // 0x6b46f0
 
     CLimitReadFile(const CLimitReadFile&) = delete;
     CLimitReadFile& operator=(const CLimitReadFile&) = delete;

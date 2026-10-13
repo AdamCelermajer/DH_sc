@@ -1,9 +1,19 @@
-// Value types of the glitch::core namespace, shared by the glitch categories (glitch-video,
-// glitch-scene-collada-gui). Field order and widths match the original (32-bit ARM); the members
-// are zero-initialised, as the decompiled code assumes. Methods are kept where the original has
-// them. Stubs for other categories' classes (video objects, ITexture, IReferenceCounted, and so on)
-// are NOT here; glitch-core-io keeps its own copy with those. The rect members are named
-// UpperLeftCorner and LowerRightCorner, as in glitch-video and glitch-scene.
+// Value types of the glitch::core namespace: the one definition for every category (canonical header of the
+// engine unification wave, u1-core; owner category glitch-core-io). Field order and widths match the original
+// (32-bit ARM); the members are zero-initialised, as the decompiled code assumes. Methods are kept where the
+// original has them. Offsets are the original's, in comments. The rect members are named UpperLeftCorner and
+// LowerRightCorner (core-platform's X1, Y1, X2, Y2 stand-in has the same four words).
+//
+// Layouts (float instances; the 32-bit sizes are in brackets):
+//   vector2d [8]: X +0x00, Y +0x04.          vector3d [12]: X +0x00, Y +0x04, Z +0x08.
+//   vector4d [16]: X, Y, Z, W at +0x00..+0x0c.   position2d [8]: X +0x00, Y +0x04.
+//   rect [16]: UpperLeftCorner +0x00, LowerRightCorner +0x08.   dimension2d [8]: Width +0x00, Height +0x04.
+//   line2d [16]: start +0x00, end +0x08.     line3d [24]: start +0x00, end +0x0c.
+//   aabbox3d [24]: MinEdge +0x00, MaxEdge +0x0c.   plane3d [16]: Normal +0x00, D +0x0c.
+//   triangle3d [36]: A +0x00, B +0x0c, C +0x18.    quaternion [16]: X, Y, Z, W at +0x00..+0x0c (identity is
+//   X = Y = Z = 0, W = 1: IAttribute::getQuaternion 0x31d690).
+//   CMatrix4 [68]: M[16] at +0x00..+0x3c, identity flag byte at +0x40.
+//   SColor [4]: one word, component 0 in the low byte (see SColor). SColorf [16]: r, g, b, a at +0x00..+0x0c.
 #pragma once
 
 #include <cmath>
@@ -12,7 +22,7 @@
 namespace glitch::core {
 template <typename T>
 struct vector2d {
-    T X{}, Y{};
+    T X{}, Y{};  // +0x00, +0x04
 
     // 0x420060 vector2d<float>::getAngle: the angle in degrees of the vector, measured as the
     // original does (0 when Y or X is zero; quadrant offsets of 90 and 270 degrees). The
@@ -38,7 +48,7 @@ struct vector2d {
 };
 template <typename T>
 struct vector3d {
-    T X{}, Y{}, Z{};
+    T X{}, Y{}, Z{};  // +0x00, +0x04, +0x08
 
     // 0x35e8e0 vector3d<float>::normalize(void): when the squared length v2 = X*X + Y*Y + Z*Z is
     // nonzero, every component is multiplied by 1 / sqrt(v2) (a reciprocal, not a division). A zero
@@ -77,16 +87,16 @@ template <>
 vector3d<float> vector3d<float>::getHorizontalAngle() const;
 template <typename T>
 struct vector4d {
-    T X{}, Y{}, Z{}, W{};
+    T X{}, Y{}, Z{}, W{};  // +0x00, +0x04, +0x08, +0x0c
 };
 template <typename T>
 struct position2d {
-    T X{}, Y{};
+    T X{}, Y{};  // +0x00, +0x04
 };
 template <typename T>
 struct rect {
-    position2d<T> UpperLeftCorner;   // UpperLeftCorner.X, UpperLeftCorner.Y in the core-io copy
-    position2d<T> LowerRightCorner;  // LowerRightCorner.X, LowerRightCorner.Y in the core-io copy
+    position2d<T> UpperLeftCorner;   // +0x00 (core-platform's stand-in: X1, Y1)
+    position2d<T> LowerRightCorner;  // +0x08 (core-platform's stand-in: X2, Y2)
 
     // 0x535c18 (rect<int>): if this rectangle is no larger than limit, moves it inside
     // limit (right edge, bottom, left, top, in that order) and returns true; otherwise
@@ -122,7 +132,7 @@ template <typename T>
 struct CMatrix4;
 
 struct quaternion {
-    float X{}, Y{}, Z{}, W{};
+    float X{}, Y{}, Z{}, W{};  // +0x00, +0x04, +0x08, +0x0c
 
     // Method declarations (bodies in glitch-core-io/src/tb_core-io-glitch_core_quaternion-0.cpp).
     // 0x35bc90 operator*(vector3d const&) const: rotates a vector by this quaternion.
@@ -155,7 +165,7 @@ struct aabbox3d;
 
 template <typename T>
 struct triangle3d {
-    vector3d<T> A, B, C;
+    vector3d<T> A, B, C;  // +0x00, +0x0c, +0x18
 
     // 0x6c3da0 triangle3d<float>::isPointInsideFast. Barycentric test with the sign-bit
     // combination of the original: both numerators (X for v, Y for u) are non-negative and
@@ -253,7 +263,7 @@ struct triangle3d {
 };
 template <typename T>
 struct line2d {
-    vector2d<T> start, end;
+    vector2d<T> start, end;  // +0x00, +0x08
 
     // 0x525310 line2d<float>::intersectWith(line2d const&, vector2d<float>&) const. Recovered for
     // float only: the explicit specialisation below is defined in
@@ -265,15 +275,15 @@ template <>
 int line2d<float>::intersectWith(const line2d<float>& other, vector2d<float>& out) const;
 template <typename T>
 struct line3d {
-    vector3d<T> start, end;
+    vector3d<T> start, end;  // +0x00, +0x0c
 };
 template <typename T>
 struct dimension2d {
-    T Width{}, Height{};
+    T Width{}, Height{};  // +0x00, +0x04
 };
 template <typename T>
 struct aabbox3d {
-    vector3d<T> MinEdge, MaxEdge;
+    vector3d<T> MinEdge, MaxEdge;  // +0x00, +0x0c
 
     // 0x35c150 addInternalBox: grows the box to contain b. The original folds in b's MaxEdge
     // corner and then its MinEdge corner, and each corner updates both edges (strict compares,
@@ -542,9 +552,19 @@ void CMatrix4<float>::postScale(const vector3d<float>& scale);
 
 namespace glitch::video {
 
-// SColor is one 32-bit packed value in upstream Irrlicht; the original reads alpha as the byte at +3.
+// SColor is one 32-bit word; the original reads alpha as the byte at +3 (getInterpolated 0x540f8c) and bytes
+// 0, 1 and 2 as the three colour components in the order the stream operators print them
+// (operator<< 0x310178, operator>> 0x3102b4; the latter stores 0 in byte 3). Component 0 is the low byte of
+// `color`. The channel names of bytes 0..2 are not recoverable from the listings seen, so the accessors below
+// are by index (core-platform's stand-in calls them R, G, B, A).
 struct SColor {
-    std::uint32_t color = 0;
+    std::uint32_t color = 0;  // +0x00
+
+    // Byte i of the word (0 = low byte, 3 = alpha).
+    std::uint8_t component(int i) const { return static_cast<std::uint8_t>((color >> (8 * i)) & 0xffu); }
+    void setComponent(int i, std::uint8_t v) {
+        color = (color & ~(0xffu << (8 * i))) | (static_cast<std::uint32_t>(v) << (8 * i));
+    }
 
     // 0x540f8c. Channels are bytes 0..3 of color (byte 0 is the low byte, as in memory). Result is the
     // blend t * this + (1 - t) * other, with t clamped to [0, 1].
@@ -553,10 +573,10 @@ struct SColor {
 
 // Float colour, four words (r, g, b, a) in the original.
 struct SColorf {
-    float r = 0.0f;
-    float g = 0.0f;
-    float b = 0.0f;
-    float a = 0.0f;
+    float r = 0.0f;  // +0x00
+    float g = 0.0f;  // +0x04
+    float b = 0.0f;  // +0x08
+    float a = 0.0f;  // +0x0c
 };
 
 }  // namespace glitch::video

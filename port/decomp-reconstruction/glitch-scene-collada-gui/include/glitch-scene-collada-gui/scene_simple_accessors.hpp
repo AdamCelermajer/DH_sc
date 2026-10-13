@@ -10,6 +10,11 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/scene/CMesh.hpp"
+#include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
+#include "glitch-scene-collada-gui/scene/scene_types.hpp"
+#include "glitch-scene-collada-gui/scene/SceneFactories.hpp"
 
 namespace glitch::video {
 class IVideoDriver;
@@ -34,7 +39,6 @@ namespace glitch::scene {
 
 class ITriangleSelector;
 class IParticleEmitter;
-class IAnimatedMesh;
 
 // ---- Particle interfaces: type tag per interface and an empty destructor. ----
 
@@ -197,6 +201,9 @@ public:
     core::dimension2d<float> size;      // +0x188
     core::aabbox3d<float> boundingBox;  // +0x190
     video::SColor textColor;            // +0x180 (bytes +0x180..+0x183)
+    void* font = nullptr;               // +0x184 IGUIFont* constructor argument; vtable slot 0x48 is queried for the dimensions
+    std::uint32_t ctorArg1a8 = 0;       // +0x1a8 constructor argument (a9)
+    video::SColor color;                // +0x1ac constructor argument (a10), written byte-wise
 };
 
 class CDummyTransformationSceneNode {
@@ -209,6 +216,7 @@ public:
     const core::aabbox3d<float>& getBoundingBox() const;
 
     core::aabbox3d<float> boundingBox;  // +0x174
+    float relativeTransformation[16] = {};  // +0x130 returned by getRelativeTransformationMatrix (CMatrix4; 16 floats assumed)
 };
 
 class CSkyBoxSceneNode {
@@ -230,6 +238,8 @@ struct STerrainPatch {
     core::aabbox3d<float> boundingBox;       // +0x04
 };
 
+// The 32-bit layout evidence of the earlier layouts/scene_members.hpp put the patch container at +0x178 / +0x17c and a material
+// holder at +0x1ac; the members below follow the bodies of the accessors instead, so those two are not repeated.
 class CTerrainSceneNode {
 public:
     // 0x6d00b4 _ZNK6glitch5scene17CTerrainSceneNode8getScaleEv
@@ -302,6 +312,7 @@ public:
     float frameNr = 0.0f;         // +0x144
     bool loopMode = false;        // +0x154
     bool renderFromIdentity = false;  // +0x170
+    void* meshHolder = nullptr;   // +0x130 a counted reference around the mesh name query (serialize 0x6f6478, deserialize 0x6f6d98)
 };
 
 class CParticleSystemSceneNode {
@@ -344,59 +355,7 @@ public:
     bool particlesAreGlobal = false;          // +0x180
 };
 
-class CMeshBuffer;
-
-class CMesh {
-public:
-    // glitch::scene::CMesh::SBuffer, 12 bytes (same shape as glitch::collada::CMesh::SBuffer).
-    // +0x00 is the mesh buffer, +0x04 the material and +0x08 the vertex attribute map.
-    struct SBuffer {
-        boost::intrusive_ptr<CMeshBuffer> buffer;                                     // +0x00
-        boost::intrusive_ptr<video::CMaterial> material;                              // +0x04
-        boost::intrusive_ptr<video::CMaterialVertexAttributeMap> vertexAttributeMap;  // +0x08
-    };
-
-    // 0x6bba70 _ZN6glitch5scene5CMeshC2Ev
-    // 0x6bbad4 _ZN6glitch5scene5CMeshC1Ev
-    // The box starts as (-1, -1, -1) to (1, 1, 1) and the buffer list is empty.
-    CMesh();
-
-    // 0x6bbb38 _ZNK6glitch5scene5CMesh18getMeshBufferCountEv
-    std::int32_t getMeshBufferCount() const;
-    // 0x6bbb60 _ZNK6glitch5scene5CMesh13getMeshBufferEj
-    // PARTIAL: the reference bump on the buffer (+0x00) is not performed (see the .cpp).
-    boost::intrusive_ptr<CMeshBuffer> getMeshBuffer(std::uint32_t index) const;
-    // 0x6bbbb8 _ZNK6glitch5scene5CMesh11getMaterialEj
-    // PARTIAL: the reference bump on the material (+0x04) is not performed.
-    boost::intrusive_ptr<video::CMaterial> getMaterial(std::uint32_t index) const;
-    // 0x6bbc10 _ZNK6glitch5scene5CMesh29getMaterialVertexAttributeMapEj
-    // PARTIAL: the reference bump on the attribute map (+0x08) is not performed.
-    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> getMaterialVertexAttributeMap(
-        std::uint32_t index) const;
-
-    // 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-    // 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-    void setBoundingBox(const core::aabbox3d<float>& box);
-    // 0x6bbd6c _ZN6glitch5scene5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS4_INS5_27CMaterialVertexAttributeMapEEE
-    // PARTIAL: the reference counts of the new and the replaced material and map are not moved.
-    void setMaterial(std::uint32_t index, const boost::intrusive_ptr<video::CMaterial>& material,
-                     const boost::intrusive_ptr<video::CMaterialVertexAttributeMap>& vertexAttributeMap);
-    // 0x6bc664 _ZN6glitch5scene5CMesh13addMeshBufferERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS3_INS_5video9CMaterialEEERKNS3_INS8_27CMaterialVertexAttributeMapEEE
-    // PARTIAL: the reference counts of the stored handles are not moved (see the .cpp).
-    void addMeshBuffer(const boost::intrusive_ptr<CMeshBuffer>& buffer,
-                       const boost::intrusive_ptr<video::CMaterial>& material,
-                       const boost::intrusive_ptr<video::CMaterialVertexAttributeMap>& vertexAttributeMap);
-    // 0x6bbedc _ZN6glitch5scene5CMesh5clearEv
-    // Partial: the buffer entries are dropped without releasing their references.
-    void clear();
-
-    // The destructor (0x6bc248, D1) is not declared: it only destroys the SBuffer vector, and
-    // the implicit destructor does that. The reference releases are not modelled (see the .cpp).
-
-    std::vector<SBuffer> buffers;        // +0x08 (begin) .. +0x0c (end), capacity +0x10
-    core::aabbox3d<float> boundingBox;   // +0x14
-};
+// glitch::scene::CMesh: canonical definition in scene/CMesh.hpp.
 
 // Animator types: the type tag is the constant each class returns.
 class CSceneNodeAnimatorCameraFPS {
@@ -497,18 +456,30 @@ public:
     ITriangleSelector* world = nullptr;  // +0x3c
     bool falling = false;                // +0x54
     float slidingSpeed = 0.0f;           // +0x50
+    bool animateCameraTarget = false;    // +0x56 serialize attribute "AnimateCameraTarget" (serialize 0x6ca764, deserialize 0x6ca804)
 };
 
 class CSceneNodeAnimatorDelete {
 public:
     // 0x6cb418 _ZNK6glitch5scene24CSceneNodeAnimatorDelete7getTypeEv (returns 5)
     std::uint32_t getType() const;
+
+    std::uint32_t deleteTime = 0;           // +0x0c constructor argument, passed back to createClone
+    CSceneManager* sceneManager = nullptr;  // +0x10 constructor argument, passed to createClone
 };
 
 class CSceneNodeAnimatorFlyCircle {
 public:
     // 0x6cb730 _ZNK6glitch5scene27CSceneNodeAnimatorFlyCircle7getTypeEv (returns 0)
     std::uint32_t getType() const;
+
+    core::vector3d<float> center;     // +0x0c constructor argument
+    core::vector3d<float> direction;  // +0x18 constructor argument, normalized by init()
+    core::vector3d<float> vecU;       // +0x24 written by init()
+    core::vector3d<float> vecV;       // +0x30 written by init()
+    float radius = 0.0f;              // +0x3c constructor argument
+    float speed = 0.0f;               // +0x40 constructor argument, multiplies the time delta
+    std::uint32_t startTime = 0;      // +0x44 constructor argument, subtracted from the animate time
 };
 
 class CSceneNodeAnimatorFlyStraight {
@@ -516,25 +487,38 @@ public:
     // 0x6cc070 _ZNK6glitch5scene29CSceneNodeAnimatorFlyStraight7getTypeEv (returns 1)
     std::uint32_t getType() const;
     // 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
-    // Partial: the original tail-calls __aeabi_fsub(+0x18, +0x0c), so the difference is returned.
+    // Partial: the original tail-calls __aeabi_fsub(+0x18, +0x0c), so the difference of the X components of end and start is
+    // returned; the vector, length and time factor are not stored here.
     float recalculateImidiateValues() const;
 
-    std::uint8_t pad_0000[0x0c] = {};  // +0x00..+0x0b (not mapped)
-    float subtrahend = 0.0f;           // +0x0c
-    std::uint8_t pad_0010[0x08] = {};  // +0x10..+0x17 (not mapped)
-    float minuend = 0.0f;              // +0x18
+    core::vector3d<float> start;   // +0x0c constructor argument
+    core::vector3d<float> end;     // +0x18 constructor argument
+    core::vector3d<float> vector;  // +0x24 written by recalculateImidiateValues
+    float wayLength = 0.0f;        // +0x30 written by recalculateImidiateValues
+    float timeFactor = 0.0f;       // +0x34 written by recalculateImidiateValues
+    std::uint32_t startTime = 0;   // +0x38 constructor argument, subtracted from the animate time
+    std::uint32_t timeForWay = 0;  // +0x3c constructor argument
+    bool loop = false;             // +0x40 constructor argument
 };
 
 class CSceneNodeAnimatorFollowSpline {
 public:
     // 0x6cc754 _ZNK6glitch5scene30CSceneNodeAnimatorFollowSpline7getTypeEv (returns 2)
     std::uint32_t getType() const;
+
+    std::vector<core::vector3d<float>> waypoints;  // +0x0c (begin) .. +0x14 (capacity), 12-byte elements
+    float speed = 0.0f;                            // +0x18 constructor argument, scales the time delta
+    float tightness = 0.0f;                        // +0x1c not confirmed
+    std::uint32_t startTime = 0;                   // +0x20 constructor argument, subtracted from the animate time
 };
 
 class CSceneNodeAnimatorRotation {
 public:
     // 0x6cd58c _ZNK6glitch5scene26CSceneNodeAnimatorRotation7getTypeEv (returns 3)
     std::uint32_t getType() const;
+
+    float rotation[4] = {};       // +0x0c quaternion copied from the constructor argument
+    std::uint32_t startTime = 0;  // +0x1c constructor argument, subtracted from the animate time
 };
 
 class CSceneNodeAnimatorTexture {
@@ -543,21 +527,14 @@ public:
     std::uint32_t getType() const;
     // 0x6cda34 _ZN6glitch5scene25CSceneNodeAnimatorTexture10updateTimeEj (empty)
     void updateTime(std::uint32_t time);
+
+    std::vector<video::ITexture*> textures;  // +0x0c (begin) .. +0x14 (capacity); counted intrusive_ptr<ITexture> in the original
+    std::uint32_t timePerFrame = 0;          // +0x18 divisor in animateNode (time / period)
+    std::uint32_t startTime = 0;             // +0x1c subtracted from the animate time
+    bool loop = false;                       // +0x24 read in animateNode and createClone
 };
 
-// Scene-node animator ids in the factory's name table (the upstream
-// ESceneNodeAnimatorTypes.h order for these nine entries).
-enum E_SCENE_NODE_ANIMATOR_TYPE : std::uint32_t {
-    ESNAT_FLY_CIRCLE = 0,
-    ESNAT_FLY_STRAIGHT,
-    ESNAT_FOLLOW_SPLINE,
-    ESNAT_ROTATION,
-    ESNAT_TEXTURE,
-    ESNAT_DELETION,
-    ESNAT_COLLISION_RESPONSE,
-    ESNAT_CAMERA_FPS,
-    ESNAT_CAMERA_MAYA,
-};
+// E_SCENE_NODE_ANIMATOR_TYPE (the factory name-table ids) is defined once in scene/scene_types.hpp.
 
 class CDefaultSceneNodeAnimatorFactory {
 public:
@@ -570,6 +547,8 @@ public:
     const char* getCreateableSceneNodeAnimatorTypeName(std::uint32_t index) const;
     // 0x6b96e0 _ZNK6glitch5scene32CDefaultSceneNodeAnimatorFactory38getCreateableSceneNodeAnimatorTypeNameENS0_26E_SCENE_NODE_ANIMATOR_TYPEE (null when out of range)
     const char* getCreateableSceneNodeAnimatorTypeName(E_SCENE_NODE_ANIMATOR_TYPE type) const;
+
+    glitch::IReferenceCounted* cursorControl = nullptr;  // +0x0c a counted reference, dropped in the destructor
 };
 
 // Creatable scene-node types. Each record is 0x1c bytes in the original: the type word
@@ -599,24 +578,6 @@ class ISceneCollisionManager {
 public:
     // 0x6c3be8 _ZN6glitch5scene22ISceneCollisionManagerD1Ev (empty)
     ~ISceneCollisionManager() = default;
-};
-
-class IMeshLoader {
-public:
-    // 0x6b930c _ZN6glitch5scene11IMeshLoaderD1Ev (empty)
-    ~IMeshLoader() = default;
-};
-
-class ISceneNodeAnimatorFactory {
-public:
-    // 0x6b958c _ZN6glitch5scene25ISceneNodeAnimatorFactoryD1Ev (empty)
-    ~ISceneNodeAnimatorFactory() = default;
-};
-
-class ISceneNodeFactory {
-public:
-    // 0x6b9cec _ZN6glitch5scene17ISceneNodeFactoryD1Ev (empty)
-    ~ISceneNodeFactory() = default;
 };
 
 class IMeshCache {
@@ -664,11 +625,7 @@ public:
     ~IBillboard() = default;
 };
 
-class IEndOfBatchCallback {
-public:
-    // 0x588f80 _ZN6glitch5scene19IEndOfBatchCallbackD1Ev (empty)
-    ~IEndOfBatchCallback() = default;
-};
+// IEndOfBatchCallback: canonical class in scene/CAppendMeshBuffer.hpp.
 
 class ISegmentCompileCallback {
 public:
@@ -682,42 +639,9 @@ public:
     ~SDefaultSegmentCompileCallback() = default;
 };
 
-class IAnimatedMesh {
-public:
-    // 0x599ef8 _ZN6glitch5scene13IAnimatedMeshD1Ev (empty)
-    ~IAnimatedMesh() = default;
-    // 0x599efc _ZNK6glitch5scene13IAnimatedMesh11getMeshTypeEv (returns 0)
-    std::uint32_t getMeshType() const;
-};
+// SAnimatedMesh: canonical class in scene/SAnimatedMesh.hpp.
 
-class SAnimatedMesh {
-public:
-    // 0x599f88 _ZNK6glitch5scene13SAnimatedMesh11getMeshTypeEv
-    std::uint32_t getMeshType() const;
-    // 0x599f04 _ZNK6glitch5scene13SAnimatedMesh13getFrameCountEv
-    std::int32_t getFrameCount() const;
-    // 0x599f4c _ZNK6glitch5scene13SAnimatedMesh14getBoundingBoxEv
-    const core::aabbox3d<float>& getBoundingBox() const;
-    // 0x599f54 _ZN6glitch5scene13SAnimatedMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-    void setBoundingBox(const core::aabbox3d<float>& box);
-
-    core::aabbox3d<float> boundingBox;  // +0x08
-    std::vector<void*> meshes;          // +0x20 (begin) .. +0x24 (end), one entry per frame
-    std::uint32_t meshType = 0;         // +0x2c
-};
-
-// Append mesh buffer. Only the two fill counters cleared by clear() are mapped; their
-// roles are not confirmed.
-class CAppendMeshBuffer {
-public:
-    // 0x6b8878 _ZN6glitch5scene17CAppendMeshBuffer5clearEv
-    void clear();
-
-    std::uint8_t pad_0000[0x3c] = {};  // +0x00..+0x3b (not mapped)
-    std::uint32_t fillCounterA = 0;    // +0x3c
-    std::uint8_t pad_0040[0x04] = {};  // +0x40..+0x43 (not mapped)
-    std::uint32_t fillCounterB = 0;    // +0x44
-};
+// CAppendMeshBuffer: canonical class in scene/CAppendMeshBuffer.hpp.
 
 // Binary COLLADA file loader. Only the extension test is mapped.
 class CColladaBinaryFileLoader {

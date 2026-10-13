@@ -1,0 +1,161 @@
+// Bodies of glitch::scene::IBillboardSceneNode and CBillboardSceneNode (canonical classes: scene/CBillboardSceneNode.hpp). This file
+// replaces scene_nodes.cpp (getType, getBoundingBox, getMaterialCount, getSize) and the billboard entries of recon/slice_05
+// (constructor, clone, onRegisterSceneNode, setSize, setColor, setMaterial, render, getMaterial) and recon/slice_31 (getColor,
+// serializeAttributes, deserializeAttributes).
+#include "glitch-scene-collada-gui/scene/CBillboardSceneNode.hpp"
+
+#include "glitch-scene-collada-gui/scene/CSceneManager.hpp"
+#include "glitch-video/video_driver.hpp"
+
+namespace glitch::scene {
+
+// 0x580eac _ZN6glitch5scene19IBillboardSceneNodeC2EiRKNS_4core8vector3dIfEE (base object; the complete object adds the virtual base)
+IBillboardSceneNode::IBillboardSceneNode(int id, const core::vector3d<float>& position)
+    : ISceneNode(id, position, core::quaternion{0.0f, 0.0f, 0.0f, 1.0f}, core::vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+
+// 0x580df0 _ZN6glitch5scene19IBillboardSceneNodeD1Ev
+// 0x581754 _ZN6glitch5scene19IBillboardSceneNodeD0Ev (skipped)
+IBillboardSceneNode::~IBillboardSceneNode() = default;
+
+// 0x5818fc _ZN6glitch5scene19CBillboardSceneNodeC1EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESC_
+// 0x581c80 _ZN6glitch5scene19CBillboardSceneNodeC2EPNS_5video12IVideoDriverEiRKNS_4core8vector3dIfEERKNS5_11dimension2dIfEENS2_6SColorESC_
+// PARTIAL, see the header: the stream table is allocated (one stream, attribute mask 0x60000) and its count word is set to 4. The
+// original then creates a driver buffer over the four vertices (IVideoDriver::createBuffer vtable +0x78: type 0, usage 4, 144 bytes,
+// the vertex array as its data, not owned) and attaches it with CVertexStreams::setupStreams(buffer, mask) (0x5a15c0), which
+// glitch-video does not reconstruct yet; without it the buffer would have no holder, so it is not created.
+CBillboardSceneNode::CBillboardSceneNode(video::IVideoDriver* /*driver*/, int id, const core::vector3d<float>& position,
+                                         const core::dimension2d<float>& dimensions, video::SColor top, video::SColor bottom)
+    : IBillboardSceneNode(id, position) {
+    static_assert(sizeof(SVertex) == 36, "the vertices are 36 bytes in the original, 144 for the four");
+    setSize(dimensions);
+    vertexStreams = video::CVertexStreams::allocate(static_cast<std::uint8_t>(1), 0x60000u);
+    vertexStreams->m_field08 = 4;
+    vertices[0].color = bottom;
+    vertices[1].color = top;
+    vertices[2].color = bottom;
+    vertices[3].color = top;
+    vertices[0].texCoords = core::dimension2d<float>{1.0f, 1.0f};
+    vertices[1].texCoords = core::dimension2d<float>{1.0f, 0.0f};
+    vertices[2].texCoords = core::dimension2d<float>{0.0f, 1.0f};
+    vertices[3].texCoords = core::dimension2d<float>{0.0f, 0.0f};
+}
+
+// 0x5817dc _ZN6glitch5scene19CBillboardSceneNodeD1Ev
+// 0x5818c0 _ZN6glitch5scene19CBillboardSceneNodeD0Ev (skipped)
+CBillboardSceneNode::~CBillboardSceneNode() = default;
+
+// 0x580aa0 _ZN6glitch5scene19CBillboardSceneNode7setSizeERKNS_4core11dimension2dIfEE
+// A zero width or height is stored as 1; the box is +-(width + height) / 6 in every axis, computed from the argument.
+void CBillboardSceneNode::setSize(const core::dimension2d<float>& dimensions) {
+    size.Width = dimensions.Width;
+    size.Height = dimensions.Height;
+    if (size.Width == 0.0f) size.Width = 1.0f;
+    if (size.Height == 0.0f) size.Height = 1.0f;
+    const float half = (dimensions.Width + dimensions.Height) / 6.0f;
+    boundingBox.MinEdge = core::vector3d<float>{-half, -half, -half};
+    boundingBox.MaxEdge = core::vector3d<float>{half, half, half};
+}
+
+// 0x580b3c _ZNK6glitch5scene19CBillboardSceneNode7getSizeEv
+const core::dimension2d<float>& CBillboardSceneNode::getSize() const {
+    return size;
+}
+
+// 0x580b44 _ZN6glitch5scene19CBillboardSceneNode8setColorERKNS_5video6SColorE
+void CBillboardSceneNode::setColor(const video::SColor& color) {
+    for (SVertex& vertex : vertices) {
+        vertex.color = color;
+    }
+}
+
+// 0x580b94 _ZN6glitch5scene19CBillboardSceneNode8setColorERKNS_5video6SColorES5_
+// Corners 0 and 3 get the second colour, corners 1 and 2 the first.
+void CBillboardSceneNode::setColor(const video::SColor& top, const video::SColor& bottom) {
+    vertices[0].color = bottom;
+    vertices[1].color = top;
+    vertices[2].color = top;
+    vertices[3].color = bottom;
+}
+
+// 0x580bec _ZNK6glitch5scene19CBillboardSceneNode8getColorERNS_5video6SColorES4_
+void CBillboardSceneNode::getColor(video::SColor& top, video::SColor& bottom) const {
+    bottom = vertices[0].color;
+    top = vertices[1].color;
+}
+
+// 0x580c48 _ZNK6glitch5scene19CBillboardSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+void CBillboardSceneNode::serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const {
+    ISceneNode::serializeAttributes(attributes, options);
+    attributes->addFloat("Width", size.Width, false);
+    attributes->addFloat("Height", size.Height, false);
+    attributes->addColor("Shade_Top", vertices[1].color, false);
+    attributes->addColor("Shade_Down", vertices[0].color, false);
+}
+
+// 0x580cf8 _ZN6glitch5scene19CBillboardSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
+// Reads the four values, then calls setSize (vptr+0x08) with the stored size.
+void CBillboardSceneNode::deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) {
+    ISceneNode::deserializeAttributes(attributes, options);
+    size.Width = attributes->getFloat("Width");
+    size.Height = attributes->getFloat("Height");
+    vertices[1].color = attributes->getColor("Shade_Top");
+    vertices[0].color = attributes->getColor("Shade_Down");
+    setSize(size);
+}
+
+// 0x580a40 _ZN6glitch5scene19CBillboardSceneNode19onRegisterSceneNodeEv
+// Registers the node with its material, the constant 1 as the user-data word, pass 3, no position and sort order 0x7FFFFFFF.
+// The original dereferences the scene manager without a test.
+int CBillboardSceneNode::onRegisterSceneNode() {
+    if (sceneManager != nullptr) {
+        sceneManager->registerNodeForRendering(this, material, reinterpret_cast<void*>(static_cast<std::uintptr_t>(1)), 3,
+                                               nullptr, 0x7FFFFFFF);
+    }
+    return 1;
+}
+
+// 0x580f58 _ZN6glitch5scene19CBillboardSceneNode6renderEPv
+// PARTIAL, stub (8609 bytes): the original works out the camera-facing corner positions from the active camera's absolute position
+// and up vectors (billboard orientation), writes them into the four vertices, binds the material and draws the quad through
+// IVideoDriver::draw with the stream table and a primitive stream. The driver draw path is glitch-video's and is not called here.
+void CBillboardSceneNode::render(void* /*renderContext*/) {}
+
+// 0x580a98 _ZNK6glitch5scene19CBillboardSceneNode14getBoundingBoxEv
+const core::aabbox3d<float>& CBillboardSceneNode::getBoundingBox() const {
+    return boundingBox;
+}
+
+// 0x580b34 _ZNK6glitch5scene19CBillboardSceneNode16getMaterialCountEv
+std::uint32_t CBillboardSceneNode::getMaterialCount() const {
+    return 1;
+}
+
+// 0x580a2c _ZNK6glitch5scene19CBillboardSceneNode7getTypeEv
+E_SCENE_NODE_TYPE CBillboardSceneNode::getType() const {
+    return ESNT_BILLBOARD;
+}
+
+// 0x580b24 _ZN6glitch5scene19CBillboardSceneNode11getMaterialEj
+boost::intrusive_ptr<video::CMaterial>& CBillboardSceneNode::getMaterial(std::uint32_t /*index*/) {
+    return material;
+}
+
+// 0x580e68 _ZN6glitch5scene19CBillboardSceneNode11setMaterialERKN5boost13intrusive_ptrINS_5video9CMaterialEEE
+void CBillboardSceneNode::setMaterial(const boost::intrusive_ptr<video::CMaterial>& newMaterial) {
+    material = newMaterial;
+}
+
+// 0x581bc4 _ZN6glitch5scene19CBillboardSceneNode5cloneEv
+// A new billboard with this node's driver (the scene manager's, +0x14), id, position and size and white corners; then
+// ISceneNode::cloneMembers copies the base members and the material handle is shared.
+ISceneNode* CBillboardSceneNode::clone() {
+    video::IVideoDriver* driver = sceneManager != nullptr ? sceneManager->driver : nullptr;
+    video::SColor white;
+    white.color = 0xFFFFFFFFu;
+    auto* copy = new CBillboardSceneNode(driver, id, position, size, white, white);
+    copy->cloneMembers(this);
+    copy->material = material;
+    return copy;
+}
+
+}  // namespace glitch::scene

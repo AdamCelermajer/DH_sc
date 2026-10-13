@@ -3,16 +3,14 @@
 // re-run; see NOTES.md). The first argument is the `this` pointer where the
 // original is a member. The bodies are complete, so their ledger rows are
 // reconstructed; they stay free function templates named by their original
-// address until each is attached to its owning class.
+// address until each is attached to its owning class. The entries of the classes that became canonical in the unification wave
+// (IMesh, CMesh, CMorphingMesh, ISceneNodeAnimator, CSceneNodeAnimatorSet, CSceneNodeAnimatorSynchronizedSet, CColladaDatabase,
+// CResFileManager) moved to their members.
 #pragma once
 
 #include <cstdint>
 
 namespace glitch::collada::stubs {
-
-// 0x60e62c _ZNK6glitch7collada16CColladaDatabase15constructCameraEPNS0_15SInstanceCameraEPNS0_14CRootSceneNodeE
-// glitch::collada::CColladaDatabase::constructCamera(glitch::collada::SInstanceCamera*, glitch::collada::CRootSceneNode*) const
-template <class... A> std::uint32_t stub_60e62c(A&&...) { return 0u; }
 
 // 0x60ee1c _ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_fNS1_6CMixinIfLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_S4_EEEELi3EfEEEEE12getValueSizeEv
 // glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float [4], glitch::collada::animation_track::CMixin<float, 4, glitch::collada::animation_track::SMaterialSe
@@ -214,10 +212,6 @@ template <class... A> std::uint32_t stub_62ff38(A&&...) { return 1u; }
 // glitch::collada::CGlitchNewParticleSystemSceneNode::getType() const
 template <class... A> std::uint32_t stub_637b78(A&&...) { return 0x67656164u; }
 
-// 0x644a3c _ZNK6glitch7collada5CMesh7getTypeEv
-// glitch::collada::CMesh::getType() const
-template <class... A> std::uint32_t stub_644a3c(A&&...) { return 0u; }
-
 // 0x646160 _ZNK6glitch7collada14CMeshSceneNode7getTypeEv
 // glitch::collada::CMeshSceneNode::getType() const
 template <class... A> std::uint32_t stub_646160(A&&...) { return 0x6d656164u; }
@@ -230,65 +224,21 @@ template <class... A> void stub_646188(A&&...) {}
 // glitch::collada::CModularSkinnedMeshSceneNode::getType() const
 template <class... A> std::uint32_t stub_6493f8(A&&...) { return 0x4d656164u; }
 
-// 0x649904 _ZNK6glitch7collada13CMorphingMesh7getTypeEv
-// glitch::collada::CMorphingMesh::getType() const
-template <class... A> std::uint32_t stub_649904(A&&...) { return 1u; }
-
-// 0x6499d0 _ZN6glitch7collada13CMorphingMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-// glitch::collada::CMorphingMesh::setBoundingBox(glitch::core::aabbox3d<float> const&)
-template <class... A> void stub_6499d0(A&&...) {}
-
 // 0x64bb84 _ZNK6glitch7collada24CParticleSystemSceneNode7getTypeEv
 // glitch::collada::CParticleSystemSceneNode::getType() const
 template <class... A> std::uint32_t stub_64bb84(A&&...) { return 0x70656164u; }
-
-// 0x657994 _ZN6glitch7collada15CResFileManager12checkVersionEPNS_2io9IReadFileE
-// glitch::collada::CResFileManager::checkVersion(glitch::io::IReadFile*)
-template <class... A> std::uint32_t stub_657994(A&&...) { return 0u; }
 
 // 0x65cd1c _ZNK6glitch7collada10CSceneNode7getTypeEv
 // glitch::collada::CSceneNode::getType() const
 template <class... A> std::uint32_t stub_65cd1c(A&&...) { return 0x6e656164u; }
 
-// 0x65f288 _ZN6glitch7collada21CSceneNodeAnimatorSet16getIdentityValueEiPv
-// glitch::collada::CSceneNodeAnimatorSet::getIdentityValue(int, void*)
-template <class... A> void stub_65f288(A&&...) {}
-
-// 0x662750 _ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet18fillInputTimeStartEv
-// glitch::collada::CSceneNodeAnimatorSynchronizedSet::fillInputTimeStart()
-template <class... A> void stub_662750(A&&...) {}
-
-// 0x66275c _ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet16fillInputTimeEndEv
-// glitch::collada::CSceneNodeAnimatorSynchronizedSet::fillInputTimeEnd()
-template <class... A> void stub_66275c(A&&...) {}
-
-// 0x662768 _ZN6glitch7collada33CSceneNodeAnimatorSynchronizedSet35fillInputSynchronizationElapsedTimeEv
-// glitch::collada::CSceneNodeAnimatorSynchronizedSet::fillInputSynchronizationElapsedTime()
-template <class... A> void stub_662768(A&&...) {}
-
 // 0x6669f8 _ZNK6glitch7collada21CSkinnedMeshSceneNode7getTypeEv
 // glitch::collada::CSkinnedMeshSceneNode::getType() const
 template <class... A> std::uint32_t stub_6669f8(A&&...) { return 0x73656164u; }
 
-// 0x6676b4 _ZN6glitch7collada5IMesh9onAnimateEj
-// glitch::collada::IMesh::onAnimate(unsigned int)
-template <class... A> void stub_6676b4(A&&...) {}
-
-// 0x6676c0 _ZN6glitch7collada5IMesh20releaseProcessBufferEPNS_5video12IVideoDriverEj
-// glitch::collada::IMesh::releaseProcessBuffer(glitch::video::IVideoDriver*, unsigned int)
-template <class... A> void stub_6676c0(A&&...) {}
-
-// 0x6676c4 _ZN6glitch7collada5IMesh4initEPNS_5video12IVideoDriverEb
-// glitch::collada::IMesh::init(glitch::video::IVideoDriver*, bool)
-template <class... A> void stub_6676c4(A&&...) {}
-
 // 0x667774 _ZN6glitch7collada24IParticleSystemSceneNode5cloneEv
 // glitch::collada::IParticleSystemSceneNode::clone()
 template <class... A> std::uint32_t stub_667774(A&&...) { return 0u; }
-
-// 0x667cbc _ZN6glitch7collada18ISceneNodeAnimator11createCloneEv
-// glitch::collada::ISceneNodeAnimator::createClone()
-template <class... A> std::uint32_t stub_667cbc(A&&...) { return 0u; }
 
 // 0x669b6c _ZN6glitch7collada12ISkinnedMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
 // glitch::collada::ISkinnedMesh::setBoundingBox(glitch::core::aabbox3d<float> const&)

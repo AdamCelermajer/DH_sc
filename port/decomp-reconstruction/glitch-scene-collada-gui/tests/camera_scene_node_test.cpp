@@ -43,11 +43,32 @@ public:
     bool receiver = true;
     bool handles = false;
     int eventCalls = 0;
+    void animateNode(ISceneNode*, std::uint32_t) override {}
+    ISceneNodeAnimator* createClone() override { return nullptr; }
     bool isEventReceiverEnabled() const override { return receiver; }
     bool onEvent(const glitch::SEvent&) override {
         ++eventCalls;
         return handles;
     }
+};
+
+// CSceneManager is abstract (registerSkinnedMesh is pure) and has no default constructor.
+class TestSceneManager : public CSceneManager {
+public:
+    TestSceneManager()
+        : CSceneManager(nullptr, boost::intrusive_ptr<glitch::io::IFileSystem>(), nullptr, nullptr, nullptr) {}
+    void registerSkinnedMesh(void*) override {}
+};
+
+// ISceneNode is abstract (render and getBoundingBox are pure).
+class TestNode : public ISceneNode {
+public:
+    TestNode()
+        : ISceneNode(0, vector3d<float>{0.0f, 0.0f, 0.0f}, glitch::core::quaternion{0.0f, 0.0f, 0.0f, 1.0f},
+                     vector3d<float>{1.0f, 1.0f, 1.0f}) {}
+    void render(void*) override {}
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box; }
+    glitch::core::aabbox3d<float> box{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
 };
 
 }  // namespace
@@ -195,14 +216,21 @@ int main() {
 
     // onEvent: off when the input receiver byte is clear, otherwise the first enabled animator that handles it wins.
     {
-        RecordingAnimator skipped;
+        auto* skippedPtr = new RecordingAnimator;
+        auto* ignoringPtr = new RecordingAnimator;
+        auto* handlingPtr = new RecordingAnimator;
+        auto* neverPtr = new RecordingAnimator;
+        RecordingAnimator& skipped = *skippedPtr;
+        RecordingAnimator& ignoring = *ignoringPtr;
+        RecordingAnimator& handling = *handlingPtr;
+        RecordingAnimator& never = *neverPtr;
         skipped.receiver = false;
-        RecordingAnimator ignoring;
-        RecordingAnimator handling;
         handling.handles = true;
-        RecordingAnimator never;
         never.handles = true;
-        camera.animators = {&skipped, &ignoring, &handling, &never};
+        camera.addAnimator(skippedPtr);
+        camera.addAnimator(ignoringPtr);
+        camera.addAnimator(handlingPtr);
+        camera.addAnimator(neverPtr);
         glitch::SEvent event;
         camera.setInputReceiverEnabled(false);
         CHECK(!camera.onEvent(event));
@@ -215,10 +243,14 @@ int main() {
         CHECK(never.eventCalls == 0);  // the walk stops at the first handler
         // The IEventReceiver sub-object reaches the same body.
         glitch::IEventReceiver& receiver = camera;
-        CHECK(receiver.forwardEvent(event));
+        CHECK(receiver.onEvent(event));
         CHECK(handling.eventCalls == 2);
-        camera.animators.clear();
+        camera.removeAnimators();
         CHECK(!camera.onEvent(event));
+        skippedPtr->drop();
+        ignoringPtr->drop();
+        handlingPtr->drop();
+        neverPtr->drop();
     }
 
     // onRegisterSceneNode: recalculates the matrices and returns 1, with or without a scene manager.
@@ -227,10 +259,12 @@ int main() {
         CHECK(isIdentityMatrix(other.getViewMatrix()));
         CHECK(other.onRegisterSceneNode() == 1);
         CHECK(!isIdentityMatrix(other.getViewMatrix()));
-        CSceneManager manager;
+        TestSceneManager manager;
         other.sceneManager = &manager;
         manager.activeCamera = &other;
         CHECK(other.onRegisterSceneNode() == 1);  // registerNodeForRendering is partial and does nothing visible
+        manager.activeCamera = nullptr;  // the manager would drop its reference to the stack camera
+        other.sceneManager = nullptr;
     }
 
     // Frustum tests and CSceneManager::isCulled, on a camera at the origin looking along +z.
@@ -253,13 +287,15 @@ int main() {
         CHECK(frustum.intersectsWithoutBoxTest3(ahead));
         CHECK(!frustum.intersectsWithoutBoxTest3(farAside));  // rejected by plane 2 or 3
 
-        CSceneManager manager;
-        ISceneNode node;
+        TestSceneManager manager;
+        TestNode node;
         manager.activeCamera = &looking;
         node.automaticCulling = 2;
         node.transformedBoundingBox = farAside;
         node.flags = 0;  // the cached box is returned as it is
+        CHECK(manager.cullingEnabled);  // the constructor writes 1 at +0x250 (0x58d908)
         // Culling off, or no active camera: never culled.
+        manager.cullingEnabled = false;
         CHECK(!manager.isCulled(&node));
         manager.cullingEnabled = true;
         manager.activeCamera = nullptr;
@@ -282,6 +318,7 @@ int main() {
         // Any other mode is never culled.
         node.automaticCulling = 0;
         CHECK(!manager.isCulled(&node));
+        manager.activeCamera = nullptr;  // the manager would drop its reference to the stack camera
     }
 
     if (failures == 0) {

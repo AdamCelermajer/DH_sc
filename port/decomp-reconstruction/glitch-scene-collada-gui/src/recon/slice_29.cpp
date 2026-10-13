@@ -12,9 +12,7 @@ namespace glitch::scene::recon_29 {
 // (same body; one definition serves both the C1 and C2 entries)
 CMeshConnectivity::CMeshConnectivity(const boost::intrusive_ptr<const CMeshBuffer>& buffer_in)
     : buffer(buffer_in) {
-    if (buffer) {
-        ++const_cast<CMeshBuffer*>(buffer.get())->referenceCount;  // buffer +0x04
-    }
+    // The copy of the counting handle takes the reference on the buffer (+0x04), as the original does by hand.
 }
 
 // 0x6ffdf8 _ZN6glitch5scene22CShadowVolumeSceneNode11SSilhouetteC1ERKN5boost13intrusive_ptrIKNS0_11CMeshBufferEEE

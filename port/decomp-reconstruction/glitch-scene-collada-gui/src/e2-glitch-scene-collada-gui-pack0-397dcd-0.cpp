@@ -12,51 +12,11 @@
 #include <cstring>
 
 #include "glitch-scene-collada-gui/recon/slice_13.hpp"
-#include "glitch-scene-collada-gui/scene_nodes.hpp"
 #include "glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_ScaleYVec3f.hpp"
 #include "glitch-scene-collada-gui/tb/glitch_collada_animation_track_CVirtualEx_ScaleYVec3f.hpp"
 
-namespace glitch::scene {
+// The CCameraSceneNode constructor of this batch (0x583734 / 0x583878) moved to src/scene/CCameraSceneNode.cpp with the canonical class.
 
-namespace {
-
-// Reinterprets a 32-bit word as the float it encodes (the original stores the raw bits).
-float floatFromBits(std::uint32_t bits) {
-    float value = 0.0f;
-    std::memcpy(&value, &bits, sizeof value);
-    return value;
-}
-
-}  // namespace
-
-// 0x583734 _ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b (complete object)
-// 0x583878 _ZN6glitch5scene16CCameraSceneNodeC2EiRKNS_4core8vector3dIfEES6_b (base object)
-// The ICameraSceneNode base gets (id, position, rotation (0, 0, 0), scale (1, 1, 1)). The members are then written
-// as the pseudocode writes them: target (+0x138), up vector (0, 1, 0) (+0x144), fov 0x3FA0D97C (+0x154),
-// aspect 0x3FAAAAAB (+0x158), near 1.0 (+0x15c), far 2048.0 = 0x45000000 (+0x160), farToInfinity (+0x164) and
-// inputReceiverEnabled = true (+0x165). The SViewFrustum member (+0x168) is constructed by its own constructor.
-// The orthogonal flag (+0x134) is written by the base and mag (+0x150) is not written by this constructor. The body
-// then calls recalculateProjectionMatrix() (the virtual at Hex-Rays +0x158) and ISceneNode::setAutomaticCulling(0).
-// PARTIAL for the complete-object variant 0x583734: that variant also stores the vtable word and the reference count
-// 1 of the IReferenceCounted virtual base (+0x384/+0x388), which ISceneNode does not model here. The base-object
-// variant 0x583878 never touches the virtual base, so this constructor is its full body.
-CCameraSceneNode::CCameraSceneNode(int id, const core::vector3d<float>& position,
-                                   const core::vector3d<float>& targetPosition, bool farToInfinityValue)
-    : ICameraSceneNode(id, position, core::vector3d<float>{0.0f, 0.0f, 0.0f},
-                       core::vector3d<float>{1.0f, 1.0f, 1.0f}),
-      target(targetPosition),
-      upVector{0.0f, 1.0f, 0.0f},
-      fov(floatFromBits(0x3FA0D97Cu)),
-      aspectRatio(floatFromBits(0x3FAAAAABu)),
-      nearValue(1.0f),
-      farValue(2048.0f),
-      farToInfinity(farToInfinityValue),
-      inputReceiverEnabled(true) {
-    recalculateProjectionMatrix();
-    setAutomaticCulling(0);  // ISceneNode::setAutomaticCulling(this, 0)
-}
-
-}  // namespace glitch::scene
 
 namespace glitch::collada::animation_track {
 

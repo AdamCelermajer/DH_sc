@@ -89,7 +89,7 @@ SAnimation* CColladaDatabase::getAnimation(const char* name, SChannel::Type type
     const std::uint32_t count = static_cast<std::uint32_t>(tables().animations.size());
     for (std::uint32_t i = 0; i < count; ++i) {
         SAnimation* animation = animationAt(tables(), static_cast<int>(i));
-        const SChannel* channel = animation->channel;
+        const SChannel* channel = animation->channels;
         if (channel == nullptr || name == nullptr || channel->name == nullptr) {
             continue;
         }

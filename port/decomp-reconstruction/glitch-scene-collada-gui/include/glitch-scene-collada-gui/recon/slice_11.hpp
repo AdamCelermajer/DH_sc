@@ -91,9 +91,9 @@ struct OutSlotStandIn {
 // Stand-ins: reference counting and the resource manager (CResFileManager).
 // ---------------------------------------------------------------------------
 // IReferenceCounted::drop on a COLLADA record; the record count is at +0x04.
-inline void dropRecord(SColladaRecord* record) noexcept {
-    if (record != nullptr && record->reserved00[1] != 0) {
-        --record->reserved00[1];
+inline void dropRecord(CResFile* record) noexcept {
+    if (record != nullptr && record->refCount != 0) {
+        --record->refCount;
     }
 }
 
@@ -106,8 +106,8 @@ ResFileManagerStandIn& resFileManagerInst() noexcept;
 
 // Stand-in: CResFileManager::get / load / unload, CAnimationStreamingManager::release.
 // Return no file and do nothing; callers keep their original control flow.
-SColladaRecord* resFileManagerGet(SColladaRecord* file, const char* name, int flag) noexcept;
-SColladaRecord* resFileManagerLoad(const CColladaDatabase* self, const char* name, glitch::io::IReadFile* file) noexcept;
+CResFile* resFileManagerGet(CResFile* file, const char* name, int flag) noexcept;
+CResFile* resFileManagerLoad(const CColladaDatabase* self, const char* name, glitch::io::IReadFile* file) noexcept;
 void resFileManagerUnload(const char* name, int flag) noexcept;
 void animationStreamingRelease(const CColladaDatabase* self) noexcept;
 void logMessage(const char* message) noexcept;  // glitch::os::Printer::log stand-in

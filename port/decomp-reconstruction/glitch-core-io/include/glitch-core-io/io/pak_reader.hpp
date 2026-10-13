@@ -44,8 +44,8 @@ public:
     // 0x56f784: seeks the archive file to the entry's offset and returns a limit reader over the
     // entry's size, named after the entry.
     IReadFile* openFile(int index);
-    // 0x5703b8: the reader for the named entry; null when there is no such entry.
-    IReadFile* openFile(const char* name);
+    // 0x5703b8 (vtable +0x0c): the reader for the named entry; null when there is no such entry.
+    virtual IReadFile* openFile(const char* name);
     // 0x5702b4: index of the entry whose name matches. The key's name is lower-cased when flagA
     // is set, then cut to its base name (deletePathFromFilename) when flagB is set, or -1.
     // A binary search over the sorted entries.

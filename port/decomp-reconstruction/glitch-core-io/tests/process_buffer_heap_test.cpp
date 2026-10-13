@@ -23,6 +23,8 @@ public:
     void log(const char* text, glitch::os::ELOG_LEVEL) override { lines.push_back(text); }
     void log(const char* text, const char*, glitch::os::ELOG_LEVEL) override { lines.push_back(text); }
     void log(const wchar_t*, glitch::os::ELOG_LEVEL) override {}
+    void log(const wchar_t*, const wchar_t*, glitch::os::ELOG_LEVEL) override {}
+    void vlogf(glitch::os::ELOG_LEVEL, const char*, std::va_list) override {}
     std::vector<std::string> lines;
 };
 

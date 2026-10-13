@@ -3,6 +3,7 @@
 #include <cstdio>
 
 #include "glitch-video/vertex_streams.hpp"
+#include "video_test_types.hpp"
 
 using namespace glitch::video;
 
@@ -12,14 +13,14 @@ static int failures = 0;
 namespace {
 void addStream(CVertexStreams& s, IBuffer* buffer, uint16_t attribute) {
     SVertexStream stream;
-    stream.buffer = boost::intrusive_ptr<IBuffer>(buffer);
+    stream.buffer = boost::intrusive_ptr<IBuffer>(buffer, true);  // the buffers are on the stack with count 1
     stream.attribute = attribute;
     s.m_streams.push_back(stream);
 }
 }  // namespace
 
 int main() {
-    IBuffer a, b;
+    test::TestBuffer a, b;
     a.m_data = reinterpret_cast<uint8_t*>(&a);  // non-null data pointers
     b.m_data = reinterpret_cast<uint8_t*>(&b);
 
@@ -82,7 +83,7 @@ int main() {
 
     // A buffer with no data pointer clears the data bit.
     {
-        IBuffer empty;
+        test::TestBuffer empty;
         CVertexStreams s;
         addStream(s, &a, 0);
         addStream(s, &empty, 1);
@@ -117,7 +118,7 @@ int main() {
         addStream(s, &a, 0);
         addStream(s, &a, 1);
         SVertexStreamData data;
-        data.buffer = boost::intrusive_ptr<IBuffer>(&b);
+        data.buffer = boost::intrusive_ptr<IBuffer>(&b, true);
         data.offset = 64;
         data.field08 = 7;
         data.field0c = 9;

@@ -16,13 +16,12 @@ static int failures = 0;
 int main() {
     // CDynamicAnimationSet: channels are 16-byte records indexed directly.
     {
-        SChannelRecord channels[3] = {};
         CDynamicAnimationSet set;
-        set.channels = channels;
-        CHECK(set.getChannel(0) == &channels[0]);
-        CHECK(set.getChannel(2) == &channels[2]);
+        set.ownedChannels.resize(3);
+        CHECK(set.getChannel(0) == &set.ownedChannels[0]);
+        CHECK(set.getChannel(2) == &set.ownedChannels[2]);
         const CDynamicAnimationSet& cset = set;
-        CHECK(cset.getChannel(1) == &channels[1]);
+        CHECK(cset.getChannel(1) == &set.ownedChannels[1]);
     }
 
     // Bounding boxes are returned by reference to the stored box.
@@ -68,19 +67,13 @@ int main() {
 
     // Animation set ranges read through the scene-node animator set.
     {
-        std::uint32_t lengths[] = {30, 60};
-        std::uint32_t starts[] = {1, 2};
-        std::uint32_t ends[] = {10, 20};
-        CAnimationSet anim;
-        anim.lengths_begin = lengths;
-        anim.lengths_end = lengths + 2;
-        anim.starts_begin = starts;
-        anim.starts_end = starts + 2;
-        anim.ends_begin = ends;
-        anim.ends_end = ends + 2;
-        anim.animatedTrackCount = 5;
+        boost::intrusive_ptr<CAnimationSet> anim(new CAnimationSet());
+        anim->lengths = {30, 60};
+        anim->starts = {1, 2};
+        anim->ends = {10, 20};
+        anim->animatedTrackCount = 5;
         CSceneNodeAnimatorSet set;
-        set.animationSet = &anim;
+        set.animationSet = anim;
         CHECK(set.getAnimationLength(1) == 60);
         CHECK(set.getAnimationLength(3) == 0);
         CHECK(set.getAnimationStart(1) == 2);
@@ -137,14 +130,14 @@ int main() {
 
     // Timeline clip table: count, start, end and name per clip; no table gives 0.
     {
-        STimelineClip clips[2];
+        SAnimationClip clips[2];
         clips[0].name = "idle";
         clips[0].start = 0;
         clips[0].end = 30;
         clips[1].name = "run";
         clips[1].start = 30;
         clips[1].end = 50;
-        STimelineClipTable table;
+        SLibraryAnimationClips table;
         table.count = 2;
         table.clips = clips;
         CTimelineController timeline;
@@ -173,6 +166,9 @@ int main() {
     glitch::core::aabbox3d<float> colladaBox{{0.0f, 0.0f, 0.0f}, {2.0f, 2.0f, 2.0f}};
     colladaMesh.setBoundingBox(colladaBox);
     CHECK(colladaMesh.getBoundingBox().MaxEdge.X == 2.0f);
+    // The base prepare step returns 16 for every step (0x6676b8, the CMesh inherits it).
+    CHECK(colladaMesh.IMesh::onPrepareBufferForRendering(0, nullptr, 0) == 16);
+    CHECK(colladaMesh.IMesh::onPrepareBufferForRendering(1, nullptr, 7) == 16);
 
     // Scene-node uid and scope accessors, light id and uid, and the dynamic set clear.
     {
@@ -196,7 +192,7 @@ int main() {
         CDynamicAnimationSet dynamicSet;
         dynamicSet.databases.resize(3);
         dynamicSet.clearSet();
-        CHECK(dynamicSet.databases.empty() && dynamicSet.setCleared);
+        CHECK(dynamicSet.databases.empty() && dynamicSet.dirty);
     }
 
     std::printf("%s\n", failures ? "collada_scene_accessors: FAILED" : "collada_scene_accessors: ok");

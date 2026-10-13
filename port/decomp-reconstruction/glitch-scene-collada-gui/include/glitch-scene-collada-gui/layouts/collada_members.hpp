@@ -32,22 +32,7 @@ class SSkin;
 
 namespace collada {
 
-// ---------------------------------------------------------------------------
-// glitch::collada::IMesh. The destructor sets the vtable (off_984FF0) and then
-// destroys the CColladaDatabase member at +0x0c. CColladaDatabase is two words
-// (record at +0x00, factory at +0x04; see layouts/collada_db.hpp), so it spans
-// +0x0c..+0x13 here. Nothing beyond +0x13 is read by the destructor.
-// ---------------------------------------------------------------------------
-struct IMesh {
-    std::uint32_t vptr_0x00;                // +0x00 vtable pointer (off_984FF0)
-    std::uint8_t pad_0x04[0x08];            // +0x04..+0x0b not confirmed
-    std::uint32_t database_record_0x0c;     // +0x0c CColladaDatabase::record (destroyed by ~IMesh)
-    std::uint32_t database_factory_0x10;    // +0x10 CColladaDatabase::factory (destroyed by ~IMesh)
-};
-
-static_assert(offsetof(IMesh, vptr_0x00) == 0x00, "IMesh::vptr_0x00");
-static_assert(offsetof(IMesh, database_record_0x0c) == 0x0c, "IMesh::database_record_0x0c");
-static_assert(offsetof(IMesh, database_factory_0x10) == 0x10, "IMesh::database_factory_0x10");
+// glitch::collada::IMesh: canonical in collada/IMesh.hpp (its destructor drops the CColladaDatabase member at +0x0c).
 
 // ---------------------------------------------------------------------------
 // glitch::collada::ISkinnedMesh. Its destructor is the same code as IMesh's: it

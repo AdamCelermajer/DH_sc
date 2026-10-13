@@ -2,6 +2,7 @@
 // texture data reader sizes, and the loader factories.
 #include "glitch-video/image_loaders.hpp"
 #include "glitch-video/texture_loaders.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -110,7 +111,7 @@ int main() {
     dims.height = 32;
     STextureDataInfo info;
     info.header = &dims;
-    IImageLoader::ITextureDataLoading loading;
+    glitch::video::test::TestTextureDataLoading loading;
     loading.m_info = &info;
     loading.m_sourceStep = 4;
     CHECK(loading.getSourceStep(0) == 32 * 4 * 64);
@@ -129,13 +130,13 @@ int main() {
 
     // Factories: new loader with the reference word at 1.
     IImageLoader* atc = createImageLoaderATC();
-    CHECK(atc != nullptr && atc->m_refCount == 1);
+    CHECK(atc != nullptr && atc->referenceCounter == 1);
     delete atc;
     IImageLoader* pngLoader = createImageLoaderPNG();
-    CHECK(pngLoader != nullptr && pngLoader->m_refCount == 1);
+    CHECK(pngLoader != nullptr && pngLoader->referenceCounter == 1);
     delete pngLoader;
     IImageLoader* tgaLoader = createImageLoaderTGA();
-    CHECK(tgaLoader != nullptr && tgaLoader->m_refCount == 1);
+    CHECK(tgaLoader != nullptr && tgaLoader->referenceCounter == 1);
     delete tgaLoader;
 
     std::printf("%s\n", failures ? "image_formats: FAILED" : "image_formats: ok");

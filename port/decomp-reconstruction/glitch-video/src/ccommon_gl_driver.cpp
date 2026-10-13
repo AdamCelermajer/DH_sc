@@ -352,7 +352,17 @@ bool CCommonGLDriver::endScene() {
 // 0x5b13f4 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE12createBufferENS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb
 boost::intrusive_ptr<IBuffer> CCommonGLDriver::createBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size,
                                                             void* data, bool flag) {
-    return boost::intrusive_ptr<IBuffer>(new CCommonGLDriverBase::CBufferBase(this, type, usage, size, data, flag));
+    return boost::intrusive_ptr<IBuffer>(new CBuffer(this, type, usage, size, data, flag), true);  // a new buffer has count 0
+}
+
+// Partial slots of the GL buffer (see the header): no GL work.
+void CCommonGLDriver::CBuffer::bindImpl(bool) {}
+void CCommonGLDriver::CBuffer::unbindImpl() {}
+uint8_t* CCommonGLDriver::CBuffer::mapImpl(uint32_t) const { return nullptr; }
+void CCommonGLDriver::CBuffer::unmapImpl() const {}
+boost::intrusive_ptr<IBuffer> CCommonGLDriver::CBuffer::cloneImpl() const {
+    return boost::intrusive_ptr<IBuffer>(
+        new CBuffer(m_driver, m_type, m_usage, m_size, m_data, (m_flags12 & kFlagOwnsData) != 0), true);
 }
 
 // 0x5b5be4 _ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE17registerBufferMapEjjjjPKv

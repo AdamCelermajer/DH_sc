@@ -10,6 +10,8 @@
 
 #include <cstdint>
 
+#include "glitch-scene-collada-gui/collada/SAnimation.hpp"
+
 namespace glitch::core {
 class quaternion;
 }  // namespace glitch::core
@@ -42,17 +44,12 @@ public:
 
 }  // namespace animation_track
 
-// Accessor output table entry (SAnimationAccessor::getOutput result). The key data pointer is at +0x04.
-// Only the data pointer is read by the bodies declared here.
-struct SAnimationOutput {
-    std::uint32_t reserved_0x00;  // +0x00 not read here
-    void* data;                   // +0x04 key data, 16-byte quaternion keys for this track
-};
+// SAnimationOutput (the SAnimationAccessor::getOutput result; the key data pointer is at +0x04): canonical in collada/SAnimation.hpp.
 
 namespace tb_ext {
 
 // SAnimationAccessor::getOutput(int) const, 0x669e24. Defined outside this batch.
-SAnimationOutput* accessorGetOutput(const SAnimationAccessor& accessor, int index);
+const SAnimationOutput* accessorGetOutput(const SAnimationAccessor& accessor, int index);
 
 // CBlender<glitch::core::quaternion, 1, glitch::core::quaternion>::getBlendedValueEx, a static member
 // with the parameter list (void*, float*, int, void*). Defined outside this batch. The return value

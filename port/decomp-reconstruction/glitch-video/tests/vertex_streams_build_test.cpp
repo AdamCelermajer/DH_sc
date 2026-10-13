@@ -2,6 +2,7 @@
 #include <cstdio>
 
 #include "glitch-video/vertex_streams.hpp"
+#include "video_test_types.hpp"
 
 using namespace glitch::video;
 
@@ -29,9 +30,9 @@ int main() {
     }
     // setStreams copies the masked entries and adds the offset delta.
     {
-        IBuffer buf;
+        test::TestBuffer buf;
         auto src = CVertexStreams::allocate(0x3u);
-        src->m_streams[0].buffer = boost::intrusive_ptr<IBuffer>(&buf);
+        src->m_streams[0].buffer = boost::intrusive_ptr<IBuffer>(&buf, true);
         src->m_streams[0].offset = 8;
         src->m_streams[1].offset = 12;
         auto dst = CVertexStreams::allocate(0x3u);
@@ -44,11 +45,11 @@ int main() {
     // SMapBuffer maps the stream with its offset; reset releases the mapping.
     {
         uint8_t bytes[16] = {};
-        IBuffer buf;
+        test::TestBuffer buf;
         buf.m_data = bytes;
         buf.m_size = sizeof bytes;
         SVertexStream stream;
-        stream.buffer = boost::intrusive_ptr<IBuffer>(&buf);
+        stream.buffer = boost::intrusive_ptr<IBuffer>(&buf, true);
         stream.offset = 4;
         SVertexStream::SMapBuffer<float> mapped;
         mapped.reset(stream, 0);

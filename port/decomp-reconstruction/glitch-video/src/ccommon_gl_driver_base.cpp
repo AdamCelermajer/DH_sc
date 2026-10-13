@@ -3,7 +3,7 @@
 namespace glitch::video {
 
 // 0x6dcbe4 _ZNK6glitch5video19CCommonGLDriverBase11CBufferBase12getMappedPtrEv
-void* CCommonGLDriverBase::CBufferBase::getMappedPtr() const { return m_mappedPtr; }
+uint8_t* CCommonGLDriverBase::CBufferBase::getMappedPtr() const { return m_mappedPtr; }
 
 // 0x6dcbec _ZNK6glitch5video19CCommonGLDriverBase12CTextureBase12getMappedPtrEv
 void* CCommonGLDriverBase::CTextureBase::getMappedPtr() const { return nullptr; }

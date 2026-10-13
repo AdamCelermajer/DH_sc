@@ -62,22 +62,6 @@ void testAngleWeight() {
     check(near(out.Y, kPi / 4.0f), "45 degrees at p1");
 }
 
-void testCapacity() {
-    CAppendMeshBufferLayout buffer{};
-    buffer.vertexCapacityBytes = 100;
-    buffer.vertexUsedBytes = 20;
-    buffer.vertexStride = 10;
-    buffer.indexCapacityBytes = 60;
-    buffer.indexUsedBytes = 0;
-    buffer.indexStride = 2;
-    check(CAppendMeshBuffer_hasEnoughSpace(buffer, 8, 30), "fits exactly");
-    check(!CAppendMeshBuffer_hasEnoughSpace(buffer, 9, 1), "vertices overflow");
-    check(!CAppendMeshBuffer_hasEnoughSpace(buffer, 1, 31), "indices overflow");
-
-    CAppendMeshBuffer_setup(buffer);
-    check(buffer.setupIndexCount == 0 && buffer.setupVertexCount == 2, "setup counts");
-}
-
 void testKdTree() {
     KdEntry entry{7u, core::aabbox3d<float>{{0.0f, 0.0f, 0.0f}, {2.0f, 4.0f, 6.0f}}};
     // centre is (1, 2, 3)
@@ -120,7 +104,6 @@ int main() {
     testTriangleIndices();
     testSwapIndices();
     testAngleWeight();
-    testCapacity();
     testKdTree();
     testHandles();
     testColours();

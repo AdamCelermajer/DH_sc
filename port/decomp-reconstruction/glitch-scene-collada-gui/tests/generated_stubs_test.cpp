@@ -10,8 +10,6 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    CHECK(stub_60e62c(nullptr, nullptr) == 0u);
-    CHECK(stub_60e62c(nullptr) == 0u);
     CHECK(stub_60ee1c(nullptr) == 16u);
     stub_60ee24(nullptr);
     CHECK(stub_60ee28(nullptr) == 16u);
@@ -62,25 +60,13 @@ int main() {
     stub_62ff04(nullptr);
     CHECK(stub_62ff38(nullptr) == 1u);
     CHECK(stub_637b78(nullptr) == 1734697316u);
-    CHECK(stub_644a3c(nullptr) == 0u);
     CHECK(stub_646160(nullptr) == 1835360612u);
     stub_646188(nullptr);
     CHECK(stub_6493f8(nullptr) == 1298489700u);
-    CHECK(stub_649904(nullptr) == 1u);
-    stub_6499d0(nullptr);
     CHECK(stub_64bb84(nullptr) == 1885692260u);
-    CHECK(stub_657994(nullptr) == 0u);
     CHECK(stub_65cd1c(nullptr) == 1852137828u);
-    stub_65f288(nullptr);
-    stub_662750(nullptr);
-    stub_66275c(nullptr);
-    stub_662768(nullptr);
     CHECK(stub_6669f8(nullptr) == 1936023908u);
-    stub_6676b4(nullptr);
-    stub_6676c0(nullptr);
-    stub_6676c4(nullptr);
     CHECK(stub_667774(nullptr) == 0u);
-    CHECK(stub_667cbc(nullptr) == 0u);
     stub_669b6c(nullptr);
     CHECK(stub_66b938(nullptr) == 0u);
     CHECK(stub_66d078(nullptr) == 0u);

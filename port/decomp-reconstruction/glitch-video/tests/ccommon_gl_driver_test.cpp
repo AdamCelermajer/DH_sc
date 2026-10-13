@@ -2,6 +2,7 @@
 // table in deps/gl_function_table.hpp; this test records them.
 #include "glitch-video/ccommon_gl_driver.hpp"
 #include "glitch-video/deps/gl_function_table.hpp"
+#include "glitch-video/texture.hpp"
 
 #include <cstdio>
 

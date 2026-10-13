@@ -138,24 +138,8 @@ bool CGUIEditBox_processMouse(glitch::gui::IGUIElement* self, const SEventStand&
 bool CGUIEditBox_processKey(glitch::gui::IGUIElement* self, const SEventStand& ev);                                 // 0x6b2cc0
 bool CGUIEditBox_onEvent(glitch::gui::IGUIElement* self, const SEventStand& ev);                                    // 0x6b3d70
 
-// glitch::scene. CAppendMeshBuffer, CColladaBinaryFileLoader, the factories and
-// CDummyTransformationSceneNode have no layout in layouts/scene.hpp; their bodies are partial.
-void CAppendMeshBuffer_adjustStride(void* self, std::uint16_t stride);                                      // 0x6b8834
-void CAppendMeshBuffer_configureStream(void* self, std::uint8_t streamIndex, std::int32_t attribute,
-                                       std::int32_t valueType, std::uint16_t componentCount);              // 0x6b8950
-void CAppendMeshBuffer_endAppend(void* self);                                                               // 0x6b8aa0
-void CAppendMeshBuffer_resize(void* self, std::uint32_t vertexCount, std::uint32_t indexCount);            // 0x6b8b74
-void CAppendMeshBuffer_reset(void* self);                                                                   // 0x6b8bb4
-void CAppendMeshBuffer_dtor_complete(void* self);                                                           // 0x6b8c2c
-void CAppendMeshBuffer_ctor(void* self, std::uint32_t vertexCount, std::uint32_t indexCount,
-                            void* driver, std::int32_t usage, std::uint32_t stride);                        // 0x6b8cb4
-void CAppendMeshBuffer_ctor_alt(void* self, std::uint32_t vertexCount, std::uint32_t indexCount,
-                                void* driver, std::int32_t usage, std::uint32_t stride);                    // 0x6b8fe0
-void CMeshBuffer_ctor(glitch::scene::CMeshBuffer* self, std::uint32_t streamCount, const void* primitiveStream,
-                      bool flag);                                                                           // 0x6b88a8
-void CMeshBuffer_onDelete(glitch::scene::CMeshBuffer* self);                                                        // 0x6bc6d8
-void CMeshBuffer_dtor_complete(glitch::scene::CMeshBuffer* self);                                                   // 0x6bca38
-void* CMeshBuffer_clone(glitch::scene::CMeshBuffer* self, void* sourceStreams, void* driver);                       // 0x6bcb90
+// glitch::scene. CColladaBinaryFileLoader, the factories and CDummyTransformationSceneNode have no layout in
+// layouts/scene.hpp; their bodies are partial. (CAppendMeshBuffer is the canonical class of scene/CAppendMeshBuffer.hpp.)
 void CColladaBinaryFileLoader_dtor_complete(void* self);                                                    // 0x6b93b0
 void CColladaBinaryFileLoader_dtor_complete_alt(void* self);                                                // 0x6b93f0
 int CColladaBinaryFileLoader_createScene(void* self, void* file);                                           // 0x6b9430
@@ -188,10 +172,6 @@ void IDummyTransformationSceneNode_ctor(void* self, const void* parent, std::int
 void CDummyTransformationSceneNode_ctor(void* self, std::int32_t id);                                       // 0x6bb77c
 void* CDummyTransformationSceneNode_clone(void* self);                                                      // 0x6bb858
 void CDummyTransformationSceneNode_ctor_alt(void* self, const void* parent, std::int32_t id);               // 0x6bb940
-void CMesh_SBuffer_assign(glitch::scene::CMeshSBuffer* self, const glitch::scene::CMeshSBuffer* other);                     // 0x6bbcc4
-void CMesh_dtor_complete(glitch::scene::CMesh* self);                                                               // 0x6bc298
-void CMesh_recalculateBoundingBox(glitch::scene::CMesh* self);                                                      // 0x6bc2cc
-void* CMesh_clone(glitch::scene::CMesh* self, void* source);                                                        // 0x6bc3e4
 void* CMeshCache_getMeshByIndex(void* self, std::uint32_t index);                                           // 0x6be5b0
 bool CMeshCache_isMeshLoaded(void* self, const char* name);                                                 // 0x6be6d4
 

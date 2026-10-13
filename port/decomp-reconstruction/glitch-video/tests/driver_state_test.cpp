@@ -1,6 +1,8 @@
 #include "glitch-video/material.hpp"
+#include "glitch-video/null_driver.hpp"
 #include "glitch-video/texture_manager.hpp"
 #include "glitch-video/video_driver.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 
@@ -9,15 +11,16 @@ static int failures = 0;
 
 using namespace glitch::video;
 
-class TestDriver : public IVideoDriver {};
-
 int main() {
-    // IVideoDriver options: set and clear bits.
-    TestDriver driver;
+    // IVideoDriver options: set and clear bits. IVideoDriver is abstract, so the null driver (with no device) stands in;
+    // the options, the scene calls and the counters are the base class's.
+    CNullDriver nullDriver(static_cast<glitch::IDevice*>(nullptr));
+    IVideoDriver& driver = nullDriver;
+    const uint32_t initial = driver.getOptionFlags();  // the constructor sets the default options
     driver.setOption(0x3, true);
-    CHECK(driver.getOptionFlags() == 0x3);
+    CHECK(driver.getOptionFlags() == (initial | 0x3u));
     driver.setOption(0x1, false);
-    CHECK(driver.getOptionFlags() == 0x2);
+    CHECK(driver.getOptionFlags() == ((initial | 0x3u) & ~0x1u));
 
     // Scene: beginScene returns true; endScene registers a frame (no crash, returns true).
     CHECK(driver.beginScene());
@@ -35,9 +38,9 @@ int main() {
 
     // Texture manager: placeholder clears by type, and clearPlaceHolders needs refcount 1.
     CTextureManager manager;
-    ITexture a, b;
-    a.m_refCount = 1;
-    b.m_refCount = 2;
+    test::TestTexture a, b;
+    a.referenceCounter = 1;
+    b.referenceCounter = 2;
     manager.m_placeHolders[1] = &a;
     manager.m_placeHolders[5] = &b;
     manager.clearPlaceHolder(1, &a);
@@ -49,9 +52,9 @@ int main() {
     CHECK(manager.m_placeHolders[0] == nullptr);
 
     // Writer registration bumps the reference count.
-    IImageWriter writer;
-    manager.addExternalImageWriter(&writer);
-    CHECK(writer.m_refCount == 1 && manager.m_externalImageWriters.size() == 1);
+    boost::intrusive_ptr<IImageWriter> writer(new test::TestImageWriter());  // born with count 1
+    manager.addExternalImageWriter(writer.get());
+    CHECK(writer->referenceCounter == 2 && manager.m_externalImageWriters.size() == 1);
     manager.addExternalImageWriter(nullptr);
     CHECK(manager.m_externalImageWriters.size() == 1);
 

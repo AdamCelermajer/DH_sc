@@ -14,7 +14,15 @@
 //   +0x22  vertex stride word: this is SVertexStream[0].field0e (entry 0 at +0x14, field0e at +0x0e).
 //          Both copyVertex (0x5a2b18, LDRH r4,[r2,#0x22] at 0x5a2c00) and isVertexStreamHomolaced
 //          (0x5a23f4, LDRH at 0x5a2410) read it, and the constructor writes it as entry 0's field0e.
-// The port stores the entries in a std::vector, so these offsets are comments, not the memory layout.
+//   *(+0x10)  trailing block: count0c + 1 records of 24 bytes (scale vector3d, offset vector3d) that dequantize
+//          positions when flag bit 2 (0x4) of +0x0e is set (computeBoundingBox 0x5a0ec0: box = box * scale + offset).
+//          Its size, 24 * count0c + 24, is the constructor's memcpy/memset length.
+// The port stores the entries and the trailing block in std::vectors, so these offsets are comments, not the
+// memory layout. The reference count is at +0x00 and the class has no vtable; intrusive_ptr_add_ref and
+// intrusive_ptr_release below are the original's inline count updates (the last release runs the destructor and
+// frees the block, 0x5a09e0 / 0x5a0a1c).
+// Canonical definition (engine unification wave u1-video); the stand-in in glitch-core-io
+// (deps/glitch_core_objects.hpp) and the forward declarations elsewhere are replaced by this header.
 #pragma once
 
 #include <cstdint>
@@ -22,6 +30,7 @@
 
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/video_types.hpp"
 
 namespace glitch::video {
 
@@ -39,8 +48,13 @@ struct SVertexStream {
                                            //        table word at +0x22, see getVertexStride.
 
     // 0x62fe18 SVertexStream::unmapBuffer() const: releases one map reference on buffer.
-    // Partial: IBuffer::unmap does not call the unmap callback (vtable +0x18).
     void unmapBuffer() const;
+
+    // 0x5a1ed8: copies count vertices starting at `first` from another stream of the same layout, with `delta` added
+    // to the source offset. Not reconstructed (declared).
+    void copyStream(const SVertexStream& source, uint32_t first, uint32_t count, int32_t delta);
+    // 0x5a203c: an empty body (4 bytes) in the original.
+    void append(const SVertexStream& source, uint32_t first, uint32_t count, uint32_t unused);
 
     // Mapped view of one stream (SVertexStream::SMapBuffer<T> in the original). The
     // original stores the stream pointer at +0x00 (the buffer is its first word) and
@@ -93,53 +107,69 @@ struct SVertexStreamData {
 class CVertexStreams {
 public:
     CVertexStreams() = default;
+    // Not part of the original: the stream table is not copyable (the original copies through clone()).
+    CVertexStreams(const CVertexStreams&) = delete;
+    CVertexStreams& operator=(const CVertexStreams&) = delete;
 
-    // 0x5a113c (C1) / 0x5a148c (C2): one constructor body. Partial: the trailing block
-    // of 24 * count0c + 24 bytes (copied from the caller's vector3d array, or zeroed)
-    // is not modelled, and the buffers are not reference counted. A source table copies
-    // buffer, offset and attribute; without one, the attributes come from the mask bits
-    // in order, with field0a set to 0xff.
+    // 0x5a113c (C1) / 0x5a148c (C2): one constructor body. The count is 0 (allocate adds the first use). A source table
+    // copies buffer (taking a use), offset, attribute and the three fields; without one, the attributes come from the mask
+    // bits in order, with field0a set to 0xff. The trailing block of 24 * count0c + 24 bytes (copied from the caller's
+    // vector3d array, or zeroed) is m_quantization; the original keeps it in the same allocation after the entries.
     CVertexStreams(uint32_t field08, uint32_t attributeMask, uint8_t count0c, uint8_t streamCount,
-                   const SVertexStream* source);
+                   const SVertexStream* source, const core::vector3d<float>* trailing = nullptr);
 
     // 0x5a0a1c (D1, body in src/tb_video-glitch_video_CVertexStreams-0.cpp): releases the buffer
-    // of each entry that has one. Partial: the original calls IReferenceCounted::drop, which the
-    // port does not declare; the port's intrusive_ptr keeps no count, so the release nulls the
-    // reference and the vector frees the entries after it.
+    // of each entry that has one (IReferenceCounted::drop, here the counting intrusive_ptr); the vectors free the rest.
     ~CVertexStreams();
 
-    // 0x5a1270 (7-argument allocate): creates a table. Partial: the original returns it
-    // through an out pointer with a reference count and the trailing block is not kept.
+    // 0x5a1270 (7-argument allocate): creates a table and returns it with count 1 (the original hands it back through an
+    // out pointer; the constructor leaves the count at 0 and allocate adds the first use).
     static boost::intrusive_ptr<CVertexStreams> allocate(uint32_t field08, uint32_t attributeMask,
                                                          uint8_t count0c, uint8_t streamCount,
-                                                         const SVertexStream* source);
+                                                         const SVertexStream* source,
+                                                         const core::vector3d<float>* trailing = nullptr);
 
     // 0x5a135c (allocate(unsigned int)): table for the mask. Bit 0 is always set. count0c
-    // is the number of set bits in 1..16 and streamCount the number of set bits. Partial, as above.
+    // is the number of set bits in 1..16 and streamCount the number of set bits.
     static boost::intrusive_ptr<CVertexStreams> allocate(uint32_t attributeMask);
 
     // 0x5a1404 (allocate(unsigned char, unsigned int)): bits 1..count are set in addition to the mask.
-    // Partial, as above.
     static boost::intrusive_ptr<CVertexStreams> allocate(uint8_t count, uint32_t attributeMask);
 
-    // 0x5a1310 (clone): copies the table and the flags. Partial, as above.
+    // 0x5a1310 (clone): copies the table, the trailing block and the flags.
     boost::intrusive_ptr<CVertexStreams> clone() const;
 
     // 0x5a0c60: copies the masked streams from source into this table, with offsetDelta
     // added to each copied offset, then recomputes homogeneity with flag. Returns the mask
-    // of copied attributes. Partial: buffers are not reference counted.
+    // of copied attributes. Each copied entry takes a use of the source buffer and drops the old one.
     uint32_t setStreams(const boost::intrusive_ptr<CVertexStreams>& source, uint32_t mask, int32_t offsetDelta,
                         bool flag);
 
     // 0x5a178c: assigns each entry from data (in order) when its attribute is in the mask,
     // clears the others, then recomputes homogeneity with flag. Returns the masked attributes.
-    // Partial: buffers are not reference counted.
+    // Each assigned entry takes a use of the new buffer and drops the old one.
     uint32_t setupStreams(const SVertexStreamData* data, uint32_t mask, bool flag);
 
     // 0x7d46fc: copies the description into one stream entry, then recomputes
-    // homogeneity with flag. Partial: the original takes a reference on the new
-    // buffer and drops the old one; the intrusive_ptr stand-in does neither.
+    // homogeneity with flag. The buffer assignment takes a use of the new buffer and drops the old one.
     void setStream(SVertexStream* stream, const SVertexStreamData& data, bool flag);
+
+    // 0x5a0ec0: bounding box of vertices [first, last) of the position stream, dequantized with the trailing block
+    // when the quantized flag is set. Not reconstructed (declared; needs glitch::core::computeBoundingBox).
+    void computeBoundingBox(uint32_t first, uint32_t last, core::aabbox3d<float>& box) const;
+    // 0x5a0fe4: copies the streams of the common attributes of this table, the source and `mask` (SVertexStream::copyStream
+    // per stream; streams that differ in value type or component count are dropped from the result). Returns the
+    // attribute mask that was copied. Not reconstructed (declared).
+    uint32_t copyStreams(const boost::intrusive_ptr<const CVertexStreams>& source, uint32_t first, uint32_t count,
+                         int32_t delta, uint32_t mask);
+    // 0x5a15c0: points every stream whose attribute is in the mask at one shared buffer and lays the streams out one
+    // after the other with the default value type and component count of each attribute
+    // (SVertexAttributeTypeInspection::Defaults, a .rodata table that is not in the repo). Not reconstructed (declared).
+    uint32_t setupStreams(const boost::intrusive_ptr<IBuffer>& buffer, uint32_t mask);
+    // 0x5abb58 / 0x647ee0: setStream from another stream with an offset delta. Not reconstructed (declared).
+    void setStream(SVertexStream* stream, const SVertexStream& source, int32_t delta, bool flag);
+    // 0x663ca8 / 0x6dc848: replaces the buffer of one stream. Not reconstructed (declared).
+    void setStreamBuffer(SVertexStream* stream, const boost::intrusive_ptr<IBuffer>& buffer, bool flag);
 
     // 0x5a0a58: bit mask of the attributes whose stream has a buffer.
     uint32_t getActiveAttributeMask() const;
@@ -180,13 +210,21 @@ public:
     static constexpr uint16_t kFlagHomogeneous = 0x0001;  // bit 0, every bound stream shares one buffer
     static constexpr uint16_t kFlagHasData = 0x0002;      // bit 1, set on entry, cleared on a data-less buffer
 
+    mutable uint32_t m_refCount = 0;       // +0x00, intrusive reference count (0 after the constructor; allocate adds the first use)
     std::vector<SVertexStream> m_streams;  // entries at +0x14 (16 bytes each), end pointer at +0x10 in the original
+    std::vector<core::vector3d<float>> m_quantization;  // trailing block at *(+0x10): 2 * (count0c + 1) vectors
     uint32_t m_attributeMask = 0;          // +0x04, attributes present in the table
     uint32_t m_field08 = 0;                // +0x08, set by the constructor; meaning not identified
     uint8_t m_count0c = 0;                 // +0x0c, count of the trailing block (24 * count + 24 bytes)
     uint8_t m_streamCount0d = 0;           // +0x0d, number of stream entries (constructor: a5)
     uint16_t m_flags = 0;                  // +0x0e, see kFlag* above (constructor stores 3)
 };
+
+// The original's inline count updates (CVertexStreams keeps its count at +0x00, not in IReferenceCounted).
+inline void intrusive_ptr_add_ref(const CVertexStreams* p) { ++p->m_refCount; }
+inline void intrusive_ptr_release(const CVertexStreams* p) {
+    if (p->m_refCount-- == 1) delete p;  // the original runs ~CVertexStreams (0x5a09e0) then LC_API_FREE_0
+}
 
 namespace detail {
 
@@ -202,8 +240,8 @@ struct SVertexAttributeTypeInspection {
 // stream of src copies count * ValueTypeSize[type] bytes of vertex number `vertex` from its
 // mapped buffer (offset + stride * vertex) to out, and advances out. dst is not used by the
 // original. Partial: the wholeVertex branch (one memcpy of the table's vertex size, a
-// CVertexStreams word at +0x22 that is not in this layout) is not written. The buffers are
-// not reference counted, and the mapping is not released, as in the original.
+// CVertexStreams word at +0x22 that is not in this layout) is not written. The mapping is not
+// released, as in the original.
 void copyVertex(uint16_t vertex, const boost::intrusive_ptr<const CVertexStreams>& src,
                 const boost::intrusive_ptr<CVertexStreams>& dst, const uint8_t* base, uint8_t*& out,
                 bool wholeVertex);

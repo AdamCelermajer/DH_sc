@@ -103,25 +103,6 @@ int prepareSoftwareSkinBuffer(SoftwareSkinTechniqueStandIn& self, int step,
     return static_cast<int>(processBuffer);
 }
 
-// ---------------------------------------------------------------------------
-// glitch::collada::SAnimationAccessor
-// ---------------------------------------------------------------------------
-
-// 0x66b374 _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiRKNS_3res6vectorIiEEiRii
-// Not reconstructed. The original caches the last key frame in the accessor (value at
-// +0x08, index at +0x0c, dirty flag at +0x0d). It dispatches on getTimeInternalType to
-// findKeyFrameNoEx<unsigned short,30>, <int,1000> or <unsigned char,30>; those templates
-// are not mapped. Returns 0 here.
-std::uint8_t findKeyFrameNo(SAnimationAccessorStandIn& self, int a2, const std::vector<int>& times,
-                            int a4, int& keyFrame, int a6) {
-    (void)self;
-    (void)a2;
-    (void)times;
-    (void)a4;
-    (void)keyFrame;
-    (void)a6;
-    return 0;
-}
 
 // ---------------------------------------------------------------------------
 // glitch::gui attribute serialization

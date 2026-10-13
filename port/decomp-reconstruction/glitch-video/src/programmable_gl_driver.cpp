@@ -1,6 +1,7 @@
 #include "glitch-video/programmable_gl_driver.hpp"
 
 #include "glitch-video/deps/gl_function_table.hpp"
+#include "glitch-video/gl_small.hpp"
 
 namespace glitch::video {
 
@@ -25,7 +26,7 @@ void CProgrammableGLDriver::setTextureLODBiasTexEnv(const ITexture*) {}
 // 0x5b1a84 _ZN6glitch5video21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEE12commitShaderEPKNS0_7IShaderE
 void CProgrammableGLDriver::commitShader(const IShader* shader) {
     auto& t = deps::activeGLFunctionTable();
-    if (t.useProgram) t.useProgram(shader->m_glProgram);
+    if (t.useProgram) t.useProgram(static_cast<const CGLSLShader*>(shader)->m_glProgram);
     m_currentShader = shader;
 }
 

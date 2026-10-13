@@ -6,12 +6,18 @@ namespace glitch::video {
 
 // 0x6dab0c _ZN6glitch5video14CVideoModeListC1Ev
 // 0x6daabc _ZN6glitch5video14CVideoModeListC2Ev
-// +0x04 is set to 1 (m_unknown04 default); the rest is zeroed as in the original.
+// +0x04 is set to 1 (IReferenceCounted's initial count); the rest is zeroed as in the original.
 CVideoModeList::CVideoModeList() = default;
 
 CVideoModeList::CVideoModeList(std::vector<SVideoMode> modes,
                                core::dimension2d<uint32_t> desktopResolution, uint32_t desktopDepth)
     : m_modes(std::move(modes)), m_desktopResolution(desktopResolution), m_desktopDepth(desktopDepth) {}
+
+// 0x6dab5c _ZN6glitch5video14CVideoModeList10setDesktopEiRKNS_4core11dimension2dIiEE
+void CVideoModeList::setDesktop(int depth, const core::dimension2d<uint32_t>& resolution) {
+    m_desktopDepth = static_cast<uint32_t>(depth);
+    m_desktopResolution = resolution;
+}
 
 // 0x6dae50 _ZN6glitch5video14CVideoModeListD1Ev
 // The original frees the mode array; the std::vector member does the same.

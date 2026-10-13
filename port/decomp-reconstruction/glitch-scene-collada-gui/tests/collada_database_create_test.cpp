@@ -1,6 +1,8 @@
 // Dispatch checks for the CColladaDatabase constructors: a recording factory
 // stands in for the builders, so each wrapper's slot, argument order, name
 // lookup and root attachment is verified.
+#include "glitch-video/material.hpp"
+#include "glitch-video/material_renderer.hpp"
 #include "glitch-scene-collada-gui/collada_database.hpp"
 
 #include <cstdio>
@@ -133,7 +135,7 @@ int main() {
 
     SColladaFileData fileData;
     fileData.tables = &tables;
-    SColladaRecord record;
+    CResFile record;
     record.fileName = "scene.dae";
     record.data = &fileData;
 

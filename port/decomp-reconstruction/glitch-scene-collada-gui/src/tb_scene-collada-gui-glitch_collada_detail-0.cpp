@@ -3,6 +3,8 @@
 
 #include "glitch-scene-collada-gui/tb/glitch_collada_detail.hpp"
 
+#include <stdexcept>
+
 namespace glitch::collada::detail {
 
 namespace {
@@ -80,6 +82,14 @@ SCompatibilityTable* constructCompatibilityTable() {
     orRowWord(table, 5, 0, 0x3C0u);       // dword_9F7150 (+0x040)
 
     return &table;
+}
+
+bool channelTypeCompatible(std::uint32_t rowType, std::uint32_t type) {
+    static const SCompatibilityTable* table = constructCompatibilityTable();
+    if (type > 0x5b) {
+        throw std::out_of_range("bitset");
+    }
+    return (table->words[compatibilityWordIndex(rowType, type >> 5)] & (1u << (type & 31u))) != 0;
 }
 
 }  // namespace glitch::collada::detail

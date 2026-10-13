@@ -51,62 +51,6 @@ glitch::IReferenceCounted* createArrowMesh(unsigned int, glitch::video::IVideoDr
 namespace glitch {
 namespace collada {
 namespace recon_28 {
-namespace CAnimationSetTransformationTemplate {
-// 0x6e264c _ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPNS0_10CSceneNodeE
-// 0x6e2690 _ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPNS0_10CSceneNodeE
-void construct(void* self, glitch::collada::CSceneNode*);
-
-// 0x6e2830 _ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPNS0_16CColladaDatabaseE
-// 0x6e28f0 _ZN6glitch7collada35CAnimationSetTransformationTemplateC1EPNS0_16CColladaDatabaseE
-void construct(void* self, glitch::collada::CColladaDatabase*);
-
-}  // namespace CAnimationSetTransformationTemplate
-}  // namespace recon_28
-}  // namespace collada
-}  // namespace glitch
-
-namespace glitch {
-namespace collada {
-namespace recon_28 {
-namespace CAnimationTrackEx {
-// 0x6e29d4 _ZNK6glitch7collada17CAnimationTrackEx13retrieveValueEPvS2_
-void* retrieveValue(const void* self, void*, void*);
-
-// 0x6e2a18 _ZNK6glitch7collada17CAnimationTrackEx10applyValueERKNS0_18SAnimationAccessorEiPvPNS0_15animation_track15CApplicatorInfoERifb
-int applyValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, glitch::collada::animation_track::CApplicatorInfo*, int&, float, bool);
-
-// 0x6e2ad8 _ZNK6glitch7collada17CAnimationTrackEx10applyValueERKNS0_18SAnimationAccessorEiPvPNS0_15animation_track15CApplicatorInfoERib
-int applyValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, glitch::collada::animation_track::CApplicatorInfo*, int&, bool);
-
-// 0x6e2b8c _ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRifb
-int getValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, int&, float, bool);
-
-// 0x6e2ce8 _ZNK6glitch7collada17CAnimationTrackEx10applyValueERKNS0_18SAnimationAccessorEiiPvPNS0_15animation_track15CApplicatorInfoERib
-int applyValue(const void* self, const glitch::collada::SAnimationAccessor&, int, int, void*, glitch::collada::animation_track::CApplicatorInfo*, int&, bool);
-
-// 0x6e2dbc _ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiiPvRib
-int getValue(const void* self, const glitch::collada::SAnimationAccessor&, int, int, void*, int&, bool);
-
-// 0x6e2e90 _ZNK6glitch7collada17CAnimationTrackEx10applyValueERKNS0_18SAnimationAccessorEiPvPNS0_15animation_track15CApplicatorInfoEfb
-int applyValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, glitch::collada::animation_track::CApplicatorInfo*, float, bool);
-
-// 0x6e2f3c _ZNK6glitch7collada17CAnimationTrackEx10applyValueERKNS0_18SAnimationAccessorEiPvPNS0_15animation_track15CApplicatorInfoEb
-int applyValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, glitch::collada::animation_track::CApplicatorInfo*, bool);
-
-// 0x6e2fdc _ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvfb
-int getValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, float, bool);
-
-// 0x6e307c _ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvb
-int getValue(const void* self, const glitch::collada::SAnimationAccessor&, int, void*, bool);
-
-}  // namespace CAnimationTrackEx
-}  // namespace recon_28
-}  // namespace collada
-}  // namespace glitch
-
-namespace glitch {
-namespace collada {
-namespace recon_28 {
 namespace animation_track {
 namespace CFloatEx {
 // 0x6e3124 _ZNK6glitch7collada15animation_track8CFloatEx15getBlendedValueEPvPfiS3_

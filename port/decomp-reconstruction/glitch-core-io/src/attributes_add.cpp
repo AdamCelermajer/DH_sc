@@ -162,7 +162,8 @@ void CAttributes::setAttribute(const char* name, const glitch::core::vector2d<fl
 
 // 0x567a9c
 void CAttributes::setAttribute(const char* name, const glitch::core::vector2d<std::int32_t>& value) {
-    if (IAttribute* a = getAttributeP(name)) a->setVector2d(value); else addVector2di(name, value, false);
+    // The listing calls slot +0xcc (setVector2di) on the existing attribute.
+    if (IAttribute* a = getAttributeP(name)) a->setVector2di(value); else addVector2di(name, value, false);
 }
 
 // 0x56b7b8

@@ -1,6 +1,7 @@
 // glitch::io::SPakFileEntry copy and assignment, CPakReader's directory accessors,
 // deletePathFromFilename and the release of the read file in the destructor.
 #include "glitch-core-io/io/pak_reader.hpp"
+#include "io_stub_files.hpp"
 
 #include <cstdio>
 #include <string>
@@ -58,7 +59,7 @@ int main() {
     CHECK(s.empty());
 
     // The destructor drops the read file: a count of 2 goes to 1 and the object stays.
-    glitch::io::IReadFile file;
+    glitch::io::testing::StubReadFile file;
     file.referenceCounter = 2;
     {
         CPakReader holder;

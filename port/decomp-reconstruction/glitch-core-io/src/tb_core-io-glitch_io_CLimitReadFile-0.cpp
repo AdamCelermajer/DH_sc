@@ -7,43 +7,42 @@
 namespace glitch::io {
 
 // 0x6b44e8 _ZN6glitch2io14CLimitReadFile4readEPvj
-// PARTIAL: the position update is missing. The original adds the byte count returned by the
-// wrapped file's read slot (+0x0c) to position. IReadFile::read is void in the port, so that
-// count is not available, and position is left unchanged after the read. The rest matches:
-// the wrapped position is synced to position first (seek with relative = false), reads at or
-// past end return, and the count is clamped to end.
-void CLimitReadFile::read(void* buffer, unsigned int count) {
+// The wrapped position is synced to position first (seek with relative = false); a read at or past end
+// returns 0; the count is clamped to end. The byte count returned by the wrapped read is added to position
+// and returned.
+std::int32_t CLimitReadFile::read(void* buffer, std::uint32_t count) {
     long pos = file->getPos();
     if (pos != position) {
         file->seek(position, false);
         pos = position;
     }
-    if (pos >= end) return;
-    if (end <= pos + static_cast<long>(count)) {
-        count = static_cast<unsigned int>(end - pos);
+    if (pos >= end) return 0;
+    std::int32_t n = static_cast<std::int32_t>(count);
+    if (end <= pos + n) {
+        n = static_cast<std::int32_t>(end - pos);
     }
-    file->read(buffer, count);
-    // MISSING: position += bytes read (see PARTIAL note above).
+    const std::int32_t result = file->read(buffer, static_cast<std::uint32_t>(n));
+    position += result;
+    return result;
 }
 
 // 0x6b4580 _ZN6glitch2io14CLimitReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_
-// The original returns the result of the position overload. The port's slot +0x10 is void
-// (same as CReadFile::readAsync), so the bool is dropped here.
-void CLimitReadFile::readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) {
-    readAsync(buffer, count, getPos(), callBack, context);
+// Returns the result of the position overload, called with the current window position.
+bool CLimitReadFile::readAsync(void* buffer, std::uint32_t count, ReadAsyncCallBack callBack, void* context) {
+    return readAsync(buffer, count, getPos(), callBack, context);
 }
 
 // 0x6b45d0 _ZN6glitch2io14CLimitReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_
 // The argument is relative to the window start. The position is stored before the range
 // check, so a read at or past end still leaves position at the window-relative target.
-bool CLimitReadFile::readAsync(void* buffer, unsigned int count, long pos, ReadAsyncCallBack callBack,
+bool CLimitReadFile::readAsync(void* buffer, std::uint32_t count, long pos, ReadAsyncCallBack callBack,
                                void* context) {
     const long absolute = pos + start;
     position = absolute;
     if (absolute >= end) return false;
-    unsigned int n = count;
+    std::uint32_t n = count;
     if (end <= absolute + static_cast<long>(count)) {
-        n = static_cast<unsigned int>(end - absolute);
+        n = static_cast<std::uint32_t>(end - absolute);
     }
     const bool result = file->readAsync(buffer, n, absolute, callBack, context);
     position += static_cast<long>(n);
@@ -85,16 +84,15 @@ long CLimitReadFile::getPos() const {
 }
 
 // 0x6b46e8 _ZNK6glitch2io14CLimitReadFile11getFileNameEv
-// The original returns the character data of the name string (+0x20). The port returns the
-// std::string itself, as CReadFile::getFileName does.
-const std::string& CLimitReadFile::getFileName() const {
-    return name;
+// The original returns the character data of the name string (+0x20).
+const char* CLimitReadFile::getFileName() const {
+    return name.c_str();
 }
 
 // 0x6b46f0 _ZNK6glitch2io14CLimitReadFile11getFullPathEv
 // The original returns the character data of the full name string (+0x38). See getFileName.
-const std::string& CLimitReadFile::getFullPath() const {
-    return fullName;
+const char* CLimitReadFile::getFullPath() const {
+    return fullName.c_str();
 }
 
 }  // namespace glitch::io

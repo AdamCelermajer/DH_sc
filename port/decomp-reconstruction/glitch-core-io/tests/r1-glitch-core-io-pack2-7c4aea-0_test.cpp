@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "io_stub_files.hpp"
 #include "glitch-core-io/core/kd_tree_ops.hpp"
 #include "glitch-core-io/core/matrix4_base.hpp"
 #include "glitch-core-io/deps/glitch_core_objects.hpp"
@@ -20,7 +21,7 @@ using glitch::io::CXMLWriter;
 using glitch::io::IWriteFile;
 
 // Collects every written byte.
-class MemoryWriteFile : public IWriteFile {
+class MemoryWriteFile : public glitch::io::testing::StubWriteFile {
 public:
     std::size_t write(const void* data, unsigned int count) override {
         bytes.append(static_cast<const char*>(data), count);

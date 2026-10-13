@@ -36,14 +36,14 @@ long CReadFile::getSize() const {
 }
 
 // 0x570454 _ZNK6glitch2io9CReadFile11getFileNameEv
-const std::string& CReadFile::getFileName() const {
-    return fileName;
+const char* CReadFile::getFileName() const {
+    return fileName.c_str();
 }
 
 // 0x57045c _ZNK6glitch2io9CReadFile11getFullPathEv
 // No CFileSystem here, so the full path is the name the reader was given.
-const std::string& CReadFile::getFullPath() const {
-    return fileName;
+const char* CReadFile::getFullPath() const {
+    return fileName.c_str();
 }
 
 // 0x570488 _ZN6glitch2io9CReadFile4seekElb
@@ -64,10 +64,11 @@ long CReadFile::getPos() const {
 // 0x5705b4 _ZN6glitch2io9CReadFile4readEPvj
 // Obfuscated files: the first four bytes are adjusted by (~pos - i) for
 // byte i, where pos is the position before the read.
-void CReadFile::read(void* buffer, unsigned int count) {
-    if (!isOpen()) return;
+// Returns the fread count; a closed file returns 0 (the isOpen result in the listing).
+std::int32_t CReadFile::read(void* buffer, std::uint32_t count) {
+    if (!isOpen()) return 0;
     const std::uint32_t pos = static_cast<std::uint32_t>(getPos());
-    std::fread(buffer, 1, count, file);
+    const std::size_t got = std::fread(buffer, 1, count, file);
     if (obfuscated && static_cast<std::int32_t>(pos) < 4) {
         std::uint32_t n = 4 - pos;
         if (count <= n) n = count;
@@ -77,6 +78,7 @@ void CReadFile::read(void* buffer, unsigned int count) {
             bytes[i] = static_cast<std::uint8_t>(bytes[i] + static_cast<std::uint8_t>(key - i));
         }
     }
+    return static_cast<std::int32_t>(got);
 }
 
 // 0x5704cc _ZN6glitch2io9CReadFile8openFileEv
@@ -97,21 +99,15 @@ void CReadFile::openFile() {
     }
 }
 
-// The base slot +0x10 is abstract in the original. The port's default forwards to the
-// +0x14 overload at the current position, which is what CReadFile does.
-void IReadFile::readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) {
-    readAsync(buffer, count, getPos(), callBack, context);
-}
-
 // 0x5703f4 _ZN6glitch2io9CReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_
 // Forwards to the position overload (vtable +0x14) with the current position.
-void CReadFile::readAsync(void* buffer, unsigned int count, ReadAsyncCallBack callBack, void* context) {
-    readAsync(buffer, count, getPos(), callBack, context);
+bool CReadFile::readAsync(void* buffer, std::uint32_t count, ReadAsyncCallBack callBack, void* context) {
+    return readAsync(buffer, count, getPos(), callBack, context);
 }
 
 // 0x570444 _ZN6glitch2io9CReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_
 // The original body is `return 1`: the request is accepted and no callback is run here.
-bool CReadFile::readAsync(void* /*buffer*/, unsigned int /*count*/, long /*position*/,
+bool CReadFile::readAsync(void* /*buffer*/, std::uint32_t /*count*/, long /*position*/,
                           ReadAsyncCallBack /*callBack*/, void* /*context*/) {
     return true;
 }

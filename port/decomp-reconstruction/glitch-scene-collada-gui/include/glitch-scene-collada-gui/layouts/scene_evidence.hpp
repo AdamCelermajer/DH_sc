@@ -1,4 +1,5 @@
-// Evidence-based member layouts for glitch::scene classes, recovered from the
+// Evidence-based member layouts for the glitch::scene classes that have no canonical header yet (CBillboardSceneNode and
+// CDummyTransformationSceneNode; the others moved to scene/), recovered from the
 // Hex-Rays bodies in the decomp export (32-bit ARM target).
 //
 // Every named member carries: +0xNN offset, access width, and src=0xADDR, the
@@ -22,85 +23,8 @@
 
 namespace glitch::scene::evidence {
 
-// ---------------------------------------------------------------------------
-// CBatchMesh (complete type, no base region). Size 0x7C: operator new(0x7C) in
-// the CBatchSceneNode ctor at 0x57f9c0.
-// Vector: begin +0x20 and end +0x24 (count = (end - begin) / 20).
-// Batch entry stride is 20 bytes (getMeshBuffer and getMaterial index 20 * i).
-// Batch entry: buffer ptr +0x00 (ref at +4 of the buffer), material ptr +0x04
-// (ref at +0 of the material). Source: 0x578c50 and 0x578ccc.
-// Virtual-slot calls: none in the bodies listed.
-// ---------------------------------------------------------------------------
-struct CBatchMesh {
-    std::uint32_t vptr;                 // +0x00 width=4 src=0x5789e4 (ctor stores off_974818; dtor 0x57a59c rewrites it)
-    std::uint32_t ref_count;            // +0x04 width=4 src=0x57f9c0 (++v8[1] after new CBatchMesh); src=0x57e594 (getMesh ++*(v+4))
-    std::uint32_t owned_block_0x08;     // +0x08 width=4 src=0x57a59c (GlitchFree in dtor); zeroed by ctor 0x5789e4
-    std::uint8_t pad_0x0c[0x04];        // not confirmed: zeroed by ctor 0x5789e4, no read in the listed bodies
-    std::uint8_t pad_0x10[0x04];        // not confirmed: zeroed by ctor 0x5789e4, no read in the listed bodies
-    std::uint32_t owned_block_0x14;     // +0x14 width=4 src=0x57a59c (GlitchFree in dtor)
-    std::uint8_t pad_0x18[0x08];        // not confirmed: zeroed by ctor 0x5789e4
-    std::uint32_t batch_begin;          // +0x20 width=4 src=0x578c28 (count), src=0x578c50 (getMeshBuffer reads begin); vector<SBatch> dtor at 0x57a59c
-    std::uint32_t batch_end;            // +0x24 width=4 src=0x578c28 (count = (end - begin) / 20)
-    std::uint8_t pad_0x28[0x04];        // not confirmed: vector capacity word, not read in the listed bodies
-    std::uint32_t owned_block_0x2c;     // +0x2c width=4 src=0x57a59c (GlitchFree in dtor, read as this+11 words)
-    std::uint8_t pad_0x30[0x08];        // not confirmed: zeroed by ctor 0x5789e4
-    std::uint8_t pad_0x38[0x18];        // not confirmed: ctor 0x5789e4 writes -1.0f x3 at +0x38 and +1.0f x3 at +0x44; no read seen
-    float bbox_min[3];                  // +0x50 width=4 float src=0x578c78 (setBoundingBox stores a2[0..2]); src=0x57aa8c (getBoundingBox returns this+80)
-    float bbox_max[3];                  // +0x5c width=4 float src=0x578c78 (setBoundingBox stores a2[3..5])
-    std::uint32_t bbox_stamp_valid;     // +0x68 width=4 src=0x57aa8c (nonzero test before the TickCount compare); zeroed by ctor 0x5789e4
-    std::uint32_t bbox_tick;            // +0x6c width=4 src=0x578c78 (setBoundingBox stores TickCount); ctor 0x5789e4 writes -1
-    std::uint32_t ctor_uint_arg;        // +0x70 width=4 src=0x578aa4 (ctor(unsigned) stores a2); ctor 0x5789e4 default 44
-    std::uint8_t bbox_dirty;            // +0x74 width=1 src=0x57aa8c (forces updateBoundingBox); ctor 0x5789e4 sets 1
-    std::uint8_t pad_0x75[0x03];        // not confirmed
-    std::uint8_t pad_0x78[0x04];        // not confirmed: zeroed by ctor 0x5789e4
-};
-static_assert(offsetof(CBatchMesh, vptr) == 0x00);
-static_assert(offsetof(CBatchMesh, ref_count) == 0x04);
-static_assert(offsetof(CBatchMesh, owned_block_0x08) == 0x08);
-static_assert(offsetof(CBatchMesh, owned_block_0x14) == 0x14);
-static_assert(offsetof(CBatchMesh, batch_begin) == 0x20);
-static_assert(offsetof(CBatchMesh, batch_end) == 0x24);
-static_assert(offsetof(CBatchMesh, owned_block_0x2c) == 0x2c);
-static_assert(offsetof(CBatchMesh, bbox_min) == 0x50);
-static_assert(offsetof(CBatchMesh, bbox_max) == 0x5c);
-static_assert(offsetof(CBatchMesh, bbox_stamp_valid) == 0x68);
-static_assert(offsetof(CBatchMesh, bbox_tick) == 0x6c);
-static_assert(offsetof(CBatchMesh, ctor_uint_arg) == 0x70);
-static_assert(offsetof(CBatchMesh, bbox_dirty) == 0x74);
-static_assert(sizeof(CBatchMesh) == 0x7C);
-
-// ---------------------------------------------------------------------------
-// CBatchSceneNode. Base region (ISceneNode and the virtual bases, reached
-// through vbase-offset writes in the ctor) is below +0x130 and is not mapped
-// here. Derived members start at +0x130.
-// Virtual-slot calls, all on the mesh object at +0x130 (typed IMesh):
-//   slot 4 (+0x10) getMaterialCount   at 0x57e554
-//   slot 6 (+0x18) getMaterial        at 0x57e570
-//   slot 9 (+0x24) getBoundingBox     at 0x57e538
-// ---------------------------------------------------------------------------
-struct CBatchSceneNode {
-    std::uint8_t pad_0x00[0x130];       // not confirmed: base region (ISceneNode and virtual bases)
-    std::uint32_t mesh;                 // +0x130 width=4 src=0x57f9c0 (ctor stores new CBatchMesh, drops old); src=0x57e594 (getMesh ++ref); src=0x57e538/0x57e554/0x57e570 (vcalls)
-    std::uint8_t pad_0x134[0x04];       // not confirmed: zeroed by ctor 0x57f9c0
-    std::uint8_t pad_0x138[0x04];       // not confirmed: ctor 0x57f9c0 writes 2
-    std::uint8_t pad_0x13c[0x04];       // not confirmed: zeroed by ctor 0x57f9c0
-    std::uint8_t pad_0x140[0x04];       // not confirmed: zeroed by ctor 0x57f9c0
-    std::uint8_t pad_0x144[0x04];       // not confirmed: ctor 0x57f9c0 writes -1
-    std::uint8_t pad_0x148[0x04];       // not confirmed: ctor 0x57f9c0 writes byte 1 at +0x148
-    std::uint32_t cache_ref;            // +0x14c width=4 src=0x57f3ec (dtor drops it); zeroed by ctor 0x57f9c0
-    std::uint8_t visible_cache_on;      // +0x150 width=1 src=0x57ed0c (setVisibleIndexCache reads and writes it); ctor 0x57f9c0 sets 1
-    std::uint8_t pad_0x151[0x03];       // not confirmed
-    std::uint32_t visible_cache_buf;    // +0x154 width=4 src=0x57ed0c (operator delete[] when the cache turns off, then zeroed); zeroed by ctor 0x57f9c0
-    std::uint32_t visible_entries;      // +0x158 width=4 src=0x57f3ec (dtor delete[]); src=0x57e650 (updateInfo, 20-byte entries: count +0x00, match +0x04, tick +0x08, flags +0x0c)
-    std::uint8_t pad_0x15c[0x04];       // not confirmed: ctor 0x57f9c0 writes -1
-    std::uint32_t vptr_secondary;       // +0x160 width=4 src=0x57f3ec (dtor writes off_97499C)
-};
-static_assert(offsetof(CBatchSceneNode, mesh) == 0x130);
-static_assert(offsetof(CBatchSceneNode, cache_ref) == 0x14c);
-static_assert(offsetof(CBatchSceneNode, visible_cache_on) == 0x150);
-static_assert(offsetof(CBatchSceneNode, visible_cache_buf) == 0x154);
-static_assert(offsetof(CBatchSceneNode, visible_entries) == 0x158);
-static_assert(offsetof(CBatchSceneNode, vptr_secondary) == 0x160);
+// CBatchMesh, CBatchSceneNode, CCameraSceneNode and CEmptySceneNode: canonical in scene/CBatchMesh.hpp, scene/CBatchSceneNode.hpp,
+// scene/CCameraSceneNode.hpp and scene/CEmptySceneNode.hpp (their evidence moved into those headers).
 
 // ---------------------------------------------------------------------------
 // CBillboardSceneNode. Base region (IBillboardSceneNode and ISceneNode) is
@@ -147,57 +71,6 @@ static_assert(offsetof(CBillboardSceneNode, color_0x19c) == 0x19c);
 static_assert(offsetof(CBillboardSceneNode, color_0x1c0) == 0x1c0);
 static_assert(offsetof(CBillboardSceneNode, color_0x1e4) == 0x1e4);
 static_assert(offsetof(CBillboardSceneNode, vertex_streams) == 0x1e8);
-
-// ---------------------------------------------------------------------------
-// CCameraSceneNode. ICameraSceneNode and CCameraSceneNode share the +0x130
-// vptr slot (ICameraSceneNode writes off_95FC28, CCameraSceneNode writes
-// off_975580). Base region is below +0x130.
-// Virtual-slot calls (on the animator/receiver elements of the list at +0xfc):
-//   slot 7 (+0x1c) and slot 8 (+0x20) at 0x581f68 (onEvent)
-// ---------------------------------------------------------------------------
-struct CCameraSceneNode {
-    std::uint8_t pad_0x00[0x130];       // not confirmed: base region (ISceneNode, ICameraSceneNode base words)
-    std::uint32_t vptr;                 // +0x130 width=4 src=0x583878 (CCameraSceneNode ctor stores off_975580); src=0x582b18 (ICameraSceneNode ctor)
-    std::uint8_t icam_flag;             // +0x134 width=1 src=0x582b18 (ICameraSceneNode ctor writes 0)
-    std::uint8_t pad_0x135[0x03];       // not confirmed
-    float copied_vec3_0x138[3];         // +0x138 width=4 float src=0x583878 (ctor arg a5 copied as three words to +0x138..+0x140); role not confirmed
-    std::uint8_t pad_0x144[0x04];       // not confirmed: ctor writes 0
-    std::uint8_t pad_0x148[0x04];       // not confirmed: ctor writes 1.0f
-    std::uint8_t pad_0x14c[0x04];       // not confirmed: ctor writes 0
-    std::uint8_t pad_0x150[0x04];       // not confirmed: ctor writes a float (bit pattern 1067506044)
-    std::uint8_t pad_0x154[0x04];       // not confirmed: ctor writes a float (bit pattern 1068149419)
-    std::uint8_t pad_0x158[0x04];       // not confirmed: ctor writes 1.0f
-    std::uint8_t pad_0x15c[0x04];       // not confirmed: ctor writes a float (bit pattern 1161527296)
-    std::uint8_t pad_0x160[0x04];       // not confirmed
-    std::uint8_t ctor_flag_0x164;       // +0x164 width=1 src=0x583878 (ctor arg a6 stored)
-    std::uint8_t input_receiver_enabled; // +0x165 width=1 src=0x581f40 (setter writes); src=0x581f48 (getter reads); src=0x581f68 (onEvent returns 0 when clear)
-    std::uint8_t pad_0x166[0x02];       // not confirmed
-    // SViewFrustum starts at +0x168 (ctor call at 0x583878). Its size is not confirmed,
-    // so the struct ends here.
-};
-static_assert(offsetof(CCameraSceneNode, vptr) == 0x130);
-static_assert(offsetof(CCameraSceneNode, icam_flag) == 0x134);
-static_assert(offsetof(CCameraSceneNode, copied_vec3_0x138) == 0x138);
-static_assert(offsetof(CCameraSceneNode, ctor_flag_0x164) == 0x164);
-static_assert(offsetof(CCameraSceneNode, input_receiver_enabled) == 0x165);
-
-// ---------------------------------------------------------------------------
-// CEmptySceneNode. The ctor (0x5839d8) writes the two vptrs and a box.
-// Two vptrs: offset 0x00 (final value off_9758EC) and offset 0x148 (final value
-// off_9759F0, after the ISceneNode base ctor).
-// ---------------------------------------------------------------------------
-struct CEmptySceneNode {
-    std::uint32_t vptr;                 // +0x00 width=4 src=0x5839d8 (ctor writes off_975B5C, then off_9758EC)
-    std::uint8_t pad_0x04[0x12C];       // not confirmed: base region (ISceneNode)
-    float bbox_min[3];                  // +0x130 width=4 float src=0x5839d8 (ctor writes -1.0f x3)
-    float bbox_max[3];                  // +0x13c width=4 float src=0x5839d8 (ctor writes +1.0f x3)
-    std::uint32_t vptr_secondary;       // +0x148 width=4 src=0x5839d8 (ctor writes off_95B720, then off_9759F0)
-    std::uint8_t pad_0x14c[0x04];       // not confirmed: ctor writes int 1 (a flag)
-};
-static_assert(offsetof(CEmptySceneNode, vptr) == 0x00);
-static_assert(offsetof(CEmptySceneNode, bbox_min) == 0x130);
-static_assert(offsetof(CEmptySceneNode, bbox_max) == 0x13c);
-static_assert(offsetof(CEmptySceneNode, vptr_secondary) == 0x148);
 
 // ---------------------------------------------------------------------------
 // CDummyTransformationSceneNode. Base region is below +0x130.

@@ -6,10 +6,11 @@
 #include <vector>
 
 #include "glitch-core-io/io/stream_itr_writer.hpp"
+#include "io_stub_files.hpp"
 
 namespace {
 
-struct CaptureFile : glitch::io::IWriteFile {
+struct CaptureFile : glitch::io::testing::StubWriteFile {
     std::vector<std::uint8_t> bytes;
     std::size_t write(const void* d, unsigned int n) override {
         const auto* p = static_cast<const std::uint8_t*>(d);

@@ -537,9 +537,11 @@ bool CharReader::readFile(IFileReadCallBack* callback) {
     if (size < 0) return false;
     const int bufferSize = static_cast<int>(size) + 4;
     char* buffer = new char[static_cast<std::size_t>(bufferSize)];
-    // PARTIAL: the original tests the callback's result and frees the buffer on failure. The port's
-    // IFileReadCallBack::read returns void, so the result cannot be tested here.
-    callback->read(buffer, static_cast<int>(size));
+    // The listing tests the callback's result (slot +0x08): a zero count frees the buffer and fails.
+    if (!callback->read(buffer, static_cast<int>(size))) {
+        delete[] buffer;
+        return false;
+    }
     std::memset(buffer + size, 0, 4);
 
     std::uint32_t head32 = 0;
@@ -741,9 +743,11 @@ bool WideReader::readFile(IFileReadCallBack* callback) {
     if (size < 0) return false;
     const int bufferSize = static_cast<int>(size) + 4;
     char* buffer = new char[static_cast<std::size_t>(bufferSize)];
-    // PARTIAL: the original tests the callback's result and frees the buffer on failure. The port's
-    // IFileReadCallBack::read returns void, so the result cannot be tested here.
-    callback->read(buffer, static_cast<int>(size));
+    // The listing tests the callback's result (slot +0x08): a zero count frees the buffer and fails.
+    if (!callback->read(buffer, static_cast<int>(size))) {
+        delete[] buffer;
+        return false;
+    }
     std::memset(buffer + size, 0, 4);
 
     std::uint32_t head32 = 0;

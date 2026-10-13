@@ -5,6 +5,9 @@
 // removeAll(bool) 0x5e9f78, getId 0x5e8ed8, ctor 0x5e840c, dtor 0x5e97a0) and the element-size and
 // property checks in the other instances (listed below).
 //
+// Canonical definition (engine unification, u1-core): this template replaces the older
+// glitch-core-io/core/sided_collection.hpp implementation, which now forwards here.
+//
 // Collection (this):
 //   +0x00  name map header (rb-tree header node): color byte (cleared), parent (0), left = leftmost
 //          node at +0x08 (idBegin, 0x5e8398), right = rightmost at +0x0c. The header address is the
@@ -25,21 +28,25 @@
 //     ctor 0x5ba010, SEntry() 0x5b9fb8, reset 0x5bc5c4, set 0x5bc620). Not covered by the template
 //     below (see the open questions).
 //
-// Name map node (rb-tree node, 0x38 bytes):
+// Name map node (rb-tree node, 0x18 bytes plus the mapped record):
 //   +0x00..+0x0f  rb base (color, parent, left, right)
 //   +0x10         key SName: name char* at +0x10, managed byte at +0x14 (SName ctor 0x5e8498,
 //                 setManaged 0x5e84b8, get 0x5e84c4, operator< 0x5e8544 = strcmp(a, b) < 0,
 //                 dtor 0x5e855c = delete[] the name when managed)
-//   +0x18         mapped SIdValue (0x20 bytes, ctor 0x5e85b4):
-//                   SIdValue+0x00..+0x0f  inline buffer of an STLport-style std::string
-//                   SIdValue+0x10         string start pointer (written as SIdValue+0x00 for the empty
-//                                         string; _M_allocate_block(16) does nothing)
-//                   SIdValue+0x14         string finish pointer
-//                   SIdValue+0x18         int 39 (0x27) in every ctor and in insert/rename (meaning not
-//                                         recovered)
-//                   SIdValue+0x1c         id (uint16)  = node +0x34 (getId reads it at 0x5e8f18)
-//   getProperties(id) returns node +0x18, that is the SIdValue address, so the caller's property
-//   record starts at SIdValue+0x00 and overlaps the string header (see the open questions).
+//   +0x18         mapped SIdValue: the instance's Props record, then the id (uint16). The id is at
+//                 the end of the Props record, not at a fixed offset (SIdValue ctors, getId):
+//                   ITexture (STextureProperties, 0x1c bytes: a glitch string at +0x00 and int 39 at
+//                     +0x18): id at SIdValue+0x1c, node +0x34 (ctor 0x5e85b4, getId 0x5e8ed8 reads +52)
+//                   IShader (SShaderProperties, 4 bytes, zeroed): id at +0x04, node +0x1c (ctor 0x5e5490,
+//                     getId 0x5d85d0 reads +28)
+//                   CMaterialRenderer (SProperties: dword 0, dword -1, ushort 17): id at +0x0a, node +0x22
+//                     (ctor 0x5d7e34, getId 0x5d98c4 reads +34)
+//                   IShaderCode (SEmptyProperties): id at +0x00, node +0x18 (ctor 0x6e08b0, getId 0x6e1ab4
+//                     reads +24)
+//                   SShaderParameterDef (SPropeties, dword 1): id at +0x04, node +0x1c (ctor 0x5b9f64,
+//                     getId 0x5bb378 reads +28)
+//                 SIdValue therefore derives from Props and adds the id; getProperties(id) returns node +0x18,
+//                 the SIdValue address, which is the Props subobject.
 //
 // Functions (ITexture instance addresses; the other instances use the same shape):
 //   size 0x5e83a4, idBegin 0x5e8398, idEnd 0x5e83a0, get(id) 0x5e83ac (invalid entry when out of
@@ -52,8 +59,12 @@
 //   removeAll(force) 0x5e9f78, removeAll() 0x5e67a0 (IShader), removeUnused() 0x5e67a8, remove(id)
 //   0x5e67bc: wrappers with force = false.
 //
-// Template arguments: T is the stored value (a pointer to a reference-counted object), Props is the
-// record handed out by getProperties, Traits gives isSet, useCount, addRef and release for a value.
+// Template arguments: T is the stored value (boost::intrusive_ptr<X> in every pointer instance, whose
+// copy and destruction do the counting; SShaderParameterDef in the shader-parameter instance), Props is the
+// record handed out by getProperties, Traits gives isSet and useCount for a value. The original's second and
+// third template arguments (the id type, unsigned short everywhere, and a bool that is false in every
+// instance) are not parameters here; glitch-core-io/core/sided_collection.hpp spells the original instance
+// names (glitch::core::detail::SIDedCollection<T, ushort, false, Props, Traits>) on top of this template.
 #pragma once
 
 #include <cstddef>
@@ -65,33 +76,37 @@
 
 namespace glitch::core::detail::sid_layout {
 
-// Value traits for a pointer to an IReferenceCounted-like object: the count is the
-// referenceCounter field (+0x04 in the original), and release is drop() (deletes at zero).
-struct IntrusiveTraits {
+// Value traits for the instances: a value is set when it is non-null, and its use count is the
+// reference count at +0x04 of the pointed-to object (the intrusive_ptr copies and destructions do the
+// counting). The shader-parameter instance has its own traits next to SShaderParameterDef.
+struct SValueTraits {
     template <class P>
     static bool isSet(const P& p) { return static_cast<bool>(p); }
     template <class P>
     static int useCount(const P& p) { return p->referenceCounter; }
-    template <class P>
-    static void addRef(const P& p) {
-        if (p) ++p->referenceCounter;
-    }
-    template <class P>
-    static void release(const P& p) {
-        if (p) p->drop();
-    }
 };
+// The name the shared template used before the unification.
+using IntrusiveTraits = SValueTraits;
 
-template <class T, class Props, class Traits = IntrusiveTraits>
+// Property record of the collections without per-entry properties (IShaderCode): an empty class, so the
+// SIdValue that derives from it keeps its id at +0x00.
+struct SEmptyProperties {};
+
+template <class T, class Props, class Traits = SValueTraits>
 class SIDedCollection {
 public:
-    // The record handed out by getProperties sits at SIdValue+0x00; the id is at +0x1c. The string
-    // header of the original occupies SIdValue+0x00..+0x1b, so Props must fit there.
-    static_assert(sizeof(Props) < 0x1c, "the properties record must fit before the id at +0x1c");
-
-    // Name key. The rb node copy is bitwise (managed name owned by the node, released by the dtor).
+    // Name key. The rb node copy duplicates a managed name, so every key owns its own buffer.
     struct SName {
         explicit SName(const char* n) : name(n), managed(false) {}  // 0x5e8498
+        SName(const SName& other) : name(other.name), managed(false) {
+            if (other.managed && other.name) {
+                char* copy = new char[std::strlen(other.name) + 1];
+                std::strcpy(copy, other.name);
+                name = copy;
+                managed = true;
+            }
+        }
+        SName& operator=(const SName&) = delete;
         ~SName() {                                                 // 0x5e855c
             if (managed && name) delete[] name;
         }
@@ -105,44 +120,41 @@ public:
         mutable bool managed;         // +0x04 (node +0x14)
     };
 
-    // Mapped value. Props occupies the string header area; id is at +0x1c (0x5e85b4 writes it).
-    struct SIdValue {
+    // Mapped value (node +0x18): the instance's Props record and then the id, which sits at the end of the
+    // record (see the header comment for the id offset of each instance).
+    struct SIdValue : Props {
         SIdValue() = default;
-        explicit SIdValue(std::uint16_t value) : id(value) {}
-        Props properties{};                                  // +0x00
-        std::uint8_t header[0x1c - sizeof(Props)]{};         // +sizeof(Props)..+0x1c, string header
-        std::uint16_t id = 0;                                // +0x1c
+        explicit SIdValue(std::uint16_t value) : Props(), id(value) {}  // 0x5e85b4, 0x6e08b0, ...
+        std::uint16_t id = 0;
     };
 
     using Map = std::map<SName, SIdValue>;
+    using MapIterator = typename Map::iterator;
 
-    // Vector element: the value (+0x00) and its name-map node (+0x04). Pointer values only.
+    // Vector element: the value (+0x00) and its name-map node. 8 bytes for a pointer value, 20 for
+    // SShaderParameterDef (16-byte value, node at +0x10).
     struct SEntry {
-        // 0x5e9e10: adds a reference to the new value, stores it, releases the old, stores the node.
-        void set(const T& v, typename Map::iterator it) {
-            Traits::addRef(v);
-            T old = value;
+        SEntry() = default;                                                 // 0x5e84cc
+        SEntry(const T& v, MapIterator it) : value(v), iterator(it) {}      // 0x5e84ec
+        // 0x5e9e10: stores the new value (the old one is released by the assignment) and the node.
+        void set(const T& v, MapIterator it) {
             value = v;
-            Traits::release(old);
             iterator = it;
         }
         // 0x5e9e50: clears the value (released) and the node.
         void reset() {
-            T old = value;
             value = T{};
-            Traits::release(old);
-            iterator = typename Map::iterator{};
+            iterator = MapIterator{};
         }
 
-        T value{};                           // +0x00
-        typename Map::iterator iterator{};   // +0x04
+        T value{};              // +0x00
+        MapIterator iterator{};  // +0x04
     };
 
     SIDedCollection() = default;  // 0x5e840c: count 0, next id 0, empty map and vector
 
     // 0x5e97a0: the vector is destroyed first (each value is released), then the map is cleared.
     ~SIDedCollection() {
-        for (auto& entry : entries) Traits::release(entry.value);
         entries.clear();
         ids.clear();
         count = 0;
@@ -166,8 +178,12 @@ public:
         return &invalidEntry;
     }
 
-    // Record of the entry (0x5e83e4): no range check in the original.
-    Props* getProperties(std::uint16_t id) { return &entries[id].iterator->second.properties; }
+    // Record of the entry (0x5e83e4, 0x5e83f8): node +0x18, the SIdValue address, which is the Props
+    // subobject. No range check in the original.
+    Props* getProperties(std::uint16_t id) { return static_cast<Props*>(&entries[id].iterator->second); }
+    const Props* getProperties(std::uint16_t id) const {
+        return static_cast<const Props*>(&entries[id].iterator->second);
+    }
 
     std::uint16_t getNextId() const { return nextId; }  // 0x5e8474
 
@@ -207,6 +223,15 @@ public:
         return id;
     }
 
+    // Test helper, not a recovered function: inserts a copy of the name (owned by the key) under the next
+    // free id. Returns the id, or 0xffff when the name already exists.
+    std::uint16_t add(const char* name, const T& value) {
+        if (ids.find(SName(name)) != ids.end()) return 0xffff;
+        char* owned = new char[std::strlen(name) + 1];
+        std::strcpy(owned, name);
+        return insert(owned, value, true);
+    }
+
     // 0x5e9348. Fails (false) when the id is out of range or unset, or when the new name already
     // exists. Otherwise the new name is linked to the same id, the old node is erased, the managed
     // flag is set on the new key when asked, and the entry points at the new node. Count and next
@@ -227,6 +252,8 @@ public:
     // (count 1) or force is true. The node is erased, the entry reset, count decremented, next free
     // id lowered to id when that is smaller, and the trailing unset entries are cut from the vector
     // only when at least one set entry remains (an all-unset vector keeps its length).
+    // The CMaterialRenderer instance (0x5d9f74) calls materialrenderermanager::SProperties::onRemove
+    // before the erase; that hook belongs to glitch-video's manager and is not part of this template.
     bool remove(std::uint16_t id, bool force = false) {
         if (id >= entries.size()) return false;
         SEntry& entry = entries[id];
@@ -243,9 +270,9 @@ public:
     }
 
     // 0x5e9f78. In-order walk over the names; the successor is taken before each removal. Returns
-    // the number removed (uint16 in the original, stored as int16 here).
-    std::int16_t removeAll(bool force = false) {
-        std::int16_t removed = 0;
+    // the number removed (uint16 in the original, which keeps the count in a 16-bit slot).
+    std::uint16_t removeAll(bool force = false) {
+        std::uint16_t removed = 0;
         auto it = ids.begin();
         while (it != ids.end()) {
             const auto next = std::next(it);
@@ -270,11 +297,13 @@ private:
 }  // namespace glitch::core::detail::sid_layout
 
 // Open questions (not coded as fact):
-//   - SIdValue+0x18 holds int 39 in every ctor and in insert/rename; its meaning is not recovered.
-//   - The string header (SIdValue+0x00..+0x17) is written as an empty std::string; no function here
-//     reads it, but getProperties hands out that same memory. The real Props layout is unknown.
+//   - The ITexture instance's Props (STextureProperties) holds a glitch string and the int 39 (0x27) that
+//     every SIdValue ctor of that instance writes at +0x18; the meaning of the int is not recovered
+//     (glitch-video owns STextureProperties).
 //   - insert does not test the bool of insert_unique (0x5ea53c): a duplicate name re-links to the
 //     existing node. Whether callers guarantee uniqueness is not recovered.
-//   - SShaderParameterDef (20-byte entries, see the header comment) is not handled by this template.
+//   - SShaderParameterDef (20-byte entries, see the header comment): the template holds it as T; its
+//     shared-string member (SSharedStringHeapEntry::SData, released by SData::release) and its traits are
+//     glitch-video's.
 //   - The managed flag: the original sets it on the key after insertion (insert, rename); the name
 //     is not copied, so the caller's buffer becomes owned when managed is true.

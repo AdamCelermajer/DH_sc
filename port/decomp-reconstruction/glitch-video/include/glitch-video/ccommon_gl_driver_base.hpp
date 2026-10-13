@@ -25,11 +25,14 @@ public:
         // 0x6ddf18 (C2) / 0x6ddf84 (C1): IBuffer base, then the driver and a zeroed word.
         CBufferBase(CCommonGLDriverBase* driver, E_BUFFER_TYPE type, E_BUFFER_USAGE usage,
                     uint32_t size, void* data, bool flag);
-        void* getMappedPtr() const;  // 0x6dcbe4
-    private:
+        // The class stays abstract (bindImpl, unbindImpl, mapImpl, unmapImpl and cloneImpl are pure in the base; the
+        // GL buffer CCommonGLDriver<...>::CBuffer implements them). Vtable: the IBuffer slots with +0x1c overridden.
+        uint8_t* getMappedPtr() const override;  // +0x1c  0x6dcbe4
+        ~CBufferBase() override = default;       // 0x6dd160 (D1) / 0x6de1e8 (D0)
+    protected:
         CCommonGLDriverBase* m_driver = nullptr;  // +0x14
         uint32_t m_unknown18 = 0;                 // +0x18, zeroed by the constructor
-        void* m_mappedPtr = nullptr;              // +0x1c
+        uint8_t* m_mappedPtr = nullptr;           // +0x1c
     };
 
     class CTextureBase {

@@ -22,6 +22,19 @@ namespace glitch::video {
 
 class CCommonGLDriver : public CCommonGLDriverBase {
 public:
+    // The GL buffer: CCommonGLDriver<...>::CBuffer in the original (vtable +0x0c .. +0x20 implemented with glBindBuffer,
+    // glMapBufferRange and friends). Partial: the GL calls are not reconstructed, so the slots keep the IBuffer state and
+    // do no GL work; mapImpl returns null.
+    class CBuffer : public CBufferBase {
+    public:
+        using CBufferBase::CBufferBase;
+        void bindImpl(bool) override;                              // +0x0c  0x5b051c family
+        void unbindImpl() override;                                // +0x10
+        uint8_t* mapImpl(uint32_t) const override;                 // +0x14  0x5b3a1c family
+        void unmapImpl() const override;                           // +0x18
+        boost::intrusive_ptr<IBuffer> cloneImpl() const override;  // +0x20  0x5b1480
+    };
+
     virtual ~CCommonGLDriver() = default;
 
     // vtable +0x1fc (IVideoDriver::flush in the original). The port has no

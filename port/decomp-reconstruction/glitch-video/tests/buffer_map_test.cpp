@@ -1,35 +1,15 @@
 // IBuffer::map (access overload), CBufferBase construction, the shadow-state defaults and
 // CRenderTargetBase::getTargetCount.
 #include "glitch-video/buffer.hpp"
-#include "glitch-video/ccommon_gl_driver_base.hpp"
+#include "glitch-video/ccommon_gl_driver.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
-namespace {
 
-// Records the mapImpl and getMappedData calls so the tests can see which path ran.
-class RecordingBuffer : public glitch::video::IBuffer {
-public:
-    using IBuffer::IBuffer;
-    uint8_t* mapImpl(int32_t access) override {
-        lastAccess = access;
-        ++mapImplCalls;
-        return sentinel;
-    }
-    uint8_t* getMappedData() override {
-        ++mappedDataCalls;
-        return sentinel;
-    }
-    int32_t lastAccess = -1;
-    int mapImplCalls = 0;
-    int mappedDataCalls = 0;
-    uint8_t* sentinel = nullptr;
-};
-
-}  // namespace
 
 int main() {
     using namespace glitch::video;
@@ -37,7 +17,7 @@ int main() {
     uint8_t payload[16] = {};
 
     // Data present, usage 0: maps to the data pointer and counts the map.
-    IBuffer plain(0, 0, 16, payload, 0);
+    test::TestBuffer plain(0, 0, 16, payload, 0);
     CHECK(plain.m_flags12 == 2);
     CHECK(plain.map(1) == payload);
     CHECK(plain.m_mapCount13 == 0x21);   // access 1 in bits 5..6, count 1
@@ -47,12 +27,12 @@ int main() {
     CHECK((plain.m_mapCount13 & 0x1f) == 1);
 
     // No data and no flag 8: nothing is mapped and the count stays zero.
-    IBuffer noData(0, 0, 16, nullptr, 0);
+    test::TestBuffer noData(0, 0, 16, nullptr, 0);
     CHECK(noData.map(1) == nullptr);
     CHECK(noData.m_mapCount13 == 0);
 
     // Flag 8 with access up to 3 goes to the driver hook with access (a & 1) | 2.
-    RecordingBuffer hooked(0, 0, 16, nullptr, 8);
+    test::TestBuffer hooked(0, 0, 16, nullptr, 8);
     hooked.sentinel = payload;
     CHECK(hooked.map(1) == payload);
     CHECK(hooked.lastAccess == 3);
@@ -65,26 +45,26 @@ int main() {
     CHECK(hooked.mapImplCalls == 2);
 
     // Flag 8 with data present and access above 3: maps the data and counts it.
-    RecordingBuffer withData(0, 0, 16, payload, 8);
+    test::TestBuffer withData(0, 0, 16, payload, 8);
     CHECK(withData.map(5) == payload);
     CHECK(withData.mapImplCalls == 0);
     CHECK(withData.m_mapCount13 == 0xa1);  // access 5 << 5, count 1
 
-    // A counted map with flag 0x20 returns through the getMappedData hook.
-    RecordingBuffer counted(0, 0, 16, payload, 0x20);
+    // A counted map with flag 0x20 returns through the getMappedPtr hook.
+    test::TestBuffer counted(0, 0, 16, payload, 0x20);
     counted.sentinel = payload + 1;
     CHECK(counted.map(1) == payload);      // first map: plain data pointer
     CHECK(counted.map(1) == payload + 1);  // second map: counted path, hook
-    CHECK(counted.mappedDataCalls == 1);
+    CHECK(counted.mappedPtrCalls == 1);
 
     // Usage 4 keeps the flags unchanged after a map.
-    IBuffer usageFour(0, 4, 16, payload, 0);
+    test::TestBuffer usageFour(0, 4, 16, payload, 0);
     CHECK(usageFour.m_flags12 == 0);
     CHECK(usageFour.map(1) == payload);
     CHECK(usageFour.m_flags12 == 0);
 
     // CBufferBase: the IBuffer base is set up from the constructor arguments.
-    CCommonGLDriverBase::CBufferBase base(nullptr, 0, 0, 16, payload, false);
+    CCommonGLDriver::CBuffer base(nullptr, 0, 0, 16, payload, false);
     CHECK(base.getMappedPtr() == nullptr);
     CHECK(base.map(1) == payload);
 

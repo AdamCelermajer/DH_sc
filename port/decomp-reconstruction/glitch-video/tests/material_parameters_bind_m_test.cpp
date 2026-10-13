@@ -8,6 +8,7 @@
 
 #include "glitch-video/material_parameters.hpp"
 #include "glitch-video/texture.hpp"
+#include "video_test_types.hpp"
 
 namespace glitch::video {
 class CLight;
@@ -47,6 +48,9 @@ int main() {
     block.entries = entries;
     std::vector<std::uint8_t> values(64, 0);
 
+    // The texture outlives the parameter object, whose slot holds a use of it; it is on the stack with count 1.
+    glitch::video::test::TestTexture tex;
+
     Owner m;
     m.setBlockForTest(&block);
     m.setValueBuffer(values.data());
@@ -66,8 +70,7 @@ int main() {
 
     // intrusive_ptr<ITexture>: the same pointer comes back through the index form and through the array form
     // (element 1 is the slot at +36; element 0 was never written and reads back null).
-    ITexture tex;
-    boost::intrusive_ptr<ITexture> p(&tex);
+    boost::intrusive_ptr<ITexture> p(&tex, true);
     CHECK(m.setParameter(2, 1u, p));
     boost::intrusive_ptr<ITexture> got;
     CHECK(m.getParameter(2, 1u, got) && got.get() == &tex);

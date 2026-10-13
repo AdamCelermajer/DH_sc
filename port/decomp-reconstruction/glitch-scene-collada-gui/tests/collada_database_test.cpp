@@ -8,7 +8,9 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    SAnimationClip clipA{"walk"}, clipB{"run"};
+    SAnimationClip clipPair[2] = {{"walk", 0, 10}, {"run", 10, 20}};
+    SAnimationClip& clipA = clipPair[0];
+    SAnimationClip& clipB = clipPair[1];
     SImage image{"tex_a"};
     SEffect effect{"fx"};
     SMaterial material{"mat"};
@@ -18,7 +20,8 @@ int main() {
     SAnimation anim{"idle"};
 
     SDatabaseTables t;
-    t.animationClips = {&clipA, &clipB};
+    t.animationClipLibrary.count = 2;
+    t.animationClipLibrary.clips = clipPair;
     t.images = {&image};
     t.effects = {&effect};
     t.materials = {&material};

@@ -1,5 +1,6 @@
-// Checks for the glitch::scene animator, camera, batch, mesh and timeline
-// accessors.
+// Checks for the canonical glitch::scene animator, timeline, camera, empty, mesh and scene-manager classes, and for the
+// CLightSceneNode / CBillboardSceneNode stand-ins that have no canonical header yet. The CBatchMesh / CBatchSceneNode checks
+// that used to be here are in scene_batch_test.cpp.
 #include "glitch-scene-collada-gui/scene_nodes.hpp"
 
 #include <cstdio>
@@ -9,25 +10,76 @@ using namespace glitch::scene;
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+namespace {
+
+// ISceneNodeAnimator is abstract: animateNode and createClone are pure.
+class TestAnimator : public ISceneNodeAnimator {
+public:
+    void animateNode(ISceneNode*, std::uint32_t) override {}
+    ISceneNodeAnimator* createClone() override { return nullptr; }
+};
+
+// ITimelineController is abstract: the clip interface is pure.
+class TestTimeline : public ITimelineController {
+public:
+    float setClip(std::int32_t) override { return 0.0f; }
+    std::int32_t setClip(const char*) override { return -1; }
+    std::int32_t getClipIndex(const char*) const override { return -1; }
+    std::int32_t getClipCount() const override { return 0; }
+    std::uint32_t getClipStart(std::int32_t) const override { return 0; }
+    std::uint32_t getClipEnd(std::int32_t) const override { return 0; }
+    std::uint32_t getClipLength(std::int32_t) const override { return 0; }
+    std::uint32_t getCurrentClipStart() const override { return 0; }
+    std::uint32_t getCurrentClipEnd() const override { return 0; }
+    std::uint32_t getCurrentClipLength() const override { return 0; }
+    std::int32_t getCurrentClipIndex() const override { return -1; }
+    const char* getClipName(std::int32_t) const override { return nullptr; }
+    void setLoop(bool) override {}
+    void setRange(std::int32_t, std::int32_t, bool) override {}
+};
+
+// CSceneManager is abstract (registerSkinnedMesh is pure) and has no default constructor.
+class TestSceneManager : public CSceneManager {
+public:
+    TestSceneManager()
+        : CSceneManager(nullptr, boost::intrusive_ptr<glitch::io::IFileSystem>(), nullptr, nullptr, nullptr) {}
+    void registerSkinnedMesh(void*) override {}
+};
+
+}  // namespace
+
 int main() {
-    ISceneNodeAnimator animator;
-    CHECK(animator.getType() == 10);
+    TestAnimator animator;
+    CHECK(animator.getType() == ESNAT_UNKNOWN);
+    CHECK(static_cast<std::uint32_t>(animator.getType()) == 10);
     CHECK(!animator.isEventReceiverEnabled());
     CHECK(animator.getLength() == 0);
+    CHECK(animator.getTimelineCtrl() == nullptr);
     animator.updateTime(5);
     animator.computeAnimationValues(5);
     animator.applyAnimationValues(5);
+    CHECK(!animator.onEvent(glitch::SEvent()));
 
-    CEmptySceneNode empty;
-    CHECK(empty.getType() == 0x79746d65u);
-    empty.render(nullptr);
+    {
+        auto* empty = new CEmptySceneNode(4);
+        CHECK(empty->getType() == ESNT_EMPTY && static_cast<std::uint32_t>(empty->getType()) == 0x79746d65u);
+        CHECK(empty->getID() == 4);
+        CHECK(empty->boundingBox.MinEdge.X == -1.0f && empty->boundingBox.MaxEdge.Z == 1.0f);
+        CHECK(&empty->getBoundingBox() == &empty->boundingBox);
+        CHECK(empty->automaticCulling == 0);
+        empty->render(nullptr);
+        ISceneNode* copy = empty->clone();
+        CHECK(copy != nullptr && copy->getType() == ESNT_EMPTY && copy->getID() == 4);
+        if (copy != nullptr) copy->drop();
+        empty->drop();
+    }
 
     CCameraSceneNode camera(0, glitch::core::vector3d<float>(), glitch::core::vector3d<float>(), false);
     // ICameraSceneNode is abstract (it has pure slots), so its default getTargetNode is reached through a camera.
     const ICameraSceneNode& base = camera;
     CHECK(base.getTargetNode() == nullptr);
     CHECK(!base.isOrthogonal());
-    CHECK(camera.getType() == 0x5f6d6163u);
+    CHECK(camera.getType() == ESNT_CAMERA && static_cast<std::uint32_t>(camera.getType()) == 0x5f6d6163u);
     CHECK(camera.isInputReceiverEnabled());  // the constructor sets inputReceiverEnabled (+0x165 = 1)
     camera.setInputReceiverEnabled(false);
     CHECK(!camera.isInputReceiverEnabled());
@@ -36,15 +88,56 @@ int main() {
     camera.frustum.box.MinEdge.X = 1.0f;  // the camera's box is the frustum's box
     CHECK(camera.getBoundingBox().MinEdge.X == 1.0f);
 
-    CLightSceneNode light;
-    CMeshSceneNode mesh;
-    CSceneManagerRootNode root;
-    CHECK(light.getType() == 0x7468676cu);
-    CHECK(mesh.getType() == 0x6873656du);
-    CHECK(root.getType() == 0x72676d73u);
+    {
+        // CSceneManager's nested render-list entries (ctors 0x350c98, 0x350cf4, 0x354e8c).
+        auto* node = new CEmptySceneNode(1);  // box (-1,-1,-1)..(1,1,1)
+        node->absoluteTransform.M[12] = 3.0f;
+        node->absoluteTransform.M[13] = 4.0f;
+        node->absoluteTransform.M[14] = 0.0f;
+        node->setRenderingLayer(7);
+        node->setCameraOffset(2.0f);
+        const glitch::core::vector3d<float> origin{0.0f, 0.0f, 0.0f};
+        // Squared distance 25 minus half the squared box extent (12 / 2 = 6): 19.
+        CSceneManager::SDistanceNodeEntry distance(node, origin, nullptr);
+        CHECK(distance.node == node);
+        CHECK(distance.distance > 18.999 && distance.distance < 19.001);
+        // 0x7fffffff asks the node for its rendering layer.
+        CSceneManager::SDefaultNodeEntry fixedOrder(node, boost::intrusive_ptr<glitch::video::CMaterial>(), nullptr, 5);
+        CHECK(fixedOrder.sortOrder == 5);
+        CSceneManager::SDefaultNodeEntry nodeOrder(node, boost::intrusive_ptr<glitch::video::CMaterial>(), nullptr, 0x7fffffff);
+        CHECK(nodeOrder.sortOrder == 7);
+        CHECK(nodeOrder < fixedOrder && !(fixedOrder < nodeOrder));  // larger sort order first
+        // Distance 25 plus the camera offset 2.
+        CSceneManager::STransparentNodeEntry transparent(node, origin, boost::intrusive_ptr<glitch::video::CMaterial>(), nullptr,
+                                                         nullptr, 9);
+        CHECK(transparent.sortOrder == 9);
+        CHECK(transparent.distance > 26.999f && transparent.distance < 27.001f);
+        node->drop();
+    }
 
-    CSceneManager manager;
-    CHECK(!manager.hierarchyChanged && !manager.visibilityChanged);
+    CLightSceneNode light;
+    CHECK(light.getType() == 0x7468676cu);
+    {
+        auto* mesh = new CMeshSceneNode(boost::intrusive_ptr<IMesh>(), 1, glitch::core::vector3d<float>{0.0f, 0.0f, 0.0f},
+                                        glitch::core::quaternion{0.0f, 0.0f, 0.0f, 1.0f},
+                                        glitch::core::vector3d<float>{1.0f, 1.0f, 1.0f});
+        CHECK(mesh->getType() == ESNT_MESH && static_cast<std::uint32_t>(mesh->getType()) == 0x6873656du);
+        CHECK(mesh->getMesh().get() == nullptr);
+        CHECK(mesh->automaticCulling == 2);
+        mesh->drop();
+    }
+    {
+        TestSceneManager manager;
+        CSceneManagerRootNode* root = static_cast<CSceneManagerRootNode*>(manager.rootNode);
+        CHECK(root != nullptr && root->getType() == ESNT_SCENE_MANAGER_ROOT);
+        CHECK(static_cast<std::uint32_t>(root->getType()) == 0x72676d73u);
+        CHECK(root->getID() == -1);
+        CHECK(root->sceneManager == &manager);
+    }
+
+    TestSceneManager manager;
+    CHECK(manager.hierarchyChanged && manager.visibilityChanged);  // both flags start set (the constructor, 0x58d908)
+    manager.hierarchyChanged = manager.visibilityChanged = false;
     manager.notifyVisibilityChanged();
     CHECK(manager.visibilityChanged && !manager.hierarchyChanged);
     manager.visibilityChanged = false;
@@ -59,41 +152,30 @@ int main() {
     billboard.size.Height = 4.0f;
     CHECK(billboard.getSize().Width == 3.0f && billboard.getSize().Height == 4.0f);
 
-    CBatchMesh::SSegment segment;
-    segment.indexBegin = 12;
-    segment.indexEnd = 34;
-    segment.visible = 1;
-    CBatchMesh batch;
-    std::uint32_t first = 0, second = 0;
-    batch.getIndexRange(first, second, &segment);
-    CHECK(first == 12 && second == 34);
-    batch.init();
-    batch.saveSegmentExtraData(nullptr, nullptr, false);
+    // The mesh base reports no user property.
+    {
+        auto* batch = new CBatchMesh();
+        const IMesh& meshBase = *batch;
+        CHECK(meshBase.getUserProperty() == nullptr);
+        batch->drop();
+    }
 
-    CBatchSceneNode batchNode;
-    CHECK(batchNode.getType() == 0x6e736162u);
-    CHECK(batchNode.isSegmentVisible(segment));
-    segment.visible = 0;
-    CHECK(!batchNode.isSegmentVisible(segment));
-    batchNode.preRegisterSceneNode();
+    {
+        TestTimeline timeline;
+        CHECK(timeline.jumpTo(42) == 0.0f);
+        CHECK(timeline.currentTimeMs == 42);  // the base jumpTo stores the time at +0x04
+        CHECK(!timeline.getLoop());
+        CHECK(timeline.getScale() == 1.0f);
+        timeline.setScale(2.0f);
+        CHECK(timeline.getScale() == 1.0f);
+        CHECK(timeline.update(7) == 0);
+    }
 
-    IMesh meshBase;
-    CHECK(meshBase.getUserProperty() == nullptr);
-
-    ITimelineController timeline;
-    timeline.jumpTo(42);
-    CHECK(timeline.currentFrame == 42);
-    CHECK(!timeline.getLoop());
-    CHECK(timeline.getScale() == 1.0f);
-    timeline.setScale(2.0f);
-    CHECK(timeline.getScale() == 1.0f);
-    timeline.update(7);
-
-    // Scene sceneMgr colour and rendered-node words; batch mesh records.
-    CSceneManager sceneMgr;
+    // Scene manager colour and rendered-node words.
+    TestSceneManager sceneMgr;
     sceneMgr.setShadowColor(glitch::video::SColor{0x44u});
     CHECK(sceneMgr.shadowColors[3].color == 0x44u);
-    CHECK(sceneMgr.setSceneNodeRenderPass(5) == 0);
+    CHECK(sceneMgr.setSceneNodeRenderPass(5) == 9);  // the constructor value (+0x174)
     CHECK(sceneMgr.setSceneNodeRenderPass(6) == 5);
     glitch::video::SColorf ambient{0.1f, 0.2f, 0.3f, 1.0f};
     sceneMgr.setAmbientLight(ambient);
@@ -107,19 +189,6 @@ int main() {
     CHECK(sceneMgr.getCurrentRenderedNode(&renderedNode, &renderedSecond) == 4);
     CHECK(renderedNode == &nodeMarker && renderedSecond == 9);
     CHECK(sceneMgr.getCurrentRenderedNode(nullptr, nullptr) == 4);
-
-    CBatchMesh batchMesh;
-    CHECK(batchMesh.getMeshBufferCount() == 0);
-    batchMesh.batches.resize(2);
-    CHECK(batchMesh.getMeshBufferCount() == 2);
-    CHECK(!batchMesh.clone());
-    glitch::core::aabbox3d<float> batchBox{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
-    batchMesh.setBoundingBox(batchBox);
-    CHECK(batchMesh.getBoundingBox().MinEdge.X == -1.0f);
-    CBatchMesh::SBatch zeroed;
-    CHECK(zeroed.field0C == 0 && zeroed.field0E == 0 && zeroed.field10 == 0);
-    CBatchMesh::SBatch filled(3);
-    CHECK(filled.field0C == 3 && filled.field0E == 3 && filled.field10 == 0);
 
     std::printf("%s\n", failures ? "scene_nodes: FAILED" : "scene_nodes: ok");
     return failures != 0;

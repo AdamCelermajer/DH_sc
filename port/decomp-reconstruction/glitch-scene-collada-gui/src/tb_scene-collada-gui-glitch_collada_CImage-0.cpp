@@ -9,9 +9,9 @@ namespace {
 
 // The original grabs the record (its count at +0x04) only when the record is non-null and its count
 // is already non-zero; the count is then incremented.
-void grabRecordIfCounted(SColladaRecord* record) noexcept {
-    if (record != nullptr && record->reserved00[1] != 0) {
-        ++record->reserved00[1];
+void grabRecordIfCounted(CResFile* record) noexcept {
+    if (record != nullptr && record->refCount != 0) {
+        ++record->refCount;
     }
 }
 

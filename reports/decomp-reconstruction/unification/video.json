@@ -1,0 +1,751 @@
+[
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::video::SColor",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "The stand-in is four unsigned chars R, G, B, A (+0..+3). The canonical SColor is one uint32 `color` with the same four bytes (component 0 is the low byte, byte 3 is alpha: SColor::getInterpolated 0x540f8c reads alpha at +3, operator<< 0x310178 prints bytes 0..2, operator>> 0x3102b4 stores bytes 0..2 and zero in byte 3; the video code passes colours as one 32-bit word, e.g. IVideoDriver::draw2DLine and setBlendColor). Replace c.R/G/B/A by c.component(0..3); the channel names of bytes 0..2 are not recoverable from the listings, so no R/G/B names are added. The core map (core.json) carries the same row.",
+    "action": "replace with #include; replace the byte member accesses"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AssetManager.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialRenderer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::CVertexStreams",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Forward declaration of glitch::video::CVertexStreams in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::E_PRIMITIVE_TYPE",
+    "canonical_header": "glitch-video/video_types.hpp",
+    "differences": "using E_PRIMITIVE_TYPE = std::int32_t; identical to the alias in glitch-video/video_types.hpp.",
+    "action": "keep: identical alias; may become #include \"glitch-video/video_types.hpp\""
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Forward declaration of glitch::video::IBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BufferedRenderer.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/GSInit.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/GS_InterruptLoading.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/IrrFactory.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/LightSetManager.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "Forward declaration of glitch::video::CLight in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/LightSetManager.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MaterialData.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MaterialData.hpp",
+    "class": "glitch::video::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialRenderer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SceneManager.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SceneManager.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowModularSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowModularSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SlotContainer.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/XrayModularSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/XrayModularSkinnedMeshSceneNode.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "The stand-in is an empty class over IReferenceCounted (it exists so that boost::intrusive_ptr<CMeshBuffer> can drop). The canonical class (u1-scene) has the layout of the constructor 0x6b88a8: count +0x04 (0), three zeroed words +0x08..+0x10, intrusive_ptr<CVertexStreams> at +0x14 (CVertexStreams::allocate writes it), an embedded CPrimitiveStream at +0x18..+0x2f (the constructor copies the stream: index buffer with a use at +0x18, offset +0x1c, count +0x20, vertex start +0x24, vertex end +0x28, index type +0x2c, primitive type +0x2e), owner +0x30 and the byte +0x34 = 1. Video notes for the scene domain: +0x14 is a counted intrusive_ptr<video::CVertexStreams> (count at its +0x00), and +0x18..+0x2f is exactly video::CPrimitiveStream (glitch-video/primitive_stream.hpp), whose vertex start / end are the two words the scene header passes to computeBoundingBox. game/include/dh2/SceneManager.hpp documents the redefinition clash between this stand-in and layouts/scene.hpp. The binary decides: the scene header is right.",
+    "action": "replace with #include of the scene canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CImage",
+    "canonical_header": "glitch-video/image.hpp",
+    "differences": "The stand-in is an empty class over IReferenceCounted. The canonical CImage has the layout of 0x602028 (vtable 0x978248, count 0 after construction, data +0x08, mip pointers +0x0c, width +0x10, height +0x14, pitch +0x18, size +0x1c, format +0x20, mip count +0x24, flags +0x28 / +0x29) and the full constructor and pixel-operation queue. The class of the same name in glitch-scene-collada-gui is glitch::collada::CImage, a different class. The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "The stand-in derives from IReferenceCounted (count at +0x04, a vtable). The binary has no vtable: the count is the first word (+0x00), the constructors 0x59fe08 / 0x59fef8 store 0 and CLight::allocate / clone add the first use; the release returns the light matrix to the Matrix4Pool. The canonical header defines its own intrusive_ptr_add_ref / intrusive_ptr_release (found by argument-dependent lookup). The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "The stand-in is a bare count (mutable int referenceCounter = 1 at +0x00) with intrusive_ptr_add_ref / release that delete. The canonical class keeps the same first-word count as m_refCount, but the constructor 0x5cbc70 / 0x5cbe58 stores 0 and CMaterial::allocate (0x5cbfec) adds the first use, and it carries the real header (renderer at +0x04, technique +0x08, dirty words +0x0c / +0x10, remap set +0x14, hash words +0x18, name +0x1c). Rename referenceCounter to m_refCount where it is touched by hand; a stand-in object created with the initial count 1 needs CMaterial::allocate or intrusive_ptr<T>(p, true). The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "Same shape as the CMaterial stand-in: a bare count at +0x00 (initial value 1). The canonical class stores 0 in the constructor 0x5d3124 / 0x5d36cc and allocate (0x5d4c48) adds the first use; its header words are the driver +0x04, name +0x08, id +0x0c, parameter count +0x0e, technique count +0x10, value buffer size +0x14, technique table +0x18, pass base +0x1c. m_refCount replaces referenceCounter. The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CVertexStreams",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Stand-in: mutable int referenceCounter = 1 at +0x00, a std::vector<SVertexStream> named streams, field08, count0c, and add_ref / release that delete at zero. Canonical: the same first-word count (m_refCount, constructor 0x5a113c / 0x5a148c stores 0, allocate 0x5a1270 adds the first use), m_streams, m_field08, m_count0c, plus m_attributeMask +0x04, m_streamCount0d +0x0d, m_flags +0x0e (3 after construction) and the trailing block of 24 * count0c + 24 bytes (m_quantization). Renames in src/r1-glitch-core-io-glitch_io-5e759c-0.cpp (getVertexStreamsStride, loadHeadersAndSkipData, loadVS, save): streams -> m_streams, field08 -> m_field08, count0c -> m_count0c; new CVertexStreams() wrapped with intrusive_ptr(table) must become CVertexStreams::allocate(...) or intrusive_ptr<CVertexStreams>(new CVertexStreams(...), true) (the stand-in is born with 1, the canonical class with 0). The file reads and discards the trailing block and the flags word that the canonical class keeps. The binary decides: the canonical class is right.",
+    "action": "replace with #include; rename the members; fix the initial count"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CVideoModeList",
+    "canonical_header": "glitch-video/video_mode_list.hpp",
+    "differences": "The stand-in is a default-constructible empty class. The canonical header has IVideoModeList (vptr, count at +0x04, five pure slots +0x0c getVideoModeCount .. +0x1c getDesktopDepth; D1 0x671434) and CVideoModeList (vtable 0x98ae08, size 0x20: mode array +0x08..+0x10, desktop resolution +0x14, desktop depth +0x1c; the constructors store the count 1). glitch::IDevice (os/device.hpp) embeds one by value at +0x3c and IDevice::getVideoModeList() (0x67143c) returns this + 0x3c, so device.hpp needs the complete type; the class gained a vptr, which the embedded object has in the binary too (+0x5c starts the creation parameters). The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Forward declaration used only to declare the stand-in SVertexStream before IBuffer; same namespace and class key as the canonical class.",
+    "action": "keep: matching forward declaration (goes away with the stand-in SVertexStream)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "The stand-in is IReferenceCounted plus data (+0x08), size (+0x0c) and a std::vector storage that owns the bytes. The canonical IBuffer is abstract (six pure slots +0x0c bindImpl, +0x10 unbindImpl, +0x14 mapImpl, +0x18 unmapImpl, +0x1c getMappedPtr, +0x20 cloneImpl; vtable 44 bytes) and its constructor (type, usage, size, data, flags) 0x5a1908 / 0x5a197c stores the count 0; it owns its data through the flag byte at +0x12 (kFlagOwnsData) and frees it in the destructor (reset(0, nullptr, true)). Members: m_data +0x08, m_size +0x0c, m_type +0x10, m_usage +0x11, m_flags12, m_mapCount13. In glitch_io.cpp the code that does make_shared<IBuffer>() / storage.assign / data / size (makeSharedBuffer, loadPS, loadVS, save) must go through IVideoDriver::createBuffer and m_data / m_size. The binary decides: the canonical class is right.",
+    "action": "replace with #include; rename data/size to m_data/m_size and create buffers through the driver"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IShader",
+    "canonical_header": "glitch-video/shader_attributes.hpp",
+    "differences": "The stand-in is an empty class over IReferenceCounted. The canonical IShader is abstract (vtable 32 bytes: +0x0c serializeAttributes, +0x10 deserializeAttributes, +0x14 releaseDriverSpecificResources pure), its constructor (id, name, IVideoDriver*) 0x5e4a4c / 0x5e4ae0 stores the count 0, and it holds the driver +0x08, name +0x0c, vertex attribute defs +0x24, two stage parameter lists +0x28 / +0x30, attribute mask +0x38, def count +0x3c and id +0x40. The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IShaderCode",
+    "canonical_header": "glitch-video/shader_code.hpp",
+    "differences": "The stand-in is an empty class over IReferenceCounted. The canonical IShaderCode is abstract (two pure slots +0x0c / +0x10, vtable 28 bytes), constructed from a name (0x6e2130 / 0x6e2178, count 0, name at +0x08). The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "The stand-in is IReferenceCounted plus slotType at +0x38. The canonical ITexture is abstract (six pure slots +0x0c bindImpl, +0x10 unbindImpl, +0x14 mapImpl, +0x18 unmapImpl, +0x1c getMappedPtr, +0x20 generateMipmapsImpl; vtable 44 bytes) and its constructor (name, IVideoDriver*, STextureDesc) 0x5fe404 / 0x5fe6e0 stores the count 0, so a new texture is wrapped with boost::intrusive_ptr<ITexture>(p, true). slotType is the packed state word m_flags38 at +0x38 (bits 0-1 = texture type, which selects the parameter code 12..15). The class also has lock(bool) 0x5fe300, unlock() 0x5fdc84, unmap() const 0x5fdc0c, getPitch 0x5ea504 and getDriverType 0x5fdbf0, which vendor-gameswf (bitmap_info_ogl.hpp and its two sources include this header, note M1 in v1-vendor-gameswf-bitmap_info_ogl-434136-0.cpp) asks for. The binary decides: the canonical class is right.",
+    "action": "replace with #include; rename slotType to m_flags38"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "The stand-in is an empty class over glitch::IReferenceCounted: it can be constructed and has no virtual slots. The canonical class is abstract: its vtable (_ZTVN6glitch5video12IVideoDriverE) is 544 bytes, 134 slots from +0x00 to +0x214 (CNullDriver adds four, 560 bytes), and the constructor 0x5aaf1c / 0x5ab2f8 (IDevice*, IShaderManager*, CMaterialRendererManager*, CTextureManager*, CGlobalMaterialParameterManager*, intrusive_ptr<CLight> const&) stores the count 1 at +0x04, the device at +0xd4 and the texture manager at +0xe0. Consumers in glitch-core-io: io/interfaces.hpp (forward declaration), tb/glitch_io.hpp (the driver argument of loadPS, loadVS, loadMB), and attributes_context.cpp:50, typed_attributes.cpp:450 and :525, which do ++driver->referenceCounter; those three need the complete type, so they include glitch-video/video_driver.hpp. The binary decides: the canonical class is right.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::SVertexStream",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Same members and offsets (buffer +0x00, offset +0x04, attribute +0x08, field0a +0x0a value type, field0c +0x0c component count, field0e +0x0e stride) except the buffer: the stand-in holds std::shared_ptr<IBuffer>, the canonical entry holds boost::intrusive_ptr<IBuffer> (the stream adds and drops a use of the buffer, ctor 0x5a113c copies the buffer and increments its count at +0x04). glitch_io.cpp (loadVS) must create the buffer through the driver (IVideoDriver::createBuffer, vtable +0x78) instead of std::make_shared. The binary decides: the canonical entry is right.",
+    "action": "replace with #include; hold the buffer in boost::intrusive_ptr"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/io/interfaces.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/tb/cprimitivestream.hpp",
+    "class": "glitch::video::CPrimitiveStream",
+    "canonical_header": "glitch-video/primitive_stream.hpp",
+    "differences": "The io view has the right offsets: buffer +0x00, offset +0x04, count +0x08, two header words +0x0c / +0x10, indexType +0x14, primitiveType +0x16. The canonical class names them: m_indexBuffer (boost::intrusive_ptr<IBuffer>), m_offset, m_count, m_vertexStart (+0x0c, \"VertexStart\" in serializeAttributes 0x5a0524), m_vertexEnd (+0x10, \"VertexEnd\"), m_indexType, m_primitiveType, and adds the nested SMapBuffer<T> (0x5911a0) and getPrimitiveCount (0x5a0300) and the (de)serializers 0x5a03fc / 0x5a0524. The io header comment \"0 none, 1 16-bit, 2 32-bit\" is wrong for the none case: the stream has no index buffer when indexType is 0xff (the default, and what loadPS tests); 1 is 16-bit and 2 is 32-bit. io::SPrimitiveStreamDesc.unk_10 / unk_14 (tb/glitch_io.hpp) are the same VertexStart / VertexEnd words in file order (primitive type, index type, count, primitive count, vertex start, vertex end). Renames in src/r1-glitch-core-io-glitch_io-5e759c-0.cpp (save, loadPS): buffer -> m_indexBuffer, offset -> m_offset, count -> m_count, unk_0c -> m_vertexStart, unk_10 -> m_vertexEnd, indexType -> m_indexType, primitiveType -> m_primitiveType; stream.buffer->data -> m_indexBuffer->m_data. The binary decides: the canonical names are right.",
+    "action": "replace with #include; rename the members"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/src/tb_core-io-boost_intrusive_ptr_glitch_video_CVertexStreams_-0.cpp",
+    "class": "release_intrusive_ptr_CVertexStreams_const (0x35eb90)",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "The helper writes out the release of boost::intrusive_ptr<CVertexStreams const> (count at +0x00, on 1 run ~CVertexStreams then CustomFree). That is the canonical inline intrusive_ptr_release(const CVertexStreams*) in glitch-video/vertex_streams.hpp (m_refCount-- == 1 then delete, i.e. the destructor 0x5a0a1c and the free); the canonical counting intrusive_ptr destructor instantiates it, so the helper is not needed. The binary decides: both are the same sequence; one definition remains.",
+    "action": "replace with the canonical intrusive_ptr destructor; delete this helper with the stand-in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_database.hpp",
+    "class": "glitch::collada::SLight",
+    "canonical_header": "(none: glitch::collada::SLight is a Collada database record)",
+    "differences": "glitch::collada::SLight is the record of a <light> element in the Collada database, not glitch::video::CMaterial / CLight (the video classes have no S-prefixed type of this name). Different namespace and different class.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_database.hpp",
+    "class": "glitch::collada::SMaterial",
+    "canonical_header": "(none: glitch::collada::SMaterial is a Collada database record)",
+    "differences": "glitch::collada::SMaterial is the record of a <material> element in the Collada database, not glitch::video::CMaterial / CLight (the video classes have no S-prefixed type of this name). Different namespace and different class.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "Forward declaration of glitch::scene::CMeshBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (the scene canonical header defines it)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "Forward declaration of glitch::scene::CMeshBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (the scene canonical header defines it)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/video_stand_ins.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/video_stand_ins.hpp",
+    "class": "glitch::video::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialRenderer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/video_stand_ins.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_elements.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_db.hpp",
+    "class": "glitch::collada::SLight",
+    "canonical_header": "(none: glitch::collada::SLight is a Collada database record)",
+    "differences": "glitch::collada::SLight is the record of a <light> element in the Collada database, not glitch::video::CMaterial / CLight (the video classes have no S-prefixed type of this name). Different namespace and different class.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_db.hpp",
+    "class": "glitch::collada::SMaterial",
+    "canonical_header": "(none: glitch::collada::SMaterial is a Collada database record)",
+    "differences": "glitch::collada::SMaterial is the record of a <material> element in the Collada database, not glitch::video::CMaterial / CLight (the video classes have no S-prefixed type of this name). Different namespace and different class.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_db.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_members.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "Forward declaration of glitch::scene::CMeshBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (the scene canonical header defines it)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_members.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::video::IVideoModeList",
+    "canonical_header": "glitch-video/video_mode_list.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoModeList in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_05.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Forward declaration of glitch::video::IBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_05.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_14.hpp",
+    "class": "glitch::video::SColor",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Forward declaration of glitch::video::SColor in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_18, so it names a different type than glitch::video::CMaterialRenderer (the functions of the slice take glitch::video::CMaterialRenderer*, whose mangled names this declaration cannot match). The canonical CMaterialRenderer is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::CMaterialRenderer;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::CMaterialRendererManager",
+    "canonical_header": "glitch-video/material_renderer_manager.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_18, so it names a different type than glitch::video::CMaterialRendererManager (the functions of the slice take glitch::video::CMaterialRendererManager*, whose mangled names this declaration cannot match). The canonical CMaterialRendererManager is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::CMaterialRendererManager;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_18, so it names a different type than glitch::video::IVideoDriver (the functions of the slice take glitch::video::IVideoDriver*, whose mangled names this declaration cannot match). The canonical IVideoDriver is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::IVideoDriver;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_22, so it names a different type than glitch::video::CMaterial (the functions of the slice take glitch::video::CMaterial*, whose mangled names this declaration cannot match). The canonical CMaterial is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::CMaterial;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_22, so it names a different type than glitch::video::CMaterialVertexAttributeMap (the functions of the slice take glitch::video::CMaterialVertexAttributeMap*, whose mangled names this declaration cannot match). The canonical CMaterialVertexAttributeMap is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::CMaterialVertexAttributeMap;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_22, so it names a different type than glitch::video::IVideoDriver (the functions of the slice take glitch::video::IVideoDriver*, whose mangled names this declaration cannot match). The canonical IVideoDriver is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::IVideoDriver;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_30.hpp",
+    "class": "glitch::collada::recon_30::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "An incomplete declaration in the slice-local namespace glitch::collada::recon_30, so it names a different type than glitch::video::CMeshBuffer (the functions of the slice take glitch::video::CMeshBuffer*, whose mangled names this declaration cannot match). The canonical CMeshBuffer is the only definition.",
+    "action": "replace with #include; delete the local declaration and add `using glitch::video::CMeshBuffer;`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "Forward declaration of glitch::video::CLight in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_32.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "Forward declaration of glitch::scene::CMeshBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (the scene canonical header defines it)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_32.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "This is the canonical CMeshBuffer of the scene domain (u1-scene). Video-side facts to merge into its +0x14 / +0x18 members: vertexStreams is boost::intrusive_ptr<video::CVertexStreams> (the constructor 0x6b88a8 calls CVertexStreams::allocate on the address of +0x14), and primitiveStream / primitiveWord_1c..primitiveHalf_2e are one embedded video::CPrimitiveStream (+0x18 intrusive_ptr<IBuffer> m_indexBuffer, +0x1c m_offset, +0x20 m_count, +0x24 m_vertexStart, +0x28 m_vertexEnd, +0x2c m_indexType, +0x2e m_primitiveType), copied member by member with a use of the index buffer. glitch-video declares scene::CMeshBuffer in video_types.hpp and uses it by pointer in IVideoDriver::draw (+0x58) and drawMeshBuffer.",
+    "action": "keep: canonical (u1-scene); adopt the video member types"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "class": "glitch::video::CPrimitiveStream",
+    "canonical_header": "glitch-video/primitive_stream.hpp",
+    "differences": "Forward declaration of glitch::video::CPrimitiveStream in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "class": "glitch::video::CBatchDriver",
+    "canonical_header": "glitch-video/video_types.hpp (forward declaration only: the class is not reconstructed yet)",
+    "differences": "Forward declaration of glitch::video::CBatchDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/SViewFrustum.hpp",
+    "class": "glitch::video::E_TRANSFORMATION_STATE",
+    "canonical_header": "glitch-video/video_types.hpp",
+    "differences": "using E_TRANSFORMATION_STATE = std::int32_t; identical to the alias in glitch-video/video_types.hpp (the enumerator values are not recovered, so the type stays an int32_t alias).",
+    "action": "keep: identical alias; may become #include \"glitch-video/video_types.hpp\""
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp (owned by the scene domain; glitch-video only forward-declares it in video_types.hpp)",
+    "differences": "Forward declaration of glitch::scene::CMeshBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (the scene canonical header defines it)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "Forward declaration of glitch::video::CLight in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::CMaterialRenderer",
+    "canonical_header": "glitch-video/material_renderer.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialRenderer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::CVertexStreams",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Forward declaration of glitch::video::CVertexStreams in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Forward declaration of glitch::video::IBuffer in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "Forward declaration of glitch::video::CLight in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::video::CMaterial",
+    "canonical_header": "glitch-video/material.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterial in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::video::CMaterialVertexAttributeMap",
+    "canonical_header": "glitch-video/material_vertex_attribute_map.hpp",
+    "differences": "Forward declaration of glitch::video::CMaterialVertexAttributeMap in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/skinned_mesh.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_CImage.hpp",
+    "class": "glitch::collada::CImage",
+    "canonical_header": "glitch-video/image.hpp",
+    "differences": "glitch::collada::CImage is the Collada <image> element record, not the software image glitch::video::CImage (glitch-video/image.hpp). Different namespace and different class.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Stand-in for the two members createTriangles calls: map(std::int32_t access) (non-const) and unmap() (non-const). The canonical IBuffer has map(E_BUFFER_READ_MAP_ACCESS) const at 0x5a1adc (the batch passes the constant 1) and unmap() const at 0x637a68, plus the non-const map(E_BUFFER_MAP_ACCESS) 0x5a19f0; both aliases are int32_t, so a call on a non-const buffer picks the writing overload. createTriangles must call the read mapping through a const reference. The binary decides: the canonical class is right.",
+    "action": "replace with #include; call map through a const IBuffer&"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene.hpp",
+    "class": "glitch::video::SVertexStream",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "The stand-in uses a raw IBuffer* buffer and the names valueType (+0x0a), componentCount (+0x0c), stride (+0x0e). The canonical entry holds boost::intrusive_ptr<IBuffer> and names the three words field0a (value type, index into SVertexAttributeTypeInspection::ValueTypeSize), field0c (component count) and field0e (per-vertex stride); offsets and sizes agree (16 bytes). The binary decides: the canonical names are right.",
+    "action": "replace with #include; rename valueType/componentCount/stride to field0a/field0c/field0e"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/src/tb_scene-collada-gui-glitch_CAndroidOSDevice-0.cpp",
+    "class": "glitch::video::CNullDriver",
+    "canonical_header": "glitch-video/null_driver.hpp",
+    "differences": "Forward declaration of glitch::video::CNullDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/shared/include/glitch-shared/glitch_core.hpp",
+    "class": "glitch::video::SColor and glitch::video::SColorf",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "These are the canonical colour value types and stay in glitch-shared (the core agent edits that file): SColor is one uint32 (component 0 = low byte, byte 3 = alpha) with getInterpolated (0x540f8c); SColorf is four floats r, g, b, a (+0x00..+0x0c). glitch-video includes them through glitch-video/deps/glitch_core.hpp and needs no further change: CLight stores three SColorf, IVideoDriver takes SColor by value, CImage::setPixel/getPixel use SColor.",
+    "action": "keep: canonical value types (owned by the core domain)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/bitmap_info_ogl.hpp",
+    "class": "glitch::video::CImage",
+    "canonical_header": "glitch-video/image.hpp",
+    "differences": "Forward declaration of glitch::video::CImage in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/bitmap_info_ogl.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/bitmap_info_ogl.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/gameswf_dh2_runtime.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/gameswf_scene_node.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp",
+    "class": "glitch::video::CVertexStreams",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Forward declaration of glitch::video::CVertexStreams in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Forward declaration of glitch::video::ITexture in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vendor-gameswf/include/vendor-gameswf/render_handler_glitch.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Forward declaration of glitch::video::IVideoDriver in the same namespace as the canonical definition; it commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by #include \"glitch-video/video_types.hpp\")"
+  }
+]

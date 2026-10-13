@@ -1,4 +1,5 @@
 // Accessor checks for the glitch::gui element and widget fields.
+#include "glitch-core-io/io/interfaces.hpp"  // complete io::IFileSystem for the environment handle
 #include "glitch-scene-collada-gui/gui_elements.hpp"
 #include "glitch-scene-collada-gui/gui_simple_accessors.hpp"
 

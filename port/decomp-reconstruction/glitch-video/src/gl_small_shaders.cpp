@@ -7,8 +7,8 @@ namespace glitch::video {
 
 // 0x6df0d4 _ZN6glitch5video11CGLSLShaderC1EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE
 // 0x6df130 _ZN6glitch5video11CGLSLShaderC2EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE
-// Partial: the IShader base constructor is not ported, so the driver argument is not stored.
-CGLSLShader::CGLSLShader(CProgrammableGLDriver*) {}
+// Partial: the base is built without a driver (CProgrammableGLDriver is not an IVideoDriver in the port).
+CGLSLShader::CGLSLShader(CProgrammableGLDriver*) : IShader(0, "", nullptr) {}
 
 // 0x6de878 _ZNK6glitch5video11CGLSLShader19serializeAttributesEPNS_2io11IAttributesE
 void CGLSLShader::serializeAttributes(io::IAttributes*) const {}
@@ -18,12 +18,12 @@ void CGLSLShader::deserializeAttributes(io::IAttributes*) {}
 
 // 0x6df1f0 _ZN6glitch5video11CGLSLShaderC1EtPKcRKN5boost13intrusive_ptrINS0_15CGLSLShaderCodeEEES9_PNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb
 // 0x6df2c4 _ZN6glitch5video11CGLSLShaderC2EtPKcRKN5boost13intrusive_ptrINS0_15CGLSLShaderCodeEEES9_PNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEEb
-// Partial: the IShader base constructor is not ported (id and name are dropped). glAttachShader
-// x2 and the link step are not ported, so a failed link is not undone here.
-CGLSLShader::CGLSLShader(uint16_t, const char*, const boost::intrusive_ptr<CGLSLShaderCode>& first,
+// Partial: the base is built without a driver. glAttachShader x2 and the link step are not ported, so a failed link
+// is not undone here.
+CGLSLShader::CGLSLShader(uint16_t id, const char* name, const boost::intrusive_ptr<CGLSLShaderCode>& first,
                          const boost::intrusive_ptr<CGLSLShaderCode>& second, CProgrammableGLDriver* driver,
                          bool link)
-    : m_firstCode(first), m_secondCode(second) {
+    : IShader(id, name, nullptr), m_firstCode(first), m_secondCode(second) {
     (void)driver;
     (void)link;
     m_unknown50 = 0;

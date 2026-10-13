@@ -24,150 +24,11 @@ void CLightSceneNode_ctor_C1(scene::CLightSceneNode&, int, const core::vector3d<
 void CLightSceneNode_ctor_C2(scene::CLightSceneNode&, int, const core::vector3d<float>&, const video::SColorf&,
                              float) {}
 
-// ---- glitch::scene::CMeshSceneNode --------------------------------------------------
-
-// 0x584b90 _ZNK6glitch5scene14CMeshSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: the base serializer and the IAttributes slot writing "Mesh" are not mapped.
-void CMeshSceneNode_serializeAttributes(const scene::CMeshSceneNode&, io::IAttributes*,
-                                        io::SAttributeReadWriteOptions*) {}
-
-// 0x584ed0 _ZN6glitch5scene14CMeshSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: the mesh lookup through CSceneManager::getMesh and the IAttributes string read are not mapped.
-void CMeshSceneNode_deserializeAttributes(scene::CMeshSceneNode&, io::IAttributes*,
-                                          io::SAttributeReadWriteOptions*) {}
-
-// ---- glitch::scene::CTriangleSelector -----------------------------------------------
-
-// 0x5871c8 _ZNK6glitch5scene17CTriangleSelector12TestWithLineERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE
-// Partial: the per-triangle loop is not rebuilt; triangle3d::getIntersectionWithLineSegment and AddResult are not mapped.
-bool CTriangleSelector_TestWithLine(const scene::CTriangleSelector&, std::vector<core::triangle3d<float>>&) {
-    return false;
-}
-
-// ---- glitch::scene::CSceneManagerRootNode -------------------------------------------
-
-// 0x588f84 _ZNK6glitch5scene21CSceneManagerRootNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: forwards through the first vtable slot of the scene-manager member at +0x110; that slot is not named yet.
-void CSceneManagerRootNode_serializeAttributes(const scene::CSceneManagerRootNode&, io::IAttributes*,
-                                               io::SAttributeReadWriteOptions*) {}
-
-// 0x588fb0 _ZN6glitch5scene21CSceneManagerRootNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: forwards through the second vtable slot of the scene-manager member; the slot is not named yet.
-void CSceneManagerRootNode_deserializeAttributes(scene::CSceneManagerRootNode&, io::IAttributes*,
-                                                 io::SAttributeReadWriteOptions*) {}
-
-// ---- glitch::scene::CSceneManager ---------------------------------------------------
-
-// 0x588fe8 _ZNK6glitch5scene13CSceneManager19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: writes "Name", "Id" and "AmbientLight"; the name and id come through unnamed vtable slots of the driver/file-system members.
-void CSceneManager_serializeAttributes(const scene::CSceneManager&, io::IAttributes*,
-                                       io::SAttributeReadWriteOptions*) {}
-
-// 0x589128 _ZN6glitch5scene13CSceneManager18registerSceneNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-// Partial: calls the scene manager's virtual slot +0x28 on each node; that slot is not named yet.
-void CSceneManager_registerSceneNodes(scene::CSceneManager&, const std::vector<scene::ISceneNode*>&) {}
-
-// 0x589168 _ZN6glitch5scene13CSceneManager25registerSceneNodesCompileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-// Partial: calls the scene manager's virtual slot +0x30 on each node; that slot is not named yet.
-void CSceneManager_registerSceneNodesCompile(scene::CSceneManager&, const std::vector<scene::ISceneNode*>&) {}
-
-// 0x58b6c8 _ZN6glitch5scene13CSceneManager15collectAllNodesERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE
-// Partial: the per-node recursive overload (taking an ISceneNode*) is not declared in the scene manager header yet.
-void CSceneManager_collectAllNodes(scene::CSceneManager&, const std::vector<scene::ISceneNode*>&) {}
-
-// 0x58bbc4 _ZN6glitch5scene13CSceneManager21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: the body is not rebuilt; needs the CSceneManager member layout and the IAttributes read slots.
-void CSceneManager_deserializeAttributes(scene::CSceneManager&, io::IAttributes*,
-                                         io::SAttributeReadWriteOptions*) {}
-
-// 0x58c4a4 _ZN6glitch5scene13CSceneManager12readUserDataEPNS_2io13IIrrXMLReaderIwNS_17IReferenceCountedEEEPNS0_10ISceneNodeEPNS0_24ISceneUserDataSerializerE
-// Partial: the XML reader slots and the user-data serializer virtuals are not mapped.
-void CSceneManager_readUserData(scene::CSceneManager&, void*, scene::ISceneNode*, scene::ISceneUserDataSerializer*) {}
-
-// 0x58c644 _ZN6glitch5scene13CSceneManager13readAnimatorsEPNS_2io13IIrrXMLReaderIwNS_17IReferenceCountedEEEPNS0_10ISceneNodeE
-// Partial: needs the XML reader slots and the animator factory calls.
-void CSceneManager_readAnimators(scene::CSceneManager&, void*, scene::ISceneNode*) {}
-
-// 0x58c8dc _ZN6glitch5scene13CSceneManager13readMaterialsEPNS_2io13IIrrXMLReaderIwNS_17IReferenceCountedEEEPNS0_10ISceneNodeE
-// Partial: needs the XML reader slots and the material-read helpers.
-void CSceneManager_readMaterials(scene::CSceneManager&, void*, scene::ISceneNode*) {}
-
-// 0x58d908 _ZN6glitch5scene13CSceneManagerC1EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE
-// Partial: the ISceneNode base constructor, the member tables and the mesh-cache setup are not mapped.
-void CSceneManager_ctor_C1(scene::CSceneManager&, video::IVideoDriver*, const void*, void*, void*, void*) {}
-
-// 0x58ddd0 _ZN6glitch5scene13CSceneManagerC2EPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS_2io11IFileSystemEEEPNS_3gui14ICursorControlEPNS0_10IMeshCacheEPNSC_15IGUIEnvironmentE
-// Partial: same stand-ins as C1.
-void CSceneManager_ctor_C2(scene::CSceneManager&, video::IVideoDriver*, const void*, void*, void*, void*) {}
-
-// 0x58e1e0 _ZN6glitch5scene13CSceneManager13readSceneNodeEPNS_2io13IIrrXMLReaderIwNS_17IReferenceCountedEEEPNS0_10ISceneNodeEPNS0_24ISceneUserDataSerializerE
-// Partial: needs the XML reader slots and the per-type scene node factory calls.
-scene::ISceneNode* CSceneManager_readSceneNode(scene::CSceneManager&, void*, scene::ISceneNode*,
-                                               scene::ISceneUserDataSerializer*) {
-    return nullptr;
-}
-
-// 0x58fd10 _ZN6glitch5scene13CSceneManager15compileInternalERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEEPNS0_15CBatchSceneNodeEbPNS0_23ISegmentCompileCallbackEPNS0_27ISplitSegmentChoiceCallbackE
-// Partial: the segment compile pass is not rebuilt; needs the batch-node and segment-callback virtuals.
-scene::CBatchSceneNode* CSceneManager_compileInternal(scene::CSceneManager&, const std::vector<scene::ISceneNode*>&,
-                                                      scene::CBatchSceneNode* batch, bool,
-                                                      scene::ISegmentCompileCallback*,
-                                                      scene::ISplitSegmentChoiceCallback*) {
-    return batch;
-}
-
-// 0x58fee0 _ZN6glitch5scene13CSceneManager7compileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEEPNS0_15CBatchSceneNodeEbPNS0_23ISegmentCompileCallbackEPNS0_27ISplitSegmentChoiceCallbackEj
-// Partial: the original first sets the compile-state flags word (+0x25c) and the flag byte (+0x260 = 1) on the state object at this+0x1c; that state struct is not mapped yet, so only the call is kept.
-scene::CBatchSceneNode* CSceneManager_compile(scene::CSceneManager& self, const std::vector<scene::ISceneNode*>& nodes,
-                                              scene::CBatchSceneNode* batch, bool flag,
-                                              scene::ISegmentCompileCallback* segmentCallback,
-                                              scene::ISplitSegmentChoiceCallback* splitCallback,
-                                              std::uint32_t) {
-    return CSceneManager_compileInternal(self, nodes, batch, flag, segmentCallback, splitCallback);
-}
-
-// 0x58ff10 _ZN6glitch5scene13CSceneManager7compileERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEEPNS0_15CBatchSceneNodeEbPNS0_23ISegmentCompileCallbackEPNS0_27ISplitSegmentChoiceCallbackENS5_8vector3dIfEE
-// Partial: the original copies the vector3d extent into the compile-state struct (+0x250..+0x258) and clears the flag byte (+0x260); that state struct is not mapped yet, so only the call is kept.
-scene::CBatchSceneNode* CSceneManager_compile(scene::CSceneManager& self, const std::vector<scene::ISceneNode*>& nodes,
-                                              scene::CBatchSceneNode* batch, bool flag,
-                                              scene::ISegmentCompileCallback* segmentCallback,
-                                              scene::ISplitSegmentChoiceCallback* splitCallback,
-                                              const core::vector3d<float>&) {
-    return CSceneManager_compileInternal(self, nodes, batch, flag, segmentCallback, splitCallback);
-}
-
-// ---- glitch::scene::ISceneNode ------------------------------------------------------
-
-// 0x5972a4 _ZNK6glitch5scene10ISceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: writes Name, Id, Position, Rotation, Scale, Visible, AutomaticCulling, IsDebugObject, and Camera Offset and Rendering Layer for option value 2; the IAttributes slots and the vtable getters are not mapped.
-void ISceneNode_serializeAttributes(const scene::ISceneNode&, io::IAttributes*, io::SAttributeReadWriteOptions*) {}
-
-// 0x598058 _ZN6glitch5scene10ISceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: reads the same keys as the serializer; the IAttributes read slots and the setter virtuals are not mapped.
-void ISceneNode_deserializeAttributes(scene::ISceneNode&, io::IAttributes*, io::SAttributeReadWriteOptions*) {}
-
-// 0x5990c0 _ZN6glitch5scene10ISceneNodeC2EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_
-// Partial: the IObject base, the name string base, the transform defaults (identity rotation, unit scale, bounding box) and updateAbsolutePosition are not mapped.
-void ISceneNode_ctor_C2(scene::ISceneNode&, int, const core::vector3d<float>&, const core::quaternion&,
-                        const core::vector3d<float>&) {}
-
-// 0x599268 _ZN6glitch5scene10ISceneNodeC1EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_
-// Partial: the C1 variant sets the virtual-base vtable pointers; the vtable and virtual-base layout are not mapped.
-void ISceneNode_ctor_C1(scene::ISceneNode&, int, const core::vector3d<float>&, const core::quaternion&,
-                        const core::vector3d<float>&) {}
-
 // ---- glitch::collada::CCoronasSceneNode --------------------------------------------
 
 // 0x60f8b8 _ZN6glitch7collada17CCoronasSceneNode11setMaterialERNS0_9SMaterialEPNS_5video12IVideoDriverE
 // Partial: the root-node material lookup (CRootSceneNode::getMaterial on the root at +0x200) and the intrusive reference handling of the material slot at +0x168 are not rebuilt.
 void CCoronasSceneNode_setMaterial(CCoronasSceneNode&, SMaterial&, video::IVideoDriver*) {}
-
-// ---- glitch::collada::CAnimationStreamingManager ------------------------------------
-
-// 0x60c59c _ZN6glitch7collada26CAnimationStreamingManager17getAnimationBlockERNS0_24SAnimationBlockSearchKeyERN5boost13intrusive_ptrINS0_15CAnimationBlockEEE
-// Partial: the block lookup on the held block and the manager-level lookup are not declared yet; intrusive reference counting is not modelled.
-void CAnimationStreamingManager_getAnimationBlock(CAnimationStreamingManager&, SAnimationBlockSearchKey&,
-                                                  boost::intrusive_ptr<CAnimationBlock>&) {}
 
 // ---- glitch::collada::CColladaDatabase constructors ---------------------------------
 
@@ -344,12 +205,6 @@ void CModularSkinnedMeshSceneNode_deserializeAttributes(CModularSkinnedMeshScene
 void CModularSkinnedMeshSceneNode_serializeAttributes(const CModularSkinnedMeshSceneNode&, io::IAttributes*,
                                                       io::SAttributeReadWriteOptions*) {}
 
-// 0x64afec _ZN6glitch7collada13CMorphingMesh27onPrepareBufferForRenderingENS0_21E_PREPARE_BUFFER_STEPEPNS_5video12IVideoDriverEj
-// Partial: the process-buffer path (driver slot +0x38 and the material technique) is not mapped; returns the driver-side value only in the original.
-std::uint32_t CMorphingMesh_onPrepareBufferForRendering(CMorphingMesh&, int, video::IVideoDriver*, std::uint32_t) {
-    return 16;
-}
-
 // 0x658564 _ZN6glitch7collada15CResFileManager23updateExternalResourcesEPNS0_8CResFileEPNS_2io9IReadFileE
 // Partial: the external-resource loop and its log output go through the os::Printer and file-manager virtuals, which are not mapped.
 void CResFileManager_updateExternalResources(CResFileManager&, CResFile*, io::IReadFile*) {}
@@ -379,16 +234,6 @@ video::CMaterial* CRootSceneNode_getMaterial(CRootSceneNode&, SMaterial*, video:
     return nullptr;
 }
 
-// 0x65d540 _ZN6glitch7collada18CSceneNodeAnimator21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Reconstructed: the original body is empty (the attribute read is a no-op for this animator).
-void CSceneNodeAnimator_deserializeAttributes(CSceneNodeAnimator&, io::IAttributes*,
-                                              io::SAttributeReadWriteOptions*) {}
-
-// 0x65df4c _ZNK6glitch7collada18CSceneNodeAnimator19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: writes BlendOutWeight (float), Start and End and Length (milliseconds / 1000), Interpolation Type (enum string list), Binded to (target name) and Source; the IAttributes slots and the ISceneNodeAnimator base are not mapped.
-void CSceneNodeAnimator_serializeAttributes(const CSceneNodeAnimator&, io::IAttributes*,
-                                            io::SAttributeReadWriteOptions*) {}
-
 // 0x665004 _ZN6glitch7collada12CSkinnedMesh27onPrepareBufferForRenderingENS0_21E_PREPARE_BUFFER_STEPEPNS_5video12IVideoDriverEj
 // Partial: the skin-technique reverify and the per-buffer driver calls are not rebuilt; the mesh buffer table entries are not fully mapped.
 std::uint32_t CSkinnedMesh_onPrepareBufferForRendering(CSkinnedMesh&, int, video::IVideoDriver*, std::uint32_t) {
@@ -401,31 +246,9 @@ int CSkinnedMesh_setTransform(CSkinnedMesh&, video::IVideoDriver*, const core::C
     return 0;
 }
 
-// 0x6676b8 _ZN6glitch7collada5IMesh27onPrepareBufferForRenderingENS0_21E_PREPARE_BUFFER_STEPEPNS_5video12IVideoDriverEj
-// Reconstructed: the base mesh returns the constant 16 for every prepare step.
-std::uint32_t IMesh_onPrepareBufferForRendering(IMesh&, int, video::IVideoDriver*, std::uint32_t) { return 16; }
-
-// 0x6676c8 _ZN6glitch7collada5IMesh12setTransformEPNS_5video12IVideoDriverERKNS_4core8CMatrix4IfEE
-// Partial: the driver transform slot +0x6c is not named; the original passes the constant 1 to it.
-int IMesh_setTransform(IMesh&, video::IVideoDriver*, const core::CMatrix4<float>&) { return 0; }
-
 // 0x669b70 _ZN6glitch7collada12ISkinnedMesh12setTransformEPNS_5video12IVideoDriverERKNS_4core8CMatrix4IfEE
 // Partial: the identity-matrix path and the driver transform slot +0x6c are not named; the non-identity path is not rebuilt.
 int ISkinnedMesh_setTransform(ISkinnedMesh&, video::IVideoDriver*, const core::CMatrix4<float>&) { return 0; }
-
-// ---- glitch::collada::SAnimationAccessor key-frame search ---------------------------
-
-// 0x66ad8c _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiRKNS_3res6vectorIiEEiRiRf
-// Partial: the cached-frame path and the time-type dispatch (SAnimationAccessor::findKeyFrameNoEx instantiations for unsigned short and 30) are not rebuilt.
-int SAnimationAccessor_findKeyFrameNo(const SAnimationAccessor&, int, const res::vector<int>&, int, int&, float&) {
-    return 0;
-}
-
-// 0x66af74 _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiRKNS_3res6vectorIiEEiRi
-// Partial: same cached-frame and time-type dispatch as the fraction overload; the fraction output is not produced here.
-int SAnimationAccessor_findKeyFrameNo(const SAnimationAccessor&, int, const res::vector<int>&, int, int&) {
-    return 0;
-}
 
 // ---- thunks (forward to glitch::scene::ISceneNode; not reimplemented) ---------------
 

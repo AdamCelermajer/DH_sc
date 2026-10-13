@@ -3,6 +3,7 @@
 #include <cstring>
 
 #include "glitch-core-io/io/typed_attributes.hpp"
+#include "io_stub_files.hpp"
 #include "glitch-core-io/io/stream_itr_loader.hpp"
 
 int main() {
@@ -20,13 +21,14 @@ int main() {
     if (longer[4] != 0 || longer[5] != 0) return 3;
 
     // SStreamItrLoader: big-endian 16-bit elements are stored as host values.
-    class Reader : public glitch::io::IReadFile {
+    class Reader : public glitch::io::testing::StubReadFile {
     public:
         const unsigned char* bytes;
         unsigned int pos = 0;
-        void read(void* buffer, unsigned int count) override {
+        std::int32_t read(void* buffer, std::uint32_t count) override {
             std::memcpy(buffer, bytes + pos, count);
             pos += count;
+            return static_cast<std::int32_t>(count);
         }
     };
     const unsigned char be[4] = {0x12, 0x34, 0xab, 0xcd};

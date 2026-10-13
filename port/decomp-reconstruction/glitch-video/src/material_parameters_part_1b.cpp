@@ -861,21 +861,19 @@ int getParameterArray(const MaterialParameterStore& m, std::uint16_t id, vector2
 // Matrix4Pool (material_parameters.cpp) holds Matrix* nodes and does not take the +0x50 handle.
 void destroyLight(glitch::video::CLight* light) {
     if (light == nullptr) return;
-    light->m_sourceHandle = 0;
-    delete light;
+    delete light;  // ~CLight returns an owned matrix; the original pushes the node onto the Matrix4Pool
 }
 
-// ITexture count add (++ at +0x04). Reconstructed; the port's ITexture keeps the count in m_refCount.
+// ITexture count add (++ at +0x04). Reconstructed; the count is IReferenceCounted::referenceCounter.
 void textureAddRef(glitch::video::ITexture* texture) {
-    if (texture) ++texture->m_refCount;
+    if (texture) ++texture->referenceCounter;
 }
 
-// IReferenceCounted::drop (0x31d584) for an ITexture: decrement the count at +0x04, and on zero free the
-// object. Partial: the original calls onDelete (vtable +0x08) before the deleting destructor (+0x04); the port's
-// ITexture has no vtable, so onDelete is not called and the object is freed with delete.
+// IReferenceCounted::drop (0x31d584) for an ITexture: decrement the count at +0x04, and on zero call onDelete
+// (vtable +0x08) and the deleting destructor (+0x04). ITexture derives from IReferenceCounted now, so this is drop().
 void textureDrop(glitch::video::ITexture* texture) {
     if (texture == nullptr) return;
-    if (texture->m_refCount-- == 1) delete texture;
+    texture->drop();
 }
 
 // Packed state word of an ITexture at +0x38 (format, cube and wrap fields). The caller reads bits 0-1 as the

@@ -6,7 +6,9 @@ namespace glitch::video {
 
 // 0x6e2130 _ZN6glitch5video11IShaderCodeC1EPKc
 // 0x6e2178 _ZN6glitch5video11IShaderCodeC2EPKc
-IShaderCode::IShaderCode(const char* name) : m_name(name) {}
+IShaderCode::IShaderCode(const char* name) : m_name(name) {
+    referenceCounter = 0;  // +0x04 (the first intrusive_ptr takes the use)
+}
 
 // 0x6df690 _ZN6glitch5video15CGLSLShaderCodeC1EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE
 // 0x6df6e4 _ZN6glitch5video15CGLSLShaderCodeC2EPNS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEE

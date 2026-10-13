@@ -18,6 +18,7 @@
 
 #include <string>
 
+#include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
@@ -36,9 +37,7 @@ namespace glitch::collada::recon_31 {
 
 struct SAttributeReadWriteOptions;
 class ISceneNode;
-class CBatchMesh;
 class CGUISkin;
-class CSceneManager;
 
 // ---------------------------------------------------------------------------
 // glitch::io::IAttributes (stand-in). Slot offsets are the CAttributes vtable.
@@ -116,94 +115,7 @@ void CSkinnedMeshSceneNode_deserializeAttributes(CSkinnedMeshSceneNode& self, IA
                                                  SAttributeReadWriteOptions* options);
 
 // ---------------------------------------------------------------------------
-// glitch::scene::CSceneManager nested node entries.
-// ---------------------------------------------------------------------------
-class CSceneManager {
-public:
-    struct SDefaultNodeEntry {
-        // 0x350c98 _ZN6glitch5scene13CSceneManager17SDefaultNodeEntryC1EPNS0_10ISceneNodeEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvi
-        SDefaultNodeEntry(ISceneNode* node, boost::intrusive_ptr<glitch::video::CMaterial> material,
-                          void* userData, int sortOrder);
-
-        ISceneNode* node = nullptr;                                 // +0x00
-        void* userData = nullptr;                                   // +0x04
-        boost::intrusive_ptr<glitch::video::CMaterial> material;    // +0x08
-        int sortOrder = 0;                                          // +0x0c
-    };
-
-    struct SDistanceNodeEntry {
-        // 0x350cf4 _ZN6glitch5scene13CSceneManager18SDistanceNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEPv
-        SDistanceNodeEntry(ISceneNode* node, const glitch::core::vector3d<float>& position, void* userData);
-
-        ISceneNode* node = nullptr;   // +0x00
-        float distance = 0.0f;        // +0x04
-        void* userData = nullptr;     // +0x08
-    };
-
-    struct STransparentNodeEntry {
-        // 0x354e8c _ZN6glitch5scene13CSceneManager21STransparentNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvPS8_i
-        STransparentNodeEntry(ISceneNode* node, const glitch::core::vector3d<float>& position,
-                              boost::intrusive_ptr<glitch::video::CMaterial> material, void* userData,
-                              const glitch::core::vector3d<float>* transformed, int sortOrder);
-
-        ISceneNode* node = nullptr;                                 // +0x00
-        void* userData = nullptr;                                   // +0x04
-        boost::intrusive_ptr<glitch::video::CMaterial> material;    // +0x08
-        int sortOrder = 0;                                          // +0x0c
-        float distance = 0.0f;                                      // +0x10
-    };
-};
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CBatchMesh and CBatchSceneNode (stand-ins).
-// ---------------------------------------------------------------------------
-class CBatchMesh {
-public:
-    virtual ~CBatchMesh() = default;
-};
-
-// CBatchMesh::loadSegmentExtraData (0x578920) is an empty body in the original.
-void CBatchMesh_loadSegmentExtraData(CBatchMesh& self, void* extra, glitch::io::IReadFile* file, bool flag);
-
-// Helpers the batch node calls on its mesh; defined with the mesh code.
-int CBatchMesh_sort(CBatchMesh* mesh, glitch::video::IVideoDriver* driver);
-void CBatchMesh_updateBoundingBox(CBatchMesh* mesh);
-void CBatchMesh_initStaticSegmentBoundingBoxes(CBatchMesh* mesh);
-
-class CBatchSceneNode : public ISceneNode {
-public:
-    // The second base subobject (vtable pointer at +0x160) is not modelled.
-    boost::intrusive_ptr<CBatchMesh> mesh;                     // +0x130 (word 76)
-    int automaticCullingMode = 2;                              // +0x134 (word 77)
-    int automaticCulling = 2;                                  // +0x138 (SegmentAutomaticCulling, word 78)
-    int maxIndexCountSolid = 0;                                // +0x13c (word 79)
-    int maxIndexCountTransparent = 0;                          // +0x140 (word 80)
-    int solidBatchCount = -1;                                  // +0x144 (word 81)
-    bool registerSolidBatchesOnce = true;                      // +0x148 (byte 328)
-    int extraCount = 0;                                        // +0x158 (word 86)
-    int visibleIndexCacheCount = 0;                            // +0x154 (word 85)
-    int indexCacheTarget = -1;                                 // +0x15c (word 87)
-    bool hasVisibleIndexCache = false;                         // +0x150 (byte 336)
-    CSceneManager* sceneManager = nullptr;                     // +0x110 (word 68, ctor argument)
-};
-
-// CBatchSceneNode::setVisibleIndexCache is defined with the batch node code.
-void CBatchSceneNode_setVisibleIndexCache(CBatchSceneNode& self, bool enabled);
-void CBatchSceneNode_serializeAttributes(const CBatchSceneNode& self, IAttributes* attributes,
-                                         SAttributeReadWriteOptions* options);
-void CBatchSceneNode_deserializeAttributes(CBatchSceneNode& self, IAttributes* attributes,
-                                           SAttributeReadWriteOptions* options);
-void CBatchSceneNode_setup(CBatchSceneNode& self, bool skipCallback, glitch::video::IVideoDriver* driver);
-
-// Constructors, as init functions. C1 and C2 variants share a body.
-void CBatchSceneNode_init(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh);
-void CBatchSceneNode_initFlag(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh,
-                              bool flag);
-void CBatchSceneNode_initScene(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh,
-                               CSceneManager* sceneManager);
-
-// ---------------------------------------------------------------------------
-// glitch::scene billboard, camera and light nodes.
+// glitch::scene billboard and light nodes.
 // ---------------------------------------------------------------------------
 class IBillboardSceneNode : public ISceneNode {};
 
@@ -224,29 +136,6 @@ void CBillboardSceneNode_serializeAttributes(const CBillboardSceneNode& self, IA
                                              SAttributeReadWriteOptions* options);
 void CBillboardSceneNode_deserializeAttributes(CBillboardSceneNode& self, IAttributes* attributes,
                                                SAttributeReadWriteOptions* options);
-
-class ICameraSceneNode : public ISceneNode {};
-
-class CCameraSceneNode : public ICameraSceneNode {
-public:
-    glitch::core::vector3d<float> target;    // +0x138 (words 78..80)
-    glitch::core::vector3d<float> upVector;  // +0x144 (words 81..83)
-    float fovy = 0.0f;                       // +0x154 (word 85)
-    float aspect = 0.0f;                     // +0x158 (word 86)
-    float zNear = 0.0f;                      // +0x15c (word 87)
-    float zFar = 0.0f;                       // +0x160 (word 88)
-
-    // Object-level virtual; name inferred (vtable +0x158 in the original).
-    virtual void recalculateProjectionMatrix() = 0;
-};
-
-// CCameraSceneNode::recalculateViewArea is defined with the camera code.
-void CCameraSceneNode_recalculateViewArea(CCameraSceneNode& self);
-
-void CCameraSceneNode_serializeAttributes(const CCameraSceneNode& self, IAttributes* attributes,
-                                          SAttributeReadWriteOptions* options);
-void CCameraSceneNode_deserializeAttributes(CCameraSceneNode& self, IAttributes* attributes,
-                                            SAttributeReadWriteOptions* options);
 
 class CLightSceneNode : public ISceneNode {
 public:

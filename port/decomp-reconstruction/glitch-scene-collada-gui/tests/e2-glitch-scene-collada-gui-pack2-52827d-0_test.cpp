@@ -13,16 +13,8 @@
 #include "glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_CMixinPosFloat3.hpp"
 #include "glitch-scene-collada-gui/layouts/animation_track.hpp"
 
-// The batch source also calls out-of-line members of the accessor, the blender and the applicators. Their bodies are
-// not reconstructed in this tree and none is reached by this test, so each is stubbed to abort if called.
-namespace glitch::collada {
-std::uint32_t SAnimationAccessor::getOutput(int) const {
-    std::abort();
-}
-bool SAnimationAccessor::hasDefaultValue() const {
-    std::abort();
-}
-}  // namespace glitch::collada
+// The batch source also calls out-of-line members of the blender and the applicators. Their bodies are not reconstructed in this
+// tree and none is reached by this test, so each is stubbed to abort if called.
 
 namespace glitch::collada::animation_track {
 int CApplyValueEx<::glitch::core::vector3d<float>, CSceneNodePositionMixin<float>>::applyBlendedValueEx(

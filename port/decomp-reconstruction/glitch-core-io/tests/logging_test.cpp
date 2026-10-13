@@ -15,6 +15,8 @@ struct FakeLogger : ILogger {
     void log(const char*, ELOG_LEVEL) override { ++calls; }
     void log(const char*, const char*, ELOG_LEVEL) override { calls += 10; }
     void log(const wchar_t*, ELOG_LEVEL) override { calls += 100; }
+    void log(const wchar_t*, const wchar_t*, ELOG_LEVEL) override { calls += 1000; }
+    void vlogf(ELOG_LEVEL, const char*, std::va_list) override { calls += 10000; }
 };
 
 int main() {
@@ -33,6 +35,11 @@ int main() {
     Printer::log("x", "hint", ELL_ERROR);
     Printer::log(L"x", ELL_ERROR);
     CHECK(fake.calls == 111);
+    // logf forwards through slot +0x24 (vlogf) with the level and the variadic area; ILogger::logf does the same.
+    Printer::logf(ELL_WARNING, "n=%d", 3);
+    CHECK(fake.calls == 10111);
+    fake.logf(ELL_ERROR, "m=%d", 4);
+    CHECK(fake.calls == 20111);
     Printer::Logger = nullptr;
 
     CHECK(!Timer::isStopped());

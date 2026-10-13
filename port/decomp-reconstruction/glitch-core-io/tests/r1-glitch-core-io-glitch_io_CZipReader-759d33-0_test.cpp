@@ -2,6 +2,7 @@
 // split), the heapsort order of the directory with duplicate base names, findFile on base names,
 // and openFile dispatch on the compression method.
 #include "glitch-core-io/io/zip_reader.hpp"
+#include "io_stub_files.hpp"
 
 #include <algorithm>
 #include <cstdio>
@@ -15,13 +16,14 @@ static int failures = 0;
 using namespace glitch::io;
 
 // A read file over a byte string. It has no clone slot, so a CLimitReadFile over it holds no file.
-class BufferFile : public IReadFile {
+class BufferFile : public glitch::io::testing::StubReadFile {
 public:
     explicit BufferFile(std::string bytes) : data(std::move(bytes)) {}
-    void read(void* buffer, unsigned int count) override {
+    std::int32_t read(void* buffer, std::uint32_t count) override {
         std::size_t n = std::min<std::size_t>(count, data.size() - pos);
         std::memcpy(buffer, data.data() + pos, n);
         pos += n;
+        return static_cast<std::int32_t>(n);
     }
     bool seek(long offset, bool relative) override {
         long target = relative ? static_cast<long>(pos) + offset : offset;
@@ -157,7 +159,7 @@ static void testOpenByMethod() {
     CHECK(stored != nullptr);
     if (stored) {
         CHECK(stored->getSize() == 5);
-        CHECK(stored->getFileName() == "one.txt");
+        CHECK(std::string(stored->getFileName()) == "one.txt");
         stored->drop();
     }
     CHECK(zip.openFile(deflatedIndex) == nullptr);  // deflate: zlib is not in the port

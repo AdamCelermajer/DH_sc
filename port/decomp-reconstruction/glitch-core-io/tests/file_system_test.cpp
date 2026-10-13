@@ -13,12 +13,12 @@ static int failures = 0;
 using namespace glitch::io;
 
 int main() {
-    CHECK(std::strcmp(CFileSystem::getWorkingDirectory(), "") == 0);
-
     CFileSystem fs;
+    CHECK(std::strcmp(fs.getWorkingDirectory(), "") == 0);
     CHECK(!fs.changeWorkingDirectoryTo("glitch_no_such_directory_xyz"));
     CHECK(fs.changeWorkingDirectoryTo("."));
-    CHECK(CFileSystem::WorkingDirectory == ".");
+    CHECK(std::strcmp(CFileSystem::WorkingDirectory, ".") == 0);
+    CHECK(std::strcmp(fs.getWorkingDirectory(), ".") == 0);
 
     CHECK(fs.getAbsolutePath("a/b.txt") == "a/b.txt");
     CHECK(fs.getFileDir("a/b/c.txt") == "a/b");
@@ -52,7 +52,7 @@ int main() {
     CHECK(writer != nullptr);
     if (writer) writer->drop();
 
-    CAttributes* attributes = fs.createEmptyAttributes(nullptr);
+    IAttributes* attributes = fs.createEmptyAttributes(nullptr);
     CHECK(attributes != nullptr);
     if (attributes) attributes->drop();
 
@@ -62,12 +62,12 @@ int main() {
 
     // existFile: a missing name is not found; a file written to the working directory is.
     const char* probe = "glitch_core_io_probe.tmp";
-    CHECK(fs.existFile("glitch_core_io_no_such_file.tmp") == 0);
-    CHECK(fs.existFile(std::string("glitch_core_io_no_such_file.tmp")) == 0);
+    CHECK(!fs.existFile("glitch_core_io_no_such_file.tmp"));
+    CHECK(!fs.existFile(std::string("glitch_core_io_no_such_file.tmp")));
     if (std::FILE* f = std::fopen(probe, "wb")) {
         std::fclose(f);
-        CHECK(fs.existFile(probe) == 1);
-        CHECK(fs.existFile(std::string(probe)) == 1);
+        CHECK(fs.existFile(probe));
+        CHECK(fs.existFile(std::string(probe)));
         std::remove(probe);
     }
 

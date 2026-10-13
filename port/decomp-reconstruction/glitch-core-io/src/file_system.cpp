@@ -3,9 +3,11 @@
 #include "glitch-core-io/io/pak_reader.hpp"
 #include "glitch-core-io/io/unzip_reader.hpp"
 #include "glitch-core-io/io/zip_reader.hpp"
+#include "glitch-core-io/tb/glitch_io.hpp"
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -17,7 +19,7 @@
 
 namespace glitch::io {
 
-std::string CFileSystem::WorkingDirectory;
+char CFileSystem::WorkingDirectory[1024] = {};
 
 // 0x56c058 _ZN6glitch2io11CFileSystemC2Ev and 0x56c0a8 _ZN6glitch2io11CFileSystemC1Ev
 // The three archive lists start empty (their default construction zeroes them, as the original
@@ -29,16 +31,19 @@ CFileSystem::CFileSystem() {
 
 // 0x56c214 _ZN6glitch2io11CFileSystem19getWorkingDirectoryEv
 const char* CFileSystem::getWorkingDirectory() {
-    return WorkingDirectory.c_str();
+    return WorkingDirectory;
 }
 
 // 0x56c528 _ZN6glitch2io11CFileSystem24changeWorkingDirectoryToEPKc
 // chdir; on success the path is copied with strcpy (LC_API_STRCPY -> PLT strcpy) into the 1024-byte
-// static buffer. The port keeps a std::string, so a path of 1024 bytes or more is kept whole where
-// the original would overflow the buffer (undefined in the original, not reproduced).
+// static buffer. A path of 1024 bytes or more overflows the buffer in the original (undefined); the port
+// truncates it to 1023 characters and keeps the terminator.
 bool CFileSystem::changeWorkingDirectoryTo(const char* directory) {
     const bool changed = GLITCH_CHDIR(directory) == 0;
-    if (changed) WorkingDirectory = directory;
+    if (changed) {
+        std::strncpy(WorkingDirectory, directory, sizeof(WorkingDirectory) - 1);
+        WorkingDirectory[sizeof(WorkingDirectory) - 1] = '\0';
+    }
     return changed;
 }
 
@@ -74,7 +79,7 @@ IXMLWriter* CFileSystem::createXMLWriter(const char* name) {
 }
 
 // 0x56c3ec _ZN6glitch2io11CFileSystem21createEmptyAttributesEPNS_5video12IVideoDriverE
-CAttributes* CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver* driver) {
+IAttributes* CFileSystem::createEmptyAttributes(glitch::video::IVideoDriver* driver) {
     return new CAttributes(driver);
 }
 
@@ -152,24 +157,89 @@ CFileSystem::~CFileSystem() { clear(); }
 // name answers 1. Otherwise the file is opened for reading. PARTIAL: the original's last step is
 // CFileSystem::open(name, "rb") (0x56dc40, not reconstructed: it returns a shared CFile and applies
 // the obfuscation map); here fopen stands in for it.
-int CFileSystem::existFile(const char* name) const {
+bool CFileSystem::existFile(const char* name) const {
     for (CZipReader* zip : zipReaders) {
-        if (zip->findFile(name) != -1) return 1;
+        if (zip->findFile(name) != -1) return true;
     }
     for (CPakReader* pak : pakReaders) {
-        if (pak->findFile(name) != -1) return 1;
+        if (pak->findFile(name) != -1) return true;
     }
     for (CUnZipReader* unzip : unZipReaders) {
-        if (unzip->findFile(name) != -1) return 1;
+        if (unzip->findFile(name) != -1) return true;
     }
     std::FILE* file = std::fopen(name, "rb");
-    if (file == nullptr) return 0;
+    if (file == nullptr) return false;
     std::fclose(file);
-    return 1;
+    return true;
 }
 
 // 0x34df7c _ZNK6glitch2io11CFileSystem9existFileERKSbIcSt11char_traitsIcENS_4core10SAllocatorIcLNS_6memory13E_MEMORY_HINTE0EEEE
-int CFileSystem::existFile(const std::string& name) const { return existFile(name.c_str()); }
+bool CFileSystem::existFile(const std::string& name) const { return existFile(name.c_str()); }
+
+// 0x56c0f8 _ZN6glitch2io11CFileSystem28createAndOpenFileFromArchivesEPKc
+// Each reader of the zip list, then the pak list, then the unzip list is asked in turn for the name
+// (slot +0x0c of the reader); the first file wins. Null when no archive has it.
+IReadFile* CFileSystem::createAndOpenFileFromArchives(const char* name) {
+    for (CZipReader* zip : zipReaders) {
+        if (IReadFile* file = zip->openFile(name)) return file;
+    }
+    for (CPakReader* pak : pakReaders) {
+        if (IReadFile* file = pak->openFile(name)) return file;
+    }
+    for (CUnZipReader* unzip : unZipReaders) {
+        if (IReadFile* file = unzip->openFile(name)) return file;
+    }
+    return nullptr;
+}
+
+// 0x56d4e0 _ZN6glitch2io11CFileSystem17createAndOpenFileEPKc
+// The listing tries the archives, then createReadFile(name). PARTIAL: when both fail it goes on to look the
+// path up piece by piece (a prefix that is itself a file inside an archive, opened as a nested zip); that
+// loop is not reconstructed, so the result is null there.
+IReadFile* CFileSystem::createAndOpenFile(const char* name) {
+    if (IReadFile* file = createAndOpenFileFromArchives(name)) return file;
+    return createReadFile(name);
+}
+
+// 0x56c230 _ZN6glitch2io11CFileSystem15createXMLReaderEPKc
+// Opens the file through slot +0x0c, builds the reader through slot +0x50 and drops the local reference.
+IXMLReader* CFileSystem::createXMLReader(const char* name) {
+    IReadFile* file = createAndOpenFile(name);
+    if (!file) return nullptr;
+    IXMLReader* reader = createXMLReader(file);
+    file->drop();
+    return reader;
+}
+
+// 0x56c480 _ZN6glitch2io11CFileSystem15createXMLReaderEPNS0_9IReadFileE
+IXMLReader* CFileSystem::createXMLReader(IReadFile* file) {
+    return file ? createIXMLReader(file) : nullptr;
+}
+
+// 0x56c44c _ZN6glitch2io11CFileSystem19createXMLReaderUTF8EPKc
+IXMLReaderUTF8* CFileSystem::createXMLReaderUTF8(const char* name) {
+    IReadFile* file = createAndOpenFile(name);
+    if (!file) return nullptr;
+    IXMLReaderUTF8* reader = createIXMLReaderUTF8(file);
+    file->drop();
+    return reader;
+}
+
+// 0x56c43c _ZN6glitch2io11CFileSystem19createXMLReaderUTF8EPNS0_9IReadFileE
+IXMLReaderUTF8* CFileSystem::createXMLReaderUTF8(IReadFile* file) {
+    return file ? createIXMLReaderUTF8(file) : nullptr;
+}
+
+// 0x56d2c0 _ZN6glitch2io11CFileSystem17addZipFileArchiveEPKcbb
+// 0x56d180 ...18addFolderFileArchiveEPKcbb, 0x56ca70 ...17addPakFileArchiveEPKcbb,
+// 0x56e6dc ...21addObfuscationFileMapEPKchSbIc...E, 0x56ce60 ...17removeFileArchiveEPKc
+// PARTIAL: the archive containers and the obfuscation map are not reconstructed (the lists hold readers
+// that tests add directly). The slots exist so that the interface is complete; they answer false.
+bool CFileSystem::addZipFileArchive(const char*, bool, bool) { return false; }
+bool CFileSystem::addFolderFileArchive(const char*, bool, bool) { return false; }
+bool CFileSystem::addPakFileArchive(const char*, bool, bool) { return false; }
+bool CFileSystem::addObfuscationFileMap(const char*, unsigned char, std::string) { return false; }
+bool CFileSystem::removeFileArchive(const char*) { return false; }
 
 // 0x56c2d8 _ZN6glitch2io16createFileSystemEv
 IFileSystem* createFileSystem() {

@@ -1,5 +1,6 @@
 // ITexture::setData (0x5fdf74): pointer replacement, the owned bit, the range bit and the dirty bitmap reset.
 #include "glitch-video/texture.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdint>
 #include <cstdio>
@@ -10,7 +11,7 @@ static int failures = 0;
 int main() {
     // Level sizes for 3 mips: mipCount + 1 words, then a bitmap of at least one word.
     int32_t levels[16] = {};
-    glitch::video::ITexture tex;
+    glitch::video::test::TestTexture tex;
     tex.m_levelSizes = levels;
     tex.m_mipCount3e = 3;
 

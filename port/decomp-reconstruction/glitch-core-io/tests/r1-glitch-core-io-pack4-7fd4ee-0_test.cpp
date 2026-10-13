@@ -11,6 +11,7 @@
 
 #include "glitch-core-io/core/process_buffer.hpp"
 #include "glitch-core-io/os/logging.hpp"
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-shared/sid_collection.hpp"
 
 static int failures = 0;
@@ -26,21 +27,24 @@ namespace {
 
 int aliveRefs = 0;
 
-// Reference-counted value: the count starts at zero, and the collection's insert adds one.
+// Reference-counted value: a new object holds one reference, which the first holder (the temporary
+// intrusive_ptr built for insert) takes over; the entry then holds the only one.
 struct Ref {
     Ref() { ++aliveRefs; }
     ~Ref() { --aliveRefs; }
     void drop() const {
         if (--referenceCounter == 0) delete this;
     }
-    mutable int referenceCounter = 0;  // +0x04 in the original
+    mutable int referenceCounter = 1;  // +0x04 in the original
 };
+inline void intrusive_ptr_add_ref(const Ref* p) { ++p->referenceCounter; }
+inline void intrusive_ptr_release(const Ref* p) { p->drop(); }
 
 struct Props {
     int flags = 0;
 };
 
-using Collection = glitch::core::detail::sid_layout::SIDedCollection<Ref*, Props>;
+using Collection = glitch::core::detail::sid_layout::SIDedCollection<boost::intrusive_ptr<Ref>, Props>;
 
 struct RecordingLogger : glitch::os::ILogger {
     glitch::os::ELOG_LEVEL level = glitch::os::ELL_NONE;
@@ -51,7 +55,8 @@ struct RecordingLogger : glitch::os::ILogger {
     void log(const char*, glitch::os::ELOG_LEVEL) override {}
     void log(const char*, const char*, glitch::os::ELOG_LEVEL) override {}
     void log(const wchar_t*, glitch::os::ELOG_LEVEL) override {}
-    void logv(glitch::os::ELOG_LEVEL lv, const char* format, std::va_list args) override {
+    void log(const wchar_t*, const wchar_t*, glitch::os::ELOG_LEVEL) override {}
+    void vlogf(glitch::os::ELOG_LEVEL lv, const char* format, std::va_list args) override {
         char buf[256];
         std::vsnprintf(buf, sizeof buf, format, args);
         level = lv;

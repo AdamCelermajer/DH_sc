@@ -128,12 +128,7 @@ struct SoftwareSkinTechniqueStandIn {
                                            std::uint32_t flags) = 0;
 };
 
-// ---------------------------------------------------------------------------
-// glitch::collada::SAnimationAccessor
-// ---------------------------------------------------------------------------
-struct SAnimationAccessorStandIn {
-    std::uint8_t pad_0000[0x08] = {};   // +0x00..+0x07 (not mapped)
-};
+// glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp.
 
 // ---------------------------------------------------------------------------
 // glitch::gui element stand-ins (attribute serialization)
@@ -335,9 +330,6 @@ int prepareSoftwareSkinBuffer(SoftwareSkinTechniqueStandIn& self, int step,
                               IVideoDriverStandIn* driver, SkinBufferStandIn& skinBuffer,
                               MeshBufferStandIn* meshBuffer, std::uint32_t technique);
 
-// SAnimationAccessor::findKeyFrameNo. Not reconstructed (see the body comment).
-std::uint8_t findKeyFrameNo(SAnimationAccessorStandIn& self, int a2, const std::vector<int>& times,
-                            int a4, int& keyFrame, int a6);
 
 // glitch::gui attribute (de)serialization.
 void serializeCheckBox(const CGUICheckBoxStandIn& self, IAttributesStandIn& attrs);      // 0x6a76bc

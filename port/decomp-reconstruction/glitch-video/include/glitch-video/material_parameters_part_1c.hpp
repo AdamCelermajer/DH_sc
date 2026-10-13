@@ -59,12 +59,9 @@
 
 #include "glitch-video/deps/glitch_core.hpp"
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/light.hpp"
 #include "glitch-video/material_parameters.hpp"
-
-namespace glitch::video {
-class ITexture;
-class CLight;
-}  // namespace glitch::video
+#include "glitch-video/texture.hpp"
 
 namespace glitch::video::detail::part1c {
 

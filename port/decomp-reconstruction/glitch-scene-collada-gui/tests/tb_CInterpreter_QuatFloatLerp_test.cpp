@@ -26,7 +26,7 @@ namespace glitch::collada {
 struct SAnimationAccessor {};  // local stub; the test never reads its members
 
 namespace tb_ext {
-SAnimationOutput* accessorGetOutput(const SAnimationAccessor&, int index) {
+const SAnimationOutput* accessorGetOutput(const SAnimationAccessor&, int index) {
     g_getOutputIndex = index;
     return &g_output;
 }

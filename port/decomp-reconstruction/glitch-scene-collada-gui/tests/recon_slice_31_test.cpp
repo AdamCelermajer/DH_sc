@@ -2,11 +2,12 @@
 // The external calls the slice makes into other category code are stubbed
 // here so the object links; the tests use recording fakes for the attribute
 // and node interfaces.
-#include <climits>
 #include <cstdio>
 #include <string>
 #include <vector>
 
+#include "glitch-video/material.hpp"
+#include "glitch-video/texture.hpp"
 #include "glitch-scene-collada-gui/recon/slice_31.hpp"
 
 using namespace glitch::collada::recon_31;
@@ -25,11 +26,6 @@ const char* const glitch::collada::recon_31::AutomaticCullingNames[] = {"Off", n
 namespace glitch::collada::recon_31 {
 void ISceneNode_serializeAttributes(const ISceneNode*, IAttributes*, SAttributeReadWriteOptions*) {}
 void ISceneNode_deserializeAttributes(ISceneNode*, IAttributes*, SAttributeReadWriteOptions*) {}
-int CBatchMesh_sort(CBatchMesh*, glitch::video::IVideoDriver*) { return 0; }
-void CBatchMesh_updateBoundingBox(CBatchMesh*) {}
-void CBatchMesh_initStaticSegmentBoundingBoxes(CBatchMesh*) {}
-void CBatchSceneNode_setVisibleIndexCache(CBatchSceneNode&, bool) {}
-void CCameraSceneNode_recalculateViewArea(CCameraSceneNode&) {}
 void CLight_deserializeAttributes(glitch::video::CLight*, IAttributes*, SAttributeReadWriteOptions*) {}
 void CGUIMessageBox::refreshControls() {}
 void CGUIScrollBar::refreshControls() {}
@@ -80,20 +76,6 @@ public:
     boost::intrusive_ptr<glitch::video::ITexture> getTexture(const char*) const override { return {}; }
     void push(const char* n) override { names.emplace_back(n); }
     void pop() override {}
-};
-
-// Node fake with fixed answers for the virtuals the entries call.
-class FakeNode : public ISceneNode {
-public:
-    glitch::core::vector3d<float> translation{3.0f, 4.0f, 0.0f};
-    glitch::core::aabbox3d<float> box{};
-    float bias = 0.0f;
-    int sortOrder = 7;
-
-    const glitch::core::vector3d<float>* getAbsoluteTranslation() const override { return &translation; }
-    const glitch::core::aabbox3d<float>* getBoundingBox() const override { return &box; }
-    float getDistanceBias() const override { return bias; }
-    int getDefaultSortOrder() const override { return sortOrder; }
 };
 
 // Concrete fader for the serialise test; IGUIElement's pure virtuals are no-ops.
@@ -152,43 +134,12 @@ void testSkinSetColor() {
     CHECK(skin.colors[20].color == 0xABCDEF);
 }
 
-void testDistanceEntry() {
-    FakeNode node;
-    node.box.MinEdge = {-1.0f, -1.0f, -1.0f};
-    node.box.MaxEdge = {1.0f, 1.0f, 1.0f};
-    // Translation (3,4,0) against the origin gives d2 = 25; the box extent
-    // squared is 12, so the distance is 25 - 6 = 19.
-    CSceneManager::SDistanceNodeEntry entry(&node, {0.0f, 0.0f, 0.0f}, nullptr);
-    CHECK(entry.node == &node);
-    CHECK(entry.distance > 18.999f && entry.distance < 19.001f);
-}
-
-void testDefaultEntrySortOrder() {
-    FakeNode node;
-    CSceneManager::SDefaultNodeEntry fixed(&node, {}, nullptr, 5);
-    CHECK(fixed.sortOrder == 5);
-    CSceneManager::SDefaultNodeEntry deflt(&node, {}, nullptr, INT_MAX);
-    CHECK(deflt.sortOrder == 7);
-}
-
-void testTransparentEntry() {
-    FakeNode node;
-    node.bias = 2.0f;
-    // Without a transform the node translation is used: d2 = 25, plus bias 2.
-    CSceneManager::STransparentNodeEntry entry(&node, {0.0f, 0.0f, 0.0f}, {}, nullptr, nullptr, 9);
-    CHECK(entry.sortOrder == 9);
-    CHECK(entry.distance > 26.999f && entry.distance < 27.001f);
-}
-
 }  // namespace
 
 int main() {
     testFaderSetColor();
     testFaderSerializeNames();
     testSkinSetColor();
-    testDistanceEntry();
-    testDefaultEntrySortOrder();
-    testTransparentEntry();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);
         return 1;

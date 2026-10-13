@@ -25,29 +25,7 @@ struct PDomainStandIn;
 template <typename T>
 struct ResVectorStandIn;
 
-// ---------------------------------------------------------------------------
-// glitch::collada::SAnimationAccessor (0x66a00x..0x66b5xx)
-// ---------------------------------------------------------------------------
-namespace anim {
-
-int applyValue(const SAnimationAccessor& self, int a2, int a3, void* a4, int& a5, bool a6);
-int applyValue(const SAnimationAccessor& self, int a2, void* a3,
-               animation_track::CApplicatorInfo* a4, int& a5, bool a6);
-int applyValue(const SAnimationAccessor& self, int a2, void* a3, int& a4, bool a5);
-int getValue(const SAnimationAccessor& self, int a2, int a3, void* a4, int& a5, bool a6);
-
-bool findKeyFrameNoExInt1000(const SAnimationAccessor& self, int a2,
-                             const ResVectorStandIn<int>& keys, int a4, int& a5, int a6);
-bool findKeyFrameNoExUChar30(const SAnimationAccessor& self, int a2,
-                             const ResVectorStandIn<int>& keys, int a4, int& a5, int a6);
-bool findKeyFrameNoExUShort30(const SAnimationAccessor& self, int a2,
-                              const ResVectorStandIn<int>& keys, int a4, int& a5, int a6);
-
-int findKeyFrameNo(const SAnimationAccessor& self, int a2, int a3, int& a4, float& a5);
-int findKeyFrameNo(const SAnimationAccessor& self, int a2, int a3, int& a4);
-int findKeyFrameNo(const SAnimationAccessor& self, int a2, int a3, int& a4, int a5);
-
-}  // namespace anim
+// glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp (src/collada/SAnimationAccessor.cpp).
 
 // ---------------------------------------------------------------------------
 // glitch::collada::detail skin techniques. Each family keeps its own opaque

@@ -1,8 +1,66 @@
 #include "glitch-video/null_driver.hpp"
 
+#include <cstring>
 #include <utility>
 
 namespace glitch::video {
+
+// 0x5b9840 _ZN6glitch5video11CNullDriverC1EPNS_7IDeviceE / 0x5b99bc C2
+// Partial, see null_driver.hpp: no shader manager, and a 0 x 0 screen framebuffer.
+CNullDriver::CNullDriver(glitch::IDevice* device)
+    : IVideoDriver(device, nullptr, nullptr, nullptr, nullptr, boost::intrusive_ptr<CLight>()) {
+    for (core::CMatrix4<float>& matrix : m_transforms) {
+        matrix = core::CMatrix4<float>(core::CMatrix4<float>::EM4CONST_IDENTITY);
+    }
+    unk_08 = "NullDriver";
+    unk_20 = "Not available on this driver.";
+    initDriver();
+    init(1, 1, 0);
+}
+
+// 0x5b94d4 _ZN6glitch5video11CNullDriverD1Ev / 0x5b9524 D2 / 0x5b9508 D0: the IVideoDriver destructor follows.
+CNullDriver::~CNullDriver() = default;
+
+// 0x5b942c _ZN6glitch5video11CNullDriver10initDriverEv
+// Partial: the screen size is the device's (IDevice +0x60), which the port cannot read; the framebuffer is 0 x 0.
+void CNullDriver::initDriver() {
+    for (uint32_t& word : unk_8c) word = 0;
+    boost::intrusive_ptr<IRenderTarget> screen(new CFramebuffer(this, core::dimension2d<int32_t>{0, 0}), true);
+    pushRenderTarget(screen);
+}
+
+// 0x5b9064 _ZNK6glitch5video11CNullDriver12getTransformENS0_22E_TRANSFORMATION_STATEE: &m_transforms[state].
+const core::CMatrix4<float>& CNullDriver::getTransform(E_TRANSFORMATION_STATE state) const {
+    return m_transforms[state];
+}
+
+// 0x5b93d0 _ZN6glitch5video11CNullDriver12setTransformENS0_22E_TRANSFORMATION_STATEERKNS_4core9CMatrix4IfEE
+// The original copies 0x41 bytes (the sixteen floats and the identity flag).
+void CNullDriver::setTransform(E_TRANSFORMATION_STATE state, const core::CMatrix4<float>& matrix) {
+    std::memcpy(static_cast<void*>(&m_transforms[state]), static_cast<const void*>(&matrix), 0x41);
+}
+
+// 0x5b8f5c _ZNK6glitch5video11CNullDriver10getScissorEv: the viewport rectangle of the top render target (+0x14).
+const core::rect<int32_t>& CNullDriver::getScissor() const { return m_renderTargets.back()->m_viewport; }
+
+// 0x5b92cc _ZN6glitch5video11CNullDriver12createBufferENS0_13E_BUFFER_TYPEENS0_14E_BUFFER_USAGEEjPvb
+// A CBuffer (the IBuffer base object, 0x14 bytes), returned with the count raised to 1.
+boost::intrusive_ptr<IBuffer> CNullDriver::createBuffer(E_BUFFER_TYPE type, E_BUFFER_USAGE usage, uint32_t size, void* data,
+                                                        bool flag) {
+    return boost::intrusive_ptr<IBuffer>(new CBuffer(type, usage, size, data, flag ? 1 : 0), true);
+}
+
+// 0x5b934c _ZNK6glitch5video11CNullDriver7CBuffer9cloneImplEv
+// A new buffer with the same type, usage, size and data pointer, and only the owns-data bit of the flags.
+boost::intrusive_ptr<IBuffer> CNullDriver::CBuffer::cloneImpl() const {
+    return boost::intrusive_ptr<IBuffer>(
+        new CBuffer(m_type, m_usage, m_size, m_data, static_cast<uint8_t>(m_flags12 & kFlagOwnsData)), true);
+}
+
+// 0x5b958c _ZN6glitch5video11CNullDriver15createTextureImplEPKcRKNS0_12STextureDescE
+boost::intrusive_ptr<ITexture> CNullDriver::createTextureImpl(const char* name, const STextureDesc& desc) {
+    return boost::intrusive_ptr<ITexture>(new CTexture(name, this, desc), true);
+}
 
 
 // 0x5a20b4 _ZN6glitch5video11CNullDriver16checkDriverResetEv
@@ -31,12 +89,13 @@ uint8_t* CNullDriver::CBuffer::getMappedPtr() const { return nullptr; }
 
 // 0x5b9558 _ZN6glitch5video11CNullDriver8CTextureC1EPKcPS1_RKNS0_12STextureDescE
 // 0x5b95dc _ZN6glitch5video11CNullDriver8CTextureC2EPKcPS1_RKNS0_12STextureDescE
-// Partial: the ITexture base is not ported; the arguments are not used.
-CNullDriver::CTexture::CTexture(const char*, CNullDriver*, const STextureDesc&) {}
+CNullDriver::CTexture::CTexture(const char* name, CNullDriver* driver, const STextureDesc& desc)
+    : ITexture(name, driver, desc) {}
 
 
 // 0x5b8da4 _ZN6glitch5video11CNullDriver8CTexture8bindImplEb
-bool CNullDriver::CTexture::bindImpl(bool) { m_flags = static_cast<uint16_t>(m_flags & ~3u); return false; }
+// Clears the data and mipmap dirty bits and reports that nothing was bound.
+bool CNullDriver::CTexture::bindImpl(bool) { m_dirtyFlags40 = static_cast<uint16_t>(m_dirtyFlags40 & 0xfffcu); return false; }
 
 
 // 0x5b8dbc _ZN6glitch5video11CNullDriver8CTexture10unbindImplEv
@@ -68,16 +127,15 @@ void CNullDriver::CFramebuffer::unbind() {}
 
 
 // 0x5b9b38 _ZN6glitch5video16createNullDriverEPNS_7IDeviceE
-// Partial: the original builds a CNullDriver through its IDevice constructor (0x5b9840), which
-// the port does not have. Only a default-constructed null driver is returned; the device is unused.
-CNullDriver* createNullDriver(IDevice*) { return new CNullDriver(); }
+// Partial: see the constructor (no shader manager, 0 x 0 screen).
+CNullDriver* createNullDriver(IDevice* device) { return new CNullDriver(device); }
 
 // 0x5b8de0 _ZN6glitch5video11CNullDriver10beginSceneEv
 bool CNullDriver::beginScene() { return true; }
 
 
 // 0x5b8de8 _ZN6glitch5video11CNullDriver22captureFramebufferImplERKN5boost13intrusive_ptrINS0_8ITextureEEERKNS_4core10position2dIiEERKNS8_4rectIiEEhNS0_23E_TEXTURE_CUBE_MAP_FACEEb
-bool CNullDriver::captureFramebufferImpl(const intrusive_ptr<ITexture>& texture, const core::position2d<int32_t>& pos, const core::rect<int32_t>& area, uint8_t mip, E_TEXTURE_CUBE_MAP_FACE face, bool flag) { return false; }
+bool CNullDriver::captureFramebufferImpl(const boost::intrusive_ptr<ITexture>&, const core::position2d<int32_t>&, const core::rect<int32_t>&, uint8_t, E_TEXTURE_CUBE_MAP_FACE, bool) { return false; }
 
 
 // 0x5b8df0 _ZN6glitch5video11CNullDriver11swapBuffersEi
@@ -89,10 +147,9 @@ void CNullDriver::clearBuffers(int32_t) {}
 
 
 // 0x5b93ec _ZN6glitch5video11CNullDriver8endSceneEv
-// Partial: the original passes the timer value and the four frame counters (this+0x78..+0x84)
-// to CFPSCounter::registerFrame. The null driver here has no FPS counter or counters, so only
-// the return value of 1 is reproduced.
-bool CNullDriver::endScene() { return true; }
+// The same body as IVideoDriver::endScene: the timer value and the four frame counters (this+0x78..+0x84) go to
+// CFPSCounter::registerFrame.
+bool CNullDriver::endScene() { return IVideoDriver::endScene(); }
 
 // 0x5b8dfc _ZN6glitch5video11CNullDriver12beginScene2DEv
 bool CNullDriver::beginScene2D() { return true; }
@@ -244,10 +301,6 @@ float CNullDriver::getSampleCoverageValue() const { return 0.0f; }
 
 // 0x5b8f54 _ZNK6glitch5video11CNullDriver16getScissorEnableEv
 bool CNullDriver::getScissorEnable() const { return false; }
-
-
-// 0x5b8f5c _ZNK6glitch5video11CNullDriver10getScissorEv
-const core::rect<int32_t>& CNullDriver::getScissor() const { return m_scissorStub; }
 
 
 // 0x5b8f6c _ZNK6glitch5video11CNullDriver20getStencilTestEnableEv
@@ -438,10 +491,6 @@ void CNullDriver::getRenderState(detail::driver::SRenderState&) const {}
 void CNullDriver::setRenderState(const detail::driver::SRenderState&) {}
 
 
-// 0x5b9064 _ZNK6glitch5video11CNullDriver12getTransformENS0_22E_TRANSFORMATION_STATEE
-void* CNullDriver::getTransform(E_TRANSFORMATION_STATE) const { return nullptr; }
-
-
 // 0x5b9078 _ZN6glitch5video11CNullDriver21commitCurrentMaterialEv
 void CNullDriver::commitCurrentMaterial() {}
 
@@ -451,7 +500,7 @@ void CNullDriver::commitMaterialRenderer(CMaterialRenderer*) {}
 
 
 // 0x5b9080 _ZN6glitch5video11CNullDriver15setRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEi
-bool CNullDriver::setRenderTarget(const intrusive_ptr<ITexture>&, int32_t) { return false; }
+bool CNullDriver::setRenderTarget(const boost::intrusive_ptr<ITexture>&, int32_t) { return false; }
 
 
 // 0x5b9088 _ZN6glitch5video11CNullDriver15setViewportImplERKNS_4core4rectIiEE
@@ -471,7 +520,7 @@ E_DRIVER_TYPE CNullDriver::getDriverType() const { return 0; }
 
 
 // 0x5b90b4 _ZN6glitch5video11CNullDriver16createScreenShotEv
-intrusive_ptr<IImage> CNullDriver::createScreenShot() { return {}; }
+boost::intrusive_ptr<CImage> CNullDriver::createScreenShot() { return {}; }
 
 
 // 0x5b90c0 _ZN6glitch5video11CNullDriver19onMaterialDestroyedEPNS0_9CMaterialE
@@ -487,15 +536,15 @@ void CNullDriver::endCompile() {}
 
 
 // 0x5b90cc _ZN6glitch5video11CNullDriver18createRenderBufferERKNS_4core11dimension2dIiEENS0_14E_PIXEL_FORMATE
-intrusive_ptr<IRenderBuffer> CNullDriver::createRenderBuffer(const core::dimension2d<int32_t>&, E_PIXEL_FORMAT) { return {}; }
+boost::intrusive_ptr<IRenderBuffer> CNullDriver::createRenderBuffer(const core::dimension2d<int32_t>&, E_PIXEL_FORMAT) { return {}; }
 
 
 // 0x5b90d8 _ZN6glitch5video11CNullDriver18createRenderTargetERKN5boost13intrusive_ptrINS0_8ITextureEEEj
-intrusive_ptr<IRenderTarget> CNullDriver::createRenderTarget(const intrusive_ptr<ITexture>&, uint32_t) { return {}; }
+boost::intrusive_ptr<IRenderTarget> CNullDriver::createRenderTarget(const boost::intrusive_ptr<ITexture>&, uint32_t) { return {}; }
 
 
 // 0x5b90e4 _ZN6glitch5video11CNullDriver26createMultipleRenderTargetEv
-intrusive_ptr<IRenderTarget> CNullDriver::createMultipleRenderTarget() { return {}; }
+boost::intrusive_ptr<IRenderTarget> CNullDriver::createMultipleRenderTarget() { return {}; }
 
 
 // 0x5b90f0 _ZN6glitch5video11CNullDriver18restoreShadowStateEv
@@ -503,7 +552,7 @@ void CNullDriver::restoreShadowState() {}
 
 
 // 0x5b90f4 _ZN6glitch5video11CNullDriver8drawImplERKN5boost13intrusive_ptrIKNS0_14CVertexStreamsEEERKNS0_16CPrimitiveStreamEPPNS0_14CDriverBindingE
-bool CNullDriver::drawImpl(const intrusive_ptr<CVertexStreams>&, const CPrimitiveStream&, CDriverBinding**) { return false; }
+bool CNullDriver::drawImpl(const boost::intrusive_ptr<const CVertexStreams>&, const CPrimitiveStream&, CDriverBinding**) { return false; }
 
 
 // 0x5b90fc _ZN6glitch5video11CNullDriver21commitCurrentMaterialEb

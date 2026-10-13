@@ -14,13 +14,13 @@ CWriteFile::~CWriteFile() {
 }
 
 // 0x5708f8 _ZNK6glitch2io10CWriteFile11getFileNameEv
-const std::string& CWriteFile::getFileName() const {
-    return fileName;
+const char* CWriteFile::getFileName() const {
+    return fileName.c_str();
 }
 
 // 0x570900 _ZNK6glitch2io10CWriteFile11getFullPathEv
-const std::string& CWriteFile::getFullPath() const {
-    return fileName;
+const char* CWriteFile::getFullPath() const {
+    return fileName.c_str();
 }
 
 // 0x57092c _ZN6glitch2io10CWriteFile4seekElb

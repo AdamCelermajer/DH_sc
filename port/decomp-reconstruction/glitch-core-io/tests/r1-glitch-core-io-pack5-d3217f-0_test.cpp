@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
+#include "io_stub_files.hpp"
 #include "glitch-core-io/core/sided_collection.hpp"
 #include "glitch-core-io/deps/glitch_core.hpp"
 #include "glitch-core-io/io/limit_read_file.hpp"
@@ -26,7 +27,7 @@ using Codes = glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch:
                                                     std::uint16_t, false, sc::SEmptyProperties, sc::SValueTraits>;
 
 // A read file with a fixed position and full path, to drive CLimitReadFile.
-class FakeFile : public IReadFile {
+class FakeFile : public glitch::io::testing::StubReadFile {
 public:
     FakeFile(long pos, std::string full) : position(pos), fullPath(std::move(full)) {}
     long getPos() const override { return position; }
@@ -34,7 +35,7 @@ public:
         position = relative ? position + offset : offset;
         return true;
     }
-    const std::string& getFullPath() const override { return fullPath; }
+    const char* getFullPath() const override { return fullPath.c_str(); }
     IReadFile* clone() const override { return new FakeFile(position, fullPath); }
 
     long position;
@@ -42,12 +43,14 @@ public:
 };
 
 // A read file over a byte block that implements read (CMemoryReadFile::read is not reconstructed).
-class BufferFile : public IReadFile {
+class BufferFile : public glitch::io::testing::StubReadFile {
 public:
     BufferFile(const unsigned char* data, unsigned int length) : bytes(data), size(length) {}
-    void read(void* buffer, unsigned int count) override {
+    std::int32_t read(void* buffer, std::uint32_t count) override {
         unsigned char* out = static_cast<unsigned char*>(buffer);
-        for (unsigned int i = 0; i < count && pos < size; ++i) out[i] = bytes[pos++];
+        std::uint32_t i = 0;
+        for (; i < count && pos < size; ++i) out[i] = bytes[pos++];
+        return static_cast<std::int32_t>(i);
     }
     long getPos() const override { return static_cast<long>(pos); }
 

@@ -11,16 +11,16 @@ bool CGUIEnvironment::onEvent(const glitch::SEvent& event) {
     if (userEventReceiver == nullptr) {
         return false;
     }
-    // Categories 1 and 2 are never forwarded.
-    if (event.category == 1 || event.category == 2) {
+    // Mouse (1) and key (2) input events are never forwarded.
+    if (event.EventType == glitch::EET_MOUSE_INPUT_EVENT || event.EventType == glitch::EET_KEY_INPUT_EVENT) {
         return false;
     }
-    // A GUI event (category 0) whose caller is the environment's own list head is dropped.
-    if (event.category == 0 && event.caller == static_cast<const void*>(&childrenSentinel)) {
+    // A GUI event (type 0) whose caller is the environment's own list head is dropped.
+    if (event.EventType == glitch::EET_GUI_EVENT && event.GUIEvent.Caller == static_cast<const void*>(&childrenSentinel)) {
         return false;
     }
-    // Forward through the receiver's vtable +0x08 slot, passing the event unchanged.
-    return userEventReceiver->forwardEvent(event);
+    // Forward through the receiver's vtable +0x08 slot (glitch::IEventReceiver::onEvent), passing the event unchanged.
+    return userEventReceiver->onEvent(event);
 }
 
 }  // namespace glitch::gui

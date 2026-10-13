@@ -17,11 +17,19 @@ void check(bool ok, const char* what) {
     }
 }
 
+// An animation over one channel (SAnimation +0x10 is the channel array).
+SAnimation makeAnimation(const char* name, SChannel* channel) {
+    SAnimation animation;
+    animation.name = name;
+    animation.channels = channel;
+    return animation;
+}
+
 // A database over a hand-built holder. The record and file data are the two levels the lookups reach.
 struct Fixture {
     SDatabaseTables tables;
     SColladaFileData data;
-    SColladaRecord record;
+    CResFile record;
     CColladaDatabase db;
 
     Fixture() {
@@ -39,41 +47,41 @@ void testAnimation() {
     SChannel walk{0, "walk", 1, 0};
     SChannel hop{0, "hop", 5, 0};
     SChannel spin{0, "spin", 9, 3};
-    SAnimation a0{"a0", &walk};
-    SAnimation a1{"a1", &hop};
-    SAnimation a2{"a2", &spin};
+    SAnimation a0 = makeAnimation("a0", &walk);
+    SAnimation a1 = makeAnimation("a1", &hop);
+    SAnimation a2 = makeAnimation("a2", &spin);
     f.tables.animations = {&a0, &a1, &a2};
 
     // Kind 1..4: channel type 1..4 by name.
-    check(f.db.getAnimation("walk", kind(1), 0) == &a0, "kind 1 finds walk by name");
-    check(f.db.getAnimation("walk", kind(2), 0) == &a0, "kind 2 accepts type 1 by name");
-    check(f.db.getAnimation("walk", kind(4), 0) == &a0, "kind 4 accepts type 1 by name");
-    check(f.db.getAnimation("hop", kind(1), 0) == nullptr, "kind 1 rejects type 5");
+    check(f.db.getAnimation("walk", kind(1), std::uint8_t{0}) == &a0, "kind 1 finds walk by name");
+    check(f.db.getAnimation("walk", kind(2), std::uint8_t{0}) == &a0, "kind 2 accepts type 1 by name");
+    check(f.db.getAnimation("walk", kind(4), std::uint8_t{0}) == &a0, "kind 4 accepts type 1 by name");
+    check(f.db.getAnimation("hop", kind(1), std::uint8_t{0}) == nullptr, "kind 1 rejects type 5");
 
     // Kind 5: channel type 5 or 9 by name.
-    check(f.db.getAnimation("hop", kind(5), 0) == &a1, "kind 5 finds type 5 by name");
-    check(f.db.getAnimation("spin", kind(5), 0) == &a2, "kind 5 accepts type 9 by name");
-    check(f.db.getAnimation("walk", kind(5), 0) == nullptr, "kind 5 rejects type 1");
+    check(f.db.getAnimation("hop", kind(5), std::uint8_t{0}) == &a1, "kind 5 finds type 5 by name");
+    check(f.db.getAnimation("spin", kind(5), std::uint8_t{0}) == &a2, "kind 5 accepts type 9 by name");
+    check(f.db.getAnimation("walk", kind(5), std::uint8_t{0}) == nullptr, "kind 5 rejects type 1");
 
     // Kind 9: same as kind 5 by name.
-    check(f.db.getAnimation("spin", kind(9), 0) == &a2, "kind 9 accepts type 9 by name");
+    check(f.db.getAnimation("spin", kind(9), std::uint8_t{0}) == &a2, "kind 9 accepts type 9 by name");
 
     // Kind 0 and kinds 6..8: type and flag must equal the arguments, then the name.
-    check(f.db.getAnimation("spin", kind(9), 3) == &a2, "kind 9 with flag 3");
-    check(f.db.getAnimation("walk", kind(0), 0) == nullptr, "kind 0 needs type 0");
-    check(f.db.getAnimation("spin", kind(7), 3) == nullptr, "kind 7 needs type 7");
+    check(f.db.getAnimation("spin", kind(9), std::uint8_t{3}) == &a2, "kind 9 with flag 3");
+    check(f.db.getAnimation("walk", kind(0), std::uint8_t{0}) == nullptr, "kind 0 needs type 0");
+    check(f.db.getAnimation("spin", kind(7), std::uint8_t{3}) == nullptr, "kind 7 needs type 7");
 
     // Kinds above 9 that are not named kinds: exact type and flag, then the name.
     SChannel exact{0, "exact", 10, 3};
-    SAnimation a3{"a3", &exact};
+    SAnimation a3 = makeAnimation("a3", &exact);
     f.tables.animations.push_back(&a3);
-    check(f.db.getAnimation("exact", kind(10), 3) == &a3, "exact kind and flag match");
-    check(f.db.getAnimation("exact", kind(10), 2) == nullptr, "flag mismatch gives null");
+    check(f.db.getAnimation("exact", kind(10), std::uint8_t{3}) == &a3, "exact kind and flag match");
+    check(f.db.getAnimation("exact", kind(10), std::uint8_t{2}) == nullptr, "flag mismatch gives null");
 
     // Blendable: channel by value.
     SChannel query{0, "hop", 5, 0};
     check(f.db.getBlendableAnimation(&query) == &a1, "getBlendableAnimation finds hop");
-    check(f.db.getBlendableAnimation(nullptr) == nullptr, "getBlendableAnimation null channel");
+    check(f.db.getBlendableAnimation(static_cast<const SChannel*>(nullptr)) == nullptr, "getBlendableAnimation null channel");
 
     // Default value through a channel: null on the channel-level lookup for kind 0 (type 0 is absent).
     void* out = reinterpret_cast<void*>(1);

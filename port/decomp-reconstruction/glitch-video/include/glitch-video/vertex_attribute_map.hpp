@@ -36,8 +36,14 @@ public:
     void set(const boost::intrusive_ptr<const CVertexStreams>& streams, uint32_t count, const uint8_t* pairs,
              bool sorted);
 
-    uint32_t m_unknown00 = 0;             // +0x00, zeroed by the constructors; meaning not identified
+    mutable uint32_t m_refCount = 0;      // +0x00, intrusive reference count, zeroed by the constructors and not copied
     uint8_t m_map[kMapSize] = {};         // +0x04..+0x21, stream index per slot, 0xff when unset
 };
+
+// The original's inline count updates (CVertexAttributeMap keeps its count at +0x00, not in IReferenceCounted).
+inline void intrusive_ptr_add_ref(const CVertexAttributeMap* p) { ++p->m_refCount; }
+inline void intrusive_ptr_release(const CVertexAttributeMap* p) {
+    if (p->m_refCount-- == 1) delete p;
+}
 
 }  // namespace glitch::video

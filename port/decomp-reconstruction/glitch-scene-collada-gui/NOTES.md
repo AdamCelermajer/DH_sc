@@ -597,3 +597,68 @@ headers in a later wave.
   the SViewFrustum header.
 - collada_empty_dtors.hpp now includes layouts/animation_track.hpp for animation_track::CApplicatorInfo and
   CMaterialApplicatorInfo (their empty D1 destructors are declared there), so one TU can hold both.
+
+## Engine unification wave u1-scene (scene domain: one definition each)
+
+The map of every stand-in of a scene-domain type in every category is `reports/decomp-reconstruction/unification/scene.json`
+(`done`: removed or forwarded in this wave; `replace with #include`: a stand-in that should switch to the canonical header;
+`keep`: sole definition, matching forward declaration, or another domain's class). The ledger rows that changed are in
+`ledger.d/u1-scene.csv` (every row whose body moved into a canonical file, or whose source file was deleted).
+
+Canonical headers (include root `glitch-scene-collada-gui/`):
+- `scene/`: scene_types (vocabulary, node and animator type tags, intrusive list links), ISceneNode, ISceneNodeAnimator, ITimelineController
+  (ITimeController, ITimelineController), ICameraSceneNode, CCameraSceneNode, SViewFrustum, CEmptySceneNode (with CSceneManagerRootNode),
+  CMeshSceneNode (with IMeshSceneNode), IMesh (with IAnimatedMesh), CMesh, SAnimatedMesh, CMeshBuffer, CAppendMeshBuffer (with SBatchConfig,
+  IEndOfBatchCallback, SDefaultEndOfBatchCallback), CBatchMesh, CBatchSceneNode, ITriangleSelector, CTriangleSelector, COctTreeTriangleSelector,
+  CSceneManager, SceneFactories (ISceneNodeFactory, ISceneNodeAnimatorFactory, IMeshLoader, IShadowReceiverTarget).
+- `collada/`: ISceneNodeAnimator, CSceneNodeAnimator, CSceneNodeAnimatorSet, CSceneNodeAnimatorBlender, CSceneNodeAnimatorSynchronizedSet,
+  CSceneNodeAnimatorSynchronizedBlender, CAnimationSet (with the animation-set templates), CDynamicAnimationSet, CTimelineController,
+  CEventsManager, CApplicatorInfo, IAnimationTrackEx, SAnimation (records), SAnimationAccessor, SLibraryAnimationClips, CColladaDatabase (the
+  database, its tables, the streaming manager), IMesh (collada::IMesh, CMesh, CMorphingMesh).
+- Forwarders kept so existing includes work: scene_node.hpp, collada_database.hpp, animation_set.hpp, scene_node_animator.hpp,
+  synchronized_blender.hpp, layouts/scene.hpp, layouts/collada_db.hpp, layouts/animation_track.hpp, tb/scene_node_animator_blender.hpp (the game
+  AnimatorBlender includes it), tb/glitch_scene_{CMesh_SBuffer,COctTreeTriangleSelector,CTriangleSelector,ITriangleSelector,SViewFrustum}.hpp.
+
+Decisions:
+- There is no ISceneManager in the binary (no symbol, no vtable): CSceneManager is the interface and the class; the game SceneManager derives from it
+  and fills the one pure slot (registerSkinnedMesh).
+- Animator hierarchy: collada::ISceneNodeAnimator derives from scene::ISceneNodeAnimator; CSceneNodeAnimator, CSceneNodeAnimatorSet and CSceneNodeAnimatorBlender
+  derive from it; CSceneNodeAnimatorSynchronizedSet is CSceneNodeAnimatorSet plus the synchronized interface at +0x58 (owner pointer +0x5c); the synchronized
+  blender is NOT derived from the blender: it is collada::ISceneNodeAnimator plus the interface at +0x24, and its children are interface pointers whose `owner` is
+  the child animator. The virtual IReferenceCounted base sits after the members (0x58 / 0x70 / 0xb4 / 0x84).
+- SAnimationAccessor is host-width {animation, outputs, key-search cache}; the animation record and the track classes follow collada/SAnimation.hpp. The animation
+  data path stays partial: CAnimationStreamingManager's block registry, the CAnimationBlock constructors and CResFileManager::load are not reconstructed, so
+  getAnimationData returns null and the animators carry PARTIAL guards.
+- CColladaDatabase is the plain {record, factory} pair; copyDatabase / dropDatabase are the original's inline count updates (the auto-unload is not modelled).
+- CMeshBuffer embeds the canonical glitch-video CPrimitiveStream at +0x18 and holds an intrusive_ptr<CVertexStreams> at +0x14 (constructor 0x6b88a8); CAppendMeshBuffer
+  derives from it with the full 0x70-byte layout and uses glitch-video's IBuffer and CVertexStreams (map, unmap, reset, updateHomogeneityInternal).
+- layouts/scene_members.hpp is gone: the extra members it mapped (animator start/end/radius/speed, texture vector, period, loop, factory cursor control,
+  billboard-text font and colour, mesh holder, dummy-node matrix) are on the classes of scene_simple_accessors.hpp. The CTerrainSceneNode patch container at
+  +0x178 of that layout conflicted with the accessor bodies and was not taken.
+
+Declaration coverage: every queue.csv function of a canonical class (994 of them) has its address as a `// 0xADDR` comment next to a declaration in a canonical
+header; the ones without a body are declared only and say so (D0 deleting destructors are named in the comment of their D1, not declared). The CColladaDatabase
+family follows the binary's signatures: the loading constructors are static `create` creators (the class is a plain pair), the file-loading constructScene /
+constructNode / constructAnimator overloads are static (a null factory means CColladaDatabase::DefaultFactory), and the index getters (getLight(int) ...) are the
+free helpers lightAt / effectAt / geometryAt / materialAt ... because a member named getX would hide the free getX(tables, name) lookups that the construct members
+call. The overloads that take SAnimation* beside SChannel* (getBlendableAnimation, getDefaultValue) and `const char*` beside `uint8_t` (getAnimation) are ambiguous with
+a literal 0 or nullptr, so callers spell the type.
+
+Tests: the category's 88 tests build and pass from a private copy of the root CMakeLists that leaves dh2_game, vendor-gameswf and net-session-online out of the
+link group (the real configuration cannot link tests while those categories do not compile) and puts glitch-video before glitch-core-io in the group.
+
+Open:
+- Canonical CLightSceneNode, IBillboard, IBillboardSceneNode and CBillboardSceneNode are written and parked in `deferred/` (not globbed by CMake). They need the
+  canonical glitch-video classes (CLight, CMaterial, CVertexStreams, IBuffer) in the same translation unit as ISceneNode, but glitch-core-io's
+  `deps/glitch_core_objects.hpp` (reached through `io/interfaces.hpp` from every ISceneNode user) still declares stand-ins for exactly those classes, so the two
+  redefine each other. When the stand-ins are replaced (the actions in video.json and core.json), move the four files into include/.../scene and src/scene, then
+  retire scene_nodes.hpp's two classes, recon/slice_31's ISceneNode / light / billboard stand-ins, recon/slice_05 and slice_32 light entries, layouts/scene_evidence.hpp.
+- The same stand-ins make every test that uses the canonical CVertexStreams or IBuffer fail to link with MinGW when glitch-core-io precedes glitch-video in the link
+  group (duplicate definitions of ~IBuffer / ~CVertexStreams between core-io's glitch_io object and the video library): scene_append_mesh_buffer_test,
+  recon_slice_27_test and recon_slice_29_test here, and glitch-video's own vertex_streams tests.
+- Not canonical yet (sole partial definitions): the Collada node classes (CSceneNode, CRootSceneNode, CMeshSceneNode, CCameraSceneNode, CLightSceneNode, CSkinnedMeshSceneNode,
+  CModularSkinnedMeshSceneNode and the game classes that derive from them), the concrete animators and factories of scene_simple_accessors.hpp, the skin technique family
+  (collada_misc.hpp, layouts/collada_members.hpp, recon_23, recon_33), CTerrainSceneNode, CShadowVolumeSceneNode, CAnimatedMeshSceneNode, CSkyBoxSceneNode, text nodes.
+- recon_08 .. recon_14 keep reduced SAnimationAccessor / SAnimationOutput views; the map names the replacement for each.
+- game-anim: AnimatorBlender::getType returns int, the canonical slot returns scene::E_SCENE_NODE_ANIMATOR_TYPE (compile error in game-anim); Animator, AnimatorSet,
+  AnimatorSynchronizedBlender and AnimatorSynchronizedSet still hold pad bases and a secondary IReferenceCounted member (see the map).

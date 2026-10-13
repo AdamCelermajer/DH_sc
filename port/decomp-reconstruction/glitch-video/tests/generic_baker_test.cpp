@@ -1,4 +1,4 @@
-// CGenericBaker constructor: shader stored, attribute map unset and referenced once.
+// CGenericBaker constructor: shader stored, attribute map unset and referenced once (the baker releases it).
 #include <cstdio>
 
 #include "glitch-video/generic_baker.hpp"
@@ -14,13 +14,12 @@ int main() {
     CHECK(baker.m_shader == nullptr);
     CHECK(baker.m_unknown10 == 0xffff);
     CHECK(baker.m_unknown14 == 0);
-    CHECK(baker.m_refCount == 0);
+    CHECK(baker.referenceCounter == 0);
     CHECK(baker.m_attributeMap != nullptr);
-    CHECK(baker.m_attributeMap->m_unknown00 == 1);
+    CHECK(baker.m_attributeMap->m_refCount == 1);  // the baker holds the one use
     for (uint32_t i = 0; i < CVertexAttributeMap::kMapSize; ++i) {
         CHECK(baker.m_attributeMap->m_map[i] == 0xff);
     }
-    delete baker.m_attributeMap;
     if (failures == 0) std::printf("generic_baker_test: ok\n");
     return failures ? 1 : 0;
 }

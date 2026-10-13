@@ -2,6 +2,7 @@
 // CTextureManager::removeTexture list handling.
 #include "glitch-video/texture.hpp"
 #include "glitch-video/texture_manager.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 
@@ -13,11 +14,12 @@ int main() {
 
     // Two mip levels, one face: bitmap words start after mip index 2 (levels + 1 == index 3).
     int32_t levels[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    ITexture tex;
+    test::TestTexture tex;
     tex.m_levelSizes = levels;
     tex.m_mipCount3e = 2;
     tex.m_flags38 = 0;  // not cube
     tex.m_flags3f = 0;  // per-mip sizes, no range
+    tex.m_dirtyFlags40 = 0;  // the constructor marks everything dirty
     tex.setDataDirty(false);
     CHECK(tex.m_dirtyFlags40 == 0);
     CHECK(levels[3] == 0);
@@ -28,7 +30,7 @@ int main() {
 
     // Range form: bits at 0 and mipCount for each face (one face here: bit 0 only).
     int32_t range[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    ITexture ranged;
+    test::TestTexture ranged;
     ranged.m_levelSizes = range;
     ranged.m_mipCount3e = 3;
     ranged.m_flags3f = 2;
@@ -37,7 +39,7 @@ int main() {
 
     // Cube form: six faces, bits at 0, 2, 4, 6, 8, 10 for mipCount 2.
     int32_t cube[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    ITexture cubeTex;
+    test::TestTexture cubeTex;
     cubeTex.m_levelSizes = cube;
     cubeTex.m_mipCount3e = 2;
     cubeTex.m_flags38 = 2;
@@ -46,7 +48,7 @@ int main() {
     CHECK(static_cast<uint32_t>(cube[3]) == ((1u << 0) | (1u << 2) | (1u << 4) | (1u << 6) | (1u << 8) | (1u << 10)));
 
     // unmap: a count above one decrements, otherwise the state clears.
-    ITexture locked;
+    test::TestTexture locked;
     locked.m_lockCount42 = 2;
     locked.m_flags3f = 0x40;
     locked.unmap();
@@ -58,8 +60,8 @@ int main() {
 
     // removeTexture: present textures are removed, absent or null ones report zero.
     CTextureManager manager;
-    ITexture a;
-    ITexture b;
+    test::TestTexture a;
+    test::TestTexture b;
     a.m_flags38 = 1;
     manager.m_textures = {&a, &b};
     manager.m_placeHolders[1] = &a;

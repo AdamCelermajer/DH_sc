@@ -34,8 +34,8 @@ const char* CFileList::getFullFileName(std::uint32_t index) {
 }
 
 // 0x6b3e78 _ZNK6glitch2io9CFileList12getFileCountEv
-int CFileList::getFileCount() const {
-    return static_cast<int>(Files.size());
+std::uint32_t CFileList::getFileCount() const {
+    return static_cast<std::uint32_t>(Files.size());
 }
 
 // 0x6b3ea4 _ZNK6glitch2io9CFileList11getFileNameEj

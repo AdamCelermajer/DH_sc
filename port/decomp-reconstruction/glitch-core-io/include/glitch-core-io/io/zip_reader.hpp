@@ -52,8 +52,8 @@ public:
     // five-argument form when bit 0 of unk_10 is set). Deflate entries (method 8) need zlib, which
     // is not vendored in this tree, so they give null here.
     IReadFile* openFile(int index);
-    // 0x578624: findFile, then openFile(index); null when the name is not in the archive.
-    IReadFile* openFile(const char* name);
+    // 0x578624 (vtable +0x0c): findFile, then openFile(index); null when the name is not in the archive.
+    virtual IReadFile* openFile(const char* name);
     // 0x578520: the key's name is the argument, lower-cased when flagA is set and with its path
     // removed when flagB is set; the search is the shared binary search over the entries.
     int findFile(const char* name);

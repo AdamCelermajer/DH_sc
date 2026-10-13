@@ -82,21 +82,6 @@ void testFrustum() {
     CHECK(!fr.intersects(box(200, 0, 0, 201, 1, 1)));
 }
 
-void testWeights() {
-    SynchronizedBlender blender;
-    blender.weights = {1.0f, 3.0f};
-    blender.normalizeWeights();
-    CHECK(blender.weightsNormalized);
-    CHECK(blender.weights[0] == 0.25f);
-    CHECK(blender.weights[1] == 0.75f);
-
-    SynchronizedBlender zero;
-    zero.weights = {0.0f, 0.0f};
-    zero.normalizeWeights();
-    CHECK(zero.weights[0] == 1.0f);
-    CHECK(zero.weights[1] == 0.0f);
-}
-
 void testGui() {
     GuiEnvironment env;
     GuiElement* root = env.getRootGUIElement();
@@ -130,7 +115,6 @@ int main() {
     testTweakable();
     testMappingCopy();
     testFrustum();
-    testWeights();
     testGui();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);

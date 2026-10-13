@@ -10,6 +10,14 @@
 
 #include "glitch-scene-collada-gui/recon/v2/wave_10.hpp"
 
+// The factory is only ever compared by address (the canonical CColladaFactory is abstract), so the tests use tagged storage.
+namespace {
+glitch::collada::CColladaFactory* fakeFactory(int index = 0) {
+    static char storage[2][16];
+    return reinterpret_cast<glitch::collada::CColladaFactory*>(storage[index]);
+}
+}  // namespace
+
 using namespace glitch::collada::recon_v2_10;
 using glitch::collada::CResFile;
 using glitch::collada::CResFileManager;
@@ -109,8 +117,7 @@ void streaming_release(void*, CColladaDatabase*) {}
 void* streaming_instance() { return nullptr; }
 void log_msg(const char*, int) {}
 CColladaFactory* db_default_factory() {
-    static CColladaFactory f;
-    return &f;
+    return fakeFactory(1);
 }
 
 void* db_construct_animator(CColladaDatabase*) { return nullptr; }
@@ -176,7 +183,7 @@ int main() {
         g_data.assign(64, 0);
         float kf[4] = {0.0f, 0.0f, 3.0f, 4.0f};  // keyframe 1 = (3, 4)
         std::memcpy(g_data.data(), kf, sizeof(kf));
-        CApplicatorInfo app{};
+        glitch::collada::animation_track::CMaterialApplicatorInfo app;
         app.parameterId = 7;
         int dummy = 0;
         g_set = SetCall{};
@@ -190,7 +197,7 @@ int main() {
     {
         float src[8] = {1, 2, 3, 4, 10, 20, 30, 40};
         float w[2] = {0.25f, 0.75f};
-        CApplicatorInfo app{};
+        glitch::collada::animation_track::CMaterialApplicatorInfo app;
         app.parameterId = 3;
         int dummy = 0;
         g_set = SetCall{};
@@ -257,7 +264,7 @@ int main() {
         g_record.refCount = 1;
         glitch::collada::CColladaDatabase db;
         CResFile* slot = &g_record;
-        CColladaFactory fac;
+        CColladaFactory& fac = *fakeFactory();
         w10_6192f0(&db, &slot, "x", &fac);
         CHECK(db.record == &g_record && db.factory == &fac && g_record.refCount == 2);
         w10_619474(&db);
@@ -271,7 +278,7 @@ int main() {
         glitch::collada::CColladaDatabase a;
         glitch::collada::CColladaDatabase b;
         CResFile* slot = &g_record;
-        CColladaFactory fac;
+        CColladaFactory& fac = *fakeFactory();
         w10_6192f0(&a, &slot, "x", &fac);
         w10_619344(&b, &slot, "x", &fac);
         CHECK(a.record == b.record && a.factory == b.factory);
@@ -282,7 +289,7 @@ int main() {
         g_data.assign(64, 0);
         float v = 2.5f;
         std::memcpy(g_data.data() + 8, &v, 4);
-        CApplicatorInfo app{};
+        glitch::collada::animation_track::CMaterialApplicatorInfo app;
         app.parameterId = 9;
         int dummy = 0;
         g_set = SetCall{};

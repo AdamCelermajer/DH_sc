@@ -1,4 +1,4 @@
-// Reconstruction slice 07: mesh helpers (glitch::scene), CAppendMeshBuffer,
+// Reconstruction slice 07: mesh helpers (glitch::scene),
 // kd-tree helpers, the animation streaming block and cache, billboard and scene
 // node helpers, and the animation track value accessors in glitch::collada.
 //
@@ -16,6 +16,9 @@
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
+#include "glitch-scene-collada-gui/scene/IMesh.hpp"
+#include "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp"
 
 namespace glitch::core {
 template <typename T>
@@ -24,13 +27,6 @@ template <typename T>
 class CMatrix4;
 }  // namespace glitch::core
 
-namespace glitch::scene {
-class IMesh;
-class IAnimatedMesh;
-class CMeshBuffer;
-class SAnimatedMesh;
-}  // namespace glitch::scene
-
 namespace glitch::collada::recon_07 {
 
 // glitch::video::E_INDEX_TYPE as the pseudocode switches on it.
@@ -38,21 +34,6 @@ using IndexType = std::uint32_t;
 inline constexpr IndexType kIndex8 = 0;   // unsigned char indices
 inline constexpr IndexType kIndex16 = 1;  // unsigned short indices
 inline constexpr IndexType kIndex32 = 2;  // unsigned int indices
-
-// Stand-in for glitch::scene::CAppendMeshBuffer, fields only.
-struct CAppendMeshBufferLayout {
-    std::uint8_t pad_0000[0x20] = {};  // +0x00..+0x1f (not mapped)
-    std::uint32_t setupIndexCount = 0;      // +0x20 (set by setup from index used/stride)
-    std::uint32_t setupCounterA = 0;        // +0x24 (cleared by setup)
-    std::uint32_t setupVertexCount = 0;     // +0x28 (set by setup from vertex used/stride)
-    std::uint8_t pad_002c[0x0c] = {};       // +0x2c..+0x37 (+0x2c holds a 16-bit flag set to 1)
-    std::uint32_t vertexCapacityBytes = 0;  // +0x38
-    std::uint32_t vertexUsedBytes = 0;      // +0x3c
-    std::uint32_t indexCapacityBytes = 0;   // +0x40
-    std::uint32_t indexUsedBytes = 0;       // +0x44
-    std::uint32_t vertexStride = 0;         // +0x48
-    std::uint32_t indexStride = 0;          // +0x4c
-};
 
 // Stand-in for glitch::collada::animation_track::SLightColor (the applicator
 // object of CApplicator<SLightColor>). Channels are float at +0x14..+0x20.
@@ -80,15 +61,6 @@ std::uint32_t swapIndices(IndexType type, void* indices, std::uint32_t a, std::u
 void getAngleWeight(core::vector3d<float>& out, const core::vector3d<float>& p0,
                     const core::vector3d<float>& p1, const core::vector3d<float>& p2);
 
-// --- CAppendMeshBuffer ----------------------------------------------------
-// 0x5a2040 Reconstructed.
-bool CAppendMeshBuffer_hasEnoughSpace(const CAppendMeshBufferLayout& self,
-                                      std::uint32_t vertexCount, std::uint32_t indexCount);
-// 0x5a26bc Partial: IBuffer::map is not in this category; the mapped pointers are not stored.
-void CAppendMeshBuffer_beginAppend(CAppendMeshBufferLayout& self);
-// 0x5a8a88 Partial: the write through the pointer at +0x14 is not modelled.
-void CAppendMeshBuffer_setup(CAppendMeshBufferLayout& self);
-
 // --- kd-tree helpers ------------------------------------------------------
 // 0x5a20d4 Reconstructed.
 bool lessThanPlane(const KdEntry& entry, float plane, char axis);
@@ -107,35 +79,8 @@ boost::intrusive_ptr<scene::IMesh> createMeshWelded(const boost::intrusive_ptr<s
                                                     float tolerance);
 
 // --- SAnimatedMesh ---------------------------------------------------------
-// Stand-in member view: aabbox at +0x08, child list begin/end at +0x20/+0x24,
-// mesh type at +0x2c. Child calls are vtable dispatches not modelled here.
-struct SAnimatedMeshLayout {
-    std::uint8_t pad_0000[0x08] = {};  // +0x00..+0x07 (vtable and reference count)
-    core::aabbox3d<float> boundingBox;  // +0x08..+0x1f
-    std::uint32_t childBegin = 0;       // +0x20 (begin pointer of the child list)
-    std::uint32_t childEnd = 0;         // +0x24
-    std::uint32_t meshType = 0;         // +0x2c
-};
-
-// 0x59a000 Partial: vtable slot +0x18 on the first child; index argument unused by the pseudocode.
-boost::intrusive_ptr<video::CMaterial> SAnimatedMesh_getMaterial(const SAnimatedMeshLayout& self,
-                                                                 std::uint32_t index);
-// 0x59a03c Partial: vtable slot +0x1c on the first child; index argument unused by the pseudocode.
-boost::intrusive_ptr<video::CMaterial> SAnimatedMesh_getMaterialVertexAttributeMap(
-    const SAnimatedMeshLayout& self, std::uint32_t index);
-// 0x59a078 Partial: tail forward of setMaterial to the first child (vtable slot +0x20).
-void SAnimatedMesh_setMaterial(SAnimatedMeshLayout& self);
-// 0x59a1c0 Partial: child bounding boxes via vtable slot +0x24 are not dispatched here.
-void SAnimatedMesh_recalculateBoundingBox(SAnimatedMeshLayout& self);
-// 0x59ad10 Partial: the child-list copy is modelled; recalculateBoundingBox is stubbed.
-void SAnimatedMesh_ctor(SAnimatedMeshLayout& self, const boost::intrusive_ptr<scene::IMesh>& mesh,
-                        std::uint32_t meshType);
-// 0x59ae64 Partial: vtable clone of the first child not dispatched here.
-boost::intrusive_ptr<scene::SAnimatedMesh> SAnimatedMesh_clone(const SAnimatedMeshLayout& self);
-
-// 0x59ae1c Partial: allocation and constructor call; SAnimatedMesh_ctor is partial.
-void createAnimatedMesh(boost::intrusive_ptr<scene::SAnimatedMesh>& out,
-                        const boost::intrusive_ptr<scene::IMesh>& mesh, std::uint32_t meshType);
+// The stand-in member view and the seven SAnimatedMesh_* / createAnimatedMesh free functions moved to the canonical class
+// glitch::scene::SAnimatedMesh (scene/SAnimatedMesh.hpp, src/scene/SAnimatedMesh.cpp) in the unification wave.
 
 // 0x59af20 / 0x59afb8 Partial: primitive counts need CPrimitiveStream and vtable slots 0x10..0x34.
 std::int32_t getPolyCount(const boost::intrusive_ptr<scene::IMesh>& mesh);

@@ -176,23 +176,6 @@ void CParticleSystemSceneNode::setParticlesAreGlobal(bool global) { particlesAre
 void CParticleSystemSceneNode::reallocateBuffers() {}
 
 // 0x6bba70 _ZN6glitch5scene5CMeshC2Ev
-// 0x6bbad4 _ZN6glitch5scene5CMeshC1Ev
-CMesh::CMesh() {
-    boundingBox.MinEdge = {-1.0f, -1.0f, -1.0f};
-    boundingBox.MaxEdge = {1.0f, 1.0f, 1.0f};
-}
-
-// 0x6bbc68 _ZNK6glitch5scene5CMesh14getBoundingBoxEv
-const core::aabbox3d<float>& CMesh::getBoundingBox() const { return boundingBox; }
-
-// 0x6bbc70 _ZN6glitch5scene5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-void CMesh::setBoundingBox(const core::aabbox3d<float>& box) { boundingBox = box; }
-
-// 0x6bbedc _ZN6glitch5scene5CMesh5clearEv
-void CMesh::clear() {
-    buffers.clear();
-}
-
 // 0x6c77e4 _ZNK6glitch5scene27CSceneNodeAnimatorCameraFPS22isEventReceiverEnabledEv
 bool CSceneNodeAnimatorCameraFPS::isEventReceiverEnabled() const { return true; }
 
@@ -261,7 +244,7 @@ std::uint32_t CSceneNodeAnimatorFlyStraight::getType() const { return 1; }
 
 // 0x6cc330 _ZN6glitch5scene29CSceneNodeAnimatorFlyStraight25recalculateImidiateValuesEv
 float CSceneNodeAnimatorFlyStraight::recalculateImidiateValues() const {
-    return minuend - subtrahend;
+    return end.X - start.X;
 }
 
 // 0x6cc754 _ZNK6glitch5scene30CSceneNodeAnimatorFollowSpline7getTypeEv
@@ -316,12 +299,6 @@ std::uint32_t CDefaultSceneNodeFactory::getCreateableSceneNodeType(std::uint32_t
 const char* CDefaultSceneNodeFactory::getCreateableSceneNodeTypeName(std::uint32_t index) const {
     return index < types.size() ? types[index].name : nullptr;
 }
-
-// 0x599efc _ZNK6glitch5scene13IAnimatedMesh11getMeshTypeEv
-std::uint32_t IAnimatedMesh::getMeshType() const { return 0; }
-
-// 0x599f88 _ZNK6glitch5scene13SAnimatedMesh11getMeshTypeEv
-std::uint32_t SAnimatedMesh::getMeshType() const { return meshType; }
 
 
 // 0x6d5874 _ZN6glitch5scene14CTextSceneNode12setTextColorENS_5video6SColorE
@@ -438,21 +415,6 @@ bool IParticleAffector::getEnabled() const {
     return enabled != 0;
 }
 
-// 0x599f04 _ZNK6glitch5scene13SAnimatedMesh13getFrameCountEv
-std::int32_t SAnimatedMesh::getFrameCount() const {
-    return static_cast<std::int32_t>(meshes.size());
-}
-
-// 0x599f4c _ZNK6glitch5scene13SAnimatedMesh14getBoundingBoxEv
-const core::aabbox3d<float>& SAnimatedMesh::getBoundingBox() const {
-    return boundingBox;
-}
-
-// 0x599f54 _ZN6glitch5scene13SAnimatedMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-void SAnimatedMesh::setBoundingBox(const core::aabbox3d<float>& box) {
-    boundingBox = box;
-}
-
 // 0x6be504 _ZNK6glitch5scene10CMeshCache12getMeshCountEv
 std::int32_t CMeshCache::getMeshCount() const {
     return static_cast<std::int32_t>(entries.size());
@@ -490,12 +452,6 @@ void CMeshCache::clear() {
 // 0x6be474 _ZN6glitch5scene10CMeshCacheC2EPNS_5video12IVideoDriverE
 // 0x6be4bc _ZN6glitch5scene10CMeshCacheC1EPNS_5video12IVideoDriverE
 CMeshCache::CMeshCache(video::IVideoDriver* driver) : videoDriver(driver) {}
-
-// 0x6b8878 _ZN6glitch5scene17CAppendMeshBuffer5clearEv
-void CAppendMeshBuffer::clear() {
-    fillCounterB = 0;
-    fillCounterA = 0;
-}
 
 // 0x6b9538 _ZNK6glitch5scene24CColladaBinaryFileLoader24isALoadableFileExtensionEPKc
 bool CColladaBinaryFileLoader::isALoadableFileExtension(const char* filename) const {

@@ -14,7 +14,8 @@ CMemoryWriteFile::CMemoryWriteFile(std::uint32_t reserve) {
 // clear (CMP R2,#0; BEQ), so an absolute seek changes nothing and returns true.
 // Moving before the start clamps to 0. Moving past the end grows the buffer
 // to pos + 1 bytes, reserving (pos + 1) * 2 first when capacity is short.
-bool CMemoryWriteFile::seek(std::int32_t offset, bool relative) {
+bool CMemoryWriteFile::seek(long offset32, bool relative) {
+    const std::int32_t offset = static_cast<std::int32_t>(offset32);
     if (relative) {
         std::int32_t newPos = position + offset;
         if (newPos < 0) {
@@ -35,7 +36,7 @@ bool CMemoryWriteFile::seek(std::int32_t offset, bool relative) {
 // 0x6b4e44 _ZN6glitch2io16CMemoryWriteFile5writeEPKvj
 // Grows the buffer to position + size when needed (reserving twice that when capacity is short),
 // copies the data at the position, advances the position by the count and returns the count.
-std::size_t CMemoryWriteFile::write(const void* data, std::uint32_t size) {
+std::size_t CMemoryWriteFile::write(const void* data, unsigned int size) {
     std::size_t needed = static_cast<std::size_t>(position) + size;
     if (buffer.size() < needed) {
         if (buffer.capacity() < needed) {

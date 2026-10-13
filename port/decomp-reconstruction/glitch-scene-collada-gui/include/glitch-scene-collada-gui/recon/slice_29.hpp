@@ -3,15 +3,15 @@
 // Only the classes whose members the pseudocode confirms are declared here.
 // CMeshConnectivity, SSilhouette and SShadowVolume are nested in the same
 // namespace as their owner (glitch::scene::CShadowVolumeSceneNode in the
-// original); the owner class itself has no layout in layouts/scene.hpp yet, so
-// it is declared empty. Offsets in the comments are the 32-bit ARM ones.
+// original); the owner class itself has no canonical header yet, so
+// it is declared empty. CMeshBuffer is the canonical scene/CMeshBuffer.hpp class. Offsets in the comments are the 32-bit ARM ones.
 #pragma once
 
 #include <cstddef>
 #include <cstdint>
 
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
-#include "glitch-scene-collada-gui/layouts/scene.hpp"
+#include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 
 namespace glitch::scene::recon_29 {
 

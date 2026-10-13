@@ -12,11 +12,11 @@ namespace glitch::video {
 //   Otherwise return result.
 // Missing: the owner object's type and fields (+0x104, +0x108 and the table entry at +0x1c), the
 // renderer's +0x04 and +0x0c fields (CMaterialRenderer declares only +0x00, +0x10, +0x18, +0x1c),
-// and CMaterial's +0x14 byte is declared but its role is not confirmed. Only the path where the
+// and CMaterial's +0x14 byte (m_remapSet) indexes the owner's remap tables. Only the path where the
 // owner table is absent (v6 == 0) is reproduced, and the fallback result is returned as-is.
 // Do not extend this without the owner layout: the other path depends on it.
 int32_t CMaterial::getTechnique() const {
-    return unk_08;
+    return m_technique;
 }
 
 }  // namespace glitch::video

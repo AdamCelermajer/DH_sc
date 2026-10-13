@@ -1,5 +1,5 @@
-// Slice 05 test: checks the one reconstructed body (billboardSetSize) and that
-// the stub entry points link and run without touching state.
+// Slice 05 test: checks the one reconstructed body (billboardSetSize). The scene manager, batch node, camera, empty node, mesh
+// node and selector stubs this slice used to carry were removed with the canonical classes.
 #include <cstdio>
 
 #include "glitch-scene-collada-gui/recon/slice_05.hpp"
@@ -36,10 +36,6 @@ int main() {
     check(node.boundingBox.MaxEdge.X == 3.0f && node.boundingBox.MaxEdge.Y == 3.0f &&
               node.boundingBox.MaxEdge.Z == 3.0f,
           "max edge is 3");
-
-    // Stubs must link and do nothing observable.
-    glitch::scene::CSceneManager manager;
-    glitch::scene::recon_05::sceneManagerClear(manager);
 
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);

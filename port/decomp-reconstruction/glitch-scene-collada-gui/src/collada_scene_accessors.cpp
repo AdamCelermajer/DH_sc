@@ -2,35 +2,9 @@
 
 namespace glitch::collada {
 
-// 0x62dba0 _ZN6glitch7collada20CDynamicAnimationSet10getChannelEj
-SChannelRecord* CDynamicAnimationSet::getChannel(unsigned index) {
-    return channels + index;
-}
-
-// 0x62dbac _ZNK6glitch7collada20CDynamicAnimationSet10getChannelEj
-const SChannelRecord* CDynamicAnimationSet::getChannel(unsigned index) const {
-    return channels + index;
-}
-
-// 0x62fc58 _ZN6glitch7collada20CDynamicAnimationSet8clearSetEv
-void CDynamicAnimationSet::clearSet() {
-    databases.clear();
-    setCleared = true;
-}
-
 // 0x6e5a38 _ZNK6glitch7collada17CCoronasSceneNode14getBoundingBoxEv
 const core::aabbox3d<float>& CCoronasSceneNode::getBoundingBox() const {
     return boundingBox;
-}
-
-// 0x644b80 _ZNK6glitch7collada5CMesh14getBoundingBoxEv
-const core::aabbox3d<float>& CMesh::getBoundingBox() const {
-    return boundingBox;
-}
-
-// 0x64990c _ZNK6glitch7collada13CMorphingMesh5cloneEv
-boost::intrusive_ptr<IMesh> CMorphingMesh::clone() const {
-    return boost::intrusive_ptr<IMesh>();
 }
 
 // 0x64943c _ZNK6glitch7collada28CModularSkinnedMeshSceneNode22getCategoryModuleCountEi
@@ -71,27 +45,6 @@ const char* CModularSkinnedMeshSceneNode::getCategoryName(int category) const {
 // 0x6494e0 _ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getCategoryIdEPKc
 std::int32_t CModularSkinnedMeshSceneNode::getCategoryId(const char* name) const {
     return mesh->getCategoryId(name);
-}
-
-// 0x65f0fc _ZN6glitch7collada21CSceneNodeAnimatorSet18getAnimationLengthEi
-// The original tail-calls CAnimationSet::getAnimationLength with the index unchanged.
-std::uint32_t CSceneNodeAnimatorSet::getAnimationLength(int index) {
-    return ::glitch::collada::getAnimationLength(animationSet, static_cast<unsigned>(index));
-}
-
-// 0x65f104 _ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationStartEi
-std::uint32_t CSceneNodeAnimatorSet::getAnimationStart(int index) {
-    return ::glitch::collada::getAnimationStart(animationSet, static_cast<unsigned>(index));
-}
-
-// 0x65f10c _ZN6glitch7collada21CSceneNodeAnimatorSet15getAnimationEndEi
-std::uint32_t CSceneNodeAnimatorSet::getAnimationEnd(int index) {
-    return ::glitch::collada::getAnimationEnd(animationSet, static_cast<unsigned>(index));
-}
-
-// 0x65f17c _ZN6glitch7collada21CSceneNodeAnimatorSet14getTargetCountEv
-std::uint32_t CSceneNodeAnimatorSet::getTargetCount() {
-    return animationSet->animatedTrackCount;
 }
 
 // 0x65cd70 _ZNK6glitch7collada10CSceneNode15getUserPropertyEv
@@ -171,10 +124,5 @@ void CWeightEx::getIdentityValue(void* out) const {
 
 }  // namespace animation_track
 
-
-// 0x644b88 _ZN6glitch7collada5CMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE
-void CMesh::setBoundingBox(const core::aabbox3d<float>& box) {
-    boundingBox = box;
-}
 
 }  // namespace glitch::collada

@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "glitch-video/vertex_attribute_map.hpp"
+#include "video_test_types.hpp"
 
 using namespace glitch::video;
 
@@ -11,17 +12,18 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    IBuffer b;
-    CVertexStreams streams;
+    test::TestBuffer b;  // on the stack with count 1: the stream entries add and drop their own uses
+    boost::intrusive_ptr<CVertexStreams> owner(new CVertexStreams(), true);  // born with count 0
+    CVertexStreams& streams = *owner;
     // Streams sorted by attribute: 1, 3, 5 at indices 0, 1, 2.
     const uint16_t attributes[3] = {1, 3, 5};
     for (uint16_t a : attributes) {
         SVertexStream s;
-        s.buffer = boost::intrusive_ptr<IBuffer>(&b);
+        s.buffer = boost::intrusive_ptr<IBuffer>(&b, true);
         s.attribute = a;
         streams.m_streams.push_back(s);
     }
-    boost::intrusive_ptr<const CVertexStreams> handle(&streams);
+    boost::intrusive_ptr<const CVertexStreams> handle(owner);
 
     // Unsorted: each pair searches from the start.
     const uint8_t pairs[] = {0, 3, 2, 5, 4, 7};    // slot 0 <- attr 3, slot 2 <- attr 5, slot 4 <- attr 7
@@ -45,14 +47,14 @@ int main() {
     CHECK(empty.m_map[0] == 0xff && empty.m_map[2] == 0xff);
 
     // Copy constructor and assignment copy the map but not the +0x00 word.
-    map.m_unknown00 = 77;
+    map.m_refCount = 77;
     CVertexAttributeMap copy(map);
     CHECK(std::memcmp(copy.m_map, map.m_map, CVertexAttributeMap::kMapSize) == 0);
-    CHECK(copy.m_unknown00 == 0);
+    CHECK(copy.m_refCount == 0);
     CVertexAttributeMap assigned(none, 0, pairs, false);
     assigned = map;
     CHECK(std::memcmp(assigned.m_map, map.m_map, CVertexAttributeMap::kMapSize) == 0);
-    CHECK(assigned.m_unknown00 == 0);
+    CHECK(assigned.m_refCount == 0);
 
     // Constructor from raw bytes copies the 30 map bytes.
     uint8_t raw[CVertexAttributeMap::kMapSize];

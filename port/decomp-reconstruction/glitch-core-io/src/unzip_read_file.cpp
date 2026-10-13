@@ -8,6 +8,6 @@ CUnzipReadFile::CUnzipReadFile(const std::string& folderPath, const char* entryN
     : CReadFile(folderPath.c_str(), false), name(entryName ? entryName : "") {}
 
 // 0x576db8 _ZNK6glitch2io14CUnzipReadFile11getFileNameEv
-const std::string& CUnzipReadFile::getFileName() const { return name; }
+const char* CUnzipReadFile::getFileName() const { return name.c_str(); }
 
 }  // namespace glitch::io

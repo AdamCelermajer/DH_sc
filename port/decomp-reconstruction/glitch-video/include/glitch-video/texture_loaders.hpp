@@ -4,21 +4,51 @@
 
 #include <cstdint>
 
+#include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-video/deps/glitch_io.hpp"
-#include "glitch-video/deps/glitch_video_types.hpp"
+#include "glitch-video/image.hpp"
+#include "glitch-video/texture.hpp"
+#include "glitch-video/video_types.hpp"
 
 struct jpeg_decompress_struct;
+struct jpeg_common_struct;
 
 namespace glitch::video {
 
 struct STextureLoadInfo;
 struct STextureDataInfo;
 
-class IImageLoader {
+// IImageLoader (engine unification wave u1-video: canonical definition). Layout: vptr, reference count at +0x04, which
+// every loader constructor stores as 1 (object size 8). Vtable (tools/decomp_vtable.py glitch::video::IImageLoader, 11
+// slots; the pure ones are named from the CImageLoaderBMP / TGA / Png / JPG / PVR / DDS / ATC overrides):
+//   +0x00 ~IImageLoader (D1 0x602d74, D0 0x602db0)  +0x04 deleting destructor  +0x08 onDelete
+//   +0x0c isALoadableFileExtension(const char*) const   +0x10 isALoadableFileFormat(IReadFile*) const
+//   +0x14 loadImage(IReadFile*) const                   +0x18 hasTextureLoadInterface() (0x602c84, false)
+//   +0x1c loadTextureHeader(IReadFile*, STextureDesc&) const (0x602c8c, false)
+//   +0x20 loadTextureData(IReadFile*, intrusive_ptr<ITexture> const&, STextureDesc const&) const (0x602c94, false)
+class IImageLoader : public glitch::IReferenceCounted {
 public:
-    virtual ~IImageLoader() = default;
-    virtual bool hasTextureLoadInterface();                               // 0x602c84
-    virtual bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const;  // 0x602c8c
+    ~IImageLoader() override = default;
+    virtual bool isALoadableFileExtension(const char* filename) const = 0;               // +0x0c
+    virtual bool isALoadableFileFormat(io::IReadFile* file) const = 0;                   // +0x10
+    virtual boost::intrusive_ptr<CImage> loadImage(io::IReadFile* file) const = 0;       // +0x14
+    virtual bool hasTextureLoadInterface();                               // +0x18  0x602c84
+    virtual bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const;  // +0x1c  0x602c8c
+    virtual bool loadTextureData(io::IReadFile* file, const boost::intrusive_ptr<ITexture>& texture,
+                                 const STextureDesc& desc) const;         // +0x20  0x602c94
+    // Per-format description of the texture data in a file (dtor + four pure slots, named from
+    // CImageLoaderPVR::CDataInfo 0x605720..0x605738): size of the data, pitch of a mip, byte order and flip.
+    class IDataInfo {
+    public:
+        virtual ~IDataInfo() = default;                          // 0x60764c (D1) / 0x607a48 (D0)
+        virtual int32_t getFileDataSize() const = 0;             // +0x08
+        virtual uint32_t getFilePitch(uint8_t mip) const = 0;    // +0x0c
+        virtual bool isLittleEndian() const = 0;                 // +0x10
+        virtual bool needsFlip() const = 0;                      // +0x14
+    };
+    // 0x6083d0: reads the texture data through an IDataInfo and an ITextureDataLoading into the texture. Declared only.
+    bool loadData(io::IReadFile* file, const IDataInfo& info, const STextureDesc& desc,
+                  const boost::intrusive_ptr<ITexture>& texture) const;
 
     // Stand-in for the object at +0x08 of ITextureDataLoading. Its vtable is not
     // identified; the default answers are the no-special-case values.
@@ -37,7 +67,10 @@ public:
     class ITextureDataLoading {
     public:
         ITextureDataLoading();
-        virtual ~ITextureDataLoading() = default;
+        virtual ~ITextureDataLoading() = default;  // 0x6076fc (D1) / 0x607a2c (D0)
+        // Vtable slots +0x08 and +0x0c (named from the CPerFaceLoading overrides 0x60821c / 0x60791c).
+        virtual int32_t preprocess() = 0;
+        virtual int32_t process(E_TEXTURE_CUBE_MAP_FACE face, uint8_t mip) = 0;
 
         // 0x6077c4 (void in the original): the pitch value is computed and discarded
         // by the original, so only the flag at +0x22 is kept. Partial.
@@ -60,7 +93,8 @@ public:
         bool m_pitchKnown = false;                    // +0x22, set by getFilePitch
     };
 
-    uint32_t m_refCount = 1;  // +0x04, set to 1 by the loader constructors
+    // 0x602d74 / 0x602db0: the loader constructors set the count (+0x04) to 1.
+    IImageLoader() { referenceCounter = 1; }
 };
 
 // Minimal descriptor shapes used by ITextureDataLoading. Offsets are the
@@ -111,20 +145,25 @@ bool readDDSHeader(io::IReadFile* file, SDDSSurfaceFormatHeader& header);
 
 class CImageLoaderATC : public IImageLoader {
 public:
-    class CDataInfo {
+    ~CImageLoaderATC() override = default;  // 0x602d78 (D1) / 0x602d9c (D0)
+    class CDataInfo : public IDataInfo {
     public:
-        int32_t getFileDataSize() const;     // 0x602ca4
-        uint32_t getFilePitch(uint8_t) const;  // 0x602cac
-        bool isLittleEndian() const;         // 0x602cb4
-        bool needsFlip() const;              // 0x602cbc
+        ~CDataInfo() override = default;              // 0x602e00 / 0x6032a0
+        int32_t getFileDataSize() const override;     // 0x602ca4
+        uint32_t getFilePitch(uint8_t) const override;  // 0x602cac
+        bool isLittleEndian() const override;         // 0x602cb4
+        bool needsFlip() const override;              // 0x602cbc
     private:
         int32_t m_fileDataSize = 0;          // +0x0c
     };
     bool hasTextureLoadInterface() override;  // 0x602c9c
     // 0x602cc4: reads the ATC magic (16-bit value at offset 4 is 0x8c92 or 0x8c93).
-    bool isALoadableFileFormat(io::IReadFile* file) const;
+    bool isALoadableFileFormat(io::IReadFile* file) const override;
     // 0x603254: ".atc" or ".ATC" in the name.
-    bool isALoadableFileExtension(const char* filename) const;
+    bool isALoadableFileExtension(const char* filename) const override;
+    boost::intrusive_ptr<CImage> loadImage(io::IReadFile* file) const override;  // +0x14, not reconstructed
+    bool loadTextureData(io::IReadFile* file, const boost::intrusive_ptr<ITexture>& texture,
+                         const STextureDesc& desc) const override;  // +0x20, not reconstructed
     // 0x602e34: reads the ATC header (little-endian 16-bit fields, 32-bit data size), reads the
     // whole data block to check its size, then fills desc. Returns false when the block is short.
     // Partial: the failure path's os::Printer::log("corrupt ATC file") is not called (os::Printer
@@ -135,22 +174,29 @@ public:
 class CImageLoaderDDS : public IImageLoader {
 public:
     CImageLoaderDDS();  // 0x604268 (C2) / 0x604294 (C1)
-    class CDataInfo {
+    ~CImageLoaderDDS() override = default;  // 0x60430c (D1) / 0x604330 (D0)
+    class CDataInfo : public IDataInfo {
     public:
-        int32_t getFileDataSize() const;     // 0x60422c
+        ~CDataInfo() override = default;              // 0x604364 / 0x604930
+        int32_t getFileDataSize() const override;     // 0x60422c
         // 0x604234: pitch from the DDS header when mip 0 is asked and the pitch flag is set.
-        uint32_t getFilePitch(uint8_t mip) const;
-        bool isLittleEndian() const;         // 0x604258
-        bool needsFlip() const;              // 0x604260
+        uint32_t getFilePitch(uint8_t mip) const override;
+        bool isLittleEndian() const override;         // 0x604258
+        bool needsFlip() const override;              // 0x604260
     private:
         int32_t m_fileDataSize = 0;          // +0x0c
         const uint32_t* m_header = nullptr;  // +0x04, DDS header as 32-bit words
     };
     bool hasTextureLoadInterface() override;  // 0x6041c4
     // 0x6042c0: reads the first four bytes and checks for "DDS ".
-    bool isALoadableFileFormat(io::IReadFile* file) const;
+    bool isALoadableFileFormat(io::IReadFile* file) const override;
     // 0x60490c: ".dds" in the name.
-    bool isALoadableFileExtension(const char* filename) const;
+    bool isALoadableFileExtension(const char* filename) const override;
+    boost::intrusive_ptr<CImage> loadImage(io::IReadFile* file) const override;  // +0x14, not reconstructed
+    // 0x604398: reads the DDS header (see readDDSHeader). Declared only.
+    bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const override;
+    bool loadTextureData(io::IReadFile* file, const boost::intrusive_ptr<ITexture>& texture,
+                         const STextureDesc& desc) const override;  // +0x20, not reconstructed
 };
 
 // The 52-byte PowerVR (version 2) header, decoded field by field from the 32-bit little-endian
@@ -181,19 +227,24 @@ bool readPVRHeader(io::IReadFile* file, SPVRHeader& header, bool& isBTEX);
 class CImageLoaderPVR : public IImageLoader {
 public:
     CImageLoaderPVR();  // 0x605740 (C2) / 0x60576c (C1)
+    ~CImageLoaderPVR() override = default;  // 0x605798 (D2) / 0x60579c (D1) / 0x605f30 (D0)
     // 0x6057e0: a 52-byte header with "PVR!" at offset 44, or "BTEXpvr" at offset 0.
-    bool isALoadableFileFormat(io::IReadFile* file) const;
+    bool isALoadableFileFormat(io::IReadFile* file) const override;
     // 0x6061b4: ".pvr" or ".btex" in the name.
-    bool isALoadableFileExtension(const char* filename) const;
+    bool isALoadableFileExtension(const char* filename) const override;
+    boost::intrusive_ptr<CImage> loadImage(io::IReadFile* file) const override;  // +0x14, not reconstructed
+    bool loadTextureData(io::IReadFile* file, const boost::intrusive_ptr<ITexture>& texture,
+                         const STextureDesc& desc) const override;  // +0x20, not reconstructed
     // 0x605b10: reads the header with readPVRHeader, checks the data size against the file size,
     // maps the PowerVR pixel format to a glitch format id and checks it against the twiddle flag.
     bool loadTextureHeader(io::IReadFile* file, STextureDesc& desc) const override;
-    class CDataInfo {
+    class CDataInfo : public IDataInfo {
     public:
-        int32_t getFileDataSize() const;     // 0x605720
-        uint32_t getFilePitch(uint8_t) const;  // 0x605728
-        bool isLittleEndian() const;         // 0x605730
-        bool needsFlip() const;              // 0x605738
+        ~CDataInfo() override = default;              // 0x605f4c / 0x606200
+        int32_t getFileDataSize() const override;     // 0x605720
+        uint32_t getFilePitch(uint8_t) const override;  // 0x605728
+        bool isLittleEndian() const override;         // 0x605730
+        bool needsFlip() const override;              // 0x605738
     private:
         int32_t m_fileDataSize = 0;          // +0x0c
     };
@@ -201,20 +252,23 @@ public:
 };
 
 // libjpeg source-manager callbacks used by the JPG loader.
-class CImageLoaderJPG {
+class CImageLoaderJPG : public IImageLoader {
 public:
     CImageLoaderJPG();  // 0x604a7c (C2) / 0x604aa8 (C1)
     // 0x604b0c: "JFIF" (or the byte-swapped form) at offset 6.
-    bool isALoadableFileFormat(io::IReadFile* file) const;
+    bool isALoadableFileFormat(io::IReadFile* file) const override;
     // 0x604f6c: ".jpg" or ".JPG" in the name.
-    bool isALoadableFileExtension(const char* filename) const;
-    virtual ~CImageLoaderJPG() = default;
-    void init_source(jpeg_decompress_struct*);       // 0x604adc
-    bool fill_input_buffer(jpeg_decompress_struct*); // 0x604ae0
-    void term_source(jpeg_decompress_struct*);       // 0x604b08
-
-private:
-    uint32_t m_unknown04 = 1;  // +0x04, set to 1 by the constructors
+    bool isALoadableFileExtension(const char* filename) const override;
+    boost::intrusive_ptr<CImage> loadImage(io::IReadFile* file) const override;  // +0x14, not reconstructed
+    ~CImageLoaderJPG() override = default;  // 0x604ad4 (D2) / 0x604ad8 (D1) / 0x604fb8 (D0)
+    // The libjpeg callbacks are static in the original (the listings take the cinfo as the first argument; skip_input_data
+    // reads cinfo->src at +0x18).
+    static void init_source(jpeg_decompress_struct*);        // 0x604adc
+    static bool fill_input_buffer(jpeg_decompress_struct*);  // 0x604ae0
+    static void skip_input_data(jpeg_decompress_struct*, long numBytes);  // 0x604ae8, declared only
+    static void term_source(jpeg_decompress_struct*);        // 0x604b08
+    static void output_message(jpeg_common_struct*);         // 0x604ed8, declared only
+    static void error_exit(jpeg_common_struct*);             // 0x604f48, declared only
 };
 
 // Factories: new object, default constructed, returned to the caller.

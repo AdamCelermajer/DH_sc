@@ -108,7 +108,7 @@ public:
     // 0x535710 _ZN6glitch3gui15CGUIEnvironment7onEventERKNS_6SEventE
     // Partial: the list head at +0x08 (childrenSentinel) is inferred from the IGUIElement
     // child list in layouts/gui.hpp and is not confirmed for the environment. The receiver
-    // method behind vtable +0x08 is named forwardEvent in deps/event_stand_ins.hpp.
+    // method behind vtable +0x08 is glitch::IEventReceiver::onEvent (glitch-core-io/os/event_receiver.hpp).
     bool onEvent(const glitch::SEvent& event);
     // 0x535770 _ZNK6glitch3gui15CGUIEnvironment7getSkinEv
     IGUISkin* getSkin() const;

@@ -9,21 +9,14 @@
 // cited bodies are marked "not confirmed".
 //
 // Base layers: the GUI classes sit on glitch::gui::IGUIElement, which occupies
-// +0x00..+0x157 and is declared in layouts/gui.hpp (not repeated here). The scene
-// classes sit on ISceneNode / ISceneNodeAnimator, whose layouts are not declared, so
-// their leading bytes are pads.
+// +0x00..+0x157 and is declared in layouts/gui.hpp (not repeated here).
 //
-// Name clashes: CGUIButton, CGUICheckBox, CGUIEditBox, CSceneNodeAnimatorCollisionResponse
-// and CAnimatedMeshSceneNode are also declared with partial members in gui_elements.hpp,
-// gui_simple_accessors.hpp and scene_simple_accessors.hpp. Do not include this header in
-// the same translation unit as those.
-//
-// Not declared here (already declared with matching offsets in layouts/scene_members.hpp):
-// CSceneNodeAnimatorFlyCircle, CSceneNodeAnimatorFlyStraight, CSceneNodeAnimatorRotation,
-// CSceneNodeAnimatorTexture, CDefaultSceneNodeAnimatorFactory. CTerrainSceneNode is also
-// declared there, but its +0x17c and +0x178..0x17c entries conflict with the pseudocode
-// (see the report). The animation_track rows (CVirtualEx, CApplyValueEx, CInterpreter)
-// touch no members of their own class; see layouts/animation_track.hpp.
+// Name clashes: CGUIButton, CGUICheckBox and CGUIEditBox are also declared with partial members in gui_elements.hpp and
+// gui_simple_accessors.hpp. Do not include this header in the same translation unit as those. The scene classes that used to
+// be declared here and in layouts/scene_members.hpp (CSceneNodeAnimatorCollisionResponse, CAnimatedMeshSceneNode, the other
+// animators, the factories, CTerrainSceneNode, CBillboardTextSceneNode, CDummyTransformationSceneNode) are merged into the
+// classes of scene_simple_accessors.hpp (unification wave u1-scene); layouts/scene_members.hpp is gone. The animation_track rows
+// (CVirtualEx, CApplyValueEx, CInterpreter) touch no members of their own class; see layouts/animation_track.hpp.
 #ifndef GLITCH_SCENE_COLLADA_GUI_LAYOUTS_VIRTUAL_GUI_MEMBERS_HPP
 #define GLITCH_SCENE_COLLADA_GUI_LAYOUTS_VIRTUAL_GUI_MEMBERS_HPP
 
@@ -149,43 +142,5 @@ static_assert(offsetof(CGUICheckBox, checked) == 0x159, "CGUICheckBox::checked")
 
 }  // namespace glitch::gui
 
-namespace glitch::scene {
-
-// glitch::scene::CSceneNodeAnimatorCollisionResponse (serialize 0x6ca764, deserialize 0x6ca804).
-class CSceneNodeAnimatorCollisionResponse {
-public:
-    std::uint8_t pad_0x000[0x18];           // +0x000..+0x017 ISceneNodeAnimator base region, not confirmed
-    core::vector3d<float> radius;           // +0x18 serialize attribute "Radius" (the first vector, name from the serializer order)
-    core::vector3d<float> gravity;          // +0x24 serialize attribute "Gravity"
-    core::vector3d<float> translation;      // +0x30 serialize attribute "Translation"
-    std::uint8_t pad_0x3c[0x1a];            // +0x3c..+0x55 not confirmed
-    std::uint8_t animateCameraTarget;       // +0x56 serialize attribute "AnimateCameraTarget"
-};
-
-static_assert(offsetof(CSceneNodeAnimatorCollisionResponse, radius) == 0x18, "CollisionResponse::radius");
-static_assert(offsetof(CSceneNodeAnimatorCollisionResponse, gravity) == 0x24, "CollisionResponse::gravity");
-static_assert(offsetof(CSceneNodeAnimatorCollisionResponse, translation) == 0x30, "CollisionResponse::translation");
-static_assert(offsetof(CSceneNodeAnimatorCollisionResponse, animateCameraTarget) == 0x56, "CollisionResponse::animateCameraTarget");
-
-// glitch::scene::CAnimatedMeshSceneNode (serialize 0x6f6478, deserialize 0x6f6d98).
-// The ISceneNode base is not declared, so its bytes are pads.
-class CAnimatedMeshSceneNode {
-public:
-    std::uint8_t pad_0x000[0x110];          // +0x000..+0x10f ISceneNode base region, not confirmed
-    std::uint32_t field_0x110;              // +0x110 guest pointer, role not confirmed (serialize and deserialize call through its +368 object)
-    std::uint8_t pad_0x114[0x1c];           // +0x114..+0x12f not confirmed
-    std::uint32_t meshHolder;               // +0x130 refcounted object (serialize and deserialize take a ref around the mesh name query)
-    std::uint8_t pad_0x134[0x0c];           // +0x134..+0x13f not confirmed
-    std::uint32_t framesPerSecond;          // +0x140 serialize attribute "FramesPerSecond" (attribute word; type not confirmed)
-    std::uint8_t pad_0x144[0x10];           // +0x144..+0x153 not confirmed
-    std::uint8_t looping;                   // +0x154 serialize attribute "Looping"
-};
-
-static_assert(offsetof(CAnimatedMeshSceneNode, field_0x110) == 0x110, "CAnimatedMeshSceneNode::field_0x110");
-static_assert(offsetof(CAnimatedMeshSceneNode, meshHolder) == 0x130, "CAnimatedMeshSceneNode::meshHolder");
-static_assert(offsetof(CAnimatedMeshSceneNode, framesPerSecond) == 0x140, "CAnimatedMeshSceneNode::framesPerSecond");
-static_assert(offsetof(CAnimatedMeshSceneNode, looping) == 0x154, "CAnimatedMeshSceneNode::looping");
-
-}  // namespace glitch::scene
 
 #endif  // GLITCH_SCENE_COLLADA_GUI_LAYOUTS_VIRTUAL_GUI_MEMBERS_HPP

@@ -806,3 +806,62 @@ Rows this slice unblocks (once implemented in src/ by the owning category):
 - `rect` members are now `UpperLeftCorner` / `LowerRightCorner` (position2d) as in shared. Uses in src/numbers_attribute.cpp and seven tests were renamed. No header used X1/Y1/X2/Y2.
 - `core/sid_collection.hpp` is a forwarder to `glitch-shared/sid_collection.hpp`.
 - Checked: all src and tests compile with g++ -std=c++17 -Wall -fsyntax-only, and all 57 tests build and pass under dep-build (no warnings).
+
+## Engine unification wave u1-core (core domain: one definition each)
+
+The tree is one program now, so every shared type has exactly one definition. This category is the canonical owner of the
+core domain. The map of every stand-in in every category is `reports/decomp-reconstruction/unification/core.json`; the
+ledger rows that changed are in `ledger.d/u1-core.csv` (this category, glitch-scene-collada-gui, net-session-online).
+
+Canonical headers (include paths):
+- `glitch-core-io/core/reference_counted.hpp`: `glitch::IReferenceCounted`, header-only (drop is inline). `glitch-shared/reference_counted.hpp`
+  and `deps/glitch_core_objects.hpp` forward to it. Vtable +0x00 D1, +0x04 D0, +0x08 onDelete; counter at +0x04 (mutable, because drop is const).
+- `glitch-core-io/boost/intrusive_ptr.hpp`: the counting `boost::intrusive_ptr` (TRACK-B decision 1). Added `intrusive_ptr(nullptr_t)`,
+  `intrusive_ptr(T*, bool add_ref)`, converting copy, comparison with raw pointers and nullptr, `reset`, `swap`, `detach`. There are no move
+  operations (the binary is C++03, so every copy counts). `intrusive_ptr(T*)` takes over the reference it is given (an IReferenceCounted object
+  is born with count 1); types that keep the count at +0x00 (CMaterial, CMaterialRenderer, CVertexStreams, CLight) define their own
+  `intrusive_ptr_add_ref/release` next to the class (ADL).
+- `glitch-core-io/os/event_receiver.hpp`: `glitch::SEvent` (0x18 bytes: EventType +0x00, unused +0x04, payload +0x08 for GUI event, mouse input,
+  key input, log text), `EEVENT_TYPE` (0 GUI, 1 mouse, 2 key, 3 log text), `EMOUSE_INPUT_EVENT` (0..7) and `glitch::IEventReceiver` (D1, D0, `onEvent` pure at +0x08).
+  Evidence: TouchScreenWin32::onEvent 0x33d4b4, Application::onEvent 0x32a9c8, InputManagerEventReceiver::onEvent 0x34d92c,
+  ZoomHandler::onEvent 0x382040, CGUIEnvironment::onEvent, IDevice::postEventFromUser 0x671a00 (six words copied), CLogger::vlogf 0x6a0990 (type 3).
+  The game's own `::IEventReceiver` (onEvent(IEvent const*, EventManager const*)) is a different class: `dh2/IEventReceiver.hpp`.
+- `glitch-core-io/os/logging.hpp`: `glitch::ELOG_LEVEL`, `glitch::ILogger` (reference counted, seven pure slots +0x0c..+0x24: getLogLevel,
+  setLogLevel, log x4, vlogf; `logf` is the non-virtual tail call 0x6a0a48), `glitch::os::Printer` and `glitch::os::Timer`. The symbols spell
+  `glitch::ELOG_LEVEL` and `glitch::ILogger`, not `glitch::os::`; `glitch::os` has using-declarations so the old spelling compiles. `CLogger` (scene queue) derives from `ILogger`.
+- `glitch-shared/glitch_core.hpp`: the glitch::core value types, now with the original offsets in comments, and SColor's component accessors (`component(i)`,
+  component 0 is the low byte; the channel names of bytes 0..2 are not recoverable). `rect` stays UpperLeftCorner / LowerRightCorner.
+- `glitch-core-io/io/interfaces.hpp`: IReadFile, IWriteFile, IFileList, IFileSystem, IFileReadCallBack, IIrrXMLReader<CharT, Super> (IXMLReader,
+  IXMLReaderUTF8), IXMLWriter, IAttributesReader/Writer, IAttributeExchangingObject, all in vtable slot order and pure as in the binary.
+  `io/iattributes.hpp`: IAttributes with its 187 pure slots (generated from the CAttributes vtable; CAttributes overrides every one). `io/attributes.hpp`: IAttribute in slot order.
+  Corrections from the binary: `IReadFile::read` returns the byte count (int32) and `readAsync` returns bool; `getFileName` and `getFullPath` return `const char*`;
+  `IFileReadCallBack::read` returns the count; `CFileSystem::getWorkingDirectory` is a virtual over the static `char WorkingDirectory[1024]`;
+  `CMemoryWriteFile` derives from IWriteFile, `CFileList` from IFileList, the XML readers from IIrrXMLReader, `CReadFile` has the virtual `isOpen` at +0x3c.
+  IAttribute's +0x11c `setVector2d(vector2d<int>)` is CNumbersAttribute's own virtual; `CAttributes::setAttribute(name, vector2d<int>)` calls slot +0xcc (setVector2di).
+- `glitch-shared/sid_collection.hpp`: the one SIDedCollection (`sid_layout::SIDedCollection<T, Props, Traits>`). It follows the old std::map implementation's
+  natural-copy semantics (T is a counting `intrusive_ptr`, so SEntry::set/reset need no manual addRef) and the shared header's layout work (insert, rename).
+  The mapped `SIdValue` derives from Props and adds the id (ITexture +0x1c, IShader +0x04, CMaterialRenderer +0x0a, IShaderCode +0x00, SShaderParameterDef +0x04: the SIdValue
+  constructors and getId of each instance). `core/sided_collection.hpp` gives it the original instance names
+  (`glitch::core::detail::SIDedCollection<T, ushort, false, Props, Traits>`, `sidedcollection::SValueTraits`, `SEmptyProperties`).
+- `core/kd_tree.hpp` and `core/shared_string_heap.hpp` forward to the shared copies (they differed only by an include).
+- `glitch-core-io/core/memory_hint.hpp`: `glitch::memory::E_MEMORY_HINT` (only the value 0 occurs in the binary).
+- Game side, next to `dh2/EventManager.hpp`: `dh2/IEvent.hpp`, `EvAcceleration.hpp`, `EvTouchScreenMove.hpp`, `EvTouchScreenPress.hpp` (layouts from TouchScreenBase::ProcessEvents 0x33c568 and AccelerometerBase::moved 0x33d8dc).
+
+Left alone on purpose (other domains, kept in this category as stand-ins): the glitch::video and glitch::scene stubs in `deps/glitch_core_objects.hpp`
+(IVideoDriver, ITexture, CLight, CMaterial, CMaterialRenderer, CVertexStreams, IShader, IShaderCode, IBuffer, CImage, CMeshBuffer), `tb/cprimitivestream.hpp` and
+`collada_binary_file_loader.hpp`. Their owners replace them; the core-io code that names them follows when the real headers are wired in.
+
+Tests: `u1_core_events_test`, `u1_core_io_interfaces_test`, `u1_core_sid_test`; the read-file fakes in the older tests derive from `tests/io_stub_files.hpp`
+(inert implementations of the pure slots).
+
+Open:
+- `CFileSystem` archive functions (addZip/addFolder/addPakFileArchive, removeFileArchive, addObfuscationFileMap) are declared and answer false; `createAndOpenFile`
+  lacks the nested-archive branch. The obfuscation map and the shared `CFile` handle are not modelled.
+- CXMLAttributesReader::read (0x571920) and CXMLAttributesWriter::write (0x5723f8) are not reconstructed, so IAttributesReader/Writer keep an inert default for that one slot.
+- `CMatrix4Base<float>` is not a class in the shared header (CMatrix4 holds the 16 values and the flag itself); its functions are free functions in `core/matrix4_base.hpp`.
+- CTimer is not derived from ITimer, IDevice is partial (the pure slots are not declared); CAttributes and the attribute classes other than IAttribute keep the earlier models.
+- `CMatrix4<float>`: the no-argument constructor leaves the 16 values uninitialised (value-initialisation gives zeros), while the binary's `CMatrix4(eConstructor)`
+  (0x631c14, 0x6c0ce4) builds the identity and sets the flag. Whether the no-argument form defaults to the identity is not visible in the listings read, so it was not changed.
+- The root `port/decomp-reconstruction/CMakeLists.txt` cannot be configured while `vendor-lua/src` and `vendor-box2d/src` exist: the per-category library loop then
+  declares `dh2_vendor_lua` and `dh2_vendor_box2d` a second time. The u1-core tests were built and run from a private copy of the tree (junctions plus a root file with a
+  `if(TARGET ...) continue()` guard), 74 of 74 core-io tests pass; the integrator needs to merge those two vendor targets.

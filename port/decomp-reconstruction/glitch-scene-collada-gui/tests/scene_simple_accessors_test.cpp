@@ -95,11 +95,10 @@ int main() {
     CHECK(IParticleCylinderEmitter().getType() == 3);
     CHECK(IParticleSpinAffector().getType() == 6);
 
-    SAnimatedMesh mesh;
+    SAnimatedMesh mesh(boost::intrusive_ptr<IMesh>(), 0);
     CHECK(mesh.getMeshType() == 0);
     mesh.meshType = 7;
     CHECK(mesh.getMeshType() == 7);
-    CHECK(IAnimatedMesh().getMeshType() == 0);
 
     // Text, camera and particle accessors.
     CTextSceneNode textNode;
@@ -163,7 +162,7 @@ int main() {
     CHECK(!affector.getEnabled());
 
     // Animated mesh frames and bounding box; mesh cache lookups by pointer and index.
-    SAnimatedMesh animated;
+    SAnimatedMesh animated(boost::intrusive_ptr<IMesh>(), 0);
     animated.meshes.resize(3);
     CHECK(animated.getFrameCount() == 3);
     glitch::core::aabbox3d<float> animBox{{0.0f, 0.0f, 0.0f}, {1.0f, 2.0f, 3.0f}};
@@ -173,8 +172,8 @@ int main() {
     CMeshCache cache;
     CHECK(cache.getMeshCount() == 0);
     CHECK(cache.getMeshFilename(0) == nullptr);
-    IAnimatedMesh meshA;
-    IAnimatedMesh meshB;
+    SAnimatedMesh meshA(boost::intrusive_ptr<IMesh>(), 0);
+    SAnimatedMesh meshB(boost::intrusive_ptr<IMesh>(), 0);
     cache.entries.resize(2);
     cache.entries[0].filename = "a.x";
     cache.entries[0].mesh = &meshA;
@@ -241,12 +240,7 @@ int main() {
         CShadowVolumeSceneNode shadow;
         CHECK(shadow.load(nullptr) == 0);
 
-        // Append buffer clear and the binary loader's extension test.
-        CAppendMeshBuffer appendBuffer;
-        appendBuffer.fillCounterA = 3;
-        appendBuffer.fillCounterB = 4;
-        appendBuffer.clear();
-        CHECK(appendBuffer.fillCounterA == 0 && appendBuffer.fillCounterB == 0);
+        // The binary loader's extension test (the append buffer is checked in scene_append_mesh_buffer_test.cpp).
         CColladaBinaryFileLoader binaryLoader;
         CHECK(binaryLoader.isALoadableFileExtension("scene.bdae"));
         CHECK(!binaryLoader.isALoadableFileExtension("scene.dae"));
@@ -257,8 +251,8 @@ int main() {
         maya.stateB = 4.0f;
         CHECK(maya.updateAnimationState() == 6.0f);
         CSceneNodeAnimatorFlyStraight fly;
-        fly.minuend = 2.0f;
-        fly.subtrahend = 0.5f;
+        fly.end.X = 2.0f;
+        fly.start.X = 0.5f;
         CHECK(fly.recalculateImidiateValues() == 1.5f);
     }
 

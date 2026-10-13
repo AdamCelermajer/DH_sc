@@ -54,7 +54,9 @@ public:
     void setRect(glitch::core::rect<std::int32_t> value);             // 0x3247b8 (named setRect in the original)
     glitch::core::vector2d<float> getVector2d() const override;       // 0x31dbf8
     void setVector2d(glitch::core::vector2d<float> value) override;   // 0x324d04
-    void setVector2d(glitch::core::vector2d<std::int32_t> value) override;  // 0x3251d0
+    // +0x11c: CNumbersAttribute continues the IAttribute table (+0x10c getFloatArray .. +0x12c isFloat); this
+    // overload of setVector2d is its own virtual, not an IAttribute slot.
+    virtual void setVector2d(glitch::core::vector2d<std::int32_t> value);  // 0x3251d0
     glitch::core::position2d<std::int32_t> getPosition() const override;     // 0x31db5c
     void setPosition(glitch::core::position2d<std::int32_t> value) override; // 0x32490c
     glitch::core::vector3d<float> getVector3d() const override;       // 0x31dcb0

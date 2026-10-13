@@ -1,6 +1,7 @@
 #include "glitch-video/null_shader.hpp"
 #include "glitch-video/null_shader_manager.hpp"
 #include "glitch-video/shader_code.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 
@@ -12,14 +13,14 @@ using namespace glitch::video;
 int main() {
     // Shader code table: insert, find by name, unknown name gives null.
     ICodeShaderManager codes;
-    auto a = boost::intrusive_ptr<IShaderCode>(new IShaderCode("alpha"));
-    auto b = boost::intrusive_ptr<IShaderCode>(new IShaderCode("beta"));
+    auto a = boost::intrusive_ptr<IShaderCode>(new test::TestShaderCode("alpha"), true)  /* born with count 0 */;
+    auto b = boost::intrusive_ptr<IShaderCode>(new test::TestShaderCode("beta"), true);
     codes.addShaderCode(a);
     codes.addShaderCode(b);
     CHECK(codes.getShaderCode("alpha").get() == a.get());
     CHECK(codes.getShaderCode("beta").get() == b.get());
     CHECK(!codes.getShaderCode("gamma"));
-    CHECK(a->m_refCount == 0);
+    CHECK(a->referenceCounter == 2);  // the local and the collection
     codes.removeUnusedShaderCodes();
     CHECK(!codes.getShaderCode("alpha"));
 

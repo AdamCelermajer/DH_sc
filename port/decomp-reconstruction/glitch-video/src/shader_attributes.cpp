@@ -7,7 +7,8 @@ namespace glitch::video {
 // 0x5e4a4c _ZN6glitch5video7IShaderC1EtPKcPNS0_12IVideoDriverE
 // 0x5e4ae0 _ZN6glitch5video7IShaderC2EtPKcPNS0_12IVideoDriverE
 IShader::IShader(uint16_t id, const char* name, IVideoDriver* driver)
-    : m_driver(driver), m_name(name) {
+    : m_driver(driver), m_name(name != nullptr ? name : "") {
+    referenceCounter = 0;
     // Stage records, attribute list and mask start at zero.
     m_vertexAttributeDefs = nullptr;
     m_vertexAttributeMask = 0;
@@ -17,8 +18,17 @@ IShader::IShader(uint16_t id, const char* name, IVideoDriver* driver)
     m_id = id;
 }
 
+// 0x5e49e8 _ZN6glitch5video7IShaderD1Ev / 0x5e4f04 D2 / 0x5e4c18 D0
+// Tells the driver the shader is gone (IVideoDriver::onShaderDestroyed, vtable +0x214), then frees the name (the string
+// member does that). The null test is a port guard: the original dereferences the driver.
+IShader::~IShader() {
+    if (m_driver != nullptr) {
+        m_driver->onShaderDestroyed(this);
+    }
+}
+
 // 0x5e4940 _ZNK6glitch5video7IShader26getVertexAttributeDefIndexENS0_18E_VERTEX_ATTRIBUTEE
-uint32_t IShader::getVertexAttributeDefIndex(uint32_t attribute) const {
+uint32_t IShader::getVertexAttributeDefIndex(E_VERTEX_ATTRIBUTE attribute) const {
     for (uint32_t i = 0; i < m_vertexAttributeDefCount; ++i) {
         if (m_vertexAttributeDefs[i].attribute == attribute) {
             return i;
@@ -29,7 +39,7 @@ uint32_t IShader::getVertexAttributeDefIndex(uint32_t attribute) const {
 
 // 0x5e48e4 _ZNK6glitch5video7IShader14getParameterIDENS0_23E_SHADER_PARAMETER_TYPEENS0_14E_SHADER_STAGEEt
 // Stage 2 and above have no record in the port (see the header).
-uint32_t IShader::getParameterID(uint32_t parameterType, uint32_t stage, uint16_t index) const {
+uint32_t IShader::getParameterID(E_SHADER_PARAMETER_TYPE parameterType, uint32_t stage, uint16_t index) const {
     if (stage >= 2) {
         return 0xffff;
     }

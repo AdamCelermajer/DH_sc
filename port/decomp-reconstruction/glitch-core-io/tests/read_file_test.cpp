@@ -1,4 +1,5 @@
 #include "glitch-core-io/io/read_file.hpp"
+#include "io_stub_files.hpp"
 
 #include <cstdio>
 
@@ -6,7 +7,7 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    glitch::io::IReadFile base;
+    glitch::io::testing::StubReadFile base;
     long size = 7;
     CHECK(base.getBuffer(&size) == nullptr);
     CHECK(base.getExternalBuffer("x", &size) == nullptr);

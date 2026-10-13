@@ -18,7 +18,7 @@ int main() {
         w.flush();
         CHECK(w.getPos() == 8);
         CHECK(w.seek(2, false) && w.getPos() == 2);
-        CHECK(w.getFileName() == name);
+        CHECK(std::string(w.getFileName()) == name);
     }
 
     // Read back.
@@ -26,7 +26,7 @@ int main() {
         glitch::io::CReadFile r(name, false);
         CHECK(r.isOpen());
         CHECK(r.getSize() == 8);
-        CHECK(r.getFileName() == name);
+        CHECK(std::string(r.getFileName()) == name);
         char buf[4] = {0};
         r.read(buf, 3);
         CHECK(std::memcmp(buf, "abc", 3) == 0);

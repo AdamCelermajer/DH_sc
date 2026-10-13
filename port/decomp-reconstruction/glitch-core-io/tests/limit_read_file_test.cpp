@@ -4,6 +4,7 @@
 #include "glitch-core-io/io/memory_read_file.hpp"
 #include "glitch-core-io/io/read_file.hpp"
 #include "glitch-core-io/io/write_file.hpp"
+#include "io_stub_files.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -17,7 +18,7 @@ using glitch::io::CLimitReadFile;
 using glitch::io::IReadFile;
 
 // A read file whose position and full path are fixed, to drive CLimitReadFile.
-class FakeFile : public IReadFile {
+class FakeFile : public glitch::io::testing::StubReadFile {
 public:
     FakeFile(long pos, std::string full) : position(pos), fullPath(std::move(full)) {}
     long getPos() const override { return position; }
@@ -25,7 +26,7 @@ public:
         position = relative ? position + offset : offset;
         return true;
     }
-    const std::string& getFullPath() const override { return fullPath; }
+    const char* getFullPath() const override { return fullPath.c_str(); }
     IReadFile* clone() const override { return new FakeFile(position, fullPath); }
 
     long position;

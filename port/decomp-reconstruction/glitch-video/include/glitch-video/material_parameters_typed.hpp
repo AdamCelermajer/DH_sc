@@ -37,11 +37,9 @@ namespace glitch::video {
 
 class CLight;
 
-// E_SHADER_PARAMETER_VALUE_TYPE is an enum parameter in the original. As with the other E_*
-// parameters in deps/glitch_video_types.hpp it is an int32_t alias here. The codes below are
-// the case values of the dispatcher switch (0x5c57b0 and the seven others). The enumerator
-// names are port names; the original names are not recovered.
-using E_SHADER_PARAMETER_VALUE_TYPE = int32_t;
+// E_SHADER_PARAMETER_VALUE_TYPE is an enum parameter in the original; its one definition is the int32_t alias in
+// video_types.hpp (reached through deps/glitch_video_types.hpp). The codes below are the case values of the dispatcher
+// switch (0x5c57b0 and the seven others). The enumerator names are port names; the original names are not recovered.
 
 namespace shader_value_type {
 inline constexpr int32_t kInt = 1;          // case 1  -> int                       (0x5c57b0, 0x5c2d60)

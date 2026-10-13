@@ -12,45 +12,22 @@
 #include <vector>
 
 #include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/material_renderer.hpp"
 #include "glitch-video/tb/renderpass_srenderstate.hpp"
 #include "glitch-video/vertex_attribute_map.hpp"
 
 namespace glitch::video {
 
-// One parameter block of a renderer: 52 bytes in the original (the element size of the block list).
-struct SRendererParameterBlock {
-    uint8_t bytes[52];
-};
-
-// One technique entry of a renderer: 12 bytes in the original.
-struct STechniqueEntry {
-    uint32_t field00 = 0;                             // +0x00, not identified
-    uint8_t parameterCount = 0;                       // +0x04, number of parameters of the technique
-    const SRendererParameterBlock* blocks = nullptr;  // +0x08, first parameter block of the technique
-};
-
-// Stand-in for glitch::video::CMaterialRenderer. The class is not reconstructed; only the words that
-// CMaterialVertexAttributeMap reads are named, at the original offsets. Replace with the full class
-// when it exists.
-class CMaterialRenderer {
-public:
-    uint32_t m_refCount = 0;                              // +0x00, intrusive reference count
-    uint8_t m_techniqueIndex10 = 0;                       // +0x10, 1-based technique index used by totalMapCount
-    STechniqueEntry* m_techniques18 = nullptr;            // +0x18, technique table (12-byte entries)
-    const SRendererParameterBlock* m_blocks1c = nullptr;  // +0x1c, base of the parameter blocks
-
-    // 0x5d3034 setRenderState(uchar technique, uchar pass, SRenderState const&). Copies the first 32 bytes of
-    // state into the pass element (52 bytes, flag byte at +0x30 set to 1) unless they already match. Returns the
-    // int at state +0x10 when it copies, 0 otherwise (as the original does). See the .cpp for the const_cast.
-    int32_t setRenderState(uint8_t technique, uint8_t pass, const detail::renderpass::SRenderState& state);
-    // 0x5d4714 getTechniqueID(char const*) const: not declared here. Needs the SSharedStringHeapEntry::SData
-    // get/release (int* refcounted form), which the port does not declare. Not reconstructed.
-};
+// CMaterialRenderer, STechniqueEntry and SRenderPass (the 52-byte pass element the map slots are counted in) are
+// defined once in material_renderer.hpp.
 
 class CMaterialVertexAttributeMap {
 public:
     // 0x5df7b8 (C2) and 0x5df2c0 (C1): every slot starts empty. The renderer count is incremented.
     explicit CMaterialVertexAttributeMap(const boost::intrusive_ptr<CMaterialRenderer>& renderer);
+
+    // 0x5df6f0 (D2) / 0x5df754 (D1): drops the slots and the renderer; the members release themselves.
+    ~CMaterialVertexAttributeMap() = default;
 
     // 0x5df4b0 (C2) and 0x5df378 (C1): copy == true makes a new CVertexAttributeMap for each slot
     // (copy constructor from maps[i]); copy == false shares maps[i] and increments its count.
@@ -78,9 +55,15 @@ public:
     // original writes without a check).
     void set(uint8_t technique, uint8_t parameterIndex, const boost::intrusive_ptr<CVertexAttributeMap>& map);
 
-    uint32_t m_refCount = 0;                                  // +0x00
+    mutable uint32_t m_refCount = 0;                          // +0x00
     boost::intrusive_ptr<CMaterialRenderer> m_renderer;       // +0x04
     std::vector<boost::intrusive_ptr<CVertexAttributeMap>> m_maps;  // +0x08, one slot per totalMapCount
 };
+
+// The original's inline count updates (the count is the first word, not IReferenceCounted's).
+inline void intrusive_ptr_add_ref(const CMaterialVertexAttributeMap* p) { ++p->m_refCount; }
+inline void intrusive_ptr_release(const CMaterialVertexAttributeMap* p) {
+    if (p->m_refCount-- == 1) delete p;
+}
 
 }  // namespace glitch::video

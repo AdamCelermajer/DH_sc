@@ -6,8 +6,8 @@
 int main() {
     const std::string folder = "/nonexistent/folder/archive";
     glitch::io::CUnzipReadFile file(folder, "entry.bin");
-    if (file.getFileName() != "entry.bin") return 1;
+    if (std::string(file.getFileName()) != "entry.bin") return 1;
     glitch::io::CUnzipReadFile empty(folder, nullptr);
-    if (!empty.getFileName().empty()) return 2;
+    if (std::string(empty.getFileName()) != "") return 2;
     return 0;
 }

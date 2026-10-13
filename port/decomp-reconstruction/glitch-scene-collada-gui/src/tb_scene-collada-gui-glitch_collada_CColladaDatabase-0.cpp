@@ -14,12 +14,13 @@ std::uint32_t CColladaDatabase::getVersion() const {
 }
 
 // 0x60e334 glitch::collada::CColladaDatabase::getAnimationClipLibrary() const
-// PARTIAL: the original returns the address of the inline clip library object at holder +0x34
-// (count and clip base, see layouts/collada_db.hpp SLibraryAnimationClips). The vector-based
-// SDatabaseTables in collada_database.hpp has no such object, so there is no address to return.
-// Returns null until the holder model carries the library record.
-void* CColladaDatabase::getAnimationClipLibrary() const {
-    return nullptr;
+// The address of the inline clip library object at holder +0x34 (count and clip base). The original does not test the record;
+// a database without a loaded file gives null here.
+const SLibraryAnimationClips* CColladaDatabase::getAnimationClipLibrary() const {
+    if (record == nullptr || record->data == nullptr || record->data->tables == nullptr) {
+        return nullptr;
+    }
+    return &record->data->tables->animationClipLibrary;
 }
 
 // 0x60e348 glitch::collada::CColladaDatabase::getScene() const
@@ -77,7 +78,7 @@ SAnimation* animationAt(const SDatabaseTables& tables, int index) {
 
 // 0x60e374 glitch::collada::CColladaDatabase::getAnimationClip(int) const
 SAnimationClip* animationClipAt(const SDatabaseTables& tables, int index) {
-    return tables.animationClips[index];
+    return &tables.animationClipLibrary.clips[index];
 }
 
 // 0x60e3c8 glitch::collada::CColladaDatabase::getImage(int) const

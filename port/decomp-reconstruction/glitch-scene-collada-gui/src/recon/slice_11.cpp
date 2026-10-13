@@ -19,8 +19,8 @@ ResFileManagerStandIn g_resFileManagerInst;
 ResFileManagerStandIn& resFileManagerInst() noexcept { return g_resFileManagerInst; }
 CColladaFactory* defaultFactory = nullptr;
 
-SColladaRecord* resFileManagerGet(SColladaRecord*, const char*, int) noexcept { return nullptr; }
-SColladaRecord* resFileManagerLoad(const CColladaDatabase*, const char*, glitch::io::IReadFile*) noexcept {
+CResFile* resFileManagerGet(CResFile*, const char*, int) noexcept { return nullptr; }
+CResFile* resFileManagerLoad(const CColladaDatabase*, const char*, glitch::io::IReadFile*) noexcept {
     return nullptr;
 }
 void resFileManagerUnload(const char*, int) noexcept {}
@@ -221,11 +221,11 @@ bool animationChannelMatches(const SAnimation*, const char*, int, const char*) n
 
 // Shared body of the database destructor (D1 and D2 are the same code).
 void destroyDatabase(CColladaDatabase* self) noexcept {
-    SColladaRecord* record = self->record;
-    if (record != nullptr && record->reserved00[1] != 0) {
+    CResFile* record = self->record;
+    if (record != nullptr && record->refCount != 0) {
         dropRecord(record);
         if (resFileManagerInst().streamingEnabled) {
-            if (self->record != nullptr && self->record->reserved00[1] == 1) {
+            if (self->record != nullptr && self->record->refCount == 1) {
                 animationStreamingRelease(self);
                 resFileManagerUnload(self->record->fileName, 0);
             }
@@ -237,18 +237,18 @@ void destroyDatabase(CColladaDatabase* self) noexcept {
 // Shared body of the copy-from-file constructors (C1 and C2).
 CColladaDatabase* initFromSource(CColladaDatabase* self, const CColladaDatabase* source, const char* name,
                                  CColladaFactory* factory) noexcept {
-    SColladaRecord* record = resFileManagerGet(source->record, name, 1);
+    CResFile* record = resFileManagerGet(source->record, name, 1);
     self->record = record;
     self->factory = factory;
     if (record != nullptr) {
-        ++record->reserved00[1];
+        ++record->refCount;
     }
     return self;
 }
 
 // Shared body of constructAnimator: load the file, run the animator build on a temporary
 // database that owns one reference, and restore the streaming flag.
-int constructAnimatorLoaded(CColladaDatabase* self, SColladaRecord* loaded, CColladaFactory* factory) noexcept {
+int constructAnimatorLoaded(CColladaDatabase* self, CResFile* loaded, CColladaFactory* factory) noexcept {
     (void)self;
     if (loaded == nullptr) {
         return 0;
@@ -259,7 +259,7 @@ int constructAnimatorLoaded(CColladaDatabase* self, SColladaRecord* loaded, CCol
     CColladaDatabase temp;
     temp.record = loaded;
     temp.factory = factory != nullptr ? factory : defaultFactory;
-    ++loaded->reserved00[1];
+    ++loaded->refCount;
     const int result = constructAnimatorFromDatabase(&temp);
     destroyDatabase(&temp);
     inst.streamingEnabled = savedFlag;
@@ -415,7 +415,7 @@ void CColladaDatabase_D1(CColladaDatabase* self) {
 int CColladaDatabase_constructAnimator_file(CColladaDatabase* self, glitch::io::IReadFile* file,
                                             CColladaFactory* factory, CColladaFactory* unusedFactory) {
     (void)unusedFactory;
-    SColladaRecord* loaded = resFileManagerLoad(self, nullptr, file);
+    CResFile* loaded = resFileManagerLoad(self, nullptr, file);
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
@@ -423,13 +423,13 @@ int CColladaDatabase_constructAnimator_file(CColladaDatabase* self, glitch::io::
 int CColladaDatabase_constructAnimator_fileOnly(CColladaDatabase* self, CColladaFactory* factory,
                                                 CColladaFactory* unused) {
     (void)unused;
-    SColladaRecord* loaded = resFileManagerLoad(self, nullptr, nullptr);
+    CResFile* loaded = resFileManagerLoad(self, nullptr, nullptr);
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
 // 0x61967c _ZN6glitch7collada16CColladaDatabase17constructAnimatorEPKcPNS0_15CColladaFactoryE
 int CColladaDatabase_constructAnimator_name(CColladaDatabase* self, CColladaFactory* factory) {
-    SColladaRecord* loaded = resFileManagerLoad(self, nullptr, nullptr);
+    CResFile* loaded = resFileManagerLoad(self, nullptr, nullptr);
     return constructAnimatorLoaded(self, loaded, factory);
 }
 
@@ -676,7 +676,7 @@ OutSlotStandIn* CColladaDatabase_constructController(OutSlotStandIn* out, const 
 OutSlotStandIn* CColladaDatabase_constructGeometry_file(OutSlotStandIn* out, const CColladaDatabase* source,
                                                         const char* a3, const char* fileName,
                                                         const char* geometryName) {
-    SColladaRecord* file = resFileManagerGet(source->record, fileName, 1);
+    CResFile* file = resFileManagerGet(source->record, fileName, 1);
     if (file == nullptr) {
         logMessage("File not found");
         logMessage(fileName);
@@ -689,7 +689,7 @@ OutSlotStandIn* CColladaDatabase_constructGeometry_file(OutSlotStandIn* out, con
     CColladaDatabase pair;
     pair.record = file;
     pair.factory = source->factory;
-    ++file->reserved00[1];
+    ++file->refCount;
     OutSlotStandIn geometry;
     constructGeometryEntry(&geometry, pair, a3, geometryName);
     if (geometry.object != nullptr) {
@@ -836,14 +836,14 @@ CRootSceneNode* CColladaDatabase_constructNode_name(const CColladaDatabase& self
 CRootSceneNode* CColladaDatabase_constructNode_file(const CColladaDatabase* source, video::IVideoDriver* driver,
                                                     const char* name, const char* fileName,
                                                     CColladaFactory* factory) {
-    SColladaRecord* file = resFileManagerLoad(source, fileName, nullptr);
+    CResFile* file = resFileManagerLoad(source, fileName, nullptr);
     if (file == nullptr) {
         return nullptr;
     }
     CColladaDatabase pair;
     pair.record = file;
     pair.factory = factory;
-    ++file->reserved00[1];
+    ++file->refCount;
     CRootSceneNode* node = constructNodeByName(pair, driver, name, nullptr);
     destroyDatabase(&pair);
     return node;

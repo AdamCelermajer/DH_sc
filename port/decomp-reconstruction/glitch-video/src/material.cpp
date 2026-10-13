@@ -77,10 +77,15 @@ void CMaterial::setRenderStateInternal(uint8_t, uint8_t, const detail::material:
 // Partial stubs for the CMaterial callees named by the hash and compare code above. Their bodies
 // (0x5c5fd8, 0x5c5d88 and the technique tables) are not reconstructed yet, so these only let the
 // library link. Ledger rows for the callers stay partial.
-uint8_t CMaterial::getTechniqueParameterCount(int32_t) const { return 0; }
+// The pass count is the byte at +4 of the renderer's 12-byte technique entry (0x5c5d34 caller, 0x5aa4a8).
+uint8_t CMaterial::getTechniqueParameterCount(int32_t technique) const {
+    return m_renderer ? m_renderer->m_techniques[technique].passCount : 0;
+}
 void CMaterial::updateHashCode(uint8_t) const {}
 void CMaterial::updateParametersHashCode(uint8_t) const {}
+void CMaterial::updateRenderStateHashCode(uint8_t) const {}
 bool CMaterial::equals(uint8_t, const CMaterial&, uint8_t) const { return false; }
 bool CMaterial::compare(uint8_t, uint8_t, const CMaterial&, uint8_t) const { return false; }
+bool CMaterial::areParametersEqual(uint8_t, uint8_t, const CMaterial&, uint8_t) const { return false; }
 
 }  // namespace glitch::video

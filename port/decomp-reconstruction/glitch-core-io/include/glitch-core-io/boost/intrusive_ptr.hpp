@@ -1,9 +1,29 @@
-// boost::intrusive_ptr for the glitch reference-counted types (IReferenceCounted:
-// count at +0x04, released with drop()). The copy operator adds a use to the new
-// object and drops the old one, as the original does.
+// boost::intrusive_ptr: the one definition, the counting form (TRACK-B decision 1). Canonical header of the
+// engine unification wave (u1-core); the non-counting stubs of glitch-video and glitch-scene-collada-gui
+// (deps/intrusive_ptr.hpp) are retired in favour of this one.
+//
+// For the glitch reference-counted types (glitch::IReferenceCounted: count at +0x04, released with drop())
+// the add and release functions are found here. The glitch types that keep the count at +0x00
+// (CMaterial, CMaterialRenderer, CVertexStreams, CLight) define their own intrusive_ptr_add_ref and
+// intrusive_ptr_release next to the class; they are found by argument-dependent lookup.
+//
+// Evidence: the out-of-line instances in the binary are ~intrusive_ptr (ITexture 0x41742c, IShader,
+// IShaderCode, IBuffer, CVertexStreams, CMaterial, CMaterialRenderer, CMaterialVertexAttributeMap, CLight,
+// CMeshBuffer), operator=(intrusive_ptr const&) (ITexture 0x384df8, IBuffer, CLight) and operator=(T*)
+// (CImage 0x603414). Constructors, comparison and get() are inline in the callers.
+//   - Copy and assignment add a use to the new object and then drop the old one.
+//   - The destructor drops the held object.
+//   - There are no move operations: the binary is C++03, so every copy of a pointer adds a use and every
+//     destruction drops one.
+//   - intrusive_ptr(T*) takes over the reference it is given (an IReferenceCounted object is born with
+//     count 1), as every constructor site in the listings does; the two-argument form with add_ref = true
+//     is boost's and adds a use.
 #pragma once
 
-#include "glitch-core-io/deps/glitch_core.hpp"
+#include <cstddef>
+#include <utility>
+
+#include "glitch-core-io/core/reference_counted.hpp"
 
 namespace boost {
 
@@ -14,9 +34,20 @@ inline void intrusive_ptr_release(const glitch::IReferenceCounted* p) { p->drop(
 template <typename T>
 class intrusive_ptr {
 public:
+    using element_type = T;
+
     intrusive_ptr() = default;
-    intrusive_ptr(T* p) : px(p) {}  // NOLINT: implicit like boost (no add-ref, takes the reference)
+    intrusive_ptr(std::nullptr_t) {}  // NOLINT
+    intrusive_ptr(T* p) : px(p) {}    // NOLINT: implicit like the original's call sites; takes the reference, no add-ref
+    // boost's two-argument form: add_ref = true adds a use to p.
+    intrusive_ptr(T* p, bool add_ref) : px(p) {
+        if (px && add_ref) intrusive_ptr_add_ref(px);
+    }
     intrusive_ptr(const intrusive_ptr& other) : px(other.px) {
+        if (px) intrusive_ptr_add_ref(px);
+    }
+    template <typename U>
+    intrusive_ptr(const intrusive_ptr<U>& other) : px(other.get()) {  // NOLINT: upcast, adds a use
         if (px) intrusive_ptr_add_ref(px);
     }
     ~intrusive_ptr() {  // 0x41742c for ITexture
@@ -39,12 +70,49 @@ public:
         if (oldPx) intrusive_ptr_release(oldPx);
         return *this;
     }
+    intrusive_ptr& operator=(std::nullptr_t) {
+        reset();
+        return *this;
+    }
+
+    void reset() { intrusive_ptr().swap(*this); }
+    void reset(T* rhs) { intrusive_ptr(rhs).swap(*this); }
+    void swap(intrusive_ptr& other) noexcept { std::swap(px, other.px); }
+    // Gives up the held pointer without dropping it.
+    T* detach() {
+        T* p = px;
+        px = nullptr;
+        return p;
+    }
+
     T* get() const { return px; }
     T* operator->() const { return px; }
     T& operator*() const { return *px; }
     explicit operator bool() const { return px != nullptr; }
+    bool operator!() const { return px == nullptr; }
 
     T* px = nullptr;
 };
+
+template <typename T, typename U>
+inline bool operator==(const intrusive_ptr<T>& a, const intrusive_ptr<U>& b) { return a.get() == b.get(); }
+template <typename T, typename U>
+inline bool operator!=(const intrusive_ptr<T>& a, const intrusive_ptr<U>& b) { return a.get() != b.get(); }
+template <typename T>
+inline bool operator==(const intrusive_ptr<T>& a, std::nullptr_t) { return a.get() == nullptr; }
+template <typename T>
+inline bool operator!=(const intrusive_ptr<T>& a, std::nullptr_t) { return a.get() != nullptr; }
+template <typename T, typename U>
+inline bool operator==(const intrusive_ptr<T>& a, U* b) { return a.get() == b; }
+template <typename T, typename U>
+inline bool operator!=(const intrusive_ptr<T>& a, U* b) { return a.get() != b; }
+template <typename T, typename U>
+inline bool operator==(T* a, const intrusive_ptr<U>& b) { return a == b.get(); }
+template <typename T, typename U>
+inline bool operator!=(T* a, const intrusive_ptr<U>& b) { return a != b.get(); }
+template <typename T>
+inline bool operator<(const intrusive_ptr<T>& a, const intrusive_ptr<T>& b) { return a.get() < b.get(); }
+template <typename T>
+inline void swap(intrusive_ptr<T>& a, intrusive_ptr<T>& b) noexcept { a.swap(b); }
 
 }  // namespace boost

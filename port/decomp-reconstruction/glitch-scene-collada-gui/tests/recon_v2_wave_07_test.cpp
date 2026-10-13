@@ -96,7 +96,7 @@ int main() {
     CHECK(srec.calls == 1 && srec.slot == 0xA4u && srec.arg == nullptr && srec.receiver == &receiver_tag);
 
     // Material blend: value is blended and passed with the applicator's parameter id.
-    animation_track::CApplicatorInfo info{};
+    animation_track::CMaterialApplicatorInfo info;
     info.parameterId = 0x21;
     std::uint16_t seen_id = 0;
     const float* seen_value = nullptr;

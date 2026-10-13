@@ -7,10 +7,12 @@
 #include <vector>
 
 #include "glitch-core-io/deps/glitch_core.hpp"
+#include "glitch-core-io/io/interfaces.hpp"
 
 namespace glitch::io {
 
-class CFileList : public glitch::IReferenceCounted {
+// _ZTVN6glitch2io9CFileListE: an IFileList (getFileCount, getFileName, getFullFileName, isDirectory).
+class CFileList : public IFileList {
 public:
     struct FileEntry {
         FileEntry() = default;
@@ -35,13 +37,14 @@ public:
     CFileList() = default;                             // 0x6b4418, 0x6b4480
     ~CFileList() override = default;                   // 0x6b3fe0, 0x6b4030
 
-    int getFileCount() const;                          // 0x6b3e78
+    // Vtable order: +0x0c getFileCount, +0x10 getFileName, +0x14 getFullFileName, +0x18 isDirectory.
+    std::uint32_t getFileCount() const override;       // 0x6b3e78
+    const char* getFileName(std::uint32_t index) const override;  // 0x6b3ea4; nullptr when out of range
     // 0x6b40a0: the full name of an entry (path, a slash when the path is longer than 3 characters,
     // then the name), or null when out of range. PARTIAL: the original caches the result and only
     // rebuilds it under a capacity condition, which is not modelled; it is rebuilt on each call.
-    const char* getFullFileName(std::uint32_t index);
-    const char* getFileName(std::uint32_t index) const;  // 0x6b3ea4; nullptr when out of range
-    bool isDirectory(std::uint32_t index) const;       // 0x6b3ee4; false when out of range
+    const char* getFullFileName(std::uint32_t index) override;
+    bool isDirectory(std::uint32_t index) const override;  // 0x6b3ee4; false when out of range
 
     // +0x08: directory path (glitch string)
     std::string Path;

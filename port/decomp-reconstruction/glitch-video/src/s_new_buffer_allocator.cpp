@@ -9,10 +9,11 @@ boost::intrusive_ptr<IBuffer> SNewBufferAllocator<Driver>::allocate(uint32_t siz
     uint8_t* data = new uint8_t[size];
     buffer->reset(size, data, true);
 
-    // The original bumps the reference count of the buffer it returns, when there is one.
+    // The original bumps the reference count of the buffer it returns, when there is one; the pointer built from the raw
+    // address takes that use over.
     IBuffer* result = m_buffer.get();
     if (result != nullptr) {
-        ++result->m_refCount;
+        ++result->referenceCounter;
     }
     return boost::intrusive_ptr<IBuffer>(result);
 }

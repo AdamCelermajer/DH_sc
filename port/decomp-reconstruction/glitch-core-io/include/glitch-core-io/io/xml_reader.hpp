@@ -22,7 +22,8 @@ template <typename CharT, typename Super>
 class CXMLReaderImpl;
 
 template <>
-class CXMLReaderImpl<char, glitch::IReferenceCounted> : public glitch::IReferenceCounted {
+// _ZTVN6glitch2io14CXMLReaderImplIcNS_17IReferenceCountedEEE: an IIrrXMLReader<char, IReferenceCounted>.
+class CXMLReaderImpl<char, glitch::IReferenceCounted> : public IIrrXMLReader<char, glitch::IReferenceCounted> {
 public:
     using CharType = char;
     using StringType = std::string;
@@ -38,25 +39,25 @@ public:
 
     // Parser step (vtable +0x0c). 0x576048: returns the pending closing node of an empty element, or
     // parses the next node from the current position.
-    virtual bool read();
+    bool read() override;
 
     // 0x572634 (vtable +0x10): reads until the node type is 1, false at the end.
-    virtual bool readToNextElement();
-    virtual int getNodeType() const;                                  // 0x572678 (+0x14)
-    virtual int getAttributeCount() const;                            // 0x572680 (+0x18)
-    virtual const char* getAttributeName(int index) const;            // 0x5726a8 (+0x1c)
-    virtual const char* getAttributeValue(int index) const;           // 0x5726e4 (+0x20)
-    virtual const char* getAttributeValue(const char* name) const;    // 0x5742a4 (+0x24)
-    virtual const char* getAttributeValueSafe(const char* name) const;  // 0x574288 (+0x28)
-    virtual int getAttributeValueAsInt(const char* name) const;       // 0x572720 (+0x2c)
-    virtual int getAttributeValueAsInt(int index) const;              // 0x572738 (+0x30)
-    virtual float getAttributeValueAsFloat(const char* name) const;   // 0x5742b8 (+0x34)
-    virtual float getAttributeValueAsFloat(int index) const;          // 0x574354 (+0x38)
-    virtual const char* getNodeName() const;                          // 0x572750 (+0x3c)
-    virtual const char* getNodeData() const;                          // 0x572758 (+0x40)
-    virtual bool isEmptyElement() const;                              // 0x572760 (+0x44)
-    virtual int getSourceFormat() const;                              // 0x572768 (+0x48)
-    virtual int getParserFormat() const;                              // 0x572770 (+0x4c)
+    bool readToNextElement() override;
+    int getNodeType() const override;                                  // 0x572678 (+0x14)
+    int getAttributeCount() const override;                            // 0x572680 (+0x18)
+    const char* getAttributeName(int index) const override;            // 0x5726a8 (+0x1c)
+    const char* getAttributeValue(int index) const override;           // 0x5726e4 (+0x20)
+    const char* getAttributeValue(const char* name) const override;    // 0x5742a4 (+0x24)
+    const char* getAttributeValueSafe(const char* name) const override;  // 0x574288 (+0x28)
+    int getAttributeValueAsInt(const char* name) const override;       // 0x572720 (+0x2c)
+    int getAttributeValueAsInt(int index) const override;              // 0x572738 (+0x30)
+    float getAttributeValueAsFloat(const char* name) const override;   // 0x5742b8 (+0x34)
+    float getAttributeValueAsFloat(int index) const override;          // 0x574354 (+0x38)
+    const char* getNodeName() const override;                          // 0x572750 (+0x3c)
+    const char* getNodeData() const override;                          // 0x572758 (+0x40)
+    bool isEmptyElement() const override;                              // 0x572760 (+0x44)
+    int getSourceFormat() const override;                              // 0x572768 (+0x48)
+    int getParserFormat() const override;                              // 0x572770 (+0x4c)
 
     // 0x572e78: takes the whole file from the callback, detects a byte order mark and converts the
     // text. The current position (P) is not set here, as in the original.
@@ -94,7 +95,8 @@ public:
 };
 
 template <>
-class CXMLReaderImpl<wchar_t, glitch::IReferenceCounted> : public glitch::IReferenceCounted {
+// _ZTVN6glitch2io14CXMLReaderImplIwNS_17IReferenceCountedEEE: an IIrrXMLReader<wchar_t, IReferenceCounted>.
+class CXMLReaderImpl<wchar_t, glitch::IReferenceCounted> : public IIrrXMLReader<wchar_t, glitch::IReferenceCounted> {
 public:
     using CharType = wchar_t;
     using StringType = std::wstring;
@@ -109,26 +111,26 @@ public:
     ~CXMLReaderImpl() override;
 
     // 0x57506c: as the narrow reader; the wide text is read in 4-byte units (wchar_t on the target).
-    virtual bool read();
+    bool read() override;
 
-    virtual bool readToNextElement();                                    // 0x572778 (+0x10)
-    virtual int getNodeType() const;                                     // 0x5727bc (+0x14)
-    virtual int getAttributeCount() const;                               // 0x5727c4 (+0x18)
-    virtual const wchar_t* getAttributeName(int index) const;            // 0x5727f4 (+0x1c)
-    virtual const wchar_t* getAttributeValue(int index) const;           // 0x572838 (+0x20)
-    virtual const wchar_t* getAttributeValue(const wchar_t* name) const;  // 0x573ab0 (+0x24)
-    virtual const wchar_t* getAttributeValueSafe(const wchar_t* name) const;  // 0x573a94 (+0x28)
-    virtual int getAttributeValueAsInt(const wchar_t* name) const;       // 0x57287c (+0x2c)
-    virtual int getAttributeValueAsInt(int index) const;                 // 0x572894 (+0x30)
+    bool readToNextElement() override;                                    // 0x572778 (+0x10)
+    int getNodeType() const override;                                     // 0x5727bc (+0x14)
+    int getAttributeCount() const override;                               // 0x5727c4 (+0x18)
+    const wchar_t* getAttributeName(int index) const override;            // 0x5727f4 (+0x1c)
+    const wchar_t* getAttributeValue(int index) const override;           // 0x572838 (+0x20)
+    const wchar_t* getAttributeValue(const wchar_t* name) const override;  // 0x573ab0 (+0x24)
+    const wchar_t* getAttributeValueSafe(const wchar_t* name) const override;  // 0x573a94 (+0x28)
+    int getAttributeValueAsInt(const wchar_t* name) const override;       // 0x57287c (+0x2c)
+    int getAttributeValueAsInt(int index) const override;                 // 0x572894 (+0x30)
     // Float accessors (0x574488 and 0x5743f0): PARTIAL, defined in xml_reader.cpp. The text is
     // narrowed through stringw2stringc, which is itself partial.
-    virtual float getAttributeValueAsFloat(const wchar_t* name) const;  // 0x574488 (+0x34)
-    virtual float getAttributeValueAsFloat(int index) const;            // 0x5743f0 (+0x38)
-    virtual const wchar_t* getNodeName() const;                          // 0x5728ac (+0x3c)
-    virtual const wchar_t* getNodeData() const;                          // 0x5728b4 (+0x40)
-    virtual bool isEmptyElement() const;                                 // 0x5728bc (+0x44)
-    virtual int getSourceFormat() const;                                 // 0x5728c4 (+0x48)
-    virtual int getParserFormat() const;                                 // 0x5728cc (+0x4c)
+    float getAttributeValueAsFloat(const wchar_t* name) const override;  // 0x574488 (+0x34)
+    float getAttributeValueAsFloat(int index) const override;            // 0x5743f0 (+0x38)
+    const wchar_t* getNodeName() const override;                          // 0x5728ac (+0x3c)
+    const wchar_t* getNodeData() const override;                          // 0x5728b4 (+0x40)
+    bool isEmptyElement() const override;                                 // 0x5728bc (+0x44)
+    int getSourceFormat() const override;                                 // 0x5728c4 (+0x48)
+    int getParserFormat() const override;                                 // 0x5728cc (+0x4c)
 
     // 0x573104: as the narrow reader. Without a byte order mark the bytes are widened (convertTextData<char>).
     bool readFile(IFileReadCallBack* callback);

@@ -120,65 +120,8 @@ public:
     glitch::core::aabbox3d<float> box;  // +0x6c (frustum bounding box)
 };
 
-// ---------------------------------------------------------------------------
-// glitch::collada::CSceneNodeAnimatorSynchronizedBlender / SynchronizedSet
-// Segment animators are modelled through this stand-in interface. The slot
-// numbers in the comments are the original vtable offsets.
-// ---------------------------------------------------------------------------
-class ISyncSegment {
-public:
-    virtual ~ISyncSegment() = default;
-    virtual int getNumSegments() const = 0;                           // +8
-    virtual int getSynchronizationLength(unsigned int at) const = 0;   // +12
-    virtual int getSynchronizationTimestamp(unsigned int at) const = 0; // +20
-    virtual int getSynchronizationSegment(unsigned int at) const = 0; // +28
-    virtual int getSynchronizationPercentage() const = 0;             // +64
-};
-
-class SynchronizedBlender {
-public:
-    // 0x367870 _ZNK6glitch7collada37CSceneNodeAnimatorSynchronizedBlender14getNumSegmentsEv
-    int getNumSegments() const;
-    // 0x367898 ...getSynchronizationLengthEij
-    int getSynchronizationLength(int index, unsigned int at) const;
-    // 0x3678c4 ...getSynchronizationLengthEj (weighted sum, virtual slot +144)
-    int getSynchronizationLength(unsigned int at) const;
-    // 0x367948 ...getSynchronizationTimestampEij
-    int getSynchronizationTimestamp(int index, unsigned int at) const;
-    // 0x367974 ...getSynchronizationTimestampEj (weighted sum, virtual slot +152)
-    int getSynchronizationTimestamp(unsigned int at) const;
-    // 0x3679f8 ...getSynchronizationSegmentEii
-    int getSynchronizationSegment(int index, int at) const;
-    // 0x367a24 ...getSynchronizationSegmentEi (partial: slot +156 call has no arg in pseudo)
-    int getSynchronizationSegment(int at) const;
-    // 0x367a88 _ZN6glitch7collada37CSceneNodeAnimatorSynchronizedBlender16normalizeWeightsEv
-    void normalizeWeights();
-    // 0x367b44 ...getSynchronizationPercentageEv
-    int getSynchronizationPercentage() const;
-
-    // +0x30 segments begin, +0x34 segments end (pointers to ISyncSegment)
-    std::vector<ISyncSegment*> segments;
-    // +0x3c weights begin, +0x40 weights end
-    std::vector<float> weights;
-    // +0xb2 weights normalized flag
-    bool weightsNormalized = false;
-};
-
-class SynchronizedSet {
-public:
-    // 0x368e30 _ZNK6glitch7collada33CSceneNodeAnimatorSynchronizedSet25getSynchronizationSegmentEi
-    unsigned int getSynchronizationSegment(int at) const;
-    // 0x368ed4 _ZNK6glitch7collada33CSceneNodeAnimatorSynchronizedSet28getSynchronizationPercentageEv
-    float getSynchronizationPercentage() const;
-
-    // +0x6c count of segments; +0x7c accumulated weight (partial model)
-    unsigned int segmentCount = 0;
-    float weight = 0.0f;
-    // Virtual hooks used by the set (slots +72 and +156 in the original).
-    virtual ~SynchronizedSet() = default;
-    virtual float getTotalLength() const;                 // +72
-    virtual int getSegmentTimestamp(unsigned int i) const;  // +156
-};
+// glitch::collada::CSceneNodeAnimatorSynchronizedBlender / SynchronizedSet: canonical classes in
+// collada/CSceneNodeAnimatorSynchronizedBlender.hpp and collada/CSceneNodeAnimatorSynchronizedSet.hpp.
 
 // ---------------------------------------------------------------------------
 // glitch::gui::IGUIElement / CGUIEnvironment base functions

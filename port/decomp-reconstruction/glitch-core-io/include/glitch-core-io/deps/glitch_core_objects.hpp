@@ -1,5 +1,6 @@
-// Minimal stand-ins, local to glitch-core-io, for the glitch and glitch::video/scene types the io
-// code uses. The glitch::core value types are in glitch-shared/glitch_core.hpp (see glitch_core.hpp).
+// Minimal stand-ins, local to glitch-core-io, for the glitch::video/scene types the io code uses
+// (owned by glitch-video and glitch-scene-collada-gui; the unification map names their canonical headers).
+// The glitch::core value types are in glitch-shared/glitch_core.hpp (see glitch_core.hpp).
 #pragma once
 
 #include <cmath>
@@ -7,26 +8,12 @@
 #include <memory>
 #include <vector>
 
-namespace glitch {
-// Reference-counted base; the counter is at +0x04 in the original.
-class IReferenceCounted {
-public:
-    virtual ~IReferenceCounted() = default;
-    // Called by drop() right before the object is deleted (vtable +0x08 in the original).
-    virtual void onDelete() {}
-    // Decrements the count; on zero calls onDelete() and deletes the object.
-    // Returns true when the object was deleted. 0x31d584 _ZNK6glitch17IReferenceCounted4dropEv
-    bool drop() const;
-    mutable int referenceCounter = 1;  // +0x04
-};
+#include "glitch-core-io/core/reference_counted.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"
 
-// Event receiver interface (only its destructor is used by the io code).
-class IEventReceiver {
-public:
-    virtual ~IEventReceiver() = default;  // 0x31d8cc (D1)
-};
-}  // namespace glitch
-
+// glitch::IReferenceCounted and glitch::IEventReceiver / glitch::SEvent now have one definition each
+// (core/reference_counted.hpp and os/event_receiver.hpp); they are included here so that existing includes
+// of this header keep working.
 namespace glitch::video {
 // Stand-in for the driver interface; only its reference counting is used here.
 class IVideoDriver : public glitch::IReferenceCounted {};

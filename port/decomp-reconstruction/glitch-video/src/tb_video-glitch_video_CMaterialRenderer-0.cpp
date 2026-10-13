@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/material_renderer.hpp"
 #include "glitch-video/tb/renderpass_srenderstate.hpp"
 
 namespace glitch::video {
@@ -17,7 +17,6 @@ static_assert(sizeof(detail::renderpass::SRenderState) == 32, "SRenderState is t
 
 namespace {
 constexpr std::size_t kPassStateBytes = 32;  // memcmp and copy length (0x20 in the original)
-constexpr std::size_t kPassDirtyFlag = 48;   // +0x30 of the pass element, set to 1 after a change
 }  // namespace
 
 // 0x5d3034 _ZN6glitch5video17CMaterialRenderer14setRenderStateEhhRKNS0_6detail10renderpass12SRenderStateE
@@ -27,13 +26,12 @@ int32_t CMaterialRenderer::setRenderState(uint8_t technique, uint8_t pass,
                                           const detail::renderpass::SRenderState& state) {
     // table[technique].blocks is the pass array of that technique (the original reads +0x18, *12 + 8).
     // The stand-in declares the array const; the original owns it and writes into it, so it is cast here.
-    const STechniqueEntry& entry = m_techniques18[technique];
-    SRendererParameterBlock& element =
-        const_cast<SRendererParameterBlock&>(entry.blocks[pass]);  // element = blocks + 52 * pass
+    const STechniqueEntry& entry = m_techniques[technique];
+    SRenderPass& element = const_cast<SRenderPass&>(entry.passes[pass]);  // element = passes + 52 * pass
 
-    if (std::memcmp(element.bytes, &state, kPassStateBytes) != 0) {
-        std::memcpy(element.bytes, &state, kPassStateBytes);  // eight words, in order
-        element.bytes[kPassDirtyFlag] = 1;                     // *((_BYTE *)v5 + 48) = 1
+    if (std::memcmp(element.stateWords, &state, kPassStateBytes) != 0) {
+        std::memcpy(element.stateWords, &state, kPassStateBytes);  // eight words, in order
+        element.flag30 = 1;                                         // *((_BYTE *)v5 + 48) = 1
 
         int32_t word10 = 0;  // the original reads the word at argument +0x10 as an int
         std::memcpy(&word10, &state.m_float10, sizeof(word10));

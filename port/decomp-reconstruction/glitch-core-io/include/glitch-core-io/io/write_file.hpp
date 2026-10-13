@@ -16,13 +16,15 @@ class CWriteFile : public IWriteFile {
 public:
     CWriteFile(const char* name, bool append);        // 0x570b68, 0x570c40
     ~CWriteFile() override;                           // 0x570a90, 0x570b08
-    const std::string& getFileName() const override;  // 0x5708f8
-    const std::string& getFullPath() const override;  // 0x570900
+    // Vtable order (tools/decomp_vtable.py glitch::io::CWriteFile): +0x0c write, +0x10 flush, +0x14 seek,
+    // +0x18 getPos, +0x1c getFileName, +0x20 getFullPath.
+    std::size_t write(const void* data, unsigned int count) override;  // 0x570a6c
+    void flush() override;                            // 0x570a58
     bool seek(long offset, bool relative) override;   // 0x57092c
     long getPos() const override;                     // 0x570950
+    const char* getFileName() const override;         // 0x5708f8
+    const char* getFullPath() const override;         // 0x570900
     void openFile(bool append);                       // 0x57095c
-    void flush() override;                            // 0x570a58
-    std::size_t write(const void* data, unsigned int count) override;  // 0x570a6c
     bool isOpen() const { return file != nullptr; }
 
     CWriteFile(const CWriteFile&) = delete;

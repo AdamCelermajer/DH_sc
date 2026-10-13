@@ -561,111 +561,7 @@ bool CGUIEditBox_onEvent(glitch::gui::IGUIElement* self, const SEventStand& ev) 
     return false;
 }
 
-// 0x6b8834 _ZN6glitch5scene17CAppendMeshBuffer12adjustStrideEt
-// glitch::scene::CAppendMeshBuffer::adjustStride. CAppendMeshBuffer has no layout in
-// scene.hpp; the stride loop is not rebuilt.
-void CAppendMeshBuffer_adjustStride(void* self, std::uint16_t stride) {
-    (void)self;
-    (void)stride;
-}
-
-// 0x6b8950 _ZN6glitch5scene17CAppendMeshBuffer15configureStreamEhiNS_5video29E_VERTEX_ATTRIBUTE_VALUE_TYPEEt
-// glitch::scene::CAppendMeshBuffer::configureStream. Unattached: CVertexStreams and the
-// stream vector are not declared.
-void CAppendMeshBuffer_configureStream(void* self, std::uint8_t streamIndex, std::int32_t attribute,
-                                       std::int32_t valueType, std::uint16_t componentCount) {
-    (void)self;
-    (void)streamIndex;
-    (void)attribute;
-    (void)valueType;
-    (void)componentCount;
-}
-
-// 0x6b8aa0 _ZN6glitch5scene17CAppendMeshBuffer9endAppendEv
-// glitch::scene::CAppendMeshBuffer::endAppend. Unattached: the buffer refcount words are
-// not declared on CAppendMeshBuffer.
-void CAppendMeshBuffer_endAppend(void* self) {
-    (void)self;
-}
-
-// 0x6b8b74 _ZN6glitch5scene17CAppendMeshBuffer6resizeEjj
-// glitch::scene::CAppendMeshBuffer::resize. Unattached: IBuffer::reset is not declared.
-void CAppendMeshBuffer_resize(void* self, std::uint32_t vertexCount, std::uint32_t indexCount) {
-    (void)self;
-    (void)vertexCount;
-    (void)indexCount;
-}
-
-// 0x6b8bb4 _ZN6glitch5scene17CAppendMeshBuffer5resetEv
-// glitch::scene::CAppendMeshBuffer::reset. Unattached: the stream clear and homogeneity update are not declared.
-void CAppendMeshBuffer_reset(void* self) {
-    (void)self;
-}
-
-// 0x6b8c2c _ZN6glitch5scene17CAppendMeshBufferD1Ev
-// glitch::scene::CAppendMeshBuffer::~CAppendMeshBuffer (complete). Unattached: members not declared.
-void CAppendMeshBuffer_dtor_complete(void* self) {
-    CAppendMeshBuffer_endAppend(self);
-}
-
-// 0x6b8cb4 _ZN6glitch5scene17CAppendMeshBufferC1EjjPNS_5video12IVideoDriverENS2_14E_BUFFER_USAGEEj
-// glitch::scene::CAppendMeshBuffer::CAppendMeshBuffer. The mesh buffer base is constructed;
-// the append members are not declared.
-void CAppendMeshBuffer_ctor(void* self, std::uint32_t vertexCount, std::uint32_t indexCount, void* driver,
-                            std::int32_t usage, std::uint32_t stride) {
-    (void)self;
-    (void)vertexCount;
-    (void)indexCount;
-    (void)driver;
-    (void)usage;
-    (void)stride;
-}
-
-// 0x6b8fe0 _ZN6glitch5scene17CAppendMeshBufferC2EjjPNS_5video12IVideoDriverENS2_14E_BUFFER_USAGEEj
-// glitch::scene::CAppendMeshBuffer::CAppendMeshBuffer (second variant, same demangled name).
-void CAppendMeshBuffer_ctor_alt(void* self, std::uint32_t vertexCount, std::uint32_t indexCount, void* driver,
-                                std::int32_t usage, std::uint32_t stride) {
-    CAppendMeshBuffer_ctor(self, vertexCount, indexCount, driver, usage, stride);
-}
-
-// 0x6b88a8 _ZN6glitch5scene11CMeshBufferC2EjRKNS_5video16CPrimitiveStreamEb.clone.3
-// glitch::scene::CMeshBuffer::CMeshBuffer (clone). The reference words, owner and flag
-// are set; the vertex-stream allocation and the CPrimitiveStream word copies are not rebuilt.
-void CMeshBuffer_ctor(glitch::scene::CMeshBuffer* self, std::uint32_t streamCount, const void* primitiveStream,
-                      bool flag) {
-    (void)streamCount;
-    (void)primitiveStream;
-    self->referenceCount = 0;       // +0x04
-    self->blockAt0x08 = 0;          // +0x08
-    self->blockAt0x0c = 0;          // +0x0c
-    self->blockAt0x10 = 0;          // +0x10
-    self->owner = 0;                // +0x30
-    self->flag34 = flag ? 1 : 0;    // +0x34
-}
-
-// 0x6bc6d8 _ZN6glitch5scene11CMeshBuffer8onDeleteEv
-// glitch::scene::CMeshBuffer::onDelete. Unattached: the owner pointer at +0x30 is a
-// uint32 word in scene.hpp, so the owner's vtable call is stubbed.
-void CMeshBuffer_onDelete(glitch::scene::CMeshBuffer* self) {
-    (void)self;
-}
-
-// 0x6bca38 _ZN6glitch5scene11CMeshBufferD2Ev
-// glitch::scene::CMeshBuffer::~CMeshBuffer (complete). The vertex stream and block
-// releases are stubbed (the target types are not declared).
-void CMeshBuffer_dtor_complete(glitch::scene::CMeshBuffer* self) {
-    (void)self;
-}
-
-// 0x6bcb90 _ZNK6glitch5scene11CMeshBuffer5cloneEv
-// glitch::scene::CMeshBuffer::clone. The vertex stream clone and the 0x38-byte copy are
-// not rebuilt; returns nullptr.
-void* CMeshBuffer_clone(glitch::scene::CMeshBuffer* self, void* sourceStreams, void* driver) {
-    (void)self;
-    (void)sourceStreams;
-    (void)driver;
-    return nullptr;
-}
+// CMeshBuffer (0x6b88a8 clone, 0x6bc6d8 onDelete, 0x6bca38 D2, 0x6bcb90 clone): canonical members in src/scene/CMeshBuffer.cpp.
 
 // 0x6b93b0 _ZN6glitch5scene24CColladaBinaryFileLoaderD2Ev
 // glitch::scene::CColladaBinaryFileLoader::~CColladaBinaryFileLoader (complete).
@@ -882,36 +778,8 @@ void CDummyTransformationSceneNode_ctor_alt(void* self, const void* parent, std:
     IDummyTransformationSceneNode_ctor(self, parent, id);
 }
 
-// 0x6bbcc4 _ZN6glitch5scene5CMesh7SBufferaSERKS2_
-// glitch::scene::CMesh::SBuffer::operator=. The buffer word is copied; the material and
-// vertex-attribute-map refcounts are not declared on the targets, so they are stubbed.
-void CMesh_SBuffer_assign(glitch::scene::CMeshSBuffer* self, const glitch::scene::CMeshSBuffer* other) {
-    self->buffer = other->buffer;
-    self->material = other->material;
-    self->vertexAttributeMap = other->vertexAttributeMap;
-}
-
-// 0x6bc298 _ZN6glitch5scene5CMeshD2Ev
-// glitch::scene::CMesh::~CMesh (complete). The buffer vector destruction is stubbed.
-void CMesh_dtor_complete(glitch::scene::CMesh* self) {
-    (void)self;
-}
-
-// 0x6bc2cc _ZN6glitch5scene5CMesh22recalculateBoundingBoxEv
-// glitch::scene::CMesh::recalculateBoundingBox. Unattached: the per-buffer vertex position
-// reads (CVertexStreams) are not declared; the box is left unchanged.
-void CMesh_recalculateBoundingBox(glitch::scene::CMesh* self) {
-    (void)self;
-}
-
-// 0x6bc3e4 _ZNK6glitch5scene5CMesh5cloneEv
-// glitch::scene::CMesh::clone. Unattached: the buffer vector copy and the 0x2c-byte
-// allocation are not modelled; returns nullptr.
-void* CMesh_clone(glitch::scene::CMesh* self, void* source) {
-    (void)self;
-    (void)source;
-    return nullptr;
-}
+// CMesh (0x6bbcc4 SBuffer assign, 0x6bc298 D2, 0x6bc2cc recalculateBoundingBox, 0x6bc3e4 clone): canonical members in
+// src/scene/CMesh.cpp.
 
 // 0x6be5b0 _ZN6glitch5scene10CMeshCache14getMeshByIndexEj
 // glitch::scene::CMeshCache::getMeshByIndex. Unattached: the mesh cache layout is not

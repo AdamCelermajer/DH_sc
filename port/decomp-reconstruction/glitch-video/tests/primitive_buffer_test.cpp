@@ -2,6 +2,7 @@
 #include "glitch-video/buffer.hpp"
 #include "glitch-video/primitive_stream.hpp"
 #include "glitch-video/vertex_streams.hpp"
+#include "video_test_types.hpp"
 
 #include <cstdio>
 
@@ -46,14 +47,15 @@ int main() {
 
     // IBuffer: flag bit 1 is added for a sized, data-backed buffer whose usage is not 4.
     int payload = 0;
-    IBuffer withData(1, 2, 16, &payload, 0);
+    test::TestBuffer withData(1, 2, 16, &payload, 0);
     CHECK(withData.m_flags12 == 2);
     CHECK(withData.m_type == 1 && withData.m_usage == 2);
-    IBuffer usageFour(1, 4, 16, &payload, 1);
+    test::TestBuffer usageFour(1, 4, 16, &payload, 1);
     CHECK(usageFour.m_flags12 == 1);
-    IBuffer noData(1, 2, 16, nullptr, 1);
+    usageFour.m_flags12 = 0;  // the data is a stack int: drop the owns bit so the destructor leaves it alone
+    test::TestBuffer noData(1, 2, 16, nullptr, 1);
     CHECK(noData.m_flags12 == 1);
-    IBuffer empty(1, 2, 0, &payload, 0);
+    test::TestBuffer empty(1, 2, 0, &payload, 0);
     CHECK(empty.m_flags12 == 0);
 
     std::printf("%s\n", failures ? "primitive_buffer: FAILED" : "primitive_buffer: ok");

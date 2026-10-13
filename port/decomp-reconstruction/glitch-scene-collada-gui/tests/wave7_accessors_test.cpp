@@ -55,9 +55,11 @@ int main() {
 
     // CBatchSceneNode::setMesh is empty: calling it leaves the node's type tag unchanged.
     {
-        glitch::scene::CBatchSceneNode batch;
-        batch.setMesh(boost::intrusive_ptr<glitch::scene::IMesh>());
-        CHECK(batch.getType() == 0x6e736162u);  // "basn"
+        auto* batch = new glitch::scene::CBatchSceneNode(1);
+        batch->setMesh(boost::intrusive_ptr<glitch::scene::IMesh>());
+        CHECK(batch->getType() == glitch::scene::ESNT_BATCH);  // 'basn' = 0x6e736162
+        CHECK(batch->mesh.get() != nullptr);                   // the empty setMesh keeps the mesh
+        batch->drop();
     }
 
     // IGUIElement::isPointInside includes both edges of the absolute rectangle.

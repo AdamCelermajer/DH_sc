@@ -7,64 +7,7 @@
 
 namespace glitch::collada::recon_23 {
 
-// ---------------------------------------------------------------------------
-// glitch::collada::SAnimationAccessor. Every body dispatches through the animator
-// vtable (slots 108, 116 and 128) or calls findKeyFrameNo and getInterpolationType.
-// Those helpers and the animator type are not mapped, so all of these are stubs.
-// ---------------------------------------------------------------------------
-namespace anim {
-
-// 0x66a068 _ZNK6glitch7collada18SAnimationAccessor10applyValueEiiPvRib
-int applyValue(const SAnimationAccessor&, int, int, void*, int&, bool) {
-    return 0;  // stub: animator vtable slot 128
-}
-
-// 0x66a0c0 _ZNK6glitch7collada18SAnimationAccessor10applyValueEiPvPNS0_15animation_track15CApplicatorInfoERib
-int applyValue(const SAnimationAccessor&, int, void*, animation_track::CApplicatorInfo*, int&, bool) {
-    return 0;  // stub: animator vtable slot 108
-}
-
-// 0x66a10c _ZNK6glitch7collada18SAnimationAccessor10applyValueEiPvRib
-int applyValue(const SAnimationAccessor&, int, void*, int&, bool) {
-    return 0;  // stub: animator vtable slot 108 with a null applicator
-}
-
-// 0x66a15c _ZNK6glitch7collada18SAnimationAccessor8getValueEiiPvRib
-int getValue(const SAnimationAccessor&, int, int, void*, int&, bool) {
-    return 0;  // stub: animator vtable slot 116
-}
-
-// 0x66a594 _ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRii
-bool findKeyFrameNoExInt1000(const SAnimationAccessor&, int, const ResVectorStandIn<int>&, int, int&, int) {
-    return false;  // stub: findKeyFrameNo<int,1000> and getInterpolationType not mapped
-}
-
-// 0x66aa68 _ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRii
-bool findKeyFrameNoExUChar30(const SAnimationAccessor&, int, const ResVectorStandIn<int>&, int, int&, int) {
-    return false;  // stub: findKeyFrameNo<unsigned char,30> and getInterpolationType not mapped
-}
-
-// 0x66b328 _ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRii
-bool findKeyFrameNoExUShort30(const SAnimationAccessor&, int, const ResVectorStandIn<int>&, int, int&, int) {
-    return false;  // stub: findKeyFrameNo<unsigned short,30> and getInterpolationType not mapped
-}
-
-// 0x66af34 _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiiRiRf
-int findKeyFrameNo(const SAnimationAccessor&, int, int, int&, float&) {
-    return 0;  // stub: getKeyTime and the keyframe search template not mapped
-}
-
-// 0x66b0f4 _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiiRi
-int findKeyFrameNo(const SAnimationAccessor&, int, int, int&) {
-    return 0;  // stub: getKeyTime and the keyframe search template not mapped
-}
-
-// 0x66b510 _ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiiRii
-int findKeyFrameNo(const SAnimationAccessor&, int, int, int&, int) {
-    return 0;  // stub: getKeyTime and the keyframe search template not mapped
-}
-
-}  // namespace anim
+// glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp (src/collada/SAnimationAccessor.cpp).
 
 // ---------------------------------------------------------------------------
 // Skin techniques. Constructors write the vtable, the technique SSkin and SSkinCache

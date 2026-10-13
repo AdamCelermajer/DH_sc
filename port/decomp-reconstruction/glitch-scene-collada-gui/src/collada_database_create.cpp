@@ -117,6 +117,12 @@ CMorphingMesh* CColladaDatabase::constructMorph(video::IVideoDriver* driver, SCo
     return morph;
 }
 
+// 0x60e62c _ZNK6glitch7collada16CColladaDatabase15constructCameraEPNS0_15SInstanceCameraEPNS0_14CRootSceneNodeE
+// An empty body in the original (returns null).
+CCameraSceneNode* CColladaDatabase::constructCamera(SInstanceCamera*, CRootSceneNode*) const {
+    return nullptr;
+}
+
 // 0x619398 _ZNK6glitch7collada16CColladaDatabase15constructCameraEPNS0_7SCameraEPNS0_14CRootSceneNodeE
 CCameraSceneNode* CColladaDatabase::constructCamera(SCamera* camera, CRootSceneNode* root) const {
     if (camera == nullptr) {

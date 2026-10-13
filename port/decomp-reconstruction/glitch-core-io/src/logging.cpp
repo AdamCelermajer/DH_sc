@@ -48,13 +48,13 @@ void Printer::print(const char* format, ...) {
 }
 
 // 0x60afd4 _ZN6glitch2os7Printer4logfEPKcz
-// The listing saves r0..r3 as the variadic area, then calls the logger's slot +0x24 with
+// The listing saves r0..r3 as the variadic area, then calls the logger's slot +0x24 (vlogf) with
 // (logger, 1, format, pointer to the variadic area). The pointer is the va_list here.
 void Printer::logf(const char* format, ...) {
     if (!Logger) return;
     std::va_list args;
     va_start(args, format);
-    Logger->logv(ELL_INFORMATION, format, args);
+    Logger->vlogf(ELL_INFORMATION, format, args);
     va_end(args);
 }
 
@@ -64,7 +64,7 @@ void Printer::logf(ELOG_LEVEL level, const char* format, ...) {
     if (!Logger) return;
     std::va_list args;
     va_start(args, format);
-    Logger->logv(level, format, args);
+    Logger->vlogf(level, format, args);
     va_end(args);
 }
 

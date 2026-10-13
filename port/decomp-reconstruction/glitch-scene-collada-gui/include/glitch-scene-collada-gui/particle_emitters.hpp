@@ -10,12 +10,12 @@
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
 #include "glitch-scene-collada-gui/deps/intrusive_ptr.hpp"
+#include "glitch-scene-collada-gui/scene/IMesh.hpp"
 
 namespace glitch::scene {
 
 // Particle record. Its layout is not mapped yet; emitt() only passes pointers.
 struct SParticle;
-class IMesh;
 class IAnimatedMeshSceneNode;
 
 // The particle array at +0x04 of every emitter, as begin, end and capacity

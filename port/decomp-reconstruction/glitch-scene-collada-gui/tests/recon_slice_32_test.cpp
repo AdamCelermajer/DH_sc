@@ -15,16 +15,7 @@ alignas(16) unsigned char storage[256];
 }
 
 int main() {
-    auto& mesh = *reinterpret_cast<glitch::collada::IMesh*>(storage);
-    auto& animator = *reinterpret_cast<glitch::collada::CSceneNodeAnimator*>(storage);
     auto& db = *reinterpret_cast<const glitch::collada::CColladaDatabase*>(storage);
-
-    // IMesh base prepare step returns the constant 16 for every step.
-    CHECK(IMesh_onPrepareBufferForRendering(mesh, 0, nullptr, 0) == 16);
-    CHECK(IMesh_onPrepareBufferForRendering(mesh, 1, nullptr, 7) == 16);
-
-    // CSceneNodeAnimator deserializer has an empty original body.
-    CSceneNodeAnimator_deserializeAttributes(animator, nullptr, nullptr);
 
     // Null entries return nullptr before the factory is touched.
     CHECK(CColladaDatabase_constructCoronas(db, nullptr, static_cast<glitch::collada::SCoronas*>(nullptr), nullptr,

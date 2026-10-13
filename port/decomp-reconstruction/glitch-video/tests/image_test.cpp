@@ -19,7 +19,7 @@ int main() {
     auto dz = zero.getDimension(3);
     CHECK(dz.Width == 0 && dz.Height == 0);     // non-positive sizes are left alone
 
-    glitch::video::CNullDriver driver;
+    glitch::video::CNullDriver driver(static_cast<glitch::IDevice*>(nullptr));
     driver.setBlendColor(glitch::video::SColor{0xff00ff00u});
     driver.setClearColor(glitch::video::SColor{0u});
     driver.draw2DLine({0, 0}, {10, 10}, glitch::video::SColor{1u});

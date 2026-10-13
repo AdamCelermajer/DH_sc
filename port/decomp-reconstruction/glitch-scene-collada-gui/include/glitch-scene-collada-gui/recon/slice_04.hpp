@@ -145,62 +145,8 @@ public:
     void draw();
 };
 
-class CBatchMesh {
-public:
-    // 0x578924 _ZN6glitch5scene10CBatchMeshC2Ev
-    CBatchMesh();
-    // 0x578aa4 _ZN6glitch5scene10CBatchMeshC2Ej
-    explicit CBatchMesh(unsigned int segmentCount);
-    // 0x57a59c _ZN6glitch5scene10CBatchMeshD1Ev
-    ~CBatchMesh();
-    // 0x578c50 _ZNK6glitch5scene10CBatchMesh13getMeshBufferEj
-    void* getMeshBuffer(unsigned int batchIndex) const;
-    // 0x578ccc _ZNK6glitch5scene10CBatchMesh11getMaterialEj
-    void* getMaterial(unsigned int batchIndex) const;
-    // 0x578cf4 _ZNK6glitch5scene10CBatchMesh30getMaterialVertexAttributeMapEj
-    void* getMaterialVertexAttributeMap(unsigned int batchIndex) const;
-    // 0x57a4a8 _ZN6glitch5scene10CBatchMesh5stripEv
-    void strip();
-    // 0x57a6d4 _ZNK6glitch5scene10CBatchMesh17updateBoundingBoxEv
-    void updateBoundingBox() const;
-    // 0x57b174 _ZN6glitch5scene10CBatchMesh28initStaticSegmentBoundingBoxesEv
-    void initStaticSegmentBoundingBoxes();
-    // 0x57b900 _ZN6glitch5scene10CBatchMesh8addBatchEv
-    unsigned int addBatch();
-    // 0x57b96c _ZN6glitch5scene10CBatchMesh18quantizeComponentsEbbPNS_5video12IVideoDriverE
-    void quantizeComponents(bool a, bool b, void* driver);
-    // 0x57bc78 _ZN6glitch5scene10CBatchMesh11sortBatchesEPKNS_5video12IVideoDriverEPj
-    unsigned int sortBatches(const void* driver, unsigned int* order);
-    // 0x57bd44 _ZN6glitch5scene10CBatchMesh5clearEv
-    void clear();
-    // 0x57be34 _ZN6glitch5scene10CBatchMesh9setBufferEjRKN5boost13intrusive_ptrINS1_11CMeshBufferEEERKNS2_INS_5video9CMaterialEEE
-    void setBuffer(unsigned int batchIndex, const void* buffer, const void* material);
-    // 0x57c19c _ZN6glitch5scene10CBatchMesh4sortEPKNS_5video12IVideoDriverE
-    unsigned int sort(const void* driver);
-    // 0x57d98c _ZN6glitch5scene10CBatchMesh10addSegmentEtjs
-    unsigned int addSegment(unsigned short a, unsigned int b, short c);
-    // 0x57a368 _ZN6glitch5scene10CBatchMesh6SBatchD1Ev
-    // 0x57ba8c _ZN6glitch5scene10CBatchMesh6SBatchaSERKS2_
-    class SBatch {
-    public:
-        ~SBatch();
-        SBatch& operator=(const SBatch& other);
-    };
-    class SSegment {
-    public:
-        // 0x578ee0 _ZNK6glitch5scene10CBatchMesh8SSegment4saveEPNS_2io10IWriteFileEb
-        bool save(void* writeFile, bool flag) const;
-        // 0x57b3d8 _ZN6glitch5scene10CBatchMesh8SSegment4loadEPNS_2io9IReadFileEb
-        bool load(void* readFile, bool flag);
-        // 0x57b67c _ZN6glitch5scene10CBatchMesh8SSegmentC2ERKS1_
-        SSegment(const SSegment& other);
-    };
-};
-
-class CBatchSceneNode {
-public:
-    // 0x57e524 _ZNK6glitch5scene15CBatchSceneNode23getTransformedBoundingBoxEv (thunk, skipped)
-};
+// glitch::scene::CBatchMesh (with SBatch and SSegment) and CBatchSceneNode: canonical classes in scene/CBatchMesh.hpp and
+// scene/CBatchSceneNode.hpp; the declarations that stood here had no definitions.
 
 // 0x578d9c _ZN6glitch5scene30getNbVertexAttributeMapsDataSizeERKN5boost13intrusive_ptrINS_5video24CMaterialVertexAttributeMapEEE
 unsigned int getNbVertexAttributeMapsDataSize(const void* mapRef);

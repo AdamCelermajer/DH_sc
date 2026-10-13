@@ -16,9 +16,9 @@ public:
     CUnzipReadFile(const std::string& folderPath, const char* entryName);
     // 0x577374 (D1), 0x5773c8 (D0): compiler-generated member and base destruction; not written.
 
-    // 0x576db8: PARTIAL. The original returns the word at +0x44 (a pointer into the inline string
-    // buffer). The port returns the entry name through the base's string reference instead.
-    const std::string& getFileName() const override;
+    // 0x576db8: the original returns the word at +0x44 (a pointer into the inline string buffer): the entry
+    // name's character data.
+    const char* getFileName() const override;
 
     std::string name;  // +0x30 inline buffer / +0x44 data pointer in the original
 };

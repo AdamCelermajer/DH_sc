@@ -1,5 +1,6 @@
 // CXMLWriter output encoding (4-byte code units), comments, attributes and closing tags.
 #include "glitch-core-io/io/xml_writer.hpp"
+#include "io_stub_files.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -12,7 +13,7 @@ using glitch::io::CXMLWriter;
 using glitch::io::IWriteFile;
 
 // Collects every written byte.
-class MemoryWriteFile : public IWriteFile {
+class MemoryWriteFile : public glitch::io::testing::StubWriteFile {
 public:
     std::size_t write(const void* data, unsigned int count) override {
         bytes.append(static_cast<const char*>(data), count);

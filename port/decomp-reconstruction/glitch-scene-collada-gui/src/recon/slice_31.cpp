@@ -5,69 +5,10 @@
 
 #include "glitch-scene-collada-gui/recon/slice_31.hpp"
 
+#include "glitch-video/material.hpp"
+#include "glitch-video/texture.hpp"
+
 namespace glitch::collada::recon_31 {
-
-namespace {
-
-constexpr int kDefaultSortOrder = 0x7FFFFFFF;  // "use the node's default" sentinel
-
-}  // namespace
-
-// ---------------------------------------------------------------------------
-// glitch::scene::CSceneManager nested node entries
-// ---------------------------------------------------------------------------
-
-// 0x350c98 _ZN6glitch5scene13CSceneManager17SDefaultNodeEntryC1EPNS0_10ISceneNodeEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvi
-CSceneManager::SDefaultNodeEntry::SDefaultNodeEntry(ISceneNode* n,
-                                                    boost::intrusive_ptr<glitch::video::CMaterial> m,
-                                                    void* data, int order)
-    : node(n), userData(data), material(std::move(m)), sortOrder(order) {
-    if (order == kDefaultSortOrder) {
-        sortOrder = node->getDefaultSortOrder();
-    }
-}
-
-// 0x350cf4 _ZN6glitch5scene13CSceneManager18SDistanceNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEPv
-// The original stores the squared distance first and then overwrites it with
-// distance minus half the squared box extent; only the final value is kept.
-CSceneManager::SDistanceNodeEntry::SDistanceNodeEntry(ISceneNode* n,
-                                                      const glitch::core::vector3d<float>& position,
-                                                      void* data)
-    : node(n), userData(data) {
-    const glitch::core::vector3d<float>* t = node->getAbsoluteTranslation();
-    const float dx = t->X - position.X;
-    const float dy = t->Y - position.Y;
-    const float dz = t->Z - position.Z;
-    const float d2 = dx * dx + dy * dy + dz * dz;
-
-    const glitch::core::aabbox3d<float>* box = node->getBoundingBox();
-    const float ex = box->MaxEdge.X - box->MinEdge.X;
-    const float ey = box->MaxEdge.Y - box->MinEdge.Y;
-    const float ez = box->MaxEdge.Z - box->MinEdge.Z;
-    const float e2 = ex * ex + ey * ey + ez * ez;
-
-    distance = d2 + e2 * -0.5f;
-}
-
-// 0x354e8c _ZN6glitch5scene13CSceneManager21STransparentNodeEntryC1EPNS0_10ISceneNodeERKNS_4core8vector3dIfEEN5boost13intrusive_ptrINS_5video9CMaterialEEEPvPS8_i
-// Partial: the material reference count is held by the intrusive_ptr stand-in,
-// which does not model the count itself.
-CSceneManager::STransparentNodeEntry::STransparentNodeEntry(
-    ISceneNode* n, const glitch::core::vector3d<float>& position,
-    boost::intrusive_ptr<glitch::video::CMaterial> m, void* data,
-    const glitch::core::vector3d<float>* transformed, int order)
-    : node(n), userData(data), material(std::move(m)), sortOrder(order) {
-    if (order == kDefaultSortOrder) {
-        sortOrder = node->getDefaultSortOrder();
-    }
-    const glitch::core::vector3d<float>* t =
-        transformed ? transformed : node->getAbsoluteTranslation();
-    const float dx = t->X - position.X;
-    const float dy = t->Y - position.Y;
-    const float dz = t->Z - position.Z;
-    const float d2 = dx * dx + dy * dy + dz * dz;
-    distance = d2 + node->getDistanceBias();
-}
 
 // 0x35a9d8 _ZNK6glitch7collada21CSkinnedMeshSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 // Thunk: forwards to the ISceneNode body.
@@ -504,111 +445,6 @@ void CGUIEnvironment_deserializeAttributes(CGUIEnvironment& self, IAttributes* a
 }
 
 // ---------------------------------------------------------------------------
-// glitch::scene::CBatchMesh and CBatchSceneNode
-// ---------------------------------------------------------------------------
-
-// 0x578920 _ZN6glitch5scene10CBatchMesh20loadSegmentExtraDataEPvPNS_2io9IReadFileEb
-// Empty in the original.
-void CBatchMesh_loadSegmentExtraData(CBatchMesh& self, void* extra, glitch::io::IReadFile* file, bool flag) {
-    (void)self;
-    (void)extra;
-    (void)file;
-    (void)flag;
-}
-
-// 0x57e6f8 _ZNK6glitch5scene15CBatchSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-void CBatchSceneNode_serializeAttributes(const CBatchSceneNode& self, IAttributes* attributes,
-                                         SAttributeReadWriteOptions* options) {
-    if (attributes == nullptr) {
-        return;
-    }
-    ISceneNode_serializeAttributes(&self, attributes, options);
-    attributes->addEnum("SegmentAutomaticCulling", self.automaticCulling, AutomaticCullingNames, false);
-    attributes->addBool("RegisterSolidBatchesOnce", self.registerSolidBatchesOnce, false);
-    attributes->addBool("HasVisibleIndexCache", self.hasVisibleIndexCache, false);
-    attributes->addInt("Max index count (solid)", self.maxIndexCountSolid, true);
-    attributes->addInt("Max index count (transparent)", self.maxIndexCountTransparent, true);
-    attributes->addInt("Solid batch count", self.solidBatchCount, true);
-}
-
-// 0x57ed98 _ZN6glitch5scene15CBatchSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-void CBatchSceneNode_deserializeAttributes(CBatchSceneNode& self, IAttributes* attributes,
-                                           SAttributeReadWriteOptions* options) {
-    if (attributes == nullptr) {
-        return;
-    }
-    ISceneNode_deserializeAttributes(&self, attributes, options);
-    self.automaticCulling = attributes->getEnum("SegmentAutomaticCulling", AutomaticCullingNames);
-    self.registerSolidBatchesOnce = attributes->getBool("RegisterSolidBatchesOnce");
-    const bool visibleCache = attributes->getBool("HasVisibleIndexCache");
-    if (self.hasVisibleIndexCache != visibleCache) {
-        CBatchSceneNode_setVisibleIndexCache(self, visibleCache);
-    }
-}
-
-// 0x57f074 _ZN6glitch5scene15CBatchSceneNode5setupEbPNS_5video12IVideoDriverE
-// Partial: the mesh's and the node's vtable calls at +0x3c and +0x100 are not
-// named, so they are left out.
-void CBatchSceneNode_setup(CBatchSceneNode& self, bool skipCallback, glitch::video::IVideoDriver* driver) {
-    CBatchMesh* m = self.mesh.get();
-    const int sorted = CBatchMesh_sort(m, driver);
-    self.solidBatchCount = sorted;
-    self.indexCacheTarget = sorted;
-    CBatchMesh_updateBoundingBox(m);
-    CBatchMesh_initStaticSegmentBoundingBoxes(m);
-    (void)skipCallback;
-}
-
-namespace {
-
-// Field defaults shared by the batch node constructors. The ISceneNode base
-// constructor runs first in the original and is not reconstructed here.
-void initBatchNodeDefaults(CBatchSceneNode& self, const boost::intrusive_ptr<CBatchMesh>& mesh) {
-    self.mesh = mesh;                       // +0x130 (count increment not modelled)
-    self.automaticCullingMode = 2;          // +0x134
-    self.automaticCulling = 2;              // +0x138
-    self.maxIndexCountSolid = 0;            // +0x13c
-    self.maxIndexCountTransparent = 0;      // +0x140
-    self.solidBatchCount = -1;              // +0x144
-    self.visibleIndexCacheCount = 0;        // +0x154
-    self.extraCount = 0;                    // +0x158
-    self.indexCacheTarget = -1;             // +0x15c
-    self.hasVisibleIndexCache = true;       // +0x150
-}
-
-}  // namespace
-
-// 0x57f0d4 _ZN6glitch5scene15CBatchSceneNodeC1EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEE
-// 0x57faf8 _ZN6glitch5scene15CBatchSceneNodeC2EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEE
-// Partial: the ISceneNode base constructor is not reconstructed.
-void CBatchSceneNode_init(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh) {
-    (void)id;
-    initBatchNodeDefaults(self, mesh);
-    self.registerSolidBatchesOnce = true;   // +0x148
-}
-
-// 0x57f874 _ZN6glitch5scene15CBatchSceneNodeC1EiRN5boost13intrusive_ptrINS0_10CBatchMeshEEEb
-// 0x57fd74 _ZN6glitch5scene15CBatchSceneNodeC2EiRN5boost13intrusive_ptrINS0_10CBatchMeshEEEb
-// Partial: the ISceneNode base constructor is not reconstructed.
-void CBatchSceneNode_initFlag(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh,
-                              bool flag) {
-    (void)id;
-    initBatchNodeDefaults(self, mesh);
-    self.registerSolidBatchesOnce = flag;   // +0x148 (the flag argument)
-}
-
-// 0x57fe84 _ZN6glitch5scene15CBatchSceneNodeC1EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE
-// 0x57ffd4 _ZN6glitch5scene15CBatchSceneNodeC2EiRKN5boost13intrusive_ptrINS0_10CBatchMeshEEEPNS0_13CSceneManagerE
-// Partial: the ISceneNode base constructor is not reconstructed.
-void CBatchSceneNode_initScene(CBatchSceneNode& self, int id, const boost::intrusive_ptr<CBatchMesh>& mesh,
-                               CSceneManager* sceneManager) {
-    (void)id;
-    initBatchNodeDefaults(self, mesh);
-    self.registerSolidBatchesOnce = true;   // +0x148
-    self.sceneManager = sceneManager;  // +0x110
-}
-
-// ---------------------------------------------------------------------------
 // glitch::scene::CBillboardSceneNode
 // ---------------------------------------------------------------------------
 
@@ -641,36 +477,8 @@ void CBillboardSceneNode_deserializeAttributes(CBillboardSceneNode& self, IAttri
 }
 
 // ---------------------------------------------------------------------------
-// glitch::scene::CCameraSceneNode and CLightSceneNode
+// glitch::scene::CLightSceneNode
 // ---------------------------------------------------------------------------
-
-// 0x582160 _ZNK6glitch5scene16CCameraSceneNode19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-void CCameraSceneNode_serializeAttributes(const CCameraSceneNode& self, IAttributes* attributes,
-                                          SAttributeReadWriteOptions* options) {
-    ISceneNode_serializeAttributes(&self, attributes, options);
-    attributes->addVector3d("Target", self.target, false);
-    attributes->addVector3d("UpVector", self.upVector, false);
-    attributes->addFloat("Fovy", self.fovy, false);
-    attributes->addFloat("Aspect", self.aspect, false);
-    attributes->addFloat("ZNear", self.zNear, false);
-    attributes->addFloat("ZFar", self.zFar, false);
-}
-
-// 0x582948 _ZN6glitch5scene16CCameraSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
-// Partial: the aspect ratio comes from the driver's screen size when a driver is
-// attached in the original; here the default 4:3 is always used.
-void CCameraSceneNode_deserializeAttributes(CCameraSceneNode& self, IAttributes* attributes,
-                                            SAttributeReadWriteOptions* options) {
-    ISceneNode_deserializeAttributes(&self, attributes, options);
-    self.target = attributes->getVector3d("Target");
-    self.upVector = attributes->getVector3d("UpVector");
-    self.fovy = attributes->getFloat("Fovy");
-    self.aspect = 1.3333f;
-    self.zNear = attributes->getFloat("ZNear");
-    self.zFar = attributes->getFloat("ZFar");
-    self.recalculateProjectionMatrix();
-    CCameraSceneNode_recalculateViewArea(self);
-}
 
 // 0x583d88 _ZN6glitch5scene15CLightSceneNode21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE
 void CLightSceneNode_deserializeAttributes(CLightSceneNode& self, IAttributes* attributes,

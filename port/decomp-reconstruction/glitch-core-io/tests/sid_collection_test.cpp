@@ -4,6 +4,7 @@
 #include <cstring>
 #include <string>
 
+#include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-core-io/core/sid_collection.hpp"
 
 static int failures = 0;
@@ -19,15 +20,17 @@ struct Ref {
     void drop() const {
         if (--referenceCounter == 0) delete this;
     }
-    mutable int referenceCounter = 0;
+    mutable int referenceCounter = 1;  // a new object holds one reference; the first holder takes it
     int tag = 0;
 };
+inline void intrusive_ptr_add_ref(const Ref* p) { ++p->referenceCounter; }
+inline void intrusive_ptr_release(const Ref* p) { p->drop(); }
 
 struct Props {
     int flags = 0;
 };
 
-using Collection = glitch::core::detail::sid_layout::SIDedCollection<Ref*, Props>;
+using Collection = glitch::core::detail::sid_layout::SIDedCollection<boost::intrusive_ptr<Ref>, Props>;
 
 }  // namespace
 

@@ -17,18 +17,22 @@
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+#include "io_stub_files.hpp"
+
 using namespace glitch::io;
 
 namespace {
 
-// An in-memory read file. read() copies what is left and does not report a count (the port's slot is void).
-class MemFile : public IReadFile {
+// An in-memory read file. read() copies what is left and reports the count.
+class MemFile : public glitch::io::testing::StubReadFile {
 public:
     explicit MemFile(std::vector<unsigned char> bytes) : data(std::move(bytes)) {}
-    void read(void* buffer, unsigned int count) override {
-        for (unsigned int i = 0; i < count && position < static_cast<long>(data.size()); ++i, ++position) {
+    std::int32_t read(void* buffer, std::uint32_t count) override {
+        std::uint32_t i = 0;
+        for (; i < count && position < static_cast<long>(data.size()); ++i, ++position) {
             static_cast<unsigned char*>(buffer)[i] = data[static_cast<std::size_t>(position)];
         }
+        return static_cast<std::int32_t>(i);
     }
     bool seek(long offset, bool relative) override {
         const long target = relative ? position + offset : offset;
@@ -72,7 +76,10 @@ std::vector<unsigned char> makePak(char sig0, char sig1, const std::vector<Recor
 // Text for CXMLReaderImpl::readFile: the callback fills the buffer with the text.
 struct TextCallBack : IFileReadCallBack {
     explicit TextCallBack(std::string s) : text(std::move(s)) {}
-    void read(void* buffer, int size) override { std::memcpy(buffer, text.data(), static_cast<std::size_t>(size)); }
+    int read(void* buffer, int size) override {
+        std::memcpy(buffer, text.data(), static_cast<std::size_t>(size));
+        return size;
+    }
     long getSize() const override { return static_cast<long>(text.size()); }
     std::string text;
 };
@@ -289,8 +296,8 @@ int main() {
     {
         unsigned char bytes[4] = {1, 2, 3, 4};
         CMemoryReadFile memory(bytes, 4, "a/b.bin", false);
-        CHECK(memory.getFileName() == "a/b.bin");
-        CHECK(memory.getFullPath() == "a/b.bin");
+        CHECK(std::string(memory.getFileName()) == "a/b.bin");
+        CHECK(std::string(memory.getFullPath()) == "a/b.bin");
         CHECK(memory.getSize() == 4);
     }
 

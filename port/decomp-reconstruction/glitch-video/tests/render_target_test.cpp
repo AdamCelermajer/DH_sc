@@ -1,4 +1,4 @@
-// IRenderTarget::setViewport clamp (the part that is recovered). Returns non-zero on failure.
+// IRenderTarget constructor and setViewport clamp. Returns non-zero on failure.
 #include "glitch-video/render_target.hpp"
 
 #include <cstdio>
@@ -9,14 +9,26 @@ static int failures = 0;
 using glitch::core::rect;
 using glitch::video::IRenderTarget;
 
+namespace {
+// IRenderTarget leaves bind and unbind pure; the framebuffer classes implement them.
+class TestTarget : public IRenderTarget {
+public:
+    using IRenderTarget::IRenderTarget;
+    void bind() override {}
+    void unbind() override {}
+};
+}  // namespace
+
 static bool same(const rect<int32_t>& r, int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
     return r.UpperLeftCorner.X == x0 && r.UpperLeftCorner.Y == y0 &&
            r.LowerRightCorner.X == x1 && r.LowerRightCorner.Y == y1;
 }
 
 int main() {
-    IRenderTarget target;
-    target.setSizeForTest(100, 50);
+    TestTarget target(nullptr, glitch::core::dimension2d<int32_t>{100, 50});
+    CHECK(target.referenceCounter == 0);
+    CHECK(target.m_width == 100 && target.m_height == 50);
+    CHECK(same(target.viewport(), 0, 0, 100, 50));
 
     // Negative near corner goes to 0, far corner beyond the target goes to its size.
     target.setViewport(rect<int32_t>{{-5, -3}, {200, 80}});

@@ -73,6 +73,12 @@
 namespace glitch {
 namespace collada {
 
+// 0x657994 _ZN6glitch7collada15CResFileManager12checkVersionEPNS_2io9IReadFileE
+// The original body is a constant: it returns 0.
+std::uint32_t CResFileManager::checkVersion(glitch::io::IReadFile*) {
+    return 0;
+}
+
 // 0x658c90 _ZN6glitch7collada15CResFileManager15postLoadProcessEPNS0_8CResFileEPNS_2io9IReadFileE
 int CResFileManager::postLoadProcess(CResFile* file, glitch::io::IReadFile* reader) {
     // Stage A. The original reads refCount at +0x04 and writes it back only when

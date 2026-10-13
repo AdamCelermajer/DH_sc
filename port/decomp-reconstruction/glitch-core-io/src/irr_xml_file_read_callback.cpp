@@ -8,8 +8,9 @@ CIrrXMLFileReadCallBack::~CIrrXMLFileReadCallBack() {
 }
 
 // 0x57255c _ZN6glitch2io23CIrrXMLFileReadCallBack4readEPvi
-void CIrrXMLFileReadCallBack::read(void* buffer, int size) {
-    file->read(buffer, static_cast<unsigned int>(size));
+// Returns the byte count of the wrapped file's read.
+int CIrrXMLFileReadCallBack::read(void* buffer, int size) {
+    return file->read(buffer, static_cast<unsigned int>(size));
 }
 
 // 0x572578 _ZNK6glitch2io23CIrrXMLFileReadCallBack7getSizeEv

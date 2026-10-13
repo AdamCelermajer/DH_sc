@@ -761,3 +761,26 @@ Open or deviating:
 - 5d425c (partial): the type 11 matrix branch keeps the CMatrix4 in a side map keyed by valueOffset (the original stores a pointer in the 4-byte slot) and uses new in place of GlitchAlloc (0x44). Pool not recovered.
 - Codes at or above 19 are refused (the original reads past the tables).
 - Intrusive pointer rows (16) are blocked: CLight release is inlined with Matrix4Pool and LC_API_FREE_0; intrusive_ptr<CLight> operator= (0x5bb650) is partial; ITexture rows need IReferenceCounted::drop (0x31d584) and a decided host slot width for 4-byte ARM pointers; 5d57e4 and 5d599c call setArrayParameter (0x5bb7ec), which is skipped.
+
+## u1-video (engine unification wave, 2026-10-13)
+
+Map: reports/decomp-reconstruction/unification/video.json (every stand-in of the video types in every category). Ledger rows: ledger.d/u1-video.csv.
+
+Canonical definitions now in include/glitch-video: video_types.hpp (aliases, forward declarations, STextureDesc), video_driver.hpp (IVideoDriver, 134 slots in order, with IFramebuffer), null_driver.hpp (CNullDriver, 138 slots, every one `override`), texture.hpp, buffer.hpp, vertex_streams.hpp, primitive_stream.hpp, light.hpp, material.hpp, material_renderer.hpp, shader_attributes.hpp (IShader), shader_code.hpp, render_target.hpp (IRenderTarget, IMultipleRenderTarget, IRenderBuffer), batch_baker.hpp, driver_binding.hpp, image.hpp, texture_loaders.hpp / image_loaders.hpp (IImageLoader, IImageWriter and the concrete loaders and writers derive from them), texture_manager.hpp, video_mode_list.hpp, c2d_driver.hpp, global_parameter_manager.hpp, unreconstructed.hpp.
+
+Rules applied:
+- boost::intrusive_ptr is the counting one (glitch-core-io/boost/intrusive_ptr.hpp); glitch::IReferenceCounted is glitch-core-io/core/reference_counted.hpp. deps/intrusive_ptr.hpp, deps/glitch_video_types.hpp and deps/os_logging.hpp only forward.
+- IReferenceCounted-derived: ITexture, IBuffer, IShader, IShaderCode, IRenderTarget, IRenderBuffer, IImageLoader, IImageWriter, IBatchBaker, CImage, IVideoModeList, C2DDriver (the stand-in version was not; the vtable 0x9770c0 is the destructor pair and onDelete), IVideoDriver. Count at +0x00, no vtable, own ADL add_ref / release: CMaterial, CMaterialRenderer, CVertexStreams, CLight, CVertexAttributeMap, CMaterialVertexAttributeMap.
+- Born with count 0, so wrapped with intrusive_ptr<T>(p, true): ITexture, IBuffer, IShader, IShaderCode, IRenderTarget, CImage (the real constructors), CVertexStreams, CMaterial, CLight (allocate adds the first use). Born with count 1 (wrap with intrusive_ptr<T>(p)): IVideoDriver, the image loaders and writers, C2DDriver, CVideoModeList.
+- ITexture, IBuffer, IShaderCode, IImageWriter and ITextureDataLoading are abstract (their pure slots are named from the CNullDriver / loader overrides). tests/video_test_types.hpp holds the concrete doubles (TestTexture, TestBuffer, TestShader, TestShaderCode, TestImageWriter, TestTextureDataLoading). A stack object that a pointer wraps needs a use of its own (TestTexture and TestBuffer start at 1; wrap them with intrusive_ptr<T>(&x, true)).
+- Slots whose body is not reconstructed stop in detail::unreconstructed(name, address) (src/unreconstructed.cpp) so the vtables link; they have no ledger row of their own.
+
+Facts found while checking the listings (not in the earlier headers):
+- CTextureManager (no vtable; SIDedCollection base +0x00..+0x27): driver +0x28, file system (intrusive, from the device +0x34) +0x2c, image loaders vector +0x30, writers vector +0x3c (raw pointers in the original, one explicit use each), placeholders +0x48..+0x64, textures vector +0x68, a word 67 at +0x74. addExternalImageLoader grabs the loader by hand and copies it into the vector (two uses); the destructor drops both.
+- CMeshBuffer (scene): +0x14 is an intrusive_ptr<CVertexStreams>, +0x18..+0x2f is an embedded CPrimitiveStream.
+- CPrimitiveStream: indexType 0xff means no index buffer; +0x0c / +0x10 are VertexStart / VertexEnd.
+- IDevice::getVideoModeList() returns this + 0x3c: the device embeds a CVideoModeList by value.
+- CImageLoaderJPG's libjpeg callbacks are static (cinfo is the first argument).
+- IBuffer::clone with an owning source produces a clone that claims the same pointer (cloneImpl passes the owns bit, copy() then refuses): the original does the same; the test clones a non-owning buffer.
+
+Open (see the StructuredOutput of the wave): the GL driver family (CCommonGLDriverBase / CCommonGLDriver / CProgrammableGLDriver and the nested CTextureBase, CFramebufferBase, CRenderTargetBase) is still a port-layer class tree that does not derive from IVideoDriver / ITexture / IRenderTarget; the shader manager family (IShaderManager, ICodeShaderManager, CNullShaderManager, CGLSLShaderManager) is not one hierarchy; CBatchDriver, CGLSLShaderManager and the CMaterialRendererManager queue rows have no declarations for all their functions; six tests (material_vertex_attribute_map, primitive_buffer, texture_state, vertex_attribute_map, vertex_stream_state, vertex_streams_build) link only against the video library alone until glitch-core-io drops its IBuffer / CVertexStreams stand-ins.

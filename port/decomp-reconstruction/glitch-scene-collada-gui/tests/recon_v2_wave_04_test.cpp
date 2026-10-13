@@ -6,10 +6,17 @@
 
 #include "glitch-scene-collada-gui/recon/v2/wave_04.hpp"
 
+// The factory is only ever compared by address (the canonical CColladaFactory is abstract), so the tests use tagged storage.
+namespace {
+glitch::collada::CColladaFactory* fakeFactory(int index = 0) {
+    static char storage[2][16];
+    return reinterpret_cast<glitch::collada::CColladaFactory*>(storage[index]);
+}
+}  // namespace
+
 namespace glitch::collada {
 
 CResFileManager* CResFileManager::Inst = nullptr;
-CAnimationStreamingManager* CAnimationStreamingManager::Instance = nullptr;
 
 namespace recon_v2_04 {
 
@@ -106,7 +113,7 @@ static void test_release_null_record_matches_null_name() {
 static void test_ctor_refcounts_record() {
     CResFile record;
     record.refCount = 1;
-    CColladaFactory factory;
+    CColladaFactory& factory = *fakeFactory();
     g_nextLoadResult = &record;
     CColladaDatabase db;
     CColladaDatabase* r = ctor_0x60f25c(&db, "x.dae", &factory);
@@ -118,7 +125,7 @@ static void test_ctor_refcounts_record() {
 }
 
 static void test_ctor_null_record() {
-    CColladaFactory factory;
+    CColladaFactory& factory = *fakeFactory();
     g_nextLoadResult = nullptr;
     CColladaDatabase db;
     ctor_0x60f3c4(&db, nullptr, &factory);
@@ -129,7 +136,7 @@ static void test_ctor_null_record() {
 
 static void test_ctor_file_flag_passthrough() {
     CResFile record;
-    CColladaFactory factory;
+    CColladaFactory& factory = *fakeFactory();
     g_nextLoadResult = &record;
     CColladaDatabase db;
     ctor_0x60f304(&db, nullptr, true, &factory);

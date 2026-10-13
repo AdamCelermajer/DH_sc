@@ -51,13 +51,13 @@ int main() {
 
     // Image loaders: the reference word is 1 after construction.
     CImageLoaderDDS* ddsLoader = createImageLoaderDDS();
-    CHECK(ddsLoader != nullptr && ddsLoader->m_refCount == 1);
+    CHECK(ddsLoader != nullptr && ddsLoader->referenceCounter == 1);
     delete ddsLoader;
     CImageLoaderJPG* jpgLoader = createImageLoaderJPG();
     CHECK(jpgLoader != nullptr);
     delete jpgLoader;
     CImageLoaderPVR* pvrLoader = createImageLoaderPVR();
-    CHECK(pvrLoader != nullptr && pvrLoader->m_refCount == 1);
+    CHECK(pvrLoader != nullptr && pvrLoader->referenceCounter == 1);
     delete pvrLoader;
     CImageLoaderBMP* bmpLoader = createImageLoaderBMP();
     CHECK(bmpLoader != nullptr);

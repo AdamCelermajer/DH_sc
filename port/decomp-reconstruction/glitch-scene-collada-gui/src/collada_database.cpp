@@ -1,4 +1,4 @@
-#include "glitch-scene-collada-gui/collada_database.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaDatabase.hpp"
 
 #include <cstring>
 
@@ -22,7 +22,13 @@ Entry* findByName(const std::vector<Entry*>& table, const char* name, const char
 
 // 0x61be98 _ZNK6glitch7collada16CColladaDatabase16getAnimationClipEPKc
 SAnimationClip* getAnimationClip(const SDatabaseTables& tables, const char* name) {
-    return findByName(tables.animationClips, name, &SAnimationClip::name);
+    const SLibraryAnimationClips& library = tables.animationClipLibrary;
+    for (std::int32_t i = 0; i < library.count; ++i) {
+        if (std::strcmp(library.clips[i].name, name) == 0) {
+            return &library.clips[i];
+        }
+    }
+    return nullptr;
 }
 
 // 0x61bef8 _ZNK6glitch7collada16CColladaDatabase12getAnimationEPKc

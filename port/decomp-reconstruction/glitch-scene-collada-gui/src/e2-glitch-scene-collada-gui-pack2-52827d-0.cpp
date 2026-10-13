@@ -4,11 +4,9 @@
 // The IColladaSkinTechnique::initProxyBuffer row (0x670ec8) is already defined, as a partial stub, in
 // src/tb_scene-collada-gui-glitch_collada_detail_IColladaSkinTechnique-0.cpp, and is not defined twice here.
 //
-// Guest seam. The key tables and default values are guest-image addresses, and no guest memory map exists in this
-// tree (SAnimationAccessor's own guest reads use the same zero placeholder). Every key-table word read in this file
-// goes through guestWord(), which returns 0, and a default value has no host pointer, so defaultValueWords() returns
-// nullptr. The control flow of each body follows the Hex-Rays pseudocode; the values it reads are placeholders.
-// Functions that read key or default data are therefore partial, and their notes say so.
+// The key tables and default values are read through the canonical SAnimationAccessor (collada/SAnimationAccessor.hpp): the output
+// record's data pointer is the key table and getDefaultValue is the default value. The control flow of each body follows the
+// Hex-Rays pseudocode. Functions that call a virtual slot of the applicator info (not mapped) are partial.
 
 #include <cstdint>
 #include <cstring>
@@ -29,12 +27,6 @@ namespace glitch::collada::animation_track {
 
 namespace {
 
-// Guest word read. The guest image is not mapped in this tree, so the read returns zero.
-std::uint32_t guestWord(std::uint32_t address) {
-    (void)address;
-    return 0u;
-}
-
 // Reinterprets a 32-bit word as the float it encodes.
 float wordToFloat(std::uint32_t bits) {
     float value;
@@ -42,21 +34,19 @@ float wordToFloat(std::uint32_t bits) {
     return value;
 }
 
-// Float at index (in 4-byte words) of the key table whose guest base is keyBase.
-float keyFloat(std::uint32_t keyBase, int index) {
-    return wordToFloat(guestWord(keyBase + 4u * static_cast<std::uint32_t>(index)));
+// Float at index of the key table.
+float keyFloat(const float* keyBase, int index) {
+    return keyBase[index];
 }
 
-// Key table base of accessor output 0. The pseudocode reads the word at (getOutput(a1, 0) + 4).
-std::uint32_t keyBaseOf(const glitch::collada::SAnimationAccessor& accessor) {
-    return guestWord(accessor.getOutput(0) + 4u);
+// Key table of accessor output 0. The pseudocode reads the word at (getOutput(a1, 0) + 4), the data pointer.
+const float* keyBaseOf(const glitch::collada::SAnimationAccessor& accessor) {
+    return static_cast<const float*>(accessor.getOutput(0)->data);
 }
 
-// Host view of the accessor's default value (three words). The guest default record has no host pointer in this
-// tree, so this returns nullptr; the default-value branches then read zero words.
+// The accessor's default value as words.
 const std::uint32_t* defaultValueWords(const glitch::collada::SAnimationAccessor& accessor) {
-    (void)accessor;
-    return nullptr;
+    return static_cast<const std::uint32_t*>(accessor.getDefaultValue());
 }
 
 // Float at index of a default value, or zero when the host view is unmapped.
@@ -200,7 +190,7 @@ std::uint32_t* CVirtualEx<QuatAngleApplicator>::retrieveValue(void* source, std:
 bool CInterpreterSceneNodeQuaternionFloat4::getKeyBasedValueEx(const glitch::collada::SAnimationAccessor& a1, int a2,
                                                                int a3, float a4, float* a5) {
     (void)a3;
-    const std::uint32_t keyBase = keyBaseOf(a1);
+    const float* keyBase = keyBaseOf(a1);
     float keys[8] = {};
     for (int i = 0; i < 8; ++i) {
         keys[i] = keyFloat(keyBase, 4 * a2 + i);
@@ -217,7 +207,7 @@ bool CInterpreterSceneNodeQuaternionFloat4::getKeyBasedValueEx(const glitch::col
 // partial: key and default words are read through the guest seam and read as zero; no default value has a host pointer.
 const std::uint32_t* CInterpreterSceneNodeQuaternionAngleFloat4::getKeyBasedValueEx(
     const glitch::collada::SAnimationAccessor& acc, int key, float* out) {
-    const std::uint32_t keyBase = keyBaseOf(acc);
+    const float* keyBase = keyBaseOf(acc);
     const std::uint32_t* defaults = acc.hasDefaultValue() ? defaultValueWords(acc) : nullptr;
     if (defaults != nullptr) {
         out[0] = defaultFloat(defaults, 0);
@@ -236,7 +226,7 @@ const std::uint32_t* CInterpreterSceneNodeQuaternionAngleFloat4::getKeyBasedValu
 // partial: key and default words are read through the guest seam and read as zero.
 float CInterpreterSceneNodeQuaternionAngleFloat4::getKeyBasedValueEx(const glitch::collada::SAnimationAccessor& acc,
                                                                      int from, int to, float t, float* out) {
-    const std::uint32_t keyBase = keyBaseOf(acc);
+    const float* keyBase = keyBaseOf(acc);
     const float fromValue = keyFloat(keyBase, from);
     const float blended = fromValue + (t * (keyFloat(keyBase, to) - fromValue));
     if (acc.hasDefaultValue()) {
@@ -257,7 +247,7 @@ float CInterpreterSceneNodeQuaternionAngleFloat4::getKeyBasedValueEx(const glitc
 // partial: key and default words are read through the guest seam and read as zero.
 const std::uint32_t* CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDefaultValues<0, float>>::getKeyBasedValueEx(
     const glitch::collada::SAnimationAccessor& a1, int a2, float* a3) {
-    const std::uint32_t keyBase = keyBaseOf(a1);
+    const float* keyBase = keyBaseOf(a1);
     const std::uint32_t* defaults = a1.hasDefaultValue() ? defaultValueWords(a1) : nullptr;
     a3[0] = keyFloat(keyBase, a2);
     if (defaults != nullptr) {
@@ -275,7 +265,7 @@ const std::uint32_t* CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDe
 // such float, so this returns the blended value in both branches.
 float CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDefaultValues<0, float>>::getKeyBasedValueEx(
     const glitch::collada::SAnimationAccessor& a1, int a2, int a3, float a4, float* a5) {
-    const std::uint32_t keyBase = keyBaseOf(a1);
+    const float* keyBase = keyBaseOf(a1);
     const float fromValue = keyFloat(keyBase, a2);
     const float blended = fromValue + (a4 * (keyFloat(keyBase, a3) - fromValue));
     a5[0] = blended;
@@ -293,7 +283,7 @@ float CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDefaultValues<0, 
 // partial: key and default words are read through the guest seam and read as zero.
 const std::uint32_t* CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDefaultValues<0, float>>::getKeyBasedValueEx(
     const glitch::collada::SAnimationAccessor& a1, int a2, int a3, float* a4) {
-    const std::uint32_t keyBase = keyBaseOf(a1);
+    const float* keyBase = keyBaseOf(a1);
     const float diff = keyFloat(keyBase, a3) - keyFloat(keyBase, a2);
     if (a1.hasDefaultValue()) {
         const std::uint32_t* defaults = defaultValueWords(a1);
@@ -313,7 +303,7 @@ const std::uint32_t* CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDe
 // partial: key and default words are read through the guest seam and read as zero.
 float CInterpreter<CSceneNodePositionXEx<float>, float, 3, SUseDefaultValues<0, float>>::getKeyBasedValueEx(
     const glitch::collada::SAnimationAccessor& a1, int a2, int a3, int a4, float a5, float* a6) {
-    const std::uint32_t keyBase = keyBaseOf(a1);
+    const float* keyBase = keyBaseOf(a1);
     const float base = keyFloat(keyBase, a2);
     const float spanA = keyFloat(keyBase, a3) - base;
     const float spanB = keyFloat(keyBase, a4) - base;

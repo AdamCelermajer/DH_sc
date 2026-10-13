@@ -12,12 +12,13 @@ int main() {
     if (volume.half_0x44 != 0 || volume.half_0x46 != 0xFFFF || volume.half_0x48 != 0) return 1;
 
     // CMeshConnectivity constructor (0x7031d8): takes a reference on the buffer.
-    glitch::scene::CMeshBuffer buffer{};
-    buffer.referenceCount = 0;
-    boost::intrusive_ptr<const glitch::scene::CMeshBuffer> handle(&buffer);
+    glitch::scene::CMeshBuffer buffer;
+    buffer.referenceCounter = 1;  // held by the test (stack object: the count must never reach zero)
+    boost::intrusive_ptr<const glitch::scene::CMeshBuffer> handle(&buffer, true);
+    if (buffer.referenceCounter != 2) return 1;
     rs::CMeshConnectivity connectivity(handle);
     if (connectivity.buffer.get() != &buffer) return 1;
-    if (buffer.referenceCount != 1) return 1;
+    if (buffer.referenceCounter != 3) return 1;
     for (std::uint32_t word : connectivity.reserved_0x04) {
         if (word != 0) return 1;
     }
@@ -29,7 +30,7 @@ int main() {
 
     // SSilhouette constructor (0x6ffdf8): base constructor, then zeroed words.
     rs::CShadowVolumeSceneNode::SSilhouette silhouette(handle);
-    if (buffer.referenceCount != 2) return 1;
+    if (buffer.referenceCounter != 4) return 1;
     if (silhouette.data_0x18 != nullptr || silhouette.array_0x24 != nullptr) return 1;
     if (silhouette.word_0x1c != 0 || silhouette.word_0x20 != 0) return 1;
 

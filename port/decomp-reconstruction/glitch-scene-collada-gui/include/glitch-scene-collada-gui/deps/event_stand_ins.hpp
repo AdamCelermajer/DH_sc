@@ -1,29 +1,9 @@
-// Stand-ins for the event record and the user event receiver interface, as read by
-// glitch::gui::CGUIEnvironment::onEvent. Only the words that the pseudocode reads are
-// mapped; the rest of each record is not reconstructed.
+// glitch::SEvent and glitch::IEventReceiver have one definition: glitch-core-io/os/event_receiver.hpp (canonical header of
+// the engine unification wave, u1-core). The stand-ins this header held are retired:
+//   - SEvent was {category, word1, caller}; the canonical record names the same words EventType (+0x00), unk_04 (+0x04) and
+//     GUIEvent.Caller (+0x08).
+//   - IEventReceiver named its single slot (+0x08) forwardEvent; the canonical name is onEvent.
+// The header only forwards so that the existing includes of this category (and game/include/dh2/ZoomHandler.hpp) keep working.
 #pragma once
 
-#include <cstdint>
-
-namespace glitch {
-
-// glitch::SEvent. Word 0 is the category: 0 for GUI events, 1 and 2 are rejected by
-// CGUIEnvironment::onEvent. Word 2 is the caller pointer, compared for GUI events.
-struct SEvent {
-    std::int32_t category = 0;     // +0x00, word 0
-    std::int32_t word1 = 0;        // +0x04, not read by onEvent
-    const void* caller = nullptr;  // +0x08, word 2
-};
-
-// glitch::IEventReceiver. Under the Itanium-style ARM vtable, slots +0x00 and +0x04 are
-// the destructors, so the call made by onEvent through slot +0x08 is the first
-// non-destructor virtual. The original name of that method is not mapped, so it is kept
-// as forwardEvent.
-class IEventReceiver {
-public:
-    virtual ~IEventReceiver() = default;
-    // vtable +0x08 (name not mapped in the original)
-    virtual bool forwardEvent(const SEvent& event) = 0;
-};
-
-}  // namespace glitch
+#include "glitch-core-io/os/event_receiver.hpp"

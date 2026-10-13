@@ -56,7 +56,7 @@ int main() {
 
     // Position keys (vector3d, stride 12): element 1 is {4,5,6}.
     Key3f positionKeys[2] = {{{1.f, 2.f, 3.f}}, {{4.f, 5.f, 6.f}}};
-    SAnimationOutput output{0, reinterpret_cast<std::uint8_t*>(positionKeys)};
+    recon_08::SAnimationOutput output{0, reinterpret_cast<std::uint8_t*>(positionKeys)};
     SAnimationAccessor accessor{&output};
 
     Key3f copied{};
@@ -76,7 +76,7 @@ int main() {
 
     // float[4] keys (stride 16) through the forwarder.
     Key4f quat[2] = {{{0.f, 0.f, 0.f, 0.f}}, {{2.f, 4.f, 6.f, 8.f}}};
-    SAnimationOutput quatOutput{0, reinterpret_cast<std::uint8_t*>(quat)};
+    recon_08::SAnimationOutput quatOutput{0, reinterpret_cast<std::uint8_t*>(quat)};
     SAnimationAccessor quatAccessor{&quatOutput};
     Key4f lerp4{};
     float forwarded = getKeyBasedValue_612238(quatAccessor, 0, 0, 1, 0.5f, &lerp4);
@@ -84,7 +84,7 @@ int main() {
 
     // CLightColor keys (three bytes each).
     KeyRgb rgb[2] = {{{1, 2, 3}}, {{7, 8, 9}}};
-    SAnimationOutput rgbOutput{0, reinterpret_cast<std::uint8_t*>(rgb)};
+    recon_08::SAnimationOutput rgbOutput{0, reinterpret_cast<std::uint8_t*>(rgb)};
     SAnimationAccessor rgbAccessor{&rgbOutput};
     KeyRgb rgbCopy{};
     getKeyBasedValue_612684(rgbAccessor, 1, &rgbCopy);

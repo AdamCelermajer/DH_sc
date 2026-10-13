@@ -4,8 +4,6 @@
 #ifndef GLITCH_SCENE_COLLADA_GUI_RECON_V2_WAVE_13_HPP
 #define GLITCH_SCENE_COLLADA_GUI_RECON_V2_WAVE_13_HPP
 
-#include "glitch-scene-collada-gui/layouts/scene.hpp"
-
 namespace glitch {
 namespace io {
 class IAttributes;
@@ -29,11 +27,7 @@ void CGUIModalScreen_deserializeAttributes(glitch::gui::CGUIModalScreen* self,
                                            glitch::io::IAttributes* a1,
                                            glitch::io::SAttributeReadWriteOptions* a2);
 
-// 0x578920 _ZN6glitch5scene10CBatchMesh20loadSegmentExtraDataEPvPNS_2io9IReadFileEb
-void CBatchMesh_loadSegmentExtraData(glitch::scene::CBatchMesh* self,
-                                     void* a2,
-                                     glitch::io::IReadFile* a3,
-                                     bool a4);
+// CBatchMesh::loadSegmentExtraData (0x578920) is a canonical member of scene/CBatchMesh.hpp.
 
 }  // namespace glitch::collada::recon_v2_13
 

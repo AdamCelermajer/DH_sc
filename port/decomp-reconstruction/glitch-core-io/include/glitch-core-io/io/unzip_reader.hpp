@@ -23,7 +23,7 @@ public:
     int findFile(const char* name);
     // 0x577a48: PARTIAL. The folder name is copied, but the path composition with the name is not
     // recovered, so no file is returned.
-    IReadFile* openFile(const char* name);
+    IReadFile* openFile(const char* name) override;
 
     IFileSystem* fileSystem = nullptr;  // +0x20 in the original (not referenced)
     std::string folderName;             // +0x34 .. +0x38 in the original

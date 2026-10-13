@@ -1,7 +1,7 @@
 // Checks the clock logic of glitch::collada::CTimelineController (batch
 // e1-glitch-scene-collada-gui-glitch_collada_CTimelineController-0): range setup,
 // jumps, clip changes, and the end-of-range wrap and callback in update().
-#include "glitch-scene-collada-gui/collada_misc.hpp"
+#include "glitch-scene-collada-gui/collada/CTimelineController.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -12,8 +12,8 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 static int callbackCount = 0;
-static void onEnd(CTimelineController*, std::int32_t data) {
-    callbackCount += data;
+static void onEnd(glitch::scene::ITimelineController*, void* data) {
+    callbackCount += static_cast<int>(reinterpret_cast<std::intptr_t>(data));
 }
 
 int main() {
@@ -59,12 +59,12 @@ int main() {
 
     // setClip with a clip table takes the clip's start and end; setRange then has no effect.
     {
-        STimelineClip clips[2] = {};
+        SAnimationClip clips[2] = {};
         clips[0].start = 0;
         clips[0].end = 500;
         clips[1].start = 500;
         clips[1].end = 2500;
-        STimelineClipTable table;
+        SLibraryAnimationClips table;
         table.count = 2;
         table.clips = clips;
         CTimelineController t;
@@ -96,7 +96,7 @@ int main() {
         CTimelineController t;
         callbackCount = 0;
         t.callback = onEnd;
-        t.callbackData = 1;
+        t.callbackData = reinterpret_cast<void*>(1);
         t.setRange(0, 1000, false);
         t.setLoop(false);
         t.jumpTo(0);
@@ -113,7 +113,7 @@ int main() {
         CTimelineController t;
         callbackCount = 0;
         t.callback = onEnd;
-        t.callbackData = 1;
+        t.callbackData = reinterpret_cast<void*>(1);
         t.setRange(0, 1000, false);
         t.setLoop(true);
         t.jumpTo(0);

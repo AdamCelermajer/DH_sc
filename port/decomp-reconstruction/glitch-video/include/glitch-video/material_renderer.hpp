@@ -1,0 +1,133 @@
+// glitch::video::CMaterialRenderer: a material type (a named set of techniques, each a list of render passes, plus the
+// parameter table that materials of this type share). Canonical definition (engine unification wave u1-video);
+// the stand-ins in glitch-core-io (deps/glitch_core_objects.hpp), glitch-video itself
+// (material_vertex_attribute_map.hpp) and the forward declarations in glitch-scene-collada-gui and game/ are
+// replaced by this header.
+//
+// CMaterialRenderer is NOT an IReferenceCounted: the reference count is its first word (+0x00), the constructor stores 0
+// and allocate (0x5d4c48) adds the first use. It has no vtable. The original object is one variable-size block: a
+// 0x28-byte header followed by the technique table, the parameter entries, the value buffer, the render passes and the
+// name text (allocate sizes it as value buffer + 16 * parameters + 41 + 4 * ((3 * bindings + 1) / 2) + strlen(name)
+// + 12 * techniques + 52 * passes). The port keeps the header words as members and points them at host arrays.
+//
+// Header layout (32-bit; constructors 0x5d3124 C2 / 0x5d36cc C1; names from the callers):
+//   +0x00  reference count
+//   +0x04  IVideoDriver*
+//   +0x08  name (a C string at the end of the block)
+//   +0x0c  uint16 id (the manager's SIDedCollection id)
+//   +0x0e  uint16 parameter count (SParameterBlockHeader::count of IMaterialParameters<CMaterialRenderer>)
+//   +0x10  uint8 technique count     +0x11  uint8, 1 after construction
+//   +0x14  uint32 value buffer size in bytes
+//   +0x18  technique table, 12-byte STechniqueEntry per technique
+//   +0x1c  base of the render pass array (every technique's passes follow one another; 52 bytes each)
+//   +0x20  parameter entries (SParameterBlockHeader::entries, 16 bytes each)
+//   +0x24  value buffer
+// The parameter accessors of IMaterialParameters<CMaterialRenderer, ISharedMemoryBlockHeader<CMaterialRenderer>> (the
+// original base class, whose table is this header) are the free-function backends in material_parameters_part_d.hpp
+// and material_parameters_bind_r.cpp; the port models that base as a separate class template, see NOTES.md.
+#pragma once
+
+#include <cstdint>
+
+#include "glitch-video/deps/intrusive_ptr.hpp"
+#include "glitch-video/tb/renderpass_srenderstate.hpp"
+#include "glitch-video/video_types.hpp"
+
+namespace glitch::core {
+class SSharedString;
+}  // namespace glitch::core
+
+namespace glitch::video {
+
+struct SShaderParameterDef;
+
+namespace detail::material_renderer_manager {
+struct STechniqueList;  // CMaterialRendererManager's technique list (0x5d3124 argument 5)
+}  // namespace detail::material_renderer_manager
+
+// One render pass of a technique: 52 bytes in the original (the pass array element). The first 32 bytes are the
+// detail::renderpass::SRenderState block; CMaterialRenderer::setRenderState compares and copies them.
+struct SRenderPass {
+    uint32_t stateWords[8] = {};                  // +0x00..+0x1f, the renderpass::SRenderState block
+    glitch::IReferenceCounted* shader = nullptr;  // +0x20, the pass shader (counted: IReferenceCounted at +0x04)
+    int* bindings = nullptr;                      // +0x24, 8 bytes per entry, process-buffer block
+    uint32_t unknown28 = 0;                       // +0x28, meaning unknown
+    uint16_t unknown2c = 0;                       // +0x2c, meaning unknown
+    uint16_t unknown2e = 0;                       // +0x2e, meaning unknown
+    uint8_t flag30 = 1;                           // +0x30, one when written by addRenderPass or setRenderState
+
+    // 0x5e1064 / 0x5e1670: attribute (de)serializers. Not reconstructed (the IAttributes vtable is core-io's).
+    void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const;
+    void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options);
+};
+// Earlier waves called the pass array element SRendererParameterBlock (an opaque 52-byte buffer).
+using SRendererParameterBlock = SRenderPass;
+
+// One technique entry of a renderer: 12 bytes in the original.
+struct STechniqueEntry {
+    void* name = nullptr;                    // +0x00, the technique name (SSharedStringHeapEntry::SData*, count at +0x00)
+    uint8_t passCount = 0;                   // +0x04, number of render passes of the technique
+    const SRenderPass* passes = nullptr;     // +0x08, first render pass of the technique
+};
+
+class CMaterialRenderer {
+public:
+    // Not part of the original (which constructs only through the ten-argument constructor / allocate): lets a test
+    // build a renderer and fill the header words by hand.
+    CMaterialRenderer() = default;
+    CMaterialRenderer(const CMaterialRenderer&) = delete;
+    CMaterialRenderer& operator=(const CMaterialRenderer&) = delete;
+
+    // 0x5d3124 (C2) / 0x5d36cc (C1): lays out the block, copies the technique list and the render passes (grabbing
+    // their shaders and the global parameters they bind), the parameter entries and the name, and zeroes the value
+    // buffer. Declared only (the technique list, the shader parameter table and the global parameter manager are
+    // not reconstructed). The destructors (0x5d4aa0 / 0x5d4d8c) drop the parameters, the pass shaders and the bound
+    // global parameters; the port's implicit destructor does none of that.
+    CMaterialRenderer(IVideoDriver* driver, uint16_t id, const char* name,
+                      const detail::material_renderer_manager::STechniqueList& techniques, uint16_t passTotal,
+                      uint16_t parameterCount, const SShaderParameterDef* const* parameters,
+                      uint32_t valueBufferSize, uint16_t bindingCount, const uint16_t* bindingIds);
+    // 0x5d4c48: sizes and allocates the block, constructs the renderer in it and returns it with count 1. Declared only.
+    static boost::intrusive_ptr<CMaterialRenderer> allocate(
+        IVideoDriver* driver, uint16_t id, const char* name,
+        const detail::material_renderer_manager::STechniqueList& techniques, uint16_t parameterCount,
+        const SShaderParameterDef* const* parameters, uint32_t valueBufferSize, uint16_t bindingCount,
+        const uint16_t* bindingIds);
+
+    // 0x5d3034: copies the first 32 bytes of state into the pass element (flag byte at +0x30 set to 1) unless they
+    // already match. Returns the word at state +0x10 when it copies, 0 otherwise (as the original does).
+    int32_t setRenderState(uint8_t technique, uint8_t pass, const detail::renderpass::SRenderState& state);
+
+    // 0x5cef08 / 0x5d308c: the parameter id for a type (or name) at the given occurrence. Declared only.
+    uint16_t getParameterID(E_SHADER_PARAMETER_TYPE type, uint16_t index) const;
+    uint16_t getParameterID(const char* name, uint16_t index) const;
+    // 0x5d4714: technique id for a name; 255 when absent. Declared only (needs SSharedStringHeapEntry::SData::get).
+    uint8_t getTechniqueID(const char* name) const;
+    // 0x5d3f14: number of lights a pass of a technique binds. Declared only.
+    uint32_t getBindedLightCount(uint8_t technique, uint8_t pass) const;
+
+    // 0x5d66f4 / 0x5d7378: attribute (de)serializers. Not reconstructed (the IAttributes vtable is core-io's).
+    void deserializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options);
+    void serializeAttributes(io::IAttributes* attributes, io::SAttributeReadWriteOptions* options) const;
+
+    mutable uint32_t m_refCount = 0;                       // +0x00, intrusive reference count
+    IVideoDriver* m_driver = nullptr;                      // +0x04
+    const char* m_name = nullptr;                          // +0x08
+    uint16_t m_id = 0;                                     // +0x0c
+    uint16_t m_parameterCount = 0;                         // +0x0e
+    uint8_t m_techniqueCount = 0;                          // +0x10, number of techniques (totalMapCount reads the last entry)
+    uint8_t m_flag11 = 1;                                  // +0x11
+    uint32_t m_valueBufferSize = 0;                        // +0x14
+    STechniqueEntry* m_techniques = nullptr;               // +0x18, technique table (12-byte entries)
+    const SRenderPass* m_passBase = nullptr;               // +0x1c, base of the render pass array
+    // +0x20 parameter entries, +0x24 value buffer: modelled by the parameter table backends
+    // (material_parameters.hpp, material_parameters_part_d.hpp), not as members here.
+};
+
+// The original's inline count updates (CMaterialRenderer keeps its count at +0x00, not in IReferenceCounted).
+inline void intrusive_ptr_add_ref(const CMaterialRenderer* p) { ++p->m_refCount; }
+inline void intrusive_ptr_release(const CMaterialRenderer* p) {
+    if (p->m_refCount-- == 1) delete p;  // the original runs ~CMaterialRenderer (0x5d4aa0) then LC_API_FREE_0
+}
+
+}  // namespace glitch::video

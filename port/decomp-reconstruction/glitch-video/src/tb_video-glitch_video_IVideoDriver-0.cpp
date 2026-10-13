@@ -1,7 +1,7 @@
 #include "glitch-video/video_driver.hpp"
 
 #include "glitch-video/light.hpp"
-#include "glitch-video/material_parameters_bind_g.hpp"
+#include "glitch-video/global_parameter_manager.hpp"
 
 namespace glitch::video {
 
@@ -10,7 +10,7 @@ namespace glitch::video {
 // stored at parameter id (uint16)(count + base), where base is +0x38, with index 0. The count is
 // incremented after the call and the call result is returned. Otherwise the limit is returned.
 // Partial: the element setter 0x5be68c (IMaterialParameters<G>::setParameter<intrusive_ptr<CLight>>)
-// is ledgered skipped, because intrusive_ptr reference counting is not ported. The null owner at
+// is ledgered skipped (the CLight release is inlined with the Matrix4Pool). The null owner at
 // +0xe4 is not checked, as in the original.
 uint32_t IVideoDriver::addDynamicLight(const boost::intrusive_ptr<CLight>& light) {
     const uint16_t count = m_dynamicLightCount;  // +0x3a

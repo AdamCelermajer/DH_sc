@@ -1,5 +1,7 @@
 #include "glitch-scene-collada-gui/recon/slice_07.hpp"
 
+#include "glitch-video/material.hpp"
+
 #include <cmath>
 #include <cstring>
 
@@ -124,30 +126,6 @@ void getAngleWeight(core::vector3d<float>& out, const core::vector3d<float>& p0,
     out.Z = angleR;  // +0x08
 }
 
-// 0x5a2040 _ZNK6glitch5scene17CAppendMeshBuffer13hasEnoughSpaceEjj
-bool CAppendMeshBuffer_hasEnoughSpace(const CAppendMeshBufferLayout& self,
-                                      std::uint32_t vertexCount, std::uint32_t indexCount) {
-    const std::uint32_t freeVertices =
-        (self.vertexCapacityBytes - self.vertexUsedBytes) / self.vertexStride;
-    const std::uint32_t freeIndices =
-        (self.indexCapacityBytes - self.indexUsedBytes) / self.indexStride;
-    const std::uint32_t usedVertices = self.vertexUsedBytes / self.vertexStride;
-    return vertexCount <= freeVertices && indexCount <= freeIndices &&
-           vertexCount + usedVertices < 0x10000u;
-}
-
-// 0x5a26bc _ZN6glitch5scene17CAppendMeshBuffer11beginAppendEv
-// Partial: the two IBuffer::map calls and the stores into +0x50 and +0x54 are not modelled.
-void CAppendMeshBuffer_beginAppend(CAppendMeshBufferLayout& /*self*/) {}
-
-// 0x5a8a88 _ZN6glitch5scene17CAppendMeshBuffer5setupEv
-// Partial: the write through the pointer at +0x14 is not modelled; the 16-bit flag at +0x2c is not stored.
-void CAppendMeshBuffer_setup(CAppendMeshBufferLayout& self) {
-    self.setupIndexCount = self.indexUsedBytes / self.indexStride;  // +0x20
-    self.setupCounterA = 0;                                          // +0x24
-    self.setupVertexCount = self.vertexUsedBytes / self.vertexStride;  // +0x28
-}
-
 // 0x5a20d4 _ZN6glitch13lessThanPlaneERKSt4pairIjNS_4core8aabbox3dIfEEEfc
 bool lessThanPlane(const KdEntry& entry, float plane, char axis) {
     return axisComponent(kdCentre(entry), axis) < plane;
@@ -186,52 +164,7 @@ boost::intrusive_ptr<scene::IMesh> createMeshWelded(const boost::intrusive_ptr<s
     return mesh;
 }
 
-// 0x59a000 _ZNK6glitch5scene13SAnimatedMesh11getMaterialEj
-// Partial: the original calls vtable slot +0x18 on the first child; the index is not used.
-boost::intrusive_ptr<video::CMaterial> SAnimatedMesh_getMaterial(const SAnimatedMeshLayout& /*self*/,
-                                                                 std::uint32_t /*index*/) {
-    return {};
-}
-
-// 0x59a03c _ZNK6glitch5scene13SAnimatedMesh27getMaterialVertexAttributeMapEj
-// Partial: vtable slot +0x1c on the first child; the index is not used.
-boost::intrusive_ptr<video::CMaterial> SAnimatedMesh_getMaterialVertexAttributeMap(
-    const SAnimatedMeshLayout& /*self*/, std::uint32_t /*index*/) {
-    return {};
-}
-
-// 0x59a078 _ZN6glitch5scene13SAnimatedMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKS6_INS7_27CMaterialVertexAttributeMapEE
-// Partial: tail forward to the first child (vtable slot +0x20); forwarded arguments are not modelled.
-void SAnimatedMesh_setMaterial(SAnimatedMeshLayout& /*self*/) {}
-
-// 0x59a1c0 _ZN6glitch5scene13SAnimatedMesh21recalculateBoundingBoxEv
-// Partial: the child boxes come from vtable slot +0x24; the union is not dispatched here.
-void SAnimatedMesh_recalculateBoundingBox(SAnimatedMeshLayout& self) {
-    self.boundingBox = core::aabbox3d<float>{};
-}
-
-// 0x59ad10 _ZN6glitch5scene13SAnimatedMeshC2ERKN5boost13intrusive_ptrINS0_5IMeshEEENS0_18E_ANIMATED_MESH_TYPEE
-// Partial: default box and mesh-type store are modelled; the child-list copy and
-// the recalculate call are not (the list is only described by its begin/end words).
-void SAnimatedMesh_ctor(SAnimatedMeshLayout& self, const boost::intrusive_ptr<scene::IMesh>& /*mesh*/,
-                        std::uint32_t meshType) {
-    self.boundingBox = core::aabbox3d<float>{{-1.0f, -1.0f, -1.0f}, {1.0f, 1.0f, 1.0f}};
-    self.childBegin = 0;
-    self.childEnd = 0;
-    self.meshType = meshType;  // +0x2c
-    SAnimatedMesh_recalculateBoundingBox(self);
-}
-
-// 0x59ae64 _ZNK6glitch5scene13SAnimatedMesh5cloneEv
-// Partial: the vtable clone of the first child and the list assignment are not dispatched here.
-boost::intrusive_ptr<scene::SAnimatedMesh> SAnimatedMesh_clone(const SAnimatedMeshLayout& /*self*/) {
-    return {};
-}
-
-// 0x59ae1c _ZN6glitch5scene18createAnimatedMeshERKN5boost13intrusive_ptrINS0_5IMeshEEENS0_18E_ANIMATED_MESH_TYPEE
-// Partial: operator new and the constructor call are not modelled; out is left unchanged.
-void createAnimatedMesh(boost::intrusive_ptr<scene::SAnimatedMesh>& /*out*/,
-                        const boost::intrusive_ptr<scene::IMesh>& /*mesh*/, std::uint32_t /*meshType*/) {}
+// SAnimatedMesh (0x59a000 .. 0x59ae64) and createAnimatedMesh (0x59ae1c): canonical in src/scene/SAnimatedMesh.cpp.
 
 // 0x59af20 _ZN6glitch5scene12getPolyCountERKN5boost13intrusive_ptrINS0_5IMeshEEE
 // Partial: the primitive count of each buffer needs CPrimitiveStream; returns 0.

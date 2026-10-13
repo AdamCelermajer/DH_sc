@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "glitch-core-io/tb/glitch_io.hpp"
+#include "io_stub_files.hpp"
 
 static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
@@ -20,14 +21,15 @@ std::uint32_t CPrimitiveStream::getPrimitiveCount() const { return count; }
 namespace {
 
 // Read file over a byte vector (little-endian data is handed out as stored).
-class MemReadFile : public glitch::io::IReadFile {
+class MemReadFile : public glitch::io::testing::StubReadFile {
 public:
     explicit MemReadFile(std::vector<std::uint8_t> bytes) : data(std::move(bytes)) {}
-    void read(void* buffer, unsigned int count) override {
+    std::int32_t read(void* buffer, std::uint32_t count) override {
         for (unsigned int i = 0; i < count; ++i) {
             static_cast<std::uint8_t*>(buffer)[i] = pos < data.size() ? data[pos] : 0;
             ++pos;
         }
+        return static_cast<std::int32_t>(count);
     }
     bool seek(long offset, bool relative) override {
         pos = static_cast<std::size_t>(relative ? static_cast<long>(pos) + offset : offset);
@@ -40,7 +42,7 @@ public:
 };
 
 // Write file that keeps every byte written.
-class MemWriteFile : public glitch::io::IWriteFile {
+class MemWriteFile : public glitch::io::testing::StubWriteFile {
 public:
     std::size_t write(const void* bytes, unsigned int count) override {
         const auto* p = static_cast<const std::uint8_t*>(bytes);

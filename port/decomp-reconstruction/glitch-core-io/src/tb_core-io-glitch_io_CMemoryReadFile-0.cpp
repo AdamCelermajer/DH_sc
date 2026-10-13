@@ -40,25 +40,13 @@ long CMemoryReadFile::getPos() const { return position; }  // +0x1c
 // 0x56ec88 _ZNK6glitch2io15CMemoryReadFile11getFileNameEv
 // ldr r0, [r0, #0x34]: the name string at +0x20 has its begin pointer at +0x34 (the glitch string
 // layout: end at +0x10, begin at +0x14, relative to the string). The original returns that character
-// pointer; the port's slot returns the std::string, which is the same name.
-const std::string& CMemoryReadFile::getFileName() const { return name; }
+// pointer, which is the name's c_str() here.
+const char* CMemoryReadFile::getFileName() const { return name.c_str(); }
 
 // 0x56ec90 _ZNK6glitch2io15CMemoryReadFile11getFullPathEv (same body: the full path is the name)
-const std::string& CMemoryReadFile::getFullPath() const { return name; }
+const char* CMemoryReadFile::getFullPath() const { return name.c_str(); }
 
-// Partial, no body yet:
-//
-// 0x56ecc4 _ZN6glitch2io15CMemoryReadFile4readEPvj (signed int read(void*, unsigned int))
-//   Known: pos = +0x1c, size = +0x18; n = count; if pos + count > size then n = size - pos;
-//   if n <= 0 return 0; memcpy(dst, buffer + pos, n); pos += n; return n.
-//   Missing: IReadFile::read is declared void in read_file.hpp, but the original returns the count.
-//   Needs that base signature changed to int before the override can be declared.
-//
-// 0x56ebac _ZNK6glitch2io15CMemoryReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_ (4-argument)
-//   Calls the read slot, then callBack(count, count == 0, this, context); returns 1. Needs the read count.
-//
-// 0x56ebe0 readAsync(void*, unsigned int, long, callback, void*)
-//   Calls seek(position, false) (result ignored), then the read slot, then callBack(count, count == 0,
-//   this, context); returns 1 (true). Needs the read count.
+// read (0x56ecc4) and the two readAsync forms (0x56ebac, 0x56ebe0) are in memory_read_file.cpp, now that the
+// IReadFile::read slot returns the byte count (u1-core).
 
 }  // namespace glitch::io
