@@ -17395,6 +17395,11 @@ void SpawnOwner::initialize_runtime(const ObjectGroup& group,
  runtime.rotation.rotation[2]=euler[2];runtime.rotation.heading_angle=euler[2];
  std::copy(actor->position.begin(),actor->position.end(),runtime.controller.position);
  std::copy(actor->position.begin(),actor->position.end(),runtime.controller.destination);
+ // Character::Character (0x3a9778) stores 1 into GameObject+0x1c4, the byte
+ // GameObject::UpdatePath (0x3940c0) tests before PFWorld::ValidateDirection:
+ // a Character's heading slides along floor boundaries instead of pushing into
+ // them. GameObject::GameObject (0x38c480) only defaults it to 0.
+ runtime.controller.validate_boundary=1;
  runtime.path.segments=nullptr;
  route_storage.assign(level.native_floor->graph.node_count+1,{});
  runtime.path.segments=route_storage.data();runtime.path.capacity=std::uint32_t(route_storage.size());
@@ -28183,6 +28188,75 @@ bool direct_monster_path_pending(ObjectActor& actor,unsigned dt_ms){
  return dt_ms&&actor.direct_path_ready&&level.native_floor&&
      actor.direct_path.count&&!actor.combat_state.dead&&actor.state!="Attack";
 }
+// Diagnostic only (DH2_TRACE_MONSTER_PATH=1): one line per Monster that has a
+// target or a route, every 30 Character updates and on every state/route change.
+void trace_monster_path(ObjectActor& actor,unsigned dt_ms){
+ static const bool enabled=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v&&*v!='0';}();
+ if(!enabled||!actor.spawn_owner||!actor.native_ai||!actor.spawn_owner->runtime_ready)return;
+ struct Last{unsigned frame=0;int fsm=-99;std::uint32_t count=0;bool target=false;unsigned long long total_ms=0;
+             float ref_x=0.f,ref_y=0.f;unsigned long long ref_ms=0;};
+ static std::unordered_map<std::uint64_t,Last> last_by_actor;
+ const bool first_seen=last_by_actor.find(actor.identity)==last_by_actor.end();
+ auto& last=last_by_actor[actor.identity];
+ last.total_ms+=dt_ms;++last.frame;
+ auto& owner=*actor.spawn_owner;auto& runtime=owner.runtime;
+ if(first_seen){
+  const auto* props=native_actor_ai_props(actor);
+  if(props)
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "MonsterPathTrace props | %s | script %s | type %d | view %.1f | view no aggro %.1f | leash %.1f | melee %.1f | home %.1f,%.1f | start %.1f,%.1f",
+     actor.name.c_str(),props->script.c_str(),props->type,props->view_radius,
+     props->view_radius_no_aggro,props->leash_distance,props->melee_radius,
+     actor.initial_position[0],actor.initial_position[1],actor.position[0],actor.position[1]);
+ }
+ const bool target=actor.native_ai->state.target_40!=0;
+ if(!target&&!runtime.path.count&&last.count==0&&!last.target&&owner.character.state.current!=4&&
+    actor.state!="Walk"&&!actor.direct_path.count)return;
+ const int fsm=owner.character.state.current;
+ // A Monster in its Move state that has not advanced for 1.5 s is walking in place.
+ if(fsm!=4){last.ref_x=actor.position[0];last.ref_y=actor.position[1];last.ref_ms=last.total_ms;}
+ else if(last.total_ms-last.ref_ms>=1500){
+  const float mx=actor.position[0]-last.ref_x,my=actor.position[1]-last.ref_y;
+  if(mx*mx+my*my<50.f*50.f)
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+     "MonsterPathTrace STUCK | %s | moved %.1f in %llu ms | pos %.1f,%.1f | route %u | next %.1f,%.1f | dest %.1f,%.1f",
+     actor.name.c_str(),std::sqrt(mx*mx+my*my),last.total_ms-last.ref_ms,actor.position[0],
+     actor.position[1],runtime.path.count,
+     runtime.path.count?runtime.path.segments[0].target[0]:runtime.controller.destination[0],
+     runtime.path.count?runtime.path.segments[0].target[1]:runtime.controller.destination[1],
+     runtime.controller.destination[0],runtime.controller.destination[1]);
+  last.ref_x=actor.position[0];last.ref_y=actor.position[1];last.ref_ms=last.total_ms;
+ }
+ const bool changed=fsm!=last.fsm||runtime.path.count!=last.count||target!=last.target;
+ if(!changed&&last.frame%30!=0)return;
+ const bool route_changed=runtime.path.count!=last.count;
+ last.fsm=fsm;last.count=runtime.path.count;last.target=target;
+ if(route_changed){
+  // Full route dump (DH2_TRACE_MONSTER_PATH=2): every remaining segment's edge,
+  // node pair and source/target points, plus the Player-facing final target.
+  static const bool full=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v=='2';}();
+  if(full)for(std::uint32_t i=0;i<runtime.path.count;++i){
+   const auto& segment=runtime.path.segments[i];
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "MonsterPathTrace seg | %s | pos %.1f,%.1f | seg %u/%u | edge %u | nodes %u->%u | src %.1f,%.1f | dst %.1f,%.1f | clearance %.1f",
+     actor.name.c_str(),actor.position[0],actor.position[1],i,runtime.path.count,segment.edge,
+     segment.from,segment.to,segment.source[0],segment.source[1],segment.target[0],segment.target[1],
+     segment.clearance);
+  }
+ }
+ const float dx=actor_position[0]-actor.position[0],dy=actor_position[1]-actor.position[1];
+ const auto* wp=runtime.path.count?runtime.path.segments[0].target:runtime.controller.destination;
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+   "MonsterPathTrace | %s | t %llu ms | fsm %d | anim %s | target %d | pos %.1f,%.1f | player dist %.1f | route %u (direct %u) | route end %.1f,%.1f | next %.1f,%.1f | dest %.1f,%.1f | heading %d dir %.2f,%.2f | at-dest %d | home %.1f,%.1f",
+   actor.name.c_str(),last.total_ms,fsm,actor.state.c_str(),int(target),
+   actor.position[0],actor.position[1],std::sqrt(dx*dx+dy*dy),runtime.path.count,actor.direct_path.count,
+   runtime.path.target[0],runtime.path.target[1],wp[0],wp[1],
+   runtime.controller.destination[0],runtime.controller.destination[1],
+   int(runtime.controller.heading.active),runtime.controller.heading.direction[0],
+   runtime.controller.heading.direction[1],
+   int(dh2_nav_is_at_destination(&runtime.controller,&runtime.path)),
+   actor.initial_position[0],actor.initial_position[1]);
+}
 struct NativeAggroDelayContextV1 { ObjectActor* actor=nullptr; unsigned dt_ms=0; };
 std::int32_t native_aggro_delay_turn(void* raw,dh2::character_aggro_delay::State*,std::uint32_t* value){
  if(!raw||!value)return 1;
@@ -28872,7 +28946,13 @@ bool update_ais_monster_idle_home(ObjectActor& actor){
     ai.character_identity!=actor.identity||!ai.state.identity||
     ai.state.owner_04!=actor.identity)return false;
  const auto* props=native_actor_ai_props(actor);
- if(!props||props->script!="monster")return true;
+ // CharAI::SetScriptByName (0x3ceeb0) creates AISMonster only for the reserved
+ // "__monster__" script; a plain "monster" row runs AISExternal, whose OnUpdate
+ // (0x3dce64) is AISDefault::OnUpdate + the Lua OnUpdate + state callbacks and
+ // never walks the Monster home. monster.luac registers no OnUpdate, and no
+ // shipped AITable row names "__monster__", so original Monsters stay where
+ // they stopped after losing their target.
+ if(!props||props->script!="__monster__")return true;
 
  dh2::ais_monster_idle_home_v1::Request request{};
  request.character_state=owner.character.state.current;
@@ -28892,7 +28972,9 @@ bool update_ais_monster_idle_home(ObjectActor& actor){
            request.target_position);
  request.target_position_valid=owner.sampled_clip>=0&&actor.visible_80&&owner.source_visible&&
                                owner.visual.animated_node()>=0;
- request.melee_radius=props->melee_radius;
+ // AISMonster::OnUpdate compares against AITable row+0x1c (LeashDistance), not
+ // the row+0x20 MeleeRadius that CharAI::AI_GetMeleeRadius adds the weapon to.
+ request.leash_distance=props->leash_distance;
  if(dh2::ais_monster_idle_home_v1::request_home_move(request))
   direct_monster_move_to(actor,actor.initial_position.data());
  return true;
@@ -29338,6 +29420,7 @@ bool update_ordered_character_v1(void* raw,
     return false;
    }
   decay_character_reaction_gate_14fc(actor->reaction_gate_14fc,context.dt_ms);
+  trace_monster_path(*actor,context.dt_ms);
   if(spawn_owner) {
    std::string fx_error;
    if(!update_spawn_state_fx(*spawn_owner,fx_error)) {
@@ -50370,8 +50453,80 @@ Matrix source_map_camera_projection(int width,int height){
 //     loads the Lua file(s) (';'-separated, one chunk each) into the retained
 //     Player VM once and calls the global debug_main() at frame N (and every
 //     EVERY frames), logging its first result.
+//   DH2_DEBUG_PLACE_PLAYER_AT=X,Y,Z@N[;X,Y,Z@N...]  Script SetActorPosition of
+//     the Player (boss_probe_place_player) at actor frame N, one entry per frame.
 // Each use logs its result; nothing happens when the variables are unset.
+static void debug_player_place_probe(){
+ struct Placement{std::array<float,3> position;long frame;bool done;};
+ static std::vector<Placement> placements=[]{
+  std::vector<Placement> list;
+  const char* value=std::getenv("DH2_DEBUG_PLACE_PLAYER_AT");
+  if(!value)return list;
+  const std::string text(value);
+  for(std::size_t begin=0;begin<=text.size();){
+   auto end=text.find(';',begin);
+   if(end==std::string::npos)end=text.size();
+   float x=0.f,y=0.f,z=0.f;int frame=0;
+   if(end>begin&&std::sscanf(text.substr(begin,end-begin).c_str(),"%f,%f,%f@%d",&x,&y,&z,&frame)==4)
+    list.push_back({{x,y,z},long(frame),false});
+   begin=end+1;
+  }
+  return list;
+ }();
+ if(placements.empty()||!world_mode||!native_actor_ready)return;
+ const long frame=long(native_actor_frames);
+ for(auto& placement:placements){
+  if(placement.done||frame<placement.frame)continue;
+  placement.done=true;
+  std::string error;
+  const bool placed=boss_probe_place_player(placement.position,error);
+  __android_log_print(placed?ANDROID_LOG_INFO:ANDROID_LOG_ERROR,"DH2Native",
+      "Debug place Player | frame %ld | %.1f,%.1f,%.1f | %s | %s",frame,placement.position[0],
+      placement.position[1],placement.position[2],placed?"ok":"error",error.c_str());
+ }
+}
+static void debug_monster_roster_probe(){
+ static const bool enabled_trace=[]{const char* v=std::getenv("DH2_TRACE_MONSTER_PATH");return v&&*v&&*v!='0';}();
+ static bool dumped=false;
+ if(!enabled_trace||dumped||!world_mode||!native_actor_ready||native_actor_frames<30)return;
+ dumped=true;
+ for(auto& group:object_groups)for(auto& actor:group.instances){
+  if(actor.kind!=1)continue;
+  const auto* props=native_actor_ai_props(actor);
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+    "MonsterRoster | %s | pos %.1f,%.1f,%.1f | script %s | view %.0f | zone managed %d updates %d gated %d | room %d | state %s",
+    actor.name.c_str(),actor.position[0],actor.position[1],actor.position[2],
+    props?props->script.c_str():"?",props?props->view_radius:0.f,int(actor.source_room_zone_managed),
+    int(actor.source_updates_enabled),int(actor.gated_spawn),int(actor.room),actor.state.c_str());
+ }
+}
+// DH2_TRACE_NAV_MAP=X0,Y0,X1,Y1,STEP[,Z]: ASCII map of the selected-floor height
+// query ('#' floor, '.' none), north up, with monsters ('M') and the Player ('P').
+static void debug_nav_map_probe(){
+ static const char* spec=std::getenv("DH2_TRACE_NAV_MAP");
+ static bool dumped=false;
+ if(!spec||dumped||!world_mode||!native_actor_ready||native_actor_frames<30||!level.native_floor)return;
+ dumped=true;
+ float x0=0,y0=0,x1=0,y1=0,step=100,z=255;
+ if(std::sscanf(spec,"%f,%f,%f,%f,%f,%f",&x0,&y0,&x1,&y1,&step,&z)<5||step<=0)return;
+ for(float y=y1;y>=y0;y-=step){
+  std::string row;
+  for(float x=x0;x<=x1;x+=step){
+   char c='.';float h=0.f;const float point[3]{x,y,z};
+   if(dh2::floors::height(*level.native_floor,point,h))c='#';
+   const float half=step*0.5f;
+   if(std::fabs(actor_position[0]-x)<half&&std::fabs(actor_position[1]-y)<half)c='P';
+   else for(auto& group:object_groups){for(auto& actor:group.instances)
+     if(actor.kind==1&&std::fabs(actor.position[0]-x)<half&&std::fabs(actor.position[1]-y)<half)c='M';}
+   row.push_back(c);
+  }
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native","NavMap %7.0f | %s",y,row.c_str());
+ }
+}
 static void debug_player_cast_probe(){
+ debug_player_place_probe();
+ debug_monster_roster_probe();
+ debug_nav_map_probe();
  struct Probe{long cast_frame=0,cast_every=0,skill_frame=0,skill_every=0;int skill_slot=0;};
  static const Probe probe=[]{
   Probe p;
