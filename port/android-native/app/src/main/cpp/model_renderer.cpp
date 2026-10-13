@@ -8569,8 +8569,18 @@ struct NativeLootAdapterV1 {
     if(!request.item){error="Item requirements update has no live Item";return false;}
     return dh2::data::item_update_requirements_v5(*request.item,self.text_services(),error);
    case Operation::add_power:
-    if(!request.item||!self.presentation||request.index>std::uint32_t(INT32_MAX)){error="Item AddPower owner, identity, or mode is invalid";return false;}
-    return self.presentation->add_power(*request.item,request.argument,std::int32_t(request.index),self.text_services(),error);
+    // ItemInstance::AddPower(power,mode) 0x3fbc60 maps mode 1/2 to the _Hard/
+    // _VeryHard power row and treats every other value as the plain row.
+    // PlayerSavegame::__LoadInventory calls it with mode -1 (0x46a5f4) and the
+    // stack split does too, so the unsigned request word is the full int32
+    // mode domain; only a missing live Item or presentation owner is invalid.
+    if(!request.item||!self.presentation){
+     error=std::string("Item AddPower owner or identity is invalid | item ")+
+         (request.item?"present":"absent")+" | presentation "+
+         (self.presentation?"present":"absent");
+     return false;
+    }
+    return self.presentation->add_power(*request.item,request.argument,static_cast<std::int32_t>(request.index),self.text_services(),error);
    case Operation::update_gear_properties:
    case Operation::skin:
    case Operation::validate_hp_mp: {
@@ -9848,6 +9858,14 @@ bool native_level_save_apply_player_image_v1(
   if(error.empty())error="LevelSavegame PlayerCharacter_0 row was not applied";
   return false;
  }
+ // The _level.savegame image is only protected from replacement while it is the
+ // image that this load could not fully re-apply. LevelSavegame::LoadCheckPoint
+ // 0x46259c reads the sibling checkpoint file and restores the level filename,
+ // so a checkpoint (revive) reload never makes _level.savegame stale: the
+ // original's next Save writes the live objects, never a protected image.
+ const auto protect_level_image=[&]{
+  if(!checkpoint)level_savegame_publisher.preserve_existing_image();
+ };
  dh2::level_savegame_player_load_v1::FactoryLifecycleResult lifecycle{};
  std::string lifecycle_error;
  const auto lifecycle_status=
@@ -9856,9 +9874,10 @@ bool native_level_save_apply_player_image_v1(
          *active_crypt_room_runtime->character_factory,&source_facts,&commit,
          &lifecycle,lifecycle_error);
  if(lifecycle_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only) {
-  level_savegame_publisher.preserve_existing_image();
+  protect_level_image();
   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-      "LevelSavegame non-player Character restore incomplete; source image preserved | checkpoint %u | status %u | %s",
+      "LevelSavegame non-player Character restore incomplete; %s | checkpoint %u | status %u | %s",
+      checkpoint?"level image unaffected":"source image preserved",
       unsigned(checkpoint),unsigned(lifecycle_status),lifecycle_error.c_str());
  }
  dh2::level_savegame_player_load_v1::FactoryLifecycleResult noncharacter_lifecycle{};
@@ -9869,25 +9888,26 @@ bool native_level_save_apply_player_image_v1(
          *active_crypt_room_runtime->character_factory,&source_facts,&commit,
          &noncharacter_lifecycle,noncharacter_error);
  if(noncharacter_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only){
-  level_savegame_publisher.preserve_existing_image();
+  protect_level_image();
   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
-      "LevelSavegame non-Character restore incomplete; source image preserved | checkpoint %u | status %u | %s",
+      "LevelSavegame non-Character restore incomplete; %s | checkpoint %u | status %u | %s",
+      checkpoint?"level image unaffected":"source image preserved",
       unsigned(checkpoint),unsigned(noncharacter_status),noncharacter_error.c_str());
  }
  const auto applied_rows=std::uint64_t(lifecycle.rows_fully_applied)+
                          std::uint64_t(noncharacter_lifecycle.rows_fully_applied);
  if(applied_rows>result.unapplied_object_rows){
-  level_savegame_publisher.preserve_existing_image();
+  protect_level_image();
   __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
       "LevelSavegame restore row accounting exceeded the parsed non-Player row count | parsed %u | applied %llu",
       result.unapplied_object_rows,static_cast<unsigned long long>(applied_rows));
  }else{
   result.unapplied_object_rows-=static_cast<std::uint32_t>(applied_rows);
  }
- if(result.unapplied_object_rows||
+ const bool rows_incomplete=result.unapplied_object_rows||
     lifecycle_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only||
-    noncharacter_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only)
-  level_savegame_publisher.preserve_existing_image();
+    noncharacter_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only;
+ if(rows_incomplete)protect_level_image();
  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
      "Source LevelSavegame rows applied | checkpoint %u | generation %u | manager rows %u | Player identity %p | Player payload bytes %u | unapplied rows %u | restored Character rows %u | restored non-Character rows %u | replacement protected %u",
      unsigned(checkpoint),
@@ -9895,9 +9915,7 @@ bool native_level_save_apply_player_image_v1(
      result.payload_bytes,result.unapplied_object_rows,
      lifecycle.rows_fully_applied,
      noncharacter_lifecycle.rows_fully_applied,
-     unsigned(result.unapplied_object_rows!=0||
-       lifecycle_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only||
-       noncharacter_status!=dh2::level_savegame_player_load_v1::Status::loaded_player_only));
+     unsigned(!checkpoint&&rows_incomplete));
  error.clear();return true;
 }
 bool native_level_save_load_player_v1(std::string& error) {
@@ -10051,6 +10069,16 @@ bool native_level_save_objects_all_v1(void* raw,std::uintptr_t savegame,
   error="LevelSavegame SaveAll crossed the active Level/ObjectManager/factory owners";
   return true;
  }
+ if(level_savegame_publisher.replacement_protected()){
+  // The loaded image holds saved rows that this port could not re-apply
+  // (LevelSavegame::__LoadObjects 0x461e90 would have Deserialize'd every
+  // resolvable row), so a live-only Save would erase them. Keep the previous
+  // image and let the level change continue, exactly like a blocked Save.
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "LevelSavegame::Save kept the previous image | saved rows were not all re-applied on load | Level generation %u | filename %s",
+      facts->level_generation,source_level_owner.level_savegame().filename().c_str());
+  error.clear();return false;
+ }
  auto player=native_player_character_save_services();
  NativeLevelSaveIdentityContextV1 identity_context{facts,player};
  const dh2::character_level_save_serialize_v1::Services identity_services{
@@ -10106,7 +10134,24 @@ bool native_level_save_active_v1(std::uintptr_t savegame,std::string& error) {
  dh2::level_savegame_save_v1::Result result{};
  const auto status=source_level_owner.save_level(&state,&services,&result,error);
  if(status==dh2::level_savegame_save_v1::Status::saved)return true;
- if(error.empty())error="source LevelSavegame::Save did not publish";
+ if(status==dh2::level_savegame_save_v1::Status::skipped&&error.empty()){
+  // LevelSavegame::Save 0x4615ec is a void call: it returns without calling
+  // Savegame::saveAll when +4 is null, the SG block byte +0x39 is set
+  // (Level::SG_BlockLevel(true), raised by Script_BlockSaveGame 0x45c8c0 and
+  // lifted by Script_SaveGame) or the online non-host gate applies. Its only
+  // caller Level::QuickSave 0x3f059c (reached from Level::Unload 0x3f0690 and
+  // NativeGoToZone 0x4422b8) discards the result, so a blocked Save is a silent
+  // no-op that leaves the previous image untouched and lets the level change
+  // continue. Only +0x39 is reachable here: +4 and the offline gate were
+  // checked above.
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "LevelSavegame::Save skipped by the source SG block byte | +0x39 %u | Level generation %u | previous image kept",
+      unsigned(state.gate_39),facts.level_generation);
+  error.clear();return true;
+ }
+ if(error.empty())error="source LevelSavegame::Save did not publish | status "+
+     std::to_string(unsigned(status))+" | +0x39 "+std::to_string(unsigned(state.gate_39))+
+     " | service calls "+std::to_string(result.service_calls);
  return false;
 }
 b2FilterData prince_initial_filter;
@@ -24714,6 +24759,9 @@ int native_level_script_host_command(void*,const dh2_script_command* command,
    const auto player=prince_character.identity();
    if(player&&!prince_character.sg_block(player,1))return -1;
    if(source.source_level&&!source_level_owner.sg_block_level(source.source_level,1))return -1;
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Script_BlockSaveGame | Player SG_Block and Level SG_BlockLevel raised until Script_SaveGame | Level generation %u",
+       source.generation);
    return 1;
   }
   case 32: {
@@ -33602,6 +33650,16 @@ bool ui_player_save_game(std::uintptr_t identity,std::string& error){
     &prince_combat.save_transport->loader().save()!=prince_combat.savegame.get()){
   error="NativeSaveGame requires the active Character's canonical Save/profile transport";return false;
  }
+ if(prince_combat.savegame->source_save_blocked()){
+  // PlayerSavegame::SG_Save 0x464b2c tests `this+8 && !this+12` before any
+  // registered writer runs: a blocked Save (Character::SG_Block 0x3bb770, set by
+  // Script_BlockSaveGame and cleared by Script_SaveGame) just returns, with no
+  // failure path for Character::SG_Save 0x3bc4a8 / Level::SG_SavePlayer 0x3efa54
+  // and the LevelUp / inventory / quest persistence hooks to react to.
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "PlayerSavegame::SG_Save skipped by the source SG block byte +12 | profile left unchanged");
+  error.clear();return true;
+ }
  return prince_combat.save_transport->save_gameplay(error);
 }std::int32_t native_level_quick_save_copy_position_v1(void*,std::uintptr_t character,
         std::uint32_t word_168,std::uint32_t word_160,std::uint32_t word_164,
@@ -33660,7 +33718,7 @@ bool native_level_quick_save_v1(bool force,std::string& error) {
  if(error.empty())error="Level::QuickSave source kernel failed";
  return false;
 }
-bool native_level_save_all_players_v1(std::string& error) {
+bool native_level_save_all_players_v1(bool force,std::string& error) {
  if(native_host.online||!prince_combat.savegame||
     !prince_character.identity()||prince_combat.savegame->character()!=
        prince_character.identity()){
@@ -33676,7 +33734,16 @@ bool native_level_save_all_players_v1(std::string& error) {
   error="Level::SG_SaveAllPlayer PlayerManager does not expose the canonical local Character";
   return false;
  }
- return ui_player_save_game(prince_character.identity(),error);
+ // Level::SG_SavePlayer 0x3efa54: with `force` it first clears the Player's SG
+ // block (Character::SG_Block(false)), saves, then writes the captured block
+ // byte back; without `force` a blocked PlayerSavegame::SG_Save is a no-op
+ // (handled inside ui_player_save_game).
+ auto& save=*prince_combat.savegame;
+ const bool was_blocked=save.source_save_blocked();
+ if(force)save.set_source_save_blocked(false);
+ const bool saved=ui_player_save_game(prince_character.identity(),error);
+ if(force)save.set_source_save_blocked(was_blocked);
+ return saved;
 }
 bool ui_player_save_trophy_side_effects(std::uintptr_t identity,std::string& error){
  std::uintptr_t current=0;if(!ui_player_identity(current,error))return false;
@@ -43704,8 +43771,8 @@ std::string transition_level(const std::string& destination_name,
   [](void*,bool force,std::string& error){
    return native_level_quick_save_v1(force,error);
   },
-  [](void*,bool,std::string& error){
-   return native_level_save_all_players_v1(error);
+  [](void*,bool force,std::string& error){
+   return native_level_save_all_players_v1(force,error);
   },
   [](void*,std::int32_t& output,std::string& error){
    const auto source=source_level_owner.snapshot();
@@ -43866,7 +43933,7 @@ std::string transition_level(const std::string& destination_name,
         active.canonical_player_savegame!=savegame||!force){
       failure="Level::SG_SaveLocalPlayer(true) crossed its canonical Player Save";return false;
      }
-     return native_level_save_all_players_v1(failure);
+     return native_level_save_all_players_v1(force,failure);
     },
     [](void* raw,std::uintptr_t level_identity,std::uintptr_t savegame,bool force,std::string& failure){
      auto* ctx=static_cast<NativeLevelTransitionRenderContextV1*>(raw);
@@ -43940,7 +44007,7 @@ std::string transition_level(const std::string& destination_name,
        native_host.registry.manager_identity!=player_manager||!force){
      failure="Level::Unload SG_SaveAllPlayer crossed the retained PlayerManager";return false;
     }
-    return native_level_save_all_players_v1(failure);
+    return native_level_save_all_players_v1(force,failure);
    };
    queued.stop_all_sounds=[](void*,std::uint32_t fade_ms,std::string& failure){
     if(fade_ms!=500||!dh2::player_gameplay_audio::enqueue_stop_all(
