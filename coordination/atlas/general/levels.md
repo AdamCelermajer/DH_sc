@@ -5,44 +5,44 @@
 | 001_swamp.mlx | campaign | act_1 | data\PyData\scripts\001_SWAMP.pyscript | SwampHubAmbientMusic | 9 | 0 |
 | 002_swamp_witchcave.rule.xml | campaign | act_1 | data\pydata\scripts\002_swamp_cave_witch.pyscript | SwampWitchCaveAmbientMusic | 0 | 5 |
 | 003_darkwood.mlx | campaign | act_2 | data\PyData\scripts\003_DARKWOOD.pyscript | DarkWoodHubAmbientMusic | 24 | 0 |
-| 004_root_den.rule.xml | campaign | act_2 |  |  | 0 | 0 |
-| 005_infectedvillage.mlx | campaign | act_2 | data\PyData\scripts\005_INFECTEDVILLAGE.pyscript | InfectedVillageAmbientMusic | 2 | 0 |
-| 006_basement.rule.xml | campaign | act_2 |  |  | 0 | 0 |
-| 007_crypt_01.rule.xml | campaign | act_2 |  |  | 0 | 0 |
-| 008_gothicus_castle_01.rule.xml | campaign | act_2 | data\pydata\scripts\008_gothicus_castle_01.pyscript | GothicusCastleHubAmbientMusic | 0 | 4 |
+| 004_root_den.rule.xml | campaign | unplaced |  |  | 0 | 0 |
+| 005_infectedvillage.mlx | campaign | unplaced | data\PyData\scripts\005_INFECTEDVILLAGE.pyscript | InfectedVillageAmbientMusic | 2 | 0 |
+| 006_basement.rule.xml | campaign | unplaced |  |  | 0 | 0 |
+| 007_crypt_01.rule.xml | campaign | unplaced |  |  | 0 | 0 |
+| 008_gothicus_castle_01.rule.xml | campaign | unplaced | data\pydata\scripts\008_gothicus_castle_01.pyscript | GothicusCastleHubAmbientMusic | 0 | 4 |
 | 009_abbey.rule.xml | campaign | unplaced | data\pydata\scripts\009_abbey.pyscript | AbbeyRuinsOneAmbientMusic | 0 | 5 |
 | 009a_abbey.mlx | campaign | unplaced | data\PyData\scripts\009_ABBEY.pyscript | GatedCastleVillageMusic | 1 | 0 |
 | 010_el_lightning.rule.xml | campaign | unplaced |  |  | 0 | 0 |
-| 011_earth_temple_01.rule.xml | campaign | act_2 | data\pydata\scripts\011_earth_temple_01.pyscript | EarthTempleAmbientMusic | 0 | 5 |
-| 012_earth_temple_02.rule.xml | campaign | act_2 | data\pydata\scripts\012_earth_temple_02.pyscript | EarthTempleAmbientMusic | 0 | 5 |
-| 013_earth_temple_03.rule.xml | campaign | act_2 | data\pydata\scripts\013_earth_temple_03.pyscript | EarthTempleAmbientMusic | 0 | 6 |
+| 011_earth_temple_01.rule.xml | campaign | unplaced | data\pydata\scripts\011_earth_temple_01.pyscript | EarthTempleAmbientMusic | 0 | 5 |
+| 012_earth_temple_02.rule.xml | campaign | unplaced | data\pydata\scripts\012_earth_temple_02.pyscript | EarthTempleAmbientMusic | 0 | 5 |
+| 013_earth_temple_03.rule.xml | campaign | unplaced | data\pydata\scripts\013_earth_temple_03.pyscript | EarthTempleAmbientMusic | 0 | 6 |
 | 014_el_earth.rule.xml | campaign | unplaced |  |  | 0 | 0 |
-| 015_red_desert_hub.mlx | campaign | act_3 | data\PyData\scripts\015_RED_DESERT_HUB.pyscript | RedDesertHubAmbientMusic | 6 | 0 |
-| 016_red_desert_cave_01.rule.xml | campaign | act_3 | data\pydata\scripts\016_red_desert_cave_01.pyscript | RedDesertCaveOneAmbientMusic | 0 | 5 |
-| 017_red_desert_cave_02.rule.xml | campaign | act_3 | data\pydata\scripts\017_red_desert_cave_02.pyscript | RedDesertCaveTwoAmbientMusic | 0 | 6 |
-| 018_red_desert_cave_03.rule.xml | campaign | act_3 | data\PyData\scripts\018_RED_DESERT_CAVE_03.pyscript | RedDesertThreeAmbientMusic | 0 | 6 |
-| 019_light_house_01.rule.xml | campaign | act_3 | data\pydata\scripts\019_light_house_01.pyscript | LighthouseTempleAmbientMusic | 0 | 6 |
-| 019_light_house_02.rule.xml | campaign | act_3 |  |  | 0 | 0 |
-| 019_light_house_03.rule.xml | campaign | act_3 | data\pydata\scripts\019_light_house_01.pyscript | LighthouseTempleAmbientMusic | 0 | 12 |
+| 015_red_desert_hub.mlx | campaign | unplaced | data\PyData\scripts\015_RED_DESERT_HUB.pyscript | RedDesertHubAmbientMusic | 6 | 0 |
+| 016_red_desert_cave_01.rule.xml | campaign | unplaced | data\pydata\scripts\016_red_desert_cave_01.pyscript | RedDesertCaveOneAmbientMusic | 0 | 5 |
+| 017_red_desert_cave_02.rule.xml | campaign | unplaced | data\pydata\scripts\017_red_desert_cave_02.pyscript | RedDesertCaveTwoAmbientMusic | 0 | 6 |
+| 018_red_desert_cave_03.rule.xml | campaign | unplaced | data\PyData\scripts\018_RED_DESERT_CAVE_03.pyscript | RedDesertThreeAmbientMusic | 0 | 6 |
+| 019_light_house_01.rule.xml | campaign | unplaced | data\pydata\scripts\019_light_house_01.pyscript | LighthouseTempleAmbientMusic | 0 | 6 |
+| 019_light_house_02.rule.xml | campaign | unplaced |  |  | 0 | 0 |
+| 019_light_house_03.rule.xml | campaign | unplaced | data\pydata\scripts\019_light_house_01.pyscript | LighthouseTempleAmbientMusic | 0 | 12 |
 | 020_crypt_02.rule.xml | campaign | unplaced |  |  | 0 | 0 |
-| 021_gothicus_castle_02.rule.xml | campaign | act_2 | data\pydata\scripts\021_gothicus_castle_02.pyscript | GothicusCastleHubAmbientMusic | 0 | 3 |
-| 022_swamp2.rule.xml | campaign | act_1 | data\pydata\scripts\022_swamp2.pyscript | SwampHubAmbientMusic | 0 | 5 |
-| 022_swamp2_trollcave.rule.xml | campaign | act_1 | data\pydata\scripts\022_SWAMP2_TROLL_CAVE.pyscript | SwampHubAmbientMusic | 0 | 6 |
-| 023_watertemple.rule.xml | campaign | act_1 |  |  | 0 | 0 |
+| 021_gothicus_castle_02.rule.xml | campaign | unplaced | data\pydata\scripts\021_gothicus_castle_02.pyscript | GothicusCastleHubAmbientMusic | 0 | 3 |
+| 022_swamp2.rule.xml | campaign | unplaced | data\pydata\scripts\022_swamp2.pyscript | SwampHubAmbientMusic | 0 | 5 |
+| 022_swamp2_trollcave.rule.xml | campaign | unplaced | data\pydata\scripts\022_SWAMP2_TROLL_CAVE.pyscript | SwampHubAmbientMusic | 0 | 6 |
+| 023_watertemple.rule.xml | campaign | unplaced |  |  | 0 | 0 |
 | 024_el_water.rule.xml | campaign | unplaced |  |  | 0 | 0 |
-| 025_icy_hub.mlx | campaign | act_4 | data\PyData\scripts\025_ICY_HUB.pyscript | IcyCliffHubAmbientMusic | 8 | 0 |
-| 026_icy_cavern_01.rule.xml | campaign | act_4 | data\pydata\scripts\026_icy_caverns_01.pyscript | IcyCaveOneTwoAmbientMusic | 0 | 5 |
-| 027_icy_cavern_02.rule.xml | campaign | act_4 | data\pydata\scripts\027_icy_caverns_02.pyscript | IcyCaveTwoAmbientMusic | 0 | 6 |
-| 028_icy_cavern_03.rule.xml | campaign | act_4 | data\pydata\scripts\028_icy_caverns_03.pyscript | IcyCaveThreeAmbientMusic | 0 | 5 |
+| 025_icy_hub.mlx | campaign | unplaced | data\PyData\scripts\025_ICY_HUB.pyscript | IcyCliffHubAmbientMusic | 8 | 0 |
+| 026_icy_cavern_01.rule.xml | campaign | unplaced | data\pydata\scripts\026_icy_caverns_01.pyscript | IcyCaveOneTwoAmbientMusic | 0 | 5 |
+| 027_icy_cavern_02.rule.xml | campaign | unplaced | data\pydata\scripts\027_icy_caverns_02.pyscript | IcyCaveTwoAmbientMusic | 0 | 6 |
+| 028_icy_cavern_03.rule.xml | campaign | unplaced | data\pydata\scripts\028_icy_caverns_03.pyscript | IcyCaveThreeAmbientMusic | 0 | 5 |
 | 029_wind_temple.rule.xml | campaign | unplaced | data\pydata\scripts\029_wind_temple.pyscript | WindTempleAmbientMusic | 0 | 4 |
-| 030_el_air.rule.xml | campaign | act_2 |  |  | 0 | 0 |
+| 030_el_air.rule.xml | campaign | unplaced |  |  | 0 | 0 |
 | 031_firetemple.mlx | campaign | unplaced | data\PyData\scripts\031_FIRETEMPLE.pyscript | FireTempleAmbientMusic | 12 | 0 |
 | 032_el_fire.rule.xml | campaign | unplaced |  |  | 0 | 0 |
 | 033_voidmaze_01.rule.xml | campaign | unplaced |  |  | 0 | 0 |
 | 034_voidmaze_02.rule.xml | campaign | unplaced |  |  | 0 | 0 |
 | 035_voidmaze_03.rule.xml | campaign | unplaced | data\pydata\scripts\033_voidmaze.pyscript | CatacombsMusic | 0 | 4 |
-| 036_underworld_hub.mlx | campaign | act_5 | data\PyData\scripts\036_UNDERWORLD_HUB.pyscript | UnderworldHubAmbientMusic | 10 | 0 |
-| 037_machine_rooms_01.mlx | campaign | act_5 | data\PyData\scripts\037_MACHINE_ROOMS_01.pyscript | MachineRoomsAmbientMusic | 14 | 0 |
+| 036_underworld_hub.mlx | campaign | unplaced | data\PyData\scripts\036_UNDERWORLD_HUB.pyscript | UnderworldHubAmbientMusic | 10 | 0 |
+| 037_machine_rooms_01.mlx | campaign | unplaced | data\PyData\scripts\037_MACHINE_ROOMS_01.pyscript | MachineRoomsAmbientMusic | 14 | 0 |
 | 038_dark_temple.mlx | campaign | unplaced | data\PyData\scripts\039_DARKTEMPLE.pyscript | DarkDungeonTempleAmbientMusic | 9 | 0 |
 | 039_dark_temple_bossroom_01.mlx | campaign | unplaced | data\PyData\scripts\040_DARKTEMPLE_BOSSROOM.pyscript | DarkDungeonTempleAmbientMusic | 3 | 0 |
 | 050_earth_temple_demo.rule.xml | demo | unplaced | data\pydata\scripts\011_EARTH_TEMPLE_DEMO.pyscript | EarthTempleAmbientMusic | 0 | 4 |
@@ -145,9 +145,9 @@
 | ABBEY_RUINS_01 | levels_table_row | unplaced |  |  | 0 | 0 |
 | APPLETEMPLE | levels_table_row | unplaced |  |  | 0 | 0 |
 | APPLETEMPLEBACKUP | levels_table_row | unplaced |  |  | 0 | 0 |
-| DARKWOOD | levels_table_row | unplaced |  |  | 0 | 0 |
-| DARKWOOD_V2 | levels_table_row | unplaced |  |  | 0 | 0 |
-| DARKWOOD_V3 | levels_table_row | unplaced |  |  | 0 | 0 |
+| DARKWOOD | levels_table_row | act_2 |  |  | 0 | 0 |
+| DARKWOOD_V2 | levels_table_row | act_2 |  |  | 0 | 0 |
+| DARKWOOD_V3 | levels_table_row | act_2 |  |  | 0 | 0 |
 | DARK_DUNGEON_TEMPLE_01 | levels_table_row | unplaced |  |  | 0 | 0 |
 | DARK_DUNGEON_TEMPLE_BOSSROOM | levels_table_row | unplaced |  |  | 0 | 0 |
 | DESERT_CAVE_01 | levels_table_row | unplaced |  |  | 0 | 0 |
@@ -176,16 +176,16 @@
 | LIGHT_HOUSE_03 | levels_table_row | unplaced |  |  | 0 | 0 |
 | MACHINE_ROOMS_01 | levels_table_row | unplaced |  |  | 0 | 0 |
 | MULTIPLAYER_TEST | levels_table_row | unplaced |  |  | 0 | 0 |
-| PORTAL_ROOM | levels_table_row | unplaced |  |  | 0 | 0 |
+| PORTAL_ROOM | levels_table_row | act_2 |  |  | 0 | 0 |
 | QUESTTEST | levels_table_row | unplaced |  |  | 0 | 0 |
 | RANDOMFORALEX | levels_table_row | unplaced |  |  | 0 | 0 |
 | RED_DESERT_HUB | levels_table_row | unplaced |  |  | 0 | 0 |
 | ROOT_DEN_01 | levels_table_row | unplaced |  |  | 0 | 0 |
 | SECRET_BASEMENT_01 | levels_table_row | unplaced |  |  | 0 | 0 |
-| SWAMP | levels_table_row | unplaced |  |  | 0 | 0 |
+| SWAMP | levels_table_row | act_1 |  |  | 0 | 0 |
 | SWAMP_02 | levels_table_row | unplaced |  |  | 0 | 0 |
 | SWAMP_CAVE_TROLL_A | levels_table_row | unplaced |  |  | 0 | 0 |
-| SWAMP_CAVE_WITCH_A | levels_table_row | unplaced |  |  | 0 | 0 |
+| SWAMP_CAVE_WITCH_A | levels_table_row | act_1 |  |  | 0 | 0 |
 | UNDERWORLD_HUB | levels_table_row | unplaced |  |  | 0 | 0 |
 | VOID_MAZE_01 | levels_table_row | unplaced |  |  | 0 | 0 |
 | VOID_MAZE_02 | levels_table_row | unplaced |  |  | 0 | 0 |

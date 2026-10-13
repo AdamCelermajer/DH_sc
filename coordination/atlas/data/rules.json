@@ -22,10 +22,38 @@
   },
   {
     "confidence": "PROVEN",
-    "evidence": "atlas path-resolution implementation; source path inventory.",
+    "evidence": "tools/atlas/references.py _resolve_file; actual source path inventory; port/windows-foundation/asset_catalog.cpp:15 and :165 normalize port lookup case.",
     "id": "path-case-resolution",
-    "rule": "Resolve a data URI against actual source file paths using exact case first, then case-insensitive comparison; preserve ambiguous candidates. Do not infer missing content from a similar basename.",
+    "rule": "Atlas lookup policy: compare a data URI with actual source file paths using exact case first, then case-insensitive comparison, preserving ambiguous candidates. This policy alone does not prove original native case semantics. Similar basenames remain candidates, never resolved targets.",
     "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "ida-apk-export-2026-10-07/libraries/classes.dex/pseudocode-all.c PyDataArrays constructor/GetOID/GetPyOID wrappers; port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp; exact Android names streams.",
+    "id": "pydata-literal-oid",
+    "rule": "A literal GetPyOID(tableAlias,rowName) resolves only through a proven PyDataArrays public alias and an exact case-sensitive source names-stream match; GetPyStruct names a struct member and is not treated as a row lookup without a matching native field schema.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68; canonical_character_family_v4.cpp:40-47; port/windows-foundation/actor_population.cpp:144-170.",
+    "id": "character-charpropsname",
+    "rule": "An authored charpropsname on a gametype=\"Character\" record conditionally identifies an exact CharacterTable row when char_template does not take precedence. This is a source relationship, not proof that the actor spawned at runtime.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "PROVEN",
+    "evidence": "native Character::GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114 (CharSoundsTable) and :121-122 (Sounds_bak).",
+    "id": "character-sounds-table-group",
+    "rule": "CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). This establishes only the row namespace; sound payload fields and any SDD/audio relationship remain undecoded. Sounds_bak is a separate later registration group.",
+    "status": "PROVEN"
+  },
+  {
+    "confidence": "LIKELY",
+    "evidence": "port/game-data/level_tables.cpp:63; port/windows-foundation/features/transitions/level_transitions_v1.cpp:113.",
+    "id": "level-scene-prefix",
+    "rule": "The decoded Levels.LevelFile is a bare scene filename. The Windows transition consumer prepends data/scene/; the atlas looks up scene/<LevelFile> within each included data root. Original native loader behavior beyond the recovered table schema remains unconfirmed.",
+    "status": "INFERENCE"
   },
   {
     "confidence": "PROVEN",

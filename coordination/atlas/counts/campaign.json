@@ -10,9 +10,9 @@
   "missing_pairs": 2,
   "notes": [
     "Commands are decoded source records and are not executed.",
-    "Exact table-name matches are candidate references; field semantics remain TODO."
+    "Exact table-name matches are candidate references; unknown field semantics retain UNRESOLVED disposition."
   ],
   "script_file_rows": 67,
   "scripts": 1278,
-  "work_status": "TODO"
+  "work_status": "DONE"
 }

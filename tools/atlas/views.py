@@ -70,7 +70,7 @@ def _scene_record(ctx, path):
     record = dict(id=stable_id('scene', stem), name=stem, file=path.name,
                   source=source_site(ctx, path), source_kind=_scene_kind(path.name),
                   act='unplaced', act_status='TODO',
-                  membership_confidence='INFERENCE', config={}, direct_objects=[],
+                  membership_confidence='GUESS', config={}, direct_objects=[],
                   procedural_lists=[], status='TODO')
     try:
         root = ET.parse(path).getroot()
@@ -260,6 +260,293 @@ def _record_actor(row, cell_refs=None, table_rows=None):
     return out
 
 
+def _collect_actor_asset_dependencies(actor_rows, table_rows, cell_rows, resolver_rows, source_assets, scripts, audio_rows):
+    """Follow exact actor/table references to source assets and keep each edge.
+
+    The walk uses stable table IDs, local row indices, resolved reference cells,
+    and exact source paths. It does not infer runtime loading or repair missing
+    sound payload schemas.
+    """
+    rows_by_id = {r.get('id'): r for r in table_rows.values() if r.get('id')}
+    rows_by_key = {(r.get('table'), r.get('index')): r for r in table_rows.values()}
+    cells_by_key = defaultdict(list)
+    for ref in cell_rows:
+        context = ref.get('context') or {}
+        if context.get('table') is not None and context.get('index') is not None:
+            cells_by_key[(context.get('table'), context.get('index'))].append(ref)
+    asset_by_key = {}
+    for asset in source_assets:
+        for value in (asset.get('path'), asset.get('relative')):
+            if not value:
+                continue
+            norm = str(value).replace('\\', '/').casefold()
+            asset_by_key[norm] = asset
+            asset_by_key[re.sub(r'^data/', '', norm)] = asset
+            asset_by_key[re.sub(r'^data/iphone/', '', norm)] = asset
+    scripts_by_name = defaultdict(list)
+    for script in scripts:
+        for key in (script.get('name'), Path(str(script.get('site') or '')).stem):
+            if key:
+                scripts_by_name[str(key).casefold()].append(script)
+    audio_by_name = defaultdict(list)
+    audio_by_site = defaultdict(list)
+    for row in audio_rows:
+        if row.get('name'):
+            audio_by_name[str(row['name']).casefold()].append(row)
+        if row.get('site'):
+            audio_by_site[str(row['site'])].append(row)
+    resolver_refs_by_row = defaultdict(list)
+    resolver_site_patterns = (
+        (re.compile(r'pydata/animations_pyarray\.bin\[character=(\d+)\]\.'), 'character_animations'),
+        (re.compile(r'pydata/animations_pyarray\.bin\[sequence=(\d+),step=\d+\]\.'), 'animation_sequences'),
+        (re.compile(r'pydata/skills_pyarray\.bin\[skill=(\d+)\]\.'), 'skills#group1'),
+        (re.compile(r'pydata/effects_pyarray\.bin\[character=(\d+)\]\.'), 'character_effects'),
+        (re.compile(r'pydata/effects_pyarray\.bin\[set=(\d+),step=\d+\]\.'), 'effect_sets'),
+        (re.compile(r'pydata/projectiles_pyarray\.bin\[row=(\d+)\]\.'), 'projectiles#group0'),
+    )
+    for ref in resolver_rows:
+        site = str(ref.get('site') or '')
+        for pattern, table_name in resolver_site_patterns:
+            match = pattern.search(site)
+            if match:
+                resolver_refs_by_row[(table_name, int(match.group(1)))].append(ref)
+                break
+
+    asset_trails = defaultdict(list)
+    asset_cell_refs = defaultdict(list)
+    gaps = []
+
+    def lookup_asset(path):
+        value = str(path or '').replace('\\', '/').casefold()
+        candidates = (value, re.sub(r'^data/', '', value), re.sub(r'^data/iphone/', '', value))
+        for key in candidates:
+            if key in asset_by_key:
+                return asset_by_key[key]
+        return None
+
+    def trail_row(actor, act, trail, row, via_ref=None):
+        return {'actor_id': actor.get('id'), 'actor': actor.get('name'), 'act': act,
+            'dependency': trail, 'table': row.get('table'), 'index': row.get('index'),
+            'row_id': row.get('id'), 'row_name': row.get('name'),
+            'source_status': row.get('status'), 'source_work_status': row.get('work_status'),
+            'source_confidence': row.get('confidence'), 'schema_evidence': row.get('schema_evidence') or row.get('source_path') or row.get('source_file'),
+            'reference_id': via_ref.get('id') if via_ref else None,
+            'reference_status': via_ref.get('status') if via_ref else None,
+            'reference_work_status': via_ref.get('work_status') if via_ref else None,
+            'reference_rule': via_ref.get('rule') if via_ref else None,
+            'reference_reason': via_ref.get('reason') if via_ref else None,
+            'port_status': via_ref.get('port_status') if via_ref else None,
+            'implementation': via_ref.get('implementation') if via_ref else None}
+
+    expanded_actors = []
+    for actor in actor_rows:
+        actor_acts = actor.get('shared_acts') or [actor.get('scene_membership')]
+        for actor_act in actor_acts:
+            if actor_act in ('act_1', 'act_2'):
+                expanded_actors.append({**actor, 'scene_membership': actor_act})
+
+    for actor in expanded_actors:
+        act = actor.get('scene_membership')
+        visited = set()
+
+        def visit(row, trail, via_ref=None, depth=0):
+            if not row or depth > 6:
+                return
+            key = (row.get('table'), row.get('index'))
+            if key in visited:
+                return
+            visited.add(key)
+            row_trail = trail_row(actor, act, trail, row, via_ref)
+            fields = row.get('fields') or {}
+            nested = fields.get('fields') if isinstance(fields, dict) and isinstance(fields.get('fields'), dict) else fields
+            path = nested.get('Path') if isinstance(nested, dict) else None
+            if path:
+                asset = lookup_asset(path)
+                if asset:
+                    asset_trails[asset['id']].append({**row_trail, 'asset_path_field': path})
+
+            # Follow only resolver rows emitted from the native table decoder.
+            # This distinguishes character-state sequence IDs from clip IDs,
+            # and animated-effect sets from effect-dictionary IDs.
+            table = row.get('table')
+            index = row.get('index')
+            if (table, index) in resolver_refs_by_row:
+                for ref in resolver_refs_by_row[(table, index)]:
+                    site = str(ref.get('site') or '')
+                    if ref.get('status') in ('UNRESOLVED', 'TODO', 'AMBIGUOUS'):
+                        gaps.append({'act': act, 'actor_id': actor.get('id'), 'actor': actor.get('name'),
+                            'dependency': trail, 'table': table, 'index': index, 'source': site,
+                            'reference_id': ref.get('id'), 'status': ref.get('status'),
+                            'work_status': ref.get('work_status'), 'confidence': ref.get('confidence'),
+                            'rule': ref.get('rule'), 'reason': ref.get('reason'),
+                            'port_status': ref.get('port_status'), 'implementation': ref.get('implementation')})
+                    for target in ref.get('resolves_to') or []:
+                        if not isinstance(target, dict):
+                            continue
+                        path_value = target.get('path')
+                        target_table = target.get('table') or ''
+                        if not path_value and re.match(r'(?i)^data/', str(target_table)):
+                            path_value = target_table
+                        for source in target.get('asset_files') or []:
+                            asset = lookup_asset(source.get('path'))
+                            if asset:
+                                asset_trails[asset['id']].append({**row_trail,
+                                    'dependency': f'{trail} -> {site}', 'reference_id': ref.get('id'),
+                                    'reference_status': ref.get('status'), 'reference_work_status': ref.get('work_status'),
+                                    'reference_rule': ref.get('rule'), 'reference_reason': ref.get('reason'),
+                                    'port_status': ref.get('port_status'), 'implementation': ref.get('implementation'),
+                                    'asset_path_field': source.get('path')})
+                                asset_cell_refs[asset['id']].append((ref, target))
+                        if path_value:
+                            asset = lookup_asset(path_value)
+                            if asset:
+                                asset_trails[asset['id']].append({**row_trail,
+                                    'dependency': f'{trail} -> {site}', 'reference_id': ref.get('id'),
+                                    'reference_status': ref.get('status'), 'reference_work_status': ref.get('work_status'),
+                                    'reference_rule': ref.get('rule'), 'reference_reason': ref.get('reason'),
+                                    'port_status': ref.get('port_status'), 'implementation': ref.get('implementation'),
+                                    'asset_path_field': path_value})
+                                asset_cell_refs[asset['id']].append((ref, target))
+                        source_row = target.get('source_row')
+                        child_table = source_row.get('table') if isinstance(source_row, dict) else None
+                        child_index = source_row.get('index') if isinstance(source_row, dict) else None
+                        if child_table == 'sdd_dungeon_hunter_2_iphone' and isinstance(child_index, int):
+                            audio_site = f'pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin[row={child_index}]'
+                            for audio in audio_by_site.get(audio_site, []):
+                                audio_targets = audio.get('resolves_to') or []
+                                resolved_files = [source for audio_target in audio_targets
+                                    for source in (audio_target.get('asset_files') or [])]
+                                for source in resolved_files:
+                                    asset = lookup_asset(source.get('path'))
+                                    if asset:
+                                        asset_trails[asset['id']].append({**row_trail,
+                                            'dependency': f'{trail} -> {site} -> exact SDD row -> audio resolver',
+                                            'reference_id': audio.get('id'), 'reference_status': audio.get('status'),
+                                            'reference_work_status': audio.get('work_status'), 'reference_rule': audio.get('rule'),
+                                            'reference_reason': audio.get('reason'), 'port_status': audio.get('port_status'),
+                                            'implementation': audio.get('implementation'), 'asset_path_field': source.get('path')})
+                                        asset_cell_refs[asset['id']].append((audio, audio_targets[0] if audio_targets else {}))
+                                if audio.get('status') in ('UNRESOLVED', 'TODO', 'AMBIGUOUS') or not resolved_files:
+                                    gaps.append({'act': act, 'actor_id': actor.get('id'), 'actor': actor.get('name'),
+                                        'dependency': f'{trail} -> {site}', 'table': child_table, 'index': child_index,
+                                        'name': audio.get('name'), 'source': audio.get('site'),
+                                        'reference_id': audio.get('id'), 'status': audio.get('status', 'UNRESOLVED'),
+                                        'work_status': audio.get('work_status'), 'confidence': audio.get('confidence'),
+                                        'rule': audio.get('rule'), 'reason': audio.get('reason'),
+                                        'candidates': audio.get('candidates'), 'port_status': audio.get('port_status'),
+                                        'implementation': audio.get('implementation')})
+                        table_match = re.search(r'(AnimTable|EffectsTables|sdd_dungeon_hunter_2_iphone)\[(\d+)\]', str(target_table))
+                        if table_match:
+                            child_table = {'AnimTable': 'animation_sequences', 'EffectsTables': 'effect_sets',
+                                           'sdd_dungeon_hunter_2_iphone': 'sdd_dungeon_hunter_2_iphone'}[table_match.group(1)]
+                            child_index = int(table_match.group(2))
+                        if child_table and isinstance(child_index, int):
+                            child = rows_by_key.get((child_table, child_index)) or source_row
+                            if child:
+                                visit(child, f'{trail} -> {site} -> {child_table}[{child_index}]', ref, depth + 1)
+
+            # Preserve unresolved sound payload status and only follow an exact
+            # audio-name edge if that source ledger provides it.
+            if str(row.get('table', '')).startswith('sounds#'):
+                audio_matches = audio_by_name.get(str(row.get('name') or '').casefold(), [])
+                if row.get('status') in ('UNRESOLVED', 'TODO') or not nested:
+                    gaps.append({'act': act, 'actor_id': actor.get('id'), 'actor': actor.get('name'),
+                        'dependency': trail, 'table': row.get('table'), 'index': row.get('index'),
+                        'name': row.get('name'), 'status': row.get('status', 'UNRESOLVED'),
+                        'work_status': row.get('work_status', 'DONE'), 'reason': row.get('candidate_note') or row.get('reason'),
+                        'audio_candidates': [c for m in audio_matches for c in (m.get('candidates') or [])],
+                        'audio_resolution_rows': audio_matches})
+                for audio in audio_matches:
+                    for target in audio.get('resolves_to') or []:
+                        for source in target.get('asset_files') or []:
+                            asset = lookup_asset(source.get('path'))
+                            if asset:
+                                asset_trails[asset['id']].append({**row_trail,
+                                    'dependency': trail + ' -> exact audio name row',
+                                    'reference_id': audio.get('id'), 'reference_status': audio.get('status'),
+                                    'reference_work_status': audio.get('work_status'),
+                                    'reference_rule': audio.get('rule'), 'reference_reason': audio.get('reason'),
+                                    'port_status': audio.get('port_status'), 'implementation': audio.get('implementation'),
+                                    'asset_path_field': source.get('path')})
+                                asset_cell_refs[asset['id']].append((audio, target))
+
+            # A skills index row has a structurally decoded list of exact local
+            # row indices; follow only those explicit group1 entries.
+            if row.get('table') == 'skills#group0':
+                entries = nested.get('list_entries', []) if isinstance(nested, dict) else []
+                for idx in entries if isinstance(entries, list) else []:
+                    child = rows_by_key.get(('skills#group1', idx))
+                    if child:
+                        visit(child, f'{trail} -> skills#group1[{idx}]', None, depth + 1)
+
+            # AI Script is an exact source name. A script asset is attached only
+            # when that name uniquely matches the source inventory.
+            if row.get('table') in ('ai#group0', 'skills#group1') and isinstance(nested, dict):
+                script_name = nested.get('Script')
+                matches = scripts_by_name.get(str(script_name or '').casefold(), [])
+                if len(matches) == 1:
+                    script = matches[0]
+                    asset = lookup_asset(script.get('site'))
+                    if asset:
+                        asset_trails[asset['id']].append({**row_trail,
+                            'dependency': trail + f' -> exact {row.get("table")} Script {script_name}',
+                            'reference_id': script.get('id'), 'reference_status': script.get('status'),
+                            'reference_work_status': script.get('work_status'), 'reference_rule': f'exact {row.get("table")}.Script to script inventory name',
+                            'reference_reason': script.get('reason'), 'port_status': script.get('port_status'),
+                            'implementation': script.get('implementation'), 'asset_path_field': script.get('site')})
+
+            for ref in cells_by_key.get(key, []):
+                targets = ref.get('resolves_to') or []
+                if not isinstance(targets, list):
+                    targets = [targets]
+                if ref.get('status') in ('UNRESOLVED', 'TODO', 'AMBIGUOUS'):
+                    gaps.append({'act': act, 'actor_id': actor.get('id'), 'actor': actor.get('name'),
+                        'dependency': trail, 'table': row.get('table'), 'index': row.get('index'),
+                        'field': (ref.get('context') or {}).get('field'), 'reference_id': ref.get('id'),
+                        'status': ref.get('status'), 'work_status': ref.get('work_status'),
+                        'confidence': ref.get('confidence'), 'rule': ref.get('rule'),
+                        'reason': ref.get('reason'), 'port_status': ref.get('port_status'),
+                        'implementation': ref.get('implementation')})
+                for target in targets:
+                    if not isinstance(target, dict):
+                        continue
+                    for source in target.get('asset_files') or []:
+                        asset = lookup_asset(source.get('path'))
+                        if asset:
+                            asset_trails[asset['id']].append({**row_trail,
+                                'dependency': f"{trail} -> {ref.get('context', {}).get('field')}",
+                                'reference_id': ref.get('id'), 'reference_status': ref.get('status'),
+                                'reference_work_status': ref.get('work_status'), 'reference_rule': ref.get('rule'),
+                                'reference_reason': ref.get('reason'), 'port_status': ref.get('port_status'),
+                                'implementation': ref.get('implementation'), 'asset_path_field': source.get('path')})
+                            asset_cell_refs[asset['id']].append((ref, target))
+                    if target.get('type') == 'table-row':
+                        child = rows_by_key.get((target.get('table'), target.get('index')))
+                        if not child and isinstance(target.get('source_row'), dict):
+                            child = target['source_row']
+                        if child:
+                            visit(child, f"{trail} -> {ref.get('context', {}).get('field')} -> {child.get('table')}[{child.get('index')} ]",
+                                  ref, depth + 1)
+
+        for field, link in (actor.get('field_links') or {}).items():
+            target = rows_by_id.get(link.get('target_id'))
+            if not target and link.get('table') is not None and link.get('index') is not None:
+                target = rows_by_key.get((link.get('table'), link.get('index')))
+            if target:
+                visit(target, f"CharacterProperties[{actor.get('index')}].{field} -> {target.get('table')}[{target.get('index')} ]",
+                      {'id': link.get('reference_id'), 'status': link.get('status'),
+                       'work_status': 'DONE', 'rule': 'actor field link from exact source cell',
+                       'port_status': None, 'implementation': None})
+            elif link.get('status') in ('UNRESOLVED', 'TODO', 'AMBIGUOUS'):
+                gaps.append({'act': act, 'actor_id': actor.get('id'), 'actor': actor.get('name'),
+                    'dependency': f"CharacterProperties[{actor.get('index')}].{field}",
+                    'table': link.get('table'), 'index': link.get('index'), 'name': link.get('name'),
+                    'reference_id': link.get('reference_id'), 'status': link.get('status'),
+                    'work_status': 'DONE', 'reason': 'Exact actor field reference remains unresolved.'})
+
+    return asset_trails, asset_cell_refs, gaps
+
+
 def _act_rows(ctx, act, scenes, actor_rows, scripts, refs, tables):
     rows = [s for s in scenes if s['act'] == act and s['source_kind'] == 'campaign']
     by_name = {r['name']: r for r in actor_rows}
@@ -317,7 +604,7 @@ def run(ctx, inventory_only=False):
     source_assets = read_json(out / 'data/assets.json', []) or []
     scripts = read_json(out / 'data/scripts.json', []) or []
     script_refs = read_json(out / 'data/script-references.json', []) or []
-    by_table = _table_map(tables)
+    by_table = _table_map(list(table_rows.values()))
     scene_records = [_scene_record(ctx, p) for p in sorted(source.iterdir())
                      if p.is_file() and p.suffix.lower() in ('.mlx', '.xml')
                      and p.name != '.nomedia']
@@ -340,7 +627,7 @@ def run(ctx, inventory_only=False):
                                    if act != 'unplaced' else
                                    'No unique source-backed transition-chain assignment; left unplaced.')
             scene['act_work_status'] = 'DONE'
-            scene['membership_confidence'] = 'LIKELY' if act != 'unplaced' else 'UNRESOLVED'
+            scene['membership_confidence'] = 'LIKELY' if act != 'unplaced' else 'GUESS'
             scene['membership_evidence'] = evidence
     actor_rows = [_record_actor(r, cell_refs, table_rows) for r in by_table.get('character_properties', []) if r.get('source_group') == 'group0' and int(r.get('index', -1)) < 448]
     actor_by_name = {str(a.get('name', '')).casefold(): a for a in actor_rows}
@@ -387,7 +674,7 @@ def run(ctx, inventory_only=False):
         'boundary_policy': 'All act boundaries are INFERENCE until owner confirmation.',
         'inferences': [
             {'act': act, 'level_stems': sorted(inferred_levels.get(act, [])),
-             'confidence': 'LIKELY' if inferred_levels.get(act) else 'UNRESOLVED',
+             'confidence': 'LIKELY' if inferred_levels.get(act) else 'GUESS',
              'evidence': (['coordination/v21.8/ATLAS-CODEX-PROMPT.md: Act 1 is Swamp + Witch Cave and ends at the Darkwood load',
                            'coordination/v21.7/B155-B156-HANDOFF.md: B155 documents Mud Lord completion and 003_darkwood.mlx transition']
                           if act in ('act_1', 'act_2') else []),
@@ -401,7 +688,7 @@ def run(ctx, inventory_only=False):
     if inventory_only:
         membership['inferences'] = []
         membership['boundary_rows'] = [{'act': f'act_{i}', 'status': 'UNRESOLVED', 'work_status': 'DONE',
-            'reason_code': 'OTHER', 'label': 'INFERENCE', 'confidence': 'UNRESOLVED',
+            'reason_code': 'OTHER', 'label': 'INFERENCE', 'confidence': 'GUESS',
             'evidence': [], 'candidates': [], 'reason': 'Inventory checkpoint: original transition-chain boundary analysis is pending.'} for i in range(1,6)]
         membership['level_rows'] = [{'scene_id': s['id'], 'scene': s['file'], 'act': None,
             'status': 'TODO', 'reason': 'Act membership not mapped during the inventory checkpoint.'}
@@ -430,6 +717,7 @@ def run(ctx, inventory_only=False):
     boss_candidates = list({a['id']: a for a in
         [x for x in actor_rows if has_original_boss_flag(x)] + named_boss_candidates}.values())
     boss_flag_ids = {a['id'] for a in actor_rows if has_original_boss_flag(a)}
+    named_boss_ids = {a['id'] for a in named_boss_candidates}
 
     def boss_inventory_row(actor, refreshed=None):
         row = {**(refreshed or actor)}
@@ -438,6 +726,10 @@ def run(ctx, inventory_only=False):
             classification_basis=('Native HUD boss marker: (CharacterProperties.AI -> AI.Flags & 4) != 0; '
                 'predicate source: port/level-world/canonical_character_hud_v62.cpp:14.' if is_flagged else
                 'Supplemental BOSS/MIDBOSS name marker; source encounter role is not proven.'),
+            name_marker_candidate=row.get('id') in named_boss_ids,
+            name_marker_status='UNRESOLVED' if row.get('id') in named_boss_ids else 'NOT-NEEDED',
+            name_marker_reason=('Name-based candidate retained as supplemental context; native flag evidence controls the source-proven marker.'
+                                if row.get('id') in named_boss_ids else None),
             boss_flag_status='PROVEN' if is_flagged else 'UNRESOLVED',
             boss_flag_source='port/level-world/canonical_character_hud_v62.cpp:14' if is_flagged else None,
             status=('PROVEN' if is_flagged else 'UNRESOLVED') if not inventory_only else 'TODO',
@@ -549,7 +841,7 @@ def run(ctx, inventory_only=False):
             {'scene_id': s['id'], 'scene': s['file'], 'act': s['act'],
              'status': 'INFERENCE' if s['act'] != 'unplaced' else 'UNRESOLVED',
              'work_status': 'DONE',
-             'confidence': s.get('membership_confidence', 'UNRESOLVED'),
+             'confidence': s.get('membership_confidence', 'GUESS'),
              'evidence': s.get('membership_evidence', []),
              'reason': ('Explicit task/handoff progression link; act placement remains INFERENCE.'
                         if s['act'] != 'unplaced' else
@@ -599,9 +891,9 @@ def run(ctx, inventory_only=False):
                     ['Script', 'Source', 'Lines / bytes', 'Engine call sites', 'Readiness', 'Status'],
                     lambda r: [r.get('name'), r.get('site'), f"{r.get('lines', 0)} / {r.get('bytes', 0)}", r.get('engine_call_sites', r.get('call_sites', 0)), _str(r.get('readiness', {})), r.get('work_status', r.get('status'))])
     table_rows_page('bosses.md', 'Boss and named encounter candidates', bosses,
-                    ['Index', 'Candidate', 'AI row', 'AI facts', 'Skill tree', 'Loot', 'Original flag status', 'Basis'],
+                    ['Index', 'Candidate', 'AI row', 'AI facts', 'Skill tree', 'Loot', 'Original flag status', 'Name marker note', 'Basis'],
                     lambda r: [r.get('index'), r.get('name'), r.get('ai'), _actor_ai_summary(r),
-                               r.get('skills'), r.get('loot'), r.get('boss_flag_status'), r.get('classification_basis')])
+                               r.get('skills'), r.get('loot'), r.get('boss_flag_status'), r.get('name_marker_reason'), r.get('classification_basis')])
     function_rows = read_json(out / 'data/functions.json', []) or []
     ranked_functions = sorted(function_rows, key=lambda r: (-r.get('call_count', 0), r.get('name', '')))
     table_rows_page('native-map.md', 'Native handler and port map', ranked_functions,
@@ -615,6 +907,7 @@ def run(ctx, inventory_only=False):
     module_candidate_count = sum(len(s.get('module_spawn_candidates', [])) for s in scene_records)
     mob_actor_rows = [a for a in actor_rows if a.get('ai_type') == 4]
     flagged_boss_rows = [a for a in actor_rows if has_original_boss_flag(a)]
+    supplemental_named_count = sum(1 for a in bosses if a.get('name_marker_candidate') and a.get('boss_flag_status') != 'PROVEN')
     campaign_records = read_json(out / 'data/campaign.json', []) or []
     campaign_refs = read_json(out / 'data/campaign-references.json', []) or []
     write_json(out / 'counts/views.json', {
@@ -632,8 +925,8 @@ def run(ctx, inventory_only=False):
                 'rule': 'CharacterProperties AI row Type == 4; this is an AI category count, not a runtime spawn count.'},
             'boss_flag_actor_rows': {'total': len(flagged_boss_rows), 'status': 'PROVEN',
                 'rule': 'CharacterProperties.AI -> AI.Flags bit 4; native HUD predicate at port/level-world/canonical_character_hud_v62.cpp:14.'},
-            'supplemental_name_only_boss_candidates': {'total': sum(1 for a in bosses if a.get('boss_flag_status') != 'PROVEN'),
-                'status': 'UNRESOLVED', 'rule': 'BOSS/MIDBOSS name markers outside the source-proven AI flag set.'},
+            'supplemental_name_marked_boss_candidates': {'total': sum(1 for a in bosses if a.get('name_marker_candidate')),
+                'status': 'DONE', 'rule': 'Preserves all 26 name-marker candidates as notes; classification relies on the AI flag predicate where available.'},
             'boss_candidate_actor_rows': {**count_records(read_json(out / 'data/bosses.json', []) or []),
                 'definition': 'BOSS/MIDBOSS name markers or explicitly named encounter actors; candidates only'},
             'dialogue_rows': count_records(by_table.get('dialogs', [])),
@@ -655,7 +948,7 @@ def run(ctx, inventory_only=False):
         'actor_act_membership_rows': count_records(actor_rows, 'act_assignment_status'),
         'notes': ['Counts are inventory, not completion claims.',
                   'INFERENCE rows represent generated navigation/candidate memberships, not confirmed boundaries or runtime spawns.',
-                  'Boss rows are unresolved classification candidates, not confirmed encounter roles.']
+                  f'{len(flagged_boss_rows)} rows match the source-proven AI.Flags bit-4 HUD marker; {supplemental_named_count} name-only candidates remain supplemental, and encounter placement is not inferred from the marker.']
     })
     if inventory_only:
         return {'scene_level_rows': level_inventory, 'levels_table_rows': len(level_table_rows), 'campaign_scene_rows': campaign_count,
@@ -664,6 +957,138 @@ def run(ctx, inventory_only=False):
 
     # Produce navigable directories. The detail layer is intentionally limited to
     # Act 1 and the next inferred region (Act 2).
+    # Per-asset detail pages are limited to assets referenced from the two
+    # detail acts. Scene-to-MGP source links are included so nested asset
+    # references can be joined without relying on a filename guess.
+    scene_by_source = {s['source'].replace('\\', '/'): s for s in scene_records}
+    source_act = defaultdict(set)
+    for scene in scene_records:
+        if scene['act'] not in ('act_1', 'act_2'):
+            continue
+        scene_source = scene['source'].replace('\\', '/')
+        source_act[scene_source].add(scene['act'])
+        for candidate in scene.get('module_spawn_candidates', []):
+            module = str(candidate.get('module') or '').replace('\\', '/')
+            if module:
+                source_act[module].add(scene['act'])
+    assets_by_path = {str(a.get('path', '')).replace('\\', '/').casefold(): a for a in source_assets}
+    refs_by_id = {r.get('id'): r for r in refs}
+    asset_act_refs = defaultdict(list)
+    target_acts = defaultdict(set)
+    act_unresolved_refs = Counter()
+    for ref in refs:
+        file = str((ref.get('context') or {}).get('file') or '').replace('\\', '/')
+        acts = source_act.get(file, set())
+        if not acts:
+            continue
+        if ref.get('status') in ('TODO', 'UNRESOLVED', 'AMBIGUOUS'):
+            for act in acts:
+                act_unresolved_refs[act] += 1
+        targets = ref.get('resolves_to') or []
+        if not isinstance(targets, list):
+            targets = [targets]
+        for target in targets:
+            if not isinstance(target, dict):
+                continue
+            source_rows = target.get('asset_files') or []
+            for source_row in source_rows:
+                path = str(source_row.get('path') or '').replace('\\', '/')
+                asset = assets_by_path.get(path.casefold())
+                if not asset:
+                    continue
+                asset_act_refs[asset['id']].append((ref, target))
+                for act in acts:
+                    target_acts[asset['id']].add(act)
+
+    # Close actor-to-asset dependencies through exact CharacterProperties
+    # links, table row references, and source paths. This adds models, actor
+    # animation clips, effects, skills, AI scripts, and resolvable sound edges.
+    audio_rows = read_json(out / 'data/audio.json', []) or []
+    actor_asset_trails, actor_asset_refs, actor_dependency_gaps = _collect_actor_asset_dependencies(
+        actor_rows, table_rows, cell_rows, refs, source_assets, scripts, audio_rows)
+    for asset_id, trails in actor_asset_trails.items():
+        for trail in trails:
+            target_acts[asset_id].add(trail['act'])
+    for asset_id, dependent_refs in actor_asset_refs.items():
+        for ref, target in dependent_refs:
+            if ref.get('id'):
+                asset_act_refs[asset_id].append((ref, target))
+
+    asset_pages = defaultdict(list)
+    page_by_asset = {}
+    for rel in ('act_1/assets', 'act_2/assets', 'shared/assets'):
+        generated_dir = out / rel
+        if generated_dir.is_dir():
+            for stale in generated_dir.glob('*.md'):
+                stale.unlink()
+    for asset_id in sorted(set(asset_act_refs) | set(actor_asset_trails)):
+        contexts = asset_act_refs.get(asset_id, [])
+        asset = next((a for a in source_assets if a.get('id') == asset_id), None)
+        if not asset:
+            continue
+        acts = sorted(target_acts[asset_id])
+        all_ref_ids = set(asset.get('referrers') or [])
+        rows_for_asset = {}
+        for ref, target in contexts:
+            if not ref:
+                continue
+            rows_for_asset[ref.get('id')] = (ref, target)
+        # Retain the complete source/resolution metadata for source refs that
+        # name this asset; list unrelated asset-level referrer IDs separately.
+        rel = Path('assets') / (asset_id + '.md')
+        actor_trails = actor_asset_trails.get(asset_id, [])
+        unique_trails = {}
+        for trail in actor_trails:
+            trail_key = (trail.get('actor_id'), trail.get('dependency'), trail.get('row_id'),
+                         trail.get('reference_id'), trail.get('asset_path_field'))
+            unique_trails[trail_key] = trail
+        trail_rows = [[t.get('actor'), t.get('act'), t.get('dependency'),
+            f"{t.get('table')}[{t.get('index')}] {t.get('row_name') or ''}",
+            t.get('source_status'), t.get('source_work_status'), t.get('source_confidence'),
+            t.get('schema_evidence'), t.get('reference_id'), t.get('reference_status'),
+            t.get('reference_work_status'), t.get('reference_rule'), t.get('reference_reason'),
+            t.get('port_status'), _str(t.get('implementation')), t.get('asset_path_field')]
+            for t in unique_trails.values()]
+        # Include exact resolver rows reached from actor table cells even when
+        # the asset path was first reached through a nested table row.
+        for ref, target in actor_asset_refs.get(asset_id, []):
+            rows_for_asset[ref.get('id')] = (ref, target)
+        detail_rows = []
+        for ref_id, (ref, target) in sorted(rows_for_asset.items()):
+            detail_rows.append([ref_id, ref.get('kind'), ref.get('name'), ref.get('site'),
+                ref.get('status'), ref.get('work_status'), ref.get('confidence'), ref.get('rule'),
+                ref.get('port_status'), _str(ref.get('implementation')), _str(ref.get('reason')),
+                _str(target.get('path'))])
+        page = ['# ' + str(asset.get('relative') or asset.get('path')), '',
+            f"Stable asset ID: `{asset_id}`. Source: `{asset.get('path')}`.", '',
+            markdown_table(['Fact', 'Value'], [
+                ['Source corpus', asset.get('source')], ['Relative path', asset.get('relative')],
+                ['Size bytes', asset.get('size')], ['SHA-256', asset.get('sha256')],
+                ['Inventory status', asset.get('status')], ['Work status', asset.get('work_status')],
+                ['Act uses', ', '.join(acts)], ['Source-linked reference rows', len(detail_rows)],
+                ['Actor dependency trails', len(trail_rows)],
+                ['All inventory referrer IDs', len(all_ref_ids)],
+            ]), '', '## Source-linked reference and resolution rows', '',
+            markdown_table(['ID', 'Kind', 'Name', 'Site', 'Status', 'Work status', 'Confidence',
+                            'Rule', 'Port status', 'Implementation', 'Reason', 'Resolved source path'], detail_rows), '',
+            'Resolver metadata above is copied from the reference ledger. A resolved source path records a data link; it does not assert runtime use.', '',
+            '## Actor table dependency trails', '',
+            markdown_table(['Actor', 'Act', 'Dependency path', 'Exact source row', 'Row status', 'Work status',
+                'Confidence', 'Schema evidence', 'Reference ID', 'Reference status', 'Reference work status',
+                'Resolver rule', 'Reason', 'Port status', 'Implementation', 'Resolved asset path'], trail_rows), '',
+            'These trails follow exact actor field links and decoded table cells. Unresolved sound rows remain in the act gap ledger; no sound payload is inferred.', '']
+        for act in acts:
+            actdir = out / act / 'assets'
+            actdir.mkdir(parents=True, exist_ok=True)
+            (actdir / rel.name).write_text('\n'.join(page), encoding='utf-8')
+            asset_pages[act].append((asset, rel.as_posix()))
+        page_by_asset[asset_id] = rel.as_posix()
+        if len(acts) >= 2:
+            shared_dir = out / 'shared' / 'assets'
+            shared_dir.mkdir(parents=True, exist_ok=True)
+            (shared_dir / rel.name).write_text('\n'.join(page), encoding='utf-8')
+            page_by_asset[asset_id] = ('../shared/' + rel.as_posix())
+
     for act in ACTS:
         target = out / act
         target.mkdir(parents=True, exist_ok=True)
@@ -716,8 +1141,9 @@ def run(ctx, inventory_only=False):
                           _actor_ai_summary(a), a.get('skills'), a.get('loot'),
                           _actor_sound_summary(a)] for a in placed_actors]), '',
                      '## Bosses', '',
-                     'Boss candidates use explicit BOSS/MIDBOSS name markers or named encounter actors. Act 1 encounter rows are linked through B155/B156 handoff evidence; AI script/type is shown in the CharacterProperties profile table. Remaining boss classification and encounter semantics stay unresolved.', '',
-                     markdown_table(['Candidate rows', 'Linked spawn targets', 'Status'], [[len(bosses), len(placed_bosses), 'INFERENCE: see campaign references']]), '',
+                     f"The source HUD predicate `(AI.Flags & 4) != 0` is proven for {len(flagged_boss_rows)} CharacterProperties-linked AI rows. {supplemental_named_count} name-only markers remain supplemental unresolved candidates. This source marker does not establish encounter placement or runtime spawn conditions.", '',
+                     markdown_table(['Boss flag rows', 'Name-only supplements', 'Act-linked candidates', 'Placement status'],
+                         [[len(flagged_boss_rows), supplemental_named_count, len(placed_bosses), 'INFERENCE / unresolved runtime placement']]), '',
                      '## Dialogues', '',
                      'The dialog table is inventoried globally. Serialized `Script_StartDialog` occurrences are listed as command rows; mapping them to dialog table IDs remains unresolved.', '',
                      f"Dialog table rows: {len(by_table.get('dialogs', []))}; StartDialog commands: {dialog_command_count}.", '',
@@ -792,97 +1218,6 @@ def run(ctx, inventory_only=False):
               a['skills'], a['loot'], _actor_sound_summary(a), a['status']] for a in actor_rows]),
         encoding='utf-8')
 
-    # Per-asset detail pages are limited to assets referenced from the two
-    # detail acts. Scene-to-MGP source links are included so nested asset
-    # references can be joined without relying on a filename guess.
-    scene_by_source = {s['source'].replace('\\', '/'): s for s in scene_records}
-    source_act = defaultdict(set)
-    for scene in scene_records:
-        if scene['act'] not in ('act_1', 'act_2'):
-            continue
-        scene_source = scene['source'].replace('\\', '/')
-        source_act[scene_source].add(scene['act'])
-        for candidate in scene.get('module_spawn_candidates', []):
-            module = str(candidate.get('module') or '').replace('\\', '/')
-            if module:
-                source_act[module].add(scene['act'])
-    assets_by_path = {str(a.get('path', '')).replace('\\', '/').casefold(): a for a in source_assets}
-    refs_by_id = {r.get('id'): r for r in refs}
-    asset_act_refs = defaultdict(list)
-    target_acts = defaultdict(set)
-    act_unresolved_refs = Counter()
-    for ref in refs:
-        file = str((ref.get('context') or {}).get('file') or '').replace('\\', '/')
-        acts = source_act.get(file, set())
-        if not acts:
-            continue
-        if ref.get('status') in ('TODO', 'UNRESOLVED', 'AMBIGUOUS'):
-            for act in acts:
-                act_unresolved_refs[act] += 1
-        targets = ref.get('resolves_to') or []
-        if not isinstance(targets, list):
-            targets = [targets]
-        for target in targets:
-            if not isinstance(target, dict):
-                continue
-            source_rows = target.get('asset_files') or []
-            for source_row in source_rows:
-                path = str(source_row.get('path') or '').replace('\\', '/')
-                asset = assets_by_path.get(path.casefold())
-                if not asset:
-                    continue
-                asset_act_refs[asset['id']].append((ref, target))
-                for act in acts:
-                    target_acts[asset['id']].add(act)
-
-    asset_pages = defaultdict(list)
-    page_by_asset = {}
-    for rel in ('act_1/assets', 'act_2/assets', 'shared/assets'):
-        generated_dir = out / rel
-        if generated_dir.is_dir():
-            for stale in generated_dir.glob('*.md'):
-                stale.unlink()
-    for asset_id, contexts in sorted(asset_act_refs.items()):
-        asset = next((a for a in source_assets if a.get('id') == asset_id), None)
-        if not asset:
-            continue
-        acts = sorted(target_acts[asset_id])
-        all_ref_ids = set(asset.get('referrers') or [])
-        rows_for_asset = {}
-        for ref, target in contexts:
-            rows_for_asset[ref.get('id')] = (ref, target)
-        # Retain the complete source/resolution metadata for source refs that
-        # name this asset; list unrelated asset-level referrer IDs separately.
-        detail_rows = []
-        for ref_id, (ref, target) in sorted(rows_for_asset.items()):
-            detail_rows.append([ref_id, ref.get('kind'), ref.get('name'), ref.get('site'),
-                ref.get('status'), ref.get('work_status'), ref.get('confidence'), ref.get('rule'),
-                ref.get('port_status'), _str(ref.get('implementation')), _str(ref.get('reason')),
-                _str(target.get('path'))])
-        rel = Path('assets') / (asset_id + '.md')
-        page = ['# ' + str(asset.get('relative') or asset.get('path')), '',
-            f"Stable asset ID: `{asset_id}`. Source: `{asset.get('path')}`.", '',
-            markdown_table(['Fact', 'Value'], [
-                ['Source corpus', asset.get('source')], ['Relative path', asset.get('relative')],
-                ['Size bytes', asset.get('size')], ['SHA-256', asset.get('sha256')],
-                ['Inventory status', asset.get('status')], ['Work status', asset.get('work_status')],
-                ['Act uses', ', '.join(acts)], ['Source-linked reference rows', len(detail_rows)],
-                ['All inventory referrer IDs', len(all_ref_ids)],
-            ]), '', '## Source-linked reference and resolution rows', '',
-            markdown_table(['ID', 'Kind', 'Name', 'Site', 'Status', 'Work status', 'Confidence',
-                            'Rule', 'Port status', 'Implementation', 'Reason', 'Resolved source path'], detail_rows), '',
-            'Resolver metadata above is copied from the reference ledger. A resolved source path records a data link; it does not assert runtime use.', '']
-        for act in acts:
-            actdir = out / act / 'assets'
-            actdir.mkdir(parents=True, exist_ok=True)
-            (actdir / rel.name).write_text('\n'.join(page), encoding='utf-8')
-            asset_pages[act].append((asset, rel.as_posix()))
-        page_by_asset[asset_id] = rel.as_posix()
-        if len(acts) >= 2:
-            shared_dir = out / 'shared' / 'assets'
-            shared_dir.mkdir(parents=True, exist_ok=True)
-            (shared_dir / rel.name).write_text('\n'.join(page), encoding='utf-8')
-            page_by_asset[asset_id] = ('../shared/' + rel.as_posix())
     shared_actors = [a for a in actor_rows if a.get('shared_acts')]
     shared_assets = [(asset_id, asset, acts) for asset_id, acts in target_acts.items() if len(acts) >= 2
                      for asset in source_assets if asset.get('id') == asset_id]
@@ -935,15 +1270,44 @@ def run(ctx, inventory_only=False):
                 'confidence': ref.get('confidence'), 'rule': ref.get('rule'),
                 'port_status': ref.get('port_status'), 'implementation': ref.get('implementation'),
                 'reason': ref.get('reason'), 'priority': 2})
+    campaign_scene_by_id = {s.get('id'): s for s in scene_records}
+    for ref in campaign_refs:
+        act = ref.get('act')
+        scene = campaign_scene_by_id.get(ref.get('scene_id'))
+        if act not in ('act_2', 'act_3', 'act_4', 'act_5') or not scene or ref.get('status') not in ('TODO', 'UNRESOLVED', 'AMBIGUOUS'):
+            continue
+        confidence = ref.get('confidence')
+        if confidence not in ('PROVEN', 'LIKELY', 'GUESS'):
+            confidence = 'GUESS'
+        ref_gaps.append({'act': act, 'category': 'unresolved_campaign_script_reference',
+            'id': ref.get('id'), 'source': ref.get('site'), 'scene': scene.get('file'),
+            'name': ref.get('name'), 'kind': ref.get('kind'), 'command': ref.get('command'),
+            'field_offset': ref.get('field_offset'), 'status': ref.get('status'),
+            'work_status': ref.get('work_status'), 'confidence': confidence,
+            'rule': ref.get('rule'), 'port_status': ref.get('port_status'),
+            'implementation': ref.get('implementation'), 'reason': ref.get('reason'), 'priority': 2})
+    for gap in actor_dependency_gaps:
+        act = gap.get('act')
+        if act not in ('act_2', 'act_3', 'act_4', 'act_5'):
+            continue
+        confidence = gap.get('confidence')
+        if confidence not in ('PROVEN', 'LIKELY', 'GUESS'):
+            confidence = 'GUESS'
+        ref_gaps.append({**gap, 'category': 'unresolved_actor_table_dependency',
+            'confidence': confidence, 'priority': 2})
     ranked_gaps = sorted(command_gaps + ref_gaps,
         key=lambda row: (row['priority'], row['act'], -row.get('count', 0), str(row.get('source', '')), str(row.get('name', ''))))
     act_gap_rows = []
     for act in ACTS:
         act_rows = [r for r in ranked_gaps if r['act'] == act]
-        act_gap_rows.append({'act': act, 'unresolved_source_references': act_unresolved_refs[act],
+        unresolved_campaign_count = sum(1 for r in campaign_refs if r.get('act') == act and r.get('status') in ('TODO', 'UNRESOLVED', 'AMBIGUOUS'))
+        unresolved_actor_count = sum(1 for r in actor_dependency_gaps if r.get('act') == act and r.get('status') in ('TODO', 'UNRESOLVED', 'AMBIGUOUS'))
+        act_gap_rows.append({'act': act, 'unresolved_source_references': act_unresolved_refs[act] + unresolved_campaign_count + unresolved_actor_count,
             'incomplete_campaign_engine_commands': sum(r['category'] == 'campaign_engine_command_port_gap' for r in act_rows),
             'unmapped_actor_rows_global': len([a for a in actor_rows if a.get('act_assignment_status') != 'INFERENCE']),
-            'unresolved_boss_candidates_global': len(bosses),
+            'unresolved_boss_candidates_global': supplemental_named_count,
+            'unresolved_boss_candidates_status': 'UNRESOLVED',
+            'boss_flag_proven_global': len(flagged_boss_rows),
             'rank_basis': 'Source-joined incomplete campaign command port anchors and unresolved references; command addresses and ref resolver metadata retained.',
             'status': 'DONE'})
     write_json(out / 'data/act-gaps.json', {
@@ -968,7 +1332,7 @@ def run(ctx, inventory_only=False):
             ['Backup scenes xNN', backup_count, 'Inventoried; unplaced'],
             ['Levels table rows', len(level_table_rows), 'Inventoried; act link unresolved except explicit chain evidence'],
             ['CharacterProperties rows', len(actor_rows), 'Inventoried; actor placement remains partial'],
-            ['Named boss candidates', len(bosses), 'Candidate classification unresolved'],
+            ['Boss markers', f'{len(flagged_boss_rows)} flag-proven; {supplemental_named_count} name-only supplements', 'Marker predicate proven; encounter placement unresolved'],
             ['Dialog rows', len(by_table.get('dialogs', [])), 'Inventoried; command mapping unresolved'],
             ['Serialized level script files', campaign_counts['script_file_rows'], 'DONE decode coverage; see pair gaps below'],
             ['Serialized level scripts', campaign_counts['scripts'], 'DONE decoded names'],
@@ -992,7 +1356,7 @@ def run(ctx, inventory_only=False):
         '- `act_3/index.md` through `act_5/index.md` are generated tables only.',
         '- Debug levels 100–130, `xNN_*_backup`, and demo level 050 are under `unplaced/`.', '',
         '## Status', '',
-        'The view generator is complete for the current evidence set. Scene XML, MGP Character candidates, table joins and available campaign command streams have source-backed results. Act boundaries are labeled INFERENCE and unresolved pending owner confirmation; two configured script pairs are unresolved; actor table links include AI script/type where source rows are available; boss classification, dialogue-table mapping, and runtime command conditions remain open.', '']
+        f"The view generator is complete for the current evidence set. Scene XML, MGP Character candidates, table joins and available campaign command streams have source-backed results. Act boundaries remain INFERENCE pending owner confirmation; two configured script pairs are unresolved. The native boss-flag predicate is proven for {len(flagged_boss_rows)} AI-linked rows, with {supplemental_named_count} name-only supplements; encounter placement, dialogue-table mapping, and runtime command conditions remain unresolved.", '']
     (out / 'reports/views.md').write_text('\n'.join(report), encoding='utf-8')
     return {'scene_level_rows': level_inventory, 'campaign_scene_rows': campaign_count,
             'debug_scene_rows': debug_count, 'backup_scene_rows': backup_count,

@@ -6,12 +6,13 @@ the serialized layout. Other table payloads remain explicitly unresolved.
 from __future__ import annotations
 
 import json
+import difflib
 import re
 import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from common import read_json, stable_id, write_json, source_roots, markdown_table
+from common import read_json, stable_id, write_json, source_roots, source_site, markdown_table
 
 
 def _string_groups(path: Path):
@@ -317,6 +318,33 @@ def _asset_index(ctx):
     return read_json(ctx.out/'data/assets.json', []) or []
 
 
+_AUDIO_ASSET_SOURCES = {'android', 'ios', 'original-cache', 'android-extra', 'audio-cache'}
+_AUDIO_ASSET_LOOKUP = None
+
+def _audio_asset_files(name, assets):
+    """Find a catalog audio filename in any included original source corpus.
+
+    sounds.xml stores a filename, not a path relative to one platform's data
+    root. The Android/recovered cache and the iOS tree are partial corpora, so
+    an exact basename in either is sufficient. Keep each source path and hash
+    visible because same-named platform/cache copies can have different bytes.
+    """
+    leaf=Path(str(name or '').replace('\\','/')).name.casefold()
+    if not leaf:return []
+    global _AUDIO_ASSET_LOOKUP
+    if _AUDIO_ASSET_LOOKUP is None or _AUDIO_ASSET_LOOKUP[0]!=id(assets):
+        by_leaf={}
+        for asset in assets:
+            if asset.get('source') not in _AUDIO_ASSET_SOURCES:continue
+            relative=asset.get('relative','').replace('\\','/')
+            by_leaf.setdefault(Path(relative).name.casefold(),[]).append(asset)
+        _AUDIO_ASSET_LOOKUP=(id(assets),by_leaf)
+    return _AUDIO_ASSET_LOOKUP[1].get(leaf,[])
+
+def _asset_file_metadata(assets):
+    return [{'path':a.get('path'),'source':a.get('source'),'sha256':a.get('sha256')} for a in assets]
+
+
 _ASSET_LOOKUP = None
 _TABLE_LOOKUP = None
 def _resolve_file(name, assets):
@@ -393,17 +421,21 @@ def resolve_reference(ctx,row,tables=None,assets=None):
           row['candidate_note']=f'{tname}[{idx}] is outside the decoded source table.'
       path=target.get('path') or target.get('id_or_path')
       if path and isinstance(path,str) and ('.' in Path(path).name):
-        status,found,candidates,reason=_resolve_file(path,assets)
-        target['asset_files']=[{'path':a.get('path'),'source':a.get('source')} for a in found]
+        if target_type=='sounds.xml filename':
+          found=_audio_asset_files(path,assets);status='RESOLVED' if found else 'UNRESOLVED'
+          candidates=[];reason=None if found else 'FILE_MISSING'
+        else:
+          status,found,candidates,reason=_resolve_file(path,assets)
+        target['asset_files']=_asset_file_metadata(found)
         if status!='RESOLVED':
           row.update(status='UNRESOLVED',reason=reason or 'FILE_MISSING')
-          row['candidates']=[{'path':a.get('path'),'source':a.get('source')} for a in candidates]
+          row['candidates']=_asset_file_metadata(candidates) if target_type=='sounds.xml filename' else [{'path':a.get('path'),'source':a.get('source')} for a in candidates]
           if not row['candidates']: row['candidate_note']='Exact target path and basename were absent from all indexed original source roots.'
     name=row.get('name')
     if not row.get('resolves_to') and isinstance(name,str) and '.' in Path(name).name:
       status,found,candidates,reason=_resolve_file(name,assets)
       if status=='RESOLVED':
-        row['resolves_to']=[{'type':'source asset file','path':name,'asset_files':[{'path':a.get('path'),'source':a.get('source')} for a in found]}]
+        row['resolves_to']=[{'type':'source asset file','path':name,'asset_files':_asset_file_metadata(found)}]
         row.update(status='RESOLVED',reason=None,work_status='DONE')
       else:
         row.update(status='UNRESOLVED',reason=reason or 'FILE_MISSING',work_status='DONE')
@@ -428,10 +460,10 @@ def resolve_reference(ctx,row,tables=None,assets=None):
         for x in sound_nodes:
           uid=int(x.get('uid','-1'))
           catalog.append({'uid':uid,'filename':x.get('filename'),'source_ids':x.get('source_ids',[])})
-        existing=[a for item in catalog for a in _resolve_file(item.get('filename') or '',assets)[1]]
+        existing=[a for item in catalog for a in _audio_asset_files(item.get('filename') or '',assets)]
         row['resolves_to']=[{'type':'sounds.xml label','label':name,'rows':catalog,
-                             'asset_files':[{'path':a.get('path'),'source':a.get('source')} for a in existing]}]
-        missing=[x for x in catalog if not _resolve_file(x.get('filename') or '',assets)[1]]
+                             'asset_files':_asset_file_metadata(existing)}]
+        missing=[x for x in catalog if not _audio_asset_files(x.get('filename') or '',assets)]
         if len(catalog)==1 and not missing:
           row.update(status='RESOLVED',work_status='DONE',confidence='PROVEN')
         else:
@@ -465,6 +497,159 @@ def _resolve_campaign_candidates(refs,tables):
                  rule=f"{command} source field role plus exact {target.get('table')} row-name match")
 
 
+_PYDATA_ARRAY_ALIASES = {
+    # Public table names registered by PyDataArrays. The group suffixes for
+    # multi-table files follow their names-stream / registration order.
+    'AnimatedEffectTable': 'effect_sets',
+    'AnimTable': 'animation_sequences',
+    'CharAnimTable': 'character_animations',
+    'CharacterTable': 'character_properties#group0',
+    'ClassTable': 'character_classes#group0',
+    'AnimDict': 'animations_dictionary#group0',
+    'ProjectileTable': 'projectiles#group0',
+    'GameObjectDamager': 'game_objects#group3',
+    'TimerTraps': 'game_objects#group7',
+}
+
+
+def _resolve_literal_pydata_calls(ctx,refs,tables):
+    """Resolve only exact two-string GetPyOID calls through proven array aliases.
+
+    GetPyStruct returns a struct member id, so its second string names a field,
+    not a row. It remains unresolved here until a matching native field schema
+    proves that mapping. The call ledger supplies both unmodified literal args
+    keyed by the extractor's stable call_id.
+    """
+    calls=read_json(ctx.out/'data/calls.json',[]) or []
+    calls_by_id={c.get('id'):c for c in calls if c.get('id')}
+    rows_by_table={}
+    for table_row in tables:
+        if table_row.get('index') is not None:
+            rows_by_table.setdefault(table_row.get('table'),[]).append(table_row)
+    _resolve_charpropsname_sites(refs,rows_by_table)
+    evidence=('pseudocode-all.c PyDataArrays constructor registerClassByName/addFuncsForFile '
+              'aliases (AnimTable 320095, CharAnimTable 320131, AnimatedEffectTable 320332) '
+              'and GetOID; source_process_array_registration_v101.hpp:9, :13, :35 array/name '
+              'registrations and exact native names-stream group order')
+    for ref in refs:
+        context=ref.get('context') or {}
+        call=context.get('call')
+        if call not in ('GetPyOID','GetPyStruct'):
+            continue
+        call_data=calls_by_id.get(context.get('call_id'))
+        args=(call_data or {}).get('arguments') or []
+        literals=[]
+        for arg in args:
+            values=[lit for lit in (arg.get('literals') or [])
+                    if lit.get('type')=='string' and isinstance(lit.get('value'),str)]
+            if len(values)!=1 or arg.get('expression') != values[0].get('raw'):
+                literals=[];break
+            literals.append(values[0]['value'])
+        if len(literals)!=2 or call_data.get('name')!=call:
+            continue
+        # There can be several extracted rows for one call. Only enrich the
+        # second-argument table-row record, leaving generic argument literals
+        # intact and preserving its extractor-generated id.
+        if context.get('argument_index')!=2 or ref.get('reference_kind')!='table_row':
+            continue
+        table_alias,name=literals
+        ref['source_call_id']=context.get('call_id')
+        ref['literal_arguments']=[table_alias,name]
+        ref['schema_evidence']=evidence
+        if call=='GetPyStruct':
+            ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN')
+            ref['rule']='GetPyStruct second string is a struct member name; no matching native field schema was applied by this resolver.'
+            ref['candidate_note']='The literal is a field lookup, not a PyDataArrays row name; no field id is inferred from a similarly named row.'
+            ref['candidates']=[]
+            continue
+        table=_PYDATA_ARRAY_ALIASES.get(table_alias)
+        if table is None:
+            ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN')
+            ref['rule']='GetPyOID table alias has no proven public-array mapping in the native registration evidence.'
+            ref['candidate_note']=f'No exact source table mapping is established for public alias {table_alias!r}.'
+            ref['candidates']=[]
+            continue
+        matches=[r for r in rows_by_table.get(table,[]) if r.get('name')==name]
+        ref['reference_kind']='table_row'
+        ref['referenced_table']=table
+        ref['rule']=f'GetPyOID exact public alias {table_alias} -> {table}; exact case-sensitive names-stream row match.'
+        if len(matches)==1:
+            target_row=matches[0]
+            ref['resolves_to']=[{'type':'table-row','table':table,'index':target_row['index'],
+                                 'name':target_row.get('name'),'schema_evidence':evidence}]
+            ref.update(status='RESOLVED',reason=None,work_status='DONE',confidence='PROVEN')
+            ref['candidates']=[]
+            ref.pop('candidate_note',None)
+        elif len(matches)>1:
+            ref['resolves_to']=[]
+            ref.update(status='AMBIGUOUS',reason=None,work_status='DONE',confidence='PROVEN')
+            ref['candidates']=[{'table':table,'index':r['index'],'name':r.get('name')} for r in matches]
+            ref['candidate_note']='More than one source row has this exact name within the registered table.'
+        else:
+            ref['resolves_to']=[]
+            ref.update(status='UNRESOLVED',reason='NAME_NO_FILE',work_status='DONE',confidence='PROVEN')
+            nearby=difflib.get_close_matches(name,[r.get('name','') for r in rows_by_table.get(table,[])],n=5,cutoff=0.6)
+            ref['candidates']=[{'table':table,'index':r['index'],'name':r.get('name')}
+                               for close in nearby for r in rows_by_table.get(table,[]) if r.get('name')==close]
+            ref['candidate_note']=f'No exact case-sensitive row name {name!r} exists in registered table {table}.'
+
+
+def _resolve_charpropsname_sites(refs,rows_by_table):
+    """Resolve authored character-property names only through their XML gate."""
+    evidence=('native GetCharPropertiesId 0x3b3d38; '
+              'canonical_property_declarations_v1.inc:68 charpropsname offset 0x13b0; '
+              'canonical_character_family_v4.cpp:40-47 cached id / char_template precedence / '
+              'exact CharacterTable lookup; actor_population.cpp:144-170 explicit profile bind')
+    for ref in refs:
+        context=ref.get('context') or {}
+        if str(context.get('attribute','')).lower()!='charpropsname':
+            continue
+        name=ref.get('name')
+        gate=('Authored `charpropsname` on a `gametype="Character"` record conditionally '
+              'names a CharacterTable row; this records source identity and does not assert runtime spawning.')
+        ref['schema_evidence']=evidence
+        ref['admission_note']=gate
+        ref['resolution_scope']='conditional source relationship; not a runtime spawn assertion'
+        ref['port_status']='PARTIAL'
+        ref['port_status_note']='Native name lookup is mapped, but this source identity does not establish runtime actor population.'
+        if context.get('gametype')!='Character':
+            ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN')
+            ref['rule']='charpropsname is mapped only for an exact Character gametype source record.'
+            ref['candidate_note']='The source record does not satisfy the native Character-table lookup gate.'
+            ref['candidates']=[]
+            continue
+        # The native consumer gives char_template precedence over the literal
+        # CharacterTable name. Do not turn that competing selector into a row.
+        if context.get('char_template'):
+            ref.update(status='UNRESOLVED',reason='OTHER',work_status='DONE',confidence='PROVEN')
+            ref['rule']='char_template takes precedence over the charpropsname name lookup.'
+            ref['candidate_note']='The source record supplies char_template; no CharacterTable target is inferred from charpropsname.'
+            ref['candidates']=[]
+            continue
+        matches=[r for r in rows_by_table.get('character_properties#group0',[]) if r.get('name')==name]
+        ref['rule']='gametype="Character" charpropsname exact-name lookup in CharacterTable, subject to char_template precedence.'
+        ref['reference_kind']='table_row'
+        ref['referenced_table']='character_properties#group0'
+        if len(matches)==1:
+            target_row=matches[0]
+            ref['resolves_to']=[{'type':'table-row','table':'character_properties#group0',
+                                 'index':target_row['index'],'name':target_row.get('name'),
+                                 'schema_evidence':evidence}]
+            ref.update(status='RESOLVED',reason=None,work_status='DONE',confidence='PROVEN')
+            ref['candidates']=[]
+            ref.pop('candidate_note',None)
+        elif len(matches)>1:
+            ref['resolves_to']=[]
+            ref.update(status='AMBIGUOUS',reason=None,work_status='DONE',confidence='PROVEN')
+            ref['candidates']=[{'table':'character_properties#group0','index':r['index'],'name':r.get('name')} for r in matches]
+            ref['candidate_note']='More than one CharacterTable row has this exact name.'
+        else:
+            ref['resolves_to']=[]
+            ref.update(status='UNRESOLVED',reason='NAME_NO_FILE',work_status='DONE',confidence='PROVEN')
+            ref['candidates']=[]
+            ref['candidate_note']=f'No exact CharacterTable name row matches authored charpropsname {name!r}.'
+
+
 def prepare_tables(ctx):
     """Seed source-derived tables before level/campaign consumers on a clean run."""
     tables=_table_inventory(ctx)
@@ -489,22 +674,24 @@ def run(ctx, inventory_only=False):
     audio_ledger=ctx.root/'port/engine-audio/reference/source-bindings-v38/ledger.json'
     if audio_ledger.exists():
         try:
+            sound_bin,sound_names_bin=_sound_table_paths(ctx)
+            sound_bin_site=source_site(ctx,sound_bin)
+            sound_names_site=source_site(ctx,sound_names_bin)
             entries=json.loads(audio_ledger.read_text(encoding='utf-8'))
             for e in entries:
                 sid=e.get('source_id'); nm=e.get('source_name','')
                 site=f"pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin[row={sid}]"
                 row=_reference(site,nm,'sound','row index in the 638-entry source SDD; event expands target bank members')
+                row['context']={'file':sound_bin_site,'names_file':sound_names_site,'row':sid,'source_id':sid}
                 tgt=e.get('target') or {}
                 target=tgt.get('filename')
                 members=e.get('assets') or ([tgt] if tgt else [])
-                for m in members:
-                    _,present,_,_=_resolve_file(m.get('filename') or '',assets_all)
-                    m['_source_exists']=bool(present)
-                existing=[m for m in members if m.get('_source_exists')]
-                absent=[m for m in members if not m.get('_source_exists')]
+                member_assets=[_audio_asset_files(m.get('filename') or '',assets_all) for m in members]
+                existing=[m for m,found in zip(members,member_assets) if found]
+                absent=[m for m,found in zip(members,member_assets) if not found]
                 row['resolves_to']=[{'type':'sounds.xml filename','path':m.get('filename'),'uid':m.get('uid',tgt.get('uid')),
-                                     'event':e.get('event'),'exists_in_source_cache':bool(m.get('_source_exists')),
-                                     'asset_files':[{'path':a.get('path'),'source':a.get('source')} for a in _resolve_file(m.get('filename') or '',assets_all)[1]]} for m in members]
+                                     'event':e.get('event'),'exists_in_original_sources':bool(found),
+                                     'asset_files':_asset_file_metadata(found)} for m,found in zip(members,member_assets)]
                 if members and not absent:
                     row['status']='RESOLVED';row['work_status']='DONE';row['confidence']='PROVEN'
                 elif existing:
@@ -527,6 +714,7 @@ def run(ctx, inventory_only=False):
     # The campaign decoder owns its extraction; normalize and merge its rows
     # without changing their stable identities or source locations.
     refs.extend(read_json(ctx.out/'data/campaign-references.json',[]) or [])
+    _resolve_literal_pydata_calls(ctx,refs,tables)
     by_id={r.get('id') or stable_id(r.get('site'),r.get('name'),r.get('kind')):r for r in refs}
     refs=list(by_id.values())
     _resolve_campaign_candidates(refs,tables)
@@ -568,12 +756,16 @@ def run(ctx, inventory_only=False):
       {'id':'pydata-name-blocks','rule':'PyData name blocks are count-prefixed lists of length-prefixed UTF-8 strings; row index is zero-based in serialized order.','evidence':'port/game-data/animation_tables.cpp Reader::strings and load_animation_tables; port/game-data/effects_tables.cpp Reader::names.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'audio-row-index','rule':'Sound id indexes the 638-row sdd_dungeon_hunter_2_iphone table. Ordinary rows resolve to the sounds.xml filename; isEvent rows expand member filenames. File existence is checked across the partial Android/recovered-cache and iOS corpora; a file in any included source corpus resolves the row.','evidence':'items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin and names; port/engine-audio/reference/source-bindings-v38/ledger.json source_id/event/target; audio-v34/cache/sounds.xml; coordination/v21.8/ATLAS-CODEX-PROMPT.md and user clarification that Android/recovered-cache and iOS are both partial sources.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'asset-platform-availability','rule':'Asset presence is recorded per actual source corpus and resolved paths retain their source labels and content hashes. Platform availability differences are diagnostics, not substitutions or grounds to suppress a match from another included original corpus.','evidence':'coordination/atlas/data/platform-comparison.json; coordination/v21.8/ATLAS-CODEX-PROMPT.md; user clarification 2026-10-13.','status':'PROVEN','confidence':'PROVEN'},
-      {'id':'path-case-resolution','rule':'Resolve a data URI against actual source file paths using exact case first, then case-insensitive comparison; preserve ambiguous candidates. Do not infer missing content from a similar basename.','evidence':'atlas path-resolution implementation; source path inventory.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'path-case-resolution','rule':'Atlas lookup policy: compare a data URI with actual source file paths using exact case first, then case-insensitive comparison, preserving ambiguous candidates. This policy alone does not prove original native case semantics. Similar basenames remain candidates, never resolved targets.','evidence':'tools/atlas/references.py _resolve_file; actual source path inventory; port/windows-foundation/asset_catalog.cpp:15 and :165 normalize port lookup case.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'pydata-literal-oid','rule':'A literal GetPyOID(tableAlias,rowName) resolves only through a proven PyDataArrays public alias and an exact case-sensitive source names-stream match; GetPyStruct names a struct member and is not treated as a row lookup without a matching native field schema.','evidence':'ida-apk-export-2026-10-07/libraries/classes.dex/pseudocode-all.c PyDataArrays constructor/GetOID/GetPyOID wrappers; port/android-native/app/src/main/cpp/source_process_array_registration_v101.hpp; exact Android names streams.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'character-charpropsname','rule':'An authored charpropsname on a gametype="Character" record conditionally identifies an exact CharacterTable row when char_template does not take precedence. This is a source relationship, not proof that the actor spawned at runtime.','evidence':'native GetCharPropertiesId 0x3b3d38; canonical_property_declarations_v1.inc:68; canonical_character_family_v4.cpp:40-47; port/windows-foundation/actor_population.cpp:144-170.','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'character-sounds-table-group','rule':'CharacterTable.Sounds indexes the first registered sounds-array group exposed as CharSoundsTable (sounds#group0). This establishes only the row namespace; sound payload fields and any SDD/audio relationship remain undecoded. Sounds_bak is a separate later registration group.','evidence':'native Character::GetCharSoundsId 0x3a3294 and GetCharSounds 0x3a32d0; source_process_array_registration_v101.hpp:113-114 (CharSoundsTable) and :121-122 (Sounds_bak).','status':'PROVEN','confidence':'PROVEN'},
+      {'id':'level-scene-prefix','rule':'The decoded Levels.LevelFile is a bare scene filename. The Windows transition consumer prepends data/scene/; the atlas looks up scene/<LevelFile> within each included data root. Original native loader behavior beyond the recovered table schema remains unconfirmed.','evidence':'port/game-data/level_tables.cpp:63; port/windows-foundation/features/transitions/level_transitions_v1.cpp:113.','status':'INFERENCE','confidence':'LIKELY'},
       {'id':'signed-reference-sentinels','rule':'Typed signed table-index fields use signed 32-bit values; negative values such as -1 mean no reference and are omitted from reference rows, never reinterpreted as large unsigned IDs.','evidence':'port/game-data/skill_tables.cpp signed_word and Skill Anim field; Projectiles registered source descriptor and signed row fields; exact source pyarray bytes.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'bdae-sound-prefix','rule':'BDAE sound events strip exactly one leading `sfx_` before lookup in sounds.xml; preserve the resulting label verbatim, including malformed or missing names.','evidence':'port/engine-audio/reference/source-bindings-v38/ledger.json; adapter.cpp sound event mapping; BDAE event sites from tools/atlas/sites.py.','status':'PROVEN','confidence':'PROVEN'},
       {'id':'unsupported-pyarray','rule':'An undecoded PyData payload retains its proven table name and local row index with terminal UNRESOLVED/OTHER disposition; its fields remain unknown pending a recovered parser or native schema. No fields are inferred from adjacent bytes.','evidence':'Native count-prefixed names streams plus exact decoded schemas in port/game-data/animation_tables.cpp, effects_tables.cpp, skill_tables.cpp, and data.cpp.','status':'PROVEN','confidence':'PROVEN'}]
     write_json(ctx.out/'data/rules.json',rules)
-    (ctx.out/'RULES.md').write_text('# Reference resolution rules\n\n'+'\n'.join(f"- **{r['id']}** — {r['rule']} Evidence: `{r['evidence']}`" for r in rules)+'\n',encoding='utf-8')
+    (ctx.out/'RULES.md').write_text('# Reference resolution rules\n\n'+'\n'.join(f"- **{r['id']}** ({r['status']}; {r['confidence']}) — {r['rule']} Evidence: `{r['evidence']}`" for r in rules)+'\n',encoding='utf-8')
     counts={'tables':len(tables),'table_rows_todo':sum(r.get('status')=='TODO' for r in tables),
             'table_rows_unresolved':sum(r.get('status')=='UNRESOLVED' for r in tables),
             'table_rows_work_todo':sum(r.get('work_status')=='TODO' for r in tables),
@@ -641,10 +833,14 @@ def _resolve_with_assets(ctx,refs):
       for target in r.get('resolves_to') or []:
         path=target.get('path')
         if not path: continue
-        status,found,candidates,reason=_resolve_file(path,assets)
+        if target.get('type')=='sounds.xml filename':
+          found=_audio_asset_files(path,assets);status='RESOLVED' if found else 'UNRESOLVED'
+          candidates=[];reason=None if found else 'FILE_MISSING'
+        else:
+          status,found,candidates,reason=_resolve_file(path,assets)
         target['asset_candidates']=[{'path':x.get('path'),'source':x.get('source')} for x in candidates]
         if status=='RESOLVED':
-          target['asset_files']=[{'path':x.get('path'),'source':x.get('source')} for x in found]
+          target['asset_files']=_asset_file_metadata(found)
         elif r.get('kind') in ('anim','sound','model','projectile','animated effect','effect set'):
           r['status']='UNRESOLVED';r['reason']=reason or 'FILE_MISSING';r['candidates']=[{'path':x.get('path'),'source':x.get('source')} for x in candidates]
           if not r['candidates']: r['candidate_note']='Exact target path and basename were absent from all indexed original source roots.'
@@ -661,9 +857,39 @@ def known_checks(ctx):
         records=_Reader(sound_bin); n=records.word(); pairs=[(records.i(),records.i()) for _ in range(n)]
         out.append({'name':'sound row index is the 638-row source table with 63 events','passed':n==638 and len(names)==638 and sum(e==1 for _,e in pairs)==63 and len(rows)==638,
                     'detail':f'rows={n}, names={len(names)}, isEvent={sum(e==1 for _,e in pairs)}, ledger={len(rows)}'})
+        # Check the generated audio resolutions against an independent set of
+        # original-source basenames. This catches platform-only matches that a
+        # path resolver might otherwise leave as suggestions.
+        assets=_asset_index(ctx)
+        source_kinds={'android','ios','original-cache','android-extra','audio-cache'}
+        source_basenames={Path(a.get('relative','').replace('\\','/')).name.casefold()
+                          for a in assets if a.get('source') in source_kinds}
+        saved_audio=read_json(ctx.out/'data/audio.json',[]) or []
+        saved_by_id={int(m.group(1)):r for r in saved_audio
+                     if (m:=re.search(r'\[row=(\d+)\]',r.get('site','')))}
+        audio_disagreements=[]
+        for entry in rows:
+            sid=int(entry.get('source_id',-1)); members=entry.get('assets') or ([entry.get('target') or {}] if entry.get('target') else [])
+            all_present=bool(members) and all(
+                bool(member.get('filename')) and Path(member.get('filename','').replace('\\','/')).name.casefold() in source_basenames
+                for member in members)
+            observed=saved_by_id.get(sid)
+            if observed is None or (observed.get('status')=='RESOLVED')!=all_present:
+                audio_disagreements.append({'source_id':sid,'name':entry.get('source_name'),
+                                            'expected_resolved':all_present,
+                                            'observed':observed.get('status') if observed else None})
+        row11=saved_by_id.get(11);row244=saved_by_id.get(244)
+        audio_check_passed=(len(rows)==638 and len(saved_by_id)==638 and not audio_disagreements
+                            and bool(row11 and row11.get('status')=='RESOLVED')
+                            and bool(row244 and row244.get('status')=='RESOLVED'))
+        out.append({'name':'638 audio rows resolve from the union of supplied source corpora','passed':audio_check_passed,
+                    'detail':json.dumps({'rows':len(rows),'saved_rows':len(saved_by_id),
+                                         'disagreement_count':len(audio_disagreements),
+                                         'disagreement_sample':audio_disagreements[:8],
+                                         'row11_balrog_killed':row11.get('status') if row11 else None,
+                                         'row244_event':row244.get('status') if row244 else None},ensure_ascii=False)})
         xml=ctx.inputs/'audio-v34/cache/sounds.xml'
         xml_names={x.get('filename') for x in ET.parse(xml).iter('sound') if x.get('filename')}
-        assets=_asset_index(ctx)
         source_files={Path(a.get('relative','')).name.casefold() for a in assets if a.get('source') in ('android','ios','original-cache','android-extra','audio-cache','items-discovery')}
         missing=sorted(nm for nm in xml_names if nm.casefold() not in source_files)
         ios_files={Path(a.get('relative','')).name.casefold() for a in assets if a.get('source')=='ios'}
@@ -708,6 +934,47 @@ def known_checks(ctx):
         out.append({'name':'Knight BashDown, GroundSlam, and Charge source rows','passed':passed,
                     'detail':json.dumps({'expected':expected,'actual':actual},ensure_ascii=False)})
     except Exception as e: out.append({'name':'Knight skill known answers','passed':False,'detail':str(e)})
+    try:
+        saved=read_json(ctx.out/'data/references.json',[]) or []
+        expected_calls=[
+            ('darkqueen1_core.luac:10',['AnimatedEffectTable','spell_dh2_prince_mage_stone_escape_magefx'],'effect_sets',229),
+            ('flaminite_core.luac:67',['AnimDict','root_troll_intimidate'],'animations_dictionary#group0',1144),
+            ('prince_mage_stone_escape.luac:30',['AnimatedEffectTable','spell_dh2_prince_mage_stone_escape_magefx'],'effect_sets',229),
+        ]
+        actual=[]
+        for suffix,args,table,index in expected_calls:
+            row=next((r for r in saved if r.get('site','').endswith(suffix)
+                      and r.get('literal_arguments')==args),None)
+            target=(row.get('resolves_to') or [{}])[0] if row else {}
+            actual.append({'site':suffix,'status':row.get('status') if row else None,
+                           'table':target.get('table'),'index':target.get('index'),
+                           'expected_table':table,'expected_index':index})
+        charrow=next((r for r in saved if (r.get('context') or {}).get('attribute','').lower()=='charpropsname'
+                      and (r.get('context') or {}).get('gametype')=='Character'
+                      and not (r.get('context') or {}).get('char_template')
+                      and r.get('name')=='Swamp_LizadMan_Type1'),None)
+        chartarget=(charrow.get('resolves_to') or [{}])[0] if charrow else {}
+        char_actual={'status':charrow.get('status') if charrow else None,
+                     'table':chartarget.get('table'),'index':chartarget.get('index'),
+                     'port_status':charrow.get('port_status') if charrow else None}
+        sounds_row=next((r for r in saved if r.get('site','').endswith('[section=0,row=360].Sounds')),None)
+        sounds_target=(sounds_row.get('resolves_to') or [{}])[0] if sounds_row else {}
+        sounds_actual={'status':sounds_row.get('status') if sounds_row else None,
+                       'table':sounds_row.get('referenced_table') if sounds_row else None,
+                       'target_table':sounds_target.get('table'),'index':sounds_target.get('index'),
+                       'source_row_table':(sounds_target.get('source_row') or {}).get('table'),
+                       'source_row_name':(sounds_target.get('source_row') or {}).get('name')}
+        passed=(all(x['status']=='RESOLVED' and x['table']==x['expected_table'] and x['index']==x['expected_index'] for x in actual)
+                and char_actual=={'status':'RESOLVED','table':'character_properties#group0','index':360,'port_status':'PARTIAL'}
+                and sounds_actual['status']=='RESOLVED' and sounds_actual['table']=='sounds#group0'
+                and sounds_actual['target_table']=='sounds#group0' and sounds_actual['index']==2
+                and sounds_actual['source_row_table']=='sounds#group0'
+                and sounds_actual['source_row_name']=='Default')
+        out.append({'name':'literal PyData aliases and gated Swamp charpropsname source joins','passed':passed,
+                    'detail':json.dumps({'literal_calls':actual,'charpropsname':char_actual,
+                                         'CharSoundsTable_group_scope':sounds_actual},ensure_ascii=False)})
+    except Exception as e:
+        out.append({'name':'literal PyData aliases and gated Swamp charpropsname source joins','passed':False,'detail':str(e)})
     return out
 
 

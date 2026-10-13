@@ -290,7 +290,7 @@ def run(ctx, inventory_only=False):
                                'reference_kind': ref_kind, 'resolves_to': [],
                                'candidates': exact_candidates,
                                'candidate_note': 'Exact table-name string match is a candidate link only; command field semantics require confirmation.',
-                               'confidence': 'INFERENCE' if exact_candidates else 'UNKNOWN',
+                               'confidence': 'LIKELY' if exact_candidates else 'GUESS',
                                'port_status': 'UNKNOWN', 'implementation': None,
                                'status': 'TODO' if inventory_only else 'UNRESOLVED',
                                'work_status': 'TODO' if inventory_only else 'DONE',
@@ -327,7 +327,7 @@ def run(ctx, inventory_only=False):
                                               'index': signed_value, 'name': target.get('name')}]
                                             if target else []),
                             'candidates': [], 'candidate_note': evidence,
-                            'confidence': 'PROVEN' if target else 'UNKNOWN',
+                            'confidence': 'PROVEN' if target else 'GUESS',
                             'port_status': native_mapping.get('port_status', 'UNKNOWN'),
                             'implementation': native_mapping.get('port_path_anchors'),
                             'status': ('TODO' if inventory_only else 'RESOLVED' if target else 'UNRESOLVED'),
@@ -367,14 +367,14 @@ def run(ctx, inventory_only=False):
         'Serialized level script command targets now identify actors named by Script_SpawnCharacter. '
         'Assignments are INFERENCE because branch execution and runtime spawn conditions are not evaluated; the scene XML still contains no static mob roster.')
     write_json(membership_path, membership)
-    return {'category': 'SERIALIZED LEVEL CAMPAIGN SCRIPTS', 'work_status': 'TODO',
+    return {'category': 'SERIALIZED LEVEL CAMPAIGN SCRIPTS', 'work_status': 'TODO' if inventory_only else 'DONE',
             'script_file_rows': len(records), 'decoded_script_files': counts['decoded_script_files'],
             'scripts': counts['scripts'], 'commands': counts['commands'],
             'candidate_string_references': len(references),
             'missing_pairs': counts['missing_pairs'], 'decode_failures': counts['decode_failures'],
             'by_source': {k.removeprefix('source_'): v for k, v in counts.items() if k.startswith('source_')},
             'notes': ['Commands are decoded source records and are not executed.',
-                      'Exact table-name matches are candidate references; field semantics remain TODO.']}
+                      'Exact table-name matches are candidate references; unknown field semantics retain UNRESOLVED disposition.']}
 
 
 def coverage_check(ctx):

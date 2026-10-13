@@ -167,16 +167,23 @@ def _tokens(text: str):
 
 
 def _arg_ranges(tokens, open_i, text):
-    depth=1; start=open_i+1; i=start; args=[]
+    # Track every Lua grouping delimiter. Commas in table constructors and
+    # indexed expressions belong to the enclosing argument, just like commas
+    # inside nested function calls.
+    paren=1; brace=0; bracket=0; start=open_i+1; i=start; args=[]
     while i<len(tokens):
         val=tokens[i][1]
-        if val=="(": depth+=1
+        if val=="(": paren+=1
         elif val==")":
-            depth-=1
-            if depth==0:
+            paren-=1
+            if paren==0:
                 if i>start: args.append((start,i))
                 return args,i
-        elif val=="," and depth==1:
+        elif val=="{": brace+=1
+        elif val=="}" and brace: brace-=1
+        elif val=="[": bracket+=1
+        elif val=="]" and bracket: bracket-=1
+        elif val=="," and paren==1 and brace==0 and bracket==0:
             args.append((start,i)); start=i+1
         i+=1
     if start<len(tokens): args.append((start,len(tokens)))
@@ -388,11 +395,13 @@ def run(ctx, inventory_only=False):
         d=inputs/"assets-extra"/platform/"data"/"scripts"
         if d.is_dir(): script_paths.extend((platform,p) for p in d.rglob("*") if p.is_file() and p.suffix.lower() in (".lua",".luac"))
     script_paths.sort(key=lambda x:(x[0],x[1].as_posix().lower()))
-    parsed_cache={}; exports={}; include_sources={}
+    parsed_cache={}; exports={}; include_sources={}; logic_evidence={}
     for platform,p in script_paths:
         raw=p.read_bytes(); text=raw.decode("utf-8-sig",errors="replace")
         parsed_cache[(platform,str(p))]=_parse_script(text)
         rel=p.relative_to(inputs/"assets-extra"/platform/"data").as_posix()
+        if any(k in p.name.lower() for k in ("swampking","witch","rene","madruk","darkqueen","edwardboss","flaminite","roottroll","sandworm","winddragon","balrog","assassin","emissary","resurrectinggod","miniboss")):
+            logic_evidence[(platform,rel)]=_script_logic_evidence(text)
         _,_,defined,_=parsed_cache[(platform,str(p))]
         exports[(platform,rel)]=defined
     for platform,p in script_paths:
@@ -555,11 +564,32 @@ def run(ctx, inventory_only=False):
     mode_counts=collections.Counter(x["call_mode"] for x in call_rows)
     counts={"scripts":script_count,"scripts_by_platform":dict(counts_by_platform),"script_lines":lines_total,"script_file_format_counts":dict(collections.Counter(x["format"] for x in script_rows)),"script_rows":{"total":script_count,"done":sum(s["status"]=="DONE" for s in script_rows),"unresolved":sum(s["status"]=="UNRESOLVED" for s in script_rows)},"engine_call_sites":engine_call_count,"engine_function_names":total_func_names,"engine_function_rows":{"total":total_func_names,"done":sum(f["status"]=="DONE" for f in func_rows),"unresolved":sum(f["status"]=="UNRESOLVED" for f in func_rows)},"calls":{"total":len(call_rows),"done":call_status_counts["DONE"],"unresolved":call_status_counts["UNRESOLVED"],"engine_candidates":engine_call_count,"port_status":dict(call_port_counts),"by_mode":dict(mode_counts)},"script_references":{"total":len(ref_rows),"todo":len(ref_rows),"by_kind":dict(collections.Counter(x["kind"] for x in ref_rows))},"native_binding_matches":sum(bool(f["native_addresses"]) for f in func_rows),"native_addresses":sum(len(f["native_addresses"]) for f in func_rows),"port_status_candidates":dict(collections.Counter(f["port_status"] for f in func_rows)),"script_readiness":{"ported":sum(c["port_status"]=="PORTED" for c in call_rows if c["engine_candidate"]),"partial":sum(c["port_status"]=="PARTIAL" for c in call_rows if c["engine_candidate"]),"missing":sum(c["port_status"]=="MISSING" for c in call_rows if c["engine_candidate"]),"unknown":sum(c["port_status"]=="UNKNOWN" for c in call_rows if c["engine_candidate"])},"known_answer_tests":{"swampking_core.luac":"STATIC_SOURCE_ASSERTIONS_PASS","witch.luac":"STATIC_SOURCE_ASSERTIONS_PASS"}}
     write_json(out/"counts/scripts.json",counts)
-    _write_report(out/"reports/scripts.md",counts,script_rows,func_rows,call_rows,ref_rows)
+    _write_report(out/"reports/scripts.md",counts,script_rows,func_rows,call_rows,ref_rows,logic_evidence)
     return counts
 
 
-def _write_report(path,counts,scripts,functions,calls,refs):
+def _script_logic_evidence(text):
+    """Select exact source lines for authored knobs, callback hooks, and gates."""
+    rows=[]
+    assignment=re.compile(r"^\s*(?:local\s+)?[A-Za-z_][A-Za-z_0-9.]*\s*=(?!=)")
+    relevant=re.compile(r"phase|hp|health|timer|delay|interval|cooldown|prob|chance|skill|state|range|spawn|teleport|attack|summon|helper|music|anim|effect|\bfx\b|sound|counter|move|target|flying|flee|death|died|weak|stun|boss",re.I)
+    callback=re.compile(r"\bfunction\s+[A-Za-z_][A-Za-z_0-9.]*|\bAddToVFTable\s*\(|\b(RegisterSkillEx?|RegisterAnim|RegisterActorAnim)\s*\(")
+    action=re.compile(r"\b(Start|Stop)(?:Skill)?Timer(?:CB)?\s*\(|\bDoSkill\s*\(|\bCallPyScript\s*\(",re.I)
+    lines=text.splitlines()
+    for no,line in enumerate(lines,1):
+        stripped=line.strip()
+        if not stripped or stripped.startswith("--"): continue
+        kinds=[]
+        if assignment.search(line) and relevant.search(line): kinds.append("authored assignment")
+        if callback.search(line) and ("On" in line or "VFTable" in line or "Register" in line): kinds.append("callback or registration")
+        if action.search(line): kinds.append("skill/timer/script action")
+        if re.search(r"\bif\b",line) and relevant.search(line): kinds.append("condition/gate")
+        if kinds: rows.append({"line":no,"text":stripped,"kinds":kinds})
+    return rows
+
+
+def _write_report(path,counts,scripts,functions,calls,refs,logic_evidence=None):
+    logic_evidence=logic_evidence or {}
     bosses=[s for s in scripts if any(k in s["name"].lower() for k in ("swampking","witch","rene","madruk","darkqueen","edwardboss","flaminite","roottroll","sandworm","winddragon","balrog","assassin","emissary","resurrectinggod","miniboss"))]
     lines=[
         "# Script to engine map", "",
@@ -585,8 +615,15 @@ def _write_report(path,counts,scripts,functions,calls,refs):
         subset=[c for c in calls if c["script_id"]==script["id"] and (re.search(r"skill|anim|sound|music|fx|effect|timer|cutscene|quest|dialog|spawn|teleport|warp|position|phase|target",c["name"],re.I) or c["call_mode"]=="object_method")]
         lines += [f"### {script['name']} — {script['site']}", "", f"Relevant calls: {len(subset)}; source lines: {script['lines']}; engine readiness: {script['readiness']['ported']}/{script['readiness']['engine_calls']}.", "", "| Line | Call | Arguments | Mode | Port status |", "| ---: | --- | --- | --- | --- |"]
         for call in subset:
-            args="; ".join(f"{a['index']}={a['expression']}" for a in call["arguments"])
+            args="; ".join(f"{a['index']}={' '.join(a['expression'].split())}" for a in call["arguments"])
             lines.append(f"| {call['line']} | `{call['name']}` | `{args}` | {call['call_mode']} | {call['port_status']} |")
+        evidence=logic_evidence.get((script["platform"],script["site"].split("/data/",1)[-1]),[])
+        if evidence:
+            lines += ["", "Authored source excerpts (direct lines; meanings across callbacks remain unresolved unless explained in the named flow notes):", ""]
+            for item in evidence:
+                excerpt=item["text"].replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+                kinds=", ".join(item["kinds"])
+                lines.append(f"- `{script['site']}:{item['line']}` ({kinds}): <code>{excerpt}</code>")
         lines.append("")
     lines += [
         "## Investigation evidence", "",
@@ -605,7 +642,7 @@ def _write_report(path,counts,scripts,functions,calls,refs):
         "## Integrated runtime / visual verification", "",
         "No runtime or visual tests were run by this atlas task. B155/B158/B159/B156 reports document prior build-specific evidence but do not show integration of this atlas map into a new gameplay path.", "",
         "## Remaining gaps", "",
-        f"Call mapping: {counts['calls']['done']} DONE and {counts['calls']['unresolved']} UNRESOLVED. Context engine-call readiness: {counts['script_readiness']['ported']} PORTED, {counts['script_readiness']['partial']} PARTIAL, {counts['script_readiness']['missing']} MISSING and {counts['script_readiness']['unknown']} UNKNOWN. {counts['script_references']['total']} reference candidates await data-row resolution. Dynamic calls, unresolved native contracts, enum/table rules and per-call production coverage remain follow-up.", "",
+        f"Call mapping: {counts['calls']['done']} DONE and {counts['calls']['unresolved']} UNRESOLVED. Context engine-call readiness: {counts['script_readiness']['ported']} PORTED, {counts['script_readiness']['partial']} PARTIAL, {counts['script_readiness']['missing']} MISSING and {counts['script_readiness']['unknown']} UNKNOWN. {counts['script_references']['total']} reference sites feed the combined resolution ledger. Dynamic calls, unresolved native contracts, enum/table rules and per-call production coverage remain follow-up.", "",
         "The Android `.luac` files are plaintext Lua source, detected by file headers; seven `.nomedia` markers are excluded. No iOS scripts were found. Android IDA is the only native map; no cross-platform binding equivalence is assumed.", "",
     ]
     path.parent.mkdir(parents=True,exist_ok=True); path.write_text("\n".join(lines),encoding="utf-8")
@@ -644,41 +681,98 @@ def known_checks(ctx):
     return checks
 
 
+def expected_ids(ctx):
+    """Independently derive script, function, call, and reference IDs from source."""
+    inputs=Path(ctx.inputs); paths=[]; parsed_cache={}; exports={}; includes={}
+    for platform in ("android","ios"):
+        root=inputs/"assets-extra"/platform/"data"/"scripts"
+        if not root.is_dir(): continue
+        paths.extend((platform,p) for p in root.rglob("*") if p.is_file() and p.suffix.lower() in (".lua",".luac"))
+    paths.sort(key=lambda x:(x[0],x[1].as_posix().lower()))
+    for platform,p in paths:
+        parsed_cache[(platform,str(p))]=_parse_script(p.read_bytes().decode("utf-8-sig",errors="replace"))
+        rel=p.relative_to(inputs/"assets-extra"/platform/"data").as_posix()
+        exports[(platform,rel)]=parsed_cache[(platform,str(p))][2]
+    for platform,p in paths:
+        rel=p.relative_to(inputs/"assets-extra"/platform/"data").as_posix()
+        script_root=inputs/"assets-extra"/platform/"data"/"scripts"
+        for call in parsed_cache[(platform,str(p))][0]:
+            if call["name"]!="Include" or not call["arguments"]: continue
+            literals=call["arguments"][0]["literals"]
+            if not literals or literals[0]["type"]!="string": continue
+            target_name=literals[0]["value"].replace("\\","/")
+            candidates=[(p.parent/target_name).resolve(),(script_root/target_name).resolve()]
+            if not any(x.is_file() for x in candidates):
+                candidates=[Path(str(x)+ext) for x in candidates for ext in (".luac",".lua")]
+            target=next((x for x in candidates if x.is_file()),None)
+            if target is None: continue
+            try: target_rel=target.relative_to(script_root.resolve()).as_posix()
+            except ValueError: continue
+            for exported in exports.get((platform,"scripts/"+target_rel),set()):
+                includes.setdefault((platform,rel),{}).setdefault(exported,set()).add(f".local-inputs/assets-extra/{platform}/data/scripts/{target_rel}")
+    helpers=collections.defaultdict(list)
+    for (platform,filepath),parsed in parsed_cache.items():
+        rel=Path(filepath).relative_to(inputs/"assets-extra"/platform/"data").as_posix()
+        for name in parsed[2]: helpers[name].append((platform,rel))
+    script_ids=set(); function_ids=set(); call_ids=set(); reference_ids=set()
+    for platform,p in paths:
+        rel=p.relative_to(inputs/"assets-extra"/platform/"data").as_posix()
+        imported=includes.get((platform,rel),{})
+        script_ids.add(stable_id("script",platform,rel))
+        for call in parsed_cache[(platform,str(p))][0]:
+            mode=call["mode"]
+            import_sources=sorted(imported.get(call["name"],set())) if mode=="global" else []
+            helper_sources=[]
+            if mode=="global" and call["name"] in helpers:
+                helper_sources=[f".local-inputs/assets-extra/{plat}/data/{path}" for plat,path in helpers[call["name"]] if (plat,path)!=(platform,rel)]
+                if helper_sources: mode="imported_script_function"
+            if import_sources: mode="imported_script_function"
+            is_engine=mode in ("global","object_method","qualified_function","alias_method","dynamic") or (mode=="local_alias" and call["alias_target"] is not None)
+            if mode=="dynamic": display=f"<dynamic:{call['receiver']}>"
+            elif mode=="local_alias" and call["alias_target"] is not None: display=call["alias_target"]
+            elif mode=="object_method": display=f"{call['receiver']}:{call['name']}"
+            elif mode in ("qualified_function","alias_method"): display=f"{call['receiver']}.{call['name']}"
+            elif mode=="lua_builtin" and call["receiver"]: display=f"{call['receiver']}.{call['name']}"
+            else: display=call["name"]
+            call_id=stable_id("script-call",platform,rel,call["line"],call["_start"],display)
+            call_ids.add(call_id)
+            if is_engine:
+                if mode=="dynamic": function_key=(mode,call["receiver"])
+                elif mode=="local_alias" and call["alias_target"] is not None: function_key=("global",call["alias_target"])
+                elif mode=="global": function_key=(mode,call["name"])
+                else: function_key=(mode,call["receiver"],call["name"])
+                function_ids.add(stable_id("script-function",*function_key))
+            for arg in call["arguments"]:
+                for lit in arg["literals"]:
+                    refkind=_literal_ref_kind(call,lit)
+                    if refkind:
+                        reference_ids.add(stable_id("script-ref",call_id,arg["index"],lit.get("offset",lit["line"]),lit["value"],refkind))
+            ref_arg=_REFERENCE_ARGS.get(call["name"])
+            if ref_arg:
+                target_arg,refkind=ref_arg
+                arg=next((a for a in call["arguments"] if a["index"]==target_arg),None)
+                if arg and arg["expression"]:
+                    reference_ids.add(stable_id("script-symbolic-ref",call_id,target_arg,arg["start"],arg["expression"],refkind))
+    return {"scripts":script_ids,"functions":function_ids,"calls":call_ids,"references":reference_ids}
+
+
 def coverage_check(ctx):
-    """Re-extract source calls and verify the saved script/call inventory is complete."""
-    out=Path(ctx.out); scripts=json.loads((out/"data/scripts.json").read_text(encoding="utf-8"))
-    calls=json.loads((out/"data/calls.json").read_text(encoding="utf-8")); errors=[]
-    source_scripts=[]
-    for platform in ("android","ios"):
-        d=Path(ctx.inputs)/"assets-extra"/platform/"data"/"scripts"
-        if not d.is_dir(): continue
-        for p in d.rglob("*"):
-            if not p.is_file() or p.suffix.lower() not in (".lua",".luac"): continue
-            rel=p.relative_to(Path(ctx.inputs)/"assets-extra"/platform/"data").as_posix(); site=f".local-inputs/assets-extra/{platform}/data/{rel}"
-            script_id=stable_id("script",platform,rel); source_scripts.append(script_id)
-            parsed,_,_,_=_parse_script(p.read_bytes().decode("utf-8-sig",errors="replace"))
-    saved_scripts={s["id"] for s in scripts}
-    # Compare canonical call IDs, independently deriving them again from source.
-    source_ids=set()
-    for platform in ("android","ios"):
-        d=Path(ctx.inputs)/"assets-extra"/platform/"data"/"scripts"
-        if not d.is_dir():continue
-        for p in d.rglob("*"):
-            if not p.is_file() or p.suffix.lower() not in (".lua",".luac"):continue
-            rel=p.relative_to(Path(ctx.inputs)/"assets-extra"/platform/"data").as_posix(); sid=stable_id("script",platform,rel)
-            for c in _parse_script(p.read_bytes().decode("utf-8-sig",errors="replace"))[0]:
-                if c["mode"]=="dynamic": display=f"<dynamic:{c['receiver']}>"
-                elif c["mode"]=="local_alias" and c["alias_target"]: display=c["alias_target"]
-                elif c["mode"]=="object_method": display=f"{c['receiver']}:{c['name']}"
-                elif c["mode"] in ("qualified_function","alias_method"): display=f"{c['receiver']}.{c['name']}"
-                elif c["mode"]=="lua_builtin" and c["receiver"]: display=f"{c['receiver']}.{c['name']}"
-                else: display=c["name"]
-                source_ids.add(stable_id("script-call",platform,rel,c["line"],c["_start"],display))
-    saved_ids={c["id"] for c in calls}
-    if set(source_scripts)!=saved_scripts: errors.append(f"script rows differ from source inventory: source={len(source_scripts)} rows={len(saved_scripts)}")
-    if source_ids!=saved_ids: errors.append(f"call rows differ from independently re-extracted source sites: source={len(source_ids)} rows={len(saved_ids)}; missing={len(source_ids-saved_ids)} extra={len(saved_ids-source_ids)}")
-    script_ids=saved_scripts; function_ids={f["id"] for f in json.loads((out/"data/functions.json").read_text(encoding="utf-8"))}
-    for c in calls:
+    """Compare saved projections against exact IDs independently derived from source."""
+    out=Path(ctx.out); errors=[]
+    projections={
+        "scripts":{x["id"] for x in json.loads((out/"data/scripts.json").read_text(encoding="utf-8"))},
+        "functions":{x["id"] for x in json.loads((out/"data/functions.json").read_text(encoding="utf-8"))},
+        "calls":{x["id"] for x in json.loads((out/"data/calls.json").read_text(encoding="utf-8"))},
+        "references":{x["id"] for x in json.loads((out/"data/script-references.json").read_text(encoding="utf-8"))},
+    }
+    expected=expected_ids(ctx)
+    labels={"scripts":"script rows","functions":"function rows","calls":"call rows","references":"script-reference rows"}
+    for kind,label in labels.items():
+        missing=expected[kind]-projections[kind]; extra=projections[kind]-expected[kind]
+        if missing or extra:
+            errors.append(f"{label} differ from source-derived IDs: source={len(expected[kind])} rows={len(projections[kind])}; missing={len(missing)} extra={len(extra)}")
+    script_ids=projections["scripts"]; function_ids=projections["functions"]
+    for c in json.loads((out/"data/calls.json").read_text(encoding="utf-8")):
         if c["script_id"] not in script_ids: errors.append(f"call {c['id']} references missing script {c['script_id']}")
         if c["engine_candidate"] and c["function_id"] not in function_ids: errors.append(f"call {c['id']} references missing function {c['function_id']}")
     return errors

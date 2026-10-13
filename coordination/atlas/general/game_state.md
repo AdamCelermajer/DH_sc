@@ -33,90 +33,90 @@
 | design#group2 | 13 | OneShotKill | {} | DONE |
 | design#group2 | 14 | VolumeFX | {} | DONE |
 | design#group2 | 15 | VolumeMusic | {} | DONE |
-| levels#group0 | 0 | a01_SWAMP_CAMP | {} | DONE |
-| levels#group0 | 1 | a02_SWAMP_CAVE_WITCH_ENTRANCE | {} | DONE |
-| levels#group0 | 2 | a03_SWAMP_WATER_TEMPLE_01_ENTRANCE | {} | DONE |
-| levels#group0 | 3 | a04_SWAMP_CAVE_TROLL_ENTRANCE | {} | DONE |
-| levels#group0 | 4 | a05_DARKWOOD_ENTRANCE | {} | DONE |
-| levels#group0 | 5 | a06_DARKWOOD_GOTHICUS_VILLAGE | {} | DONE |
-| levels#group0 | 6 | a07_DARKWOOD_CATHEDRAL | {} | DONE |
-| levels#group0 | 7 | a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE | {} | DONE |
-| levels#group0 | 8 | a09_DARKWOOD_SECRET_BASEMENT_01 | {} | DONE |
-| levels#group0 | 9 | a10_DARKWOOD_CRYPT_01_ENTRANCE | {} | DONE |
-| levels#group0 | 10 | a11_DARKWOOD_CRYPT_02_ENTRANCE | {} | DONE |
-| levels#group0 | 11 | a12_GOTHICUS_CASTLE_02 | {} | DONE |
-| levels#group0 | 12 | a13_ELEMENTAL_FIRE | {} | DONE |
-| levels#group0 | 13 | a14_ELEMENTAL_EARTH | {} | DONE |
-| levels#group0 | 14 | a15_ELEMENTAL_WATER | {} | DONE |
-| levels#group0 | 15 | a16_ELEMENTAL_AIR | {} | DONE |
-| levels#group0 | 16 | a17_ELEMENTAL_LIGHT | {} | DONE |
-| levels#group0 | 17 | a18_DARKWOOD_ROOT_DEN_01_ENTRANCE | {} | DONE |
-| levels#group0 | 18 | a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE | {} | DONE |
-| levels#group0 | 19 | a20_DESERT_VILLAGE | {} | DONE |
-| levels#group0 | 20 | a21_DESERT_CAVE_01_ENTRANCE | {} | DONE |
-| levels#group0 | 21 | a22_DESERT_CAVE_02_ENTRANCE | {} | DONE |
-| levels#group0 | 22 | a23_DESERT_CAVE_03_ENTRANCE | {} | DONE |
-| levels#group0 | 23 | a24_DESERT_LIGHT_HOUSE_ENTRANCE | {} | DONE |
-| levels#group0 | 24 | a25_DESERT_FIRE_TEMPLE_ENTRANCE | {} | DONE |
-| levels#group0 | 25 | a26_ICY_VILLAGE | {} | DONE |
-| levels#group0 | 26 | a27_ICY_CAVERN_01_ENTRANCE | {} | DONE |
-| levels#group0 | 27 | a28_ICY_CAVERN_02_ENTRANCE | {} | DONE |
-| levels#group0 | 28 | a29_ICY_CAVERN_03_ENTRANCE | {} | DONE |
-| levels#group0 | 29 | a31_ICY_WIND_TEMPLE_ENTRANCE | {} | DONE |
-| levels#group0 | 30 | a32_UNDERWORLD_ENTRANCE | {} | DONE |
-| levels#group0 | 31 | a33_UNDERWORLD_MACHINE_ROOMS_ENTRANCE | {} | DONE |
-| levels#group0 | 32 | a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE | {} | DONE |
-| levels#group1 | 0 | ABBEY_ENTRANCE_01 | {} | DONE |
-| levels#group1 | 1 | ABBEY_RUINS_01 | {} | DONE |
-| levels#group1 | 2 | APPLETEMPLE | {} | DONE |
-| levels#group1 | 3 | APPLETEMPLEBACKUP | {} | DONE |
-| levels#group1 | 4 | DARKWOOD | {} | DONE |
-| levels#group1 | 5 | DARKWOOD_V2 | {} | DONE |
-| levels#group1 | 6 | DARKWOOD_V3 | {} | DONE |
-| levels#group1 | 7 | DARK_DUNGEON_TEMPLE_01 | {} | DONE |
-| levels#group1 | 8 | DARK_DUNGEON_TEMPLE_BOSSROOM | {} | DONE |
-| levels#group1 | 9 | DESERT_CAVE_01 | {} | DONE |
-| levels#group1 | 10 | DESERT_CAVE_02 | {} | DONE |
-| levels#group1 | 11 | DESERT_CAVE_03 | {} | DONE |
-| levels#group1 | 12 | EARTH_TEMPLE_01 | {} | DONE |
-| levels#group1 | 13 | EARTH_TEMPLE_02 | {} | DONE |
-| levels#group1 | 14 | EARTH_TEMPLE_03 | {} | DONE |
-| levels#group1 | 15 | ELEMENTAL_AIR | {} | DONE |
-| levels#group1 | 16 | ELEMENTAL_EARTH | {} | DONE |
-| levels#group1 | 17 | ELEMENTAL_FIRE | {} | DONE |
-| levels#group1 | 18 | ELEMENTAL_LIGHT | {} | DONE |
-| levels#group1 | 19 | ELEMENTAL_WATER | {} | DONE |
-| levels#group1 | 20 | FIRE_TEMPLE_01 | {} | DONE |
-| levels#group1 | 21 | GOTHICUS_CASTLE_01 | {} | DONE |
-| levels#group1 | 22 | GOTHICUS_CASTLE_02 | {} | DONE |
-| levels#group1 | 23 | GOTHICUS_CRYPT_01 | {} | DONE |
-| levels#group1 | 24 | GOTHICUS_CRYPT_02 | {} | DONE |
-| levels#group1 | 25 | ICY_CAVERN_01 | {} | DONE |
-| levels#group1 | 26 | ICY_CAVERN_02 | {} | DONE |
-| levels#group1 | 27 | ICY_CAVERN_03 | {} | DONE |
-| levels#group1 | 28 | ICY_HUB | {} | DONE |
-| levels#group1 | 29 | INFECTED_VILLAGE_01 | {} | DONE |
-| levels#group1 | 30 | LIGHT_HOUSE_01 | {} | DONE |
-| levels#group1 | 31 | LIGHT_HOUSE_02 | {} | DONE |
-| levels#group1 | 32 | LIGHT_HOUSE_03 | {} | DONE |
-| levels#group1 | 33 | MACHINE_ROOMS_01 | {} | DONE |
-| levels#group1 | 34 | MULTIPLAYER_TEST | {} | DONE |
-| levels#group1 | 35 | PORTAL_ROOM | {} | DONE |
-| levels#group1 | 36 | QUESTTEST | {} | DONE |
-| levels#group1 | 37 | RANDOMFORALEX | {} | DONE |
-| levels#group1 | 38 | RED_DESERT_HUB | {} | DONE |
-| levels#group1 | 39 | ROOT_DEN_01 | {} | DONE |
-| levels#group1 | 40 | SECRET_BASEMENT_01 | {} | DONE |
-| levels#group1 | 41 | SWAMP | {} | DONE |
-| levels#group1 | 42 | SWAMP_02 | {} | DONE |
-| levels#group1 | 43 | SWAMP_CAVE_TROLL_A | {} | DONE |
-| levels#group1 | 44 | SWAMP_CAVE_WITCH_A | {} | DONE |
-| levels#group1 | 45 | UNDERWORLD_HUB | {} | DONE |
-| levels#group1 | 46 | VOID_MAZE_01 | {} | DONE |
-| levels#group1 | 47 | VOID_MAZE_02 | {} | DONE |
-| levels#group1 | 48 | VOID_MAZE_03 | {} | DONE |
-| levels#group1 | 49 | WATER_TEMPLE_01 | {} | DONE |
-| levels#group1 | 50 | WIND_TEMPLE_01 | {} | DONE |
+| levels#group0 | 0 | a01_SWAMP_CAMP | {"DescriptionId": 1703959, "EntryPointId": 1, "LevelName": "SWAMP", "LocationType": 0, "StringId": 1703958} | DONE |
+| levels#group0 | 1 | a02_SWAMP_CAVE_WITCH_ENTRANCE | {"DescriptionId": 1703973, "EntryPointId": 0, "LevelName": "SWAMP_CAVE_WITCH_A", "LocationType": 1, "StringId": 1703972} | DONE |
+| levels#group0 | 2 | a03_SWAMP_WATER_TEMPLE_01_ENTRANCE | {"DescriptionId": 1703977, "EntryPointId": 0, "LevelName": "WATER_TEMPLE_01", "LocationType": 1, "StringId": 1703976} | DONE |
+| levels#group0 | 3 | a04_SWAMP_CAVE_TROLL_ENTRANCE | {"DescriptionId": 1703967, "EntryPointId": 0, "LevelName": "SWAMP_CAVE_TROLL_A", "LocationType": 1, "StringId": 1703966} | DONE |
+| levels#group0 | 4 | a05_DARKWOOD_ENTRANCE | {"DescriptionId": 1703938, "EntryPointId": 0, "LevelName": "DARKWOOD", "LocationType": 0, "StringId": 1703937} | DONE |
+| levels#group0 | 5 | a06_DARKWOOD_GOTHICUS_VILLAGE | {"DescriptionId": 1703941, "EntryPointId": 11, "LevelName": "DARKWOOD", "LocationType": 0, "StringId": 1703940} | DONE |
+| levels#group0 | 6 | a07_DARKWOOD_CATHEDRAL | {"DescriptionId": 1704019, "EntryPointId": 0, "LevelName": "ABBEY_RUINS_01", "LocationType": 1, "StringId": 1704018} | DONE |
+| levels#group0 | 7 | a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE | {"DescriptionId": 1704041, "EntryPointId": 0, "LevelName": "INFECTED_VILLAGE_01", "LocationType": 1, "StringId": 1704040} | DONE |
+| levels#group0 | 8 | a09_DARKWOOD_SECRET_BASEMENT_01 | {"DescriptionId": 1704045, "EntryPointId": 0, "LevelName": "SECRET_BASEMENT_01", "LocationType": 2, "StringId": 1704044} | DONE |
+| levels#group0 | 9 | a10_DARKWOOD_CRYPT_01_ENTRANCE | {"DescriptionId": 1703990, "EntryPointId": 0, "LevelName": "GOTHICUS_CRYPT_01", "LocationType": 1, "StringId": 1703989} | DONE |
+| levels#group0 | 10 | a11_DARKWOOD_CRYPT_02_ENTRANCE | {"DescriptionId": 1703995, "EntryPointId": 0, "LevelName": "GOTHICUS_CRYPT_02", "LocationType": 1, "StringId": 1703994} | DONE |
+| levels#group0 | 11 | a12_GOTHICUS_CASTLE_02 | {"DescriptionId": 1704012, "EntryPointId": 0, "LevelName": "GOTHICUS_CASTLE_02", "LocationType": 1, "StringId": 1704011} | DONE |
+| levels#group0 | 12 | a13_ELEMENTAL_FIRE | {"DescriptionId": 1704026, "EntryPointId": 0, "LevelName": "ELEMENTAL_FIRE", "LocationType": 1, "StringId": 1704025} | DONE |
+| levels#group0 | 13 | a14_ELEMENTAL_EARTH | {"DescriptionId": 1704032, "EntryPointId": 0, "LevelName": "ELEMENTAL_EARTH", "LocationType": 1, "StringId": 1704031} | DONE |
+| levels#group0 | 14 | a15_ELEMENTAL_WATER | {"DescriptionId": 1704038, "EntryPointId": 0, "LevelName": "ELEMENTAL_WATER", "LocationType": 1, "StringId": 1704037} | DONE |
+| levels#group0 | 15 | a16_ELEMENTAL_AIR | {"DescriptionId": 1704029, "EntryPointId": 0, "LevelName": "ELEMENTAL_AIR", "LocationType": 1, "StringId": 1704028} | DONE |
+| levels#group0 | 16 | a17_ELEMENTAL_LIGHT | {"DescriptionId": 1704035, "EntryPointId": 0, "LevelName": "ELEMENTAL_LIGHT", "LocationType": 1, "StringId": 1704034} | DONE |
+| levels#group0 | 17 | a18_DARKWOOD_ROOT_DEN_01_ENTRANCE | {"DescriptionId": 1703999, "EntryPointId": 0, "LevelName": "ROOT_DEN_01", "LocationType": 1, "StringId": 1703998} | DONE |
+| levels#group0 | 18 | a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE | {"DescriptionId": 1704005, "EntryPointId": 0, "LevelName": "EARTH_TEMPLE_01", "LocationType": 1, "StringId": 1704004} | DONE |
+| levels#group0 | 19 | a20_DESERT_VILLAGE | {"DescriptionId": 1704049, "EntryPointId": 0, "LevelName": "RED_DESERT_HUB", "LocationType": 0, "StringId": 1704048} | DONE |
+| levels#group0 | 20 | a21_DESERT_CAVE_01_ENTRANCE | {"DescriptionId": 1704061, "EntryPointId": 0, "LevelName": "DESERT_CAVE_01", "LocationType": 1, "StringId": 1704060} | DONE |
+| levels#group0 | 21 | a22_DESERT_CAVE_02_ENTRANCE | {"DescriptionId": 1704057, "EntryPointId": 0, "LevelName": "DESERT_CAVE_02", "LocationType": 1, "StringId": 1704056} | DONE |
+| levels#group0 | 22 | a23_DESERT_CAVE_03_ENTRANCE | {"DescriptionId": 1704065, "EntryPointId": 0, "LevelName": "DESERT_CAVE_03", "LocationType": 1, "StringId": 1704064} | DONE |
+| levels#group0 | 23 | a24_DESERT_LIGHT_HOUSE_ENTRANCE | {"DescriptionId": 1704069, "EntryPointId": 0, "LevelName": "LIGHT_HOUSE_01", "LocationType": 1, "StringId": 1704068} | DONE |
+| levels#group0 | 24 | a25_DESERT_FIRE_TEMPLE_ENTRANCE | {"DescriptionId": 1704114, "EntryPointId": 0, "LevelName": "FIRE_TEMPLE_01", "LocationType": 1, "StringId": 1704113} | DONE |
+| levels#group0 | 25 | a26_ICY_VILLAGE | {"DescriptionId": 1704078, "EntryPointId": 0, "LevelName": "ICY_HUB", "LocationType": 0, "StringId": 1704077} | DONE |
+| levels#group0 | 26 | a27_ICY_CAVERN_01_ENTRANCE | {"DescriptionId": 1704087, "EntryPointId": 0, "LevelName": "ICY_CAVERN_01", "LocationType": 1, "StringId": 1704086} | DONE |
+| levels#group0 | 27 | a28_ICY_CAVERN_02_ENTRANCE | {"DescriptionId": 1704091, "EntryPointId": 0, "LevelName": "ICY_CAVERN_02", "LocationType": 1, "StringId": 1704090} | DONE |
+| levels#group0 | 28 | a29_ICY_CAVERN_03_ENTRANCE | {"DescriptionId": 1704094, "EntryPointId": 0, "LevelName": "ICY_CAVERN_03", "LocationType": 1, "StringId": 1704094} | DONE |
+| levels#group0 | 29 | a31_ICY_WIND_TEMPLE_ENTRANCE | {"DescriptionId": 1704108, "EntryPointId": 0, "LevelName": "WIND_TEMPLE_01", "LocationType": 1, "StringId": 1704107} | DONE |
+| levels#group0 | 30 | a32_UNDERWORLD_ENTRANCE | {"DescriptionId": 1704126, "EntryPointId": 1, "LevelName": "UNDERWORLD_HUB", "LocationType": 0, "StringId": 1704125} | DONE |
+| levels#group0 | 31 | a33_UNDERWORLD_MACHINE_ROOMS_ENTRANCE | {"DescriptionId": 1704133, "EntryPointId": 0, "LevelName": "MACHINE_ROOMS_01", "LocationType": 1, "StringId": 1704132} | DONE |
+| levels#group0 | 32 | a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE | {"DescriptionId": 1704136, "EntryPointId": 0, "LevelName": "DARK_DUNGEON_TEMPLE_01", "LocationType": 1, "StringId": 1704135} | DONE |
+| levels#group1 | 0 | ABBEY_ENTRANCE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "009_abbey.rule.xml", "LevelName": 1704022, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 21, "MonsterLvlMaxHard": 55, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 19, "MonsterLvlMinHard": 51, "MonsterLvlMinNightmare": 81} | DONE |
+| levels#group1 | 1 | ABBEY_RUINS_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "009a_abbey.mlx", "LevelName": 1704018, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 21, "MonsterLvlMaxHard": 55, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 20, "MonsterLvlMinHard": 54, "MonsterLvlMinNightmare": 82} | DONE |
+| levels#group1 | 2 | APPLETEMPLE | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": -1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "050_earth_temple_demo.rule.xml", "LevelName": 1704007, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 31, "MonsterLvlMaxHard": 58, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 28, "MonsterLvlMinHard": 58, "MonsterLvlMinNightmare": 83} | DONE |
+| levels#group1 | 3 | APPLETEMPLEBACKUP | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": -1, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "x50_earth_temple_demo_BACKUP.mlx", "LevelName": 1704007, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 31, "MonsterLvlMaxHard": 58, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 28, "MonsterLvlMinHard": 58, "MonsterLvlMinNightmare": 83} | DONE |
+| levels#group1 | 4 | DARKWOOD | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "003_darkwood.mlx", "LevelName": 1703937, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 5, "MonsterLvlMaxHard": 44, "MonsterLvlMaxNightmare": 73, "MonsterLvlMin": 5, "MonsterLvlMinHard": 42, "MonsterLvlMinNightmare": 72} | DONE |
+| levels#group1 | 5 | DARKWOOD_V2 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "003_darkwood.mlx", "LevelName": 1703937, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 30, "MonsterLvlMaxHard": 62, "MonsterLvlMaxNightmare": 88, "MonsterLvlMin": 28, "MonsterLvlMinHard": 60, "MonsterLvlMinNightmare": 86} | DONE |
+| levels#group1 | 6 | DARKWOOD_V3 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "003_darkwood.mlx", "LevelName": 1703937, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 40, "MonsterLvlMaxHard": 68, "MonsterLvlMaxNightmare": 93, "MonsterLvlMin": 28, "MonsterLvlMinHard": 59, "MonsterLvlMinNightmare": 86} | DONE |
+| levels#group1 | 7 | DARK_DUNGEON_TEMPLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 6, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "038_dark_temple.mlx", "LevelName": 1704135, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 38, "MonsterLvlMaxHard": 67, "MonsterLvlMaxNightmare": 100, "MonsterLvlMin": 36, "MonsterLvlMinHard": 66, "MonsterLvlMinNightmare": 93} | DONE |
+| levels#group1 | 8 | DARK_DUNGEON_TEMPLE_BOSSROOM | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 8, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "039_dark_temple_bossroom_01.mlx", "LevelName": 1704139, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 38, "MonsterLvlMaxHard": 67, "MonsterLvlMaxNightmare": 100, "MonsterLvlMin": 36, "MonsterLvlMinHard": 66, "MonsterLvlMinNightmare": 93} | DONE |
+| levels#group1 | 9 | DESERT_CAVE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "016_red_desert_cave_01.rule.xml", "LevelName": 1704060, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 16, "MonsterLvlMaxHard": 51, "MonsterLvlMaxNightmare": 80, "MonsterLvlMin": 15, "MonsterLvlMinHard": 50, "MonsterLvlMinNightmare": 78} | DONE |
+| levels#group1 | 10 | DESERT_CAVE_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "017_red_desert_cave_02.rule.xml", "LevelName": 1704056, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 16, "MonsterLvlMaxHard": 54, "MonsterLvlMaxNightmare": 81, "MonsterLvlMin": 15, "MonsterLvlMinHard": 52, "MonsterLvlMinNightmare": 79} | DONE |
+| levels#group1 | 11 | DESERT_CAVE_03 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "018_red_desert_cave_03.rule.xml", "LevelName": 1704064, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 17, "MonsterLvlMaxHard": 52, "MonsterLvlMaxNightmare": 80, "MonsterLvlMin": 15, "MonsterLvlMinHard": 50, "MonsterLvlMinNightmare": 78} | DONE |
+| levels#group1 | 12 | EARTH_TEMPLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "011_earth_temple_01.rule.xml", "LevelName": 1704006, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 13, "MonsterLvlMaxHard": 49, "MonsterLvlMaxNightmare": 78, "MonsterLvlMin": 12, "MonsterLvlMinHard": 48, "MonsterLvlMinNightmare": 76} | DONE |
+| levels#group1 | 13 | EARTH_TEMPLE_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "012_earth_temple_02.rule.xml", "LevelName": 1704007, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 13, "MonsterLvlMaxHard": 49, "MonsterLvlMaxNightmare": 78, "MonsterLvlMin": 12, "MonsterLvlMinHard": 48, "MonsterLvlMinNightmare": 76} | DONE |
+| levels#group1 | 14 | EARTH_TEMPLE_03 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "013_earth_temple_03.rule.xml", "LevelName": 1704009, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 14, "MonsterLvlMaxHard": 49, "MonsterLvlMaxNightmare": 78, "MonsterLvlMin": 13, "MonsterLvlMinHard": 48, "MonsterLvlMinNightmare": 77} | DONE |
+| levels#group1 | 15 | ELEMENTAL_AIR | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "030_el_air.rule.xml", "LevelName": 1704028, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 31, "MonsterLvlMaxHard": 63, "MonsterLvlMaxNightmare": 91, "MonsterLvlMin": 30, "MonsterLvlMinHard": 62, "MonsterLvlMinNightmare": 90} | DONE |
+| levels#group1 | 16 | ELEMENTAL_EARTH | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "014_el_earth.rule.xml", "LevelName": 1704031, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 18, "MonsterLvlMaxHard": 52, "MonsterLvlMaxNightmare": 80, "MonsterLvlMin": 16, "MonsterLvlMinHard": 51, "MonsterLvlMinNightmare": 79} | DONE |
+| levels#group1 | 17 | ELEMENTAL_FIRE | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "032_el_fire.rule.xml", "LevelName": 1704025, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 33, "MonsterLvlMaxHard": 64, "MonsterLvlMaxNightmare": 94, "MonsterLvlMin": 31, "MonsterLvlMinHard": 63, "MonsterLvlMinNightmare": 90} | DONE |
+| levels#group1 | 18 | ELEMENTAL_LIGHT | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "010_el_lightning.rule.xml", "LevelName": 1704034, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 14, "MonsterLvlMaxHard": 49, "MonsterLvlMaxNightmare": 84, "MonsterLvlMin": 12, "MonsterLvlMinHard": 48, "MonsterLvlMinNightmare": 82} | DONE |
+| levels#group1 | 19 | ELEMENTAL_WATER | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "024_el_water.rule.xml", "LevelName": 1704037, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 26, "MonsterLvlMaxHard": 59, "MonsterLvlMaxNightmare": 87, "MonsterLvlMin": 25, "MonsterLvlMinHard": 58, "MonsterLvlMinNightmare": 86} | DONE |
+| levels#group1 | 20 | FIRE_TEMPLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "031_firetemple.mlx", "LevelName": 1704113, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 33, "MonsterLvlMaxHard": 64, "MonsterLvlMaxNightmare": 90, "MonsterLvlMin": 31, "MonsterLvlMinHard": 63, "MonsterLvlMinNightmare": 89} | DONE |
+| levels#group1 | 21 | GOTHICUS_CASTLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "008_gothicus_castle_01.rule.xml", "LevelName": 1704011, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 12, "MonsterLvlMaxHard": 48, "MonsterLvlMaxNightmare": 76, "MonsterLvlMin": 10, "MonsterLvlMinHard": 47, "MonsterLvlMinNightmare": 75} | DONE |
+| levels#group1 | 22 | GOTHICUS_CASTLE_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "021_gothicus_castle_02.rule.xml", "LevelName": 1704011, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 22, "MonsterLvlMaxHard": 56, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 20, "MonsterLvlMinHard": 53, "MonsterLvlMinNightmare": 81} | DONE |
+| levels#group1 | 23 | GOTHICUS_CRYPT_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "007_crypt_01.rule.xml", "LevelName": 1703989, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 10, "MonsterLvlMaxHard": 47, "MonsterLvlMaxNightmare": 76, "MonsterLvlMin": 8, "MonsterLvlMinHard": 45, "MonsterLvlMinNightmare": 74} | DONE |
+| levels#group1 | 24 | GOTHICUS_CRYPT_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "020_crypt_02.rule.xml", "LevelName": 1703994, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 12, "MonsterLvlMaxHard": 49, "MonsterLvlMaxNightmare": 78, "MonsterLvlMin": 9, "MonsterLvlMinHard": 46, "MonsterLvlMinNightmare": 75} | DONE |
+| levels#group1 | 25 | ICY_CAVERN_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 4, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "026_icy_cavern_01.rule.xml", "LevelName": 1704086, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 26, "MonsterLvlMaxHard": 59, "MonsterLvlMaxNightmare": 88, "MonsterLvlMin": 24, "MonsterLvlMinHard": 57, "MonsterLvlMinNightmare": 84} | DONE |
+| levels#group1 | 26 | ICY_CAVERN_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 4, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "027_icy_cavern_02.rule.xml", "LevelName": 1704090, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 27, "MonsterLvlMaxHard": 59, "MonsterLvlMaxNightmare": 89, "MonsterLvlMin": 25, "MonsterLvlMinHard": 58, "MonsterLvlMinNightmare": 85} | DONE |
+| levels#group1 | 27 | ICY_CAVERN_03 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 4, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "028_icy_cavern_03.rule.xml", "LevelName": 1704094, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 27, "MonsterLvlMaxHard": 59, "MonsterLvlMaxNightmare": 89, "MonsterLvlMin": 25, "MonsterLvlMinHard": 58, "MonsterLvlMinNightmare": 85} | DONE |
+| levels#group1 | 28 | ICY_HUB | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "025_icy_hub.mlx", "LevelName": 1704077, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 26, "MonsterLvlMaxHard": 59, "MonsterLvlMaxNightmare": 88, "MonsterLvlMin": 24, "MonsterLvlMinHard": 57, "MonsterLvlMinNightmare": 84} | DONE |
+| levels#group1 | 29 | INFECTED_VILLAGE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "005_infectedvillage.mlx", "LevelName": 1704040, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 17, "MonsterLvlMaxHard": 52, "MonsterLvlMaxNightmare": 80, "MonsterLvlMin": 15, "MonsterLvlMinHard": 50, "MonsterLvlMinNightmare": 78} | DONE |
+| levels#group1 | 30 | LIGHT_HOUSE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "019_light_house_01.rule.xml", "LevelName": 1704070, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 19, "MonsterLvlMaxHard": 53, "MonsterLvlMaxNightmare": 81, "MonsterLvlMin": 18, "MonsterLvlMinHard": 52, "MonsterLvlMinNightmare": 80} | DONE |
+| levels#group1 | 31 | LIGHT_HOUSE_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "019_light_house_02.rule.xml", "LevelName": 1704071, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 19, "MonsterLvlMaxHard": 53, "MonsterLvlMaxNightmare": 81, "MonsterLvlMin": 18, "MonsterLvlMinHard": 52, "MonsterLvlMinNightmare": 80} | DONE |
+| levels#group1 | 32 | LIGHT_HOUSE_03 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 5, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "019_light_house_03.rule.xml", "LevelName": 1704072, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 20, "MonsterLvlMaxHard": 54, "MonsterLvlMaxNightmare": 82, "MonsterLvlMin": 19, "MonsterLvlMinHard": 53, "MonsterLvlMinNightmare": 81} | DONE |
+| levels#group1 | 33 | MACHINE_ROOMS_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 7, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "037_machine_rooms_01.mlx", "LevelName": 1704132, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 37, "MonsterLvlMaxHard": 67, "MonsterLvlMaxNightmare": 98, "MonsterLvlMin": 35, "MonsterLvlMinHard": 65, "MonsterLvlMinNightmare": 92} | DONE |
+| levels#group1 | 34 | MULTIPLAYER_TEST | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": -1, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "101_debug_MachineRoomTestMultiPlayer.mlx", "LevelName": 1704135, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": -1, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 1, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 35 | PORTAL_ROOM | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "003_darkwood.mlx", "LevelName": 1704018, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": -1, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 1, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 36 | QUESTTEST | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": -1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "102_debug_QUESTTEST.rule.xml", "LevelName": 1704135, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": -1, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 1, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 37 | RANDOMFORALEX | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": -1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "125_RandomForAlexB.rule.xml", "LevelName": 1704135, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": -1, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 1, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 38 | RED_DESERT_HUB | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "015_red_desert_hub.mlx", "LevelName": 1704048, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 15, "MonsterLvlMaxHard": 50, "MonsterLvlMaxNightmare": 79, "MonsterLvlMin": 14, "MonsterLvlMinHard": 49, "MonsterLvlMinNightmare": 78} | DONE |
+| levels#group1 | 39 | ROOT_DEN_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "004_root_den.rule.xml", "LevelName": 1703998, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 9, "MonsterLvlMaxHard": 46, "MonsterLvlMaxNightmare": 75, "MonsterLvlMin": 6, "MonsterLvlMinHard": 44, "MonsterLvlMinNightmare": 73} | DONE |
+| levels#group1 | 40 | SECRET_BASEMENT_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 2, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "006_basement.rule.xml", "LevelName": 1704044, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 17, "MonsterLvlMaxHard": 52, "MonsterLvlMaxNightmare": 80, "MonsterLvlMin": 15, "MonsterLvlMinHard": 50, "MonsterLvlMinNightmare": 78} | DONE |
+| levels#group1 | 41 | SWAMP | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "001_swamp.mlx", "LevelName": 1703958, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 4, "MonsterLvlMaxHard": 41, "MonsterLvlMaxNightmare": 71, "MonsterLvlMin": 1, "MonsterLvlMinHard": 40, "MonsterLvlMinNightmare": 70} | DONE |
+| levels#group1 | 42 | SWAMP_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "022_swamp2.rule.xml", "LevelName": 1703964, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 22, "MonsterLvlMaxHard": 55, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 20, "MonsterLvlMinHard": 51, "MonsterLvlMinNightmare": 79} | DONE |
+| levels#group1 | 43 | SWAMP_CAVE_TROLL_A | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "022_swamp2_trollcave.rule.xml", "LevelName": 1703966, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 22, "MonsterLvlMaxHard": 55, "MonsterLvlMaxNightmare": 83, "MonsterLvlMin": 19, "MonsterLvlMinHard": 51, "MonsterLvlMinNightmare": 79} | DONE |
+| levels#group1 | 44 | SWAMP_CAVE_WITCH_A | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "002_swamp_witchcave.rule.xml", "LevelName": 1703972, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 4, "MonsterLvlMaxHard": 42, "MonsterLvlMaxNightmare": 73, "MonsterLvlMin": 2, "MonsterLvlMinHard": 41, "MonsterLvlMinNightmare": 72} | DONE |
+| levels#group1 | 45 | UNDERWORLD_HUB | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 0, "IsRandom": 0, "LevelDescription": -1, "LevelFile": "036_underworld_hub.mlx", "LevelName": 1704125, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 36, "MonsterLvlMaxHard": 66, "MonsterLvlMaxNightmare": 96, "MonsterLvlMin": 34, "MonsterLvlMinHard": 64, "MonsterLvlMinNightmare": 90} | DONE |
+| levels#group1 | 46 | VOID_MAZE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 6, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "033_voidmaze_01.rule.xml", "LevelName": 1704120, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 33, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 33, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 47 | VOID_MAZE_02 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 6, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "034_voidmaze_02.rule.xml", "LevelName": 1704122, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 33, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 33, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 48 | VOID_MAZE_03 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 6, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "035_voidmaze_03.rule.xml", "LevelName": 1704123, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 33, "MonsterLvlMaxHard": -1, "MonsterLvlMaxNightmare": -1, "MonsterLvlMin": 33, "MonsterLvlMinHard": 1, "MonsterLvlMinNightmare": 1} | DONE |
+| levels#group1 | 49 | WATER_TEMPLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 1, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "023_watertemple.rule.xml", "LevelName": 1703976, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 23, "MonsterLvlMaxHard": 57, "MonsterLvlMaxNightmare": 86, "MonsterLvlMin": 22, "MonsterLvlMinHard": 55, "MonsterLvlMinNightmare": 83} | DONE |
+| levels#group1 | 50 | WIND_TEMPLE_01 | {"Dbg_IsStable": 0, "DynamicBusRouting": "empty.vrf", "Hub": 4, "IsRandom": 1, "LevelDescription": -1, "LevelFile": "029_wind_temple.rule.xml", "LevelName": 1704107, "LevelState": 0, "MapName": 1704119, "MonsterLvlMax": 29, "MonsterLvlMaxHard": 61, "MonsterLvlMaxNightmare": 90, "MonsterLvlMin": 28, "MonsterLvlMinHard": 60, "MonsterLvlMinNightmare": 86} | DONE |
 | v2conditions#group0 | 0 | DW_Statue | {} | DONE |
 | v2conditions#group0 | 1 | DarkTemple_Special | {} | DONE |
 | v2conditions#group0 | 2 | EDWARD_FOLLOW | {} | DONE |
@@ -381,4 +381,3 @@
 | worldmap#group1 | 0 | Locker1 | {} | DONE |
 | worldmap#group1 | 1 | Locker2 | {} | DONE |
 | worldmap#group1 | 2 | Locker3 | {} | DONE |
-

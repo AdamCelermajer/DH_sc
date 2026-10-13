@@ -61979,7 +61979,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 36,
     "command_readiness": [
       {
@@ -63169,7 +63169,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -63183,7 +63183,7 @@
         "target_name": "_prim_tmp_infected05"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 1,
@@ -63197,7 +63197,7 @@
         "target_name": "_prim_tmp_infected07"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 2,
@@ -63211,7 +63211,7 @@
         "target_name": "_prim_tmp_infected17"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 3,
@@ -63225,7 +63225,7 @@
         "target_name": "_prim_tmp_infected06"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 4,
@@ -63239,7 +63239,7 @@
         "target_name": "_prim_tmp_infected16"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -63253,7 +63253,7 @@
         "target_name": "_prim_tmp_infected_exit01"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 2,
@@ -63267,7 +63267,7 @@
         "target_name": "_prim_tmp_infected_exit02"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 4,
@@ -63285,7 +63285,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 328,
     "command_readiness": [
       {
@@ -72984,7 +72984,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 16,
@@ -97262,7 +97262,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 23,
     "command_readiness": [
       {
@@ -98179,7 +98179,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 60,
     "command_readiness": [
       {
@@ -100151,7 +100151,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 2,
@@ -100165,7 +100165,7 @@
         "target_name": "_prim_spider_sw_surprise_04"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 4,
@@ -100179,7 +100179,7 @@
         "target_name": "_prim_spider_sw_surprise_03"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 6,
@@ -100193,7 +100193,7 @@
         "target_name": "_prim_spider_sw_surprise_02"
       },
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 8,
@@ -100211,7 +100211,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 274,
     "command_readiness": [
       {
@@ -108728,7 +108728,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_2",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 53,
@@ -108746,7 +108746,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 158,
     "command_readiness": [
       {
@@ -113514,7 +113514,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 10,
     "command_readiness": [
       {
@@ -114015,7 +114015,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 28,
     "command_readiness": [
       {
@@ -115079,7 +115079,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 10,
     "command_readiness": [
       {
@@ -115580,7 +115580,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 617,
     "command_readiness": [
       {
@@ -133293,7 +133293,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_3",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 18,
@@ -133307,7 +133307,7 @@
         "target_name": "_prim_Assassin"
       },
       {
-        "act": "act_3",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 40,
@@ -133325,7 +133325,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_3",
+    "act": "unplaced",
     "command_count": 617,
     "command_readiness": [
       {
@@ -151038,7 +151038,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_3",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 18,
@@ -151052,7 +151052,7 @@
         "target_name": "_prim_Assassin"
       },
       {
-        "act": "act_3",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 40,
@@ -151070,7 +151070,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_2",
+    "act": "unplaced",
     "command_count": 225,
     "command_readiness": [
       {
@@ -157716,7 +157716,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_1",
+    "act": "unplaced",
     "command_count": 38,
     "command_readiness": [
       {
@@ -159153,7 +159153,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_1",
+    "act": "unplaced",
     "command_count": 45,
     "command_readiness": [
       {
@@ -160661,7 +160661,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_4",
+    "act": "unplaced",
     "command_count": 215,
     "command_readiness": [
       {
@@ -166660,7 +166660,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_4",
+    "act": "unplaced",
     "command_count": 36,
     "command_readiness": [
       {
@@ -167858,7 +167858,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_4",
+    "act": "unplaced",
     "command_count": 68,
     "command_readiness": [
       {
@@ -169992,7 +169992,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_4",
+    "act": "unplaced",
     "command_count": 4,
     "command_readiness": [
       {
@@ -191534,7 +191534,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_5",
+    "act": "unplaced",
     "command_count": 282,
     "command_readiness": [
       {
@@ -199587,7 +199587,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 3,
@@ -199601,7 +199601,7 @@
         "target_name": "_prim_lighthouse_boss"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -199615,7 +199615,7 @@
         "target_name": "_prim_tmp_commontype11_ambush"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 2,
@@ -199629,7 +199629,7 @@
         "target_name": "_prim_tmp_commontype12_ambush"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 4,
@@ -199643,7 +199643,7 @@
         "target_name": "_prim_tmp_commontype14_ambush"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 6,
@@ -199661,7 +199661,7 @@
     "work_status": "DONE"
   },
   {
-    "act": "act_5",
+    "act": "unplaced",
     "command_count": 195,
     "command_readiness": [
       {
@@ -206032,7 +206032,7 @@
     "source_platform": "android",
     "spawn_targets": [
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 10,
@@ -206046,7 +206046,7 @@
         "target_name": "_prim_DarkQueen2"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206060,7 +206060,7 @@
         "target_name": "Hellhole"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206074,7 +206074,7 @@
         "target_name": "Hellhole"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206088,7 +206088,7 @@
         "target_name": "Skeleton_01"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206102,7 +206102,7 @@
         "target_name": "Skeleton_02"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206116,7 +206116,7 @@
         "target_name": "Skeleton_03"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206130,7 +206130,7 @@
         "target_name": "Skeleton_04"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206144,7 +206144,7 @@
         "target_name": "Skeleton_05"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206158,7 +206158,7 @@
         "target_name": "Skeleton_06"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206172,7 +206172,7 @@
         "target_name": "Skeleton_07"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206186,7 +206186,7 @@
         "target_name": "Skeleton_08"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206200,7 +206200,7 @@
         "target_name": "Skeleton_09"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206214,7 +206214,7 @@
         "target_name": "Skeleton_10"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206228,7 +206228,7 @@
         "target_name": "Skeleton_11"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206242,7 +206242,7 @@
         "target_name": "Skeleton_12"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206256,7 +206256,7 @@
         "target_name": "Skeleton_13"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206270,7 +206270,7 @@
         "target_name": "Skeleton_14"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206284,7 +206284,7 @@
         "target_name": "Skeleton_15"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206298,7 +206298,7 @@
         "target_name": "Skeleton_16"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206312,7 +206312,7 @@
         "target_name": "Skeleton_17"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206326,7 +206326,7 @@
         "target_name": "Skeleton_18"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206340,7 +206340,7 @@
         "target_name": "Skeleton_19"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206354,7 +206354,7 @@
         "target_name": "Skeleton_20"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206368,7 +206368,7 @@
         "target_name": "Skeleton_21"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206382,7 +206382,7 @@
         "target_name": "Skeleton_22"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206396,7 +206396,7 @@
         "target_name": "Skeleton_23"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206410,7 +206410,7 @@
         "target_name": "Skeleton_24"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206424,7 +206424,7 @@
         "target_name": "Skeleton_25"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206438,7 +206438,7 @@
         "target_name": "Skeleton_26"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206452,7 +206452,7 @@
         "target_name": "Skeleton_27"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206466,7 +206466,7 @@
         "target_name": "Skeleton_28"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206480,7 +206480,7 @@
         "target_name": "Skeleton_29"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206494,7 +206494,7 @@
         "target_name": "Skeleton_30"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206508,7 +206508,7 @@
         "target_name": "Skeleton_31"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206522,7 +206522,7 @@
         "target_name": "Skeleton_32"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206536,7 +206536,7 @@
         "target_name": "Skeleton_33"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206550,7 +206550,7 @@
         "target_name": "Skeleton_34"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206564,7 +206564,7 @@
         "target_name": "Skeleton_35"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206578,7 +206578,7 @@
         "target_name": "Skeleton_36"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206592,7 +206592,7 @@
         "target_name": "Skeleton_37"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206606,7 +206606,7 @@
         "target_name": "Skeleton_38"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206620,7 +206620,7 @@
         "target_name": "Skeleton_39"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206634,7 +206634,7 @@
         "target_name": "Skeleton_40"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206648,7 +206648,7 @@
         "target_name": "Skeleton_41"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206662,7 +206662,7 @@
         "target_name": "Skeleton_42"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206676,7 +206676,7 @@
         "target_name": "Skeleton_43"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206690,7 +206690,7 @@
         "target_name": "Skeleton_44"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206704,7 +206704,7 @@
         "target_name": "Skeleton_45"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206718,7 +206718,7 @@
         "target_name": "Skeleton_46"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206732,7 +206732,7 @@
         "target_name": "Skeleton_47"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206746,7 +206746,7 @@
         "target_name": "Skeleton_48"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206760,7 +206760,7 @@
         "target_name": "Skeleton_49"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206774,7 +206774,7 @@
         "target_name": "Skeleton_50"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206788,7 +206788,7 @@
         "target_name": "Skeleton_51"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206802,7 +206802,7 @@
         "target_name": "Skeleton_52"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,
@@ -206816,7 +206816,7 @@
         "target_name": "Skeleton_53"
       },
       {
-        "act": "act_5",
+        "act": "unplaced",
         "actor": null,
         "actor_id": null,
         "command_index": 0,

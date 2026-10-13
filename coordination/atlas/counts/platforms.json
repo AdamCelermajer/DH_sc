@@ -57,7 +57,9 @@
       "ANDROID_OR_RECOVERED_ONLY": 237
     }
   },
+  "case_variant_paths": 0,
   "differing_content": 15,
+  "identical_content_different_name_groups": 0,
   "paths": 6544,
   "policy": "Use both supplied partial caches, as clarified by the owner; record the platform of every resolution."
 }

@@ -13,7 +13,7 @@ from common import source_roots, source_files, source_site, stable_id, write_jso
 EXT = re.compile(r'\.(?:bdae|wav|vxn|ogg|mp3|luac|lua|pyscript|mlx|mgp|mgx|mvx|mvp|png|dds|tga|xml|lightset_xml|bin)$',re.I)
 ATTR = re.compile(r'\b([A-Za-z_][\w:.-]*)\s*=\s*(["\'])(.*?)\2',re.S)
 TAG = re.compile(r'<(?![!?/])([\w:.-]+)\b([^<>]*?)>',re.S)
-SEMANTIC = re.compile(r'(?:sound|music|fx|effect|animation|animfile|script|projectile|modelfile|template|charactertype|skill)',re.I)
+SEMANTIC = re.compile(r'(?:sound|music|fx|effect|animation|animfile|script|projectile|modelfile|template|charactertype|charpropsname|skill)',re.I)
 
 def ref(site,name,kind,rule,context,confidence='PROVEN'):
     return {'id':stable_id('site-ref',site,name,kind),'site':site,'name':name,'kind':kind,
@@ -29,7 +29,7 @@ def kind_for(name,attr=''):
     if 'fx' in lower or 'effect' in lower:return 'effect set'
     if 'anim' in lower:return 'anim'
     if 'projectile' in lower:return 'projectile'
-    if 'template' in lower or 'charactertype' in lower:return 'character'
+    if 'template' in lower or 'charactertype' in lower or lower=='charpropsname':return 'character'
     if 'skill' in lower:return 'skill'
     if suffix in ('mgp','mgx','mvp','mvx','bdae'):return 'model'
     return 'data file'
@@ -47,9 +47,14 @@ def xml_refs(ctx,p):
             offset=t.start(2)+a.start();line=text.count('\n',0,offset)+1
             # Includes repeat references separately, even on the same line.
             site=f'{base}:{line}:attribute@{offset}:{field}'
-            result.append(ref(site,value,kind_for(value,field),'XML_ATTRIBUTE',
-                              {'file':base,'line':line,'byte_offset':len(text[:offset].encode('utf-8')),
-                               'character_offset':offset,'element':tag,'element_index':ti,'attribute':field}))
+            context={'file':base,'line':line,'byte_offset':len(text[:offset].encode('utf-8')),
+                     'character_offset':offset,'element':tag,'element_index':ti,'attribute':field}
+            if field.lower()=='charpropsname':
+                siblings={key:html.unescape(val) for key,_,val in ATTR.findall(body)}
+                context['gametype']=siblings.get('gametype')
+                context['char_template']=siblings.get('char_template','')
+                context['admission_note']='Character GetCharPropertiesId 0x3b3d38 uses this exact CharacterTable name when no char_template selector takes precedence; authored reference is not a runtime spawn claim.'
+            result.append(ref(site,value,kind_for(value,field),'XML_ATTRIBUTE',context))
     return result
 
 def bres_events(raw):

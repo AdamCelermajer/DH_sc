@@ -3,6 +3,7 @@
     "bytes": 13535,
     "call_sites": 8,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AnimEvents",
@@ -91,6 +92,7 @@
     "bytes": 61,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -169,6 +171,7 @@
     "bytes": 1990,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -201,6 +204,7 @@
     "bytes": 61,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -279,6 +283,7 @@
     "bytes": 1989,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -311,6 +316,7 @@
     "bytes": 61,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -389,6 +395,7 @@
     "bytes": 1983,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -421,6 +428,7 @@
     "bytes": 65,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -499,6 +507,7 @@
     "bytes": 1964,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -531,6 +540,7 @@
     "bytes": 5459,
     "call_sites": 48,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "g_can_attack",
@@ -584,6 +594,7 @@
     "bytes": 58,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -662,6 +673,7 @@
     "bytes": 1977,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -694,6 +706,7 @@
     "bytes": 44,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -793,6 +806,7 @@
     "bytes": 2695,
     "call_sites": 33,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "HPCurr",
@@ -845,6 +859,7 @@
     "bytes": 60,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -877,6 +892,7 @@
     "bytes": 15254,
     "call_sites": 176,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "DoTeleport",
@@ -975,6 +991,7 @@
     "bytes": 1982,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1007,6 +1024,7 @@
     "bytes": 62,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1085,6 +1103,7 @@
     "bytes": 1975,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1117,6 +1136,7 @@
     "bytes": 3198,
     "call_sites": 16,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "timer_attack_flag",
@@ -1161,6 +1181,7 @@
     "bytes": 61,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1239,6 +1260,7 @@
     "bytes": 1935,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1271,6 +1293,7 @@
     "bytes": 60,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1303,6 +1326,7 @@
     "bytes": 10658,
     "call_sites": 100,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "DoRise",
@@ -1389,6 +1413,7 @@
     "bytes": 2006,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1421,6 +1446,7 @@
     "bytes": 60,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1499,6 +1525,7 @@
     "bytes": 1983,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1531,6 +1558,7 @@
     "bytes": 3486,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "m_timer_attack",
@@ -1583,6 +1611,7 @@
     "bytes": 58,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1661,6 +1690,7 @@
     "bytes": 14167,
     "call_sites": 164,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_MeleeAttack",
@@ -1758,6 +1788,7 @@
     "bytes": 1959,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1790,6 +1821,7 @@
     "bytes": 63,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1868,6 +1900,7 @@
     "bytes": 1932,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -1900,6 +1933,7 @@
     "bytes": 1901,
     "call_sites": 16,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [
@@ -1941,6 +1975,7 @@
     "bytes": 15551,
     "call_sites": 189,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_MeleeAttack",
@@ -2028,6 +2063,7 @@
     "bytes": 50,
     "call_sites": 1,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -2091,6 +2127,7 @@
     "bytes": 5644,
     "call_sites": 80,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_ID",
@@ -2155,6 +2192,7 @@
     "bytes": 19298,
     "call_sites": 163,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AddPlayer",
@@ -2262,6 +2300,7 @@
     "bytes": 121,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -2294,6 +2333,7 @@
     "bytes": 5005,
     "call_sites": 36,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -2363,6 +2403,7 @@
     "bytes": 5972,
     "call_sites": 60,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ApplyPlayerDebuff",
@@ -2466,6 +2507,7 @@
     "bytes": 44,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -2568,6 +2610,7 @@
     "bytes": 3052,
     "call_sites": 22,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_Buff",
@@ -2618,6 +2661,7 @@
     "bytes": 14399,
     "call_sites": 125,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ATTACK_DELAY",
@@ -2712,6 +2756,7 @@
     "bytes": 3229,
     "call_sites": 24,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_Healing",
@@ -2764,6 +2809,7 @@
     "bytes": 50,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -2863,6 +2909,7 @@
     "bytes": 11197,
     "call_sites": 85,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ATTACK_DELAY",
@@ -2940,6 +2987,7 @@
     "bytes": 777,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3041,6 +3089,7 @@
     "bytes": 2388,
     "call_sites": 31,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "state"
@@ -3088,6 +3137,7 @@
     "bytes": 7393,
     "call_sites": 94,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "IsHavingSkillTree",
@@ -3154,6 +3204,7 @@
     "bytes": 48,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3238,6 +3289,7 @@
     "bytes": 5202,
     "call_sites": 63,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CheckSlot",
@@ -3332,6 +3384,7 @@
     "bytes": 62,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3410,6 +3463,7 @@
     "bytes": 1911,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3442,6 +3496,7 @@
     "bytes": 9336,
     "call_sites": 62,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CATCH_DELAY",
@@ -3517,6 +3572,7 @@
     "bytes": 4281,
     "call_sites": 38,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "HPCurr",
@@ -3576,6 +3632,7 @@
     "bytes": 58,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3648,6 +3705,7 @@
     "bytes": 11548,
     "call_sites": 111,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_MeleeAttack",
@@ -3729,6 +3787,7 @@
     "bytes": 1957,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3761,6 +3820,7 @@
     "bytes": 3529,
     "call_sites": 8,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3793,6 +3853,7 @@
     "bytes": 3537,
     "call_sites": 8,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3825,6 +3886,7 @@
     "bytes": 14818,
     "call_sites": 156,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "HPCurr",
@@ -3910,6 +3972,7 @@
     "bytes": 3536,
     "call_sites": 8,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -3942,6 +4005,7 @@
     "bytes": 17635,
     "call_sites": 147,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ATTACK_DELAY",
@@ -4060,6 +4124,7 @@
     "bytes": 14520,
     "call_sites": 155,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "HPCurr",
@@ -4140,6 +4205,7 @@
     "bytes": 13116,
     "call_sites": 109,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AddPlayer",
@@ -4286,6 +4352,7 @@
     "bytes": 26341,
     "call_sites": 234,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ATTACK_DELAY",
@@ -4421,6 +4488,7 @@
     "bytes": 60,
     "call_sites": 2,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -4453,6 +4521,7 @@
     "bytes": 13614,
     "call_sites": 148,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "Do_MeleeAttack",
@@ -4534,6 +4603,7 @@
     "bytes": 1970,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -4566,6 +4636,7 @@
     "bytes": 7602,
     "call_sites": 90,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "DoTeleport",
@@ -4635,6 +4706,7 @@
     "bytes": 36004,
     "call_sites": 348,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CF_CalcDotDamage",
@@ -4750,6 +4822,7 @@
     "bytes": 609,
     "call_sites": 3,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [],
@@ -4784,6 +4857,7 @@
     "bytes": 745,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "dmg"
@@ -4824,6 +4898,7 @@
     "bytes": 1718,
     "call_sites": 5,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -4866,6 +4941,7 @@
     "bytes": 1542,
     "call_sites": 3,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -4907,6 +4983,7 @@
     "bytes": 1538,
     "call_sites": 5,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -4948,6 +5025,7 @@
     "bytes": 2272,
     "call_sites": 16,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -4992,6 +5070,7 @@
     "bytes": 2182,
     "call_sites": 11,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -5036,6 +5115,7 @@
     "bytes": 1783,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_AOE",
@@ -5085,6 +5165,7 @@
     "bytes": 2316,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_AOE",
@@ -5139,6 +5220,7 @@
     "bytes": 1392,
     "call_sites": 18,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_AOE",
@@ -5182,6 +5264,7 @@
     "bytes": 1892,
     "call_sites": 23,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_AOE",
@@ -5231,6 +5314,7 @@
     "bytes": 2077,
     "call_sites": 23,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_AOE",
@@ -5280,6 +5364,7 @@
     "bytes": 597,
     "call_sites": 6,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "COUNTER_DELAY",
@@ -5364,6 +5449,7 @@
     "bytes": 375,
     "call_sites": 4,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [],
       "parameters": [
@@ -5400,6 +5486,7 @@
     "bytes": 1542,
     "call_sites": 3,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "calc_spawn",
@@ -5441,6 +5528,7 @@
     "bytes": 11291,
     "call_sites": 55,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AI_EVENTS_LISTENERS",
@@ -5540,6 +5628,7 @@
     "bytes": 4254,
     "call_sites": 31,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -5592,6 +5681,7 @@
     "bytes": 2396,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5637,6 +5727,7 @@
     "bytes": 2478,
     "call_sites": 25,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5684,6 +5775,7 @@
     "bytes": 2484,
     "call_sites": 25,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5731,6 +5823,7 @@
     "bytes": 5360,
     "call_sites": 31,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -5787,6 +5880,7 @@
     "bytes": 2388,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5832,6 +5926,7 @@
     "bytes": 2628,
     "call_sites": 18,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5878,6 +5973,7 @@
     "bytes": 2474,
     "call_sites": 25,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -5925,6 +6021,7 @@
     "bytes": 11088,
     "call_sites": 56,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6011,6 +6108,7 @@
     "bytes": 2650,
     "call_sites": 7,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "OnDelayedSkill_",
@@ -6050,6 +6148,7 @@
     "bytes": 11449,
     "call_sites": 117,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AW_EARTH_BUFF_ID",
@@ -6133,6 +6232,7 @@
     "bytes": 4286,
     "call_sites": 49,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6194,6 +6294,7 @@
     "bytes": 4090,
     "call_sites": 47,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6254,6 +6355,7 @@
     "bytes": 4187,
     "call_sites": 50,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6315,6 +6417,7 @@
     "bytes": 3987,
     "call_sites": 47,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6377,6 +6480,7 @@
     "bytes": 2834,
     "call_sites": 19,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6422,6 +6526,7 @@
     "bytes": 3341,
     "call_sites": 32,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6472,6 +6577,7 @@
     "bytes": 5443,
     "call_sites": 40,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -6539,6 +6645,7 @@
     "bytes": 2610,
     "call_sites": 20,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6584,6 +6691,7 @@
     "bytes": 4050,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -6635,6 +6743,7 @@
     "bytes": 2342,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6679,6 +6788,7 @@
     "bytes": 1744,
     "call_sites": 5,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "OnPostSkill_",
@@ -6717,6 +6827,7 @@
     "bytes": 2711,
     "call_sites": 24,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6764,6 +6875,7 @@
     "bytes": 2536,
     "call_sites": 18,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6809,6 +6921,7 @@
     "bytes": 2801,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -6856,6 +6969,7 @@
     "bytes": 2601,
     "call_sites": 18,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_DURATION",
@@ -6901,6 +7015,7 @@
     "bytes": 2962,
     "call_sites": 19,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "OnPostSkill_",
@@ -6947,6 +7062,7 @@
     "bytes": 2861,
     "call_sites": 24,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -6996,6 +7112,7 @@
     "bytes": 2364,
     "call_sites": 14,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7041,6 +7158,7 @@
     "bytes": 7396,
     "call_sites": 75,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -7111,6 +7229,7 @@
     "bytes": 1757,
     "call_sites": 5,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "OnPostSkill_",
@@ -7149,6 +7268,7 @@
     "bytes": 2465,
     "call_sites": 25,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7196,6 +7316,7 @@
     "bytes": 4615,
     "call_sites": 47,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -7256,6 +7377,7 @@
     "bytes": 3216,
     "call_sites": 33,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7304,6 +7426,7 @@
     "bytes": 2525,
     "call_sites": 26,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7351,6 +7474,7 @@
     "bytes": 2473,
     "call_sites": 25,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7398,6 +7522,7 @@
     "bytes": 1533,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_DELAY",
@@ -7446,6 +7571,7 @@
     "bytes": 5542,
     "call_sites": 59,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AIR_PROJECTILE_ID",
@@ -7509,6 +7635,7 @@
     "bytes": 4378,
     "call_sites": 41,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AIR_PROJECTILE_ID",
@@ -7567,6 +7694,7 @@
     "bytes": 6442,
     "call_sites": 76,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AIR_PROJECTILE_ID",
@@ -7632,6 +7760,7 @@
     "bytes": 3369,
     "call_sites": 33,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AIR_PROJECTILE_ID",
@@ -7685,6 +7814,7 @@
     "bytes": 2624,
     "call_sites": 26,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7737,6 +7867,7 @@
     "bytes": 6039,
     "call_sites": 63,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7798,6 +7929,7 @@
     "bytes": 6199,
     "call_sites": 68,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AIR_PROJECTILE_ID",
@@ -7863,6 +7995,7 @@
     "bytes": 1459,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -7908,6 +8041,7 @@
     "bytes": 4694,
     "call_sites": 55,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -7964,6 +8098,7 @@
     "bytes": 1536,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -8010,6 +8145,7 @@
     "bytes": 3987,
     "call_sites": 38,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -8072,6 +8208,7 @@
     "bytes": 2698,
     "call_sites": 31,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_ID",
@@ -8128,6 +8265,7 @@
     "bytes": 3926,
     "call_sites": 44,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -8182,6 +8320,7 @@
     "bytes": 3810,
     "call_sites": 28,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -8240,6 +8379,7 @@
     "bytes": 1454,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -8285,6 +8425,7 @@
     "bytes": 5036,
     "call_sites": 65,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "DAM_CLASS_ID",
@@ -8342,6 +8483,7 @@
     "bytes": 3898,
     "call_sites": 36,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_DELAY",
@@ -8399,6 +8541,7 @@
     "bytes": 3489,
     "call_sites": 38,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFFTIME_BASE",
@@ -8456,6 +8599,7 @@
     "bytes": 1876,
     "call_sites": 17,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_ID",
@@ -8503,6 +8647,7 @@
     "bytes": 2868,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -8560,6 +8705,7 @@
     "bytes": 1403,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -8605,6 +8751,7 @@
     "bytes": 5013,
     "call_sites": 46,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BuffExpired",
@@ -8660,6 +8807,7 @@
     "bytes": 3149,
     "call_sites": 33,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -8709,6 +8857,7 @@
     "bytes": 3658,
     "call_sites": 33,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -8766,6 +8915,7 @@
     "bytes": 3873,
     "call_sites": 45,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -8821,6 +8971,7 @@
     "bytes": 4198,
     "call_sites": 48,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -8880,6 +9031,7 @@
     "bytes": 2219,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_ID",
@@ -8929,6 +9081,7 @@
     "bytes": 3469,
     "call_sites": 29,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -8983,6 +9136,7 @@
     "bytes": 3060,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AMOUNT_OF_BUFFS_PER_MONSTER",
@@ -9038,6 +9192,7 @@
     "bytes": 8312,
     "call_sites": 77,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -9118,6 +9273,7 @@
     "bytes": 3956,
     "call_sites": 46,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -9173,6 +9329,7 @@
     "bytes": 9037,
     "call_sites": 116,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9250,6 +9407,7 @@
     "bytes": 3500,
     "call_sites": 40,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -9304,6 +9462,7 @@
     "bytes": 8724,
     "call_sites": 79,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AREA_ANGLE",
@@ -9392,6 +9551,7 @@
     "bytes": 1591,
     "call_sites": 13,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9438,6 +9598,7 @@
     "bytes": 1684,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9487,6 +9648,7 @@
     "bytes": 1472,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9532,6 +9694,7 @@
     "bytes": 1429,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9577,6 +9740,7 @@
     "bytes": 6843,
     "call_sites": 73,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -9653,6 +9817,7 @@
     "bytes": 2753,
     "call_sites": 26,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9708,6 +9873,7 @@
     "bytes": 3792,
     "call_sites": 37,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -9765,6 +9931,7 @@
     "bytes": 5159,
     "call_sites": 52,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -9839,6 +10006,7 @@
     "bytes": 1493,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9884,6 +10052,7 @@
     "bytes": 7334,
     "call_sites": 83,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -9950,6 +10119,7 @@
     "bytes": 3062,
     "call_sites": 24,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_PERSIST",
@@ -10006,6 +10176,7 @@
     "bytes": 10826,
     "call_sites": 66,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10093,6 +10264,7 @@
     "bytes": 2376,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -10146,6 +10318,7 @@
     "bytes": 6788,
     "call_sites": 57,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_CHANCE",
@@ -10222,6 +10395,7 @@
     "bytes": 3723,
     "call_sites": 39,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10273,6 +10447,7 @@
     "bytes": 3414,
     "call_sites": 28,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_DELAY",
@@ -10329,6 +10504,7 @@
     "bytes": 5665,
     "call_sites": 56,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -10396,6 +10572,7 @@
     "bytes": 3104,
     "call_sites": 26,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10448,6 +10625,7 @@
     "bytes": 5745,
     "call_sites": 57,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -10512,6 +10690,7 @@
     "bytes": 5556,
     "call_sites": 60,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -10582,6 +10761,7 @@
     "bytes": 6754,
     "call_sites": 78,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10646,6 +10826,7 @@
     "bytes": 1497,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10691,6 +10872,7 @@
     "bytes": 2384,
     "call_sites": 18,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_ID",
@@ -10740,6 +10922,7 @@
     "bytes": 1513,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10785,6 +10968,7 @@
     "bytes": 1617,
     "call_sites": 11,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10831,6 +11015,7 @@
     "bytes": 3296,
     "call_sites": 32,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -10883,6 +11068,7 @@
     "bytes": 4059,
     "call_sites": 29,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_FX",
@@ -10938,6 +11124,7 @@
     "bytes": 3425,
     "call_sites": 32,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -10989,6 +11176,7 @@
     "bytes": 3832,
     "call_sites": 43,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -11044,6 +11232,7 @@
     "bytes": 3278,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11093,6 +11282,7 @@
     "bytes": 4272,
     "call_sites": 41,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -11145,6 +11335,7 @@
     "bytes": 1514,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11190,6 +11381,7 @@
     "bytes": 1474,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11235,6 +11427,7 @@
     "bytes": 3651,
     "call_sites": 40,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11289,6 +11482,7 @@
     "bytes": 2133,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11334,6 +11528,7 @@
     "bytes": 2572,
     "call_sites": 28,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BUFF_DELAY",
@@ -11387,6 +11582,7 @@
     "bytes": 1456,
     "call_sites": 10,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11433,6 +11629,7 @@
     "bytes": 2638,
     "call_sites": 24,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11476,6 +11673,7 @@
     "bytes": 3314,
     "call_sites": 29,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11522,6 +11720,7 @@
     "bytes": 2585,
     "call_sites": 19,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11567,6 +11766,7 @@
     "bytes": 2575,
     "call_sites": 17,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11612,6 +11812,7 @@
     "bytes": 2284,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11653,6 +11854,7 @@
     "bytes": 4029,
     "call_sites": 52,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AOE_CLASS_ID",
@@ -11711,6 +11913,7 @@
     "bytes": 2200,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11754,6 +11957,7 @@
     "bytes": 2201,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11797,6 +12001,7 @@
     "bytes": 2250,
     "call_sites": 20,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11838,6 +12043,7 @@
     "bytes": 2298,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -11879,6 +12085,7 @@
     "bytes": 4009,
     "call_sites": 52,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "AOE_CLASS_ID",
@@ -11937,6 +12144,7 @@
     "bytes": 9038,
     "call_sites": 78,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "BOMBPOINT_NAME",
@@ -12020,6 +12228,7 @@
     "bytes": 2389,
     "call_sites": 15,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -12065,6 +12274,7 @@
     "bytes": 8373,
     "call_sites": 90,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE",
@@ -12134,6 +12344,7 @@
     "bytes": 6458,
     "call_sites": 62,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE_MAX",
@@ -12199,6 +12410,7 @@
     "bytes": 5990,
     "call_sites": 58,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "ANGLE_MAX",
@@ -12264,6 +12476,7 @@
     "bytes": 2866,
     "call_sites": 27,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -12314,6 +12527,7 @@
     "bytes": 2195,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",
@@ -12357,6 +12571,7 @@
     "bytes": 2196,
     "call_sites": 21,
     "candidate_note": "One or more call sites still lack a proven native contract or dynamic call target; see unresolved_call_sites and linked function/call rows for the specific gaps.",
+    "candidates": [],
     "classification": {
       "local_names": [
         "CLASS_ID",

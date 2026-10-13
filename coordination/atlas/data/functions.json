@@ -2,6 +2,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a1fff55eac5755d05eb5",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -49,6 +50,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2de1eb644ff7a598c177",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -228,6 +230,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5318437845b896241be6",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -273,6 +276,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bc9a92fecfbb808e48bd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -317,6 +321,7 @@
   {
     "call_count": 30,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "171a44bcbbc27511a562",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -361,6 +366,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "452216e0b69c660e1b86",
     "ida_evidence": null,
@@ -504,6 +510,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "30495185df5ed2fa5810",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -613,6 +620,7 @@
   {
     "call_count": 54,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c88e08a07fee1cea9e70",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -660,6 +668,7 @@
   {
     "call_count": 85,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "cfb21c95dfbc053cf7e7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -712,6 +721,7 @@
   {
     "call_count": 30,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f23ff626801d3ea6345b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -767,6 +777,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c17d6ba3cd8b7677ccd7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -812,6 +823,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "aa10bc43b822adfd915f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -859,6 +871,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e3d3b1c904a9ef6599c3",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -911,6 +924,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "47026a3d314656f79feb",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -955,6 +969,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "27a13278d427746587ff",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -995,6 +1010,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "99f352e2029b697df230",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1035,6 +1051,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "99ebbd99ff09080ef1b6",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1075,6 +1092,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "83e72f07594a148678d2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1119,6 +1137,7 @@
   {
     "call_count": 8,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0321b1a888059558ae10",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1228,6 +1247,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "75438b9ec70ee7cacf27",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1361,6 +1381,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bf0afa326ba045066b53",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1416,6 +1437,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "51839ee68a55765cee5b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1456,6 +1478,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e39fc822749104f0cef0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1500,6 +1523,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ca79fe34d0685b6a56fb",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1540,6 +1564,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0614f728676e82501d43",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1595,6 +1620,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f14c28c50a8a469b28ea",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1635,6 +1661,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "6145f1f3ca7cb01f31bd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1680,6 +1707,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "46397c747852d3497e30",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1711,6 +1739,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ba8b6d3c52ff2f15c0a1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1777,6 +1806,7 @@
   {
     "call_count": 17,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4a0b3e51844e4a42922b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1812,6 +1842,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3526773fe50530eaa5ab",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1852,6 +1883,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bb9bb87b29bd7ccfb2c0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1892,6 +1924,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "6d0328d62529b9b31c69",
     "ida_evidence": null,
@@ -1927,6 +1960,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "6171b5161ff17a8ffb46",
     "ida_evidence": null,
@@ -1947,6 +1981,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "72868b10c292a322509c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -1987,6 +2022,7 @@
   {
     "call_count": 30,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1c82a10bcea96a97985e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2041,6 +2077,7 @@
   {
     "call_count": 6,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e977ab5cef28c7dc1c99",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2085,6 +2122,7 @@
   {
     "call_count": 73,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "68c100374e94b349cc86",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2176,6 +2214,7 @@
   {
     "call_count": 54,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b62d28705f7fd9d983ba",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2220,6 +2259,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8fe957b92464efe77c8d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2264,6 +2304,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b4860940be0809601faa",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2311,6 +2352,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8a5aceb21b8f02675149",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2355,6 +2397,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b81572e667c6ed61e855",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2399,6 +2442,7 @@
   {
     "call_count": 10,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "fdcafc255e7bb862a402",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2508,6 +2552,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "04c1a62d260a77d8d16a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2641,6 +2686,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ad2eefbaae2ee69aa8e7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2726,6 +2772,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "d051d1bd32ca1f252c86",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2774,6 +2821,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e7dac6ebe8be1349c504",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2822,6 +2870,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "abc6d4e0980d181064d6",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2874,6 +2923,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "7944a186a3dafd38d8e8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -2963,6 +3013,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "75b2d0f777d2b96beec0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3073,6 +3124,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "9114b9125d2566cf9c3b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3113,6 +3165,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "6cf16708c40af7dcfab7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3218,6 +3271,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "2951cb440f8852857590",
     "ida_evidence": null,
@@ -3253,6 +3307,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2b39fd13cd9cebcaeb3e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3345,6 +3400,7 @@
   {
     "call_count": 7,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "11c72a83d5e6b4c39f8d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3385,6 +3441,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c5baa116c6acbe53bfd8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3430,6 +3487,7 @@
   {
     "call_count": 215,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "715ca7811b1f5a9a35b8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3499,6 +3557,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ce34fa92e0188f65f160",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3632,6 +3691,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0ca4ecf80c9552f95665",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3677,6 +3737,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c5727b1cf8728a45315c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3717,6 +3778,7 @@
   {
     "call_count": 14,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "d5ecb244a6f3308b38fd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3753,6 +3815,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bbc4d4b49fa91e6a9e13",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3793,6 +3856,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e5af32034bea80351b21",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3833,6 +3897,7 @@
   {
     "call_count": 25,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "44ea10a68ad9d9a053ff",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3869,6 +3934,7 @@
   {
     "call_count": 6,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5115281df7a185b8bb25",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3909,6 +3975,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "89260426ec4d0c8c2e7a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3944,6 +4011,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3fdf66a1da58b7c69e9f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -3982,6 +4050,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "eaca0171005d2d8dd390",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4018,6 +4087,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2da30fbc48804a5342ee",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4055,6 +4125,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "771728af1959c9720a40",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4099,6 +4170,7 @@
   {
     "call_count": 17,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1fc9b8240ce981b2d388",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4208,6 +4280,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5b646c966b254a89a846",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4251,6 +4324,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "97d526319d33298aaa6a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4291,6 +4365,7 @@
   {
     "call_count": 19,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "288bb8b956bf16222f08",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4336,6 +4411,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "77098381fea5d50987ea",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4371,6 +4447,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "009e98ada7deeaa5e550",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4408,6 +4485,7 @@
   {
     "call_count": 16,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "9cabbf83ec0c49db0efe",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4585,6 +4663,7 @@
   {
     "call_count": 16,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a6850f6e44d0ed586050",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4756,6 +4835,7 @@
   {
     "call_count": 68,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "39ca384b24293669f15e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4805,6 +4885,7 @@
   {
     "call_count": 37,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ac7964093c21a0ffe1ba",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4836,6 +4917,7 @@
   {
     "call_count": 42,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "717c3c6dd572a853c2a1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -4921,6 +5003,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5914676d642c39ff27e1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5003,6 +5086,7 @@
   {
     "call_count": 99,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "fda316ef3b1ac08ab1d4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5128,6 +5212,7 @@
   {
     "call_count": 9,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "7418d38cdfb8fdf98814",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5213,6 +5298,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "103f6f62ec63253dea49",
     "ida_evidence": null,
@@ -5233,6 +5319,7 @@
   {
     "call_count": 10,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "9cf977183583319b456d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5322,6 +5409,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "7ee05f5b6a224f08732d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5411,6 +5499,7 @@
   {
     "call_count": 8,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b3e00766a91655b7708c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5451,6 +5540,7 @@
   {
     "call_count": 40,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c859082891d7300637a9",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5497,6 +5587,7 @@
   {
     "call_count": 9,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c6f6f566d4f56285eea8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5542,6 +5633,7 @@
   {
     "call_count": 32,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "620f0329c9c106ae9675",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5595,6 +5687,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "9996eabd8f9795f4330b",
     "ida_evidence": null,
@@ -5615,6 +5708,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e32a96c26c513f2a6467",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5663,6 +5757,7 @@
   {
     "call_count": 57,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2b1d9cd51f7040057199",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5761,6 +5856,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "21a4cf3a5e07e55c4a72",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5801,6 +5897,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "13b68dab1eb672353af9",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5845,6 +5942,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bb364008ad6f41bc2c8c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5897,6 +5995,7 @@
   {
     "call_count": 49,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3cc5c531b57e58d3da99",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -5943,6 +6042,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "1cb2010175b7f7318c4f",
     "ida_evidence": null,
@@ -5963,6 +6063,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c0a6bf86f47eaf2af2dc",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6099,6 +6200,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "910225e4d630556774c0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6148,6 +6250,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f1c5b93e07b95198e046",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6233,6 +6336,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c3ff87e61ee267caff62",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6280,6 +6384,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f1ac554fd7ec545d4a25",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6324,6 +6429,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0059668f043499b80d04",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6369,6 +6475,7 @@
   {
     "call_count": 7,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f0af601596e235dfdeef",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6424,6 +6531,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "1671ee70397788c2baac",
     "ida_evidence": null,
@@ -6444,6 +6552,7 @@
   {
     "call_count": 106,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c546c459f3a08331edb0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6499,6 +6608,7 @@
   {
     "call_count": 6,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0475840796394a5d15ac",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6583,6 +6693,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "19c57b87bdde916483d7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6628,6 +6739,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "73a395297eed1b46ec54",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6680,6 +6792,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4ed81604bc31121ca5d2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6735,6 +6848,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4e29163ac0c1cbfb4ed0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6790,6 +6904,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "609f4ed96f0398bcf05b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6826,6 +6941,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bb562f493e3523b9de5a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6878,6 +6994,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "678fc7a254212864a786",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6933,6 +7050,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "de6527ed2aff1113a988",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -6964,6 +7082,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "93449c5f66155a3952ac",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7000,6 +7119,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ac91f69fb132054ab46b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7052,6 +7172,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "21b81272a0d5f6d7d1e7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7107,6 +7228,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "eebfcf0bd1890c0de592",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7138,6 +7260,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c6a32e998fdaf9473663",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7174,6 +7297,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b5830e2072993eebdd7c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7226,6 +7350,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4185f415ca4013fa4ada",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7281,6 +7406,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0c33db0a8c9dfa107549",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7312,6 +7438,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f8d2712ffd483350012d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7348,6 +7475,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2a47df21737ee758715f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7400,6 +7528,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b4b521d3683e6b2d66ed",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7455,6 +7584,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3c843c62e3fbe938f013",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7486,6 +7616,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ac938ee7f1665ffd281b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7522,6 +7653,7 @@
   {
     "call_count": 61,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ed2b7c2e26fb52f28904",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7577,6 +7709,7 @@
   {
     "call_count": 18,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "58d16891ce279b53190a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7643,6 +7776,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "22585a813434e0ab4439",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7698,6 +7832,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "428536a62ce747a548d8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7743,6 +7878,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "fcbd622837af8c21b597",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7790,6 +7926,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5623adc6399cfc7eb377",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7837,6 +7974,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "054db88f0425bd4c6390",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7881,6 +8019,7 @@
   {
     "call_count": 7,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "fe31d2697568109a260f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -7990,6 +8129,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1c2a85b3dabb8e2f89d2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8035,6 +8175,7 @@
   {
     "call_count": 6,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "6e819b01a26e380c7160",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8120,6 +8261,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b24ba81814ffc55fab3f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8160,6 +8302,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bd42aeda40de29b23353",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8259,6 +8402,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "81047095b519996a4874",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8304,6 +8448,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "87942649379bcc644ef4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8393,6 +8538,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0434d199789c4fc26dfc",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8438,6 +8584,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "451b3c80eb12315dbebd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8483,6 +8630,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "26e7cd0cea6a1493621e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8536,6 +8684,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "e0d16ff3d988b555760f",
     "ida_evidence": null,
@@ -8605,6 +8754,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "07eb9fc123e7d6cfdd09",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8649,6 +8799,7 @@
   {
     "call_count": 8,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5ce982e9b219ef95db49",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8758,6 +8909,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "37cd1bf77991976ae324",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8803,6 +8955,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3b3c12a1d55cb994b0d4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8843,6 +8996,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bf597daad9d8683a9cb9",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8895,6 +9049,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8ae16995be8a145644a1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8950,6 +9105,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "199fa8e229360829369a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -8994,6 +9150,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1711d604b265f2813210",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9178,6 +9335,7 @@
   {
     "call_count": 16,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "5ba2f8c1e43f01d10333",
     "ida_evidence": null,
@@ -9198,6 +9356,7 @@
   {
     "call_count": 83,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "08a34a258195184437db",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9238,6 +9397,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1fe31da78f4ba089115e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9354,6 +9514,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "737333db4d80a427db4c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9470,6 +9631,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e1957a94f135c82bd01e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9505,6 +9667,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "076a2ab4f80da2ad2ac4",
     "ida_evidence": null,
@@ -9540,6 +9703,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3a1868c4d8958ae6f970",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9585,6 +9749,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "03ba9326cd803a1a6d9e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9629,6 +9794,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "941bffe70e7f37a592e3",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9667,6 +9833,7 @@
   {
     "call_count": 29,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "68aadc7660a8bf8b62c1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9744,6 +9911,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "48df1a3e490e0eb8fe6b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9781,6 +9949,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "04cddc13aa6707fb2b7e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9835,6 +10004,7 @@
   {
     "call_count": 64,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c02aff8b4b8c859bd912",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9879,6 +10049,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4cee6b94c5cd94abde8a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -9924,6 +10095,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a9093cb8fecdfaf51bf2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10060,6 +10232,7 @@
   {
     "call_count": 7,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "52f35d1c0b651abbe8bb",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10100,6 +10273,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1b7e192510be8b772183",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10135,6 +10309,7 @@
   {
     "call_count": 18,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3ad1615b92b977a4e4a4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10176,6 +10351,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a44eb361d5e195381cb2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10261,6 +10437,7 @@
   {
     "call_count": 16,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "99c0c85b2ea2d6107dc6",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10346,6 +10523,7 @@
   {
     "call_count": 8,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5400eb22c2f522487888",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10393,6 +10571,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "185dc39fa0f8a13391a3",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10433,6 +10612,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a60fdba1327f9949ed01",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10464,6 +10644,7 @@
   {
     "call_count": 137,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "cc7376ad6da462cc72a9",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10508,6 +10689,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2c9ec30fb36f6b3b98c5",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10548,6 +10730,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f324084b6f3ef516a40b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10588,6 +10771,7 @@
   {
     "call_count": 38,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ebda0f41776f41d7eb90",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10693,6 +10877,7 @@
   {
     "call_count": 128,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "df0a08eeec4c08b9122d",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10733,6 +10918,7 @@
   {
     "call_count": 127,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "09356c4f538053b2fdde",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10773,6 +10959,7 @@
   {
     "call_count": 130,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "65c2269fc5b1efa9c9ae",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10813,6 +11000,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b5ff00e74330a36580c0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10853,6 +11041,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5bccff4bdec402079b02",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10898,6 +11087,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e10f60e4f44b4a1146e8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -10943,6 +11133,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4ec4a0862e7a8544a5f2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11028,6 +11219,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "6344a52e9f8b7ca80427",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11083,6 +11275,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "5f244c56a6381ed568ae",
     "ida_evidence": null,
@@ -11103,6 +11296,7 @@
   {
     "call_count": 9,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ad31aefcc36a36d47d85",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11169,6 +11363,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "029a7bf1d858c07bd019",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11216,6 +11411,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ca42a49f3e99eba8cba7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11260,6 +11456,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "32c4ac3f176d1dce1527",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11304,6 +11501,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1617283582948d869d06",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11359,6 +11557,7 @@
   {
     "call_count": 59,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "15f6373a7f3104dc67a6",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11414,6 +11613,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "6f8ad66b2c8cd016fbbc",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11454,6 +11654,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "eed4eaf63ace6a583ea4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11492,6 +11693,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8988a32945aff8975ddb",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11559,6 +11761,7 @@
   {
     "call_count": 29,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e6530fddd6e7b48a4792",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11614,6 +11817,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1d268b9932dd0a182f54",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11660,6 +11864,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ec2029b85b85c853493a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11704,6 +11909,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "927a023a48bde0d9f507",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11751,6 +11957,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f550ccffa8215cd80a86",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11805,6 +12012,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "cf7c1570399396b63edd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11896,6 +12104,7 @@
   {
     "call_count": 15,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "fad84e75bac88b05058f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11940,6 +12149,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0ab5444846b28756e4e7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -11980,6 +12190,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e0c9686b5515fad2f578",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12020,6 +12231,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "2d4a8675129f567e43b1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12129,6 +12341,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "06c9ee0cb6b173075c9f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12169,6 +12382,7 @@
   {
     "call_count": 28,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8b2f937fb861f53a62c5",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12214,6 +12428,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "7a9e389eeb6d33b3e907",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12391,6 +12606,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "11ab9c6c754751ee074f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12438,6 +12654,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "983320bdfdb19a88eaaa",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12523,6 +12740,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "af94b3d69fe7b5b9b22f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12568,6 +12786,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "80798a9bcadce06677c1",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12608,6 +12827,7 @@
   {
     "call_count": 9,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "9c9328f8e110d8fc4fa8",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12656,6 +12876,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "3c159df5b959b13118fd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12708,6 +12929,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0c5a92e6a2f6a9e4483e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12748,6 +12970,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "bb50b1d3769964658036",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12788,6 +13011,7 @@
   {
     "call_count": 9,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "263746b879ca8d68419c",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12843,6 +13067,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "0a4ecb882545fde75274",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12898,6 +13123,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4c099afa0e854b3f76e0",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -12998,6 +13224,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "cda4bada4fb414cc538b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13043,6 +13270,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "cecd989bcbbdcd60766f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13087,6 +13315,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "12aadb467dd9cd7ae9fc",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13172,6 +13401,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b03553cd9e0d3006d1fd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13212,6 +13442,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "a0de1c9078bc949a0e14",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13256,6 +13487,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "f1a029b67dfdd49c5e2a",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13296,6 +13528,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "5ee71bb6537bd2549308",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13336,6 +13569,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "85d6b350cbd8e40a3be3",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13488,6 +13722,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "88f00cf88368cf16aa13",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13537,6 +13772,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1d8f9214d44dbfdab233",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13577,6 +13813,7 @@
   {
     "call_count": 14,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "ab02378cbaec7b0d11fa",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13664,6 +13901,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "660639107f062a2c0b44",
     "ida_evidence": null,
@@ -13684,6 +13922,7 @@
   {
     "call_count": 3,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "92bec4aa29a3baf13aa2",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13793,6 +14032,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "678353d753ae4b88e99b",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13838,6 +14078,7 @@
   {
     "call_count": 221,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "1531141809c2023e4115",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13904,6 +14145,7 @@
   {
     "call_count": 725,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "e5ccff747e7c51d8a2e5",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -13942,6 +14184,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "72730373541505851f9a",
     "ida_evidence": null,
@@ -13962,6 +14205,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "9f983c64f4e52cf7f940",
     "ida_evidence": null,
@@ -13982,6 +14226,7 @@
   {
     "call_count": 40,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "c9a85a2b6a2b5c50ae16",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14037,6 +14282,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "04640d5aba765e49304e",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14084,6 +14330,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "d96e15e82bf49b265f50",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14128,6 +14375,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "525c7c4d972781b9ead9",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14237,6 +14485,7 @@
   {
     "call_count": 5,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "8579756fe87c5dd2ddbd",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14346,6 +14595,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "4008b5119beef45d686f",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14391,6 +14641,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "94ad0dea1979bcf9b7e4",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14439,6 +14690,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "b82a514c2ce05a0109da",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14517,6 +14769,7 @@
   {
     "call_count": 4,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "41034a77b8513236ecc7",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14565,6 +14818,7 @@
   {
     "call_count": 14,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "578ab08d5df066761a33",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
@@ -14614,6 +14868,7 @@
   {
     "call_count": 1,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "93ac62d19e46792ee974",
     "ida_evidence": null,
@@ -14634,6 +14889,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "LIKELY",
     "id": "0029eb3e1de35a1aada2",
     "ida_evidence": null,
@@ -14654,6 +14910,7 @@
   {
     "call_count": 2,
     "candidate_note": "Native handler/address is preserved where found; caller/admission/side-effect contract remains unreviewed, or no exact native registration exists.",
+    "candidates": [],
     "confidence": "PROVEN",
     "id": "890999f07374816e8315",
     "ida_evidence": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",

@@ -55,7 +55,11 @@
       "sound": 3,
       "symbolic_reference": 2544
     },
-    "todo": 4783,
+    "statuses": {
+      "RESOLVED": 424,
+      "UNRESOLVED": 4359
+    },
+    "todo": 0,
     "total": 4783
   },
   "script_rows": {

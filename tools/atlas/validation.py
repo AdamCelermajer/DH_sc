@@ -16,21 +16,53 @@ def run(ctx):
     if not baseline['passed']:
         result={'passed':False,'tests':tests};write_json(ctx.out/'data/validation.json',result);return result
     def test(name,file,mutate,expected):
-        p=fixture/'data'/f'{file}.json';original=p.read_bytes()
+        originals={p:p.read_bytes() for p in (fixture/'data').glob('*.json')}
+        p=fixture/'data'/f'{file}.json'
         try:
             value=read_json(p);mutate(value);write_json(p,value)
             result=audit(testctx)
             matched=[e for e in result['errors'] if expected in e]
             tests.append({'name':name,'passed':not result['passed'] and bool(matched),'observed':matched[:2]})
-        finally:p.write_bytes(original)
+        finally:
+            for original_path,content in originals.items():original_path.write_bytes(content)
     def drop_reason(rr):
         r=next(r for r in rr if r['status']=='UNRESOLVED');r['reason']=None;r.pop('reason_code',None)
     def drop_candidates(rr):
         next(r for r in rr if r['status']=='UNRESOLVED').pop('candidates',None)
     def bad_id(rr):
         r=rr[0];r['referenced_table']='animation_sequences';r['referenced_index']=999999
+    def bad_resolve_target(rr):
+        r=next(r for r in rr if r.get('status')=='RESOLVED' and r.get('resolves_to'))
+        target=next((t for t in r['resolves_to'] if t.get('path')),None)
+        if target is None:raise ValueError('No resolved path target is available for this fixture.')
+        target['path']='q:/data/iphone/3d/textures/atlas_missing_fixture.bdae'
+    def bad_typed_id(rr):
+        r=next(r for r in rr if r.get('status')=='RESOLVED' and r.get('resolves_to'))
+        r['resolves_to'].append({'type':'table-row','table':'animation_sequences','index':999999})
+    def extra_function(rr):
+        r=dict(rr[0]);r['id']='fixture-extra-function';r['name']='fixture-extra-function';rr.append(r)
+    def extra_reference_and_projection(rr):
+        projection_path=fixture/'data'/'script-references.json'
+        projection=read_json(projection_path,[])
+        projection_ids={r.get('id') for r in projection}
+        row=next(r for r in rr if r.get('id') in projection_ids)
+        rid=row['id']
+        rr[:] = [r for r in rr if r.get('id')!=rid]
+        projection[:]=[r for r in projection if r.get('id')!=rid]
+        write_json(projection_path,projection)
+    def duplicate_table_key(rr):
+        row=dict(rr[0]);row['id']='fixture-duplicate-table';rr.append(row)
+    def stale_table_key(rr):
+        row=dict(rr[0]);row.update(id='fixture-stale-table',table='fixture_table',index=999999);rr.append(row)
     def bad_orphan(rr):
         r=rr[0];r['referrers']=[];r['status']='REFERENCED'
+    def fake_referrer(rr):
+        r=next(r for r in rr if r.get('status')=='REFERENCED');r['referrers']=['fixture-nonexistent-referrer']
+    def invalid_status(rr):
+        r=rr[0];r['status']='PASS'
+        if 'work_status' in r:r['work_status']='PASS'
+    def invalid_work_status(rr):
+        r=rr[0];r['work_status']='PASS'
     def drop_event(rr):
         i=next(i for i,r in enumerate(rr) if r.get('rule','').startswith('BRES_EVENT'))
         rr.pop(i)
@@ -40,8 +72,18 @@ def run(ctx):
     test('missing row status fails','calls',lambda rr:rr[0].pop('status'),'no status')
     test('unresolved reference without reason fails','references',drop_reason,'reason code')
     test('unresolved reference without candidates fails','references',drop_candidates,'candidates')
+    test('unresolved function without candidates fails','functions',drop_candidates,'unresolved without candidates list')
     test('nonexistent referenced id fails','references',bad_id,'does not exist')
+    test('nonexistent typed table target fails','references',bad_typed_id,'does not exist')
+    test('nonexistent target path fails','references',bad_resolve_target,'target path does not exist')
+    test('extra function row fails','functions',extra_function,'functions: source coverage differs')
+    test('paired script reference deletion fails','references',extra_reference_and_projection,'references: source coverage differs')
+    test('duplicate table source key fails','tables',duplicate_table_key,'duplicate source key')
+    test('stale table source key fails','tables',stale_table_key,'stale source table row')
     test('unreferenced file without ORPHAN fails','assets',bad_orphan,'not ORPHAN')
+    test('fabricated referrer fails','assets',fake_referrer,'unknown referrer')
+    test('unknown row status fails','calls',invalid_status,'invalid status')
+    test('unknown work status fails','assets',invalid_work_status,'invalid work_status')
     result={'passed':all(t['passed'] for t in tests),'tests':tests,
             'scope':'Private generated-data copies under tools/atlas/.runtime; original data and game source untouched.'}
     write_json(ctx.out/'data/validation.json',result)

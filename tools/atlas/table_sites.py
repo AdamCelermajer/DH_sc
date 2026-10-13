@@ -74,7 +74,7 @@ def extract(ctx):
         if count!=len(nn[0]):raise ValueError('CharacterTable names/count mismatch')
         roles={'AIFaction':('faction','ai_factions#group0'),'AI':('script','ai#group0'),
                'AnimTable':('anim','character_animations'),'ModelFile':('model','character_models_dictionary#group0'),
-               'Effects':('effect set','character_effects'),'Sounds':('sound','sounds#group4'),
+               'Effects':('effect set','character_effects'),'Sounds':('sound','sounds#group0'),
                'Loot':('loot','loot_table#group5'),'ClassID':('class','character_classes#group0'),
                'SkillTree':('skill','skills#group0'),'FaeryList':('faery','faeries#group0'),
                'RangeProjectileID':('projectile','projectiles#group0')}
@@ -230,7 +230,7 @@ def extract(ctx):
                     # The original fast-travel operand is a level row NAME.
                     edge(rr,'LevelName',vals['LevelName'],'level',rule='FastTravel.LevelName is the exact Levels table row name (level_tables.cpp:44).')
                 else:
-                    edge(rr,'LevelFile',vals['LevelFile'],'level',path=vals['LevelFile'])
+                    edge(rr,'LevelFile',vals['LevelFile'],'level',path='scene/'+vals['LevelFile'],rule='Levels.LevelFile is a scene filename; original level consumers load from data/scene/.')
         record_used('levels',r)
     attempt('levels',levels)
     return rows,refs,{'rows':len(rows),'reference_cells':len(refs),'by_table':dict(Counter(r['table'] for r in rows)),

@@ -221,4 +221,3 @@
 | worm_attack_1.luac | .local-inputs/assets-extra/android/data/scripts/skills/worm_attack_1.luac | 71 / 2195 | 19 | {"engine_calls": 19, "missing": 4, "partial": 12, "ported": 3, "ported_percent": 15.8, "unknown": 0} | UNRESOLVED |
 | worm_attack_2.luac | .local-inputs/assets-extra/android/data/scripts/skills/worm_attack_2.luac | 71 / 2196 | 19 | {"engine_calls": 19, "missing": 4, "partial": 12, "ported": 3, "ported_percent": 15.8, "unknown": 0} | UNRESOLVED |
 | test.luac | .local-inputs/assets-extra/android/data/scripts/test.luac | 47 / 655 | 0 | {"engine_calls": 0, "missing": 0, "partial": 0, "ported": 0, "ported_percent": 100.0, "unknown": 0} | DONE |
-

@@ -17,6 +17,32 @@ from common import context, read_json, write_json, stable_id, source_roots, sour
 MODULES = ('scripts', 'sites', 'table_sites', 'campaign', 'references', 'views')
 VALID_REASONS = {'FILE_MISSING', 'NAME_NO_FILE', 'PATH_CASE', 'ID_OUT_OF_RANGE', 'NOT_IN_CACHE', 'OTHER'}
 
+# These values are emitted by the category extractors. TODO is included for
+# the explicit inventory checkpoint; it is still rejected below for final
+# audit outputs. work_status is intentionally optional on legacy row schemas.
+STATUS_ENUMS = {
+    'scripts': {'TODO', 'DONE', 'UNRESOLVED'},
+    'functions': {'TODO', 'DONE', 'UNRESOLVED'},
+    'calls': {'TODO', 'DONE', 'UNRESOLVED'},
+    'references': {'TODO', 'RESOLVED', 'AMBIGUOUS', 'UNRESOLVED'},
+    'assets': {'TODO', 'REFERENCED', 'ORPHAN'},
+    'levels': {'TODO', 'DONE', 'RESOLVED', 'INFERENCE', 'UNRESOLVED'},
+    'actors': {'TODO', 'RESOLVED', 'UNRESOLVED'},
+    'bosses': {'TODO', 'PROVEN', 'UNRESOLVED'},
+    'tables': {'TODO', 'RESOLVED', 'UNRESOLVED'},
+}
+WORK_STATUS_ENUMS = {
+    'scripts': {'TODO', 'DONE', 'UNRESOLVED'},
+    'functions': {'TODO', 'DONE', 'UNRESOLVED'},
+    'calls': {'TODO', 'DONE', 'UNRESOLVED'},
+    'references': {'TODO', 'DONE', 'UNRESOLVED'},
+    'assets': {'TODO', 'DONE'},
+    'levels': {'TODO', 'DONE', 'UNRESOLVED'},
+    'actors': {'TODO', 'DONE'},
+    'bosses': {'TODO', 'DONE'},
+    'tables': {'TODO', 'DONE'},
+}
+
 def rows(ctx, name):
     value = read_json(ctx.out / 'data' / (name + '.json'), [])
     if isinstance(value, dict):
@@ -126,33 +152,59 @@ def run_modules(ctx, inventory_only=False):
         mod=importlib.import_module(name)
         if name=='table_sites':
             counts=mod.run(ctx,inventory_only=inventory_only)
-            if counts is not None:write_json(ctx.out/'counts'/f'{name}.json',counts)
+            if counts is not None:write_json(ctx.out/'counts'/f'{name.replace("_","-")}.json',counts)
             importlib.import_module('references').prepare_tables(ctx)
             continue
         counts=mod.run(ctx,inventory_only=inventory_only)
-        if counts is not None:write_json(ctx.out/'counts'/f'{name}.json',counts)
+        if counts is not None and name!='views':write_json(ctx.out/'counts'/f'{name.replace("_","-")}.json',counts)
+        if name=='references' and not inventory_only:
+            # The final views consume reference outcomes; sync the projections
+            # before that pass, not only after all modules have finished.
+            sync_projections(ctx)
 
 def source_manifest(ctx):
     files=rows(ctx,'assets')
+    native=ctx.inputs/'ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c'
     manifest={'corpora':[{'label':s,'path':source_site(ctx,p),'files':sum(a['source']==s for a in files)} for s,p in source_roots(ctx)],
               'asset_digest':hashlib.sha256('\n'.join(a['path']+' '+a['sha256'] for a in files).encode()).hexdigest(),
-              'missing_input_paths':[str(p) for p in [ctx.inputs/'original-cache'] if not p.exists()],
               'cache_path_note':'Owner clarified both partial Android/recovered and iOS caches must be used; assets present in either can resolve. Supplemental cache: assets-extra/android/original-cache/data.',
               'audio_authority':['.local-inputs/assets-extra/ios/data/sounds','.local-inputs/audio-v34/cache'],
               'sound_table_authority':'.local-inputs/items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin',
               'native_authority':'Android APK/ELF IDA export. No iPhone binary is assumed.',
+              'native_evidence_files':[{'path':source_site(ctx,native),'size':native.stat().st_size,
+                                       'sha256':hashlib.sha256(native.read_bytes()).hexdigest()}] if native.is_file() else [],
               'additional_binary_found':{'path':'.local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/dungeonhunter2iPad','platform':'iPad','size':7940368,'magic':'cefaedfe','use':'discovery reported to owner; not used as native semantic evidence'},
               'source_commit':read_json(ctx.out/'data/baseline.json',{}).get('source_commit','64afbdc5'),
               'runtime':'Private CPython 3.12 under tools/atlas/.runtime, bootstrapped from Codex app dependency bundle; never global Python.'}
     write_json(ctx.out/'data/source-manifest.json',manifest)
 
+def finalize_unresolved_rows(ctx):
+    """Give terminal non-reference rows the shared unresolved evidence shape."""
+    for name in ('scripts','functions','calls','assets','levels','actors','bosses','tables'):
+        path=ctx.out/'data'/f'{name}.json'
+        rr=read_json(path,[]) or []
+        changed=False
+        for row in rr:
+            if row.get('status')!='UNRESOLVED' and row.get('work_status')!='UNRESOLVED':continue
+            if not isinstance(row.get('candidates'),list):
+                row['candidates']=[];changed=True
+            if not row.get('candidate_note'):
+                note=row.get('reason') or row.get('reason_code')
+                if note:
+                    row['candidate_note']=str(note);changed=True
+        if changed:write_json(path,rr)
+
 def platform_compare(ctx):
     groups=defaultdict(list)
+    spellings={}
+    by_hash=defaultdict(list)
     for a in rows(ctx,'assets'):
         relative=a['relative'].replace('\\','/')
         if a['source']=='android-extra':relative='3d/'+relative
         if a['source']=='audio-cache' and Path(relative).suffix.lower() in ('.wav','.vxn'):
             relative='sounds/'+Path(relative).name
+        spellings[a['id']]=relative
+        by_hash[a['sha256']].append(a)
         groups[relative.casefold()].append(a)
     result=[]
     for path,aa in sorted(groups.items()):
@@ -162,13 +214,23 @@ def platform_compare(ctx):
         record={'id':stable_id('platform-path',path),'path':path,'format':Path(path).suffix or 'extensionless',
                 'availability':'BOTH' if android and ios else 'ANDROID_OR_RECOVERED_ONLY' if android else 'IOS_ONLY',
                 'different_content':len({a['sha256'] for a in aa})>1,
-                'case_variants':sorted({a['relative'] for a in aa}),
+                'case_variants':sorted({spellings[a['id']] for a in aa}),
                 'files':[{'path':a['path'],'source':a['source'],'sha256':a['sha256']} for a in aa],
                 'status':'DONE','confidence':'PROVEN'}
         result.append(record)
     write_json(ctx.out/'data/platform-comparison.json',result)
+    aliases=[]
+    for sha,aa in sorted(by_hash.items()):
+        if not any(a['source']=='ios' for a in aa) or not any(a['source'] in ('android','android-extra','original-cache','audio-cache') for a in aa):continue
+        names={spellings[a['id']].casefold() for a in aa}
+        if len(names)>1:
+            aliases.append({'sha256':sha,'files':[{'path':a['path'],'source':a['source'],'canonical_path':spellings[a['id']]} for a in aa],
+                'status':'DONE','confidence':'PROVEN','rule':'Equal SHA-256 bytes under different normalized names; no semantic equivalence inferred for differing bytes.'})
+    write_json(ctx.out/'data/platform-name-aliases.json',aliases)
     write_json(ctx.out/'counts/platforms.json',{'paths':len(result),'availability':dict(Counter(r['availability'] for r in result)),
         'differing_content':sum(r['different_content'] for r in result),
+        'case_variant_paths':sum(len(r['case_variants'])>1 for r in result),
+        'identical_content_different_name_groups':len(aliases),
         'by_format':{ext:dict(Counter(r['availability'] for r in result if r['format']==ext)) for ext in sorted({r['format'] for r in result})},
         'policy':'Use both supplied partial caches, as clarified by the owner; record the platform of every resolution.'})
 
@@ -183,6 +245,12 @@ def sync_projections(ctx):
                 for field in ('status','work_status','reason','reason_code','candidate_note','candidates','resolves_to','port_status','implementation','confidence'):
                     if field in mapped:r[field]=mapped[field]
         write_json(ctx.out/'data'/f'{name}.json',rr)
+    counts=read_json(ctx.out/'counts/scripts.json',{})
+    rr=rows(ctx,'script-references')
+    if counts:
+        counts['script_references'].update(todo=sum(r.get('status')=='TODO' or r.get('work_status')=='TODO' for r in rr),
+            statuses=dict(Counter(r['status'] for r in rr)))
+        write_json(ctx.out/'counts/scripts.json',counts)
 
 def normalize_outputs(ctx):
     for p in ctx.out.rglob('*'):
@@ -190,7 +258,7 @@ def normalize_outputs(ctx):
             content=p.read_bytes()
             content=content.replace(b'\r\n',b'\n')
             if p.suffix=='.md':
-                content=('\n'.join(line.expandtabs(4).rstrip() for line in content.decode('utf-8').splitlines())+'\n').encode('utf-8')
+                content=('\n'.join(line.expandtabs(4).rstrip() for line in content.decode('utf-8').splitlines()).rstrip()+'\n').encode('utf-8')
             if content!=p.read_bytes():p.write_bytes(content)
 
 def known_checks(ctx):
@@ -221,7 +289,16 @@ def audit(ctx, include_sources=True):
         coverage[name]={'total':len(rr),'statuses':dict(statuses)}
         for r in rr:
             loc=str(r.get('id','?'))
-            if not r.get('status'):errors.append(f'{name}/{loc}: no status')
+            status=r.get('status')
+            if 'confidence' in r and r['confidence'] not in ('PROVEN','LIKELY','GUESS'):
+                errors.append(f'{name}/{loc}: invalid confidence {r["confidence"]!r}')
+            if not status:errors.append(f'{name}/{loc}: no status')
+            elif not isinstance(status,str) or status not in STATUS_ENUMS[name]:
+                errors.append(f'{name}/{loc}: invalid status {status!r}')
+            if 'work_status' in r:
+                work_status=r.get('work_status')
+                if not isinstance(work_status,str) or work_status not in WORK_STATUS_ENUMS[name]:
+                    errors.append(f'{name}/{loc}: invalid work_status {work_status!r}')
             if r.get('status')=='TODO' or r.get('work_status')=='TODO':errors.append(f'{name}/{loc}: TODO')
             if r.get('status')=='UNRESOLVED' or r.get('work_status')=='UNRESOLVED':
                 reason=r.get('reason_code',r.get('reason',''))
@@ -230,6 +307,9 @@ def audit(ctx, include_sources=True):
                     if 'candidates' not in r:errors.append(f'{name}/{loc}: missing candidates list (empty is permitted only with candidate_note)')
                     elif not r['candidates'] and not r.get('candidate_note'):errors.append(f'{name}/{loc}: empty candidates without explanation')
                 elif not reason:errors.append(f'{name}/{loc}: unresolved without reason')
+                if name!='references':
+                    if not isinstance(r.get('candidates'),list):errors.append(f'{name}/{loc}: unresolved without candidates list')
+                    if not r.get('candidate_note'):errors.append(f'{name}/{loc}: unresolved without candidate note')
             if r.get('status')=='NOT-NEEDED' and not r.get('reason'):errors.append(f'{name}/{loc}: NOT-NEEDED without reason')
     script_ids={r['id'] for r in sets['scripts']}
     function_ids={r['id'] for r in sets['functions']}
@@ -237,6 +317,46 @@ def audit(ctx, include_sources=True):
         if c.get('script_id') not in script_ids:errors.append(f'call {c["id"]}: script row absent')
         if c.get('engine_candidate',True) and c.get('function_id') not in function_ids:errors.append(f'call {c["id"]}: function row absent')
     table_indexes={(t.get('table'),t.get('index')) for t in sets['tables']}
+    duplicate_table_keys=[key for key,count in Counter((t.get('table'),t.get('index')) for t in sets['tables']).items() if count>1]
+    for table,index in duplicate_table_keys:
+        errors.append(f'table row duplicate source key: {table}[{index}]')
+    # Compare table rows with independently reconstructed source names and
+    # schema-backed rows; saved rows alone cannot establish target existence.
+    if include_sources:
+        import references as reference_sources
+        import table_sites as table_sources
+        expected_tables=reference_sources._table_inventory(ctx)
+        expected_tables.extend(table_sources.extract(ctx)[0])
+        expected_ids={t.get('id') for t in expected_tables}
+        actual_ids={t.get('id') for t in sets['tables']}
+        for tid in sorted(expected_ids-actual_ids):errors.append(f'missing source table row: {tid}')
+        for tid in sorted(actual_ids-expected_ids):errors.append(f'stale source table row: {tid}')
+        expected_keys={(t.get('table'),t.get('index')) for t in expected_tables}
+        for table,index in sorted(expected_keys-table_indexes,key=lambda x:(str(x[0]),str(x[1]))):
+            errors.append(f'missing source table key: {table}[{index}]')
+        for table,index in sorted(table_indexes-expected_keys,key=lambda x:(str(x[0]),str(x[1]))):
+            errors.append(f'stale source table key: {table}[{index}]')
+    target_table_types={
+        'AnimTable row':'animation_sequences','AnimTable sequence':'animation_sequences',
+        'EffectsTables row':'effect_sets','sdd sound row':'sdd_dungeon_hunter_2_iphone',
+        'AnimatedEffectTable row':'effect_sets','EffectTables set':'effect_sets',
+        'SkillTable row':'skills#group1','SkillListTable row':'skills#group0',
+        'source sound row':'sdd_dungeon_hunter_2_iphone',
+        'ProjectileDict row':'projectiles_dictionary#group0',
+    }
+    assets_by_relative=defaultdict(list)
+    asset_paths={a.get('path') for a in sets['assets']}
+    audio_basenames={Path(a.get('relative','')).name.casefold() for a in sets['assets']
+                     if Path(a.get('relative','')).suffix.casefold() in ('.wav','.vxn','.ogg','.mp3')}
+    for asset in sets['assets']:
+        assets_by_relative[asset.get('relative','').replace('\\','/').casefold()].append(asset)
+    def source_path_exists(value):
+        if not isinstance(value,str) or not value:return False
+        norm=value.replace('\\','/').lstrip('./')
+        for prefix in ('q:/data/iphone/','q:/data/','data/iphone/','data/'):
+            if norm.casefold().startswith(prefix):norm=norm[len(prefix):];break
+        if norm.casefold().startswith('data/'):norm=norm[5:]
+        return bool(assets_by_relative.get(norm.casefold()))
     for r in sets['references']:
         # `invalid_id` is only set for an evidenced table-index interpretation.
         # A numeric constant without a proven table role is never an ID here.
@@ -245,18 +365,68 @@ def audit(ctx, include_sources=True):
         if target_table and isinstance(target_index,int):
             if (target_table,target_index) not in table_indexes:
                 errors.append(f'reference {r["id"]}: {target_table}[{target_index}] does not exist')
+        for target in r.get('resolves_to') or []:
+            if not isinstance(target,dict):continue
+            target_type=target.get('type')
+            table=target.get('table');index=target.get('index')
+            mapped_table=target_table_types.get(target_type)
+            if index is None and isinstance(target.get('id_or_path'),int):index=target['id_or_path']
+            table_expr=re.search(r'(?:AnimTable|EffectsTables|sdd_dungeon_hunter_2_iphone)\[(\d+)\]',str(table or ''))
+            if target_type=='table-row':mapped_table=table
+            elif table_expr:
+                mapped_table=('animation_sequences' if 'AnimTable' in str(table) else
+                              'effect_sets' if 'EffectsTables' in str(table) else
+                              'sdd_dungeon_hunter_2_iphone')
+                index=int(table_expr.group(1))
+            if mapped_table and isinstance(index,int) and (mapped_table,index) not in table_indexes:
+                errors.append(f'reference {r["id"]}: {mapped_table}[{index}] does not exist')
+            file_target_types={'source asset file','file','EffectDict file row','ProjectileDict row','sounds.xml filename'}
+            path=(target.get('path') or target.get('filename')) if target_type in file_target_types else None
+            # Missing file targets are valid unresolved evidence. A row claiming
+            # resolution, or an explicit positive source-cache assertion, must
+            # point to at least one source asset.
+            path_like=(isinstance(path,str) and ('.' in Path(path).name or '/' in path or '\\' in path))
+            if path_like and (r.get('status')=='RESOLVED' or target.get('exists_in_source_cache') is True):
+                exists=(Path(path).name.casefold() in audio_basenames
+                        if target_type=='sounds.xml filename' else source_path_exists(path))
+                if not exists:
+                    errors.append(f'reference {r["id"]}: resolved target path does not exist: {path}')
+            for linked_asset in target.get('asset_files') or []:
+                if not isinstance(linked_asset,dict) or linked_asset.get('path') not in asset_paths:
+                    errors.append(f'reference {r["id"]}: target links a nonexistent source asset')
         if r.get('status') in ('RESOLVED','AMBIGUOUS') and not r.get('resolves_to'):errors.append(f'reference {r["id"]}: no targets')
     for a in sets['assets']:
         if not a.get('referrers') and a.get('status')!='ORPHAN':errors.append(f'asset {a["path"]}: no referrer and not ORPHAN')
+        if a.get('referrers') and a.get('status')=='ORPHAN':errors.append(f'asset {a["path"]}: ORPHAN has referrers')
         if a.get('status')=='ORPHAN' and not a.get('reason'):errors.append(f'asset {a["path"]}: ORPHAN without explanation')
+        if not isinstance(a.get('referrers'),list):errors.append(f'asset {a.get("path")}: referrers is not a list')
+    valid_referrers=set()
+    for name in ('references','scripts','levels','actors','tables'):
+        for row in sets[name]:
+            rid=row.get('id',row.get('site',name))
+            valid_referrers.add(str(rid))
+            valid_referrers.add('source:'+str(rid))
+    for a in sets['assets']:
+        for referrer in a.get('referrers') or []:
+            if not isinstance(referrer,str) or referrer not in valid_referrers:
+                errors.append(f'asset {a.get("path")}: unknown referrer {referrer}')
     if include_sources:
+        manifest=read_json(ctx.out/'data/source-manifest.json',{})
+        for evidence in manifest.get('native_evidence_files',[]):
+            path=ctx.inputs/evidence['path'].removeprefix('.local-inputs/')
+            if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=evidence['sha256']:
+                errors.append('native evidence input drift: '+evidence['path'])
         expected={source_site(ctx,p):p for _,p in source_files(ctx)}
+        folders=dict(source_roots(ctx))
+        expected_asset_relatives={source_site(ctx,p):(p.relative_to(folders[label]).as_posix() if label in folders else p.name)
+                                  for label,p in source_files(ctx)}
         actual={r['path']:r for r in sets['assets']}
         for path in expected.keys()-actual.keys():errors.append('missing asset row: '+path)
         for path in actual.keys()-expected.keys():errors.append('stale asset row: '+path)
         for path,p in expected.items():
             a=actual.get(path)
             if a and hashlib.sha256(p.read_bytes()).hexdigest()!=a['sha256']:errors.append('input drift: '+path)
+            if a and a.get('relative')!=expected_asset_relatives[path]:errors.append('asset relative path drift: '+path)
         # Independent re-extraction covers new/deleted scripts/functions/sites;
         # do not validate a dataset only against its own saved row counts.
         for name in ('scripts','sites','table_sites','campaign','references','views'):
@@ -267,6 +437,8 @@ def audit(ctx, include_sources=True):
                 if isinstance(result,list):errors.extend(result)
                 elif result:errors.append(str(result))
             else:errors.append(name+': independent source coverage_check(ctx) missing')
+        import coverage_extra
+        errors.extend(coverage_extra.coverage_check(ctx))
     checks=known_checks(ctx)
     for c in checks:
         if not c.get('passed'):errors.append('known answer failed: '+c.get('name','?')+' '+str(c.get('detail','')))
@@ -291,8 +463,9 @@ def report(ctx, check):
          'Generated from the supplied Android, iOS and Android original-cache corpus and the frozen port source. '
          'This is a static data and source atlas. Port status records source coverage; it does not certify gameplay or audibility.','',
          f'Coverage check: **{"PASS" if check["passed"] else "FAIL"}**. Processed: **{p.get("not_TODO",0):,}/{p.get("total",0):,} ({p.get("percent",0):.2f}%)**.','',
+         'Processed means every inventoried row has a terminal disposition. Explicitly unresolved references and native contracts remain follow-up work.','',
          'Commands (PowerShell, from this worktree):','',
-         '```powershell\n./tools/atlas/regen.ps1\n./tools/atlas/atlas.ps1 check\n./tools/atlas/atlas.ps1 find swampking\n./tools/atlas/atlas.ps1 find sound:517\n```','',
+         '```powershell\n./tools/atlas/regen.ps1\n. ./tools/atlas/use.ps1\natlas check\natlas find swampking\natlas find sound:517\natlas cleancheck\n```','',
          'The wrapper stages an ignored portable interpreter from the Codex dependency bundle on first use. '
          'Use `--inputs <directory>` to select another read-only input corpus. No global Python or original data is committed.','',
          '## Coverage','',markdown_table(['Category','Total','Statuses'],[[k,v['total'],v['statuses']] for k,v in check['coverage'].items()]),
@@ -310,6 +483,11 @@ def report(ctx, check):
          markdown_table(['Function','Port status','Boss/custom scripts','All scripts','Call sites'],[
           [name,next((f.get('port_status','UNKNOWN') for f in funcs if f.get('name')==name),'UNKNOWN'),sorted(imp['bosses']),len(imp['scripts']),imp['calls']] for name,imp in ranking]),
          '## Known-answer checks','',markdown_table(['Check','Passed','Evidence/result'],[[c.get('name'),c.get('passed'),c.get('detail','')] for c in check['known_answers']]),
+         '## Platform comparison','',markdown_table(['Format','Platform availability'],[[k,v] for k,v in read_json(ctx.out/'counts/platforms.json',{}).get('by_format',{}).items()]),
+         'Both supplied partial caches are used under the owner’s clarification. Each resolved target retains its source platform. '
+         'The iOS-only audio subset has 245 distinct missing catalog filenames; combining it with the recovered Android audio leaves the required 45.', '',
+         '## Checker failure-branch validation','',
+         markdown_table(['Test','Passed'],[[t['name'],t['passed']] for t in read_json(ctx.out/'data/validation.json',{}).get('tests',[])]),
          '## Act gaps','', 'Act allocation and boundaries are **INFERENCE pending owner confirmation**. See [generated act views](general/README.md), '
          '[resolution rules](RULES.md), [progress](PROGRESS.md) and [evidence reports](reports/).','']
     # views supplies source-derived rankings; include them without hand-edited rows.
@@ -336,12 +514,22 @@ def find(ctx, query):
     def accepts(category,r):
         rk=str(r.get('reference_kind',r.get('kind',''))).lower()
         table=str(r.get('table',r.get('source_table',''))).lower()
-        if kind and category=='references' and not (rk.startswith(kind) or kind=='effect' and 'effect' in rk):return False
+        targets=[t for t in r.get('resolves_to',[]) if isinstance(t,dict)]
+        target_tables=[str(r.get('referenced_table','')).lower()]+[str(t.get('source_row',{}).get('table',t.get('table',''))).lower() for t in targets]
+        table_prefixes={'sound':('sdd_','sounds#'),'anim':('animation','character_animations'),
+                        'effect':('effect','character_effects','footstep_effects'),
+                        'projectile':('projectiles',),'model':('character_models_dictionary',),
+                        'character':('character_properties','character_templates'),
+                        'skill':('skills#',),'level':('levels#',)}
+        target_kind=any(t.startswith(table_prefixes.get(kind,())) for t in target_tables) if kind else False
+        if kind and category=='references' and not (rk.startswith(kind) or kind=='effect' and 'effect' in rk or target_kind):return False
         if kind and category=='tables' and kind not in table and not (kind=='sound' and 'sdd_' in table):return False
         if kind and category not in ('references','tables',kind+'s'):return False
         if numeric is not None:
             if str(r.get('name',''))==term or r.get('index')==numeric or r.get('source_id')==numeric:return True
             if category=='references':
+                if r.get('referenced_index')==numeric:return True
+                if any(t.get('index')==numeric or t.get('source_row',{}).get('index')==numeric for t in targets):return True
                 if re.search(r'\[(?:row=)?'+re.escape(term)+r'\]',r.get('site','')):return True
                 return any(re.search(r'\['+re.escape(term)+r'\]',v) for v in values(r.get('resolves_to',[])))
             return False
@@ -354,12 +542,34 @@ def find(ctx, query):
     print(json.dumps({'query':query,'matches':len(found),'rows':found},ensure_ascii=False,indent=2))
     return 0 if found else 1
 
+def generate(ctx, inventory_only=False):
+    """Generate source projections without depending on previous output."""
+    ctx.out.mkdir(parents=True,exist_ok=True)
+    (ctx.out/'.gitattributes').write_text('.gitattributes text eol=lf\n*.md text eol=lf\n*.json text eol=lf\n',encoding='utf-8',newline='\n')
+    write_json(ctx.out/'data/baseline.json',{'source_commit':'64afbdc5','branch':'v21.8-atlas','game_code_read_only':True})
+    template=ctx.root/'tools/atlas/templates/atlas-method.md'
+    (ctx.out/'reports').mkdir(parents=True,exist_ok=True)
+    (ctx.out/'reports/atlas-method.md').write_text(template.read_text(encoding='utf-8'),encoding='utf-8',newline='\n')
+    old_count=ctx.out/'counts/table_sites.json'
+    if old_count.is_file():old_count.unlink()
+    write_json(ctx.out/'counts/assets.json',asset_inventory(ctx,inventory_only))
+    run_modules(ctx,inventory_only)
+    if not inventory_only:
+        finalize_unresolved_rows(ctx)
+        link_assets(ctx);sync_projections(ctx)
+    platform_compare(ctx)
+    source_manifest(ctx)
+    return progress(ctx,'INVENTORY TODO' if inventory_only else 'MAPPED')
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('command',choices=('inventory','regen','check','find','selftest'))
+    ap.add_argument('command',choices=('inventory','regen','check','find','selftest','cleancheck'))
     ap.add_argument('query',nargs='?')
     ap.add_argument('--inputs')
     a=ap.parse_args();ctx=context(a.inputs)
+    if a.command=='cleancheck':
+        import cleancheck
+        return cleancheck.run(ctx)
     if a.command=='selftest':
         import validation
         result=validation.run(ctx)
@@ -371,17 +581,17 @@ def main():
     ctx.out.mkdir(parents=True,exist_ok=True)
     if a.command in ('inventory','regen'):
         inventory_only=a.command=='inventory'
-        counts=asset_inventory(ctx,inventory_only)
-        write_json(ctx.out/'counts/assets.json',counts)
-        run_modules(ctx,inventory_only)
-        if not inventory_only:link_assets(ctx)
-        if not inventory_only:sync_projections(ctx)
-        platform_compare(ctx)
-        source_manifest(ctx)
-        p=progress(ctx,'INVENTORY TODO' if inventory_only else 'MAPPED')
+        p=generate(ctx,inventory_only)
         print(f'Processed {p["not_TODO"]:,}/{p["total"]:,} rows ({p["percent"]:.2f}%)')
         if inventory_only:return 0
     check=audit(ctx)
+    if a.command=='regen' and check['passed']:
+        import validation
+        verification=validation.run(ctx)
+        if not verification['passed']:
+            check['passed']=False
+            check['errors'].append('checker rejection-branch selftests failed; see data/validation.json')
+            write_json(ctx.out/'data/check.json',check)
     progress(ctx,'VERIFIED' if check['passed'] else 'CHECK FAILURES')
     report(ctx,check)
     normalize_outputs(ctx)

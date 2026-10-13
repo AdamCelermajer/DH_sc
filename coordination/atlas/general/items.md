@@ -3112,4 +3112,3 @@
 | trophies#group0 | 66 | quest_died_10_times | {} | DONE |
 | trophies#group0 | 67 | quest_died_50_times | {} | DONE |
 | trophies#group0 | 68 | quest_died_100_times | {} | DONE |
-

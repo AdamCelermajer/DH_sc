@@ -7,16 +7,6 @@
 | File | Format | Level script | Music | Scene objects | Procedural lists | Source status |
 | --- | --- | --- | --- | --- | --- | --- |
 | 003_darkwood.mlx | campaign | data\PyData\scripts\003_DARKWOOD.pyscript | DarkWoodHubAmbientMusic | 24 | 0 | DONE |
-| 004_root_den.rule.xml | campaign |  |  | 0 | 0 | UNRESOLVED |
-| 005_infectedvillage.mlx | campaign | data\PyData\scripts\005_INFECTEDVILLAGE.pyscript | InfectedVillageAmbientMusic | 2 | 0 | DONE |
-| 006_basement.rule.xml | campaign |  |  | 0 | 0 | UNRESOLVED |
-| 007_crypt_01.rule.xml | campaign |  |  | 0 | 0 | UNRESOLVED |
-| 008_gothicus_castle_01.rule.xml | campaign | data\pydata\scripts\008_gothicus_castle_01.pyscript | GothicusCastleHubAmbientMusic | 0 | 4 | DONE |
-| 011_earth_temple_01.rule.xml | campaign | data\pydata\scripts\011_earth_temple_01.pyscript | EarthTempleAmbientMusic | 0 | 5 | DONE |
-| 012_earth_temple_02.rule.xml | campaign | data\pydata\scripts\012_earth_temple_02.pyscript | EarthTempleAmbientMusic | 0 | 5 | DONE |
-| 013_earth_temple_03.rule.xml | campaign | data\pydata\scripts\013_earth_temple_03.pyscript | EarthTempleAmbientMusic | 0 | 6 | DONE |
-| 021_gothicus_castle_02.rule.xml | campaign | data\pydata\scripts\021_gothicus_castle_02.pyscript | GothicusCastleHubAmbientMusic | 0 | 3 | DONE |
-| 030_el_air.rule.xml | campaign |  |  | 0 | 0 | UNRESOLVED |
 
 
 ## Level detail
@@ -85,261 +75,15 @@ Direct scene objects (not character spawns):
 | Block | _module_29_001 | Module |  |
 
 
-### `004_root_den.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/004_root_den.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-
-
-### `005_infectedvillage.mlx`
-
-Source: `.local-inputs/assets-extra/android/data/scene/005_infectedvillage.mlx`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| type | level |
-| name | _prim_LevelConfig |
-| position | 0.0,0.0,0.0 |
-| scale | 1.0,1.0,1.0 |
-| debugcolor | 255.0,0.0,255.0 |
-| rotation | 0.0,0.0,0.0 |
-| gametype | LevelConfig |
-| scriptFile | data\PyData\scripts\005_INFECTEDVILLAGE.pyscript |
-| camera_file |  |
-| camera_name |  |
-| camera_znear | 900 |
-| camera_zfar | 5000 |
-| music | InfectedVillageAmbientMusic |
-| ambientColor | 0.5,0.5,0.5 |
-| fog_start | 3000 |
-| fog_end | 5800 |
-| fog_color | 1,14,0 |
-| clear_color | 0,0,0 |
-| _templateName | LevelConfig |
-| light_set | data/3D/Light/infected.lightset_xml |
-| fixed_light_set | data/3D/Light/infected_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 284940 |
-| prog_index_buffer_size | 45192 |
-| fix_vertex_buffer_size | 450000 |
-| fix_index_buffer_size | 44508 |
-
-
-Direct scene objects (not character spawns):
-
-| Type | Name | Game type | Script |
-| --- | --- | --- | --- |
-| Block | _module_infectedvillage_01_001 | Module |  |
-| Block | _module_infectedvillage_02_001 | Module |  |
-
-
-### `006_basement.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/006_basement.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-
-
-### `007_crypt_01.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/007_crypt_01.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-
-
-### `008_gothicus_castle_01.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/008_gothicus_castle_01.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| target | iphone |
-| folder | data/3d/modules/castle |
-| ambientColor | 0.5,0.5,0.5 |
-| scriptFile | data\pydata\scripts\008_gothicus_castle_01.pyscript |
-| camera_znear | 900 |
-| camera_zfar | 5000 |
-| music | GothicusCastleHubAmbientMusic |
-| fog_start | 4000 |
-| fog_end | 5800 |
-| fog_color | 1.14,0.36,0.49 |
-| light_set | data/3D/Light/castle.lightset_xml |
-| fixed_light_set | data/3D/Light/castle_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 343896 |
-| prog_index_buffer_size | 75024 |
-| fix_vertex_buffer_size | 1759968 |
-| fix_index_buffer_size | 102066 |
-
-
-Procedural rule lists (module choices; does not imply loaded actor roster):
-
-| List | Random | Choices |
-| --- | --- | --- |
-| deadends | true | 1 |
-| tmodules | true | 1 |
-| objective_rooms | true | 3 |
-| path | true | 5 |
-
-
-### `011_earth_temple_01.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/011_earth_temple_01.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| target | iphone |
-| folder | data/3d/modules/earth_temple |
-| ambientColor | 0.5,0.5,0.5 |
-| scriptFile | data\pydata\scripts\011_earth_temple_01.pyscript |
-| camera_znear | 900 |
-| camera_zfar | 10000 |
-| music | EarthTempleAmbientMusic |
-| fog_start | 4000 |
-| fog_end | 5800 |
-| fog_color | 1.14,0.36,0.49 |
-| light_set | data/3D/Light/earthtemple.lightset_xml |
-| fixed_light_set | data/3D/Light/earthtemple_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 492936 |
-| prog_index_buffer_size | 91368 |
-| fix_vertex_buffer_size | 1417608 |
-| fix_index_buffer_size | 135846 |
-
-
-Procedural rule lists (module choices; does not imply loaded actor roster):
-
-| List | Random | Choices |
-| --- | --- | --- |
-| deadends | true | 4 |
-| objective_rooms | true | 1 |
-| start | true | 1 |
-| end | true | 4 |
-| path | true | 6 |
-
-
-### `012_earth_temple_02.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/012_earth_temple_02.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| target | iphone |
-| folder | data/3d/modules/earth_temple |
-| ambientColor | 0.5,0.5,0.5 |
-| scriptFile | data\pydata\scripts\012_earth_temple_02.pyscript |
-| camera_znear | 900 |
-| camera_zfar | 10000 |
-| music | EarthTempleAmbientMusic |
-| fog_start | 4000 |
-| fog_end | 5800 |
-| fog_color | 1.14,0.36,0.49 |
-| light_set | data/3D/Light/earthtemple.lightset_xml |
-| fixed_light_set | data/3D/Light/earthtemple_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 194808 |
-| prog_index_buffer_size | 43476 |
-| fix_vertex_buffer_size | 1368684 |
-| fix_index_buffer_size | 126756 |
-
-
-Procedural rule lists (module choices; does not imply loaded actor roster):
-
-| List | Random | Choices |
-| --- | --- | --- |
-| deadends | true | 4 |
-| objectives | true | 4 |
-| end | true | 1 |
-| start | true | 4 |
-| path | true | 7 |
-
-
-### `013_earth_temple_03.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/013_earth_temple_03.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| target | iphone |
-| folder | data/3d/modules/earth_temple |
-| ambientColor | 0.5,0.5,0.5 |
-| scriptFile | data\pydata\scripts\013_earth_temple_03.pyscript |
-| camera_znear | 900 |
-| camera_zfar | 10000 |
-| music | EarthTempleAmbientMusic |
-| fog_start | 4000 |
-| fog_end | 5800 |
-| fog_color | 1.14,0.36,0.49 |
-| light_set | data/3D/Light/earthtemple.lightset_xml |
-| fixed_light_set | data/3D/Light/earthtemple_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 192024 |
-| prog_index_buffer_size | 44250 |
-| fix_vertex_buffer_size | 950976 |
-| fix_index_buffer_size | 93582 |
-
-
-Procedural rule lists (module choices; does not imply loaded actor roster):
-
-| List | Random | Choices |
-| --- | --- | --- |
-| deadends | true | 4 |
-| tmodules | true | 2 |
-| objectives | true | 5 |
-| end | true | 1 |
-| start | true | 1 |
-| path | true | 6 |
-
-
-### `021_gothicus_castle_02.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/021_gothicus_castle_02.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-| target | iphone |
-| folder | data/3d/modules/castle |
-| ambientColor | 0.5,0.5,0.5 |
-| scriptFile | data\pydata\scripts\021_gothicus_castle_02.pyscript |
-| camera_znear | 900 |
-| camera_zfar | 5000 |
-| music | GothicusCastleHubAmbientMusic |
-| fog_start | 4000 |
-| fog_end | 5800 |
-| fog_color | 1.14,0.36,0.49 |
-| light_set | data/3D/Light/castle.lightset_xml |
-| fixed_light_set | data/3D/Light/castle_es1_1.lightset_xml |
-| prog_vertex_buffer_size | 155088 |
-| prog_index_buffer_size | 43992 |
-| fix_vertex_buffer_size | 1759968 |
-| fix_index_buffer_size | 102066 |
-
-
-Procedural rule lists (module choices; does not imply loaded actor roster):
-
-| List | Random | Choices |
-| --- | --- | --- |
-| deadends | true | 1 |
-| objective_rooms | true | 2 |
-| path | true | 5 |
-
-
-### `030_el_air.rule.xml`
-
-Source: `.local-inputs/assets-extra/android/data/scene/030_el_air.rule.xml`. Parsed level configuration: direct XML evidence.
-
-| Field | Value |
-| --- | --- |
-
-
 ## Actors and mobs
 
 CharacterProperties rows are linked from exact source-script names, MGP `charpropsname`, or explicit B155/B156 encounter evidence. Other MGP Character objects and `Script_SpawnCharacter` arguments remain conditional candidates; command branches and runtime execution are not evaluated.
 
 | Actor rows | Mapped to this act | Status |
 | --- | --- | --- |
-| 448 | 47 | INFERENCE: serialized spawn-command targets |
+| 448 | 27 | INFERENCE: serialized spawn-command targets |
 
-Serialized Script_SpawnCharacter authored targets: 16; modular XML Character candidates: 586. Both are conditional candidates, not a static runtime roster.
+Serialized Script_SpawnCharacter authored targets: 2; modular XML Character candidates: 90. Both are conditional candidates, not a static runtime roster.
 
 ### Modular XML Character candidates
 
@@ -437,502 +181,6 @@ Rows come from MGP files referenced directly by scene modules or by procedural-r
 | 003_darkwood.mlx | .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp | _prim_Monster_Child01 | DW_Cherub_RE | None | 100 | Idle | INFERENCE |
 | 003_darkwood.mlx | .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp | _prim_Monster_Child03 | DW_Cherub_RE | None | 100 | Idle | INFERENCE |
 | 003_darkwood.mlx | .local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp | _prim_Monster_Child02 | DW_Cherub_RE | None | 100 | Idle | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected02 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected05 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected06 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected07 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected08 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected09 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected10 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected11 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected12 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected13 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_Monster | InfectedNun | None | 100 | Idle | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_Monster01_001 | InfectedNun | None | 100 | Idle | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected14 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected15 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected16 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected18 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected20 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected21 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected22 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected23 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_tmp_infected24 | None | InfectedVillage_CommonType1 | 100 | Limbus | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_NPC_priestgood | WanderingPriest | None | None | None | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_NPC_Eddie | WanderingEddie | None | None | None | INFERENCE |
-| 005_infectedvillage.mlx | .local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp | _prim_Monster_001 | Infected_Werewolf_Midboss | None | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_entrance_ns_01.mgp | _prim_Assassin | Assassin | None | 100 | Limbus | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_King | King | None | None | None | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_NPC_PriestGood | WanderingPriest | None | None | None | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_NPC_Edward | Edward | None | None | None | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_tmp_commontype1 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_tmp_commontype02 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_tmp_commontype03 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_kingroom_s_01.mgp | _prim_tmp_commontype04 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_08 | None | GothicusCultist_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_09 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_10 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_11 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_12 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_13 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_14 | None | GothicusCultist_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_se_01.mgp | _prim_tmp_GuardType_15 | None | GothicusCultist_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_01 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_02 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_03 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_04 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_05 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_06 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_corner_wn_01.mgp | _prim_tmp_GuardType_07 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp | _prim_tmp_commontype1_16 | None | GothicusCultist_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp | _prim_tmp_commontype1_17 | None | GothicusCultist_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp | _prim_tmp_commontype1_18 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp | _prim_tmp_commontype1_19 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 008_gothicus_castle_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc01_straightb_ew_01.mgp | _prim_tmp_Cultist_03 | None | GothicusGuard_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype02 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_specialtype03 | None | EarthTemple_SpecialType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_Monster | EarthTemple_DoorPlant_A | None | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_MonsterMinion01 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_objrootdoors_ew__01.mgp | _prim_MonsterMinion02 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_NPC_PriestGood | WanderingPriest | None | None | None | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp | _prim_NPC_Eddie | WanderingEddie | None | None | None | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_ne__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_uncommontype02 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_nw__01.mgp | _prim_tmp_uncommontype03 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype14 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_corner_earthtemp_sw__01.mgp | _prim_tmp_specialtype03 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_uncommontype02 | None | EarthTemple_UncommonType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ew__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 011_earth_temple_01.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_straight_earthtemp_ns__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype02 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp | _prim_EL_midboss | ET_Treething | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp | _prim_Monster09 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp | _prim_Monster10_001 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_midboss_earthtemp_ns__01.mgp | _prim_Monster10_002 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_t_objspittrap_nsw__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_surprise_02 | EarthTemple_Spider_HUGE | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_surprise_03 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_surprise_04 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__02.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp | _prim_Monster02 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp | _prim_Monster | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp | _prim_Monster02 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp | _prim_epic_merchant | Epic_merchant_darkwoods | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp | _prim_Monster | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_epic_merchant | Epic_merchant_darkwoods | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_Monster | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_Monster02 | EarthTemple_SmallPlant | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_epic_merchant | Epic_merchant_darkwoods | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Monster | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Monster02 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Monster03_001 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Monster04 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_Monster | EarthTemple_BigSpider | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_Monster_001 | EarthTemple_Spider_HUGE | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster | EarthTemple_Spider_HUGE | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster01 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster02 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster03 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster04 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster05 | EarthTemple_Goblin_Shaman_BOSS | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster06 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster07 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster08 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster09 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype03 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_04 | EarthTemple_BigSpider | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype14 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_02 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_01 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_03 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype12 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype13 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__02.mgp | _prim_tmp_commontype14 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster01_001 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster02 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster03_001 | EarthTemple_Spider | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster05 | EarthTemple_Spider | None | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype14 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 012_earth_temple_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_e__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_uncommontype02 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_n__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_s__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_earthtemp_w__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | cs_cultist_left | EarthTemple_Cultist | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | cs_cultist_right | EarthTemple_Cultist | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | cs_cultist_center | EarthTemple_Cultist_Talker | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | cs_root_troll | RootTroll | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | _prim_Primula | DummyEarthFaery | None | None | None | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | _prim_Monster_Doorplant | EarthTemple_DoorPlant_C | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | _prim_Monster_Doorplant01 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp | _prim_Monster_Doorplant02 | EarthTemple_SmallPlantMinion | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Monster | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Monster01_001 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Monster02 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Monster03_001 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp | _prim_Monster04 | EarthTemple_SmallPlant | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_Monster | EarthTemple_BigSpider | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType2 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_ne__01.mgp | _prim_Monster_001 | EarthTemple_Spider_HUGE | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster | EarthTemple_Spider_HUGE | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster01 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster02 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster03 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster04 | EarthTemple_Spider_helper | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster05 | EarthTemple_Goblin_Shaman_BOSS | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster06 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster07 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster08 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_nw__01.mgp | _prim_Monster09 | EarthTemple_Goblin_Rogue_HELPER | None | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype02 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_specialtype03 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_se__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype09 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_04 | EarthTemple_BigSpider | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_tmp_commontype14 | None | EarthTemple_CommonType2 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_02 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_01 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_corner_earthtemp_sw__01.mgp | _prim_spider_sw_surprise_03 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype10 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster01_001 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster02 | EarthTemple_Spider_helper | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster03_001 | EarthTemple_Spider | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_Monster05 | EarthTemple_Spider | None | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype11 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype12 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype13 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ew__01.mgp | _prim_tmp_commontype14 | None | EarthTemple_SpecialType3 | 100 | Limbus | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype1 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype02 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype03 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype04 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype05 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype06 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_uncommontype1 | None | EarthTemple_UncommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype07 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_commontype08 | None | EarthTemple_CommonType1 | 100 | Idle | INFERENCE |
-| 013_earth_temple_03.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_straight_earthtemp_ns__01.mgp | _prim_tmp_specialtype1 | None | EarthTemple_SpecialType3 | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp | _prim_Faery | DefaultFairy | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp | _prim_NPC_deadguard_01 | GC02_DeadGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp | _prim_NPC_deadguard_02 | GC02_DeadGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp | _prim_Celeste | DummyLightningFaery | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp | _prim_Primula | DummyEarthFaery | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp | _prim_tmp_commontype07 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp | _prim_tmp_commontype08 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp | _prim_tmp_commontype09 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_entrance_ns_01.mgp | _prim_tmp_commontype10 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp | _prim_cultist_friendly | NPC_friendly_cultist | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp | _prim_Celeste_01 | DummyLightningFaery | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp | _prim_Primula_02 | DummyEarthFaery | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_Monster_05 | Castle2RCultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype13 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype14 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype15 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype16 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype17 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype19 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype22 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_tmp_commontype23 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_se_01.mgp | _prim_NPC01_001 | FallenGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_13 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_14 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_18 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_19 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_20 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_21 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_tmp_commontype1_22 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_NPC | FallenGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_NPC01_001 | FallenGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_corner_wn_01.mgp | _prim_NPC02 | GothicusB_survivor_d | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_NPC_FallenGuard_01 | GothicusB_survivor_a | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_Monster_01 | Castle2Cultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_Monster_02 | Castle2Cultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_Monster_03 | Castle2RCultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_tmp_commontype04 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_tmp_commontype05 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straighta_ns_01.mgp | _prim_tmp_commontype06 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_tmp_commontype1_02 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_tmp_commontype1_03 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_tmp_commontype1_05 | None | Gothicus2Cutlists | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_Monster_09 | Castle2RCultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_Monster_10 | Castle2RCultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_Monster_11 | Castle2RCultist | None | 100 | Idle | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_NPC01 | FallenGuard | None | None | None | INFERENCE |
-| 021_gothicus_castle_02.rule.xml | .local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_straightb_ew_01.mgp | _prim_NPC02 | FallenGuard | None | None | None | INFERENCE |
 
 
 ### CharacterProperties profiles
@@ -941,69 +189,49 @@ This table joins listed actor rows to their original table references. AI script
 
 | Actor | Model | Animation table | AI row | AI facts | Skill tree | Loot | Sounds |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Assassin | assassin [0] | Assassin [0] | Assassin1 [1] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "Assassin1", "SelfFX": -1, "Trophy": -1, "Type": 4} | Assassin [0] | NoLoot [188] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| Castle2Cultist | cultist [14] | Cultist [9] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | Castle2_Basic_Loot [26] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| Castle2RCultist | cultist_ranged [18] | CultistRanged [11] | Cultists_Ranged [13] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | Castle2_Basic_Loot [26] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| DW_Merchant | thamos_merchant [104] | thamos_merchant [79] | Merchant [39] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 7} | -1 | Abbey_Boss_Loot [2] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| DW_Statue | statue [98] | Statue [68] | DW_Statue [14] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "DW_Statue", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | DWv1_Champion_Loot [60] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| DarkQueenForm1 | dark_queen1stform [21] | DarkQueenForm1 [14] | DarkQueen1 [15] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "DarkQueen1", "SelfFX": -1, "Trophy": -1, "Type": 4} | DarkQueen1 [4] | NoLoot [188] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| DoorCultists2 | cultist [14] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| ET_Treething | treething [107] | Treething [72] | TreeThingMiniBoss [66] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "AssassinDemon", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ElemEarth_Boss_Loot [97] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_BigSpider | spider_green [97] | Spider [67] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Champion_Loot [90] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Cultist | cultist [14] | Cultist [9] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Basic_Loot [88] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Cultist_Talker | cultist_thug [20] | Cultist [9] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Basic_Loot [88] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_DoorPlant_A | large_plant [58] | LargePlant [33] | LargePlant [28] | {"CombatMusic": -1, "Flags": 3, "OnAggroSFX": -1, "Script": "largeplant", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | NoLoot [188] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_DoorPlant_C | large_plant [58] | LargePlant [33] | LargePlant [28] | {"CombatMusic": -1, "Flags": 3, "OnAggroSFX": -1, "Script": "largeplant", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | NoLoot [188] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Goblin_Rogue_HELPER | goblin_warrior [48] | GoblinMelee [25] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Basic_Loot [88] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Goblin_Shaman_BOSS | shaman [83] | GoblinShaman [27] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Champion_Loot [90] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_SmallPlantMinion | small_plant [93] | SmallMinionPlant [65] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | NoLoot [188] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Spider | spider_green [97] | Spider [67] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Weak_Loot [91] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Spider_HUGE | spider_green [97] | Spider [67] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Champion_Loot [90] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| EarthTemple_Spider_helper | spider_green [97] | Spider [67] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | ET_Weak_Loot [91] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| Epic_merchant_darkwoods | head_cultist [49] | thamos_merchant [79] | Merchant [39] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 7} | -1 | Abbey_Champion_Loot [3] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| FallenGuard | jeremo_guard [56] | dead_body [78] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GC02_DeadGuard | jeremo_guard [56] | dead_body [78] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_BanditHunt_a | f_merchant [30] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_DemonChild | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_GUARD_P1_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_GUARD_P1_002 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_GUARD_P2_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_GUARD_P2_002 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_GUARD_P4_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P1_004 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P1_005 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P1_008 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P2_005 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P3_001 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P3_003 | castle_maid [10] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P3_004 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GCV_P4_002 | castle_maid [10] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GothicusB_survivor_a | jeremo_guard [56] | Prisonier3 [53] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| GothicusB_survivor_d | jeremo_guard [56] | Prisonier3 [53] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| HellMan_DW_final | old_man [72] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| HellMan_quest_1 | old_man [72] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| InfectedNun | inf_nun [53] | Infected [29] | Monster [40] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | Abbey_Basic_Loot [1] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| Infected_Werewolf_Midboss | werewolf [112] | LizardMan [34] | GenericBoss [25] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | Abbey_Boss_Loot [2] | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| King | king [57] | King [30] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| NPC_friendly_cultist | friendly_cultist2 [42] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| ReneHG | priest_good [74] | NPC_Priest [47] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | BalrogAttack (reference TODO; source row UNRESOLVED) |
-| RootTroll | root_troll [80] | RootTroll [58] | RootTroll [54] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "RootTroll", "SelfFX": -1, "Trophy": -1, "Type": 4} | RootTrollSkills [30] | ET_Boss_Loot [89] | BalrogAttack (reference TODO; source row UNRESOLVED) |
+| DW_Cherub_RE | child [12] | ChildStatue [8] | Bandit [7] | {"CombatMusic": -1, "Flags": 1, "OnAggroSFX": -1, "Script": "monster", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | NoLoot [188] | Default (reference RESOLVED; source row UNRESOLVED) |
+| DW_Merchant | thamos_merchant [104] | thamos_merchant [79] | Merchant [39] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 7} | -1 | Abbey_Boss_Loot [2] | Default (reference RESOLVED; source row UNRESOLVED) |
+| DW_Statue | statue [98] | Statue [68] | DW_Statue [14] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "DW_Statue", "SelfFX": -1, "Trophy": -1, "Type": 4} | -1 | DWv1_Champion_Loot [60] | Default (reference RESOLVED; source row UNRESOLVED) |
+| DarkQueenForm1 | dark_queen1stform [21] | DarkQueenForm1 [14] | DarkQueen1 [15] | {"CombatMusic": -1, "Flags": 5, "OnAggroSFX": -1, "Script": "DarkQueen1", "SelfFX": -1, "Trophy": -1, "Type": 4} | DarkQueen1 [4] | NoLoot [188] | Default (reference RESOLVED; source row UNRESOLVED) |
+| DoorCultists2 | cultist [14] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| DummyLightningFaery | faeries_02_celeste [34] | Faery [23] | Celest [11] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| Edward | edward [26] | Edward [20] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_BanditHunt_a | f_merchant [30] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_DemonChild | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_GUARD_P1_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_GUARD_P1_002 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_GUARD_P2_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_GUARD_P2_002 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_GUARD_P4_001 | jeremo_guard [56] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P1_004 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P1_005 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P1_008 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P2_005 | old_peasant [73] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P3_001 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P3_003 | castle_maid [10] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P3_004 | young_peasant [115] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| GCV_P4_002 | castle_maid [10] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| HellMan_DW_final | old_man [72] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| HellMan_quest_1 | old_man [72] | NPC_Friendly [46] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| IcyHub_StillStatue | statue [98] | StillStatue [69] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| King | king [57] | King [30] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
+| ReneHG | priest_good [74] | NPC_Priest [47] | Villager [70] | {"CombatMusic": -1, "Flags": 0, "OnAggroSFX": -1, "Script": "__npc__", "SelfFX": -1, "Trophy": -1, "Type": 6} | -1 | -1 | Default (reference RESOLVED; source row UNRESOLVED) |
 
 
 ## Bosses
 
-Boss candidates use explicit BOSS/MIDBOSS name markers or named encounter actors. Act 1 encounter rows are linked through B155/B156 handoff evidence; AI script/type is shown in the CharacterProperties profile table. Remaining boss classification and encounter semantics stay TODO.
+The source HUD predicate `(AI.Flags & 4) != 0` is proven for 59 CharacterProperties-linked AI rows. 6 name-only markers remain supplemental unresolved candidates. This source marker does not establish encounter placement or runtime spawn conditions.
 
-| Candidate rows | Linked spawn targets | Status |
-| --- | --- | --- |
-| 26 | 4 | INFERENCE: see campaign references |
+| Boss flag rows | Name-only supplements | Act-linked candidates | Placement status |
+| --- | --- | --- | --- |
+| 59 | 6 | 2 | INFERENCE / unresolved runtime placement |
 
 
 ## Dialogues
 
-The dialog table is inventoried globally. Serialized `Script_StartDialog` occurrences are listed as command rows; mapping them to dialog table IDs remains TODO.
+The dialog table is inventoried globally. Serialized `Script_StartDialog` occurrences are listed as command rows; mapping them to dialog table IDs remains unresolved.
 
-Dialog table rows: 55; StartDialog commands: 389.
+Dialog table rows: 55; StartDialog commands: 263.
 
 ## Serialized level scripts
 
@@ -1012,12 +240,6 @@ The configured `.pyscript` names resolve to original serialized `_pyscriptnames.
 | Scene | Script file | Scripts | Commands | Decode status |
 | --- | --- | --- | --- | --- |
 | 003_darkwood.mlx | data\PyData\scripts\003_DARKWOOD.pyscript | 105 | 1177 | DONE |
-| 005_infectedvillage.mlx | data\PyData\scripts\005_INFECTEDVILLAGE.pyscript | 6 | 36 | DONE |
-| 008_gothicus_castle_01.rule.xml | data\pydata\scripts\008_gothicus_castle_01.pyscript | 10 | 328 | DONE |
-| 011_earth_temple_01.rule.xml | data\pydata\scripts\011_earth_temple_01.pyscript | 5 | 23 | DONE |
-| 012_earth_temple_02.rule.xml | data\pydata\scripts\012_earth_temple_02.pyscript | 8 | 60 | DONE |
-| 013_earth_temple_03.rule.xml | data\pydata\scripts\013_earth_temple_03.pyscript | 15 | 274 | DONE |
-| 021_gothicus_castle_02.rule.xml | data\pydata\scripts\021_gothicus_castle_02.pyscript | 22 | 225 | DONE |
 
 
 ### Command readiness by native kind
@@ -1027,158 +249,38 @@ The native factory/reader addresses come from the recovered C1 descriptor map. P
 | Kind | Command | Count | Factory address | Reader address | Port status | Code anchors |
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 | Script_ExecScript | 162 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 4 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 8 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 2 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 8 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 10 | 0x458d40 | 0x455628 | UNKNOWN |  |
-| 0 | Script_ExecScript | 24 | 0x458d40 | 0x455628 | UNKNOWN |  |
 | 3 | Script_CONSOLE | 20 | 0x458c68 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:680, port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:66 |
-| 3 | Script_CONSOLE | 15 | 0x458c68 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:680, port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:66 |
-| 3 | Script_CONSOLE | 15 | 0x458c68 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:680, port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:66 |
-| 3 | Script_CONSOLE | 8 | 0x458c68 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:680, port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:66 |
 | 5 | Script_PlayCamera | 19 | 0x458bd8 | 0x455628 | UNKNOWN |  |
-| 5 | Script_PlayCamera | 2 | 0x458bd8 | 0x455628 | UNKNOWN |  |
-| 5 | Script_PlayCamera | 17 | 0x458bd8 | 0x455628 | UNKNOWN |  |
-| 5 | Script_PlayCamera | 2 | 0x458bd8 | 0x455628 | UNKNOWN |  |
-| 5 | Script_PlayCamera | 23 | 0x458bd8 | 0x455628 | UNKNOWN |  |
 | 6 | Script_SetCameraClip | 3 | 0x458b90 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:681 |
-| 6 | Script_SetCameraClip | 2 | 0x458b90 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:681 |
-| 6 | Script_SetCameraClip | 4 | 0x458b90 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:681 |
 | 8 | Script_SetCameraTarget | 32 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 2 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 13 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 2 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 4 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 5 | 0x458b00 | 0x455628 | UNKNOWN |  |
-| 8 | Script_SetCameraTarget | 8 | 0x458b00 | 0x455628 | UNKNOWN |  |
 | 10 | Script_StartDialog | 263 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 7 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 35 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 4 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 10 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 29 | 0x458a70 | 0x459034 | UNKNOWN |  |
-| 10 | Script_StartDialog | 41 | 0x458a70 | 0x459034 | UNKNOWN |  |
 | 12 | Script_WaitDialog | 253 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 6 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 34 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 3 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 8 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 27 | 0x4589e0 | 0x455628 | UNKNOWN |  |
-| 12 | Script_WaitDialog | 38 | 0x4589e0 | 0x455628 | UNKNOWN |  |
 | 13 | Script_PlaySound | 9 | 0x458998 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:755 |
-| 13 | Script_PlaySound | 15 | 0x458998 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:755 |
-| 13 | Script_PlaySound | 6 | 0x458998 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:755 |
-| 13 | Script_PlaySound | 1 | 0x458998 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:755 |
 | 14 | Script_StopSound | 1 | 0x458950 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:732 |
-| 14 | Script_StopSound | 2 | 0x458950 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:732 |
-| 14 | Script_StopSound | 3 | 0x458950 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:732 |
 | 15 | Script_PlayLevelMusic | 2 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 15 | Script_PlayLevelMusic | 1 | 0x458908 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:769 |
-| 19 | Script_PlayAnimByName | 2 | 0x4587e8 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:692 |
 | 20 | Script_PlayEffect | 13 | 0x4587a0 | 0x4598b4 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:702 |
-| 20 | Script_PlayEffect | 10 | 0x4587a0 | 0x4598b4 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:702 |
-| 20 | Script_PlayEffect | 2 | 0x4587a0 | 0x4598b4 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:702 |
-| 20 | Script_PlayEffect | 6 | 0x4587a0 | 0x4598b4 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:702 |
-| 20 | Script_PlayEffect | 12 | 0x4587a0 | 0x4598b4 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:702 |
 | 21 | Script_StopEffect | 8 | 0x458758 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:726 |
-| 21 | Script_StopEffect | 2 | 0x458758 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:726 |
-| 21 | Script_StopEffect | 3 | 0x458758 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:726 |
 | 22 | Script_ShowFlash | 1 | 0x45870c | 0x45983c | UNKNOWN |  |
 | 23 | Script_HideFlash | 1 | 0x4586c0 | 0x4597e8 | UNKNOWN |  |
 | 24 | Script_LockCharacter | 81 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 2 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 4 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 1 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 4 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 5 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 24 | Script_LockCharacter | 12 | 0x458678 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
 | 25 | Script_UnlockCharacter | 81 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 2 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 4 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 1 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 4 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 5 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
-| 25 | Script_UnlockCharacter | 12 | 0x458630 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:30 |
 | 26 | Script_Wait | 36 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 2 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 37 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 1 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 5 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 3 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 26 | Script_Wait | 20 | 0x4585e0 | 0x455628 | UNKNOWN |  |
-| 27 | Script_SetFaeryState | 1 | 0x458598 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:49 |
-| 27 | Script_SetFaeryState | 1 | 0x458598 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:49 |
-| 27 | Script_SetFaeryState | 4 | 0x458598 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:49 |
 | 29 | Script_PutCharacterInLimbus | 2 | 0x458508 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:669 |
-| 29 | Script_PutCharacterInLimbus | 1 | 0x458508 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:669 |
 | 30 | Script_SpawnCharacter | 2 | 0x4584c0 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:37 |
-| 30 | Script_SpawnCharacter | 8 | 0x4584c0 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:37 |
-| 30 | Script_SpawnCharacter | 1 | 0x4584c0 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:37 |
-| 30 | Script_SpawnCharacter | 4 | 0x4584c0 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:37 |
-| 30 | Script_SpawnCharacter | 1 | 0x4584c0 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:37 |
-| 31 | Script_PutCharacterInIdle | 1 | 0x458478 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:38 |
-| 31 | Script_PutCharacterInIdle | 10 | 0x458478 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:38 |
 | 31 | Script_PutCharacterInIdle | 1 | 0x458478 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:38 |
 | 39 | Script_StopActor | 2 | 0x458238 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:38 |
 | 40 | Script_MoveActor | 4 | 0x4581e4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:574 |
-| 40 | Script_MoveActor | 4 | 0x4581e4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:574 |
-| 40 | Script_MoveActor | 1 | 0x4581e4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:574 |
-| 40 | Script_MoveActor | 4 | 0x4581e4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:574 |
 | 41 | Script_LookActor | 60 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
-| 41 | Script_LookActor | 26 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
-| 41 | Script_LookActor | 1 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
-| 41 | Script_LookActor | 2 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
-| 41 | Script_LookActor | 12 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
-| 41 | Script_LookActor | 15 | 0x45819c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:637 |
 | 42 | Script_ShowActor | 16 | 0x458154 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:661 |
-| 42 | Script_ShowActor | 1 | 0x458154 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:661 |
-| 42 | Script_ShowActor | 2 | 0x458154 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:661 |
-| 42 | Script_ShowActor | 4 | 0x458154 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:661 |
 | 43 | Script_HideActor | 16 | 0x45810c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:662 |
-| 43 | Script_HideActor | 7 | 0x45810c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:662 |
-| 43 | Script_HideActor | 9 | 0x45810c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:662 |
-| 43 | Script_HideActor | 5 | 0x45810c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:662 |
-| 44 | Script_KillActor | 1 | 0x4580c4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:588 |
-| 44 | Script_KillActor | 3 | 0x4580c4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:588 |
-| 44 | Script_KillActor | 1 | 0x4580c4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:588 |
 | 45 | Script_PlayActorAnim | 29 | 0x4595c8 | 0x45a2ec | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:595 |
-| 45 | Script_PlayActorAnim | 53 | 0x4595c8 | 0x45a2ec | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:595 |
-| 45 | Script_PlayActorAnim | 65 | 0x4595c8 | 0x45a2ec | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:595 |
-| 45 | Script_PlayActorAnim | 1 | 0x4595c8 | 0x45a2ec | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:595 |
 | 46 | Script_SetActorPosition | 29 | 0x45807c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:619 |
-| 46 | Script_SetActorPosition | 20 | 0x45807c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:619 |
-| 46 | Script_SetActorPosition | 3 | 0x45807c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:619 |
-| 46 | Script_SetActorPosition | 21 | 0x45807c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:619 |
-| 46 | Script_SetActorPosition | 10 | 0x45807c | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:619 |
-| 51 | Script_UnEquipHands | 1 | 0x457f14 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:745 |
-| 52 | Script_ReEquipHands | 1 | 0x457ecc | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:746 |
 | 54 | Script_OpenDoor | 12 | 0x457e34 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:772 |
-| 54 | Script_OpenDoor | 2 | 0x457e34 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:772 |
-| 54 | Script_OpenDoor | 2 | 0x457e34 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:772 |
-| 54 | Script_OpenDoor | 5 | 0x457e34 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:772 |
-| 54 | Script_OpenDoor | 2 | 0x457e34 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:772 |
 | 55 | Script_CloseDoor | 4 | 0x457de4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:773 |
-| 55 | Script_CloseDoor | 4 | 0x457de4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:773 |
-| 55 | Script_CloseDoor | 2 | 0x457de4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:773 |
-| 55 | Script_CloseDoor | 1 | 0x457de4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:773 |
-| 55 | Script_CloseDoor | 2 | 0x457de4 | 0x455628 | PARTIAL | port/windows-foundation/features/campaign_host/campaign_host.cpp:773 |
 | 64 | Script_ChangeLevel | 2 | 0x457b4c | 0x455628 | UNKNOWN |  |
-| 64 | Script_ChangeLevel | 1 | 0x457b4c | 0x455628 | UNKNOWN |  |
-| 66 | Script_AwardTrophy | 1 | 0x457abc | 0x455628 | UNKNOWN |  |
-| 69 | Script_SaveGame | 1 | 0x4579e4 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:51 |
-| 69 | Script_SaveGame | 1 | 0x4579e4 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:51 |
-| 69 | Script_SaveGame | 1 | 0x4579e4 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:51 |
 | 74 | Script_EnqueueCharMenuTutorialMessage | 4 | 0x45787c | 0x455628 | UNKNOWN |  |
 | 77 | Script_LockTutorial | 2 | 0x4577a4 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:53 |
-| 77 | Script_LockTutorial | 1 | 0x4577a4 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:53 |
 | 78 | Script_DoTutorial | 2 | 0x45775c | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:54 |
-| 78 | Script_DoTutorial | 1 | 0x45775c | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:54 |
 | 79 | Script_FlushMessages | 5 | 0x457714 | 0x455628 | PARTIAL | port/windows-foundation/original_campaign_world_adapter.cpp:25, port/windows-foundation/original_campaign_world_adapter.cpp:63 |
 
 
@@ -1514,298 +616,264 @@ The table below preserves exact command labels and decoded string operands. A `S
 | 003_darkwood.mlx | inspect_hell_aftUnderworld | Script_WaitDialog |  | 6 |
 | 003_darkwood.mlx | inspect_hell_aftWater | Script_StartDialog |  | 4 |
 | 003_darkwood.mlx | inspect_hell_aftWater | Script_WaitDialog |  | 4 |
-| 005_infectedvillage.mlx | Ambush | Script_SpawnCharacter | _prim_tmp_infected05 | 1 |
-| 005_infectedvillage.mlx | Ambush | Script_SpawnCharacter | _prim_tmp_infected06 | 1 |
-| 005_infectedvillage.mlx | Ambush | Script_SpawnCharacter | _prim_tmp_infected07 | 1 |
-| 005_infectedvillage.mlx | Ambush | Script_SpawnCharacter | _prim_tmp_infected16 | 1 |
-| 005_infectedvillage.mlx | Ambush | Script_SpawnCharacter | _prim_tmp_infected17 | 1 |
-| 005_infectedvillage.mlx | ExitParty | Script_SpawnCharacter | _prim_tmp_infected_exit01 | 1 |
-| 005_infectedvillage.mlx | ExitParty | Script_SpawnCharacter | _prim_tmp_infected_exit02 | 1 |
-| 005_infectedvillage.mlx | ExitParty | Script_SpawnCharacter | _prim_tmp_infected_exit03 | 1 |
-| 005_infectedvillage.mlx | Inspect_Cliff | Script_StartDialog |  | 4 |
-| 005_infectedvillage.mlx | Inspect_Cliff | Script_WaitDialog |  | 4 |
-| 005_infectedvillage.mlx | Inspect_Well | Script_StartDialog |  | 2 |
-| 005_infectedvillage.mlx | Inspect_Well | Script_WaitDialog |  | 2 |
-| 005_infectedvillage.mlx | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 005_infectedvillage.mlx | enterLocation_Infected | Script_StartDialog |  | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_CloseDoor | _prim_AssDoor01 | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_CloseDoor | _prim_AssDoor02 | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_CloseDoor | _prim_AssDoor_BackupN01 | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_CloseDoor | _prim_AssDoor_BackupN02 | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_KillActor | _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_LookActor | _prim_Assassin; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_LookActor | _prim_Assassin; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_LookActor | _prim_Assassin; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_LookActor | _prim_NPC_PriestGood; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_MoveActor | _prim_FaeryEndPoint; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_MoveActor | _prim_PlayerEndPoint; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_MoveActor | _prim_PriestEndPoint; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_MoveActor | _prim_Waypoint_AssSpot03; _prim_Assassin | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_PlayActorAnim | _prim_Assassin | 2 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_PlaySound |  | 4 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_SetActorPosition | _prim_PlayerEndPoint; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_SpawnCharacter | _prim_Assassin | 1 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_StartDialog |  | 9 |
-| 008_gothicus_castle_01.rule.xml | AssassinIntro | Script_WaitDialog |  | 9 |
-| 008_gothicus_castle_01.rule.xml | Backup | Script_SetActorPosition | _prim_PlayerEndPoint; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | Door_Teleport | Script_PlaySound |  | 1 |
-| 008_gothicus_castle_01.rule.xml | Door_Teleport | Script_SetActorPosition | _prim_PlayerEndPoint; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | EddieEscape | Script_HideActor | _prim_King | 1 |
-| 008_gothicus_castle_01.rule.xml | EddieEscape | Script_HideActor | _prim_NPC_Edward | 1 |
-| 008_gothicus_castle_01.rule.xml | EddieEscape | Script_PlaySound |  | 1 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_ChangeLevel | DARKWOOD | 1 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_HideActor | LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_HideActor | _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_HideActor | _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_PlaySound |  | 3 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_StartDialog |  | 4 |
-| 008_gothicus_castle_01.rule.xml | ExitCinematic | Script_WaitDialog |  | 4 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_HideActor | _prim_King | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_HideActor | _prim_NPC_Edward | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | LocalPlayer; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | LocalPlayer; _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | LocalPlayer; _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | LocalPlayer; _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | LocalPlayer; _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_NPC_Edward; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_NPC_Edward; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_NPC_PriestGood; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_NPC_PriestGood; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_PriestSpot_03; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomCenter; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_King | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_NPC_Edward | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_LookActor | _prim_Waypoint_ThroneRoomLookTo; _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | Player | 12 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_Faery | 9 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_King | 4 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_NPC_Edward | 11 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_NPC_PriestGood | 10 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlayActorAnim | _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PlaySound |  | 5 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_Faery | 2 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_NPC_PriestGood | 2 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_PutCharacterInIdle | _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_FaerySpot_02; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_GuardPoint_01; _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_GuardPoint_02; _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_GuardPoint_03; _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_GuardPoint_04; _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Playerspot_02; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_PriestSpot_02; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_Faery | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_King | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_NPC_Edward | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_NPC_PriestGood | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_tmp_commontype02 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_tmp_commontype03 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_tmp_commontype04 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_SetActorPosition | _prim_Waypoint_ThroneRoomCenter; _prim_tmp_commontype1 | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_StartDialog |  | 21 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_StopSound |  | 1 |
-| 008_gothicus_castle_01.rule.xml | KingCinematic | Script_WaitDialog |  | 21 |
-| 008_gothicus_castle_01.rule.xml | PlayerReturn1 | Script_LookActor | LocalPlayer; _prim_Assassin | 2 |
-| 008_gothicus_castle_01.rule.xml | PlayerReturn1 | Script_PlayActorAnim | _prim_Assassin | 1 |
-| 008_gothicus_castle_01.rule.xml | PlayerReturn1 | Script_PlaySound |  | 1 |
-| 008_gothicus_castle_01.rule.xml | PlayerReturn1 | Script_PutCharacterInIdle | _prim_Assassin | 1 |
-| 008_gothicus_castle_01.rule.xml | PlayerReturn1 | Script_SetActorPosition | _prim_Waypoint_AssSpot01; LocalPlayer | 1 |
-| 008_gothicus_castle_01.rule.xml | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 008_gothicus_castle_01.rule.xml | StopSound | Script_StopSound |  | 1 |
-| 008_gothicus_castle_01.rule.xml | enterLocation_GothicusCastle01 | Script_StartDialog |  | 1 |
-| 011_earth_temple_01.rule.xml | Door_A_open | Script_OpenDoor | _prim_Door_FirstGate | 1 |
-| 011_earth_temple_01.rule.xml | EarthTemp_Intro | Script_LookActor | LocalPlayer; _prim_Faery | 1 |
-| 011_earth_temple_01.rule.xml | EarthTemp_Intro | Script_SetActorPosition | _prim_Waypoint_FaeryStart; _prim_Faery | 3 |
-| 011_earth_temple_01.rule.xml | EarthTemp_Intro | Script_StartDialog |  | 3 |
-| 011_earth_temple_01.rule.xml | EarthTemp_Intro | Script_WaitDialog |  | 3 |
-| 011_earth_temple_01.rule.xml | FrontDoor_Open | Script_OpenDoor | _prim_Door_entrance | 1 |
-| 011_earth_temple_01.rule.xml | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 011_earth_temple_01.rule.xml | enterLocation_EarthTemple | Script_StartDialog |  | 1 |
-| 012_earth_temple_02.rule.xml | Epic_hello | Script_LookActor | LocalPlayer; _prim_epic_merchant | 1 |
-| 012_earth_temple_02.rule.xml | Epic_hello | Script_LookActor | _prim_epic_merchant; LocalPlayer | 1 |
-| 012_earth_temple_02.rule.xml | Epic_hello | Script_ShowActor | _prim_epic_merchant | 1 |
-| 012_earth_temple_02.rule.xml | Epic_hello | Script_StartDialog |  | 3 |
-| 012_earth_temple_02.rule.xml | Epic_hello | Script_WaitDialog |  | 3 |
-| 012_earth_temple_02.rule.xml | Midboss_defeated | Script_OpenDoor | _prim_Door_midboss_A | 1 |
-| 012_earth_temple_02.rule.xml | Midboss_defeated | Script_OpenDoor | _prim_Door_midboss_B | 1 |
-| 012_earth_temple_02.rule.xml | Midboss_defeated | Script_StartDialog |  | 5 |
-| 012_earth_temple_02.rule.xml | Midboss_defeated | Script_WaitDialog |  | 5 |
-| 012_earth_temple_02.rule.xml | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 012_earth_temple_02.rule.xml | enterLocation_EarthTemple02 | Script_StartDialog |  | 1 |
-| 012_earth_temple_02.rule.xml | enterLocation_EarthTemple02_Midboss | Script_StartDialog |  | 1 |
-| 012_earth_temple_02.rule.xml | midboss_doorclose | Script_CloseDoor | _prim_Door_midboss_A | 1 |
-| 012_earth_temple_02.rule.xml | midboss_doorclose | Script_CloseDoor | _prim_Door_midboss_B | 1 |
-| 012_earth_temple_02.rule.xml | sw_spider_surprise | Script_SpawnCharacter | _prim_spider_sw_surprise_01 | 1 |
-| 012_earth_temple_02.rule.xml | sw_spider_surprise | Script_SpawnCharacter | _prim_spider_sw_surprise_02 | 1 |
-| 012_earth_temple_02.rule.xml | sw_spider_surprise | Script_SpawnCharacter | _prim_spider_sw_surprise_03 | 1 |
-| 012_earth_temple_02.rule.xml | sw_spider_surprise | Script_SpawnCharacter | _prim_spider_sw_surprise_04 | 1 |
-| 013_earth_temple_03.rule.xml | Door_C_open | Script_OpenDoor | _prim_Door_Gate4 | 1 |
-| 013_earth_temple_03.rule.xml | Door_Teleport | Script_PlaySound |  | 1 |
-| 013_earth_temple_03.rule.xml | Door_Teleport | Script_SetActorPosition | Waypoint_CS_Intro_Origin01_LookTo; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | Door_locked | Script_StartDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | Door_locked | Script_WaitDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | Found_key | Script_StartDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | Found_key | Script_WaitDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | Intro | Script_StartDialog |  | 3 |
-| 013_earth_temple_03.rule.xml | Intro | Script_WaitDialog |  | 3 |
-| 013_earth_temple_03.rule.xml | NewFaery_Hide | Script_HideActor | _prim_Primula | 1 |
-| 013_earth_temple_03.rule.xml | NewFaery_Hide | Script_HideActor | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | NewFaery_Hide | Script_PlayActorAnim | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_CloseDoor | _prim_LittleDoor03 | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_HideActor | _prim_Primula | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; cs_cultist_center | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; cs_cultist_left | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; cs_cultist_right | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_LookActor | cs_root_troll; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | LocalPlayer | 6 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | cs_cultist_center | 6 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | cs_cultist_left | 6 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | cs_cultist_right | 6 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlayActorAnim | cs_root_troll | 4 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PlaySound |  | 2 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_PutCharacterInIdle | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin01_LookTo; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; cs_cultist_center | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; cs_cultist_left | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; cs_cultist_right | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Origin; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Start; cs_cultist_center | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Start_L; cs_cultist_left | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_CS_Intro_Start_R; cs_cultist_right | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_PrinceStart; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SetActorPosition | Waypoint_TrollStart; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_ShowActor | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_SpawnCharacter | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_StartDialog |  | 6 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_StopSound |  | 3 |
-| 013_earth_temple_03.rule.xml | RootTroll_intro_cinematic | Script_WaitDialog |  | 6 |
-| 013_earth_temple_03.rule.xml | TrollReturn1 | Script_MoveActor | _prim_Waypoint_TrollReturn01; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_HideActor | _prim_Primula | 2 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_HideActor | cs_cultist_center | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_HideActor | cs_cultist_left | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_HideActor | cs_cultist_right | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_HideActor | cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_KillActor | cs_cultist_center | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_KillActor | cs_cultist_left | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_KillActor | cs_cultist_right | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_LookActor | LocalPlayer; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_LookActor | Waypoint_CS_Intro_Origin01_LookTo; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_LookActor | Waypoint_TrollStart; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_OpenDoor | _prim_Door | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_OpenDoor | _prim_LittleDoor01 | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_OpenDoor | _prim_LittleDoor02 | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_OpenDoor | _prim_LittleDoor03 | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_PlayActorAnim | LocalPlayer | 12 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_PlayActorAnim | _prim_Faery | 11 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_PlayActorAnim | _prim_Primula | 7 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_PlayActorAnim | cs_root_troll | 5 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_PlaySound |  | 3 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Origin01_LookTo; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Origin; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Origin; _prim_Faery | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Origin; _prim_Primula | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Origin; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_CS_Intro_Start; LocalPlayer | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_FaerHide; _prim_Primula | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_SetActorPosition | Waypoint_FaerHide; cs_root_troll | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_ShowActor | _prim_Primula | 1 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_StartDialog |  | 15 |
-| 013_earth_temple_03.rule.xml | Troll_Killed | Script_WaitDialog |  | 15 |
-| 013_earth_temple_03.rule.xml | cinematic_Tuto_faery2 | Script_StartDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | cinematic_Tuto_faery2 | Script_WaitDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | enterLocation_EarthTemple03 | Script_StartDialog |  | 1 |
-| 013_earth_temple_03.rule.xml | enterLocation_EarthTemple_Boss | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | CloseDoors | Script_CloseDoor | _prim_Door_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | CloseDoors | Script_CloseDoor | _prim_Door_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | CloseDoors | Script_PlaySound |  | 1 |
-| 021_gothicus_castle_02.rule.xml | CloseDoors | Script_SetActorPosition | _prim_Waypoint_NowLookAtMe; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_a | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_a | Script_WaitDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_b | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_b | Script_WaitDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_c | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_c | Script_WaitDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_d | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GCVB_body_d | Script_WaitDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_HideActor | _prim_Celeste | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_HideActor | _prim_Faery | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_HideActor | _prim_Primula | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | LocalPlayer; _prim_Faery | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | LocalPlayer; _prim_Primula | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | _prim_NPC_deadguard_02; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | _prim_NPC_deadguard_02; _prim_Celeste | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | _prim_Waypoint_FaeryStart02; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_LookActor | _prim_Waypoint_FaeryStart; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_MoveActor | _prim_Waypoint_playerstart; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_SetActorPosition | _prim_Waypoint_FaeryHide; _prim_Celeste | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_SetActorPosition | _prim_Waypoint_FaeryHide; _prim_Primula | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_SetActorPosition | _prim_Waypoint_FaeryStart02; _prim_Celeste | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_SetActorPosition | _prim_Waypoint_FaeryStart; _prim_Primula | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_ShowActor | _prim_Faery | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_StartDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro | Script_WaitDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro_b | Script_StartDialog |  | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_intro_b | Script_WaitDialog |  | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_HideActor | _prim_Faery | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_HideActor | _prim_cultist_friendly | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_KillActor | _prim_cultist_friendly | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | LocalPlayer; _prim_Celeste_01 | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | LocalPlayer; _prim_Primula_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | _prim_Celeste_01; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | _prim_Primula_02; _prim_Celeste_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | _prim_cultist_friendly; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | _prim_waypoint_chair; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_LookActor | _prim_waypoint_primula01; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_MoveActor | _prim_waypoint_cultist; _prim_cultist_friendly | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_MoveActor | _prim_waypoint_faerywait00; _prim_Faery | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_MoveActor | _prim_waypoint_prince; LocalPlayer | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_PlayActorAnim | _prim_cultist_friendly | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_SetActorPosition | _prim_Waypoint_CultistHide; _prim_Celeste_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_SetActorPosition | _prim_Waypoint_CultistHide; _prim_Primula_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_SetActorPosition | _prim_Waypoint_CultistHide; _prim_cultist_friendly | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_SetActorPosition | _prim_waypoint_celeste01; _prim_Celeste_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_SetActorPosition | _prim_waypoint_primula01; _prim_Primula_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_ShowActor | _prim_Celeste_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_ShowActor | _prim_Faery | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_ShowActor | _prim_Primula_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_StartDialog |  | 15 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_king_gone | Script_WaitDialog |  | 15 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_a | Script_StartDialog |  | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_a | Script_WaitDialog |  | 2 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_b | Script_StartDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_b | Script_WaitDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_c | Script_StartDialog |  | 3 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_c | Script_WaitDialog |  | 3 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_d | Script_StartDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | GothicusB_survivor_d | Script_WaitDialog |  | 4 |
-| 021_gothicus_castle_02.rule.xml | OpenDoor_01 | Script_OpenDoor | _prim_Door_01 | 1 |
-| 021_gothicus_castle_02.rule.xml | OpenDoor_01 | Script_OpenDoor | _prim_Door_02 | 1 |
-| 021_gothicus_castle_02.rule.xml | ResumeLevelMusic | Script_PlayLevelMusic |  | 1 |
-| 021_gothicus_castle_02.rule.xml | enterLocation_Gate | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | enterLocation_GothicusCastle01 | Script_StartDialog |  | 1 |
-| 021_gothicus_castle_02.rule.xml | enterLocation_Throne | Script_StartDialog |  | 1 |
 
 
-Raw strings are recorded in `../data/campaign-references.json`. Command labels and recovered field offsets identify spawn, transition, dialogue, and audio command records; runtime branch conditions and dialogue-table IDs remain TODO.
+Raw strings are recorded in `../data/campaign-references.json`. Command labels and recovered field offsets identify spawn, transition, dialogue, and audio command records; runtime branch conditions and dialogue-table IDs remain unresolved.
+
+## Source-linked asset detail pages
+
+Each page joins the source asset inventory to scene/MGP reference rows and carries the resolver status, confidence, rule, port metadata, and source path.
+
+| Asset | Stable ID | Source status | Page |
+| --- | --- | --- | --- |
+| 3d/modules/darkwood/mgp/darkwood_08_01.mgp | 0025b3f00801cc848c34 | ORPHAN | [details](assets/0025b3f00801cc848c34.md) |
+| 3d/modules/darkwood/mvp/darkwood_27_01.mvp | 02e48d4675fcb65b15b2 | ORPHAN | [details](assets/02e48d4675fcb65b15b2.md) |
+| sounds/sfx_edward_hurt_2.wav | 03dc239998e958b1a16f | ORPHAN | [details](assets/03dc239998e958b1a16f.md) |
+| 3d/modules/darkwood/mgp/darkwood_07_01.mgp | 040ecdb97909363f6da9 | ORPHAN | [details](assets/040ecdb97909363f6da9.md) |
+| sounds/sfx_dark_queen_die.wav | 05beb05dadb4fef0420e | ORPHAN | [details](assets/05beb05dadb4fef0420e.md) |
+| sounds/sfx_edward_attack.wav | 0718bbb36603ba620f57 | ORPHAN | [details](assets/0718bbb36603ba620f57.md) |
+| 3d/modules/darkwood/mgp/darkwood_09_01.mgp | 077617a853c9944dfcab | ORPHAN | [details](assets/077617a853c9944dfcab.md) |
+| 3d/modules/darkwood/mvp/darkwood_27_01.mvp | 093873740b64ea17120f | ORPHAN | [details](assets/093873740b64ea17120f.md) |
+| 3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae | 095e5e36cfd5ef97a2fd | ORPHAN | [details](assets/095e5e36cfd5ef97a2fd.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_pushback.bdae | 0a0215e15ba2ef940576 | ORPHAN | [details](assets/0a0215e15ba2ef940576.md) |
+| 3d/modules/darkwood/mgp/darkwood_13_01.mgp | 0abd8000c3489220627a | ORPHAN | [details](assets/0abd8000c3489220627a.md) |
+| 3d/modules/darkwood/mvp/darkwood_14_01.mvp | 0c633cee9e17480b95b8 | ORPHAN | [details](assets/0c633cee9e17480b95b8.md) |
+| 3d/characters/faeries/animations/faeries_celeste_walk.bdae | 0e678c6cc573c72b0aa3 | ORPHAN | [details](assets/0e678c6cc573c72b0aa3.md) |
+| 3d/modules/darkwood/mgp/darkwood_27_01.mgp | 0eed987fbb192ccf7691 | ORPHAN | [details](assets/0eed987fbb192ccf7691.md) |
+| 3d/characters/statue/animations/child_post_attack_02.bdae | 10e5d884d986189463b5 | ORPHAN | [details](assets/10e5d884d986189463b5.md) |
+| 3d/characters/statue/animations/child_walk_01.bdae | 110ac2b7504afd993fac | ORPHAN | [details](assets/110ac2b7504afd993fac.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_despawn.bdae | 120b2025815daf146888 | ORPHAN | [details](assets/120b2025815daf146888.md) |
+| 3d/modules/darkwood/mgp/darkwood_13_01.mgp | 126f8899b0d4b6b1e01a | ORPHAN | [details](assets/126f8899b0d4b6b1e01a.md) |
+| 3d/modules/darkwood/mgp/darkwood_20_01.mgp | 1632646db1bf5ebe0e68 | ORPHAN | [details](assets/1632646db1bf5ebe0e68.md) |
+| 3d/interface/skill_dh2_monster_dark_queen1stform_projectile.bdae | 163edde558196306397f | ORPHAN | [details](assets/163edde558196306397f.md) |
+| 3d/characters/faeries/animations/faeries_template_anim.bdae | 178c6c68d9774e8c39b8 | ORPHAN | [details](assets/178c6c68d9774e8c39b8.md) |
+| 3d/interface/spell_dh2_hurt_monster_madruk01_fast_bolt.bdae | 18e1f46488c24115abb1 | ORPHAN | [details](assets/18e1f46488c24115abb1.md) |
+| 3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae | 1966428b9a95dc571e28 | ORPHAN | [details](assets/1966428b9a95dc571e28.md) |
+| scripts/ai/follower.luac | 19921b1cfbabfd09916c | ORPHAN | [details](assets/19921b1cfbabfd09916c.md) |
+| 3d/modules/darkwood/mvp/darkwood_12_01.mvp | 19e71572b876e8225a25 | ORPHAN | [details](assets/19e71572b876e8225a25.md) |
+| 3d/interface/spell_dh2_hurt_lightning.bdae | 1a5b26e9aed8da1ec2a0 | ORPHAN | [details](assets/1a5b26e9aed8da1ec2a0.md) |
+| 3d/modules/darkwood/mvp/darkwood_02_01.mvp | 1b050f7bdc29f095f857 | ORPHAN | [details](assets/1b050f7bdc29f095f857.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_attack_melee.bdae | 1b3f97503ce9eeba3079 | ORPHAN | [details](assets/1b3f97503ce9eeba3079.md) |
+| 3d/characters/statue/animations/statue_despawn.bdae | 1f31a28f22cea2a3a57e | ORPHAN | [details](assets/1f31a28f22cea2a3a57e.md) |
+| 3d/modules/darkwood/mgp/darkwood_04_01.mgp | 20eae4a8a21440a2a1b2 | ORPHAN | [details](assets/20eae4a8a21440a2a1b2.md) |
+| 3d/modules/darkwood/mvp/darkwood_20_01.mvp | 21a272f8cdff52dd5623 | ORPHAN | [details](assets/21a272f8cdff52dd5623.md) |
+| 3d/characters/statue/animations/child_pushback.bdae | 21cb05b990c442a3021e | ORPHAN | [details](assets/21cb05b990c442a3021e.md) |
+| 3d/modules/darkwood/mgp/darkwood_17_01.mgp | 2259a9e94a342dfaa64d | ORPHAN | [details](assets/2259a9e94a342dfaa64d.md) |
+| 3d/characters/prince/animations/prince_dying_01.bdae | 22f707e9c4b8bd6a1b24 | ORPHAN | [details](assets/22f707e9c4b8bd6a1b24.md) |
+| 3d/characters/statue/animations/child_pre_attack_01.bdae | 247f5ff80d1189dca516 | ORPHAN | [details](assets/247f5ff80d1189dca516.md) |
+| 3d/characters/statue/animations/statue_beam.bdae | 250f75c2131e0867b356 | ORPHAN | [details](assets/250f75c2131e0867b356.md) |
+| sounds/sfx_statue_cherub_hurt_2.wav | 25460bf7788c4e8fe3ca | ORPHAN | [details](assets/25460bf7788c4e8fe3ca.md) |
+| 3d/modules/darkwood/mgp/darkwood_14_01.mgp | 27cddc4343bfaf26403f | ORPHAN | [details](assets/27cddc4343bfaf26403f.md) |
+| 3d/modules/darkwood/mgp/darkwood_06_01.mgp | 27ce080c17f04f42a2e7 | ORPHAN | [details](assets/27ce080c17f04f42a2e7.md) |
+| 3d/characters/npcs/f_merchant.bdae | 292ea0ee6c42f9a13ead | ORPHAN | [details](assets/292ea0ee6c42f9a13ead.md) |
+| sfx_swoosh_sword_1_22.wav | 29528629ca15069ea2b7 | ORPHAN | [details](assets/29528629ca15069ea2b7.md) |
+| 3d/modules/darkwood/mgp/darkwood_07_01.mgp | 2a48b850f145cc334a22 | ORPHAN | [details](assets/2a48b850f145cc334a22.md) |
+| 3d/modules/darkwood/mgp/darkwood_01_01.mgp | 2d10c83fcc03c4d96e81 | ORPHAN | [details](assets/2d10c83fcc03c4d96e81.md) |
+| 3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae | 2d908c89cd2065be994e | ORPHAN | [details](assets/2d908c89cd2065be994e.md) |
+| 3d/modules/darkwood/mvp/darkwood_16_01.mvp | 2dd11f3b9fac91b9b9c3 | ORPHAN | [details](assets/2dd11f3b9fac91b9b9c3.md) |
+| 3d/modules/darkwood/mgp/darkwood_23_01.mgp | 2ecd5491b4429cc005c8 | ORPHAN | [details](assets/2ecd5491b4429cc005c8.md) |
+| scripts/ai/rene.luac | 2fbb332d04092f3fe22e | ORPHAN | [details](assets/2fbb332d04092f3fe22e.md) |
+| 3d/characters/npcs/cultist.bdae | 2fe7552e40bc0e4732bd | ORPHAN | [details](assets/2fe7552e40bc0e4732bd.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_01.bdae | 30f51edd3c58f864b6e6 | ORPHAN | [details](assets/30f51edd3c58f864b6e6.md) |
+| 3d/modules/darkwood/mgp/darkwood_08_01.mgp | 32b1bf80e65532ec4aee | ORPHAN | [details](assets/32b1bf80e65532ec4aee.md) |
+| 3d/modules/darkwood/mvp/darkwood_13_01.mvp | 32bf291e92e646de4000 | ORPHAN | [details](assets/32bf291e92e646de4000.md) |
+| 3d/modules/darkwood/mgp/darkwood_10_01.mgp | 359e98ae8dd6db902950 | ORPHAN | [details](assets/359e98ae8dd6db902950.md) |
+| 3d/characters/statue/animations/child_post_stunned.bdae | 36a9df7a23e10b03b4e2 | ORPHAN | [details](assets/36a9df7a23e10b03b4e2.md) |
+| 3d/modules/darkwood/mvp/darkwood_13_01.mvp | 37eda52bd631e4378098 | ORPHAN | [details](assets/37eda52bd631e4378098.md) |
+| 3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae | 39c00cf2fb0a0d7ec0ed | ORPHAN | [details](assets/39c00cf2fb0a0d7ec0ed.md) |
+| 3d/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae | 3a72b29e6bbdbc64068b | ORPHAN | [details](assets/3a72b29e6bbdbc64068b.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_walk.bdae | 3bc6064d28a76cfd1990 | ORPHAN | [details](assets/3bc6064d28a76cfd1990.md) |
+| 3d/characters/npcs/king.bdae | 3c3629271a8a80fef8ae | ORPHAN | [details](assets/3c3629271a8a80fef8ae.md) |
+| sounds/sfx_witch_magic_explosion.wav | 40418e424aaeee129552 | ORPHAN | [details](assets/40418e424aaeee129552.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_hurt.bdae | 40d6091ce6a980fd3648 | ORPHAN | [details](assets/40d6091ce6a980fd3648.md) |
+| sounds/m_level_darkwood_sfx_darkwood.vxn | 410cf45e8f2aef0428b0 | ORPHAN | [details](assets/410cf45e8f2aef0428b0.md) |
+| 3d/characters/npcs/thamos_merchant.bdae | 41fedada55ffb8759356 | ORPHAN | [details](assets/41fedada55ffb8759356.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_02.bdae | 4272f3fbd92520558594 | ORPHAN | [details](assets/4272f3fbd92520558594.md) |
+| 3d/characters/prince/animations/prince_stunned.bdae | 444721ae1b4f1f410751 | ORPHAN | [details](assets/444721ae1b4f1f410751.md) |
+| 3d/fx/bloodsplat.bdae | 45d6384ef2052d8258cd | ORPHAN | [details](assets/45d6384ef2052d8258cd.md) |
+| 3d/modules/darkwood/mvp/darkwood_17_01.mvp | 467d590daa8ddb929574 | ORPHAN | [details](assets/467d590daa8ddb929574.md) |
+| sfx_skill_rogue_ass_concealing_cloud.wav | 4a523f5384ec82b3d637 | ORPHAN | [details](assets/4a523f5384ec82b3d637.md) |
+| 3d/modules/darkwood/mgp/darkwood_11_01.mgp | 4aea46f9b42558281ce0 | ORPHAN | [details](assets/4aea46f9b42558281ce0.md) |
+| 3d/modules/darkwood/mgp/darkwood_09_01.mgp | 4afea2ced1802e76698c | ORPHAN | [details](assets/4afea2ced1802e76698c.md) |
+| 3d/modules/darkwood/mvp/darkwood_10_01.mvp | 4b5157bcf691b444667e | ORPHAN | [details](assets/4b5157bcf691b444667e.md) |
+| 3d/characters/dark_queen/dark_queen1stform.bdae | 4e17a20b97ae3030c9c3 | ORPHAN | [details](assets/4e17a20b97ae3030c9c3.md) |
+| sfx_swoosh_sword_2_22.wav | 4f1d3f8cf46f3f869bc3 | ORPHAN | [details](assets/4f1d3f8cf46f3f869bc3.md) |
+| sfx_npc_priest_hurt_2_22.wav | 4fcc3581ac2c20509a6a | ORPHAN | [details](assets/4fcc3581ac2c20509a6a.md) |
+| 3d/characters/npcs/priest_good.bdae | 51cbb6394b39f62c502c | ORPHAN | [details](assets/51cbb6394b39f62c502c.md) |
+| 3d/modules/darkwood/mgp/darkwood_14_01.mgp | 5238552deed912d9400c | ORPHAN | [details](assets/5238552deed912d9400c.md) |
+| 3d/interface/swoosh_prince_1hand_combo_01.bdae | 528b769d3c39254976b3 | ORPHAN | [details](assets/528b769d3c39254976b3.md) |
+| sounds/sfx_statue_cherub_attack.wav | 53c6cd127b273fb81768 | ORPHAN | [details](assets/53c6cd127b273fb81768.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_template_anim.bdae | 54917e02e265f6f55bea | ORPHAN | [details](assets/54917e02e265f6f55bea.md) |
+| 3d/modules/darkwood/mgp/darkwood_15_01.mgp | 573b17426b436108427b | ORPHAN | [details](assets/573b17426b436108427b.md) |
+| 3d/modules/darkwood/mvp/darkwood_01_01.mvp | 5755e286cee4839b0706 | ORPHAN | [details](assets/5755e286cee4839b0706.md) |
+| 3d/characters/prince/animations/prince_post_stunned.bdae | 58b660d7b57d290d104f | ORPHAN | [details](assets/58b660d7b57d290d104f.md) |
+| 3d/characters/prince/animations/prince_idle_shield_02.bdae | 58eb6d473413ed17e95e | ORPHAN | [details](assets/58eb6d473413ed17e95e.md) |
+| 3d/characters/statue/animations/child_idle_01.bdae | 59c5ff245f97f61a2d28 | ORPHAN | [details](assets/59c5ff245f97f61a2d28.md) |
+| 3d/characters/npcs/animations/npc_m_waiting.bdae | 5ac57748df5a39da600d | ORPHAN | [details](assets/5ac57748df5a39da600d.md) |
+| 3d/characters/npcs/old_peasant.bdae | 5b11542df8cbea6817a6 | ORPHAN | [details](assets/5b11542df8cbea6817a6.md) |
+| 3d/characters/prince/animations/prince_walk_slow.bdae | 5c3aae8395bd920f526a | ORPHAN | [details](assets/5c3aae8395bd920f526a.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_post_projectile.bdae | 5c540f3c92a90657ab28 | ORPHAN | [details](assets/5c540f3c92a90657ab28.md) |
+| 3d/characters/npcs/animations/edward_1hand_combo_01.bdae | 5c5ee1e21bf184ed883d | ORPHAN | [details](assets/5c5ee1e21bf184ed883d.md) |
+| 3d/characters/prince/animations/prince_idle_shield.bdae | 5cf90dd273ef9ac8370a | ORPHAN | [details](assets/5cf90dd273ef9ac8370a.md) |
+| 3d/characters/npcs/animations/npc_m_idle_standing.bdae | 61668df0fa9329cffec4 | ORPHAN | [details](assets/61668df0fa9329cffec4.md) |
+| 3d/modules/darkwood/mvp/darkwood_07_01.mvp | 61878c6dad84950c4919 | ORPHAN | [details](assets/61878c6dad84950c4919.md) |
+| 3d/modules/darkwood/mvp/darkwood_14_01.mvp | 62c12582b47b4904a121 | ORPHAN | [details](assets/62c12582b47b4904a121.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_die.bdae | 63eacd5b3b49276444f9 | ORPHAN | [details](assets/63eacd5b3b49276444f9.md) |
+| 3d/characters/statue/animations/statue_beam_to_cooldown.bdae | 69f5cc18eaea0ec78720 | ORPHAN | [details](assets/69f5cc18eaea0ec78720.md) |
+| 3d/characters/statue/child.bdae | 6a8c6a86e4661987ac31 | ORPHAN | [details](assets/6a8c6a86e4661987ac31.md) |
+| 3d/modules/darkwood/darkwood2.bdae | 6aa199271035e3937f84 | ORPHAN | [details](assets/6aa199271035e3937f84.md) |
+| 3d/modules/darkwood/mvp/darkwood_28_01.mvp | 6ad7d215ea2da6f987ba | ORPHAN | [details](assets/6ad7d215ea2da6f987ba.md) |
+| 3d/modules/darkwood/mgp/darkwood_28_01.mgp | 6b02307477be080b43e5 | ORPHAN | [details](assets/6b02307477be080b43e5.md) |
+| scripts/ai/dw_statue.luac | 6b7c1d7270ab7b8a2716 | ORPHAN | [details](assets/6b7c1d7270ab7b8a2716.md) |
+| 3d/characters/prince/animations/prince_standup.bdae | 6dead83a06a8a4f0c18c | ORPHAN | [details](assets/6dead83a06a8a4f0c18c.md) |
+| 3d/interface/swoosh_prince_1hand_combo_03.bdae | 6ef63481382913ac92ba | ORPHAN | [details](assets/6ef63481382913ac92ba.md) |
+| sounds/sfx_dark_queen_attack.wav | 6f2d8d7c1da025e362a5 | ORPHAN | [details](assets/6f2d8d7c1da025e362a5.md) |
+| 3d/modules/darkwood/mvp/darkwood_05_01.mvp | 707aa5f6706d8fec655e | ORPHAN | [details](assets/707aa5f6706d8fec655e.md) |
+| m_level_darkwood_sfx_darkwood.vxn | 71170778b477b81b85f2 | ORPHAN | [details](assets/71170778b477b81b85f2.md) |
+| sfx_impact_arrow_object_2_22.wav | 724da0c3eff74749b247 | ORPHAN | [details](assets/724da0c3eff74749b247.md) |
+| 3d/projectiles/elemental_bolt_fire.bdae | 75eb749e6ecd2fc0f475 | ORPHAN | [details](assets/75eb749e6ecd2fc0f475.md) |
+| 3d/modules/darkwood/mvp/darkwood_21_01.mvp | 7697c6d672e16cb49d7b | ORPHAN | [details](assets/7697c6d672e16cb49d7b.md) |
+| sounds/sfx_bandit_attack.wav | 76d1cba0f0b6a01714a9 | ORPHAN | [details](assets/76d1cba0f0b6a01714a9.md) |
+| 3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae | 780f5b393dab705ea937 | ORPHAN | [details](assets/780f5b393dab705ea937.md) |
+| 3d/modules/darkwood/mvp/darkwood_02_01.mvp | 78ae0efbb1f02b2d442c | ORPHAN | [details](assets/78ae0efbb1f02b2d442c.md) |
+| 3d/modules/darkwood/mgp/darkwood_15_01.mgp | 791d02a720acbae7ca1f | ORPHAN | [details](assets/791d02a720acbae7ca1f.md) |
+| 3d/modules/darkwood/mvp/darkwood_04_01.mvp | 79c18fa286e9585855b0 | ORPHAN | [details](assets/79c18fa286e9585855b0.md) |
+| 3d/interface/skill_dh2_monster_spawn.bdae | 7bd88c97508f9ffe9193 | ORPHAN | [details](assets/7bd88c97508f9ffe9193.md) |
+| 3d/characters/statue/animations/statue_dying.bdae | 7c43632b1aa238fa04aa | ORPHAN | [details](assets/7c43632b1aa238fa04aa.md) |
+| 3d/characters/statue/statue.bdae | 7c9eec25eee78d16ee65 | ORPHAN | [details](assets/7c9eec25eee78d16ee65.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_projectile.bdae | 7cf7daf8a00b31252d74 | ORPHAN | [details](assets/7cf7daf8a00b31252d74.md) |
+| scripts/skills/darkqueen2_melee_00.luac | 7d1c9e5e5d89c23162f5 | ORPHAN | [details](assets/7d1c9e5e5d89c23162f5.md) |
+| 3d/modules/darkwood/mvp/darkwood_08_01.mvp | 7d2e4002ccaf5454cac8 | ORPHAN | [details](assets/7d2e4002ccaf5454cac8.md) |
+| 3d/fx/bloodsplat_hero.bdae | 7e3c52b52f92471e8a7c | ORPHAN | [details](assets/7e3c52b52f92471e8a7c.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae | 7f5ba7bb6c3cc1dba7da | ORPHAN | [details](assets/7f5ba7bb6c3cc1dba7da.md) |
+| 3d/modules/darkwood/mvp/darkwood_21_01.mvp | 81d2c8527b725590fd12 | ORPHAN | [details](assets/81d2c8527b725590fd12.md) |
+| 3d/characters/statue/animations/child_attack_01.bdae | 82355ec07c5ebbcdc724 | ORPHAN | [details](assets/82355ec07c5ebbcdc724.md) |
+| 3d/modules/darkwood/mvp/darkwood_05_01.mvp | 82b8ea386e4ab535a0cc | ORPHAN | [details](assets/82b8ea386e4ab535a0cc.md) |
+| 3d/characters/statue/animations/statue_idle_to_charge.bdae | 84c99d3ab94e0fa5fa7f | ORPHAN | [details](assets/84c99d3ab94e0fa5fa7f.md) |
+| 3d/interface/skill_dh2_monster_dark_queen1stform_die.bdae | 872fee4d1ffae7a9dee4 | ORPHAN | [details](assets/872fee4d1ffae7a9dee4.md) |
+| 3d/modules/darkwood/mvp/darkwood_06_01.mvp | 88d13a1add0c452757d9 | ORPHAN | [details](assets/88d13a1add0c452757d9.md) |
+| 3d/modules/darkwood/mgp/darkwood_21_01.mgp | 892eaf6b8a3b1cff0a8e | ORPHAN | [details](assets/892eaf6b8a3b1cff0a8e.md) |
+| 3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae | 8ac719dcc31a99b4c960 | ORPHAN | [details](assets/8ac719dcc31a99b4c960.md) |
+| 3d/modules/darkwood/mvp/darkwood_29_01.mvp | 8b1faa093da383a3f8d7 | ORPHAN | [details](assets/8b1faa093da383a3f8d7.md) |
+| 3d/characters/statue/animations/child_dying.bdae | 8be65fdaf3c4c1868dfe | ORPHAN | [details](assets/8be65fdaf3c4c1868dfe.md) |
+| 3d/modules/darkwood/mvp/darkwood_09_01.mvp | 8c91e583bc8ef243b4ab | ORPHAN | [details](assets/8c91e583bc8ef243b4ab.md) |
+| 3d/characters/prince/animations/prince_hurt_01.bdae | 8c922b02e66e80603f0c | ORPHAN | [details](assets/8c922b02e66e80603f0c.md) |
+| 3d/modules/darkwood/mgp/darkwood_01_01.mgp | 8e1e4a33514d7d29b148 | ORPHAN | [details](assets/8e1e4a33514d7d29b148.md) |
+| sounds/sfx_dark_queen_hurt.wav | 8f0d21e24fe28b13d97c | ORPHAN | [details](assets/8f0d21e24fe28b13d97c.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae | 8f1d0186c820d603179d | ORPHAN | [details](assets/8f1d0186c820d603179d.md) |
+| 3d/modules/darkwood/mgp/darkwood_12_01.mgp | 907d0def09ff2861e6f3 | ORPHAN | [details](assets/907d0def09ff2861e6f3.md) |
+| 3d/modules/darkwood/mgp/darkwood_29_01.mgp | 907e3c928c1ce05dad51 | ORPHAN | [details](assets/907e3c928c1ce05dad51.md) |
+| sfx_impact_arrow_object_1_22.wav | 908a219c0b7b7c441ac1 | ORPHAN | [details](assets/908a219c0b7b7c441ac1.md) |
+| 3d/characters/statue/animations/child_hurt.bdae | 937a48e189fcc4242dd7 | ORPHAN | [details](assets/937a48e189fcc4242dd7.md) |
+| 3d/modules/darkwood/mvp/darkwood_28_01.mvp | 941f0c407aa5214553f5 | ORPHAN | [details](assets/941f0c407aa5214553f5.md) |
+| 3d/characters/statue/animations/child_template_anim.bdae | 9512fba2f7c0d13d93f0 | ORPHAN | [details](assets/9512fba2f7c0d13d93f0.md) |
+| 3d/characters/statue/animations/child_pre_stunned.bdae | 967c6e253dfefaebdba6 | ORPHAN | [details](assets/967c6e253dfefaebdba6.md) |
+| 3d/modules/darkwood/mgp/darkwood_03_01.mgp | 96caca8fc842899c3231 | ORPHAN | [details](assets/96caca8fc842899c3231.md) |
+| 3d/characters/npcs/edward.bdae | 97a7f82fba592384dabc | ORPHAN | [details](assets/97a7f82fba592384dabc.md) |
+| 3d/characters/npcs/castle_maid.bdae | 9a962e2c98c8b4286054 | ORPHAN | [details](assets/9a962e2c98c8b4286054.md) |
+| 3d/modules/darkwood/mgp/darkwood_04_01.mgp | 9b0040c1ef34e240bcdd | ORPHAN | [details](assets/9b0040c1ef34e240bcdd.md) |
+| scripts/ai/monster.luac | 9b1caeb2ccf9b9424e45 | ORPHAN | [details](assets/9b1caeb2ccf9b9424e45.md) |
+| 3d/characters/npcs/animations/edward_1hand_combo_01_to_idle.bdae | 9bd97d1567b229bff061 | ORPHAN | [details](assets/9bd97d1567b229bff061.md) |
+| 3d/modules/darkwood/mvp/darkwood_12_01.mvp | 9cd61daad94bd13af7fc | ORPHAN | [details](assets/9cd61daad94bd13af7fc.md) |
+| 3d/modules/darkwood/mgp/darkwood_29_01.mgp | 9d61413a9743a0b91ada | ORPHAN | [details](assets/9d61413a9743a0b91ada.md) |
+| 3d/modules/darkwood/mgp/darkwood_06_01.mgp | 9e90c04b074e77569ba1 | ORPHAN | [details](assets/9e90c04b074e77569ba1.md) |
+| sfx_magical_wall_loop.wav | 9edc26982e39c0e661e8 | ORPHAN | [details](assets/9edc26982e39c0e661e8.md) |
+| 3d/modules/darkwood/mvp/darkwood_10_01.mvp | 9eebc2522fc8c71e8f1e | ORPHAN | [details](assets/9eebc2522fc8c71e8f1e.md) |
+| sounds/sfx_bandit_killed.wav | a0e4195d35f6cbbf63ec | ORPHAN | [details](assets/a0e4195d35f6cbbf63ec.md) |
+| 3d/characters/statue/animations/child_great_pushback_dying_despawn.bdae | a1182ed3425886433752 | ORPHAN | [details](assets/a1182ed3425886433752.md) |
+| 3d/modules/darkwood/mgp/darkwood_12_01.mgp | a1667fcc49fa0c21cf9f | ORPHAN | [details](assets/a1667fcc49fa0c21cf9f.md) |
+| scripts/ai/darkqueen1.luac | a2e3866360ed767d346a | ORPHAN | [details](assets/a2e3866360ed767d346a.md) |
+| sfx_telepoint_loop.wav | a35b5168b7446582ea18 | ORPHAN | [details](assets/a35b5168b7446582ea18.md) |
+| 3d/modules/darkwood/mvp/darkwood_11_01.mvp | a3f9296e8a8ce480324d | ORPHAN | [details](assets/a3f9296e8a8ce480324d.md) |
+| 3d/modules/darkwood/mvp/darkwood_07_01.mvp | a4c13d7e57658238fbf3 | ORPHAN | [details](assets/a4c13d7e57658238fbf3.md) |
+| 3d/modules/darkwood/mgp/darkwood_17_01.mgp | a8484fadc2230eaa9d74 | ORPHAN | [details](assets/a8484fadc2230eaa9d74.md) |
+| 3d/modules/darkwood/mvp/darkwood_16_01.mvp | a8b488420a75be3f49a3 | ORPHAN | [details](assets/a8b488420a75be3f49a3.md) |
+| 3d/characters/npcs/edward_with_weapon.bdae | a8be5f2c03f6d4ef980f | ORPHAN | [details](assets/a8be5f2c03f6d4ef980f.md) |
+| sounds/sfx_statue_cherub_hurt_1.wav | a900f80c028306f1ac12 | ORPHAN | [details](assets/a900f80c028306f1ac12.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_pre_projectile.bdae | a98a35a15668682c45c3 | ORPHAN | [details](assets/a98a35a15668682c45c3.md) |
+| sounds/sfx_statue_cherub_die.wav | a98e0a93b75722e369da | ORPHAN | [details](assets/a98e0a93b75722e369da.md) |
+| 3d/characters/npcs/animations/cin_king_sitting_idle.bdae | a9c0939478ab11ec3cdd | ORPHAN | [details](assets/a9c0939478ab11ec3cdd.md) |
+| 3d/characters/lizardman/old_man.bdae | aaee6bdec81db5ce502d | ORPHAN | [details](assets/aaee6bdec81db5ce502d.md) |
+| 3d/modules/darkwood/mgp/darkwood_05_01.mgp | ab8c46e3f8f38065ed27 | ORPHAN | [details](assets/ab8c46e3f8f38065ed27.md) |
+| 3d/characters/statue/animations/child_stunned.bdae | ad031eb87789eb581170 | ORPHAN | [details](assets/ad031eb87789eb581170.md) |
+| 3d/characters/prince/animations/prince_great_pushback_dying.bdae | ad12754ada26af8ef929 | ORPHAN | [details](assets/ad12754ada26af8ef929.md) |
+| 3d/modules/darkwood/darkwood2.bdae | ad3252c64b2070049ff5 | ORPHAN | [details](assets/ad3252c64b2070049ff5.md) |
+| 3d/modules/darkwood/mvp/darkwood_04_01.mvp | ae1801e94c1b13da0c00 | ORPHAN | [details](assets/ae1801e94c1b13da0c00.md) |
+| 3d/modules/darkwood/mvp/darkwood_03_01.mvp | aea46573aa977beb6a2b | ORPHAN | [details](assets/aea46573aa977beb6a2b.md) |
+| 3d/characters/prince/animations/prince_hurt_03.bdae | af6b6b996ce7e855fdf2 | ORPHAN | [details](assets/af6b6b996ce7e855fdf2.md) |
+| sounds/sfx_edward_die.wav | b2209efca60ecec67058 | ORPHAN | [details](assets/b2209efca60ecec67058.md) |
+| 3d/characters/statue/animations/statue_crying.bdae | b4b8e56f6c00ff50d30e | ORPHAN | [details](assets/b4b8e56f6c00ff50d30e.md) |
+| 3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae | b6378533362abfcd5828 | ORPHAN | [details](assets/b6378533362abfcd5828.md) |
+| 3d/interface/spell_dh2_hurt_fire.bdae | b67905bc599dd0e6502a | ORPHAN | [details](assets/b67905bc599dd0e6502a.md) |
+| 3d/modules/darkwood/mgp/darkwood_16_01.mgp | b6ded0452990906c7751 | ORPHAN | [details](assets/b6ded0452990906c7751.md) |
+| 3d/modules/darkwood/mgp/darkwood_28_01.mgp | b77c09f711bf29003a35 | ORPHAN | [details](assets/b77c09f711bf29003a35.md) |
+| 3d/characters/faeries/faeries_02_celeste.bdae | b7dd84865e6930587069 | ORPHAN | [details](assets/b7dd84865e6930587069.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae | b90435446904c3bbcc58 | ORPHAN | [details](assets/b90435446904c3bbcc58.md) |
+| 3d/modules/darkwood/mvp/darkwood_01_01.mvp | bb715c70cb3d2ac187f5 | ORPHAN | [details](assets/bb715c70cb3d2ac187f5.md) |
+| sfx_npc_priest_hurt_3_22.wav | bbe2f9f70db6061bea9a | ORPHAN | [details](assets/bbe2f9f70db6061bea9a.md) |
+| 3d/modules/darkwood/mvp/darkwood_20_01.mvp | be62cb4d1602f53528cd | ORPHAN | [details](assets/be62cb4d1602f53528cd.md) |
+| 3d/projectiles/projectile_dh2_monster_darkqueen_form01.bdae | bf573fa0a59efdb0d9b8 | ORPHAN | [details](assets/bf573fa0a59efdb0d9b8.md) |
+| 3d/characters/prince/animations/prince_pre_stunned.bdae | c0ce33ffa98e46e62dab | ORPHAN | [details](assets/c0ce33ffa98e46e62dab.md) |
+| scripts/skills/darkqueen2_ranged_00.luac | c3e0a86855a7b81fa360 | ORPHAN | [details](assets/c3e0a86855a7b81fa360.md) |
+| 3d/light/darkwood_es1_1.lightset_xml | c4858ece8e0edd9a6f39 | ORPHAN | [details](assets/c4858ece8e0edd9a6f39.md) |
+| 3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae | c602fba90fcb7ec73688 | ORPHAN | [details](assets/c602fba90fcb7ec73688.md) |
+| 3d/modules/darkwood/mgp/darkwood_16_01.mgp | c60f5c766855232ad2db | ORPHAN | [details](assets/c60f5c766855232ad2db.md) |
+| 3d/modules/darkwood/mvp/darkwood_08_01.mvp | c731f21f7e51f78b7765 | ORPHAN | [details](assets/c731f21f7e51f78b7765.md) |
+| 3d/characters/prince/animations/prince_pushback.bdae | c8c50720e5612dd72f36 | ORPHAN | [details](assets/c8c50720e5612dd72f36.md) |
+| 3d/modules/darkwood/mvp/darkwood_19_01.mvp | c963464d4c89f4c97a36 | ORPHAN | [details](assets/c963464d4c89f4c97a36.md) |
+| 3d/characters/statue/animations/child_post_attack_01.bdae | c977c24ee1f3dbc37760 | ORPHAN | [details](assets/c977c24ee1f3dbc37760.md) |
+| 3d/modules/darkwood/mgp/darkwood_19_01.mgp | cb5d5de052f8c3cf813d | ORPHAN | [details](assets/cb5d5de052f8c3cf813d.md) |
+| 3d/modules/darkwood/mvp/darkwood_23_01.mvp | cbe9c099c40af4864ab3 | ORPHAN | [details](assets/cbe9c099c40af4864ab3.md) |
+| 3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae | ccb91556684386cce06d | ORPHAN | [details](assets/ccb91556684386cce06d.md) |
+| 3d/modules/darkwood/mvp/darkwood_15_01.mvp | cd015639e125e978e910 | ORPHAN | [details](assets/cd015639e125e978e910.md) |
+| 3d/characters/prince/animations/prince_hurt_02.bdae | cdc4d0bfe5899dacfc54 | ORPHAN | [details](assets/cdc4d0bfe5899dacfc54.md) |
+| 3d/characters/statue/animations/statue_idle.bdae | cfad1c6be53d1a6b9ff3 | ORPHAN | [details](assets/cfad1c6be53d1a6b9ff3.md) |
+| 3d/modules/darkwood/mgp/darkwood_02_01.mgp | d1682db83a4eec3679b0 | ORPHAN | [details](assets/d1682db83a4eec3679b0.md) |
+| 3d/characters/faeries/animations/faeries_celeste_idle.bdae | d19f2af2ea4e9fa8e5f5 | ORPHAN | [details](assets/d19f2af2ea4e9fa8e5f5.md) |
+| 3d/modules/darkwood/mgp/darkwood_11_01.mgp | d1ba73fed5b3929a0142 | ORPHAN | [details](assets/d1ba73fed5b3929a0142.md) |
+| 3d/modules/darkwood/mvp/darkwood_09_01.mvp | d20e517eef55890bc46f | ORPHAN | [details](assets/d20e517eef55890bc46f.md) |
+| 3d/modules/darkwood/mvp/darkwood_23_01.mvp | d2eb2205b9c7c88836cf | ORPHAN | [details](assets/d2eb2205b9c7c88836cf.md) |
+| 3d/characters/statue/animations/statue_hurt.bdae | d35792209db13e50fec1 | ORPHAN | [details](assets/d35792209db13e50fec1.md) |
+| 3d/characters/npcs/animations/head_cultist_anim_template.bdae | d5786a58539300963b02 | ORPHAN | [details](assets/d5786a58539300963b02.md) |
+| sounds/sfx_bandit_hurt.wav | d64322964cbde70645e8 | ORPHAN | [details](assets/d64322964cbde70645e8.md) |
+| 3d/modules/darkwood/mgp/darkwood_21_01.mgp | d688e8b6d222672eb26d | ORPHAN | [details](assets/d688e8b6d222672eb26d.md) |
+| 3d/characters/npcs/animations/npc_m_bored.bdae | d6dd246264b7e8a866b1 | ORPHAN | [details](assets/d6dd246264b7e8a866b1.md) |
+| 3d/characters/prince/animations/prince_great_pushback_standup.bdae | d6fe30c6aa3735eea12c | ORPHAN | [details](assets/d6fe30c6aa3735eea12c.md) |
+| 3d/characters/npcs/jeremo_guard.bdae | d7036b61bf700a634409 | ORPHAN | [details](assets/d7036b61bf700a634409.md) |
+| sounds/sfx_edward_hurt_1.wav | da016e6392547d5b1c3e | ORPHAN | [details](assets/da016e6392547d5b1c3e.md) |
+| 3d/characters/npcs/animations/npc_m_lookingaround.bdae | ddb636673d3c96ebcad3 | ORPHAN | [details](assets/ddb636673d3c96ebcad3.md) |
+| 3d/modules/darkwood/mvp/darkwood_17_01.mvp | def3f456b01177b4146f | ORPHAN | [details](assets/def3f456b01177b4146f.md) |
+| 3d/characters/statue/animations/child_despawn.bdae | e1df971042315bb3b913 | ORPHAN | [details](assets/e1df971042315bb3b913.md) |
+| 3d/modules/darkwood/mgp/darkwood_05_01.mgp | e1e36bc730ab6af35729 | ORPHAN | [details](assets/e1e36bc730ab6af35729.md) |
+| 3d/characters/statue/animations/child_great_pushback.bdae | e49bd7503a2b7cd5d70e | ORPHAN | [details](assets/e49bd7503a2b7cd5d70e.md) |
+| 3d/modules/darkwood/mgp/darkwood_03_01.mgp | e51c51169f2719a9abc5 | ORPHAN | [details](assets/e51c51169f2719a9abc5.md) |
+| 3d/modules/darkwood/mvp/darkwood_03_01.mvp | e5e3ae3c7c1b4e67f127 | ORPHAN | [details](assets/e5e3ae3c7c1b4e67f127.md) |
+| 3d/characters/statue/animations/child_great_pushback_standup.bdae | e68073405b5f4d93f4b7 | ORPHAN | [details](assets/e68073405b5f4d93f4b7.md) |
+| 3d/modules/darkwood/mgp/darkwood_27_01.mgp | e6f3eb70f83b6be2929f | ORPHAN | [details](assets/e6f3eb70f83b6be2929f.md) |
+| 3d/characters/prince/animations/prince_template_anim.bdae | e767e29aeb9e148aac3c | ORPHAN | [details](assets/e767e29aeb9e148aac3c.md) |
+| 3d/modules/darkwood/mvp/darkwood_15_01.mvp | e76b77209f8f8a4e5d29 | ORPHAN | [details](assets/e76b77209f8f8a4e5d29.md) |
+| 3d/modules/darkwood/mgp/darkwood_02_01.mgp | e7927bcdae13dbeabc30 | ORPHAN | [details](assets/e7927bcdae13dbeabc30.md) |
+| 3d/modules/darkwood/mgp/darkwood_20_01.mgp | e832d052220729876ba5 | ORPHAN | [details](assets/e832d052220729876ba5.md) |
+| 3d/characters/npcs/animations/npc_m_dialog.bdae | ea9d94d2372c72445294 | ORPHAN | [details](assets/ea9d94d2372c72445294.md) |
+| 3d/characters/prince/animations/prince_walk_1hand.bdae | ee0cdf8b7caf073c8eab | ORPHAN | [details](assets/ee0cdf8b7caf073c8eab.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae | ee73294e45a9cab86c61 | ORPHAN | [details](assets/ee73294e45a9cab86c61.md) |
+| 3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae | eee5dc9e88bc94b45e4e | ORPHAN | [details](assets/eee5dc9e88bc94b45e4e.md) |
+| 3d/interface/swoosh_prince_1hand_combo_02.bdae | f0d9aa09edfe4e00e6b6 | ORPHAN | [details](assets/f0d9aa09edfe4e00e6b6.md) |
+| 3d/characters/prince/animations/prince_great_pushback.bdae | f188b3f83d185c73cbdd | ORPHAN | [details](assets/f188b3f83d185c73cbdd.md) |
+| 3d/characters/npcs/animations/edward_1hand_pre_combo_01.bdae | f244b7398e23c3c74123 | ORPHAN | [details](assets/f244b7398e23c3c74123.md) |
+| 3d/modules/darkwood/mvp/darkwood_11_01.mvp | f2ff036d7737b99ede62 | ORPHAN | [details](assets/f2ff036d7737b99ede62.md) |
+| 3d/characters/npcs/young_peasant.bdae | f4e669fc3d5df8d720bd | ORPHAN | [details](assets/f4e669fc3d5df8d720bd.md) |
+| 3d/characters/npcs/animations/king_anim_template.bdae | f562a8c54f6eb640f30b | ORPHAN | [details](assets/f562a8c54f6eb640f30b.md) |
+| 3d/characters/statue/animations/statue_template_anim.bdae | f5672b42e6c80ad6738c | ORPHAN | [details](assets/f5672b42e6c80ad6738c.md) |
+| 3d/modules/darkwood/mvp/darkwood_19_01.mvp | f72e9ad796c65265039f | ORPHAN | [details](assets/f72e9ad796c65265039f.md) |
+| 3d/light/darkwood.lightset_xml | f845de7060330d9f6f91 | ORPHAN | [details](assets/f845de7060330d9f6f91.md) |
+| 3d/modules/darkwood/mgp/darkwood_23_01.mgp | fa060e7d8454fb66b265 | ORPHAN | [details](assets/fa060e7d8454fb66b265.md) |
+| 3d/characters/dark_queen/animations/dark_queen1stform_idle.bdae | fa14f24f06827c174759 | ORPHAN | [details](assets/fa14f24f06827c174759.md) |
+| 3d/modules/darkwood/mvp/darkwood_06_01.mvp | fa661e68395e64f5f2c8 | ORPHAN | [details](assets/fa661e68395e64f5f2c8.md) |
+| 3d/characters/statue/animations/child_great_pushback_dying.bdae | fa8966be49829764d862 | ORPHAN | [details](assets/fa8966be49829764d862.md) |
+| 3d/projectiles/elemental_bolt_lightning.bdae | fb70df094ad0a9c05898 | ORPHAN | [details](assets/fb70df094ad0a9c05898.md) |
+| 3d/modules/darkwood/mgp/darkwood_19_01.mgp | fc82e572022ba09ff5f7 | ORPHAN | [details](assets/fc82e572022ba09ff5f7.md) |
+| 3d/characters/statue/animations/child_attack_02.bdae | fe426ca313cc1522d3e4 | ORPHAN | [details](assets/fe426ca313cc1522d3e4.md) |
+| 3d/characters/statue/animations/child_pre_attack_02.bdae | fe8a7e1b22057a3f0876 | ORPHAN | [details](assets/fe8a7e1b22057a3f0876.md) |
+| 3d/modules/darkwood/mgp/darkwood_10_01.mgp | ff2e455187276eb34055 | ORPHAN | [details](assets/ff2e455187276eb34055.md) |
+| 3d/modules/darkwood/mvp/darkwood_29_01.mvp | ff7218972239b429f133 | ORPHAN | [details](assets/ff7218972239b429f133.md) |

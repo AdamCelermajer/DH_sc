@@ -22,4 +22,3 @@
 | faeries#group1 | 13 | Rocky | {"Description": 1245267, "Elemental": 3, "ModelFile": 35, "Name": 1245265, "SpellScript": "faerie_rocky", "SpellType": 0, "Type": 1} | DONE |
 | faeries#group1 | 14 | Wetty | {"Description": 1245257, "Elemental": 1, "ModelFile": 33, "Name": 1245255, "SpellScript": "faerie_wetty", "SpellType": 0, "Type": 2} | DONE |
 | faeries#group1 | 15 | Windy | {"Description": 1245262, "Elemental": 4, "ModelFile": 36, "Name": 1245260, "SpellScript": "faerie_windy", "SpellType": 0, "Type": 3} | DONE |
-

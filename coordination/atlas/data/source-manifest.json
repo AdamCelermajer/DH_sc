@@ -39,10 +39,14 @@
       "path": ".local-inputs/audio-v34/cache"
     }
   ],
-  "missing_input_paths": [
-    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\original-cache"
-  ],
   "native_authority": "Android APK/ELF IDA export. No iPhone binary is assumed.",
+  "native_evidence_files": [
+    {
+      "path": ".local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c",
+      "sha256": "d968883dcc818bad35e5b55507380aa0a438f3b39862f5e1b15c659a9c63bd90",
+      "size": 36186600
+    }
+  ],
   "runtime": "Private CPython 3.12 under tools/atlas/.runtime, bootstrapped from Codex app dependency bundle; never global Python.",
   "sound_table_authority": ".local-inputs/items-discovery/sdd_dungeon_hunter_2_iphone_pyarray.bin",
   "source_commit": "64afbdc5"
