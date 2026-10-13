@@ -955,6 +955,10 @@ private:
     // the master leaves its 2300 unit view radius, so the distance stays
     // bounded however far the Player marches.
     static constexpr double faery_distance_bound_ = 2500.0;
+    static constexpr std::uint64_t faery_recovery_frames_ = 120;
+    bool follow_was_locked_ = false;
+    std::uint64_t follow_unlock_frame_ = 0;
+    unsigned faery_locked_samples_ = 0;
     unsigned faery_samples_ = 0, faery_moving_samples_ = 0, faery_unbounded_ = 0;
     unsigned faery_no_master_ = 0;
     double faery_max_distance_ = 0.0, faery_total_move_ = 0.0;
@@ -1002,6 +1006,12 @@ private:
     }
 
     void follow_tick() {
+        if (hud_blocked_) {
+            follow_was_locked_ = true;
+        } else if (follow_was_locked_) {
+            follow_was_locked_ = false;
+            follow_unlock_frame_ = frame_;
+        }
         if (have_pose_ && !have_start_) {
             have_start_ = true;
             start_pos_ = last_sample_pos_ = pose_.player_position;
@@ -1108,7 +1118,14 @@ private:
         if (faery.state == 4) ++faery_moving_samples_;
         if (!faery.master_is_player && frame_ > 120) ++faery_no_master_;
         // The first seconds allow the Faery's first AI ticks (master acquisition).
-        if (frame_ > 180 && faery.player_distance > faery_distance_bound_) {
+        // While LockCharacter("All") holds the controllers, CharAI::Update returns
+        // before _UpdateMaster (0x3cfbf4), so the Faery cannot see or warp to a
+        // Player that a cutscene moved. The bound applies again once the lock has
+        // been released for faery_recovery_frames_.
+        const bool recovering = follow_was_locked_ ||
+                                frame_ - follow_unlock_frame_ < faery_recovery_frames_;
+        if (recovering) ++faery_locked_samples_;
+        if (frame_ > 180 && !recovering && faery.player_distance > faery_distance_bound_) {
             ++faery_unbounded_;
             if (failure_.empty())
                 failure_ = fmt("faery-follow: Faery is %.0f units from the Player at frame %llu "
@@ -1129,10 +1146,10 @@ private:
     void follow_finish() {
         plog(fmt("follow faery summary | samples %u | moving samples %u | max distance %.0f | total travel %.0f | "
                  "samples beyond %.0f: %u | samples without Player master %u | WarpBehind (out-of-sight) %u | "
-                 "MoveTo ticks (out-of-range) %u | Stop ticks (melee range) %u",
+                 "MoveTo ticks (out-of-range) %u | Stop ticks (melee range) %u | locked/recovering samples %u",
                  faery_samples_, faery_moving_samples_, faery_max_distance_, faery_total_move_,
                  faery_distance_bound_, faery_unbounded_, faery_no_master_, faery_events_[2], faery_events_[4],
-                 faery_events_[7]));
+                 faery_events_[7], faery_locked_samples_));
         if (failure_.empty()) {
             if (!faery_samples_)
                 failure_ = "faery-follow: this Level has no authored Faery to observe";
