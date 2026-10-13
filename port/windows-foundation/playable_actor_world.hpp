@@ -107,7 +107,8 @@ public:
                         const std::string& marker, float&,
                         std::optional<std::uint32_t>& outcomes,
                         std::optional<std::uint32_t>& source_mask,
-                        std::string& error) const override;
+                        std::string& error, std::int32_t* hp_leech_raw = nullptr,
+                        std::int32_t* mp_leech_raw = nullptr) const override;
     // Skill/spell caller supplies authored request fields after its own target
     // query. This uses the same actor sheets, RNG and result presentation stream.
     // It calculates only; the lifecycle caller applies health/status exactly once.

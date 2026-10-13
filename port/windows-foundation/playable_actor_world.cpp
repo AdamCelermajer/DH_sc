@@ -220,7 +220,7 @@ bool PlayableActorWorld::resolve_damage(const std::string& source,const ActorSta
 bool PlayableActorWorld::resolve_damage_with_outcomes(const std::string& source,const ActorState& attacker,
     const ActorState& victim,const std::string& marker,float& amount,
     std::optional<std::uint32_t>& outcomes,std::optional<std::uint32_t>& source_mask,
-    std::string& error) const {
+    std::string& error, std::int32_t* hp_leech_raw, std::int32_t* mp_leech_raw) const {
     if(!eligible_target(attacker,victim)){error="Original target eligibility rejected";return false;}
     if(!original_melee_in_range(attacker.id,victim.id)){error="Original strict melee range rejected";return false;}
     PlayableCombatResolution event;event.attacker=attacker.id;event.victim=victim.id;
@@ -237,6 +237,9 @@ bool PlayableActorWorld::resolve_damage_with_outcomes(const std::string& source,
     }
     amount=event.melee.damage;outcomes=event.melee.original.outcomes;
     source_mask=event.melee.original.mask;
+    // v21.8 es-passive: attacker leech of this hit (CF_CalcDamage result words 2/3, Leech_HP 132 / Leech_MP 133).
+    if(hp_leech_raw)*hp_leech_raw=event.melee.original.hp_leech;
+    if(mp_leech_raw)*mp_leech_raw=event.melee.original.mp_leech;
     resolutions_.push_back(std::move(event));error.clear();return true;
 }
 std::vector<PlayableCombatResolution> PlayableActorWorld::take_resolutions() {

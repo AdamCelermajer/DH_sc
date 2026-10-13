@@ -99,6 +99,9 @@ public:
     // Same applied receipt around Injury/Dead publication. The before phase
     // precedes visual/state effects; the core HP prefix is already committed.
     void set_hit_effect_observer(CombatRuntimeHitEffectObserver observer){hit_effect_observer_=std::move(observer);}
+    // v21.8 es-passive: every applied hit (melee marker, calculated/source hit) is reported once here, before presentation.
+    using CombatRuntimeResultObserver=std::function<void(const DamageEvent&)>;
+    void set_combat_result_observer(CombatRuntimeResultObserver observer){combat_result_observer_=std::move(observer);}
     // Actor must be the same stable record returned by CombatWorld::find_actor.
     bool bind(ActorState& actor, CombatVisualBinding visual,
               CombatPoseBindings poses, std::string& error);
@@ -176,6 +179,7 @@ private:
                                std::uint64_t, std::vector<DamageEvent>&, std::string&);
     CombatSystem& combat_;
     CombatRuntimeHitEffectObserver hit_effect_observer_;
+    CombatRuntimeResultObserver combat_result_observer_;
     std::string hit_effect_failure_;
     bool observe_hit_effect(const DamageEvent&,std::uint64_t,CombatRuntimeHitEffectStage,std::string&);
     std::uint64_t hit_effect_occurrence_=0;

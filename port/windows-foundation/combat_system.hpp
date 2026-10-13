@@ -57,9 +57,12 @@ public:
                                 const std::string& marker_name, float& amount,
                                 std::optional<std::uint32_t>& outcomes,
                                 std::optional<std::uint32_t>& source_mask,
-                                std::string& error) const {
+                                std::string& error, std::int32_t* hp_leech_raw = nullptr,
+                                std::int32_t* mp_leech_raw = nullptr) const {
         outcomes.reset();
         source_mask.reset();
+        if (hp_leech_raw) *hp_leech_raw = 0;
+        if (mp_leech_raw) *mp_leech_raw = 0;
         return resolve_damage(damage_source_id,attacker,target,marker_name,amount,error);
     }
 };

@@ -380,6 +380,7 @@ bool ActorCombatRuntime::consume_source_marker(ActorId actor, std::uint64_t gene
 bool ActorCombatRuntime::handle_applied_hit(const DamageEvent& result,
     std::vector<DamageEvent>* receipts, double remaining_wall_seconds, bool sample_remainder,
     std::string& error) {
+    if (result.applied && combat_result_observer_) combat_result_observer_(result);
     if (!std::isfinite(remaining_wall_seconds) || remaining_wall_seconds < 0) {
         error = "Applied-hit remainder must be finite and nonnegative";
         return false;

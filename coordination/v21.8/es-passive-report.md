@@ -1,79 +1,97 @@
-# v21.8 es-passive report (ES-PASSIVE engine system)
+# v21.8 es-passive report (ES-PASSIVE engine system, with the wiring follow-up)
 
-Branch `v21.8-es-passive`, worktree `.claude/worktrees/es-passive` (subst J:), base `windows-foundation` @ bb604d97.
-Build dir `C:/dh218/es-passive-build`. Full CTest: **206 / 206 passed** (see "Test counts").
-Commit: see the final message (hash recorded at commit time).
+Branch `v21.8-es-passive`, worktree `.claude/worktrees/es-passive` (subst J:), merged with `windows-foundation` (b087f397) before the follow-up.
+Build dir `C:/dh218/es-passive-build`. Full CTest on the final tree: see "Test counts" (213 tests).
+Commit: recorded in the final message of this round (the branch head).
 
-Labels: PROVEN = read directly in the IDA offline export (`.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`), its xref/vtable exports, or the original Lua. INFERENCE = my deduction, not observed. No real-run (hidden-window) evidence was gathered: the items below are engine and unit/integration level only.
+Labels: PROVEN = read in the IDA offline export (`.local-inputs/ida-apk-export-2026-10-07/libraries/libDungeonHunter2.so/pseudocode-all.c`), its xref/vtable exports, or the original Lua (plain text under `.local-inputs/assets-extra/android/data/scripts/skills/`). INFERENCE = my deduction, not observed.
 
-## 1. Open IDA questions (answered before implementation)
+## Status at a glance
 
-### 1a. Formula type 6 (OPEN-6 / Q1) - ANSWERED, port was wrong
-- `CharProperties::_ScaleWithPercentageForBuff` 0x3e2c10 (PROVEN, pseudocode ~line 164623): `Property = GetProperty(sheet, P1)`; `v9 = GetProperty(sheet, dest)`; if the buff flag `a4` is set, `v9 = GetProperty(this+2708, dest)`; `SetProperty(sheet, dest, (Property * v9) >> 8)`. There is no added term.
-- `_LoadClass` 0x3e2e20 case 6 calls it with `a4`; `PROPS_ApplyClass(temp=true)` and `PROPS_ApplyClassToSheet` pass `a4=1` (PROVEN, lines ~164763, 161362, 161395).
-- The port (`port/game-data/class_tables.cpp` case 6) added the raw P1 index as a constant: `add(asr8(mul(...)), a)`. That term is removed.
-- Consequence (INFERENCE from the combine rule in 1c): a buff's type-6 cell is `(P1 * base dest) >> 8`, and type-4 properties accumulate it onto the base. Toughness is therefore a percentage bonus on Max_HP, not a shrink. The earlier reading "Max_HP shrinks to 12%" came from reading the buff cell as a replacement.
-- Verified: standalone check of `dh2_class_formula` (buff mode 1000, self mode 256). In the passive integration test the L1 Toughness contribution to Max_HP is measured as 5533 raw on a base of 42265 (about +13%, from the authored TempProp1 row).
-- Test updates: `game-data/tests/classes.cpp` synthetic case expected 129, now 128 (the old value encoded the `+a`), plus two explicit type-6 assertions. Note: `classes_audit` is not registered as a CTest test in this build, so this file is compile-checked and the formula is run standalone, not through CTest.
-- Other type-6 consumers (blade_defect Rating_Defense, OffensiveAura/GuardingAura per the Paladin report) change value with this fix. Their numbers were not re-verified in game.
-
-### 1b. Buff combine rule (OPEN-5) - ANSWERED, port already matches IDA
-- `CharProperties::RecalcProperty` 0x3dfe60 (PROVEN, lines ~161950-162200):
-  - `IsPropertySet(sheet, p)` = `sheet[p] != CharacterTable default[p]` (0x3df114).
-  - `AddProperty(sheet, p, x)` (0x3df140): if set, `sheet[p] += x`; otherwise the value is taken as is. So the total starts at default and sums the non-default contributions.
-  - type & 4 (accumulate): `+2708 := default`; add base (+8), saved (+908), gear (+1808) when set; then add EVERY buff instance whose property is set, in class-id ascending order then insertion order.
-  - type & 2 (set): the first non-default value in base/saved/gear wins; otherwise the buff group with a set instance wins, last set instance in that group overriding.
-- The port's `dh2_property_resolve` (`port/game-data/properties.cpp`) implements exactly these rules (`accumulate` = `out==def ? x : out+x`, which is `AddProperty`; `group` = last set instance in the first group that sets). No code change was needed. The existing test "two buff classes accumulate" covers type 4.
-
-### 1c. Buff capacity (PROPS_AddBuff 0x3e232c) - ANSWERED, now implemented
-- CreateBuff 0x3b86a8 argument decode (PROVEN): arg 2 (`capacity`) is a Lua boolean `false` -> 1, boolean `true` -> 0; a number -> that number; `a4 <= 0` -> 128 inside PROPS_AddBuff.
-- Admission (PROVEN): a per-class instance deque. If the count is below capacity the instance is appended. If full: an existing instance with `strength < new` is the victim (the loop keeps the last such; the native also overwrites its strength), an equal-strength instance is a candidate chosen by the TMR_TimeLeft comparison (semantics of the out-parameters not resolved, INFERENCE). If no victim, the function returns nullptr (the new buff is refused).
-- Port (implemented): `TimedBuffSpecV1::capacity`. Below capacity: append. Full: the weakest same-class instance with `strength <= new` is replaced (ties to the oldest, an INFERENCE beyond capacity 1); otherwise the event `Kind::rejected` is published and nothing changes. Capacity 0 = 128.
-- Behaviour change for capacity 1: a stronger existing instance now blocks a weaker re-apply (the native behaviour). Previously every apply replaced. Existing callers (Quickness, Celest, Debuff_Slow) re-apply the same strength, so they are unchanged (`runtime_timed_buff_v1` still passes).
-
-### 1d. Call site for the player's OnCombatResults (OPEN-4 / Q14) - PARTIAL
-- PROVEN: `CharAI::OnCombatResults(Character,Character,void*)` 0x3d0da4 is the CharAI vtable (`_ZTV6CharAI`, 0x966790) entry at byte offset 188; it forwards to the AI object's vtable +180 (`AISDefault`/`AISExternal` `OnCombatResults`). `AISDefault::OnCombatResults` 0x3dc9a8 calls the Lua `OnTargetMissed` when `(result[24] & 3) != 0` and flag 0x1000 is set, else `OnTargetHit` when flag 0x800 is set, with args (attacker, target). `AISDefault::InitVCB` 0x3dc7d8 sets those flags from the VFTable. `AISPlayer::InitVCB` 0x3dd884 adds 0x400 (OnKill); `AISPlayer` does not override `OnCombatResults`, so the player inherits the default (PROVEN).
-- NOT located: the caller of 0x3d0da4. It has no direct xref (`xrefs.jsonl`), and no 4-argument virtual call at vtable +188 appears in the pseudocode export. The defender-side delivery therefore rests on the port model (`character_combat_results_ai_v1.hpp`: "attacker dispatch precedes target dispatch") and on the Lua authoring (Shield, SideStep, Putrid, Mirror all check `defender == self`). Status: receiver order is a port model, not an IDA fact.
-- `_commons.luac` `StealAIEvent` (PROVEN): listeners share one VFTable proxy per event name, run in registration order, each with its own skill id; the comment says some events are not propagated to Lua for players.
-
-## 2. Implementation
-
-| Piece | Files | Status |
+| Item | Status | Evidence |
 |---|---|---|
-| OnTargetHit / OnTargetMissed bus with attacker-then-target fan-out and per-receiver flag selection | `features/generic_skills/combat_result_event_bus_v1.{hpp,cpp}` | WORKED (unit + integration test) |
-| CombatSession observer, fed after a source hit is applied | `combat_session.{hpp,cpp}` (`set_combat_result_observer`, call in `apply_source_result`) | PARTIAL: wired, not exercised by a real hit (no hit fixture in the test) |
-| Generic stat passive owner (OnSkillUpdate_ pattern: remove previous, create permanent, strength = rank) | `features/generic_skills/passive_skill_owner_v1.{hpp,cpp}` | PARTIAL: engine works (Toughness test); NOT wired to live SkillTable ranks in `main.cpp` (no rank source wired; the faery passive stays hard-coded) |
-| Buff capacity admission | `runtime_timed_buff_v1.{hpp,cpp}` | WORKED (capacity tests) |
-| Formula type 6 fix | `port/game-data/class_tables.cpp`, `tests/classes.cpp` | WORKED (standalone formula check + passive test); other type-6 consumers not re-verified |
-| Buff combine rule per property | verified, no change | WORKED (IDA equivalence, existing test) |
-| Consumers of buff properties in the damage path (Leech_MP 133, Spell_Damage_Bonus 166-170, Special_Equip_Main_In_Offhand 202, HasBow/HasStaff) | none | DID NOT WORK (not attempted in this round) |
+| Generic passive owner wired to live saved skill ranks (stat passives) | WORKED | Real run `C:/dh218/cases/es-passive-a/run.log`: `Timed buff applied frame=60 ... class=Skill_Rogue_Acrobat source=stat passive Acrobat strength=3 ... cells=60:380->1148` (+768 raw = 3 x 256). Unit test on the real SkillTable and session. |
+| Stat passive rank 0 removes; reload re-applies | WORKED (unit) | `event_passive_owner_v1_tests` section A |
+| Skills-page training drives the same rank path | NOT EXERCISED | The real run sets the saved row with a TEST flag; the Skills page UI path was not driven (no harness clicks). The rank source is the same saved row the page writes. |
+| Real hits call the OnTargetHit observer (melee, skill, ranged, hits received) | PARTIAL | Wired at the single applied-hit point (`ActorCombatRuntime::handle_applied_hit`), which covers melee markers, source hits and projectiles. No real run produced an applied player hit (see "Real run"), so no observed dispatch. |
+| KillingFrenzy (event passive, attacker side) | PARTIAL | Unit/integration: bus -> owner -> buff, counter 1..5, 1.5 s reset, 5 s at max (`event_passive_owner_v1_tests` B). Not measured on a real hit. CanAttackInMelee gate not implemented. |
+| CarrionEater (event passive, kill heal) | PARTIAL | Unit: heal = TempProp1 at rank, clamped to max, only for the player's own kill (`event_passive_owner_v1_tests` C). Not measured on a real kill. |
+| Precision, SideStep, Shield-type (knockback/stun/HasBow/defender side) | DID NOT WORK | Not implemented: need the knockback/stun state path, HasBow for passives, and defender-side delivery. |
+| Leech_MP (133): consumer | PARTIAL | IDA consumer found; application added (attacker MP/HP regained, clamped). Unit test for the helper; not measured on a real hit. |
+| Spell_Damage_Bonus (166-170): consumer | WORKED (already in the port) | IDA `CF_CalcDamage` 0x3b1fb8 lines 130366-130372 read `PROPS_Get(attacker, a6+166)`; port `game-data/combat.cpp:71` reads `prop(attacker, element+166)`. The earlier report's "no consumer" was wrong. |
+| Special_Equip_Main_In_Offhand (202): consumer | DID NOT WORK | No literal read in IDA (searched `202`, `, 202)`, `+ 202)`); no port consumer. Not located. |
+| HasBow / HasStaff (`Character::_HasBow` 0x3b6f84) | DID NOT WORK for passives | IDA consumer: `GetAnimStance` (0x3a53e0 region: staff -> 3, bow -> byte_4, dual -> 2), not the damage path. The port has `query_bow` (equipment). No Lua-facing predicate was added for passives (Precision not implemented). |
 
-## 3. Integration tests (`features/generic_skills/passive_skill_owner_v1_tests.cpp`, CTest `passive_skill_owner_v1`)
+## 1. Original evidence (IDA, Lua)
 
-- Stat passive (Toughness, `Skill_Berserk_Toughness`) through the generic passive owner on a real CombatSession (KnightPlayerBase fixture): L1 adds exactly its class contribution to Max_HP (type-4 accumulate); a rank change replaces it (L2 = base + L2 contribution, no stacking); the same rank is a no-op; rank 0 restores the base.
-- Event passive (KillingFrenzy-style, `Skill_Berserk_KillingFrenzy`): the bus delivers a player hit once, a monster hit on the player is ignored by the attacker check, a miss is not an OnTargetHit; unlimited-capacity instances stack on the speed cell; the stack is removed by RemoveBuff.
-- Capacity on the same class: unlimited accumulates; capacity 2 evicts the weakest; capacity 1 rejects a weaker newcomer (event published); capacity 1 replaces an equal-strength instance.
-- Bus unit rules: both receivers served attacker first; miss selects OnTargetMissed only; unsubscribe by key; unknown callback refused.
+### 1a. Formula type 6 (done in round 1)
+- `CharProperties::_ScaleWithPercentageForBuff` 0x3e2c10 (PROVEN): `dest = (sheet[P1] * (a4 ? base dest : sheet dest)) >> 8`. No added term. The port's extra `+ P1` was removed (`game-data/class_tables.cpp`, `tests/classes.cpp`).
 
-## 4. Test counts and environment
+### 1b. Buff combine rule (done in round 1)
+- `CharProperties::RecalcProperty` 0x3dfe60 (PROVEN): type & 4 accumulates base, saved, gear and every buff instance where the property is set (`IsPropertySet` = value != default; `AddProperty` sums). type & 2 is set-priority. The port's resolver (`game-data/properties.cpp`) implements the same rules; no change needed.
 
-- Full CTest on the branch: **206 / 206 passed** (run log `C:/dh218/es-passive-ctest-run2.log`). The first run before my change listed 204 tests, not the 205 in the brief; I did not reconcile that difference.
-- The first baseline run failed ~30 tests (missing `.local-inputs` junctions in the worktree). Those are environmental, fixed by junctioning every `.local-inputs` directory the tests reference (39 junctions, all removable with `cmd /c rmdir`, none recursive). Failures were not code failures.
-- `classes_audit` (game-data) is built only in a separate project and is not a CTest target.
+### 1c. Buff capacity (done in round 1)
+- `PROPS_AddBuff` 0x3e232c (PROVEN): capacity 1 for `false`, 128 for `true` or <= 0, N for a number. Full: a same-class instance with strength <= new is replaced; otherwise the new buff is refused. Tie-break beyond capacity 1 is an INFERENCE.
 
-## 5. Remaining gaps (for the lead)
+### 1d. Receiver of OnCombatResults (partly open)
+- PROVEN: `CharAI::OnCombatResults` 0x3d0da4 is at byte 188 of the CharAI vtable (0x966790) and forwards to the AI object's vtable +180. `AISDefault::OnCombatResults` 0x3dc9a8 calls `OnTargetMissed` when `(result[24] & 3) != 0` and flag 0x1000 is set, else `OnTargetHit` when flag 0x800 is set, with args (attacker, target). `AISPlayer` adds 0x400 (OnKill) and does not override `OnCombatResults`.
+- NOT located: the caller of 0x3d0da4 (no direct xref; no matching 4-argument virtual call). Receiver order (attacker then target) is the port model `character_combat_results_ai_v1.hpp`, not an IDA fact.
 
-1. Live wiring: no SkillTable rank source feeds `RuntimePassiveSkillOwnerV1` in `main.cpp`. The owner is ready; the rank-change trigger and the player's rank source still need wiring.
-2. Hit coverage: `apply_source_result` is the only dispatch point. Weapon and melee hits that do not go through it do not reach the bus. Not verified in a real hit.
-3. The OnTargetHit defender-side receiver is a port model (see 1d). IDA caller of `CharAI::OnCombatResults` remains open.
-4. Capacity tie-break beyond capacity 1 (equal strength, multi-instance) is an inference; the TMR_TimeLeft semantics are unresolved.
-5. Damage-path consumers (Leech_MP, Spell_Damage_Bonus, offhand equip flag, HasBow) are not implemented. Their status is DID NOT WORK in this round.
-6. No real-run evidence exists for any of these items; the claims above are unit/integration level only.
+### 1e. Damage-path consumers (follow-up, this round)
+- `CF_CalcDamage` 0x3b1fb8 (PROVEN, pseudocode ~130158-130400):
+  - lines 130280-130286: `v61 = (damage * PROPS_Get(attacker, 132)) >> 8 / 100`, `v60 = (damage * PROPS_Get(attacker, 133)) >> 8 / 100` (the leech values, written to result words 2 and 3). Lines 130380-130395 do the same for the DOT branch.
+  - lines 130366-130372: elemental bonus `PROPS_Get(attacker, a6 + 166)` added to the random damage, scaled by the defender's resistance factor (`PROPS_Get(defender, a6 + 74)`).
+- `CharProperties::PROPS_GetMagicDamageBonus` 0x3df718 (PROVEN): `sheet[166 + element of the equipped faery]`.
+- `F_ApplyResult` 0x3b10b4 (PROVEN, ~129876-129890): words 2 and 3 are passed to `PROPS_AddDot` (defender) as amount/duration in one branch. The mapping of words 2/3 to "leech MP" is therefore ambiguous in IDA (INFERENCE: the leech is applied through the port's own model, `game-data/combat_application.cpp`). Flagged as an open question.
+- `Character::_HasBow` 0x3b6f84 -> `ItemInventory::HasBow` (not in the export); callers: `GetAnimStance` (0x3a53e0 region) only.
 
-## Files touched
+## 2. Implementation (this round)
 
-- `port/game-data/class_tables.cpp`, `port/game-data/tests/classes.cpp`
-- `port/windows-foundation/CMakeLists.txt`, `combat_session.hpp`, `combat_session.cpp`
-- `port/windows-foundation/features/generic_skills/runtime_timed_buff_v1.{hpp,cpp}`
-- New: `features/generic_skills/combat_result_event_bus_v1.{hpp,cpp}`, `passive_skill_owner_v1.{hpp,cpp}`, `passive_skill_owner_v1_tests.cpp`
-- New: `coordination/v21.8/es-passive-report.md` (this file)
+- `features/generic_skills/passive_skill_owner_v1.{hpp,cpp}`: `stat_passive_class_for_script_v1` (table of the 15 non-Mage stat passives whose original script is the plain `CreateBuff(CLASS_ID, 0, false, slvl)` pattern; class names taken from `GetPyOID("ClassTable", ...)` in each script), `sync_stat_passive_ranks_v1` (saved rows -> ranks). Mage passives and Leadership (group buff) are excluded.
+- `features/generic_skills/event_passive_owner_v1.{hpp,cpp}` (new): `RuntimeEventPassiveOwnerV1` on the OnTargetHit bus (attacker side only; the listener checks its own role). KillingFrenzy: the Lua counter (1..5), the 1500 ms reset that removes the buff but keeps the counter, the 5000 ms timer at 5. CarrionEater: TempProp1 at the rank healed onto the player, clamped to max, also written to the HP property. `sync_event_passive_ranks_v1`.
+- `features/generic_skills/combat_result_event_bus_v1.{hpp,cpp}`: event gains `target_died`.
+- `actor_combat_runtime.{hpp,cpp}`: `set_combat_result_observer`, called at the top of `handle_applied_hit` for every applied hit.
+- `combat_session.{hpp,cpp}`: the observer forwarder is installed on the runtime at session creation; `set_combat_result_observer(attacker, target, outcomes, target_died)`; `has_combat_result_observer`. (The earlier call in `apply_source_result` was removed to avoid double dispatch.)
+- Leech application: `apply_attacker_leech_v1` (`actor_state.hpp`, inline, clamped, non-positive ignored). Called in `CombatSystem::consume_marker` (melee markers) and `CombatSession::apply_source_result` (source hits). `PlayableActorWorld::resolve_damage_with_outcomes` and its interface gained defaulted `hp_leech_raw`/`mp_leech_raw` outputs; the test fake in `tests/actor_combat_runtime_tests.cpp` was updated to the new signature.
+- `main.cpp`: per-frame wiring before `combatSession->update`: rebuild the owners when the Session changes; install the observer (queues hits); sync stat ranks from `state.skills` with `menuSourceOwner.skill_owner->borrow()`; sync event ranks. After the update: dispatch the queued hits to the bus, then advance the Killing Frenzy timer. Buff event names gained `rejected`. The faery passive path is unchanged (it still works as before).
+- TEST ONLY flags (documented in `main.cpp`):
+  - `--test-skill-rank NAME=RANK`: sets an EXISTING saved row at frame 60. A row that is not in the saved SkillList makes the HUD fail with `Source-known saved skill rows do not match any original SkillList order`, so the flag never adds rows. It prints the saved row names when a name is missing.
+  - `--test-event-passive-rank killing_frenzy=N|carrion_eater=N`: sets the event passive's rank without a saved row (needed because no available save has a Berserker or Necromancer SkillList).
+  - Observer log `Passive hit observed frame=... attacker=... target=... outcomes=... died=...` (prints only hits that involve the player).
+
+## 3. Real run
+
+Cases (hidden window, `quiet_click_sync.ps1`, staged v21.8 package, Rogue save from `atk-buffed` (RoguePlayerBase: JumpKick, ViciousStrike, Quickness, Roundhouse, Ambidextrous, Acrobat, ComboMaster, FindWeakness, SpecializationSkill)):
+
+- `C:/dh218/cases/es-passive-a/run.log`: `--test-skill-rank Acrobat=3`, `--test-event-passive-rank killing_frenzy=1`, scripted `--attack-start-frame 200 --attack-frames 1`. Stat passive measured:
+  - `Test skill rank Acrobat=3 frame=60`
+  - `Timed buff applied frame=60 ... class=Skill_Rogue_Acrobat source=stat passive Acrobat strength=3 durationMs=0 cells=60:380->1148` (Rating_Dodge, cell 60).
+  - The attack at frame 216 (`Source animation ... name=attack_offhand ... synchronousHit=1`) produced no applied hit and no observer line.
+- `C:/dh218/cases/es-passive-b/run.log`: same flags, player placed at (-6850,-250,259) beside `LizTemplate_03` (combat monster, HP 47.5). Attacks at 216 and 221, no applied player hit, no observer line, no buff.
+- Frames: `C:/dh218/cases/es-passive-b/f80.png`, `f250.png` (viewed: HUD and the Knight's sword swing; no damage number visible).
+- Why no hit: the log states `Selected class RoguePlayerBase: source movement/HUD/menu and incoming damage; outgoing attacks await their own source pipeline`. Outgoing player damage is not wired in this build for this fixture. This is the second failed attempt at a real event-passive hit for the same reason, so per the escalation rule this step is stopped and handed to Sonnet.
+- Not measured: KillingFrenzy and CarrionEater on a real hit.
+- Harness note: a foreign saved row (Toughness, Hardiness) breaks the HUD (`saved rows do not match any original SkillList order`); the Rogue save's rows are listed in the log.
+
+## 4. Test counts
+
+- New tests: `event_passive_owner_v1` (sections A-D: live stat sync from SkillTable/CharacterState, Killing Frenzy cycle, Carrion Eater heal and clamp, leech helper). `passive_skill_owner_v1` and `runtime_timed_buff_v1` still pass.
+- Full CTest on the final tree: **213 / 213 passed** (`C:/dh218/es-passive-ctest-run3.log`).
+
+## 5. Gaps and notes for the lead
+
+1. Outgoing player damage does not reach monsters in the real-run fixture (see section 3). Until it does, no event passive can be measured live. Escalate to Sonnet.
+2. Hit observer covers applied hits only. Misses (`outcomes & 3`) do not reach OnTargetMissed listeners; no current passive needs them.
+3. The defender-side receiver order is a port model (IDA caller of `CharAI::OnCombatResults` not located).
+4. KillingFrenzy's CanAttackInMelee gate is not implemented (every player hit counts).
+5. Leech: IDA `F_ApplyResult` uses words 2/3 in a DOT call; the port applies them as attacker regain. The mapping is unconfirmed (see 1e).
+6. Buff events print `actor=-1` for apply events (the event's actor field is not filled); cosmetic.
+7. Skills-page training was not driven; the rank path is the saved row the page writes.
+8. Mage passives and Leadership are not in the stat table (other owners).
+
+## Files touched (this round)
+
+- `port/game-data/class_tables.cpp`, `port/game-data/tests/classes.cpp` (round 1)
+- `port/windows-foundation/main.cpp`, `CMakeLists.txt`, `combat_session.{hpp,cpp}`, `actor_combat_runtime.{hpp,cpp}`, `actor_state.hpp`, `combat_system.{hpp,cpp}`, `playable_actor_world.{hpp,cpp}`, `tests/actor_combat_runtime_tests.cpp`
+- `features/generic_skills/runtime_timed_buff_v1.{hpp,cpp}` (round 1)
+- `features/generic_skills/combat_result_event_bus_v1.{hpp,cpp}`, `passive_skill_owner_v1.{hpp,cpp}`, `event_passive_owner_v1.{hpp,cpp}`, and the tests `passive_skill_owner_v1_tests.cpp`, `event_passive_owner_v1_tests.cpp`

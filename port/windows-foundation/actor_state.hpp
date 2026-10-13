@@ -76,4 +76,12 @@ float apply_actor_damage(ActorState& actor, float amount) noexcept;
 // available to Blur; zero health already makes the actor ineligible as a target.
 float apply_actor_damage_health_prefix(ActorState& actor,float amount)noexcept;
 
+// v21.8 es-passive: attacker leech of one hit. The damage calculation returns HP and MP leech as raw x256 values
+// (CF_CalcDamage words 2/3); the attacker regains them, clamped to its maximums. Non-positive values do nothing.
+inline void apply_attacker_leech_v1(ActorState& attacker,std::int32_t hp_raw,std::int32_t mp_raw)noexcept{
+    if(!attacker.alive())return;
+    if(hp_raw>0){const float next=attacker.health+float(hp_raw)/256.0f;attacker.health=next>attacker.max_health?attacker.max_health:next;}
+    if(mp_raw>0){const float next=attacker.resource+float(mp_raw)/256.0f;attacker.resource=next>attacker.max_resource?attacker.max_resource:next;}
+}
+
 } // namespace dh::foundation
