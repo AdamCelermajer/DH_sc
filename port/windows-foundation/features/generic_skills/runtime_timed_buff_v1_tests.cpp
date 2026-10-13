@@ -41,6 +41,11 @@ int main(int argc, char** argv) {
             check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, true), "A boss defender must not be slowed");
             attacker[189] = 0;
             check(!debuff_slow_spec_v1(0x100u, 0x10000u, attacker, false), "A zero slow duration must not slow");
+            // The hit-captured duration (DamageEvent::source_slow_duration_raw, Spell_Water_1: 5000 ms x256) drives the same rule.
+            const auto c = debuff_slow_spec_from_duration_v1(0x100u, 5000 << 8, false);
+            check(c && c->class_name == "Debuff_Slow" && c->duration_ms == 5000.0, "Hit-captured slow duration must become a Debuff_Slow of that many ms");
+            check(!debuff_slow_spec_from_duration_v1(0x0u, 5000 << 8, false) && !debuff_slow_spec_from_duration_v1(0x100u, 0, false) &&
+                  !debuff_slow_spec_from_duration_v1(0x100u, 5000 << 8, true), "No slow without the outcome, with zero duration, or on a boss");
         }
         check(argc == 2, "Supply repository root");
         const std::filesystem::path repo(argv[1]);
@@ -107,6 +112,18 @@ int main(int argc, char** argv) {
         const auto quick3 = buff_cells("Skill_Rogue_Quickness_buff", 3);
         check(quick1[kWalk] == 5120 + 384 && quick1[kRotation] == 5120 + 384 && quick1[kAttack] == 5120 + 384 &&
               quick3[kWalk] == 5120 + 3 * 384, "Skill_Rogue_Quickness_buff class row no longer matches the recorded 5120 + 384 x level");
+
+        {
+            // v21.8 faery2: the authored Debuff_Slow row halves walk/rotation/attack (raw -12800 = -50 %), so a bound monster walk
+            // locomotion is re-bound at half rate (RuntimeEnemyNavigationV1 uses original_speed_modifier_ratio of base vs live cell 46).
+            const auto slow = buff_cells("Debuff_Slow", 0);
+            check(slow[kWalk] == -12800 && slow[kRotation] == -12800 && slow[kAttack] == -12800,
+                  "Debuff_Slow class row no longer matches the recorded -50 % walk/rotation/attack");
+            check(near(original_speed_modifier_ratio(0, slow[kWalk]), 0.5), "Debuff_Slow must halve the walk rate ratio");
+            check(near(original_speed_modifier_ratio(0, 0), 1.0) && near(original_speed_modifier_ratio(5120, 5120), 1.0),
+                  "An unchanged cell keeps ratio 1");
+            check(original_speed_modifier_ratio(-25600, 0) == 0.0, "A non-positive base modifier yields no ratio");
+        }
 
         std::vector<std::string> fx_played, fx_dropped;
         std::uintptr_t next_fx = 100;

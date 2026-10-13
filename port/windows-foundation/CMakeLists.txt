@@ -923,6 +923,10 @@ add_test(NAME faery_cast_sound_v1 COMMAND faery_cast_sound_v1_tests)
 add_executable(faery_ability_registry_v1_tests features/faery_menu/tests/faery_ability_registry_v1_tests.cpp)
 target_link_libraries(faery_ability_registry_v1_tests PRIVATE foundation_runtime_skill_cast)
 add_test(NAME faery_ability_registry_v1 COMMAND faery_ability_registry_v1_tests)
+# v21.8 faery2: authored Spell_<Element> class rows that carry the faery status proc chances (Wetty slow, Windy push).
+add_executable(faery_status_proc_v1_tests features/faery_menu/tests/faery_status_proc_v1_tests.cpp)
+target_link_libraries(faery_status_proc_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME faery_status_proc_v1 COMMAND faery_status_proc_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
 
 target_sources(foundation_data PRIVATE features/combo_chain/source_combo_chain.cpp
   ../level-world/character_attack_animation_v1.cpp ../level-world/character_animation_ai.cpp

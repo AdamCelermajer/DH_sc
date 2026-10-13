@@ -491,6 +491,7 @@ struct Options {
     bool noLevelLight=false;   // B076: --no-level-light (A/B diagnostic)
     int transitionEntryId=-1;     // P17 TRANSITIONS: entry id of the level this session arrives at (-1 = none)
     float transitionHeading=0.0f; // P17 TRANSITIONS: arrival facing (yaw of the entry SpawnPoint)
+    std::vector<std::pair<std::uint32_t,int>> testRngAt; // v21.8 faery2 test aid: --test-rng-at SEED@FRAME resets the combat RNG stream to {SEED,0} at that frame
     std::vector<std::pair<std::string,int>> playerToZoneFrames; // P17 TRANSITIONS test aid: --player-to ZONE@FRAME
     std::optional<dh::foundation::test_aids::FollowActorAidV1> followActorAid; // B158 test aid: --follow-actor PROFILE@FROM-TO[:DIST]
     std::vector<int> transitionConfirmFrames;                   // P17 TRANSITIONS test aid: --transition-confirm FRAME
@@ -630,6 +631,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--campaign-triggers") o.campaignTriggers=true; // P16 HOST
         else if(arg=="--no-level-light") o.noLevelLight=true; // B076 A/B diagnostic
         else if(arg=="--no-ambient-decor") o.noAmbientDecor=true; // B076 A/B diagnostic: omit ambient AnimatedDecor
+        else if(arg=="--test-rng-at") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--test-rng-at expects SEED@FRAME");o.testRngAt.emplace_back(std::uint32_t(std::stoul(at.substr(0,sep))),std::stoi(at.substr(sep+1)));}
         else if(arg=="--player-to") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--player-to expects ZONE@FRAME");o.playerToZoneFrames.emplace_back(at.substr(0,sep),std::stoi(at.substr(sep+1)));} // P17 TRANSITIONS
         else if(arg=="--follow-actor") o.followActorAid=dh::foundation::test_aids::parse_follow_actor_aid_v1(value()); // B158 test aid
         else if(arg=="--transition-confirm") o.transitionConfirmFrames.push_back(std::stoi(value())); // P17 TRANSITIONS
@@ -1473,6 +1475,7 @@ int main(int argc,char** argv) {
         // B159/B035: source Push banks (CharAnimTable KnockedBack/GreatKnockedBack roots) of the player, one per equipment stance, and the
         // actor-binding lease the Push consumer is currently bound to (a restore replaces the lease and clears the Session handler).
         std::map<std::int32_t,f::combat::SessionPushAnimationBankV1> sourcePushBanks;std::weak_ptr<const void> sourcePushBoundLease;
+        std::map<std::string,f::combat::SessionPushAnimationBankV1> monsterPushBanks; // v21.8 faery2: per monster profile (defender's own CharAnimTable +72/+36 roots)
         if(sourcePlayerStanceEnabled) {
             const auto read=[&](const char* file){return f::read_content(assets,(std::filesystem::path(options.combat.tableRoot)/file).generic_string());};
             const auto records=read("loot_table_pyarray.bin"),names=read("loot_table_pyarraynames.bin"),fields=read("loot_table_pystructnames.bin");
@@ -2339,6 +2342,31 @@ int main(int argc,char** argv) {
                     }
                     std::cout<<"[push] stance "<<stance<<" bank normal="<<bank.normal_sequence<<" great="<<bank.great_sequence<<" pushClips="<<pushClips<<'\n';
                     sourcePushBanks.emplace(stance,std::move(bank));
+                }
+                // v21.8 faery2: the same SM_SetKnockBackState reads the defender's OWN CharAnimTable row (+72 KnockedBack / +36 GreatKnockedBack),
+                // so every combat monster profile gets its bank (stance 0: no equipment stance) and its clips join its Session visual.
+                monsterPushBanks.clear();
+                if(constantsOk)for(auto& policyEntry:options.combat.profiles) {
+                    const auto& monsterProfileId=policyEntry.first;
+                    if(monsterProfileId==options.combat.playerProfileId||policyEntry.second.animationOnly)continue;
+                    const auto* monsterProfile=profiles.find(monsterProfileId);
+                    if(!monsterProfile||monsterProfile->animation_table.empty()||monsterProfile->model_uri.empty())continue;
+                    int monsterRow=-1;
+                    try{monsterRow=std::stoi(monsterProfile->animation_table);}catch(...){continue;}
+                    if(monsterRow<0||std::size_t(monsterRow)>=skillAnimationTables.characters.size())continue;
+                    f::CharacterVisualConfig monsterVisual;monsterVisual.model_path=monsterProfile->model_uri;
+                    f::combat::SessionPushAnimationBankV1 monsterBank;std::string monsterPushError;
+                    if(!f::combat::build_session_push_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,monsterRow,0,std::uint32_t(pushConstants.stanced_list_mask),
+                        monsterVisual,"monster-source-push-"+monsterProfileId,monsterBank,monsterPushError)) {
+                        std::cout<<"[push] monster "<<monsterProfileId<<" bank unavailable: "<<monsterPushError<<'\n';continue;
+                    }
+                    std::size_t monsterPushClips=0;
+                    for(const auto& clip:monsterBank.plan.config.clips) {
+                        ++monsterPushClips;
+                        if(std::none_of(policyEntry.second.sourceAnimationClips.begin(),policyEntry.second.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;}))policyEntry.second.sourceAnimationClips.push_back(clip);
+                    }
+                    std::cout<<"[push] monster "<<monsterProfileId<<" CharAnimTable="<<monsterRow<<" bank normal="<<monsterBank.normal_sequence<<" great="<<monsterBank.great_sequence<<" pushClips="<<monsterPushClips<<'\n';
+                    monsterPushBanks.emplace(monsterProfileId,std::move(monsterBank));
                 }
             }
             auto next=std::make_shared<f::CombatSession>();
@@ -5888,6 +5916,17 @@ int main(int argc,char** argv) {
             if(lease.expired())return;
             if(!sourcePushBoundLease.expired()&&!lease.owner_before(sourcePushBoundLease)&&!sourcePushBoundLease.owner_before(lease))return;
             const auto sink=[&](f::CombatSession& session,const f::combat::SessionPushRequestV1& request,std::string& e)->bool{
+                if(const auto* targetTraits=session.world()->traits(request.target);targetTraits&&!targetTraits->is_player) {
+                    // v21.8 faery2: monster defender (F_ApplyResult guards the status block with IsDead, not IsPlayer; SM_SetKnockBackState is a no-op for a Boss).
+                    std::string monsterProfileId;
+                    for(const auto& placed:population.actors())if(placed.definition.stableId==request.target){monsterProfileId=placed.profileId;break;}
+                    const auto monsterBank=monsterPushBanks.find(monsterProfileId);
+                    if(monsterBank==monsterPushBanks.end()) {std::cout<<"[push] no source Push bank for monster profile '"<<monsterProfileId<<"'; knockback not played\n";return true;}
+                    std::cout<<"[push] KnockBack monster target="<<request.target<<" profile="<<monsterProfileId<<" attacker="<<request.attacker<<" source="<<request.source_id<<" great="<<request.great<<" direct="<<request.direct
+                             <<" outcomes=0x"<<std::hex<<request.source_outcomes<<" mask=0x"<<request.source_mask<<std::dec<<" frame="<<session.update_serial()<<'\n';
+                    f::CombatSessionStateAnimationServices monsterServices;
+                    return f::combat::play_session_push_animation_v1(session,request,monsterBank->second,std::move(monsterServices),e);
+                }
                 std::int32_t stance=-1;
                 if(locomotionLibrary) {
                     const auto hands=currentLocomotionItems();
@@ -5976,7 +6015,9 @@ int main(int argc,char** argv) {
                 if(options.sourceNativeBodies)return nativeBodies.set_position(owner.id,position,true,e);
                 owner.transform.position=position;return true;
             };
-            followServices.body_radius=[&](const f::ActorState& master){const auto* pf=nativeBodies.navigation(master.id);return pf?pf->radius:0.0f;};
+            // Original: AI_IsInInteractionRange subtracts the master's vtable+148 = Character::GetInteractionRadius 0x3a374c = CharAI::AI_GetMeleeRadius(master)
+            // (AI row MeleeRadius + weapon reach), i.e. PlayableActorWorld::melee_reach, not the navigation body radius.
+            followServices.body_radius=[&](const f::ActorState& master){return combatSession->world()->melee_reach(master.id);};
             followServices.enabled=[&](f::ActorId id){for(const auto& a:population.actors())if(a.definition.stableId==id)return a.enabled!=0;return true;};
             followServices.active=[&](){return !campaignHost.cutscene_mode();};
             auto followers=std::make_shared<f::companions::RuntimeFollowerControllerV1>(std::move(followServices));
@@ -7808,6 +7849,7 @@ int main(int argc,char** argv) {
                     }
             }
             if(combatSession&&!exitZones.zones().empty()&&!pendingTransition) {
+                for(const auto& rngAid:options.testRngAt) if(rngAid.second==drawn) {combatSession->world()->set_random_state_for_test({rngAid.first,0});std::cout<<"Test RNG reset seed="<<rngAid.first<<" frame="<<drawn<<" (test aid)\n";}
                 for(const auto& aid:options.playerToZoneFrames) if(aid.second==drawn) {
                     const auto zoneIndex=exitZones.find(aid.first);
                     float rawX=0,rawY=0,rawZ=0;
@@ -8783,6 +8825,14 @@ int main(int argc,char** argv) {
                     if(probeActor&&probeProps)std::cout<<"Timed buff probe frame="<<drawn<<" position="<<probeActor->transform.position[0]<<','<<probeActor->transform.position[1]
                         <<" activeBuffs="<<(timedBuffs?timedBuffs->active_count(combatSession->player_id()):0)<<" walkRate="<<f::original_speed_modifier(probeProps->sheets.resolved[46])<<'\n';
                 }
+                if(!gameplayPaused&&stateTraceEnabled&&drawn%4==0) { // same diagnostic for the other session actors (Debuff_Slow / knockback measurements)
+                    for(const auto& entry:combatSession->world()->actors()) {
+                        if(entry.first==combatSession->player_id())continue;
+                        const auto* otherProps=combatSession->world()->combat_properties(entry.first);
+                        if(otherProps&&entry.second.alive())std::cout<<"Actor probe frame="<<drawn<<" actor="<<entry.first<<" position="<<entry.second.transform.position[0]<<','<<entry.second.transform.position[1]
+                            <<" action="<<int(entry.second.action)<<" walkRate="<<f::original_speed_modifier(otherProps->sheets.resolved[46])<<'\n';
+                    }
+                }
                 if(!gameplayPaused&&skillCastCoordinator) {
                     if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id()))if(lastSkillPhase!=int(receipt->phase)||lastSkillGeneration!=receipt->generation) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
@@ -9034,7 +9084,8 @@ int main(int argc,char** argv) {
                         const auto* attackerProps=combatSession->world()->combat_properties(event.attacker);
                         const auto* defenderProps=combatSession->world()->combat_properties(event.target);
                         const auto* defenderAi=defenderProps?dh2::data::ai_props(*combatSession->original_ai_tables(),defenderProps->sheets.resolved[1]):nullptr;
-                        const auto slow=(attackerProps&&defenderAi)?f::generic_skills::debuff_slow_spec_v1(*event.source_outcomes,event.source_mask.value_or(0),attackerProps->sheets.resolved,(defenderAi->flags&4u)!=0):std::nullopt;
+                        const auto slow=!defenderAi?std::nullopt:event.source_slow_duration_raw?f::generic_skills::debuff_slow_spec_from_duration_v1(*event.source_outcomes,*event.source_slow_duration_raw,(defenderAi->flags&4u)!=0)
+                            :attackerProps?f::generic_skills::debuff_slow_spec_v1(*event.source_outcomes,event.source_mask.value_or(0),attackerProps->sheets.resolved,(defenderAi->flags&4u)!=0):std::optional<f::generic_skills::TimedBuffSpecV1>{};
                         if(slow) {
                             ensureTimedBuffOwner();
                             std::string slowError;
@@ -9120,6 +9171,7 @@ int main(int argc,char** argv) {
                             const auto& m=loaded.original_materials()[i];
                             const bool blue=m.effectFile=="GL_Diffuse_L1_VC_iPhone.bdae"&&m.technique=="L1_Vc_Al_----_----_----_----";
                             for(auto& range:loaded.mutable_meshes()[i].ranges)range.material.texture=loadTexture(m.diffuse,m.alphaMap,blue);
+                            std::cout<<"Faery body mesh "<<i<<" diffuse="<<m.diffuse<<" alpha="<<m.alphaMap<<" effect="<<m.effectFile<<" technique="<<m.technique<<" vertices="<<loaded.meshes()[i].vertices.size()<<" ranges="<<loaded.meshes()[i].ranges.size()<<'\n';
                         }
                         std::cout<<"Faery body loaded model="<<loaded.configuration()->model_path<<" meshes="<<loaded.meshes().size()<<'\n';
                     },bodyError);
@@ -9132,6 +9184,11 @@ int main(int argc,char** argv) {
                             std::cerr<<"Faery body pose "<<current.clip_id<<": "<<mirrorError<<'\n';
                     }
                     faeryShown[id]=body;
+                    if(!options.testFaery.empty()&&drawn%20==0) { // --test-faery diagnostic: where the faery body is and what it plays
+                        const auto* liveF=combatSession->actor(id);const auto* poseF=combatSession->retained_actor_pose(id);
+                        std::cout<<"Faery body trace frame="<<drawn<<" actor="<<id<<" position="<<(liveF?liveF->transform.position[0]:0.f)<<','<<(liveF?liveF->transform.position[1]:0.f)<<','<<(liveF?liveF->transform.position[2]:0.f)
+                                 <<" meshes="<<body->meshes().size()<<" clip="<<(poseF?poseF->slots().at(poseF->current_slot()).clip_id:std::string("(no retained pose)"))<<" action="<<(liveF?int(liveF->action):-1)<<'\n';
+                    }
                 }
             }
             // P16 OPENING4: scripted scene objects advance their clips on the gameplay clock.

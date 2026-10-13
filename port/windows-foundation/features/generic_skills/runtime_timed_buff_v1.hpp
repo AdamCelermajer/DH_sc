@@ -61,6 +61,8 @@ public:
 std::optional<TimedBuffSpecV1> debuff_slow_spec_v1(std::uint32_t source_outcomes, std::uint32_t source_mask,
                                                    const dh2::data::PropertySheet& attacker_resolved,
                                                    bool defender_is_boss);
+// Same rule from the already-selected raw x256 duration (DamageEvent::source_slow_duration_raw: the property 189/146 value of the sheet the hit was rolled with).
+std::optional<TimedBuffSpecV1> debuff_slow_spec_from_duration_v1(std::uint32_t source_outcomes, std::int32_t duration_raw, bool defender_is_boss);
 
 struct TimedBuffInstanceV1 {
     std::int32_t class_id = -1;

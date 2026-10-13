@@ -34,6 +34,8 @@ bool resolve_original_actor_properties(const dh2::data::CharacterTable&,
 // Only use for properties whose original accessor proves this representation.
 float original_signed256(std::int32_t raw) noexcept;
 float original_speed_modifier(std::int32_t raw) noexcept;
+// v21.8 faery2: live/base ratio of two Speed_Modifier raw cells (a timed buff/debuff scales the walk rate of a bound locomotion by this); 0 when the base is not positive.
+double original_speed_modifier_ratio(std::int32_t base_raw, std::int32_t live_raw) noexcept;
 // Fresh profile source PLVL=1; only the three authored playable bases accepted.
 bool resolve_original_fresh_player(const OriginalPropertyDatabase&,
                                   const std::string& character_row,

@@ -1,0 +1,31 @@
+﻿Wetty slow (g15): same scenario, only the combat RNG seed differs. --test-faery Wetty --fixed-step .016 --skill-key-frame 170:4 --test-rng-at SEED@165 --spawn-test Swamp_LizadMan_Type1@730,640,100@60 --spawn-test Swamp_LizadMan_Type1@650,500,100@60
+== g15-slowed (seed 13)
+Damage frame=195 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=29.9688 dead=0 outcomes=0x100 srcmask=0x1005554a
+Debuff slow applied target=6003394295803936768 durationMs=5000 frame=195
+Damage frame=195 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=0 dead=0 outcomes=0x1 srcmask=0x1005554a
+[nav] walk rate rebound actor=6003394295803936768 modifierRatio=0.5 rate=0.5
+Timed buff applied frame=196 actor=6003394295803936768 class=Debuff_Slow source=debuff_slow strength=0 durationMs=5000 cells=46:0->-12800,47:0->-12800,48:0->-12800,
+-- Actor probe of the first lizard (actor ...768), every 12 frames: frame:(x,y) action walkRate
+f180:(701.892,677.454) a1 w1
+f192:(634.292,663.471) a1 w1
+f204:(616.821,728.682) a1 w0.5
+f216:(608.909,728.667) a1 w0.5
+f228:(600.001,723.038) a1 w0.5
+f240:(580.441,694.146) a1 w0.5
+f252:(569.984,722.924) a2 w0.5
+== g15-control (seed 3)
+Damage frame=195 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=39.043 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=195 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=0 dead=0 outcomes=0x1 srcmask=0x1005554a
+-- Actor probe of the first lizard (actor ...768), every 12 frames: frame:(x,y) action walkRate
+f180:(701.892,677.454) a1 w1
+f192:(634.292,663.471) a1 w1
+f204:(615.158,728.434) a1 w1
+f216:(599.104,727.74) a1 w1
+f228:(569.767,717.594) a1 w1
+f240:(568.477,722.375) a2 w1
+f252:(568.477,722.375) a2 w1
+== seed search (first cast, 2 lizards, Spell_Water_1 chance 15 %): seeds 1..32 -> slow (0x100) at seeds 11 (2nd target), 13, 20, 31 (1st target) = 4 procs in 64 rolls
+== random-seed free run g9-slow-0 (no test aid, 2 casts, 4 rolls): the 4th roll slowed the first lizard; Debuff_Slow applied durationMs=5000, cells 46,47,48: 0 -> -12800
+Debuff slow applied target=6003394295803936768 durationMs=5000 frame=545
+[nav] walk rate rebound actor=6003394295803936768 modifierRatio=0.5 rate=0.5
+Timed buff applied frame=546 actor=6003394295803936768 class=Debuff_Slow source=debuff_slow strength=0 durationMs=5000 cells=46:0->-12800,47:0->-12800,48:0->-12800,

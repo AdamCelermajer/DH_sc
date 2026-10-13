@@ -97,9 +97,13 @@ void RuntimeTimedBuffOwnerV1::release_fx(TimedBuffInstanceV1& instance) {
 std::optional<TimedBuffSpecV1> debuff_slow_spec_v1(std::uint32_t source_outcomes, std::uint32_t source_mask,
                                                    const dh2::data::PropertySheet& attacker_resolved,
                                                    bool defender_is_boss) {
-    if ((source_outcomes & 0x100u) == 0 || defender_is_boss) return std::nullopt;
     const unsigned property = (source_mask & 0x10000u) != 0 ? 189u : 146u;
-    const std::int32_t duration = attacker_resolved[property] >> 8;
+    return debuff_slow_spec_from_duration_v1(source_outcomes, attacker_resolved[property], defender_is_boss);
+}
+
+std::optional<TimedBuffSpecV1> debuff_slow_spec_from_duration_v1(std::uint32_t source_outcomes, std::int32_t duration_raw, bool defender_is_boss) {
+    if ((source_outcomes & 0x100u) == 0 || defender_is_boss) return std::nullopt;
+    const std::int32_t duration = duration_raw >> 8;
     if (duration <= 0) return std::nullopt;
     TimedBuffSpecV1 spec;
     spec.class_name = "Debuff_Slow";

@@ -1,0 +1,65 @@
+﻿== g3-follow (Celest, hero runs -x from frame 100 for 330 frames)
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=0 model=data/3D/characters/faeries/faeries_02_celeste.bdae position=204.255,556.767,100.41 frame=0
+Timed buff probe frame=100 position=203.611,557.532 activeBuffs=1 walkRate=1
+Timed buff probe frame=140 position=-197.818,340.284 activeBuffs=1 walkRate=1
+Faery body trace frame=160 actor=8886960962655148639 position=204.255,556.767,100.41 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=654.15 view=2300 interact=250 ownReach=200 masterRadius=200
+Timed buff probe frame=180 position=-474.408,126.169 activeBuffs=1 walkRate=1
+Faery body trace frame=200 actor=8886960962655148639 position=-54.5833,501.067,98.1448 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+Timed buff probe frame=220 position=-788.364,-158.67 activeBuffs=1 walkRate=1
+Faery body trace frame=240 actor=8886960962655148639 position=-399.612,373.074,87.2637 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+Timed buff probe frame=260 position=-1126.11,-474.9 activeBuffs=1 walkRate=1
+Faery body trace frame=280 actor=8886960962655148639 position=-716.114,158.496,87.2637 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+[follower] actor=8886960962655148639 walking position=-778.324,113.805,87.2637 distance=836.294 action=1 flags520=9153 movementType=0
+Timed buff probe frame=300 position=-1239.17,-621.56 activeBuffs=1 walkRate=1
+Faery body trace frame=320 actor=8886960962655148639 position=-890.3,-126.575,87.2637 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+Timed buff probe frame=340 position=-1137.44,-920.995 activeBuffs=1 walkRate=1
+[follower] actor=8886960962655148639 script=follower action=stop distance=641.238 view=2300 interact=250 ownReach=200 masterRadius=200
+[follower] actor=8886960962655148639 script=follower action=none distance=641.238 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=360 actor=8886960962655148639 position=-944.894,-309.347,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Timed buff probe frame=380 position=-1137.44,-920.995 activeBuffs=1 walkRate=1
+Timed buff probe frame=420 position=-1137.44,-920.995 activeBuffs=1 walkRate=1
+Faery body trace frame=420 actor=8886960962655148639 position=-944.894,-309.347,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Timed buff probe frame=460 position=-1137.44,-920.995 activeBuffs=1 walkRate=1
+Timed buff probe frame=500 position=-1137.44,-920.995 activeBuffs=1 walkRate=1
+Faery body trace frame=500 actor=8886960962655148639 position=-944.894,-309.347,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+== g5-Hotty
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=4 model=data/3D/characters/faeries/faeries_00_hotty.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_00_hotty.bdae meshes=3
+Faery body trace frame=60 actor=8886960962655148639 position=204.255,556.767,100.41 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=654.15 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=200 actor=8886960962655148639 position=-54.5833,501.067,98.1448 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+[follower] actor=8886960962655148639 script=follower action=stop distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+[follower] actor=8886960962655148639 script=follower action=none distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=280 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Faery body trace frame=360 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+== g5-Rocky
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=1 model=data/3D/characters/faeries/faeries_03_rocky.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_03_rocky.bdae meshes=3
+Faery body trace frame=60 actor=8886960962655148639 position=204.255,556.767,100.41 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=654.15 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=200 actor=8886960962655148639 position=-54.5833,501.067,98.1448 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+[follower] actor=8886960962655148639 script=follower action=stop distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+[follower] actor=8886960962655148639 script=follower action=none distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=280 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Faery body trace frame=360 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+== g5-Wetty
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=2 model=data/3D/characters/faeries/faeries_01_wetty.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_01_wetty.bdae meshes=3
+Faery body trace frame=60 actor=8886960962655148639 position=204.255,556.767,100.41 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=654.15 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=200 actor=8886960962655148639 position=-54.5833,501.067,98.1448 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+[follower] actor=8886960962655148639 script=follower action=stop distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+[follower] actor=8886960962655148639 script=follower action=none distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=280 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Faery body trace frame=360 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+== g5-Windy
+Faery placed (PlaceFaeryAndFollowers) actor=8886960962655148639 slot=3 model=data/3D/characters/faeries/faeries_04_windy.bdae position=204.255,556.767,100.41 frame=0
+Faery body loaded model=data/3d/characters/faeries/faeries_04_windy.bdae meshes=3
+Faery body trace frame=60 actor=8886960962655148639 position=204.255,556.767,100.41 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+[follower] actor=8886960962655148639 script=follower action=approach distance=654.15 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=200 actor=8886960962655148639 position=-54.5833,501.067,98.1448 meshes=3 clip=actor-8886960962655148639/Walk/sequence-0/phase-0 action=1
+[follower] actor=8886960962655148639 script=follower action=stop distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+[follower] actor=8886960962655148639 script=follower action=none distance=644.205 view=2300 interact=250 ownReach=200 masterRadius=200
+Faery body trace frame=280 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0
+Faery body trace frame=360 actor=8886960962655148639 position=-460.318,326.556,87.2637 meshes=3 clip=actor-8886960962655148639/Idle/sequence-0/phase-0 action=0

@@ -65,6 +65,8 @@ public:
     const dh2::data::AiTables& factions() const noexcept { return tables_; }
     const PlayableActorTraits* traits(ActorId) const noexcept;
     dh2::data::CombatRandom random_state() const noexcept;
+    // Test aid only (--test-rng-at): replaces the persisted combat RNG stream state so a real run can reproduce a chosen roll sequence.
+    void set_random_state_for_test(dh2::data::CombatRandom state) noexcept;
     // Shared source random draw for gameplay consumers such as audio/loot.
     // Uses the same persisted stream as combat; zero retains source Random(0)
     // semantics (one call, unchanged seed). Invalid ranges leave all state alone.

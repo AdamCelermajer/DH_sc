@@ -1,0 +1,36 @@
+﻿Windy monster knockback (g16): --test-faery Windy --fixed-step .016 --skill-key-frame 250:4 --spawn-test Swamp_LizadMan_Type1@450,557,100@100 --spawn-test Swamp_LizadMan_Type1@330,500,100@100
+[push] monster Swamp_LizadMan_Type1 CharAnimTable=34 bank normal=378 great=375 pushClips=3
+[push] monster Swamp_LizadMan_Type1_Respawn CharAnimTable=34 bank normal=378 great=375 pushClips=3
+[push] monster Swamp_LizadMan_Type2 CharAnimTable=7 bank normal=89 great=86 pushClips=2
+[push] monster Swamp_Moth_Minions CharAnimTable=44 bank normal=449 great=446 pushClips=3
+[push] monster Swamp_Moth_Type1 CharAnimTable=42 bank normal=449 great=446 pushClips=3
+[push] monster Swamp_Moth_Type1_RESPAWN CharAnimTable=42 bank normal=449 great=446 pushClips=3
+[push] source Push consumer bound banks=5
+[push] KnockBack monster target=6003394295803936769 profile=Swamp_LizadMan_Type1 attacker=18446744073709551615 source=faerie_windy great=0 direct=1 outcomes=0x80 mask=0x1005554a frame=277
+Damage frame=276 attacker=18446744073709551615 target=6003394295803936768 marker=SpellCombatRoll removed=22.7148 dead=0 outcomes=0x0 srcmask=0x1005554a
+Damage frame=276 attacker=18446744073709551615 target=6003394295803936769 marker=SpellCombatRoll removed=27.5586 dead=0 outcomes=0x80 srcmask=0x1005554a
+-- Actor probe of the pushed lizard (actor ...769; action 6 = knocked_back) every 4 frames: frame (x,y) action; hero at (203.6,557.5)
+f268 (358.685,474.312) action=0
+f272 (358.685,474.312) action=0
+f276 (358.685,474.312) action=6
+f280 (363.862,478.285) action=6
+f284 (394.029,470.71) action=6
+f288 (395.878,464.124) action=6
+f292 (399.6,456.985) action=6
+f296 (411.718,448.355) action=6
+f300 (427.051,438.667) action=6
+f304 (439.936,429.156) action=6
+f308 (450.362,419.067) action=6
+f312 (460.433,408.3) action=6
+f316 (460.433,408.3) action=6
+f320 (461.957,406.266) action=6
+f324 (461.957,406.266) action=6
+f328 (461.957,406.266) action=6
+f332 (458.522,406.324) action=6
+f336 (453.379,406.875) action=6
+f340 (449.613,406.813) action=6
+f344 (449.613,406.813) action=6
+f348 (449.613,406.813) action=0
+f352 (449.613,406.813) action=2
+f356 (449.613,406.813) action=2
+f360 (449.613,406.813) action=2

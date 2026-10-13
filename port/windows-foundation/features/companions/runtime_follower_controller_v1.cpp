@@ -113,7 +113,7 @@ bool RuntimeFollowerControllerV1::update(CombatSession& session, double dt_secon
         if (action != runtime.last) {
             std::cout << "[follower] actor=" << id << " script=" << ai->script << " action=" << action_name(action)
                       << " distance=" << input.distance << " view=" << input.radii.view_radius
-                      << " interact=" << input.radii.interact_radius << (decision.apply_haste ? " haste=on" : "")
+                      << " interact=" << input.radii.interact_radius << " ownReach=" << input.radii.own_reach << " masterRadius=" << input.radii.master_radius << (decision.apply_haste ? " haste=on" : "")
                       << (decision.release_haste ? " haste=off" : "") << '\n';
             runtime.last = action;
         }
