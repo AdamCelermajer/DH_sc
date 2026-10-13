@@ -210,6 +210,7 @@
 #include <stdexcept>
 #include "features/spawn/spawn_character_v1.hpp" // P16 SPAWN: --spawn-test owner (default off)
 #include "features/spawn/actor_profile_derivation_v1.hpp" // P16 PROFILES: profile/melee/policy derivation from pydata (default path for unauthored rows)
+#include "features/status_states/status_states_session_v1.hpp" // v21.8 es-status: stun/scare outcome consumer, Idle clock, controller gate
 
 namespace f = dh::foundation;
 namespace fs = std::filesystem;
@@ -5933,6 +5934,8 @@ int main(int argc,char** argv) {
         semanticInput.replace_session_surface(std::move(uiSurface));
         std::shared_ptr<f::enemy_ai::RuntimeEnemyNavigationV1> enemyNavigation;
         std::shared_ptr<f::enemy_ai::RuntimeEnemyControllerV1> enemyController;
+        // v21.8 es-status: stun/scare states from live skill outcomes; the enemy controller gate reads it.
+        auto statusStates=std::make_shared<f::status_states::StatusStateSessionV1>();
         std::shared_ptr<f::enemy_ai::RuntimeRangedSkillMonsterV1> rangedSkillMonsters; // B154
         std::shared_ptr<dh2::data::PropertyRules> rangedSkillRulesOwner;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
@@ -5996,8 +5999,9 @@ int main(int argc,char** argv) {
             config.idle_alias="ai-idle";config.idle_choice={"Idle",0,{0}};
             const f::enemy_ai::RuntimeEnemyNavigationConfigV1 hasteBase=config; // B077 FOLLOW: copy before the move
             enemyNavigation=std::make_shared<f::enemy_ai::RuntimeEnemyNavigationV1>(std::move(config));
-            enemyController=std::make_shared<f::enemy_ai::RuntimeEnemyControllerV1>(
-                f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation));
+            auto enemyServices=f::enemy_ai::make_runtime_enemy_navigation_services_v1(enemyNavigation);
+            enemyServices.can_act=[statusStates](const f::ActorState& actor){return statusStates->can_act(actor);}; // v21.8 es-status
+            enemyController=std::make_shared<f::enemy_ai::RuntimeEnemyControllerV1>(std::move(enemyServices));
             // B077 FOLLOW: actors whose AI row script is follower/attacking_follower/rene walk after the host player along
             // the same sewn-floor route/locomotion owner as monsters (CharAI::_UpdateMaster events + follower.luac/rene.luac).
             // Rene's Buff_Rene_Haste catch-up uses a per-actor navigation instance whose walk rate carries the buff's
@@ -8911,6 +8915,19 @@ int main(int argc,char** argv) {
                     const auto* livePlayer=combatSession->actor(combatSession->player_id());
                     state.stats.health=livePlayer->health;state.stats.max_health=livePlayer->max_health;
                     state.stats.resource=livePlayer->resource;state.stats.max_resource=livePlayer->max_resource;
+                }
+                if(!gameplayPaused&&statusStates&&combatSession) {
+                    // v21.8 es-status: rebind the stun/scare outcome consumer (a restore clears it; no lease = skip this frame),
+                    // then the Stunned/Scared clock in milliseconds. Expiry returns the monster to Idle.
+                    std::string statusError;
+                    if(statusStates->bind(*combatSession,statusError)) statusStates->advance(gameplayDt*1000.0);
+                    for(const auto& line:statusStates->owner().take_log()) std::cout<<"[status] "<<line<<'\n';
+                    if(enemyController) { // controller gate counter, logged every 60 blocked monster-ticks
+                        static std::size_t lastBlockedLog=0;
+                        const auto blocked=enemyController->report().status_blocked_ticks;
+                        if(blocked/60!=lastBlockedLog/60) std::cout<<"[status] enemy decisions blocked ticks="<<blocked<<'\n';
+                        lastBlockedLog=blocked;
+                    }
                 }
                 if(!gameplayPaused&&timedBuffs) {
                     // v21.8 skills-a: timed buff clock, expiry and overlay re-assertion after the Session update.

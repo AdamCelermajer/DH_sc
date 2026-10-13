@@ -31,6 +31,9 @@ struct RuntimeEnemyControllerServicesV1 {
                        const OriginalCombatProperties&,
                        const dh2::data::AiProps&, bool& handled,
                        std::string&)> special_action;
+    // v21.8 es-status: when this returns false the monster takes no decision this frame (no approach, no attack request).
+    // Missing service = always allowed. The first blocked frame calls `stop` once.
+    std::function<bool(const ActorState&)> can_act;
 };
 
 struct RuntimeEnemyControllerReportV1 {
@@ -46,6 +49,7 @@ struct RuntimeEnemyControllerReportV1 {
     std::size_t target_deaths = 0;
     std::size_t target_sight_losses = 0;
     std::size_t target_range_losses = 0;
+    std::size_t status_blocked_ticks = 0; // v21.8 es-status: decisions skipped by the stunned/scared/knockback gate
 };
 
 // Stateless glue over the session's one live world and original tables. The
@@ -92,6 +96,7 @@ private:
         std::uint64_t pause_timer_last_frame{};
         std::uint8_t interactive415{};
         std::map<std::uint32_t, std::vector<std::uintptr_t>> source_buffs;
+        bool status_blocked = false; // v21.8 es-status: last frame was blocked by can_act
     };
     bool ensure_session(CombatSession&, std::string& error);
     RuntimeEnemyControllerServicesV1 services_;

@@ -4,6 +4,8 @@
 #include "runtime_skill_target_query_v1.hpp"
 #include "runtime_skill_progression_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
+#include "../status_states/status_states_session_v1.hpp"
+#include "../enemy_ai/runtime_enemy_controller_v1.hpp"
 
 #include "../../asset_catalog.hpp"
 #include "../skills_animation/skill_animation_program.hpp"
@@ -218,6 +220,19 @@ void run_rogue_source_slot0_fixture(
     CharacterVisual player_visual;
     check(session.initialize(assets, properties, bindings, config, player_visual,
               population, {0, 0, 0}, rogue_customization, error), error);
+    // v21.8 es-status: the live status-outcome consumer (stun/scare) is bound to this Session for the whole fixture.
+    dh::foundation::status_states::StatusStateSessionV1 statusStates;
+    check(statusStates.bind(session, error), error);
+    {
+        // The controller gate also blocks a knocked-back actor (action set by the Push consumer), independent of stun timers.
+        ActorState knocked;
+        knocked.id = 4242;
+        knocked.action = CharacterAction::knocked_back;
+        check(!statusStates.can_act(knocked), "Knocked-back actor was not blocked by the status gate");
+        ActorState idle;
+        idle.id = 4243;
+        check(statusStates.can_act(idle), "Idle actor without status states was blocked");
+    }
     // The live render population may retain an enabled visual that the combat
     // Session did not enroll. Append into pre-reserved capacity so this
     // presentation-only list edit cannot invalidate Session-owned visuals.
@@ -472,6 +487,54 @@ void run_rogue_source_slot0_fixture(
     check(session.actor(2)->health == hp2_after && session.actor(3)->health == hp3_after &&
           rng_duplicate.seed == rng_after.seed && rng_duplicate.calls == rng_after.calls,
           "Duplicate Rogue do_skill callback reapplied skill results or consumed RNG");
+    // v21.8 es-status: every applied hit that rolled the stun bit (0x40) left a live non-boss lizard Stunned and unable to act,
+    // and the consumer saw exactly the applied hits. Lizards are not bosses, so no stun is refused here.
+    {
+        std::size_t applied_hits = 0, stun_hits = 0;
+        ActorId stunned_id = invalid_actor_id;
+        for (const auto& result : final->applied_results) {
+            if (result.applied) ++applied_hits;
+            if (!result.applied || !result.source_outcomes || (*result.source_outcomes & 0x40u) == 0) continue;
+            const auto* target = session.actor(result.target);
+            if (!target || !target->alive()) continue;
+            ++stun_hits;
+            if (stunned_id == invalid_actor_id) stunned_id = result.target;
+            check(statusStates.owner().stunned(result.target) && !statusStates.can_act(*target),
+                  std::string("Stun outcome did not stop the lizard for ") + spec.skill_name);
+        }
+        check(statusStates.report().outcomes_seen == applied_hits,
+              std::string("Status consumer did not see every applied hit for ") + spec.skill_name);
+        std::cout << "status " << spec.skill_name << " applied=" << applied_hits << " stunHits=" << stun_hits
+                  << " stunnedNow=" << (stunned_id == invalid_actor_id ? 0 : 1) << '\n';
+        if (stunned_id != invalid_actor_id) {
+            // The enemy controller takes no decision for a stunned monster: no attack request, no pose, blocked tick counted.
+            dh::foundation::enemy_ai::RuntimeEnemyControllerServicesV1 gate;
+            gate.can_see = [](CombatSession&, const ActorState&, const ActorState&, const OriginalCombatProperties&,
+                              const OriginalCombatProperties&, const dh2::data::AiProps&, bool& visible, std::string&) {
+                visible = false;
+                return true;
+            };
+            gate.approach = [](CombatSession&, ActorState&, ActorState&, const dh2::data::AiProps&, std::string&) { return true; };
+            gate.stop = [](CombatSession&, ActorState&, std::string&) { return true; };
+            gate.special_action = [](ActorState&, ActorState&, const OriginalCombatProperties&, const dh2::data::AiProps&,
+                                     bool& handled, std::string&) {
+                handled = false;
+                return true;
+            };
+            gate.can_act = [&statusStates](const ActorState& actor) { return statusStates.can_act(actor); };
+            dh::foundation::enemy_ai::RuntimeEnemyControllerV1 controller(std::move(gate));
+            const auto attacks_before = controller.report().attack_requests;
+            check(controller.update(session, 0.0, error), error);
+            check(controller.report().status_blocked_ticks >= 1 && controller.report().attack_requests == attacks_before &&
+                  !session.owns_pose(stunned_id),
+                  std::string("Stunned lizard still took an enemy decision after ") + spec.skill_name);
+            // Expiry: the same monster is released after its stun duration and the gate opens again.
+            const double left = statusStates.owner().stun_left_ms(stunned_id);
+            statusStates.advance(left + 1.0);
+            check(statusStates.can_act(*session.actor(stunned_id)),
+                  std::string("Stun expiry did not release the lizard after ") + spec.skill_name);
+        }
+    }
     std::cout << "PASS Rogue " << spec.skill_name << " main=" << spec.main_hand << " off=" << spec.off_hand
               << " markers=" << marker_count << " results=" << final->applied_results.size()
               << " firstVolleyHP=" << first_volley_damage << " duplicateSuppressed=1\n";

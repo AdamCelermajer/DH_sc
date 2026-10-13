@@ -1424,3 +1424,8 @@ add_library(foundation_status_states STATIC features/status_states/status_states
 add_executable(status_states_v1_tests features/status_states/status_states_v1_tests.cpp)
 target_link_libraries(status_states_v1_tests PRIVATE foundation_status_states foundation_data)
 add_test(NAME status_states_v1 COMMAND status_states_v1_tests)
+# v21.8 ES-STATUS wiring: live CombatSession consumer (stun/scare outcome observer, Idle expiry, controller can_act gate).
+add_library(foundation_status_states_session STATIC features/status_states/status_states_session_v1.cpp)
+target_link_libraries(foundation_status_states_session PUBLIC foundation_status_states foundation_data)
+target_link_libraries(dh-foundation PRIVATE foundation_status_states_session)
+target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_status_states_session foundation_runtime_enemy)

@@ -220,7 +220,30 @@ void test_integration_vicious_strike_stun() {
 
 } // namespace
 
+void test_apply_without_knockback() {
+    // Knockback (0x80) is left to the Push consumer; stun (0x40) and scare (0x20) go to the owner with the boss gate.
+    auto props = [](int id) -> std::int32_t {
+        switch (id) {
+        case 140: return 2000 << 8;
+        case 143: return 1000 << 8;
+        default: return 0;
+        }
+    };
+    StatusStateOwnerV1 owner;
+    const auto plan = apply_status_outcome_without_knockback_v1(owner, kMonster, 0xC0u, 0, props, kNormal);
+    check(!plan.knockback && plan.stun && plan.stun_ms == 2000.0, "0xC0 applies stun only, not knockback");
+    check(owner.stunned(kMonster) && owner.state(kMonster) == StatusStateV1::stunned, "stun outcome stops the monster");
+    check(owner.state(kMonster) != StatusStateV1::knocked_back, "no knockback state from this entry point");
+    StatusStateOwnerV1 boss_owner;
+    apply_status_outcome_without_knockback_v1(boss_owner, kMonster, 0x60u, 0, props, kBoss);
+    check(!boss_owner.stunned(kMonster) && !boss_owner.scared(kMonster), "boss takes no stun or scare from the outcome");
+    StatusStateOwnerV1 none;
+    apply_status_outcome_without_knockback_v1(none, kMonster, 0x100u, 0, props, kNormal);
+    check(none.can_act(kMonster), "slow alone does not stop the monster here");
+}
+
 int main() {
+    test_apply_without_knockback();
     test_boss_word();
     test_event_table();
     test_outcome_plan();

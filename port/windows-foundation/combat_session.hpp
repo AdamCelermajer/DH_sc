@@ -494,6 +494,15 @@ public:
     // first, then target receiver). Called after a source hit was applied; outcomes & 3 != 0 means a miss.
     using CombatResultObserver=std::function<void(ActorId attacker,ActorId target,std::uint32_t outcomes)>;
     void set_combat_result_observer(CombatResultObserver observer);
+    // v21.8 es-status: status-outcome consumer for applied source hits (stun 0x40, scare 0x20; knockback 0x80 stays with
+    // the Push consumer). `attacker_sheet` is the formula sheet the roll used (valid only during the callback).
+    struct StatusOutcomeEventV1 {
+        ActorId attacker=invalid_actor_id, target=invalid_actor_id;
+        std::uint32_t outcomes=0, mask=0;
+        const dh2::data::PropertySheet* attacker_sheet=nullptr;
+    };
+    using StatusOutcomeObserver=std::function<void(const StatusOutcomeEventV1&)>;
+    void set_status_outcome_observer(StatusOutcomeObserver observer);
     bool script_kill_actor(ActorId,std::string& error);
     bool script_kill_actor(ActorId victim,ActorId killer,std::string& error);
     const std::vector<ScriptKillRecordV1>& script_kill_records() const noexcept;
