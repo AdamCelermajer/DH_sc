@@ -28,6 +28,10 @@ bool validate_attack_definition(const AttackDefinition& definition, std::string&
         && definition.cooldown_timing != CooldownTiming::attack_departure) {
         error = "Attack cooldown timing is unsupported"; return false;
     }
+    if (definition.projectile_delivery) {
+        if (!definition.damage_markers.empty()) { error = "Projectile attack must not bind melee damage markers"; return false; }
+        return true;
+    }
     if (definition.damage_markers.empty() || definition.damage_markers.size() > character_collection_limit) {
         error = "Attack requires bounded authored damage marker bindings"; return false;
     }
@@ -129,6 +133,8 @@ bool CombatSystem::consume_marker(ActorId attacker,const MarkerOccurrence& occur
     // Attack clips are single-shot. Looping replay cannot turn one attack into
     // repeated damage; a new attack requires a new begin and animation generation.
     if (occurrence.cycle != 0) return true;
+    // v21.8 mage: projectile-delivered attacks never apply melee damage at a marker.
+    if (run.definition.projectile_delivery) return true;
     const auto binding = std::find_if(run.definition.damage_markers.begin(), run.definition.damage_markers.end(),
         [&](const DamageMarkerBinding& item) { return item.marker_name == occurrence.marker.name; });
     if (binding == run.definition.damage_markers.end()) return true;

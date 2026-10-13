@@ -385,6 +385,26 @@ target_include_directories(foundation_runtime_effects PRIVATE
   ../scene-materials ../engine-animation ../engine-skinning ../engine-resources)
 target_link_libraries(dh-foundation PRIVATE foundation_runtime_effects)
 
+# v21.8 mage: shared ranged/projectile executor (runtime_session_projectile_*), previously unlinked.
+add_library(foundation_runtime_session_projectile STATIC
+  features/effects/runtime_session_projectile_v1.cpp
+  features/effects/runtime_session_projectile_contacts_v1.cpp
+  features/effects/runtime_session_projectile_frame_v1.cpp
+  features/effects/runtime_session_projectile_render_v1.cpp
+  features/effects/runtime_source_projectile_v1.cpp
+  ../android-native/app/src/main/cpp/source_process_arrays_v101.cpp
+  ../game-data/combat_events.cpp)
+target_link_libraries(foundation_runtime_session_projectile PUBLIC foundation_data)
+add_executable(runtime_session_projectile_v1_tests features/effects/runtime_session_projectile_v1_tests.cpp)
+target_link_libraries(runtime_session_projectile_v1_tests PRIVATE foundation_runtime_session_projectile)
+add_test(NAME runtime_session_projectile_v1 COMMAND runtime_session_projectile_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
+add_executable(runtime_session_projectile_render_v1_tests features/effects/runtime_session_projectile_render_v1_tests.cpp)
+target_link_libraries(runtime_session_projectile_render_v1_tests PRIVATE foundation_runtime_session_projectile)
+target_link_libraries(dh-foundation PRIVATE foundation_runtime_session_projectile)
+add_test(NAME runtime_session_projectile_render_v1 COMMAND runtime_session_projectile_render_v1_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/runtime-session-projectile-v1/assets")
+
 target_link_libraries(dh-foundation PRIVATE foundation_data ${DH2_PLATFORM_LIBRARIES})
 add_library(foundation_frontend STATIC
   ${DH2_FRONTEND_HOST_SOURCE} features/frontend/frontend_runtime_v1.cpp

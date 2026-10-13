@@ -4,6 +4,7 @@
 #include "../../combat_session.hpp"
 #include "../../original_combat_properties.hpp"
 #include "../../retained_animation_owner.hpp"
+#include "../../asset_catalog.hpp"
 #include "../../../level-world/character_combat_queries.hpp"
 
 #include <functional>
@@ -62,6 +63,12 @@ struct RuntimeSessionProjectileImpactCandidateV1 {
     std::string source_marker;
     bool source_critical{};
 };
+
+// v21.8 mage: the one shared loader for the source process arrays every
+// session-projectile caller needs (original-cache/data/... through AssetCatalog).
+// Returns null and sets error on any failure.
+std::shared_ptr<dh2::android_ui::SourceProcessArraysV101>
+load_runtime_session_projectile_tables_v1(const AssetCatalog&, std::string& error);
 
 // Constructs the exact Character-peer F_MeleeAttack request used by the
 // ordinary projectile callback. Equipment is borrowed at impact from the

@@ -28,27 +28,10 @@ void check(bool ok, const std::string& message) {
 
 std::shared_ptr<dh2::android_ui::SourceProcessArraysV101> load_arrays(
     const AssetCatalog& assets) {
-    auto tables = std::make_shared<dh2::android_ui::SourceProcessArraysV101>();
-    bool complete = false;
+    // v21.8 mage: the shared executor loader (promoted from this test's former copy).
     std::string error;
-    while (!complete) {
-        const auto reader = [&](const std::string& uri,
-                                std::vector<std::uint8_t>& bytes,
-                                std::string& read_error) {
-            if (uri.rfind("data/", 0) != 0) {
-                read_error = "unexpected source array URI: " + uri;
-                return false;
-            }
-            try {
-                bytes = assets.read(std::filesystem::path("original-cache") / uri);
-                return true;
-            } catch (const std::exception& e) {
-                read_error = e.what();
-                return false;
-            }
-        };
-        check(tables->load_stage(reader, complete, error), error);
-    }
+    auto tables = load_runtime_session_projectile_tables_v1(assets, error);
+    check(tables != nullptr, error);
     return tables;
 }
 

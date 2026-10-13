@@ -4,7 +4,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 #include <limits>
+#include <stdexcept>
 #include <utility>
 
 namespace dh::foundation::effects {
@@ -61,6 +63,31 @@ bool source_mainhand_category(
     error.clear();
     return true;
 }
+}
+
+std::shared_ptr<dh2::android_ui::SourceProcessArraysV101>
+load_runtime_session_projectile_tables_v1(const AssetCatalog& assets, std::string& error) {
+    auto tables = std::make_shared<dh2::android_ui::SourceProcessArraysV101>();
+    bool complete = false;
+    while (!complete) {
+        const auto reader = [&](const std::string& uri, std::vector<std::uint8_t>& bytes,
+                                std::string& read_error) {
+            if (uri.rfind("data/", 0) != 0) {
+                read_error = "unexpected source array URI: " + uri;
+                return false;
+            }
+            try {
+                bytes = assets.read(std::filesystem::path("original-cache") / uri);
+                return true;
+            } catch (const std::exception& e) {
+                read_error = e.what();
+                return false;
+            }
+        };
+        if (!tables->load_stage(reader, complete, error)) return nullptr;
+    }
+    error.clear();
+    return tables;
 }
 
 bool runtime_session_projectile_melee_hit_v1(

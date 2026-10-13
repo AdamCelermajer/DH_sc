@@ -94,6 +94,11 @@ struct CombatSessionProfile {
     // AttackStatic, only after a new command is admitted. Both exact source
     // roots must be preloaded above; held continuation never replaces a root.
     bool sourceAttackStateSelection=false;
+    // v21.8 mage: a ranged source attack (Mage staff). The attack is admitted and
+    // selected like a melee source attack, but it binds NO melee damage markers and
+    // no melee hand source; its state-5 projectile marker is delivered to the
+    // actor's projectile sink (CombatSession::set_projectile_marker_sink) instead.
+    bool rangedProjectileMarkers=false;
 };
 struct CombatSessionConfig {
     std::optional<std::uint32_t> diagnosticRngSeed;
@@ -500,6 +505,8 @@ public:
     bool resolve_source_result_only(const CombatSessionSourceHit&,CombatSessionSourceCalculation&,std::string& error);
     const dh2::data::AiTables* original_ai_tables()const noexcept;
     std::int32_t original_actor_state(ActorId)const noexcept;
+    // v21.8 mage: drains the state-5 projectile markers queued for a rangedProjectileMarkers actor.
+    std::vector<RetainedAnimationEvent> take_projectile_markers(ActorId);
     // Scoped immediate borrow of the existing per-actor rotation turn field.
     // Reacquire after restore/reload; no second rotation owner is introduced.
     bool borrow_rotation_turn(ActorId,std::uint32_t*& turn_positive,std::string& error);
