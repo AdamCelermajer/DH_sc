@@ -485,6 +485,7 @@ struct Runtime::Impl {
           const dh2_script_value* a,std::uint32_t count,dh2_script_value* out,std::uint32_t capacity,
           std::uint32_t* returned,char* text,std::size_t bytes){
   std::int32_t prop=0,value=0;
+  if(count<3)return 0;
   // _SetProp ignores a call whose property/value are not numbers.
   if(a[0].type!=DH2_SCRIPT_NUMBER||a[1].type!=DH2_SCRIPT_NUMBER)return 0;
   if(!integer(a[0],prop)||!integer(a[1],value))return fail(text,bytes,q.name);
