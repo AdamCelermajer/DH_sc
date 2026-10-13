@@ -103,9 +103,6 @@ struct Statistics {
     std::uint32_t frames = 0;
     std::uint32_t skipped = 0;
     std::uint32_t master_events[8]{};  // events 18..25
-    std::uint32_t friend_events = 0;
-    std::uint32_t enemy_events = 0;
-    std::uint32_t neutral_events = 0;
     std::uint32_t scans = 0;
     std::uint32_t last_event = 0;
 };

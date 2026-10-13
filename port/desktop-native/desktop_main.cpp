@@ -61,6 +61,9 @@ struct Options {
     int hud_tap_x = 1176, hud_tap_y = 281;
     // skill-matrix: test only this SkillTree row (a failed train poisons later rows).
     std::int32_t matrix_only = -1;
+    // faery-follow: select this Faery Save slot (0..4) through the same entry as
+    // the HUD (ChangeFaery + Level::PlaceFaeryAndFollowers) at frame 30.
+    std::int32_t follow_faery_select = -1;
     std::filesystem::path capture_series;
     std::uint64_t capture_every = 300;
     // faery-follow ends by leaving the level so the source LevelSavegame (which
@@ -117,6 +120,7 @@ Options parse(int argc, char** argv) {
             options.hud_tap_y = std::stoi(xy.substr(comma + 1));
         }
         else if (arg == "--matrix-only") options.matrix_only = std::stoi(value("--matrix-only"));
+        else if (arg == "--follow-faery") options.follow_faery_select = std::stoi(value("--follow-faery"));
         else if (arg == "--capture-series") options.capture_series = value("--capture-series");
         else if (arg == "--capture-every") options.capture_every = std::stoull(value("--capture-every"));
         else if (arg == "--scenario") {
@@ -160,6 +164,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
+                         "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
                          "  --faery-hud-tap       faery-skill: touch the authored HUD faery button instead of calling the spell entry\n"
                          "  --capture-series PREFIX [--capture-every N] save PREFIX_<frame>.ppm every N frames (any bounded gameplay run)\n"
@@ -581,6 +586,19 @@ private:
     double total_path_ = 0.0, max_from_start_ = 0.0;
     bool have_start_ = false;
     unsigned fight_attacks_ = 0, samples_ = 0;
+    // Faery companion observations (model_renderer::gameplay_faery_snapshot).
+    // The follower AI keeps the Faery near its master: it walks (MoveTo) when
+    // the master is out of interaction range and warps behind the master once
+    // the master leaves its 2300 unit view radius, so the distance stays
+    // bounded however far the Player marches.
+    static constexpr double faery_distance_bound_ = 2500.0;
+    unsigned faery_samples_ = 0, faery_moving_samples_ = 0, faery_unbounded_ = 0;
+    unsigned faery_no_master_ = 0;
+    double faery_max_distance_ = 0.0, faery_total_move_ = 0.0;
+    Vec3 faery_last_{};
+    bool have_faery_last_ = false;
+    std::array<std::uint32_t, 8> faery_events_{};
+    std::uint32_t faery_ai_frames_ = 0;
 
     bool pick_leg(const Vec3& player) {
         constexpr int directions = 16;
@@ -625,6 +643,15 @@ private:
             have_start_ = true;
             start_pos_ = last_sample_pos_ = pose_.player_position;
             plog(fmt("follow start | player %s", vec_text(start_pos_).c_str()));
+        }
+        if (options_.follow_faery_select >= 0 && frame_ == 30) {
+            std::string select_error;
+            const bool selected = model_renderer::ui_player_set_active_faery(
+                player_, std::uint32_t(options_.follow_faery_select), select_error);
+            plog(fmt("follow select Faery %d (ChangeFaery + PlaceFaeryAndFollowers): %s%s",
+                     options_.follow_faery_select, selected ? "ok" : "ERROR: ", select_error.c_str()));
+            if (!selected && failure_.empty())
+                failure_ = "faery-follow: selecting the Faery failed: " + select_error;
         }
         if (frame_ % 15 == 0) follow_decide();
         if (frame_ % 60 == 0) follow_sample();
@@ -689,9 +716,64 @@ private:
                  vitals[2] / 256.0, faery_id, faery_level, hud_.infos[6], hud_.infos[7],
                  hud_ok ? "" : " (hud read failed)", pose_.enemy_index, pose_.enemy_hp / 256.0,
                  int(pose_.enemy_in_melee_range), fight_attacks_, deaths_));
+        follow_faery_sample();
+    }
+
+    void follow_faery_sample() {
+        model_renderer::GameplayFaerySnapshotV1 faery;
+        std::string error;
+        if (!model_renderer::gameplay_faery_snapshot(faery, error)) {
+            if (failure_.empty()) failure_ = "faery-follow: gameplay_faery_snapshot failed: " + error;
+            return;
+        }
+        if (!faery.present) {
+            plog(fmt("follow faery | frame %llu | no authored Faery in this Level", (unsigned long long)frame_));
+            return;
+        }
+        ++faery_samples_;
+        faery_events_ = faery.master_events;
+        faery_ai_frames_ = faery.ai_frames;
+        faery_max_distance_ = std::max<double>(faery_max_distance_, faery.player_distance);
+        if (have_faery_last_) faery_total_move_ += planar_distance(faery.position, faery_last_);
+        faery_last_ = faery.position;
+        have_faery_last_ = true;
+        if (faery.state == 4) ++faery_moving_samples_;
+        if (!faery.master_is_player && frame_ > 120) ++faery_no_master_;
+        // The first seconds allow the Faery's first AI ticks (master acquisition).
+        if (frame_ > 180 && faery.player_distance > faery_distance_bound_) {
+            ++faery_unbounded_;
+            if (failure_.empty())
+                failure_ = fmt("faery-follow: Faery is %.0f units from the Player at frame %llu "
+                               "(bound %.0f)", faery.player_distance, (unsigned long long)frame_,
+                               faery_distance_bound_);
+        }
+        plog(fmt("follow faery | frame %llu | faery %s | dist %.0f | state %d | master %s%s | path %u | "
+                 "moving %d | master events died %u revived %u out-of-sight %u in-sight %u out-of-range %u "
+                 "ranged %u close %u melee %u | AI frames %u | visual faery %d",
+                 (unsigned long long)frame_, vec_text(faery.position).c_str(), faery.player_distance,
+                 faery.state, faery.master ? "set" : "none", faery.master_is_player ? " (Player)" : "",
+                 faery.path_segments, int(faery.moving), faery.master_events[0], faery.master_events[1],
+                 faery.master_events[2], faery.master_events[3], faery.master_events[4],
+                 faery.master_events[5], faery.master_events[6], faery.master_events[7],
+                 faery.ai_frames, faery.visual_faery_id));
     }
 
     void follow_finish() {
+        plog(fmt("follow faery summary | samples %u | moving samples %u | max distance %.0f | total travel %.0f | "
+                 "samples beyond %.0f: %u | samples without Player master %u | WarpBehind (out-of-sight) %u | "
+                 "MoveTo ticks (out-of-range) %u | Stop ticks (melee range) %u",
+                 faery_samples_, faery_moving_samples_, faery_max_distance_, faery_total_move_,
+                 faery_distance_bound_, faery_unbounded_, faery_no_master_, faery_events_[2], faery_events_[4],
+                 faery_events_[7]));
+        if (failure_.empty()) {
+            if (!faery_samples_)
+                failure_ = "faery-follow: this Level has no authored Faery to observe";
+            else if (faery_no_master_)
+                failure_ = "faery-follow: the Faery never acquired the Player as its master";
+            else if (total_path_ > 3000.0 && faery_total_move_ < 500.0)
+                failure_ = fmt("faery-follow: the Player marched %.0f units but the Faery travelled only %.0f",
+                               total_path_, faery_total_move_);
+        }
         plog(fmt("follow summary | samples %u | legs %u | path %.0f | max distance from start %.0f | "
                  "melee attacks %u | deaths %u",
                  samples_, legs_, total_path_, max_from_start_, fight_attacks_, deaths_));

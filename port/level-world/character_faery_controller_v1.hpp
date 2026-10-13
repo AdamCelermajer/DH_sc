@@ -57,6 +57,9 @@ enum class Status : std::uint8_t {
     owner_mismatch,
     service_unavailable,
     command_failed,
+    // PFWorld::ValidatePosition refused the destination. Character::Ctrl_WarpTo
+    // 0x3adcf4 then does nothing at all (no error, no event).
+    rejected,
 };
 
 struct Result {

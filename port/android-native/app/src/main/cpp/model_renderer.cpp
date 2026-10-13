@@ -20331,6 +20331,82 @@ bool prepare_authored_faery_visual(AAssetManager* assets,
   release(next_draws,next_images);error=failure.what();return false;
  }
 }
+// Character::ChangeFaery 0x3ae99c, tail: the Faery linked at Player+0x420
+// receives GameObject::SetVisualObject(Character::GetCharModelName 0x3a54d4)
+// and CharAnimator::ANIM_AddSetToRenderObject 0x3c99a0. GetCharModelName of a
+// Faerie resolves the Player's current Faery row's ModelFile through ModelDict.
+// All five Faeries share the Faeries_Celeste AnimDict set, so the retained
+// AnimSet registrations stay; only the mutable pose/scene (and its draw bank,
+// rebuilt on the next draw) are replaced. The physical body is untouched.
+bool change_authored_faery_visual(AuthoredCryptFaeryOwner& owner,
+                                  std::uint32_t id,std::string& error) {
+ error.clear();
+ auto* record=owner.record;
+ auto* runtime=active_crypt_room_runtime.get();
+ if(!record||!runtime||!runtime->assets||
+    record->character.identity!=owner.identity||!record->coordinator||
+    id>=5) {
+  error="Faery ChangeFaery visual requires its canonical Record, Level assets and a valid Faery id";
+  return false;
+ }
+ auto& visual=record->faery_visual;
+ // Before InitPost's LoadVisualObject there is no VisualObject to replace.
+ if(!dh2::character_faery_visual_facade_v1::ready(visual,owner.identity))return true;
+ if(visual.asset->faery_id==id)return true;
+ std::string model_file;
+ if(!resolve_authored_faery_model(id,owner.properties,model_file,error))return false;
+ std::int32_t model_id=-1;
+ for(std::size_t i=0;i<actor_model_table.values.size();++i) {
+  const auto& path=actor_model_table.values[i];
+  const auto separator=path.find_last_of("/\\");
+  if(path.substr(separator==std::string::npos?0:separator+1)!=model_file)continue;
+  if(model_id>=0) {
+   error="Selected Faery ModelFile maps ambiguously in the retained ModelDict";
+   return false;
+  }
+  model_id=static_cast<std::int32_t>(i);
+ }
+ if(model_id<0) {
+  error="Selected Faery ModelFile is absent from the retained ModelDict";return false;
+ }
+ AuthoredFaeryAssetContext context{&owner,runtime->assets};
+ std::shared_ptr<const FaeryVisual::Asset> asset;
+ if(resolve_authored_faery_asset(&context,model_id,model_file,
+      static_cast<std::int32_t>(id),&asset,error)!=0||!asset||
+    !asset->renderer_data) {
+  if(error.empty())error="Selected Faery asset could not be loaded";
+  return false;
+ }
+ auto pose=asset->renderer_data->create_character_pose();
+ if(!pose) {
+  error="Selected Faery asset could not create a Character pose";return false;
+ }
+ const auto old_asset=visual.asset;
+ const auto old_pose=visual.pose;
+ visual.asset=asset;
+ visual.pose=pose;
+ if(!extend_authored_faery_clipbank(*record,runtime->assets,error)) {
+  visual.asset=old_asset;visual.pose=old_pose;return false;
+ }
+ ++visual.generation;
+ // New scene graph: the VisualObject owner node and the GameObject::Update
+ // snapshots rebind to it from the canonical GameObject pose.
+ owner.motion=dh2::character_faery_motion_v1::State{};
+ dh2::character_faery_motion_v1::place(owner.motion,owner.visual_position.data());
+ // GameObject::InitFinal's `target_node` lookup repeats on the new scene.
+ std::uintptr_t target_node=0;
+ for(const auto& node:pose->bdae_resource().scene.graph)
+  if(node.name=="target_node") {
+   target_node=reinterpret_cast<std::uintptr_t>(&node);break;
+  }
+ record->game_object.target_node_180=target_node;
+ if(auto* row=runtime->manager.find_by_identity(owner.identity))
+  row->target_node_180=target_node;
+ owner.visual_model_path=model_file;
+ owner.visual_faery_id=-1; // forces prepare_authored_faery_visual to rebuild the draw bank
+ error.clear();return true;
+}
+
 struct PlayerEquipmentNativeV1 {
  struct PartIdentity {
   std::shared_ptr<const void> retention;
@@ -31141,6 +31217,42 @@ std::int32_t gameplay_player_state() noexcept{
  if(!enabled||!world_mode||!native_actor_ready)return -1;
  return native_source_character_state(prince_character.identity());
 }
+bool gameplay_faery_snapshot(GameplayFaerySnapshotV1& output,std::string& error){
+ if(!enabled||!world_mode||!native_actor_ready||!active_crypt_room_runtime){
+  error="Gameplay faery snapshot requires a live source Player and world";return false;
+ }
+ AuthoredCryptFaeryOwner* faery=nullptr;
+ if(const auto linked=prince_character.faery_character_420_for(prince_character.identity()))
+  faery=native_faery_owner(linked);
+ if(!faery)
+  for(auto& owner:active_crypt_room_runtime->faeries)
+   if(owner.registered&&owner.record){faery=&owner;break;}
+ GameplayFaerySnapshotV1 candidate;
+ if(faery&&faery->record&&faery->native_ai){
+  auto& record=*faery->record;
+  candidate.present=true;
+  candidate.identity=faery->identity;
+  candidate.master=faery->native_ai->state.master_50;
+  candidate.master_is_player=candidate.master&&candidate.master==prince_character.identity();
+  candidate.position={record.game_object.world_x,record.game_object.world_y,
+                      faery->visual_position[2]};
+  candidate.state=record.coordinator?record.coordinator->state.current:-1;
+  candidate.path_segments=record.faery_controller.path.count;
+  candidate.moving=record.faery_controller.moving!=0;
+  const float dx=candidate.position[0]-actor_position[0];
+  const float dy=candidate.position[1]-actor_position[1];
+  candidate.player_distance=std::sqrt(dx*dx+dy*dy);
+  if(faery->ai_frame){
+   const auto& statistics=faery->ai_frame->statistics();
+   std::copy(std::begin(statistics.master_events),std::end(statistics.master_events),
+             candidate.master_events.begin());
+   candidate.ai_frames=statistics.frames;
+  }
+  candidate.visual_faery_id=record.faery_visual.asset?
+      std::int32_t(record.faery_visual.asset->faery_id):-1;
+ }
+ output=candidate;error.clear();return true;
+}
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1& output,std::string& error){
  if(!enabled||!world_mode||!native_actor_ready||prince_combat.life.dead){
   error="Gameplay pose snapshot requires a live source Player and world";return false;
@@ -33852,6 +33964,7 @@ int faery_external_target_path(void* raw,
  return 0;
 }
 
+bool faery_trace_enabled();
 int faery_external_warp_service(void* raw,
     const dh2::character::ControllerPointCommandRequest32* request) {
  if(!raw||!request||request->command!=dh2::character::controller_warp_to_point||
@@ -33869,6 +33982,17 @@ int faery_external_warp_service(void* raw,
      *record,active_crypt_room_runtime->level.native_floor->collision_world,
      active_crypt_room_runtime->live_registry,live_motion_policy,request->point,
      accepted,&result,error);
+ // Character::Ctrl_WarpTo 0x3adcf4 only acts when PFWorld::ValidatePosition
+ // accepts the point; otherwise it silently does nothing.
+ if(status==dh2::character_faery_controller_v1::Status::rejected) {
+  if(faery_trace_enabled())
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Faery WarpTo rejected by PFWorld::ValidatePosition | point %.1f %.1f %.1f | faery %.1f %.1f %.1f | valid %u kind %u floor %u -> %u",
+     request->point[0],request->point[1],request->point[2],
+     record->game_object.world_x,record->game_object.world_y,owner.visual_position[2],
+     result.valid,result.kind,result.old_floor,result.new_floor);
+  return 1;
+ }
  if(status!=dh2::character_faery_controller_v1::Status::complete)return -1;
  auto* object=active_crypt_room_runtime->manager.find_by_identity(owner.identity);
  if(!object||object->identity!=owner.identity)return -1;
@@ -34698,7 +34822,21 @@ int native_faery_placement_service(void*,const FaeryPlacement::Request& request,
  case Op::change_faery: {
   if(request.subject!=prince_character.identity()||request.value<0)return 1;
   std::string error;
-  return apply_player_faery_change(static_cast<std::uint32_t>(request.value),error)?0:1;
+  if(!apply_player_faery_change(static_cast<std::uint32_t>(request.value),error))
+   return 1;
+  // Character::ChangeFaery tail: new VisualObject for the Faery at Player+0x420.
+  const auto linked=prince_character.faery_character_420_for(request.subject);
+  if(linked) {
+   auto* linked_owner=native_faery_owner(linked);
+   if(!linked_owner||!change_authored_faery_visual(*linked_owner,
+        static_cast<std::uint32_t>(request.value),error)) {
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+      "Character::ChangeFaery SetVisualObject failed | faery %d | %s",
+      int(request.value),error.c_str());
+    return 1;
+   }
+  }
+  return 0;
  }
  }
  return 1;
