@@ -9,6 +9,8 @@
 // DBG trace 0x478cc4).
 #pragma once
 
+#include <cstddef>
+
 #include "dh2/Condition.hpp"
 
 struct __sFILE;
@@ -26,7 +28,7 @@ public:
     // Overrides of Condition slots, in vtable order. Compile (slot +0x0c) is inherited unchanged.
     ~Condition_IsQuestInStateGeneric() override;                          // slot +0x00 D1 0x4786a4, slot +0x04 D0 0x4791b8
     bool Eval() override;                                                 // slot +0x08: 0x478fe8
-    int DBG_TraceDetailedConditionInformation(__sFILE* stream) override;  // slot +0x10: 0x478cc4 prints "Quest" and "State"
+    std::size_t DBG_TraceDetailedConditionInformation(__sFILE* stream) override;  // slot +0x10: 0x478cc4 prints "Quest" and "State" (the original returns fprintf's int; std::size_t as the base)
 
     // Condition occupies +0x00 .. +0x07.
     int m_comparator;                                                     // +0x08 Comparators value: 0, 1 or 2

@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <string>
 
-#include "glitch-debugger/CTweakable.hpp"  // glitch::debugger::CTweakable: no header in the tree yet (open question)
+#include "glitch-scene-collada-gui/debugger/CTweakable.hpp"  // glitch::debugger::CTweakable (canonical, glitch-scene-collada-gui)
 
 class GamepadTweaker : public glitch::debugger::CTweakable {
 public:

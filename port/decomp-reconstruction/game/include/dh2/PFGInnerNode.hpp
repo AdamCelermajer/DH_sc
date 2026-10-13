@@ -1,7 +1,8 @@
 // PFGInnerNode: a node of a floor's inner path-finding graph, one per midpoint of a triangle edge.
 // Its base Node<unsigned int> is the graph node (vptr at +0x00, id at +0x04). GraphSparse<PFGInnerEdge>::addNode
-// allocates the node as its _InNode (0x44 bytes): the PFGInnerNode part below is 0x2c bytes and the graph's
-// incoming-edge tree follows it. The original has no constructor for this class; addNode writes the defaults
+// allocates the node as its _InNode (0x44 bytes): the PFGInnerNode part below is 0x2c bytes and the node's
+// outgoing-edge map (keyed by destination id, see GraphSparse::addEdge) follows it. The original has no constructor
+// for this class; addNode writes the defaults
 // (zero position, zero direction, zero width and length, floor 0) and PFFloor::_CreateNode fills them in.
 // Original 32-bit size 0x2c (44) for the PFGInnerNode part.
 // Reconstructed from libDungeonHunter2.so pseudocode (dtors 0x51b83c and 0x51c17c, fields from PFFloor::_CreateNode 0x51fa64).

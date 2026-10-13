@@ -12,10 +12,10 @@ class CSLimbus : public CharState {
 public:
     ~CSLimbus() override;                                                  // slot 0x00 D1 0x3bffe0, slot 0x04 D0 0x3c0a94
 
-    // CharState slots, in vtable order. No override keyword: CharState.hpp does not name slots 0x08 to 0x18 yet.
-    void OnInit(int eventId, Character* character, CharStateMachine* machine);                  // slot 0x08: 0x3c7cc0
-    void OnFocus(int eventId, Character* character, CharStateMachine* machine, int fromState, int toState, void* data);  // slot 0x0c: 0x3c2e58
-    void OnBlur(int eventId, Character* character, CharStateMachine* machine, int nextState);   // slot 0x10: 0x3c2be4
-    void OnUpdate(int eventId, Character* character, CharStateMachine* machine);                // slot 0x14: 0x3bffe4
-    void OnEvent(int eventId, Character* character, CharStateMachine* machine, int event, void* data);  // slot 0x18: 0x3bffe8
+    // Overrides of CharState slots, in vtable order.
+    void OnInit(int eventId, Character* character, CharStateMachine* machine) override;                  // slot 0x08: 0x3c7cc0
+    void OnFocus(int eventId, Character* character, CharStateMachine* machine, int fromState, int toState, void* data) override;  // slot 0x0c: 0x3c2e58
+    void OnBlur(int eventId, Character* character, CharStateMachine* machine, int nextState) override;   // slot 0x10: 0x3c2be4
+    void OnUpdate(int eventId, Character* character, CharStateMachine* machine) override;                // slot 0x14: 0x3bffe4
+    void OnEvent(int eventId, Character* character, CharStateMachine* machine, int event, void* data) override;  // slot 0x18: 0x3bffe8
 };

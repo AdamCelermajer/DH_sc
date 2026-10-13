@@ -2,8 +2,8 @@
 // ambient, diffuse, specular) plus the level fog to the debug tweaker. Values are registered by
 // name ("m_attenuation[0].X", "m_fogStart", ...) and written to the level and the global material
 // parameters from onSetValue. The tweaker XML is data/tweaker/player_light.tweaker_xml.
-// Original 32-bit size 0x144 (324). Its base glitch::debugger::CTweakable occupies +0x00 .. +0x7b;
-// the base size is not recovered here, so the first member is placed at its original offset +0x7c.
+// Original 32-bit size 0x144 (324). Its base glitch::debugger::CTweakable occupies +0x00 .. +0x7b
+// (glitch-scene-collada-gui/debugger/CTweakable.hpp), so the first member is placed at its original offset +0x7c.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x32f2b4, onSetValue 0x40de48).
 #pragma once
 
@@ -11,7 +11,7 @@
 #include <string>
 
 #include "glitch-shared/glitch_core.hpp"  // glitch::core::vector3d<float>, glitch::video::SColor
-#include "glitch-debugger/CTweakable.hpp"  // glitch::debugger::CTweakable: no header in the tree yet (open question)
+#include "glitch-scene-collada-gui/debugger/CTweakable.hpp"  // glitch::debugger::CTweakable (canonical, glitch-scene-collada-gui)
 
 class LightBase;
 

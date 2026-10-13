@@ -13,6 +13,7 @@ class PFGInnerGraph : public sfc::math::graph::GraphSparse<PFGInnerEdge> {
 public:
     ~PFGInnerGraph() override;      // slot 0: 0x523480 (D1), slot 1: 0x5234b4 (D0, frees)
 
-    // Debug estimate of the graph's memory: 44 bytes per node plus 24 bytes per incoming edge of each node.
+    // Debug estimate of the graph's memory: 44 bytes per node plus 24 bytes per edge held by each node (the count
+    // of its edge map, at node +0x3c).
     int DBG_GetMemUsage() const;    // 0x52ddd0
 };

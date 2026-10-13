@@ -1,0 +1,191 @@
+{
+  "summary": "Track B wave L2: Haiku agents fix the game headers that do not compile on their own",
+  "agentCount": 4,
+  "logs": [],
+  "result": [
+    {
+      "family": "charstates",
+      "result": {
+        "fixed": [
+          "CharState.hpp: replaced unk_vslot_08..18 with the five virtual slots OnInit/OnFocus/OnBlur/OnUpdate/OnEvent as pure virtuals in vtable order, with the signatures the binary uses (checked with py -3 tools/decomp_vtable.py for all 20 CS states: all agree). Added forward declarations of Character and CharStateMachine. All 20 CS headers now pass bash tools/trackb/check_tu.sh: CSAnim, CSAttack, CSCast, CSDead, CSDespawn, CSIdle, CSInjured, CSInteract, CSKnockedBack, CSLiftingIdle, CSLiftingMove, CSLimbus, CSMove, CSPreSpawn, CSRevived, CSReviving, CSScared, CSSkill, CSSpawn, CSStunned.",
+          "CSLimbus.hpp and CSPreSpawn.hpp: added override to the five slot methods (comments that said CharState did not name the slots were removed). CSMove.hpp: added override to its five slot methods and dropped the stale comment about unk_vslot names.",
+          "Verified the 20 CS states together in one translation unit (g++ -std=c++17 -Wall -fsyntax-only with -I game/include): std::is_abstract is false for every state, so no slot is left unimplemented."
+        ],
+        "still_failing": [],
+        "headers_changed": [
+          "port/decomp-reconstruction/game/include/dh2/CharState.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CSLimbus.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CSMove.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CSPreSpawn.hpp"
+        ],
+        "notes": "Root cause: CharState.hpp (the real base of all CS* states, per decomp_vtable and the constructors) declared its five slots as unk_vslot_08..18 with no parameters, so every override failed. The fix is in the base only; the other 16 CS headers were not edited, because their signatures already match the binary. Only CharState.hpp had dependents among the CS headers (all 20 include it; no other game header includes a CS header).\n\nFollow-ups for the integrator (not edited here):\n1. Sources that still cite the old names: game-app/src/g1-game-app-global-f216b6-4.cpp line 12 and its ledger row for 3c0550 (GetNewState<CSStunned>, partial) say the CS header does not compile. The CS header now compiles. That row may still be blocked by dh2/Singleton.hpp, which I did not check.\n2. game-character/src/g1-game-character-CharStateMachine-33fc5a-2.cpp line 243 says the OnUpdate call at 0x3c628c cannot be written because the slot is unk_vslot_14() with no arguments. It can now be written as m_curState->OnUpdate(id, character, this) (CharStateMachine.hpp line 10 comment still lists the old slot names +8 init, +12 enter, +16 exit, +20 update, +24 event).\n3. global/GetNewState.hpp lines 5-8 say the CS* headers do not compile against dh2/CharState.hpp yet. That is now false. The header does not include CharState.hpp, so I left it alone.\n4. Parameter names differ across the CS headers (for example OnFocus uses fromState/toState, prevState/eventId, or arg5/arg6). Types are identical in all 20. The base uses CSAnim's names. Names are cosmetic and can be harmonised later.\n5. Did not run git. Other modified files in game/include/dh2 (Condition_IsPlayerInLevel.hpp, GamepadTweaker.hpp, PlayerLightTweaker.hpp, global/GetLocalPosition.hpp, Condition_IsQuestInStateGeneric.hpp) belong to other agents and were not touched by me.\n6. A stray background shell from an early malformed command (task bic165kms) may still be running. It produced no output and does not touch the tree."
+      }
+    },
+    {
+      "family": "conditions",
+      "result": {
+        "fixed": [
+          "Condition_IsQuestInState.hpp: check_tu OK (fixed through its base Condition_IsQuestInStateGeneric.hpp, no edit to this file)",
+          "Condition_IsQuestInStateGeneric.hpp: check_tu OK (trace override int -> std::size_t)",
+          "Condition_IsPlayerInLevel.hpp: check_tu OK (trace override int -> std::size_t)",
+          "Condition_IsQuestStateHigher.hpp: check_tu OK (fixed through its base, no edit to this file)",
+          "Condition_IsQuestStateLower.hpp: check_tu OK (fixed through its base, no edit to this file)",
+          "Also re-checked OK, unchanged: Condition.hpp (base), ConditionList.hpp, ConditionData.hpp, Condition_IsEventInState.hpp, Condition_IsLevelInState.hpp, Condition_IsPlayerAtLevel.hpp",
+          "Read-only compile OK: game-app/src/g1-game-app-global-f216b6-18.cpp and game-app/tests/g1-game-app-global-f216b6-18_test.cpp (not edited)"
+        ],
+        "still_failing": [],
+        "headers_changed": [
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/Condition_IsQuestInStateGeneric.hpp",
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/Condition_IsPlayerInLevel.hpp"
+        ],
+        "notes": "Root cause: the base Condition::DBG_TraceDetailedConditionInformation returns std::size_t (decomp_extract 0x478fcc ends in fwrite). The derived bodies Condition_IsQuestInStateGeneric (0x478cc4) and Condition_IsPlayerInLevel (0x478ba4) end in fprintf, so the original returns int. A C++ override cannot change the return type, so both derived headers now declare std::size_t, matching the base and the siblings Condition_IsEventInState, Condition_IsLevelInState and Condition_IsPlayerAtLevel, which already use std::size_t. The game-app test file defines std::size_t Condition::DBG...(__sFILE*) too. Each changed declaration carries a comment that the original returns fprintf's int. I also added #include <cstddef> to both headers. The m_comparator offset (+0x08) was checked against the Eval body at 0x478fe8 (this+8) and matches. The base Condition.hpp was not changed.\n\nDeviation from the task text: I did NOT switch __sFILE* to std::FILE*. The game tree uses __sFILE* everywhere: 26 files under game/include, 0 uses of std::FILE. std::FILE* appears only in the engine categories. The mangled symbols are EP7__sFILE (ConditionList trace at 0x47875c, data row in game-items-save/queue.csv), and the game-app test already defines the base with __sFILE*. Switching only this family would break ConditionList.hpp and the test, and switching the whole game tree would touch about 26 headers owned by other batches. If the integrator wants std::FILE* tree-wide, it is a separate change to make in one pass. The current header checks do not need it.\n\nOther agents' sources: game-app/src/g1-game-app-global-f216b6-18.cpp has PARTIAL comments saying these headers do not compile, and its GetConditionImplInstance stubs for Condition_IsPlayerInLevel, Condition_IsQuestStateHigher and Condition_IsQuestStateLower return nullptr. Those headers compile now, so the owner can restore the bodies. I did not edit it. No sources, no git, no ledgers were touched."
+      }
+    },
+    {
+      "family": "pathfinding",
+      "result": {
+        "fixed": [
+          "PFGInnerNode.hpp compiles on its own (check_tu OK)",
+          "PFGInnerEdge.hpp compiles on its own (check_tu OK)",
+          "PFGInnerDirectEdge.hpp compiles on its own (check_tu OK)",
+          "PFGInnerGraph.hpp compiles on its own (check_tu OK)",
+          "PFGOuterGraph.hpp compiles on its own (check_tu OK)",
+          "PFInnerTest_BasicIdentity.hpp compiles on its own (check_tu OK)",
+          "PFInnerTest_PathValidity.hpp compiles on its own (check_tu OK)",
+          "PFInnerTest_PFObject.hpp compiles on its own (check_tu OK)"
+        ],
+        "still_failing": [],
+        "headers_changed": [
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/INode.hpp (pure interface, 2 slots)",
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/IEdge.hpp (pure interface, 7 slots)",
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/Node.hpp (id at +0x04, size 8)",
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/Edge.hpp (from +0x04, to +0x08, weight +0x0c, size 16)",
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/ITest.hpp (3 slots, operator() pure)",
+          "NEW C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/sfc/math/graph/GraphSparse.hpp (vptr +0x00, m_nodes map +0x04, size 0x18; _InNode with m_edges at +0x2c)",
+          "EDIT (comment only) C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/PFGInnerNode.hpp (the node's edge map is outgoing, keyed by destination id, not incoming)",
+          "EDIT (comment only) C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/PFInnerTest_PathValidity.hpp (floor flags test is mask 0x1, bit 0)",
+          "EDIT (comment only) C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/PFGInnerGraph.hpp (DBG_GetMemUsage counts edges per node, not incoming edges)"
+        ],
+        "notes": "Evidence used: decomp_extract (Hex-Rays) for every address in the new headers; the vtables from recovered/native/symbols/libDungeonHunter2.so/vtables-001.json (raw slots); IDA read-only for the typeinfo check. Caution: decomp_vtable.py drops null (pure) slots, so its +0x offsets for ITest and PFInnerTest_* are shifted by one slot; use the raw slots instead.\n\nLayouts (32-bit, from the bodies): Node<unsigned int> vptr +0, id +4. Edge<PFGInnerNode,float> vptr +0, from +4, to +8, weight +0xc. GraphSparse<E> vptr +0, rb-tree header of m_nodes at +4 (color +4, root +8, left +0xc, right +0x10, count +0x14), size 0x18. _InNode = NodeType base (0x2c for PFGInnerNode) plus the m_edges map at +0x2c (count at +0x3c); addNode allocates 0x44 but uses 0x40, and I left the 4 bytes unexplained in a comment. addEdge puts the edge in the from-node's map keyed by to-id, and getEdges and DBG_GetMemUsage read that map, so the map holds outgoing edges. The PFGInnerNode and PFGInnerGraph comments said \"incoming\" and are corrected.\n\nOpen items for the integrator:\n1. GraphSparse member bodies are declared only, not defined: addNode 0x51dca4, addEdge 0x51e758, clear 0x52328c (PFGInnerEdge) and 0x522f70 (PFGOuterEdge), getEdges 0x52ac30. Being templates, they need inline definitions or an explicit instantiation in a game-app source. The virtual destructor is inline (clear plus the map teardown). The _InNode destructors are = default, equivalent to the binary's erase-without-delete (edges are deleted in clear).\n2. Layout request for the PFObject owner, not edited here: PFObject.hpp line 42 calls +0x4c an embedded Edge<PFGInnerNode,float>. Its vptr off_96C810 is _ZTV18PFGInnerDirectEdge+8, so the embedded object is a PFGInnerDirectEdge (0x30 bytes, +0x4c to +0x7b; m_pathSmoothIdx at +0x7c follows). Requested: a PFGInnerDirectEdge member at +0x4c, with PFGInnerDirectEdge.hpp included in PFObject.hpp.\n3. Stale note in game-world/src/g1-game-world-PFObject-34f48a-0.cpp (lines 12-13 and 89) says dh2/sfc/math/graph/Edge.hpp is absent and PFGInnerEdge.hpp cannot be included. Edge.hpp now exists and PFGInnerEdge.hpp compiles. Source not edited.\n4. INode and IEdge are interfaces. The binary has no RTTI (every typeinfo word is zero, no relocations), so the Node : INode and Edge : IEdge derivation is inferred from the identical slot order. They hold no data, so layout is unaffected.\n5. PFWorld.hpp forward declaration of sfc::math::graph::ITest<TEdge,TNode> matches the new template; no change needed.\n6. PFInnerTest_BasicIdentity keeps the member name unk_4 because the binary gives no name evidence.\n\nRe-checks: after adding the base headers, every header that includes them (the eight targets, plus INode/IEdge/Node/Edge internally) passes check_tu. The scratch instantiation at scratchpad graph_instantiate.cpp (outside the repo) compiles and runs with stand-in node and edge types, covering Node, Edge, ITest, and GraphSparse::_InNode. No sources edited, no git used, no engine header created (the one engine header was not needed for these eight)."
+      }
+    },
+    {
+      "family": "misc",
+      "result": {
+        "fixed": [
+          "GamepadTweaker.hpp compiles on its own (check_tu OK). Its include now points at the canonical engine header glitch-scene-collada-gui/debugger/CTweakable.hpp.",
+          "PlayerLightTweaker.hpp compiles on its own (check_tu OK). Same include change, and its stale comment about the base size now cites the canonical header (base occupies +0x00..+0x7b).",
+          "global/GetLocalPosition.hpp compiles on its own (check_tu OK). It now includes gameswf/gameswf.h (which defines gameswf::point and gameswf::matrix) and forward-declares struct gameswf::character, instead of including gameswf_character.h. The header never misused gc types; the failure came from the vendored gameswf (see notes).",
+          "Created the one canonical glitch::debugger::CTweakable header in its owning category, glitch-scene-collada-gui/include/glitch-scene-collada-gui/debugger/CTweakable.hpp. It compiles on its own (check_tu OK), and a scratch probe that subclasses it, registers int/float/SColor variables, calls onSetValue, and deletes through the base pointer built and ran (exit 0)."
+        ],
+        "still_failing": [
+          "vendor-gameswf: gameswf_character.h, gameswf_object.h, gameswf_function.h and gameswf_action.h do not compile. gameswf_object.h:71 declares gc_ptr<as_object> m_proto inside as_object, and instantiating it calls tu_gc::singlethreaded_refcount::write_barrier<as_object>, which passes as_object* to increment_ref/decrement_ref (base/tu_gc_singlethreaded_refcount.h:120,123). The DH2 replacement ref_counted (vendor-gameswf/include/vendor-gameswf/ref_counted.hpp) has no gc_object_collector_base base, so the conversion fails. gameswf.h, gameswf_types.h and gameswf_value.h compile alone. This is outside the assigned headers and needs a vendor-gameswf fix."
+        ],
+        "headers_changed": [
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/debugger/CTweakable.hpp",
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/GamepadTweaker.hpp",
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/PlayerLightTweaker.hpp",
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/global/GetLocalPosition.hpp"
+        ],
+        "notes": "Canonical CTweakable (new, glitch-scene-collada-gui/include/glitch-scene-collada-gui/debugger/CTweakable.hpp):\n- Declared in vtable order, checked with py -3 tools/decomp_vtable.py: virtual ~CTweakable (+0x00/+0x04), virtual getInstanceName (+0x08), getXML (+0x0c), writeValues(glitch::io::IWriteFile*) (+0x10), onSetValue (+0x14). Base size 0x7c. Members at their 32-bit offsets (mappings +0x04, names +0x1c, rootGroup +0x54, instanceName +0x68, device +0x6c, xmlName +0x70), with pads for the unmapped gaps. The pad sizes assume a 32-bit vector of 12 bytes and a 4-byte string, so they are estimates.\n- Every body is inline, so the vtable is emitted in each TU. loadXML and writeValues are empty partial stubs, and the header says why. setValue, loadGroup and writeGroup are not declared because their argument types are not recovered.\n- Types: glitch::IDevice* for the device (forward-declared; the real class is in glitch-core-io/os/device.hpp), SColor from glitch-shared/glitch_core.hpp.\n\nDuplicate to resolve in the engine unification wave (not touched): glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp defines glitch::collada::recon_00::Tweakable and TweakableMapping, a second copy of the same class with void* device and void* writeFile. Its definitions live in src/recon/slice_00.cpp, which is a source I was not allowed to change, so both copies remain. The integrator should replace the recon copy with an alias to the canonical class when slice_00 is next edited.\n\nDiagnosis correction for GetLocalPosition: the task said the header misused gameswf gc types. It did not. The failure is the vendor problem listed under still_failing, and no game-header change can clear it. Consequence for the implementation file: game-app/src/g1-game-app-global-f216b6-21_gameswf.cpp calls ch->get_world_matrix() and so needs the complete character type. It must add #include \"gameswf/gameswf_character.h\" itself, and that will not compile until the vendor fix lands. I did not edit it.\n\nStale comments that need no action in headers but are wrong now (sources, not edited): game-app/src/g1-game-app-Application-b291be-2.cpp (lines ~183-186), game-app/src/g1-game-app-Application-b291be-3.cpp (~27-31), game-app/src/g1-game-app-pack3-d077cc-0.cpp (~148), game-anim/src/g1-game-anim-pack1-f61e88-0.cpp (~102-105) all say glitch-debugger/CTweakable.hpp is missing.\n\nVerification: check_tu OK on the four headers above, on glitch-scene-collada-gui/src/recon/slice_00.cpp (unchanged), and no remaining glitch-debugger include under game/include or glitch-scene-collada-gui/include. No sources edited, no git used, no IDA writes."
+      }
+    }
+  ],
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Fix"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "L2:charstates",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix",
+      "agentId": "a5d144fed9ecd692e",
+      "model": "claude-haiku-5-5",
+      "state": "done",
+      "startedAt": 1791859260425,
+      "queuedAt": 1791859260319,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Root cause: CharState.hpp (the real base of all CS* states,…",
+      "promptPreview": "Track B game header fix. Working tree (cwd): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRules: port/decomp-reconstruction/TRACK-B.md (\"One tree, one definition\", \"Layout rules\"), README.md (\"Rules for reconstructed code\"). Evidence: py -3 tools/decomp_extract.py --address 0x..., py -3 tools/decomp_vtable.py <Class>, py -3 tools/decomp_asm.py --addre…",
+      "promptFramed": true,
+      "lastProgressAt": 1791860008544,
+      "tokens": 109368,
+      "toolCalls": 25,
+      "durationMs": 748118,
+      "resultPreview": "{\"fixed\":[\"CharState.hpp: replaced unk_vslot_08..18 with the five virtual slots OnInit/OnFocus/OnBlur/OnUpdate/OnEvent as pure virtuals in vtable order, with the signatures the binary uses (checked with py -3 tools/decomp_vtable.py for all 20 CS states: all agree). Added forward declarations of Character and CharStateMachine. All 20 CS headers now pass bash tools/trackb/check_tu.sh: CSAnim, CSAtta…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "L2:conditions",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix",
+      "agentId": "a382042225f150f23",
+      "model": "claude-haiku-5-5",
+      "state": "done",
+      "startedAt": 1791859260426,
+      "queuedAt": 1791859260319,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Root cause: the base Condition::DBG_TraceDetailedConditionI…",
+      "promptPreview": "Track B game header fix. Working tree (cwd): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRules: port/decomp-reconstruction/TRACK-B.md (\"One tree, one definition\", \"Layout rules\"), README.md (\"Rules for reconstructed code\"). Evidence: py -3 tools/decomp_extract.py --address 0x..., py -3 tools/decomp_vtable.py <Class>, py -3 tools/decomp_asm.py --addre…",
+      "promptFramed": true,
+      "lastProgressAt": 1791859821106,
+      "tokens": 107472,
+      "toolCalls": 22,
+      "durationMs": 559048,
+      "resultPreview": "{\"fixed\":[\"Condition_IsQuestInState.hpp: check_tu OK (fixed through its base Condition_IsQuestInStateGeneric.hpp, no edit to this file)\",\"Condition_IsQuestInStateGeneric.hpp: check_tu OK (trace override int -> std::size_t)\",\"Condition_IsPlayerInLevel.hpp: check_tu OK (trace override int -> std::size_t)\",\"Condition_IsQuestStateHigher.hpp: check_tu OK (fixed through its base, no edit to this file)\",…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "L2:pathfinding",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix",
+      "agentId": "aebff7126a4ae8f81",
+      "model": "claude-haiku-5-5",
+      "state": "done",
+      "startedAt": 1791859260426,
+      "queuedAt": 1791859260319,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Evidence used: decomp_extract (Hex-Rays) for every address …",
+      "promptPreview": "Track B game header fix. Working tree (cwd): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRules: port/decomp-reconstruction/TRACK-B.md (\"One tree, one definition\", \"Layout rules\"), README.md (\"Rules for reconstructed code\"). Evidence: py -3 tools/decomp_extract.py --address 0x..., py -3 tools/decomp_vtable.py <Class>, py -3 tools/decomp_asm.py --addre…",
+      "promptFramed": true,
+      "lastProgressAt": 1791860622504,
+      "tokens": 228307,
+      "toolCalls": 52,
+      "durationMs": 1360445,
+      "resultPreview": "{\"fixed\":[\"PFGInnerNode.hpp compiles on its own (check_tu OK)\",\"PFGInnerEdge.hpp compiles on its own (check_tu OK)\",\"PFGInnerDirectEdge.hpp compiles on its own (check_tu OK)\",\"PFGInnerGraph.hpp compiles on its own (check_tu OK)\",\"PFGOuterGraph.hpp compiles on its own (check_tu OK)\",\"PFInnerTest_BasicIdentity.hpp compiles on its own (check_tu OK)\",\"PFInnerTest_PathValidity.hpp compiles on its own (…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "L2:misc",
+      "phaseIndex": 1,
+      "phaseTitle": "Fix",
+      "agentId": "aeca75ac1563ab1b1",
+      "model": "claude-haiku-5-5",
+      "state": "done",
+      "startedAt": 1791859260426,
+      "queuedAt": 1791859260319,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Canonical CTweakable (new, glitch-scene-collada-gui/include…",
+      "promptPreview": "Track B game header fix. Working tree (cwd): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRules: port/decomp-reconstruction/TRACK-B.md (\"One tree, one definition\", \"Layout rules\"), README.md (\"Rules for reconstructed code\"). Evidence: py -3 tools/decomp_extract.py --address 0x..., py -3 tools/decomp_vtable.py <Class>, py -3 tools/decomp_asm.py --addre…",
+      "promptFramed": true,
+      "lastProgressAt": 1791860031733,
+      "tokens": 183865,
+      "toolCalls": 40,
+      "durationMs": 769672,
+      "resultPreview": "{\"fixed\":[\"GamepadTweaker.hpp compiles on its own (check_tu OK). Its include now points at the canonical engine header glitch-scene-collada-gui/debugger/CTweakable.hpp.\",\"PlayerLightTweaker.hpp compiles on its own (check_tu OK). Same include change, and its stale comment about the base size now cites the canonical header (base occupies +0x00..+0x7b).\",\"global/GetLocalPosition.hpp compiles on its o…"
+    }
+  ],
+  "totalTokens": 629012,
+  "totalToolCalls": 139
+}
