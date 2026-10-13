@@ -3,6 +3,7 @@
 #include "runtime_skill_cast_prepare_v1.hpp"
 #include "runtime_skill_target_query_v1.hpp"
 #include "runtime_skill_use_profile_v1.hpp"
+#include "runtime_timed_buff_v1.hpp"
 #include "runtime_skill_animation_bank_v1.hpp"
 #include "../../actor_population.hpp"
 #include "../../original_combat_visual_plan.hpp"
@@ -79,6 +80,9 @@ struct RuntimeSkillCastReceiptV1 {
     std::vector<ActorId> target_order;
     std::vector<DamageEvent> applied_results;
     std::vector<ObjectId> delivered_object_interactions;
+    // Timed-buff arm (Quickness): the buff the Use call created, empty when the skill has no buff.
+    std::string timed_buff_class;
+    double timed_buff_duration_ms = 0.0;
     // Formula-only Celest rolls against a target killed by the prior source
     // roll consume the exact RNG occurrence but do not apply a second hit.
     std::vector<faery_menu::CelestDeadTargetCalculationV1> celest_dead_target_calculations;
@@ -123,6 +127,9 @@ struct RuntimeSkillCastRequestV1 {
     const RuntimeSkillAnimationBankV1* animation_bank = nullptr;
     OriginalAttackSelection selection;
     CombatSessionStateAnimationServices downstream_animation_services;
+    // Buff owner for skills whose Use creates a timed buff (profile.buff). Skills with a buff arm are rejected
+    // before any mana/animation commit when this is null.
+    TimedBuffSinkV1* timed_buffs = nullptr;
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
 };
 
@@ -237,6 +244,13 @@ private:
         std::uint32_t source_focus_flags = 0;
         bool source_post_delivered = false;
         bool use_delivered = false;
+        // Every distinct retained do_skill marker runs the authored OnSkill_ again (SkillFSM Event -> Use), for example
+        // ViciousStrike's three strike markers. These fields identify the last delivered marker so an exact duplicate
+        // callback of the same marker stays suppressed.
+        TimedBuffSinkV1* timed_buffs = nullptr;
+        bool repeat_use = false, last_use_key_valid = false;
+        std::uint32_t last_use_wall_ms = 0, last_use_slot = 0, use_volleys = 0, next_event_index = 0;
+        std::int32_t last_use_lag_ms = 0;
     };
     std::uint64_t next_generation_ = 1;
     std::uint64_t timer_update_serial_ = 0;

@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
         const auto class_names = read_file(root + "/original-cache/data/pydata/character_classes_pyarraynames.bin");
 
         const std::size_t table_size = sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]);
-        check(table_size == 6, "Use profile table admitted-row count changed");
+        check(table_size == 7, "Use profile table admitted-row count changed");
         for (const auto& profile : kRuntimeSkillUseProfilesV1) {
             check(contains_name(skill_names, profile.skill_name),
                   std::string("Skill name is absent from the authored SkillTable names: ") + profile.skill_name);
@@ -50,8 +50,6 @@ int main(int argc, char** argv) {
         }
 
         // Admission is exact on (name, script); unlisted rows stay rejected.
-        check(find_skill_use_profile_v1("Quickness", "prince_rogue_quickness") == nullptr,
-              "Quickness must not be admitted before its timed buff owner exists");
         check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,
               "Use profile lookup must require the exact (name, script) pair");
         check(find_skill_use_profile_v1("Cyclone", "prince_mage_cyclone") == nullptr,
@@ -88,6 +86,18 @@ int main(int argc, char** argv) {
               vicious->post_clear_target && !vicious->sets_cooldown && !vicious->shield_variant &&
               std::string(vicious->class_token) == "Skill_Rogue_ViciousStrike_Stun",
               "ViciousStrike Lua transcription changed");
+        // prince_rogue_quickness.luac: no OnPre query or cooldown; the Use call is CreateBuff/ApplyBuff of
+        // Skill_Rogue_Quickness_buff with FX spell_dh2_prince_rogue_quickness; TIME_BASE 4000 / TIME_INC 1000 fallback.
+        const auto* quickness = find_skill_use_profile_v1("Quickness", "prince_rogue_quickness");
+        check(quickness && quickness->buff && near(quickness->pre_range, 0.0f) && !quickness->sets_cooldown &&
+              quickness->post_clear_target && std::string(quickness->class_token) == "Skill_Rogue_Quickness" &&
+              std::string(quickness->buff->buff_class) == "Skill_Rogue_Quickness_buff" &&
+              std::string(quickness->buff->fx_set) == "spell_dh2_prince_rogue_quickness" &&
+              near(quickness->buff->fallback_base_ms, 4000.0f) && near(quickness->buff->fallback_inc_ms, 1000.0f),
+              "Quickness Lua transcription changed");
+        check(contains_name(class_names, quickness->buff->buff_class), "Quickness buff class is absent from the authored ClassTable names");
+        for (const auto& profile : kRuntimeSkillUseProfilesV1)
+            check((profile.buff != nullptr) == (std::string(profile.skill_name) == "Quickness"), "Only Quickness has a buff arm");
         // prince_rogue_roundhouse.luac: RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no search).
         const auto* roundhouse = find_skill_use_profile_v1("Roundhouse", "prince_rogue_roundhouse");
         check(roundhouse && near(roundhouse->pre_range, 220.0f) && roundhouse->pre_look_at &&
@@ -98,6 +108,6 @@ int main(int argc, char** argv) {
         std::fprintf(stderr, "FAIL runtime_skill_use_profile_v1: %s\n", error.what());
         return 1;
     }
-    std::puts("PASS runtime_skill_use_profile_v1: six authored rows, exact admission, Lua-transcribed values");
+    std::puts("PASS runtime_skill_use_profile_v1: seven authored rows (six hit skills + Quickness buff), exact admission, Lua-transcribed values");
     return 0;
 }

@@ -1444,11 +1444,13 @@ int main(int argc,char** argv) {
         dh2::data::FaeryTables::Borrow sourceFaeryTables;
         f::faery_menu::HottyCooldownClockV1 faeryCooldownClock;
         std::unique_ptr<f::generic_skills::RuntimeSkillCastCoordinatorV1> skillCastCoordinator;
+        std::unique_ptr<f::generic_skills::RuntimeTimedBuffOwnerV1> timedBuffs; // v21.8 skills-a: Quickness and later timed buffs
         std::function<bool(f::CombatSession&,double,std::string&)> sourcePhysicalFrameBegin;
         // Original GameOption GOD_MANA defaults off; Character0x14F0 is
         // constructor-zero and only an explicit debug-console toggle changes it.
         struct OrdinarySkillManaPolicy {bool savedGodMana=false,actorDebugBypass=false;} skillManaPolicy;
         int lastSkillPhase=-1;std::uint64_t lastSkillGeneration=0;
+        std::uint64_t skillHitLogGeneration=0;std::size_t skillHitLogCount=0; // v21.8 skills-a: per-hit damage log cursor
         const auto playerPolicy=options.combat.profiles.find(options.combat.playerProfileId);
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
@@ -8077,6 +8079,33 @@ int main(int argc,char** argv) {
                                 }
                                 return true;
                             };
+                            // v21.8 skills-a: timed buff owner (Quickness CreateBuff/ApplyBuff). The FX service plays the buff's
+                            // AnimatedEffectTable set on the player as a retained looping marker (buff_fx_load = GrabAnimFX).
+                            if(!timedBuffs) {
+                                f::generic_skills::TimedBuffBindingsV1 buffBindings;
+                                buffBindings.classes=&properties.classes;buffBindings.rules=&menuSkillPropertyRules;
+                                buffBindings.fx.play=[&](const std::string& setName,f::ActorId actorId,std::uintptr_t& identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    const auto fxTables=sourceEffectsTables.borrow();
+                                    const auto& setNames=fxTables.set_names();
+                                    const auto setIt=std::find(setNames.begin(),setNames.end(),setName);
+                                    if(setIt==setNames.end()){e="EffectsTables set absent: "+setName;return false;}
+                                    std::uintptr_t managerIdentity{};bool found=false;
+                                    if(!sourceFxAnchors.resolve_actor_identity(actorId,managerIdentity,found,e))return false;
+                                    if(!found||!managerIdentity){e="Buff actor has no opaque FX manager identity";return false;}
+                                    // Native buff FX load (CharProperties buff_fx_load): GrabAnimFX on the character - a retained looping
+                                    // marker FX that lives until the buff releases it (DropAnimatedFX), not an auto-returning PlayAnimFXSet.
+                                    if(!sourceEffectsFactory->manager().grab_marker_v28(std::int32_t(setIt-setNames.begin()),managerIdentity,identity,e))return false;
+                                    if(!identity){e="Buff FX grab created no instance";return false;}
+                                    return true;
+                                };
+                                buffBindings.fx.drop=[&](std::uintptr_t identity,std::string& e)->bool{
+                                    if(!sourceEffectsFactory){e="no source effects factory";return false;}
+                                    return sourceEffectsFactory->manager().drop(identity,e);
+                                };
+                                timedBuffs=std::make_unique<f::generic_skills::RuntimeTimedBuffOwnerV1>(std::move(buffBindings));
+                            }
+                            request.timed_buffs=timedBuffs.get();
                             skillCastCoordinator->begin_skill_cast_v1(request,*combatSession,receipt,castError);
                             if(motor)motor->setFacingRadians(combatSession->actor(request.actor)->transform.rotation[2]);
                         }
@@ -8366,11 +8395,64 @@ int main(int argc,char** argv) {
                     state.stats.health=livePlayer->health;state.stats.max_health=livePlayer->max_health;
                     state.stats.resource=livePlayer->resource;state.stats.max_resource=livePlayer->max_resource;
                 }
+                if(!gameplayPaused&&timedBuffs) {
+                    // v21.8 skills-a: timed buff clock, expiry and overlay re-assertion after the Session update.
+                    if(!timedBuffs->advance(*combatSession,gameplayDt,error))throw std::runtime_error("Timed buffs: "+error);
+                    const auto buffEvents=timedBuffs->take_events();
+                    for(const auto& buffEvent:buffEvents) {
+                        static const char* const kinds[]={"applied","replaced","removed","expired","reasserted","dropped"};
+                        std::cout<<"Timed buff "<<kinds[int(buffEvent.kind)]<<" frame="<<drawn<<" actor="<<buffEvent.actor<<" class="<<buffEvent.class_name
+                                 <<" source="<<buffEvent.source<<" strength="<<buffEvent.strength<<" durationMs="<<buffEvent.duration_ms<<" cells=";
+                        for(const auto& cell:buffEvent.changed_cells)std::cout<<cell.first<<':'<<cell.second.first<<"->"<<cell.second.second<<',';
+                        if(!buffEvent.detail.empty())std::cout<<" detail="<<buffEvent.detail;
+                        std::cout<<'\n';
+                    }
+                    if(timedBuffs->take_sheet_dirty(combatSession->player_id())) {
+                        // Walk/run clip rates were bound from Speed_Modifier_Walk: rebind from the buffed sheet (attack and
+                        // rotation speed are read live per attack/turn).
+                        if(locomotionLibrary)bindSourcePlayerLocomotion(*combatSession);
+                        const auto* buffed=combatSession->world()->combat_properties(combatSession->player_id());
+                        std::cout<<"Timed buff speeds frame="<<drawn<<" walkRate="<<f::original_speed_modifier(buffed->sheets.resolved[46])
+                                 <<" rotationRate="<<f::original_speed_modifier(buffed->sheets.resolved[47])
+                                 <<" attackRate="<<f::original_speed_modifier(buffed->sheets.resolved[48])<<" locomotionRebound="<<(locomotionLibrary?1:0)<<'\n';
+                    }
+                }
+                // Diagnostic only (DH_STATE_TRACE=1): player action edges (swing/skill durations) and sampled position to
+                // measure the timed buffs' effect on real attack and movement speed.
+                if(!gameplayPaused&&stateTraceEnabled) {
+                    static int probeLastAction=-1;
+                    if(const auto* actionActor=combatSession->actor(combatSession->player_id()))
+                        if(int(actionActor->action)!=probeLastAction) {
+                            probeLastAction=int(actionActor->action);
+                            std::cout<<"Timed buff probe action frame="<<drawn<<" action="<<probeLastAction<<" attackRate="
+                                     <<f::original_speed_modifier(combatSession->world()->combat_properties(combatSession->player_id())->sheets.resolved[48])<<'\n';
+                        }
+                }
+                if(!gameplayPaused&&stateTraceEnabled&&drawn%4==0) {
+                    const auto* probeActor=combatSession->actor(combatSession->player_id());
+                    const auto* probeProps=combatSession->world()->combat_properties(combatSession->player_id());
+                    if(probeActor&&probeProps)std::cout<<"Timed buff probe frame="<<drawn<<" position="<<probeActor->transform.position[0]<<','<<probeActor->transform.position[1]
+                        <<" activeBuffs="<<(timedBuffs?timedBuffs->active_count(combatSession->player_id()):0)<<" walkRate="<<f::original_speed_modifier(probeProps->sheets.resolved[46])<<'\n';
+                }
                 if(!gameplayPaused&&skillCastCoordinator) {
                     if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id()))if(lastSkillPhase!=int(receipt->phase)||lastSkillGeneration!=receipt->generation) {
                         lastSkillPhase=int(receipt->phase);lastSkillGeneration=receipt->generation;
                         const auto rng=combatSession->world()->random_state();
                         std::cout<<"Source skill lifecycle frame="<<drawn<<" generation="<<receipt->generation<<" phase="<<int(receipt->phase)<<" skill="<<receipt->skill_name<<" hits="<<receipt->applied_results.size()<<" MP="<<state.stats.resource<<" RNG="<<rng.seed<<'/'<<rng.calls<<" diagnostic="<<receipt->detail<<'\n';
+                    }
+                    if(const auto* receipt=skillCastCoordinator->receipt(combatSession->player_id())) {
+                        // v21.8 skills-a: one line per applied source hit (each hand and each marker volley), with the target's HP after it.
+                        if(receipt->generation!=skillHitLogGeneration){skillHitLogGeneration=receipt->generation;skillHitLogCount=0;}
+                        while(skillHitLogCount<receipt->applied_results.size()) {
+                            const auto& hit=receipt->applied_results[skillHitLogCount++];
+                            const auto* hitTarget=combatSession->actor(hit.target);
+                            std::cout<<"Source skill hit frame="<<drawn<<" skill="<<receipt->skill_name<<" generation="<<receipt->generation<<" index="<<(skillHitLogCount-1)
+                                     <<" target="<<hit.target<<" applied="<<hit.applied<<" requested="<<hit.requested_damage<<" removed="<<hit.health_removed
+                                     <<" died="<<hit.target_died<<" targetHP="<<(hitTarget?hitTarget->health:-1.0f)<<'/'<<(hitTarget?hitTarget->max_health:-1.0f)
+                                     <<" mask=0x"<<std::hex<<(hit.source_mask?*hit.source_mask:0u)<<std::dec<<" offHand="<<((hit.source_mask&&(*hit.source_mask&0x04000000u))?1:0)
+                                     <<" outcomes=0x"<<std::hex<<(hit.source_outcomes?*hit.source_outcomes:0u)<<std::dec
+                                     <<" (bits miss1 dodge2 block4 crit8 hurt16 fear32 stun64 push128 slow256; stun/push have no host state, only hurt drives a reaction)"<<'\n';
+                        }
                     }
                 }
                 if(!gameplayPaused) raiseQuestKills(); // P16 QUESTS: kill events of this update

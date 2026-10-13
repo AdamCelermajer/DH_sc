@@ -700,6 +700,19 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
         error.clear();
         return true;
     }
+    if (profile->buff && !request.timed_buffs) {
+        output.actor = request.actor;
+        output.source_slot = request.source_slot;
+        output.saved_skill_row = saved_row;
+        output.class_skill_position = position;
+        output.skill_table_id = visual.skill_table_id;
+        output.skill_name = visual.source_skill_name;
+        output.source_script = visual.source_script;
+        output.phase = RuntimeSkillCastPhaseV1::rejected;
+        output.detail = "Skill creates a timed buff but no timed-buff owner is bound to this request";
+        error.clear();
+        return true;
+    }
     const auto& skill_row = request.skills.skills()[std::size_t(visual.skill_table_id)];
     // Native _SkillCombatRoll (IDA 0x3b9fbc; audit docs/ida-fidelity-audit-2026-10-11/character3.md F2):
     // mask 0x800000 needs the equipped-hand facts before any hit is formed.
@@ -783,6 +796,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
     active.element = static_cast<std::int32_t>(skill_row.scalar.words[5]);
     active.category = current->facts.main_damage_class;
     active.use_profile = profile;
+    active.timed_buffs = request.timed_buffs;
     active.source_post_clears_target = profile->post_clear_target;
     active.class_token = class_token;
     active.population_order = order;
@@ -884,6 +898,17 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
             skill_cooldown_total_ms_[{request.actor, visual.skill_table_id}] = active.cooldown_ms;
         }
 
+        // prince_rogue_quickness.luac OnPreSkill_: RemoveBuff(BUFF_ID, buff) then UseMana. The two touch different owners (buff
+        // list vs MP), so their relative order is not observable; the removal is the same-class replacement of the previous cast.
+        if (profile->buff && active.timed_buffs) {
+            std::string buff_error;
+            if (!active.timed_buffs->remove_timed_buff(session, request.actor, profile->buff->buff_class, buff_error)) {
+                active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+                active.receipt.detail = "Source OnPre RemoveBuff failed after the UseMana prefix: " + buff_error;
+                output = active.receipt;
+                return fail(error, active.receipt.detail.c_str());
+            }
+        }
         return !downstream_focused||downstream_focused(focused_actor,error);
     };
     if (!session.play_actor_source_sequence(request.actor,*request.visual_plan,
@@ -1137,8 +1162,39 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
         }
     }
 
-    active.receipt.applied_results.clear();
-    std::uint32_t event_index = 0;
+    if (profile.buff) {
+        // prince_rogue_quickness.luac OnSkill_: SetProp(SnS_Level); CreateBuff(BUFF_ID, bufftime, false, slvl, BUFF_FX);
+        // ApplyBuff. bufftime is the projected class SnS_Duration (milliseconds), or TIME_BASE + TIME_INC * level when 0.
+        if (!active.timed_buffs) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Timed-buff Use lost its buff owner after the committed OnPre prefix";
+            output = active.receipt;
+            return fail(error, "Timed-buff Use requires its buff owner");
+        }
+        const std::uint32_t rank = active.receipt.mana.skill.saved_rank;
+        double duration_ms = original_signed256(active.formula_sheet[176]); // CharacterProperties.SnS_Duration
+        if (!(duration_ms > 0.0) || !std::isfinite(duration_ms))
+            duration_ms = double(profile.buff->fallback_base_ms) + double(profile.buff->fallback_inc_ms) * double(rank);
+        TimedBuffSpecV1 spec;
+        spec.class_name = profile.buff->buff_class;
+        spec.fx_set_name = profile.buff->fx_set ? profile.buff->fx_set : "";
+        spec.strength = rank;
+        spec.duration_ms = duration_ms;
+        spec.source = active.receipt.skill_name;
+        std::string buff_error;
+        if (!active.timed_buffs->apply_timed_buff(session, actor_id, spec, buff_error)) {
+            active.receipt.phase = RuntimeSkillCastPhaseV1::partial_failure;
+            active.receipt.detail = "Source CreateBuff/ApplyBuff failed after the committed OnPre prefix: " + buff_error;
+            output = active.receipt;
+            return fail(error, active.receipt.detail.c_str());
+        }
+        active.receipt.timed_buff_class = spec.class_name;
+        active.receipt.timed_buff_duration_ms = duration_ms;
+    }
+
+    // A repeated marker volley appends to the cast's result list; the first Use starts it.
+    if (!active.repeat_use) active.receipt.applied_results.clear();
+    std::uint32_t event_index = active.next_event_index;
     // Legacy Character-only callers retain their exact target order.
     const auto& ordered = active.object_targets ? use_targets.ordered_targets : use_targets.ordered_character_targets;
     for (const auto target : ordered) {
@@ -1190,6 +1246,8 @@ bool RuntimeSkillCastCoordinatorV1::apply_use_v1(
             active.receipt.applied_results.push_back(std::move(result));
         }
     }
+    active.next_event_index = event_index;
+    ++active.use_volleys;
     active.use_delivered = true;
     active.receipt.phase = RuntimeSkillCastPhaseV1::use_applied;
     active.receipt.detail = !active.receipt.delivered_object_interactions.empty()
@@ -1219,14 +1277,37 @@ bool RuntimeSkillCastCoordinatorV1::apply_retained_use_event_v1(
         return fail(error, "Retained source Use event does not match its authored state6/state7 event route");
     if (it->second.receipt.phase == RuntimeSkillCastPhaseV1::interrupted)
         return fail(error, "Retained source Use marker belongs to a retired interrupted generation");
-    if (it->second.receipt.phase == RuntimeSkillCastPhaseV1::use_applied ||
-        it->second.receipt.phase == RuntimeSkillCastPhaseV1::completed)
-        return apply_use_v1(session, actor_id, generation, output, error);
+    auto& cast = it->second;
+    const bool duplicate_marker = cast.last_use_key_valid &&
+        cast.last_use_wall_ms == event.wall_timestamp_ms && cast.last_use_slot == event.slot &&
+        cast.last_use_lag_ms == event.lag_ms;
+    const auto previous_phase = cast.receipt.phase;
+    bool volley = false;
+    if (previous_phase == RuntimeSkillCastPhaseV1::use_applied ||
+        previous_phase == RuntimeSkillCastPhaseV1::completed) {
+        // A later distinct marker of a still-running generic skill sequence is another OnSkill_ call.
+        // Faery casts, completed casts and exact duplicate callbacks stay single-shot.
+        if (faery_cast || duplicate_marker || previous_phase != RuntimeSkillCastPhaseV1::use_applied ||
+            !cast.use_profile || !cast.use_delivered)
+            return apply_use_v1(session, actor_id, generation, output, error);
+        volley = true;
+    }
     const auto* actor = session.actor(actor_id);
     if (!actor || !actor->alive() || actor->action == CharacterAction::hurt ||
         actor->action == CharacterAction::dead)
         return fail(error, "Retained source Use event reached an unavailable or interrupted cast owner");
-    return apply_use_v1(session, actor_id, generation, output, error);
+    cast.last_use_key_valid = true;
+    cast.last_use_wall_ms = event.wall_timestamp_ms;
+    cast.last_use_slot = event.slot;
+    cast.last_use_lag_ms = event.lag_ms;
+    if (volley) {
+        cast.receipt.phase = RuntimeSkillCastPhaseV1::prepared_pending_use;
+        cast.repeat_use = true;
+    }
+    const bool applied = apply_use_v1(session, actor_id, generation, output, error);
+    if (volley && !applied && cast.receipt.phase == RuntimeSkillCastPhaseV1::prepared_pending_use)
+        cast.receipt.phase = previous_phase;
+    return applied;
 }
 
 bool RuntimeSkillCastCoordinatorV1::complete_v1(

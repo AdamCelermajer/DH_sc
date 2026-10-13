@@ -10,7 +10,7 @@
 // Fields that are NOT encoded (documented gaps, see coordination/v21.8/skills-a-report.md):
 //   - Stun / knockback / DOT / leech tails of F_ApplyResult. The coordinator
 //     applies the authored ApplyPropClass row, but not the stun side effect.
-//   - Buff owners (Quickness: CreateBuff/ApplyBuff/StartSkillTimerCB).
+//   - (done) Buff owner: Quickness CreateBuff/ApplyBuff/StartSkillTimerCB run through runtime_timed_buff_v1.hpp.
 //   - Conditional Post (Charge: ClearTarget only when not TargetInMeleeRange).
 //     The coordinator keeps its existing non-clearing behaviour for Charge.
 #include "runtime_skill_target_query_v1.hpp"
@@ -29,6 +29,14 @@ enum class SkillUseTargetsV1 : std::uint8_t {
     pre_selected_single,
     // OnSkill_ pops the complete OnPre target list without a new search (Roundhouse).
     pre_list_all
+};
+
+// Lua CreateBuff/ApplyBuff arm (prince_rogue_quickness.luac): the Use call applies one timed buff instead of rolling hits.
+struct RuntimeSkillBuffProfileV1 {
+    const char* buff_class;       // ClassTable row of BUFF_ID (Skill_Rogue_Quickness_buff)
+    const char* fx_set;           // AnimatedEffectTable name of BUFF_FX (spell_dh2_prince_rogue_quickness)
+    float fallback_base_ms;       // TIME_BASE: used only when the projected SnS_Duration is 0
+    float fallback_inc_ms;        // TIME_INC per skill level
 };
 
 struct RuntimeSkillUseProfileV1 {
@@ -58,9 +66,15 @@ struct RuntimeSkillUseProfileV1 {
     bool post_clear_target;
     // Charge: a shielded caster uses Skill_Warrior_Charge_ShieldBonus at Use.
     bool shield_variant;
+    // Timed-buff arm, or nullptr for hit-rolling skills.
+    const RuntimeSkillBuffProfileV1* buff;
 };
 
 inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
+
+// prince_rogue_quickness.luac: BUFF_ID Skill_Rogue_Quickness_buff, BUFF_FX spell_dh2_prince_rogue_quickness, TIME_BASE 4000, TIME_INC 1000.
+inline constexpr RuntimeSkillBuffProfileV1 kQuicknessBuffV1 = {
+    "Skill_Rogue_Quickness_buff", "spell_dh2_prince_rogue_quickness", 4000.0f, 1000.0f};
 
 // Rows in the order of the Lua files. Values:
 //   BashDown        prince_warrior_bashdown.luac        RANGE 160; OnPre TargetListSearch(RANGE) + LookAt; OnSkill_ uses OnPre target; Post ClearTarget.
@@ -69,43 +83,50 @@ inline constexpr float kSkillPiV1 = 3.1415927410125732421875f;
 //   JumpKick        prince_rogue_jump_kick.luac         INIT_RANGE 250 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 270; Post ClearTarget.
 //   ViciousStrike   prince_rogue_vicious_strike.luac    SEARCH_RANGE 300 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 180, character-only rolls; CLASS = _Stun; Post ClearTarget.
 //   Roundhouse      prince_rogue_roundhouse.luac        RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no re-search), objects rolled; Post ClearTarget.
+//   Quickness       prince_rogue_quickness.luac         no OnPre query, no cooldown; OnPre RemoveBuff + UseMana; OnSkill_ CreateBuff(BUFF_ID, bufftime, false, level, BUFF_FX) + ApplyBuff; Post ClearTarget.
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
     {"BashDown", "prince_warrior_bashdown", "Skill_Warrior_BashDown",
      160.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
      SkillUseTargetsV1::pre_selected_single, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
-     true, true, false},
+     true, true, false, nullptr},
     {"GroundSlam", "prince_warrior_ground_slam", "Skill_Warrior_GroundSlam",
      0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
      true,
      SkillUseTargetsV1::requery_at_use, 0.0f, true, kSkillPiV1,
      SkillTargetSortV1::closest_first, true,
-     true, true, false},
+     true, true, false, nullptr},
     {"Charge", "prince_warrior_charge", "Skill_Warrior_Charge",
      300.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      true,
      SkillUseTargetsV1::requery_at_use, 300.0f, false, 2.09439510239319549f,
      SkillTargetSortV1::source_order, false,
-     true, false, true},
+     true, false, true, nullptr},
     {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick",
      250.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
      SkillUseTargetsV1::requery_at_use, 160.0f, false, 4.71238898038468986f,
      SkillTargetSortV1::frontal_first, false,
-     true, true, false},
+     true, true, false, nullptr},
     {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun",
      300.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
      SkillUseTargetsV1::requery_at_use, 160.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
-     false, true, false},
+     false, true, false, nullptr},
     {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse",
      220.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
-     true, true, false},
+     true, true, false, nullptr},
+    {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness",
+     0.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, false,
+     false,
+     SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
+     SkillTargetSortV1::frontal_first, false,
+     false, true, false, &kQuicknessBuffV1},
 };
 
 // Returns the profile whose SkillTable (name, script) pair matches exactly, or nullptr.

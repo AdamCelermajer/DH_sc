@@ -40,6 +40,12 @@ struct RogueSkillFixtureSpecV1 {
     const char* class_token;  // ClassTable row for the rank-1 mana projection
     std::uint32_t anim_root;  // SkillTable word[1] (CharAnimTable root)
     std::size_t hits_per_target = 1; // 2 for dual-wield rows (mask 0x800000) with both hands equipped
+    std::uint32_t min_level = 1;     // SkillTable character-level requirement of the row
+    bool main_hand = true;           // HasMainHandWeapon fact fed to the paired-hand branch
+    bool off_hand = true;            // HasOffHandWeapon fact
+    bool paired = false;             // SkillTable mask bit 0x800000 (one hit per equipped hand)
+    std::uint32_t markers = 1;       // distinct do_skill markers in the authored clip; each runs OnSkill_ again
+    bool buff = false;               // timed-buff skill (Quickness): no hits, the Use call applies the authored buff
 };
 
 void run_rogue_source_slot0_fixture(
@@ -86,7 +92,7 @@ void run_rogue_source_slot0_fixture(
     rogue_state.id = "same-source-rogue-jumpkick-session";
     rogue_state.name = "Same Source Rogue";
     rogue_state.class_id = "RoguePlayerBase";
-    rogue_state.stats.level = rogue_source.sheets.resolved[19] >> 8;
+    rogue_state.stats.level = std::max<std::int32_t>(static_cast<std::int32_t>(rogue_source.sheets.resolved[19] >> 8), static_cast<std::int32_t>(spec.min_level));
     rogue_state.stats.health = original_signed256(rogue_source.sheets.resolved[36]);
     rogue_state.stats.max_health = original_signed256(rogue_source.sheets.resolved[38]);
     rogue_state.stats.resource = original_signed256(rogue_source.sheets.resolved[41]);
@@ -263,8 +269,8 @@ void run_rogue_source_slot0_fixture(
     request.source_slot = key1_source_slot;
     // Startup dual-dagger Rogue: both HasMainHandWeapon and HasOffHandWeapon hold.
     request.hand_facts_known = true;
-    request.has_main_hand_weapon = true;
-    request.has_off_hand_weapon = true;
+    request.has_main_hand_weapon = spec.main_hand;
+    request.has_off_hand_weapon = spec.off_hand;
     request.characters = &characters;
     request.skills = skill_tables;
     request.classes = &properties.classes;
@@ -323,35 +329,88 @@ void run_rogue_source_slot0_fixture(
         return session.select_actor_state_leaf(id, player_profile.initialIdle, 1.0, false, {}, e);
     };
     request.downstream_animation_services = downstream;
+    TimedBuffBindingsV1 buff_bindings;
+    buff_bindings.classes = &properties.classes;
+    buff_bindings.rules = &property_rules;
+    RuntimeTimedBuffOwnerV1 buff_owner(buff_bindings);
+    request.timed_buffs = &buff_owner;
+    const auto walk_before = session.world()->combat_properties(1)->sheets.resolved[46];
+    const auto rot_before = session.world()->combat_properties(1)->sheets.resolved[47];
+    const auto atk_before = session.world()->combat_properties(1)->sheets.resolved[48];
     RuntimeSkillCastReceiptV1 accepted;
     check(coordinator.begin_skill_cast_v1(request, session, accepted, error), error);
     check(accepted.phase == RuntimeSkillCastPhaseV1::prepared_pending_use &&
           accepted.skill_name == spec.skill_name && accepted.source_script == spec.script &&
           accepted.source_slot == 0 && accepted.saved_skill_row == saved_row &&
           accepted.class_skill_position == static_cast<int>(saved_row) && accepted.skill_table_id == row_table_id &&
-          accepted.mana.mana_spent && accepted.target_order.size() == 2 &&
+          accepted.mana.mana_spent && (spec.buff || accepted.target_order.size() == 2) &&
           session.retained_actor_pose(1) == pose_before_empty,
           "Rogue PC key2/middle-circle/source-slot0 did not start exact authored skill pre-use prefix/root");
     for (unsigned frame = 0; frame < 180 && completion_count == 0; ++frame) {
         check(session.update(1.0 / 60.0, {}, {0, 0, 0}, 0.0f, error), error);
         check(coordinator.advance_after_session_update(session, 1.0 / 60.0, error), error);
+        check(buff_owner.advance(session, 1.0 / 60.0, error), error);
     }
     const auto* final = coordinator.receipt(1);
-    check(marker_count == 1 && completion_count == 1 && final &&
+    if (spec.buff) {
+        // Timed-buff skill: the do_skill Use call creates the authored buff; no hit is rolled.
+        const std::string buff_class = "Skill_Rogue_Quickness_buff";
+        check(marker_count == 1 && completion_count == 1 && final && final->phase == RuntimeSkillCastPhaseV1::completed &&
+              final->applied_results.empty() && final->timed_buff_class == buff_class,
+              "Quickness did not complete with one buff and no hit results");
+        // Rank 1: projected class SnS_Duration = 3000 + 1000 x 1 ms.
+        check(std::fabs(final->timed_buff_duration_ms - 4000.0) < 0.5, "Quickness duration is not the projected SnS_Duration 4000 ms");
+        const auto& sheet = session.world()->combat_properties(1)->sheets.resolved;
+        check(buff_owner.active(1, buff_class) && buff_owner.active_count(1) == 1, "Quickness buff is not active after its Use marker");
+        check(sheet[46] == walk_before + 5120 + 384 && sheet[47] == rot_before + 5120 + 384 && sheet[48] == atk_before + 5120 + 384 &&
+              std::fabs(original_speed_modifier(sheet[46]) - 1.215f) < 1e-4f,
+              "Quickness rank 1 did not raise Speed_Modifier_Walk by 21.5 percent");
+        check(final->mana.mana_spent && final->mana.mana_after < final->mana.mana_before && session.actor(1)->target_id == invalid_actor_id,
+              "Quickness did not spend mana and clear its target in Post");
+        const double remaining = buff_owner.remaining_ms(1, buff_class);
+        check(remaining > 0.0 && remaining <= 4000.0, "Quickness buff has no remaining time after the cast animation");
+        // The same marker again is suppressed: neither a second buff nor a restarted clock.
+        RuntimeSkillCastReceiptV1 duplicate_buff;
+        check(coordinator.apply_retained_use_event_v1(session, 1, final->generation,
+                  RuntimeSkillSourceAnimStateV1::skill, actual_event, duplicate_buff, error), error);
+        check(buff_owner.active_count(1) == 1 && buff_owner.remaining_ms(1, buff_class) == remaining,
+              "Duplicate Quickness marker restarted or stacked the buff");
+        // Expiry restores the sheet exactly.
+        check(buff_owner.advance(session, (remaining + 1.0) / 1000.0, error), error);
+        check(!buff_owner.active(1, buff_class) && session.world()->combat_properties(1)->sheets.resolved[46] == walk_before,
+              "Quickness expiry did not restore Speed_Modifier_Walk");
+        std::cout << "PASS Rogue Quickness: markers=" << marker_count << " buff duration=" << final->timed_buff_duration_ms
+                  << "ms walk x1.215 for " << remaining << "ms, no hits, duplicate suppressed, expiry restored\n";
+        session.detach_for_restore();
+        return;
+    }
+    const std::size_t first_volley = 2 * spec.hits_per_target;
+    check(marker_count == spec.markers && completion_count == 1 && final &&
           final->phase == RuntimeSkillCastPhaseV1::completed &&
-          final->applied_results.size() == 2 * spec.hits_per_target && session.retained_actor_pose(1) == pose_before_empty,
-          "Exact Rogue authored root did not reach retained do_skill, apply two source results and complete Post");
-    check(final->target_order.size() * spec.hits_per_target == final->applied_results.size(),
-          "Rogue result count does not match retained source target order");
+          final->applied_results.size() >= first_volley &&
+          final->applied_results.size() % spec.hits_per_target == 0 &&
+          session.retained_actor_pose(1) == pose_before_empty,
+          std::string("Exact Rogue authored root did not reach retained do_skill, apply its source results and complete Post [") + spec.skill_name + " markers=" + std::to_string(marker_count) + " completions=" + std::to_string(completion_count) + " phase=" + std::to_string(final ? int(final->phase) : -1) + " results=" + std::to_string(final ? final->applied_results.size() : 0) + " detail=" + (final ? final->detail : std::string()) + "]");
+    // Each distinct marker is one OnSkill_ volley; later volleys can only have fewer or equal targets.
+    check(final->applied_results[0].target != final->applied_results[spec.hits_per_target].target,
+          "Rogue first volley did not hit two distinct targets");
     for (std::size_t i = 0; i < final->applied_results.size(); ++i) {
         const auto& result = final->applied_results[i];
         check(result.applied && result.attacker == 1 &&
-              result.target == final->target_order[i / spec.hits_per_target] &&
               (result.target == 2 || result.target == 3) && result.source_id == spec.skill_name &&
-              result.marker_name == "do_skill" && result.health_removed > 0.0f,
-              "Rogue skill result receipt lost same-session source target order/marker or positive HP result");
+              result.marker_name == "do_skill" &&
+              result.health_removed >= 0.0f,
+              std::string("Rogue skill result receipt lost same-session source target/marker or first-volley positive HP result [") + spec.skill_name + " i=" + std::to_string(i) + " applied=" + std::to_string(result.applied) + " target=" + std::to_string(result.target) + " source=" + result.source_id + " marker=" + result.marker_name + " removed=" + std::to_string(result.health_removed) + " total=" + std::to_string(final->applied_results.size()) + "]");
+        // Native _SkillCombatRoll: main hand first with the row mask, then the off hand with mask|0x4000000.
+        const bool off_bit = result.source_mask && (*result.source_mask & 0x04000000u) != 0;
+        const bool expect_off = spec.paired && (spec.main_hand ? (i % spec.hits_per_target) == 1 : true);
+        check(off_bit == expect_off, "Rogue skill hit used the wrong equipped-hand mask (main hand vs 0x4000000 off hand)");
     }
-    check(final->target_order.size() == 2 && final->mana.mana_spent &&
+    // A source roll can miss or be dodged (0 HP removed with the outcome bits kept), so require damage somewhere in the first volley.
+    bool first_volley_damage = false;
+    for (std::size_t i = 0; i < first_volley; ++i) first_volley_damage = first_volley_damage || final->applied_results[i].health_removed > 0.0f;
+    check(first_volley_damage, "Rogue first volley removed no HP from any target");
+    check(final->target_order.size() >= 1 && final->mana.mana_spent &&
           final->mana.mana_after < final->mana.mana_before &&
           session.actor(1)->action == CharacterAction::idle &&
           session.actor(1)->target_id == invalid_actor_id && !session.selectedactor(),
@@ -366,6 +425,9 @@ void run_rogue_source_slot0_fixture(
     check(session.actor(2)->health == hp2_after && session.actor(3)->health == hp3_after &&
           rng_duplicate.seed == rng_after.seed && rng_duplicate.calls == rng_after.calls,
           "Duplicate Rogue do_skill callback reapplied skill results or consumed RNG");
+    std::cout << "PASS Rogue " << spec.skill_name << " main=" << spec.main_hand << " off=" << spec.off_hand
+              << " markers=" << marker_count << " results=" << final->applied_results.size()
+              << " firstVolleyHP=" << first_volley_damage << " duplicateSuppressed=1\n";
     session.detach_for_restore();
 }
 } // namespace
@@ -386,9 +448,9 @@ void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
         check(std::find(classes.names.begin(), classes.names.end(), profile.class_token) != classes.names.end(),
               std::string("Use profile class token is absent from ClassTables: ") + profile.class_token);
     }
-    check(sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]) == 6, "Use profile table admitted-row count changed");
-    check(find_skill_use_profile_v1("Quickness", "prince_rogue_quickness") == nullptr,
-          "Quickness must not be admitted before its timed buff owner exists");
+    check(sizeof(kRuntimeSkillUseProfilesV1) / sizeof(kRuntimeSkillUseProfilesV1[0]) == 7, "Use profile table admitted-row count changed");
+    check(find_skill_use_profile_v1("Quickness", "prince_rogue_quickness") != nullptr,
+          "Quickness is admitted through its timed buff arm");
     check(find_skill_use_profile_v1("ViciousStrike", "prince_warrior_bashdown") == nullptr,
           "Use profile lookup must require the exact (name, script) pair");
 
@@ -442,7 +504,11 @@ int main(int argc, char** argv) {
         // needed below. Its original pydata payloads are byte-identical to
         // windows-shared-assets; the latter omits GroundSlam's crushing-blow
         // source BDAE.
-        AssetCatalog assets(repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
+        // v21.8 skills-a: the staged v21.8 package also carries the ViciousStrike/Roundhouse/Quickness roots (preview-9 does not);
+        // it is used when present and preview-9 remains the fallback.
+        const auto staged_assets = repo / ".local-inputs/windows-source-clock-v21.8-staged/assets";
+        AssetCatalog assets(std::filesystem::exists(staged_assets) ? staged_assets
+            : repo / ".local-inputs/windows-source-clock-v19-preview-9/assets");
         std::string error;
 
         OriginalPropertyDatabase properties;
@@ -596,15 +662,28 @@ int main(int argc, char** argv) {
         check_skill_use_profiles_v1(skill_tables, properties.classes);
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
-            {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick", 521});
+            {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick", 521, 1, 1, true, true, false, 1});
         // v21.8 skills-a: ViciousStrike (OnPre search + Use requery 160/180deg) and
         // Roundhouse (OnPre list reused at Use). Same full-session path as JumpKick.
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
-            {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun", 528, 2});
+            {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun", 528, 2, 3, true, true, true, 3});
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
-            {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse", 525, 2});
+            {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse", 525, 2, 9, true, true, true, 1});
+        // Quickness: timed buff (class Skill_Rogue_Quickness_buff, FX set spell_dh2_prince_rogue_quickness), level 6 row.
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"Quickness", "prince_rogue_quickness", "Skill_Rogue_Quickness", 524, 0, 6, true, true, false, 1, true});
+        // One-hand dual-wield paths: only the equipped hand hits (main: row mask; off: mask|0x4000000), once per target.
+        for (const bool main_only : {true, false}) {
+            run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+                characters, skill_tables, animation_tables, dictionary, property_rules,
+                {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun", 528, 1, 3, main_only, !main_only, true, 3});
+            run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+                characters, skill_tables, animation_tables, dictionary, property_rules,
+                {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse", 525, 1, 9, main_only, !main_only, true, 1});
+        }
         std::cout << "PASS PC visual mapping regression: key1 rejects empty source2; "
                      "key2 selects middle-circle source0 JumpKick row0/root521.\n";
 

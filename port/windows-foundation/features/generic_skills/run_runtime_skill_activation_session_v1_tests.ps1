@@ -26,6 +26,7 @@ try {
         (Join-Path $PSScriptRoot 'runtime_skill_target_query_v1.cpp') `
         (Join-Path $PSScriptRoot 'runtime_skill_activation_session_v1.cpp') `
         (Join-Path $PSScriptRoot 'runtime_skill_animation_bank_v1.cpp') `
+        (Join-Path $PSScriptRoot 'runtime_timed_buff_v1.cpp') `
         (Join-Path $PSScriptRoot 'runtime_skill_activation_session_v1_tests.cpp') `
         (Join-Path $PSScriptRoot 'runtime_skill_progression_v1.cpp') `
         (Join-Path $PSScriptRoot 'generic_skills_page_v1.cpp') `

@@ -280,6 +280,7 @@ add_library(foundation_runtime_skill_cast STATIC
   features/generic_skills/runtime_skill_activation_v1.cpp
   features/generic_skills/runtime_skill_activation_session_v1.cpp
   features/generic_skills/runtime_skill_animation_bank_v1.cpp
+  features/generic_skills/runtime_timed_buff_v1.cpp
   features/faery_menu/hotty_cast_v1.cpp
   features/faery_menu/hotty_cast_session_v1.cpp
   features/faery_menu/hotty_character_cast_v1.cpp
@@ -1093,6 +1094,28 @@ add_test(NAME runtime_skill_session_training COMMAND runtime_skill_session_train
 add_executable(runtime_skill_use_profile_v1_tests features/generic_skills/runtime_skill_use_profile_v1_tests.cpp)
 add_test(NAME runtime_skill_use_profile_v1 COMMAND runtime_skill_use_profile_v1_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-shared-assets")
+# v21.8 skills-a: reusable timed buff / temporary property owner (Rogue Quickness), against a real source Session.
+add_executable(runtime_timed_buff_v1_tests features/generic_skills/runtime_timed_buff_v1_tests.cpp)
+target_link_libraries(runtime_timed_buff_v1_tests PRIVATE foundation_runtime_skill_cast)
+add_test(NAME runtime_timed_buff_v1 COMMAND runtime_timed_buff_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../..")
+# v21.8 skills-a: full-session Knight/Rogue skill cast fixture (real CombatSession, retained do_skill markers): per-hand hits of the
+# dual-wield rows (both hands and one-hand paths), ViciousStrike's three marker volleys, Quickness' timed buff, duplicate suppression.
+# The coordinator is compiled here with the Warrior-only switch (no Hotty/Celest closure), so it is built from source, not from the library.
+add_executable(runtime_skill_activation_session_v1_tests
+  features/generic_skills/runtime_skill_activation_session_v1_tests.cpp
+  features/generic_skills/runtime_skill_activation_v1.cpp
+  features/generic_skills/runtime_skill_cast_prepare_v1.cpp
+  features/generic_skills/runtime_skill_cast_coordinator_v1.cpp
+  features/generic_skills/pc_cooldown_frame_v1.cpp
+  features/generic_skills/runtime_skill_target_query_v1.cpp
+  features/generic_skills/runtime_skill_activation_session_v1.cpp
+  features/generic_skills/runtime_skill_animation_bank_v1.cpp
+  features/generic_skills/runtime_timed_buff_v1.cpp
+  ../level-world/character_path_commands.cpp)
+target_compile_definitions(runtime_skill_activation_session_v1_tests PRIVATE DH_RUNTIME_SKILL_CAST_WARRIOR_ONLY_TEST)
+target_link_libraries(runtime_skill_activation_session_v1_tests PRIVATE foundation_runtime_skills_menu foundation_data)
+add_test(NAME runtime_skill_activation_session_v1 COMMAND runtime_skill_activation_session_v1_tests "${CMAKE_CURRENT_SOURCE_DIR}/../.."
+  1 "${CMAKE_CURRENT_BINARY_DIR}/runtime_skill_activation_session_v1_scratch")
 # Preview 14 Stats +/- route: spend, refuse at zero, failed-save rollback, recalc (features/character_menu/stat_training_v1).
 add_executable(stat_training_v1_tests features/character_menu/stat_training_v1_tests.cpp)
 target_link_libraries(stat_training_v1_tests PRIVATE foundation_runtime_skills_menu)
