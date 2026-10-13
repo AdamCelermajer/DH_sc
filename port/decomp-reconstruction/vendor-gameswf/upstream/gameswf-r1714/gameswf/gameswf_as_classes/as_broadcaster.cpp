@@ -97,11 +97,13 @@ namespace gameswf
 		return bc;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack11-4edfaf-0.cpp */
 	as_listener::as_listener(player* player) :
 		as_object(player),
 		m_reentrance(false)
 	{
 	}
+#endif /* DH2 */
 
 	bool	as_listener::get_member(const tu_stringi& name, as_value* val)
 	{

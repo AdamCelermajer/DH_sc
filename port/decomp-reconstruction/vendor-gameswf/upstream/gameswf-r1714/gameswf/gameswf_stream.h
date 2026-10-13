@@ -20,6 +20,7 @@ namespace gameswf
 	struct stream
 	{
 		stream(tu_file* input);
+		stream(tu_file* input, bool flag);  // DH2: binary ctor 0x783dd4 / 0x783e24 (second argument stored at +0x00)
 		~stream();
 
 		bool	read_bool();
@@ -78,11 +79,15 @@ namespace gameswf
 		tu_file*	get_underlying_stream() { return m_input; }
 
 	private:
+		bool	unk_00;  // DH2 +0x00: second constructor argument (binary ctor 0x783dd4)
 		tu_file*	m_input;
 		Uint8	m_current_byte;
 		Uint8	m_unused_bits;
 
 		array<int>	m_tag_stack;	// position of end of tag
+		Uint8	unk_18;  // DH2 +0x18: cleared by the DH2 constructor, not identified
+		array<char>	unk_1c;  // DH2 +0x1c: the DH2 constructor reserves 256 bytes; destroyed before m_tag_stack
+		Uint8	unk_28;  // DH2 +0x28: cleared by the DH2 constructor, not identified
 	};
 
 

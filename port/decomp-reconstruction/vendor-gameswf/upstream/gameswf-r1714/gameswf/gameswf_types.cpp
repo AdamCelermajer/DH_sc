@@ -79,6 +79,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp */
 	void	matrix::concatenate(const matrix& m)
 	// Concatenate m's transform onto ours.  When
 	// transforming points, m happens first, then our
@@ -94,6 +95,7 @@ namespace gameswf
 
 		*this = t;
 	}
+#endif /* DH2 */
 
 
 	void	matrix::concatenate_translation(float tx, float ty)
@@ -118,6 +120,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp */
 	void	matrix::set_lerp(const matrix& m1, const matrix& m2, float t)
 	// Set this matrix to a blend of m1 and m2, parameterized by t.
 	{
@@ -128,6 +131,7 @@ namespace gameswf
 		m_[0][2] = flerp(m1.m_[0][2], m2.m_[0][2], t);
 		m_[1][2] = flerp(m1.m_[1][2], m2.m_[1][2], t);
 	}
+#endif /* DH2 */
 
 	
 	void	matrix::set_scale_rotation(float x_scale, float y_scale, float angle)
@@ -194,6 +198,7 @@ namespace gameswf
 		result->m_y = m_[1][0] * p.m_x + m_[1][1] * p.m_y + m_[1][2];
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp */
 	void	matrix::transform(rect* bound) const
 	// Transform bound our matrix.
 	{
@@ -210,6 +215,7 @@ namespace gameswf
 		bound->expand_to_point(p[2]);
 		bound->expand_to_point(p[3]);
 	}
+#endif /* DH2 */
 	
 	void	matrix::transform_vector(point* result, const point& v) const
 	// Transform vector 'v' by our matrix. Doesn't apply translation.
@@ -240,6 +246,7 @@ namespace gameswf
 		m.transform(bound);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp */
 	void	matrix::set_inverse(const matrix& m)
 	// Set this matrix to the inverse of the given matrix.
 	{
@@ -269,6 +276,7 @@ namespace gameswf
 			m_[1][2] = -(m_[1][0] * m.m_[0][2] + m_[1][1] * m.m_[1][2]);
 		}
 	}
+#endif /* DH2 */
 
 
 	bool	matrix::does_flip() const
@@ -301,6 +309,7 @@ namespace gameswf
 		return sqrtf(max_length2);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp */
 	float	matrix::get_x_scale() const
 	{
 		float scale = sqrtf(m_[0][0] * m_[0][0] + m_[1][0] * m_[1][0]);
@@ -313,6 +322,7 @@ namespace gameswf
 
 		return scale;
 	}
+#endif /* DH2 */
 
 	float	matrix::get_y_scale() const
 	{

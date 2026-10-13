@@ -853,6 +853,10 @@ namespace tesselate_new
 	}
 
 
+	// 0x786670 gameswf::tesselate_new::curve(float, float, float, float, float, float)
+	// DH2: replaces the upstream form (recursion on both halves, previously #if 0). The binary, internal
+	// linkage and the same unit as add_curve_segment, recurses on the first half and loops on the second
+	// half until its flatness test passes, then emits a line to p2. It reads this unit's s_tolerance above.
 	static void	curve(float p0x, float p0y, float p1x, float p1y, float p2x, float p2y)
 	// Recursive routine to generate bezier curve within tolerance.
 	{
@@ -865,29 +869,41 @@ namespace tesselate_new
 		}
 #endif // not NDEBUG
 
-		// TODO: use struct point in here?
-
 		// Midpoint on line between two endpoints.
 		float	midx = (p0x + p2x) * 0.5f;
 		float	midy = (p0y + p2y) * 0.5f;
 
 		// Midpoint on the curve.
-		float	qx = (midx + p1x) * 0.5f;
-		float	qy = (midy + p1y) * 0.5f;
+		float	qx = (p1x + midx) * 0.5f;
+		float	qy = (p1y + midy) * 0.5f;
 
-		float	dist = fabsf(midx - qx) + fabsf(midy - qy);
+		// DH2: subdivide while the error is at or above the tolerance (the binary's test; upstream tested dist < tol).
+		if (fabsf(midx - qx) + fabsf(midy - qy) >= s_tolerance)
+		{
+			// Error is too large; subdivide. The first half recurses, the second half loops.
+			for (;;)
+			{
+				curve(p0x, p0y, (p0x + p1x) * 0.5f, (p0y + p1y) * 0.5f, qx, qy);
+				p1x = (p1x + p2x) * 0.5f;
+				p1y = (p1y + p2y) * 0.5f;
+				const float rx = (p2x + qx) * 0.5f;
+				const float ry = (p2y + qy) * 0.5f;
+				const float mx = (rx + p1x) * 0.5f;
+				const float my = (ry + p1y) * 0.5f;
+				const float dist = fabsf(rx - mx) + fabsf(ry - my);
+				p0x = qx;
+				p0y = qy;
+				if (dist < s_tolerance)
+				{
+					break;
+				}
+				qx = mx;
+				qy = my;
+			}
+		}
 
-		if (dist < s_tolerance)
-		{
-			// Emit edge.
-			add_line_segment(p2x, p2y);
-		}
-		else
-		{
-			// Error is too large; subdivide.
-			curve(p0x, p0y, (p0x + p1x) * 0.5f, (p0y + p1y) * 0.5f, qx, qy);
-			curve(qx, qy, (p1x + p2x) * 0.5f, (p1y + p2y) * 0.5f, p2x, p2y);
-		}
+		// Emit edge.
+		add_line_segment(p2x, p2y);
 
 #ifndef NDEBUG
 		recursion_count--;

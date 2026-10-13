@@ -32,6 +32,13 @@ namespace gameswf
 	void clear_registered_type_handlers();
 	gameswf_module_init find_type_handler( const tu_string& type_name );
 
+	// DH2: forward declarations for the Gameloft instance pools (player::create_*).
+	struct edit_text_character;  // DH2
+	struct edit_text_character_def;  // DH2
+	struct generic_character;  // DH2
+	struct sprite_instance;  // DH2
+	struct movie_definition_sub;  // DH2
+
 	struct player : public ref_counted
 	{
 		hash<gc_ptr<as_object>, bool> m_heap;
@@ -112,6 +119,19 @@ namespace gameswf
 		void clear_heap();
 		void set_as_garbage();
 		void clear_garbage();
+		// DH2: Gameloft additions (not in upstream r1714). Binary offsets are in comments.
+		int m_stage;  // DH2: +0x38, returned by get_stage()
+		int m_garbage_count;  // DH2: +0x30, incremented by set_as_garbage(), copied to new instances at +0x34
+		array<smart_ptr<as_object> > unk_0c;  // DH2: +0x0c, objects with ref count 1 at reuse time (meaning unknown)
+		array<smart_ptr<character> > m_unused_sprites;  // DH2: +0xb0, recycled sprite_instance pool
+		array<smart_ptr<character> > m_unused_generic_characters;  // DH2: +0xc0, recycled generic_character pool
+		array<smart_ptr<character> > m_unused_edit_text_characters;  // DH2: +0xd0, recycled edit_text_character pool
+		int get_stage() const;  // DH2: 0x76c7e4
+		void clear_unused_instances();  // DH2: 0x76c9d8
+		edit_text_character* create_edit_text_character(edit_text_character_def* def, character* parent, int id);  // DH2: 0x76cb44
+		generic_character* create_generic_character(character_def* def, character* parent, int id);  // DH2: 0x76cc00
+		sprite_instance* create_sprite_instance(movie_definition_sub* def, root* r, character* parent, int id);  // DH2: 0x76ccf0
+		void notify_unused_instance(character* ch);  // DH2: 0x773268
 		
 
 	};

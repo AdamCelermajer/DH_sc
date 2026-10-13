@@ -90,6 +90,7 @@ namespace gameswf
 	//
 	// instance_info
 	//
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/abc_info.hpp (binary layout: m_interface at +0x1c, m_trait at +0x30) */
 	struct instance_info : public ref_counted
 	{
 
@@ -121,6 +122,7 @@ namespace gameswf
 
 		void	read(stream* in, abc_def* abc);
 	};
+#endif  // DH2: instance_info replaced, see above
 
 	struct class_info : public ref_counted
 	{
@@ -217,10 +219,13 @@ namespace gameswf
 		void	read(stream* in, movie_definition_sub* m);
 		void	read_cpool(stream* in);
 
+#if 0 /* DH2: the body reads instance_info::m_super_name, which the DH2 binary layout does not recover (vendor-gameswf/include/vendor-gameswf/abc_info.hpp, pad_0c). Layout request. */
 		inline const char * get_super_class(tu_string& name) const
 		{
 			return get_multiname( get_instance_info( name )->m_super_name );
 		}
+#endif  // DH2: get_super_class body not reconstructed, see above
+		const char * get_super_class(tu_string& name) const;  // DH2: declared only, the definition needs m_super_name (see above)
 
 		const char * get_class_from_constructor(int method);
 
@@ -231,6 +236,9 @@ namespace gameswf
 		instance_info* get_instance_info(const tu_string& class_name) const;
 		class_info* get_class_info(const tu_string& full_class_name) const;
 		class_info* get_class_info(int class_index) const;
+		// DH2: Gameloft addition, binary 0x7b7fb4 (first word of m_instance[0], name unused). Body is in
+		// DH2: vendor-gameswf/src/v1-vendor-gameswf-pack16-133bd3-0.cpp behind VENDOR_GAMESWF_DH2_CORE_HEADERS.
+		int find_instance(const tu_string& name) const;
 	};
 }
 

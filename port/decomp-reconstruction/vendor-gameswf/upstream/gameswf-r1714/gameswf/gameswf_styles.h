@@ -38,7 +38,9 @@ namespace gameswf
 	// For the interior of outline shapes.
 	{
 		fill_style();
+		fill_style(const fill_style& other);	// DH2: explicit copy, 0x761878
 		virtual ~fill_style();
+		fill_style& operator=(const fill_style& other);	// DH2: 0x77a780
 
 		void	read(stream* in, int tag_type, movie_definition_sub* m);
 		rgba	sample_gradient(int ratio) const;
@@ -48,7 +50,9 @@ namespace gameswf
 		rgba	get_color() const { return m_color; }
 		void	set_color(rgba new_color) { m_color = new_color; }
 		int	    get_type() const { return m_type; }
+#if 0 /* DH2: the binary's fill_style has no m_blend_mode (+0x30 is the array's trailing byte) */
 		void    set_blend_mode(Uint8 bm) {m_blend_mode = bm;}
+#endif /* DH2 */
 
 		// For shape morphing
 		void	set_lerp(const fill_style& a, const fill_style& b, float t);
@@ -58,7 +62,7 @@ namespace gameswf
 		friend struct canvas;
 
 		int	m_type;
-		Uint8 m_blend_mode;
+		// DH2: no m_blend_mode in the binary. Its byte at +0x30 is the trailing byte of m_gradients (16-byte array).
 		rgba	m_color;
 		matrix	m_gradient_matrix;
 		array<gradient_record>	m_gradients;

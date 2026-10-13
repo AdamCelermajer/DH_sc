@@ -101,6 +101,7 @@ b2GearJoint::b2GearJoint(const b2GearJointDef* def)
 	m_force = 0.0f;
 }
 
+#if 0 /* DH2: replaced by v1-vendor-box2d-pack2-798192-0.cpp */
 void b2GearJoint::InitVelocityConstraints(const b2TimeStep& step)
 {
 	b2Body* g1 = m_ground1;
@@ -159,7 +160,9 @@ void b2GearJoint::InitVelocityConstraints(const b2TimeStep& step)
 		m_force = 0.0f;
 	}
 }
+#endif
 
+#if 0 /* DH2: replaced by v1-vendor-box2d-pack2-798192-0.cpp */
 void b2GearJoint::SolveVelocityConstraints(const b2TimeStep& step)
 {
 	b2Body* b1 = m_body1;
@@ -177,6 +180,7 @@ void b2GearJoint::SolveVelocityConstraints(const b2TimeStep& step)
 	b2->m_linearVelocity += b2->m_invMass * P * m_J.linear2;
 	b2->m_angularVelocity += b2->m_invI * P * m_J.angular2;
 }
+#endif
 
 bool b2GearJoint::SolvePositionConstraints()
 {

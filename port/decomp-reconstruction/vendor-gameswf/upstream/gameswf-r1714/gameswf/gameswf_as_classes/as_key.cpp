@@ -104,6 +104,7 @@ namespace gameswf
 		fn.result->set_bool(false);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp */
 	as_key* key_init(player* player)
 	{
 		// Create built-in key object.
@@ -140,13 +141,16 @@ namespace gameswf
 
 		return key_obj;
 	}
+#endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack12-e7eff8-0.cpp (0x79f020, 0x79f088) */
 	as_key::as_key(player* player) :
 		as_object(player),
 		m_last_key_pressed(0)
 	{
 		memset(m_keymap, 0, sizeof(m_keymap));
 	}
+#endif /* DH2 */
 
 	bool	as_key::is_key_down(int code)
 	{

@@ -1913,6 +1913,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-1.cpp (DH2 body reads one u16 only) */
 	void define_video_loader(stream* in, int tag, movie_definition_sub* m)
 	{
 		assert(tag == 60); // 60
@@ -1923,6 +1924,7 @@ namespace gameswf
 
 		m->add_character(character_id, ch);
 	}
+#endif
 
 	void video_loader(stream* in, int tag, movie_definition_sub* m)
 	{
@@ -2071,6 +2073,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-pack1-607ee7-0.cpp */
 	bool	bitmap_character::point_test_local(float x, float y)
 	// Return true if the specified point is on the interior of our shape.
 	// Incoming coords are local coords.
@@ -2094,6 +2097,7 @@ namespace gameswf
 		bound->m_y_min = 0.0f;
 		bound->m_y_max = PIXELS_TO_TWIPS(m_bitmap_info->get_height());
 	}
+#endif /* DH2 */
 
 	void	bitmap_character::display(character* ch)
 	{

@@ -11,6 +11,8 @@
 
 #include "base/smart_ptr.h"
 
+namespace gameswf { struct ref_counted; class smart_ptr_proxy; }  // DH2: friend of weak_proxy below
+namespace gameswf { struct as_environment; }  // DH2: friend of weak_proxy below
 // Helper for making objects that can have weak_ptr's.
 class weak_proxy
 {
@@ -46,6 +48,9 @@ public:
 	}
 
 private:
+	friend struct gameswf::ref_counted;  // DH2: the DH2 ref_counted decrements m_ref_count and frees the proxy
+	friend struct gameswf::as_environment;  // DH2: as_environment::get_player releases a dead proxy (count, free_internal)
+	friend class gameswf::smart_ptr_proxy;  // DH2: smart_ptr_proxy (vendor-gameswf/smart_ptr_proxy.hpp) drops and frees the proxy
 	// Don't use these.
 	weak_proxy(const weak_proxy& w) { assert(0); }
 	void	operator=(const weak_proxy& w) { assert(0); }

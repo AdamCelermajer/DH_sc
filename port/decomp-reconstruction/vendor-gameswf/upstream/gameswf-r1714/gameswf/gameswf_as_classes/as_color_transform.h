@@ -25,6 +25,7 @@ namespace gameswf
 		}
 
 		as_color_transform(player* player);
+		as_color_transform(player* player, const cxform* cx);	// DH2: 0x7d9818 (C1) and 0x7d9890 (C2); cx null means identity. Body: vendor-gameswf/src/v1-vendor-gameswf-pack22-8e8f27-0.cpp
 
 		exported_module virtual bool	set_member(const tu_stringi& name, const as_value& val);
 		exported_module virtual bool	get_member(const tu_stringi& name, as_value* val);

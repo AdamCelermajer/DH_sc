@@ -17,6 +17,13 @@ namespace gameswf
 
 	void	as_global_mcloader_ctor(const fn_call& fn);
 
+	// DH2: built-in methods that the constructor registers (defined in as_mcloader.cpp)
+	void	as_mcloader_addlistener(const fn_call& fn);	// DH2
+	void	as_mcloader_removelistener(const fn_call& fn);	// DH2
+	void	as_mcloader_loadclip(const fn_call& fn);	// DH2
+	void	as_mcloader_unloadclip(const fn_call& fn);	// DH2
+	void	as_mcloader_getprogress(const fn_call& fn);	// DH2
+
 	struct as_mcloader : public as_object
 	{
 		// Unique id of a gameswf resource
@@ -39,8 +46,15 @@ namespace gameswf
 			character* m_ch;
 		};
 
+		// DH2: binary layout (as_object is 56 bytes). Listener block +0x38 (16 bytes: array part,
+		// then a flag at +0x44); m_lm +0x48; unk_54 +0x54. The listener class is not DH2-defined yet.
+#if 0 /* DH2: replaced by the listener block members below (binary +0x38) */
 		listener m_listeners;
-		array<loadable_movie> m_lm;
+#endif
+		array< weak_ptr<as_object> >	m_listener_items;	// DH2: +0x38, listener block array part (12 bytes)
+		bool	unk_44;	// DH2: +0x44, listener block flag; the binary never releases it
+		array<loadable_movie> m_lm;	// +0x48
+		bool	unk_54;	// DH2: +0x54, cleared by the constructor; no batch reads it yet
 
 		as_mcloader(player* player);
 		~as_mcloader();

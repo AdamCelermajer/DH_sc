@@ -23,6 +23,7 @@
 #include "base/tu_gc.h"
 #include "base/tu_gc_singlethreaded_refcount.h"
 #include "base/weak_ptr.h"
+#include "vendor-gameswf/ref_counted.hpp"  // DH2: replaces the upstream ref_counted struct below
 
 class tu_file;
 class render_handler;
@@ -30,6 +31,8 @@ class render_handler;
 // @@ forward decl to avoid including base/image.h; TODO change the
 // render_handler interface to not depend on these structs at all.
 namespace image { struct rgb; struct rgba; struct image_base; }
+namespace glitch { namespace video { class ITexture; } }  // DH2: forward decl for bitmap_info::set_texture
+struct membuf;  // DH2: global (base/membuf.h), forward decl for render_handler::create_bitmap_info_native
 
 // forward decl
 namespace jpeg { struct input; }
@@ -150,9 +153,12 @@ namespace gameswf
 
 
 	// For things that should be automatically garbage-collected.
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/ref_counted.hpp */
 	struct ref_counted : public gc_object, public weak_pointee_mixin
 	{
+		void detach_weak_proxy();  // DH2: Gameloft addition; body is in another vendor-gameswf batch
 	};
+#endif /* DH2: ref_counted (declared in ref_counted.hpp) */
 
 	// Unique id of all gameswf resources
 	enum as_classes
@@ -578,7 +584,7 @@ namespace gameswf
 		void	concatenate(const matrix& m);
 		void	concatenate_translation(float tx, float ty);
 		void	concatenate_scale(float s);
-		void	set_lerp(const matrix& m1, const matrix& m2, float t);
+		bool	set_lerp(const matrix& m1, const matrix& m2, float t);	// DH2: returns whether m12 is in range (binary); body in vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp
 		void	set_scale_rotation(float x_scale, float y_scale, float rotation);
 		void	read(stream* in);
 		void	print() const;
@@ -587,7 +593,7 @@ namespace gameswf
 		void	transform_vector(point* result, const point& p) const;
 		void	transform_by_inverse(point* result, const point& p) const;
 		void	transform_by_inverse(rect* bound) const;
-		void	set_inverse(const matrix& m);
+		bool	set_inverse(const matrix& m);	// DH2: returns whether m12 is in range (binary); body in vendor-gameswf/src/v1-vendor-gameswf-pack0-157e56-0.cpp
 		bool	does_flip() const;	// return true if we flip handedness
 		float	get_determinant() const;	// determinant of the 2x2 rotation/scale part only
 		float	get_max_scale() const;	// return the maximum scale factor that this transform applies
@@ -719,8 +725,29 @@ namespace gameswf
 		virtual int get_height() const { return 0; }
 		virtual unsigned char* get_data() const { return 0; }
 		virtual int get_bpp() const { return 0; }	// byte per pixel
+
+		// DH2: Gameloft members (DH2 vtable of bitmap_info has 16 slots: D1 +0x00, D0 +0x04, layout +0x08,
+		// DH2: unlayout +0x0c, activate +0x10, set_writable +0x14, lock +0x18, unlock +0x1c, set_texture +0x20,
+		// DH2: get_width +0x24, get_height +0x28, set_min_filter +0x2c, set_mag_filter +0x30, is_layout +0x34,
+		// DH2: get_internal_width +0x38, get_internal_height +0x3c; no get_data or get_bpp). Bodies are in
+		// DH2: vendor-gameswf/src/v1-vendor-gameswf-gameswf_bitmap_info-d3c4c6-0.cpp.
+		virtual ~bitmap_info();  // DH2: vtable slots D1 and D0
+		virtual void unlayout();  // DH2
+		virtual void set_writable();  // DH2
+		virtual int lock();  // DH2
+		virtual void unlock();  // DH2
+		virtual void set_texture(glitch::video::ITexture* texture);  // DH2
+		enum filter_mode : int {};  // DH2: enumerators not recovered; set_min_filter and set_mag_filter never read the value
+		virtual void set_min_filter(filter_mode mode);  // DH2
+		virtual void set_mag_filter(filter_mode mode);  // DH2
+		virtual int is_layout() const;  // DH2
+		virtual int get_internal_width() const;  // DH2: returns the virtual get_width()
+		virtual int get_internal_height() const;  // DH2: returns the virtual get_height()
 	};
 
+	// DH2: Gameloft enum used by render_handler::set_orientation (gameswf::orientation_mode in the binary).
+	// DH2: Only its name is recovered: no enumerators, and int is assumed as the underlying type.
+	enum orientation_mode : int;  // DH2: opaque
 	// You must define a subclass of render_handler, and pass an
 	// instance to set_render_handler().
 	struct render_handler
@@ -732,6 +759,11 @@ namespace gameswf
 		virtual bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data) = 0;
 		virtual bitmap_info*	create_bitmap_info_rgb(image::rgb* im) = 0;
 		virtual bitmap_info*	create_bitmap_info_rgba(image::rgba* im) = 0;
+		// DH2: Gameloft virtuals, binary vtable +0x18 and +0x1c (between rgba and create_bitmap_info_target).
+		// DH2: The binary's base slots are pure; they are not pure here so the upstream PureBase test still builds.
+		// DH2: render_handler_glitch overrides both (render_handler_glitch-fd003c-1). The default returns null.
+		virtual bitmap_info*	create_bitmap_info_texture(glitch::video::ITexture* texture) { return nullptr; }  // DH2
+		virtual bitmap_info*	create_bitmap_info_native(int w, int h, const membuf* data) { return nullptr; }  // DH2
 		virtual video_handler*	create_video_handler() = 0;
 
 		// Bracket the displaying of a frame from a movie.
@@ -811,10 +843,15 @@ namespace gameswf
 			rgba			color) = 0;
 		virtual void	set_antialiased(bool enable) = 0;
 
+		// DH2: Gameloft enum used by render_handler_glitch::set_buffer_capacity (BufferedRenderer::unk_00 keeps
+		// DH2: its value). Enumerators not recovered.
+		enum buffer_mode : int {};  // DH2
+
 		virtual bool test_stencil_buffer(const rect& bound, Uint8 pattern) = 0;
 		virtual void begin_submit_mask() = 0;
 		virtual void end_submit_mask() = 0;
 		virtual void disable_mask() = 0;
+		virtual void	flush();  // DH2: Gameloft addition, empty default. Binary vtable +0x94; the host offset is 0x2c lower because 11 binary slots before it are not declared here.
 
 		// Mouse cursor handling.
 		enum cursor_type
@@ -827,6 +864,11 @@ namespace gameswf
 		virtual void set_cursor(cursor_type cursor) {}
 		virtual bool is_visible(const rect& bound) = 0;
 		virtual void open() = 0;
+		virtual void reset();  // DH2: Gameloft addition, empty default. Binary vtable +0xa4.
+		virtual void set_orientation(orientation_mode mode);  // DH2: Gameloft addition, empty default. Binary vtable +0xa8.
+		virtual int get_orientation();  // DH2: Gameloft addition, default returns 0. Binary vtable +0xac.
+		virtual void begin_display_callback();  // DH2: Gameloft addition, empty default. Binary vtable +0xb0.
+		virtual void end_display_callback();  // DH2: Gameloft addition, empty default. Binary vtable +0xb4.
 	};
 
 	// Some optional helpers.
@@ -855,6 +897,7 @@ namespace gameswf
 		int	process_swf(tu_file* swf_out, tu_file* swf_in, const process_options& options);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/glyph_provider.hpp (glyph_entity, glyph_provider) */
 	// helper
 	struct glyph_entity : public ref_counted
 	{
@@ -873,6 +916,9 @@ namespace gameswf
 			rect* bounds, float* advance) = 0;
 
 	};
+#endif /* DH2: glyph_entity and glyph_provider (declared in glyph_provider.hpp) */
+
+	struct glyph_provider;  // DH2: the DH2 layout is in glyph_provider.hpp; the declarations below need only the name
 
 	exported_module glyph_provider*	get_glyph_provider();
 	exported_module void	set_glyph_provider(glyph_provider* gp);

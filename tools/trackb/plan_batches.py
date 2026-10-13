@@ -87,9 +87,13 @@ def main() -> int:
     ap.add_argument("--max-bytes", type=int, default=24000)
     ap.add_argument("--redo-partial", action="store_true")
     ap.add_argument("--prefix", default="b")
+    ap.add_argument("--only", help="JSON file with a list of elf addresses; plan only those rows")
     ap.add_argument("--pack-under", type=int, default=8,
                     help="classes with fewer functions than this are packed together, whole, into shared batches")
     a = ap.parse_args()
+    only = None
+    if a.only:
+        only = {x.lower().removeprefix("0x") for x in json.loads(Path(a.only).read_text(encoding="utf-8"))}
     batches = []
     for c in a.categories:
         cat = PORT / c
@@ -99,6 +103,8 @@ def main() -> int:
             addr = r["elf_address"].lower().removeprefix("0x")
             s = st.get(addr)
             if (a.redo_partial and s != "partial") or (not a.redo_partial and s is not None):
+                continue
+            if only is not None and addr not in only:
                 continue
             by_owner.setdefault(owner_of(r), []).append(r)
         small = []

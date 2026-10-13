@@ -9,6 +9,7 @@
 namespace gameswf
 {
 
+#if 0 /* DH2: upstream layout (gc_ptr m_color_transform and m_movie). The DH2 bodies are not in the tree: queue rows 0x7a7ae4 (as_global_transform_ctor), 0x7a7360 (set_member), 0x7a74b4 (get_member); the ledger names them upstream by size and name only. The ctor is in v1-vendor-gameswf-pack14-1a21ee-0.cpp. */
 	enum as_transform_member
 	{
 		colorTransform = 1, 
@@ -37,11 +38,13 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-pack14-1a21ee-0.cpp */
 	as_transform::as_transform(player* player, character* movie_clip) :
 		as_object(player),
 		m_movie(movie_clip)
 	{
 	}
+#endif /* DH2 */
 
 	bool	as_transform::set_member(const tu_stringi& name, const as_value& val)
 	{
@@ -137,6 +140,7 @@ namespace gameswf
 
 		return result;
 	}
+#endif /* DH2 */
 
 
 }

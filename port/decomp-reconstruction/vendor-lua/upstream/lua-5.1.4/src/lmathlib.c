@@ -178,6 +178,9 @@ static int math_max (lua_State *L) {
 }
 
 
+/* DH2: math_random is rebuilt in vendor-lua/src/v1-vendor-lua-lib_lua-d91850-0.cpp (lrand48 draw). */
+int math_random (lua_State *L);
+#if 0 /* DH2: replaced by vendor-lua/src/v1-vendor-lua-lib_lua-d91850-0.cpp */
 static int math_random (lua_State *L) {
   /* the `%' avoids the (rare) case of r==1, and is needed also because on
      some systems (SunOS!) `rand()' may return a value larger than RAND_MAX */
@@ -204,6 +207,7 @@ static int math_random (lua_State *L) {
   }
   return 1;
 }
+#endif /* DH2: math_random */
 
 
 static int math_randomseed (lua_State *L) {

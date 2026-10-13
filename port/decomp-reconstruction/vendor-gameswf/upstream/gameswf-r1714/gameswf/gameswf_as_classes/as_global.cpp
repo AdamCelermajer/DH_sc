@@ -202,6 +202,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_timer-8a0e04-0.cpp */
 	void as_timer::advance(float delta_time)
 	{
 		assert(m_func != NULL);
@@ -232,6 +233,7 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
 
 
 };

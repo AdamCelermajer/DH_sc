@@ -31,6 +31,7 @@ namespace gameswf
 		return s_gameswf_engine;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	root::root(player* player, movie_def_impl* def)	:
 		m_def(def),
 		m_movie(NULL),
@@ -60,7 +61,9 @@ namespace gameswf
 		m_frame_time = 1.0f / get_frame_rate();
 		player->set_root(this);
 	}
+#endif /* DH2: root::root */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	root::~root()
 	{
 		assert(m_movie != NULL);
@@ -69,11 +72,14 @@ namespace gameswf
 		assert(m_def != NULL);
 		m_def = NULL;
 	}
+#endif /* DH2: root::~root */
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void root::set_active_entity(character* ch)
 	{
 		m_current_active_entity = ch;
 	}
+#endif /* DH2: root::set_active_entity */
 
 	void	root::generate_mouse_button_events(mouse_button_state* ms)
 	{
@@ -316,6 +322,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::notify_key_event(player* player, key::code k, bool down)
 	{
 		// multithread plugins can call gameswf core therefore we should 
@@ -404,6 +411,7 @@ namespace gameswf
 
 		gameswf_engine_mutex().unlock();
 	}
+#endif /* DH2: root::notify_key_event */
 
 	void	root::set_root_movie(character* root_movie)
 	{
@@ -425,6 +433,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::notify_mouse_state(int x, int y, int buttons)
 	// The host app uses this to tell the movie where the
 	// user's mouse pointer is.
@@ -439,6 +448,7 @@ namespace gameswf
 			m_mouse_listener.notify(event_id::MOUSE_MOVE);
 		}
 	}
+#endif /* DH2: root::notify_mouse_state */
 
 	void	root::get_mouse_state(int* x, int* y, int* buttons)
 	// Use this to retrieve the last state of the mouse, as set via
@@ -455,6 +465,7 @@ namespace gameswf
 
 	character*	root::get_root_movie() const { return m_movie.get_ptr(); }
 
+#if 0 /* DH2: not a gameswf::root member in the binary; character::set_drag_state is 0x752d0c */
 	void	root::set_drag_state(character::drag_state& ds)
 	{
 		m_drag_state = ds;
@@ -484,12 +495,14 @@ namespace gameswf
 		float yOffset = worldMouse.m_y - worldOrigin.m_y;
 		m_drag_state.SetOffset(xOffset, yOffset);
 	}
+#endif /* DH2: root::set_drag_state */
 
 	void	root::stop_drag()
 	{
 		m_drag_state.Reset();
 	}
 
+#if 0 /* DH2: not a gameswf::root member in the binary; character::do_mouse_drag is 0x75e3a8 */
 	// Implement mouse-dragging for this movie.
 	void	root::do_mouse_drag()		
 	{
@@ -549,6 +562,7 @@ namespace gameswf
 		local.m_[1][2] = parentMouse.m_y;//set translation y
 		draggingChar->set_matrix( local );
 	}
+#endif /* DH2: root::do_mouse_drag */
 
 
 	movie_definition*	root::get_movie_definition() { return m_movie->get_movie_definition(); }
@@ -594,6 +608,7 @@ namespace gameswf
 		return m_background_color.m_a / 255.0f;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_root-d24935-0.cpp */
 	void	root::advance(float delta_time)
 	{
 		// Lock gameswf engine. Video is running in separate thread and
@@ -671,6 +686,7 @@ namespace gameswf
 
 		gameswf_engine_mutex().unlock();
 	}
+#endif /* DH2: root::advance */
 
 	// 0-based!!
 	void	root::goto_frame(int target_frame_number) { m_movie->goto_frame(target_frame_number); }
@@ -803,9 +819,11 @@ namespace gameswf
 
 	}
 
+#if 0 /* DH2: not in the binary (no symbol, no queue row for gameswf::root::is_avm2) */
 	bool root::is_avm2() const
 	{
 		return m_def->m_is_avm2;
 	}
+#endif /* DH2: root::is_avm2 */
 
 }

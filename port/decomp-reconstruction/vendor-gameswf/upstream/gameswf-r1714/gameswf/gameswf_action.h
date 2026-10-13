@@ -15,6 +15,7 @@
 #include "gameswf/gameswf_types.h"
 #include "base/container.h"
 #include "base/membuf.h"
+#include "vendor-gameswf/action_buffer.hpp"  // DH2: replaces the action_buffer struct below (#if 0 there)
 #include <wchar.h>
 
 #ifndef ACTION_BUFFER_PROFILLING
@@ -52,6 +53,12 @@ namespace gameswf
 	exported_module as_value	call_method(
 		as_function* func,	as_environment* env, const as_value& this_ptr,
 		int nargs, int first_arg_bottom_index);
+
+	// DH2: binary 0x7ba904, the dispatch with a debug label (as_timer::advance passes "timer"). The upstream
+	// file declares only the 5-argument form above; this declaration has no body in the tree.
+	exported_module as_value	call_method(
+		const as_value& method,	as_environment* env, const as_value& this_ptr,
+		int nargs, int first_arg_bottom_index, const char* name);	// DH2
 
 	//
 	// event_id
@@ -152,12 +159,15 @@ namespace gameswf
 		const tu_string&	get_function_name() const;
 	};
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/counted_buffer.hpp (membuf base, int ref count at +0x10, no gc_object) */
 	// allows sharing of as byte code buffer
 	class counted_buffer : public membuf, public gc_object
 	{
 	};
+#endif  // DH2: counted_buffer replaced, see above
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/action_buffer.hpp (binary: 12 bytes, counted_buffer* +0x00, m_decl_dict_processed_at +0x04, m_action_offset +0x08) */
 	// Base class for actions.
 	struct action_buffer
 	{
@@ -199,6 +209,7 @@ namespace gameswf
 		static hash<int, Uint64> profiling_table;
 #endif
 	};
+#endif  // DH2: action_buffer replaced, see above
 
 
 	struct fn_call;

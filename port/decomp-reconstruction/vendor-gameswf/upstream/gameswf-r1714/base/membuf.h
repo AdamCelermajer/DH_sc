@@ -37,6 +37,9 @@ struct membuf
 	// Don't call these mutators on read-only membufs.
 	
 	exported_module void resize(int new_size);
+	exported_module static int capacity(int size); // DH2: Gameloft static member, 256-byte blocks, 0 gives 256 (binary 0x7b6260)
+	exported_module void* reserve(int new_capacity); // DH2: Gameloft addition, returns the data pointer (binary 0x7b6380)
+	exported_module void shrink(); // DH2: Gameloft addition, reallocs to the size when capacity != size (binary 0x7b6344)
 	exported_module void append(const void* data, int size);
 	exported_module void append(const membuf& buf);
 	exported_module void append(Uint8 byte);

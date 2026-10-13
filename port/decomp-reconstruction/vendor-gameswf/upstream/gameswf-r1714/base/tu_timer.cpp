@@ -152,10 +152,12 @@ Uint64 tu_timer::get_systime()
 
 #include <windows.h>
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_timer-613082-0.cpp */
 void tu_timer::sleep(int milliseconds)
 {
 	::Sleep(milliseconds);
 }
+#endif
 
 
 uint64	tu_timer::get_profile_ticks()
@@ -189,10 +191,12 @@ double	tu_timer::profile_ticks_to_seconds(uint64 ticks)
 
 // The profile ticks implementation is just fine for a normal timer.
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_timer-613082-0.cpp */
 void tu_timer::sleep(int milliseconds)
 {
 	usleep(milliseconds * 1000);
 }
+#endif
 
 
 uint64	tu_timer::get_profile_ticks()

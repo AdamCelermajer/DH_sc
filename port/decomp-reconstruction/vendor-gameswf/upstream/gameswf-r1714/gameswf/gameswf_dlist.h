@@ -69,6 +69,8 @@ namespace gameswf
 
 
 		void	remove_display_object(character* ch);
+		~display_list();  // DH2: 0x77f288, PARTIAL (name hash at +0x10 and the element loop not written); see the batch
+		void	construct();  // DH2: 0x755a10, PARTIAL (layout request: player +0x1c construct queue); see the batch
 		void	remove_display_object(int depth, int id);
 
 		void add_keypress_listener(character* ch);

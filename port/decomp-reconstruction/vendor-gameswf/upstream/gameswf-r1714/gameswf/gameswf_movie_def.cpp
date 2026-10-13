@@ -37,17 +37,20 @@ namespace gameswf
 	}
 
 	// Keep a table of loader functions for the different tag types.
-	static hash<int, loader_function>	s_tag_loaders;
+	// DH2: defined in vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp (external linkage, as in the binary).
+	extern hash<int, loader_function>	s_tag_loaders;
 
 	void clears_tag_loaders()
 	{
 		s_tag_loaders.clear();
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp */
 	bool get_tag_loader(int tag_type, loader_function* lf)
 	{
 		return s_tag_loaders.get(tag_type, lf);
 	}
+#endif
 
 	void	register_tag_loader(int tag_type, loader_function lf)
 	// Associate the specified tag type with the given tag loader
@@ -99,6 +102,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp */
 	movie_def_impl::movie_def_impl(player* player, 
 		create_bitmaps_flag cbf, create_font_shapes_flag cfs)	:
 		movie_definition_sub(player),
@@ -114,6 +118,8 @@ namespace gameswf
 		m_origin_in(NULL)
 	{
 	}
+
+#endif /* DH2 */
 
 	movie_def_impl::~movie_def_impl()
 	{
@@ -188,6 +194,7 @@ namespace gameswf
 		return m_bitmap_list[i].get_ptr();
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp */
 	void	movie_def_impl::export_resource(const tu_string& symbol, character_def* res)
 	// Expose one of our resources under the given symbol,
 	// for export.	Other movies can import it.
@@ -195,6 +202,7 @@ namespace gameswf
 		// SWF sometimes exports the same thing more than once!
 		m_exports.set(symbol, res);
 	}
+#endif /* DH2 */
 
 	character_def*	movie_def_impl::get_exported_resource(const tu_string& symbol)
 	// Get the named exported resource, if we expose it.

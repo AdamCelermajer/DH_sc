@@ -82,7 +82,9 @@ namespace gameswf
 		uint32	get_file_bytes() const;
 		uint32	get_loaded_bytes() const;
 
+		#if 0 /* DH2: the DH2 root (vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp) has no get_root_movie() */
 		exported_module character*	get_root_movie() const { return m_root->get_root_movie(); }
+		#endif /* DH2 */
 		movie_definition*	get_movie_definition() { return m_def.get_ptr(); }
 
 		virtual void get_bound(rect* bound);
@@ -96,6 +98,7 @@ namespace gameswf
 		exported_module void	set_play_state(play_state s);
 		play_state	get_play_state() const;
 
+		#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_sprite_instance-d5206d-0.cpp */
 		character*	get_character(int character_id)
 		{
 			//			return m_def->get_character_def(character_id);
@@ -107,7 +110,12 @@ namespace gameswf
 
 			return m_display_list.get_character(character_id);
 		}
+#endif /* DH2 */
+		character*	get_character(int character_id);	// DH2: 0x77de28, vtable +0x7c; returns null. Defined in the batch .cpp
 
+		#if 0 /* DH2: the DH2 root has no get_background_alpha, get_pixel_scale, get_mouse_state or set_background_color.
+		         The virtual get_mouse_state override is dropped too, so sprite_instance inherits character::get_mouse_state
+		         (which forwards to get_parent()). Integrator decision: restore the override when the root gains the members. */
 		float	get_background_alpha() const
 		{
 			// @@ this doesn't seem right...
@@ -125,6 +133,7 @@ namespace gameswf
 		{
 			m_root->set_background_color(color);
 		}
+		#endif /* DH2 */
 
 //		virtual bool	has_looped() const { return m_has_looped; }
 
@@ -193,6 +202,8 @@ namespace gameswf
 		virtual void	attach_display_callback(const char* path_to_object, void (*callback)(void*), void* user_ptr);
 		bool	hit_test(character* target);
 		virtual bool	hit_test(double x, double y, bool shape_flag);
+		virtual bool	hit_test(float x, float y);	// DH2: Gameloft virtual (vtable +0x6c); body in v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp
+		bool	hit_test(float x, float y, bool shape_flag);	// DH2: binary hit_test(float, float, bool) at 0x782f6c (shape flag in R3). UNRESOLVED: no batch defines it and the tree has no definition; ledger.csv row 681 matches it to the upstream double overload by name only.
 		sprite_instance* attach_movie(const tu_string& id, const tu_string name, int depth);
 
 		void local_to_global(as_object* pt);
@@ -213,11 +224,25 @@ namespace gameswf
 		canvas* get_canvas();
 
 		virtual const char*	type_of() { return "movieclip"; }
+		virtual const char*	_typeof();	// DH2: 0x77de68, vtable +0x18; defined in the batch .cpp
 		virtual	void enumerate(as_environment* env);
 		virtual	bool is_enabled() const;
 
 		// flash9
 		void add_script(int frame, as_function* func);
+		// DH2: Gameloft members of the binary's sprite_instance (offsets are the 32-bit binary's). Bodies are in
+		// DH2: v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp. The upstream members above keep their layout.
+		struct init_actions  // DH2: nested class at binary +0xdc (size not recovered); dtor 0x780ea0 (v1-vendor-gameswf-pack8-c43a3a-0)
+		{  // DH2
+			~init_actions();  // DH2
+			array<action_buffer*>	unk_00;  // DH2 +0x00: cleared by the destructor last (declared first)
+			Uint8	unk_0c;  // DH2 +0x0c: not touched by the destructor
+			array<bool>	unk_10;  // DH2 +0x10: cleared by the destructor (first, as a member is destroyed in reverse order)
+			Uint8	unk_1c;  // DH2 +0x1c: not touched by the destructor
+		};  // DH2
+		init_actions*	m_init_actions = nullptr;  // DH2: +0xdc, released by ~sprite_instance
+		ref_counted*	unk_f0 = nullptr;  // DH2: +0xf0, released (drop_ref) by ~sprite_instance; not identified
+		ref_counted*	unk_f4 = nullptr;  // DH2: +0xf4, released (drop_ref) by ~sprite_instance; not identified
 	};
 }
 

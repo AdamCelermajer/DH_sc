@@ -338,6 +338,7 @@ namespace gameswf
 		hash<int, tu_string>	m_symbol_class;
 		hash<int, tu_string>	m_scene;
 		hash<int, tu_string>	m_frame_label;	// this is't labeled_frame !!!
+		bool	m_has_init_actions;	// +0xec (236), DH2: the byte has_init_actions returns; zeroed by the constructor
 
 		movie_def_impl(player* player, create_bitmaps_flag cbf, create_font_shapes_flag cfs);
 		~movie_def_impl();
@@ -371,6 +372,8 @@ namespace gameswf
 		void	add_character(int character_id, character_def* c);
 		character_def*	get_character_def(int character_id);
 		bool	get_labeled_frame(const char* label, int* frame_number);
+		bool	get_labeled_frame(const tu_stringi& label, int* frame_number);	// DH2: 0x764da0
+		virtual int	has_init_actions();	// DH2: 0x7636b4, non-const, returns the byte at +0xec as int; same vtable slot +0x88 as sprite_definition::has_init_actions
 		void	add_font(int font_id, font* f);
 		font*	get_font(int font_id);
 		font*	find_font(const char* name) const;
@@ -407,5 +410,8 @@ namespace gameswf
 	bool get_tag_loader(int tag_type, loader_function* lf);
 
 }
+
+// DH2: loader table (s_tag_loaders) uses a 4-entry minimum table; body in vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-1.cpp
+template <> void hash<int, gameswf::loader_function, fixed_size_hash<int> >::set_raw_capacity(int new_size);  // DH2
 
 #endif

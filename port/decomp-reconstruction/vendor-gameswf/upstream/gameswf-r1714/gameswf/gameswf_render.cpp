@@ -27,16 +27,20 @@ namespace gameswf
 
 	namespace render
 	{
+#if 0 /* DH2: replaced by gameswf/gameswf_render.h (bogus_bi declared there) */
 		struct bogus_bi : public bitmap_info
 		{
 		};
+#endif /* DH2 */
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack6-a8bd9d-0.cpp (binary asks for a 2x2 alpha bitmap) */
 		bitmap_info*	create_bitmap_info_empty()
 		{
 			if (s_render_handler) return s_render_handler->create_bitmap_info_empty();
 			else return new bogus_bi;
 		}
+#endif /* DH2 */
 
 		bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data)
 		{

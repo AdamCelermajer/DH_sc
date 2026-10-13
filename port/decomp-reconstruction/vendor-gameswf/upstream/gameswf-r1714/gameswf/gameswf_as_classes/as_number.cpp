@@ -113,9 +113,11 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-4.cpp (empty in the binary) */
 	void	as_number_valueof(const fn_call& fn)
 	{
 		assert(0);	//TODO
 	}
+#endif /* DH2 */
 
 };

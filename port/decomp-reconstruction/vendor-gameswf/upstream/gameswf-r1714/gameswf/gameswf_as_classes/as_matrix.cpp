@@ -191,6 +191,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack12-e7eff8-0.cpp (0x7a179c, 0x7a1ea0) */
 	as_matrix::as_matrix(player* player) :
 		as_object(player)
 	{
@@ -202,6 +203,7 @@ namespace gameswf
 		builtin_member("invert", as_matrix_invert);
 		builtin_member("transformPoint", as_matrix_transformPoint);
 	}
+#endif /* DH2 */
 
 
 };

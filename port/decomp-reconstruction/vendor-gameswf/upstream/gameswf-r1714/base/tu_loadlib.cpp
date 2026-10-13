@@ -22,6 +22,7 @@ tu_loadlib::tu_loadlib(const char* library_name) :
 	m_hlib = LoadLibrary(path.c_str());
 }
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp */
 tu_loadlib::~tu_loadlib()
 {
 	if (m_hlib)
@@ -29,7 +30,9 @@ tu_loadlib::~tu_loadlib()
 		FreeLibrary(m_hlib);
 	}
 }
+#endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp */
 void* tu_loadlib::get_function(const char* function_name)
 {
 	if (m_hlib)
@@ -38,6 +41,7 @@ void* tu_loadlib::get_function(const char* function_name)
 	}
 	return NULL;
 }
+#endif
 
 #else	// not _WIN32
 
@@ -62,6 +66,7 @@ tu_loadlib::tu_loadlib(const char* library_name) :
 	}
 }
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp */
 tu_loadlib::~tu_loadlib()
 {
 	if (m_hlib)
@@ -69,7 +74,9 @@ tu_loadlib::~tu_loadlib()
 		dlclose(m_hlib);
 	}
 }
+#endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp */
 void* tu_loadlib::get_function(const char* function_name)
 {
 	if (m_hlib)
@@ -78,6 +85,7 @@ void* tu_loadlib::get_function(const char* function_name)
 	}
 	return NULL;
 }
+#endif
 
 #endif	// not _WIN32
 

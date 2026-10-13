@@ -12,6 +12,7 @@
 #include "base/weak_ptr.h"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_jit.h"
+#include "vendor-gameswf/abc_info.hpp"  // DH2: replaces traits_info (#if 0 below) and instance_info (gameswf_abc.h)
 
 namespace gameswf
 {
@@ -23,6 +24,7 @@ namespace gameswf
 		Uint8 m_kind;
 	};
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/abc_info.hpp (binary layout: m_metadata at +0x24) */
 	struct traits_info : public ref_counted
 	{
 		enum kind
@@ -83,6 +85,7 @@ namespace gameswf
 
 		void	read(stream* in, abc_def* abc);
 	};
+#endif  // DH2: traits_info replaced, see above
 
 	struct except_info : public ref_counted
 	{

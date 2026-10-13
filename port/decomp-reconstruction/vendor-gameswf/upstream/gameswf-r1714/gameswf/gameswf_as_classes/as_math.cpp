@@ -82,6 +82,7 @@ namespace gameswf
 		fn.result->set_double(floor(arg0 + 0.5));
 	}
 	
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-4.cpp (math_init with the hash set_capacity step) */
 	as_object* math_init(player* player)
 	{
 		// Create built-in math object.
@@ -119,5 +120,6 @@ namespace gameswf
 
 		return math_obj;
 	}
+#endif /* DH2 */
 
 }

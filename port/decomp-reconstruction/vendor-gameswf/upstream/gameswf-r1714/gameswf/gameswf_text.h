@@ -112,6 +112,7 @@ namespace gameswf
 		bool m_is_glyphs_drawn;
 
 		text_character_def(player* player, movie_definition_sub* root_def);
+		virtual ~text_character_def();	// DH2: 0x78be3c D1 (pack10); body is behind VENDOR_GAMESWF_DH2_CORE_HEADERS in vendor-gameswf/src/v1-vendor-gameswf-pack10-9a32ad-0.cpp
 
 		void	read(stream* in, int tag_type, movie_definition_sub* m);
 		void	display(character* inst);
@@ -196,6 +197,9 @@ namespace gameswf
 		array<text_glyph_record>	m_text_glyph_records;
 		array<fill_style>	m_dummy_style;	// used to pass a color on to shape_character::display()
 		array<line_style>	m_dummy_line_style;
+		Sint64	unk_d8;	// DH2: +0xd8 (216), set to -1 by update_world_cxform and update_world_matrix (render cache word)
+		Sint64	unk_e0;	// DH2: +0xe0 (224), same
+		// DH2: +0xe8..+0x137 not recovered (render cache class, absent from upstream); placement of m_text_bounding_box unverified
 		rect	m_text_bounding_box;	// bounds of dynamic text, as laid out
 		tu_string	m_text;
 		bool m_has_focus;
@@ -205,6 +209,9 @@ namespace gameswf
 		float m_ycursor;
 		float m_x;	// current X drawing position
 		float m_y;	// current Y drawing position
+		int m_last_line_start_record;	// DH2: +0x164 (356), line start passed to align_line; zeroed by init
+		int unk_168;	// DH2: +0x168 (360), record index written by append_text; zeroed by init
+		int unk_16c;	// DH2: +0x16c (364), -1 after a line break; set by init
 
 		// instance specific
 		rgba m_color;
@@ -215,6 +222,7 @@ namespace gameswf
 		float	m_right_margin;
 		float	m_indent;
 		float	m_leading;
+		float unk_190;	// DH2: +0x190 (400), zeroed by init; added to the glyph width in append_text
 		rgba m_background_color;
 		matrix m_world_matrix;	// current world matrix, for dynamic scaling
 
@@ -232,9 +240,16 @@ namespace gameswf
 		virtual bool on_event(const event_id& id);
 		virtual bool can_handle_mouse_event();
 		virtual bool get_topmost_mouse_entity( character * &te, float x, float y);
+			virtual bool get_topmost_mouse_entity(float x, float y);	// DH2: 2-argument form at vtable +0x68 (_ZN7gameswf19edit_text_character24get_topmost_mouse_entityEff); body belongs to the 0x78bb58 row
+			virtual bool hit_test(float x, float y);	// DH2: vtable +0x6c, overrides character::hit_test
+			virtual void recycle(character* parent, int id);	// DH2: vtable +0x64, overrides character::recycle
+			virtual void update_world_matrix();	// DH2: vtable +0x118, overrides character::update_world_matrix (binary returns int)
+			virtual void update_world_cxform();	// DH2: vtable +0x11c, overrides character::update_world_cxform
+			void	init();	// DH2: 0x7914dc, resets the instance from its definition; recycle calls it
 		const tu_string&	get_var_name() const;
 		void	reset_bounding_box(float x, float y);
 		void	set_text_value(const tu_string& new_text);
+		void	set_text_value(const tu_string& new_text, bool unk_flag);  // DH2: 2-argument form in the binary; unk_flag meaning unknown
 		virtual const char*	to_string();
 		bool	set_member(const tu_stringi& name, const as_value& val);
 		bool	get_member(const tu_stringi& name, as_value* val);
@@ -252,6 +267,7 @@ namespace gameswf
 	private:
 
 		void	set_text(const tu_string& new_text);
+		void	set_text(const tu_string& new_text, bool unk_flag);  // DH2: 2-argument form (_ZN7gameswf19edit_text_character8set_textERKNS_9tu_stringEb); unk_flag meaning unknown
 
 	};
 

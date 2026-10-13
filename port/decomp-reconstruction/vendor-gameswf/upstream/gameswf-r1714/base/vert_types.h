@@ -200,6 +200,7 @@ inline void edges_intersect_sub(int* e0_vs_e1, int* e1_vs_e0,
 }
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-4.cpp (the binary returns bool) */
 inline void edges_intersect_sub(int* e0_vs_e1, int* e1_vs_e0,
 				const vec2<float>& e0v0, const vec2<float>& e0v1,
 				const vec2<float>& e1v0, const vec2<float>& e1v1)
@@ -281,6 +282,13 @@ inline void edges_intersect_sub(int* e0_vs_e1, int* e1_vs_e0,
 		*e0_vs_e1 = 0;
 	}
 }
+#endif /* DH2 */
+
+// DH2: the binary's float overload returns bool and is not inline. Defined in
+// vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-4.cpp, at global scope like the upstream overload.
+bool edges_intersect_sub(int* e0_vs_e1, int* e1_vs_e0,
+				const vec2<float>& e0v0, const vec2<float>& e0v1,
+				const vec2<float>& e1v0, const vec2<float>& e1v1);
 
 
 inline bool vert_in_triangle(const vec2<sint16>& v, const vec2<sint16>& v0, const vec2<sint16>& v1, const vec2<sint16>& v2)

@@ -168,6 +168,7 @@ namespace gameswf
 		}		
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack11-4edfaf-0.cpp */
 	as_color::as_color(player* player, character* target) :
 		as_object(player),
 		m_target(target)
@@ -181,5 +182,6 @@ namespace gameswf
 		builtin_member("setTransform", as_color_settransform);
 		set_ctor(as_global_color_ctor);
 	}
+#endif /* DH2 */
 
 };

@@ -11,6 +11,7 @@
 
 #include "base/container.h"
 #include "gameswf/gameswf.h"	// for ref_counted
+#include "vendor-gameswf/as_value.hpp"  // DH2: replaces the upstream as_value struct below
 #include <wchar.h>
 
 namespace gameswf
@@ -40,6 +41,7 @@ namespace gameswf
 		void	get(const as_value& primitive, as_value* val) const;
 	};
 
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/as_value.hpp */
 	struct as_value
 	{
 		// flags defining the level of protection of a value
@@ -172,6 +174,7 @@ namespace gameswf
 		static as_value abstract_relational_comparison( const as_value & first, const as_value & second );
 
 	};
+#endif /* DH2: as_value (declared in vendor-gameswf/include/vendor-gameswf/as_value.hpp) */
 
 }
 

@@ -42,9 +42,23 @@ namespace tu_timer
 
 	// Return the time as seconds elapsed since midnight, January 1, 1970.
 	Uint64 get_systime();
+	// DH2: Gameloft additions (binary: gameswf::tu_timer, ActionScript Date support). Global here, as upstream.
+	int get_milli(uint64 seconds); // DH2: milliseconds of a Date; the binary always returns 0.
+	double ticks_to_seconds(uint64 ticks); // DH2: forwards to profile_ticks_to_seconds().
+	int64 get_time(uint64 seconds); // DH2: seconds * 1000 as a 64-bit product (localtime result unused).
+	int get_year(uint64 seconds); // DH2: localtime(low word of seconds)->tm_year.
+	int get_seconds(uint64 seconds); // DH2: localtime(...)->tm_sec.
+	int get_minutes(uint64 seconds); // DH2: localtime(...)->tm_min.
+	int get_month(uint64 seconds); // DH2: localtime(...)->tm_mon.
+	int get_fullyear(uint64 seconds); // DH2: localtime(...)->tm_year + 1900.
+	int get_hours(uint64 seconds); // DH2: localtime(...)->tm_hour.
+	int get_day(uint64 seconds); // DH2: localtime(...)->tm_wday.
+	int get_date(uint64 seconds); // DH2: localtime(...)->tm_mday.
 
 };
 
+
+namespace gameswf { struct as_date; }	// DH2: friend below (as_date::get_time reads m_time)
 
 struct tu_datetime
 {
@@ -67,6 +81,8 @@ struct tu_datetime
 
 	exported_module int get(part part);
 	exported_module void set(part part, int val);
+
+	friend struct gameswf::as_date;	// DH2: as_date::get_time (0x79d650) returns m_time (binary +0x38)
 
 private:
 

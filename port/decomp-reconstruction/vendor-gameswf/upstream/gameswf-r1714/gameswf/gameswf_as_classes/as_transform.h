@@ -9,12 +9,14 @@
 #include "gameswf/gameswf_action.h"	// for as_object
 #include "gameswf/gameswf_character.h"
 #include "gameswf/gameswf_as_classes/as_color_transform.h"
+#include "vendor-gameswf/as_transform.hpp"	// DH2: the Gameloft layout replaces the struct below (empty until DH2_AS_OBJECT_HEADER_OK)
 
 namespace gameswf
 {
 
 	void	as_global_transform_ctor(const fn_call& fn);
 
+#if 0 /* DH2: replaced by as_transform.hpp (vendor-gameswf/include/vendor-gameswf/as_transform.hpp) */
 	struct as_transform : public as_object
 	{
 		// Unique id of a gameswf resource
@@ -33,6 +35,7 @@ namespace gameswf
 		gc_ptr<as_color_transform> m_color_transform;
 		gc_ptr<character> m_movie;
 	};
+#endif /* DH2 */
 
 }	// end namespace gameswf
 

@@ -77,10 +77,12 @@ namespace gameswf
 	// For holding a pre-tesselated shape.
 	{
 		mesh();
+		~mesh();  // DH2: 0x77bf20, user destructor (resizes the three arrays to 0)
 
 		void	set_tri_strip(const point pts[], int count); // TODO remove
 		void reserve_triangles(int expected_triangle_count);
-		void add_triangle(const coord_component pts[6]);
+		void add_triangle(const float pts[6]);  // DH2: binary add_triangle(float const*); the triangle list holds floats
+		void set_triangles(const float* verts, int float_count, const unsigned short* indices, int index_count);  // DH2: mesh::set_triangles, called by tesselator_accepter::end_shape
 
 		void	display(const base_fill_style& style, float ratio, render_handler::bitmap_blend_mode bm) const;
 
@@ -88,7 +90,8 @@ namespace gameswf
 		void	input_cached_data(tu_file* in);
 	private:
 		array<coord_component>	m_triangle_strip;// TODO remove
-		array<coord_component> m_triangle_list;
+		array<float> m_triangle_list;  // DH2: float coordinates (binary add_triangle and set_triangles take float const*)
+		array<unsigned short> m_triangle_indices;  // DH2: +0x20, index list filled by set_triangles
 	};
 
 
@@ -122,6 +125,9 @@ namespace gameswf
 
 		void display( const matrix& m, const cxform& cx, const array<fill_style>& fills,
 			const array<line_style>& line_styles, render_handler::bitmap_blend_mode bm) const;
+			// DH2: four-argument overload (0x7795ac). The binary mesh_set::display takes no blend mode.
+			void display( const matrix& m, const cxform& cx, const array<fill_style>& fills,	// DH2
+				const array<line_style>& line_styles) const;	// DH2
 
 		void new_layer();
 		void	set_tri_strip(int style, const point pts[], int count);
@@ -145,6 +151,10 @@ namespace gameswf
 		array<layer> m_layers;
 	};
 
+	// DH2: 0x789d98 (queued in vendor-gameswf, own batch). Tesselates sh into ms; mesh_set(sh, err) calls it.
+	// sh is the shape_character_def that the tesselating_shape subobject belongs to.
+	void execute_tesselate(mesh_set* ms, const shape_character_def* sh, float error_tolerance);  // DH2
+
 
 	struct shape_character_def : public character_def, public tesselate::tesselating_shape
 	// Represents the outline of one or more shapes, along with
@@ -164,6 +174,11 @@ namespace gameswf
 		void	read(stream* in, int tag_type, bool with_style, movie_definition_sub* m);
 		void	display( const matrix& mat, const cxform& cx, float pixel_scale, const array<fill_style>& fill_styles,
 				const array<line_style>& line_styles, render_handler::bitmap_blend_mode bm) const;
+			// DH2: five-argument overload (0x77a990). The binary display takes no blend mode.
+		void	display( const matrix& mat, const cxform& cx, float pixel_scale, const array<fill_style>& fill_styles,	// DH2
+				const array<line_style>& line_styles) const;	// DH2
+			// DH2: 0x77be00, overrides character_def::create_character_instance (player pool, not new).
+		virtual character*	create_character_instance(character* parent, int id);	// DH2
 
 		virtual void	tesselate(float error_tolerance, tesselate::trapezoid_accepter* accepter) const;
 		virtual void	tesselate_new(float error_tolerance, tesselate_new::mesh_accepter* accepter) const;

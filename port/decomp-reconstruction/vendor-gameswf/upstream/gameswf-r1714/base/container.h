@@ -215,6 +215,7 @@ public:
 	}
 	~array() {
 		clear();
+		reserve(0);  // DH2: the binary's array destructor also releases the buffer (0x7bb410 for tu_stringi; 0x7b9938 and 0x7b9c18 call resize and reserve(0)). Upstream stopped at clear().
 	}
 
 	// Basic array access.
@@ -235,6 +236,9 @@ public:
 		resize(new_size);
 		(*this)[new_size-1] = val;
 	}
+
+	template<class U>	// DH2: Gameloft member template; binary push_back<U> (0x7619b8 for line_style), parameter is const U& (mangled ...EvRKT_)
+	void	push_back(const U& val);	// DH2: copy-constructs the new slot, defined in vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp
 
 	void	pop_back()
 	// Remove the last element.
@@ -361,6 +365,8 @@ public:
 
 		m_size = new_size;
 	}
+
+	void	release_buffer();  // DH2: Gameloft member. Only array<gameswf::swf_event*> is used (explicit specialization in vendor-gameswf/src/v1-vendor-gameswf-pack3-a95b99-0.cpp)
 
 	void	reserve(int rsize)
 	// @@ TODO change this to use ctor, dtor, and operator=
@@ -1210,6 +1216,10 @@ public:
 	const_iterator	find(const T& key) const { return const_cast<hash*>(this)->find(key); }
 
 private:
+	// DH2: the explicit set_raw_capacity specializations (vendor-gameswf/include/vendor-gameswf/gameswf_dh2_hash.hpp)
+	// share one body that reaches the table through this friend.
+	friend struct dh2_hash_access;  // DH2
+
 	// A value of m_hash_value that marks an entry as a
 	// "tombstone" -- i.e. a placeholder entry.
 	static const size_t TOMBSTONE_HASH = (size_t) -1;
@@ -1501,6 +1511,7 @@ public:
 		return strcmp(*this, str) != 0;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp */
 	exported_module bool	operator==(const tu_string& str) const
 	{
 		if (size() != str.size()) {
@@ -1508,6 +1519,8 @@ public:
 		}
 		return memcmp(*this, str, size()) == 0;
 	}
+#endif /* DH2 */
+	exported_module bool	operator==(const tu_string& str) const;  // DH2: reconstructed, body in the src file
 
 	exported_module bool	operator!=(const tu_string& str) const
 	{
@@ -1563,6 +1576,7 @@ public:
 		return (*(const_cast<tu_string*>(this)))[index];
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp */
 	exported_module void	operator+=(const char* str)
 	{
 		int	str_length = (int) strlen(str);
@@ -1571,7 +1585,10 @@ public:
 		resize(old_length + str_length);
 		memcpy(get_buffer() + old_length, str, str_length + 1);
 	}
+#endif /* DH2 */
+	exported_module void	operator+=(const char* str);  // DH2: partial (hash cache not modelled), body in the src file
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp */
 	exported_module void	operator+=(char ch)
 	{
 		int old_length = length();
@@ -1579,11 +1596,14 @@ public:
 		resize(old_length + 1);
 		*(get_buffer() + old_length) = ch;
 	}
+#endif /* DH2 */
+	exported_module void	operator+=(char ch);  // DH2: partial (hash cache not modelled), body in the src file
 
 	// Append wide char.  Both versions of wide char.
 	exported_module void	append_wide_char(uint16 ch);
 	exported_module void	append_wide_char(uint32 ch);
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_tu_string-39e5bd-0.cpp */
 	exported_module void	operator+=(const tu_string& str)
 	{
 		int str_length = str.length();
@@ -1594,6 +1614,8 @@ public:
 		memcpy(get_buffer() + old_length, str.c_str(), str_length);
 		get_buffer()[new_length] = 0;
 	}
+#endif /* DH2 */
+	exported_module void	operator+=(const tu_string& str);  // DH2: partial (hash cache not modelled), body in the src file
 
 	exported_module tu_string	operator+(const tu_string& str) const
 	{
@@ -1690,6 +1712,9 @@ public:
 	//
 	// end is the index one past the last character you want to include.
 	exported_module tu_string	utf8_substring(int start, int end) const;
+
+	// DH2: Gameloft addition (tu_string::get_hashi, 0x7635c8): case-folded hash, sign-extended from 24 bits.
+	exported_module int	get_hashi() const;  // DH2: partial (hash cache not modelled), body in the src file
 
 private:
 	char*	get_buffer()

@@ -72,14 +72,24 @@ namespace gameswf
 			return 0;
 		}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp */
 		virtual void	add_abc(tu_string& name, abc_def* abc) { assert(0); };
 		virtual void	add_symbol_class(int character_id, const tu_string& class_name) { assert(0); };
 		virtual void	add_scene(int character_id, const tu_string& class_name) { assert(0); };
 		virtual void	add_frame_label(int character_id, const tu_string& class_name) { assert(0); };
+#endif
+		// DH2: the bodies are out-of-line in the batch .cpp. The binary bodies are bx lr (no assert).
+		virtual void	add_abc(tu_string& name, abc_def* abc);
+		virtual void	add_symbol_class(int character_id, const tu_string& class_name);
+		virtual void	add_scene(int character_id, const tu_string& class_name);
+		virtual void	add_frame_label(int character_id, const tu_string& class_name);
 		virtual void	add_character(int id, character_def* ch) { log_error("add_character tag appears in sprite tags!\n"); }
 		virtual void	add_font(int id, font* ch) { log_error("add_font tag appears in sprite tags!\n"); }
 		virtual font*	get_font(int id) { return m_movie_def->get_font(id); }
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp */
 		virtual void	set_jpeg_loader(jpeg::input* j_in) { assert(0); }
+#endif
+		virtual void	set_jpeg_loader(jpeg::input* j_in);	// DH2: out-of-line in the batch .cpp (bx lr)
 		virtual jpeg::input*	get_jpeg_loader() { return NULL; }
 		virtual bitmap_character_def*	get_bitmap_character(int id) { return m_movie_def->get_bitmap_character(id); }
 		virtual void	add_bitmap_character(int id, bitmap_character_def* ch) { log_error("add_bc appears in sprite tags!\n"); }
@@ -91,12 +101,19 @@ namespace gameswf
 		virtual create_font_shapes_flag	get_create_font_shapes() const { assert(0); return DO_LOAD_FONT_SHAPES; }
 		virtual int	get_bitmap_info_count() const { assert(0); return 0; }
 		virtual bitmap_info*	get_bitmap_info(int i) const { assert(0); return NULL; }
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp */
 		virtual void	add_bitmap_info(bitmap_info* bi) { assert(0); }
+#endif
+		virtual void	add_bitmap_info(bitmap_info* bi);	// DH2: out-of-line in the batch .cpp (bx lr)
 
 		virtual void	export_resource(const tu_string& symbol, character_def* res) { log_error("can't export from sprite\n"); }
 		virtual character_def*	get_exported_resource(const tu_string& sym) { return m_movie_def->get_exported_resource(sym); }
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_sprite_definition-9a9a59-0.cpp */
 		virtual void	add_import(const tu_string& source_url, int id, const tu_string& symbol) { assert(0); }
 		virtual void	visit_imported_movies(import_visitor* v) { assert(0); }
+#endif
+		virtual void	add_import(const tu_string& source_url, int id, const tu_string& symbol);	// DH2: out-of-line (bx lr)
+		virtual void	visit_imported_movies(import_visitor* v);	// DH2: out-of-line (bx lr)
 		virtual character_def*	get_character_def(int id)
 		{
 			return m_movie_def->get_character_def(id);
@@ -159,6 +176,11 @@ namespace gameswf
 		{
 			return m_named_frames.get(label, frame_number);
 		}
+		// DH2: the binary has no const char* version; its vtable slot is the tu_stringi form below. This upstream
+		// override stays so the class is concrete while movie_definition still declares the const char* pure virtual.
+		// Remove it when movie_definition takes tu_stringi.
+		// DH2: Gameloft signature (vtable +0x60). Out-of-line in the batch .cpp.
+		virtual int	get_labeled_frame(const tu_stringi& label, int* frame_number);
 
 		const array<execute_tag*>&	get_playlist(int frame_number)
 		// frame_number is 0-based
@@ -173,6 +195,9 @@ namespace gameswf
 			// (movie_def_impl) does (@@ correct?)
 			return NULL;
 		}
+
+		// DH2: Gameloft virtual (vtable +0x88); the binary returns 0. Out-of-line in the batch .cpp.
+		virtual int	has_init_actions();
 
 		void	read(stream* in);
 		// Read the sprite info.  Consists of a series of tags.

@@ -66,6 +66,7 @@ namespace gameswf
 		bool stereo);
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp */
 	void	define_sound_loader(stream* in, int tag_type, movie_definition_sub* m)
 	// Load a DefineSound tag.
 	{
@@ -136,6 +137,7 @@ namespace gameswf
 			delete [] data;
 		}
 	}
+#endif
 
 
 	struct start_sound_tag : public execute_tag

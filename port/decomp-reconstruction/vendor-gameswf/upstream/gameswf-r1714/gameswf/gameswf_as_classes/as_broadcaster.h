@@ -30,6 +30,7 @@ namespace gameswf
 		}
 
 		as_listener(player* player);
+				virtual ~as_listener();	// DH2: 0x79b5c8 (D1); the deleting destructor 0x79b6b4 is compiler-generated
 		virtual bool	get_member(const tu_stringi& name, as_value* val);
 		void add(as_object* listener);
 		void remove(as_object* listener);

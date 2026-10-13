@@ -63,6 +63,7 @@ namespace gameswf
 	//
 	// Global, shared root state for a movie and all its characters.
 	//
+#if 0 /* DH2: replaced by vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp */
 	struct root : public ref_counted
 	{
 		gc_ptr<movie_def_impl>	m_def;
@@ -162,6 +163,14 @@ namespace gameswf
 		void add_keypress_listener(as_object* obj)  { m_keypress_listener.add(obj); }
 		bool remove_keypress_listener(as_object* obj) { return m_keypress_listener.remove(obj); }
 	};
+#else
+	// DH2: the binary's root layout (vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp). That header opens
+	// its own namespace gameswf, so this namespace block is closed around the include.
+}
+#include "vendor-gameswf/gameswf_root.hpp"
+namespace gameswf
+{
+#endif /* DH2: root (gameswf/gameswf_root.h) */
 }
 
 #endif

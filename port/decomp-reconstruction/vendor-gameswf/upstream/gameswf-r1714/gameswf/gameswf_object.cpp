@@ -174,6 +174,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp */
 	// this stuff should be high optimized
 	// therefore we can't use here set_member(...)
 	as_object::as_object(player* player) :
@@ -183,6 +184,7 @@ namespace gameswf
 		// as_c_function has no pointer to player
 //		assert(player);
 	}
+#endif /* DH2 */
 
 	as_object::~as_object()
 	{
@@ -541,6 +543,7 @@ namespace gameswf
 		tabs.resize(tabs.size() - 2);
 	}
 
+	#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp */
 	as_object*	as_object::find_target(const as_value& target)
 	// Find the object referenced by the given target.
 	{
@@ -599,6 +602,7 @@ namespace gameswf
 		}
 		return tar;
 	}
+#endif /* DH2 */
 
 	// mark 'this' as alive
 	void as_object::this_alive()
@@ -692,6 +696,7 @@ namespace gameswf
 		m_instance = info;
 	}
 
+	#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_object-6b7905-0.cpp */
 	as_object* as_object::create_proto(const as_value& constructor)
 	{ 	 
 		m_proto = new as_object(get_player()); 	 
@@ -716,5 +721,6 @@ namespace gameswf
 		set_ctor(constructor);
 		return m_proto.get_ptr();
 	}
+#endif /* DH2 */
 
 }

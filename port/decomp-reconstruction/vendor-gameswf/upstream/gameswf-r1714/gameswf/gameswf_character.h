@@ -25,6 +25,7 @@ namespace gameswf
 	struct root;
 	struct swf_event;
 	struct as_mcloader;
+	struct effect;	// DH2: Gameloft class, not in upstream; only pointers to it are used
 
 	// A character_def is the immutable data representing the template of a
 	// movie element.
@@ -136,6 +137,9 @@ namespace gameswf
 		bool		m_visible;
 		void		(*m_display_callback)(void*);
 		void*		m_display_callback_user_ptr;
+		// DH2: Gameloft fields used by the player instance pools (not in upstream r1714).
+		signed char unk_98;  // DH2: +0x98, class-kind byte read by player::notify_unused_instance()
+		int unk_34;  // DH2: +0x34, set from player +0x30 by player::create_*() (meaning unknown)
 
 		struct drag_state
 		{
@@ -220,11 +224,13 @@ namespace gameswf
 		};
 
 		character(player* player, character* parent, int id);
+		character(player* player, character* parent, int id, int kind);	// DH2: 4-argument constructor (C1 0x754a1c, C2 0x754b28); generic_character passes kind 3. Body in another batch.
 
 		//
 		// Mouse/Button interface.
 		//
 		virtual bool get_topmost_mouse_entity( character * &te, float x, float y) { return false; }
+		virtual bool	hit_test(float x, float y);	// DH2: Gameloft virtual (vtable +0x6c), defined in the batch .cpp
 
 		// The host app uses this to tell the movie where the
 		// user's mouse pointer is.
@@ -353,6 +359,7 @@ namespace gameswf
 			return NULL;
 		}
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_character-670fee-0.cpp */
 		virtual void	move_display_object( int depth,	bool use_cxform, const cxform& color_transform, bool use_matrix, const matrix& mat, float ratio, Uint16 clip_depth, Uint8 blend_mode)
 		{
 		}
@@ -364,6 +371,10 @@ namespace gameswf
 		virtual void	replace_display_object( character* ch, const char* name, int depth, bool use_cxform, const cxform& color_transform, bool use_matrix, const matrix& mat, float ratio, Uint16 clip_depth, Uint8 blend_mode)
 		{
 		}
+#endif /* DH2 */
+		virtual void	move_display_object(int depth, const cxform* color_transform, const matrix* mat, const effect* fx, float ratio, Uint16 clip_depth);	// DH2: Gameloft signature (vtable +0xb8), replaces the upstream overload above
+		virtual void	replace_display_object(Uint16 character_id, const char* name, int depth, const cxform* color_transform, const matrix* mat, const effect* fx, float ratio, Uint16 clip_depth);	// DH2: Gameloft signature (vtable +0xbc)
+		virtual void	replace_display_object(character* ch, const char* name, int depth, const cxform* color_transform, const matrix* mat, const effect* fx, float ratio, Uint16 clip_depth);	// DH2: Gameloft signature (vtable +0xc0)
 
 		virtual void	remove_display_object(int depth, int id)	{}
 
@@ -379,7 +390,12 @@ namespace gameswf
 
 		virtual void	remove_display_object(const tu_string& name) { assert(0); }
 
+		virtual int	get_drag_state(drag_state* ds);	// DH2: 0x754824, vtable slot 0xdc; forwards to the parent (sprite_instance overrides at 0x77e02c)
 		virtual void	stop_drag() { assert(0); }
+		virtual void	set_drag_state(const drag_state& state);	// DH2: Gameloft virtual (vtable +0xe0), defined in the batch .cpp
+		virtual void	recycle(character* parent, int id);  // DH2: vtable +0x64 (slot 25); body is in the character batch
+		virtual void	update_world_matrix();	// DH2: 0x754c34, vtable +0x118; binary returns int, body is in the character batch (-2)
+		virtual void	update_world_cxform();	// DH2: 0x75488c, vtable +0x11c; body is in the character batch (-2)
 //		virtual character*	get_root_interface() { return NULL; }
 		virtual void	call_frame_actions(const as_value& frame_spec) { assert(0); }
 
@@ -393,6 +409,7 @@ namespace gameswf
 
 		// move/scale the movie...
 		virtual void	set_display_viewport(int x0, int y0, int width, int height) {}
+		virtual void	set_display_bounds(int x0, int y0, int x1, int y1);	// DH2: Gameloft virtual (vtable +0xfc), defined in the batch .cpp
 
 		//
 		// external
@@ -447,14 +464,49 @@ namespace gameswf
 
 		int	get_id() const { return m_id; }
 		character*	get_parent() const { return m_parent.get_ptr(); }
+		void	notify_need_advance();	// DH2: 0x7750e8, walks the parent chain; need-advance flag not declared yet
+		virtual void	construct();	// DH2: 0x752d84, empty body; virtual (referenced from the character vtable at 0x98fb38) (batch -1)
+		character*	get_world_cxform_root_change();	// DH2: 0x753e34, nearest-to-root ancestor with m_cxform_changed (batch -1)
+		character*	get_world_matrix_root_change();	// DH2: 0x753ee8, nearest-to-root ancestor with m_matrix_changed (batch -1)
 		void set_parent(character* parent) { m_parent = parent; }  // for extern movie
 		int	get_depth() const { return m_depth; }
 		void	set_depth(int d) { m_depth = d; }
 		const matrix&	get_matrix() const { return m_matrix; }
+		// DH2: Gameloft per-character block gameswf::character::custom (0x6c bytes in the DH2 binary), allocated by set_matrix.
+		// DH2: Only the matrix at +0x20 is named. +0x00..+0x1f (identity colour transform written by its ctor) is not declared.
+		struct custom  // DH2
+		{
+			custom();  // DH2: defined by the batch for gameswf::character::custom::custom() (0x412160)
+			~custom();  // DH2: defined by the batch for gameswf::character::custom::~custom() (0x7533c0), PARTIAL
+			float	unk_0x00[8];  // DH2: +0x00..+0x1f, identity colour transform pattern (1, 0 per channel) written by custom()
+			matrix	m_matrix;  // DH2: +0x20
+			int	unk_0x38;  // DH2: +0x38, written 0 by custom()
+			void*	unk_0x3c;  // DH2: +0x3c, data of an array<filter> (filter not declared); +0x40 count, +0x44 capacity
+			int	unk_0x40;  // DH2: +0x40
+			int	unk_0x44;  // DH2: +0x44
+			Uint8	unk_0x48;  // DH2: +0x48
+			Uint8	pad_0x49[3];  // DH2: +0x49..+0x4b
+			Uint8	unk_0x4c;  // DH2: +0x4c, 1 after custom(); ~custom frees unk_0x58 when this is 0xff
+			Uint8	unk_0x4d;  // DH2: +0x4d
+			Uint8	pad_0x4e[10];  // DH2: +0x4e..+0x57
+			void*	unk_0x58;  // DH2: +0x58, heap pointer freed by ~custom when unk_0x4c is 0xff (host width)
+			unsigned int	unk_0x5c;  // DH2: +0x5c, low 24 bits 0xffffff (top byte: see batch, PARTIAL)
+			int	unk_0x60;  // DH2: +0x60
+			int	unk_0x64;  // DH2: +0x64
+			int	unk_0x68;  // DH2: +0x68
+			Uint8	pad_0x69[3];  // DH2: +0x69..+0x6b
+		};  // DH2
+		custom*	m_custom = nullptr;  // DH2: +0x54, allocated lazily by set_matrix
+		const matrix*	m_local_matrix = nullptr;  // DH2: +0x4c, set to &m_custom->m_matrix by set_matrix; read by update_world_matrix
+		bool	m_matrix_changed = false;  // DH2: +0x99, set by set_matrix; cleared by update_world_matrix
+		bool	m_cxform_changed = false;  // DH2: +0x9a, set by set_cxform; cleared by update_world_cxform (batch -1)
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_character-670fee-0.cpp */
 		void	set_matrix(const matrix& m)
 		{
 			m_matrix = m;
 		}
+#endif /* DH2 */
+		void	set_matrix(const matrix& m);	// DH2: Gameloft body (partial), defined in the batch .cpp
 		const cxform&	get_cxform() const 
 		{ 
 			return m_color_transform; 
@@ -518,7 +570,10 @@ namespace gameswf
 		virtual void get_bound(rect* bound);
 		virtual character_def* get_character_def() { assert(0); return 0; }
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_character-670fee-1.cpp */
 		virtual character*	get_root_movie() const { return m_parent->get_root_movie(); }
+#endif /* DH2 */
+		virtual character*	get_root_movie();	// DH2: 0x7547b4, binary symbol is non-const (_ZN7gameswf9character14get_root_movieEv) (batch -1)
 		
 		// Frame counts in this API are 0-based (unlike ActionScript)
 		virtual int	get_current_frame() const { return -1; }

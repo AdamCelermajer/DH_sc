@@ -15,6 +15,7 @@
 // Allocate in increments of BLOCKSIZE.
 static const int BLOCKSIZE = (1 << 12);
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_membuf-3351d8-0.cpp (membuf::capacity, 256-byte blocks) */
 static int capacity(int size)
 // Compute the buffer capacity corresponding to the given size.
 // Basically round up to the next block size.
@@ -30,6 +31,7 @@ static int capacity(int size)
 
 	return (size + BLOCKSIZE - 1) & ~(BLOCKSIZE - 1);
 }
+#endif /* DH2: capacity */
 
 
 membuf::membuf() :

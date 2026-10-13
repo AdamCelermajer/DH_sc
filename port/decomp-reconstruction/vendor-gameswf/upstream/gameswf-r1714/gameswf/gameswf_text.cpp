@@ -700,11 +700,13 @@ namespace gameswf
 		reset_bounding_box(0, 0);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_edit_text_character-77beb0-0.cpp */
 	edit_text_character::~edit_text_character() 
 	{ 
 		// on_event(event_id::KILLFOCUS) will be executed
 		// during remove_display_object()
 	} 
+#endif
 
 	void edit_text_character::reset_format(as_textformat* tf)
 	{

@@ -147,6 +147,12 @@ public:
 
 	exported_module int	get_error() { return m_error; }
 
+	// DH2: Gameloft member, binary 0x7b6a80. Reads into buf until bytes are in, or the stream ends or fails.
+	// DH2: bytes == -1 means buf->size(). Returns the last step value. Body: vendor-gameswf/src/v1-vendor-gameswf-pack15-a0a47d-0.cpp
+	// DH2: The binary keeps read, eof and error at +0x08, +0x1c and +0x24: one more 4-byte field before the read
+	// DH2: callback than this header. That field is not identified, so it is not declared here.
+	int	read_fully(membuf* buf, int bytes);	// DH2: Gameloft addition, binary 0x7b6a80
+
 	// printf-style convenience function.
 	int	printf(const char* fmt, ...);
 

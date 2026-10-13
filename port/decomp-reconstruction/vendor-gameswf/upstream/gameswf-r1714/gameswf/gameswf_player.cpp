@@ -121,6 +121,7 @@ namespace gameswf
 		return s_standard_method_map[id];
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp */
 	void standard_method_map_init()
 	{
 		// setup builtin methods
@@ -219,10 +220,13 @@ namespace gameswf
 		map->add("addFrameScript", sprite_add_script);
 
 	}
+#endif
+	void standard_method_map_init();  // DH2: defined in vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp
 
 	// Standard property lookup.
 
-	static stringi_hash<as_standard_member>	s_standard_property_map;
+	// DH2: defined in vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp (external linkage, as in the binary).
+	extern stringi_hash<as_standard_member>	s_standard_property_map;
 	void clear_standard_property_map()
 	{
 		s_standard_property_map.clear();
@@ -323,6 +327,7 @@ namespace gameswf
 		s_fscommand_handler = handler;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp */
 	as_standard_member	get_standard_member(const tu_stringi& name)
 	{
 		if (s_standard_property_map.size() == 0)
@@ -376,6 +381,7 @@ namespace gameswf
 
 		return result;
 	}
+#endif
 
 	//
 	// properties by number
@@ -583,6 +589,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp */
 	void	player::action_clear()
 	{
 		if ( 0 == s_player_count )
@@ -590,6 +597,7 @@ namespace gameswf
 			clear_standard_property_map();
 		}
 	}
+#endif /* DH2 */
 
 	as_object* player::get_global() const
 	{
@@ -839,6 +847,7 @@ namespace gameswf
 		m_heap.clear();
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_player-e0b31b-0.cpp */
 	void player::set_as_garbage()
 	{
 		for (hash<gc_ptr<as_object>, bool>::iterator it = m_heap.begin();
@@ -851,6 +860,7 @@ namespace gameswf
 			}
 		}
 	}
+#endif /* DH2 */
 
 	void player::clear_garbage()
 	{

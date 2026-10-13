@@ -67,9 +67,11 @@ namespace gameswf
 		builtin_member("call", as_s_function_call);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp */
 	as_s_function::~as_s_function()
 	{
 	}
+#endif /* DH2 */
 
 	void	as_s_function::operator()(const fn_call& fn)
 	// Dispatch.
@@ -291,6 +293,7 @@ namespace gameswf
 				
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp */
 	as_c_function::as_c_function(player* player, as_c_function_ptr func) :
 		as_function(player),
 		m_func(func)
@@ -298,6 +301,7 @@ namespace gameswf
 		// any function MUST have prototype
 		builtin_member("prototype", new as_object(player));
 	}
+#endif /* DH2 */
 
 	void	as_c_function::operator()(const fn_call& fn)
 	{

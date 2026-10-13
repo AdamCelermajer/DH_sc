@@ -27,9 +27,11 @@ namespace gameswf
 		fn.result->set_string(val ? "true" : "false");
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp */
 	void	as_boolean_valueof(const fn_call& fn)
 	{
 		assert(0);	//TODO
 	}
+#endif
 
 };

@@ -94,12 +94,17 @@ namespace gameswf
 		float	get_kerning_adjustment(int last_code, int this_code) const;
 		float	get_leading() const { return m_leading; }
 		float	get_descent() const { return m_descent; }
+		// DH2: Gameloft additions (batch v1-vendor-gameswf-gameswf_font-a42405-0, bodies in vendor-gameswf/src/).
+		float	get_units_per_em() const;	// DH2: partial; the bitmap and face lookups are stubbed
+		float	get_height() const;	// DH2: partial; the bitmap and face lookups are stubbed
+		void	copy_from(font* src);	// DH2: copies name, flag bytes, ascent, descent, leading, table hint
 		bool	is_define_font3() const { return m_zone_table.size() == 0 ? false : true; }
 
 	private:
 		void	read_code_table(stream* in);
 
 		array<gc_ptr<shape_character_def> >	m_glyphs;
+		Uint8	unk_2c;	// DH2: +0x2c, zeroed by the constructor; no other access in batch v1-vendor-gameswf-gameswf_font-a42405-0
 		tu_string	m_fontname;
 		movie_definition_sub*	m_owning_movie;
 		bool	m_has_layout;
@@ -127,6 +132,7 @@ namespace gameswf
 		float	m_descent;
 		float	m_leading;
 		array<float>	m_advance_table;
+		Uint8	unk_6c;	// DH2: +0x6c, zeroed by the constructor; no other access in batch v1-vendor-gameswf-gameswf_font-a42405-0
 		// @@ we don't seem to use this thing at all, so don't bother keeping it.
 		// array<rect>	m_bounds_table;	// @@ this thing should be optional.
 
@@ -161,6 +167,7 @@ namespace gameswf
 		};
 
 		array<zone_record> m_zone_table;
+		Uint8	unk_84;	// DH2: +0x84, zeroed by the constructor; no other access in batch v1-vendor-gameswf-gameswf_font-a42405-0
 	};
 
 }	// end namespace gameswf

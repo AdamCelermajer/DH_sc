@@ -50,12 +50,14 @@ namespace gameswf
 		return true;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	as_value::as_value(as_object* obj) :
 		m_type(OBJECT),
 		m_object(obj),
 		m_flags(0)
 	{
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 
 	as_value::as_value(as_s_function* func)	:
@@ -65,6 +67,7 @@ namespace gameswf
 		set_as_object(func);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	as_value::as_value(const as_value& getter, const as_value& setter) :
 		m_type(PROPERTY),
 		m_property_target(NULL),
@@ -72,6 +75,7 @@ namespace gameswf
 	{
 		m_property = new as_property(getter, setter);
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 	const char*	as_value::to_string() const
 	// Conversion to string.
@@ -398,6 +402,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	bool	as_value::operator==(const as_value& v) const
 	// Return true if operands are equal.
 	{
@@ -440,6 +445,7 @@ namespace gameswf
 				return false;
 		}
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 	
 	bool	as_value::operator!=(const as_value& v) const
@@ -448,6 +454,7 @@ namespace gameswf
 		return ! (*this == v);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	void	as_value::drop_refs()
 	// Drop any ref counts we have; this happens prior to changing our value.
 	{
@@ -457,6 +464,7 @@ namespace gameswf
 
 		m_flags = 0;
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 	void	as_value::set_property(const as_value& val)
 	{
@@ -509,12 +517,14 @@ namespace gameswf
 		set_double(val);
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	as_value::as_value(int val) :
 		m_type(UNDEFINED),
 		m_flags(0)
 	{
 		set_double(val);
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 	as_value::as_value(double val) :
 		m_type(NUMBER),
@@ -758,19 +768,23 @@ namespace gameswf
 		return false;
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	void	as_value::set_tu_string(const tu_string& str)
 	{
 		drop_refs();
 		m_type = STRING;
 		m_string = str; 
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	void	as_value::set_string(const char* str)
 	{
 		drop_refs();
 		m_type = STRING;
 		m_string = str; 
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	
 	as_value::as_value(const char* str) :
 		m_type(STRING),
@@ -779,6 +793,7 @@ namespace gameswf
 	{
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 	as_value::as_value(const wchar_t* wstr)	:
 		m_type(STRING),
 		m_flags(0)
@@ -786,6 +801,7 @@ namespace gameswf
 		// Encode the string value as UTF-8.
 		tu_string::encode_utf8_from_wchar(&m_string, wstr);
 	}
+#endif /* DH2: v1-vendor-gameswf-gameswf_as_value-794e76-0.cpp */
 
 	as_value::as_value() :
 		m_type(UNDEFINED),

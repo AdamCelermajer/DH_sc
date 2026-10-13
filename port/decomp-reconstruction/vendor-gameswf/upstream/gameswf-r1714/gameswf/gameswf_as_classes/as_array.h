@@ -41,6 +41,10 @@ namespace gameswf
 		exported_module void sort(int options, as_function* compare_function);
 		exported_module int size() const { return m_array.size(); }
 		exported_module void resize(int size) { m_array.resize(size); }
+			exported_module bool	is_index(const tu_stringi& name);	// DH2: 0x79806c, non-const member; the binary never reads this
+			exported_module void	pop(as_value* val);	// DH2: 0x7980cc
+			exported_module virtual void	enumerate(as_environment* env);	// DH2: 0x798bc8, the binary returns int from a push_back; void here
+			exported_module virtual void	this_alive();	// DH2: 0x79839c, override of as_object::this_alive (stub in the batch)
 
 		tu_string m_string_value;
 		array<as_value> m_array;

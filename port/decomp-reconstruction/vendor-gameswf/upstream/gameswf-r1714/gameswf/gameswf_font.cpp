@@ -18,6 +18,7 @@
 
 namespace gameswf
 {
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_font-a42405-0.cpp */
 	font::font(player* player) :
 		character_def(player),
 		m_fontname("Times New Roman"),	// default
@@ -34,6 +35,7 @@ namespace gameswf
 		m_table_hint(0)
 	{
 	}
+#endif /* DH2 */
 
 	font::~font()
 	{

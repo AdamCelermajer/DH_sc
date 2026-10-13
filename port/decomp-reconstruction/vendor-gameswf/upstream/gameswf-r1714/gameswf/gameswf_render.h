@@ -22,6 +22,15 @@ namespace gameswf
 	namespace render
 	{
 		bitmap_info*	create_bitmap_info_empty();
+		// DH2: Gameloft factories (binary 0x7739dc and 0x773a5c). With no render handler they return a bogus_bi.
+		bitmap_info*	create_bitmap_info_native(int w, int h, const membuf* data);  // DH2
+		bitmap_info*	create_bitmap_info_texture(glitch::video::ITexture* texture);  // DH2
+		// DH2: placeholder bitmap for the no-handler paths (binary render::bogus_bi, 0x773974 and 0x773cf8).
+		// DH2: Definitions are in vendor-gameswf/src/v1-vendor-gameswf-pack6-a8bd9d-0.cpp.
+		struct bogus_bi : public bitmap_info  // DH2
+		{
+			~bogus_bi() override;  // DH2
+		};
 		bitmap_info*	create_bitmap_info_alpha(int w, int h, unsigned char* data);
 		bitmap_info*	create_bitmap_info_rgb(image::rgb* im);
 		bitmap_info*	create_bitmap_info_rgba(image::rgba* im);

@@ -61,6 +61,7 @@ namespace gameswf
 		}
 
 		as_c_function(player* player, as_c_function_ptr func);
+		~as_c_function();  // DH2: 0x7d2c44 declared for the prototype release; body in vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp
 
 		// Dispatch.
 		virtual void	operator()(const fn_call& fn);
@@ -103,6 +104,10 @@ namespace gameswf
 		as_s_function(player* player,
 			const action_buffer* ab, int start, const array<with_stack_entry>& with_stack);
 		~as_s_function();
+		// DH2: 0x7d2878 get_member(name, val) tries the builtin table (id 5) before the inherited lookup. Body in
+		// vendor-gameswf/src/v1-vendor-gameswf-pack21-d2e85b-0.cpp.
+		bool get_member(const tu_stringi& name, as_value* val) override;
+		using as_function::get_member;  // DH2: keeps the inherited overloads (get_member(int, ...)) visible
 
 		void	set_is_function2() { m_is_function2 = true; }
 		void	set_local_register_count(uint8 ct) { assert(m_is_function2); m_local_register_count = ct; }

@@ -13,6 +13,7 @@
 
 namespace gameswf
 {
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp */
 	morph2_character_def::morph2_character_def(player* player) :
 		shape_character_def(player),
 		m_shape1(player),
@@ -27,6 +28,7 @@ namespace gameswf
 	morph2_character_def::~morph2_character_def()
 	{
 	}
+#endif /* DH2 */
 
 	void	morph2_character_def::display(character* inst)
 	{

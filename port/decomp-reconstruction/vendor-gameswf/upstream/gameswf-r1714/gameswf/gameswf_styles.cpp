@@ -38,6 +38,7 @@ namespace gameswf
 	//
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack4-6d36ef-0.cpp */
 	fill_style::fill_style() :
 		m_type(0),
 		m_gradient_bitmap_info(0),
@@ -50,6 +51,7 @@ namespace gameswf
 	fill_style::~fill_style()
 	{
 	}
+#endif /* DH2 */
 
 	void	fill_style::read(stream* in, int tag_type, movie_definition_sub* md)
 	{

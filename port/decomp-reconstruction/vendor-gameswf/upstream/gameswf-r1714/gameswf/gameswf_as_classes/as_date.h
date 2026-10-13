@@ -13,6 +13,7 @@
 
 #include "gameswf/gameswf_action.h"	// for as_object
 #include "base/tu_timer.h"
+#include <cstdint>	// DH2: int64_t for as_date::get_time
 
 namespace gameswf
 {
@@ -30,6 +31,10 @@ namespace gameswf
 		}
 
 		as_date(const fn_call& fn);
+
+		// DH2: 0x79d650. The 64-bit time that the tu_datetime base keeps at +0x38. It hides
+		// tu_datetime::get_time() (double). Body: vendor-gameswf/src/v1-vendor-gameswf-pack12-e7eff8-0.cpp
+		int64_t	get_time() const;	// DH2
 	};
 
 }	// end namespace gameswf

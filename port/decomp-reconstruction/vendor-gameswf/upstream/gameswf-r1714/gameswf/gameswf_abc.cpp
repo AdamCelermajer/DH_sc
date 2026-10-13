@@ -13,10 +13,12 @@
 namespace gameswf
 {
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack16-133bd3-0.cpp (empty body, 0x7b7fb0) */
 	void metadata_info::read(stream* in, abc_def* abc)
 	{
 		assert(0&&"todo");
 	}
+#endif /* DH2: metadata_info::read */
 
 	//	traits_info
 	//	{

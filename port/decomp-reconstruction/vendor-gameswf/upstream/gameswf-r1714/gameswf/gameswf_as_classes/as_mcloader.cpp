@@ -110,6 +110,7 @@ namespace gameswf
 		fn.result->set_as_object(new as_mcloader(fn.get_player()));
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack12-e7eff8-0.cpp (0x7a2b54, 0x7a2e0c) */
 	as_mcloader::as_mcloader(player* player) :
 		as_object(player)
 	{
@@ -119,6 +120,7 @@ namespace gameswf
 		builtin_member("unloadClip", as_mcloader_unloadclip);
 		builtin_member("getProgress", as_mcloader_getprogress);
 	}
+#endif /* DH2 */
 
 	as_mcloader::~as_mcloader()
 	{

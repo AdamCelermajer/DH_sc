@@ -45,9 +45,15 @@ namespace gameswf
 			else return as_object::is(class_id);
 		}
 
+		// DH2: binary layout (as_object is 56 bytes): m_keymap +0x38 (28 bytes, KEYCOUNT 223),
+		// m_last_key_pressed +0x54, listener block +0x58 (16 bytes: array part, then a flag at +0x64).
 		Uint8	m_keymap[key::KEYCOUNT / 8 + 1];	// bit-array
 		int	m_last_key_pressed;
+#if 0 /* DH2: replaced by the listener block members below (binary +0x58) */
 		listener m_listeners;
+#endif
+		array< weak_ptr<as_object> >	m_listener_items;	// DH2: +0x58, listener block array part (12 bytes)
+		bool	unk_64;	// DH2: +0x64, listener block flag; the binary never releases it
 
 		as_key(player* player);
 

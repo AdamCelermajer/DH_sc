@@ -9,6 +9,8 @@
 #ifndef GAMESWF_AS_GLOBAL_H
 #define GAMESWF_AS_GLOBAL_H
 
+#include "gameswf/gameswf_object.h"	// DH2: makes this header self-contained (as_object, as_value, array, hash, fn_call)
+
 namespace gameswf
 {
 	void	as_global_trace(const fn_call& fn);
@@ -23,12 +25,18 @@ namespace gameswf
 	// for setInterval and setTimeout
 	struct as_timer : public as_object
 	{
+		// DH2: binary field offsets (32-bit): m_interval +0x38, m_this_ptr +0x3c, m_func +0x48,
+		// m_time_remainder +0x54, m_arg +0x58 (buffer, size, capacity), m_do_once +0x64.
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_as_timer-8a0e04-0.cpp */
 		weak_ptr<as_object> m_this_ptr;
 		weak_ptr<as_function> m_func;
-		float m_interval;	// sec
-		float m_time_remainder;
-		array<as_value> m_arg;
-		bool m_do_once;
+#endif /* DH2 */
+		float m_interval;	// sec. DH2: +0x38, first member after the as_object base (the constructor writes it first)
+		as_value m_this_ptr;	// DH2: +0x3c, object the timer calls the function on (undefined when none)
+		as_value m_func;	// DH2: +0x48, the function value called by advance()
+		float m_time_remainder;	// DH2: +0x54, after m_func (declaration order follows the binary)
+		array<as_value> m_arg;	// DH2: +0x58, buffer, size, capacity
+		bool m_do_once;	// DH2: +0x64
 
 		// Unique id of a gameswf resource
 		enum { m_class_id = AS_TIMER };
@@ -46,7 +54,22 @@ namespace gameswf
 		{
 		}
 
-		virtual void advance(float delta_time);
+		// DH2: Gameloft constructor, C1 0x7a7064 and C2 0x7a6f24 (same body). Takes the target and the
+		// function as values, the interval in milliseconds, and copies the call arguments from
+		// first_arg_index on. Registers the timer with the root listeners. Body in the batch .cpp.
+		as_timer(as_value& target, as_value& func, double interval_ms, const fn_call& fn, int first_arg_index);
+
+		// DH2: complete-object destructor, D1 0x7a6e48 and D2 0x7a6ec4 (same body). The deleting
+		// destructor D0 0x7a6ea8 is compiler-generated. Body in the batch .cpp.
+		virtual ~as_timer();
+
+		// DH2: 0x7a6da8. Removes the timer from the root listener list. Body in the batch .cpp.
+		void clear();
+
+		// DH2: 0x7a6b94, virtual clear_refs (vtable +0x40). Body in the batch .cpp.
+		virtual void clear_refs(hash<as_object*, bool>* visited_objects, as_object* this_ptr);
+
+		virtual void advance(float delta_time);	// DH2: 0x7a71a4. Body in the batch .cpp (upstream definition is #if 0 in as_global.cpp)
 	};
 
 

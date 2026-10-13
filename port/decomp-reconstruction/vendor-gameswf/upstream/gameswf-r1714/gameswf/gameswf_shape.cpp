@@ -340,11 +340,13 @@ namespace gameswf
 	template<class T>
 	void	write_le(tu_file* out, T value);
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp */
 	template<>
 	void	write_le<float>(tu_file* out, float value)
 	{
 		out->write_float32(value);
 	}
+#endif
 
 	template<>
 	void	write_le<Sint16>(tu_file* out, Sint16 value)
@@ -355,11 +357,13 @@ namespace gameswf
 	template<class T>
 	T	read_le(tu_file* in);
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp */
 	template<>
 	float	read_le<float>(tu_file* in)
 	{
 		return in->read_float32();
 	}
+#endif
 
 	template<>
 	Sint16    read_le<Sint16>(tu_file* in)
@@ -423,10 +427,12 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack7-2f63b3-0.cpp (mesh::add_triangle; growth rule differs) */
 	void mesh::add_triangle(const coord_component pts[6])
 	{
 		m_triangle_list.append(pts, 6);
 	}
+#endif
 
 
 	void	mesh::display(const base_fill_style& style, float ratio, render_handler::bitmap_blend_mode bm) const
@@ -673,6 +679,7 @@ namespace gameswf
 	{
 	}
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack7-2f63b3-0.cpp (mesh_set::mesh_set(tesselating_shape const*, float)) */
 	mesh_set::mesh_set(const tesselate::tesselating_shape* sh, float error_tolerance)
 	// Tesselate the shape's paths into a different mesh for each fill style.
 		:
@@ -822,6 +829,7 @@ namespace gameswf
 
 		// triangles should be collected now into the meshes for each fill style.
 	}
+#endif
 
 
 	mesh_set::~mesh_set()
@@ -1050,14 +1058,17 @@ namespace gameswf
 	//
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_shape_character_def-7e2b97-0.cpp */
 	shape_character_def::shape_character_def(player* player) :
 		character_def(player),
 		m_uses_nonscaling_strokes(false),
 		m_uses_scaling_strokes(false)
 	{
 	}
+#endif
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf_shape_character_def-7e2b97-0.cpp */
 	shape_character_def::~shape_character_def()
 	{
 		// Free our mesh_sets.
@@ -1066,6 +1077,7 @@ namespace gameswf
 			delete m_cached_meshes[i];
 		}
 	}
+#endif
 
 	const shape_character_def &     shape_character_def::operator =( const shape_character_def & def )
 	{
@@ -1602,6 +1614,7 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp */
 	static int	sort_by_decreasing_error(const void* A, const void* B)
 	{
 		const mesh_set*	a = *(const mesh_set**) A;
@@ -1620,6 +1633,8 @@ namespace gameswf
 			return 0;
 		}
 	}
+#endif
+	int sort_by_decreasing_error(const void* A, const void* B);  // DH2: defined in vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp
 
 
 	void	shape_character_def::sort_and_clean_meshes() const

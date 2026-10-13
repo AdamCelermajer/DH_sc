@@ -57,10 +57,12 @@ namespace gameswf
 		set_ctor(as_global_movieclip_ctor);
 	}
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp */
 	sprite_instance::~sprite_instance()
 	{
 		delete m_script;
 	}
+#endif /* DH2 */
 
 	bool sprite_instance::has_keypress_event()
 	{
@@ -480,6 +482,7 @@ namespace gameswf
 		}
 	}
 
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp */
 	void	sprite_instance::do_actions()
 	// Take care of this frame's actions.
 	{
@@ -497,6 +500,7 @@ namespace gameswf
 			m_frame_script = NULL;
 		}
 	}
+#endif /* DH2 */
 
 	void	sprite_instance::set_frame_script(int frame)
 	{
@@ -536,6 +540,7 @@ namespace gameswf
 
 	// Set the sprite state at the specified frame number.
 	// 0-based frame numbers!!  (in contrast to ActionScript and Flash MX)
+#if 0 /* DH2: replaced by v1-vendor-gameswf-gameswf_sprite_instance-d5206d-1.cpp */
 	void sprite_instance::goto_frame(int target_frame_number)
 	{
 		//default property is to stop on goto frame
@@ -572,6 +577,7 @@ namespace gameswf
 		// We do too.
 		m_goto_frame_action_list = m_action_list;
 	}
+#endif /* DH2 */
 
 
 	// Look up the labeled frame, and jump to it.
