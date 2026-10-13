@@ -16,6 +16,7 @@ void check(bool actual, bool expected, const char* message) {
 
 int main() {
     using namespace dh2::player_gameplay_audio;
+    auto pga_seed_events=[]{EventPicker::instance().seed(1);};
     std::string cue;
     constexpr char chain_lightning_cue[] = "sfx_skill_mage_thunder_braid_add_2";
 
@@ -76,8 +77,13 @@ int main() {
     check(enqueue_play(chain_lightning_cue,sizeof(chain_lightning_cue)-1,0x11,true,80),true,
           "catalogued looping/fade-in gameplay sound is accepted");
     check(consume(cue),true,"looping sound reaches playback");
-    check(cue=="dh2fx,play,17,118,80,1,sfx_skill_mage_thunder_braid_add_2.wav",true,
-          "source loop and millisecond fade are preserved");
+    check(cue=="dh2fx,play,17,118,80,0,sfx_skill_mage_thunder_braid_add_2.wav",true,
+          "millisecond fade is preserved and the Sounds.xml loop=no flag overrides the caller's loop");
+    constexpr char loop_cue[]="sfx_skill_mage_thunder_braid_loop";
+    check(enqueue_play(loop_cue,sizeof(loop_cue)-1,0x11,false,0)&&consume(cue)&&
+          cue=="dh2fx,play,17,"+std::to_string(find_label(loop_cue,sizeof(loop_cue)-1)->uid)+
+              ",0,1,sfx_skill_mage_thunder_braid_loop.wav",true,
+          "a Sounds.xml loop=yes sound loops even when the caller passed false (Vox::Play uses the XML flag)");
     check(enqueue("sfx_unmapped_enemy_grunt", 22, false), false,
           "unmapped source labels remain fail-closed");
     check(consume(cue), false, "rejected cues never enter the playback queue");
@@ -88,9 +94,9 @@ int main() {
           "second owner can play the same sound ID");
     check(enqueue_stop(chain_lightning_cue,sizeof(chain_lightning_cue)-1,0x11,200.75f),true,
           "first owner can stop its sound with a fade");
-    check(consume(cue)&&cue=="dh2fx,play,17,118,0,1,sfx_skill_mage_thunder_braid_add_2.wav",true,
+    check(consume(cue)&&cue=="dh2fx,play,17,118,0,0,sfx_skill_mage_thunder_braid_add_2.wav",true,
           "first owner's start is delivered");
-    check(consume(cue)&&cue=="dh2fx,play,34,118,0,1,sfx_skill_mage_thunder_braid_add_2.wav",true,
+    check(consume(cue)&&cue=="dh2fx,play,34,118,0,0,sfx_skill_mage_thunder_braid_add_2.wav",true,
           "second owner's start is delivered independently");
     check(consume(cue)&&cue=="dh2fx,stop,17,118,200",true,
           "stop retains only its owner's ID and truncated source fade milliseconds");
@@ -188,9 +194,33 @@ int main() {
           "CharSounds source ID routes into the existing positional queue");
     check(consume(cue)&&cue=="dh2fx,play,68,50,0,0,sfx_character_death.wav,1,1465,2930",true,
           "spatial bridge sends resolved sound-pack UID and packaged PCM file");
-    check(enqueue_spatial_source_sound(27,0x44,false,0,spatial),false,
-          "unmapped CharSounds IDs fail closed");
-    check(consume(cue),false,"unknown source IDs never reach playback");
+    spatial.sound_id=7;
+    check(enqueue_spatial_source_sound(7,0x44,false,0,spatial),false,
+          "source rows whose PCM is not in the cache (BalrogAttack) fail closed");
+    check(consume(cue),false,"unavailable source IDs never reach playback");
+    check(source_row_without_pcm(7)&&source_row_without_pcm(56)&&!source_row_without_pcm(28)&&
+          !source_row_without_pcm(256)&&!source_row_without_pcm(1000)&&
+          !source_row_without_pcm(0xffff),true,
+          "door/container producers treat only valid rows without PCM as silent Play3D no-ops");
+    spatial.sound_id=27;
+    check(enqueue_spatial_source_sound(27,0x44,false,0,spatial)&&consume(cue)&&
+          cue=="dh2fx,play,68,91,0,0,sfx_faerie_lightning_medium.wav,1,1465,2930",true,
+          "extended catalog rows (CelestLightningSpell) route through the same positional queue");
+    spatial.sound_id=166;
+    check(enqueue_spatial_source_sound(166,0x44,false,0,spatial)&&consume(cue)&&
+          cue=="dh2fx,play,68,10,0,0,sfx_quest_new.wav,1,16384,16384",true,
+          "non-positional Sounds.xml groups are centred without distance gain");
+    spatial.sound_id=256;
+    pga_seed_events();
+    check(enqueue_spatial_source_sound(256,0x44,false,0,spatial)&&consume(cue)&&
+          cue.rfind("dh2fx,play,68,",0)==0&&cue.find(",sfx_fs_walk_grass_")!=std::string::npos,true,
+          "SDD event rows (env_fs_walk_grass) resolve to one of their staged members");
+    check(enqueue_source_menu_sound("QuestNew")==MenuSoundResultV1::queued&&consume(cue)&&
+          cue=="dh2fx,play,0,10,0,0,sfx_quest_new.wav",true,
+          "NativePlaySoundFX names play 2D through the shared queue");
+    check(enqueue_source_menu_sound("BalrogAttack")==MenuSoundResultV1::unavailable&&
+          enqueue_source_menu_sound("NoSuchSound")==MenuSoundResultV1::unknown&&!consume(cue),true,
+          "unavailable and unknown NativePlaySoundFX names queue nothing");
 
     {
         std::lock_guard<std::mutex> lock(queue_mutex());

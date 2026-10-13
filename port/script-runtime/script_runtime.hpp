@@ -179,6 +179,11 @@ struct SpawnServices {
     int (*host_command)(void*, const dh2_script_command*, uintptr_t* handle);
     // 1 while the command still blocks the task, 0 when done, <0 failure.
     int (*host_command_blocking)(void*, uintptr_t handle, uint32_t command_id);
+    // Script_PlayCamera::IsBlocking (0x459370): with the command's second field
+    // set it blocks while CameraLevel+132 (an AnimSetController clip started by
+    // CameraLevel::PlayAnim is still running) is nonzero. 1 active, 0 idle,
+    // <0 failure; absent means the camera never blocks.
+    int (*camera_active)(void*);
 };
 
 struct Task {
@@ -205,6 +210,7 @@ struct Task {
     uintptr_t door_identity;
     uint32_t door_command_id;
     uint8_t waiting_for_host;
+    uint8_t waiting_for_camera;
     uintptr_t host_handle;
     uint32_t host_command_id;
 };
@@ -219,6 +225,11 @@ struct Runtime {
     uint64_t next_task_ticket;
     Event events[MAX_EVENTS];
     uint32_t event_count;
+    // The diagnostic log is bounded. When it is full the oldest half is
+    // discarded (the original ScriptManager keeps no event log, so a long
+    // session must never fail on it); event_serial counts every event ever
+    // emitted so a consumer can find the entries it has not seen yet.
+    uint64_t event_serial;
     Options options;
     uint64_t time_ms;
     int32_t trigger_count;

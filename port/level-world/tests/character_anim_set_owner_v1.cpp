@@ -91,6 +91,30 @@ int main() {
     assert(register_faery_anim_set(visual, visual.character, animations, skills,
                                    0, -1, effects, error) == Result::already_registered);
     assert(effects_log.events.size() == 4);
+
+    // CharAnimator::ANIM_AddAnimDictToSet (Script_PlayActorAnim::Init): a new
+    // AnimDict joins the set keyed by id alone, a known one only records the
+    // script naming, a negative id is the source no-op.
+    {
+        bool added = true;
+        assert(add_animation_dictionary(visual.anim_set, visual.character, -1, added, error) ==
+               Result::already_registered && !added);
+        assert(add_animation_dictionary(visual.anim_set, visual.character, 377, added, error) ==
+               Result::registered && added);
+        assert(visual.anim_set.registrations.back().kind == RegistrationKind::added_dictionary);
+        assert(visual.anim_set.registrations.back().animation_dictionary_id == 377);
+        assert(add_animation_dictionary(visual.anim_set, visual.character, 377, added, error) ==
+               Result::already_registered && !added);
+        const auto before = visual.anim_set.registrations.size();
+        assert(add_animation_dictionary(visual.anim_set, visual.character, 30, added, error) ==
+               Result::already_registered && !added);
+        assert(visual.anim_set.registrations.size() == before + 1);
+        assert(add_animation_dictionary(visual.anim_set, 0x99, 378, added, error) ==
+               Result::identity_mismatch);
+        auto empty = AnimSetState{};
+        assert(add_animation_dictionary(empty, visual.character, 378, added, error) ==
+               Result::identity_mismatch);
+    }
     assert(retire(visual, visual.character));
     assert(visual.anim_set.phase == Phase::empty);
 

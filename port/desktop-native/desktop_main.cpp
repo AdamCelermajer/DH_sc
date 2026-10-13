@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <map>
@@ -69,9 +70,24 @@ struct Options {
     std::uint64_t return_delay = 240;
     // --enemy-census-at N (repeatable): log the Monster census at rendered frame N.
     std::vector<std::uint64_t> census_frames;
+    // --start-script NAME[@N] (repeatable): start the named Level pyscript on the
+    // Level's ScriptManager at rendered frame N (default 200).
+    struct ScriptStart {std::string name; std::uint64_t frame;};
+    std::vector<ScriptStart> script_starts;
+    // --flush-dialogs: while a level script holds the controllers (LockCharacter
+    // "All"), flush its dialogs every 20 frames like the player's taps would, so
+    // an unattended run is not parked behind a cutscene such as Swamp_Intro.
+    bool flush_dialogs = false;
+    // --play-anim TARGET:DICT[:DICT2][:wait][@N] (repeatable): Character::
+    // _RegisterAnim/_PlayAnim on the Player ("player") or a named Monster.
+    struct PlayAnim {std::string target, dict, second; bool wait; std::uint64_t frame;};
+    std::vector<PlayAnim> play_anims;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
+    // touch-kill: move-kill, but the stick and the attack button are two fingers
+    // on the authored HUD (the Android MotionEvent entry), held together.
+    bool hud_touch_scenario = false;
     // Verification probes (faery-follow / faery-skill / skill-matrix). They use
     // only public renderer/UI entries and own no gameplay state.
     bool faery_follow_scenario = false;
@@ -86,6 +102,31 @@ struct Options {
     // fixture (the existing nonlethal source health kernel) so one Player blow kills it.
     bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false,
          boss_weaken = false;
+    // boss-fight keeps running this many frames after the boss dies (the boss
+    // outro scripts, quest completion and rewards run in them).
+    std::uint64_t post_death_frames = 180;
+    // --boss-natural: do not spawn the boss by hand. The Player is placed at the
+    // arena approach (--boss-entry X,Y,Z, default per level row) and walks into the
+    // authored intro TriggerZone (SWAMP _prim_TriggerZone_17 -> Swamp_Serpent_Intro);
+    // on DARKWOOD the Dark Queen's intro is a Quest::SetState(5) script
+    // (HG2_boss_intro), started the way Quest::ExecScript does. The scenario then
+    // follows the running Level scripts until the boss leaves Limbus.
+    bool boss_natural = false, boss_entry_given = false;
+    // --boss-summon-trap NAME: once the fight is running, the boss owns a TimerTraps
+    // member NAME (for example SwampkingSteamCloud) summoned at the Player's feet.
+    std::string boss_summon_trap;
+    // --boss-summon-ally NAME: once the fight is running, the Player summons the
+    // CharacterTable member NAME (for example RisenZombie) beside itself.
+    std::string boss_summon_ally;
+    // --boss-refill: development fixture that tops the Player's HP back up to Max_HP
+    // once per second so hazards with long lifetimes (TimerTrap clouds) can be observed.
+    bool boss_refill = false;
+    int boss_refill_hp = 0;  // --boss-refill-hp N: also raises Max_HP to N
+    std::array<float, 3> boss_entry{};
+    // Distance (planar) from the Player to the intro trigger centre / intro script name.
+    std::string boss_intro_script;
+    std::array<float, 3> boss_trigger{};
+    bool boss_trigger_given = false;
     std::string boss_name;
     std::array<float, 3> boss_offset{};
     // Planar distance from the boss at which the Player is placed (the direction
@@ -109,9 +150,21 @@ struct Options {
     double follow_exit_entry = 0.0;
     bool probe_scenario() const {
         return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario ||
-               boss_fight_scenario;
+               boss_fight_scenario || talk_npc_scenario || enter_zone_scenario;
     }
+    // talk-npc: stand the Player next to a named quest-giver Character and press the
+    // authored HUD attack button (Character::Interact on the selected NPC); the run
+    // follows quest `watch_quest` until it has left Available. enter-zone: stand the
+    // Player inside a named QuestMoveInZone volume instead.
+    bool talk_npc_scenario = false, enter_zone_scenario = false;
+    std::string npc_name = "_prim_NPC_LizBlood", zone_name = "_prim_WitchQuestStart";
+    float npc_distance = 150.0f;
+    std::int32_t watch_quest = -1;
     bool tutorial_potion_scenario = false;
+    // first-kill-ui: move-kill on a fresh SWAMP profile where every dialog a script
+    // starts (tutorials, quest updates) is dismissed by a real touch on the
+    // authored DialogBox, never flushed from the queue.
+    bool first_kill_ui_scenario = false;
 };
 
 Options parse(int argc, char** argv) {
@@ -138,7 +191,35 @@ Options parse(int argc, char** argv) {
             options.boss_offset_given = true;
         }
         else if (arg == "--boss-passive") options.boss_passive = true;
+        else if (arg == "--boss-natural") options.boss_natural = true;
+        else if (arg == "--boss-refill") options.boss_refill = true;
+        else if (arg == "--boss-refill-hp") {
+            options.boss_refill = true;
+            options.boss_refill_hp = std::stoi(value("--boss-refill-hp"));
+        }
+        else if (arg == "--boss-summon-trap") options.boss_summon_trap = value("--boss-summon-trap");
+        else if (arg == "--boss-summon-ally") options.boss_summon_ally = value("--boss-summon-ally");
+        else if (arg == "--boss-intro") options.boss_intro_script = value("--boss-intro");
+        else if (arg == "--boss-trigger") {
+            const auto text = value("--boss-trigger");
+            if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_trigger[0], &options.boss_trigger[1],
+                            &options.boss_trigger[2]) != 3)
+                throw std::runtime_error("--boss-trigger expects X,Y,Z");
+            options.boss_trigger_given = true;
+        }
+        else if (arg == "--boss-entry") {
+            const auto text = value("--boss-entry");
+            if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_entry[0], &options.boss_entry[1],
+                            &options.boss_entry[2]) != 3)
+                throw std::runtime_error("--boss-entry expects X,Y,Z");
+            options.boss_entry_given = true;
+        }
         else if (arg == "--boss-weaken") options.boss_weaken = true;
+        else if (arg == "--npc") options.npc_name = value("--npc");
+        else if (arg == "--npc-distance") options.npc_distance = std::stof(value("--npc-distance"));
+        else if (arg == "--zone") options.zone_name = value("--zone");
+        else if (arg == "--watch-quest") options.watch_quest = std::stoi(value("--watch-quest"));
+        else if (arg == "--post-death-frames") options.post_death_frames = std::stoull(value("--post-death-frames"));
         else if (arg == "--boss-distance") options.boss_distance = std::stof(value("--boss-distance"));
         else if (arg == "--runtime-dir") options.runtime = value("--runtime-dir");
         else if (arg == "--level-row") {
@@ -174,9 +255,39 @@ Options parse(int argc, char** argv) {
         else if (arg == "--return-to-origin") options.return_entry = std::stoi(value("--return-to-origin"));
         else if (arg == "--return-delay") options.return_delay = std::stoull(value("--return-delay"));
         else if (arg == "--enemy-census-at") options.census_frames.push_back(std::stoull(value("--enemy-census-at")));
+        else if (arg == "--start-script") {
+            std::string spec = value("--start-script");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            options.script_starts.push_back({spec, frame});
+        }
+        else if (arg == "--play-anim") {
+            std::string spec = value("--play-anim");
+            std::uint64_t frame = 200;
+            if (const auto at = spec.rfind('@'); at != std::string::npos) {
+                frame = std::stoull(spec.substr(at + 1));
+                spec.resize(at);
+            }
+            std::vector<std::string> parts;
+            for (std::size_t begin = 0;;) {
+                const auto colon = spec.find(':', begin);
+                parts.push_back(spec.substr(begin, colon == std::string::npos ? colon : colon - begin));
+                if (colon == std::string::npos) break;
+                begin = colon + 1;
+            }
+            bool wait = false;
+            if (!parts.empty() && parts.back() == "wait") {wait = true; parts.pop_back();}
+            if (parts.size() < 2 || parts.size() > 3)
+                throw std::runtime_error("--play-anim expects TARGET:DICT[:DICT2][:wait][@FRAME]");
+            options.play_anims.push_back({parts[0], parts[1], parts.size() == 3 ? parts[2] : std::string(), wait, frame});
+        }
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
+        else if (arg == "--flush-dialogs") options.flush_dialogs = true;
         else if (arg == "--hud-tap-xy") {
             const auto xy = value("--hud-tap-xy");
             const auto comma = xy.find(',');
@@ -196,12 +307,19 @@ Options parse(int argc, char** argv) {
             else if (scenario == "move-defend") options.movement_defend_scenario = true;
             else if (scenario == "tutorial-potion")
                 options.movement_defend_scenario = options.tutorial_potion_scenario = true;
+            else if (scenario == "first-kill-ui")
+                options.movement_attack_scenario = options.movement_kill_scenario =
+                    options.first_kill_ui_scenario = true;
             else if (scenario == "skill-kill")
                 options.movement_attack_scenario = options.movement_kill_scenario = options.skill_kill_scenario = true;
+            else if (scenario == "touch-kill")
+                options.movement_attack_scenario = options.movement_kill_scenario = options.hud_touch_scenario = true;
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
             else if (scenario == "boss-fight") options.boss_fight_scenario = true;
+            else if (scenario == "talk-npc") options.talk_npc_scenario = true;
+            else if (scenario == "enter-zone") options.enter_zone_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -229,17 +347,24 @@ Options parse(int argc, char** argv) {
                          "  --return-to-origin E  after --transition-to arrives, go back to the --level-row level at entry E (A -> B -> A) and log enemy censuses\n"
                          "  --return-delay N      frames to wait in the --transition-to destination before returning (default 240)\n"
                          "  --enemy-census-at N   log every materialized Monster and the dead ones at rendered frame N (repeatable)\n"
+                         "  --start-script NAME[@N] start the named Level pyscript (e.g. Swamp_Intro) on the Level ScriptManager at frame N (default 200)\n"
+                         "  --flush-dialogs     accepted for compatibility: gameplay scenarios flush authored cutscene dialogs every 20 frames by default (first-kill-ui excepted)\n"
+                         "  --play-anim TARGET:DICT[:DICT2][:wait][@N] run Character::_RegisterAnim/_PlayAnim (AnimDict names) on 'player' or a Monster name at frame N\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
                          "  --scenario move-kill   steer to enemies, attack until kills, then walk onto dropped loot\n"
                          "  --scenario move-defend approach enemies without attacking; verify damage, death and Continue revive\n"
                          "  --scenario tutorial-potion move-defend on SWAMP; verify HP <= half starts cinematic_Tuto_potionUse once\n"
+                         "  --scenario touch-kill  move-kill driven through the HUD: a held joystick finger steers, a second finger holds the attack button while the stick stays down\n"
+                         "  --scenario first-kill-ui move-kill on a fresh SWAMP profile; script dialogs are dismissed by touching the DialogBox (no flush); fails if the Player stays locked\n"
                          "  --scenario skill-kill  move-kill, but in melee range uses the HUD skill slot 0 instead of basic attacks\n"
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
+                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] [--post-death-frames N] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
                          "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
+                         "  --scenario boss-fight --boss-natural [--boss-entry X,Y,Z] do not spawn: walk into the authored intro trigger (SWAMP) or start the quest-state intro (DARKWOOD), follow the intro script until the boss is active, then fight\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
                          "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
@@ -255,10 +380,15 @@ Options parse(int argc, char** argv) {
         if (options.level_row < 0) options.level_row = 41;
         if (!frames_supplied) options.frames = 3000;
     }
+    if (options.first_kill_ui_scenario) {
+        if (options.level_row < 0) options.level_row = 41;
+        if (!frames_supplied) options.frames = 4500;
+    }
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
         unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
-        unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario);
+        unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario) +
+        unsigned(options.talk_npc_scenario) + unsigned(options.enter_zone_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
     if (options.return_entry >= 0 &&
         (options.transition_to.empty() || options.level_row < 0 ||
@@ -276,10 +406,41 @@ Options parse(int argc, char** argv) {
             if (options.boss_name.empty()) {
                 if (options.level_row == 41) options.boss_name = "_prim_Boss_SwampKing_01";
                 else if (options.level_row == 4) options.boss_name = "_prim_DarkQueen";
+                else if (options.level_row == 8) options.boss_name = "Madruk_A";
                 else throw std::runtime_error("boss-fight needs --boss NAME for this level row");
             }
+            if (options.boss_natural) {
+                if (options.level_row == 41) {
+                    // _prim_TriggerZone_17 (module 7 record 0): centre (-15437.4, 12000, -337.8),
+                    // dimensions 200 x scale (1.91, 8.55, 6.11). The Player starts at the
+                    // arena's PrinceSpot and walks east into it.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "Swamp_Serpent_Intro";
+                    if (!options.boss_trigger_given) {
+                        options.boss_trigger = {-15437.4f, 12000.0f, -114.0f};
+                        options.boss_trigger_given = true;
+                    }
+                    if (!options.boss_entry_given) {
+                        options.boss_entry = {-18985.0f, 11070.0f, -94.0f};
+                        options.boss_entry_given = true;
+                    }
+                } else if (options.level_row == 8) {
+                    // DARK_DUNGEON_TEMPLE_BOSSROOM _prim_TriggerZone -> Intro_boss, half
+                    // extents (1162, 556, 100). The entry SpawnPoint's script
+                    // (move_TriggerZone) puts the zone on _prim_Waypoint_Fix
+                    // (0, -1120, 1003.8), 730 units north of the Player's start.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "Intro_boss";
+                    if (!options.boss_trigger_given) {
+                        options.boss_trigger = {0.0f, -1120.0f, 1004.0f};
+                        options.boss_trigger_given = true;
+                    }
+                } else if (options.level_row == 4) {
+                    // The Dark Queen's HG2_boss_intro is the Hell Gate quest's slot-10 script.
+                    if (options.boss_intro_script.empty()) options.boss_intro_script = "HG2_boss_intro";
+                }
+            }
             if (!options.boss_offset_given) {
-                if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
+                if (options.level_row == 8) options.boss_offset = {-500.0f, 0.0f, 20.0f};
+                else if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
                 else if (options.level_row == 4) options.boss_offset = {-582.6f, -498.5f, 20.0f};
                 else throw std::runtime_error("boss-fight needs --boss-offset X,Y,Z for this level row");
             }
@@ -384,6 +545,79 @@ void print_combat_receipt_delta(const CombatReceiptSnapshot& before,
     std::cout << " (UI slots 0..9)\n";
 }
 
+// --scenario touch-kill: steering drives the authored HUD joystick finger through
+// this hook instead of calling move_axis. A (0, 0) request keeps the finger held.
+std::function<void(float, float)> g_scenario_axis;
+void scenario_move_axis(float x, float y) {
+    if (g_scenario_axis) g_scenario_axis(x, y);
+    else model_renderer::move_axis(x, y);
+}
+
+// The Android MotionEvent bridge hands each pointer to OriginalUiSession::pointer
+// with a source finger index. This drives the same entry: finger 0 holds the
+// authored joystick, finger 1 holds the authored attack button, both at once.
+struct HudTouchDriver {
+    static constexpr unsigned kAttackControl = 7;    // ui::AuthoredHudControlV1::attack
+    static constexpr unsigned kJoystickControl = 8;  // ui::AuthoredHudControlV1::joystick
+    static constexpr unsigned kStickFinger = 0, kAttackFinger = 1;
+    dh2::android_ui::OriginalUiSession* session = nullptr;
+    SDL_Window* window = nullptr;
+    bool stick_down = false, attack_down = false, camera_down = false;
+    float stick_x = 0, stick_y = 0, attack_x = 0, attack_y = 0, camera_x = 0, camera_y = 0;
+    unsigned camera_drags = 0;
+    static constexpr unsigned kCameraFinger = 2;
+    // A free finger on the world while fingers 0 and 1 hold the HUD: it alone pans the camera.
+    bool drag_camera_finger(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!camera_down) {
+            camera_x = 0.55f * float(width);
+            camera_y = 0.3f * float(height);
+            if (!session->pointer(camera_x, camera_y, 0, kCameraFinger, error)) return false;
+            camera_down = true;
+            return true;
+        }
+        camera_y += (camera_drags++ % 2 ? -1.0f : 1.0f) * 0.04f * float(height);
+        return session->pointer(camera_x, camera_y, 2, kCameraFinger, error);
+    }
+
+    void size(int& width, int& height) const { SDL_GetWindowSizeInPixels(window, &width, &height); }
+    bool drive_stick(float axis_x, float axis_y, std::string& error) {
+        if (axis_x == 0.0f && axis_y == 0.0f) return true;
+        int width = 1, height = 1;
+        size(width, height);
+        if (!stick_down) {
+            if (!session->hud_control_screen_point(kJoystickControl, width, height, stick_x, stick_y, error))
+                return false;
+            if (!session->pointer(stick_x, stick_y, 0, kStickFinger, error)) return false;
+            stick_down = true;
+            std::cout << "Scenario touch | finger 0 pressed the HUD joystick at " << stick_x << ',' << stick_y << '\n';
+        }
+        // MovementControl axes are x right, y up; screen y points down. 0.2 of the
+        // height is past the authored stick radius, so the drag is at full magnitude.
+        const float reach = 0.2f * float(height);
+        return session->pointer(stick_x + axis_x * reach, stick_y - axis_y * reach, 2, kStickFinger, error);
+    }
+    bool press_attack(std::string& error) {
+        int width = 1, height = 1;
+        size(width, height);
+        if (!session->hud_control_screen_point(kAttackControl, width, height, attack_x, attack_y, error))
+            return false;
+        if (!session->pointer(attack_x, attack_y, 0, kAttackFinger, error)) return false;
+        attack_down = true;
+        return true;
+    }
+    bool release_all(std::string& error) {
+        bool ok = true;
+        if (camera_down) ok = session->pointer(camera_x, camera_y, 1, kCameraFinger, error) && ok;
+        camera_down = false;
+        if (attack_down) ok = session->pointer(attack_x, attack_y, 1, kAttackFinger, error) && ok;
+        if (stick_down) ok = session->pointer(stick_x, stick_y, 1, kStickFinger, error) && ok;
+        attack_down = stick_down = false;
+        return ok;
+    }
+};
+
 bool steer_toward_nearest_enemy() {
     model_renderer::GameplayPoseSnapshotV1 pose;
     std::string error;
@@ -416,7 +650,7 @@ bool steer_toward_nearest_enemy() {
     if (!std::isfinite(distance))
         throw std::runtime_error("Selected-floor route produced a non-finite waypoint");
     if (distance <= 48.0f) {
-        model_renderer::move_axis(0.0f, 0.0f);
+        scenario_move_axis(0.0f, 0.0f);
         return true;
     }
     std::cout << "Scenario steering toward source enemy " << pose.enemy_index
@@ -426,7 +660,7 @@ bool steer_toward_nearest_enemy() {
     // move_axis accepts Android MovementControl screen axes. Invert its
     // recovered fixed +45-degree basis for this selected-floor world vector.
     constexpr float inverse_sqrt_two = 0.7071067811865475f;
-    model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
+    scenario_move_axis((dx + dy) * inverse_sqrt_two / distance,
                               (dy - dx) * inverse_sqrt_two / distance);
     return true;
 }
@@ -592,6 +826,7 @@ public:
         else if (options_.faery_skill_scenario) faery_skill_tick();
         else if (options_.skill_matrix_scenario) matrix_tick();
         else if (options_.boss_fight_scenario) boss_tick();
+        else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_tick();
     }
 
     void finish() {
@@ -603,6 +838,7 @@ public:
         else if (options_.faery_skill_scenario) faery_skill_finish();
         else if (options_.skill_matrix_scenario) matrix_finish();
         else if (options_.boss_fight_scenario) boss_finish();
+        else if (options_.talk_npc_scenario || options_.enter_zone_scenario) quest_finish();
     }
 
     bool failed() const { return !failure_.empty(); }
@@ -612,8 +848,10 @@ public:
         return (options_.boss_fight_scenario && death_frame_ && frame_ >= death_frame_ + 15) ||
                (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
                (options_.faery_skill_scenario && fs_phase_ == FsPhase::done) ||
+               ((options_.talk_npc_scenario || options_.enter_zone_scenario) &&
+                qs_phase_ == QuestScenarioPhase::done && frame_ >= qs_done_frame_ + 300) ||
                (options_.boss_fight_scenario && bf_phase_ == BossPhase::done &&
-                frame_ >= bf_done_frame_ + 180);
+                frame_ >= bf_done_frame_ + options_.post_death_frames);
     }
     // HUD touch hand-off for --faery-hud-tap: action 0 = press, 1 = release.
     bool take_tap(int& action) {
@@ -624,7 +862,17 @@ public:
         }
         return false;
     }
+    // HUD attack-button hand-off for talk-npc: 0 = press, 1 = release.
+    bool take_attack_touch(int& action) {
+        if (qs_touch_ < 0) return false;
+        action = qs_touch_;
+        qs_touch_ = -1;
+        return true;
+    }
     const std::string& failure() const { return failure_; }
+    // An authored cutscene hides the HUD and locks the controllers: probe HUD casts
+    // wait for it to end, and their timers pause instead of counting toward a verdict.
+    void set_hud_blocked(bool blocked) { hud_blocked_ = blocked; }
 
 private:
     // ----- shared -----------------------------------------------------------
@@ -632,6 +880,7 @@ private:
     bool& died_;
     bool& revived_;
     std::uint64_t frame_ = 0, milliseconds_ = 0;
+    bool hud_blocked_ = false;
     bool ready_ = false;
     std::uintptr_t player_ = 0;
     std::string error_, failure_;
@@ -651,7 +900,9 @@ private:
                  (unsigned long long)frame_, (unsigned long long)player_, options_.level_row,
                  options_.faery_follow_scenario ? "faery-follow" :
                  options_.faery_skill_scenario ? "faery-skill" :
-                 options_.boss_fight_scenario ? "boss-fight" : "skill-matrix"));
+                 options_.boss_fight_scenario ? "boss-fight" :
+                 options_.talk_npc_scenario ? "talk-npc" :
+                 options_.enter_zone_scenario ? "enter-zone" : "skill-matrix"));
         return true;
     }
 
@@ -704,6 +955,10 @@ private:
     // the master leaves its 2300 unit view radius, so the distance stays
     // bounded however far the Player marches.
     static constexpr double faery_distance_bound_ = 2500.0;
+    static constexpr std::uint64_t faery_recovery_frames_ = 120;
+    bool follow_was_locked_ = false;
+    std::uint64_t follow_unlock_frame_ = 0;
+    unsigned faery_locked_samples_ = 0;
     unsigned faery_samples_ = 0, faery_moving_samples_ = 0, faery_unbounded_ = 0;
     unsigned faery_no_master_ = 0;
     double faery_max_distance_ = 0.0, faery_total_move_ = 0.0;
@@ -751,6 +1006,12 @@ private:
     }
 
     void follow_tick() {
+        if (hud_blocked_) {
+            follow_was_locked_ = true;
+        } else if (follow_was_locked_) {
+            follow_was_locked_ = false;
+            follow_unlock_frame_ = frame_;
+        }
         if (have_pose_ && !have_start_) {
             have_start_ = true;
             start_pos_ = last_sample_pos_ = pose_.player_position;
@@ -771,6 +1032,11 @@ private:
 
     void follow_decide() {
         if (!have_pose_) return;
+        if (hud_blocked_) {
+            // Locked behind an authored cutscene: the walk and stuck timers pause.
+            leg_progress_frame_ = frame_;
+            return;
+        }
         const Vec3& player = pose_.player_position;
         if (pose_.enemy_index >= 0 && pose_.enemy_hp > 0 && pose_.enemy_in_melee_range) {
             halt_player();
@@ -852,7 +1118,14 @@ private:
         if (faery.state == 4) ++faery_moving_samples_;
         if (!faery.master_is_player && frame_ > 120) ++faery_no_master_;
         // The first seconds allow the Faery's first AI ticks (master acquisition).
-        if (frame_ > 180 && faery.player_distance > faery_distance_bound_) {
+        // While LockCharacter("All") holds the controllers, CharAI::Update returns
+        // before _UpdateMaster (0x3cfbf4), so the Faery cannot see or warp to a
+        // Player that a cutscene moved. The bound applies again once the lock has
+        // been released for faery_recovery_frames_.
+        const bool recovering = follow_was_locked_ ||
+                                frame_ - follow_unlock_frame_ < faery_recovery_frames_;
+        if (recovering) ++faery_locked_samples_;
+        if (frame_ > 180 && !recovering && faery.player_distance > faery_distance_bound_) {
             ++faery_unbounded_;
             if (failure_.empty())
                 failure_ = fmt("faery-follow: Faery is %.0f units from the Player at frame %llu "
@@ -873,10 +1146,10 @@ private:
     void follow_finish() {
         plog(fmt("follow faery summary | samples %u | moving samples %u | max distance %.0f | total travel %.0f | "
                  "samples beyond %.0f: %u | samples without Player master %u | WarpBehind (out-of-sight) %u | "
-                 "MoveTo ticks (out-of-range) %u | Stop ticks (melee range) %u",
+                 "MoveTo ticks (out-of-range) %u | Stop ticks (melee range) %u | locked/recovering samples %u",
                  faery_samples_, faery_moving_samples_, faery_max_distance_, faery_total_move_,
                  faery_distance_bound_, faery_unbounded_, faery_no_master_, faery_events_[2], faery_events_[4],
-                 faery_events_[7]));
+                 faery_events_[7], faery_locked_samples_));
         if (failure_.empty()) {
             if (!faery_samples_)
                 failure_ = "faery-follow: this Level has no authored Faery to observe";
@@ -897,10 +1170,12 @@ private:
     // arena waypoint with the Level ScriptManager's SetActorPosition provider,
     // then closes in and attacks while logging the boss's AIS VM counters, FSM
     // state, target and both sides' health.
-    enum class BossPhase { spawn, wait_init, place, fight, done };
+    enum class BossPhase { spawn, wait_init, place, fight, done, nat_place, nat_walk, nat_intro };
     BossPhase bf_phase_ = BossPhase::spawn;
     std::uint64_t bf_phase_frame_ = 0, bf_done_frame_ = 0;
-    bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false;
+    bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false,
+         bf_trap_summoned_ = false, bf_ally_summoned_ = false;
+    unsigned bf_refills_ = 0;
     double bf_player_hp_start_ = -1.0, bf_player_hp_min_ = 1e9, bf_boss_hp_start_ = -1.0,
            bf_boss_hp_min_ = 1e9;
     std::uint32_t bf_max_callbacks_ = 0, bf_max_failed_ = 0, bf_max_commands_ = 0,
@@ -908,6 +1183,11 @@ private:
     std::string bf_last_state_;
     int bf_last_fsm_ = -2, bf_index_ = -1;
     std::string bf_last_attack_;
+    // --boss-natural bookkeeping.
+    bool bf_intro_started_ = false, bf_intro_completed_ = false;
+    std::uint64_t bf_intro_start_frame_ = 0, bf_intro_end_frame_ = 0;
+    std::string bf_last_running_;
+    std::uint32_t bf_max_running_ = 0;
 
     void boss_tick() {
         const std::string& boss = options_.boss_name;
@@ -940,8 +1220,142 @@ private:
         }
         const auto since = frame_ - bf_phase_frame_;
         switch (bf_phase_) {
+        case BossPhase::nat_place: {
+            if (options_.boss_trigger_given) {
+                if (!options_.boss_entry_given) {
+                    plog(fmt("boss natural | frame %llu | Player walks from the Level entry to the intro trigger",
+                             (unsigned long long)frame_));
+                    bf_phase_ = BossPhase::nat_walk;
+                    bf_phase_frame_ = frame_;
+                    return;
+                }
+                std::string place_error;
+                const Vec3 spot{options_.boss_entry[0], options_.boss_entry[1], options_.boss_entry[2]};
+                const bool placed = model_renderer::boss_probe_place_player(spot, place_error);
+                plog(fmt("boss natural | frame %llu | Player placed at the arena approach %s: %s%s",
+                         (unsigned long long)frame_, vec_text(spot).c_str(), placed ? "ok" : "ERROR ",
+                         place_error.c_str()));
+                if (!placed) {
+                    failure_ = "boss-fight: placing the Player failed: " + place_error;
+                    return;
+                }
+                bf_phase_ = BossPhase::nat_walk;
+            } else {
+                // DARKWOOD: HG2_boss_intro is the Dark Queen quest's slot-10 script, run by
+                // Quest::SetState(5) -> Quest::ExecScript(10) -> ScriptManager::StartScript.
+                std::string start_error;
+                const bool started = model_renderer::boss_probe_start_level_script(
+                    options_.boss_intro_script, start_error);
+                plog(fmt("boss natural | frame %llu | quest-state stand-in starts %s: %s%s",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         started ? "ok" : "ERROR ", start_error.c_str()));
+                if (!started) {
+                    failure_ = "boss-fight: starting the intro script failed: " + start_error;
+                    return;
+                }
+                bf_phase_ = BossPhase::nat_intro;
+            }
+            bf_phase_frame_ = frame_;
+            return;
+        }
+        case BossPhase::nat_walk: {
+            if (frame_ % 15 != 0) return;
+            model_renderer::LevelScriptProbeV1 probe;
+            std::string probe_error;
+            if (model_renderer::level_script_probe(probe, probe_error) &&
+                std::find(probe.started.begin(), probe.started.end(), options_.boss_intro_script) !=
+                    probe.started.end()) {
+                bf_intro_started_ = true;
+                bf_intro_start_frame_ = frame_;
+                halt_player();
+                plog(fmt("boss natural | frame %llu | %s started by its TriggerZone | Player at %s",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?"));
+                bf_phase_ = BossPhase::nat_intro;
+                bf_phase_frame_ = frame_;
+                return;
+            }
+            if (have_pose_) {
+                const Vec3 target{options_.boss_trigger[0], options_.boss_trigger[1],
+                                  options_.boss_trigger[2]};
+                if (march_to(pose_.player_position, target, 40.0f) != March::moving)
+                    steer_world(target[0] - pose_.player_position[0],
+                                target[1] - pose_.player_position[1]);
+            }
+            if (frame_ % 120 == 0 && have_pose_) {
+                model_renderer::GameplayRouteSnapshotV1 route;
+                const bool probed = probe_route({options_.boss_trigger[0], options_.boss_trigger[1],
+                                                 options_.boss_trigger[2]}, route);
+                plog(fmt("boss natural | route probe %d | found %d graph sewn %d nodes %u src %u dst %u status %u waypoints %zu",
+                         int(probed), int(route.path_found), int(route.graph_sewn), route.graph_nodes,
+                         route.source_node, route.target_node, route.query_status, route.waypoints.size()));
+            }
+            if (frame_ % 120 == 0)
+                plog(fmt("boss natural | frame %llu | walking to the intro trigger | Player at %s | distance %.0f",
+                         (unsigned long long)frame_,
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?",
+                         have_pose_ ? planar_distance(pose_.player_position,
+                                          {options_.boss_trigger[0], options_.boss_trigger[1],
+                                           options_.boss_trigger[2]}) : -1.0f));
+            if (since > 1500) failure_ = "boss-fight: the Player never triggered the boss intro script";
+            return;
+        }
+        case BossPhase::nat_intro: {
+            if (frame_ % 15 != 0) return;
+            model_renderer::LevelScriptProbeV1 probe;
+            std::string probe_error;
+            if (!model_renderer::level_script_probe(probe, probe_error)) return;
+            const bool started = std::find(probe.started.begin(), probe.started.end(),
+                                           options_.boss_intro_script) != probe.started.end();
+            const bool completed = std::find(probe.completed.begin(), probe.completed.end(),
+                                             options_.boss_intro_script) != probe.completed.end();
+            if (started && !bf_intro_started_) {
+                bf_intro_started_ = true;
+                bf_intro_start_frame_ = frame_;
+            }
+            std::string running;
+            for (const auto& name : probe.running) running += (running.empty() ? "" : ",") + name;
+            bf_max_running_ = std::max<std::uint32_t>(bf_max_running_, probe.tasks_active);
+            if (running != bf_last_running_) {
+                plog(fmt("boss intro | frame %llu | running [%s] | scripted %d | cutscene %d | blocked %d | boss fsm %d '%s'",
+                         (unsigned long long)frame_, running.c_str(), int(probe.player_scripted),
+                         int(probe.cutscene_mode), int(probe.controller_blocked),
+                         have ? snap.fsm_state : -1, have ? snap.animation_state.c_str() : "?"));
+                bf_last_running_ = running;
+            }
+            if (completed && !bf_intro_completed_) {
+                bf_intro_completed_ = true;
+                bf_intro_end_frame_ = frame_;
+                plog(fmt("boss intro | frame %llu | %s completed after %llu frames",
+                         (unsigned long long)frame_, options_.boss_intro_script.c_str(),
+                         (unsigned long long)(frame_ - bf_intro_start_frame_)));
+            }
+            if (bf_intro_completed_ && have && snap.fsm_state > 0) {
+                plog(fmt("boss active | frame %llu | script %s | fsm %d '%s' | HP %.1f/%.1f | at %s | source visible %d renderer visible %d",
+                         (unsigned long long)frame_, snap.script.c_str(), snap.fsm_state,
+                         snap.animation_state.c_str(), snap.hp / 256.0, snap.max_hp / 256.0,
+                         vec_text({snap.position[0], snap.position[1], snap.position[2]}).c_str(),
+                         int(snap.source_visible), int(snap.renderer_visible)));
+                if (options_.boss_weaken && snap.hp > 3 * 256) {
+                    const std::string hit = model_renderer::debug_character_hit(
+                        boss, std::uint32_t(snap.hp - 3 * 256));
+                    plog(fmt("boss weaken | HP %.1f -> 3 | %s", snap.hp / 256.0, hit.c_str()));
+                }
+                bf_phase_ = BossPhase::fight;
+                bf_phase_frame_ = frame_;
+            } else if (since > 9000) {
+                failure_ = fmt("boss-fight: the boss intro did not finish (started %d completed %d boss fsm %d)",
+                               int(bf_intro_started_), int(bf_intro_completed_), have ? snap.fsm_state : -1);
+            }
+            return;
+        }
         case BossPhase::spawn: {
             if (frame_ < 30) return;
+            if (options_.boss_natural) {
+                bf_phase_ = BossPhase::nat_place;
+                bf_phase_frame_ = frame_;
+                return;
+            }
             const std::string result = model_renderer::spawn_character(boss);
             plog(fmt("boss spawn | frame %llu | %s | %s", (unsigned long long)frame_, boss.c_str(),
                      result.c_str()));
@@ -995,6 +1409,41 @@ private:
             return;
         }
         case BossPhase::fight:
+            if (options_.boss_refill && !snap.dead &&
+                ((options_.boss_refill_hp > 0 && vitals[1] != options_.boss_refill_hp * 256) ||
+                 (frame_ % 60 == 0 && vitals[0] < vitals[1] / 2))) {
+                const auto result = model_renderer::debug_player_refill_hp(options_.boss_refill_hp);
+                if (frame_ % 600 == 0 || bf_refills_++ == 0)
+                    plog(fmt("boss refill | frame %llu | %s | HP %d/%d", (unsigned long long)frame_,
+                             result.c_str(), vitals[0] / 256, vitals[1] / 256));
+            }
+            if (!options_.boss_summon_ally.empty() && !bf_ally_summoned_ && have_pose_ &&
+                frame_ - bf_phase_frame_ >= 120) {
+                bf_ally_summoned_ = true;
+                std::string message;
+                const bool ok = model_renderer::boss_probe_summon_character(
+                    options_.boss_summon_ally,
+                    {pose_.player_position[0] + 220.0f, pose_.player_position[1],
+                     pose_.player_position[2]},
+                    message);
+                plog(fmt("boss ally | frame %llu | Player summons %s near %s | %s%s",
+                         (unsigned long long)frame_, options_.boss_summon_ally.c_str(),
+                         vec_text(pose_.player_position).c_str(), ok ? "" : "ERROR ", message.c_str()));
+                if (!ok) failure_ = "boss-fight: summoning the ally failed: " + message;
+            }
+            if (!options_.boss_summon_trap.empty() && !bf_trap_summoned_ && have_pose_ &&
+                frame_ - bf_phase_frame_ >= 120) {
+                bf_trap_summoned_ = true;
+                std::string message;
+                const bool ok = model_renderer::boss_probe_summon_timer_trap(
+                    options_.boss_name, options_.boss_summon_trap,
+                    {pose_.player_position[0], pose_.player_position[1], pose_.player_position[2]},
+                    message);
+                plog(fmt("boss trap | frame %llu | %s from %s at %s | %s%s", (unsigned long long)frame_,
+                         options_.boss_summon_trap.c_str(), options_.boss_name.c_str(),
+                         vec_text(pose_.player_position).c_str(), ok ? "" : "ERROR ", message.c_str()));
+                if (!ok) failure_ = "boss-fight: summoning the TimerTrap failed: " + message;
+            }
             if (frame_ % 15 == 0 && have && have_pose_ && !snap.dead) {
                 const Vec3 player = pose_.player_position;
                 const Vec3 target{snap.position[0], snap.position[1], snap.position[2]};
@@ -1050,8 +1499,147 @@ private:
                  bf_boss_hp_start_, bf_boss_hp_min_ > 1e8 ? -1.0 : bf_boss_hp_min_, bf_player_hp_start_,
                  bf_player_hp_min_ > 1e8 ? -1.0 : bf_player_hp_min_, bf_max_callbacks_, bf_max_failed_,
                  bf_max_commands_, bf_max_events_, bf_attacks_, int(bf_ever_targeted_), deaths_));
+        if (options_.boss_natural)
+            plog(fmt("boss-fight natural | intro %s started %d completed %d (frames %llu..%llu) | max concurrent scripts %u",
+                     options_.boss_intro_script.c_str(), int(bf_intro_started_), int(bf_intro_completed_),
+                     (unsigned long long)bf_intro_start_frame_, (unsigned long long)bf_intro_end_frame_,
+                     bf_max_running_));
+        if (options_.boss_natural && failure_.empty() && !bf_intro_completed_)
+            failure_ = "boss-fight: the boss intro script never completed";
         if (!bf_ever_initialized_ && failure_.empty())
             failure_ = "boss-fight: the boss AIS VM never initialised";
+    }
+
+    // ----- talk-npc / enter-zone --------------------------------------------
+    // Quest-giver acceptance through the authored controls. talk-npc stands the
+    // Player at --npc-distance from the named Character and presses the HUD attack
+    // button once the NPC is the selected interaction target; enter-zone stands the
+    // Player in the named QuestMoveInZone. Both then follow the quest row.
+    enum class QuestScenarioPhase { place, settle, press, watch, done };
+    QuestScenarioPhase qs_phase_ = QuestScenarioPhase::place;
+    std::uint64_t qs_phase_frame_ = 0, qs_done_frame_ = 0;
+    int qs_touch_ = -1;
+    std::int32_t qs_first_state_ = -1, qs_last_state_ = -1, qs_presses_ = 0;
+    Vec3 qs_zone_center_{};
+
+    std::int32_t quest_state_of(std::int32_t row) {
+        std::vector<model_renderer::UiQuestReadV1> rows;
+        std::string error;
+        if (!model_renderer::ui_player_quest_rows(player_, rows, error, nullptr) || row < 0 ||
+            std::size_t(row) >= rows.size())
+            return -1;
+        return rows[std::size_t(row)].state;
+    }
+    void quest_tick() {
+        const bool talk = options_.talk_npc_scenario;
+        const std::int32_t watch = options_.watch_quest >= 0 ? options_.watch_quest : (talk ? 51 : 52);
+        const std::int32_t state = quest_state_of(watch);
+        if (state != qs_last_state_) {
+            plog(fmt("quest %d state %d -> %d | frame %llu", watch, qs_last_state_, state,
+                     (unsigned long long)frame_));
+            qs_last_state_ = state;
+            if (qs_first_state_ < 0) qs_first_state_ = state;
+        }
+        if (frame_ % 60 == 0) {
+            std::string ooi_name, ooi_error;
+            std::int32_t ooi_type = -1;
+            if (model_renderer::ooi_probe_snapshot(ooi_name, ooi_type, ooi_error))
+                plog(fmt("quest scenario | frame %llu | selected object '%s' interaction type %d",
+                         (unsigned long long)frame_, ooi_name.c_str(), ooi_type));
+        }
+        if (!talk && frame_ % 60 == 0) {
+            std::string zone_status;
+            if (model_renderer::quest_zone_probe_status(options_.zone_name, zone_status))
+                plog(fmt("enter-zone | frame %llu | Player at %s | sensor %s", (unsigned long long)frame_,
+                         have_pose_ ? vec_text(pose_.player_position).c_str() : "?", zone_status.c_str()));
+        }
+        const auto since = frame_ - qs_phase_frame_;
+        switch (qs_phase_) {
+        case QuestScenarioPhase::place: {
+            if (frame_ < 30) return;
+            std::array<float, 3> spot{};
+            std::string place_error;
+            if (talk) {
+                model_renderer::BossProbeSnapshotV1 snap;
+                if (!model_renderer::boss_probe_snapshot(options_.npc_name, snap, place_error)) {
+                    failure_ = "talk-npc: " + options_.npc_name + " not found: " + place_error;
+                    return;
+                }
+                spot = {snap.position[0] + options_.npc_distance, snap.position[1], snap.position[2]};
+                plog(fmt("talk-npc | %s (enabled %d) at %s | Player to %s", options_.npc_name.c_str(),
+                         int(snap.enabled),
+                         vec_text({snap.position[0], snap.position[1], snap.position[2]}).c_str(),
+                         vec_text(spot).c_str()));
+                for (const char* sibling : {"_prim_NPC_LizBloodPOST", "_prim_NPC_LizBlood", "_prim_NPC_Mothgiver"}) {
+                    model_renderer::BossProbeSnapshotV1 other;
+                    std::string other_error;
+                    if (model_renderer::boss_probe_snapshot(sibling, other, other_error))
+                        plog(fmt("talk-npc | %s enabled %d", sibling, int(other.enabled)));
+                }
+            } else if (!model_renderer::quest_zone_probe_position(options_.zone_name, spot, place_error)) {
+                failure_ = "enter-zone: zone " + options_.zone_name + " not found: " + place_error;
+                return;
+            } else {
+                qs_zone_center_ = spot;
+                plog(fmt("enter-zone | %s centre %s", options_.zone_name.c_str(), vec_text(spot).c_str()));
+                // The Player walks in from where it stands; no teleport.
+                qs_phase_ = QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+                return;
+            }
+            if (!model_renderer::boss_probe_place_player(spot, place_error)) {
+                failure_ = "quest scenario: placing the Player failed: " + place_error;
+                return;
+            }
+            qs_phase_ = QuestScenarioPhase::settle;
+            qs_phase_frame_ = frame_;
+            return;
+        }
+        case QuestScenarioPhase::settle:
+            if (since >= 45) {
+                qs_phase_ = talk ? QuestScenarioPhase::press : QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::press:
+            // One press per 90 frames until the NPC answers; the release follows 6 frames later.
+            if (since % 90 == 0) {
+                qs_touch_ = 0;
+                ++qs_presses_;
+                plog(fmt("talk-npc | HUD attack press %d | frame %llu", qs_presses_, (unsigned long long)frame_));
+            } else if (since % 90 == 6) {
+                qs_touch_ = 1;
+            }
+            if (state != qs_first_state_ || qs_presses_ >= 6) {
+                qs_phase_ = QuestScenarioPhase::watch;
+                qs_phase_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::watch:
+            if (!talk && frame_ % 15 == 0 && have_pose_ && state == qs_first_state_) {
+                // Walk through the normal movement controller toward the zone centre.
+                if (march_to(pose_.player_position, qs_zone_center_, 60.0f) == March::no_route)
+                    steer_world(qs_zone_center_[0] - pose_.player_position[0],
+                                qs_zone_center_[1] - pose_.player_position[1]);
+            }
+            if (since > 1800 || (state > qs_first_state_ && state >= 6)) {
+                qs_phase_ = QuestScenarioPhase::done;
+                qs_done_frame_ = frame_;
+            }
+            return;
+        case QuestScenarioPhase::done:
+            return;
+        }
+    }
+    void quest_finish() {
+        const bool talk = options_.talk_npc_scenario;
+        const std::int32_t watch = options_.watch_quest >= 0 ? options_.watch_quest : (talk ? 51 : 52);
+        const std::int32_t state = quest_state_of(watch);
+        plog(fmt("%s summary | quest %d | state %d -> %d | presses %d", talk ? "talk-npc" : "enter-zone",
+                 watch, qs_first_state_, state, qs_presses_));
+        if (state <= qs_first_state_ && failure_.empty())
+            failure_ = fmt("%s: quest %d never left state %d", talk ? "talk-npc" : "enter-zone", watch,
+                           qs_first_state_);
     }
 
     // ----- faery-skill ------------------------------------------------------
@@ -1081,6 +1669,13 @@ private:
     std::vector<FsRecord> fs_records_;
 
     void faery_skill_tick() {
+        if (hud_blocked_ && fs_phase_ != FsPhase::setup && fs_phase_ != FsPhase::done) {
+            // The HUD is hidden behind an authored cutscene: no cast goes out, and the
+            // watch / cooldown / switch clocks pause until the controls are back.
+            if (fs_phase_ == FsPhase::watch) ++fs_cast_frame_;
+            if (fs_phase_ == FsPhase::cooldown_wait || fs_phase_ == FsPhase::switch_wait) ++fs_wait_until_;
+            return;
+        }
         switch (fs_phase_) {
         case FsPhase::setup: fs_setup(); break;
         case FsPhase::switch_wait:
@@ -1689,14 +2284,23 @@ bool dispatch_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* win
     return session.touch(float(x) * sx, float(y) * sy, action, error);
 }
 
+// One SDL finger as a source finger index (slot 0..3): the HUD sees it first, then the camera,
+// exactly like a MotionEvent pointer on Android.
+struct DesktopFinger {
+    bool down = false;
+    SDL_TouchID touch = 0;
+    SDL_FingerID finger = 0;
+    float x = 0.0f, y = 0.0f;
+};
+
 bool dispatch_finger_touch(dh2::android_ui::OriginalUiSession& session, SDL_Window* window,
-                           float normalized_x, float normalized_y, int action,
+                           float normalized_x, float normalized_y, int action, unsigned slot,
                            std::string& error) {
     int width = 1, height = 1;
-    SDL_GetWindowSize(window, &width, &height);
-    const auto x = static_cast<int>(std::lround(std::clamp(normalized_x, 0.0f, 1.0f) * width));
-    const auto y = static_cast<int>(std::lround(std::clamp(normalized_y, 0.0f, 1.0f) * height));
-    return dispatch_touch(session, window, x, y, action, error);
+    SDL_GetWindowSizeInPixels(window, &width, &height);
+    const auto x = std::clamp(normalized_x, 0.0f, 1.0f) * float(width);
+    const auto y = std::clamp(normalized_y, 0.0f, 1.0f) * float(height);
+    return session.pointer(x, y, action, slot, error);
 }
 
 bool desktop_difficulty_count(void* context, std::uint32_t* count, std::string& error) {
@@ -2102,10 +2706,8 @@ int main(int argc, char** argv) {
         std::cout << "Authored menu: mouse/touch and name typing | Gameplay: WASD move, Space attack nearest reachable enemy, drag orbit, wheel zoom | Esc quit\n";
 
         std::array<bool, 4> keys{};
-        bool running = true, dragging = false, finger_down = false;
-        SDL_TouchID active_touch = 0;
-        SDL_FingerID active_finger = 0;
-        float finger_x = 0.0f, finger_y = 0.0f;
+        bool running = true, dragging = false;
+        std::array<DesktopFinger, 4> fingers{};
         bool text_input_started = false;
         std::uint64_t rendered_frames = 0;
         int mouse_x = 0, mouse_y = 0;
@@ -2121,6 +2723,15 @@ int main(int argc, char** argv) {
         std::int32_t scenario_target_initial_hp = 0;
         std::string scenario_attack_result;
         bool scenario_started = false, scenario_attack_sent = false;
+        // A fresh SWAMP profile starts Swamp_Escape's lifecycle (Swamp_Intro, then Movement_Tuto):
+        // scenarios begin once those cutscenes are over, the budget does not count them.
+        bool intro_released = false, intro_holding = false;
+        std::uint64_t intro_held_frames = 0;
+        // Authored cutscenes (BeginScriptedCutScene hides the HUD, locks the controllers
+        // behind dialogs) met mid-scenario: the scenarios wait for the controls to return
+        // and the frames spent waiting extend the bound, capped at 9000.
+        std::uint64_t cutscene_wait_frames = 0;
+        bool cutscene_was_active = false;
         unsigned scenario_kills = 0;
         unsigned scenario_pickups = 0, scenario_loot_frames = 0;
         std::int32_t scenario_last_item_count = -1;
@@ -2132,9 +2743,24 @@ int main(int argc, char** argv) {
         std::int32_t scenario_skill_state = -1;
         unsigned scenario_skill_uses = 0;
         ProbeRunner probe_runner(options, scenario_player_died, scenario_revived);
+        // touch-kill: the stick (finger 0) and attack button (finger 1) are held together.
+        HudTouchDriver touch_driver;
+        touch_driver.session = &original_ui;
+        touch_driver.window = window;
+        bool touch_walk_attack_verified = false;
+        unsigned touch_hits = 0, touch_pans_before = 0;
+        // touch_pans_before is the HUD fingers' pan count, taken once at the first free-finger press
+        // (a cutscene may release and later re-press the free finger; its pans are not HUD pans).
+        bool touch_camera_started = false;
+        std::int32_t touch_prev_state = -1, touch_state_before_press = -1;
+        std::int32_t touch_hit_enemy = -1, touch_hit_hp = 0;
         std::uint64_t tutorial_verified_frame = 0, tutorial_finished_frame = 0;
         std::int32_t tutorial_hp_start = 0, tutorial_hp_end = 0, tutorial_hp_last = 0, tutorial_hp_lowest = 0;
         std::uint64_t tutorial_lock_frame = 0, tutorial_unlock_frame = 0;
+        // first-kill-ui: touches that landed on a visible dialog, consecutive frames the
+        // controllers stayed blocked, and the longest such stretch.
+        unsigned dialog_taps = 0;
+        std::uint64_t blocked_streak = 0, blocked_longest = 0;
         unsigned tutorial_hp_drops = 0;
         std::array<float, 3> tutorial_position{};
         float tutorial_moved = 0.0f;
@@ -2225,10 +2851,13 @@ int main(int argc, char** argv) {
                 } else if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
                     if (dragging && !dispatch_touch(original_ui, window, mouse_x, mouse_y, 3, ui_error))
                         std::cerr << "HUD touch release on focus loss failed: " << ui_error << '\n';
-                    if (finger_down && !dispatch_finger_touch(original_ui, window, finger_x, finger_y, 3, ui_error))
-                        std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                    for (unsigned slot = 0; slot < fingers.size(); ++slot) {
+                        if (!fingers[slot].down) continue;
+                        if (!dispatch_finger_touch(original_ui, window, fingers[slot].x, fingers[slot].y, 3, slot, ui_error))
+                            std::cerr << "Authored touch cancel on focus loss failed: " << ui_error << '\n';
+                        fingers[slot].down = false;
+                    }
                     dragging = false;
-                    finger_down = false;
                     keys.fill(false);
                     if (gameplay) model_renderer::stop_movement();
                 } else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
@@ -2265,23 +2894,30 @@ int main(int argc, char** argv) {
                     if (!gameplay && original_ui.menu_text_input_active() &&
                         !send_menu_text(original_ui, event.text.text, ui_error))
                         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Menu text input failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERDOWN && !finger_down) {
-                    finger_down = true; active_touch = event.tfinger.touchId;
-                    active_finger = event.tfinger.fingerId;
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 0, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch down failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERMOTION && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 2, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch move failed: %s", ui_error.c_str());
-                } else if (event.type == SDL_FINGERUP && finger_down &&
-                           event.tfinger.touchId == active_touch && event.tfinger.fingerId == active_finger) {
-                    finger_x = event.tfinger.x; finger_y = event.tfinger.y;
-                    if (!dispatch_finger_touch(original_ui, window, finger_x, finger_y, 1, ui_error))
-                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch up failed: %s", ui_error.c_str());
-                    finger_down = false;
+                } else if (event.type == SDL_FINGERDOWN || event.type == SDL_FINGERMOTION || event.type == SDL_FINGERUP) {
+                    // Up to four simultaneous fingers, each on its own source finger index.
+                    unsigned slot = unsigned(fingers.size());
+                    for (unsigned i = 0; i < fingers.size(); ++i)
+                        if (fingers[i].down && fingers[i].touch == event.tfinger.touchId &&
+                            fingers[i].finger == event.tfinger.fingerId) slot = i;
+                    if (event.type == SDL_FINGERDOWN && slot == fingers.size())
+                        for (unsigned i = 0; i < fingers.size() && slot == fingers.size(); ++i)
+                            if (!fingers[i].down) slot = i;
+                    if (slot < fingers.size()) {
+                        auto& finger = fingers[slot];
+                        const int action = event.type == SDL_FINGERDOWN ? 0 : event.type == SDL_FINGERMOTION ? 2 : 1;
+                        if (event.type == SDL_FINGERDOWN) {
+                            finger.down = true;
+                            finger.touch = event.tfinger.touchId;
+                            finger.finger = event.tfinger.fingerId;
+                        }
+                        finger.x = event.tfinger.x;
+                        finger.y = event.tfinger.y;
+                        if (!dispatch_finger_touch(original_ui, window, finger.x, finger.y, action, slot, ui_error))
+                            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Authored touch %s failed: %s",
+                                         action == 0 ? "down" : action == 2 ? "move" : "up", ui_error.c_str());
+                        if (event.type == SDL_FINGERUP) finger.down = false;
+                    }
                 } else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.which != SDL_TOUCH_MOUSEID &&
                            event.button.button == SDL_BUTTON_LEFT) {
                     dragging = true; mouse_x = event.button.x; mouse_y = event.button.y;
@@ -2305,10 +2941,57 @@ int main(int argc, char** argv) {
             }
             return_to_authored_menu();
             sync_text_input();
+            intro_holding = false;
+            const bool cutscene_now = gameplay && (model_renderer::script_controllers_blocked() ||
+                                                   original_ui.source_cutscene_active());
+            if (cutscene_now != cutscene_was_active) {
+                cutscene_was_active = cutscene_now;
+                std::cout << "Scenario cutscene " << (cutscene_now ? "started" : "over")
+                          << " | frame " << rendered_frames << " | HUD "
+                          << (cutscene_now ? "hidden, scenario waits for the controls" : "back") << std::endl;
+            }
+            if (gameplay && options.level_row == 41 && !intro_released &&
+                (options.movement_attack_scenario || options.movement_defend_scenario ||
+                 options.movement_kill_scenario || options.skill_kill_scenario ||
+                 options.tutorial_potion_scenario || options.probe_scenario())) {
+                bool finished = false;
+                std::uintptr_t player_identity = 0;
+                std::vector<model_renderer::UiQuestReadV1> quest_rows;
+                if (rendered_frames >= 4 &&
+                    model_renderer::ui_player_identity(player_identity, ui_error) &&
+                    model_renderer::ui_player_quest_rows(player_identity, quest_rows, ui_error, nullptr) &&
+                    quest_rows.size() > 50 && quest_rows[50].state >= 6 &&
+                    !model_renderer::script_controllers_blocked() &&
+                    !model_renderer::tutorial_script_running("Swamp_Intro") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto") &&
+                    !model_renderer::tutorial_script_running("Movement_Tuto2"))
+                    finished = true;
+                if (finished || intro_held_frames >= 9000) {
+                    intro_released = true;
+                    std::cout << "Scenario intro released | frame " << rendered_frames << " | held "
+                              << intro_held_frames << " frames | "
+                              << (finished ? "Swamp_Escape active, cutscenes over" : "hold timed out") << std::endl;
+                } else {
+                    intro_holding = true;
+                    ++intro_held_frames;
+                    ++options.frames;
+                    if (rendered_frames % 20 == 0 && model_renderer::script_controllers_blocked() &&
+                        !original_ui.flush_source_messages(ui_error))
+                        throw std::runtime_error("Intro dialog flush failed: " + ui_error);
+                }
+            }
+            // Cutscene time is not scenario time: a frame spent waiting for the controls
+            // extends the bound by one frame, as the intro hold does below.
+            if (cutscene_now && !intro_holding && !options.first_kill_ui_scenario &&
+                cutscene_wait_frames < 9000) {
+                ++cutscene_wait_frames;
+                ++options.frames;
+            }
             if (gameplay && options.faery_follow_scenario && !options.capture_series.empty() && rendered_frames == 20)
                 copy_level_saves(options.runtime, options.capture_series, "entry");
-            if (gameplay && options.probe_scenario() && rendered_frames >= 2) {
-                probe_runner.tick(rendered_frames, SDL_GetTicks64());
+            if (gameplay && options.probe_scenario() && rendered_frames >= 2 && !intro_holding) {
+                probe_runner.set_hud_blocked(cutscene_now);
+                probe_runner.tick(rendered_frames - intro_held_frames, SDL_GetTicks64());
                 int tap_action = -1;
                 if (probe_runner.take_tap(tap_action)) {
                     // Centre of the authored HUD faery button on the 1280x720 reference layout.
@@ -2321,11 +3004,29 @@ int main(int argc, char** argv) {
                     else plog(tap_action == 2 ? "HUD pointer moved onto the tap point" :
                               tap_action == 0 ? "HUD tap point pressed" : "HUD tap point released");
                 }
+                int attack_action = -1;
+                if (probe_runner.take_attack_touch(attack_action)) {
+                    const bool touched = attack_action == 0 ? touch_driver.press_attack(ui_error)
+                                                             : touch_driver.release_all(ui_error);
+                    if (!touched) plog("HUD attack touch failed: " + ui_error);
+                }
                 if (probe_runner.failed()) {
                     plog("scenario failure: " + probe_runner.failure());
                     running = false;
                 }
                 if (probe_runner.finished()) running = false;
+            }
+            // touch-kill: the attack must begin while the movement stick finger is still down.
+            // Sampled every frame so the one-frame walk -> attack edge cannot be missed.
+            if (options.hud_touch_scenario && scenario_started && touch_driver.attack_down &&
+                touch_driver.stick_down) {
+                const auto state = model_renderer::gameplay_player_state();
+                if (!touch_walk_attack_verified && touch_prev_state == 4 && state == 5) {
+                    touch_walk_attack_verified = true;
+                    std::cout << "Scenario walk-attack verified | Player state 4 -> 5 with the stick finger and the attack"
+                                 " finger both held | frame " << rendered_frames << '\n';
+                }
+                touch_prev_state = state;
             }
             // move-kill: steer to the nearest enemy and keep attacking it through the
             // normal player_attack() route until its source HP reaches zero.
@@ -2356,13 +3057,18 @@ int main(int argc, char** argv) {
                     std::cout << "Scenario kill verified | " << target.name << " HP " << target.hp
                               << '/' << target.max_hp << " dead " << target.dead << '\n';
                     ++scenario_kills;
+                    if (options.hud_touch_scenario && touch_driver.attack_down && touch_driver.stick_down) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | killing blow on " << target.name
+                                  << " with the stick finger and the attack finger both held\n";
+                    }
                     if (index == scenario_target_index) scenario_target_index = -1;
                 }
                 scenario_dead_baseline = true;
                 // After a kill, walk onto the nearest dropped item and verify
                 // the normal pickup removes it from the world.
                 model_renderer::GameplayWorldItemSnapshotV1 items;
-                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 &&
+                const bool have_items = scenario_kills > 0 && scenario_pickups < 3 && !options.hud_touch_scenario &&
                     model_renderer::gameplay_world_item_snapshot(items, ui_error) && items.count > 0;
                 if (options.skill_kill_scenario) {
                     const auto state = model_renderer::gameplay_player_state();
@@ -2376,7 +3082,15 @@ int main(int argc, char** argv) {
                               << " -> " << items.count << '\n';
                 }
                 if (have_items) scenario_last_item_count = items.count;
-                if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
+                if (cutscene_now) {
+                    // The HUD is hidden and the Player locked behind an authored cutscene:
+                    // let go of any touch fingers and hold still until the controls return.
+                    if (touch_driver.attack_down || touch_driver.stick_down || touch_driver.camera_down) {
+                        std::string release_error;
+                        touch_driver.release_all(release_error);
+                    }
+                    keys.fill(false);update_movement(keys);model_renderer::stop_movement();
+                } else if (have_items && items.distance > 20.0f && scenario_loot_frames < 600) {
                     scenario_loot_frames += 15;
                     const float dx = items.nearest[0] - pose.player_position[0];
                     const float dy = items.nearest[1] - pose.player_position[1];
@@ -2384,6 +3098,65 @@ int main(int argc, char** argv) {
                     constexpr float inverse_sqrt_two = 0.7071067811865475f;
                     model_renderer::move_axis((dx + dy) * inverse_sqrt_two / distance,
                                               (dy - dx) * inverse_sqrt_two / distance);
+                } else if (options.hud_touch_scenario && pose.enemy_index >= 0 && pose.enemy_hp > 0 &&
+                           pose.enemy_in_melee_range) {
+                    // The walking half of the device report: the stick finger stays down and keeps
+                    // pushing at the enemy while a second finger presses and holds the attack button.
+                    scenario_target_index = pose.enemy_index;
+                    {
+                        const float dx = pose.enemy_position[0] - pose.player_position[0];
+                        const float dy = pose.enemy_position[1] - pose.player_position[1];
+                        const float distance = std::max(std::hypot(dx, dy), 1.0f);
+                        constexpr float inverse_sqrt_two = 0.7071067811865475f;
+                        if (!touch_driver.drive_stick((dx + dy) * inverse_sqrt_two / distance,
+                                                      (dy - dx) * inverse_sqrt_two / distance, ui_error)) {
+                            // A HUD that is not on screen yet (a cutscene just ended) is waited for.
+                            if (ui_error.find("no pressable area") != std::string::npos) return;
+                            throw std::runtime_error("touch-kill stick drag failed: " + ui_error);
+                        }
+                    }
+                    if (!touch_driver.attack_down) {
+                        touch_state_before_press = model_renderer::gameplay_player_state();
+                        if (!touch_driver.press_attack(ui_error)) {
+                            if (ui_error.find("no pressable area") != std::string::npos) return;
+                            throw std::runtime_error("touch-kill attack button press failed: " + ui_error);
+                        }
+                        // The HUD attack press starts the attack inside the touch entry itself.
+                        const auto state_after_press = model_renderer::gameplay_player_state();
+                        std::cout << "Scenario touch | finger 1 pressed the HUD attack button at "
+                                  << touch_driver.attack_x << ',' << touch_driver.attack_y
+                                  << " | stick finger held " << touch_driver.stick_down
+                                  << " | Player state " << touch_state_before_press << " -> "
+                                  << state_after_press << '\n';
+                        if (!touch_walk_attack_verified && touch_driver.stick_down &&
+                            touch_state_before_press == 4 && state_after_press == 5) {
+                            touch_walk_attack_verified = true;
+                            std::cout << "Scenario walk-attack verified | the attack press took the Player from walking"
+                                         " (state 4) to attacking (state 5) while the stick finger stayed down\n";
+                        }
+                    }
+                    {
+                        // A third, free finger on the world pans the camera; the two HUD fingers never do.
+                        unsigned pans = 0, applied = 0, pinches = 0;
+                        if (!touch_camera_started) {
+                            original_ui.camera_gesture_counts(pans, applied, pinches);
+                            touch_pans_before = pans;
+                            touch_camera_started = true;
+                        }
+                        if (!touch_driver.drag_camera_finger(ui_error))
+                            throw std::runtime_error("touch-kill free camera finger failed: " + ui_error);
+                    }
+                    if (touch_hit_enemy != pose.enemy_index) {
+                        touch_hit_enemy = pose.enemy_index;
+                        touch_hit_hp = pose.enemy_hp;
+                    } else if (pose.enemy_hp < touch_hit_hp) {
+                        ++touch_hits;
+                        std::cout << "Scenario touch hit verified | enemy " << pose.enemy_index << " HP "
+                                  << touch_hit_hp << " -> " << pose.enemy_hp << " | stick held "
+                                  << touch_driver.stick_down << " | attack held " << touch_driver.attack_down
+                                  << " | Player state " << model_renderer::gameplay_player_state() << '\n';
+                        touch_hit_hp = pose.enemy_hp;
+                    }
                 } else if (pose.enemy_index >= 0 && pose.enemy_hp > 0 && pose.enemy_in_melee_range) {
                     keys.fill(false);update_movement(keys);model_renderer::stop_movement();
                     scenario_target_index = pose.enemy_index;
@@ -2511,16 +3284,58 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            // The 60-frame tail after the cinematic ends only once a death is revived: the
+            // move-defend driver still owes its Continue revive if the Player fell in the tail.
             if (options.tutorial_potion_scenario && tutorial_finished_frame &&
-                rendered_frames >= tutorial_finished_frame + 60) running = false;
+                rendered_frames >= tutorial_finished_frame + 60 &&
+                !(scenario_player_died && !scenario_revived)) running = false;
+            // first-kill-ui: a player taps the dialog box to read on. Press and release
+            // are separate frames so GameSWF sees both edges; the dialog queue is never
+            // flushed, so a dialog the UI cannot show or dismiss keeps the Player locked
+            // and fails the scenario below.
+            if (options.first_kill_ui_scenario && gameplay) {
+                const bool blocked_now = model_renderer::script_controllers_blocked();
+                blocked_streak = blocked_now ? blocked_streak + 1 : 0;
+                blocked_longest = std::max(blocked_longest, blocked_streak);
+                bool dialog_active = false;
+                if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                    throw std::runtime_error("Dialog activity query failed: " + ui_error);
+                const auto phase = rendered_frames % 24;
+                if (dialog_active && (phase == 0 || phase == 6)) {
+                    int window_width = 1, window_height = 1;
+                    SDL_GetWindowSize(window, &window_width, &window_height);
+                    if (!dispatch_touch(original_ui, window, window_width / 2, window_height / 2,
+                                        phase == 0 ? 0 : 1, ui_error))
+                        throw std::runtime_error("Dialog tap failed: " + ui_error);
+                    if (phase == 6) {
+                        ++dialog_taps;
+                        if (dialog_taps == 1 || dialog_taps % 10 == 0)
+                            std::cout << "Scenario dialog tap " << dialog_taps << " | frame " << rendered_frames
+                                      << " | controllers blocked " << blocked_now << std::endl;
+                    }
+                }
+            }
             // skill-matrix applies real Character::LevelUp steps, which start the
             // authored Level Up tutorial script (LockCharacter "All", BlockSaveGame and
             // dialogs that wait for the player's taps). Flush its dialogs like those
             // taps would so the probe is not parked behind the script until the bound.
-            if (options.skill_matrix_scenario && gameplay && rendered_frames % 20 == 0 &&
-                model_renderer::script_controllers_blocked() &&
-                !original_ui.flush_source_messages(ui_error))
-                throw std::runtime_error("Tutorial dialog flush failed: " + ui_error);
+            // boss-natural: the boss intro cutscene waits for the player's dialog taps.
+            // Every Level TriggerZone is a live ObjectManager object now, so the walking
+            // scenarios cross the authored LizardMan_Intro / CombatTuto scripts too; they
+            // lock the controllers behind dialogs the player taps through. The
+            // tutorial-potion scenario keeps its own hold-then-flush proof above once
+            // cinematic_Tuto_potionUse has started; before that it taps these too.
+            // Default for every gameplay scenario: while an authored cutscene holds the HUD
+            // or the controllers, its dialogs are flushed every 20 frames (what a player's
+            // taps amount to). first-kill-ui taps the DialogBox itself instead, unless
+            // --flush-dialogs asks for the flush; tutorial-potion holds its dialogs for 240
+            // frames once cinematic_Tuto_potionUse has started, before its own flush below.
+            if ((!options.first_kill_ui_scenario || options.flush_dialogs) &&
+                gameplay && rendered_frames % 20 == 0 && cutscene_now &&
+                !(options.tutorial_potion_scenario && tutorial_verified_frame) &&
+                !original_ui.flush_source_messages(ui_error) &&
+                model_renderer::script_controllers_blocked())
+                throw std::runtime_error("Cutscene dialog flush failed: " + ui_error);
             // After death, tap the authored death screen's btn_Continue (full-screen
             // hit area) so its timeline reaches NativeReviveAllPlayers.
             if ((options.movement_defend_scenario || options.movement_kill_scenario ||
@@ -2543,7 +3358,7 @@ int main(int argc, char** argv) {
             }
             if (options.movement_attack_scenario && !options.movement_kill_scenario &&
                 scenario_started && !scenario_attack_sent) {
-                if (rendered_frames >= options.frames / 2) {
+                if (rendered_frames >= options.frames / 2 && !cutscene_now) {
                     keys.fill(false);
                     update_movement(keys);
                     model_renderer::stop_movement();
@@ -2736,6 +3551,18 @@ int main(int argc, char** argv) {
             if (gameplay && std::find(options.census_frames.begin(), options.census_frames.end(),
                                       rendered_frames) != options.census_frames.end())
                 enemy_census("requested");
+            if (gameplay) {
+                for (const auto& start : options.script_starts)
+                    if (rendered_frames == start.frame)
+                        plog("PROBE start-script " + start.name + " | frame " + std::to_string(rendered_frames) +
+                             " | " + model_renderer::debug_start_level_script(start.name));
+                for (const auto& anim : options.play_anims)
+                    if (rendered_frames == anim.frame)
+                        plog("PROBE play-anim " + anim.target + " " + anim.dict +
+                             (anim.second.empty() ? "" : "," + anim.second) +
+                             (anim.wait ? " wait" : "") + " | frame " + std::to_string(rendered_frames) + " | " +
+                             model_renderer::debug_character_play_anim(anim.target, anim.dict, anim.second, anim.wait));
+            }
             if (gameplay && options.return_entry >= 0) {
                 if (return_due_frame && !return_queued && rendered_frames == return_due_frame) {
                     return_queued = true;
@@ -2803,10 +3630,21 @@ int main(int argc, char** argv) {
                 }
             }
             if (gameplay && (options.movement_attack_scenario || options.movement_defend_scenario || options.fixed_cultist_scenario ||
-                             options.fixed_cultist_kill_scenario) && !scenario_started) {
+                             options.fixed_cultist_kill_scenario) && !scenario_started && !intro_holding &&
+                !cutscene_now) {
                 scenario_initial_vitals = model_renderer::player_vitals();
                 print_vitals_snapshot("Scenario initial", scenario_initial_vitals);
                 model_renderer::move_axis(0.0f, 0.0f);
+                if (options.hud_touch_scenario)
+                    g_scenario_axis = [&](float x, float y) {
+                        // No stick press while an authored cutscene hides the HUD: the finger
+                        // would reach the world and pan the camera instead of steering.
+                        if (model_renderer::script_controllers_blocked() || original_ui.source_cutscene_active())
+                            return;
+                        std::string stick_error;
+                        if (!touch_driver.drive_stick(x, y, stick_error))
+                            std::cout << "Scenario touch | stick not ready yet: " << stick_error << '\n';
+                    };
                 if (any_fixed_cultist_scenario) {
                     model_renderer::GameplayEnemyStateSnapshotV1 target_state;
                     if (!model_renderer::gameplay_enemy_state_snapshot(fixed_target_index, target_state, ui_error))
@@ -2916,6 +3754,29 @@ int main(int argc, char** argv) {
             if (fixed_attack_count == 0 || !fixed_target_identity)
                 throw std::runtime_error("fixed-cultist07-kill completed without a verified normal attack");
         }
+        if (options.first_kill_ui_scenario && gameplay) {
+            bool dialog_active = false;
+            if (!original_ui.source_dialog_active(dialog_active, ui_error))
+                throw std::runtime_error("Final dialog activity query failed: " + ui_error);
+            const bool blocked_at_end = model_renderer::script_controllers_blocked();
+            std::cout << "Scenario first-kill-ui | kills " << scenario_kills << " | dialog taps " << dialog_taps
+                      << " | longest controller lock " << blocked_longest << " frames | locked at end "
+                      << blocked_at_end << " | dialog active at end " << dialog_active
+                      << " | potionUse starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse")
+                      << " | levelUp starts "
+                      << model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp") << std::endl;
+            if (!scenario_kills)
+                throw std::runtime_error("first-kill-ui reached its frame bound without a verified kill");
+            if (blocked_at_end || dialog_active)
+                throw std::runtime_error("first-kill-ui ended with the Player still locked behind a dialog (freeze)");
+            if (model_renderer::tutorial_script_running("cinematic_Tuto_potionUse") ||
+                model_renderer::tutorial_script_running("cinematic_Tuto_levelUp"))
+                throw std::runtime_error("first-kill-ui ended with a tutorial cinematic still running (freeze)");
+            if ((model_renderer::tutorial_script_start_count("cinematic_Tuto_potionUse") ||
+                 model_renderer::tutorial_script_start_count("cinematic_Tuto_levelUp")) && !dialog_taps)
+                throw std::runtime_error("first-kill-ui finished a tutorial without any dialog touch");
+        }
         if (options.tutorial_potion_scenario && gameplay) {
             if (!tutorial_verified_frame)
                 throw std::runtime_error("tutorial-potion reached its frame bound without cinematic_Tuto_potionUse starting");
@@ -2934,6 +3795,25 @@ int main(int argc, char** argv) {
             if (scenario_player_died && !scenario_revived)
                 throw std::runtime_error("move-defend Player died but the death screen never revived the Player");
             std::cout << "Scenario move-defend complete\n";
+        }
+        if (options.hud_touch_scenario && gameplay) {
+            if (!touch_driver.release_all(ui_error))
+                throw std::runtime_error("touch-kill finger release failed: " + ui_error);
+            std::cout << "Scenario touch-kill | walk attack verified " << touch_walk_attack_verified
+                      << " | hits with both fingers held " << touch_hits << '\n';
+            unsigned pans = 0, applied = 0, pinches = 0;
+            original_ui.camera_gesture_counts(pans, applied, pinches);
+            std::cout << "Scenario touch-kill | camera pans before the free finger " << touch_pans_before
+                      << " | pans from the free finger: delivered " << pans - touch_pans_before
+                      << " applied " << applied << " | pinch steps " << pinches << '\n';
+            if (touch_pans_before)
+                throw std::runtime_error("touch-kill: a HUD finger (stick or attack) panned the camera");
+            if (pans == touch_pans_before)
+                throw std::runtime_error("touch-kill: the free finger never panned the camera");
+            if (!touch_walk_attack_verified)
+                throw std::runtime_error("touch-kill never started an attack while the movement stick finger was held");
+            if (!touch_hits)
+                throw std::runtime_error("touch-kill landed no hit while the movement stick finger was held");
         }
         if (options.movement_kill_scenario && gameplay) {
             if (!scenario_kills)

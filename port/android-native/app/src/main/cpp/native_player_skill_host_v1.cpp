@@ -602,6 +602,37 @@ int do_summon(Context& c) {
     put_identity(c.out[0],created);*c.returned=1;return 0;
 }
 
+// GameObject::_SummonTimerTrap 0x390c50: two numbers (trap row, damager word),
+// then nothing, an object (its position) or three numbers (the point).
+int do_summon_timer_trap(Context& c) {
+    if(c.count<=1||!is_number(c.a[0])||!is_number(c.a[1]))return 0;
+    if(!c.s.summon_timer_trap)return c.failure("GameObject::SummonTimerTrap provider is unavailable");
+    SummonTimerTrapRequest request{};
+    request.trap_id=f2uiz(c.a[0].number);
+    request.hurt_chance=f2uiz(c.a[1].number);
+    if(c.count>2) {
+        if(c.a[2].type==7) {
+            ObjectFacts object{};
+            if(auto rc=c.facts_of(c.a[2].identity,object))return rc;
+            std::memcpy(request.position,object.position,sizeof(request.position));
+            request.has_position=true;
+        } else if(c.count>4&&is_number(c.a[2])&&is_number(c.a[3])&&is_number(c.a[4])) {
+            request.position[0]=c.a[2].number;
+            request.position[1]=c.a[3].number;
+            request.position[2]=c.a[4].number;
+            request.has_position=true;
+        }
+    }
+    std::uintptr_t created=0;std::string error;
+    try {
+        if(c.s.summon_timer_trap(c.s.context,c.receiver,request,&created,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"SummonTimerTrap failed",error);
+    }catch(...){return c.failure("GameObject::SummonTimerTrap provider threw");}
+    if(!created)return 0;
+    if(auto rc=c.need_out(1))return rc;
+    put_identity(c.out[0],created);*c.returned=1;return 0;
+}
+
 // Character::_RegisterAnim 0x3b70d8: a numeric AnimDict id for the receiver's
 // CharAnimator.
 int do_register_anim(Context& c) {
@@ -665,6 +696,7 @@ bool handles(Function function) noexcept {
     case Fn::character_apply_prop_class:case Fn::character_get_prop:
     case Fn::character_set_prop:
     case Fn::game_object_has_path:case Fn::game_object_summon:
+    case Fn::game_object_summon_timer_trap:
     case Fn::character_move_to:case Fn::character_head_to:
     case Fn::character_warp_to:case Fn::character_stop:
     case Fn::character_set_master:case Fn::character_set_level:
@@ -713,6 +745,7 @@ int invoke(const Services& services,Function function,const char* name,
         case Fn::character_set_master:return do_set_master(c);
         case Fn::character_set_level:return do_set_level(c);
         case Fn::game_object_summon:return do_summon(c);
+        case Fn::game_object_summon_timer_trap:return do_summon_timer_trap(c);
         case Fn::character_register_anim:return do_register_anim(c);
         case Fn::character_play_anim:return do_play_anim(c);
         case Fn::character_get_char_ai_flags:return do_ai_flags(c);

@@ -147,6 +147,10 @@ public:
     // CharAI::Update through the Faery's Coordinator.
     Status tick(character::Coordinator& coordinator, Host& host,
                 const FrameInput& input, Result* result);
+    // CharAI::_UpdateMaster (0x3cc5a4) alone, for a Level-actor frame that runs
+    // _UpdateTarget / _UpdateAggro / OnUpdate through its own Monster owners:
+    // the same master kernel and Host providers the Faery frame uses.
+    Status update_master_only(Host& host, std::int32_t machine_state, Result* result);
 
 private:
     static std::int32_t dispatch_frame(void*, character::AIFrameState32*,

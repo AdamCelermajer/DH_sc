@@ -318,11 +318,8 @@ bool parse_integer(std::string_view text, std::int64_t& value) noexcept {
 }
 
 bool retained_effect_filename(std::uint16_t sound_id, std::string_view filename) noexcept {
-    const auto match = std::find_if(player_gameplay_audio::catalog.begin(),
-        player_gameplay_audio::catalog.end(), [sound_id](const auto& entry) {
-            return entry.uid == sound_id;
-        });
-    return match != player_gameplay_audio::catalog.end() && filename == match->filename;
+    const auto* match = player_gameplay_audio::find_uid(sound_id);
+    return match && filename == match->filename;
 }
 
 bool split_command(const std::string& text, std::array<std::string_view, 10>& fields,
@@ -480,11 +477,8 @@ struct GameplayAudioSdl::Impl {
                     std::string_view requested_filename,
                     bool looping, std::int32_t fade_ms, std::uint16_t left_q14,
                     std::uint16_t right_q14, std::string& error) {
-        const auto match = std::find_if(player_gameplay_audio::catalog.begin(),
-            player_gameplay_audio::catalog.end(), [sound_id](const auto& entry) {
-                return entry.uid == sound_id;
-            });
-        if (match == player_gameplay_audio::catalog.end()) {
+        const auto* match = player_gameplay_audio::find_uid(sound_id);
+        if (!match) {
             error = "gameplay effect UID is not in the retained source catalog"; return false;
         }
         if (requested_filename != match->filename) {

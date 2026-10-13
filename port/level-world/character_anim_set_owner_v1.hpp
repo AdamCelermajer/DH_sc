@@ -15,7 +15,11 @@ namespace dh2::character_anim_set_owner_v1 {
 
 using Identity = std::uintptr_t;
 
-enum class RegistrationKind : std::uint8_t { animation, template_animation };
+// `added_dictionary` is an AnimDict joined to the Character's unique anim set
+// at run time by CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14): the source
+// AnimSetManager::AddAnim (0x47653c) keys the set by AnimDict id only, so it
+// carries no AnimTable sequence.
+enum class RegistrationKind : std::uint8_t { animation, template_animation, added_dictionary };
 enum class Phase : std::uint8_t { empty, registering, ready, failed };
 enum class Result : std::uint8_t {
     registered,
@@ -99,6 +103,14 @@ Result compile_character_anim_set(
     std::uint32_t stance_mask,
     const Effects& effects,
     std::string& error);
+
+// CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14) on a ready Character anim set
+// (Script_PlayActorAnim::Init 0x45a2ec calls it for both AnimDicts). A negative
+// id is the source no-op; an AnimDict already in the set is found by
+// AnimSetManager::AddAnim and changes nothing (`added` stays false).
+Result add_animation_dictionary(AnimSetState& state, Identity expected_character,
+                                std::int32_t animation_dictionary_id, bool& added,
+                                std::string& error);
 
 // Clear only the AnimSet projection attached to the matching CharacterVisual.
 bool retire(character_faery_visual_facade_v1::CharacterVisual& visual,

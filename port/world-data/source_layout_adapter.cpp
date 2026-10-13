@@ -1055,7 +1055,30 @@ extern "C" int dh2_world_census_source_objects(const std::uint8_t* mlx,
             !copy_source_text(row.visible, sizeof(row.visible),
                               dh2_world_field(&object, "visible")) ||
             !copy_source_text(row.target_node, sizeof(row.target_node),
-                              dh2_world_field(&object, "target_node"))) {
+                              dh2_world_field(&object, "target_node")) ||
+            !copy_source_text(row.trigger_count, sizeof(row.trigger_count),
+                              dh2_world_field(&object, "triggercount")) ||
+            !copy_source_text(row.trigger_delay, sizeof(row.trigger_delay),
+                              dh2_world_field(&object, "triggerdelay")) ||
+            !copy_source_text(row.trigger_scope, sizeof(row.trigger_scope),
+                              dh2_world_field(&object, "scope")) ||
+            !copy_source_text(row.trigger_type, sizeof(row.trigger_type),
+                              dh2_world_field(&object, "triggertype")) ||
+            !copy_source_text(row.trigger_cine_id, sizeof(row.trigger_cine_id),
+                              dh2_world_field(&object, "cineID")) ||
+            !copy_source_text(row.trigger_script, sizeof(row.trigger_script),
+                              dh2_world_field(&object, "script")) ||
+            !copy_source_text(row.trigger_script_move_out, sizeof(row.trigger_script_move_out),
+                              dh2_world_field(&object, "script_move_out")) ||
+            !copy_source_text(row.trigger_script_all_player, sizeof(row.trigger_script_all_player),
+                              dh2_world_field(&object, "script_all_player")) ||
+            !copy_source_text(row.trigger_script_all_player_move_out,
+                              sizeof(row.trigger_script_all_player_move_out),
+                              dh2_world_field(&object, "script_all_player_move_out")) ||
+            !copy_source_text(row.trigger_effect_one_player, sizeof(row.trigger_effect_one_player),
+                              dh2_world_field(&object, "effect_one_player")) ||
+            !copy_source_text(row.trigger_is_door_closed, sizeof(row.trigger_is_door_closed),
+                              dh2_world_field(&object, "is_door_closed"))) {
             set_error(error, error_capacity, "Generic source MGP identity/condition field exceeds census bounds");
             return 0;
         }

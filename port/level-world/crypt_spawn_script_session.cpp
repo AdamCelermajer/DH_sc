@@ -1,6 +1,7 @@
 #include <map>
 #include "crypt_spawn_script_session.hpp"
 #include <cstring>
+#include <algorithm>
 #include <set>
 
 namespace dh2::character::crypt_scripts {
@@ -133,7 +134,9 @@ struct SpawnSession::Impl {
     dh2_script_table common{}, level{};
     dh2_script_runtime::Runtime scheduler{};
     SpawnDispatch dispatch{};
-    std::uint32_t consumed_events = 0, dispatched = 0;
+    std::uint64_t consumed_serial = 0;
+    std::uint32_t dispatched = 0;
+    std::vector<std::string> started_log, completed_log;
     bool updating = false, failed = false;
     ~Impl() {
         // The task records are discarded before their owned table storage.
@@ -216,7 +219,7 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
         if(accepted<0)owner.failed=true;
         return accepted;
     },nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,
-      nullptr,nullptr,nullptr};
+      nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
     if(dispatch.lookup_object) {
         candidate->scheduler.spawn_services.lookup_object =
             [](void* raw,const char* name,ObjectRecord* output) {
@@ -393,6 +396,18 @@ bool SpawnSession::load(const std::vector<std::uint8_t>& common_names,
                 int result;
                 try { result=owner.dispatch.door_is_blocking(
                     owner.dispatch.context,identity,command_id); }
+                catch(...) { owner.failed=true; throw; }
+                if(result<0)owner.failed=true;
+                return result;
+            };
+    }
+    if(dispatch.camera_active) {
+        candidate->scheduler.spawn_services.camera_active =
+            [](void* raw) {
+                auto& owner=*static_cast<Impl*>(raw);
+                if(!owner.dispatch.camera_active)return -1;
+                int result;
+                try { result=owner.dispatch.camera_active(owner.dispatch.context); }
                 catch(...) { owner.failed=true; throw; }
                 if(result<0)owner.failed=true;
                 return result;
@@ -579,6 +594,22 @@ bool SpawnSession::script_is_running(const std::string& script_name,
     return script_is_running(id, running, error);
 }
 
+bool SpawnSession::script_exists(const std::string& script_name, bool& present,
+                                 std::string& error) const {
+    present = false;
+    if (!ready() || script_name.size() >= dh2_script_runtime::MAX_NAME_BYTES) {
+        error = "Crypt ScriptManager name query is unavailable or out of bounds";
+        return false;
+    }
+    const auto id = dh2_script_resolve_id(
+        impl_->scheduler.common_table, impl_->scheduler.level_table,
+        reinterpret_cast<const std::uint8_t*>(script_name.data()),
+        static_cast<std::uint32_t>(script_name.size()), 1);
+    present = id >= 0;
+    error.clear();
+    return true;
+}
+
 bool SpawnSession::start_script(const std::string& script_name,
                                 std::int32_t argument, bool check_running,
                                 bool online,
@@ -610,8 +641,18 @@ bool SpawnSession::advance(std::uint32_t milliseconds, std::string& error) {
         error = std::string("Crypt script advance: ") + error_name(code);
         return false;
     }
-    while (impl_->consumed_events < impl_->scheduler.event_count) {
-        const auto event = impl_->scheduler.events[impl_->consumed_events++];
+    // The runtime's bounded event log recycles its oldest half when full; the
+    // serial number tells how many entries at its tail this session has not
+    // examined yet.
+    const std::uint64_t unseen = impl_->scheduler.event_serial - impl_->consumed_serial;
+    const std::uint32_t available = static_cast<std::uint32_t>(
+        std::min<std::uint64_t>(unseen, impl_->scheduler.event_count));
+    impl_->consumed_serial = impl_->scheduler.event_serial;
+    for (std::uint32_t i = impl_->scheduler.event_count - available;
+         i < impl_->scheduler.event_count; ++i) {
+        const auto& event = impl_->scheduler.events[i];
+        if (event.type == EVENT_SCRIPT_STARTED) impl_->started_log.emplace_back(event.detail);
+        else if (event.type == EVENT_SCRIPT_COMPLETED) impl_->completed_log.emplace_back(event.detail);
         if (event.type == EVENT_UNSUPPORTED_COMMAND) {
             impl_->failed = true;
             error = "Crypt script emitted an unsupported command";
@@ -620,6 +661,14 @@ bool SpawnSession::advance(std::uint32_t milliseconds, std::string& error) {
     }
     error.clear();
     return true;
+}
+const std::vector<std::string>& SpawnSession::started_log() const {
+    static const std::vector<std::string> empty;
+    return impl_ ? impl_->started_log : empty;
+}
+const std::vector<std::string>& SpawnSession::completed_log() const {
+    static const std::vector<std::string> empty;
+    return impl_ ? impl_->completed_log : empty;
 }
 bool SpawnSession::ready() const { return impl_ && !impl_->failed; }
 bool SpawnSession::running() const {

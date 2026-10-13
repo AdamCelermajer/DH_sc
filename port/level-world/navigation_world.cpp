@@ -77,7 +77,13 @@ extern "C" int dh2_nav_route(RouteResult* result,const RouteRequest* request,Rou
  const int status=dh2_nav_search(&output,&search_request,&scratch);if(status)return status;
  search.found=output.found;search.expanded=output.expanded;search.edges_examined=output.edges_examined;search.candidate_relaxations=output.candidate_relaxations;search.non_goal_enqueues=output.non_goal_enqueues;
  result->found=output.found;if(request->output_requested)search.path_count=output.path_count;
- if(!result->found){w.failed[w.failed_count++]={result->source,result->target,request->limit};if(request->output_requested)search.path_count=0;return 0;}
+ if(!result->found){
+  // SearchFailCache::add (0x52a504) drops an already-11-entry cache before it
+  // appends, so the original never holds more than 11 failed (source node,
+  // target node, limit) triples and a pair that failed earlier is searched
+  // again once the cache has turned over (doors/dead-end flags may have changed).
+  if(w.failed_count>10)w.failed_count=0;
+  w.failed[w.failed_count++]={result->source,result->target,request->limit};if(request->output_requested)search.path_count=0;return 0;}
  result->kind=2;
  if(request->output_requested&&search.path_count>1){const unsigned last=search.path[search.path_count-1];const unsigned from=last?graph.edges[last-1].from:0;for(auto id:target_nodes)if(id==from){--search.path_count;break;}}
  return 0;

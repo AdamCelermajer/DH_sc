@@ -40,6 +40,33 @@ bool Owner::load(const camera_animset_v1::Selection& selection,ReadAsset reader,
     set_name_=selection.name;clips_=std::move(candidate);return true;
 }
 
+bool Owner::append(const camera_animset_v1::Resource& resource,ReadAsset reader,
+                   void* context,std::string& error) {
+    error.clear();
+    if(set_name_.empty()||!reader||
+       resource.registration_order!=static_cast<std::int32_t>(clips_.size())||
+       resource.clip_id<0||resource.path.empty()||resource.path.size()>4096){
+        error="Camera AnimSet on-demand resource identity is invalid";return false;
+    }
+    // The on-demand set stays bounded (the AnimSet holds a few cutscene cameras).
+    constexpr std::size_t kMaxOnDemandClips=64;
+    if(clips_.size()>=kMaxOnDemandClips){error="On-demand camera clip bank is full";return false;}
+    Clip clip;clip.resource=resource;
+    if(!reader(context,resource.path,clip.bdae,error)){
+        if(error.empty())error="Camera AnimSet BDAE resource read failed";
+        return false;
+    }
+    if(clip.bdae.empty()||clip.bdae.size()>kMaxClipBytes){
+        error="Camera AnimSet BDAE size is outside the accepted range";return false;
+    }
+    resources::BresView bres{};
+    if(dh2_bres_open(&bres,clip.bdae.data(),clip.bdae.size())!=resources::BresError::ok||
+       dh2_bres_library_count(&bres,resources::Library::animation)==0){
+        error="Camera AnimSet resource is not a valid BRES animation";return false;
+    }
+    clips_.push_back(std::move(clip));return true;
+}
+
 void Owner::clear() noexcept {set_name_.clear();clips_.clear();}
 
 const Clip* Owner::resolve(const camera_animset_v1::PlayRequest& request) const noexcept {

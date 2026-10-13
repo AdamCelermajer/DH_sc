@@ -104,6 +104,25 @@ struct SpawnFacts {
  std::uint32_t respawn_timer_eligible=0,respawn_delay_ms=0,
               can_respawn=0,group_role3=0,group_has_other_in_limbus=0;
 };
+// CSAnim (CharStateMachine state 14: OnInit 0x3c8b28, OnFocus 0x3c324c, OnUpdate
+// 0x3c1a3c, OnEvent 0x3c1a14, OnBlur 0x3c2dd0, an empty body). SM_SetAnimState
+// (0x3c1aa8) stores the pending AnimTable row in the machine's +0x28 word
+// (State.animation_override) and two bytes at CharStateMachine+0x44/+0x45, which
+// are Character+0x540/+0x541. Character+0x1480 is the scripted byte that
+// Script_MarkCharacterAsScripted writes. The Coordinator owns all three; this
+// projection borrows copies so the established State/Facts layouts stay intact.
+struct AnimFacts {
+ // +0x44 (Character+0x540): CSAnim::OnEvent returns to Idle on event 34.
+ // PlayAnim's Lua boolean; Script_PlayActorAnim passes false.
+ std::uint32_t wait_for_end_540=0;
+ // +0x45 (Character+0x541): selects the OnFocus flag word and lets OnUpdate
+ // leave the state unless the Character is scripted. Script_PlayActorAnim
+ // passes true; Lua PlayAnim passes false.
+ std::uint32_t idle_on_update_541=0;
+ // Character+0x1480.
+ std::uint32_t scripted_1480=0;
+};
+static_assert(sizeof(AnimFacts)==12);
 static_assert(sizeof(SpawnFacts)==36);
 static_assert(sizeof(State)==56&&sizeof(Facts)==96&&sizeof(CombatFacts)==40);
 static_assert(sizeof(Request)==32&&sizeof(Services)==16);
@@ -179,4 +198,52 @@ int dh2_character_spawn_dead_transition(dh2::character::State*,const dh2::charac
 // or idle transition. Return 0 for a valid no-op and -1 for malformed input.
 int dh2_character_spawn_update(const dh2::character::State*,
  const dh2::character::SpawnFacts*);
+// CSAnim (state 14) is entered by CharStateMachine::SM_SetAnimState and left by
+// its two registered events (50001 -> CSMove, 50005 -> CSSkill), its OnEvent /
+// OnUpdate Idle returns, or any direct _SetState. Exactly one side of a
+// transition may be state 14 (14 -> 14 is allowed: a second SM_SetAnimState
+// re-runs OnFocus without resetting the state timer). The non-CSAnim side is
+// one of the base states -1/2/3/4/5/12/13 or, with CombatFacts, 8..11; CSSkill
+// (6) and CSCast (7) use their own projections below. The pending AnimTable row
+// is State.animation_override; OnFocus plays and clears it through the existing
+// set_animation service (SM_SetAnim(-1)). 1 executed, -1 malformed or an
+// unattached source state.
+int dh2_character_anim_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::AnimFacts*,const dh2::character::CombatFacts*,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,const dh2::character::Services*);
+// Limbus (0), Spawn (1) and PreSpawn (17) -> CSAnim (14), e.g. Script_PlayActorAnim
+// on a cutscene actor that has not finished spawning: the outgoing state's
+// source OnBlur runs first (CSLimbus revives and shows the body, CSSpawn creates
+// the physical object, CSPreSpawn revives and enables collisions).
+int dh2_character_anim_spawn_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::SpawnFacts*,const dh2::character::AnimFacts*,
+ std::int32_t event,const dh2::character::Services*);
+// CSAnim (14) -> Limbus (0), e.g. Script_PutCharacterInLimbus (SM_SetLimbusState
+// 0x3c1a74 -> _SetState(0,-1,0)) on a cutscene actor that is still playing its
+// Script_PlayActorAnim row: CSAnim::OnBlur (0x3c2dd0) is empty and
+// CSLimbus::OnFocus hides the body, starts the respawn timer and clears aggro.
+int dh2_character_anim_limbus_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::SpawnFacts*,const dh2::character::AnimFacts*,
+ std::int32_t event,const dh2::character::Services*);
+// CSSkill (6) <-> CSAnim (14): CSSkill::OnBlur / OnFocus run through the same
+// callback projection the ordinary CSSkill transitions borrow.
+int dh2_character_anim_skill_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::AnimFacts*,dh2::character_skill_state_dispatch_v1::Projection*,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,const dh2::character::Services*);
+// CSCast (7) -> CSAnim (14).
+int dh2_character_anim_cast_state_transition(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::AnimFacts*,dh2::character_cast_lifecycle_v1::Projection*,
+ std::int32_t next,std::int32_t event,std::uint64_t payload,const dh2::character::Services*);
+// State events while CSAnim is current: event 34 returns to Idle when the
+// +0x44 byte is set (OnEvent runs before the registered transitions); 50001
+// enters CSMove; 50005 enters CSSkill and needs the skill projection. Other
+// events are ignored (CSAnim registers nothing else). 1 transitioned, 0
+// ignored, -1 malformed.
+int dh2_character_anim_state_event(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::AnimFacts*,dh2::character_skill_state_dispatch_v1::Projection*,
+ std::uint32_t event,std::uint64_t payload,const dh2::character::Services*);
+// CSAnim::OnUpdate: with the scripted byte clear and the +0x45 byte set the
+// state calls SM_SetIdleState(false); otherwise nothing happens. 1 on success.
+int dh2_character_anim_state_update(dh2::character::State*,const dh2::character::Facts*,
+ const dh2::character::AnimFacts*,std::uint32_t dt_ms,const dh2::character::Services*);
 }

@@ -59,6 +59,15 @@ public:
                       PlayRequest&,std::string& error) const;
     bool script_play_camera(bool use_crit,std::int32_t external_clip,
                             PlayRequest&,std::string& error) const;
+    // AnimationSet::GetAnimation (0x3660f4) loads an AnimDict that is not in the
+    // selected CamAnimSet on demand (AnimSetManager::AddAnim only presets the
+    // low-memory LG_DEVICES lock, and LG_DEVICES is 0 otherwise), so
+    // CameraLevel::PlayAnim (0x40f904) still plays it. `on_demand_resource` names
+    // the Resource a script clip outside the set resolves to; `adopt_loaded`
+    // records it in the set once its BDAE is in the bank.
+    bool on_demand_resource(std::int32_t clip_id,const data::Dictionary& clips,
+                            Resource& out,std::string& error) const;
+    bool adopt_loaded(const Resource&);
 private:
     bool request(std::int32_t,Resource::Slot,Trigger,bool,PlayRequest&,
                  std::string&) const;

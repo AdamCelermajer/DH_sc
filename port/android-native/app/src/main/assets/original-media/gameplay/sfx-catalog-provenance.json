@@ -1,0 +1,8946 @@
+{
+ "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+ "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+ "source_audio_catalog": "recovered/assets/source-data/com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds_he.xml",
+ "source_row_table": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+ "selection_rule": [
+  "format pcm Sounds.xml rows outside the three MUSIC groups (1..3)",
+  "whose exact filename is a file of the cache data/sounds folder",
+  "minus the five menu effects staged at original-media/ (UIDs 0..4)",
+  "plus the 51 hand-audited player_gameplay_audio.hpp catalog UIDs, whose files were staged earlier"
+ ],
+ "sounds": [
+  {
+   "uid": 5,
+   "label": "MenuShopSuccess",
+   "filename": "sfx_menu_shop_deal.wav",
+   "xml_filename": "sfx_menu_shop_deal.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 6,
+   "label": "MenuShopFail",
+   "filename": "sfx_menu_shop_nodeal.wav",
+   "xml_filename": "sfx_menu_shop_nodeal.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 7,
+   "label": "MenuTutoPopup",
+   "filename": "sfx_tutorial_popup.wav",
+   "xml_filename": "sfx_tutorial_popup.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 9,
+   "label": "LevelUp",
+   "filename": "sfx_level_up.wav",
+   "xml_filename": "sfx_level_up.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 10,
+   "label": "QuestNew",
+   "filename": "sfx_quest_new.wav",
+   "xml_filename": "sfx_quest_new.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 11,
+   "label": "QuestUpdate",
+   "filename": "sfx_quest_complete.wav",
+   "xml_filename": "sfx_quest_complete.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 12,
+   "label": "QuestComplete",
+   "filename": "sfx_quest_complete.wav",
+   "xml_filename": "sfx_quest_complete.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 13,
+   "label": "sfx_quest_panel_up",
+   "filename": "sfx_quest_panel_up.wav",
+   "xml_filename": "sfx_quest_panel_up.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 15,
+   "label": "sfx_mc_low_hp",
+   "filename": "sfx_mc_low_hp.wav",
+   "xml_filename": "sfx_mc_low_hp.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 16,
+   "label": "sfx_act_completed",
+   "filename": "sfx_act_completed.wav",
+   "xml_filename": "sfx_act_completed.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 17,
+   "label": "sfx_tap_dialog",
+   "filename": "sfx_tap_dialog.wav",
+   "xml_filename": "sfx_tap_dialog.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 18,
+   "label": "sfx_friend_death",
+   "filename": "sfx_friend_death.wav",
+   "xml_filename": "sfx_friend_death.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 19,
+   "label": "sfx_friend_left_game",
+   "filename": "sfx_friend_left_game.wav",
+   "xml_filename": "sfx_friend_left_game.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 20,
+   "label": "sfx_friend_low_hp",
+   "filename": "sfx_friend_low_hp.wav",
+   "xml_filename": "sfx_friend_low_hp.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 21,
+   "label": "sfx_friend_revive",
+   "filename": "sfx_friend_revive.wav",
+   "xml_filename": "sfx_friend_revive.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 22,
+   "label": "WeaponSwoosh1",
+   "filename": "sfx_swoosh_sword_1.wav",
+   "xml_filename": "sfx_swoosh_sword_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 23,
+   "label": "WeaponSwoosh2",
+   "filename": "sfx_swoosh_sword_2.wav",
+   "xml_filename": "sfx_swoosh_sword_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 24,
+   "label": "sfx_swoosh_dagger_1",
+   "filename": "sfx_swoosh_dagger_1.wav",
+   "xml_filename": "sfx_swoosh_dagger_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 25,
+   "label": "sfx_swoosh_dagger_2",
+   "filename": "sfx_swoosh_dagger_2.wav",
+   "xml_filename": "sfx_swoosh_dagger_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 26,
+   "label": "sfx_swoosh_staff_1",
+   "filename": "sfx_swoosh_staff_1.wav",
+   "xml_filename": "sfx_swoosh_staff_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 27,
+   "label": "sfx_swoosh_staff_2",
+   "filename": "sfx_swoosh_staff_2.wav",
+   "xml_filename": "sfx_swoosh_staff_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 28,
+   "label": "sfx_mc_shoot_arrow",
+   "filename": "sfx_mc_shoot_arrow.wav",
+   "xml_filename": "sfx_mc_shoot_arrow.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 29,
+   "label": "sfx_mage_staff_elemental_fire",
+   "filename": "sfx_mage_staff_elemental_fire.wav",
+   "xml_filename": "sfx_mage_staff_elemental_fire.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 30,
+   "label": "sfx_mage_staff_elemental_ice",
+   "filename": "sfx_mage_staff_elemental_ice.wav",
+   "xml_filename": "sfx_mage_staff_elemental_ice.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 31,
+   "label": "sfx_mage_staff_elemental_earth",
+   "filename": "sfx_mage_staff_elemental_earth.wav",
+   "xml_filename": "sfx_mage_staff_elemental_earth.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 32,
+   "label": "sfx_mage_staff_elemental_wind",
+   "filename": "sfx_mage_staff_elemental_wind.wav",
+   "xml_filename": "sfx_mage_staff_elemental_wind.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 33,
+   "label": "sfx_mage_staff_elemental_lightning",
+   "filename": "sfx_mage_staff_elemental_thunder.wav",
+   "xml_filename": "sfx_mage_staff_elemental_thunder.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 34,
+   "label": "sfx_npc_priest_hurt_1",
+   "filename": "sfx_npc_priest_hurt_1.wav",
+   "xml_filename": "sfx_npc_priest_hurt_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 35,
+   "label": "sfx_npc_priest_hurt_2",
+   "filename": "sfx_npc_priest_hurt_2.wav",
+   "xml_filename": "sfx_npc_priest_hurt_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 36,
+   "label": "sfx_npc_priest_hurt_3",
+   "filename": "sfx_npc_priest_hurt_3.wav",
+   "xml_filename": "sfx_npc_priest_hurt_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 38,
+   "label": "CharacterHurt1",
+   "filename": "sfx_character_hurt_1.wav",
+   "xml_filename": "sfx_character_hurt_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 39,
+   "label": "CharacterHurt2",
+   "filename": "sfx_character_hurt_2.wav",
+   "xml_filename": "sfx_character_hurt_2.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 40,
+   "label": "CharacterHurt3",
+   "filename": "sfx_character_hurt_3.wav",
+   "xml_filename": "sfx_character_hurt_3.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 41,
+   "label": "ImpactMetal1",
+   "filename": "sfx_impact_metal_1.wav",
+   "xml_filename": "sfx_impact_metal_metal_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 42,
+   "label": "ImpactMetal2",
+   "filename": "sfx_impact_metal_2.wav",
+   "xml_filename": "sfx_impact_metal_metal_2.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 43,
+   "label": "ImpactMetal3",
+   "filename": "sfx_impact_metal_3.wav",
+   "xml_filename": "sfx_impact_metal_metal_3.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 44,
+   "label": "ImpactMetalFlesh1",
+   "filename": "sfx_impact_metal_flesh_1.wav",
+   "xml_filename": "sfx_impact_metal_flesh_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 45,
+   "label": "ImpactMetalFlesh2",
+   "filename": "sfx_impact_metal_flesh_2.wav",
+   "xml_filename": "sfx_impact_metal_flesh_2.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 46,
+   "label": "ImpactMetalFlesh3",
+   "filename": "sfx_impact_metal_flesh_3.wav",
+   "xml_filename": "sfx_impact_metal_flesh_3.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 47,
+   "label": "sfx_impact_metal_flesh_medium_1",
+   "filename": "sfx_impact_metal_flesh_medium_1.wav",
+   "xml_filename": "sfx_impact_metal_flesh_medium_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 48,
+   "label": "sfx_impact_metal_flesh_medium_2",
+   "filename": "sfx_impact_metal_flesh_medium_2.wav",
+   "xml_filename": "sfx_impact_metal_flesh_medium_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 49,
+   "label": "sfx_impact_metal_flesh_medium_3",
+   "filename": "sfx_impact_metal_flesh_medium_3.wav",
+   "xml_filename": "sfx_impact_metal_flesh_medium_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 50,
+   "label": "CharacterDie",
+   "filename": "sfx_character_death.wav",
+   "xml_filename": "sfx_character_death.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 51,
+   "label": "sfx_impact_block_1",
+   "filename": "sfx_impact_block_1.wav",
+   "xml_filename": "sfx_impact_block_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 52,
+   "label": "sfx_impact_block_2",
+   "filename": "sfx_impact_block_2.wav",
+   "xml_filename": "sfx_impact_block_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 53,
+   "label": "sfx_impact_arrow_flesh_1",
+   "filename": "sfx_impact_arrow_flesh_1.wav",
+   "xml_filename": "sfx_impact_arrow_flesh_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 54,
+   "label": "sfx_impact_arrow_flesh_2",
+   "filename": "sfx_impact_arrow_flesh_2.wav",
+   "xml_filename": "sfx_impact_arrow_flesh_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 55,
+   "label": "sfx_impact_arrow_flesh_3",
+   "filename": "sfx_impact_arrow_flesh_3.wav",
+   "xml_filename": "sfx_impact_arrow_flesh_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 56,
+   "label": "sfx_impact_arrow_object_1",
+   "filename": "sfx_impact_arrow_object_1.wav",
+   "xml_filename": "sfx_impact_arrow_object_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 57,
+   "label": "sfx_impact_arrow_object_2",
+   "filename": "sfx_impact_arrow_object_2.wav",
+   "xml_filename": "sfx_impact_arrow_object_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 58,
+   "label": "sfx_impact_elemental_earth",
+   "filename": "sfx_impact_elemental_earth.wav",
+   "xml_filename": "sfx_impact_elemental_earth.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 59,
+   "label": "sfx_impact_elemental_fire",
+   "filename": "sfx_impact_elemental_fire.wav",
+   "xml_filename": "sfx_impact_elemental_fire.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 60,
+   "label": "sfx_impact_elemental_ice",
+   "filename": "sfx_impact_elemental_ice.wav",
+   "xml_filename": "sfx_impact_elemental_ice.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 61,
+   "label": "sfx_impact_elemental_thunder",
+   "filename": "sfx_impact_elemental_thunder.wav",
+   "xml_filename": "sfx_impact_elemental_thunder.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 62,
+   "label": "sfx_impact_elemental_wind",
+   "filename": "sfx_impact_elemental_wind.wav",
+   "xml_filename": "sfx_impact_elemental_wind.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 63,
+   "label": "sfx_impact_burst_shot",
+   "filename": "sfx_impact_burst_shot.wav",
+   "xml_filename": "sfx_impact_burst_shot.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 64,
+   "label": "sfx_fs_walk_grass_1",
+   "filename": "sfx_fs_walk_grass_1.wav",
+   "xml_filename": "sfx_fs_walk_grass_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 65,
+   "label": "sfx_fs_walk_grass_2",
+   "filename": "sfx_fs_walk_grass_2.wav",
+   "xml_filename": "sfx_fs_walk_grass_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 66,
+   "label": "sfx_fs_walk_grass_3",
+   "filename": "sfx_fs_walk_grass_3.wav",
+   "xml_filename": "sfx_fs_walk_grass_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 67,
+   "label": "sfx_fs_walk_grass_4",
+   "filename": "sfx_fs_walk_grass_4.wav",
+   "xml_filename": "sfx_fs_walk_grass_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 68,
+   "label": "sfx_fs_walk_metal_1",
+   "filename": "sfx_fs_walk_metal_1.wav",
+   "xml_filename": "sfx_fs_walk_metal_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 69,
+   "label": "sfx_fs_walk_metal_2",
+   "filename": "sfx_fs_walk_metal_2.wav",
+   "xml_filename": "sfx_fs_walk_metal_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 70,
+   "label": "sfx_fs_walk_metal_3",
+   "filename": "sfx_fs_walk_metal_3.wav",
+   "xml_filename": "sfx_fs_walk_metal_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 71,
+   "label": "sfx_fs_walk_metal_4",
+   "filename": "sfx_fs_walk_metal_4.wav",
+   "xml_filename": "sfx_fs_walk_metal_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 72,
+   "label": "FootstepWalkStone1",
+   "filename": "sfx_fs_walk_stone_1.wav",
+   "xml_filename": "sfx_fs_walk_stone_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 73,
+   "label": "FootstepWalkStone2",
+   "filename": "sfx_fs_walk_stone_2.wav",
+   "xml_filename": "sfx_fs_walk_stone_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 74,
+   "label": "FootstepWalkStone3",
+   "filename": "sfx_fs_walk_stone_3.wav",
+   "xml_filename": "sfx_fs_walk_stone_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 75,
+   "label": "FootstepWalkStone4",
+   "filename": "sfx_fs_walk_stone_4.wav",
+   "xml_filename": "sfx_fs_walk_stone_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 76,
+   "label": "FootstepWalkWater1",
+   "filename": "sfx_fs_walk_water_1.wav",
+   "xml_filename": "sfx_fs_walk_water_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 77,
+   "label": "FootstepWalkWater2",
+   "filename": "sfx_fs_walk_water_2.wav",
+   "xml_filename": "sfx_fs_walk_water_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 78,
+   "label": "FootstepWalkWater3",
+   "filename": "sfx_fs_walk_water_3.wav",
+   "xml_filename": "sfx_fs_walk_water_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 79,
+   "label": "FootstepWalkWater4",
+   "filename": "sfx_fs_walk_water_4.wav",
+   "xml_filename": "sfx_fs_walk_water_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 80,
+   "label": "sfx_fs_walk_wet_floor_1",
+   "filename": "sfx_fs_walk_wet_floor_1.wav",
+   "xml_filename": "sfx_fs_walk_wet_floor_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 81,
+   "label": "sfx_fs_walk_wet_floor_2",
+   "filename": "sfx_fs_walk_wet_floor_2.wav",
+   "xml_filename": "sfx_fs_walk_wet_floor_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 82,
+   "label": "sfx_fs_walk_wet_floor_3",
+   "filename": "sfx_fs_walk_wet_floor_3.wav",
+   "xml_filename": "sfx_fs_walk_wet_floor_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 83,
+   "label": "sfx_fs_walk_wet_floor_4",
+   "filename": "sfx_fs_walk_wet_floor_4.wav",
+   "xml_filename": "sfx_fs_walk_wet_floor_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 84,
+   "label": "sfx_fs_walk_wood_1",
+   "filename": "sfx_fs_walk_wood_1.wav",
+   "xml_filename": "sfx_fs_walk_wood_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 85,
+   "label": "sfx_fs_walk_wood_2",
+   "filename": "sfx_fs_walk_wood_2.wav",
+   "xml_filename": "sfx_fs_walk_wood_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 86,
+   "label": "sfx_fs_walk_wood_3",
+   "filename": "sfx_fs_walk_wood_3.wav",
+   "xml_filename": "sfx_fs_walk_wood_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 87,
+   "label": "sfx_fs_walk_wood_4",
+   "filename": "sfx_fs_walk_wood_4.wav",
+   "xml_filename": "sfx_fs_walk_wood_4.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 88,
+   "label": "sfx_spell_lightning_small",
+   "filename": "sfx_faerie_lightning_small.wav",
+   "xml_filename": "sfx_faerie_lightning_small.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 89,
+   "label": "sfx_spell_lightning_medium",
+   "filename": "sfx_faerie_lightning_medium.wav",
+   "xml_filename": "sfx_faerie_lightning_medium.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 90,
+   "label": "sfx_spell_lightning_big",
+   "filename": "sfx_faerie_lightning_big.wav",
+   "xml_filename": "sfx_faerie_lightning_big.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 91,
+   "label": "CelestLightningSpell",
+   "filename": "sfx_faerie_lightning_medium.wav",
+   "xml_filename": "sfx_faerie_lightning_medium.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 93,
+   "label": "WindyWhirlwindSpell",
+   "filename": "sfx_faerie_wind.wav",
+   "xml_filename": "sfx_faerie_wind.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 94,
+   "label": "RockyEarthSpell",
+   "filename": "sfx_faerie_earth.wav",
+   "xml_filename": "sfx_faerie_earth.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 95,
+   "label": "sfx_spell_fire_small",
+   "filename": "sfx_faerie_fire_small.wav",
+   "xml_filename": "sfx_faerie_fire_small.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 96,
+   "label": "sfx_spell_fire_medium",
+   "filename": "sfx_faerie_fire_medium.wav",
+   "xml_filename": "sfx_faerie_fire_medium.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 97,
+   "label": "sfx_spell_fire_big",
+   "filename": "sfx_faerie_fire_big.wav",
+   "xml_filename": "sfx_faerie_fire_big.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 98,
+   "label": "sfx_spell_water_small",
+   "filename": "sfx_faerie_water_small.wav",
+   "xml_filename": "sfx_faerie_water_small.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 99,
+   "label": "sfx_spell_water_medium",
+   "filename": "sfx_faerie_water_medium.wav",
+   "xml_filename": "sfx_faerie_water_medium.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 100,
+   "label": "sfx_spell_water_big",
+   "filename": "sfx_faerie_water_big.wav",
+   "xml_filename": "sfx_faerie_water_big.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 101,
+   "label": "SlamSkill",
+   "filename": "sfx_skill_warrior_headsplitter.wav",
+   "xml_filename": "sfx_skill_warrior_headsplitter.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 102,
+   "label": "DashSkill",
+   "filename": "sfx_skill_warrior_shield_rush.wav",
+   "xml_filename": "sfx_skill_warrior_shield_rush.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 103,
+   "label": "ShockwaveSkill",
+   "filename": "sfx_skill_warrior_earthstrike.wav",
+   "xml_filename": "sfx_skill_warrior_earthstrike.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 104,
+   "label": "sfx_skill_warrior_pld_alastor_blessing",
+   "filename": "sfx_skill_warrior_pld_alastor_blessing.wav",
+   "xml_filename": "sfx_skill_warrior_pld_alastor_blessing.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 105,
+   "label": "sfx_skill_warrior_pld_crusade",
+   "filename": "sfx_skill_warrior_pld_crusade.wav",
+   "xml_filename": "sfx_skill_warrior_pld_crusade.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 106,
+   "label": "sfx_skill_warrior_pld_spiritual_sight",
+   "filename": "sfx_skill_warrior_pld_spiritual_sight.wav",
+   "xml_filename": "sfx_skill_warrior_pld_spiritual_sight.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 107,
+   "label": "sfx_skill_warrior_pld_condemnation",
+   "filename": "sfx_skill_warrior_pld_condemnation.wav",
+   "xml_filename": "sfx_skill_warrior_pld_condemnation.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 108,
+   "label": "sfx_skill_warrior_bsk_crippling_strike",
+   "filename": "sfx_skill_warrior_bsk_crippling_strike.wav",
+   "xml_filename": "sfx_skill_warrior_bsk_crippling_strike.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 109,
+   "label": "sfx_skill_warrior_bsk_bloodmoon_howl",
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+   "xml_filename": "sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 110,
+   "label": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear",
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+   "xml_filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 111,
+   "label": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun",
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+   "xml_filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 112,
+   "label": "sfx_skill_warrior_bsk_annihilating_spin",
+   "filename": "sfx_skill_warrior_bsk_annihilating_spin.wav",
+   "xml_filename": "sfx_skill_warrior_bsk_annihilating_spin.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 113,
+   "label": "WaterMasterySkill",
+   "filename": "sfx_skill_mage_cold_ray.wav",
+   "xml_filename": "sfx_skill_mage_cold_ray.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 114,
+   "label": "sfx_skill_mage_doppelganger",
+   "filename": "sfx_skill_mage_doppelganger.wav",
+   "xml_filename": "sfx_skill_mage_doppelganger.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 115,
+   "label": "sfx_skill_mage_doppelganger_statue_explode",
+   "filename": "sfx_skill_mage_doppelganger_statue_explode.wav",
+   "xml_filename": "sfx_skill_mage_doppelganger_statue_explode.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 116,
+   "label": "sfx_skill_mage_thunder_braid",
+   "filename": "sfx_skill_mage_thunder_braid.wav",
+   "xml_filename": "sfx_skill_mage_thunder_braid.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 117,
+   "label": "sfx_skill_mage_thunder_braid_add_1",
+   "filename": "sfx_skill_mage_thunder_braid_add_1.wav",
+   "xml_filename": "sfx_skill_mage_thunder_braid_add_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 118,
+   "label": "sfx_skill_mage_thunder_braid_add_2",
+   "filename": "sfx_skill_mage_thunder_braid_add_2.wav",
+   "xml_filename": "sfx_skill_mage_thunder_braid_add_2,wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 119,
+   "label": "sfx_skill_mage_thunder_braid_loop",
+   "filename": "sfx_skill_mage_thunder_braid_loop.wav",
+   "xml_filename": "sfx_skill_mage_thunder_braid_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 120,
+   "label": "sfx_skill_mage_stormslave",
+   "filename": "sfx_skill_mage_stormslave.wav",
+   "xml_filename": "sfx_skill_mage_stormslave.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 121,
+   "label": "sfx_skill_mage_ilu_eclipse",
+   "filename": "sfx_skill_mage_ilu_eclipse.wav",
+   "xml_filename": "sfx_skill_mage_ilu_eclipse.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 122,
+   "label": "sfx_skill_mage_ilu_terror",
+   "filename": "sfx_skill_mage_ilu_terror.wav",
+   "xml_filename": "sfx_skill_mage_ilu_terror.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 123,
+   "label": "sfx_skill_mage_ilu_nightmare",
+   "filename": "sfx_skill_mage_ilu_nightmare.wav",
+   "xml_filename": "sfx_skill_mage_ilu_nightmare.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 124,
+   "label": "sfx_skill_mage_ilu_hold_time",
+   "filename": "sfx_skill_mage_ilu_hold_time.wav",
+   "xml_filename": "sfx_skill_mage_ilu_hold_time.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 125,
+   "label": "sfx_skill_mage_ilu_hold_time_hit",
+   "filename": "sfx_skill_mage_ilu_hold_time_hit.wav",
+   "xml_filename": "sfx_skill_mage_ilu_hold_time_hit.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 126,
+   "label": "sfx_skill_mage_nec_harrowing_grasp",
+   "filename": "sfx_skill_mage_nec_harrowing_grasp.wav",
+   "xml_filename": "sfx_skill_mage_nec_harrowing_grasp.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 127,
+   "label": "sfx_skill_mage_nec_reaperstorm",
+   "filename": "sfx_skill_mage_nec_reaperstorm.wav",
+   "xml_filename": "sfx_skill_mage_nec_reaperstorm.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 128,
+   "label": "sfx_skill_mage_nec_raise",
+   "filename": "sfx_skill_mage_nec_raise.wav",
+   "xml_filename": "sfx_skill_mage_nec_raise.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 129,
+   "label": "sfx_skill_mage_nec_pestilence_breath",
+   "filename": "sfx_skill_mage_nec_pestilence_breath.wav",
+   "xml_filename": "sfx_skill_mage_nec_pestilence_breath.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 130,
+   "label": "ViciousStrikeSkill",
+   "filename": "sfx_skill_rogue_vicious_strike.wav",
+   "xml_filename": "sfx_skill_rogue_vicious_strike.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 131,
+   "label": "JumpAttackSkill",
+   "filename": "sfx_skill_rogue_heel_strike.wav",
+   "xml_filename": "sfx_skill_rogue_heel_strike.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 132,
+   "label": "sfx_skill_rogue_featherfoot",
+   "filename": "sfx_skill_rogue_featherfoot.wav",
+   "xml_filename": "sfx_skill_rogue_featherfoot.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 133,
+   "label": "sfx_skill_rogue_desert_pinwheel",
+   "filename": "sfx_skill_rogue_desert_pinwheel.wav",
+   "xml_filename": "sfx_skill_rogue_desert_pinwheel.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 134,
+   "label": "sfx_skill_rogue_arc_rain_of_arrows",
+   "filename": "sfx_skill_rogue_arc_rain_of_arrows.wav",
+   "xml_filename": "sfx_skill_rogue_arc_rain_of_arrows.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 135,
+   "label": "sfx_skill_rogue_arc_pierce_shot",
+   "filename": "sfx_skill_rogue_arc_pierce_shot.wav",
+   "xml_filename": "sfx_skill_rogue_arc_pierce_shot.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 136,
+   "label": "sfx_skill_rogue_arc_maim_shot",
+   "filename": "sfx_skill_rogue_arc_maim_shot.wav",
+   "xml_filename": "sfx_skill_rogue_arc_maim_shot.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 137,
+   "label": "sfx_skill_rogue_arc_burst_shot",
+   "filename": "sfx_skill_rogue_arc_burst_shot.wav",
+   "xml_filename": "sfx_skill_rogue_arc_burst_shot.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 138,
+   "label": "sfx_skill_rogue_arc_venom_shot",
+   "filename": "sfx_skill_rogue_arc_venom_shot.wav",
+   "xml_filename": "sfx_skill_rogue_arc_venom_shot.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 139,
+   "label": "sfx_skill_rogue_ass_throwing_knife",
+   "filename": "sfx_skill_rogue_ass_throw_knife.wav",
+   "xml_filename": "sfx_skill_rogue_ass_throw_knife.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 140,
+   "label": "sfx_skill_rogue_ass_concealing_cloud",
+   "filename": "sfx_skill_rogue_ass_concealing_cloud.wav",
+   "xml_filename": "sfx_skill_rogue_ass_concealing_cloud.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 141,
+   "label": "sfx_skill_rogue_ass_plague_edge",
+   "filename": "sfx_skill_rogue_ass_plague_edge.wav",
+   "xml_filename": "sfx_skill_rogue_ass_plague_edge.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 142,
+   "label": "sfx_skill_rogue_ass_assasinate",
+   "filename": "sfx_skill_rogue_ass_assassinate.wav",
+   "xml_filename": "sfx_skill_rogue_ass_assassinate.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 143,
+   "label": "sfx_passive_skill_activate_1",
+   "filename": "sfx_passive_skill_activate_1.wav",
+   "xml_filename": "sfx_passive_skill_activate_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 144,
+   "label": "sfx_passive_skill_activate_2",
+   "filename": "sfx_passive_skill_activate_2.wav",
+   "xml_filename": "sfx_passive_skill_activate_2.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 145,
+   "label": "sfx_passive_skill_activate_3",
+   "filename": "sfx_passive_skill_activate_3.wav",
+   "xml_filename": "sfx_passive_skill_activate_3.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 146,
+   "label": "sfx_passive_skill_activate_4",
+   "filename": "sfx_passive_skill_activate_4.wav",
+   "xml_filename": "sfx_passive_skill_activate_4.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 176,
+   "label": "sfx_magic_portal_loop",
+   "filename": "sfx_magic_portal_loop.wav",
+   "xml_filename": "sfx_magic_portal_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 177,
+   "label": "sfx_telepoint_loop",
+   "filename": "sfx_telepoint_loop.wav",
+   "xml_filename": "sfx_telepoint_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 178,
+   "label": "sfx_fire_loop",
+   "filename": "sfx_fire_loop.wav",
+   "xml_filename": "sfx_fire_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 179,
+   "label": "CatacombWindLoop",
+   "filename": "sfx_catacomb_wind_loop.wav",
+   "xml_filename": "sfx_catacomb_wind_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 180,
+   "label": "SouthroadRiverLoop",
+   "filename": "sfx_southroad_river_loop.wav",
+   "xml_filename": "sfx_southroad_river_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 181,
+   "label": "BanditLairRiverLoop",
+   "filename": "sfx_bandit_lair_river_loop.wav",
+   "xml_filename": "sfx_bandit_lair_river_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 182,
+   "label": "SouthroadWaterfallLoop1",
+   "filename": "sfx_southroad_waterfall_loop_1.wav",
+   "xml_filename": "sfx_southroad_waterfall_loop_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 183,
+   "label": "SouthroadWaterfallLoop2",
+   "filename": "sfx_southroad_waterfall_loop_2.wav",
+   "xml_filename": "sfx_southroad_waterfall_loop_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 184,
+   "label": "sfx_magical_shrine_loop",
+   "filename": "sfx_magical_shrine_loop.wav",
+   "xml_filename": "sfx_magical_shrine_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 185,
+   "label": "sfx_orb_loop",
+   "filename": "sfx_orb_loop.wav",
+   "xml_filename": "sfx_orb_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 186,
+   "label": "sfx_magical_wall_loop",
+   "filename": "sfx_magical_wall_loop.wav",
+   "xml_filename": "sfx_magical_wall_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 187,
+   "label": "sfx_steam_loop",
+   "filename": "sfx_steam_loop.wav",
+   "xml_filename": "sfx_steam_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 188,
+   "label": "sfx_cave_wind_loop",
+   "filename": "sfx_cave_mouth_loop.wav",
+   "xml_filename": "sfx_cave_mouth_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 189,
+   "label": "sfx_energy_source_loop",
+   "filename": "sfx_energy_source_loop.wav",
+   "xml_filename": "sfx_energy_source_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 191,
+   "label": "sfx_well_scream_loop",
+   "filename": "sfx_well_scream_loop.wav",
+   "xml_filename": "sfx_well_scream_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 192,
+   "label": "sfx_unnamed_one_fire_loop",
+   "filename": "sfx_unnamed_one_fire_loop.wav",
+   "xml_filename": "sfx_unnamed_one_fire_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 193,
+   "label": "sfx_unnamed_one_vortex_loop",
+   "filename": "sfx_unnamed_one_vortex_loop.wav",
+   "xml_filename": "sfx_unnamed_one_vortex_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 194,
+   "label": "sfx_unnamed_one_vortex_fire_loop",
+   "filename": "sfx_unnamed_one_vortex_fire_loop.wav",
+   "xml_filename": "sfx_unnamed_one_vortex_fire_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 431,
+   "label": "sfx_cs_swampking_intro_earth_quake",
+   "filename": "sfx_cutscene_earth_quake.wav",
+   "xml_filename": "sfx_cutscene_earth_quake.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 432,
+   "label": "sfx_cs_soldier_enter",
+   "filename": "sfx_cutscene_soldier_enter.wav",
+   "xml_filename": "sfx_cutscene_soldier_enter.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 433,
+   "label": "sfx_cs_witch_intro_spawn",
+   "filename": "sfx_cutscene_witch_spawn.wav",
+   "xml_filename": "sfx_cutscene_witch_spawn.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 434,
+   "label": "sfx_cs_earth_troll_intro_spawn",
+   "filename": "sfx_cutscene_earth_troll_spawn.wav",
+   "xml_filename": "sfx_cutscene_earth_troll_spawn.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 435,
+   "label": "sfx_cs_swampking_death",
+   "filename": "sfx_cutscene_swamp_king_die.wav",
+   "xml_filename": "sfx_cutscene_swamp_king_die.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 436,
+   "label": "sfx_cutscene_swamp_intro_cave_troll_1",
+   "filename": "sfx_cutscene_swamp_intro_cave_troll_1.wav",
+   "xml_filename": "sfx_cutscene_swamp_intro_cave_troll_1.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 437,
+   "label": "sfx_cutscene_swamp_intro_cave_troll_2",
+   "filename": "sfx_cutscene_swamp_intro_cave_troll_2.wav",
+   "xml_filename": "sfx_cutscene_swamp_intro_cave_troll_2.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 438,
+   "label": "sfx_cutscene_swamp_intro_faerie",
+   "filename": "sfx_cutscene_swamp_intro_faerie.wav",
+   "xml_filename": "sfx_cutscene_swamp_intro_faerie.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 439,
+   "label": "sfx_cutscene_swamp_intro_rene_thunder",
+   "filename": "sfx_cutscene_swamp_intro_rene_thunder.wav",
+   "xml_filename": "sfx_cutscene_swamp_intro_rene_thunder.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 440,
+   "label": "sfx_cutscene_assassin_die",
+   "filename": "sfx_cutscene_assassin_die.wav",
+   "xml_filename": "sfx_cutscene_assassin_die.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 441,
+   "label": "sfx_cutscene_earth_troll_die",
+   "filename": "sfx_cutscene_earth_troll_die.wav",
+   "xml_filename": "sfx_cutscene_earth_troll_die.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 442,
+   "label": "sfx_cutscene_fire_temple_1",
+   "filename": "sfx_cutscene_fire_temple_1.wav",
+   "xml_filename": "sfx_cutscene_fire_temple_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 443,
+   "label": "sfx_cutscene_forbidden_seal_cast_loop",
+   "filename": "sfx_cutscene_forbidden_seal_cast_loop.wav",
+   "xml_filename": "sfx_cutscene_forbidden_seal_cast_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 444,
+   "label": "sfx_cutscene_forbidden_seal_1",
+   "filename": "sfx_cutscene_forbidden_seal_1.wav",
+   "xml_filename": "sfx_cutscene_forbidden_seal_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 445,
+   "label": "sfx_cutscene_forbidden_seal_2",
+   "filename": "sfx_cutscene_forbidden_seal_2.wav",
+   "xml_filename": "sfx_cutscene_forbidden_seal_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 446,
+   "label": "sfx_cutscene_gothicus_edward_1",
+   "filename": "sfx_cutscene_gothicus_edward_1.wav",
+   "xml_filename": "sfx_cutscene_gothicus_edward_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 447,
+   "label": "sfx_cutscene_gothicus_edward_2",
+   "filename": "sfx_cutscene_gothicus_edward_2.wav",
+   "xml_filename": "sfx_cutscene_gothicus_edward_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 448,
+   "label": "sfx_cutscene_ruins",
+   "filename": "sfx_cutscene_ruins.wav",
+   "xml_filename": "sfx_cutscene_ruins.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 449,
+   "label": "sfx_cutscene_water_temple_1",
+   "filename": "sfx_cutscene_water_temple_1.wav",
+   "xml_filename": "sfx_cutscene_water_temple_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 450,
+   "label": "sfx_cutscene_water_temple_2",
+   "filename": "sfx_cutscene_water_temple_2.wav",
+   "xml_filename": "sfx_cutscene_water_temple_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 451,
+   "label": "sfx_cutscene_wind_temple_1",
+   "filename": "sfx_cutscene_wind_temple_1.wav",
+   "xml_filename": "sfx_cutscene_wind_temple_1.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 452,
+   "label": "sfx_cutscene_wind_temple_2",
+   "filename": "sfx_cutscene_wind_temple_2.wav",
+   "xml_filename": "sfx_cutscene_wind_temple_2.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 453,
+   "label": "sfx_cutscene_wind_temple_3",
+   "filename": "sfx_cutscene_wind_temple_3.wav",
+   "xml_filename": "sfx_cutscene_wind_temple_3.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 454,
+   "label": "sfx_cutscene_escape_castle",
+   "filename": "sfx_cutscene_escape_castle.wav",
+   "xml_filename": "sfx_cutscene_escape_castle.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 455,
+   "label": "sfx_cutscene_final_loop",
+   "filename": "sfx_cutscene_final_loop.wav",
+   "xml_filename": "sfx_cutscene_final_loop.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 456,
+   "label": "sfx_cutscene_final_intro",
+   "filename": "sfx_cutscene_final_intro.wav",
+   "xml_filename": "sfx_cutscene_final_intro.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 457,
+   "label": "sfx_cs_glowing_rene",
+   "filename": "sfx_cutscene_glowing_rene.wav",
+   "xml_filename": "sfx_cutscene_glowing_rene.wav",
+   "hand_audited_catalog": false
+  },
+  {
+   "uid": 458,
+   "label": "sfx_cutscene_final_outro",
+   "filename": "sfx_cutscene_final_outro.wav",
+   "xml_filename": "sfx_cutscene_final_outro.wav",
+   "hand_audited_catalog": true
+  },
+  {
+   "uid": 459,
+   "label": "sfx_cutscene_moth",
+   "filename": "sfx_cutscene_moth.wav",
+   "xml_filename": "sfx_cutscene_moth.wav",
+   "hand_audited_catalog": false
+  }
+ ],
+ "staged": [
+  {
+   "filename": "sfx_act_completed.wav",
+   "bytes": 933140,
+   "sha256": "1aa5d8b13f0f48d77caba3c5f3d02ef6cc2abba6a1bdd67effdd660ea4c4f7b0",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_act_completed.wav",
+   "uids": [
+    16
+   ]
+  },
+  {
+   "filename": "sfx_bandit_lair_river_loop.wav",
+   "bytes": 430126,
+   "sha256": "cc0fab328aa6b797e97fed37984e0227ff60fcd4303a8a10b3d76b449c287324",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_bandit_lair_river_loop.wav",
+   "uids": [
+    181
+   ]
+  },
+  {
+   "filename": "sfx_catacomb_wind_loop.wav",
+   "bytes": 217734,
+   "sha256": "4a5ef7713c61d024ee72453df7970b97ebfcb911a563bf996ad5be063e99a4ec",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_catacomb_wind_loop.wav",
+   "uids": [
+    179
+   ]
+  },
+  {
+   "filename": "sfx_cave_mouth_loop.wav",
+   "bytes": 487098,
+   "sha256": "bc5a96e08b80c08eef07281140af714d263ccddf4055c4944175b33359de33be",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cave_mouth_loop.wav",
+   "uids": [
+    188
+   ]
+  },
+  {
+   "filename": "sfx_character_death.wav",
+   "bytes": 81226,
+   "sha256": "1641d0b221c888f619780c652c2e8364f9938175f6939870a3cdf91f3d8fbb42",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_death.wav",
+   "uids": [
+    50
+   ]
+  },
+  {
+   "filename": "sfx_character_hurt_1.wav",
+   "bytes": 32044,
+   "sha256": "4386cbbc01d12cfb87324ac012652f6e28f2552f6eed0f798d470bd8f2851156",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_1.wav",
+   "uids": [
+    38
+   ]
+  },
+  {
+   "filename": "sfx_character_hurt_2.wav",
+   "bytes": 19312,
+   "sha256": "0c0e53e14cb146d634dffe5f4fc1b90a64efbadf289e243c2b3ced05143c95f9",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_2.wav",
+   "uids": [
+    39
+   ]
+  },
+  {
+   "filename": "sfx_character_hurt_3.wav",
+   "bytes": 23942,
+   "sha256": "268a3f95047a361a2d9206703a8eb89f0106a96b86f05e60d88599859f92a6df",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_character_hurt_3.wav",
+   "uids": [
+    40
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_assassin_die.wav",
+   "bytes": 63104,
+   "sha256": "9afc918ac9588169b82596fc099f92668ccbab14d415bb1d71cb6111ff8874a1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_assassin_die.wav",
+   "uids": [
+    440
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_earth_quake.wav",
+   "bytes": 381656,
+   "sha256": "ba270d600c956903c1c96e52be62254139b582f30a1945910d7c4c098a5f00dd",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_quake.wav",
+   "uids": [
+    431
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_earth_troll_die.wav",
+   "bytes": 1406044,
+   "sha256": "99a6520185ec487ff07201da14902c72ed79958ae9c474db4709001fead9147a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_die.wav",
+   "uids": [
+    441
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_earth_troll_spawn.wav",
+   "bytes": 310744,
+   "sha256": "3cff1c0c1efd30c9d065fa50f307a960ab17827e34c6df7a3b862771d3c8bb53",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_earth_troll_spawn.wav",
+   "uids": [
+    434
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_escape_castle.wav",
+   "bytes": 91930,
+   "sha256": "c4a3580e2084ca0f16c9cdbbf0541a611dd25f66295074575d49cbf88d00c737",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_escape_castle.wav",
+   "uids": [
+    454
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_final_intro.wav",
+   "bytes": 627160,
+   "sha256": "61353354b7ccd511295356f5ef468ca527af7206421fdbcddb665025c8a5cb4d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_intro.wav",
+   "uids": [
+    456
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_final_loop.wav",
+   "bytes": 870836,
+   "sha256": "78072c6a54da642593ce530a6170ff2cf5d6aeb7193b161adc8c793cdcff5ea9",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_loop.wav",
+   "uids": [
+    455
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_final_outro.wav",
+   "bytes": 1028412,
+   "sha256": "8ad00012eda5be318458a41ffe1bcfb46ee100ac8b5bb4f2bbe4908012c9fcd2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_final_outro.wav",
+   "uids": [
+    458
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_fire_temple_1.wav",
+   "bytes": 510288,
+   "sha256": "fb543d8cdecd886e8488bd793c4421077ef1cd9b0f874ee4b32b230d15b1725f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_fire_temple_1.wav",
+   "uids": [
+    442
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_forbidden_seal_1.wav",
+   "bytes": 909524,
+   "sha256": "c8d0e3f8553a00f35c4be446d1f2080b88f29e71887e334680231bfcb06d3596",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_1.wav",
+   "uids": [
+    444
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_forbidden_seal_2.wav",
+   "bytes": 1539620,
+   "sha256": "e666db70f9c745f5f70a526b9f2422714d8720db9e7e00d863acfaa6296a47a5",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_2.wav",
+   "uids": [
+    445
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_forbidden_seal_cast_loop.wav",
+   "bytes": 1337760,
+   "sha256": "be027b596e00a3156f688dd7a95a2247679f90088e93d62e0e169014c15c53dc",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_forbidden_seal_cast_loop.wav",
+   "uids": [
+    443
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_glowing_rene.wav",
+   "bytes": 277208,
+   "sha256": "ee9b4a55f5662a3303b97cce4a99cad0d0784949c303a1de50f2967eaa0968b9",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_glowing_rene.wav",
+   "uids": [
+    457
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_gothicus_edward_1.wav",
+   "bytes": 539212,
+   "sha256": "f9c8a44b0146f024a25eafc6e36835f7f224e469699512705150b3e4f2253431",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_1.wav",
+   "uids": [
+    446
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_gothicus_edward_2.wav",
+   "bytes": 208156,
+   "sha256": "dc85628250a0a5422673e9d374f306f235fcb69eb30d6c0e301de338811f7de0",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_gothicus_edward_2.wav",
+   "uids": [
+    447
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_moth.wav",
+   "bytes": 374376,
+   "sha256": "47d1460f473d1b7da29a9ea4f4aab598cda900980b6e1b7e8dbf06c338da4258",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_moth.wav",
+   "uids": [
+    459
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_ruins.wav",
+   "bytes": 626072,
+   "sha256": "0408d1d57df65479c5f7121933ffb76cf26c06af468c34ed40204ff35cb21563",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_ruins.wav",
+   "uids": [
+    448
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_soldier_enter.wav",
+   "bytes": 212356,
+   "sha256": "3f7517fabf69fe6b7d95bd6552d97add119f3d14310abd65a8c758556205b6ee",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_soldier_enter.wav",
+   "uids": [
+    432
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_swamp_intro_cave_troll_1.wav",
+   "bytes": 807936,
+   "sha256": "ac85e1ac37f5ec1be42d5acd70dc352702cf02fd63003825e81e17f3e652fd44",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_1.wav",
+   "uids": [
+    436
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_swamp_intro_cave_troll_2.wav",
+   "bytes": 359840,
+   "sha256": "2c5a4458c3951d369f545cee80296451409050fd7f015e495109dd1aba62c470",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_cave_troll_2.wav",
+   "uids": [
+    437
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_swamp_intro_faerie.wav",
+   "bytes": 744956,
+   "sha256": "e9be91ab616fb53101c0feeec4846ed5d153e158c988d2640928069a44d9c298",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_faerie.wav",
+   "uids": [
+    438
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_swamp_intro_rene_thunder.wav",
+   "bytes": 736652,
+   "sha256": "df8c34d863faff3698051447e7962bf7334bd9da7b819d22cfd180e017316770",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_intro_rene_thunder.wav",
+   "uids": [
+    439
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_swamp_king_die.wav",
+   "bytes": 289496,
+   "sha256": "3322eb1bb020e2449c986f888736690e1d9772392774f4083973cff0881328f6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_swamp_king_die.wav",
+   "uids": [
+    435
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_water_temple_1.wav",
+   "bytes": 806872,
+   "sha256": "06d008464f54e1a041157c26a7b4555a24f816d1aca5cd1716d3710fb39bcbdf",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_1.wav",
+   "uids": [
+    449
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_water_temple_2.wav",
+   "bytes": 231456,
+   "sha256": "05b61ce927e4f2d3a29b86ca768e7ad9a9146b9b855b4adc8273123853d02746",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_water_temple_2.wav",
+   "uids": [
+    450
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_wind_temple_1.wav",
+   "bytes": 466536,
+   "sha256": "afbfcca26f5fd9d955be6cb6ff96e9b22676582dfbc1ce183009111d2abc54fc",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_1.wav",
+   "uids": [
+    451
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_wind_temple_2.wav",
+   "bytes": 904172,
+   "sha256": "f9a4b58dab6c1d1ce498206272c41dd75d0e2f4650530aa0a9dcc87929894e59",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_2.wav",
+   "uids": [
+    452
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_wind_temple_3.wav",
+   "bytes": 501868,
+   "sha256": "86fafb7dd277e264c49618397ba5bb5bcce2a6b1c11b3e13e775410bf4b689e0",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_wind_temple_3.wav",
+   "uids": [
+    453
+   ]
+  },
+  {
+   "filename": "sfx_cutscene_witch_spawn.wav",
+   "bytes": 367148,
+   "sha256": "2845e738b7fda1a53369009327779097143c4a56b85a601fd778f23f0b8bd25e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_cutscene_witch_spawn.wav",
+   "uids": [
+    433
+   ]
+  },
+  {
+   "filename": "sfx_energy_source_loop.wav",
+   "bytes": 525616,
+   "sha256": "5dea009cdb86befe60cd7610f1f57dbdd42518be4ff75200607c468cea455402",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_energy_source_loop.wav",
+   "uids": [
+    189
+   ]
+  },
+  {
+   "filename": "sfx_faerie_earth.wav",
+   "bytes": 99610,
+   "sha256": "0647897cfc32689dca8ce5887247e8b5982973061d13e9d2be1c673cc801f215",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_earth.wav",
+   "uids": [
+    94
+   ]
+  },
+  {
+   "filename": "sfx_faerie_fire_big.wav",
+   "bytes": 259736,
+   "sha256": "e23f41ceeb683a9181403869748ef1bd59e8635bc668186d1ecc9fff26cf8a6c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_big.wav",
+   "uids": [
+    97
+   ]
+  },
+  {
+   "filename": "sfx_faerie_fire_medium.wav",
+   "bytes": 161454,
+   "sha256": "635fc9f570ee210ad01d899e1009243fd5b22fd44275199c5298af9c4e5d4cb8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_medium.wav",
+   "uids": [
+    96
+   ]
+  },
+  {
+   "filename": "sfx_faerie_fire_small.wav",
+   "bytes": 154024,
+   "sha256": "eb0839f09b886b3a4486d7ac55b55d2d2339aefb484c71d862a3b25adba42862",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_fire_small.wav",
+   "uids": [
+    95
+   ]
+  },
+  {
+   "filename": "sfx_faerie_lightning_big.wav",
+   "bytes": 306424,
+   "sha256": "7f519551a907ebfc8aed3b872605ca5f2f163138623165ef92c56815f72f2936",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_big.wav",
+   "uids": [
+    90
+   ]
+  },
+  {
+   "filename": "sfx_faerie_lightning_medium.wav",
+   "bytes": 269420,
+   "sha256": "bef5a848bf96b0ae04d0aa3748b1c5534fc44a6f2e5f5756572264e63a2a04a0",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_medium.wav",
+   "uids": [
+    89,
+    91
+   ]
+  },
+  {
+   "filename": "sfx_faerie_lightning_small.wav",
+   "bytes": 269420,
+   "sha256": "3857916c1a006a09bb1cd017327970a8ca10cb1c7a1e04d31f53ab6b1e8efa9f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_lightning_small.wav",
+   "uids": [
+    88
+   ]
+  },
+  {
+   "filename": "sfx_faerie_water_big.wav",
+   "bytes": 277086,
+   "sha256": "7334b03e327f520b4d2d91426d352eba344918ef44207bbaee2e97fc0b4bc5e8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_big.wav",
+   "uids": [
+    100
+   ]
+  },
+  {
+   "filename": "sfx_faerie_water_medium.wav",
+   "bytes": 158312,
+   "sha256": "36cd8bb66933b21104cc24b52f7d7e1420e9eaad1d5476fb82d263894bef627c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_medium.wav",
+   "uids": [
+    99
+   ]
+  },
+  {
+   "filename": "sfx_faerie_water_small.wav",
+   "bytes": 144892,
+   "sha256": "caf95d73c1f48ba375f74d28aa24fdd96445a1fd36c9526b4febc30357793e63",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_water_small.wav",
+   "uids": [
+    98
+   ]
+  },
+  {
+   "filename": "sfx_faerie_wind.wav",
+   "bytes": 214572,
+   "sha256": "64b72c3f91d56e7b62c480b9b5ac056dc10e68ec90295689a323be9ca163aed0",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_faerie_wind.wav",
+   "uids": [
+    93
+   ]
+  },
+  {
+   "filename": "sfx_fire_loop.wav",
+   "bytes": 598330,
+   "sha256": "93cd8e1624b83f6f289ba89ef2619efce743febe176b1977a6c8ffea4a300cba",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fire_loop.wav",
+   "uids": [
+    178
+   ]
+  },
+  {
+   "filename": "sfx_friend_death.wav",
+   "bytes": 1036480,
+   "sha256": "6da88031ba69fcef2991ddc345559a9e227ea834b5ef44a67a7871f338b6042d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_death.wav",
+   "uids": [
+    18
+   ]
+  },
+  {
+   "filename": "sfx_friend_left_game.wav",
+   "bytes": 1436176,
+   "sha256": "a273a419948e795a62ae24c2905c5cd2dece2eefbddd5311f1a6dcdc1b884657",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_left_game.wav",
+   "uids": [
+    19
+   ]
+  },
+  {
+   "filename": "sfx_friend_low_hp.wav",
+   "bytes": 720764,
+   "sha256": "6320358e08671fb907f815cb0bcf2fc7d9c016d709a06adf3024723900428374",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_low_hp.wav",
+   "uids": [
+    20
+   ]
+  },
+  {
+   "filename": "sfx_friend_revive.wav",
+   "bytes": 1523216,
+   "sha256": "711cd53688d9c4ef3f8f45459a3675825665fd484ec3fd470bfac098e712a1d6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_friend_revive.wav",
+   "uids": [
+    21
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_grass_1.wav",
+   "bytes": 39488,
+   "sha256": "839c3ba8e5534907fcb6945248c6dd3330b30802430667e72fcebe49b4acada1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_1.wav",
+   "uids": [
+    64
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_grass_2.wav",
+   "bytes": 46660,
+   "sha256": "7c3f8e9e65dda487dc164b543c22173c388fb54cdfdf49452dc83263fe100890",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_2.wav",
+   "uids": [
+    65
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_grass_3.wav",
+   "bytes": 44600,
+   "sha256": "e372d18cc97d179cfa23f7b379d4a201007a3f2b5f12cf9a7ba0f82e1160ed3f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_3.wav",
+   "uids": [
+    66
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_grass_4.wav",
+   "bytes": 38308,
+   "sha256": "35ccfdf4e3b9dfb3b03348d80f245b27624bf7b8ae2a7fbc355c1b69fbc00e0b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_grass_4.wav",
+   "uids": [
+    67
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_metal_1.wav",
+   "bytes": 31716,
+   "sha256": "635002e3b1f05884bbf9761691f7defdf7b0c288d4c570d65eadd16d4814f244",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_1.wav",
+   "uids": [
+    68
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_metal_2.wav",
+   "bytes": 33310,
+   "sha256": "3e871780dd84c550ea2ff32ba2a071f62ee92b03b8b5268126e9d62a3738ab69",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_2.wav",
+   "uids": [
+    69
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_metal_3.wav",
+   "bytes": 32018,
+   "sha256": "c87afedb734514e638fd36d0ffcd4b7aee294d22de3d66fba3d657a6a0333e37",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_3.wav",
+   "uids": [
+    70
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_metal_4.wav",
+   "bytes": 32150,
+   "sha256": "6b0bed9e554f9711d2969f59094a95f6079f09e5456729ab42dd8b064f143a4c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_metal_4.wav",
+   "uids": [
+    71
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_stone_1.wav",
+   "bytes": 31728,
+   "sha256": "e92fa6b395dc90af785fdbd7162149daf71848e969f5ab16d69f853161bf8220",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_1.wav",
+   "uids": [
+    72
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_stone_2.wav",
+   "bytes": 31956,
+   "sha256": "41da98302cc6e74fc85ca92c08d6ea5f702b3cda94e3da5972a4831c6be24e0a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_2.wav",
+   "uids": [
+    73
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_stone_3.wav",
+   "bytes": 31468,
+   "sha256": "ef9d71558757ada5e293b0e968c2a699e0c463e5e8f00a1f9efeaec1b96436ab",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_3.wav",
+   "uids": [
+    74
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_stone_4.wav",
+   "bytes": 31420,
+   "sha256": "af43ca97b97b797e1cd0b52d4be829e47b2997dba621525bf19d9fa2ab42dfe2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_stone_4.wav",
+   "uids": [
+    75
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_water_1.wav",
+   "bytes": 67922,
+   "sha256": "068b80b408f3adfc42f35ca95493cfbfb3633e66e76dbc3849167780a79ed7d8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_1.wav",
+   "uids": [
+    76
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_water_2.wav",
+   "bytes": 67922,
+   "sha256": "e5c5f41f0ac9cb582908c0b4222d49646350855fea6fe28489a29f148251603a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_2.wav",
+   "uids": [
+    77
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_water_3.wav",
+   "bytes": 67922,
+   "sha256": "493318be6dfb155448e7b06ff0306fb55fa9952d2bb3acf3a3046fe28083bc97",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_3.wav",
+   "uids": [
+    78
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_water_4.wav",
+   "bytes": 67922,
+   "sha256": "c4729b49adabae3232b985ce966676a1de5c51e9bf9201b4f78a6d9d2277790c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_water_4.wav",
+   "uids": [
+    79
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wet_floor_1.wav",
+   "bytes": 32094,
+   "sha256": "7ec3b0ccb9b2619950455e25d8734f68eb81a7e73019484de647a9fa2add9691",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_1.wav",
+   "uids": [
+    80
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wet_floor_2.wav",
+   "bytes": 32070,
+   "sha256": "5214f1188db30fff77fb132a0c2b5557b0854b3c2a15117ff37442cdcf9cb384",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_2.wav",
+   "uids": [
+    81
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wet_floor_3.wav",
+   "bytes": 32094,
+   "sha256": "5995b2e92b461e0c0632d8a2bc88deb6a850374c05f0c3c4317a1fec06854edc",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_3.wav",
+   "uids": [
+    82
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wet_floor_4.wav",
+   "bytes": 32100,
+   "sha256": "1e56d2cc64c1bb082e4011a00bcfbe3ceccb53a090a4949444daad85ba1a800f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wet_floor_4.wav",
+   "uids": [
+    83
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wood_1.wav",
+   "bytes": 31828,
+   "sha256": "1dc6ae96e8abcaf144febe285454dc1adda53948ce94c3933fc92cc190b08295",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_1.wav",
+   "uids": [
+    84
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wood_2.wav",
+   "bytes": 32306,
+   "sha256": "cc881893c0ec0d28d34a9d3b04b47b516715d871020a802c7df8fc7df4984597",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_2.wav",
+   "uids": [
+    85
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wood_3.wav",
+   "bytes": 32288,
+   "sha256": "3525ede59327f4b7e0f5080403664d74ab99d67ab35b8b423fdbd5b5609e5385",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_3.wav",
+   "uids": [
+    86
+   ]
+  },
+  {
+   "filename": "sfx_fs_walk_wood_4.wav",
+   "bytes": 32432,
+   "sha256": "238c784d44c0a2776f8b2eacfe67e950a66cc9229d6896a20ab4bf01e9a30bac",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_fs_walk_wood_4.wav",
+   "uids": [
+    87
+   ]
+  },
+  {
+   "filename": "sfx_impact_arrow_flesh_1.wav",
+   "bytes": 39120,
+   "sha256": "368efaac9624606689bf177b23657365ddf2ea712c55527bcdd8568acf1c3969",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_1.wav",
+   "uids": [
+    53
+   ]
+  },
+  {
+   "filename": "sfx_impact_arrow_flesh_2.wav",
+   "bytes": 32204,
+   "sha256": "97ab97f71435b2febe17a228066f83627862bafa950e71f157c6872d1607ba92",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_2.wav",
+   "uids": [
+    54
+   ]
+  },
+  {
+   "filename": "sfx_impact_arrow_flesh_3.wav",
+   "bytes": 47182,
+   "sha256": "5986389d7d434315003423cc6070a095c1bdbe76a5ab450ee6330bef5141ced5",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_flesh_3.wav",
+   "uids": [
+    55
+   ]
+  },
+  {
+   "filename": "sfx_impact_arrow_object_1.wav",
+   "bytes": 68944,
+   "sha256": "47cad8f9823100b166f5392b65af1447995dfff213a9dad160b16a6980067893",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_1.wav",
+   "uids": [
+    56
+   ]
+  },
+  {
+   "filename": "sfx_impact_arrow_object_2.wav",
+   "bytes": 71736,
+   "sha256": "49ee16475071a412b51a2c000341e210f46ec9b76cfa422e9931aa7e800c0f73",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_arrow_object_2.wav",
+   "uids": [
+    57
+   ]
+  },
+  {
+   "filename": "sfx_impact_block_1.wav",
+   "bytes": 39072,
+   "sha256": "1270caa9bc4a025e13bc78cf586939c6d26c873db69f8f711f6afbac4f34071d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_1.wav",
+   "uids": [
+    51
+   ]
+  },
+  {
+   "filename": "sfx_impact_block_2.wav",
+   "bytes": 54662,
+   "sha256": "3113d073786a0b9e76464e41a8e024cf850dde1632f181a32ba3dbbf2474e272",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_block_2.wav",
+   "uids": [
+    52
+   ]
+  },
+  {
+   "filename": "sfx_impact_burst_shot.wav",
+   "bytes": 190262,
+   "sha256": "846738bb074272dc3a41e68e56ba81167d6a5be42187619a42292f113a6f5b11",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_burst_shot.wav",
+   "uids": [
+    63
+   ]
+  },
+  {
+   "filename": "sfx_impact_elemental_earth.wav",
+   "bytes": 58250,
+   "sha256": "79ab3e108ebe5e8feaba0713dc239397c8940cb8f48945b4b10ac2874455df2b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_earth.wav",
+   "uids": [
+    58
+   ]
+  },
+  {
+   "filename": "sfx_impact_elemental_fire.wav",
+   "bytes": 90444,
+   "sha256": "68901c2a9957a2587211562009b517da6f45c50eec0efd637856231429c4d306",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_fire.wav",
+   "uids": [
+    59
+   ]
+  },
+  {
+   "filename": "sfx_impact_elemental_ice.wav",
+   "bytes": 102206,
+   "sha256": "ef8b0bb2da08c1ec36e15eab6fc600e570de07587f6b9ac248184d4a0947f495",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_ice.wav",
+   "uids": [
+    60
+   ]
+  },
+  {
+   "filename": "sfx_impact_elemental_thunder.wav",
+   "bytes": 53498,
+   "sha256": "8c1b7965f9a536b1adfb0ac0d58639eacd169fe4f2171ca2f2665e67760df693",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_thunder.wav",
+   "uids": [
+    61
+   ]
+  },
+  {
+   "filename": "sfx_impact_elemental_wind.wav",
+   "bytes": 85100,
+   "sha256": "113ef9de8905f0fe71d5e879452ed322d472adeda3d8552a66afcddc81fa22d2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_elemental_wind.wav",
+   "uids": [
+    62
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_1.wav",
+   "bytes": 18100,
+   "sha256": "4a30e1295e254a5aa477b71937c5790f40d46f3a5ff5df6346b4d86f782e216e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_1.wav",
+   "uids": [
+    41
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_2.wav",
+   "bytes": 29904,
+   "sha256": "27adeda94f89b2945163017025f742e795a6dcef8f6d48074861072bcf8234f2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_2.wav",
+   "uids": [
+    42
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_3.wav",
+   "bytes": 20174,
+   "sha256": "2ec5965acca61fcdf01cfb3bbc6883701594341b7970a8aa13cb0fa220ac7ce1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_3.wav",
+   "uids": [
+    43
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_1.wav",
+   "bytes": 46374,
+   "sha256": "e2d405158532a3cfb16962ad0cb6a04bb2523517f255c90917b69defd4ccccd8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_1.wav",
+   "uids": [
+    44
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_2.wav",
+   "bytes": 50912,
+   "sha256": "52797fc5d38a2874ab94ab78dc0448276a470ab164708070a6706fc8b118055b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_2.wav",
+   "uids": [
+    45
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_3.wav",
+   "bytes": 39708,
+   "sha256": "eb0a245ef37248cba40fe031e5cad22336d31c10bc356285f32131a558d2ecab",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_3.wav",
+   "uids": [
+    46
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_medium_1.wav",
+   "bytes": 55136,
+   "sha256": "3563991b945869f0daa4f779ace6c7d66f6f921a503a4dbbb7ccd19707fd166e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_1.wav",
+   "uids": [
+    47
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_medium_2.wav",
+   "bytes": 52520,
+   "sha256": "73a343567efbf621c9f310f6d0b5c0f4f06a5e17a1a50e74e0596d78bdaa2d81",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_2.wav",
+   "uids": [
+    48
+   ]
+  },
+  {
+   "filename": "sfx_impact_metal_flesh_medium_3.wav",
+   "bytes": 64776,
+   "sha256": "57dd615ee2e53213bff26231272e2fd1defcda6f82fe0c6cc610079f2d94765c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_impact_metal_flesh_medium_3.wav",
+   "uids": [
+    49
+   ]
+  },
+  {
+   "filename": "sfx_level_up.wav",
+   "bytes": 439048,
+   "sha256": "d91f8320d32f1aae3d1947cd8fa14ce8ac94a230ef17a63480a26258b20e9032",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_level_up.wav",
+   "uids": [
+    9
+   ]
+  },
+  {
+   "filename": "sfx_mage_staff_elemental_earth.wav",
+   "bytes": 122032,
+   "sha256": "6a141f680109df6a54d87b40990ede377f28de700ae5b2551a3c9ec36f97b080",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_earth.wav",
+   "uids": [
+    31
+   ]
+  },
+  {
+   "filename": "sfx_mage_staff_elemental_fire.wav",
+   "bytes": 80106,
+   "sha256": "573cc45750d1c9c66e0bb15f97e0f85ba05d34da7023090e617bea43cab4d92f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_fire.wav",
+   "uids": [
+    29
+   ]
+  },
+  {
+   "filename": "sfx_mage_staff_elemental_ice.wav",
+   "bytes": 140672,
+   "sha256": "57fec44b685df57e5921afb882a6ae35d77b53738733109ef456c7e593c154de",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_ice.wav",
+   "uids": [
+    30
+   ]
+  },
+  {
+   "filename": "sfx_mage_staff_elemental_thunder.wav",
+   "bytes": 89472,
+   "sha256": "bf9f1a92bc7dc06ea8b47c032d2b714f71dce7e5e4551b933005b64ff73c3648",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_thunder.wav",
+   "uids": [
+    33
+   ]
+  },
+  {
+   "filename": "sfx_mage_staff_elemental_wind.wav",
+   "bytes": 92178,
+   "sha256": "d7352ecaee5f09d94b881beab87b48fc2f8a2748917c6e38d40fe32f4f90d210",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mage_staff_elemental_wind.wav",
+   "uids": [
+    32
+   ]
+  },
+  {
+   "filename": "sfx_magic_portal_loop.wav",
+   "bytes": 729004,
+   "sha256": "09e6ec65faca6ad304edc01a988b0c9978436a379b10218f050a302ef6f9f5b3",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magic_portal_loop.wav",
+   "uids": [
+    176
+   ]
+  },
+  {
+   "filename": "sfx_magical_shrine_loop.wav",
+   "bytes": 540840,
+   "sha256": "55477911b56327a450811cd3526a4117f80af896c8ac743d8906e7c5f097bf86",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_shrine_loop.wav",
+   "uids": [
+    184
+   ]
+  },
+  {
+   "filename": "sfx_magical_wall_loop.wav",
+   "bytes": 539906,
+   "sha256": "f20904018f2b268f0b86b2e438ed9dd55655ae065f821515a1b5c21bcde955d2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_magical_wall_loop.wav",
+   "uids": [
+    186
+   ]
+  },
+  {
+   "filename": "sfx_mc_low_hp.wav",
+   "bytes": 591504,
+   "sha256": "eb67a255d7adc1dd9ed3761a435bd1fe5999f0c0fa5770858c150bb9494ffdc3",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_low_hp.wav",
+   "uids": [
+    15
+   ]
+  },
+  {
+   "filename": "sfx_mc_shoot_arrow.wav",
+   "bytes": 49146,
+   "sha256": "3adde0fb0212ab482e8e9ee6ce02760465510274adad0558e2f0edb6fc336346",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_mc_shoot_arrow.wav",
+   "uids": [
+    28
+   ]
+  },
+  {
+   "filename": "sfx_menu_shop_deal.wav",
+   "bytes": 48002,
+   "sha256": "b128d3adb405b7e9b95e0606ea36dcbaad9a0c6473a076401d85612ea4d4be1a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_deal.wav",
+   "uids": [
+    5
+   ]
+  },
+  {
+   "filename": "sfx_menu_shop_nodeal.wav",
+   "bytes": 16152,
+   "sha256": "f812e3f6f9664a6c84a776410fa938dde62fc73a1cb539a06b0fbda526e5a0e7",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_menu_shop_nodeal.wav",
+   "uids": [
+    6
+   ]
+  },
+  {
+   "filename": "sfx_npc_priest_hurt_1.wav",
+   "bytes": 28824,
+   "sha256": "65f020e30b8eb363a671e5193cef6020bfb1f71a093dbd4818b44972743e5976",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_1.wav",
+   "uids": [
+    34
+   ]
+  },
+  {
+   "filename": "sfx_npc_priest_hurt_2.wav",
+   "bytes": 24182,
+   "sha256": "a7124a552b3052b49723acb58763b835a1a9f69c7764e2f2689548fcf3150dbc",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_2.wav",
+   "uids": [
+    35
+   ]
+  },
+  {
+   "filename": "sfx_npc_priest_hurt_3.wav",
+   "bytes": 21442,
+   "sha256": "6223f76206b486b94706ebe6bc6d1a6a5d63b43dad42a8ed4cb5bd3eb0560c86",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_npc_priest_hurt_3.wav",
+   "uids": [
+    36
+   ]
+  },
+  {
+   "filename": "sfx_orb_loop.wav",
+   "bytes": 374200,
+   "sha256": "6fc9b76c0624f6ee6dc04db303482e3c2de9c98a6d0cb7d8e00e27043c94d5c8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_orb_loop.wav",
+   "uids": [
+    185
+   ]
+  },
+  {
+   "filename": "sfx_passive_skill_activate_1.wav",
+   "bytes": 99260,
+   "sha256": "008dbebd0db3f04df9e630a407b0bee96f1d7f5a78db04399b2843beb971b8ad",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_1.wav",
+   "uids": [
+    143
+   ]
+  },
+  {
+   "filename": "sfx_passive_skill_activate_2.wav",
+   "bytes": 107460,
+   "sha256": "7fcc7f30a65b6a4c304791a7fa01fbab6899033a0902588f5463b6be831daa5f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_2.wav",
+   "uids": [
+    144
+   ]
+  },
+  {
+   "filename": "sfx_passive_skill_activate_3.wav",
+   "bytes": 166560,
+   "sha256": "538e76a82875e99cbb72e2338215a6fa4d47b3cc59010317a8a6fc218df0ffba",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_3.wav",
+   "uids": [
+    145
+   ]
+  },
+  {
+   "filename": "sfx_passive_skill_activate_4.wav",
+   "bytes": 175426,
+   "sha256": "4e515cf89875a6e7c907da432709075bd041ba08571f2989a59cfb70f8cdf45e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_passive_skill_activate_4.wav",
+   "uids": [
+    146
+   ]
+  },
+  {
+   "filename": "sfx_quest_complete.wav",
+   "bytes": 800776,
+   "sha256": "94c8b0ca8a7d3072ac9cb4e537f5347008319c995f432cc8733c8237b891c190",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_complete.wav",
+   "uids": [
+    11,
+    12
+   ]
+  },
+  {
+   "filename": "sfx_quest_new.wav",
+   "bytes": 671072,
+   "sha256": "7d1fd3ea46ff7d570addd1c7adf4aa415e6db14e2305312137cb21f915bc44b6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_new.wav",
+   "uids": [
+    10
+   ]
+  },
+  {
+   "filename": "sfx_quest_panel_up.wav",
+   "bytes": 266624,
+   "sha256": "8589707f643a711663c8d02978562c2388c27f36d1f5ecc3df4cf550591d309b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_quest_panel_up.wav",
+   "uids": [
+    13
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_cold_ray.wav",
+   "bytes": 123628,
+   "sha256": "793b004983d9b98332de5764ad518a4a4424ca8d815ce0c38d602471e48781c3",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_cold_ray.wav",
+   "uids": [
+    113
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_doppelganger.wav",
+   "bytes": 128472,
+   "sha256": "0e9955ccc7d8bfad67ff74942586c8e267f18c189ad832c86dff7bf41c848db8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger.wav",
+   "uids": [
+    114
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_doppelganger_statue_explode.wav",
+   "bytes": 103492,
+   "sha256": "4876b7dbfc637267b9a5b9b910a8cd11a18edb8a93bee1d663abb6b726059ff6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_doppelganger_statue_explode.wav",
+   "uids": [
+    115
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_ilu_eclipse.wav",
+   "bytes": 306688,
+   "sha256": "81db3d6b3f88e8fd4bc56ad0c92daad76bda77a35b56f8100e1e2d874054e55b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_eclipse.wav",
+   "uids": [
+    121
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_ilu_hold_time.wav",
+   "bytes": 338284,
+   "sha256": "c486e54de0b79f1c90ca75f5d83ae02fb71b0e42e7ce0733cfcf2cf6fe1355ea",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time.wav",
+   "uids": [
+    124
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_ilu_hold_time_hit.wav",
+   "bytes": 377508,
+   "sha256": "33b2a22d202dba2744d6148211c8bbecea243ccd3d533fc22e798ce3b0d8d4f1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_hold_time_hit.wav",
+   "uids": [
+    125
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_ilu_nightmare.wav",
+   "bytes": 205128,
+   "sha256": "87b4ce3d0c3f22174bd418a7dda8f30b5c271ba94278e5bbff2786812190a310",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_nightmare.wav",
+   "uids": [
+    123
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_ilu_terror.wav",
+   "bytes": 188774,
+   "sha256": "56fe69c5f86c803255f789f5bb52423380fd3f7e9d61f96416c194637e6709d7",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_ilu_terror.wav",
+   "uids": [
+    122
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_nec_harrowing_grasp.wav",
+   "bytes": 282422,
+   "sha256": "6cd1afc2d6141f262d8f0ca5fd33c012857fb58fb97bcd73c0827453a7fa6d83",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_harrowing_grasp.wav",
+   "uids": [
+    126
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_nec_pestilence_breath.wav",
+   "bytes": 157570,
+   "sha256": "0707c3ed5e8607fc7d5fa357dc52cdbe94fe21c81740e140ec40f3054d0eedff",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_pestilence_breath.wav",
+   "uids": [
+    129
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_nec_raise.wav",
+   "bytes": 410202,
+   "sha256": "b109cdc31a07c5074dde7b85b68cfa2272dfa52e3fde82d88bdae6f87d82dfe8",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_raise.wav",
+   "uids": [
+    128
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_nec_reaperstorm.wav",
+   "bytes": 288514,
+   "sha256": "15934f809ce603630dea224140a09b519257819dc5e90b8af8a9fe161c790250",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_nec_reaperstorm.wav",
+   "uids": [
+    127
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_stormslave.wav",
+   "bytes": 322744,
+   "sha256": "a9ad487b10e878af8d35d985649ec28e61040927b92de0c9969f2907d2d9c844",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_stormslave.wav",
+   "uids": [
+    120
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_thunder_braid.wav",
+   "bytes": 99650,
+   "sha256": "4165d796291c231eb4bc492d0ebe769b641c3b4c1e508d403a9ce924f1608448",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid.wav",
+   "uids": [
+    116
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_thunder_braid_add_1.wav",
+   "bytes": 134726,
+   "sha256": "38ed3e34f4e071a2772cfd720f892a135ca791101292ae8081056c11516eb96b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_1.wav",
+   "uids": [
+    117
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_thunder_braid_add_2.wav",
+   "bytes": 134726,
+   "sha256": "02427ca8c9712fb9753e8299c2d18be7e35da1fc3b4a6da0895b90ab9c8ab175",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_add_2.wav",
+   "uids": [
+    118
+   ]
+  },
+  {
+   "filename": "sfx_skill_mage_thunder_braid_loop.wav",
+   "bytes": 307058,
+   "sha256": "1f477a109b1de58d52697b6fef28d801663847ad00db73bcf963740ff7a46233",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_mage_thunder_braid_loop.wav",
+   "uids": [
+    119
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_arc_burst_shot.wav",
+   "bytes": 110944,
+   "sha256": "67b65a6fb519bb37a30259341fc51d6fa2d0cd1f8c1fe5faf7364c83a6bde8c6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_burst_shot.wav",
+   "uids": [
+    137
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_arc_maim_shot.wav",
+   "bytes": 77316,
+   "sha256": "2b07aa5bba8fdfd664324ee64f18791159447f21ab8ad80267e494bc45520074",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_maim_shot.wav",
+   "uids": [
+    136
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_arc_pierce_shot.wav",
+   "bytes": 74748,
+   "sha256": "4ce818fd5f7ef79e2147ffcfcf7960b1ce8fd1d3605fe078f239615144c1128f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_pierce_shot.wav",
+   "uids": [
+    135
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_arc_rain_of_arrows.wav",
+   "bytes": 69400,
+   "sha256": "6cfa00a1ab5381888f8c96dc62da16d0b36eda88dc9c4acd73d643ead3e95762",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_rain_of_arrows.wav",
+   "uids": [
+    134
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_arc_venom_shot.wav",
+   "bytes": 90246,
+   "sha256": "4a7d77f2207a54d9b9b7669e1843752db6c1f42cc8419ec62a8525773878e8a6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_arc_venom_shot.wav",
+   "uids": [
+    138
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_ass_assassinate.wav",
+   "bytes": 203168,
+   "sha256": "09e3f0bbf999ec36bc10c17ab10529492829923fb02c0700ddc567ac67c87b71",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_assassinate.wav",
+   "uids": [
+    142
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_ass_concealing_cloud.wav",
+   "bytes": 169264,
+   "sha256": "7fa9e87a3a252cb648a586915716883e9395a9a343f9fdedabbb779f3962fea2",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_concealing_cloud.wav",
+   "uids": [
+    140
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_ass_plague_edge.wav",
+   "bytes": 203632,
+   "sha256": "618460a1b752e4e86cc9b7d2f5d484fda7b43c4549a5e3104f0313d5bf45220d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_plague_edge.wav",
+   "uids": [
+    141
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_ass_throw_knife.wav",
+   "bytes": 44338,
+   "sha256": "a2e065d2b2e3fdb1df29d3f7da72fe03ff372ff47a3b281a92c7af2ea5756b27",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_ass_throw_knife.wav",
+   "uids": [
+    139
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_desert_pinwheel.wav",
+   "bytes": 144240,
+   "sha256": "400d08ffb7fd92c26fc0f7b82c566678dd8b120cfc5bdb2fc6d980f05a3a3cb3",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_desert_pinwheel.wav",
+   "uids": [
+    133
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_featherfoot.wav",
+   "bytes": 122646,
+   "sha256": "50cb1bb58ec703982135197d4708ca3ec615c84cdb25efb2f6578ed6396a9082",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_featherfoot.wav",
+   "uids": [
+    132
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_heel_strike.wav",
+   "bytes": 172388,
+   "sha256": "a7bfd930df3ac89d8b5ceb2ed1d0c9e37322c7826e06f8090c347d76a0446f5a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_heel_strike.wav",
+   "uids": [
+    131
+   ]
+  },
+  {
+   "filename": "sfx_skill_rogue_vicious_strike.wav",
+   "bytes": 145758,
+   "sha256": "daf2ebe9dbe5a56681cb711a66537dac1bf24804cf9e0c9503115bbf72f48108",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_rogue_vicious_strike.wav",
+   "uids": [
+    130
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_bsk_annihilating_spin.wav",
+   "bytes": 152484,
+   "sha256": "b6a6929a5811982067400abf90414ee6939cb2c2873237651659e5249609804c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_annihilating_spin.wav",
+   "uids": [
+    112
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+   "bytes": 222956,
+   "sha256": "057514610f2a2c14caa4f5361d1888bd173d48209d75dc85e08a906d8f8b484d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl.wav",
+   "uids": [
+    109
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+   "bytes": 227786,
+   "sha256": "46b0fea07f74d26ec9f7774c093de35adb374706fd51b3fa18bd494925815dc7",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear.wav",
+   "uids": [
+    110
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+   "bytes": 277092,
+   "sha256": "f903b17aeaa66680de99cf9964a34d93dd0f424322360abc3e70c57b06db727a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun.wav",
+   "uids": [
+    111
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_bsk_crippling_strike.wav",
+   "bytes": 157824,
+   "sha256": "185f8fcc6acacc56983287be0463d6bf8ef395f6d450311e54d816d9d3b14da3",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_bsk_crippling_strike.wav",
+   "uids": [
+    108
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_earthstrike.wav",
+   "bytes": 258622,
+   "sha256": "b15c2277664d70a130c0c898df2e854f58cc61ac654c8f5e38f5dc82e7bb0c6b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_earthstrike.wav",
+   "uids": [
+    103
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_headsplitter.wav",
+   "bytes": 131034,
+   "sha256": "0b064bb4781ba1a64274ac2eb162ab7bc18f21fea3b70f185bd668560961de25",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_headsplitter.wav",
+   "uids": [
+    101
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_pld_alastor_blessing.wav",
+   "bytes": 205928,
+   "sha256": "0956f46069e99284119c43eefa44716e08d1b16067cc13ed59e423c7ef381659",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_alastor_blessing.wav",
+   "uids": [
+    104
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_pld_condemnation.wav",
+   "bytes": 289938,
+   "sha256": "8510a5465f3edfeaa077f81e706f35feb85bc4e4e964d5962debf2d57a3513d1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_condemnation.wav",
+   "uids": [
+    107
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_pld_crusade.wav",
+   "bytes": 172184,
+   "sha256": "3bfb95e0a86bb827b843fb7b84a7a12679c01c9ff946362f4d393dc62f19020c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_crusade.wav",
+   "uids": [
+    105
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_pld_spiritual_sight.wav",
+   "bytes": 140546,
+   "sha256": "93fffbfb7ec71ab86c1e6e887d27a138c656a1928f4950c8d4078f3b0ec78905",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_pld_spiritual_sight.wav",
+   "uids": [
+    106
+   ]
+  },
+  {
+   "filename": "sfx_skill_warrior_shield_rush.wav",
+   "bytes": 89434,
+   "sha256": "121efb84f631292615d6c28fe7aff40c0228afbdce9e01315adb8a84069d53d7",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_skill_warrior_shield_rush.wav",
+   "uids": [
+    102
+   ]
+  },
+  {
+   "filename": "sfx_southroad_river_loop.wav",
+   "bytes": 407574,
+   "sha256": "f18bb9da9ebd931aad79bd48168e7f9a8d4763055411c96d96defe5a1f39321a",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_river_loop.wav",
+   "uids": [
+    180
+   ]
+  },
+  {
+   "filename": "sfx_southroad_waterfall_loop_1.wav",
+   "bytes": 136020,
+   "sha256": "e9cb089f5675b10c98aec4695ce057296fedfb30d1a3d193a36b0fed64068f92",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_1.wav",
+   "uids": [
+    182
+   ]
+  },
+  {
+   "filename": "sfx_southroad_waterfall_loop_2.wav",
+   "bytes": 136020,
+   "sha256": "43b5765d7eb998404df9d676f6eaadbdb7b865e8c03854c28bef3396f78ba856",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_southroad_waterfall_loop_2.wav",
+   "uids": [
+    183
+   ]
+  },
+  {
+   "filename": "sfx_steam_loop.wav",
+   "bytes": 351036,
+   "sha256": "e8e754238d0c2e68732666ee7b6ef2774997146002e98caaafc6feabbab8267e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_steam_loop.wav",
+   "uids": [
+    187
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_dagger_1.wav",
+   "bytes": 19854,
+   "sha256": "db50bb97e237ef2acb905959cef90c0395b8d0ca0ad62bf9e714c34cf0b8ec77",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_1.wav",
+   "uids": [
+    24
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_dagger_2.wav",
+   "bytes": 16334,
+   "sha256": "810594c7f08298d46208ea0b0539852b2e96c4ae48bf708aca52742861988d2d",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_dagger_2.wav",
+   "uids": [
+    25
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_staff_1.wav",
+   "bytes": 49714,
+   "sha256": "050349c78e6f0a2541978e1b701d74065ca4cbf55b5795a62d90adfdbbf5b67f",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_1.wav",
+   "uids": [
+    26
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_staff_2.wav",
+   "bytes": 50146,
+   "sha256": "da271acefc85c3676660317f12b262f203eb3d31f222b1cf5ef9857cf5b51d61",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_staff_2.wav",
+   "uids": [
+    27
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_sword_1.wav",
+   "bytes": 22962,
+   "sha256": "1bbb6dc1042c0558ee0168aea9c424e93bc6ad0f818213773e2aa9512fbe69dc",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_1.wav",
+   "uids": [
+    22
+   ]
+  },
+  {
+   "filename": "sfx_swoosh_sword_2.wav",
+   "bytes": 17722,
+   "sha256": "142f725a9519b52e6f957d9b3e7c22c0d4c133ed553206ff5cb21423523e19e6",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_swoosh_sword_2.wav",
+   "uids": [
+    23
+   ]
+  },
+  {
+   "filename": "sfx_tap_dialog.wav",
+   "bytes": 72184,
+   "sha256": "058d7895f569bc7e15e5284fab80c5f1caf89d8bcd93c786c2a908619d2ab31e",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tap_dialog.wav",
+   "uids": [
+    17
+   ]
+  },
+  {
+   "filename": "sfx_telepoint_loop.wav",
+   "bytes": 471656,
+   "sha256": "8e73343bb8a1d97e10d9b43468f4fd9b744af282de7235aaa83d81f745dcd20b",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_telepoint_loop.wav",
+   "uids": [
+    177
+   ]
+  },
+  {
+   "filename": "sfx_tutorial_popup.wav",
+   "bytes": 387912,
+   "sha256": "e405f2e8d062d9d35354a071bb83dfa023b994cbe37528f9c62e52331f2b7ae1",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_tutorial_popup.wav",
+   "uids": [
+    7
+   ]
+  },
+  {
+   "filename": "sfx_unnamed_one_fire_loop.wav",
+   "bytes": 554033,
+   "sha256": "a52662cebc995c655540bc91a7f08807637e0eb089db82d874825434af8badca",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_fire_loop.wav",
+   "uids": [
+    192
+   ]
+  },
+  {
+   "filename": "sfx_unnamed_one_vortex_fire_loop.wav",
+   "bytes": 735788,
+   "sha256": "b46bfef42ee9d29e3eda34c16a1463e63de509da7543a1c3e62e05be43f481f9",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_fire_loop.wav",
+   "uids": [
+    194
+   ]
+  },
+  {
+   "filename": "sfx_unnamed_one_vortex_loop.wav",
+   "bytes": 770641,
+   "sha256": "bf3f9e260fc44be788b49f393a3ba81ea07abf514c5dd78d337ff0078936425c",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_unnamed_one_vortex_loop.wav",
+   "uids": [
+    193
+   ]
+  },
+  {
+   "filename": "sfx_well_scream_loop.wav",
+   "bytes": 854868,
+   "sha256": "d79e11d64d53c43049eb67b874daa53f3a4360b46a03eee1c19e02c8bbe8b880",
+   "source_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sfx_well_scream_loop.wav",
+   "uids": [
+    191
+   ]
+  }
+ ],
+ "unavailable": [
+  {
+   "uid": 8,
+   "label": "MenuPotion",
+   "filename": "sfx_potion_drink.wav",
+   "source_sound_ids": [
+    142
+   ]
+  },
+  {
+   "uid": 14,
+   "label": "sfx_checkpoint_activated",
+   "filename": "sfx_checkpoint_activated.wav",
+   "source_sound_ids": [
+    330
+   ]
+  },
+  {
+   "uid": 37,
+   "label": "CriticalHit1",
+   "filename": "sfx_critical_hit.wav",
+   "source_sound_ids": [
+    37
+   ]
+  },
+  {
+   "uid": 92,
+   "label": "WettyWaterSpell",
+   "filename": "sfx_faerie_ice.wav",
+   "source_sound_ids": [
+    234
+   ]
+  },
+  {
+   "uid": 147,
+   "label": "PotionDrink",
+   "filename": "sfx_potion_drink.wav",
+   "source_sound_ids": [
+    160
+   ]
+  },
+  {
+   "uid": 148,
+   "label": "DropArmor",
+   "filename": "sfx_drop_armor.wav",
+   "source_sound_ids": [
+    61
+   ]
+  },
+  {
+   "uid": 149,
+   "label": "DropPotion",
+   "filename": "sfx_drop_potion.wav",
+   "source_sound_ids": [
+    63
+   ]
+  },
+  {
+   "uid": 150,
+   "label": "DropSword",
+   "filename": "sfx_drop_weapon.wav",
+   "source_sound_ids": [
+    64
+   ]
+  },
+  {
+   "uid": 151,
+   "label": "DropGold",
+   "filename": "sfx_drop_gold.wav",
+   "source_sound_ids": [
+    62
+   ]
+  },
+  {
+   "uid": 152,
+   "label": "PickupArmor",
+   "filename": "sfx_pickup_armor.wav",
+   "source_sound_ids": [
+    154
+   ]
+  },
+  {
+   "uid": 153,
+   "label": "PickupPotion",
+   "filename": "sfx_pickup_potion.wav",
+   "source_sound_ids": [
+    156
+   ]
+  },
+  {
+   "uid": 154,
+   "label": "PickupWeapon",
+   "filename": "sfx_pickup_weapon.wav",
+   "source_sound_ids": [
+    157
+   ]
+  },
+  {
+   "uid": 155,
+   "label": "PickupGold",
+   "filename": "sfx_pickup_gold.wav",
+   "source_sound_ids": [
+    155
+   ]
+  },
+  {
+   "uid": 156,
+   "label": "LeverActivate",
+   "filename": "sfx_lever_activate.wav",
+   "source_sound_ids": [
+    128
+   ]
+  },
+  {
+   "uid": 157,
+   "label": "DoorOpening",
+   "filename": "sfx_metal_gate_open.wav",
+   "source_sound_ids": [
+    56
+   ]
+  },
+  {
+   "uid": 158,
+   "label": "sfx_giant_wood_door_open",
+   "filename": "sfx_giant_wood_door_open.wav",
+   "source_sound_ids": [
+    427
+   ]
+  },
+  {
+   "uid": 159,
+   "label": "sfx_door_opening",
+   "filename": "sfx_door_opening.wav",
+   "source_sound_ids": [
+    388
+   ]
+  },
+  {
+   "uid": 160,
+   "label": "sfx_magical_wall_up",
+   "filename": "sfx_magical_wall_up.wav",
+   "source_sound_ids": [
+    489
+   ]
+  },
+  {
+   "uid": 161,
+   "label": "sfx_magical_wall_down",
+   "filename": "sfx_magical_wall_down.wav",
+   "source_sound_ids": [
+    487
+   ]
+  },
+  {
+   "uid": 162,
+   "label": "ChestOpen",
+   "filename": "sfx_chest_opening.wav",
+   "source_sound_ids": [
+    33
+   ]
+  },
+  {
+   "uid": 163,
+   "label": "BarrelBreak",
+   "filename": "sfx_barrel_breaking.wav",
+   "source_sound_ids": [
+    20
+   ]
+  },
+  {
+   "uid": 164,
+   "label": "CrystalHitting",
+   "filename": "sfx_crystal_hitting.wav",
+   "source_sound_ids": [
+    41
+   ]
+  },
+  {
+   "uid": 165,
+   "label": "CrystalBreaking",
+   "filename": "sfx_crystal_breaking.wav",
+   "source_sound_ids": [
+    40
+   ]
+  },
+  {
+   "uid": 166,
+   "label": "sfx_break_vase",
+   "filename": "sfx_break_vase.wav",
+   "source_sound_ids": [
+    325
+   ]
+  },
+  {
+   "uid": 167,
+   "label": "SpikeTrapActivate",
+   "filename": "sfx_spikes_trap_activating.wav",
+   "source_sound_ids": [
+    205
+   ]
+  },
+  {
+   "uid": 168,
+   "label": "SpikeTrapDeactivate",
+   "filename": "sfx_spikes_trap_disabling.wav",
+   "source_sound_ids": [
+    206
+   ]
+  },
+  {
+   "uid": 169,
+   "label": "sfx_magical_shrine_power_down",
+   "filename": "sfx_magical_shrine_power_down.wav",
+   "source_sound_ids": [
+    486
+   ]
+  },
+  {
+   "uid": 170,
+   "label": "sfx_orb_deactivate",
+   "filename": "sfx_orb_deactivate.wav",
+   "source_sound_ids": [
+    501
+   ]
+  },
+  {
+   "uid": 171,
+   "label": "sfx_trap_armed",
+   "filename": "sfx_trap_armed.wav",
+   "source_sound_ids": [
+    605
+   ]
+  },
+  {
+   "uid": 172,
+   "label": "sfx_magic_circle_activated",
+   "filename": "sfx_magic_portal_spawn.wav",
+   "source_sound_ids": [
+    483
+   ]
+  },
+  {
+   "uid": 173,
+   "label": "sfx_iron_gate",
+   "filename": "sfx_iron_gate.wav",
+   "source_sound_ids": [
+    466
+   ]
+  },
+  {
+   "uid": 174,
+   "label": "sfx_teleport",
+   "filename": "sfx_teleport.wav",
+   "source_sound_ids": [
+    604
+   ]
+  },
+  {
+   "uid": 175,
+   "label": "sfx_energy_orb_popup",
+   "filename": "sfx_energy_orb_popup.wav",
+   "source_sound_ids": [
+    404
+   ]
+  },
+  {
+   "uid": 190,
+   "label": "sfx_cultitst_group_chant_loop",
+   "filename": "sfx_cultitst_group_chant_loop",
+   "source_sound_ids": [
+    350
+   ]
+  },
+  {
+   "uid": 195,
+   "label": "GroundBurst",
+   "filename": "sfx_npc_out.wav",
+   "source_sound_ids": [
+    96
+   ]
+  },
+  {
+   "uid": 196,
+   "label": "npc_arrow_shoot",
+   "filename": "sfx_npc_archer.wav",
+   "source_sound_ids": [
+    301
+   ]
+  },
+  {
+   "uid": 197,
+   "label": "sfx_dead_body_vanish",
+   "filename": "sfx_dead_body_vanish.wav",
+   "source_sound_ids": [
+    379
+   ]
+  },
+  {
+   "uid": 198,
+   "label": "ZombieSpawn",
+   "filename": "sfx_zombie_spawn.wav",
+   "source_sound_ids": [
+    243
+   ]
+  },
+  {
+   "uid": 199,
+   "label": "ZombieHurt",
+   "filename": "sfx_zombie_hurt.wav",
+   "source_sound_ids": [
+    242
+   ]
+  },
+  {
+   "uid": 200,
+   "label": "ZombieDie",
+   "filename": "sfx_zombie_killed.wav",
+   "source_sound_ids": [
+    241
+   ]
+  },
+  {
+   "uid": 201,
+   "label": "ZombieAttack",
+   "filename": "sfx_zombie_attack.wav",
+   "source_sound_ids": [
+    240
+   ]
+  },
+  {
+   "uid": 202,
+   "label": "SkeletonSpawn",
+   "filename": "sfx_skeleton_spawn.wav",
+   "source_sound_ids": [
+    189
+   ]
+  },
+  {
+   "uid": 203,
+   "label": "SkeletonHurt",
+   "filename": "sfx_skeleton_hurt.wav",
+   "source_sound_ids": [
+    187
+   ]
+  },
+  {
+   "uid": 204,
+   "label": "SkeletonKilled",
+   "filename": "sfx_skeleton_killed.wav",
+   "source_sound_ids": [
+    188
+   ]
+  },
+  {
+   "uid": 205,
+   "label": "SkeletonAttack",
+   "filename": "sfx_skeleton_attack.wav",
+   "source_sound_ids": [
+    186
+   ]
+  },
+  {
+   "uid": 206,
+   "label": "BalrogOut",
+   "filename": "sfx_balrog_out.wav",
+   "source_sound_ids": [
+    12
+   ]
+  },
+  {
+   "uid": 207,
+   "label": "BalrogIdle",
+   "filename": "sfx_balrog_idle.wav",
+   "source_sound_ids": [
+    10
+   ]
+  },
+  {
+   "uid": 208,
+   "label": "BalrogHurt",
+   "filename": "sfx_balrog_hurt.wav",
+   "source_sound_ids": [
+    9
+   ]
+  },
+  {
+   "uid": 209,
+   "label": "BalrogKilled",
+   "filename": "sfx_balrog_killed.wav",
+   "source_sound_ids": [
+    11
+   ]
+  },
+  {
+   "uid": 210,
+   "label": "BalrogAttack",
+   "filename": "sfx_balrog_attack.wav",
+   "source_sound_ids": [
+    7
+   ]
+  },
+  {
+   "uid": 211,
+   "label": "BalrogAttack2",
+   "filename": "sfx_balrog_attack_2.wav",
+   "source_sound_ids": [
+    8
+   ]
+  },
+  {
+   "uid": 212,
+   "label": "sfx_balrog_shockwave_attack",
+   "filename": "sfx_balrog_shockwave_attack.wav",
+   "source_sound_ids": [
+    324
+   ]
+  },
+  {
+   "uid": 213,
+   "label": "SpiderSpawn",
+   "filename": "sfx_spider_spawn.wav",
+   "source_sound_ids": [
+    204
+   ]
+  },
+  {
+   "uid": 214,
+   "label": "SpiderHurt",
+   "filename": "sfx_spider_hurt.wav",
+   "source_sound_ids": [
+    202
+   ]
+  },
+  {
+   "uid": 215,
+   "label": "SpiderKilled",
+   "filename": "sfx_spider_killed.wav",
+   "source_sound_ids": [
+    203
+   ]
+  },
+  {
+   "uid": 216,
+   "label": "SpiderAttack",
+   "filename": "sfx_spider_attack.wav",
+   "source_sound_ids": [
+    201
+   ]
+  },
+  {
+   "uid": 217,
+   "label": "BanditHurt",
+   "filename": "sfx_bandit_hurt.wav",
+   "source_sound_ids": [
+    14
+   ]
+  },
+  {
+   "uid": 218,
+   "label": "BanditKilled",
+   "filename": "sfx_bandit_killed.wav",
+   "source_sound_ids": [
+    15
+   ]
+  },
+  {
+   "uid": 219,
+   "label": "BanditAttack",
+   "filename": "sfx_bandit_attack.wav",
+   "source_sound_ids": [
+    13
+   ]
+  },
+  {
+   "uid": 220,
+   "label": "SoldierHurt",
+   "filename": "sfx_soldier_hurt.wav",
+   "source_sound_ids": [
+    196
+   ]
+  },
+  {
+   "uid": 221,
+   "label": "SoldierKilled",
+   "filename": "sfx_soldier_killed.wav",
+   "source_sound_ids": [
+    197
+   ]
+  },
+  {
+   "uid": 222,
+   "label": "SoldierAttack",
+   "filename": "sfx_soldier_attack.wav",
+   "source_sound_ids": [
+    195
+   ]
+  },
+  {
+   "uid": 223,
+   "label": "SlimeSpawn",
+   "filename": "sfx_slime_spawn.wav",
+   "source_sound_ids": [
+    194
+   ]
+  },
+  {
+   "uid": 224,
+   "label": "SlimeHurt",
+   "filename": "sfx_slime_hurt.wav",
+   "source_sound_ids": [
+    192
+   ]
+  },
+  {
+   "uid": 225,
+   "label": "SlimeKilled",
+   "filename": "sfx_slime_killed.wav",
+   "source_sound_ids": [
+    193
+   ]
+  },
+  {
+   "uid": 226,
+   "label": "SlimeAttack",
+   "filename": "sfx_slime_attack.wav",
+   "source_sound_ids": [
+    191
+   ]
+  },
+  {
+   "uid": 227,
+   "label": "MotherSlimeSpawn",
+   "filename": "sfx_mother_slime_spawn.wav",
+   "source_sound_ids": [
+    152
+   ]
+  },
+  {
+   "uid": 228,
+   "label": "MotherSlimeHurt",
+   "filename": "sfx_mother_slime_hurt.wav",
+   "source_sound_ids": [
+    150
+   ]
+  },
+  {
+   "uid": 229,
+   "label": "MotherSlimeKilled",
+   "filename": "sfx_mother_slime_killed.wav",
+   "source_sound_ids": [
+    151
+   ]
+  },
+  {
+   "uid": 230,
+   "label": "MotherSlimeAttack",
+   "filename": "sfx_mother_slime_attack.wav",
+   "source_sound_ids": [
+    149
+   ]
+  },
+  {
+   "uid": 231,
+   "label": "StaticBallSpawn",
+   "filename": "sfx_static_ball_spawn.wav",
+   "source_sound_ids": [
+    210
+   ]
+  },
+  {
+   "uid": 232,
+   "label": "StaticBallHurt",
+   "filename": "sfx_static_ball_hurt.wav",
+   "source_sound_ids": [
+    208
+   ]
+  },
+  {
+   "uid": 233,
+   "label": "StaticBallKilled",
+   "filename": "sfx_static_ball_killed.wav",
+   "source_sound_ids": [
+    209
+   ]
+  },
+  {
+   "uid": 234,
+   "label": "StaticBallAttack",
+   "filename": "sfx_static_ball_attack.wav",
+   "source_sound_ids": [
+    207
+   ]
+  },
+  {
+   "uid": 235,
+   "label": "DrakeSpawn",
+   "filename": "sfx_drake_spawn.wav",
+   "source_sound_ids": [
+    60
+   ]
+  },
+  {
+   "uid": 236,
+   "label": "DrakeHurt",
+   "filename": "sfx_drake_hurt.wav",
+   "source_sound_ids": [
+    58
+   ]
+  },
+  {
+   "uid": 237,
+   "label": "DrakeKilled",
+   "filename": "sfx_drake_killed.wav",
+   "source_sound_ids": [
+    59
+   ]
+  },
+  {
+   "uid": 238,
+   "label": "DrakeAttack",
+   "filename": "sfx_drake_attack.wav",
+   "source_sound_ids": [
+    57
+   ]
+  },
+  {
+   "uid": 239,
+   "label": "MadPriestSpawn",
+   "filename": "sfx_mad_priest_spawn.wav",
+   "source_sound_ids": [
+    139
+   ]
+  },
+  {
+   "uid": 240,
+   "label": "MadPriestHurt",
+   "filename": "sfx_mad_priest_hurt.wav",
+   "source_sound_ids": [
+    137
+   ]
+  },
+  {
+   "uid": 241,
+   "label": "MadPriestKilled",
+   "filename": "sfx_mad_priest_killed.wav",
+   "source_sound_ids": [
+    138
+   ]
+  },
+  {
+   "uid": 242,
+   "label": "MadPriestAttack",
+   "filename": "sfx_mad_priest_attack.wav",
+   "source_sound_ids": [
+    136
+   ]
+  },
+  {
+   "uid": 243,
+   "label": "GargoyleSpawn",
+   "filename": "sfx_gargoyle_spawn.wav",
+   "source_sound_ids": [
+    88
+   ]
+  },
+  {
+   "uid": 244,
+   "label": "GargoyleHurt",
+   "filename": "sfx_gargoyle_hurt.wav",
+   "source_sound_ids": [
+    86
+   ]
+  },
+  {
+   "uid": 245,
+   "label": "GargoyleKilled",
+   "filename": "sfx_gargoyle_killed.wav",
+   "source_sound_ids": [
+    87
+   ]
+  },
+  {
+   "uid": 246,
+   "label": "GargoyleAttack",
+   "filename": "sfx_gargoyle_attack.wav",
+   "source_sound_ids": [
+    85
+   ]
+  },
+  {
+   "uid": 247,
+   "label": "CaveTrollHurt",
+   "filename": "sfx_cave_troll_hurt_1.wav",
+   "source_sound_ids": [
+    25
+   ]
+  },
+  {
+   "uid": 248,
+   "label": "sfx_cave_troll_hurt_2",
+   "filename": "sfx_cave_troll_hurt_2.wav",
+   "source_sound_ids": [
+    326
+   ]
+  },
+  {
+   "uid": 249,
+   "label": "CaveTrollKilled",
+   "filename": "sfx_cave_troll_death.wav",
+   "source_sound_ids": [
+    26
+   ]
+  },
+  {
+   "uid": 250,
+   "label": "CaveTrollAttack",
+   "filename": "sfx_cave_troll_attack.wav",
+   "source_sound_ids": [
+    24
+   ]
+  },
+  {
+   "uid": 251,
+   "label": "sfx_cave_troll_mace_attack",
+   "filename": "sfx_cave_troll_mace_attack.wav",
+   "source_sound_ids": [
+    327
+   ]
+  },
+  {
+   "uid": 252,
+   "label": "sfx_cave_troll_smash_ground",
+   "filename": "sfx_cave_troll_smash_ground.wav",
+   "source_sound_ids": [
+    328
+   ]
+  },
+  {
+   "uid": 253,
+   "label": "DoomKnightIdle1",
+   "filename": "sfx_doom_knight_idle_1.wav",
+   "source_sound_ids": [
+    51
+   ]
+  },
+  {
+   "uid": 254,
+   "label": "DoomKnightIdle2",
+   "filename": "sfx_doom_knight_idle_2.wav",
+   "source_sound_ids": [
+    52
+   ]
+  },
+  {
+   "uid": 255,
+   "label": "DoomKnightIdle3",
+   "filename": "sfx_doom_knight_idle_3.wav",
+   "source_sound_ids": [
+    53
+   ]
+  },
+  {
+   "uid": 256,
+   "label": "DoomKnightIdle4",
+   "filename": "sfx_doom_knight_idle_4.wav",
+   "source_sound_ids": [
+    54
+   ]
+  },
+  {
+   "uid": 257,
+   "label": "DoomKnightHurt",
+   "filename": "sfx_doom_knight_hurt.wav",
+   "source_sound_ids": [
+    50
+   ]
+  },
+  {
+   "uid": 258,
+   "label": "DoomKnightKilled",
+   "filename": "sfx_doom_knight_killed.wav",
+   "source_sound_ids": [
+    55
+   ]
+  },
+  {
+   "uid": 259,
+   "label": "DoomKnightAttack",
+   "filename": "sfx_doom_knight_attack.wav",
+   "source_sound_ids": [
+    49
+   ]
+  },
+  {
+   "uid": 260,
+   "label": "QueenHurt",
+   "filename": "sfx_dark_queen_hurt.wav",
+   "source_sound_ids": []
+  },
+  {
+   "uid": 261,
+   "label": "QueenKilled",
+   "filename": "sfx_dark_queen_killed.wav",
+   "source_sound_ids": []
+  },
+  {
+   "uid": 262,
+   "label": "QueenAttack",
+   "filename": "sfx_dark_queen_attack.wav",
+   "source_sound_ids": []
+  },
+  {
+   "uid": 263,
+   "label": "BarbarianHurt",
+   "filename": "sfx_barbarian_hurt.wav",
+   "source_sound_ids": [
+    18
+   ]
+  },
+  {
+   "uid": 264,
+   "label": "BarbarianKilled",
+   "filename": "sfx_barbarian_killed.wav",
+   "source_sound_ids": [
+    19
+   ]
+  },
+  {
+   "uid": 265,
+   "label": "BarbarianAttack",
+   "filename": "sfx_barbarian_attack.wav",
+   "source_sound_ids": [
+    17
+   ]
+  },
+  {
+   "uid": 266,
+   "label": "sfx_goblin_archer_die",
+   "filename": "sfx_goblin_archer_die.wav",
+   "source_sound_ids": [
+    428
+   ]
+  },
+  {
+   "uid": 267,
+   "label": "sfx_goblin_shaman_die",
+   "filename": "sfx_goblin_shaman_die.wav",
+   "source_sound_ids": [
+    433
+   ]
+  },
+  {
+   "uid": 268,
+   "label": "sfx_goblin_sword_die",
+   "filename": "sfx_goblin_sword_die.wav",
+   "source_sound_ids": [
+    436
+   ]
+  },
+  {
+   "uid": 269,
+   "label": "sfx_goblin_archer_shoot_1",
+   "filename": "sfx_goblin_archer_shoot_1.wav",
+   "source_sound_ids": [
+    429
+   ]
+  },
+  {
+   "uid": 270,
+   "label": "sfx_goblin_archer_shoot_2",
+   "filename": "sfx_goblin_archer_shoot_2.wav",
+   "source_sound_ids": [
+    430
+   ]
+  },
+  {
+   "uid": 271,
+   "label": "sfx_goblin_shaman_attack_1",
+   "filename": "sfx_goblin_shaman_attack_1.wav",
+   "source_sound_ids": [
+    431
+   ]
+  },
+  {
+   "uid": 272,
+   "label": "sfx_goblin_shaman_attack_2",
+   "filename": "sfx_goblin_shaman_attack_2.wav",
+   "source_sound_ids": [
+    432
+   ]
+  },
+  {
+   "uid": 273,
+   "label": "sfx_goblin_sword_attack_1",
+   "filename": "sfx_goblin_sword_attack_1.wav",
+   "source_sound_ids": [
+    434
+   ]
+  },
+  {
+   "uid": 274,
+   "label": "sfx_goblin_sword_attack_2",
+   "filename": "sfx_goblin_sword_attack_2.wav",
+   "source_sound_ids": [
+    435
+   ]
+  },
+  {
+   "uid": 275,
+   "label": "sfx_green_ghost_attack_1",
+   "filename": "sfx_green_ghost_attack_1.wav",
+   "source_sound_ids": [
+    437
+   ]
+  },
+  {
+   "uid": 276,
+   "label": "sfx_green_ghost_attack_2",
+   "filename": "sfx_green_ghost_attack_2.wav",
+   "source_sound_ids": [
+    438
+   ]
+  },
+  {
+   "uid": 277,
+   "label": "sfx_green_ghost_attack_3",
+   "filename": "sfx_green_ghost_attack_3.wav",
+   "source_sound_ids": [
+    439
+   ]
+  },
+  {
+   "uid": 278,
+   "label": "sfx_green_ghost_die",
+   "filename": "sfx_green_ghost_die.wav",
+   "source_sound_ids": [
+    440
+   ]
+  },
+  {
+   "uid": 279,
+   "label": "sfx_green_ghost_hurt_1",
+   "filename": "sfx_green_ghost_hurt_1.wav",
+   "source_sound_ids": [
+    441
+   ]
+  },
+  {
+   "uid": 280,
+   "label": "sfx_green_ghost_hurt_2",
+   "filename": "sfx_green_ghost_hurt_2.wav",
+   "source_sound_ids": [
+    442
+   ]
+  },
+  {
+   "uid": 281,
+   "label": "sfx_green_ghost_spawn",
+   "filename": "sfx_green_ghost_spawn.wav",
+   "source_sound_ids": [
+    443
+   ]
+  },
+  {
+   "uid": 282,
+   "label": "sfx_lizardman_attack_1",
+   "filename": "sfx_lizardman_attack_1.wav",
+   "source_sound_ids": [
+    474
+   ]
+  },
+  {
+   "uid": 283,
+   "label": "sfx_lizardman_attack_2",
+   "filename": "sfx_lizardman_attack_2.wav",
+   "source_sound_ids": [
+    475
+   ]
+  },
+  {
+   "uid": 284,
+   "label": "sfx_lizardman_hurt",
+   "filename": "sfx_lizardman_hurt.wav",
+   "source_sound_ids": [
+    477
+   ]
+  },
+  {
+   "uid": 285,
+   "label": "sfx_lizardman_die",
+   "filename": "sfx_lizardman_die.wav",
+   "source_sound_ids": [
+    476
+   ]
+  },
+  {
+   "uid": 286,
+   "label": "sfx_moth_attack_1",
+   "filename": "sfx_moth_attack_1.wav",
+   "source_sound_ids": [
+    492
+   ]
+  },
+  {
+   "uid": 287,
+   "label": "sfx_moth_attack_2",
+   "filename": "sfx_moth_attack_2.wav",
+   "source_sound_ids": [
+    493
+   ]
+  },
+  {
+   "uid": 288,
+   "label": "sfx_moth_hurt_1",
+   "filename": "sfx_moth_hurt_1.wav",
+   "source_sound_ids": [
+    495
+   ]
+  },
+  {
+   "uid": 289,
+   "label": "sfx_moth_hurt_2",
+   "filename": "sfx_moth_hurt_2.wav",
+   "source_sound_ids": [
+    496
+   ]
+  },
+  {
+   "uid": 290,
+   "label": "sfx_moth_die",
+   "filename": "sfx_moth_die.wav",
+   "source_sound_ids": [
+    494
+   ]
+  },
+  {
+   "uid": 291,
+   "label": "sfx_plant_spawn",
+   "filename": "sfx_plant_spawn.wav",
+   "source_sound_ids": [
+    512
+   ]
+  },
+  {
+   "uid": 292,
+   "label": "sfx_plant_attack_1",
+   "filename": "sfx_plant_attack_1.wav",
+   "source_sound_ids": [
+    507
+   ]
+  },
+  {
+   "uid": 293,
+   "label": "sfx_plant_attack_2",
+   "filename": "sfx_plant_attack_2.wav",
+   "source_sound_ids": [
+    508
+   ]
+  },
+  {
+   "uid": 294,
+   "label": "sfx_plant_hurt_1",
+   "filename": "sfx_plant_hurt_1.wav",
+   "source_sound_ids": [
+    510
+   ]
+  },
+  {
+   "uid": 295,
+   "label": "sfx_plant_hurt_2",
+   "filename": "sfx_plant_hurt_2.wav",
+   "source_sound_ids": [
+    511
+   ]
+  },
+  {
+   "uid": 296,
+   "label": "sfx_plant_die",
+   "filename": "sfx_plant_die.wav",
+   "source_sound_ids": [
+    509
+   ]
+  },
+  {
+   "uid": 297,
+   "label": "sfx_yeti_attack_1",
+   "filename": "sfx_yeti_attack_1.wav",
+   "source_sound_ids": [
+    629
+   ]
+  },
+  {
+   "uid": 298,
+   "label": "sfx_yeti_attack_2",
+   "filename": "sfx_yeti_attack_2.wav",
+   "source_sound_ids": [
+    630
+   ]
+  },
+  {
+   "uid": 299,
+   "label": "sfx_yeti_die",
+   "filename": "sfx_yeti_die.wav",
+   "source_sound_ids": [
+    631
+   ]
+  },
+  {
+   "uid": 300,
+   "label": "sfx_yeti_hurt_1",
+   "filename": "sfx_yeti_hurt_1.wav",
+   "source_sound_ids": [
+    632
+   ]
+  },
+  {
+   "uid": 301,
+   "label": "sfx_yeti_hurt_2",
+   "filename": "sfx_yeti_hurt_2.wav",
+   "source_sound_ids": [
+    633
+   ]
+  },
+  {
+   "uid": 302,
+   "label": "sfx_statue_attack",
+   "filename": "sfx_statue_attack.wav",
+   "source_sound_ids": [
+    590
+   ]
+  },
+  {
+   "uid": 303,
+   "label": "sfx_statue_heat_attack",
+   "filename": "sfx_statue_heat_attack.wav",
+   "source_sound_ids": [
+    596
+   ]
+  },
+  {
+   "uid": 304,
+   "label": "sfx_statue_frost_attack",
+   "filename": "sfx_statue_frost_attack.wav",
+   "source_sound_ids": [
+    595
+   ]
+  },
+  {
+   "uid": 305,
+   "label": "sfx_mother_statue_summon",
+   "filename": "sfx_mother_statue_summon.wav",
+   "source_sound_ids": [
+    497
+   ]
+  },
+  {
+   "uid": 306,
+   "label": "sfx_statue_cherub_attack",
+   "filename": "sfx_statue_cherub_attack.wav",
+   "source_sound_ids": [
+    591
+   ]
+  },
+  {
+   "uid": 307,
+   "label": "sfx_statue_cherub_die",
+   "filename": "sfx_statue_cherub_die.wav",
+   "source_sound_ids": [
+    592
+   ]
+  },
+  {
+   "uid": 308,
+   "label": "sfx_statue_cherub_hurt_1",
+   "filename": "sfx_statue_cherub_hurt_1.wav",
+   "source_sound_ids": [
+    593
+   ]
+  },
+  {
+   "uid": 309,
+   "label": "sfx_statue_cherub_hurt_2",
+   "filename": "sfx_statue_cherub_hurt_2.wav",
+   "source_sound_ids": [
+    594
+   ]
+  },
+  {
+   "uid": 310,
+   "label": "sfx_serpent_spawn",
+   "filename": "sfx_serpent_spawn.wav",
+   "source_sound_ids": [
+    522
+   ]
+  },
+  {
+   "uid": 311,
+   "label": "sfx_serpent_spit_water",
+   "filename": "sfx_serpent_spit_water.wav",
+   "source_sound_ids": [
+    523
+   ]
+  },
+  {
+   "uid": 312,
+   "label": "sfx_serpent_spit_water_explosion",
+   "filename": "sfx_serpent_spit_water_explosion.wav",
+   "source_sound_ids": [
+    524
+   ]
+  },
+  {
+   "uid": 313,
+   "label": "sfx_serpent_shockwave",
+   "filename": "sfx_serpent_shockwave.wav",
+   "source_sound_ids": [
+    521
+   ]
+  },
+  {
+   "uid": 314,
+   "label": "sfx_serpent_attack",
+   "filename": "sfx_serpent_attack.wav",
+   "source_sound_ids": [
+    514
+   ]
+  },
+  {
+   "uid": 315,
+   "label": "sfx_serpent_hurt",
+   "filename": "sfx_serpent_hurt.wav",
+   "source_sound_ids": [
+    517
+   ]
+  },
+  {
+   "uid": 316,
+   "label": "sfx_serpent_collapse",
+   "filename": "sfx_serpent_collapse.wav",
+   "source_sound_ids": [
+    515
+   ]
+  },
+  {
+   "uid": 317,
+   "label": "sfx_serpent_die",
+   "filename": "sfx_serpent_collapse.wav",
+   "source_sound_ids": [
+    516
+   ]
+  },
+  {
+   "uid": 318,
+   "label": "sfx_serpent_intimidate_1",
+   "filename": "sfx_serpent_intimidate_1.wav",
+   "source_sound_ids": [
+    518
+   ]
+  },
+  {
+   "uid": 319,
+   "label": "sfx_serpent_intimidate_2",
+   "filename": "sfx_serpent_intimidate_2.wav",
+   "source_sound_ids": [
+    519
+   ]
+  },
+  {
+   "uid": 320,
+   "label": "sfx_serpent_intimidate_3",
+   "filename": "sfx_serpent_intimidate_3.wav",
+   "source_sound_ids": [
+    520
+   ]
+  },
+  {
+   "uid": 321,
+   "label": "sfx_serpent_submerge",
+   "filename": "sfx_serpent_submerge.wav",
+   "source_sound_ids": [
+    525
+   ]
+  },
+  {
+   "uid": 322,
+   "label": "sfx_assassin_spawn",
+   "filename": "sfx_assassin_spawn.wav",
+   "source_sound_ids": [
+    323
+   ]
+  },
+  {
+   "uid": 323,
+   "label": "sfx_assassin_knife_throw_1",
+   "filename": "sfx_assassin_knife_throw1.wav",
+   "source_sound_ids": [
+    320
+   ]
+  },
+  {
+   "uid": 324,
+   "label": "sfx_assassin_knife_throw_2",
+   "filename": "sfx_assassin_knife_throw_2.wav",
+   "source_sound_ids": [
+    321
+   ]
+  },
+  {
+   "uid": 325,
+   "label": "sfx_assassin_knife_melee",
+   "filename": "sfx_assassin_knife_melee.wav",
+   "source_sound_ids": [
+    319
+   ]
+  },
+  {
+   "uid": 326,
+   "label": "sfx_assassin_bomb_throw",
+   "filename": "sfx_assassin_bomb_throw.wav",
+   "source_sound_ids": [
+    310
+   ]
+  },
+  {
+   "uid": 327,
+   "label": "sfx_assassin_hurt",
+   "filename": "sfx_assassin_hurt.wav",
+   "source_sound_ids": [
+    318
+   ]
+  },
+  {
+   "uid": 328,
+   "label": "sfx_assassin_laugh",
+   "filename": "sfx_assassin_laugh.wav",
+   "source_sound_ids": [
+    322
+   ]
+  },
+  {
+   "uid": 329,
+   "label": "sfx_assassin_die",
+   "filename": "sfx_assassin_die.wav",
+   "source_sound_ids": [
+    317
+   ]
+  },
+  {
+   "uid": 330,
+   "label": "sfx_witch_spawn",
+   "filename": "sfx_witch_spawn.wav",
+   "source_sound_ids": [
+    617
+   ]
+  },
+  {
+   "uid": 331,
+   "label": "sfx_witch_attack",
+   "filename": "sfx_witch_attack.wav",
+   "source_sound_ids": [
+    612
+   ]
+  },
+  {
+   "uid": 332,
+   "label": "sfx_witch_attack_impact",
+   "filename": "sfx_witch_magic_explosion.wav",
+   "source_sound_ids": [
+    613
+   ]
+  },
+  {
+   "uid": 333,
+   "label": "sfx_witch_hurt_1",
+   "filename": "sfx_witch_hurt_1.wav",
+   "source_sound_ids": [
+    615
+   ]
+  },
+  {
+   "uid": 334,
+   "label": "sfx_witch_hurt_2",
+   "filename": "sfx_witch_hurt_2.wav",
+   "source_sound_ids": [
+    616
+   ]
+  },
+  {
+   "uid": 335,
+   "label": "sfx_witch_die",
+   "filename": "sfx_witch_death.wav",
+   "source_sound_ids": [
+    614
+   ]
+  },
+  {
+   "uid": 336,
+   "label": "sfx_wolf_spawn",
+   "filename": "sfx_wolf_spawn.wav",
+   "source_sound_ids": [
+    622
+   ]
+  },
+  {
+   "uid": 337,
+   "label": "sfx_wolf_hurt",
+   "filename": "sfx_wolf_hurt.wav",
+   "source_sound_ids": [
+    621
+   ]
+  },
+  {
+   "uid": 338,
+   "label": "sfx_wolf_attack",
+   "filename": "sfx_wolf_attack.wav",
+   "source_sound_ids": [
+    618
+   ]
+  },
+  {
+   "uid": 339,
+   "label": "sfx_wolf_die",
+   "filename": "sfx_wolf_die.wav",
+   "source_sound_ids": [
+    619
+   ]
+  },
+  {
+   "uid": 340,
+   "label": "sfx_wolf_howl",
+   "filename": "sfx_wolf_howl.wav",
+   "source_sound_ids": [
+    620
+   ]
+  },
+  {
+   "uid": 341,
+   "label": "sfx_worm_spawn",
+   "filename": "sfx_worm_spawn.wav",
+   "source_sound_ids": [
+    628
+   ]
+  },
+  {
+   "uid": 342,
+   "label": "sfx_worm_hurt_1",
+   "filename": "sfx_worm_hurt_1.wav",
+   "source_sound_ids": [
+    626
+   ]
+  },
+  {
+   "uid": 343,
+   "label": "sfx_worm_hurt_2",
+   "filename": "sfx_worm_hurt_2.wav",
+   "source_sound_ids": [
+    627
+   ]
+  },
+  {
+   "uid": 344,
+   "label": "sfx_worm_attack_1",
+   "filename": "sfx_worm_attack_1.wav",
+   "source_sound_ids": [
+    623
+   ]
+  },
+  {
+   "uid": 345,
+   "label": "sfx_worm_attack_2",
+   "filename": "sfx_worm_attack_2.wav",
+   "source_sound_ids": [
+    624
+   ]
+  },
+  {
+   "uid": 346,
+   "label": "sfx_worm_die",
+   "filename": "sfx_worm_die.wav",
+   "source_sound_ids": [
+    625
+   ]
+  },
+  {
+   "uid": 347,
+   "label": "sfx_unnamed_one_attack",
+   "filename": "sfx_unnamed_one_attack.wav",
+   "source_sound_ids": [
+    606
+   ]
+  },
+  {
+   "uid": 348,
+   "label": "sfx_unnamed_one_die",
+   "filename": "sfx_unnamed_one_die.wav",
+   "source_sound_ids": [
+    607
+   ]
+  },
+  {
+   "uid": 349,
+   "label": "sfx_demon_spawn",
+   "filename": "sfx_demon_spawn.wav",
+   "source_sound_ids": [
+    385
+   ]
+  },
+  {
+   "uid": 350,
+   "label": "sfx_demon_hurt",
+   "filename": "sfx_demon_hurt.wav",
+   "source_sound_ids": [
+    383
+   ]
+  },
+  {
+   "uid": 351,
+   "label": "sfx_demon_attack",
+   "filename": "sfx_demon_attack.wav",
+   "source_sound_ids": [
+    380
+   ]
+  },
+  {
+   "uid": 352,
+   "label": "sfx_demon_rain",
+   "filename": "sfx_demon_rain_attack.wav",
+   "source_sound_ids": [
+    384
+   ]
+  },
+  {
+   "uid": 353,
+   "label": "sfx_demon_water_pre_cast",
+   "filename": "sfx_demon_attack.wav",
+   "source_sound_ids": [
+    387
+   ]
+  },
+  {
+   "uid": 354,
+   "label": "sfx_demon_steam_burst_attack",
+   "filename": "sfx_demon_steam_burst_attack",
+   "source_sound_ids": [
+    386
+   ]
+  },
+  {
+   "uid": 355,
+   "label": "sfx_demon_die",
+   "filename": "sfx_demon_die.wav",
+   "source_sound_ids": [
+    381
+   ]
+  },
+  {
+   "uid": 356,
+   "label": "sfx_demon_howl",
+   "filename": "sfx_demon_howl.wav",
+   "source_sound_ids": [
+    382
+   ]
+  },
+  {
+   "uid": 357,
+   "label": "sfx_cultist_hurt_1",
+   "filename": "sfx_cultist_hurt_1.wav",
+   "source_sound_ids": [
+    348
+   ]
+  },
+  {
+   "uid": 358,
+   "label": "sfx_cultist_hurt_2",
+   "filename": "sfx_cultist_hurt_2.wav",
+   "source_sound_ids": [
+    349
+   ]
+  },
+  {
+   "uid": 359,
+   "label": "sfx_cultist_attack_1",
+   "filename": "sfx_cultist_attack_1.wav",
+   "source_sound_ids": [
+    344
+   ]
+  },
+  {
+   "uid": 360,
+   "label": "sfx_cultist_attack_2",
+   "filename": "sfx_cultist_attack_2.wav",
+   "source_sound_ids": [
+    345
+   ]
+  },
+  {
+   "uid": 361,
+   "label": "sfx_cultist_die_1",
+   "filename": "sfx_cultist_die_1.wav",
+   "source_sound_ids": [
+    346
+   ]
+  },
+  {
+   "uid": 362,
+   "label": "sfx_cultist_die_2",
+   "filename": "sfx_cultist_die_2.wav",
+   "source_sound_ids": [
+    347
+   ]
+  },
+  {
+   "uid": 363,
+   "label": "sfx_edward_hurt_1",
+   "filename": "sfx_edward_hurt_1.wav",
+   "source_sound_ids": [
+    402
+   ]
+  },
+  {
+   "uid": 364,
+   "label": "sfx_edward_hurt_2",
+   "filename": "sfx_edward_hurt_2.wav",
+   "source_sound_ids": [
+    403
+   ]
+  },
+  {
+   "uid": 365,
+   "label": "sfx_edward_attack",
+   "filename": "sfx_edward_attack.wav",
+   "source_sound_ids": [
+    400
+   ]
+  },
+  {
+   "uid": 366,
+   "label": "sfx_edward_die",
+   "filename": "sfx_edward_die.wav",
+   "source_sound_ids": [
+    401
+   ]
+  },
+  {
+   "uid": 367,
+   "label": "sfx_dragon_hurt",
+   "filename": "sfx_dragon_hurt.wav",
+   "source_sound_ids": [
+    390
+   ]
+  },
+  {
+   "uid": 368,
+   "label": "sfx_dragon_wind_attack_charge",
+   "filename": "sfx_dragon_attack_wind.wav",
+   "source_sound_ids": [
+    394
+   ]
+  },
+  {
+   "uid": 369,
+   "label": "sfx_dragon_wind_attack",
+   "filename": "sfx_dragon_attack.wav",
+   "source_sound_ids": [
+    393
+   ]
+  },
+  {
+   "uid": 370,
+   "label": "sfx_dragon_reaperstorm",
+   "filename": "sfx_dragon_reaperstorm.wav",
+   "source_sound_ids": [
+    391
+   ]
+  },
+  {
+   "uid": 371,
+   "label": "sfx_dragon_die",
+   "filename": "sfx_dragon_die.wav",
+   "source_sound_ids": [
+    389
+   ]
+  },
+  {
+   "uid": 372,
+   "label": "sfx_dragon_spawn",
+   "filename": "sfx_dragon_spawn.wav",
+   "source_sound_ids": [
+    392
+   ]
+  },
+  {
+   "uid": 373,
+   "label": "sfx_dark_queen_spawn",
+   "filename": "sfx_dark_queen_spawn.wav",
+   "source_sound_ids": [
+    378
+   ]
+  },
+  {
+   "uid": 374,
+   "label": "sfx_dark_queen_intimidate_1",
+   "filename": "sfx_dark_queen_intimidate_1.wav",
+   "source_sound_ids": [
+    375
+   ]
+  },
+  {
+   "uid": 375,
+   "label": "sfx_dark_queen_intimidate_2",
+   "filename": "sfx_dark_queen_intimidate_2.wav",
+   "source_sound_ids": [
+    376
+   ]
+  },
+  {
+   "uid": 376,
+   "label": "sfx_dark_queen_intimidate_3",
+   "filename": "sfx_dark_queen_intimidate_3.wav",
+   "source_sound_ids": [
+    377
+   ]
+  },
+  {
+   "uid": 377,
+   "label": "QueenHurt",
+   "filename": "sfx_dark_queen_hurt.wav",
+   "source_sound_ids": [
+    163
+   ]
+  },
+  {
+   "uid": 378,
+   "label": "sfx_dark_queen_critical_hurt",
+   "filename": "sfx_dark_queen_critical_hurt.wav",
+   "source_sound_ids": [
+    374
+   ]
+  },
+  {
+   "uid": 379,
+   "label": "QueenKilled",
+   "filename": "sfx_dark_queen_die.wav",
+   "source_sound_ids": [
+    164
+   ]
+  },
+  {
+   "uid": 380,
+   "label": "QueenAttack",
+   "filename": "sfx_dark_queen_attack.wav",
+   "source_sound_ids": [
+    161
+   ]
+  },
+  {
+   "uid": 381,
+   "label": "sfx_king_of_hell_attack",
+   "filename": "sfx_king_of_hell_attack.wav",
+   "source_sound_ids": [
+    467
+   ]
+  },
+  {
+   "uid": 382,
+   "label": "sfx_king_of_hell_magic_attack",
+   "filename": "sfx_king_of_hell_magic_attack.wav",
+   "source_sound_ids": [
+    472
+   ]
+  },
+  {
+   "uid": 383,
+   "label": "sfx_king_of_hell_magic_attack_hit",
+   "filename": "sfx_king_of_hell_magic_attack_hit.wav",
+   "source_sound_ids": [
+    473
+   ]
+  },
+  {
+   "uid": 384,
+   "label": "sfx_king_of_hell_laser_attack",
+   "filename": "sfx_king_of_hell_laser_attack.wav",
+   "source_sound_ids": [
+    471
+   ]
+  },
+  {
+   "uid": 385,
+   "label": "sfx_king_of_hell_hurt_1",
+   "filename": "sfx_king_of_hell_hurt_1.wav",
+   "source_sound_ids": [
+    469
+   ]
+  },
+  {
+   "uid": 386,
+   "label": "sfx_king_of_hell_hurt_2",
+   "filename": "sfx_king_of_hell_hurt_2.wav",
+   "source_sound_ids": [
+    470
+   ]
+  },
+  {
+   "uid": 387,
+   "label": "sfx_king_of_hell_die",
+   "filename": "sfx_king_of_hell_die.wav",
+   "source_sound_ids": [
+    468
+   ]
+  },
+  {
+   "uid": 388,
+   "label": "sfx_specter_light_beam_attack",
+   "filename": "sfx_specter_attack_light_explosion.wav",
+   "source_sound_ids": [
+    578
+   ]
+  },
+  {
+   "uid": 389,
+   "label": "sfx_specter_light_beam_attack_pre",
+   "filename": "sfx_specter_attack_light_cast.wav",
+   "source_sound_ids": [
+    579
+   ]
+  },
+  {
+   "uid": 390,
+   "label": "sfx_specter_rock_attack",
+   "filename": "sfx_specter_attack_rock.wav",
+   "source_sound_ids": [
+    580
+   ]
+  },
+  {
+   "uid": 391,
+   "label": "sfx_specter_attack_energyball_cast",
+   "filename": "sfx_specter_attack_energyball_cast.wav",
+   "source_sound_ids": [
+    576
+   ]
+  },
+  {
+   "uid": 392,
+   "label": "sfx_specter_attack_energyball_explosion",
+   "filename": "sfx_specter_attack_energyball_explosion",
+   "source_sound_ids": [
+    577
+   ]
+  },
+  {
+   "uid": 393,
+   "label": "sfx_earth_troll_spawn",
+   "filename": "sfx_earth_troll_spawn.wav",
+   "source_sound_ids": [
+    399
+   ]
+  },
+  {
+   "uid": 394,
+   "label": "sfx_earth_troll_dash_attack",
+   "filename": "sfx_earth_troll_dash_attack.wav",
+   "source_sound_ids": [
+    395
+   ]
+  },
+  {
+   "uid": 395,
+   "label": "sfx_earth_troll_ground_attack",
+   "filename": "sfx_earth_troll_ground_attack.wav",
+   "source_sound_ids": [
+    397
+   ]
+  },
+  {
+   "uid": 396,
+   "label": "sfx_earth_troll_hurt",
+   "filename": "sfx_earth_troll_hurt.wav",
+   "source_sound_ids": [
+    398
+   ]
+  },
+  {
+   "uid": 397,
+   "label": "sfx_earth_troll_die",
+   "filename": "sfx_earth_troll_die.wav",
+   "source_sound_ids": [
+    396
+   ]
+  },
+  {
+   "uid": 398,
+   "label": "sfx_assassin_demon_spawn",
+   "filename": "sfx_assassin_demon_spawn.wav",
+   "source_sound_ids": [
+    314
+   ]
+  },
+  {
+   "uid": 399,
+   "label": "sfx_assassin_demon_sword_attack",
+   "filename": "sfx_assassin_demon_sword_attack.wav",
+   "source_sound_ids": [
+    316
+   ]
+  },
+  {
+   "uid": 400,
+   "label": "sfx_assassin_demon_spin_attack",
+   "filename": "sfx_assassin_demon_spin_attack.wav",
+   "source_sound_ids": [
+    315
+   ]
+  },
+  {
+   "uid": 401,
+   "label": "sfx_assassin_demon_hurt_1",
+   "filename": "sfx_assassin_demon_hurt_1.wav",
+   "source_sound_ids": [
+    312
+   ]
+  },
+  {
+   "uid": 402,
+   "label": "sfx_assassin_demon_hurt_2",
+   "filename": "sfx_assassin_demon_hurt_2.wav",
+   "source_sound_ids": [
+    313
+   ]
+  },
+  {
+   "uid": 403,
+   "label": "sfx_assassin_demon_die",
+   "filename": "sfx_assassin_demon_die.wav",
+   "source_sound_ids": [
+    311
+   ]
+  },
+  {
+   "uid": 404,
+   "label": "sfx_hound_attack_1",
+   "filename": "sfx_hound_attack_1.wav",
+   "source_sound_ids": [
+    444
+   ]
+  },
+  {
+   "uid": 405,
+   "label": "sfx_hound_attack_2",
+   "filename": "sfx_hound_attack_2.wav",
+   "source_sound_ids": [
+    445
+   ]
+  },
+  {
+   "uid": 406,
+   "label": "sfx_hound_hurt_1",
+   "filename": "sfx_hound_hurt_1.wav",
+   "source_sound_ids": [
+    446
+   ]
+  },
+  {
+   "uid": 407,
+   "label": "sfx_hound_hurt_2",
+   "filename": "sfx_hound_hurt_2.wav",
+   "source_sound_ids": [
+    447
+   ]
+  },
+  {
+   "uid": 408,
+   "label": "sfx_hound_killed_1",
+   "filename": "sfx_hound_killed_1.wav",
+   "source_sound_ids": [
+    448
+   ]
+  },
+  {
+   "uid": 409,
+   "label": "sfx_hound_killed_2",
+   "filename": "sfx_hound_killed_2.wav",
+   "source_sound_ids": [
+    449
+   ]
+  },
+  {
+   "uid": 410,
+   "label": "sfx_skydevil_attack_1",
+   "filename": "sfx_skydevil_attack_1.wav",
+   "source_sound_ids": [
+    562
+   ]
+  },
+  {
+   "uid": 411,
+   "label": "sfx_skydevil_attack_2",
+   "filename": "sfx_skydevil_attack_2.wav",
+   "source_sound_ids": [
+    563
+   ]
+  },
+  {
+   "uid": 412,
+   "label": "sfx_skydevil_attack_3",
+   "filename": "sfx_skydevil_attack_3.wav",
+   "source_sound_ids": [
+    564
+   ]
+  },
+  {
+   "uid": 413,
+   "label": "sfx_skydevil_death_1",
+   "filename": "sfx_skydevil_death_1.wav",
+   "source_sound_ids": [
+    565
+   ]
+  },
+  {
+   "uid": 414,
+   "label": "sfx_skydevil_death_2",
+   "filename": "sfx_skydevil_death_2.wav",
+   "source_sound_ids": [
+    566
+   ]
+  },
+  {
+   "uid": 415,
+   "label": "sfx_skydevil_hurt_1",
+   "filename": "sfx_skydevil_hurt_1.wav",
+   "source_sound_ids": [
+    567
+   ]
+  },
+  {
+   "uid": 416,
+   "label": "sfx_skydevil_hurt_2",
+   "filename": "sfx_skydevil_hurt_2.wav",
+   "source_sound_ids": [
+    568
+   ]
+  },
+  {
+   "uid": 417,
+   "label": "sfx_soulcrusher_attack_1",
+   "filename": "sfx_soulcrusher_attack_1.wav",
+   "source_sound_ids": [
+    569
+   ]
+  },
+  {
+   "uid": 418,
+   "label": "sfx_soulcrusher_attack_2",
+   "filename": "sfx_soulcrusher_attack_2.wav",
+   "source_sound_ids": [
+    570
+   ]
+  },
+  {
+   "uid": 419,
+   "label": "sfx_soulcrusher_attack_3",
+   "filename": "sfx_soulcrusher_attack_3.wav",
+   "source_sound_ids": [
+    571
+   ]
+  },
+  {
+   "uid": 420,
+   "label": "sfx_soulcrusher_death_1",
+   "filename": "sfx_soulcrusher_death_1.wav",
+   "source_sound_ids": [
+    572
+   ]
+  },
+  {
+   "uid": 421,
+   "label": "sfx_soulcrusher_death_2",
+   "filename": "sfx_soulcrusher_death_2.wav",
+   "source_sound_ids": [
+    573
+   ]
+  },
+  {
+   "uid": 422,
+   "label": "sfx_soulcrusher_hurt_1",
+   "filename": "sfx_soulcrusher_hurt_1.wav",
+   "source_sound_ids": [
+    574
+   ]
+  },
+  {
+   "uid": 423,
+   "label": "sfx_soulcrusher_hurt_2",
+   "filename": "sfx_soulcrusher_hurt_2.wav",
+   "source_sound_ids": [
+    575
+   ]
+  },
+  {
+   "uid": 424,
+   "label": "sfx_corrupted_root_attack_1",
+   "filename": "sfx_corrupted_root_attack_1.wav",
+   "source_sound_ids": [
+    331
+   ]
+  },
+  {
+   "uid": 425,
+   "label": "sfx_corrupted_root_attack_2",
+   "filename": "sfx_corrupted_root_attack_2.wav",
+   "source_sound_ids": [
+    332
+   ]
+  },
+  {
+   "uid": 426,
+   "label": "sfx_corrupted_root_death_1",
+   "filename": "sfx_corrupted_root_death_1.wav",
+   "source_sound_ids": [
+    333
+   ]
+  },
+  {
+   "uid": 427,
+   "label": "sfx_corrupted_root_death_2",
+   "filename": "sfx_corrupted_root_death_2.wav",
+   "source_sound_ids": [
+    334
+   ]
+  },
+  {
+   "uid": 428,
+   "label": "sfx_corrupted_root_hurt_1",
+   "filename": "sfx_corrupted_root_hurt_1.wav",
+   "source_sound_ids": [
+    335
+   ]
+  },
+  {
+   "uid": 429,
+   "label": "sfx_corrupted_root_hurt_2",
+   "filename": "sfx_corrupted_root_hurt_2.wav",
+   "source_sound_ids": [
+    336
+   ]
+  },
+  {
+   "uid": 430,
+   "label": "sfx_corrupted_root_spawn",
+   "filename": "sfx_corrupted_root_spawn.wav",
+   "source_sound_ids": [
+    337
+   ]
+  }
+ ],
+ "rows": [
+  {
+   "id": 0,
+   "name": "AbbeyRuinsOneAmbientMusic",
+   "kind": "sound",
+   "target": 484
+  },
+  {
+   "id": 1,
+   "name": "AbbeyRuinsOneCombatMusic",
+   "kind": "sound",
+   "target": 556
+  },
+  {
+   "id": 2,
+   "name": "AirTowerAmbientMusic",
+   "kind": "sound",
+   "target": 481
+  },
+  {
+   "id": 3,
+   "name": "AirTowerCombatMusic",
+   "kind": "sound",
+   "target": 553
+  },
+  {
+   "id": 4,
+   "name": "AssassinAbbeyRuinsMusic",
+   "kind": "sound",
+   "target": 519
+  },
+  {
+   "id": 5,
+   "name": "AssassinFloodedCastleMusic",
+   "kind": "sound",
+   "target": 518
+  },
+  {
+   "id": 6,
+   "name": "AssassinVoidMazeMusic",
+   "kind": "sound",
+   "target": 520
+  },
+  {
+   "id": 7,
+   "name": "BalrogAttack",
+   "kind": "sound",
+   "target": 210
+  },
+  {
+   "id": 8,
+   "name": "BalrogAttack2",
+   "kind": "sound",
+   "target": 211
+  },
+  {
+   "id": 9,
+   "name": "BalrogHurt",
+   "kind": "sound",
+   "target": 208
+  },
+  {
+   "id": 10,
+   "name": "BalrogIdle",
+   "kind": "sound",
+   "target": 207
+  },
+  {
+   "id": 11,
+   "name": "BalrogKilled",
+   "kind": "sound",
+   "target": 209
+  },
+  {
+   "id": 12,
+   "name": "BalrogOut",
+   "kind": "sound",
+   "target": 206
+  },
+  {
+   "id": 13,
+   "name": "BanditAttack",
+   "kind": "sound",
+   "target": 219
+  },
+  {
+   "id": 14,
+   "name": "BanditHurt",
+   "kind": "sound",
+   "target": 217
+  },
+  {
+   "id": 15,
+   "name": "BanditKilled",
+   "kind": "sound",
+   "target": 218
+  },
+  {
+   "id": 16,
+   "name": "BanditLairRiverLoop",
+   "kind": "sound",
+   "target": 181
+  },
+  {
+   "id": 17,
+   "name": "BarbarianAttack",
+   "kind": "sound",
+   "target": 265
+  },
+  {
+   "id": 18,
+   "name": "BarbarianHurt",
+   "kind": "sound",
+   "target": 263
+  },
+  {
+   "id": 19,
+   "name": "BarbarianKilled",
+   "kind": "sound",
+   "target": 264
+  },
+  {
+   "id": 20,
+   "name": "BarrelBreak",
+   "kind": "sound",
+   "target": 163
+  },
+  {
+   "id": 21,
+   "name": "BloodSandsMusic",
+   "kind": "sound",
+   "target": 506
+  },
+  {
+   "id": 22,
+   "name": "BossIntroIntenseMusic",
+   "kind": "sound",
+   "target": 510
+  },
+  {
+   "id": 23,
+   "name": "CatacombWindLoop",
+   "kind": "sound",
+   "target": 179
+  },
+  {
+   "id": 24,
+   "name": "CaveTrollAttack",
+   "kind": "sound",
+   "target": 250
+  },
+  {
+   "id": 25,
+   "name": "CaveTrollHurt",
+   "kind": "sound",
+   "target": 247
+  },
+  {
+   "id": 26,
+   "name": "CaveTrollKilled",
+   "kind": "sound",
+   "target": 249
+  },
+  {
+   "id": 27,
+   "name": "CelestLightningSpell",
+   "kind": "sound",
+   "target": 91
+  },
+  {
+   "id": 28,
+   "name": "CharacterDie",
+   "kind": "sound",
+   "target": 50
+  },
+  {
+   "id": 29,
+   "name": "CharacterHurt1",
+   "kind": "sound",
+   "target": 38
+  },
+  {
+   "id": 30,
+   "name": "CharacterHurt2",
+   "kind": "sound",
+   "target": 39
+  },
+  {
+   "id": 31,
+   "name": "CharacterHurt3",
+   "kind": "sound",
+   "target": 40
+  },
+  {
+   "id": 32,
+   "name": "CherubMotherStatueMusic",
+   "kind": "sound",
+   "target": 515
+  },
+  {
+   "id": 33,
+   "name": "ChestOpen",
+   "kind": "sound",
+   "target": 162
+  },
+  {
+   "id": 34,
+   "name": "CliffSideOneAmbientMusic",
+   "kind": "sound",
+   "target": 495
+  },
+  {
+   "id": 35,
+   "name": "CliffSideOneCombatMusic",
+   "kind": "sound",
+   "target": 567
+  },
+  {
+   "id": 36,
+   "name": "CorruptedCherubMusic",
+   "kind": "sound",
+   "target": 516
+  },
+  {
+   "id": 37,
+   "name": "CriticalHit1",
+   "kind": "sound",
+   "target": 37
+  },
+  {
+   "id": 38,
+   "name": "CryptOneAmbientMusic",
+   "kind": "sound",
+   "target": 486
+  },
+  {
+   "id": 39,
+   "name": "CryptOneCombatMusic",
+   "kind": "sound",
+   "target": 558
+  },
+  {
+   "id": 40,
+   "name": "CrystalBreaking",
+   "kind": "sound",
+   "target": 165
+  },
+  {
+   "id": 41,
+   "name": "CrystalHitting",
+   "kind": "sound",
+   "target": 164
+  },
+  {
+   "id": 42,
+   "name": "DarkDungeonTempleAmbientMusic",
+   "kind": "sound",
+   "target": 504
+  },
+  {
+   "id": 43,
+   "name": "DarkDungeonTempleCombatMusic",
+   "kind": "sound",
+   "target": 576
+  },
+  {
+   "id": 44,
+   "name": "DarkQueenOneMusic",
+   "kind": "sound",
+   "target": 524
+  },
+  {
+   "id": 45,
+   "name": "DarkQueenTwoMusic",
+   "kind": "sound",
+   "target": 525
+  },
+  {
+   "id": 46,
+   "name": "DarkWoodHubAmbientMusic",
+   "kind": "sound",
+   "target": 471
+  },
+  {
+   "id": 47,
+   "name": "DarkWoodHubCombatMusic",
+   "kind": "sound",
+   "target": 543
+  },
+  {
+   "id": 48,
+   "name": "DashSkill",
+   "kind": "sound",
+   "target": 102
+  },
+  {
+   "id": 49,
+   "name": "DoomKnightAttack",
+   "kind": "sound",
+   "target": 259
+  },
+  {
+   "id": 50,
+   "name": "DoomKnightHurt",
+   "kind": "sound",
+   "target": 257
+  },
+  {
+   "id": 51,
+   "name": "DoomKnightIdle1",
+   "kind": "sound",
+   "target": 253
+  },
+  {
+   "id": 52,
+   "name": "DoomKnightIdle2",
+   "kind": "sound",
+   "target": 254
+  },
+  {
+   "id": 53,
+   "name": "DoomKnightIdle3",
+   "kind": "sound",
+   "target": 255
+  },
+  {
+   "id": 54,
+   "name": "DoomKnightIdle4",
+   "kind": "sound",
+   "target": 256
+  },
+  {
+   "id": 55,
+   "name": "DoomKnightKilled",
+   "kind": "sound",
+   "target": 258
+  },
+  {
+   "id": 56,
+   "name": "DoorOpening",
+   "kind": "sound",
+   "target": 157
+  },
+  {
+   "id": 57,
+   "name": "DrakeAttack",
+   "kind": "sound",
+   "target": 238
+  },
+  {
+   "id": 58,
+   "name": "DrakeHurt",
+   "kind": "sound",
+   "target": 236
+  },
+  {
+   "id": 59,
+   "name": "DrakeKilled",
+   "kind": "sound",
+   "target": 237
+  },
+  {
+   "id": 60,
+   "name": "DrakeSpawn",
+   "kind": "sound",
+   "target": 235
+  },
+  {
+   "id": 61,
+   "name": "DropArmor",
+   "kind": "sound",
+   "target": 148
+  },
+  {
+   "id": 62,
+   "name": "DropGold",
+   "kind": "sound",
+   "target": 151
+  },
+  {
+   "id": 63,
+   "name": "DropPotion",
+   "kind": "sound",
+   "target": 149
+  },
+  {
+   "id": 64,
+   "name": "DropSword",
+   "kind": "sound",
+   "target": 150
+  },
+  {
+   "id": 65,
+   "name": "EarthTempleAmbientMusic",
+   "kind": "sound",
+   "target": 474
+  },
+  {
+   "id": 66,
+   "name": "EarthTempleCombatMusic",
+   "kind": "sound",
+   "target": 546
+  },
+  {
+   "id": 67,
+   "name": "EarthTrollMusic",
+   "kind": "sound",
+   "target": 512
+  },
+  {
+   "id": 68,
+   "name": "EartheTowerAmbientMusic",
+   "kind": "sound",
+   "target": 479
+  },
+  {
+   "id": 69,
+   "name": "EartheTowerCombatMusic",
+   "kind": "sound",
+   "target": 551
+  },
+  {
+   "id": 70,
+   "name": "FireSpritesMusic",
+   "kind": "sound",
+   "target": 523
+  },
+  {
+   "id": 71,
+   "name": "FireTempleAmbientMusic",
+   "kind": "sound",
+   "target": 493
+  },
+  {
+   "id": 72,
+   "name": "FireTempleCombatMusic",
+   "kind": "sound",
+   "target": 565
+  },
+  {
+   "id": 73,
+   "name": "FireTowerAmbientMusic",
+   "kind": "sound",
+   "target": 478
+  },
+  {
+   "id": 74,
+   "name": "FireTowerCombatMusic",
+   "kind": "sound",
+   "target": 550
+  },
+  {
+   "id": 75,
+   "name": "FloodedCastleAmbientMusic",
+   "kind": "sound",
+   "target": 536
+  },
+  {
+   "id": 76,
+   "name": "FloodedCastleCombatMusic",
+   "kind": "sound",
+   "target": 537
+  },
+  {
+   "id": 77,
+   "name": "FootstepWalkStone1",
+   "kind": "sound",
+   "target": 72
+  },
+  {
+   "id": 78,
+   "name": "FootstepWalkStone2",
+   "kind": "sound",
+   "target": 73
+  },
+  {
+   "id": 79,
+   "name": "FootstepWalkStone3",
+   "kind": "sound",
+   "target": 74
+  },
+  {
+   "id": 80,
+   "name": "FootstepWalkStone4",
+   "kind": "sound",
+   "target": 75
+  },
+  {
+   "id": 81,
+   "name": "FootstepWalkWater1",
+   "kind": "sound",
+   "target": 76
+  },
+  {
+   "id": 82,
+   "name": "FootstepWalkWater2",
+   "kind": "sound",
+   "target": 77
+  },
+  {
+   "id": 83,
+   "name": "FootstepWalkWater3",
+   "kind": "sound",
+   "target": 78
+  },
+  {
+   "id": 84,
+   "name": "FootstepWalkWater4",
+   "kind": "sound",
+   "target": 79
+  },
+  {
+   "id": 85,
+   "name": "GargoyleAttack",
+   "kind": "sound",
+   "target": 246
+  },
+  {
+   "id": 86,
+   "name": "GargoyleHurt",
+   "kind": "sound",
+   "target": 244
+  },
+  {
+   "id": 87,
+   "name": "GargoyleKilled",
+   "kind": "sound",
+   "target": 245
+  },
+  {
+   "id": 88,
+   "name": "GargoyleSpawn",
+   "kind": "sound",
+   "target": 243
+  },
+  {
+   "id": 89,
+   "name": "GarveyardAmbientMusic",
+   "kind": "sound",
+   "target": 483
+  },
+  {
+   "id": 90,
+   "name": "GarveyardCombatMusic",
+   "kind": "sound",
+   "target": 555
+  },
+  {
+   "id": 91,
+   "name": "GatedCastleVillageMusic",
+   "kind": "sound",
+   "target": 508
+  },
+  {
+   "id": 92,
+   "name": "GiantBalrogMusic",
+   "kind": "sound",
+   "target": 513
+  },
+  {
+   "id": 93,
+   "name": "GiantSunkenStatueMusic",
+   "kind": "sound",
+   "target": 517
+  },
+  {
+   "id": 94,
+   "name": "GothicusCastleHub",
+   "kind": "sound",
+   "target": 549
+  },
+  {
+   "id": 95,
+   "name": "GothicusCastleHubAmbientMusic",
+   "kind": "sound",
+   "target": 477
+  },
+  {
+   "id": 96,
+   "name": "GroundBurst",
+   "kind": "sound",
+   "target": 195
+  },
+  {
+   "id": 97,
+   "name": "HeadCultistMusic",
+   "kind": "sound",
+   "target": 522
+  },
+  {
+   "id": 98,
+   "name": "HellKingOneLoopMusic",
+   "kind": "sound",
+   "target": 526
+  },
+  {
+   "id": 99,
+   "name": "HellKingOneMusic",
+   "kind": "sound",
+   "target": 531
+  },
+  {
+   "id": 100,
+   "name": "HellKingThreeIntroMusic",
+   "kind": "sound",
+   "target": 528
+  },
+  {
+   "id": 101,
+   "name": "HellKingThreeLoopMusic",
+   "kind": "sound",
+   "target": 529
+  },
+  {
+   "id": 102,
+   "name": "HellKingTwoIntroMusic",
+   "kind": "sound",
+   "target": 577
+  },
+  {
+   "id": 103,
+   "name": "HellKingTwoLoopMusic",
+   "kind": "sound",
+   "target": 527
+  },
+  {
+   "id": 104,
+   "name": "HellKingTwoMusic",
+   "kind": "sound",
+   "target": 532
+  },
+  {
+   "id": 105,
+   "name": "IcyCaveOneTwoAmbientMusic",
+   "kind": "sound",
+   "target": 499
+  },
+  {
+   "id": 106,
+   "name": "IcyCaveOneTwoCombatMusic",
+   "kind": "sound",
+   "target": 571
+  },
+  {
+   "id": 107,
+   "name": "IcyCaveThreeAmbientMusic",
+   "kind": "sound",
+   "target": 497
+  },
+  {
+   "id": 108,
+   "name": "IcyCaveThreeCombatMusic",
+   "kind": "sound",
+   "target": 569
+  },
+  {
+   "id": 109,
+   "name": "IcyCaveTwoAmbientMusic",
+   "kind": "sound",
+   "target": 496
+  },
+  {
+   "id": 110,
+   "name": "IcyCaveTwoCombatMusic",
+   "kind": "sound",
+   "target": 568
+  },
+  {
+   "id": 111,
+   "name": "IcyCliffHubAmbientMusic",
+   "kind": "sound",
+   "target": 494
+  },
+  {
+   "id": 112,
+   "name": "IcyCliffHubCombatMusic",
+   "kind": "sound",
+   "target": 566
+  },
+  {
+   "id": 113,
+   "name": "IcyCliffOneOneAmbientMusic",
+   "kind": "sound",
+   "target": 498
+  },
+  {
+   "id": 114,
+   "name": "IcyCliffOneOneCombatMusic",
+   "kind": "sound",
+   "target": 570
+  },
+  {
+   "id": 115,
+   "name": "IcyCliffOneTwoAmbientMusic",
+   "kind": "sound",
+   "target": 500
+  },
+  {
+   "id": 116,
+   "name": "IcyCliffOneTwoCombatMusic",
+   "kind": "sound",
+   "target": 572
+  },
+  {
+   "id": 117,
+   "name": "ImpactMetal1",
+   "kind": "sound",
+   "target": 41
+  },
+  {
+   "id": 118,
+   "name": "ImpactMetal2",
+   "kind": "sound",
+   "target": 42
+  },
+  {
+   "id": 119,
+   "name": "ImpactMetal3",
+   "kind": "sound",
+   "target": 43
+  },
+  {
+   "id": 120,
+   "name": "ImpactMetalFlesh1",
+   "kind": "sound",
+   "target": 44
+  },
+  {
+   "id": 121,
+   "name": "ImpactMetalFlesh2",
+   "kind": "sound",
+   "target": 45
+  },
+  {
+   "id": 122,
+   "name": "ImpactMetalFlesh3",
+   "kind": "sound",
+   "target": 46
+  },
+  {
+   "id": 123,
+   "name": "InfectedVillageAmbientMusic",
+   "kind": "sound",
+   "target": 475
+  },
+  {
+   "id": 124,
+   "name": "InfectedVillageCombatMusic",
+   "kind": "sound",
+   "target": 547
+  },
+  {
+   "id": 125,
+   "name": "JumpAttackSkill",
+   "kind": "sound",
+   "target": 131
+  },
+  {
+   "id": 126,
+   "name": "KingsGraveMusic",
+   "kind": "sound",
+   "target": 507
+  },
+  {
+   "id": 127,
+   "name": "LevelUp",
+   "kind": "sound",
+   "target": 9
+  },
+  {
+   "id": 128,
+   "name": "LeverActivate",
+   "kind": "sound",
+   "target": 156
+  },
+  {
+   "id": 129,
+   "name": "LightTowerAmbientMusic",
+   "kind": "sound",
+   "target": 482
+  },
+  {
+   "id": 130,
+   "name": "LightTowerCombatMusic",
+   "kind": "sound",
+   "target": 554
+  },
+  {
+   "id": 131,
+   "name": "LighthouseTempleAmbientMusic",
+   "kind": "sound",
+   "target": 492
+  },
+  {
+   "id": 132,
+   "name": "LighthouseTempleCombatMusic",
+   "kind": "sound",
+   "target": 564
+  },
+  {
+   "id": 133,
+   "name": "Lose",
+   "kind": "sound",
+   "target": 466
+  },
+  {
+   "id": 134,
+   "name": "MachineRoomsAmbientMusic",
+   "kind": "sound",
+   "target": 503
+  },
+  {
+   "id": 135,
+   "name": "MachineRoomsCombatMusic",
+   "kind": "sound",
+   "target": 575
+  },
+  {
+   "id": 136,
+   "name": "MadPriestAttack",
+   "kind": "sound",
+   "target": 242
+  },
+  {
+   "id": 137,
+   "name": "MadPriestHurt",
+   "kind": "sound",
+   "target": 240
+  },
+  {
+   "id": 138,
+   "name": "MadPriestKilled",
+   "kind": "sound",
+   "target": 241
+  },
+  {
+   "id": 139,
+   "name": "MadPriestSpawn",
+   "kind": "sound",
+   "target": 239
+  },
+  {
+   "id": 140,
+   "name": "MenuBack",
+   "kind": "sound",
+   "target": 1
+  },
+  {
+   "id": 141,
+   "name": "MenuConfirm",
+   "kind": "sound",
+   "target": 2
+  },
+  {
+   "id": 142,
+   "name": "MenuPotion",
+   "kind": "sound",
+   "target": 8
+  },
+  {
+   "id": 143,
+   "name": "MenuSelect",
+   "kind": "sound",
+   "target": 3
+  },
+  {
+   "id": 144,
+   "name": "MenuShopFail",
+   "kind": "sound",
+   "target": 6
+  },
+  {
+   "id": 145,
+   "name": "MenuShopSuccess",
+   "kind": "sound",
+   "target": 5
+  },
+  {
+   "id": 146,
+   "name": "MenuSpending",
+   "kind": "sound",
+   "target": 0
+  },
+  {
+   "id": 147,
+   "name": "MenuTab",
+   "kind": "sound",
+   "target": 4
+  },
+  {
+   "id": 148,
+   "name": "MenuTutoPopup",
+   "kind": "sound",
+   "target": 7
+  },
+  {
+   "id": 149,
+   "name": "MotherSlimeAttack",
+   "kind": "sound",
+   "target": 230
+  },
+  {
+   "id": 150,
+   "name": "MotherSlimeHurt",
+   "kind": "sound",
+   "target": 228
+  },
+  {
+   "id": 151,
+   "name": "MotherSlimeKilled",
+   "kind": "sound",
+   "target": 229
+  },
+  {
+   "id": 152,
+   "name": "MotherSlimeSpawn",
+   "kind": "sound",
+   "target": 227
+  },
+  {
+   "id": 153,
+   "name": "NortherlandMusic",
+   "kind": "sound",
+   "target": 509
+  },
+  {
+   "id": 154,
+   "name": "PickupArmor",
+   "kind": "sound",
+   "target": 152
+  },
+  {
+   "id": 155,
+   "name": "PickupGold",
+   "kind": "sound",
+   "target": 155
+  },
+  {
+   "id": 156,
+   "name": "PickupPotion",
+   "kind": "sound",
+   "target": 153
+  },
+  {
+   "id": 157,
+   "name": "PickupWeapon",
+   "kind": "sound",
+   "target": 154
+  },
+  {
+   "id": 158,
+   "name": "PortalRoomAmbientMusic",
+   "kind": "sound",
+   "target": 485
+  },
+  {
+   "id": 159,
+   "name": "PortalRoomCombatMusic",
+   "kind": "sound",
+   "target": 557
+  },
+  {
+   "id": 160,
+   "name": "PotionDrink",
+   "kind": "sound",
+   "target": 147
+  },
+  {
+   "id": 161,
+   "name": "QueenAttack",
+   "kind": "sound",
+   "target": 380
+  },
+  {
+   "id": 162,
+   "name": "QueenBossMusic",
+   "kind": "sound",
+   "target": 530
+  },
+  {
+   "id": 163,
+   "name": "QueenHurt",
+   "kind": "sound",
+   "target": 377
+  },
+  {
+   "id": 164,
+   "name": "QueenKilled",
+   "kind": "sound",
+   "target": 379
+  },
+  {
+   "id": 165,
+   "name": "QuestComplete",
+   "kind": "sound",
+   "target": 12
+  },
+  {
+   "id": 166,
+   "name": "QuestNew",
+   "kind": "sound",
+   "target": 10
+  },
+  {
+   "id": 167,
+   "name": "QuestUpdate",
+   "kind": "sound",
+   "target": 11
+  },
+  {
+   "id": 168,
+   "name": "RedDesertCaveOneAmbientMusic",
+   "kind": "sound",
+   "target": 489
+  },
+  {
+   "id": 169,
+   "name": "RedDesertCaveOneCombatMusic",
+   "kind": "sound",
+   "target": 561
+  },
+  {
+   "id": 170,
+   "name": "RedDesertCaveTwoAmbientMusic",
+   "kind": "sound",
+   "target": 490
+  },
+  {
+   "id": 171,
+   "name": "RedDesertCaveTwoCombatMusic",
+   "kind": "sound",
+   "target": 562
+  },
+  {
+   "id": 172,
+   "name": "RedDesertHubAmbientMusic",
+   "kind": "sound",
+   "target": 488
+  },
+  {
+   "id": 173,
+   "name": "RedDesertHubCombatMusic",
+   "kind": "sound",
+   "target": 560
+  },
+  {
+   "id": 174,
+   "name": "RedDesertThreeAmbientMusic",
+   "kind": "sound",
+   "target": 491
+  },
+  {
+   "id": 175,
+   "name": "RedDesertThreeCombatMusic",
+   "kind": "sound",
+   "target": 563
+  },
+  {
+   "id": 176,
+   "name": "RockyEarthSpell",
+   "kind": "sound",
+   "target": 94
+  },
+  {
+   "id": 177,
+   "name": "RootDenOneAmbientMusic",
+   "kind": "sound",
+   "target": 472
+  },
+  {
+   "id": 178,
+   "name": "RootDenOneCombatMusic",
+   "kind": "sound",
+   "target": 544
+  },
+  {
+   "id": 179,
+   "name": "RootDenTwoAmbientMusic",
+   "kind": "sound",
+   "target": 473
+  },
+  {
+   "id": 180,
+   "name": "RootDenTwoCombatMusic",
+   "kind": "sound",
+   "target": 545
+  },
+  {
+   "id": 181,
+   "name": "SecretBasementAmbientMusic",
+   "kind": "sound",
+   "target": 476
+  },
+  {
+   "id": 182,
+   "name": "SecretBasementCombatMusic",
+   "kind": "sound",
+   "target": 548
+  },
+  {
+   "id": 183,
+   "name": "SecretCryptAmbientMusic",
+   "kind": "sound",
+   "target": 487
+  },
+  {
+   "id": 184,
+   "name": "SecretCryptCombatMusic",
+   "kind": "sound",
+   "target": 559
+  },
+  {
+   "id": 185,
+   "name": "ShockwaveSkill",
+   "kind": "sound",
+   "target": 103
+  },
+  {
+   "id": 186,
+   "name": "SkeletonAttack",
+   "kind": "sound",
+   "target": 205
+  },
+  {
+   "id": 187,
+   "name": "SkeletonHurt",
+   "kind": "sound",
+   "target": 203
+  },
+  {
+   "id": 188,
+   "name": "SkeletonKilled",
+   "kind": "sound",
+   "target": 204
+  },
+  {
+   "id": 189,
+   "name": "SkeletonSpawn",
+   "kind": "sound",
+   "target": 202
+  },
+  {
+   "id": 190,
+   "name": "SlamSkill",
+   "kind": "sound",
+   "target": 101
+  },
+  {
+   "id": 191,
+   "name": "SlimeAttack",
+   "kind": "sound",
+   "target": 226
+  },
+  {
+   "id": 192,
+   "name": "SlimeHurt",
+   "kind": "sound",
+   "target": 224
+  },
+  {
+   "id": 193,
+   "name": "SlimeKilled",
+   "kind": "sound",
+   "target": 225
+  },
+  {
+   "id": 194,
+   "name": "SlimeSpawn",
+   "kind": "sound",
+   "target": 223
+  },
+  {
+   "id": 195,
+   "name": "SoldierAttack",
+   "kind": "sound",
+   "target": 222
+  },
+  {
+   "id": 196,
+   "name": "SoldierHurt",
+   "kind": "sound",
+   "target": 220
+  },
+  {
+   "id": 197,
+   "name": "SoldierKilled",
+   "kind": "sound",
+   "target": 221
+  },
+  {
+   "id": 198,
+   "name": "SouthroadRiverLoop",
+   "kind": "sound",
+   "target": 180
+  },
+  {
+   "id": 199,
+   "name": "SouthroadWaterfallLoop1",
+   "kind": "sound",
+   "target": 182
+  },
+  {
+   "id": 200,
+   "name": "SouthroadWaterfallLoop2",
+   "kind": "sound",
+   "target": 183
+  },
+  {
+   "id": 201,
+   "name": "SpiderAttack",
+   "kind": "sound",
+   "target": 216
+  },
+  {
+   "id": 202,
+   "name": "SpiderHurt",
+   "kind": "sound",
+   "target": 214
+  },
+  {
+   "id": 203,
+   "name": "SpiderKilled",
+   "kind": "sound",
+   "target": 215
+  },
+  {
+   "id": 204,
+   "name": "SpiderSpawn",
+   "kind": "sound",
+   "target": 213
+  },
+  {
+   "id": 205,
+   "name": "SpikeTrapActivate",
+   "kind": "sound",
+   "target": 167
+  },
+  {
+   "id": 206,
+   "name": "SpikeTrapDeactivate",
+   "kind": "sound",
+   "target": 168
+  },
+  {
+   "id": 207,
+   "name": "StaticBallAttack",
+   "kind": "sound",
+   "target": 234
+  },
+  {
+   "id": 208,
+   "name": "StaticBallHurt",
+   "kind": "sound",
+   "target": 232
+  },
+  {
+   "id": 209,
+   "name": "StaticBallKilled",
+   "kind": "sound",
+   "target": 233
+  },
+  {
+   "id": 210,
+   "name": "StaticBallSpawn",
+   "kind": "sound",
+   "target": 231
+  },
+  {
+   "id": 211,
+   "name": "SwampHubAmbientMusic",
+   "kind": "sound",
+   "target": 467
+  },
+  {
+   "id": 212,
+   "name": "SwampHubCombatMusic",
+   "kind": "sound",
+   "target": 540
+  },
+  {
+   "id": 213,
+   "name": "SwampKingMusic",
+   "kind": "sound",
+   "target": 511
+  },
+  {
+   "id": 214,
+   "name": "SwampMerchantCampMusic",
+   "kind": "sound",
+   "target": 505
+  },
+  {
+   "id": 215,
+   "name": "SwampTrollCaveAmbientMusic",
+   "kind": "sound",
+   "target": 469
+  },
+  {
+   "id": 216,
+   "name": "SwampTrollCaveComabatMusic",
+   "kind": "sound",
+   "target": 542
+  },
+  {
+   "id": 217,
+   "name": "SwampWitchCaveAmbientMusic",
+   "kind": "sound",
+   "target": 468
+  },
+  {
+   "id": 218,
+   "name": "SwampWitchCaveComabatMusic",
+   "kind": "sound",
+   "target": 541
+  },
+  {
+   "id": 219,
+   "name": "TitleIntroMusic",
+   "kind": "sound",
+   "target": 534
+  },
+  {
+   "id": 220,
+   "name": "TitleLoopMusic",
+   "kind": "sound",
+   "target": 535
+  },
+  {
+   "id": 221,
+   "name": "TitleMusic",
+   "kind": "sound",
+   "target": 464
+  },
+  {
+   "id": 222,
+   "name": "TwoHeadedDragonMusic",
+   "kind": "sound",
+   "target": 514
+  },
+  {
+   "id": 223,
+   "name": "UnderworldHubAmbientMusic",
+   "kind": "sound",
+   "target": 502
+  },
+  {
+   "id": 224,
+   "name": "UnderworldHubCombatMusic",
+   "kind": "sound",
+   "target": 574
+  },
+  {
+   "id": 225,
+   "name": "ViciousStrikeSkill",
+   "kind": "sound",
+   "target": 130
+  },
+  {
+   "id": 226,
+   "name": "VoidMazeAmbientMusic",
+   "kind": "sound",
+   "target": 538
+  },
+  {
+   "id": 227,
+   "name": "VoidMazeCombatMusic",
+   "kind": "sound",
+   "target": 539
+  },
+  {
+   "id": 228,
+   "name": "WaterMasterySkill",
+   "kind": "sound",
+   "target": 113
+  },
+  {
+   "id": 229,
+   "name": "WaterTempleCaveAmbientMusic",
+   "kind": "sound",
+   "target": 470
+  },
+  {
+   "id": 230,
+   "name": "WaterTowerAmbientMusic",
+   "kind": "sound",
+   "target": 480
+  },
+  {
+   "id": 231,
+   "name": "WaterTowerCombatMusic",
+   "kind": "sound",
+   "target": 552
+  },
+  {
+   "id": 232,
+   "name": "WeaponSwoosh1",
+   "kind": "sound",
+   "target": 22
+  },
+  {
+   "id": 233,
+   "name": "WeaponSwoosh2",
+   "kind": "sound",
+   "target": 23
+  },
+  {
+   "id": 234,
+   "name": "WettyWaterSpell",
+   "kind": "sound",
+   "target": 92
+  },
+  {
+   "id": 235,
+   "name": "WindTempleAmbientMusic",
+   "kind": "sound",
+   "target": 501
+  },
+  {
+   "id": 236,
+   "name": "WindTempleCombatMusic",
+   "kind": "sound",
+   "target": 573
+  },
+  {
+   "id": 237,
+   "name": "WindyWhirlwindSpell",
+   "kind": "sound",
+   "target": 93
+  },
+  {
+   "id": 238,
+   "name": "WorldMapMusic",
+   "kind": "sound",
+   "target": 465
+  },
+  {
+   "id": 239,
+   "name": "WraithMusic",
+   "kind": "sound",
+   "target": 521
+  },
+  {
+   "id": 240,
+   "name": "ZombieAttack",
+   "kind": "sound",
+   "target": 201
+  },
+  {
+   "id": 241,
+   "name": "ZombieDie",
+   "kind": "sound",
+   "target": 200
+  },
+  {
+   "id": 242,
+   "name": "ZombieHurt",
+   "kind": "sound",
+   "target": 199
+  },
+  {
+   "id": 243,
+   "name": "ZombieSpawn",
+   "kind": "sound",
+   "target": 198
+  },
+  {
+   "id": 244,
+   "name": "env_assassin_demon_hurt",
+   "kind": "event",
+   "target": 44
+  },
+  {
+   "id": 245,
+   "name": "env_assassin_knive_throw",
+   "kind": "event",
+   "target": 49
+  },
+  {
+   "id": 246,
+   "name": "env_cave_green_ghost_hurt",
+   "kind": "event",
+   "target": 35
+  },
+  {
+   "id": 247,
+   "name": "env_cave_trol_hurt",
+   "kind": "event",
+   "target": 34
+  },
+  {
+   "id": 248,
+   "name": "env_character_block",
+   "kind": "event",
+   "target": 1
+  },
+  {
+   "id": 249,
+   "name": "env_character_hurt",
+   "kind": "event",
+   "target": 0
+  },
+  {
+   "id": 250,
+   "name": "env_cherub_hurt",
+   "kind": "event",
+   "target": 48
+  },
+  {
+   "id": 251,
+   "name": "env_corruptedroots_attack",
+   "kind": "event",
+   "target": 25
+  },
+  {
+   "id": 252,
+   "name": "env_corruptedroots_death",
+   "kind": "event",
+   "target": 26
+  },
+  {
+   "id": 253,
+   "name": "env_corruptedroots_hurt",
+   "kind": "event",
+   "target": 27
+  },
+  {
+   "id": 254,
+   "name": "env_cs_swampking_spawn",
+   "kind": "event",
+   "target": 15
+  },
+  {
+   "id": 255,
+   "name": "env_edward_hurt",
+   "kind": "event",
+   "target": 50
+  },
+  {
+   "id": 256,
+   "name": "env_fs_walk_grass",
+   "kind": "event",
+   "target": 28
+  },
+  {
+   "id": 257,
+   "name": "env_fs_walk_metal",
+   "kind": "event",
+   "target": 29
+  },
+  {
+   "id": 258,
+   "name": "env_fs_walk_stone",
+   "kind": "event",
+   "target": 30
+  },
+  {
+   "id": 259,
+   "name": "env_fs_walk_water",
+   "kind": "event",
+   "target": 31
+  },
+  {
+   "id": 260,
+   "name": "env_fs_walk_wet_floor",
+   "kind": "event",
+   "target": 32
+  },
+  {
+   "id": 261,
+   "name": "env_fs_walk_wood",
+   "kind": "event",
+   "target": 33
+  },
+  {
+   "id": 262,
+   "name": "env_ghost_attack",
+   "kind": "event",
+   "target": 18
+  },
+  {
+   "id": 263,
+   "name": "env_goblin_melee_attack",
+   "kind": "event",
+   "target": 13
+  },
+  {
+   "id": 264,
+   "name": "env_goblin_ranged_attack",
+   "kind": "event",
+   "target": 12
+  },
+  {
+   "id": 265,
+   "name": "env_hound_attack",
+   "kind": "event",
+   "target": 46
+  },
+  {
+   "id": 266,
+   "name": "env_hound_hurt",
+   "kind": "event",
+   "target": 45
+  },
+  {
+   "id": 267,
+   "name": "env_hound_killed",
+   "kind": "event",
+   "target": 47
+  },
+  {
+   "id": 268,
+   "name": "env_impact_metal_flesh_medium",
+   "kind": "event",
+   "target": 5
+  },
+  {
+   "id": 269,
+   "name": "env_impact_metal_flesh_small",
+   "kind": "event",
+   "target": 4
+  },
+  {
+   "id": 270,
+   "name": "env_impact_metal_metal",
+   "kind": "event",
+   "target": 3
+  },
+  {
+   "id": 271,
+   "name": "env_madruk_hurt",
+   "kind": "event",
+   "target": 43
+  },
+  {
+   "id": 272,
+   "name": "env_mage_staff_elemental_earth",
+   "kind": "event",
+   "target": 53
+  },
+  {
+   "id": 273,
+   "name": "env_mage_staff_elemental_fire",
+   "kind": "event",
+   "target": 51
+  },
+  {
+   "id": 274,
+   "name": "env_mage_staff_elemental_ice",
+   "kind": "event",
+   "target": 52
+  },
+  {
+   "id": 275,
+   "name": "env_mage_staff_elemental_lightning",
+   "kind": "event",
+   "target": 55
+  },
+  {
+   "id": 276,
+   "name": "env_mage_staff_elemental_wind",
+   "kind": "event",
+   "target": 54
+  },
+  {
+   "id": 277,
+   "name": "env_moth_attack",
+   "kind": "event",
+   "target": 41
+  },
+  {
+   "id": 278,
+   "name": "env_moth_hurt",
+   "kind": "event",
+   "target": 42
+  },
+  {
+   "id": 279,
+   "name": "env_plant_attack",
+   "kind": "event",
+   "target": 36
+  },
+  {
+   "id": 280,
+   "name": "env_plant_hurt",
+   "kind": "event",
+   "target": 37
+  },
+  {
+   "id": 281,
+   "name": "env_priest_hurt",
+   "kind": "event",
+   "target": 2
+  },
+  {
+   "id": 282,
+   "name": "env_skydevil_attack",
+   "kind": "event",
+   "target": 19
+  },
+  {
+   "id": 283,
+   "name": "env_skydevil_death",
+   "kind": "event",
+   "target": 20
+  },
+  {
+   "id": 284,
+   "name": "env_skydevil_hurt",
+   "kind": "event",
+   "target": 21
+  },
+  {
+   "id": 285,
+   "name": "env_soulcrusher_attack",
+   "kind": "event",
+   "target": 22
+  },
+  {
+   "id": 286,
+   "name": "env_soulcrusher_death",
+   "kind": "event",
+   "target": 23
+  },
+  {
+   "id": 287,
+   "name": "env_soulcrusher_hurt",
+   "kind": "event",
+   "target": 24
+  },
+  {
+   "id": 288,
+   "name": "env_swampking_intimidate",
+   "kind": "event",
+   "target": 14
+  },
+  {
+   "id": 289,
+   "name": "env_weapon_1h",
+   "kind": "event",
+   "target": 6
+  },
+  {
+   "id": 290,
+   "name": "env_weapon_2h",
+   "kind": "event",
+   "target": 7
+  },
+  {
+   "id": 291,
+   "name": "env_weapon_arrow_hit",
+   "kind": "event",
+   "target": 10
+  },
+  {
+   "id": 292,
+   "name": "env_weapon_arrow_miss",
+   "kind": "event",
+   "target": 11
+  },
+  {
+   "id": 293,
+   "name": "env_weapon_dual",
+   "kind": "event",
+   "target": 8
+  },
+  {
+   "id": 294,
+   "name": "env_weapon_staff",
+   "kind": "event",
+   "target": 9
+  },
+  {
+   "id": 295,
+   "name": "env_witch_hurt",
+   "kind": "event",
+   "target": 38
+  },
+  {
+   "id": 296,
+   "name": "env_worm_attack",
+   "kind": "event",
+   "target": 40
+  },
+  {
+   "id": 297,
+   "name": "env_worm_hurt",
+   "kind": "event",
+   "target": 39
+  },
+  {
+   "id": 298,
+   "name": "env_yeti_attack",
+   "kind": "event",
+   "target": 16
+  },
+  {
+   "id": 299,
+   "name": "env_yeti_hurt",
+   "kind": "event",
+   "target": 17
+  },
+  {
+   "id": 300,
+   "name": "m_cutscene_01",
+   "kind": "sound",
+   "target": 533
+  },
+  {
+   "id": 301,
+   "name": "npc_arrow_shoot",
+   "kind": "sound",
+   "target": 196
+  },
+  {
+   "id": 302,
+   "name": "preload_fs_grass",
+   "kind": "event",
+   "target": 57
+  },
+  {
+   "id": 303,
+   "name": "preload_fs_metal",
+   "kind": "event",
+   "target": 58
+  },
+  {
+   "id": 304,
+   "name": "preload_fs_stone",
+   "kind": "event",
+   "target": 59
+  },
+  {
+   "id": 305,
+   "name": "preload_fs_water",
+   "kind": "event",
+   "target": 60
+  },
+  {
+   "id": 306,
+   "name": "preload_fs_wet_floor",
+   "kind": "event",
+   "target": 61
+  },
+  {
+   "id": 307,
+   "name": "preload_fs_wood",
+   "kind": "event",
+   "target": 62
+  },
+  {
+   "id": 308,
+   "name": "preload_sfx",
+   "kind": "event",
+   "target": 56
+  },
+  {
+   "id": 309,
+   "name": "sfx_act_completed",
+   "kind": "sound",
+   "target": 16
+  },
+  {
+   "id": 310,
+   "name": "sfx_assassin_bomb_throw",
+   "kind": "sound",
+   "target": 326
+  },
+  {
+   "id": 311,
+   "name": "sfx_assassin_demon_die",
+   "kind": "sound",
+   "target": 403
+  },
+  {
+   "id": 312,
+   "name": "sfx_assassin_demon_hurt_1",
+   "kind": "sound",
+   "target": 401
+  },
+  {
+   "id": 313,
+   "name": "sfx_assassin_demon_hurt_2",
+   "kind": "sound",
+   "target": 402
+  },
+  {
+   "id": 314,
+   "name": "sfx_assassin_demon_spawn",
+   "kind": "sound",
+   "target": 398
+  },
+  {
+   "id": 315,
+   "name": "sfx_assassin_demon_spin_attack",
+   "kind": "sound",
+   "target": 400
+  },
+  {
+   "id": 316,
+   "name": "sfx_assassin_demon_sword_attack",
+   "kind": "sound",
+   "target": 399
+  },
+  {
+   "id": 317,
+   "name": "sfx_assassin_die",
+   "kind": "sound",
+   "target": 329
+  },
+  {
+   "id": 318,
+   "name": "sfx_assassin_hurt",
+   "kind": "sound",
+   "target": 327
+  },
+  {
+   "id": 319,
+   "name": "sfx_assassin_knife_melee",
+   "kind": "sound",
+   "target": 325
+  },
+  {
+   "id": 320,
+   "name": "sfx_assassin_knife_throw_1",
+   "kind": "sound",
+   "target": 323
+  },
+  {
+   "id": 321,
+   "name": "sfx_assassin_knife_throw_2",
+   "kind": "sound",
+   "target": 324
+  },
+  {
+   "id": 322,
+   "name": "sfx_assassin_laugh",
+   "kind": "sound",
+   "target": 328
+  },
+  {
+   "id": 323,
+   "name": "sfx_assassin_spawn",
+   "kind": "sound",
+   "target": 322
+  },
+  {
+   "id": 324,
+   "name": "sfx_balrog_shockwave_attack",
+   "kind": "sound",
+   "target": 212
+  },
+  {
+   "id": 325,
+   "name": "sfx_break_vase",
+   "kind": "sound",
+   "target": 166
+  },
+  {
+   "id": 326,
+   "name": "sfx_cave_troll_hurt_2",
+   "kind": "sound",
+   "target": 248
+  },
+  {
+   "id": 327,
+   "name": "sfx_cave_troll_mace_attack",
+   "kind": "sound",
+   "target": 251
+  },
+  {
+   "id": 328,
+   "name": "sfx_cave_troll_smash_ground",
+   "kind": "sound",
+   "target": 252
+  },
+  {
+   "id": 329,
+   "name": "sfx_cave_wind_loop",
+   "kind": "sound",
+   "target": 188
+  },
+  {
+   "id": 330,
+   "name": "sfx_checkpoint_activated",
+   "kind": "sound",
+   "target": 14
+  },
+  {
+   "id": 331,
+   "name": "sfx_corrupted_root_attack_1",
+   "kind": "sound",
+   "target": 424
+  },
+  {
+   "id": 332,
+   "name": "sfx_corrupted_root_attack_2",
+   "kind": "sound",
+   "target": 425
+  },
+  {
+   "id": 333,
+   "name": "sfx_corrupted_root_death_1",
+   "kind": "sound",
+   "target": 426
+  },
+  {
+   "id": 334,
+   "name": "sfx_corrupted_root_death_2",
+   "kind": "sound",
+   "target": 427
+  },
+  {
+   "id": 335,
+   "name": "sfx_corrupted_root_hurt_1",
+   "kind": "sound",
+   "target": 428
+  },
+  {
+   "id": 336,
+   "name": "sfx_corrupted_root_hurt_2",
+   "kind": "sound",
+   "target": 429
+  },
+  {
+   "id": 337,
+   "name": "sfx_corrupted_root_spawn",
+   "kind": "sound",
+   "target": 430
+  },
+  {
+   "id": 338,
+   "name": "sfx_cs_earth_troll_intro_spawn",
+   "kind": "sound",
+   "target": 434
+  },
+  {
+   "id": 339,
+   "name": "sfx_cs_glowing_rene",
+   "kind": "sound",
+   "target": 457
+  },
+  {
+   "id": 340,
+   "name": "sfx_cs_soldier_enter",
+   "kind": "sound",
+   "target": 432
+  },
+  {
+   "id": 341,
+   "name": "sfx_cs_swampking_death",
+   "kind": "sound",
+   "target": 435
+  },
+  {
+   "id": 342,
+   "name": "sfx_cs_swampking_intro_earth_quake",
+   "kind": "sound",
+   "target": 431
+  },
+  {
+   "id": 343,
+   "name": "sfx_cs_witch_intro_spawn",
+   "kind": "sound",
+   "target": 433
+  },
+  {
+   "id": 344,
+   "name": "sfx_cultist_attack_1",
+   "kind": "sound",
+   "target": 359
+  },
+  {
+   "id": 345,
+   "name": "sfx_cultist_attack_2",
+   "kind": "sound",
+   "target": 360
+  },
+  {
+   "id": 346,
+   "name": "sfx_cultist_die_1",
+   "kind": "sound",
+   "target": 361
+  },
+  {
+   "id": 347,
+   "name": "sfx_cultist_die_2",
+   "kind": "sound",
+   "target": 362
+  },
+  {
+   "id": 348,
+   "name": "sfx_cultist_hurt_1",
+   "kind": "sound",
+   "target": 357
+  },
+  {
+   "id": 349,
+   "name": "sfx_cultist_hurt_2",
+   "kind": "sound",
+   "target": 358
+  },
+  {
+   "id": 350,
+   "name": "sfx_cultitst_group_chant_loop",
+   "kind": "sound",
+   "target": 190
+  },
+  {
+   "id": 351,
+   "name": "sfx_cutscene_assassin_die",
+   "kind": "sound",
+   "target": 440
+  },
+  {
+   "id": 352,
+   "name": "sfx_cutscene_earth_troll_die",
+   "kind": "sound",
+   "target": 441
+  },
+  {
+   "id": 353,
+   "name": "sfx_cutscene_escape_castle",
+   "kind": "sound",
+   "target": 454
+  },
+  {
+   "id": 354,
+   "name": "sfx_cutscene_final_intro",
+   "kind": "sound",
+   "target": 456
+  },
+  {
+   "id": 355,
+   "name": "sfx_cutscene_final_loop",
+   "kind": "sound",
+   "target": 455
+  },
+  {
+   "id": 356,
+   "name": "sfx_cutscene_final_outro",
+   "kind": "sound",
+   "target": 458
+  },
+  {
+   "id": 357,
+   "name": "sfx_cutscene_fire_temple_1",
+   "kind": "sound",
+   "target": 442
+  },
+  {
+   "id": 358,
+   "name": "sfx_cutscene_forbidden_seal_1",
+   "kind": "sound",
+   "target": 444
+  },
+  {
+   "id": 359,
+   "name": "sfx_cutscene_forbidden_seal_2",
+   "kind": "sound",
+   "target": 445
+  },
+  {
+   "id": 360,
+   "name": "sfx_cutscene_forbidden_seal_cast_loop",
+   "kind": "sound",
+   "target": 443
+  },
+  {
+   "id": 361,
+   "name": "sfx_cutscene_gothicus_edward_1",
+   "kind": "sound",
+   "target": 446
+  },
+  {
+   "id": 362,
+   "name": "sfx_cutscene_gothicus_edward_2",
+   "kind": "sound",
+   "target": 447
+  },
+  {
+   "id": 363,
+   "name": "sfx_cutscene_moth",
+   "kind": "sound",
+   "target": 459
+  },
+  {
+   "id": 364,
+   "name": "sfx_cutscene_ruins",
+   "kind": "sound",
+   "target": 448
+  },
+  {
+   "id": 365,
+   "name": "sfx_cutscene_swamp_intro_cave_troll_1",
+   "kind": "sound",
+   "target": 436
+  },
+  {
+   "id": 366,
+   "name": "sfx_cutscene_swamp_intro_cave_troll_2",
+   "kind": "sound",
+   "target": 437
+  },
+  {
+   "id": 367,
+   "name": "sfx_cutscene_swamp_intro_faerie",
+   "kind": "sound",
+   "target": 438
+  },
+  {
+   "id": 368,
+   "name": "sfx_cutscene_swamp_intro_rene_thunder",
+   "kind": "sound",
+   "target": 439
+  },
+  {
+   "id": 369,
+   "name": "sfx_cutscene_water_temple_1",
+   "kind": "sound",
+   "target": 449
+  },
+  {
+   "id": 370,
+   "name": "sfx_cutscene_water_temple_2",
+   "kind": "sound",
+   "target": 450
+  },
+  {
+   "id": 371,
+   "name": "sfx_cutscene_wind_temple_1",
+   "kind": "sound",
+   "target": 451
+  },
+  {
+   "id": 372,
+   "name": "sfx_cutscene_wind_temple_2",
+   "kind": "sound",
+   "target": 452
+  },
+  {
+   "id": 373,
+   "name": "sfx_cutscene_wind_temple_3",
+   "kind": "sound",
+   "target": 453
+  },
+  {
+   "id": 374,
+   "name": "sfx_dark_queen_critical_hurt",
+   "kind": "sound",
+   "target": 378
+  },
+  {
+   "id": 375,
+   "name": "sfx_dark_queen_intimidate_1",
+   "kind": "sound",
+   "target": 374
+  },
+  {
+   "id": 376,
+   "name": "sfx_dark_queen_intimidate_2",
+   "kind": "sound",
+   "target": 375
+  },
+  {
+   "id": 377,
+   "name": "sfx_dark_queen_intimidate_3",
+   "kind": "sound",
+   "target": 376
+  },
+  {
+   "id": 378,
+   "name": "sfx_dark_queen_spawn",
+   "kind": "sound",
+   "target": 373
+  },
+  {
+   "id": 379,
+   "name": "sfx_dead_body_vanish",
+   "kind": "sound",
+   "target": 197
+  },
+  {
+   "id": 380,
+   "name": "sfx_demon_attack",
+   "kind": "sound",
+   "target": 351
+  },
+  {
+   "id": 381,
+   "name": "sfx_demon_die",
+   "kind": "sound",
+   "target": 355
+  },
+  {
+   "id": 382,
+   "name": "sfx_demon_howl",
+   "kind": "sound",
+   "target": 356
+  },
+  {
+   "id": 383,
+   "name": "sfx_demon_hurt",
+   "kind": "sound",
+   "target": 350
+  },
+  {
+   "id": 384,
+   "name": "sfx_demon_rain",
+   "kind": "sound",
+   "target": 352
+  },
+  {
+   "id": 385,
+   "name": "sfx_demon_spawn",
+   "kind": "sound",
+   "target": 349
+  },
+  {
+   "id": 386,
+   "name": "sfx_demon_steam_burst_attack",
+   "kind": "sound",
+   "target": 354
+  },
+  {
+   "id": 387,
+   "name": "sfx_demon_water_pre_cast",
+   "kind": "sound",
+   "target": 353
+  },
+  {
+   "id": 388,
+   "name": "sfx_door_opening",
+   "kind": "sound",
+   "target": 159
+  },
+  {
+   "id": 389,
+   "name": "sfx_dragon_die",
+   "kind": "sound",
+   "target": 371
+  },
+  {
+   "id": 390,
+   "name": "sfx_dragon_hurt",
+   "kind": "sound",
+   "target": 367
+  },
+  {
+   "id": 391,
+   "name": "sfx_dragon_reaperstorm",
+   "kind": "sound",
+   "target": 370
+  },
+  {
+   "id": 392,
+   "name": "sfx_dragon_spawn",
+   "kind": "sound",
+   "target": 372
+  },
+  {
+   "id": 393,
+   "name": "sfx_dragon_wind_attack",
+   "kind": "sound",
+   "target": 369
+  },
+  {
+   "id": 394,
+   "name": "sfx_dragon_wind_attack_charge",
+   "kind": "sound",
+   "target": 368
+  },
+  {
+   "id": 395,
+   "name": "sfx_earth_troll_dash_attack",
+   "kind": "sound",
+   "target": 394
+  },
+  {
+   "id": 396,
+   "name": "sfx_earth_troll_die",
+   "kind": "sound",
+   "target": 397
+  },
+  {
+   "id": 397,
+   "name": "sfx_earth_troll_ground_attack",
+   "kind": "sound",
+   "target": 395
+  },
+  {
+   "id": 398,
+   "name": "sfx_earth_troll_hurt",
+   "kind": "sound",
+   "target": 396
+  },
+  {
+   "id": 399,
+   "name": "sfx_earth_troll_spawn",
+   "kind": "sound",
+   "target": 393
+  },
+  {
+   "id": 400,
+   "name": "sfx_edward_attack",
+   "kind": "sound",
+   "target": 365
+  },
+  {
+   "id": 401,
+   "name": "sfx_edward_die",
+   "kind": "sound",
+   "target": 366
+  },
+  {
+   "id": 402,
+   "name": "sfx_edward_hurt_1",
+   "kind": "sound",
+   "target": 363
+  },
+  {
+   "id": 403,
+   "name": "sfx_edward_hurt_2",
+   "kind": "sound",
+   "target": 364
+  },
+  {
+   "id": 404,
+   "name": "sfx_energy_orb_popup",
+   "kind": "sound",
+   "target": 175
+  },
+  {
+   "id": 405,
+   "name": "sfx_energy_source_loop",
+   "kind": "sound",
+   "target": 189
+  },
+  {
+   "id": 406,
+   "name": "sfx_fire_loop",
+   "kind": "sound",
+   "target": 178
+  },
+  {
+   "id": 407,
+   "name": "sfx_friend_death",
+   "kind": "sound",
+   "target": 18
+  },
+  {
+   "id": 408,
+   "name": "sfx_friend_left_game",
+   "kind": "sound",
+   "target": 19
+  },
+  {
+   "id": 409,
+   "name": "sfx_friend_low_hp",
+   "kind": "sound",
+   "target": 20
+  },
+  {
+   "id": 410,
+   "name": "sfx_friend_revive",
+   "kind": "sound",
+   "target": 21
+  },
+  {
+   "id": 411,
+   "name": "sfx_fs_walk_grass_1",
+   "kind": "sound",
+   "target": 64
+  },
+  {
+   "id": 412,
+   "name": "sfx_fs_walk_grass_2",
+   "kind": "sound",
+   "target": 65
+  },
+  {
+   "id": 413,
+   "name": "sfx_fs_walk_grass_3",
+   "kind": "sound",
+   "target": 66
+  },
+  {
+   "id": 414,
+   "name": "sfx_fs_walk_grass_4",
+   "kind": "sound",
+   "target": 67
+  },
+  {
+   "id": 415,
+   "name": "sfx_fs_walk_metal_1",
+   "kind": "sound",
+   "target": 68
+  },
+  {
+   "id": 416,
+   "name": "sfx_fs_walk_metal_2",
+   "kind": "sound",
+   "target": 69
+  },
+  {
+   "id": 417,
+   "name": "sfx_fs_walk_metal_3",
+   "kind": "sound",
+   "target": 70
+  },
+  {
+   "id": 418,
+   "name": "sfx_fs_walk_metal_4",
+   "kind": "sound",
+   "target": 71
+  },
+  {
+   "id": 419,
+   "name": "sfx_fs_walk_wet_floor_1",
+   "kind": "sound",
+   "target": 80
+  },
+  {
+   "id": 420,
+   "name": "sfx_fs_walk_wet_floor_2",
+   "kind": "sound",
+   "target": 81
+  },
+  {
+   "id": 421,
+   "name": "sfx_fs_walk_wet_floor_3",
+   "kind": "sound",
+   "target": 82
+  },
+  {
+   "id": 422,
+   "name": "sfx_fs_walk_wet_floor_4",
+   "kind": "sound",
+   "target": 83
+  },
+  {
+   "id": 423,
+   "name": "sfx_fs_walk_wood_1",
+   "kind": "sound",
+   "target": 84
+  },
+  {
+   "id": 424,
+   "name": "sfx_fs_walk_wood_2",
+   "kind": "sound",
+   "target": 85
+  },
+  {
+   "id": 425,
+   "name": "sfx_fs_walk_wood_3",
+   "kind": "sound",
+   "target": 86
+  },
+  {
+   "id": 426,
+   "name": "sfx_fs_walk_wood_4",
+   "kind": "sound",
+   "target": 87
+  },
+  {
+   "id": 427,
+   "name": "sfx_giant_wood_door_open",
+   "kind": "sound",
+   "target": 158
+  },
+  {
+   "id": 428,
+   "name": "sfx_goblin_archer_die",
+   "kind": "sound",
+   "target": 266
+  },
+  {
+   "id": 429,
+   "name": "sfx_goblin_archer_shoot_1",
+   "kind": "sound",
+   "target": 269
+  },
+  {
+   "id": 430,
+   "name": "sfx_goblin_archer_shoot_2",
+   "kind": "sound",
+   "target": 270
+  },
+  {
+   "id": 431,
+   "name": "sfx_goblin_shaman_attack_1",
+   "kind": "sound",
+   "target": 271
+  },
+  {
+   "id": 432,
+   "name": "sfx_goblin_shaman_attack_2",
+   "kind": "sound",
+   "target": 272
+  },
+  {
+   "id": 433,
+   "name": "sfx_goblin_shaman_die",
+   "kind": "sound",
+   "target": 267
+  },
+  {
+   "id": 434,
+   "name": "sfx_goblin_sword_attack_1",
+   "kind": "sound",
+   "target": 273
+  },
+  {
+   "id": 435,
+   "name": "sfx_goblin_sword_attack_2",
+   "kind": "sound",
+   "target": 274
+  },
+  {
+   "id": 436,
+   "name": "sfx_goblin_sword_die",
+   "kind": "sound",
+   "target": 268
+  },
+  {
+   "id": 437,
+   "name": "sfx_green_ghost_attack_1",
+   "kind": "sound",
+   "target": 275
+  },
+  {
+   "id": 438,
+   "name": "sfx_green_ghost_attack_2",
+   "kind": "sound",
+   "target": 276
+  },
+  {
+   "id": 439,
+   "name": "sfx_green_ghost_attack_3",
+   "kind": "sound",
+   "target": 277
+  },
+  {
+   "id": 440,
+   "name": "sfx_green_ghost_die",
+   "kind": "sound",
+   "target": 278
+  },
+  {
+   "id": 441,
+   "name": "sfx_green_ghost_hurt_1",
+   "kind": "sound",
+   "target": 279
+  },
+  {
+   "id": 442,
+   "name": "sfx_green_ghost_hurt_2",
+   "kind": "sound",
+   "target": 280
+  },
+  {
+   "id": 443,
+   "name": "sfx_green_ghost_spawn",
+   "kind": "sound",
+   "target": 281
+  },
+  {
+   "id": 444,
+   "name": "sfx_hound_attack_1",
+   "kind": "sound",
+   "target": 404
+  },
+  {
+   "id": 445,
+   "name": "sfx_hound_attack_2",
+   "kind": "sound",
+   "target": 405
+  },
+  {
+   "id": 446,
+   "name": "sfx_hound_hurt_1",
+   "kind": "sound",
+   "target": 406
+  },
+  {
+   "id": 447,
+   "name": "sfx_hound_hurt_2",
+   "kind": "sound",
+   "target": 407
+  },
+  {
+   "id": 448,
+   "name": "sfx_hound_killed_1",
+   "kind": "sound",
+   "target": 408
+  },
+  {
+   "id": 449,
+   "name": "sfx_hound_killed_2",
+   "kind": "sound",
+   "target": 409
+  },
+  {
+   "id": 450,
+   "name": "sfx_impact_arrow_flesh_1",
+   "kind": "sound",
+   "target": 53
+  },
+  {
+   "id": 451,
+   "name": "sfx_impact_arrow_flesh_2",
+   "kind": "sound",
+   "target": 54
+  },
+  {
+   "id": 452,
+   "name": "sfx_impact_arrow_flesh_3",
+   "kind": "sound",
+   "target": 55
+  },
+  {
+   "id": 453,
+   "name": "sfx_impact_arrow_object_1",
+   "kind": "sound",
+   "target": 56
+  },
+  {
+   "id": 454,
+   "name": "sfx_impact_arrow_object_2",
+   "kind": "sound",
+   "target": 57
+  },
+  {
+   "id": 455,
+   "name": "sfx_impact_block_1",
+   "kind": "sound",
+   "target": 51
+  },
+  {
+   "id": 456,
+   "name": "sfx_impact_block_2",
+   "kind": "sound",
+   "target": 52
+  },
+  {
+   "id": 457,
+   "name": "sfx_impact_burst_shot",
+   "kind": "sound",
+   "target": 63
+  },
+  {
+   "id": 458,
+   "name": "sfx_impact_elemental_earth",
+   "kind": "sound",
+   "target": 58
+  },
+  {
+   "id": 459,
+   "name": "sfx_impact_elemental_fire",
+   "kind": "sound",
+   "target": 59
+  },
+  {
+   "id": 460,
+   "name": "sfx_impact_elemental_ice",
+   "kind": "sound",
+   "target": 60
+  },
+  {
+   "id": 461,
+   "name": "sfx_impact_elemental_thunder",
+   "kind": "sound",
+   "target": 61
+  },
+  {
+   "id": 462,
+   "name": "sfx_impact_elemental_wind",
+   "kind": "sound",
+   "target": 62
+  },
+  {
+   "id": 463,
+   "name": "sfx_impact_metal_flesh_medium_1",
+   "kind": "sound",
+   "target": 47
+  },
+  {
+   "id": 464,
+   "name": "sfx_impact_metal_flesh_medium_2",
+   "kind": "sound",
+   "target": 48
+  },
+  {
+   "id": 465,
+   "name": "sfx_impact_metal_flesh_medium_3",
+   "kind": "sound",
+   "target": 49
+  },
+  {
+   "id": 466,
+   "name": "sfx_iron_gate",
+   "kind": "sound",
+   "target": 173
+  },
+  {
+   "id": 467,
+   "name": "sfx_king_of_hell_attack",
+   "kind": "sound",
+   "target": 381
+  },
+  {
+   "id": 468,
+   "name": "sfx_king_of_hell_die",
+   "kind": "sound",
+   "target": 387
+  },
+  {
+   "id": 469,
+   "name": "sfx_king_of_hell_hurt_1",
+   "kind": "sound",
+   "target": 385
+  },
+  {
+   "id": 470,
+   "name": "sfx_king_of_hell_hurt_2",
+   "kind": "sound",
+   "target": 386
+  },
+  {
+   "id": 471,
+   "name": "sfx_king_of_hell_laser_attack",
+   "kind": "sound",
+   "target": 384
+  },
+  {
+   "id": 472,
+   "name": "sfx_king_of_hell_magic_attack",
+   "kind": "sound",
+   "target": 382
+  },
+  {
+   "id": 473,
+   "name": "sfx_king_of_hell_magic_attack_hit",
+   "kind": "sound",
+   "target": 383
+  },
+  {
+   "id": 474,
+   "name": "sfx_lizardman_attack_1",
+   "kind": "sound",
+   "target": 282
+  },
+  {
+   "id": 475,
+   "name": "sfx_lizardman_attack_2",
+   "kind": "sound",
+   "target": 283
+  },
+  {
+   "id": 476,
+   "name": "sfx_lizardman_die",
+   "kind": "sound",
+   "target": 285
+  },
+  {
+   "id": 477,
+   "name": "sfx_lizardman_hurt",
+   "kind": "sound",
+   "target": 284
+  },
+  {
+   "id": 478,
+   "name": "sfx_mage_staff_elemental_earth",
+   "kind": "sound",
+   "target": 31
+  },
+  {
+   "id": 479,
+   "name": "sfx_mage_staff_elemental_fire",
+   "kind": "sound",
+   "target": 29
+  },
+  {
+   "id": 480,
+   "name": "sfx_mage_staff_elemental_ice",
+   "kind": "sound",
+   "target": 30
+  },
+  {
+   "id": 481,
+   "name": "sfx_mage_staff_elemental_lightning",
+   "kind": "sound",
+   "target": 33
+  },
+  {
+   "id": 482,
+   "name": "sfx_mage_staff_elemental_wind",
+   "kind": "sound",
+   "target": 32
+  },
+  {
+   "id": 483,
+   "name": "sfx_magic_circle_activated",
+   "kind": "sound",
+   "target": 172
+  },
+  {
+   "id": 484,
+   "name": "sfx_magic_portal_loop",
+   "kind": "sound",
+   "target": 176
+  },
+  {
+   "id": 485,
+   "name": "sfx_magical_shrine_loop",
+   "kind": "sound",
+   "target": 184
+  },
+  {
+   "id": 486,
+   "name": "sfx_magical_shrine_power_down",
+   "kind": "sound",
+   "target": 169
+  },
+  {
+   "id": 487,
+   "name": "sfx_magical_wall_down",
+   "kind": "sound",
+   "target": 161
+  },
+  {
+   "id": 488,
+   "name": "sfx_magical_wall_loop",
+   "kind": "sound",
+   "target": 186
+  },
+  {
+   "id": 489,
+   "name": "sfx_magical_wall_up",
+   "kind": "sound",
+   "target": 160
+  },
+  {
+   "id": 490,
+   "name": "sfx_mc_low_hp",
+   "kind": "sound",
+   "target": 15
+  },
+  {
+   "id": 491,
+   "name": "sfx_mc_shoot_arrow",
+   "kind": "sound",
+   "target": 28
+  },
+  {
+   "id": 492,
+   "name": "sfx_moth_attack_1",
+   "kind": "sound",
+   "target": 286
+  },
+  {
+   "id": 493,
+   "name": "sfx_moth_attack_2",
+   "kind": "sound",
+   "target": 287
+  },
+  {
+   "id": 494,
+   "name": "sfx_moth_die",
+   "kind": "sound",
+   "target": 290
+  },
+  {
+   "id": 495,
+   "name": "sfx_moth_hurt_1",
+   "kind": "sound",
+   "target": 288
+  },
+  {
+   "id": 496,
+   "name": "sfx_moth_hurt_2",
+   "kind": "sound",
+   "target": 289
+  },
+  {
+   "id": 497,
+   "name": "sfx_mother_statue_summon",
+   "kind": "sound",
+   "target": 305
+  },
+  {
+   "id": 498,
+   "name": "sfx_npc_priest_hurt_1",
+   "kind": "sound",
+   "target": 34
+  },
+  {
+   "id": 499,
+   "name": "sfx_npc_priest_hurt_2",
+   "kind": "sound",
+   "target": 35
+  },
+  {
+   "id": 500,
+   "name": "sfx_npc_priest_hurt_3",
+   "kind": "sound",
+   "target": 36
+  },
+  {
+   "id": 501,
+   "name": "sfx_orb_deactivate",
+   "kind": "sound",
+   "target": 170
+  },
+  {
+   "id": 502,
+   "name": "sfx_orb_loop",
+   "kind": "sound",
+   "target": 185
+  },
+  {
+   "id": 503,
+   "name": "sfx_passive_skill_activate_1",
+   "kind": "sound",
+   "target": 143
+  },
+  {
+   "id": 504,
+   "name": "sfx_passive_skill_activate_2",
+   "kind": "sound",
+   "target": 144
+  },
+  {
+   "id": 505,
+   "name": "sfx_passive_skill_activate_3",
+   "kind": "sound",
+   "target": 145
+  },
+  {
+   "id": 506,
+   "name": "sfx_passive_skill_activate_4",
+   "kind": "sound",
+   "target": 146
+  },
+  {
+   "id": 507,
+   "name": "sfx_plant_attack_1",
+   "kind": "sound",
+   "target": 292
+  },
+  {
+   "id": 508,
+   "name": "sfx_plant_attack_2",
+   "kind": "sound",
+   "target": 293
+  },
+  {
+   "id": 509,
+   "name": "sfx_plant_die",
+   "kind": "sound",
+   "target": 296
+  },
+  {
+   "id": 510,
+   "name": "sfx_plant_hurt_1",
+   "kind": "sound",
+   "target": 294
+  },
+  {
+   "id": 511,
+   "name": "sfx_plant_hurt_2",
+   "kind": "sound",
+   "target": 295
+  },
+  {
+   "id": 512,
+   "name": "sfx_plant_spawn",
+   "kind": "sound",
+   "target": 291
+  },
+  {
+   "id": 513,
+   "name": "sfx_quest_panel_up",
+   "kind": "sound",
+   "target": 13
+  },
+  {
+   "id": 514,
+   "name": "sfx_serpent_attack",
+   "kind": "sound",
+   "target": 314
+  },
+  {
+   "id": 515,
+   "name": "sfx_serpent_collapse",
+   "kind": "sound",
+   "target": 316
+  },
+  {
+   "id": 516,
+   "name": "sfx_serpent_die",
+   "kind": "sound",
+   "target": 317
+  },
+  {
+   "id": 517,
+   "name": "sfx_serpent_hurt",
+   "kind": "sound",
+   "target": 315
+  },
+  {
+   "id": 518,
+   "name": "sfx_serpent_intimidate_1",
+   "kind": "sound",
+   "target": 318
+  },
+  {
+   "id": 519,
+   "name": "sfx_serpent_intimidate_2",
+   "kind": "sound",
+   "target": 319
+  },
+  {
+   "id": 520,
+   "name": "sfx_serpent_intimidate_3",
+   "kind": "sound",
+   "target": 320
+  },
+  {
+   "id": 521,
+   "name": "sfx_serpent_shockwave",
+   "kind": "sound",
+   "target": 313
+  },
+  {
+   "id": 522,
+   "name": "sfx_serpent_spawn",
+   "kind": "sound",
+   "target": 310
+  },
+  {
+   "id": 523,
+   "name": "sfx_serpent_spit_water",
+   "kind": "sound",
+   "target": 311
+  },
+  {
+   "id": 524,
+   "name": "sfx_serpent_spit_water_explosion",
+   "kind": "sound",
+   "target": 312
+  },
+  {
+   "id": 525,
+   "name": "sfx_serpent_submerge",
+   "kind": "sound",
+   "target": 321
+  },
+  {
+   "id": 526,
+   "name": "sfx_skill_mage_doppelganger",
+   "kind": "sound",
+   "target": 114
+  },
+  {
+   "id": 527,
+   "name": "sfx_skill_mage_doppelganger_statue_explode",
+   "kind": "sound",
+   "target": 115
+  },
+  {
+   "id": 528,
+   "name": "sfx_skill_mage_ilu_eclipse",
+   "kind": "sound",
+   "target": 121
+  },
+  {
+   "id": 529,
+   "name": "sfx_skill_mage_ilu_hold_time",
+   "kind": "sound",
+   "target": 124
+  },
+  {
+   "id": 530,
+   "name": "sfx_skill_mage_ilu_hold_time_hit",
+   "kind": "sound",
+   "target": 125
+  },
+  {
+   "id": 531,
+   "name": "sfx_skill_mage_ilu_nightmare",
+   "kind": "sound",
+   "target": 123
+  },
+  {
+   "id": 532,
+   "name": "sfx_skill_mage_ilu_terror",
+   "kind": "sound",
+   "target": 122
+  },
+  {
+   "id": 533,
+   "name": "sfx_skill_mage_nec_harrowing_grasp",
+   "kind": "sound",
+   "target": 126
+  },
+  {
+   "id": 534,
+   "name": "sfx_skill_mage_nec_pestilence_breath",
+   "kind": "sound",
+   "target": 129
+  },
+  {
+   "id": 535,
+   "name": "sfx_skill_mage_nec_raise",
+   "kind": "sound",
+   "target": 128
+  },
+  {
+   "id": 536,
+   "name": "sfx_skill_mage_nec_reaperstorm",
+   "kind": "sound",
+   "target": 127
+  },
+  {
+   "id": 537,
+   "name": "sfx_skill_mage_stormslave",
+   "kind": "sound",
+   "target": 120
+  },
+  {
+   "id": 538,
+   "name": "sfx_skill_mage_thunder_braid",
+   "kind": "sound",
+   "target": 116
+  },
+  {
+   "id": 539,
+   "name": "sfx_skill_mage_thunder_braid_add_1",
+   "kind": "sound",
+   "target": 117
+  },
+  {
+   "id": 540,
+   "name": "sfx_skill_mage_thunder_braid_add_2",
+   "kind": "sound",
+   "target": 118
+  },
+  {
+   "id": 541,
+   "name": "sfx_skill_mage_thunder_braid_loop",
+   "kind": "sound",
+   "target": 119
+  },
+  {
+   "id": 542,
+   "name": "sfx_skill_rogue_arc_burst_shot",
+   "kind": "sound",
+   "target": 137
+  },
+  {
+   "id": 543,
+   "name": "sfx_skill_rogue_arc_maim_shot",
+   "kind": "sound",
+   "target": 136
+  },
+  {
+   "id": 544,
+   "name": "sfx_skill_rogue_arc_pierce_shot",
+   "kind": "sound",
+   "target": 135
+  },
+  {
+   "id": 545,
+   "name": "sfx_skill_rogue_arc_rain_of_arrows",
+   "kind": "sound",
+   "target": 134
+  },
+  {
+   "id": 546,
+   "name": "sfx_skill_rogue_arc_venom_shot",
+   "kind": "sound",
+   "target": 138
+  },
+  {
+   "id": 547,
+   "name": "sfx_skill_rogue_ass_assasinate",
+   "kind": "sound",
+   "target": 142
+  },
+  {
+   "id": 548,
+   "name": "sfx_skill_rogue_ass_concealing_cloud",
+   "kind": "sound",
+   "target": 140
+  },
+  {
+   "id": 549,
+   "name": "sfx_skill_rogue_ass_plague_edge",
+   "kind": "sound",
+   "target": 141
+  },
+  {
+   "id": 550,
+   "name": "sfx_skill_rogue_ass_throwing_knife",
+   "kind": "sound",
+   "target": 139
+  },
+  {
+   "id": 551,
+   "name": "sfx_skill_rogue_desert_pinwheel",
+   "kind": "sound",
+   "target": 133
+  },
+  {
+   "id": 552,
+   "name": "sfx_skill_rogue_featherfoot",
+   "kind": "sound",
+   "target": 132
+  },
+  {
+   "id": 553,
+   "name": "sfx_skill_warrior_bsk_annihilating_spin",
+   "kind": "sound",
+   "target": 112
+  },
+  {
+   "id": 554,
+   "name": "sfx_skill_warrior_bsk_bloodmoon_howl",
+   "kind": "sound",
+   "target": 109
+  },
+  {
+   "id": 555,
+   "name": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_fear",
+   "kind": "sound",
+   "target": 110
+  },
+  {
+   "id": 556,
+   "name": "sfx_skill_warrior_bsk_bloodmoon_howl_hit_stun",
+   "kind": "sound",
+   "target": 111
+  },
+  {
+   "id": 557,
+   "name": "sfx_skill_warrior_bsk_crippling_strike",
+   "kind": "sound",
+   "target": 108
+  },
+  {
+   "id": 558,
+   "name": "sfx_skill_warrior_pld_alastor_blessing",
+   "kind": "sound",
+   "target": 104
+  },
+  {
+   "id": 559,
+   "name": "sfx_skill_warrior_pld_condemnation",
+   "kind": "sound",
+   "target": 107
+  },
+  {
+   "id": 560,
+   "name": "sfx_skill_warrior_pld_crusade",
+   "kind": "sound",
+   "target": 105
+  },
+  {
+   "id": 561,
+   "name": "sfx_skill_warrior_pld_spiritual_sight",
+   "kind": "sound",
+   "target": 106
+  },
+  {
+   "id": 562,
+   "name": "sfx_skydevil_attack_1",
+   "kind": "sound",
+   "target": 410
+  },
+  {
+   "id": 563,
+   "name": "sfx_skydevil_attack_2",
+   "kind": "sound",
+   "target": 411
+  },
+  {
+   "id": 564,
+   "name": "sfx_skydevil_attack_3",
+   "kind": "sound",
+   "target": 412
+  },
+  {
+   "id": 565,
+   "name": "sfx_skydevil_death_1",
+   "kind": "sound",
+   "target": 413
+  },
+  {
+   "id": 566,
+   "name": "sfx_skydevil_death_2",
+   "kind": "sound",
+   "target": 414
+  },
+  {
+   "id": 567,
+   "name": "sfx_skydevil_hurt_1",
+   "kind": "sound",
+   "target": 415
+  },
+  {
+   "id": 568,
+   "name": "sfx_skydevil_hurt_2",
+   "kind": "sound",
+   "target": 416
+  },
+  {
+   "id": 569,
+   "name": "sfx_soulcrusher_attack_1",
+   "kind": "sound",
+   "target": 417
+  },
+  {
+   "id": 570,
+   "name": "sfx_soulcrusher_attack_2",
+   "kind": "sound",
+   "target": 418
+  },
+  {
+   "id": 571,
+   "name": "sfx_soulcrusher_attack_3",
+   "kind": "sound",
+   "target": 419
+  },
+  {
+   "id": 572,
+   "name": "sfx_soulcrusher_death_1",
+   "kind": "sound",
+   "target": 420
+  },
+  {
+   "id": 573,
+   "name": "sfx_soulcrusher_death_2",
+   "kind": "sound",
+   "target": 421
+  },
+  {
+   "id": 574,
+   "name": "sfx_soulcrusher_hurt_1",
+   "kind": "sound",
+   "target": 422
+  },
+  {
+   "id": 575,
+   "name": "sfx_soulcrusher_hurt_2",
+   "kind": "sound",
+   "target": 423
+  },
+  {
+   "id": 576,
+   "name": "sfx_specter_attack_energyball_cast",
+   "kind": "sound",
+   "target": 391
+  },
+  {
+   "id": 577,
+   "name": "sfx_specter_attack_energyball_explosion",
+   "kind": "sound",
+   "target": 392
+  },
+  {
+   "id": 578,
+   "name": "sfx_specter_light_beam_attack",
+   "kind": "sound",
+   "target": 388
+  },
+  {
+   "id": 579,
+   "name": "sfx_specter_light_beam_attack_pre",
+   "kind": "sound",
+   "target": 389
+  },
+  {
+   "id": 580,
+   "name": "sfx_specter_rock_attack",
+   "kind": "sound",
+   "target": 390
+  },
+  {
+   "id": 581,
+   "name": "sfx_spell_fire_big",
+   "kind": "sound",
+   "target": 97
+  },
+  {
+   "id": 582,
+   "name": "sfx_spell_fire_medium",
+   "kind": "sound",
+   "target": 96
+  },
+  {
+   "id": 583,
+   "name": "sfx_spell_fire_small",
+   "kind": "sound",
+   "target": 95
+  },
+  {
+   "id": 584,
+   "name": "sfx_spell_lightning_big",
+   "kind": "sound",
+   "target": 90
+  },
+  {
+   "id": 585,
+   "name": "sfx_spell_lightning_medium",
+   "kind": "sound",
+   "target": 89
+  },
+  {
+   "id": 586,
+   "name": "sfx_spell_lightning_small",
+   "kind": "sound",
+   "target": 88
+  },
+  {
+   "id": 587,
+   "name": "sfx_spell_water_big",
+   "kind": "sound",
+   "target": 100
+  },
+  {
+   "id": 588,
+   "name": "sfx_spell_water_medium",
+   "kind": "sound",
+   "target": 99
+  },
+  {
+   "id": 589,
+   "name": "sfx_spell_water_small",
+   "kind": "sound",
+   "target": 98
+  },
+  {
+   "id": 590,
+   "name": "sfx_statue_attack",
+   "kind": "sound",
+   "target": 302
+  },
+  {
+   "id": 591,
+   "name": "sfx_statue_cherub_attack",
+   "kind": "sound",
+   "target": 306
+  },
+  {
+   "id": 592,
+   "name": "sfx_statue_cherub_die",
+   "kind": "sound",
+   "target": 307
+  },
+  {
+   "id": 593,
+   "name": "sfx_statue_cherub_hurt_1",
+   "kind": "sound",
+   "target": 308
+  },
+  {
+   "id": 594,
+   "name": "sfx_statue_cherub_hurt_2",
+   "kind": "sound",
+   "target": 309
+  },
+  {
+   "id": 595,
+   "name": "sfx_statue_frost_attack",
+   "kind": "sound",
+   "target": 304
+  },
+  {
+   "id": 596,
+   "name": "sfx_statue_heat_attack",
+   "kind": "sound",
+   "target": 303
+  },
+  {
+   "id": 597,
+   "name": "sfx_steam_loop",
+   "kind": "sound",
+   "target": 187
+  },
+  {
+   "id": 598,
+   "name": "sfx_swoosh_dagger_1",
+   "kind": "sound",
+   "target": 24
+  },
+  {
+   "id": 599,
+   "name": "sfx_swoosh_dagger_2",
+   "kind": "sound",
+   "target": 25
+  },
+  {
+   "id": 600,
+   "name": "sfx_swoosh_staff_1",
+   "kind": "sound",
+   "target": 26
+  },
+  {
+   "id": 601,
+   "name": "sfx_swoosh_staff_2",
+   "kind": "sound",
+   "target": 27
+  },
+  {
+   "id": 602,
+   "name": "sfx_tap_dialog",
+   "kind": "sound",
+   "target": 17
+  },
+  {
+   "id": 603,
+   "name": "sfx_telepoint_loop",
+   "kind": "sound",
+   "target": 177
+  },
+  {
+   "id": 604,
+   "name": "sfx_teleport",
+   "kind": "sound",
+   "target": 174
+  },
+  {
+   "id": 605,
+   "name": "sfx_trap_armed",
+   "kind": "sound",
+   "target": 171
+  },
+  {
+   "id": 606,
+   "name": "sfx_unnamed_one_attack",
+   "kind": "sound",
+   "target": 347
+  },
+  {
+   "id": 607,
+   "name": "sfx_unnamed_one_die",
+   "kind": "sound",
+   "target": 348
+  },
+  {
+   "id": 608,
+   "name": "sfx_unnamed_one_fire_loop",
+   "kind": "sound",
+   "target": 192
+  },
+  {
+   "id": 609,
+   "name": "sfx_unnamed_one_vortex_fire_loop",
+   "kind": "sound",
+   "target": 194
+  },
+  {
+   "id": 610,
+   "name": "sfx_unnamed_one_vortex_loop",
+   "kind": "sound",
+   "target": 193
+  },
+  {
+   "id": 611,
+   "name": "sfx_well_scream_loop",
+   "kind": "sound",
+   "target": 191
+  },
+  {
+   "id": 612,
+   "name": "sfx_witch_attack",
+   "kind": "sound",
+   "target": 331
+  },
+  {
+   "id": 613,
+   "name": "sfx_witch_attack_impact",
+   "kind": "sound",
+   "target": 332
+  },
+  {
+   "id": 614,
+   "name": "sfx_witch_die",
+   "kind": "sound",
+   "target": 335
+  },
+  {
+   "id": 615,
+   "name": "sfx_witch_hurt_1",
+   "kind": "sound",
+   "target": 333
+  },
+  {
+   "id": 616,
+   "name": "sfx_witch_hurt_2",
+   "kind": "sound",
+   "target": 334
+  },
+  {
+   "id": 617,
+   "name": "sfx_witch_spawn",
+   "kind": "sound",
+   "target": 330
+  },
+  {
+   "id": 618,
+   "name": "sfx_wolf_attack",
+   "kind": "sound",
+   "target": 338
+  },
+  {
+   "id": 619,
+   "name": "sfx_wolf_die",
+   "kind": "sound",
+   "target": 339
+  },
+  {
+   "id": 620,
+   "name": "sfx_wolf_howl",
+   "kind": "sound",
+   "target": 340
+  },
+  {
+   "id": 621,
+   "name": "sfx_wolf_hurt",
+   "kind": "sound",
+   "target": 337
+  },
+  {
+   "id": 622,
+   "name": "sfx_wolf_spawn",
+   "kind": "sound",
+   "target": 336
+  },
+  {
+   "id": 623,
+   "name": "sfx_worm_attack_1",
+   "kind": "sound",
+   "target": 344
+  },
+  {
+   "id": 624,
+   "name": "sfx_worm_attack_2",
+   "kind": "sound",
+   "target": 345
+  },
+  {
+   "id": 625,
+   "name": "sfx_worm_die",
+   "kind": "sound",
+   "target": 346
+  },
+  {
+   "id": 626,
+   "name": "sfx_worm_hurt_1",
+   "kind": "sound",
+   "target": 342
+  },
+  {
+   "id": 627,
+   "name": "sfx_worm_hurt_2",
+   "kind": "sound",
+   "target": 343
+  },
+  {
+   "id": 628,
+   "name": "sfx_worm_spawn",
+   "kind": "sound",
+   "target": 341
+  },
+  {
+   "id": 629,
+   "name": "sfx_yeti_attack_1",
+   "kind": "sound",
+   "target": 297
+  },
+  {
+   "id": 630,
+   "name": "sfx_yeti_attack_2",
+   "kind": "sound",
+   "target": 298
+  },
+  {
+   "id": 631,
+   "name": "sfx_yeti_die",
+   "kind": "sound",
+   "target": 299
+  },
+  {
+   "id": 632,
+   "name": "sfx_yeti_hurt_1",
+   "kind": "sound",
+   "target": 300
+  },
+  {
+   "id": 633,
+   "name": "sfx_yeti_hurt_2",
+   "kind": "sound",
+   "target": 301
+  },
+  {
+   "id": 634,
+   "name": "vfx_mp_attack",
+   "kind": "sound",
+   "target": 462
+  },
+  {
+   "id": 635,
+   "name": "vfx_mp_follow",
+   "kind": "sound",
+   "target": 460
+  },
+  {
+   "id": 636,
+   "name": "vfx_mp_help",
+   "kind": "sound",
+   "target": 461
+  },
+  {
+   "id": 637,
+   "name": "vfx_mp_retreat",
+   "kind": "sound",
+   "target": 463
+  }
+ ]
+}

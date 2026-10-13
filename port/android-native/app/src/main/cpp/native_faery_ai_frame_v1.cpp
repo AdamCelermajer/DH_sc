@@ -112,6 +112,42 @@ Status Owner::tick(character::Coordinator& coordinator, Host& host,
     return result->status;
 }
 
+Status Owner::update_master_only(Host& host, std::int32_t machine_state, Result* result) {
+    if (!result) return Status::invalid_argument;
+    *result = {};
+    if (!ai_) {
+        result->status = Status::not_bound;
+        return result->status;
+    }
+    if (busy_) {
+        result->status = Status::busy;
+        return result->status;
+    }
+    BusyScope scope(busy_);
+    host_ = &host;
+    result_ = result;
+    error_.clear();
+    machine_state_ = machine_state;
+    std::int32_t status = 1;
+    try {
+        status = update_master();
+    } catch (const std::exception& exception) {
+        if (error_.empty()) error_ = exception.what();
+    } catch (...) {
+        if (error_.empty()) error_ = "CharAI::_UpdateMaster threw";
+    }
+    result->update_master_status = status;
+    host_ = nullptr;
+    result_ = nullptr;
+    if (status == 0) {
+        result->status = Status::complete;
+        return result->status;
+    }
+    result->status = Status::source_failed;
+    result->error = error_.empty() ? "CharAI::_UpdateMaster rejected its providers" : error_;
+    return result->status;
+}
+
 std::int32_t Owner::dispatch_frame(void* context, character::AIFrameState32*,
         const character::AIFrameRequest16* request, std::uint32_t* value) {
     if (!context || !request || !value) return 1;

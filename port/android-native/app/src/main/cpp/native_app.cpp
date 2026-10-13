@@ -27,6 +27,14 @@ bool report_model_frame=true;
 dh2::android_ui::OriginalUiSession original_ui;
 AAssetManager* menu_assets=nullptr;
 bool ui_frame_failed=false;
+// First frame-path failure not yet shown to the player. Every failure is logged;
+// Java consumes this once per frame (NativeBridge.consumeFrameError) and puts it
+// on screen, so a failed frame never degrades into a silent frozen/blank game.
+std::string pending_frame_error;
+void report_frame_failure(const char* stage,const std::string& what){
+  __android_log_print(ANDROID_LOG_ERROR,"DH2Native","%s: %s",stage,what.c_str());
+  if(pending_frame_error.empty())pending_frame_error=std::string(stage)+": "+what;
+}
 std::string menu_directory;
 bool difficulty_count(void*,std::uint32_t* count,std::string& error){return count&&original_ui.game_difficulty_count(*count,error);}
 void bind_menu_runtime(){
@@ -205,7 +213,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
   glClearColor(0.08f,0.09f,0.11f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
   if(original_ui.active()&&!original_ui.overlays_player()){
     std::string error;if(!original_ui.render(surface_width,surface_height,error)){
-      if(!ui_frame_failed)__android_log_print(ANDROID_LOG_ERROR,tag,"Original menu frame failed: %s",error.c_str());ui_frame_failed=true;
+      if(!ui_frame_failed)report_frame_failure("Original menu frame failed",error);ui_frame_failed=true;
     }return;
   }
   if(model_renderer::active()){
@@ -216,7 +224,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
         const bool ok=model_renderer::with_player_status_sheet(nullptr,[](void*,const std::int32_t* sheet,std::size_t count,std::uintptr_t character,std::string& failure){
           return original_ui.render_player(surface_width,surface_height,sheet,count,character,failure);
         },error);
-        if(!ok&&!ui_frame_failed){__android_log_print(ANDROID_LOG_ERROR,tag,"Player HUD frame failed: %s",error.c_str());ui_frame_failed=true;}
+        if(!ok&&!ui_frame_failed){report_frame_failure("Player HUD frame failed",error);ui_frame_failed=true;}
       }
       if(original_ui.overlays_player())debug_scenario.step(surface_width,surface_height,[](float x,float y,int action){
         std::string touch_error;
@@ -224,11 +232,11 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
           __android_log_print(ANDROID_LOG_WARN,"DH2Scenario","Scenario tap failed | %s",touch_error.c_str());
       });
     } catch(const std::exception& e) {
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
+      report_frame_failure("Native frame failed",e.what());
       model_renderer::deactivate();
       return;
     } catch(...) {
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: unknown exception");
+      report_frame_failure("Native frame failed","unknown exception");
       model_renderer::deactivate();
       return;
     }
@@ -328,6 +336,15 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_returnToM
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouch(JNIEnv* env,jclass,jfloat x,jfloat y,jint action){
  std::string error;if(!original_ui.touch(x,y,action,error))return result(env,"Menu touch failed: "+error);
+ if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
+ return result(env,"");
+}
+// Multi-touch gameplay entry: `pointer` is the source finger index 0..3 that
+// MainActivity assigned to the MotionEvent pointer id. The HUD sees the finger
+// first, the gameplay camera only the fingers the HUD left alone.
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouchPointer(JNIEnv* env,jclass,jfloat x,jfloat y,jint action,jint pointer){
+ if(pointer<0)return result(env,"Menu touch failed: negative pointer index");
+ std::string error;if(!original_ui.pointer(x,y,action,static_cast<std::uint32_t>(pointer),error))return result(env,"Menu touch failed: "+error);
  if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
  return result(env,"");
 }
@@ -446,6 +463,10 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_transitio
       auto* ui=static_cast<dh2::android_ui::OriginalUiSession*>(raw);
       return ui&&ui->display_fast_travel(sourceFlag,first,second,entry,error);
      }));
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeFrameError(JNIEnv* env,jclass){
+  std::string text;text.swap(pending_frame_error);
+  return result(env,text);
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeMenuAudio(JNIEnv* env,jclass){return result(env,original_ui.consume_menu_audio());}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeMenuSound(JNIEnv* env,jclass){

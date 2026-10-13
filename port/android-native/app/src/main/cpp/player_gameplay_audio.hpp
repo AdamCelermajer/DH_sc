@@ -1,7 +1,10 @@
 #pragma once
 #include "../../../../../engine-audio/spatial_playback_contract_v1.hpp"
 #include "../../../../../level-world/character_combat_sound_v1.hpp"
+#include "gameplay_sfx_catalog_v1.hpp"
+#include "gameplay_sfx_types_v1.hpp"
 #include "source_sound_names_v1.hpp"
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cmath>
@@ -12,19 +15,13 @@
 #include <mutex>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace dh2::player_gameplay_audio {
-// Source: original data/sounds/sounds_he.xml PCM, retained skill and monster
-// playback subset. UID is the original sound-pack UID used by StopSound.
-struct CatalogEntry {
-    const char* label;
-    const char* catalog_filename;
-    const char* filename;
-    std::uint16_t uid;
-    // Original SDD Sounds-table ID consumed by VoxSoundManager::Play3D.
-    // Most script cues enter by label and do not need this field.
-    std::uint16_t source_sound_id=0xffff;
-};
+// The hand-audited retained playback subset (skills, Faery spells, CharSounds,
+// cutscene cues). CatalogEntry and the Sounds.xml attribute rows live in
+// gameplay_sfx_types_v1.hpp; every other staged Sounds.xml SFX is in the
+// generated extended_catalog (gameplay_sfx_catalog_v1.hpp).
 inline constexpr std::array<CatalogEntry,51> catalog{{
     {"sfx_impact_burst_shot","sfx_impact_burst_shot.wav","sfx_impact_burst_shot.wav",63,457},
     {"sfx_passive_skill_activate_1","sfx_passive_skill_activate_1.wav","sfx_passive_skill_activate_1.wav",143,503},
@@ -150,15 +147,111 @@ inline const CatalogEntry* find_label(const char* label,std::size_t length){
     if(!label||!length)return nullptr;
     const std::string_view requested(label,length);
     for(const auto& entry:catalog)if(requested==entry.label)return &entry;
+    for(const auto& entry:extended_catalog)if(requested==entry.label)return &entry;
     return nullptr;
 }
 // sounds.xml UID (the VoxSoundManager::Play argument used by level scripts).
 inline const CatalogEntry* find_uid(std::uint16_t uid){
     for(const auto& entry:catalog)if(entry.uid==uid)return &entry;
+    for(const auto& entry:extended_catalog)if(entry.uid==uid)return &entry;
     return nullptr;
 }
 inline const CatalogEntry* find_source_sound_id(std::uint16_t id){
+    if(id==0xffff)return nullptr;
     for(const auto& entry:catalog)if(entry.source_sound_id==id)return &entry;
+    for(const auto& entry:extended_catalog)if(entry.source_sound_id==id)return &entry;
+    return nullptr;
+}
+// Sounds.xml attribute rows for every playable UID (sorted by UID).
+inline const SfxDefV1* find_sfx_def(std::uint16_t uid) noexcept {
+    const auto it=std::lower_bound(sfx_defs.begin(),sfx_defs.end(),uid,
+        [](const SfxDefV1& row,std::uint16_t value){return row.uid<value;});
+    return it!=sfx_defs.end()&&it->uid==uid?&*it:nullptr;
+}
+inline const SfxBankV1* find_sfx_bank(std::uint8_t id) noexcept {
+    return id<sfx_banks.size()?&sfx_banks[id]:nullptr;
+}
+inline const SfxGroupV1* find_sfx_group(std::uint8_t id) noexcept {
+    return id<sfx_groups.size()?&sfx_groups[id]:nullptr;
+}
+inline const SfxEventV1* find_sfx_event(std::uint8_t id) noexcept {
+    for(const auto& event:sfx_events)if(event.id==id)return &event;
+    return nullptr;
+}
+// SDD Sounds rows that name a Sounds.xml <event> rather than a sound UID.
+inline const SfxEventRowV1* find_sfx_event_row(std::uint16_t row) noexcept {
+    const auto it=std::lower_bound(sfx_event_rows.begin(),sfx_event_rows.end(),row,
+        [](const SfxEventRowV1& entry,std::uint16_t value){return entry.row<value;});
+    return it!=sfx_event_rows.end()&&it->row==row?&*it:nullptr;
+}
+// Sound-pack Group pos3d == 0 emitters never receive a position (the else branch
+// of PlaySoundPackSound sets raw parameter 0 = 1): centred, no distance gain.
+// Vox::VoxEngine::Play (0x8621c0) receives the Sounds.xml loop flag from
+// VoxSoundPackXML::GetEmitterInfo, never the script/caller argument (Play 0x36b80c
+// and PlaySoundPackSound 0x36a7c0 ignore it), so the XML flag decides.
+inline bool source_loop(std::uint16_t uid,bool requested) noexcept {
+    const auto* def=find_sfx_def(uid);
+    return def?def->loop:requested;
+}
+inline bool sfx_is_positional(std::uint16_t uid) noexcept {
+    const auto* def=find_sfx_def(uid);
+    const auto* group=def?find_sfx_group(def->group):nullptr;
+    return !group||group->pos3d!=0;
+}
+// vox::VoxSoundPackXML::GetEventSoundUid (0x88bb6c). The original draws from
+// lrand48(); the default stream is the POSIX 48-bit LCG. Playlist events cycle
+// in order; random events never repeat any of the last `history` picks.
+class EventPicker {
+public:
+    static EventPicker& instance(){static EventPicker value;return value;}
+    void seed(std::uint32_t value){
+        std::lock_guard<std::mutex> lock(mutex_);
+        state_=(std::uint64_t(value)<<16)|0x330eu;seeded_=true;states_={};
+    }
+    // Returns the picked UID, or -1 for the probability miss (nothing plays).
+    std::int32_t pick(const SfxEventV1& event){
+        std::lock_guard<std::mutex> lock(mutex_);
+        if(!event.count||event.id>=states_.size())return -1;
+        if(lrand48_locked()%100>=event.probability)return -1;
+        auto& state=states_[event.id];
+        if(!state.ready){
+            state.pool.assign(event.uids.begin(),event.uids.begin()+event.count);
+            state.index=event.count;state.ready=true;
+        }
+        if(event.playlist){
+            if(state.index>=event.count)state.index=0;
+            return event.uids[state.index++];
+        }
+        const auto at=static_cast<std::size_t>(lrand48_locked()%state.pool.size());
+        const auto uid=state.pool[at];
+        state.pool[at]=state.pool.back();state.pool.pop_back();
+        state.history.push_back(uid);
+        if(state.history.size()>event.history||state.pool.empty()){
+            state.pool.push_back(state.history.front());state.history.erase(state.history.begin());
+        }
+        return uid;
+    }
+private:
+    struct State {
+        bool ready=false;
+        std::size_t index=0;
+        std::vector<std::uint16_t> pool,history;
+    };
+    std::uint32_t lrand48_locked(){
+        if(!seeded_){state_=0x1234abcd330eULL;seeded_=true;}
+        state_=(state_*0x5deece66dULL+0xbULL)&0xffffffffffffULL;
+        return static_cast<std::uint32_t>(state_>>17);
+    }
+    std::mutex mutex_;
+    bool seeded_=false;
+    std::uint64_t state_=0;
+    std::array<State,64> states_{};
+};
+// First staged member of an event; representative playback entry for status
+// reporting (the real member is chosen per call by EventPicker).
+inline const CatalogEntry* first_event_member(const SfxEventV1& event) noexcept {
+    for(std::size_t i=0;i<event.count;++i)
+        if(const auto* entry=find_uid(event.uids[i]))return entry;
     return nullptr;
 }
 enum class SourceSoundStatusV1 : std::uint8_t {
@@ -184,6 +277,10 @@ inline SourceSoundResolutionV1 resolve_source_sound_name(
     result.source=find_source_sound_name(name);
     if(!result.source)return result;
     result.playback=find_source_sound_id(result.source->id);
+    if(!result.playback)
+        if(const auto* row=find_sfx_event_row(result.source->id))
+            if(const auto* event=find_sfx_event(row->event))
+                result.playback=first_event_member(*event);
     result.status=result.playback?SourceSoundStatusV1::playable:
                                   SourceSoundStatusV1::known_but_unavailable;
     return result;
@@ -205,12 +302,13 @@ inline SourceSoundResolutionV1 resolve_sfx_marker_sound(
     // semantics as a fallback rather than inventing a prefixed lookup.
     return resolve_source_sound_name(marker_name);
 }
-inline bool enqueue_spatial_match(
-    const CatalogEntry* match,std::uint16_t request_sound_id,
-    std::uintptr_t owner,bool looping,std::int32_t fade_ms,
-    const engine_audio::spatial_playback_contract_v1::Request& request){
+// Q14 left/right gains of one Play3D request: the model-2 distance gain folded
+// into the equal-power pan. Fails closed on any invalid request, like the
+// original contract.
+inline bool spatial_gains_q14(
+    const engine_audio::spatial_playback_contract_v1::Request& request,
+    std::int32_t& left,std::int32_t& right){
     using namespace engine_audio::spatial_playback_contract_v1;
-    if(!match||request.sound_id!=request_sound_id)return false;
     const auto spatial=evaluate_stereo_pan(request);
     if((spatial.status!=StereoPanStatus::ready&&
         spatial.status!=StereoPanStatus::degenerate_center)||
@@ -218,17 +316,29 @@ inline bool enqueue_spatial_match(
     if(spatial.left_q14<0||spatial.left_q14>16384||
        spatial.right_q14<0||spatial.right_q14>16384||
        spatial.distance_gain_q14<0||spatial.distance_gain_q14>16384)return false;
-    const auto left=static_cast<std::int32_t>(
+    left=static_cast<std::int32_t>(
         (std::int64_t(spatial.left_q14)*spatial.distance_gain_q14)>>14);
-    const auto right=static_cast<std::int32_t>(
+    right=static_cast<std::int32_t>(
         (std::int64_t(spatial.right_q14)*spatial.distance_gain_q14)>>14);
+    return true;
+}
+inline bool enqueue_spatial_match(
+    const CatalogEntry* match,std::uint16_t request_sound_id,
+    std::uintptr_t owner,bool looping,std::int32_t fade_ms,
+    const engine_audio::spatial_playback_contract_v1::Request& request){
+    if(!match||request.sound_id!=request_sound_id)return false;
+    std::int32_t left=0,right=0;
+    if(!spatial_gains_q14(request,left,right))return false;
+    // Non-positional Sounds.xml groups (sfx_int, sfx_prod_elements, ambience)
+    // play centred at full gain even through Play3D.
+    if(!sfx_is_positional(match->uid))left=right=16384;
     std::lock_guard<std::mutex> lock(queue_mutex());
     auto& pending=queue();
     const auto now=std::chrono::steady_clock::now();
     prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
-    pending.push_back({Kind::play,owner,match->uid,fade_ms,looping,match->filename,now,
-                       true,left,right});
+    pending.push_back({Kind::play,owner,match->uid,fade_ms,source_loop(match->uid,looping),
+                       match->filename,now,true,left,right});
     return true;
 }
 inline bool enqueue_play(const char* label,std::size_t length,std::uintptr_t owner,
@@ -240,7 +350,8 @@ inline bool enqueue_play(const char* label,std::size_t length,std::uintptr_t own
     const auto now=std::chrono::steady_clock::now();
     prune_expired_plays_locked(now);
     if(pending.size()>=queue_limit)return false;
-    pending.push_back({Kind::play,owner,match->uid,fade_ms,looping,match->filename,now});
+    pending.push_back({Kind::play,owner,match->uid,fade_ms,source_loop(match->uid,looping),
+                       match->filename,now});
     return true;
 }
 inline bool enqueue_spatial_play(
@@ -250,6 +361,15 @@ inline bool enqueue_spatial_play(
     const auto* match=find_label(label,length);
     return enqueue_spatial_match(match,match?match->uid:0,owner,looping,fade_ms,request);
 }
+// VoxSoundManager::Play3D (0x36b5d8) returns void: a valid SDD Sounds row whose
+// PCM is not among the retained assets (most monster, door and loot sounds are
+// absent from the supplied cache) is audible silence, never a failed gameplay
+// action. Producers that treat a rejected enqueue as an error check this first.
+inline bool source_row_without_pcm(std::uint16_t source_sound_id) noexcept {
+    return source_sound_id<source_sound_names_v1.size()&&
+           !find_source_sound_id(source_sound_id)&&
+           !find_sfx_event_row(source_sound_id);
+}
 // CharSounds stores IDs from the SDD Sounds array; the queue and StopSound
 // owner need the resolved sounds.xml UID and exact packaged PCM filename.
 inline bool enqueue_spatial_source_sound(
@@ -257,7 +377,42 @@ inline bool enqueue_spatial_source_sound(
     std::int32_t fade_ms,
     const engine_audio::spatial_playback_contract_v1::Request& request){
     const auto* match=find_source_sound_id(source_sound_id);
+    if(!match){
+        // An SDD row flagged as an event (Play3D -> PlayEvent): validate the
+        // request exactly like a direct row, then let GetEventSoundUid choose.
+        // A probability miss or an event member without retained PCM is the
+        // source "nothing plays" outcome, not a failure.
+        const auto* row=find_sfx_event_row(source_sound_id);
+        const auto* event=row?find_sfx_event(row->event):nullptr;
+        if(!event)return false;
+        std::int32_t left=0,right=0;
+        if(request.sound_id!=source_sound_id||!spatial_gains_q14(request,left,right))
+            return false;
+        const auto uid=EventPicker::instance().pick(*event);
+        const auto* member=uid<0?nullptr:find_uid(static_cast<std::uint16_t>(uid));
+        if(!member)return true;
+        return enqueue_spatial_match(member,source_sound_id,owner,looping,fade_ms,request);
+    }
     return enqueue_spatial_match(match,source_sound_id,owner,looping,fade_ms,request);
+}
+enum class MenuSoundResultV1 : std::uint8_t {queued,unavailable,unknown,rejected};
+// NativePlaySoundFX 0x43ae10 -> Arrays::GetMemberIDByString<Sounds> ->
+// VoxSoundManager::PlayMenu 0x36bc34 -> Play(id,loop=0,fade=0,group=0,menu=true):
+// the Sounds row's UID plays 2D (raw emitter parameter 0 = 1), non-positional,
+// with the Sounds.xml loop flag. Event rows are not valid PlayMenu targets.
+inline MenuSoundResultV1 enqueue_source_menu_sound(std::string_view name){
+    const auto resolved=resolve_source_sound_name(name);
+    if(resolved.status==SourceSoundStatusV1::not_in_source_table)
+        return MenuSoundResultV1::unknown;
+    const auto* match=resolved.source?find_source_sound_id(resolved.source->id):nullptr;
+    if(!match)return MenuSoundResultV1::unavailable;
+    std::lock_guard<std::mutex> lock(queue_mutex());
+    auto& pending=queue();
+    const auto now=std::chrono::steady_clock::now();
+    prune_expired_plays_locked(now);
+    if(pending.size()>=queue_limit)return MenuSoundResultV1::rejected;
+    pending.push_back({Kind::play,0,match->uid,0,source_loop(match->uid,false),match->filename,now});
+    return MenuSoundResultV1::queued;
 }
 inline bool enqueue(const char* label,std::size_t length,bool looping){
     return enqueue_play(label,length,0,looping,0);

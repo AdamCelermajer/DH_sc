@@ -1,5 +1,6 @@
 #include "original_ui_session.hpp"
 #include "gameplay_main_menu_request_v1.hpp"
+#include "native_gameplay_touch_v1.hpp"
 #include "../../../../../engine-ui/inventory_click_binding_v1.hpp"
 #include "../../../../../engine-ui/hud_manager.hpp"
 #include "../../../../../engine-ui/native_use_potion_call_v1.hpp"
@@ -25,6 +26,7 @@ extern "C" {
 #include "authored_hud_edge_layout_v6.hpp"
 #include "textures.hpp"
 #include "original_menu_sound_data.hpp"
+#include "player_gameplay_audio.hpp"
 #include "swf_menu_sound.hpp"
 #include "swf_menu_navigation.hpp"
 #include "swf_menu_options.hpp"
@@ -175,7 +177,10 @@ struct OriginalUiSession::Impl {
     // operation until the current authored HUD click has returned.
     dh2::native::GameplayMainMenuRequestV1 gameplay_main_menu_request;
     ui::DeferredHudRefreshV1 gameplay_hud_refresh;
-    bool gameplay_multitouch_enabled=false;
+    // NativeSetMultitouch writes MenuManager+0x110, which MenuManager::onEvent
+    // (0x430d68) reads as a lock: while it is set, fingers 1..3 are consumed
+    // without reaching any menu. The skill-tree drag raises it; it is clear by default.
+    bool gameplay_multitouch_locked=false;
     std::int32_t hud_style=-1;
     model_renderer::UiPlayerHudProjectionV1 gameplay_hud_state{};
     ui::HudManagerState gameplay_enemy_hud_state{};
@@ -188,7 +193,7 @@ struct OriginalUiSession::Impl {
     bool gameplay_hud_projection_warned=false;
     bool inventory_callback_probe_logged=false;
     std::uintptr_t gameplay_character_button{};
-    bool gameplay_character_button_pressed=false;
+    std::array<bool,4> gameplay_character_button_pressed{{false,false,false,false}};
     // NativeMerchantSellItem consumes MenuManager's one-shot gate. MenuBase::Hide
     // resets that source gate for the next merchant-menu lifetime.
     bool merchant_sell_one_shot_used=false;
@@ -259,8 +264,31 @@ struct OriginalUiSession::Impl {
     // current authored player; it creates no second SWF/player owner.
     std::unique_ptr<ui::AuthoredGameplayHudV1> gameplay_hud;
     bool gameplay_hud_bound=false;
-    int gameplay_hud_pointer=-1;
-    bool gameplay_ui_touch_owned=false;
+    // One entry per source finger index (MenuManager::onEvent cursor 0..3). The
+    // authored joystick and attack buttons are separate SWF buttons, so two
+    // fingers hold them at once; a control is captured by one finger only.
+    std::array<int,4> gameplay_hud_pointers{{-1,-1,-1,-1}};
+    // The menus consumed this finger's press, so ZoomHandler never sees it.
+    std::array<bool,4> gameplay_ui_touch_owned{{false,false,false,false}};
+    // ZoomHandler's finger map: fingers the menus left alone drive the camera.
+    dh2::native::gameplay_touch_v1::CameraFingerMap camera_fingers;
+    unsigned camera_pans_delivered=0,camera_pans_applied=0,camera_pinches_delivered=0;
+    bool hud_control_held(int control)const noexcept{
+        return std::find(gameplay_hud_pointers.begin(),gameplay_hud_pointers.end(),control)!=gameplay_hud_pointers.end();
+    }
+    // No menu covers the world: the gameplay HUD layer is active, and the only menu
+    // that may be open is the map, which drives its own CameraLevel.
+    bool camera_layer_open()const noexcept{
+        return front_screen.empty()&&live_player&&gameplay_hud_active&&
+            (game_menu_stack.empty()||game_menu_stack.back()=="menu_MapSheet");
+    }
+    // A tap that landed on the authored DialogBox is owned by it until released.
+    bool dialog_touch_owned=false;
+    // StopDialog popped a DialogMsg and another one waits: the SWF StartDialog
+    // callback is re-entered once the dispatch that popped it has unwound.
+    bool dialog_start_pending=false;
+    // Same for StatusMsg: onStatusMessage is re-entered after the dispatch unwinds.
+    bool status_start_pending=false;
     bool source_cutscene_active=false;
     ui::AuthoredJoystickStateV1 authored_joystick{};
     bool authored_joystick_ready=false;
@@ -632,7 +660,7 @@ struct OriginalUiSession::Impl {
         // calls the current Player controller's Cmd_Stop. Reuse the attached
         // HUD/joystick and Player controller; do not construct another HUD.
         self.gameplay_hud_input_reset_pending=true;
-        self.gameplay_hud_pointer=-1;
+        self.gameplay_hud_pointers.fill(-1);self.camera_fingers.reset();
         std::uintptr_t identity=0;
         if(!model_renderer::ui_player_identity(identity,error))return false;
         return ui::authored_joystick_release_v1(self.authored_joystick,identity!=0,
@@ -1013,9 +1041,92 @@ struct OriginalUiSession::Impl {
         if(!self.source_dialog_messages.stop(start_next)){
             error.clear();return true;
         }
-        if(start_next&&!self.movie->action_script(&self,invoke_source_dialog_start,error))
-            return false;
+        // MenuBase::FS_StopDialog 0x427b08 / SkipEnqueuedMessage 0x442c1c invoke
+        // StartDialog at once when another DialogMsg remains. Here the pop is
+        // reached from inside the authored SWF's own dispatch (the DialogBox hide
+        // animation's NativeStopMessage, the StopDialog FSCommand), where a nested
+        // action_script is refused as busy and the next message was never shown.
+        // The callback is deferred until that dispatch has unwound.
+        if(start_next)self.dialog_start_pending=true;
         error.clear();return true;
+    }
+    static bool flush_pending_dialog_start(Impl& self,std::string& error){
+        error.clear();
+        if(self.status_start_pending){
+            self.status_start_pending=false;
+            if(self.source_status_messages.active()&&self.gameplay_hud&&self.gameplay_hud_bound&&
+               !self.gameplay_hud->notify_status_message(error))return false;
+            error.clear();
+        }
+        if(!self.dialog_start_pending)return true;
+        self.dialog_start_pending=false;
+        if(!self.source_dialog_messages.active())return true;
+        if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+           !self.movie){
+            error="Queued DialogMsg has no retained gameplay HUD movie";return false;
+        }
+        return self.movie->action_script(&self,invoke_source_dialog_start,error);
+    }
+    struct DialogBoxProbe {bool tappable{};};
+    // The source DialogBox is a root-level clip above the HUD (depth 365 against
+    // menu_HUD_n at 17) whose full-screen btn_next catches every tap while it is
+    // visible: RenderFX hits the whole retained root. This port binds the HUD
+    // input to menu_HUD_0 alone, so the dialog never saw a tap and its script
+    // (LockCharacter "All" + WaitDialog) kept the Player locked forever.
+    static bool dialog_box_tappable(Impl& self,bool& tappable,std::string& error){
+        DialogBoxProbe probe;
+        if(!self.movie->action_script(&probe,
+            [](void* raw,ui::SwfAsGraph& graph,std::string& nested){
+                auto& result=*static_cast<DialogBoxProbe*>(raw);
+                ui::SwfAsValue root,box,button,visible;bool found=false,flag=false;
+                if(!graph.root_value(root,nested)||
+                   !graph.find_target(root,"_root.DialogBox",box,nested))return false;
+                if(!box.identity()){nested.clear();return true;}
+                if(!graph.get_member(box,"_visible",visible,found,nested))return false;
+                if(!found||!graph.to_boolean(visible,flag,nested))return false;
+                if(!flag){nested.clear();return true;}
+                if(!graph.find_target(root,"_root.DialogBox.btn_next",button,nested))return false;
+                if(!button.identity()){nested.clear();return true;}
+                found=false;flag=false;
+                if(!graph.get_member(button,"_visible",visible,found,nested))return false;
+                if(!found||!graph.to_boolean(visible,flag,nested))return false;
+                result.tappable=flag;nested.clear();return true;
+            },error))return false;
+        tappable=probe.tappable;return true;
+    }
+    static bool dialog_box_release(Impl& self,std::string& error){
+        return self.movie->action_script(&self,
+            [](void*,ui::SwfAsGraph& graph,std::string& nested){
+                ui::SwfAsValue root,button,result;bool callable=false;
+                if(!graph.root_value(root,nested)||
+                   !graph.find_target(root,"_root.DialogBox.btn_next",button,nested))return false;
+                if(!button.identity()){nested.clear();return true;}
+                // btn_next.onRelease: isSkipable ? hideDialog() + sfx_tap_dialog.
+                if(!graph.invoke(button,button,"onRelease",{},result,callable,nested))return false;
+                nested.clear();return true;
+            },error);
+    }
+    // Sets consumed when the touch belongs to the DialogBox (the HUD never sees it).
+    static bool dialog_touch(Impl& self,int action,bool& consumed,std::string& error){
+        consumed=false;error.clear();
+        if(action==0){
+            // A new press never inherits ownership from a release that was lost.
+            self.dialog_touch_owned=false;
+            // Visibility decides, not the queue: FlushMessages empties the queue but
+            // leaves the box on screen to be tapped away, exactly like the source.
+            if(self.gameplay_hud_pointers[0]>=0||!self.movie)return true;
+            bool tappable=false;
+            if(!dialog_box_tappable(self,tappable,error))return false;
+            if(!tappable)return true;
+            self.dialog_touch_owned=true;self.gameplay_ui_touch_owned[0]=true;consumed=true;
+            return true;
+        }
+        if(!self.dialog_touch_owned)return true;
+        consumed=true;
+        if(action==2)return true;
+        self.dialog_touch_owned=false;
+        if(action==3)return true;
+        return dialog_box_release(self,error);
     }
     static void fscommand_handler(gameswf::character*,const char* command,const char* argument){
         auto* self=active_fscommand_owner;
@@ -1484,9 +1595,9 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeSetMultitouch")){
-            // NativeSetMultitouch writes MenuManager+0x110. The native event
-            // path accepts four source cursor indices while this flag is set.
-            self.gameplay_multitouch_enabled=
+            // NativeSetMultitouch writes MenuManager+0x110. MenuManager::onEvent
+            // (0x430d60-0x430d74) dispatches fingers 1..3 only while it is clear.
+            self.gameplay_multitouch_locked=
                 fn.nargs==1?fn.arg(0).to_bool():true;
             return true;
         }
@@ -1770,10 +1881,20 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeStopMessage")){
+            // NativeStopMessage 0x442ea4 reads the queue name from its first
+            // argument and ignores any others (the DialogBox hide animation calls
+            // it as NativeStopMessage("dialog"|"quest", 0)). "dialog" and "quest"
+            // both end in MenuMessageManager<DialogMsg,1>::SkipEnqueuedMessage
+            // 0x442c1c, the same pop MenuBase::FS_StopDialog performs. The
+            // "tutorial" and "online" queues belong to features this port does
+            // not run offline.
+            if(fn.nargs<1||!fn.arg(0).is_string())return true;
+            const char* queue=fn.arg(0).to_string();
+            if(!std::strcmp(queue,"dialog")||!std::strcmp(queue,"quest"))
+                return stop_source_dialog(self,error);
             // The source StatusMsg::s_SkipFuncName is null; only the queue
             // pop and next onStatusMessage callback are required here.
-            if(fn.nargs!=1||!fn.arg(0).is_string())return true;
-            if(std::strcmp(fn.arg(0).to_string(),"status"))return true;
+            if(std::strcmp(queue,"status"))return true;
             bool start_next=false;
             if(!self.source_status_messages.stop(start_next)||!start_next){
                 error.clear();return true;
@@ -1781,11 +1902,15 @@ struct OriginalUiSession::Impl {
             if(!self.gameplay_hud||!self.gameplay_hud_bound){
                 error="Queued StatusMsg has no retained authored HUD callback";return false;
             }
-            return self.gameplay_hud->notify_status_message(error);
+            // Called from inside the SWF's own dispatch: a nested action_script is
+            // refused as busy, so the next onStatusMessage runs once it unwound.
+            self.status_start_pending=true;error.clear();return true;
         }
         if(!std::strcmp(name,"NativeStopDialog")){
-            // The authored dqhud.swf dialog advance action calls this native
-            // directly. It is the UI equivalent of MenuBase::FS_StopDialog:
+            // The authored menu_FastTravel dialog box (dqhud_droid.swf sprite 508,
+            // frame 20) calls this native directly; the gameplay DialogBox ends
+            // through NativeStopMessage("dialog"). It is the UI equivalent of
+            // MenuBase::FS_StopDialog:
             // pop one DialogMsg and re-enter the same root StartDialog only
             // when another queued message remains. WaitDialog observes this
             // exact queue and resumes on the following LevelVM update.
@@ -2592,16 +2717,29 @@ struct OriginalUiSession::Impl {
             const auto& record=original_sounds[id];
             if(requested!=record.name)continue;
             if(!record.menu_backend){
-                // The authored gameplay movie invokes NativePlaySoundFX while
-                // opening item-detail pages (for example PickupWeapon). The
-                // Android build currently has only the five menu-effect
-                // assets/player; treating an unavailable optional effect as
-                // a failed SWF event aborts the whole page transition. Keep
-                // source navigation and state updates intact until a gameplay
-                // SoundFX owner is connected.
-                __android_log_print(ANDROID_LOG_INFO,tag,
-                    "Original SoundFX skipped | name %s | file %s | gameplay audio owner unavailable",
-                    record.name,record.file);
+                // The authored gameplay movie invokes NativePlaySoundFX for HUD,
+                // quest and item-detail cues (for example QuestNew, PickupWeapon).
+                // 0x43ae10 resolves the name in the SDD Sounds table and calls
+                // VoxSoundManager::PlayMenu: the shared gameplay audio queue
+                // carries it to the platform effect backend. A source row whose
+                // PCM is not in the supplied cache stays the original's silent
+                // no-op; it must never fail the SWF event or its page transition.
+                switch(dh2::player_gameplay_audio::enqueue_source_menu_sound(requested)){
+                case dh2::player_gameplay_audio::MenuSoundResultV1::queued:
+                    __android_log_print(ANDROID_LOG_INFO,tag,
+                        "Original SoundFX queued | name %s | file %s",record.name,record.file);
+                    break;
+                case dh2::player_gameplay_audio::MenuSoundResultV1::rejected:
+                    __android_log_print(ANDROID_LOG_WARN,tag,
+                        "Original SoundFX dropped | name %s | gameplay audio queue full",record.name);
+                    break;
+                case dh2::player_gameplay_audio::MenuSoundResultV1::unavailable:
+                case dh2::player_gameplay_audio::MenuSoundResultV1::unknown:
+                    __android_log_print(ANDROID_LOG_INFO,tag,
+                        "Original SoundFX skipped | name %s | file %s | no retained PCM for this source row",
+                        record.name,record.file);
+                    break;
+                }
                 return true;
             }
             self.menu_sounds.emplace_back(record.file);
@@ -2931,7 +3069,11 @@ struct OriginalUiSession::Impl {
             }
             return false;
         }
-        return self.runtime.revive_local_players(self.runtime.context,error);
+        if(!self.runtime.revive_local_players(self.runtime.context,error))return false;
+        // PlayerManager::ReviveLocalPlayers 0x37565c restores the SFX group gain
+        // to the saved VolumeFX option right after Level::LoadCheckpoint.
+        if(self.settings)self.queue_volumes();
+        return true;
     }
     static bool pop_above_menu(void* context,const char* name,std::string& error){
         auto& self=*static_cast<Impl*>(context);
@@ -3148,10 +3290,9 @@ struct OriginalUiSession::Impl {
         source_dialog_table_loaded=true;
         error.clear();return true;
     }
-    bool source_dialog_string(std::int32_t id,std::string& out,std::string& error) {
-        if(id<0){error="Source DialogMsg has a negative StringManager ID";return false;}
-        if(!ensure_localization_ready(error)||
-           !localization.string_id(static_cast<std::uint32_t>(id),text_services(),out,error))return false;
+    // ParsePlayerName (0x433d00): the DialogMsg constructors rewrite the Player
+    // name placeholder of every string they take.
+    bool source_dialog_parse_player(std::string& out,std::string& error) {
         std::uintptr_t character=0;
         if(!player_character(this,character,error))return false;
         if(!character){error.clear();return true;}
@@ -3160,6 +3301,12 @@ struct OriginalUiSession::Impl {
            !ui::localization_player(out,name,localization.pack()>=4&&localization.pack()<=6,
                                     parsed,error))return false;
         out=std::move(parsed);error.clear();return true;
+    }
+    bool source_dialog_string(std::int32_t id,std::string& out,std::string& error) {
+        if(id<0){error="Source DialogMsg has a negative StringManager ID";return false;}
+        if(!ensure_localization_ready(error)||
+           !localization.string_id(static_cast<std::uint32_t>(id),text_services(),out,error))return false;
+        return source_dialog_parse_player(out,error);
     }
     bool source_dialog_style_name(std::int32_t style,std::string& out,std::string& error) {
         if(!ensure_dialog_metadata_ready(error))return false;
@@ -3320,7 +3467,7 @@ struct OriginalUiSession::Impl {
         if(hud_style<0||hud_style>3){error="Saved HUDStyle is outside the four authored Android layouts";return false;}
         if(!font_failure.empty()){error=font_failure;return false;}
         gameplay_hud=std::make_unique<ui::AuthoredGameplayHudV1>(*movie);
-        gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
+        gameplay_hud_bound=false;gameplay_hud_pointers.fill(-1);camera_fingers.reset();gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;
         gameplay_hud_skills_refresh={};
         // DisplayRightHud performs the original selected-HUD onPush then
         // onShow sequence, including the skill/faery refresh. Do not call
@@ -3403,7 +3550,7 @@ struct OriginalUiSession::Impl {
     }
     bool reset_failed(std::string& error) {
         front_name_input_active.store(false,std::memory_order_release);
-        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointer=-1;gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;gameplay_hud_skills_refresh={};authored_joystick={};authored_joystick_ready=false;
+        gpu.abort();gameplay_hud.reset();gameplay_hud_bound=false;gameplay_hud_pointers.fill(-1);camera_fingers.reset();gameplay_enemy_hud_state={};gameplay_enemy_hud_player_identity=0;gameplay_hud_skills_refresh={};authored_joystick={};authored_joystick_ready=false;
         status.reset();character_menu_movie.reset();shared_menu_movie.reset();movie.reset();
         character_frame_owner.reset();shared_frame_owner.reset();frame_owner.reset();fonts.reset();loaded=false;selected=false;
         last_width=last_height=0;loading_bitmap_reported=false;reported_frames={{-1,-1,-1,-1,-1}};
@@ -3420,7 +3567,9 @@ struct OriginalUiSession::Impl {
         gameplay_main_menu_request.reset();
         gameplay_hud_refresh={};
         source_status_messages.flush();
-        gameplay_character_button=0;gameplay_character_button_pressed=false;
+        // The SWF that shows and pops these messages is gone with the movie.
+        source_dialog_messages.flush();dialog_start_pending=false;status_start_pending=false;dialog_touch_owned=false;
+        gameplay_character_button=0;gameplay_character_button_pressed.fill(false);
         launch_requests.clear();
         launch_delivered=false;
         input_dispatch_movie=nullptr;input_dispatch_frames=nullptr;last_menu_dt=0;
@@ -3534,9 +3683,17 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     if(gameplay&&!impl_->gameplay_hud_active&&impl_->game_menu_stack.empty()){error.clear();return true;}
     if(action<0||action>3||cursor_index>=4||!std::isfinite(x)||!std::isfinite(y)){error="Malformed native UI touch";return false;}
     const bool gameplay_menu=gameplay&&!impl_->game_menu_stack.empty();
-    struct TouchOwnerReset {Impl* self;int action;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned=false;}} owner_reset{impl_.get(),action};
-    if(gameplay&&action==0)impl_->gameplay_ui_touch_owned=gameplay_menu;
-    if(cursor_index!=0&&(!gameplay_menu||!impl_->gameplay_multitouch_enabled)){error.clear();return true;}
+    struct TouchOwnerReset {Impl* self;int action;std::uint32_t slot;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned[slot]=false;}} owner_reset{impl_.get(),action,cursor_index};
+    if(gameplay&&action==0)impl_->gameplay_ui_touch_owned[cursor_index]=gameplay_menu;
+    // MenuManager::onEvent (0x430d60-0x430d74) hands finger 0 to the menus
+    // always and fingers 1..3 unless NativeSetMultitouch locked them out. The
+    // front menu keeps its single-pointer FrontMenuTouchGesture contract.
+    if(cursor_index!=0&&(front||impl_->gameplay_multitouch_locked)){error.clear();return true;}
+    if(gameplay&&!gameplay_menu&&cursor_index==0){
+        bool dialog_consumed=false;
+        if(!Impl::dialog_touch(*impl_,action,dialog_consumed,error))return false;
+        if(dialog_consumed){error.clear();return true;}
+    }
     auto* selected=front?impl_->active_menu_movie():
         gameplay_menu?impl_->menu_movie(impl_->game_menu_stack.back()):impl_->movie.get();
     // HUD-hosted gameplay menus (fade/death screens) share the HUD movie and its
@@ -3575,24 +3732,35 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                     Control::skill1,Control::skill2,Control::skill3,Control::attack,Control::joystick}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
-                if(geometry.hit){impl_->gameplay_ui_touch_owned=true;break;}
+                if(geometry.hit){impl_->gameplay_ui_touch_owned[cursor_index]=true;break;}
             }
         }
-        if(action==3&&impl_->gameplay_hud_pointer>=0){
-            if(impl_->gameplay_hud_pointer==joystick){
+        int& captured=impl_->gameplay_hud_pointers[cursor_index];
+        if(action==3&&captured>=0){
+            if(captured==joystick){
                 std::uintptr_t identity=0;std::string owner_error;
                 const bool has_player=model_renderer::ui_player_identity(identity,owner_error)&&identity!=0;
                 if(!ui::authored_joystick_release_v1(impl_->authored_joystick,has_player,
                     impl_->authored_joystick_services(),error))return false;
             }
-            impl_->gameplay_hud_pointer=-1;error.clear();return true;
+            captured=-1;error.clear();return true;
         }
-        if(action==0&&impl_->gameplay_hud_pointer<0){
-            for(const auto control:{Control::attack,Control::joystick}){
+        if(action==0&&captured<0){
+            for(const auto control:{Control::attack,Control::joystick,Control::faery}){
                 ui::AuthoredHudGeometryV1 geometry;
                 if(!impl_->gameplay_hud->geometry(control,x,y,geometry,error))return false;
                 if(!geometry.hit)continue;
-                impl_->gameplay_hud_pointer=static_cast<int>(control);
+                // Each of these is one SWF button: a second finger on a control
+                // another finger already holds is consumed without a second press.
+                if(impl_->hud_control_held(static_cast<int>(control))){error.clear();return true;}
+                captured=static_cast<int>(control);
+                if(control==Control::faery){
+                    // The faery HUD button is hit-tested by the same authored geometry as
+                    // attack, but its source onRelease never reached NativeHUDSpell through
+                    // the generic SWF cursor path (the SWF button stayed silent for press
+                    // and release). Hold the finger here and cast on release, as onRelease does.
+                    error.clear();return true;
+                }
                 if(control==Control::joystick){
                     const bool pressed=ui::with_authored_hud_edge_layout_v6(*impl_->movie,*impl_->gameplay_hud,
                         [&](std::string& nested){
@@ -3601,7 +3769,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                 ui::authored_joystick_press_v1(impl_->authored_joystick,
                                     receiver.local[0],receiver.local[1],nested);
                     },error);
-                    if(!pressed){impl_->gameplay_hud_pointer=-1;return false;}
+                    if(!pressed){captured=-1;return false;}
                 }else{
                     std::uintptr_t interacted_identity=0;
                     std::string npc_interaction_error;
@@ -3610,14 +3778,14 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                             interacted_identity,npc_interaction_error);
                     if(!npc_interaction_error.empty()){
                         error=std::move(npc_interaction_error);
-                        impl_->gameplay_hud_pointer=-1;return false;
+                        captured=-1;return false;
                     }
                     std::string merchant_name,interaction_error;std::int32_t module_filter=-1;
                     std::uintptr_t merchant_identity=0;
                     if(!model_renderer::ui_player_merchant_interaction_target(
                            merchant_name,module_filter,merchant_identity,interaction_error)){
                         if(!interaction_error.empty()){
-                            error=std::move(interaction_error);impl_->gameplay_hud_pointer=-1;return false;
+                            error=std::move(interaction_error);captured=-1;return false;
                         }
                     }else{
                         struct MerchantOpen {
@@ -3640,7 +3808,7 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                                 if(!callable){nested="Authored AdditionnalInfosForMerchant callback is unavailable";return false;}
                                 nested.clear();return true;
                             },error);
-                        impl_->gameplay_hud_pointer=-1;
+                        captured=-1;
                         if(!opened)return false;
                         __android_log_print(ANDROID_LOG_INFO,tag,
                             "Source Character::Interact merchant route | identity %zx | module filter %d | name %s | callbacks open then additionals",
@@ -3657,11 +3825,11 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD attack press | %s",response.c_str());
                 }
                 __android_log_print(ANDROID_LOG_INFO,tag,"Authored HUD pointer captured | control %d | style %d | source shape %d | %.1f %.1f",
-                    impl_->gameplay_hud_pointer,impl_->hud_style,geometry.character_id,x,y);
+                    captured,impl_->hud_style,geometry.character_id,x,y);
                 return true;
             }
         }
-        if(impl_->gameplay_hud_pointer==joystick&&action==2){
+        if(captured==joystick&&action==2){
             return ui::with_authored_hud_edge_layout_v6(*impl_->movie,*impl_->gameplay_hud,
                 [&](std::string& nested){
                     ui::AuthoredHudGeometryV1 receiver;
@@ -3683,8 +3851,19 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
                     return dragged;
                 },error);
         }
-        if(impl_->gameplay_hud_pointer>=0&&action==1){
-            const int held=impl_->gameplay_hud_pointer;impl_->gameplay_hud_pointer=-1;
+        if(captured>=0&&action==1){
+            const int held=captured;captured=-1;
+            if(held==static_cast<int>(Control::faery)){
+                // Source onRelease fires only when the finger is still over the button.
+                ui::AuthoredHudGeometryV1 release_geometry;
+                if(!impl_->gameplay_hud->geometry(Control::faery,x,y,release_geometry,error))return false;
+                if(!release_geometry.hit){error.clear();return true;}
+                std::uintptr_t identity=0;std::string identity_error;
+                if(!model_renderer::ui_player_identity(identity,identity_error)||!identity){error.clear();return true;}
+                return ui::run_hud_action_and_refresh_usable_v1(impl_->gameplay_hud_usable_refresh,[&]{
+                    return model_renderer::ui_player_use_spell(identity,error);
+                });
+            }
             if(held==joystick){
                 std::uintptr_t identity=0;std::string owner_error;
                 const bool has_player=model_renderer::ui_player_identity(identity,owner_error)&&identity!=0;
@@ -3698,17 +3877,18 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
         }
         // Keep the held attack out of the SWF cursor. Its source operation is
         // polled from render_player at the HUDControls::Update cadence.
-        if(impl_->gameplay_hud_pointer==attack&&action==2)return true;
+        if(captured==attack&&action==2)return true;
+        if(captured==static_cast<int>(Control::faery)&&action==2)return true;
     }
     if(gameplay&&!gameplay_menu&&impl_->gameplay_character_button){
-        if(action==3)impl_->gameplay_character_button_pressed=false;
+        if(action==3)impl_->gameplay_character_button_pressed[cursor_index]=false;
         else if(action==0){
             bool hit=false;if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,error))return false;
-            impl_->gameplay_character_button_pressed=hit;
-            if(hit)impl_->gameplay_ui_touch_owned=true;
-        }else if(action==2&&impl_->gameplay_character_button_pressed){
+            impl_->gameplay_character_button_pressed[cursor_index]=hit;
+            if(hit)impl_->gameplay_ui_touch_owned[cursor_index]=true;
+        }else if(action==2&&impl_->gameplay_character_button_pressed[cursor_index]){
             bool hit=false;if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,error))return false;
-            if(!hit)impl_->gameplay_character_button_pressed=false;
+            if(!hit)impl_->gameplay_character_button_pressed[cursor_index]=false;
         }
     }
     struct Dispatch {Impl& self;ui::SwfMovie* previous_movie;ui::SwfFrameConnection* previous_frames;
@@ -3719,10 +3899,10 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     const auto dispatch_cursor=[&](std::string& nested){
         if(action==3)return selected->input_cancel(x,y,cursor_index,nested);
         if(!selected->input_cursor({x,y,0.f,(action==0||action==2)?1:0},cursor_index,nested))return false;
-        if(gameplay&&!gameplay_menu&&action==1&&impl_->gameplay_character_button_pressed){
+        if(gameplay&&!gameplay_menu&&action==1&&impl_->gameplay_character_button_pressed[cursor_index]){
             bool hit=false;
             if(!impl_->gameplay_character_button_hit(*impl_->movie,x,y,hit,nested))return false;
-            impl_->gameplay_character_button_pressed=false;
+            impl_->gameplay_character_button_pressed[cursor_index]=false;
             if(hit&&impl_->game_menu_stack.empty())
                 return Impl::push_game_menu(impl_.get(),"menu_CharacterMenu",nested);
         }
@@ -3736,6 +3916,8 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     // Flush only after the touch-dispatch lambda returns: its Dispatch RAII
     // guard must restore input_dispatch_movie/frames before DisplayRightHud
     // re-enters the authored SWF.
+    if(succeeded&&(impl_->dialog_start_pending||impl_->status_start_pending)&&
+       !Impl::flush_pending_dialog_start(*impl_,error))return false;
     if(succeeded&&impl_->gameplay_native_revive_pending&&
        !Impl::flush_deferred_native_revive(*impl_,error))return false;
     if(succeeded&&impl_->gameplay_hud_skills_refresh.pending&&
@@ -3748,11 +3930,69 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     return succeeded;
 }
 bool OriginalUiSession::camera_pan_allowed()const noexcept{
-    if(!impl_||!impl_->front_screen.empty()||!impl_->live_player||!impl_->gameplay_hud_active)return false;
-    const bool map_menu=!impl_->game_menu_stack.empty()&&
-        impl_->game_menu_stack.back()=="menu_MapSheet";
-    return map_menu||
-        (impl_->game_menu_stack.empty()&&!impl_->gameplay_ui_touch_owned);
+    return camera_touch_allowed(0);
+}
+bool OriginalUiSession::camera_touch_allowed(std::uint32_t slot)const noexcept{
+    if(!impl_||slot>=4||!impl_->camera_layer_open())return false;
+    // With the map open (the only menu camera_layer_open admits) every finger is the map camera's.
+    return !impl_->game_menu_stack.empty()||!impl_->gameplay_ui_touch_owned[slot];
+}
+void OriginalUiSession::camera_gesture_counts(unsigned& pans_delivered,unsigned& pans_applied,unsigned& pinches) const noexcept{
+    pans_delivered=impl_?impl_->camera_pans_delivered:0;
+    pans_applied=impl_?impl_->camera_pans_applied:0;
+    pinches=impl_?impl_->camera_pinches_delivered:0;
+}
+bool OriginalUiSession::hud_control_screen_point(unsigned control,int width,int height,float& x,float& y,std::string& error){
+    // Development probe for desktop scenarios: sample the same geometry() hit
+    // test touch() uses and report the centroid of the area that accepts a press.
+    if(!impl_||!impl_->gameplay_hud||!impl_->gameplay_hud_bound||width<=0||height<=0||
+       control>static_cast<unsigned>(ui::AuthoredHudControlV1::joystick)){
+        error="Authored gameplay HUD control probe requires the bound HUD";return false;
+    }
+    const auto id=static_cast<ui::AuthoredHudControlV1>(control);
+    double sum_x=0,sum_y=0;unsigned hits=0;
+    const int step=std::max(4,std::min(width,height)/90);
+    for(int py=step/2;py<height;py+=step)for(int px=step/2;px<width;px+=step){
+        ui::AuthoredHudGeometryV1 geometry;
+        if(!impl_->gameplay_hud->geometry(id,static_cast<float>(px),static_cast<float>(py),geometry,error))return false;
+        if(!geometry.hit)continue;
+        sum_x+=px;sum_y+=py;++hits;
+    }
+    if(!hits){error="Authored HUD control has no pressable area on this viewport";return false;}
+    x=static_cast<float>(sum_x/hits);y=static_cast<float>(sum_y/hits);error.clear();return true;
+}
+bool OriginalUiSession::pointer(float x,float y,int action,std::uint32_t slot,std::string& error){
+    namespace gesture=dh2::native::gameplay_touch_v1;
+    if(!impl_||slot>=gesture::kFingerSlots){error="Malformed native UI pointer";return false;}
+    // MenuManager::onEvent runs first: the HUD (stick, attack, skills) and every
+    // menu get the finger. ZoomHandler, attached later, only sees what is left.
+    const bool delivered=touch(x,y,action,slot,error);
+    struct Context{OriginalUiSession* session;}context{this};
+    const gesture::CameraServices services{&context,
+        [](void* raw,std::int32_t dx,std::int32_t dy){
+            // A finger only reaches the camera map when the HUD left its press alone, so
+            // only the menu state can still veto a pan (the stick finger is a different finger).
+            auto& impl=*static_cast<Context*>(raw)->session->impl_;
+            if(!impl.camera_layer_open())return;
+            ++impl.camera_pans_delivered;
+            if(model_renderer::camera_touch_pan(dx,dy))++impl.camera_pans_applied;
+        },
+        [](void* raw,float previous,float current){
+            auto& impl=*static_cast<Context*>(raw)->session->impl_;
+            if(!impl.camera_layer_open())return;
+            ++impl.camera_pinches_delivered;
+            model_renderer::camera_pinch_zoom(previous,current);
+        },
+        [](void* raw,std::uint32_t pinch_slot,float pinch_x,float pinch_y){
+            // A pinch takes the fingers from the SWF cursor that saw their press.
+            std::string ignored;
+            (void)static_cast<Context*>(raw)->session->touch(pinch_x,pinch_y,3,pinch_slot,ignored);
+        }};
+    auto& fingers=impl_->camera_fingers;
+    if(action==0)fingers.down(slot,x,y,camera_touch_allowed(slot),services);
+    else if(action==2)fingers.move(slot,x,y,services);
+    else fingers.up(slot,services);
+    return delivered;
 }
 bool OriginalUiSession::back_to_hud(std::string& error){
     return Impl::back_to_hud(impl_.get(),error);
@@ -3783,7 +4023,13 @@ bool OriginalUiSession::push_source_death_fade_menu(bool& pushed,std::string& er
     if(std::find(self.game_menu_stack.begin(),self.game_menu_stack.end(),
                  "menu_FadeToBlackScreen")!=self.game_menu_stack.end()){error.clear();return true;}
     if(!Impl::push_game_menu(&self,"menu_FadeToBlackScreen",error))return false;
-    pushed=true;error.clear();return true;
+    pushed=true;
+    // The same _HandleLocalDeaths branch then calls VoxSoundManager::SetSoundVolume(
+    // group 1 = SFX, 0): effects fall silent until ReviveLocalPlayers restores the
+    // saved option. Music keeps its own volume, so only the FX field drops to zero.
+    if(self.settings)
+        self.menu_audio.push_back("volume,"+std::to_string(self.settings->saved_option("VolumeMusic"))+",0");
+    error.clear();return true;
 }
 bool OriginalUiSession::pop_source_loading_menu(std::string& error){
     auto& self=*impl_;
@@ -4412,6 +4658,93 @@ bool OriginalUiSession::enqueue_source_dialog_id(std::int32_t dialog_id,
         return false;
     error.clear();return true;
 }
+bool OriginalUiSession::enqueue_source_new_quest_message(std::int32_t quest_name_string_id,
+    std::string& error){
+    auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie){
+        error="Quest::SetState(Active) DialogMsg requires the retained gameplay HUD session";
+        return false;
+    }
+    // Quest::SetState(Active) 0x480d00: DialogMsg(StrID.GLOBAL_QUEST_NEW, the
+    // Quest's name string, DialogStyles.QuestMsgDialog, -1) is enqueued on the
+    // same MenuMessageManager<DialogMsg, 1> the Script_StartDialog family uses.
+    std::uint32_t title_id=0;
+    if(!Impl::constant(&self,"StrID","GLOBAL_QUEST_NEW",title_id,error)||
+       !self.ensure_dialog_metadata_ready(error))return false;
+    dh2_pycst_result style_constant{};
+    if(dh2_pycst_get(&self.dialog_constants,"DialogStyles",sizeof("DialogStyles")-1,
+           "QuestMsgDialog",sizeof("QuestMsgDialog")-1,&style_constant)!=0||
+       !style_constant.found){error="DialogStyles.QuestMsgDialog constant is missing";return false;}
+    ui::SourceDialogMessageQueueV1::Message message;
+    message.style=static_cast<std::int8_t>(static_cast<std::uint8_t>(style_constant.value));
+    if(!self.source_dialog_string(static_cast<std::int32_t>(title_id),message.title,error)||
+       !self.source_dialog_string(quest_name_string_id,message.text,error)||
+       !self.source_dialog_style_name(message.style,message.style_name,error))return false;
+    bool start_now=false;
+    if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+        error="Source DialogMsg queue rejected the new-quest message";return false;
+    }
+    if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
+bool OriginalUiSession::source_quest_reward_text(std::int32_t kind,std::int32_t amount,
+    std::string& line,std::string& error){
+    auto& self=*impl_;
+    // RewardList::CreateRewardString (0x4835a0): kind 0 Gold and 1 XP format
+    // their StrID detail string with the reward amount through StringManager::
+    // parse; kind 2 is StrID.MENU_AUTOTRANSMUTE_1, assigned verbatim when no
+    // reward produced a line.
+    const char* name=kind==0?"GAMEPLAYMENUS_REWARD_DETAIL_GOLD":
+                     kind==1?"GAMEPLAYMENUS_REWARD_DETAIL_EXP":"MENU_AUTOTRANSMUTE_1";
+    std::uint32_t id=0;
+    std::string pattern;
+    if(!Impl::constant(&self,"StrID",name,id,error)||!self.ensure_localization_ready(error)||
+       !self.localization.string_id(id,self.text_services(),pattern,error))return false;
+    line.clear();
+    if(kind==2){line=std::move(pattern);error.clear();return true;}
+    return Impl::format_integer_text(self,pattern.c_str(),amount,line,error);
+}
+bool OriginalUiSession::enqueue_source_quest_completed_message(std::int32_t quest_name_string_id,
+    const std::string& reward_text,std::string& error){
+    auto& self=*impl_;
+    if(self.selected&&!self.loaded&&self.live_player&&self.front_screen.empty()&&
+       !self.load(error))return false;
+    if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+       !self.movie){
+        error="Quest::SetState(Closed) DialogMsg requires the retained gameplay HUD session";
+        return false;
+    }
+    // Quest::SetState(Closed) 0x4810d8: DialogMsg(StringManager name of the
+    // Quest, its RewardList text, DialogStyles.QuestCompletedMsgDialog, actor 1).
+    if(!self.ensure_dialog_metadata_ready(error))return false;
+    dh2_pycst_result style_constant{};
+    if(dh2_pycst_get(&self.dialog_constants,"DialogStyles",sizeof("DialogStyles")-1,
+           "QuestCompletedMsgDialog",sizeof("QuestCompletedMsgDialog")-1,&style_constant)!=0||
+       !style_constant.found){error="DialogStyles.QuestCompletedMsgDialog constant is missing";return false;}
+    ui::SourceDialogMessageQueueV1::Message message;
+    message.style=static_cast<std::int8_t>(static_cast<std::uint8_t>(style_constant.value));
+    message.text=reward_text;
+    if(!self.source_dialog_string(quest_name_string_id,message.title,error)||
+       !self.source_dialog_parse_player(message.text,error)||
+       !self.source_dialog_style_name(message.style,message.style_name,error))return false;
+    constexpr std::size_t actor_id=1;
+    if(actor_id>=self.dialog_actor_name_ids.size()){
+        error="Source DialogMsg actor index exceeds DialogActors";return false;
+    }
+    if(!self.source_dialog_string(self.dialog_actor_name_ids[actor_id],message.actor_name,error))
+        return false;
+    bool start_now=false;
+    if(!self.source_dialog_messages.enqueue(std::move(message),start_now)){
+        error="Source DialogMsg queue rejected the quest-completed message";return false;
+    }
+    if(start_now&&!self.movie->action_script(&self,Impl::invoke_source_dialog_start,error))
+        return false;
+    error.clear();return true;
+}
 bool OriginalUiSession::lock_source_tutorial(std::int32_t id,std::string& error){
     auto& self=*impl_;
     if(!self.settings){error="Script_LockTutorial requires the retained settings owner";return false;}
@@ -4600,7 +4933,7 @@ bool OriginalUiSession::attach_player(const std::string& directory,std::string& 
     impl_->hud_style=hud_style;
     impl_->directory=directory;impl_->live_player=true;impl_->selected=true;impl_->report_frame=true;
     if(!retain_loaded_gameplay_ui){
-        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointer=-1;impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;impl_->gameplay_hud_skills_refresh={};
+        impl_->gameplay_hud_bound=false;impl_->gameplay_hud_pointers.fill(-1);impl_->camera_fingers.reset();impl_->gameplay_enemy_hud_state={};impl_->gameplay_enemy_hud_player_identity=0;impl_->gameplay_hud_skills_refresh={};
     }else{
         __android_log_print(ANDROID_LOG_INFO,tag,
             "Gameplay HUD binding retained across surface recreation | style %d | movie %p | status %p",
@@ -4614,7 +4947,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
     auto& self=*impl_;
     try{
         const auto require=[&](bool ok,const char* operation){
-            if(!ok)throw std::runtime_error(error.empty()?operation:error);
+            if(!ok)throw std::runtime_error(error.empty()?operation:error+" | during: "+operation);
         };
         if(!self.loaded){self.driver_width=width;self.driver_height=height;require(self.load(error),"Gameplay UI load failed without a diagnostic");}
         require(self.viewport(width,height,error),"Gameplay UI viewport update failed without a diagnostic");
@@ -4666,6 +4999,11 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
             require(self.movie->input_advance(milliseconds,error),
                     "Gameplay SWF timeline update failed without a diagnostic");
         }
+        // The DialogBox hide animation ends in NativeStopMessage("dialog"), which
+        // pops the DialogMsg; the next queued message starts now that the timeline
+        // dispatch has unwound.
+        require(Impl::flush_pending_dialog_start(self,error),
+                "Queued DialogMsg StartDialog failed without a diagnostic");
         require(self.status->update(sheet,count,character,error),"Status panel update failed without a diagnostic");
         require(Impl::flush_deferred_faery_hud_skills(self,error),
                 "Deferred active Faery HUD skills refresh failed without a diagnostic");
@@ -4683,7 +5021,7 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     "Authored joystick update failed without a diagnostic");
         }
         if(self.gameplay_hud_active&&self.gameplay_hud_bound&&self.gameplay_hud&&
-           self.gameplay_hud_pointer==static_cast<int>(ui::AuthoredHudControlV1::attack)){
+           self.hud_control_held(static_cast<int>(ui::AuthoredHudControlV1::attack))){
             // Source HUDControls::Update polls the pressed attack flag every
             // player frame. Keep using the shared model_renderer combat owner;
             // its return text is intentionally not logged at frame cadence.
@@ -4850,6 +5188,12 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     "HUD hurt-corner clip display failed without a diagnostic");
             require(self.movie->display_authored_animations(error),
                     "Authored gameplay animations failed to display without a diagnostic");
+            // Root depth order: HurtCorners 3, menu_HUD_n 17, combat text 337..359,
+            // DialogBox 365. The dialog was never drawn, so a script's StartDialog
+            // (tutorials, quest updates, NPC talk) showed nothing while its
+            // WaitDialog held every controller locked.
+            require(self.movie->display_source_clip("_root.DialogBox",error),
+                    "HUD dialog clip display failed without a diagnostic");
         }
         if(!self.game_menu_stack.empty()){
             const auto rectangle=self.front_rectangle();

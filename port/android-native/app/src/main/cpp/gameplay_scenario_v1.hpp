@@ -8,11 +8,21 @@
 #include <array>
 #include <cmath>
 #include <cstdint>
+#include <stdexcept>
 #include <string>
+
+namespace model_renderer {
+// Defined in model_renderer.cpp (development probe, not part of the public header).
+bool script_controllers_blocked() noexcept;
+}
 
 namespace dh2::native::gameplay_scenario_v1 {
 
-enum class Mode : std::uint8_t { none, move_kill, move_defend };
+// move_approach walks the Player up to the nearest enemy and stops in melee
+// range, leaving every attack, dialog tap and potion to the real touch UI.
+// observe only logs. fail_frame throws from the frame path once, proving a failed
+// frame reaches the player as a visible error instead of a silent freeze.
+enum class Mode : std::uint8_t { none, move_kill, move_defend, move_approach, observe, fail_frame };
 
 struct Driver {
     Mode mode = Mode::none;
@@ -22,10 +32,14 @@ struct Driver {
     bool died = false, damaged = false, revived = false;
     unsigned kills = 0, attacks = 0, pickups = 0, taps = 0;
     std::int32_t target = -1;
+    bool arrived = false;
 
     static Mode parse(const std::string& name) {
         if (name == "move-kill") return Mode::move_kill;
         if (name == "move-defend") return Mode::move_defend;
+        if (name == "move-approach") return Mode::move_approach;
+        if (name == "observe") return Mode::observe;
+        if (name == "fail-frame") return Mode::fail_frame;
         return Mode::none;
     }
 
@@ -65,6 +79,10 @@ struct Driver {
     void step(int width, int height, Tap tap) {
         if (mode == Mode::none) return;
         ++frames;
+        if (mode == Mode::fail_frame) {
+            if (frames == 120) throw std::runtime_error("Scenario fail-frame: deliberate exception on the frame path");
+            return;
+        }
         if (died && !revived) {
             const auto phase = frames % 120;
             if (phase == 60 || phase == 66) {
@@ -72,6 +90,21 @@ struct Driver {
                 if (phase == 66) ++taps;
             }
         }
+        if ((mode == Mode::move_approach || mode == Mode::observe) && frames % 60 == 0) {
+            // Heartbeat: proves the render thread keeps calling the frame path.
+            model_renderer::GameplayPoseSnapshotV1 beat;
+            std::string beat_error;
+            if (model_renderer::gameplay_pose_snapshot(beat, beat_error))
+                log("Scenario heartbeat | frame %llu | Player %.0f %.0f HP %d/%d | enemy %d HP %d/%d melee %d | controllers blocked %d",
+                    static_cast<unsigned long long>(frames), beat.player_position[0],
+                    beat.player_position[1], beat.player_hp, beat.player_max_hp, beat.enemy_index,
+                    beat.enemy_hp, beat.enemy_max_hp, int(beat.enemy_in_melee_range),
+                    int(model_renderer::script_controllers_blocked()));
+            else
+                log("Scenario heartbeat | frame %llu | Player snapshot unavailable | %s",
+                    static_cast<unsigned long long>(frames), beat_error.c_str());
+        }
+        if (mode == Mode::observe) return;
         if (frames % 15) return;
         model_renderer::GameplayPoseSnapshotV1 pose;
         std::string error;
@@ -113,8 +146,15 @@ struct Driver {
             }
         }
         if (pose.enemy_index < 0 || pose.enemy_hp <= 0) return;
+        if (mode == Mode::move_approach && (arrived || model_renderer::script_controllers_blocked()))
+            return;
         if (pose.enemy_in_melee_range) {
             model_renderer::stop_movement();
+            if (mode == Mode::move_approach) {
+                arrived = true;
+                log("Scenario arrived | enemy %d HP %d/%d | Player %.0f %.0f", pose.enemy_index,
+                    pose.enemy_hp, pose.enemy_max_hp, pose.player_position[0], pose.player_position[1]);
+            }
             if (mode == Mode::move_kill) {
                 target = pose.enemy_index;
                 const auto result = model_renderer::player_attack(-1);

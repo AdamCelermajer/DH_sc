@@ -88,6 +88,37 @@ struct LogicFrameFixture {
         return 0;
     }
 };
+// CSAnim (CharStateMachine state 14) fixture: Player-like facts plus an ordered
+// log of every state service the kernel asks the host for.
+struct AnimStateFixture {
+    Coordinator character{0x430000001ull, 1};
+    Facts facts{};
+    struct Call { std::uint32_t service; std::int32_t argument; std::int32_t state; };
+    std::vector<Call> calls;
+    std::vector<std::int32_t> previous_states;
+    AnimStateFixture() {
+        facts.is_player=1;facts.idle=11;facts.walk=22;facts.run=33;
+        facts.attack_static=44;facts.attack_moving=55;
+        facts.walk_threshold=.45f;facts.run_threshold=.85f;facts.walk_speed=1.3f;
+        facts.heading[0]=.5f;
+        CoordinatorBindings bindings{};
+        bindings.context=this;bindings.facts=read_facts;
+        bindings.services={this,state_service};
+        character.bind(bindings);
+    }
+    static Facts read_facts(void* context){return static_cast<AnimStateFixture*>(context)->facts;}
+    static void state_service(void* context,State* state,const Request* request){
+        auto& self=*static_cast<AnimStateFixture*>(context);
+        check(state==&self.character.state,"CSAnim Coordinator state owner differs");
+        self.calls.push_back({request->service,request->argument[0],state->current});
+        if(request->service==set_animation)state->current_animation=request->argument[0];
+        if(request->service==raise_event&&request->argument[0]==0x1d)
+            self.previous_states.push_back(request->argument[1]);
+    }
+    unsigned count(std::uint32_t service) const {
+        unsigned n=0;for(const auto& call:calls)if(call.service==service)++n;return n;
+    }
+};
 struct Fixture {
     Coordinator character{0x100000001ull, 1};
     Facts facts{};
@@ -908,6 +939,116 @@ int main() {
               no_skill_projection.character.state.current==3,
               "C355 without CSSkill callback ownership mutated state");
 
+        {
+            // CSAnim (state 14): SM_SetAnimState 0x3c1aa8, OnFocus 0x3c324c,
+            // OnUpdate 0x3c1a3c, OnEvent 0x3c1a14, OnInit 0x3c8b28 registrations.
+            AnimStateFixture anim;
+            anim.character.state.current=3;anim.character.state.body_present=0;
+            // Script_PlayActorAnim form (wait=false, idle-on-update=true).
+            check(anim.character.set_anim_state(21,false,true)==1&&
+                  anim.character.state.current==14&&anim.character.state.flags==0x2240&&
+                  anim.character.state.animation_override==-1&&
+                  anim.character.state.current_animation==21&&
+                  anim.character.source_anim_idle_541()&&!anim.character.source_anim_wait_540(),
+                  "SM_SetAnimState did not run CSAnim::OnFocus with the pending AnimTable row");
+            check(anim.calls.size()>=2&&
+                  anim.calls[anim.calls.size()-2].service==set_animation&&
+                  anim.calls[anim.calls.size()-2].argument==21&&
+                  anim.calls.back().service==raise_event&&anim.previous_states.back()==3,
+                  "CSAnim::OnFocus service order differs from SM_SetAnim then RaiseEvent(29)");
+            // Unscripted + idle-on-update: OnUpdate calls SM_SetIdleState(false).
+            anim.character.state.elapsed_ms=40;
+            check(anim.character.update_state(16)==1&&anim.character.state.current==3&&
+                  anim.character.state.idle_suppressed==0&&anim.character.state.elapsed_ms==0&&
+                  anim.character.state.current_animation==11,
+                  "CSAnim::OnUpdate did not return an unscripted Character to Idle");
+            // Scripted: OnUpdate is a no-op, and event 34 is ignored without the +0x44 byte.
+            anim.character.set_source_scripted_1480(true);
+            check(anim.character.set_anim_state(22,false,true)==1&&
+                  anim.character.update_state(16)==1&&anim.character.state.current==14&&
+                  anim.character.state.elapsed_ms==16&&
+                  anim.character.event(34)==0&&anim.character.state.current==14,
+                  "scripted CSAnim left the animation without its event");
+            // 14 -> 14 re-runs OnFocus without resetting the state timer.
+            check(anim.character.set_anim_state(23,false,true)==1&&
+                  anim.character.state.current==14&&anim.character.state.elapsed_ms==16&&
+                  anim.character.state.current_animation==23,
+                  "SM_SetAnimState from CSAnim reset the state timer or skipped OnFocus");
+            // Events CSAnim does not register are source no-ops (50008 dead, 50003 interact).
+            check(anim.character.event(50008)==0&&anim.character.event(50003)==0&&
+                  anim.character.raise_dead_state_event_50008(0x77)==0&&
+                  anim.character.state.current==14,
+                  "CSAnim accepted an event it does not register");
+            // Lua PlayAnim form (wait=true, idle-on-update=false): flag word 0x2340, event 34 -> Idle.
+            check(anim.character.set_anim_state(15,true,false)==1&&
+                  anim.character.state.flags==0x2340&&anim.character.state.current==14,
+                  "CSAnim::OnFocus flag word for the PlayAnim form differs");
+            anim.character.set_source_scripted_1480(false);
+            check(anim.character.update_state(16)==1&&anim.character.state.current==14,
+                  "CSAnim idled without the +0x45 byte");
+            check(anim.character.event(34)==1&&anim.character.state.current==3&&
+                  anim.character.state.idle_suppressed==0,
+                  "CSAnim::OnEvent(34) did not call SM_SetIdleState(false)");
+            // OnInit registrations: 50001 -> CSMove.
+            check(anim.character.set_anim_state(15,false,false)==1&&
+                  anim.character.event(34)==0&&anim.character.state.current==14&&
+                  anim.character.event(0xc351)==1&&anim.character.state.current==4&&
+                  anim.character.state.flags==0x23c1&&anim.character.state.current_animation==22,
+                  "CSAnim event 50001 did not enter CSMove");
+            // 50005 -> CSSkill needs the skill callback projection; without it the event is refused.
+            check(anim.character.set_anim_state(15,false,false)==1&&
+                  anim.character.event(0xc355)==-1&&anim.character.state.current==14,
+                  "CSAnim event 50005 without CSSkill ownership mutated state");
+            // A Character awaiting spawn has no CSAnim edge in this kernel.
+            AnimStateFixture limbus;limbus.character.state.current=17;
+            check(limbus.character.set_anim_state(21,false,true)==-1&&
+                  limbus.character.state.current==17,
+                  "SM_SetAnimState from an unattached source state mutated the FSM");
+            // Script_PlayActorAnim on a cutscene actor that is still in CSSpawn / CSLimbus:
+            // the outgoing state's source OnBlur runs before CSAnim::OnFocus.
+            Fixture awaiting;
+            awaiting.facts.is_player=0;awaiting.spawn.spawn_animation=88;
+            awaiting.spawn.visual_present=1;awaiting.spawn.raw_fade_in_argument=3000;
+            awaiting.spawn.can_respawn=1;
+            awaiting.character.bind({&awaiting,Fixture::read_facts,{&awaiting,Fixture::service},
+                nullptr,nullptr,[](void* raw){return static_cast<Fixture*>(raw)->spawn;}});
+            check(awaiting.character.spawn_transition(0)==1&&awaiting.character.spawn_transition(1)==1&&
+                  awaiting.character.state.current==1&&awaiting.character.state.body_present==0,
+                  "spawn fixture did not reach CSSpawn");
+            check(awaiting.character.set_anim_state(21,false,true)==1&&
+                  awaiting.character.state.current==14&&awaiting.character.state.flags==0x2240&&
+                  awaiting.character.state.body_present==1&&
+                  awaiting.character.state.current_animation==21&&
+                  awaiting.character.event(0x22)==0&&awaiting.character.state.current==14,
+                  "CSSpawn -> CSAnim did not run CSSpawn::OnBlur then CSAnim::OnFocus");
+            // Script_PutCharacterInLimbus on that actor while CSAnim plays (SM_SetLimbusState
+            // -> _SetState(0)): CSAnim::OnBlur is empty, CSLimbus::OnFocus clears the flags.
+            check(awaiting.character.transition(0,-1,0)==1&&awaiting.character.state.current==0&&
+                  awaiting.character.state.flags==0,
+                  "CSAnim -> CSLimbus did not run CSLimbus::OnFocus");
+            // CSSkill (6) <-> CSAnim (14) through the same skill callback projection.
+            SkillFixture skill;
+            check(skill.character.transition(3)==1&&skill.character.event(0xc355)==1&&
+                  skill.character.state.current==6,"CSSkill setup for CSAnim failed");
+            const auto skill_ops_before=skill.skill_operations.size();
+            check(skill.character.set_anim_state(16,false,false)==1&&
+                  skill.character.state.current==14&&skill.character.state.flags==0x2340&&
+                  skill.character.state.current_animation==16&&
+                  skill.skill_operations.size()>skill_ops_before,
+                  "SM_SetAnimState from CSSkill did not run CSSkill::OnBlur then CSAnim::OnFocus");
+            const auto skill_ops_mid=skill.skill_operations.size();
+            check(skill.character.event(0xc355)==1&&skill.character.state.current==6&&
+                  skill.skill_operations.size()>skill_ops_mid&&
+                  skill.previous_states==std::vector<std::int32_t>({-1,3,6,14}),
+                  "CSAnim event 50005 did not re-enter CSSkill through its callback projection");
+            // Death: a forced SM_SetDeadState transition leaves CSAnim straight to CSDead.
+            AnimStateFixture dying;dying.character.state.current=3;
+            check(dying.character.set_anim_state(21,false,true)==1&&
+                  dying.character.transition(12,50008,0x99)==1&&
+                  dying.character.state.current==12,
+                  "forced CSDead transition from CSAnim failed");
+        }
+
         std::printf("{\"source_state_move_idle\":true,\"synchronous_reentry\":true,"
                     "\"facts_refresh\":true,\"captured_expiry_event\":true,"
                     "\"expiry_hook_before_state\":true,\"script_blocking_and_pause\":true,"
@@ -924,7 +1065,8 @@ int main() {
                     "\"player_is_zonable_source_false\":true,"
                     "\"world_object_character_identity_lifecycle\":true,"
                     "\"player_persist_identity_event_projection\":true,"
-                    "\"character_physical_collision_state_gate\":true}\n");
+                    "\"character_physical_collision_state_gate\":true,"
+                    "\"csanim_state14_focus_update_event_and_transitions\":true}\n");
         return 0;
     } catch (const std::exception& error) {
         std::fprintf(stderr, "character coordinator: %s\n", error.what());
