@@ -261,6 +261,11 @@ struct OriginalUiSession::Impl {
     bool gameplay_hud_bound=false;
     int gameplay_hud_pointer=-1;
     bool gameplay_ui_touch_owned=false;
+    // A tap that landed on the authored DialogBox is owned by it until released.
+    bool dialog_touch_owned=false;
+    // StopDialog popped a DialogMsg and another one waits: the SWF StartDialog
+    // callback is re-entered once the dispatch that popped it has unwound.
+    bool dialog_start_pending=false;
     bool source_cutscene_active=false;
     ui::AuthoredJoystickStateV1 authored_joystick{};
     bool authored_joystick_ready=false;
@@ -1013,9 +1018,86 @@ struct OriginalUiSession::Impl {
         if(!self.source_dialog_messages.stop(start_next)){
             error.clear();return true;
         }
-        if(start_next&&!self.movie->action_script(&self,invoke_source_dialog_start,error))
-            return false;
+        // MenuBase::FS_StopDialog 0x427b08 / SkipEnqueuedMessage 0x442c1c invoke
+        // StartDialog at once when another DialogMsg remains. Here the pop is
+        // reached from inside the authored SWF's own dispatch (the DialogBox hide
+        // animation's NativeStopMessage, the StopDialog FSCommand), where a nested
+        // action_script is refused as busy and the next message was never shown.
+        // The callback is deferred until that dispatch has unwound.
+        if(start_next)self.dialog_start_pending=true;
         error.clear();return true;
+    }
+    static bool flush_pending_dialog_start(Impl& self,std::string& error){
+        error.clear();
+        if(!self.dialog_start_pending)return true;
+        self.dialog_start_pending=false;
+        if(!self.source_dialog_messages.active())return true;
+        if(!self.selected||!self.loaded||!self.live_player||!self.front_screen.empty()||
+           !self.movie){
+            error="Queued DialogMsg has no retained gameplay HUD movie";return false;
+        }
+        return self.movie->action_script(&self,invoke_source_dialog_start,error);
+    }
+    struct DialogBoxProbe {bool tappable{};};
+    // The source DialogBox is a root-level clip above the HUD (depth 365 against
+    // menu_HUD_n at 17) whose full-screen btn_next catches every tap while it is
+    // visible: RenderFX hits the whole retained root. This port binds the HUD
+    // input to menu_HUD_0 alone, so the dialog never saw a tap and its script
+    // (LockCharacter "All" + WaitDialog) kept the Player locked forever.
+    static bool dialog_box_tappable(Impl& self,bool& tappable,std::string& error){
+        DialogBoxProbe probe;
+        if(!self.movie->action_script(&probe,
+            [](void* raw,ui::SwfAsGraph& graph,std::string& nested){
+                auto& result=*static_cast<DialogBoxProbe*>(raw);
+                ui::SwfAsValue root,box,button,visible;bool found=false,flag=false;
+                if(!graph.root_value(root,nested)||
+                   !graph.find_target(root,"_root.DialogBox",box,nested))return false;
+                if(!box.identity()){nested.clear();return true;}
+                if(!graph.get_member(box,"_visible",visible,found,nested))return false;
+                if(!found||!graph.to_boolean(visible,flag,nested))return false;
+                if(!flag){nested.clear();return true;}
+                if(!graph.find_target(root,"_root.DialogBox.btn_next",button,nested))return false;
+                if(!button.identity()){nested.clear();return true;}
+                found=false;flag=false;
+                if(!graph.get_member(button,"_visible",visible,found,nested))return false;
+                if(!found||!graph.to_boolean(visible,flag,nested))return false;
+                result.tappable=flag;nested.clear();return true;
+            },error))return false;
+        tappable=probe.tappable;return true;
+    }
+    static bool dialog_box_release(Impl& self,std::string& error){
+        return self.movie->action_script(&self,
+            [](void*,ui::SwfAsGraph& graph,std::string& nested){
+                ui::SwfAsValue root,button,result;bool callable=false;
+                if(!graph.root_value(root,nested)||
+                   !graph.find_target(root,"_root.DialogBox.btn_next",button,nested))return false;
+                if(!button.identity()){nested.clear();return true;}
+                // btn_next.onRelease: isSkipable ? hideDialog() + sfx_tap_dialog.
+                if(!graph.invoke(button,button,"onRelease",{},result,callable,nested))return false;
+                nested.clear();return true;
+            },error);
+    }
+    // Sets consumed when the touch belongs to the DialogBox (the HUD never sees it).
+    static bool dialog_touch(Impl& self,int action,bool& consumed,std::string& error){
+        consumed=false;error.clear();
+        if(action==0){
+            // A new press never inherits ownership from a release that was lost.
+            self.dialog_touch_owned=false;
+            // Visibility decides, not the queue: FlushMessages empties the queue but
+            // leaves the box on screen to be tapped away, exactly like the source.
+            if(self.gameplay_hud_pointer>=0||!self.movie)return true;
+            bool tappable=false;
+            if(!dialog_box_tappable(self,tappable,error))return false;
+            if(!tappable)return true;
+            self.dialog_touch_owned=true;self.gameplay_ui_touch_owned=true;consumed=true;
+            return true;
+        }
+        if(!self.dialog_touch_owned)return true;
+        consumed=true;
+        if(action==2)return true;
+        self.dialog_touch_owned=false;
+        if(action==3)return true;
+        return dialog_box_release(self,error);
     }
     static void fscommand_handler(gameswf::character*,const char* command,const char* argument){
         auto* self=active_fscommand_owner;
@@ -1770,10 +1852,20 @@ struct OriginalUiSession::Impl {
             error.clear();return true;
         }
         if(!std::strcmp(name,"NativeStopMessage")){
+            // NativeStopMessage 0x442ea4 reads the queue name from its first
+            // argument and ignores any others (the DialogBox hide animation calls
+            // it as NativeStopMessage("dialog"|"quest", 0)). "dialog" and "quest"
+            // both end in MenuMessageManager<DialogMsg,1>::SkipEnqueuedMessage
+            // 0x442c1c, the same pop MenuBase::FS_StopDialog performs. The
+            // "tutorial" and "online" queues belong to features this port does
+            // not run offline.
+            if(fn.nargs<1||!fn.arg(0).is_string())return true;
+            const char* queue=fn.arg(0).to_string();
+            if(!std::strcmp(queue,"dialog")||!std::strcmp(queue,"quest"))
+                return stop_source_dialog(self,error);
             // The source StatusMsg::s_SkipFuncName is null; only the queue
             // pop and next onStatusMessage callback are required here.
-            if(fn.nargs!=1||!fn.arg(0).is_string())return true;
-            if(std::strcmp(fn.arg(0).to_string(),"status"))return true;
+            if(std::strcmp(queue,"status"))return true;
             bool start_next=false;
             if(!self.source_status_messages.stop(start_next)||!start_next){
                 error.clear();return true;
@@ -1784,8 +1876,10 @@ struct OriginalUiSession::Impl {
             return self.gameplay_hud->notify_status_message(error);
         }
         if(!std::strcmp(name,"NativeStopDialog")){
-            // The authored dqhud.swf dialog advance action calls this native
-            // directly. It is the UI equivalent of MenuBase::FS_StopDialog:
+            // The authored menu_FastTravel dialog box (dqhud_droid.swf sprite 508,
+            // frame 20) calls this native directly; the gameplay DialogBox ends
+            // through NativeStopMessage("dialog"). It is the UI equivalent of
+            // MenuBase::FS_StopDialog:
             // pop one DialogMsg and re-enter the same root StartDialog only
             // when another queued message remains. WaitDialog observes this
             // exact queue and resumes on the following LevelVM update.
@@ -3420,6 +3514,8 @@ struct OriginalUiSession::Impl {
         gameplay_main_menu_request.reset();
         gameplay_hud_refresh={};
         source_status_messages.flush();
+        // The SWF that shows and pops these messages is gone with the movie.
+        source_dialog_messages.flush();dialog_start_pending=false;dialog_touch_owned=false;
         gameplay_character_button=0;gameplay_character_button_pressed=false;
         launch_requests.clear();
         launch_delivered=false;
@@ -3537,6 +3633,11 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     struct TouchOwnerReset {Impl* self;int action;~TouchOwnerReset(){if(action==1||action==3)self->gameplay_ui_touch_owned=false;}} owner_reset{impl_.get(),action};
     if(gameplay&&action==0)impl_->gameplay_ui_touch_owned=gameplay_menu;
     if(cursor_index!=0&&(!gameplay_menu||!impl_->gameplay_multitouch_enabled)){error.clear();return true;}
+    if(gameplay&&!gameplay_menu&&cursor_index==0){
+        bool dialog_consumed=false;
+        if(!Impl::dialog_touch(*impl_,action,dialog_consumed,error))return false;
+        if(dialog_consumed){error.clear();return true;}
+    }
     auto* selected=front?impl_->active_menu_movie():
         gameplay_menu?impl_->menu_movie(impl_->game_menu_stack.back()):impl_->movie.get();
     // HUD-hosted gameplay menus (fade/death screens) share the HUD movie and its
@@ -3736,6 +3837,8 @@ bool OriginalUiSession::touch(float x,float y,int action,std::uint32_t cursor_in
     // Flush only after the touch-dispatch lambda returns: its Dispatch RAII
     // guard must restore input_dispatch_movie/frames before DisplayRightHud
     // re-enters the authored SWF.
+    if(succeeded&&impl_->dialog_start_pending&&
+       !Impl::flush_pending_dialog_start(*impl_,error))return false;
     if(succeeded&&impl_->gameplay_native_revive_pending&&
        !Impl::flush_deferred_native_revive(*impl_,error))return false;
     if(succeeded&&impl_->gameplay_hud_skills_refresh.pending&&
@@ -4666,6 +4769,11 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
             require(self.movie->input_advance(milliseconds,error),
                     "Gameplay SWF timeline update failed without a diagnostic");
         }
+        // The DialogBox hide animation ends in NativeStopMessage("dialog"), which
+        // pops the DialogMsg; the next queued message starts now that the timeline
+        // dispatch has unwound.
+        require(Impl::flush_pending_dialog_start(self,error),
+                "Queued DialogMsg StartDialog failed without a diagnostic");
         require(self.status->update(sheet,count,character,error),"Status panel update failed without a diagnostic");
         require(Impl::flush_deferred_faery_hud_skills(self,error),
                 "Deferred active Faery HUD skills refresh failed without a diagnostic");
@@ -4850,6 +4958,12 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
                     "HUD hurt-corner clip display failed without a diagnostic");
             require(self.movie->display_authored_animations(error),
                     "Authored gameplay animations failed to display without a diagnostic");
+            // Root depth order: HurtCorners 3, menu_HUD_n 17, combat text 337..359,
+            // DialogBox 365. The dialog was never drawn, so a script's StartDialog
+            // (tutorials, quest updates, NPC talk) showed nothing while its
+            // WaitDialog held every controller locked.
+            require(self.movie->display_source_clip("_root.DialogBox",error),
+                    "HUD dialog clip display failed without a diagnostic");
         }
         if(!self.game_menu_stack.empty()){
             const auto rectangle=self.front_rectangle();
