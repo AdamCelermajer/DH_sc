@@ -7,7 +7,9 @@ int main() {
     const auto aid = parse_follow_actor_aid_v1("SwampKing@2900-8000:350");
     check(aid.profile == "SwampKing" && aid.from_frame == 2900 && aid.to_frame == 8000 && aid.distance == 350.0f, "parse with distance");
     check(parse_follow_actor_aid_v1("SwampKing@10-20").distance == 300.0f, "default distance");
-    for (const char* bad : {"", "SwampKing", "@1-2", "A@1", "A@1-", "A@5-5", "A@9-3", "A@1-2:0", "A@1-2:-4"}) {
+    // B158: inside the boss body contact distance (290) the placement is refused at parse time (run m3f1 used 170).
+    check(parse_follow_actor_aid_v1("SwampKing@10-20:290").distance == 290.0f, "contact boundary is allowed");
+    for (const char* bad : {"", "SwampKing", "@1-2", "A@1", "A@1-", "A@5-5", "A@9-3", "A@1-2:0", "A@1-2:-4", "SwampKing@2960-6400:170", "A@1-2:289.9"}) {
         bool threw = false;
         try { parse_follow_actor_aid_v1(bad); } catch (const std::exception&) { threw = true; }
         check(threw, bad);
