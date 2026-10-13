@@ -20,8 +20,11 @@ bool RetainedAnimationOwner::bind_events(const std::string& clip,const std::uint
     dh2::resources::BresView bres{};
     if(dh2_bres_open(&bres,bytes,size)!=dh2::resources::BresError::ok
        || bres.root_offset>size || size-bres.root_offset<36) { error="Event source BRES rejected";return false; }
-    if(word(bytes+bres.root_offset+28)!=std::uint32_t(start)
-       || word(bytes+bres.root_offset+32)!=std::uint32_t(end)) {
+    // B155: an authored clip without any key carries the exporter's sentinel range (INT32_MAX..INT32_MIN); the visual admits it
+    // as a zero-length clip at 0 (CharacterVisual::load_with_ranges), which is the same clip.
+    const bool emptySentinel=word(bytes+bres.root_offset+28)==0x7fffffffu&&word(bytes+bres.root_offset+32)==0x80000000u&&start==0&&end==0;
+    if(!emptySentinel&&(word(bytes+bres.root_offset+28)!=std::uint32_t(start)
+       || word(bytes+bres.root_offset+32)!=std::uint32_t(end))) {
         std::vector<EmbeddedSceneClip> ranges;
         if(!decode_embedded_scene_clips(bytes,size,ranges,error))return false;
         const auto found=std::find_if(ranges.begin(),ranges.end(),[&](const auto& range){

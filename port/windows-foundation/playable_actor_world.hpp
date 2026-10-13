@@ -4,6 +4,7 @@
 #include "../game-data/ai.hpp"
 #include "../game-data/loot_tables_v2.hpp"
 #include <functional>
+#include <set>
 #include <utility>
 
 namespace dh::foundation {
@@ -81,7 +82,13 @@ public:
     // Validate both subsets and shared IDs before publishing either/RNG.
     bool replace_state(const std::vector<PersistedPlayableActor>&,
                        std::vector<WorldObject>,dh2::data::CombatRandom,std::string& error);
+    // Target selection eligibility: damage eligibility and not Character::SetIsTargetable(false) (see below).
     bool eligible_target(const ActorState&, const ActorState&) const override;
+    // Damage eligibility: the same checks without the SetIsTargetable flag. Character::_SetIsTargetable (0x3b7a64) only
+    // clears Character+1045, which IsInteractive (target selection) reads; it never gates a damage roll.
+    bool damage_eligible(const ActorState&, const ActorState&) const;
+    void set_selection_suppressed(ActorId id, bool suppressed) { if (suppressed) selectionSuppressed_.insert(id); else selectionSuppressed_.erase(id); }
+    bool selection_suppressed(ActorId id) const noexcept { return selectionSuppressed_.count(id) != 0; }
     // This is source melee reach, NOT a substituted physical capsule radius.
     float target_radius(const ActorState&) const override;
     float melee_reach(ActorId) const noexcept;
@@ -137,6 +144,7 @@ private:
     void sync_loan_from_random() const noexcept;
     std::map<ActorId, ActorState> actors_;
     std::map<ActorId, Binding> bindings_;
+    std::set<ActorId> selectionSuppressed_;
     OriginalMeleeDamageProvider damage_;
     std::map<ObjectId,WorldObject> objects_;
     mutable std::vector<PlayableCombatResolution> resolutions_;

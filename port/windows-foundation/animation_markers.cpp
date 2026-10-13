@@ -20,7 +20,8 @@ std::int32_t threshold(std::int32_t key,unsigned type){
 std::int32_t authored(std::int32_t key,unsigned type){volatile float stamp=static_cast<float>(key);if(type!=4)stamp=stamp*frame_ms;if(stamp>=2147483648.f)return INT32_MAX;if(stamp<=-2147483648.f)return INT32_MIN;return static_cast<std::int32_t>(stamp);}
 }
 bool AnimationMarkers::load(const dh2::animation::EventView& view,std::int32_t start,std::int32_t end,std::string& error){
-    error.clear();if(end<=start||!dh2_events_validate(&view)){error="Invalid animation marker track or range";return false;}
+    // B155: a zero-length range is valid only for a track without markers (an authored empty clip such as swampking_hurt_01.bdae).
+    error.clear();if(end<start||(end==start&&view.count!=0)||!dh2_events_validate(&view)){error="Invalid animation marker track or range";return false;}
     std::vector<AnimationMarker> next;
     for(unsigned i=0;i<view.count;++i){const auto key=raw_key(view,i);const auto stamp=threshold(key,view.type);for(unsigned j=0;j<view.groups[i].count;++j){const auto*name=view.groups[i].names[j];const auto length=std::strlen(name);if(length>4096){error="Animation marker name exceeds limit";return false;}next.push_back({std::string(name,length),stamp,authored(key,view.type),i,j,static_cast<unsigned>(next.size())});}}
     markers_=std::move(next);start_=start;end_=end;loaded_=true;return true;

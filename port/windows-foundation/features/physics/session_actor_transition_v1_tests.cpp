@@ -565,6 +565,23 @@ void run_skill_cast_physical_branches(const char* assets){
     const auto call_count=f.calls.size();
     check(f.session.cancel_actor_source_sequence(1,f.session.actor_binding_lease(),7004,3,departed,f.error)&&!departed,f.error);
     check(f.calls.size()==call_count,"Duplicate Cast7 interruption replayed transition effects");
+
+    // B155: a script PlayAnim (swampking_core.luac dive/intimidate) while a skill/cast sequence plays. Under the installed
+    // Runtime handler only Idle3/Dead12 departures are admitted: CSAnim14 is entered from the Idle3 departure, never directly.
+    play(f.cast_state_sequence,7,-1,7005);observe(true);
+    {
+        const auto* visual=f.session.retained_actor_visual_borrow(1);
+        check(visual&&visual->configuration()&&!visual->configuration()->clips.empty(),"PlayAnim-during-cast fixture lacks a clip");
+        const auto clip=visual->configuration()->clips.front();
+        check(!f.session.cancel_actor_source_sequence(1,f.session.actor_binding_lease(),7005,14,departed,f.error)&&!departed&&!f.error.empty(),
+              "A direct CSAnim14 departure must be rejected under the Runtime handler");
+        check(!f.session.play_actor_clip(1,clip.first,clip.second,false,f.error),
+              "PlayAnim before the active sequence departed must be rejected, not silently replace it");
+        check(f.session.cancel_actor_source_sequence(1,f.session.actor_binding_lease(),7005,3,departed,f.error)&&departed&&
+              f.session.original_actor_state(1)==3,"Idle3 departure of the active cast failed");
+        check(f.session.play_actor_clip(1,clip.first,clip.second,false,f.error)&&f.session.original_actor_state(1)==14,
+              "PlayAnim after the Idle3 departure did not enter CSAnim14");
+    }
     std::cout<<"skill347_moving="<<f.skill_moving<<" alternate_table="<<opposite_id
              <<" alternate_moving="<<f.alternate_skill_moving<<" timers="<<f.skill_timer_scheduled
              <<" expiries="<<f.skill_timer_expired<<" cast_root="<<f.cast_state_sequence

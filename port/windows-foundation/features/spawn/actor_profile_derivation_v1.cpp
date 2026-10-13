@@ -323,6 +323,31 @@ bool derive_melee_actor_v1(const ProfileDerivationTablesV1& tables, const std::s
     return true;
 }
 
+bool append_sequence_state_v1(const ProfileDerivationTablesV1& tables, const std::string& state,
+                              const std::vector<std::int32_t>& sequence_ids, OriginalMeleeActor& actor, std::string& error) {
+    if (state.empty() || actor.states.count(state)) { error = "Appended source state name is empty or already present: " + state; return false; }
+    std::vector<OriginalMeleeSequence> sequences;
+    for (const auto id : sequence_ids) {
+        if (id < 0 || static_cast<std::size_t>(id) >= tables.animations.sequences.size() ||
+            static_cast<std::size_t>(id) >= tables.animations.sequence_names.size()) {
+            error = "Appended state sequence is outside the AnimTable: " + state;
+            return false;
+        }
+        const auto& source = tables.animations.sequences[static_cast<std::size_t>(id)];
+        OriginalMeleeSequence sequence;
+        sequence.id = id;
+        sequence.name = tables.animations.sequence_names[static_cast<std::size_t>(id)];
+        sequence.loop = source.loop;
+        sequence.type = source.type;
+        std::vector<std::int32_t> path;
+        if (!emit_steps(tables, id, sequence.steps, path, error)) return false;
+        sequences.push_back(std::move(sequence));
+    }
+    actor.states.emplace(state, std::move(sequences));
+    error.clear();
+    return true;
+}
+
 bool derive_enemy_combat_policy_v1(const ProfileDerivationTablesV1& tables, const std::string& row,
                                    CombatSessionProfile& output, std::string& error) {
     const auto index = character_index(tables, row, error);

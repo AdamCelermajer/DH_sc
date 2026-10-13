@@ -39,4 +39,9 @@ bool load_actor_definitions(const AssetCatalog& assets,
                             std::string& error,
                             const ActorLoadOptions& options = {});
 
+// Child scope key of each Module declaration (gametype "Module") in staged order: "<declaration moduleName>/<name>#<ordinal>",
+// the moduleName load_actor_definitions gives that Module's own child GameObjects. A Module whose mgp/mvp declare no GameObject
+// (an empty <Module/>, e.g. Darkwood_08_01) has no child carrying the key; the key is still its host occurrence.
+std::vector<std::pair<const ActorDefinition*, std::string>> module_child_occurrences(const std::vector<ActorDefinition>& definitions);
+
 } // namespace dh::foundation

@@ -72,6 +72,10 @@ public:
     // P16 PROFILES: publishes an actor derived from the original tables (features/spawn/
     // actor_profile_derivation_v1). Rejects an existing actor ID; nothing changes on failure.
     bool add_derived_actor(OriginalMeleeActor actor, std::string& error);
+    // B155: appends one new named state (original AnimTable sequences, see spawn::append_sequence_state_v1) to an already
+    // published actor, authored or derived. Rejects an unknown actor or an existing state; nothing changes on failure.
+    bool add_actor_state(const std::string& profileId, const std::string& state, std::vector<OriginalMeleeSequence> sequences,
+                         std::string& error);
     const OriginalMeleeActor* find_actor(const std::string& profileId) const noexcept;
     const OriginalMeleeClip* find_clip(const std::string& uri) const;
     std::vector<const OriginalMeleeActor*> actors_for_row(std::int64_t row) const;

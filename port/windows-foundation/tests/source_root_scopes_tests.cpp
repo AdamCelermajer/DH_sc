@@ -44,5 +44,20 @@ int main(int argc,char**argv){try{
  SourceRootScopeOptions explicitOccurrence;explicitOccurrence.hostOccurrenceByElement[first.occurrence.element]=first.occurrence.hostOccurrence;
  SourceRootScopes explicitRoot;check(explicitRoot.load(assets,uri,ambiguous,error,explicitOccurrence),error);
  check(explicitRoot.count()==9,"Explicit opaque occurrence changed actual module IDs");
+ { // B155 (Gothicus -> Darkwood): 003_darkwood.mlx carries _templateName attributes (PropertyMap::LoadTemplate, source assertion(9) that
+   // falls through with gAssertLevel==0) and Module declarations whose mgp/mvp are an empty <Module/> (no child occurrence).
+   const auto packageRoot=std::filesystem::path(argv[1])/".local-inputs/windows-source-clock-v21.6/assets";
+   if(std::filesystem::exists(packageRoot/"data/scene/003_darkwood.mlx")) {
+     AssetCatalog package(packageRoot);const std::string dw="data/scene/003_darkwood.mlx";std::vector<ActorDefinition> dwDefinitions;
+     check(load_actor_definitions(package,dw,dwDefinitions,error),error);
+     const auto declarations=module_child_occurrences(dwDefinitions);
+     bool emptyModuleSeen=false;
+     for(const auto& declaration:declarations){bool hasChild=false;for(const auto& d:dwDefinitions)hasChild|=d.moduleName==declaration.second;emptyModuleSeen|=!hasChild;}
+     check(!declarations.empty()&&emptyModuleSeen,"Darkwood fixture has no empty Module declaration");
+     SourceWorldObjects dwObjects;check(dwObjects.load(dwDefinitions,error),error);SourceRootScopes dwRoot;
+     check(dwRoot.build(package,dw,dwDefinitions,dwObjects,error),"Darkwood constructors: "+error);
+     check(dwRoot.status().step==SourceLevelConstructionStep::complete&&dwRoot.count()==declarations.size(),"Darkwood root constructors differ from its Module declarations");
+   }
+ }
  std::cout<<"PASS actual root config+9 constructors, owned offline context, source room lookup, reload rebind, honest failed prefix, explicit ambiguous occurrence\n";return 0;
 }catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}

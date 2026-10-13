@@ -107,9 +107,26 @@ Phase phase_after_update(Phase current, float hp_percent) noexcept;
 // return no_skill_dispatched; the plan does not fill those gaps.
 AttackDecision close_attack(Phase phase, bool first_melee, int roll) noexcept;
 
+// B155: the same branch structure with the numbers read from the authored script
+// (swampking_core.luac: normalMeleeAttack1_prob, firstMeleeAttack2_prob,
+// normalMeleeAttack2_prob and the DoSkill arguments of each branch). The overload
+// above is this function with the recovered source values.
+struct CloseAttackRulesV1 {
+    int phase1_first_slot = 1;          // OnTargetInCloseRange: first_melee_flag -> DoSkill(1)
+    int phase1_normal_prob = 80;        // Do_MeleeAttackPhase1: roll < 80
+    int phase1_normal_slot = 1, phase1_other_slot = 0;
+    int phase2_first_prob = 50;         // Do_MeleeAttackPhase2 first melee: roll < 50
+    int phase2_first_low_slot = 0, phase2_first_high_slot = 1;
+    int phase2_prob_a = 40, phase2_prob_b = 50; // {40, 50, 10}: roll < a; roll < a+b and roll > a
+    int phase2_a_slot = 0, phase2_b_slot = 1;
+};
+AttackDecision close_attack(Phase phase, bool first_melee, int roll, const CloseAttackRulesV1& rules) noexcept;
+
 // Ranged callbacks in both source phases ultimately dispatch DoSkill(2), but
 // phase 1 traverses the intimidate animation/OnEndOfAnim callback first.
 AttackDecision ranged_attack(Phase phase) noexcept;
+AttackDecision ranged_attack(Phase phase, int spit_slot) noexcept; // B155: slot read from the script
+Phase phase_after_update(Phase current, float hp_percent, int phase2_at_or_below_hp_percent) noexcept; // B155
 
 // Returns false only for an unsupported native comparison ID. On success,
 // matched is the exact original comparison against the supplied same-owner

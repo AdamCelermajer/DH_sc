@@ -4,6 +4,7 @@
 #include "camera.hpp"
 #include <functional>
 #include <optional>
+#include <set>
 
 namespace dh::foundation {
 // Authored objects plus explicit constructor-derived room bindings. A loader
@@ -22,6 +23,7 @@ public:
 private:
     std::map<ActorId,ActorDefinition> objects_;
     std::map<std::string,int> modules_;
+    std::set<std::string> declaredModules_; // child scope keys of every Module declaration (empty modules have no child object)
     ActorAnchor actor_anchor_;
 };
 }

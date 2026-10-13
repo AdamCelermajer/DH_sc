@@ -58,6 +58,11 @@ int main(int argc, char** argv) {
                 "missing LevelList assets must fail without a partial table");
         std::cout << "levels[41].file=" << levels.levels[41].file << " words[9]=" << levels.levels[41].scalar.words[9] << '\n';
         require(levels.levels[41].file.find("001_swamp.mlx") != std::string::npos, "LevelList row 41 is not 001_swamp.mlx");
+        { // B155: LevelRangeRow24 (row words 12..17 = maximum[3], minimum[3]) read by LuaScript::_GetCurrentLevelRange (0x37f1f0).
+            const auto& w = levels.levels[41].scalar.words;
+            require(w[12] == 4 && w[13] == 41 && w[14] == 71 && w[15] == 1 && w[16] == 40 && w[17] == 70,
+                    "001_swamp LevelList level range is not 1..4 / 40..41 / 70..71");
+        }
         require(mm::find_level_row(levels, "data/scene/001_swamp.mlx") == 41, "find_level_row(001_swamp) != 41");
         require(mm::find_level_row(levels, "DATA\\SCENE\\001_SWAMP.MLX") == 41, "find_level_row is not path/case tolerant");
         require(mm::find_level_row(levels, "data/scene/does_not_exist.mlx") == -1 && mm::find_level_row(levels, "") == -1, "unknown level must give -1");

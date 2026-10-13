@@ -1,0 +1,371 @@
+Test project C:/dh217/build
+        Start 125: b035_session_push_effect_v1
+        Start  88: campaign_trigger_zones
+        Start  40: actor_population_template_selection
+        Start 181: actor_embedded_visual
+  1/183 Test #181: actor_embedded_visual .........................   Passed    0.03 sec
+        Start  32: content_paths
+  2/183 Test  #32: content_paths .................................   Passed    0.06 sec
+        Start 170: menu_metadata_v1
+  3/183 Test #170: menu_metadata_v1 ..............................   Passed    0.02 sec
+        Start  29: actor_movement
+  4/183 Test  #29: actor_movement ................................   Passed    0.01 sec
+        Start  48: target_selection_runtime
+  5/183 Test  #40: actor_population_template_selection ...........   Passed    0.14 sec
+        Start   8: startup_intro_segments_v1
+  6/183 Test  #48: target_selection_runtime ......................   Passed    0.01 sec
+        Start 117: hud_xp_bar
+  7/183 Test   #8: startup_intro_segments_v1 .....................   Passed    0.02 sec
+        Start  81: death_flow_v1
+  8/183 Test  #81: death_flow_v1 .................................   Passed    0.01 sec
+        Start 119: semantic_input
+  9/183 Test #117: hud_xp_bar ....................................   Passed    0.03 sec
+        Start  83: death_checkpoint_zone_v1
+ 10/183 Test #119: semantic_input ................................   Passed    0.02 sec
+        Start 113: original_actor_motion_frame
+ 11/183 Test  #83: death_checkpoint_zone_v1 ......................   Passed    0.02 sec
+        Start 104: original_actor_animation_events
+ 12/183 Test #113: original_actor_motion_frame ...................   Passed    0.02 sec
+        Start 138: source_fx_billboard_basis_v1
+ 13/183 Test #104: original_actor_animation_events ...............   Passed    0.01 sec
+        Start 154: playable_actor_physics_frame
+ 14/183 Test #138: source_fx_billboard_basis_v1 ..................   Passed    0.02 sec
+        Start 142: equipment_adapter
+ 15/183 Test #142: equipment_adapter .............................   Passed    0.02 sec
+        Start 152: combat_session_incoming_receiver
+ 16/183 Test  #88: campaign_trigger_zones ........................   Passed    0.30 sec
+        Start 160: combat_session_actor_transition
+ 17/183 Test #154: playable_actor_physics_frame ..................   Passed    0.21 sec
+        Start  37: original_combat_visual_plan
+ 18/183 Test  #37: original_combat_visual_plan ...................   Passed    0.38 sec
+        Start  80: death_host_v1
+ 19/183 Test  #80: death_host_v1 .................................   Passed    0.01 sec
+        Start  33: actor_root_motion
+ 20/183 Test  #33: actor_root_motion .............................   Passed    0.09 sec
+        Start 163: playable_actor_body_construction
+ 21/183 Test #163: playable_actor_body_construction ..............   Passed    0.04 sec
+        Start 137: world_drop_rules_v1
+ 22/183 Test #137: world_drop_rules_v1 ...........................   Passed    0.01 sec
+        Start 177: procedural_layout_fidelity
+ 23/183 Test #125: b035_session_push_effect_v1 ...................   Passed    1.28 sec
+        Start  61: skinned_material_binding
+ 24/183 Test  #61: skinned_material_binding ......................   Passed    0.03 sec
+        Start 147: inventory_drop_gate
+ 25/183 Test #147: inventory_drop_gate ...........................   Passed    0.02 sec
+        Start 140: combat_session_target_cycle
+ 26/183 Test #177: procedural_layout_fidelity ....................   Passed    0.42 sec
+        Start 161: session_actor_transition_physics
+ 27/183 Test #140: combat_session_target_cycle ...................   Passed    0.19 sec
+        Start 169: level_module_zones
+ 28/183 Test #169: level_module_zones ............................   Passed    0.30 sec
+        Start  22: door_clip_lifecycle_v1
+ 29/183 Test  #22: door_clip_lifecycle_v1 ........................   Passed    0.02 sec
+        Start 133: actor_profile_derivation_v1
+ 30/183 Test #133: actor_profile_derivation_v1 ...................   Passed    0.05 sec
+        Start  86: campaign_host
+ 31/183 Test  #86: campaign_host .................................   Passed    0.21 sec
+        Start 155: combat_session_motion_phase
+ 32/183 Test #155: combat_session_motion_phase ...................   Passed    0.37 sec
+        Start 148: combat_session_equipment_multiplicity
+ 33/183 Test #148: combat_session_equipment_multiplicity .........   Passed    0.40 sec
+        Start 121: character_state_page
+ 34/183 Test #121: character_state_page ..........................   Passed    0.03 sec
+        Start 175: procedural_level_v1
+ 35/183 Test #175: procedural_level_v1 ...........................   Passed    0.08 sec
+        Start 141: player_profile_properties
+ 36/183 Test #141: player_profile_properties .....................   Passed    0.06 sec
+        Start 132: spawn_character_v1
+ 37/183 Test #132: spawn_character_v1 ............................   Passed    0.04 sec
+        Start  51: combat_session
+ 38/183 Test #161: session_actor_transition_physics ..............   Passed    2.24 sec
+        Start  31: actor_definitions
+ 39/183 Test  #31: actor_definitions .............................   Passed    0.11 sec
+        Start  11: startup_intro_movie_v2
+ 40/183 Test #160: combat_session_actor_transition ...............   Passed    3.75 sec
+        Start 129: catch_up_buff_v1
+ 41/183 Test #129: catch_up_buff_v1 ..............................   Passed    0.01 sec
+        Start 127: combat_text_live
+ 42/183 Test #127: combat_text_live ..............................   Passed    0.18 sec
+        Start  42: renderer_visual_quality
+ 43/183 Test  #42: renderer_visual_quality .......................   Passed    0.29 sec
+        Start  77: compiled_campaign_bank
+ 44/183 Test  #77: compiled_campaign_bank ........................   Passed    0.02 sec
+        Start  75: deferred_population
+ 45/183 Test  #51: combat_session ................................   Passed    1.58 sec
+        Start 120: menu_text
+ 46/183 Test  #75: deferred_population ...........................   Passed    0.11 sec
+        Start  25: asset
+ 47/183 Test #120: menu_text .....................................   Passed    0.03 sec
+        Start  28: combat_system
+ 48/183 Test  #28: combat_system .................................   Passed    0.01 sec
+        Start 153: combat_session_source_attack_bank
+ 49/183 Test  #25: asset .........................................   Passed    0.21 sec
+        Start  97: original_actor_bounds
+ 50/183 Test  #97: original_actor_bounds .........................   Passed    0.03 sec
+        Start 109: source_module_construction
+ 51/183 Test #109: source_module_construction ....................   Passed    0.05 sec
+        Start 110: source_root_scopes
+ 52/183 Test #110: source_root_scopes ............................   Passed    0.05 sec
+        Start 134: runtime_death_rewards_v1
+ 53/183 Test #134: runtime_death_rewards_v1 ......................   Passed    0.05 sec
+        Start 145: equipment_action_confirmation_v1
+ 54/183 Test #145: equipment_action_confirmation_v1 ..............   Passed    0.02 sec
+        Start   1: script_source_services_v1
+ 55/183 Test   #1: script_source_services_v1 .....................   Passed    0.02 sec
+        Start  55: game_save_parent_directory
+ 56/183 Test  #55: game_save_parent_directory ....................   Passed    0.02 sec
+        Start   5: frontend_music_v1
+ 57/183 Test   #5: frontend_music_v1 .............................   Passed    0.01 sec
+        Start 162: source_physical_filter_ops
+ 58/183 Test #162: source_physical_filter_ops ....................   Passed    0.03 sec
+        Start  34: original_actor_properties
+ 59/183 Test  #34: original_actor_properties .....................   Passed    0.02 sec
+        Start  21: door_runtime_restore_v1
+ 60/183 Test  #21: door_runtime_restore_v1 .......................   Passed    0.02 sec
+        Start  23: save
+ 61/183 Test  #23: save ..........................................   Passed    0.09 sec
+        Start  59: original_actor_labels
+ 62/183 Test  #59: original_actor_labels .........................   Passed    0.02 sec
+        Start 173: animation_channel_filter
+ 63/183 Test #173: animation_channel_filter ......................   Passed    0.01 sec
+        Start  98: source_material_pass
+ 64/183 Test  #98: source_material_pass ..........................   Passed    0.32 sec
+        Start  85: authored_actor_save_migration_v1
+ 65/183 Test  #11: startup_intro_movie_v2 ........................   Passed    1.94 sec
+        Start  76: original_campaign_world_adapter
+ 66/183 Test  #85: authored_actor_save_migration_v1 ..............   Passed    0.02 sec
+        Start  87: aborted_scene_repair
+ 67/183 Test  #76: original_campaign_world_adapter ...............   Passed    0.02 sec
+        Start  50: playable_actor_world
+ 68/183 Test  #87: aborted_scene_repair ..........................   Passed    0.02 sec
+        Start 101: original_actor_physical
+ 69/183 Test  #50: playable_actor_world ..........................   Passed    0.02 sec
+        Start  68: campaign_camera_adapter
+ 70/183 Test #101: original_actor_physical .......................   Passed    0.03 sec
+        Start 144: equipment_main_page
+ 71/183 Test  #68: campaign_camera_adapter .......................   Passed    0.02 sec
+        Start 183: menu_text_layout_v1
+ 72/183 Test #144: equipment_main_page ...........................   Passed    0.02 sec
+        Start 106: original_actor_body_plan
+ 73/183 Test #183: menu_text_layout_v1 ...........................   Passed    0.01 sec
+        Start  10: startup_intro_soundtrack_v2
+ 74/183 Test  #10: startup_intro_soundtrack_v2 ...................   Passed    0.02 sec
+        Start  79: source_fx_anchor_registry_v1
+ 75/183 Test  #79: source_fx_anchor_registry_v1 ..................   Passed    0.02 sec
+        Start 146: inventory_details_row_geometry
+ 76/183 Test #106: original_actor_body_plan ......................   Passed    0.06 sec
+        Start  94: actor_lighting
+ 77/183 Test #146: inventory_details_row_geometry ................   Passed    0.02 sec
+        Start  12: quest_conditions_v1
+ 78/183 Test  #94: actor_lighting ................................   Passed    0.02 sec
+        Start 136: runtime_level_up_presentation_v1
+ 79/183 Test  #12: quest_conditions_v1 ...........................   Passed    0.01 sec
+        Start  60: original_pose_blend
+ 80/183 Test #136: runtime_level_up_presentation_v1 ..............   Passed    0.02 sec
+        Start  70: original_camera_transition
+ 81/183 Test  #60: original_pose_blend ...........................   Passed    0.02 sec
+        Start  24: camera
+ 82/183 Test  #24: camera ........................................   Passed    0.02 sec
+        Start   6: winmm_pump_priority_v1
+ 83/183 Test  #70: original_camera_transition ....................   Passed    0.05 sec
+        Start 139: neutral_world_save
+ 84/183 Test   #6: winmm_pump_priority_v1 ........................   Passed    0.02 sec
+        Start  20: door_collision_geometry_v1
+ 85/183 Test  #20: door_collision_geometry_v1 ....................   Passed    0.06 sec
+        Start  93: original_trigger_contacts
+ 86/183 Test #139: neutral_world_save ............................   Passed    0.08 sec
+        Start  63: retained_pose_playback
+ 87/183 Test  #93: original_trigger_contacts .....................   Passed    0.02 sec
+        Start  71: original_actor_camera_anchor
+ 88/183 Test  #63: retained_pose_playback ........................   Passed    0.03 sec
+        Start  18: world_gate_v1
+ 89/183 Test  #71: original_actor_camera_anchor ..................   Passed    0.02 sec
+        Start 178: source_actor_placement
+ 90/183 Test  #18: world_gate_v1 .................................   Passed    0.01 sec
+        Start 179: source_fx_version_overrides
+ 91/183 Test #178: source_actor_placement ........................   Passed    0.02 sec
+        Start 157: combat_session_death_end_regression
+ 92/183 Test #153: combat_session_source_attack_bank .............   Passed    1.34 sec
+        Start   3: despawn_after_death_v1
+ 93/183 Test #179: source_fx_version_overrides ...................   Passed    0.02 sec
+        Start 166: schema_v4
+ 94/183 Test   #3: despawn_after_death_v1 ........................   Passed    0.02 sec
+        Start 122: faery_cast_sound_v1
+ 95/183 Test #122: faery_cast_sound_v1 ...........................   Passed    0.01 sec
+        Start  52: combat_session_pose_step
+ 96/183 Test #152: combat_session_incoming_receiver ..............   Passed    6.00 sec
+        Start 143: equipment_inventory_actions
+ 97/183 Test #143: equipment_inventory_actions ...................   Passed    0.02 sec
+        Start  64: original_campaign_runtime
+ 98/183 Test  #64: original_campaign_runtime .....................   Passed    0.03 sec
+        Start  43: renderer_static_geometry
+ 99/183 Test #157: combat_session_death_end_regression ...........   Passed    0.28 sec
+        Start  17: conditions_v1
+100/183 Test  #17: conditions_v1 .................................   Passed    0.01 sec
+        Start  44: frame_pacer
+101/183 Test  #52: combat_session_pose_step ......................   Passed    0.35 sec
+        Start 165: combat_session_presentation_state
+102/183 Test #166: schema_v4 .....................................   Passed    0.61 sec
+        Start  36: original_melee_bindings
+103/183 Test  #43: renderer_static_geometry ......................   Passed    0.37 sec
+        Start 174: level_transitions
+104/183 Test  #36: original_melee_bindings .......................   Passed    0.03 sec
+        Start  74: source_world_objects
+105/183 Test  #44: frame_pacer ...................................   Passed    0.38 sec
+        Start 103: original_actor_navigation
+106/183 Test #165: combat_session_presentation_state .............   Passed    0.30 sec
+        Start  96: source_l1_specular_render
+107/183 Test  #74: source_world_objects ..........................   Passed    0.05 sec
+        Start 182: merchant_shop_v1
+108/183 Test #182: merchant_shop_v1 ..............................   Passed    0.01 sec
+        Start  99: original_controller_commands
+109/183 Test #174: level_transitions .............................   Passed    0.09 sec
+        Start  30: gameplay_camera
+110/183 Test  #99: original_controller_commands ..................   Passed    0.02 sec
+        Start  62: character_pose_seam
+111/183 Test  #30: gameplay_camera ...............................   Passed    0.01 sec
+        Start  47: original_combat_properties
+112/183 Test  #62: character_pose_seam ...........................   Passed    0.02 sec
+        Start  39: original_character
+113/183 Test  #47: original_combat_properties ....................   Passed    0.02 sec
+        Start  19: door_collision_v1
+114/183 Test  #19: door_collision_v1 .............................   Passed    0.01 sec
+        Start  91: source_module_trace
+115/183 Test  #39: original_character ............................   Passed    0.03 sec
+        Start 116: hud_geometry
+116/183 Test #103: original_actor_navigation .....................   Passed    0.11 sec
+        Start  56: game_save
+117/183 Test  #91: source_module_trace ...........................   Passed    0.02 sec
+        Start 159: combat_session_reconstructible_notification
+118/183 Test #116: hud_geometry ..................................   Passed    0.02 sec
+        Start  13: quest_banner_presenter_v1
+119/183 Test  #13: quest_banner_presenter_v1 .....................   Passed    0.01 sec
+        Start   2: interaction_approach_v1
+120/183 Test  #56: game_save .....................................   Passed    0.04 sec
+        Start  16: quest_npc_marker_v1
+121/183 Test   #2: interaction_approach_v1 .......................   Passed    0.02 sec
+        Start  92: run_binding
+122/183 Test  #16: quest_npc_marker_v1 ...........................   Passed    0.02 sec
+        Start  14: quest_journal_art_v1
+123/183 Test  #92: run_binding ...................................   Passed    0.03 sec
+        Start  26: level_manifest
+124/183 Test  #14: quest_journal_art_v1 ..........................   Passed    0.04 sec
+        Start 108: original_actor_collision_filter
+125/183 Test  #26: level_manifest ................................   Passed    0.03 sec
+        Start 176: save_all_components_v4
+126/183 Test #108: original_actor_collision_filter ...............   Passed    0.02 sec
+        Start 102: source_level_construction
+127/183 Test #176: save_all_components_v4 ........................   Passed    0.03 sec
+        Start  46: root_pivot
+128/183 Test #102: source_level_construction .....................   Passed    0.03 sec
+        Start 167: map_visit
+129/183 Test  #46: root_pivot ....................................   Passed    0.03 sec
+        Start   9: startup_loading_art_v1
+130/183 Test #167: map_visit .....................................   Passed    0.02 sec
+        Start 111: source_module_floors
+131/183 Test   #9: startup_loading_art_v1 ........................   Passed    0.02 sec
+        Start  90: cinematic_runner
+132/183 Test  #90: cinematic_runner ..............................   Passed    0.01 sec
+        Start  72: modular_defaults
+133/183 Test #159: combat_session_reconstructible_notification ...   Passed    0.19 sec
+        Start 126: combat_text
+134/183 Test #126: combat_text ...................................   Passed    0.02 sec
+        Start 107: playable_actor_bodies
+135/183 Test  #96: source_l1_specular_render .....................   Passed    0.32 sec
+        Start 118: character_menu
+136/183 Test  #72: modular_defaults ..............................   Passed    0.05 sec
+        Start 158: game_save_physical_presence
+137/183 Test #118: character_menu ................................   Passed    0.01 sec
+        Start 135: world_item_sound_v1
+138/183 Test #135: world_item_sound_v1 ...........................   Passed    0.01 sec
+        Start  78: source_script_fx_adapter_v1
+139/183 Test #107: playable_actor_bodies .........................   Passed    0.04 sec
+        Start 172: ambient_decor
+140/183 Test  #78: source_script_fx_adapter_v1 ...................   Passed    0.02 sec
+        Start 171: original_camera_clip
+141/183 Test #171: original_camera_clip ..........................   Passed    0.02 sec
+        Start  95: source_l1_specular
+142/183 Test  #95: source_l1_specular ............................   Passed    0.01 sec
+        Start  15: quest_runtime_v1
+143/183 Test #172: ambient_decor .................................   Passed    0.05 sec
+        Start   4: container_open_script_v1
+144/183 Test  #15: quest_runtime_v1 ..............................   Passed    0.01 sec
+        Start 180: embedded_particle_fidelity
+145/183 Test   #4: container_open_script_v1 ......................   Passed    0.02 sec
+        Start 164: native_world_character_creation_failure
+146/183 Test #111: source_module_floors ..........................   Passed    0.18 sec
+        Start  66: item_spawn_clip
+147/183 Test #158: game_save_physical_presence ...................   Passed    0.11 sec
+        Start 124: combat_session_combo
+148/183 Test #180: embedded_particle_fidelity ....................   Passed    0.03 sec
+        Start 128: follower_decision_v1
+149/183 Test #164: native_world_character_creation_failure .......   Passed    0.03 sec
+        Start  57: hud_target
+150/183 Test  #66: item_spawn_clip ...............................   Passed    0.03 sec
+        Start  73: original_actor_lifecycle
+151/183 Test  #57: hud_target ....................................   Passed    0.01 sec
+        Start  82: death_runtime_v1
+152/183 Test #128: follower_decision_v1 ..........................   Passed    0.03 sec
+        Start 112: source_motion_flags
+153/183 Test  #82: death_runtime_v1 ..............................   Passed    0.01 sec
+        Start  89: status_message_v1
+154/183 Test  #73: original_actor_lifecycle ......................   Passed    0.03 sec
+        Start  49: actor_combat_runtime
+155/183 Test #112: source_motion_flags ...........................   Passed    0.02 sec
+        Start 100: source_actor_camera_anchors
+156/183 Test  #89: status_message_v1 .............................   Passed    0.02 sec
+        Start 114: original_actor_target_position
+157/183 Test  #49: actor_combat_runtime ..........................   Passed    0.02 sec
+        Start   7: startup_boot_flow_v1
+158/183 Test #100: source_actor_camera_anchors ...................   Passed    0.02 sec
+        Start  58: hud_glyphs
+159/183 Test #114: original_actor_target_position ................   Passed    0.02 sec
+        Start 115: original_actor_subobjects
+160/183 Test   #7: startup_boot_flow_v1 ..........................   Passed    0.02 sec
+        Start  67: retained_animation_owner
+161/183 Test  #58: hud_glyphs ....................................   Passed    0.02 sec
+        Start  84: death_checkpoint_snapshot_v1
+162/183 Test  #67: retained_animation_owner ......................   Passed    0.02 sec
+        Start 130: runtime_ranged_skill_monster_v1
+163/183 Test  #84: death_checkpoint_snapshot_v1 ..................   Passed    0.02 sec
+        Start 131: runtime_swampking_core_ai_v1
+164/183 Test #115: original_actor_subobjects .....................   Passed    0.05 sec
+        Start  41: window_lifecycle
+165/183 Test #130: runtime_ranged_skill_monster_v1 ...............   Passed    0.07 sec
+        Start 168: map_markers
+166/183 Test #168: map_markers ...................................   Passed    0.03 sec
+        Start  27: animation_markers
+167/183 Test  #27: animation_markers .............................   Passed    0.07 sec
+        Start 151: stat_training_v1
+168/183 Test #131: runtime_swampking_core_ai_v1 ..................   Passed    0.19 sec
+        Start  35: equipment_visual
+169/183 Test  #35: equipment_visual ..............................   Passed    0.04 sec
+        Start  38: original_attack_sequence
+170/183 Test #151: stat_training_v1 ..............................   Passed    0.12 sec
+        Start  45: private_save_transport_win32
+171/183 Test  #38: original_attack_sequence ......................   Passed    0.07 sec
+        Start  53: source_session_program
+172/183 Test  #45: private_save_transport_win32 ..................   Passed    0.06 sec
+        Start  54: session_skill_binding
+173/183 Test  #41: window_lifecycle ..............................   Passed    0.35 sec
+        Start  65: npc_root_sample
+174/183 Test #124: combat_session_combo ..........................   Passed    0.59 sec
+        Start  69: retained_sequence_playback
+175/183 Test  #65: npc_root_sample ...............................   Passed    0.11 sec
+        Start 105: source_level_config
+176/183 Test  #54: session_skill_binding .........................   Passed    0.15 sec
+        Start 123: source_combo_chain
+177/183 Test #105: source_level_config ...........................   Passed    0.08 sec
+        Start 149: combat_session_source_departure
+178/183 Test  #53: source_session_program ........................   Passed    0.34 sec
+        Start 150: runtime_skill_session_training
+179/183 Test  #69: retained_sequence_playback ....................   Passed    0.19 sec
+        Start 156: retained_seeded_completion
+180/183 Test #123: source_combo_chain ............................   Passed    0.18 sec
+181/183 Test #150: runtime_skill_session_training ................   Passed    0.20 sec
+182/183 Test #156: retained_seeded_completion ....................   Passed    0.18 sec
+183/183 Test #149: combat_session_source_departure ...............   Passed    3.57 sec
+
+100% tests passed, 0 tests failed out of 183
+
+Total Test time (real) =  11.44 sec

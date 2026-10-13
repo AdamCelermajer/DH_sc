@@ -235,4 +235,13 @@ bool load_actor_definitions(const AssetCatalog& assets, const std::filesystem::p
     } catch (const std::exception& exception) { error = exception.what(); return false; }
 }
 
+
+std::vector<std::pair<const ActorDefinition*, std::string>> module_child_occurrences(const std::vector<ActorDefinition>& definitions) {
+    std::vector<std::pair<const ActorDefinition*, std::string>> result;
+    std::size_t ordinal = 0;
+    for (const auto& definition : definitions)
+        if (definition.gametype == "Module")
+            result.emplace_back(&definition, definition.moduleName + "/" + definition.name + "#" + std::to_string(ordinal++));
+    return result;
+}
 } // namespace dh::foundation

@@ -2289,7 +2289,11 @@ bool CombatSession::select_actor_state_leaf(ActorId id,const CombatSessionChoice
     }
     try{const auto& selected=choose(*entry.sequencePlan,choice);volatile float rate=static_cast<float>(actor_rate)*static_cast<float>(selected.speed);if(!std::isfinite(rate)){error="State animation effective rate overflow";return false;}
         const auto* sequence=entry.sequencePlan->sequence(choice.state,choice.variant);RetainedAnimationFrame frame;
-        s.runtime->interrupt(id);s.combat->interrupt(id);
+        // B155: the admitted transition above already represents leaving the runtime-owned pose (for example the Died pose of
+        // a killed actor that Script_SetActorPosition puts in Idle: SM_SetIdleState 0x3c1a00 has no dead guard). As in
+        // play_actor_clip, the runtime interruption must not raise a second, nested transition prefix for the same change.
+        {struct Scope{bool& flag;~Scope(){flag=false;}} scope{s.suppressRuntimeTransitions};s.suppressRuntimeTransitions=true;
+            if(s.runtime->owns_pose(id)&&!s.runtime->interrupt(id,error))return false;s.combat->interrupt(id);}
         if(frozen){if(!entry.retained->seed_sequence(*s.assets,selected.clipName,selected.resolvedPath,0,static_cast<int>(selected.blendOut),selected.moveGO!=0,0,frame,error))return false;}
         else if(!s.seed_source(entry,selected,sequence&&sequence->loop!=0,rate,*entry.retained,frame,error))return false;
         entry.stateManaged=true;entry.stateSequence=false;entry.stateFrozen=frozen;entry.stateServices=std::move(services);entry.sourceAction=false;entry.sourceSelectedClip=selected.clipName;entry.locomotionSelected.clear();entry.sourceEvents.clear();s.lifecycleRegistered=true;s.lifecycleActivity=true;error.clear();
