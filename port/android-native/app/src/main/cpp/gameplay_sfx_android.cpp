@@ -12,6 +12,8 @@
 #include <jni.h>
 
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <mutex>
@@ -94,6 +96,8 @@ public:
             !ok((*queue_)->RegisterCallback(queue_, &Output::callback, this), "RegisterCallback"))
             return abort_open();
         prime();
+        callbacks_.store(0);
+        opened_at_ = std::chrono::steady_clock::now();
         if (!ok((*play_)->SetPlayState(play_, SL_PLAYSTATE_PLAYING), "SetPlayState(PLAYING)"))
             return abort_open();
         playing_ = true;
@@ -101,18 +105,14 @@ public:
         return true;
     }
 
-    // Pausing stops the callbacks (no mixer time passes); resuming re-primes
-    // the queue so stale audio from before the pause is never replayed.
+    // Pausing stops the callbacks, so no mixer time passes. The buffers already
+    // queued were rendered before the pause (the mixer advanced exactly that
+    // far), so resuming plays them next and the sound continues without a gap.
     void set_active(bool active) {
         if (!play_ || active == playing_) return;
-        if (active) {
-            (*queue_)->Clear(queue_);
-            next_ = 0;
-            prime();
-            if (ok((*play_)->SetPlayState(play_, SL_PLAYSTATE_PLAYING), "resume")) playing_ = true;
-        } else if (ok((*play_)->SetPlayState(play_, SL_PLAYSTATE_PAUSED), "pause")) {
-            playing_ = false;
-        }
+        if (ok((*play_)->SetPlayState(play_, active ? SL_PLAYSTATE_PLAYING : SL_PLAYSTATE_PAUSED),
+               active ? "resume" : "pause"))
+            playing_ = active;
     }
 
     void close() {
@@ -127,6 +127,14 @@ public:
         playing_ = false;
     }
 
+    // A player that was created but never drains its queue (some devices hand
+    // out a dead stream) would silence every effect; callers fall back to the
+    // Java path once it has been given a few seconds to start.
+    bool healthy() const noexcept {
+        if (!play_) return false;
+        if (!playing_ || callbacks_.load() > 0) return true;
+        return std::chrono::steady_clock::now() - opened_at_ < std::chrono::seconds(3);
+    }
     bool is_open() const noexcept { return play_ != nullptr; }
     bool is_playing() const noexcept { return playing_; }
 
@@ -150,7 +158,9 @@ private:
         next_ = (next_ + 1) % kBuffers;
     }
     static void callback(SLAndroidSimpleBufferQueueItf, void* context) {
-        static_cast<Output*>(context)->enqueue_next();
+        auto* self = static_cast<Output*>(context);
+        self->callbacks_.fetch_add(1);
+        self->enqueue_next();
     }
 
     SLObjectItf engine_obj_ = nullptr, mix_obj_ = nullptr, player_obj_ = nullptr;
@@ -161,6 +171,8 @@ private:
     std::uint32_t frames_ = 0;
     unsigned next_ = 0;
     bool playing_ = false;
+    std::atomic<std::uint32_t> callbacks_{0};
+    std::chrono::steady_clock::time_point opened_at_{};
 };
 
 struct Backend {
@@ -263,6 +275,13 @@ JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_sfxCommand(JNIEnv* env,
     Backend& b = backend();
     std::lock_guard<std::mutex> lock(b.mutex);
     if (!b.engine || !b.output.is_open()) return -1;
+    if (!b.output.healthy()) {
+        SFX_LOGE("OpenSL ES player never started draining its queue; releasing the native engine");
+        b.output.close();
+        b.engine.reset();
+        release_assets(env, b);
+        return -1;
+    }
     const std::string text = copy_jstring(env, command);
     const auto result = b.engine->command(text);
     switch (result.outcome) {

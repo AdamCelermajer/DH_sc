@@ -202,7 +202,12 @@ final class FrontAudio {
         if(!focused)focused=requestFocus();
         if(!focused){Log.e("DH2Front","Effect audio focus unavailable: "+wire);return true;}
         NativeBridge.sfxSetActive(true);
-        NativeBridge.sfxCommand(wire);
+        if(NativeBridge.sfxCommand(wire)<0){
+            // The engine reported itself unusable (dead output stream): hand every
+            // later effect, starting with this one, back to the Java path.
+            Log.e("DH2Front","Native SFX engine unusable; falling back to MediaPlayer effects");
+            nativeSfx=-1;NativeBridge.sfxClose();return false;
+        }
         return true;
     }
     /** Releases the native engine (Activity destruction). */
