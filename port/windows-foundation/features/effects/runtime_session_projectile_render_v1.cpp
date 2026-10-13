@@ -208,6 +208,48 @@ bool RuntimeSessionProjectileRenderV1::source_projectile_bounds_v1(
     if (found == sources_.end() || !found->second)
         return fail(error, "No authored projectile AABB is enrolled for this source URI");
     const auto& source = found->second;
+    // v21.8 magefix2: the source PhysicalObject shape comes from the GameObject relative AABB, which VisualObject::CalcMeshBox
+    // (0x47211c) takes from the `_colbox_` node of the model (VisualObject::VisualObject 0x472a0c finds it with
+    // SearchByName("_colbox_")), not from the visible meshes. Every projectile BDAE authors one (the fire bolt's visible
+    // glow quad is 324 units wide, its colbox 11.4).
+    {
+        const auto& graph = source->scene.graph;
+        std::int32_t colbox = -1;
+        for (std::size_t i = 0; i < graph.size(); ++i)
+            if (graph[i].name.rfind("_colbox_", 0) == 0) { colbox = static_cast<std::int32_t>(i); break; }
+        if (colbox >= 0) {
+            for (const auto& instance : source->scene.instances) {
+                const auto node = static_cast<std::int32_t>(instance.node_index);
+                if (node < 0 || static_cast<std::size_t>(node) >= graph.size() ||
+                    (node != colbox && graph[node].parent != colbox)) continue;
+                dh2::assets::Mesh mesh{};
+                if (dh2_mesh_open(&mesh, &source->image, instance.geometry) != dh2::assets::Error::ok) continue;
+                // CalcMeshBox (0x47211c) multiplies the colbox mesh node's box by its PARENT's ISceneNode::getScale. In the
+                // source loader (CColladaDatabase::constructNode 0x61b2f4) a node's geometry instance is an identity mesh
+                // CHILD of the node that carries the authored TRS, so that parent is the authored node of the instance.
+                // The box is then taken through the collada root's relative matrix; the root is the empty CRootSceneNode
+                // wrapper, identity at construction (inference: nothing sets it before CalcMeshBox).
+                const std::array<float, 3> scale{graph[node].scale[0], graph[node].scale[1], graph[node].scale[2]};
+                std::array<float, 3> half{};
+                bool valid = true;
+                for (unsigned axis = 0; axis < 3; ++axis) {
+                    const float low = mesh.minimum[axis] * scale[axis];
+                    const float high = mesh.maximum[axis] * scale[axis];
+                    half[axis] = std::fabs(high - low) * 0.5f;
+                    valid = valid && std::isfinite(half[axis]);
+                }
+                if (!valid) continue;
+                // CalcMeshBox centres the box on the origin; GameObject::SetRelativeAABB (0x38b110) widens an X or Y extent
+                // narrower than 10 to 10.
+                if (half[0] * 2.0f < 10.0f) half[0] = 5.0f;
+                if (half[1] * 2.0f < 10.0f) half[1] = 5.0f;
+                minimum = {-half[0], -half[1], -half[2]};
+                maximum = {half[0], half[1], half[2]};
+                error.clear();
+                return true;
+            }
+        }
+    }
     if (source->decoded.mesh.vertices.empty() ||
         !std::isfinite(source->decoded.minimum.x) ||
         !std::isfinite(source->decoded.minimum.y) ||
