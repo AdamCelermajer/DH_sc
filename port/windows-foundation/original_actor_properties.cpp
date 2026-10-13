@@ -1,5 +1,6 @@
 #include "original_actor_properties.hpp"
 #include "asset_catalog.hpp"
+#include "original_class_family.hpp"
 #include <algorithm>
 #include <cstring>
 
@@ -23,7 +24,10 @@ bool load_original_property_tables(const AssetCatalog& catalog, const std::strin
 }
 bool resolve_original_fresh_player(const OriginalPropertyDatabase& database,
     const std::string& row, OriginalActorProperties& output, std::string& error) {
-    if (row != "KnightPlayerBase" && row != "RoguePlayerBase" && row != "MagePlayerBase") {
+    // v21.8 subclass: a subclass row (e.g. RoguePlayerBase_Assassin) resolves through its own CharacterTable row; its
+    // presentation family must be one of the three base classes (the same rule as playable_base_class_row).
+    const auto family = playable_base_class_row(row);
+    if (family != "KnightPlayerBase" && family != "RoguePlayerBase" && family != "MagePlayerBase") {
         error = "Not an original fresh playable base"; return false;
     }
     return resolve_original_actor_properties(database.characters, database.classes,

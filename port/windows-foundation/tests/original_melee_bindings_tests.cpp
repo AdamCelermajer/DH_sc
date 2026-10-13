@@ -47,7 +47,10 @@ int main(int argc,char** argv) {
         if(std::filesystem::is_regular_file(source/"original-melee-bindings.xml")) {
             AssetCatalog assets(source);
             require(bindings.load(assets,"original-melee-bindings.xml",error),error.c_str());
-            require(bindings.actors().size()==25 && bindings.factions().size()==16 && bindings.clips().size()==95,"Original binding table counts changed");
+            // v21.8 subclass: 25 base actors + the six subclass rows (coordination/v21.8/export_melee_bindings_v21_8.py).
+            require(bindings.actors().size()==31 && bindings.factions().size()==16 && bindings.clips().size()==95,"Original binding table counts changed");
+            for(const auto* subclass:{"KnightPlayerBase_Berserker","KnightPlayerBase_Paladin","RoguePlayerBase_Archer","RoguePlayerBase_Assassin","MagePlayerBase_Illusionist","MagePlayerBase_Necromancer"})
+                require(bindings.find_actor(subclass)!=nullptr,"Subclass binding missing from the original export");
             require(bindings.relationship(11,7)==-1000 && bindings.relationship(15,7)==1000 && !bindings.relationship(7,15),"Original directed relationships changed");
             const auto* priest=bindings.find_actor("WanderingPriest");
             require(priest && priest->propertyRow==419 && priest->aiProperties.at("MeleeRadius")=="200.0","Original actor metadata changed");
