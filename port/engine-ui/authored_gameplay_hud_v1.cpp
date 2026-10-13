@@ -180,6 +180,11 @@ bool AuthoredGameplayHudV1::enemy_follow(const float head_world[3],const float v
  // DELIBERATE USER-APPROVED DEVIATION (see header). Projection is the same
  // gameplay camera path the scrolling combat text uses; Android top-left pixels.
  float pixels[2]{};bool inside{};
+ // A target behind (or on) the camera plane has no screen point; the bar keeps
+ // its last placement instead of failing the HUD frame.
+ {const float* m=view_projection;const float* p=head_world;
+  const float clip_w=m[3]*p[0]+m[7]*p[1]+m[11]*p[2]+m[15];
+  if(!(clip_w>1.0e-6f)){error.clear();return true;}}
  if(!project_world_to_screen_pixels_v1(view_projection,viewport_width,viewport_height,head_world,pixels,&inside,error))return false;
  // Pixels to SWF stage pixels through the movie's retained source viewport.
  float stage[2]{pixels[0],pixels[1]};
