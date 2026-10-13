@@ -24,6 +24,7 @@
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "dh2/sfc/script/lua/Value.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 #include "glitch-core-io/core/strings.hpp"
 #include "pydata-accessors/member_names.hpp"
@@ -197,61 +198,51 @@ void LuaScript::_RandF(const sfc::script::lua::Arguments& args, sfc::script::lua
 }
 
 // 0x37e420 LuaScript::_PlayMusic(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL (redo). Written: the sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string), and the
-// binding returns when it is -1. args[1] is read as the number the original passes on (it throws std::out_of_range
-// when there is no second argument, as the original does). The current level comes from
-// Application::GetCurrentLevel, and its music id (Level +0x11c, m_musicSoundId) is compared with the id.
-// Missing: VoxSoundManager::PlayMusic(s_instance, id, 1, 0, volume), and when the ids match, SetMusicState("ambient")
-// or SetMusicState("combat") chosen by the byte at VoxSoundManager +0x31. vox-audio/include/vox-audio/vox/sound_manager.hpp
-// declares only SetIPodShuffle, UpdateIPodAsync and ConvertVisual3DToSound3D, so there is no s_instance, PlayMusic or
-// SetMusicState to call (layout request: VoxSoundManager declarations and the +0x31 byte).
+// The sound id is Arrays::Sounds lookup of args[0]; the binding returns when it is -1. Then VoxSoundManager::PlayMusic(id,
+// loop = true, stop_if_none = false, fade = args[1] as an int). When the level's music id (Level +0x11c, m_musicSoundId) is
+// the same id, the state is "ambient" or "combat" by the music_slot_ byte (+0x31).
 void LuaScript::_PlayMusic(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
                            void* /*self*/) {
     const int soundId = SoundIdOf(args);
     if (soundId == -1) {
         return;
     }
-    [[maybe_unused]] const int volume = ToInt32(args[1].getNumber());
-    // PARTIAL: VoxSoundManager::PlayMusic(VoxSoundManager::s_instance, soundId, 1, 0, volume) is not written.
+    const int volume = ToInt32(args[1].getNumber());
+    VoxSoundManager* sounds = VoxSoundManager::s_instance;
+    sounds->PlayMusic(soundId, true, false, volume);
     const Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (level != nullptr && soundId == level->m_musicSoundId) {
-        // PARTIAL: VoxSoundManager::SetMusicState("ambient" or "combat") is not written (see above).
+        sounds->SetMusicState(sounds->music_slot_ ? "ambient" : "combat");
     }
 }
 
 // 0x37e578 LuaScript::_PlaySound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL (redo). Written: args[3] is read first, which throws std::out_of_range when there are fewer than four
-// arguments, as the original does. The sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string). When
-// it is not -1, args[1] is read as a bool and args[2] as a number: the two values the original passes to Play.
-// Missing: VoxSoundManager::StopMusic(s_instance, false), which runs when args[3] is true, and
-// VoxSoundManager::Play(s_instance, id, flag, value, 0, 0). The VoxSoundManager declarations are absent (see 0x37e420).
+// args[3] is read first (true stops the music, VoxSoundManager::StopMusic(0)). Then the sound id from args[0]; when it is
+// not -1, VoxSoundManager::Play(id, args[1] as a bool, args[2] as an int, type 0, force false).
 void LuaScript::_PlaySound(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
                            void* /*self*/) {
     if (args[3].getBool()) {
-        // PARTIAL: VoxSoundManager::StopMusic(VoxSoundManager::s_instance, false) is not written.
+        VoxSoundManager::s_instance->StopMusic(0);
     }
     const int soundId = SoundIdOf(args);
     if (soundId == -1) {
         return;
     }
-    [[maybe_unused]] const bool flag = args[1].getBool();
-    [[maybe_unused]] const int value = ToInt32(args[2].getNumber());
-    // PARTIAL: VoxSoundManager::Play(VoxSoundManager::s_instance, soundId, flag, value, 0, 0) is not written.
+    const bool loop = args[1].getBool();
+    const int fade = ToInt32(args[2].getNumber());
+    VoxSoundManager::s_instance->Play(soundId, loop, fade, 0, false);
 }
 
 // 0x37e730 LuaScript::_StopSound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL (redo). Written: the sound id is Arrays::GetMemberIDByString<Arrays::Sounds>(args[0] string). When it is not
-// -1, args[1] is read as a number, and the original passes its int value on to Stop.
-// Missing: VoxSoundManager::Stop(s_instance, id, value, a5, a6, a7). The Hex-Rays prototype passes three stack arguments
-// that are not recovered, and the VoxSoundManager::Stop declaration is absent (see 0x37e420).
+// The sound id from args[0]; when it is not -1, VoxSoundManager::Stop(id, args[1] as an int).
 void LuaScript::_StopSound(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
                            void* /*self*/) {
     const int soundId = SoundIdOf(args);
     if (soundId == -1) {
         return;
     }
-    [[maybe_unused]] const int value = ToInt32(args[1].getNumber());
-    // PARTIAL: VoxSoundManager::Stop(VoxSoundManager::s_instance, soundId, value, ...) is not written.
+    const int fade = ToInt32(args[1].getNumber());
+    VoxSoundManager::s_instance->Stop(soundId, fade);
 }
 
 // 0x37e814 LuaScript::_BitOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)

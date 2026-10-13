@@ -4,9 +4,8 @@
 //
 // Status of each address is in game-app/ledger.d/g1-game-app-GSConsole-adb367-0.csv. In short:
 //   reconstructed  the constructors, the D1/D2 destructors, Draw and Toggle.
-//   partial        Ctor, Dtor, Update and Draw2D. Each PARTIAL comment names the missing piece:
-//                  Console::open_ (private), Console::Update(double) (not declared), and the IDevice +0x18
-//                  object (not modelled).
+//   partial        Ctor, Dtor and Draw2D. Each PARTIAL comment names the missing piece:
+//                  Console::open_ (private) and the IDevice +0x18 object (not modelled).
 //   skipped        the deleting destructor D0, which the compiler emits.
 //
 // The globals the original reads are fields of Singleton<Application>::s_inst (0x99f72c), reached through
@@ -66,17 +65,13 @@ void GSConsole::Draw(const StateMachine* machine) {
 }
 
 // 0x383304 GSConsole::Update(StateMachine *,double)
-// PARTIAL. The original tail-calls Console::Update(console, dt) when Application::m_console (+0x48, the global
-// dword_99F774) is set, and returns 0 otherwise. The null check is written. Console::Update(double) is not
-// declared in core-platform/include/core-platform/w7_console_01.hpp (its queue row is core-platform 330270),
-// so the call is missing. Layout request: declare Console::Update(double) on the core-platform header.
+// Tail-calls Console::Update(dt) when Application::m_console (+0x48, the global dword_99F774) is set, and returns 0 otherwise.
 void GSConsole::Update(StateMachine*, double dt) {
     Console* console = ApplicationGetInstance().m_console;
     if (console == nullptr) {
         return;
     }
-    // Missing: console->Update(dt);
-    (void)dt;
+    console->Update(dt);
 }
 
 // 0x38332c GSConsole::Dtor(StateMachine const*)

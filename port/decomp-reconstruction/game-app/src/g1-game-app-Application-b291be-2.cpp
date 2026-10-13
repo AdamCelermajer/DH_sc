@@ -5,7 +5,10 @@
 // dword_99F76C is s_inst +0x40 (m_playerManager), and so on. The member is used in its place.
 //
 // Most bodies here are PARTIAL: each one's note says which part of the original is not written and why.
+#include <algorithm>
+
 #include "dh2/Application.hpp"
+#include "dh2/UnderlaySceneNode.hpp"
 
 #include <list>
 #include <new>
@@ -218,29 +221,25 @@ void Application::OnInterruptPause() {
 }
 
 // 0x3261fc Application::RemoveUnderlayNode(glitch::scene::ISceneNode*)
-// PARTIAL: the original removes the node from the pointer vector of m_underlayNode (the vector's begin is at
-// UnderlaySceneNode +0x130 and its end at +0x134; a linear search, then memmove to close the gap). UnderlaySceneNode
-// has no header in the tree yet. Layout request: "UnderlaySceneNode +0x130 ISceneNode* vector begin, +0x134 end (4-byte
-// pointers, erase keeps order)".
+// Removes the first entry equal to node from m_underlayNode's pointer vector (+0x130), keeping the order.
 void Application::RemoveUnderlayNode(glitch::scene::ISceneNode* node) {
     if (m_underlayNode == nullptr) {
         return;
     }
-    (void)node;
-    // PARTIAL: vector search and erase are not written, see above.
+    auto& nodes = m_underlayNode->m_underlayNodes;
+    const auto found = std::find(nodes.begin(), nodes.end(), node);
+    if (found != nodes.end()) {
+        nodes.erase(found);
+    }
 }
 
 // 0x3270c8 Application::AddUnderlayNode(glitch::scene::ISceneNode*)
-// PARTIAL: the original forwards to UnderlaySceneNode::AddUnderlayNode(m_underlayNode, node) when the underlay exists
-// (declared in dh2/UnderlaySceneNode.hpp). That header cannot be included in this translation unit: it brings glitch
-// scene types that redefine the glitch_core types of core-platform/deps/glitch_core.hpp. So nothing is forwarded.
-// The original returns the callee's R0 (the callee returns void), which the void header does not carry.
+// Forwards to UnderlaySceneNode::AddUnderlayNode when the underlay exists.
 void Application::AddUnderlayNode(glitch::scene::ISceneNode* node) {
     if (m_underlayNode == nullptr) {
         return;
     }
-    (void)node;
-    // PARTIAL: forward to UnderlaySceneNode::AddUnderlayNode, see above.
+    m_underlayNode->AddUnderlayNode(node);
 }
 
 // 0x328f40 Application::ResetTouch()

@@ -10,6 +10,7 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/Projectile.hpp"
+#include "dh2/PlayerLightTweaker.hpp"
 #include "dh2/Zone.hpp"
 
 namespace {
@@ -145,6 +146,10 @@ bool POZone::onCollisionTest(PhysicalBaseObject* other, short otherGroup, unsign
 //   0x40dd7c PlayerLightTweaker::GetIdsFromName is written there now that the CTweakable base header exists.
 // Still deferred here, and not compiled in this file:
 //   0x3b43e0 POVillager::~POVillager() (D0): compiler-generated; its D1 is in the pack1 file.
-//   0x32f2b4 PlayerLightTweaker::PlayerLightTweaker(), 0x40e4c4 ~PlayerLightTweaker() (D1) and 0x40de48 onSetValue:
-//   not in this file.
+//   0x32f2b4 PlayerLightTweaker::PlayerLightTweaker() and 0x40de48 onSetValue: not in this file.
 //   0x40e518 ~PlayerLightTweaker() (D0): compiler-generated.
+
+// 0x40e4c4 PlayerLightTweaker::~PlayerLightTweaker() (D1). The original resets the vptr, frees the heap block of the
+// m_lightType string (+0xf8) when it is not the inline buffer, then runs ~CTweakable. The std::string member and the base
+// destructor do the same here.
+PlayerLightTweaker::~PlayerLightTweaker() {}

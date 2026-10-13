@@ -20,6 +20,7 @@
 
 #include "core-platform/lc_api.hpp"
 #include "core-platform/memory.hpp"  // gAssertLevel
+#include "dh2/EvKeyboard.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/IEvent.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"  // dword_99F740, the EventManager instance
@@ -66,19 +67,33 @@ OnScreenKeyboard::~OnScreenKeyboard() {}
 // written. Its body is D1 followed by CustomFree(this), which is what `delete` on an OnScreenKeyboard does.
 
 // 0x51b444 OnScreenKeyboard::onEvent(IEvent const*, EventManager const*)
-// PARTIAL: waits on dh2/EvKeyboard.hpp. Written: the event-id gate (vtable slot +0x08, getEventID) and the return value.
-// For an event with id 0 the original returns 1 on every path, and for any other id it returns 0 before reading the event.
-// Not written: the side effects for id 0, which read the EvKeyboard fields. Those are +0x08 (int, the character code,
-// stored as a byte into the buffer), +0x0c (int, the key id: 8 is backspace and 13 is enter) and +0x10 (byte, the pressed
-// flag). Enter with the flag clear calls EventManager::Detach(0, &s_inst) and sets s_isOver. Backspace with the flag set
-// and s_bufIdx != 0 moves the index back and writes NUL. A character with the flag set and room left (s_outBufLen - 1 > s_bufIdx)
-// is appended.
+// For an event with id 0 (EvKeyboard), the result is 1 on every path. Enter (key 13) with the pressed flag clear detaches
+// the receiver from event 0 and sets s_isOver. Backspace (key 8) with the flag set and s_bufIdx nonzero moves the index back
+// and writes NUL. Otherwise a character with the flag set and room left (s_outBufLen - 1 > s_bufIdx) is appended. Any other
+// id returns 0 before the event is read.
 bool OnScreenKeyboard::onEvent(const IEvent* event, const EventManager* manager) {
     (void)manager;
     if (event->getEventID() != 0) {
         return false;
     }
-    // PARTIAL: the EvKeyboard side effects are not written (see the comment above). Returns the original's value, 1.
+    const EvKeyboard* key = static_cast<const EvKeyboard*>(event);
+    if (key->key == 13) {  // enter
+        if (!key->pressed) {
+            dword_99F740->Detach(0, &s_inst);
+            s_isOver = true;
+        }
+        return true;
+    }
+    if (key->key == 8) {  // backspace
+        if (key->pressed && s_bufIdx != 0) {
+            --s_bufIdx;
+            s_outBuffer[s_bufIdx] = 0;
+        }
+        return true;
+    }
+    if (key->character != 0 && key->pressed && s_outBufLen - 1 > s_bufIdx) {
+        s_outBuffer[s_bufIdx++] = static_cast<char>(key->character);
+    }
     return true;
 }
 

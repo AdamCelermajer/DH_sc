@@ -23,6 +23,7 @@
 #include <string>
 
 #include "core-platform/debug_out.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimSetManager.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
@@ -205,10 +206,8 @@ void MenuMainMenu::ChangeCharacterToDisplay(int savegameSlot, bool force) {
 }
 
 // 0x42c128 _ZN12MenuMainMenu4HideEv
-// PARTIAL. Written: the IsValidMenu test, MenuBase::Hide, the Hide of the "menu_bg" menu, DestroyScene, DestroyAvatarCamera,
-// m_isDestroyed = true and mSavegameSlot = -1.
-// Missing: the last step, VoxSoundManager::StopMusic(VoxSoundManager::s_instance, 1000). The vox-audio class has no StopMusic
-// declaration in the tree, so the call is left out. Its result is not used by this void method anyway.
+// The IsValidMenu test, MenuBase::Hide, the Hide of the "menu_bg" menu, DestroyScene, DestroyAvatarCamera, m_isDestroyed = true,
+// mSavegameSlot = -1, then VoxSoundManager::StopMusic(s_instance, 1000). (DestroyScene has its own partial row.)
 void MenuMainMenu::Hide() {
     if (!IsValidMenu()) {
         return;
@@ -220,7 +219,7 @@ void MenuMainMenu::Hide() {
     DestroyAvatarCamera();
     m_isDestroyed = true;
     mSavegameSlot = -1;
-    // MISSING: VoxSoundManager::StopMusic(VoxSoundManager::s_instance, 1000).
+    VoxSoundManager::s_instance->StopMusic(1000);
 }
 
 // 0x42c1c8 _ZN12MenuMainMenu6UpdateEv

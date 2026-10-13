@@ -35,6 +35,7 @@
 #include "dh2/IStreamBase.hpp"
 #include "dh2/StreamReader.hpp"
 #include "dh2/StringManager.hpp"
+#include "dh2/VarArgs.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "vendor-gameswf/gameswf_utf_text.hpp"
@@ -167,17 +168,15 @@ void finishText(StringManager& self, std::string& out) {
     out.assign(buffer.data(), std::strlen(buffer.data()));
 }
 
-// VarArgs has only a forward declaration (dh2/StringManager.hpp), so its list cannot be read yet. These accessors read
-// it as empty, and every argument specifier then takes the original's "no argument" path. Replace them once the layout
-// is declared (see the layout request in the ledger notes).
-std::size_t varArgsCount(const VarArgs&) {
-    return 0;
+// The argument list: element i is a 12-byte VarArgs::Variant (float at +0x00, string at +0x08).
+std::size_t varArgsCount(const VarArgs& args) {
+    return args.m_variants.size();
 }
-float varArgsFloat(const VarArgs&, std::size_t) {
-    return 0.0f;
+float varArgsFloat(const VarArgs& args, std::size_t index) {
+    return args.m_variants[index].number;
 }
-const char* varArgsString(const VarArgs&, std::size_t) {
-    return nullptr;
+const char* varArgsString(const VarArgs& args, std::size_t index) {
+    return args.m_variants[index].text;
 }
 
 // The sheet file is opened and closed through the file system at Application::m_device +0x34: open is vtable slot +0x90

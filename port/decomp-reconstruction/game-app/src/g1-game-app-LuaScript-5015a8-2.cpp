@@ -17,15 +17,22 @@
 
 #include <cmath>
 #include <cstddef>
+#include <cstring>
 #include <limits>
 #include <optional>
 #include <utility>
 #include <vector>
 
 #include "dh2/Application.hpp"
+#include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectListItem.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/LuaScript.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/sfc/script/lua/Arguments.hpp"
 #include "dh2/sfc/script/lua/ReturnValues.hpp"
 #include "dh2/sfc/script/lua/Value.hpp"
@@ -172,24 +179,42 @@ void LuaScript::_Include(const sfc::script::lua::Arguments& args, sfc::script::l
 }
 
 // 0x37f03c LuaScript::_GetGameObjectsByType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL (redo). Written: the skip count is FloatToUInt32(args[1]) when there are two or more arguments and args[1] is a
-// number (0 otherwise), and the class name is args[0] when that is a string. Nothing is pushed without a string argument.
-// Missing: the object walk. The original walks ObjectManager::m_objectMap in tree order (the map header at +0x0c, the
-// leftmost node at +0x14) and reads each node's object id at node +0x2c. The mapped ObjectListItem has no layout in this
-// tree (layout request: ObjectListItem with the id field, and whether it equals the map key), and ObjectBase::GetHandle
-// takes no id here. Each object whose PropertyMap::GetThisClassName equals the name is pushed with pushUserData
-// (GameObject derives from sfc::script::lua::UserData). The window rule is luascript_g1::SelectTypeMatches.
-void LuaScript::_GetGameObjectsByType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+// The skip count is FloatToUInt32(args[1]) when there are two or more arguments and args[1] is a number. The class name is
+// args[0], and nothing is pushed without a string argument. The walk goes through ObjectManager::m_objectMap in key order.
+// Each object (its handle resolved) whose PropertyMap::GetThisClassName equals the name is pushed with pushUserData, after
+// the first `skip` matches. The walk stops once 15 objects are pushed.
+void LuaScript::_GetGameObjectsByType(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
                                       void* /*self*/) {
-    [[maybe_unused]] unsigned int skip = 0;
+    unsigned int skip = 0;
     if (args.m_values->size() > 1 && args[1].m_type == kLuaTypeNumber) {
         skip = luascript_g1::FloatToUInt32(args[1].getNumber());
     }
     if (args.m_values->empty() || args[0].m_type != kLuaTypeString) {
         return;
     }
-    [[maybe_unused]] const char* className = args[0].getString();
-    // PARTIAL: the object walk is not written (see above).
+    const char* className = args[0].getString();
+    unsigned int matches = 0;
+    unsigned int pushed = 0;
+    for (auto& entry : dword_99F764->m_objectMap) {
+        if (pushed > 14) {
+            break;
+        }
+        ObjectBase* base = entry.second.m_object;
+        if (base == nullptr) {
+            continue;
+        }
+        ObjectHandle handle = base->GetHandle();
+        GameObject* object = handle;
+        if (object == nullptr || std::strcmp(object->GetThisClassName(), className) != 0) {
+            continue;
+        }
+        if (skip <= matches) {
+            ret.pushUserData(object);
+            ++pushed;
+        } else {
+            ++matches;
+        }
+    }
 }
 
 // 0x37f1f0 LuaScript::_GetCurrentLevelRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)

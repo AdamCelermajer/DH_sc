@@ -16,9 +16,12 @@
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuCharMenu_Map.hpp"
 #include "dh2/MenuFX.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Objective.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectListItem.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/PFWorld.hpp"
 #include "dh2/PlayerInfo.hpp"
@@ -40,8 +43,7 @@ glitch::core::vector3d<float> ToVector3d(const Point3D<float>& p) {
 }
 
 // Per-node body of the ShowMapExitsIcons walk: the three checks the original runs on each object of
-// ObjectManager::m_objectMap, in key order. The walk itself is missing (see ShowMapExitsIcons), so nothing
-// calls this yet. levelEntryPointId is Level::m_entryPointId (Level +0x110) of the current level.
+// ObjectManager::m_objectMap, in key order. levelEntryPointId is Level::m_entryPointId (Level +0x110) of the current level.
 // The original resolves the node's handle again for each check; it is resolved once here, because nothing
 // between the checks changes the object table. Types 12, 13 and 14 are GameObjects (they have a position),
 // so the GameObject fields are read after the type test.
@@ -240,13 +242,15 @@ void MenuCharMenu_Map::ShowRoomExitsIcons() {
 }
 
 // 0x454d5c _ZN16MenuCharMenu_Map17ShowMapExitsIconsEv
-// PARTIAL: the walk over ObjectManager::m_objectMap (in key order, from the leftmost node) is not written. The
-// map's value type ObjectListItem is not declared (the object pointer is read at node +0x2c, which is
-// ObjectListItem +0x18), so the walk cannot take each node's object. The per-node checks are written as
-// ShowMapExitIconsForNode, and the walk must call it with the node's object and Level::m_entryPointId.
-// Layout request: dh2/ObjectListItem.hpp, with the object pointer (ObjectBase*) at +0x18.
+// Runs ShowMapExitIconsForNode on every object of ObjectManager::m_objectMap in key order, with the current level's entry
+// point id (Level +0x110). The original reads that id only inside the type 13 check, so a missing level is handled here
+// by passing 0; the original would fault on that path.
 void MenuCharMenu_Map::ShowMapExitsIcons() {
-    // PARTIAL: the walk is left out, see above.
+    const Level* level = ApplicationGetInstance().GetCurrentLevel();
+    const int entryPointId = (level != nullptr) ? level->m_entryPointId : 0;
+    for (auto& entry : dword_99F764->m_objectMap) {
+        ShowMapExitIconsForNode(*this, entry.second.m_object, entryPointId);
+    }
 }
 
 // 0x454fb8 _ZN16MenuCharMenu_Map12ShowNpcIconsEv

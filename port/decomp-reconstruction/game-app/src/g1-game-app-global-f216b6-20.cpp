@@ -14,6 +14,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 #include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
@@ -148,10 +149,9 @@ extern "C" int SetFinalOrientation(int orientation) {
 }
 
 // 0x530b5c SetDisplayString(char*)
-// PARTIAL: no call is made. The original calls VoxSoundManager::ShowPlayingMusicTitle(VoxSoundManager::s_instance,
-// title). ShowPlayingMusicTitle is not declared anywhere in the tree.
+// VoxSoundManager::ShowPlayingMusicTitle(VoxSoundManager::s_instance, title).
 extern "C" void SetDisplayString(char* title) {
-    (void)title;
+    VoxSoundManager::s_instance->ShowPlayingMusicTitle(title);
 }
 
 // 0x530b80 GetGameMusicVolume()
