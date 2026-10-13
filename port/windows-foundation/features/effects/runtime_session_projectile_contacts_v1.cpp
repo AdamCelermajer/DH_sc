@@ -184,24 +184,30 @@ bool RuntimeSessionProjectileContactBodiesV1::register_projectile(
 
     auto* entry_pointer = entry.get();
     entries_.emplace(projectile_id, std::move(entry));
+    // The shape filter of an already-registered actor body is consulted while
+    // the sensor is being created (an overlapping peer is tested at once), so
+    // the source identity must resolve before the NativeWorld sees the body.
+    source_identities_.emplace(identity, projectile_id);
     try {
         entry_pointer->body = {world_.create_character(config,
             &entry_pointer->transport), plan.radius, 0};
     } catch (const std::exception& failure) {
+        source_identities_.erase(identity);
         entries_.erase(projectile_id);
         error = failure.what();
         return false;
     }
     if (!entry_pointer->body.body) {
+        source_identities_.erase(identity);
         entries_.erase(projectile_id);
         return fail(error, "Same NativeWorld refused the source projectile sensor");
     }
     if (!runtime_.attach_native_body(projectile_id, error)) {
         world_.destroy(entry_pointer->body.body);
+        source_identities_.erase(identity);
         entries_.erase(projectile_id);
         return false;
     }
-    source_identities_.emplace(identity, projectile_id);
     source_identity = identity;
     error.clear();
     return true;

@@ -1128,6 +1128,12 @@ target_link_libraries(combat_session_source_attack_bank_tests PRIVATE foundation
 add_test(NAME combat_session_source_attack_bank COMMAND combat_session_source_attack_bank_tests
   "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
 
+# v21.8 mage: ranged (Staff01) player attack at the session level: far-target LookAt/begin, queued state-5 markers, no melee hit.
+add_executable(combat_session_ranged_attack_tests tests/combat_session_ranged_attack_tests.cpp)
+target_link_libraries(combat_session_ranged_attack_tests PRIVATE foundation_runtime_equipment_menu)
+add_test(NAME combat_session_ranged_attack COMMAND combat_session_ranged_attack_tests
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../.local-inputs/windows-source-clock-v19-preview-9/assets")
+
 add_executable(playable_actor_physics_frame_tests tests/playable_actor_physics_frame_tests.cpp)
 target_link_libraries(playable_actor_physics_frame_tests PRIVATE foundation_data)
 add_test(NAME playable_actor_physics_frame COMMAND playable_actor_physics_frame_tests

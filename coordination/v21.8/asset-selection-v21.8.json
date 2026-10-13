@@ -90,6 +90,54 @@
       "3d/interface/spell_dh2_faery_fire.bdae",
       "3d/interface/spell_dh2_faery_water.bdae",
       "3d/interface/spell_dh2_faery_wind.bdae"
+    ],
+    "mage_projectile_fire_bolt": [
+      "3d/projectiles/elemental_bolt_fire.bdae",
+      "3d/interface/spell_dh2_hurt_fire.bdae"
+    ],
+    "pydata_complete_projectile_executor": [
+      "pydata/animations_dictionary_pyarraynames.bin",
+      "pydata/dialogs_pyarray.bin",
+      "pydata/dialogs_pyarraynames.bin",
+      "pydata/effects_dictionary_pyarray.bin",
+      "pydata/effects_dictionary_pyarraynames.bin",
+      "pydata/effects_pyarray.bin",
+      "pydata/effects_pyarraynames.bin",
+      "pydata/faeries_pyarray.bin",
+      "pydata/faeries_pyarraynames.bin",
+      "pydata/fonts_pyarray.bin",
+      "pydata/fonts_pyarraynames.bin",
+      "pydata/game_objects_dictionary_pyarray.bin",
+      "pydata/game_objects_dictionary_pyarraynames.bin",
+      "pydata/game_objects_pyarray.bin",
+      "pydata/game_objects_pyarraynames.bin",
+      "pydata/help_pages_pyarray.bin",
+      "pydata/help_pages_pyarraynames.bin",
+      "pydata/levels_pyarray.bin",
+      "pydata/levels_pyarraynames.bin",
+      "pydata/loot_audiovisual_pyarray.bin",
+      "pydata/loot_audiovisual_pyarraynames.bin",
+      "pydata/projectiles_dictionary_pyarray.bin",
+      "pydata/projectiles_dictionary_pyarraynames.bin",
+      "pydata/projectiles_pyarray.bin",
+      "pydata/projectiles_pyarraynames.bin",
+      "pydata/sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "pydata/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "pydata/sounds_pyarray.bin",
+      "pydata/sounds_pyarraynames.bin",
+      "pydata/spawn_groups_pyarray.bin",
+      "pydata/spawn_groups_pyarraynames.bin",
+      "pydata/trophies_pyarray.bin",
+      "pydata/trophies_pyarraynames.bin",
+      "pydata/v2eventmanager_pyarray.bin",
+      "pydata/v2eventmanager_pyarraynames.bin",
+      "pydata/v2quests_pycst.bin",
+      "pydata/worldmap_pyarray.bin",
+      "pydata/worldmap_pyarraynames.bin",
+      "pydata/worldmap_pycst.bin"
     ]
+  },
+  "group_destinations": {
+    "pydata_complete_projectile_executor": "assets/original-cache/data"
   }
 }

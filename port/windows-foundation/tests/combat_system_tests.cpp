@@ -203,6 +203,13 @@ void projectile_delivery_has_no_melee_damage() {
     check(combat.consume_marker(1,marker("do_skill",1),event,error) && !event.applied, "projectile marker applied melee damage");
     check(world.actors[2].health == before && world.resolutions == 0, "projectile marker resolved melee damage");
     check(combat.finish(1,1), "projectile attack finish failed");
+    // AI_DoRangeAttack (0x3d076c) has no in-range gate: a far target (maximum_range is 2) does not block the begin,
+    // whereas a melee definition against the same far target is still refused.
+    world.actors[2].transform.position = {500,0,0};
+    check(combat.begin(1,2,a,2,error), "projectile attack refused a far target");
+    check(combat.finish(1,2), "far projectile attack finish failed");
+    auto farMelee = attack(); farMelee.cooldown_seconds = 0;
+    check(!combat.begin(1,2,farMelee,3,error), "melee attack accepted a far target");
 }
 int main() {
     try {

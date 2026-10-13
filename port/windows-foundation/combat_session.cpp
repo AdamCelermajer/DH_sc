@@ -798,9 +798,11 @@ struct CombatSession::Impl {
     }
     bool turn(ActorId source,ActorId target,double dt,std::string& error){
         auto* a=world->find_actor(source);const auto* b=world->find_actor(target);
-        if(!a||!b||!a->alive()||a->action==CharacterAction::hurt||
-           !world->eligible_target(*a,*b)||!world->original_melee_in_range(source,target))return true;
         auto& entry=entries.at(source);
+        // v21.8 mage: CharAI::AI_DoRangeAttack (0x3d076c) does LookAt(target) and SM_SetAttackState without any melee-range
+        // gate (docs/ida-fidelity-audit-2026-10-11/weapon-range.md), so a ranged owner turns toward its target at any distance.
+        if(!a||!b||!a->alive()||a->action==CharacterAction::hurt||
+           !world->eligible_target(*a,*b)||(!entry.rangedProjectileMarkers&&!world->original_melee_in_range(source,target)))return true;
         // Admission and active-attack update can both request LookAt. They
         // share this frame's elapsed rotation budget rather than turning twice.
         if(updating&&dt>0&&entry.rotationUpdateSerial==updateSerial)return true;
@@ -912,7 +914,7 @@ struct CombatSession::Impl {
         if(target==invalid_actor_id){
             if(!entry.sourceCombo||entry.attack.geometry!=AttackGeometry::melee_radius)return true;
         }else if(!b||!entries.at(target).permission||!world->eligible_target(*a,*b)||
-                 !world->original_melee_in_range(source,target))return true;
+                 (!entry.rangedProjectileMarkers&&!world->original_melee_in_range(source,target)))return true; // ranged: AI_DoRangeAttack has no range gate
         if(!select_source_attack_for_request(source,error)||!runtime->begin(source,target,entries.at(source).attack,error))return false;
         return facts(source,error);
     }

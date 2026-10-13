@@ -98,7 +98,8 @@ bool CombatSystem::validate_begin(ActorId attacker, ActorId target, const Attack
     if (existing != actors_.end() && (existing->second.attack || existing->second.cooldown > 0)) {
         error = "Actor attack is active or cooling down"; return false;
     }
-    if (victim&&!attack_target_in_range(definition, *owner, *victim, world_.target_radius(*victim))) {
+    // v21.8 mage: AI_DoRangeAttack (0x3d076c) has no in-range gate; a projectile-delivery attack may begin at any distance.
+    if (victim&&!definition.projectile_delivery&&!attack_target_in_range(definition, *owner, *victim, world_.target_radius(*victim))) {
         error = "Attack target is out of range"; return false;
     }
     return true;

@@ -537,8 +537,25 @@ void run(const std::filesystem::path& root) {
     physical_bindings.debug_switch = [](const char*, bool& out, std::string&) {
         out = false; return true;
     };
-    physical_bindings.filter = [](void*, const auto&, const auto&, bool& out,
-                                  std::string&) { out = true; return true; };
+    // v21.8 mage: like the production actor filter, a peer that is not a registered actor body must be a registered
+    // projectile sensor. The NativeWorld consults this filter while the sensor is being created (the target overlaps
+    // the launch point), so the source identity has to resolve before the world sees the new body.
+    RuntimeSessionProjectileContactBodiesV1* sensor_registry = nullptr;
+    unsigned sensor_peer_filter_calls = 0;
+    physical_bindings.filter = [&](void* peer, const auto&, const auto&, bool& out,
+                                   std::string& filter_error) {
+        ActorId peer_actor = invalid_actor_id;
+        std::string ignored;
+        if (!actor_bodies.resolve_physical_actor(peer, peer_actor, ignored)) {
+            std::uint64_t projectile = 0;
+            if (!sensor_registry || !sensor_registry->resolve_source_identity(
+                    reinterpret_cast<std::uintptr_t>(peer), projectile, filter_error))
+                return false;
+            ++sensor_peer_filter_calls;
+        }
+        out = true;
+        return true;
+    };
     physical_bindings.contact = [](auto, void*, unsigned, std::string&) {
         return true;
     };
@@ -599,6 +616,7 @@ void run(const std::filesystem::path& root) {
     RuntimeSessionProjectileContactBodiesV1 projectile_bodies(
         *session, runtime, *contact_world, std::move(contact_services));
     std::uintptr_t source_identity = 0;
+    sensor_registry = &projectile_bodies;
     check(projectile_bodies.register_projectile(id, *renderer, source_identity,
                                                  error), error);
     std::uint64_t identity_id = 0;
@@ -607,6 +625,8 @@ void run(const std::filesystem::path& root) {
                                                      error) && identity_id == id &&
           no_collision_queries == 1,
           "Registered projectile source identity lost its exact runtime ID");
+    check(sensor_peer_filter_calls >= 1,
+          "Actor filter was not consulted for the overlapping sensor during creation");
     b2Body* projectile_body = nullptr;
     for (auto* body = contact_world->backend()->GetBodyList(); body;
          body = body->GetNext()) {
