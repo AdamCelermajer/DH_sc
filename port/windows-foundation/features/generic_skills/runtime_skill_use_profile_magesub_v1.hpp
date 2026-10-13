@@ -30,9 +30,9 @@ namespace dh::foundation::generic_skills {
 //               NONE), SkillCombatRoll each; no Post.
 inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = {
     {"DeathClaw", "prince_necromancer_deathclaw", "Skill_Necromancer_DeathClaw",
-     680.0f, 2.35619449019234492f, SkillTargetSortV1::frontal_first, true,
+     680.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      true,
-     SkillUseTargetsV1::requery_at_use, 680.0f, false, 2.35619449019234492f,
+     SkillUseTargetsV1::requery_at_use, 680.0f, false, native_search_max_angle_v1(135.0f),
      SkillTargetSortV1::frontal_first, false,
      true, true, false, nullptr, nullptr, false, true, 1500.0f},
     {"Figments", "prince_illusionist_figments", "Skill_Illusionist_Figments",
@@ -40,7 +40,8 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesMageSubV1[] = 
      true,
      SkillUseTargetsV1::requery_at_use, 1000.0f, false, kSkillPiV1,
      SkillTargetSortV1::closest_first, false,
-     false, false, false, nullptr, nullptr, false, true, 0.0f},
+     false, false, false, nullptr, nullptr, false, true, 0.0f,
+     "sfx_skill_mage_ilu_nightmare", nullptr, nullptr, false, nullptr},
 };
 
 // Returns the subclass profile whose SkillTable (name, script) pair matches exactly, or nullptr.

@@ -73,11 +73,11 @@ int main(int argc, char** argv) {
         // prince_necromancer_deathclaw.luac: OnPre RANGE 680 / ANGLE 135 FrontalFirst + LookAt; SetSkillCooldown(1500)
         // (Lua constant); OnSkill_ re-search 680/135 with objects rolled; Post ClearTarget; no buff.
         const auto* death_claw = find_skill_use_profile_magesub_v1("DeathClaw", "prince_necromancer_deathclaw");
-        check(death_claw && near(death_claw->pre_range, 680.0f) && near(death_claw->pre_cone_radians, 2.3561945f) &&
+        check(death_claw && near(death_claw->pre_range, 680.0f) && near(death_claw->pre_cone_radians, 3.1415927f) &&
               death_claw->pre_sort == SkillTargetSortV1::frontal_first && death_claw->pre_look_at &&
               death_claw->sets_cooldown && near(death_claw->fixed_cooldown_ms, 1500.0f) &&
               death_claw->use_targets == SkillUseTargetsV1::requery_at_use && near(death_claw->use_range, 680.0f) &&
-              !death_claw->use_range_from_temp_prop1 && near(death_claw->use_cone_radians, 2.3561945f) &&
+              !death_claw->use_range_from_temp_prop1 && near(death_claw->use_cone_radians, native_search_max_angle_v1(135.0f)) &&
               death_claw->use_sort == SkillTargetSortV1::frontal_first && !death_claw->use_look_at &&
               death_claw->rolls_objects && death_claw->post_clear_target && !death_claw->shield_variant &&
               death_claw->buff == nullptr && std::string(death_claw->class_token) == "Skill_Necromancer_DeathClaw",

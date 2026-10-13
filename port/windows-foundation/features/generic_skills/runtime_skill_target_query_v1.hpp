@@ -93,7 +93,8 @@ struct SkillTargetOriginV1 {
 
 // General source TargetListSearch; optional typed arm includes real world objects. `sort` follows the
 // original heap values (0 NoSort, 1 ClosestFirst, 2 FrontalFirst); cone is in
-// radians and a value >= pi preserves the full authored radius. It uses the
+// radians and a value >= pi preserves the full authored radius. `cone_radians` is the native half-angle (see
+// native_search_max_angle_v1), not the authored full angle. It uses the
 // same active population order and same source property/AI facts as BashDown.
 bool query_source_character_targets_v1(
     const CombatSession&, ActorId caster,
@@ -113,6 +114,15 @@ bool look_at_bashdown_target_v1(CombatSession&, SkillActorTargetQueryV1&,
                                 std::string& error);
 
 // ---- v21.8 ES-API: actor-side TargetList arms used by the authored skill Lua. ----
+
+// The angle argument every cone query below takes is the NATIVE maxAngle that ObjectSearcher::TargetList::Search (0x4a2f34)
+// compares against the target's angle directly (`a5 >= 3.1416 || a5 >= angle`). The two-argument, string and
+// origin-free forms of TargetListSearch (0x38fcf0) compute it as `(ANGLE_deg * 0.017453) * 0.5`, i.e. a HALF angle:
+// an authored ANGLE of 120 admits targets within +-60 degrees. A one-argument search passes pi (a full circle).
+// Proven from the IDA export (pseudocode-all.c 0x38fcf0 and 0x4a2f34). Use this helper for any authored ANGLE.
+constexpr float native_search_max_angle_v1(float lua_angle_degrees) {
+    return (lua_angle_degrees * 0.017453f) * 0.5f;
+}
 
 // Lua AITargetList_CharacterFilter.Player = 128 (atlas ai_pycst.bin, proven). Character::_SetTargetListCharacterFilter
 // 0x390690 stores the raw number; TargetListSearch 0x38fcf0 selects the PlayerList source when bit 0x80 is set and

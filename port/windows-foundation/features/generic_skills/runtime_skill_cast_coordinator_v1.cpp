@@ -135,7 +135,7 @@ CombatSessionStateAnimationServices source_sequence_services(
 
 bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
                             int table_id, const RuntimeSkillUseProfileV1*& profile,
-                            std::string& token) {
+                            std::string& token, const RuntimeSkillUseProfileV1* profile_override) {
     profile = nullptr;
     if (!tables || table_id < 0 || std::size_t(table_id) >= tables.skills().size() ||
         std::size_t(table_id) >= tables.skill_names().size()) return false;
@@ -145,6 +145,10 @@ bool source_supported_skill(const dh2::data::SkillTables::Borrow& tables,
     // kRuntimeSkillUseProfilesV1, transcribed from the original skill Lua.
     profile = find_skill_use_profile_registered_v1(name, skill.script);
     if (!profile) return false;
+    // v21.8 ES-API test seam: an authored variant of the SAME admitted (name, script) row (presentation arms, probe values).
+    // Hosts leave RuntimeSkillCastRequestV1::profile_override null.
+    if (profile_override && profile_override->skill_name == name && profile_override->script == skill.script)
+        profile = profile_override;
     token = profile->class_token;
     return true;
 }
@@ -716,7 +720,7 @@ bool RuntimeSkillCastCoordinatorV1::begin_skill_cast_v1(
 
     std::string class_token;
     const RuntimeSkillUseProfileV1* profile = nullptr;
-    if (!source_supported_skill(request.skills, visual.skill_table_id, profile, class_token)) {
+    if (!source_supported_skill(request.skills, visual.skill_table_id, profile, class_token, request.profile_override)) {
         output.actor = request.actor;
         output.source_slot = request.source_slot;
         output.saved_skill_row = saved_row;

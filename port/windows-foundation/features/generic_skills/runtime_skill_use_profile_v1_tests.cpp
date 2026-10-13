@@ -70,19 +70,19 @@ int main(int argc, char** argv) {
               "GroundSlam Lua transcription changed");
         // prince_warrior_charge.luac: OnSkill_ NoSort RANGE 300 ANGLE 120; SetSkillCooldown; shield class variant.
         const auto* charge = find_skill_use_profile_v1("Charge", "prince_warrior_charge");
-        check(charge && near(charge->use_range, 300.0f) && near(charge->use_cone_radians, 2.0943951f) &&
+        check(charge && near(charge->use_range, 300.0f) && near(charge->use_cone_radians, native_search_max_angle_v1(120.0f)) &&
               charge->use_sort == SkillTargetSortV1::source_order && charge->sets_cooldown &&
               charge->shield_variant && !charge->post_clear_target, "Charge Lua transcription changed");
         // prince_rogue_jump_kick.luac: INIT_RANGE 250; OnSkill_ RANGE 160, ANGLE 270; ClearTarget Post.
         const auto* jump_kick = find_skill_use_profile_v1("JumpKick", "prince_rogue_jump_kick");
         check(jump_kick && near(jump_kick->pre_range, 250.0f) && near(jump_kick->use_range, 160.0f) &&
-              near(jump_kick->use_cone_radians, 4.712389f) && jump_kick->post_clear_target &&
+              near(jump_kick->use_cone_radians, native_search_max_angle_v1(270.0f)) && jump_kick->post_clear_target &&
               !jump_kick->sets_cooldown, "JumpKick Lua transcription changed");
         // prince_rogue_vicious_strike.luac: SEARCH_RANGE 300 + LookAt; OnSkill_ RANGE 160, ANGLE 180;
         // character-only SkillCombatRoll; CLASS = _Stun; Post ClearTarget; no SetSkillCooldown.
         const auto* vicious = find_skill_use_profile_v1("ViciousStrike", "prince_rogue_vicious_strike");
         check(vicious && near(vicious->pre_range, 300.0f) && near(vicious->use_range, 160.0f) &&
-              near(vicious->use_cone_radians, 3.1415927f) && vicious->pre_look_at &&
+              near(vicious->use_cone_radians, native_search_max_angle_v1(180.0f)) && vicious->pre_look_at &&
               vicious->use_targets == SkillUseTargetsV1::requery_at_use && !vicious->rolls_objects &&
               vicious->post_clear_target && !vicious->sets_cooldown && !vicious->shield_variant &&
               std::string(vicious->class_token) == "Skill_Rogue_ViciousStrike_Stun",
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
         // (objects too) gets SkillCombatRoll; no SetSkillCooldown; Post ClearTarget.
         const auto* cold_ray = find_skill_use_profile_v1("ColdRay", "prince_mage_coldray");
         check(cold_ray && near(cold_ray->pre_range, 650.0f) && cold_ray->pre_look_at &&
-              near(cold_ray->use_range, 650.0f) && near(cold_ray->use_cone_radians, 1.5707964f) &&
+              near(cold_ray->use_range, 650.0f) && near(cold_ray->use_cone_radians, native_search_max_angle_v1(90.0f)) &&
               cold_ray->use_targets == SkillUseTargetsV1::requery_at_use && cold_ray->rolls_objects &&
               cold_ray->post_clear_target && !cold_ray->sets_cooldown && !cold_ray->shield_variant &&
               std::string(cold_ray->class_token) == "Skill_Mage_ColdRay",

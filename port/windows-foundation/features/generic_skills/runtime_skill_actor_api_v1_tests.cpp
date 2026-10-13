@@ -155,6 +155,37 @@ void check_live_hp() {
           "a non-finite HP value is refused");
     check(!f.world->set_current_health(99, 10.0f, error), "an unbound actor is refused");
 }
+// Authored ANGLE vs native half-angle (IDA 0x38fcf0 -> 0x4a2f34): an ANGLE of A admits +-A/2 around the look vector.
+void check_native_half_cone() {
+    Fixture f;
+    f.add(1, {0, 0, 0}, true);                                          // caster facing -y
+    const float degrees[] = {40.0f, 50.0f, 70.0f, 179.0f};
+    ActorId id = 11;
+    for (const float deg : degrees) {
+        const float rad = deg * 3.1415927f / 180.0f;
+        f.add(id++, {20.0f * std::sin(rad), -20.0f * std::cos(rad), 0.0f}, true);
+    }
+    std::vector<ActorId> allies{11, 12, 13, 14};
+    SkillActorTargetQueryV1 out;
+    std::string error;
+    // ANGLE 90 -> native 45 degrees: only the 40-degree ally is inside.
+    check(query_player_character_targets_v1(*f.world, 1, allies, 100.0f, native_search_max_angle_v1(90.0f),
+                                            SkillTargetSortV1::closest_first, std::nullopt, out, error), error);
+    check((out.ordered_character_targets == std::vector<ActorId>{11}),
+          "ANGLE 90 (native 45 degrees) admits the 40-degree ally only, not the 50-degree one");
+    // ANGLE 120 (Charge) -> native 60 degrees: 40 and 50 are inside, 70 is not.
+    check(query_player_character_targets_v1(*f.world, 1, allies, 100.0f, native_search_max_angle_v1(120.0f),
+                                            SkillTargetSortV1::closest_first, std::nullopt, out, error), error);
+    check((out.ordered_character_targets == std::vector<ActorId>{11, 12}),
+          "ANGLE 120 (native 60 degrees) admits 40 and 50 degrees, not 70");
+    // ANGLE 360 and the no-angle default are the full circle (native pi).
+    check(query_player_character_targets_v1(*f.world, 1, allies, 100.0f, native_search_max_angle_v1(360.0f),
+                                            SkillTargetSortV1::closest_first, std::nullopt, out, error), error);
+    check(out.ordered_character_targets.size() == 4, "ANGLE 360 keeps every in-range ally");
+    check(native_search_max_angle_v1(360.0f) >= 3.1415927f - 1e-4f && native_search_max_angle_v1(360.0f) <= 3.1415927f + 1e-4f,
+          "ANGLE 360 native half-angle is pi");
+}
+
 } // namespace
 
 int main() {
@@ -164,6 +195,7 @@ int main() {
         check_player_query();
         check_backup_query();
         check_live_hp();
+        check_native_half_cone();
         std::cout << "runtime_skill_actor_api_v1: passed\n";
         return 0;
     } catch (const std::exception& e) {

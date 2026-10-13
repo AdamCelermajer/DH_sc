@@ -1,4 +1,5 @@
 #include "runtime_skill_activation_v1.hpp"
+#include <algorithm>
 #include "runtime_skill_cast_prepare_v1.hpp"
 #include "runtime_skill_cast_coordinator_v1.hpp"
 #include "runtime_skill_target_query_v1.hpp"
@@ -62,6 +63,9 @@ struct RogueSkillFixtureSpecV1 {
     // True when the authored OnPre has no target query (Figments: an area Use with TargetListSearch(1000, 360) in OnSkill_),
     // so the pre-use prefix holds no target order and the target is not required.
     bool no_pre_query = false;
+    // v21.8 ES-API: authored profile variant for this cast (same name/script), and the presentation+HP+query probe.
+    const RuntimeSkillUseProfileV1* profile_override = nullptr;
+    bool presentation_probe = false;
 };
 
 void run_rogue_source_slot0_fixture(
@@ -278,6 +282,7 @@ void run_rogue_source_slot0_fixture(
     mana_facts.tracing_character_stats = true;
     RuntimeSkillCastRequestV1 request;
     request.actor = 1;
+    request.profile_override = spec.profile_override;
     request.character = &loaded_rogue;
     request.equipment_set = 0;
     std::uint32_t key1_source_slot = 99;
@@ -472,6 +477,69 @@ void run_rogue_source_slot0_fixture(
     check(session.actor(2)->health == hp2_after && session.actor(3)->health == hp3_after &&
           rng_duplicate.seed == rng_after.seed && rng_duplicate.calls == rng_after.calls,
           "Duplicate Rogue do_skill callback reapplied skill results or consumed RNG");
+    // v21.8 ES-API integration probe (presentation arms, Player filter, named backup, live HP write, kill attribution), run on the
+    // same real cast. The cue list is recorded by the coordinator in authored order: PlaySound, PlayFX(self), PlayFX per victim.
+    if (spec.presentation_probe) {
+        const auto& cues = final->presentation_cues;
+        check(cues.size() >= 2 && cues[0].kind == SkillPresentationCueV1::Kind::sound && cues[0].name == "sfx_skill_mage_ilu_nightmare" &&
+              cues[0].actor == invalid_actor_id,
+              "Presentation probe: the PlaySound cue is not first on the receipt");
+        check(cues[1].kind == SkillPresentationCueV1::Kind::self_fx && cues[1].name == "elem_dmg_02_water" && cues[1].actor == 1,
+              "Presentation probe: the self PlayFX cue is not second or not owned by the caster");
+        std::vector<ActorId> cue_victims;
+        for (std::size_t i = 2; i < cues.size(); ++i) {
+            check(cues[i].kind == SkillPresentationCueV1::Kind::target_fx && cues[i].name == "elem_dmg_02_water",
+                  "Presentation probe: a per-target cue has the wrong kind or name");
+            cue_victims.push_back(cues[i].actor);
+        }
+        std::vector<ActorId> rolled;
+        for (const auto& result : final->applied_results)
+            if (std::find(rolled.begin(), rolled.end(), result.target) == rolled.end()) rolled.push_back(result.target);
+        std::sort(cue_victims.begin(), cue_victims.end());
+        std::sort(rolled.begin(), rolled.end());
+        check(!cue_victims.empty() && cue_victims == rolled,
+              "Presentation probe: per-target PlayFX cues do not match the victims the Use loop rolled");
+        const std::size_t cue_count = cues.size();
+        RuntimeSkillCastReceiptV1 replay;
+        check(coordinator.apply_retained_use_event_v1(session, 1, final->generation,
+                  RuntimeSkillSourceAnimStateV1::skill, actual_event, replay, error), error);
+        check(coordinator.receipt(1)->presentation_cues.size() == cue_count,
+              "Presentation probe: a duplicate do_skill marker replayed the authored cues");
+
+        // Player filter: this fixture has no allied Player character, so the query must find nothing (no enemy leaks through).
+        const auto* world = session.world();
+        SkillActorTargetQueryV1 allies;
+        check(query_player_character_targets_v1(*world, 1, {1, 2, 3}, 1000.0f, 3.1415927410125732421875f,
+                  SkillTargetSortV1::closest_first, std::nullopt, allies, error), error);
+        check(allies.status == SkillActorTargetQueryStatusV1::no_actor_target && allies.ordered_character_targets.empty(),
+              "Player filter admitted a non-Player character in the live session");
+        // Named backup of the rolled victims: only living members, in backup order.
+        SkillTargetListBackupsV1 backups;
+        backups.backup("MaxAngleSearch", rolled);
+        SkillActorTargetQueryV1 from_backup;
+        check(query_backup_character_targets_v1(*world, 1, backups.get("MaxAngleSearch"), 1000.0f, 3.1415927410125732421875f,
+                  SkillTargetSortV1::source_order, std::nullopt, from_backup, error), error);
+        for (const auto id : from_backup.ordered_character_targets)
+            check(world->find_actor(id) && world->find_actor(id)->alive() &&
+                  std::find(rolled.begin(), rolled.end(), id) != rolled.end(),
+                  "Named backup search returned a non-member or dead victim");
+        // Live HP write on a rolled victim: the sheet, the ActorState mirror and GetPropHP agree.
+        const ActorId victim = rolled.front();
+        std::string hp_error;
+        check(session.world()->set_current_health(victim, 40.0f, hp_error), hp_error);
+        float hp_now = 0.0f, hp_max = 0.0f;
+        check(session.world()->current_health(victim, hp_now, hp_max) && hp_now == 40.0f && session.actor(victim)->health == 40.0f,
+              "SetProp(HP) on a live victim did not read back through GetPropHP and the ActorState mirror");
+        // Kill attribution: Assassination-style target:Kill(GetSelf()) records the caster as killer, once.
+        const auto kills_before = session.script_kill_records().size();
+        check(session.script_kill_actor(victim, 1, hp_error) && session.script_kill_records().size() == kills_before + 1 &&
+              session.script_kill_records().back().victim == victim && session.script_kill_records().back().killer == 1,
+              "Kill(GetSelf()) on a live victim was not attributed to the caster");
+        check(session.script_kill_actor(victim, 1, hp_error) && session.script_kill_records().size() == kills_before + 1,
+              "Repeated Kill recorded a second attribution");
+        std::cout << "PASS Rogue probe " << spec.skill_name << ": cues=" << cue_count << " victims=" << rolled.size()
+                  << " HP write/readback, Player filter empty, named backup ok, kill attributed to caster\n";
+    }
     std::cout << "PASS Rogue " << spec.skill_name << " main=" << spec.main_hand << " off=" << spec.off_hand
               << " markers=" << marker_count << " results=" << final->applied_results.size()
               << " firstVolleyHP=" << first_volley_damage << " duplicateSuppressed=1\n";
@@ -505,7 +573,7 @@ void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
     // character-only SkillCombatRoll; CLASS = Skill_Rogue_ViciousStrike_Stun; Post ClearTarget; no SetSkillCooldown.
     const auto* vicious = find_skill_use_profile_v1("ViciousStrike", "prince_rogue_vicious_strike");
     check(vicious && near(vicious->pre_range, 300.0f) && near(vicious->use_range, 160.0f) &&
-          near(vicious->use_cone_radians, 3.1415927f) && vicious->pre_look_at &&
+          near(vicious->use_cone_radians, native_search_max_angle_v1(180.0f)) && vicious->pre_look_at &&
           vicious->use_targets == SkillUseTargetsV1::requery_at_use && !vicious->rolls_objects &&
           vicious->post_clear_target && !vicious->sets_cooldown && !vicious->shield_variant &&
           std::string(vicious->class_token) == "Skill_Rogue_ViciousStrike_Stun",
@@ -519,7 +587,7 @@ void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
     // prince_rogue_jump_kick.luac: INIT_RANGE 250; OnSkill_ RANGE 160, ANGLE 270; ClearTarget Post.
     const auto* jump_kick = find_skill_use_profile_v1("JumpKick", "prince_rogue_jump_kick");
     check(jump_kick && near(jump_kick->pre_range, 250.0f) && near(jump_kick->use_range, 160.0f) &&
-          near(jump_kick->use_cone_radians, 4.712389f) && jump_kick->post_clear_target &&
+          near(jump_kick->use_cone_radians, native_search_max_angle_v1(270.0f)) && jump_kick->post_clear_target &&
           !jump_kick->sets_cooldown, "JumpKick Lua transcription changed");
     // prince_warrior_bashdown.luac: RANGE 160; OnSkill_ uses the OnPre-selected target only.
     const auto* bashdown = find_skill_use_profile_v1("BashDown", "prince_warrior_bashdown");
@@ -528,7 +596,7 @@ void check_skill_use_profiles_v1(dh2::data::SkillTables::Borrow skills,
           "BashDown Lua transcription changed");
     // prince_warrior_charge.luac: OnSkill_ NoSort RANGE 300 ANGLE 120; SetSkillCooldown; shield class variant.
     const auto* charge = find_skill_use_profile_v1("Charge", "prince_warrior_charge");
-    check(charge && near(charge->use_range, 300.0f) && near(charge->use_cone_radians, 2.0943951f) &&
+    check(charge && near(charge->use_range, 300.0f) && near(charge->use_cone_radians, native_search_max_angle_v1(120.0f)) &&
           charge->use_sort == SkillTargetSortV1::source_order && charge->sets_cooldown &&
           charge->shield_variant && !charge->post_clear_target, "Charge Lua transcription changed");
     // prince_warrior_ground_slam.luac: no OnPre query; OnSkill_ range TempProp1, ClosestFirst, LookAt; cooldown.
@@ -710,6 +778,17 @@ int main(int argc, char** argv) {
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
             characters, skill_tables, animation_tables, dictionary, property_rules,
             {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick", 521, 1, 1, true, true, false, 1});
+        // v21.8 ES-API integration: the admitted JumpKick row plus presentation arms (test variant only; the shipped table row is
+        // unchanged). Sound: Figments' nightmare label; FX: the ColdRay elem_dmg_02_water set (both staged EffectsTables names).
+        static RuntimeSkillUseProfileV1 jump_kick_presentation = *find_skill_use_profile_v1("JumpKick", "prince_rogue_jump_kick");
+        jump_kick_presentation.use_sound_name = "sfx_skill_mage_ilu_nightmare";
+        jump_kick_presentation.self_fx_name = "elem_dmg_02_water";
+        jump_kick_presentation.target_fx_each_name = "elem_dmg_02_water";
+        run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
+            characters, skill_tables, animation_tables, dictionary, property_rules,
+            {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick", 521, 1, 1, true, true, false, 1,
+             false, "RoguePlayerBase", "Skill_Rogue_Quickness_buff", 4000.0, false, "RoguePlayerBase",
+             "_default_rogue-mesh-skin", true, false, &jump_kick_presentation, true});
         // v21.8 skills-a: ViciousStrike (OnPre search + Use requery 160/180deg) and
         // Roundhouse (OnPre list reused at Use). Same full-session path as JumpKick.
         run_rogue_source_slot0_fixture(scratch, assets, properties, bindings,
@@ -1044,7 +1123,7 @@ int main(int argc, char** argv) {
               "GroundSlam source ClosestFirst target loop did not retain the actual closest-first order");
         check(query_source_character_targets_v1(session, 1, source_population_order,
                   source_target_facts, true, 300.0f,
-                  2.09439510239319549f, SkillTargetSortV1::source_order,
+                  native_search_max_angle_v1(120.0f), SkillTargetSortV1::source_order,
                   source_use_query, error), error);
         check(source_use_query.status == SkillActorTargetQueryStatusV1::selected_character &&
               source_use_query.ordered_character_targets == std::vector<ActorId>{2, 3} &&
@@ -1092,7 +1171,7 @@ int main(int argc, char** argv) {
         SkillActorTargetQueryV1 charge_behind_only;
         check(query_source_character_targets_v1(session, 1, passed_target_only,
                   passed_target_fact, true, 300.0f,
-                  2.09439510239319549f, SkillTargetSortV1::source_order,
+                  native_search_max_angle_v1(120.0f), SkillTargetSortV1::source_order,
                   charge_behind_only, error), error);
         check(charge_behind_only.status == SkillActorTargetQueryStatusV1::no_actor_target &&
               charge_behind_only.ordered_character_targets.empty(),
@@ -1100,7 +1179,7 @@ int main(int argc, char** argv) {
         SkillActorTargetQueryV1 charge_use_after_motion;
         check(query_source_character_targets_v1(session, 1, source_population_order,
                   source_target_facts, true, 300.0f,
-                  2.09439510239319549f, SkillTargetSortV1::source_order,
+                  native_search_max_angle_v1(120.0f), SkillTargetSortV1::source_order,
                   charge_use_after_motion, error), error);
         check(charge_use_after_motion.status == SkillActorTargetQueryStatusV1::selected_character &&
               charge_use_after_motion.ordered_character_targets == std::vector<ActorId>{3} &&

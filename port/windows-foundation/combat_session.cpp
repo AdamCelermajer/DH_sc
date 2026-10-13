@@ -89,6 +89,7 @@ struct CombatSession::Impl {
     std::unique_ptr<CombatSystem> combat;
     std::unique_ptr<ActorCombatRuntime> runtime;
     std::vector<CombatSession::ScriptKillRecordV1> scriptKills; // v21.8 ES-API killer attribution
+    CombatSession::ScriptStopServiceV1 stopService; // v21.8 ES-API Stop owner (host-installed)
     ActorId player=invalid_actor_id;
     // A player target chosen through the public selection input remains sticky
     // across action teardown. This host-side intent is deliberately distinct
@@ -2305,6 +2306,14 @@ bool CombatSession::script_kill_actor(ActorId id,ActorId killer,std::string& err
     if(!impl_->runtime->kill(id,error))return false;
     if(was_alive&&actor&&!actor->alive())impl_->scriptKills.push_back(ScriptKillRecordV1{id,killer});
     return true;
+}
+void CombatSession::set_script_stop_service(ScriptStopServiceV1 service){
+    if(impl_)impl_->stopService=std::move(service);
+}
+bool CombatSession::script_stop_actor(ActorId id,std::string& error){
+    if(!impl_||impl_->detached||!impl_->entries.count(id)){error="Script Stop actor is unavailable";return false;}
+    if(!impl_->stopService){error="Script Stop has no movement owner installed";return false;}
+    return impl_->stopService(*this,id,error);
 }
 const std::vector<CombatSession::ScriptKillRecordV1>& CombatSession::script_kill_records()const noexcept{
     static const std::vector<ScriptKillRecordV1> none;

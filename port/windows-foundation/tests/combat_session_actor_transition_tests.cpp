@@ -560,6 +560,13 @@ void run_scripted_kill_retirement(const char* root){
           "Scripted kill did not record its victim and killer");
     check(f.session.script_kill_actor(2,f.error)&&deathEntries==1,"Duplicate kill re-entered Died");
     check(f.session.script_kill_records().size()==1,"Duplicate kill recorded a second killer attribution");
+    // v21.8 ES-API Stop (Cmd_Stop seam): refused without an installed movement owner, dispatched to it otherwise.
+    {std::string stopError;check(!f.session.script_stop_actor(1,stopError)&&!stopError.empty(),"Stop without a movement owner did not fail");}
+    unsigned stopCalls=0;ActorId stopped=invalid_actor_id;
+    f.session.set_script_stop_service([&](CombatSession&,ActorId id,std::string&){++stopCalls;stopped=id;return true;});
+    check(f.session.script_stop_actor(1,f.error)&&stopCalls==1&&stopped==1,"Stop was not dispatched to the installed owner");
+    check(!f.session.script_stop_actor(99,f.error),"Stop accepted an actor outside the session");
+    f.session.set_script_stop_service(nullptr);
     f.session.set_actor_combat_permission_provider([](ActorId id){return id!=2;});
     check(f.session.refresh_actor_combat_permissions(f.error),f.error);
     check(f.session.owns_pose(2),"Permission loss before End34 released active Died");

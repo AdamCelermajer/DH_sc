@@ -329,7 +329,7 @@ bool RuntimeMageSkillOwnerV1::chain_search(CombatSession& session, const std::sh
     // Enemy + AttackableOnly filters, ClosestFirst, TargetListSearch(500, 360, startingTarget).
     SkillActorTargetQueryV1 found;
     if (!query_source_character_targets_v1(session, state->roll_context.caster, state->population_order,
-            state->target_facts, state->objects_absent, kChainSearchRange, 2.0f * kPi, SkillTargetSortV1::closest_first,
+            state->target_facts, state->objects_absent, kChainSearchRange, kPi, SkillTargetSortV1::closest_first,
             found, error, nullptr, &origin)) return false;
     if (found.ordered_character_targets.empty()) return true;
     ActorId next = invalid_actor_id;
@@ -456,7 +456,7 @@ bool RuntimeMageSkillOwnerV1::tick_tornado(CombatSession& session, Tornado& torn
         origin.radius = 0.0f;
         SkillActorTargetQueryV1 found;
         if (!query_source_character_targets_v1(session, tornado.victim_context.caster, tornado.population_order,
-                tornado.target_facts, tornado.objects_absent, tornado.area_range, 2.0f * kPi, SkillTargetSortV1::source_order,
+                tornado.target_facts, tornado.objects_absent, tornado.area_range, kPi, SkillTargetSortV1::source_order,
                 found, error, nullptr, &origin)) return false;
         for (const auto target : found.ordered_character_targets) {
             if (tornado.victims.count(target) || !eligible(session, tornado.area_context.caster, target)) continue;
@@ -530,7 +530,7 @@ bool RuntimeMageSkillOwnerV1::explode_statue(CombatSession& session, Statue& sta
     origin.radius = 0.0f;
     SkillActorTargetQueryV1 found;
     if (!query_source_character_targets_v1(session, statue.roll_context.caster, statue.population_order,
-            statue.target_facts, statue.objects_absent, kStoneBlastRange, 2.0f * kPi, SkillTargetSortV1::source_order,
+            statue.target_facts, statue.objects_absent, kStoneBlastRange, kPi, SkillTargetSortV1::source_order,
             found, error, nullptr, &origin)) return false;
     log("Mage skill StoneEscape explosion targets=" + std::to_string(found.ordered_character_targets.size()));
     for (const auto target : found.ordered_character_targets) {

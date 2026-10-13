@@ -5989,6 +5989,14 @@ int main(int argc,char** argv) {
             if(!options.runtimeEnemyAI)return;
             if(!combatSession||!sourceObstacles||!motor)
                 throw std::runtime_error("Enemy AI requires the shared combat, movement and navigation world");
+            // v21.8 ES-API: Character::_Stop (Cmd_Stop). Monsters end their route through the navigation owner; the player
+            // (input-driven walk, no route) is put to idle through the source Idle transition.
+            combatSession->set_script_stop_service([&enemyNavigation](f::CombatSession& session,f::ActorId id,std::string& e)->bool{
+                if(id==session.player_id())return session.script_put_idle(id,e);
+                auto* actor=session.actor(id);
+                if(!actor||!enemyNavigation){e="Script Stop has no navigation owner for this actor";return false;}
+                return enemyNavigation->stop(session,*actor,e);
+            });
             if(enemyNavigation&&enemyNavigationWorld==sourceObstacles)return;
             f::enemy_ai::RuntimeEnemyNavigationConfigV1 config;
             config.navigation_world=sourceObstacles;config.bodies=&nativeBodies;config.scene_collision=&collision;

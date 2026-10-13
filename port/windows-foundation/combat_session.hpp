@@ -496,6 +496,12 @@ public:
     void set_combat_result_observer(CombatResultObserver observer);
     bool script_kill_actor(ActorId,std::string& error);
     bool script_kill_actor(ActorId victim,ActorId killer,std::string& error);
+    // v21.8 ES-API: Character::_Stop -> v2Controller::Cmd_Stop (0x3b56b4). The host installs the movement owner that
+    // ends the actor's route and selects idle (monster navigation owner; the player through script_put_idle). Without
+    // an installed owner the call fails rather than pretending the actor stopped.
+    using ScriptStopServiceV1 = std::function<bool(CombatSession&,ActorId,std::string&)>;
+    void set_script_stop_service(ScriptStopServiceV1);
+    bool script_stop_actor(ActorId,std::string& error);
     const std::vector<ScriptKillRecordV1>& script_kill_records() const noexcept;
     bool script_death_event(ActorId,std::string& error);
     bool script_move_handoff(ActorId,std::string& error);

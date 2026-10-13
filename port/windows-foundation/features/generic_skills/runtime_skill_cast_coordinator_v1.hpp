@@ -141,6 +141,9 @@ struct RuntimeSkillCastRequestV1 {
     RuntimeSkillFaerySpellArmV1* active_faery_spell = nullptr;
     // v21.8 mage: executes the Pre/Use bodies of profile rows with `external_owner` (borrowed; the host owns it).
     RuntimeSkillExternalOwnerV1* external_owner = nullptr;
+    // v21.8 ES-API test seam: an authored variant of the admitted (name, script) row, used instead of the table row.
+    // Null in play; the variant must carry the same skill_name and script or it is ignored.
+    const RuntimeSkillUseProfileV1* profile_override = nullptr;
 };
 
 // P15 FAERYSOUND (B050): original Celest/Hotty OnPreSkill_ PlaySound3D labels,

@@ -58,7 +58,7 @@ struct RuntimeSkillUseProfileV1 {
     const char* class_token;  // ClassTable row used by CalcManaCost / HasMana / ApplyPropClass
     // OnPreSkill_ target search. pre_range == 0 means the Lua has no OnPre query.
     float pre_range;
-    float pre_cone_radians;   // full cone; 2*pi/2 = pi (no-angle TargetListSearch default)
+    float pre_cone_radians;   // native TargetListSearch maxAngle (half cone); pi = no-angle default
     SkillTargetSortV1 pre_sort;
     bool pre_look_at;         // LookAt(top target) when OnPre selects a target
     // OnPreSkill_ calls SetSkillCooldown(SnS_Cooldown). Only Charge and GroundSlam do.
@@ -122,7 +122,7 @@ inline constexpr RuntimeSkillBuffProfileV1 kQuicknessBuffV1 = {
 // Rows in the order of the Lua files. Values:
 //   BashDown        prince_warrior_bashdown.luac        RANGE 160; OnPre TargetListSearch(RANGE) + LookAt; OnSkill_ uses OnPre target; Post ClearTarget.
 //   GroundSlam      prince_warrior_ground_slam.luac     OnPre has no target query; OnSkill_ search range=TempProp1, ClosestFirst, LookAt; SetSkillCooldown in OnPre; Post ClearTarget.
-//   Charge          prince_warrior_charge.luac          RANGE 300 FrontalFirst + LookAt; OnSkill_ NoSort, RANGE 300, ANGLE 120; SetSkillCooldown; conditional Post.
+//   Charge          prince_warrior_charge.luac          RANGE 300 FrontalFirst + LookAt; OnSkill_ NoSort, RANGE 300, ANGLE 120 (native half-angle 60); SetSkillCooldown; conditional Post.
 //   JumpKick        prince_rogue_jump_kick.luac         INIT_RANGE 250 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 270; Post ClearTarget.
 //   ViciousStrike   prince_rogue_vicious_strike.luac    SEARCH_RANGE 300 + MaxAngleSearch + LookAt; OnSkill_ RANGE 160, ANGLE 180, character-only rolls; CLASS = _Stun; Post ClearTarget.
 //   Roundhouse      prince_rogue_roundhouse.luac        RANGE 220 FrontalFirst + LookAt; OnSkill_ pops the OnPre list (no re-search), objects rolled; Post ClearTarget.
@@ -146,19 +146,19 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
     {"Charge", "prince_warrior_charge", "Skill_Warrior_Charge",
      300.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      true,
-     SkillUseTargetsV1::requery_at_use, 300.0f, false, 2.09439510239319549f,
+     SkillUseTargetsV1::requery_at_use, 300.0f, false, native_search_max_angle_v1(120.0f),
      SkillTargetSortV1::source_order, false,
      true, false, true, nullptr},
     {"JumpKick", "prince_rogue_jump_kick", "Skill_Rogue_JumpKick",
      250.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
-     SkillUseTargetsV1::requery_at_use, 160.0f, false, 4.71238898038468986f,
+     SkillUseTargetsV1::requery_at_use, 160.0f, false, native_search_max_angle_v1(270.0f),
      SkillTargetSortV1::frontal_first, false,
      true, true, false, nullptr},
     {"ViciousStrike", "prince_rogue_vicious_strike", "Skill_Rogue_ViciousStrike_Stun",
      300.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
-     SkillUseTargetsV1::requery_at_use, 160.0f, false, kSkillPiV1,
+     SkillUseTargetsV1::requery_at_use, 160.0f, false, native_search_max_angle_v1(180.0f),
      SkillTargetSortV1::frontal_first, false,
      false, true, false, nullptr},
     {"Roundhouse", "prince_rogue_roundhouse", "Skill_Rogue_Roundhouse",
@@ -173,11 +173,11 @@ inline constexpr RuntimeSkillUseProfileV1 kRuntimeSkillUseProfilesV1[] = {
      SkillUseTargetsV1::pre_list_all, 0.0f, false, kSkillPiV1,
      SkillTargetSortV1::frontal_first, false,
      false, true, false, &kQuicknessBuffV1},
-    // v21.8 mage. ANGLE 90 degrees -> 1.57079637 rad (same degree->radian convention as JumpKick 270 / Charge 120).
+    // v21.8 mage. ANGLE 90 degrees -> native half-angle 45 degrees (pi/4) via native_search_max_angle_v1.
     {"ColdRay", "prince_mage_coldray", "Skill_Mage_ColdRay",
      650.0f, kSkillPiV1, SkillTargetSortV1::frontal_first, true,
      false,
-     SkillUseTargetsV1::requery_at_use, 650.0f, false, 1.57079637050628662109375f,
+     SkillUseTargetsV1::requery_at_use, 650.0f, false, native_search_max_angle_v1(90.0f),
      SkillTargetSortV1::frontal_first, false,
      true, true, false, nullptr, "elem_dmg_02_water"},
     // prince_mage_chain_lightning.luac: OnPre TargetListSearch(RANGE 1000) FrontalFirst + LookAt(top); OnSkill_ pops the Pre
