@@ -1,3 +1,0 @@
-elf_address,symbol,status,source_file,notes
-0x3f5dcc,batch::BatchNodeCompiler::_MapMeshNode(GameObject*, glitch::scene::ISceneNode*),reconstructed,game-world/src/g1-game-world-batch-7f01fe-0.cpp
-0x50cfa8,batch::BatchNodeCompiler::MakeNoBatchVisible(glitch::scene::ISceneNode*, bool),reconstructed,game-world/src/g1-game-world-batch-7f01fe-0.cpp
