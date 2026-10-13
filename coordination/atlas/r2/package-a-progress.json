@@ -1,0 +1,37 @@
+{
+  "contract_status": "Not started; awaiting root Step 0 release.",
+  "counts": {
+    "act1_actor_assignment_rows": 23,
+    "act1_direct_lua_script_roots": 10,
+    "act1_entity_roots_unique": 23,
+    "act1_level_roots": 2,
+    "act1_lua_import_closure": 10,
+    "act1_module_script_references": 37,
+    "act1_module_script_refs_unmatched_to_lua": 37,
+    "all_lua_scripts_independently_scanned": 219,
+    "all_original_call_sites_in_rows": 6594,
+    "autoloaded_common_scripts": 2,
+    "distinct_native_rows": 271,
+    "player_skill_lua_scripts": 72,
+    "ranked_functions": 240,
+    "scoped_engine_native_candidate_sites": 2713,
+    "scoped_lua_helper_wrapper_sites": 619,
+    "scoped_source_call_sites": 3332,
+    "source_lua_scripts": 84
+  },
+  "expected_contract_pages": 271,
+  "package": "A-native-contract-specs",
+  "phase": "STEP0_SCOPE_ENUMERATION",
+  "processed": 0,
+  "schema": "atlas-r2-package-progress-v1",
+  "scope_files": [
+    "r2/natives/scope.json"
+  ],
+  "status_counts": {
+    "DONE": 0,
+    "NOT-NEEDED": 0,
+    "TODO": 271,
+    "UNRESOLVED": 0
+  },
+  "total": 271
+}

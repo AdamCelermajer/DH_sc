@@ -1,0 +1,2844 @@
+{
+  "act2_scope": {
+    "act2_edges": [
+      {
+        "activation_condition": "IsAfter_Swamp_Escape",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "81a4499f5029d69f1bac",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a01_SWAMP_CAMP",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_001",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "source_platform": "android",
+        "source_scene": "001_swamp.mlx",
+        "source_scene_id": "6b2f662bc32e54797884",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f748d836e664c8e65051",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a01_SWAMP_CAMP",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "source_platform": "android",
+        "source_scene": "001_swamp.mlx",
+        "source_scene_id": "6b2f662bc32e54797884",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "d94d90be2f4402bb3e15",
+        "target_name": "SWAMP_CAVE_WITCH_A",
+        "target_scene": "002_swamp_witchcave.rule.xml",
+        "target_scene_id": "f6ed60ebabd20b89aaf1"
+      },
+      {
+        "activation_condition": "IsAfter_Gothicus2Survivors",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8c2605e4741a0fbc3825",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toSwamp02",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "source_platform": "android",
+        "source_scene": "001_swamp.mlx",
+        "source_scene_id": "6b2f662bc32e54797884",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
+        "activation_condition": "IsAfter_Swamp_KillWitch2",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "cdb487477574ef6ea4af",
+        "entrypoint_id": "4",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_42",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "source_platform": "android",
+        "source_scene": "002_swamp_witchcave.rule.xml",
+        "source_scene_id": "f6ed60ebabd20b89aaf1",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/bossroom_witch_.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e680a80f77c5c9f4a3bf",
+        "target_name": "SWAMP",
+        "target_scene": "001_swamp.mlx",
+        "target_scene_id": "6b2f662bc32e54797884"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "50c33a19c14cd26e8ff7",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a02_SWAMP_CAVE_WITCH_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_001",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "source_platform": "android",
+        "source_scene": "002_swamp_witchcave.rule.xml",
+        "source_scene_id": "f6ed60ebabd20b89aaf1",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/deadend_swpcave_s_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e680a80f77c5c9f4a3bf",
+        "target_name": "SWAMP",
+        "target_scene": "001_swamp.mlx",
+        "target_scene_id": "6b2f662bc32e54797884"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 0,
+        "confidence": "PROVEN",
+        "edge_id": "a49e7ed7c556e665f581",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 46,
+        "script_name": "HG2_boss_levelchange",
+        "script_names_source": null,
+        "source_reference_id": "60fdd3e8223d6f4d2cb8",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": "campaign-references.json:60fdd3e8223d6f4d2cb8",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:60fdd3e8223d6f4d2cb8"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 0,
+        "confidence": "PROVEN",
+        "edge_id": "93c5c1c844d22a3050f8",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 42,
+        "script_name": "Goto_Underworld",
+        "script_names_source": null,
+        "source_reference_id": "b3c39e41660691941615",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": "campaign-references.json:b3c39e41660691941615",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:b3c39e41660691941615"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8ee6041641acf72eee66",
+        "entrypoint_id": "13",
+        "fasttravel_id": "a05_DARKWOOD_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_swamp",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_01_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e680a80f77c5c9f4a3bf",
+        "target_name": "SWAMP",
+        "target_scene": "001_swamp.mlx",
+        "target_scene_id": "6b2f662bc32e54797884"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "237f790f7030547420af",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toInfectedVillage",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_03_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_03_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_03_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "3a430a1cc24c6c3274f6",
+        "target_name": "INFECTED_VILLAGE_01",
+        "target_scene": "005_infectedvillage.mlx",
+        "target_scene_id": "1ee09bcff06fac62bcc3"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "36d07a23ab269b319d92",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Crypts",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "f31ab93d2b71327d3688",
+        "target_name": "GOTHICUS_CRYPT_01",
+        "target_scene": "007_crypt_01.rule.xml",
+        "target_scene_id": "00f4beec573704987fff"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "9b3c76f42a6ad7154bec",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_07_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "02c38df2d6f63156b1d9",
+        "target_name": "GOTHICUS_CRYPT_02",
+        "target_scene": "020_crypt_02.rule.xml",
+        "target_scene_id": "a763713c29120b2d03f7"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "6c28b34bb08dc2c5b437",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_To_EarthTemple",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_12_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_12_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_12_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "88c1a5da462937e52775",
+        "target_name": "EARTH_TEMPLE_01",
+        "target_scene": "011_earth_temple_01.rule.xml",
+        "target_scene_id": "dedfd7d9431f2172275e"
+      },
+      {
+        "activation_condition": "IsAfter_Kill_DarkQueen_A",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "ec0fc62fa63a4a94eee6",
+        "entrypoint_id": "1",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toUW",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_14_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": "IsAfter_Abbey_Assassin",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "9f1e80eef018bab1d0f5",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toGothicus02",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_17_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "41bb0da2ea312e96237d",
+        "target_name": "GOTHICUS_CASTLE_02",
+        "target_scene": "021_gothicus_castle_02.rule.xml",
+        "target_scene_id": "2adb7adbe4e5653621e3"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "b71a13c5019ce79ddd59",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_rootDen",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_19_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_19_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_19_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "b9bcdbb73bab51921835",
+        "target_name": "ROOT_DEN_01",
+        "target_scene": "004_root_den.rule.xml",
+        "target_scene_id": "bf6ca7beefbed5a32c86"
+      },
+      {
+        "activation_condition": "IsAfter_GothicusEscape",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a571abb6ec1311d4e356",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toAbbey",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_27_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_27_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_27_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "eb7609a60b95b269d839",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_icyCliff",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_28_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": "IsAfter_EDKillTroll",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "327096767a7e69710b42",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_RedDesert",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+        "source_platform": "android",
+        "source_scene": "003_darkwood.mlx",
+        "source_scene_id": "2e1304ff2c8ed98caa94",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/darkwood/mgp/darkwood_29_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "69a45ba23c6a19f60484",
+        "entrypoint_id": "9",
+        "fasttravel_id": "a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toDW",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "source_platform": "android",
+        "source_scene": "005_infectedvillage.mlx",
+        "source_scene_id": "1ee09bcff06fac62bcc3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/infectedvillage/mgp/infected01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "21845b453c3b4e4c48b0",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toBasement",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "source_platform": "android",
+        "source_scene": "005_infectedvillage.mlx",
+        "source_scene_id": "1ee09bcff06fac62bcc3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/infectedvillage/mgp/infected01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/infectedvillage/mgp/infected01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "ee4f0b8daf682b8fe87c",
+        "target_name": "SECRET_BASEMENT_01",
+        "target_scene": "006_basement.rule.xml",
+        "target_scene_id": "b392eb001343a839de27"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "2d8368707ef80ab1e13f",
+        "entrypoint_id": "42",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_w_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009_abbey.rule.xml",
+        "source_scene_id": "00d6b04d855fccf54bfd",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_w_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_deadend_w_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "c9c44ca20c9e91662ce3",
+        "entrypoint_id": "42",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toAbbeyupstairs",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009_abbey.rule.xml",
+        "source_scene_id": "00d6b04d855fccf54bfd",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "aa4867db26a3e8693b95",
+        "target_name": "ABBEY_RUINS_01",
+        "target_scene": "009a_abbey.mlx",
+        "target_scene_id": "b5c805e540ccbf63b432"
+      },
+      {
+        "activation_condition": "IsAfter_Lighthouse_to_Abbey",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a5a98a499013836bb562",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toAbbeyCrypt",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "f912940196150cb5ab58",
+        "target_name": "ABBEY_ENTRANCE_01",
+        "target_scene": "009_abbey.rule.xml",
+        "target_scene_id": "00d6b04d855fccf54bfd"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "4c97c2739762d1e55e8d",
+        "entrypoint_id": "8",
+        "fasttravel_id": "a07_DARKWOOD_CATHEDRAL",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": "IsAfter_WindTemp",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "28d302a1d54ffe1379ea",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toWind",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5c65bf35ddc61851ed18",
+        "target_name": "ELEMENTAL_AIR",
+        "target_scene": "030_el_air.rule.xml",
+        "target_scene_id": "04afe51fc8b013539656"
+      },
+      {
+        "activation_condition": "IsAfter_EDKillTroll",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a8b99ab4cc69b84d26f3",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toEarth",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "57b2187f12d4c9c3870b",
+        "target_name": "ELEMENTAL_EARTH",
+        "target_scene": "014_el_earth.rule.xml",
+        "target_scene_id": "87474d560b2e8c1f85b5"
+      },
+      {
+        "activation_condition": "IsAfter_KillFlaminite",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "56b7613adb058d47919c",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toFire",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "025aa447d7b34d49f792",
+        "target_name": "ELEMENTAL_FIRE",
+        "target_scene": "032_el_fire.rule.xml",
+        "target_scene_id": "1803d31bc622e52e4ca3"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f821640fcaf3027d26c5",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toLightning",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e52c65d0e7a8bea37ddd",
+        "target_name": "ELEMENTAL_LIGHT",
+        "target_scene": "010_el_lightning.rule.xml",
+        "target_scene_id": "fa629399ded8e23c4fb7"
+      },
+      {
+        "activation_condition": "IsAfter_WT_Balrog",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "13c2592608229a6f9263",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toWater",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "009a_abbey.mlx",
+        "source_scene_id": "b5c805e540ccbf63b432",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/crypt/mgp/abbey_entrance_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0f1ff0aacf8fba498888",
+        "target_name": "ELEMENTAL_WATER",
+        "target_scene": "024_el_water.rule.xml",
+        "target_scene_id": "fc8f217aa6c8f4b41e89"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "d35b93875db61920aad1",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp",
+        "source_platform": "android",
+        "source_scene": "011_earth_temple_01.rule.xml",
+        "source_scene_id": "dedfd7d9431f2172275e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_e__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0abba00a062c23efd98e",
+        "target_name": "EARTH_TEMPLE_02",
+        "target_scene": "012_earth_temple_02.rule.xml",
+        "target_scene_id": "3ccb758ba39eee28aa87"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "53bcbb6a82a375f72bf7",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp",
+        "source_platform": "android",
+        "source_scene": "011_earth_temple_01.rule.xml",
+        "source_scene_id": "dedfd7d9431f2172275e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_n__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0abba00a062c23efd98e",
+        "target_name": "EARTH_TEMPLE_02",
+        "target_scene": "012_earth_temple_02.rule.xml",
+        "target_scene_id": "3ccb758ba39eee28aa87"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "c49f0c86d93c534710bc",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp",
+        "source_platform": "android",
+        "source_scene": "011_earth_temple_01.rule.xml",
+        "source_scene_id": "dedfd7d9431f2172275e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_s__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0abba00a062c23efd98e",
+        "target_name": "EARTH_TEMPLE_02",
+        "target_scene": "012_earth_temple_02.rule.xml",
+        "target_scene_id": "3ccb758ba39eee28aa87"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "517625443418c0c092e2",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp",
+        "source_platform": "android",
+        "source_scene": "011_earth_temple_01.rule.xml",
+        "source_scene_id": "dedfd7d9431f2172275e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_deadend_toet02_w__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0abba00a062c23efd98e",
+        "target_name": "EARTH_TEMPLE_02",
+        "target_scene": "012_earth_temple_02.rule.xml",
+        "target_scene_id": "3ccb758ba39eee28aa87"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "3b6eaf0125a7dd4d6f4b",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp",
+        "source_platform": "android",
+        "source_scene": "011_earth_temple_01.rule.xml",
+        "source_scene_id": "dedfd7d9431f2172275e",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et01_entry_earthtemp_w__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "67375086dc3370618a08",
+        "entrypoint_id": "1",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp",
+        "source_platform": "android",
+        "source_scene": "012_earth_temple_02.rule.xml",
+        "source_scene_id": "3ccb758ba39eee28aa87",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_e__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "88c1a5da462937e52775",
+        "target_name": "EARTH_TEMPLE_01",
+        "target_scene": "011_earth_temple_01.rule.xml",
+        "target_scene_id": "dedfd7d9431f2172275e"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "217734f3a2e493315879",
+        "entrypoint_id": "1",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp",
+        "source_platform": "android",
+        "source_scene": "012_earth_temple_02.rule.xml",
+        "source_scene_id": "3ccb758ba39eee28aa87",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_n__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "88c1a5da462937e52775",
+        "target_name": "EARTH_TEMPLE_01",
+        "target_scene": "011_earth_temple_01.rule.xml",
+        "target_scene_id": "dedfd7d9431f2172275e"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "be909f90a5073bb3a481",
+        "entrypoint_id": "1",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+        "source_platform": "android",
+        "source_scene": "012_earth_temple_02.rule.xml",
+        "source_scene_id": "3ccb758ba39eee28aa87",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_s__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "88c1a5da462937e52775",
+        "target_name": "EARTH_TEMPLE_01",
+        "target_scene": "011_earth_temple_01.rule.xml",
+        "target_scene_id": "dedfd7d9431f2172275e"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "05f159bdd49b3acd22d1",
+        "entrypoint_id": "1",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp",
+        "source_platform": "android",
+        "source_scene": "012_earth_temple_02.rule.xml",
+        "source_scene_id": "3ccb758ba39eee28aa87",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet01_w__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "88c1a5da462937e52775",
+        "target_name": "EARTH_TEMPLE_01",
+        "target_scene": "011_earth_temple_01.rule.xml",
+        "target_scene_id": "dedfd7d9431f2172275e"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8708598ab07e8b53603d",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+        "source_platform": "android",
+        "source_scene": "012_earth_temple_02.rule.xml",
+        "source_scene_id": "3ccb758ba39eee28aa87",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et02_deadend_toet03_n__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "6c3151e5f2effc6427c2",
+        "target_name": "EARTH_TEMPLE_03",
+        "target_scene": "013_earth_temple_03.rule.xml",
+        "target_scene_id": "45fe61c5ea04fd4f4dea"
+      },
+      {
+        "activation_condition": "IsAfter_EDKillTroll",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "0b2db97937eb69bfa80f",
+        "entrypoint_id": "1",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_aftertroll",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+        "source_platform": "android",
+        "source_scene": "013_earth_temple_03.rule.xml",
+        "source_scene_id": "45fe61c5ea04fd4f4dea",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_objboss_earthtemp_s__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "be6cdda814dec5dbb136",
+        "entrypoint_id": "1",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp",
+        "source_platform": "android",
+        "source_scene": "013_earth_temple_03.rule.xml",
+        "source_scene_id": "45fe61c5ea04fd4f4dea",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/earth_temple/mgp/et03_tmodule_toet02_nsw__01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0abba00a062c23efd98e",
+        "target_name": "EARTH_TEMPLE_02",
+        "target_scene": "012_earth_temple_02.rule.xml",
+        "target_scene_id": "3ccb758ba39eee28aa87"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "79366a5c337e8840959b",
+        "entrypoint_id": "5",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toDW",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd01.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": "IsAfter_WindTemp",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f1b334bdb4ca89372f1a",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toFire",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd02.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd02.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd02.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "717adf3f4a745c60e5ab",
+        "target_name": "FIRE_TEMPLE_01",
+        "target_scene": "031_firetemple.mlx",
+        "target_scene_id": "bf01948063f214749992"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "fa9d8f37e3f65f7d30a2",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toCave2",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "fe774cf4260475eefafc",
+        "target_name": "DESERT_CAVE_01",
+        "target_scene": "016_red_desert_cave_01.rule.xml",
+        "target_scene_id": "5d5bf670c8e428777dbe"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "4a61cb4b9a2b2695d3d9",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toCave01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd03.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1566af1f4cbd50d84689",
+        "target_name": "DESERT_CAVE_02",
+        "target_scene": "017_red_desert_cave_02.rule.xml",
+        "target_scene_id": "1670cdc190d298717e82"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "4f0b6f42555e65d81cae",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_Cave03",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd04.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd04.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd04.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "63294dc201f9aae32eae",
+        "target_name": "DESERT_CAVE_03",
+        "target_scene": "018_red_desert_cave_03.rule.xml",
+        "target_scene_id": "7cb216ae991b0f5391f8"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "887be29ff5db29814853",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a20_DESERT_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_to_Lighthouse",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd05.mgp",
+        "source_platform": "android",
+        "source_scene": "015_red_desert_hub.mlx",
+        "source_scene_id": "145c9b75ecc0bcae66e0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd05.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/red_desert/mgp/rd05.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0e8e5e75b55cb01c20a6",
+        "target_name": "LIGHT_HOUSE_01",
+        "target_scene": "019_light_house_01.rule.xml",
+        "target_scene_id": "b2b7ec3332bd71af7ff0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "7fe3df92ed8bc8328ef6",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a21_DESERT_CAVE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj01_dsrtcave_e_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "016_red_desert_cave_01.rule.xml",
+        "source_scene_id": "5d5bf670c8e428777dbe",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj01_dsrtcave_e_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj01_dsrtcave_e_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "40418cb8cc7a2f0ab413",
+        "entrypoint_id": "3",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_backoutside",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "016_red_desert_cave_01.rule.xml",
+        "source_scene_id": "5d5bf670c8e428777dbe",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc01_obj05_dsrtcave_n_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "174d94e3012aa5406ecf",
+        "entrypoint_id": "4",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_bossroom",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "017_red_desert_cave_02.rule.xml",
+        "source_scene_id": "1670cdc190d298717e82",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_obj05_dsrtcave_n_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "604c3c82c1cfad0db710",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a22_DESERT_CAVE_02_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "017_red_desert_cave_02.rule.xml",
+        "source_scene_id": "1670cdc190d298717e82",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc02_objentrance_dsrtcave_n_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "be26bc024362253ccd86",
+        "entrypoint_id": "5",
+        "fasttravel_id": "a23_DESERT_CAVE_03_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objentrance_dsrtcave_n_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "018_red_desert_cave_03.rule.xml",
+        "source_scene_id": "7cb216ae991b0f5391f8",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objentrance_dsrtcave_n_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objentrance_dsrtcave_n_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "2f86920ec3614a0cd6b7",
+        "entrypoint_id": "5",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objexit_dsrtcave_s_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "018_red_desert_cave_03.rule.xml",
+        "source_scene_id": "7cb216ae991b0f5391f8",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objexit_dsrtcave_s_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/desert_cave/mgp/rdc03_objexit_dsrtcave_s_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": "IsAfter_LighthouseAssassin",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "67e40d8cbfb27aaadaa9",
+        "entrypoint_id": "0",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toLH2",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_01.rule.xml",
+        "source_scene_id": "b2b7ec3332bd71af7ff0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_lv06_close_02_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "0b62b9f71487fc57a0dd",
+        "target_name": "LIGHT_HOUSE_02",
+        "target_scene": "019_light_house_02.rule.xml",
+        "target_scene_id": "247b44fa30e0237397a6"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "9492173fb8df25daa993",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a24_DESERT_LIGHT_HOUSE_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "source_platform": "android",
+        "source_scene": "019_light_house_01.rule.xml",
+        "source_scene_id": "b2b7ec3332bd71af7ff0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/lighthousse/mgp/lh01_startroom_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "833151d2b77fb0e0b9ae",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a12_GOTHICUS_CASTLE_02",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "021_gothicus_castle_02.rule.xml",
+        "source_scene_id": "2adb7adbe4e5653621e3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_deadend_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": "IsAfter_Gothicus2Survivors",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "5f19e2921ebd7a2b3d0b",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a12_GOTHICUS_CASTLE_02",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toCrypt01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+        "source_platform": "android",
+        "source_scene": "021_gothicus_castle_02.rule.xml",
+        "source_scene_id": "2adb7adbe4e5653621e3",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/castle/mgp/gc02_kingroom_s_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "f31ab93d2b71327d3688",
+        "target_name": "GOTHICUS_CRYPT_01",
+        "target_scene": "007_crypt_01.rule.xml",
+        "target_scene_id": "00f4beec573704987fff"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "9a5a7e8cbfcbee298fe3",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a01_SWAMP_CAMP",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toSwamp",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2.rule.xml",
+        "source_scene_id": "6ee863765454d115924d",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_corner_ruin_wn_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "e680a80f77c5c9f4a3bf",
+        "target_name": "SWAMP",
+        "target_scene": "001_swamp.mlx",
+        "target_scene_id": "6b2f662bc32e54797884"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "4b79a6bf34da77e43433",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a04_SWAMP_CAVE_TROLL_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2.rule.xml",
+        "source_scene_id": "6ee863765454d115924d",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_deadend_brdwalk_w_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1fee6ec01160963a65c8",
+        "target_name": "SWAMP_CAVE_TROLL_A",
+        "target_scene": "022_swamp2_trollcave.rule.xml",
+        "target_scene_id": "a548290f261f5521bfe7"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8624670ae122ee445287",
+        "entrypoint_id": "0",
+        "fasttravel_id": "Invalid",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toWT",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2.rule.xml",
+        "source_scene_id": "6ee863765454d115924d",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/swamp2_straight_brdwalk_ns_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1709e87ec801a6fcffe5",
+        "target_name": "WATER_TEMPLE_01",
+        "target_scene": "023_watertemple.rule.xml",
+        "target_scene_id": "6add1b5bcc34b6249574"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "7c4e6e12f12b8ba0cf49",
+        "entrypoint_id": "4",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2_trollcave.rule.xml",
+        "source_scene_id": "a548290f261f5521bfe7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_merchant_n_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "1a998ba339c87f6a9734",
+        "entrypoint_id": "4",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2_trollcave.rule.xml",
+        "source_scene_id": "a548290f261f5521bfe7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_n_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "8c8b5b86b32b467f34dd",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a04_SWAMP_CAVE_Troll2_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_swamp2",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+        "source_platform": "android",
+        "source_scene": "022_swamp2_trollcave.rule.xml",
+        "source_scene_id": "a548290f261f5521bfe7",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/swamp/mgp/trollcave_deadend_swpcave_w_00.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "5bee753026c020f9458a",
+        "target_name": "SWAMP_02",
+        "target_scene": "022_swamp2.rule.xml",
+        "target_scene_id": "6ee863765454d115924d"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "0f2e14238d75b76fe9c9",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a26_ICY_VILLAGE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_ToDarkwoods",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+        "source_platform": "android",
+        "source_scene": "025_icy_hub.mlx",
+        "source_scene_id": "4a600b19f18959411fdf",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/icy_hub/mgp/icyhub_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "58c2f62946bbf6747f0a",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_ToIcyCave01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+        "source_platform": "android",
+        "source_scene": "025_icy_hub.mlx",
+        "source_scene_id": "4a600b19f18959411fdf",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_03.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_03.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/icy_hub/mgp/icyhub_03.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "6f353ac4f0bb6dabfa1a",
+        "target_name": "ICY_CAVERN_01",
+        "target_scene": "026_icy_cavern_01.rule.xml",
+        "target_scene_id": "283f20b8e682c7f9b20a"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "37a853f7c250b3cd8159",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_ToIcyCave03",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_05.mgp",
+        "source_platform": "android",
+        "source_scene": "025_icy_hub.mlx",
+        "source_scene_id": "4a600b19f18959411fdf",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_05.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_05.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/icy_hub/mgp/icyhub_05.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "6fc45d3fdca185a98c8f",
+        "target_name": "ICY_CAVERN_02",
+        "target_scene": "027_icy_cavern_02.rule.xml",
+        "target_scene_id": "9e6cb2d21b3bb5326d90"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "c320e6fb5372b892c035",
+        "entrypoint_id": "0",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_06.mgp",
+        "source_platform": "android",
+        "source_scene": "025_icy_hub.mlx",
+        "source_scene_id": "4a600b19f18959411fdf",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_06.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_hub/mgp/icyhub_06.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/icy_hub/mgp/icyhub_06.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2c252dafc4d5a45f7a5d",
+        "target_name": "WIND_TEMPLE_01",
+        "target_scene": "029_wind_temple.rule.xml",
+        "target_scene_id": "7bac2e2741f6bd3044a0"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a1dbfcb3e8845ba4637d",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a27_ICY_CAVERN_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "026_icy_cavern_01.rule.xml",
+        "source_scene_id": "283f20b8e682c7f9b20a",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_bossroom_icycavern_w_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "0b0e68fd51bb7ac7aabb",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a27_ICY_CAVERN_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_001",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "026_icy_cavern_01.rule.xml",
+        "source_scene_id": "283f20b8e682c7f9b20a",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic01_entrance_icycavern_w_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "4c03dd3137eb100980d9",
+        "entrypoint_id": "3",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_bossroom",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "027_icy_cavern_02.rule.xml",
+        "source_scene_id": "9e6cb2d21b3bb5326d90",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_bossroom_icycavern_w_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a62fe17f1deb6dff8633",
+        "entrypoint_id": "3",
+        "fasttravel_id": "a28_ICY_CAVERN_02_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_entrance_icycavern_e_00_01.mgp",
+        "source_platform": "android",
+        "source_scene": "027_icy_cavern_02.rule.xml",
+        "source_scene_id": "9e6cb2d21b3bb5326d90",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_entrance_icycavern_e_00_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/icy_cavern/mgp/ic02_entrance_icycavern_e_00_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "ad949fb277deb1941a97",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a31_ICY_WIND_TEMPLE_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toIcyHub",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+        "source_platform": "android",
+        "source_scene": "029_wind_temple.rule.xml",
+        "source_scene_id": "7bac2e2741f6bd3044a0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/entry_windtemp_n_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": "IsAfter_WindTemp",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": true,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "f011baea01d1b6a79a84",
+        "entrypoint_id": "4",
+        "fasttravel_id": null,
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+        "source_platform": "android",
+        "source_scene": "029_wind_temple.rule.xml",
+        "source_scene_id": "7bac2e2741f6bd3044a0",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": true,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/wind_temple/mgp/objboss_windtemp_e_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "29a070a3b94bcb3899b0",
+        "target_name": "ICY_HUB",
+        "target_scene": "025_icy_hub.mlx",
+        "target_scene_id": "4a600b19f18959411fdf"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "24aa93eff29af792b0c5",
+        "entrypoint_id": "1",
+        "fasttravel_id": "a25_DESERT_FIRE_TEMPLE_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_start",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+        "source_platform": "android",
+        "source_scene": "031_firetemple.mlx",
+        "source_scene_id": "bf01948063f214749992",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "activation_condition": "IsAfter_KillFlaminite",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "ac51f60460129920213d",
+        "entrypoint_id": "1",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_end",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_12.mgp",
+        "source_platform": "android",
+        "source_scene": "031_firetemple.mlx",
+        "source_scene_id": "bf01948063f214749992",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_12.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/firetemple/mgp/firetemple_12.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "2076398902843374a867",
+        "target_name": "RED_DESERT_HUB",
+        "target_scene": "015_red_desert_hub.mlx",
+        "target_scene_id": "145c9b75ecc0bcae66e0"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 9,
+        "confidence": "PROVEN",
+        "edge_id": "9ba690b7ab1116d2179f",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 0,
+        "script_name": "Blood_changelevel",
+        "script_names_source": null,
+        "source_reference_id": "4ab4349b602de01af564",
+        "source_scene": "036_underworld_hub.mlx",
+        "source_scene_id": "a9e0f80e1d8689ad5593",
+        "source_site": "campaign-references.json:4ab4349b602de01af564",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:4ab4349b602de01af564"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1ad00881e69cd5c100fa",
+        "target_name": "MACHINE_ROOMS_01",
+        "target_scene": "037_machine_rooms_01.mlx",
+        "target_scene_id": "9fc3c1a42c6b469bbf26"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 27,
+        "confidence": "PROVEN",
+        "edge_id": "345c32c78718e3a4fb58",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 16,
+        "script_name": "Quest_machine_room_pre_propose",
+        "script_names_source": null,
+        "source_reference_id": "bcd656b5cd03f718952f",
+        "source_scene": "036_underworld_hub.mlx",
+        "source_scene_id": "a9e0f80e1d8689ad5593",
+        "source_site": "campaign-references.json:bcd656b5cd03f718952f",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:bcd656b5cd03f718952f"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "1ad00881e69cd5c100fa",
+        "target_name": "MACHINE_ROOMS_01",
+        "target_scene": "037_machine_rooms_01.mlx",
+        "target_scene_id": "9fc3c1a42c6b469bbf26"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "6857716646d2e178867f",
+        "entrypoint_id": "10",
+        "fasttravel_id": "a32_UNDERWORLD_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+        "source_platform": "android",
+        "source_scene": "036_underworld_hub.mlx",
+        "source_scene_id": "a9e0f80e1d8689ad5593",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_01.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/underworldhub/mgp/underworld_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c25f173ca6d3419d5bf0",
+        "target_name": "DARKWOOD",
+        "target_scene": "003_darkwood.mlx",
+        "target_scene_id": "2e1304ff2c8ed98caa94"
+      },
+      {
+        "activation_condition": "IsAfter_MachineRoom",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "d10aa74b17af7b8f2590",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a32_UNDERWORLD_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toDarkTemple",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+        "source_platform": "android",
+        "source_scene": "036_underworld_hub.mlx",
+        "source_scene_id": "a9e0f80e1d8689ad5593",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/underworldhub/mgp/underworld_08.mgp"
+          },
+          {
+            "conditional_module_choice": false,
+            "platform": "original-cache",
+            "source_path": ".local-inputs/assets-extra/android/original-cache/data/3d/modules/underworldhub/mgp/underworld_08.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c2fde94384d98a2723a5",
+        "target_name": "DARK_DUNGEON_TEMPLE_01",
+        "target_scene": "038_dark_temple.mlx",
+        "target_scene_id": "f5c436de2b255f87b02f"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 0,
+        "confidence": "PROVEN",
+        "edge_id": "00f7f86bbd3b52c60c48",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 62,
+        "script_name": "Teleport",
+        "script_names_source": null,
+        "source_reference_id": "70fc213bec399059ad1e",
+        "source_scene": "037_machine_rooms_01.mlx",
+        "source_scene_id": "9fc3c1a42c6b469bbf26",
+        "source_site": "campaign-references.json:70fc213bec399059ad1e",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:70fc213bec399059ad1e"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "claim_scope": "authored_source",
+        "command_index": 20,
+        "confidence": "PROVEN",
+        "edge_id": "5d7dc854c955793c0871",
+        "evidence_relation": "destination_level",
+        "field_offset": 16,
+        "kind": "script_change_level",
+        "script_commands_source": null,
+        "script_index": 5,
+        "script_name": "MachineBoss_defeated",
+        "script_names_source": null,
+        "source_reference_id": "e2ca883cfc0f5b3a8db4",
+        "source_scene": "037_machine_rooms_01.mlx",
+        "source_scene_id": "9fc3c1a42c6b469bbf26",
+        "source_site": "campaign-references.json:e2ca883cfc0f5b3a8db4",
+        "source_variants": [
+          {
+            "conditional_module_choice": null,
+            "platform": "android",
+            "source_path": "campaign-references.json:e2ca883cfc0f5b3a8db4"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": null,
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "95a84bc05d0101341cf3",
+        "entrypoint_id": "2",
+        "fasttravel_id": "a32_UNDERWORLD_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_backtoUW",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+        "source_platform": "android",
+        "source_scene": "037_machine_rooms_01.mlx",
+        "source_scene_id": "9fc3c1a42c6b469bbf26",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/machineroom/mgp/mr01_plane_machineroom_02_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": "DarkTemple_Special",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "a6c3766ab560149009ec",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_start",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_01.mgp",
+        "source_platform": "android",
+        "source_scene": "038_dark_temple.mlx",
+        "source_scene_id": "f5c436de2b255f87b02f",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": "IsAfter_DarkTemple",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "3cacf0d1e45d1afbb90c",
+        "entrypoint_id": "0",
+        "fasttravel_id": "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toAlastor",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "source_platform": "android",
+        "source_scene": "038_dark_temple.mlx",
+        "source_scene_id": "f5c436de2b255f87b02f",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "f85d0b76bcbf76585a52",
+        "target_name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+        "target_scene": "039_dark_temple_bossroom_01.mlx",
+        "target_scene_id": "0995df95dc10822639cb"
+      },
+      {
+        "activation_condition": "IsAfter_FinalBoss",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": null,
+        "edge_id": "c35d1b39708f9c08e507",
+        "entrypoint_id": "4",
+        "fasttravel_id": "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_toAlastor01",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "source_platform": "android",
+        "source_scene": "038_dark_temple.mlx",
+        "source_scene_id": "f5c436de2b255f87b02f",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_08.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c64c15ca76baddc0c412",
+        "target_name": "UNDERWORLD_HUB",
+        "target_scene": "036_underworld_hub.mlx",
+        "target_scene_id": "a9e0f80e1d8689ad5593"
+      },
+      {
+        "activation_condition": "IsDuring_FinalBoss",
+        "claim_scope": "authored_source",
+        "conditional_module_choice": false,
+        "confidence": "PROVEN",
+        "deactivation_condition": "IsDuring_FinalBoss",
+        "edge_id": "03f629c8228357332895",
+        "entrypoint_id": "1",
+        "fasttravel_id": "SWAMP_BEFORE_SWAMPKING",
+        "kind": "trigger_zone_exit_level",
+        "source_object": "_prim_ExitLevelZone_return",
+        "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+        "source_platform": "android",
+        "source_scene": "039_dark_temple_bossroom_01.mlx",
+        "source_scene_id": "0995df95dc10822639cb",
+        "source_site": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp",
+        "source_variants": [
+          {
+            "conditional_module_choice": false,
+            "platform": "android",
+            "source_path": ".local-inputs/assets-extra/android/data/3d/modules/darktemple/mgp/dt_darktemple_bossroom_01.mgp"
+          }
+        ],
+        "status": "TODO",
+        "target_level_row_id": "c2fde94384d98a2723a5",
+        "target_name": "DARK_DUNGEON_TEMPLE_01",
+        "target_scene": "038_dark_temple.mlx",
+        "target_scene_id": "f5c436de2b255f87b02f"
+      }
+    ],
+    "act2_levels": [
+      "009_abbey.rule.xml",
+      "007_crypt_01.rule.xml",
+      "030_el_air.rule.xml",
+      "039_dark_temple_bossroom_01.mlx",
+      "015_red_desert_hub.mlx",
+      "017_red_desert_cave_02.rule.xml",
+      "032_el_fire.rule.xml",
+      "005_infectedvillage.mlx",
+      "019_light_house_02.rule.xml",
+      "026_icy_cavern_01.rule.xml",
+      "021_gothicus_castle_02.rule.xml",
+      "003_darkwood.mlx",
+      "012_earth_temple_02.rule.xml",
+      "013_earth_temple_03.rule.xml",
+      "025_icy_hub.mlx",
+      "016_red_desert_cave_01.rule.xml",
+      "023_watertemple.rule.xml",
+      "022_swamp2.rule.xml",
+      "029_wind_temple.rule.xml",
+      "018_red_desert_cave_03.rule.xml",
+      "014_el_earth.rule.xml",
+      "027_icy_cavern_02.rule.xml",
+      "037_machine_rooms_01.mlx",
+      "022_swamp2_trollcave.rule.xml",
+      "020_crypt_02.rule.xml",
+      "036_underworld_hub.mlx",
+      "019_light_house_01.rule.xml",
+      "006_basement.rule.xml",
+      "009a_abbey.mlx",
+      "031_firetemple.mlx",
+      "004_root_den.rule.xml",
+      "011_earth_temple_01.rule.xml",
+      "038_dark_temple.mlx",
+      "010_el_lightning.rule.xml",
+      "024_el_water.rule.xml"
+    ],
+    "act2_scene_ids": [
+      "00d6b04d855fccf54bfd",
+      "00f4beec573704987fff",
+      "04afe51fc8b013539656",
+      "0995df95dc10822639cb",
+      "145c9b75ecc0bcae66e0",
+      "1670cdc190d298717e82",
+      "1803d31bc622e52e4ca3",
+      "1ee09bcff06fac62bcc3",
+      "247b44fa30e0237397a6",
+      "283f20b8e682c7f9b20a",
+      "2adb7adbe4e5653621e3",
+      "2e1304ff2c8ed98caa94",
+      "3ccb758ba39eee28aa87",
+      "45fe61c5ea04fd4f4dea",
+      "4a600b19f18959411fdf",
+      "5d5bf670c8e428777dbe",
+      "6add1b5bcc34b6249574",
+      "6ee863765454d115924d",
+      "7bac2e2741f6bd3044a0",
+      "7cb216ae991b0f5391f8",
+      "87474d560b2e8c1f85b5",
+      "9e6cb2d21b3bb5326d90",
+      "9fc3c1a42c6b469bbf26",
+      "a548290f261f5521bfe7",
+      "a763713c29120b2d03f7",
+      "a9e0f80e1d8689ad5593",
+      "b2b7ec3332bd71af7ff0",
+      "b392eb001343a839de27",
+      "b5c805e540ccbf63b432",
+      "bf01948063f214749992",
+      "bf6ca7beefbed5a32c86",
+      "dedfd7d9431f2172275e",
+      "f5c436de2b255f87b02f",
+      "fa629399ded8e23c4fb7",
+      "fc8f217aa6c8f4b41e89"
+    ],
+    "act2_scope_input": "r2/act2/scope.json",
+    "act2_source": "Traverse every statically authored TriggerZoneExitLevel.levelName in direct MGP modules and every procedural <elem gameplay> module candidate, recurse nested Module.mgp includes, and include decoded Script_ChangeLevel targets. Keep branch, conditional, duplicate, and return edges. Stop when no newly resolved scene remains; unresolved modules/targets and other transition mechanisms remain explicit TODO frontier rows.",
+    "act2_uncertain_edges": [],
+    "actor_rows": {
+      "act_1": 21,
+      "act_2_inferred": 162
+    },
+    "campaign_rows": {
+      "act_1": 1216,
+      "act_2_inferred": 5742
+    },
+    "duplicate_input_rows": 47762,
+    "duplicate_reference_ids_across_round1_inputs": 47762,
+    "entity_profiles_reached": {
+      "act_1": 1890,
+      "act_2_inferred": 2122
+    },
+    "known_limits": [
+      "Act membership remains inferred as recorded by the atlas / transition evidence.",
+      "Campaign command strings are exact authored fields; branch execution and runtime selection are not inferred.",
+      "Player skills, faeries, and items are assigned to both acts because they are cross-act player resources.",
+      "Only exact atlas entity/profile joins are followed; dynamic native-generated names remain explicit unresolved scope rows where indexed."
+    ],
+    "scene_module_source_files": {
+      "act_1": 24,
+      "act_2_inferred": 376
+    },
+    "schema": "atlas-r2-staging-scope-v1"
+  },
+  "act_reference_pairs": 28555,
+  "counts_by_act_family": {
+    "act_1": {
+      "anim": 472,
+      "effect": 152,
+      "model": 3732,
+      "other/nonresource": 3034,
+      "projectile": 21,
+      "script": 145,
+      "sound": 279
+    },
+    "act_2_inferred": {
+      "anim": 637,
+      "effect": 408,
+      "model": 10379,
+      "other/nonresource": 8052,
+      "projectile": 45,
+      "script": 552,
+      "sound": 647
+    }
+  },
+  "counts_by_act_kind": {
+    "act_1": {
+      "actor_name_candidate": 5,
+      "anim": 148,
+      "animated effect": 73,
+      "animation event": 102,
+      "animation_dictionary": 222,
+      "campaign_script_target_index": 55,
+      "character": 353,
+      "class": 97,
+      "data file": 96,
+      "dialog_style_id": 123,
+      "dialog_text_string_id": 123,
+      "effect set": 57,
+      "effect_set": 22,
+      "faction": 90,
+      "loot": 16,
+      "model": 1420,
+      "model component": 1245,
+      "named_reference": 744,
+      "numeric_reference": 71,
+      "projectile": 21,
+      "scene_object_condition": 53,
+      "script": 145,
+      "serialized_string": 646,
+      "skill": 3,
+      "sound": 259,
+      "source_sound_ordinal": 20,
+      "symbolic_reference": 912,
+      "texture": 714
+    },
+    "act_2_inferred": {
+      "actor_name_candidate": 35,
+      "anim": 289,
+      "animated effect": 73,
+      "animation event": 102,
+      "animation_dictionary": 246,
+      "campaign_script_target_index": 480,
+      "character": 5972,
+      "class": 161,
+      "data file": 182,
+      "dialog_style_id": 954,
+      "dialog_text_string_id": 954,
+      "effect set": 198,
+      "effect_set": 137,
+      "faction": 231,
+      "level_name_candidate": 6,
+      "loot": 95,
+      "model": 2448,
+      "model component": 1245,
+      "named_reference": 744,
+      "numeric_reference": 71,
+      "projectile": 45,
+      "scene_object_condition": 355,
+      "script": 552,
+      "serialized_string": 2856,
+      "skill": 16,
+      "sound": 573,
+      "source_sound_ordinal": 74,
+      "symbolic_reference": 912,
+      "texture": 714
+    }
+  },
+  "files": [
+    "r2/staging/scope/act_1/actor_name_candidate-da6eea.json",
+    "r2/staging/scope/act_1/anim-ca317c.json",
+    "r2/staging/scope/act_1/animated_effect-c59995.json",
+    "r2/staging/scope/act_1/animation_dictionary-892f6c.json",
+    "r2/staging/scope/act_1/animation_event-861cc8.json",
+    "r2/staging/scope/act_1/campaign_script_target_index-2fe64e.json",
+    "r2/staging/scope/act_1/character-f0db3f.json",
+    "r2/staging/scope/act_1/class-8d767b.json",
+    "r2/staging/scope/act_1/data_file-249bd3.json",
+    "r2/staging/scope/act_1/dialog_style_id-57ff6a.json",
+    "r2/staging/scope/act_1/dialog_text_string_id-e47fca.json",
+    "r2/staging/scope/act_1/effect_set-5c0dfb.json",
+    "r2/staging/scope/act_1/effect_set-92c345.json",
+    "r2/staging/scope/act_1/faction-53763a.json",
+    "r2/staging/scope/act_1/loot-7a616a.json",
+    "r2/staging/scope/act_1/model-1d06a0.json",
+    "r2/staging/scope/act_1/model_component-092a85.json",
+    "r2/staging/scope/act_1/named_reference-9518a6.json",
+    "r2/staging/scope/act_1/numeric_reference-90a0bd.json",
+    "r2/staging/scope/act_1/projectile-ae3767.json",
+    "r2/staging/scope/act_1/scene_object_condition-ee85fd.json",
+    "r2/staging/scope/act_1/script-cb5346.json",
+    "r2/staging/scope/act_1/serialized_string-cad36c.json",
+    "r2/staging/scope/act_1/skill-34b33e.json",
+    "r2/staging/scope/act_1/sound-5e2e97.json",
+    "r2/staging/scope/act_1/source_sound_ordinal-8b4309.json",
+    "r2/staging/scope/act_1/symbolic_reference-cc85b6.json",
+    "r2/staging/scope/act_1/texture-8ab5cb.json",
+    "r2/staging/scope/act_2_inferred/actor_name_candidate-da6eea.json",
+    "r2/staging/scope/act_2_inferred/anim-ca317c.json",
+    "r2/staging/scope/act_2_inferred/animated_effect-c59995.json",
+    "r2/staging/scope/act_2_inferred/animation_dictionary-892f6c.json",
+    "r2/staging/scope/act_2_inferred/animation_event-861cc8.json",
+    "r2/staging/scope/act_2_inferred/campaign_script_target_index-2fe64e.json",
+    "r2/staging/scope/act_2_inferred/character-f0db3f.json",
+    "r2/staging/scope/act_2_inferred/class-8d767b.json",
+    "r2/staging/scope/act_2_inferred/data_file-249bd3.json",
+    "r2/staging/scope/act_2_inferred/dialog_style_id-57ff6a.json",
+    "r2/staging/scope/act_2_inferred/dialog_text_string_id-e47fca.json",
+    "r2/staging/scope/act_2_inferred/effect_set-5c0dfb.json",
+    "r2/staging/scope/act_2_inferred/effect_set-92c345.json",
+    "r2/staging/scope/act_2_inferred/faction-53763a.json",
+    "r2/staging/scope/act_2_inferred/level_name_candidate-ad3e4f.json",
+    "r2/staging/scope/act_2_inferred/loot-7a616a.json",
+    "r2/staging/scope/act_2_inferred/model-1d06a0.json",
+    "r2/staging/scope/act_2_inferred/model_component-092a85.json",
+    "r2/staging/scope/act_2_inferred/named_reference-9518a6.json",
+    "r2/staging/scope/act_2_inferred/numeric_reference-90a0bd.json",
+    "r2/staging/scope/act_2_inferred/projectile-ae3767.json",
+    "r2/staging/scope/act_2_inferred/scene_object_condition-ee85fd.json",
+    "r2/staging/scope/act_2_inferred/script-cb5346.json",
+    "r2/staging/scope/act_2_inferred/serialized_string-cad36c.json",
+    "r2/staging/scope/act_2_inferred/skill-34b33e.json",
+    "r2/staging/scope/act_2_inferred/sound-5e2e97.json",
+    "r2/staging/scope/act_2_inferred/source_sound_ordinal-8b4309.json",
+    "r2/staging/scope/act_2_inferred/symbolic_reference-cc85b6.json",
+    "r2/staging/scope/act_2_inferred/texture-8ab5cb.json"
+  ],
+  "schema": "atlas-r2-staging-scope-index-v1",
+  "shared_reference_sites_across_acts": 5948,
+  "total": 28555,
+  "unique_reference_sites": 22607
+}

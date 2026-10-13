@@ -1,0 +1,4501 @@
+{
+  "act": "act_2_inferred",
+  "count": 95,
+  "kind": "loot",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 103,
+        "table": "character_properties#group0"
+      },
+      "id": "c15e2ce56c34c52cf82b",
+      "kind": "loot",
+      "name": "196",
+      "reason": null,
+      "reference_id": "c15e2ce56c34c52cf82b",
+      "resolves_to": [
+        {
+          "index": 196,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                252,
+                252,
+                253,
+                255,
+                256,
+                306
+              ]
+            },
+            "index": 196,
+            "name": "RD_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 103 Desert_Spider1_XL (6d657067ae55dec21317); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=103].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 104,
+        "table": "character_properties#group0"
+      },
+      "id": "9566c03a6718baa546aa",
+      "kind": "loot",
+      "name": "194",
+      "reason": null,
+      "reference_id": "9566c03a6718baa546aa",
+      "resolves_to": [
+        {
+          "index": 194,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                252,
+                306
+              ]
+            },
+            "index": 194,
+            "name": "RD_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 104 Desert_Spider2 (3da7d2f21cc7b083c36f); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=104].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 106,
+        "table": "character_properties#group0"
+      },
+      "id": "91f806c780a6530a8d51",
+      "kind": "loot",
+      "name": "199",
+      "reason": null,
+      "reference_id": "91f806c780a6530a8d51",
+      "resolves_to": [
+        {
+          "index": 199,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 199,
+            "name": "RDcave1_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 106 Desert_Spider_Midboss (2cbc6f63ea784576e2cf); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=106].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 10,
+        "table": "character_properties#group0"
+      },
+      "id": "1f7e42a40cf8028955a2",
+      "kind": "loot",
+      "name": "2",
+      "reason": null,
+      "reference_id": "1f7e42a40cf8028955a2",
+      "resolves_to": [
+        {
+          "index": 2,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 2,
+            "name": "Abbey_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 10 Abbey_Merchant (35fb1002566566ef48e9); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=10].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 116,
+        "table": "character_properties#group0"
+      },
+      "id": "0d223cd29e9d6b04a9a0",
+      "kind": "loot",
+      "name": "97",
+      "reason": null,
+      "reference_id": "0d223cd29e9d6b04a9a0",
+      "resolves_to": [
+        {
+          "index": 97,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 97,
+            "name": "ElemEarth_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 116 ET_Treething (71129f6e1eb075528284); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=116].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 119,
+        "table": "character_properties#group0"
+      },
+      "id": "19a58922364c2f84d1c7",
+      "kind": "loot",
+      "name": "90",
+      "reason": null,
+      "reference_id": "19a58922364c2f84d1c7",
+      "resolves_to": [
+        {
+          "index": 90,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                248,
+                249,
+                251,
+                252,
+                305
+              ]
+            },
+            "index": 90,
+            "name": "ET_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 119 EarthTemple_BigSpider (25022a8b13e74bf7af99); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=119].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 120,
+        "table": "character_properties#group0"
+      },
+      "id": "c6581a40aa458b8eff6b",
+      "kind": "loot",
+      "name": "88",
+      "reason": null,
+      "reference_id": "c6581a40aa458b8eff6b",
+      "resolves_to": [
+        {
+          "index": 88,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                305
+              ]
+            },
+            "index": 88,
+            "name": "ET_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 120 EarthTemple_Cultist (ba343ee81e8b99576bdf); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=120].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 123,
+        "table": "character_properties#group0"
+      },
+      "id": "b554135c5f66fb2d07af",
+      "kind": "loot",
+      "name": "88",
+      "reason": null,
+      "reference_id": "b554135c5f66fb2d07af",
+      "resolves_to": [
+        {
+          "index": 88,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                305
+              ]
+            },
+            "index": 88,
+            "name": "ET_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 123 EarthTemple_Cultist_Talker (17360f430d64f0054a38); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=123].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 124,
+        "table": "character_properties#group0"
+      },
+      "id": "ecf647920fdaf0f6120a",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "ecf647920fdaf0f6120a",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 124 EarthTemple_DoorPlant_A (0ec37266cdebe539c582); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=124].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 125,
+        "table": "character_properties#group0"
+      },
+      "id": "6318565320bbb9b519d0",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "6318565320bbb9b519d0",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 125 EarthTemple_DoorPlant_C (151f72f7b090a555c146); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=125].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 127,
+        "table": "character_properties#group0"
+      },
+      "id": "d14f6e857c08902ba7ff",
+      "kind": "loot",
+      "name": "88",
+      "reason": null,
+      "reference_id": "d14f6e857c08902ba7ff",
+      "resolves_to": [
+        {
+          "index": 88,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                305
+              ]
+            },
+            "index": 88,
+            "name": "ET_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 127 EarthTemple_Goblin_Rogue_HELPER (ee302fd73a60178f6ad3); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=127].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 129,
+        "table": "character_properties#group0"
+      },
+      "id": "f816ee6c36f9eac2cf79",
+      "kind": "loot",
+      "name": "90",
+      "reason": null,
+      "reference_id": "f816ee6c36f9eac2cf79",
+      "resolves_to": [
+        {
+          "index": 90,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                248,
+                249,
+                251,
+                252,
+                305
+              ]
+            },
+            "index": 90,
+            "name": "ET_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 129 EarthTemple_Goblin_Shaman_BOSS (274760ff95a8475a61e8); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=129].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 133,
+        "table": "character_properties#group0"
+      },
+      "id": "33fb2a03347548c2dcdd",
+      "kind": "loot",
+      "name": "91",
+      "reason": null,
+      "reference_id": "33fb2a03347548c2dcdd",
+      "resolves_to": [
+        {
+          "index": 91,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                289
+              ]
+            },
+            "index": 91,
+            "name": "ET_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 133 EarthTemple_SmallPlant (332fb9d0829accdce45e); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=133].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 134,
+        "table": "character_properties#group0"
+      },
+      "id": "cfd48177ccc97cd8c88f",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "cfd48177ccc97cd8c88f",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 134 EarthTemple_SmallPlantMinion (c08739eb7d6fef71dacc); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=134].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 135,
+        "table": "character_properties#group0"
+      },
+      "id": "20d84b8d40f29554de00",
+      "kind": "loot",
+      "name": "91",
+      "reason": null,
+      "reference_id": "20d84b8d40f29554de00",
+      "resolves_to": [
+        {
+          "index": 91,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                289
+              ]
+            },
+            "index": 91,
+            "name": "ET_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 135 EarthTemple_Spider (f5eb746d05ff50079aa3); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=135].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 136,
+        "table": "character_properties#group0"
+      },
+      "id": "3ca7fc0843a50678169a",
+      "kind": "loot",
+      "name": "90",
+      "reason": null,
+      "reference_id": "3ca7fc0843a50678169a",
+      "resolves_to": [
+        {
+          "index": 90,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                248,
+                249,
+                251,
+                252,
+                305
+              ]
+            },
+            "index": 90,
+            "name": "ET_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 136 EarthTemple_Spider_HUGE (e7758de741552a7f15c0); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=136].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 137,
+        "table": "character_properties#group0"
+      },
+      "id": "c68f4c777983e3a3dcf0",
+      "kind": "loot",
+      "name": "91",
+      "reason": null,
+      "reference_id": "c68f4c777983e3a3dcf0",
+      "resolves_to": [
+        {
+          "index": 91,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                248,
+                289
+              ]
+            },
+            "index": 91,
+            "name": "ET_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 137 EarthTemple_Spider_helper (819ba04ddfde08f1627c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=137].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 146,
+        "table": "character_properties#group0"
+      },
+      "id": "3c59bbe6a7ea9551cdf1",
+      "kind": "loot",
+      "name": "1",
+      "reason": null,
+      "reference_id": "3c59bbe6a7ea9551cdf1",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 1,
+            "name": "Abbey_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 146 Epic_merchant_bloodsands (3776f158db2e8922ab32); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=146].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 147,
+        "table": "character_properties#group0"
+      },
+      "id": "fb9db4996140fc602585",
+      "kind": "loot",
+      "name": "3",
+      "reason": null,
+      "reference_id": "fb9db4996140fc602585",
+      "resolves_to": [
+        {
+          "index": 3,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                256,
+                257,
+                258,
+                259,
+                307
+              ]
+            },
+            "index": 3,
+            "name": "Abbey_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 147 Epic_merchant_darkwoods (53f2dc7db37b4cb101cb); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=147].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 148,
+        "table": "character_properties#group0"
+      },
+      "id": "889ed21ddfaaa6003efc",
+      "kind": "loot",
+      "name": "4",
+      "reason": null,
+      "reference_id": "889ed21ddfaaa6003efc",
+      "resolves_to": [
+        {
+          "index": 4,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                291
+              ]
+            },
+            "index": 4,
+            "name": "Abbey_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 148 Epic_merchant_fallenkingdom (11e97b3985fc336204b6); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=148].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 149,
+        "table": "character_properties#group0"
+      },
+      "id": "6b1dbcbd3f74480691b0",
+      "kind": "loot",
+      "name": "6",
+      "reason": null,
+      "reference_id": "6b1dbcbd3f74480691b0",
+      "resolves_to": [
+        {
+          "index": 6,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 2,
+                  "ItemPowerList": 2,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 6,
+            "name": "ArcherTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 149 Epic_merchant_notherlands (85ab22a9ca49b59dd505); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=149].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 14,
+        "table": "character_properties#group0"
+      },
+      "id": "4a15eaf98d332701ec21",
+      "kind": "loot",
+      "name": "2",
+      "reason": null,
+      "reference_id": "4a15eaf98d332701ec21",
+      "resolves_to": [
+        {
+          "index": 2,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 2,
+            "name": "Abbey_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 14 AssassinAbbey (badbf492c0d7858aaa7c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=14].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 151,
+        "table": "character_properties#group0"
+      },
+      "id": "1f0aa20470c09eb4b801",
+      "kind": "loot",
+      "name": "11",
+      "reason": null,
+      "reference_id": "1f0aa20470c09eb4b801",
+      "resolves_to": [
+        {
+          "index": 11,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 1,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                127,
+                127,
+                128
+              ]
+            },
+            "index": 11,
+            "name": "Barrel_Level_10",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 151 Epic_merchant_underworld (7f1e6a124316e6580503); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=151].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 15,
+        "table": "character_properties#group0"
+      },
+      "id": "8ef2a1b1ece12851dcba",
+      "kind": "loot",
+      "name": "54",
+      "reason": null,
+      "reference_id": "8ef2a1b1ece12851dcba",
+      "resolves_to": [
+        {
+          "index": 54,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                190,
+                21,
+                6,
+                8,
+                187,
+                164,
+                316
+              ]
+            },
+            "index": 54,
+            "name": "DT_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 15 AssassinDemon (96d62070ec13843e3c0b); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=15].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 167,
+        "table": "character_properties#group0"
+      },
+      "id": "2550c68447897b72071d",
+      "kind": "loot",
+      "name": "116",
+      "reason": null,
+      "reference_id": "2550c68447897b72071d",
+      "resolves_to": [
+        {
+          "index": 116,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                274,
+                313
+              ]
+            },
+            "index": 116,
+            "name": "FT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 167 FireTemplar_Sword (84423f83e93bcca2522c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=167].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 16,
+        "table": "character_properties#group0"
+      },
+      "id": "e2194b5f20d7559288d2",
+      "kind": "loot",
+      "name": "167",
+      "reason": null,
+      "reference_id": "e2194b5f20d7559288d2",
+      "resolves_to": [
+        {
+          "index": 167,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                259,
+                260,
+                261,
+                262,
+                309
+              ]
+            },
+            "index": 167,
+            "name": "LH_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 16 AssassinLighthouse (87e8e6404dccb09ddc22); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=16].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 171,
+        "table": "character_properties#group0"
+      },
+      "id": "ed7ccd2bed7763799887",
+      "kind": "loot",
+      "name": "117",
+      "reason": null,
+      "reference_id": "ed7ccd2bed7763799887",
+      "resolves_to": [
+        {
+          "index": 117,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                274,
+                275,
+                276,
+                277,
+                314
+              ]
+            },
+            "index": 117,
+            "name": "FT_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 171 Flaminite (fc0f9c7f5e537c94cf66); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=171].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 20,
+        "table": "character_properties#group0"
+      },
+      "id": "fb4964773eb954e3d192",
+      "kind": "loot",
+      "name": "26",
+      "reason": null,
+      "reference_id": "fb4964773eb954e3d192",
+      "resolves_to": [
+        {
+          "index": 26,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                263,
+                309
+              ]
+            },
+            "index": 26,
+            "name": "Castle2_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 20 Castle2Cultist (fa7c3f5e02076e041d4c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=20].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 210,
+        "table": "character_properties#group0"
+      },
+      "id": "d7b8a64fb0fde58d7233",
+      "kind": "loot",
+      "name": "10",
+      "reason": null,
+      "reference_id": "d7b8a64fb0fde58d7233",
+      "resolves_to": [
+        {
+          "index": 10,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 1,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                125,
+                125,
+                126
+              ]
+            },
+            "index": 10,
+            "name": "Barrel_Level_05",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 210 HellMan_UW_talk (e1e9fcc3e7d4f121973e); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=210].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 217,
+        "table": "character_properties#group0"
+      },
+      "id": "e0e4cae39b74f1349661",
+      "kind": "loot",
+      "name": "158",
+      "reason": null,
+      "reference_id": "e0e4cae39b74f1349661",
+      "resolves_to": [
+        {
+          "index": 158,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                266,
+                267,
+                268,
+                311
+              ]
+            },
+            "index": 158,
+            "name": "IH_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 217 IC_Crawler_Midboss (bf142bd31a2dea3f1884); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=217].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 218,
+        "table": "character_properties#group0"
+      },
+      "id": "41bf6907f50a86924323",
+      "kind": "loot",
+      "name": "145",
+      "reason": null,
+      "reference_id": "41bf6907f50a86924323",
+      "resolves_to": [
+        {
+          "index": 145,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                310
+              ]
+            },
+            "index": 145,
+            "name": "ICave1_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 218 IC_Snow_Wolf_Hound (332f3e8d529b44b00ccf); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=218].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 21,
+        "table": "character_properties#group0"
+      },
+      "id": "3c30f796cb93eec4ba19",
+      "kind": "loot",
+      "name": "26",
+      "reason": null,
+      "reference_id": "3c30f796cb93eec4ba19",
+      "resolves_to": [
+        {
+          "index": 26,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                263,
+                309
+              ]
+            },
+            "index": 26,
+            "name": "Castle2_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 21 Castle2RCultist (09b43484fbfd3f5c9ff2); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=21].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 220,
+        "table": "character_properties#group0"
+      },
+      "id": "006e868f69bf43178ff8",
+      "kind": "loot",
+      "name": "149",
+      "reason": null,
+      "reference_id": "006e868f69bf43178ff8",
+      "resolves_to": [
+        {
+          "index": 149,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                268,
+                311
+              ]
+            },
+            "index": 149,
+            "name": "ICave2_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 220 IC_Spider (3e66e9d2b46eceb1d11f); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=220].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 223,
+        "table": "character_properties#group0"
+      },
+      "id": "2da590d27520ed6e40b9",
+      "kind": "loot",
+      "name": "158",
+      "reason": null,
+      "reference_id": "2da590d27520ed6e40b9",
+      "resolves_to": [
+        {
+          "index": 158,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                266,
+                267,
+                268,
+                311
+              ]
+            },
+            "index": 158,
+            "name": "IH_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 223 IH_Barbarian_King_Quest (4dbf733887483efd722e); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=223].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 229,
+        "table": "character_properties#group0"
+      },
+      "id": "c2ea06353e886fffcc7f",
+      "kind": "loot",
+      "name": "158",
+      "reason": null,
+      "reference_id": "c2ea06353e886fffcc7f",
+      "resolves_to": [
+        {
+          "index": 158,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                266,
+                267,
+                268,
+                311
+              ]
+            },
+            "index": 158,
+            "name": "IH_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 229 IH_Snow_Wolf_MIDBOSS (88d600ed4738eefadccc); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=229].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 230,
+        "table": "character_properties#group0"
+      },
+      "id": "0f674ba1bf2eed3caf24",
+      "kind": "loot",
+      "name": "161",
+      "reason": null,
+      "reference_id": "0f674ba1bf2eed3caf24",
+      "resolves_to": [
+        {
+          "index": 161,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                294
+              ]
+            },
+            "index": 161,
+            "name": "IH_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 230 IH_Snow_Wolf_Pup (e02b9210c5ac9e0e6775); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=230].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 231,
+        "table": "character_properties#group0"
+      },
+      "id": "e5c7da817e4cea9408d0",
+      "kind": "loot",
+      "name": "158",
+      "reason": null,
+      "reference_id": "e5c7da817e4cea9408d0",
+      "resolves_to": [
+        {
+          "index": 158,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                265,
+                266,
+                267,
+                268,
+                311
+              ]
+            },
+            "index": 158,
+            "name": "IH_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 231 IH_Statue (8cc85841cb4984d659c9); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=231].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 234,
+        "table": "character_properties#group0"
+      },
+      "id": "b57f5521265f0bdbc5dc",
+      "kind": "loot",
+      "name": "5",
+      "reason": null,
+      "reference_id": "b57f5521265f0bdbc5dc",
+      "resolves_to": [
+        {
+          "index": 5,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [
+                {
+                  "ItemListID": 0,
+                  "ItemPowerList": 0,
+                  "MProb": 0,
+                  "NumPowerProbs": 33,
+                  "Pct": -1,
+                  "Prob": 1,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 5,
+            "name": "AllItemsLootTable",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 234 IcyHub_Merchant (c2bc6368012cdf0bbf27); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=234].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 252,
+        "table": "character_properties#group0"
+      },
+      "id": "63431bfb9d9f9b88e39f",
+      "kind": "loot",
+      "name": "1",
+      "reason": null,
+      "reference_id": "63431bfb9d9f9b88e39f",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 1,
+            "name": "Abbey_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 252 InfectedBurned (005bb387d4ca92085fde); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=252].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 257,
+        "table": "character_properties#group0"
+      },
+      "id": "a54ed9bed942ba6581f6",
+      "kind": "loot",
+      "name": "1",
+      "reason": null,
+      "reference_id": "a54ed9bed942ba6581f6",
+      "resolves_to": [
+        {
+          "index": 1,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 1,
+            "name": "Abbey_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 257 InfectedNun (9451549fd82f4f148f8b); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=257].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 259,
+        "table": "character_properties#group0"
+      },
+      "id": "3b7131fb9332843af7fb",
+      "kind": "loot",
+      "name": "2",
+      "reason": null,
+      "reference_id": "3b7131fb9332843af7fb",
+      "resolves_to": [
+        {
+          "index": 2,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 2,
+            "name": "Abbey_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 259 Infected_Werewolf_Midboss (c5c01828480de106ac40); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=259].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 276,
+        "table": "character_properties#group0"
+      },
+      "id": "c4f69cb0f72a9d5157ba",
+      "kind": "loot",
+      "name": "168",
+      "reason": null,
+      "reference_id": "c4f69cb0f72a9d5157ba",
+      "resolves_to": [
+        {
+          "index": 168,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                259,
+                259,
+                260,
+                261,
+                262,
+                308
+              ]
+            },
+            "index": 168,
+            "name": "LH_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 276 Lighthouse_Zombie_Champion (eeb1a192a8fd6ee43af7); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=276].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 277,
+        "table": "character_properties#group0"
+      },
+      "id": "06aea9fd091ee68e23e8",
+      "kind": "loot",
+      "name": "166",
+      "reason": null,
+      "reference_id": "06aea9fd091ee68e23e8",
+      "resolves_to": [
+        {
+          "index": 166,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                259,
+                308
+              ]
+            },
+            "index": 166,
+            "name": "LH_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 277 Lighthouse_Zombie_RE (509db0a2864c67e271bf); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=277].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 281,
+        "table": "character_properties#group0"
+      },
+      "id": "e0eca95bb209bd185b25",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "e0eca95bb209bd185b25",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 281 MachineRoom_DarkFaery (8ac8e5db3a7ce5c38863); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=281].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 282,
+        "table": "character_properties#group0"
+      },
+      "id": "50548e9d4ce87e5e2c7c",
+      "kind": "loot",
+      "name": "320",
+      "reason": null,
+      "reference_id": "50548e9d4ce87e5e2c7c",
+      "resolves_to": [
+        {
+          "index": 320,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                280,
+                315
+              ]
+            },
+            "index": 320,
+            "name": "UW_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 282 MachineRoom_HellSkeleton (318c68af88fe46ed18b9); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=282].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 285,
+        "table": "character_properties#group0"
+      },
+      "id": "8ecd74da8e36afc3b63b",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "8ecd74da8e36afc3b63b",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 285 MadrukEnergySpawner (48f07134656a2cda8b03); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=285].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 287,
+        "table": "character_properties#group0"
+      },
+      "id": "b698213ca71a7a74f3a4",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "b698213ca71a7a74f3a4",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 287 MadrukTorso (e90cdf184470499d5d8c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=287].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 288,
+        "table": "character_properties#group0"
+      },
+      "id": "8d0553a5d4ee8c47e095",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "8d0553a5d4ee8c47e095",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 288 Madruk_A (6049d17d9d924ff5b265); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=288].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 321,
+        "table": "character_properties#group0"
+      },
+      "id": "a218d92cda4dcb5ad9f6",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "a218d92cda4dcb5ad9f6",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 321 ResurrectingGod (603bed866fd56e342161); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=321].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 323,
+        "table": "character_properties#group0"
+      },
+      "id": "c0b84a5be3fc5adc8b48",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "c0b84a5be3fc5adc8b48",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=323].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 328,
+        "table": "character_properties#group0"
+      },
+      "id": "1703fdee527769cb6a6b",
+      "kind": "loot",
+      "name": "89",
+      "reason": null,
+      "reference_id": "1703fdee527769cb6a6b",
+      "resolves_to": [
+        {
+          "index": 89,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                249,
+                251,
+                252,
+                250,
+                306
+              ]
+            },
+            "index": 89,
+            "name": "ET_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 328 RootTroll (125d78f1be84734bc100); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=328].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 331,
+        "table": "character_properties#group0"
+      },
+      "id": "154988c599ac57700069",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "154988c599ac57700069",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 331 SKYGUARDIAN (e0068a13716136a1af28); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=331].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 332,
+        "table": "character_properties#group0"
+      },
+      "id": "97480172517ffb790bdd",
+      "kind": "loot",
+      "name": "206",
+      "reason": null,
+      "reference_id": "97480172517ffb790bdd",
+      "resolves_to": [
+        {
+          "index": 206,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 206,
+            "name": "RDcave3_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 332 SandWorm (c4504e979373d63945c2); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=332].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 333,
+        "table": "character_properties#group0"
+      },
+      "id": "2519c3a070ec6d8bf836",
+      "kind": "loot",
+      "name": "206",
+      "reason": null,
+      "reference_id": "2519c3a070ec6d8bf836",
+      "resolves_to": [
+        {
+          "index": 206,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 206,
+            "name": "RDcave3_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 333 SandWorm2 (9a42adb6e7886b87354d); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=333].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 334,
+        "table": "character_properties#group0"
+      },
+      "id": "2ca9beca9a578ca33431",
+      "kind": "loot",
+      "name": "207",
+      "reason": null,
+      "reference_id": "2ca9beca9a578ca33431",
+      "resolves_to": [
+        {
+          "index": 207,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 207,
+            "name": "RDcave3_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 334 SandWormQueen (e9d398b946cb853feb9c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=334].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 351,
+        "table": "character_properties#group0"
+      },
+      "id": "d9656182ab8eaf5044d0",
+      "kind": "loot",
+      "name": "329",
+      "reason": null,
+      "reference_id": "d9656182ab8eaf5044d0",
+      "resolves_to": [
+        {
+          "index": 329,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                309
+              ]
+            },
+            "index": 329,
+            "name": "WT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 351 Swamp2_LizadMan_Type1 (0788a4ef5bcf383a9b2c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=351].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 352,
+        "table": "character_properties#group0"
+      },
+      "id": "6e4710bffd65450dcb82",
+      "kind": "loot",
+      "name": "329",
+      "reason": null,
+      "reference_id": "6e4710bffd65450dcb82",
+      "resolves_to": [
+        {
+          "index": 329,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                309
+              ]
+            },
+            "index": 329,
+            "name": "WT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 352 Swamp2_LizadMan_Type1_Respawn (75d4fe5dac155fb9bd8a); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=352].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 353,
+        "table": "character_properties#group0"
+      },
+      "id": "fb0ba159a532a71dc951",
+      "kind": "loot",
+      "name": "331",
+      "reason": null,
+      "reference_id": "fb0ba159a532a71dc951",
+      "resolves_to": [
+        {
+          "index": 331,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                262,
+                263,
+                264,
+                265,
+                309
+              ]
+            },
+            "index": 331,
+            "name": "WT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 353 Swamp2_LizadMan_Type2 (ed021b6febbc9ef4ec5e); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=353].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 354,
+        "table": "character_properties#group0"
+      },
+      "id": "0d3747ec3ab470f64f66",
+      "kind": "loot",
+      "name": "333",
+      "reason": null,
+      "reference_id": "0d3747ec3ab470f64f66",
+      "resolves_to": [
+        {
+          "index": 333,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                291
+              ]
+            },
+            "index": 333,
+            "name": "WT_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 354 Swamp2_Moth_Type1 (5fc0c347c051fed8515c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=354].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 356,
+        "table": "character_properties#group0"
+      },
+      "id": "55ce7ec2fb53e702a526",
+      "kind": "loot",
+      "name": "333",
+      "reason": null,
+      "reference_id": "55ce7ec2fb53e702a526",
+      "resolves_to": [
+        {
+          "index": 333,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 32,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                291
+              ]
+            },
+            "index": 333,
+            "name": "WT_Weak_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 356 Swamp2_Slime (4a2b9ff0967e8f8643cc); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=356].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 357,
+        "table": "character_properties#group0"
+      },
+      "id": "26d3efd70f0ecad3521d",
+      "kind": "loot",
+      "name": "329",
+      "reason": null,
+      "reference_id": "26d3efd70f0ecad3521d",
+      "resolves_to": [
+        {
+          "index": 329,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                309
+              ]
+            },
+            "index": 329,
+            "name": "WT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 357 Swamp2_Slime_Large (6e14511e3c9f602b1246); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=357].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 368,
+        "table": "character_properties#group0"
+      },
+      "id": "e2187be651f18a7e31d5",
+      "kind": "loot",
+      "name": "329",
+      "reason": null,
+      "reference_id": "e2187be651f18a7e31d5",
+      "resolves_to": [
+        {
+          "index": 329,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                309
+              ]
+            },
+            "index": 329,
+            "name": "WT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 368 Swamp_Moth_Cocoon (89e62d1af1e2d587891f); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=368].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 369,
+        "table": "character_properties#group0"
+      },
+      "id": "0e628621cced525c0f0d",
+      "kind": "loot",
+      "name": "331",
+      "reason": null,
+      "reference_id": "0e628621cced525c0f0d",
+      "resolves_to": [
+        {
+          "index": 331,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                262,
+                263,
+                264,
+                265,
+                309
+              ]
+            },
+            "index": 331,
+            "name": "WT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 369 Swamp_Moth_Cocoon_Queen (4ed3b91e21197d70e6f5); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=369].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 376,
+        "table": "character_properties#group0"
+      },
+      "id": "832d29ebaa5546425e2a",
+      "kind": "loot",
+      "name": "206",
+      "reason": null,
+      "reference_id": "832d29ebaa5546425e2a",
+      "resolves_to": [
+        {
+          "index": 206,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                307
+              ]
+            },
+            "index": 206,
+            "name": "RDcave3_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 376 TarSlime (2c25b8b64a02a262e893); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=376].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 37,
+        "table": "character_properties#group0"
+      },
+      "id": "06413004903488374ef7",
+      "kind": "loot",
+      "name": "22",
+      "reason": null,
+      "reference_id": "06413004903488374ef7",
+      "resolves_to": [
+        {
+          "index": 22,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                236,
+                302
+              ]
+            },
+            "index": 22,
+            "name": "Castle1_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 37 Crypt_Ghost_RE (7c7325b6ef30d289a321); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=37].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 381,
+        "table": "character_properties#group0"
+      },
+      "id": "a15765eed80d1e4dfcf7",
+      "kind": "loot",
+      "name": "203",
+      "reason": null,
+      "reference_id": "a15765eed80d1e4dfcf7",
+      "resolves_to": [
+        {
+          "index": 203,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 203,
+            "name": "RDcave2_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 381 Tar_mine_queen (86f2f79f0f11c5a8ed25); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=381].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 384,
+        "table": "character_properties#group0"
+      },
+      "id": "6d3a01812fa7a1a4014b",
+      "kind": "loot",
+      "name": "331",
+      "reason": null,
+      "reference_id": "6d3a01812fa7a1a4014b",
+      "resolves_to": [
+        {
+          "index": 331,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                262,
+                263,
+                264,
+                265,
+                309
+              ]
+            },
+            "index": 331,
+            "name": "WT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 384 Troll2 (9311543617acd314349f); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=384].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 386,
+        "table": "character_properties#group0"
+      },
+      "id": "b840617b439e0104b7c9",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "b840617b439e0104b7c9",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 386 UW_Cherub (e132f88889624c0c65e9); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=386].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 387,
+        "table": "character_properties#group0"
+      },
+      "id": "6e1d29f31ad187232db1",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "6e1d29f31ad187232db1",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 387 UW_CherubRE (0ebe402a9e952527ca77); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=387].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 388,
+        "table": "character_properties#group0"
+      },
+      "id": "49284090e797957f5b7b",
+      "kind": "loot",
+      "name": "321",
+      "reason": null,
+      "reference_id": "49284090e797957f5b7b",
+      "resolves_to": [
+        {
+          "index": 321,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                280,
+                281,
+                282,
+                283,
+                284,
+                190,
+                21,
+                6,
+                8,
+                187,
+                164,
+                316
+              ]
+            },
+            "index": 321,
+            "name": "UW_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 388 UW_Emissary (4a8c8f6b3f21d75a27da); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=388].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 396,
+        "table": "character_properties#group0"
+      },
+      "id": "f268db19e75f6e34f523",
+      "kind": "loot",
+      "name": "320",
+      "reason": null,
+      "reference_id": "f268db19e75f6e34f523",
+      "resolves_to": [
+        {
+          "index": 320,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                280,
+                315
+              ]
+            },
+            "index": 320,
+            "name": "UW_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 396 UW_Skydevil_RE (265479a8a8125bc9aa9d); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=396].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 397,
+        "table": "character_properties#group0"
+      },
+      "id": "f2d5da0c4521bae6de37",
+      "kind": "loot",
+      "name": "321",
+      "reason": null,
+      "reference_id": "f2d5da0c4521bae6de37",
+      "resolves_to": [
+        {
+          "index": 321,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                280,
+                281,
+                282,
+                283,
+                284,
+                190,
+                21,
+                6,
+                8,
+                187,
+                164,
+                316
+              ]
+            },
+            "index": 321,
+            "name": "UW_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 397 UW_Statue (afe9cbf2d56aa2052763); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=397].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 398,
+        "table": "character_properties#group0"
+      },
+      "id": "ec41d07305a8642a1212",
+      "kind": "loot",
+      "name": "322",
+      "reason": null,
+      "reference_id": "ec41d07305a8642a1212",
+      "resolves_to": [
+        {
+          "index": 322,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                280,
+                281,
+                282,
+                283,
+                284,
+                315
+              ]
+            },
+            "index": 322,
+            "name": "UW_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 398 UW_Treething (eac2886bbf425505a7bc); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=398].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 418,
+        "table": "character_properties#group0"
+      },
+      "id": "32791987064e559b6e2a",
+      "kind": "loot",
+      "name": "192",
+      "reason": null,
+      "reference_id": "32791987064e559b6e2a",
+      "resolves_to": [
+        {
+          "index": 192,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 192,
+            "name": "PriestStartingLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 419,
+        "table": "character_properties#group0"
+      },
+      "id": "0d1d7a41c8ba2df3db47",
+      "kind": "loot",
+      "name": "192",
+      "reason": null,
+      "reference_id": "0d1d7a41c8ba2df3db47",
+      "resolves_to": [
+        {
+          "index": 192,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 192,
+            "name": "PriestStartingLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 425,
+        "table": "character_properties#group0"
+      },
+      "id": "a383960ab201de13b24c",
+      "kind": "loot",
+      "name": "336",
+      "reason": null,
+      "reference_id": "a383960ab201de13b24c",
+      "resolves_to": [
+        {
+          "index": 336,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                271,
+                271,
+                272,
+                273,
+                274,
+                312
+              ]
+            },
+            "index": 336,
+            "name": "Wind_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 425 WindYeti_1 (91a4d94813cfd410984c); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=425].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 427,
+        "table": "character_properties#group0"
+      },
+      "id": "1e2f4c2cd9a0518842b1",
+      "kind": "loot",
+      "name": "336",
+      "reason": null,
+      "reference_id": "1e2f4c2cd9a0518842b1",
+      "resolves_to": [
+        {
+          "index": 336,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                271,
+                271,
+                272,
+                273,
+                274,
+                312
+              ]
+            },
+            "index": 336,
+            "name": "Wind_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 427 Wind_Moth_Champion (c7ac0a2c3e1f3aaa7b52); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=427].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 429,
+        "table": "character_properties#group0"
+      },
+      "id": "9c537f8ef4e9a2d3580d",
+      "kind": "loot",
+      "name": "334",
+      "reason": null,
+      "reference_id": "9c537f8ef4e9a2d3580d",
+      "resolves_to": [
+        {
+          "index": 334,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                271,
+                312
+              ]
+            },
+            "index": 334,
+            "name": "Wind_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 429 Wind_Moth_Type0_RE (8866ddfa0e8a5f8088dc); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=429].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 438,
+        "table": "character_properties#group0"
+      },
+      "id": "9f3dca3c6cd743c641ca",
+      "kind": "loot",
+      "name": "8",
+      "reason": null,
+      "reference_id": "9f3dca3c6cd743c641ca",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 4,
+                  "ItemPowerList": 28,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 8,
+            "name": "AssassinTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 438 zCrown (0a6ad56ef69401dc8b80); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=438].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 439,
+        "table": "character_properties#group0"
+      },
+      "id": "e6c32ff43d98c55b9071",
+      "kind": "loot",
+      "name": "8",
+      "reason": null,
+      "reference_id": "e6c32ff43d98c55b9071",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 4,
+                  "ItemPowerList": 28,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 8,
+            "name": "AssassinTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 439 zEdwardGrave (799341333d588a1b6f30); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=439].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 43,
+        "table": "character_properties#group0"
+      },
+      "id": "e0940753adbce83f83e0",
+      "kind": "loot",
+      "name": "53",
+      "reason": null,
+      "reference_id": "e0940753adbce83f83e0",
+      "resolves_to": [
+        {
+          "index": 53,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 19,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                283,
+                316
+              ]
+            },
+            "index": 53,
+            "name": "DT_Basic_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 43 DT_Cherub (733419bdc77f2b1c1f8d); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=43].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 440,
+        "table": "character_properties#group0"
+      },
+      "id": "4a0315a8158e28748ade",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "4a0315a8158e28748ade",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 440 zInvisibleMonk1 (6699957dfaacf031484b); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=440].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 441,
+        "table": "character_properties#group0"
+      },
+      "id": "0dbbe9189fcb0db0f0f3",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "0dbbe9189fcb0db0f0f3",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 441 zInvisibleMonk2 (8317fd5395f510b18b1a); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=441].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 442,
+        "table": "character_properties#group0"
+      },
+      "id": "5dcc5560863c3a542c82",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "5dcc5560863c3a542c82",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 442 zInvisibleMonk3 (2250ee8f43e126ff975e); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=442].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 443,
+        "table": "character_properties#group0"
+      },
+      "id": "c70dc44d72a3974411d2",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "c70dc44d72a3974411d2",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 443 zInvisibleMonk4 (df93f79abc72069cb7a9); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=443].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 446,
+        "table": "character_properties#group0"
+      },
+      "id": "c510ecdaff51fc556bcf",
+      "kind": "loot",
+      "name": "8",
+      "reason": null,
+      "reference_id": "c510ecdaff51fc556bcf",
+      "resolves_to": [
+        {
+          "index": 8,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 22,
+              "RandomLootEntries": [
+                {
+                  "ItemListID": 4,
+                  "ItemPowerList": 28,
+                  "MProb": 0,
+                  "NumPowerProbs": 13,
+                  "Pct": -1,
+                  "Prob": 40,
+                  "RProb": 0,
+                  "WProb": 0
+                }
+              ],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 8,
+            "name": "AssassinTreasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 446 zKingGrave (1ebacc192f96109f811b); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=446].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 447,
+        "table": "character_properties#group0"
+      },
+      "id": "e877468e1fce427e0357",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "e877468e1fce427e0357",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 447 zMadrukTorso_Target (2bea13ed077eb4bd8c55); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=447].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 46,
+        "table": "character_properties#group0"
+      },
+      "id": "9d7ebc0175d5aaed9d07",
+      "kind": "loot",
+      "name": "55",
+      "reason": null,
+      "reference_id": "9d7ebc0175d5aaed9d07",
+      "resolves_to": [
+        {
+          "index": 55,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                283,
+                284,
+                190,
+                21,
+                6,
+                8,
+                187,
+                164,
+                316
+              ]
+            },
+            "index": 55,
+            "name": "DT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 46 DT_DarkGuardianXL (6b4c8391d3b5a1028d7f); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=46].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 49,
+        "table": "character_properties#group0"
+      },
+      "id": "b447a7d679cbd4b096e5",
+      "kind": "loot",
+      "name": "55",
+      "reason": null,
+      "reference_id": "b447a7d679cbd4b096e5",
+      "resolves_to": [
+        {
+          "index": 55,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                283,
+                284,
+                190,
+                21,
+                6,
+                8,
+                187,
+                164,
+                316
+              ]
+            },
+            "index": 55,
+            "name": "DT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 49 DT_SkydevilXL (f3df0564741e64e3a9a4); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=49].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 55,
+        "table": "character_properties#group0"
+      },
+      "id": "8474e52debb64ee34635",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "8474e52debb64ee34635",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 55 DW_Cherub_RE (975fcd941392ad6a19b5); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=55].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 56,
+        "table": "character_properties#group0"
+      },
+      "id": "6ce2a603015104f0aaad",
+      "kind": "loot",
+      "name": "2",
+      "reason": null,
+      "reference_id": "6ce2a603015104f0aaad",
+      "resolves_to": [
+        {
+          "index": 2,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 2,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                256,
+                257,
+                258,
+                259,
+                308
+              ]
+            },
+            "index": 2,
+            "name": "Abbey_Boss_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 56 DW_Merchant (89d6b10973db87e6eecd); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=56].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 57,
+        "table": "character_properties#group0"
+      },
+      "id": "ef6c06ec383b221bdb86",
+      "kind": "loot",
+      "name": "60",
+      "reason": null,
+      "reference_id": "ef6c06ec383b221bdb86",
+      "resolves_to": [
+        {
+          "index": 60,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                236,
+                236,
+                239,
+                239,
+                240,
+                303
+              ]
+            },
+            "index": 60,
+            "name": "DWv1_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 57 DW_Statue (f53bda09f68d2994b795); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=57].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 62,
+        "table": "character_properties#group0"
+      },
+      "id": "4d8efa3d4e5f26611ba0",
+      "kind": "loot",
+      "name": "188",
+      "reason": null,
+      "reference_id": "4d8efa3d4e5f26611ba0",
+      "resolves_to": [
+        {
+          "index": 188,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 20,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": []
+            },
+            "index": 188,
+            "name": "NoLoot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 62 DarkQueenForm1 (78dd4d9c682bce11db47); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=62].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 66,
+        "table": "character_properties#group0"
+      },
+      "id": "8b45935fc3815be66d80",
+      "kind": "loot",
+      "name": "331",
+      "reason": null,
+      "reference_id": "8b45935fc3815be66d80",
+      "resolves_to": [
+        {
+          "index": 331,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 6,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                262,
+                262,
+                263,
+                264,
+                265,
+                309
+              ]
+            },
+            "index": 331,
+            "name": "WT_Champion_Loot",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 66 Darklin_ABBEY (036b66e209c21f7ba44d); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=66].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Loot",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 99,
+        "table": "character_properties#group0"
+      },
+      "id": "3bf905fef6c6662bd2fc",
+      "kind": "loot",
+      "name": "0",
+      "reason": null,
+      "reference_id": "3bf905fef6c6662bd2fc",
+      "resolves_to": [
+        {
+          "index": 0,
+          "source_row": {
+            "fields": {
+              "FixedLootEntries": [],
+              "NumRandomItemProbs": 7,
+              "RandomLootEntries": [],
+              "RollType": 0,
+              "SubLoots": [
+                257,
+                257,
+                257,
+                259,
+                258,
+                260
+              ]
+            },
+            "index": 0,
+            "name": "ABBEY_RUINS_01_Treasure",
+            "table": "loot_table#group5"
+          },
+          "table": "loot_table#group5",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field Loot",
+      "scope_reasons": [
+        "CharacterProperties row 99 Desert_Merchant (54f1876e5935d7a4287b); membership act_2_inferred -> Loot"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=99].Loot",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

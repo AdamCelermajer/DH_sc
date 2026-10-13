@@ -1,0 +1,134 @@
+{
+  "act": "act_1",
+  "count": 3,
+  "kind": "skill",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 110,
+        "table": "character_properties#group0"
+      },
+      "id": "0cb69b0e155aa402a66b",
+      "kind": "skill",
+      "name": "7",
+      "reason": null,
+      "reference_id": "0cb69b0e155aa402a66b",
+      "resolves_to": [
+        {
+          "index": 7,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                29
+              ]
+            },
+            "index": 7,
+            "name": "Dummy",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=110].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 358,
+        "table": "character_properties#group0"
+      },
+      "id": "e9fda0c6da40476e1a51",
+      "kind": "skill",
+      "name": "33",
+      "reason": null,
+      "reference_id": "e9fda0c6da40476e1a51",
+      "resolves_to": [
+        {
+          "index": 33,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                106,
+                107,
+                108,
+                109
+              ]
+            },
+            "index": 33,
+            "name": "SwampKingSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "SkillTree",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 435,
+        "table": "character_properties#group0"
+      },
+      "id": "a98ee55b4bb4d78718b0",
+      "kind": "skill",
+      "name": "35",
+      "reason": null,
+      "reference_id": "a98ee55b4bb4d78718b0",
+      "resolves_to": [
+        {
+          "index": 35,
+          "source_row": {
+            "fields": {
+              "list_entries": [
+                122
+              ]
+            },
+            "index": 35,
+            "name": "WitchSkills",
+            "table": "skills#group0"
+          },
+          "table": "skills#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field SkillTree",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> SkillTree"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].SkillTree",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

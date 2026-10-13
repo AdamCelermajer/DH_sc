@@ -1,0 +1,1161 @@
+{
+  "act": "act_1",
+  "count": 21,
+  "kind": "projectile",
+  "rows": [
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "RangeProjectileID",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 358,
+        "table": "character_properties#group0"
+      },
+      "id": "ccc12009bf3086fe898c",
+      "kind": "projectile",
+      "name": "34",
+      "reason": null,
+      "reference_id": "ccc12009bf3086fe898c",
+      "resolves_to": [
+        {
+          "index": 34,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "Dedicated": 0,
+                "DisappearOnHit": 1,
+                "ExpireFX": -1,
+                "ExpireSFX": -1,
+                "FriendlyFire": 0,
+                "ImpactFX": 70,
+                "ImpactSFX": 524,
+                "IsLaser": 0,
+                "IsMagic": 1,
+                "MaxDistance": -1082130432,
+                "MaxRotation": 1135869952,
+                "Model": 5,
+                "ObjectImpactFX": -1,
+                "ObjectImpactSFX": -1,
+                "StayOnFloor": 0,
+                "TargetLock": 0,
+                "TimeBetweenHit": 1000,
+                "Timer": 4000,
+                "Velocity": 1092616192,
+                "VelocityDamping": 0
+              }
+            },
+            "index": 34,
+            "name": "SwampkingSpit",
+            "table": "projectiles#group0"
+          },
+          "table": "projectiles#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 358 SwampKing (debe3161f75f83cfc4a0); membership act_1 -> RangeProjectileID"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=358].RangeProjectileID",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "RangeProjectileID",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 418,
+        "table": "character_properties#group0"
+      },
+      "id": "ac1a10d51d0df432c072",
+      "kind": "projectile",
+      "name": "22",
+      "reason": null,
+      "reference_id": "ac1a10d51d0df432c072",
+      "resolves_to": [
+        {
+          "index": 22,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "Dedicated": 0,
+                "DisappearOnHit": 1,
+                "ExpireFX": -1,
+                "ExpireSFX": -1,
+                "FriendlyFire": 0,
+                "ImpactFX": 243,
+                "ImpactSFX": -1,
+                "IsLaser": 0,
+                "IsMagic": 1,
+                "MaxDistance": -1082130432,
+                "MaxRotation": 1135869952,
+                "Model": 3,
+                "ObjectImpactFX": -1,
+                "ObjectImpactSFX": -1,
+                "StayOnFloor": 0,
+                "TargetLock": 0,
+                "TimeBetweenHit": 1000,
+                "Timer": 4000,
+                "Velocity": 1109131264,
+                "VelocityDamping": 0
+              }
+            },
+            "index": 22,
+            "name": "LightningMastery",
+            "table": "projectiles#group0"
+          },
+          "table": "projectiles#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 418 WanderingEddie (2845e42f9cfb1f916815); membership act_1 -> RangeProjectileID"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=418].RangeProjectileID",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "RangeProjectileID",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 419,
+        "table": "character_properties#group0"
+      },
+      "id": "06b683beb13264fa5534",
+      "kind": "projectile",
+      "name": "19",
+      "reason": null,
+      "reference_id": "06b683beb13264fa5534",
+      "resolves_to": [
+        {
+          "index": 19,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "Dedicated": 0,
+                "DisappearOnHit": 1,
+                "ExpireFX": -1,
+                "ExpireSFX": -1,
+                "FriendlyFire": 0,
+                "ImpactFX": 241,
+                "ImpactSFX": -1,
+                "IsLaser": 0,
+                "IsMagic": 1,
+                "MaxDistance": -1082130432,
+                "MaxRotation": 1135869952,
+                "Model": 1,
+                "ObjectImpactFX": -1,
+                "ObjectImpactSFX": -1,
+                "StayOnFloor": 0,
+                "TargetLock": 0,
+                "TimeBetweenHit": 1000,
+                "Timer": 4000,
+                "Velocity": 1109131264,
+                "VelocityDamping": 0
+              }
+            },
+            "index": 19,
+            "name": "FireMastery",
+            "table": "projectiles#group0"
+          },
+          "table": "projectiles#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 419 WanderingPriest (893b2e8fb38716fa20a8); membership act_1 -> RangeProjectileID"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=419].RangeProjectileID",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "RangeProjectileID",
+        "file": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin",
+        "index": 435,
+        "table": "character_properties#group0"
+      },
+      "id": "0b829588cdeb9af0e4f2",
+      "kind": "projectile",
+      "name": "39",
+      "reason": null,
+      "reference_id": "0b829588cdeb9af0e4f2",
+      "resolves_to": [
+        {
+          "index": 39,
+          "source_row": {
+            "fields": {
+              "fields": {
+                "Dedicated": 0,
+                "DisappearOnHit": 1,
+                "ExpireFX": -1,
+                "ExpireSFX": -1,
+                "FriendlyFire": 0,
+                "ImpactFX": 76,
+                "ImpactSFX": 613,
+                "IsLaser": 0,
+                "IsMagic": 1,
+                "MaxDistance": -1082130432,
+                "MaxRotation": 1135869952,
+                "Model": 15,
+                "ObjectImpactFX": -1,
+                "ObjectImpactSFX": 613,
+                "StayOnFloor": 0,
+                "TargetLock": 0,
+                "TimeBetweenHit": 1000,
+                "Timer": 4000,
+                "Velocity": 1101004800,
+                "VelocityDamping": 0
+              }
+            },
+            "index": 39,
+            "name": "bogwitch",
+            "table": "projectiles#group0"
+          },
+          "table": "projectiles#group0",
+          "type": "table-row"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:25; field RangeProjectileID",
+      "scope_reasons": [
+        "CharacterProperties row 435 Witch (493d2e115ad25e84db5e); membership act_1 -> RangeProjectileID"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/character_properties_pyarray.bin[section=0,row=435].RangeProjectileID",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 10,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "af4ca211a012be387ebc",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_explode.bdae",
+      "reason": null,
+      "reference_id": "af4ca211a012be387ebc",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "21d46c9b69486f1cb8c0",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_explode.bdae",
+              "sha256": "f6092901b6d7e514380eafd74a0985148c319fa93a881b6dc4f016d2f4a8f7ba",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "c425cc2a81b5acb150940c2d603465b95958c6e8297bd1cdf7c86524c90d2fb4",
+              "id": "aa02baee76affa723020",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_explode.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002235.dat",
+              "sha256": "64f2962e978fe5a3cf2f296257854d379f5e21df66bac2722a650f588f84022a",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_arrow_explode.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=10].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 12,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "903d4a9f4223f8ded6c3",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+      "reason": null,
+      "reference_id": "903d4a9f4223f8ded6c3",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d9a3a7023f3c2ba2d7d8",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+              "sha256": "066a535311180098b0c7e8bdc8ad2554644a1f949c80b3d5e4df5cd3d25640a3",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "6527f4ab68c49319229b8b12fae8f17337a58e504979edf66048ae3b731e19ba",
+              "id": "42f6fc597998bf962d11",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_pin_shot.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004033.dat",
+              "sha256": "27fd2a2bd3b100639f8498699797420c9c3a3789938bd548881fe5566c08e980",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=12].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 13,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "c54bfa430d459d4e3037",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_poison.bdae",
+      "reason": null,
+      "reference_id": "c54bfa430d459d4e3037",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2fed1fa7d24c11209ead",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_poison.bdae",
+              "sha256": "55cf0adfbc9e3d98af80db12ea04b741401fe473ae122795a19df31740f6c808",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "94c7b5dd3bc26cfba98a6e66283d597d9e8865ad695444a132fad66ba71ae25e",
+              "id": "c2e3d7291d1563dd5e50",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_poison.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004390.dat",
+              "sha256": "c351b717f3ad93e93de95678181923e2ae373e5900763f8177bbded15bbe44fe",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_arrow_poison.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=13].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 25,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "b1615c3ea8bed7c17dc9",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+      "reason": null,
+      "reference_id": "b1615c3ea8bed7c17dc9",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "31e311b6d21fc6292627",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+              "sha256": "b0ea6cb75504ce9141ad663cf038eee2c948854ee38dbfebe237ee7f668fd132",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "614a6d4b0bea28df06f7cf96cf7a5734b693bf71cd3d998fc5d857b804f5e701",
+              "id": "7b17afee4f97eabbd26a",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005231.dat",
+              "sha256": "930b555d57eb01fd71a5fa6615f716c1f92776d7b3d00582f638c3bc47357721",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=25].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 26,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "b91b0d83e84cd1a8ad1e",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+      "reason": null,
+      "reference_id": "b91b0d83e84cd1a8ad1e",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1f53aa89d8ae73ebc9a8",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+              "sha256": "54feb204b3fe8b96c0074a30be3e5c508067242b9ba192099bac3db935ca1d66",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0ad42a0ebea3a1aef1f2210fe9aa3eddd1b80e7959a5ac25032e487f61523eb5",
+              "id": "69ee95c9557d23e6c0bf",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004047.dat",
+              "sha256": "9184d17458ac1b5e4fa2c9ab9b49e3515bd7dd452245ebcb33b7cf29099b0ae5",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=26].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 27,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "15e4824e11f461380e2f",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_returning_knives.bdae",
+      "reason": null,
+      "reference_id": "15e4824e11f461380e2f",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "82acf56e401e258af1ae",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_returning_knives.bdae",
+              "sha256": "e1a0fd5924a216b1a48fe1f04379be498980c3f34947cdd0787a7b07642f0740",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "4c7689813006c8172ed77f6ddca426727893da49d119cfd1716289736492b225",
+              "id": "6a7f9872470a3022fb26",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_returning_knives.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001628.dat",
+              "sha256": "897ab6b5f47e34754ae14ccdbe1e8e20f19ccc18f231a39d9ad033767d04a681",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_returning_knives.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=27].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 7,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "672109f3f1b73b0740ff",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/invisible_bolt.bdae",
+      "reason": null,
+      "reference_id": "672109f3f1b73b0740ff",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "5f4130b946ca76c2f924",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/invisible_bolt.bdae",
+              "sha256": "27386c882568665fd166562cffca6c78ec21c07b1c815df647a32d42645cbffa",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "c04e4023f1c7a7fc23035b83160cf662d9383f70add76cc3ad5e578635babcbd",
+              "id": "29064533e4a2445a823f",
+              "logical_paths": [
+                "data/3d/projectiles/invisible_bolt.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003094.dat",
+              "sha256": "f1d22db7e65f0219eb28d053875af7676551235fef00ffe2b7fef8bf3942e781",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/invisible_bolt.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=7].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "context": {
+        "field": "Path",
+        "file": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin",
+        "index": 9,
+        "table": "projectiles_dictionary#group0"
+      },
+      "id": "8a309c39df892cc57506",
+      "kind": "projectile",
+      "name": "data/3D/projectiles/projectile_arrow_default.bdae",
+      "reason": null,
+      "reference_id": "8a309c39df892cc57506",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "82d74395434dcabcf95f",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_default.bdae",
+              "sha256": "31e70c15854776daff5c23cd66e5022b430c7a839345c1e752e87089a429be98",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "716a1a6775983ff0596510c26e42e900181d4c3f0c13a460c32c0f603d129e5c",
+              "id": "bac4be40a5231a8fcca3",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_default.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file006013.dat",
+              "sha256": "d53d14043657b82297b7a71e994e5a179b31eea57270f66e4ce48bae739567c7",
+              "source": "ios-packed"
+            }
+          ],
+          "path": "data/3D/projectiles/projectile_arrow_default.bdae",
+          "type": "file"
+        }
+      ],
+      "rule": "port/game-data/data.cpp:35; field Path",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/projectiles_dictionary_pyarray.bin[section=0,row=9].Path",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "4f562dbcba238fa48b82",
+      "kind": "projectile",
+      "name": "27",
+      "reason": null,
+      "reference_id": "4f562dbcba238fa48b82",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "82acf56e401e258af1ae",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_returning_knives.bdae",
+              "sha256": "e1a0fd5924a216b1a48fe1f04379be498980c3f34947cdd0787a7b07642f0740",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "4c7689813006c8172ed77f6ddca426727893da49d119cfd1716289736492b225",
+              "id": "6a7f9872470a3022fb26",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_returning_knives.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file001628.dat",
+              "sha256": "897ab6b5f47e34754ae14ccdbe1e8e20f19ccc18f231a39d9ad033767d04a681",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 27,
+          "path": "data/3D/projectiles/projectile_returning_knives.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_returning_knives.bdae"
+            },
+            "index": 27,
+            "name": "projectile_returning_knives",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by rogueassassin -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=21].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "3ae50e588d32e1160ef2",
+      "kind": "projectile",
+      "name": "26",
+      "reason": null,
+      "reference_id": "3ae50e588d32e1160ef2",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1f53aa89d8ae73ebc9a8",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+              "sha256": "54feb204b3fe8b96c0074a30be3e5c508067242b9ba192099bac3db935ca1d66",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0ad42a0ebea3a1aef1f2210fe9aa3eddd1b80e7959a5ac25032e487f61523eb5",
+              "id": "69ee95c9557d23e6c0bf",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004047.dat",
+              "sha256": "9184d17458ac1b5e4fa2c9ab9b49e3515bd7dd452245ebcb33b7cf29099b0ae5",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 26,
+          "path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+            },
+            "index": 26,
+            "name": "projectile_dh2_simplified_chain_lightning",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=30].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "e136c18325476cf8af54",
+      "kind": "projectile",
+      "name": "26",
+      "reason": null,
+      "reference_id": "e136c18325476cf8af54",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "1f53aa89d8ae73ebc9a8",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+              "sha256": "54feb204b3fe8b96c0074a30be3e5c508067242b9ba192099bac3db935ca1d66",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "0ad42a0ebea3a1aef1f2210fe9aa3eddd1b80e7959a5ac25032e487f61523eb5",
+              "id": "69ee95c9557d23e6c0bf",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004047.dat",
+              "sha256": "9184d17458ac1b5e4fa2c9ab9b49e3515bd7dd452245ebcb33b7cf29099b0ae5",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 26,
+          "path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_dh2_simplified_chain_lightning.bdae"
+            },
+            "index": 26,
+            "name": "projectile_dh2_simplified_chain_lightning",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=31].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "1a642bff2cd5bb1b6fa0",
+      "kind": "projectile",
+      "name": "7",
+      "reason": null,
+      "reference_id": "1a642bff2cd5bb1b6fa0",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "5f4130b946ca76c2f924",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/invisible_bolt.bdae",
+              "sha256": "27386c882568665fd166562cffca6c78ec21c07b1c815df647a32d42645cbffa",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "c04e4023f1c7a7fc23035b83160cf662d9383f70add76cc3ad5e578635babcbd",
+              "id": "29064533e4a2445a823f",
+              "logical_paths": [
+                "data/3d/projectiles/invisible_bolt.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file003094.dat",
+              "sha256": "f1d22db7e65f0219eb28d053875af7676551235fef00ffe2b7fef8bf3942e781",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 7,
+          "path": "data/3D/projectiles/invisible_bolt.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/invisible_bolt.bdae"
+            },
+            "index": 7,
+            "name": "invisible_bolt",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference",
+        "Prince player skill row owned by magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=35].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "889c75a91189cfd57047",
+      "kind": "projectile",
+      "name": "25",
+      "reason": null,
+      "reference_id": "889c75a91189cfd57047",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "31e311b6d21fc6292627",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+              "sha256": "b0ea6cb75504ce9141ad663cf038eee2c948854ee38dbfebe237ee7f668fd132",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "614a6d4b0bea28df06f7cf96cf7a5734b693bf71cd3d998fc5d857b804f5e701",
+              "id": "7b17afee4f97eabbd26a",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_dh2_prince_mage_cyclone.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file005231.dat",
+              "sha256": "930b555d57eb01fd71a5fa6615f716c1f92776d7b3d00582f638c3bc47357721",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 25,
+          "path": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_dh2_prince_mage_cyclone.bdae"
+            },
+            "index": 25,
+            "name": "projectile_dh2_prince_mage_cyclone",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by mage, mageillusionist, magenecromancer -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=36].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "b4902290e4820bdd2fa2",
+      "kind": "projectile",
+      "name": "9",
+      "reason": null,
+      "reference_id": "b4902290e4820bdd2fa2",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "82d74395434dcabcf95f",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_default.bdae",
+              "sha256": "31e70c15854776daff5c23cd66e5022b430c7a839345c1e752e87089a429be98",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "716a1a6775983ff0596510c26e42e900181d4c3f0c13a460c32c0f603d129e5c",
+              "id": "bac4be40a5231a8fcca3",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_default.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file006013.dat",
+              "sha256": "d53d14043657b82297b7a71e994e5a179b31eea57270f66e4ce48bae739567c7",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 9,
+          "path": "data/3D/projectiles/projectile_arrow_default.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_arrow_default.bdae"
+            },
+            "index": 9,
+            "name": "projectile_arrow_default",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=3].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "21dbc00268803b7307fd",
+      "kind": "projectile",
+      "name": "10",
+      "reason": null,
+      "reference_id": "21dbc00268803b7307fd",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "21d46c9b69486f1cb8c0",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_explode.bdae",
+              "sha256": "f6092901b6d7e514380eafd74a0985148c319fa93a881b6dc4f016d2f4a8f7ba",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "c425cc2a81b5acb150940c2d603465b95958c6e8297bd1cdf7c86524c90d2fb4",
+              "id": "aa02baee76affa723020",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_explode.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file002235.dat",
+              "sha256": "64f2962e978fe5a3cf2f296257854d379f5e21df66bac2722a650f588f84022a",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 10,
+          "path": "data/3D/projectiles/projectile_arrow_explode.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_arrow_explode.bdae"
+            },
+            "index": 10,
+            "name": "projectile_arrow_explode",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=4].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "5c55ee4d93984a005da5",
+      "kind": "projectile",
+      "name": "12",
+      "reason": null,
+      "reference_id": "5c55ee4d93984a005da5",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "d9a3a7023f3c2ba2d7d8",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_pin_shot.bdae",
+              "sha256": "066a535311180098b0c7e8bdc8ad2554644a1f949c80b3d5e4df5cd3d25640a3",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "6527f4ab68c49319229b8b12fae8f17337a58e504979edf66048ae3b731e19ba",
+              "id": "42f6fc597998bf962d11",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_pin_shot.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004033.dat",
+              "sha256": "27fd2a2bd3b100639f8498699797420c9c3a3789938bd548881fe5566c08e980",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 12,
+          "path": "data/3D/projectiles/projectile_arrow_pin_shot.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_arrow_pin_shot.bdae"
+            },
+            "index": 12,
+            "name": "projectile_arrow_pin_shot",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=6].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_1",
+      "candidates": [],
+      "confidence": "PROVEN",
+      "id": "480663a7eb6bec6d75dc",
+      "kind": "projectile",
+      "name": "13",
+      "reason": null,
+      "reference_id": "480663a7eb6bec6d75dc",
+      "resolves_to": [
+        {
+          "asset_files": [
+            {
+              "id": "2fed1fa7d24c11209ead",
+              "path": ".local-inputs/assets-extra/android/data/3d/projectiles/projectile_arrow_poison.bdae",
+              "sha256": "55cf0adfbc9e3d98af80db12ea04b741401fe473ae122795a19df31740f6c808",
+              "source": "android"
+            },
+            {
+              "decode_confidence": "LIKELY",
+              "decode_recipe": "subtract-first-four-bytes(+1,+2,+3,+4):bres-header",
+              "decoded_sha256": "94c7b5dd3bc26cfba98a6e66283d597d9e8865ad695444a132fad66ba71ae25e",
+              "id": "c2e3d7291d1563dd5e50",
+              "logical_paths": [
+                "data/3d/projectiles/projectile_arrow_poison.bdae"
+              ],
+              "mapping_confidence": "LIKELY",
+              "package_version": "Dungeon Hunter 2 HD iPad CFBundleVersion 1.0.0",
+              "path": ".local-inputs/claude-preview15/ipa/extracted/Payload/dungeonhunter2iPad.app/data/file004390.dat",
+              "sha256": "c351b717f3ad93e93de95678181923e2ae373e5900763f8177bbded15bbe44fe",
+              "source": "ios-packed"
+            }
+          ],
+          "index": 13,
+          "path": "data/3D/projectiles/projectile_arrow_poison.bdae",
+          "source_row": {
+            "fields": {
+              "Path": "data/3D/projectiles/projectile_arrow_poison.bdae"
+            },
+            "index": 13,
+            "name": "projectile_arrow_poison",
+            "table": "projectiles_dictionary#group0"
+          },
+          "type": "ProjectileDict row"
+        }
+      ],
+      "rule": "ProjectileTable compiled member order + source process row descriptor; runtime-source-projectile-v1-report.json",
+      "scope_reasons": [
+        "Prince player skill row owned by roguearcher -> owned script reference"
+      ],
+      "site": "pydata/projectiles_pyarray.bin[row=7].Model",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}

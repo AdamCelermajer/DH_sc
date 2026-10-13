@@ -1,0 +1,5077 @@
+{
+  "act": "act_2_inferred",
+  "count": 137,
+  "kind": "effect_set",
+  "rows": [
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "cc3b58a6fd94c844fccb",
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "cc3b58a6fd94c844fccb",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_NoEscape command[4] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[43]=HG2_NoEscape/command[4]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "25d8690b22a5695f2855",
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "25d8690b22a5695f2855",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_NoEscape command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[43]=HG2_NoEscape/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d4e7abc9d2443c192dc2",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d4e7abc9d2443c192dc2",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_defeated command[46] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[44]=HG2_boss_defeated/command[46]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4014b30b56de57671101",
+          "index": 87,
+          "name": "cs_darkqueen_scene08_daerk_queen_entrance",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "55333b491354c16ed1f0",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene08_daerk_queen_entrance",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "55333b491354c16ed1f0",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4014b30b56de57671101",
+          "index": 87,
+          "name": "cs_darkqueen_scene08_daerk_queen_entrance",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[115] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[115]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c8242da9d8996614267c",
+          "index": 82,
+          "name": "cs_darkqueen_scene03c_rene_portal",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d229e5bc037ce37c278d",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene03c_rene_portal",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d229e5bc037ce37c278d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "c8242da9d8996614267c",
+          "index": 82,
+          "name": "cs_darkqueen_scene03c_rene_portal",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[59] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[59]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "2486e8ff4a15bcd86678",
+          "index": 81,
+          "name": "cs_darkqueen_scene03c_idle_rene_portal",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "adfc9521926e3a249d3a",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene03c_idle_rene_portal",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "adfc9521926e3a249d3a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "2486e8ff4a15bcd86678",
+          "index": 81,
+          "name": "cs_darkqueen_scene03c_idle_rene_portal",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[61] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[61]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6fcfd24cdf645c95c21e",
+          "index": 83,
+          "name": "cs_darkqueen_scene04_raisebodya",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "dd48c80e72f2e931a4bb",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene04_raisebodya",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "dd48c80e72f2e931a4bb",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "6fcfd24cdf645c95c21e",
+          "index": 83,
+          "name": "cs_darkqueen_scene04_raisebodya",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[70] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[70]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "062b55ce81226955b7dc",
+          "index": 84,
+          "name": "cs_darkqueen_scene05_raisebodyb",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d2ffc9d228724044551b",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene05_raisebodyb",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d2ffc9d228724044551b",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "062b55ce81226955b7dc",
+          "index": 84,
+          "name": "cs_darkqueen_scene05_raisebodyb",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[80] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[80]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "f55552528b2d80d2027a",
+          "index": 85,
+          "name": "cs_darkqueen_scene06_farvue",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ac4a42204a369dbd4be1",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene06_farvue",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ac4a42204a369dbd4be1",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "f55552528b2d80d2027a",
+          "index": 85,
+          "name": "cs_darkqueen_scene06_farvue",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[89] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[89]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "fabfe0f82212ddd14de0",
+          "index": 86,
+          "name": "cs_darkqueen_scene07_princecoverface",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "48e996c998735242e580",
+      "kind": "effect_set",
+      "name": "cs_darkqueen_scene07_princecoverface",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "48e996c998735242e580",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "fabfe0f82212ddd14de0",
+          "index": 86,
+          "name": "cs_darkqueen_scene07_princecoverface",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 HG2_boss_intro command[97] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[45]=HG2_boss_intro/command[97]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6b6bf6df22db92a6c487",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6b6bf6df22db92a6c487",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 Post_Escape command[11] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[75]=Post_Escape/command[11]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f3a38009ac9834d863c6",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f3a38009ac9834d863c6",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 Door_Teleport command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[9]=Door_Teleport/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6567ce5746701c204bcd",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6567ce5746701c204bcd",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2e1304ff2c8ed98caa94 Door_Teleport command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/003_darkwood_pyscripts.bin:script[9]=Door_Teleport/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "20cd15b1a658de5db049",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "20cd15b1a658de5db049",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[3] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[3]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ede9a2616c46ad32dbad",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ede9a2616c46ad32dbad",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[3] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[3]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6a0301274481a693b7d2",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6a0301274481a693b7d2",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[52] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[52]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bd60926860442d0f3628",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bd60926860442d0f3628",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[52] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[52]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3006895b1d2512c1b581",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3006895b1d2512c1b581",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[53] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[53]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ee0e4ef278f841be6c19",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ee0e4ef278f841be6c19",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[53] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[53]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "050486cbf69d4d3724fc",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "050486cbf69d4d3724fc",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "101b92bc2e948b22a906",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "101b92bc2e948b22a906",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "4bbab7c83656409e6f25",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "4bbab7c83656409e6f25",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[61] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[61]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8acb3603b5bbb193f662",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8acb3603b5bbb193f662",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[61] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[61]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5a1d9e3f544ae7f45f58",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5a1d9e3f544ae7f45f58",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_assassin_defeated command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "acf3fdb77d77920b324d",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "acf3fdb77d77920b324d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_assassin_defeated command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[0]=AbbeyB_assassin_defeated/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0d7658d124d67054f36f",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0d7658d124d67054f36f",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_intro command[17] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[17]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "37bf3dd6a205b93f16b8",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "37bf3dd6a205b93f16b8",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_intro command[17] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[17]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6c5c8452eccc23bf1da4",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6c5c8452eccc23bf1da4",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_intro command[20] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[20]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "eb37c3b9c95281c1ee6e",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "eb37c3b9c95281c1ee6e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_intro command[20] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[20]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "61c71e2a18e396e59e9c",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "61c71e2a18e396e59e9c",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_intro command[30] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[30]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c2156074469a53162011",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c2156074469a53162011",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_intro command[30] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[30]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "54ac468085a349181c2d",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "54ac468085a349181c2d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 AbbeyB_intro command[34] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[34]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ee08d890c1d29f31f171",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ee08d890c1d29f31f171",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd AbbeyB_intro command[34] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[3]=AbbeyB_intro/command[34]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1627bd3cd284f740aaa0",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1627bd3cd284f740aaa0",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd Boss_Teleport command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a6136ce827f8ebe5d183",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a6136ce827f8ebe5d183",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 Boss_Teleport command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7ff16c3e5e7b71cc1a48",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7ff16c3e5e7b71cc1a48",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 00d6b04d855fccf54bfd Boss_Teleport command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "aced7715817f4cb8f97e",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "aced7715817f4cb8f97e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b5c805e540ccbf63b432 Boss_Teleport command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/009_abbey_pyscripts.bin:script[4]=Boss_Teleport/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0516e683422ca09b1365",
+          "index": 140,
+          "name": "rock_explosion_big",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a87f7c3e9cd5c926ff56",
+      "kind": "effect_set",
+      "name": "rock_explosion_big",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a87f7c3e9cd5c926ff56",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0516e683422ca09b1365",
+          "index": 140,
+          "name": "rock_explosion_big",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 3ccb758ba39eee28aa87 midboss_doorclose command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/012_earth_temple_02_pyscripts.bin:script[6]=midboss_doorclose/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0516e683422ca09b1365",
+          "index": 140,
+          "name": "rock_explosion_big",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "040bf1c18617393ff405",
+      "kind": "effect_set",
+      "name": "rock_explosion_big",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "040bf1c18617393ff405",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0516e683422ca09b1365",
+          "index": 140,
+          "name": "rock_explosion_big",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 3ccb758ba39eee28aa87 sw_spider_surprise command[1] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/012_earth_temple_02_pyscripts.bin:script[7]=sw_spider_surprise/command[1]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "eab4e550a87cc94108df",
+          "index": 92,
+          "name": "cs_earth_temple_outro_scene02_boss_collapses",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7545a36b1a725bb8ef9a",
+      "kind": "effect_set",
+      "name": "cs_earth_temple_outro_scene02_boss_collapses",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7545a36b1a725bb8ef9a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "eab4e550a87cc94108df",
+          "index": 92,
+          "name": "cs_earth_temple_outro_scene02_boss_collapses",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Troll_Killed command[28] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[10]=Troll_Killed/command[28]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "14847627c1c46f70ccbb",
+          "index": 91,
+          "name": "cs_earth_temple_outro_scene02_03_faery_exits_boss",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6599c5c855ccfb0473ba",
+      "kind": "effect_set",
+      "name": "cs_earth_temple_outro_scene02_03_faery_exits_boss",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6599c5c855ccfb0473ba",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "14847627c1c46f70ccbb",
+          "index": 91,
+          "name": "cs_earth_temple_outro_scene02_03_faery_exits_boss",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Troll_Killed command[37] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[10]=Troll_Killed/command[37]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6bb2b51363d778a01c22",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6bb2b51363d778a01c22",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Door_Teleport command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[1]=Door_Teleport/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "000dae2d2329c9cd0ee3",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "000dae2d2329c9cd0ee3",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea Door_Teleport command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[1]=Door_Teleport/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "168922b2898fa7abc118",
+          "index": 89,
+          "name": "cs_earth_temple_intro_scene08a_boss_ports_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "da18680a0f3e3b33ce3a",
+      "kind": "effect_set",
+      "name": "cs_earth_temple_intro_scene08a_boss_ports_in",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "da18680a0f3e3b33ce3a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "168922b2898fa7abc118",
+          "index": 89,
+          "name": "cs_earth_temple_intro_scene08a_boss_ports_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[59] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[59]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c3b661d1a69deb771560",
+          "index": 90,
+          "name": "cs_earth_temple_intro_scene08b_boss_hits_floor",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2ad34523e2cb2b441928",
+      "kind": "effect_set",
+      "name": "cs_earth_temple_intro_scene08b_boss_hits_floor",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2ad34523e2cb2b441928",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "c3b661d1a69deb771560",
+          "index": 90,
+          "name": "cs_earth_temple_intro_scene08b_boss_hits_floor",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 45fe61c5ea04fd4f4dea RootTroll_intro_cinematic command[66] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/013_earth_temple_03_pyscripts.bin:script[8]=RootTroll_intro_cinematic/command[66]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "caa52f6b3d290c558996",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "caa52f6b3d290c558996",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[28] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[28]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a68c8fc164fba565c8de",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a68c8fc164fba565c8de",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[43] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[43]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "83b936b323cd12ad28bf",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "83b936b323cd12ad28bf",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[44] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[44]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8798efadb1deb4b1615e",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8798efadb1deb4b1615e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[50] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[50]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a88a9dcf34288a4de0ac",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a88a9dcf34288a4de0ac",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "75f41e94781ba9efbb7f",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "75f41e94781ba9efbb7f",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3efb6a3b15a8a08ab3ff",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3efb6a3b15a8a08ab3ff",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_defeated command[7] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[0]=Assassin_defeated/command[7]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "c1dfd1ae1657dc7f6b85",
+          "index": 127,
+          "name": "elem_dmg_04_earth",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "525abd69c1a8fd37eac9",
+      "kind": "effect_set",
+      "name": "elem_dmg_04_earth",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "525abd69c1a8fd37eac9",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "c1dfd1ae1657dc7f6b85",
+          "index": 127,
+          "name": "elem_dmg_04_earth",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[30] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[30]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "26543820f6e047e00c5a",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "26543820f6e047e00c5a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[3] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[3]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "092a4bd2b9a409095f1f",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "092a4bd2b9a409095f1f",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[48] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[48]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5b770eec74f75ff6abc7",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5b770eec74f75ff6abc7",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[51] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[51]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e3bc68d0d1c1fee46315",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e3bc68d0d1c1fee46315",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[52] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[52]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7a5a678916d5e910fbc8",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7a5a678916d5e910fbc8",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3c1b61c5b7cd6ea4e591",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3c1b61c5b7cd6ea4e591",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Assassin_intro command[7] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[1]=Assassin_intro/command[7]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1a001dac106a4950deea",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1a001dac106a4950deea",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[32] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[32]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "99c8b88ee33ed6937dcf",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "99c8b88ee33ed6937dcf",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[35] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[35]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0b3f9991c02948f0f102",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0b3f9991c02948f0f102",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0d84eb13a46df859790f",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0d84eb13a46df859790f",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_defeated command[8] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[3]=Cultist_boss_defeated/command[8]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "932b9c8952629ae9129a",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "932b9c8952629ae9129a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[3] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[3]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "296401fa78502a972eaa",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "296401fa78502a972eaa",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[46] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[46]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "5c9977e17aff1ce8bea7",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "5c9977e17aff1ce8bea7",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[49] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[49]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e85629ca44bf9d2193a4",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e85629ca44bf9d2193a4",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Cultist_boss_intro command[5] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[4]=Cultist_boss_intro/command[5]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7dbb4df72280fd191609",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7dbb4df72280fd191609",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[12] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[12]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "626a44ccfe1329d7aeae",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "626a44ccfe1329d7aeae",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[13] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[13]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2a482364ef870dd71487",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2a482364ef870dd71487",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[3] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[3]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e927c86acba796b5fc37",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e927c86acba796b5fc37",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[41] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[41]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c2a6a81b956af23ff3cc",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c2a6a81b956af23ff3cc",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[42] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[42]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ce0c0025192ce1c9e74e",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ce0c0025192ce1c9e74e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign b2b7ec3332bd71af7ff0 Intro command[49] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/019_light_house_01_pyscripts.bin:script[5]=Intro/command[49]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "544eba71adb0621279f1",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "544eba71adb0621279f1",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[10] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[10]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9550a0a5d07bf181cb6a",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9550a0a5d07bf181cb6a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[23] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[23]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7ececa04f31c631315bc",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7ececa04f31c631315bc",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[32] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[32]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ca396a507e415d4c96d1",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ca396a507e415d4c96d1",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[33] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[33]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fa3811d9149fe6588f91",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fa3811d9149fe6588f91",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[38] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[38]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "fca0913e24750e8eb5a3",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "fca0913e24750e8eb5a3",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_intro command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[5]=GothicusB_intro/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "41d8d418854ec1e9f37e",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "41d8d418854ec1e9f37e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[31] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[31]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a2e16452615901abb04e",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a2e16452615901abb04e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[34] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[34]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1bf288509f15c34207f2",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1bf288509f15c34207f2",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[35] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[35]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "794acf924a65a2358885",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "794acf924a65a2358885",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[62] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[62]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "353d7ce433429ba08766",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "353d7ce433429ba08766",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[63] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[63]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e8cc798d502de22e2f4c",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e8cc798d502de22e2f4c",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 2adb7adbe4e5653621e3 GothicusB_king_gone command[67] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/021_gothicus_castle_02_pyscripts.bin:script[7]=GothicusB_king_gone/command[67]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "69b2dcdb6135d03ef871",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "69b2dcdb6135d03ef871",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6ee863765454d115924d SwampB_intro command[15] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscripts.bin:script[3]=SwampB_intro/command[15]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0e48a9c8534c544aa2e9",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0e48a9c8534c544aa2e9",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 6ee863765454d115924d SwampB_intro command[20] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/022_swamp2_pyscripts.bin:script[3]=SwampB_intro/command[20]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "aef767938ae6b6540cf0",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "aef767938ae6b6540cf0",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNS command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[10]=TeleportToNS/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a07a0b209ec567984409",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a07a0b209ec567984409",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNS command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[10]=TeleportToNS/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6deaf6f0e7c6e8794146",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6deaf6f0e7c6e8794146",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNW command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[11]=TeleportToNW/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "7addb82a949b96a0ab0e",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "7addb82a949b96a0ab0e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToNW command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[11]=TeleportToNW/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "34d9d6408bb8962f959f",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "34d9d6408bb8962f959f",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToSW command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[12]=TeleportToSW/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a5a430e7986d319e6220",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a5a430e7986d319e6220",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToSW command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[12]=TeleportToSW/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "6d126d36b47111dd9deb",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "6d126d36b47111dd9deb",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToT1 command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[13]=TeleportToT1/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "018fd82058fa3f2e2192",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "018fd82058fa3f2e2192",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToT1 command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[13]=TeleportToT1/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ebc1e1fedc96ac8b883e",
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ebc1e1fedc96ac8b883e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_defeated command[35] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[1]=Boss_defeated/command[35]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f3520f8cc38c7f66ddd3",
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f3520f8cc38c7f66ddd3",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_defeated command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[1]=Boss_defeated/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1c9fdce3ce79baffcd88",
+          "index": 43,
+          "name": "Madruk_FastProjectileImpact",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1c7f80a76642ef3d84c8",
+      "kind": "effect_set",
+      "name": "Madruk_FastProjectileImpact",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1c7f80a76642ef3d84c8",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "1c9fdce3ce79baffcd88",
+          "index": 43,
+          "name": "Madruk_FastProjectileImpact",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[23] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[23]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1c9fdce3ce79baffcd88",
+          "index": 43,
+          "name": "Madruk_FastProjectileImpact",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2cf6b9f31709dc422732",
+      "kind": "effect_set",
+      "name": "Madruk_FastProjectileImpact",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2cf6b9f31709dc422732",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "1c9fdce3ce79baffcd88",
+          "index": 43,
+          "name": "Madruk_FastProjectileImpact",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[28] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[28]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "b06b8830a2a1baa48001",
+      "kind": "effect_set",
+      "name": "spell_dh2_prince_mage_stone_escape_magefx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "b06b8830a2a1baa48001",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "0e67240623619f3aac23",
+          "index": 229,
+          "name": "spell_dh2_prince_mage_stone_escape_magefx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 Boss_intro command[44] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[2]=Boss_intro/command[44]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "45582b5725d7416a4948",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "45582b5725d7416a4948",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToBoss command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[8]=TeleportToBoss/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "820e0150be74e7826ea1",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "820e0150be74e7826ea1",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToBoss command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[8]=TeleportToBoss/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0f2538f2fb692a1a3d71",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0f2538f2fb692a1a3d71",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToMidBoss command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[9]=TeleportToMidBoss/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3a6ecdd67926963dbd71",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3a6ecdd67926963dbd71",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 7bac2e2741f6bd3044a0 TeleportToMidBoss command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/029_wind_temple_pyscripts.bin:script[9]=TeleportToMidBoss/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2492ee165d3a8ccb87fd",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2492ee165d3a8ccb87fd",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_Teleport command[0] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[0]=Boss_Teleport/command[0]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "d755985896969f337d3a",
+      "kind": "effect_set",
+      "name": "fx_airtemple_teleportshockwave",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "d755985896969f337d3a",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "111c5528d002c58c9e7e",
+          "index": 132,
+          "name": "fx_airtemple_teleportshockwave",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_Teleport command[6] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[0]=Boss_Teleport/command[6]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "3c0749775e6e5f69aec8",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "3c0749775e6e5f69aec8",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[108] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[108]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "348dcde5e4dcf9db30b8",
+      "kind": "effect_set",
+      "name": "spell_lightning_hurt",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "348dcde5e4dcf9db30b8",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[113] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[113]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c2ccc9568805a41b1712",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c2ccc9568805a41b1712",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[139] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[139]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9954fb85f3e696f9b5b9",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9954fb85f3e696f9b5b9",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[142] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[142]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "2e673841f5d550351a0d",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "2e673841f5d550351a0d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[144] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[144]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "8ce3cdf2fd71ae76b529",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "8ce3cdf2fd71ae76b529",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[15] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[15]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "794251acc60adff81e42",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "794251acc60adff81e42",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[17] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[17]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "410125e7a881e9c9b828",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "410125e7a881e9c9b828",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[46] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[46]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c36a06c466bb2274ce38",
+      "kind": "effect_set",
+      "name": "spell_lightning_hurt",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c36a06c466bb2274ce38",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[75] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[75]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9054aa11ee46c6d8f3f9",
+      "kind": "effect_set",
+      "name": "spell_lightning_hurt",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9054aa11ee46c6d8f3f9",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[79] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[79]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "df175784921bb0b4042c",
+      "kind": "effect_set",
+      "name": "spell_lightning_hurt",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "df175784921bb0b4042c",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[89] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[89]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "e737bda633377a4b2d09",
+      "kind": "effect_set",
+      "name": "spell_lightning_hurt",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "e737bda633377a4b2d09",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "4a99eda203c9a0effbac",
+          "index": 243,
+          "name": "spell_lightning_hurt",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_defeated command[99] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[1]=Boss_defeated/command[99]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "614a2a3c53d410af5e38",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "614a2a3c53d410af5e38",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_intro command[59] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[2]=Boss_intro/command[59]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ffca97c4bcbb5eb8c5a3",
+      "kind": "effect_set",
+      "name": "spell_dh2_monster_assassin_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ffca97c4bcbb5eb8c5a3",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a8f18f3a9ce97974d40c",
+          "index": 223,
+          "name": "spell_dh2_monster_assassin_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign bf01948063f214749992 Boss_intro command[60] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/031_firetemple_pyscripts.bin:script[2]=Boss_intro/command[60]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "3654cf3ee27b20b0ce24",
+          "index": 219,
+          "name": "spell_dh2_faery_ressurect",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a2704cd860361f31b138",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_ressurect",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a2704cd860361f31b138",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "3654cf3ee27b20b0ce24",
+          "index": 219,
+          "name": "spell_dh2_faery_ressurect",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Intro command[16] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[8]=Intro/command[16]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "89427f44032fb99240c0",
+          "index": 146,
+          "name": "skill_dh2_monster_edward_despawn",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a95c48a76a82a2226d3d",
+      "kind": "effect_set",
+      "name": "skill_dh2_monster_edward_despawn",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a95c48a76a82a2226d3d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "89427f44032fb99240c0",
+          "index": 146,
+          "name": "skill_dh2_monster_edward_despawn",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign a9e0f80e1d8689ad5593 Intro command[57] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/036_underworld_hub_pyscripts.bin:script[8]=Intro/command[57]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "73efc3d18ad5f73a81be",
+          "index": 33,
+          "name": "Faery_FogDot",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c006a7cbb8122afe47e3",
+      "kind": "effect_set",
+      "name": "Faery_FogDot",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c006a7cbb8122afe47e3",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "73efc3d18ad5f73a81be",
+          "index": 33,
+          "name": "Faery_FogDot",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 9fc3c1a42c6b469bbf26 FaeryReplace command[1] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/037_machine_rooms_01_pyscripts.bin:script[1]=FaeryReplace/command[1]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "f7616e4632162ff9d1f9",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "f7616e4632162ff9d1f9",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f DT_Intro command[11] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[2]=DT_Intro/command[11]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "91599973b8653d382f01",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "91599973b8653d382f01",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f DT_Intro command[19] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[2]=DT_Intro/command[19]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "1bf48d010ac9422ecd28",
+      "kind": "effect_set",
+      "name": "spell_dh2_faery_teleport",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "1bf48d010ac9422ecd28",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "12f42820a2ff3ebabfaa",
+          "index": 220,
+          "name": "spell_dh2_faery_teleport",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign f5c436de2b255f87b02f DT_Intro command[22] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/039_darktemple_pyscripts.bin:script[2]=DT_Intro/command[22]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "dd95b891b9322139feca",
+          "index": 101,
+          "name": "cs_madruk_end_scene01_boss_deathscene",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c16721bc9105d0760784",
+      "kind": "effect_set",
+      "name": "cs_madruk_end_scene01_boss_deathscene",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c16721bc9105d0760784",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "dd95b891b9322139feca",
+          "index": 101,
+          "name": "cs_madruk_end_scene01_boss_deathscene",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[21] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[21]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "cb2259ab57e9cfc834fa",
+          "index": 102,
+          "name": "cs_madruk_end_scene02_princecoverface",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "0f8fc0b0bfeaa9fd5a9c",
+      "kind": "effect_set",
+      "name": "cs_madruk_end_scene02_princecoverface",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "0f8fc0b0bfeaa9fd5a9c",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "cb2259ab57e9cfc834fa",
+          "index": 102,
+          "name": "cs_madruk_end_scene02_princecoverface",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[31] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[31]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "767b95e8b46ba678954e",
+          "index": 103,
+          "name": "cs_madruk_end_scene03_gawdparticle",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "c59a614a3938177099f4",
+      "kind": "effect_set",
+      "name": "cs_madruk_end_scene03_gawdparticle",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "c59a614a3938177099f4",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "767b95e8b46ba678954e",
+          "index": 103,
+          "name": "cs_madruk_end_scene03_gawdparticle",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[38] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[38]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "23c2f0ab03032a1108dc",
+          "index": 104,
+          "name": "cs_madruk_end_scene05_princedeath",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "bc8cb6cc5ad2eb431304",
+      "kind": "effect_set",
+      "name": "cs_madruk_end_scene05_princedeath",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "bc8cb6cc5ad2eb431304",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "23c2f0ab03032a1108dc",
+          "index": 104,
+          "name": "cs_madruk_end_scene05_princedeath",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Ending command[79] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[0]=Ending/command[79]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "437eaa71dcf2b9c6c28d",
+          "index": 93,
+          "name": "cs_finalboss_intro_scene01_souls",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9ad924422d5986ffe99b",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene01_souls",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9ad924422d5986ffe99b",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "437eaa71dcf2b9c6c28d",
+          "index": 93,
+          "name": "cs_finalboss_intro_scene01_souls",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[13] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[13]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6115ade427e2f591a7b4",
+          "index": 94,
+          "name": "cs_finalboss_intro_scene02_player_port_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "312a65e09655a8d3855c",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene02_player_port_in",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "312a65e09655a8d3855c",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "6115ade427e2f591a7b4",
+          "index": 94,
+          "name": "cs_finalboss_intro_scene02_player_port_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[16] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[16]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "6facf10f5bafc7d5f575",
+          "index": 95,
+          "name": "cs_finalboss_intro_scene03_port_in_fadeout",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "ec55d907aa2fa020470e",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene03_port_in_fadeout",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "ec55d907aa2fa020470e",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "6facf10f5bafc7d5f575",
+          "index": 95,
+          "name": "cs_finalboss_intro_scene03_port_in_fadeout",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[20] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[20]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "1420945ec93c6ba6bcd8",
+          "index": 96,
+          "name": "cs_finalboss_intro_scene04_big_glow",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "63ed68db3fe602aab31d",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene04_big_glow",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "63ed68db3fe602aab31d",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "1420945ec93c6ba6bcd8",
+          "index": 96,
+          "name": "cs_finalboss_intro_scene04_big_glow",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[26] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[26]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "a3506f53e5d718d7f5ff",
+          "index": 98,
+          "name": "cs_finalboss_intro_scene06_ghosts",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "a3830ad7510f08214a91",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene06_ghosts",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "a3830ad7510f08214a91",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "a3506f53e5d718d7f5ff",
+          "index": 98,
+          "name": "cs_finalboss_intro_scene06_ghosts",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[39] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[39]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "d491ab9e4a8cc4778121",
+          "index": 99,
+          "name": "cs_finalboss_intro_scene07_rene_port_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "51647ecf97908f353587",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene07_rene_port_in",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "51647ecf97908f353587",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "d491ab9e4a8cc4778121",
+          "index": 99,
+          "name": "cs_finalboss_intro_scene07_rene_port_in",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[45] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[45]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    },
+    {
+      "act": "act_2_inferred",
+      "candidates": [
+        {
+          "id": "78e7157d6e62c5880779",
+          "index": 100,
+          "name": "cs_finalboss_intro_scene07_talk_fightstartfx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "confidence": "PROVEN",
+      "id": "9eec27bff51e11a15708",
+      "kind": "effect_set",
+      "name": "cs_finalboss_intro_scene07_talk_fightstartfx",
+      "reason": null,
+      "reason_code": null,
+      "reference_id": "9eec27bff51e11a15708",
+      "reference_kind": "effect_set",
+      "resolves_to": [
+        {
+          "id": "78e7157d6e62c5880779",
+          "index": 100,
+          "name": "cs_finalboss_intro_scene07_talk_fightstartfx",
+          "table": "effect_sets",
+          "type": "table-row"
+        }
+      ],
+      "rule": "CAMPAIGN_TYPED_NUMERIC_OPERAND",
+      "scope_reasons": [
+        "campaign 0995df95dc10822639cb Intro_boss command[51] 8"
+      ],
+      "site": ".local-inputs/assets-extra/android/data/pydata/scripts/040_darktemple_bossroom_pyscripts.bin:script[2]=Intro_boss/command[51]=Script_PlayEffect/field@8",
+      "state": "TODO",
+      "status": "RESOLVED",
+      "work_status": "TODO"
+    }
+  ],
+  "schema": "atlas-r2-staging-scope-shard-v1"
+}
