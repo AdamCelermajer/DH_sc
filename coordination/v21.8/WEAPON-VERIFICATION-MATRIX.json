@@ -1,0 +1,3151 @@
+{
+  "inputs": {
+    "pydata": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\assets-extra\\android\\data\\pydata",
+    "staged_assets": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\windows-source-clock-v21.8-staged\\assets",
+    "soundpack": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\sounds-original-v4.xml",
+    "melee_bindings": "C:/Users/adamc/Desktop/workspace/DH_sc\\.local-inputs\\windows-source-clock-v21.8-staged\\assets\\original-melee-bindings.xml",
+    "port": "port"
+  },
+  "item_table_records": 1322,
+  "weapon_families": [
+    {
+      "family": "BattleAxe",
+      "type": 0,
+      "type_name": "1H weapon (slot 1)",
+      "slot": 1,
+      "category_param37": 1,
+      "item_count": 48,
+      "item_examples": [
+        "BattleAxe01",
+        "BattleAxe01_Hard",
+        "BattleAxe01_VeryHard",
+        "BattleAxe16_VeryHard"
+      ],
+      "stance": [
+        0
+      ],
+      "stance_name": [
+        "one-hand (main hand, no dual/shield-less stance rule)"
+      ],
+      "model_names": [
+        "MC_RWeapon_BattleAxe_01",
+        "MC_RWeapon_BattleAxe_01_Hard",
+        "MC_RWeapon_BattleAxe_01_VeryHard",
+        "MC_RWeapon_BattleAxe_02",
+        "MC_RWeapon_BattleAxe_02_Hard",
+        "MC_RWeapon_BattleAxe_02_VeryHard",
+        "MC_RWeapon_BattleAxe_03",
+        "MC_RWeapon_BattleAxe_03_Hard",
+        "MC_RWeapon_BattleAxe_03_VeryHard",
+        "MC_RWeapon_BattleAxe_04",
+        "MC_RWeapon_BattleAxe_04_Hard",
+        "MC_RWeapon_BattleAxe_04_VeryHard",
+        "MC_RWeapon_BattleAxe_05",
+        "MC_RWeapon_BattleAxe_05_Hard",
+        "MC_RWeapon_BattleAxe_05_VeryHard",
+        "MC_RWeapon_BattleAxe_06",
+        "MC_RWeapon_BattleAxe_06_Hard",
+        "MC_RWeapon_BattleAxe_06_VeryHard",
+        "MC_RWeapon_BattleAxe_07",
+        "MC_RWeapon_BattleAxe_07_Hard",
+        "MC_RWeapon_BattleAxe_07_VeryHard",
+        "MC_RWeapon_BattleAxe_08",
+        "MC_RWeapon_BattleAxe_08_Hard",
+        "MC_RWeapon_BattleAxe_08_VeryHard",
+        "MC_RWeapon_BattleAxe_09",
+        "MC_RWeapon_BattleAxe_09_Hard",
+        "MC_RWeapon_BattleAxe_09_VeryHard",
+        "MC_RWeapon_BattleAxe_10",
+        "MC_RWeapon_BattleAxe_10_Hard",
+        "MC_RWeapon_BattleAxe_10_VeryHard",
+        "MC_RWeapon_BattleAxe_11",
+        "MC_RWeapon_BattleAxe_11_Hard",
+        "MC_RWeapon_BattleAxe_11_VeryHard",
+        "MC_RWeapon_BattleAxe_12",
+        "MC_RWeapon_BattleAxe_12_Hard",
+        "MC_RWeapon_BattleAxe_12_VeryHard",
+        "MC_RWeapon_BattleAxe_13",
+        "MC_RWeapon_BattleAxe_13_Hard",
+        "MC_RWeapon_BattleAxe_13_VeryHard",
+        "MC_RWeapon_BattleAxe_14",
+        "MC_RWeapon_BattleAxe_14_Hard",
+        "MC_RWeapon_BattleAxe_14_VeryHard",
+        "MC_RWeapon_BattleAxe_15",
+        "MC_RWeapon_BattleAxe_15_Hard",
+        "MC_RWeapon_BattleAxe_15_VeryHard",
+        "MC_RWeapon_BattleAxe_16",
+        "MC_RWeapon_BattleAxe_16_Hard",
+        "MC_RWeapon_BattleAxe_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        0
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 2.0,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 2.0,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        8,
+        149
+      ]
+    },
+    {
+      "family": "Bow",
+      "type": 4,
+      "type_name": "bow (slot -4)",
+      "slot": -4,
+      "category_param37": 4,
+      "item_count": 48,
+      "item_examples": [
+        "Bow01",
+        "Bow01_Hard",
+        "Bow01_VeryHard",
+        "Bow16_VeryHard"
+      ],
+      "stance": [
+        4
+      ],
+      "stance_name": [
+        "bow (ranged 2H)"
+      ],
+      "model_names": [
+        "MC_LWeapon_Bow_01",
+        "MC_LWeapon_Bow_01_Hard",
+        "MC_LWeapon_Bow_01_VeryHard",
+        "MC_LWeapon_Bow_02",
+        "MC_LWeapon_Bow_02_Hard",
+        "MC_LWeapon_Bow_02_VeryHard",
+        "MC_LWeapon_Bow_03",
+        "MC_LWeapon_Bow_03_Hard",
+        "MC_LWeapon_Bow_03_VeryHard",
+        "MC_LWeapon_Bow_04",
+        "MC_LWeapon_Bow_04_Hard",
+        "MC_LWeapon_Bow_04_VeryHard",
+        "MC_LWeapon_Bow_05",
+        "MC_LWeapon_Bow_05_Hard",
+        "MC_LWeapon_Bow_05_VeryHard",
+        "MC_LWeapon_Bow_06",
+        "MC_LWeapon_Bow_06_Hard",
+        "MC_LWeapon_Bow_06_VeryHard",
+        "MC_LWeapon_Bow_07",
+        "MC_LWeapon_Bow_07_Hard",
+        "MC_LWeapon_Bow_07_VeryHard",
+        "MC_LWeapon_Bow_08",
+        "MC_LWeapon_Bow_08_Hard",
+        "MC_LWeapon_Bow_08_VeryHard",
+        "MC_LWeapon_Bow_09",
+        "MC_LWeapon_Bow_09_Hard",
+        "MC_LWeapon_Bow_09_VeryHard",
+        "MC_LWeapon_Bow_10",
+        "MC_LWeapon_Bow_10_Hard",
+        "MC_LWeapon_Bow_10_VeryHard",
+        "MC_LWeapon_Bow_11",
+        "MC_LWeapon_Bow_11_Hard",
+        "MC_LWeapon_Bow_11_VeryHard",
+        "MC_LWeapon_Bow_12",
+        "MC_LWeapon_Bow_12_Hard",
+        "MC_LWeapon_Bow_12_VeryHard",
+        "MC_LWeapon_Bow_13",
+        "MC_LWeapon_Bow_13_Hard",
+        "MC_LWeapon_Bow_13_VeryHard",
+        "MC_LWeapon_Bow_14",
+        "MC_LWeapon_Bow_14_Hard",
+        "MC_LWeapon_Bow_14_VeryHard",
+        "MC_LWeapon_Bow_15",
+        "MC_LWeapon_Bow_15_Hard",
+        "MC_LWeapon_Bow_15_VeryHard",
+        "MC_LWeapon_Bow_16",
+        "MC_LWeapon_Bow_16_Hard",
+        "MC_LWeapon_Bow_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        17
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 0.5,
+        "Mage": 0.1,
+        "Rogue": 0.8,
+        "Paladin": 0.1,
+        "Berserker": 0.1,
+        "Assassin": 0.1,
+        "Archer": 3.0,
+        "Necromancer": 0.1,
+        "Illusionist": 0.1
+      },
+      "strength_requirement_range": [
+        0,
+        0
+      ]
+    },
+    {
+      "family": "Claw",
+      "type": 3,
+      "type_name": "claw/dagger (slot -3)",
+      "slot": -3,
+      "category_param37": 3,
+      "item_count": 48,
+      "item_examples": [
+        "Claw01",
+        "Claw01_Hard",
+        "Claw01_VeryHard",
+        "Claw16_VeryHard"
+      ],
+      "stance": [
+        2
+      ],
+      "stance_name": [
+        "dual wield (main + non-shield off-hand)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Claw_01",
+        "MC_RWeapon_Claw_01_Hard",
+        "MC_RWeapon_Claw_01_VeryHard",
+        "MC_RWeapon_Claw_02",
+        "MC_RWeapon_Claw_02_Hard",
+        "MC_RWeapon_Claw_02_VeryHard",
+        "MC_RWeapon_Claw_03",
+        "MC_RWeapon_Claw_03_Hard",
+        "MC_RWeapon_Claw_03_VeryHard",
+        "MC_RWeapon_Claw_04",
+        "MC_RWeapon_Claw_04_Hard",
+        "MC_RWeapon_Claw_04_VeryHard",
+        "MC_RWeapon_Claw_05",
+        "MC_RWeapon_Claw_05_Hard",
+        "MC_RWeapon_Claw_05_VeryHard",
+        "MC_RWeapon_Claw_06",
+        "MC_RWeapon_Claw_06_Hard",
+        "MC_RWeapon_Claw_06_VeryHard",
+        "MC_RWeapon_Claw_07",
+        "MC_RWeapon_Claw_07_Hard",
+        "MC_RWeapon_Claw_07_VeryHard",
+        "MC_RWeapon_Claw_08",
+        "MC_RWeapon_Claw_08_Hard",
+        "MC_RWeapon_Claw_08_VeryHard",
+        "MC_RWeapon_Claw_09",
+        "MC_RWeapon_Claw_09_Hard",
+        "MC_RWeapon_Claw_09_VeryHard",
+        "MC_RWeapon_Claw_10",
+        "MC_RWeapon_Claw_10_Hard",
+        "MC_RWeapon_Claw_10_VeryHard",
+        "MC_RWeapon_Claw_11",
+        "MC_RWeapon_Claw_11_Hard",
+        "MC_RWeapon_Claw_11_VeryHard",
+        "MC_RWeapon_Claw_12",
+        "MC_RWeapon_Claw_12_Hard",
+        "MC_RWeapon_Claw_12_VeryHard",
+        "MC_RWeapon_Claw_13",
+        "MC_RWeapon_Claw_13_Hard",
+        "MC_RWeapon_Claw_13_VeryHard",
+        "MC_RWeapon_Claw_14",
+        "MC_RWeapon_Claw_14_Hard",
+        "MC_RWeapon_Claw_14_VeryHard",
+        "MC_RWeapon_Claw_15",
+        "MC_RWeapon_Claw_15_Hard",
+        "MC_RWeapon_Claw_15_VeryHard",
+        "MC_RWeapon_Claw_16",
+        "MC_RWeapon_Claw_16_Hard",
+        "MC_RWeapon_Claw_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        17
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 0.8,
+        "Mage": 0.5,
+        "Rogue": 2.0,
+        "Paladin": 0.6,
+        "Berserker": 0.8,
+        "Assassin": 2.0,
+        "Archer": 0.1,
+        "Necromancer": 0.5,
+        "Illusionist": 0.5
+      },
+      "strength_requirement_range": [
+        0,
+        0
+      ]
+    },
+    {
+      "family": "Dagger",
+      "type": 3,
+      "type_name": "claw/dagger (slot -3)",
+      "slot": -3,
+      "category_param37": 3,
+      "item_count": 48,
+      "item_examples": [
+        "Dagger01",
+        "Dagger01_Hard",
+        "Dagger01_VeryHard",
+        "Dagger16_VeryHard"
+      ],
+      "stance": [
+        2
+      ],
+      "stance_name": [
+        "dual wield (main + non-shield off-hand)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Dagger_01",
+        "MC_RWeapon_Dagger_01_Hard",
+        "MC_RWeapon_Dagger_01_VeryHard",
+        "MC_RWeapon_Dagger_02",
+        "MC_RWeapon_Dagger_02_Hard",
+        "MC_RWeapon_Dagger_02_VeryHard",
+        "MC_RWeapon_Dagger_03",
+        "MC_RWeapon_Dagger_03_Hard",
+        "MC_RWeapon_Dagger_03_VeryHard",
+        "MC_RWeapon_Dagger_04",
+        "MC_RWeapon_Dagger_04_Hard",
+        "MC_RWeapon_Dagger_04_VeryHard",
+        "MC_RWeapon_Dagger_05",
+        "MC_RWeapon_Dagger_05_Hard",
+        "MC_RWeapon_Dagger_05_VeryHard",
+        "MC_RWeapon_Dagger_06",
+        "MC_RWeapon_Dagger_06_Hard",
+        "MC_RWeapon_Dagger_06_VeryHard",
+        "MC_RWeapon_Dagger_07",
+        "MC_RWeapon_Dagger_07_Hard",
+        "MC_RWeapon_Dagger_07_VeryHard",
+        "MC_RWeapon_Dagger_08",
+        "MC_RWeapon_Dagger_08_Hard",
+        "MC_RWeapon_Dagger_08_VeryHard",
+        "MC_RWeapon_Dagger_09",
+        "MC_RWeapon_Dagger_09_Hard",
+        "MC_RWeapon_Dagger_09_VeryHard",
+        "MC_RWeapon_Dagger_10",
+        "MC_RWeapon_Dagger_10_Hard",
+        "MC_RWeapon_Dagger_10_VeryHard",
+        "MC_RWeapon_Dagger_11",
+        "MC_RWeapon_Dagger_11_Hard",
+        "MC_RWeapon_Dagger_11_VeryHard",
+        "MC_RWeapon_Dagger_12",
+        "MC_RWeapon_Dagger_12_Hard",
+        "MC_RWeapon_Dagger_12_VeryHard",
+        "MC_RWeapon_Dagger_13",
+        "MC_RWeapon_Dagger_13_Hard",
+        "MC_RWeapon_Dagger_13_VeryHard",
+        "MC_RWeapon_Dagger_14",
+        "MC_RWeapon_Dagger_14_Hard",
+        "MC_RWeapon_Dagger_14_VeryHard",
+        "MC_RWeapon_Dagger_15",
+        "MC_RWeapon_Dagger_15_Hard",
+        "MC_RWeapon_Dagger_15_VeryHard",
+        "MC_RWeapon_Dagger_16",
+        "MC_RWeapon_Dagger_16_Hard",
+        "MC_RWeapon_Dagger_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        17
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 0.8,
+        "Mage": 0.5,
+        "Rogue": 2.0,
+        "Paladin": 0.6,
+        "Berserker": 0.8,
+        "Assassin": 2.0,
+        "Archer": 0.1,
+        "Necromancer": 0.5,
+        "Illusionist": 0.5
+      },
+      "strength_requirement_range": [
+        0,
+        0
+      ]
+    },
+    {
+      "family": "Longsword",
+      "type": 0,
+      "type_name": "1H weapon (slot 1)",
+      "slot": 1,
+      "category_param37": 0,
+      "item_count": 48,
+      "item_examples": [
+        "Longsword01",
+        "Longsword01_Hard",
+        "Longsword01_VeryHard",
+        "Longsword16_VeryHard"
+      ],
+      "stance": [
+        0
+      ],
+      "stance_name": [
+        "one-hand (main hand, no dual/shield-less stance rule)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Longsword_01",
+        "MC_RWeapon_Longsword_01_Hard",
+        "MC_RWeapon_Longsword_01_VeryHard",
+        "MC_RWeapon_Longsword_02",
+        "MC_RWeapon_Longsword_02_Hard",
+        "MC_RWeapon_Longsword_02_VeryHard",
+        "MC_RWeapon_Longsword_03",
+        "MC_RWeapon_Longsword_03_Hard",
+        "MC_RWeapon_Longsword_03_VeryHard",
+        "MC_RWeapon_Longsword_04",
+        "MC_RWeapon_Longsword_04_Hard",
+        "MC_RWeapon_Longsword_04_VeryHard",
+        "MC_RWeapon_Longsword_05",
+        "MC_RWeapon_Longsword_05_Hard",
+        "MC_RWeapon_Longsword_05_VeryHard",
+        "MC_RWeapon_Longsword_06",
+        "MC_RWeapon_Longsword_06_Hard",
+        "MC_RWeapon_Longsword_06_VeryHard",
+        "MC_RWeapon_Longsword_07",
+        "MC_RWeapon_Longsword_07_Hard",
+        "MC_RWeapon_Longsword_07_VeryHard",
+        "MC_RWeapon_Longsword_08",
+        "MC_RWeapon_Longsword_08_Hard",
+        "MC_RWeapon_Longsword_08_VeryHard",
+        "MC_RWeapon_Longsword_09",
+        "MC_RWeapon_Longsword_09_Hard",
+        "MC_RWeapon_Longsword_09_VeryHard",
+        "MC_RWeapon_Longsword_10",
+        "MC_RWeapon_Longsword_10_Hard",
+        "MC_RWeapon_Longsword_10_VeryHard",
+        "MC_RWeapon_Longsword_11",
+        "MC_RWeapon_Longsword_11_Hard",
+        "MC_RWeapon_Longsword_11_VeryHard",
+        "MC_RWeapon_Longsword_12",
+        "MC_RWeapon_Longsword_12_Hard",
+        "MC_RWeapon_Longsword_12_VeryHard",
+        "MC_RWeapon_Longsword_13",
+        "MC_RWeapon_Longsword_13_Hard",
+        "MC_RWeapon_Longsword_13_VeryHard",
+        "MC_RWeapon_Longsword_14",
+        "MC_RWeapon_Longsword_14_Hard",
+        "MC_RWeapon_Longsword_14_VeryHard",
+        "MC_RWeapon_Longsword_15",
+        "MC_RWeapon_Longsword_15_Hard",
+        "MC_RWeapon_Longsword_15_VeryHard",
+        "MC_RWeapon_Longsword_16",
+        "MC_RWeapon_Longsword_16_Hard",
+        "MC_RWeapon_Longsword_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        18
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 2.0,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 2.0,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        5,
+        99
+      ]
+    },
+    {
+      "family": "Shield",
+      "type": 6,
+      "type_name": "shield (slot 2)",
+      "slot": 2,
+      "category_param37": 0,
+      "item_count": 48,
+      "item_examples": [
+        "Shield01",
+        "Shield01_Hard",
+        "Shield01_VeryHard",
+        "Shield16_VeryHard"
+      ],
+      "stance": [
+        0
+      ],
+      "stance_name": [
+        "one-hand (main hand, no dual/shield-less stance rule)"
+      ],
+      "model_names": [
+        "MC_LWeapon_Shield_01",
+        "MC_LWeapon_Shield_01_Hard",
+        "MC_LWeapon_Shield_01_VeryHard",
+        "MC_LWeapon_Shield_02",
+        "MC_LWeapon_Shield_02_Hard",
+        "MC_LWeapon_Shield_02_VeryHard",
+        "MC_LWeapon_Shield_03",
+        "MC_LWeapon_Shield_03_Hard",
+        "MC_LWeapon_Shield_03_VeryHard",
+        "MC_LWeapon_Shield_04",
+        "MC_LWeapon_Shield_04_Hard",
+        "MC_LWeapon_Shield_04_VeryHard",
+        "MC_LWeapon_Shield_05",
+        "MC_LWeapon_Shield_05_Hard",
+        "MC_LWeapon_Shield_05_VeryHard",
+        "MC_LWeapon_Shield_06",
+        "MC_LWeapon_Shield_06_Hard",
+        "MC_LWeapon_Shield_06_VeryHard",
+        "MC_LWeapon_Shield_07",
+        "MC_LWeapon_Shield_07_Hard",
+        "MC_LWeapon_Shield_07_VeryHard",
+        "MC_LWeapon_Shield_08",
+        "MC_LWeapon_Shield_08_Hard",
+        "MC_LWeapon_Shield_08_VeryHard",
+        "MC_LWeapon_Shield_09",
+        "MC_LWeapon_Shield_09_Hard",
+        "MC_LWeapon_Shield_09_VeryHard",
+        "MC_LWeapon_Shield_10",
+        "MC_LWeapon_Shield_10_Hard",
+        "MC_LWeapon_Shield_10_VeryHard",
+        "MC_LWeapon_Shield_11",
+        "MC_LWeapon_Shield_11_Hard",
+        "MC_LWeapon_Shield_11_VeryHard",
+        "MC_LWeapon_Shield_12",
+        "MC_LWeapon_Shield_12_Hard",
+        "MC_LWeapon_Shield_12_VeryHard",
+        "MC_LWeapon_Shield_13",
+        "MC_LWeapon_Shield_13_Hard",
+        "MC_LWeapon_Shield_13_VeryHard",
+        "MC_LWeapon_Shield_14",
+        "MC_LWeapon_Shield_14_Hard",
+        "MC_LWeapon_Shield_14_VeryHard",
+        "MC_LWeapon_Shield_15",
+        "MC_LWeapon_Shield_15_Hard",
+        "MC_LWeapon_Shield_15_VeryHard",
+        "MC_LWeapon_Shield_16",
+        "MC_LWeapon_Shield_16_Hard",
+        "MC_LWeapon_Shield_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        22
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 0.7,
+        "Rogue": 0.1,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 0.1,
+        "Archer": 0.1,
+        "Necromancer": 0.7,
+        "Illusionist": 0.7
+      },
+      "strength_requirement_range": [
+        7,
+        171
+      ]
+    },
+    {
+      "family": "Staff",
+      "type": 5,
+      "type_name": "staff/wand (slot -4)",
+      "slot": -4,
+      "category_param37": 5,
+      "item_count": 48,
+      "item_examples": [
+        "Staff01",
+        "Staff01_Hard",
+        "Staff01_VeryHard",
+        "Staff16_VeryHard"
+      ],
+      "stance": [
+        3
+      ],
+      "stance_name": [
+        "staff/wand (ranged 2H)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Quarterstaff_01",
+        "MC_RWeapon_Quarterstaff_01_Hard",
+        "MC_RWeapon_Quarterstaff_01_VeryHard",
+        "MC_RWeapon_Quarterstaff_02",
+        "MC_RWeapon_Quarterstaff_02_Hard",
+        "MC_RWeapon_Quarterstaff_02_VeryHard",
+        "MC_RWeapon_Quarterstaff_03",
+        "MC_RWeapon_Quarterstaff_03_Hard",
+        "MC_RWeapon_Quarterstaff_03_VeryHard",
+        "MC_RWeapon_Quarterstaff_04",
+        "MC_RWeapon_Quarterstaff_04_Hard",
+        "MC_RWeapon_Quarterstaff_04_VeryHard",
+        "MC_RWeapon_Quarterstaff_05",
+        "MC_RWeapon_Quarterstaff_05_Hard",
+        "MC_RWeapon_Quarterstaff_05_VeryHard",
+        "MC_RWeapon_Quarterstaff_06",
+        "MC_RWeapon_Quarterstaff_06_Hard",
+        "MC_RWeapon_Quarterstaff_06_VeryHard",
+        "MC_RWeapon_Quarterstaff_07",
+        "MC_RWeapon_Quarterstaff_07_Hard",
+        "MC_RWeapon_Quarterstaff_07_VeryHard",
+        "MC_RWeapon_Quarterstaff_08",
+        "MC_RWeapon_Quarterstaff_08_Hard",
+        "MC_RWeapon_Quarterstaff_08_VeryHard",
+        "MC_RWeapon_Quarterstaff_09",
+        "MC_RWeapon_Quarterstaff_09_Hard",
+        "MC_RWeapon_Quarterstaff_09_VeryHard",
+        "MC_RWeapon_Quarterstaff_10",
+        "MC_RWeapon_Quarterstaff_10_Hard",
+        "MC_RWeapon_Quarterstaff_10_VeryHard",
+        "MC_RWeapon_Quarterstaff_11",
+        "MC_RWeapon_Quarterstaff_11_Hard",
+        "MC_RWeapon_Quarterstaff_11_VeryHard",
+        "MC_RWeapon_Quarterstaff_12",
+        "MC_RWeapon_Quarterstaff_12_Hard",
+        "MC_RWeapon_Quarterstaff_12_VeryHard",
+        "MC_RWeapon_Quarterstaff_13",
+        "MC_RWeapon_Quarterstaff_13_Hard",
+        "MC_RWeapon_Quarterstaff_13_VeryHard",
+        "MC_RWeapon_Quarterstaff_14",
+        "MC_RWeapon_Quarterstaff_14_Hard",
+        "MC_RWeapon_Quarterstaff_14_VeryHard",
+        "MC_RWeapon_Quarterstaff_15",
+        "MC_RWeapon_Quarterstaff_15_Hard",
+        "MC_RWeapon_Quarterstaff_15_VeryHard",
+        "MC_RWeapon_Quarterstaff_16",
+        "MC_RWeapon_Quarterstaff_16_Hard",
+        "MC_RWeapon_Quarterstaff_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        17
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": 478,
+          "status": "soundpack uid -> FireTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 479,
+          "status": "soundpack uid -> EartheTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 480,
+          "status": "soundpack uid -> WaterTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 481,
+          "status": "soundpack uid -> AirTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 482,
+          "status": "soundpack uid -> LightTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 0.1,
+        "Mage": 1.0,
+        "Rogue": 0.1,
+        "Paladin": 0.1,
+        "Berserker": 0.1,
+        "Assassin": 0.1,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        0,
+        0
+      ]
+    },
+    {
+      "family": "TwoHandsAxe",
+      "type": 2,
+      "type_name": "2H weapon (slot -4)",
+      "slot": -4,
+      "category_param37": 1,
+      "item_count": 48,
+      "item_examples": [
+        "TwoHandsAxe01",
+        "TwoHandsAxe01_Hard",
+        "TwoHandsAxe01_VeryHard",
+        "TwoHandsAxe16_VeryHard"
+      ],
+      "stance": [
+        1
+      ],
+      "stance_name": [
+        "two-hander"
+      ],
+      "model_names": [
+        "MC_RWeapon_TwoHandsAxe_01",
+        "MC_RWeapon_TwoHandsAxe_01_Hard",
+        "MC_RWeapon_TwoHandsAxe_01_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_02",
+        "MC_RWeapon_TwoHandsAxe_02_Hard",
+        "MC_RWeapon_TwoHandsAxe_02_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_03",
+        "MC_RWeapon_TwoHandsAxe_03_Hard",
+        "MC_RWeapon_TwoHandsAxe_03_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_04",
+        "MC_RWeapon_TwoHandsAxe_04_Hard",
+        "MC_RWeapon_TwoHandsAxe_04_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_05",
+        "MC_RWeapon_TwoHandsAxe_05_Hard",
+        "MC_RWeapon_TwoHandsAxe_05_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_06",
+        "MC_RWeapon_TwoHandsAxe_06_Hard",
+        "MC_RWeapon_TwoHandsAxe_06_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_07",
+        "MC_RWeapon_TwoHandsAxe_07_Hard",
+        "MC_RWeapon_TwoHandsAxe_07_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_08",
+        "MC_RWeapon_TwoHandsAxe_08_Hard",
+        "MC_RWeapon_TwoHandsAxe_08_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_09",
+        "MC_RWeapon_TwoHandsAxe_09_Hard",
+        "MC_RWeapon_TwoHandsAxe_09_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_10",
+        "MC_RWeapon_TwoHandsAxe_10_Hard",
+        "MC_RWeapon_TwoHandsAxe_10_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_11",
+        "MC_RWeapon_TwoHandsAxe_11_Hard",
+        "MC_RWeapon_TwoHandsAxe_11_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_12",
+        "MC_RWeapon_TwoHandsAxe_12_Hard",
+        "MC_RWeapon_TwoHandsAxe_12_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_13",
+        "MC_RWeapon_TwoHandsAxe_13_Hard",
+        "MC_RWeapon_TwoHandsAxe_13_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_14",
+        "MC_RWeapon_TwoHandsAxe_14_Hard",
+        "MC_RWeapon_TwoHandsAxe_14_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_15",
+        "MC_RWeapon_TwoHandsAxe_15_Hard",
+        "MC_RWeapon_TwoHandsAxe_15_VeryHard",
+        "MC_RWeapon_TwoHandsAxe_16",
+        "MC_RWeapon_TwoHandsAxe_16_Hard",
+        "MC_RWeapon_TwoHandsAxe_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        25
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 0.8,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 0.8,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        10,
+        174
+      ]
+    },
+    {
+      "family": "TwoHandsMace",
+      "type": 2,
+      "type_name": "2H weapon (slot -4)",
+      "slot": -4,
+      "category_param37": 2,
+      "item_count": 48,
+      "item_examples": [
+        "TwoHandsMace01",
+        "TwoHandsMace01_Hard",
+        "TwoHandsMace01_VeryHard",
+        "TwoHandsMace16_VeryHard"
+      ],
+      "stance": [
+        1
+      ],
+      "stance_name": [
+        "two-hander"
+      ],
+      "model_names": [
+        "MC_RWeapon_TwoHandsMace_01",
+        "MC_RWeapon_TwoHandsMace_01_Hard",
+        "MC_RWeapon_TwoHandsMace_01_VeryHard",
+        "MC_RWeapon_TwoHandsMace_02",
+        "MC_RWeapon_TwoHandsMace_02_Hard",
+        "MC_RWeapon_TwoHandsMace_02_VeryHard",
+        "MC_RWeapon_TwoHandsMace_03",
+        "MC_RWeapon_TwoHandsMace_03_Hard",
+        "MC_RWeapon_TwoHandsMace_03_VeryHard",
+        "MC_RWeapon_TwoHandsMace_04",
+        "MC_RWeapon_TwoHandsMace_04_Hard",
+        "MC_RWeapon_TwoHandsMace_04_VeryHard",
+        "MC_RWeapon_TwoHandsMace_05",
+        "MC_RWeapon_TwoHandsMace_05_Hard",
+        "MC_RWeapon_TwoHandsMace_05_VeryHard",
+        "MC_RWeapon_TwoHandsMace_06",
+        "MC_RWeapon_TwoHandsMace_06_Hard",
+        "MC_RWeapon_TwoHandsMace_06_VeryHard",
+        "MC_RWeapon_TwoHandsMace_07",
+        "MC_RWeapon_TwoHandsMace_07_Hard",
+        "MC_RWeapon_TwoHandsMace_07_VeryHard",
+        "MC_RWeapon_TwoHandsMace_08",
+        "MC_RWeapon_TwoHandsMace_08_Hard",
+        "MC_RWeapon_TwoHandsMace_08_VeryHard",
+        "MC_RWeapon_TwoHandsMace_09",
+        "MC_RWeapon_TwoHandsMace_09_Hard",
+        "MC_RWeapon_TwoHandsMace_09_VeryHard",
+        "MC_RWeapon_TwoHandsMace_10",
+        "MC_RWeapon_TwoHandsMace_10_Hard",
+        "MC_RWeapon_TwoHandsMace_10_VeryHard",
+        "MC_RWeapon_TwoHandsMace_11",
+        "MC_RWeapon_TwoHandsMace_11_Hard",
+        "MC_RWeapon_TwoHandsMace_11_VeryHard",
+        "MC_RWeapon_TwoHandsMace_12",
+        "MC_RWeapon_TwoHandsMace_12_Hard",
+        "MC_RWeapon_TwoHandsMace_12_VeryHard",
+        "MC_RWeapon_TwoHandsMace_13",
+        "MC_RWeapon_TwoHandsMace_13_Hard",
+        "MC_RWeapon_TwoHandsMace_13_VeryHard",
+        "MC_RWeapon_TwoHandsMace_14",
+        "MC_RWeapon_TwoHandsMace_14_Hard",
+        "MC_RWeapon_TwoHandsMace_14_VeryHard",
+        "MC_RWeapon_TwoHandsMace_15",
+        "MC_RWeapon_TwoHandsMace_15_Hard",
+        "MC_RWeapon_TwoHandsMace_15_VeryHard",
+        "MC_RWeapon_TwoHandsMace_16",
+        "MC_RWeapon_TwoHandsMace_16_Hard",
+        "MC_RWeapon_TwoHandsMace_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        26
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 1.0,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 1.0,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        8,
+        149
+      ]
+    },
+    {
+      "family": "TwoHandsSword",
+      "type": 2,
+      "type_name": "2H weapon (slot -4)",
+      "slot": -4,
+      "category_param37": 0,
+      "item_count": 48,
+      "item_examples": [
+        "TwoHandsSword01",
+        "TwoHandsSword01_Hard",
+        "TwoHandsSword01_VeryHard",
+        "TwoHandsSword16_VeryHard"
+      ],
+      "stance": [
+        1
+      ],
+      "stance_name": [
+        "two-hander"
+      ],
+      "model_names": [
+        "MC_RWeapon_TwoHandsSword_01",
+        "MC_RWeapon_TwoHandsSword_01_Hard",
+        "MC_RWeapon_TwoHandsSword_01_VeryHard",
+        "MC_RWeapon_TwoHandsSword_02",
+        "MC_RWeapon_TwoHandsSword_02_Hard",
+        "MC_RWeapon_TwoHandsSword_02_VeryHard",
+        "MC_RWeapon_TwoHandsSword_03",
+        "MC_RWeapon_TwoHandsSword_03_Hard",
+        "MC_RWeapon_TwoHandsSword_03_VeryHard",
+        "MC_RWeapon_TwoHandsSword_04",
+        "MC_RWeapon_TwoHandsSword_04_Hard",
+        "MC_RWeapon_TwoHandsSword_04_VeryHard",
+        "MC_RWeapon_TwoHandsSword_05",
+        "MC_RWeapon_TwoHandsSword_05_Hard",
+        "MC_RWeapon_TwoHandsSword_05_VeryHard",
+        "MC_RWeapon_TwoHandsSword_06",
+        "MC_RWeapon_TwoHandsSword_06_Hard",
+        "MC_RWeapon_TwoHandsSword_06_VeryHard",
+        "MC_RWeapon_TwoHandsSword_07",
+        "MC_RWeapon_TwoHandsSword_07_Hard",
+        "MC_RWeapon_TwoHandsSword_07_VeryHard",
+        "MC_RWeapon_TwoHandsSword_08",
+        "MC_RWeapon_TwoHandsSword_08_Hard",
+        "MC_RWeapon_TwoHandsSword_08_VeryHard",
+        "MC_RWeapon_TwoHandsSword_09",
+        "MC_RWeapon_TwoHandsSword_09_Hard",
+        "MC_RWeapon_TwoHandsSword_09_VeryHard",
+        "MC_RWeapon_TwoHandsSword_10",
+        "MC_RWeapon_TwoHandsSword_10_Hard",
+        "MC_RWeapon_TwoHandsSword_10_VeryHard",
+        "MC_RWeapon_TwoHandsSword_11",
+        "MC_RWeapon_TwoHandsSword_11_Hard",
+        "MC_RWeapon_TwoHandsSword_11_VeryHard",
+        "MC_RWeapon_TwoHandsSword_12",
+        "MC_RWeapon_TwoHandsSword_12_Hard",
+        "MC_RWeapon_TwoHandsSword_12_VeryHard",
+        "MC_RWeapon_TwoHandsSword_13",
+        "MC_RWeapon_TwoHandsSword_13_Hard",
+        "MC_RWeapon_TwoHandsSword_13_VeryHard",
+        "MC_RWeapon_TwoHandsSword_14",
+        "MC_RWeapon_TwoHandsSword_14_Hard",
+        "MC_RWeapon_TwoHandsSword_14_VeryHard",
+        "MC_RWeapon_TwoHandsSword_15",
+        "MC_RWeapon_TwoHandsSword_15_Hard",
+        "MC_RWeapon_TwoHandsSword_15_VeryHard",
+        "MC_RWeapon_TwoHandsSword_16",
+        "MC_RWeapon_TwoHandsSword_16_Hard",
+        "MC_RWeapon_TwoHandsSword_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        27
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 0.8,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 0.8,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        7,
+        148
+      ]
+    },
+    {
+      "family": "Wand",
+      "type": 5,
+      "type_name": "staff/wand (slot -4)",
+      "slot": -4,
+      "category_param37": 5,
+      "item_count": 48,
+      "item_examples": [
+        "Wand01",
+        "Wand01_Hard",
+        "Wand01_VeryHard",
+        "Wand16_VeryHard"
+      ],
+      "stance": [
+        3
+      ],
+      "stance_name": [
+        "staff/wand (ranged 2H)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Wand_01",
+        "MC_RWeapon_Wand_01_Hard",
+        "MC_RWeapon_Wand_01_VeryHard",
+        "MC_RWeapon_Wand_02",
+        "MC_RWeapon_Wand_02_Hard",
+        "MC_RWeapon_Wand_02_VeryHard",
+        "MC_RWeapon_Wand_03",
+        "MC_RWeapon_Wand_03_Hard",
+        "MC_RWeapon_Wand_03_VeryHard",
+        "MC_RWeapon_Wand_04",
+        "MC_RWeapon_Wand_04_Hard",
+        "MC_RWeapon_Wand_04_VeryHard",
+        "MC_RWeapon_Wand_05",
+        "MC_RWeapon_Wand_05_Hard",
+        "MC_RWeapon_Wand_05_VeryHard",
+        "MC_RWeapon_Wand_06",
+        "MC_RWeapon_Wand_06_Hard",
+        "MC_RWeapon_Wand_06_VeryHard",
+        "MC_RWeapon_Wand_07",
+        "MC_RWeapon_Wand_07_Hard",
+        "MC_RWeapon_Wand_07_VeryHard",
+        "MC_RWeapon_Wand_08",
+        "MC_RWeapon_Wand_08_Hard",
+        "MC_RWeapon_Wand_08_VeryHard",
+        "MC_RWeapon_Wand_09",
+        "MC_RWeapon_Wand_09_Hard",
+        "MC_RWeapon_Wand_09_VeryHard",
+        "MC_RWeapon_Wand_10",
+        "MC_RWeapon_Wand_10_Hard",
+        "MC_RWeapon_Wand_10_VeryHard",
+        "MC_RWeapon_Wand_11",
+        "MC_RWeapon_Wand_11_Hard",
+        "MC_RWeapon_Wand_11_VeryHard",
+        "MC_RWeapon_Wand_12",
+        "MC_RWeapon_Wand_12_Hard",
+        "MC_RWeapon_Wand_12_VeryHard",
+        "MC_RWeapon_Wand_13",
+        "MC_RWeapon_Wand_13_Hard",
+        "MC_RWeapon_Wand_13_VeryHard",
+        "MC_RWeapon_Wand_14",
+        "MC_RWeapon_Wand_14_Hard",
+        "MC_RWeapon_Wand_14_VeryHard",
+        "MC_RWeapon_Wand_15",
+        "MC_RWeapon_Wand_15_Hard",
+        "MC_RWeapon_Wand_15_VeryHard",
+        "MC_RWeapon_Wand_16",
+        "MC_RWeapon_Wand_16_Hard",
+        "MC_RWeapon_Wand_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        17
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": 478,
+          "status": "soundpack uid -> FireTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 479,
+          "status": "soundpack uid -> EartheTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 480,
+          "status": "soundpack uid -> WaterTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 481,
+          "status": "soundpack uid -> AirTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        },
+        {
+          "id": 482,
+          "status": "soundpack uid -> LightTowerAmbientMusic (m_level_gothicus_no_ambiance.vxn)",
+          "file_present": true,
+          "uid_namespace_check": "INFERENCE: label is music"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 0.1,
+        "Mage": 1.0,
+        "Rogue": 0.1,
+        "Paladin": 0.1,
+        "Berserker": 0.1,
+        "Assassin": 0.1,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        0,
+        0
+      ]
+    },
+    {
+      "family": "Warhammer",
+      "type": 0,
+      "type_name": "1H weapon (slot 1)",
+      "slot": 1,
+      "category_param37": 2,
+      "item_count": 48,
+      "item_examples": [
+        "Warhammer01",
+        "Warhammer01_Hard",
+        "Warhammer01_VeryHard",
+        "Warhammer16_VeryHard"
+      ],
+      "stance": [
+        0
+      ],
+      "stance_name": [
+        "one-hand (main hand, no dual/shield-less stance rule)"
+      ],
+      "model_names": [
+        "MC_RWeapon_Warhammer_01",
+        "MC_RWeapon_Warhammer_01_Hard",
+        "MC_RWeapon_Warhammer_01_VeryHard",
+        "MC_RWeapon_Warhammer_02",
+        "MC_RWeapon_Warhammer_02_Hard",
+        "MC_RWeapon_Warhammer_02_VeryHard",
+        "MC_RWeapon_Warhammer_03",
+        "MC_RWeapon_Warhammer_03_Hard",
+        "MC_RWeapon_Warhammer_03_VeryHard",
+        "MC_RWeapon_Warhammer_04",
+        "MC_RWeapon_Warhammer_04_Hard",
+        "MC_RWeapon_Warhammer_04_VeryHard",
+        "MC_RWeapon_Warhammer_05",
+        "MC_RWeapon_Warhammer_05_Hard",
+        "MC_RWeapon_Warhammer_05_VeryHard",
+        "MC_RWeapon_Warhammer_06",
+        "MC_RWeapon_Warhammer_06_Hard",
+        "MC_RWeapon_Warhammer_06_VeryHard",
+        "MC_RWeapon_Warhammer_07",
+        "MC_RWeapon_Warhammer_07_Hard",
+        "MC_RWeapon_Warhammer_07_VeryHard",
+        "MC_RWeapon_Warhammer_08",
+        "MC_RWeapon_Warhammer_08_Hard",
+        "MC_RWeapon_Warhammer_08_VeryHard",
+        "MC_RWeapon_Warhammer_09",
+        "MC_RWeapon_Warhammer_09_Hard",
+        "MC_RWeapon_Warhammer_09_VeryHard",
+        "MC_RWeapon_Warhammer_10",
+        "MC_RWeapon_Warhammer_10_Hard",
+        "MC_RWeapon_Warhammer_10_VeryHard",
+        "MC_RWeapon_Warhammer_11",
+        "MC_RWeapon_Warhammer_11_Hard",
+        "MC_RWeapon_Warhammer_11_VeryHard",
+        "MC_RWeapon_Warhammer_12",
+        "MC_RWeapon_Warhammer_12_Hard",
+        "MC_RWeapon_Warhammer_12_VeryHard",
+        "MC_RWeapon_Warhammer_13",
+        "MC_RWeapon_Warhammer_13_Hard",
+        "MC_RWeapon_Warhammer_13_VeryHard",
+        "MC_RWeapon_Warhammer_14",
+        "MC_RWeapon_Warhammer_14_Hard",
+        "MC_RWeapon_Warhammer_14_VeryHard",
+        "MC_RWeapon_Warhammer_15",
+        "MC_RWeapon_Warhammer_15_Hard",
+        "MC_RWeapon_Warhammer_15_VeryHard",
+        "MC_RWeapon_Warhammer_16",
+        "MC_RWeapon_Warhammer_16_Hard",
+        "MC_RWeapon_Warhammer_16_VeryHard"
+      ],
+      "models_present_in_staged_or_original": 48,
+      "models_missing": 0,
+      "models_missing_from_staged_package": [],
+      "missing_examples": [],
+      "audiovisual_ids": [
+        28
+      ],
+      "swoosh_sound_ids": [
+        {
+          "id": -1,
+          "status": "none"
+        }
+      ],
+      "swoosh_fx_ids": [
+        -1
+      ],
+      "class_equip_values_first_tier": {
+        "Warrior": 1.0,
+        "Mage": 1.0,
+        "Rogue": 2.0,
+        "Paladin": 1.0,
+        "Berserker": 1.0,
+        "Assassin": 2.0,
+        "Archer": 0.1,
+        "Necromancer": 1.0,
+        "Illusionist": 1.0
+      },
+      "strength_requirement_range": [
+        4,
+        98
+      ]
+    }
+  ],
+  "attack_sequences": [
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 0,
+      "state": "Attack",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 0,
+      "state": "AttackStatic",
+      "sequence_id": 243,
+      "sequence_name": "Human_AttackStatic_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@300"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 1,
+      "state": "Attack",
+      "sequence_id": 249,
+      "sequence_name": "Human_Attack_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 1,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 1,
+      "state": "AttackStatic",
+      "sequence_id": 244,
+      "sequence_name": "Human_AttackStatic_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 2,
+      "state": "Attack",
+      "sequence_id": 250,
+      "sequence_name": "Human_Attack_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        598,
+        599
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 2,
+      "state": "AttackStatic",
+      "sequence_id": 245,
+      "sequence_name": "Human_AttackStatic_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        293
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 3,
+      "state": "Attack",
+      "sequence_id": 251,
+      "sequence_name": "Human_Attack_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 3,
+      "state": "AttackStatic",
+      "sequence_id": 246,
+      "sequence_name": "Human_AttackStatic_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 4,
+      "state": "Attack",
+      "sequence_id": 252,
+      "sequence_name": "Human_Attack_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 4,
+      "state": "AttackStatic",
+      "sequence_id": 247,
+      "sequence_name": "Human_AttackStatic_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 5,
+      "state": "Attack",
+      "sequence_id": 253,
+      "sequence_name": "Human_BLOCK_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 0,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_block.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "KnightPlayerBase",
+      "table": 48,
+      "stance": 5,
+      "state": "AttackStatic",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 0,
+      "state": "Attack",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 0,
+      "state": "AttackStatic",
+      "sequence_id": 243,
+      "sequence_name": "Human_AttackStatic_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@300"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 1,
+      "state": "Attack",
+      "sequence_id": 249,
+      "sequence_name": "Human_Attack_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 1,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 1,
+      "state": "AttackStatic",
+      "sequence_id": 244,
+      "sequence_name": "Human_AttackStatic_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 2,
+      "state": "Attack",
+      "sequence_id": 250,
+      "sequence_name": "Human_Attack_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        598,
+        599
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 2,
+      "state": "AttackStatic",
+      "sequence_id": 245,
+      "sequence_name": "Human_AttackStatic_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        293
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 3,
+      "state": "Attack",
+      "sequence_id": 251,
+      "sequence_name": "Human_Attack_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 3,
+      "state": "AttackStatic",
+      "sequence_id": 246,
+      "sequence_name": "Human_AttackStatic_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 4,
+      "state": "Attack",
+      "sequence_id": 252,
+      "sequence_name": "Human_Attack_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 4,
+      "state": "AttackStatic",
+      "sequence_id": 247,
+      "sequence_name": "Human_AttackStatic_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 5,
+      "state": "Attack",
+      "sequence_id": 253,
+      "sequence_name": "Human_BLOCK_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 0,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_block.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "MagePlayerBase",
+      "table": 49,
+      "stance": 5,
+      "state": "AttackStatic",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 0,
+      "state": "Attack",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 0,
+      "state": "AttackStatic",
+      "sequence_id": 243,
+      "sequence_name": "Human_AttackStatic_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": true,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@300"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 1,
+      "state": "Attack",
+      "sequence_id": 249,
+      "sequence_name": "Human_Attack_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 1,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 1,
+      "state": "AttackStatic",
+      "sequence_id": 244,
+      "sequence_name": "Human_AttackStatic_01_2H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        289
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 2,
+      "state": "Attack",
+      "sequence_id": 250,
+      "sequence_name": "Human_Attack_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        598,
+        599
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 2,
+      "state": "AttackStatic",
+      "sequence_id": 245,
+      "sequence_name": "Human_AttackStatic_02_Dual",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 4,
+      "clip_count": 12,
+      "clips_present": 12,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1,
+        293
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 3,
+      "state": "Attack",
+      "sequence_id": 251,
+      "sequence_name": "Human_Attack_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 3,
+      "state": "AttackStatic",
+      "sequence_id": 246,
+      "sequence_name": "Human_AttackStatic_03_Staff",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 1,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 4,
+      "state": "Attack",
+      "sequence_id": 252,
+      "sequence_name": "Human_Attack_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 4,
+      "state": "AttackStatic",
+      "sequence_id": 247,
+      "sequence_name": "Human_AttackStatic_05_Bow",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 3,
+      "clips_present": 3,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+          "present": true,
+          "markers": null
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 5,
+      "state": "Attack",
+      "sequence_id": 253,
+      "sequence_name": "Human_BLOCK_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 0,
+      "clip_count": 1,
+      "clips_present": 1,
+      "clips_with_markers_in_melee_xml": 0,
+      "marker_names": [],
+      "charsounds_rows": [
+        -1
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_block.bdae",
+          "present": true,
+          "markers": null
+        }
+      ]
+    },
+    {
+      "actor": "RoguePlayerBase",
+      "table": 50,
+      "stance": 5,
+      "state": "AttackStatic",
+      "sequence_id": 248,
+      "sequence_name": "Human_Attack_00_1H",
+      "stance_offset_rule": "AnimTable id = base + stance (runtime_player_combo_chain_v1.cpp:172-177; applied only when stanced_list bit set)",
+      "melee_bindings_has_sequence": false,
+      "combo_phases": 3,
+      "clip_count": 9,
+      "clips_present": 9,
+      "clips_with_markers_in_melee_xml": 3,
+      "marker_names": [
+        "attack_mainhand"
+      ],
+      "charsounds_rows": [
+        -1,
+        232,
+        233
+      ],
+      "clips": [
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@334"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+          "present": true,
+          "markers": [
+            "attack_mainhand@900"
+          ]
+        },
+        {
+          "uri": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+          "present": true,
+          "markers": []
+        }
+      ]
+    }
+  ],
+  "charsounds_rows": [
+    {
+      "row": 0,
+      "name": "AAA_DONT_DELETE",
+      "lists": {
+        "death": [],
+        "hit": [],
+        "impact1": [],
+        "impact2": []
+      }
+    },
+    {
+      "row": 1,
+      "name": "ArmoredHuman",
+      "lists": {
+        "death": [
+          {
+            "id": 28,
+            "uid_label": "sfx_mc_shoot_arrow",
+            "file_present": true
+          }
+        ],
+        "hit": [
+          {
+            "id": 29,
+            "uid_label": "sfx_mage_staff_elemental_fire",
+            "file_present": true
+          },
+          {
+            "id": 30,
+            "uid_label": "sfx_mage_staff_elemental_ice",
+            "file_present": true
+          },
+          {
+            "id": 31,
+            "uid_label": "sfx_mage_staff_elemental_earth",
+            "file_present": true
+          }
+        ],
+        "impact1": [
+          {
+            "id": 120,
+            "uid_label": "sfx_skill_mage_stormslave",
+            "file_present": true
+          },
+          {
+            "id": 121,
+            "uid_label": "sfx_skill_mage_ilu_eclipse",
+            "file_present": true
+          },
+          {
+            "id": 122,
+            "uid_label": "sfx_skill_mage_ilu_terror",
+            "file_present": true
+          }
+        ],
+        "impact2": [
+          {
+            "id": 117,
+            "uid_label": "sfx_skill_mage_thunder_braid_add_1",
+            "file_present": true
+          },
+          {
+            "id": 118,
+            "uid_label": "sfx_skill_mage_thunder_braid_add_2",
+            "file_present": false
+          },
+          {
+            "id": 119,
+            "uid_label": "sfx_skill_mage_thunder_braid_loop",
+            "file_present": true
+          }
+        ]
+      }
+    },
+    {
+      "row": 2,
+      "name": "Default",
+      "lists": {
+        "death": [],
+        "hit": [],
+        "impact1": [],
+        "impact2": []
+      }
+    }
+  ],
+  "projectile_rows": [
+    {
+      "name": "FireWandProjectile",
+      "row": 20,
+      "name_in_table": true
+    },
+    {
+      "name": "EarthWandProjectile",
+      "row": 15,
+      "name_in_table": true
+    },
+    {
+      "name": "WaterWandProjectile",
+      "row": 38,
+      "name_in_table": true
+    },
+    {
+      "name": "AirWandProjectile",
+      "row": 2,
+      "name_in_table": true
+    },
+    {
+      "name": "LightningWandProjectile",
+      "row": 23,
+      "name_in_table": true
+    },
+    {
+      "name": "BowProjectile",
+      "row": 10,
+      "name_in_table": true
+    },
+    {
+      "name": "ArrowDefault",
+      "row": 3,
+      "name_in_table": true
+    },
+    {
+      "name": "ArrowMagic",
+      "row": 5,
+      "name_in_table": true
+    },
+    {
+      "name": "ArrowPinShot",
+      "row": 6,
+      "name_in_table": true
+    }
+  ],
+  "staged_projectile_models": [
+    "elemental_bolt_fire.bdae",
+    "projectile_dh2_bogwitch.bdae",
+    "projectile_dh2_chain_lightning.bdae",
+    "projectile_dh2_prince_mage_cyclone.bdae",
+    "projectile_dh2_simplified_chain_lightning.bdae"
+  ],
+  "port_probes": [
+    {
+      "id": "stance_resolver",
+      "file": "level-world/character_stance.cpp",
+      "pattern": "candidate=[0-9]",
+      "meaning": "GetAnimStance: staff>bow>dual>two-hander>bare",
+      "hits": 6,
+      "first_line": 5,
+      "file_present": true
+    },
+    {
+      "id": "equipment_queries",
+      "file": "level-world/player_equipment_queries_v1.cpp",
+      "pattern": "query_two_effective|main_category==5",
+      "meaning": "main/off/two-hand/staff/bow flags from ItemTable words",
+      "hits": 1,
+      "first_line": 13,
+      "file_present": true
+    },
+    {
+      "id": "locomotion_stance_select",
+      "file": "windows-foundation/features/equipment/runtime_player_locomotion_v1.cpp",
+      "pattern": "stance_variants_enabled",
+      "meaning": "Idle/Walk/Run stance sequence = base + stance",
+      "hits": 2,
+      "first_line": 188,
+      "file_present": true
+    },
+    {
+      "id": "attack_bank_planner",
+      "file": "windows-foundation/features/combat/runtime_player_profile_attack_bank_v1.cpp",
+      "pattern": "plan_runtime_player_profile_attack_bank_v1",
+      "meaning": "generic Attack/AttackStatic bank planner (any profile)",
+      "hits": 1,
+      "first_line": 79,
+      "file_present": true
+    },
+    {
+      "id": "attack_bank_class_gate",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "class_id==\"RoguePlayerBase\"&&locomotionLibrary",
+      "meaning": "production attack-bank gate: Rogue only",
+      "hits": 1,
+      "first_line": 1750,
+      "file_present": true
+    },
+    {
+      "id": "attack_bank_startup_only",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "plan_runtime_player_profile_attack_bank_v1\\(assets,\\*sourceProfile",
+      "meaning": "bank planned once from startup hands (no rebuild on equip)",
+      "hits": 1,
+      "first_line": 1770,
+      "file_present": true
+    },
+    {
+      "id": "non_knight_animation_only",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "selected->class_id!=\"KnightPlayerBase\"",
+      "meaning": "non-Knight profiles are animation-only (no outgoing attack)",
+      "hits": 1,
+      "first_line": 1119,
+      "file_present": true
+    },
+    {
+      "id": "player_ranged_launch",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "launchPlayerRangedProjectile",
+      "meaning": "player ranged projectile launcher (Mage/Rogue bow) in production",
+      "hits": 0,
+      "first_line": null,
+      "file_present": true
+    },
+    {
+      "id": "projectile_executor_cmake",
+      "file": "windows-foundation/CMakeLists.txt",
+      "pattern": "runtime_session_projectile_v1",
+      "meaning": "shared runtime session projectile executor registered in CMake",
+      "hits": 0,
+      "first_line": null,
+      "file_present": true
+    },
+    {
+      "id": "runtime_attack_sound",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "RuntimeAttackSound",
+      "meaning": "features/audio/runtime_attack_sound_v1 (also reads words 5/6): not constructed in main.cpp",
+      "hits": 0,
+      "first_line": null,
+      "file_present": true
+    },
+    {
+      "id": "runtime_swing_fx",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "make_shared<f::effects::RuntimeSwingFxObserverV1>",
+      "meaning": "swing FX observer constructed (passes item words 5/6 to the AnimTable FX path)",
+      "hits": 1,
+      "first_line": 4199,
+      "file_present": true
+    },
+    {
+      "id": "charsounds_tables",
+      "file": "level-world/character_combat_sound_tables_v2.cpp",
+      "pattern": "CharSounds",
+      "meaning": "CharSounds rows (death/hit/impact lists) loaded",
+      "hits": 4,
+      "first_line": 6,
+      "file_present": true
+    },
+    {
+      "id": "swoosh_v4",
+      "file": "level-world/character_animation_swoosh_v4.cpp",
+      "pattern": "Swoosh",
+      "meaning": "AnimStep Swoosh flag handler",
+      "hits": 2,
+      "first_line": 3,
+      "file_present": true
+    },
+    {
+      "id": "projectile_render_test",
+      "file": "windows-foundation/CMakeLists.txt",
+      "pattern": "runtime_session_projectile_render",
+      "meaning": "projectile render feature test registered in CMake (no production consumer)",
+      "hits": 0,
+      "first_line": null,
+      "file_present": true
+    },
+    {
+      "id": "combat_main_item_flag",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "\"--combat-main-item\"",
+      "meaning": "test flag: main-hand ItemTable identifier for startup locomotion/stance",
+      "hits": 1,
+      "first_line": 658,
+      "file_present": true
+    },
+    {
+      "id": "combat_off_item_flag",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "\"--combat-off-item\"",
+      "meaning": "test flag: off-hand ItemTable identifier (absent when no match)",
+      "hits": 0,
+      "first_line": null,
+      "file_present": true
+    },
+    {
+      "id": "test_player_hp_flag",
+      "file": "windows-foundation/main.cpp",
+      "pattern": "\"--test-player-hp\"",
+      "meaning": "test flag: player HP override for survival in runs",
+      "hits": 1,
+      "first_line": 638,
+      "file_present": true
+    }
+  ]
+}
