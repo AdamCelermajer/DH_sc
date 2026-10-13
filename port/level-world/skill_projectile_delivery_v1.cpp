@@ -97,8 +97,10 @@ Status spawn(const Value* arguments, std::uint32_t count,
             }
             result.destination_written = true;
         }
-        // The source only pushes the result in its <=2 argument branch.
-        result.returned = count <= 2 ? 1u : 0u;
+        // Character::_SpawnSkillProjectile (0x3b99d0) reaches
+        // ReturnValues::pushPointer (0x3b9b80) from every branch: the basic,
+        // flag, angle and position/destination forms all return the product.
+        result.returned = 1u;
         *output = result;
         error.clear();
         return Status::complete;
