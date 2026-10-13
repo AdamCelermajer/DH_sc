@@ -45,6 +45,15 @@ dh2_script_vm* dh2_script_vm_create_deferred(size_t memory_limit);
 int dh2_script_vm_open_library(dh2_script_vm* vm, dh2_script_library library);
 void dh2_script_vm_destroy(dh2_script_vm* vm);
 int dh2_script_vm_load(dh2_script_vm* vm,const void* bytes,size_t size,const char* name);
+/* LuaScript::_Include (0x37efe4) -> LuaManager::AddFile loads a second chunk on
+ * the SAME state while the first script (or a callback) is still executing.
+ * Valid only from inside a bound-function callback of this VM (the VM is busy);
+ * loads and runs the chunk under lua_pcall so a Lua error never unwinds through
+ * the caller's native frames. 0 success, positive Lua status on a load/run
+ * error (first text in error_text), -1 not inside a callback or bad argument.
+ * Completed script mutations survive an error, as with dh2_script_vm_load. */
+int dh2_script_vm_load_nested(dh2_script_vm* vm,const void* bytes,size_t size,
+  const char* name,char* error_text,size_t error_capacity);
 /* Source loadFile byte-stream protocol on this SAME state: empty input allowed,
  * 1024-byte reader and loadFile() chunk name. 0 success, positive Lua status,
  * -1 malformed/busy/beyond8MiB bound or input alias of VM storage,

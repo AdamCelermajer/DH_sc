@@ -77,6 +77,20 @@ struct Options {
     bool faery_follow_scenario = false;
     bool faery_skill_scenario = false;
     bool skill_matrix_scenario = false;
+    // boss-fight: spawn --boss NAME (default per level row), put the Player at the
+    // boss's authored arena entry spot (the boss's position plus --boss-offset
+    // X,Y,Z, defaulting to the offset of the level's _prim_Waypoint_PrinceSpot), then
+    // attack the boss (or just watch with --boss-passive) while logging the boss
+    // AIS counters and both sides' health.
+    // --boss-weaken: leave the boss 3 HP through the development debug_character_hit
+    // fixture (the existing nonlethal source health kernel) so one Player blow kills it.
+    bool boss_fight_scenario = false, boss_passive = false, boss_offset_given = false,
+         boss_weaken = false;
+    std::string boss_name;
+    std::array<float, 3> boss_offset{};
+    // Planar distance from the boss at which the Player is placed (the direction
+    // is the offset's); 0 keeps the offset as is.
+    float boss_distance = 220.0f;
     // faery-skill: press the authored HUD faery button with a touch instead of
     // calling the NativeHUDSpell entry directly.
     bool faery_hud_tap = false;
@@ -94,7 +108,8 @@ struct Options {
     std::string follow_exit_destination;
     double follow_exit_entry = 0.0;
     bool probe_scenario() const {
-        return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario;
+        return faery_follow_scenario || faery_skill_scenario || skill_matrix_scenario ||
+               boss_fight_scenario;
     }
     bool tutorial_potion_scenario = false;
 };
@@ -114,6 +129,17 @@ Options parse(int argc, char** argv) {
             return argv[i];
         };
         if (arg == "--assets") options.assets = value("--assets");
+        else if (arg == "--boss") options.boss_name = value("--boss");
+        else if (arg == "--boss-offset") {
+            const auto text = value("--boss-offset");
+            if (std::sscanf(text.c_str(), "%f,%f,%f", &options.boss_offset[0], &options.boss_offset[1],
+                            &options.boss_offset[2]) != 3)
+                throw std::runtime_error("--boss-offset expects X,Y,Z");
+            options.boss_offset_given = true;
+        }
+        else if (arg == "--boss-passive") options.boss_passive = true;
+        else if (arg == "--boss-weaken") options.boss_weaken = true;
+        else if (arg == "--boss-distance") options.boss_distance = std::stof(value("--boss-distance"));
         else if (arg == "--runtime-dir") options.runtime = value("--runtime-dir");
         else if (arg == "--level-row") {
             const auto row = value("--level-row");
@@ -175,6 +201,7 @@ Options parse(int argc, char** argv) {
             else if (scenario == "faery-follow") options.faery_follow_scenario = true;
             else if (scenario == "faery-skill") options.faery_skill_scenario = true;
             else if (scenario == "skill-matrix") options.skill_matrix_scenario = true;
+            else if (scenario == "boss-fight") options.boss_fight_scenario = true;
             else if (scenario == "fixed-cultist07") options.fixed_cultist_scenario = true;
             else if (scenario == "fixed-cultist07-kill") options.fixed_cultist_kill_scenario = true;
             else throw std::runtime_error("Unknown scenario: " + scenario);
@@ -212,6 +239,7 @@ Options parse(int argc, char** argv) {
                          "  --scenario faery-follow march the Player along far selected-floor routes; log Player/faery state every 60 frames\n"
                          "  --scenario faery-skill  near enemies, trigger the HUD faery ability (NativeHUDSpell) repeatedly and log its effects\n"
                          "  --scenario skill-matrix train/equip every class skill, use it in melee range of an enemy, log state/HP/MP effects\n"
+                         "  --scenario boss-fight [--boss NAME] [--boss-offset X,Y,Z] [--boss-passive] [--boss-weaken] spawn the level boss, place the Player at its arena entry spot, fight it and log its AIS counters\n"
                          "  --matrix-only N       skill-matrix: test only SkillTree row N\n"
                          "  --follow-faery N      faery-follow: select Faery Save slot N (0..4) at frame 30\n"
                          "  --hud-tap-xy X,Y      touch point for --faery-hud-tap on the 1280x720 layout (default 1176,281; skill slot 0 is 980,445)\n"
@@ -230,7 +258,7 @@ Options parse(int argc, char** argv) {
     const auto scenario_count = unsigned(options.movement_attack_scenario) +
         unsigned(options.fixed_cultist_scenario) + unsigned(options.fixed_cultist_kill_scenario) +
         unsigned(options.faery_follow_scenario) + unsigned(options.faery_skill_scenario) +
-        unsigned(options.skill_matrix_scenario);
+        unsigned(options.skill_matrix_scenario) + unsigned(options.boss_fight_scenario);
     if (scenario_count > 1) throw std::runtime_error("Select only one gameplay scenario per run");
     if (options.return_entry >= 0 &&
         (options.transition_to.empty() || options.level_row < 0 ||
@@ -238,6 +266,24 @@ Options parse(int argc, char** argv) {
         throw std::runtime_error("--return-to-origin needs --transition-to and a static --level-row");
     if (options.probe_scenario()) {
         if (options.level_row < 0) options.level_row = 41;
+        if (options.boss_fight_scenario) {
+            // The level's authored boss intro scripts (Swamp_Serpent_Intro, HG2_boss_intro)
+            // put the Player on _prim_Waypoint_PrinceSpot. The port's Level ObjectManager does
+            // not register Waypoint objects, so the scenario places the Player at that waypoint's
+            // authored offset from the boss (MGP local positions: bossroom_ruins_ns_ boss
+            // (-1535.8,-320.7) / PrinceSpot (-985.9,-930.5); darkwood_14_01 DarkQueen
+            // (585.6,-212.7) / PrinceSpot (3.0,-711.2)).
+            if (options.boss_name.empty()) {
+                if (options.level_row == 41) options.boss_name = "_prim_Boss_SwampKing_01";
+                else if (options.level_row == 4) options.boss_name = "_prim_DarkQueen";
+                else throw std::runtime_error("boss-fight needs --boss NAME for this level row");
+            }
+            if (!options.boss_offset_given) {
+                if (options.level_row == 41) options.boss_offset = {549.9f, -609.7f, 20.0f};
+                else if (options.level_row == 4) options.boss_offset = {-582.6f, -498.5f, 20.0f};
+                else throw std::runtime_error("boss-fight needs --boss-offset X,Y,Z for this level row");
+            }
+        }
         if (options.faery_follow_scenario && options.follow_exit_destination.empty()) {
             // Valid SpawnPoint entry ids from the authored .spwn files (SWAMP 0/3/13, DARKWOOD 10/3/11).
             if (options.level_row == 41) { options.follow_exit_destination = "DARKWOOD"; options.follow_exit_entry = 3.0; }
@@ -245,7 +291,8 @@ Options parse(int argc, char** argv) {
         }
         if (!frames_supplied)
             options.frames = options.faery_follow_scenario ? 1800 :
-                             options.faery_skill_scenario ? 2400 : 12000;
+                             options.faery_skill_scenario ? 2400 :
+                             options.boss_fight_scenario ? 3000 : 12000;
         if (options.frames < 4) throw std::runtime_error("probe scenarios require at least four gameplay frames");
     } else if (options.movement_attack_scenario) {
         if (options.level_row < 0) options.level_row = 23;
@@ -544,6 +591,7 @@ public:
         if (options_.faery_follow_scenario) follow_tick();
         else if (options_.faery_skill_scenario) faery_skill_tick();
         else if (options_.skill_matrix_scenario) matrix_tick();
+        else if (options_.boss_fight_scenario) boss_tick();
     }
 
     void finish() {
@@ -554,14 +602,18 @@ public:
         if (options_.faery_follow_scenario) follow_finish();
         else if (options_.faery_skill_scenario) faery_skill_finish();
         else if (options_.skill_matrix_scenario) matrix_finish();
+        else if (options_.boss_fight_scenario) boss_finish();
     }
 
     bool failed() const { return !failure_.empty(); }
     // The matrix / faery-skill scenarios stop the run themselves once their
     // fixed work list is exhausted (they have no use for the remaining frames).
     bool finished() const {
-        return (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
-               (options_.faery_skill_scenario && fs_phase_ == FsPhase::done);
+        return (options_.boss_fight_scenario && death_frame_ && frame_ >= death_frame_ + 15) ||
+               (options_.skill_matrix_scenario && mx_phase_ == MxPhase::done) ||
+               (options_.faery_skill_scenario && fs_phase_ == FsPhase::done) ||
+               (options_.boss_fight_scenario && bf_phase_ == BossPhase::done &&
+                frame_ >= bf_done_frame_ + 180);
     }
     // HUD touch hand-off for --faery-hud-tap: action 0 = press, 1 = release.
     bool take_tap(int& action) {
@@ -587,6 +639,7 @@ private:
     bool have_pose_ = false, pose_valid_once_ = false;
     model_renderer::UiPlayerHudProjectionV1 hud_{};
     unsigned deaths_ = 0;
+    std::uint64_t death_frame_ = 0;
     std::uint64_t first_ms_ = 0;
     std::vector<std::pair<std::uint64_t, int>> tap_queue_;  // (frame, 2 move / 0 press / 1 release)
 
@@ -597,7 +650,8 @@ private:
         plog(fmt("init | frame %llu | player identity %llu | level row %d | scenario %s",
                  (unsigned long long)frame_, (unsigned long long)player_, options_.level_row,
                  options_.faery_follow_scenario ? "faery-follow" :
-                 options_.faery_skill_scenario ? "faery-skill" : "skill-matrix"));
+                 options_.faery_skill_scenario ? "faery-skill" :
+                 options_.boss_fight_scenario ? "boss-fight" : "skill-matrix"));
         return true;
     }
 
@@ -607,6 +661,7 @@ private:
         if (vitals[4] != 0) {
             if (!died_ || revived_) {
                 ++deaths_;
+                if (!death_frame_) death_frame_ = frame_;
                 plog(fmt("player died | frame %llu | deaths %u", (unsigned long long)frame_, deaths_));
             }
             died_ = true;
@@ -834,6 +889,169 @@ private:
         plog(fmt("follow summary | samples %u | legs %u | path %.0f | max distance from start %.0f | "
                  "melee attacks %u | deaths %u",
                  samples_, legs_, total_path_, max_from_start_, fight_attacks_, deaths_));
+    }
+
+    // ----- boss-fight -------------------------------------------------------
+    // Spawns the named boss through the development SpawnCharacter request (the
+    // original lets the Level's intro scripts do it), puts the Player on the
+    // arena waypoint with the Level ScriptManager's SetActorPosition provider,
+    // then closes in and attacks while logging the boss's AIS VM counters, FSM
+    // state, target and both sides' health.
+    enum class BossPhase { spawn, wait_init, place, fight, done };
+    BossPhase bf_phase_ = BossPhase::spawn;
+    std::uint64_t bf_phase_frame_ = 0, bf_done_frame_ = 0;
+    bool bf_ever_initialized_ = false, bf_ever_targeted_ = false, bf_boss_died_ = false;
+    double bf_player_hp_start_ = -1.0, bf_player_hp_min_ = 1e9, bf_boss_hp_start_ = -1.0,
+           bf_boss_hp_min_ = 1e9;
+    std::uint32_t bf_max_callbacks_ = 0, bf_max_failed_ = 0, bf_max_commands_ = 0,
+                  bf_max_events_ = 0, bf_attacks_ = 0;
+    std::string bf_last_state_;
+    int bf_last_fsm_ = -2, bf_index_ = -1;
+    std::string bf_last_attack_;
+
+    void boss_tick() {
+        const std::string& boss = options_.boss_name;
+        model_renderer::BossProbeSnapshotV1 snap;
+        std::string error;
+        const bool have = model_renderer::boss_probe_snapshot(boss, snap, error);
+        const auto vitals = model_renderer::player_vitals();
+        const double player_hp = vitals[0] / 256.0;
+        if (bf_player_hp_start_ < 0.0) bf_player_hp_start_ = player_hp;
+        bf_player_hp_min_ = std::min(bf_player_hp_min_, player_hp);
+        if (have) {
+            bf_ever_initialized_ = bf_ever_initialized_ || snap.initialized;
+            bf_ever_targeted_ = bf_ever_targeted_ || snap.target != 0;
+            bf_max_callbacks_ = std::max(bf_max_callbacks_, snap.completed_callbacks);
+            bf_max_failed_ = std::max(bf_max_failed_, snap.failed_callbacks);
+            bf_max_commands_ = std::max(bf_max_commands_, snap.skill_commands);
+            bf_max_events_ = std::max(bf_max_events_, snap.skill_events);
+            const double boss_hp = snap.hp / 256.0;
+            if (bf_boss_hp_start_ < 0.0 && snap.fsm_state > 0) bf_boss_hp_start_ = boss_hp;
+            if (snap.fsm_state > 0) bf_boss_hp_min_ = std::min(bf_boss_hp_min_, boss_hp);
+            if (snap.dead) bf_boss_died_ = true;
+            if (snap.animation_state != bf_last_state_ || snap.fsm_state != bf_last_fsm_) {
+                plog(fmt("boss transition | frame %llu | fsm %d -> %d | state '%s' -> '%s' | HP %.1f/%.1f",
+                         (unsigned long long)frame_, bf_last_fsm_, snap.fsm_state,
+                         bf_last_state_.c_str(), snap.animation_state.c_str(), snap.hp / 256.0,
+                         snap.max_hp / 256.0));
+                bf_last_state_ = snap.animation_state;
+                bf_last_fsm_ = snap.fsm_state;
+            }
+        }
+        const auto since = frame_ - bf_phase_frame_;
+        switch (bf_phase_) {
+        case BossPhase::spawn: {
+            if (frame_ < 30) return;
+            const std::string result = model_renderer::spawn_character(boss);
+            plog(fmt("boss spawn | frame %llu | %s | %s", (unsigned long long)frame_, boss.c_str(),
+                     result.c_str()));
+            bf_phase_ = BossPhase::wait_init;
+            bf_phase_frame_ = frame_;
+            return;
+        }
+        case BossPhase::wait_init:
+            if (have && snap.initialized && snap.fsm_state > 0) {
+                // The authored intro scripts end with ShowActor on the boss (Swamp_Serpent_Intro,
+                // HG2_boss_intro); a development SpawnCharacter alone leaves it hidden.
+                std::string show_error;
+                const bool shown = model_renderer::boss_probe_script_command(42, boss, show_error);
+                plog(fmt("boss ShowActor: %s%s", shown ? "ok" : "ERROR ", show_error.c_str()));
+                if (options_.boss_weaken && snap.hp > 3 * 256) {
+                    const std::string hit = model_renderer::debug_character_hit(
+                        boss, std::uint32_t(snap.hp - 3 * 256));
+                    plog(fmt("boss weaken | HP %.1f -> 3 | %s", snap.hp / 256.0, hit.c_str()));
+                }
+                plog(fmt("boss ready | frame %llu | script %s | fsm %d | HP %.1f | ais flags 0x%x | at %s",
+                         (unsigned long long)frame_, snap.script.c_str(), snap.fsm_state,
+                         snap.hp / 256.0, snap.ais_flags,
+                         vec_text({snap.position[0], snap.position[1], snap.position[2]}).c_str()));
+                bf_phase_ = BossPhase::place;
+                bf_phase_frame_ = frame_;
+            } else if (since > 600) {
+                failure_ = fmt("boss-fight: %s never became ready (present %d, initialized %d, fsm %d, %s)",
+                               boss.c_str(), int(have), int(have && snap.initialized),
+                               have ? snap.fsm_state : -1, error.c_str());
+            }
+            return;
+        case BossPhase::place: {
+            std::string place_error;
+            std::array<float, 3> offset = options_.boss_offset;
+            const float offset_length = std::hypot(offset[0], offset[1]);
+            if (options_.boss_distance > 0.0f && offset_length > 1.0f) {
+                offset[0] *= options_.boss_distance / offset_length;
+                offset[1] *= options_.boss_distance / offset_length;
+            }
+            const Vec3 spot{snap.position[0] + offset[0], snap.position[1] + offset[1],
+                            snap.position[2] + offset[2]};
+            const bool placed = have && model_renderer::boss_probe_place_player(spot, place_error);
+            plog(fmt("boss place Player at %s: %s%s", vec_text(spot).c_str(),
+                     placed ? "ok" : "ERROR ", place_error.c_str()));
+            if (!placed) {
+                failure_ = "boss-fight: placing the Player failed: " + place_error;
+                return;
+            }
+            bf_phase_ = BossPhase::fight;
+            bf_phase_frame_ = frame_;
+            return;
+        }
+        case BossPhase::fight:
+            if (frame_ % 15 == 0 && have && have_pose_ && !snap.dead) {
+                const Vec3 player = pose_.player_position;
+                const Vec3 target{snap.position[0], snap.position[1], snap.position[2]};
+                const float distance = planar_distance(player, target);
+                bf_index_ = snap.world_index;
+                if (options_.boss_passive) {
+                    halt_player();
+                } else if (distance > 260.0f) {
+                    // The route to a Character-occupied cell ends short of it; once the
+                    // route says "arrived" close the remaining gap straight at the boss.
+                    if (march_to(player, target, 120.0f) != March::moving)
+                        steer_world(target[0] - player[0], target[1] - player[1]);
+                } else {
+                    halt_player();
+                    const std::string attack = model_renderer::player_attack(bf_index_);
+                    if (attack != bf_last_attack_) {
+                        plog(fmt("boss attack | frame %llu | boss index %d | distance %.0f | %s",
+                                 (unsigned long long)frame_, bf_index_, distance, attack.c_str()));
+                        bf_last_attack_ = attack;
+                    }
+                    if (attack == "Attacking") ++bf_attacks_;
+                }
+            }
+            if (frame_ % 60 == 0 && have)
+                plog(fmt("boss status | frame %llu | fsm %d '%s' | HP %.1f/%.1f | target %llu | dist %.0f | "
+                         "callbacks %u failed %u | skill cmds %u events %u | player HP %.1f | attacks %u | "
+                         "player at %s | nearest enemy %d melee %d | visible src %d rend %d",
+                         (unsigned long long)frame_, snap.fsm_state, snap.animation_state.c_str(),
+                         snap.hp / 256.0, snap.max_hp / 256.0, (unsigned long long)snap.target,
+                         have_pose_ ? planar_distance(pose_.player_position,
+                             {snap.position[0], snap.position[1], snap.position[2]}) : -1.0f,
+                         snap.completed_callbacks, snap.failed_callbacks, snap.skill_commands,
+                         snap.skill_events, player_hp, bf_attacks_,
+                         vec_text(pose_.player_position).c_str(), pose_.enemy_index,
+                         int(pose_.enemy_in_melee_range), int(snap.source_visible),
+                         int(snap.renderer_visible)));
+            if (bf_boss_died_) {
+                plog(fmt("boss died | frame %llu", (unsigned long long)frame_));
+                bf_phase_ = BossPhase::done;
+                bf_done_frame_ = frame_;
+            }
+            return;
+        case BossPhase::done:
+            return;
+        }
+    }
+
+    void boss_finish() {
+        plog(fmt("boss-fight summary | boss %s | initialized %d | boss died %d | boss HP %.1f -> min %.1f | "
+                 "Player HP %.1f -> min %.1f | AIS callbacks %u failed %u | skill commands %u | OnSkill events %u | "
+                 "Player attacks %u | targeted %d | deaths %u",
+                 options_.boss_name.c_str(), int(bf_ever_initialized_), int(bf_boss_died_),
+                 bf_boss_hp_start_, bf_boss_hp_min_ > 1e8 ? -1.0 : bf_boss_hp_min_, bf_player_hp_start_,
+                 bf_player_hp_min_ > 1e8 ? -1.0 : bf_player_hp_min_, bf_max_callbacks_, bf_max_failed_,
+                 bf_max_commands_, bf_max_events_, bf_attacks_, int(bf_ever_targeted_), deaths_));
+        if (!bf_ever_initialized_ && failure_.empty())
+            failure_ = "boss-fight: the boss AIS VM never initialised";
     }
 
     // ----- faery-skill ------------------------------------------------------

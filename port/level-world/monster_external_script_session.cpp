@@ -1,5 +1,6 @@
 #include "monster_external_script_session.hpp"
 #include "ais_native_bindings.hpp"
+#include "character_native_bindings.hpp"
 #include "script_object_methods_v1.hpp"
 #include "../adam-script-runtime/script_game_bindings.h"
 
@@ -9,8 +10,11 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <deque>
 #include <exception>
 #include <new>
+#include <set>
+#include <string>
 
 namespace dh2::monster_external_script {
 namespace {
@@ -23,8 +27,20 @@ int discard_projectile_returns(void*,const dh2_script_first_return_v1*,
                                std::uint32_t,char*,std::size_t){return 0;}
 struct BusyScope {
     bool& busy;
+    void (*after)(void*, std::uintptr_t) = nullptr;
+    void* context = nullptr;
+    std::uintptr_t owner = 0;
     explicit BusyScope(bool& value) : busy(value) { busy = true; }
-    ~BusyScope() { busy = false; }
+    BusyScope(bool& value, void (*callback)(void*, std::uintptr_t), void* callback_context,
+              std::uintptr_t callback_owner)
+        : busy(value), after(callback), context(callback_context), owner(callback_owner) {
+        busy = true;
+    }
+    ~BusyScope() {
+        busy = false;
+        if (!after) return;
+        try { after(context, owner); } catch (...) {}
+    }
 };
 
 const char* callback_name(Event event) {
@@ -52,6 +68,9 @@ const char* callback_name(Event event) {
         case Event::terminate: return "OnTerminate";
         case Event::target_in_ranged_range: return "OnTargetInRangedRange";
         case Event::target_in_close_range: return "OnTargetInCloseRange";
+        case Event::target_died: return "OnTargetDied";
+        case Event::target_out_of_sight: return "OnTargetOutOfSight";
+        case Event::target_in_sight: return "OnTargetInSight";
     }
     return nullptr;
 }
@@ -107,6 +126,29 @@ function __dh2_monster_external_combat(callback_name, attacker, defender)
 end
 )lua";
 
+// GameObjects returned to a script are method-bearing tables: GetSelf and the
+// target-list readers wrap the native identity exactly as the Player skill VM
+// does (player_skill_session_v1.cpp player_object_functions).
+constexpr char generic_object_wrappers[] = R"lua(
+local __dh2_native_GetSelf = GetSelf
+if __dh2_native_GetSelf then
+    function GetSelf()
+        local identity = __dh2_native_GetSelf()
+        if identity == nil then return nil end
+        return __dh2_object(identity)
+    end
+end
+local __dh2_native_GetTargetListTop = GetTargetListTop
+if __dh2_native_GetTargetListTop then
+    function GetTargetListTop(...)
+        local identity, distance, angle, is_character, extra = __dh2_native_GetTargetListTop(...)
+        -- An empty list returns the null Pointer alone.
+        if distance == nil then return identity end
+        return __dh2_object(identity), distance, angle, is_character, extra
+    end
+end
+)lua";
+
 }  // namespace
 
 struct Session::Impl {
@@ -121,15 +163,27 @@ struct Session::Impl {
                      create_buff, remove_buff, apply_buff, set_skill_cooldown,
                      set_spell_cooldown, start_timer, stop_timer, self_id,
                      obj_name, obj_query, obj_master, obj_set_target, obj_command,
-                     flee, state_time_get, unsupported };
-    struct Binding { Impl* session; Operation operation; const char* name; };
-    // 35 AIS + 35 Character/object globals; keep headroom for the next bridge.
-    static constexpr std::size_t max_bindings = 96;
+                     flee, state_time_get, include_script_op, trace_op,
+                     play_music_op, call_py_script_op, generic_native, unsupported };
+    // `function`/`method`/`source_name` are used only by generic_native rows:
+    // the character_native_bindings key, whether the row is a `target:Method()`
+    // hidden native, and the original script-visible name.
+    struct Binding { Impl* session; Operation operation; const char* name;
+                     std::uint32_t function = 0; bool method = false;
+                     const char* source_name = nullptr; };
+    // 35 AIS + ~70 dedicated Character/object globals + the generic
+    // character_native_bindings rows (every Kind::function and the Kind::method
+    // rows installed as hidden natives).
+    static constexpr std::size_t max_bindings = 640;
     Services services;
     ObjectServices object_services;
     bool object_bound = false;
     // Returned string storage must outlive invoke; one object name at a time.
     char object_name_text[256]{};
+    // Stable names for the hidden `target:Method()` natives, and the Lua text
+    // that installs them in the shared object-method table.
+    std::deque<std::string> owned_names;
+    std::string generic_methods_chunk;
     dh2_script_game_bindings timer_bindings{};
     dh2_script_vm* vm = nullptr;
     dh2_script_aliases* aliases = nullptr;
@@ -295,6 +349,59 @@ struct Session::Impl {
                 binding.operation == obj_command)
                 return invoke_object(binding, arguments, count, output, capacity,
                                      returned, error, error_capacity);
+            if (binding.operation == trace_op) {
+                // LuaScript::_Trace (0x37ee80) is a bare return: no output, no effect.
+                return 0;
+            }
+            if (binding.operation == include_script_op) {
+                // LuaScript::_Include (0x37efe4): only a string first argument
+                // reaches LuaScript::Load; anything else is ignored.
+                if (count == 0 || arguments[0].type != DH2_SCRIPT_STRING ||
+                    !arguments[0].text) return 0;
+                binding.session->include_file(
+                    std::string(arguments[0].text, arguments[0].text_bytes));
+                return 0;
+            }
+            if (binding.operation == play_music_op) {
+                // LuaScript::_PlayMusic (0x37e420): getString(arg0), getNumber(arg1)
+                // (the Arguments vector throws out_of_range below two entries).
+                if (count < 2 || arguments[0].type != DH2_SCRIPT_STRING ||
+                    !arguments[0].text || arguments[1].type != DH2_SCRIPT_NUMBER)
+                    return reject(error, error_capacity, "PlayMusic requires a label and a fade time");
+                if (!services.play_music || services.play_music(services.context,
+                        arguments[0].text, arguments[0].text_bytes,
+                        arguments[1].number) != 0)
+                    return reject(error, error_capacity, "monster PlayMusic failed or unsupported");
+                return 0;
+            }
+            if (binding.operation == call_py_script_op) {
+                // LuaScript::_CallPyScript (0x37ef3c): a string first argument is
+                // looked up by ScriptManager::GetIDFromName and started when idle.
+                if (count == 0 || arguments[0].type != DH2_SCRIPT_STRING ||
+                    !arguments[0].text) return 0;
+                if (!services.call_py_script || services.call_py_script(services.context,
+                        arguments[0].text, arguments[0].text_bytes) != 0)
+                    return reject(error, error_capacity, "monster CallPyScript failed or unsupported");
+                return 0;
+            }
+            if (binding.operation == generic_native) {
+                if (!services.character_native)
+                    return reject(error, error_capacity, "Character native provider missing");
+                std::uintptr_t receiver = services.owner;
+                if (binding.method) {
+                    // `target:Method()` passes the object table (projected to an
+                    // identity) first; the native sees the remaining Arguments.
+                    if (count == 0 || !identity(arguments[0]) || !arguments[0].identity)
+                        return reject(error, error_capacity, "GameObject method receiver missing");
+                    receiver = arguments[0].identity;
+                    ++arguments;
+                    --count;
+                }
+                return services.character_native(services.context, services.owner,
+                    binding.function, binding.source_name ? binding.source_name : binding.name,
+                    receiver, binding.method, arguments, count, output, capacity,
+                    returned, error, error_capacity);
+            }
             if (binding.operation == alias_add || binding.operation == alias_push ||
                 binding.operation == alias_pop) {
                 int status = 0;
@@ -399,6 +506,21 @@ struct Session::Impl {
             }
             if (binding.operation == target_set || binding.operation == face ||
                 binding.operation == move) {
+                // Character::_MoveTo / _HeadTo (0x3bada8 / 0x3ba71c) also take a
+                // Point3D (x, y, z [, relative]). The numeric overload belongs to
+                // the generic Character provider.
+                if (binding.operation != target_set && count > 0 &&
+                    arguments[0].type == DH2_SCRIPT_NUMBER) {
+                    if (!services.character_native)
+                        return reject(error, error_capacity, "Character native provider missing");
+                    const auto function = binding.operation == move
+                        ? character_native_bindings::Function::character_move_to
+                        : character_native_bindings::Function::character_head_to;
+                    return services.character_native(services.context, services.owner,
+                        static_cast<std::uint32_t>(function), binding.name,
+                        services.owner, false, arguments, count, output, capacity,
+                        returned, error, error_capacity);
+                }
                 // Original object overloads ignore non-object values. This
                 // includes MoveTo(nil) when the live GetTarget result is null.
                 if (count == 0 || !identity(arguments[0])) return 0;
@@ -672,6 +794,10 @@ struct Session::Impl {
             case Function::get_current_level_range: return level_range;
             case Function::play_sound: return play_sound;
             case Function::stop_sound: return stop_sound;
+            case Function::include: return include_script_op;
+            case Function::trace: return trace_op;
+            case Function::play_music: return play_music_op;
+            case Function::call_py_script: return call_py_script_op;
             default: return unsupported;
         }
     }
@@ -745,7 +871,98 @@ struct Session::Impl {
             bind_extra("__dh2_obj_set_target", obj_set_target) &&
             bind_extra("__dh2_obj_command", obj_command) &&
             bind_extra("GetID", self_id) &&
-            bind_extra("Flee", flee) && bind_extra("GetStateTime", state_time_get);
+            bind_extra("Flee", flee) && bind_extra("GetStateTime", state_time_get) &&
+            bind_generic_character_functions();
+    }
+
+    bool already_bound(const char* name) const {
+        for (std::size_t i = 0; i < binding_count; ++i)
+            if (bindings[i].name && std::strcmp(bindings[i].name, name) == 0) return true;
+        return false;
+    }
+
+    // Character::BindFunction registers every GameObject and Character native in
+    // each AIS VM: Kind::function rows as globals (a Character-context row is
+    // bound to the scripted Character), Kind::method rows into the object
+    // method table. The rows with a dedicated operation above keep that
+    // implementation; every other row forwards to Services::character_native.
+    // The method names handled by ObjectServices in identity_transport are kept.
+    bool bind_generic_character_functions() {
+        static const char* const transport_methods[] = {
+            "GetID", "GetName", "IsPlayer", "IsDead", "IsCharacter", "GetState",
+            "GetHP", "GetPropHP", "HasMaster", "GetMaster", "LOCK", "UNLOCK",
+            "Kill", "SetTarget"};
+        std::set<std::string> methods;
+        std::string chunk;
+        for (int group = 0; group < 2; ++group) {
+            std::size_t count = 0;
+            const auto* table = group ? character_native_bindings::character_own_bindings(&count)
+                                      : character_native_bindings::game_object_bindings(&count);
+            for (std::size_t i = 0; i < count; ++i) {
+                const auto& row = table[i];
+                if (row.kind == character_native_bindings::Kind::function) {
+                    if (already_bound(row.name)) continue;
+                    if (binding_count >= max_bindings) return false;
+                    auto& binding = bindings[binding_count];
+                    binding = {this, generic_native, row.name,
+                               static_cast<std::uint32_t>(row.function), false, row.name};
+                    if (dh2_script_vm_bind_source_values(vm, row.name, invoke, &binding) != 0)
+                        return false;
+                    ++binding_count;
+                } else {
+                    bool handled = false;
+                    for (const char* name : transport_methods)
+                        if (std::strcmp(name, row.name) == 0) handled = true;
+                    if (handled || !methods.insert(row.name).second) continue;
+                    if (binding_count >= max_bindings) return false;
+                    owned_names.emplace_back(std::string("__dh2_method_") + row.name);
+                    const char* hidden = owned_names.back().c_str();
+                    auto& binding = bindings[binding_count];
+                    binding = {this, generic_native, hidden,
+                               static_cast<std::uint32_t>(row.function), true, row.name};
+                    if (dh2_script_vm_bind_source_values(vm, hidden, invoke, &binding) != 0)
+                        return false;
+                    ++binding_count;
+                    chunk += "__dh2_object_methods.";
+                    chunk += row.name;
+                    chunk += " = ";
+                    chunk += hidden;
+                    chunk += "\n";
+                }
+            }
+        }
+        generic_methods_chunk = std::move(chunk);
+        return true;
+    }
+
+    // LuaScript::_Include -> LuaScript::Load -> LuaManager::AddFile (0x37b23c).
+    // The key is the script path prefix + the requested name, with ".luac"
+    // appended unless the name already contains ".lua" (then only "c" when it
+    // is not ".luac"). A key already in the VM's loaded set is a hit; otherwise
+    // the file is read and run on the same VM, and the key joins the set only
+    // after a successful run. A missing or failing file is silently ignored.
+    void include_file(const std::string& name) {
+        if (name.empty() || name.size() > 200) return;
+        std::string path = "data/scripts/ai/" + name;
+        const auto lua = name.find(".lua");
+        if (lua != std::string::npos) {
+            if (name.compare(lua, 5, ".luac") != 0) path += "c";
+        } else {
+            path += ".luac";
+        }
+        if (lua_script_load_once::contains_path(&resolved_loads, path.c_str())) return;
+        const void* bytes = nullptr;
+        std::size_t size = 0;
+        if (!services.include_script ||
+            services.include_script(services.context, path.c_str(), &bytes, &size) != 0 ||
+            !bytes || !size || size > 131072) return;
+        std::string copy(static_cast<const char*>(bytes), size);
+        char message[256]{};
+        if (dh2_script_vm_load_nested(vm, copy.data(), copy.size(), path.c_str(),
+                                      message, sizeof(message)) == 0)
+            (void)lua_script_load_once::mark_loaded(&resolved_loads, path.c_str());
+        else
+            std::fprintf(stderr, "AIS Include failed | %s | %s\n", path.c_str(), message);
     }
 
     bool bind_functions() {
@@ -755,6 +972,8 @@ struct Session::Impl {
     bool load_common(Source source) {
         if (dh2_script_vm_load(vm, source.bytes, source.size,
                                "data/scripts/ai/_commons.luac") != 0) return false;
+        (void)lua_script_load_once::mark_loaded(&resolved_loads,
+                                                "data/scripts/ai/_commons.luac");
         stage = Stage::common_loaded;
         return true;
     }
@@ -771,8 +990,14 @@ struct Session::Impl {
         if (!source_path || !*source_path || std::strlen(source_path) > 256)
             return false;
         if (dh2_script_vm_load(vm, source.bytes, source.size,
-                               source_path) != 0 ||
-            dh2_script_vm_load(vm, identity_transport, sizeof(identity_transport) - 1,
+                               source_path) != 0) return false;
+        // LuaManager::AddFile records the main script in the same loaded set
+        // that Include consults.
+        (void)lua_script_load_once::mark_loaded(&resolved_loads, source_path);
+        std::string transport(identity_transport, sizeof(identity_transport) - 1);
+        transport += generic_methods_chunk;
+        transport += generic_object_wrappers;
+        if (dh2_script_vm_load(vm, transport.data(), transport.size(),
                                "monster-neutral-identity-transport") != 0) return false;
         if (require_monster_callbacks &&
             (std::strcmp(dh2_script_alias_resolve(aliases, "OnEnemySpotted"), "monster_OnEnemySpotted") ||
@@ -1005,7 +1230,8 @@ Status Session::dispatch(Event event, std::uintptr_t enemy, std::string& error) 
         return Status::invalid_argument;
     }
     if (!ready()) { error = "monster session not ready"; return Status::not_ready; }
-    BusyScope scope(busy_);
+    BusyScope scope(busy_, impl_->services.after_callback, impl_->services.context,
+                    impl_->services.owner);
     int status = 0;
     if (event == Event::enemy_spotted || event == Event::friend_spotted ||
         event == Event::neutral_spotted || event == Event::died) {
@@ -1053,7 +1279,8 @@ Status Session::dispatch_combat_result(Event event, std::uintptr_t attacker,
     const char* requested = callback_name(event);
     const char* resolved = dh2_script_alias_resolve(impl_->aliases, requested);
     if (!resolved) { error = "original combat callback alias is absent"; return Status::unsupported_callback; }
-    BusyScope scope(busy_);
+    BusyScope scope(busy_, impl_->services.after_callback, impl_->services.context,
+                    impl_->services.owner);
     dh2_script_value arguments[3]{};
     arguments[0].type = DH2_SCRIPT_STRING;
     arguments[0].text = resolved;
@@ -1091,7 +1318,8 @@ Status Session::dispatch_animation_event(const char* event_name,
     arguments[0].text_bytes = std::strlen(event_name);
     arguments[1].type = DH2_SCRIPT_NUMBER;
     arguments[1].number = static_cast<float>(step_index);
-    BusyScope scope(busy_);
+    BusyScope scope(busy_, impl_->services.after_callback, impl_->services.context,
+                    impl_->services.owner);
     const int status = dh2_script_alias_call_discard_source(
         impl_->vm, impl_->aliases, "OnAnimEvent", arguments, 2);
     if (status != 0) {
@@ -1121,7 +1349,8 @@ int Session::call_all(const char* name, const dh2_script_value* arguments,
     std::string captured;
     try { captured.assign(alias); }
     catch (...) { error = "source callback alias capture failed"; return -1; }
-    BusyScope scope(busy_);
+    BusyScope scope(busy_, impl_->services.after_callback, impl_->services.context,
+                    impl_->services.owner);
     const int status = dh2_script_vm_call_all_source_v1(
         impl_->vm, captured.c_str(), arguments, count, observer, context);
     error = dh2_script_vm_error(impl_->vm);
@@ -1300,7 +1529,12 @@ bool Session::uses_services(const Services& services) const noexcept {
         own.set_skill_cooldown == services.set_skill_cooldown &&
         own.set_spell_cooldown == services.set_spell_cooldown &&
         own.start_timer == services.start_timer && own.stop_timer == services.stop_timer &&
-        own.flee == services.flee && own.get_state_time == services.get_state_time;
+        own.flee == services.flee && own.get_state_time == services.get_state_time &&
+        own.include_script == services.include_script &&
+        own.character_native == services.character_native &&
+        own.play_music == services.play_music &&
+        own.call_py_script == services.call_py_script &&
+        own.after_callback == services.after_callback;
 }
 const char* Session::source_alias(Event event) const noexcept {
     const char* requested = callback_name(event);
