@@ -27,6 +27,7 @@
 #include "dh2/Reward_Loot.hpp"
 #include "dh2/Reward_XP.hpp"
 #include "dh2/TrophyData.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -98,21 +99,22 @@ Reward* Reward_Loot::Compile() {
 Reward_Loot::~Reward_Loot() {}
 
 // 0x483088 Reward_Loot::DBG_TraceDetailedRewardInformation(__sFILE*)
-// PARTIAL: the "    Loot        : %s \n" line is not written. The original prints the name of the loot table row at the
-// compiled copy's +0x0c index (Arrays::LootTable::m_memberNames), or "na" when the index is outside Arrays::LootTable::size.
-// The name table is declared in pydata-accessors/member_names.hpp and the size in pydata-accessors/w7_arrays_00.hpp. Both
-// headers declare struct Arrays::LootTable, and the Arrays element tables redefine each other when the two are included
-// together (the same clash as Condition_IsEventInState and TrophyManager). The line waits for that clash to be resolved.
-// The return value is the count of the Type line's fprintf, not the count of the missing Loot line.
-// Like the original, this reads the compiled copy (+0x14) without a check. A reward that was never compiled reads whatever
-// the slot holds, since Reward's constructor does not set +0x14.
+// Prints the 25-byte header line, the Type line from the compiled copy (+0x14, word +0x04) and the Loot line: the name of the loot
+// table row at the compiled copy's +0x0c index (Arrays::LootTable::m_memberNames), or "na" when the index is outside
+// Arrays::LootTable::size. Returns the count of the Loot line. Like the original, this reads the compiled copy without a check.
+// A reward that was never compiled reads whatever the slot holds, since Reward's constructor does not set +0x14.
 int Reward_Loot::DBG_TraceDetailedRewardInformation(__sFILE* s) {
     std::FILE* out = reinterpret_cast<std::FILE*>(s);
     const Structs::v2QuestRewardStub* compiled = m_compiledStub;  // +0x14
     static_cast<void>(std::fwrite("\t  v2QuestRewardGiveLoot\n", 1, 0x19, out));
     const char* constantName =
         ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestRewardType", compiled->m_w1);  // +0x04
-    return std::fprintf(out, "\t    Type        : %s\n", constantName);
+    std::fprintf(out, "\t    Type        : %s\n", constantName);
+    const std::int32_t lootIndex = compiled->m_w3;  // +0x0c
+    const char* lootName = (lootIndex < 0 || static_cast<std::uint32_t>(lootIndex) >= Arrays::LootTable::size)
+                               ? "na"
+                               : Arrays::LootTable::m_memberNames.names[lootIndex];
+    return std::fprintf(out, "\t    Loot        : %s \n", lootName);
 }
 
 // 0x4832ec Reward_Loot::Give()

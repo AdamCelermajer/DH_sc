@@ -46,11 +46,32 @@ void nativePauseSoundBig(int sound_id);                           // 0x531420
 
 class VoxSoundManager {
 public:
+    // VoxSoundManager::s_instance (0x9a238c, .bss pointer): the process-wide sound manager, null until CreateInstance (0x36ca88,
+    // not reconstructed) sets it. Defined in src/link1_VoxSoundManager_statics.cpp.
+    static VoxSoundManager* s_instance;
+
     // 0x369348 VoxSoundManager::SetIPodShuffle(void). The original body is empty.
     void SetIPodShuffle();
 
     // 0x36934c VoxSoundManager::UpdateIPodAsync(void). The original body is empty.
     void UpdateIPodAsync();
+
+    // Game-side glue (src/soundmanager/sound_manager_glue.cpp).
+    int PlayMenu(int sound, bool loop, int fade_ms, int type);                  // 0x36bc34 Play(sound, loop, fade, type, force = true)
+    void PlayBeat(int sound, bool loop, bool stop_if_none);                     // 0x36bc58
+    void StopBeat();                                                            // 0x36a138
+    void ResumeMusic(int fade_ms);                                              // 0x36c164 plays music_id_ again
+    void RestartMusic(int fade_ms);                                             // 0x36c224 plays prev_music_id_
+    int GetIPodPlaylistCount();                                                 // 0x369480 (a thunk to nativeGetNumPlaylists)
+    void SetIPodPlaylist(int playlist);                                         // 0x369484
+    void BackToMainMenu();                                                      // 0x3694d4 presses the playlist menu's Cancel button
+    void ShowPlayingMusicTitle(char* title);                                    // 0x36b120
+    void IPodControl(const char* command);                                      // 0x36cda8 "Play", "Pause", "Stop", "Next", "Previous", "Open"
+
+    // 0x36c734 VoxSoundManager::GetIPodPlaylistName(int). The name of music playlist `index` from the platform bridge
+    // (nativeGetPlaylistName), or the empty string when the index is not below nativeGetNumPlaylists(). The original returns the
+    // string through a hidden result pointer.
+    std::string GetIPodPlaylistName(int index);
 
     // 0x3692f0 VoxSoundManager::ConvertVisual3DToSound3D(glitch::core::vector3d<float> const&).
     // Scales each visual component by 0.01f (constant 0x3c23d70a in the ARM listing).
@@ -117,13 +138,15 @@ public:
     std::uint8_t pad_21[3];                 // +0x21..+0x23
     int music_id_ = -1;                     // +0x24, current music sound id, -1 when none
     int prev_music_id_ = -1;                // +0x28, music id stopped last (StopAllMusic, StopMusic)
-    std::uint8_t pad_2c[4];                 // +0x2c..+0x2f
+    int beat_id_ = -1;                      // +0x2c, sound id of the beat track (PlayBeat, StopBeat); -1 when none
     bool music_loop_ = false;               // +0x30, loop flag of the current music (PlayMusic stores it)
     bool music_slot_ = false;               // +0x31, toggled by CrossfadeMusic; SetInSafeZoneMusic tests it
     bool in_safe_zone_ = false;             // +0x32, SetInSafeZoneMusic
-    std::uint8_t pad_33[5];                 // +0x33..+0x37
-    std::string unk_38;                     // +0x38, a std::string (its block is freed by the destructor)
-    std::uint8_t pad_48[0x0c];              // +0x48..+0x53
+    bool ipod_playlist_set_ = false;        // +0x33, a playlist was chosen (SetIPodPlaylist, IPodControl "Play")
+    int ipod_playing_ = 0;                  // +0x34, 1 while the platform player is playing (IPodControl "Play" sets it, "Pause" clears it)
+    std::string unk_38;                     // +0x38 .. +0x4f, an STLport string in the original (its block is freed by the destructor): the title
+                                            // ShowPlayingMusicTitle shows (its text pointer is read at +0x4c by IPodControl "Open")
+    int ipod_paused_ = 0;                   // +0x50, 1 after IPodControl "Pause", back to 0 by "Play"
     int unk_54 = 0;                         // +0x54, SetListenerPos a5
     int unk_58 = 0;                         // +0x58, SetListenerPos a6
     float unk_5c = 0.0f;                    // +0x5c, SetListenerPos a7

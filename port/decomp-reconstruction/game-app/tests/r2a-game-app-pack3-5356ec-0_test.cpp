@@ -68,6 +68,8 @@
 #include "dh2/global/app_helpers.hpp"
 #include "dh2/global/script_character_callback.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
 
 namespace {
 
@@ -143,6 +145,7 @@ int g_charInvokeQueue = -1;
 
 // Raw storage behind the fake objects.
 alignas(16) unsigned char g_applicationStorage[sizeof(Application)];
+alignas(16) unsigned char g_camAnimSetStorage[2 * sizeof(Structs::CamAnimSet)];
 alignas(16) unsigned char g_levelStorage[sizeof(Level)];
 alignas(16) unsigned char g_cameraStorage[sizeof(CameraLevel)];
 alignas(16) unsigned char g_levelConfigStorage[sizeof(LevelConfig)];
@@ -540,9 +543,21 @@ void CheckPlayCamera() {
     Check(g_playAnimCalls == 1 && g_playAnimClip == 12, "Script_PlayCamera::Execute", "plays clip m_w2");
     Check(g_playAnimController == 0 && !g_playAnimPreserve, "Script_PlayCamera::Execute",
           "PlayAnim gets 0 and false");
+    // Skipping: the clip is field +0x10 (m_w4) of the Arrays::CamAnimSetTable element m_camTableIndex of the camera.
+    Structs::CamAnimSet* camSets = reinterpret_cast<Structs::CamAnimSet*>(g_camAnimSetStorage);
+    camSets[0].m_w4 = 7;
+    camSets[1].m_w4 = 33;
+    Arrays::CamAnimSetTable::members = g_camAnimSetStorage;
+    CameraObject()->m_camTableIndex = 1;
     ResetCounters();
     command.Execute(true, 0);
-    Check(g_playAnimCalls == 0, "Script_PlayCamera::Execute", "skipping branch makes no call (partial)");
+    Check(g_switchReads == 1, "Script_PlayCamera::Execute", "skipping: one trace read");
+    Check(g_playAnimCalls == 1 && g_playAnimClip == 33, "Script_PlayCamera::Execute", "skipping: plays the camera set's clip");
+    CameraObject()->m_camTableIndex = 0;
+    ResetCounters();
+    command.Execute(true, 0);
+    Check(g_playAnimCalls == 1 && g_playAnimClip == 7, "Script_PlayCamera::Execute", "skipping: row 0");
+    Arrays::CamAnimSetTable::members = nullptr;
 }
 
 void CheckSetCameraTargetBlocking() {

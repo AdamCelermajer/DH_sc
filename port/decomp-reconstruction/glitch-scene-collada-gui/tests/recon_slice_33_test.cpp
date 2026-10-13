@@ -86,26 +86,6 @@ void testHardwareSkinPrepare() {
     CHECK(tech.calls == 2);
 }
 
-void testCheckBoxRoundTrip() {
-    CGUICheckBoxStandIn box;
-    box.checked = true;
-    FakeAttributes attrs;
-    serializeCheckBox(box, attrs);
-    CHECK(attrs.bools["Checked"] == true);
-
-    CGUICheckBoxStandIn copy;
-    deserializeCheckBox(copy, attrs);
-    CHECK(copy.checked);
-}
-
-void testButtonDefaults() {
-    FakeAttributes attrs;
-    CGUIButtonStandIn button;
-    deserializeButton(button, attrs);
-    CHECK(button.pressed == false);
-    CHECK(button.pressedMode == false);
-}
-
 void testCollisionManagerConstructor() {
     IVideoDriverStandIn driver;
     CollisionManagerStandIn manager;
@@ -157,8 +137,6 @@ void testEmptyBases() {
 int main() {
     testLoaderConstructor();
     testHardwareSkinPrepare();
-    testCheckBoxRoundTrip();
-    testButtonDefaults();
     testCollisionManagerConstructor();
     testCollisionResultShortCut();
     testTerrainLodTable();

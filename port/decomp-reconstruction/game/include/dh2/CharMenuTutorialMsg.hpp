@@ -9,6 +9,8 @@
 #include <deque>
 #include <string>
 
+#include "dh2/DebugCachedCharacter.hpp"
+
 class CharMenuTutorialMsg {
 public:
     CharMenuTutorialMsg(int stringId, const std::string& frame, const std::string& menu); // 0x433b44 (C1), 0x433b70 (C2)
@@ -26,4 +28,9 @@ public:
     // Pushed by Script_EnqueueCharMenuTutorialMessage::Execute 0x460b1c,
     // read by NativeGetCharMenuTutorialMessage 0x44c7a0, popped by Script_SkipCharMenuTutorialMessage 0x4603d0.
     static std::deque<CharMenuTutorialMsg> s_queue;
+
+    // The HUD node that receives the callbacks (_ZN19CharMenuTutorialMsg10s_NodeNameE at 0x9a54ac, .bss: null, no code stores it) and the
+    // cache of the found character (_ZN19CharMenuTutorialMsg16s_NodeCachedCharE at 0x9a547c, .bss, 48 bytes).
+    static const char* s_NodeName;
+    static DebugCachedCharacter s_NodeCachedChar;
 };

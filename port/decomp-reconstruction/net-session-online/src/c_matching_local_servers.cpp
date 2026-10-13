@@ -13,8 +13,8 @@
 // name the transport manager reports for the address (vtable +0x1c). The original reads the online clock twice
 // for a new entry (last-seen time, then the time offset); so does this. Partial only because the clock is
 // OnlineNowMs, the stand-in for the COnline virtual at slot 0 (GetAbsoluteTime).
-std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, const CNetworkId& address,
-                                       std::int32_t rank, const CRoomAttributes& attributes) {
+std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, CNetworkId& address,
+                                       std::int32_t rank, CRoomAttributes& attributes) {
     serversMutex_.Lock();
     for (auto& entry : servers_) {
         if (entry.second.address.IsEqual(address)) {

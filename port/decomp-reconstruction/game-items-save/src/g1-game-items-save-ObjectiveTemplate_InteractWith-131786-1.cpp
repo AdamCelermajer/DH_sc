@@ -1,13 +1,12 @@
 // Batch g1-game-items-save-ObjectiveTemplate_InteractWith-131786-1 (owner ObjectiveTemplate_InteractWith, part 2 of 2).
-// Covers the six Compile instances, the six handleEvent instances and the DBG_TraceDetailedObjectiveInformation instances
-// for v2QuestPickedUpLiftable, v2QuestOpenGameObject, v2QuestTalkToNPC and v2QuestTriggerPlate. Part 1
-// (-131786-0) holds the GetPositions, the destructors and the DBG instances of v2QuestTriggerOn and v2QuestDestroyGameObject.
+// Covers the six Compile instances and the six handleEvent instances. Part 1 (-131786-0) holds the GetPositions, the
+// destructors and all six DBG_TraceDetailedObjectiveInformation instances.
 // Declarations and layout come from dh2/ObjectiveTemplate_InteractWith.hpp.
 //
 // The class is a template. Each body is a template definition in this file, followed by an explicit instantiation for
 // each instance whose address is in the comment above it (the convention of part 1). The six instances of Compile and of
 // handleEvent run the same code in the listing (the Hex-Rays pseudocode is identical per method, apart from casts), so
-// one definition serves them all. The four DBG instances here use the same template text as part 1.
+// one definition serves them all.
 //
 // Layout used (32-bit offsets, as the listing reads them):
 //  * Objective (dh2/Objective.hpp): m_type +0x04, m_valid +0x08, m_pyData +0x0c (the row), m_completed +0x14.
@@ -29,10 +28,6 @@
 //  * The listing reads and writes the event through the pointer it receives without a type check. The event is therefore
 //    viewed as TEvent (each of the six QE_ classes derives from QE_InteractWith), and const is cast off for the two writes,
 //    which the listing performs as well.
-//  * PARTIAL, DBG_TraceDetailedObjectiveInformation: the same as part 1. The table names (Arrays::CharacterTable for
-//    type 5, Arrays::LevelList for the level) are printed as kUnreadTableName, not read, because they are declared in
-//    pydata-accessors/member_names.hpp, which cannot share a translation unit with Character.hpp. The character name is
-//    ObjectBase::m_name.c_str(), the mapping used for the word at Character +0x44 by g1-game-world-GameObject-5d2019-3.cpp.
 
 #include "dh2/ObjectiveTemplate_InteractWith.hpp"
 
@@ -53,14 +48,6 @@
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
-
-namespace {
-
-// PARTIAL placeholder for a pydata table name in the DBG listing (see the note at the top of this file). The listing
-// prints names[index], or "na" when the index is outside the table.
-constexpr const char* kUnreadTableName = "?";
-
-}  // namespace
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Compile (slot 0x08). The six instances have the same code.
@@ -154,60 +141,6 @@ template bool ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, Q
 template bool ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerOn, QE_TriggerOn>::handleEvent(const IEvent*,
                                                                                                     const EventManager*);
 
-// ---------------------------------------------------------------------------------------------------------------------
-// DBG_TraceDetailedObjectiveInformation (slot 0x0c). The listing prints the header line, the type name, the object and
-// the level, then calls Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation for the base lines.
-// PARTIAL: the table names are printed as kUnreadTableName, not read from the pydata tables. The rest of the control
-// flow and the output are the listing's. The text of this template is the same as in part 1.
-
-template <typename TStruct, typename TEvent>
-int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const {
-    std::FILE* out = reinterpret_cast<std::FILE*>(stream);
-    const Structs::v2QuestObjectiveStub* row = m_pyData;  // +0x0c the row this objective was built from
-
-    static_cast<void>(std::fwrite("\t  Objective_InteractWith\n", 1, 0x1A, out));
-    const char* constantName =
-        ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
-    std::fprintf(out, "\t    Type        : %s\n", constantName);
-
-    if (row->m_w1 == 5) {  // type 5: the object is a character, matched by its property id
-        const int objectId = row->m_w8;  // row +0x20
-        Character* matched = nullptr;
-        for (Character* character : ApplicationGetInstance().m_objectManager->m_characters) {  // ObjectManager +0x60
-            if (objectId == character->SafeGetCharPropsId()) {
-                matched = character;
-                break;
-            }
-        }
-        if (matched == nullptr) {
-            // PARTIAL: the listing prints Arrays::CharacterTable::m_memberNames[objectId] here (or "na").
-            std::fprintf(out, "\t    Object      : %s(%d) => ??\n", kUnreadTableName, objectId);
-        } else {
-            // PARTIAL: the listing prints Arrays::CharacterTable::m_memberNames[objectId] (or "na") first. The character
-            // name is read at Character +0x44, which is ObjectBase::m_name.c_str().
-            std::fprintf(out, "\t    Object      : %s(%d) => %s\n", kUnreadTableName, objectId, matched->m_name.c_str());
-        }
-    } else {
-        std::fprintf(out, "\t    Object      : %d\n", row->m_w8);  // row +0x20
-    }
-
-    // PARTIAL: the listing prints Arrays::LevelList::m_memberNames[row->m_w9] (or "na") here.
-    std::fprintf(out, "\t    Level (OID) : %s\n\n", kUnreadTableName);  // row +0x24
-    return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);
-}
-
-// 0x47df64 _ZNK30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
-template int ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, QE_PickedUpLiftable>::
-    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;
-
-// 0x47e16c _ZNK30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
-template int ObjectiveTemplate_InteractWith<Structs::v2QuestOpenGameObject, QE_OpenGameObject>::
-    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;
-
-// 0x47e374 _ZNK30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTalkToNPCE12QE_TalkToNPCE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
-template int ObjectiveTemplate_InteractWith<Structs::v2QuestTalkToNPC, QE_TalkToNPC>::DBG_TraceDetailedObjectiveInformation(
-    __sFILE* stream) const;
-
-// 0x47e57c _ZNK30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
-template int ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_TriggerPlate>::
-    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;
+// DBG_TraceDetailedObjectiveInformation (slot 0x0c) of the four instances at 0x47df64, 0x47e16c, 0x47e374 and 0x47e57c is in part 1
+// (-131786-0), with the two other instances: one template body, read from the pydata name tables. (link-1: this file held a
+// second, partial body with the names printed as "?"; two definitions of one symbol are not allowed.)

@@ -19,10 +19,16 @@
 #include <vector>
 
 #include "core-platform/memory.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/QE_GatherLoot.hpp"
 #include "dh2/TrophyManager.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 
 // Declarations of the pydata accessor used by SetPotionQty (same declarations as pydata-accessors/member_names.hpp,
@@ -376,15 +382,29 @@ int ItemInventory::TransferItemTo(unsigned int a2, ItemInventory& a3, bool a4, b
 }
 
 // 0x3ffa68 _ZN13ItemInventory19TransferInventoryToERS_bb
-// PARTIAL: the GatherLoot quest event raised for each moved item is not reproduced. For a player character whose item id
-// is on a2's active quest-gathering list, the original raises a QE_GatherLoot on the current level (type id from
-// PyDataConstants "v2QuestObjectiveType"/"GatherLoot", the character, the item id as the match id, -1 for target and value).
-// That needs IEvent::eventId_ set: it is protected in net-session-online/i_event.hpp, and QE_GatherLoot declares no
-// constructor (layout request: QE_GatherLoot(std::uint32_t eventId), owner Objective_GatherLoot).
-// The return value is 0 here; the original returns what TransferGoldTo leaves in r0 (TransferGoldTo is declared void).
+// Moves every item to a2 (_AddItemInstance), frees the slot and, when a2 belongs to a player character whose active quest
+// list holds the item id, raises a QE_GatherLoot on the current level (the PyData "v2QuestObjectiveType"/"GatherLoot" id, the
+// character, -1 for target and value, the item id as the match id; EventManager::RaiseAsync). Then the gold goes over
+// (TransferGoldTo). The original returns what TransferGoldTo leaves in r0 (declared void here); this returns 0.
 int ItemInventory::TransferInventoryTo(ItemInventory& a2, bool a3, bool a4) {
     for (ItemSlot* slot : m_items) {
         a2._AddItemInstance(slot->m_item, a3, a4);
+        const int itemId = slot->m_item->GetItemId();
+        Character* owner = a2.m_character;
+        if (owner != nullptr && owner->IsPlayer()) {
+            const auto& wanted = a2.m_activeQuestGatheredItemIds;
+            const bool listed = std::any_of(wanted.begin(), wanted.end(),
+                                            [itemId](const QuestGatheredItem& entry) { return entry.m_itemId == itemId; });
+            if (listed) {
+                Level* level = ApplicationGetInstance().GetCurrentLevel();
+                if (level != nullptr) {
+                    const std::int32_t gatherLootId =
+                        ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "GatherLoot");
+                    QE_GatherLoot event(gatherLootId, owner, -1, -1, itemId);
+                    level->RaiseAsync(event);
+                }
+            }
+        }
         CustomFree(slot);
     }
     m_items.clear();
@@ -393,9 +413,8 @@ int ItemInventory::TransferInventoryTo(ItemInventory& a2, bool a3, bool a4) {
 }
 
 // 0x3ffc40 _ZN13ItemInventory12SetPotionQtyEi
-// PARTIAL: the "Potion0" lookup uses Arrays::GetMemberIDByString, which bounds the loop by m_memberNames.size. The
-// original loop bounds by Arrays::ItemTable::size, a separate global that no header declares yet. When no potion
-// exists the new potion is created with the id found by that lookup.
+// The "Potion0" lookup walks Arrays::ItemTable::m_memberNames up to Arrays::ItemTable::size (the original inlines the loop),
+// and the id is -1 when no name matches. When no potion exists the new potion is created with that id.
 void ItemInventory::SetPotionQty(int a2) {
     if (m_potion) {
         if (a2) {
@@ -405,7 +424,13 @@ void ItemInventory::SetPotionQty(int a2) {
         }
         return;
     }
-    const int itemId = Arrays::GetMemberIDByString<Arrays::ItemTable>("Potion0");
+    int itemId = -1;
+    for (std::uint32_t i = 0; i < Arrays::ItemTable::size; ++i) {
+        if (std::strcmp("Potion0", Arrays::ItemTable::m_memberNames.names[i]) == 0) {
+            itemId = static_cast<int>(i);
+            break;
+        }
+    }
     ItemInstance* potion = new ItemInstance(itemId, static_cast<unsigned int>(a2));
     _AddItemInstance(potion, true, false);
 }

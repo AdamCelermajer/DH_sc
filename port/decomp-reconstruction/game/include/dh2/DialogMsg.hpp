@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "dh2/DebugCachedCharacter.hpp"
+
 class DialogMsg : public std::string {
 public:
     ~DialogMsg();                                                       // 0x31feb0
@@ -33,4 +35,9 @@ public:
     // Skip function name of the DialogMsg queue (ELF _ZN9DialogMsg14s_SkipFuncNameE, a pointer). When it is set, the
     // skip step invokes it on the queue (MenuBase::FS_StopDialog). The definition goes in the DialogMsg source.
     static const char* s_SkipFuncName;
+
+    // The HUD node that receives the callbacks: the path "_root" (ELF _ZN9DialogMsg10s_NodeNameE at 0x99982c, .data) and the cache of the
+    // found character (_ZN9DialogMsg16s_NodeCachedCharE at 0x9a5448, .bss, 48 bytes). Read by MenuMessageManager<DialogMsg, 1>::Invoke.
+    static const char* s_NodeName;
+    static DebugCachedCharacter s_NodeCachedChar;
 };

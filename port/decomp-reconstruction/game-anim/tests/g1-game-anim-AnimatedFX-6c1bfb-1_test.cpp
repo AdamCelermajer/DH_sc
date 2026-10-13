@@ -14,6 +14,7 @@
 #include "dh2/AnimatedFX.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
 
 namespace {
@@ -30,6 +31,7 @@ int g_failures = 0;
 
 alignas(AnimatedFX) unsigned char g_fxStorage[sizeof(AnimatedFX)];
 alignas(VisualObject) unsigned char g_visualStorage[sizeof(VisualObject)];
+alignas(RootSceneNode) unsigned char g_nodeStorage[sizeof(RootSceneNode)];  // the visual's root node (SetVisible writes its cull flag)
 
 int g_syncCalls = 0;
 bool g_syncLastPush = true;
@@ -84,6 +86,8 @@ int Application::GetDt() {
 int main() {
     std::memset(g_fxStorage, 0, sizeof g_fxStorage);
     std::memset(g_visualStorage, 0, sizeof g_visualStorage);
+    std::memset(g_nodeStorage, 0, sizeof g_nodeStorage);
+    RootSceneNode* node = reinterpret_cast<RootSceneNode*>(g_nodeStorage);
     AnimatedFX* fx = reinterpret_cast<AnimatedFX*>(g_fxStorage);
 
     // SetRotation: the three words hold the float bits, the flag at +0x4c is set, and
@@ -110,8 +114,13 @@ int main() {
     EXPECT(g_visualCalls == 0);
 
     // With a visual: VisualObject::SetVisible receives the new value.
-    fx->m_visual = reinterpret_cast<VisualObject*>(g_visualStorage);
+    // The root node of the visual takes the flag too (RootSceneNode::m_cullBeforeUpdate, +0x200).
+    VisualObject* visual = reinterpret_cast<VisualObject*>(g_visualStorage);
+    visual->m_node = node;
+    node->m_cullBeforeUpdate = true;
+    fx->m_visual = visual;
     fx->SetVisible(false);
+    EXPECT(node->m_cullBeforeUpdate == false);
     EXPECT(fx->unk_24 == false);
     EXPECT(g_visualCalls == 1);
     EXPECT(g_visualLastArg == false);
@@ -121,6 +130,13 @@ int main() {
     fx->SetVisible(false);
     EXPECT(g_visualCalls == 1);
     EXPECT(g_syncCalls == 3);
+
+    // A change back: the visual and its node get the new value.
+    fx->SetVisible(true);
+    EXPECT(g_visualCalls == 2);
+    EXPECT(g_visualLastArg == true);
+    EXPECT(node->m_cullBeforeUpdate == true);
+    EXPECT(g_syncCalls == 4);
 
     if (g_failures == 0) {
         std::printf("g1-game-anim-AnimatedFX-6c1bfb-1 test OK\n");

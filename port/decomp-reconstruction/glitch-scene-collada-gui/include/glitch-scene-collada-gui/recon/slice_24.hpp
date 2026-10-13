@@ -1,11 +1,9 @@
-// Slice 24 reconstruction declarations (glitch init steps and two CGUIComboBox setters).
-// Member offsets come from glitch-scene-collada-gui/layouts/gui.hpp only.
+// Slice 24 reconstruction declarations (glitch init steps). (The two CGUIComboBox setters of the slice are in gui/CGUIComboBox.hpp.)
 #pragma once
 
 #include <cstdint>
 #include <vector>
 
-#include "glitch-scene-collada-gui/layouts/gui.hpp"
 
 namespace glitch {
 
@@ -23,13 +21,3 @@ char* init();
 int registerInitStep(void (*step)(bool));
 
 }  // namespace glitch
-
-namespace glitch::gui::recon_24 {
-
-// 0x6aaa64 _ZN6glitch3gui12CGUIComboBox16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
-void setTextAlignment(CGUIComboBox* combo, std::int32_t horizontal, std::int32_t vertical);
-
-// 0x6aab1c _ZN6glitch3gui12CGUIComboBox11setSelectedEi
-void setSelected(CGUIComboBox* combo, std::int32_t index);
-
-}  // namespace glitch::gui::recon_24

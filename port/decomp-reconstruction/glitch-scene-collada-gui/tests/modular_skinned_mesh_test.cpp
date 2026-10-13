@@ -1,4 +1,7 @@
-#include "glitch-scene-collada-gui/modular_skinned_mesh.hpp"
+// glitch::collada::CModularSkinnedMesh (canonical class, collada/CModularSkinnedMesh.hpp): the category and module tables, built over a
+// hand-made SInstanceModularSkin.
+#include "glitch-scene-collada-gui/collada/CModularSkinnedMesh.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -9,65 +12,55 @@ static int failures = 0;
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 int main() {
-    CModularSkinnedMesh m;
-    CModularSkinnedMesh::SCategoryTable table;
-    table.count = 3;
-    m.categories = &table;
-    m.currentModules.resize(3);
-    m.currentModules[1].moduleId = 4;
-    CHECK(m.getType() == 3);
-    CHECK(m.clone() == nullptr);
-    CHECK(m.getCategoryCount() == 3);
-    CHECK(m.getCurrentModuleId(1) == 4);
-    CHECK(m.getCurrentModuleId(0) == -1);
-    CHECK(m.reallocate(100) == 0);
-    CHECK(m.getMeshBufferCount() == 0);
-    CModularSkinnedMesh::SModularBuffer b;
-    CHECK(b.needsOutputBuffer);
-    SCountedRef mat;
-    b.material = &mat;
-    m.buffers.push_back(b);
-    m.needOutputBufferFlag = true;
-    CHECK(m.needOutputBuffer());
-    CHECK(m.getMeshBufferCount() == 1);
-    SCountedRef* out = nullptr;
-    m.getMaterial(out, 0);
-    CHECK(out == &mat && mat.count == 1);
-    // Category and module names through the table records.
-    CModularSkinnedMesh named;
-    CModularSkinnedMesh::SModuleHolder head{0, "head"};
-    CModularSkinnedMesh::SModuleHolder torso{0, "torso"};
-    CModularSkinnedMesh::SModuleHolder sword{0, "sword"};
-    CModularSkinnedMesh::SModuleRecord bodyModules[2];
-    bodyModules[0].holder = &head;
-    bodyModules[1].holder = &torso;
-    CModularSkinnedMesh::SModuleRecord weaponModules[1];
-    weaponModules[0].holder = &sword;
-    CModularSkinnedMesh::SCategoryEntry categoryEntries[2];
-    categoryEntries[0].name = "body";
-    categoryEntries[0].moduleCount = 2;
-    categoryEntries[0].modules = bodyModules;
-    categoryEntries[1].name = "weapon";
-    categoryEntries[1].moduleCount = 1;
-    categoryEntries[1].modules = weaponModules;
-    CModularSkinnedMesh::SCategoryTable namedTable;
-    namedTable.count = 2;
-    namedTable.entries = categoryEntries;
-    named.categories = &namedTable;
-    named.currentModules.resize(2);
-    named.currentModules[0].moduleId = 1;
-    CHECK(std::strcmp(named.getCategoryName(1), "weapon") == 0);
-    CHECK(named.getCategoryName(2) == nullptr);
-    CHECK(std::strcmp(named.getModuleName(0, 0), "head") == 0);
-    CHECK(named.getModuleName(1, 1) == nullptr);
-    CHECK(std::strcmp(named.getCurrentModuleName(0), "torso") == 0);
-    CHECK(named.getCurrentModuleName(1) == nullptr);
-    CHECK(named.getCategoryId("weapon") == 1);
-    CHECK(named.getCategoryId("missing") == -1);
-    CHECK(named.getModuleId("torso") == 1);
-    CHECK(named.getModuleId("sword") == 0);
-    CHECK(named.getModuleId("missing") == -1);
-    CHECK(!named.getBoundingBox().MinEdge.X);
+    SInstanceController head, torso, sword;
+    head.name = "head";
+    torso.name = "torso";
+    sword.name = "sword";
+    SModularModule bodyModules[2];
+    bodyModules[0].controller = &head;
+    bodyModules[1].controller = &torso;
+    SModularModule weaponModules[1];
+    weaponModules[0].controller = &sword;
+    SModularCategory categories[2];
+    categories[0].name = "body";
+    categories[0].defaultModule = "none";  // no module of that name: the slot keeps -1 and no controller is built
+    categories[0].moduleCount = 2;
+    categories[0].modules = bodyModules;
+    categories[1].name = "weapon";
+    categories[1].defaultModule = "none";
+    categories[1].moduleCount = 1;
+    categories[1].modules = weaponModules;
+    SInstanceModularSkin instance;
+    instance.categoryCount = 2;
+    instance.categories = categories;
+
+    CColladaDatabase database;
+    CRootSceneNode root(database);
+    CModularSkinnedMesh mesh(database, &instance, &root, 0, false);
+
+    CHECK(mesh.getType() == 3);
+    CHECK(!mesh.clone());
+    CHECK(mesh.getCategoryCount() == 2);
+    CHECK(mesh.getCategoryModuleCount(0) == 2);
+    CHECK(mesh.getCategoryModuleCount(1) == 1);
+    CHECK(mesh.getCurrentModuleId(0) == -1);
+    CHECK(mesh.getMeshBufferCount() == 0);
+
+    // Names through the module records.
+    CHECK(std::strcmp(mesh.getCategoryName(1), "weapon") == 0);
+    CHECK(mesh.getCategoryName(2) == nullptr);
+    CHECK(std::strcmp(mesh.getModuleName(0, 0), "head") == 0);
+    CHECK(mesh.getModuleName(1, 1) == nullptr);
+    CHECK(mesh.getCurrentModuleName(0) == nullptr);
+    CHECK(mesh.getCategoryId("weapon") == 1);
+    CHECK(mesh.getCategoryId("missing") == -1);
+    CHECK(mesh.getModuleId("torso") == 1);
+    CHECK(mesh.getModuleId("sword") == 0);
+    CHECK(mesh.getModuleId("missing") == -1);
+
+    // The skinning flag of ISkinnedMesh.
+    CHECK(mesh.skinningEnabled);
+    CHECK(mesh.getBoundingBox().MinEdge.X == -1.0f);
 
     std::printf("%s\n", failures ? "modular_skinned_mesh: FAILED" : "modular_skinned_mesh: ok");
     return failures != 0;

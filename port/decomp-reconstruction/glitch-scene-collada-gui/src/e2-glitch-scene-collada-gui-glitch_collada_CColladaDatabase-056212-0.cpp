@@ -7,76 +7,6 @@
 
 namespace glitch::collada {
 
-// 0x61ace8 glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, glitch::collada::SInstanceController*, glitch::collada::CRootSceneNode*, bool) const
-// PARTIAL: stub. The original (a) builds the named controller through the overload
-// constructController(IVideoDriver*, char const*, CRootSceneNode*) (another batch, not declared here);
-// (b) when that object exists, resolves each material binding of the instance (count at +0x0c, bindings at
-// +0x10, stride 0x3c) with getMaterial(driver, name, name2) or getMaterial(driver, word +0x08) (neither is
-// declared here), creates the material and vertex-attribute map through the factory and the built
-// object's vtable (slots +0x20 and +0x40, not named), and (c) runs the vtable slot +0x40 call with the flag.
-// None of that is reconstructed, so the out slot is left null.
-glitch::IReferenceCounted** CColladaDatabase::constructController(glitch::IReferenceCounted** out,
-                                                                  video::IVideoDriver* driver,
-                                                                  SInstanceController* instance,
-                                                                  CRootSceneNode* root, bool flag) const {
-    (void)driver;
-    (void)instance;
-    (void)root;
-    (void)flag;
-    *out = nullptr;
-    return out;
-}
-
-// 0x61aeb8 glitch::collada::CColladaDatabase::constructGeometry(glitch::video::IVideoDriver*, glitch::collada::SInstanceGeometry*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: stub. The original starts by clearing the out slot, as this does. It then builds the geometry
-// through one of the named overloads (URL word at instance +0x00 with the "#" skipped, or the
-// instance-less path, both in another batch), and for each material binding (count +0x0c, bindings +0x10,
-// stride 0x3c) resolves the material and calls the factory's vertex-attribute map builder (factory slot +0x24)
-// on the driver's own factory word (driver +0x04, its vtable is not named). None of that is reconstructed.
-glitch::IReferenceCounted** CColladaDatabase::constructGeometry(glitch::IReferenceCounted** out,
-                                                                video::IVideoDriver* driver,
-                                                                SInstanceGeometry* instance,
-                                                                CRootSceneNode* root) const {
-    (void)driver;
-    (void)instance;
-    (void)root;
-    *out = nullptr;
-    return out;
-}
-
-// 0x61b2f4 glitch::collada::CColladaDatabase::constructNode(glitch::video::IVideoDriver*, glitch::collada::SNode*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: stub. The layout is known (SNode in collada_database.hpp) and the original does the following:
-// the node is created by factory slot +0x40 (billboard, when SNode::billboard is set) or +0x3c (plain node);
-// each object instance (instanceCount, stride 8) is built by constructCamera / constructLight / constructEmitter
-// / constructGNPSEmitter / constructCoronas / constructForce / constructModularSkin / constructGeometry / constructController
-// and attached with the node's vtable slot +0x5c; the transform is set through the node's slots +0xa4, +0x9c,
-// +0x94 and +0x48, and the flag word +0x34 through slot +0x48 (slot names not mapped); the child nodes
-// (childCount, children stride 0x50) are built recursively and attached. Missing: the emitter and GNPS and
-// coronas and modular-skin overloads are not declared, the factory slots +0x48..+0x50 and +0x64..+0x68 are not
-// named for the object kinds they build, and the node vtable slots are unnamed. Returns null.
-void* CColladaDatabase::constructNode(video::IVideoDriver* driver, SNode* node, CRootSceneNode* root) const {
-    (void)driver;
-    (void)root;
-    if (node == nullptr) {
-        return nullptr;  // original: if (!a3) return 0
-    }
-    return nullptr;
-}
-
-// 0x61b9e8 glitch::collada::CColladaDatabase::constructScene(glitch::video::IVideoDriver*) const
-// PARTIAL: stub. The original returns null when the record is missing (reproduced). Otherwise it creates
-// the root with factory slot +0x54 (createScene), scans the scene object at holder +0xb8 (count at +0x00 of
-// the scene object, base at +0x04 of 8-byte instances, kind 6 = visual scene) and calls constructVisualScene
-// for each such entry, then CRootSceneNode::onPostLoad and resolveURLs on the root. The scene object is not
-// modelled in SDatabaseTables (see getScene), and resolveURLs is not declared, so the root is not built.
-CRootSceneNode* CColladaDatabase::constructScene(video::IVideoDriver* driver) const {
-    (void)driver;
-    if (record == nullptr) {
-        return nullptr;  // original: if (!*this) return nullptr
-    }
-    return nullptr;
-}
-
 // 0x61c0c8 glitch::collada::CColladaDatabase::getAnimation(char const*, glitch::collada::SChannel::Type, unsigned char) const
 // Walks the animation table (count = tables().animations.size()). Each animation's channel record (SAnimation
 // +0x10) is tested by kind: kind 9 and kind 5 accept channel types 5 and 9 by name; kinds 87..91 (0x57..0x5b,
@@ -134,7 +64,7 @@ SAnimation* CColladaDatabase::getBlendableAnimation(const SChannel* channel) con
 // +0x38, base +0x3c, stride 0x50) are searched in order, and the first match is returned. A node with a
 // null name never matches here; the original would call strcmp on it.
 SNode* CColladaDatabase::getNode(const char* name, SNode& node) const {
-    if (node.name != nullptr && std::strcmp(node.name, name) == 0) {
+    if (node.id != nullptr && std::strcmp(node.id, name) == 0) {
         return &node;
     }
     for (std::uint32_t i = 0; i < node.childCount; ++i) {
@@ -246,7 +176,7 @@ bool CColladaDatabase::getDefaultValue(const char* name, SChannel::Type type, vo
             if (light == nullptr) {
                 return fail();
             }
-            *out = static_cast<void*>(light->unk_0c);
+            *out = static_cast<void*>(light->color);
             return true;
         }
         case 20: {

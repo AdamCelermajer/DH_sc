@@ -32,8 +32,10 @@ upstream by name and size are ledgered `upstream`; the rest are reconstructed li
 glue moved to game-ui and the `sfc::script::lua` wrapper to game-app.
 
 In-scope total: 25,218 functions. Thunks, the STL runtime and `libStormGLOFT.so` stay out of scope.
-`dh2_vendor_lua` and `dh2_vendor_box2d` build and link into `dh2_game`; gameswf is headers-only until the
-glitch render backend exists. Game code may include `lua.h`, `Box2D.h` and `gameswf/gameswf_value.h`.
+`dh2_vendor_lua`, `dh2_vendor_box2d` and `dh2_vendor_gameswf` (the 68 upstream units under
+`vendor-gameswf/upstream/gameswf-r1714`, minus the definitions the DH2 sources replace; zlib is the copy from
+`../irrlicht-prototype`, option `DH2_SYSTEM_ZLIB` uses the toolchain's) build as libraries of their own and are part of
+the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gameswf_value.h`.
 
 ## One tree, one definition
 
@@ -54,6 +56,21 @@ glitch render backend exists. Game code may include `lua.h`, `Box2D.h` and `game
   records a layout request (see Reports below). The integrator applies the request to the owner header.
 - **Stand-ins.** No new `deps/` stand-ins for game code. Existing engine `deps/` headers stay until
   the engine unification wave.
+- **Link integration (link-1).** Every library is one member of a rescanned link group (`dh2_all`), and every test links
+  `dh2_all_tests`: the same group plus `dh2_test_link_stubs`. The stub archive holds one aborting definition for each symbol
+  that a test reaches and no library defines yet (`link-stubs/link_stubs.csv`, regenerated from the link; the full list of
+  symbols without a body is `reports/decomp-reconstruction/link-missing.csv`). A stub is the last archive, so a real
+  definition anywhere wins, and the ctest `link/library-duplicates` fails when a stub is stale or two libraries define
+  one symbol. Test executables link with `--allow-multiple-definition`: the test's own definitions come first and win, so a
+  test can still replace a seam with a recording double; a library may not do that. A double that should win must be a
+  strong definition (a `weak` one loses to an archive member in a COFF link). A test must not keep a double for a function
+  that the tree now defines, unless it is a deliberate spy. `-flifetime-dse=0` is set for GCC: the original compiler kept
+  stores to an object before its constructor and in its destructor, and the code and the tests read them.
+  `boost::intrusive_ptr(T*)` takes over the reference it is given; use `(p, true)` to add a use.
+  `py -3 tools/trackb/link_report.py stubs|missing|overrides` regenerates `link-stubs/link_stubs.csv` (from the tests'
+  undefined symbols; rerun cmake and ninja after it), `reports/decomp-reconstruction/link-missing.csv` and
+  `reports/decomp-reconstruction/link-test-overrides.csv` (the library definitions that a test replaces). Run it with
+  one ninja at a time in the build directory, after `ninja -k 0` has built every library and test object.
 
 ## Layout rules (game classes)
 

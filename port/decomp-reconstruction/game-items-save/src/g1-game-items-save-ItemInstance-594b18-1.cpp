@@ -29,6 +29,7 @@
 #include "core-platform/memory.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/StringManager.hpp"
+#include "dh2/VarArgs.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/item_instance.hpp"
 #include "pydata-accessors/structs_records.hpp"
@@ -288,14 +289,11 @@ void ItemInstance::SetValue(int value) {
 }
 
 // 0x3fbc60 ItemInstance::AddPower(int, int)
-// PARTIAL, two gaps:
-//  (a) variant 1 (_Hard) and 2 (_VeryHard) pick the id powerId + variant when that row's name is the base name plus the
-//      suffix. The base name needs the id-to-name table Arrays::ItemPowerTable::m_memberNames (member_names.hpp), which
-//      cannot share a translation unit with the w7 record headers used here. The id is kept as given for every variant.
-//  (b) when the row has values (m_w3 != 0) the description is StringManager::parseEx of getString(m_w5) with a VarArgs
-//      list built from the element table at m_w4. VarArgs has only a forward declaration (dh2/StringManager.hpp), so that
-//      description stays empty.
-// The power id, the value (m_w7) and the insertion step are reproduced.
+// The difficulty variant: 1 picks power id + 1 when its name is the base name plus "_Hard", 2 picks id + 2 when its name is the
+// base name plus "_VeryHard" (names from Arrays::ItemPowerTable::m_memberNames). The power is pushed with the row's value (m_w7).
+// A row with values (m_w3 != 0) builds its description with StringManager::parseEx over a VarArgs list, one variant per entry of
+// the row's AttrBonusEntry table (the value as a float scaled by 1/256, the value >> 8 as an int); a row without values copies
+// the string m_w5. The new power is then moved into value order by the insertion step.
 void ItemInstance::AddPower(int powerId, int variant) {
     const int powerCount = static_cast<int>(Arrays::ItemPowerTable::size);
     if (powerId < 0 || powerId >= powerCount) {
@@ -303,19 +301,37 @@ void ItemInstance::AddPower(int powerId, int variant) {
         // The original goes on and reads the table past its end (undefined here). Nothing is added.
         return;
     }
-    (void)variant;  // gap (a) above
 
-    const int id = powerId;
+    int id = powerId;
+    if (variant == 1 || variant == 2) {
+        const int variantId = powerId + variant;
+        char variantName[64];
+        std::strcpy(variantName, Arrays::ItemPowerTable::m_memberNames.names[powerId]);
+        std::strcpy(&variantName[std::strlen(variantName)], variant == 1 ? "_Hard" : "_VeryHard");
+        if (std::strcmp(variantName, Arrays::ItemPowerTable::m_memberNames.names[variantId]) == 0) {
+            id = variantId;
+        }
+    }
     const Structs::ItemPowerRef* row = TableRow<Structs::ItemPowerRef>(Arrays::ItemPowerTable::members, id);
     PowerInfo info;
     info.m_powerId = id;
     info.unk_04 = row->m_w7;  // +0x1c, the ItemPowerTable value
     m_powers.push_back(info);
 
-    if (row->m_w3 == 0) {
+    if (row->m_w3 != 0) {
+        VarArgs args;
+        const auto* values = static_cast<const Structs::AttrBonusEntry*>(row->m_w4);
+        for (std::uint32_t k = 0; k < row->m_w3; ++k) {
+            VarArgs::Variant entry;
+            entry.number = static_cast<float>(values[k].m_w2) * 0.00390625f;
+            entry.integer = values[k].m_w2 >> 8;
+            entry.text = nullptr;
+            args.m_variants.push_back(entry);
+        }
+        ApplicationGetStringManager()->parseEx(m_powers.back().m_desc, ApplicationGetStringManager()->getString(row->m_w5), args);
+    } else {
         m_powers.back().m_desc.assign(ApplicationGetStringManager()->getString(row->m_w5));
     }
-    // else: gap (b) above.
 
     // Insertion step on the value, compared by position. PowerInfo::swap does not move unk_04, so this pass compares the
     // values at their positions while it swaps the ids and descriptions, as the original does.

@@ -35,6 +35,12 @@
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app.hpp"
 #include "gameswf/gameswf_environment.h"
+#include "core-platform/w7_global_rem.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 #include "vendor-gameswf/as_value.hpp"
 
 // Globals of the original. The .bss addresses are HTC_DEVICES 0x9f6403, SHARP_DEVICES 0x9f6404, NO_IGP 0x9f6405
@@ -43,6 +49,18 @@ extern bool HTC_DEVICES;
 extern bool SHARP_DEVICES;
 extern bool NO_IGP;
 extern bool JAPANESE_BUILD;
+
+// The original's ASSERT(expr) in MenuMessageManager.cpp. gAssertLevel 2 stops the program (the original writes to address 0), 1 prints the
+// line, 0 is silent. (core-platform/memory.hpp is not included here: its declarations clash with the game headers.)
+extern int gAssertLevel;
+static void ReportDialogAssert(const char* expr, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expr,
+                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Menus\\MenuMessageManager.cpp", line);
+    }
+}
 
 // 0x41f548 MenuBaseStar_sortlessthen(MenuBase const*, MenuBase const*)
 // A null first operand returns false and a null second operand returns true. Otherwise the menu names
@@ -58,24 +76,39 @@ bool MenuBaseStar_sortlessthen(const MenuBase* a, const MenuBase* b) {
 }
 
 // 0x433f04 GetDialogMsgListById(int, std::vector<DialogMsg, std::allocator<DialogMsg> >&)
-// PARTIAL: not rebuilt. The function returns false on every path, so out stays unchanged. The original fills out and
-// returns true for a valid dialog id. Missing:
-//   - the id asserts ("dialogId < (int)Arrays::Dialogs::size" at line 126, "dialogId >= 0" at line 127, both in
-//     MenuMessageManager.cpp) and the id bounds check. Arrays::Dialogs::size is declared in
-//     pydata-accessors/w7_arrays27.hpp. Arrays::Dialogs holds raw bytes (uint8_t* members), so the 12-byte record (stepsSize
-//     at +4, steps at +8) is not decoded. The IStreamBase conflict with dh2/PlayerManager.hpp is gone (both compile together).
-//   - the record Arrays::Dialogs::members[dialogId] (stepsSize at +4 of a 12-byte record, steps pointer at +8). The
-//     element layout of w7_arrays27.hpp is undecided (host stride there), so the stepsSize > 0 check is missing.
-//   - the step loop over the 20-byte steps (byte +4 actor, int +8 style, string id +12 text, string id +16 title).
-//     It needs StringManager::getString(int) (Application +0x34, _ZNK13StringManager9getStringEi). dh2/StringManager.hpp
-//     declares only getString(int, unsigned int packIdx), so the one-argument call is a declaration request. It also
-//     needs ParsePlayerName (core-platform/w7_global_rem.hpp). Per step: the DialogMsg title is ParsePlayerName(getString(+16)), m_text is
-//     ParsePlayerName(getString(+12)), m_style is the int at +8, and m_actorName becomes a one-character string made from
-//     the signed byte at +4 (the asm has no SetActorName call). The message is then pushed onto out.
+// Appends the steps of Arrays::Dialogs row dialogId to out and returns true. The id is checked with two asserts (MenuMessageManager.cpp
+// lines 126 "dialogId < (int)Arrays::Dialogs::size" and 127 "dialogId >= 0"; level 2 stops the program, level 1 prints) and a
+// row outside the table, or one without steps (assert line 133 "...stepsSize > 0"), returns false. Each step (Structs::DialogStep:
+// m_w1 the actor, m_w2 the style, m_w3 the text id, m_w4 the title id) becomes a DialogMsg: the title and the text are
+// ParsePlayerName(StringManager::getString(id)), the style is kept, and the actor name is the one-character string made from the actor
+// byte (the original builds it with no SetActorName call).
 bool GetDialogMsgListById(int dialogId, std::vector<DialogMsg>& out) {
-    (void)dialogId;
-    (void)out;
-    return false;
+    const int size = static_cast<int>(Arrays::Dialogs::size);
+    if (size <= dialogId) {
+        ReportDialogAssert("dialogId < (int)Arrays::Dialogs::size", 126);
+    }
+    if (dialogId < 0) {
+        ReportDialogAssert("dialogId >= 0", 127);
+    }
+    if (size <= dialogId || dialogId < 0) {
+        return false;
+    }
+    const Structs::DialogStepList& row = reinterpret_cast<const Structs::DialogStepList*>(Arrays::Dialogs::members)[dialogId];
+    if (row.m_w1 == 0) {
+        ReportDialogAssert("Arrays::Dialogs::members[dialogId].stepsSize > 0", 133);
+        return false;
+    }
+    StringManager* strings = ApplicationGetStringManager();
+    DialogMsg message(std::string(), std::string(), -1, -1);
+    const Structs::DialogStep* steps = static_cast<const Structs::DialogStep*>(row.m_w2);
+    for (std::uint32_t i = 0; i < row.m_w1; ++i) {
+        static_cast<std::string&>(message) = ParsePlayerName(std::string(strings->getString(steps[i].m_w4)));
+        message.m_text = ParsePlayerName(std::string(strings->getString(steps[i].m_w3)));
+        message.m_style = steps[i].m_w2;
+        message.m_actorName.assign(1, static_cast<char>(steps[i].m_w1));
+        out.push_back(message);
+    }
+    return true;
 }
 
 // 0x439c34 IsPlayableClassID(int)
@@ -149,20 +182,14 @@ void NativePopAllMenus(const gameswf::fn_call& call) {
 }
 
 // 0x439dfc NativeBeginCustom(gameswf::fn_call const&)
-// PARTIAL: Asm: MenuManager::GetInstance() and its GetHUDRoot(), then Application::GetSavedOption("HUDStyle") formats
-// "_root.menu_HUD_%d" in a 20-byte buffer. RenderFX::Find(root, name) gives the HUD character, RenderFX::InvokeASCallback
-// (root, character, "SetCustomText", nullptr, 0) runs the callback, and HUDControls::GetInstance()->BeginCustom() ends
-// it. GetInstance is static, so the r0 argument in the listing is a leftover and is not passed.
-// Partial: dh2/RenderFX.hpp declares Find as returning gameswf::as_object*, but the original passes the result on as a
-// gameswf::character* without an adjustment. The body uses reinterpret_cast to keep the pointer unchanged. Layout
-// request: RenderFX::Find (0x7a9160) returns gameswf::character*.
-void NativeBeginCustom(const gameswf::fn_call& call) {
-    (void)call;
+// The HUD root gets "SetCustomText" on the HUD style character ("_root.menu_HUD_<HUDStyle>", RenderFX::Find) and the HUD controls start
+// their customise mode (HUDControls::BeginCustom). GetInstance is static, so the r0 argument of the listing is a leftover.
+void NativeBeginCustom(const gameswf::fn_call& /*call*/) {
     MenuFX* hudRoot = MenuManager::GetInstance()->GetHUDRoot();
     const int hudStyle = ApplicationGetInstance().GetSavedOption("HUDStyle");
     char hudMenuName[20];
     std::snprintf(hudMenuName, sizeof hudMenuName, "_root.menu_HUD_%d", hudStyle);
-    auto* hudCharacter = reinterpret_cast<gameswf::character*>(hudRoot->Find(hudMenuName));
+    auto* hudCharacter = reinterpret_cast<gameswf::character*>(hudRoot->Find(hudMenuName));  // Find returns as_object*; the listing passes the pointer unchanged
     hudRoot->InvokeASCallback(hudCharacter, "SetCustomText", nullptr, 0);
     HUDControls::GetInstance()->BeginCustom();
 }

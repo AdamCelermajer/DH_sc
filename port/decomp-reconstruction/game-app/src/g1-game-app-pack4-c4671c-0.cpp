@@ -4,17 +4,27 @@
 //
 // What is reconstructed and what is not:
 //   - ScriptCmdImpl::Init and Update, the empty Execute bodies of Script_AIChangeScript, Script_AIDoSkill,
-//     Script_AIEnableTimer, Script_AIResetTimer and Script_AISetHP, and every IsBlocking in this batch (all return
-//     false) are complete.
-//   - Script_AISetInt::Execute, Script_ActivateTriggerPlate::Execute and Script_AutoEquip::Execute are PARTIAL. Each
-//     starts with the isTracingScriptCmd trace probe, which is reproduced. The rest reads the command's argument record
-//     (ScriptCmdImpl::m_args, +0x0c), which has no class or layout in the tree, so the object lookup and the effect on
-//     the object are not written. See the layout requests.
-//   - ~ScriptCmdImpl is PARTIAL for the same reason: the argument record is not released.
+//     Script_AIEnableTimer, Script_AIResetTimer and Script_AISetHP, every IsBlocking in this batch (all return
+//     false) and Script_AISetInt, Script_ActivateTriggerPlate and Script_AutoEquip Execute are complete. The last three
+//     start with the isTracingScriptCmd trace probe and read the argument record (ScriptCmdImpl::m_args, +0x0c), whose
+//     classes are the Structs::<Name> records of pydata-accessors/script_cmd.hpp.
+//   - ~ScriptCmdImpl finalizes and deletes the argument record.
 //
 // The D2 and D1 destructors (0x4559f8, 0x455a68) have identical bodies, so each pair is one C++ definition.
 
+#include <cstdint>
 #include <string>
+
+#include "pydata-accessors/script_cmd.hpp"
+
+#include "dh2/CharAI.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/LuaScript.hpp"
+#include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/TriggerPlate.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
 
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
@@ -49,11 +59,18 @@ void ScriptCmdImpl::Init() {}
 void ScriptCmdImpl::Update() {}
 
 // 0x4559f8 ScriptCmdImpl::~ScriptCmdImpl() (D2 base-object destructor) and 0x455a68 (D1 complete-object destructor)
-// PARTIAL. The original sets the vptr to ScriptCmdImpl, then, when m_args (+0x0c) is set, calls its vtable slot +0x08
-// with the record as this, re-reads m_args, calls its vtable slot +0x04 (the deleting destructor) when it is still set,
-// and stores null in m_args. The record's class is not in the tree, so neither virtual call can be written and the
-// record is not released here. Layout request: ScriptCmdImpl +0x0c m_args.
-ScriptCmdImpl::~ScriptCmdImpl() {}
+// The argument record (m_args, +0x0c, a Structs::ScriptCmd read from the script file) is finalized (its vtable slot +0x08, finalize),
+// m_args is read again and the record is deleted through its deleting destructor (slot +0x04) when it is still set, and m_args becomes
+// null. Nothing is done without a record.
+ScriptCmdImpl::~ScriptCmdImpl() {
+    if (m_args != nullptr) {
+        static_cast<Structs::ScriptCmd*>(m_args)->finalize();
+        if (m_args != nullptr) {
+            delete static_cast<Structs::ScriptCmd*>(m_args);
+        }
+        m_args = nullptr;
+    }
+}
 
 // 0x4557cc Script_AIChangeScript::Execute(bool, int)
 // Empty body (asm: BX LR). The original does nothing.
@@ -100,16 +117,22 @@ bool Script_AISetHP::IsBlocking() const { return false; }
 bool Script_AISetInt::IsBlocking() const { return false; }
 
 // 0x45f2fc Script_AISetInt::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd trace probe. Missing: the rest of the body. The original reads the object
-// name from the argument record (m_args +0x14, const char*), looks it up with ObjectManager::GetObjectByName(name, module,
-// false, nullptr) on the manager at Application +0x38 (ApplicationGetInstance().m_objectManager), and calls
-// ObjectHandle::GetObject(false). When the object's IsCharacter() (ObjectBase vtable slot +0x24) is true, it reads the
-// LuaScript pointer at object +0x3e4 and, when that is set, calls LuaScript::SetInt(script, name, value) with the record's
-// +0x0c (const char*, the Lua variable name) and +0x18 (int). Hex-Rays types the +0x3e4 pointer as LuaScript*, but
-// CharAI declares that slot (CharAI +0x1c, Character +0x3e4) as CharAIScript*, private, and CharAIScript has no header.
-// Waits on the argument record type (layout request) and on the script pointer's type (layout request).
-void Script_AISetInt::Execute(bool /*skipping*/, int /*module*/) {
+// After the trace probe, the object named by the record (m_w5, +0x14) is looked up (GetObjectByName(name, module, false, nullptr)
+// on the ObjectManager). When it is a Character (the object virtual IsCharacter, slot +0x24) with a live AI script (Character +0x3e4,
+// CharAI::m_script), the script's Lua variable named by the record (m_w3, +0x0c) is set to the record's value (m_w6, +0x18):
+// LuaScript::SetInt. CharAI declares the script slot as CharAIScript*; the listing calls LuaScript::SetInt on it (the script of an
+// external AI is a LuaScript), so the pointer is converted with reinterpret_cast.
+void Script_AISetInt::Execute(bool /*skipping*/, int module) {
+    const auto* record = static_cast<const Structs::AISetInt*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w5, module, false, nullptr);
+    ObjectBase* object = handle.GetObject(false);
+    if (object != nullptr && object->IsCharacter()) {
+        Character* character = static_cast<Character*>(object);
+        if (character->CharAI::m_script != nullptr) {
+            reinterpret_cast<LuaScript*>(character->CharAI::m_script)->SetInt(record->m_w3, record->m_w6);
+        }
+    }
 }
 
 // 0x4558cc Script_ActivateTriggerPlate::IsBlocking() const
@@ -117,15 +140,20 @@ void Script_AISetInt::Execute(bool /*skipping*/, int /*module*/) {
 bool Script_ActivateTriggerPlate::IsBlocking() const { return false; }
 
 // 0x45d1d8 Script_ActivateTriggerPlate::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd trace probe. Missing: the rest of the body. The original looks up the object
-// named by the argument record (m_args +0x0c, const char*) with GetObjectByName(name, module, false, nullptr) on the manager
-// at Application +0x38, and calls ObjectHandle::GetObject(false). When the object's m_goId (ObjectBase +0xf4) is 18, it
-// stores the object in m_triggerPlate (+0x10, declared) and sets a byte at object +0x779 to 1. Otherwise m_triggerPlate
-// becomes null. The GO_IDS 18 object is a TriggerPlate (GetNewInstance<TriggerPlate> at 0x340ee8, global/object_factory.hpp),
-// and +0x779 is past ObjectBase's 0x120 bytes, so the flag belongs to TriggerPlate. dh2/TriggerPlate.hpp is not in the tree.
-// Waits on the argument record type (layout request) and on dh2/TriggerPlate.hpp (flag +0x779).
-void Script_ActivateTriggerPlate::Execute(bool /*skipping*/, int /*module*/) {
+// After the trace probe, the object named by the record (m_w3, +0x0c) is looked up (GetObjectByName(name, module, false, nullptr)).
+// A trigger plate (m_goId 18) is remembered in m_triggerPlate (+0x10) and enabled (TriggerPlate::m_enabled, +0x779); any other
+// object, or none, clears m_triggerPlate.
+void Script_ActivateTriggerPlate::Execute(bool /*skipping*/, int module) {
+    const auto* record = static_cast<const Structs::ActivateTriggerPlate*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    ObjectBase* object = handle.GetObject(false);
+    if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == 18) {
+        m_triggerPlate = object;
+        static_cast<TriggerPlate*>(object)->m_enabled = true;
+    } else {
+        m_triggerPlate = nullptr;
+    }
 }
 
 // 0x4557f0 Script_AutoEquip::IsBlocking() const
@@ -133,11 +161,17 @@ void Script_ActivateTriggerPlate::Execute(bool /*skipping*/, int /*module*/) {
 bool Script_AutoEquip::IsBlocking() const { return false; }
 
 // 0x45db88 Script_AutoEquip::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd trace probe. Missing: the rest of the body. The original looks up the object
-// named by the argument record (m_args +0x0c, const char*) with GetObjectByName(name, module, false, nullptr) on the
-// manager at Application +0x38, and calls ObjectHandle::GetObject(false). When that object is set, it converts the handle
-// with ObjectHandle::operator Character*() and, when the result is non-null, calls Character::EquipAllSlotsAuto() through
-// vtable slot +0x138 (dh2/Character.hpp, declared at +0x138). Waits on the argument record type (layout request).
-void Script_AutoEquip::Execute(bool /*skipping*/, int /*module*/) {
+// After the trace probe, the object named by the record (m_w3, +0x0c) is looked up (GetObjectByName(name, module, false, nullptr)).
+// When it resolves, the handle is converted to a Character (ObjectHandle::operator Character*) and, when that is non-null, the
+// Character equips its best items in every slot (the virtual EquipAllSlotsAuto, +0x138).
+void Script_AutoEquip::Execute(bool /*skipping*/, int module) {
+    const auto* record = static_cast<const Structs::AutoEquip*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle handle = dword_99F764->GetObjectByName(record->m_w3, module, false, nullptr);
+    if (handle.GetObject(false) != nullptr) {
+        Character* character = handle;
+        if (character != nullptr) {
+            character->EquipAllSlotsAuto();
+        }
+    }
 }

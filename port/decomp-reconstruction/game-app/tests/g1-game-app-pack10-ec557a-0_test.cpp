@@ -26,6 +26,8 @@
 #include "dh2/MenuManager.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/Script_SetFaeryState.hpp"
 #include "dh2/Script_SetLevelState.hpp"
 #include "dh2/Script_SetStatic.hpp"
@@ -81,6 +83,18 @@ alignas(16) unsigned char g_objectManagerStorage[64];
 alignas(16) unsigned char g_objectStorage[64];
 alignas(16) unsigned char g_characterStorage[sizeof(Character)];
 alignas(16) unsigned char g_menuStorage[sizeof(MenuBase)];
+alignas(16) unsigned char g_playersStorage[sizeof(PlayerManager)];
+alignas(16) unsigned char g_playerInfoStorage[sizeof(PlayerInfo)];
+alignas(16) unsigned char g_localCharacterStorage[sizeof(Character)];
+
+// What the Character stubs were given.
+int g_faeryCalls = 0;
+unsigned int g_faeryId = 0;
+int g_faeryState = 0;
+int g_levelStateCalls = 0;
+int g_levelStateArgs[3] = {0, 0, 0};
+int g_mapLocStateCalls = 0;
+int g_mapLocStateArgs[3] = {0, 0, 0};
 
 }  // namespace
 
@@ -105,6 +119,31 @@ Application& ApplicationGetInstance() {
 
 Level* Application::GetCurrentLevel() const {
     return nullptr;
+}
+
+// The local player: a zero-filled PlayerInfo (no character) unless a check sets unk_660.
+PlayerInfo* PlayerManager::GetLocalPlayer(int, bool) {
+    return reinterpret_cast<PlayerInfo*>(g_playerInfoStorage);
+}
+
+void Character::SetFaeryState(unsigned int faery, int state) {
+    ++g_faeryCalls;
+    g_faeryId = faery;
+    g_faeryState = state;
+}
+
+void Character::SG_SetLevelState(int level, int state, int difficulty) {
+    ++g_levelStateCalls;
+    g_levelStateArgs[0] = level;
+    g_levelStateArgs[1] = state;
+    g_levelStateArgs[2] = difficulty;
+}
+
+void Character::SG_SetMapLocState(int location, int state, int difficulty) {
+    ++g_mapLocStateCalls;
+    g_mapLocStateArgs[0] = location;
+    g_mapLocStateArgs[1] = state;
+    g_mapLocStateArgs[2] = difficulty;
 }
 
 char* LC_API_STRSTR(const char* haystack, const char* needle) {
@@ -180,16 +219,51 @@ void CheckShowTrophiesExecute() {
     Check(g_traceReads == before, "Script_ShowTrophies::Execute", "no trace read: the body is empty");
 }
 
-void CheckFaeryExecuteTraceOnly() {
+// The three commands that hand a record value to the local player's character: one trace read each, nothing without a
+// character, and the record's two words (and -1 for the difficulty of the two level-state calls) with one.
+void CheckLocalCharacterCommands() {
+    ApplicationGetInstance().m_playerManager = reinterpret_cast<PlayerManager*>(g_playersStorage);
+    PlayerInfo* player = reinterpret_cast<PlayerInfo*>(g_playerInfoStorage);
+    std::memset(g_playerInfoStorage, 0, sizeof g_playerInfoStorage);
+
     Script_SetFaeryState faery;
-    Structs::SetFaeryState record;
-    record.m_w2 = 3;
-    record.m_w3 = 1;
-    faery.m_args = &record;
-    const int before = g_traceReads;
+    Structs::SetFaeryState faeryRecord;
+    faeryRecord.m_w2 = 3;
+    faeryRecord.m_w3 = 1;
+    faery.m_args = &faeryRecord;
+    Script_SetLevelState level;
+    Structs::SetLevelState levelRecord;
+    levelRecord.m_w2 = 12;
+    levelRecord.m_w3 = 2;
+    level.m_args = &levelRecord;
+    Script_SetWorldMapLocationState map;
+    Structs::SetWorldMapLocationState mapRecord;
+    mapRecord.m_w2 = 5;
+    mapRecord.m_w3 = 4;
+    map.m_args = &mapRecord;
+
+    // No character: the trace read happens and no call is made.
+    int before = g_traceReads;
     faery.Execute(false, 0);
-    Check(g_traceReads == before + 1, "Script_SetFaeryState::Execute", "one trace read (partial body)");
-    Check(g_lastSwitch == "isTracingScriptCmd", "Script_SetFaeryState::Execute", "trace key is isTracingScriptCmd");
+    level.Execute(false, 0);
+    map.Execute(false, 0);
+    Check(g_traceReads == before + 3, "local character commands", "one trace read each");
+    Check(g_lastSwitch == "isTracingScriptCmd", "local character commands", "trace key is isTracingScriptCmd");
+    Check(g_faeryCalls == 0 && g_levelStateCalls == 0 && g_mapLocStateCalls == 0, "local character commands",
+          "no character, no call");
+
+    // With a character.
+    player->unk_660 = reinterpret_cast<Character*>(g_localCharacterStorage);
+    faery.Execute(false, 0);
+    level.Execute(true, 0);
+    map.Execute(false, 0);
+    Check(g_faeryCalls == 1 && g_faeryId == 3 && g_faeryState == 1, "Script_SetFaeryState::Execute",
+          "SetFaeryState(record faery, record state)");
+    Check(g_levelStateCalls == 1 && g_levelStateArgs[0] == 12 && g_levelStateArgs[1] == 2 && g_levelStateArgs[2] == -1,
+          "Script_SetLevelState::Execute", "SG_SetLevelState(level, state, -1)");
+    Check(g_mapLocStateCalls == 1 && g_mapLocStateArgs[0] == 5 && g_mapLocStateArgs[1] == 4 && g_mapLocStateArgs[2] == -1,
+          "Script_SetWorldMapLocationState::Execute", "SG_SetMapLocState(location, state, -1)");
+    player->unk_660 = nullptr;
 }
 
 void CheckSetStaticExecute() {
@@ -319,7 +393,7 @@ void CheckShowFlashExecute() {
 int main() {
     CheckIsBlockingConstants();
     CheckShowTrophiesExecute();
-    CheckFaeryExecuteTraceOnly();
+    CheckLocalCharacterCommands();
     CheckSetStaticExecute();
     CheckShowActorExecute();
     CheckShowFlashInit();

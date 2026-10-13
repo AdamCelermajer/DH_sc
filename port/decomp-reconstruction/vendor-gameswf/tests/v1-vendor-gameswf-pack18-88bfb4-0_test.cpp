@@ -71,8 +71,14 @@ void test_copy_argb_no_rows() {
 // The cached-glyph path (rect and advance copied from a glyph already in m_glyphs) is not tested here: it needs an
 // insert into the glyph hash, and that table's set_raw_capacity specialization has no body in the tree yet.
 
+// get_font_entity_impl is pure in the base (link-1), so the tests build this concrete provider.
+struct test_provider : gameswf::bitmap_glyph_provider {
+    test_provider() : gameswf::bitmap_glyph_provider(0, 0, false) {}
+    gameswf::bitmap_font_entity* get_font_entity_impl(const ::tu_string&) override { return nullptr; }
+};
+
 void test_get_char_image_virtual_misses() {
-    gameswf::bitmap_glyph_provider provider(0, 0, false);
+    test_provider provider;
     gameswf::texture_cache cache(16, 16, 4, false);
     provider.m_texture_cache = &cache;
 
@@ -89,7 +95,7 @@ void test_get_char_image_virtual_misses() {
 }
 
 void test_get_char_image_without_cache() {
-    gameswf::bitmap_glyph_provider provider(0, 0, false);  // m_texture_cache stays null
+    test_provider provider;  // m_texture_cache stays null
 
     test_font font;
     font.m_provider = &provider;

@@ -1,4 +1,4 @@
-// Slice 24 reconstruction (glitch init steps and CGUIComboBox selection/alignment).
+// Slice 24 reconstruction (glitch init steps).
 #include "glitch-scene-collada-gui/recon/slice_24.hpp"
 
 namespace glitch {
@@ -47,31 +47,3 @@ int registerInitStep(void (*step)(bool)) {
 }
 
 }  // namespace glitch
-
-namespace glitch::gui::recon_24 {
-
-// 0x6aaa64 _ZN6glitch3gui12CGUIComboBox16setTextAlignmentENS0_14EGUI_ALIGNMENTES2_
-void setTextAlignment(CGUIComboBox* combo, std::int32_t horizontal, std::int32_t vertical) {
-    combo->horizontalAlignment = horizontal;  // +0x17c
-    combo->verticalAlignment = vertical;      // +0x180
-    // partial: the original then calls vtable slot +160 on textElement to refresh the
-    // text element; that slot is not declared in layouts/gui.hpp, so the call is omitted.
-}
-
-// 0x6aab1c _ZN6glitch3gui12CGUIComboBox11setSelectedEi
-void setSelected(CGUIComboBox* combo, std::int32_t index) {
-    if (index < -1) {
-        return;
-    }
-    // Items are 72-byte entries (+0x164 begin, +0x168 end), so the count is the byte span / 72.
-    const std::ptrdiff_t span = static_cast<char*>(combo->itemsEnd) - static_cast<char*>(combo->itemsBegin);
-    const auto count = static_cast<std::int32_t>(span / 72);
-    if (index >= count) {
-        return;
-    }
-    combo->selected = index;  // +0x170
-    // partial: the original then calls vtable slot +68 on the text element with the item text
-    // (or the empty string for -1); that slot is not declared in layouts/gui.hpp.
-}
-
-}  // namespace glitch::gui::recon_24

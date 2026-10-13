@@ -11,41 +11,27 @@
 #include "core-platform/deps/application.hpp"  // ApplicationOpenStream, ApplicationCloseStream (file system slots +0x88, +0x78)
 #include "core-platform/lc_api.hpp"            // LC_API_STRCASECMP (the original's LC_API_STRCASECMP_0 is its tail-call target)
 #include "core-platform/memory.hpp"            // CustomFree, MemoryHintState
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
+#include "dh2/StreamBuffer.hpp"
 #include "dh2/StreamReader.hpp"
+#include "dh2/global/script_cmd_map.hpp"
+#include "dh2/global/net_singletons.hpp"       // GetOnlineGameFlag, GetMessaging
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "pydata-accessors/script_cmd.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"    // PyDataConstants::getConstant
 #include "dh2/global/runtime_support.hpp"      // PushProfilingContext, PopProfilingContext, operator new[](size, MemoryHintState)
 #include "dh2/v2Controller.hpp"
 
 // Static storage of the original (file-static in its ScriptManager translation unit).
 ScriptManager ScriptManager::s_inst;
 const char* ScriptManager::s_dbgRunningScriptName = nullptr;
-
-namespace {
-
-// Releases a script file's stream when the loader returns. The original releases it right after its StreamBuffer copy.
-class ScriptStreamGuard {
-public:
-    explicit ScriptStreamGuard(IStreamBase* stream) : m_stream(stream) {}
-    ~ScriptStreamGuard() { ApplicationCloseStream(m_stream); }
-    ScriptStreamGuard(const ScriptStreamGuard&) = delete;
-    ScriptStreamGuard& operator=(const ScriptStreamGuard&) = delete;
-
-private:
-    IStreamBase* m_stream;
-};
-
-// PARTIAL: PyDataConstants::getConstant("ScriptCmdID", "ExecScript") (the object is ApplicationGetPyDataConstants(),
-// dword_99F758). The PyDataConstants header in the tree (pydata-accessors/w7_pydata12.hpp) redefines IStreamBase and
-// StreamReader, so it cannot be included in the same translation unit as dh2/IStreamBase.hpp and dh2/StreamReader.hpp.
-// Until the headers are unified this returns -1, which matches no command. The only effect is in skip mode: commands
-// that are not ExecScript are then never checked for blocking.
-int ExecScriptCmdIdNotRecovered() {
-    return -1;
-}
-
-}  // namespace
 
 // 0x455980 ScriptManager::ScriptManager()
 // 0x4559bc ScriptManager::ScriptManager()
@@ -55,7 +41,7 @@ ScriptManager::ScriptManager()
     : m_skipScript(-1),   // +0x00
       m_activeCount(0),   // +0x04
       m_loadedCount(0),   // +0x08
-      unk_30(false) {}    // +0x30
+      m_inCutScene(false) {}    // +0x30
 
 // 0x455ad8 ScriptManager::InitCommands()
 // Calls the Init slot (+0x00) of every command of every script block, in order. The original re-reads the vectors after
@@ -168,11 +154,11 @@ void ScriptManager::UnLoadAllScripts() {
 }
 
 // 0x45a2ac ScriptManager::Flush()
-// Resets the skip request, the unk_30 flag, the active count and the loaded count, unloads everything, and clears the
+// Resets the skip request, the m_inCutScene flag, the active count and the loaded count, unloads everything, and clears the
 // global v2Controller block flag.
 void ScriptManager::Flush() {
     m_skipScript = -1;
-    unk_30 = false;
+    m_inCutScene = false;
     m_activeCount = 0;
     m_loadedCount = 0;
     UnLoadAllScripts();
@@ -188,12 +174,10 @@ ScriptManager::~ScriptManager() {
 }
 
 // 0x45ad40 ScriptManager::LoadScriptFileNames(char const*, bool)
-// PARTIAL. The file starts with a raw 32-bit count of names. Each name is a 32-bit length followed by that many raw bytes,
-// and the names are appended to m_scriptNames. With append set, the file is read only when every loaded script is
-// registered (m_loadedCount >= script count). The original first copies the whole file into a net-transport StreamBuffer
-// and then releases the file (slot +0x78). That StreamBuffer declares a second IStreamBase and cannot be included with
-// dh2/IStreamBase.hpp, so the bytes are read from the open stream here and the file is released when the loader returns.
-// The bytes read are the same; only the release comes later.
+// The file starts with a raw 32-bit count of names. Each name is a 32-bit length followed by that many raw bytes, and the names are
+// appended to m_scriptNames. With append set, the file is read only when every loaded script is registered (m_loadedCount >= script
+// count). The file is opened through the application file system (slot +0x88), copied into a StreamBuffer and released (slot +0x78)
+// before anything is read from the copy.
 void ScriptManager::LoadScriptFileNames(const char* file, bool append) {
     if (append && m_loadedCount < static_cast<int>(m_cmds.size())) {
         return;
@@ -202,31 +186,31 @@ void ScriptManager::LoadScriptFileNames(const char* file, bool append) {
     if (stream == nullptr) {
         return;
     }
-    ScriptStreamGuard guard(stream);
+    StreamBuffer buffer(stream);
+    ApplicationCloseStream(stream);
 
     int nameCount = 0;
-    stream->read(&nameCount, 4);
+    buffer.read(&nameCount, 4);
     const int oldCount = static_cast<int>(m_scriptNames.size());
     const int newCount = oldCount + nameCount;
     m_scriptNames.resize(static_cast<std::size_t>(newCount), nullptr);
     for (int i = oldCount; i < newCount; ++i) {
         unsigned int length = 0;
-        StreamReader::readAs<unsigned int>(stream, &length);
+        StreamReader::readAs<unsigned int>(&buffer, &length);
         char* name = new (MHS_UNRECOVERED) char[length + 1];
-        StreamReader::readStringEx(stream, name, length);
+        StreamReader::readStringEx(&buffer, name, length);
         name[length] = '\0';
         m_scriptNames[i] = name;
     }
 }
 
 // 0x45b264 ScriptManager::LoadScriptFile(char const*, bool)
-// PARTIAL. The file starts with a 32-bit script count, then one 32-bit command count per script. The original then creates
-// each command through the factory table s_scriptCmdImplMap[typeId], reads its argument record through the argument
-// object's vtable slot +0x0c, fills the ScriptCmdImpl fields (+0x08 type id, +0x0c arguments), runs its Init and sets the
-// block flag from its +0x04 flag. None of that is reconstructed: the factory table (ELF _ZL18s_scriptCmdImplMap, 320 bytes in
-// .data.rel.ro) and the argument-record class are not in the tree. So the load stops at the first script that has commands.
-// Scripts with no commands load in full (count, resize and StopScript as in the original). The stream is read directly,
-// as in LoadScriptFileNames.
+// The file starts with a 32-bit script count, then, per script, a 32-bit command count and that many commands. The file is copied into a
+// StreamBuffer and released first, as in LoadScriptFileNames. For each command the type id (ScriptCmdID, the first int of its record) is
+// peeked; the command object (s_scriptCmdImplMap[id]) and its argument record (the second half of the table) are created, the record
+// reads itself from the stream (virtual read, slot +0x0c), the command gets the id (+0x08) and the record (+0x0c), runs its Init, and sets
+// the script block's flag (ScriptCmds +0x04) when the command's flag (+0x04) is set. Every script ends with StopScript(script, false).
+// A type id outside the table would index past it in the original as well.
 void ScriptManager::LoadScriptFile(const char* file, bool append) {
     if (append && m_loadedCount < static_cast<int>(m_cmds.size())) {
         return;
@@ -235,10 +219,11 @@ void ScriptManager::LoadScriptFile(const char* file, bool append) {
     if (stream == nullptr) {
         return;
     }
-    ScriptStreamGuard guard(stream);
+    StreamBuffer buffer(stream);
+    ApplicationCloseStream(stream);
 
     int scriptCount = 0;
-    StreamReader::readAs<int>(stream, &scriptCount);
+    StreamReader::readAs<int>(&buffer, &scriptCount);
     const int firstNew = static_cast<int>(m_cmds.size());
     const int endNew = firstNew + scriptCount;
     if (append) {
@@ -249,26 +234,31 @@ void ScriptManager::LoadScriptFile(const char* file, bool append) {
 
     for (int script = firstNew; script < endNew; ++script) {
         int commandCount = 0;
-        StreamReader::readAs<int>(stream, &commandCount);
-        if (commandCount > 0) {
-            // PARTIAL stop: the command factories and argument records are not reconstructed. The scripts from here on
-            // are finished (state 2) with no commands, so ExecuteScript never runs them.
-            for (int rest = script; rest < endNew; ++rest) {
-                StopScript(rest, false);
+        StreamReader::readAs<int>(&buffer, &commandCount);
+        m_cmds[script].m_count = commandCount;
+        m_cmds[script].m_cmds = new (MHS_UNRECOVERED) ScriptCmdImpl*[commandCount];  // operator new[](4 * count, 0) of the original
+        for (int i = 0; i < commandCount; ++i) {
+            int typeId = 0;
+            StreamReader::peekAs<int>(&buffer, &typeId);
+            m_cmds[script].m_cmds[i] = s_scriptCmdImplMap[typeId]();
+            Structs::ScriptCmd* record = s_scriptCmdDataMap[typeId]();
+            record->read(&buffer);
+            ScriptCmdImpl* cmd = m_cmds[script].m_cmds[i];
+            cmd->m_cmdId = typeId;
+            cmd->m_args = record;
+            cmd->Init();
+            if (cmd->unk_04) {
+                m_cmds[script].unk_04 = true;
             }
-            return;
         }
-        m_cmds[script].m_count = commandCount;                            // 0
-        m_cmds[script].m_cmds = new (MHS_UNRECOVERED) ScriptCmdImpl*[0];  // operator new[](4 * count, 0) of the original
         StopScript(script, false);
     }
 }
 
 // 0x45c16c ScriptManager::ExecuteScript(int)
-// PARTIAL (see ExecScriptCmdIdNotRecovered). Runs the commands of script id from its next command. Returns true when a
-// blocking command is still waiting: its Update runs and the script stays in state 1. Returns false when the script has no
-// commands left or is already finished (state 2). With a skip request active, only commands whose id is ExecScript are
-// checked for blocking.
+// Runs the commands of script id from its next command. Returns true when a blocking command is still waiting: its Update runs and the
+// script stays in state 1. Returns false when the script has no commands left or is already finished (state 2). With a skip request
+// active, only commands whose id is ExecScript (PyDataConstants ScriptCmdID/ExecScript) are checked for blocking.
 bool ScriptManager::ExecuteScript(int id) {
     s_dbgRunningScriptName = m_scriptNames[id];
     if (m_contexts[id].m_state == 2) {
@@ -284,7 +274,7 @@ bool ScriptManager::ExecuteScript(int id) {
         }
         resumeAtCheck = false;
 
-        const int execScriptId = ExecScriptCmdIdNotRecovered();
+        const int execScriptId = ApplicationGetInstance().m_pyDataConstants->getConstant("ScriptCmdID", "ExecScript");
         if (m_skipScript == -1 || execScriptId == cmd->m_cmdId) {
             if (cmd->IsBlocking()) {
                 cmd->Update();
@@ -329,18 +319,18 @@ bool ScriptManager::ExecuteAllScripts() {
 }
 
 // 0x4604c0 ScriptManager::SkipScript(int, bool)
-// PARTIAL. Two steps are not reconstructed:
-//  - MenuMessageManager<DialogMsg,1>::FlushEnqueuedMessages(): the asm calls clone 0x460474 with no arguments. That clone
-//    takes no queue and pops the DialogMsg manager's deque at singleton +0x04 until it is empty. The header's member
-//    takes a queue index (clone 0x3f9018 is the StatusMsg form), so the queue value of this clone is not in the tree and
-//    the flush is skipped. Not guessed as queue 0.
-//  - The online send. When GetOnline()->isOnlineGame_ (COnline +0x05, private; c_online.hpp has SetIsOnlineGame only, no
-//    getter) is set and fromRemote is false, the original builds a "CMsgScriptCmd" with CMessage::CreateMessage, sets its
-//    fields (+0x50 flag 1, +0x54 script id, +0x58 -1) and sends it with CMessaging::Get()->SendMsg. The CMsgScriptCmd type
-//    is declared now (net-session-online c_msg_fixed.hpp); the send waits on the flag getter, the same blocker as StartScript.
-// The tracing switch and the skip request are reconstructed.
+// The DialogMsg queue is flushed first (FlushEnqueuedMessages, the clone for queue 0). Online and not from a remote player, a
+// CMsgScriptCmd (command 1, script id, module -1) is sent to the other players. Then the isTracingScriptCmd probe runs and the skip
+// request is set when none is active.
 void ScriptManager::SkipScript(int id, bool fromRemote) {
-    static_cast<void>(fromRemote);
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    if (GetOnlineGameFlag() && !fromRemote) {
+        CMsgScriptCmd* message = static_cast<CMsgScriptCmd*>(CMessage::CreateMessage("CMsgScriptCmd", true));
+        message->command_ = 1;
+        message->module_ = -1;
+        message->scriptId_ = id;
+        GetMessaging()->SendMsg(message);
+    }
     DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingScriptCmd"));
     if (m_skipScript == -1) {
         m_skipScript = id;

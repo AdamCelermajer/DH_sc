@@ -30,6 +30,9 @@
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
 #include "net-session-online/c_room_attributes.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -66,11 +69,9 @@ bool QuestUpdateRuns(const Character* character) {
 }  // namespace
 
 // 0x4815d4 Quest::UpdatePreActive()
-// PARTIAL. The offline path is complete. The online path is written up to the room attribute. The original then reads
-// OnlineSingleton<OnlineGameState>::GetInstance()->+0x34 (asm: LDR R3,[R0,#0x34]; SUB R3,R3,#3; CMP R3,#1). When that
-// value is 3 or 4 it calls CMatchingGLLive::SendGameParameters on CMatching::Get(). OnlineGameState declares no member
-// at +0x34, so that call is not written (layout request). The online flag goes through Application::IsOnlineGame, as
-// described in the file header.
+// Returns while script 10 runs; otherwise the state becomes Active. In an online game room attribute 6 receives the quest's
+// pydata index (+0x08; CMatching vtable +0xa4 then the CRoomAttributes slot +0x08, SetAttributeInt), and when the OnlineGameState
+// mode word (+0x34) is 3 or 4 the game parameters are sent (CMatchingGLLive::SendGameParameters).
 void Quest::UpdatePreActive() {
     if (TestIsScriptRunning(10)) {
         return;
@@ -79,12 +80,11 @@ void Quest::UpdatePreActive() {
     if (!ApplicationGetInstance().IsOnlineGame()) {
         return;
     }
-    // Room attribute 6 (tROOM_ATTRIBUTES_INT 6, name not recovered) receives the quest's pydata index (+0x08). The
-    // original calls the vtable slot +0x08 of the room attributes (CRoomAttributes::SetAttributeInt, see the vtable
-    // listing) and slot +0xa4 of CMatching (GetRoomAttributes). Both are called here directly.
     CRoomAttributes* roomAttributes = CMatching::Get()->GetRoomAttributes();
     roomAttributes->SetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(6), m_pyDataIndex);
-    // Not written: the SendGameParameters branch, see the comment at the top of this function.
+    if (static_cast<unsigned int>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_ - 3) <= 1u) {
+        static_cast<CMatchingGLLive*>(CMatching::Get())->SendGameParameters();
+    }
 }
 
 // 0x481688 Quest::UpdateActive()

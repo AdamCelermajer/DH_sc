@@ -22,6 +22,7 @@
 #include "base/tu_file.h"
 #include "base/tu_loadlib.h"
 #include "core-platform/memory.hpp"  // operator new[](std::size_t, swf::MemHint), 0x752ba4
+#include "vendor-gameswf/gameswf_alloc.hpp"  // gameswf::free_internal
 #include "vendor-gameswf/image_base.hpp"
 #include "vendor-gameswf/image_rgb.hpp"
 #include "vendor-gameswf/image_rgba.hpp"
@@ -54,6 +55,19 @@ std::size_t buffer_bytes(int pitch, int height) {
 // another batch (0x7b59bc, 0x7b5a08).
 image_base::image_base(std::uint8_t* data, int width, int height, int pitch, id_image type)
     : m_type(type), m_data(data), m_width(width), m_height(height), m_pitch(pitch) {}
+
+// 0x7b59bc gameswf::image_base::~image_base()  [D1]
+// 0x7b5a08 gameswf::image_base::~image_base()  [D2, the same body]
+// The vptr is set to the image_base vtable (0x9911f0, by the compiler). When m_data (+0x08) is set it is released with
+// gameswf::free_internal(m_data, 0) and cleared. (These two rows were ledgered upstream by name against r1714's
+// image::image_base, which is a different class in a different namespace; the gameswf:: destructor was not defined, link-1.)
+// 0x7b5c14 is the deleting destructor (D1, then LC_API_FREE_0): the compiler generates it.
+image_base::~image_base() {
+    if (m_data) {
+        free_internal(m_data, 0);
+        m_data = nullptr;
+    }
+}
 
 // 0x7b57ec gameswf::image_rgba::image_rgba(int, int)  [C1]
 // 0x7b585c gameswf::image_rgba::image_rgba(int, int)  [C2, same body]

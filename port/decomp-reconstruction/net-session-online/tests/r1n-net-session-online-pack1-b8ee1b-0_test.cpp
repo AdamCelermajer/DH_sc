@@ -5,6 +5,7 @@
 #include <string>
 
 #include "net-session-online/c_matching_bluetooth.hpp"
+#include "room_test_helpers.hpp"
 #include "net-session-online/cxplayer_manager.hpp"
 
 static int failures = 0;
@@ -17,9 +18,9 @@ static void TestDeviceName() {
     CHECK(CMatchingBluetooth::GenerateBluetoothDeviceName(peer) == "|m=7");
 
     // Active int attributes 1, 3 and 7 are written in order. Attribute 0 and 2 inactive ones are skipped.
-    peer.roomAttributes.SetAttributeInt(7, 70);
-    peer.roomAttributes.SetAttributeInt(3, 30);
-    peer.roomAttributes.SetAttributeInt(1, 10);
+    peer.roomAttributes.SetAttributeInt(RoomInt(7), 70);
+    peer.roomAttributes.SetAttributeInt(RoomInt(3), 30);
+    peer.roomAttributes.SetAttributeInt(RoomInt(1), 10);
     CHECK(CMatchingBluetooth::GenerateBluetoothDeviceName(peer) == "|m=7|i_1=10|i_3=30|i_7=70");
 
     // Member id is written with %d, so negative ids keep their sign.

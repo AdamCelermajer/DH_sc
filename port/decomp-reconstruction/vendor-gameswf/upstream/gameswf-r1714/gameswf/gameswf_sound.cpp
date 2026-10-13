@@ -17,7 +17,8 @@ namespace gameswf
 {
 	// Callback interface to host, for handling sounds.  If it's NULL,
 	// sound is ignored.
-	static sound_handler*	s_sound_handler = 0;
+	// DH2: external linkage (the binary's object is internal to the original unit; the port splits that unit's DH2 code over batch files that read it, e.g. src/v1-vendor-gameswf-gameswf-fddef6-3.cpp)
+	sound_handler*	s_sound_handler = 0;
 
 	static int	s_sample_rate_table[] = { 5512, 11025, 22050, 44100 };
 

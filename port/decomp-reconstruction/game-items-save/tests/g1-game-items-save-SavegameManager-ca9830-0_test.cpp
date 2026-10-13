@@ -1,8 +1,7 @@
 // Test for g1-game-items-save-SavegameManager-ca9830-0 (part 1 of 2).
 // Covers the constructor defaults, the option accessors on Structs::GameOption rows (decOption, incOption, setOption and
 // the getOption* family), the Last Slot and Tutorials section callbacks, __saveOptions (the bytes written), and the entry
-// loop of __loadLanguageAndOrientation. The loop runs with a language flag set, so the partial device-language branch is
-// not taken.
+// loop of __loadLanguageAndOrientation, including the device-language mapping (nativeDetectPhoneLang is a test shim).
 // Not covered: saveSettings (partial, no file system), setLanguage (walks ObjectManager's lists, which need
 // dh2/ObjectListItem.hpp), and the destructor beyond construction and deletion.
 //
@@ -48,6 +47,10 @@ StringManager* ApplicationGetStringManager() { return nullptr; }
 
 static ObjectManager* g_test_dword_99F764 = nullptr;
 ObjectManager*& dword_99F764 = g_test_dword_99F764;  // link-1: the header declares a reference to the Application member (game-app/src/link1_ApplicationWords.cpp)
+// The phone language index nativeDetectPhoneLang() answers (the core-platform one calls into the JNI environment).
+int g_phoneLang = 0;
+extern "C" int nativeDetectPhoneLang() { return g_phoneLang; }
+
 bool isKOREAN_BUILD = false;
 bool JAPANESE_BUILD = false;
 
@@ -371,6 +374,19 @@ void TestLoadLanguageAndOrientationEmptyAndJapanese() {
     SavegameManager::__loadLanguageAndOrientation(&emptyStream, &empty);
     EXPECT(emptyStream.pos == 4);
     EXPECT(!empty.m_autoOrientation);
+
+    // Neither the Korean nor the Japanese build: the language comes from the phone language index
+    // (1->2, 2->1, 3->7, 4->3, 5->4, 6->5, 7->6, anything else 0).
+    const int expectedLanguage[9] = {0, 2, 1, 7, 3, 4, 5, 6, 0};
+    for (int phone = 0; phone < 9; ++phone) {
+        g_phoneLang = phone;
+        SavegameManager probe;
+        MemoryStream probeStream;
+        probeStream.bytes = none;
+        SavegameManager::__loadLanguageAndOrientation(&probeStream, &probe);
+        EXPECT(probe.m_language == expectedLanguage[phone]);
+    }
+    g_phoneLang = 0;
 
     // A zero AutoOrientation value clears the flag; with Japanese set, m_language is 4.
     std::vector<std::uint8_t> zero;

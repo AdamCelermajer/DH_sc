@@ -212,7 +212,14 @@ struct EnterSafeZone : ScriptCmd {
 };
 
 struct ExecScript : ScriptCmd {
-    std::uint32_t m_w5 = 0;  // +0x14
+    ~ExecScript() override;
+    void finalize() override;
+    void read(IStreamBase* stream) override;
+    bool m_w2 = false;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+    std::uint32_t m_w4 = 0;  // +0x10, count of m_w5
+    std::int32_t* m_w5 = nullptr;  // +0x14, m_w4 script ids
+    bool m_w6 = false;  // +0x18
 };
 
 struct ExitCutSceneMode : ScriptCmd {
@@ -370,9 +377,26 @@ struct PlayCamera : ScriptCmd {
     bool m_w3 = false;  // +0xc
 };
 
+// Three ints with a vptr. Defined here because Structs::PlayEffect embeds one (it moved from structs_records.hpp).
+class Pos3D {
+public:
+    virtual ~Pos3D();
+    virtual void finalize();
+    virtual void read(IStreamBase* stream);
+    std::int32_t m_w1 = 0;  // +0x4
+    std::int32_t m_w2 = 0;  // +0x8
+    std::int32_t m_w3 = 0;  // +0xc
+};
+
 struct PlayEffect : ScriptCmd {
-    std::uint32_t m_w3 = 0;  // +0xc
-    std::uint32_t m_w8 = 0;  // +0x20
+    ~PlayEffect() override;
+    void finalize() override;
+    void read(IStreamBase* stream) override;
+    std::int32_t m_w2 = 0;  // +0x8 effect id (FX set)
+    Pos3D m_w3;  // +0xc embedded Pos3D (vptr at +0xc, ints at +0x10, +0x14 and +0x18)
+    std::uint32_t m_w7 = 0;  // +0x1c length of m_w8
+    char* m_w8 = nullptr;  // +0x20 string
+    bool m_w9 = false;  // +0x24
 };
 
 struct PlayLevelMusic : ScriptCmd {
@@ -743,6 +767,8 @@ void DeletingDestructor(StopSound* self);
 void DeletingDestructor(UnEquipHands* self);
 void DeletingDestructor(UnEquipItemFromSlot* self);
 void DeletingDestructor(UnlockCharacter* self);
+void DeletingDestructor(ExecScript* self);
+void DeletingDestructor(PlayEffect* self);
 void DeletingDestructor(Wait* self);
 void DeletingDestructor(WaitCamera* self);
 void DeletingDestructor(WaitDialog* self);

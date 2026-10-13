@@ -65,8 +65,10 @@ namespace gameswf
 	}
 #endif
 	MATH_WRAP_FUNC2_EXP(atan2, (atan2(arg0, arg1)));
+#if 0 /* DH2: math_max and math_min are replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-3.cpp (0x7a0254, 0x7a01d8: the binary's compare keeps a NaN first argument) */
 	MATH_WRAP_FUNC2_EXP(max, (arg0 > arg1 ? arg0 : arg1));
 	MATH_WRAP_FUNC2_EXP(min, (arg0 < arg1 ? arg0 : arg1));
+#endif /* DH2 */
 	MATH_WRAP_FUNC2_EXP(pow, (pow(arg0, arg1)));
 
 	// A couple of oddballs.

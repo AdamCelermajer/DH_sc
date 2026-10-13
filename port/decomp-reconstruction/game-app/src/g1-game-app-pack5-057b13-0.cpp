@@ -8,13 +8,8 @@
 //
 // The argument records are the Structs::<Name> classes of pydata-accessors/include/pydata-accessors/script_cmd.hpp
 // (member m_wN is the word at offset 4*N). The local player's character is PlayerInfo::unk_660 (+0x660, the name
-// character_660 in the listings). The Execute bodies still marked PARTIAL share these gaps, each named at its place below:
-//   (c) the online flag *(GetOnline() + 5). COnline::isOnlineGame_ is private with no getter, so Application::IsOnlineGame()
-//       stands in for it. That method is a stub that returns false (g1-game-app-Application-b291be-1.cpp).
-//   (d) dh2/Level.hpp and dh2/Character.hpp cannot be included in one translation unit: each pulls in an IStreamBase
-//       with a different definition. Script_BlockSaveGame needs Level, the trophy helper needs Character, so the level
-//       block of Script_BlockSaveGame is left out. The Arrays declarations below repeat the ones in
-//       pydata-accessors/member_names.hpp, which cannot share a unit with Character either.
+// character_660 in the listings). The online flag *(GetOnline() + 5) is GetOnlineGameFlag(). Every Execute in this batch is
+// complete.
 #include "dh2/Script_AwardEndGameTrophies.hpp"
 #include "dh2/Script_AwardTrophy.hpp"
 #include "dh2/Script_BlockSaveGame.hpp"
@@ -27,6 +22,7 @@
 #include "dh2/Script_EmptyImpl.hpp"
 
 #include <cstdint>
+#include <cstring>
 #include <string>
 
 #include "pydata-accessors/script_cmd.hpp"
@@ -34,8 +30,11 @@
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/DialogMsg.hpp"
 #include "dh2/Door.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
@@ -45,21 +44,18 @@
 #include "dh2/SavegameManager.hpp"
 #include "dh2/ScriptManager.hpp"
 #include "dh2/TrophyManager.hpp"
+#include "dh2/TriggerPlate.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/script_command_globals.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 #include "net-transport/update_job_thread.hpp"
-
-// Declarations of Arrays::TrophyTable and Arrays::GetMemberIDByString from pydata-accessors/member_names.hpp. The
-// definitions stay there. The header itself is not included because it cannot share a translation unit with
-// dh2/Character.hpp (both define pydata types, e.g. Structs::AIProps).
-namespace Arrays {
-struct TrophyTable;
-template <class T>
-int GetMemberIDByString(const char* name);
-}  // namespace Arrays
 
 namespace {
 
@@ -218,15 +214,19 @@ bool Script_BlockSaveGame::IsBlocking() const {
 }
 
 // 0x45c8c0 Script_BlockSaveGame::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe only. Not reproduced, in the original's order:
-//   - the local character's save block. The original reads PlayerManager::GetLocalPlayer(dword_99F76C, 0, true)->character_660
-//     and, when it is non-null, calls Character::SG_Block(character, true). Gap (b): PlayerInfo is not declared. Waits on
-//     dh2/PlayerInfo.hpp.
-//   - the current level's save block, Level::SG_BlockLevel(true) on ApplicationGetInstance().GetCurrentLevel() when that is
-//     non-null. Gap (d): dh2/Level.hpp cannot share this translation unit with dh2/Character.hpp, which the trophy helper
-//     above needs. The block is one call; add it when the two headers can be included together.
+// After the trace probe: the local player's character (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660) blocks saving
+// (Character::SG_Block(true)) when it exists, and the current level (Application::GetCurrentLevel) blocks its save too
+// (Level::SG_BlockLevel(true)) when there is one.
 void Script_BlockSaveGame::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmd();
+    Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    if (character != nullptr) {
+        character->SG_Block(true);
+    }
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr) {
+        level->SG_BlockLevel(true);
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -240,18 +240,17 @@ bool Script_CONSOLE::IsBlocking() const {
 }
 
 // 0x460e68 Script_CONSOLE::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe and the DisplayScriptConsoleAsDialog switch. When the switch is set and
-// the record's text is non-null, the original queues a bottom-bubble dialog: DialogMsg("Console Text", text,
-// PyDataConstants::getConstant("DialogStyles", "BottomBubbleAvatarLeft"), -1), enqueued with
-// MenuMessageManager<DialogMsg,1>::EnqueueMessage(msg, 1). Not reproduced:
-//   (a) the text, at argument record +0x0c (Structs::CONSOLE m_w3, char*). The record now exists, so only the dialog is missing.
-//   (b) the enqueue. The listing passes no singleton for the receiver, and dh2/MenuMessageManager.hpp declares
-//       EnqueueMessage(message, queue, flag) as a member with a third bool the listing does not pass. Neither is settled here.
+// After the trace probe, the DisplayScriptConsoleAsDialog switch turns the record's text (Structs::CONSOLE m_w3, +0x0c) into a
+// bottom-bubble dialog: DialogMsg("Console Text", text, PyDataConstants "DialogStyles"/"BottomBubbleAvatarLeft", -1) is enqueued on
+// the DialogMsg queue (queue 0, flag true as in Script_StartDialog). Nothing is queued for a null text.
 void Script_CONSOLE::Execute(bool /*skipping*/, int /*module*/) {
+    const Structs::CONSOLE* record = static_cast<const Structs::CONSOLE*>(m_args);
     TraceScriptCmd();
     const bool displayAsDialog = ReadScriptSwitch("DisplayScriptConsoleAsDialog");
-    if (displayAsDialog) {
-        // Text and dialog not reproduced, see above.
+    if (displayAsDialog && record->m_w3 != nullptr) {
+        const int style = ApplicationGetInstance().m_pyDataConstants->getConstant("DialogStyles", "BottomBubbleAvatarLeft");
+        DialogMsg message(std::string("Console Text"), std::string(record->m_w3), style, -1);
+        MenuMessageManager<DialogMsg, 1>::s_inst.EnqueueMessage(message, 0, true);
     }
 }
 
@@ -266,22 +265,40 @@ bool Script_ChangeLevel::IsBlocking() const {
 }
 
 // 0x45cba0 Script_ChangeLevel::Execute(bool, int)
-// PARTIAL. Reproduced: the isTracingScriptCmd probe only. Not reproduced, and each gap is named:
-//   - the local player's character (PlayerManager::GetLocalPlayer(0, true)->unk_660), read first for the difficulty and for
-//     every later Character call (SG_GetGameDifficulty, SG_SetLevelId, SG_Save, SG_GetSlot).
-//   - the record: Structs::ChangeLevel has m_w2 (int32, +0x08) and m_w4 (char*, +0x10). The listing reads +0x08 as a const char*
-//     entry point name, and the record declares it int32. Not settled here.
-//   - Level::SG_SaveAllPlayer(false) on the current level and the difficulty copied from Level +0x118 (m_difficulty). They run
-//     after the character read above, so they are left out with it.
-//   - the online test *(GetOnline() + 5) and the hosting player's character (PlayerInfo +0x660). Gap (c): Application::IsOnlineGame
-//     is a stub that returns false, so the hosting branch is not written.
-//   - the level list search and the level name lookup. Arrays::LevelList is declared twice in the tree, once in
-//     pydata-accessors/member_names.hpp (m_memberNames) and once in pydata-accessors/w7_arrays_00.hpp (members, size). Which one
-//     is right is not settled.
-//   - the second argument of Application::LoadLevel. The listing passes the record's +0x08 value as a const char*, but the
-//     header declares the parameter as int entryPointId. Not settled here.
+// After the trace probe: the difficulty is the local player's, or the current level's (Level +0x118) when there is one, in which case
+// the level saves all players first (Level::SG_SaveAllPlayer(false)). The record's level name (Structs::ChangeLevel m_w4, +0x10) is
+// searched in the names of Arrays::LevelList (-1 when missing) and the local player's character stores that level id (SG_SetLevelId(id,
+// -1)) and saves (SG_Save). Offline, or when the local player is the hosting player (GetHostingPlayer()->unk_660), the level file of that
+// row (Structs::LevelDeclaration m_w8, row +0x20) is loaded: Application::LoadLevel(file, the record's entry point (m_w2, +0x08), the
+// character's save slot, true, true, difficulty, false, 0, 0). A name missing from the table makes the original read the row before
+// the table (the offset -72 + 32); that load is skipped here.
 void Script_ChangeLevel::Execute(bool /*skipping*/, int /*module*/) {
+    const Structs::ChangeLevel* record = static_cast<const Structs::ChangeLevel*>(m_args);
     TraceScriptCmd();
+    Application& app = ApplicationGetInstance();
+    Level* level = app.GetCurrentLevel();
+    int difficulty = dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_GetGameDifficulty();
+    if (level != nullptr) {
+        level->SG_SaveAllPlayer(false);
+        difficulty = level->m_difficulty;
+    }
+    int levelIndex = -1;
+    for (int i = 0; i < static_cast<int>(Arrays::LevelList::size); ++i) {
+        if (std::strcmp(record->m_w4, Arrays::LevelList::m_memberNames.names[i]) == 0) {
+            levelIndex = i;
+            break;
+        }
+    }
+    dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_SetLevelId(levelIndex, -1);
+    dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_Save();
+    if (!GetOnlineGameFlag() || dword_99F76C->GetLocalPlayer(0, true)->unk_660 == dword_99F76C->GetHostingPlayer()->unk_660) {
+        if (levelIndex >= 0) {
+            const auto* rows = static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+            const char* levelFile = static_cast<const char*>(rows[levelIndex].m_w8);
+            const int slot = dword_99F76C->GetLocalPlayer(0, true)->unk_660->SG_GetSlot();
+            app.LoadLevel(levelFile, record->m_w2, static_cast<std::uint32_t>(slot), true, true, difficulty, false, 0, 0);
+        }
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -329,12 +346,9 @@ bool Script_DeactivateTriggerPlate::IsBlocking() const {
 }
 
 // 0x45d0e0 Script_DeactivateTriggerPlate::Execute(bool, int)
-// PARTIAL. The isTracingScriptCmd probe, then the object named by the record (+0x0c, Structs::DeactivateTriggerPlate m_w3) is
-// looked up with ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). When the
-// object's m_goId is 18 it is stored in m_plate. Otherwise m_plate is cleared. Missing: the original then writes 0 to the byte
-// at +0x779 of that object. The byte is not declared in ObjectBase.hpp or GameObject.hpp (layout request: ObjectBase +0x779
-// uint8_t, cleared for a type-18 object, name not recovered). The value 18 is the numeric m_goId; ObjectBase::GO_IDS names only
-// GO_DOOR, so the 18 is not named.
+// After the trace probe, the object named by the record (+0x0c, Structs::DeactivateTriggerPlate m_w3) is looked up with
+// ObjectManager::GetObjectByName(name, module, false, nullptr) and ObjectHandle::GetObject(false). A trigger plate (m_goId 18) is
+// remembered in m_plate and disabled (TriggerPlate::m_enabled, +0x779); anything else clears m_plate.
 void Script_DeactivateTriggerPlate::Execute(bool /*skipping*/, int module) {
     TraceScriptCmd();
     const Structs::DeactivateTriggerPlate* record = static_cast<const Structs::DeactivateTriggerPlate*>(m_args);
@@ -342,7 +356,7 @@ void Script_DeactivateTriggerPlate::Execute(bool /*skipping*/, int module) {
     ObjectBase* object = plateHandle.GetObject(false);
     if (object != nullptr && static_cast<std::int32_t>(object->m_goId) == 18) {
         m_plate = static_cast<GameObject*>(object);
-        // Not reproduced: the byte at +0x779 of the object is cleared here (see the comment above).
+        static_cast<TriggerPlate*>(object)->m_enabled = false;
     } else {
         m_plate = nullptr;
     }
@@ -359,13 +373,12 @@ bool Script_DoTutorial::IsBlocking() const {
 }
 
 // 0x460950 Script_DoTutorial::Execute(bool, int)
-// PARTIAL, for the online gate only. The tutorial script name (record +0x0c, Structs::DoTutorial m_w3) and index (+0x10,
-// m_w4) are read from the record. It runs the tutorial only when all of these hold, in this order:
+// The tutorial script name (record +0x0c, Structs::DoTutorial m_w3) and index (+0x10, m_w4) are read from the record. It runs the
+// tutorial only when all of these hold, in this order:
 //   - the local player's character is set (PlayerManager::GetLocalPlayer(0, false)->unk_660).
 //   - Character::SG_GetGameDifficulty() is 0.
 //   - SavegameManager m_tutorials[index] (+0x29) is set. The savegame manager is dword_99F778 (Application +0x4c).
-//   - the online flag *(GetOnline() + 5) is clear. Gap (c): Application::IsOnlineGame() stands in for it and is a stub that
-//     returns false, so the offline path is what runs until COnline exposes isOnlineGame_.
+//   - the online game flag *(GetOnline() + 5) is clear (GetOnlineGameFlag()).
 // Then it starts the script ScriptManager::GetIDFromName(name, true) when that is not -1 (StartScript(id, -1, true)), clears
 // m_tutorials[index], and calls SavegameManager::saveSettings() when lastOpenMenuID is 17, otherwise
 // m_updateJobThread2->Start2().
@@ -383,7 +396,7 @@ void Script_DoTutorial::Execute(bool /*skipping*/, int /*module*/) {
     if (savegame->m_tutorials[index] == 0) {
         return;
     }
-    if (ApplicationGetInstance().IsOnlineGame()) {
+    if (GetOnlineGameFlag()) {
         return;
     }
     const int scriptId = ScriptManager::s_inst.GetIDFromName(record->m_w3, true);

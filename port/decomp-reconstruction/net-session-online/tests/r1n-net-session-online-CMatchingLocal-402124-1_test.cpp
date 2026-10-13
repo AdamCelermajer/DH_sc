@@ -11,6 +11,14 @@ static const bool kConnectionManagerReady = (connection_manager_test::Initialize
 #include <cstdio>
 
 static int failures = 0;
+// AddServer takes the address and the room attributes by non-const reference (the original's symbol, link-1), so the
+// calls here go through this wrapper, which owns lvalues for the temporaries the checks pass.
+template <class Local, class Attrs>
+static int AddServerTo(Local& local, std::int32_t memberId, CNetworkId address, std::int32_t rank, Attrs&& attributes) {
+    CRoomAttributes copy(attributes);
+    return local.AddServer(memberId, address, rank, copy);
+}
+
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 static void Clean() {
@@ -102,7 +110,7 @@ int main() {
         CMatchingLocal local;
         local.SetInitializedForTest(true);
         const CRoomAttributes attrs;
-        CHECK(local.AddServer(11, Address(1), 3, attrs) == 0);
+        CHECK(AddServerTo(local, 11, Address(1), 3, attrs) == 0);
         CHECK(local.ServerCountForTest() == 1);
         OnlineClockStorage() = 30000;
         local.SetRoomOperationPendingForTest(true);

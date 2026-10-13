@@ -27,7 +27,7 @@ std::int32_t CMatching::WritePacketData(std::int32_t a2, std::int32_t a3, NetBit
     CMatching* matching = Get();                                // CMatching::Get() (static instance)
     const bool isServer = matching != nullptr && matching->IsServer();
     if (CRoomAttributes* room = GetRoomAttributes()) {           // vtable +0xa4
-        room->SetNetEnabled(isServer);                           // NetStruct::SetEnabled(room + 8, IsServer)
+        room->m_netRoomAttributes.SetEnabled(isServer);          // NetStruct::SetEnabled(room + 8, IsServer)
     }
     // Not ported: CRoomAttributes::Serialize(a2, a3, stream) and the member array's Serialize (see above).
     return 0;

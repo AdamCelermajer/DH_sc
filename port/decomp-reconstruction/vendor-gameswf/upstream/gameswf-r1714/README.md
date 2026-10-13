@@ -46,3 +46,4 @@ Track A builds the subset with: C++17; include directory = this folder (system);
 ## Host-port changes (Track B, MinGW host build; marked `HOST-PORT:`)
 
 - `base/utility.h`: the `_WIN32` branch's `__PRETTY_FUNCTION__` → `__FUNCDNAME__` alias and the `__asm { int 3 }` assert apply to MSVC only (`_MSC_VER`). MinGW keeps GCC's `__PRETTY_FUNCTION__` and the standard `assert`. No effect on the ARM build the binary came from.
+- `base/tu_loadlib.h`: no longer includes `<windows.h>` (forward-declares `struct HINSTANCE__` for `lib_t`). The include leaked `GetClassName`, `GetObject`, `GetMessage`, `SendMessage`, `ERROR`, `IN`, `near`, `far` and other macros into every game translation unit that reached `gameswf_player.h`. `tu_loadlib.cpp` still includes `<windows.h>` itself. No effect on the ARM build.

@@ -25,7 +25,7 @@
 //     buffer of GetMaxBufferSize + 5 bytes and appends its strlen.
 //   - the final append. Hex-Rays shows it as (first "|", last ""), an empty range, so nothing is
 //     written for it here.
-std::string CMatchingBluetooth::GenerateBluetoothDeviceName(const tMatchingPeer& peer) {
+std::string CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer peer) {
     std::string out;
     char field[64];
 
@@ -33,11 +33,12 @@ std::string CMatchingBluetooth::GenerateBluetoothDeviceName(const tMatchingPeer&
     out += field;
 
     // The original loop: for i = 1 .. 7, skip inactive attributes, then append "|i_<i>=<value>".
-    for (int i = 1; i < CRoomAttributes::kIntAttributeCount; ++i) {
-        if (!peer.roomAttributes.IsAttributeActiveInt(i)) {
+    for (int i = 1; i < 8; ++i) {  // the 8 int attributes (tROOM_ATTRIBUTES_INT 0..7)
+        const auto attribute = static_cast<tROOM_ATTRIBUTES_INT>(i);
+        if (!peer.roomAttributes.IsAttibuteActive(attribute)) {
             continue;
         }
-        std::snprintf(field, sizeof field, "|i_%d=%d", i, peer.roomAttributes.GetAttributeInt(i));
+        std::snprintf(field, sizeof field, "|i_%d=%d", i, peer.roomAttributes.GetAttributeInt(attribute));
         out += field;
     }
     return out;

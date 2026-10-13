@@ -17,7 +17,7 @@
 // Engine global read by SetCharacter and declared in core-platform/memory.hpp.
 int gAssertLevel = 0;
 
-// ScriptManager::s_inst is read by the cut-scene gate. Only its unk_30 byte is used here. The constructor and destructor
+// ScriptManager::s_inst is read by the cut-scene gate. Only its m_inCutScene byte is used here. The constructor and destructor
 // are empty stubs, as in the GameEvent test, so the ScriptManager batch is not linked.
 ScriptManager ScriptManager::s_inst;
 ScriptManager::ScriptManager() {}
@@ -69,7 +69,7 @@ void Reset() {
     g_fires.clear();
     g_growTarget = nullptr;
     g_setGateOnFire = false;
-    ScriptManager::s_inst.unk_30 = false;
+    ScriptManager::s_inst.m_inCutScene = false;
 }
 
 }  // namespace
@@ -99,7 +99,7 @@ int Character::RaiseEvent(int eventId, void* data) {
     CharTimers::_Timer* slot = static_cast<CharTimers::_Timer*>(data);
     g_fires.push_back(Fire{this, eventId, slot->GetID(), slot->GetRef()});
     if (g_setGateOnFire) {
-        ScriptManager::s_inst.unk_30 = true;
+        ScriptManager::s_inst.m_inCutScene = true;
     }
     if (g_growTarget != nullptr) {
         CharTimers* target = g_growTarget;
@@ -282,7 +282,7 @@ int main() {
         CHECK(g_fires.empty());
     }
 
-    // 10. The cut-scene gate. While ScriptManager::s_inst.unk_30 is set, Update returns before Application::GetDt, so
+    // 10. The cut-scene gate. While ScriptManager::s_inst.m_inCutScene is set, Update returns before Application::GetDt, so
     // no timer advances and no event is raised. Clearing the flag resumes the same timer from its accumulated time.
     {
         Reset();
@@ -294,7 +294,7 @@ int main() {
         CHECK(g_dtCalls == 1);
         CHECK(g_fires.empty());
 
-        ScriptManager::s_inst.unk_30 = true;  // Script_EnterCutSceneMode::Execute sets this byte
+        ScriptManager::s_inst.m_inCutScene = true;  // Script_EnterCutSceneMode::Execute sets this byte
         g_dt = 500;
         t.Update();  // gated: GetDt is not called and nothing advances
         t.Update();
@@ -306,7 +306,7 @@ int main() {
         CHECK(t.TMR_TimeLeft(static_cast<unsigned int>(id), elapsed, interval));
         CHECK(elapsed == 50 && interval == 100);
 
-        ScriptManager::s_inst.unk_30 = false;  // Script_ExitCutSceneMode::Execute clears it
+        ScriptManager::s_inst.m_inCutScene = false;  // Script_ExitCutSceneMode::Execute clears it
         g_dt = 50;
         t.Update();  // 50 + 50 = 100: the one-shot fires
         CHECK(g_dtCalls == 2);
@@ -326,7 +326,7 @@ int main() {
         t.Update();  // 300 ms: three fires, all delivered; the first one sets the flag
         CHECK(g_dtCalls == 1);
         CHECK(g_fires.size() == 3);
-        CHECK(ScriptManager::s_inst.unk_30);
+        CHECK(ScriptManager::s_inst.m_inCutScene);
         g_dt = 100;
         t.Update();  // gated: no GetDt, no fire
         CHECK(g_dtCalls == 1);

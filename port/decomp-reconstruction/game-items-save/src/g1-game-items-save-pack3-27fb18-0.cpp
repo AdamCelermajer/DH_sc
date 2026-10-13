@@ -43,6 +43,8 @@
 #include "dh2/QuestMoveInZone.hpp"
 #include "dh2/RootSceneNode.hpp"
 #include "dh2/TestCharPropId.hpp"
+#include "dh2/TriggerZoneExitLevel.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/Vector3DFList.hpp"
@@ -109,12 +111,10 @@ void Objective_SavedQty::_resetData() {
 // Objective_MoveInZone.
 
 // 0x47b850 Objective_MoveInZone::GetPositions(Vector3DFList&) const
-// The list has capacity 1. When m_object is set, its position is added and the function returns.
-// PARTIAL: when m_object is null, the listing walks ObjectManager::m_objectMap (a std::map<int, ObjectListItem>, rb-tree
-// header at +0x0c) in key order. It takes the first object whose GO id is 14 and whose int +0x7d4 equals the row's level
-// id (m_w8), and adds that object's position. Not reproduced: ObjectListItem is not declared (its object pointer is at
-// item +0x18), no declared class has a field at +0x7d4 (ObjectBase is 0x120 bytes, GameObject 0x378), and GO id 14 is
-// not a declared type (QuestMoveInZone is GO id 20). Without the scan the list stays empty.
+// The list has capacity 1. When m_object is set, its position is added and the function returns. Otherwise the listing walks
+// ObjectManager::m_objectMap (a std::map<int, ObjectListItem>) in key order, resolves each entry's object through its handle
+// and takes the first one whose GO id is 14 (TriggerZoneExitLevel) and whose level index (+0x7d4, m_levelIndex) equals the row's
+// level id (m_w8); that object's position is added.
 void Objective_MoveInZone::GetPositions(Vector3DFList& positions) const {
     positions.setNew(1);
     if (m_object != nullptr) {
@@ -123,6 +123,25 @@ void Objective_MoveInZone::GetPositions(Vector3DFList& positions) const {
         point.Y = m_object->m_position.Y;
         point.Z = m_object->m_position.Z;
         positions.add(point);
+        return;
+    }
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        ObjectBase* listed = entry.second.m_object;
+        if (listed == nullptr) {
+            continue;
+        }
+        ObjectHandle handle(listed);
+        ObjectBase* object = handle.GetObject(false);
+        if (object != nullptr && object->m_goId == 14 &&
+            m_pyData->m_w8 == static_cast<TriggerZoneExitLevel*>(object)->m_levelIndex) {
+            const Point3D<float>& position = static_cast<GameObject*>(object)->m_position;
+            glitch::core::vector3d<float> point;
+            point.X = position.X;
+            point.Y = position.Y;
+            point.Z = position.Z;
+            positions.add(point);
+            return;
+        }
     }
 }
 

@@ -105,32 +105,28 @@ std::map<std::string, Property*>& PropertyMap::GetPropertyMap() {
 }
 
 // 0x5134f0 _ZN11PropertyMap19SavePropertiesToXMLEP12TiXmlElementPKc
-// PARTIAL. Checked against the asm (0x5134f0): the element is allocated and built with TiXmlElement(const char*) first,
-// named name ("GameObject" when name is null). The loop then walks GetPropertyMap() in key order; for each non-null
-// Property it takes the name from the Property's own string (data pointer at Property +0x1c, the c_str of m_name),
-// computes PropertyInstance{property, this}.ToString() and calls TiXmlElement::SetAttribute(const std::string&,
-// const std::string&) (0x516400). Last, element->LinkEndChild(child) (TiXmlNode::LinkEndChild, 0x515964).
-// tixml_dh.hpp declares neither SetAttribute nor LinkEndChild, so the attributes are computed and dropped, and the
-// child is not linked: it is freed when the function returns. A null element returns at once, as in the original.
+// Checked against the asm and Hex-Rays (0x5134f0): a null element returns at once. Otherwise a child element is built with
+// TiXmlElement(const char*), named name ("GameObject" when name is null). The loop walks GetPropertyMap() in key order; for each
+// non-null Property it takes the name from the Property's own string (data pointer at Property +0x1c, the c_str of m_name),
+// computes PropertyInstance{property, this}.ToString() and calls TiXmlElement::SetAttribute(const std::string&, const
+// std::string&) (0x516400). Last, element->LinkEndChild(child) (TiXmlNode::LinkEndChild, 0x515964). SetAttribute and LinkEndChild
+// are unmodified upstream TinyXML rows (declared in tixml_dh.hpp; their sources are not in the tree yet).
 void PropertyMap::SavePropertiesToXML(TiXmlElement* element, const char* name) {
     if (element == nullptr) {
         return;
     }
     const std::string elementName = name != nullptr ? name : "GameObject";
-    std::unique_ptr<TiXmlElement> child(new TiXmlElement(elementName));
+    TiXmlElement* child = new TiXmlElement(elementName);
     for (const auto& entry : GetPropertyMap()) {
         Property* property = entry.second;
         if (property != nullptr) {
             const std::string attributeName = property->m_name;
             PropertyInstance instance{property, this};
             const std::string value = instance.ToString();
-            // missing: child->SetAttribute(attributeName, value);  (TiXmlElement::SetAttribute, 0x516400)
-            static_cast<void>(attributeName);
-            static_cast<void>(value);
+            child->SetAttribute(attributeName, value);
         }
     }
-    // missing: element->LinkEndChild(child.release());  (TiXmlNode::LinkEndChild, 0x515964)
-    static_cast<void>(child);
+    element->LinkEndChild(child);
 }
 
 // 0x513674 _ZN11PropertyMap14DumpPropertiesEv

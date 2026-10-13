@@ -7,10 +7,8 @@
 //    GetCheckpointFilename and GetFilename (both take unsigned int levelId), so it is written as levelId.
 //  * The fallback name is name + ".bak". The clone of std::operator+ that the original calls appends that literal
 //    (checked in its disassembly, _ZStplIcSt11char_traitsIcESaIcEESbIT_T0_T1_ERKS6_PKS3_.clone.1).
-//  * PARTIAL. Two inputs are not declared in the tree, so each has a stub below:
-//      - the online flag, COnline +0x05 (isOnlineGame_), which is private with no accessor;
-//      - the savefile existence check, vtable +0xb0 of the file system at IDevice +0x34, which IDevice does not declare.
-//    Both stubs make the function return false at once. The rest follows the original's control flow.
+//  * Two inputs come from outside the class: the online flag, COnline +0x05 (isOnlineGame_, read through the COnline pointer),
+//    and the savefile existence check, vtable +0xb0 of the file system at IDevice +0x34 (dh2/global/savefile_fs.hpp).
 //  * PlayerManager::m_hostChanged (+0x719) is read as the multiplayer test while the local player is hosting. It keeps
 //    the name the owner header gives it.
 
@@ -21,28 +19,25 @@
 #include "dh2/Savegame.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
+#include "dh2/global/savefile_fs.hpp"
 
 namespace {
 
-// PARTIAL stub for *(GetOnline() + 5), the COnline flag isOnlineGame_ (private, no getter; layout request). It reads as
-// offline, so ValidateCheckpoint takes the single-player checkpoint name.
+// *(GetOnline() + 5), the COnline flag isOnlineGame_.
 bool OnlineGameFlag(const COnline* online) {
-    (void)online;
-    return false;
+    return online->IsOnlineGame();
 }
 
-// PARTIAL stub for the savefile existence check. The original calls vtable +0xb0 of the file system at IDevice +0x34
-// with the checkpoint name and with name + ".bak". That slot is FileSystemBase::doesSavefileExists (0x34e150) in the
-// FileSystemWin32 vtable. IDevice does not declare +0x34 (layout request), so no file is reported as present.
+// The original calls vtable +0xb0 of the file system at IDevice +0x34 with the checkpoint name and with name + ".bak". That
+// slot is FileSystemBase::doesSavefileExists (0x34e150) in the FileSystemWin32 vtable.
 bool DeviceDoesSavefileExists(const char* name) {
-    (void)name;
-    return false;
+    return SavefileExists(name);
 }
 
 }  // namespace
 
 // 0x463288 _ZN13LevelSavegame18ValidateCheckpointEiii
-// PARTIAL: the online flag and the savefile existence check are stubs (see the anonymous namespace above).
 bool LevelSavegame::ValidateCheckpoint(int levelId, int fieldA, int fieldB) {
     std::string name;
 

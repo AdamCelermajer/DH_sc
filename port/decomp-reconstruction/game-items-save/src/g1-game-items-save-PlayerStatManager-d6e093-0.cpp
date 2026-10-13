@@ -16,6 +16,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 
 #include "core-platform/memory.hpp"          // gAssertLevel
@@ -25,6 +26,7 @@
 #include "dh2/RenderFX.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C, the PlayerManager global
 #include "gameswf/gameswf_value.h"           // gameswf::as_value (12 bytes, the binary's layout)
+#include "vendor-gameswf/gameswf_root.hpp"  // gameswf::root::get_root_movie
 // gameswf/gameswf_root.h (gameswf::root::get_root_movie) and gameswf/gameswf_character.h do not compile in this host build
 // (the vendored gameswf GC instantiation in base/tu_gc_singlethreaded_refcount.h), so the Invoke overloads stop before the
 // root movie. See their notes.
@@ -118,14 +120,11 @@ void PlayerStatManager::ResetAllStatValues(int playerId) {
 }
 
 // 0x379568 _ZNK17PlayerStatManager6InvokeERKSs
-// PARTIAL. Reproduced: the HUD root (MenuManager::GetInstance, then GetHUDRoot).
-// Not reproduced: the callback. The original calls InvokeASCallback(root movie, name, no arguments, count 0) on the HUD root,
-// with the root movie from RenderFX::GetRoot and gameswf::root::get_root_movie. gameswf::root is declared in
-// gameswf/gameswf_root.h, which does not compile in this host build, so the root movie cannot be named. 0 is returned in
-// place of the callback's result.
-int PlayerStatManager::Invoke(const std::string& /*name*/) const {
-    MenuManager::GetInstance()->GetHUDRoot();  // the HUD root; the callback is not made (partial, see above)
-    return 0;                                  // partial: see above
+// Calls the HUD root's ActionScript callback `name` with no arguments: InvokeASCallback(root movie, name, null, 0), the root
+// movie from RenderFX::GetRoot and gameswf::root::get_root_movie. Returns the callback's result.
+int PlayerStatManager::Invoke(const std::string& name) const {
+    RenderFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    return hud->InvokeASCallback(hud->GetRoot()->get_root_movie(), name.c_str(), nullptr, 0);
 }
 
 // 0x3795c8 _ZN17PlayerStatManager10GetStatStrE9EStatType
@@ -152,41 +151,36 @@ std::string PlayerStatManager::GetStatStr(EStatType stat) {
 }
 
 // 0x3796c4 _ZNK17PlayerStatManager6InvokeE9EStatTypeii
-// PARTIAL. Reproduced: the player record, the HUD root, and the four arguments of the onRankChange callback, in this order:
+// Calls the HUD root's "onRankChange" callback with four arguments, in this order:
 //   [0] the player's unk_67c (+0x67c, name not recovered), as a number,
 //   [1] CNetPlayerInfo::IsRemote, as a boolean,
 //   [2] GetStatStr(stat), as a string,
 //   [3] the rank index, as a number.
-// The arguments are released in reverse order when the array goes out of scope, as the original's drop_refs calls do.
-// Not reproduced:
-//   1. The callback. The original calls InvokeASCallback(root movie, "onRankChange", args, 4) on the HUD root. The root movie
-//      comes from gameswf::root::get_root_movie, which cannot be named in this host build (see the include note above).
-//   2. The return value. Hex-Rays returns the R0 that gameswf::as_value::drop_refs leaves, which is not a value of this
-//      function. The header keeps int for this overload (UpdateRanking returns the result), so 0 is returned.
+// The arguments are released in reverse order when the array goes out of scope, as the original's drop_refs calls do. Hex-Rays
+// returns the R0 that gameswf::as_value::drop_refs leaves, which is not a value of this function; the callback's result is
+// returned.
 int PlayerStatManager::Invoke(EStatType stat, int playerId, int rankIndex) const {
     PlayerInfo* player = dword_99F76C->GetPlayerByInternalID(playerId, false);
-    MenuManager::GetInstance()->GetHUDRoot();  // the HUD root; the callback is not made (partial, see above)
+    RenderFX* hud = MenuManager::GetInstance()->GetHUDRoot();
     gameswf::as_value args[4];
     args[0].set_double(player->unk_67c);
     args[1].set_bool(player->IsRemote());
     const std::string name = GetStatStr(stat);
     args[2].set_string(name.c_str());
     args[3].set_double(rankIndex);
-    return 0;  // partial: see above
+    return hud->InvokeASCallback(hud->GetRoot()->get_root_movie(), "onRankChange", args, 4);
 }
 
 // 0x379824 _ZNK17PlayerStatManager12GetStatValueE9EStatTypei
-// PARTIAL. Reproduced: the value of stat 0 to 6 for a player, read from the player's stat block (PlayerInfo +0x548 + 40 * stat,
-// through the NetStruct value at block + 0x20), and the level-1 assert messages for stat > 6 and playerId > 3.
-// Not reproduced:
-//   1. When an assert fails and gAssertLevel is 2, the original stores 0 to address 0 (dword_0), a deliberate fault.
-//   2. A stat outside 0 to 6 (the assert case). The original reads the word at 40 * stat + 1384 of the player record, which is
-//      not a stat block. This build returns 0 for those stats.
+// The value of stat 0 to 6 for a player, read from the player's stat block (PlayerInfo +0x548 + 40 * stat, through the NetStruct
+// value at block + 0x20), and the assert messages for stat > 6 and playerId > 3 (level 2 faults, level 1 prints). A stat outside
+// 0 to 6 (the assert case) reads the word at 40 * stat + 1384 of the player record in the original, which is not a stat block;
+// this build returns 0 for those stats.
 int PlayerStatManager::GetStatValue(EStatType stat, int playerId) const {
     const int statIndex = static_cast<int>(stat);  // the original compares signed
     if (statIndex > kStatCount - 1) {
         if (gAssertLevel == 2) {
-            // partial: the original stores 0 to address 0 here (dword_0), a deliberate fault. Not reproduced.
+            std::abort();  // the original stores 0 to address 0 here (dword_0), a deliberate fault
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "statType < PSTAT_COUNT",
                          "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerStatManager.cpp", 223);
@@ -194,7 +188,7 @@ int PlayerStatManager::GetStatValue(EStatType stat, int playerId) const {
     }
     if (playerId > kMaxPlayerIndex) {
         if (gAssertLevel == 2) {
-            // partial: as above, the deliberate fault is not reproduced.
+            std::abort();  // as above, the deliberate fault
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "playerId < MAX_PLAYERS",
                          "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\PlayerManager\\PlayerStatManager.cpp", 224);
@@ -202,7 +196,7 @@ int PlayerStatManager::GetStatValue(EStatType stat, int playerId) const {
     }
     PlayerInfo* player = dword_99F76C->GetPlayerByInternalID(playerId, false);
     if (statIndex < 0 || statIndex >= kStatCount) {
-        return 0;  // partial: see above
+        return 0;  // out of range: undefined in the original (see above)
     }
     return (player->*kStatMembers[statIndex]).GetValue();
 }

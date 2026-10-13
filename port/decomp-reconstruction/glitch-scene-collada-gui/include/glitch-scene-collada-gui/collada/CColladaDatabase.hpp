@@ -24,12 +24,16 @@
 #include "glitch-scene-collada-gui/collada/SAnimation.hpp"
 #include "glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp"
 #include "glitch-scene-collada-gui/deps/video_stand_ins.hpp"
+#include "glitch-scene-collada-gui/scene/scene_types.hpp"
 
 namespace glitch::res {
 class onDemandReader;  // layout not mapped in this category
 }
 
 namespace glitch {
+namespace scene {
+class CLightSceneNode;
+}
 class IReferenceCounted;
 class IDevice;
 namespace io {
@@ -52,6 +56,7 @@ class CMorphingMesh;
 class CModularSkinnedMesh;
 class CCameraSceneNode;
 class CLightSceneNode;
+class CImage;
 class IMesh;
 class CAnimationBlock;
 class CColladaDatabase;
@@ -71,9 +76,20 @@ struct SEventKeyTable;
 
 // SAnimation (stride 0x20), SChannel and the records they point to: canonical in collada/SAnimation.hpp.
 // SAnimationClip (name, start, end; stride 0x0c) and SLibraryAnimationClips are in collada/SLibraryAnimationClips.hpp.
-struct SImage { const char* name; /* stride 0x14 */ };
+struct SImage {
+    const char* name = nullptr;                                  // +0x00, stride 0x14
+    std::uint32_t reserved04[3] = {};                            // +0x04 .. +0x0c
+    glitch::IReferenceCounted* imageData = nullptr;              // +0x10 the loaded image (a use is taken by CImage)
+};
 struct SEffect { const char* name; /* stride 0x74 */ };
-struct SMaterial { const char* name; /* stride 0x24 */ };
+struct SMaterial {
+    const char* name = nullptr;           // +0x00, stride 0x24
+    std::uint32_t reserved04 = 0;         // +0x04
+    const char* fileName = nullptr;       // +0x08 the file of the effect (CColladaFactory::createMaterial passes it to createMaterialRenderer)
+    const char* effectUrl = nullptr;      // +0x0c "#<effect>"
+    std::uint32_t reserved10[2] = {};     // +0x10 .. +0x14
+    SEffect* effect = nullptr;            // +0x18 the effect record
+};
 struct SGeometry {
     const char* name;                 // +0x00, stride 0x10
     std::uint32_t reserved04;         // +0x04
@@ -86,13 +102,25 @@ struct SController {
     const void* morph = nullptr;      // +0x08 the morph record (a 32-bit pointer into the file data in the original; CMorphingMesh)
 };
 struct SLight {
-    const char* name;             // +0x00, stride 0x18
-    std::uint8_t unk_0c[12];      // +0x0c..+0x17, light block whose address getDefaultValue returns (case 16)
+    const char* name = nullptr;      // +0x00, stride 0x18 (the uid of the light node)
+    std::uint32_t reserved04 = 0;    // +0x04
+    std::uint32_t kind = 0;          // +0x08: 0 ambient, 1 point, 2 spot, 3 directional (CLightSceneNode ctor 0x6444ec)
+    std::uint8_t color[4] = {};      // +0x0c the colour bytes (r, g, b, a)
+    float intensity = 0.0f;          // +0x10 scales the colour (colour / 255 * intensity)
+    const float* parameters = nullptr;  // +0x14 point and spot: attenuation (3 floats), spot: cone angle, falloff (+0x0c, +0x10)
 };
-struct SCamera { const char* name; /* stride 0x1c */ };
+struct SCamera {
+    const char* name = nullptr;      // +0x00, stride 0x1c (the uid of the camera node)
+    std::uint32_t orthographic = 0;  // +0x04 non-zero: orthographic projection (CCameraSceneNode ctor 0x6e5550)
+    float fieldOfView = 0.0f;        // +0x08 horizontal field of view in degrees (perspective) or the x magnification (orthographic)
+    float aspectRatio = 0.0f;        // +0x0c
+    float nearValue = 0.0f;          // +0x10
+    float farValue = 0.0f;           // +0x14
+    const char* targetUrl = nullptr; // +0x18 "#<uid>" of the node the camera looks at (an empty string when none)
+};
 struct SVisualScene {
-    const char* name;             // +0x00, stride 0x10
-    std::uint32_t reserved04 = 0; // +0x04
+    const char* name;                    // +0x00, stride 0x10 (the id the lookups compare)
+    const char* displayName = nullptr;   // +0x04 the name the root node gets (constructVisualScene: setName)
     std::uint32_t nodeCount = 0;  // +0x08, count of top-level SNode records
     SNode* nodes = nullptr;       // +0x0c, base of the SNode array (stride 0x50)
 };
@@ -107,27 +135,130 @@ struct SGNPSEmitter { const char* name; /* stride 0xe8 */ };
 struct SEmitter { const char* name; /* stride 0x90 */ };
 
 // Instance records name their target. The instance URL is "#<id>"; the original skips the leading '#' before looking the target up.
+struct SInstanceMaterial;
+// One entry of a node's instance list (SNode +0x44) or of the scene's (SDatabaseTables +0xbc): a kind word and the instance record (8 bytes).
+struct SInstanceRef {
+    std::uint32_t kind = 0;        // +0x00 EInstanceKind
+    void* instance = nullptr;      // +0x04 the record, of the type the kind names
+};
+enum EInstanceKind : std::uint32_t {
+    EIK_CAMERA = 1,          // SInstanceCamera
+    EIK_CONTROLLER = 2,      // SInstanceController
+    EIK_GEOMETRY = 3,        // SInstanceGeometry
+    EIK_LIGHT = 4,           // SInstanceLight
+    EIK_VISUAL_SCENE = 6,    // the scene's entries: SInstanceVisualScene (+0x04 the URL "#<scene>")
+    EIK_EMITTER = 9,         // SInstanceEmitter
+    EIK_GNPS_EMITTER = 10,   // SInstanceGNPSEmitter
+    EIK_CORONAS = 11,        // SInstanceCoronas
+    EIK_FORCE = 12,          // SInstanceForce
+    EIK_MODULAR_SKIN = 13,   // SInstanceModularSkin
+};
+struct SInstanceCamera {
+    std::uint32_t reserved00 = 0;    // +0x00
+    const char* url = nullptr;       // +0x04 "#<camera>"
+};
+struct SInstanceLight {
+    std::uint32_t reserved00 = 0;    // +0x00
+    const char* url = nullptr;       // +0x04 "#<light>"
+};
+struct SInstanceVisualScene {
+    std::uint32_t reserved00 = 0;    // +0x00
+    const char* url = nullptr;       // +0x04 "#<visual scene>"
+};
 struct SInstanceForce {
     std::uint32_t reserved00;    // +0x00
     const char* url;             // +0x04, "#<name>"
 };
-struct SInstanceModularSkin { std::uint32_t reserved[1]; };  // opaque here
+// An instanced controller: the module records of a modular skin point at these. The first word is not mapped, the second is the
+// module's name (CModularSkinnedMesh::getModuleName, getModuleId).
+struct SInstanceController {
+    std::uint32_t reserved00 = 0;     // +0x00
+    const char* name = nullptr;       // +0x04 the URL "#<controller>"
+    std::uint32_t reserved08 = 0;     // +0x08
+    std::int32_t bindingCount = 0;    // +0x0c material bindings (CColladaDatabase::constructController)
+    SInstanceMaterial* bindings = nullptr;  // +0x10 the bindings, stride 0x3c
+    std::int32_t renderingLayer = 0;  // +0x14 handed to the node's setRenderingLayer (constructNode)
+};
+// A geometry instance: the file it lives in (null: this file), the URL and the material bindings.
+struct SInstanceGeometry {
+    const char* file = nullptr;       // +0x00 an external file that holds the geometry, else null
+    const char* url = nullptr;        // +0x04 "#<geometry>"
+    std::uint32_t reserved08 = 0;     // +0x08
+    std::int32_t bindingCount = 0;    // +0x0c
+    SInstanceMaterial* bindings = nullptr;  // +0x10, stride 0x3c
+    std::int32_t renderingLayer = 0;  // +0x14
+};
+// The particle-system and coronas instances: the URL, the material bindings and, for the emitters, the vector of material names the
+// builder receives (embedded at +0x18).
+struct SInstanceEmitter {
+    std::uint32_t reserved00 = 0;     // +0x00
+    const char* url = nullptr;        // +0x04 "#<emitter>"
+    std::uint32_t reserved08 = 0;     // +0x08
+    std::int32_t bindingCount = 0;    // +0x0c
+    SInstanceMaterial* bindings = nullptr;  // +0x10, stride 0x3c (the material of each binding is added to the node)
+    std::int32_t renderingLayer = 0;  // +0x14
+    glitch::res::vector<glitch::res::String> materials;  // +0x18
+};
+struct SInstanceGNPSEmitter {
+    std::uint32_t reserved00 = 0;     // +0x00
+    const char* url = nullptr;        // +0x04 "#<emitter>"
+    std::uint32_t reserved08 = 0;     // +0x08
+    std::int32_t bindingCount = 0;    // +0x0c
+    SInstanceMaterial* bindings = nullptr;  // +0x10, stride 0x3c
+    std::int32_t renderingLayer = 0;  // +0x14
+    glitch::res::vector<glitch::res::String> materials;  // +0x18
+};
+struct SInstanceCoronas {
+    std::uint32_t reserved00 = 0;     // +0x00
+    const char* url = nullptr;        // +0x04 "#<coronas>"
+    std::uint32_t reserved08 = 0;     // +0x08
+    std::int32_t bindingCount = 0;    // +0x0c
+    SInstanceMaterial* bindings = nullptr;  // +0x10, stride 0x3c
+    std::int32_t renderingLayer = 0;  // +0x14
+};
+// One module of a category (8 bytes).
+struct SModularModule {
+    std::uint32_t reserved00 = 0;                  // +0x00
+    SInstanceController* controller = nullptr;     // +0x04
+};
+// One category of a modular skin (16 bytes).
+struct SModularCategory {
+    const char* name = nullptr;                    // +0x00
+    const char* defaultModule = nullptr;           // +0x04 the module the constructor selects
+    std::int32_t moduleCount = 0;                  // +0x08
+    SModularModule* modules = nullptr;             // +0x0c
+};
+// The instance record of a modular skin (CModularSkinnedMesh +0x1c): the categories and the number of extra module slots.
+struct SInstanceModularSkin {
+    std::int32_t categoryCount = 0;                // +0x00
+    SModularCategory* categories = nullptr;        // +0x04
+    std::int32_t extraSlotCount = 0;               // +0x08
+    std::uint32_t reserved0c[2] = {};              // +0x0c .. +0x10
+    std::int32_t renderingLayer = 0;               // +0x14 handed to the node's setRenderingLayer (constructNode)
+};
+
+// The billboard record SNode +0x4c points at (CBillboardSceneNode::updateAbsolutePosition 0x60cf88 reads it). Eight words.
+struct SBillboardInfo {
+    std::uint32_t mode[2] = {};    // +0x00, +0x04: the value 2 selects the camera-facing branch for each axis
+    float axisA[3] = {};           // +0x08 .. +0x10 direction transformed by the camera matrix and normalised
+    float axisB[3] = {};           // +0x14 .. +0x1c second direction, same treatment
+};
 
 // COLLADA scene-node record (stride 0x50). Word offsets are the original 32-bit offsets.
 struct SNode {
-    const char* name = nullptr;                 // +0x00, compared with the lookup name
-    std::uint32_t unk_04 = 0;                   // +0x04, not mapped
-    std::uint32_t unk_08 = 0;                   // +0x08, not mapped
-    std::uint32_t translation[3] = {};          // +0x0c..+0x14
-    std::uint32_t rotation[4] = {};             // +0x18..+0x24
-    std::uint32_t scale[3] = {};                // +0x28..+0x30
+    const char* id = nullptr;                   // +0x00 the node's uid (CSceneNode::getUID), compared with the lookup name
+    const char* name = nullptr;                 // +0x04 the node name (CSceneNode constructor: ISceneNode::setName)
+    const char* scopeId = nullptr;              // +0x08 the scope id (CSceneNode::getScopeID)
+    float translation[3] = {};                  // +0x0c..+0x14
+    float rotation[4] = {};                     // +0x18..+0x24 quaternion x y z w
+    float scale[3] = {};                        // +0x28..+0x30
     std::uint32_t unk_34 = 0;                   // +0x34, bool word
     std::uint32_t childCount = 0;               // +0x38
     SNode* children = nullptr;                  // +0x3c, child array (stride 0x50)
     std::uint32_t instanceCount = 0;            // +0x40
-    void* instances = nullptr;                  // +0x44, instance array (stride 8), entries not mapped
-    std::uint32_t unk_48 = 0;                   // +0x48, passed to the factory node builders
-    std::uint32_t billboard = 0;                // +0x4c, bool: selects the billboard builder
+    SInstanceRef* instances = nullptr;          // +0x44, instance array (stride 8)
+    const scene::SUserProperty* userProperty = nullptr;  // +0x48 CSceneNode::getUserProperty; its first word is the property text
+    const SBillboardInfo* billboard = nullptr;  // +0x4c non-null: the node is a billboard (selects the billboard builder)
 };
 
 // Segment entry: 0x18 bytes, range [begin, end). Used by getAnimationSegment.
@@ -142,8 +273,13 @@ struct SAnimationSegment {
     SAnimationSegment* getData(glitch::res::onDemandReader& reader, int a3, int a4);
 };
 
-// Instance material: the link that linkInstanceMaterial sets and the vertex-attribute map releaseObjects drops.
+// Instance material (a material binding of a geometry, controller or particle instance, 0x3c bytes): the material it names and, once the
+// factory built it, the vertex-attribute map; the link that linkInstanceMaterial sets and the map releaseObjects drops.
 struct SInstanceMaterial {
+    const char* file = nullptr;                      // +0x00 the file the material lives in (null: this file)
+    const char* url = nullptr;                       // +0x04 "#<material>" (read when `file` is set)
+    std::int32_t materialIndex = 0;                  // +0x08 the material of this file otherwise (CColladaDatabase::getMaterial(int))
+    std::uint32_t reserved0c[10] = {};               // +0x0c .. +0x33 the vertex-input bindings (read by createMaterialVertexAttributeMap)
     glitch::video::CMaterialVertexAttributeMap* vertexAttributeMap = nullptr;  // +0x34 (an intrusive pointer in the original)
     SInstanceMaterial* linkNext = nullptr;                                     // +0x38 instance list link
 };
@@ -155,6 +291,7 @@ struct SDatabaseTables {
     const char* sourceName = nullptr;             // +0x04 the name string CResFileManager::postLoadProcess stores (a heap string in the
                                                   //       original; null when the file has no reader name, stage D)
     SInstanceMaterial* instanceMaterials = nullptr;  // +0x08, head of the instance-material list
+    std::uint32_t upAxis = 0;                     // +0x0c the file's up axis: 0 X_UP, 1 Y_UP, 2 Z_UP (CCameraSceneNode ctor 0x6e5550)
     std::uint32_t externalResourcesDone = 0;      // +0x10 set to 1 by postLoadProcess when the external resources were resolved
     std::uint32_t animationFlag = 0;              // +0x14 non-zero when the animations are streamed (CSceneNodeAnimator +0x34)
     std::int32_t animationStart = 0;              // +0x1c start time of the whole animation, milliseconds (CSceneNodeAnimator +0x38)
@@ -166,6 +303,7 @@ struct SDatabaseTables {
     std::vector<SImage*> images;                  // +0x4c / +0x50
     std::vector<SEffect*> effects;                // +0x54 / +0x58
     std::vector<SMaterial*> materials;            // +0x5c / +0x60
+    std::int32_t skinCount = 0;                   // +0x64 CSkinnedMesh's constructor passes `skinCount > 0` to the four skin techniques (their flag byte)
     std::vector<SGeometry*> geometries;           // +0x68 / +0x6c
     std::vector<SController*> controllers;        // +0x70 / +0x74
     std::vector<SLight*> lights;                  // +0x44 / +0x48
@@ -175,6 +313,7 @@ struct SDatabaseTables {
     std::vector<SCoronas*> coronas;               // +0x90 / +0x94
     std::vector<SGNPSEmitter*> gnpsEmitters;      // +0x80 / +0x84
     std::vector<SEmitter*> emitters;              // +0x78 / +0x7c
+    std::vector<SInstanceRef> scene;              // +0xb8 / +0xbc the scene object (CColladaDatabase::getScene): its entries of kind 6 name the visual scenes
 };
 
 // Mask bits accepted by find(); the original tries them in this order.
@@ -378,7 +517,6 @@ public:
 // Member functions below are the ones declared so far; each comment gives the original address. Overloads taking an index use the
 // unchecked base + index * stride reads of the original.
 // ---------------------------------------------------------------------------------------------------------------------
-struct SInstanceController;
 struct SInstanceGeometry;
 struct SInstanceCamera;
 struct SInstanceCoronas;
@@ -407,19 +545,24 @@ public:
     // The address of the 8-byte clip library inside the table holder (holder +0x34): null when no file is loaded.
     const SLibraryAnimationClips* getAnimationClipLibrary() const;
     // 0x60e348 getScene() const
-    void* getScene() const;
+    // The scene object of the file (holder +0xb8): the entries, of which the ones of kind EIK_VISUAL_SCENE are built by constructScene.
+    const std::vector<SInstanceRef>* getScene() const;
     // 0x60fa24 constructController(IVideoDriver*, SController*, CRootSceneNode*) const
-    // The original returns through a hidden out slot (intrusive_ptr); the out slot is the first argument here.
-    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                    SController* controller, CRootSceneNode* root) const;
+    // The skin or the morphing mesh of the controller record. The original returns an intrusive_ptr through a hidden out slot; in the
+    // port (as for every constructX of this class) the result is the raw pointer, carrying the one reference the caller adopts.
+    IMesh* constructController(video::IVideoDriver* driver, SController* controller, CRootSceneNode* root) const;
     // 0x60fb54 constructAnimator() const
+    // The animator of the file (CColladaFactory::createAnimator): null when the file has no animation, image sequence or event track.
     void* constructAnimator() const;
+    // The factory the static loaders use when they are given none (a CColladaFactory object of the original's data segment).
+    static CColladaFactory DefaultFactory;
 
     // 0x60e4bc getExternalLightSceneNode(intrusive_ptr<CMaterial const> const&, unsigned short, unsigned int, char const*) const
-    void getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material, std::uint16_t a,
-                                   std::uint32_t b, const char* name) const;
+    // Forwards to the factory slot +0x78: the light node (scene::CLightSceneNode) the URL names, null when there is none.
+    scene::CLightSceneNode* getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material, std::uint16_t a,
+                                                      std::uint32_t b, const char* name) const;
     // 0x60e504 getExternalLightSceneNode(intrusive_ptr<CMaterialRenderer const> const&, unsigned short, unsigned int, char const*) const
-    void getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterialRenderer const>& renderer,
+    scene::CLightSceneNode* getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterialRenderer const>& renderer,
                                    std::uint16_t a, std::uint32_t b, const char* name) const;
 
     // 0x60e570 constructEffect(IVideoDriver*, SEffect*, CRootSceneNode*) const
@@ -446,9 +589,9 @@ public:
     // 0x60e910 constructForce(int, CRootSceneNode*) const
     void* constructForce(int index, CRootSceneNode* root) const;
     // 0x61a970 constructForce(char const*, CRootSceneNode*) const
-    void constructForce(const char* name, CRootSceneNode* root) const;
+    void* constructForce(const char* name, CRootSceneNode* root) const;
     // 0x61a994 constructForce(SInstanceForce*, CRootSceneNode*) const
-    void constructForce(SInstanceForce* instance, CRootSceneNode* root) const;
+    void* constructForce(SInstanceForce* instance, CRootSceneNode* root) const;
 
     // 0x60f9a4 constructMorph(IVideoDriver*, SController*, CRootSceneNode*) const
     CMorphingMesh* constructMorph(video::IVideoDriver* driver, SController* controller, CRootSceneNode* root) const;
@@ -460,29 +603,28 @@ public:
     // 0x6193e0 constructCamera(int, CRootSceneNode*) const
     CCameraSceneNode* constructCamera(int index, CRootSceneNode* root) const;
     // 0x61b2d0 constructCamera(char const*, CRootSceneNode*) const
-    void constructCamera(const char* name, CRootSceneNode* root) const;
+    CCameraSceneNode* constructCamera(const char* name, CRootSceneNode* root) const;
 
     // 0x619404 constructLight(SLight*, CRootSceneNode*) const
-    void* constructLight(SLight* light, CRootSceneNode* root) const;
+    CLightSceneNode* constructLight(SLight* light, CRootSceneNode* root) const;
     // 0x619450 constructLight(int, CRootSceneNode*) const
-    void* constructLight(int index, CRootSceneNode* root) const;
+    CLightSceneNode* constructLight(int index, CRootSceneNode* root) const;
     // 0x61b24c constructLight(char const*, CRootSceneNode*) const
-    void constructLight(const char* name, CRootSceneNode* root) const;
+    CLightSceneNode* constructLight(const char* name, CRootSceneNode* root) const;
 
     // 0x61ace8 constructController(IVideoDriver*, SInstanceController*, CRootSceneNode*, bool) const
-    // Writes the controller into the out slot and returns it. Partial: see the .cpp.
-    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                    SInstanceController* instance, CRootSceneNode* root,
+    // The mesh of the controller instance (an owned reference, as above).
+    IMesh* constructController(video::IVideoDriver* driver, SInstanceController* instance, CRootSceneNode* root,
                                                     bool flag) const;
     // 0x61aeb8 constructGeometry(IVideoDriver*, SInstanceGeometry*, CRootSceneNode*) const
-    // Writes the geometry into the out slot and returns it. Partial: see the .cpp.
-    glitch::IReferenceCounted** constructGeometry(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                  SInstanceGeometry* instance, CRootSceneNode* root) const;
+    // The mesh of the geometry instance, with the materials of its bindings.
+    IMesh* constructGeometry(video::IVideoDriver* driver, SInstanceGeometry* instance, CRootSceneNode* root) const;
     // 0x61b2f4 constructNode(IVideoDriver*, SNode*, CRootSceneNode*) const
-    // Returns the scene node built for `node` (an owned reference, as the factory returns it). Partial.
-    void* constructNode(video::IVideoDriver* driver, SNode* node, CRootSceneNode* root) const;
+    // The scene node built for `node` with its instances and children below it (an owned reference, as the factory returns it).
+    scene::ISceneNode* constructNode(video::IVideoDriver* driver, SNode* node, CRootSceneNode* root) const;
     // 0x61b9e8 constructScene(IVideoDriver*) const
-    // Returns the root scene node of the file. Partial.
+    // The root scene node of the file: the factory's scene, the visual scenes of the file's scene object built below it, then the root's
+    // onPostLoad and resolveURLs. Null when no file is loaded.
     CRootSceneNode* constructScene(video::IVideoDriver* driver) const;
 
     // 0x61c0c8 getAnimation(char const*, SChannel::Type, unsigned char) const
@@ -541,24 +683,23 @@ public:
                                                             CRootSceneNode* root) const;
     // Skins, controllers by index / name, images, materials: the original returns an intrusive_ptr through a hidden out slot (the first
     // argument here, as for the other controllers). Declared only.
-    glitch::IReferenceCounted** constructSkin(glitch::IReferenceCounted** out, video::IVideoDriver* driver, SController* controller,
-                                              CRootSceneNode* root) const;                                    // 0x60f924
-    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver, int index,
-                                                    CRootSceneNode* root) const;                              // 0x60fa70
-    glitch::IReferenceCounted** constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver, const char* name,
+    CSkinnedMesh* constructSkin(video::IVideoDriver* driver, SController* controller,
+                                                     CRootSceneNode* root) const;                            // 0x60f924
+    IMesh* constructController(video::IVideoDriver* driver, int index, CRootSceneNode* root) const;      // 0x60fa70
+    IMesh* constructController(video::IVideoDriver* driver, const char* name,
                                                     CRootSceneNode* root) const;                              // 0x61aa00
-    glitch::IReferenceCounted** constructImage(glitch::IReferenceCounted** out, SImage* image, CRootSceneNode* root) const;      // 0x60fc70
-    glitch::IReferenceCounted** constructImage(glitch::IReferenceCounted** out, int index, CRootSceneNode* root) const;          // 0x60fcc0
-    glitch::IReferenceCounted** constructImage(glitch::IReferenceCounted** out, const char* name, CRootSceneNode* root) const;   // 0x61b1b4
-    glitch::IReferenceCounted** constructMaterial(glitch::IReferenceCounted** out, video::IVideoDriver* driver, SMaterial* material,
-                                                  CRootSceneNode* root) const;                                // 0x61cca8
-    glitch::IReferenceCounted** constructMaterial(glitch::IReferenceCounted** out, video::IVideoDriver* driver, const char* name,
-                                                  CRootSceneNode* root) const;                                // 0x61cefc
-    glitch::IReferenceCounted** constructMaterial(glitch::IReferenceCounted** out, video::IVideoDriver* driver, int index,
-                                                  CRootSceneNode* root) const;                                // 0x61cf44
+    CImage* constructImage(SImage* image, CRootSceneNode* root) const;                    // 0x60fc70
+    CImage* constructImage(int index, CRootSceneNode* root) const;                        // 0x60fcc0
+    CImage* constructImage(const char* name, CRootSceneNode* root) const;                 // 0x61b1b4
+    video::CMaterial* constructMaterial(video::IVideoDriver* driver, SMaterial* material,
+                                                             CRootSceneNode* root) const;                    // 0x61cca8
+    video::CMaterial* constructMaterial(video::IVideoDriver* driver, const char* name,
+                                                             CRootSceneNode* root) const;                    // 0x61cefc
+    video::CMaterial* constructMaterial(video::IVideoDriver* driver, int index,
+                                                             CRootSceneNode* root) const;                    // 0x61cf44
     // 0x61aae0: the geometry `geometryName` of the file `fileName`, which is opened next to this database's file through
     // CResFileManager::get (it logs "File not found" and "Geometry not found" through the printer). Out-slot return as above.
-    glitch::IReferenceCounted** constructGeometry(glitch::IReferenceCounted** out, video::IVideoDriver* driver, const char* fileName,
+    IMesh* constructGeometry(video::IVideoDriver* driver, const char* fileName,
                                                   const char* geometryName) const;
     // Visual scenes: 0x61b8bc (record), 0x61b988 (index), 0x61b9b8 (name). The scene's nodes are constructed below `root`.
     CRootSceneNode* constructVisualScene(video::IVideoDriver* driver, SVisualScene* scene, CRootSceneNode* root) const;

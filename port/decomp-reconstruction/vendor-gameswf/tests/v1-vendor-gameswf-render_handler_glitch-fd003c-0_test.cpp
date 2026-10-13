@@ -28,7 +28,8 @@
 namespace {
 }  // namespace
 
-// The upstream colour transform and matrix (gameswf_types.cpp is not linked): identity, and the transform returns its input.
+// Fallbacks for the upstream colour transform and matrix (identity, and the transform returns its input). They are weak:
+// in the full tree the upstream definitions of gameswf_types.cpp (dh2_vendor_gameswf) win, and the checks hold with them.
 __attribute__((weak)) gameswf::rgba gameswf::cxform::transform(const gameswf::rgba in) const {
     return in;
 }
@@ -48,17 +49,6 @@ __attribute__((weak)) gameswf::matrix::matrix() {
     m_[1][2] = 0.0f;
 }
 
-// The membuf destructor and the inline tu_string members the gameswf.h chain emits.
-membuf::~membuf() {}
-void tu_string::resize(int) {
-    std::abort();
-}
-int tu_string::utf8_char_count(const char*, int) {
-    std::abort();
-}
-bool tu_string::operator==(const tu_string&) const { std::abort(); }
-void tu_string::operator+=(const char*) { std::abort(); }
-void tu_string::operator+=(const tu_string&) { std::abort(); }
 
 namespace gameswf {
 template <class T>
@@ -163,7 +153,9 @@ int main() {
     CHECK(g.m_fill_styles[1].unk_00 == 0);
     CHECK(g.m_fill_styles[0].unk_00 == 1);
 
-    // Line style is fill entry 2: width, colour through the cxform (identity stand-in), flag set and cleared.
+    // Line style is fill entry 2: width, colour through the cxform (the identity again: the colour passes through the
+    // upstream cxform::transform, which applies the stored transform), flag set and cleared.
+    g.render_handler_glitch::set_cxform(gameswf::cxform());
     g.render_handler_glitch::line_style_width(2.5f);
     CHECK(g.m_fill_styles[2].unk_48 == 2.5f);
     g.render_handler_glitch::line_style_color(gameswf::rgba(1, 2, 3, 4));

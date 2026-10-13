@@ -10,8 +10,8 @@
 // with sizeof of the host element. The element classes have virtual functions whose bodies are not linked here, so
 // the elements are read and written through typed pointers and never constructed or destroyed.
 //
-// GetCharModelId is partial (no Arrays::ModelDict bound check), so it is checked only for the negative fallback and
-// for a non-negative word passing through.
+// GetCharModelId returns the word when it indexes Arrays::ModelDict (below its size), otherwise -1. The test sets the size
+// of the dictionary (kModelRows) itself.
 
 #include <cstddef>
 #include <cstdint>
@@ -79,6 +79,7 @@ Character* Obj() {
 constexpr std::size_t kAIRows = 9;      // AI rows 0..8; the fallback row is 8
 constexpr std::size_t kFactions = 12;   // AI faction rows; the fallback id is 10
 constexpr std::size_t kAnimRows = 40;   // animation table rows; the fallback id is 17
+constexpr std::uint32_t kModelRows = 200;  // Arrays::ModelDict::size for the test; the fallback is -1
 
 void SetRaw(std::int32_t faction, std::int32_t ai, std::int32_t anim, std::int32_t model) {
     g_raw[0] = faction;
@@ -101,6 +102,7 @@ Structs::AIProps* AIRowAt(std::vector<std::uint8_t>& table, std::size_t index) {
 // Each id getter asks PROPS_Get for its own word, from m_props (useTemp false), and returns the word when it is in range.
 void TestIdWords() {
     ResetAsked();
+    Arrays::ModelDict::size = kModelRows;
     SetRaw(3, 5, 7, 4);
     EXPECT(Obj()->GetCharAIFactionId() == 3);
     EXPECT(Obj()->GetCharAIId() == 5);
@@ -136,13 +138,18 @@ void TestIdFallbacks() {
     SetRaw(0, 0, static_cast<std::int32_t>(kAnimRows - 1), 0);
     EXPECT(Obj()->GetCharAnimTableId() == 39);
 
-    // GetCharModelId: a negative word gives -1. A non-negative word passes through (the upper bound is not checked).
+    // GetCharModelId: a negative word, or a word at or past the dictionary size, gives -1. Any other word passes through.
+    Arrays::ModelDict::size = kModelRows;
     SetRaw(0, 0, 0, -1);
     EXPECT(Obj()->GetCharModelId() == -1);
     SetRaw(0, 0, 0, 0);
     EXPECT(Obj()->GetCharModelId() == 0);
     SetRaw(0, 0, 0, 123);
     EXPECT(Obj()->GetCharModelId() == 123);
+    SetRaw(0, 0, 0, static_cast<std::int32_t>(kModelRows - 1));
+    EXPECT(Obj()->GetCharModelId() == static_cast<int>(kModelRows - 1));
+    SetRaw(0, 0, 0, static_cast<std::int32_t>(kModelRows));
+    EXPECT(Obj()->GetCharModelId() == -1);
 }
 
 // The AI row is the one the id selects: row 3 for word 3, the fallback row 8 for an out-of-range word.

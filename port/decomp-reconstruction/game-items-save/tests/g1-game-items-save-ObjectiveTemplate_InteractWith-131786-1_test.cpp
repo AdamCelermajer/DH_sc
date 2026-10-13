@@ -296,7 +296,7 @@ void TestDbg() {
         "\t  Objective_InteractWith\n"
         "\t    Type        : Kill\n"
         "\t    Object      : 9\n"
-        "\t    Level (OID) : ?\n\n";
+        "\t    Level (OID) : na\n\n";  // the level index is outside the (empty) pydata name table
     EXPECT(std::strcmp(text, expected) == 0);
     EXPECT(g_nameCalls > 0);
 }

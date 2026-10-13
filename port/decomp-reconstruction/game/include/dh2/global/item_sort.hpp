@@ -8,3 +8,5 @@
 #include "dh2/ItemInventory.hpp"
 
 bool II_Item_sortbyname(const ItemInventory::Item& a, const ItemInventory::Item& b);  // 0x3fd1dc
+bool II_Item_sortbyvalue(const ItemInventory::Item& a, const ItemInventory::Item& b);   // 0x3fd9d0
+bool II_Item_sortbybuyback(const ItemInventory::Item& a, const ItemInventory::Item& b); // 0x3fd9f8

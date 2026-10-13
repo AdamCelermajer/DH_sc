@@ -73,19 +73,16 @@ void AssertFailed(const char* expr, const char* file, int line) {
 
 // Online gates (see the file comment). Each returns the offline value until COnline and OnlineGameState expose
 // their fields; the singleton calls stay in place.
-bool OnlineSessionFlag() {  // COnline +0x05 (isOnlineGame_, no accessor in net-session-online/c_online.hpp)
-    (void)GetOnline();
-    return false;
+bool OnlineSessionFlag() {  // COnline +0x05 (isOnlineGame_)
+    return GetOnlineGameFlag();
 }
 
-bool OnlineMatchingFlag() {  // OnlineGameState +0x24 (not declared in net-session-online/online_game_state.hpp)
-    (void)OnlineSingleton<OnlineGameState>::GetInstance();
-    return false;
+bool OnlineMatchingFlag() {  // OnlineGameState +0x24 (flag24_)
+    return OnlineSingleton<OnlineGameState>::GetInstance()->flag24_;
 }
 
-int OnlineGameStateWord() {  // OnlineGameState +0x34 (not declared in net-session-online/online_game_state.hpp)
-    (void)OnlineSingleton<OnlineGameState>::GetInstance();
-    return 0;
+int OnlineGameStateWord() {  // OnlineGameState +0x34 (mode_)
+    return OnlineSingleton<OnlineGameState>::GetInstance()->mode_;
 }
 
 // The four-test online check the bodies share: online session, matching room flag, CMatching::UnknownGate (vtable

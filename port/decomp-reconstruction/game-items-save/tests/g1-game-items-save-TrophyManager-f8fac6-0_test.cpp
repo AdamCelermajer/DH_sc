@@ -24,6 +24,8 @@
 #include "dh2/AchievementMsg.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/MenuMessageManager.hpp"
 #include "dh2/StringManager.hpp"
 #include "dh2/TrophyData.hpp"
@@ -302,6 +304,11 @@ void TestCreateAndDeleteInstance() {
 int main() {
     SetUpRows();
     ApplicationGetInstance().m_stringManager = reinterpret_cast<StringManager*>(&g_stringMarker);
+    // A zeroed MenuManager: its HUD root is null, so the popup step of TrophyUnlockedCB finds no HUD and does nothing.
+    alignas(16) static char s_menuManager[sizeof(MenuManager)];
+    alignas(16) static char s_multiMenuManager[sizeof(MultiMenuManager)];
+    ApplicationGetInstance().m_menuManager = reinterpret_cast<MenuManager*>(s_menuManager);
+    ApplicationGetInstance().m_menuManager->m_multiMenuManager = reinterpret_cast<MultiMenuManager*>(s_multiMenuManager);
 
     TestConstructionAndLookups();
     TestUnlockFlow();

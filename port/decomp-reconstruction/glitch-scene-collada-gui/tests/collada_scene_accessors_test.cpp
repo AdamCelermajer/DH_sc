@@ -38,33 +38,6 @@ int main() {
         CHECK(!morph.clone());
     }
 
-    // Modular skinned mesh scene node forwards to the mesh's category table.
-    {
-        CModularSkinnedMesh::SCategoryEntry entries[2] = {};
-        entries[0].moduleCount = 4;
-        entries[1].moduleCount = 7;
-        entries[0].name = "cat0";
-        entries[1].name = "cat1";
-        CModularSkinnedMesh::SCategoryTable table;
-        table.count = 2;
-        table.entries = entries;
-        CModularSkinnedMesh mesh;
-        mesh.categories = &table;
-        mesh.currentModules.resize(2);
-        mesh.currentModules[1].moduleId = 9;
-        CModularSkinnedMeshSceneNode node;
-        node.mesh = &mesh;
-        CHECK(node.getCategoryCount() == 2);
-        CHECK(node.getCategoryModuleCount(1) == 7);
-        CHECK(node.getCategoryModuleCount(0) == 4);
-        CHECK(node.getCurrentModuleId(1) == 9);
-        CHECK(std::strcmp(node.getCategoryName(1), "cat1") == 0);
-        CHECK(node.getCategoryName(2) == nullptr);
-        CHECK(node.getCategoryId("cat1") == 1);
-        CHECK(node.getCategoryId("missing") == -1);
-        CHECK(node.getModuleName(5, 0) == nullptr);
-    }
-
     // Animation set ranges read through the scene-node animator set.
     {
         boost::intrusive_ptr<CAnimationSet> anim(new CAnimationSet());
@@ -79,16 +52,6 @@ int main() {
         CHECK(set.getAnimationStart(1) == 2);
         CHECK(set.getAnimationEnd(0) == 10);
         CHECK(set.getTargetCount() == 5);
-    }
-
-    // User property: zero without a property block.
-    {
-        CSceneNode node;
-        CHECK(node.getUserProperty() == 0);
-        SNodeUserProperties props;
-        props.value = -12;
-        node.userProperties = &props;
-        CHECK(node.getUserProperty() == -12);
     }
 
     // Scene-node uids come from the holder; the particle bounding box is a pointer.
@@ -109,23 +72,6 @@ int main() {
         CHECK(gps.getUID() == holder.uid);
         CHECK(gps.getTransformedBoundingBox() == &box);
 
-        CCameraSceneNode cam;
-        cam.uidHolder = &holder;
-        CHECK(cam.getUID() == holder.uid);
-        CHECK(cam.getTargetNode() == nullptr);
-    }
-
-    // Mesh scene node: the holder wins when present, else the named mesh uid.
-    {
-        SNamedMeshData named;
-        named.uid = "mesh-uid";
-        CMeshSceneNode node;
-        node.namedMesh = &named;
-        CHECK(node.getUID() == named.uid);
-        SUidHolder holder;
-        holder.uid = "holder-uid";
-        node.uidHolder = &holder;
-        CHECK(node.getUID() == holder.uid);
     }
 
     // Timeline clip table: count, start, end and name per clip; no table gives 0.
@@ -172,23 +118,6 @@ int main() {
 
     // Scene-node uid and scope accessors, light id and uid, and the dynamic set clear.
     {
-        CSceneNode uidNode;
-        CHECK(std::strcmp(uidNode.getUID(), "") == 0);
-        CHECK(std::strcmp(uidNode.getScopeID(), "") == 0);
-        SNodeUserProperties nodeProps;
-        nodeProps.uid = "node-7";
-        nodeProps.scopeID = "scope";
-        uidNode.userProperties = &nodeProps;
-        CHECK(std::strcmp(uidNode.getUID(), "node-7") == 0);
-        CHECK(std::strcmp(uidNode.getScopeID(), "scope") == 0);
-
-        CLightSceneNode light;
-        light.slot160.lightID = 42;
-        CHECK(light.getLightID() == 42);
-        std::uint32_t uidWord = 99;
-        light.slot160.uidSource = &uidWord;
-        CHECK(light.getUID() == 99);
-
         CDynamicAnimationSet dynamicSet;
         dynamicSet.databases.resize(3);
         dynamicSet.clearSet();

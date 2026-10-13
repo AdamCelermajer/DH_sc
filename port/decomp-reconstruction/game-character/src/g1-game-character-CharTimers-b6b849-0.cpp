@@ -15,7 +15,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
-#include "dh2/ScriptManager.hpp"       // ScriptManager::s_inst, whose unk_30 is the cut-scene flag
+#include "dh2/ScriptManager.hpp"       // ScriptManager::s_inst, whose m_inCutScene is the cut-scene flag
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
 
 namespace {
@@ -119,7 +119,7 @@ void CharTimers::Update() {
     // that is s_inst + (0x9a600c - 0x9a5fdc)). A non-zero byte leaves Update before Application::GetDt is called, so no
     // timer advances and no event is raised. Script_EnterCutSceneMode::Execute (0x45a384) sets the byte to 1 and
     // Script_ExitCutSceneMode::Execute (0x4599ac) clears it, both through the same s_inst pointer.
-    if (ScriptManager::s_inst.unk_30) {
+    if (ScriptManager::s_inst.m_inCutScene) {
         return;
     }
     const int dt = ApplicationGetInstance().GetDt();

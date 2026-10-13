@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "net-session-online/c_online_impl.hpp"
 #include "dh2/CSDespawn.hpp"
 #include "dh2/CSInjured.hpp"
 #include "dh2/CharAnimator.hpp"
@@ -89,7 +90,8 @@ bool DebugSwitches::GetSwitch(const std::string&) {
     return false;
 }
 
-COnline* GetOnline() { return nullptr; }
+static COnlineImpl g_testOnline;
+COnline* GetOnline() { return &g_testOnline; }
 
 CharState::~CharState() {}
 

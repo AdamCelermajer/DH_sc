@@ -45,6 +45,8 @@ public:
     // Not in the original: test seams.
     // The current state (+0x00; -1 when none). Read inline by the callers that test OnlineGameState's state.
     std::int32_t CurrentState() const { return state_; }
+    // Not in the original: the inline store of the callers (NativeStartMultiplayerGame writes 300 to the word at +0x00).
+    void SetState(std::int32_t state) { state_ = state; }
     std::int32_t CurrentStateForTest() const { return state_; }
     void SetStateForTest(std::int32_t state) { state_ = state; }
     std::int32_t EntryCountForTest() const { return count_; }

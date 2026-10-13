@@ -9,9 +9,8 @@
 //  - The first argument of the file-name functions (GetFilename, GetCheckpointFilename, Delete, Exists, LoadLevel and the
 //    checkpoint functions) is printed with "%03u" in the file name ("dh2_<n>_..."), and PlayerSavegame takes the same value as
 //    its save slot. The header calls it levelId; the file-name evidence says it is the save slot.
-//  - Savefile probes go to the file system at dword_99F73C+0x34 and online state to COnline +0x05. Neither has a declared
-//    accessor yet (layout requests in the ledger notes). The functions that use them are partial. The stubs below answer
-//    "absent" and "offline" until those layouts land.
+//  - Savefile probes go to the file system at dword_99F73C+0x34 (dh2/global/savefile_fs.hpp) and online state to COnline +0x05
+//    (GetOnlineGameFlag).
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -31,33 +30,26 @@
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/Savegame.hpp"
 #include "dh2/Singleton.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"     // dword_99F76C, the PlayerManager instance
 #include "dh2/global/ObjectManagerInstance.hpp" // dword_99F764, the ObjectManager instance
 
 namespace {
 
-// PARTIAL: COnline::isOnlineGame_ (+0x05) is private in net-session-online/c_online.hpp and has no getter, so the online
-// flag cannot be read from game code yet (layout request). Until it can, the game is treated as offline.
+// *(GetOnline() + 5): COnline::isOnlineGame_.
 bool OnlineGameFlag() {
-    return false;
+    return GetOnlineGameFlag();
 }
 
-// PARTIAL: the savefile calls use the file system at dword_99F73C+0x34 (glitch::IDevice +0x34), which no header declares
-// (layout request). Its vtable is FileSystemWin32's: slot +0x7c getFiles(dir, names), slot +0x9c deleteSavefile(name),
-// slot +0xb0 doesSavefileExists(name). Until the accessor lands these report nothing, so every savefile is absent.
+// The savefile calls use the file system at dword_99F73C+0x34 (glitch::IDevice +0x34, dh2/global/savefile_fs.hpp). Its vtable is
+// FileSystemWin32's: slot +0x7c getFiles(dir, names), slot +0x9c deleteSavefile(name), slot +0xb0 doesSavefileExists(name).
 void ListSavefiles(const char* dir, std::vector<std::string>& names) {
-    (void)dir;
-    names.clear();
-}
-
-bool SavefileExists(const char* name) {
-    (void)name;
-    return false;
+    SavefileFileSystem().getFiles(dir, names);
 }
 
 bool DeleteSavefile(const char* name) {
-    (void)name;
-    return false;
+    return SavefileFileSystem().deleteSavefile(name);
 }
 
 // The checkpoint files are multiplayer when the game is online and either this machine is not the host, or it is the host
@@ -93,7 +85,7 @@ void LevelSavegame::Load() {
 }
 
 // 0x4615ec LevelSavegame::Save()
-// PARTIAL: depends on OnlineGameFlag() (COnline +0x05, see the stub above). The rest is complete. The original writes
+// The original writes
 // m_savegame when the object exists and is not blocked (m_blocked, +0x39), and then when the game is offline, or when
 // this machine hosts and m_hostChanged (+0x719) is clear.
 void LevelSavegame::Save() {
@@ -172,8 +164,7 @@ void LevelSavegame::__LoadObjects(IStreamBase* stream, void* user) {
 }
 
 // 0x4620f4 LevelSavegame::DeleteAllLevelSave(unsigned int)
-// PARTIAL: the file listing and the deletes go through the savefile file system (see ListSavefiles above), which is stubbed.
-// The loop itself is complete. The original lists the "./" directory, and for each name that contains "dh2_<slot>_" and
+// The original lists the "./" directory, and for each name that contains "dh2_<slot>_" and
 // ends with "_level.savegame" it deletes that savefile. A name shorter than 15 bytes makes the original's string compare
 // throw std::out_of_range, which is kept.
 int LevelSavegame::DeleteAllLevelSave(unsigned int levelId) {
@@ -210,8 +201,7 @@ std::string& LevelSavegame::GetCheckpointFilename(unsigned int levelId, int diff
 }
 
 // 0x462394 LevelSavegame::CheckpointExists(int) const
-// PARTIAL: depends on CheckpointIsMultiplayer (online flag stub) and SavefileExists (file system stub). The order of the
-// probes is complete: the name, then the name with ".bak" appended.
+// The probes: the checkpoint name, then the name with ".bak" appended.
 bool LevelSavegame::CheckpointExists(int levelId) const {
     std::string name;
     GetCheckpointFilename(static_cast<unsigned int>(levelId), m_difficulty, CheckpointIsMultiplayer(), name);
@@ -237,8 +227,7 @@ std::string& LevelSavegame::GetFilename(unsigned int levelId, int fieldA, int fi
 }
 
 // 0x46259c LevelSavegame::LoadCheckPoint(int, int, int)
-// PARTIAL: depends on CheckpointIsMultiplayer (online flag stub). The rest is complete. The checkpoint file is loaded
-// through m_savegame, then the slot file name is put back.
+// The checkpoint file is loaded through m_savegame, then the slot file name is put back.
 void LevelSavegame::LoadCheckPoint(int levelId, int fieldA, int fieldB) {
     std::string name;
     GetCheckpointFilename(static_cast<unsigned int>(levelId), m_difficulty, CheckpointIsMultiplayer(), name);
@@ -251,8 +240,7 @@ void LevelSavegame::LoadCheckPoint(int levelId, int fieldA, int fieldB) {
 }
 
 // 0x4626f4 LevelSavegame::Delete(unsigned int, int, int, int, bool, bool)
-// PARTIAL: the two deletes go through DeleteSavefile, the file system stub. The name logic is complete. The original always
-// calls delete for the name and then for the name with ".bak", and returns the OR of the two results.
+// The original always calls delete for the name and then for the name with ".bak", and returns the OR of the two results.
 int LevelSavegame::Delete(unsigned int levelId, int fieldA, int fieldB, int difficulty, bool checkpoint,
                           bool multiplayer) {
     std::string name;
@@ -324,15 +312,49 @@ void LevelSavegame::LoadLevel(unsigned int levelId, int fieldA, int fieldB, int 
 }
 
 // 0x462d84 LevelSavegame::__SaveObjects(IStreamBase*, void*)
-// PARTIAL, body not written. The original walks ObjectManager's object map (m_objectMap, std::map<int, ObjectListItem>)
-// in key order. For each entry whose object has skip flag unk_28 set, and which is either not online, not a Character or
-// not a player, or is the local player that is not marked for deletion, it writes: the object's game type, the entry's key
-// name (or "PlayerCharacter_0" for a player character with another key), the object's unk_64 as an int, and the object's
-// Serialize payload behind a 64-bit size. The count is written first and patched at the end. ObjectListItem has no header
-// (waits on dh2/ObjectListItem.hpp: name string at +0x00, object at +0x18), and the online flag is stubbed above.
+// The OBJS section writer. It walks ObjectManager's object map (m_objectMap, std::map<int, ObjectListItem>) in key order and
+// writes the objects that are flagged for the checkpoint (ObjectBase::unk_28) and, in an online game, are not remote players.
+// Per object: the game type (+0x5c, the c_str of m_gameType), the entry's name (or "PlayerCharacter_0" for a player character
+// listed under another name), the object's unk_64 as an int, and its Serialize payload behind a 64-bit size that is patched
+// after the payload is written. The object count is written first as a placeholder and patched at the end.
+// Stream slots: +0x30 tellWrite, +0x2c seekWrite. Object slots: +0x24 IsCharacter, +0x28 IsPlayer, +0x10 Serialize.
 void LevelSavegame::__SaveObjects(IStreamBase* stream, void* user) {
-    (void)stream;
     (void)user;
+    std::uint32_t count = 0;
+    std::string typeName;
+    const std::uint64_t countPosition = stream->tellWrite();
+    stream->writeAs<unsigned int>(count);
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object == nullptr || !object->unk_28) {
+            continue;
+        }
+        if (OnlineGameFlag() && object->IsCharacter() && object->IsPlayer() &&
+            !(dword_99F76C->IsLocalPlayer(static_cast<const Character*>(object)) && !object->m_markedForDeletion)) {
+            continue;
+        }
+        ++count;
+        typeName.assign(object->m_gameType.c_str(), std::strlen(object->m_gameType.c_str()));
+        stream->writeAs(typeName);
+        if (object->IsCharacter() && object->IsPlayer() && std::strcmp("PlayerCharacter_0", entry.second.m_name.c_str()) != 0) {
+            const std::string playerName("PlayerCharacter_0");
+            stream->writeAs(playerName);
+        } else {
+            stream->writeAs(entry.second.m_name);
+        }
+        const std::int32_t objectId = object->unk_64;
+        stream->writeAs<int>(objectId);
+        std::uint64_t payloadSize = 0;
+        const std::uint64_t sizePosition = stream->tellWrite();
+        stream->writeAs<unsigned long long>(payloadSize);
+        object->Serialize(stream);
+        payloadSize = stream->tellWrite() - 8 - sizePosition;
+        stream->seekWrite(sizePosition);
+        stream->writeAs<unsigned long long>(payloadSize);
+        stream->seekWrite(payloadSize + 8 + sizePosition);
+    }
+    stream->seekWrite(countPosition);
+    stream->writeAs<unsigned int>(count);
 }
 
 // 0x463130 LevelSavegame::SaveCheckPoint(int, int, int)

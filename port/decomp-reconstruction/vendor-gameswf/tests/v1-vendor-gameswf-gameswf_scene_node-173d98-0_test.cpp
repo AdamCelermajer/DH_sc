@@ -211,12 +211,6 @@ uint16_t glitch::video::CMaterialRenderer::getParameterID(E_SHADER_PARAMETER_TYP
     return g_param_id_result;
 }
 
-// Stubs for tu_string members that are referenced only by dead comdats.
-void tu_string::resize(int) {}
-int tu_string::utf8_char_count(const char*, int) { return 0; }
-void tu_string::operator+=(const char*) {}
-void tu_string::operator+=(const tu_string&) {}
-bool tu_string::operator==(const tu_string&) const { return false; }
 
 namespace {
 
@@ -288,10 +282,12 @@ public:
           mesh(m) {}
     void render(void*) override {}
     const glitch::core::aabbox3d<float>& getBoundingBox() const override { return box; }
-    void setMesh(const boost::intrusive_ptr<IMesh>& m) override { mesh = boost::intrusive_ptr<TestMesh>(static_cast<TestMesh*>(m.get())); }
+    void setMesh(const boost::intrusive_ptr<IMesh>& m) override { mesh = boost::intrusive_ptr<TestMesh>(static_cast<TestMesh*>(m.get()), true); }
     boost::intrusive_ptr<IMesh> getMesh() const override {
         ++get_mesh_calls;
-        return boost::intrusive_ptr<IMesh>(mesh.get());
+        // The one-argument intrusive_ptr constructor takes over a reference (TRACK-B decision 1), so the caller gets its own
+        // use with the two-argument form.
+        return boost::intrusive_ptr<IMesh>(mesh.get(), true);
     }
     const char* getUID() const override { return "uid-123"; }
 
@@ -515,7 +511,7 @@ void test_collect_uvs() {
     {
         NodeRig n;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1, "one collect call");
         const CollectCall& c = g_collect_calls[0];
         check(c.type == 6, "value type 6 selects collect<float>");
@@ -537,7 +533,7 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.mesh->buffer->primitiveStream.m_count = 3;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1 && g_collect_calls[0].count == 1, "clamped to 3 indices: one triangle");
         check(g_collect_calls[0].indices[0] == 5 && g_collect_calls[0].indices[2] == 3, "first three indices");
         // The dequantization runs over the clamped count (3 points), not 6.
@@ -551,7 +547,7 @@ void test_collect_uvs() {
         n.rig.mesh->buffer->primitiveStream.m_indexBuffer = boost::intrusive_ptr<IBuffer>(buf, true);
         n.rig.mesh->buffer->primitiveStream.m_indexType = 2;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1 && g_collect_calls[0].indices[0] == 100000 && g_collect_calls[0].indices[5] == 6,
               "32-bit indices");
     }
@@ -562,7 +558,7 @@ void test_collect_uvs() {
         n.rig.mesh->buffer->primitiveStream.m_indexBuffer = boost::intrusive_ptr<IBuffer>(buf, true);
         n.rig.mesh->buffer->primitiveStream.m_indexType = 0;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1 && g_collect_calls[0].indices[0] == 9 && g_collect_calls[0].indices[5] == 255,
               "8-bit indices");
     }
@@ -571,7 +567,7 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.streams()->m_streams[1].field0a = static_cast<std::uint16_t>(type);
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1 && g_collect_calls[0].type == type, "value type selects the collect<T>");
     }
     // An unknown value type collects nothing but the dequantization still runs (over zeroed uv).
@@ -579,7 +575,7 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.streams()->m_streams[1].field0a = 7;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.empty(), "value type 7: no collect");
         check(nearly(uv[0].m_x, 1.f) && nearly(uv[0].m_y, -1.f), "value type 7: the offset is added to the zero uv");
         check(n.rig.index_buffer->m_mapCount13 == 0, "value type 7: the index buffer is unmapped");
@@ -589,7 +585,7 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.streams()->m_streams[1].field0c = 3;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.empty() && uv[0].m_x == 0.f, "three components: nothing collected or scaled");
         check(n.rig.index_buffer->m_mapCount13 == 0, "three components: the index buffer is unmapped");
     }
@@ -598,12 +594,12 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.streams()->m_quantization[2] = vector3d<float>{0.f, 4.f, 1.f};
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.size() == 1 && nearly(uv[0].m_x, 0.25f) && nearly(uv[0].m_y, 0.5f), "zero x scale: raw uv");
         n.rig.streams()->m_quantization[2] = vector3d<float>{2.f, 0.f, 1.f};
         gameswf::point uv2[6] = {};
         g_collect_calls.clear();
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv2, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv2, 6);
         check(g_collect_calls.size() == 1 && nearly(uv2[0].m_x, 0.25f) && nearly(uv2[0].m_y, 0.5f), "zero y scale: raw uv");
     }
     // The early exits: no mesh buffer, a zero count0c, no index buffer. The index buffer is never mapped.
@@ -611,21 +607,21 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.mesh->buffer = nullptr;  // getMeshBufferCount is 0
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.empty(), "no mesh buffer: nothing");
     }
     {
         NodeRig n;
         n.rig.streams()->m_count0c = 0;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.empty() && n.rig.index_buffer->m_mapCount13 == 0, "count0c 0: nothing, no map");
     }
     {
         NodeRig n;
         n.rig.mesh->buffer->primitiveStream.m_indexBuffer = nullptr;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(g_collect_calls.empty(), "no index buffer: nothing");
     }
     // The unmap callback of the index buffer runs when the buffer asks for it (flag 0x20).
@@ -633,7 +629,7 @@ void test_collect_uvs() {
         NodeRig n;
         n.rig.index_buffer->m_flags12 |= IBuffer::kFlagUnmapCallback;
         gameswf::point uv[6] = {};
-        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get()), uv, 6);
+        n.node->collect_uvs(boost::intrusive_ptr<const IMesh>(n.rig.mesh.get(), true), uv, 6);
         check(n.rig.index_buffer->unmap_impl_calls == 1, "unmapImpl runs once");
     }
 }
@@ -753,7 +749,10 @@ void test_update_inverse_transform() {
         reinterpret_cast<gameswf::root*>(g_root_box.bytes)->m_pointer_y = 0.f;
         n.node->m_last_pointer_x = 0.f;
         n.node->m_last_pointer_y = 0.f;
-        n.rig.parent->absoluteTransform.M[0] = 3.f;  // flag still set on both
+        // The parent's matrix is built from its translation, rotation and scale by its constructor, which leaves the
+        // identity flag clear; the flag is set here so that both flags say identity.
+        n.rig.parent->absoluteTransform.flag = true;
+        n.rig.parent->absoluteTransform.M[0] = 3.f;  // flag set on both
         n.node->m_mouse_x = 4.f;
         n.node->update_inverse_transform();
         check(n.node->m_mouse_x == 4.f, "both identity flags: no recompute even though an element differs");

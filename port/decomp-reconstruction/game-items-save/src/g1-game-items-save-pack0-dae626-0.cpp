@@ -2,9 +2,8 @@
 // Layouts: dh2/Condition.hpp, dh2/ConditionList.hpp and dh2/Condition_IsEventInState.hpp. The Application singleton
 // (dh2/Singleton.hpp, Application.hpp) and the level and event classes are used through their own headers.
 //
-// PARTIAL rows: Condition_IsEventInState::Eval (the gAssertLevel 2 store to address 0 is not reproduced) and
-// Condition_IsEventInState::DBG_TraceDetailedConditionInformation (the Event line is not printed). See the comments
-// on those functions.
+// Every row of the batch is reconstructed. Condition_IsEventInState::Eval aborts where the original stores to address 0
+// (gAssertLevel 2), and its trace prints the Event line from Arrays::v2Events.
 //
 // Notes:
 //  * __sFILE is the libc FILE on the target. Stream arguments are converted with reinterpret_cast before the stdio
@@ -21,6 +20,7 @@
 
 #include <cstddef>
 #include <cstdio>
+#include <cstdlib>
 
 #include "core-platform/memory.hpp"
 #include "dh2/Application.hpp"
@@ -32,6 +32,7 @@
 #include "dh2/Level.hpp"
 #include "dh2/Singleton.hpp"
 #include "dh2/global/condition_objective_factory.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -158,8 +159,7 @@ Condition_IsEventInState::~Condition_IsEventInState() {}
 // 0x478db4 Condition_IsEventInState::Eval()
 // True when the event row named by m_stub (+0x8, m_w2) is in the state named by m_stub (+0xc, m_w3), looked up in the
 // current level's GameEventManager (Level +0x194). The state is the first word of the GameEvent, as the original reads it.
-// PARTIAL: at gAssertLevel 2 the original stores 0 to address 0 (dword_0 = 0), a deliberate crash. It is not
-// reproduced here, and that case returns false, as the gAssertLevel 0 and 1 paths do.
+// At gAssertLevel 2 the original stores 0 to address 0 (dword_0 = 0), a deliberate crash; here it aborts.
 bool Condition_IsEventInState::Eval() {
     Structs::v2ConditionStub* stub = m_stub;
     Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
@@ -173,7 +173,7 @@ bool Condition_IsEventInState::Eval() {
         return stub->m_w3 == ev->m_state;
     }
     if (gAssertLevel == 2) {
-        return false;  // PARTIAL: the original's store to address 0 is not reproduced.
+        std::abort();  // the original stores 0 to address 0 here
     }
     if (gAssertLevel != 1) {
         return false;
@@ -183,13 +183,16 @@ bool Condition_IsEventInState::Eval() {
 }
 
 // 0x478c10 Condition_IsEventInState::DBG_TraceDetailedConditionInformation(__sFILE*)
-// PARTIAL: the original first prints "\t    Event       : %s\n" with the event name from Arrays::v2Events::m_memberNames
-// ("na" when the id is outside Arrays::v2Events::size). That name table is declared in pydata-accessors/member_names.hpp
-// and the size in w7_arrays_02.hpp, and the two cannot share a translation unit (see GameEventManager::GetEventByName).
-// That line is not written here. The State line is written as the original writes it, and the return value is the
-// count of that second fprintf (the original returns fprintf's int).
+// Prints "\t    Event       : %s\n" with the event name from Arrays::v2Events::m_memberNames ("na" when the id is outside
+// Arrays::v2Events::size), then the State line as the original writes it. The return value is the count of that second fprintf (the
+// original returns fprintf's int).
 std::size_t Condition_IsEventInState::DBG_TraceDetailedConditionInformation(__sFILE* stream) {
     std::FILE* out = reinterpret_cast<std::FILE*>(stream);
+    const std::int32_t eventId = m_stub->m_w2;
+    const char* eventName = (eventId < 0 || static_cast<std::uint32_t>(eventId) >= Arrays::v2Events::size)
+                                ? "na"
+                                : Arrays::v2Events::m_memberNames.names[eventId];
+    std::fprintf(out, "\t    Event       : %s\n", eventName);
     PyDataConstants* constants = Singleton<Application>::s_inst.m_pyDataConstants;  // dword_99F758, Application +0x2c
     const char* stateName = constants->getConstantName("v2EventState", m_stub->m_w3);
     return static_cast<std::size_t>(std::fprintf(out, "\t    State       : %s\n\n", stateName));

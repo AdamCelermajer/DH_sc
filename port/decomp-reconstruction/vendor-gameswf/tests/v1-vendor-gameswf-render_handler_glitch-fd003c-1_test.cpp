@@ -41,18 +41,8 @@ __attribute__((weak)) gameswf::matrix::matrix() {
     m_[1][2] = 0.0f;
 }
 
-membuf::~membuf() {}
 // gameswf::render_cache::~render_cache (0x78ba28, the pack6 batch): its four arrays release themselves.
 __attribute__((weak)) gameswf::render_cache::~render_cache() {}
-void tu_string::resize(int) {
-    std::abort();
-}
-int tu_string::utf8_char_count(const char*, int) {
-    std::abort();
-}
-bool tu_string::operator==(const tu_string&) const { std::abort(); }
-void tu_string::operator+=(const char*) { std::abort(); }
-void tu_string::operator+=(const tu_string&) { std::abort(); }
 
 namespace gameswf {
 template <class T>

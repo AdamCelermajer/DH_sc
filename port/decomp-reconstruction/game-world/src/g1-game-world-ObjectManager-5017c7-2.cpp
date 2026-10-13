@@ -30,6 +30,7 @@
 #include "dh2/ObjectManager.hpp"
 #include "dh2/RoomZone.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_matching_base.hpp"
 #include "net-transport/net_bit_stream.hpp"
 
@@ -37,7 +38,7 @@ namespace {
 
 // COnline::isOnlineGame_ (+0x05) has no getter in net-session-online/c_online.hpp. Until one exists this
 // reads as offline, so every online-only branch in this file is skipped.
-bool OnlineGameFlagUnavailable() { return false; }
+bool OnlineGameFlagUnavailable() { return GetOnlineGameFlag(); }
 
 // Removes every node whose value equals `value`. Matches the original loops that unlink each match.
 template <typename T>

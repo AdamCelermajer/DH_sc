@@ -40,6 +40,7 @@
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_message.hpp"
+#include "net-session-online/c_msg_quests_sync.hpp"
 #include "net-session-online/c_messaging.hpp"
 #include "net-session-online/c_online.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
@@ -51,6 +52,8 @@ const char kLoadSaveSource[] =
     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\SaveGames\\PlayerSavegame_LoadSave.cpp";
 
 // The original's ASSERT(expr). Level 2 aborts; level 1 prints the message and the caller goes on.
+const char kStreamBufferSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/StreamBuffer.h";
+
 void PlayerSavegameAssert(const char* expr, const char* file, int line) {
     if (gAssertLevel == 2) {
         std::abort();  // the original writes to address 0 here
@@ -80,11 +83,8 @@ std::time_t PlayerSavegame::SG_SetSaveDate() {
 }
 
 // 0x4679e8 _ZN14PlayerSavegame15SG_TryQuestSyncEv
-// PARTIAL: the hosting branch creates CMsgQuestsSync and sends it, but the payload is not attached. The binary writes
-// the packed length into the message (+0x50) and a copy of the packed bytes as its block (+0x58). CMsgQuestsSync
-// keeps both private (net-session-online/c_msg_quests_sync.hpp has no setter), so the message goes out with an empty
-// block. Also omitted: the debug check after packing that the buffer is sized (ASSERT "static_", StreamBuffer.h:130);
-// Buffer::sized_ is private, so the check cannot be written.
+// The hosting branch packs the volatile quest log into a StreamBuffer, checks the buffer is sized (ASSERT "static_",
+// StreamBuffer.h:130), and sends a CMsgQuestsSync whose block is a copy of the packed bytes (+0x50 length, +0x58 block).
 void PlayerSavegame::SG_TryQuestSync() {
     if (!GetOnline()->IsOnlineGame()) {
         m_questSynced = true;
@@ -103,8 +103,13 @@ void PlayerSavegame::SG_TryQuestSync() {
         buffer.expand(1000);
         m_volatileQuestLog.PackQuests(m_difficultyLevel, &buffer);
         CMessaging* messaging = GetMessaging();
+        const std::uint32_t packedSize = buffer.buffer_.size();
+        if (!buffer.buffer_.sized()) {
+            PlayerSavegameAssert("static_", kStreamBufferSource, 130);
+        }
+        const std::uint8_t* packedBytes = buffer.buffer_.FirstBlock();
         CMessage* message = CMessage::CreateMessage("CMsgQuestsSync", true);
-        // PARTIAL (see above): the payload of `message` is not attached here.
+        static_cast<CMsgQuestsSync*>(message)->SetBlock(packedBytes, static_cast<std::int32_t>(packedSize));
         messaging->SendMsg(message);
         m_questSynced = true;
     } else {

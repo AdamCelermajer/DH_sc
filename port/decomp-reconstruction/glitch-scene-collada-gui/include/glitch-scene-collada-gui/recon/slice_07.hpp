@@ -172,21 +172,6 @@ void CBillboardSceneNode_D1(CBillboardSceneNode* self);
 // 0x60cf88 Partial: absolute-position update is not reconstructed (13 KB pseudocode).
 void CBillboardSceneNode_updateAbsolutePosition(CBillboardSceneNode& self, bool recursive);
 
-// --- animation track value accessors ---------------------------------------
-// 0x60dfc0 Reconstructed: writes the three channels scaled from bytes and sets alpha to 1.
-float CApplicator_SLightColor_applyValueEx(SLightColorApplicator& self, const std::uint8_t* value);
-// 0x60eeb4 Reconstructed: packs the three float channels at a2[5..7] back into bytes.
-std::uint32_t CVirtualEx_LightColor_retrieveValue(const float* source, std::uint8_t* out);
-// 0x60ef6c Partial: scene-node scale is read through vtable slot +0x90, not dispatched here.
-void CVirtualEx_SceneNodeScale_retrieveValue(const void* node, float* out);
-// 0x60f000 Partial: scene-node position is read through vtable slot +0xa0, not dispatched here.
-void CVirtualEx_SceneNodePosition_retrieveValue(const void* node, float* out);
-// 0x60f10c Partial: scene-node quaternion is read through vtable slot +0x98, not dispatched here.
-void CVirtualEx_SceneNodeQuaternion_retrieveValue(const void* node, float* out);
-// 0x60f148 Partial: the material-set parameter loop is not reconstructed.
-void CVirtualEx_MaterialSetParam_applyValue(float* dst, const float* src, int a3, int count,
-                                            float* out);
-
 // --- glitch::collada::CColladaDatabase constructors (partial) --------------
 // 0x60f25c / 0x60f2b0 Partial: CResFileManager::load is not in this category.
 void CColladaDatabase_ctor_name(CColladaDatabase* self, const char* name, void* factory);

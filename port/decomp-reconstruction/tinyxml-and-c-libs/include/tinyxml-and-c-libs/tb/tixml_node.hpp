@@ -19,6 +19,10 @@ public:
     const TiXmlNode* LastChild() const { return lastChild_; }    // +0x1c
 
     // Stand-in for the child list. Sets the first and last child links without taking ownership.
+    // TinyXML 2.5.x, unmodified upstream in the binary (0x515964, a ledgered `upstream` row; no source file in the tree yet):
+    // appends the node as the last child, takes ownership and returns the node.
+    TiXmlNode* LinkEndChild(TiXmlNode* node);
+
     void SetChildLinks(const TiXmlNode* first, const TiXmlNode* last) {
         firstChild_ = first;
         lastChild_ = last;

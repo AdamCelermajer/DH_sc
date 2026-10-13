@@ -1,6 +1,6 @@
 // Checks MenuBase::FS_StopDialog of batch r2a-game-ui-MenuBase-8948cc-1. The body is in g1-game-ui-MenuBase-8948cc-4.cpp,
 // which this test links with. The queue is a real MenuMessageManager<DialogMsg,1>::s_inst, so the test pushes messages into
-// its queue 0 and the call pops them. Invoke is a recording stand-in (the real one calls the HUD root through RenderFX).
+// its queue 0 and the call pops them (s_inst is a reference to a queue object of the test). Invoke is a recording stand-in (the real one calls the HUD root through RenderFX).
 // Everything else below the includes is a link-only stub that the g1-game-ui-MenuBase-8948cc-4 object file needs.
 #include <cstdio>
 #include <initializer_list>
@@ -122,8 +122,10 @@ void MenuMessageManager<DialogMsg, 1>::Invoke(const char* functionName, int queu
 }
 template <>
 MenuMessageManager<DialogMsg, 1>::~MenuMessageManager() {}
-// The queue object is built in place by main, in storage under the symbol of the static member.
-alignas(16) unsigned char g_dialogQueueStorage[256] __asm__("_ZN18MenuMessageManagerI9DialogMsgLi1EE6s_instE");
+// link-1: the class-scope s_inst is a reference to the Singleton storage; this test points it at a private queue object.
+static MenuMessageManager<DialogMsg, 1> g_testInstance_1{};
+template <>
+MenuMessageManager<DialogMsg, 1>& MenuMessageManager<DialogMsg, 1>::s_inst = g_testInstance_1;
 
 // ---- Link-only definitions: MenuBase members the constructor and the vtable reach (other batches define them). ----
 MenuBase::~MenuBase() {}
@@ -253,7 +255,6 @@ void Reset(std::initializer_list<const char*> titles) {
 }  // namespace
 
 int main() {
-    new (g_dialogQueueStorage) MenuMessageManager<DialogMsg, 1>();
     std::deque<DialogMsg>& queue = MenuMessageManager<DialogMsg, 1>::s_inst.m_queues[0];
 
     // An empty queue: nothing is popped or invoked, and the result is true.

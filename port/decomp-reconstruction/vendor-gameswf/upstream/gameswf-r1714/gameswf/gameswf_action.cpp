@@ -266,6 +266,7 @@ namespace gameswf
 		return s_retval.c_str();
 	}
 	
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-6.cpp (0x7bbbfc: the labelled six-argument dispatch, undefined results stay empty) */
 	tu_string	call_method(
 		as_environment* env,
 		as_object* this_ptr,
@@ -294,6 +295,7 @@ namespace gameswf
 
 		return result.to_tu_string();
 	}
+#endif /* DH2 */
 
 	//
 	// do_action

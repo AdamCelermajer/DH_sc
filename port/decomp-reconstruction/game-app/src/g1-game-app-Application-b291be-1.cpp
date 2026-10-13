@@ -11,7 +11,15 @@
 #include "dh2/GSInit.hpp"
 #include "dh2/GSLevel.hpp"
 #include "dh2/GSLevelMap.hpp"
+#include "core-platform/tb/android_jni_platform.hpp"  // nativeIsWifiAlive
+#include "dh2/Character.hpp"
 #include "dh2/MenuBase.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C
+#include "dh2/global/net_singletons.hpp"     // GetOnlineGameFlag
+#include "net-session-online/cxplayer_manager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/StringManager.hpp"
@@ -67,56 +75,50 @@ GoToMainMenuEvent Application::GetGoToMainMenuEvent(bool clear) {
 }
 
 // 0x320590 Application::IsInternetAccessEnabled()
-// PARTIAL: stubbed to false. The original returns nativeIsWifiAlive() != 0. nativeIsWifiAlive (0x532c00)
-// is skipped in core-platform (Android JNI glue) and has no declaration in the tree, so the call is not made.
+// True when the platform reports a live network connection: nativeIsWifiAlive() != 0 (core-platform JNI bridge).
 bool Application::IsInternetAccessEnabled() {
-    const int wifiAlive = 0;  // stub for nativeIsWifiAlive(this)
-    return wifiAlive != 0;
+    return nativeIsWifiAlive() != 0;
 }
 
 // 0x3205a4 Application::SendGLHiScore()
-// PARTIAL: the body is stubbed to do nothing. The original takes the local player from
-// PlayerManager::GetLocalPlayer(0, false) on m_playerManager (+0x40), reads the local character at
-// PlayerInfo +0x660 and that character's CharProperties at +0x560. When the character exists it reads
-// property 24 (PROPS_GetInt(24, false)) and then:
-//   IsInternetAccessEnabled(): the CXPlayerManager byte at +0x05 (byte_99FC31) is set to 1 and
-//     UploadMyScore(score) runs on Singleton<CXPlayerManager>::s_inst; when that returns true,
-//     PROPS_SetInt(24, 0) runs.
-//   otherwise: the byte is cleared.
-// PlayerInfo is incomplete in dh2/PlayerManager.hpp, and the CXPlayerManager singleton has no accessor,
-// so no character is reached and nothing is uploaded. The GetLocalPlayer call is not made either: dh2/PlayerManager.hpp
-// and pydata-accessors/w7_pydata12.hpp both define IStreamBase, so they cannot share this translation unit.
+// The local player's character (PlayerManager::GetLocalPlayer(0, false), PlayerInfo +0x660; its CharProperties is at +0x560)
+// supplies the high score, property 24 (PROPS_GetInt(24, false)). With internet access (IsInternetAccessEnabled), the CXPlayerManager
+// byte at +0x05 (byte_99FC31, flag05_) is set and the score is uploaded (UploadMyScore); when the upload is accepted the property is reset
+// to 0 (PROPS_SetInt(24, 0)). Without internet access the byte is cleared. Nothing happens without a local character.
 void Application::SendGLHiScore() {
-    const bool hasLocalCharacter = false;  // stub for PlayerInfo +0x660 != 0
-    if (!hasLocalCharacter) {
+    Character* character = dword_99F76C->GetLocalPlayer(0, false)->unk_660;
+    if (character == nullptr) {
         return;
+    }
+    const int score = character->PROPS_GetInt(24, false);
+    if (IsInternetAccessEnabled()) {
+        Singleton<CXPlayerManager>::s_inst.flag05_ = true;
+        if (Singleton<CXPlayerManager>::s_inst.UploadMyScore(score)) {
+            character->PROPS_SetInt(24, 0);
+        }
+    } else {
+        Singleton<CXPlayerManager>::s_inst.flag05_ = false;
     }
 }
 
 // 0x320654 Application::IsWifiEnabled()
-// PARTIAL: stubbed to false. The original returns nativeIsWifiAlive() != 0 (see IsInternetAccessEnabled).
+// nativeIsWifiAlive() != 0, as IsInternetAccessEnabled.
 bool Application::IsWifiEnabled() {
-    const int wifiAlive = 0;  // stub for nativeIsWifiAlive()
-    return wifiAlive != 0;
+    return nativeIsWifiAlive() != 0;
 }
 
 // 0x320668 Application::IsOnlineGame()
-// PARTIAL: stubbed to false. The original returns the byte at +0x05 of GetOnline() (_Z9GetOnlinev, a thunk to
-// COnline::GetInstance). net-session-online/c_online.hpp declares GetInstance, but the flag it would read,
-// COnline::isOnlineGame_ (+0x05), is private with no getter (layout request: a public accessor).
+// The byte at +0x05 of GetOnline() (COnline::isOnlineGame_): GetOnlineGameFlag().
 bool Application::IsOnlineGame() {
-    const bool onlineFlag = false;  // stub for *(GetOnline() + 5)
-    return onlineFlag;
+    return GetOnlineGameFlag();
 }
 
 // 0x320678 Application::IsUsingUncompiledData(char const*) const
-// PARTIAL: the emptiness gate is stubbed. The original returns false at once when the words at this+0xcc
-// and this+0xd0 are equal. Those words are not declared (layout request), so the gate is stubbed to the
-// empty list (the retail case), which returns false. The strstr loop below is the original's: a path that
-// contains any of the four suffixes gives true.
+// False at once while m_uncompiledData (+0xbc) is empty: the original compares the string's finish and start words (+0xcc, +0xd0 =
+// +0x10 and +0x14 of the STLport string, equal for an empty string). Otherwise true when the path contains one of the four suffixes of
+// s_supportedUncompiledData.
 bool Application::IsUsingUncompiledData(const char* path) const {
-    const bool listEmpty = true;  // stub for this+0xcc == this+0xd0
-    if (listEmpty) {
+    if (m_uncompiledData.empty()) {
         return false;
     }
     for (const char* suffix : s_supportedUncompiledData) {
@@ -147,10 +149,9 @@ void Application::GetTitleString(char* out, int size) {
 }
 
 // 0x320774 Application::GetVersionBuild()
-// PARTIAL: the version text is split at '.' and the third field is read with atoi. The original passes
-// the third token straight to atoi. For the INGAME build ("01.00.00", cut to "01.00" by the NUL at +5) there
-// is no third token, so the original calls atoi(NULL), which is undefined behaviour. This reconstruction
-// returns 0 for a missing token instead; that guard is not in the original.
+// The version text is split at '.' and the third field is read with atoi. The original passes the third token straight to atoi.
+// For the INGAME build ("01.00.00", cut to "01.00" by the NUL at +5) there is no third token and the original calls atoi(NULL), which
+// crashes; the guard here returns 0 instead.
 int Application::GetVersionBuild() {
     char version[12];
     GetVersionString(version, 10, false);
@@ -237,9 +238,8 @@ void Application::SwitchGSInitBackground() {
 }
 
 // 0x320f5c Application::IsLevelRunning()
-// True when GetCurrentLevel() (GSLevel::s_level) is not null. PARTIAL only for the gAssertLevel 2 path: the original
-// stores through a null pointer there (dword_0 = 0, a deliberate crash), which is not reproduced (see
-// ReportNullStateMachine).
+// True when GetCurrentLevel() (GSLevel::s_level) is not null. The m_stateMachine assert at gAssertLevel 2 stores through a null pointer
+// in the original (dword_0 = 0, a deliberate crash); that crash is not reproduced (see ReportNullStateMachine).
 bool Application::IsLevelRunning() {
     if (m_stateMachine == nullptr) {  // +0x18
         ReportNullStateMachine(2008);
@@ -251,7 +251,7 @@ bool Application::IsLevelRunning() {
 // The level and state-stack tests are the original's: a running level whose state stack is non-empty and whose top
 // state is not &GSLevel::s_gsLevel counts as paused when ignoreIngameMenu is set. Otherwise a running level with an
 // empty stack or a non-GSLevel top is paused, and an in-level stack returns MenuBase::s_igmOpened.
-// PARTIAL only for the gAssertLevel 2 path of the m_stateMachine assertion (line 2028), as in IsLevelRunning.
+// The gAssertLevel 2 crash of the m_stateMachine assertion (line 2028) is not reproduced, as in IsLevelRunning.
 bool Application::IsLevelPaused(bool ignoreIngameMenu) {
     if (m_stateMachine == nullptr) {  // +0x18
         ReportNullStateMachine(2028);

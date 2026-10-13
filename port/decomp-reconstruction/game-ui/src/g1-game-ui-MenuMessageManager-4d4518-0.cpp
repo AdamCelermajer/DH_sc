@@ -12,8 +12,7 @@
 // because the deque destructor destroys the elements. The instances whose header does not exist yet are listed after
 // the explicit instantiations. They are not instantiated, so they have no symbol in this file yet.
 //
-// Not written here: EnqueueMessage<StatusMsg, 4> (0x3ecff8) and Invoke<DialogMsg, 1> (0x421bf8). Their bodies read
-// message statics that no header declares. See the notes at those addresses.
+// EnqueueMessage<StatusMsg, 4> (0x3ecff8) and the Invoke clones are in part 2 (g1-game-ui-MenuMessageManager-4d4518-1.cpp).
 
 #include "dh2/MenuMessageManager.hpp"
 
@@ -22,6 +21,9 @@
 #include "dh2/AchievementMsg.hpp"
 #include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/DialogMsg.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/TutorialMsg.hpp"
 
 // 0x3297a4 / 0x3297f0  MenuMessageManager<StatusMsg, 4>::~MenuMessageManager()        (D1 / D0)
 // 0x329930 / 0x32997c  MenuMessageManager<AchievementMsg, 1>::~MenuMessageManager()    (D1 / D0)
@@ -67,43 +69,16 @@ bool MenuMessageManager<T, N>::GetNextEnqueuedMessage(T& message, int queue) {
     return true;
 }
 
-// Explicit instantiations for the message types whose header is complete. Each line names the original addresses it
-// provides. The explicit instantiation emits the destructor pair (D1 and D0) for each type.
+// Explicit instantiations for the six message types. Each line names the original addresses it provides. The explicit
+// instantiation emits the destructor pair (D1 and D0) for each type.
+template MenuMessageManager<StatusMsg, 4>::~MenuMessageManager();              // 0x3297a4, 0x3297f0
+template void MenuMessageManager<StatusMsg, 4>::FlushEnqueuedMessages(int);    // 0x3f9018
+template MenuMessageManager<TutorialMsg, 1>::~MenuMessageManager();            // 0x329a54, 0x329ae4
+template void MenuMessageManager<TutorialMsg, 1>::FlushEnqueuedMessages(int);  // 0x3f2274
+template MenuMessageManager<OnlineStatusMsg, 1>::~MenuMessageManager();        // 0x329c4c, 0x329c98
+template void MenuMessageManager<OnlineStatusMsg, 1>::FlushEnqueuedMessages(int);  // 0x3f1af4
 template MenuMessageManager<AchievementMsg, 1>::~MenuMessageManager();         // 0x329930, 0x32997c
 template MenuMessageManager<CharMenuTutorialMsg, 1>::~MenuMessageManager();    // 0x329e78, 0x329ec4
 template MenuMessageManager<DialogMsg, 1>::~MenuMessageManager();              // 0x329fe8, 0x32a034
 template void MenuMessageManager<DialogMsg, 1>::FlushEnqueuedMessages(int);    // 0x383ea8, 0x3f9064
 template bool MenuMessageManager<DialogMsg, 1>::GetNextEnqueuedMessage(DialogMsg&, int);  // 0x43f890
-
-// Waiting on message headers. Add the matching explicit instantiations when each header exists:
-//   dh2/StatusMsg.hpp (not yet in the tree): ~MenuMessageManager<StatusMsg, 4> 0x3297a4 / 0x3297f0;
-//       FlushEnqueuedMessages(int) 0x3f9018
-//   dh2/TutorialMsg.hpp (not yet in the tree): ~MenuMessageManager<TutorialMsg, 1> 0x329a54 / 0x329ae4;
-//       FlushEnqueuedMessages(int) 0x3f2274
-//   dh2/OnlineStatusMsg.hpp (not yet in the tree): ~MenuMessageManager<OnlineStatusMsg, 1> 0x329c4c / 0x329c98;
-//       FlushEnqueuedMessages(int) 0x3f1af4
-
-// 0x3ecff8  MenuMessageManager<StatusMsg, 4>::EnqueueMessage(StatusMsg const&, int, bool)  (clone)
-// NOT WRITTEN (partial). The clone pushes the message onto queue 0 (the queue index is folded to 0; the flag is not read
-// in this clone). If the queue then holds exactly one message and MenuManager::GetInstance()->GetHUDRoot() is non-null,
-// it runs the StatusMsg start call on the HUD root and returns nothing when there is no HUD root. The cache step, as the
-// Hex-Rays text shows it: if the cached pointer StatusMsg::s_NodeCachedChar +0x2c is set and its weak proxy (+0x28; the
-// alive byte is at proxy +4) is alive, the cached character is used as it is. Otherwise, when the pointer is set, the
-// proxy is released (count drop, free at zero) and both fields are cleared, and then
-// DebugCachedCharacter::RefreshCache(StatusMsg::s_NodeName[0], hud, nullptr) runs. Then
-// RenderFX::InvokeASCallback(hud, GetChar(), StatusMsg::s_StartFuncName[0], args, 1) and as_value::drop_refs.
-// Missing: dh2/StatusMsg.hpp (the push and the element type need a complete StatusMsg), and the StatusMsg statics
-// StatusMsg::s_NodeCachedChar (0x9a53b0, 48 bytes), s_NodeName (0x999810) and s_StartFuncName (0x999814), which no
-// header declares. The flag's effect in the non-clone callers is not recovered.
-
-// 0x421bf8  MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const  (clone)
-// NOT WRITTEN (partial). The clone takes the callback name as its first argument. MenuManager::GetInstance() takes no
-// argument, so the Hex-Rays "MenuManager *" for that argument is the name. It finds the HUD root and returns when there
-// is none. The cache step: if the cached pointer DialogMsg::s_NodeCachedChar +0x2c is set and its weak proxy (+0x28; the
-// alive byte is at proxy +4) is alive, the cached character is used as it is. Otherwise, when the pointer is set, the
-// proxy is released and the pointer cleared, and then DebugCachedCharacter::RefreshCache(DialogMsg::s_NodeName[0], hud,
-// nullptr) runs. Then it calls
-// RenderFX::InvokeASCallback(hud, GetChar(), name, args, 1) with a one-element as_value array, which the Hex-Rays text
-// fills with zero words and a byte 2 (the as_value layout is not checked), and releases it with as_value::drop_refs.
-// Missing: DialogMsg::s_NodeCachedChar (0x9a5448, DebugCachedCharacter, 48 bytes) and DialogMsg::s_NodeName (0x99982c).
-// dh2/DialogMsg.hpp declares neither, so the body is not written.

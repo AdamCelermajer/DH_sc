@@ -96,6 +96,12 @@ void hash<tu_stringi, gameswf::as_value, stringi_hash_functor<tu_stringi> >::set
 template <>
 void hash<tu_stringi, gameswf::as_object::as_watch, stringi_hash_functor<tu_stringi> >::set_raw_capacity(int new_size);
 
+// 0x77e3b8 gameswf::hash<int, gameswf::smart_ptr<gameswf::as_function>, gameswf::fixed_size_hash<int> >::set_raw_capacity(int)
+// sprite_instance::m_script (+0xf8, <frame, script>). Its own body (not the shared one): vendor-gameswf/src/v1-vendor-gameswf-pack8-c43a3a-0.cpp.
+// Declared here so that the sprite translation units use it instead of instantiating the generic member (link-1: both were emitted).
+template <>
+void hash<int, smart_ptr<gameswf::as_function>, fixed_size_hash<int> >::set_raw_capacity(int new_size);
+
 // 0x767824 gameswf::hash<gameswf::stringi_pointer, int, gameswf::string_pointer_hash_functor<gameswf::stringi_pointer> >::set_raw_capacity(int)
 // The frame label table of movie_def_impl and sprite_definition. Entries are 16 bytes (stringi_pointer key at +8, int at
 // +12); neither has a destructor. Body: vendor-gameswf/src/v1-vendor-gameswf-pack5-64b2da-0.cpp.

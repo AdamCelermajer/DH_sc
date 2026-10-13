@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <string>
 
+#include "net-session-online/c_online_impl.hpp"
 #include "dh2/LevelSavegame.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Savegame.hpp"
@@ -38,9 +39,11 @@ int g_loadCalls = 0;
     } while (0)
 
 // Stand-ins for the engine and the other batches. Only the calls ValidateCheckpoint makes are defined.
+// A real COnline (flag clear), as the original's GetOnline() returns.
+static COnlineImpl g_testOnline;
 COnline* GetOnline() {
     ++g_getOnlineCalls;
-    return nullptr;
+    return &g_testOnline;
 }
 
 static PlayerManager* g_test_dword_99F76C = nullptr;

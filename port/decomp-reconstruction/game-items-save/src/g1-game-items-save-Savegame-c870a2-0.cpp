@@ -1,13 +1,10 @@
 // Batch g1-game-items-save-Savegame-c870a2-0 (owner Savegame, part 1 of 1): the slot file manager, its section table, the
 // file cache, the job queue and the save and delete paths.
 // Declarations come from dh2/Savegame.hpp. Shared conventions in this file:
-//  * Savefile seams. The original reaches the savefile file system through the object at dword_99F73C + 0x34 (IDevice +0x34,
-//    a FileSystemWin32 at runtime). IDevice declares no member at that offset (layout request), and the handles that
-//    openSavefile returns are not IStreamBase in core-platform. The seams below name the vtable slot each one stands for.
-//    Until the member lands they answer "no savefile system": opens return null, listings are empty, deletes and backups
-//    fail. Functions that go through a seam are marked PARTIAL in the ledger.
-//  * Buffer blocks. The job buffer's block vector is private in net-transport's Buffer (layout request). UpdateJobs reads
-//    the block count and block i through two seams; they are not reached while OpenSavefile answers null.
+//  * Savefile calls. The original reaches the savefile file system through the object at dword_99F73C + 0x34 (IDevice +0x34, a
+//    FileSystemWin32 at runtime; dh2/global/savefile_fs.hpp). The helpers below name the vtable slot each call stands for. The
+//    handles openSavefile returns are FileSystemWin32::_FileHandle, an IFileStream, so they are IStreamBase.
+//  * Buffer blocks. The job buffer's block vector is read through net-transport's Buffer accessors (block_vector_size, block).
 //  * Asserts. gAssertLevel 2 stops the program (the original stores to address 0), 1 prints the ASSERT line and goes on.
 //  * Statics. s_jobList and s_currentJob live in .bss (0x99f8c8, 0x99f8d0). The function-local statics of UpdateJobs are
 //    .bss except numSections, which is .data. numSections holds the section count read from the job buffer's first word.
@@ -28,11 +25,13 @@
 #include "dh2/StreamBuffer.hpp"
 #include "dh2/StreamReader.hpp"
 #include "dh2/global/runtime_support.hpp"   // PushProfilingContext, PopProfilingContext
+#include "dh2/global/savefile_fs.hpp"
 
 namespace {
 
 // The source names the original's ASSERT lines print.
 const char kSavegameSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\Savegame.cpp";
+const char kStreamBufferSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources/Core/Irrlicht/../../Utils/StreamBuffer.h";
 const char kStreamReaderSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Utils\\/StreamReader.h";
 
 // The original's ASSERT(expr) at file:line. gAssertLevel 2 stops the program, 1 prints the line and goes on.
@@ -47,11 +46,10 @@ void ReportAssert(const char* expr, const char* file, int line) {
 // PARTIAL SEAMS (layout request: IDevice +0x34, the savefile file system). Each one names the FileSystemWin32 vtable slot
 // it stands in for. See the file comment.
 
-// +0x94 openSavefile(name, writable). The original returns a handle that is an IStreamBase.
+// +0x94 openSavefile(name, writable). The handle is a FileSystemWin32::_FileHandle, an IFileStream (an IStreamBase). Savegame
+// calls Savegame::FlushJobs(name) first, in openSavefile itself in the original (0x34fee4); the callers here have run it already.
 IStreamBase* OpenSavefile(const char* name, bool writable) {
-    (void)name;
-    (void)writable;
-    return nullptr;
+    return SavefileFileSystem().openSavefile(name, writable);
 }
 
 // +0x78 closeFile(IFileStream*&): the original deletes the stream and clears the caller's pointer.
@@ -62,42 +60,32 @@ void CloseFile(IStreamBase*& handle) {
 
 // +0x74 getSavefilesPath().
 const char* GetSavefilesPath() {
-    return nullptr;
+    return SavefileFileSystem().getSavefilesPath();
 }
 
 // +0x80 getFilesMatching(dir, pattern, out). Appends the matching names to out.
 void GetFilesMatching(const char* dir, const char* pattern, std::vector<std::string>& out) {
-    (void)dir;
-    (void)pattern;
-    (void)out;
+    SavefileFileSystem().getFilesMatching(dir, pattern, out);
 }
 
 // +0x9c deleteSavefile(name). True when the file was removed.
 bool DeleteSavefile(const char* name) {
-    (void)name;
-    return false;
+    return SavefileFileSystem().deleteSavefile(name);
 }
 
 // +0xa0 backupSavefile(src, dst). True when the copy was made.
 bool BackupSavefile(const char* src, const char* dst) {
-    (void)src;
-    (void)dst;
-    return false;
+    return SavefileFileSystem().backupSavefile(src, dst);
 }
 
-// PARTIAL SEAMS (layout request: net-transport Buffer accessor for blocks_). The job buffer keeps its blocks in the
-// private Buffer::blocks_ vector, which has a trailing nullptr sentinel. Only Buffer::FirstBlock is public. The stand-ins
-// report an empty block vector. UpdateJobs cannot reach them while OpenSavefile answers null: it finishes the job before
-// the first block is written.
+// The job buffer keeps its blocks in Buffer::blocks_, a vector with a trailing nullptr sentinel; the original reads its begin and
+// end words directly. Buffer exposes them through block_vector_size() and block().
 std::size_t BlockVectorEntries(const StreamBuffer* buffer) {
-    (void)buffer;
-    return 0;
+    return buffer->buffer_.block_vector_size();
 }
 
 const std::uint8_t* BlockData(const StreamBuffer* buffer, int block) {
-    (void)buffer;
-    (void)block;
-    return nullptr;
+    return buffer->buffer_.block(static_cast<std::size_t>(block));
 }
 
 // The section table at the head of a savegame stream (the LABEL_14 path of _cacheFile). The stream holds a uint32 count
@@ -432,8 +420,7 @@ Savegame::Savegame(const char* name, bool flag)
 }
 
 // 0x315fb8 _ZN8Savegame7saveAllEv
-// PARTIAL: the cache-copy branch of the section writer asserts ASSERT(static_) on Buffer::sized_ (private, net-transport
-// buffer.hpp, no accessor). That debug-only check is not made.
+// The cache-copy branch of the section writer asserts ASSERT(static_) on the cache buffer's sized flag (StreamBuffer +0x2c).
 // Writes the slot into a new buffer and queues it. The buffer starts with a -1 placeholder that becomes the section count
 // once the sections are written. Each section is a uint32 size, a 4-byte name, then the data from its onSave callback. A
 // section with no callback copies the cache's bytes at its offset, or writes zeros when there is no cache. The job for the
@@ -460,6 +447,9 @@ void Savegame::saveAll() {
             info.m_onSave(buffer, info.m_user);
         } else if (m_stream != nullptr) {
             const StreamBuffer* cache = static_cast<StreamBuffer*>(m_stream);
+            if (!cache->buffer_.sized()) {
+                ReportAssert("static_", kStreamBufferSource, 130);
+            }
             buffer->write(cache->buffer_.FirstBlock() + static_cast<std::uint32_t>(info.m_offset), info.m_size);
         } else {
             std::vector<std::uint8_t> zeros(info.m_size, 0);

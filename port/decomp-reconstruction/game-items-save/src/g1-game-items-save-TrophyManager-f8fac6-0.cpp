@@ -17,15 +17,11 @@
 //    both of which forward to CustomAlloc, and frees them through CustomFree (the deleting destructors). This file does the same,
 //    so the allocation and the release always pair.
 //
-// PARTIAL rows (the Status column of the ledger says which, and why):
-//  * UnlockTrophiesGLLive: NotifyTrophy (0x532b6c, Android JNI bridge in core-platform) has no declaration here, so its call is missing.
-//  * SaveTrophies and LoadTrophies: the savegame file access is missing. The device file system (IDevice +0x34, virtual openSavefile
-//    at slot +0x94, closeFile at +0x78) is not declared in the tree. The bit build and the bit decode are reconstructed.
-//  * TrophyUnlockedCB: the HUD popup is missing. It needs the AchievementMsg statics (s_StartFuncName, s_NodeName, s_NodeCachedChar),
-//    which dh2/AchievementMsg.hpp does not declare, and the cached-node release on dword_9A54E0. The title, the description, the
-//    queue push and the SaveTrophies call are reconstructed.
+// The savegame file access is the device file system (dh2/global/savefile_fs.hpp): openSavefile at slot +0x94, closeFile at +0x78.
+// The unlocked set is written and read as a std::bitset<128> (IStreamBase::writeAs / readAs).
 
 #include <algorithm>
+#include <bitset>
 #include <cstddef>
 #include <cstdint>
 #include <deque>
@@ -38,10 +34,16 @@
 #include "dh2/AchievementMsg.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/IFileStream.hpp"
+#include "dh2/MenuManager.hpp"
 #include "dh2/MenuMessageManager.hpp"
+#include "gameswf/gameswf_value.h"
+#include "vendor-gameswf/as_value.hpp"
 #include "dh2/StringManager.hpp"
 #include "dh2/TrophyData.hpp"
 #include "dh2/TrophyManager.hpp"
+#include "dh2/global/savefile_fs.hpp"
+#include "core-platform/tb/android_jni_platform.hpp"  // NotifyTrophy
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 
@@ -120,15 +122,14 @@ bool TrophyManager::IsTrophyUnlocking(int id) {
 }
 
 // 0x37fab4 TrophyManager::UnlockTrophiesGLLive()
-// PARTIAL. The loop is rebuilt: every row with m_unlocked set is visited, in index order, over Arrays::TrophyTable::size. The
-// original calls NotifyTrophy(m_glIndex) (0x532b6c) for each one. NotifyTrophy is the Android JNI bridge in core-platform, skipped
-// there and not declared anywhere in the tree, so the call is not made here.
+// Every unlocked row is reported to the GL Live bridge: NotifyTrophy(m_glIndex) (0x532b6c), in index order over
+// Arrays::TrophyTable::size.
 void TrophyManager::UnlockTrophiesGLLive() {
     const std::uint32_t count = Arrays::TrophyTable::size;
     for (std::uint32_t i = 0; i < count; ++i) {
         const TrophyData* trophy = m_trophies[i];
         if (trophy->m_unlocked) {
-            // NotifyTrophy(trophy->m_glIndex) is not called (see the PARTIAL note above).
+            NotifyTrophy(trophy->m_glIndex);
         }
     }
 }
@@ -185,13 +186,25 @@ bool TrophyManager::IsTrophyUnlocked(int id) {
 }
 
 // 0x38006c TrophyManager::SaveTrophies()
-// PARTIAL. The bit set is built from s_instance (PackUnlockedBits, as in the original). The write is not rebuilt. The original opens
-// "achievements.savegame" for writing on the device's file system (IDevice +0x34, virtual openSavefile at slot +0x94), writes the four
-// words and closes the stream (slot +0x78). Neither the IDevice member nor those slots are declared in the tree.
+// Opens "achievements.savegame" for writing on the device file system (slot +0x94), writes the unlocked set as a
+// std::bitset<128> (the bit build is PackUnlockedBits; an unlocked id above 127 throws out_of_range) and closes the stream
+// (slot +0x78). Nothing happens without a device file system or when the file does not open.
 void TrophyManager::SaveTrophies() {
-    std::uint32_t words[kSavedWords];
-    PackUnlockedBits(s_instance, words);
-    // The write of words to "achievements.savegame" is not reconstructed (see the PARTIAL note above).
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem == nullptr) {
+        return;
+    }
+    IFileStream* stream = fileSystem->openSavefile("achievements.savegame", true);
+    if (stream != nullptr) {
+        std::uint32_t words[kSavedWords];
+        PackUnlockedBits(s_instance, words);
+        std::bitset<128> unlocked;
+        for (std::size_t bit = 0; bit < 128; ++bit) {
+            unlocked[bit] = (words[bit >> 5] >> (bit & 31)) & 1u;
+        }
+        stream->writeAs<std::bitset<128>>(unlocked);
+        fileSystem->closeFile(stream);
+    }
 }
 
 // 0x3801c4 TrophyManager::InitTrophies()
@@ -235,7 +248,8 @@ void TrophyManager::CreateInstance() {
 }
 
 // 0x380e48 TrophyManager::TrophyUnlockedCB(int)
-// PARTIAL. The HUD popup is not rebuilt (see the note in the file header). The rest is reconstructed.
+// When the queue held one message the HUD popup is started: the node cache of AchievementMsg is refreshed and the start callback
+// is invoked on the HUD root (the MenuMessageManager<AchievementMsg, 1>::Invoke body, inlined in the original).
 // The original copies s_instance->m_unlocking into a local vector (a call to the std::vector<int> copy constructor, confirmed in the
 // assembly of 0x380e48 with the member's address as the source), searches the copy for id and erases it from the copy. It returns when id is not there or has no row. The copy is freed
 // at the end and nothing writes it back, so id stays in m_unlocking. This port keeps that behaviour (the test checks it).
@@ -277,9 +291,15 @@ void TrophyManager::TrophyUnlockedCB(int id) {
         std::deque<AchievementMsg>& queue = MenuMessageManager<AchievementMsg, 1>::s_inst.m_queues[0];
         queue.push_back(message);
         if (queue.size() == 1) {
-            // PARTIAL: the original refreshes the cached popup node (AchievementMsg::s_NodeName, s_NodeCachedChar) and then
-            // calls RenderFX::InvokeASCallback with AchievementMsg::s_StartFuncName on the HUD root. The statics are not declared
-            // in dh2/AchievementMsg.hpp, and the release of the cached node (dword_9A54E0) is not recovered. The entry stays queued.
+            const char* startFunction = AchievementMsg::s_StartFuncName;
+            MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+            if (hud != nullptr) {
+                AchievementMsg::s_NodeCachedChar.RefreshCacheIfStale(AchievementMsg::s_NodeName, hud);
+                gameswf::character* node = AchievementMsg::s_NodeCachedChar.GetChar();
+                gameswf::as_value argument;
+                argument.set_double(0.0);
+                hud->InvokeASCallback(node, startFunction, &argument, 1);
+            }
         }
     }
 
@@ -306,10 +326,25 @@ void TrophyManager::DBG_UnlockAllTrophies() {
 }
 
 // 0x38151c TrophyManager::LoadTrophies()
-// PARTIAL. The decode is rebuilt (UnlockSavedTrophies). The read is not. The original opens "achievements.savegame" for reading on the
-// device's file system (IDevice +0x34, openSavefile at slot +0x94), reads the four words and closes the stream (slot +0x78). Until those
-// are declared, the words stay zero, so no trophy is restored from the savegame.
+// Opens "achievements.savegame" for reading on the device file system (slot +0x94), reads the std::bitset<128>, restores every
+// set bit through UnlockTrophy (UnlockSavedTrophies) and closes the stream (slot +0x78). Nothing happens without a device
+// file system or when the file does not open.
 void TrophyManager::LoadTrophies() {
-    std::uint32_t words[kSavedWords] = {0, 0, 0, 0};
-    UnlockSavedTrophies(this, words);
+    FileSystemWin32* fileSystem = SavefileFileSystemPtr();
+    if (fileSystem == nullptr) {
+        return;
+    }
+    IFileStream* stream = fileSystem->openSavefile("achievements.savegame", false);
+    if (stream != nullptr) {
+        std::bitset<128> unlocked;
+        stream->readAs<std::bitset<128>>(unlocked);
+        std::uint32_t words[kSavedWords] = {0, 0, 0, 0};
+        for (std::size_t bit = 0; bit < 128; ++bit) {
+            if (unlocked[bit]) {
+                words[bit >> 5] |= std::uint32_t{1} << (bit & 31);
+            }
+        }
+        UnlockSavedTrophies(this, words);
+        fileSystem->closeFile(stream);
+    }
 }

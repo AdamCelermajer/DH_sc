@@ -20,52 +20,6 @@ const SLibraryAnimationClips* CColladaDatabase::getAnimationClipLibrary() const 
     return &record->data->tables->animationClipLibrary;
 }
 
-// 0x60e348 glitch::collada::CColladaDatabase::getScene() const
-// PARTIAL: the original returns the address of the scene object at holder +0xb8. That object's size and
-// fields are not confirmed (see layouts/collada_db.hpp), so there is no type to return.
-// Returns null until the scene object is modelled.
-void* CColladaDatabase::getScene() const {
-    return nullptr;
-}
-
-// 0x60fa24 glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, glitch::collada::SController*, glitch::collada::CRootSceneNode*) const
-// The original dispatches on the controller's first word (SController::reserved): 0 builds a skin,
-// 1 builds a morph, and any other value stores null into the out slot.
-// PARTIAL: the skin and morph builders are not called. constructSkin (0x60f924) is not declared
-// anywhere in this category. constructMorph (0x60f9a4) is declared in collada_database.hpp, but it
-// returns a raw CMorphingMesh* while the original writes an intrusive_ptr through the out slot, and the
-// reference-count handoff between the two is not confirmed. Both builder branches store null for now.
-glitch::IReferenceCounted** CColladaDatabase::constructController(glitch::IReferenceCounted** out,
-                                                                  video::IVideoDriver* driver,
-                                                                  SController* controller,
-                                                                  CRootSceneNode* root) const {
-    (void)driver;
-    (void)root;
-    const std::uint32_t mode = controller->reserved;  // +0x00 of SController
-    if (mode == 0) {
-        // Original: constructSkin(out, this, driver, controller, root). Not reconstructed.
-        *out = nullptr;
-    } else if (mode == 1) {
-        // Original: constructMorph(out, this, driver, controller, root). Not reconstructed (see above).
-        *out = nullptr;
-    } else {
-        *out = nullptr;
-    }
-    return out;
-}
-
-// 0x60fb54 glitch::collada::CColladaDatabase::constructAnimator() const
-// PARTIAL: not reconstructed. The original (a) counts image records whose word at +0x0c equals 1
-// (SImage type, not mapped in collada_database.hpp); (b) gates on the animation count (holder +0x24),
-// the count of image records and a holder word at +0x2c (not mapped); (c) calls the factory's
-// createAnimator (vtable slot +0x08) with the inline clip library (holder +0x34, see getAnimationClipLibrary);
-// (d) calls slot +0x88 on the returned animator for each animation whose word at +0x14 is set (not mapped,
-// slot not named); and (e) calls ISceneNodeAnimator::setEventsTrack with holder +0x2c.
-// Returns null until those fields and the animator slot are named.
-void* CColladaDatabase::constructAnimator() const {
-    return nullptr;
-}
-
 // Index getters of the original (0x60e35c .. 0x60e4a0). Each one is base + index * stride with no check.
 // The vector model makes the same lookup without stride arithmetic.
 // 0x60e35c glitch::collada::CColladaDatabase::getAnimation(int) const

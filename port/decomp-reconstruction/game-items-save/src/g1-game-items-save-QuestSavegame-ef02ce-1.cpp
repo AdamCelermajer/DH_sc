@@ -75,10 +75,7 @@ void QuestSavegame::InitQuests() {
             Quest* quest = new Quest(difficulty);
             quest->m_owner = m_owner;
             quest->SetOwnerToChildren();
-            // PARTIAL: the original also stores the pydata name, Arrays::v2Quests::m_memberNames[i], at Quest +0x14
-            // here. dh2/Quest.hpp declares that word as int unk_14, and the name is a pointer, so the store is left out.
-            // Layout request: Quest +0x14 const char* m_name, then this store is added with a names accessor that lives
-            // in its own translation unit (member_names.hpp and w7_arrays_00.hpp both declare Arrays::v2Quests).
+            quest->m_name = Arrays::v2Quests::m_memberNames.names[i];  // the pydata name at Quest +0x14
             quest->m_pyDataIndex = static_cast<int>(i);
             quest->AssignPyData(PyDataQuestRow(static_cast<int>(i)));
             quest->ReInit();

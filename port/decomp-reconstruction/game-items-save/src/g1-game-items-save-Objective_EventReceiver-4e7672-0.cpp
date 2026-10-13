@@ -11,8 +11,8 @@
 //    The source file name is the original project's Progression\Objective.cpp.
 //  * HasEnemyOfTypeLoaded passes levelId in r1 to Character::HasCharOIDInCache(int), which reads r0 only. The level
 //    argument therefore has no effect, and it is kept only as the declared parameter.
-//  * CheckMustSendThroughNetwork is partial (see its comment). onEvent calls it, so onEvent's own control flow is complete
-//    but its network side effect waits on that layout.
+//  * CheckMustSendThroughNetwork (see its comment) is called by onEvent. onEvent's own control flow is complete
+//    and sends the event through the network when the event asks for it.
 //  * The scalar deleting destructor (0x47ccbc) is compiler-generated on the host and is not written here (see the ledger).
 
 #include "dh2/Objective_EventReceiver.hpp"
@@ -24,6 +24,11 @@
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/QE_InteractWith.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_raised_event.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/TestCharPropId.hpp"
 #include "dh2/TestCharTemplate.hpp"
@@ -61,16 +66,20 @@ int Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(__sFILE* stre
 }
 
 // 0x47ac94 _ZN23Objective_EventReceiver27CheckMustSendThroughNetworkEPK6IEvent
-// PARTIAL: the body is not rebuilt, because it reads fields that no header in the tree declares:
-//   * GetOnline() (dh2/global/net_singletons.hpp) +0x05, the COnline online-game flag (ldrb [r0, #5]). The engine header
-//     (net-session-online/c_online.hpp) keeps it private and declares no getter.
-//   * The event at +0x11 and +0x10 (ldrb [r4, #0x11] and [r4, #0x10]). QuestEvent (dh2/QuestEvent.hpp) declares neither;
-//     every QE_* header declares them as m_flag1 (+0x11) and m_flag0 (+0x10).
-// The original does this, in order: when the online flag is set, +0x11 is zero and +0x10 is non-zero, it builds the
-// message with CMsgRaisedEvent::Create(QuestEvent*) (0x47ac58), sends it through CMessaging::Get()->SendMsg(message), and
-// then clears +0x10. Until the layouts are declared, the function does nothing. Layout requests are in the ledger.
+// In an online game (GetOnline() +0x05), an event whose byte at +0x11 is zero and byte at +0x10 is set is sent to the other
+// players: CMsgRaisedEvent::Create(QuestEvent*) (0x47ac58) builds the message, CMessaging::Get()->SendMsg sends it, and the
+// byte at +0x10 is cleared so the event is sent once. The two bytes are the flags every QE_* event declares at +0x10 and
+// +0x11 (m_flag0, m_flag1); the event is read as a QE_InteractWith, whose layout is the one all of them share up to +0x17.
 void Objective_EventReceiver::CheckMustSendThroughNetwork(const IEvent* event) {
-    (void)event;
+    if (!GetOnlineGameFlag()) {
+        return;
+    }
+    QE_InteractWith* quest = const_cast<QE_InteractWith*>(static_cast<const QE_InteractWith*>(event));
+    if (quest->m_flag1 == 0 && quest->m_flag0 != 0) {
+        CMessage* message = CMsgRaisedEvent::Create(quest);
+        GetMessaging()->SendMsg(message);
+        quest->m_flag0 = 0;
+    }
 }
 
 // 0x47acf0 _ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager

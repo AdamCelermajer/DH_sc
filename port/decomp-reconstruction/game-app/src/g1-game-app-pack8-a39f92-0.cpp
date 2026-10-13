@@ -7,7 +7,7 @@
 // (Script_PlaySound's probe is conditional on its record, so its stub omits it; the MoveActor asm was checked). Every
 // Execute also reads the command's argument record through ScriptCmdImpl::m_args (+0x0c). The records are the pydata
 // Structs:: types (pydata-accessors/script_cmd.hpp). Where a record member or a sound, FX or table callee is still not
-// declared, the body is PARTIAL and the note names it.
+// declared, the note names it. Every command in this batch is complete.
 
 #include <cstdint>
 #include <string>
@@ -27,6 +27,12 @@
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/PFObject.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "core-platform/deps/game_types.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
 #include "dh2/Script_MoveActor.hpp"
 #include "dh2/Script_OpenDoor.hpp"
 #include "dh2/Script_PlayActorAnim.hpp"
@@ -165,10 +171,10 @@ void Script_OpenDoor::Execute(bool skipping, int module) {
 }
 
 // 0x459628 bool Script_PlayActorAnim::IsBlocking() const
-// PARTIAL. True when the record's flag at +0x1c (Structs::PlayActorAnim m_w7) is set, the m_actor handle (+0x10) resolves to an
+// True when the record's flag at +0x1c (Structs::PlayActorAnim m_w7) is set, the m_actor handle (+0x10) resolves to an
 // object whose m_goId (ObjectBase +0xf4) is 0, and (record +0x10, m_w4) + 2 equals that object's current animation: the
-// CharAnimator m_currentAnim (Character +0x4e8, the CharAnimator base at +0x49c, field +0x4c). Gap: ObjectBase::GO_IDS names only
-// GO_DOOR, so the cast to Character assumes that a goId of 0 is a Character. The tree does not confirm that.
+// CharAnimator m_currentAnim (Character +0x4e8, the CharAnimator base at +0x49c, field +0x4c). A goId of 0 is a Character, as in the
+// character AI code (ObjectBase::GO_IDS names only GO_DOOR; every other caller passes 0).
 bool Script_PlayActorAnim::IsBlocking() const {
     const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
     if (!record->m_w7) {
@@ -201,12 +207,12 @@ void Script_PlayActorAnim::Init() {
 }
 
 // 0x45e890 void Script_PlayActorAnim::Execute(bool, int)
-// PARTIAL. When skipping is clear, the trace probe runs, then the actor named by the record (+0x18) is looked up with
-// GetObjectByName(name, module, false, nullptr) and stored in m_actor (+0x10). Not reproduced: the rest of the body. When the
-// actor is a Character, the original writes record +0x08 into the struct that the Arrays::AnimTable row (anim + 2) points to at
-// +0x0c, writes record +0x0c into the struct that row (anim + 8) points to, where anim is record +0x10, and then calls
-// CharStateMachine::SM_SetAnimState(anim + 2, false, true) on the actor (Character +0x4fc). Gap: pydata gives Arrays::AnimTable
-// only raw member bytes and no row accessor (rows are 20 bytes, with the pointer at row +0x0c).
+// Does nothing when skipping. Otherwise, after the trace probe, the actor named by the record (+0x18) is looked up with
+// GetObjectByName(name, module, false, nullptr) and stored in m_actor (+0x10). When it resolves to a Character, the first step of
+// the Arrays::AnimTable record (anim + 2) gets the record's +0x08 value in its +0x08 member and the first step of the record
+// (anim + 8) gets the record's +0x0c value, where anim is record +0x10, and the Character's CharStateMachine (+0x4fc) is put in
+// animation state anim + 2 (SM_SetAnimState(anim + 2, false, true)). AnimTable elements are Structs::AnimTpl, their step tables
+// Structs::AnimStep (host element types of pydata, reached through the typed pointer).
 void Script_PlayActorAnim::Execute(bool skipping, int module) {
     if (skipping) {
         return;
@@ -214,6 +220,16 @@ void Script_PlayActorAnim::Execute(bool skipping, int module) {
     const Structs::PlayActorAnim* record = static_cast<const Structs::PlayActorAnim*>(m_args);
     TraceScriptCmdSwitch();
     m_actor = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w6, module, false, nullptr);
+    if (m_actor.GetObject(false) != nullptr) {
+        Character* character = m_actor;
+        if (character != nullptr) {
+            const std::int32_t anim = record->m_w4;
+            auto* rows = static_cast<Structs::AnimTpl*>(static_cast<void*>(Arrays::AnimTable::members));
+            static_cast<Structs::AnimStep*>(rows[anim + 2].m_w3)->m_w2 = record->m_w2;
+            static_cast<Structs::AnimStep*>(rows[anim + 8].m_w3)->m_w2 = record->m_w3;
+            character->CharStateMachine::SM_SetAnimState(anim + 2, false, true);
+        }
+    }
 }
 
 // 0x45569c bool Script_PlayAnimById::IsBlocking() const
@@ -297,11 +313,9 @@ bool Script_PlayCamera::IsBlocking() const {
 }
 
 // 0x460110 void Script_PlayCamera::Execute(bool, int)
-// PARTIAL. The trace probe runs first. When the current level and its camera (Level m_camera, +0x128) exist and skipping is
-// clear, the clip is played with CameraLevel::PlayAnim(record m_w2 (+0x08), 0, false): the original passes 0 and 0 for
-// controllerArg and preserveZoom. When skipping is set, the clip id is field +0x10 of the Arrays::CamAnimSetTable row
-// camera->m_camTableIndex (CameraLevel +0x80, rows of 28 bytes). That table has no element type in the tree (pydata gives
-// Arrays::CamAnimSetTable only raw member bytes and declares no Structs::CamAnimSet), so the skipping branch makes no call.
+// The trace probe runs first. When the current level and its camera (Level m_camera, +0x128) exist, the clip is played with
+// CameraLevel::PlayAnim(clip, 0, false): the clip is the record's m_w2 (+0x08), or, when skipping, field +0x10 (m_w4) of the
+// Arrays::CamAnimSetTable element camera->m_camTableIndex (CameraLevel +0x80, Structs::CamAnimSet elements).
 void Script_PlayCamera::Execute(bool skipping, int /*module*/) {
     const auto* args = static_cast<const Structs::PlayCamera*>(m_args);
     TraceScriptCmdSwitch();
@@ -309,11 +323,14 @@ void Script_PlayCamera::Execute(bool skipping, int /*module*/) {
     if (level == nullptr || level->m_camera == nullptr) {
         return;
     }
+    int clip;
     if (skipping) {
-        // PARTIAL: the clip id comes from Arrays::CamAnimSetTable (see above).
-        return;
+        const auto* sets = static_cast<const Structs::CamAnimSet*>(static_cast<const void*>(Arrays::CamAnimSetTable::members));
+        clip = sets[level->m_camera->m_camTableIndex].m_w4;
+    } else {
+        clip = args->m_w2;
     }
-    level->m_camera->PlayAnim(args->m_w2, 0, false);
+    level->m_camera->PlayAnim(clip, 0, false);
 }
 
 // 0x4556ac bool Script_PlayEffect::IsBlocking() const
@@ -323,23 +340,33 @@ bool Script_PlayEffect::IsBlocking() const {
 }
 
 // 0x4598b4 void Script_PlayEffect::Init()
-// PARTIAL. The whole original body is one call: VisualFXManager::RegisterFXSetToLoad(&Singleton<VisualFXManager>::s_inst,
-// record +0x08). VisualFXManager::RegisterFXSetToLoad(int) and s_inst are declared (dh2/VisualFXManager.hpp). Missing: the FX
-// set id at record +0x08. pydata Structs::PlayEffect declares only m_w3 (+0x0c) and m_w8 (+0x20), so the id has no member and
-// nothing is registered here. Layout request, Structs::PlayEffect: m_w2 int at +0x08 (FX set id).
-void Script_PlayEffect::Init() {}
+// The whole original body is one call: VisualFXManager::RegisterFXSetToLoad(&Singleton<VisualFXManager>::s_inst, record +0x08), so the
+// effect set is loaded with the level.
+void Script_PlayEffect::Init() {
+    Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(static_cast<const Structs::PlayEffect*>(m_args)->m_w2);
+}
 
 // 0x45fa9c void Script_PlayEffect::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, only when skipping is clear. Missing: the record fields and the call. The original reads
-// the FX set id (record +0x08), the position offsets (+0x10, +0x14, +0x18, converted to float in that order) and the object
-// name (+0x20), resolves the object with GetObjectByName(name, module, false, nullptr), and calls
-// VisualFXManager::PlayAnimFXSet(id, position, object, nullptr), which is declared. Layout request, Structs::PlayEffect: m_w2 int
-// at +0x08, m_w4, m_w5 and m_w6 int at +0x10, +0x14 and +0x18, and m_w8 at +0x20 as const char* (it is uint32_t now).
-void Script_PlayEffect::Execute(bool skipping, int /*module*/) {
+// Does nothing when skipping. Otherwise, after the trace probe, the object named by the record (+0x20) is looked up with
+// GetObjectByName(name, module, false, nullptr) and, when it resolves, converted to a GameObject. The effect set (record +0x08) is
+// played at the position (the record's three ints at +0x10, +0x14, +0x18 as floats, in that order) on that object, or on none:
+// VisualFXManager::PlayAnimFXSet(id, position, object, nullptr).
+void Script_PlayEffect::Execute(bool skipping, int module) {
     if (skipping) {
         return;
     }
+    const Structs::PlayEffect* record = static_cast<const Structs::PlayEffect*>(m_args);
     TraceScriptCmdSwitch();
+    ObjectHandle handle = ApplicationGetInstance().m_objectManager->GetObjectByName(record->m_w8, module, false, nullptr);
+    GameObject* object = nullptr;
+    if (handle.GetObject(false) != nullptr) {
+        object = handle;
+    }
+    Point3D<float> position;
+    position.X = static_cast<float>(record->m_w3.m_w1);
+    position.Y = static_cast<float>(record->m_w3.m_w2);
+    position.Z = static_cast<float>(record->m_w3.m_w3);
+    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(record->m_w2, position, object, nullptr);
 }
 
 // 0x455660 bool Script_PlayLevelMusic::IsBlocking() const
@@ -371,19 +398,18 @@ bool Script_PlaySound::IsBlocking() const {
 }
 
 // 0x45fefc void Script_PlaySound::Execute(bool, int)
-// PARTIAL. The trace probe runs only when skipping is clear or the record's music flag (Structs::PlaySound m_w3, +0x0c) is
-// set. Then the dispatch is rebuilt: with the music flag set, VoxSoundManager::PlayMusic(record m_w4 (+0x10), record m_off13
-// (+0x0d), record m_w2 != 0, 2000) on VoxSoundManager::s_instance; otherwise VoxSoundManager::Play(m_w4, m_off13, m_w2, m_w3,
-// m_w3). Those two calls are not rebuilt: VoxSoundManager::Play, PlayMusic and s_instance are not declared in
-// vox-audio/include/vox-audio/vox/sound_manager.hpp.
+// The trace probe runs only when skipping is clear or the record's music flag (Structs::PlaySound m_w3, +0x0c) is set; with
+// skipping set and the music flag clear nothing happens. With the music flag set, VoxSoundManager::PlayMusic(record m_w4 (+0x10),
+// record m_off13 (+0x0d), record m_w2 != 0, 2000) runs on VoxSoundManager::s_instance; otherwise VoxSoundManager::Play(m_w4, m_off13,
+// m_w2, m_w3, m_w3), where the flag is clear.
 void Script_PlaySound::Execute(bool skipping, int /*module*/) {
     const auto* args = static_cast<const Structs::PlaySound*>(m_args);
     if (!skipping || args->m_w3) {
         TraceScriptCmdSwitch();
-    }
-    if (args->m_w3) {
-        // PARTIAL: VoxSoundManager::PlayMusic (see above).
-    } else {
-        // PARTIAL: VoxSoundManager::Play (see above).
+        if (args->m_w3) {
+            VoxSoundManager::s_instance->PlayMusic(args->m_w4, args->m_off13, args->m_w2 != 0, 2000);
+        } else {
+            VoxSoundManager::s_instance->Play(args->m_w4, args->m_off13, args->m_w2, args->m_w3, args->m_w3);
+        }
     }
 }

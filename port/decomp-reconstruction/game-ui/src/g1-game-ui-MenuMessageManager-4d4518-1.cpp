@@ -17,15 +17,8 @@
 //     s_NodeName 0x999820. StatusMsg s_NodeCachedChar 0x9a53b0, s_NodeName 0x999810. OnlineStatusMsg s_NodeCachedChar
 //     0x9a53e4, s_NodeName 0x999818.
 //
-// Status of the Invoke clones: PARTIAL. The callback needs the cache object and the name of each message type, and no
-// header declares them: dh2/DialogMsg.hpp, dh2/CharMenuTutorialMsg.hpp and dh2/AchievementMsg.hpp declare neither
-// s_NodeCachedChar nor s_NodeName (layout requests). dh2/TutorialMsg.hpp, dh2/StatusMsg.hpp and dh2/OnlineStatusMsg.hpp
-// do not exist yet. So Invoke below is one generic template that finds the HUD root and returns when there is none. The
-// rest of the callback is written out in the comment inside it, and it is not run yet. Every Invoke clone is partial.
+// The Invoke clones are one template body (the message type only names the statics).
 //
-// Not written here: SkipEnqueuedMessage for TutorialMsg (0x46026c) and the Invoke clones for TutorialMsg, StatusMsg and
-// OnlineStatusMsg, which wait on their headers.
-
 #include "dh2/MenuMessageManager.hpp"
 
 #include <deque>
@@ -34,49 +27,54 @@
 #include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/DialogMsg.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/TutorialMsg.hpp"
+#include "gameswf/gameswf_value.h"
+#include "vendor-gameswf/as_value.hpp"
 
-// 0x442734 MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(char const*, int) const  (clone, PARTIAL)
-// 0x45a0fc MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(char const*, int) const  (clone, PARTIAL)
-// 0x442890 MenuMessageManager<AchievementMsg, 1>::Invoke(char const*, int) const        (clone, PARTIAL)
-// 0x442a14 MenuMessageManager<TutorialMsg, 1>::Invoke(char const*, int) const           (clone, PARTIAL, waits on TutorialMsg.hpp)
-// 0x45a030 MenuMessageManager<TutorialMsg, 1>::Invoke(char const*, int) const           (clone, PARTIAL, waits on TutorialMsg.hpp)
-// 0x442b18 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone, PARTIAL)
-// 0x459f64 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone, PARTIAL)
-// 0x49b858 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone, PARTIAL)
-// 0x442c9c MenuMessageManager<StatusMsg, 4>::Invoke(char const*, int) const             (clone, PARTIAL, waits on StatusMsg.hpp)
-// 0x442da0 MenuMessageManager<OnlineStatusMsg, 1>::Invoke(char const*, int) const       (clone, PARTIAL, waits on OnlineStatusMsg.hpp)
+// 0x442734 MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(char const*, int) const  (clone)
+// 0x45a0fc MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(char const*, int) const  (clone)
+// 0x442890 MenuMessageManager<AchievementMsg, 1>::Invoke(char const*, int) const        (clone)
+// 0x442a14 MenuMessageManager<TutorialMsg, 1>::Invoke(char const*, int) const           (clone)
+// 0x45a030 MenuMessageManager<TutorialMsg, 1>::Invoke(char const*, int) const           (clone)
+// 0x442b18 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone)
+// 0x459f64 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone)
+// 0x49b858 MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const             (clone)
+// 0x442c9c MenuMessageManager<StatusMsg, 4>::Invoke(char const*, int) const             (clone)
+// 0x442da0 MenuMessageManager<OnlineStatusMsg, 1>::Invoke(char const*, int) const       (clone)
 //
-// Original: GetInstance, then GetHUDRoot; returns when the root is null. Otherwise, when the cache pointer (+0x2c of
-// T::s_NodeCachedChar) is set and its proxy is alive, the cached character is used. A set pointer with a dead proxy
-// drops the proxy (freed at zero) and clears the cache, and an empty cache is refreshed by
-// DebugCachedCharacter::RefreshCache(T::s_NodeName, hud, nullptr). Then GetChar, and
-// RenderFX::InvokeASCallback(hud, char, functionName, &arg, 1) with one NUMBER argument holding 0.0, and drop_refs.
-// The clones do not read the queue argument.
+// Original: GetInstance, then GetHUDRoot; returns when the root is null. Otherwise the type's node cache (T::s_NodeCachedChar)
+// is refreshed unless it holds a character whose weak proxy is alive (a dead proxy is dropped and the cache cleared first),
+// RefreshCache(T::s_NodeName, hud, nullptr). Then GetChar, and RenderFX::InvokeASCallback(hud, char, functionName, &arg, 1)
+// with one NUMBER argument holding 0.0, and drop_refs. The clones do not read the queue argument.
 template <typename T, int N>
 void MenuMessageManager<T, N>::Invoke(const char* functionName, int queue) const {
-    (void)functionName;
     (void)queue;
     MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
     if (hud == nullptr) {
         return;
     }
-    // PARTIAL: the cache step and the callback are not run. They read T::s_NodeCachedChar and T::s_NodeName, which
-    // dh2/<Class>.hpp does not declare for any message type yet (layout requests). Once they are declared, the missing
-    // part is the proxy check on the cache, RefreshCache(T::s_NodeName, hud, nullptr) when the cache is empty, GetChar
-    // and the InvokeASCallback call with the 0.0 argument.
+    T::s_NodeCachedChar.RefreshCacheIfStale(T::s_NodeName, hud);
+    gameswf::character* node = T::s_NodeCachedChar.GetChar();
+    gameswf::as_value argument;
+    argument.set_double(0.0);
+    hud->InvokeASCallback(node, functionName, &argument, 1);
 }
 
-// Explicit instantiations for the message types whose header exists. Each line names the clones it covers. The
-// TutorialMsg, StatusMsg and OnlineStatusMsg instances wait on their headers and are not instantiated here.
+// Explicit instantiations for the six message types. Each line names the clones it covers.
 template void MenuMessageManager<AchievementMsg, 1>::Invoke(const char*, int) const;       // 0x442890
 template void MenuMessageManager<CharMenuTutorialMsg, 1>::Invoke(const char*, int) const;  // 0x442734, 0x45a0fc
 template void MenuMessageManager<DialogMsg, 1>::Invoke(const char*, int) const;            // 0x442b18, 0x459f64, 0x49b858
+template void MenuMessageManager<TutorialMsg, 1>::Invoke(const char*, int) const;          // 0x442a14, 0x45a030
+template void MenuMessageManager<StatusMsg, 4>::Invoke(const char*, int) const;            // 0x442c9c
+template void MenuMessageManager<OnlineStatusMsg, 1>::Invoke(const char*, int) const;      // 0x442da0
 
-// 0x442c1c MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage(int, bool)  (clone, PARTIAL)
+// 0x442c1c MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage(int, bool)  (clone)
 // The clone reads neither the queue argument nor the flag, so both are dropped here: queue 0 is the only queue, and the
 // flag's effect on the other callers is not recovered. When queue 0 is not empty, the original pops its front. It then
 // invokes DialogMsg::s_SkipFuncName when that is set, and when the queue is still not empty it invokes
-// DialogMsg::s_StartFuncName[0]. Those calls go through Invoke, which is PARTIAL, so the callbacks are not run yet.
+// DialogMsg::s_StartFuncName[0].
 template <>
 void MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage(int queue, bool flag) {
     (void)queue;
@@ -94,11 +92,11 @@ void MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage(int queue, bool flag)
     }
 }
 
-// 0x460dec MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)  (clone, PARTIAL)
-// 0x480b2c MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)  (clone with flag true, PARTIAL)
+// 0x460dec MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)  (clone)
+// 0x480b2c MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)  (clone with flag true)
 // Appends the message to queue 0. When the flag is set and the queue then holds one message, it invokes the start
 // function DialogMsg::s_StartFuncName[0]. The clone at 0x480b2c has the flag fixed to true and inlines the same Invoke
-// body, so it runs the start step with no flag test. The start step goes through Invoke, which is PARTIAL.
+// body, so it runs the start step with no flag test.
 template <>
 void MenuMessageManager<DialogMsg, 1>::EnqueueMessage(const DialogMsg& message, int queue, bool flag) {
     (void)queue;
@@ -113,3 +111,36 @@ void MenuMessageManager<DialogMsg, 1>::EnqueueMessage(const DialogMsg& message, 
 // The body is the generic FlushEnqueuedMessages template of g1-game-ui-MenuMessageManager-4d4518-0.cpp, which has an
 // explicit instantiation for DialogMsg, 1 there. The clone pops the front until the queue is empty, the same loop.
 // Not defined again here, so the symbol is defined once.
+
+// 0x46026c MenuMessageManager<TutorialMsg, 1>::SkipEnqueuedMessage(int, bool)  (clone)
+// When queue 0 is not empty the original pops its front (the 128-byte nodes of 8-byte messages, inlined), invokes
+// TutorialMsg::s_SkipFuncName[0] when that is set, and invokes TutorialMsg::s_StartFuncName[0] when the queue is still not
+// empty. The clone reads neither the queue argument nor the flag.
+template <>
+void MenuMessageManager<TutorialMsg, 1>::SkipEnqueuedMessage(int queue, bool flag) {
+    (void)queue;
+    (void)flag;
+    std::deque<TutorialMsg>& messages = m_queues[0];
+    if (messages.empty()) {
+        return;
+    }
+    messages.pop_front();
+    if (TutorialMsg::s_SkipFuncName[0] != nullptr) {
+        Invoke(TutorialMsg::s_SkipFuncName[0], 0);
+    }
+    if (!messages.empty()) {
+        Invoke(TutorialMsg::s_StartFuncName[0], 0);
+    }
+}
+
+// 0x3ecff8 MenuMessageManager<StatusMsg, 4>::EnqueueMessage(StatusMsg const&, int, bool)  (clone: queue 0, flag true)
+// Appends the message to queue 0. When the queue then holds exactly one message, the start callback
+// StatusMsg::s_StartFuncName[0] is invoked on the HUD root (the Invoke body inlined: nothing happens without a HUD root).
+template <>
+void MenuMessageManager<StatusMsg, 4>::EnqueueMessage(const StatusMsg& message, int queue, bool flag) {
+    std::deque<StatusMsg>& messages = m_queues[queue];
+    messages.push_back(message);
+    if (flag && messages.size() == 1) {
+        Invoke(StatusMsg::s_StartFuncName[0], queue);
+    }
+}

@@ -11,7 +11,7 @@ int main() {
     CHECK(host.GetDataPtr() != nullptr);
     host.SetProperties();
 
-    CMsgRaisedEvent raised;
+    CMsgRaisedEvent raised(true);  // the canonical class (c_msg_raised_event.hpp) has the bool constructor
     CHECK(raised.GetDataSize() == 0x14);
     raised.SetProperties();
     CHECK(raised.IsReliable());

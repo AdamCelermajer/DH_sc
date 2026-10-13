@@ -1,6 +1,6 @@
 // Companion of batch g1-game-items-save-pack3-27fb18-0: Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation (0x47b3dc).
-// It reads Arrays::LevelList::size, which is declared in pydata-accessors/w7_arrays_00.hpp. That header conflicts with
-// w7_arrays_02.hpp (Arrays::DesignSettingsTable, used by the main file), so the trace is kept apart.
+// It reads Arrays::LevelList::size and m_memberNames (pydata-accessors/arrays.hpp). The file was kept apart from the main batch file
+// when the pydata headers could not share a translation unit.
 // Layout and declarations come from dh2/Objective_MoveInZone.hpp.
 
 #include <cstdint>
@@ -13,19 +13,11 @@
 #include "pydata-accessors/w7_arrays_00.hpp"     // Arrays::LevelList::size
 #include "pydata-accessors/w7_pydata12.hpp"      // PyDataConstants::getConstantName
 
-namespace {
-
-// The listing prints Arrays::LevelList::m_memberNames[id] for an in-range level id. That table is declared in
-// member_names.hpp, which cannot be included with structs_records.hpp, so an in-range id prints this placeholder.
-// PARTIAL: replace with the table name when the pydata headers are unified.
-constexpr const char kUnreadLevelName[] = "?";
-
-}  // namespace
 
 // 0x47b3dc Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE*) const
 // Prints the header line, the type name, the object and the level, then calls
 // Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation for the base lines.
-// PARTIAL: the level name (see kUnreadLevelName). The out-of-range test uses Arrays::LevelList::size as the listing does.
+// The level name is Arrays::LevelList::m_memberNames[id], or "na" outside Arrays::LevelList::size.
 // The "Object" line prints the row's name pointer (+0x1c, m_w7) with %d, as the listing does.
 int Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const {
     std::FILE* out = reinterpret_cast<std::FILE*>(stream);
@@ -39,7 +31,7 @@ int Objective_MoveInZone::DBG_TraceDetailedObjectiveInformation(__sFILE* stream)
 
     const std::int32_t levelId = row->m_w8;  // row +0x20
     const bool outOfRange = levelId < 0 || static_cast<std::uint32_t>(levelId) >= Arrays::LevelList::size;
-    const char* levelName = outOfRange ? "na" : kUnreadLevelName;
+    const char* levelName = outOfRange ? "na" : Arrays::LevelList::m_memberNames.names[levelId];
     std::fprintf(out, "\t    Level (OID) : %s\n\n", levelName);
 
     return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);

@@ -27,3 +27,12 @@ CNetworkEmulation* GetNetEmul();          // 0x826aa4 -> CNetworkEmulation::GetI
 // The dedicated-server record, created on first use and zeroed (0x30 bytes). Its layout is not in the tree.
 _tDedicatedServerInfo* GetDedicatedServer();  // 0x827a9c
 extern _tDedicatedServerInfo* s_DedicatedServerInfo;  // the cached record, null until GetDedicatedServer runs
+
+// The online gate: true when this is an online game, the comm lib is initialised, the local member is in a room and the net
+// player manager is initialised. The binary has no function for it (the compiler inlined the test into each caller); the
+// definition is game-app/src/net_gate.cpp. Callers take their single-player branch when it is false.
+bool NetGateOpen();
+
+// The byte at COnline +0x05 (COnline::IsOnlineGame()). The original reads *(GetOnline() + 5) inline at each use; the definition
+// is game-app/src/net_gate.cpp.
+bool GetOnlineGameFlag();

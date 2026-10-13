@@ -64,6 +64,10 @@ public:
 
     // The state machine's current state (+0x14, the word at its +0x00).
     std::int32_t GetState() const { return stateMachine_.CurrentState(); }
+    // Calls every handler registered for this message key (the loop NativeMultiplayerBack runs inline for key 15, the back button).
+    void RunHandlers(std::int32_t key) { runHandlers(key); }
+    // The inline store of the game natives (NativeStartMultiplayerGame writes 300 to the word at +0x14).
+    void SetState(std::int32_t state) { stateMachine_.SetState(state); }
 
     // Fields that other code reads and writes inline, at the original offsets (no symbols, so the names are
     // positions; the roles are those seen in the readers). The constructor zeroes only +0x28, +0x4d and +0x4e; the

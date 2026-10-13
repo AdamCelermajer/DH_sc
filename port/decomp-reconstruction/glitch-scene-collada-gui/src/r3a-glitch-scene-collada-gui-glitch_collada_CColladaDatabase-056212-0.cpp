@@ -97,44 +97,4 @@ CColladaDatabase::CColladaDatabase(const CColladaDatabase* source, const char* n
     }
 }
 
-// 0x60f924 glitch::collada::CColladaDatabase::constructSkin(glitch::video::IVideoDriver*, glitch::collada::SController*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: the original calls factory slot +0x58 with a hidden out slot (an intrusive_ptr result) and then CRootSceneNode::attachSkin(root,
-// skin). collada_factory.hpp declares createSkin with a raw CSkinnedMesh* result, and root_scene_node.hpp declares attachSkin() with no
-// arguments, so neither call can be made with the declared types. The out slot is left null.
-glitch::IReferenceCounted** CColladaDatabase::constructSkin(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                            SController* controller, CRootSceneNode* root) const {
-    (void)driver;
-    (void)controller;
-    (void)root;
-    *out = nullptr;
-    return out;
-}
-
-// 0x60fa70 glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, int, glitch::collada::CRootSceneNode*) const
-// The original resolves the controller by index (getController, the table at holder +0x70) and builds it through the SController
-// overload. That overload (0x60fa24) is partial, so the result is partial through it.
-glitch::IReferenceCounted** CColladaDatabase::constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                                  int index, CRootSceneNode* root) const {
-    SController* controller = controllerAt(tables(), index);
-    return constructController(out, driver, controller, root);
-}
-
-// 0x60fc70 glitch::collada::CColladaDatabase::constructImage(glitch::collada::SImage*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: the original stores a new CImage (operator new(0x1c), CImage(db, image)) through the out slot and takes one reference on it.
-// CImage (tb/glitch_collada_CImage.hpp) is not an IReferenceCounted in the port, so the stored object cannot be converted to the out
-// slot's type. The out slot is left null.
-glitch::IReferenceCounted** CColladaDatabase::constructImage(glitch::IReferenceCounted** out, SImage* image,
-                                                             CRootSceneNode* root) const {
-    (void)image;
-    (void)root;
-    *out = nullptr;
-    return out;
-}
-
-// 0x60fcc0 glitch::collada::CColladaDatabase::constructImage(int, glitch::collada::CRootSceneNode*) const
-glitch::IReferenceCounted** CColladaDatabase::constructImage(glitch::IReferenceCounted** out, int index,
-                                                             CRootSceneNode* root) const {
-    return constructImage(out, imageAt(tables(), index), root);
-}
-
 }  // namespace glitch::collada

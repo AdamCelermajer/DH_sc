@@ -90,9 +90,10 @@ struct bitmap_glyph_provider {
     // 0x7c4e34 (D2) and 0x7c63f8 (D1), one body in C++. The deleting destructor 0x7c646c is compiler-generated.
     virtual ~bitmap_glyph_provider();
 
-    // Virtual slot +0x08. The base body is not in batch v1-vendor-gameswf-pack14-1a21ee-0 and is not in the tree;
-    // default_bitmap_glyph_provider overrides it (0x7a9634).
-    virtual bitmap_font_entity* get_font_entity_impl(const ::tu_string& name);
+    // Virtual slot +0x08. Pure in the binary: the vtable of bitmap_glyph_provider (0x991380) holds __cxa_pure_virtual in
+    // that slot, and default_bitmap_glyph_provider overrides it (0x7a9634). It was a plain virtual with no body, which left
+    // the vtable asking for a symbol that no unit defines (link-1).
+    virtual bitmap_font_entity* get_font_entity_impl(const ::tu_string& name) = 0;
 
     // 0x7c6048. Returns the entity for a font name with the bold and italic suffixes, loading it on a miss.
     // The binary returns ref_counted*; the entity is borrowed from m_font_entities.
@@ -112,11 +113,12 @@ struct default_bitmap_glyph_provider : public bitmap_glyph_provider {
     default_bitmap_font_entity* get_font_entity_impl(const ::tu_string& name) override;
 };
 
-// The call site in get_font_entity (0x7c6048) passes a char buffer and its size, which is not the tree's
-// get_fontfile declaration in vendor-gameswf/glyph_provider.hpp (that one takes a tu_string&). Declared from the call
-// site only; not defined in the tree.
-bool get_fontfile(const char* name, bool is_bold, bool is_italic, char* buffer, int buffer_size);
-
 }  // namespace gameswf
+
+// The call site in get_font_entity (0x7c6048) passes a char buffer and its size, which is not the tree's
+// get_fontfile declaration in vendor-gameswf/glyph_provider.hpp (that one takes a tu_string&). The binary's symbol is
+// the global _Z12get_fontfilePKcbbPci (0x42b38c, ledgered skipped in core-platform), not a gameswf:: function; it was
+// declared in gameswf:: (link-1). Not defined in the tree.
+bool get_fontfile(const char* name, bool is_bold, bool is_italic, char* buffer, int buffer_size);
 
 #endif  // VENDOR_GAMESWF_BITMAP_GLYPH_PROVIDER_HPP

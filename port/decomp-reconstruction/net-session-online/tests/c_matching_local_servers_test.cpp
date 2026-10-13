@@ -7,6 +7,14 @@ static const bool kConnectionManagerReady = (connection_manager_test::Initialize
 #include <cstdio>
 
 static int failures = 0;
+// AddServer takes the address and the room attributes by non-const reference (the original's symbol, link-1), so the
+// calls here go through this wrapper, which owns lvalues for the temporaries the checks pass.
+template <class Local, class Attrs>
+static int AddServerTo(Local& local, std::int32_t memberId, CNetworkId address, std::int32_t rank, Attrs&& attributes) {
+    CRoomAttributes copy(attributes);
+    return local.AddServer(memberId, address, rank, copy);
+}
+
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
 
@@ -33,14 +41,14 @@ int main() {
     const CRoomAttributes attrs;
 
     // AddServer adds a new entry under key 1 (the first key), and a repeated address only refreshes it.
-    CHECK(local.AddServer(11, Address(1), 3, attrs) == 0);  // key 1
+    CHECK(AddServerTo(local, 11, Address(1), 3, attrs) == 0);  // key 1
     CHECK(JoinConnects(local, 1, 11));
-    CHECK(local.AddServer(11, Address(1), 9, attrs) == 0);  // refresh: rank 9 now
+    CHECK(AddServerTo(local, 11, Address(1), 9, attrs) == 0);  // refresh: rank 9 now
     local.SetJoinThresholdForTest(5);
     connection_manager_test::Reset();
     local.JoinRoomInternal(1);
     CHECK(!CConnectionManager::GetInstance()->IsConnected(11));  // rank 9 is not under 5
-    CHECK(local.AddServer(12, Address(2), 1, attrs) == 0);  // key 2
+    CHECK(AddServerTo(local, 12, Address(2), 1, attrs) == 0);  // key 2
     local.SetJoinThresholdForTest(10);
     CHECK(JoinConnects(local, 2, 12));
 
@@ -54,7 +62,7 @@ int main() {
     // PurgeServers drops entries older than 20000 ms and keeps the others.
     CMatchingLocal purge;
     OnlineClockStorage() = 100000;
-    CHECK(purge.AddServer(21, Address(3), 1, attrs) == 0);  // key 1, seen at 100000
+    CHECK(AddServerTo(purge, 21, Address(3), 1, attrs) == 0);  // key 1, seen at 100000
     OnlineClockStorage() = 120000;                          // age 20000: kept
     CHECK(purge.PurgeServers() == 0);
     purge.SetJoinThresholdForTest(10);

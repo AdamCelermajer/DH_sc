@@ -7,6 +7,7 @@
 
 #include "glitch-core-io/os/logging.hpp"
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
+#include "glitch-scene-collada-gui/os/COSOperator.hpp"
 
 namespace glitch {
 
@@ -47,28 +48,7 @@ public:
     IEventReceiver* receiver = nullptr;  // +0x0c
 };
 
-class IOSOperator {
-public:
-    // 0x6a0c7c _ZN6glitch11IOSOperatorD1Ev (empty D1)
-    ~IOSOperator() = default;
-};
-
-class COSOperator {
-public:
-    // 0x6a0c80 _ZNK6glitch11COSOperator25getOperationSystemVersionEv
-    // The deprecated upstream signature returns a wide string.
-    const wchar_t* getOperationSystemVersion() const;
-    // 0x6a0c88 _ZNK6glitch11COSOperator15copyToClipboardEPKc (empty)
-    void copyToClipboard(const char*) const;
-    // 0x6a0c8c _ZNK6glitch11COSOperator20getTextFromClipboardEv (null)
-    const char* getTextFromClipboard() const;
-    // 0x6a0c94 _ZNK6glitch11COSOperator20getProcessorSpeedMHzEPj (returns false)
-    bool getProcessorSpeedMHz(std::uint32_t* mhz) const;
-    // 0x6a0c9c _ZNK6glitch11COSOperator15getSystemMemoryEPjS1_ (returns false)
-    bool getSystemMemory(std::uint32_t* totalBytes, std::uint32_t* availableBytes) const;
-
-    const wchar_t* osVersion = nullptr;  // +0x4c
-};
+// IOSOperator and COSOperator are the canonical classes of os/COSOperator.hpp (scene-owner wave).
 
 // The Android device class. Its cursor control is a nested class with the visible
 // flag at +0x34.

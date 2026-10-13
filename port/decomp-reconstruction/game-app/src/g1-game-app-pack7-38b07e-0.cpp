@@ -11,9 +11,9 @@
 //     Script_LockCharacter::Execute, Script_MarkCharacterAsScripted::Set, Unset and Execute, and every other IsBlocking
 //     in this batch (each returns false).
 //   - Complete in batch r2a-game-app-pack2-5b248a-0: Script_LockTutorial::Execute and Script_LookActor::Execute.
-//   - PARTIAL: Script_HideFlash::Execute (the HUD branch), Script_IncFaeryLevel::Execute (the online gate, which is the
-//     Application::IsOnlineGame stub) and Script_LeaveSafeZone::Execute (the safe-zone music call). Each reproduces what its
-//     layout allows and names the missing part in its comment.
+//   - Complete: Script_HideFlash::Execute (the HUD branch invokes DisplayOfCurrentHud with false) and
+//     Script_IncFaeryLevel::Execute (the online gate is GetOnlineGameFlag()).
+//   - Script_LeaveSafeZone::Execute is complete too (SetInSafeZoneMusic(false)).
 
 #include <cstdint>
 
@@ -26,6 +26,11 @@
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "vendor-gameswf/gameswf_root.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/ObjectBase.hpp"
@@ -93,14 +98,23 @@ void Script_HideFlash::Init() {
 }
 
 // 0x45f78c Script_HideFlash::Execute(bool, int)
-// PARTIAL. Reproduced: the trace probe, and the menu branch. When m_menu (+0x10) is set, its vtable slot +0x10
-// (MenuBase::Hide) is called and the command ends. Missing: the HUD branch, which runs when m_menu is null and the record
-// name (+0x10) contains "HUD". The original gets the HUD root (MenuManager::GetHUDRoot), its gameswf root movie
-// (RenderFX::GetRoot and gameswf::root::get_root_movie), calls RenderFX::InvokeASCallback with "DisplayOfCurrentHud" and
-// one gameswf::as_value argument, then gameswf::as_value::drop_refs. RenderFX::GetRoot, RenderFX::InvokeASCallback and
-// the gameswf value and root types are not declared in the tree.
+// After the trace probe, a resolved menu (m_menu, +0x10) is hidden (its virtual slot +0x10, MenuBase::Hide) and the command ends.
+// Otherwise a record name (+0x10) that contains "HUD" drives the HUD root: the callback DisplayOfCurrentHud is invoked with false.
+// The menu is hidden again at the end when one is set (it is not, on this path), as in the original.
 void Script_HideFlash::Execute(bool /*skipping*/, int /*module*/) {
+    const Structs::HideFlash* record = static_cast<const Structs::HideFlash*>(m_args);
     TraceScriptCmdSwitch();
+    if (m_menu != nullptr) {
+        m_menu->Hide();
+        return;
+    }
+    MenuManager* menuManager = MenuManager::GetInstance();
+    if (LC_API_STRSTR(record->m_w4, "HUD") != nullptr) {
+        MenuFX* hud = menuManager->GetHUDRoot();
+        gameswf::as_value current;
+        current.set_bool(false);
+        hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "DisplayOfCurrentHud", &current, 1);
+    }
     if (m_menu != nullptr) {
         m_menu->Hide();
     }
@@ -121,14 +135,12 @@ bool Script_HideFlash::IsBlocking() const {
 }
 
 // 0x45f5cc Script_IncFaeryLevel::Execute(bool, int)
-// PARTIAL, for the online gate only. After the trace probe, the increment is read from the record (+0x08, Structs::IncFaeryLevel
-// m_w2). The online gate is *(GetOnline() + 0x05), COnline::isOnlineGame_, which is private with no getter. Application::
-// IsOnlineGame() stands in for it, and it is a stub that returns false, so the offline branch runs until COnline exposes the
-// flag. Offline, the local player 0's character gets the increment. Online, it gets it only while this client is hosting
-// (PlayerManager::IsLocalPlayerHosting) and the PlayerManager flag at +0x719 (m_hostChanged) is clear.
+// After the trace probe, the increment is read from the record (+0x08, Structs::IncFaeryLevel m_w2). Offline (the online game flag
+// *(GetOnline() + 0x05) is clear), the local player 0's character gets the increment. Online, it gets it only while this client is
+// hosting (PlayerManager::IsLocalPlayerHosting) and the PlayerManager flag at +0x719 (m_hostChanged) is clear.
 void Script_IncFaeryLevel::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
-    if (!ApplicationGetInstance().IsOnlineGame()) {
+    if (!GetOnlineGameFlag()) {
         IncFaeryLevelOfLocalPlayer(static_cast<const Structs::IncFaeryLevel*>(m_args)->m_w2);
         return;
     }

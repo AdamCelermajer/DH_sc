@@ -1,7 +1,5 @@
-// tMatchingPeer: one room server seen by CMatchingLocal (the value type of its server map).
-// The body is tMatchingPeerT (t_matching_peer_t.hpp); this header instantiates it with the
-// real CRoomAttributes (c_room_attributes.hpp), which CMatchingLocal uses.
-// CMatchingGLLive instantiates the same template with the real CRoomAttributes.
+// tMatchingPeer: one room server seen by CMatchingLocal and CMatchingGLLive (the value type of their server maps).
+// The class is defined in t_matching_peer_t.hpp.
 //
 // Layout (original 32-bit offsets, kept as comments):
 //   +0x00 member id (int)
@@ -19,5 +17,3 @@
 #include "net-session-online/deps/stream_bytes.hpp"
 #include "net-transport/connection_manager.hpp"  // CConnectionManager (real)
 #include "net-session-online/t_matching_peer_t.hpp"
-
-using tMatchingPeer = tMatchingPeerT<CRoomAttributes, 0>;

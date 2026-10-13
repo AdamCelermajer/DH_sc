@@ -1,6 +1,9 @@
 // glitch::IDevice: the device interface. Only the base members the queued functions use are
 // declared. Layout from the original offsets (kept as comments):
+//   +0x08 resource file manager, +0x0c animation streaming manager (both created by the constructor),
+//   +0x10 video driver, +0x1c scene manager, +0x20 timer (created by the constructor),
 //   +0x28 event receiver, +0x2c logger (pointer, non-null when a logger is attached),
+//   +0x34 file system (created by the constructor through the CIrrFactory),
 //   +0x3c video mode list, +0x5c creation parameters (0x58 bytes, copied by the constructor).
 // The creation parameters' fullscreen flag is byte 0x0e of that block (original +0x6a).
 // The window-offset fields read by postMouseEventFromUser are not modelled.
@@ -10,7 +13,14 @@
 
 #include "glitch-core-io/deps/glitch_core.hpp"
 
+class FileSystemWin32;  // core-platform/filesystem_win32.hpp: the file system the game reaches through the device (+0x34)
+
 namespace glitch {
+
+namespace video { class IVideoDriver; }
+namespace scene { class ISceneManager; }
+namespace os { class Timer; }
+namespace collada { class CResFileManager; class CAnimationStreamingManager; }
 
 // Creation parameters, kept as the 0x58-byte block the constructor copies.
 struct SCreationParameters {
@@ -40,10 +50,34 @@ public:
     // (0.1.0.2). Otherwise it logs a warning at ELL_WARNING and returns false.
     bool checkVersion(const char* compiledVersion);
 
+    // +0x08: CResFileManager (0x2c bytes), created by the constructor with the device
+    collada::CResFileManager* resFileManager = nullptr;
+    // +0x0c: CAnimationStreamingManager (0x20 bytes), created by the constructor
+    collada::CAnimationStreamingManager* animationStreamingManager = nullptr;
+    // +0x10: the video driver. The constructor clears it, the derived device sets it; Application::CleanGlitch calls the
+    // virtual at its vtable +0xac, and the game's debug draw reads it.
+    video::IVideoDriver* videoDriver = nullptr;
+    // +0x14, +0x18: cleared by the constructor, roles not identified (setEventReceiver passes the receiver to the +0x18 object)
+    void* unk_14 = nullptr;
+    void* unk_18 = nullptr;
+    // +0x1c: the scene manager (the game's GSViewer reads it from Application::m_device)
+    scene::ISceneManager* sceneManager = nullptr;
+    // +0x20: the timer the constructor creates (0x8 bytes, vptr and a flag)
+    os::Timer* timer = nullptr;
+    // +0x24: cleared by the constructor, role not identified
+    void* unk_24 = nullptr;
     // +0x28
     IEventReceiver* eventReceiver = nullptr;
     // +0x2c: logger, null when none is attached (CLogger is not reconstructed)
     void* logger = nullptr;
+    // +0x30: cleared by the constructor, role not identified
+    void* unk_30 = nullptr;
+    // +0x34: the file system. The constructor takes it from the CIrrFactory (vtable +0x08 of the factory instance). The
+    // game calls its savefile slots through Application::m_device: getFiles (+0x7c), getFilesMatching (+0x80), openSavefile
+    // (+0x94), deleteSavefile (+0x9c) and doesSavefileExists (+0xb0). The dynamic type is FileSystemWin32.
+    FileSystemWin32* fileSystem = nullptr;
+    // +0x38: cleared by the constructor, role not identified
+    void* unk_38 = nullptr;
     // +0x3c
     video::CVideoModeList videoModeList;
     // +0x5c

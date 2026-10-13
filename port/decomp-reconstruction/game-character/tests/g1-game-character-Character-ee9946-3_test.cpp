@@ -176,6 +176,8 @@ void TestTransmute() {
 }
 
 void TestRangedForwarding() {
+    // Without a ranged override (m_props.m_w33 == -1) the ItemInventory query decides, and the three outputs come from it.
+    Obj()->m_props.m_w33 = -1;
     g_ranged = true;
     EXPECT(Obj()->Character::CanRangeAttack() == true);
     int a = 0;
@@ -185,6 +187,16 @@ void TestRangedForwarding() {
     EXPECT(a == 1 && b == 2 && c == 3);
     g_ranged = false;
     EXPECT(Obj()->Character::CanRangeAttack() == false);
+
+    // With an override word the answer is true whatever the inventory says, and a, b and c are the sheet words
+    // (m_w31 >> 8, m_w32 >> 8, m_w33).
+    Obj()->m_props.m_w31 = 7 << 8;
+    Obj()->m_props.m_w32 = 9 << 8;
+    Obj()->m_props.m_w33 = 4;
+    g_ranged = false;
+    EXPECT(Obj()->Character::CanRangeAttack() == true);
+    EXPECT(Obj()->Character::CanRangeAttack(a, b, c) == true);
+    EXPECT(a == 7 && b == 9 && c == 4);
 }
 
 }  // namespace

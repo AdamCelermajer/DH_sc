@@ -3,35 +3,6 @@
 
 namespace glitch::collada {
 
-// 0x669b64 _ZN6glitch7collada12ISkinnedMesh20setIsSkinningEnabledEb
-void ISkinnedMesh::setIsSkinningEnabled(bool enabled) {
-    skinningEnabled = enabled;
-}
-
-namespace detail {
-
-// 0x66b940 _ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique6attachEPNS_5scene10ISceneNodeE
-void CColladaHardwareMatrixSkinTechnique::attach(glitch::scene::ISceneNode* node) {
-    attachedNode = node;
-}
-
-// 0x66d080 _ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique6attachEPNS_5scene10ISceneNodeE
-void CColladaHardwareQuatSkinTechnique::attach(glitch::scene::ISceneNode* node) {
-    attachedNode = node;
-}
-
-// 0x66e778 _ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique6attachEPNS_5scene10ISceneNodeE
-void CColladaHardwareTextureSkinTechnique::attach(glitch::scene::ISceneNode* node) {
-    attachedNode = node;
-}
-
-// 0x66f6c8 _ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique6attachEPNS_5scene10ISceneNodeE
-void CColladaSoftwareSkinTechnique::attach(glitch::scene::ISceneNode* node) {
-    attachedNode = node;
-}
-
-}  // namespace detail
-
 CAnimationStreamingManager* CAnimationStreamingManager::Instance = nullptr;
 
 // 0x60c59c _ZN6glitch7collada26CAnimationStreamingManager17getAnimationBlockERNS0_24SAnimationBlockSearchKeyERN5boost13intrusive_ptrINS0_15CAnimationBlockEEE

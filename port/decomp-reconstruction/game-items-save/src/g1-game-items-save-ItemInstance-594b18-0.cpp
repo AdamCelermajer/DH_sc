@@ -30,6 +30,7 @@
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays27.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -192,26 +193,20 @@ bool ItemInstance::operator<(const ItemInstance& other) const {
 }
 
 // 0x3fa330 ItemInstance::IsEquippableBy(Character *) const
-// PARTIAL. Two groups of inputs are not declared in the tree, so the function answers them with stubs and returns 0 for a
-// live character until they are declared:
-//  * *(GetOnline() + 5), the online-game flag, is COnline::isOnlineGame_ (net-session-online/c_online.hpp). It is private
-//    with no getter (layout request: a public accessor). Stubbed to false, as game-app Application::IsOnlineGame does, so the
-//    remote-character shortcut through the vtable slot 0x54 (ObjectBase::IsRemotelyUpdated) is never taken.
-//  * The attribute gates read Character +0x1044 against m_w29 << 8, and the pairs +0x124c/+0x125c (m_w30), +0x1250/+0x1260
-//    (m_w31), +0x1254/+0x1264 (m_w32) and +0x1258/+0x1268 (m_w33), each pair summed and compared with the requirement << 8.
-//    dh2/Character.hpp declares none of these words (layout request: Character +0x1044 and the eight words +0x124c..+0x1268,
-//    int32). Stubbed to false, so the function returns 0 until the words are declared.
-// The class requirement (m_w34, +0x88) is reproduced. Its names come from Arrays::CharacterTable through the name lookup.
-// The Character::SG_GetPlayerClass compare is kept for when the attribute gates are declared.
+// A null character asserts (ItemInstance.cpp:495) and answers false. In an online game a remotely updated character may equip
+// anything (ObjectBase::IsRemotelyUpdated, vtable +0x54). Otherwise the character's sheet (Character::m_props, the words at
+// Character +0x1044 and +0x124c..+0x1268) must meet the item's requirements, each shifted left by 8: the level word m_w20
+// against Item m_w29, and the four attribute words, each the sum of two sheet words (m_w154 + m_w150, m_w155 + m_w151,
+// m_w156 + m_w152, m_w157 + m_w153), against Item m_w30 to m_w33. The class requirement (Item m_w34) names a CharacterTable row
+// through the name lookup; the item is equippable when that class (or the character's own when the item has none) is the
+// character's player class.
 bool ItemInstance::IsEquippableBy(Character* character) const {
     if (character == nullptr) {
         ItemInstanceAssert("c", 495);
         return false;
     }
 
-    // Stub for *(GetOnline() + 5); see the comment above.
-    const bool onlineGameFlag = false;
-    if (onlineGameFlag && character->IsRemotelyUpdated()) {
+    if (GetOnlineGameFlag() && character->IsRemotelyUpdated()) {
         return true;
     }
 
@@ -249,9 +244,10 @@ bool ItemInstance::IsEquippableBy(Character* character) const {
             break;
     }
 
-    // Stub for the five attribute gates (Character +0x1044 and the pairs +0x124c..+0x1268); see the comment above.
-    const bool attributeGatesMet = false;
-    if (attributeGatesMet) {
+    const Structs::CharacterProperties& stats = character->m_props;
+    if (stats.m_w20 >= (row->m_w29 << 8) && stats.m_w154 + stats.m_w150 >= (row->m_w30 << 8) &&
+        stats.m_w155 + stats.m_w151 >= (row->m_w31 << 8) && stats.m_w156 + stats.m_w152 >= (row->m_w32 << 8) &&
+        stats.m_w157 + stats.m_w153 >= (row->m_w33 << 8)) {
         return playerClass == character->SG_GetPlayerClass();
     }
     return false;

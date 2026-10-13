@@ -8,29 +8,31 @@
 #include <string>
 #include <vector>
 
-class IFileStream;
+#include "dh2/IFileStream.hpp"
 
 class FileSystemWin32 {
 public:
-    class _FileHandle {
+    // The handle is an IFileStream (_ZTVN15FileSystemWin3211_FileHandleE: size, canRead, canWrite, peek, read, write, seek,
+    // tell, then the inherited skip, seekWrite and tellWrite).
+    class _FileHandle : public IFileStream {
     public:
         // 0x34fc18 / 0x35003c: opens dir+name (leading "./" stripped by the caller).
         // writable=false opens read-only. readwrite selects the write mode.
         _FileHandle(const char* dir, const char* name, bool writable, bool readwrite);
-        ~_FileHandle();
+        ~_FileHandle() override;
         // The deleting destructor (0x34fbbc) is ~_FileHandle followed by CustomFree(this).
         // The allocation pairs with it through CustomAlloc (the original calls operator new).
         static void* operator new(std::size_t size);
         static void operator delete(void* p);
 
-        std::size_t read(void* buf, std::size_t n);         // 0x34eec8
-        std::size_t write(const void* buf, std::size_t n);  // 0x34ee74
-        int peek(void* buf, std::size_t n) const;           // 0x34ef58
-        long long tell() const;                             // 0x34edf0
-        void seek(unsigned long long pos);                  // 0x34ee10
-        long long size() const;                             // 0x34ee20
-        bool canRead() const { return canRead_; }           // 0x34eb94
-        bool canWrite() const { return canWrite_; }         // 0x34eb9c
+        std::uint32_t size() const override;                                  // 0x34ee20
+        bool canRead() const override { return canRead_; }                    // 0x34eb94
+        bool canWrite() const override { return canWrite_; }                  // 0x34eb9c
+        std::uint64_t peek(void* buf, std::uint64_t n) const override;        // 0x34ef58
+        std::uint64_t read(void* buf, std::uint64_t n) override;              // 0x34eec8
+        std::uint64_t write(const void* buf, std::uint64_t n) override;       // 0x34ee74
+        void seek(std::uint64_t pos) override;                                // 0x34ee10
+        std::uint64_t tell() const override;                                  // 0x34edf0
 
         std::FILE* file_ = nullptr;   // +0x4
         bool canRead_ = false;        // +0xc
@@ -57,6 +59,10 @@ public:
 
     bool backupSavefile(const char* src, const char* dst) const;  // 0x34f10c
     bool deleteSavefile(const char* name) const;                  // 0x34f274: true when the file was removed
+    // FileSystemBase::doesSavefileExists (0x34e150, the file system's virtual slot +0xb0): opens the savefile for reading and
+    // closes it. The original first runs Savegame::FlushJobs(name); the game-side wrapper SavefileExists
+    // (dh2/global/savefile_fs.hpp) does that, since core-platform cannot see the game headers.
+    bool doesSavefileExists(const char* name);
     std::string formatFilePath(const std::string& path) const;    // 0x34f8a4
     void getFiles(const char* dir, std::vector<std::string>& out) const;  // 0x3505a0
     void getFilesMatching(const char* dir, const char* pattern, std::vector<std::string>& out) const;  // 0x35041c

@@ -359,44 +359,6 @@ void CBillboardSceneNode_D1(CBillboardSceneNode* self) {
 // Partial stub: 13.7 KB of pseudocode, not reconstructed in this pass.
 void CBillboardSceneNode_updateAbsolutePosition(CBillboardSceneNode& /*self*/, bool /*recursive*/) {}
 
-// 0x60dfc0 _ZN6glitch7collada15animation_track13CApplicatorINS1_10SLightColorEE10applyValueExEPKh
-// Writes the three channels from the byte value (divided by 255) and sets alpha to 1.
-float CApplicator_SLightColor_applyValueEx(SLightColorApplicator& self, const std::uint8_t* value) {
-    const float b = static_cast<float>(value[2]) / 255.0f;
-    self.r = static_cast<float>(value[0]) / 255.0f;  // +0x14
-    self.g = static_cast<float>(value[1]) / 255.0f;  // +0x18
-    self.b = b;                                      // +0x1c
-    self.a = 1.0f;                                   // +0x20
-    return b;
-}
-
-// 0x60eeb4 _ZNK6glitch7collada15animation_track10CVirtualEx...CLightColorMixin...retrieveValue
-// Packs the three float channels (source +0x14..+0x1c) back into bytes.
-std::uint32_t CVirtualEx_LightColor_retrieveValue(const float* source, std::uint8_t* out) {
-    out[0] = static_cast<std::uint8_t>(static_cast<std::uint32_t>(source[5] * 255.0f));
-    out[1] = static_cast<std::uint8_t>(static_cast<std::uint32_t>(source[6] * 255.0f));
-    const auto last = static_cast<std::uint32_t>(source[7] * 255.0f);
-    out[2] = static_cast<std::uint8_t>(last);
-    return last;
-}
-
-// 0x60ef6c _ZNK...CSceneNodeScaleMixin...retrieveValue
-// Partial: the scene-node scale is read through vtable slot +0x90; not dispatched here.
-void CVirtualEx_SceneNodeScale_retrieveValue(const void* /*node*/, float* /*out*/) {}
-
-// 0x60f000 _ZNK...CSceneNodePositionMixin...retrieveValue
-// Partial: the scene-node position is read through vtable slot +0xa0; not dispatched here.
-void CVirtualEx_SceneNodePosition_retrieveValue(const void* /*node*/, float* /*out*/) {}
-
-// 0x60f10c _ZNK...CSceneNodeQuaternionMixin...retrieveValue
-// Partial: the scene-node quaternion is read through vtable slot +0x98; not dispatched here.
-void CVirtualEx_SceneNodeQuaternion_retrieveValue(const void* /*node*/, float* /*out*/) {}
-
-// 0x60f148 _ZN...CVirtualEx<CApplyValueEx<float[2], CMixin<float,2,SMaterialSetParam<...>>>>::...
-// Partial: the blend loop over the material-set parameters is not reconstructed in this pass.
-void CVirtualEx_MaterialSetParam_applyValue(float* /*dst*/, const float* /*src*/, int /*a3*/,
-                                            int /*count*/, float* /*out*/) {}
-
 // 0x60f25c / 0x60f2b0 _ZN6glitch7collada16CColladaDatabaseC2EPKcPNS0_15CColladaFactoryE
 // Partial: CResFileManager::load is not in this category; the factory store and ref count are modelled as comments.
 void CColladaDatabase_ctor_name(CColladaDatabase* /*self*/, const char* /*name*/, void* /*factory*/) {}

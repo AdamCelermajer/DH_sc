@@ -17,11 +17,4 @@ template <class... A> void* CColladaFactory_createMaterialRenderer_3506a4(A&&...
 
 // The CSceneNodeAnimatorSynchronizedSet overloads are members of the canonical class (collada/CSceneNodeAnimatorSynchronizedSet.hpp).
 
-// CVirtualEx<CApplyValueEx<...>> retrieveValue / getValueSize (per instantiation).
-// 0x60eddc, 0x60ede8, 0x60edf4, 0x60ee00, 0x60ee0c, 0x60ee18: retrieveValue, empty.
-template <class... A> void VirtualEx_retrieveValue(A&&...) {}
-// getValueSize per instantiation (size in bytes).
-// 0x60edd4: 3; 0x60ede0, 0x60edec, 0x60edf8, 0x60ee04, 0x60ee10: 4.
-template <std::size_t N> std::size_t VirtualEx_getValueSize() { return N; }
-
 }  // namespace glitch::collada::track_defaults

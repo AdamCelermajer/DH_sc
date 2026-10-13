@@ -101,9 +101,7 @@ public:
         NetStructStringStub16 member_;
     };
 
-    // The value type of the server map at +0x39e8, with the real CRoomAttributes (CMatchingLocal
-    // instantiates the same template with the stand-in, see t_matching_peer.hpp).
-    using tMatchingPeer = tMatchingPeerT<CRoomAttributes, 1>;
+    // The value type of the server map at +0x39e8 is the global tMatchingPeer (t_matching_peer.hpp).
 
     // Number of elements of the member info table at +0x3a00 (the table is 0x2d00 bytes of 360-byte elements).
     static constexpr int kMemberInfoCount = 32;
@@ -222,7 +220,7 @@ public:
     CRoomAttributes* GetRoomAttributes() override;
     // +0xa8 0x820318 _ZN15CMatchingGLLive23GetSearchRoomAttributesEy: copy of the room settings stored
     // under the key, or default settings when the key is not in the map.
-    virtual CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+    virtual CRoomAttributes GetSearchRoomAttributes(std::uint64_t key);  // not const: _ZN15CMatchingGLLive23GetSearchRoomAttributesEy (link-1)
     // +0xac 0x81bbf4 _ZN15CMatchingGLLive19GenerateNewMemberIdEv: always -1 (no generation here).
     virtual std::int32_t GenerateNewMemberId() const;
     // +0xb0 0x81c460 _ZN15CMatchingGLLive9GetRoomIdEv. Partial, see the cpp.
@@ -344,6 +342,8 @@ public:
     std::int32_t SendSetPlayerStatus(std::uint8_t status);
     // 0x81f524 _ZN15CMatchingGLLive6IsHostEv: the lobby's mpIsMaster (vtable slot 60).
     bool IsHost();
+    // The high-score / ranking service at +0x671c (NativeShowLeaderboard reads it through CMatching::Get()).
+    GLXPlayerLeaderboard* Leaderboard() const { return glxLeaderboard_; }
     // 0x81c200 _ZN15CMatchingGLLive24ProcessMemberJoinMessageEiR12NetBitStream. Partial, see the cpp.
     void ProcessMemberJoinMessage(std::int32_t a2, NetBitStream& stream);
     // 0x81c2c4 _ZN15CMatchingGLLive17SendClientRequestEv. Partial, see the cpp.

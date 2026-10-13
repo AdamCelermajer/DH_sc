@@ -12,6 +12,7 @@ namespace gameswf
 
 	//TODO
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-7.cpp (0x7daea4: the heap allocation and the interned "click" string) */
 	as_mouse_event* mouse_event_init(player* player)
 	{
 		// Create built-in key object.
@@ -23,6 +24,7 @@ namespace gameswf
 
 		return obj;
 	}
+#endif /* DH2 */
 
 	as_mouse_event::as_mouse_event(player* player) :
 		as_event(player)

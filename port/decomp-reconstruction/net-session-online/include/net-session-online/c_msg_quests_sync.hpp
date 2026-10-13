@@ -33,6 +33,10 @@ public:
     // 0x32793c _ZN14CMsgQuestsSync13SetPropertiesEv
     void SetProperties();
 
+    // The sender's stores, which the original writes inline through the message pointer (PlayerSavegame::SG_TryQuestSync
+    // 0x4679e8): +0x54 = 0, +0x50 = length, +0x58 = operator new[](length) and a copy of the bytes.
+    void SetBlock(const void* data, std::int32_t length);
+
     // Not in the original: test seam for the block length.
     std::int32_t BlockLengthForTest() const { return BlockLength(); }
     // Not in the original: read access for MultiplayerCallback::HandleQuestsSyncMessage. BlockData is the

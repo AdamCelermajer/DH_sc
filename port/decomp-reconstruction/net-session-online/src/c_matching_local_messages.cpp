@@ -22,9 +22,9 @@ std::int32_t CMatchingLocal::SendChangeServerMessage() {
 }
 
 // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb
-// Partial: CRoomAttributes::Serialize is blocked (the NetStruct wire format is not ported), so the room
-// attributes write no bytes here. The listen id is CTransportManager::GetListenNetworkId(0). The original's
-// inet_ntoa() debug calls are not reproduced.
+// Partial: the room attributes are serialized by the game-world body of CRoomAttributes::Serialize (0x8190d8, flags 7),
+// whose NetRoomAttributes constructor is itself partial. The listen id is CTransportManager::GetListenNetworkId(0). The
+// original's inet_ntoa() debug calls are not reproduced.
 std::int32_t CMatchingLocal::SendServerResponse(bool flag) {
     NetBitStream stream(0x800);
     const std::uint8_t type = 1;

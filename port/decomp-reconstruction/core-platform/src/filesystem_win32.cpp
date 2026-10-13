@@ -165,7 +165,7 @@ void* FileSystemWin32::_FileHandle::operator new(std::size_t size) {
 // Partial: the decode flag is the byte at +0x24 of the glitch CFile (held at +0x8 of
 // the original object). CFileSystem::open, which sets that byte, is not in this tree,
 // so the flag is the obfuscated_ member, set by the caller and false by default.
-std::size_t FileSystemWin32::_FileHandle::read(void* buf, std::size_t n) {
+std::uint64_t FileSystemWin32::_FileHandle::read(void* buf, std::uint64_t n) {
     if (!canRead_) {
         return 0;
     }
@@ -178,7 +178,7 @@ std::size_t FileSystemWin32::_FileHandle::read(void* buf, std::size_t n) {
 }
 
 // 0x34ee74 FileSystemWin32::_FileHandle::write(void const*, unsigned long long)
-std::size_t FileSystemWin32::_FileHandle::write(const void* buf, std::size_t n) {
+std::uint64_t FileSystemWin32::_FileHandle::write(const void* buf, std::uint64_t n) {
     if (!canWrite_) {
         return 0;
     }
@@ -189,7 +189,7 @@ std::size_t FileSystemWin32::_FileHandle::write(const void* buf, std::size_t n) 
 // Same gate and decode as read(); the original then seeks back by the number of bytes
 // read, so the position is unchanged. Partial: the decode flag is the same stand-in
 // as read() (obfuscated_ for the CFile byte at +0x24).
-int FileSystemWin32::_FileHandle::peek(void* buf, std::size_t n) const {
+std::uint64_t FileSystemWin32::_FileHandle::peek(void* buf, std::uint64_t n) const {
     if (!canRead_) {
         return 0;
     }
@@ -199,24 +199,24 @@ int FileSystemWin32::_FileHandle::peek(void* buf, std::size_t n) const {
         FileSystemBase::decodeObfuscatedData(static_cast<int>(pos), buf, static_cast<int>(n), file_);
     }
     std::fseek(file_, -static_cast<long>(got), SEEK_CUR);
-    return static_cast<int>(got);
+    return got;
 }
 
 // 0x34edf0 FileSystemWin32::_FileHandle::tell() const
-long long FileSystemWin32::_FileHandle::tell() const { return static_cast<long long>(std::ftell(file_)); }
+std::uint64_t FileSystemWin32::_FileHandle::tell() const { return static_cast<std::uint64_t>(std::ftell(file_)); }
 
 // 0x34ee10 FileSystemWin32::_FileHandle::seek(unsigned long long)
-void FileSystemWin32::_FileHandle::seek(unsigned long long pos) {
+void FileSystemWin32::_FileHandle::seek(std::uint64_t pos) {
     std::fseek(file_, static_cast<long>(pos), SEEK_SET);
 }
 
 // 0x34ee20 FileSystemWin32::_FileHandle::size() const
-long long FileSystemWin32::_FileHandle::size() const {
+std::uint32_t FileSystemWin32::_FileHandle::size() const {
     long saved = std::ftell(file_);
     std::fseek(file_, 0, SEEK_END);
     long end = std::ftell(file_);
     std::fseek(file_, saved, SEEK_SET);
-    return static_cast<long long>(end);
+    return static_cast<std::uint32_t>(end);
 }
 
 // 0x34fe50 FileSystemWin32::_createHandle(char const*, char const*, bool, bool)
@@ -355,6 +355,18 @@ void FileSystemWin32::closeFile(IFileStream*& stream) {
         delete stream;
         stream = nullptr;
     }
+}
+
+// 0x34e150 FileSystemBase::doesSavefileExists(char const*), reached through the file system's virtual slot +0xb0.
+// The original runs Savegame::FlushJobs(name) (the game-side wrapper does), opens the savefile for reading (slot +0x94) and
+// closes it (slot +0x78); a handle that opened means the file exists.
+bool FileSystemWin32::doesSavefileExists(const char* name) {
+    _FileHandle* handle = openSavefile(name, false);
+    if (handle == nullptr) {
+        return false;
+    }
+    delete handle;
+    return true;
 }
 
 // 0x34ebfc FileSystemWin32::getFolders(char const*, std::vector<std::string>&) const

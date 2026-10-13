@@ -56,7 +56,7 @@ float FloatFromBits(std::uint32_t bits) {
 // net-session-online/include/net-session-online/c_online.hpp and GetOnline() is not declared in any
 // header in the tree (layout requests). Until an accessor exists the flag reads as offline, so the
 // online branches are not taken.
-bool OnlineGameFlagUnavailable() { return false; }
+bool OnlineGameFlagUnavailable() { return GetOnlineGameFlag(); }
 
 // Random::GetRandom as called from CheckSpawnProbability is the GCC clone .clone.2. Its first register
 // carries the synced flag, and the range is not in the call. The range constant of the clone is not

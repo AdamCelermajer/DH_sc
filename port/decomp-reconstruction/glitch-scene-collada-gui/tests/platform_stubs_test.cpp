@@ -4,6 +4,7 @@
 #include "glitch-scene-collada-gui/ps_types.hpp"
 
 #include <cstdio>
+#include <string>
 
 using namespace glitch;
 
@@ -21,16 +22,12 @@ int main() {
         int receiverTag = 0;
         logger.setReceiver(reinterpret_cast<IEventReceiver*>(&receiverTag));
         CHECK(logger.receiver == reinterpret_cast<IEventReceiver*>(&receiverTag));
-        IOSOperator osBase;
-        (void)osBase;
     }
 
     {
-        COSOperator os;
-        CHECK(os.getOperationSystemVersion() == nullptr);
-        static const wchar_t kVersion[] = L"test";
-        os.osVersion = kVersion;
-        CHECK(os.getOperationSystemVersion() == kVersion);
+        COSOperator os("test");
+        CHECK(std::wstring(os.getOperationSystemVersion()) == L"test");
+        CHECK(os.referenceCounter == 1);
         CHECK(os.getTextFromClipboard() == nullptr);
         std::uint32_t mhz = 7, total = 1, avail = 2;
         CHECK(!os.getProcessorSpeedMHz(&mhz));

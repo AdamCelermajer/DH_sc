@@ -16,6 +16,8 @@
 #include "dh2/ObjectiveList.hpp"
 
 #include "dh2/Objective.hpp"
+#include "dh2/global/GetObjectiveImplInstance.hpp"
+#include "dh2/global/condition_objective_factory.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
 // 0x47a3c0 ObjectiveList::ObjectiveList() (C2) and 0x47a3d4 ObjectiveList::ObjectiveList() (C1): the same body. The
@@ -27,15 +29,36 @@ ObjectiveList::ObjectiveList() {
 }
 
 // 0x47a3e8 ObjectiveList::CreateObjectiveWithPyData(Structs::v2QuestObjectiveStub*)
-// PARTIAL. The original reads the row's type (the v2QuestObjective m_w1 field at +0x04 of the row), calls
-// s_ObjectiveImplDataMap[type]() to make the objective, and stores the row at objective +0x0c and the type at
-// objective +0x04. The table is a file-static array of 13 factory pointers (52 bytes at 0x969908 in libDungeonHunter2.so).
-// Ten entries are GetObjectiveImplInstance specializations declared in dh2/global/GetObjectiveImplInstance.hpp; three
-// (0x47bf20, 0x47bec4, 0x47be74) have no declaration yet. The type-to-index mapping is not recovered and no header
-// declares the table, so this returns nullptr without building an objective.
+// The row's type (v2QuestObjective m_w1, row +0x04) indexes s_ObjectiveImplDataMap, a file-static table of 13 factory pointers (52
+// bytes at 0x969908): the factory builds the objective, then the row is stored at objective +0x0c and the type at +0x04. The
+// table index is the v2QuestObjectiveType value of the class (0 KillXEnemies, 1 ClearEnemies, 2 TriggerPlate, 3 DestroyGameObject,
+// 4 MoveInZone, 5 TalkToNPC, 6 Automatic, 7 OpenGameObject, 8 TriggerOn, 9 PickedUpLiftable, 10 KillEnemyTemplate,
+// 11 ClearEnemyTemplate, 12 GatherLoot).
+namespace {
+using ObjectiveFactory = Objective* (*)();
+const ObjectiveFactory s_ObjectiveImplDataMap[13] = {
+    &GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>>,           // 0x47d02c
+    &GetObjectiveImplInstance<ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemies, QE_ClearEnemies, TestCharPropId, Objective_SavedQty>>,       // 0x47cfd0
+    &GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_TriggerPlate>>,                                           // 0x47cf78
+    &GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestDestroyGameObject, QE_DestroyGameObject>>,                                 // 0x47cf20
+    &GetObjectiveImplInstance<Objective_MoveInZone>,                                                                                                    // 0x47bf20
+    &GetObjectiveImplInstance<Objective_TalkToNPC>,                                                                                                     // 0x47cec4
+    &GetObjectiveImplInstance<Objective_Automatic>,                                                                                                     // 0x47bf70
+    &GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestOpenGameObject, QE_OpenGameObject>>,                                      // 0x47d194
+    &GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerOn, QE_TriggerOn>>,                                                // 0x47d13c
+    &GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, QE_PickedUpLiftable>>,                                  // 0x47d0e4
+    &GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>>,  // 0x47d088
+    &GetObjectiveImplInstance<ObjectiveTemplate_KillCharacter<Structs::v2QuestClearEnemyTemplate, QE_ClearEnemyTemplate, TestCharTemplate, Objective_SavedQty>>,  // 0x47bec4
+    &GetObjectiveImplInstance<Objective_GatherLoot>,                                                                                                    // 0x47be74
+};
+}  // namespace
+
 Objective* ObjectiveList::CreateObjectiveWithPyData(Structs::v2QuestObjectiveStub* stub) {
-    (void)stub;
-    return nullptr;
+    const int type = stub->m_w1;  // row +0x04
+    Objective* objective = s_ObjectiveImplDataMap[type]();
+    objective->m_pyData = stub;   // +0x0c
+    objective->m_type = type;     // +0x04
+    return objective;
 }
 
 // 0x47a414 ObjectiveList::SetOwner(Character*): stores the owner at +0x10 of every objective (Objective::m_owner).

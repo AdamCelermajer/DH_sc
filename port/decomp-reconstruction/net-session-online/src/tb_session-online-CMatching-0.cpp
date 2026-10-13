@@ -139,7 +139,7 @@ std::int32_t CMatching::CreateJoinRoom(bool flag, CRoomAttributes attributes) {
         member.roomAttribute.clear();  // element +0x180
         member.previousMemberId = -1;  // element +0x1a8
     }
-    attributes.SetAttributeInt(0, -1342128411);
+    attributes.SetAttributeInt(ROOM_INT_ATTRIBUTE_0, -1342128411);
     return CreateJoinRoomInternal(flag, attributes);  // vtable +0x04
 }
 

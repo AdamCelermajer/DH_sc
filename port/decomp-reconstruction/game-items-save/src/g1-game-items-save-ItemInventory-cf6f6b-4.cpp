@@ -15,37 +15,33 @@
 //    ReadLootTraceSwitch). GetSwitch is not pure: a missing name is stored as false, so the reads change the switch
 //    table. AddLoot still drops its own trace reads (see its note).
 //  * The owner header ItemInventory.hpp is not edited here.
-//  * Arrays::ItemTable::m_memberNames (pydata member_names.hpp) and the element tables (w7_arrays_00.hpp) declare the
-//    same Arrays structs and cannot be included in one translation unit, so only the element table is used here.
+//  * Arrays::X is declared once (pydata-accessors/arrays.hpp), so the element table (members, size) and the name table
+//    (m_memberNames) are used together.
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <list>
 #include <vector>
 
 #include "core-platform/memory.hpp"           // gAssertLevel
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C, the PlayerManager instance
 #include "pydata-accessors/structs_records.hpp"  // Structs::LootEntry
 #include "pydata-accessors/w7_arrays_00.hpp"     // Arrays::LootTable
 #include "pydata-accessors/w7_structs_2.hpp"     // Structs::Loot, Structs::Item
 
-// Not included here (see the notes at the top of the file): dh2/Level.hpp (Level::m_difficulty, +0x118) and
-// dh2/PlayerManager.hpp (PlayerManager::m_numCharacters, +0x6c4, the global dword_99F76C). Both pull in
-// net-transport/stream_buffer.hpp, which declares IStreamBase a second time next to the pydata records.
 
 namespace {
 
 const char kLootSource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Items\\ItemInventory_Loots.cpp";
 const char kInventorySource[] = "..\\..\\project_vs2005\\Game/..\\..\\sources/Game/Items/ItemInventory.h";
-
-// PARTIAL stand-ins for the two reads that need the types above.
-// Level::m_difficulty (the level the original passes to _AddLootItemPowers) is not read: 0 is passed.
-constexpr int kDifficultyNotRead = 0;
-// PlayerManager::m_numCharacters (the copies of a class 2 or 3 row) is not read: one copy is made.
-constexpr int kCopiesNotRead = 1;
 
 // The original's ASSERT(expr) at file:line. gAssertLevel 2 stops the program, 1 prints the line and goes on.
 void ReportLootAssert(const char* expr, const char* file, int line) {
@@ -149,15 +145,13 @@ void ItemInventory::_AddLootTable(int lootTableId, std::vector<const Structs::Lo
 // The table entries are collected by _AddLootTable, expanded into per-row LootInfo records by _AddLootItems, and each
 // record becomes one item. The item gets its powers from _AddLootItemPowers, its value from CalcLootItemValue, and it
 // is added with _AddItemInstance (stack true, convert gold false).
-// PARTIAL, three things are not reproduced (see kDifficultyNotRead, kCopiesNotRead and the variant note below):
-//   1. Difficulty variant. The original swaps the row for its "<name>_Hard" row at level 1 or "<name>_VeryHard" row at
-//      level 2 when the name matches, unless `flag` is set. That needs the Arrays::ItemTable names, which the element
-//      table header cannot provide (see the file notes), so the row id always stays m_itemId.
-//   2. Difficulty. Level::m_difficulty is not read; 0 is passed to _AddLootItemPowers.
-//   3. Copies. Rows of class 2 or 3 get one copy instead of one per character (PlayerManager::m_numCharacters).
-// `flag` is not read in this body: it only controls the variant substitution in item 1.
+// The difficulty variant: at level 1 (or 2) of the current level the row is swapped for its "<name>_Hard" ("<name>_VeryHard")
+// sibling when the name table has one next to it (id + 1 or id + 2), unless `flag` is set. A row of class 2 or 3 is added once
+// per owned character (PlayerManager::m_numCharacters) and skipped when that count is 0 or less. The difficulty (Level +0x118)
+// also goes to _AddLootItemPowers.
+// The original reads the isTracingItemInventory_Loot switch twice at each stage (the table walk, the expanded list, the exits).
 void ItemInventory::AddLoot(int lootTableId, int a, int b, int c, bool flag) {
-    if (lootTableId < 0 || static_cast<std::uint32_t>(lootTableId) >= Arrays::LootTable::size) {
+    if (lootTableId < 0 || lootTableId >= static_cast<int>(Arrays::LootTable::size)) {
         return;
     }
     DebugSwitches* switches = DebugSwitches::GetInstance();
@@ -166,33 +160,72 @@ void ItemInventory::AddLoot(int lootTableId, int a, int b, int c, bool flag) {
         return;
     }
 
+    ReadLootTraceSwitch();
+    ReadLootTraceSwitch();
     std::vector<const Structs::LootEntry*> entries;
     _AddLootTable(lootTableId, entries, nullptr);
     if (entries.empty()) {
+        ReadLootTraceSwitch();
+        ReadLootTraceSwitch();
         return;
     }
 
+    ReadLootTraceSwitch();
+    ReadLootTraceSwitch();
     std::vector<LootInfo> infos;
     _AddLootItems(entries, infos, m_dropAllLoot);
     if (infos.empty()) {
+        ReadLootTraceSwitch();
+        ReadLootTraceSwitch();
         return;
     }
 
+    ReadLootTraceSwitch();
+    ReadLootTraceSwitch();
     for (LootInfo& info : infos) {
-        // PARTIAL: the original makes one copy per character for a row whose class (Structs::Item +0x10, pydata m_w4)
-        // is 2 or 3, and skips the row when that count is 0 or less. The count is not read (kCopiesNotRead), so
-        // every row gets one copy.
-        const int copies = kCopiesNotRead;
+        int copies = 1;
+        if (static_cast<std::uint32_t>(info.m_row->m_w4 - 2) <= 1u) {
+            copies = dword_99F76C->m_numCharacters;
+            if (copies <= 0) {
+                continue;
+            }
+        }
         for (int n = 0; n < copies; ++n) {
-            // PARTIAL: the variant substitution goes here (see the comment above); the id stays info.m_itemId.
-            ItemInstance* item = new ItemInstance(info.m_itemId, 1u);
+            const int itemId = info.m_itemId;
+            Level* currentLevel = ApplicationGetInstance().GetCurrentLevel();
+            const int difficulty = currentLevel != nullptr ? currentLevel->m_difficulty : 0;
+            int variantId = itemId + 2;
+            bool substituted = false;
+            if (!flag && static_cast<std::uint32_t>(variantId) < Arrays::ItemTable::size) {
+                char variantName[64];
+                if (difficulty == 1) {
+                    std::strcpy(variantName, Arrays::ItemTable::m_memberNames.names[itemId]);
+                    std::strcpy(&variantName[std::strlen(variantName)], "_Hard");
+                    if (std::strcmp(variantName, Arrays::ItemTable::m_memberNames.names[itemId + 1]) == 0) {
+                        variantId = itemId + 1;
+                        substituted = true;
+                    }
+                } else if (difficulty == 2) {
+                    std::strcpy(variantName, Arrays::ItemTable::m_memberNames.names[itemId]);
+                    std::strcpy(&variantName[std::strlen(variantName)], "_VeryHard");
+                    if (std::strcmp(variantName, Arrays::ItemTable::m_memberNames.names[variantId]) == 0) {
+                        substituted = true;
+                    }
+                }
+            }
+            const int rowId = substituted ? variantId : itemId;
+            if (info.m_itemId != rowId) {
+                info.m_itemId = static_cast<std::int16_t>(rowId);
+                info.m_row = reinterpret_cast<const Structs::Item*>(Arrays::ItemTable::members) + rowId;
+            }
+            ItemInstance* item = new ItemInstance(rowId, 1u);
             int qty = static_cast<std::int8_t>(info.m_flag);
             if (qty == -2) {
                 info.m_flag = 99;  // the original stores the substituted quantity back into the record
                 qty = 99;
             }
             item->SetQty(qty);
-            _AddLootItemPowers(info.m_entry, item, b, c, kDifficultyNotRead);
+            _AddLootItemPowers(info.m_entry, item, b, c, difficulty);
             CalcLootItemValue(item, a);
             _AddItemInstance(item, true, false);
         }

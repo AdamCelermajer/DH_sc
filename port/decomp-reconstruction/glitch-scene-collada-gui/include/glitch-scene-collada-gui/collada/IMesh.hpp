@@ -32,7 +32,13 @@
 
 namespace glitch::collada {
 
-struct SBufferConfig;  // passed to the CMesh constructor from a database; layout not recovered
+// The buffer configuration the factory hands to the geometry builder (CColladaFactory::getVertexBufferConfig / getIndexBufferConfig, both
+// return {4, 0, 0}; CMesh and scene::CMeshBuffer read it). 8 bytes in the original: a word and two bytes.
+struct SBufferConfig {
+    std::uint32_t usage = 4;  // +0x00 compared with the buffer's usage byte (IBuffer +0x11) by the CMeshBuffer constructor (0x6bcf80)
+    std::uint8_t flagA = 0;   // +0x04 when clear the constructor keeps the buffers it already made
+    std::uint8_t flagB = 0;   // +0x05 read together with flagA (role not mapped)
+};
 
 // Step argument of onPrepareBufferForRendering. The enumerators are not recovered (the call sites in the skinned mesh
 // pass small integers), so the enum is the 32-bit word.
@@ -65,7 +71,7 @@ public:
 
     const char* uid = "";          // +0x08
     CColladaDatabase database;     // +0x0c .. +0x13
-    std::uint32_t unk_14 = 0;      // +0x14 cleared by the CMesh and CMorphingMesh constructors; role not recovered
+    std::uint32_t bufferFlags = 0; // +0x14 cleared by every constructor; for the skinned meshes bit i marks buffer i as skinned into its own output buffer (collada/CSkinnedMesh.hpp)
 };
 
 class CMesh : public IMesh {

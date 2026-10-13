@@ -1117,15 +1117,7 @@ public:
     void read(IStreamBase* stream) override;
 };
 
-class Pos3D {
-public:
-    virtual ~Pos3D();
-    virtual void finalize();
-    virtual void read(IStreamBase* stream);
-    std::int32_t m_w1 = 0;  // +0x4
-    std::int32_t m_w2 = 0;  // +0x8
-    std::int32_t m_w3 = 0;  // +0xc
-};
+// Pos3D is defined in pydata-accessors/script_cmd.hpp (Structs::PlayEffect embeds one).
 
 class Projectile {
 public:

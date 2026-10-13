@@ -1,7 +1,9 @@
 // Batch g1-game-items-save-ObjectiveTemplate_InteractWith-131786-0 (owner ObjectiveTemplate_InteractWith, part 1 of 2).
 // Covers the six GetPositions instances (empty), the six complete-object destructors (D1), the six deleting destructors
 // (D0, compiler generated: see the ledger), and the DBG_TraceDetailedObjectiveInformation instances for
-// v2QuestDestroyGameObject and v2QuestTriggerOn. Part 2 holds the other four DBG instances, Compile and handleEvent.
+// v2QuestDestroyGameObject and v2QuestTriggerOn, and the other four DBG instances (v2QuestPickedUpLiftable, v2QuestOpenGameObject,
+// v2QuestTalkToNPC and v2QuestTriggerPlate; link-1: part 2 held a second, partial body of the same template, removed so that the
+// symbol has one definition). Part 2 holds Compile and handleEvent.
 // Declarations and layout come from dh2/ObjectiveTemplate_InteractWith.hpp.
 //
 // The class is a template. Each body is a template definition in this file, followed by an explicit instantiation for
@@ -55,9 +57,9 @@ class QE_TalkToNPC;
 namespace {
 
 // The DBG listing's pydata name lookup (Arrays::X::m_memberNames, a pydata::NameTable). An index below 0, or at or above
-// the table size, prints "na". Otherwise the name at that index is printed.
-const char* TableName(const pydata::NameTable& table, int index) {
-    return (index < 0 || index >= table.size) ? "na" : table.names[index];
+// the table's element count (Arrays::X::size), prints "na". Otherwise the name at that index is printed.
+const char* TableName(const pydata::NameTable& table, std::uint32_t count, int index) {
+    return (index < 0 || static_cast<std::uint32_t>(index) >= count) ? "na" : table.names[index];
 }
 
 }  // namespace
@@ -147,7 +149,7 @@ int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveI
         // Arrays::CharacterTable::m_memberNames[objectId] (or "na") is printed first in both branches. The matched
         // character's name is read at Character +0x44, which is ObjectBase::m_name.c_str() (the string's data pointer
         // at +0x14 inside m_name at +0x30, from std::string::_M_assign at 0x3109e0).
-        const char* tableObjectName = TableName(Arrays::CharacterTable::m_memberNames, objectId);
+        const char* tableObjectName = TableName(Arrays::CharacterTable::m_memberNames, Arrays::CharacterTable::size, objectId);
         if (matched == nullptr) {
             std::fprintf(out, "\t    Object      : %s(%d) => ??\n", tableObjectName, objectId);
         } else {
@@ -158,7 +160,7 @@ int ObjectiveTemplate_InteractWith<TStruct, TEvent>::DBG_TraceDetailedObjectiveI
     }
 
     // Arrays::LevelList::m_memberNames[row->m_w9] (or "na").
-    std::fprintf(out, "\t    Level (OID) : %s\n\n", TableName(Arrays::LevelList::m_memberNames, row->m_w9));  // row +0x24
+    std::fprintf(out, "\t    Level (OID) : %s\n\n", TableName(Arrays::LevelList::m_memberNames, Arrays::LevelList::size, row->m_w9));  // row +0x24
     return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);
 }
 
@@ -169,3 +171,19 @@ template int ObjectiveTemplate_InteractWith<Structs::v2QuestDestroyGameObject, Q
 // 0x47dd5c _ZNK30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
 template int ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerOn, QE_TriggerOn>::DBG_TraceDetailedObjectiveInformation(
     __sFILE* stream) const;
+
+// 0x47df64 _ZNK30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
+template int ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, QE_PickedUpLiftable>::
+    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;
+
+// 0x47e16c _ZNK30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
+template int ObjectiveTemplate_InteractWith<Structs::v2QuestOpenGameObject, QE_OpenGameObject>::
+    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;
+
+// 0x47e374 _ZNK30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTalkToNPCE12QE_TalkToNPCE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
+template int ObjectiveTemplate_InteractWith<Structs::v2QuestTalkToNPC, QE_TalkToNPC>::DBG_TraceDetailedObjectiveInformation(
+    __sFILE* stream) const;
+
+// 0x47e57c _ZNK30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateE37DBG_TraceDetailedObjectiveInformationEP7__sFILE
+template int ObjectiveTemplate_InteractWith<Structs::v2QuestTriggerPlate, QE_TriggerPlate>::
+    DBG_TraceDetailedObjectiveInformation(__sFILE* stream) const;

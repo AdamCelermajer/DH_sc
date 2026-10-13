@@ -14,11 +14,14 @@
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/Script_PutCharacterInIdle.hpp"
 #include "dh2/Script_PutCharacterInLimbus.hpp"
@@ -69,8 +72,13 @@ void Script_CharacterState_Callback(const char* name, int arg, void (*callback)(
     g_callbackFn = callback;
 }
 
-// The application and the object, level and character paths. They are not reached by the tested paths, so each aborts.
-Application& ApplicationGetInstance() { std::abort(); }
+// The application is the library's singleton (ApplicationGetInstance, Application::GetCurrentLevel: GSLevel::s_level, null
+// outside a level). The local player: a manager whose GetLocalPlayer hands out a zero-filled PlayerInfo, so no character is set.
+alignas(PlayerManager) static unsigned char g_playersStorage[sizeof(PlayerManager)];
+alignas(PlayerInfo) static unsigned char g_playerInfoStorage[sizeof(PlayerInfo)];
+PlayerInfo* PlayerManager::GetLocalPlayer(int, bool) { return reinterpret_cast<PlayerInfo*>(g_playerInfoStorage); }
+
+// The object, level and character paths. They are not reached by the tested paths, so each aborts.
 
 DebugSwitches* DebugSwitches::GetInstance() {
     return reinterpret_cast<DebugSwitches*>(g_switchesStorage);
@@ -176,7 +184,9 @@ static void TestTraceOnlyCommands() {
     CHECK(g_switchCalls == 1);
     CHECK(g_lastSwitchName == "isTracingScriptCmd");
 
+    // Script_SaveGame::Execute reads the current level (none) and the local player's character (none) and saves them.
     g_switchCalls = 0;
+    ApplicationGetInstance().m_playerManager = reinterpret_cast<PlayerManager*>(g_playersStorage);
     Script_SaveGame* save = new Script_SaveGame();
     save->Execute(false, 1);
     CHECK(g_switchCalls == 1);

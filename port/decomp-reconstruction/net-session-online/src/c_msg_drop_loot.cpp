@@ -64,6 +64,25 @@ std::uint32_t CMsgDropLoot::WriteData(NetBitStream& stream) {
     return size;
 }
 
+// NativeInvDropItem (0x43cfb4) fills the header and the block in place. The header words are written at their offsets from +0x50;
+// the length word is written only with a block, as the original does. The original keeps the power ids in a CustomAlloc block it
+// never frees; here the message owns a copy.
+void CMsgDropLoot::SetLoot(std::uint8_t kind, std::int32_t itemId, std::int32_t objectNetworkId, const std::int32_t* powerIds,
+                           std::int32_t powerCount) {
+    const std::int32_t zero = 0;
+    fixed_[0] = kind;                                           // +0x50
+    std::memcpy(fixed_ + 0x04, &itemId, sizeof itemId);         // +0x54
+    std::memcpy(fixed_ + 0x0c, &zero, sizeof zero);             // +0x5c
+    std::memcpy(fixed_ + 0x08, &objectNetworkId, sizeof objectNetworkId);  // +0x58
+    std::memcpy(fixed_ + 0x10, &zero, sizeof zero);             // +0x60
+    if (powerIds != nullptr && powerCount > 0) {
+        const std::int32_t bytes = powerCount * static_cast<std::int32_t>(sizeof(std::int32_t));
+        std::memcpy(fixed_ + kLengthOffset, &bytes, sizeof bytes);  // +0x64
+        block_.reset(new std::uint8_t[static_cast<std::size_t>(bytes)]);
+        std::memcpy(block_.get(), powerIds, static_cast<std::size_t>(bytes));
+    }
+}
+
 // 0x327908 _ZN12CMsgDropLoot13SetPropertiesEv
 void CMsgDropLoot::SetProperties() {
     typeName_ = "CMsgDropLoot";

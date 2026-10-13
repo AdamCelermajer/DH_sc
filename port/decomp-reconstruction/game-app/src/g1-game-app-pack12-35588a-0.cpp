@@ -25,6 +25,9 @@
 // (dh2/global/ctrl_camera.hpp) for Singleton<Application>::s_inst, and the ScriptCmdImpl slots.
 
 #include "dh2/Script_StopSound.hpp"
+#include "dh2/CameraLevel.hpp"
+#include "dh2/Level.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/Script_UnEquipHands.hpp"
 #include "dh2/Script_UnEquipItemFromSlot.hpp"
 #include "dh2/Script_UnlockCharacter.hpp"
@@ -94,17 +97,18 @@ bool Script_StopSound::IsBlocking() const {
 }
 
 // 0x45fe2c Script_StopSound::Execute(bool, int)
-// PARTIAL. The trace and the record are read: the cue id (m_w2, +0x08), the music flag (m_w3, +0x0c) and the second
-// argument (m_w4, +0x10). The original calls VoxSoundManager::StopMusic(s_instance, cue) when the flag is set, and
-// VoxSoundManager::Stop(s_instance, +0x10, cue) otherwise. VoxSoundManager::s_instance, Stop and StopMusic are not
-// declared in vox-audio/include/vox-audio/vox/sound_manager.hpp, so both calls are missing here.
+// After the trace read: with the record's music flag (m_w3, +0x0c) set the music stops with the record's fade (m_w2, +0x08)
+// (VoxSoundManager::StopMusic); otherwise the sound m_w4 (+0x10) stops with that fade (VoxSoundManager::Stop(sound, fade)).
 void Script_StopSound::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
     const Structs::StopSound* record = static_cast<const Structs::StopSound*>(m_args);
     TraceScriptCmd();
-    // Missing: record->m_w3 ? StopMusic(s_instance, record->m_w2) : Stop(s_instance, record->m_w4, record->m_w2).
-    (void)record;
+    if (record->m_w3) {
+        VoxSoundManager::s_instance->StopMusic(record->m_w2);
+    } else {
+        VoxSoundManager::s_instance->Stop(record->m_w4, record->m_w2);
+    }
 }
 
 // 0x455800 Script_UnEquipHands::IsBlocking() const
@@ -201,13 +205,13 @@ void Script_Wait::Execute(bool skipping, int module) {
 }
 
 // 0x45932c Script_WaitCamera::IsBlocking() const
-// PARTIAL. The original returns the byte at +0x84 of the current level's camera (Level +0x128, a CameraLevel*) when both
-// exist, and false otherwise. dh2/Level.hpp cannot share a translation unit with dh2/Character.hpp (both pull in a class
-// IStreamBase, from pydata-accessors/deps/stream_reader.hpp and net-transport/deps/i_stream_base.hpp), and CameraLevel
-// has no header in the tree. The current level is requested as in the listing; the function returns false as a
-// placeholder.
+// True while the current level's camera (Level +0x128, a CameraLevel) is running a zoom animation (CameraLevel +0x84, m_zoomAnimActive);
+// false without a level or a camera.
 bool Script_WaitCamera::IsBlocking() const {
-    (void)ApplicationGetInstance().GetCurrentLevel();
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr && level->m_camera != nullptr) {
+        return level->m_camera->m_zoomAnimActive;
+    }
     return false;
 }
 
@@ -219,13 +223,9 @@ void Script_WaitCamera::Execute(bool skipping, int module) {
 }
 
 // 0x4598d8 Script_WaitDialog::IsBlocking() const
-// PARTIAL. The original returns Level::hasActiveDialog() of the current level. That call needs dh2/Level.hpp, which
-// cannot share a translation unit with dh2/Character.hpp (both define a class IStreamBase, see Script_WaitCamera::
-// IsBlocking). The level is requested as in the listing, and the function returns false as a placeholder. Once Level.hpp
-// can be included, the call is level->hasActiveDialog() with no null check, as in the original.
+// Level::hasActiveDialog() of the current level, with no null check, as in the original.
 bool Script_WaitDialog::IsBlocking() const {
-    (void)ApplicationGetInstance().GetCurrentLevel();
-    return false;
+    return ApplicationGetInstance().GetCurrentLevel()->hasActiveDialog();
 }
 
 // 0x45c4d8 Script_WaitDialog::Execute(bool, int)

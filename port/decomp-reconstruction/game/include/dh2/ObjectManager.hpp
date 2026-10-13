@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectListItem.hpp"
 
 class ObjectBase;
 class GameObject;
@@ -21,7 +22,6 @@ class Character;
 class LightBase;
 class Module;
 class RoomZone;
-class ObjectListItem;
 class NetBitStream;
 class TiXmlElement;
 template <typename T> struct Point3D;

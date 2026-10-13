@@ -64,11 +64,14 @@ struct SRenderPass {
 using SRendererParameterBlock = SRenderPass;
 
 // One technique entry of a renderer: 12 bytes in the original.
-struct STechniqueEntry {
+// The binary's name is glitch::video::STechnique (CColladaSkinTechnique::checkAvailability takes a `STechnique const&`);
+// STechniqueEntry stays as an alias for the code that grew up with the old name.
+struct STechnique {
     void* name = nullptr;                    // +0x00, the technique name (SSharedStringHeapEntry::SData*, count at +0x00)
     uint8_t passCount = 0;                   // +0x04, number of render passes of the technique
     const SRenderPass* passes = nullptr;     // +0x08, first render pass of the technique
 };
+using STechniqueEntry = STechnique;
 
 class CMaterialRenderer {
 public:

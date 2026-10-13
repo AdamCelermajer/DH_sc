@@ -142,7 +142,7 @@ bool CameraLevel::CanPlayShakeAnim(Character* requester) const {
 // or an incidental register value on the other paths); this port keeps the void declaration of dh2/CameraLevel.hpp.
 // PARTIAL: the delta comes from CameraBase::GetWorldCoord (the Point2D<float> overload, 0x40f394, see ApplyScreenDelta),
 // which is still a stub (it returns false), so the position does not move until that function is complete. The flags
-// are the four bytes of Level +0x190 (Level.hpp pad_190), which are named by no one yet.
+// are the four bytes of Level +0x190 (Level.hpp m_playerHudOpen): the flag of each local player whose HUD menu is open.
 void CameraLevel::HandleCentering(Point3D<float>& position) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     const int localPlayers = dword_99F76C->GetNumLocalPlayers(true);
@@ -154,7 +154,7 @@ void CameraLevel::HandleCentering(Point3D<float>& position) {
         }
         return;
     }
-    const auto& flags = level->pad_190;  // Level +0x190 .. +0x193: CurrentLevel[400] .. [403] in the original
+    const auto& flags = level->m_playerHudOpen;  // Level +0x190 .. +0x193: CurrentLevel[400] .. [403] in the original
     if (localPlayers == 2) {
         // Two players: half a screen to the left or right, from the flags at [400] and [401].
         float screenX = 0.0f;  // v16

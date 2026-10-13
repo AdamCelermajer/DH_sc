@@ -24,9 +24,12 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/QE_MoveInZone.hpp"
 #include "dh2/ItemInventory.hpp"
 #include "dh2/Reward_CharacterProps.hpp"
 #include "dh2/Reward_ConsumeLoot.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/global/reward_trace.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
@@ -52,12 +55,9 @@ QuestMoveInZone::QuestMoveInZone(ObjectBase::GO_IDS id) : Zone(id, true, false) 
 QuestMoveInZone::~QuestMoveInZone() {}
 
 // 0x396120 QuestMoveInZone::OnCollisionBegins(GameObject*)
-// PARTIAL: the MoveInZone event is not raised. The checks and the level test are reproduced. The original then builds a
-// QE_MoveInZone on the stack (event id = PyDataConstants "v2QuestObjectiveType"/"MoveInZone" at IEvent +0x04, character at
-// +0x08, the zone's unk_64 (+0x64) at +0x0c, flags 0 at +0x10 and +0x11, value -1 at +0x14, zone at +0x18) and calls
-// EventManager::RaiseAsync on the level. Not made: IEvent::eventId_ is protected in net-session-online/i_event.hpp (the
-// header QuestEvent.hpp includes), and QE_MoveInZone has no constructor, so the event id cannot be stored (layout request in
-// the ledger row for this address).
+// A null GameObject asserts (QuestMoveInZone.cpp:38; the original faults on the vtable read, so the port aborts). A character
+// that enters while a level exists raises a QE_MoveInZone on the level (EventManager::RaiseAsync): the PyData
+// "v2QuestObjectiveType"/"MoveInZone" id, the character, the zone's unk_64 (+0x64) as the target id, value -1, and the zone.
 void QuestMoveInZone::OnCollisionBegins(GameObject* other) {
     if (other == nullptr) {
         // ASSERT(go) at QuestMoveInZone.cpp:38. Level 2 faults at once; level 1 prints the line and then faults on the
@@ -70,10 +70,13 @@ void QuestMoveInZone::OnCollisionBegins(GameObject* other) {
     if (!other->IsCharacter()) {  // vtable slot +0x24
         return;
     }
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr) {
         return;
     }
-    // PARTIAL: the RaiseAsync of the QE_MoveInZone is missing (see the note above).
+    const std::int32_t moveInZoneId = ApplicationGetPyDataConstants()->getConstant("v2QuestObjectiveType", "MoveInZone");
+    QE_MoveInZone event(moveInZoneId, other, unk_64, -1, this);
+    level->RaiseAsync(event);
 }
 
 // 0x482a70 Reward_CharacterProps::~Reward_CharacterProps() (D1). 0x483884 is the deleting destructor (D0): compiler generated.

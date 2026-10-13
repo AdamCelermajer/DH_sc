@@ -17,29 +17,6 @@ void CLogger::setReceiver(IEventReceiver* value) {
     receiver = value;
 }
 
-// 0x6a0c80 _ZNK6glitch11COSOperator25getOperationSystemVersionEv
-const wchar_t* COSOperator::getOperationSystemVersion() const {
-    return osVersion;
-}
-
-// 0x6a0c88 _ZNK6glitch11COSOperator15copyToClipboardEPKc
-void COSOperator::copyToClipboard(const char*) const {}
-
-// 0x6a0c8c _ZNK6glitch11COSOperator20getTextFromClipboardEv
-const char* COSOperator::getTextFromClipboard() const {
-    return nullptr;
-}
-
-// 0x6a0c94 _ZNK6glitch11COSOperator20getProcessorSpeedMHzEPj
-bool COSOperator::getProcessorSpeedMHz(std::uint32_t*) const {
-    return false;
-}
-
-// 0x6a0c9c _ZNK6glitch11COSOperator15getSystemMemoryEPjS1_
-bool COSOperator::getSystemMemory(std::uint32_t*, std::uint32_t*) const {
-    return false;
-}
-
 // 0x6a00a0 _ZNK6glitch16CAndroidOSDevice14CCursorControl9isVisibleEv
 bool CAndroidOSDevice::CCursorControl::isVisible() const {
     return visible;

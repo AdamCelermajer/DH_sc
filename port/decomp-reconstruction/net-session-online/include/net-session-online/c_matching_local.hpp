@@ -122,13 +122,13 @@ public:
     // 0x80795c _ZN14CMatchingLocal9LeaveRoomEv
     std::int32_t LeaveRoom();
     // 0x8079d4 _ZN14CMatchingLocal22CreateJoinRoomInternalEbR15CRoomAttributes
-    std::int32_t CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes);
+    std::int32_t CreateJoinRoomInternal(bool open, CRoomAttributes& attributes) override;  // non-const reference, as the symbol (link-1)
     // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh
-    std::int32_t SearchRoomInternal(const CRoomSearchFilter& filter, bool flag, std::uint8_t mode);
+    std::int32_t SearchRoomInternal(CRoomSearchFilter& filter, bool flag, std::uint8_t mode);  // non-const reference, as the symbol (link-1)
     // 0x808774 _ZN14CMatchingLocal16JoinRoomInternalEy
     std::int32_t JoinRoomInternal(std::uint64_t key);
     // 0x808694 _ZN14CMatchingLocal23GetSearchRoomAttributesEy
-    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key) const;
+    CRoomAttributes GetSearchRoomAttributes(std::uint64_t key);  // not const: the symbol is _ZN14CMatchingLocal23GetSearchRoomAttributesEy (link-1)
 
     // Members (c_matching_local_members.cpp)
     // 0x805c04 _ZNK14CMatchingLocal14GetMemberCountEv
@@ -142,8 +142,8 @@ public:
 
     // Servers (c_matching_local_servers.cpp)
     // 0x8094fc _ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes (partial)
-    std::int32_t AddServer(std::int32_t memberId, const CNetworkId& address, std::int32_t rank,
-                           const CRoomAttributes& attributes);
+    std::int32_t AddServer(std::int32_t memberId, CNetworkId& address, std::int32_t rank,
+                           CRoomAttributes& attributes);  // non-const references, as the symbol (link-1)
     // 0x8072d8 _ZN14CMatchingLocal12RemoveServerER10CNetworkId
     void RemoveServer(const CNetworkId& address);
     // 0x8073c4 _ZN14CMatchingLocal12PurgeServersEv
@@ -156,7 +156,7 @@ public:
     // Messages (c_matching_local_messages.cpp)
     // 0x805d58 _ZN14CMatchingLocal23SendChangeServerMessageEv
     std::int32_t SendChangeServerMessage();
-    // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: room attributes are blocked, listen id is a stand-in)
+    // 0x805de0 _ZN14CMatchingLocal18SendServerResponseEb (partial: the room attributes come from the game-world CRoomAttributes::Serialize)
     std::int32_t SendServerResponse(bool flag);
     // 0x805f2c _ZN14CMatchingLocal17SendClientRequestEv
     std::int32_t SendClientRequest();

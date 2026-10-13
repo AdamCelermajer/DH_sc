@@ -28,51 +28,68 @@
 #include "dh2/Quest.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "core-platform/tb/app_lifecycle.hpp"
+#include "dh2/GSFlashMenu.hpp"
+#include "dh2/GSLevel.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/StateMachine.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 
 // 0x43acdc NativePauseAllSounds(gameswf::fn_call const&)
-// PARTIAL: the original calls VoxSoundManager::PauseAllSounds on VoxSoundManager::s_instance when it is non-null.
-// VoxSoundManager::s_instance and PauseAllSounds are not declared in the tree (vox-audio's sound_manager.hpp
-// declares only SetIPodShuffle, UpdateIPodAsync and ConvertVisual3DToSound3D). The call is left out.
-void NativePauseAllSounds(const gameswf::fn_call& call) {
-    (void)call;
+// VoxSoundManager::PauseAllSounds on VoxSoundManager::s_instance when it exists.
+void NativePauseAllSounds(const gameswf::fn_call& /*call*/) {
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->PauseAllSounds();
+    }
 }
 
-// 0x43ad04 NativePauseMusic(gameswf::fn_call const&)
-// PARTIAL: the original calls VoxSoundManager::PauseMusic on VoxSoundManager::s_instance when it is non-null.
-// PauseMusic and s_instance are not declared in the tree. The call is left out.
-void NativePauseMusic(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43ad04 NativePauseMusic(gameswf::fn_call const&): VoxSoundManager::PauseMusic when the manager exists.
+void NativePauseMusic(const gameswf::fn_call& /*call*/) {
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->PauseMusic();
+    }
 }
 
-// 0x43ad2c NativeStopMusic(gameswf::fn_call const&)
-// PARTIAL: the original calls VoxSoundManager::StopMusic(s_instance, 500) when s_instance is non-null. StopMusic(int)
-// and s_instance are not declared in the tree. The call is left out.
-void NativeStopMusic(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43ad2c NativeStopMusic(gameswf::fn_call const&): VoxSoundManager::StopMusic(500) when the manager exists.
+void NativeStopMusic(const gameswf::fn_call& /*call*/) {
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->StopMusic(500);
+    }
 }
 
-// 0x43ad58 NativePlayPreviousMusic(gameswf::fn_call const&)
-// PARTIAL: the original calls VoxSoundManager::RestartMusic(s_instance, 0) when s_instance is non-null.
-// RestartMusic(int) and s_instance are not declared in the tree. The call is left out.
-void NativePlayPreviousMusic(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43ad58 NativePlayPreviousMusic(gameswf::fn_call const&): VoxSoundManager::RestartMusic(0) when the manager exists.
+void NativePlayPreviousMusic(const gameswf::fn_call& /*call*/) {
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->RestartMusic(0);
+    }
 }
 
 // 0x43ad84 NativePlayMusic(gameswf::fn_call const&)
-// PARTIAL: when the call has one argument whose as_value type byte is 3 or 4 (the code range test is type - 3 <= 1; the
-// type codes are not recovered), the
-// original converts it with as_value::to_xstring, looks it up with Arrays::GetMemberIDByString<Arrays::Sounds>
-// and, when the id is not -1, calls VoxSoundManager::PlayMusic(s_instance, id, 1, 0, 2000). Missing: the gameswf
-// fn_call and as_value accessors, and VoxSoundManager::PlayMusic and s_instance. The body is left out.
+// One string argument: the name is looked up in Arrays::Sounds (Arrays::GetMemberIDByString<Arrays::Sounds>) and, when found,
+// the music plays looping with no stop-if-none and a fade of 2000 ms (VoxSoundManager::PlayMusic(id, true, false, 2000)). The
+// original does not test the manager pointer.
 void NativePlayMusic(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_string()) {
+        const int sound = Arrays::GetMemberIDByString<Arrays::Sounds>(call.arg(0).to_xstring());
+        if (sound != -1) {
+            VoxSoundManager::s_instance->PlayMusic(sound, true, false, 2000);
+        }
+    }
 }
 
 // 0x43ae10 NativePlaySoundFX(gameswf::fn_call const&)
-// PARTIAL: same argument handling as NativePlayMusic. The original calls VoxSoundManager::PlayMenu(s_instance, id, 0,
-// 0, 0) when the id is not -1. Missing: fn_call and as_value accessors, PlayMenu and s_instance.
+// One string argument naming an Arrays::Sounds entry: VoxSoundManager::PlayMenu(id, false, 0, 0) when it is found.
 void NativePlaySoundFX(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_string()) {
+        const int sound = Arrays::GetMemberIDByString<Arrays::Sounds>(call.arg(0).to_xstring());
+        if (sound != -1) {
+            VoxSoundManager::s_instance->PlayMenu(sound, false, 0, 0);
+        }
+    }
 }
 
 // 0x43ae9c NativeGoToMainMenu(gameswf::fn_call const&)
@@ -84,43 +101,63 @@ void NativeGoToMainMenu(const gameswf::fn_call& call) {
 }
 
 // 0x43aebc NativePushState(gameswf::fn_call const&)
-// PARTIAL: when the call has one argument whose type byte is 3 or 4, its to_xstring is compared with "menu_CharacterMenu" and
-// "menu_Ingame". The push runs when both comparisons differ, or when the state stack of Application +0x18
-// (StateMachine m_stack: begin +0x0c, end +0x10, 8-byte StateInfo) is non-empty and its top state is
-// &GSLevel::s_gsLevel. The push is then: GSFlashMenu::s_inst.m_pendingMenu (+0x0c) = MenuManager::GetMenuByName(name),
-// and StateMachine::PushState(&GSFlashMenu::s_inst, false). GSLevel::s_gsLevel (ELF 0x9a25f4) is declared in
-// dh2/GSLevel.hpp. Missing: the gameswf argument accessors, and a public accessor for StateMachine's m_stack, which is
-// private. The body is left out.
+// One string argument (the menu name). The menu is pushed on the application's state machine as the Flash menu state when the name is
+// neither "menu_CharacterMenu" nor "menu_Ingame", or when the state on top of the stack is the level state (GSLevel::s_gsLevel):
+// the pending menu of GSFlashMenu::s_inst becomes MenuManager::GetMenuByName(name) and StateMachine::PushState(&GSFlashMenu::s_inst,
+// false) is queued.
 void NativePushState(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_string()) {
+        const char* name = call.arg(0).to_xstring();
+        StateMachine* machine = ApplicationGetInstance().m_stateMachine;
+        const bool otherName = std::strcmp("menu_CharacterMenu", name) != 0 && std::strcmp("menu_Ingame", name) != 0;
+        const bool levelOnTop = !machine->m_stack.empty() && machine->m_stack.back().state == &GSLevel::s_gsLevel;
+        if (otherName || levelOnTop) {
+            GSFlashMenu::s_inst.m_pendingMenu = MenuManager::GetInstance()->GetMenuByName(name);
+            machine->PushState(&GSFlashMenu::s_inst, false);
+        }
+    }
 }
 
 // 0x43afb8 NativeHUDInteract(gameswf::fn_call const&)
-// PARTIAL: the original reads argument 0 with as_value::to_xstring (no argument-count check) and dispatches it with
-// DecideHudInteract: "quit" sets InExitConfirmation (ELF 0x9a5c18, a bool) to 1, "no" clears it to 0, and any other
-// command tail-calls appDestroy. Missing: the gameswf argument accessors; an extern declaration of InExitConfirmation
-// (no header declares it); and appDestroy (core-platform's ledger marks it skipped and no header declares it). The
-// decision is in DecideHudInteract (tested). The body is left out.
+// Argument 0 (read as a string without an argument-count check) is the command: "quit" asks for the exit confirmation, "no"
+// withdraws it, and any other command ends the application (appDestroy, a tail call in the original).
 void NativeHUDInteract(const gameswf::fn_call& call) {
-    (void)call;
+    switch (DecideHudInteract(call.arg(0).to_xstring())) {
+        case HudInteractDecision::kSetExitConfirmation:
+            InExitConfirmation = true;
+            break;
+        case HudInteractDecision::kClearExitConfirmation:
+            InExitConfirmation = false;
+            break;
+        case HudInteractDecision::kAppDestroy:
+            appDestroy();
+            break;
+    }
 }
 
 // 0x43b04c NativeIsMultiplayerLoadCompleted(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to MultiplayerLoadCompleteFromFlags(online, AllLoadingDone, AllReadyToRoll),
-// where online is COnline::isOnlineGame_ (+0x05, private, no getter). PlayerManager::AllLoadingDone and
-// AllReadyToRoll are declared. Missing: COnline::isOnlineGame_ getter, the gameswf set_bool on *call.result, and the
-// result path (as_value::set_bool is not in the tree). The body is left out.
+// The result is true offline; online it needs both PlayerManager::AllLoadingDone and AllReadyToRoll.
 void NativeIsMultiplayerLoadCompleted(const gameswf::fn_call& call) {
-    (void)call;
+    PlayerManager* players = ApplicationGetInstance().m_playerManager;
+    bool completed = true;
+    if (GetOnlineGameFlag()) {
+        completed = players->AllLoadingDone() && players->AllReadyToRoll();
+    }
+    call.result->set_bool(completed);
 }
 
 // 0x43b0b8 NativeMustWaitForHost(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to MustWaitForHostFromFlags(online, IsLocalPlayerHosting(), host word +0x1394
-// (GetHostingPlayer()[1253]), host word +0x1414 (GetHostingPlayer()[1285]), PlayerManager +0x71a). Missing: the
-// COnline::isOnlineGame_ getter; PlayerInfo (dh2/PlayerInfo.hpp is absent, so the words at +0x1394 and +0x1414 are not
-// declared); and set_bool. The body is left out.
+// True for an online client (not the local host) when the hosting player is not in the game yet (its "ingame" value, PlayerInfo
+// +0x4e5), or when the manager flag +0x71a is set and the hosting player is in the game and in a cut scene (+0x505).
 void NativeMustWaitForHost(const gameswf::fn_call& call) {
-    (void)call;
+    PlayerManager* players = ApplicationGetInstance().m_playerManager;
+    bool wait = false;
+    if (GetOnlineGameFlag() && !players->IsLocalPlayerHosting()) {
+        PlayerInfo* host = players->GetHostingPlayer();
+        wait = !host->m_ingame.GetValue() ||
+               (players->unk_71a && players->GetHostingPlayer()->m_ingame.GetValue() && players->GetHostingPlayer()->m_inCutscene.GetValue());
+    }
+    call.result->set_bool(wait);
 }
 
 // 0x43b158 NativePopMenu(gameswf::fn_call const&): with no argument, pops the multi-menu stack (the virtual PopMenu(bool)
@@ -131,29 +168,32 @@ void NativePopMenu(const gameswf::fn_call& call) {
         manager->m_multiMenuManager->PopMenu(false);
         return;
     }
-    manager->PopMenu(call.arg(0).to_string());
+    manager->PopMenu(call.arg(0).to_xstring());
 }
 
 // 0x43b1b4 NativePushMenu(gameswf::fn_call const&): MenuManager::GetInstance()->PushMenu(name) for argument 0 (no
 // argument-count check in the original).
 void NativePushMenu(const gameswf::fn_call& call) {
-    MenuManager::GetInstance()->PushMenu(call.arg(0).to_string());
+    MenuManager::GetInstance()->PushMenu(call.arg(0).to_xstring());
 }
 
 // 0x43b1e4 NativeReviveAllPlayers(gameswf::fn_call const&)
-// PARTIAL: the original reads GetCurrentLevel(). When it is non-null and Level::m_loadStep (+0x130) is 38, it branches
-// on the online flag COnline::isOnlineGame_ (+0x05). Online: PlayerManager::unk_718 (+0x718) is set to 1. Offline:
-// MenuManager (Application +0x54) PopMenu("menu_FadeToBlackScreen"), PushMenu("menu_FadeFromBlackScreen"), then
-// PlayerManager::ReviveLocalPlayers(false). The level gate is written here. The branch needs the online flag, which
-// has no getter, so the branch body is left out. GetCurrentLevel is still a stub in its own row (it returns nullptr,
-// although dh2/GSLevel.hpp now declares GSLevel::s_level), so the level gate inherits that stub.
-void NativeReviveAllPlayers(const gameswf::fn_call& call) {
-    (void)call;
+// With a loaded level (m_loadStep 38): online it sets the PlayerManager revive flag (PlayerManager +0x718); offline it pops the
+// fade-to-black menu, pushes the fade-from-black menu and revives the local players (ReviveLocalPlayers, passed the online flag byte
+// which is 0 here).
+void NativeReviveAllPlayers(const gameswf::fn_call& /*call*/) {
     Level* level = ApplicationGetInstance().GetCurrentLevel();
     if (!level || level->m_loadStep != 38) {
         return;
     }
-    // PARTIAL: the online and offline branches are left out (see above).
+    Application& app = ApplicationGetInstance();
+    if (GetOnlineGameFlag()) {
+        app.m_playerManager->unk_718 = true;
+    } else {
+        app.m_menuManager->PopMenu("menu_FadeToBlackScreen");
+        app.m_menuManager->PushMenu("menu_FadeFromBlackScreen");
+        app.m_playerManager->ReviveLocalPlayers(false);
+    }
 }
 
 // 0x43b278 NativeSaveSettings(gameswf::fn_call const&)
@@ -172,39 +212,44 @@ void NativeSaveSettings(const gameswf::fn_call& call) {
 }
 
 // 0x43b2d8 NativeLoadSettings(gameswf::fn_call const&)
-// PARTIAL: the original calls SavegameManager::loadSettings(sm, false) and UpdateSavedValues(). When
-// VoxSoundManager::s_instance is non-null it calls SetInitialVolume(s, GetSavedOption("VolumeMusic"),
-// GetSavedOption("VolumeFX"), 0.0). It ends with setLanguage(getLanguage()). The volume block is left out:
-// VoxSoundManager::SetInitialVolume and s_instance are not declared in the tree.
-void NativeLoadSettings(const gameswf::fn_call& call) {
-    (void)call;
+// SavegameManager::loadSettings(false) and UpdateSavedValues(); when the sound manager exists its initial volumes are set from the
+// "VolumeMusic" and "VolumeFX" options (SetInitialVolume(music, fx, 0.0)); then the language is applied again (setLanguage(getLanguage())).
+void NativeLoadSettings(const gameswf::fn_call& /*call*/) {
     SavegameManager* savegame = ApplicationGetInstance().m_savegameManager;
     savegame->loadSettings(false);
     UpdateSavedValues();
-    // PARTIAL: the VoxSoundManager::SetInitialVolume block is left out, see above.
+    if (VoxSoundManager::s_instance) {
+        Application& app = ApplicationGetInstance();
+        const float music = static_cast<float>(app.GetSavedOption("VolumeMusic"));
+        const float effects = static_cast<float>(app.GetSavedOption("VolumeFX"));
+        VoxSoundManager::s_instance->SetInitialVolume(music, effects, 0.0f);
+    }
     savegame->setLanguage(savegame->getLanguage());
 }
 
 // 0x43b390 NativeOptionMusic(gameswf::fn_call const&)
-// PARTIAL: the original converts argument 0 with as_value::to_number. When s_instance is non-null it calls
-// VoxSoundManager::SetSoundVolume(s, 2, value) and then SavegameManager::setOption(sm, "VolumeMusic", (int)value).
-// Missing: the gameswf to_number accessor, VoxSoundManager::SetSoundVolume and s_instance, and SavegameManager::setOption.
-// The body is left out.
+// Argument 0 is the new music volume. When the sound manager exists, channel 2 is set to it and the "VolumeMusic" option stores its
+// integer part.
 void NativeOptionMusic(const gameswf::fn_call& call) {
-    (void)call;
+    const float volume = static_cast<float>(call.arg(0).to_number());
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->SetSoundVolume(2, volume);
+        ApplicationGetInstance().m_savegameManager->setOption("VolumeMusic", static_cast<int>(volume));
+    }
 }
 
-// 0x43b424 NativeOptionFX(gameswf::fn_call const&)
-// PARTIAL: same as NativeOptionMusic, with channel 1 and the option name "VolumeFX". Missing: the same parts.
+// 0x43b424 NativeOptionFX(gameswf::fn_call const&): as NativeOptionMusic for channel 1 and the "VolumeFX" option.
 void NativeOptionFX(const gameswf::fn_call& call) {
-    (void)call;
+    const float volume = static_cast<float>(call.arg(0).to_number());
+    if (VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->SetSoundVolume(1, volume);
+        ApplicationGetInstance().m_savegameManager->setOption("VolumeFX", static_cast<int>(volume));
+    }
 }
 
-// 0x43b4b8 NativeEnterOptionMenu(gameswf::fn_call const&)
-// PARTIAL: the original calls VoxSoundManager::ResumeMusic(s_instance, 0) with no null check. ResumeMusic(int) and
-// s_instance are not declared in the tree. The call is left out.
-void NativeEnterOptionMenu(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43b4b8 NativeEnterOptionMenu(gameswf::fn_call const&): VoxSoundManager::ResumeMusic(0); the original does not test the pointer.
+void NativeEnterOptionMenu(const gameswf::fn_call& /*call*/) {
+    VoxSoundManager::s_instance->ResumeMusic(0);
 }
 
 // 0x43b4dc IsNonDebugQuest(Quest const*)

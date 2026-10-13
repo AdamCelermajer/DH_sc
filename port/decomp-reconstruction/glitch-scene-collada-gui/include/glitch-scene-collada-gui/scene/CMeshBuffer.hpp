@@ -21,6 +21,7 @@
 
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-scene-collada-gui/scene/scene_types.hpp"
+#include "glitch-video/driver_binding.hpp"
 #include "glitch-video/primitive_stream.hpp"
 #include "glitch-video/vertex_streams.hpp"
 
@@ -56,7 +57,7 @@ public:
     void* block_10 = nullptr;                                    // +0x10
     boost::intrusive_ptr<video::CVertexStreams> vertexStreams;   // +0x14
     video::CPrimitiveStream primitiveStream;                     // +0x18 .. +0x2f
-    glitch::IReferenceCounted* owner = nullptr;                  // +0x30
+    video::CDriverBinding* owner = nullptr;                      // +0x30 the driver binding of the buffer's process buffer (CDriverBinding: vtable with the deleting destructor at +0x04 and onDelete at +0x08, +0x18 a word CSkinnedMesh tests)
     std::uint8_t flag_34 = 1;                                    // +0x34 set to 1 by the constructors; role not confirmed
 };
 

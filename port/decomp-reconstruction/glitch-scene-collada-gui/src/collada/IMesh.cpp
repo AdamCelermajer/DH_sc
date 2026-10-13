@@ -7,6 +7,7 @@
 // CMaterial and CMaterialVertexAttributeMap complete (the counting handles need the reference-counting overloads).
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_vertex_attribute_map.hpp"
+#include "glitch-video/video_driver.hpp"
 #include "glitch-scene-collada-gui/scene/CMeshBuffer.hpp"
 
 namespace glitch::collada {
@@ -17,10 +18,10 @@ namespace glitch::collada {
 // ---------------------------------------------------------------------------------------------------------------------
 
 // 0x667704 _ZN6glitch7collada5IMeshD1Ev (D0 0x667738 skipped; the ledger has two rows with this name)
-// PARTIAL: the original restores the vtable and destroys the CColladaDatabase at +0x0c, which drops the record's use
-// (CColladaDatabase::~CColladaDatabase 0x619474 / 0x619784, still free-function stand-ins in recon/slice_11.cpp). The
-// category's CColladaDatabase has no destructor, so the use is not dropped here.
-IMesh::~IMesh() = default;
+// Restores the vtable and destroys the CColladaDatabase at +0x0c, which drops the record's use (dropDatabase).
+IMesh::~IMesh() {
+    dropDatabase(database);
+}
 
 // 0x6676b4 _ZN6glitch7collada5IMesh9onAnimateEj (empty)
 void IMesh::onAnimate(std::uint32_t /*timeMs*/) {}
@@ -39,9 +40,10 @@ void IMesh::releaseProcessBuffer(video::IVideoDriver* /*driver*/, std::uint32_t 
 void IMesh::init(video::IVideoDriver* /*driver*/, bool /*flag*/) {}
 
 // 0x6676c8 _ZN6glitch7collada5IMesh12setTransformEPNS_5video12IVideoDriverERKNS_4core8CMatrix4IfEE
-// PARTIAL: the original calls the driver's vtable slot +0x6c (setTransform) with the state 1 and the matrix. The driver is a
-// forward-declared class in this category, so the call is not made.
-void IMesh::setTransform(video::IVideoDriver* /*driver*/, const core::CMatrix4<float>& /*matrix*/) {}
+// Calls the driver's vtable slot +0x6c (setTransform) with the state 1 and the matrix.
+void IMesh::setTransform(video::IVideoDriver* driver, const core::CMatrix4<float>& matrix) {
+    driver->setTransform(1, matrix);
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // CMesh
@@ -61,6 +63,21 @@ CMesh::CMesh() {
     referenceCounter = 0;
 }
 
+// 0x645588 _ZN6glitch7collada5CMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKNS0_9SGeometryERKNS0_13SBufferConfigESB_b
+// (C2 0x645b68)
+// PARTIAL. Written: the reference count 0, the database copied with a use on its record, the uid (the geometry's name), and the box left at
+// the unit default. Not written: the loop over the geometry's mesh buffers (SGeometry +0x0c is the record with the buffer count at
+// +0x0c, the buffer array at +0x10 with 56-byte entries, the box at +0x14..+0x28, and the on-demand index and vertex data), which
+// builds one scene::CMeshBuffer per entry through CMeshBuffer(driver, mesh, index, vertexConfig, indexConfig, onDemand) and reuses the
+// buffer the entry caches at +0x34 when `onDemand` is set. SGeometry does not map that record, and the CMeshBuffer constructor is partial.
+CMesh::CMesh(const CColladaDatabase& db, video::IVideoDriver* /*driver*/, const SGeometry& geometry, const SBufferConfig& /*vertexConfig*/,
+             const SBufferConfig& /*indexConfig*/, bool /*onDemand*/) {
+    referenceCounter = 0;
+    copyDatabase(database, db);
+    uid = geometry.name;
+    bufferFlags = 0;
+}
+
 // 0x644eb8 _ZN6glitch7collada5CMeshC1ERKS1_ (C2 0x644fc8)
 // The reference count starts at 0, the uid is the empty-string constant (not copied), the database is copied with a use on its
 // record, word +0x14 is cleared, the buffer vector is copied (each entry takes its three uses) and the box words are copied.
@@ -68,7 +85,7 @@ CMesh::CMesh(const CMesh& other) {
     referenceCounter = 0;
     uid = "";
     copyDatabase(database, other.database);
-    unk_14 = 0;
+    bufferFlags = 0;
     buffers = other.buffers;
     boundingBox = other.boundingBox;
 }

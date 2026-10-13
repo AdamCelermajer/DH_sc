@@ -12,22 +12,13 @@
 //   - The named lookup is ObjectManager::GetObjectByName(name, module, false, nullptr) on the global manager, which is
 //     Application::m_objectManager (+0x38, the global dword_99F764).
 //   - The message queues are m_queues[0] of Singleton<MenuMessageManager<T, N>>::s_inst. The asm loads each singleton
-//     pointer through the GOT and reads its deque at +4 (begin) and +0x14 (finish). No singleton pointer is declared in
-//     the tree (see global-f216b6-12.cpp), so the queue bodies stay partial.
+//     pointer through the GOT and reads its deque at +4 (begin) and +0x14 (finish).
 //
-// Partial bodies (the ledger notes say what is missing):
-//   - Script_EnqueueCharMenuTutorialMessage, Script_EnqueueTutorialMessage and Script_FlushMessages need the queue
-//     singletons. Script_EnqueueTutorialMessage also needs dh2/TutorialMsg.hpp, and Script_FlushMessages needs
-//     dh2/StatusMsg.hpp and dh2/OnlineStatusMsg.hpp, none of which is in the tree.
-//   - Script_EnterCutSceneMode and Script_ExitCutSceneMode need RenderFX::InvokeASCallback and RenderFX::GetRoot (not
-//     declared), the byte global byte_9A600C (not declared), the PlayerInfo virtual at vtable +0x50 (not declared), the
-//     Level flag at +0x198, the COnline flag at +0x05 (private, no getter), and PlayerManager +0x6c4 (the player count
-//     the loops read; not declared).
-//   - Script_EnterSafeZone needs VoxSoundManager::s_instance and VoxSoundManager::SetInSafeZoneMusic(bool), which
-//     vox-audio/include/vox-audio/vox/sound_manager.hpp does not declare.
-//   - Script_ExecScript needs the record fields +0x08, +0x0c, +0x10, +0x14 (a pointer) and +0x18. Structs::ExecScript
-//     declares only m_w5 at +0x14, as uint32_t.
+// Every command in this batch is complete. The queue commands use the singletons MenuMessageManager<T, N>::s_inst, the cut-scene
+// commands use ScriptManager::m_inCutScene (byte_9A600C) and the HUD root callbacks, the player loops use
+// PlayerManager::m_numCharacters (+0x6c4) with PlayerInfo::IsLocal (CNetPlayerInfo slot +0x50) and Character::SetVisible (+0x40).
 
+#include <deque>
 #include <string>
 
 #include "pydata-accessors/script_cmd.hpp"
@@ -35,6 +26,32 @@
 #include "vox-audio/vox/sound_manager.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/AchievementMsg.hpp"
+#include "dh2/Character.hpp"
+#include "dh2/GSEndGame.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuBase.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/Random.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/StateMachine.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/TutorialMsg.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "vendor-gameswf/gameswf_root.hpp"
 #include "dh2/CharMenuTutorialMsg.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -68,19 +85,27 @@ bool Script_EndGame::IsBlocking() const {
 }
 
 // 0x45ca80 Script_EndGame::Execute(bool, int)
-// PARTIAL. Traces the switch, then works on the local player's character (PlayerManager::GetLocalPlayer(0, 1)->character_660,
-// which is PlayerManager::GetLocalPlayerCharacter, 0x330794). Its difficulty (SG_GetGameDifficulty, read twice) is kept, and
-// the unlocked difficulty is that value plus one, capped at 2. The character gets SG_SetLevelId(45, difficulty),
-// SG_SetLevelEntryPoint(5, difficulty), SG_SetGameDifficultyUnlocked(unlocked), SG_Save() and SG_SetGameDifficulty(unlocked),
-// in that order. Then Application::m_stateMachine (+0x18) switches to GSEndGame::s_inst with owned = false.
-// Not rebuilt: the character lookup. dh2/PlayerManager.hpp cannot be included in this translation unit. Its StreamBuffer
-// member needs the net-transport IStreamBase, which clashes with the pydata-accessors IStreamBase that the other commands
-// here need (the same conflict as Script_SaveGame in g1-game-app-pack9-857bfe-0.cpp). The sequence above is kept as a
-// comment until the two IStreamBase definitions are merged.
+// After the trace read, the local player's character (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660) gets
+// SG_SetLevelId(45, difficulty) and SG_SetLevelEntryPoint(5, difficulty) for its current difficulty (SG_GetGameDifficulty, read
+// twice as in the original), its unlocked difficulty becomes that value plus one capped at 2 (SG_SetGameDifficultyUnlocked), it saves
+// (SG_Save) and its difficulty is set to the unlocked one (SG_SetGameDifficulty). Then Application::m_stateMachine (+0x18) switches
+// to GSEndGame::s_inst with owned = false.
 void Script_EndGame::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
-    // PARTIAL: the character sequence described above is not rebuilt (see the comment).
+    Character* character = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+    const int difficulty = character->SG_GetGameDifficulty();
+    int unlocked = character->SG_GetGameDifficulty() + 1;
+    character->SG_SetLevelId(45, difficulty);
+    if (unlocked >= 2) {
+        unlocked = 2;
+    }
+    character->SG_SetLevelEntryPoint(5, difficulty);
+    character->SG_SetGameDifficultyUnlocked(unlocked);
+    character->SG_Save();
+    character->SG_SetGameDifficulty(unlocked);
+    ApplicationGetInstance().m_stateMachine->SwitchState(&GSEndGame::s_inst, false);
 }
+
 
 // ---- Script_EnqueueCharMenuTutorialMessage ----
 
@@ -90,19 +115,18 @@ bool Script_EnqueueCharMenuTutorialMessage::IsBlocking() const {
 }
 
 // 0x460b1c Script_EnqueueCharMenuTutorialMessage::Execute(bool, int)
-// PARTIAL. Builds the CharMenuTutorialMsg from the record: the id from m_w6 (+0x18), the frame name from m_w3 (+0x0c)
-// and the menu name from m_w5 (+0x14). The original then pushes it onto the CharMenuTutorialMsg queue (the global at
-// dword_99FBB8, m_queues[0] of the MenuMessageManager<CharMenuTutorialMsg, 1> singleton). That singleton pointer is not
-// declared in the tree, so the push is not rebuilt and the message is dropped here.
+// Builds the CharMenuTutorialMsg from the record: the id from m_w6 (+0x18), the frame name from m_w3 (+0x0c) and the menu name from
+// m_w5 (+0x14), and pushes it onto the CharMenuTutorialMsg queue (queue 0 of MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst, the
+// deque at 0x99fbb8). The start function is not invoked here.
 void Script_EnqueueCharMenuTutorialMessage::Execute(bool /*skipping*/, int /*module*/) {
     auto* args = static_cast<Structs::EnqueueCharMenuTutorialMessage*>(m_args);
     CharMenuTutorialMsg message(-1, std::string(), std::string());
     message.m_stringId = args->m_w6;
     message.m_frame.assign(args->m_w3);
     message.m_menu.assign(args->m_w5);
-    // PARTIAL: push_back(message) on the CharMenuTutorialMsg queue is missing (see above).
-    (void)message;
+    MenuMessageManager<CharMenuTutorialMsg, 1>::s_inst.m_queues[0].push_back(message);
 }
+
 
 // ---- Script_EnqueueTutorialMessage ----
 
@@ -112,16 +136,20 @@ bool Script_EnqueueTutorialMessage::IsBlocking() const {
 }
 
 // 0x4613d4 Script_EnqueueTutorialMessage::Execute(bool, int)
-// PARTIAL. When the record's m_w3 (+0x0c) is not negative, the original pushes the pair {m_w3, m_w2 (+0x08)} onto the
-// TutorialMsg queue (m_queues[0] of Singleton<MenuMessageManager<TutorialMsg, 1>>::s_inst; asm: begin +4, finish +0x14).
-// When the queue then holds exactly one entry, it calls MenuMessageManager<TutorialMsg, 1>::Invoke with the start
-// function name TutorialMsg::s_StartFuncName (asm: the string "onTutorialMessage"). Missing: dh2/TutorialMsg.hpp (no header
-// in the tree, so the element type cannot be named), the queue singleton, and the queue argument of Invoke.
+// When the record's m_w3 (+0x0c) is not negative, the pair {m_w3, m_w2 (+0x08)} (string id, duration) is pushed onto the TutorialMsg
+// queue (queue 0 of MenuMessageManager<TutorialMsg, 1>::s_inst). When the queue then holds exactly one entry, the start function
+// TutorialMsg::s_StartFuncName ("onTutorialMessage") is invoked on the HUD root (Invoke reads no queue argument).
 void Script_EnqueueTutorialMessage::Execute(bool /*skipping*/, int /*module*/) {
     auto* args = static_cast<Structs::EnqueueTutorialMessage*>(m_args);
-    // PARTIAL: the push of {m_w3, m_w2} and the start call are not rebuilt (see above).
-    (void)args;
+    if (args->m_w3 >= 0) {
+        MenuMessageManager<TutorialMsg, 1>& manager = MenuMessageManager<TutorialMsg, 1>::s_inst;
+        manager.m_queues[0].push_back(TutorialMsg(args->m_w3, args->m_w2));
+        if (manager.m_queues[0].size() == 1) {
+            manager.Invoke(TutorialMsg::s_StartFuncName[0], 0);
+        }
+    }
 }
+
 
 // ---- Script_EnterCutSceneMode ----
 
@@ -131,20 +159,48 @@ bool Script_EnterCutSceneMode::IsBlocking() const {
 }
 
 // 0x45a384 Script_EnterCutSceneMode::Execute(bool, int)
-// PARTIAL. The original, in order:
-//   1. When the current level is set and either its byte at +0x198 (Level declares no such field) is clear or
-//      MenuBase::s_igmOpened is set: MenuManager::GetInstance()->m_multiMenuManager (+0xf4) PopMenu(true) (vtable +0x38),
-//      Character::ReloadSkills() on the local player's character when it is set, and ShowStatubBar(false).
-//   2. When the COnline flag at +0x05 is set, the local player's character is set and its IsDead() (vtable +0x34) is true,
-//      it sets a NetStructMember of that player to -1 and marks it changed. Not rebuilt.
-//   3. The HUD callback "StartCutscene" on the HUD root. RenderFX::InvokeASCallback and RenderFX::GetRoot are not declared.
-//   4. byte_9A600C = 1 (global not declared). AnimController::s_scalingEnabled = false is reconstructed below.
-//   5. When the COnline flag is set, each player (count from PlayerManager +0x6c4, not declared) is put in the cutscene:
-//      PlayerInfo::SetInCutscene(true) when its virtual at +0x50 returns true. Otherwise its character (+0x660) gets the
-//      virtual at +0x40 with no bool shown by Hex-Rays. Not rebuilt.
+// In order:
+//   1. With a current level that is not in the game view (Level::m_isInGameView, +0x198) or with the in-game menu open
+//      (MenuBase::s_igmOpened): the multi-menu manager pops (PopMenu(true), vtable +0x38), the local player's character reloads its
+//      skills when it exists, and the status bar is hidden (Application::ShowStatubBar(false)).
+//   2. Online, with a local character that is dead (virtual IsDead, +0x34): the local player's death timer is set to -1
+//      (PlayerInfo::SetCharacterDeathTimer; the original builds a temporary NetStructInt and calls the member's set slot).
+//   3. The HUD callback "StartCutscene" on the HUD root.
+//   4. ScriptManager::m_inCutScene (byte_9A600C) = true and AnimController::s_scalingEnabled = false.
+//   5. Online, each player (count PlayerManager::m_numCharacters, +0x6c4, read again every pass): a local player is flagged
+//      (PlayerInfo::SetInCutscene(true)), a remote one has its character hidden (virtual SetVisible, +0x40, argument 0 in the asm).
 void Script_EnterCutSceneMode::Execute(bool /*skipping*/, int /*module*/) {
+    Application& app = ApplicationGetInstance();
+    Level* level = app.GetCurrentLevel();
+    if (level != nullptr && (!level->m_isInGameView || MenuBase::s_igmOpened)) {
+        MenuManager::GetInstance()->m_multiMenuManager->PopMenu(true);
+        if (dword_99F76C->GetLocalPlayer(0, true)->unk_660 != nullptr) {
+            dword_99F76C->GetLocalPlayer(0, true)->unk_660->ReloadSkills();
+        }
+        app.ShowStatubBar(false);
+    }
+    if (GetOnlineGameFlag()) {
+        Character* localCharacter = dword_99F76C->GetLocalPlayer(0, true)->unk_660;
+        if (localCharacter != nullptr && dword_99F76C->GetLocalPlayer(0, true)->unk_660->IsDead()) {
+            dword_99F76C->GetLocalPlayer(0, false)->SetCharacterDeathTimer(-1);
+        }
+    }
+    MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "StartCutscene", nullptr, 0);
+    ScriptManager::s_inst.m_inCutScene = true;
     AnimController::s_scalingEnabled = false;
+    if (GetOnlineGameFlag()) {
+        for (int i = 0; i < dword_99F76C->m_numCharacters; ++i) {
+            PlayerInfo* player = dword_99F76C->GetPlayer(i, false);
+            if (player->IsLocal()) {
+                player->SetInCutscene(true);
+            } else if (player->unk_660 != nullptr) {
+                player->unk_660->SetVisible(false);
+            }
+        }
+    }
 }
+
 
 // ---- Script_EnterSafeZone ----
 
@@ -163,25 +219,39 @@ void Script_EnterSafeZone::Execute(bool /*skipping*/, int /*module*/) {
 // ---- Script_ExecScript ----
 
 // 0x455c08 Script_ExecScript::IsBlocking() const
-// PARTIAL. The original tests the record's flag at +0x18 (pydata m_w6, not declared in Structs::ExecScript). When the
-// flag is set it returns ScriptManager::s_inst.IsScriptRunning(unk_10), and when it is clear it returns the flag. Only the
-// clear answer is written, so this command never waits on the script it started.
+// With the record's wait flag (Structs::ExecScript m_w6, +0x18) set, the command blocks while the script it started (unk_10) is
+// running (ScriptManager::IsScriptRunning); with it clear it does not block.
 bool Script_ExecScript::IsBlocking() const {
+    const auto* record = static_cast<const Structs::ExecScript*>(m_args);
+    if (record->m_w6) {
+        return ScriptManager::s_inst.IsScriptRunning(unk_10);
+    }
     return false;
 }
 
+
 // 0x4607f4 Script_ExecScript::Execute(bool, int)
-// PARTIAL. The original picks the script id. When the record's count at +0x10 is non-zero it draws
-// Random::s_seed = (59051 * Random::s_seed + 177149) % 0xdaf26b, takes the draw modulo the count, counts the draw in
-// Random::s_debugRandomCounters, and reads the id from the list at +0x14 (a pointer). Otherwise the id is the record's
-// single id at +0x0c. When the flag at +0x08 is clear the debug offset dword_9A5FE4 is added. The id is stored in unk_10
-// and run through ScriptManager::s_inst.StartScript(id, module, true). Missing: the record fields +0x08, +0x0c, +0x10,
-// +0x14 and +0x18 (Structs::ExecScript declares only m_w5 at +0x14, as uint32_t), and the global dword_9A5FE4 (not
-// declared). Only the tracing switch is rebuilt.
-void Script_ExecScript::Execute(bool /*skipping*/, int /*module*/) {
+// The id is the record's single id (m_w3, +0x0c), or, when the record has a list (m_w4, +0x10, entries at m_w5, +0x14), one of its
+// entries chosen with the ordinary random stream (Random::GetRandom(count, false): seed = (59051 * seed + 177149) % 0xdaf26b, the
+// draw modulo count, the debug counter incremented). After the trace read, a record whose flag m_w2 (+0x08) is clear adds the number of
+// loaded scripts (ScriptManager +0x08, dword_9A5FE4). The id is kept in unk_10 and started: ScriptManager::s_inst.StartScript(id,
+// module, true).
+void Script_ExecScript::Execute(bool /*skipping*/, int module) {
+    const auto* record = static_cast<const Structs::ExecScript*>(m_args);
+    int id;
+    if (record->m_w4 != 0) {
+        id = record->m_w5[Random::GetRandom(static_cast<int>(record->m_w4), false)];
+    } else {
+        id = record->m_w3;
+    }
     TraceScriptCmdSwitch();
-    // PARTIAL: the id selection and StartScript are not rebuilt (see above).
+    if (!record->m_w2) {
+        id += ScriptManager::s_inst.m_loadedCount;
+    }
+    unk_10 = id;
+    ScriptManager::s_inst.StartScript(id, module, true);
 }
+
 
 // ---- Script_ExitCutSceneMode ----
 
@@ -191,19 +261,33 @@ bool Script_ExitCutSceneMode::IsBlocking() const {
 }
 
 // 0x4599ac Script_ExitCutSceneMode::Execute(bool, int)
-// PARTIAL. Reconstructed: AnimController::s_scalingEnabled = true. Not rebuilt:
-//   1. The HUD callback "StopCutscene" on the HUD root. The chain is MenuManager::GetInstance and GetHUDRoot (twice),
-//      RenderFX::GetRoot, gameswf::root::get_root_movie, then RenderFX::InvokeASCallback. The header return types do not
-//      match the chain, and RenderFX::InvokeASCallback and RenderFX::GetRoot are not declared.
-//   2. byte_9A600C = 0 (global not declared).
-//   3. When the COnline flag at +0x05 (private, no getter) is set: a CMsgScriptCmd message (CMessage::CreateMessage with
-//      true, then the fields at CMessage +0x50 = 1, +0x54 = -2 and +0x58 = -1, none declared) is sent through
-//      CMessaging::SendMsg on CMessaging::Get(GetOnline()).
-//   4. Each player (count from PlayerManager +0x6c4, not declared): when the PlayerInfo virtual at +0x50 returns true,
-//      PlayerInfo::SetInCutscene(false). Otherwise its character (+0x660) gets the virtual at +0x40 with true.
+// The HUD callback "StopCutscene" on the HUD root, then ScriptManager::m_inCutScene (byte_9A600C) = false and
+// AnimController::s_scalingEnabled = true. Online, a CMsgScriptCmd (command 1, script id -2, module -1) is sent to the other players
+// (CMessage::CreateMessage("CMsgScriptCmd", true), CMessaging::SendMsg), and each player (count PlayerManager::m_numCharacters,
+// +0x6c4, read again every pass) leaves the cut scene: a local player is flagged (PlayerInfo::SetInCutscene(false)), a remote one has its
+// character shown again (virtual SetVisible, +0x40, with true).
 void Script_ExitCutSceneMode::Execute(bool /*skipping*/, int /*module*/) {
+    MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+    hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "StopCutscene", nullptr, 0);
+    ScriptManager::s_inst.m_inCutScene = false;
     AnimController::s_scalingEnabled = true;
+    if (GetOnlineGameFlag()) {
+        CMsgScriptCmd* message = static_cast<CMsgScriptCmd*>(CMessage::CreateMessage("CMsgScriptCmd", true));
+        message->scriptId_ = -2;
+        message->module_ = -1;
+        message->command_ = 1;
+        GetMessaging()->SendMsg(message);
+        for (int i = 0; i < dword_99F76C->m_numCharacters; ++i) {
+            PlayerInfo* player = dword_99F76C->GetPlayer(i, false);
+            if (player->IsLocal()) {
+                player->SetInCutscene(false);
+            } else if (player->unk_660 != nullptr) {
+                player->unk_660->SetVisible(true);
+            }
+        }
+    }
 }
+
 
 // ---- Script_FlushMessages ----
 
@@ -213,15 +297,26 @@ bool Script_FlushMessages::IsBlocking() const {
 }
 
 // 0x460a58 Script_FlushMessages::Execute(bool, int)
-// PARTIAL. The asm gives this order: MenuMessageManager<DialogMsg, 1>::FlushEnqueuedMessages(int) (a GCC clone,
-// .clone.21; the asm sets no argument register before the call), then the AchievementMsg queue popped until empty, then
-// the same DialogMsg flush again, then the StatusMsg queue, then the OnlineStatusMsg queue. Each queue is m_queues[0] of
-// its Singleton<MenuMessageManager<T, N>>::s_inst (GOT pointers; deque begin at +4, finish at +0x14). Missing: the singleton
-// pointers (none declared in the tree), dh2/StatusMsg.hpp and dh2/OnlineStatusMsg.hpp (no header in the tree, so the
-// element types cannot be named), and a Flush accessor usable without a singleton.
+// In the original's order: the DialogMsg queue is flushed (FlushEnqueuedMessages, a clone for queue 0), the AchievementMsg queue is popped
+// until empty, the DialogMsg queue is flushed again, then the StatusMsg queue (queue 0 of MenuMessageManager<StatusMsg, 4>) and the
+// OnlineStatusMsg queue are popped until empty.
 void Script_FlushMessages::Execute(bool /*skipping*/, int /*module*/) {
-    // PARTIAL: nothing is rebuilt here (see above).
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    std::deque<AchievementMsg>& achievements = MenuMessageManager<AchievementMsg, 1>::s_inst.m_queues[0];
+    while (!achievements.empty()) {
+        achievements.pop_front();
+    }
+    MenuMessageManager<DialogMsg, 1>::s_inst.FlushEnqueuedMessages(0);
+    std::deque<StatusMsg>& status = MenuMessageManager<StatusMsg, 4>::s_inst.m_queues[0];
+    while (!status.empty()) {
+        status.pop_front();
+    }
+    std::deque<OnlineStatusMsg>& online = MenuMessageManager<OnlineStatusMsg, 1>::s_inst.m_queues[0];
+    while (!online.empty()) {
+        online.pop_front();
+    }
 }
+
 
 // ---- Script_HideActor ----
 

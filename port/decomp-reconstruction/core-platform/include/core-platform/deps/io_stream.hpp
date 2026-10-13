@@ -1,9 +1,5 @@
-// Stand-in for the glitch IFileStream interface. Only the destructor is used here:
-// the original closes a stream through vtable slot +0x4, which is the deleting
-// destructor (see the IFileStream vtable).
+// IFileStream is defined once, in dh2/IFileStream.hpp (an IStreamBase with skip). This header only includes it, so the existing
+// core-platform includes keep working.
 #pragma once
 
-class IFileStream {
-public:
-    virtual ~IFileStream() = default;
-};
+#include "dh2/IFileStream.hpp"

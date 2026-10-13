@@ -18,7 +18,8 @@
 
 namespace {
 int g_stateStub = -1;        // returned by SM_GetState
-bool g_hasState = true;      // returned by _HasState
+bool g_hasState = false;     // returned by _HasState: false, so _SetState finds no state object to enter (it clears the current
+                             // state) and goes on to raise event 29, which is what the checks look at
 
 int g_raiseCalls = 0;        // Character::RaiseEvent
 int g_raiseEvent = -1;

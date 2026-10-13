@@ -1,8 +1,9 @@
 // Test for the ScriptManager batch g1-game-app-ScriptManager-b3ae8b-0 (part 1 of 2).
 // It links with the batch source only. The symbols that other batches and engine categories define are faked here: the
 // file stream and its reads, the file-release slot, the allocator and the profiling markers, LC_API_STRCASECMP, the
-// debug switches, the ScriptCmdImpl base (destructor, Init, Update) and the v2Controller block flag.
-// The script command classes are test subclasses of ScriptCmdImpl. Returns non-zero on failure.
+// debug switches, the ScriptCmdImpl base (destructor, Init, Update), the ScriptCmdID constant and the v2Controller block flag.
+// The script command classes are test subclasses of ScriptCmdImpl, and the command factory tables of LoadScriptFile are test tables
+// (type 0: a plain command, type 1: a command with its block flag set). Returns non-zero on failure.
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
@@ -14,12 +15,16 @@
 #include "core-platform/deps/application.hpp"
 #include "core-platform/lc_api.hpp"
 #include "core-platform/memory.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
 #include "dh2/ScriptManager.hpp"
 #include "dh2/StreamReader.hpp"
 #include "dh2/global/runtime_support.hpp"
+#include "dh2/global/script_cmd_map.hpp"
+#include "pydata-accessors/script_cmd.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/v2Controller.hpp"
 
 namespace {
@@ -93,6 +98,13 @@ void StreamReader::readAs<unsigned int>(IStreamBase* stream, unsigned int* value
     *value = static_cast<unsigned int>(raw);
 }
 
+template <>
+void StreamReader::peekAs<int>(IStreamBase* stream, int* value) {
+    std::uint32_t raw = 0;
+    stream->peek(&raw, 4);
+    *value = static_cast<int>(raw);
+}
+
 bool StreamReader::readStringEx(IStreamBase* stream, char* dst, std::uint64_t len) {
     return stream->read(dst, len) == len;
 }
@@ -163,6 +175,13 @@ bool DebugSwitches::GetSwitch(const std::string& name) {
     return false;
 }
 
+// ScriptCmdID/ExecScript: -1 here, so a command whose id is -1 is the ExecScript command of these tests.
+int PyDataConstants::getConstant(const char*, const char*) const {
+    return -1;
+}
+
+alignas(16) static unsigned char g_constantsStorage[64];
+
 // The base command. Init and Update are empty in the original. The destructor is the one ScriptCmds::Free calls.
 ScriptCmdImpl::~ScriptCmdImpl() {
     ++g_cmdDestructors;
@@ -171,6 +190,15 @@ void ScriptCmdImpl::Init() {}
 void ScriptCmdImpl::Update() {}
 
 bool v2Controller::s_blocked = true;
+
+// Structs::ScriptCmd: the record of the test commands reads only its type id (the first int).
+namespace Structs {
+ScriptCmd::~ScriptCmd() {}
+void ScriptCmd::finalize() {}
+void ScriptCmd::read(IStreamBase* stream) {
+    StreamReader::readAs<int>(stream, &m_w1);
+}
+}  // namespace Structs
 
 namespace {
 
@@ -198,6 +226,20 @@ public:
     bool lastSkipping = false;
     int lastModule = -999;
 };
+
+// The factory tables of LoadScriptFile. Type 0 makes a plain command, type 1 one whose block flag is set; the records are
+// Structs::ScriptCmd (they read the type id).
+ScriptCmdImpl* MakePlainCmd() {
+    return new TestCmd(-1, false);
+}
+ScriptCmdImpl* MakeFlaggedCmd() {
+    TestCmd* cmd = new TestCmd(-1, false);
+    cmd->unk_04 = true;
+    return cmd;
+}
+Structs::ScriptCmd* MakeRecord() {
+    return new Structs::ScriptCmd();
+}
 
 // Adds a script with the given commands to sm, with its name, context and command block set up as LoadScriptFile would.
 void AddScript(ScriptManager& sm, const char* name, const std::vector<TestCmd*>& cmds, int module) {
@@ -239,7 +281,7 @@ void testConstructor() {
     EXPECT(sm.m_skipScript == -1);
     EXPECT(sm.m_activeCount == 0);
     EXPECT(sm.m_loadedCount == 0);
-    EXPECT(sm.unk_30 == false);
+    EXPECT(sm.m_inCutScene == false);
     EXPECT(sm.m_contexts.empty());
     EXPECT(sm.m_cmds.empty());
     EXPECT(sm.m_scriptNames.empty());
@@ -327,17 +369,37 @@ void testLoadScriptFileEmptyScripts() {
     EXPECT(sm.IsScriptRunning(2) == false);
 }
 
-// LoadScriptFile stops at the first script that has commands (partial), finishing the rest.
-void testLoadScriptFileCommandsPartialStop() {
+// LoadScriptFile with commands: each is created from the table entry of its type id (peeked), its record reads itself, the command gets
+// the id and the record, runs Init, and its block flag is copied to the script block.
+void testLoadScriptFileCommands() {
     ResetCounters();
     ScriptManager sm;
-    g_bytes = {2, 0, 0, 0,  1, 0, 0, 0,  0, 0, 0, 0};
+    // Two scripts: the first has two commands (type 0, then type 1), the second has none.
+    g_bytes = {2, 0, 0, 0,  2, 0, 0, 0,  0, 0, 0, 0,  1, 0, 0, 0,  0, 0, 0, 0};
     sm.LoadScriptFile("cmds.bin", false);
     EXPECT(sm.m_cmds.size() == 2);
-    EXPECT(sm.IsScriptRunning(0) == false);
-    EXPECT(sm.IsScriptRunning(1) == false);
-    EXPECT(sm.m_cmds[0].m_count == 0);
-    EXPECT(sm.m_cmds[0].m_cmds == nullptr);
+    EXPECT(sm.m_contexts.size() == 2);
+    EXPECT(sm.m_cmds[0].m_count == 2);
+    TestCmd* first = static_cast<TestCmd*>(sm.m_cmds[0].m_cmds[0]);
+    TestCmd* second = static_cast<TestCmd*>(sm.m_cmds[0].m_cmds[1]);
+    EXPECT(first->m_cmdId == 0 && second->m_cmdId == 1);
+    EXPECT(first->m_args != nullptr && second->m_args != nullptr);
+    EXPECT(static_cast<Structs::ScriptCmd*>(first->m_args)->m_w1 == 0);
+    EXPECT(static_cast<Structs::ScriptCmd*>(second->m_args)->m_w1 == 1);
+    EXPECT(first->inits == 1 && second->inits == 1);
+    EXPECT(!first->unk_04 && second->unk_04);
+    EXPECT(sm.m_cmds[0].unk_04);
+    EXPECT(sm.m_cmds[1].m_count == 0);
+    EXPECT(!sm.m_cmds[1].unk_04);
+    EXPECT(!sm.IsScriptRunning(0));
+    EXPECT(!sm.IsScriptRunning(1));
+    EXPECT(g_closes == 1);
+    EXPECT(g_pos == g_bytes.size());
+    delete static_cast<Structs::ScriptCmd*>(first->m_args);
+    delete static_cast<Structs::ScriptCmd*>(second->m_args);
+    first->m_args = nullptr;
+    second->m_args = nullptr;
+    sm.UnLoadAllScripts();
 }
 
 // ExecuteScript with no blocking commands: all run once, with the module and skip flag, then the script finishes.
@@ -497,7 +559,7 @@ void testStateQueries() {
     EXPECT(empty.IsCutSceneRunning() == false);
 }
 
-// SkipScript (partial): the tracing switch is read, and the first skip request is kept.
+// SkipScript: the tracing switch is read, and the first skip request is kept. Offline nothing is sent.
 void testSkipScript() {
     ResetCounters();
     ScriptManager sm;
@@ -538,13 +600,13 @@ void testUnloadAndFlush() {
     AddScript(sm, "f0", {}, 0);
     sm.m_skipScript = 3;
     sm.m_activeCount = 2;
-    sm.unk_30 = true;
+    sm.m_inCutScene = true;
     sm.m_loadedCount = 5;
     sm.Flush();
     EXPECT(v2Controller::s_blocked == false);
     EXPECT(sm.m_skipScript == -1);
     EXPECT(sm.m_activeCount == 0);
-    EXPECT(sm.unk_30 == false);
+    EXPECT(sm.m_inCutScene == false);
     EXPECT(sm.m_loadedCount == 0);
     EXPECT(sm.m_scriptNames.empty());
     EXPECT(sm.m_cmds.empty());
@@ -552,13 +614,18 @@ void testUnloadAndFlush() {
 
 }  // namespace
 
+// The factory tables of LoadScriptFile: type 0 makes a plain command, type 1 one whose block flag is set.
+const ScriptCmdImplFactory s_scriptCmdImplMap[kScriptCmdTypeCount] = {&MakePlainCmd, &MakeFlaggedCmd};
+const ScriptCmdDataFactory s_scriptCmdDataMap[kScriptCmdTypeCount] = {&MakeRecord, &MakeRecord};
+
 int main() {
+    ApplicationGetInstance().m_pyDataConstants = reinterpret_cast<PyDataConstants*>(g_constantsStorage);
     testConstructor();
     testLoadScriptFileNames();
     testAppendGuard();
     testGetIDFromName();
     testLoadScriptFileEmptyScripts();
-    testLoadScriptFileCommandsPartialStop();
+    testLoadScriptFileCommands();
     testExecuteScriptRunsToEnd();
     testExecuteScriptBlocking();
     testExecuteScriptSkipMode();

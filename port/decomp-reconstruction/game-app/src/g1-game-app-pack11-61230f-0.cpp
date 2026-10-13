@@ -38,6 +38,8 @@
 #include "dh2/Container.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/DialogMsg.hpp"
+#include "dh2/ObjectListItem.hpp"
+#include "dh2/TutorialMsg.hpp"
 #include "dh2/MenuMessageManager.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
@@ -72,15 +74,14 @@ bool Script_SkipAllTutorialMessages::IsBlocking() const {
 }
 
 // 0x46033c Script_SkipAllTutorialMessages::Execute(bool, int)
-// PARTIAL, empty body. The original (1) advances the start iterator of the TutorialMsg queue (m_queues[0] of
-// Singleton<MenuMessageManager<TutorialMsg,1>>, deque at 0x99fb60, finish cur at 0x99fb70) one 8-byte element at a time until
-// it reaches the finish cur. Each 128-byte node it leaves behind goes back to the node allocator (_M_deallocate, 0x80 bytes).
-// The queue ends empty, which is std::deque::clear() for this element size. (2) Then it calls
-// MenuMessageManager<TutorialMsg,1>::SkipEnqueuedMessage. Missing: the TutorialMsg singleton accessor (s_inst at 0x99fb5c),
-// and dh2/TutorialMsg.hpp, which does not exist yet (waits on dh2/TutorialMsg.hpp), so the deque cannot be instantiated.
+// Empties the tutorial queue (MenuMessageManager<TutorialMsg, 1> queue 0: the original advances the start cursor 8 bytes at a time,
+// returning each 128-byte node it leaves), then calls SkipEnqueuedMessage, which finds the queue empty and does nothing.
 void Script_SkipAllTutorialMessages::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    MenuMessageManager<TutorialMsg, 1>& manager = MenuMessageManager<TutorialMsg, 1>::s_inst;
+    manager.m_queues[0].clear();
+    manager.SkipEnqueuedMessage(0, false);
 }
 
 // 0x455958 Script_SkipCharMenuTutorialMessage::IsBlocking() const
@@ -110,14 +111,12 @@ bool Script_SkipTutorialMessage::IsBlocking() const {
 }
 
 // 0x460338 Script_SkipTutorialMessage::Execute(bool, int)
-// PARTIAL, empty body. The original is a 4-byte tail branch (assembly 0x460338, B to the clone of
-// MenuMessageManager<TutorialMsg,1>::SkipEnqueuedMessage(int, bool), .clone.30). A tail branch passes r0, r1 and r2 unchanged,
-// so the clone receives the command pointer in r0 and the skipping flag in r1 as its (int, bool) arguments. That is not a
-// queue index and a flag, so the thunk's intent is unresolved. The forward also needs the TutorialMsg singleton accessor
-// (s_inst at 0x99fb5c), which the tree does not declare. Waits on dh2/TutorialMsg.hpp.
+// A 4-byte tail branch to the clone of MenuMessageManager<TutorialMsg,1>::SkipEnqueuedMessage, which reads neither its queue nor
+// its flag argument (the registers it receives are the command pointer and the skipping flag): the front tutorial message is skipped.
 void Script_SkipTutorialMessage::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    MenuMessageManager<TutorialMsg, 1>::s_inst.SkipEnqueuedMessage(0, false);
 }
 
 // 0x455784 Script_SpawnCharacter::IsBlocking() const
@@ -233,29 +232,36 @@ bool Script_StopActor::IsBlocking() const {
 }
 
 // 0x45eec0 Script_StopActor::Execute(bool, int)
-// PARTIAL. The original runs the trace read, then reads the actor name (const char* at record +0x0c). When
-// strcasecmp(name, "All") is not zero, it looks the name up with GetObjectByName(name, module, false, nullptr) on the global at
-// 0x99f764, takes GetObject(false) and the Character*, and stops that character: its controller's unk_009 (+0x09) is set to 1
-// around v2Controller::Cmd_Stop(), the controller being Character m_controller (+0x378). That branch is rebuilt. When the name
-// is "All", the original walks every entry of the ObjectManager object map (std::map<int, ObjectListItem> at ObjectManager
-// +0x0c, in key order) and applies the same stop to each entry whose flag word at node +0x2c is set. That walk is not rebuilt:
-// dh2/ObjectManager.hpp forward-declares ObjectListItem only, so the node layout is missing. The skipping flag is not checked.
+// The record's actor name (m_w3, +0x0c): a named character is stopped (the lookup is GetObjectByName(name, module, false, nullptr)); the
+// name "All" (case-insensitive) stops every object of the ObjectManager map that has an object. A stop sets the controller's
+// unk_009 byte around v2Controller::Cmd_Stop(). The skipping flag is not checked.
 void Script_StopActor::Execute(bool /*skipping*/, int module) {
     const auto* args = static_cast<const Structs::StopActor*>(m_args);
     TraceScriptCmdSwitch();
     const char* name = args->m_w3;
+    auto stop = [](Character* character) {
+        character->m_controller->unk_009 = true;
+        character->m_controller->Cmd_Stop();
+        character->m_controller->unk_009 = false;
+    };
     if (LC_API_STRCASECMP(name, "All") != 0) {
         ObjectHandle handle = dword_99F764->GetObjectByName(name, module, false, nullptr);
         if (handle.GetObject(false) != nullptr) {
             Character* character = handle;
             if (character != nullptr) {
-                character->m_controller->unk_009 = true;
-                character->m_controller->Cmd_Stop();
-                character->m_controller->unk_009 = false;
+                stop(character);
             }
         }
     } else {
-        // PARTIAL: the walk over the ObjectManager map for "All" (see above).
+        for (auto& entry : dword_99F764->m_objectMap) {
+            if (entry.second.m_object != nullptr) {
+                ObjectHandle handle = entry.second.m_object->GetHandle();
+                Character* character = handle;
+                if (character != nullptr) {
+                    stop(character);
+                }
+            }
+        }
     }
 }
 

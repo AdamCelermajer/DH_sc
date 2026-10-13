@@ -120,7 +120,7 @@ public:
     int m_pyDataIndex;                          // +0x08 row index in Arrays::v2Quests, -1 until set; the trace prints its name, the SG calls take it as the quest ID
     int m_act;                                  // +0x0c act, pydata +280 (1 until AssignPyData)
     int m_listIndex;                            // +0x10 constructor argument, 0..2, the QuestSavegame list; AssignPyData picks the reward stub pair by it
-    int unk_14;                                 // +0x14 zeroed by the constructor, not read in this slice
+    const char* m_name;                         // +0x14 the pydata name (Arrays::v2Quests::m_memberNames[row]), set by QuestSavegame::InitQuests; zeroed by the constructor
     Objective* m_acceptType;                    // +0x18 accept objective, built from pydata +60 by AssignPyData ("Accept Type" in the trace)
     Objective* m_endType;                       // +0x1c end objective, built from pydata +104 by AssignPyData ("End Type" in the trace)
     ConditionList m_preReqs;                    // +0x20 pre-requisite conditions ("PreReqs" in the trace), 12 bytes

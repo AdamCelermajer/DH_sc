@@ -6,7 +6,8 @@
 // _ZTV6IEvent is 20 bytes: offset-to-top, typeinfo and three slots: +0x00 D1 (empty, 0x31d8d8), +0x04 D0
 // (deleting, 0x31fc20: resets the vptr and calls CustomFree) and +0x08 getEventID (0x31d8dc), which is defined in
 // the base (not pure). The object is 8 bytes: +0x00 vptr, +0x04 the event id, which each derived constructor sets.
-// The ids seen so far: EvMouseButton 2, EvTouchScreenPress 4, EvTouchScreenMove 5, EvAcceleration 6.
+// The ids: EvKeyboard 0, EvMouseMove 1, EvMouseButton 2, EvMouseWheel 3, EvTouchScreenPress 4, EvTouchScreenMove 5,
+// EvAcceleration 6, EvGamepad 7, EvGamepadAxis 8.
 #pragma once
 
 #include <cstdint>

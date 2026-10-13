@@ -124,7 +124,12 @@ enum E_SCENE_NODE_TYPE : std::uint32_t {
     ESNT_ANY = fourcc("any_"),                  // 0x5f796e61 wildcard of getSceneNodeFromType
     ESNT_EMPTY = fourcc("emty"),                // 0x79746d65 CEmptySceneNode
     ESNT_DUMMY_TRANSFORMATION = fourcc("dmmy"), // 0x796d6d64
-    ESNT_DAEN = fourcc("daen"),                 // 0x6e656164 compared by the collada code
+    ESNT_DAEN = fourcc("daen"),                 // 0x6e656164 collada::CSceneNode
+    ESNT_DAE_MESH = fourcc("daem"),             // 0x6d656164 collada::CMeshSceneNode
+    ESNT_DAE_SKINNED_MESH = fourcc("daes"),     // 0x73656164 collada::CSkinnedMeshSceneNode
+    ESNT_DAE_MODULAR_SKINNED_MESH = fourcc("daeM"),  // 0x4d656164 collada::CModularSkinnedMeshSceneNode
+    ESNT_DAE_ROOT = fourcc("daer"),             // 0x72656164 collada::CRootSceneNode
+    ESNT_DAE_CAMERA = fourcc("daec"),           // 0x63656164 collada::CCameraSceneNode
     ESNT_SCENE_MANAGER_ROOT = fourcc("smgr"),   // 0x72676d73 CSceneManagerRootNode
     ESNT_CAMERA = fourcc("cam_"),               // 0x5f6d6163 CCameraSceneNode
     ESNT_LIGHT = fourcc("lght"),                // 0x7468676c CLightSceneNode

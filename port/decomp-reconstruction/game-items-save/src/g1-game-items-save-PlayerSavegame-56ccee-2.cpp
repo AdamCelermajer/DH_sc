@@ -10,12 +10,11 @@
 //  * The current set is ItemInventory::GetCurrentSkillSet(-1) on the owner's inventory base (Character +0x37c). The
 //    binary's getter is `mov r0, #0; bx lr`, so the set is 0; see CurrentSkillSet below.
 //
-// Partial in this batch:
-//  * SG_DBG_TraceDetailedQuestInformation (see its comment).
-//  * SG_TellSlots, SG_GetSkillInSlot, SG_GetSkillSlot and SG_HasSkillSlots: the port takes the set as 0 instead of
-//    calling the getter through Character, because dh2/Character.hpp does not compile in this tree yet.
+//  * SG_DBG_TraceDetailedQuestInformation returns the register the callee left (see its comment); the value is not a result.
 
 #include "dh2/PlayerSavegame.hpp"
+
+#include "dh2/Character.hpp"
 
 #include <cstdint>
 #include <cstdio>
@@ -45,11 +44,8 @@ constexpr int kLevelStateCount = 2;
 
 // The current skill set of the owner. The original calls ItemInventory::GetCurrentSkillSet(-1) on the inventory base
 // of m_player (Character +0x37c). That getter is `mov r0, #0; bx lr` in the binary (0x3fc6a0), so the set is 0.
-// PARTIAL: the port returns 0 directly because dh2/Character.hpp does not compile in this tree (pydata-accessors/
-// name_table.hpp is missing), and the real call needs Character's complete type. Restore the call once it compiles:
-//     return static_cast<ItemInventory*>(owner->m_player)->GetCurrentSkillSet(-1);
-int CurrentSkillSet(const PlayerSavegame*) {
-    return 0;
+int CurrentSkillSet(const PlayerSavegame* owner) {
+    return static_cast<ItemInventory*>(owner->m_player)->GetCurrentSkillSet(-1);
 }
 
 }  // namespace

@@ -2,7 +2,7 @@
 //   bash tools/trackb/check_tu.sh --test <this file> <batch source> port/decomp-reconstruction/net-transport/src/stream_buffer.cpp port/decomp-reconstruction/net-transport/src/buffer.cpp
 // Returns non-zero when a check fails.
 //
-// The batch's savefile seams answer "no savefile system", so the checks cover the parts that run without the file system:
+// The savefile directory (RES_PATH) does not exist, so every open fails, and the checks cover the parts that run without it:
 // Job ownership (copy, finish, the destructor), the queue's dedupe by name and kind, the idle and drain paths of UpdateJobs
 // and FlushJobs, the section table (initSectionInfo, load), the destructor's release of the cache, and saveAll's buffer
 // layout (count, size, name, data) read back from the queued write job. StreamBuffer is the real net-transport class. The
@@ -78,43 +78,11 @@ int g_saveCalls = 0;
         }                                                            \
     } while (0)
 
-// A byte stream with separate read and write positions, like StreamBuffer. It counts its own deletion.
-class ByteStream : public IStreamBase {
+// A StreamBuffer that counts its own deletion. UpdateJobs reads the job buffer's block vector, so a job stream is a real
+// StreamBuffer, as in the game.
+class ByteStream : public StreamBuffer {
 public:
     ~ByteStream() override { ++g_deleted; }
-    std::uint32_t size() const override { return static_cast<std::uint32_t>(bytes_.size()); }
-    bool canRead() const override { return true; }
-    bool canWrite() const override { return true; }
-    std::uint64_t peek(void* dst, std::uint64_t n) const override {
-        const std::uint64_t avail = bytes_.size() > pos_ ? bytes_.size() - pos_ : 0;
-        const std::uint64_t got = n < avail ? n : avail;
-        if (got != 0) {
-            std::memcpy(dst, bytes_.data() + pos_, static_cast<std::size_t>(got));
-        }
-        return got;
-    }
-    std::uint64_t read(void* dst, std::uint64_t n) override {
-        const std::uint64_t got = peek(dst, n);
-        pos_ += got;
-        return got;
-    }
-    std::uint64_t write(const void* src, std::uint64_t n) override {
-        if (wpos_ + n > bytes_.size()) {
-            bytes_.resize(static_cast<std::size_t>(wpos_ + n));
-        }
-        if (n != 0) {
-            std::memcpy(bytes_.data() + wpos_, src, static_cast<std::size_t>(n));
-        }
-        wpos_ += n;
-        return n;
-    }
-    void seek(std::uint64_t pos) override { pos_ = pos; }
-    std::uint64_t tell() const override { return pos_; }
-    void skip(std::uint64_t n) override { pos_ += n; }
-
-    std::vector<unsigned char> bytes_;
-    std::uint64_t pos_ = 0;
-    std::uint64_t wpos_ = 0;
 };
 
 void OnLoad(IStreamBase* stream, void* user) {
@@ -132,7 +100,12 @@ void OnSave(IStreamBase* stream, void* user) {
 
 }  // namespace
 
+// The savefile directory the device file system uses is RES_PATH. A directory that does not exist makes every open fail, which is
+// the "no savefile" case these checks cover, without writing files.
+extern const char* RES_PATH;
+
 int main() {
+    RES_PATH = "dh2_savegame_test_no_such_dir/";
     // 1. Copy takes the stream from its source; the source keeps the name and kind but not the ownership.
     {
         g_deleted = 0;
@@ -190,6 +163,8 @@ int main() {
         Savegame::Job second;
         second.m_filename = "dh2_002";
         second.m_kind = 0;
+        second.m_stream = new ByteStream();  // a write job always carries its buffer
+        second.m_ownsStream = true;
         Savegame::AddJob(second);
         CHECK(Savegame::s_jobList.size() == 1);
         CHECK(g_deleted == 1);
@@ -232,7 +207,10 @@ int main() {
         save.m_sections.at("INFO").m_size = 4;
         save.m_sections.at("INFO").m_offset = 2;
         save.m_stream = new ByteStream();
-        static_cast<ByteStream*>(save.m_stream)->bytes_.assign(16, 0);
+        {
+            const std::uint8_t zeros[16] = {0};
+            save.m_stream->write(zeros, 16);
+        }
         save.load("INFO", OnLoad, OnSave, &tag);
         CHECK(g_loadCalls == 1);
         CHECK(g_loadStream == save.m_stream);

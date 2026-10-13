@@ -182,10 +182,6 @@ void boxTransform(PDBox& self, const core::CMatrix4<float>& matrix);
 
 }  // namespace ps
 
-// glitch::gui::ICursorControl base destructor (empty body).
-namespace gui_cursor {
-struct ControlStandIn;
-void destroyBase(ControlStandIn& self);
-}  // namespace gui_cursor
+// glitch::gui::ICursorControl: the canonical class in gui/ICursorControl.hpp.
 
 }  // namespace glitch::collada::recon_23

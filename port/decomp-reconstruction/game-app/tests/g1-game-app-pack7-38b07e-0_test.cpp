@@ -256,14 +256,20 @@ void CheckHideFlashInit() {
 void CheckHideFlashExecuteTraceOnly() {
     Script_HideFlash command;
     Structs::HideFlash record;
+    SetName(record.m_w4, "DialogBox");
     command.m_args = &record;
     command.m_menu = nullptr;
 
     const int before = g_traceReads;
+    const int menuBefore = g_menuManagerCalls;
     command.Execute(false, 0);
-    // PARTIAL: with no menu the HUD branch runs, and it is not written. Only the trace read is checked here.
-    Check(g_traceReads == before + 1, "Script_HideFlash::Execute", "one trace read (partial body)");
+    // With no menu and a name without HUD: the trace read and the menu manager lookup, nothing else (the HUD branch needs the
+    // HUD root, which this test does not provide).
+    Check(g_traceReads == before + 1, "Script_HideFlash::Execute", "one trace read");
     Check(g_lastSwitch == "isTracingScriptCmd", "Script_HideFlash::Execute", "trace key is isTracingScriptCmd");
+    Check(g_menuManagerCalls == menuBefore + 1, "Script_HideFlash::Execute", "the menu manager is consulted");
+    Check(command.m_menu == nullptr, "Script_HideFlash::Execute", "no menu is created");
+    command.m_args = nullptr;
 }
 
 void CheckOtherIsBlockingFalse() {

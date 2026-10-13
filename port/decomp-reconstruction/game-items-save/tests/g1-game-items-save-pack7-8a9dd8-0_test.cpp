@@ -239,8 +239,8 @@ void TestXPTrace() {
 }
 
 void TestLootTraceHeader() {
-    // PARTIAL: the Loot line is not written, so only the header and the Type line are checked. The return value is
-    // the Type line's count.
+    // The header, the Type line and the Loot line; a loot index outside Arrays::LootTable::size prints "na". The return value is
+    // the Loot line's count.
     Structs::v2QuestRewardStub row;
     row.m_w1 = kLootType;
     row.m_w3 = 17;
@@ -252,10 +252,10 @@ void TestLootTraceHeader() {
     char text[256] = {};
     int returned = 0;
     CaptureTrace(loot, returned, text, sizeof text);
-    const char header[] = "\t  v2QuestRewardGiveLoot\n\t    Type        : Loot\n";
-    EXPECT(std::strncmp(text, header, sizeof header - 1) == 0);
-    const char typeLine[] = "\t    Type        : Loot\n";
-    EXPECT(returned == static_cast<int>(sizeof typeLine - 1));
+    const char expected[] = "\t  v2QuestRewardGiveLoot\n\t    Type        : Loot\n\t    Loot        : na \n";
+    EXPECT(std::strcmp(text, expected) == 0);
+    const char lootLine[] = "\t    Loot        : na \n";
+    EXPECT(returned == static_cast<int>(sizeof lootLine - 1));
 }
 
 void TestDestructors() {

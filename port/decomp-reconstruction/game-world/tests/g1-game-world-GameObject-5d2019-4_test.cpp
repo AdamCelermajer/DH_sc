@@ -11,7 +11,10 @@
 // _PopTargetList takes an Arguments and a ReturnValues, which have no declarations in the tree. The test passes references
 // into unused storage. The function never reads them.
 
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <deque>
 #include <new>
@@ -58,6 +61,34 @@ const sfc::script::lua::Arguments& Args() {
 
 sfc::script::lua::ReturnValues& Ret() {
     return *reinterpret_cast<sfc::script::lua::ReturnValues*>(g_retStorage);
+}
+
+// LoadExternalScript hands the object's bindings to the new script through the virtual createBindings (vtable slot +0x0c).
+// The object is zero-filled, so it gets a vtable whose createBindings slot records the call; every other slot aborts.
+int g_bindCalls = 0;
+void* g_fakeVtable[64];
+
+void FakeCreateBindings(GameObject* /*self*/, sfc::script::lua::Binder& /*binder*/) {
+    ++g_bindCalls;
+}
+
+void FakeUnexpectedSlot() {
+    std::abort();
+}
+
+void InstallFakeVtable(GameObject* go) {
+    // Itanium C++ ABI: a pointer to a virtual member function holds 1 + the byte offset of its vtable slot.
+    using Pmf = void (GameObject::*)(sfc::script::lua::Binder&);
+    const Pmf pmf = &GameObject::createBindings;
+    std::uintptr_t words[2];
+    static_assert(sizeof(pmf) == sizeof(words), "member pointer is two words");
+    std::memcpy(words, &pmf, sizeof words);
+    const std::size_t slot = (words[0] - 1) / sizeof(void*);
+    for (void*& entry : g_fakeVtable) {
+        entry = reinterpret_cast<void*>(&FakeUnexpectedSlot);
+    }
+    g_fakeVtable[slot] = reinterpret_cast<void*>(&FakeCreateBindings);
+    *reinterpret_cast<void***>(go) = g_fakeVtable;
 }
 
 }  // namespace
@@ -118,12 +149,14 @@ int main() {
     // LoadExternalScript: the script is created and named, released when no file is given, and released when Load fails.
     std::memset(g_storage, 0, sizeof g_storage);
     go = Storage();
+    InstallFakeVtable(go);
     EXPECT(go->m_script == nullptr);
 
     g_loadResult = 1;
     go->LoadExternalScript("data/scripts/a.lua", "a");
     EXPECT(go->m_script != nullptr);
     EXPECT(g_luaCtorCalls == 1);
+    EXPECT(g_bindCalls == 1);  // the object's bindings went to the new script
     EXPECT(go->m_script != nullptr && go->m_script->m_scriptDirectory == "a");
 
     go->LoadExternalScript(nullptr, nullptr);  // no file: the current script is released
@@ -135,10 +168,12 @@ int main() {
     EXPECT(go->m_script == nullptr);
     EXPECT(g_luaCtorCalls == 2);
     EXPECT(g_luaDtorCalls == 2);
+    EXPECT(g_bindCalls == 2);
 
     go->LoadExternalScript("", "x");  // empty file name: nothing is created
     EXPECT(go->m_script == nullptr);
     EXPECT(g_luaCtorCalls == 2);
+    EXPECT(g_bindCalls == 2);
 
     if (g_failures == 0) {
         std::printf("GameObject-5d2019-4: all checks passed\n");

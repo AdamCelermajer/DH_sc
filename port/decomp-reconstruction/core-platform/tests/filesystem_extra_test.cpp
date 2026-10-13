@@ -14,6 +14,15 @@ struct CountedStream : IFileStream {
     static int alive;
     CountedStream() { ++alive; }
     ~CountedStream() override { --alive; }
+    // The IStreamBase interface is not used by this test.
+    std::uint32_t size() const override { return 0; }
+    bool canRead() const override { return false; }
+    bool canWrite() const override { return false; }
+    std::uint64_t peek(void*, std::uint64_t) const override { return 0; }
+    std::uint64_t read(void*, std::uint64_t) override { return 0; }
+    std::uint64_t write(const void*, std::uint64_t) override { return 0; }
+    void seek(std::uint64_t) override {}
+    std::uint64_t tell() const override { return 0; }
 };
 int CountedStream::alive = 0;
 

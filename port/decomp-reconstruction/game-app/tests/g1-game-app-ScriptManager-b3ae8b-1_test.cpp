@@ -18,8 +18,10 @@
 #include "dh2/global/net_singletons.hpp"
 #include "net-session-online/c_message.hpp"
 #include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
 
-extern bool StartScriptOnlineFlagForTest;
+// What GetOnlineGameFlag() answers (the library one reads COnline +0x05 through GetOnline()).
+static bool StartScriptOnlineFlagForTest = false;
 
 namespace {
 
@@ -44,14 +46,8 @@ bool g_createArg = false;
 std::string g_createName;
 std::vector<CMessage*> g_sent;
 
-// The message CreateMessage returns. It is a real CMessage, so the virtual GetDataPtr() dispatches to its payload.
-class TestScriptCmdMessage : public CMessage {
-public:
-    void* GetDataPtr() override { return payload_; }
-    std::uint32_t GetDataSize() const override { return sizeof payload_; }
-    unsigned char payload_[12] = {};
-};
-TestScriptCmdMessage g_message;
+// The message CreateMessage returns: a real CMsgScriptCmd, so the typed payload fields are written in place.
+CMsgScriptCmd g_message(true);
 
 // Storage for the PlayerManager global. It is zeroed and never constructed (see the file comment).
 alignas(PlayerManager) unsigned char g_pmStorage[sizeof(PlayerManager)] = {};
@@ -67,7 +63,9 @@ void ResetStubs() {
     g_sent.clear();
     StartScriptOnlineFlagForTest = false;
     dword_99F76C->m_globalDeathState = 0;
-    std::memset(g_message.payload_, 0, sizeof g_message.payload_);
+    g_message.command_ = 0;
+    g_message.scriptId_ = 0;
+    g_message.module_ = 0;
 }
 
 // A ScriptManager with three scripts, all idle.
@@ -86,6 +84,10 @@ PlayerManager*& dword_99F76C = g_test_dword_99F76C;  // link-1: the header decla
 int PlayerManager::AllPlayersDead() { return g_allPlayersDead; }
 
 COnline* GetOnline() { return nullptr; }
+// The online-game flag read (game-app/src/online_flag.cpp reads it through GetOnline()): offline here; the test sets
+// StartScriptOnlineFlagForTest to take the online path.
+bool GetOnlineGameFlag() { return StartScriptOnlineFlagForTest; }
+CMessaging* GetMessaging() { return CMessaging::GetInstance(); }
 
 DebugSwitches::DebugSwitches() {}
 DebugSwitches::~DebugSwitches() {}
@@ -119,6 +121,7 @@ CMessage* CMessage::CreateMessage(const char* typeName, bool arg) {
     return &g_message;
 }
 
+CMessage::CMessage(const char*, bool) {}
 // CMessage's own virtuals. The vtable is emitted with the key function (the destructor), so every slot needs a body.
 CMessage::~CMessage() {}
 void* CMessage::GetDataPtr() { return nullptr; }
@@ -135,7 +138,7 @@ std::uint32_t CMessage::ReadData(NetBitStream& stream) {
 }
 CMessage* CMessage::Duplicate() { return nullptr; }
 
-ScriptManager::ScriptManager() : m_skipScript(-1), m_activeCount(0), m_loadedCount(0), unk_30(false) {}
+ScriptManager::ScriptManager() : m_skipScript(-1), m_activeCount(0), m_loadedCount(0), m_inCutScene(false) {}
 ScriptManager::~ScriptManager() {}
 
 void ScriptManager::SkipScript(int id, bool fromRemote) { g_skipCalls.emplace_back(id, fromRemote); }
@@ -244,11 +247,9 @@ void TestOnlineLocalStartSendsCommand() {
     EXPECT(g_createArg);
     EXPECT(g_sent.size() == 1);
     EXPECT(g_sent.size() == 1 && g_sent[0] == &g_message);
-    std::int32_t words[3] = {};
-    std::memcpy(words, g_message.payload_, sizeof words);
-    EXPECT(words[0] == 0);
-    EXPECT(words[1] == 1);
-    EXPECT(words[2] == 5);
+    EXPECT(g_message.command_ == 0);
+    EXPECT(g_message.scriptId_ == 1);
+    EXPECT(g_message.module_ == 5);
     // The script is still started locally after the send.
     EXPECT(sm.m_activeCount == 1);
     EXPECT(sm.m_contexts[1].m_module == 5);

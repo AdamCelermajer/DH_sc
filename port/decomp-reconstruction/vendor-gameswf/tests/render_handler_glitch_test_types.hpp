@@ -2,8 +2,10 @@
 //
 // The handler sits on three things this tree does not (fully) have: the game's BufferedRenderer (game-world), the
 // tesselator behind gameswf::triangle_intersector (needs GLU), and the IVideoDriver members setMaterial and the
-// three-argument draw (declared in glitch-video, not defined). Each is replaced here by a recording double, defined weak so
-// that the real definition wins in a full build:
+// three-argument draw (declared in glitch-video, not defined). Each is replaced here by a recording double. The doubles are
+// strong definitions: the test executables link with --allow-multiple-definition, the first definition wins, and the doubles
+// must win over the real BufferedRenderer, the real triangle_intersector (it needs GLU, which is not in the tree) and the
+// link stubs:
 //   - BufferedRenderer: every member the handler calls records an event; queueBuffer and queueIndexedTriangles capture the
 //     vertices (24 bytes each, from the first stream's buffer, as the real ones copy them) and the indices;
 //   - gameswf::triangle_intersector: constructor, destructor and process; process answers with the points the test queued
@@ -120,24 +122,24 @@ public:
 // ---- BufferedRenderer (game-world/src/g1-game-world-BufferedRenderer-ec26b3-0.cpp) ----------------------------------------
 // The constructor builds the members the handler reads (everything zero, slot indices 0), the other members record.
 
-__attribute__((weak)) BufferedRenderer::BufferedRenderer(glitch::video::IVideoDriver* driver)
+BufferedRenderer::BufferedRenderer(glitch::video::IVideoDriver* driver)
     : unk_00(0), m_wireFrame(false), pad_05{}, m_vertexOffset(0), m_capacity(0), m_vertexStreams(), m_indexBuffer(),
       unk_18(0), m_indexCursor(0), unk_20(0), m_vertexCount(0), unk_28(1), m_primitiveType(4), m_vertexData(nullptr),
       m_indices(nullptr), m_driver(driver), m_playerContext(nullptr), m_materials{}, m_texture(), m_materialIndex(0) {
     rhg_test::note(rhg_test::Event::BufferedCtor);
 }
 
-__attribute__((weak)) BufferedRenderer::~BufferedRenderer() {}
+BufferedRenderer::~BufferedRenderer() {}
 
-__attribute__((weak)) void BufferedRenderer::ensureBufferCapacity(int vertexCount) {
+void BufferedRenderer::ensureBufferCapacity(int vertexCount) {
     rhg_test::note(rhg_test::Event::EnsureCapacity, vertexCount);
 }
 
-__attribute__((weak)) void BufferedRenderer::flush() {
+void BufferedRenderer::flush() {
     rhg_test::note(rhg_test::Event::Flush);
 }
 
-__attribute__((weak)) void BufferedRenderer::setTexture(boost::intrusive_ptr<glitch::video::ITexture>& texture) {
+void BufferedRenderer::setTexture(boost::intrusive_ptr<glitch::video::ITexture>& texture) {
     rhg_test::note(rhg_test::Event::SetTexture, 0, 0, texture.get());
     if (m_texture.get() != texture.get()) {
         flush();
@@ -145,17 +147,17 @@ __attribute__((weak)) void BufferedRenderer::setTexture(boost::intrusive_ptr<gli
     m_texture = texture;
 }
 
-__attribute__((weak)) void BufferedRenderer::clearTextures() {
+void BufferedRenderer::clearTextures() {
     rhg_test::note(rhg_test::Event::ClearTextures);
     boost::intrusive_ptr<glitch::video::ITexture> none;
     m_texture = none;
 }
 
-__attribute__((weak)) void BufferedRenderer::reset() {
+void BufferedRenderer::reset() {
     rhg_test::note(rhg_test::Event::Reset);
 }
 
-__attribute__((weak)) void BufferedRenderer::applyMaskState(int mode) {
+void BufferedRenderer::applyMaskState(int mode) {
     rhg_test::note(rhg_test::Event::ApplyMask, mode);
 }
 
@@ -171,7 +173,7 @@ inline void capture_vertices(rhg_test::Event& e, const boost::intrusive_ptr<glit
 }
 }  // namespace
 
-__attribute__((weak)) void BufferedRenderer::queueBuffer(const boost::intrusive_ptr<glitch::video::CVertexStreams>& streams,
+void BufferedRenderer::queueBuffer(const boost::intrusive_ptr<glitch::video::CVertexStreams>& streams,
                                                          glitch::video::E_PRIMITIVE_TYPE primitiveType) {
     rhg_test::Event e;
     e.kind = rhg_test::Event::QueueBuffer;
@@ -180,7 +182,7 @@ __attribute__((weak)) void BufferedRenderer::queueBuffer(const boost::intrusive_
     rhg_test::g_events.push_back(e);
 }
 
-__attribute__((weak)) void BufferedRenderer::queueIndexedTriangles(
+void BufferedRenderer::queueIndexedTriangles(
     const boost::intrusive_ptr<glitch::video::CVertexStreams>& streams, const uint16_t* indices, int indexCount) {
     rhg_test::Event e;
     e.kind = rhg_test::Event::QueueIndexed;
@@ -193,17 +195,17 @@ __attribute__((weak)) void BufferedRenderer::queueIndexedTriangles(
 // ---- IVideoDriver members that glitch-video declares and does not define ---------------------------------------------------
 namespace glitch::video {
 
-__attribute__((weak)) void IVideoDriver::setMaterial(const boost::intrusive_ptr<CMaterial>& material,
+void IVideoDriver::setMaterial(const boost::intrusive_ptr<CMaterial>& material,
                                                      const boost::intrusive_ptr<CVertexAttributeMap>* attributes) {
     rhg_test::note(rhg_test::Event::SetMaterial, attributes != nullptr ? 1 : 0, 0, material.get());
 }
 
 // glitch::video::setColorMask (0x7d4f34, declared by the callers): arg is the mask bits r = 1, g = 2, b = 4, a = 8.
-__attribute__((weak)) void setColorMask(const boost::intrusive_ptr<CMaterial>& material, bool r, bool g, bool b, bool a) {
+void setColorMask(const boost::intrusive_ptr<CMaterial>& material, bool r, bool g, bool b, bool a) {
     rhg_test::note(rhg_test::Event::SetColorMask, (r ? 1 : 0) | (g ? 2 : 0) | (b ? 4 : 0) | (a ? 8 : 0), 0, material.get());
 }
 
-__attribute__((weak)) void IVideoDriver::draw(const boost::intrusive_ptr<const CVertexStreams>& streams,
+void IVideoDriver::draw(const boost::intrusive_ptr<const CVertexStreams>& streams,
                                               const CPrimitiveStream& primitives, CDriverBinding** binding) {
     rhg_test::Event e;
     e.kind = rhg_test::Event::Draw;
@@ -224,15 +226,15 @@ __attribute__((weak)) void IVideoDriver::draw(const boost::intrusive_ptr<const C
 }  // namespace glitch::video
 
 // ---- gameswf::triangle_intersector (vendor-gameswf/src/v1-vendor-gameswf-pack9-22190e-0.cpp) ----------------------------------
-__attribute__((weak)) gameswf::triangle_intersector::triangle_intersector() : m_acc(nullptr) {
+gameswf::triangle_intersector::triangle_intersector() : m_acc(nullptr) {
     ++rhg_test::g_intersector.constructed;
 }
 
-__attribute__((weak)) gameswf::triangle_intersector::~triangle_intersector() {
+gameswf::triangle_intersector::~triangle_intersector() {
     ++rhg_test::g_intersector.destroyed;
 }
 
-__attribute__((weak)) void gameswf::triangle_intersector::process(point* a, point* b, array<point>& out) {
+void gameswf::triangle_intersector::process(point* a, point* b, array<point>& out) {
     rhg_test::IntersectorLog& log = rhg_test::g_intersector;
     rhg_test::IntersectorLog::Call call;
     for (int i = 0; i < 3; ++i) {

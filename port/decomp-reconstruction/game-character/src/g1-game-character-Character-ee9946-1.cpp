@@ -12,16 +12,14 @@
 // Structs::AIFactions, Structs::CharAnim, element_table.hpp). The original listing strides (68, 12 and 160 bytes) are
 // not applied to the table bytes. Each body keeps the original control flow.
 //
-// Partial: GetCharModelId only (its upper bound check needs Arrays::ModelDict, which pydata cannot declare next to the
-// w7_arrays_02.hpp tables yet). HasLoot is complete because GetLoot reads m_props.m_w10 (batch -0).
+// HasLoot is complete because GetLoot reads m_props.m_w10 (batch -0).
 
 #include <cstdint>
 
 #include "dh2/Character.hpp"
 
-// Helper unit g1-game-character-Character-ee9946-0_modeldict.cpp: the row count of Arrays::ModelDict.
-std::uint32_t ModelDictRowCount();
 #include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
 #include "pydata-accessors/w7_structs_5.hpp"
 
@@ -150,11 +148,10 @@ const Structs::AIFactions* Character::GetCharAIFaction() const {
 }
 
 // 0x3a31e8 Character::GetCharModelId(void)
-// The raw word m_props.m_w4 (+0x1004, PROPS_Get(3, false)) is returned when it indexes Arrays::ModelDict (ModelDictRowCount,
-// in the helper unit g1-game-character-Character-ee9946-0_modeldict.cpp), otherwise -1.
+// The raw word m_props.m_w4 (+0x1004, PROPS_Get(3, false)) is returned when it indexes Arrays::ModelDict, otherwise -1.
 int Character::GetCharModelId() const {
     const int raw = PROPS_Get(3, false);
-    if (raw < 0 || static_cast<std::uint32_t>(raw) >= ModelDictRowCount()) {
+    if (raw < 0 || static_cast<std::uint32_t>(raw) >= Arrays::ModelDict::size) {
         return -1;
     }
     return raw;

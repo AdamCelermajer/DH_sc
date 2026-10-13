@@ -73,24 +73,48 @@
 #include "dh2/global/native_app_bindings.hpp"
 #include "gameswf/gameswf_as_classes/as_array.h"
 #include "gameswf/gameswf_environment.h"
+#include "dh2/ItemInstance.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/OnlineStatusMsg.hpp"
+#include "dh2/Quest.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/TutorialMsg.hpp"
+#include "dh2/VarArgs.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/ZoomHandler.hpp"
+#include "dh2/DialogMsg.hpp"
+#include "dh2/HUDControls.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_sort.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/global/native_object_helpers.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "dh2/global/native_stats_inventory_merchant.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "core-platform/stlport_sort.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"
 #include "vendor-gameswf/as_value.hpp"
 #include "vendor-gameswf/gameswf_root.hpp"
 
-// Helper unit g1-game-app-global-f216b6-12_names.cpp: the Arrays::LevelList name table (member_names.hpp).
-int FindLevelListRow(const char* name, int count);
-
 // 0x440e5c NativeGetNextOnlineStatusMessage(gameswf::fn_call const&)
-// PARTIAL. No argument is read. If the OnlineStatusMsg queue is not empty (the deque object is at global dword_99FB34,
-// and its start and finish cur pointers are at 0x99FB34 and 0x99FB44), the result becomes the front element's text. The
-// text is the element's string at Hex-Rays +16 and +20, copied into a local std::string with _M_assign. The element's
-// word at +24 is read into a local and never used. An empty queue leaves the result unset. The original's first local
-// (the literal "not yet supported with no hud code") is built and discarded, so it has no effect. Missing:
-// as_value::set_string on the result, the OnlineStatusMsg element layout and class (no dh2/OnlineStatusMsg.hpp), and the
-// queue's declared type (MenuMessageManager has no OnlineStatusMsg instance in the tree).
+// No argument is read. When the OnlineStatusMsg queue (MenuMessageManager<OnlineStatusMsg, 1>, queue 0) is not empty, the result is
+// the text of its front message (the message is not removed). The original first builds the literal "not yet supported with no hud
+// code" and drops it, and an empty queue leaves the result unset.
 void NativeGetNextOnlineStatusMessage(const gameswf::fn_call& call) {
-    (void)call;
+    const std::deque<OnlineStatusMsg>& queue = MenuMessageManager<OnlineStatusMsg, 1>::s_inst.m_queues[0];
+    if (!queue.empty()) {
+        const std::string text = queue.front();
+        call.result->set_string(text.c_str());
+    }
 }
 
 // 0x441b60 NativeKickPlayerOut(gameswf::fn_call const&)
@@ -168,7 +192,14 @@ void NativeGoToZone(const gameswf::fn_call& call) {
     if (name.empty()) {
         return;
     }
-    const int levelIndex = FindLevelListRow(name.c_str(), static_cast<int>(Arrays::LevelList::size));
+    // The first of the first LevelList::size names equal to the requested one (Arrays::LevelList::m_memberNames).
+    int levelIndex = -1;
+    for (int i = 0; i < static_cast<int>(Arrays::LevelList::size); ++i) {
+        if (std::strcmp(name.c_str(), Arrays::LevelList::m_memberNames.names[i]) == 0) {
+            levelIndex = i;
+            break;
+        }
+    }
     if (levelIndex < 0) {
         return;
     }
@@ -269,30 +300,73 @@ void NativeSkipAchievementMessage(const gameswf::fn_call& call) {
 }
 
 // 0x442ea4 NativeStopMessage(gameswf::fn_call const&)
-// PARTIAL. Needs at least one argument, and the top argument must have tag 3 or 4. Its to_xstring is the message kind.
-// The original constructs five function-local statics ("status", "tutorial", "dialog", "quest", "online"). The status and
-// tutorial kinds are compared with the global buffers dword_9A5B90 and dword_9A5BAC instead, and dialog, quest and online
-// with the statics. Then PlayerManager::GetLocalPlayer(0, false) is called and its result is not used.
-//   status: when the StatusMsg deque is not empty, pop the front, call MenuMessageManager<StatusMsg, 4>::Invoke on
-//     StatusMsg::s_SkipFuncName when set, and call it on StatusMsg::s_StartFuncName[0] when the queue is still not empty.
-//   tutorial: when the TutorialMsg deque is not empty, advance its front by one 8-byte element. The deque uses 128-byte
-//     nodes, so at the end of a node the original frees it and moves to the next one. Then it calls the skip function if
-//     TutorialMsg::s_SkipFuncName[0] is set, and the start function if the queue is still not empty.
-//   dialog: when GetOnline()+5 (COnline::isOnlineGame_) is set, PlayerManager::IsLocalPlayerHosting() must be non-zero,
-//     or the native returns without skipping. Otherwise it creates a CMessage with CMessage::CreateMessage("CMsgScriptCmd",
-//     true), sets its words 20 = 3, 21 = -1 and 22 = -1, and sends it through the CMessaging instance's SendMsg. Online or
-//     offline, dialog then calls MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage (queue and flag not in the
-//     pseudocode).
-//   quest: calls MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage.
-//   online: when the OnlineStatusMsg deque is not empty, pop the front, call OnlineStatusMsg::s_SkipFuncName when set, and
-//     call the start function when the queue is still not empty. Other kinds do nothing.
-// Missing: the argument accessors and to_xstring; the global buffers dword_9A5B90 and dword_9A5BAC (contents not in the
-// tree); the StatusMsg, TutorialMsg and OnlineStatusMsg queues and their headers; the Singleton accessor and the queue
-// and flag arguments of MenuMessageManager; COnline::isOnlineGame_ (no getter). IsLocalPlayerHosting is declared int in
-// dh2/PlayerManager.hpp, but the original passes its result to CMessaging::Get as a pointer, so that return type needs
-// checking. The header has CMessaging::GetInstance(), not CMessaging::Get, so the name also needs checking.
+// At least one argument, and the top one a string (type 3 or 4); its text is the message kind. The original compares it with five
+// function-local statics ("status", "tutorial", "dialog", "quest", "online"; the first two are the text of the same statics) after
+// PlayerManager::GetLocalPlayer(0, false), whose result is not used.
+//   status:   when the StatusMsg queue 0 is not empty, its front is popped, the skip function runs when set
+//             (StatusMsg::s_SkipFuncName) and the start function (s_StartFuncName[0]) runs when messages remain.
+//   tutorial: the same for the TutorialMsg queue (MenuMessageManager<TutorialMsg, 1>::SkipEnqueuedMessage).
+//   dialog:   in an online game only the host goes on: it sends a CMsgScriptCmd (command 3, script -1, module -1) first. Then, online
+//             host or offline, the DialogMsg queue skips its front (MenuMessageManager<DialogMsg, 1>::SkipEnqueuedMessage).
+//   quest:    the DialogMsg queue skips its front.
+//   online:   the OnlineStatusMsg queue pops its front as the status queue does.
+// Any other text does nothing.
 void NativeStopMessage(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs <= 0 || !call.arg(0).is_string()) {
+        return;
+    }
+    const std::string kind(call.arg(0).to_xstring());
+    Singleton<Application>::s_inst.m_playerManager->GetLocalPlayer(0, false);
+    if (kind == "status") {
+        MenuMessageManager<StatusMsg, 4>& manager = MenuMessageManager<StatusMsg, 4>::s_inst;
+        std::deque<StatusMsg>& queue = manager.m_queues[0];
+        if (!queue.empty()) {
+            queue.pop_front();
+            if (StatusMsg::s_SkipFuncName) {
+                manager.Invoke(StatusMsg::s_SkipFuncName, 0);
+            }
+            if (!queue.empty()) {
+                manager.Invoke(StatusMsg::s_StartFuncName[0], 0);
+            }
+        }
+        return;
+    }
+    if (kind == "tutorial") {
+        MenuMessageManager<TutorialMsg, 1>::s_inst.SkipEnqueuedMessage(0, true);
+        return;
+    }
+    if (kind == "dialog") {
+        if (GetOnlineGameFlag()) {
+            if (!Singleton<Application>::s_inst.m_playerManager->IsLocalPlayerHosting()) {
+                return;
+            }
+            CMessaging* messaging = GetMessaging();
+            CMsgScriptCmd* message = static_cast<CMsgScriptCmd*>(CMessage::CreateMessage("CMsgScriptCmd", true));
+            message->command_ = 3;     // +0x50
+            message->module_ = -1;     // +0x58
+            message->scriptId_ = -1;   // +0x54
+            messaging->SendMsg(message);
+        }
+        MenuMessageManager<DialogMsg, 1>::s_inst.SkipEnqueuedMessage(0, true);
+        return;
+    }
+    if (kind == "quest") {
+        MenuMessageManager<DialogMsg, 1>::s_inst.SkipEnqueuedMessage(0, true);
+        return;
+    }
+    if (kind == "online") {
+        MenuMessageManager<OnlineStatusMsg, 1>& manager = MenuMessageManager<OnlineStatusMsg, 1>::s_inst;
+        std::deque<OnlineStatusMsg>& queue = manager.m_queues[0];
+        if (!queue.empty()) {
+            queue.pop_front();
+            if (OnlineStatusMsg::s_SkipFuncName) {
+                manager.Invoke(OnlineStatusMsg::s_SkipFuncName, 0);
+            }
+            if (!queue.empty()) {
+                manager.Invoke(OnlineStatusMsg::s_StartFuncName[0], 0);
+            }
+        }
+    }
 }
 
 // Body of NativeGetPlayerRanking: the seven stat names and values of the player, read from the PlayerStatManager
@@ -329,70 +403,161 @@ void NativeGetPlayerRanking(const gameswf::fn_call& call) {
 }
 
 // 0x4435e4 NativeGetWorldMapLocations(gameswf::fn_call const&)
-// PARTIAL. The output array is the top argument when it has tag 5. The player index is to_number of the argument below it.
-// The player's Character comes from NativeGetPlayerChar(index, false). When it exists and Arrays::FastTravelList has
-// members, the original loops over the members (stride 28). For each member it creates a new as_object bound to the
-// call's gameswf player, or to no player. The cached player is the word at env +0x68, and the block it is held in is at
-// env +0x64 (env is the object that fn_call +0x0c points to, not the fn_call itself). Before each object, when env +0x68
-// is not zero and the block's byte at +4 is zero, the original decrements the block's count word at +0 (freeing the block
-// at zero) and clears env +0x64 and +0x68. The new object then gets no player. Otherwise it is bound to the env +0x68
-// player (none when that word is zero). It sets:
-// Name = StringManager::getString(member +24); Importance = member +20; LevelName = member +16 (a string);
-// EntryPointId = member +8; Description = StringManager::getString(member +4); Visible = Character::SG_GetFastTravelIdUnlocked(
-// character, index, -1). The object is then pushed onto the array. The result is the array. Missing: the argument
-// accessors, the as_object constructor and property setter, tu_string, add_ref and push, and set_as_object.
+// Argument 0 is the output array (an object), argument 1 the player index. For a player's character, every Arrays::FastTravelList row
+// (28-byte rows in the file) becomes an object bound to the call's player with Name (string of row +24), Importance (row +20),
+// LevelName (row +16), EntryPointId (row +8), Description (string of row +4) and Visible (Character::SG_GetFastTravelIdUnlocked(
+// index, -1)), pushed onto the array. The result is the array.
 void NativeGetWorldMapLocations(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_array* array = call.arg(0).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object()) : nullptr;
+    Character* ch = NativeGetPlayerChar(static_cast<int>(call.arg(1).to_number()), false);
+    if (ch && Arrays::FastTravelList::size) {
+        const Structs::FastTravelDestination* rows = reinterpret_cast<const Structs::FastTravelDestination*>(Arrays::FastTravelList::members);
+        StringManager* strings = ApplicationGetStringManager();
+        for (std::uint32_t index = 0; index < Arrays::FastTravelList::size; ++index) {
+            const Structs::FastTravelDestination& row = rows[index];
+            gameswf::as_object* object = nativeobj::NewObject(call);
+            nativeobj::SetString(object, "Name", strings->getString(row.m_w6));
+            nativeobj::SetNumber(object, "Importance", static_cast<double>(row.m_w5));
+            nativeobj::SetString(object, "LevelName", static_cast<const char*>(row.m_w4));
+            nativeobj::SetNumber(object, "EntryPointId", static_cast<double>(row.m_w2));
+            nativeobj::SetString(object, "Description", strings->getString(row.m_w1));
+            nativeobj::SetBool(object, "Visible", ch->SG_GetFastTravelIdUnlocked(static_cast<int>(index), -1));
+            nativeobj::PushObject(array, object);
+        }
+    }
+    call.result->set_as_object(array);
 }
 
 // 0x443b18 NativeGetQuestIDsInRange(gameswf::fn_call const&)
-// PARTIAL. Arguments from the top: the output array (tag 5), the player index (number, index-1), the first quest index
-// (number, index-2, clamped to 0), the maximum count (number, index-3) and the state name (tu_string, index-4). The
-// character comes from NativeGetPlayerChar(index, false). The quest filter is GetQuestFunctor(state name), declared in
-// dh2/global/native_stats_inventory_merchant.hpp. The original's count is Character::SG_GetNumQuests(filter, -1), capped at
-// the maximum. The first quest is Character::SG_GetQuestByID(filter, start, -1). Each next quest is
-// Character::SG_GetNextQuest(filter, quest id + 1, -1), and the chain stops at the count or when no quest is left. The
-// collected quests are sorted by title (BubbleSortByTitle in the header, with Quest::GetTitle). Each one becomes an object
-// with QuestTitle (GetTitle), QuestID (the quest id word at +8) and IsCurrent (Character::SG_GetCurrentQuest(-1) equals the
-// id). The object is pushed onto the array. The result is the number of objects pushed, and 0 when there is no character.
-// Missing: the argument accessors (to_number, to_tu_string), and the as_array, as_object, tu_string and value setters.
+// Arguments: the output array (0), the player index (1), the first quest id (2, clamped to 0), the maximum count (3) and the quest
+// state name (4). The filter is GetQuestFunctor(name); the quest count is Character::SG_GetNumQuests(filter, -1) capped at the maximum.
+// The first quest is SG_GetQuestByID(filter, first, -1), each next one SG_GetNextQuest(filter, id + 1, -1); the loop counter starts at
+// the first id and runs while it is below the capped count (the original uses the first id as both the first quest and the counter).
+// The quests are sorted by title and each becomes an object with QuestTitle, QuestID (Quest +0x08) and IsCurrent
+// (SG_GetCurrentQuest(-1) equals the id), pushed onto the array. The result is the number of objects, 0 without a character.
 void NativeGetQuestIDsInRange(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_array* array = call.arg(0).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object()) : nullptr;
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const int first = static_cast<int>(call.arg(2).to_number());
+    const int maximum = static_cast<int>(call.arg(3).to_number());
+    const char* stateName = call.arg(4).to_tu_string().c_str();
+    int pushed = 0;
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch) {
+        QuestPredicate filter = GetQuestFunctor(stateName);
+        int limit = ch->SG_GetNumQuests(filter, -1);
+        int counter = first & ~(first >> 31);
+        if (limit >= maximum) {
+            limit = maximum;
+        }
+        std::vector<Quest*> quests;
+        Quest* quest = ch->SG_GetQuestByID(filter, counter, -1);
+        while (quest != nullptr && counter < limit) {
+            quests.push_back(quest);
+            quest = ch->SG_GetNextQuest(filter, quest->m_pyDataIndex + 1, -1);
+            ++counter;
+        }
+        BubbleSortByTitle(quests, [](const Quest* q) { return q->GetTitle(); });
+        for (std::size_t i = 0; i < quests.size(); ++i) {
+            gameswf::as_object* object = nativeobj::NewObject(call);
+            nativeobj::SetString(object, "QuestTitle", quests[i]->GetTitle());
+            nativeobj::SetNumber(object, "QuestID", static_cast<double>(quests[i]->m_pyDataIndex));
+            nativeobj::SetBool(object, "IsCurrent", ch->SG_GetCurrentQuest(-1) == quests[i]->m_pyDataIndex);
+            nativeobj::PushObject(array, object);
+            ++pushed;
+        }
+    }
+    call.result->set_double(static_cast<double>(pushed));
 }
 
 // 0x444168 NativeMerchantGetItemsListForSlot(gameswf::fn_call const&)
-// PARTIAL. Arguments from the top: the equipment slot (number), the output array (tag 5), the player index (number), the
-// merchant name (to_string) and a number that the object lookup takes. The character comes from NativeGetPlayerChar(index,
-// false). The merchant is looked up with ObjectManager::GetObjectByName (dh2/ObjectManager.hpp) on the ObjectManager global
-// (0x99f764) and turned into a Character. The pseudocode passes the number as the flags argument and null as the type, and
-// does not show the active argument, so that call needs the assembly. When both checks Character::IsMerchant pass: if the
-// slot equals PyDataConstants::getConstant("EquipmentSlots", "Count"), the list is ItemInventory::GetValuableItems on the
-// merchant's inventory (+0x37c). Otherwise it is ItemInventory::GetItemListForSlot(inventory, slot). The list is then
-// sorted (an introsort plus an insertion sort on ItemInventory::Item, 12-byte elements). The comparator is not identified
-// in the tree. The insertion step calls II_Item_sortbybuyback. Each item becomes an object with: ItemName =
-// "<font color='#%000000X'>%s</font>" (ItemInstance::GetColor() and the item's name at +28); ItemIndex = the element's
-// third word (+8); ItemEquippable = valuable mode, or ItemInstance::IsEquippableBy(character); ItemEquipped = not valuable
-// mode and the item equals ItemInventory::GetEquippedItem(inventory, slot); ItemBuyback = ItemInstance +0x69 (unk_69, which
-// Track A calls buyback, unconfirmed); ItemQuantity = the quantity word (+0x50, int16) as decimal in valuable mode,
-// otherwise a single space. The objects are pushed onto the array, and the result is the array. Missing: the argument
-// accessors and setters, the sort comparator, the active argument of GetObjectByName, and confirmation of the literal in
-// .rodata. Hex-Rays prints the format as %000000X (zero flags, no width, the same as %X).
+// Arguments: the equipment slot (0), the output array (1), the player index (2), the merchant object's name (3) and the lookup flags
+// (4). For a player's character and a merchant of that name (an object with IsMerchant), the merchant's items for the slot are
+// listed (ItemInventory::GetValuableItems when the slot equals PyDataConstants "EquipmentSlots"/"Count", else GetItemListForSlot),
+// sorted with II_Item_sortbybuyback (STLport introsort), and each becomes an object with ItemName ("<font color='#%000000X'>name
+// </font>"), ItemIndex (the entry's index), ItemEquippable (valuable mode or IsEquippableBy the player), ItemEquipped (not valuable
+// mode and the item is the player's equipped item for the slot), ItemBuyback (ItemInstance +0x69) and ItemQuantity (the quantity as a
+// decimal in valuable mode, a space otherwise), pushed onto the array. The result is the array.
 void NativeMerchantGetItemsListForSlot(const gameswf::fn_call& call) {
-    (void)call;
+    const int slot = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_array* array = call.arg(1).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(1).to_object()) : nullptr;
+    const int player = static_cast<int>(call.arg(2).to_number());
+    const char* merchantName = call.arg(3).to_string();
+    const int flags = static_cast<int>(call.arg(4).to_number());
+    Character* ch = NativeGetPlayerChar(player, false);
+    std::vector<ItemInventory::Item> items;
+    if (ch) {
+        ObjectHandle handle = Singleton<Application>::s_inst.m_objectManager->GetObjectByName(merchantName, flags, false, nullptr);
+        Character* merchant = handle.operator Character*();
+        if (merchant && merchant->IsMerchant()) {
+            ItemInventory& merchantInventory = *merchant;
+            const bool valuable = ApplicationGetPyDataConstants()->getConstant("EquipmentSlots", "Count") == slot;
+            if (valuable) {
+                merchantInventory.GetValuableItems(&items);
+            } else {
+                merchantInventory.GetItemListForSlot(static_cast<unsigned int>(slot), &items);
+            }
+            if (!items.empty()) {
+                stlport::Sort(items.begin(), items.end(), II_Item_sortbybuyback);
+                for (const ItemInventory::Item& entry : items) {
+                    ItemInstance* item = entry.m_item;
+                    if (!item) {
+                        continue;
+                    }
+                    char text[1024];
+                    std::snprintf(text, sizeof text, "<font color='#%000000X'>%s</font>", static_cast<unsigned int>(item->GetColor()),
+                                  item->m_name.c_str());
+                    gameswf::as_object* object = nativeobj::NewObject(call);
+                    nativeobj::SetString(object, "ItemName", text);
+                    nativeobj::SetNumber(object, "ItemIndex", static_cast<double>(static_cast<int>(entry.m_index)));
+                    nativeobj::SetBool(object, "ItemEquippable", valuable || item->IsEquippableBy(ch));
+                    nativeobj::SetBool(object, "ItemEquipped",
+                                       !valuable && item == static_cast<ItemInventory&>(*ch).GetEquippedItem(static_cast<unsigned int>(slot)));
+                    nativeobj::SetBool(object, "ItemBuyback", item->unk_69);
+                    char quantity[16];
+                    if (valuable) {
+                        std::snprintf(quantity, sizeof quantity, "%d", static_cast<int>(item->m_qty));
+                    } else {
+                        quantity[0] = ' ';
+                        quantity[1] = '\0';
+                    }
+                    nativeobj::SetString(object, "ItemQuantity", quantity);
+                    nativeobj::PushObject(array, object);
+                }
+            }
+        }
+    }
+    call.result->set_as_object(array);
 }
 
 // 0x444990 NativeBackToHud(gameswf::fn_call const&)
-// PARTIAL. No argument is read. When Application::GetCurrentLevel() exists, its m_isInGameView (+0x198) is set to true.
-// Unless the global byte at 0x9a600c is set, the HUD gets RenderFX "DisplayRightHud" with no arguments and
-// "FillActionIcon" with one number, MenuManager::GetInstance()->m_actionIconType (+0x108). The original then calls
-// ZoomHandler::ResetFingerMap on the ZoomHandler global (0x99f77c), MultiMenuManager::ResetUpdateCursor on
-// MenuManager::m_multiMenuManager (+0xf4), and HUDControls::Touch on HUDControls::GetInstance(). When the local player's
-// character exists (PlayerInfo +0x660), it calls ItemInventory::TrophyCheckArmorSet on that character's inventory
-// (+0x37c). Missing: the HUD callbacks (RenderFX::InvokeASCallback and RenderFX::GetRoot, not declared in
-// dh2/RenderFX.hpp), MultiMenuManager::ResetUpdateCursor (not declared in dh2/MenuManager.hpp), and the name of the flag
-// at 0x9a600c. The HUDControls part is declared and can be written with the rest.
-void NativeBackToHud(const gameswf::fn_call& call) {
-    (void)call;
+// No argument is read. With a current level, its in-game view flag (m_isInGameView, +0x198) is set. Unless the cut-scene byte
+// (ScriptManager::m_inCutScene, byte_9A600C) is set, the HUD gets "DisplayRightHud" with no arguments and "FillActionIcon" with one
+// number, MenuManager::GetInstance()->m_actionIconType (+0x108). Then the zoom finger map is reset, the multi-menu manager resets its
+// update cursor (MenuManager +0xf4), HUDControls::GetInstance()->Touch() runs, and when the local player has a character its armour
+// set trophy is checked (ItemInventory::TrophyCheckArmorSet).
+void NativeBackToHud(const gameswf::fn_call& /*call*/) {
+    Application& app = Singleton<Application>::s_inst;
+    Level* level = app.GetCurrentLevel();
+    if (level) {
+        level->m_isInGameView = true;
+        if (!ScriptManager::s_inst.m_inCutScene) {
+            MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+            gameswf::character* rootMovie = hud->RenderFX::GetRoot()->get_root_movie();
+            hud->InvokeASCallback(rootMovie, "DisplayRightHud", nullptr, 0);
+            gameswf::character* hudMovie = hud->RenderFX::GetRoot()->get_root_movie();
+            gameswf::as_value icon;
+            icon.set_double(static_cast<double>(MenuManager::GetInstance()->m_actionIconType));
+            hud->InvokeASCallback(hudMovie, "FillActionIcon", &icon, 1);
+        }
+        app.m_zoomHandler->ResetFingerMap();
+        app.m_menuManager->m_multiMenuManager->ResetUpdateCursor();
+        HUDControls::GetInstance()->Touch();
+        PlayerInfo* local = app.m_playerManager->GetLocalPlayer(0, true);
+        if (local->unk_660) {
+            static_cast<ItemInventory&>(*app.m_playerManager->GetLocalPlayer(0, true)->unk_660).TrophyCheckArmorSet();
+        }
+    }
 }
 
 // 0x444ae0 NativeLoginInfos(gameswf::fn_call const&)
@@ -424,13 +589,11 @@ void NativeGetMapIcons(const gameswf::fn_call& call) {
 }
 
 // 0x444dec NativeGetIPodPlaylistName(gameswf::fn_call const&)
-// PARTIAL. The top argument is a number, the playlist index (to_number). The name is VoxSoundManager::GetIPodPlaylistName
-// on the VoxSoundManager::s_instance global, and the result is set to that name as a tu_string. Missing: to_number,
-// set_tu_string, and the declaration of VoxSoundManager::GetIPodPlaylistName (not in
-// vox-audio/include/vox-audio/vox/sound_manager.hpp). Hex-Rays prints the first parameter as as_value**. The tree's
-// natives use const fn_call& like the others, and the fields read here are the fn_call's own.
+// Argument 0 is the playlist index. The result is VoxSoundManager::s_instance->GetIPodPlaylistName(index) as a string value.
 void NativeGetIPodPlaylistName(const gameswf::fn_call& call) {
-    (void)call;
+    const int index = static_cast<int>(call.arg(0).to_number());
+    const std::string name = VoxSoundManager::s_instance->GetIPodPlaylistName(index);
+    call.result->set_string(name.c_str());
 }
 
 namespace {
@@ -495,22 +658,105 @@ void NativeGetMultiplayerGameRooms(const gameswf::fn_call& call) {
 }
 
 // 0x445a10 NativeGetSkillDetails(gameswf::fn_call const&)
-// PARTIAL. Arguments from the top: the skill index (number), the output object (tag 5), the player index (number) and, with
-// four arguments, a flag (to_bool) for NativeGetPlayerChar(index, flag). The character's CharSkill record comes from
-// Character::GetCharSkill(index). When the character's level is below the skill's required level (+32), the current text
-// is GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL with the required level as its argument, the next text is empty, and SkillUnlocked
-// is false. Otherwise: the current text is GAMEPLAYMENUS_NEEDS_SKILL_POINTS when the skill level is 0, and otherwise the
-// description word (+48, with the faery offset when flag +24 is set). The next text is GAMEPLAYMENUS_MAX_SKILL_LEVEL when the
-// level has reached the difficulty's maximum (CharacterDesign MaxSkillLevelBNormal, CHard or DVeryHard by
-// Character::SG_GetGameDifficultyUnlocked). It is GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING when
-// Character::CanIncrementSkill is false. Otherwise it is the training text (+68, with the faery offset). The two argument
-// lists come from CharAI::AI_SkillInfo and CharProperties::_GetProperty over the skill's property ids (count +12, ids +16),
-// for the current and the next level. SkillUnlocked is true on this path. The object gets nine properties: SkillName
-// (+64), SkillDescription (+52), SkillCurrLevel and SkillNextLevel (StringManager::parseEx of the two texts with their
-// lists), SkillAssignable (byte +44), SkillIcon (string +60), SkillLevel (Character::SG_GetSkillLevel), SkillAssignedToSlot
-// (Character::SG_GetSkillSlot) and SkillUnlocked. Missing: the argument accessors, to_bool, the setters and tu_string,
-// drop_refs. Character::GetCharSkill returns const void* in dh2/Character.hpp, so the skill record's fields at +12 .. +68
-// cannot be read. The Variant layout used by StringManager::parseEx is not declared (VarArgs is forward-declared only).
+// Arguments: the skill (0), the output object (1), the player index (2) and, with four arguments, a flag (3) for NativeGetPlayerChar.
+// The result is the object. For a character: the skill row is Character::GetCharSkill(skill) (Structs::Skill); the unlock text, the
+// "current level" text and the "next level" text are StringManager::parseEx formats over two VarArgs lists.
+//   * Character level below the skill's level requirement (row +0x20): the current text is GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL with the
+//     level as its only argument; SkillUnlocked is false.
+//   * Otherwise SkillUnlocked is true. The current format is GAMEPLAYMENUS_NEEDS_SKILL_POINTS for an untrained skill, else the row's
+//     text id +0x30 (plus the current faery's text offset when the row's flag +0x18 is set). The next format is
+//     GAMEPLAYMENUS_MAX_SKILL_LEVEL when the level reaches the cap for the unlocked difficulty (CharacterDesign MaxSkillLevelBNormal,
+//     CHard or DVeryHard), GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING when the skill cannot be raised, else the row's text id +0x44
+//     (with the same faery offset). For the current and the next level in turn, CharAI::AI_SkillInfo(skill, level) is read and the
+//     row's property list (+0x10, count +0x0c) is evaluated against CharProperties::s_temp; each value is appended as a variant
+//     {value / 256, value >> 8, none}.
+// Then the object gets SkillName (text id +0x40), SkillDescription (+0x34), SkillCurrLevel, SkillNextLevel, SkillAssignable
+// (+0x2c), SkillIcon (+0x3c), SkillLevel, SkillAssignedToSlot and SkillUnlocked. A text id below 0 gives the empty string.
 void NativeGetSkillDetails(const gameswf::fn_call& call) {
-    (void)call;
+    const int skill = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    const int player = static_cast<int>(call.arg(2).to_number());
+    const bool flag = call.nargs == 4 ? call.arg(3).to_bool() : false;
+    Character* ch = NativeGetPlayerChar(player, flag);
+    if (ch) {
+        StringManager* strings = ApplicationGetStringManager();
+        PyDataConstants* constants = ApplicationGetPyDataConstants();
+        VarArgs currentArgs;
+        VarArgs nextArgs;
+        std::string currentText;
+        std::string nextText;
+        ch->SG_GetSkillId(static_cast<unsigned int>(skill));
+        std::string currentFormat;
+        std::string nextFormat;
+        const Structs::Skill* row = static_cast<const Structs::Skill*>(ch->GetCharSkill(skill));
+        // The row's text id (with the current faery's offset for a faery skill), or the empty string for an id below 0.
+        auto rowText = [&](int textId) -> const char* {
+            if (row->m_w6) {  // +0x18: the text depends on the current faery
+                if (textId == -1) {
+                    return "";
+                }
+                const int faeryId = ch->SG_GetCurrentFaerieId(-1);
+                textId += static_cast<const Structs::Faery*>(ch->GetCharFaery(faeryId))->m_w2;
+            }
+            return textId >= 0 ? strings->getString(textId) : "";
+        };
+        bool unlocked;
+        if (ch->GetLevel() >= row->m_w8) {  // +0x20
+            if (ch->SG_GetSkillLevel(static_cast<unsigned int>(skill)) <= 0) {
+                currentFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_NEEDS_SKILL_POINTS"));
+            } else {
+                currentFormat = rowText(row->m_w12);  // +0x30
+            }
+            int maxLevel = constants->getConstant("CharacterDesign", "MaxSkillLevelBNormal");
+            if (ch->SG_GetGameDifficultyUnlocked() == 1) {
+                maxLevel = constants->getConstant("CharacterDesign", "MaxSkillLevelCHard");
+            } else if (ch->SG_GetGameDifficultyUnlocked() == 2) {
+                maxLevel = constants->getConstant("CharacterDesign", "MaxSkillLevelDVeryHard");
+            }
+            if (maxLevel <= ch->SG_GetSkillLevel(static_cast<unsigned int>(skill))) {
+                nextFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_MAX_SKILL_LEVEL"));
+            } else if (!ch->CanIncrementSkill(skill)) {
+                nextFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_SKILL_MAXIMUM_LEVEL_TRAINING"));
+            } else {
+                nextFormat = rowText(row->m_w17);  // +0x44
+            }
+            VarArgs* lists[2] = {&currentArgs, &nextArgs};
+            for (int step = 0; step < 2; ++step) {
+                float info = 0.0f;
+                ch->AI_SkillInfo(static_cast<unsigned int>(skill),
+                                 static_cast<unsigned int>(step + ch->SG_GetSkillLevel(static_cast<unsigned int>(skill))), info);
+                const std::uint32_t count = row->m_w3;  // +0x0c
+                const std::int32_t* ids = static_cast<const std::int32_t*>(row->m_w4);  // +0x10
+                for (std::uint32_t i = 0; i < count; ++i) {
+                    const int value = ch->CharProperties::_GetProperty(CharProperties::s_temp, ids[i]);
+                    VarArgs::Variant variant;
+                    variant.number = static_cast<float>(value) * 0.00390625f;
+                    variant.integer = value >> 8;
+                    variant.text = nullptr;
+                    lists[step]->m_variants.push_back(variant);
+                }
+            }
+            unlocked = true;
+        } else {
+            currentFormat = strings->getString(constants->getConstant("StrID", "GAMEPLAYMENUS_SKILL_UNLOCK_AT_LEVEL"));
+            VarArgs::Variant variant;
+            variant.number = static_cast<float>(row->m_w8);
+            variant.integer = row->m_w8;
+            variant.text = nullptr;
+            currentArgs.m_variants.push_back(variant);
+            unlocked = false;
+        }
+        strings->parseEx(currentText, currentFormat.c_str(), currentArgs);
+        strings->parseEx(nextText, nextFormat.c_str(), nextArgs);
+        nativeobj::SetString(object, "SkillName", row->m_w16 >= 0 ? strings->getString(row->m_w16) : "");
+        nativeobj::SetString(object, "SkillDescription", row->m_w13 >= 0 ? strings->getString(row->m_w13) : "");
+        nativeobj::SetString(object, "SkillCurrLevel", currentText.c_str());
+        nativeobj::SetString(object, "SkillNextLevel", nextText.c_str());
+        nativeobj::SetBool(object, "SkillAssignable", row->m_w11);
+        nativeobj::SetString(object, "SkillIcon", static_cast<const char*>(row->m_w15));
+        nativeobj::SetNumber(object, "SkillLevel", static_cast<double>(ch->SG_GetSkillLevel(static_cast<unsigned int>(skill))));
+        nativeobj::SetNumber(object, "SkillAssignedToSlot", static_cast<double>(ch->SG_GetSkillSlot(static_cast<unsigned int>(skill))));
+        nativeobj::SetBool(object, "SkillUnlocked", unlocked);
+    }
+    call.result->set_as_object(object);
 }

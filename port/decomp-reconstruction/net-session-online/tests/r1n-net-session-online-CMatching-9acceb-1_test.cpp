@@ -2,6 +2,7 @@
 // review of CMatching::Get (0x800f8c, src/glx_320e98.cpp). Links against the whole library, as the other tests do.
 #include "net-session-online/c_matching_base.hpp"
 #include "net-session-online/c_matching_local.hpp"
+#include "room_test_helpers.hpp"
 #include "net-transport/net_bit_stream.hpp"
 #include "net-transport/tb/c_net_player_manager.hpp"
 
@@ -60,14 +61,14 @@ int main() {
 
         TestMatching target;
         CMatching::Set(&server);
-        target.room.SetNetEnabled(false);
+        target.room.m_netRoomAttributes.SetEnabled(false);
         CHECK(target.WritePacketData(0, 0, stream) == 0);
-        CHECK(target.room.NetEnabled());
+        CHECK(RoomNetEnabled(target.room));
 
         CMatching::Set(&client);
-        target.room.SetNetEnabled(true);
+        target.room.m_netRoomAttributes.SetEnabled(true);
         CHECK(target.WritePacketData(0, 0, stream) == 0);
-        CHECK(!target.room.NetEnabled());
+        CHECK(!RoomNetEnabled(target.room));
     }
     CMatching::Set(nullptr);
 

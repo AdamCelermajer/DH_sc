@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "dh2/DebugCachedCharacter.hpp"
+
 class AchievementMsg : public std::string {
 public:
     AchievementMsg(const AchievementMsg& other);                        // 0x380554
@@ -27,4 +29,9 @@ public:
     // Read by NativeSkipAchievementMessage (game-app/src/g1-game-app-global-f216b6-12.cpp).
     static const char* s_StartFuncName;                                 // 0x999838
     static const char* s_SkipFuncName;                                  // 0x9a54e8
+
+    // The HUD node that receives the callbacks: the path "_root" (_ZN14AchievementMsg10s_NodeNameE at 0x999834, .data) and the cache of the
+    // found character (_ZN14AchievementMsg16s_NodeCachedCharE at 0x9a54b8, .bss, 48 bytes). Read by MenuMessageManager<AchievementMsg, 1>::Invoke.
+    static const char* s_NodeName;
+    static DebugCachedCharacter s_NodeCachedChar;
 };

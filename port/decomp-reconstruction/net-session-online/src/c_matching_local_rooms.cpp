@@ -56,7 +56,7 @@ std::int32_t CMatchingLocal::LeaveRoom() {
 // member-info records are not declared in this class yet (layout request), so the writes are not reproduced.
 // The final response test is exact: vtable slot +0x58 is IsRoomHidden (vtable dump), and the response is
 // sent when the room is not hidden.
-std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttributes& attributes) {
+std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, CRoomAttributes& attributes) {
     if (!initialized_) {
         return -1;
     }
@@ -77,7 +77,7 @@ std::int32_t CMatchingLocal::CreateJoinRoomInternal(bool open, const CRoomAttrib
 
 // 0x807bec _ZN14CMatchingLocal18SearchRoomInternalER17CRoomSearchFilterbh
 // The bool and the byte are not used by the original body.
-std::int32_t CMatchingLocal::SearchRoomInternal(const CRoomSearchFilter& filter, bool /*flag*/,
+std::int32_t CMatchingLocal::SearchRoomInternal(CRoomSearchFilter& filter, bool /*flag*/,
                                                 std::uint8_t /*mode*/) {
     if (!initialized_) {
         return -1;
@@ -109,7 +109,7 @@ std::int32_t CMatchingLocal::JoinRoomInternal(std::uint64_t key) {
 }
 
 // 0x808694 _ZN14CMatchingLocal23GetSearchRoomAttributesEy
-CRoomAttributes CMatchingLocal::GetSearchRoomAttributes(std::uint64_t key) const {
+CRoomAttributes CMatchingLocal::GetSearchRoomAttributes(std::uint64_t key) {
     auto it = servers_.find(key);
     if (it == servers_.end()) {
         return CRoomAttributes();

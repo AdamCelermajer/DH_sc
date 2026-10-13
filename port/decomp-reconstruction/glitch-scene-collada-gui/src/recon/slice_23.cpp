@@ -293,14 +293,4 @@ void boxTransform(PDBox&, const core::CMatrix4<float>&) {}  // stub: corner tran
 
 }  // namespace ps
 
-// ---------------------------------------------------------------------------
-// glitch::gui::ICursorControl base destructor.
-// ---------------------------------------------------------------------------
-namespace gui_cursor {
-
-// 0x69ffe4 _ZN6glitch3gui14ICursorControlD1Ev
-void destroyBase(ControlStandIn&) {}
-
-}  // namespace gui_cursor
-
 }  // namespace glitch::collada::recon_23

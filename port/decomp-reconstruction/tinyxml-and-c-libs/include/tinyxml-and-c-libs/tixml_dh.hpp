@@ -30,6 +30,9 @@ class TiXmlElement : public TiXmlNode {
 public:
     explicit TiXmlElement(std::string value) : value_(std::move(value)) {}
     const std::string& Value() const { return value_; }
+    // TinyXML 2.5.x, unmodified upstream in the binary (ledgered `upstream` rows, no source file in the tree yet):
+    const char* Attribute(const char* name) const;                          // 0x514c70
+    void SetAttribute(const std::string& name, const std::string& value);   // 0x516400
 private:
     std::string value_;  // original: the name's begin pointer at +0x34 (VisitEnter reads it)
 };

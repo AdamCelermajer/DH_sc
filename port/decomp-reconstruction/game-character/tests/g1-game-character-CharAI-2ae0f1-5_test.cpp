@@ -269,10 +269,17 @@ void TestSyncLastTarget() {
 void TestTargetSeeking() {
     CharAI* self = AI();
     const auto seeking = get(TagTargetSeeking{});
+    const auto character = get(TagCharacter{});
+    // Seeking is also gated by bit 0x1000 of the owner's state flags (CharStateMachine::m_stateFlags, +0x24).
+    Character* owner = MakeMember(g_ownerStorage, "", "", -1);
+    self->*character = owner;
     self->*seeking = false;
     EXPECT(!self->AI_IsTargetSeeking());
     self->*seeking = true;
     EXPECT(self->AI_IsTargetSeeking());
+    owner->CharStateMachine::m_stateFlags = 0x1000u;
+    EXPECT(!self->AI_IsTargetSeeking());
+    owner->CharStateMachine::m_stateFlags = 0;
 }
 
 void TestMoveTowardTarget() {

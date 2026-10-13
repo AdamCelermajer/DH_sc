@@ -4,10 +4,9 @@
 //
 // Facts shared by the bodies:
 //   - A native is void(const gameswf::fn_call&). Argument i is read by the pseudocode as the environment
-//     stack entry at (first argument index - i), 12 bytes per gameswf::as_value. Type codes the pseudocode
-//     checks: 1 boolean, 2 number, 5 object. The gameswf accessors are not in the tree, so no native reads an
-//     argument or writes its result. Each body that acts on the values is the *OfPlayer helper, and the
-//     native is PARTIAL until it can call it.
+//     stack entry at (first argument index - i), 12 bytes per gameswf::as_value, which is call.arg(i). Type codes the
+//     pseudocode checks: 1 boolean, 2 number, 5 object. The result is call.result. The *OfPlayer helpers hold the
+//     body that acts on the decoded values.
 //   - NativeGetPlayerChar(player, false) returns the character, or null.
 //   - Character::m_controller (v2Controllable +0x04; Character +0x378) is the v2Controller. Its m_blocked is
 //     the byte at +0x08.
@@ -16,6 +15,9 @@
 //     The asm is the source where the two differ.
 
 #include "dh2/global/native_player_actions.hpp"
+
+#include <cmath>
+#include <cstdio>
 
 #include "dh2/Application.hpp"
 #include "gameswf/gameswf_environment.h"
@@ -32,19 +34,26 @@
 #include "dh2/ZoomHandler.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/gc_invite_flags.hpp"
+#include "dh2/global/menu_main_menu.hpp"
+#include "dh2/global/native_app_hud_level.hpp"
+#include "core-platform/deps/application.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "core-platform/device.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/MenuManager.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/Point3D.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/member_names.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
-
-// The pydata Arrays lookup. pydata-accessors/member_names.hpp declares Arrays::GetMemberIDByString and defines
-// Structs tables that pydata-accessors/structs_records.hpp (included through CharProperties.hpp) also defines, so
-// the two headers cannot share a translation unit. The declarations below match them. Arrays::TrophyTable is a
-// struct in w7_arrays_00.hpp.
-namespace Arrays {
-struct TrophyTable;
-template <class T>
-int GetMemberIDByString(const char* name);
-}  // namespace Arrays
+#include "vox-audio/vox/sound_manager.hpp"
 
 namespace {
 
@@ -60,11 +69,9 @@ void UnlockTrophyNamed(TrophyManager* trophies, const char* name) {
 }  // namespace
 
 // 0x43d2c8 NativeUsePotion(gameswf::fn_call const&)
-// PARTIAL: argument 0 (player index) is not read. The PotionDrink sound (VoxSoundManager::Play with
-// Arrays::GetMemberIDByString<Arrays::Sounds>("PotionDrink")) is left out: VoxSoundManager::s_instance and Play are
-// not declared in the tree.
+// Argument 0 is the player index. UsePotionOnPlayer does the rest, including the "PotionDrink" sound.
 void NativeUsePotion(const gameswf::fn_call& call) {
-    (void)call;
+    UsePotionOnPlayer(static_cast<int>(call.arg(0).to_number()));
 }
 
 // Body of NativeUsePotion on the decoded player index. Without a character, or one without a potion, nothing
@@ -83,7 +90,8 @@ void UsePotionOnPlayer(int player) {
     const float mpPercent = static_cast<float>(static_cast<int>(ch->GetMPPercent()));
     if (hpPercent < 1.0f || mpPercent < 1.0f) {
         ch->m_controller->Cmd_UsePotion();
-        // PARTIAL: the PotionDrink sound is not played (see NativeUsePotion).
+        // VoxSoundManager::Play(s_instance, id of "PotionDrink", loop 0, fade 0, type 0, force 0).
+        VoxSoundManager::s_instance->Play(Arrays::GetMemberIDByString<Arrays::Sounds>("PotionDrink"), false, 0, 0, false);
     }
 }
 
@@ -101,9 +109,11 @@ void SetCurrentQuestOfPlayer(int player, int quest) {
 }
 
 // 0x43d43c NativeStatsRemoveAssign(gameswf::fn_call const&)
-// PARTIAL: arguments 0 to 4 (a, b, c, d, player) are not read.
+// Arguments 0 to 3 are the four stat deltas (a, b, c, d) and argument 4 is the player index.
 void NativeStatsRemoveAssign(const gameswf::fn_call& call) {
-    (void)call;
+    ResetStatsChangeOfPlayer(static_cast<int>(call.arg(4).to_number()), static_cast<int>(call.arg(0).to_number()),
+                             static_cast<int>(call.arg(1).to_number()), static_cast<int>(call.arg(2).to_number()),
+                             static_cast<int>(call.arg(3).to_number()));
 }
 
 // Body of NativeStatsRemoveAssign: Character::ResetStatsChange(a, b, c, d) on the player's character.
@@ -115,12 +125,23 @@ void ResetStatsChangeOfPlayer(int player, int a, int b, int c, int d) {
 }
 
 // 0x43d548 NativeSkillsTrainSkill(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (skill), 1 (player) and, when there are three, 2 (flag) are not read, because gameswf::fn_call
-// has no definition in the tree. The result is not set either. The original sets a bool (IncSkill's result) when the
-// flag is set, otherwise a number (CharProperties PROPS_GetInt(157, false)) with as_value::set_double. The bool
-// return of Character::IncSkill is declared now (dh2/Character.hpp), and TrainSkillOfPlayer returns it.
+// Argument 0 is the skill, argument 1 the player index and, when there are three arguments, argument 2 a flag. The character
+// raises the skill (Character::IncSkill(skill, flag)). The result is IncSkill's bool when the flag is set, otherwise the
+// character's remaining skill points (property 157) as a number. Without a character the result is left alone.
 void NativeSkillsTrainSkill(const gameswf::fn_call& call) {
-    (void)call;
+    const int skill = static_cast<int>(call.arg(0).to_number());
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const bool flag = call.nargs == 3 ? call.arg(2).to_bool() : false;
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch) {
+        const bool trained = ch->IncSkill(skill, flag);
+        const int skillPoints = ch->PROPS_GetInt(157, false);
+        if (flag) {
+            call.result->set_bool(trained);
+        } else {
+            call.result->set_double(static_cast<double>(skillPoints));
+        }
+    }
 }
 
 // Body of NativeSkillsTrainSkill: Character::IncSkill(skill, flag) on the player's character. It returns the bool that
@@ -168,15 +189,33 @@ void PinchZoomBy(int amount) {
 }
 
 // 0x43d790 NativeInvGetEquipedItem(gameswf::fn_call const&)
-// PARTIAL: arguments (slot, result object, player) are not read, and the result object is not written. The
-// original writes the object's ItemName (sprintf of the format and the item name), ItemIndex and ItemColor, then
-// sets the bool result. The ItemColor key is set from ItemInstance::GetNumPowers, as in the binary. Missing:
-// the gameswf object and value API (as_object set_member, as_value constructors, set_bool, set_undefined) and the
-// item name pointer that the sprintf reads at ItemInstance +0x1c (v22[7]), which ItemInstance does not declare.
-// When the slot is out of range the original evaluates PyDataConstants "EquipmentSlots"/"Count" and discards it,
-// so that lookup is left out.
+// Three arguments: the slot (number), the result object (argument 1, used when it is an object) and the player index. The
+// result is true and the object gets ItemName ("<font color='#%000000X'>name</font>" with the item's colour), ItemIndex and
+// ItemColor (the item's power count) when the player has an item in that slot; otherwise false. For a slot outside the character's
+// equipment slots the original also evaluates PyDataConstants "EquipmentSlots"/"Count" and drops the value, so that lookup is
+// not repeated here. With any other argument count nothing happens.
 void NativeInvGetEquipedItem(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 3) {
+        return;
+    }
+    const int slot = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    const int player = static_cast<int>(call.arg(2).to_number());
+    bool found = false;
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch && IsEquipmentSlotInRange(slot, ch->ItemInventory::GetNumEquipmentSlots())) {
+        ItemInstance* item = ch->ItemInventory::GetEquippedItem(static_cast<unsigned int>(slot));
+        if (item) {
+            char text[1024];
+            std::snprintf(text, sizeof text, "<font color='#%000000X'>%s</font>", static_cast<unsigned int>(item->GetColor()),
+                          item->m_name.c_str());
+            object->set_member(tu_stringi("ItemName"), gameswf::as_value(text));
+            object->set_member(tu_stringi("ItemIndex"), gameswf::as_value(ch->ItemInventory::GetItemIndex(item)));
+            object->set_member(tu_stringi("ItemColor"), gameswf::as_value(item->GetNumPowers()));
+            found = true;
+        }
+    }
+    call.result->set_bool(found);
 }
 
 // Body of NativeInvGetEquipedItem. Returns false when there is no character, the slot is out of range, or there is
@@ -228,12 +267,14 @@ void AutoEquipSlotOfPlayer(int player, int slot) {
 }
 
 // 0x43dafc NativeOnHUDOpenEvent(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (flag, a boolean) and 1 (index, a number) are not read, and the write is left out. The asm
-// stores the flag byte at Level +0x190 plus the index (ADD with no scaling, then STRB at +0x190). Level declares
-// only pad_190[4] (layout request: a byte array of at least 4 entries at Level +0x190, indexed by the HUD index).
-// The original does not check that a level exists.
+// Two arguments: a boolean (the HUD is open) and a number (the local player index). The flag is stored in the current level's
+// per-player HUD flag byte (Level +0x190 + index). The original does not check that a level exists or that the index is below 4.
 void NativeOnHUDOpenEvent(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_bool() && call.arg(1).is_number()) {
+        const bool open = call.arg(0).to_bool();
+        const int index = static_cast<int>(call.arg(1).to_number());
+        Singleton<Application>::s_inst.GetCurrentLevel()->m_playerHudOpen[index] = open;
+    }
 }
 
 // 0x43dbb8 NativeReloadSkills(gameswf::fn_call const&): ReloadSkillsOfPlayer(argument 0, or the player 0 when there is no argument).
@@ -297,50 +338,132 @@ void SaveGameOfPlayer(int player) {
     }
 }
 
+// The "SettingInvitationPending" callback on the menu root with one boolean argument (the three callers differ only in it).
+static void InvokeSettingInvitationPending(bool pending) {
+    const gameswf::as_value argument(pending);
+    MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "SettingInvitationPending", &argument, 1);
+}
+
 // 0x43de30 NativeStartFromGCInvite(gameswf::fn_call const&)
-// PARTIAL, stub: the body is not reconstructed. The optional argument 0 (save slot) is not read. The
-// original tests Device::IsHighPerformance, Is_In_Multiplayer_Mode, SHARP_DEVICES and HTC_DEVICES, then
-// PlayerSavegame::SG_Exists(slot), Application::IsWifiEnabled and OnlineGameState::Init(3), and it calls
-// RenderFX::InvokeASCallback("_root", "SettingInvitationPending" / "GoToVerificationScreen") with gameswf values.
-// Missing: RenderFX::InvokeASCallback and the gameswf value API, the two .bss flags (byte_99F81A, byte_99F83A) that
-// have no names yet, and the result set_bool.
+// Starts a game from a GameCenter invitation. The optional argument 0 is the save slot (0 when absent). The result is true only when
+// the verification screen was opened. When the device gate (Device::IsHighPerformance, Is_In_Multiplayer_Mode, SHARP_DEVICES or
+// HTC_DEVICES) is open: a missing save slot reports "SettingInvitationPending(true)" and returns false; with wifi on, the pending
+// flag is cleared on the menu, the slot is assigned to the local player and, when the invitation was accepted (byte_99F83A), the
+// online state is initialised in mode 3 and the "GoToVerificationScreen" callback runs. Otherwise, when either invite flag is set, the
+// pending flag is cleared on the menu and both flags are reset.
 void NativeStartFromGCInvite(const gameswf::fn_call& call) {
-    (void)call;
+    const int slot = call.nargs == 1 ? static_cast<int>(call.arg(0).to_number()) : 0;
+    bool gateOpen = Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES || HTC_DEVICES;
+    if (gateOpen) {
+        if (!PlayerSavegame::SG_Exists(static_cast<std::uint32_t>(slot))) {
+            InvokeSettingInvitationPending(true);
+            call.result->set_bool(false);
+            return;
+        }
+        if (Singleton<Application>::s_inst.IsWifiEnabled()) {
+            InvokeSettingInvitationPending(false);
+            AssignSaveSlotToPlayer(slot, 0);
+            if (byte_99F83A) {
+                OnlineSingleton<OnlineGameState>::GetInstance()->Init(3);
+                MenuManager::GetInstance()->GetRoot()->InvokeASCallback("_root", "GoToVerificationScreen", nullptr, 0);
+                call.result->set_bool(true);
+                return;
+            }
+            call.result->set_bool(false);
+            return;
+        }
+    }
+    if (!byte_99F81A && !byte_99F83A) {
+        call.result->set_bool(false);
+        return;
+    }
+    InvokeSettingInvitationPending(false);
+    byte_99F83A = 0;
+    byte_99F81A = 0;
+    call.result->set_bool(false);
 }
 
 // 0x43e0d0 NativeStartGame(gameswf::fn_call const&)
-// PARTIAL, stub: the body is not reconstructed. The optional argument 0 (difficulty) is not read. The original
-// returns when a level exists and its m_loadStep (Level +0x130) is 38. Otherwise it reads the local player through
-// PlayerManager::GetLocalPlayer(0, false) and its save slot at +0x664, builds a PlayerSavegame(slot, 1, 0), and,
-// when m_unlockedDifficulty (PlayerSavegame +0x3c) is at least the argument, sets PlayerSavegame::m_difficultyLevel
-// to it. It then saves, picks the level from Arrays::LevelList and the difficulty table, and calls
-// Application::LoadLevel with ten arguments. Missing: the local player's layout (PlayerInfo is incomplete; the
-// original casts it to PlayerSavegame), GetOnline()->+0x05, the Arrays::LevelList and DesignSettingsTable stride
-// reads, and the gameswf argument.
+// Starts (or resumes) the local player's game. Nothing happens while the current level is loaded (m_loadStep 38). The save slot is the
+// local player's PlayerInfo +0x664; a PlayerSavegame is loaded for it (the original also calls SG_GetNextFreeSlot, unused, for a
+// non-negative slot). With one numeric argument (a difficulty), the difficulty becomes the running one when it is not above the
+// highest unlocked, and the save is written. The level comes from the save's level id for that difficulty (the first design settings
+// default when -1); the entry point and the spawn-point flag come from the save in an offline game, while an online guest enters at
+// entry point 1 and no game uses the spawn point. The spawn-point flag is cleared, the save is written and the level is loaded with
+// Application::LoadLevel(name, entry, slot, true, spawnPoint, difficulty argument, false, 0, 0).
 void NativeStartGame(const gameswf::fn_call& call) {
-    (void)call;
+    Application& app = Singleton<Application>::s_inst;
+    Level* level = app.GetCurrentLevel();
+    if (level && level->m_loadStep == 38) {
+        return;
+    }
+    const int slot = app.m_playerManager->GetLocalPlayer(0, false)->unk_664;
+    if (slot >= 0) {
+        PlayerSavegame::SG_GetNextFreeSlot();
+    }
+    PlayerSavegame save(static_cast<std::uint32_t>(slot), 1, false);
+    int difficultyArgument = 0;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        difficultyArgument = call.arg(0).to_int();
+        if (save.m_unlockedDifficulty >= difficultyArgument) {
+            PlayerSavegame::m_difficultyLevel = difficultyArgument;
+        }
+        save.SG_Save();
+    }
+    const int difficulty = PlayerSavegame::m_difficultyLevel;
+    int levelId = save.unk_50[difficulty];
+    int entryPoint;
+    bool useSpawnPoint;
+    if (GetOnlineGameFlag()) {
+        entryPoint = app.m_playerManager->IsLocalPlayerHosting() ? save.m_levelEntryPoint[difficulty] : 1;
+        useSpawnPoint = false;
+    } else {
+        entryPoint = save.m_levelEntryPoint[difficulty];
+        useSpawnPoint = save.m_useSpawnPoint[difficulty];
+    }
+    if (levelId == -1) {
+        levelId = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w9;  // row 0 +0x24
+    }
+    save.m_useSpawnPoint[difficulty] = false;
+    save.SG_Save();
+    const char* levelName =
+        static_cast<const char*>(reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members)[levelId].m_w8);  // row +0x20
+    app.LoadLevel(levelName, entryPoint, static_cast<std::uint32_t>(slot), true, useSpawnPoint, difficultyArgument, false, 0, 0);
+    save.unk_194 = false;
 }
 
 // 0x43e308 NativeStartMultiplayerGame(gameswf::fn_call const&)
-// PARTIAL, stub: the body is not reconstructed. The original first sets OnlineGameState +0x14 (the state machine's
-// state) to 300 on every path, then branches on the mode at +0x34 (asm of 0x43e308, checked):
-//   - mode != 3: tail-calls NativeStartGame(call). NativeStartGame is called only on this path.
-//   - mode == 3 and the byte at +0x28 is set: returns, with nothing else done.
-//   - mode == 3 and the byte at +0x28 is clear: calls CMatchingGLLive::StartGame on CMatching::Get(), then sets
-//     +0x28 to 1.
-// The branch is ClassifyMultiplayerStart (native_player_actions.hpp). Missing: the OnlineGameState fields +0x14
-// (stateMachine_ is private, with no setter), +0x28 and +0x34 (not declared in net-session-online/online_game_state.hpp;
-// layout request), and the CMatching::Get() call with CMatchingGLLive::StartGame. The CMatching and CMatchingGLLive
-// headers are present now, so only the OnlineGameState fields and the mode read block the body.
+// The online state machine is set to state 300 on every path. In mode 3 (GLLive) the live game starts once: when its started flag
+// (OnlineGameState +0x28) is clear, CMatchingGLLive::StartGame runs on the matching object and the flag is set. Any other mode
+// starts the game through NativeStartGame.
 void NativeStartMultiplayerGame(const gameswf::fn_call& call) {
-    (void)call;
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    state->SetState(300);
+    if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        OnlineGameState* started = OnlineSingleton<OnlineGameState>::GetInstance();
+        if (!started->flag28_) {
+            static_cast<CMatchingGLLive*>(CMatching::Get())->StartGame();
+            OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ = true;
+        }
+    } else {
+        NativeStartGame(call);
+    }
 }
 
 // 0x43e494 NativeStatsReset(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (player, a number) and 1 (quote-only flag, a boolean) are not read, and the result is not
-// set. The original sets the result to the gold cost, or clears the result type when there is no character.
+// Two arguments: the player index (number) and a quote-only flag (boolean). The result is the gold cost, or undefined when the
+// player has no character. Other arguments leave the result alone.
 void NativeStatsReset(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_bool()) {
+        const int player = call.arg(0).to_int();
+        const bool quoteOnly = call.arg(1).to_bool();
+        int cost = 0;
+        if (ResetStatsOfPlayer(player, quoteOnly, &cost)) {
+            call.result->set_double(static_cast<double>(cost));
+        } else {
+            call.result->set_undefined();
+        }
+    }
 }
 
 // Body of NativeStatsReset. The cost is "StatsReset_GoldCostPerLevel" times the character's level. Unless
@@ -363,10 +486,19 @@ bool ResetStatsOfPlayer(int player, bool quoteOnly, int* costOut) {
 }
 
 // 0x43e600 NativeInvEquipItem(gameswf::fn_call const&)
-// PARTIAL: arguments 0 (item), 1 (slot) and 2 (player) are not read, and the result is not cleared. The asm shows the
-// call is Character::EquipItemToSlot(item, slot) (vtable +0x13c), with the first argument as the item.
+// Three numbers: the item, the slot and the player index. The character equips the item in the slot (EquipItemToSlot, vtable
+// +0x13c) and the result is cleared to undefined. Anything else does nothing.
 void NativeInvEquipItem(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 3 && call.arg(0).is_number() && call.arg(1).is_number() && call.arg(2).is_number()) {
+        const int item = call.arg(0).to_int();
+        const int slot = call.arg(1).to_int();
+        const int player = call.arg(2).to_int();
+        Character* ch = NativeGetPlayerChar(player, false);
+        if (ch) {
+            ch->EquipItemToSlot(static_cast<unsigned int>(item), static_cast<unsigned int>(slot));
+            call.result->set_undefined();
+        }
+    }
 }
 
 // Body of NativeInvEquipItem: Character::EquipItemToSlot(item, slot) on the player's character.
@@ -410,14 +542,32 @@ void HudSkillForLocalPlayer(int slot) {
 }
 
 // 0x43e830 NativeMoveCharacter(gameswf::fn_call const&)
-// PARTIAL, stub: the body is not reconstructed. The original checks that argument 0 is a number and not NaN
-// (asm: __aeabi_dcmpun), that arguments 1 and 2 are numbers, and that the character may act (CTRLIsAllowed). It
-// then takes the unit vector (1, -1, 0), rotates it by 90 - angle about the origin (Point3D<float>::normalize and
-// rotateXYBy), scales it by argument 1, and calls v2Controller::Cmd_HeadTowards(Point3D<float> const&) with the
-// result. Missing: the Point3D<float> methods (the game_types.hpp Point3D is a plain struct) and the gameswf
-// argument and type checks.
+// Three numbers: the angle (a NaN angle stops the call), the scale and the player index. When the character may act
+// (CTRLIsAllowed), the unit vector (1, -1, 0) is normalised, rotated by 90 - angle degrees about the origin, scaled and passed to
+// v2Controller::Cmd_HeadTowards. The angle and the scale are narrowed to float, as the binary does (__aeabi_d2f).
 void NativeMoveCharacter(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 3) {
+        return;
+    }
+    const gameswf::as_value& angleArg = call.arg(0);
+    if (!angleArg.is_number() || std::isnan(angleArg.to_number())) {
+        return;
+    }
+    if (!call.arg(1).is_number() || !call.arg(2).is_number()) {
+        return;
+    }
+    const double angle = call.arg(0).to_number();
+    const double scale = call.arg(1).to_number();
+    Character* ch = NativeGetPlayerChar(call.arg(2).to_int(), false);
+    if (ch && ch->CTRLIsAllowed()) {
+        Point3D<float> heading{1.0f, -1.0f, 0.0f};
+        heading.normalize();
+        const Point3D<float> origin{0.0f, 0.0f, 0.0f};
+        heading.rotateXYBy(90.0f - static_cast<float>(angle), origin);
+        const float scaleF = static_cast<float>(scale);
+        const Point3D<float> target{scaleF * heading.X, scaleF * heading.Y, scaleF * heading.Z};
+        ch->m_controller->Cmd_HeadTowards(target);
+    }
 }
 
 // 0x43ea0c NativeUnlockCharacter(gameswf::fn_call const&): with one numeric argument, UnlockCharacterControl(player).

@@ -41,6 +41,12 @@
 #include "dh2/Script_ShowTrophies.hpp"
 #include "dh2/Script_SkipAllCharMenuTutorialMessages.hpp"
 #include "dh2/ScriptCmdImpl.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/RenderFX.hpp"
+#include "dh2/CameraTarget.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "vendor-gameswf/gameswf_root.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 
@@ -75,18 +81,24 @@ bool Script_SetCameraTarget::IsBlocking() const {
 }
 
 // 0x460004 Script_SetCameraTarget::Execute(bool, int)
-// PARTIAL: the trace read and the level and camera lookup are rebuilt. Missing: the two CameraTarget::SetTarget calls.
-// The camera is the level's CameraLevel (+0x128), which has no header, so it cannot be passed as a CameraTarget. The
-// target is the record's name (+0x10) when it is not empty, else the local player's Character (PlayerManager, see the
-// file comment). The blend time is zero when skipping and otherwise the record's m_w2 (+0x08).
+// The level camera (CameraLevel, +0x128) takes a new target: the record's name (+0x10) when it is not empty (CameraTarget::SetTarget by
+// name), otherwise the local player's Character. The blend time is 0 when skipping and the record's m_w2 (+0x08) otherwise.
 void Script_SetCameraTarget::Execute(bool skipping, int module) {
-    (void)skipping;
     (void)module;
+    const auto* args = static_cast<const Structs::SetCameraTarget*>(m_args);
     ReadTracingScriptCmdSwitch();
-    if (ApplicationGetInstance().GetCurrentLevel() == nullptr) {
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level == nullptr || level->m_camera == nullptr) {
         return;
     }
-    // PARTIAL: CameraTarget::SetTarget(camera, name or character, blend) is not called (see above).
+    CameraTarget* camera = level->m_camera;
+    const char* name = args->m_w4;
+    const int transitionMs = skipping ? 0 : args->m_w2;
+    if (*name != '\0') {
+        camera->SetTarget(name, transitionMs);
+    } else {
+        camera->SetTarget(ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660, transitionMs);
+    }
 }
 
 // 0x45576c Script_SetFaeryState::IsBlocking() const
@@ -95,13 +107,17 @@ bool Script_SetFaeryState::IsBlocking() const {
 }
 
 // 0x45f6c8 Script_SetFaeryState::Execute(bool, int)
-// PARTIAL: the trace read is rebuilt. Missing: Character::SetFaeryState(character, m_w2, m_w3) on the local player's
-// Character (PlayerManager::GetLocalPlayerCharacter, 0x330794), when that Character is not null. dh2/PlayerManager.hpp
-// and dh2/Character.hpp cannot be included in one translation unit (both define IStreamBase, see the file comment).
+// The local player's Character (GetLocalPlayer(0, true), PlayerInfo +0x660), when there is one, takes the record's faery (m_w2) in
+// the record's state (m_w3): Character::SetFaeryState.
 void Script_SetFaeryState::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const auto* args = static_cast<const Structs::SetFaeryState*>(m_args);
     ReadTracingScriptCmdSwitch();
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
+    if (character != nullptr) {
+        character->SetFaeryState(static_cast<unsigned int>(args->m_w2), args->m_w3);
+    }
 }
 
 // 0x4558e4 Script_SetLevelState::IsBlocking() const
@@ -110,13 +126,17 @@ bool Script_SetLevelState::IsBlocking() const {
 }
 
 // 0x45cf40 Script_SetLevelState::Execute(bool, int)
-// PARTIAL: the trace read is rebuilt. Missing: Character::SG_SetLevelState(character, m_w2, m_w3, -1) on the local
-// player's Character when it is not null (PlayerManager::GetLocalPlayerCharacter, 0x330794). The PlayerManager and
-// Character headers cannot share a translation unit (see the file comment).
+// The local player's Character, when there is one, records the record's level (m_w2) in the record's state (m_w3) for the current
+// difficulty: Character::SG_SetLevelState(level, state, -1).
 void Script_SetLevelState::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const auto* args = static_cast<const Structs::SetLevelState*>(m_args);
     ReadTracingScriptCmdSwitch();
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
+    if (character != nullptr) {
+        character->SG_SetLevelState(args->m_w2, args->m_w3, -1);
+    }
 }
 
 // 0x455810 Script_SetStatic::IsBlocking() const
@@ -149,13 +169,17 @@ bool Script_SetWorldMapLocationState::IsBlocking() const {
 }
 
 // 0x45ce78 Script_SetWorldMapLocationState::Execute(bool, int)
-// PARTIAL: the trace read is rebuilt. Missing: Character::SG_SetMapLocState(character, m_w2, m_w3, -1) on the local
-// player's Character when it is not null (PlayerManager::GetLocalPlayerCharacter, 0x330794). The PlayerManager and
-// Character headers cannot share a translation unit (see the file comment).
+// The local player's Character, when there is one, records the record's world-map location (m_w2) in the record's state (m_w3) for
+// the current difficulty: Character::SG_SetMapLocState(location, state, -1).
 void Script_SetWorldMapLocationState::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const auto* args = static_cast<const Structs::SetWorldMapLocationState*>(m_args);
     ReadTracingScriptCmdSwitch();
+    Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayer(0, true)->unk_660;
+    if (character != nullptr) {
+        character->SG_SetMapLocState(args->m_w2, args->m_w3, -1);
+    }
 }
 
 // 0x455820 Script_ShowActor::IsBlocking() const
@@ -210,22 +234,29 @@ void Script_ShowFlash::Init() {
 }
 
 // 0x45f8c8 Script_ShowFlash::Execute(bool, int)
-// PARTIAL: a resolved menu is shown (its virtual slot +0x0c, MenuFX::State::Show) and the call returns. Otherwise the
-// trace read and the MenuManager lookup run, and a name containing "HUD" would drive the HUD: DisplayRightHud,
-// FillActionIcon (type 2 with the icon id from MenuManager +0x108 as a double) and DisplayOfCurrentHud, all through
-// RenderFX::InvokeASCallback on the HUD root's gameswf root movie. That branch is missing: the gameswf values, roots
-// and characters it uses are vendored in port/engine-ui and are not on the Track B include path. The menu is shown
-// again at the end when one is set, as in the original.
+// A resolved menu is shown (its virtual slot +0x0c, MenuFX::State::Show) and the call returns. Otherwise a record name that contains
+// "HUD" drives the HUD root: DisplayRightHud (no arguments), FillActionIcon with the number MenuManager +0x108 and DisplayOfCurrentHud with
+// true. The menu is shown again at the end when one is set (it is not, on this path), as in the original.
 void Script_ShowFlash::Execute(bool skipping, int module) {
     (void)skipping;
     (void)module;
+    const auto* args = static_cast<const Structs::ShowFlash*>(m_args);
     ReadTracingScriptCmdSwitch();
     if (m_menu != nullptr) {
         m_menu->Show();
         return;
     }
-    (void)MenuManager::GetInstance();
-    // PARTIAL: the HUD branch for names containing "HUD" is missing (see above).
+    MenuManager::GetInstance();
+    if (LC_API_STRSTR(args->m_w4, "HUD") != nullptr) {
+        MenuFX* hud = MenuManager::GetInstance()->GetHUDRoot();
+        hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "DisplayRightHud", nullptr, 0);
+        gameswf::as_value icon;
+        icon.set_double(static_cast<double>(MenuManager::GetInstance()->m_actionIconType));
+        hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "FillActionIcon", &icon, 1);
+        gameswf::as_value current;
+        current.set_bool(true);
+        hud->InvokeASCallback(hud->RenderFX::GetRoot()->get_root_movie(), "DisplayOfCurrentHud", &current, 1);
+    }
     if (m_menu != nullptr) {
         m_menu->Show();
     }

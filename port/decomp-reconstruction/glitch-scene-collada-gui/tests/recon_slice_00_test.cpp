@@ -82,40 +82,12 @@ void testFrustum() {
     CHECK(!fr.intersects(box(200, 0, 0, 201, 1, 1)));
 }
 
-void testGui() {
-    GuiEnvironment env;
-    GuiElement* root = env.getRootGUIElement();
-    CHECK(root == &env.root);
-
-    GuiElement child;
-    child.relative = glitch::core::rect<int>{{0, 0}, {10, 10}};
-    root->addChild(&child);
-    CHECK(child.parent == root);
-    CHECK(root->children.size() == 1);
-
-    child.move(glitch::core::position2d<int>{5, 3});
-    CHECK(child.relative.UpperLeftCorner.X == 5);
-    CHECK(child.relative.UpperLeftCorner.Y == 3);
-    CHECK(child.relative.LowerRightCorner.X == 15);
-    CHECK(child.relative.LowerRightCorner.Y == 13);
-
-    CHECK(child.remove() == 1);
-    CHECK(root->children.empty());
-    CHECK(child.parent == nullptr);
-
-    child.setText(L"hello");
-    CHECK(child.text == L"hello");
-
-    CHECK(env.getElementById(0, nullptr) == root);
-}
-
 }  // namespace
 
 int main() {
     testTweakable();
     testMappingCopy();
     testFrustum();
-    testGui();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);
         return 1;

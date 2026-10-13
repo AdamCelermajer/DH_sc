@@ -53,6 +53,7 @@ stream::~stream()
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_function.h"  // as_function, complete for the smart_ptr values
 #include "vendor-gameswf/gameswf_alloc.hpp"
+#include "vendor-gameswf/gameswf_dh2_hash.hpp"  // the declaration of this specialization (link-1)
 
 template <>
 void hash<int, smart_ptr<gameswf::as_function>, fixed_size_hash<int> >::set_raw_capacity(int new_size) {

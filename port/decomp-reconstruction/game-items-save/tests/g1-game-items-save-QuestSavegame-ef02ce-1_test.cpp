@@ -356,6 +356,11 @@ void TestInitQuestsBuildsLists() {
     ResetLogs();
     Arrays::v2Quests::size = 2;
     Arrays::v2Quests::members = g_rowBlock;
+    static char nameAlpha[] = "Alpha";
+    static char nameBeta[] = "Beta";
+    static char* questNames[] = {nameAlpha, nameBeta};
+    Arrays::v2Quests::m_memberNames.names = questNames;
+    Arrays::v2Quests::m_memberNames.size = 2;
 
     QuestSavegame qs;
     Character* owner = reinterpret_cast<Character*>(static_cast<std::uintptr_t>(0x1234));
@@ -375,6 +380,7 @@ void TestInitQuestsBuildsLists() {
             CHECK(quest->m_listIndex == d);
             CHECK(quest->m_pyDataIndex == i);
             CHECK(quest->m_owner == owner);
+            CHECK(quest->m_name == questNames[i]);  // the pydata name is stored at Quest +0x14
             CHECK(g_assignRows[static_cast<std::size_t>(d * 2 + i)] ==
                   reinterpret_cast<Structs::v2Quest*>(g_rowBlock) + i);
         }
@@ -392,6 +398,8 @@ void TestInitQuestsBuildsLists() {
 
     Arrays::v2Quests::size = 0;
     Arrays::v2Quests::members = nullptr;
+    Arrays::v2Quests::m_memberNames.names = nullptr;
+    Arrays::v2Quests::m_memberNames.size = 0;
 }
 
 }  // namespace

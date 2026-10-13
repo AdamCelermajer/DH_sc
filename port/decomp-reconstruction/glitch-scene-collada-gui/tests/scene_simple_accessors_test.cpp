@@ -253,7 +253,9 @@ int main() {
         CSceneNodeAnimatorFlyStraight fly;
         fly.end.X = 2.0f;
         fly.start.X = 0.5f;
-        CHECK(fly.recalculateImidiateValues() == 1.5f);
+        fly.timeForWay = 3000;
+        CHECK(fly.recalculateImidiateValues() == 1.5f / 3000.0f);  // the time factor: way length / time for the way
+        CHECK(fly.wayLength == 1.5f);
     }
 
     std::printf("%s\n", failures ? "scene_simple_accessors: FAILED" : "scene_simple_accessors: ok");

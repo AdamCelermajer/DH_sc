@@ -162,7 +162,7 @@ gameswf::ref_counted* bitmap_glyph_provider::get_font_entity(const ::tu_string& 
 	if (!found) {
 		char fontfile[256];
 		std::memset(fontfile, 0, sizeof(fontfile));  // binary: LC_API_MEMSET_0(buffer, 0, 256)
-		if (get_fontfile(name.c_str(), is_bold, is_italic, fontfile, static_cast<int>(sizeof(fontfile))) &&
+		if (::get_fontfile(name.c_str(), is_bold, is_italic, fontfile, static_cast<int>(sizeof(fontfile))) &&
 		    (std::strstr(fontfile, ".fnt") != nullptr || std::strstr(fontfile, ".FNT") != nullptr)) {
 			for (auto it = m_font_entities.begin(); it != m_font_entities.end(); ++it) {
 				bitmap_font_entity* loaded = it->second.get_ptr();

@@ -95,8 +95,8 @@ public:
 
 // ---- CTextureManager doubles ------------------------------------------------------------------------------------
 // The texture manager's creation functions are declared in glitch-video/texture_manager.hpp and not reconstructed, so the
-// test defines the four that bitmap_info_ogl calls (weak, so a real definition in the glitch-video library wins in a
-// full build). removeTexture(intrusive_ptr&) is the library's own. Every call is recorded in g_manager_log.
+// test defines the four that bitmap_info_ogl calls (strong: they win over the link stubs for the same symbols).
+// removeTexture(intrusive_ptr&) is the library's own. Every call is recorded in g_manager_log.
 
 struct ManagerLog {
     int createImageCalls = 0;
@@ -134,7 +134,7 @@ inline ManagerLog g_manager_log;
 
 namespace glitch::video {
 
-__attribute__((weak)) boost::intrusive_ptr<CImage> CTextureManager::createImage(E_PIXEL_FORMAT format,
+boost::intrusive_ptr<CImage> CTextureManager::createImage(E_PIXEL_FORMAT format,
                                                                                  const core::dimension2d<int32_t>& size) {
     bio_test::g_manager_log.createImageCalls++;
     bio_test::g_manager_log.imageFormat = format;
@@ -145,7 +145,7 @@ __attribute__((weak)) boost::intrusive_ptr<CImage> CTextureManager::createImage(
     return boost::intrusive_ptr<CImage>(image);
 }
 
-__attribute__((weak)) boost::intrusive_ptr<ITexture> CTextureManager::addTexture(const core::dimension2d<int32_t>& size,
+boost::intrusive_ptr<ITexture> CTextureManager::addTexture(const core::dimension2d<int32_t>& size,
                                                                                   const char* name, E_PIXEL_FORMAT format,
                                                                                   bool flag) {
     bio_test::ManagerLog& log = bio_test::g_manager_log;
@@ -158,7 +158,7 @@ __attribute__((weak)) boost::intrusive_ptr<ITexture> CTextureManager::addTexture
     return boost::intrusive_ptr<ITexture>(log.lastTexture, true);
 }
 
-__attribute__((weak)) boost::intrusive_ptr<ITexture> CTextureManager::addTexture(const char* name,
+boost::intrusive_ptr<ITexture> CTextureManager::addTexture(const char* name,
                                                                                   const boost::intrusive_ptr<CImage>& image,
                                                                                   bool flag, E_TEXTURE_LAYOUT layout) {
     bio_test::ManagerLog& log = bio_test::g_manager_log;
@@ -172,7 +172,7 @@ __attribute__((weak)) boost::intrusive_ptr<ITexture> CTextureManager::addTexture
     return boost::intrusive_ptr<ITexture>(log.lastTexture, true);
 }
 
-__attribute__((weak)) boost::intrusive_ptr<ITexture> CTextureManager::getTexture(io::IReadFile* file, const char* name,
+boost::intrusive_ptr<ITexture> CTextureManager::getTexture(io::IReadFile* file, const char* name,
                                                                                  bool flag) {
     bio_test::ManagerLog& log = bio_test::g_manager_log;
     log.getFileCalls++;

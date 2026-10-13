@@ -15,6 +15,8 @@
 //   - The natives return void. gameswf calls them as void(const fn_call&); the Hex-Rays int return is the
 //     leftover r0 of the last call.
 
+#include <cstring>
+
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
 #include "dh2/Application.hpp"
@@ -25,59 +27,49 @@
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/native_app_hud_level.hpp"  // nativeOpenGLive (0x532b20)
 #include "dh2/global/native_online_gc.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/glx_player_leaderboard.hpp"
 #include "net-session-online/online_game_state.hpp"
 #include "net-session-online/tb/online_singleton.hpp"
 
-// 0x43a004 NativeIsBluetooth(gameswf::fn_call const&)
-// PARTIAL: the original sets the boolean result to (GetOnline()->isOnlineGame_ && OnlineGameState +0x34 == 2).
-// Missing: COnline::isOnlineGame_ (+0x05) has no getter, OnlineGameState +0x34 is not declared, and the
-// gameswf set_bool is not in the tree.
+// 0x43a004 NativeIsBluetooth(gameswf::fn_call const&): the result is true for an online game in mode 2 (Bluetooth).
 void NativeIsBluetooth(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(GetOnlineGameFlag() && OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 2);
 }
 
-// 0x43a04c NativeIsOnlineMode(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to (OnlineGameState +0x28 byte && GetOnline()->isOnlineGame_). Missing:
-// OnlineGameState +0x28 is not declared, COnline::isOnlineGame_ has no getter, and set_bool is not in the tree.
+// 0x43a04c NativeIsOnlineMode(gameswf::fn_call const&): the result is true when the online state's flag at +0x28 and the online game flag
+// are both set.
 void NativeIsOnlineMode(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ && GetOnlineGameFlag());
 }
 
-// 0x43a094 NativeIsGLLiveMultiplayer(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to (OnlineGameState +0x34 == 3). Missing: OnlineGameState +0x34 is not
-// declared and set_bool is not in the tree.
+// 0x43a094 NativeIsGLLiveMultiplayer(gameswf::fn_call const&): the result is true in online mode 3 (GL Live).
 void NativeIsGLLiveMultiplayer(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3);
 }
 
-// 0x43a0cc NativeSendRoomSearchRequest(gameswf::fn_call const&)
-// PARTIAL: the original writes 102 to OnlineGameState +0x14, the current state of its MultiplayerStateMachine
-// (the state is the first field, state_). The state machine has no public setter (SetStateForTest is a test
-// seam only) and OnlineGameState::stateMachine_ is private, so the write is left out.
-void NativeSendRoomSearchRequest(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43a0cc NativeSendRoomSearchRequest(gameswf::fn_call const&): the online state machine is set to state 102 (room search).
+void NativeSendRoomSearchRequest(const gameswf::fn_call& /*call*/) {
+    OnlineSingleton<OnlineGameState>::GetInstance()->SetState(102);
 }
 
-// 0x43a0e0 NativeGLXPlayerLoggedIn(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to the byte at OnlineGameState +0x26. Missing: +0x26 is not declared in
-// online_game_state.hpp, and set_bool is not in the tree.
+// 0x43a0e0 NativeGLXPlayerLoggedIn(gameswf::fn_call const&): the result is the GLX logged-in flag (OnlineGameState +0x26).
 void NativeGLXPlayerLoggedIn(const gameswf::fn_call& call) {
-    (void)call;
+    call.result->set_bool(OnlineSingleton<OnlineGameState>::GetInstance()->flag26_);
 }
 
-// 0x43a0fc NativeOnlineSanityCheck(gameswf::fn_call const&)
-// PARTIAL: the original clears the byte at OnlineGameState +0x26 (the GLX logged-in flag that
-// NativeGLXPlayerLoggedIn reads). +0x26 is not declared, so the write is left out.
-void NativeOnlineSanityCheck(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43a0fc NativeOnlineSanityCheck(gameswf::fn_call const&): clears the GLX logged-in flag (OnlineGameState +0x26).
+void NativeOnlineSanityCheck(const gameswf::fn_call& /*call*/) {
+    OnlineSingleton<OnlineGameState>::GetInstance()->flag26_ = false;
 }
 
-// 0x43a110 NativeCreateMultiplayerLobby(gameswf::fn_call const&)
-// PARTIAL: the original writes 101 to OnlineGameState +0x14, the current state of its MultiplayerStateMachine.
-// No public state setter exists and stateMachine_ is private, so the write is left out (see
-// NativeSendRoomSearchRequest).
-void NativeCreateMultiplayerLobby(const gameswf::fn_call& call) {
-    (void)call;
+// 0x43a110 NativeCreateMultiplayerLobby(gameswf::fn_call const&): the online state machine is set to state 101 (create lobby).
+void NativeCreateMultiplayerLobby(const gameswf::fn_call& /*call*/) {
+    OnlineSingleton<OnlineGameState>::GetInstance()->SetState(101);
 }
 
 // 0x43a124 NativeSetMultitouch(gameswf::fn_call const&): with one argument, stores to_bool(argument 0) in
@@ -105,32 +97,37 @@ void NativeEnableBluetooth(const gameswf::fn_call& call) {
 }
 
 // 0x43a1e4 NativeAddFriend(gameswf::fn_call const&)
-// PARTIAL: when GetOnline()->isOnlineGame_ is set and OnlineGameState +0x34 == 3, the original takes argument 0
-// as a tu_string (gameswf to_tu_string), gets the CMatchingGLLive, and sends a GL friend invite to the name. The
-// name is the long-string pointer at +0x0c when the first byte is -1, otherwise the inline text at +1.
-// Missing: the COnline flag (COnline::isOnlineGame_ is private with no getter; Application::IsOnlineGame is a stub),
-// OnlineGameState +0x34 (not declared), and the argument accessors (fn_call is incomplete in the tree, so argument 0
-// cannot be read). CMatching::Get() is static with no argument, and CMatchingGLLive derives from CMatching, so the
-// cast to CMatchingGLLive is available. CMatchingGLLive::SendGLFriendInvite(const char*) is public in
-// net-session-online/c_matching_gl_live.hpp.
+// In an online game in mode 3 (GL Live) argument 0 (a string, the player name) gets a friend invitation
+// (CMatchingGLLive::SendGLFriendInvite on CMatching::Get()).
 void NativeAddFriend(const gameswf::fn_call& call) {
-    (void)call;
+    if (GetOnlineGameFlag() && OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        const char* name = call.arg(0).to_tu_string().c_str();
+        static_cast<CMatchingGLLive*>(CMatching::Get())->SendGLFriendInvite(name);
+    }
 }
 
-// 0x43a248 NativeSendGLInvite(gameswf::fn_call const&)
-// PARTIAL: same gating and name handling as NativeAddFriend, but the send is
-// CMatchingGLLive::SendGLFriendsGameInvite(char*). Missing: the same as NativeAddFriend.
+// 0x43a248 NativeSendGLInvite(gameswf::fn_call const&): the same gate and name, but a game invitation
+// (CMatchingGLLive::SendGLFriendsGameInvite).
 void NativeSendGLInvite(const gameswf::fn_call& call) {
-    (void)call;
+    if (GetOnlineGameFlag() && OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3) {
+        char* name = const_cast<char*>(call.arg(0).to_tu_string().c_str());
+        static_cast<CMatchingGLLive*>(CMatching::Get())->SendGLFriendsGameInvite(name);
+    }
 }
 
 // 0x43a2cc NativeIsMultiplayerHost(gameswf::fn_call const&)
-// PARTIAL: the original sets the result to 1 when GetOnline()->isOnlineGame_ is clear. Otherwise, when
-// OnlineGameState +0x34 is 3 or 4, it is CMatchingGLLive::IsHost() and, for any other value,
-// PlayerManager::IsLocalPlayerHosting() on Application +0x40. Missing: the COnline flag getter, OnlineGameState
-// +0x34, the CMatchingGLLive accessor, and set_bool.
+// True offline. Online, in mode 3 or 4 the answer is CMatchingGLLive::IsHost() and in any other mode PlayerManager::IsLocalPlayerHosting().
 void NativeIsMultiplayerHost(const gameswf::fn_call& call) {
-    (void)call;
+    if (!GetOnlineGameFlag()) {
+        call.result->set_bool(true);
+        return;
+    }
+    const std::int32_t mode = OnlineSingleton<OnlineGameState>::GetInstance()->mode_;
+    if (mode == 3 || mode == 4) {
+        call.result->set_bool(static_cast<CMatchingGLLive*>(CMatching::Get())->IsHost());
+    } else {
+        call.result->set_bool(ApplicationGetInstance().m_playerManager->IsLocalPlayerHosting() != 0);
+    }
 }
 
 // 0x43a358 NativeWiFiCheck(gameswf::fn_call const&): the result is Application::IsWifiEnabled() on the singleton.
@@ -155,27 +152,60 @@ void NativeGCLeaderboards(const gameswf::fn_call& call) {
 }
 
 // 0x43a3dc NativeMultiplayerBack(gameswf::fn_call const&)
-// PARTIAL: the original stores to_string(argument 0) at OnlineGameState +0x30, then calls every handler of the
-// online handler list whose key is 15 (the back button), passing the handler context at +0x10, in list order.
-// Missing: to_string, the +0x30 field, and the handler list and runHandlers(15), which are private in
-// online_game_state.hpp.
+// Argument 0 (a string, the menu name) is stored in the online state (+0x30, OnlineGameState::menuName30_); then every handler
+// registered for the back button (key 15) runs with the handler context, in list order.
 void NativeMultiplayerBack(const gameswf::fn_call& call) {
-    (void)call;
+    OnlineGameState* state = OnlineSingleton<OnlineGameState>::GetInstance();
+    state->menuName30_ = call.arg(0).to_string();
+    OnlineSingleton<OnlineGameState>::GetInstance()->RunHandlers(15);
 }
 
 // 0x43a450 NativeShowLeaderboard(gameswf::fn_call const&)
-// PARTIAL: the original traces the call, then, when the Wi-Fi check passes, reads the command string (argument
-// 0, gameswf to_string) and runs init, next, prev or my_rank. The branches read the GLXPlayerLeaderboard at
-// CMatching::Get() + 0x671c (decimal 26396): that is CMatchingGLLive::glxLeaderboard_, a private member, so the branches
-// are not reachable. The .bss globals leaderboardcount and leader are declared in dh2/global/Globals.hpp. The argument
-// (to_string) needs the complete fn_call, which the tree does not have. Only the trace and the Wi-Fi guard are written.
+// Traces the call; with Wi-Fi on, argument 0 (a string) selects what to request from the ranking service (the GLXPlayerLeaderboard of
+// CMatching::Get()): "init" asks for the first page (rows 0..10) and resets the page counter, "next" and "prev" move the counter by 10
+// (prev stops at 0 without a request below it) and ask for that page, "my_rank" asks for the page that holds the player's own
+// position. Each request clears the score data count first and sets `leader`. The result of the last request is not used.
 void NativeShowLeaderboard(const gameswf::fn_call& call) {
-    (void)call;
     _DEBUG_OUT("XSocket::Run(): Connecting... \n");
     if (!ApplicationGetInstance().IsWifiEnabled()) {
         return;
     }
-    // Command dispatch on the string argument: not reconstructed (see the note above).
+    const char* command = call.arg(0).to_string();
+    _DEBUG_OUT("+ Displaying GC Leaderboards [ %s] ...\n", command);
+    auto leaderboard = []() { return static_cast<CMatchingGLLive*>(CMatching::Get())->Leaderboard(); };
+    if (std::strcmp("init", command) == 0) {
+        GLXPlayerLeaderboard* board = leaderboard();
+        board->SetScoreDataCount(0);
+        board->sendRankGet(0, 0, 10, 1, true);
+        leaderboardcount = 0;
+        leader = true;
+    }
+    if (std::strcmp("next", command) == 0) {
+        leaderboardcount += 10;
+        GLXPlayerLeaderboard* board = leaderboard();
+        board->SetScoreDataCount(0);
+        board->sendRankGet(0, leaderboardcount, leaderboardcount + 10, 1, true);
+        leader = true;
+    }
+    if (std::strcmp("prev", command) == 0) {
+        leaderboardcount -= 10;
+        if (leaderboardcount >= 0) {
+            GLXPlayerLeaderboard* board = leaderboard();
+            board->SetScoreDataCount(0);
+            board->sendRankGet(0, leaderboardcount, leaderboardcount + 10, 1, true);
+            leader = true;
+        } else {
+            leaderboardcount = 0;
+        }
+    }
+    if (std::strcmp("my_rank", command) == 0) {
+        GLXPlayerLeaderboard* board = leaderboard();
+        board->SetScoreDataCount(0);
+        const int position = board->getCurrentPlayerLeaderboardPosition();
+        leaderboardcount = position - position % 10;
+        board->sendRankGet(0, leaderboardcount, leaderboardcount + 10, 1, true);
+        leader = true;
+    }
 }
 
 // 0x43a6a4 NativeLaunchTwitter(gameswf::fn_call const&)

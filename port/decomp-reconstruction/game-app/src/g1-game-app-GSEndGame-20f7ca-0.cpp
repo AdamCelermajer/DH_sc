@@ -20,6 +20,9 @@
 // writes the vptr from the class; StateBase has no constructor body of its own.
 GSEndGame::GSEndGame() : m_phase(0) {}
 
+// GSEndGame::s_inst (ELF 0x9a245c, 8 bytes): the state object Script_EndGame switches to. Constructed by the static initializer through GSEndGame().
+GSEndGame GSEndGame::s_inst;
+
 // 0x3835e4 GSEndGame::~GSEndGame()  (D2 variant)
 // 0x3835e8 GSEndGame::~GSEndGame()  (D1 variant, same body)
 // Both are a bare return (asm: BX LR). The base StateBase::~StateBase (0x38324c) is also a bare return, so the

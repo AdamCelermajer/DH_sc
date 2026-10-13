@@ -82,12 +82,6 @@ __attribute__((weak)) std::uint8_t* scanline(image_base* surf, int y) {
 
 }  // namespace gameswf
 
-// The gameswf.h include chain emits inline tu_string members; this test never runs them.
-bool tu_string::operator==(const tu_string&) const { std::abort(); }
-void tu_string::operator+=(const char*) { std::abort(); }
-void tu_string::operator+=(const tu_string&) { std::abort(); }
-void tu_string::resize(int) { std::abort(); }
-int tu_string::utf8_char_count(const char*, int) { std::abort(); }
 
 namespace {
 

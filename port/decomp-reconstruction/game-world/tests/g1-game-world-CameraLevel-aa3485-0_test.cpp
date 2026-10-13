@@ -241,7 +241,7 @@ void SetZoom(CameraLevel& cam, float current, float target, float effective, boo
 void SetFlags(const unsigned char (&flags)[4]) {
     Level* level = TestLevel();
     for (int i = 0; i < 4; ++i) {
-        level->pad_190[i] = flags[i];
+        level->m_playerHudOpen[i] = flags[i];
     }
 }
 
@@ -376,7 +376,7 @@ void TestHandleZoom(CameraLevel& cam) {
 }
 
 void TestHandleCentering(CameraLevel& cam) {
-    // Level +0x190 .. +0x193 are the centring flags (pad_190 in dh2/Level.hpp).
+    // Level +0x190 .. +0x193 are the centring flags (m_playerHudOpen in dh2/Level.hpp).
     Level* level = TestLevel();
     g_currentLevel = level;
     const unsigned char none[4] = {0, 0, 0, 0};

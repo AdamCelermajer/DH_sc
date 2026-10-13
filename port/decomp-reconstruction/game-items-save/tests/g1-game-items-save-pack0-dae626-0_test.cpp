@@ -367,10 +367,12 @@ void TestEventInStateStateTrace() {
     if (f == nullptr) return;
     ResetCounts();
     const std::size_t n = cond.DBG_TraceDetailedConditionInformation(reinterpret_cast<__sFILE*>(f));
-    // The State line only (the Event line is partial): "\t    State       : Active\n\n".
-    const std::string expected = "\t    State       : Active\n\n";
+    // The Event line (event id 1 is outside Arrays::v2Events::size = 0, so "na"), then the State line. The return value is the
+    // count of the State line's fprintf.
+    const std::string stateLine = "\t    State       : Active\n\n";
+    const std::string expected = "\t    Event       : na\n" + stateLine;
     CHECK(ReadStream(f) == expected);
-    CHECK(n == expected.size());
+    CHECK(n == stateLine.size());
     CHECK(g_nameClasses.size() == 1);
     if (!g_nameClasses.empty()) {
         CHECK(g_nameClasses[0] == "v2EventState");

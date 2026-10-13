@@ -13,8 +13,6 @@
 //  * A Quest is destroyed explicitly (~Quest) and freed with CustomFree, as the original does.
 //
 // Partial in this batch:
-//  * SG_GetQuestByName (0x46ba4c): the row count is Arrays::v2Quests::m_memberNames.size, not Arrays::v2Quests::size.
-//  * UpdateQuests (0x46bb58): the profiler markers are not called (runtime_support.hpp clashes with Character.hpp).
 //
 // Not written here:
 //  * ~QuestSavegame, the deleting destructor (0x46bf4c, D0): compiler-generated (~QuestSavegame, then the release).
@@ -31,7 +29,8 @@
 #include "core-platform/memory.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/Quest.hpp"
-#include "pydata-accessors/member_names.hpp"
+#include "dh2/global/runtime_support.hpp"  // PushProfilingContext, PopProfilingContext
+#include "pydata-accessors/arrays.hpp"
 
 namespace {
 
@@ -264,18 +263,14 @@ Quest* QuestSavegame::SG_GetQuestByID(int id, int difficulty, bool compile) {
 }
 
 // 0x46ba4c _ZN13QuestSavegame17SG_GetQuestByNameEPKci
-// PARTIAL: finds the first Arrays::v2Quests row whose name equals name, then returns SG_GetQuestByID(row, difficulty, true).
-// The original bounds the search by Arrays::v2Quests::size (w7_arrays_00.hpp). That header and member_names.hpp both
-// declare struct Arrays::v2Quests (and Arrays::Sounds and others), so one translation unit cannot include both. This port
-// bounds the search by m_memberNames.size, the NameTable's own count of the same rows. The two should match, which is not
-// yet confirmed. Waits on one declaration of Arrays::v2Quests.
-// A null name is an ASSERT. The original then compares it with strcmp, which faults while the table is not empty; the port
-// returns null there.
+// Finds the first Arrays::v2Quests row (up to Arrays::v2Quests::size) whose name equals name and returns
+// SG_GetQuestByID(row, difficulty, true); null when none matches. A null name is an ASSERT (line 308); the original then
+// compares it with strcmp, which faults while the table is not empty; the port returns null there.
 Quest* QuestSavegame::SG_GetQuestByName(const char* name, int difficulty) {
     if (name == nullptr) {
         QuestSavegameAssert("name", 308);
     }
-    const int rows = Arrays::v2Quests::m_memberNames.size;
+    const int rows = static_cast<int>(Arrays::v2Quests::size);
     if (rows <= 0 || name == nullptr) {
         return nullptr;
     }
@@ -288,20 +283,18 @@ Quest* QuestSavegame::SG_GetQuestByName(const char* name, int difficulty) {
 }
 
 // 0x46bb58 _ZN13QuestSavegame12UpdateQuestsEb
-// PARTIAL: CompileQuests(force), then Quest::Update on each quest of the owner's difficulty. The original brackets this with
-// PushProfilingContext("QuestSavegame::UpdateQuests") and PopProfilingContext (dh2/global/runtime_support.hpp); those two
-// markers are not called. dh2/global/runtime_support.hpp cannot be included next to dh2/Character.hpp in this tree:
-// pydata-accessors/deps/stream_reader.hpp declares MemoryHintState as a function, and runtime_support.hpp uses it as the
-// core-platform enum type. Waits on that clash being resolved (engine unification). The profiler markers have no effect on
-// the game state. The original re-reads the owner's difficulty on each step; the getter has no side effects, so it is
-// read once here.
+// CompileQuests(force), then Quest::Update on each quest of the owner's difficulty, bracketed by the profiler markers
+// PushProfilingContext("QuestSavegame::UpdateQuests") and PopProfilingContext. The original re-reads the owner's difficulty on
+// each step; the getter has no side effects, so it is read once here.
 void QuestSavegame::UpdateQuests(bool force) {
+    PushProfilingContext("QuestSavegame::UpdateQuests");
     CompileQuests(force);
     const int difficulty = m_owner->SG_GetGameDifficulty();
     const std::size_t count = m_quests[difficulty].size();
     for (std::size_t i = 0; i < count; ++i) {
         m_quests[difficulty][i]->Update();
     }
+    PopProfilingContext("QuestSavegame::UpdateQuests");
 }
 
 // 0x46bf68 _ZN13QuestSavegameD2Ev

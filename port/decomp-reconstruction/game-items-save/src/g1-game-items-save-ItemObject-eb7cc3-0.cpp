@@ -1,13 +1,9 @@
 // Batch g1-game-items-save-ItemObject-eb7cc3-0: the first 20 functions of ItemObject, the dropped item in the world
 // (queue order: IsUpdatable .. InitAgain). Declarations and layout come from dh2/ItemObject.hpp.
 //
-// Partial: InitAgain. Two steps are not rebuilt:
-//  * The spawn sound. The original calls VoxSoundManager::Play3D on VoxSoundManager::s_instance. dh2 and vox-audio
-//    declare no Play3D and no s_instance, so the call is left out.
-//  * The physics body. The original runs the PhysicalObject constructor (0x46ef68) on a 0x28-byte block with
-//    (world, this, isStatic 0, isCircle 1, isSensor 1, isBullet 0, group -3, category 0x40, mask 4, unused 0), then stores
-//    _ZTV6POItem+8 as the vtable (0x968fb8), then calls SetPhysicalObject(body, false). dh2/POItem.hpp declares no
-//    constructor for POItem, so the block is not created here.
+// InitAgain is complete: the spawn sound is VoxSoundManager::s_instance->Play3D at the object's destination, and the physics
+// body is a POItem built with the PhysicalObject constructor arguments of the listing (the binary runs that constructor inline
+// and then stores the POItem vtable; POItem inherits the constructor here).
 //
 // Static storage: s_numProjectiles and s_playerRRId are defined in this file, since the functions here are the first to
 // use them. s_playerQuestRRId is not defined here (it belongs to _GetNextPlayerQuestRRId, a later batch).
@@ -19,15 +15,18 @@
 #include <cstdlib>
 
 #include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
 #include "dh2/MenuFX.hpp"
+#include "dh2/POItem.hpp"
 #include "dh2/RenderFX.hpp"
 #include "dh2/SWFAnim.hpp"
 #include "dh2/SWFAnimToolTip.hpp"
 #include "dh2/VisualObject.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "gameswf/gameswf_value.h"
 #include "pydata-accessors/w7_arrays_00.hpp"  // Arrays::ItemAudioVisualTable
 #include "pydata-accessors/w7_structs_2.hpp"  // Structs::Item
@@ -270,12 +269,13 @@ void ItemObject::OnCollisionBegins(Character* character) {
 }
 
 // 0x3ec0f0 _ZN10ItemObject9InitAgainER13ItemInventoryjPK9Character
-// PARTIAL, see the file comment. Rebuilt: the item at `index` moves from source into this object (stacked, gold not
-// converted); the spawn and pick-up sound ids come from the Arrays::ItemAudioVisualTable row named by the item row's
-// m_w21 (+0x54, -1 = none), read from the row's +4 and +8 halfwords (m_w1 and m_w2 in the pydata model); the visual's
-// animation controller plays clip 0 (PlayClip slot +0x1c with arguments 0, false, 0, 0; the item's GetColor is called and
-// its result dropped, as in the original); the receiver is stored when given. When no item is at index 0, ASSERT ("ii",
-// line 455) is reported and the rest runs as before. Then ShowGlow.
+// The item at `index` moves from source into this object (stacked, gold not converted); the spawn and pick-up sound ids come
+// from the Arrays::ItemAudioVisualTable row named by the item row's m_w21 (+0x54, -1 = none), read from the row's +4 and +8
+// halfwords (m_w1 and m_w2 in the pydata model); the visual's animation controller plays clip 0 (PlayClip slot +0x1c with
+// arguments 0, false, 0, 0; the item's GetColor is called and its result dropped, as in the original); the receiver is stored
+// when given. When no item is at index 0, ASSERT ("ii", line 455) is reported and the rest runs as before. Then the spawn sound
+// plays at the destination (+0x1a8) as a 3D sound, the physics body is created (a POItem in the application's physics world,
+// owned by this object, not static, circle, sensor, not a bullet, group -3, category 0x40, mask 4), and the glow is shown.
 void ItemObject::InitAgain(ItemInventory& source, unsigned int index, const Character* receiver) {
     source.TransferItemTo(index, *this, true, false);
     ItemInstance* item = ItemInventory::GetItem(0);
@@ -297,7 +297,9 @@ void ItemObject::InitAgain(ItemInventory& source, unsigned int index, const Char
     } else {
         ReportItemObjectAssert("ii", 455);
     }
-    // Not rebuilt (see the file comment): VoxSoundManager::Play3D(m_spawnSoundId, m_destination, false, 1, -0.5f, -0.5f)
-    // on VoxSoundManager::s_instance, and the POItem body (PhysicalObject ctor, POItem vtable, SetPhysicalObject(body, false)).
+    const glitch::core::vector3d<float> soundPosition{m_destination.X, m_destination.Y, m_destination.Z};
+    VoxSoundManager::s_instance->Play3D(m_spawnSoundId, soundPosition, false, 1, -1.0f, -1.0f);
+    POItem* body = new POItem(ApplicationGetInstance().m_physicalWorld, this, false, true, true, false, -3, 0x40, 4, 0);
+    SetPhysicalObject(body, false);
     ShowGlow();
 }

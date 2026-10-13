@@ -54,11 +54,6 @@ void AssertFailed(const char* expr, const char* file, int line) {
     }
 }
 
-// PARTIAL. The network gate (see the file comment). Reports closed until COnline and OnlineGameState expose their flags.
-bool NetGateOpen() {
-    return false;
-}
-
 // PARTIAL. The host member id is CNetPlayerManager +0x170 (net_struct_.host_member_id_, private, no accessor). An open
 // gate needs that value; until it is readable the lookup uses -1, which resolves to the null record.
 constexpr int kUnreadHostMemberId = -1;

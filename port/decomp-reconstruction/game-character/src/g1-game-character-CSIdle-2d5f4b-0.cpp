@@ -16,6 +16,7 @@
 #include "dh2/v2Controller.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -38,7 +39,7 @@ void ProbeTracingSwitch() {
 // PARTIAL. COnline::isOnlineGame_ (+0x05) is private in net-session-online/c_online.hpp and has no getter, so this reads
 // false until the field is public. With false, the push-apart also runs in an online game, which the original skips.
 // Layout request filed.
-bool OnlineGameFlag(const COnline*) { return false; }
+bool OnlineGameFlag(const COnline* online) { return online->IsOnlineGame(); }
 
 // PARTIAL. dh2/PlayerManager.hpp cannot be included together with dh2/Character.hpp: its net-transport StreamBuffer needs
 // IStreamBase, which pydata-accessors' stream_reader.hpp defines too (the same blocker as Character-ee9946-10). These two

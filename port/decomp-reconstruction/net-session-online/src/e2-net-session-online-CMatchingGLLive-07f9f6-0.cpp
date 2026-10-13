@@ -111,7 +111,7 @@ std::int32_t CMatchingGLLive::JoinRoomInternal(std::uint64_t roomId) {
 // nothing and reports no data, so the function always returns 0 and the stream is not written.
 std::int32_t CMatchingGLLive::WritePacketData(std::int32_t a2, std::int32_t a3, NetBitStream& stream) {
     CRoomAttributes* room = GetRoomAttributes();
-    room->SetNetEnabled(IsHost());  // NetStruct::SetEnabled(room + 8, IsHost())
+    room->m_netRoomAttributes.SetEnabled(IsHost());  // NetStruct::SetEnabled(room + 8, IsHost())
     // CRoomAttributes::Serialize and NetStructArray<...>::Serialize: see above.
     std::int32_t result = 0;
     for (int i = 0; i < kMemberInfoCount; ++i) {

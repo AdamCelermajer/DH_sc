@@ -27,7 +27,7 @@ public:
     }
     std::int32_t CreateJoinRoomInternal(bool flag, CRoomAttributes& attributes) override {
         createFlag = flag;
-        createAttribute = attributes.GetAttributeInt(0);
+        createAttribute = attributes.GetAttributeInt(ROOM_INT_ATTRIBUTE_0);
         return 22;
     }
 
@@ -77,13 +77,13 @@ int main() {
     RoomFake created;
     created.Seed(1, 4, 2, 4);
     CRoomAttributes attributes;
-    CHECK(attributes.GetAttributeInt(0) == 0);
+    CHECK(attributes.GetAttributeInt(ROOM_INT_ATTRIBUTE_0) == 0);
     const std::int32_t createResult = created.CreateJoinRoom(true, attributes);
     CHECK(createResult == 22);
     CHECK(created.createFlag);
     CHECK(created.createAttribute == -1342128411);  // 0xB000BEE5
     CHECK(created.IsReset(1));
-    CHECK(attributes.GetAttributeInt(0) == 0);  // the caller's copy is untouched
+    CHECK(attributes.GetAttributeInt(ROOM_INT_ATTRIBUTE_0) == 0);  // the caller's copy is untouched
 
     // GetMemberIdByIndex: past the 32-slot table the port returns -1 (partial, see the ledger).
     CHECK(room.GetMemberIdByIndex(32) == -1);

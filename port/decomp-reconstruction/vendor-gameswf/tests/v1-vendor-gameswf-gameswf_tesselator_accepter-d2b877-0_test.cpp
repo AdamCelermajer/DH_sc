@@ -178,16 +178,6 @@ void gameswf::mesh::set_triangles(const float* verts, int float_count, const uns
     g_mesh_log.last_index = index_count > 0 ? indices[index_count - 1] : 0;
 }
 
-// tu_string::resize and tu_string::utf8_char_count belong to other batches and are not in this tree yet.
-// Including gameswf.h makes the link need them (the tu_string copy constructor calls resize), though
-// nothing here runs those paths. The stand-ins stop the test if one is ever reached.
-void tu_string::resize(int) {
-    std::abort();
-}
-
-int tu_string::utf8_char_count(const char*, int) {
-    std::abort();
-}
 
 // ---- tests --------------------------------------------------------------------------------------
 

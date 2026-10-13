@@ -276,10 +276,12 @@ int main() {
         char* names[] = {const_cast<char*>("Alpha"), const_cast<char*>("Beta"), const_cast<char*>("Gamma")};
         Arrays::v2Quests::m_memberNames.names = names;
         Arrays::v2Quests::m_memberNames.size = 3;
+        Arrays::v2Quests::size = 3;  // the search bound is the table's row count
         Check(qs.SG_GetQuestByName("Beta", 0) == b1, "SG_GetQuestByName finds the row by name");
         Check(qs.SG_GetQuestByName("Gamma", 0) == b2, "SG_GetQuestByName finds the last row");
         Check(qs.SG_GetQuestByName("Delta", 0) == nullptr, "SG_GetQuestByName unknown name is null");
         Arrays::v2Quests::m_memberNames.size = 0;
+        Arrays::v2Quests::size = 0;
         Check(qs.SG_GetQuestByName("Alpha", 0) == nullptr, "SG_GetQuestByName with no rows is null");
         Arrays::v2Quests::m_memberNames.names = nullptr;
         Arrays::v2Quests::m_memberNames.size = 0;

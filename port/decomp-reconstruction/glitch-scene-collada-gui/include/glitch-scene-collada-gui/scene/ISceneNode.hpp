@@ -23,8 +23,11 @@
 //          sets it to 1)
 //
 // Slot table. `vptr+K` is the Hex-Rays call offset (getPosition is vptr+0xa0). tools/decomp_vtable.py prints this
-// class's slots 0x0c higher, because the vtable header carries a virtual-base offset first. The declaration order
-// below is the slot order; the numbers in the comments are K. IAttributeExchangingObject contributes K 0x00/0x04.
+// class's slots 0x0c higher (listing offset = K + 0x0c), because the vtable header carries three words first (the
+// virtual-base offset 0x130, offset-to-top, typeinfo). So getPosition is K 0xa0 = listing +0xac, and the listing's +0xa0 is
+// setScale (K 0x94). Verified slot by slot against the listing (all 61 slots, K 0x00 .. 0xf0, the three header words
+// excluded); the declaration order below is the slot order, the numbers in the comments are K. IAttributeExchangingObject
+// contributes K 0x00/0x04.
 //
 // Port notes: pointers are host width, so the layout above is the contract of the offsets, not of sizeof. The glitch
 // std::string and std::vector (SAllocator) are std::string and std::vector. The IObject base (an empty class whose

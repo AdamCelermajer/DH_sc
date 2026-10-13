@@ -19,6 +19,13 @@ CMsgQuestsSync::CMsgQuestsSync(bool withSerial) : CMessage("CMsgQuestsSync", wit
 CMsgQuestsSync::~CMsgQuestsSync() = default;
 
 // Reads the length word in place (the bytes are copied, as the original reads them).
+void CMsgQuestsSync::SetBlock(const void* data, std::int32_t length) {
+    std::memset(fixed_, 0, sizeof fixed_);                       // +0x54 = 0
+    std::memcpy(fixed_, &length, sizeof length);                 // +0x50 = length
+    block_.reset(new std::uint8_t[static_cast<std::size_t>(length)]);
+    std::memcpy(block_.get(), data, static_cast<std::size_t>(length));
+}
+
 std::int32_t CMsgQuestsSync::BlockLength() const {
     std::int32_t length = 0;
     std::memcpy(&length, fixed_, sizeof length);

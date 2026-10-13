@@ -14,6 +14,10 @@
 
 #include "dh2/global/ctrl_camera.hpp"  // ApplicationGetInstance()
 #include "dh2/Application.hpp"
+#include "dh2/GSConsole.hpp"
+#include "dh2/HUDControls.hpp"
+#include "dh2/InfoHUDManager.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "gameswf/gameswf_environment.h"
 #include "vendor-gameswf/as_value.hpp"
 #include "dh2/GSKeyboard.hpp"
@@ -40,13 +44,11 @@ void NativeGLLive(const gameswf::fn_call& /*call*/) {
 }
 
 // 0x43a810 NativeRefreshHudManager(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original calls InfoHUDManager::GetInstance() (static), clears its m_cachesReady flag (+0x04),
-// then calls HUDControls::GetInstance() (static) and HUDControls::Touch(). dh2/HUDControls.hpp and dh2/ZoomHandler.hpp
-// cannot share a translation unit: both declare glitch::IEventReceiver (glitch-core-io deps/glitch_core_objects.hpp and
-// glitch-scene-collada-gui deps/event_stand_ins.hpp), and the second definition does not compile. Integrator: keep one
-// glitch::IEventReceiver. This batch's natives that need ZoomHandler (NativeResetZoom) are unaffected.
-void NativeRefreshHudManager(const gameswf::fn_call& call) {
-    (void)call;
+// The HUD info manager forgets its cached characters (InfoHUDManager::GetInstance()->m_cachesReady = false) and the HUD controls
+// are touched (HUDControls::GetInstance()->Touch()).
+void NativeRefreshHudManager(const gameswf::fn_call& /*call*/) {
+    InfoHUDManager::GetInstance()->m_cachesReady = false;
+    HUDControls::GetInstance()->Touch();
 }
 
 // 0x43a82c NativeDoWeHaveInternet(gameswf::fn_call const&): the result is Application::IsInternetAccessEnabled().
@@ -75,12 +77,9 @@ void NativeUpdateOrientation(const gameswf::fn_call& /*call*/) {
     app.ResetOrientation(autoOrientation);
 }
 
-// 0x43a930 NativeIPodControl(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original converts argument 0 with gameswf::as_value::to_string and calls
-// VoxSoundManager::IPodControl(const char*) on VoxSoundManager::s_instance. The as_value accessors and those vox-audio
-// declarations are not in the tree (dh2 has no VoxSoundManager declaration of them).
+// 0x43a930 NativeIPodControl(gameswf::fn_call const&): VoxSoundManager::IPodControl(argument 0 as a string) on the sound manager.
 void NativeIPodControl(const gameswf::fn_call& call) {
-    (void)call;
+    VoxSoundManager::s_instance->IPodControl(call.arg(0).to_string());
 }
 
 // 0x43a974 NativeUseIpodPlayer(gameswf::fn_call const&): the result is nativeIsSupportMM() == 1 (JNI bridge, declared).
@@ -175,21 +174,19 @@ void NativeAwayFromHud(const gameswf::fn_call& /*call*/) {
 }
 
 // 0x43abe8 NativeDebugConsole(gameswf::fn_call const&)
-// PARTIAL: stub, no body. Asm 0x43abe8 (checked): it calls the virtual at vtable +0x38 of MenuManager::m_multiMenuManager
-// (+0xf4) with (this, 0), and passes the call's r0 as the this pointer of GSConsole::Toggle(). The slot is named
-// MultiMenuManager::PopMenu(bool) in dh2/MultiMenuManager.hpp, which returns void, so the GSConsole* result is not
-// confirmed. Missing: the real return type of that slot, or a second method that returns the console.
-void NativeDebugConsole(const gameswf::fn_call& call) {
-    (void)call;
+// The multi-menu manager of the menu manager pops its top menu (the virtual PopMenu(false), vtable +0x38), then the debug console
+// state is toggled (GSConsole::Toggle, which does not read its this pointer: the listing passes the virtual call's leftover r0).
+void NativeDebugConsole(const gameswf::fn_call& /*call*/) {
+    MenuManager::GetInstance()->m_multiMenuManager->PopMenu(false);
+    GSConsole::s_inst.Toggle();
 }
 
 // 0x43ac28 NativePopAllAbove(gameswf::fn_call const&)
-// PARTIAL: stub, no body. The original takes argument 0 only when its type byte (+0x01) is 3 or 4, converts it with
-// gameswf::as_value::to_xstring, then calls the virtual at vtable +0x3c on MenuManager::m_multiMenuManager with
-// (name, true), which tools/decomp_vtable.py names MultiMenuManager::PopMenu(char const*, bool). The as_value accessors
-// and dh2/MultiMenuManager.hpp are not in the tree.
+// One string argument: the multi-menu manager pops every menu above the named one (the virtual PopMenu(name, true), vtable +0x3c).
 void NativePopAllAbove(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_string()) {
+        MenuManager::GetInstance()->m_multiMenuManager->PopMenu(call.arg(0).to_xstring(), true);
+    }
 }
 
 // 0x43ac90 NativeSkipScript(gameswf::fn_call const&)

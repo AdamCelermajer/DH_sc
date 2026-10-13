@@ -18,8 +18,8 @@ public:
 
     // 0x803cbc CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer) (partial, see the cpp).
     // The original takes the peer by value (passed by reference in the ABI) and its `this` is unused,
-    // so this is static and takes the peer by const reference.
-    static std::string GenerateBluetoothDeviceName(const tMatchingPeer& peer);
+    // so this is static and takes the peer by value (the mangled name has the class type, not a reference).
+    static std::string GenerateBluetoothDeviceName(tMatchingPeer peer);  // by value, as the original (link-1)
 
     // 0x801c58 _ZN18CMatchingBluetooth18SetServerBroadcastEv: the transport manager starts the broadcast of the
     // transport that listens on the manager's own listen id (EnableBroadcast(GetListenNetworkId(0))). The object

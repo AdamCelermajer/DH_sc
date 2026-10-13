@@ -18,6 +18,9 @@
 #include "dh2/Application.hpp"
 #include "dh2/ByteArray.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
+#include "dh2/MenuFX.hpp"
+#include "dh2/RenderFX.hpp"
+#include "gameswf/gameswf_character.h"
 #include "dh2/Gamepad.hpp"
 #include "dh2/GamepadTweaker.hpp"
 #include "dh2/IDataReloader.hpp"
@@ -216,7 +219,7 @@ DebugCachedCharacter::DebugCachedCharacter() {
 }
 
 // 0x431428 DebugCachedCharacter::DebugCachedCharacter(gameswf::character*) [clone]
-// PARTIAL: the binary's clone has the character argument folded to NULL (MenuManager passes null): it stores null into
+// The binary's clone has the character argument folded to NULL (MenuManager passes null): it stores null into
 // the weak pointer and leaves the argument unused. The clone never writes the +0x00 flag (its pseudocode writes the
 // string at +0x08, +0x04, +0x20, +0x24, +0x28 and +0x2c). The store "m_flag = 0" below is not in the binary: it only
 // gives the member a defined value on the host.
@@ -237,38 +240,48 @@ DebugCachedCharacter::~DebugCachedCharacter() {
 }
 
 // 0x427c44 DebugCachedCharacter::RefreshCache(gameswf::character*, MenuFX*, gameswf::character*)
-// PARTIAL: when the character is set, the original assigns the weak pointer from it (the proxy comes from
-// character->get_weak_proxy(), which needs the complete gameswf::character), copies the character's name into
-// m_path (the name is the permanent_string* at character +0x44: flag byte -1 selects the heap buffer at +0x0c,
-// otherwise the inline text at +1), and then stores menu and root. Only the menu and root stores are reproduced here;
-// the weak assignment and the name copy are missing, so m_path and the cached pointer are not updated.
+// With a character: the weak pointer is assigned from it (weak_ptr<character>::operator=(T*), the proxy from
+// character->get_weak_proxy()), the character's name (the tu_string behind character +0x44) is copied into m_path, and the
+// root and the menu are stored. A null character changes nothing.
 void DebugCachedCharacter::RefreshCache(gameswf::character* character, MenuFX* menu, gameswf::character* root) {
     if (character) {
-        m_menu = menu;
+        m_characterProxy = character->get_weak_proxy();
+        m_character = character;
+        m_path.assign(character->get_name().c_str());
         m_root = root;
+        m_menu = menu;
     }
 }
 
 // 0x427ca0 DebugCachedCharacter::RefreshCache(char const*, MenuFX*, gameswf::character*)
-// PARTIAL: the original looks the path up with RenderFX::Find (menu, path, and root when set), which is not declared
-// in dh2/RenderFX.hpp. The lookup is not called: its result is taken as null. The weak pointer is cleared, the path
-// is copied into m_path, the menu and root are stored, and a dead cached pointer would be released (none here).
-// The observable result is therefore "not found" for every path until RenderFX::Find is declared.
+// Looks the path up with RenderFX::Find (from the root when one is given, else from the top) and assigns the weak pointer from
+// the result; the path, the menu and the root are stored; a cached pointer whose proxy is already dead is released.
 void DebugCachedCharacter::RefreshCache(const char* path, MenuFX* menu, gameswf::character* root) {
-    ClearWeakCache(*this);
+    gameswf::character* found = nullptr;
+    if (root != nullptr) {
+        found = menu->Find(path, root);
+    } else {
+        found = static_cast<gameswf::character*>(menu->Find(path));
+    }
+    if (found != nullptr) {
+        m_characterProxy = found->get_weak_proxy();
+        m_character = found;
+    } else {
+        ClearWeakCache(*this);
+    }
     m_path.assign(path);
     m_menu = menu;
     m_root = root;
+    if (m_character != nullptr && !WeakCacheAlive(*this)) {
+        ClearWeakCache(*this);
+    }
 }
 
 // 0x427d50 DebugCachedCharacter::GetChar()
-// PARTIAL, in three places.
-//  1. The path passed to RefreshCache is read from the word at +0x1c, which the constructor sets to the string's
-//     inline buffer. The host passes m_path.c_str(). The STLport field that holds that data pointer is not confirmed.
-//  2. At gAssertLevel 2 the original stores to address 0 (a crash). Here it calls std::abort().
-//  3. When a cached pointer changes and is still alive, the original walks a list hanging off the cached character
-//     (a weak proxy at character +0x3c and a next pointer at +0x40, which prune dead entries). That walk is not
-//     identified and is not reproduced; the cached pointer is returned without it.
+// The cached character, validated through its weak pointer. An empty or dead cache is an ASSERT (MenuCachedCharacter.cpp:50;
+// level 2 faults, level 1 prints) and is cleared. With the refresh flag (+0x00) set the path is looked up again
+// (RefreshCache with m_path, the menu and the root). When the pointer changed, the counter at +0x04 is bumped and the cached
+// character's parent chain is walked (get_parent() prunes a dead link), then the pointer is validated once more.
 gameswf::character* DebugCachedCharacter::GetChar() {
     gameswf::character* v1 = m_character;
     bool cacheAlive = false;
@@ -308,8 +321,14 @@ gameswf::character* DebugCachedCharacter::GetChar() {
             ClearWeakCache(*this);
             return nullptr;
         }
-        // PARTIAL: the list walk over the cached character is not reproduced (see the note above).
+        // Walk up the cached character's parent chain: get_parent() checks each link's proxy and prunes a dead one.
+        for (gameswf::character* link = m_character; link != nullptr; link = link->get_parent()) {
+        }
         result = m_character;
+    }
+    if (result && !WeakCacheAlive(*this)) {
+        ClearWeakCache(*this);
+        return nullptr;
     }
     return result;
 }

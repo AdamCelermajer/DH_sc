@@ -13,6 +13,7 @@
 #include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/charai_ai.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 
@@ -51,7 +52,7 @@ std::uint32_t CharStateMachineFlags() {
 
 // COnline::isOnlineGame_ (+0x05, private, no getter). Taken as offline.
 bool OnlineGameFlag() {
-    return false;
+    return GetOnlineGameFlag();
 }
 
 // Arrays::DesignSettingsTable FX ids, read at byte offsets 116, 124 and 128 of the table members. The pydata Arrays

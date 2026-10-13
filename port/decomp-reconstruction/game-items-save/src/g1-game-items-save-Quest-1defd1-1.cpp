@@ -17,12 +17,11 @@
 //    (it pushes it on the queue and invokes "StartDialog" when the queue then holds one). The caller sets neither R1 nor R2,
 //    and the clone reads neither, so this port passes queue 0 and flag false.
 //  * The trace writes through std::FILE* (reinterpret_cast of the header's __sFILE*), as the other trace functions do.
-//  * The debug trace reads the name table Arrays::v2Quests::m_memberNames (pydata-accessors/member_names.hpp). That header
-//    cannot be included with w7_arrays_00.hpp (both declare Arrays::v2Quests), so the bound of the name lookup is the name
-//    count, not Arrays::v2Quests::size. See the trace's row.
+//  * The debug trace reads the name table Arrays::v2Quests::m_memberNames, bounded by Arrays::v2Quests::size.
 
 #include "dh2/Quest.hpp"
 
+#include <cstdint>
 #include <cstdio>
 #include <string>
 
@@ -39,7 +38,12 @@
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "dh2/global/item_instance.hpp"
-#include "pydata-accessors/member_names.hpp"
+#include "net-session-online/c_matching_base.hpp"
+#include "net-session-online/c_matching_gl_live.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 #include "pydata-accessors/w7_structs_1.hpp"
@@ -72,9 +76,8 @@ void EnqueueDialog(const DialogMsg& message) {
 }  // namespace
 
 // 0x480328 Quest::DBG_TraceDetailedQuestInformation(__sFILE*) const
-// PARTIAL, one gap: the PyDataName line. The original prints Arrays::v2Quests::m_memberNames[m_pyDataIndex] when the index is
-// in range and "na" when it is not. The bound used here is the name count of m_memberNames (pydata NameTable::size), because
-// Arrays::v2Quests::size (pydata-accessors/w7_arrays_00.hpp) cannot be included in the same translation unit as member_names.hpp.
+// The PyDataName line prints Arrays::v2Quests::m_memberNames[m_pyDataIndex] when the index is in range (below
+// Arrays::v2Quests::size) and "na" when it is not.
 // readNames checks the name count against that size, so the two are expected to match, but this is not evidenced by the body.
 // Script IDs are read through GetScriptIDFromID(slot), which reads the same int at pydata +168 + 8 * slot.
 int Quest::DBG_TraceDetailedQuestInformation(__sFILE* stream) const {
@@ -83,7 +86,7 @@ int Quest::DBG_TraceDetailedQuestInformation(__sFILE* stream) const {
     std::fwrite("Quest Information : \n", 1, 0x15, out);
 
     const char* pyDataName = "na";
-    if (m_pyDataIndex >= 0 && m_pyDataIndex < Arrays::v2Quests::m_memberNames.size) {
+    if (m_pyDataIndex >= 0 && static_cast<std::uint32_t>(m_pyDataIndex) < Arrays::v2Quests::size) {
         pyDataName = Arrays::v2Quests::m_memberNames.names[m_pyDataIndex];
     }
     std::fprintf(out, "\tPyDataName : %s\n", pyDataName);
@@ -187,7 +190,7 @@ Quest::Quest(int listIndex) {
     m_state = -1;
     m_stateStamp = 0;
     m_act = 1;
-    unk_14 = 0;
+    m_name = nullptr;
     m_acceptType = nullptr;
     m_endType = nullptr;
     m_rewardsPending = true;
@@ -430,15 +433,21 @@ void Quest::UpdateClosed() {
 }
 
 // 0x4814d8 Quest::UpdateCompleted()
-// PARTIAL: the multiplayer block is not reproduced. When the end objective is completed and script 3 (OnComplete) is not
-// running, the original gives the rewards and then, if COnline::isOnlineGame_ (+0x05) is set, updates the room's attribute 5
-// to the quest's act when the act is higher, and calls CMatchingGLLive::SendGameParameters when the OnlineGameState word at
-// +0x34 is 3 or 4. Not reproduced because: isOnlineGame_ is private in net-session-online/c_online.hpp with no getter; the
-// OnlineGameState word at +0x34 is not declared; and CRoomAttributes has two declarations (net-session-online/c_room_attributes.hpp
-// and dh2/CRoomAttributes.hpp). The single-player path (rewards, then PostCompleted) is reproduced.
+// When the end objective is completed and script 3 (OnComplete) is not running: the rewards are given. In an online game the
+// room's attribute 5 (the highest act) is raised to the quest's act when that is higher, and when the OnlineGameState mode word
+// (+0x34) is 3 or 4 the game parameters are sent (CMatchingGLLive::SendGameParameters). Then the state becomes PostCompleted.
 void Quest::UpdateCompleted() {
     if (m_endType != nullptr && m_endType->m_completed && !TestIsScriptRunning(3)) {
         GiveRewards();
+        if (GetOnlineGameFlag()) {
+            const int act = m_act;
+            if (act > CMatching::Get()->GetRoomAttributes()->GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(5))) {
+                CMatching::Get()->GetRoomAttributes()->SetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(5), m_act);
+                if (static_cast<unsigned int>(OnlineSingleton<OnlineGameState>::GetInstance()->mode_ - 3) <= 1u) {
+                    static_cast<CMatchingGLLive*>(CMatching::Get())->SendGameParameters();
+                }
+            }
+        }
         SetState(QuestStateConstant("PostCompleted"));
     }
 }

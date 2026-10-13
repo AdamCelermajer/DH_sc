@@ -9,8 +9,12 @@
 #define TU_LOADLIB_H
 
 #ifdef _WIN32
-	#include <windows.h>
-	#define lib_t HINSTANCE
+	// HOST-PORT: <windows.h> is only needed by tu_loadlib.cpp, which includes it itself. Including it here leaked
+	// its macros (GetClassName, GetObject, GetMessage, SendMessage, ERROR, IN, near, far, ...) into every game
+	// translation unit that reaches gameswf_player.h. HINSTANCE is "struct HINSTANCE__*", so the forward
+	// declaration gives the same type without the header. No effect on the ARM build.
+	struct HINSTANCE__;
+	#define lib_t struct HINSTANCE__*
 #else
 	#define lib_t void*
 #endif

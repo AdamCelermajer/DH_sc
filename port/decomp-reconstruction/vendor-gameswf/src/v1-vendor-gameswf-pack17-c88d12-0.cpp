@@ -282,10 +282,12 @@ const char* const s_function_names[27] = {
 	"onLoadProgress",  "onLoadStart",
 };
 
-// binary: gameswf::s_fnames_string, array<tu_stringi> (.bss). Filled on first use by event_id::get_function_name.
-array<tu_stringi> s_fnames_string;
-
 }  // namespace
+
+// binary: gameswf::s_fnames_string, array<tu_stringi> (.bss). Filled on first use by event_id::get_function_name.
+// External linkage (link-1): the binary's object is internal to its unit; gameswf::clear_standard_fnames
+// (src/v1-vendor-gameswf-gameswf-fddef6-6.cpp) clears it from another batch file.
+array<tu_stringi> s_fnames_string;
 
 // 0x7baef8 gameswf::event_id::get_function_name() const
 // Binary: on first use (size 0), reserve(27), then one element per table entry in order, each constructed in place from the

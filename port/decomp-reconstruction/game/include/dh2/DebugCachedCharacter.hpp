@@ -22,6 +22,20 @@ public:
     void RefreshCache(const char* path, MenuFX* menu, gameswf::character* root);                // 0x427ca0
     gameswf::character* GetChar();                                      // 0x427d50 asserts m_character.get_ptr() != 0
 
+    // The inlined refresh the callers run before GetChar (MenuMessageManager<T, N>::Invoke, TrophyManager::TrophyUnlockedCB): a
+    // cached pointer whose weak proxy is alive is kept; a set pointer with a dead proxy drops the proxy (the count falls, the
+    // proxy is freed at zero) and clears the cache, and an empty cache is refreshed with RefreshCache(path, menu, null).
+    void RefreshCacheIfStale(const char* path, MenuFX* menu) {
+        if (m_character != nullptr) {
+            if (m_characterProxy.get_proxy()->is_alive()) {
+                return;
+            }
+            m_characterProxy = nullptr;
+            m_character = nullptr;
+        }
+        RefreshCache(path, menu, nullptr);
+    }
+
     uint8_t m_flag;                                                     // +0x00 0 (the ctor writes it as a byte)
     uint8_t pad_01[3];
     uint32_t unk_04;                                                    // +0x04 0

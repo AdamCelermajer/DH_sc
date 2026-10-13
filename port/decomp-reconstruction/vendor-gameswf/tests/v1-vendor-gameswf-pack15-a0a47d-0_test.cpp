@@ -3,17 +3,14 @@
 //
 // The test supplies the callees that belong to other batches or to upstream files this batch does not link,
 // so the constructor arithmetic, pixel store, read loop and stream stubs can run on their own:
-//   gameswf::image_base::~image_base (another batch): frees m_data and clears it, as the listing does
+//   gameswf::free_internal (0x752b38, another batch): counts the calls and frees. The destructor of image_base is in the
+//       library (pack15); it releases m_data through free_internal, so one call per object that owns a buffer
 //   gameswf::scanline, both overloads (0x7b526c, 0x7b527c): m_data + m_pitch * y
 //   operator new[](size, swf::MemHint) (0x752ba4): malloc(), with the last size recorded
-//   tu_file constructor (upstream base/tu_file.cpp): stores the callbacks. The initial error field comes from the
-//       stream, so a test can start with an error set
-//   tu_file destructor (upstream base/tu_file.cpp): nothing
-//   membuf constructor and destructor (upstream base/membuf.cpp): a malloc'd buffer of the given size
+//   The tu_file and membuf members and the tu_string members come from the upstream files in dh2_vendor_gameswf
+//   (base/tu_file.cpp, base/membuf.cpp, base/container.cpp). A membuf is built over a zero block of the size the read
+//   needs (the upstream constructor copies the block).
 //   tu_loadlib constructor (upstream base/tu_loadlib.cpp): no library loaded
-//   tu_string::resize and tu_string::utf8_char_count (upstream base/container.cpp): the MSVC/MinGW dllexport on
-//       exported_module makes every tu_string member inline-emitted in each TU that includes container.h, so these
-//       two are referenced even though this test never calls a string member. They abort if reached.
 //
 // Link line (run from the repository root; <this file> is this test file):
 //   bash tools/trackb/check_tu.sh --test <this file>
@@ -26,8 +23,12 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "base/membuf.h"
+// tu_file keeps its error field private and its constructor clears it. The read-error case below starts a stream with the
+// error set, so the class is opened here (access only: the layout and the mangled names do not change).
+#define private public
 #include "base/tu_file.h"
+#undef private
+#include "base/membuf.h"
 #include "base/tu_loadlib.h"
 #include "core-platform/deps/swf_types.hpp"
 #include "vendor-gameswf/image_rgb.hpp"
@@ -36,7 +37,7 @@
 namespace {
 
 int g_failures = 0;
-int g_image_base_dtor_calls = 0;
+int g_free_internal_calls = 0;
 int g_new_calls = 0;
 std::size_t g_last_new_size = 0;
 
@@ -48,7 +49,7 @@ std::size_t g_last_new_size = 0;
         }                                                              \
     } while (0)
 
-// A byte stream for tu_file. read() returns at most `chunk` bytes per call. The error field starts at `error`.
+// A byte stream for tu_file. read() returns at most `chunk` bytes per call. `error` is copied to the file's error field.
 struct fake_stream {
     const std::uint8_t* data;
     int size;
@@ -85,12 +86,9 @@ bool fake_eof(void* appdata) {
 
 namespace gameswf {
 
-image_base::~image_base() {
-    ++g_image_base_dtor_calls;
-    if (m_data != nullptr) {
-        std::free(m_data);
-        m_data = nullptr;
-    }
+void free_internal(void* p, unsigned int /*size*/) {
+    ++g_free_internal_calls;
+    std::free(p);
 }
 
 std::uint8_t* scanline(image_base* surf, int y) {
@@ -109,41 +107,8 @@ void* operator new[](std::size_t size, swf::MemHint) {
     return std::malloc(size);
 }
 
-tu_file::tu_file(void* appdata, read_func rf, write_func wf, seek_func sf, seek_to_end_func ef, tell_func tf,
-                 get_eof_func gef, close_func cf)
-    : m_data(appdata),
-      m_read(rf),
-      m_write(wf),
-      m_seek(sf),
-      m_seek_to_end(ef),
-      m_tell(tf),
-      m_get_eof(gef),
-      m_close(cf),
-      m_error(appdata != nullptr ? static_cast<fake_stream*>(appdata)->error : 0) {}
-
-tu_file::~tu_file() {}
-
-membuf::membuf(const void* data, int size)
-    : m_size(size), m_capacity(size), m_data(std::malloc(static_cast<std::size_t>(size))), m_read_only(false) {
-    if (data != nullptr && size > 0) {
-        std::memcpy(m_data, data, static_cast<std::size_t>(size));
-    }
-}
-
-membuf::~membuf() {
-    std::free(m_data);
-}
-
 tu_loadlib::tu_loadlib(const char* /*library_name*/) : m_hlib(nullptr) {}
 
-// Stand-ins for upstream base/container.cpp. Never reached by this test (see the header comment).
-void tu_string::resize(int) {
-    std::abort();
-}
-
-int tu_string::utf8_char_count(const char*, int) {
-    std::abort();
-}
 
 int main() {
     // 1. image_base constructor: the fields are stored as the listing stores them.
@@ -189,22 +154,22 @@ int main() {
         CHECK(d.m_data != nullptr);
     }
 
-    // 4. Destructors: the base destructor runs once per object (the derived bodies are empty). Heap objects go
-    //    through the compiler's deleting destructor.
+    // 4. Destructors: the base destructor releases the buffer of each object once (the derived bodies are empty), which
+    //    is one free_internal call per object. Heap objects go through the compiler's deleting destructor.
     {
-        const int before = g_image_base_dtor_calls;
+        const int before = g_free_internal_calls;
         {
             gameswf::image_rgba b(2, 2);
             gameswf::image_rgb c(2, 2);
-            CHECK(g_image_base_dtor_calls == before);
+            CHECK(g_free_internal_calls == before);
         }
-        CHECK(g_image_base_dtor_calls == before + 2);
+        CHECK(g_free_internal_calls == before + 2);
 
         gameswf::image_rgba* p = new gameswf::image_rgba(1, 1);
         gameswf::image_rgb* q = new gameswf::image_rgb(1, 1);
         delete p;
         delete q;
-        CHECK(g_image_base_dtor_calls == before + 4);
+        CHECK(g_free_internal_calls == before + 4);
     }
 
     // 5. image_rgba::set_pixel: byte 0..3 of pixel x in row y at m_pitch * y + 4 * x get r, g, b, a.
@@ -233,12 +198,13 @@ int main() {
 
     // 6. tu_file::read_fully. The stream holds "0123456789".
     static const std::uint8_t kDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    static const std::uint8_t kZeros[16] = {};
     {
         // bytes == -1: the membuf size (10) is read in chunks of 3 until the stream ends. The last step returns
         // the eof flag, 1.
         fake_stream s{kDigits, 10, 0, 3, 0, 0};
         tu_file f(&s, fake_read, nullptr, nullptr, nullptr, nullptr, fake_eof, nullptr);
-        membuf out(nullptr, 10);
+        membuf out(kZeros, 10);
         int result = f.read_fully(&out, -1);
         CHECK(result == 1);
         CHECK(s.pos == 10);
@@ -249,7 +215,7 @@ int main() {
         // bytes == 4 with a large chunk: one read of 4, then nothing is left and the eof flag is 0.
         fake_stream s{kDigits, 10, 0, 10, 0, 0};
         tu_file f(&s, fake_read, nullptr, nullptr, nullptr, nullptr, fake_eof, nullptr);
-        membuf out(nullptr, 4);
+        membuf out(kZeros, 4);
         int result = f.read_fully(&out, 4);
         CHECK(result == 0);
         CHECK(s.pos == 4);
@@ -260,7 +226,7 @@ int main() {
         // The stream ends before the request is full: 5 bytes arrive, then the eof flag ends the loop with 1.
         fake_stream s{kDigits, 5, 0, 8, 0, 0};
         tu_file f(&s, fake_read, nullptr, nullptr, nullptr, nullptr, fake_eof, nullptr);
-        membuf out(nullptr, 8);
+        membuf out(kZeros, 8);
         int result = f.read_fully(&out, 8);
         CHECK(result == 1);
         CHECK(s.reads == 1);
@@ -270,7 +236,8 @@ int main() {
         // A read error set before the call: one read happens, then the loop stops with that read's count.
         fake_stream s{kDigits, 10, 0, 3, 1, 0};
         tu_file f(&s, fake_read, nullptr, nullptr, nullptr, nullptr, fake_eof, nullptr);
-        membuf out(nullptr, 10);
+        f.m_error = s.error;
+        membuf out(kZeros, 10);
         int result = f.read_fully(&out, 10);
         CHECK(result == 3);
         CHECK(s.reads == 1);
@@ -281,7 +248,7 @@ int main() {
         // bytes == 0: no read at all. The eof flag is 0 for a stream that has data.
         fake_stream s{kDigits, 10, 0, 3, 0, 0};
         tu_file f(&s, fake_read, nullptr, nullptr, nullptr, nullptr, fake_eof, nullptr);
-        membuf out(nullptr, 1);
+        membuf out(kZeros, 1);
         int result = f.read_fully(&out, 0);
         CHECK(result == 0);
         CHECK(s.reads == 0);

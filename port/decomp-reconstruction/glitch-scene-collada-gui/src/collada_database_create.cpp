@@ -5,8 +5,10 @@
 // original does so.
 #include "glitch-scene-collada-gui/collada_database.hpp"
 
-#include "glitch-scene-collada-gui/collada_factory.hpp"
-#include "glitch-scene-collada-gui/root_scene_node.hpp"
+#include "glitch-scene-collada-gui/collada/CCameraSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaFactory.hpp"
+#include "glitch-scene-collada-gui/collada/CLightSceneNode.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 
 namespace glitch::collada {
 
@@ -19,15 +21,15 @@ SLight* lightAt(const SDatabaseTables& tables, int index) { return tables.lights
 SCamera* cameraAt(const SDatabaseTables& tables, int index) { return tables.cameras[index]; }
 
 // 0x60e4bc _ZNK6glitch7collada16CColladaDatabase25getExternalLightSceneNodeERKN5boost13intrusive_ptrIKNS_5video9CMaterialEEEtjPKc
-void CColladaDatabase::getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material,
-                                                 std::uint16_t a, std::uint32_t b, const char* name) const {
-    factory->getExternalLightSceneNode(*this, material, a, b, name);
+scene::CLightSceneNode* CColladaDatabase::getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterial const>& material,
+                                                                    std::uint16_t a, std::uint32_t b, const char* name) const {
+    return factory->getExternalLightSceneNode(*this, material, a, b, name);
 }
 
 // 0x60e504 _ZNK6glitch7collada16CColladaDatabase25getExternalLightSceneNodeERKN5boost13intrusive_ptrIKNS_5video17CMaterialRendererEEEtjPKc
-void CColladaDatabase::getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterialRenderer const>& renderer,
-                                                 std::uint16_t a, std::uint32_t b, const char* name) const {
-    factory->getExternalLightSceneNode(*this, renderer, a, b, name);
+scene::CLightSceneNode* CColladaDatabase::getExternalLightSceneNode(const boost::intrusive_ptr<video::CMaterialRenderer const>& renderer,
+                                                                    std::uint16_t a, std::uint32_t b, const char* name) const {
+    return factory->getExternalLightSceneNode(*this, renderer, a, b, name);
 }
 
 // 0x60e570 _ZNK6glitch7collada16CColladaDatabase15constructEffectEPNS_5video12IVideoDriverEPNS0_7SEffectEPNS0_14CRootSceneNodeE
@@ -99,14 +101,14 @@ void* CColladaDatabase::constructForce(int index, CRootSceneNode* root) const {
 }
 
 // 0x61a970 _ZNK6glitch7collada16CColladaDatabase14constructForceEPKcPNS0_14CRootSceneNodeE
-void CColladaDatabase::constructForce(const char* name, CRootSceneNode* root) const {
-    constructForce(getForce(tables(), name), root);
+void* CColladaDatabase::constructForce(const char* name, CRootSceneNode* root) const {
+    return constructForce(getForce(tables(), name), root);
 }
 
 // 0x61a994 _ZNK6glitch7collada16CColladaDatabase14constructForceEPNS0_14SInstanceForceEPNS0_14CRootSceneNodeE
 // The instance URL is "#<name>"; the name starts one byte in.
-void CColladaDatabase::constructForce(SInstanceForce* instance, CRootSceneNode* root) const {
-    constructForce(instance->url + 1, root);
+void* CColladaDatabase::constructForce(SInstanceForce* instance, CRootSceneNode* root) const {
+    return constructForce(instance->url + 1, root);
 }
 
 // 0x60f9a4 _ZNK6glitch7collada16CColladaDatabase14constructMorphEPNS_5video12IVideoDriverEPNS0_11SControllerEPNS0_14CRootSceneNodeE
@@ -139,28 +141,28 @@ CCameraSceneNode* CColladaDatabase::constructCamera(int index, CRootSceneNode* r
 }
 
 // 0x61b2d0 _ZNK6glitch7collada16CColladaDatabase15constructCameraEPKcPNS0_14CRootSceneNodeE
-void CColladaDatabase::constructCamera(const char* name, CRootSceneNode* root) const {
-    constructCamera(getCamera(tables(), name), root);
+CCameraSceneNode* CColladaDatabase::constructCamera(const char* name, CRootSceneNode* root) const {
+    return constructCamera(getCamera(tables(), name), root);
 }
 
 // 0x619404 _ZNK6glitch7collada16CColladaDatabase14constructLightEPNS0_6SLightEPNS0_14CRootSceneNodeE
-void* CColladaDatabase::constructLight(SLight* light, CRootSceneNode* root) const {
+CLightSceneNode* CColladaDatabase::constructLight(SLight* light, CRootSceneNode* root) const {
     if (light == nullptr) {
         return nullptr;
     }
-    void* node = factory->createLight(*this, light);
+    CLightSceneNode* node = factory->createLight(*this, light);
     root->addLight(node);
     return node;
 }
 
 // 0x619450 _ZNK6glitch7collada16CColladaDatabase14constructLightEiPNS0_14CRootSceneNodeE
-void* CColladaDatabase::constructLight(int index, CRootSceneNode* root) const {
+CLightSceneNode* CColladaDatabase::constructLight(int index, CRootSceneNode* root) const {
     return constructLight(lightAt(tables(), index), root);
 }
 
 // 0x61b24c _ZNK6glitch7collada16CColladaDatabase14constructLightEPKcPNS0_14CRootSceneNodeE
-void CColladaDatabase::constructLight(const char* name, CRootSceneNode* root) const {
-    constructLight(getLight(tables(), name), root);
+CLightSceneNode* CColladaDatabase::constructLight(const char* name, CRootSceneNode* root) const {
+    return constructLight(getLight(tables(), name), root);
 }
 
 }  // namespace glitch::collada

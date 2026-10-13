@@ -25,6 +25,7 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
 #include "dh2/v2Controller.hpp"
 
 namespace {
@@ -38,7 +39,7 @@ void ProbeSwitch(const char* name) {
 
 // PARTIAL. COnline::isOnlineGame_ (+0x05) is private with no getter. Reads false until it is public, so the online
 // branches of CSDespawn::OnBlur run as if the game were offline.
-bool OnlineGameFlag(const COnline*) { return false; }
+bool OnlineGameFlag(const COnline* online) { return online->IsOnlineGame(); }
 
 // PARTIAL. The original's local-player block in CSDespawn::OnBlur reads PlayerInfo +0x660 (the local player's Character)
 // and, when its m_objectOfInterest (Character +0x14a4) is this character, clears that field. The stub does nothing until

@@ -27,9 +27,11 @@ namespace gameswf
 	}
 
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-pack8-c43a3a-0.cpp (0x784030: the same empty body, the binary's member order) */
 	stream::~stream()
 	{
 	}
+#endif /* DH2 */
 
 	bool stream::read_bool() {
 		return read_uint(1) ? true : false;

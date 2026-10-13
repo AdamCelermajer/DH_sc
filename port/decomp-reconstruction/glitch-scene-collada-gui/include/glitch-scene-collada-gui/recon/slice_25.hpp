@@ -1,7 +1,5 @@
-// Slice 25 of the glitch::gui and glitch::scene reconstruction: CGUIContextMenu,
-// IGUIElement tab handling, CGUIEditBox, CAppendMeshBuffer, CMeshBuffer, CMesh,
-// CDummyTransformationSceneNode, the default scene-node factories and the Collada
-// binary loader.
+// Slice 25 of the glitch::scene reconstruction: CDummyTransformationSceneNode, the default scene-node factories and the Collada
+// binary loader. (The glitch::gui part of the slice, CGUIContextMenu, IGUIElement::setTabOrder and CGUIEditBox, is in gui/*.hpp.)
 //
 // Member offsets come from the layout headers under layouts/ (32-bit ARM). Members the
 // layouts do not declare are not invented: those bodies are marked partial in
@@ -14,129 +12,9 @@
 #include <vector>
 
 #include "glitch-scene-collada-gui/deps/core_stand_ins.hpp"
-#include "glitch-scene-collada-gui/layouts/gui.hpp"
 #include "glitch-scene-collada-gui/layouts/scene.hpp"
 
-namespace glitch::gui {
-class IGUIFont;
-class IGUIEnvironment;
-}  // namespace glitch::gui
-
 namespace glitch::collada::recon_25 {
-
-// Event words read by CGUIContextMenu::onEvent, sendClick and CGUIEditBox::processMouse.
-// glitch::SEvent is not in the layouts, so this stand-in names the offsets that the
-// bodies test (+0 type, +8 caller, +12 element, +16 GUI event type, +20 mouse event type).
-struct SEventStand {
-    std::uint32_t type = 0;               // +0x00 (0 GUI event, 1 mouse event)
-    std::uint32_t pad_0x04 = 0;           // +0x04
-    union {                               // +0x08: GUI caller, or mouse X for a mouse event
-        glitch::gui::IGUIElement* caller;
-        std::int32_t mouseX;
-    };
-    union {                               // +0x0c: GUI element, or mouse Y for a mouse event
-        glitch::gui::IGUIElement* element;
-        std::int32_t mouseY;
-    };
-    std::uint32_t guiEventType = 0;       // +0x10
-    std::uint32_t mouseEventType = 0;     // +0x14
-};
-
-// glitch::gui::CGUIContextMenu::SItem. The layouts keep the item vector as void*
-// begin/end words, so the items are read through itemsBegin and itemsEnd below.
-// Field names follow the upstream Irrlicht SItem; the offsets are the 32-bit ones.
-struct SContextMenuItem {
-    std::wstring text;                        // +0x00..+0x47 string storage
-    bool isSeparator = false;                 // +0x48 (set to text == nullptr by addItem)
-    bool enabled = true;                      // +0x49 (addItem argument)
-    bool checked = false;                     // +0x4a (addItem argument)
-    bool autoChecking = false;                // +0x4b (not set by addItem)
-    std::uint32_t width = 0;                  // +0x4c dimension2d<u32>.Width
-    std::uint32_t height = 0;                 // +0x50 dimension2d<u32>.Height
-    std::int32_t posY = 0;                    // +0x54
-    glitch::gui::CGUIContextMenu* subMenu = nullptr;  // +0x58
-    std::int32_t commandId = 0;               // +0x5c
-};
-
-// Item vector accessors over the layout's void* words (the items are stored in the
-// layout's begin/end pair; no capacity or growth is modelled here).
-inline SContextMenuItem* itemsBegin(glitch::gui::CGUIContextMenu* m) {
-    return static_cast<SContextMenuItem*>(m->itemsBegin);
-}
-inline SContextMenuItem* itemsEnd(glitch::gui::CGUIContextMenu* m) {
-    return static_cast<SContextMenuItem*>(m->itemsEnd);
-}
-inline std::size_t itemCount(const glitch::gui::CGUIContextMenu* m) {
-    return static_cast<std::size_t>(static_cast<const SContextMenuItem*>(m->itemsEnd) -
-                                    static_cast<const SContextMenuItem*>(m->itemsBegin));
-}
-
-// Calls through virtual slots or members the layouts do not declare. Each stub returns the
-// neutral value so the rest of a body compiles; the rows that use them are marked partial.
-namespace unattached {
-// IGUIElement vtable slot +0x08 (onEvent), not declared on glitch::gui::IGUIElement.
-int onEvent(glitch::gui::IGUIElement* target, const SEventStand& ev);
-// glitch::os::Timer::getTime, not declared in any layout.
-std::uint32_t timerNow();
-// IReferenceCounted::drop on an object whose layout is not declared.
-void dropRef(void* object);
-}  // namespace unattached
-
-// glitch::gui::IGUIElement
-void IGUIElement_setTabOrder(glitch::gui::IGUIElement* self, std::int32_t order);                                  // 0x6b02e8
-bool IGUIElement_getNextElement(glitch::gui::IGUIElement* self, bool tabGroup, glitch::gui::IGUIElement*& next,
-                                glitch::gui::IGUIElement*& first, bool includeHidden);  // 0x6b0194
-
-// glitch::gui::CGUIContextMenu
-void CGUIContextMenu_setVisible(glitch::gui::CGUIContextMenu* self, bool visible);                                  // 0x6adc3c
-bool CGUIContextMenu_hasOpenSubMenu(const glitch::gui::CGUIContextMenu* self);                                      // 0x6ad620
-void CGUIContextMenu_closeAllSubMenus(glitch::gui::CGUIContextMenu* self);                                          // 0x6ad6c4
-void CGUIContextMenu_setItemText(glitch::gui::CGUIContextMenu* self, std::uint32_t index, const wchar_t* text);     // 0x6ad8cc
-std::uint32_t CGUIContextMenu_sendClick(glitch::gui::CGUIContextMenu* self, const glitch::core::position2d<std::int32_t>& p);  // 0x6ad02c
-void CGUIContextMenu_recalculateSize(glitch::gui::CGUIContextMenu* self);                                           // 0x6ad260
-void CGUIContextMenu_setEventParent(glitch::gui::CGUIContextMenu* self, glitch::gui::IGUIElement* parent);                  // 0x6ad58c
-bool CGUIContextMenu_highlight(glitch::gui::CGUIContextMenu* self, const glitch::core::position2d<std::int32_t>& p, bool canOpenSubMenu);  // 0x6ad9e8
-void CGUIContextMenu_removeAllItems(glitch::gui::CGUIContextMenu* self);                                            // 0x6ae480
-void CGUIContextMenu_removeItem(glitch::gui::CGUIContextMenu* self, std::uint32_t index);                           // 0x6ae7bc
-std::int32_t CGUIContextMenu_addItem(glitch::gui::CGUIContextMenu* self, const wchar_t* text, std::int32_t commandId,
-                                     bool enabled, bool hasSubMenu, bool checked);                          // 0x6aea9c
-void CGUIContextMenu_draw(glitch::gui::CGUIContextMenu* self);                                                      // 0x6aec08
-int CGUIContextMenu_onEvent(glitch::gui::CGUIContextMenu* self, const SEventStand& ev);                             // 0x6ae1f4
-void CGUIContextMenu_dtor_complete(glitch::gui::CGUIContextMenu* self);                                             // 0x6ae858
-void IGUIContextMenu_ctor(glitch::gui::IGUIElement* self, glitch::gui::IGUIElement* parent, std::int32_t id, const glitch::core::rect<std::int32_t>& rect);  // 0x6adcf0
-void CGUIContextMenu_ctor(glitch::gui::CGUIContextMenu* self, glitch::gui::IGUIElement* parent, std::int32_t id,
-                          const glitch::core::rect<std::int32_t>& rect, bool drawBackground, bool moveOnScreen);   // 0x6adfb8
-void CGUIContextMenu_ctor_alt(glitch::gui::CGUIContextMenu* self, glitch::gui::IGUIElement* parent, std::int32_t id,
-                              const glitch::core::rect<std::int32_t>& rect, bool drawBackground, bool moveOnScreen);  // 0x6ae100
-
-// glitch::gui::CGUIEditBox. The class has no layout in layouts/, so every body is partial.
-// Its state is not modelled; the bodies only route the calls that the pseudocode makes.
-// glitch::gui::IGUIEditBox base constructor (0x6b0394); base state only, see the source.
-void IGUIEditBox_ctor(glitch::gui::IGUIElement* self, glitch::gui::IGUIEnvironment* env, glitch::gui::IGUIElement* parent,
-                      std::int32_t id, const glitch::core::rect<std::int32_t>& rect);                          // 0x6b0394
-// glitch::gui::CGUIEditBox constructors (0x6b2608 and 0x6b28c8, same demangled name).
-void CGUIEditBox_ctor(glitch::gui::IGUIElement* self, const wchar_t* text, bool border, glitch::gui::IGUIEnvironment* env,
-                      glitch::gui::IGUIElement* parent, std::int32_t id, const glitch::core::rect<std::int32_t>& rect);  // 0x6b2608
-void CGUIEditBox_ctor_alt(glitch::gui::IGUIElement* self, const wchar_t* text, bool border, glitch::gui::IGUIEnvironment* env,
-                          glitch::gui::IGUIElement* parent, std::int32_t id, const glitch::core::rect<std::int32_t>& rect);  // 0x6b28c8
-// glitch::gui::CGUIEditBox::~CGUIEditBox (complete, 0x6b0bac). Stubbed; see the source.
-void CGUIEditBox_dtor_complete(glitch::gui::IGUIElement* self);                                             // 0x6b0bac
-void CGUIEditBox_setTextRect(glitch::gui::IGUIElement* self, std::int32_t line);                                    // 0x6afafc
-std::int32_t CGUIEditBox_getCursorPos(glitch::gui::IGUIElement* self, std::int32_t x, std::int32_t y);             // 0x6afd18
-void CGUIEditBox_getTextDimension(glitch::gui::IGUIElement* self, glitch::core::dimension2d<std::int32_t>& out);            // 0x6afe9c
-std::int32_t CGUIEditBox_getLineFromPos(glitch::gui::IGUIElement* self, std::int32_t pos);                          // 0x6affcc
-void CGUIEditBox_setPasswordBox(glitch::gui::IGUIElement* self, bool passwordBox, wchar_t passwordChar);            // 0x6b0844
-void CGUIEditBox_breakText(glitch::gui::IGUIElement* self);                                                         // 0x6b0f8c
-void CGUIEditBox_setText(glitch::gui::IGUIElement* self, const wchar_t* text);                                      // 0x6b15c8
-void CGUIEditBox_updateAbsolutePosition(glitch::gui::IGUIElement* self);                                            // 0x6b160c
-void CGUIEditBox_setOverrideFont(glitch::gui::IGUIElement* self, glitch::gui::IGUIFont* font);                              // 0x6b162c
-void CGUIEditBox_inputChar(glitch::gui::IGUIElement* self, wchar_t ch);                                             // 0x6b1668
-void CGUIEditBox_setMax(glitch::gui::IGUIElement* self, std::uint32_t maxChars);                                    // 0x6b185c
-void CGUIEditBox_draw(glitch::gui::IGUIElement* self);                                                              // 0x6b18e0
-void CGUIEditBox_calculateScrollPos(glitch::gui::IGUIElement* self);                                                // 0x6b246c
-bool CGUIEditBox_processMouse(glitch::gui::IGUIElement* self, const SEventStand& ev);                               // 0x6b2b3c
-bool CGUIEditBox_processKey(glitch::gui::IGUIElement* self, const SEventStand& ev);                                 // 0x6b2cc0
-bool CGUIEditBox_onEvent(glitch::gui::IGUIElement* self, const SEventStand& ev);                                    // 0x6b3d70
 
 // glitch::scene. CColladaBinaryFileLoader, the factories and CDummyTransformationSceneNode have no layout in
 // layouts/scene.hpp; their bodies are partial. (CAppendMeshBuffer is the canonical class of scene/CAppendMeshBuffer.hpp.)

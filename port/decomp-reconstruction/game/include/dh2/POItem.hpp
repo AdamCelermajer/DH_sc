@@ -12,6 +12,10 @@ template <typename T> struct Point2D;
 
 class POItem : public PhysicalObject {
 public:
+    // The binary has no POItem constructor: ItemObject::InitAgain (0x3ec0f0) runs the PhysicalObject constructor on a 0x28-byte
+    // block and then stores the POItem vtable (_ZTV6POItem + 8) over it. The inherited constructor builds the same object.
+    using PhysicalObject::PhysicalObject;
+
     // Overrides of PhysicalObject / PhysicalBaseObject slots, in vtable order (_ZTV6POItem, 48 bytes).
     // Slots 2, 6 and 7..9 are inherited from PhysicalObject unchanged.
     ~POItem() override;                                                 // slot 0/1: 0x4701c8, 0x470430

@@ -16,6 +16,13 @@ struct tMsgRaisedEventData;
 
 class QE_MoveInZone : public QuestEvent {
 public:
+    // QuestMoveInZone::OnCollisionBegins (0x396120) builds it on the stack: the event id, the character, the zone's id (ObjectBase
+    // +0x64), the two flag bytes (0), the value (-1) and the zone; the vtable is _ZTV13QE_MoveInZone.
+    QE_MoveInZone() : m_character(nullptr), m_targetId(0), m_flag0(0), m_flag1(0), pad_12{0, 0}, m_value(0), m_zone(nullptr) {}
+    QE_MoveInZone(std::int32_t eventId, GameObject* character, std::int32_t targetId, std::int32_t value, QuestMoveInZone* zone)
+        : m_character(character), m_targetId(targetId), m_flag0(0), m_flag1(0), pad_12{0, 0}, m_value(value), m_zone(zone) {
+        eventId_ = static_cast<std::uint32_t>(eventId);
+    }
     ~QE_MoveInZone() override;                                      // 0x4822e4 (D1), 0x4825b0 (D0); slots 0x00, 0x04
     void FillNetworkMsg(tMsgRaisedEventData& msg) const override;   // 0x482438; slot 0x0c
 

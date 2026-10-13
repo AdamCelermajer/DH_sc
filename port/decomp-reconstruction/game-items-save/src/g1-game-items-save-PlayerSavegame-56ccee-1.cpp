@@ -35,6 +35,7 @@
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/PlayerSavegame.hpp"
 #include "dh2/Savegame.hpp"
+#include "dh2/global/net_singletons.hpp"
 #include "pydata-accessors/member_names.hpp"   // Arrays::FastTravelList and Arrays::WorldMap name tables, pydata::FindMemberName
 
 // The PlayerManager reads of the checkpoint functions. They live in g1-game-items-save-PlayerSavegame-56ccee-1_players.cpp:
@@ -64,7 +65,7 @@ void ReportSaveAssert(const char* expr, int line) {
 
 // *(GetOnline() + 5): COnline::isOnlineGame_. Stub until the field has a getter (see the file comment).
 bool OnlineGameStub() {
-    return false;
+    return GetOnlineGameFlag();
 }
 
 // Constants::MapElementState::Count. The original accepts a state with state <= 2, so the count is 3.

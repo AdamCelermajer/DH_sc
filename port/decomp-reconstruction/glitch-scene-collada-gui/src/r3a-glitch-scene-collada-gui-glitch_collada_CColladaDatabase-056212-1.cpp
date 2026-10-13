@@ -32,33 +32,6 @@ CParticleSystemSceneNode* CColladaDatabase::constructEmitter(const char* name, v
     return constructEmitter(getEmitter(tables(), name), driver, materials, root);
 }
 
-// 0x61aa00 glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, char const*, glitch::collada::CRootSceneNode*) const
-// The result is partial through the SController overload (0x60fa24), which is partial.
-glitch::IReferenceCounted** CColladaDatabase::constructController(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                                  const char* name, CRootSceneNode* root) const {
-    return constructController(out, driver, getController(tables(), name), root);
-}
-
-// 0x61b1b4 glitch::collada::CColladaDatabase::constructImage(char const*, glitch::collada::CRootSceneNode*) const
-// The result is partial through the SImage overload (0x60fc70), which is partial.
-glitch::IReferenceCounted** CColladaDatabase::constructImage(glitch::IReferenceCounted** out, const char* name,
-                                                             CRootSceneNode* root) const {
-    return constructImage(out, getImage(tables(), name), root);
-}
-
-// 0x61a608 glitch::collada::CColladaDatabase::constructGNPSEmitter(glitch::collada::SInstanceGNPSEmitter*, glitch::video::IVideoDriver*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: the original builds the emitter by the name in the instance (URL word at +0x04, the leading '#' skipped), then adds the materials
-// of the instance (count at +0x0c, bindings at +0x10 with stride 0x3c, material name at binding +0x08) through getMaterial and
-// IParticleSystemSceneNode::addMaterial. The instance layout is not in the canonical headers and addMaterial is not declared, so the
-// result is null here.
-CGlitchNewParticleSystemSceneNode* CColladaDatabase::constructGNPSEmitter(SInstanceGNPSEmitter* instance, video::IVideoDriver* driver,
-                                                                          CRootSceneNode* root) const {
-    (void)instance;
-    (void)driver;
-    (void)root;
-    return nullptr;
-}
-
 // 0x61a77c glitch::collada::CColladaDatabase::constructCoronas(glitch::collada::SInstanceCoronas*, glitch::video::IVideoDriver*, glitch::collada::CRootSceneNode*) const
 // PARTIAL: as the GNPS instance overload. The instance layout and CCoronasSceneNode::setMaterial(material, driver) (recon/slice_32.cpp,
 // partial) are not usable, so the result is null here.
@@ -68,43 +41,6 @@ CCoronasSceneNode* CColladaDatabase::constructCoronas(SInstanceCoronas* instance
     (void)driver;
     (void)root;
     return nullptr;
-}
-
-// 0x61a888 glitch::collada::CColladaDatabase::constructEmitter(glitch::collada::SInstanceEmitter*, glitch::video::IVideoDriver*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: as the GNPS instance overload (the material loop needs IParticleSystemSceneNode::addMaterial, which is not declared). Null here.
-CParticleSystemSceneNode* CColladaDatabase::constructEmitter(SInstanceEmitter* instance, video::IVideoDriver* driver,
-                                                             CRootSceneNode* root) const {
-    (void)instance;
-    (void)driver;
-    (void)root;
-    return nullptr;
-}
-
-// 0x61aae0 glitch::collada::CColladaDatabase::constructGeometry(glitch::video::IVideoDriver*, char const*, char const*) const
-// PARTIAL: the original opens `fileName` next to this database's file (CResFileManager::get with flag 1), builds a database over that record
-// with this factory, and constructs `geometryName` from it. On failure it logs "File not found" / "Geometry not found" through
-// glitch::os::Printer::log, which is not declared in the port. The out slot is left null.
-glitch::IReferenceCounted** CColladaDatabase::constructGeometry(glitch::IReferenceCounted** out, video::IVideoDriver* driver,
-                                                                const char* fileName, const char* geometryName) const {
-    (void)driver;
-    (void)fileName;
-    (void)geometryName;
-    *out = nullptr;
-    return out;
-}
-
-// 0x61b8bc glitch::collada::CColladaDatabase::constructVisualScene(glitch::video::IVideoDriver*, glitch::collada::SVisualScene*, glitch::collada::CRootSceneNode*) const
-// PARTIAL: the original returns null without a scene, uses the given root or the factory's createScene (slot +0x54), sets the root from
-// the scene's reserved word through root slot +0x28, and attaches each top-level node built by constructNode (count +0x08, base +0x0c,
-// stride 0x50) through root slot +0x5c, dropping its reference. The root's virtual slots are not named in root_scene_node.hpp, so the
-// attach and the set-up are not called and the scene is returned unbuilt.
-CRootSceneNode* CColladaDatabase::constructVisualScene(video::IVideoDriver* driver, SVisualScene* scene,
-                                                       CRootSceneNode* root) const {
-    (void)driver;
-    if (scene == nullptr) {
-        return nullptr;
-    }
-    return root;
 }
 
 }  // namespace glitch::collada

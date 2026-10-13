@@ -49,6 +49,7 @@
 #include "dh2/Vector3DFList.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
 
@@ -117,8 +118,27 @@ struct CharacterKey<TestCharTemplate> {
     static int Of(Character& character) { return character.SafeGetCharPropsTemplateId(); }
 };
 
-// PARTIAL placeholder for a pydata name table entry in the DBG listing (see the notes at the top of this file).
-constexpr const char* kUnreadTableName = "?";
+// The listing's pydata name lookup: "na" for an index below 0 or at or above the table's element count (Arrays::X::size),
+// otherwise Arrays::X::m_memberNames.names[index].
+inline const char* TableNameOr(const pydata::NameTable& names, std::uint32_t count, std::int32_t index) {
+    return (index < 0 || static_cast<std::uint32_t>(index) >= count) ? "na" : names.names[index];
+}
+
+// The enemy table of a character test: CharacterTable for TestCharPropId, Charater_Templates for TestCharTemplate.
+template <typename TTest>
+struct EnemyTable;
+
+template <>
+struct EnemyTable<TestCharPropId> {
+    static const char* Name(std::int32_t id) { return TableNameOr(Arrays::CharacterTable::m_memberNames, Arrays::CharacterTable::size, id); }
+};
+
+template <>
+struct EnemyTable<TestCharTemplate> {
+    static const char* Name(std::int32_t id) {
+        return TableNameOr(Arrays::Charater_Templates::m_memberNames, Arrays::Charater_Templates::size, id);
+    }
+};
 
 // A character's world position (GameObject::m_position, +0x160 .. +0x168), as the vector type Vector3DFList stores.
 glitch::core::vector3d<float> PositionOf(const Character& character) {
@@ -131,7 +151,8 @@ glitch::core::vector3d<float> PositionOf(const Character& character) {
 // ---------------------------------------------------------------------------------------------------------------------
 // DBG_TraceDetailedObjectiveInformation (slot 0x0c). The listing writes the header line, the type name, the level, the enemy
 // type, Qty (m_requiredQty, +0x2c) and CurrQty (m_currentQty, +0x20), then calls Objective_EventReceiver's DBG for the base
-// lines. PARTIAL: the level and enemy names are kUnreadTableName, not read from the pydata tables.
+// lines. The level name is Arrays::LevelList::m_memberNames and the enemy name is the character test's table (EnemyTable), "na" outside
+// the table.
 
 template <typename TStruct, typename TEvent, typename TTest, typename TBase>
 int ObjectiveTemplate_KillCharacter<TStruct, TEvent, TTest, TBase>::DBG_TraceDetailedObjectiveInformation(
@@ -143,12 +164,10 @@ int ObjectiveTemplate_KillCharacter<TStruct, TEvent, TTest, TBase>::DBG_TraceDet
     const char* constantName =
         ApplicationGetInstance().m_pyDataConstants->getConstantName("v2QuestObjectiveType", row->m_w1);  // row +0x04
     std::fprintf(out, "\t    Type      : %s\n", constantName);
-    // PARTIAL: row +0x20 for the Clear rows and +0x24 for the Kill rows (m_w8 and m_w9). The listing prints its name from
-    // Arrays::LevelList, or "na" when the index is outside the table.
-    std::fprintf(out, "\t    Level     : %s\n", kUnreadTableName);
-    // PARTIAL: the other row id. The listing prints its name from Arrays::CharacterTable (TestCharPropId) or
-    // Arrays::Charater_Templates (TestCharTemplate), or "na" when the index is outside the table.
-    std::fprintf(out, "\t    EnemyType : %s\n", kUnreadTableName);
+    // The level is row +0x20 for the Clear rows and +0x24 for the Kill rows (m_w8 and m_w9), the enemy the other one.
+    std::fprintf(out, "\t    Level     : %s\n",
+                 TableNameOr(Arrays::LevelList::m_memberNames, Arrays::LevelList::size, RowLevelId<TStruct>(*row)));
+    std::fprintf(out, "\t    EnemyType : %s\n", EnemyTable<TTest>::Name(RowEnemyId<TStruct>(*row)));
     std::fprintf(out, "\t    Qty       : %d\n", this->m_requiredQty);
     std::fprintf(out, "\t    CurrQty   : %d\n\n", this->m_currentQty);
     return Objective_EventReceiver::DBG_TraceDetailedObjectiveInformation(stream);

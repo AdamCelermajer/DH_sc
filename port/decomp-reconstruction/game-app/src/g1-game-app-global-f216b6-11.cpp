@@ -7,11 +7,9 @@
 //     which is the same sequence as the Hex-Rays load(&s_inst) followed by GetSwitch(&s_inst, name).
 //   - MerchantTradePrice (header) is the arithmetic shared by the sell and buy natives. It is tested in
 //     game-app/tests/g1-game-app-global-f216b6-11_test.cpp.
-//   - Every other native is PARTIAL. Each one reads its arguments and writes its result through gameswf: the
-//     fn_call argument accessors (argument count, type tag, is_number, to_int, to_number, to_bool, to_string,
-//     to_tu_string), the setters (set_bool, set_double, set_string), drop_refs and the as_object member setter.
-//     None of that is in the tree, so these bodies are shells. Each comment gives the original's steps, so the
-//     body can be filled in when the gameswf API lands.
+//   - Every native whose body is written reads its arguments with call.arg(i) (argument 0 is the top of the
+//     call's stack) and writes call.result. Three natives stay PARTIAL on declarations of other categories: see
+//     NativeConnectToServer, NativeHasPushNotification and NativeGLXPlayerSignin.
 //
 // Shared facts used by the comments:
 //   - Argument layout. The arguments are read from the top of the call's stack. "top" is the last argument and
@@ -32,9 +30,30 @@
 #include "gameswf/gameswf_environment.h"
 #include "vendor-gameswf/as_value.hpp"
 #include "core-platform/deps/application.hpp"
+#include "dh2/AchievementMsg.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/ItemInstance.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/MenuMerchant.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/global/app_helpers.hpp"
+#include "dh2/global/native_player_actions.hpp"
 #include "dh2/global/native_stats_inventory_merchant.hpp"
+#include "net-session-online/online_game_state.hpp"
+#include "net-session-online/tb/online_singleton.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"
 
 // 0x440080 GetQuestFunctor(char const*)
 // Complete. The original tests the DisplayAllQuestInLog switch, then DisplayAllDebugOnlyQuestInLog, and then the
@@ -55,73 +74,120 @@ QuestPredicate GetQuestFunctor(const char* stateName) {
 }
 
 // 0x43eb7c NativeStatsAssignPoint(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments. The top one must have tag 2 and must be the stat type (to_int, 0..3). The
-// one below it must be a number, and it is the player index. The original calls NativeGetPlayerChar(index, false).
-// Stat 0 calls Character::IncStatStr, 1 IncStatDex, 2 IncStatEnd and 3 IncStatNrg. Other values do nothing. Then
-// the result is cleared (drop_refs, tag 0). Missing: the argument accessors, is_number, to_int, drop_refs.
+// Two arguments, both numbers: the stat type (0 Str, 1 Dex, 2 End, 3 Nrg) and the player index. The player's character raises that
+// stat by one point (Character::IncStatStr / IncStatDex / IncStatEnd / IncStatNrg; other values do nothing) and the result is
+// cleared to undefined.
 void NativeStatsAssignPoint(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_number()) {
+        const int stat = call.arg(0).to_int();
+        Character* ch = NativeGetPlayerChar(call.arg(1).to_int(), false);
+        if (ch) {
+            switch (stat) {
+                case 0:
+                    ch->IncStatStr();
+                    break;
+                case 1:
+                    ch->IncStatDex();
+                    break;
+                case 2:
+                    ch->IncStatEnd();
+                    break;
+                case 3:
+                    ch->IncStatNrg();
+                    break;
+                default:
+                    break;
+            }
+            call.result->set_undefined();
+        }
+    }
 }
 
 // 0x43ec98 NativeSkillsGetSkillPointsLeft(gameswf::fn_call const&)
-// PARTIAL. Needs exactly one argument with tag 2, read as the player index (to_int). When NativeGetPlayerChar(index,
-// false) gives a player, the result is CharProperties::PROPS_GetInt(157, false) as a double (the skill points
-// left property, reached through the Character's CharProperties base at +0x560). Otherwise the result is not set.
-// Missing: the argument accessors and set_double.
+// One number argument, the player index. The result is the character's remaining skill points (property 157) as a number.
 void NativeSkillsGetSkillPointsLeft(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        Character* ch = NativeGetPlayerChar(call.arg(0).to_int(), false);
+        if (ch) {
+            call.result->set_double(static_cast<double>(ch->PROPS_GetInt(157, false)));
+        }
+    }
 }
 
 // 0x43ed58 NativeHUDGetIsFaeryUnlocked(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments. The top one is the faery id (to_int) and the one below it the player index
-// (to_int). For a player from NativeGetPlayerChar(index, false), the result is
-// Character::SG_IsFaerieUnlocked(faery, -1) as a bool. Missing: the argument accessors and set_bool.
+// Two numbers: the faery id and the player index. The result is Character::SG_IsFaerieUnlocked(faery, -1).
 void NativeHUDGetIsFaeryUnlocked(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_number()) {
+        const int faery = call.arg(0).to_int();
+        Character* ch = NativeGetPlayerChar(call.arg(1).to_int(), false);
+        if (ch) {
+            call.result->set_bool(ch->SG_IsFaerieUnlocked(static_cast<unsigned int>(faery), -1));
+        }
+    }
 }
 
 // 0x43ee40 NativeHUDSetActiveFaery(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments. The top one is the faery id (to_int) and the one below it the player index.
-// For a player from NativeGetPlayerChar(index, false), the original calls Character::ChangeFaery(faery). When the
-// current level exists (Application::GetCurrentLevel()), it calls Level::PlaceFaeryAndFollowers(nullptr). The
-// original reads GetCurrentLevel twice, which is harmless because the getter has no side effects. Then the result
-// is cleared (drop_refs, tag 0). Missing: the argument accessors and drop_refs.
+// Two numbers: the faery id and the player index. The character changes faery (Character::ChangeFaery); when a level exists
+// Level::PlaceFaeryAndFollowers(nullptr) places the faery and the followers again; the result is cleared to undefined.
 void NativeHUDSetActiveFaery(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_number()) {
+        const int faery = call.arg(0).to_int();
+        Character* ch = NativeGetPlayerChar(call.arg(1).to_int(), false);
+        if (ch) {
+            ch->ChangeFaery(static_cast<unsigned int>(faery));
+            if (Singleton<Application>::s_inst.GetCurrentLevel()) {
+                Singleton<Application>::s_inst.GetCurrentLevel()->PlaceFaeryAndFollowers(nullptr);
+            }
+            call.result->set_undefined();
+        }
+    }
 }
 
 // 0x43ef64 NativeInvUnequipItem(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments. The top one is the equipment slot (to_int) and the one below it the player
-// index. For a player from NativeGetPlayerChar(index, false), the original calls the Character's virtual
-// UnEquipItemFromSlot(slot) (vtable +0x144). The native writes no result. Missing: the argument accessors.
+// Two numbers: the equipment slot and the player index. The character's virtual UnEquipItemFromSlot(slot) (vtable +0x144) runs.
+// The native sets no result.
 void NativeInvUnequipItem(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_number()) {
+        const int slot = call.arg(0).to_int();
+        Character* ch = NativeGetPlayerChar(call.arg(1).to_int(), false);
+        if (ch) {
+            ch->UnEquipItemFromSlot(static_cast<unsigned int>(slot));
+        }
+    }
 }
 
 // 0x43f044 NativeInvGetHasOffHandWeapon(gameswf::fn_call const&)
-// PARTIAL. Needs exactly one argument with tag 2, read as the player index. The result is the bool
-// ItemInventory::HasOffHandWeapon() of the player's inventory (the ItemInventory base at +0x37c). It is false when the
-// player is missing. The call must be qualified as ItemInventory:: because Character may hide the name. Missing: the
-// argument accessors and set_bool.
+// One number, the player index. The result is ItemInventory::HasOffHandWeapon() of the player's inventory, false without a player.
 void NativeInvGetHasOffHandWeapon(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        Character* ch = NativeGetPlayerChar(call.arg(0).to_int(), false);
+        call.result->set_bool(ch ? ch->ItemInventory::HasOffHandWeapon() : false);
+    }
 }
 
 // 0x43f0f0 NativeInvGetHasTwoHandedWeapon(gameswf::fn_call const&)
-// PARTIAL. Same argument rule as NativeInvGetHasOffHandWeapon. The result is ItemInventory::HasTwoHander(false) of
-// the player's inventory, and false when the player is missing. Missing: the argument accessors and set_bool.
+// Same argument rule. The result is ItemInventory::HasTwoHander(false) of the player's inventory, false without a player.
 void NativeInvGetHasTwoHandedWeapon(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        Character* ch = NativeGetPlayerChar(call.arg(0).to_int(), false);
+        call.result->set_bool(ch ? ch->ItemInventory::HasTwoHander(false) : false);
+    }
 }
 
 // 0x43f23c NativeInvTransmuteItem(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments. The top one is the item index (to_int) and the one below it the player index.
-// The original checks that the value below the top is a number. For a player from NativeGetPlayerChar(index, false), it
-// calls Character::INV_TransmuteItem(item, false), then Character::INV_UpdateSkin(), then clears the result (drop_refs,
-// tag 0). The local std::vector<ItemInventory::Item> in the original is zeroed and destroyed with no effect. Missing:
-// the argument accessors and drop_refs.
+// Two numbers: the item index and the player index. The character transmutes the item (INV_TransmuteItem(item, false)), its skin
+// is refreshed (INV_UpdateSkin) and the result is cleared to undefined. The original also builds and destroys an empty local
+// std::vector<ItemInventory::Item>, which has no effect.
 void NativeInvTransmuteItem(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs == 2 && call.arg(0).is_number() && call.arg(1).is_number()) {
+        const int item = call.arg(0).to_int();
+        Character* ch = NativeGetPlayerChar(call.arg(1).to_int(), false);
+        if (ch) {
+            ch->INV_TransmuteItem(static_cast<unsigned int>(item), false);
+            ch->INV_UpdateSkin();
+            call.result->set_undefined();
+        }
+    }
 }
 
 // Body of NativeGetSaveIDsListSize: the number of entries of PlayerSavegame::SG_GetSavegameList(false). The original
@@ -137,118 +203,248 @@ void NativeGetSaveIDsListSize(const gameswf::fn_call& call) {
 }
 
 // 0x43f630 NativeCreateSaveSlot(gameswf::fn_call const&)
-// PARTIAL. Needs exactly two arguments, both to_tu_string. The top one is the save name and the one below it the
-// character class name. The class name is matched against Arrays::CharacterTable member names (count and names
-// from pydata). A class ID that IsPlayableClassID accepts (0x439c34) gets the next free save slot. The original then
-// builds a PlayerSavegame in that slot (ctor with slot, 1, 0), zeroes the static m_difficultyLevel, generates seeds,
-// sets the save date, runs the per-difficulty loop over Arrays::GameDifficulties::size, saves, sets the result to the
-// slot number, and destroys the savegame. The listing also stores the name and the class ID in a local record (v15)
-// that is not shown being saved with the savegame.
-// Two points are unclear in the listing. The result of IsPlayableClassID is passed on to
-// SG_GetNextFreeSlot. The fields written by the difficulty loop have no declaration. Missing: PlayerSavegame.hpp,
-// the pydata tables, the argument accessors and set_double.
+// Two string arguments: the save name (argument 0) and the character class name (argument 1). The class name is looked up in
+// Arrays::CharacterTable::m_memberNames (-1 when missing). A playable class (IsPlayableClassID) gets the next free save slot, and
+// a PlayerSavegame is built for it (loaded with mode 1) with the save name, level 1 and the class; the running difficulty is
+// reset to 0, seeds and save date are generated, the highest unlocked difficulty is 1, and for every difficulty the level id is
+// 41, the entry point 0 and the spawn-point flag set. The save is written and the result is the slot as a number. Any other
+// class leaves the result alone.
 void NativeCreateSaveSlot(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 2) {
+        return;
+    }
+    const char* saveName = call.arg(0).to_tu_string().c_str();
+    const char* className = call.arg(1).to_tu_string().c_str();
+    const int classId = pydata::FindMemberName(Arrays::CharacterTable::m_memberNames,
+                                               static_cast<int>(Arrays::CharacterTable::size), className);
+    if (IsPlayableClassID(classId)) {
+        const std::uint32_t slot = PlayerSavegame::SG_GetNextFreeSlot();
+        PlayerSavegame save(slot, 1, false);
+        save.m_name = saveName;
+        save.m_playerLevel = 1;      // +0x30
+        save.m_playerClass = classId;  // +0x34
+        if (static_cast<std::int32_t>(save.m_saveDate) < 0) {
+            save.m_saveDate = 0;     // +0x38
+        }
+        PlayerSavegame::m_difficultyLevel = 0;
+        save.SG_GenerateSeeds();
+        save.SG_SetSaveDate();
+        save.m_unlockedDifficulty = 1;  // +0x3c
+        for (std::uint32_t difficulty = 0; difficulty != Arrays::GameDifficulties::size; ++difficulty) {
+            save.unk_50[difficulty] = 41;            // +0x50 level id
+            save.m_levelEntryPoint[difficulty] = 0;  // +0x40
+            save.m_useSpawnPoint[difficulty] = true; // +0x4c
+        }
+        save.SG_Save();
+        call.result->set_double(static_cast<double>(slot));
+    }
 }
 
 // 0x43fa58 NativeGetLoadingProgress(gameswf::fn_call const&)
-// PARTIAL. Takes no arguments. When Application::GetCurrentLevel() is set, the result is Level::m_loadProgressPercent
-// (Level +0x30). Otherwise a local OnlineGameState is constructed and destroyed, and the result is 0 when the online
-// state at OnlineSingleton<OnlineGameState>::GetInstance() +0x34 is 3, and 100 for any other value. The mapping is
-// LoadingProgressPercent (native_stats_inventory_merchant.hpp). Missing: the OnlineGameState +0x34 field (not declared
-// in net-session-online/online_game_state.hpp; layout request) and set_double. The level part is declared
-// (Level::m_loadProgressPercent, dh2/Level.hpp).
+// No arguments. With a current level the result is its load progress (Level +0x30); otherwise it is 0 while the online state is in
+// mode 3 (GLLive) and 100 in any other mode. The original also constructs and destroys a local OnlineGameState, which does not
+// touch the singleton and is not repeated.
 void NativeGetLoadingProgress(const gameswf::fn_call& call) {
-    (void)call;
+    Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
+    int percent;
+    if (level) {
+        percent = level->m_loadProgressPercent;
+    } else {
+        percent = OnlineSingleton<OnlineGameState>::GetInstance()->mode_ == 3 ? 0 : 100;
+    }
+    call.result->set_double(static_cast<double>(percent));
 }
 
 // 0x43fdbc NativeConnectToServer(gameswf::fn_call const&)
-// PARTIAL. Needs exactly one argument, read with to_number as the room index. The room list is a std::vector<tRoomInfo>
-// (24 bytes each, the divisor in the listing). When the online state at +0x34 is 2, the list comes from the CMatching
-// singleton, through its virtual at vtable +0x90 (the call that fills the list). Otherwise it is copied from the
-// OnlineGameState tRoomInfo vector at +0x50. When the index is in range (0 .. count-1), the original stores it at
-// OnlineGameState +0x30 and writes 103 to +0x14, the state machine's state word, directly and without the machine's
-// transition. Then the result is true. Missing: the argument accessors, set_bool, the CMatching vtable slot, and the
-// OnlineGameState +0x30, +0x34 and +0x50 fields.
+// PARTIAL. One argument, the room index (a number). The rooms are a std::vector<tRoomInfo> (968 bytes each): when the online state
+// (OnlineSingleton<OnlineGameState>::GetInstance()) has mode_ 2 they come from CMatching::Get() through its virtual at vtable +0x90
+// (CMatchingGLLive::GetRoomList), otherwise they are the state's own vector (+0x50). An index in [0, count) is stored at the state's
+// +0x30 and the state machine state (+0x14) becomes 103 (OnlineGameState::SetState). The result is true. Blocked on
+// net-session-online: GetRoomList (0x82051c) is a skipped row there, the state's room vector (roomInfos_) has no accessor and
+// +0x30 has no field.
 void NativeConnectToServer(const gameswf::fn_call& call) {
     (void)call;
 }
 
 // 0x43fec4 NativeGetNextStatusMessage(gameswf::fn_call const&)
-// PARTIAL. Takes one argument, or two. The top argument must have tag 2. When there are two, the one below must have
-// tag 0 or 1 (undefined or null). The listing also builds the string "not yet supported with no hud code" and calls
-// PlayerManager::GetLocalPlayer(0, false) and as_value::to_bool on the lower argument. Neither result is used. When the
-// status queue (head dword_99FA90, end dword_99FAA0) is not empty, the head entry's string is copied and set as the
-// result. The listing shows no removal of the head entry. Missing: the argument accessors, set_string, and the queue
-// node layout.
+// One or two arguments: a number and, when there are two, a second one that is undefined or a boolean. The original builds the
+// text "not yet supported with no hud code", reads GetLocalPlayer(0, false) and the second argument, and uses none of them.
+// When the status queue 0 of MenuMessageManager<StatusMsg, 4> has a message, its text is the result. The message is not removed.
 void NativeGetNextStatusMessage(const gameswf::fn_call& call) {
-    (void)call;
+    const int count = call.nargs;
+    if (count != 1 && count != 2) {
+        return;
+    }
+    if (!call.arg(0).is_number()) {
+        return;
+    }
+    if (count == 2 && !call.arg(1).is_bool() && !call.arg(1).is_undefined()) {
+        return;
+    }
+    Singleton<Application>::s_inst.m_playerManager->GetLocalPlayer(0, false);
+    if (count == 2) {
+        call.arg(1).to_bool();
+    }
+    const std::deque<StatusMsg>& queue = MenuMessageManager<StatusMsg, 4>::s_inst.m_queues[0];
+    if (!queue.empty()) {
+        const std::string text = queue.front();
+        call.result->set_string(text.c_str());
+    }
 }
 
 // 0x4401d4 NativeGetQuestCount(gameswf::fn_call const&)
-// PARTIAL. Takes no argument count check. The top argument is the player index (to_number). The one below it is the
-// quest state name (to_tu_string). For a player from NativeGetPlayerChar(index, false), the result is
-// Character::SG_GetNumQuests(GetQuestFunctor(name), -1). Otherwise the result is -1. Missing: the argument accessors,
-// to_tu_string (the name is inline at +1, or a pointer at +0x0c when the first byte is -1), and set_double.
+// Argument 0 is the player index, argument 1 the quest state name. The result is the number of the character's quests that
+// GetQuestFunctor(name) accepts (Character::SG_GetNumQuests(filter, -1)), or -1 without a character.
 void NativeGetQuestCount(const gameswf::fn_call& call) {
-    (void)call;
+    const int player = static_cast<int>(call.arg(0).to_number());
+    const char* stateName = call.arg(1).to_tu_string().c_str();
+    Character* ch = NativeGetPlayerChar(player, false);
+    int count = -1;
+    if (ch) {
+        count = ch->SG_GetNumQuests(GetQuestFunctor(stateName), -1);
+    }
+    call.result->set_double(static_cast<double>(count));
 }
 
 // 0x440278 NativeGetNextAchievementMessage(gameswf::fn_call const&)
-// PARTIAL. Needs exactly one argument with tag 5 (an object). The object is cast with gameswf::cast_to<as_object>.
-// A local AchievementMsg is built with empty name and description, trophy type 0, grade 0 and label 0. When the
-// achievement queue (begin dword_99FBE4, end dword_99FBF4) is not empty, the head AchievementMsg is copied into the
-// local (its name is the string base, its description is at +0x18, trophy type +0x30, grade +0x34 and label +0x38, from
-// dh2/AchievementMsg.hpp). The object then gets the members Name, Desc, TrophyType, Grade and Label through its vtable
-// slot +0x1c. The result is true when an entry was copied, and false otherwise. The head entry is not removed here.
-// Missing: the object member-setter signature, the as_value constructors, set_bool and the argument accessors.
+// One object argument. The head message of the achievement queue (MenuMessageManager<AchievementMsg, 1>, queue 0) is copied into a
+// local AchievementMsg (empty name and description, zeros otherwise) and the object gets Name, Desc, TrophyType, Grade and Label.
+// The result is true when a message was copied, false when the queue is empty. The message is not removed.
 void NativeGetNextAchievementMessage(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 1 || !call.arg(0).is_object()) {
+        return;
+    }
+    gameswf::as_object* object = call.arg(0).to_object();
+    AchievementMsg message(std::string(), std::string(), 0, 0, 0);
+    const std::deque<AchievementMsg>& queue = MenuMessageManager<AchievementMsg, 1>::s_inst.m_queues[0];
+    bool copied = false;
+    if (!queue.empty()) {
+        const AchievementMsg& head = queue.front();
+        static_cast<std::string&>(message) = head;
+        message.m_desc = head.m_desc;
+        message.m_trophyType = head.m_trophyType;
+        message.m_grade = head.m_grade;
+        message.m_label = head.m_label;
+        object->set_member(tu_stringi("Name"), gameswf::as_value(static_cast<const std::string&>(message).c_str()));
+        object->set_member(tu_stringi("Desc"), gameswf::as_value(message.m_desc.c_str()));
+        object->set_member(tu_stringi("TrophyType"), gameswf::as_value(message.m_trophyType));
+        object->set_member(tu_stringi("Grade"), gameswf::as_value(message.m_grade));
+        object->set_member(tu_stringi("Label"), gameswf::as_value(message.m_label));
+        copied = true;
+    }
+    call.result->set_bool(copied);
 }
 
 // 0x44058c NativeMerchantSellItem(gameswf::fn_call const&)
-// PARTIAL. Takes no argument count check. The top argument is the item index (to_number). The one below is the player
-// index (to_number). The one below that is the merchant object's name (to_string), and the fourth is a number that goes
-// to ObjectManager::GetObjectByName as an int. The original first gets menu_Merchant from MenuManager::GetInstance().
-// It only continues when the menu's byte at +0xc4 is 0, and it sets that byte to 1 and never clears it in this
-// function. Then it checks that the object is a merchant (IsMerchant) and that the item index is in range (0 .. count-1).
-// It takes the sell percent from Arrays::MerchantTable (+0x04, via Character::GetLoot), prices the
-// item with MerchantTradePrice(item +0x54, percent), adds the gold to the player's inventory, sets the item's byte at
-// +0x69 to 1, and transfers the item to the merchant's inventory (quantity 1, no stack, convert gold). It then calls
-// INV_UpdateSkin, adds 1 to the sold counter (CharProperties 220), and unlocks the sell_100_items trophy when the
-// counter is above 99. The result is always false. The DebugSwitches isTracingMerchant read has no effect. Missing: the
-// argument accessors, the ItemInstance fields (+0x54, +0x69), the MerchantTable row, the menu +0xc4 field, the
-// ObjectManager lookup, TrophyManager, and set_bool.
+// Arguments: the item index (0), the player index (1), the merchant object's name (2) and the object-lookup flags (3). Only when
+// the "menu_Merchant" menu exists and its busy byte (+0xc4, cleared by MenuMerchant::Update every frame) is clear, the byte is set
+// and the sale is made: the merchant (an object of that name with IsMerchant) buys the player's item at its row's sell percentage
+// (Arrays::MerchantTable row of GetLoot, +0x04) with price MerchantTradePrice(item value, percent). The gold goes to the player,
+// the item is marked as buy-back (ItemInstance +0x69) and moved to the merchant (quantity 1, no stack, gold converted), the skin
+// is refreshed, the sold counter (property 220) counts up and unlocks "sell_100_items" above 99. The result is always false.
 void NativeMerchantSellItem(const gameswf::fn_call& call) {
-    (void)call;
+    MenuMerchant* menu = static_cast<MenuMerchant*>(MenuManager::GetInstance()->GetMenuByName("menu_Merchant"));
+    if (menu && !menu->unk_c4) {
+        menu->unk_c4 = true;
+        const int itemIndex = static_cast<int>(call.arg(0).to_number());
+        const int player = static_cast<int>(call.arg(1).to_number());
+        const char* merchantName = call.arg(2).to_string();
+        const int flags = static_cast<int>(call.arg(3).to_number());
+        Character* ch = NativeGetPlayerChar(player, false);
+        if (ch) {
+            ObjectHandle handle = Singleton<Application>::s_inst.m_objectManager->GetObjectByName(merchantName, flags, false, nullptr);
+            Character* merchant = handle.operator Character*();
+            if (merchant && merchant->IsMerchant()) {
+                ItemInventory& playerInventory = *ch;
+                if (static_cast<unsigned int>(itemIndex) < static_cast<unsigned int>(playerInventory.GetNumItems()) && itemIndex >= 0) {
+                    const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
+                    ItemInstance* item = playerInventory.GetItem(static_cast<unsigned int>(itemIndex));
+                    const int price = MerchantTradePrice(item->m_value, row->m_w1);  // sell column +0x04
+                    item->GetItem();
+                    playerInventory.AddGold(price);
+                    DebugSwitches::s_inst.load();
+                    (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingMerchant"));
+                    item->unk_69 = true;
+                    playerInventory.TransferItemTo(static_cast<unsigned int>(itemIndex), static_cast<ItemInventory&>(*merchant), 1, false, true);
+                    ch->INV_UpdateSkin();
+                    ch->PROPS_AddInt(220, 1);
+                    TrophyManager* trophies = TrophyManager::s_instance;
+                    if (ch->PROPS_GetInt(220, false) > 99) {
+                        trophies->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>("sell_100_items"));
+                    }
+                }
+            }
+        }
+    }
+    call.result->set_bool(false);
 }
 
 // 0x4408d4 NativeMerchantBuyItem(gameswf::fn_call const&)
-// PARTIAL. Takes no argument count check. The top argument is the item index (to_number). The one below it is the
-// player index (to_number). The one below that is the merchant object's name (to_string), and the fourth is a number
-// for ObjectManager::GetObjectByName. The original gets the merchant with the same lookup, and checks IsMerchant on it.
-// It checks that the item index is in range. The price is MerchantTradePrice(item +0x54, percent), where percent is the
-// merchant table's buy column (+0x08) when the item's byte at +0x69 is 0, and its sell column (+0x04) when it is set.
-// The result depends on the order of these checks:
-//   - price above the player's gold (ItemInventory::m_gold, +0x20 in the inventory, 924 in the Character) gives 1.
-//   - a full inventory with an item that is not a potion (item type 14, the item's type id at row +0x58) gives 2.
-//   - a potion when the potion count equals the player's maximum potions (ItemInventory +0x2c, int8) gives 3.
-//   - otherwise the player's gold drops by price, the item goes to the player (quantity 1, no stack, convert gold),
-//     the byte at +0x69 is cleared, CharProperties 221 (the spend counter behind the spend_* trophies) grows by price, the trophy spend_1000_gold is
-//     unlocked at 1000 or more, and spend_10000_gold at more than 9999. The result is 0.
-// The result is also 0 when any lookup or check fails. Missing: the argument accessors, the ItemInstance fields,
-// the MerchantTable row, the ObjectManager lookup, TrophyManager, and set_double.
+// Arguments as for the sale. The result is a number: 1 when the price exceeds the player's gold, 2 when the inventory is full and
+// the item is not a potion (item type 14), 3 when it is a potion and the potion count already equals the player's maximum, and
+// 0 otherwise (also when a lookup or check fails). The price is MerchantTradePrice(item value, percent) with the merchant row's
+// buy column (+0x08), or its sell column (+0x04) for an item marked as buy-back. A purchase takes the gold, clears the buy-back
+// mark, moves the item to the player (quantity 1, no stack, gold converted), adds the price to the spent counter (property 221) and
+// unlocks "spend_1000_gold" at 1000 and "spend_10000_gold" above 9999.
 void NativeMerchantBuyItem(const gameswf::fn_call& call) {
-    (void)call;
+    const int itemIndex = static_cast<int>(call.arg(0).to_number());
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const char* merchantName = call.arg(2).to_string();
+    const int flags = static_cast<int>(call.arg(3).to_number());
+    double result = 0.0;
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (ch) {
+        ObjectHandle handle = Singleton<Application>::s_inst.m_objectManager->GetObjectByName(merchantName, flags, false, nullptr);
+        Character* merchant = handle.operator Character*();
+        if (merchant && merchant->IsMerchant()) {
+            ItemInventory& merchantInventory = *merchant;
+            if (static_cast<unsigned int>(itemIndex) < static_cast<unsigned int>(merchantInventory.GetNumItems()) && itemIndex >= 0) {
+                const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
+                ItemInstance* item = merchantInventory.GetItem(static_cast<unsigned int>(itemIndex));
+                const int percent = item->unk_69 ? row->m_w1 : row->m_w2;  // sell column for a buy-back item, else the buy column
+                const int price = MerchantTradePrice(item->m_value, percent);
+                const int itemType = item->GetItem()->m_w22;  // Structs::Item +0x58
+                ItemInventory& playerInventory = *ch;
+                bool purchase = false;
+                if (price > playerInventory.m_gold) {  // ItemInventory +0x20
+                    result = 1.0;
+                } else {
+                    const bool potion = itemType == 14;
+                    if (playerInventory.IsInventoryFull() && !potion) {
+                        result = 2.0;
+                    } else if (potion && playerInventory.GetNumPotions() == playerInventory.m_maxPotions) {
+                        result = 3.0;
+                    } else {
+                        purchase = true;
+                    }
+                }
+                if (purchase) {
+                    playerInventory.AddGold(-price);
+                    DebugSwitches::s_inst.load();
+                    (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingMerchant"));
+                    item->unk_69 = false;
+                    merchantInventory.TransferItemTo(static_cast<unsigned int>(itemIndex), playerInventory, 1, false, true);
+                    ch->PROPS_AddInt(221, price);
+                    TrophyManager* trophies = TrophyManager::s_instance;
+                    if (ch->PROPS_GetInt(221, false) >= 1000) {
+                        trophies->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>("spend_1000_gold"));
+                    }
+                    if (ch->PROPS_GetInt(221, false) > 9999) {
+                        trophies->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>("spend_10000_gold"));
+                    }
+                }
+            }
+        }
+    }
+    call.result->set_double(result);
 }
 
 // 0x440c84 NativeHasPushNotification(gameswf::fn_call const&)
-// PARTIAL. Takes no arguments. The gate is Device::IsHighPerformance() || Is_In_Multiplayer_Mode || SHARP_DEVICES ||
-// HTC_DEVICES. When the gate is open, the result is (byte_99F83A || byte_99F81A || the GameCenter singleton's byte
-// +0x15, the start gate). Otherwise the result is false. The gate is PushNotificationGate and the result is
-// PushNotificationResult (native_stats_inventory_merchant.hpp). Missing: the two globals byte_99F83A and byte_99F81A (no
-// names in the tree; the original tests them with no other use), the GameCenter +0x15 byte (game_center.hpp has only
-// the StartGateForTest accessor; layout request), and set_bool.
+// PARTIAL. No arguments. The result is false when the device gate (PushNotificationGate: Device::IsHighPerformance,
+// Is_In_Multiplayer_Mode, SHARP_DEVICES, HTC_DEVICES) is closed; otherwise it is true when byte_99F83A or byte_99F81A (the GameCenter
+// invite flags, dh2/global/gc_invite_flags.hpp) is set or the byte at +0x15 of GCSingleton<GameCenter>::GetInstance() (the start
+// gate) is set. Blocked on the GameCenter duplicate: GCSingleton<GameCenter> (core-platform/gc_singleton.hpp) instantiates
+// core-platform/deps/game_center.hpp, a stand-in class, and net-session-online's real GameCenter has the gate (startGate_) private.
 void NativeHasPushNotification(const gameswf::fn_call& call) {
     (void)call;
 }
@@ -260,16 +456,13 @@ bool PushNotificationGate() {
 }
 
 // 0x440d3c NativeGLXPlayerSignin(gameswf::fn_call const&)
-// PARTIAL. Returns at once unless GetOnline() has its online-game flag at +0x05 (COnline::isOnlineGame_, which has no
-// getter yet). Then it needs exactly three arguments: the login name (to_tu_string, the top one), the password (to_tu_string,
-// the one below) and the remember flag (to_bool, the bottom one). The original also needs the OnlineGameState byte
-// at +0x27. In that case it stores the remember flag in the save_remember global, copies the name and the password
-// with strdup, stores the remember flag in CMatching::Get()+27633, and builds a CSignInCredentials (12 bytes via
-// CustomAlloc) from the name, the password and GameCenter's +0x18 pointer. Then it calls the sign-in object's virtual at
-// vtable +0x10 with the credentials and returns that result. The native sets no result. The argument to CMatching::Get
-// and CSignIn::Get in the listing does not match their parameterless forms, so it is probably a decompiler artifact.
-// Missing: COnline::isOnlineGame_ getter, OnlineGameState +0x27, GameCenter +0x18, the CSignIn::Get path, the argument
-// accessors, and the tu_string text readers.
+// PARTIAL. Returns at once unless this is an online game (GetOnlineGameFlag) with three arguments: the login name, the password
+// (both tu_strings) and the remember flag (a boolean), and the online state's byte at +0x27 (OnlineGameState::flag27_) is set. Then
+// the flag is stored in the global save_remember, the name and the password are strdup'ed, the flag is stored in the
+// CMatching::Get() byte at +27633, a CSignInCredentials (12 bytes from CustomAlloc: name, password, GameCenter +0x18 pointer) is built,
+// and CSignIn::Get()'s virtual at vtable +0x10 is called with it (its result is the native's Hex-Rays return, not a result value).
+// Blocked on net-session-online: CSignInCredentials, the CSignIn virtual, the save_remember global, the login-remember byte of
+// CMatching and the GameCenter singleton (see NativeHasPushNotification) are not declared.
 void NativeGLXPlayerSignin(const gameswf::fn_call& call) {
     (void)call;
 }

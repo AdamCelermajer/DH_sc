@@ -150,28 +150,28 @@ int main() {
     c->m_state = Container::STATE_OPENED;
     EXPECT(c->Container::IsInteractive(nullptr) == false);
 
-    // Visual and node: the node's flags word is unk_011c (+0x11c). Only the 0x400 bit is set or cleared here.
+    // Visual and node: the node's flags word is ISceneNode::flags (+0x11c). Only the 0x400 bit is set or cleared here.
     VisualObject* visual = reinterpret_cast<VisualObject*>(g_visualStorage);
     RootSceneNode* node = reinterpret_cast<RootSceneNode*>(g_nodeStorage);
     visual->m_node = node;
     c->m_visualObject = visual;
 
-    node->unk_011c = 0x200u;
+    node->flags = 0x200u;
     c->Container::SetState(Container::STATE_IDLE);
     EXPECT(c->m_state == Container::STATE_IDLE);
-    EXPECT(node->unk_011c == 0x600u);  // 0x400 set for IDLE, 0x200 kept
+    EXPECT(node->flags == 0x600u);  // 0x400 set for IDLE, 0x200 kept
 
     c->Container::SetState(Container::STATE_ACTIVATE);
     EXPECT(c->m_state == Container::STATE_ACTIVATE);
-    EXPECT(node->unk_011c == 0x200u);  // 0x400 cleared for ACTIVATE
+    EXPECT(node->flags == 0x200u);  // 0x400 cleared for ACTIVATE
 
     c->Container::SetState(Container::STATE_OPENED);
     EXPECT(c->m_state == Container::STATE_OPENED);
-    EXPECT(node->unk_011c == 0x600u);  // 0x400 set for OPENED
+    EXPECT(node->flags == 0x600u);  // 0x400 set for OPENED
 
     c->Container::SetState(Container::STATE_PRESPAWN);
     EXPECT(c->m_state == Container::STATE_PRESPAWN);
-    EXPECT(node->unk_011c == 0x600u);
+    EXPECT(node->flags == 0x600u);
 
     // Spawn does nothing without a visual, or when the state is not PRESPAWN (no animation call happens).
     c->m_visualObject = nullptr;
@@ -181,10 +181,10 @@ int main() {
 
     c->m_visualObject = visual;
     c->m_state = Container::STATE_IDLE;
-    node->unk_011c = 0x200u;
+    node->flags = 0x200u;
     c->Container::Spawn();
     EXPECT(c->m_state == Container::STATE_IDLE);
-    EXPECT(node->unk_011c == 0x200u);
+    EXPECT(node->flags == 0x200u);
 
     // IsZonable forwards to GameObject::MeetCondition.
     g_meetConditionResult = true;

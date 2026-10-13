@@ -4,6 +4,7 @@
 #include "connection_manager_for_tests.hpp"  // real CConnectionManager, initialized once
 static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_gl_live.hpp"
+#include "room_test_helpers.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -161,7 +162,7 @@ int main() {
         m.SetMemberId(20);  // member index 1
         NetBitStream stream(16);
         CHECK(m.WritePacketData(0, 0, stream) == 0);
-        CHECK(!m.GetRoomAttributes()->NetEnabled());  // IsHost() is false
+        CHECK(!RoomNetEnabled(*m.GetRoomAttributes()));  // IsHost() is false
         for (int i = 0; i < CMatchingGLLive::kMemberInfoCount; ++i) {
             CHECK(m.MemberInfoForTest(i).Enabled() == (i == 1));
         }
@@ -185,14 +186,14 @@ int main() {
         CSignIn* signIn = CSignIn::Get();
         CMatchingGLLive m;
         CRoomAttributes attributes;
-        attributes.SetAttributeInt(3, 55);
+        attributes.SetAttributeInt(RoomInt(3), 55);
         signIn->SetLoggedInForTest(false);
         CHECK(m.CreateJoinRoomInternal(true, attributes) == -1);
-        CHECK(m.CreateRoomAttributesForTest().GetAttributeInt(3) == 0);
+        CHECK(RoomGetInt(m.CreateRoomAttributesForTest(), 3) == 0);
         signIn->SetLoggedInForTest(true);
         CHECK(m.CreateJoinRoomInternal(true, attributes) == 0);
         CHECK(!m.Unk67ecForTest());
-        CHECK(m.CreateRoomAttributesForTest().GetAttributeInt(3) == 55);
+        CHECK(RoomGetInt(m.CreateRoomAttributesForTest(), 3) == 55);
         CHECK(m.CreateJoinRoomInternal(false, attributes) == 0);
         CHECK(m.Unk67ecForTest());
         signIn->SetLoggedInForTest(false);
@@ -212,7 +213,7 @@ int main() {
         key = transport_test_support::HostnameKeyOf(first);
         transport_test_support::HostnamesForTest()[key] = "first.server";
         CRoomAttributes attributes;
-        attributes.SetAttributeInt(1, 9);
+        attributes.SetAttributeInt(RoomInt(1), 9);
 
         OnlineClockStorage() = 5000;
         m.AddServer(7, first, 3, attributes);
@@ -227,7 +228,7 @@ int main() {
             CHECK(entry.lastSeenMs == 5000);
             CHECK(entry.name == "first.server");
             CHECK(entry.address.IsEqual(first));
-            CHECK(entry.roomAttributes.GetAttributeInt(1) == 9);
+            CHECK(RoomGetInt(entry.roomAttributes, 1) == 9);
         }
 
         OnlineClockStorage() = 6000;

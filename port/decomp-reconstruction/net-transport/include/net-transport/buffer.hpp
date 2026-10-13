@@ -25,6 +25,10 @@ public:
     void setSize(std::uint32_t size);
 
     std::uint32_t size() const { return size_; }
+    bool sized() const { return sized_; }  // +0x14 (not in the original; the original reads the field)
+    // The block vector, including its trailing nullptr sentinel (the original reads begin and end directly).
+    std::size_t block_vector_size() const { return blocks_.size(); }
+    std::uint8_t* block(std::size_t index) const { return blocks_[index]; }
     // Accessors for the owning StreamBuffer (not in the original; the original reads the fields directly).
     std::uint32_t block_size() const { return block_size_; }
     std::uint8_t* FirstBlock() const { return blocks_.empty() ? nullptr : blocks_.front(); }

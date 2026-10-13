@@ -1,5 +1,5 @@
 // Slice 33 reconstruction: CColladaBinaryFileLoader constructors, the collada skin
-// technique prepare hooks, SAnimationAccessor::findKeyFrameNo, GUI and scene node
+// technique prepare hooks, SAnimationAccessor::findKeyFrameNo and scene node
 // attribute (de)serialization, particle emitter and affector attribute code, the
 // scene collision manager, and a few collada and terrain helpers.
 //
@@ -129,41 +129,6 @@ struct SoftwareSkinTechniqueStandIn {
 };
 
 // glitch::collada::SAnimationAccessor: canonical class in collada/SAnimationAccessor.hpp.
-
-// ---------------------------------------------------------------------------
-// glitch::gui element stand-ins (attribute serialization)
-// ---------------------------------------------------------------------------
-struct CGUIButtonStandIn {
-    std::uint8_t pad_0000[0x158] = {};          // +0x000..+0x157 (not mapped)
-    bool pressedMode = false;                   // +0x159 (the PushButton attribute)
-    bool pressed = false;                       // +0x158
-    bool useAlphaChannel = false;               // +0x15a
-    bool border = false;                        // +0x15b
-    ITextureStandIn* image = nullptr;           // +0x1b0
-    ITextureStandIn* pressedImage = nullptr;    // +0x1b4
-    core::rect<std::int32_t> imageRect;         // +0x1b8 (440, 444, 448, 452)
-    core::rect<std::int32_t> pressedImageRect;  // +0x1c8 (456, 460, 464, 468)
-};
-
-struct CGUICheckBoxStandIn {
-    std::uint8_t pad_0000[0x159] = {};          // +0x000..+0x158 (not mapped)
-    bool checked = false;                       // +0x159
-};
-
-struct CGUIEditBoxStandIn {
-    std::uint8_t pad_0000[0x15a] = {};          // +0x000..+0x159 (not mapped)
-    bool overrideColorEnabled = false;          // +0x15a
-    std::uint32_t overrideColor = 0;            // +0x164
-    std::int32_t maxChars = 0;                  // +0x184
-    bool wordWrap = false;                      // +0x188
-    bool multiLine = false;                     // +0x189
-    bool autoScroll = false;                    // +0x18a
-    bool passwordBox = false;                   // +0x18b
-    std::uint32_t passwordChar = 0;             // +0x18c
-    std::int32_t horizontalAlign = 0;           // +0x190
-    std::int32_t verticalAlign = 0;             // +0x194
-};
-
 
 // ---------------------------------------------------------------------------
 // glitch::scene::CSceneCollisionManager
@@ -330,21 +295,6 @@ int prepareSoftwareSkinBuffer(SoftwareSkinTechniqueStandIn& self, int step,
                               IVideoDriverStandIn* driver, SkinBufferStandIn& skinBuffer,
                               MeshBufferStandIn* meshBuffer, std::uint32_t technique);
 
-
-// glitch::gui attribute (de)serialization.
-void serializeCheckBox(const CGUICheckBoxStandIn& self, IAttributesStandIn& attrs);      // 0x6a76bc
-void deserializeCheckBox(CGUICheckBoxStandIn& self, IAttributesStandIn& attrs);         // 0x6a7e94
-void serializeButton(const CGUIButtonStandIn& self, IAttributesStandIn& attrs);          // 0x6a6630
-void deserializeButton(CGUIButtonStandIn& self, IAttributesStandIn& attrs);              // 0x6a6bb0
-// alignNames is the glitch::gui::GUIAlignmentNames table of the original.
-void serializeEditBox(const CGUIEditBoxStandIn& self, IAttributesStandIn& attrs,
-                      const char* const* alignNames);                                    // 0x6b0d9c
-void deserializeEditBox(CGUIEditBoxStandIn& self, IAttributesStandIn& attrs,
-                        const char* const* alignNames);                                  // 0x6b08ac
-void serializeComboBox(void* self, IAttributesStandIn& attrs);                           // 0x6ac12c
-void deserializeComboBox(void* self, IAttributesStandIn& attrs);                         // 0x6ac9bc
-void serializeContextMenu(void* self, IAttributesStandIn& attrs);                        // 0x6af2bc
-void deserializeContextMenu(void* self, IAttributesStandIn& attrs);                      // 0x6af62c
 
 // glitch::scene::CSceneCollisionManager.
 void constructCollisionManagerC2(CollisionManagerStandIn& self, CSceneManagerStandIn* sceneManager,

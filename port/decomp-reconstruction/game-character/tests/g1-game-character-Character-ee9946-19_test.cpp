@@ -27,7 +27,7 @@ int gAssertLevel = 0;
 
 namespace {
 
-int g_props[64];                    // raw final sheet by property id (PROPS_Get reads it)
+int g_props[256];                   // raw final sheet by property id (PROPS_Get reads it); the stat ids go up to 151
 int g_updates = 0;                  // UpdateBaseProperties calls
 int g_loads = 0;                    // DebugSwitches::load calls
 std::vector<std::string> g_probes;  // DebugSwitches::GetSwitch names, in call order

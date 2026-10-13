@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #include "net-session-online/c_message.hpp"
+#include "net-session-online/c_msg_raised_event.hpp"
 
 class CMsgIsHost : public CMessage {
 public:
@@ -72,6 +73,10 @@ private:
     std::uint8_t payload_[1] = {};  // +0x50
 };
 
+// CMsgScriptCmd: one script command shared with the other players. The payload is three 32-bit words at +0x50, written by the senders:
+// ScriptManager::StartScript (command 0, script id, module), ScriptManager::SkipScript (command 1, script id, -1) and NativeStopMessage
+// (command 3, -1, -1, the host skipping the dialog message) and Script_ExitCutSceneMode (command 1, script id -2, -1: the cut scene
+// ends). The receiver is not in the tree yet.
 class CMsgScriptCmd : public CMessage {
 public:
     // 0x32a710 GetNewInstance<CMsgScriptCmd>(bool) inlines this: CMessage(name, bool), then sendMode_ 1 (+0x2c),
@@ -83,7 +88,7 @@ public:
         reliable_ = true;
         includeLocalMember_ = true;
     }
-    void* GetDataPtr() override { return payload_; }
+    void* GetDataPtr() override { return &command_; }
     std::uint32_t GetDataSize() const override { return 12; }
     // 0x3279a8 _ZN13CMsgScriptCmd13SetPropertiesEv
     void SetProperties() {
@@ -94,8 +99,10 @@ public:
         reliable_ = true;
     }
 
-private:
-    std::uint8_t payload_[12] = {};  // +0x50
+    // Payload (original 32-bit offsets).
+    std::int32_t command_ = 0;    // +0x50 0 start script, 1 skip script, 3 skip the dialog message
+    std::int32_t scriptId_ = 0;   // +0x54 the script id, -1 when the command has none
+    std::int32_t module_ = 0;     // +0x58 the module of a started script, -1 otherwise
 };
 
 class CMsgStartGame : public CMessage {
@@ -166,24 +173,14 @@ private:
     std::uint8_t payload_[28] = {};  // +0x50
 };
 
-class CMsgRaisedEvent : public CMessage {
-public:
-    void* GetDataPtr() override { return payload_; }
-    std::uint32_t GetDataSize() const override { return 20; }
-    // 0x327a0c _ZN15CMsgRaisedEvent13SetPropertiesEv
-    // Note: a second CMsgRaisedEvent class lives in c_msg_raised_event.hpp (another worker);
-    // the two definitions conflict and must be merged before both are compiled together.
-    void SetProperties() {
-        typeName_ = "CMsgRaisedEvent";
-        reliable_ = true;
-        sendMode_ = 1;
-        includeLocalMember_ = true;
-    }
-
-private:
-    std::uint8_t payload_[20] = {};  // +0x50
-};
-
+// CMsgRaisedEvent has one definition: c_msg_raised_event.hpp (the typed payload, the constructor and Create).
+// CMsgControllerAction: one controller command of a player, replayed on the other players by v2NetController::Update
+// (0x40939c). The payload starts at +0x50 and is 20 bytes; the reader and the senders use three fields:
+//   +0x50 byte   action: 0 attack the object, 1 begin skill, 2 end skill, 3 set faerie (then slot +0x44), 4 slot +0x48,
+//                5 use object of interest (slot +0x50 with the object)
+//   +0x52 word   the network id of the object (actions 0 and 5) or the skill / faerie id (actions 1 to 3)
+//   +0x54 byte   the network id of the sending character (ObjectBase +0x108, low byte); the reader drops a message
+//                whose sender is not the character it controls
 class CMsgControllerAction : public CMessage {
 public:
     // 0x328a64 _ZN20CMsgControllerActionC1Eb
@@ -192,7 +189,7 @@ public:
         typeName_ = "CMsgControllerAction";
         sendMode_ = 1;
     }
-    void* GetDataPtr() override { return payload_; }
+    void* GetDataPtr() override { return &action_; }
     std::uint32_t GetDataSize() const override { return 20; }
     // 0x327a74 _ZN20CMsgControllerAction13SetPropertiesEv
     void SetProperties() {
@@ -200,8 +197,12 @@ public:
         sendMode_ = 1;
     }
 
-private:
-    std::uint8_t payload_[20] = {};  // +0x50
+    // Payload (original 32-bit offsets). The constructor leaves it zeroed (the allocation is zero-filled).
+    std::uint8_t action_ = 0;       // +0x50
+    std::uint8_t unk_51 = 0;        // +0x51
+    std::uint16_t targetId_ = 0;    // +0x52
+    std::uint8_t senderId_ = 0;     // +0x54
+    std::uint8_t unk_55[15] = {};   // +0x55 .. +0x63: sent with the message, never read
 };
 
 class CMsgAttackResult : public CMessage {

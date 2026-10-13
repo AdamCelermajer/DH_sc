@@ -34,6 +34,12 @@ public:
     // 0x327908 _ZN12CMsgDropLoot13SetPropertiesEv
     void SetProperties();
 
+    // The payload header as the senders fill it (NativeInvDropItem 0x43cfb4): byte +0x50 = kind, +0x54 = the item id, +0x58 = the dropping
+    // object's network id, +0x5c and +0x60 = 0, +0x64 = the block length in bytes; the block (+0x68) holds the item's power ids as
+    // 32-bit words. A block is stored only for a positive count.
+    void SetLoot(std::uint8_t kind, std::int32_t itemId, std::int32_t objectNetworkId, const std::int32_t* powerIds,
+                 std::int32_t powerCount);
+
     // Not in the original: test seam for the block length.
     std::int32_t BlockLengthForTest() const { return BlockLength(); }
     std::uint32_t SendModeForTest() const { return sendMode_; }

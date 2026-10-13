@@ -52,14 +52,35 @@
 #include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/global/native_app_bindings.hpp"
+#include <cstdio>
+#include <ctime>
+#include <string>
+#include <vector>
+
+#include "core-platform/w7_global_rem.hpp"
+#include "dh2/CharProperties.hpp"
+#include "dh2/CharTimers.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/QuestSavegame.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/VarArgs.hpp"
+#include "dh2/global/Globals.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/global/native_object_helpers.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+#include "core-platform/stlport_sort.hpp"
+#include "dh2/ItemInstance.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/SortByEquipability.hpp"
+#include "dh2/global/native_stats_inventory_merchant.hpp"
 #include "gameswf/gameswf_environment.h"
 #include "vendor-gameswf/as_value.hpp"
-
-// gameswf's tu_loadlib.h includes windows.h, which defines GetClassName as GetClassNameA. Character::GetClassName is the
-// DH2 member (the original's symbol), so the macro is removed for this unit.
-#ifdef GetClassName
-#undef GetClassName
-#endif
 
 // 0x4466c4 NativeGetPlayerInfos(gameswf::fn_call const&)
 // The top argument is the output object (tag 5). The one below it is the player index (to_number). With three arguments
@@ -90,53 +111,118 @@ void NativeGetPlayerInfos(const gameswf::fn_call& call) {
 }
 
 // 0x446978 NativeGetStringNumPotions(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5). The one below it is the player index (to_number). The
-// original calls NativeGetPlayerChar(index, false). When the player exists, the string is
-// StringManager::parse(out, getString(PyDataConstants::getConstant("StrID", "GAMEPLAYMENUS_POTIONS")),
-// ItemInventory::GetNumPotions() of the character's inventory at +0x37c). The result is set on the object as the
-// string property StrNumPotions. The return value is not set.
-// Missing: the argument accessors, to_number, the tu_string names, set_string, drop_refs, the object setter,
-// NativeGetPlayerChar and the StrID string table (PyDataConstants::getConstant(class, name) is declared in
-// pydata-accessors/w7_pydata12.hpp).
+// Argument 0 is the output object (an object, otherwise none), argument 1 the player index. For a player's character the object gets
+// StrNumPotions: the GAMEPLAYMENUS_POTIONS string parsed with the character's potion count (StringManager::parse). No result is set.
+// A missing output object is dereferenced by the original (not guarded here either).
 void NativeGetStringNumPotions(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* object = call.arg(0).is_object() ? call.arg(0).to_object() : nullptr;
+    Character* ch = NativeGetPlayerChar(static_cast<int>(call.arg(1).to_number()), false);
+    if (ch) {
+        std::string text;
+        StringManager* strings = ApplicationGetStringManager();
+        const char* format = strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "GAMEPLAYMENUS_POTIONS"));
+        strings->parse(text, format, ch->ItemInventory::GetNumPotions());
+        nativeobj::SetString(object, "StrNumPotions", text.c_str());
+    }
 }
 
 // 0x446afc NativeGetPlayerStats(gameswf::fn_call const&)
-// PARTIAL. The largest native in the batch (about 1,100 Hex-Rays lines). The top argument is the output object (tag 5,
-// used without a null check). The one below it is the player index (to_number). The original calls
-// NativeGetPlayerChar(index, false). When that is null nothing is set. Otherwise the object gets the properties below,
-// in the original's order (Name first, Stun_Resist_Chance last). The object is then the return value (set_as_object).
-//   Value sources. CharProperties is the character at +0x560 (Hex-Rays v8 = character + 1376). A numeric property is
-//   CharProperties::PROPS_GetInt(prop, false) stored as a double (its header comment says it returns value >> 8).
-//   Name is Character::SG_GetPlayerName and Class is Character::GetClassName. Icon is 3.0 for class ids 290..292,
-//   2.0 for 325..327 and 1.0 otherwise (Character::SG_GetPlayerClass). HasOffHandWeapon(), HasStaff(), HasBow() and
-//   IsWeaponTwoHanded (HasTwoHander(false)) are bools of the character's ItemInventory (+0x37c). The bonus terms are
-//   PROPS_GetBonusDamage(offHand) >> 8, PROPS_GetBonusAttackRating(false) >> 8 and PROPS_GetBonusCritRating(false) >> 8.
-//   Prop ids (PROPS_GetInt id):
-//     Level 19, HP 36, HP_Bonus 37, Max_HP 38, MP 41, MP_Bonus 42, Max_MP 43, XP 33, Max_XP 34,
-//     Stat_Strength 149, Stat_Dexterity 150, Stat_Endurance 151, Stat_Energy 152, Stat_Points 148,
-//     Rating_Defense 59, Rating_Dodge 60, Rating_Block 61, Physical_Armor 71,
-//     Resistance_Fire 74, Resistance_Water 75, Resistance_Lightning 76, Resistance_Earth 77, Resistance_Air 78,
-//     Regen_HP 39, Regen_MP 44, Leech_HP 132, Leech_MP 133, Stun_Resist_Chance 138,
-//     Special_Loot_Gold_Multiplier 195, Special_Loot_Magical_Chance 196,
-//     Menu_Average_Melee_To_Hit 207, Menu_Average_Spell_To_Hit 208, Menu_Melee_Damage_Reduction 209,
-//     Spell_Rating_Dodge 164, Spell_Rating_Critical 165, Spell_Damage_Bonus_Fire 166, _Water 167, _Lightning 168,
-//     _Earth 169, _Air 170,
-//     Damage_Elemental_Min_Main_Hand 95, Damage_Elemental_Max_Main_Hand 96, Damage_Elemental_Type_Main_Hand 97,
-//     Damage_Elemental_Min_Off_Hand 98, Damage_Elemental_Max_Off_Hand 99, Damage_Elemental_Type_Off_Hand 100,
-//     Damage_Fire_Min/Max_Main_Hand 101/102, Damage_Water_Min/Max_Main_Hand 105/106,
-//     Damage_Lightning_Min/Max_Main_Hand 109/110, Damage_Earth_Min/Max_Main_Hand 113/114,
-//     Damage_Air_Min/Max_Main_Hand 117/118.
-//   Computed rows: Damage_Min_Main_Hand = PROPS_GetInt(79) + (PROPS_GetBonusDamage(false) >> 8),
-//   Damage_Max_Main_Hand = PROPS_GetInt(80) + the same, Damage_Min_Off_Hand = PROPS_GetInt(81) + (PROPS_GetBonusDamage(true) >> 8),
-//   Damage_Max_Off_Hand = PROPS_GetInt(82) + the same. Rating_Attack = PROPS_GetInt(50) + (PROPS_GetBonusAttackRating(false) >> 8).
-//   Rating_Critical = PROPS_GetInt(63) + (PROPS_GetBonusCritRating(false) >> 8).
-// Missing: the argument accessors, to_number, the tu_string names, set_string, set_double, set_bool, drop_refs, the
-// object setter, set_as_object, NativeGetPlayerChar, and PROPS_GetBonusCritRating (not declared in
-// dh2/CharProperties.hpp: layout request). PROPS_GetBonusDamage and PROPS_GetBonusAttackRating are declared there.
+// Argument 0 is the output object, argument 1 the player index. For a character the object gets 69 properties, in this order: Name
+// (SG_GetPlayerName), Class (GetClassName), Icon (3 for the classes 290..292, 2 for 325..327, else 1), then numbers read with
+// CharProperties::PROPS_GetInt(id, false) (the table below; Rating_Attack, Rating_Critical and the four main/off-hand damage bounds add
+// the PROPS_GetBonus* value >> 8) and the four weapon booleans (IsWeaponTwoHanded, HasOffHandWeapon, HasStaff, HasBow) after the
+// Damage_Earth entries. The object is the result, also when there is no character.
 void NativeGetPlayerStats(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* object = call.arg(0).is_object() ? call.arg(0).to_object() : nullptr;
+    Character* ch = NativeGetPlayerChar(static_cast<int>(call.arg(1).to_number()), false);
+    if (ch) {
+        double icon;
+        switch (ch->SG_GetPlayerClass()) {
+            case 290:
+            case 291:
+            case 292:
+                icon = 3.0;
+                break;
+            case 325:
+            case 326:
+            case 327:
+                icon = 2.0;
+                break;
+            default:
+                icon = 1.0;
+                break;
+        }
+        CharProperties& props = *ch;
+        const int damageMinMain = props.PROPS_GetInt(79, false) + (props.PROPS_GetBonusDamage(false) >> 8);
+        const int damageMaxMain = props.PROPS_GetInt(80, false) + (props.PROPS_GetBonusDamage(false) >> 8);
+        const int damageMinOff = props.PROPS_GetInt(81, false) + (props.PROPS_GetBonusDamage(true) >> 8);
+        const int damageMaxOff = props.PROPS_GetInt(82, false) + (props.PROPS_GetBonusDamage(true) >> 8);
+        const int ratingAttack = props.PROPS_GetInt(50, false) + (props.PROPS_GetBonusAttackRating(false) >> 8);
+        nativeobj::SetString(object, "Name", ch->SG_GetPlayerName());
+        nativeobj::SetString(object, "Class", ch->GetClassName());
+        nativeobj::SetNumber(object, "Icon", icon);
+        // One entry per property: the object's key and the CharProperties id, or -1 when the value was computed above.
+        struct Entry {
+            const char* key;
+            int propId;
+        };
+        const int rating = 1000000;  // markers for the computed values, in the table below
+        enum { kDamageMinMain = rating, kDamageMaxMain, kDamageMinOff, kDamageMaxOff, kRatingAttack, kRatingCritical };
+        static const Entry kEntries[] = {
+            {"Level", 19}, {"HP", 36}, {"HP_Bonus", 37}, {"Max_HP", 38}, {"MP", 41}, {"MP_Bonus", 42}, {"Max_MP", 43},
+            {"XP", 33}, {"Max_XP", 34}, {"Stat_Strength", 149}, {"Stat_Dexterity", 150}, {"Stat_Endurance", 151},
+            {"Stat_Energy", 152}, {"Stat_Points", 148}, {"Rating_Attack", kRatingAttack}, {"Rating_Critical", kRatingCritical},
+            {"Rating_Defense", 59}, {"Rating_Dodge", 60}, {"Rating_Block", 61}, {"Resistance_Fire", 74},
+            {"Resistance_Earth", 77}, {"Resistance_Water", 75}, {"Resistance_Air", 78}, {"Resistance_Lightning", 76},
+            {"Damage_Min_Main_Hand", kDamageMinMain}, {"Damage_Max_Main_Hand", kDamageMaxMain},
+            {"Damage_Elemental_Min_Main_Hand", 95}, {"Damage_Elemental_Max_Main_Hand", 96},
+            {"Damage_Elemental_Type_Main_Hand", 97}, {"Damage_Min_Off_Hand", kDamageMinOff},
+            {"Damage_Max_Off_Hand", kDamageMaxOff}, {"Damage_Elemental_Min_Off_Hand", 98},
+            {"Damage_Elemental_Max_Off_Hand", 99}, {"Damage_Elemental_Type_Off_Hand", 100},
+            {"Damage_Fire_Min_Main_Hand", 101}, {"Damage_Fire_Max_Main_Hand", 102}, {"Damage_Water_Min_Main_Hand", 105},
+            {"Damage_Water_Max_Main_Hand", 106}, {"Damage_Lightning_Min_Main_Hand", 109},
+            {"Damage_Lightning_Max_Main_Hand", 110}, {"Damage_Air_Min_Main_Hand", 117}, {"Damage_Air_Max_Main_Hand", 118},
+            {"Damage_Earth_Min_Main_Hand", 113}, {"Damage_Earth_Max_Main_Hand", 114},
+        };
+        static const Entry kTail[] = {
+            {"Menu_Average_Melee_To_Hit", 207}, {"Physical_Armor", 71}, {"Spell_Rating_Dodge", 164},
+            {"Menu_Melee_Damage_Reduction", 209}, {"Spell_Rating_Critical", 165}, {"Menu_Average_Spell_To_Hit", 208},
+            {"Spell_Damage_Bonus_Fire", 166}, {"Spell_Damage_Bonus_Earth", 169}, {"Spell_Damage_Bonus_Water", 167},
+            {"Spell_Damage_Bonus_Air", 170}, {"Spell_Damage_Bonus_Lightning", 168}, {"Regen_HP", 39}, {"Regen_MP", 44},
+            {"Leech_HP", 132}, {"Leech_MP", 133}, {"Special_Loot_Gold_Multiplier", 195}, {"Special_Loot_Magical_Chance", 196},
+            {"Stun_Resist_Chance", 138},
+        };
+        auto value = [&](const Entry& entry) -> int {
+            switch (entry.propId) {
+                case kDamageMinMain:
+                    return damageMinMain;
+                case kDamageMaxMain:
+                    return damageMaxMain;
+                case kDamageMinOff:
+                    return damageMinOff;
+                case kDamageMaxOff:
+                    return damageMaxOff;
+                case kRatingAttack:
+                    return ratingAttack;
+                case kRatingCritical:
+                    return props.PROPS_GetInt(63, false) + (props.PROPS_GetBonusCritRating(false) >> 8);
+                default:
+                    return props.PROPS_GetInt(entry.propId, false);
+            }
+        };
+        for (const Entry& entry : kEntries) {
+            nativeobj::SetNumber(object, entry.key, static_cast<double>(value(entry)));
+        }
+        ItemInventory& inventory = *ch;
+        nativeobj::SetBool(object, "IsWeaponTwoHanded", inventory.HasTwoHander(false));
+        nativeobj::SetBool(object, "HasOffHandWeapon", inventory.HasOffHandWeapon());
+        nativeobj::SetBool(object, "HasStaff", inventory.HasStaff());
+        nativeobj::SetBool(object, "HasBow", inventory.HasBow());
+        for (const Entry& entry : kTail) {
+            nativeobj::SetNumber(object, entry.key, static_cast<double>(value(entry)));
+        }
+    }
+    call.result->set_as_object(object);
 }
 
 // 0x4497f4 NativeGetKeyboardLastString(gameswf::fn_call const&)
@@ -175,64 +261,117 @@ void NativeGetNumPotions(const gameswf::fn_call& call) {
 }
 
 // 0x449b10 NativeGetPossibleClassSpec(gameswf::fn_call const&)
-// PARTIAL. The top argument is the output object (tag 5, cast to as_object). The player is
-// PlayerManager::GetLocalPlayer(0, true) (asm: flag 1) and its character is PlayerInfo +0x660. The result is the
-// PlayerInfo pointer (the Hex-Rays return), which is not part of the native's contract. When the object exists the
-// original sets four strings from the pydata CharacterTable row of the character's class (Character::SG_GetPlayerClass(),
-// row stride 900 bytes): Class1Name (StringManager::getString of the id at CharacterTable::members + 900*class + 924),
-// Class1Desc (+928), Class2Name (+1824) and Class2Desc (+1828). The object is then the return value, set_as_object.
-// Missing: the argument accessors, the tu_string names, set_string, drop_refs, the object setter, set_as_object,
-// PlayerInfo (waits on dh2/PlayerInfo.hpp), and the CharacterTable member declarations (pydata-accessors has the struct; only the byte
-// offsets are used here).
+// Argument 0 is the output object. The local player's character (PlayerManager::GetLocalPlayer(0, true), PlayerInfo +0x660) names
+// its class by Character::SG_GetPlayerClass(); the CharacterTable rows after it give the two classes it can specialise into: the
+// next row's Class1Name (row m_w6) and Class1Desc (m_w7), the row after that Class2Name and Class2Desc, all StringManager text ids
+// (900-byte rows in the file). The object gets Class1Name, Class1Desc, Class2Name and Class2Desc and is the result. Without an
+// object nothing is set.
 void NativeGetPossibleClassSpec(const gameswf::fn_call& call) {
-    (void)call;
+    gameswf::as_object* object = call.arg(0).is_object() ? call.arg(0).to_object() : nullptr;
+    Character* local = Singleton<Application>::s_inst.m_playerManager->GetLocalPlayer(0, true)->unk_660;
+    if (object) {
+        StringManager* strings = ApplicationGetStringManager();
+        const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
+        const int playerClass = local->SG_GetPlayerClass();
+        nativeobj::SetString(object, "Class1Name", strings->getString(rows[playerClass + 1].m_w6));
+        nativeobj::SetString(object, "Class1Desc", strings->getString(rows[playerClass + 1].m_w7));
+        nativeobj::SetString(object, "Class2Name", strings->getString(rows[playerClass + 2].m_w6));
+        nativeobj::SetString(object, "Class2Desc", strings->getString(rows[playerClass + 2].m_w7));
+        call.result->set_as_object(object);
+    }
 }
 
 // 0x449e70 NativeSetOptions(gameswf::fn_call const&)
-// PARTIAL. Arguments: the top one is the option key (to_string), the one below it the output object (tag 5, cast to
-// as_object), and the one below that the value (to_number). For the key 'Language' the stored value is
-// ResolveLanguageOption(value, isKOREAN_BUILD, lang_kor, lang_curr), which is also the new lang_curr. For every key:
-//   - SavegameManager::setOption(key, value), then UpdateSavedValues() (free function, not declared in the tree).
-//   - 'VolumeFX' (channel 1) or 'VolumeMusic' (channel 2): when VoxSoundManager::s_instance is set,
-//     VoxSoundManager::SetSoundVolume(instance, channel, (float)Application::GetSavedOption(key)).
-//   - Option = SavegameManager::getOption(key). The string is '' when getOptionString(key) - Option == -1, else
-//     StringManager::getString(getOptionString(key)).
-//   - 'Language' only: MenuManager::ResetFonts() on MenuManager::GetInstance(nullptr) (dh2/MenuManager.hpp).
-//   - When the object exists, CurrentOption (double, Option) and OptionString (string) are set on it and the object is
-//     the return value. Otherwise the return value is the result of the key compare against 'Language'.
-// Missing: the argument accessors, to_string, to_number, the tu_string names, set_double, set_string, drop_refs, the
-// object setter, set_as_object, UpdateSavedValues, isKOREAN_BUILD, lang_curr and lang_kor (not declared in the tree),
-// and the VoxSoundManager declarations (vox-audio/include/vox-audio/vox/sound_manager.hpp, not checked here).
+// Arguments: the option key (0), the output object (1) and the value (2). For the key "Language" the value passes through
+// ResolveLanguageOption(value, isKOREAN_BUILD, lang_kor, lang_curr) and becomes lang_curr. SavegameManager::setOption(key, value),
+// UpdateSavedValues(); "VolumeFX" (channel 1) or "VolumeMusic" (channel 2) also set the sound volume of VoxSoundManager::s_instance
+// (when it exists) to the saved option as a float; "Language" resets the menu fonts. The object (when present) gets CurrentOption (the
+// stored option) and OptionString (its string, empty when the option string index minus the option is -1) and is the result.
 void NativeSetOptions(const gameswf::fn_call& call) {
-    (void)call;
+    const char* key = call.arg(0).to_string();
+    gameswf::as_object* object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    int value = static_cast<int>(call.arg(2).to_number());
+    const bool isLanguage = std::strcmp("Language", key) == 0;
+    if (isLanguage) {
+        value = ResolveLanguageOption(value, isKOREAN_BUILD, lang_kor, lang_curr);
+        lang_curr = value;
+    }
+    SavegameManager* savegames = Singleton<Application>::s_inst.m_savegameManager;
+    savegames->setOption(key, value);
+    UpdateSavedValues();
+    if (std::strcmp(key, "VolumeFX") == 0) {
+        if (VoxSoundManager::s_instance) {
+            VoxSoundManager::s_instance->SetSoundVolume(1, static_cast<float>(Singleton<Application>::s_inst.GetSavedOption("VolumeFX")));
+        }
+    } else if (std::strcmp(key, "VolumeMusic") == 0 && VoxSoundManager::s_instance) {
+        VoxSoundManager::s_instance->SetSoundVolume(2, static_cast<float>(Singleton<Application>::s_inst.GetSavedOption("VolumeMusic")));
+    }
+    const int option = savegames->getOption(key);
+    const int optionString = savegames->getOptionString(key);
+    const char* text = optionString - option == -1 ? "" : ApplicationGetStringManager()->getString(optionString);
+    if (isLanguage) {
+        MenuManager::GetInstance()->ResetFonts();
+    }
+    if (object) {
+        nativeobj::SetNumber(object, "CurrentOption", static_cast<double>(option));
+        nativeobj::SetString(object, "OptionString", text);
+        call.result->set_as_object(object);
+    }
 }
 
 // 0x44a298 NativeGetOptionParameters(gameswf::fn_call const&)
-// PARTIAL. Arguments: the top one is the option key (to_string), the one below it the output object (tag 5, cast to
-// as_object). Option = getOption(key), OptionMax = getOptionMax(key), and the string index is getOptionString(key). The
-// string is '' when index - Option == -1, else StringManager::getString(index). When the object exists: in a Korean
-// build, for the key 'Language', OptionMax is 5. The object gets NumOptions (double, OptionMax), CurrentOption (double,
-// Option) and OptionString (string), and is the return value (set_as_object). Then, in a Korean build with the key
-// 'Language', lang_kor is set to Option. That write runs even when there is no object. The return value otherwise is
-// the key compare result.
-// Missing: the argument accessors, to_string, to_number, the tu_string names, set_double, set_string, drop_refs, the
-// object setter, set_as_object, isKOREAN_BUILD and lang_kor (not declared in the tree).
+// Arguments: the option key (0) and the output object (1). Option = getOption(key), OptionMax = getOptionMax(key) and the string index
+// getOptionString(key); the text is empty when that index minus the option is -1, else StringManager::getString(index). The object
+// (when present) gets NumOptions (OptionMax, forced to 5 for "Language" in the Korean build), CurrentOption and OptionString and is
+// the result. In the Korean build "Language" also stores the option in lang_kor, object or not.
 void NativeGetOptionParameters(const gameswf::fn_call& call) {
-    (void)call;
+    const char* key = call.arg(0).to_string();
+    gameswf::as_object* object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    SavegameManager* savegames = Singleton<Application>::s_inst.m_savegameManager;
+    const int option = savegames->getOption(key);
+    int optionMax = savegames->getOptionMax(key);
+    const int optionString = savegames->getOptionString(key);
+    const char* text = optionString - option == -1 ? "" : ApplicationGetStringManager()->getString(optionString);
+    if (object) {
+        if (isKOREAN_BUILD && std::strcmp("Language", key) == 0) {
+            optionMax = 5;
+        }
+        nativeobj::SetNumber(object, "NumOptions", static_cast<double>(optionMax));
+        nativeobj::SetNumber(object, "CurrentOption", static_cast<double>(option));
+        nativeobj::SetString(object, "OptionString", text);
+        call.result->set_as_object(object);
+    }
+    if (isKOREAN_BUILD && std::strcmp("Language", key) == 0) {
+        lang_kor = option;
+    }
 }
 
 // 0x44a5c4 NativeInvGetPlayerGold(gameswf::fn_call const&)
-// PARTIAL. The top argument is the player index (to_number). With two arguments, the one below it is the output
-// object (tag 5); the object is then used only if its tag is 5. With three arguments the one below that is the remote
-// flag (to_bool) and no object is used. The original calls NativeGetPlayerChar(index, remote). When the player exists,
-// GoldString = StringManager::parse('^d', gold) with gold = the Character's int at +0x39c. With an object, the object
-// gets Gold (double, +0x39c) and GoldString (string), and is the return value (set_as_object). Without one, the return
-// value is GoldString (set_string on the return slot).
-// Missing: the argument accessors, to_number, to_bool, the tu_string names, set_double, set_string, drop_refs, the
-// object setter, set_as_object, NativeGetPlayerChar, and the gold field (layout request: Character +0x39c int, read by
-// the asm of this native as LDR [character,#0x39C]).
+// Argument 0 is the player index. With two arguments the second is the output object; with three the third is a flag that goes to
+// NativeGetPlayerChar. For a character, GoldString is StringManager::parse("^d", gold) with the character's gold (ItemInventory +0x20,
+// Character +0x39c). With an object it gets Gold (a number) and GoldString and is the result; without one the result is the string.
 void NativeInvGetPlayerGold(const gameswf::fn_call& call) {
-    (void)call;
+    const int player = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* object = nullptr;
+    bool flag = false;
+    if (call.nargs == 2) {
+        object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    } else if (call.nargs == 3) {
+        flag = call.arg(2).to_bool();
+    }
+    std::string goldText;
+    Character* ch = NativeGetPlayerChar(player, flag);
+    if (ch) {
+        const int gold = ch->ItemInventory::m_gold;
+        ApplicationGetStringManager()->parse(goldText, "^d", gold);
+        if (object) {
+            nativeobj::SetNumber(object, "Gold", static_cast<double>(gold));
+            nativeobj::SetString(object, "GoldString", goldText.c_str());
+            call.result->set_as_object(object);
+        } else {
+            call.result->set_string(goldText.c_str());
+        }
+    }
 }
 
 // 0x44a820 NativeHUDGetActiveFaery(gameswf::fn_call const&)
@@ -264,62 +403,156 @@ void NativeHUDGetActiveFaery(const gameswf::fn_call& call) {
 }
 
 // 0x44aa28 NativeGetSaveSlotDetails(gameswf::fn_call const&)
-// PARTIAL. Arguments: the top one is the index into the list of save slots (to_number). The one below it is the output
-// object (tag 5, cast to as_object). With three arguments the one below that is the difficulty filter (to_number), else
-// -1. The original checks the save slots 0..3 with PlayerSavegame::SG_Exists. Existing slots go into one list and the
-// rest into a second. The chosen slot is the existing entry at the index when the existing list has 4 entries or the
-// index is below its count (read without a range check, as in the original), else the first free slot. Its
-// PlayerSavegame is loaded (PlayerSavegame(slot, 17, false)).
-//   When the slot is in use: the level text is the class name, then ' ', then GAMEPLAYMENUS_LEVEL, then ' ' and the
-//   level. The time text is strftime(SaveSlotTimeFormat(SavegameManager::getLanguage()), localtime(save time)), into an
-//   80-byte buffer. A difficulty filter of -1 becomes PlayerSavegame::m_difficultyLevel.
-//   The object gets SlotID (double, the chosen slot), InUse (bool), PlayerName, PlayerClass (class name string),
-//   PlayerLVL (double, the level, or -1 when free), StringClassLVL (class plus level text), PlayerLocation (name id at
-//   +36 of the LevelList row of the save's level, 72-byte rows), PlayerLastSave (time text, '' when free),
-//   PlayerCurrentAct (int at SG_GetQuestSG() + 4*difficulty + 68, or 1 when free), Difficulty (the filter when in use,
-//   else 0) and DifficultyUnlocked (double, a local the pseudocode fills from the save record and does not identify,
-//   or 0 when free). The object is then the return value (set_as_object). The Hex-Rays loop that picks the slot is garbled: a stack variable is reused as the loop
-//   counter and the same stack slot is read by a debug printf('INFO: %d'). Only this summary is recovered, and that
-//   printf is not reproduced.
-// Missing: the argument accessors, to_number, the tu_string names, set_string, set_double, set_bool, drop_refs, the
-// object setter, set_as_object, the PlayerSavegame fields used above (m_difficultyLevel, SG_GetQuestSG, the save time
-// and the save field at +75; dh2/PlayerSavegame.hpp must be checked), LevelList and CharacterTable row members.
+// Arguments: the slot position (0), the output object (1) and, with three arguments, a difficulty (2; otherwise -1). The four save
+// slots 0..3 are split into those that exist (PlayerSavegame::SG_Exists) and those that do not. Position p of the existing slots is used
+// when all four exist or p is within them; otherwise the first free slot is described as empty. The slot is loaded into a
+// PlayerSavegame (load mode 17). A used slot has the class name (CharacterTable m_w6 text of the saved class), the level, the
+// "<class> <GAMEPLAYMENUS_LEVEL> <level>" text, the last-save time formatted by the language (SaveSlotTimeFormat) and, for the chosen
+// difficulty (the running one when none is given), the level location (LevelList row m_w9 text) and the quest act. The object gets
+// SlotID, InUse, PlayerName, PlayerClass, PlayerLVL, StringClassLVL, PlayerLocation, PlayerLastSave, PlayerCurrentAct, Difficulty and
+// DifficultyUnlocked (empty strings, -1 level, act 1 and 0 for an unused slot) and is the result. The original prints "INFO: <level
+// id>" to stdout while filling the object.
 void NativeGetSaveSlotDetails(const gameswf::fn_call& call) {
-    (void)call;
+    const int position = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* object = call.arg(1).is_object() ? call.arg(1).to_object() : nullptr;
+    int difficulty = call.nargs == 3 ? static_cast<int>(call.arg(2).to_number()) : -1;
+    std::vector<int> usedSlots;
+    std::vector<int> freeSlots;
+    for (int slot = 0; slot <= 3; ++slot) {
+        if (PlayerSavegame::SG_Exists(static_cast<std::uint32_t>(slot))) {
+            usedSlots.push_back(slot);
+        } else {
+            freeSlots.push_back(slot);
+        }
+    }
+    const int usedCount = static_cast<int>(usedSlots.size());
+    StringManager* strings = ApplicationGetStringManager();
+    int slotId;
+    bool inUse;
+    std::string className;
+    // The original builds the PlayerSavegame in place (load mode 17) in both cases; the chosen slot is the first free one when the
+    // position is beyond the used slots.
+    if (usedCount == 4 || usedCount - 1 >= position) {
+        slotId = usedSlots[static_cast<std::size_t>(position)];
+        inUse = true;
+    } else {
+        slotId = freeSlots.front();
+        inUse = false;
+    }
+    PlayerSavegame save(static_cast<std::uint32_t>(slotId), 17, false);
+    if (inUse) {
+        const Structs::CharacterProperties* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
+        className = strings->getString(rows[save.m_playerClass].m_w6);
+    }
+    std::string classLevelText = className + " ";
+    classLevelText += strings->getString(ApplicationGetPyDataConstants()->getConstant("StrID", "GAMEPLAYMENUS_LEVEL"));
+    classLevelText += " ";
+    char number[16];
+    std::snprintf(number, sizeof number, "%d", inUse ? save.m_playerLevel : 1);
+    classLevelText += number;
+    char lastSave[80];
+    lastSave[0] = '\0';
+    if (inUse) {
+        const std::time_t saveDate = static_cast<std::time_t>(static_cast<std::int32_t>(save.m_saveDate));
+        const std::tm* local = std::localtime(&saveDate);
+        std::strftime(lastSave, sizeof lastSave, SaveSlotTimeFormat(Singleton<Application>::s_inst.m_savegameManager->getLanguage()), local);
+    }
+    if (difficulty == -1 && inUse) {
+        difficulty = PlayerSavegame::m_difficultyLevel;
+    }
+    if (object) {
+        const int levelId = (difficulty >= 0 && difficulty < 3) ? save.unk_50[difficulty] : 0;
+        nativeobj::SetNumber(object, "SlotID", static_cast<double>(slotId));
+        nativeobj::SetBool(object, "InUse", inUse);
+        nativeobj::SetString(object, "PlayerName", inUse ? save.m_name.c_str() : "");
+        nativeobj::SetString(object, "PlayerClass", inUse ? className.c_str() : "");
+        nativeobj::SetNumber(object, "PlayerLVL", static_cast<double>(inUse ? save.m_playerLevel : -1));
+        nativeobj::SetString(object, "StringClassLVL", inUse ? classLevelText.c_str() : "");
+        std::printf("INFO: %d\n", levelId);
+        const char* location = "";
+        if (inUse) {
+            const Structs::LevelDeclaration* levels = reinterpret_cast<const Structs::LevelDeclaration*>(Arrays::LevelList::members);
+            location = strings->getString(levels[levelId == -1 ? 0 : levelId].m_w9);
+        }
+        nativeobj::SetString(object, "PlayerLocation", location);
+        nativeobj::SetString(object, "PlayerLastSave", inUse ? lastSave : "");
+        nativeobj::SetNumber(object, "PlayerCurrentAct", static_cast<double>(inUse ? save.SG_GetQuestSG()->m_act[difficulty] : 1));
+        nativeobj::SetNumber(object, "Difficulty", static_cast<double>(inUse ? difficulty : 0));
+        nativeobj::SetNumber(object, "DifficultyUnlocked", static_cast<double>(inUse ? save.m_unlockedDifficulty : 0));
+    }
+    call.result->set_as_object(object);
 }
 
 // 0x44b604 NativeGetBuffs(gameswf::fn_call const&)
-// PARTIAL. The Hex-Rays signature (Character* taking the fn_call) is mis-typed. With two or three arguments: the top
-// one must be an object (tag 5, cast to as_array) and the one below it a number (the player index). With three, the
-// one below that must have tag 0 or 1 (undefined or bool; any other tag returns at once), and it is the remote flag
-// (to_bool). The original calls NativeGetPlayerChar(index, remote). The character's buff list is then walked from its
-// sentinel (+0x1378, first node at +0x1380). For each buff an object is pushed onto the array (as_array::push, with a
-// reference added): BuffCount (double, the deque distance from the node's iterator to the container end), BuffIcon
-// (string, the icon at node +0x30), BuffTime and BuffTotalTime (doubles, the first and second out values of
-// CharTimers::TMR_TimeLeft(timer id, elapsed, interval) on the character's CharTimers at +0x3b4, with the timer id read
-// from BuffInst +904 and used only when that id is not -1). The end-of-list step (a deque distance test of 1 and two
-// advances) is a Hex-Rays mis-decode and is not recovered. The array is then the return value (set_as_object).
-// Missing: the argument accessors, is_number, to_number, to_bool, the tu_string names, set_string, set_double, drop_refs,
-// the as_array push and the object setter, NativeGetPlayerChar, and the buff list node declaration (layout request:
-// Character +0x1378 buff list sentinel and the node layout with the icon string at +0x30).
+// Two or three arguments: the output array (0, an object), the player index (1, a number) and, with three, a flag (2, a boolean or
+// undefined) for NativeGetPlayerChar. For a character, every buff kind that has live instances (CharProperties::m_buffs, in key
+// order) becomes an object bound to the call's player with BuffCount (instances), BuffIcon (the kind's name), BuffTime and BuffTotalTime
+// (CharTimers::TMR_TimeLeft of the single instance's timer when there is exactly one and its timer is set; otherwise 0), pushed onto the
+// array. The result is the array (also when there are no buffs).
 void NativeGetBuffs(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 2 && call.nargs != 3) {
+        return;
+    }
+    if (!call.arg(0).is_object() || !call.arg(1).is_number()) {
+        return;
+    }
+    if (call.nargs == 3 && !call.arg(2).is_bool() && !call.arg(2).is_undefined()) {
+        return;
+    }
+    gameswf::as_array* array = gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object());
+    const int player = static_cast<int>(call.arg(1).to_number());
+    const bool flag = call.nargs == 3 ? call.arg(2).to_bool() : false;
+    Character* ch = NativeGetPlayerChar(player, flag);
+    if (!ch) {
+        return;
+    }
+    for (const auto& entry : ch->CharProperties::m_buffs) {
+        const CharProperties::BuffDecl& decl = entry.second;
+        if (decl.m_insts.empty()) {
+            continue;
+        }
+        gameswf::as_object* object = nativeobj::NewObject(call);
+        unsigned int timeLeft = 0;
+        unsigned int totalTime = 0;
+        nativeobj::SetNumber(object, "BuffCount", static_cast<double>(decl.m_insts.size()));
+        nativeobj::SetString(object, "BuffIcon", decl.m_name.c_str());
+        if (decl.m_insts.size() == 1 && decl.m_insts.front()->m_timerId != -1) {
+            ch->CharTimers::TMR_TimeLeft(static_cast<unsigned int>(decl.m_insts.front()->m_timerId), timeLeft, totalTime);
+        }
+        nativeobj::SetNumber(object, "BuffTime", static_cast<double>(static_cast<int>(timeLeft)));
+        nativeobj::SetNumber(object, "BuffTotalTime", static_cast<double>(static_cast<int>(totalTime)));
+        nativeobj::PushObject(array, object);
+    }
+    call.result->set_as_object(array);
 }
 
 // 0x44bb94 NativeInvGetItemsListForSlot(gameswf::fn_call const&)
-// PARTIAL. The Hex-Rays signature (as_value** taking the fn_call) is mis-typed. Arguments, from the top: the equipment
-// slot (a number, tag 2, to_int), the output array (tag 5, cast to as_array), and the player index (a number, to_int).
-// The original calls NativeGetPlayerChar(index, false). When the player exists, the slot is compared with the
-// EquipmentSlots constants (Count, LeftHand, LeftHandRingFinger; the RightHand and RightHandRingFinger lookups have no
-// effect). When the slot equals Count, ItemInventory::GetValuableItems(inventory at +0x37c) fills a list, else
-// ItemInventory::GetItemListForSlot(inventory, slot) does. The list is sorted with SortByEquipability, and the array is
-// the return value (set_as_object). The pseudocode has no loop that pushes the entries into the array, so the filling
-// step is not recovered. It is most likely a Hex-Rays loss, not a missing call.
-// Missing: the argument accessors, to_int, is_number, the tu_string names, set_as_object, NativeGetPlayerChar, and the
-// array push. PyDataConstants::getConstant (pydata-accessors/w7_pydata12.hpp) and SortByEquipability
-// (dh2/SortByEquipability.hpp) are declared.
+// Exactly three arguments: the equipment slot (a number), the output array (an object) and the player index (a number). For a
+// character the original lists the items for the slot (ItemInventory::GetValuableItems when the slot is the EquipmentSlots "Count"
+// constant, else GetItemListForSlot) and sorts the list with SortByEquipability(character, slot) (STLport introsort), but it never
+// pushes the entries: the pseudocode has no push after the sort, so the array is returned as it was passed. (The original also
+// evaluates the EquipmentSlots LeftHand/RightHand/LeftHandRingFinger/RightHandRingFinger constants and drops them.)
 void NativeInvGetItemsListForSlot(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 3 || !call.arg(0).is_number() || !call.arg(1).is_object() || !call.arg(2).is_number()) {
+        return;
+    }
+    const int slot = call.arg(0).to_int();
+    gameswf::as_array* array = gameswf::cast_to<gameswf::as_array>(call.arg(1).to_object());
+    Character* ch = NativeGetPlayerChar(call.arg(2).to_int(), false);
+    if (ch) {
+        std::vector<ItemInventory::Item> items;
+        ItemInventory& inventory = *ch;
+        if (slot == ApplicationGetPyDataConstants()->getConstant("EquipmentSlots", "Count")) {
+            inventory.GetValuableItems(&items);
+        } else {
+            inventory.GetItemListForSlot(static_cast<unsigned int>(slot), &items);
+        }
+        SortByEquipability comparator;
+        comparator.m_character = ch;
+        comparator.m_equipSlot = slot;
+        stlport::Sort(items.begin(), items.end(), comparator);
+        call.result->set_as_object(array);
+    }
 }
 
 // 0x44c444 NativeGetQuestDetails(gameswf::fn_call const&)
@@ -384,33 +617,105 @@ void NativeGetCharMenuTutorialMessage(const gameswf::fn_call& call) {
 }
 
 // 0x44ca5c NativeInvGetItemDetails(gameswf::fn_call const&)
-// PARTIAL. The Hex-Rays signature (int taking the fn_call) is mis-typed. Arguments: the top one is the item index
-// (a number, tag 2), the one below it the output object (tag 5), and the one below that the player index (a number).
-// With six arguments, the three below the top are the merchant probe: a bool (tag 1, read as the flag v14) at top-3, a
-// name (tag 3 or 4) at top-4 and a number at top-5. The probe is ObjectManager::GetObjectByName(name, number) and keeps
-// the result only when Character::IsMerchant() is true. The original then calls NativeGetPlayerChar(index, false).
-// When the player exists and the item is found: when the flag is set and a merchant was probed, the item comes from the
-// merchant's inventory (ItemInventory::GetItem on the merchant's +0x37c), else from the player's inventory.
-// Merchant factors: when a merchant was probed, row = MerchantTable::members + 20 * Character::GetLoot(); f1 = row
-// +4 / 100 and f2 = row +8 / 100 (floats). Otherwise both are 0. With value = item +84 (int):
-//   When the item's byte at +105 is set and the flag is set, buy = int(value * f1) and sell = int(value * f2).
-//   Otherwise buy = int(value * f2) and sell = int(value * f1). Each is clamped to at least 1.
-//   ItemTransmuteValue = (TransmuteMultiplier * ((value << 8) * (CharProperties::_GetProperty(197) + 256) >> 8)) >> 16,
-//   clamped to at least 1. TransmuteMultiplier is PyDataConstants::getConstant('CharacterDesign', 'TransmuteMultiplier').
-//   ItemValue is value (double). ItemValueString, ItemBuyValueString, ItemSellValueString and ItemTransmuteValueString
-//   are StringManager::parse('^d', ...) of the four numbers.
-//   Also set: ItemEquippable (bool, ItemInstance::IsEquippableBy(player)), ItemReqsDesc (string, item +76), ItemStatsDesc
-//   (string, item +52), ItemMagics (double, GetNumPowers()), ItemIcon (ItemInstance::GetIconName(), cast to a string), IsStackable
-//   (bool) and ItemPowers<i>Desc (GetPowerDesc(i) for each power). The object is then the return value (set_as_object).
-// Missing: the argument accessors, to_int, to_number, to_bool, to_string, is_number, the tu_string names, set_string,
-// set_double, set_bool, drop_refs, the object setter, set_as_object, MerchantTable (pydata), and NativeGetPlayerChar.
-// Also open: ObjectManager::GetObjectByName is declared in dh2/ObjectManager.hpp as (name, flags, active, type), and the
-// pseudocode's argument mapping (the probe's id and a nullptr) is not confirmed. CharProperties::_GetProperty is declared
-// in dh2/CharProperties.hpp as (sheet, propId), and the pseudocode passes two pointers (+1376 and +4084), so that call is
-// not matched. ItemInstance::GetIconName() is declared int in dh2/ItemInstance.hpp, but the pseudocode casts its result
-// to const char*; the header comment says it is the icon name id, so the string lookup is still to confirm.
+// Arguments: the item index (0, a number), the output object (1, an object), the player index (2, a number) and, only with six
+// arguments, a merchant lookup (3 a boolean "from the merchant", 4 the merchant object's name, 5 the lookup flags). The item is the
+// merchant's (when the lookup found an object with IsMerchant and the flag is set) or the player's item at the index. The merchant row
+// gives the sell percentage (MerchantTable +0x04) and the buy percentage (+0x08), both /100 as floats. The values: ItemValue is the
+// item value (ItemInstance +0x54); ItemBuyValue is value * buy percentage and ItemSellValue value * sell percentage (swapped for a
+// buy-back item shown by a merchant), each raised to at least 1; ItemTransmuteValue is (TransmuteMultiplier * ((value << 8) *
+// (property 197 + 256) >> 8)) >> 16, at least 1. Each also has a "...String" text (StringManager::parse "^d"). The object also gets
+// ItemEquippable (IsEquippableBy the player), ItemReqsDesc, ItemStatsDesc, ItemMagics (power count), ItemIcon, IsStackable and
+// ItemPowers<i>Desc for every power, and is the result. Without an item nothing is set.
 void NativeInvGetItemDetails(const gameswf::fn_call& call) {
-    (void)call;
+    if (!call.arg(0).is_number() || !call.arg(1).is_object() || !call.arg(2).is_number()) {
+        return;
+    }
+    const int itemIndex = static_cast<int>(call.arg(0).to_number());
+    gameswf::as_object* object = call.arg(1).to_object();
+    const int player = static_cast<int>(call.arg(2).to_number());
+    Character* merchant = nullptr;
+    bool fromMerchant = false;
+    if (call.nargs == 6 && call.arg(3).is_bool() && call.arg(4).is_string() && call.arg(5).is_number()) {
+        fromMerchant = call.arg(3).to_bool();
+        const char* merchantName = call.arg(4).to_string();
+        const int flags = static_cast<int>(call.arg(5).to_number());
+        ObjectHandle handle = Singleton<Application>::s_inst.m_objectManager->GetObjectByName(merchantName, flags, false, nullptr);
+        merchant = handle.operator Character*();
+        if (!merchant || !merchant->IsMerchant()) {
+            merchant = nullptr;
+        }
+    }
+    Character* ch = NativeGetPlayerChar(player, false);
+    if (!ch) {
+        return;
+    }
+    float sellPercent = 0.0f;
+    float buyPercent = 0.0f;
+    if (merchant && merchant->IsMerchant()) {
+        const Structs::Merchant* row = reinterpret_cast<const Structs::Merchant*>(Arrays::MerchantTable::members) + merchant->GetLoot();
+        sellPercent = static_cast<float>(row->m_w1) / 100.0f;
+        buyPercent = static_cast<float>(row->m_w2) / 100.0f;
+    }
+    ItemInstance* item = (fromMerchant && merchant) ? static_cast<ItemInventory&>(*merchant).GetItem(static_cast<unsigned int>(itemIndex))
+                                                   : static_cast<ItemInventory&>(*ch).GetItem(static_cast<unsigned int>(itemIndex));
+    if (!item) {
+        return;
+    }
+    StringManager* strings = ApplicationGetStringManager();
+    const std::int32_t shiftedValue = static_cast<std::int32_t>(static_cast<std::uint32_t>(item->m_value) << 8);
+    const std::int32_t bonus = ch->CharProperties::_GetProperty(ch->CharProperties::m_props, 197) + 256;
+    const std::int32_t product = static_cast<std::int32_t>(static_cast<std::uint32_t>(shiftedValue) * static_cast<std::uint32_t>(bonus));
+    const std::int32_t transmuteProduct = static_cast<std::int32_t>(
+        static_cast<std::uint32_t>(ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "TransmuteMultiplier")) *
+        static_cast<std::uint32_t>(product >> 8));
+    int transmuteValue = transmuteProduct >> 16;
+    const float value = static_cast<float>(item->m_value);
+    const int sellFromSellPercent = static_cast<int>(value * sellPercent);
+    int sellValue = static_cast<int>(buyPercent * value);
+    int buyValue;
+    if (item->unk_69 && fromMerchant) {
+        buyValue = sellFromSellPercent;
+    } else {
+        buyValue = static_cast<int>(buyPercent * value);
+        sellValue = sellFromSellPercent;
+    }
+    if (sellValue < 1) {
+        sellValue = 1;
+    }
+    if (buyValue < 1) {
+        buyValue = 1;
+    }
+    if (transmuteValue < 1) {
+        transmuteValue = 1;
+    }
+    std::string valueText;
+    std::string buyText;
+    std::string sellText;
+    std::string transmuteText;
+    strings->parse(valueText, "^d", item->m_value);
+    strings->parse(buyText, "^d", buyValue);
+    strings->parse(sellText, "^d", sellValue);
+    strings->parse(transmuteText, "^d", transmuteValue);
+    nativeobj::SetNumber(object, "ItemValue", static_cast<double>(item->m_value));
+    nativeobj::SetNumber(object, "ItemBuyValue", static_cast<double>(buyValue));
+    nativeobj::SetNumber(object, "ItemSellValue", static_cast<double>(sellValue));
+    nativeobj::SetNumber(object, "ItemTransmuteValue", static_cast<double>(transmuteValue));
+    nativeobj::SetString(object, "ItemValueString", valueText.c_str());
+    nativeobj::SetString(object, "ItemBuyValueString", buyText.c_str());
+    nativeobj::SetString(object, "ItemSellValueString", sellText.c_str());
+    nativeobj::SetString(object, "ItemTransmuteValueString", transmuteText.c_str());
+    nativeobj::SetBool(object, "ItemEquippable", item->IsEquippableBy(ch));
+    nativeobj::SetString(object, "ItemReqsDesc", item->m_requirements.c_str());
+    nativeobj::SetString(object, "ItemStatsDesc", item->m_stats.c_str());
+    nativeobj::SetNumber(object, "ItemMagics", static_cast<double>(item->GetNumPowers()));
+    nativeobj::SetString(object, "ItemIcon", item->GetIconName());
+    nativeobj::SetBool(object, "IsStackable", item->IsStackable());
+    for (int i = 0; i < item->GetNumPowers(); ++i) {
+        char name[32];
+        std::snprintf(name, sizeof name, "ItemPowers%dDesc", i);
+        nativeobj::SetString(object, name, item->GetPowerDesc(static_cast<unsigned int>(i)));
+    }
+    call.result->set_as_object(object);
 }
 
 // 0x44d770 NativeInvitePlayer(gameswf::fn_call const&)
@@ -433,15 +738,42 @@ void NativeInvitePlayer(const gameswf::fn_call& call) {
 }
 
 // 0x44de4c NativeGetParsedString(gameswf::fn_call const&)
-// PARTIAL. Needs two arguments. The top one is the format symbol (tag 3 or 4, to_xstring), and the one below it an
-// array (tag 5, cast to as_array). When the symbol is present, StringManager::getStringFromSymbol(symbol) gives the
-// format. Each array element is converted to a VarArgs variant: a number (tag 2) gives an int (to_number, truncated) and
-// a float (to_number); a string (tag 3 or 4) gives a C string (to_xstring); other tags stay zero. The variants are
-// passed to StringManager::parseEx(out, format, args), and out is set as the return value (set_string on the return
-// slot).
-// Missing: the argument accessors, to_number, to_xstring, the as_array length and element get (vtable slot 10), the
-// tu_string names, set_string, drop_refs, and VarArgs (forward declared in dh2/StringManager.hpp, no definition).
-// StringManager::getStringFromSymbol and StringManager::parseEx are declared in dh2/StringManager.hpp.
+// Two arguments: the string symbol (0, a string) and an array of values (1, an object). The format is
+// StringManager::getStringFromSymbol(symbol); every array element becomes a VarArgs variant: a string gives its text, a number gives
+// number (as float), integer (truncated) and the text of the number; other values stay empty. StringManager::parseEx fills the
+// result string. The original points the variant text of a number at a stack tu_string that dies at the end of the loop step; here the
+// texts are kept alive until parseEx has run.
 void NativeGetParsedString(const gameswf::fn_call& call) {
-    (void)call;
+    if (call.nargs != 2) {
+        return;
+    }
+    if (!call.arg(0).is_string() || !call.arg(1).is_object()) {
+        return;
+    }
+    const char* symbol = call.arg(0).to_xstring();
+    gameswf::as_array* array = gameswf::cast_to<gameswf::as_array>(call.arg(1).to_object());
+    if (symbol) {
+        StringManager* strings = ApplicationGetStringManager();
+        const char* format = strings->getStringFromSymbol(symbol);
+        std::string text;
+        VarArgs args;
+        const int count = array->size();
+        std::vector<std::string> numberTexts(static_cast<std::size_t>(count > 0 ? count : 0));
+        for (int i = 0; i < count; ++i) {
+            gameswf::as_value element;
+            array->get_member(i, &element);
+            VarArgs::Variant variant;
+            if (element.is_string()) {
+                variant.text = element.to_xstring();
+            } else if (element.is_number()) {
+                variant.integer = static_cast<int>(element.to_number());
+                variant.number = static_cast<float>(element.to_number());
+                numberTexts[static_cast<std::size_t>(i)] = element.to_string();
+                variant.text = numberTexts[static_cast<std::size_t>(i)].c_str();
+            }
+            args.m_variants.push_back(variant);
+        }
+        strings->parseEx(text, format, args);
+        call.result->set_string(text.c_str());
+    }
 }

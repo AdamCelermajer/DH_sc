@@ -133,17 +133,10 @@ CMessage* GetNewInstance<CMsgGlobalDeath>(bool withSerial) {
 }
 
 // 0x3296ac CMessage* GetNewInstance<CMsgRaisedEvent>(bool)
-// PARTIAL: the original calls CMsgRaisedEvent(bool) (0x329630, in c_msg_raised_event.hpp). That header and
-// c_msg_fixed.hpp each declare a CMsgRaisedEvent, so they cannot be in one translation unit. This uses the
-// c_msg_fixed.hpp class (allocation size 0x64 matches its 80 + 20 bytes), default constructor, then
-// SetProperties() (0x327a0c). The constructor body at 0x329630 is not mirrored, and the bool is dropped.
-// Also missing: the rest of the base constructor effects. The header (type id, serial, sender) and lifetime_ are
-// not set, trackSent_ stays 0 instead of 100, and reliable_ and includeLocalMember_ stay false unless SetProperties() sets them.
+// operator new(0x64, 2) and CMsgRaisedEvent::CMsgRaisedEvent(bool) (0x329630, c_msg_raised_event.hpp).
 template <>
-CMessage* GetNewInstance<CMsgRaisedEvent>([[maybe_unused]] bool withSerial) {
-    auto* msg = new CMsgRaisedEvent();
-    msg->SetProperties();
-    return msg;
+CMessage* GetNewInstance<CMsgRaisedEvent>(bool withSerial) {
+    return new CMsgRaisedEvent(withSerial);
 }
 
 // 0x32a140 CMessage* GetNewInstance<CMsgStartGame>(bool)

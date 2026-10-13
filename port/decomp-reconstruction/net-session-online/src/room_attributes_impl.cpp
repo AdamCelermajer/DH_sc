@@ -31,9 +31,6 @@ std::int32_t CMatchingGLLive::SearchRoomInternal(CRoomSearchFilter& filter, bool
     return 0;
 }
 
-// Serialize(NetBitStream&, uint) and Unserialize(NetBitStream&) are declared in c_room_attributes.hpp
-// and blocked there: the NetStruct wire format is not ported. Stand-in bodies with the behaviour of the
-// CRoomAttributes stand-in this class replaced: Serialize writes nothing and Unserialize reads nothing.
-// The callers (CMatchingLocal::SendServerResponse, CMatchingLocal::AddServer) ignore the result.
-bool CRoomAttributes::Serialize(NetBitStream& /*stream*/, unsigned /*flags*/) { return true; }
-bool CRoomAttributes::Unserialize(NetBitStream& /*stream*/) { return true; }
+// CRoomAttributes::Serialize(NetBitStream&, unsigned) and Unserialize(NetBitStream&) are the game-world bodies
+// (game-world/src/g1-game-world-CRoomAttributes-90a94b-*.cpp, 0x8190d8 and 0x817e5c). The stand-ins that stood here
+// (Serialize wrote nothing, Unserialize read nothing) are removed (link-1): the class has one definition.

@@ -17,6 +17,13 @@ struct tMsgRaisedEventData;
 
 class QE_GatherLoot : public QuestEvent {
 public:
+    // The raisers build it on the stack (ItemInventory::TransferInventoryTo 0x3ffa68): the event id, the character, the target id
+    // (-1), the two flag bytes (0), the value (-1) and the item id to match; the vtable is _ZTV13QE_GatherLoot.
+    QE_GatherLoot() : m_character(nullptr), m_targetId(0), m_flag0(0), m_flag1(0), pad_12{0, 0}, m_value(0), m_matchId(0) {}
+    QE_GatherLoot(std::int32_t eventId, GameObject* character, std::int32_t targetId, std::int32_t value, std::int32_t matchId)
+        : m_character(character), m_targetId(targetId), m_flag0(0), m_flag1(0), pad_12{0, 0}, m_value(value), m_matchId(matchId) {
+        eventId_ = static_cast<std::uint32_t>(eventId);
+    }
     ~QE_GatherLoot() override;                                      // 0x4822e0 (D1), 0x48257c (D0); slots 0x00, 0x04
     void FillNetworkMsg(tMsgRaisedEventData& msg) const override;   // 0x482400; slot 0x0c
 

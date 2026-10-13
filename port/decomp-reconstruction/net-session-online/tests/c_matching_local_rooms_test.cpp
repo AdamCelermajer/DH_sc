@@ -6,8 +6,26 @@ static const bool kConnectionManagerReady = (connection_manager_test::Initialize
 #include <cstdio>
 
 static int failures = 0;
+// AddServer takes the address and the room attributes by non-const reference (the original's symbol, link-1), so the
+// calls here go through this wrapper, which owns lvalues for the temporaries the checks pass.
+template <class Local, class Attrs>
+static int AddServerTo(Local& local, std::int32_t memberId, CNetworkId address, std::int32_t rank, Attrs&& attributes) {
+    CRoomAttributes copy(attributes);
+    return local.AddServer(memberId, address, rank, copy);
+}
+
 #define CHECK(c) do { if (!(c)) { std::printf("FAIL %s:%d %s\n", __FILE__, __LINE__, #c); ++failures; } } while (0)
 
+
+static int CreateJoinOf(CMatchingLocal& local, bool open) {
+    CRoomAttributes attributes;  // lvalue for the non-const reference parameter
+    return local.CreateJoinRoomInternal(open, attributes);
+}
+
+static int SearchOf(CMatchingLocal& local) {
+    CRoomSearchFilter filter;  // lvalue for the non-const reference parameter
+    return local.SearchRoomInternal(filter, false, 0);
+}
 
 static void Clean() {
     connection_manager_test::ResetForSends();
@@ -64,10 +82,10 @@ int main() {
     {
         CMatchingLocal local;
         Clean();
-        CHECK(local.CreateJoinRoomInternal(true, CRoomAttributes()) == -1);
+        CHECK(CreateJoinOf(local, true) == -1);
 
         local.SetInitializedForTest(true);
-        CHECK(local.CreateJoinRoomInternal(true, CRoomAttributes()) == 0);
+        CHECK(CreateJoinOf(local, true) == 0);
         CHECK(local.MemberIdForTest() == 1);
         CHECK(local.ServerMemberIdForTest() == 1);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x800003, false));
@@ -80,12 +98,12 @@ int main() {
     {
         CMatchingLocal local;
         Clean();
-        CHECK(local.SearchRoomInternal(CRoomSearchFilter(), false, 0) == -1);
+        CHECK(SearchOf(local) == -1);
         local.SetInitializedForTest(true);
-        CHECK(local.SearchRoomInternal(CRoomSearchFilter(), false, 0) == 0);
+        CHECK(SearchOf(local) == 0);
         CHECK(!MatchingInternalEventQueue().HasEventOccured(0x80000e, false));
-        CHECK(local.AddServer(4, CNetworkId{}, 1, CRoomAttributes()) == 0);
-        CHECK(local.SearchRoomInternal(CRoomSearchFilter(), false, 0) == 0);
+        CHECK(AddServerTo(local, 4, CNetworkId{}, 1, CRoomAttributes()) == 0);
+        CHECK(SearchOf(local) == 0);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000e, false));
     }
 
@@ -99,7 +117,7 @@ int main() {
 
         Clean();
         local.SetJoinThresholdForTest(5);
-        CHECK(local.AddServer(11, CNetworkId{}, 3, CRoomAttributes()) == 0);  // key 1, rank 3
+        CHECK(AddServerTo(local, 11, CNetworkId{}, 3, CRoomAttributes()) == 0);  // key 1, rank 3
         CHECK(local.JoinRoomInternal(1) == 0);
         CHECK(connection_manager_test::ConnectionRequested(11));
         CHECK(local.ServerMemberIdForTest() == 11);
@@ -108,7 +126,7 @@ int main() {
         local.SetJoinThresholdForTest(5);
         CNetworkId other;
         other.SetAddress0(2, 0);
-        CHECK(local.AddServer(12, other, 9, CRoomAttributes()) == 0);  // key 2, rank 9
+        CHECK(AddServerTo(local, 12, other, 9, CRoomAttributes()) == 0);  // key 2, rank 9
         CHECK(local.JoinRoomInternal(2) == 0);
         CHECK(MatchingInternalEventQueue().HasEventOccured(0x80000d, false));
         CHECK(!CConnectionManager::GetInstance()->IsConnected(12));

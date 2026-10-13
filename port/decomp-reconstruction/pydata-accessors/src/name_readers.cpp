@@ -38,6 +38,7 @@ pydata::NameTable InventoryTable::m_memberNames;
 pydata::NameTable ItemAudioVisualTable::m_memberNames;
 pydata::NameTable ItemBonusAttrMonopoly::m_memberNames;
 pydata::NameTable ItemList::m_memberNames;
+pydata::NameTable ItemTable::m_memberNames;  // 0x9a6628 (link-1: the only table of the family that had no definition; tb_accessors-Arrays-0.cpp reads it)
 pydata::NameTable ItemPowerList::m_memberNames;
 pydata::NameTable ItemPowerTable::m_memberNames;
 pydata::NameTable ItemTypeList::m_memberNames;

@@ -37,6 +37,23 @@
 #include "dh2/TrophyManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/Vec3f_K.hpp"
+#include "dh2/MenuMessageManager.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/StatusMsg.hpp"
+#include "dh2/StringManager.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "dh2/v2Controller.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "dh2/global/item_instance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_message.hpp"
+#include "net-session-online/c_messaging.hpp"
+#include "net-session-online/c_msg_fixed.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "pydata-accessors/structs_records.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
 #include "pydata-accessors/w7_arrays_00.hpp"   // Arrays::ItemAudioVisualTable, Arrays::TrophyTable
 #include "pydata-accessors/w7_pydata12.hpp"    // PyDataConstants::getConstant
 #include "pydata-accessors/w7_structs_2.hpp"   // Structs::Item
@@ -80,6 +97,18 @@ constexpr int kPickedUpCounterProp = 223;
 // Interact: the Character property that, when it reaches 300, unlocks the "picked_up_300_drops" trophy.
 constexpr int kPickedUp300Threshold = 300;
 
+// Interact: the item-type value (Structs::Item m_w22) of the item that does not start the inventory tutorial.
+constexpr int kNoTutorialItemType = 13;
+
+// Interact: action code of the CMsgControllerAction the pickup sends (v2NetController::Update case 5, "use object of interest").
+constexpr std::uint8_t kControllerActionUseObject = 5;
+
+// Typed row of a pydata table: element `index` of the host-stride table whose element 0 is `members`.
+template <class Row>
+const Row* TableRow(const std::uint8_t* members, int index) {
+    return reinterpret_cast<const Row*>(members) + index;
+}
+
 // Point3D<float>::normalize (0x34d0b0): divides each component by the Euclidean length. Operator/= (0x34d04c) divides
 // the three components in order; the length is sqrtf(((x*x) + (y*y)) + (z*z)) in the binary's order.
 void NormalizeDirection(float& x, float& y, float& z) {
@@ -89,12 +118,17 @@ void NormalizeDirection(float& x, float& y, float& z) {
     z = z / length;
 }
 
-// PARTIAL. _GetNextPlayerQuestRRId walks the quest-gathered item list of the holder (Character +0x3ac, the
-// ItemInventory::m_activeQuestGatheredItemIds list) and compares the ItemObject pointer `this` with each node's payload
-// word (node +0x08). The ItemInventory header types that payload as QuestGatheredItem::m_itemId (an int item id), so the
-// type of the compared value is unresolved. The match is not reconstructed: no holder matches here.
-bool QuestListHoldsItem(const Character* holder) {
-    (void)holder;
+// The match of _GetNextPlayerQuestRRId on one holder: the pseudocode (and the asm: CMP R4, [node + 8], with R4 the ItemObject
+// pointer) walks the holder's active quest list (the ItemInventory list at holder +0x3ac) comparing the ItemObject pointer, as a
+// 32-bit word, with each node's payload word. The payloads are item ids (QuestGatheredItem::m_itemId), so a real pointer never
+// matches; the comparison is written as the original makes it.
+bool QuestListHoldsItem(const ItemObject* self, const Character* holder) {
+    const int selfWord = static_cast<int>(reinterpret_cast<std::uintptr_t>(self));
+    for (const ItemInventory::QuestGatheredItem& entry : holder->m_activeQuestGatheredItemIds) {
+        if (entry.m_itemId == selfWord) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -183,18 +217,17 @@ void ItemObject::_DoAutoPickupHack(ItemObject* /*unk_item*/, const GameObject* d
 }
 
 // 0x3ec504 ItemObject::_GetNextPlayerQuestRRId(int)
-// PARTIAL. The round-robin search is reconstructed: it reads the player count (PlayerManager +0x6c4), the player at the
-// round-robin index, and the holder's Character (player record +0x660), and it updates s_playerQuestRRId as the pseudocode
-// does. The match on each holder's quest list is unresolved (QuestListHoldsItem, see there), so no holder matches.
-// The exit test compares the index with the global s_playerQuestRRId, which the loop does not change, so the loop checks
-// one player and stops, as the pseudocode does. With no player characters the modulo is by zero, as in the original.
-// The argument is unread in the pseudocode.
+// The round-robin search: it reads the player count (PlayerManager +0x6c4), the player at the round-robin index, and the
+// holder's Character (player record +0x660), looks for the ItemObject in the holder's active quest list (QuestListHoldsItem)
+// and updates s_playerQuestRRId as the pseudocode does. The exit test compares the index with the global s_playerQuestRRId, which
+// the loop does not change, so the loop checks one player and stops, as the pseudocode does. With no player characters the
+// modulo is by zero, as in the original. The argument is unread.
 Character* ItemObject::_GetNextPlayerQuestRRId(int /*unk_arg*/) {
     const int count = ItemObjectPlayers::NumPlayerCharacters();
     int playerIndex = s_playerQuestRRId;
     for (;; playerIndex = (playerIndex + 1) % count) {
         Character* holder = ItemObjectPlayers::QuestHolderOfPlayer(playerIndex);
-        if (QuestListHoldsItem(holder)) {
+        if (QuestListHoldsItem(this, holder)) {
             s_playerQuestRRId = (playerIndex + 1) % count;
             return holder;
         }
@@ -363,16 +396,21 @@ void ItemObject::DropLootTable(int lootTableId, const GameObject* dropper, const
 }
 
 // 0x3ed144 ItemObject::Interact(GameObject*)
-// PARTIAL. The gating, the item choice, the inventory transfer, the trophy and the pick-up of the item are reconstructed.
-// Not reconstructed (each is named at its point below):
-//  (a) the message texts (font colour from Arrays::FontPalette, the item name, StringManager parse) and the StatusMsg queue
-//      (MenuMessageManager<StatusMsg,4>::EnqueueMessage; dh2/StatusMsg.hpp is absent and the pseudocode's one-argument call
-//      has no declared overload);
-//  (b) the tutorial script start (its online test reads COnline::isOnlineGame_ at +0x05, a private member with no accessor;
-//      the savegame byte at +0x2a is SavegameManager::m_tutorials[1], not named);
-//  (c) the online CMsgControllerAction message (CMessaging / CMessage / COnline layout);
-//  (d) VoxSoundManager::Play3D (not declared in vox-audio);
-//  (e) the loot_orb_fx effect id: the AnimatedEffectTable name search is not reconstructed, so no effect plays.
+// The pick-up of the item by a player Character.
+//  * Gates: an already looted object, a non-Character interactor, another receiver, an unexpired round-robin pickup lock and a
+//    non-player interactor all end the call.
+//  * The item is the first of the object's inventory. Item type value Structs::Item m_w26 == -1 takes the plain pick-up; else an
+//    item with fewer powers than the "AutoTransmute" option is turned into gold (status line from StrID ITEMS_AUTO_TRANSMUTE),
+//    else a full inventory queues GAMEPLAYMENUS_INVENTORY_FULL, else the plain pick-up.
+//  * The plain pick-up (unless a potion and the potion slots are full): the coloured name is queued as a status line for the local
+//    player, the inventory tutorial script starts for the first non-type-13 item of an offline difficulty-0 game, the object's
+//    inventory goes to the character, property 223 counts up and reaches 300 for the "picked_up_300_drops" trophy.
+//  * An emptied object (HasBeenLooted): the online CMsgControllerAction (action 5, the object's network id, the character's low
+//    network id byte) when this is an online game and the character's controller flag +0x0a is set; the pick-up sound at the object;
+//    the tooltip is deleted; the glow is hidden; the character's object of interest is cleared when it is this object; the
+//    "loot_orb_fx" effect plays at the character; the object is despawned; and player stat 4 counts up.
+//  The status text is built as the pseudocode builds it ("<font color=\"#" + "%x" colour + "\">" + name + "</font>"); the original
+//  copies the std::string into a StatusMsg whose trailing word is uninitialised, here zero.
 void ItemObject::Interact(GameObject* interactor) {
     if (HasBeenLooted()) {
         return;
@@ -404,17 +442,36 @@ void ItemObject::Interact(GameObject* interactor) {
     // The pick-up step of the original (the LABEL_14 block). The potion stack is only taken while it has room.
     auto pickUp = [&]() {
         if (itemType != kPotionItemType || charInventory.GetNumPotions() < charInventory.m_maxPotions) {
-            // PARTIAL (a): the pick-up message text and StatusMsg queue, and the tutorial start (b), are not reconstructed.
+            // The coloured name: the Arrays::FontPalette colour of the item's power count, printed with %x (no padding).
+            const int fontDef = item->GetFontDef();
+            char colour[16];
+            std::sprintf(colour, "%x", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->m_w2);
+            const std::string text = std::string("<font color=\"#") + colour + "\">" + item->m_name.c_str() + "</font>";
+            if (ItemObjectPlayers::IsLocalPlayerCharacter(character)) {
+                MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(text), 0, true);  // clone 0x3ecff8: queue 0, flag
+            }
+
+            // The inventory tutorial: the first pick-up of an item that is not of type 13, offline, on difficulty 0.
+            if (item->GetItem()->m_w22 != kNoTutorialItemType && !GetOnlineGameFlag() && character->SG_GetGameDifficulty() == 0) {
+                if (Singleton<Application>::s_inst.m_savegameManager->m_tutorials[1] != 0) {  // SavegameManager +0x2a
+                    const int scriptId = ScriptManager::s_inst.GetIDFromName("cinematic_Tuto_menuInvSheet", true);
+                    if (scriptId != -1) {
+                        ScriptManager::s_inst.StartScript(scriptId, -1, false);
+                    }
+                }
+            }
+
             DebugSwitches::s_inst.load();
             (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingItemPickedUp"));
             TransferInventoryTo(charInventory, false, true);
             character->PROPS_AddInt(kPickedUpCounterProp, 1);
-            if (character->PROPS_GetInt(kPickedUpCounterProp, false) >= kPickedUp300Threshold &&
-                character->IsPlayer() && ItemObjectPlayers::IsLocalPlayerCharacter(character)) {
-                // PARTIAL (f): the original searches Arrays::TrophyTable::m_memberNames for "picked_up_300_drops" and
-                // unlocks that row (TrophyManager::UnlockTrophy). The name table is in member_names.hpp, which clashes with
-                // the element tables (w7_arrays_00.hpp) and with PlayerManager.hpp in any translation unit that this batch
-                // can use, so the unlock is not made.
+            TrophyManager* trophies = TrophyManager::s_instance;
+            if (character->PROPS_GetInt(kPickedUpCounterProp, false) >= kPickedUp300Threshold && character->IsPlayer() &&
+                ItemObjectPlayers::IsLocalPlayerCharacter(character)) {
+                // The row of "picked_up_300_drops" in Arrays::TrophyTable; a missing name passes -1, as the original does.
+                const int trophyId = pydata::FindMemberName(Arrays::TrophyTable::m_memberNames,
+                                                            static_cast<int>(Arrays::TrophyTable::size), "picked_up_300_drops");
+                trophies->UnlockTrophy(trophyId);
             }
         }
     };
@@ -422,21 +479,44 @@ void ItemObject::Interact(GameObject* interactor) {
     if (pickUpTypeUnset) {
         pickUp();
     } else if (static_cast<unsigned int>(item->GetNumPowers()) < static_cast<unsigned int>(savedOption)) {
-        // Auto-transmute: the item is turned into gold and the gold is handed to the character.
-        // PARTIAL: the message text (StrID ITEMS_AUTO_TRANSMUTE, StringManager::parse with the item name) is not reconstructed.
+        // Auto-transmute: the item is turned into gold, announced, and the gold is handed to the character.
+        std::string text;
+        const char* format = ApplicationGetStringManager()->getString(
+            ApplicationGetPyDataConstants()->getConstant("StrID", "ITEMS_AUTO_TRANSMUTE"));
+        const int fontDef = item->GetFontDef();
         const int gold = character->INV_TransmuteItem(item, true);
-        (void)gold;
+        if (format != nullptr) {
+            char colour[16];
+            std::sprintf(colour, "#%06X", TableRow<Structs::FontColorDef>(Arrays::FontPalette::members, fontDef)->m_w2 & 0xFFFFFF);
+            ApplicationGetStringManager()->parse(text, format, colour, item->m_name.c_str(), gold);
+        }
+        MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(text), 0, true);
         const unsigned int transferred = static_cast<unsigned int>(TransferItemTo(0, charInventory, false, true));
         character->INV_TransmuteItem(transferred, false);
     } else if (!charInventory.IsInventoryFull()) {
         pickUp();
     } else {
-        // PARTIAL (a): the GAMEPLAYMENUS_INVENTORY_FULL message is not queued (see the note above).
+        const char* full = ApplicationGetStringManager()->getString(
+            ApplicationGetPyDataConstants()->getConstant("StrID", "GAMEPLAYMENUS_INVENTORY_FULL"));
+        MenuMessageManager<StatusMsg, 4>::s_inst.EnqueueMessage(StatusMsg(std::string(full)), 0, true);
     }
 
-    // LABEL_21: the item is gone when the inventory is empty, and only then is the object removed.
+    // LABEL_21: the object is removed only when the pick-up emptied it.
     if (HasBeenLooted()) {
-        // PARTIAL (c), (d): the online CMsgControllerAction and the Play3D pick-up sound are not reconstructed here.
+        if (GetOnlineGameFlag() && character->m_controller->unk_00a) {
+            // v2NetController::Update (0x40939c) case 5 replays this on the other players.
+            CMessaging* messaging = GetMessaging();
+            CMsgControllerAction* message = static_cast<CMsgControllerAction*>(CMessage::CreateMessage("CMsgControllerAction", true));
+            message->senderId_ = static_cast<std::uint8_t>(character->unk_108);          // +0x54: the character's network id
+            message->action_ = kControllerActionUseObject;                                 // +0x50
+            message->targetId_ = static_cast<std::uint16_t>(unk_108);                      // +0x52: this object's network id
+            messaging->SendMsg(message);
+        }
+
+        // The pick-up sound: Play3D(sound, position, loop 0, reserved 1, -1.0, -1.0) at the object.
+        const glitch::core::vector3d<float> soundPosition{m_position.X, m_position.Y, m_position.Z};
+        VoxSoundManager::s_instance->Play3D(m_pickupSoundId, soundPosition, false, 1, -1.0f, -1.0f);
+
         if (m_tooltip != nullptr) {  // +0x3c8
             m_tooltip->~SWFAnimToolTip();
             CustomFree(m_tooltip);
@@ -446,7 +526,11 @@ void ItemObject::Interact(GameObject* interactor) {
         if (character->m_objectOfInterest == this) {  // Character +0x14a4
             character->m_objectOfInterest = nullptr;
         }
-        // PARTIAL (e): VisualFXManager::PlayAnimFXSet(loot_orb_fx, character position) is not called (see the note above).
+
+        // The effect id is looked up once (a function-local static in the original).
+        static const int fxId = pydata::FindMemberName(Arrays::AnimatedEffectTable::m_memberNames,
+                                                       static_cast<int>(Arrays::AnimatedEffectTable::size), "loot_orb_fx");
+        Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(fxId, character->m_position, nullptr, nullptr);
         Singleton<ItemManager>::s_inst.DeSpawn(this);
         ItemObjectPlayers::IncrementStatFour(ItemObjectPlayers::PlayerNumberOf(character));
     }

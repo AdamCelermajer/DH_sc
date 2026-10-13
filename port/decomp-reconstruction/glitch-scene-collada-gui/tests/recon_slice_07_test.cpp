@@ -84,20 +84,6 @@ void testHandles() {
     check(block.refCount == 2, "grab increments count");
 }
 
-void testColours() {
-    SLightColorApplicator light{};
-    const std::uint8_t bytes[3] = {255, 0, 51};
-    const float blue = CApplicator_SLightColor_applyValueEx(light, bytes);
-    check(near(light.r, 1.0f) && near(light.g, 0.0f) && near(light.b, 0.2f) && near(light.a, 1.0f),
-          "light colour applicator");
-    check(near(blue, 0.2f), "applicator returns blue channel");
-
-    const float source[8] = {0, 0, 0, 0, 0, 1.0f, 0.0f, 0.5f};
-    std::uint8_t out[3] = {};
-    const std::uint32_t last = CVirtualEx_LightColor_retrieveValue(source, out);
-    check(out[0] == 255 && out[1] == 0 && out[2] == 127 && last == 127, "light colour retrieve");
-}
-
 }  // namespace
 
 int main() {
@@ -106,7 +92,6 @@ int main() {
     testAngleWeight();
     testKdTree();
     testHandles();
-    testColours();
     if (failures != 0) {
         std::fprintf(stderr, "%d failure(s)\n", failures);
         return 1;

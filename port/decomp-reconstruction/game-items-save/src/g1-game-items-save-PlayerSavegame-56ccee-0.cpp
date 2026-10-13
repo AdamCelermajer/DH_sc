@@ -36,28 +36,26 @@
 #include "dh2/Savegame.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
 #include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
+#include "dh2/global/savefile_fs.hpp"
 
 namespace {
 
-// PARTIAL placeholders for the savegame file system (IDevice +0x34, not declared in dh2/Application.hpp's IDevice).
-// The original result of each call is noted beside it.
+// The savegame file system (IDevice +0x34, dh2/global/savefile_fs.hpp). The slot each call stands for is noted beside it.
 
-// vtable +0xb0, FileSystemBase::doesSavefileExists. Reports that no file exists.
+// vtable +0xb0, FileSystemBase::doesSavefileExists.
 bool SavegameFileExists(const char* name) {
-    (void)name;
-    return false;
+    return SavefileExists(name);
 }
 
-// vtable +0x9c, FileSystemWin32::deleteSavefile. Reports that nothing was removed.
+// vtable +0x9c, FileSystemWin32::deleteSavefile.
 bool SavegameFileDelete(const char* name) {
-    (void)name;
-    return false;
+    return SavefileFileSystem().deleteSavefile(name);
 }
 
-// vtable +0x7c, FileSystemWin32::getFiles(dir, out). Adds no names, so the list is empty.
+// vtable +0x7c, FileSystemWin32::getFiles(dir, out).
 void SavegameFileList(const char* dir, std::vector<std::string>& out) {
-    (void)dir;
-    (void)out;
+    SavefileFileSystem().getFiles(dir, out);
 }
 
 // vtable +0xb4, FileSystemWin32::isFileNewerThan. In the binary this is an empty function (`BX LR`), so the original's
@@ -69,11 +67,9 @@ bool SavegameFileIsNewer(const char* first, const char* second) {
     return true;
 }
 
-// PARTIAL stand-in for *(GetOnline() + 5), the COnline flag isOnlineGame_ (private, no accessor; layout request). It reads
-// as offline, so every online branch below is skipped.
+// *(GetOnline() + 5), the COnline flag isOnlineGame_.
 bool OnlineGameFlag(const COnline* online) {
-    (void)online;
-    return false;
+    return online->IsOnlineGame();
 }
 
 }  // namespace
@@ -94,8 +90,7 @@ const char* PlayerSavegame::SG_GetCheckpointFilenameExtension() {
 }
 
 // 0x463514 PlayerSavegame::SG_Exists(char const*)
-// PARTIAL: the existence check is the SavegameFileExists placeholder. A null name returns 0 before the file system is read,
-// as in the original.
+// A null name returns 0 before the file system is read, as in the original.
 int PlayerSavegame::SG_Exists(const char* name) {
     if (name == nullptr) {
         return 0;
@@ -104,7 +99,7 @@ int PlayerSavegame::SG_Exists(const char* name) {
 }
 
 // 0x46355c PlayerSavegame::SG_Delete(char const*)
-// PARTIAL: the removal is the SavegameFileDelete placeholder. A null name returns 0, as in the original.
+// A null name returns 0, as in the original.
 int PlayerSavegame::SG_Delete(const char* name) {
     if (name == nullptr) {
         return 0;
@@ -137,7 +132,7 @@ int PlayerSavegame::SG_GetSlotFromFilename(const char* name) {
 }
 
 // 0x4636c4 PlayerSavegame::SG_Update(bool)
-// PARTIAL: the original returns r0 after the void QuestSavegame::UpdateQuests call, so no int result is defined. Returns 0.
+// The original returns r0 after the void QuestSavegame::UpdateQuests call, so there is no int result. Returns 0.
 int PlayerSavegame::SG_Update(bool force) {
     SG_TryQuestSync();
     QuestSavegame* quests = SG_GetQuestSG();
@@ -198,10 +193,13 @@ void PlayerSavegame::SG_GetFilename(std::uint32_t slot, std::string& name, bool 
 }
 
 // 0x46403c PlayerSavegame::SG_GetSavegameList(bool)
-// PARTIAL: the names come from the SavegameFileList placeholder, and the sort predicate is SavegameFileIsNewer. The filter
-// and the sort are the original's code.
+// The names come from the device file system's getFiles("./") (slot +0x7c); with no file system the list is empty, as in the
+// original. The sort predicate is the file system's isFileNewerThan (slot +0xb4), an empty function (see SavegameFileIsNewer).
 std::vector<std::string> PlayerSavegame::SG_GetSavegameList(bool sorted) {
     std::vector<std::string> names;
+    if (SavefileFileSystemPtr() == nullptr) {
+        return names;
+    }
     SavegameFileList("./", names);
 
     // Drop the backups and the settings and level files, then names without the savegame extension or the "dh2_" prefix.
@@ -251,9 +249,8 @@ int PlayerSavegame::SG_DeleteCheckpoint(std::uint32_t slot, bool multi) {
 }
 
 // 0x464b2c PlayerSavegame::SG_Save()
-// PARTIAL: the online branches read the OnlineGameFlag placeholder, so only the offline save is reproduced. The int result is
-// not defined in the source: the original returns `this` on the early exits and the register left by _SaveVolatileQuestsLog
-// otherwise. Returns 0.
+// The int result is not defined in the source: the original returns `this` on the early exits and the register left by
+// _SaveVolatileQuestsLog otherwise. Returns 0.
 int PlayerSavegame::SG_Save() {
     if (m_savegame == nullptr || m_saveBlocked) {
         return 0;

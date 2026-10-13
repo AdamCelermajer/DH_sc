@@ -21,6 +21,10 @@
 #include <string>
 
 #include "dh2/Character.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/IFileStream.hpp"
+#include "dh2/ItemObject.hpp"
+#include "dh2/TriggerZoneExitLevel.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/Savegame.hpp"
@@ -30,7 +34,9 @@
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/global/item_instance.hpp"
+#include "dh2/global/savefile_fs.hpp"
 #include "dh2/global/savegame_manager_language.hpp"
+#include "core-platform/tb/android_jni_bridge.hpp"  // nativeDetectPhoneLang
 #include "pydata-accessors/structs_records.hpp"
 
 // 0x46c738 SavegameManager::__loadLastSlot(IStreamBase*, void*)
@@ -62,12 +68,11 @@ int SavegameManager::__saveTutorials(IStreamBase* stream, void* user) {
 }
 
 // 0x46c7b8 SavegameManager::__loadLanguageAndOrientation(IStreamBase*, void*)
-// PARTIAL. The file part is rebuilt: an unsigned count, then count entries of (name string, int value). The entries named
+// The file part: an unsigned count, then count entries of (name string, int value). The entries named
 // "Language" set m_language and "AutoOrientation" sets m_autoOrientation (value != 0). The loop stops after both are found.
-// The Korean and Japanese builds set m_language to 5 and 4. PARTIAL: the other builds set m_language from
-// nativeDetectPhoneLang(), the phone language index (1..7) mapped as 1->2, 2->1, 3->7, 4->3, 5->4, 6->5, 7->6, and any
-// other value to 0. That function is not declared anywhere in the tree, so m_language keeps the value from the file on
-// those builds. The original's return is the last r0 and is not reproduced (see the header note above).
+// The Korean and Japanese builds set m_language to 5 and 4; the other builds take it from nativeDetectPhoneLang(), the phone language
+// index (1..7), mapped 1->2, 2->1, 3->7, 4->3, 5->4, 6->5, 7->6 and any other value to 0. The original's return is the last r0 and is
+// not reproduced (see the header note above).
 int SavegameManager::__loadLanguageAndOrientation(IStreamBase* stream, void* user) {
     auto* manager = static_cast<SavegameManager*>(user);
     if (stream != nullptr) {
@@ -98,8 +103,18 @@ int SavegameManager::__loadLanguageAndOrientation(IStreamBase* stream, void* use
         manager->m_language = 5;
     } else if (JAPANESE_BUILD) {
         manager->m_language = 4;
+    } else {
+        switch (nativeDetectPhoneLang()) {
+            case 1: manager->m_language = 2; break;
+            case 2: manager->m_language = 1; break;
+            case 3: manager->m_language = 7; break;
+            case 4: manager->m_language = 3; break;
+            case 5: manager->m_language = 4; break;
+            case 6: manager->m_language = 5; break;
+            case 7: manager->m_language = 6; break;
+            default: manager->m_language = 0; break;
+        }
     }
-    // PARTIAL: the device-language branch (nativeDetectPhoneLang, see above) is not written. m_language is left as read.
     return 0;
 }
 
@@ -118,14 +133,18 @@ int SavegameManager::__saveOptions(IStreamBase* stream, void* user) {
 }
 
 // 0x46cb34 SavegameManager::saveSettings()
-// PARTIAL: the settings file is not written. The original does this when m_settings is set and m_saveBlocked is clear:
-// it opens m_settings->m_filename (c_str, the string data pointer at Savegame +0x18) for writing on the file system at
-// dword_99F73C+0x34 (glitch IDevice +0x34, not declared in the tree) through vtable +0x94 with the write flag set, runs
-// __saveOptions and __saveTutorials on the stream, then closes it through vtable +0x78. The guard is written. The file
-// system has no accessor, so the stream is never opened and nothing is written here.
+// When m_settings is set and m_saveBlocked is clear: opens m_settings->m_filename for writing on the device file system
+// (slot +0x94), runs __saveOptions and __saveTutorials on the stream (the manager is their user pointer) and closes it (slot +0x78).
 void SavegameManager::saveSettings() {
     if (m_settings == nullptr || m_saveBlocked) {
         return;
+    }
+    FileSystemWin32& fileSystem = SavefileFileSystem();
+    IFileStream* stream = fileSystem.openSavefile(m_settings->m_filename.c_str(), true);
+    if (stream != nullptr) {
+        __saveOptions(stream, this);
+        __saveTutorials(stream, this);
+        fileSystem.closeFile(stream);
     }
 }
 
@@ -205,18 +224,30 @@ void SavegameManager::setOption(const char* name, int value) {
 }
 
 // 0x46d104 SavegameManager::setLanguage(int)
-// PARTIAL: the walk over ObjectManager::m_objectMap is not written. For each object in key order whose IsGameObject()
-// (vtable +0x20) is true, the original calls ItemObject::UpdateLocalization when m_goId (+0xf4) is 3 (ItemObject, after
-// which m_goId is read again), and clears TriggerZoneExitLevel::m_fastTravelShown (+0x819) when m_goId is 14. The object
-// pointer is ObjectListItem +0x18, and dh2/ObjectListItem.hpp does not exist in the tree yet (layout request). That loop
-// runs between the Character loop below and the string pack switch.
-// The original returns the bool from StringManager::switchPack as int. The header keeps void (the game-app test stub
-// declares void), so the value is dropped here.
+// Stores the Language option, refreshes the localized inventory of the player and merchant characters, then walks ObjectManager's
+// object map in key order: for each game object (vtable +0x20) an item (GO id 3) updates its localization, and an exit-level
+// trigger (GO id 14) clears its fast-travel-shown flag (+0x819). Finally the string pack for the language is switched. The original
+// returns the bool from StringManager::switchPack as int; the header keeps void, so the value is dropped.
 void SavegameManager::setLanguage(int language) {
     setOption("Language", language);
     for (Character* character : dword_99F764->m_characters) {
         if (character->IsPlayer() || character->IsMerchant()) {
             character->UpdateInventoryLocalization();
+        }
+    }
+    for (const auto& entry : dword_99F764->m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object == nullptr || !object->IsGameObject()) {
+            continue;
+        }
+        GameObject* gameObject = static_cast<GameObject*>(object);
+        int goId = gameObject->m_goId;
+        if (goId == 3) {
+            static_cast<ItemObject*>(gameObject)->UpdateLocalization();
+            goId = gameObject->m_goId;
+        }
+        if (goId == 14) {
+            static_cast<TriggerZoneExitLevel*>(gameObject)->m_fastTravelShown = false;
         }
     }
     ApplicationGetStringManager()->switchPack(static_cast<unsigned int>(language), true);

@@ -1,7 +1,7 @@
 elf_address,symbol,status,source_file,notes
-0x3fd1dc,_Z18II_Item_sortbynameRKN13ItemInventory4ItemES2_,skipped,,skipped: blocked. Calls ItemInstance::operator< (not in the port) on ItemInventory::Item; the Item layout is not known
-0x3fd9d0,_Z19II_Item_sortbyvalueRKN13ItemInventory4ItemES2_,skipped,,skipped: blocked. Reads the pointer word at +84 of ItemInventory::Item (layout not known) and falls back to II_Item_sortbyname
-0x3fd9f8,_Z21II_Item_sortbybuybackRKN13ItemInventory4ItemES2_,skipped,,skipped: blocked. Reads the byte at +105 of ItemInventory::Item (layout not known) and falls back to II_Item_sortbyvalue
+0x3fd1dc,_Z18II_Item_sortbynameRKN13ItemInventory4ItemES2_,reconstructed,game-app/src/link1_II_Item_sortbyname.cpp,Loads the ItemInstance pointer of each argument (Item +0x00) and tail-calls ItemInstance::operator< (0x3fa1fc). Reconstructed in link-1 (ItemInventory::Item and ItemInstance are declared now).
+0x3fd9d0,_Z19II_Item_sortbyvalueRKN13ItemInventory4ItemES2_,reconstructed,,Reconstructed (r3b game owner): game-app/src/item_sort.cpp: higher ItemInstance value (+0x54) first; equal values fall back to II_Item_sortbyname.
+0x3fd9f8,_Z21II_Item_sortbybuybackRKN13ItemInventory4ItemES2_,reconstructed,,Reconstructed (r3b game owner): game-app/src/item_sort.cpp: buy-back flag (+0x69) first (the second item's flag when they differ); equal flags fall back to II_Item_sortbyvalue.
 0x483a04,TiXmlVisitor::~TiXmlVisitor,skipped,,"TinyXML 2.5.x (ctor/dtor): compiler-generated ctor/dtor, upstream TinyXML behaviour: TiXmlVisitor::~TiXmlVisitor"
 0x483a08,TiXmlVisitor::VisitEnter,upstream,,TinyXML 2.5.x 2.5.x: TiXmlVisitor::VisitEnter (name-matched upstream method)
 0x483a10,TiXmlVisitor::VisitExit,upstream,,TinyXML 2.5.x 2.5.x: TiXmlVisitor::VisitExit (name-matched upstream method)

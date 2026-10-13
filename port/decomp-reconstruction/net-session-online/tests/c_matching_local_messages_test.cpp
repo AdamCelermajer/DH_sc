@@ -2,6 +2,7 @@
 static const bool kConnectionManagerReady = (connection_manager_test::Initialize(), true);
 #include "net-session-online/c_matching_local.hpp"
 #include "net-session-online/deps/matching_queue.hpp"
+#include "net-session-online/deps/stream_bytes.hpp"
 
 #include <cstdio>
 #include <cstring>
@@ -29,17 +30,23 @@ int main() {
         CHECK(id == 6);
     }
 
-    // SendServerResponse: type 1 record of 40 bytes (listen id, member id, count, flag), broadcast type 2.
+    // SendServerResponse: type 1 record of 40 bytes (listen id, member id, count, flag), then the serialized room attributes
+    // (flags 7, the real CRoomAttributes), broadcast type 2.
     {
         CMatchingLocal local;
         connection_manager_test::ResetForSends();
         local.SetMemberId(7);
-        CHECK(local.SendServerResponse(true) == 49);  // the 8-byte packet header and the 41 bytes
+        NetBitStream attributes(0x800);
+        local.GetRoomAttributes()->Serialize(attributes, 7);
+        const std::size_t attributeBytes = StreamBytes(attributes).size();
+        CHECK(attributeBytes > 0);
+        const std::size_t total = 1 + 40 + attributeBytes;
+        CHECK(local.SendServerResponse(true) == static_cast<std::int32_t>(8 + total));  // the 8-byte packet header and the payload
         const auto& p = SentPacketLog().back();
         CHECK(p.packetType == 2);
         CHECK(p.broadcast);
-        CHECK(p.bytes.size() == 41);
-        if (p.bytes.size() == 41) {
+        CHECK(p.bytes.size() == total);
+        if (p.bytes.size() == total) {
             CHECK(p.bytes[0] == 1);
             std::int32_t id = 0;
             std::memcpy(&id, p.bytes.data() + 1 + 28, 4);

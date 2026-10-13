@@ -2343,4 +2343,75 @@ void WaitDialog::read(IStreamBase* stream) {
     ScriptCmd::read(stream);
 }
 
+// 0x4d3a0c _ZN7Structs10ExecScriptD2Ev
+// 0x4d3a70 _ZN7Structs10ExecScriptD1Ev
+ExecScript::~ExecScript() {
+    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+}
+
+// 0x4d3a54 _ZN7Structs10ExecScriptD0Ev
+void DeletingDestructor(ExecScript* self) {
+    self->ExecScript::~ExecScript();
+    CustomFree(self);
+}
+
+// 0x4d39dc _ZN7Structs10ExecScript8finalizeEv
+void ExecScript::finalize() {
+    if (m_w5 != nullptr) {
+        CustomFree(m_w5);  // +0x14
+        m_w4 = 0;  // +0x10
+        m_w5 = nullptr;
+    }
+    ScriptCmd::finalize();
+}
+
+// 0x4ffc24 _ZN7Structs10ExecScript4readEP11IStreamBase
+void ExecScript::read(IStreamBase* stream) {
+    ScriptCmd::read(stream);
+    m_w2 = StreamReader::readAs<bool>(stream);  // +0x8
+    m_w3 = StreamReader::readAs<std::int32_t>(stream);  // +0xc
+    m_w4 = StreamReader::readAs<std::uint32_t>(stream);  // +0x10
+    if (m_w5 != nullptr) CustomFree(m_w5);  // +0x14
+    m_w5 = static_cast<std::int32_t*>(::operator new[](std::size_t{4} * m_w4, kPydataBufferHint));
+    for (std::uint32_t i = 0; i < m_w4; ++i) {
+        m_w5[i] = StreamReader::readAs<std::int32_t>(stream);
+    }
+    m_w6 = StreamReader::readAs<bool>(stream);  // +0x18
+}
+
+// 0x4d345c _ZN7Structs10PlayEffectD1Ev
+// 0x4d34c8 _ZN7Structs10PlayEffectD2Ev
+PlayEffect::~PlayEffect() {
+    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+}
+
+// 0x4d34ac _ZN7Structs10PlayEffectD0Ev
+void DeletingDestructor(PlayEffect* self) {
+    self->PlayEffect::~PlayEffect();
+    CustomFree(self);
+}
+
+// 0x4d342c _ZN7Structs10PlayEffect8finalizeEv
+void PlayEffect::finalize() {
+    if (m_w8 != nullptr) {
+        CustomFree(m_w8);  // +0x20
+        m_w7 = 0;  // +0x1c
+        m_w8 = nullptr;
+    }
+    ScriptCmd::finalize();
+}
+
+// 0x5022e4 _ZN7Structs10PlayEffect4readEP11IStreamBase
+void PlayEffect::read(IStreamBase* stream) {
+    ScriptCmd::read(stream);
+    m_w2 = StreamReader::readAs<std::int32_t>(stream);  // +0x8
+    m_w3.read(stream);  // +0xc
+    m_w7 = StreamReader::readAs<std::uint32_t>(stream);  // +0x1c
+    if (m_w8 != nullptr) CustomFree(m_w8);  // +0x20
+    m_w8 = static_cast<char*>(::operator new[](static_cast<std::size_t>(m_w7) + 1, kPydataBufferHint));  // +0x20, length +0x1c
+    StreamReader::readStringEx(stream, m_w8, m_w7);
+    m_w8[m_w7] = ' ';
+    m_w9 = StreamReader::readAs<bool>(stream);  // +0x24
+}
+
 }  // namespace Structs

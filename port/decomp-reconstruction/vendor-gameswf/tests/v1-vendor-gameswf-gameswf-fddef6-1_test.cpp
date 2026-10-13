@@ -124,7 +124,7 @@ const unsigned char kInflated[6] = {9, 8, 7, 6, 5, 4};
 namespace render {
 
 // 0x7739dc render::create_bitmap_info_native (pack6) forwards to the current render handler; this is the recording factory.
-__attribute__((weak)) bitmap_info* create_bitmap_info_native(int width, int height, const membuf* data) {
+bitmap_info* create_bitmap_info_native(int width, int height, const membuf* data) {
 	++g_native_calls;
 	g_native_width = width;
 	g_native_height = height;
@@ -139,7 +139,7 @@ __attribute__((weak)) bitmap_info* create_bitmap_info_native(int width, int heig
 
 // 0x75afb0: the zlib inflate of the tag's data into a buffer (upstream gameswf_impl.cpp, not linkable alone). It writes a known
 // pattern so the test can tell the buffer reached the bitmap factory, and it leaves the file where it is.
-__attribute__((weak)) void inflate_wrapper(::tu_file* in, void* buffer, int buffer_bytes) {
+void inflate_wrapper(::tu_file* in, void* buffer, int buffer_bytes) {
 	++g_inflate_calls;
 	g_inflate_file = in;
 	g_inflate_buffer = buffer;

@@ -62,6 +62,9 @@ public:
     std::vector<ScriptContext> m_contexts;                             // +0x0c, 12 bytes in the original
     std::vector<ScriptCmds> m_cmds;                                    // +0x18, 12 bytes in the original
     std::vector<char*> m_scriptNames;                                  // +0x24, 12 bytes in the original (script names from LoadScriptFileNames)
-    bool unk_30;                                                       // +0x30 written by the ctor and Flush only
+    // +0x30 the byte at ELF 0x9a600c (the binary has no name for it): set by Script_EnterCutSceneMode::Execute, cleared by
+    // Script_ExitCutSceneMode::Execute, reset by the ctor and Flush. Read as byte_9A600C by CharTimers::Update, NativeBackToHud,
+    // HUDControls and InfoHUDManager, which skip their HUD work while a cut scene is on.
+    bool m_inCutScene;                                                 // +0x30
     uint8_t pad_31[3];                                                 // +0x31
 };

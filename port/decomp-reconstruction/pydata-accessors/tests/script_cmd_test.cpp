@@ -13,7 +13,7 @@ int main() {
 
     Structs::ScriptCmd* b = Structs::GetNewScriptCmdDataInstance<Structs::PlayEffect>();
     auto* pe = dynamic_cast<Structs::PlayEffect*>(b);
-    CHECK(pe != nullptr && pe->m_w8 == 0 && pe->m_w3 == 0);
+    CHECK(pe != nullptr && pe->m_w2 == 0 && pe->m_w7 == 0 && pe->m_w8 == nullptr);  // m_w3 is the embedded Pos3D now
     delete b;
 
     std::printf("%s\n", failures ? "script_cmd: FAILED" : "script_cmd: ok");

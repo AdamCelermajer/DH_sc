@@ -92,15 +92,15 @@ void testAnimation() {
 void testNodes() {
     Fixture f;
     SNode grandchild{};
-    grandchild.name = "c";
+    grandchild.id = "c";
     SNode child{};
-    child.name = "b";
+    child.id = "b";
     child.childCount = 1;
     child.children = &grandchild;
     SNode other{};
-    other.name = "e";
+    other.id = "e";
     SNode root{};
-    root.name = "a";
+    root.id = "a";
     root.childCount = 1;
     root.children = &child;
 
@@ -128,7 +128,7 @@ void testNodes() {
 void testDefaults() {
     Fixture f;
     SNode node{};
-    node.name = "n";
+    node.id = "n";
     node.translation[0] = 1;
     node.rotation[0] = 2;
     node.scale[0] = 3;

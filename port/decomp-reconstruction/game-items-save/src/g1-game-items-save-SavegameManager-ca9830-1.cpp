@@ -18,6 +18,7 @@
 //  * dword_99F778 is Application::m_savegameManager (+0x4c). The Globals.hpp rule is that the singleton member is used,
 //    so the code reads ApplicationGetInstance().m_savegameManager.
 
+#include <cstdint>
 #include <cstring>
 
 #include "dh2/Application.hpp"
@@ -30,6 +31,7 @@
 #include "dh2/StreamReader.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"
+#include "pydata-accessors/arrays.hpp"
 #include "pydata-accessors/structs_records.hpp"
 
 // 0x46d378 SavegameManager::isOptionAtMin(char const*) const
@@ -130,13 +132,19 @@ void SavegameManager::__loadOptions(IStreamBase* stream, void* user) {
 }
 
 // 0x46e47c SavegameManager::_initSettings(bool)
-// PARTIAL: the option fill is not written. In the original, when !languageOnly and Arrays::GameOptionTable::size is
-// nonzero, every row gets m_options[name] = { row, row->m_w1 }, with the name from GameOptionTable::m_memberNames and the
-// row from GameOptionTable::members. Those two names are declared in separate pydata headers that cannot share a
-// translation unit (member_names.hpp and w7_arrays27.hpp; layout request). The clear and the tutorial flags are written.
+// Clears the option map. Unless languageOnly is set, every row of Arrays::GameOptionTable gets an option named by
+// GameOptionTable::m_memberNames[row]: { the row, the row's Default (m_w1) }. The 14 tutorial flags (+0x29 .. +0x36) are set to 1.
 void SavegameManager::_initSettings(bool languageOnly) {
     if (!m_options.empty()) m_options.clear();
-    static_cast<void>(languageOnly);  // PARTIAL: the fill that this flag gates is not written (see above)
+    if (!languageOnly) {
+        const auto* rows = reinterpret_cast<const Structs::GameOption*>(Arrays::GameOptionTable::members);
+        for (std::uint32_t i = 0; i < Arrays::GameOptionTable::size; ++i) {
+            const char* name = Arrays::GameOptionTable::m_memberNames.names[i];
+            const Structs::GameOption* row = &rows[i];
+            m_options[name].m_definition = row;
+            m_options[name].m_value = row->m_w1;
+        }
+    }
     for (int i = 0; i != 14; ++i) {
         m_tutorials[i] = 1;  // +0x29 .. +0x36
     }

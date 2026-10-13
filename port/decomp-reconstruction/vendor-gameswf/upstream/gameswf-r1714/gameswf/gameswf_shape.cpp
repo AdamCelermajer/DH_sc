@@ -348,11 +348,13 @@ namespace gameswf
 	}
 #endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp (0x77932c: the two bytes go to the file's write callback) */
 	template<>
 	void	write_le<Sint16>(tu_file* out, Sint16 value)
 	{
 		out->write_le16(value);
 	}
+#endif /* DH2 */
 
 	template<class T>
 	T	read_le(tu_file* in);
@@ -365,11 +367,13 @@ namespace gameswf
 	}
 #endif
 
+#if 0 /* DH2: replaced by vendor-gameswf/src/v1-vendor-gameswf-gameswf-fddef6-2.cpp (0x77935c: the two bytes come from the file's read callback) */
 	template<>
 	Sint16    read_le<Sint16>(tu_file* in)
 	{
 		return in->read_le16();
 	}
+#endif /* DH2 */
 
 	void	write_coord_array(tu_file* out, const array<coord_component>& pt_array)
 	// Dump the given coordinate array into the given stream.

@@ -172,7 +172,7 @@ public:
     bool unk_16c;                                      // +0x16c 0
     uint8_t pad_16d[0x1f];
     int m_objectModuleId;                              // +0x18c -1; SetObjectModuleId, passed to ObjectManager::LoadFromXML
-    uint8_t pad_190[4];                                // +0x190 flag bytes indexed by the HUD index (asm 0x43dafc stores at +0x190 + index); name unknown
+    uint8_t m_playerHudOpen[4];                        // +0x190 per local player index: that player's HUD menu is open (NativeOnHUDOpenEvent stores it; CameraLevel::HandleCentering reads it)
     GameEventManager* m_gameEventManager;              // +0x194 created at load step 6
     bool m_isInGameView;                               // +0x198 Application::IsCurrentlyInGameView
     uint8_t pad_199[3];

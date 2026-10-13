@@ -3,14 +3,15 @@
 // lookup and root attachment is verified.
 #include "glitch-video/material.hpp"
 #include "glitch-video/material_renderer.hpp"
+#include "glitch-video/material_vertex_attribute_map.hpp"
 #include "glitch-scene-collada-gui/collada_database.hpp"
 
 #include <cstdio>
 #include <string>
 #include <vector>
 
-#include "glitch-scene-collada-gui/collada_factory.hpp"
-#include "glitch-scene-collada-gui/root_scene_node.hpp"
+#include "glitch-scene-collada-gui/collada/CColladaFactory.hpp"
+#include "glitch-scene-collada-gui/collada/CRootSceneNode.hpp"
 
 using namespace glitch::collada;
 namespace video = glitch::video;
@@ -32,9 +33,12 @@ struct Recorder final : CColladaFactory {
     std::uint16_t lastShort = 0;
 
     void* createAnimator(const CColladaDatabase&, SLibraryAnimationClips*) override { calls.push_back("createAnimator"); return nullptr; }
-    void* createLight(const CColladaDatabase&, SLight*) override { calls.push_back("createLight"); return &tokenA; }
+    CLightSceneNode* createLight(const CColladaDatabase&, SLight*) override {
+        calls.push_back("createLight");
+        return reinterpret_cast<CLightSceneNode*>(&tokenA);
+    }
     void getAdditionalEffects(const CColladaDatabase&, SEffect*, SEffectList&) override { calls.push_back("getAdditionalEffects"); }
-    const char* getEffectName(const CColladaDatabase&, const char*, const char*) override { calls.push_back("getEffectName"); return nullptr; }
+    std::string getEffectName(const CColladaDatabase&, const char*, const char*) override { calls.push_back("getEffectName"); return std::string(); }
     video::CMaterialRenderer* createMaterialRenderer(const CColladaDatabase&, video::IVideoDriver*, SEffect*, CRootSceneNode*) override {
         calls.push_back("createMaterialRenderer4"); return nullptr;
     }
@@ -46,12 +50,14 @@ struct Recorder final : CColladaFactory {
         return reinterpret_cast<video::CMaterialRenderer*>(&tokenA);
     }
     video::CMaterial* createMaterial(const CColladaDatabase&, video::IVideoDriver*, SMaterial*, CRootSceneNode*) override { calls.push_back("createMaterial"); return nullptr; }
-    void* createMaterialVertexAttributeMap(const CColladaDatabase&, SInstanceMaterial*, const boost::intrusive_ptr<IMesh>&,
-                                           const boost::intrusive_ptr<video::CMaterial>&, unsigned int, bool) override {
-        calls.push_back("createMaterialVertexAttributeMap"); return nullptr;
+    boost::intrusive_ptr<video::CMaterialVertexAttributeMap> createMaterialVertexAttributeMap(
+        const CColladaDatabase&, SInstanceMaterial*, const boost::intrusive_ptr<IMesh>&, const boost::intrusive_ptr<video::CMaterial>&,
+        unsigned int, bool) override {
+        calls.push_back("createMaterialVertexAttributeMap");
+        return boost::intrusive_ptr<video::CMaterialVertexAttributeMap>();
     }
-    std::uint32_t getVertexBufferConfig(const CColladaDatabase&, SGeometry*) override { calls.push_back("getVertexBufferConfig"); return 0; }
-    std::uint32_t getIndexBufferConfig(const CColladaDatabase&, SGeometry*) override { calls.push_back("getIndexBufferConfig"); return 0; }
+    SBufferConfig getVertexBufferConfig(const CColladaDatabase&, SGeometry*) override { calls.push_back("getVertexBufferConfig"); return SBufferConfig{0, 0, 0}; }
+    SBufferConfig getIndexBufferConfig(const CColladaDatabase&, SGeometry*) override { calls.push_back("getIndexBufferConfig"); return SBufferConfig{0, 0, 0}; }
     bool isSharingMeshBuffers(const CColladaDatabase&, SGeometry*) override { calls.push_back("isSharingMeshBuffers"); return true; }
     IMesh* createGeometry(const CColladaDatabase&, video::IVideoDriver*, SGeometry* geometry) override {
         calls.push_back("createGeometry");
@@ -62,7 +68,7 @@ struct Recorder final : CColladaFactory {
         calls.push_back("createMorph");
         return reinterpret_cast<CMorphingMesh*>(&tokenA);
     }
-    void* createNode(const CColladaDatabase&, SNode*) override { calls.push_back("createNode"); return nullptr; }
+    CSceneNode* createNode(const CColladaDatabase&, SNode*) override { calls.push_back("createNode"); return nullptr; }
     void* createBillboard(const CColladaDatabase&, SNode*) override { calls.push_back("createBillboard"); return nullptr; }
     CCameraSceneNode* createCameraNode(const CColladaDatabase&, SCamera*) override {
         calls.push_back("createCameraNode");
@@ -90,17 +96,20 @@ struct Recorder final : CColladaFactory {
     void* createParticleSystemGravityForce(const CColladaDatabase&, SForce*) override { calls.push_back("gravity"); return &tokenA; }
     void* createParticleSystemWindForce(const CColladaDatabase&, SForce*) override { calls.push_back("wind"); return &tokenB; }
     void* createParticleSystemDeflectorForce(const CColladaDatabase&, SForce*) override { calls.push_back("deflector"); return &tokenA; }
-    void getExternalLightSceneNode(const CColladaDatabase&, const boost::intrusive_ptr<video::CMaterial const>&,
-                                   std::uint16_t a, std::uint32_t b, const char*) override {
+    glitch::scene::CLightSceneNode* getExternalLightSceneNode(const CColladaDatabase&, const boost::intrusive_ptr<video::CMaterial const>&,
+                                                              std::uint16_t a, std::uint32_t b, const char*) override {
         calls.push_back("externalLight-material");
         lastShort = a;
         lastFlag = b;
+        return nullptr;
     }
-    void getExternalLightSceneNode(const CColladaDatabase&, const boost::intrusive_ptr<video::CMaterialRenderer const>&,
-                                   std::uint16_t a, std::uint32_t b, const char*) override {
+    glitch::scene::CLightSceneNode* getExternalLightSceneNode(const CColladaDatabase&,
+                                                              const boost::intrusive_ptr<video::CMaterialRenderer const>&,
+                                                              std::uint16_t a, std::uint32_t b, const char*) override {
         calls.push_back("externalLight-renderer");
         lastShort = a;
         lastFlag = b;
+        return nullptr;
     }
 };
 
@@ -144,7 +153,7 @@ int main() {
     db.record = &record;
     db.factory = &factory;
 
-    CRootSceneNode root;
+    CRootSceneNode root(db);
     video::IVideoDriver* driver = reinterpret_cast<video::IVideoDriver*>(&tokenB);
 
     // Material-based and renderer-based external light lookups forward with
@@ -205,24 +214,24 @@ int main() {
     factory.calls.clear();
     CHECK(db.constructMorph(driver, nullptr, &root) == reinterpret_cast<CMorphingMesh*>(&tokenA));
     CHECK(joined(factory.calls) == "createMorph;");
-    CHECK(root.morphingMeshes.count() == 1);
+    CHECK(root.morphingMeshes.size() == 1);
 
     // Cameras and lights: null in, nothing made; otherwise built and attached.
     factory.calls.clear();
     CHECK(db.constructCamera(static_cast<SCamera*>(nullptr), &root) == nullptr);
     CHECK(factory.calls.empty());
     CHECK(db.constructCamera(&camera, &root) == reinterpret_cast<CCameraSceneNode*>(&tokenB));
-    CHECK(root.cameras.count() == 1);
+    CHECK(root.cameras.size() == 1);
     CHECK(db.constructCamera(0, &root) != nullptr);
-    CHECK(root.cameras.count() == 2);
-    db.constructCamera("cam", &root);
-    CHECK(root.cameras.count() == 3);
+    CHECK(root.cameras.size() == 2);
+    CHECK(db.constructCamera("cam", &root) != nullptr);
+    CHECK(root.cameras.size() == 3);
 
     CHECK(db.constructLight(static_cast<SLight*>(nullptr), &root) == nullptr);
-    CHECK(db.constructLight(&light, &root) == &tokenA);
-    CHECK(root.lights.count() == 1);
-    db.constructLight("lt", &root);
-    CHECK(root.lights.count() == 2);
+    CHECK(db.constructLight(&light, &root) == reinterpret_cast<CLightSceneNode*>(&tokenA));
+    CHECK(root.lights.size() == 1);
+    CHECK(db.constructLight("lt", &root) != nullptr);
+    CHECK(root.lights.size() == 2);
 
     // Modular skin passes its instance record straight to the factory.
     factory.calls.clear();

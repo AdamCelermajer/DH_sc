@@ -12,12 +12,9 @@
 //     argument a3 and the global ObjectManager is Application::m_objectManager (asm: Singleton<Application>::s_inst
 //     + 0x38, the global dword_99F764).
 //
-// Partial bodies (see the notes in the ledger):
-//   - Script_RestartLevel is outside the batch that rebuilt Script_SaveGame and Script_SetCameraClip, and its body is still
-//     the trace probe only. dh2/Level.hpp (Level::Restart) is now included here: the IStreamBase clash between Level.hpp and
-//     pydata's stream_reader.hpp no longer stops this translation unit from compiling.
-//   - Script_SaveGame, Script_SetActorPosition and Script_SetCameraClip use the declared Level, CameraLevel, LevelConfig,
-//     PlayerInfo (unk_660, the character at +0x660) and PlayerManager (dword_99F76C) members.
+// Every command in this batch is complete (Script_RestartLevel calls Level::Restart; Script_SaveGame, Script_SetActorPosition and
+// Script_SetCameraClip use the declared Level, CameraLevel, LevelConfig, PlayerInfo (unk_660, the character at +0x660) and
+// PlayerManager (dword_99F76C) members).
 
 #include <cstdint>
 #include <string>
@@ -163,11 +160,13 @@ bool Script_RestartLevel::IsBlocking() const {
 }
 
 // 0x45cdd0 Script_RestartLevel::Execute(bool, int)
-// PARTIAL. The original gets Application::GetCurrentLevel() and calls Level::Restart() on it when it is non-null. The
-// call is not rebuilt here: dh2/Level.hpp cannot be included in this translation unit (see the header comment).
+// After the trace probe, the current level (Application::GetCurrentLevel), when there is one, restarts (Level::Restart).
 void Script_RestartLevel::Execute(bool /*skipping*/, int /*module*/) {
     TraceScriptCmdSwitch();
-    // PARTIAL: Level::Restart on ApplicationGetInstance().GetCurrentLevel() when non-null is not rebuilt.
+    Level* level = ApplicationGetInstance().GetCurrentLevel();
+    if (level != nullptr) {
+        level->Restart();
+    }
 }
 
 // ---- Script_SaveGame ----

@@ -21,22 +21,28 @@
 #include "dh2/QE_TalkToNPC.hpp"
 #include "dh2/QE_TriggerOn.hpp"
 #include "dh2/QE_TriggerPlate.hpp"
+#include "dh2/GameObject.hpp"
 #include "dh2/QuestEvent.hpp"
+#include "dh2/QuestMoveInZone.hpp"
+#include "dh2/tMsgRaisedEventData.hpp"
 
 // 0x4822d4 _ZN20QE_KillEnemyTemplateD1Ev (D1, complete-object destructor)
 // Empty body (asm: BX LR).
 QE_KillEnemyTemplate::~QE_KillEnemyTemplate() {}
 
 // 0x482358 _ZNK20QE_KillEnemyTemplate14FillNetworkMsgER19tMsgRaisedEventData
-// partial: the body is a no-op, so the message is not filled. The asm (0x482358) gives the five words:
+// The five words of the message (asm 0x482358):
 //   word 0 = eventId_ (+0x04)
 //   word 1 = m_character->unk_108 (ObjectBase +0x108) when m_character is set, else -1
 //   word 2 = m_targetId (+0x0c)
 //   word 3 = m_value (+0x14)
 //   word 4 = m_matchId (+0x18)
-// The stores wait on tMsgRaisedEventData, which no header in the tree defines (layout request in the batch report).
 void QE_KillEnemyTemplate::FillNetworkMsg(tMsgRaisedEventData& msg) const {
-    (void)msg;  // partial: see above
+    msg.eventKind = eventId_;                                    // +0x04
+    msg.objectNetworkId = m_character != nullptr ? m_character->unk_108 : -1;  // ObjectBase +0x108
+    msg.unk_08 = m_targetId;                                     // +0x0c
+    msg.unk_0c = m_value;                                        // +0x14
+    msg.targetNetworkId = m_matchId;                             // +0x18
 }
 
 // 0x4824e0 _ZN20QE_KillEnemyTemplateD0Ev (D0, scalar deleting destructor, vtable slot 0x04)
@@ -48,15 +54,18 @@ void QE_KillEnemyTemplate::FillNetworkMsg(tMsgRaisedEventData& msg) const {
 QE_MoveInZone::~QE_MoveInZone() {}
 
 // 0x482438 _ZNK13QE_MoveInZone14FillNetworkMsgER19tMsgRaisedEventData
-// partial: the body is a no-op, as for QE_KillEnemyTemplate::FillNetworkMsg. The asm (0x482438) gives the five words:
+// The five words of the message (asm 0x482438):
 //   word 0 = eventId_ (+0x04)
 //   word 1 = m_character->unk_108 (ObjectBase +0x108) when m_character is set, else -1
 //   word 2 = m_targetId (+0x0c)
 //   word 3 = m_value (+0x14)
 //   word 4 = m_zone->unk_108 (the zone's ObjectBase +0x108) when m_zone (+0x18) is set, else 0
-// The stores wait on tMsgRaisedEventData, as above.
 void QE_MoveInZone::FillNetworkMsg(tMsgRaisedEventData& msg) const {
-    (void)msg;  // partial: see above
+    msg.eventKind = eventId_;                                    // +0x04
+    msg.objectNetworkId = m_character != nullptr ? m_character->unk_108 : -1;  // ObjectBase +0x108
+    msg.unk_08 = m_targetId;                                     // +0x0c
+    msg.unk_0c = m_value;                                        // +0x14
+    msg.targetNetworkId = m_zone != nullptr ? m_zone->unk_108 : 0;  // the zone's ObjectBase +0x108
 }
 
 // 0x4825b0 _ZN13QE_MoveInZoneD0Ev (D0, scalar deleting destructor, vtable slot 0x04)
