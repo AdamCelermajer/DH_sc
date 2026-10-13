@@ -1418,3 +1418,9 @@ add_executable(runtime_skill_actor_api_v1_tests
   ../level-world/character_path_commands.cpp)
 target_link_libraries(runtime_skill_actor_api_v1_tests PRIVATE foundation_data)
 add_test(NAME runtime_skill_actor_api_v1 COMMAND runtime_skill_actor_api_v1_tests)
+# v21.8 ES-STATUS: monster/actor stun, scare and knockback states (SetStunState/SetScareState/SetKnockBackState owner,
+# F_ApplyResult outcome tail, boss gate), with one integration path through the real dh2_combat_result roll.
+add_library(foundation_status_states STATIC features/status_states/status_states_v1.cpp)
+add_executable(status_states_v1_tests features/status_states/status_states_v1_tests.cpp)
+target_link_libraries(status_states_v1_tests PRIVATE foundation_status_states foundation_data)
+add_test(NAME status_states_v1 COMMAND status_states_v1_tests)
