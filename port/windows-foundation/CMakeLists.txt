@@ -84,6 +84,15 @@ target_sources(dh-foundation PRIVATE features/interactions/interaction_approach_
 add_executable(interaction_approach_v1_tests features/interactions/interaction_approach_v1_tests.cpp features/interactions/interaction_approach_v1.cpp
   ../level-world/navigation_heading.cpp ../level-world/character_path_commands.cpp)
 add_test(NAME interaction_approach_v1 COMMAND interaction_approach_v1_tests)
+# B004/B029: pure auto-target marker and OOI owner policy suites (previously only run_*_tests.ps1).
+add_executable(auto_target_marker_v1_tests features/combat/auto_target_marker_v1_tests.cpp features/combat/auto_target_marker_v1.cpp)
+add_test(NAME auto_target_marker_v1 COMMAND auto_target_marker_v1_tests)
+add_executable(object_of_interest_owner_v1_tests features/combat/object_of_interest_owner_v1_tests.cpp
+  features/combat/object_of_interest_owner_v1.cpp features/combat/auto_target_marker_v1.cpp)
+add_test(NAME object_of_interest_owner_v1 COMMAND object_of_interest_owner_v1_tests)
+# Death/restart persistence policy suite (previously only run_death_restart_v1_tests.ps1).
+add_executable(death_restart_v1_tests features/persistence/death_restart_v1_tests.cpp features/persistence/death_restart_v1.cpp)
+add_test(NAME death_restart_v1 COMMAND death_restart_v1_tests)
 add_library(foundation_runtime_potion STATIC
   features/inventory/runtime_session_potion_use_v1.cpp
   ../level-world/character_skill_application_v6.cpp ../level-world/character_skill_attack_v6.cpp
