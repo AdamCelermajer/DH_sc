@@ -129,6 +129,19 @@ bool load_timer_trap_model_v1(const AssetCatalog& assets, const std::string& uri
     }
 }
 
+bool validate_timer_trap_definition_v1(const TimerTrapDefinitionV1& def, std::string& error) {
+    const auto& m = def.model;
+    if (def.script.count_event.empty()) return fail(error, "TimerTrap script counts no event: " + def.row.name);
+    // Same window as RuntimeTimerTrapsV1::update: an event counts when its offset is in (activate_start, activate_end].
+    const bool counted = std::any_of(m.events.begin(), m.events.end(), [&](const auto& event) {
+        return event.first == def.script.count_event && event.second > m.activate_start && event.second <= m.activate_end;
+    });
+    if (!counted)
+        return fail(error, "TimerTrap model " + m.uri + " has no '" + def.script.count_event + "' event inside its activate span; it would never be removed");
+    error.clear();
+    return true;
+}
+
 std::uint64_t RuntimeTimerTrapsV1::spawn(const TimerTrapDefinitionV1& def, const std::array<float, 3>& at) {
     Trap trap;
     trap.id = next_++;

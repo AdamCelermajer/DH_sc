@@ -237,6 +237,19 @@ void timer_traps(const std::string& extra) {
     for (const auto& line : log) if (line.find("Remove() after") != std::string::npos) activations = std::stoi(line.substr(line.find("after ") + 6));
     check(owner.size() == 0 && activations == 6, "the cloud activates 6 times then removes itself (video: ~7.6 s of mist)");
     check(steps * 10 >= 6000 && steps * 10 < 12000, "trap lifetime ~7-9 s");
+    // B155 review: a definition without its count event inside the activate span would never expire, so it is refused.
+    check(validate_timer_trap_definition_v1(def, error), "the authored steam cloud is a valid definition: " + error);
+    auto bare = def;
+    bare.model.events.clear();
+    check(!validate_timer_trap_definition_v1(bare, error) && error.find("inside its activate span") != std::string::npos,
+          "a model without the count event is refused");
+    auto at_start = def;
+    at_start.model.events.clear();
+    for (const auto& event : def.model.events) at_start.model.events.push_back({event.first, def.model.activate_start});
+    check(!validate_timer_trap_definition_v1(at_start, error), "an event at activate_start never counts (offset 0) and is refused");
+    auto unnamed = def;
+    unnamed.script.count_event.clear();
+    check(!validate_timer_trap_definition_v1(unnamed, error), "a script with no count event is refused");
 }
 int main(int argc, char** argv) {
     try {

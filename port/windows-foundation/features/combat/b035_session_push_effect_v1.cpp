@@ -72,10 +72,11 @@ bool capture_session_push_admission_v1(CombatSession& session,
     next.target_state_before_hit = source_state;
     next.target_was_player = traits->is_player;
     next.target_was_alive = target->alive();
-    // F_ApplyResult's status block requires defender IsPlayer and
-    // SM_IsIdle(machine,0); state3 is the explicit Session Idle projection.
+    // B159: F_ApplyResult 0x3b10b4 raises SM_SetKnockBackState for every defender whose result carries outcome bit 0x80 (the
+    // Player/SM_IsIdle test only synthesises the Injured/Dodge bit when none is set). The state machine accepts event 50011 from the
+    // states in source_knockback_event_accepted_v1 (not only Idle); this admission is the pre-hit state of a player target.
     next.source_push_gate_admitted = next.target_was_player &&
-        next.target_was_alive && source_state == 3;
+        next.target_was_alive && source_knockback_event_accepted_v1(source_state);
     output = std::move(next);
     return true;
 }
@@ -207,8 +208,8 @@ bool play_session_push_animation_v1(CombatSession& session,
     CombatSessionStateAnimationServices services,std::string& error) {
     error.clear();
     if(request.attacker==invalid_actor_id||request.target==invalid_actor_id||
-       request.target_state_before_hit!=3||(request.source_outcomes&0x80u)==0){
-        error="Push animation requires an admitted incoming Player/Idle Push request";return false;
+       !source_knockback_event_accepted_v1(request.target_state_before_hit)||(request.source_outcomes&0x80u)==0){
+        error="Push animation requires an admitted incoming player Push request in a state that accepts event 50011";return false;
     }
     const auto* attacker=session.actor(request.attacker);
     auto* target=session.actor(request.target);
@@ -250,4 +251,13 @@ bool play_session_push_animation_v1(CombatSession& session,
     return true;
 }
 
+} // namespace dh::foundation::combat
+
+namespace dh::foundation::combat {
+bool source_knockback_event_accepted_v1(std::int32_t original_state) noexcept {
+    switch (original_state) {
+    case 1: case 3: case 4: case 5: case 6: case 8: case 9: case 11: case 13: case 15: case 18: case 19: return true;
+    default: return false;
+    }
+}
 } // namespace dh::foundation::combat

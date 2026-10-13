@@ -61,6 +61,8 @@
 #include "features/equipment/equipment_inventory_actions_v1.hpp"
 #include "features/equipment/runtime_player_locomotion_library_v1.hpp"
 #include "features/combat/runtime_player_profile_attack_bank_v1.hpp"
+#include "features/combat/b035_session_push_effect_v1.hpp" // B159/B035: incoming Push (SM_SetKnockBackState) consumer
+#include "features/test_aids/follow_actor_aid_v1.hpp" // B158 harness: --follow-actor
 #include "../script-runtime/script_constants.hpp"
 #include "../level-world/character_kill.hpp"
 #include "../level-world/character_path_commands.hpp"
@@ -483,6 +485,7 @@ struct Options {
     int transitionEntryId=-1;     // P17 TRANSITIONS: entry id of the level this session arrives at (-1 = none)
     float transitionHeading=0.0f; // P17 TRANSITIONS: arrival facing (yaw of the entry SpawnPoint)
     std::vector<std::pair<std::string,int>> playerToZoneFrames; // P17 TRANSITIONS test aid: --player-to ZONE@FRAME
+    std::optional<dh::foundation::test_aids::FollowActorAidV1> followActorAid; // B158 test aid: --follow-actor PROFILE@FROM-TO[:DIST]
     std::vector<int> transitionConfirmFrames;                   // P17 TRANSITIONS test aid: --transition-confirm FRAME
     std::vector<int> transitionKeyFrames;                       // P17 TRANSITIONS2 test aid: --transition-key FRAME (one scripted E press)
     std::vector<std::pair<int,std::string>> transitionCaptures; // P17 TRANSITIONS test aid: --capture-at FRAME:PATH
@@ -619,6 +622,7 @@ Options parse(int argc, char** argv) {
         else if(arg=="--no-level-light") o.noLevelLight=true; // B076 A/B diagnostic
         else if(arg=="--no-ambient-decor") o.noAmbientDecor=true; // B076 A/B diagnostic: omit ambient AnimatedDecor
         else if(arg=="--player-to") {const auto at=value();const auto sep=at.rfind('@');if(sep==std::string::npos||sep==0||sep+1>=at.size())throw std::runtime_error("--player-to expects ZONE@FRAME");o.playerToZoneFrames.emplace_back(at.substr(0,sep),std::stoi(at.substr(sep+1)));} // P17 TRANSITIONS
+        else if(arg=="--follow-actor") o.followActorAid=dh::foundation::test_aids::parse_follow_actor_aid_v1(value()); // B158 test aid
         else if(arg=="--transition-confirm") o.transitionConfirmFrames.push_back(std::stoi(value())); // P17 TRANSITIONS
         else if(arg=="--transition-key") o.transitionKeyFrames.push_back(std::stoi(value())); // P17 TRANSITIONS2 (test aid; the player presses E)
         else if(arg=="--procedural-seed") o.proceduralSeed=static_cast<std::uint32_t>(std::stoul(value())); // P17 PROCGEN
@@ -1455,6 +1459,9 @@ int main(int argc,char** argv) {
         const bool sourcePlayerStanceEnabled=!options.meleeBindings.empty()&&playerPolicy!=options.combat.profiles.end()&&playerPolicy->second.retainedPhaseClock;
         dh2::data::ItemTable locomotionItems;
         std::optional<f::equipment_menu::RuntimePlayerLocomotionLibraryV1> locomotionLibrary;
+        // B159/B035: source Push banks (CharAnimTable KnockedBack/GreatKnockedBack roots) of the player, one per equipment stance, and the
+        // actor-binding lease the Push consumer is currently bound to (a restore replaces the lease and clears the Session handler).
+        std::map<std::int32_t,f::combat::SessionPushAnimationBankV1> sourcePushBanks;std::weak_ptr<const void> sourcePushBoundLease;
         if(sourcePlayerStanceEnabled) {
             const auto read=[&](const char* file){return f::read_content(assets,(std::filesystem::path(options.combat.tableRoot)/file).generic_string());};
             const auto records=read("loot_table_pyarray.bin"),names=read("loot_table_pyarraynames.bin"),fields=read("loot_table_pystructnames.bin");
@@ -2283,6 +2290,37 @@ int main(int argc,char** argv) {
             customization.expected_controller_count=options.character.expected_controller_count;
             customization.use_authored_modular_defaults=options.character.use_authored_modular_defaults;
             customization.include_static_instances=options.character.include_static_instances;
+            // B159/B035: the player's source Push roots (F_ApplyResult 0x3b10b4 -> SM_SetKnockBackState 0x3c5ea0 reads CharAnimTable +72
+            // KnockedBack / +36 GreatKnockedBack, stanced by AnimStancedAnim bits 0x400/0x800). One bank per preloaded equipment
+            // stance so a later weapon swap keeps its clips; the clips join the player's Session visual before initialize.
+            sourcePushBanks.clear();sourcePushBoundLease.reset();
+            if(locomotionLibrary&&!skillAnimationTables.characters.empty()) {
+                const auto pushTable=dh2_character_animation_table_id(actorProperties.sheets.resolved[2],std::int32_t(skillAnimationTables.characters.size()));
+                const auto constantsBytes=f::read_content(assets,"data/animations_pycst.bin");
+                const auto destroyConstants=[](dh2_script_constants* value){if(value)dh2_script_constants_destroy(value);};
+                std::unique_ptr<dh2_script_constants,decltype(destroyConstants)> constants(dh2_script_constants_create(),destroyConstants);
+                dh2_script_constants_reload reload{};
+                f::equipment_menu::RuntimePlayerLocomotionConstantsV1 pushConstants;
+                std::string pushError;
+                const bool constantsOk=constants&&dh2_script_constants_load(constants.get(),constantsBytes.data(),std::uint32_t(constantsBytes.size()),&reload)==0&&reload.consumed==constantsBytes.size()&&
+                    f::equipment_menu::load_runtime_player_locomotion_constants_v1([&](const char* group,const char* key,std::int32_t& value,std::string& e){if(dh2_script_constants_get(constants.get(),group,key,&value)){e="Source Push constant is absent";return false;}return true;},pushConstants,pushError);
+                auto& pushPolicy=options.combat.profiles.at(options.combat.playerProfileId);
+                if(!constantsOk||pushTable<0)std::cout<<"[push] source Push banks unavailable: "<<(constantsOk?"no CharAnimTable row":pushError)<<'\n';
+                else for(const auto stance:locomotionLibrary->stances()) {
+                    f::combat::SessionPushAnimationBankV1 bank;
+                    if(!f::combat::build_session_push_animation_bank_v1(assets,skillAnimationTables,skillAnimationDictionary,pushTable,stance,
+                        std::uint32_t(pushConstants.stanced_list_mask),options.character,"player-source-push-"+std::to_string(stance),bank,pushError)) {
+                        std::cout<<"[push] stance "<<stance<<" bank unavailable: "<<pushError<<'\n';continue;
+                    }
+                    const std::string pushPrefix="player-source-push-"+std::to_string(stance)+"/";std::size_t pushClips=0;
+                    for(const auto& clip:bank.plan.config.clips) {
+                        if(clip.first.compare(0,pushPrefix.size(),pushPrefix)!=0)continue;++pushClips;
+                        if(std::none_of(pushPolicy.sourceAnimationClips.begin(),pushPolicy.sourceAnimationClips.end(),[&](const auto& item){return item.first==clip.first;}))pushPolicy.sourceAnimationClips.push_back(clip);
+                    }
+                    std::cout<<"[push] stance "<<stance<<" bank normal="<<bank.normal_sequence<<" great="<<bank.great_sequence<<" pushClips="<<pushClips<<'\n';
+                    sourcePushBanks.emplace(stance,std::move(bank));
+                }
+            }
             auto next=std::make_shared<f::CombatSession>();
             if(!next->initialize(assets,properties,meleeBindings,options.combat,visual,population,options.actorPosition,customization,error))throw std::runtime_error("Combat initialization: "+error);
             if(frontendStarted) {
@@ -2894,6 +2932,7 @@ int main(int argc,char** argv) {
                         case 5:expected=0x2341u;break;
                         case 6:expected=0x6341u;break;
                         case 7:expected=0x6301u;break;
+                        case 10:expected=0x2341u;break; // B159: KnockedBack10 Focus flags (play_session_push_animation_v1 policy.state_flags)
                         case 11:expected=0x2b41u;break;
                         case 12:expected=0x241u|(traits->is_player?0x2000u:0u);break;
                         case 17:expected=0x1300u;break; // D3: CSPreSpawn::OnFocus (session_actor_transition_v1.cpp)
@@ -5647,6 +5686,34 @@ int main(int argc,char** argv) {
         std::shared_ptr<dh2::data::PropertyRules> rangedSkillRulesOwner;
         std::shared_ptr<f::companions::RuntimeFollowerControllerV1> followerController; // B077 FOLLOW
         std::shared_ptr<f::SourceNavigationWorldStorage> enemyNavigationWorld;
+        // B159/B035: binds the Session's incoming-Push consumer (CombatSession hit-effect observer). Original: F_ApplyResult 0x3b10b4 calls
+        // SM_SetKnockBackState(great = mask&0x100000) when the result carries outcome bit 0x80 and the defender is a Player in Idle
+        // (captured before the hit by capture_session_push_admission_v1); a Boss defender is a source no-op. A restore clears the Session
+        // handler and replaces the actor lease, so this re-binds on every new lease.
+        auto bindSourcePushEffect=[&](){
+            if(!combatSession||sourcePushBanks.empty())return;
+            const auto lease=combatSession->actor_binding_lease();
+            if(lease.expired())return;
+            if(!sourcePushBoundLease.expired()&&!lease.owner_before(sourcePushBoundLease)&&!sourcePushBoundLease.owner_before(lease))return;
+            const auto sink=[&](f::CombatSession& session,const f::combat::SessionPushRequestV1& request,std::string& e)->bool{
+                std::int32_t stance=-1;
+                if(locomotionLibrary) {
+                    const auto hands=currentLocomotionItems();
+                    f::equipment_menu::RuntimePlayerLocomotionSelectionV1 selected;std::string selectError;
+                    if(locomotionLibrary->select_exact(hands.first,hands.second,selected,selectError))stance=selected.stance;
+                }
+                const auto bank=sourcePushBanks.find(stance);
+                if(bank==sourcePushBanks.end()) {std::cout<<"[push] no source Push bank for stance "<<stance<<"; knockback not played\n";return true;}
+                std::cout<<"[push] KnockBack target="<<request.target<<" attacker="<<request.attacker<<" source="<<request.source_id<<" great="<<request.great<<" direct="<<request.direct
+                         <<" outcomes=0x"<<std::hex<<request.source_outcomes<<" mask=0x"<<request.source_mask<<std::dec<<" stance="<<stance<<" frame="<<session.update_serial()<<'\n';
+                f::CombatSessionStateAnimationServices services;
+                return f::combat::play_session_push_animation_v1(session,request,bank->second,std::move(services),e);
+            };
+            std::string pushBindError;
+            if(!f::combat::bind_session_push_effect_v1(*combatSession,sink,pushBindError))throw std::runtime_error("Source Push binding: "+pushBindError);
+            sourcePushBoundLease=lease;
+            std::cout<<"[push] source Push consumer bound banks="<<sourcePushBanks.size()<<'\n';
+        };
         auto bindEnemyAI=[&](){
             if(!options.runtimeEnemyAI)return;
             if(!combatSession||!sourceObstacles||!motor)
@@ -5872,6 +5939,7 @@ int main(int argc,char** argv) {
                                 const auto script=f::read_content(assets,"data/scripts/objects/"+row->script+".luac");
                                 if(!f::bosses::parse_timer_trap_script_v1(std::string(script.begin(),script.end()),def.script,e))return false;
                                 if(!f::bosses::load_timer_trap_model_v1(assets,dict.values[std::size_t(row->visual)],def.model,e))return false;
+                                if(!f::bosses::validate_timer_trap_definition_v1(def,e))return false; // B155 review: a trap that cannot count out is refused
                                 cached=std::move(def);
                             } catch(const std::exception& problem){e=problem.what();return false;}
                         }
@@ -6048,6 +6116,22 @@ int main(int argc,char** argv) {
                     std::cout<<"Source physical timer stored actor="<<event.actor<<" event=48 delayMs=10 serial="<<event.update_serial<<" occurrence="<<event.occurrence<<std::endl;
                 }
                 e.clear();return true;
+            };
+            // B159/B035: KnockedBack10 (SM_SetKnockBackState 0x3c5ea0, entered by F_ApplyResult 0x3b10b4 on outcome bit 0x80). Focus suffix:
+            // gate528 &8 -> physical filter, gate528=(gate&0x10)?0x20:(gate&~0x20), controller locked, LookAt(attacker) + CancelSneaking;
+            // Blur: controller unlocked and the body pinned again (session_actor_transition_v1.cpp case 10).
+            config.source.knockback_read_gate528=[contextFor](f::ActorId id,std::uint32_t& value,std::string& e){value=contextFor(id).gate528;e.clear();return true;};
+            config.source.knockback_write_gate528=[contextFor](f::ActorId id,std::uint32_t gate,std::string& e){contextFor(id).gate528=gate;e.clear();return true;};
+            config.source.knockback_controller_lock=[&](f::ActorId id,bool locked,std::string& e){characterControllerBlocked[id]=locked;e.clear();return true;};
+            config.source.knockback_look_at_cancel_sneaking=[&](const auto& event,std::string& e) {
+                auto* owner=combatSession->actor(event.actor);const auto* attacker=combatSession->actor(event.source_other_actor);
+                if(!owner||!attacker){e="KnockBack Focus lost same-session actor or attacker";return false;}
+                float direction[]{attacker->transform.position[0]-owner->transform.position[0],attacker->transform.position[1]-owner->transform.position[1],0};
+                float heading=owner->transform.rotation[2];
+                if(dh2_nav_look_towards(&heading,direction)){e="KnockBack Focus source LookAt failed";return false;}
+                owner->transform.rotation[2]=heading;
+                if(event.actor==combatSession->player_id()&&motor)motor->setFacingRadians(heading);
+                e.clear();return true; // No sneak state is instantiated by this host (CancelSneaking is a no-op).
             };
             config.source.source_is_player=[&](f::ActorId id,bool& value,std::string& e) {
                 const auto* traits=combatSession->world()->traits(id);if(!traits){e="Dead Focus requires current IsPlayer";return false;}
@@ -6470,6 +6554,7 @@ int main(int argc,char** argv) {
             if(restored) {actorLifecycle.detach_for_restore();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear();}
             std::string rebindError;
             const bool rebound=combatSession->rebind_after_restore(rebindError);
+            if(rebound)bindSourcePushEffect(); // B159: the restore cleared the Session hit-effect handler
             if(!detached) {e=restoreError.empty()?"Death checkpoint teardown failed":restoreError;return false;}
             if(!rebound) {e="Rebind after checkpoint restore: "+rebindError;return false;}
             if(restored)for(const auto id:deathRestore.limbus_after_rebind)
@@ -7481,6 +7566,27 @@ int main(int argc,char** argv) {
             // P17 TRANSITIONS: exit/checkpoint zone contacts of this frame, the --player-to test aid (places the player at the
             // zone centre), and the fast-travel confirm. An armed exit (player inside, condition true) becomes a pending transition
             // that the session loop carries out after its cleanup. Checkpoints save on the begin edge (CheckpointZone rule).
+            // B158 harness aid (--follow-actor): a scripted hero cannot walk after a boss that dives and re-emerges elsewhere, so every
+            // period inside the window the hero is placed (SetActorPosition owner, like --player-to) near the live followed actor.
+            if(combatSession&&options.followActorAid) {
+                const auto& follow=*options.followActorAid;
+                const auto* hero=combatSession->actor(combatSession->player_id());
+                if(hero&&hero->alive()&&int(drawn)>=follow.from_frame&&int(drawn)<follow.to_frame)
+                    for(const auto& placedActor:population.actors()) {
+                        if(placedActor.profileId!=follow.profile)continue;
+                        const auto* target=combatSession->actor(placedActor.definition.stableId);
+                        if(!target)continue;
+                        const float heroAt[3]{hero->transform.position[0],hero->transform.position[1],hero->transform.position[2]};
+                        const float targetAt[3]{target->transform.position[0],target->transform.position[1],target->transform.position[2]};
+                        const auto placement=dh::foundation::test_aids::follow_actor_placement_v1(follow,int(drawn),target->alive(),heroAt,targetAt);
+                        if(!placement)continue;
+                        std::string followError;
+                        const bool placed=hostServices.actor_verbs.teleport&&hostServices.actor_verbs.teleport(combatSession->player_id(),{placement->x,placement->y,placement->z},followError);
+                        std::cout<<"Follow-actor aid profile="<<follow.profile<<" frame="<<drawn<<" hero="<<heroAt[0]<<','<<heroAt[1]<<" target="<<targetAt[0]<<','<<targetAt[1]
+                                 <<" placed="<<placed<<" at="<<placement->x<<','<<placement->y<<" (test aid) "<<followError<<'\n';
+                        break;
+                    }
+            }
             if(combatSession&&!exitZones.zones().empty()&&!pendingTransition) {
                 for(const auto& aid:options.playerToZoneFrames) if(aid.second==drawn) {
                     const auto zoneIndex=exitZones.find(aid.first);
@@ -7603,7 +7709,7 @@ int main(int argc,char** argv) {
                 f::OriginalScene nextScene;f::CharacterVisual nextVisual;
                 renderer.invalidateStaticGeometry();loadContent(nextScene,nextVisual);scene=std::move(nextScene);visual=std::move(nextVisual);initializeCombat();bindMaterials();
                 prepareBodyPlans();
-                if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);}
+                if(liveSnapshot){combatSession->actor(combatSession->player_id())->persistent_character_id=state.id;combatSession->detach_for_restore();if(!f::restore_game_save(*liveSnapshot,options.level.generic_string(),*combatSession->world(),state,error)||!combatSession->rebind_after_restore(error))throw std::runtime_error("Reload live actors: "+error);bindSourcePushEffect();}
                 if(combatSession){faeryCooldownClock={};faeryCooldownClock.binding_lease=combatSession->actor_binding_lease();faeryCooldownClock.has_binding_lease=true;faeryCooldownClock.session_update_serial=combatSession->update_serial();}
                 if(liveSnapshot&&combatSession){std::string containerRestoreError;if(!f::containers::restore_container_world_state_v1(*combatSession->world(),containerRuntime,containerRestoreError))throw std::runtime_error("Container restore: "+containerRestoreError);} // P16 CONTAINERS2 (T5)
                 rebuildNativeBodies();
@@ -7689,6 +7795,7 @@ int main(int argc,char** argv) {
                     const bool restored=f::restore_game_save(snapshot,options.level.generic_string(),*combatSession->world(),state,error);const auto restoreError=error;
                     actorLifecycle.detach_for_restore();lifecyclePhysical.clear();lifecycleCollisions.clear();lifecycleIdleSuppressed.clear();lifecycleFlags.clear(); // D3: records hold pointers into the replaced world
                     if(!combatSession->rebind_after_restore(error))throw std::runtime_error("Rebind live save: "+error);
+                    bindSourcePushEffect(); // B159: the restore cleared the Session hit-effect handler
                     if(!restored&&!arrivalRestore)throw std::runtime_error("Restore live save: "+restoreError);
                     if(!restored)std::cout<<"Level world restore status=refused detail="<<restoreError<<'\n'; // B146 arrival: the restore is atomic, the level stays as freshly loaded
                     if(restored){std::string lifecycleRestoreError;if(!campaignHost.restore_lifecycle(*combatSession->world(),lifecycleRestoreError))throw std::runtime_error("Campaign lifecycle restore: "+lifecycleRestoreError);} // D3
@@ -7937,6 +8044,7 @@ int main(int argc,char** argv) {
             if(heroInteract.active)gameplayInput.attack=false; // B079: controls are locked while the hero plays the Interact clip
             const bool playerControllerBlocked=combatSession&&(!combatSession->actor(combatSession->player_id())->alive()||globalControllerBlocked||characterControllerBlocked[combatSession->player_id()]||heroInteract.active);
             bindEnemyAI();
+            bindSourcePushEffect();
             bindSourcePhysicalTransitions();
             auto applyPlayerFrameControls=[&]() {
             if(sourcePhysicalFrameEnabled&&!gameplayPaused&&!playerControllerBlocked&&combatSession&&gameplayInput.targetSelect) {
