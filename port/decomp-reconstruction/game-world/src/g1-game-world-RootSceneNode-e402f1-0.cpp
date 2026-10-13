@@ -2,19 +2,17 @@
 // the cull gate, the bounding box, the animator hooks, NewAnim and the destructor. The constructors are in
 // g1-game-world-RootSceneNode-e402f1-1 (part 2).
 //
-// Most bodies are partial for one reason. dh2/RootSceneNode.hpp derives from glitch::collada::CRootSceneNode, a stand-in
-// with no ISceneNode base. In the binary the ISceneNode part sits at +0x00 of the object: the animators list (+0xfc), the
-// children list (+0xf4), the flags (+0x11c), the transform (+0xac .. +0xd4), and the virtual calls on this node. None of
-// them is reachable from this class yet (layout request in the ledger). A partial body keeps the parts that use only this
-// class's own members and names the missing call in a comment.
-//
-// The three debug counters are defined here, since nothing else in the tree defines them. The camera statics
-// s_enlargedCamera and s_frustumScale are not defined here (see UpdateEnlargedViewFrustum).
+// The engine base glitch::collada::CRootSceneNode derives from CSceneNode and so from glitch::scene::ISceneNode (canonical
+// layout: animators list at +0xfc, children at +0xf0, flags at +0x11c). The bodies below use those members through the
+// base. Bodies that still need an unknown are partial; the note in each one names the missing part.
 
 #include <cstdint>
 
+#include "dh2/AnimApplicator.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/global/GetApplicator.hpp"
+#include "dh2/global/scene_nodes.hpp"
 #include "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp"  // the displacement node is dropped by the destructor
 
 // Debug counters, bumped by updateAbsolutePosition and onAnimate and cleared by ResetDebugCounters.
@@ -30,60 +28,63 @@ void RootSceneNode::ResetDebugCounters() {
 }
 
 // 0x35c09c _ZN13RootSceneNode11ForwardAnimEj
-// partial: the original walks the animators list (ISceneNode +0xfc, not reachable from this class). For each animator it
-// calls vptr+0x44 (getTimelineCtrl) and, when the controller is not null, vptr+0x0c on it with (time + the controller's
-// +0x04 word). The walk is missing, so nothing is forwarded.
+// Walks the animators list (+0xfc). For each animator: tc = getTimelineCtrl() (vptr+0x44); when tc is not null,
+// tc->jumpTo(time + tc->currentTimeMs) (vptr+0x0c, the word at +0x04).
 void RootSceneNode::ForwardAnim(std::uint32_t time) {
-    (void)time;
+    for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+        glitch::scene::ITimelineController* tc = (*it)->getTimelineCtrl();
+        if (tc != nullptr) {
+            tc->jumpTo(static_cast<std::int32_t>(time + static_cast<std::uint32_t>(tc->currentTimeMs)));
+        }
+    }
 }
 
 // 0x35c0f4 _ZN13RootSceneNode12onUpdateTimeEj
-// partial: the gate is ISceneNode flags (+0x11c) & 0x201 == 0x201. When it holds, the original calls vptr+0x14
-// (ISceneNodeAnimator::updateTime) with the time on each animator of the list at +0xfc. Both the flags and the list are
-// ISceneNode members (base missing), so the body is empty.
+// Gate: ISceneNode flags (+0x11c) & 0x201 == 0x201 (visible and animate). Then updateTime(time) (vptr+0x14) on each animator.
 void RootSceneNode::onUpdateTime(std::uint32_t time) {
-    (void)time;
+    if ((flags & (glitch::scene::ESNF_VISIBLE | glitch::scene::ESNF_ANIMATE)) == (glitch::scene::ESNF_VISIBLE | glitch::scene::ESNF_ANIMATE)) {
+        for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+            (*it)->updateTime(time);
+        }
+    }
 }
 
 // 0x35c268 _ZN13RootSceneNode14PlainOnAnimateEj
-// partial: a thunk to glitch::collada::CRootSceneNode::onAnimate, the engine base's body. The stand-in base declares no
-// onAnimate, so the forwarding call cannot be written yet (engine layout request).
+// Thunk: forwards to the engine base's onAnimate.
 void RootSceneNode::PlainOnAnimate(std::uint32_t time) {
-    (void)time;
+    glitch::collada::CRootSceneNode::onAnimate(time);
 }
 
 // 0x35c26c _ZN13RootSceneNode10setVisibleEb
-// partial: stores the request in m_visibleRequested (+0x209), which onAnimate applies and clears. When the request is
-// false the original also calls glitch::scene::ISceneNode::setVisible(this, 0), which needs the ISceneNode base. That call
-// is missing.
+// Stores the request at +0x209. For false it also calls glitch::scene::ISceneNode::setVisible(false).
 void RootSceneNode::setVisible(bool visible) {
     m_visibleRequested = visible;
+    if (!visible) {
+        glitch::scene::ISceneNode::setVisible(false);
+    }
 }
 
 // 0x35c27c _ZN13RootSceneNode22updateAbsolutePositionEb
-// partial: counts the call, then the original returns glitch::scene::ISceneNode::updateAbsolutePosition(this, recurse).
-// That forward needs the ISceneNode base and is missing.
+// Counts the call, then forwards to glitch::scene::ISceneNode::updateAbsolutePosition.
 void RootSceneNode::updateAbsolutePosition(bool recurse) {
     ++s_dbgNumUpdateAbsolutePosition;
-    (void)recurse;
+    glitch::scene::ISceneNode::updateAbsolutePosition(recurse);
 }
 
 // 0x35c51c _ZN13RootSceneNode25UpdateEnlargedViewFrustumEPN6glitch5scene13CSceneManagerE
-// partial: the view is copied from the level camera into s_enlargedCamera. The camera is the pointer at this+0xe4
-// (ICameraSceneNode*). That offset lies inside the base object, so it is not declared here (layout request). The copy
-// itself reads the camera's absolute position and then sets the enlarged camera's position, target, up vector, near,
-// far and aspect ratio, sets its field of view to the camera's times s_frustumScale, and calls recalculateMatrices. It is
-// not written here because it would reference the camera statics s_enlargedCamera and s_frustumScale, which have no
-// definition in this tree yet. The body returns without copying.
+// partial: the view is copied from the level camera (the pointer at this+0xe4, ICameraSceneNode*) into s_enlargedCamera.
+// +0xe4 lies inside ISceneNode's transformedBoundingBox (+0xd4 .. +0xec) in the canonical layout, so it is not the camera
+// slot the original reads; that camera member is still to be located. s_enlargedCamera and s_frustumScale have no
+// definition in the tree. The body returns without copying.
 void RootSceneNode::UpdateEnlargedViewFrustum(glitch::scene::CSceneManager* manager) {
     (void)manager;
 }
 
 // 0x35c784 _ZNK13RootSceneNode17IsVisibleFastTestEv
-// partial: the switch read is complete. The culling test is not. When the switch is clear and m_cullBeforeUpdate is set,
+// partial: the switch read is complete. The culling test is not: when the switch is clear and m_cullBeforeUpdate is set,
 // the original calls ObjectBase::TestCullingBeforeUpdate on m_object with the box at ObjectBase +0x12c, and that box is not
 // declared in dh2/ObjectBase.hpp (layout request). Until then this body returns true for an object with the gate set
-// (no culling applied) and false when the gate is set and there is no object, as the original does.
+// and false when the gate is set and there is no object.
 bool RootSceneNode::IsVisibleFastTest() const {
     DebugSwitches::s_inst.load();
     if (DebugSwitches::s_inst.GetSwitch("Optim_DisableUpdateTimeOnlyForCulledNode")) {
@@ -100,74 +101,110 @@ bool RootSceneNode::IsVisibleFastTest() const {
 
 // 0x35c854 _ZN13RootSceneNode18RefreshBoundingBoxEv
 // partial: the original calls glitch::collada::CSceneNode::computeBoundingBox, then subtracts the node's position (getPosition,
-// vptr+0xa0) twice from six box words at +0x130 .. +0x144. Those words are base members, so the body is empty.
+// vptr+0xa0) twice from six box words at +0x130 .. +0x144. The base layout puts the transformed box at ISceneNode +0xd4, so
+// the +0x130 .. +0x144 words are not yet mapped to a member. The body is empty.
 void RootSceneNode::RefreshBoundingBox() {
 }
 
 // 0x35cc0c _ZN13RootSceneNode21ResetPositionFromFileEv
-// partial: the original runs only when the children list head (ISceneNode +0xf4) is non-null and not 4. It then zeroes the
-// first child's position, sets the child's rotation from quaternion::set(0, 0, 0) and its scale to (1, 1, 1), zeroes this
-// node's position, and calls the child's updateAbsolutePosition(false) (vptr+0xb8). The list and the calls need the
-// ISceneNode base, so the body is empty.
+// The original runs only when the children list has a first child. It then sets that child's position to zero, its
+// rotation to quaternion (0, 0, 0) and its scale to (1, 1, 1), sets this node's position to zero, and calls the child's
+// updateAbsolutePosition(false). Note: the original tests the raw list head against 4, which is a non-null child pointer
+// (the child is head - 4). An empty list is not reproduced: the original reads the child count word as a child there.
 void RootSceneNode::ResetPositionFromFile() {
+    if (getChildren().empty()) {
+        return;
+    }
+    glitch::scene::ISceneNode* child = *getChildren().begin();
+    glitch::core::vector3d<float> zero;
+    zero.X = 0.0f;
+    zero.Y = 0.0f;
+    zero.Z = 0.0f;
+    child->setPosition(zero);
+    glitch::core::quaternion rotation;
+    rotation.set(0.0f, 0.0f, 0.0f);
+    child->setRotation(rotation);
+    glitch::core::vector3d<float> one;
+    one.X = 1.0f;
+    one.Y = 1.0f;
+    one.Z = 1.0f;
+    child->setScale(one);
+    setPosition(zero);
+    child->updateAbsolutePosition(false);
 }
 
 // 0x35ccdc _ZN13RootSceneNode11GetAnimRootEb
-// partial: the original searches the subtree of this node with findSceneNodeRef(this, name). The names are "root_camera"
-// (only when alternate is false), then "Bip01", "Root" and "root_character", in that order. Passing this node as an
-// ISceneNode* needs the base, which is missing, so the function returns null.
+// Search order: root_camera (only when alternate is false), then Bip01, Root and root_character, each by findSceneNodeRef.
 glitch::scene::ISceneNode* RootSceneNode::GetAnimRoot(bool alternate) {
-    (void)alternate;
-    return nullptr;
+    glitch::scene::ISceneNode* result = nullptr;
+    if (alternate || (result = findSceneNodeRef(this, "root_camera")) == nullptr) {
+        result = findSceneNodeRef(this, "Bip01");
+        if (result == nullptr) {
+            result = findSceneNodeRef(this, "Root");
+            if (result == nullptr) {
+                return findSceneNodeRef(this, "root_character");
+            }
+        }
+    }
+    return result;
 }
 
 // 0x35cd5c _ZN13RootSceneNode10_CalcDeltaERN6glitch4core8vector3dIfEE
-// partial: zeroes the delta. The original then adds, for each animator on the list at +0xfc (base missing), the delta of
-// GetApplicator(animator) (the applicator's +0x24 .. +0x2c vector). When GetApplicator returns null, gAssertLevel 2 makes
-// the original store to address 0, and level 1 prints RootSceneNode.cpp line 244 and moves on. That loop is missing.
+// partial: zeroes the delta, then adds the delta of each animator's applicator (m_delta, +0x24 .. +0x2c). A null
+// applicator is skipped here. The original's assert path for that case (print at assert level 1, store to address 0 at
+// level 2, RootSceneNode.cpp line 244) is not written.
 void RootSceneNode::_CalcDelta(glitch::core::vector3d<float>& delta) {
     delta.X = 0.0f;  // +0x00
     delta.Y = 0.0f;  // +0x04
     delta.Z = 0.0f;  // +0x08
+    for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+        AnimApplicator* applicator = GetApplicator(*it);
+        if (applicator == nullptr) {
+            continue;  // assert path not written (see above)
+        }
+        delta.X += applicator->m_delta.X;
+        delta.Y += applicator->m_delta.Y;
+        delta.Z += applicator->m_delta.Z;
+    }
 }
 
 // 0x35ce6c _ZN13RootSceneNode11_ResetDeltaEj
-// partial: for each animator on the list at +0xfc (base missing) the original calls GetApplicator(animator) and then
-// vptr+0x0c (AnimApplicator::ResetDelta) with the time. For a null applicator, gAssertLevel 2 makes the original store to
-// address 0 and level 1 prints RootSceneNode.cpp line 222. The loop is missing, so the body is empty.
+// partial: for each animator, ResetDelta(time) (AnimApplicator vptr+0x0c) on its applicator. A null applicator is skipped
+// here; the original's assert path (RootSceneNode.cpp line 222 at level 1) is not written.
 void RootSceneNode::_ResetDelta(std::uint32_t time) {
-    (void)time;
+    for (auto it = getAnimators().begin(); it != getAnimators().end(); ++it) {
+        AnimApplicator* applicator = GetApplicator(*it);
+        if (applicator == nullptr) {
+            continue;  // assert path not written (see above)
+        }
+        applicator->ResetDelta(time);
+    }
 }
 
 // 0x35cf48 _ZN13RootSceneNode19_HandleDisplacementEj
 // partial: the original reads the animation root's position (m_animRoot, vptr+0xa0), takes the delta from _CalcDelta,
 // scales it by this node's scale (ISceneNode +0xc8) and rotates it by this node's rotation (+0xb8). It then moves this
 // node (vptr+0xa4 on this). With a displacement node it moves that node by the negated delta, and without one it moves the
-// animation root and its alternate. All of those need the ISceneNode base. The return value is the original's "the node
-// moved" test on the rotated delta, and it is also missing. The body returns false.
+// animation root and its alternate. The return value is the original's "the node moved" test on the rotated delta.
+// The body returns false.
 bool RootSceneNode::_HandleDisplacement(std::uint32_t time) {
     (void)time;
     return false;
 }
 
 // 0x35d168 _ZN13RootSceneNode9onAnimateEj
-// partial: the original's visibility step needs the ISceneNode flags (+0x11c), setVisible and the scene manager at +0x110
-// (CSceneManager::notifyVisibilityChanged). Its cull step needs IsVisibleFastTest, the object's box and
-// glitch::scene::SViewFrustum::intersects against s_enlargedCamera. Its animator and child loops need the base. The
-// displacement path (_HandleDisplacement when +0x1ec is set) and the pending update (updateAbsolutePosition(true) through
-// vptr+0xb8 when the flag at +0x208 is set; that flag is then cleared, and the flag at +0x20a is cleared on that path) are
-// missing too, as are the two counters. The one part written is the last time, which the original stores on every path.
+// partial: the visibility step, the cull step (IsVisibleFastTest and SViewFrustum::intersects against s_enlargedCamera),
+// the animator and child loops, the displacement path and the pending update are not written (see the ledger). The one
+// part written is the last time, which the original stores on every path.
 void RootSceneNode::onAnimate(std::uint32_t time) {
     m_lastAnimTime = time;
 }
 
 // 0x35d4cc _ZN13RootSceneNode19_EnableDisplacementEb
 // partial: the early path is written. When the request is off, or when an animation root is already set, the original
-// stores the request at +0x1ec and returns. The creation path is missing: GetAnimRoot(false) and GetAnimRoot(true) for the
-// two roots (each takes a reference), a CEmptySceneNode with id -1 as the displacement node at +0x1f8, the children moved
-// under that node, the node added to this one, and SetRefNode (AnimApplicator vptr+0x08) with the root on each applicator.
-// All of it needs the ISceneNode base. Without the creation path the flag is not stored, and the original's end-of-path
-// store of the result is missing too.
+// stores the flag at +0x1ec and returns. The creation path is not written: GetAnimRoot(false) and GetAnimRoot(true)
+// (each takes a reference), a CEmptySceneNode with id -1 as the displacement node at +0x1f8, the children moved under it,
+// the node added to this one, and SetRefNode (AnimApplicator vptr+0x08) on each applicator.
 void RootSceneNode::_EnableDisplacement(bool enable) {
     if (!enable || m_animRoot != nullptr) {
         m_displacementEnabled = enable;

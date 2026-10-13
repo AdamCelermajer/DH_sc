@@ -2,9 +2,7 @@
 // Declarations come from dh2/CameraOverview.hpp, which is not edited by this batch.
 //
 // PARTIAL rows:
-//   * onEvent waits on dh2/EvKeyboard.hpp, which is not in the tree. The key code (int at +0x0c) and the pressed flag
-//     (byte at +0x10) of the keyboard event are read through the ReadKeyboardEvent seam. The key state machine itself
-//     is complete (CameraOverview_detail::ApplyKey) and tested.
+//   * (onEvent is complete: the key code (+0x0c) and the pressed flag (+0x10) are read from dh2/EvKeyboard.hpp.)
 //   * The two constructors do not create the camera node. The original gets the scene manager from the device
 //     (dword_99F73C +0x1c), and glitch::IDevice declares no member at +0x1c, so the node factory call and the camera
 //     setup that follows it are not made. m_node and m_camera stay null, and Update and Activated skip the camera.
@@ -16,6 +14,7 @@
 
 #include "dh2/CameraOverview.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/EvKeyboard.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/Gamepad.hpp"
 #include "dh2/IEvent.hpp"
@@ -106,21 +105,19 @@ Point3D<float> StickDirection(float stickX, float stickY) {
     return Vec3f_Origin;
 }
 
-// SEAM (waits on dh2/EvKeyboard.hpp). The original reads a keyboard event's key code (int at +0x0c) and its pressed flag
-// (byte at +0x10) here. The event class is not in the tree, so the seam reports no keyboard event and onEvent treats
-// the event as not consumed.
+// The original reads the key code (+0x0c) and the pressed flag (+0x10) of the event directly; onEvent has already
+// checked that the event id is 0, which is EvKeyboard's id.
 bool ReadKeyboardEvent(const IEvent* event, int& keyCode, bool& pressed) {
-    (void)event;
-    (void)keyCode;
-    (void)pressed;
-    return false;
+    const EvKeyboard* key = static_cast<const EvKeyboard*>(event);
+    keyCode = key->key;
+    pressed = key->pressed;
+    return true;
 }
 
 }  // namespace CameraOverview_detail
 
 // 0x410930 CameraOverview::onEvent(IEvent const*,EventManager const*)
-// PARTIAL: the key fields come from the ReadKeyboardEvent seam (dh2/EvKeyboard.hpp is absent), so every event is treated as
-// not consumed. The original's event id test (getEventID() must be 0, else return 0) and the key state (ApplyKey) are made.
+// The event id test (getEventID() must be 0, else return 0), then the key state (ApplyKey) on the EvKeyboard fields.
 bool CameraOverview::onEvent(const IEvent* event, const EventManager* manager) {
     (void)manager;
     if (event->getEventID() != 0) {

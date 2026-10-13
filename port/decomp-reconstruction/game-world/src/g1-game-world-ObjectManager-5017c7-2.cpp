@@ -228,13 +228,19 @@ void ObjectManager::sProcessLostPacket(int packetId, int member) {
 }
 
 // 0x348988 ObjectManager::Draw3D(void)
-// PARTIAL, body not written. The first half draws every visible object in m_objectMap in key order (Draw() on
-// the ObjectBase, vtable +0x30, when m_visible is set). It needs the ObjectListItem definition for the object
-// pointer. The second half is the debug culling-box overlay (DebugSwitches "isDisplayingCullingBoxes"). It
-// needs the glitch render backend: IVideoDriver setMaterial, CMaterialRendererManager, the plane3d
-// intersection helpers and DBG_DisplayPointAsBox, none of which have a header in the tree.
+// PARTIAL. Written: the first half, which draws every visible object of m_objectMap in key order (Draw() on the ObjectBase,
+// vtable +0x30, when m_visible is set; the map entry's object is at value +0x18). Not written: the render-state call the
+// original makes before the loop (vtable slot +0x6c of the scene manager's driver at dword_99F73C + 16, not declared), and
+// the debug culling-box overlay (DebugSwitches "isDisplayingCullingBoxes"). The overlay needs the glitch render backend:
+// IVideoDriver setMaterial, CMaterialRendererManager, the plane3d intersection helpers and DBG_DisplayPointAsBox, none of
+// which have a header in the tree.
 void ObjectManager::Draw3D() {
-    // NOT WRITTEN: see the row note.
+    for (auto& entry : m_objectMap) {
+        ObjectBase* object = entry.second.m_object;
+        if (object != nullptr && object->m_visible) {
+            object->Draw();
+        }
+    }
 }
 
 // 0x348ea4 ObjectManager::Remove(ObjectHandle)

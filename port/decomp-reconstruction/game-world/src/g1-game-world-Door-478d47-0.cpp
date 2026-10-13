@@ -26,6 +26,28 @@
 #include "dh2/Singleton.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/sfc/script/lua/Binder.hpp"
+#include "dh2/Point3D.hpp"
+#include "pydata-accessors/arrays.hpp"
+#include "pydata-accessors/name_table.hpp"
+#include "vox-audio/vox/sound_manager.hpp"
+
+#include <cstring>
+
+// Reads the 32-bit word at `offset` of the Arrays::Doors element `index` (the raw table is decoded at its file layout).
+static std::int32_t DoorTableWord(int index, std::uint32_t offset) {
+    std::int32_t value = 0;
+    std::memcpy(&value, Arrays::Doors::members + 24 * index + offset, sizeof value);
+    return value;
+}
+
+// Plays the door sound at the door position: VoxSoundManager::Play3D(s_instance, sound, m_position, false, 1, -1, -1).
+static void PlayDoorSound(int index, std::uint32_t offset, const Point3D<float>& position) {
+    if (index == -1 || VoxSoundManager::s_instance == nullptr) {
+        return;
+    }
+    const glitch::core::vector3d<float> at{position.X, position.Y, position.Z};
+    VoxSoundManager::s_instance->Play3D(DoorTableWord(index, offset), at, false, 1, -1.0f, -1.0f);
+}
 
 // 0x3e7498 _ZNK4Door11IsUpdatableEv
 bool Door::IsUpdatable() const {
@@ -97,10 +119,8 @@ void Door::Closed(bool silent) {
 }
 
 // 0x3e763c _ZN4Door5CloseEb
-// PARTIAL: the door sound is not emitted. The original calls
-//   VoxSoundManager::Play3D(s_instance, Arrays::Doors::members[m_doorIndex].+12, m_position, false, 1, -1.0f, -1.0f)
-// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D. The PlayClip arguments are checked in the
-// assembly: loop 0, unused 0, animIndex 0.
+// The door sound (Arrays::Doors element word +12) plays at m_position after either branch, when m_doorIndex != -1.
+// The PlayClip arguments are checked in the assembly: loop 0, unused 0, animIndex 0.
 void Door::Close(bool instant) {
     // !m_moving && m_state == DOOR_OPENED, otherwise nothing happens
     if (m_moving || m_state != DOOR_OPENED) {
@@ -117,6 +137,7 @@ void Door::Close(bool instant) {
         unk_85 = 0;                                         // ObjectBase +0x85
         visual->m_animController->PlayClip("Close", false, 0, 0);
     }
+    PlayDoorSound(m_doorIndex, 12, m_position);
 }
 
 // 0x3e777c _ZN4Door6_CloseERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
@@ -166,10 +187,8 @@ void Door::InterpretIncomingNetStruct(bool force) {
 }
 
 // 0x3e786c _ZN4Door4OpenEb
-// PARTIAL: the door sound is not emitted. The original calls
-//   VoxSoundManager::Play3D(s_instance, Arrays::Doors::members[m_doorIndex].+16, m_position, false, 1, -1.0f, -1.0f)
-// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D. The PlayClip arguments are checked in the
-// assembly: loop 0, unused 0, animIndex 0.
+// The door sound (Arrays::Doors element word +16) plays at m_position after either branch, when m_doorIndex != -1.
+// The PlayClip arguments are checked in the assembly: loop 0, unused 0, animIndex 0.
 void Door::Open(bool instant) {
     // !m_moving && m_state == DOOR_CLOSED, otherwise nothing happens
     if (m_moving || m_state != DOOR_CLOSED) {
@@ -184,6 +203,7 @@ void Door::Open(bool instant) {
         unk_85 = 0;                                         // ObjectBase +0x85
         visual->m_animController->PlayClip("Open", false, 0, 0);
     }
+    PlayDoorSound(m_doorIndex, 16, m_position);
 }
 
 // 0x3e79a8 _ZN4Door5_OpenERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
@@ -243,20 +263,14 @@ void Door::InitFinal() {
 }
 
 // 0x3e7da8 _ZN4Door8InitPostEv
-// PARTIAL, three pieces are missing:
-//   1. The door index m_doorIndex (+0x3a0). The original searches Arrays::Doors::m_memberNames for the door name
-//      (strcmp, first match, -1 when absent) and reads the name through the word at +0x39c, which the constructor sets
-//      to m_data's inline buffer. The typed lookup is Arrays::GetMemberIDByString<Arrays::Doors> (member_ids.cpp
-//      instantiates it for Doors at 0x4ae4c8), but its header pydata-accessors/member_names.hpp redefines CustomFree,
-//      which net-transport's byte_array.hpp also defines. dh2/Door.hpp pulls net-transport in, so the two cannot share
-//      a translation unit. Until the engine headers are unified, the index is not set here.
-//   2. The door's GameObject name m_dae (+0x290). With the index, the original reads the Arrays::Doors element's
-//      GameObjectDict index (+0x14) and copies the GameObjectDict name (+0x08 of a 12-byte element). Neither element
-//      is typed, and GameObjectDict is a raw byte table (see Container).
-//   3. VoxSoundManager::LoadSound for the open and close sounds, when m_doorIndex != -1 and s_instance is set.
-//      VoxSoundManager::s_instance and LoadSound are not declared.
-// Written here: the physics body (PODecor, in the MeetCondition branch) and the SetVisible(false) branch.
+// PARTIAL: the door's GameObject name m_dae (+0x290) is not copied. With the index, the original reads the Arrays::Doors
+// element's GameObjectDict index (word +20) and copies the GameObjectDict name (the char* at +8 of a 12-byte element).
+// GameObjectDict is a raw byte table whose name pointers are 32-bit file values, and there is no typed decode of it yet.
+// Everything else is written: the door index lookup, the physics body and the SetVisible(false) branch, and the two
+// VoxSoundManager::LoadSound calls (open word +16 first, then close word +12).
 void Door::InitPost() {
+    // Door name lookup: first match in Arrays::Doors::m_memberNames, or -1.
+    m_doorIndex = pydata::FindMemberName(Arrays::Doors::m_memberNames, static_cast<int>(Arrays::Doors::size), m_data.c_str());
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {   // +0x274
         Zone::InitPost();
         if (GameObject::MeetCondition()) {
@@ -273,7 +287,10 @@ void Door::InitPost() {
                 PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
                 GameObject::SetPhysicalObject(body, false);
             }
-            // PARTIAL: the VoxSoundManager::LoadSound calls (see above).
+            if (m_doorIndex != -1 && VoxSoundManager::s_instance != nullptr) {
+                VoxSoundManager::s_instance->LoadSound(DoorTableWord(m_doorIndex, 16));
+                VoxSoundManager::s_instance->LoadSound(DoorTableWord(m_doorIndex, 12));
+            }
         } else {
             // The original calls vtable slot +0x40 (GameObject::SetVisible) with R1 = the zero MeetCondition() result.
             SetVisible(false);

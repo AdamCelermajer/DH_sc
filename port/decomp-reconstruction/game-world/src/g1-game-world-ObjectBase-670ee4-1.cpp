@@ -27,6 +27,7 @@
 #include "dh2/Level.hpp"
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 
 // Include constraints: this translation unit does not include dh2/Character.hpp, dh2/PlayerManager.hpp or
@@ -187,11 +188,13 @@ ObjectBase::ObjectBase(GO_IDS id) {
 }
 
 // 0x34ac18 ObjectBase::SetName(char const*)
-// PARTIAL: the name is stored in m_name (+0x30). The original then updates this object's entry in the ObjectManager
-// map: Application::m_objectManager->m_objectMap (+0x0c) at the key *m_handle, which is the handle's m_id, and it
-// assigns the same text to the entry's first std::string. The entry type ObjectListItem is only forward-declared in
-// dh2/ObjectManager.hpp, so std::map::operator[] cannot be instantiated here. That step is left out (layout request).
-// The original also returns the entry's string; the header declares the method void, so that value is dropped.
+// Stores the name in m_name (+0x30), then assigns the same text to the first string of this object's ObjectManager map
+// entry, Application::m_objectManager->m_objectMap[*m_handle] (the handle's m_id, ObjectManager +0x0c). The original also
+// returns that entry's string; the header declares the method void, so the value is dropped.
 void ObjectBase::SetName(const char* name) {
     m_name = name;
+    ObjectManager* objects = ApplicationGetInstance().m_objectManager;
+    if (objects != nullptr) {
+        objects->m_objectMap[m_handle->m_id].m_name = name;
+    }
 }

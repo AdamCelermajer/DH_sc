@@ -54,14 +54,9 @@ void SoundEmitter::InitPost() {
 }
 
 // 0x3951c0 _ZN12SoundEmitter6UpdateEv
-// PARTIAL: the guards, the range test and the m_playing state are reconstructed. The two sound calls are not made. The
-// original stops the sound when the listener leaves the range, VoxSoundManager::Stop3D(VoxSoundManager::s_instance,
-// m_soundId, 250, &characterPos, m_distMax), and starts it when the listener is in range,
-// VoxSoundManager::Play3D(s_instance, m_soundId, m_position, m_loop, 1, -1.0f, -1.0f). Each call is made only when
-// s_instance is not null. VoxSoundManager::s_instance, Play3D and Stop3D are not declared in the tree
-// (vox-audio/include/vox-audio/vox/sound_manager.hpp declares SetIPodShuffle, UpdateIPodAsync and
-// ConvertVisual3DToSound3D only). The integrator should declare them in the vox-audio header; this file does not
-// change that header.
+// The listener leaving the range stops the sound: VoxSoundManager::Stop3D(s_instance, m_soundId, 250, &characterPos, m_distMax),
+// and entering it starts the sound: VoxSoundManager::Play3D(s_instance, m_soundId, m_position, m_loop, 1, -1, -1). Each call
+// is made only when s_instance is not null.
 //
 // The original calls Application::GetCurrentLevel and PlayerManager::GetLocalPlayer a second time for the later reads.
 // Both return the same object each time, so each is called once here.
@@ -96,17 +91,21 @@ void SoundEmitter::Update() {
             return;
         }
         m_playing = false;
-        // PARTIAL: VoxSoundManager::Stop3D(s_instance, m_soundId, 250, &characterPos, m_distMax) is not made.
+        if (VoxSoundManager::s_instance != nullptr) {
+            VoxSoundManager::s_instance->Stop3D(m_soundId, 250, &characterPos.X, m_distMax);
+        }
         if (m_playing) {
-            // The original returns here when the stop call sets the flag again. The stop call is not made, so the flag
-            // is still false and this test does not return.
+            // The original returns here when the stop call sets the flag again.
             return;
         }
     }
 
     if (m_distMax > distance && m_distMax > 0.0f) {  // +0x398: the listener is inside the range
         m_playing = true;  // +0x39c
-        // PARTIAL: VoxSoundManager::Play3D(s_instance, m_soundId, m_position, m_loop, 1, -1.0f, -1.0f) is not made.
+        if (VoxSoundManager::s_instance != nullptr) {
+            const glitch::core::vector3d<float> at{m_position.X, m_position.Y, m_position.Z};
+            VoxSoundManager::s_instance->Play3D(m_soundId, at, m_loop, 1, -1.0f, -1.0f);
+        }
     }
 }
 

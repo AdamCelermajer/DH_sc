@@ -17,6 +17,10 @@
 #include <string>
 
 #include "dh2/Application.hpp"
+#include "dh2/LightSetManager.hpp"
+#include "dh2/SceneManager.hpp"
+#include "dh2/global/DeviceSceneManager.hpp"
+#include "glitch-scene-collada-gui/scene/CLightSceneNode.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -77,9 +81,8 @@ bool LightPoint::GetIdsFromName(const char* prefix, int& index, int& sub, char& 
 
 // 0x40b828 LightPoint::AssignTweaker(int,int)
 // The original does nothing when index is above 4 (unsigned compare) or when m_irrLight is null. Otherwise it first
-// calls LightSetManager::SetLight(set, index, m_irrLight->light) on the scene manager's LightSetManager. That call is
-// partial: the device's scene manager (IDevice +0x1c) is not declared, and the node's light member (CLight pointer at
-// node +0x134) is not declared either. The tweaker writes that follow are bound. They go to
+// calls LightSetManager::SetLight(set, index, m_irrLight->light) on the device's scene manager (DeviceSceneManager,
+// LightSetManager at +0x294). The tweaker writes that follow go to
 // Application::m_playerLightTweakers[set] (Application +0x58) at the original offsets of PlayerLightTweaker:
 // m_lights +0x128, m_attenuation +0x7c, m_ambientColor +0xb8, m_diffuseColor +0xcc and m_specularColor +0xe0.
 // The original does not check set against the four tweakers, and neither does this body.
@@ -87,7 +90,9 @@ void LightPoint::AssignTweaker(int set, int index) {
     if (static_cast<unsigned int>(index) > 4u || m_irrLight == nullptr) {
         return;
     }
-    // partial: LightSetManager::SetLight(set, index, m_irrLight->light) on the device's scene manager, see above.
+    if (SceneManager* scene = DeviceSceneManager()) {
+        scene->m_lightSetManager.SetLight(set, index, m_irrLight->light);
+    }
     PlayerLightTweaker* tweaker = ApplicationGetInstance().m_playerLightTweakers[set];
     tweaker->m_lights[index] = this;  // +0x128 + 4 * index
     tweaker->m_attenuation[index] = glitch::core::vector3d<float>{m_attenuation.X, m_attenuation.Y, m_attenuation.Z};
@@ -99,9 +104,7 @@ void LightPoint::AssignTweaker(int set, int index) {
 // 0x40ba0c LightPoint::Update()
 // The base update runs first. Only when m_irrLight is set does the light get its position: the attached object's
 // position (GameObject m_position at +0x160) plus m_attachedOffset, or m_attachedOffset alone when no object is
-// attached. partial: the original then calls vtable slot K 0xa4 (ISceneNode::setPosition, scene/ISceneNode.hpp) on
-// m_irrLight with that vector. CLightSceneNode is not defined in the tree, so the call cannot be made. The position is
-// computed and then dropped here.
+// attached. The light node then takes that position through ISceneNode::setPosition (vtable slot K 0xa4).
 void LightPoint::Update() {
     LightBase::Update();
     if (m_irrLight == nullptr) {
@@ -114,8 +117,7 @@ void LightPoint::Update() {
         position.Y = attached->m_position.Y + m_attachedOffset.Y;
         position.Z = attached->m_position.Z + m_attachedOffset.Z;
     }
-    // partial: m_irrLight->setPosition(position), see above.
-    (void)position;
+    m_irrLight->setPosition(glitch::core::vector3d<float>{position.X, position.Y, position.Z});
 }
 
 // 0x40bac0 LightPoint::RefreshAttachment()
@@ -126,7 +128,7 @@ void LightPoint::Update() {
 // flag is set and m_attachedHandle is reset to the null handle.
 // partial: the light set call, LightSetManager::AddActiveLight(found, m_irrLight) on the device's scene manager
 // (IDevice +0x1c, LightSetManager at SceneManager +0x294). The device's scene manager is not declared in the tree, so
-// the call is not bound here. The flag and the handle reset that follow it are bound, and everything else is bound.
+// the call is made when a scene manager exists. The flag and the handle reset that follow it are bound too.
 void LightPoint::RefreshAttachment() {
     if (std::strncmp("_prim_PlayerLight_", m_name.c_str(), 18) == 0) {
         m_attachedTo = "PlayerCharacter_0";
@@ -145,7 +147,9 @@ void LightPoint::RefreshAttachment() {
             DebugSwitches::s_inst.load();
             const bool enablePlayerHeadLight = DebugSwitches::s_inst.GetSwitch("EnablePlayerHeadLight");
             if (!enablePlayerHeadLight) {
-                // partial: LightSetManager::AddActiveLight(found, m_irrLight), see above.
+                if (SceneManager* scene = DeviceSceneManager()) {
+                    scene->m_lightSetManager.AddActiveLight(found, m_irrLight);
+                }
                 m_addedToLightSet = true;
                 m_attachedHandle = ObjectHandle(static_cast<ObjectBase*>(nullptr));
             }

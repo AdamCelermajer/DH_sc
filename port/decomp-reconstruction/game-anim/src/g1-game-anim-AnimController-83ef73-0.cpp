@@ -3,19 +3,25 @@
 // The complete-object constructor 0x474d30 has the same body as 0x474e44. The part-2 batch defines that body in
 // game-anim/src/g1-game-anim-AnimController-83ef73-1.cpp, so it is not defined again here.
 //
-// Status summary: reconstructed for the two do-nothing callbacks and the SetCallbacks thunk. Partial for the rest.
-// Blockers, after the redo pass (dh2/RootSceneNode.hpp now exists):
-//   - glitch::collada::ISceneNodeAnimator (glitch-scene-collada-gui/collada_misc.hpp) declares none of the timeline
-//     and clip slots. The canonical glitch::scene::ISceneNodeAnimator (scene/ISceneNodeAnimator.hpp) has
-//     getTimelineCtrl (+0x40 const, +0x44), setAnimationClip(int) (+0x30) and getAnimationClipIndex (+0x38), but the
-//     collada class does not derive from it. GetApplicator takes the scene type.
-//   - RootSceneNode derives from glitch::collada::CRootSceneNode, which has no ISceneNode base. The animator list at
-//     ISceneNode +0xfc (getAnimators) is therefore not reachable from m_node.
-// Partial bodies keep the decoded control flow in comments and stub the calls they cannot make yet.
+// The animator list is reached through the engine base: RootSceneNode derives from glitch::collada::CRootSceneNode, which
+// derives from ISceneNode (animators at +0xfc, flags at +0x11c). The collada animator derives from
+// glitch::scene::ISceneNodeAnimator, so getTimelineCtrl and the clip interface are available.
+//
+// Partial bodies: GetAnimationSet (the result type is incomplete), the destructor (the drop of m_node goes through the
+// node's second reference-counted subobject), SetCallbacks for one animator (its body is not reconstructed), and the
+// SetCallbacksOnAll walk that calls it.
 
 #include "dh2/AnimController.hpp"
 
+#include <cstdint>
 #include <cstdlib>
+
+#include "dh2/AnimApplicator.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/global/GetApplicator.hpp"
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
 
 // Static data member, initialised from the .data byte at 0x999841 (value 1, read with IDA get_global_value).
 // Written by Script_EnterCutSceneMode::Execute (0x45a384) and Script_ExitCutSceneMode::Execute (0x4599ac);
@@ -23,12 +29,9 @@
 bool AnimController::s_scalingEnabled = true;
 
 // 0x474678 _ZN14AnimController15GetAnimationSetEv
-// partial: the original stores 0 into the hidden return slot, so the result is an empty intrusive_ptr. That value
-// cannot be produced here. glitch::collada::CAnimationSet is incomplete in every declared header and has no
-// reference-counted base (the recon stand-in is in a recon namespace), and boost::intrusive_ptr<T> needs T complete
-// for its destructor, which every return of the type instantiates. The body therefore aborts, so no caller gets a
-// wrong value silently. A definition must still exist because the vtable of this class is emitted in this file.
-// Replace the body with the empty return once CAnimationSet is declared with an IReferenceCounted base.
+// partial: the original stores 0 into the hidden return slot, so the result is an empty intrusive_ptr. glitch::collada::
+// CAnimationSet is incomplete in every declared header, and boost::intrusive_ptr<T> needs T complete for its destructor,
+// which every return of the type instantiates. The body therefore aborts, so no caller gets a wrong value silently.
 boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimationSet() {
     std::abort();
 }
@@ -39,8 +42,7 @@ boost::intrusive_ptr<glitch::collada::CAnimationSet> AnimController::GetAnimatio
 // the glitch::IReferenceCounted subobject of the node. That subobject is RootSceneNode's second one: its offset 0x20c
 // is read from the node's vtable at vptr-12, and its count is RootSceneNode::m_secondaryRefCount (+0x210).
 // partial: the drop is not written. Missing: the count decrement and, at zero, the onDelete call and the deleting
-// destructor that IReferenceCounted::drop makes through the subobject's vtable (+0x08, +0x04). dh2/RootSceneNode.hpp
-// does not declare that vtable. The node is left referenced until this is written.
+// destructor that IReferenceCounted::drop makes through the subobject's vtable (+0x08, +0x04).
 AnimController::~AnimController() {}
 
 // 0x47470c _ZN14AnimController17_CBAnim_DoNothingEPN6glitch5scene19ITimelineControllerEPv
@@ -50,124 +52,212 @@ void AnimController::_CBAnim_DoNothing(glitch::scene::ITimelineController*, void
 void AnimController::_CBEvent_DoNothing(const glitch::collada::STriggeredEvent&, void*) {}
 
 // 0x474734 _ZNK14AnimController10GetNumAnimEv
-// partial: the original counts the animator list of m_node (ISceneNode +0xfc, intrusive list). Waits on
-// dh2/RootSceneNode.hpp and on a host-width list model for ISceneNode::getAnimators.
+// The count of the animator list of m_node (ISceneNode +0xfc).
 int AnimController::GetNumAnim() const {
-    return 0;
+    return static_cast<int>(m_node->getAnimators().size());
 }
 
 // 0x474770 _ZNK14AnimController7GetAnimEj
-// partial: the index check is rebuilt. The original returns null when index >= GetNumAnim() (virtual slot +0x0c). The
-// element walk is not written: the original returns the element at that index of m_node's animator list (ISceneNode
-// +0xfc, intrusive list; the element's value is at +0x08). That list is not reachable from RootSceneNode (no ISceneNode
-// base in dh2/RootSceneNode.hpp's base). GetNumAnim is still a stub (0x474734), so this returns null for every index.
-// The body at 0x4748b8 is identical; it is the non-const overload.
+// Returns null when index >= GetNumAnim() (virtual slot +0x0c). Otherwise the element at that index of m_node's animator
+// list (element value at node +0x08). The list holds collada animators; the scene base is the primary base, so the
+// downcast keeps the pointer value.
 const glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int index) const {
     if (static_cast<unsigned int>(GetNumAnim()) <= index) {
         return nullptr;
     }
-    // Element walk not written (see the note above).
+    unsigned int i = 0;
+    for (auto it = m_node->getAnimators().begin(); it != m_node->getAnimators().end(); ++it, ++i) {
+        if (i == index) {
+            return static_cast<const glitch::collada::ISceneNodeAnimator*>(*it);
+        }
+    }
     return nullptr;
 }
 
 // 0x4747d8 _ZNK14AnimController15GetClipDurationEj
-// partial: the original takes anim = GetAnim(index). If anim and anim->getTimelineCtrl() const (slot +0x40) are
-// both non-null, it returns the timeline's getCurrentClipLength() const (slot +0x34). Otherwise it returns -1.
-// Waits on dh2/RootSceneNode.hpp, the list model, and the collada animator and ITimelineController declarations.
+// anim = GetAnim(index); tc = anim->getTimelineCtrl() const (slot +0x40). When both are non-null, the current clip length
+// of tc (slot +0x34). Otherwise -1.
 int AnimController::GetClipDuration(unsigned int index) const {
+    const glitch::collada::ISceneNodeAnimator* anim = GetAnim(index);
+    glitch::scene::ITimelineController* tc = anim != nullptr ? anim->getTimelineCtrl() : nullptr;
+    if (anim != nullptr && tc != nullptr) {
+        return static_cast<int>(tc->getCurrentClipLength());
+    }
     return -1;
 }
 
 // 0x474814 _ZNK14AnimController7HasClipEPKcj
-// partial: stub returns false. The original takes anim = GetAnim(index) (const) and tc = anim->getTimelineCtrl() const
-// (slot +0x40). When tc is non-null and tc->getClipCount() const (ITimelineController +0x1c, declared) is above 0, it
-// returns tc->getClipIndex(clipName) const (+0x18, declared) != -1. Otherwise false. Blocked on the collada animator:
-// glitch::collada::ISceneNodeAnimator does not declare getTimelineCtrl (see the file header), and GetAnim is partial.
+// tc = GetAnim(index)->getTimelineCtrl() const. When tc is non-null and has clips (getClipCount, slot +0x1c > 0), returns
+// tc->getClipIndex(clipName) (slot +0x18) != -1. Otherwise false.
 bool AnimController::HasClip(const char* clipName, unsigned int index) const {
+    const glitch::collada::ISceneNodeAnimator* anim = GetAnim(index);
+    glitch::scene::ITimelineController* tc = anim != nullptr ? anim->getTimelineCtrl() : nullptr;
+    if (anim != nullptr && tc != nullptr && tc->getClipCount() > 0) {
+        return tc->getClipIndex(clipName) != -1;
+    }
     return false;
 }
 
 // 0x47487c _ZNK14AnimController10GetNumClipEj
-// partial: stub returns 0. The original returns tc->getClipCount() const (ITimelineController +0x1c) for
-// tc = GetAnim(index)->getTimelineCtrl() const (collada animator +0x40), or 0 when either is missing. The timeline call
-// is blocked on the collada animator declaration (see the file header).
+// The clip count (slot +0x1c) of tc = GetAnim(index)->getTimelineCtrl() const, or 0 when either is missing.
 int AnimController::GetNumClip(unsigned int index) const {
+    const glitch::collada::ISceneNodeAnimator* anim = GetAnim(index);
+    glitch::scene::ITimelineController* tc = anim != nullptr ? anim->getTimelineCtrl() : nullptr;
+    if (anim != nullptr && tc != nullptr) {
+        return tc->getClipCount();
+    }
     return 0;
 }
 
 // 0x4748b8 _ZN14AnimController7GetAnimEj
-// partial: the index check is rebuilt, the element walk is not (see 0x474770). Non-const, so its result is not const.
+// Non-const overload: the same walk as 0x474770, returning the animator without const.
 glitch::collada::ISceneNodeAnimator* AnimController::GetAnim(unsigned int index) {
     if (static_cast<unsigned int>(GetNumAnim()) <= index) {
         return nullptr;
     }
-    // Element walk not written (see 0x474770).
+    unsigned int i = 0;
+    for (auto it = m_node->getAnimators().begin(); it != m_node->getAnimators().end(); ++it, ++i) {
+        if (i == index) {
+            return static_cast<glitch::collada::ISceneNodeAnimator*>(*it);
+        }
+    }
     return nullptr;
 }
 
 // 0x474920 _ZN14AnimController8SetScaleEfj
-// partial: the scaling gate is rebuilt. When s_scalingEnabled is clear the function returns. Otherwise the original
-// takes anim = GetAnim(index), tc = anim->getTimelineCtrl() (collada animator +0x44, not declared) and calls
-// tc->setScale(scale) (ITimelineController +0x48, declared). Blocked on the collada animator declaration and on GetAnim.
+// When s_scalingEnabled is set: anim = GetAnim(index); tc = anim->getTimelineCtrl() (slot +0x44); tc->setScale(scale)
+// (slot +0x48).
 void AnimController::SetScale(float scale, unsigned int animIndex) {
     if (!s_scalingEnabled) {
         return;
     }
+    glitch::collada::ISceneNodeAnimator* anim = GetAnim(animIndex);
+    if (anim != nullptr) {
+        glitch::scene::ITimelineController* tc = anim->getTimelineCtrl();
+        if (tc != nullptr) {
+            tc->setScale(scale);
+        }
+    }
 }
 
 // 0x474988 _ZN14AnimController8StopClipEbj
-// partial: stub does nothing. The original takes anim = GetAnim(index) and tc = anim->getTimelineCtrl() (+0x44). When tc
-// is non-null it calls tc->setScale(0) (+0x48). When rewind is set it calls tc->jumpTo(tc->getCurrentClipEnd()) (jumpTo
-// +0x0c, getCurrentClipEnd +0x30; both declared in ITimelineController). Blocked on the collada animator's getTimelineCtrl.
-void AnimController::StopClip(bool rewind, unsigned int animIndex) {}
+// anim = GetAnim(index); tc = anim->getTimelineCtrl() (slot +0x44). When tc is non-null: tc->setScale(0) (slot +0x48);
+// when rewind is set, tc->jumpTo(tc->getCurrentClipEnd()) (jumpTo slot +0x0c, getCurrentClipEnd slot +0x30).
+void AnimController::StopClip(bool rewind, unsigned int animIndex) {
+    glitch::collada::ISceneNodeAnimator* anim = GetAnim(animIndex);
+    if (anim == nullptr) {
+        return;
+    }
+    glitch::scene::ITimelineController* tc = anim->getTimelineCtrl();
+    if (tc == nullptr) {
+        return;
+    }
+    tc->setScale(0.0f);
+    if (rewind) {
+        tc->jumpTo(static_cast<std::int32_t>(tc->getCurrentClipEnd()));
+    }
+}
 
 // 0x4749f4 _ZN14AnimController8PlayClipEPKcbij
-// partial: the original takes anim = GetAnim(index) and applicator = GetApplicator(anim), then:
-//   - anim null: GetApplicator(null) and return false
-//   - tc = anim->getTimelineCtrl() (slot +0x44); tc non-null, count above 0 and getClipIndex(name) == -1: return false
-//   - v12 = tc->getCurrentClipIndex() (slot +0x38); v13 = anim->getAnimationClipIndex(name) (slot +0x38);
-//     anim->setAnimationClip(v13) (slot +0x30)
-//   - if v12 == v13 and !tc->getLoop() (slot +0x44): tc->jumpTo(applicator offset + tc +0x10) (slot +0x0c)
-//   - tc->setLoop(loop) (slot +0x40); tc->setScale(1.0f) (slot +0x48)
-//   - m_node->NewAnim(false); m_node flags |= 0x200 (ISceneNode flags, +0x11c); return true
-// Waits on dh2/RootSceneNode.hpp, GetApplicator (no declaration found in the repository), and the declarations above.
+// anim = GetAnim(index); applicator = GetApplicator(anim) (computed before the checks, as in the original).
+//   anim null: GetApplicator(null), return false.
+//   tc = anim->getTimelineCtrl() (slot +0x44). When tc has clips and getClipIndex(name) == -1: return false.
+//   v12 = tc->getCurrentClipIndex() (slot +0x38); v13 = anim->getAnimationClipIndex(name) (slot +0x38);
+//   anim->setAnimationClip(v13) (slot +0x30).
+//   When v12 == v13 and !tc->getLoop(): tc->jumpTo(base + tc->rangeStartMs), base = applicator->unk_10 or 0.
+//   tc->setLoop(loop) (slot +0x40); tc->setScale(1.0f) (slot +0x48).
+//   m_node->NewAnim(false); m_node flags |= 0x200 (ESNF_ANIMATE); return true.
+// Deviation: the original dereferences a null tc in the final branch; here that path returns false.
 bool AnimController::PlayClip(const char* clipName, bool loop, int unused, unsigned int animIndex) {
-    return false;
+    (void)unused;
+    glitch::collada::ISceneNodeAnimator* anim = GetAnim(animIndex);
+    if (anim == nullptr) {
+        GetApplicator(nullptr);
+        return false;
+    }
+    glitch::scene::ITimelineController* tc = anim->getTimelineCtrl();
+    AnimApplicator* applicator = GetApplicator(anim);
+    if (tc != nullptr && tc->getClipCount() > 0 && tc->getClipIndex(clipName) == -1) {
+        return false;
+    }
+    if (tc == nullptr) {
+        return false;
+    }
+    const std::int32_t currentClip = tc->getCurrentClipIndex();
+    const std::int32_t clipIndex = anim->getAnimationClipIndex(clipName);
+    anim->setAnimationClip(clipIndex);
+    if (currentClip == clipIndex && !tc->getLoop()) {
+        const std::int32_t base = applicator != nullptr ? applicator->unk_10 : 0;
+        tc->jumpTo(base + tc->rangeStartMs);
+    }
+    tc->setLoop(loop);
+    tc->setScale(1.0f);
+    m_node->NewAnim(false);
+    m_node->flags |= glitch::scene::ESNF_ANIMATE;
+    return true;
 }
 
 // 0x474b50 _ZN14AnimController8PlayClipEjbij
-// partial: stub returns false. Same flow as the named overload, with the clip given as an index. The original:
-//   anim = GetAnim(animIndex) (non-const). Null: GetApplicator(0) and return false.
-//   applicator = GetApplicator(anim) (dh2/global/GetApplicator.hpp, declared). tc = anim->getTimelineCtrl() (+0x44).
-//   If tc is non-null and tc->getClipCount() (+0x1c) <= clip: return false. The original dereferences a null tc here.
-//   v12 = tc->getCurrentClipIndex() (+0x38). anim->setAnimationClip(clip) (+0x30, the index overload; not the name lookup).
-//   If v12 == clip and !tc->getLoop() (+0x44): tc->jumpTo(applicator ? applicator->unk_10 : 0, plus tc->rangeStartMs)
-//     (jumpTo +0x0c; unk_10 is AnimApplicator +0x10, dh2/AnimApplicator.hpp).
-//   tc->setLoop(loop) (+0x40); tc->setScale(1.0f) (+0x48).
-//   m_node->NewAnim(false) (declared in dh2/RootSceneNode.hpp); m_node->unk_011c |= 0x200; return true.
-// Blocked on the collada animator: getTimelineCtrl (+0x44) and setAnimationClip (+0x30) are not declared on
-// glitch::collada::ISceneNodeAnimator, and GetApplicator takes the glitch::scene type.
+// Same flow as the named overload, with the clip given as an index:
+//   anim = GetAnim(animIndex) (non-const). Null: GetApplicator(null) and return false.
+//   applicator = GetApplicator(anim); tc = anim->getTimelineCtrl() (slot +0x44).
+//   When tc has clips and getClipCount() <= clip: return false.
+//   currentClip = tc->getCurrentClipIndex(); anim->setAnimationClip(clip) (slot +0x30, the index overload).
+//   When currentClip == clip and !tc->getLoop(): tc->jumpTo(base + tc->rangeStartMs).
+//   tc->setLoop(loop); tc->setScale(1.0f); m_node->NewAnim(false); flags |= ESNF_ANIMATE; return true.
+// Deviation: as in the named overload, a null tc returns false here instead of being dereferenced.
 bool AnimController::PlayClip(unsigned int clip, bool loop, int unused, unsigned int animIndex) {
-    return false;
+    (void)unused;
+    glitch::collada::ISceneNodeAnimator* anim = GetAnim(animIndex);
+    if (anim == nullptr) {
+        GetApplicator(nullptr);
+        return false;
+    }
+    glitch::scene::ITimelineController* tc = anim->getTimelineCtrl();
+    AnimApplicator* applicator = GetApplicator(anim);
+    if (tc != nullptr && static_cast<unsigned int>(tc->getClipCount()) <= clip) {
+        return false;
+    }
+    if (tc == nullptr) {
+        return false;
+    }
+    const std::int32_t currentClip = tc->getCurrentClipIndex();
+    anim->setAnimationClip(static_cast<std::int32_t>(clip));
+    if (static_cast<unsigned int>(currentClip) == clip && !tc->getLoop()) {
+        const std::int32_t base = applicator != nullptr ? applicator->unk_10 : 0;
+        tc->jumpTo(base + tc->rangeStartMs);
+    }
+    tc->setLoop(loop);
+    tc->setScale(1.0f);
+    m_node->NewAnim(false);
+    m_node->flags |= glitch::scene::ESNF_ANIMATE;
+    return true;
 }
 
 // 0x474c78 _ZN14AnimController12SetCallbacksEPN6glitch7collada18ISceneNodeAnimatorEPFvPNS0_5scene19ITimelineControllerEPvES7_PFvRKNS1_15STriggeredEventES7_ES7_
-// partial: when the animator is non-null the original calls Animator::SetCallbacks on the same pointer, with no
-// base adjustment in the pseudocode. Animator.hpp does not declare its base (glitch::collada::CSceneNodeAnimator), so
-// the downcast is not written and the call is stubbed.
+// partial: when the animator is non-null the original calls its own SetCallbacks on the same pointer. That callee's body
+// is not reconstructed here, so the call is not written and the body only checks for null.
 void AnimController::SetCallbacks(glitch::collada::ISceneNodeAnimator* animator, AnimCallback animCallback,
                                   void* animUserData, EventCallback eventCallback, void* eventUserData) {
     if (animator == nullptr) {
         return;
     }
+    (void)animCallback;
+    (void)animUserData;
+    (void)eventCallback;
+    (void)eventUserData;
 }
 
 // 0x474cac _ZN14AnimController17SetCallbacksOnAllEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
-// partial: stub does nothing. The original walks m_node's animator list (ISceneNode +0xfc, element value at +0x08, see
-// GetAnim) and calls the per-animator SetCallbacks (0x474c78) with each element. The list is not reachable from
-// RootSceneNode (no ISceneNode base), and the per-animator SetCallbacks is partial, so the walk is not written.
+// partial: the walk over m_node's animator list (ISceneNode +0xfc) is written, and it calls the per-animator SetCallbacks
+// (0x474c78) on each element, which is still partial.
 void AnimController::SetCallbacksOnAll(AnimCallback animCallback, void* animUserData, EventCallback eventCallback,
-                                       void* eventUserData) {}
+                                       void* eventUserData) {
+    for (auto it = m_node->getAnimators().begin(); it != m_node->getAnimators().end(); ++it) {
+        SetCallbacks(static_cast<glitch::collada::ISceneNodeAnimator*>(*it), animCallback, animUserData, eventCallback,
+                     eventUserData);
+    }
+}
 
 // 0x474d10 _ZN14AnimController12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_
 // Thunk: the original is a single branch to SetCallbacksOnAll (0x474cac). It is forwarded, not reimplemented.

@@ -7,7 +7,6 @@
 // InitObjectList, Activate and Update.
 //
 // PARTIAL: the two constructors leave unk_38c (+0x38c, the owning Module) null, which the original does not write.
-// PARTIAL: InitObjectList does not walk ObjectManager's object map (dh2/ObjectListItem.hpp is not declared).
 
 #include "dh2/RoomZone.hpp"
 
@@ -20,6 +19,9 @@
 #include "dh2/GameObject.hpp"                     // GameObject::ZoneEntered, ZoneExited, IsZonable, m_roomZone, unk_2ef
 #include "dh2/Level.hpp"                          // Level::m_camera (+0x128)
 #include "dh2/Module.hpp"                         // Module::m_visited (+0x3fc)
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectListItem.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/ObjectManager.hpp"                  // ObjectManager::AddRoomObjects, DelRoomObjects, unk_f8 (+0xf8)
 #include "dh2/PlayerInfo.hpp"                     // PlayerInfo::unk_660 (+0x660, the player's Character)
 #include "dh2/PlayerManager.hpp"                  // PlayerManager::GetLocalPlayer
@@ -165,16 +167,24 @@ bool RoomZone::AddInitialObject(GameObject* object) {
 }
 
 // 0x396c44 RoomZone::InitObjectList()
-// PARTIAL: body not rebuilt. The original runs once (m_objectListInitialized clear). It walks ObjectManager's object
-// map (dword_99F764 +0x0c, std::map<int, ObjectListItem>) in key order. For each node it takes the object pointer
-// stored in the ObjectListItem (node +0x2c). A non-null pointer is replaced by the object its handle resolves to
-// (ObjectBase::GetHandle, then ObjectHandle::operator GameObject*). It then calls AddInitialObject on the result and
-// sets m_objectListInitialized. dh2/ObjectListItem.hpp is not declared, so the map value cannot be read. Until it is,
-// this body keeps the guard only: the walk is not made and the flag stays clear, so the function does nothing.
+// Runs once (m_objectListInitialized, +0x390). Walks ObjectManager's object map (dword_99F764 +0x0c) in key order. Each
+// entry's object is replaced by the object its handle resolves to (ObjectBase::GetHandle, then the GameObject conversion);
+// a null entry stays null. Each result goes through AddInitialObject, then the flag is set.
 void RoomZone::InitObjectList() {
     if (m_objectListInitialized) {
         return;
     }
+    ObjectManager* const objectManager = dword_99F764;
+    for (auto& entry : objectManager->m_objectMap) {
+        GameObject* object = nullptr;
+        ObjectBase* base = entry.second.m_object;
+        if (base != nullptr) {
+            ObjectHandle handle = base->GetHandle();
+            object = handle;
+        }
+        AddInitialObject(object);
+    }
+    m_objectListInitialized = true;
 }
 
 // 0x396d24 RoomZone::Activate()
