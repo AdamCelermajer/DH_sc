@@ -49,10 +49,11 @@ gameswf::root* RenderFX::GetRoot() const {
 }
 
 // 0x7a7cb4 RenderFX::SetTextBufferingEnabled(bool)
-// PARTIAL, whole body omitted. The original writes the byte at root +0x85. gameswf::root names that byte m_shift_key_state
-// in vendor-gameswf/include/vendor-gameswf/gameswf_root.hpp, which does not match a text-buffering flag. The name
-// needs evidence before the store is written.
-void RenderFX::SetTextBufferingEnabled(bool /*enabled*/) {}
+// Binary: LDR R3,[R0,#0x3C]; STRB R1,[R3,#0x85]. The root byte at +0x85 has no name that matches text buffering in
+// gameswf_root.hpp (m_shift_key_state is the only name there), so the store is written at its offset.
+void RenderFX::SetTextBufferingEnabled(bool enabled) {
+    *(reinterpret_cast<std::uint8_t*>(m_root) + 0x85) = enabled;
+}
 
 // 0x7a7cc0 RenderFX::SetAutoLoadGlyphsEnabled(bool): stores the byte at root +0x87 (gameswf::root::unk_87, which has no
 // reader in the header).
@@ -61,22 +62,38 @@ void RenderFX::SetAutoLoadGlyphsEnabled(bool enabled) {
 }
 
 // 0x7a7ccc RenderFX::SetRenderCachingEnabled(bool)
-// PARTIAL, whole body omitted. The original writes the byte at +0x98 of the object at RenderFX +0x38, which the header
-// leaves as padding (the object's type is not recovered).
-void RenderFX::SetRenderCachingEnabled(bool /*enabled*/) {}
+// Binary: LDR R3,[R0,#0x38]; STRB R1,[R3,#0x98]. The object at +0x38 is not typed in the header (pad_0c covers it).
+void RenderFX::SetRenderCachingEnabled(bool enabled) {
+    std::uint8_t* object = *reinterpret_cast<std::uint8_t**>(pad_0c + 0x2c);  // +0x38
+    object[0x98] = enabled;
+}
 
-// 0x7a7cd8 RenderFX::GetAlpha(gameswf::character*) (the decompilation shows extra parameters that the symbol does not have)
-// PARTIAL, whole body omitted. The original reads the character's pointer at +0x48 and returns the int at +0x18 of that object.
-// Neither the character's pointer field nor the type behind it is named in the gameswf headers.
-int RenderFX::GetAlpha(gameswf::character* /*character*/) {
-    return 0;
+// 0x7a7cd8 RenderFX::GetAlpha(gameswf::character*)
+// Binary: if character is null return 0, else load the pointer at character +0x48 and return the int at its +0x18.
+// The pointer and the object behind it are not typed in the gameswf headers, so they are read at their offsets.
+int RenderFX::GetAlpha(gameswf::character* character) {
+    if (character == nullptr) {
+        return 0;
+    }
+    const std::uint8_t* object = *reinterpret_cast<const std::uint8_t* const*>(reinterpret_cast<const std::uint8_t*>(character) + 0x48);
+    return *reinterpret_cast<const int*>(object + 0x18);
 }
 
 // 0x7a7cec RenderFX::GetText(gameswf::character*)
-// PARTIAL, whole body omitted. The original tests is(32) and then reads an inline text at +0x139 or a pointer at +0x144 of the
-// character (edit-text layout). That layout is not in the gameswf headers.
-char* RenderFX::GetText(gameswf::character* /*character*/) {
-    return nullptr;
+// Binary: null returns null; a character whose is(32) is false returns null; otherwise the inline text at +0x139 when
+// the byte at +0x138 is not 0xff, else the pointer at +0x144.
+char* RenderFX::GetText(gameswf::character* character) {
+    if (character == nullptr) {
+        return nullptr;
+    }
+    if (character->is(32) == 0) {
+        return nullptr;
+    }
+    std::uint8_t* base = reinterpret_cast<std::uint8_t*>(character);
+    if (base[0x138] != 0xff) {
+        return reinterpret_cast<char*>(base + 0x139);
+    }
+    return *reinterpret_cast<char**>(base + 0x144);
 }
 
 // 0x7a7d34 RenderFX::GotoFrame(gameswf::character*, int, bool): a character of class id 2 moves to the frame and gets
@@ -143,10 +160,12 @@ gameswf::character* RenderFX::GetContext() {
     return m_context;
 }
 
-// 0x7a7fe4 RenderFX::DestroyContext(gameswf::player_context*)
-// PARTIAL, whole body omitted. The original calls gameswf::destruct<player_context>(context) when the pointer is not null.
-// gameswf::destruct is not declared anywhere in the tree (vendor-gameswf has no allocator template of that name).
-void RenderFX::DestroyContext(gameswf::player_context* /*context*/) {}
+// 0x7a7fe4 RenderFX::DestroyContext(gameswf::player_context*): destruct when the pointer is not null.
+void RenderFX::DestroyContext(gameswf::player_context* context) {
+    if (context != nullptr) {
+        gameswf::destruct(context);
+    }
+}
 
 // 0x7a850c RenderFX::RenderFX() (C1), 0x7a85f8 (C2): the same body. Every field starts at zero. The four controllers
 // clear their 36 bytes, set their enabled byte to 1 and reset their smart pointers. The +0x54 word is set to 0xffffff

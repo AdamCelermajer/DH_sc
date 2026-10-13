@@ -16,6 +16,10 @@ class root;
 enum orientation_mode : int;
 enum scale_mode : int;
 struct filter;
+// 0x7a7fe4 calls gameswf::destruct<player_context> (_ZN7gameswf8destructINS_14player_contextEEEvPKT_), which the
+// binary provides; the template body is not in the tree, so only the declaration is here.
+template <class T>
+void destruct(const T* object);
 }  // namespace gameswf
 
 namespace glitch {
