@@ -158,6 +158,25 @@ struct GameplayPoseSnapshotV1 {
  std::int32_t player_hp=0,player_max_hp=0;
 };
 bool gameplay_pose_snapshot(GameplayPoseSnapshotV1&,std::string&);
+// Development probe for the boss-fight desktop scenario: the named Character's
+// external AIS script, FSM state, health, position, CharAI target and the
+// callback / CharAI skill-command counters of its one Lua VM.
+struct BossProbeSnapshotV1 {
+ bool present=false,initialized=false,dead=false,source_visible=false,renderer_visible=false;
+ std::string script,animation_state;
+ std::int32_t fsm_state=-1,hp=0,max_hp=0,world_index=-1;
+ std::array<float,3> position{};
+ std::uintptr_t target=0;
+ std::uint32_t completed_callbacks=0,failed_callbacks=0,ais_flags=0,
+               skill_commands=0,skill_events=0;
+};
+bool boss_probe_snapshot(const std::string& exact_name,BossProbeSnapshotV1&,std::string&);
+// Places the local Player at a world position with GameObject::SetPosition's
+// bookkeeping (Script_SetActorPosition); development scenarios only.
+bool boss_probe_place_player(const std::array<float,3>&,std::string&);
+// One-name Level script commands (ShowActor 42 / HideActor 43 / PutCharacterInIdle 31
+// / StopActor 39) through the generic host provider; development scenarios only.
+bool boss_probe_script_command(unsigned command_id,const std::string& name,std::string&);
 // Development check: dropped world items (ItemManager projections) and the
 // one nearest the Player.
 struct GameplayWorldItemSnapshotV1 {

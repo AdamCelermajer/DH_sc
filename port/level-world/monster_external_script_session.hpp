@@ -128,6 +128,42 @@ struct Services {
     // milliseconds spent in the current state (reset by _SetState on a change).
     std::int32_t (*get_state_time)(void*, std::uintptr_t owner,
                                    std::uint32_t* milliseconds) = nullptr;
+    // --- Appended for the boss / special AIS scripts (positional aggregates that
+    // stop at get_state_time stay valid). ---
+    // LuaScript::_Include (0x37efe4) -> LuaManager::AddFile (0x37b23c): the
+    // session composes the resolved "data/scripts/ai/<name>.luac" key (appending
+    // ".luac" unless the name already carries ".lua[c]"), skips a path already in
+    // this VM's loaded set, and asks the provider for the bytes. Returns zero
+    // with `bytes`/`size` borrowed until the next call, nonzero when the file
+    // does not exist (the original ignores a missing or failing Include).
+    std::int32_t (*include_script)(void*, const char* resolved_path,
+                                   const void** bytes, std::size_t* size) = nullptr;
+    // The GameObject / Character natives Character::BindFunction installs in every
+    // AIS VM (character_native_bindings rows) that have no dedicated field above.
+    // `function` is the character_native_bindings::Function key and `name` the
+    // source script name. `receiver` is the owner for a global call and the
+    // `_this` identity of the object table for a `target:Method()` call
+    // (`method`); `arguments` exclude that receiver. Return zero or a nonzero
+    // status with `error` text; DH2_SCRIPT_REQUIRED_SERVICE_FAILURE marks an
+    // explicitly missing implementation. Providers must report unimplemented
+    // natives as failures, never as successful no-ops.
+    std::int32_t (*character_native)(void*, std::uintptr_t owner,
+        std::uint32_t function, const char* name, std::uintptr_t receiver,
+        bool method, const dh2_script_value* arguments, std::uint32_t count,
+        dh2_script_value* output, std::uint32_t capacity, std::uint32_t* returned,
+        char* error, std::size_t error_capacity) = nullptr;
+    // LuaScript::_PlayMusic (0x37e420): Sounds label + fade milliseconds.
+    std::int32_t (*play_music)(void*, const char* label, std::size_t label_bytes,
+                               float fade_ms) = nullptr;
+    // LuaScript::_CallPyScript (0x37ef3c): start the named level script unless it
+    // is already running.
+    std::int32_t (*call_py_script)(void*, const char* name,
+                                   std::size_t name_bytes) = nullptr;
+    // Runs after every top-level Lua entry (dispatch, combat result, animation
+    // event, call_all) has returned and the VM is idle again. Natives that
+    // re-enter CharAI (DoSkill -> AI_BeginSkill -> OnSkillCheck...) cannot call
+    // back into the busy VM, so the provider queues them and runs them here.
+    void (*after_callback)(void*, std::uintptr_t owner) = nullptr;
 };
 
 // Optional GameObject providers for the identity-table methods (GetName, IsDead,
@@ -211,6 +247,12 @@ enum class Event : std::uint32_t {
     // Both call the named Lua function with zero arguments.
     target_in_ranged_range = 21,
     target_in_close_range = 22,
+    // CharAI::RaiseAIEvent events 10/12/13 (CharAI virtuals +0x40/+0x48/+0x4c) reach
+    // AISExternal::OnTargetDied / OnTargetOutOfSight / OnTargetInSight, which call
+    // the named Lua function with zero arguments (always, no VCB flag).
+    target_died = 23,
+    target_out_of_sight = 24,
+    target_in_sight = 25,
 };
 
 // Logical retained source AIS+0xb4 projection, not an ARM overlay. The current
