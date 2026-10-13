@@ -25,6 +25,17 @@ bool runtime_session_projectile_body_plan_v1(
     const RuntimeSessionProjectileVisualV1&, bool source_no_collisions,
     RuntimeSessionProjectileBodyPlanV1&, std::string& error);
 
+// v21.8 mage: the same circle for any authored projectile model. The provider returns the decoded BDAE absolute
+// bounds of `model_uri` (the same data the renderer decodes for the fire bolt); skill projectiles (chain lightning,
+// tornado) use their own models.
+using RuntimeSessionProjectileBoundsV1 = std::function<bool(
+    const std::string& model_uri, std::array<float, 3>& minimum,
+    std::array<float, 3>& maximum, std::string& error)>;
+bool runtime_session_projectile_body_plan_v1(
+    const RuntimeSessionProjectileBoundsV1&,
+    const RuntimeSessionProjectileVisualV1&, bool source_no_collisions,
+    RuntimeSessionProjectileBodyPlanV1&, std::string& error);
+
 struct RuntimeSessionProjectileContactServicesV1 {
     // Resolve only a real PlayableActorBodies physical context. `recognized`
     // false means a non-Session peer (for example a level object) whose source
@@ -54,6 +65,9 @@ public:
     // Call once after an accepted state-5 launch and before its next World Step.
     bool register_projectile(std::uint64_t projectile_id,
         const RuntimeSessionProjectileRenderV1&, std::uintptr_t& source_identity,
+        std::string& error);
+    bool register_projectile(std::uint64_t projectile_id,
+        const RuntimeSessionProjectileBoundsV1&, std::uintptr_t& source_identity,
         std::string& error);
     bool unregister_projectile(std::uint64_t projectile_id,
         std::string& error);

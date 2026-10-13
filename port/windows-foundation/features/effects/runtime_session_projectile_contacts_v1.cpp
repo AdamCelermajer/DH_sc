@@ -33,13 +33,27 @@ bool runtime_session_projectile_body_plan_v1(
     const RuntimeSessionProjectileRenderV1& renderer,
     const RuntimeSessionProjectileVisualV1& visual, bool source_no_collisions,
     RuntimeSessionProjectileBodyPlanV1& output, std::string& error) {
+    return runtime_session_projectile_body_plan_v1(
+        RuntimeSessionProjectileBoundsV1([&renderer](const std::string& uri,
+            std::array<float, 3>& minimum, std::array<float, 3>& maximum, std::string& bounds_error) {
+            return renderer.source_projectile_bounds_v1(uri, minimum, maximum, bounds_error);
+        }), visual, source_no_collisions, output, error);
+}
+
+bool runtime_session_projectile_body_plan_v1(
+    const RuntimeSessionProjectileBoundsV1& bounds,
+    const RuntimeSessionProjectileVisualV1& visual, bool source_no_collisions,
+    RuntimeSessionProjectileBodyPlanV1& output, std::string& error) {
     if (visual.projectile_id == 0 || visual.owner == invalid_actor_id ||
         visual.model_uri.empty() || !std::isfinite(visual.position[0]) ||
         !std::isfinite(visual.position[1]) || !std::isfinite(visual.position[2]))
         return fail(error, "Projectile physical plan requires a live source visual packet");
     RuntimeSessionProjectileBodyPlanV1 plan;
-    if (!renderer.source_projectile_bounds_v1(visual.model_uri,
-            plan.source_bounds_min, plan.source_bounds_max, error)) return false;
+    if (!bounds || !bounds(visual.model_uri,
+            plan.source_bounds_min, plan.source_bounds_max, error)) {
+        if (error.empty()) error = "Projectile model bounds provider is unavailable";
+        return false;
+    }
     const float width = plan.source_bounds_max[0] - plan.source_bounds_min[0];
     const float height = plan.source_bounds_max[1] - plan.source_bounds_min[1];
     if (!std::isfinite(width) || !std::isfinite(height) || width < 0 || height < 0)
@@ -131,6 +145,17 @@ bool RuntimeSessionProjectileContactBodiesV1::register_projectile(
     std::uint64_t projectile_id,
     const RuntimeSessionProjectileRenderV1& renderer,
     std::uintptr_t& source_identity, std::string& error) {
+    return register_projectile(projectile_id,
+        RuntimeSessionProjectileBoundsV1([&renderer](const std::string& uri,
+            std::array<float, 3>& minimum, std::array<float, 3>& maximum, std::string& bounds_error) {
+            return renderer.source_projectile_bounds_v1(uri, minimum, maximum, bounds_error);
+        }), source_identity, error);
+}
+
+bool RuntimeSessionProjectileContactBodiesV1::register_projectile(
+    std::uint64_t projectile_id,
+    const RuntimeSessionProjectileBoundsV1& bounds,
+    std::uintptr_t& source_identity, std::string& error) {
     source_identity = 0;
     if (!synchronize(error)) return false;
     if (!projectile_id || entries_.count(projectile_id))
@@ -152,7 +177,7 @@ bool RuntimeSessionProjectileContactBodiesV1::register_projectile(
         return false;
     }
     RuntimeSessionProjectileBodyPlanV1 plan;
-    if (!runtime_session_projectile_body_plan_v1(renderer, *visual,
+    if (!runtime_session_projectile_body_plan_v1(bounds, *visual,
             no_collisions, plan, error)) return false;
 
     auto entry = std::make_unique<Entry>(this, *visual, plan);

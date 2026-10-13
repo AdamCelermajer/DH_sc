@@ -354,6 +354,70 @@ bool RuntimeSessionProjectileV1::launch_state5(
     return true;
 }
 
+bool RuntimeSessionProjectileV1::launch_skill(
+    const std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101>& tables,
+    const RuntimeSessionSkillProjectileLaunchV1& request,
+    std::uint64_t& projectile_id, std::string& error) {
+    projectile_id = 0;
+    if (!synchronize(error) || !current_actor(request.owner, error)) return false;
+    if (request.generation == 0 || request.occurrence == 0 || request.row < 0)
+        return fail(error, "Skill projectile launch requires its skill generation, occurrence and ProjectileTable row");
+    if (!valid_vec(request.origin) || !valid_vec(request.forward))
+        return fail(error, "Skill projectile origin/forward are not finite");
+    const LaunchKey key{request.owner, request.generation, request.occurrence};
+    const auto previous = launched_.find(key);
+    if (previous != launched_.end()) {
+        projectile_id = previous->second;
+        error.clear();
+        return true;
+    }
+    RuntimeSourceProjectilePlanV1 source;
+    if (!runtime_source_projectile_plan_v1(tables, request.row, source, error)) return false;
+    if (source.requires_model_duration() || source.timer_ms < 0 ||
+        !std::isfinite(source.velocity) || source.velocity <= 0 ||
+        !std::isfinite(source.velocity_damping) || source.velocity_damping < 0 ||
+        !std::isfinite(source.max_distance))
+        return fail(error, "Skill projectile row needs an unsupported source duration or motion value");
+    // Box2D is planar: the velocity is written in XY only (Projectile::Update), so the heading is the XY direction.
+    std::array<float, 3> direction = request.forward;
+    if (request.explicit_target != invalid_actor_id && source.target_lock) {
+        const auto* target = session_.actor(request.explicit_target);
+        if (!target) return fail(error, "Skill projectile target is not a current Session actor");
+        const std::array<float, 3> toward{target->transform.position[0] - request.origin[0],
+                                          target->transform.position[1] - request.origin[1], 0.0f};
+        // A launch exactly on the target keeps the caller's heading.
+        if (length_squared(toward) > 1.0e-12f) direction = toward;
+    }
+    direction[2] = 0.0f;
+    const float norm2 = length_squared(direction);
+    if (!std::isfinite(norm2) || norm2 <= 1.0e-12f)
+        return fail(error, "Skill projectile heading is not normalizable");
+    const float inverse = 1.0f / std::sqrt(norm2);
+    Record record;
+    record.id = next_projectile_id_++;
+    if (!record.id || next_projectile_id_ == 0)
+        return fail(error, "Projectile identity space exhausted");
+    record.source_generation = request.generation;
+    record.source_occurrence = request.occurrence;
+    record.owner = request.owner;
+    record.explicit_target = request.explicit_target;
+    record.marker = "do_skill";
+    record.source = std::move(source);
+    record.origin = request.origin;
+    record.position = request.origin;
+    for (unsigned i = 0; i < 3; ++i) record.forward[i] = direction[i] * inverse;
+    record.speed = record.source.velocity;
+    record.remaining_ms = record.source.timer_ms;
+    record.skill = true;
+    record.skill_check = request.check;
+    record.skill_delayed = request.delayed;
+    projectile_id = record.id;
+    projectiles_.emplace(record.id, std::move(record));
+    launched_.emplace(key, projectile_id);
+    error.clear();
+    return true;
+}
+
 bool RuntimeSessionProjectileV1::contact(
     const RuntimeSessionProjectileContactV1& contact_event, bool& accepted,
     std::string& error) {
@@ -397,6 +461,17 @@ bool RuntimeSessionProjectileV1::contact(
         error.clear();
         return true;
     }
+    if (projectile.skill && projectile.skill_check) {
+        // CharAISkillScript::_ProjectileCheck: the Lua delayed_check decides whether this collision is a hit.
+        bool accept = false;
+        if (!projectile.skill_check({projectile.id, projectile.owner, contact_event.peer, projectile.source.row,
+                                     contact_event.point, false}, accept, error))
+            return fail(error, "Skill projectile delayed_check callback failed");
+        if (!accept) {
+            error.clear();
+            return true;
+        }
+    }
     RuntimeSessionProjectileImpactCandidateV1 candidate;
     candidate.projectile_id = projectile.id;
     candidate.source_generation = projectile.source_generation;
@@ -419,6 +494,22 @@ bool RuntimeSessionProjectileV1::process_pending(Record& projectile,
     if (!session_alive())
         return fail(error, "Projectile store owner CombatSession was destroyed");
     if (!projectile.pending_hit) {
+        error.clear();
+        return true;
+    }
+    if (projectile.skill) {
+        // CharAISkillScript::_ProjectileHit: the Lua delayed(target, projectile) owns the result; no F_MeleeAttack here.
+        const auto candidate = *projectile.pending_hit;
+        if (projectile.skill_delayed &&
+            !projectile.skill_delayed({projectile.id, projectile.owner, candidate.target, projectile.source.row,
+                                       candidate.contact_point, false}, error))
+            return fail(error, "Skill projectile delayed callback failed");
+        impacts_.push_back({projectile.id, projectile.owner, candidate.target, projectile.source.row,
+            projectile.source.disappear_on_hit ? 4 : 0, candidate.contact_point, projectile.source.impact_fx,
+            projectile.source.impact_sound, std::nullopt});
+        projectile.pending_hit.reset();
+        projectile.contact.reset();
+        if (projectile.source.disappear_on_hit) projectile.live = false;
         error.clear();
         return true;
     }
@@ -532,6 +623,17 @@ bool RuntimeSessionProjectileV1::update(std::uint64_t frame,
         // GameObject::UpdateSubObjects calls virtual GetSpeed and writes an XY
         // velocity after the World step. Projectile::Update damps its scalar
         // only after that write, so the body consumes this value next frame.
+        if (projectile.skill && projectile.explicit_target != invalid_actor_id && projectile.source.target_lock) {
+            // Inference: a target_lock row steers toward its SetProjectileTarget actor each frame (the Projectile::Update
+            // target branch at 0x3e52bc reads the target position). The exact steering law is not decoded.
+            const auto* target = session_.actor(projectile.explicit_target);
+            if (target && target->alive()) {
+                const float dx = target->transform.position[0] - projectile.position[0];
+                const float dy = target->transform.position[1] - projectile.position[1];
+                const float length = std::sqrt(dx * dx + dy * dy);
+                if (std::isfinite(length) && length > 1.0e-3f) projectile.forward = {dx / length, dy / length, 0.0f};
+            }
+        }
         projectile.physics_velocity = {
             projectile.speed * projectile.forward[0],
             projectile.speed * projectile.forward[1], 0.0f};
@@ -550,6 +652,10 @@ bool RuntimeSessionProjectileV1::update(std::uint64_t frame,
             expired = length_squared(delta) >= max_sq;
         }
         if (expired) {
+            if (projectile.skill && projectile.skill_delayed &&
+                !projectile.skill_delayed({projectile.id, projectile.owner, invalid_actor_id, projectile.source.row,
+                                           projectile.position, true}, error))
+                return fail(error, "Skill projectile expiry callback failed");
             impacts_.push_back({projectile.id, projectile.owner,
                 invalid_actor_id, projectile.source.row, 1, projectile.position,
                 projectile.source.expire_fx, projectile.source.expire_sound,

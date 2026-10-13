@@ -107,6 +107,36 @@ struct RuntimeSessionProjectileServicesV1 {
     RuntimeSessionProjectileHitSemanticsV1 source_hit_semantics;
 };
 
+// v21.8 mage: skill projectiles (Lua SpawnSkillProjectile). The Lua registers `delayed_check(target, projectile)` and
+// `delayed(target, projectile)` (RegisterSkillEx); the native CharAISkillScript::_ProjectileCheck (0x3daff4) and
+// _ProjectileHit (0x3dae7c) call them. A skill that registers no check accepts every collision (the native default).
+// `expired` is the Lua `delayed(nil, projectile)` call: the projectile ran out of timer/distance without a hit.
+struct RuntimeSessionSkillProjectileEventV1 {
+    std::uint64_t projectile_id{};
+    ActorId owner{invalid_actor_id}, peer{invalid_actor_id};
+    std::int32_t source_row{-1};
+    std::array<float, 3> position{};
+    bool expired{};
+};
+using RuntimeSessionSkillProjectileCheckV1 = std::function<bool(
+    const RuntimeSessionSkillProjectileEventV1&, bool& accept, std::string& error)>;
+using RuntimeSessionSkillProjectileDelayedV1 = std::function<bool(
+    const RuntimeSessionSkillProjectileEventV1&, std::string& error)>;
+
+struct RuntimeSessionSkillProjectileLaunchV1 {
+    ActorId owner{invalid_actor_id};
+    // One launch identity per skill occurrence (the store rejects a replay of the same owner/generation/occurrence).
+    std::uint64_t generation{}, occurrence{};
+    std::int32_t row{-1};            // ProjectileTable row (Lua GetPyOID("ProjectileTable", name))
+    std::array<float, 3> origin{};   // Lua SpawnSkillProjectile origin: the owner, or the first victim of a chain hop
+    std::array<float, 3> forward{};  // used when no explicit target is given
+    // Lua SetProjectileTarget. With a row whose target_lock flag is set the projectile steers toward it (inference,
+    // see runtime_session_projectile_v1.cpp), and a `dedicated` row only collides with this actor.
+    ActorId explicit_target{invalid_actor_id};
+    RuntimeSessionSkillProjectileCheckV1 check;
+    RuntimeSessionSkillProjectileDelayedV1 delayed;
+};
+
 struct RuntimeSessionProjectileLaunchV1 {
     ActorId owner{invalid_actor_id};
     std::uint64_t occurrence{};
@@ -136,6 +166,11 @@ public:
     bool launch_state5(const std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101>&,
         const RuntimeSessionProjectileLaunchV1&, bool& accepted,
         std::uint64_t& projectile_id, std::string& error);
+
+    // v21.8 mage: Lua SpawnSkillProjectile. Plan fields come from the authored ProjectileTable row; no melee hit is formed
+    // here: the skill owner receives its `check`/`delayed` callbacks and applies its own SkillCombatRoll results.
+    bool launch_skill(const std::shared_ptr<const dh2::android_ui::SourceProcessArraysV101>&,
+        const RuntimeSessionSkillProjectileLaunchV1&, std::uint64_t& projectile_id, std::string& error);
 
     // The physical/contact owner reports actual same-session character contacts
     // here. Source filters are applied before a pending callback is recorded.
@@ -177,6 +212,10 @@ private:
         float speed{};
         std::int64_t remaining_ms{};
         std::optional<RuntimeSessionProjectileImpactCandidateV1> pending_hit;
+        // v21.8 mage: skill projectile state (Lua check/delayed callbacks, optional locked target).
+        bool skill{};
+        RuntimeSessionSkillProjectileCheckV1 skill_check;
+        RuntimeSessionSkillProjectileDelayedV1 skill_delayed;
         std::optional<RuntimeSessionProjectileContactV1> contact;
         bool live{true}, native_body{};
         bool owner_projectile_hit_delivered{};
