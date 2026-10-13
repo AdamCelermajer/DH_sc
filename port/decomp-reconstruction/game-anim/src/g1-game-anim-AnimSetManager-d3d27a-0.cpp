@@ -6,10 +6,13 @@
 #include "dh2/AnimSetManager.hpp"
 
 #include <cstdio>
+#include <cstdlib>
+#include <string>
 
 #include "dh2/Animation.hpp"
 #include "dh2/AnimationSet.hpp"
 #include "dh2/AnimatorSet.hpp"
+#include "dh2/DebugSwitches.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
 
 // Engine assert level, declared in core-platform/memory.hpp. That header is not included here: it pulls
@@ -50,21 +53,18 @@ void AnimSetManager::DBG_DumpInfo() const {
 }
 
 // 0x47559c _ZN14AnimSetManager9GetClipIdEii
-// partial. Reproduced: the -1 result for a missing set, the node that Exists() finds (lower_bound), the AnimationSet
-// at node +0x14, and the AnimationSet::GetAnimation(animIndex) call, which can load or replace an entry, so its side
-// effect is kept.
-// Not reproduced: the clip id. After that call the original loads the dword at byte offset +0x20 of the returned
-// Animation (asm: ADD R0,R5,#0x14 / BL GetAnimation / LDR R0,[R0,#0x20]). The Hex-Rays line
-// `*((_DWORD *)GetAnimation(...) + 8)` is a DWORD index, so the byte offset is 0x20, not 0x08. Animation.hpp declares
-// no member at +0x20: its m_clipId at +0x08 came from reading that index as a byte offset. Layout request:
-// "Animation +0x20 int32_t m_clipId". Until it is applied, an existing set returns -1, a placeholder and not a clip id.
+// Reproduced: the -1 result for a missing set, the node that Exists() finds (lower_bound), the AnimationSet at node
+// +0x14, the AnimationSet::GetAnimation(animIndex) call (which can load or replace an entry), and the read of the clip
+// id at Animation +0x20 (asm: ADD R0,R5,#0x14 / BL GetAnimation / LDR R0,[R0,#0x20]). The Hex-Rays line
+// `*((_DWORD *)GetAnimation(...) + 8)` is a DWORD index, so the byte offset is 0x20. That word is Animation::unk_20
+// (the clip id, -1 for none, see dh2/Animation.hpp). GetAnimation returns s_invalidAnim on a miss, so the entry is
+// never null.
 int AnimSetManager::GetClipId(int setId, int animIndex) {
     if (!Exists(setId)) {
         return -1;
     }
     AnimationSet& set = m_sets.lower_bound(setId)->second;  // the node Exists() found
-    set.GetAnimation(animIndex);                             // the call is kept; the returned entry is not read yet
-    return -1;                                               // placeholder: the clip id at Animation +0x20 is not reproduced
+    return set.GetAnimation(animIndex)->unk_20;              // Animation +0x20: the clip id
 }
 
 // 0x475664 _ZN14AnimSetManager5FlushEv
@@ -164,15 +164,16 @@ void AnimSetManager::AddTemplateAnim(int setId, int animDict) {
 }
 
 // 0x476464 _ZN14AnimSetManager6CreateEv
-// partial. Reproduced: the id decrement, the existence check on the new id with the level-1 assert message, and
-// the creation of the set (CreateAnimSet, LG_DEVICES flag). Returns the new id.
-// Not reproduced: when gAssertLevel == 2 and the id is already taken, the original stores 0 to address 0
-// (dword_0), a deliberate fault. This build does not reproduce that store.
+// Reproduced: the id decrement, the existence check on the new id with the level-1 assert message, and the creation
+// of the set (CreateAnimSet, LG_DEVICES flag). Returns the new id.
+// At gAssertLevel == 2 with the id already taken, the original stores 0 to address 0 (dword_0), a deliberate fault
+// that ends the process. Here that is std::abort(), the same convention as AnimatedFX::ForceMaterial and
+// AnimController (the process ends at this point; the signal differs, SIGABRT for SIGSEGV).
 int AnimSetManager::Create() {
     --m_nextSetId;
     if (Exists(m_nextSetId)) {
         if (gAssertLevel == 2) {
-            // partial: the deliberate fault (store to address 0, dword_0) is not reproduced.
+            std::abort();
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "Exists(m_nextSetId) == false",
                          "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\ObjectsSub\\Visual\\Animations\\AnimSetManager.cpp",
@@ -188,11 +189,10 @@ int AnimSetManager::Create() {
 }
 
 // 0x47653c _ZN14AnimSetManager7AddAnimEii
-// partial. Reproduced: the creation of a missing set (the id must be non-negative), the CreateAnimSet call and the
-// LG_DEVICES flag, then LoadAnimation(animDict) when the set's unk_3c flag (+0x3c) is clear.
-// Not reproduced: after LoadAnimation the original calls DebugSwitches::load() and then
-// GetSwitch("isTracingAnimSetManager") on DebugSwitches::s_inst, and discards the switch value. s_inst is private
-// in DebugSwitches.hpp, and GetSwitch's side effects are not known, so this read is left out.
+// Reproduced: the creation of a missing set (the id must be non-negative), the CreateAnimSet call and the LG_DEVICES
+// flag, then LoadAnimation(animDict) when the set's unk_3c flag (+0x3c) is clear. After the load the original calls
+// DebugSwitches::load() on DebugSwitches::s_inst and then GetSwitch("isTracingAnimSetManager"), and discards the
+// switch value (the string is built and freed inside the function). Both calls are kept.
 void AnimSetManager::AddAnim(int setId, int animDict) {
     if (!Exists(setId)) {
         if (setId < 0) {
@@ -207,5 +207,7 @@ void AnimSetManager::AddAnim(int setId, int animDict) {
     AnimationSet& set = m_sets[setId];
     if (!set.unk_3c) {
         set.LoadAnimation(animDict);
+        DebugSwitches::s_inst.load();
+        (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingAnimSetManager"));  // value discarded
     }
 }

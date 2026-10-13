@@ -11,34 +11,39 @@
 //     is the local Character every handler here reads. The handlers call it.
 //   - The "isTracingMenuBase" switch is read at each trace point only for the DebugSwitches file load, since every
 //     use drops the result. TraceMenuBaseSwitch below performs that load and lookup.
-//   - The menu's context is a gameswf::weak_ptr<character> pair: a proxy at +0x48 (MenuFX::State::m_characterProxy) and
-//     the cached character at +0x4c (m_character). The alive test and the release need the weak_proxy layout and
-//     gameswf::free_internal, which the game tree does not declare (see the MenuFX State notes). Where the original tests
-//     or releases the proxy, this file takes the context as alive and marks the function PARTIAL.
-//   - RenderFX::SetMember, IsAnimOver, FindCharacters, SetContext, GetSearchIndex, SearchIndex::Find, FormatHTML and
-//     SetFocus, the RenderFX::Event fields, VoxSoundManager and nativeOpenBrowser are not declared in this tree. Their
-//     calls are left out and marked PARTIAL.
+//   - The menu's context is a gameswf::weak_ptr<character> pair: a proxy at +0x48 (MenuFX::State::m_characterProxy, a
+//     gameswf weak_proxy whose m_alive byte is at +0x04, base/weak_ptr.h) and the cached character at +0x4c (m_character).
+//     The alive test is weak_proxy::is_alive. The release (count drop at +0x00, then free) is not reproduced, because the
+//     count is private and the free is gameswf::free_internal; the functions that release it are PARTIAL.
+//   - RenderFX::SetMember (dh2/RenderFX.hpp) publishes _root.retval. IsAnimOver, FindCharacters, SetContext,
+//     GetSearchIndex, SearchIndex::Find, FormatHTML, the RenderFX::Event fields, VoxSoundManager and nativeOpenBrowser
+//     are not declared in this tree. Their calls are left out and marked PARTIAL.
 //   - LC_API_STRCMP_0 is strcmp (0 when equal), LC_API_ATOI_0 is atoi.
 //   - The State base releases its two proxies (+0x50, then +0x48) after ~MenuBase. That is MenuFX::State::~State.
-//   - Character.hpp and PlayerManager.hpp cannot be included in one translation unit. Character.hpp reaches pydata's
-//     deps/stream_reader.hpp, which defines IStreamBase, and PlayerManager.hpp reaches net-transport's deps/i_stream_base.hpp,
-//     which defines it again; StreamBuffer then fails to compile. This file includes PlayerManager.hpp for the local
-//     character pointer only. Every Character member call is therefore PARTIAL (see the notes on each function).
+//   - The local Character (dh2/Character.hpp) and its ItemInventory and CharProperties bases compile together with
+//     PlayerManager.hpp and the pydata structs. The character handlers use its members directly.
 
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
+#include "base/weak_ptr.h"
 #include "core-platform/memory.hpp"
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/DragAndDrop.hpp"
 #include "dh2/MenuBase.hpp"
+#include "dh2/MenuCharacterSelect.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/PlayerManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "gameswf/gameswf.h"
+#include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays_00.hpp"
 
 namespace {
 
@@ -92,17 +97,23 @@ bool MenuBase::FS_GetOption(const char*, const char* args, void*) {
 }
 
 // 0x421ce0 _ZN8MenuBase11FS_IncSkillEPKcS1_Pv
-// PARTIAL: the original adds one level to the local Character's skill numbered atoi(args) (Character::IncSkill(skill,
-// false)), then publishes that skill's new level as text in _root.retval. Character.hpp cannot be included here (see
-// FS_AssignPoint), so the skill is not raised and the level is not read. RenderFX::SetMember is not declared either. The
-// text buffer the publish would use is 12 bytes: the original's 4-byte sprintf buffer overflows for four-digit levels.
-// A null or empty args returns false. Otherwise returns true as in the original.
-bool MenuBase::FS_IncSkill(const char*, const char* args, void*) {
+// The original adds one level to the local Character's skill numbered atoi(args) (Character::IncSkill(skill, false)),
+// then publishes that skill's new level as text in _root.retval. The text buffer is 12 bytes: the original's 4-byte
+// sprintf buffer overflows for four-digit levels. A null or empty args returns false. Otherwise returns true, as the
+// original does on every path.
+bool MenuBase::FS_IncSkill(const char*, const char* args, void* menu) {
     if (args == nullptr || *args == '\0') {
         return false;
     }
     Character* character = ApplicationGetInstance().m_playerManager->GetLocalPlayerCharacter();
-    static_cast<void>(character);  // PARTIAL: IncSkill, SG_GetSkillLevel and the _root.retval publish are not made.
+    if (character != nullptr) {
+        const int skill = std::atoi(args);  // the original calls atoi(args) again for the level; atoi has no effect
+        character->IncSkill(skill, false);
+        const int level = character->SG_GetSkillLevel(static_cast<unsigned int>(skill));
+        char text[12];
+        std::snprintf(text, sizeof(text), "%d", level);
+        static_cast<MenuBase*>(menu)->m_menu->SetMember("_root", "retval", text);
+    }
     return true;
 }
 
@@ -113,25 +124,63 @@ bool MenuBase::FS_IncSkill(const char*, const char* args, void*) {
 void MenuBase::Update() {}
 
 // 0x42204c _ZNK8MenuBase21GetCurrentMenuContextEv
-// PARTIAL: the original returns the cached context m_character while its proxy (+0x48) is alive. When the proxy is dead
-// it releases the proxy, clears m_characterProxy and m_character, and returns null. That branch needs the weak_proxy
-// layout, which is not declared, so a dead context is returned as is.
+// The original returns the cached context m_character while its proxy (+0x48) is alive. The alive test is
+// weak_proxy::is_alive (base/weak_ptr.h). When the proxy is dead the original also releases it and clears both members,
+// then returns null. Here a dead context returns null too, and the members are kept: every later call sees the same
+// dead proxy and returns null again. PARTIAL: the release of the proxy (count drop at +0x00 and free) and the clearing
+// of m_characterProxy and m_character are not made.
 gameswf::character* MenuBase::GetCurrentMenuContext() const {
+    if (m_character == nullptr || m_characterProxy == nullptr) {
+        return m_character;
+    }
+    if (!static_cast<weak_proxy*>(m_characterProxy)->is_alive()) {
+        return nullptr;  // PARTIAL: the proxy release and the member clear are not made (see above).
+    }
     return m_character;
 }
 
 // 0x4220a0 _ZN8MenuBase12FS_StartGameEPKcS1_Pv
-// PARTIAL: only the first step is rebuilt. Unless args is "false", the original closes the menu stack (MenuFX::PopAll on
-// m_menu). The rest is not rebuilt: it reads the last save slot (SavegameManager +0x08, m_lastSlot, private with no
-// accessor; -1 becomes 0), deletes an existing save in that slot, builds a PlayerSavegame for it (mode 1), reads the
-// menu's string at +0x94 and the MenuCharacterSelect class id (+0x164), sets the save date, writes the save, and
-// calls Application::LoadLevel with the level name from Arrays::LevelList. Some PlayerSavegame fields are written at
-// offsets derived from the static difficulty level, which the pseudocode does not resolve. Returns true as in the original.
+// Unless args is "false", the original closes the menu stack (MenuFX::PopAll on m_menu). It then reads the last save slot
+// (SavegameManager::m_lastSlot; -1 becomes 0 and is stored back), deletes an existing save in that slot, and builds a
+// PlayerSavegame for it (load mode 1). The new save takes the menu's player name (the menu's string at +0x94 is the
+// data pointer of m_playerName, the std::string at +0x80: a std::string keeps its data pointer at +0x14, as the
+// PlayerSavegame name pointer at +0x2c does), the class id of MenuCharacterSelect (+0x164), player level 1 and the save
+// date. For the current difficulty its entry point is 0 and its level id is 41 (the words at +0x40 and +0x50 + 4*difficulty
+// of PlayerSavegame). The save is written. Unless args is "false", Application::LoadLevel then starts the level named by
+// the Arrays::LevelList entry of that level id (the name pointer at +0x20 of the entry, LevelDeclaration::m_w8), with the
+// save's slot, not resumed, and the spawn point in use. Returns true as in the original.
 bool MenuBase::FS_StartGame(const char*, const char* args, void* menu) {
-    if (args == nullptr || std::strcmp(args, "false") != 0) {
-        static_cast<MenuBase*>(menu)->m_menu->PopAll();
+    MenuBase* self = static_cast<MenuBase*>(menu);
+    const bool closeMenus = args == nullptr || std::strcmp(args, "false") != 0;
+    if (closeMenus) {
+        self->m_menu->PopAll();
     }
-    return true;  // PARTIAL: the save and level-load steps are not made (see above).
+    SavegameManager* savegameManager = ApplicationGetInstance().m_savegameManager;
+    if (savegameManager->m_lastSlot == -1) {
+        savegameManager->m_lastSlot = 0;
+    }
+    const auto slot = static_cast<std::uint32_t>(savegameManager->m_lastSlot);
+    if (PlayerSavegame::SG_Exists(slot)) {
+        PlayerSavegame::SG_Delete(slot);
+    }
+    PlayerSavegame save(slot, 1, false);
+    const int classMemberId = MenuCharacterSelect::GetInstance()->m_classMemberId;
+    save.m_name.assign(self->m_playerName.c_str());
+    save.m_playerLevel = 1;
+    save.m_playerClass = classMemberId;
+    save.SG_SetSaveDate();
+    const int difficulty = PlayerSavegame::m_difficultyLevel;
+    save.unk_50[difficulty] = 41;
+    save.m_levelEntryPoint[difficulty] = 0;
+    save.SG_Save();
+    if (closeMenus) {
+        const auto* levels =
+            static_cast<const Structs::LevelDeclaration*>(static_cast<const void*>(Arrays::LevelList::members));
+        const char* levelName = static_cast<const char*>(levels[save.unk_50[difficulty]].m_w8);
+        ApplicationGetInstance().LoadLevel(levelName, save.m_levelEntryPoint[difficulty], save.m_slot, false, true, 0,
+                                           false, 0, 0);
+    }
+    return true;
 }
 
 // 0x422280 _ZN8MenuBase16FS_SetPlayerNameEPKcS1_Pv
@@ -152,15 +201,20 @@ bool MenuBase::FS_SetDifficulty(const char*, const char* args, void* menu) {
 }
 
 // 0x422304 _ZN8MenuBase12FS_StopMusicEPKcS1_Pv
-// Stops the music unless the main menu is on the stack with its context. The main menu's context is taken as alive
-// (see GetCurrentMenuContext). VoxSoundManager::StopMusic(VoxSoundManager::s_instance, 0) is not called: VoxSoundManager
-// is not declared in this tree. Returns false when the main menu's context is on the stack, true otherwise.
+// Stops the music unless the main menu's context is on the menu stack. The context is taken through
+// GetCurrentMenuContext, so a dead proxy counts as no context, as in the original (which then stops the music).
+// Returns false when the context is on the stack, true otherwise. PARTIAL: VoxSoundManager::StopMusic(s_instance, 0) is
+// not called, since VoxSoundManager declares no StopMusic in vox-audio; the dead-proxy release of GetCurrentMenuContext
+// is also missing.
 bool MenuBase::FS_StopMusic(const char*, const char*, void*) {
     MenuBase* mainMenu = MenuManager::GetInstance()->GetMenuByName("menu_MainMenu");
-    if (mainMenu != nullptr && mainMenu->m_character != nullptr) {
-        MenuFX::State* handler = mainMenu->m_menu->GetStateHandler(mainMenu->m_character);
-        if (handler != nullptr && mainMenu->m_menu->IsStateInStack(handler)) {
-            return false;
+    if (mainMenu != nullptr) {
+        gameswf::character* context = mainMenu->GetCurrentMenuContext();
+        if (context != nullptr) {
+            MenuFX::State* handler = mainMenu->m_menu->GetStateHandler(context);
+            if (handler != nullptr && mainMenu->m_menu->IsStateInStack(handler)) {
+                return false;
+            }
         }
     }
     return true;  // PARTIAL: VoxSoundManager::StopMusic not called (see above).

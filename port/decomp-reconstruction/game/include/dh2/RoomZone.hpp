@@ -11,10 +11,12 @@
 
 #include "dh2/Zone.hpp"
 
+class Module;
+
 class RoomZone : public Zone {
 public:
     explicit RoomZone(ObjectBase::GO_IDS id);                           // 0x396558 (C1) / 0x3965c4 (C2): Zone(id, false, true)
-    ~RoomZone() override;                                               // 0x3967a0 (D1), 0x3968b0 (D0), 0x396828 (D2)
+    ~RoomZone() override;                                               // 0x396828 (D1), 0x3968b0 (D0), 0x3967a0 (D2)
 
     // Overrides of Zone / GameObject slots, in vtable order.
     void DeclareProperties() override;                                  // slot 0x18: 0x396554, thunk to Zone::DeclareProperties
@@ -34,9 +36,9 @@ public:
                                                                         // ZoneEntered and appends it to this list. Returns true when accepted
     void InitObjectList();                                              // 0x396c44 once (guarded by m_objectListInitialized): walks
                                                                         // ObjectManager's object map (+0x0c) and calls AddInitialObject on each
-    bool HasBeenVisited() const;                                        // 0x3964a8 visited byte of the room record at +0x38c, true when none
+    bool HasBeenVisited() const;                                        // 0x3964a8 Module::m_visited of the Module at +0x38c, true when none
     bool HasInside(const Point3D<float>& position) const;               // 0x3964cc position X/Y inside the AABB (inclusive)
-    void SetVisited(bool visited);                                      // 0x3964bc writes the room record's visited byte, if present
+    void SetVisited(bool visited);                                      // 0x3964bc writes Module::m_visited of the Module at +0x38c, if set
 
     // Zone occupies +0x00 .. +0x387.
     bool unk_388;                                                       // +0x388 1 from the ctor, cleared at the end of Update. While set,
@@ -45,8 +47,9 @@ public:
     bool m_active;                                                      // +0x389 1 from the ctor. Activate sets it, Update clears it on
                                                                         // deactivation
     std::uint8_t pad_38a[2];                                            // +0x38a
-    void* unk_38c;                                                      // +0x38c not set by the ctor. A room record that is not owned. Its
-                                                                        // byte at +0x3fc is the visited flag. Null means visited
+    Module* unk_38c;                                                    // +0x38c the owning Module, a back pointer that Module::InitPost sets
+                                                                        // (Module-b8ff02-0.cpp). Module::m_visited (+0x3fc) is the visited flag.
+                                                                        // Null means visited. The original ctor does not write it
     bool m_objectListInitialized;                                       // +0x390 set by InitObjectList, which then does nothing
     std::uint8_t pad_391[3];                                            // +0x391
     std::list<GameObject*> m_objects;                                   // +0x394 circular list head, 8 bytes in the original (next at +0x394,

@@ -10,10 +10,19 @@
 #include <vector>
 
 #include "dh2/Application.hpp"
+#include "dh2/CharProperties.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/GSFlashMenu.hpp"
+#include "dh2/GSLevel.hpp"
+#include "dh2/ItemInventory.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/PlayerSavegame.hpp"
+#include "dh2/StringManager.hpp"
+#include "vendor-gameswf/as_value.hpp"
+#include "dh2/SavegameManager.hpp"
 #include "dh2/StateMachine.hpp"
 #include "dh2/global/menu_base_fs.hpp"
 #include "pydata-accessors/member_names.hpp"
@@ -21,9 +30,25 @@
 // ---- Fake singletons. Only the fields the handlers read are set. ----
 namespace {
 alignas(Application) unsigned char g_appStorage[sizeof(Application)];
-unsigned char g_machineTag;
-unsigned char g_managerTag;
+alignas(SavegameManager) unsigned char g_saveStorage[sizeof(SavegameManager)];
+alignas(StateMachine) unsigned char g_machineStorage[sizeof(StateMachine)];
+alignas(MenuManager) unsigned char g_managerStorage[sizeof(MenuManager)];
+alignas(PlayerManager) unsigned char g_playerStorage[sizeof(PlayerManager)];
+alignas(StringManager) unsigned char g_stringStorage[sizeof(StringManager)];
+alignas(MultiMenuManager) unsigned char g_mmmStorage[sizeof(MultiMenuManager)];
+alignas(MenuFX) unsigned char g_fxStorage[sizeof(MenuFX)];
+alignas(MenuBase) unsigned char g_menuObjStorage[sizeof(MenuBase)];
 unsigned char g_menuTag;
+// The fake MultiMenuManager: its first word points at this table. Slot 14 (+0x38) is PopMenu(bool).
+void* g_fakeMmmVtable[16] = {};
+int g_mmmPopCalls = 0;
+bool g_mmmPopRepeat = true;
+void FakeMmmPopMenu(MultiMenuManager*, bool repeat) {
+    ++g_mmmPopCalls;
+    g_mmmPopRepeat = repeat;
+}
+// Published _root.retval values, as "target.name=value" (as_value publishes are recorded as "<value>").
+std::vector<std::string> g_published;
 }  // namespace
 
 Application& ApplicationGetInstance() {
@@ -51,7 +76,7 @@ void Check(bool ok, const char* what) {
 
 // Link-only: the MenuManager singleton and its menu calls. The handlers never dereference the manager pointer.
 MenuManager* MenuManager::GetInstance() {
-    return reinterpret_cast<MenuManager*>(&g_managerTag);
+    return reinterpret_cast<MenuManager*>(g_managerStorage);
 }
 void MenuManager::PushMenu(const char* name) {
     g_pushed.emplace_back(name);
@@ -91,6 +116,59 @@ const char* playerClassAsStr() {
     return "Warrior";
 }
 
+// Link-only: the local player has no Character, so the character handlers take their no-character paths.
+Character* PlayerManager::GetLocalPlayerCharacter() {
+    return nullptr;
+}
+const char* StringManager::getString(int) const {
+    return nullptr;
+}
+int playerClassAsStrID(int) {
+    return 0;
+}
+int CharProperties::GetPropIDFromName(const char*) {
+    return -1;
+}
+int CharProperties::PROPS_GetInt(int, bool) const {
+    return 0;
+}
+int Character::SG_GetPlayerClass() const {
+    return -1;
+}
+bool ItemInventory::HasMainHandWeapon() const {
+    return false;
+}
+bool ItemInventory::HasTwoHander(bool) const {
+    return false;
+}
+
+// Link-only: the publish of _root.retval and the boolean value type.
+void RenderFX::SetMember(const char* target, const char* name, const char* value) {
+    g_published.push_back(std::string(target) + "." + name + "=" + value);
+}
+void RenderFX::SetMember(const char* target, const char* name, gameswf::as_value&) {
+    g_published.push_back(std::string(target) + "." + name + "=<as_value>");
+}
+void gameswf::as_value::set_bool(bool) {}
+void gameswf::as_value::drop_refs() {}
+
+// Link-only: the GSLevel state that FS_PushState compares the stack top with (the storage is never read as an object).
+alignas(16) unsigned char g_gsLevelStorage[64] __asm__("_ZN7GSLevel9s_gsLevelE");
+
+// Link-only: tu_string members that the gameswf header declares out of line (DH2: bodies not in this tree).
+int tu_string::utf8_char_count(const char*, int) {
+    return 0;
+}
+void tu_string::resize(int) {}
+int tu_string::get_hashi() const {
+    return 0;
+}
+void tu_string::operator+=(const char*) {}
+void tu_string::operator+=(const tu_string&) {}
+bool tu_string::operator==(const tu_string&) const {
+    return false;
+}
+
 // Link-only: the GSFlashMenu singleton and the StateBase virtuals it inherits, as in the game-app GSEndGame test.
 StateBase::~StateBase() {}
 void StateBase::Ctor(const StateMachine*) {}
@@ -122,7 +200,20 @@ char* g_soundNames[] = {g_soundMusic, g_soundClick};
 }  // namespace
 
 int main() {
-    ApplicationGetInstance().m_stateMachine = reinterpret_cast<StateMachine*>(&g_machineTag);
+    // Zeroed storage is an empty std::vector (the state stack), so the guarded PushState finds an empty stack.
+    ApplicationGetInstance().m_stateMachine = reinterpret_cast<StateMachine*>(g_machineStorage);
+    ApplicationGetInstance().m_playerManager = reinterpret_cast<PlayerManager*>(g_playerStorage);
+    ApplicationGetInstance().m_stringManager = reinterpret_cast<StringManager*>(g_stringStorage);
+    // The menu's MenuFX, the menu that owns it, and the MultiMenuManager with its fake vtable (slot 14, PopMenu(bool)).
+    MenuBase* fakeMenu = reinterpret_cast<MenuBase*>(g_menuObjStorage);
+    fakeMenu->m_menu = reinterpret_cast<MenuFX*>(g_fxStorage);
+    *reinterpret_cast<void***>(g_mmmStorage) = g_fakeMmmVtable;
+    g_fakeMmmVtable[14] = reinterpret_cast<void*>(&FakeMmmPopMenu);
+    reinterpret_cast<MenuManager*>(g_managerStorage)->m_multiMenuManager =
+        reinterpret_cast<MultiMenuManager*>(g_mmmStorage);
+    // FS_ReturnToGame reads the save slot: -1 (no slot) takes the path that makes no call.
+    ApplicationGetInstance().m_savegameManager = reinterpret_cast<SavegameManager*>(g_saveStorage);
+    reinterpret_cast<SavegameManager*>(g_saveStorage)->m_lastSlot = -1;
     Arrays::Sounds::m_memberNames.names = g_soundNames;
     Arrays::Sounds::m_memberNames.size = 2;
 
@@ -138,8 +229,11 @@ int main() {
     Check(MenuBase::FS_GetSaveSlot("", "", nullptr), "FS_GetSaveSlot returns true");
     Check(MenuBase::FS_ReturnToGame("", "", nullptr), "FS_ReturnToGame returns true");
     Check(MenuBase::FS_SetFocus("", "btn", nullptr), "FS_SetFocus returns true");
-    Check(MenuBase::FS_GetPlayerClass("", "", nullptr), "FS_GetPlayerClass returns true");
-    Check(MenuBase::FS_GetCharProperty("", "Strength", nullptr), "FS_GetCharProperty returns true");
+    g_published.clear();
+    Check(MenuBase::FS_GetPlayerClass("", "", fakeMenu), "FS_GetPlayerClass returns true");
+    Check(g_published.size() == 1 && g_published[0] == "_root.retval=",
+          "FS_GetPlayerClass publishes an empty class name without a character");
+    Check(MenuBase::FS_GetCharProperty("", "Strength", fakeMenu), "FS_GetCharProperty returns true");
     Check(MenuBase::FS_GetPlayerClass2("", "", nullptr), "FS_GetPlayerClass2 returns true");
     Check(!MenuBase::FS_GetHasOffHandWeapon("", "", nullptr), "FS_GetHasOffHandWeapon returns false without a character");
     Check(!MenuBase::FS_GetHasMainHandWeapon("", "", nullptr), "FS_GetHasMainHandWeapon returns false without a character");
@@ -152,6 +246,7 @@ int main() {
     Check(g_popped.size() == 1 && g_popped[0] == "menu_Shop", "FS_PopMenu(name) pops menu_Shop");
     Check(MenuBase::FS_SwitchMenu("", "menu_Main", nullptr), "FS_SwitchMenu returns true");
     Check(g_pushed.size() == 2 && g_pushed[1] == "menu_Main", "FS_SwitchMenu pushes menu_Main");
+    Check(g_mmmPopCalls == 1 && !g_mmmPopRepeat, "FS_SwitchMenu pops one page through PopMenu(false) first");
 
     // Sound-name search: a known cue is found, an unknown or empty one is not.
     Check(MenuBase::FS_PlayMusic("", "music_town", nullptr), "FS_PlayMusic(known) returns true");

@@ -1,11 +1,16 @@
-// Batch g1-game-anim-AnimatorSynchronizedBlender-e23b0b-0 (AnimatorSynchronizedBlender, part 1 of 1). Bodies follow the
-// Hex-Rays pseudocode of libDungeonHunter2.so; asm was checked for the bare-return functions and for the D0 thunks.
+// Batch g1-game-anim-AnimatorSynchronizedBlender-e23b0b-0 (AnimatorSynchronizedBlender, part 1 of 1), redone in place by
+// batch r2a-game-anim-AnimatorSynchronizedBlender-e23b0b-0. Bodies follow the Hex-Rays pseudocode of libDungeonHunter2.so;
+// asm was checked for the bare-return functions, the D0 thunks and the child lookup of the per-target loop in AnimateNode.
 //
-// The main gap is the engine base glitch::collada::CSceneNodeAnimatorSynchronizedBlender (+0x04 .. +0xb3). Its segment
-// vector (+0x30 begin, +0x34 end), its weight vector (+0x3c), its dirty flag (+0xb1), its per-target arrays (+0x54,
-// +0x60, +0x6c) and its methods (animateNode, normalizeWeights, the destructor and constructor) are not declared in any
-// canonical header, so every body that walks the segments or the weights is partial. The layout requests are in the
-// ledger notes and in the report. The own fields (+0xb4 .. +0x12f) are all declared in the owner header.
+// The main gap is still the engine base glitch::collada::CSceneNodeAnimatorSynchronizedBlender (+0x04 .. +0xb3). Its
+// segment vector (+0x30 begin, +0x34 end), its weight vector (+0x3c begin, +0x40 end), its dirty flag (+0xb1), its
+// per-target arrays (+0x54, +0x60, +0x6c) and its methods are not declared with members in a canonical header.
+// glitch-scene-collada-gui/synchronized_blender.hpp declares only two helpers and no layout, and
+// glitch-scene-collada-gui/layouts/animation_track_members.hpp is 32-bit guest-width evidence that cannot be used for
+// host-width pointers. The canonical scene::ISceneNodeAnimator and scene::ITimelineController headers now exist, so the
+// timeline calls are expressible once the segment vector is declared. Every body that walks the segments or the weights
+// stays partial. The layout requests are in the ledger notes. The own fields (+0xb4 .. +0x12f) are all declared in the
+// owner header; the engine base ctor writes +0xb4 and +0xb8 and the owner ctor (0x3688f0) overwrites them with its own fields.
 #include "dh2/AnimatorSynchronizedBlender.hpp"
 
 #include <cstdint>
@@ -73,7 +78,8 @@ AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::~SynchronizedBlender
 // partial: the body is two checks, and both need engine base sizes. Check 1: the blender's weight count (engine base
 // +0x3c .. +0x40) must equal m_weights.size(), else ASSERT "weights.size() == blender->Weights.size()" at line 225.
 // Check 2: animatorId < segment count (engine base +0x30 .. +0x34), else ASSERT "animatorId < blender->Animators.size()"
-// at line 226. The ASSERT macro: gAssertLevel 2 stores through address 0 (stops), 1 prints "ASSERT(%s) FAILED: %s:%d".
+// at line 226. The ASSERT macro: gAssertLevel (core-platform/memory.hpp) 2 aborts (the original stores through address 0),
+// 1 prints "ASSERT(%s) FAILED: %s:%d" to the FILE at _sF + 2 (stderr, as in the gc_singleton.hpp pattern).
 // The timeMs argument is unused. Neither caller reads the return value.
 void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ApplyValues(unsigned int animatorId,
                                                                             unsigned int timeMs) {
@@ -90,6 +96,10 @@ void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ApplyValues(uns
 // = GetApplicator(child animator), its virtual AnimateNode(time) (vtable +0x10), and weight * child delta added into m_delta
 // (a null child applicator is ASSERT "aa" at line 380). Then the per-target loop over the engine base arrays +0x54, +0x60
 // and +0x6c. Last, m_time = time (+0x14). Done: the clear of m_delta and the final store, both on the reference-node path.
+// The per-target loop, for each index i whose +0x60 entry is non-zero, takes its child animator from segment 0 (not from
+// m_currentIndex; asm 0x3680a4: blender +0x30, first element, +0x04), calls the child's vtable +0x58 with (child, i), and
+// then the returned target's vtable +0x18 with (+0x54[i], weights begin, weight count, +0x60[i], +0x6c[i]). Neither slot is
+// declared (the canonical ISceneNodeAnimator header ends at +0x50).
 void AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::AnimateNode(unsigned int timeMs) {
     if (m_refNode != nullptr) {
         // partial: the weights-count assert (line 355) goes here.

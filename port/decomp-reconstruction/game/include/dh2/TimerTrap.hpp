@@ -24,8 +24,8 @@ public:
     int GetDataId() const override;                                     // slot 0xd8: 0x39d904 index of "data" in Arrays::TimerTraps
     const char* GetScript() const override;                             // slot 0xdc: 0x39d524 script name of the data row
     int GetVisual() const override;                                     // slot 0xe0: 0x39d568 visual index of the data row
-    int GetDamagerId() const override;                                  // slot 0xe4: 0x39d59c damager index, or the data row's damager
-    int GetHurtChance() const override;                                 // slot 0xe8: 0x39d5d0 hurt chance, or the data row's
+    int GetDamagerId() const override;                                  // slot 0xe4: 0x39d59c the data row's damager (+0x04), or m_dataIndex (-1) without a row; m_damagerIndex is not read
+    int GetHurtChance() const override;                                 // slot 0xe8: 0x39d5d0 m_damagerIndex when set, else the data row's hurt chance (+0x0c)
     int GetSound() const override;                                      // slot 0xec: 0x39d61c sound index of the data row
     void SpecificUpdate() override;                                     // slot 0xf4: 0x39d688 counts m_timer down; reloads and Activates at zero, then TransferVictims while active
 

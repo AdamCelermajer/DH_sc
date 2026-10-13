@@ -1,0 +1,208 @@
+// Batch g1-game-world-CRoomAttributes-90a94b-0 (part 1 of 2): the attribute accessors, the NetStruct forwards,
+// the Unserialize and Serialize entry points that take a stream, the NetRoomAttributes destructor, the
+// EraseAttributeInt, SetAttributeInt and NetRoomAttributes::Copy functions. Declarations come from
+// dh2/CRoomAttributes.hpp. Part 2 (Copy, operator=, bin eraser, Clear, constructors) is in
+// g1-game-world-CRoomAttributes-90a94b-1.cpp.
+//
+// Partial functions and what is missing:
+//   - EraseAttributeInt (0x8183e0), SetAttributeInt (0x818544), NetRoomAttributes::Copy (0x8186ac): the temporary
+//     SetChanged of the pseudocode (see the note below). The member's own SetValue, which sets the change flag when
+//     the value changes, is reproduced. The return value is the leftover register of the last SetValue call and is
+//     not reproduced (the port returns 0; nothing in the tree reads it).
+//   - Unserialize(int, NetBitStream&) (0x817fec): the `conditional` flag needs CMatching's virtual slot +0x6c
+//     (108), the host member id (CNetPlayerManager +0x170, private) and the connection index of a player
+//     (CNetPlayerInfo conn_index_, value at +0x1a0). The flag is a placeholder (false) until those are declared.
+//   - Resend (0x817e4c): the pseudocode tail-calls NetStruct::Resend and returns its leftover R0. The port returns 0.
+//
+// The temporary SetChanged. EraseAttributeInt, SetAttributeInt and NetRoomAttributes::Copy build member-sized
+// temporaries on the stack. Each compares the new value with that temporary's value slot before the slot is
+// written, and calls NetStructMember::SetChanged on the temporary when they differ. The slot is never written before
+// that compare, so the call depends on stack contents the pseudocode does not give. The temporary is discarded
+// afterwards, so the call only increments NetStruct::s_changeCounter. The port omits it. The real member's value and
+// change flag are set by its own SetValue, which is reproduced.
+
+#include "dh2/CRoomAttributes.hpp"
+
+#include <cstddef>
+#include <cstdint>
+
+namespace {
+
+// CSWTCH.280 at 0x90c27c in libDungeonHunter2.so (.rodata, 5 int32 values, read from the binary):
+// the maximum byte size of each bin attribute, indexed by tROOM_ATTRIBUTES_BIN.
+constexpr std::int32_t kMaxBinAttributeBytes[5] = {64, 256, 256, 256, 256};
+
+}  // namespace
+
+// 0x817d78 CRoomAttributes::Reload(void)
+// Empty in the binary (virtual slot 7).
+void CRoomAttributes::Reload() {
+}
+
+// 0x817d7c CRoomAttributes::IsAttibuteActive(tROOM_ATTRIBUTES_INT)
+// Tests the int-attribute active bit in the int mask value (CRoomAttributes +0x360, NetRoomAttributes +0x358).
+bool CRoomAttributes::IsAttibuteActive(tROOM_ATTRIBUTES_INT attribute) {
+    return (m_netRoomAttributes.m_intMask.GetValue() & (1u << attribute)) != 0;
+}
+
+// 0x817d94 CRoomAttributes::IsAttibuteActive(tROOM_ATTRIBUTES_BIN)
+// Tests the bin-attribute active bit in the bin mask value (CRoomAttributes +0x388, NetRoomAttributes +0x380).
+bool CRoomAttributes::IsAttibuteActive(tROOM_ATTRIBUTES_BIN attribute) {
+    return (m_netRoomAttributes.m_binMask.GetValue() & (1u << attribute)) != 0;
+}
+
+// 0x817dac CRoomAttributes::GetAttributeInt(tROOM_ATTRIBUTES_INT)
+// Reads the value with no active check (value at +0x20 of the int attribute member).
+int CRoomAttributes::GetAttributeInt(tROOM_ATTRIBUTES_INT attribute) {
+    return m_netRoomAttributes.m_intAttributes[attribute].GetValue();
+}
+
+// 0x817dbc CRoomAttributes::GetAttributeBin(tROOM_ATTRIBUTES_BIN,void *,uint)
+// The byte array's vtable slot +0x2c is GetBuffer(void*, int) and slot +0x34 is GetBufferSize(). Both are called
+// on the static NetStructByteArray<256> type, which has no further override, so the direct calls are the same.
+int CRoomAttributes::GetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, void* out, unsigned int size) {
+    m_netRoomAttributes.m_binAttributes[attribute].GetBuffer(out, static_cast<int>(size));
+    return m_netRoomAttributes.m_binAttributes[attribute].GetBufferSize();
+}
+
+// 0x817e00 CRoomAttributes::GetMaxBufferSize(tROOM_ATTRIBUTES_BIN)
+// Table CSWTCH.280 (see kMaxBinAttributeBytes). Attributes above 4 have no size.
+int CRoomAttributes::GetMaxBufferSize(tROOM_ATTRIBUTES_BIN attribute) {
+    const std::uint32_t index = static_cast<std::uint32_t>(attribute);
+    if (index <= 4u) {
+        return kMaxBinAttributeBytes[index];
+    }
+    return 0;
+}
+
+// 0x817e4c CRoomAttributes::Resend(void)
+// Tail call to NetStruct::Resend on the NetRoomAttributes block. The binary returns the callee's leftover R0,
+// which nothing reads. The port returns 0.
+int CRoomAttributes::Resend() {
+    m_netRoomAttributes.NetStruct::Resend();
+    return 0;
+}
+
+// 0x817e54 CRoomAttributes::AreChangesAcknowledged(void)
+int CRoomAttributes::AreChangesAcknowledged() {
+    return m_netRoomAttributes.NetStruct::AreChangesAcknowledged();
+}
+
+// 0x817e5c CRoomAttributes::Unserialize(NetBitStream &)
+// NetStruct::Load on the NetRoomAttributes block with member id -1 and flags 0.
+int CRoomAttributes::Unserialize(NetBitStream& stream) {
+    return m_netRoomAttributes.NetStruct::Load(stream, -1, 0u);
+}
+
+// 0x817e6c CRoomAttributes::Unserialize(char *,uint)
+// Wraps the buffer in a NetBitStream of the same size and loads it through Unserialize(NetBitStream&).
+void CRoomAttributes::Unserialize(char* buffer, unsigned int size) {
+    NetBitStream stream(size);
+    stream.SetBuffer(buffer, size);
+    Unserialize(stream);
+}
+
+// 0x817ebc CRoomAttributes::Serialize(int,int,NetBitStream &)
+// NetStruct::Serialize takes the stream first, then the member id and the packet id.
+bool CRoomAttributes::Serialize(int memberId, int packetId, NetBitStream& stream) {
+    return m_netRoomAttributes.NetStruct::Serialize(stream, memberId, packetId) != 0;
+}
+
+// 0x817ee8 CRoomAttributes::HasChanged(void)
+int CRoomAttributes::HasChanged() {
+    return m_netRoomAttributes.NetStruct::IsChanged();
+}
+
+// 0x817ef0 CRoomAttributes::ProcessAcknowledgedPacket(int,int)
+void CRoomAttributes::ProcessAcknowledgedPacket(int memberId, int packetId) {
+    m_netRoomAttributes.NetStruct::ProcessAcknowledgedPacket(memberId, packetId);
+}
+
+// 0x817ef8 CRoomAttributes::ProcessLostPacket(int,int)
+void CRoomAttributes::ProcessLostPacket(int memberId, int packetId) {
+    m_netRoomAttributes.NetStruct::ProcessLostPacket(memberId, packetId);
+}
+
+// 0x817fec CRoomAttributes::Unserialize(int,NetBitStream &)
+// PARTIAL: the `conditional` flag is a placeholder (false). The pseudocode takes the matching object's manager
+// from CMatching::Get() (virtual slot +0x6c, unnamed in the tree), reads the host member id from the player
+// manager (CNetPlayerManager +0x170, private, no accessor), looks up the host player and compares its
+// connection index (CNetPlayerInfo conn_index_, value at +0x1a0) with the manager from the matching object, and
+// checks a second lookup for -1. The member id argument goes to NetStruct::ConditionalLoad unchanged.
+int CRoomAttributes::Unserialize(int memberId, NetBitStream& stream) {
+    const bool conditional = false;  // PARTIAL placeholder, see the note above.
+    return m_netRoomAttributes.NetStruct::ConditionalLoad(conditional, stream, memberId, 0u);
+}
+
+// 0x8180f4 CRoomAttributes::NetRoomAttributes::~NetRoomAttributes()  (complete-object destructor)
+// The binary sets the vptrs, destroys the five bin attributes in reverse (virtual slot +0x14, the D1 of
+// NetStructMember), then the eight int attributes in reverse, then clears the NetStruct packet history map and
+// resets its header. In C++ the members are destroyed in reverse declaration order after this empty body: the
+// bin array, the int array, then the NetStruct base, which owns the map. The two mask members have trivial
+// destructors, as in the binary.
+CRoomAttributes::NetRoomAttributes::~NetRoomAttributes() {
+}
+
+// 0x8181bc CRoomAttributes::NetRoomAttributes::~NetRoomAttributes()  (deleting destructor)
+// SKIPPED: the compiler generates the deleting destructor for `delete` (destructor then CustomFree, the
+// operator delete). It is not written by hand.
+
+// 0x8183e0 CRoomAttributes::EraseAttributeInt(tROOM_ATTRIBUTES_INT)
+// PARTIAL: the temporary SetChanged of both writes (see the file note). The int attribute is set to 0 first
+// (the binary's temporary value is 0 before the call), then the active bit is cleared in the int mask.
+int CRoomAttributes::EraseAttributeInt(tROOM_ATTRIBUTES_INT attribute) {
+    m_netRoomAttributes.m_intAttributes[attribute].SetValue(0);
+    const std::uint32_t mask = m_netRoomAttributes.m_intMask.GetValue() & ~(1u << attribute);
+    m_netRoomAttributes.m_intMask.SetValue(mask);
+    return 0;
+}
+
+// 0x818544 CRoomAttributes::SetAttributeInt(tROOM_ATTRIBUTES_INT,int)
+// PARTIAL: the temporary SetChanged of both writes (see the file note). The int mask gets the active bit, then the
+// attribute gets the value. The member SetValue calls set the change flag where the value changes.
+int CRoomAttributes::SetAttributeInt(tROOM_ATTRIBUTES_INT attribute, int value) {
+    const std::uint32_t mask = m_netRoomAttributes.m_intMask.GetValue() | (1u << attribute);
+    m_netRoomAttributes.m_intMask.SetValue(mask);
+    m_netRoomAttributes.m_intAttributes[attribute].SetValue(value);
+    return 0;
+}
+
+// 0x8186ac CRoomAttributes::NetRoomAttributes::Copy(CRoomAttributes::NetRoomAttributes const&,uint)
+// PARTIAL: the temporary SetChanged of the two mask writes (see the file note). The int and bin masks take the
+// other block's values first. The flags then clear groups from the masks: 0x1 keeps the int attributes, 0x2 bin
+// attribute 0, 0x4 bin attributes 3 and 4, 0x8 bin attributes 1 and 2. Each kept attribute is copied with its
+// member SetValue. The return value is the leftover register of the last SetValue call and is not reproduced.
+int CRoomAttributes::NetRoomAttributes::Copy(const NetRoomAttributes& other, unsigned int flags) {
+    m_intMask.SetValue(other.m_intMask.GetValue());
+    m_binMask.SetValue(other.m_binMask.GetValue());
+
+    std::uint32_t intMask = m_intMask.GetValue();
+    std::uint32_t binMask = m_binMask.GetValue();
+    if ((flags & 0x1u) == 0) {
+        intMask = 0;
+    }
+    if ((flags & 0x2u) == 0) {
+        binMask &= ~0x1u;
+    }
+    if ((flags & 0x4u) == 0) {
+        binMask &= 0xFFFFFFE7u;
+    }
+    if ((flags & 0x8u) == 0) {
+        binMask &= 0xFFFFFFF9u;
+    }
+
+    for (int i = 0; i < 8; ++i) {
+        if ((intMask & (1u << i)) != 0) {
+            m_intAttributes[i].SetValue(other.m_intAttributes[i].GetValue());
+        }
+    }
+    for (int j = 0; j < 5; ++j) {
+        if ((binMask & (1u << j)) != 0) {
+            m_binAttributes[j].SetValue(other.m_binAttributes[j].GetValue());
+        }
+    }
+
+    m_intMask.SetValue(intMask);
+    m_binMask.SetValue(binMask);
+    return 0;
+}

@@ -1,10 +1,14 @@
 // Test for batch r2a-game-app-Application-b291be-1 (Application::Application, 0x32d980; the body is shared with 0x32d79c
 // and lives in g1-game-app-Application-b291be-2.cpp, which this test links). It checks the state the constructor leaves:
 // the stored values, the null managers, the flags, the empty strings and the receiver list, the vptr, the first-run byte
-// FirstTime, and the five job threads (CustomAlloc(0x10) then updateJob_thread(n), n = 1..5, in that order, the first
-// stored at +0x04 and the others in the file-scope globals). Exit status 0 means every check passed.
+// FirstTime, and the five job threads. Each job thread is CustomAlloc(sizeof(updateJob_thread)) followed by
+// updateJob_thread(n), n = 1..5, in that order; the first is stored at +0x04 and the others in the file-scope globals.
+// Exit status 0 means every check passed.
 //
-// Link: check_tu.sh --test <this file> g1-game-app-Application-b291be-2.cpp
+// The job threads run the REAL updateJob_thread constructor (net-transport/src/update_job_thread.cpp), not a stub. Each
+// block is followed by a guard area that the constructor must not touch, so a block that is too small is reported.
+//
+// Link: check_tu.sh --test <this file> g1-game-app-Application-b291be-2.cpp net-transport/src/update_job_thread.cpp
 // The constructor's source file also holds the other Application methods, which reference engine and game code. That code
 // is defined below as no-op stubs under the Itanium names. The stubs abort if called, and the constructor never calls them.
 // The globals FirstTime and m_updateJobThread1..4 are defined by game-app/src/Globals.cpp in the original; the test
@@ -19,6 +23,7 @@
 
 #include "dh2/Application.hpp"
 #include "dh2/global/Globals.hpp"
+#include "net-transport/update_job_thread.hpp"
 
 // Defined by the globals batch in the original.
 bool FirstTime = false;
@@ -30,6 +35,8 @@ updateJob_thread* m_updateJobThread4 = nullptr;
 namespace {
 
 constexpr int kJobCount = 5;
+constexpr unsigned kGuardBytes = 64;
+constexpr unsigned char kGuardByte = 0xCD;
 
 int g_failures = 0;
 
@@ -40,12 +47,10 @@ void Check(bool ok, const char* what) {
     }
 }
 
-// What the constructor asked the allocator and the job thread constructor for, in call order.
+// What the constructor asked the allocator for, in call order: the requested size and the block it was given.
 int g_allocCalls = 0;
 unsigned g_allocSizes[kJobCount] = {};
-int g_jobCalls = 0;
-int g_jobArgs[kJobCount] = {};
-void* g_jobSelf[kJobCount] = {};
+unsigned char* g_allocBlocks[kJobCount] = {};
 
 // Application storage. It is filled with a pattern before construction, so a member the constructor does not store
 // keeps the pattern, and a member it stores shows the stored value.
@@ -54,27 +59,27 @@ alignas(Application) unsigned char g_storage[sizeof(Application)];
 }  // namespace
 
 // The allocator of the job threads. Defined here with C++ linkage, as the declaration in core-platform/memory.hpp.
+// The block is the requested size, zeroed, followed by kGuardBytes guard bytes. Zeroing the requested part makes the
+// padding of a job thread object zero in every block, so the object bytes can be compared with a reference object.
 void* CustomAlloc(unsigned size) {
+    auto* block = static_cast<unsigned char*>(std::malloc(size + kGuardBytes));
+    if (block == nullptr) {
+        std::abort();
+    }
+    std::memset(block, 0, size);
+    std::memset(block + size, kGuardByte, kGuardBytes);
     if (g_allocCalls < kJobCount) {
         g_allocSizes[g_allocCalls] = size;
+        g_allocBlocks[g_allocCalls] = block;
     }
     ++g_allocCalls;
-    return std::malloc(size);
+    return block;
 }
 
 // The debug output function that other Application methods call. The constructor never calls it.
 void _DEBUG_OUT(const char*, ...) {}
 
 extern "C" {
-
-// Constructor of updateJob_thread, called by placement new. The test records the object and the argument.
-void _ZN16updateJob_threadC1Ei(void* self, int argument) {
-    if (g_jobCalls < kJobCount) {
-        g_jobSelf[g_jobCalls] = self;
-        g_jobArgs[g_jobCalls] = argument;
-    }
-    ++g_jobCalls;
-}
 
 // Application methods (other functions of the batch source). Never called from the constructor.
 void _ZN11Application12IsInitFinishEv() { std::abort(); }
@@ -144,6 +149,15 @@ void* _ZN13TrophyManager10s_instanceE = nullptr;
 
 namespace {
 
+// Builds updateJob_thread(argument) with the real constructor over zeroed storage and copies its bytes to out.
+void ReferenceBytes(int argument, unsigned char* out) {
+    alignas(updateJob_thread) unsigned char storage[sizeof(updateJob_thread)];
+    std::memset(storage, 0, sizeof storage);
+    updateJob_thread* obj = new (storage) updateJob_thread(argument);
+    std::memcpy(out, storage, sizeof storage);
+    obj->~updateJob_thread();
+}
+
 void TestStoredValues(const Application* app) {
     Check(app->unk_6c == 30, "unk_6c (+0x6c) is 30");
     Check(app->m_dtFactor == 1.0f, "m_dtFactor (+0x9c) is 1.0");
@@ -198,21 +212,52 @@ void TestContainers(const Application* app) {
     Check(app->unk_d4.empty(), "unk_d4 (+0xd4) is an empty string");
 }
 
-void TestJobThreads(const Application* app) {
-    Check(g_allocCalls == kJobCount, "five job threads are allocated");
-    Check(g_jobCalls == kJobCount, "five job threads are constructed");
+void TestJobThreadAllocations() {
+    Check(g_allocCalls == kJobCount, "five job thread blocks are allocated");
     for (int i = 0; i < kJobCount && i < g_allocCalls; ++i) {
-        Check(g_allocSizes[i] == 0x10, "each job thread block is 0x10 bytes");
+        Check(g_allocSizes[i] == sizeof(updateJob_thread), "each job thread block is sizeof(updateJob_thread) bytes");
     }
-    for (int i = 0; i < kJobCount && i < g_jobCalls; ++i) {
-        Check(g_jobArgs[i] == i + 1, "job thread n is constructed with argument n");
+}
+
+// Each block holds the state of updateJob_thread(n) built by the real constructor, so the argument n is in place.
+// The comparison is only meaningful if different arguments give different bytes, which is checked as well.
+void TestJobThreadObjects() {
+    for (int i = 0; i < kJobCount && i < g_allocCalls; ++i) {
+        unsigned char expected[sizeof(updateJob_thread)];
+        unsigned char other[sizeof(updateJob_thread)];
+        ReferenceBytes(i + 1, expected);
+        ReferenceBytes(i + 2, other);
+        Check(std::memcmp(g_allocBlocks[i], expected, sizeof expected) == 0,
+              "job thread n holds the state of updateJob_thread(n)");
+        Check(std::memcmp(expected, other, sizeof expected) != 0,
+              "updateJob_thread(n) and updateJob_thread(n+1) differ in bytes");
     }
-    Check(g_jobSelf[0] != nullptr && static_cast<void*>(app->m_updateJobThread0) == g_jobSelf[0],
+}
+
+// The constructor writes only inside its own block: the guard area after each block is untouched.
+void TestJobThreadGuards() {
+    for (int i = 0; i < kJobCount && i < g_allocCalls; ++i) {
+        bool intact = true;
+        for (unsigned j = 0; j < kGuardBytes; ++j) {
+            if (g_allocBlocks[i][g_allocSizes[i] + j] != kGuardByte) {
+                intact = false;
+            }
+        }
+        Check(intact, "the constructor does not write past its job thread block");
+    }
+}
+
+void TestJobThreadPointers(const Application* app) {
+    Check(g_allocCalls >= 1 && static_cast<void*>(app->m_updateJobThread0) == g_allocBlocks[0],
           "m_updateJobThread0 (+0x04) holds job thread 1");
-    Check(static_cast<void*>(m_updateJobThread1) == g_jobSelf[1], "m_updateJobThread1 holds job thread 2");
-    Check(static_cast<void*>(m_updateJobThread2) == g_jobSelf[2], "m_updateJobThread2 holds job thread 3");
-    Check(static_cast<void*>(m_updateJobThread3) == g_jobSelf[3], "m_updateJobThread3 holds job thread 4");
-    Check(static_cast<void*>(m_updateJobThread4) == g_jobSelf[4], "m_updateJobThread4 holds job thread 5");
+    Check(g_allocCalls >= 2 && static_cast<void*>(m_updateJobThread1) == g_allocBlocks[1],
+          "m_updateJobThread1 holds job thread 2");
+    Check(g_allocCalls >= 3 && static_cast<void*>(m_updateJobThread2) == g_allocBlocks[2],
+          "m_updateJobThread2 holds job thread 3");
+    Check(g_allocCalls >= 4 && static_cast<void*>(m_updateJobThread3) == g_allocBlocks[3],
+          "m_updateJobThread3 holds job thread 4");
+    Check(g_allocCalls >= 5 && static_cast<void*>(m_updateJobThread4) == g_allocBlocks[4],
+          "m_updateJobThread4 holds job thread 5");
 }
 
 void TestFirstTime() {
@@ -226,6 +271,14 @@ void TestVptr(const Application* app) {
     Check(vptr == reinterpret_cast<void* const*>(&_ZTV11Application[2]), "vptr points at the Application vtable");
 }
 
+// Destroys the five job threads the constructor built, then frees their blocks.
+void ReleaseJobThreads() {
+    for (int i = 0; i < kJobCount && i < g_allocCalls; ++i) {
+        reinterpret_cast<updateJob_thread*>(g_allocBlocks[i])->~updateJob_thread();
+        std::free(g_allocBlocks[i]);
+    }
+}
+
 }  // namespace
 
 int main() {
@@ -236,9 +289,13 @@ int main() {
     TestFlags(app);
     TestNullManagers(app);
     TestContainers(app);
-    TestJobThreads(app);
+    TestJobThreadAllocations();
+    TestJobThreadPointers(app);
+    TestJobThreadObjects();
+    TestJobThreadGuards();
     TestFirstTime();
     TestVptr(app);
+    ReleaseJobThreads();
 
     if (g_failures == 0) {
         std::printf("r2a-game-app-Application-b291be-1_test: all checks passed\n");

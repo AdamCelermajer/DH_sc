@@ -19,6 +19,7 @@ class ObjectBase;
 class GameObject;
 class Character;
 class LightBase;
+class Module;
 class RoomZone;
 class ObjectListItem;
 class NetBitStream;
@@ -37,7 +38,7 @@ public:
     void Draw2D();                                                          // 0x34024c
     void Draw3D();                                                          // 0x348988
     void DoOnlineStateFlush();                                              // 0x340250
-    float DoRemoteUpdateUpdate(float dt);                                   // 0x340274
+    void DoRemoteUpdateUpdate(float dt);                                   // 0x340274
     void ObjectReInit();                                                    // 0x3406ac
     void DoCharAIInit();                                                    // 0x34064c
     void DeleteRandomOnlineObject();                                        // 0x34072c
@@ -88,13 +89,13 @@ public:
     void AskNetResendByObjectId(int objectId);                                                         // 0x345e30
     bool IsPacketValid(int packetId, int member);                                                      // 0x342f30
     void ProcessAcknowledgedPacket(int packetId, int member);                                          // 0x346178
-    void sProcessAcknowledgedPacket(int packetId, int member);                                         // 0x346284
+    static void sProcessAcknowledgedPacket(int packetId, int member);                                         // 0x346284
     void ProcessLostPacket(int packetId, int member);                                                  // 0x348644
-    void sProcessLostPacket(int packetId, int member);                                                 // 0x348724
+    static void sProcessLostPacket(int packetId, int member);                                          // 0x348724 (static: no this, forwards to dword_99F764)
     void SerializeGameObjectNetData(int objectId, int member, NetBitStream& stream);                   // 0x346510
-    void sWritePacketData(int objectId, int member, NetBitStream& stream);                             // 0x347074
+    static int sWritePacketData(int objectId, int member, NetBitStream& stream);                             // 0x347074
     void LoadGameObjectNetData(int objectId, int member, NetBitStream& stream);                        // 0x34735c
-    void sReadPacketData(int objectId, int member, NetBitStream& stream);                              // 0x347d90
+    static void sReadPacketData(int objectId, int member, NetBitStream& stream);                       // 0x347d90 (static: no this, forwards to dword_99F764)
 
     // Object id map. Key is the object id; the value is the ObjectListItem resolved by ObjectHandle.
     std::map<int, ObjectListItem> m_objectMap;                                                         // +0x0c header, root, count (20 bytes)
@@ -102,7 +103,7 @@ public:
     // Lists and maps, in original offset order. Each list is 8 bytes (node pointer and prev).
     std::list<ObjectBase*> m_objects;                                                                  // +0x04 every object registered by Add
     uint8_t pad_20[4];                                                                                 // +0x20
-    std::list<std::int32_t> unk_24;                                                                    // +0x24 freed node by node in the dtor
+    std::list<RoomZone*> unk_24;                                                                    // +0x24 RoomZone* nodes (UpdateRooms, ForceEverythingVisible); freed node by node in the dtor
     std::list<ObjectBase*> m_updateList;                                                               // +0x2c active update list (Update splices Spawn rows here)
     std::list<ObjectBase*> m_spawnList;                                                                // +0x34 spawn staging list
     std::list<ObjectBase*> unk_3c;                                                                     // +0x3c
@@ -113,7 +114,7 @@ public:
     std::int32_t unk_58;                                                                               // +0x58
     std::int32_t unk_5c;                                                                               // +0x5c incremented once per Character::Update (dword_99F764->unk_5c); name not recovered
     std::list<Character*> m_characters;                                                                // +0x60 CharacterList (Add publishes Character* here)
-    std::list<std::int32_t> unk_68;                                                                    // +0x68 freed node by node in the dtor
+    std::list<Module*> unk_68;                                                                    // +0x68 Module* nodes (GetDynamicFogColorAtPos); freed node by node in the dtor
     std::list<Character*> unk_70;                                                                      // +0x70
     std::int32_t m_generation;                                                                         // +0x78 ObjectManager generation (ObjectHandle cache key)
     std::int32_t unk_7c;                                                                               // +0x7c
@@ -152,6 +153,6 @@ public:
     uint8_t pad_190[4];                                                                                // +0x190
     std::map<std::int16_t, std::set<std::int16_t>> unk_194;                                            // +0x194
     uint8_t pad_1a8[4];                                                                                // +0x1a8
-    std::uint8_t m_initialized;                                                                        // +0x1ac initialized byte; NetworkUnInitLevel does not clear it (Track A)
+    std::uint8_t m_initialized;                                                                        // +0x1ac initialized byte; NetworkUnInitLevel clears it (0x340bc4 stores 0 at +0x1ac)
     uint8_t pad_1ad[3];                                                                                // +0x1ad
 };

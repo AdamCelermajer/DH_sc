@@ -20,8 +20,9 @@ class CMaterialRenderer;
 class MaterialData {
 public:
     // 0x7d4a08. Stores the new material (+0x04) and its renderer (+0x00), both counted, then
-    // caches getParameterID(renderer, 2, 0) and getParameterID(renderer, 6, 0).
-    void setMaterial(const boost::intrusive_ptr<glitch::video::CMaterial>& material);  // 0x7d4a08
+    // caches getParameterID(renderer, 2, 0) and getParameterID(renderer, 6, 0). Returns the value cached in m_parameterId6
+    // (the original returns the getParameterID(renderer, 6, 0) result as an unsigned int).
+    std::uint32_t setMaterial(const boost::intrusive_ptr<glitch::video::CMaterial>& material);  // 0x7d4a08
 
     boost::intrusive_ptr<glitch::video::CMaterialRenderer> m_renderer;  // +0x00 renderer of m_material (CMaterial +0x04)
     boost::intrusive_ptr<glitch::video::CMaterial> m_material;          // +0x04 counted reference set by setMaterial

@@ -51,12 +51,12 @@ void v2Controller::Cmd_DropObject() {
 // 0x4057fc _ZN12v2Controller10Cmd_UseOOIEP10GameObject
 // PARTIAL. The gate and the final forward to Ctrl_UseOOI (vtable +0x50) are rebuilt. Not rebuilt: the online
 // branch that runs before the forward. It needs (1) the online-game flag, COnline +0x05 (isOnlineGame_), which
-// c_online.hpp keeps private with no getter (Application::IsOnlineGame, 0x320668, reads the same byte);
-// (2) the per-controller flag at +0x0a, which is in the header; (3) the target: the argument, or else the
-// Character* at Character +0x14e4, which does not match Character::m_isNetSpawned; (4) the merchant test on
-// the target (GameObject::IsCharacter, vtable +0x24, then Character::IsMerchant) and the GetInteractionType
-// (vtable +0x90) comparisons, whose meaning is not recovered; (5) the CMsgControllerAction payload (action 5)
-// at +0x50/+0x52/+0x54, which c_msg_fixed.hpp keeps opaque, and CMessaging::Get()->SendMsg.
+// c_online.hpp keeps private with no getter (Application::IsOnlineGame, 0x320668, is a stub); (2) the per-controller
+// flag at +0x0a, which is in the header; (3) the target: the argument, or else Character::m_objectOfInterest
+// (+0x14a4, a GameObject*, read as the default target by the asm); (4) the merchant test on the target
+// (GameObject::IsCharacter, vtable +0x24, then Character::IsMerchant) and the GetInteractionType (vtable +0x90)
+// comparisons, whose meaning is not recovered; (5) the CMsgControllerAction payload (action 5) at +0x50/+0x52/+0x54,
+// which c_msg_fixed.hpp keeps opaque, and CMessaging::Get()->SendMsg.
 // Layout requests are listed in the ledger notes.
 void v2Controller::Cmd_UseOOI(GameObject* target) {
     if (!CommandsEnabled(*this)) {

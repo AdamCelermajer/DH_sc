@@ -50,7 +50,11 @@ public:
     // CSceneManager occupies +0x000 .. +0x28b (not restated here).
     glitch::scene::CEmptySceneNode* m_nodeMapRoot;                  // +0x28c created by AddNodeToMap on first use, dropped and emptied by clear()
     bool m_screenshotRequested;                                     // +0x290 drawAll clears it and, when the ToggleGamepadScreenShot switch is on, writes screenshot_<time>.tga
-    uint8_t m_lightSetManager[0x1a4];                               // +0x294 LightSetManager (dh2/LightSetManager.hpp, 420 bytes), updated by drawAll and reset by clear(). The byte at +0x432 that EnableFog writes falls inside this span
+    uint8_t m_lightSetManager[0x430 - 0x294];                       // +0x294 LightSetManager (dh2/LightSetManager.hpp, 420 bytes), updated by drawAll and reset by clear(); this part is +0x294 .. +0x42f
+    bool m_lightingEnabled;                                         // +0x430 lit techniques: ChangeCustomTechnique picks the Diffuse_VC / L0_ / Decal names when set, the Unlit_ names when clear
+    bool m_specularEnabled;                                         // +0x431 specular suffix: ChangeCustomTechnique and the decal names add _Spec / Sp when set
+    bool m_fogEnabled;                                             // +0x432 fog on: EnableFog sets it, DisableFog clears it, UpdateFog reads it. The byte lies inside the LightSetManager span
+    uint8_t m_lightSetManagerTail[0x438 - 0x433];                   // +0x433 the rest of the LightSetManager span (+0x433 .. +0x437)
     // The LightBase* vector at SceneManager +0x424 (begin +0x424, end +0x428, cap +0x42c; appended to by
     // LightBase::InitPost 0x40b0c0 for automatic lights) is LightSetManager::unk_190 (LightSetManager +0x190), inside
     // this span. No SceneManager member is added for it. Suggested name for unk_190: m_automaticLights.
@@ -81,6 +85,8 @@ public:
     virtual void drawAll(glitch::scene::ISceneNode* node);          // slot 0x48: 0x359338 (updates the light set, draws, takes the screenshot)
     virtual void clear();                                           // slot 0x74: 0x354468
     virtual void registerSkinnedMesh(SkinnedMeshSceneNodeEx* mesh); // slot 0x94: 0x353afc
+    // The base's pure slot (registerSkinnedMesh(void*)) is the same slot 0x94; this overload forwards to the typed one above.
+    void registerSkinnedMesh(void* skinnedMeshNode) override;
     virtual void registerNodeForCustomRendering(glitch::scene::ISceneNode* node,
                                                 const boost::intrusive_ptr<glitch::video::CMaterial>& material,
                                                 void* userData, std::uint32_t pass,
@@ -94,8 +100,8 @@ public:
                       std::uint32_t type);                          // 0x3535d0
     void DisableFog(glitch::scene::ISceneNode* node);               // 0x350e80
     void DBG_PrintNode(glitch::scene::ISceneNode* node, bool verbose, std::uint32_t depth);   // 0x350e8c
-    void DBG_DrawCircle(const Point2D<float>& center, float radius, float width,
-                        const glitch::video::SColor& color);       // 0x352154
+    void DBG_DrawCircle(const Point2D<float>& center, float z, float radius,
+                        const glitch::video::SColor& color);       // 0x352154: sixteen segments at height z, radius in the XY plane
     void DBG_WireFrame(bool enable, glitch::scene::ISceneNode* node);   // 0x354588
     void SearchByName(glitch::scene::ISceneNode* root, void (*visit)(glitch::scene::ISceneNode*),
                       const std::string& name, bool flag);          // 0x352aa4
@@ -143,9 +149,9 @@ public:
     void SetMaterialRimLightEffects(boost::intrusive_ptr<glitch::video::CMaterial> material, float power,
                                     std::string tag);               // 0x359d08
     void SetMaterialRimLightEffects(glitch::scene::ISceneNode* node, float power, std::string tag);   // 0x35a188
-    void ChangeTechnique(boost::intrusive_ptr<glitch::video::CMaterial> material, const char* technique);   // 0x352a2c
-    void ChangeTechnique(glitch::scene::ISceneNode* node, const char* techniqueA, const char* techniqueB,
-                         int pass);                                 // 0x3566ec
+    bool ChangeTechnique(boost::intrusive_ptr<glitch::video::CMaterial> material, const char* technique);   // 0x352a2c: true when the technique changed
+    bool ChangeTechnique(glitch::scene::ISceneNode* node, const char* techniqueA, const char* techniqueB,
+                         int pass);                                 // 0x3566ec: true when the technique was set
     void ChangeCommonTechnique(boost::intrusive_ptr<glitch::video::CMaterial> material,
                                bool a, bool b, bool c);             // 0x3551e4
     void ResetCommonTechniqueToDefault(glitch::scene::ISceneNode* node, bool a, bool b, bool c);   // 0x355484
@@ -162,7 +168,7 @@ public:
     void AutoLoadNormalMap(boost::intrusive_ptr<glitch::video::CMaterial> material);   // 0x352fa8
     void AutoLoadNormalMap(glitch::scene::ISceneNode* node);        // 0x354b2c
     void UpdateLightSet(int lightSetId, std::vector<bool>& filter, glitch::scene::ISceneNode* node);   // 0x3549a0
-    void GetMaterial(glitch::scene::ISceneNode* node, const std::string& name, bool flag);   // 0x355000
+    boost::intrusive_ptr<glitch::video::CMaterial> GetMaterial(glitch::scene::ISceneNode* node, const std::string& name, bool flag);   // 0x355000: the first material whose name matches, null when none
     void GetMaterial(glitch::scene::ISceneNode* node, const char* name, bool flag);   // 0x359c60
 
     // Loading. LoadScene returns the loaded root (null when it fails).

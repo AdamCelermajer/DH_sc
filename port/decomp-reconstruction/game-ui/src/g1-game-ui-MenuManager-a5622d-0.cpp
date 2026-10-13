@@ -9,16 +9,20 @@
 //   - A menu's name is the inline MenuFX::State::m_name at +0x08 of the MenuBase object (strcmp'd by the original).
 //   - dword_99F780 is Singleton<Application>::s_inst +0x54, which is Application::m_menuManager. The singleton is
 //     reached through ApplicationGetInstance() (dh2/global/ctrl_camera.hpp).
-//   - m_multiMenuManager (+0xf4) is a MultiMenuManager. dh2/MultiMenuManager.hpp is not in the tree, so every
-//     function that reads its menu-FX or camera slots is PARTIAL.
+//   - m_multiMenuManager (+0xf4) is a MultiMenuManager (dh2/MultiMenuManager.hpp, in the tree). Its movie slots are m_menuFX[0..3] at +0x134 and its cameras m_cameras[0..3] at +0x144.
 //   - RenderFX::Event is only forward-declared (dh2/RenderFX.hpp is a placeholder), and IEvent has no header, so the
 //     event fields are not named here.
 
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 
 #include "dh2/Application.hpp"
+#include "dh2/EvTouchScreenMove.hpp"
+#include "dh2/EvTouchScreenPress.hpp"
 #include "dh2/HUDControls.hpp"
+#include "dh2/IEvent.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuFlash2DCamera.hpp"
@@ -77,46 +81,56 @@ MenuBase* MenuManager::GetMenuByID(int id) {
 }
 
 // 0x42cb80 _ZN11MenuManager7GetRootEv
-// PARTIAL: the original returns m_multiMenuManager->m_menuFX[2] (multi-menu +0x13c). dh2/MultiMenuManager.hpp is not
-// in the tree, so the field cannot be named and the function returns null. Waits on dh2/MultiMenuManager.hpp.
+// The root movie: m_multiMenuManager->m_menuFX[2] (MultiMenuManager +0x13c).
 MenuFX* MenuManager::GetRoot() {
-    return nullptr;  // PARTIAL: return m_multiMenuManager->m_menuFX[2]; (see above)
+    return m_multiMenuManager->m_menuFX[2];
 }
 
 // 0x42cb8c _ZN11MenuManager10GetHUDRootEv
-// PARTIAL: the original returns m_multiMenuManager->m_menuFX[3] (multi-menu +0x140). Waits on dh2/MultiMenuManager.hpp.
+// The HUD root movie: m_multiMenuManager->m_menuFX[3] (MultiMenuManager +0x140).
 MenuFX* MenuManager::GetHUDRoot() {
-    return nullptr;  // PARTIAL: return m_multiMenuManager->m_menuFX[3]; (see above)
+    return m_multiMenuManager->m_menuFX[3];
 }
 
 // 0x42cb98 _ZN11MenuManager13GetRootCameraEv
-// PARTIAL: the original returns the camera word at m_multiMenuManager +0x14c. Waits on dh2/MultiMenuManager.hpp.
+// The camera of the root movie: m_multiMenuManager->m_cameras[2] (MultiMenuManager +0x14c).
 MenuFlash2DCamera* MenuManager::GetRootCamera() {
-    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x14c>; (see above)
+    return m_multiMenuManager->m_cameras[2];
 }
 
 // 0x42cba4 _ZN11MenuManager16GetHUDRootCameraEv
-// PARTIAL: the original returns the camera word at m_multiMenuManager +0x150. Waits on dh2/MultiMenuManager.hpp.
+// The camera of the HUD root movie: m_multiMenuManager->m_cameras[3] (MultiMenuManager +0x150).
 MenuFlash2DCamera* MenuManager::GetHUDRootCamera() {
-    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x150>; (see above)
+    return m_multiMenuManager->m_cameras[3];
 }
 
 // 0x42cbb0 _ZN11MenuManager14GetRootCamera2Ev
-// PARTIAL: reads the same multi-menu word as GetRootCamera (+0x14c). Waits on dh2/MultiMenuManager.hpp.
+// Reads the same word as GetRootCamera: m_multiMenuManager->m_cameras[2] (MultiMenuManager +0x14c).
 MenuFlash2DCamera* MenuManager::GetRootCamera2() {
-    return nullptr;  // PARTIAL: return m_multiMenuManager-><camera at +0x14c>; (see above)
+    return m_multiMenuManager->m_cameras[2];
 }
 
 // 0x42cbbc _ZNK11MenuManager26GetRawCurrentEventPositionERiS0_
-// PARTIAL: with m_currentEvent null the original writes nothing, and that case is done here. With an event set, the
-// original calls the event's vtable slot +0x08 and writes the event's int16 x (+0x08) and y (+0x0a) when that value
-// is 4, or when a second call of the same slot returns 5, and writes 0 to both otherwise. IEvent has no header in the
-// tree, so the type test and the position reads are not written, and x and y are left as they were.
-void MenuManager::GetRawCurrentEventPosition(int& /*x*/, int& /*y*/) const {
+// The position of the current event. The original queries the event id (IEvent vtable +0x08, getEventID) and reads the
+// int16 x at +0x08 and y at +0x0a when the id is 4 (EvTouchScreenPress) or 5 (EvTouchScreenMove), which keep x and y at
+// those offsets. Any other id writes 0 to both. With no current event nothing is written, as in the original.
+void MenuManager::GetRawCurrentEventPosition(int& x, int& y) const {
     if (m_currentEvent == nullptr) {
         return;
     }
-    // PARTIAL: event-type test and position reads need IEvent's layout (see above).
+    const std::uint32_t eventId = m_currentEvent->getEventID();
+    if (eventId == EvTouchScreenPress::kEventId) {
+        const auto* event = static_cast<const EvTouchScreenPress*>(m_currentEvent);
+        x = event->x;
+        y = event->y;
+    } else if (eventId == EvTouchScreenMove::kEventId) {
+        const auto* event = static_cast<const EvTouchScreenMove*>(m_currentEvent);
+        x = event->x;
+        y = event->y;
+    } else {
+        x = 0;
+        y = 0;
+    }
 }
 
 // 0x42cc34 _ZN11MenuManager12consumeEventEv

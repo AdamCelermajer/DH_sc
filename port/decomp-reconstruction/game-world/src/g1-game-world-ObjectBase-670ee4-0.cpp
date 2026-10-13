@@ -117,17 +117,18 @@ void ObjectBase::Disabled() {
 }
 
 // 0x33de90 _ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE
-// PARTIAL: waits on dh2/CameraLevel.hpp, on the aabb<float> definition and on a COnline accessor. Reproduced:
+// PARTIAL: waits on the aabb<float> definition (forward-declared only, no header defines its six floats) and on the
+// COnline flag at +0x05 (GetOnline() returns COnline*, global/net_singletons.hpp, and no header declares that flag).
+// The frustum slot is known now: ICameraSceneNode::getViewFrustum (scene/ICameraSceneNode.hpp, +0x144). Reproduced:
 // the +0x86 steps (0 becomes 1 on the first call; any value other than 1 returns true at once) and the
 // no-level exit, which sets +0x86 to 2. Missing, in the original order:
 //   1. The online gate. When the online flag of GetOnline() is set (COnline +0x05, private, no accessor), the
 //      original calls the virtual IsRemotelyUpdated() (vtable +0x54) and discards the result.
 //   2. The frustum test. The box is six floats (min x, y, z, then max x, y, z; aabb<float> is forward-declared
-//      only). The camera is Level +0x128 (CameraLevel*, not declared), then CameraBase +0x08 (protected, the
-//      glitch camera node). The node's vtable +0x144 returns a float* used as glitch::scene::SViewFrustum
-//      (cameraPosition at +0x00, planes at +0x0c, 16 bytes each). scene_nodes.hpp lists getViewFrustum at +0x150,
-//      so the slot is unresolved. Each plane takes the box corner by the sign of its normal, and a corner with a
-//      positive plane distance rejects the object (returns 0).
+//      only). The camera is Level +0x128 (CameraLevel*), then CameraBase +0x08 (the glitch camera node, m_camera).
+//      The node's getViewFrustum returns a SViewFrustum*, whose planes start at +0x0c, 16 bytes each (normal, then
+//      D). Each plane takes the box corner by the sign of its normal, and a corner with a positive plane distance
+//      rejects the object (returns 0).
 // Until the frustum test is written the function never culls: it returns true and leaves +0x86 at 1.
 bool ObjectBase::TestCullingBeforeUpdate(const aabb<float>& box) {
     (void)box;
@@ -163,7 +164,9 @@ void ObjectBase::Serialize(IStreamBase* stream) {
 }
 
 // 0x33e61c _ZN10ObjectBase20TestDisableConditionEb
-// PARTIAL: waits on dh2/PlayerInfo.hpp. The original first looks up the local player (GetLocalPlayer(0, true) on
+// PARTIAL: the gate needs dh2/PlayerManager.hpp (GetLocalPlayer on dword_99F76C) and dh2/Character.hpp (m_savegame)
+// in one translation unit, and those two cannot share one (CustomFree is redefined in pydata-accessors/deps/stream_reader.hpp).
+// PlayerInfo +0x660 (Character* unk_660) and PlayerSavegame::m_questSynced (+0x14) are declared. The original first looks up the local player (GetLocalPlayer(0, true) on
 // dword_99F76C). It reads the pointer at PlayerInfo +0x660, which is the Character (see GameObject::IsPlayerNearby
 // in game-world/ledger.d). It then reads Character::m_savegame (+0x14e8, declared in Character.hpp) and that
 // PlayerSavegame's m_questSynced (+0x14, declared). When the savegame is null or not quest synced, the function

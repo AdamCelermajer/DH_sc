@@ -1,7 +1,7 @@
 // Checks the CharProperties accessors that run without the engine: the word layout of the sheet, property
 // reads and writes with their range guards, the speed and opacity getters (returned as float bit patterns),
-// the XP and price modifiers and SetCharacter. The stubs (_GetDefault, _GetType, _ResetProperties,
-// PROPS_ResetSheet, DBG_PROPS_GetName) are not checked: they are partial.
+// the XP and price modifiers, SetCharacter, the default and type reads from the character table, the default
+// reset of a sheet and the property names.
 // The test reaches the private members through the same macro as the net-transport tests; it is test-only.
 #include <cmath>
 #include <cstdint>
@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "pydata-accessors/structs_records.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
 
 #define private public
 #include "dh2/CharProperties.hpp"
@@ -31,6 +32,13 @@ void CharacterProperties::read(IStreamBase*) {}
 
 // Static sheet that PROPS_ResetSheet falls back to. It is defined in another batch; the test defines it.
 Structs::CharacterProperties CharProperties::s_temp;
+
+// The character table and the property name table. The PyData loader fills them in the game; the test points
+// them at its own rows and names.
+std::uint8_t* Arrays::CharacterTable::members = nullptr;
+namespace Structs {
+pydata::NameTable CharacterProperties::m_dataNames;
+}  // namespace Structs
 
 static int failures = 0;
 #define CHECK(c)                                                              \
@@ -136,6 +144,53 @@ int main() {
     CHECK(c.m_character == ch);
     c.SetCharacter(nullptr);
     CHECK(c.m_character == nullptr);
+
+    // Default and type reads: row 0 and row 1 of the character table, word id+1 of each record.
+    {
+        Structs::CharacterProperties rows[2];
+        rows[0].m_w3 = 9;       // default of id 2
+        rows[0].m_w6 = 40;      // default of id 5
+        rows[1].m_w6 = 2;       // type of id 5
+        Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(rows);
+        CharProperties& d = Fresh();
+        CHECK(d._GetDefault(2) == 9);
+        CHECK(d._GetDefault(5) == 40);
+        CHECK(d._GetDefault(223) == 0);
+        CHECK(d._GetDefault(224) == -1);   // out of range: _GetProperty gives -1
+        CHECK(d._GetType(5) == 2);
+        CHECK(d._GetType(224) == 16);      // the -1 of an unresolved lookup becomes 16
+
+        // _ResetProperties copies every default into the sheet; PROPS_ResetSheet with a null sheet resets s_temp.
+        Structs::CharacterProperties sheet;
+        sheet.m_w6 = 77;
+        d._ResetProperties(sheet);
+        CHECK(sheet.m_w3 == 9 && sheet.m_w6 == 40 && sheet.m_w224 == 0);
+        sheet.m_w3 = 1;
+        d.PROPS_ResetSheet(&sheet);
+        CHECK(sheet.m_w3 == 9);
+        CharProperties::s_temp.m_w3 = 5;
+        d.PROPS_ResetSheet(nullptr);
+        CHECK(CharProperties::s_temp.m_w3 == 9);
+        Arrays::CharacterTable::members = nullptr;
+    }
+
+    // Property names come from the record name table, in record order.
+    {
+        char alpha[] = "alpha";
+        char beta[] = "beta";
+        char* names[2] = {alpha, beta};
+        pydata::NameTable& table = Structs::CharacterProperties::m_dataNames;
+        table.names = names;
+        table.size = 2;
+        CharProperties& n = Fresh();
+        CHECK(std::strcmp(n.DBG_PROPS_GetName(0), "alpha") == 0);
+        CHECK(std::strcmp(n.DBG_PROPS_GetName(1), "beta") == 0);
+        CHECK(n.DBG_PROPS_GetName(2) == nullptr);
+        CHECK(n.DBG_PROPS_GetName(-1) == nullptr);
+        table.names = nullptr;
+        table.size = 0;
+        CHECK(n.DBG_PROPS_GetName(0) == nullptr);
+    }
 
     // Debug no-ops: they must not touch anything.
     c.PROPS_RemoveDot(3);

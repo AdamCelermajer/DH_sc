@@ -151,16 +151,22 @@ BlendedAnimSetController::~BlendedAnimSetController() {}
 // partial. The two copies have the same body; this definition serves both. Reproduced: the AnimController base constructor
 // with trackEvents set (the original passes 1), and the field stores in declaration order: m_animSetId (+0x08) = the set id,
 // unk_0c (+0x0c) = 0, unk_10 (+0x10) = 1, unk_14 (+0x14) = 0.
-// Not reproduced, all of it needs declarations that no header has yet:
-//  - the two AnimSetManager::GetAnimator calls on Singleton<AnimSetManager>::s_inst (the singleton is not declared), both
-//    with the set id, the first for the animator and the second for the set's second child;
-//  - the check of the first child's count, CSceneNodeAnimatorSet::getAnimationCount() > 0 (engine, 0x65f11c), which asserts
-//    at gAssertLevel 2 (a store to address 0) and 1 (message at line 69 of BlendedAnimSetController.cpp);
-//  - the blender: operator new(208) and AnimatorBlender's constructor; before each child is appended to the blender's
-//    animators, the blender's own +0x24 byte is set to 1 (undeclared on the collada base) and the child gets one count;
-//    compile(nullptr) (vtable +0x88); weights[0] = 1.0f and
-//    weights[1] = 0.0f (the weights vector is not known to be sized by the blender constructor); and m_node->addAnimator(blender)
-//    (ISceneNode vtable +0x6c, declared, but only reachable once the blender exists);
+// Not reproduced (redo pass, re-checked against the headers). Still missing:
+//  - the two AnimSetManager::GetAnimator(set id) calls on AnimSetManager::s_inst (dh2/AnimSetManager.hpp now declares it).
+//    They are reachable; the stub does not make them yet because the children they return (collada ISceneNodeAnimator*)
+//    cannot be counted or dropped (next item);
+//  - the check of the first child's count, CSceneNodeAnimatorSet::getAnimationCount() > 0 (engine, 0x65f11c). The engine
+//    class (collada_scene_accessors.hpp) does not declare getAnimationCount. It asserts at gAssertLevel 2 (a store to
+//    address 0) and 1 (message at line 69 of BlendedAnimSetController.cpp);
+//  - reference counting of the children: the collada ISceneNodeAnimator (collada_misc.hpp) is not an IReferenceCounted, so
+//    the grab before each push_back and the drops are not expressible. Layout request: glitch::collada::ISceneNodeAnimator
+//    must derive from glitch::scene::ISceneNodeAnimator (which holds the virtual IReferenceCounted at +0x0c);
+//  - the blender: operator new(208) and AnimatorBlender's constructor (declared). Before each child is appended to the
+//    blender's animators, the blender's own +0x24 byte is set to 1 (undeclared on the collada base). compile(nullptr)
+//    (vtable +0x88) is declared. weights[0] = 1.0f and weights[1] = 0.0f need a weights vector of two entries, and no
+//    evidence sizes it in the constructor path, so the stores stay out;
+//  - m_node->addAnimator(blender): the ISceneNode declaration (scene/ISceneNode.hpp:157) takes glitch::scene::ISceneNodeAnimator*,
+//    and the blender is a collada animator, so the same derivation request applies;
 //  - the cleanup: each animator gets its drop, the blender gets its drop, and the failure branch drops the animators that exist.
 // Until then no children are attached, so GetAnim returns null for this controller.
 BlendedAnimSetController::BlendedAnimSetController(RootSceneNode* node, int animSetId)

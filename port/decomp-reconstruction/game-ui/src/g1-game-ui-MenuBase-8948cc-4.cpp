@@ -29,11 +29,13 @@
 #include "dh2/Application.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/DialogMsg.hpp"
 #include "dh2/DragAndDrop.hpp"
 #include "dh2/GSInit.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/StringManager.hpp"
@@ -388,12 +390,21 @@ bool MenuBase::MyFSCommand(const char* command, const char* args) {
 }
 
 // 0x427b08 _ZN8MenuBase13FS_StopDialogEPKcS1_Pv
-// The original pops the front DialogMsg of the dialog queue (Singleton<MenuMessageManager<DialogMsg,1>>::s_inst, 0x99fb88,
-// queue 0 at +0x04) when that queue is not empty. It then calls the skip function DialogMsg::s_SkipFuncName when one is set,
-// and if messages remain it calls the start function DialogMsg::s_StartFuncName[0]. None of that is reached here: the
-// MenuMessageManager instance accessor and the DialogMsg function names are not declared in this tree.
+// The original pops the front DialogMsg of queue 0 of MenuMessageManager<DialogMsg,1>::s_inst (0x99fb88) when that queue
+// is not empty (begin and finish cursors differ, which is deque::empty). It then invokes the skip function
+// DialogMsg::s_SkipFuncName when one is set, and if messages remain it invokes the start function
+// DialogMsg::s_StartFuncName[0]. Invoke's clone reads neither the queue argument nor this, so the queue argument is 0.
 // The original returns 1 on every path, so the return here is true.
-// PARTIAL: the queue pop and the skip and start invocations are not made (see above).
 bool MenuBase::FS_StopDialog(const char*, const char*, void*) {
-    return true;  // PARTIAL: see above.
+    MenuMessageManager<DialogMsg, 1>& messages = MenuMessageManager<DialogMsg, 1>::s_inst;
+    if (!messages.m_queues[0].empty()) {
+        messages.m_queues[0].pop_front();
+        if (DialogMsg::s_SkipFuncName != nullptr) {
+            messages.Invoke(DialogMsg::s_SkipFuncName, 0);
+        }
+        if (!messages.m_queues[0].empty()) {
+            messages.Invoke(DialogMsg::s_StartFuncName[0], 0);
+        }
+    }
+    return true;
 }

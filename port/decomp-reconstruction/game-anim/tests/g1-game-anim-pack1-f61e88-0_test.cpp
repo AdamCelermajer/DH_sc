@@ -17,8 +17,10 @@
 // Engine assert level. The constructors only print or abort when it is non-zero, so the test keeps it at 0.
 int gAssertLevel = 0;
 
-// Test doubles for the v2Controller base, which the batch source calls but no test needs to run.
-v2Controller::v2Controller(v2Controllable*) {}
+// Test doubles for the v2Controller base, which the batch sources call. The base constructor is defined for real in
+// game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp; this double stores the same fields so the derived checks below see them.
+v2Controller::v2Controller(v2Controllable* controllable)
+    : m_controllable(controllable), m_blocked(false), unk_009(false), unk_00a(false), m_character(nullptr) {}
 v2Controller::~v2Controller() {}
 void v2Controller::Update() {}
 

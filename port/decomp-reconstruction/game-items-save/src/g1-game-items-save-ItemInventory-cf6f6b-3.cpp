@@ -31,6 +31,7 @@
 #include <vector>
 
 #include "core-platform/memory.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
@@ -102,11 +103,10 @@ int ItemInventory::UnEquipItemAuto(unsigned int itemIdx) {
 }
 
 // 0x400634 ItemInventory::_EquipItemToSlot(uint,uint,bool)
-// PARTIAL. The original turns the equipment category -4 into 1 when the item type is neither 4 nor 5 and Character
-// +0x1324 is set. dh2/Character.hpp declares no +0x1324 (layout request: Character +0x1324 int32, read as != 0 here,
-// CharProperties +0xdc4). The gate is answered false, so the category stays -4. On its no-op paths the original returns
-// a stale register (the array end or an assert result); this port returns 0 there. The equipped path returns 1 where
-// the original returns the item pointer left in r0.
+// The category -4 becomes 1 when the item type is neither 4 nor 5 and Character +0x1324 (m_props.m_w204) is set.
+// PARTIAL: the return value. On its no-op paths the original returns a stale register (the array end or an assert
+// result); this port returns 0 there. On the equipped path the original returns the item pointer left in r0; this port
+// returns 1. The callers checked (Character::EquipItemToSlot, _EquipItemAuto) ignore the value.
 int ItemInventory::_EquipItemToSlot(unsigned int slot, unsigned int itemIdx, bool flag) {
     bool valid = true;
     if (slot >= m_equipment[0].size()) {
@@ -126,7 +126,11 @@ int ItemInventory::_EquipItemToSlot(unsigned int slot, unsigned int itemIdx, boo
         return 0;
     }
     const int curSet = GetCurrentEquipSet(static_cast<int>(slot));
-    const int category = entry->m_item->GetItem()->m_w26;  // +0x68 equipment category, -4 = both hands
+    const Structs::Item* row = entry->m_item->GetItem();
+    int category = row->m_w26;  // +0x68 equipment category, -4 = both hands
+    if (row->m_w22 != 5 && row->m_w22 != 4 && category == -4 && m_character->m_props.m_w204 != 0) {
+        category = 1;  // Character +0x1324 set: a two-hander of another item type is equipped as category 1
+    }
     if (!entry->m_item->IsEquippable()) {
         return 0;
     }
@@ -178,10 +182,9 @@ int ItemInventory::EquipItemToSlot(unsigned int slot, unsigned int itemIdx) {
 }
 
 // 0x4009f8 ItemInventory::_EquipItemAuto(uint)
-// PARTIAL. Two Character gates decide the path: +0x1320 for category 1 (the hands pair) and +0x1324 for category -4
-// (two-handed). dh2/Character.hpp declares neither (layout request: Character +0x1320 and +0x1324, int32, each read as
-// != 0 here, CharProperties +0xdc0 and +0xdc4). Both gates are answered false: category 1 takes the one-hand slot and
-// category -4 takes the two-hand path. The rest of the choice and the equip calls follow the original.
+// Chooses the slot from the item's category. Two Character gates take part: +0x1320 (m_props.m_w203) for category 1
+// (the hands pair) and +0x1324 (m_props.m_w204) for category -4 (two-handed). The rest of the choice and the equip
+// calls follow the original. An index past the end of m_items gives 0 after the ASSERT (the original reads past the end).
 int ItemInventory::_EquipItemAuto(unsigned int itemIdx) {
     if (itemIdx >= m_items.size()) {
         ReportAssert(kEquipmentSource, "itemIdx < m_items.size()", 35);
@@ -194,8 +197,8 @@ int ItemInventory::_EquipItemAuto(unsigned int itemIdx) {
     const Structs::Item* row = entry->m_item->GetItem();
     int category = row->m_w26;
     const bool plainType = row->m_w22 != 5 && row->m_w22 != 4;
-    const bool gate1320 = false;  // Character +0x1320, not declared (PARTIAL)
-    const bool gate1324 = false;  // Character +0x1324, not declared (PARTIAL)
+    const bool gate1320 = m_character->m_props.m_w203 != 0;  // Character +0x1320
+    const bool gate1324 = m_character->m_props.m_w204 != 0;  // Character +0x1324
 
     auto twoHand = [this, itemIdx]() {
         _UnEquipItemFromSlot(2u, -1);

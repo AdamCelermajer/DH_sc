@@ -3,24 +3,35 @@
 // event dispatcher, AI_SyncLastTarget and AI_IsTargetSeeking. Declarations come from dh2/CharAI.hpp. Each PARTIAL comment
 // names what is missing; the ledger rows in game-character/ledger.d/g1-game-character-CharAI-2ae0f1-5.csv repeat it.
 //
-// Two gates recur. The anim stack level (Character +0x4c8) is CharAnimator::m_animStackIdx at +0x2c, which is private,
-// so every branch that reads it is PARTIAL. CharStateMachine::m_stateFlags (Character +0x520, bit 0x1000) is private too.
+// Two gates recur. The anim stack level (Character +0x4c8) is CharAnimator::m_animStackIdx at +0x2c, public in
+// dh2/CharAnimator.hpp. CharStateMachine::m_stateFlags (Character +0x520, bit 0x1000) is public in dh2/CharStateMachine.hpp.
+// Both gates are read directly. Character::m_ooiInteractionType (+0x14a8) is the interaction type test in _OnAnimStepEnd_Attack.
 
 #include <algorithm>
+#include <cstdint>
 #include <cstring>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAnimator.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/ProjectileManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/name_table.hpp"
 
 // ---- group map ------------------------------------------------------------------------------------------------------
 
@@ -134,14 +145,13 @@ void CharAI::AI_SyncLastTarget() {
 }
 
 // 0x3d49d0 CharAI::AI_IsTargetSeeking(void) const
+// Seeking is off when m_targetSeeking (+0x4a) is clear. Otherwise the result is the inverse of bit 0x1000 in Character +0x520,
+// which is CharStateMachine::m_stateFlags (+0x24).
 bool CharAI::AI_IsTargetSeeking() const {
     if (!m_targetSeeking) {
         return false;
     }
-    // PARTIAL: the original returns !(Character +0x520 & 0x1000). Character +0x520 is CharStateMachine::m_stateFlags (+0x24),
-    // which is private to CharStateMachine, so the bit test is omitted and the seeking flag alone decides. Needs a public
-    // accessor on CharStateMachine (layout request).
-    return true;
+    return (m_character->CharStateMachine::m_stateFlags & 0x1000u) == 0;
 }
 
 // ---- animation hooks: sequences and step dispatch ----------------------------------------------------------------------
@@ -224,39 +234,112 @@ bool CharAI::_OnAnimStepBegin_Move() {
 }
 
 // 0x3d3d68 CharAI::_OnAnimStepEnd_SkillSpell(void)
-// PARTIAL: the original tests StepIndex == 0 and the anim stack level == 1 (Character +0x4c8, CharAnimator::m_animStackIdx at
-// +0x2c, private: layout request). When both hold and m_skillStepEnded (+0xd1) is set, it calls CharAnimator::ANIM_StopLoop(true).
-// The stack level is not readable here, so the test and the stop are omitted.
+// When the step index is 0, the anim stack level is 1 (Character +0x4c8, which is CharAnimator::m_animStackIdx at +0x2c)
+// and m_skillStepEnded (+0xd1) is set, the animation loop is stopped at once. The step count is read and discarded, as in
+// the original. The function always returns true.
 bool CharAI::_OnAnimStepEnd_SkillSpell() {
-    return true;
-}
-
-// 0x3d3dd4 CharAI::_OnAnimStepBegin_SkillSpell(void)
-// PARTIAL: the same stack-level test as _OnAnimStepEnd_SkillSpell gates the body. When it holds, the original sets
-// m_skillStepBegun (+0xd0) and, if m_skillStepEnded (+0xd1) is set, calls CharAnimator::ANIM_StopLoop(true). Neither write
-// is made here because the stack level is private (layout request).
-bool CharAI::_OnAnimStepBegin_SkillSpell() {
-    return true;
-}
-
-// 0x3d3e44 CharAI::_OnAnimStepEnd_Attack(void)
-// When the character has no combo attack, the original returns. Past that gate every branch depends on the anim stack
-// level (Character +0x4c8, private CharAnimator m_animStackIdx: layout request). The level 0 path ends the attack: it clears
-// m_attacking (+0x78) and raises event 27, and event 28 as well on the last step. The level 1 path chooses between skipping the
-// next step and clearing m_attacking, from the step index, the target and the interaction type 8. Both paths are omitted here.
-bool CharAI::_OnAnimStepEnd_Attack() {
-    if (!m_character->HasComboAttack()) {
-        return true;
+    const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
+    m_character->CharAnimator::ANIM_GetStepCount();
+    if (stepIndex == 0 && m_character->CharAnimator::m_animStackIdx == 1 && m_skillStepEnded) {
+        m_character->CharAnimator::ANIM_StopLoop(true);
     }
     return true;
 }
 
+// 0x3d3dd4 CharAI::_OnAnimStepBegin_SkillSpell(void)
+// Only step 0 of anim stack level 1 (Character +0x4c8, CharAnimator::m_animStackIdx) counts. There the skill or spell step
+// has begun (m_skillStepBegun, +0xd0 set), and when m_skillStepEnded (+0xd1) is already set the loop is stopped.
+bool CharAI::_OnAnimStepBegin_SkillSpell() {
+    const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
+    m_character->CharAnimator::ANIM_GetStepCount();
+    if (stepIndex != 0 || m_character->CharAnimator::m_animStackIdx != 1) {
+        return true;
+    }
+    m_skillStepBegun = true;
+    if (m_skillStepEnded) {
+        m_character->CharAnimator::ANIM_StopLoop(true);
+    }
+    return true;
+}
+
+// 0x3d3e44 CharAI::_OnAnimStepEnd_Attack(void)
+// Without a combo attack the original returns. Otherwise it branches on the anim stack level (Character +0x4c8, that is
+// CharAnimator::m_animStackIdx). Level 0 ends the attack: m_attacking (+0x78) is cleared and event 27 is raised, and event 28
+// as well on the last step. Level 1 skips the next anim step when the step is the second to last one and the attack is not
+// over. The attack is over when the target is dead (IsDead, vtable +0x34), or, with no target, when the object of interest's
+// interaction type (Character +0x14a8) is 8. Otherwise m_attacking is cleared. Any other level returns without a change.
+bool CharAI::_OnAnimStepEnd_Attack() {
+    if (!m_character->HasComboAttack()) {
+        return true;
+    }
+    const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
+    const int stepCount = m_character->CharAnimator::ANIM_GetStepCount();
+    const unsigned int stackIdx = m_character->CharAnimator::m_animStackIdx;
+    if (stackIdx == 1) {
+        bool attackOver;
+        if (m_target) {
+            attackOver = m_target->IsDead();
+        } else {
+            attackOver = m_character->m_ooiInteractionType == 8;
+        }
+        if (stepIndex != stepCount - 2 || attackOver) {
+            m_attacking = false;
+        } else {
+            m_character->CharAnimator::ANIM_SkipNextStep();
+        }
+        return true;
+    }
+    if (stackIdx != 0) {
+        return true;
+    }
+    const bool wasAttacking = m_attacking;
+    m_attacking = false;
+    if (stepIndex == stepCount - 1) {
+        if (!wasAttacking) {
+            _ClearNonStickyTarget();
+        } else {
+            m_character->CharAnimator::ANIM_SetStep(0);
+        }
+        m_character->RaiseEvent(27, nullptr);
+        m_character->RaiseEvent(28, nullptr);
+        return true;
+    }
+    if (!wasAttacking && !m_character->CanRangeAttack()) {
+        _ClearNonStickyTarget();
+        m_character->CharAnimator::ANIM_SetStep(static_cast<unsigned int>(stepCount));
+    }
+    m_character->RaiseEvent(27, nullptr);
+    return true;
+}
+
 // 0x3d4044 CharAI::_OnAnimStepBegin_Attack(void)
-// PARTIAL: the body depends on the anim stack level (Character +0x4c8, private CharAnimator m_animStackIdx: layout request).
-// Level 0 stores the step index in m_attackStep (+0x74) and raises event 26 with it. Level 1 on step 0 sets m_attackLastStep
-// (+0x79), looks at the target through the controller and calls OnPreAttack; on later steps it sets m_attackLastStep and
-// m_attackCommitted (+0x7a) from the last-step test. Both paths are omitted here.
+// Level 0 (CharAnimator::m_animStackIdx) stores the step index in m_attackStep (+0x74) and raises event 26 with it. Level 1
+// on step 0 sets m_attackLastStep (+0x79), aims the controller at the target and calls OnPreAttack(m_attackStep), and
+// m_attackCommitted (+0x7a) is cleared. Level 1 on a later step sets m_attackLastStep from the last-step test, aims at the
+// target, and sets m_attackCommitted to the same test. Any other level returns.
 bool CharAI::_OnAnimStepBegin_Attack() {
+    const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
+    const int stepCount = m_character->CharAnimator::ANIM_GetStepCount();
+    const unsigned int stackIdx = m_character->CharAnimator::m_animStackIdx;
+    if (stackIdx == 0) {
+        m_attackStep = stepIndex;
+        m_character->RaiseEvent(26, reinterpret_cast<void*>(static_cast<std::intptr_t>(stepIndex)));
+        return true;
+    }
+    if (stackIdx != 1) {
+        return true;
+    }
+    if (stepIndex == 0) {
+        m_attackLastStep = true;
+        m_character->m_controller->Cmd_LookAt(m_target);
+        m_attackCommitted = false;
+        OnPreAttack(m_attackStep);
+        return true;
+    }
+    const bool lastStep = stepIndex == stepCount - 1;
+    m_attackLastStep = lastStep;
+    m_character->m_controller->Cmd_LookAt(m_target);
+    m_attackCommitted = lastStep;
     return true;
 }
 
@@ -273,19 +356,25 @@ void CharAI::_ParseObjectAnimEvent(const char* name) {
     const std::string objectName(name, slash);  // LC_API_STRNCPY_0 into a local buffer, terminated
     const char* animName = slash + 1;
     if (objectName == "camera") {
-        // PARTIAL: the original reads Application::GetCurrentLevel()->m_camera (Level +0x128, public), tests
-        // CameraLevel::CanPlayShakeAnim(camera, m_character), then plays the Arrays::AnimDict entry for animName through
-        // CameraLevel::PlayAnim(camera, index, false, true). CameraLevel has no header in the tree, the Application singleton is
-        // not reachable from this translation unit, and the AnimDict name table is not wired (see the layout requests).
+        // The camera is Application::GetCurrentLevel()->m_camera (Level +0x128). When the level has a camera and the camera
+        // accepts the requester (CanPlayShakeAnim), the anim is found in Arrays::AnimDict and played with preserveZoom set.
+        Level* level = ApplicationGetInstance().GetCurrentLevel();
+        CameraLevel* camera = level ? level->m_camera : nullptr;
+        if (camera && camera->CanPlayShakeAnim(m_character)) {
+            const int animIndex = pydata::FindMemberName(Arrays::AnimDict::m_memberNames,
+                                                         Arrays::AnimDict::m_memberNames.size, animName);
+            camera->PlayAnim(animIndex, 0, true);
+        }
         return;
     }
     ObjectHandle handle = dword_99F764->GetObjectByName(objectName.c_str(), -1, false, nullptr);
     if (Character* character = handle) {
-        // PARTIAL: the original finds animName in Arrays::AnimTable (-1 when absent) and calls
-        // CharAnimator::ANIM_Set(index) on the character's CharAnimator subobject (+0x49c). Arrays::AnimTable is declared
-        // two ways in pydata-accessors (member_names.hpp as a NameTable, w7_arrays_02.hpp as members and size), so the lookup
-        // is not written and the anim is not set.
-        (void)character;
+        // The anim is found by name in Arrays::AnimTable (-1 when absent) and set on the character's CharAnimator (+0x49c).
+        // The table's NameTable::size is the count it was read with (ReadNameTable refuses a count that differs from the
+        // table size), so it is the loop bound the original reads from Arrays::AnimTable::size.
+        const int animIndex = pydata::FindMemberName(Arrays::AnimTable::m_memberNames,
+                                                     Arrays::AnimTable::m_memberNames.size, animName);
+        character->CharAnimator::ANIM_Set(animIndex);
         return;
     }
     if (GameObject* object = handle) {
@@ -299,15 +388,30 @@ void CharAI::_ParseObjectAnimEvent(const char* name) {
     }
 }
 
+namespace {
+
+// Index of `name` in a PyData name table: the first strcmp match in table order, or -1. The original loops over the table
+// size and compares the names, which is what this does with NameTable::size. Arrays::AnimatedEffectTable and Arrays::Sounds
+// are read through their NameTable form (member_names.hpp), as game-ui does for Arrays::Sounds.
+int FindNameIndex(const pydata::NameTable& table, const char* name) {
+    for (int i = 0; i < table.size; ++i) {
+        if (std::strcmp(name, table.names[i]) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+}  // namespace
+
 // 0x3d4434 CharAI::_OnAnimEvent(char const*)
 // The prefixes route the event: "ev_" goes to the virtual OnAnimEvent (the script hook), "an_" to _ParseObjectAnimEvent,
 // "fx_" to the animated effect table, "sfx_" to the sound table. Any other name is handled by the loaded state:
 // 5 (attack) picks the attack event, 6 (skill) "do_skill", 7 (spell) "do_spell", 13 (interact) "interact".
 // PARTIAL: the trace probes (DebugSwitches::load and GetSwitch on a stack-built name before each branch) are not written,
-// because their names are built on the stack and are not recovered; they return nothing and change no state. The "fx_" and
-// "sfx_" branches are omitted (VisualFXManager and VoxSoundManager singletons and the Arrays::AnimatedEffectTable and
-// Arrays::Sounds name tables are not declared), and so is the ranged projectile spawn in the attack state (the
-// ProjectileManager singleton is not declared).
+// because their names are built on the stack and are not recovered. Their result is discarded, so the only possible effect is
+// the lazy load of the switch table. The "sfx_" branch looks the sound up but does not play it: VoxSoundManager::Play3D is not
+// declared in the tree (vox-audio has only SetIPodShuffle, UpdateIPodAsync and ConvertVisual3DToSound3D).
 bool CharAI::_OnAnimEvent(const char* name) {
     const int stepIndex = m_character->CharAnimator::ANIM_GetStepIndex();
     m_character->CharAnimator::ANIM_GetStepCount();
@@ -320,13 +424,17 @@ bool CharAI::_OnAnimEvent(const char* name) {
         return true;
     }
     if (std::strncmp(name, "fx_", 3) == 0) {
-        // PARTIAL: the animated effect named name+3 (Arrays::AnimatedEffectTable index) is played at the target position
-        // through VisualFXManager::PlayAnimFXSet on Singleton<VisualFXManager>::s_inst. Not written, see the file comment.
+        const int effectId = FindNameIndex(Arrays::AnimatedEffectTable::m_memberNames, name + 3);
+        if (effectId != -1) {
+            VisualFXManager::s_inst.PlayAnimFXSet(effectId, m_character->GetTargetPosition(), nullptr, nullptr);
+        }
         return true;
     }
     if (std::strncmp(name, "sfx_", 4) == 0) {
-        // PARTIAL: the sound named name+4 (Arrays::Sounds index) is played at the target position through
-        // VoxSoundManager::Play3D on VoxSoundManager::s_instance. Not written, see the file comment.
+        // PARTIAL: the original plays the sound (Arrays::Sounds index, -1 when absent) at the target position through
+        // VoxSoundManager::Play3D on the sound manager. Play3D is not declared, so only the lookup is written.
+        const int soundId = FindNameIndex(Arrays::Sounds::m_memberNames, name + 4);
+        (void)soundId;
         return true;
     }
     switch (m_character->CharStateMachine::SM_GetState()) {
@@ -335,9 +443,13 @@ bool CharAI::_OnAnimEvent(const char* name) {
             int unusedB = 0;
             int projectileIndex = 0;
             if (m_character->CanRangeAttack(unusedA, unusedB, projectileIndex)) {
-                // PARTIAL: for "attack_ranged", "attack_mainhand" and "do_skill" the original spawns projectile
-                // projectileIndex owned by m_character, with CharAI::_HandleProjectile as the callback, through
-                // ProjectileManager::Spawn on Singleton<ProjectileManager>::s_inst. The singleton is not declared in the tree.
+                if (std::strcmp(name, "attack_ranged") == 0 || std::strcmp(name, "attack_mainhand") == 0 ||
+                    std::strcmp(name, "do_skill") == 0) {
+                    // PARTIAL: the original plays a DebugSwitches trace probe first (not written, see above). Then it spawns
+                    // projectile projectileIndex owned by m_character, with CharAI::_HandleProjectile as the callback.
+                    Singleton<ProjectileManager>::s_inst.Spawn(projectileIndex, m_character, nullptr, nullptr,
+                                                               &CharAI::_HandleProjectile, nullptr, false);
+                }
             } else if (std::strcmp(name, "attack_mainhand") != 0) {
                 if (std::strcmp(name, "attack_offhand") == 0) {
                     OnAttack(m_attackStep, stepIndex - 1, true);

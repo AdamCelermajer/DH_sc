@@ -25,6 +25,7 @@
 #include "dh2/ItemInventory.hpp"
 #include "dh2/CharProperties.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/VisualFXManager.hpp"
 #undef private
 
 // Engine globals the unit uses.
@@ -39,6 +40,7 @@ int g_default[kCount];         // what _GetDefault returns per property
 int g_sheetDtors = 0;          // counts every Structs::CharacterProperties destruction
 std::vector<std::string> g_calls;       // load and reset calls, in order
 std::vector<unsigned int> g_stopped;    // timer ids passed to TMR_Stop, in order
+std::vector<AnimatedFX*> g_dropped;     // FX pointers passed to VisualFXManager::DropAnimatedFX, in order
 int g_attackRating = 0;
 bool g_twoHander = false;
 bool g_dual = false;
@@ -70,6 +72,7 @@ void ClearTables() {
     std::memset(g_default, 0, sizeof g_default);
     g_calls.clear();
     g_stopped.clear();
+    g_dropped.clear();
     g_attackRating = 0;
     g_twoHander = false;
     g_dual = false;
@@ -160,6 +163,17 @@ CharProperties::BuffDecl::BuffDecl(const BuffDecl& other)
     : m_id(other.m_id), m_fx(other.m_fx), m_name(other.m_name), m_insts(other.m_insts) {}
 
 void CharTimers::TMR_Stop(unsigned int id) { g_stopped.push_back(id); }
+
+// The effect manager pieces the unit reaches. DropAnimatedFX only records the instance and clears the caller's pointer.
+VisualFXManager::VisualFXManager() {}
+VisualFXManager::~VisualFXManager() {}
+VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
+VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
+VisualFXManager VisualFXManager::s_inst;
+void VisualFXManager::DropAnimatedFX(AnimatedFX*& instance) {
+    g_dropped.push_back(instance);
+    instance = nullptr;
+}
 ItemInstance* ItemInventory::GetEquippedItem(unsigned int slot) { return g_equipped[slot]; }
 bool ItemInventory::HasTwoHander(bool) const { return g_twoHander; }
 bool ItemInventory::IsDualWielding() const { return g_dual; }
@@ -506,6 +520,52 @@ int main() {
         const int before = g_sheetDtors;
         o.~CharProperties();
         CHECK(g_sheetDtors - before == 2 + 4);
+    }
+
+    // 17. The FX of a class is released: by DelBuff when it removes the class's only instance (not when it removes one
+    // of several), by RemoveAllBuffs for every class in key order, and by the destructor for each class with an FX.
+    {
+        AnimatedFX* fxSingle = reinterpret_cast<AnimatedFX*>(0x1000);
+        AnimatedFX* fxMulti = reinterpret_cast<AnimatedFX*>(0x2000);
+
+        // The only instance of a class goes: its FX is dropped before the class is erased.
+        ClearTables();
+        CharProperties& a = Fresh();
+        AddInst(a, 8, NewInst(1, 34, 0));
+        a.m_buffs.find(8)->second.m_fx = fxSingle;
+        a.PROPS_DelBuff(8, nullptr);
+        CHECK(g_dropped.size() == 1 && g_dropped[0] == fxSingle);
+        CHECK(a.m_buffs.count(8) == 0);
+
+        // One of several instances goes: the class keeps its FX.
+        ClearTables();
+        CharProperties& b = Fresh();
+        AddInst(b, 5, NewInst(2, 34, 0));
+        AddInst(b, 5, NewInst(3, 34, 0));
+        b.m_buffs.find(5)->second.m_fx = fxMulti;
+        b.PROPS_DelBuff(5, b.m_buffs.find(5)->second.m_insts.front());
+        CHECK(g_dropped.empty());
+        CHECK(b.m_buffs.find(5)->second.m_fx == fxMulti);
+
+        // RemoveAllBuffs drops every class's FX in ascending key order.
+        ClearTables();
+        CharProperties& c = Fresh();
+        AddInst(c, 4, NewInst(4, 34, 0));
+        AddInst(c, 6, NewInst(5, 34, 0));
+        c.m_buffs.find(4)->second.m_fx = fxMulti;
+        c.m_buffs.find(6)->second.m_fx = fxSingle;
+        c.PROPS_RemoveAllBuffs();
+        CHECK(g_dropped.size() == 2 && g_dropped[0] == fxMulti && g_dropped[1] == fxSingle);
+        CHECK(c.m_buffs.empty());
+
+        // The destructor drops the FX of each class that has one (the null FX of class 9 is not dropped).
+        ClearTables();
+        CharProperties& d = Fresh();
+        AddInst(d, 7, NewInst(6, 34, 0));
+        AddInst(d, 9, NewInst(7, 34, 0));
+        d.m_buffs.find(7)->second.m_fx = fxSingle;
+        d.~CharProperties();
+        CHECK(g_dropped.size() == 1 && g_dropped[0] == fxSingle);
     }
 
     std::printf("%s (%d failures)\n", failures == 0 ? "PASS" : "FAIL", failures);

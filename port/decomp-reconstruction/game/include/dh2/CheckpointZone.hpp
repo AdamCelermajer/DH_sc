@@ -16,8 +16,8 @@ public:
     ~CheckpointZone() override;                                         // 0x395b38 (D1), 0x395bb4 (D0), 0x395bd0 (D2)
 
     // Override of the Zone slot, in vtable order.
-    // Calls Level::CheckpointSave for the local player at m_position (guarded by a Point3D equality test whose
-    // other operand was not recovered), then inserts each entering character into the set unless already present.
+    // Calls Level::CheckpointSave for the local player at m_position (guarded by a Point3D equality test against the
+    // character's m_savedPoint, Character +0x1468), then inserts each entering character into the set unless already present.
     void OnCollisionBegins(GameObject* other) override;                 // slot 0xcc: 0x395f04
 
     // Zone occupies +0x00 .. +0x387.

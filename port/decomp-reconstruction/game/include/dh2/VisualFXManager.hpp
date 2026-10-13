@@ -35,7 +35,7 @@ public:
         bool unk_02;                                                    // +0x02 SetAnimFX argument 3 (row +32)
         float m_speed;                                                  // +0x04 playback speed (row +36), SetAnimFX argument 4
         int32_t m_playTime;                                             // +0x08 play time: the row's +12 scaled by the set's time scale, -1 when unknown
-        void* unk_0c;                                                   // +0x0c row +20, handed to the AnimatedFX as a sub-object
+        int32_t unk_0c;                                                 // +0x0c step record +20 (Structs::AnimFX::m_w5, a 32-bit word), copied by GetAnimFXData; no caller in game-world reads it yet
         AnimFXSetData* m_setData;                                       // +0x10 the set data this step belongs to, passed to the end-of-loop callback
     };
 
@@ -48,8 +48,8 @@ public:
         int32_t m_timeScale;                                            // +0x0c multiplies the step's play time in GetAnimFXData
         Point3D<float> m_position;                                      // +0x10 position passed to the play calls
         Point3D<float> m_origin;                                        // +0x1c origin (compared with zero by PlayAnimFXStep)
-        GameObject* m_sourceObject;                                     // +0x28 the game object the set plays on (PlayAnimFXStep passes it on)
-        int32_t unk_2c;                                                 // +0x2c GetAnimFXSetData argument six, use not recovered
+        const GameObject* m_sourceObject;                               // +0x28 the game object the set plays on (PlayAnimFXStep passes it on); GetAnimFXSetData takes GameObject const*
+        AnimFXSetData* unk_2c;                                          // +0x2c GetAnimFXSetData argument six (its fifth parameter, AnimFXSetData*), stored as passed; every call in game-world passes null
     };
 
     // One set of an AnimatedEffectTable row. Built by _BuildAnimFXSets; the copy ctor duplicates its step vector
@@ -57,6 +57,8 @@ public:
     struct AnimFXSetInfo {
         // Copy ctor 0x493924 (duplicates the step vector and the set-data list). Dtor 0x4940d8.
         AnimFXSetInfo(const AnimFXSetInfo& other);
+        // Default ctor: an empty set for building the table. No ELF symbol of its own (the binary has none).
+        AnimFXSetInfo() : m_row(nullptr) {}
         ~AnimFXSetInfo();
 
         const void* m_row;                                              // +0x00 the AnimatedEffectTable row (24-byte stride) the set was built from
@@ -70,7 +72,10 @@ public:
         AnimatedFXInfo(const AnimatedFXInfo& other);
         ~AnimatedFXInfo();
 
-        int32_t m_dictId;                                               // +0x00 copied from Arrays::EffectDict row +8 by _BuildAnimFXDict
+        // Default ctor: the original builds the empty pool inline in _BuildAnimFXDict (no symbol of its own).
+        AnimatedFXInfo() : m_dictName(nullptr), m_freeFX() {}
+
+        const char* m_dictName;                                         // +0x00 the EffectDict row's name (Structs::ColladaFile::m_w2, row +8), copied by _BuildAnimFXDict. A host pointer, so not int32
         VectorSet<AnimatedFX*> m_freeFX;                                // +0x04 .. +0x0f free instances (DropAnimatedFX pushes back here)
         std::list<AnimatedFX*> m_activeFX;                              // +0x10 .. +0x17 list sentinel (next, prev); nodes hold the instance at +0x08
     };
@@ -84,17 +89,19 @@ public:
     void _PreCacheAnimDict();
     // Builds the AnimFXData for one step of a set. The AnimFXSetInfo is passed by value. 0x4933e4 (GetAnimFXData).
     AnimFXData GetAnimFXData(AnimFXSetInfo info, AnimFXSetData* setData);
-    // Creates an AnimFXSetData (operator new(48)) and copies the position and origin into it. 0x4935b8.
-    // Argument order follows the demangled symbol. The roles of the first three ints are read from the stores
-    // into the new block and are not fully confirmed.
-    AnimFXSetData* GetAnimFXSetData(int setIndex, int stepIndex, int timeScale, const GameObject* object,
+    // Creates an AnimFXSetData (operator new(48)), stores the arguments and the position and origin, and returns it.
+    // 0x4935b8. The second int goes to +0x0c (timeScale) and the third to +0x04 (stepIndex): the callers pass the
+    // effect table row's +8 word as the second and the random or zero step as the third.
+    AnimFXSetData* GetAnimFXSetData(int setIndex, int timeScale, int stepIndex, const GameObject* object,
                                     AnimFXSetData* out, const Point3D<float>& position, const Point3D<float>& origin);
-    // Releases every active instance that the set started, through its first step's pool. 0x494660 (DropAnimatedFXSetByID).
+    // Frees the set data of an effect table row and returns the first active instance of the first step's pool to
+    // its free list. 0x494660 (DropAnimatedFXSetByID).
     void DropAnimatedFXSetByID(int effectTableId);
     // Releases one active instance back to its pool and clears the caller's pointer. 0x494978 (DropAnimatedFX).
     void DropAnimatedFX(AnimatedFX*& instance);
-    // Takes one instance from the pool for effectDictId, allocating when the pool is empty. 0x495430 (GrabAnimFX).
-    AnimatedFX* GrabAnimFX(int effectDictId, GameObject* object);
+    // Plays one AnimatedEffectTable row on object: takes an instance from the pool of its first step, adds a set data
+    // to the row's list and starts the instance. Returns null when the module is off or the pool is full. 0x495430 (GrabAnimFX).
+    AnimatedFX* GrabAnimFX(int effectTableId, GameObject* object);
     // Returns the active instance for effectDictId from its pool (_GetAnimFX). 0x494ad4.
     AnimatedFX* _GetAnimFX(int effectDictId);
     // Frees every pool and set entry and clears m_libraryBuilt. 0x494e3c (_FlushAnimDict).
@@ -114,16 +121,16 @@ public:
     // Plays the effect with the source row and the point. Each overload returns through the pool. 0x4956b8 .. 0x495f3c.
     void PlayAnimFX(int effectDictId, const Point3D<float>& position, const Point3D<float>& origin,
                     const GameObject* object, AnimFXData* data);     // 0x4956b8
-    int PlayAnimFXSet(int effectTableId, const Point3D<float>& position, const Point3D<float>& origin,
-                      const GameObject* object, AnimFXSetData* data); // 0x495888
+    void PlayAnimFXSet(int effectTableId, const Point3D<float>& position, const Point3D<float>& origin,
+                       const GameObject* object, AnimFXSetData* data); // 0x495888 (returns nothing: the original's r0 is a tail-call leftover)
     void PlayAnimFX(int effectDictId, const Point3D<float>& position, const GameObject* object,
                     AnimFXData* data);                                // 0x495b54
-    int PlayAnimFXSet(int effectTableId, const Point3D<float>& position, const GameObject* object,
-                      AnimFXSetData* data);                           // 0x495d14
-    int PlayAnimFXSet(int effectTableId, const GameObject* object, AnimFXSetData* data);  // 0x495f04
+    void PlayAnimFXSet(int effectTableId, const Point3D<float>& position, const GameObject* object,
+                       AnimFXSetData* data);                          // 0x495d14
+    void PlayAnimFXSet(int effectTableId, const GameObject* object, AnimFXSetData* data);  // 0x495f04
     void PlayAnimFX(int effectDictId, const GameObject* object, AnimFXData* data);        // 0x495f3c
     // Plays one step of a set: a single effect or a nested set, from the step's flag and id. 0x495f74.
-    int PlayAnimFXStep(AnimFXSetData* setData, AnimFXData step);
+    void PlayAnimFXStep(AnimFXSetData* setData, AnimFXData step);
     // Advances one set step on an instance (_HandleSequence). 0x496144.
     void _HandleSequence(AnimatedFX* instance, AnimFXSetData* setData, bool loop);
     // Handles the end-of-loop callback of an instance. 0x496364.

@@ -12,8 +12,8 @@
 // Structs::AIFactions, Structs::CharAnim, element_table.hpp). The original listing strides (68, 12 and 160 bytes) are
 // not applied to the table bytes. Each body keeps the original control flow.
 //
-// Partial: HasLoot (GetLoot is a placeholder in batch g1-game-character-Character-ee9946-0) and GetCharModelId (its
-// upper bound check needs Arrays::ModelDict, which pydata cannot declare next to the w7_arrays_02.hpp tables yet).
+// Partial: GetCharModelId only (its upper bound check needs Arrays::ModelDict, which pydata cannot declare next to the
+// w7_arrays_02.hpp tables yet). HasLoot is complete because GetLoot reads m_props.m_w10 (batch -0).
 
 #include <cstdint>
 
@@ -41,8 +41,7 @@ bool FlagBit(std::int32_t flags, unsigned int bit) {
 }  // namespace
 
 // 0x3a2fd8 _ZNK9Character7HasLootEv
-// partial: the body is exact (GetLoot() != -1). GetLoot (0x3a2fcc) is a placeholder that returns -1 in batch
-// g1-game-character-Character-ee9946-0, so this returns false until GetLoot is reconstructed.
+// GetLoot() != -1, with GetLoot (0x3a2fcc) reading m_props.m_w10 (batch g1-game-character-Character-ee9946-0).
 bool Character::HasLoot() const {
     return GetLoot() != -1;
 }

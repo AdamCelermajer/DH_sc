@@ -350,7 +350,7 @@ public:
     int GetLevel() const;                                               // 0x3bd120
     int ValidateHPMP();                                                 // 0x3bd140 (Hex-Rays int; tail-called by the equip wrappers)
     void ResetStatsChange(int a, int b, int c, int d);                  // 0x3bd1cc
-    void ResetStats();                                                  // 0x3bd26c
+    int ResetStats();                                                   // 0x3bd26c (returns SG_Save(): 0 without a savegame)
     float GetHPPercent() const;                                         // 0x3bd2dc (float in the binary: __aeabi_fdiv)
     float GetMPPercent() const;                                         // 0x3bd338 (float in the binary: __aeabi_fdiv)
     float GetEffectiveThreatPerDamage() const;                          // 0x3bd394
@@ -361,10 +361,10 @@ public:
     void IncStatEnd();                                                  // 0x3bd600
     void IncStatDex();                                                  // 0x3bd708
     void IncStatStr();                                                  // 0x3bd810
-    void ModifyCharProps(int a, int b);                                 // 0x3bda74
+    void ModifyCharProps(int propId, int amount);                       // 0x3bda74
     void RegenMP(int amount);                                           // 0x3bdbb8
     void RegenHP(int amount);                                           // 0x3bdca4
-    void RegenTick(bool a);                                             // 0x3bdd90
+    void RegenTick(bool inCombat);                                      // 0x3bdd90
     bool UseMana(int cost);                                             // 0x3bdef4
     void LevelUp(int levels);                                           // 0x3beb88
     bool _GiveXP(int xp, bool a);                                       // 0x3bf498 (returns 1 when the XP was granted; DistributeXP uses it)

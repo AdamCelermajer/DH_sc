@@ -9,22 +9,17 @@
 //   PFFloor  +0x24 m_typeMask     bit 0 hole, bit 1 water; CanPathOn tests it against m_moveFlags
 //
 // Include constraints: dh2/PFObject.hpp and dh2/PFFloor.hpp take Point3D from core-platform/deps/game_types.hpp.
-// dh2/PFWorld.hpp is not included: it includes dh2/Point3D.hpp, which redefines that template in the same TU.
-// dh2/PFGInnerEdge.hpp is not included: it includes dh2/sfc/math/graph/Edge.hpp, which is absent from the tree.
+// dh2/PFWorld.hpp (Singleton<PFWorld>::s_inst, DropPath, InitObstacle) and dh2/PFGInnerEdge.hpp (the edge end points)
+// share this translation unit: both compile together with PFObject.hpp (checked with check_tu.sh).
 
 #include "dh2/PFObject.hpp"
 
 #include <cstring>
 
 #include "dh2/PFFloor.hpp"
-
-namespace {
-
-// Vec3f_K (0x99f878) is the Point3D<float> global that the constructor copies into m_floorNormal. The static
-// initialiser writes it as (0, 0, 1), as CameraBase.cpp also notes. There is no shared declaration yet.
-constexpr Point3D<float> kVec3fK{0.0f, 0.0f, 1.0f};
-
-}  // namespace
+#include "dh2/PFGInnerEdge.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/global/Vec3f_K.hpp"  // Vec3f_K (0x99f878), the Point3D<float> global the constructor copies into m_floorNormal
 
 // 0x5241c0 _ZNK8PFObject11IsOverAHoleEv
 // The original returns the floor's type word & 1 for a floor, and 0 (the null pointer) when there is none.
@@ -84,19 +79,29 @@ bool PFObject::CanPathOn(PFFloor* floor) const {
 }
 
 // 0x524264 _ZNK8PFObject15GetPathLengthSQEv
-// PARTIAL: the original sums the squared 3D length of each edge in m_path. Each edge's end points come from its
-// virtual GetSource and GetDestination (vtable slots +0x24 and +0x28), declared in dh2/PFGInnerEdge.hpp. That
-// header includes dh2/sfc/math/graph/Edge.hpp, which is absent from the tree, so the edge type cannot be used.
-// An empty path gives 0, as the original does. A non-empty path returns 0 as a placeholder until the header exists.
+// The sum of the squared 3D length of each edge in m_path, in list order. Each edge's end points come from its
+// virtual GetSource (vtable slot +0x24, call 9) and then GetDestination (slot +0x28, call 10). The float sum is
+// accumulated as sum + ((dx*dx + dy*dy) + dz*dz) per edge, as the original does. An empty path gives 0.
 float PFObject::GetPathLengthSQ() const {
-    return 0.0f;
+    float sum = 0.0f;
+    for (const PFGInnerEdge* edge : m_path) {
+        const Point3D<float>* source = edge->GetSource();
+        const Point3D<float>* destination = edge->GetDestination();
+        const float dx = source->X - destination->X;
+        const float dy = source->Y - destination->Y;
+        const float dz = source->Z - destination->Z;
+        sum = sum + ((dx * dx + dy * dy) + dz * dz);
+    }
+    return sum;
 }
 
 // 0x524538 _ZN8PFObjectC2Ev
 // 0x524644 _ZN8PFObjectC1Ev
 // The two addresses hold the same body: the complete-object (C2) and base-object (C1) constructor.
-// PARTIAL: the vptr word at +0x4c (off_96C810, the vtable of the embedded Edge<PFGInnerNode, float>) is not stored.
-// Host vtables are not addressable here, so unk_4c stays null. The other words of the embedded edge are written.
+// PARTIAL: the vptr word at +0x4c (off_96C810, the vtable of the embedded PFGInnerDirectEdge) is not stored, and the
+// embedded edge is not a declared member. Layout request: "PFObject +0x4c PFGInnerDirectEdge m_edge, 0x30 bytes
+// (PFGInnerDirectEdge.hpp: from +0x50, to +0x54, weight +0x58, distance +0x5c, clearance +0x60, source +0x64,
+// destination +0x70); it replaces unk_4c, unk_50 and unk_6c..unk_78, which are its words". The other words are written.
 PFObject::PFObject() {
     m_owner = nullptr;                                  // +0x00
     m_flags = 8u;                                       // +0x04
@@ -105,7 +110,7 @@ PFObject::PFObject() {
     m_floor = nullptr;                                  // +0x10
     m_moveFlags = 2u;                                   // +0x14
     m_pos = Point3D<float>{0.0f, 0.0f, 0.0f};           // +0x18 .. +0x20
-    m_floorNormal = kVec3fK;                            // +0x24 .. +0x2c
+    m_floorNormal = Vec3f_K;                            // +0x24 .. +0x2c
     m_obstacleRadius = 1.0f;                            // +0x30
     m_obstacleStrength = 0.0f;                          // +0x34
     // +0x38 and +0x3c: the list head and tail point at the sentinel. std::list starts empty.
@@ -131,23 +136,24 @@ PFObject::PFObject() {
 // 0x524750 _ZN8PFObjectD2Ev
 // 0x524f50 _ZN8PFObjectD1Ev
 // The two addresses hold the same body: the complete-object (D2) and base-object (D1) destructor.
-// PARTIAL, in three parts:
-//   - The original first calls PFWorld::DropPath(Singleton<PFWorld>::s_inst, this) and then
-//     PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, this, false, 0, 0). No accessor for the PFWorld singleton is
-//     declared, so neither call is made. The world keeps this object's path and obstacle entries until one exists.
-//   - The original frees the buffer at +0xa0 when it is neither null nor &m_debugName, bounded by the word at +0x8c.
-//     That container is not recovered, so no free is made. A freshly constructed object takes no such branch.
-//   - The vptr reset to off_96C6F0 is not stored (see the constructor).
-// The list nodes are released here, as the original's node loop does.
+// PARTIAL: the original frees the buffer at +0xa0 when it is neither null nor &m_debugName, bounded by the word at
+// +0x8c. That container is not recovered, so no free is made. A freshly constructed object takes no such branch.
+// The calls to PFWorld::DropPath and PFWorld::InitObstacle (singleton PFWorld::s_inst, InitObstacle with add false,
+// radius 0 and strength 0) and the release of the path nodes are made. The vptr reset to off_96C6F0 is not made: the
+// embedded edge is not a declared member yet (layout request, see the constructor).
 PFObject::~PFObject() {
+    PFWorld::s_inst.DropPath(*this);
+    PFWorld::s_inst.InitObstacle(*this, false, 0.0f, 0.0f);
     m_path.clear();
 }
 
 // 0x524828 _ZNK8PFObject12DBG_DrawPathEv
 // PARTIAL: an empty path returns, as the original does. For a non-empty path the original draws each edge in yellow
 // (0xFFFFFF00), then two magenta (0xFFFF00FF) links: from m_pos to the first edge's source, and from m_pathEnd to the
-// last edge's destination. Each end point is raised by 1 in Z. Those draws need the edge end points (blocked as in
-// GetPathLengthSQ) and the driver's material set-up and draw3DLine (vtable slot 7), which no header declares.
+// last edge's destination. Each end point is raised by 1 in Z. The edge end points are available (GetSource and
+// GetDestination, as in GetPathLengthSQ). The draws need the driver at device +0x10 for the material set-up and
+// IVideoDriver::draw3DLine (declared in glitch-video/video_driver.hpp), but glitch::IDevice declares no member at +0x10
+// (layout request shared with CameraBase::SetActive).
 void PFObject::DBG_DrawPath() const {
     if (m_path.empty()) {
         return;
@@ -157,9 +163,9 @@ void PFObject::DBG_DrawPath() const {
 // 0x524b30 _ZNK8PFObject16DBG_DrawObstacleEv
 // PARTIAL: an obstacle (m_flags bits 2 and 3 both set) draws a circle. The original centres it at (m_pos X, m_pos Y),
 // with radius m_pos Z + 10 and width m_radius + m_obstacleRadius, in colour 0xFFFF00FF. Two parts are missing. The
-// material is set up through the driver (dword_99F73C + 0x10), which no header declares. And
-// SceneManager::DBG_DrawCircle needs the scene manager at device +0x1c, reached from Singleton<Application>::s_inst,
-// which has no accessor in the tree.
+// material is set up through the driver (device +0x10, dword_99F73C = Application::m_device). And
+// SceneManager::DBG_DrawCircle needs the scene manager at device +0x1c. glitch::IDevice declares no member at either
+// offset (layout request shared with CameraBase::SetActive), so the draw is left out.
 void PFObject::DBG_DrawObstacle() const {
     if ((m_flags & 0xCu) != 0xCu) {
         return;

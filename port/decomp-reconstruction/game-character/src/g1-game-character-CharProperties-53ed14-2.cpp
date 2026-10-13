@@ -27,6 +27,7 @@
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 
 // Engine assert level, declared in core-platform/memory.hpp. That header is not included here: it pulls
@@ -319,9 +320,8 @@ CharProperties::BuffDecl::~BuffDecl() {}
 
 // 0x3e0af8 CharProperties::PROPS_RemoveAllBuffs(void)
 // For every buff class in ascending key order, every live instance is stopped (its timer), destroyed and freed
-// (CustomFree). Then the class map is cleared and the properties recalculated.
-// PARTIAL: the original also calls VisualFXManager::DropAnimatedFX(&Singleton<VisualFXManager>::s_inst,
-// &decl.m_fx) for each class. dh2/VisualFXManager.hpp does not exist yet, so that drop is not made.
+// (CustomFree), then the class's FX is released (VisualFXManager::DropAnimatedFX on &decl.m_fx, called without a
+// null check, as the original does). Then the class map is cleared and the properties recalculated.
 void CharProperties::PROPS_RemoveAllBuffs() {
     for (auto& entry : m_buffs) {
         std::deque<BuffInst*>& insts = entry.second.m_insts;
@@ -330,6 +330,7 @@ void CharProperties::PROPS_RemoveAllBuffs() {
             inst->Structs::CharacterProperties::~CharacterProperties();
             CustomFree(inst);
         }
+        VisualFXManager::s_inst.DropAnimatedFX(entry.second.m_fx);
     }
     m_buffs.clear();
     RecalcProperties(true);
@@ -338,11 +339,9 @@ void CharProperties::PROPS_RemoveAllBuffs() {
 // 0x3e0c6c CharProperties::~CharProperties() (virtual slot 0, complete-object destructor)
 // 0x3e0e2c CharProperties::~CharProperties() (base-object copy, not in the vtable)
 // Both addresses have this body. The vptr is set to CharProperties by the compiler, as the original does first.
-// Each buff instance is destroyed and freed, each class's deque is cleared, and the map is cleared. The four
-// sheets are then destroyed in reverse declaration order (m_buffs, m_props, m_gearProps, m_savedProps,
-// m_baseProps), which is the order the original uses.
-// PARTIAL: the original also drops each class's FX (VisualFXManager::DropAnimatedFX, not made here). See
-// PROPS_RemoveAllBuffs for the missing header.
+// Each buff instance is destroyed and freed, each class's deque is cleared, and its FX is dropped when set. Then
+// the map is cleared. The four sheets are then destroyed in reverse declaration order (m_buffs, m_props,
+// m_gearProps, m_savedProps, m_baseProps), which is the order the original uses.
 CharProperties::~CharProperties() {
     for (auto& entry : m_buffs) {
         std::deque<BuffInst*>& insts = entry.second.m_insts;
@@ -353,6 +352,9 @@ CharProperties::~CharProperties() {
             }
         }
         insts.clear();
+        if (entry.second.m_fx != nullptr) {
+            VisualFXManager::s_inst.DropAnimatedFX(entry.second.m_fx);
+        }
     }
     m_buffs.clear();
 }
@@ -365,8 +367,8 @@ CharProperties::~CharProperties() {
 // The class classId is looked up. A class with exactly one instance is dropped whole, whatever inst is: that
 // instance is stopped and freed, and the class entry is erased. Otherwise inst must be in the class's deque. It
 // is stopped, freed and erased from the deque. Either way the properties are recalculated.
-// PARTIAL: the one-instance path also calls VisualFXManager::DropAnimatedFX on the class's FX pointer before the
-// erase. dh2/VisualFXManager.hpp does not exist yet, so that drop is not made.
+// The one-instance path releases the class's FX (VisualFXManager::DropAnimatedFX on decl.m_fx, no null check) before
+// the erase, as the original does.
 void CharProperties::PROPS_DelBuff(int classId, Structs::CharacterProperties* inst) {
     const auto node = m_buffs.find(classId);
     if (node == m_buffs.end()) {
@@ -380,6 +382,7 @@ void CharProperties::PROPS_DelBuff(int classId, Structs::CharacterProperties* in
             only->Structs::CharacterProperties::~CharacterProperties();
             CustomFree(only);
         }
+        VisualFXManager::s_inst.DropAnimatedFX(node->second.m_fx);
         m_buffs.erase(node);
         RecalcProperties(true);
         return;

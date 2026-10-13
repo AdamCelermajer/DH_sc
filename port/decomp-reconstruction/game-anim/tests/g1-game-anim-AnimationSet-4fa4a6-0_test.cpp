@@ -6,9 +6,11 @@
 // that the batch source references but this test does not link: the Animation destructor (0x364ad4), the
 // invalid-entry static, and the AnimDict name lookup (instantiated in pydata-accessors, 0x364b80).
 
+#include <cstdint>
 #include <cstdio>
 
 #include "dh2/AnimationSet.hpp"
+#include "glitch-core-io/os/logging.hpp"
 #include "pydata-accessors/member_names.hpp"
 
 namespace {
@@ -28,6 +30,10 @@ int g_failures = 0;
 // Test doubles. These are test-only definitions, not game code.
 Animation::~Animation() {}
 Animation AnimationSet::s_invalidAnim;
+namespace glitch::os {
+// GetAnimationBySetIndex stamps the last-use time from this; this test does not check the stamp.
+std::uint32_t Timer::getRealTime() { return 0; }
+}  // namespace glitch::os
 
 namespace Arrays {
 template <>

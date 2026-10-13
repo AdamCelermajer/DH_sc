@@ -13,6 +13,7 @@
 #include "dh2/Application.hpp"
 #include "dh2/DebugCachedCharacter.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/DialogMsg.hpp"
 #include "dh2/DragAndDrop.hpp"
 #include "dh2/Dragable.hpp"
 #include "dh2/Dropable.hpp"
@@ -20,6 +21,7 @@
 #include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MenuMessageManager.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/StringManager.hpp"
@@ -91,6 +93,23 @@ int tu_string::utf8_char_count(const char*, int) {
     return 0;
 }
 void tu_string::resize(int) {}
+// The gameswf header declares these out of line (DH2: bodies not in this tree); the g1-game-ui-MenuBase-8948cc-4 TU reaches them.
+int tu_string::get_hashi() const {
+    return 0;
+}
+void tu_string::operator+=(const char*) {}
+void tu_string::operator+=(const tu_string&) {}
+bool tu_string::operator==(const tu_string&) const {
+    return false;
+}
+
+// DialogMsg statics and destructor, and the dialog message queue (MenuMessageManager<DialogMsg,1>::s_inst, storage only).
+DialogMsg::~DialogMsg() {}
+const char* DialogMsg::s_SkipFuncName = nullptr;
+const char* DialogMsg::s_StartFuncName[] = {"StartDialog", nullptr};
+template <>
+void MenuMessageManager<DialogMsg, 1>::Invoke(const char*, int) const {}
+alignas(16) unsigned char g_dialogQueueStorage[64] __asm__("_ZN18MenuMessageManagerI9DialogMsgLi1EE6s_instE");
 
 // ---- Link-only definitions: MenuBase members the constructor and the vtable reach (other batches define them). ----
 MenuBase::~MenuBase() {}

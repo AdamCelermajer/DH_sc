@@ -10,8 +10,11 @@
 #include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/VisualObject.hpp"
 #include "dh2/global/charai_ai.hpp"
 #include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"
 
 namespace {
 
@@ -44,11 +47,6 @@ std::int32_t WrapAdd(std::int32_t a, std::int32_t b) {
 // 0x400 (scare) and 0x800 (stun); IsInteractive tests bit 0x2000. Not reachable from Character: taken as 0.
 std::uint32_t CharStateMachineFlags() {
     return 0;
-}
-
-// CharAI::unk_4d (+0x4d, private, Character +0x415). IsInteractive returns it. Not reachable: taken as false.
-bool CharAIUnk4d() {
-    return false;
 }
 
 // COnline::isOnlineGame_ (+0x05, private, no getter). Taken as offline.
@@ -143,22 +141,25 @@ bool Character::IsInteractive(GameObject* other) const {
         return true;
     }
     if (m_markedForDeletion != 0 || m_enabled == 0 || IsFaerie() || IsSummoned() || IsDead() ||
-        (CharStateMachineFlags() & 0x2000u) == 0) {
+        (CharStateMachine::m_stateFlags & 0x2000u) == 0) {
         return false;
     }
-    // PARTIAL: the original returns CharAI::unk_4d (Character +0x415). It is not reachable here, so false is returned.
-    return CharAIUnk4d();
+    return CharAI::unk_4d;
 }
 
 // 0x3a4930 _ZN9Character24INV_DoesMeetRequirementsEP12ItemInstance
+// PARTIAL: the original returns true for a remotely updated character of an online game (COnline::isOnlineGame_ at +0x05,
+// private with no getter; OnlineGameFlag() is taken offline here). Otherwise it compares the five requirement words of the
+// item record (Structs::Item m_w29..m_w33, +0x74..+0x84) with five words of this character's final sheet, each shifted
+// right by 8: m_props.m_w20 (+0x1044) and m_props.m_w150..m_w153 (+0x124c..+0x1258).
 bool Character::INV_DoesMeetRequirements(ItemInstance* item) {
     if ((OnlineGameFlag() && IsRemotelyUpdated()) || item == nullptr) {
         return true;
     }
-    // PARTIAL: the original compares five words of the item record (Structs::Item, +0x74..+0x84, not named in the tree)
-    // with five final-sheet words of this character (+0x1044 and +0x124c..+0x1258, not named). The comparisons cannot
-    // be made, so true is returned for a non-null item.
-    return true;
+    const Structs::Item* record = item->GetItem();
+    return record->m_w29 <= (m_props.m_w20 >> 8) && record->m_w30 <= (m_props.m_w150 >> 8) &&
+           record->m_w31 <= (m_props.m_w151 >> 8) && record->m_w32 <= (m_props.m_w152 >> 8) &&
+           record->m_w33 <= (m_props.m_w153 >> 8);
 }
 
 // 0x3a49f0 _ZNK9Character8IsPlayerEv
@@ -254,24 +255,34 @@ int Character::AddItemInstance(ItemInstance* item, bool a, bool b) {
 }
 
 // 0x3a4cd0 _ZNK9Character14CanRangeAttackERiS0_S0_
+// The ranged override is the final-sheet word m_props.m_w33 (+0x1078, -1 = none). Without an override the ItemInventory
+// query runs. With one, a and b take m_props.m_w31 and m_w32 (+0x1070, +0x1074) shifted right by 8, c takes m_w33, and the
+// result is true.
 bool Character::CanRangeAttack(int& a, int& b, int& c) const {
-    // PARTIAL: the original reads the ranged override from final-sheet words +0x1070 (range), +0x1074 and +0x1078 (the
-    // override id, -1 = none). Those words are not named in the tree, so the override is taken as -1 and the
-    // ItemInventory query is always made. The override branch (the three words, then 1) is not reproduced.
-    return ItemInventory::CanRangeAttack(a, b, c);
+    if (m_props.m_w33 == -1) {
+        return ItemInventory::CanRangeAttack(a, b, c);
+    }
+    a = m_props.m_w31 >> 8;
+    b = m_props.m_w32 >> 8;
+    c = m_props.m_w33;
+    return true;
 }
 
 // 0x3a4d3c _ZNK9Character14CanRangeAttackEv
 bool Character::CanRangeAttack() const {
-    // PARTIAL: same override word as CanRangeAttack(int&, int&, int&) (+0x1078, unnamed). Taken as -1 (no override).
-    return ItemInventory::CanRangeAttack();
+    if (m_props.m_w33 == -1) {
+        return ItemInventory::CanRangeAttack();
+    }
+    return true;
 }
 
 // 0x3a4d5c _ZN9Character10RaiseEventEiPv
+// PARTIAL: event 54 returns what CharProperties::BuffExpired returns. In the binary BuffExpired (0x3e123c) is an int function
+// that ends with "return PROPS_DelBuff(...)", but dh2/CharProperties.hpp declares BuffExpired (line 81) and PROPS_DelBuff
+// (line 79) void, so that value is not defined in this tree. Layout request: CharProperties::BuffExpired and PROPS_DelBuff
+// return int. 0 is returned here.
 int Character::RaiseEvent(int eventId, void* data) {
     if (eventId == 54) {
-        // PARTIAL: the original returns the r0 left by CharProperties::BuffExpired, which the header declares void.
-        // The return value of the original is therefore not defined; 0 is returned.
         CharProperties::BuffExpired(static_cast<CharTimers::Timer*>(data));
         return 0;
     }
@@ -319,31 +330,37 @@ TimerUtil* Character::GetImmunityTimer(int damageType) {
 
 // 0x3a5248 _ZNK9Character10CanRespawnEv
 bool Character::CanRespawn() const {
-    if (m_isSpawned != 0 || CharProperties::PROPS_Get(11, false) <= 0) {
+    if (m_isSpawned != 0 || PROPS_Get(11, false) <= 0) {
         return false;
     }
-    // PARTIAL: the original returns CharAI::GroupInfo::CanRespawn(m_group, m_character) when CharAI m_group (+0x34) is set,
-    // and 1 otherwise. m_group is private to CharAI and not reachable, so the group test is taken as absent.
+    if (CharAI::m_group != nullptr) {
+        return CharAI::m_group->CanRespawn(CharAI::m_character);
+    }
     return true;
 }
 
 // 0x3a52a4 _ZN9Character9CanUpdateEv
 int Character::CanUpdate() {
-    // PARTIAL: the original clears a flag byte in the root node of m_visualObject (+0x2d8 -> node +0x08, byte +0x200) first,
-    // and on the path where the character is not online-updated it returns 0 when the master and local-player test (PlayerInfo
-    // +0x660, CharAI m_master private) and the culling test (ObjectBase::TestCullingBeforeUpdate on m_absAabb) both fail.
-    // Those tests and the root-node flag cannot be made: the online flag is private in COnline, and the root node
-    // layout is not in the tree. The dead-and-hidden test and the return values are reproduced.
-    const bool hasVisual = m_visualObject != nullptr;
+    // The root node of the visual object (VisualObject m_node, +0x08) carries the cull-before-update flag (node +0x200,
+    // RootSceneNode m_cullBeforeUpdate). The original clears it first and sets it at the end when the character is visible.
+    RootSceneNode* root = (m_visualObject != nullptr) ? m_visualObject->m_node : nullptr;
+    if (root != nullptr) {
+        root->m_cullBeforeUpdate = false;
+    }
+    // PARTIAL: on the path where the character is not online-updated the original also returns 0 when the master and
+    // local-player test (CharAI m_master at +0x50 against the local player's PlayerInfo +0x660; PlayerManager.hpp does not
+    // compile in this unit) and the culling test (ObjectBase::TestCullingBeforeUpdate needs an aabb<float>, forward-declared
+    // only here) both fail, and when the root node word +0x118 (glitch CRootSceneNode base, not restated) or unk_2fc is
+    // zero. Those are not made. The online flag (COnline isOnlineGame_, private) is taken offline. The dead-and-hidden test
+    // and the return values are reproduced.
     if (!OnlineGameFlag() || !IsRemotelyUpdated()) {
         if (IsDead() && !m_visible && !CanRespawn()) {
             return 0;
         }
     }
-    if (!hasVisual || !m_visible) {
-        return 1;
+    if (root != nullptr && m_visible) {
+        root->m_cullBeforeUpdate = true;
     }
-    // PARTIAL: the original sets the root-node flag (+0x200) to 1 here. Not made.
     return 1;
 }
 

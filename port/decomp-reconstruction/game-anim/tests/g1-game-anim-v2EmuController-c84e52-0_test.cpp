@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "dh2/Character.hpp"
+#include "dh2/EventManager.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2EmuController.hpp"
 
@@ -25,8 +26,32 @@ Point3D<float> HeadOffsetForMask(unsigned int mask);
 void RouteKey(v2EmuController& self, int key, bool pressed);
 }  // namespace v2EmuController_detail
 
-// Engine assert level used by the source's constructor.
+// Engine assert level used by the base constructor's double below.
 int gAssertLevel = 0;
+
+// The constructor and destructor attach and detach the receiver on the global event manager (dh2/global/MenuManagerGlobals.hpp).
+// The manager is null here: the doubles record each call in g_events and never touch the manager.
+EventManager* dword_99F740 = nullptr;
+
+namespace {
+struct EventCall {
+    bool attach;
+    int eventId;
+    const IEventReceiver* receiver;
+};
+std::vector<EventCall> g_events;
+}  // namespace
+
+bool EventManager::Attach(int eventId, IEventReceiver* receiver, int priority) {
+    (void)priority;
+    g_events.push_back({true, eventId, receiver});
+    return true;
+}
+
+bool EventManager::Detach(int eventId, IEventReceiver* receiver) {
+    g_events.push_back({false, eventId, receiver});
+    return true;
+}
 
 namespace {
 
@@ -127,6 +152,21 @@ void TestHeadOffset() {
 
 void TestConstructor() {
     gAssertLevel = 0;
+    // Construction attaches the receiver (as IEventReceiver, at +0x10) for events 0 and 2; destruction detaches both.
+    g_events.clear();
+    {
+        v2EmuController ctl(FakeControllable());
+        const IEventReceiver* receiver = &ctl;
+        Expect(g_events.size() == 2 && g_events[0].attach && g_events[0].eventId == 0 &&
+                   g_events[0].receiver == receiver && g_events[1].attach && g_events[1].eventId == 2 &&
+                   g_events[1].receiver == receiver,
+               "constructor attaches the receiver to events 0 and 2");
+        g_events.clear();
+    }
+    Expect(g_events.size() == 2 && !g_events[0].attach && g_events[0].eventId == 0 && !g_events[1].attach &&
+               g_events[1].eventId == 2,
+           "destructor detaches the receiver from events 0 and 2");
+    g_events.clear();
     {
         v2EmuController ctl(FakeControllable());
         Expect(ctl.unk_014 == 0 && ctl.unk_018 == 0, "constructor clears both key-state masks");

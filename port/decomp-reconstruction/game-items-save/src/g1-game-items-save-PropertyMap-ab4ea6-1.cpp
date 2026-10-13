@@ -2,10 +2,9 @@
 // InitProperties, SetTemplate and LoadTemplate of PropertyMap. Declarations and layout come from
 // dh2/PropertyMap.hpp (AddProperty's return type is the map slot, as the original returns it).
 //
-// Not in this file yet: LoadOverridesFromXML (0x513a00). It reads each attribute with
-// TiXmlElement::Attribute, but the global TiXmlElement in tinyxml-and-c-libs/include/tinyxml-and-c-libs/tixml_dh.hpp
-// declares only Value(). The upstream TinyXML API is not vendored here, and the Attribute declaration in
-// vox-audio/vendor/tixml_dh.hpp belongs to vox::tixml, a different class.
+// LoadOverridesFromXML (0x513a00) is not in this file. It is in src/r2a-game-items-save-pack0-ab4ea6-0.cpp (partial):
+// it needs TiXmlElement::Attribute(const char*) const, which tinyxml-and-c-libs/include/tinyxml-and-c-libs/tixml_dh.hpp
+// does not declare.
 //
 // The bodies use GetThisClassName (0x510b4c), GetPropertyMap (0x5134c0), SetProperty (0x51387c) and the
 // s_classMap table. These belong to the other PropertyMap batch (ab4ea6-0), which is not in this file.

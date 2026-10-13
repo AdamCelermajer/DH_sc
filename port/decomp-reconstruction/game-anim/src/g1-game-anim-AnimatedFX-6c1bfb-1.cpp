@@ -7,7 +7,9 @@
 
 #include "core-platform/deps/game_types.hpp"
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/GameObject.hpp"
 #include "dh2/VisualObject.hpp"
 
 namespace {
@@ -54,17 +56,41 @@ void AnimatedFX::SetRotation(const Point3D<float>& rotation) {
 }
 
 // 0x492f68 _ZN10AnimatedFX6UpdateEv
-// PARTIAL. Not rebuilt, in the original's order:
-//   1. The owner at +0x28 is cleared when owner->IsDead() is true, or when the owner's byte at
-//      ObjectBase +0x81 (m_markedForDeletion) is set. Needs +0x28 typed GameObject* (layout request).
-//   2. Lifetime countdown at +0x1c (ms, -1 = none): while it is >= 0, GetDt() is subtracted, and when
-//      the result is <= 0 the loop count at +0x14 is set to 0. Needs Application::GetDt() on
-//      Singleton<Application>::s_inst; no game header declares that accessor.
-//   3. When the owner is still set and its ObjectBase +0x84 byte (m_static) is zero, SyncIrrData(false)
-//      runs. Depends on item 1.
-// Rebuilt below: the trace-switch check (only while visible), SetSpeed(m_speed), and the
-// completion check that hides a finished, non-looping FX.
+// Rebuilt in the original's order:
+//   1. The owner at +0x28 is cleared when owner->IsDead() is true (vptr+0x34), or when the owner's byte at
+//      ObjectBase +0x81 (m_markedForDeletion) is set.
+//   2. Lifetime countdown at +0x1c (ms, -1 = none): while it is >= 0, Application::GetDt() is subtracted from it,
+//      and when the result is <= 0 the loop count at +0x14 is set to 0. GetDt() is read on the singleton
+//      (ApplicationGetInstance(), Singleton<Application>::s_inst).
+//   3. When the owner is still set and its ObjectBase +0x84 byte (m_static) is zero, SyncIrrData(false) runs (the
+//      original passes the byte, which is zero on this path).
+// Then the trace-switch check (only while visible), SetSpeed(m_speed) and the completion check that hides a finished,
+// non-looping FX. PARTIAL overall: the behaviour waits on HasCompleted (0x4924e0, placeholder false) and SyncIrrData
+// (0x492aa0, only the early return is written); both are called here as in the original.
 void AnimatedFX::Update() {
+    // 1. Owner clearing (vptr+0x34 is IsDead; ObjectBase +0x81 is m_markedForDeletion).
+    if (unk_28 != nullptr) {
+        if (unk_28->IsDead()) {
+            unk_28 = nullptr;
+        } else if (unk_28->m_markedForDeletion != 0) {
+            unk_28 = nullptr;
+        }
+    }
+
+    // 2. Lifetime countdown.
+    if (unk_1c >= 0) {
+        const int remaining = unk_1c - ApplicationGetInstance().GetDt();
+        unk_1c = remaining;
+        if (remaining <= 0) {
+            m_loopCount = 0;  // +0x14
+        }
+    }
+
+    // 3. Sync with the owner when it is still set and not static (the byte passed is 0 on this path).
+    if (unk_28 != nullptr && !unk_28->m_static) {
+        SyncIrrData(false);
+    }
+
     if (unk_24) {                           // +0x24 visible
         // +0x50 is m_setData. When it is set, the trace switch is read one extra time first.
         if (m_setData != nullptr) {

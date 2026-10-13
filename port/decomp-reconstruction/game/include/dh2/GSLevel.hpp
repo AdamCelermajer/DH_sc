@@ -2,7 +2,7 @@
 // starts the loading menu. Update steps the load phases kept in m_phase (+0x38) and then updates the MenuManager.
 // Dtor unloads the Level and deletes it. LoadLevel stages the arguments in globals and switches the
 // StateMachine to s_gsLevel.
-// Original 32-bit size is not recorded: no operator new for GSLevel is in the queue. The last member ends at +0x44.
+// Original 32-bit size 0x44 (68), the size of the GSLevel::s_gsLevel symbol. The last member ends at +0x44.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x385f30, Ctor 0x386190, Update 0x386630).
 #pragma once
 

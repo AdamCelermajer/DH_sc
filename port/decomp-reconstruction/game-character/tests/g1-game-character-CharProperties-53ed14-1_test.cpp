@@ -43,8 +43,15 @@ void CharacterProperties::read(IStreamBase*) {}
 Structs::CharacterProperties CharProperties::s_temp;
 std::vector<char*> CharProperties::s_propNames;
 
-std::uint8_t* Arrays::CharacterTable::members = nullptr;
+// Zeroed character-table rows. The constructor resets its sheets from row 0 (batch 0's _GetDefault), so the table
+// must not be null whenever a CharProperties is built.
+static Structs::CharacterProperties g_defaultCharRows[2];
+std::uint8_t* Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(g_defaultCharRows);
 std::uint32_t Arrays::CharacterTable::size = 0;
+// Batch 0's DBG_PROPS_GetName reads the property name table; the test never names a property here.
+namespace Structs {
+pydata::NameTable CharacterProperties::m_dataNames;
+}  // namespace Structs
 
 // Record of the calls the class loaders received.
 struct LoadCall {
@@ -215,7 +222,7 @@ static void TestLoadFromCharTable() {
     cp.LoadBaseProperties(-1);
     CHECK(Word(cp.m_baseProps, 0) == -7);
 
-    Arrays::CharacterTable::members = nullptr;
+    Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(g_defaultCharRows);
     Arrays::CharacterTable::size = 0;
     delete[] table;
 }

@@ -27,7 +27,7 @@ public:
 
     // Non-virtual.
     bool IsDoorClosedActivated() const;                                 // 0x39b27c true while the door named by "is_door_closed" is DOOR_OPENED or DOOR_OPENING
-    int SafeStartScriptOnlyOnce(int scriptId) const;                    // 0x39b2a0 starts scriptId unless ScriptManager reports it running; no-op for -1
+    void SafeStartScriptOnlyOnce(int scriptId) const;                   // 0x39b2a0 starts scriptId unless ScriptManager reports it running; no-op for -1 (void: callers ignore the result)
     void HideMarker();                                                  // 0x39b2f4 drops m_effectOnePlayerFX
     void ShowMarker();                                                  // 0x39b354 grabs the effect at m_effectOnePlayerIndex into m_effectOnePlayerFX and plays it
 

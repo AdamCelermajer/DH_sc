@@ -52,8 +52,8 @@ public:
     void _DBG_Draw();                                                   // 0x5213c4: draws each floor
     void _PostLoad();                                                   // 0x521408: links floor pairs, then each floor's _PostLoad
     void _Link(PFRoom* other);                                          // 0x5219cc: links floors of this room to floors of other
-    // 0x521eb8: appends a new PFFloor, loads its nav mesh, merges the floor's bounds into the room box, and
-    // registers the node with the scene manager. The original returns the scene manager's result, which callers ignore.
+    // 0x521eb8: appends a new PFFloor, loads its nav mesh and merges the floor's bounds into the room box. The last
+    // step, SceneManager::AddNodeToMap (void), is not bound yet: the scene manager sits at glitch::IDevice +0x1c.
     void _LoadFloor(glitch::scene::IMeshSceneNode* node, const char* name);
 
     // Room layout. Original 32-bit offsets are in the comments. The vtable pointer at +0x00 has only the dtor slots.

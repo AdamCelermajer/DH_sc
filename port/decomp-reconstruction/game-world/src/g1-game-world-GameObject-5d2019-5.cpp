@@ -7,162 +7,554 @@
 // `a3` the GameObject. The bodies use the header's names. Value tags as in batch -4: 1 bool, 2 pointer, 3 number,
 // 4 string, 7 userdata. A Value is 0x70 bytes, so args.size() is (end - begin) / 0x70 in the listings.
 //
-// BLOCKED ON THE LUA LAYER. sfc::script::lua::Arguments, Value and ReturnValues still have no declarations in the tree
-// (batch -4 says the same). Every binding below reads an argument or pushes a result, so all fifteen are partial. Their
-// bodies are empty. Each comment gives the control flow from the listing for the worker who has the Lua layer.
+// LUA LAYER. The sfc::script::lua headers (dh2/sfc/script/lua/) and the Lua bindings' callees are declared, so the
+// bindings are rebuilt from the listings (batch r2a-game-world-GameObject-5d2019-2, a redo of the Lua-blocked rows).
+// Still partial, with the missing piece named in each comment: _Summon (online tail: COnline +0x05 is not declared),
+// _PlaySound3D (VoxSoundManager::Play3D and Arrays::Sounds lookup), _Rand (COnline +0x05).
 //
 // Reconstructed without Lua access: GetTargetPosition, SetDestination, IsAtDestination, UpdateRotation, SetRotation.
 
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/ObjectSearcher.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PhysicalObject.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/TimerTrap.hpp"
+#include "dh2/TriggerTrap.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
+#include "dh2/global/Vec3f_K.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"  // dword_99F76C, the PlayerManager instance
 #include "dh2/global/ctrl_camera.hpp"  // Application& ApplicationGetInstance()
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"  // Arrays::TimerTraps, TriggerTraps, GameObjectDamager, ...::size
+
+namespace {
+
+// Value::m_type tags of the Lua wrapper (dh2/sfc/script/lua/Value.hpp).
+constexpr int kTagBool = 1;
+constexpr int kTagPointer = 2;
+constexpr int kTagNumber = 3;
+constexpr int kTagString = 4;
+constexpr int kTagUserData = 7;
+
+// Element count of an argument list: the listings' (end - begin) / 0x70.
+std::size_t ArgCount(const sfc::script::lua::Arguments& args) {
+    return args.m_values->size();
+}
+
+// self's position moved by a * (K x look) + b * look + c * K, with K = Vec3f_K and look = GetLookAtVec(). The listings
+// compute it inline in this operand order (_Summon and _TargetListSearchRect).
+Point3D<float> OffsetFromSelf(const GameObject& self, float a, float b, float c) {
+    Point3D<float> look;
+    self.GetLookAtVec(look);
+    Point3D<float> out = self.m_position;
+    out.X = out.X + (a * ((Vec3f_K.Y * look.Z) - (Vec3f_K.Z * look.Y)));
+    out.Y = out.Y + (a * ((Vec3f_K.Z * look.X) - (Vec3f_K.X * look.Z)));
+    out.Z = out.Z + (a * ((look.Y * Vec3f_K.X) - (Vec3f_K.Y * look.X)));
+    out.X = out.X + (b * look.X);
+    out.Y = out.Y + (b * look.Y);
+    out.Z = out.Z + (b * look.Z);
+    out.X = out.X + (c * Vec3f_K.X);
+    out.Y = out.Y + (c * Vec3f_K.Y);
+    out.Z = out.Z + (c * Vec3f_K.Z);
+    return out;
+}
+
+}  // namespace
 
 // 0x390bd4 GameObject::_TargetListBackup(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: with no arguments, or with args[0] not a string (tag 4), the target list at +0x304
-// backs up its results under 'default'. With a string, it backs them up under that name (getString). The
-// TargetList::BackupResults(const char*) call is declared; the argument reads are not.
-void GameObject::_TargetListBackup(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                   void* /*self*/) {}
+// Backs up the target list (+0x304). With no arguments, or with args[0] not a string (tag 4), the backup is named
+// 'default'; a string argument names it. The listing's a3 is the GameObject, which arrives here as self.
+void GameObject::_TargetListBackup(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                                   void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    if (ArgCount(args) == 0 || args[0].m_type != kTagString) {
+        object->m_targetList.BackupResults("default");
+        return;
+    }
+    object->m_targetList.BackupResults(args[0].getString());
+}
 
 // 0x390c50 GameObject::_SummonTimerTrap(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked, and TimerTrap has no class header (TimerTrap::Create is not declared). Listing: needs more than
-// one argument, args[0] a number below Arrays::TimerTraps::size and args[1] a number below
-// Arrays::GameObjectDamager::size. The trap is TimerTrap::Create(self, int(args[0]), int(args[1]), r3), where the
-// listing never sets r3 (check the asm). With more than two arguments, args[2] as userdata puts the trap at that
-// object's m_position (+0x160). Otherwise, with more than four arguments and args[2..4] numbers, the trap goes to
-// (args[2], args[3], args[4]). Either way SetPosition(trap, pos, true). Pushes the trap as userdata.
-void GameObject::_SummonTimerTrap(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                  void* /*self*/) {}
+// Needs args[0] a number below Arrays::TimerTraps::size and args[1] a number below Arrays::GameObjectDamager::size.
+// The trap is TimerTrap::Create(self, args[0], args[1]). With a third argument that is userdata, the trap moves to that
+// object's m_position (+0x160). Otherwise, with more than four arguments and args[2..4] numbers, it moves to those
+// numbers. SetPosition(trap, pos, true), then the trap is pushed as userdata. The listing's fourth register word is not
+// a parameter of TimerTrap::Create(owner, trapIndex, damagerIndex) and is not passed.
+void GameObject::_SummonTimerTrap(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                  void* self) {
+    GameObject* const owner = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count <= 1 || args[0].m_type != kTagNumber || args[0].getUInteger() >= Arrays::TimerTraps::size) {
+        return;
+    }
+    if (args[1].m_type != kTagNumber || args[1].getUInteger() >= Arrays::GameObjectDamager::size) {
+        return;
+    }
+    GameObject* const trap = TimerTrap::Create(owner, static_cast<int>(args[0].getNumber()),
+                                               static_cast<int>(args[1].getNumber()));
+    if (count > 2) {
+        if (args[2].m_type == kTagUserData) {
+            const GameObject* source = static_cast<const GameObject*>(args[2].getUserData());
+            trap->SetPosition(source->m_position, true);
+        } else if (count > 4 && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber &&
+                   args[4].m_type == kTagNumber) {
+            Point3D<float> position;
+            position.X = args[2].getNumber();
+            position.Y = args[3].getNumber();
+            position.Z = args[4].getNumber();
+            trap->SetPosition(position, true);
+        }
+    }
+    ret.pushUserData(trap);
+}
 
 // 0x390f1c GameObject::_IsInRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: needs more than one argument. args[0] is a string (object found by
-// ObjectManager::GetObjectByName) or userdata (tag 7), else nothing is pushed. args[1] is a number radius r, and the
-// gate also reads args[2]'s tag (check Arguments::operator[] for a short list). Both physical objects present (+0x2dc):
-// in range when r >= distance(centres) - radius(self) - radius(target), using PhysicalObject::getRadius. Otherwise the
-// absolute boxes (m_absAabb at +0x12c, grown by r on each side) must overlap. The box test reads the target without a
-// null check. When in range: with exactly three arguments it pushes (args[2] <= dot / |d|), where d = target - self and
-// dot uses GetLookAtVec(); with any other count it pushes true. Out of range pushes false.
-// (The radius test also needs the target's PhysicalObject flag byte at +0x10 to be set.)
-void GameObject::_IsInRange(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                            void* /*self*/) {}
+// Needs more than one argument, with args[0] a string (the object is found by ObjectManager::GetObjectByName) or
+// userdata, and args[1] and args[2] numbers (the listing reads args[2] even for a short list, as operator[] does).
+// The radius r is args[1]. When both objects have a physical object and the target's is a circle (+0x10), the test is
+// r >= distance(centres) - radius(self) - radius(target). Otherwise the absolute boxes (m_absAabb, +0x12c) must overlap
+// when grown by r on each side. Out of range pushes false. In range pushes true, unless there are exactly three
+// arguments: then it pushes args[2] <= dot / |d| with d = target - self and dot = d . GetLookAtVec().
+// A missing target has no box to test; the listing would fault there, and this port pushes false.
+void GameObject::_IsInRange(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                            void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count <= 1 || (args[0].m_type != kTagString && args[0].m_type != kTagUserData)) {
+        return;
+    }
+    if (args[1].m_type != kTagNumber || args[2].m_type != kTagNumber) {
+        return;
+    }
+    GameObject* target = nullptr;
+    if (args[0].m_type == kTagString) {
+        ObjectHandle handle = dword_99F764->GetObjectByName(args[0].getString(), -1, false, nullptr);
+        target = handle;
+    } else {
+        target = static_cast<GameObject*>(args[0].getUserData());
+    }
+    const float radius = args[1].getNumber();
+    if (target == nullptr) {
+        ret.pushBoolean(false);
+        return;
+    }
+    bool inRange;
+    PhysicalObject* const targetPhysical = target->m_physicalObject;
+    if (targetPhysical != nullptr && targetPhysical->m_isCircle && object->m_physicalObject != nullptr) {
+        const float selfRadius = object->m_physicalObject->getRadius();
+        const float targetRadius = targetPhysical->getRadius();
+        const float dx = object->m_position.X - target->m_position.X;
+        const float dy = object->m_position.Y - target->m_position.Y;
+        const float dz = object->m_position.Z - target->m_position.Z;
+        const float distance = std::sqrt(dx * dx + dy * dy + dz * dz);
+        inRange = radius >= distance - selfRadius - targetRadius;
+    } else {
+        const float* a = object->m_absAabb;
+        const float* b = target->m_absAabb;
+        inRange = (a[0] - radius <= b[3]) && (radius + a[3] >= b[0]) && (a[1] - radius <= b[4]) &&
+                  (radius + a[4] >= b[1]) && (a[2] - radius <= b[5]) && (radius + a[5] >= b[2]);
+    }
+    if (!inRange) {
+        ret.pushBoolean(false);
+        return;
+    }
+    if (count != 3) {
+        ret.pushBoolean(true);
+        return;
+    }
+    const float threshold = args[2].getNumber();
+    Point3D<float> look;
+    object->GetLookAtVec(look);
+    const float dx = target->m_position.X - object->m_position.X;
+    const float dy = target->m_position.Y - object->m_position.Y;
+    const float dz = target->m_position.Z - object->m_position.Z;
+    const float dot = (dx * look.X + dy * look.Y) + dz * look.Z;
+    ret.pushBoolean(threshold <= dot / std::sqrt((dx * dx + dy * dy) + dz * dz));
+}
 
 // 0x391438 GameObject::_GetDistanceBetween(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: needs more than one argument, and args[0] and args[1] both strings. Each is looked up
-// with ObjectManager::GetObjectByName (dword_99F764). Pushes -1.0 when either object is missing, else the squared 3D
-// distance between their m_position (+0x160). ObjectManager::GetObjectByName is declared; the instance is not defined.
-void GameObject::_GetDistanceBetween(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                     void* /*self*/) {}
+// Needs more than one argument, and args[0] and args[1] both strings. Each is looked up with ObjectManager::GetObjectByName
+// (dword_99F764, flags -1, not active, no type). Pushes -1.0 when either object is missing, else the squared 3D distance
+// between their m_position (+0x160).
+void GameObject::_GetDistanceBetween(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                     void* /*self*/) {
+    if (ArgCount(args) <= 1 || args[0].m_type != kTagString || args[1].m_type != kTagString) {
+        return;
+    }
+    ObjectHandle first = dword_99F764->GetObjectByName(args[0].getString(), -1, false, nullptr);
+    GameObject* const a = first;
+    ObjectHandle second = dword_99F764->GetObjectByName(args[1].getString(), -1, false, nullptr);
+    GameObject* const b = second;
+    float distance = -1.0f;
+    if (a != nullptr && b != nullptr) {
+        const float dx = a->m_position.X - b->m_position.X;
+        const float dy = a->m_position.Y - b->m_position.Y;
+        const float dz = a->m_position.Z - b->m_position.Z;
+        distance = (dx * dx + dy * dy) + dz * dz;
+    }
+    ret.pushNumber(distance);
+}
 
 // 0x391670 GameObject::_SummonTriggerTrap(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked, and TriggerTrap has no class header (TriggerTrap::Create is not declared). Same control flow as
-// _SummonTimerTrap with Arrays::TriggerTraps::size for args[0], TriggerTrap::Create in place of TimerTrap::Create and the
-// same position rules for the trap.
-void GameObject::_SummonTriggerTrap(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                    void* /*self*/) {}
+// The same control flow as _SummonTimerTrap, with Arrays::TriggerTraps::size for args[0] and TriggerTrap::Create for the
+// trap (owner, args[0], args[1]). The same position rules apply to the trap.
+void GameObject::_SummonTriggerTrap(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                    void* self) {
+    GameObject* const owner = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count <= 1 || args[0].m_type != kTagNumber || args[0].getUInteger() >= Arrays::TriggerTraps::size) {
+        return;
+    }
+    if (args[1].m_type != kTagNumber || args[1].getUInteger() >= Arrays::GameObjectDamager::size) {
+        return;
+    }
+    GameObject* const trap = TriggerTrap::Create(owner, static_cast<int>(args[0].getNumber()),
+                                                 static_cast<int>(args[1].getNumber()));
+    if (count > 2) {
+        if (args[2].m_type == kTagUserData) {
+            const GameObject* source = static_cast<const GameObject*>(args[2].getUserData());
+            trap->SetPosition(source->m_position, true);
+        } else if (count > 4 && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber &&
+                   args[4].m_type == kTagNumber) {
+            Point3D<float> position;
+            position.X = args[2].getNumber();
+            position.Y = args[3].getNumber();
+            position.Z = args[4].getNumber();
+            trap->SetPosition(position, true);
+        }
+    }
+    ret.pushUserData(trap);
+}
 
 // 0x39193c GameObject::_Summon(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Callees without a matching declaration: Character::CreateNPC (no overload takes the listing's
-// (int, 0, nullptr, flag): the header has (const char*, const char*, bool, bool) and (int, const char*, bool)), RoomZone
-// and its AddInitialObject (no class header), OnlineSingleton<OnlineGameState>, and CMessaging::SendMsg (the header
-// declares SendMsgToServer only).
-// Listing: args[0] a number below Arrays::CharacterTable::size (the NPC type). args[1] a bool (the spawn-state flag).
-// The point is the object's m_position, or the absolute position of the visual's summon_spot node when it has one.
-// The rotation is the object's m_rotation. With userdata at args[2], the point and rotation come from that object. With
-// more than four arguments and args[2..4] numbers, the point is those numbers, or, with a true bool at args[5], an offset
-// from self: args[2] * (Vec3f_K x GetLookAtVec()) + args[3] * look + args[4] * Vec3f_K. A forward-animation time comes
-// from args[2] when exactly three arguments are given. The point is floor-corrected by PFWorld::GetFloorHeightAt, and
-// self's position is used when there is no floor. Then CreateNPC(type), SetInitialPosition, SetPosition, SetRotation,
-// Character::m_isNetSpawned (+0x14e4) set to 1, and either the room zone's AddInitialObject or ObjectManager::AddNoRoomObject with
-// ZoneEntered. SM_SetSpawnState(0, 0) runs when the flag is set. pushUserData(npc). A positive time is forwarded to the
-// NPC visual's node with RootSceneNode::ForwardAnim. Online, the NPC gets a network id, its owner id and time copied from
-// self, and a CMsgSpawnObject message is sent when the online state is 3 or 4.
-void GameObject::_Summon(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                         void* /*self*/) {}
+// PARTIAL. The offline spawn is reconstructed: args[0] a number below Arrays::CharacterTable::size (the NPC type) and
+// args[1] a bool (the spawn-state flag). The point is self's m_position, or the absolute position of the visual's
+// summon_spot node. The rotation is self's m_rotation. Userdata at args[2] gives the point and rotation of that object.
+// Otherwise, with more than four arguments and args[2..4] numbers, the point is those numbers, or with a true bool at
+// args[5] it is OffsetFromSelf(args[2], args[3], args[4]). A time from a lone third number (exactly three arguments) is
+// forwarded to the NPC's visual root with RootSceneNode::ForwardAnim. The point is floor-corrected by
+// PFWorld::GetFloorHeightAt and falls back to self's m_position. Then Character::CreateNPC(type, nullptr, false),
+// SetInitialPosition, SetPosition(pos, true), SetRotation, m_isNetSpawned = 1, and either the room zone's AddInitialObject
+// or ObjectManager::AddNoRoomObject with ZoneEntered. SM_SetSpawnState(false, false) runs when the flag is set. The NPC is
+// pushed as userdata, then the time is forwarded.
+// NOT RECONSTRUCTED: the online tail, which runs when GetOnline()->+0x05 is set (COnline has no declared layout). It
+// assigns a network id (ObjectManager::AssignObjectNetworkId), copies the owner id and time from self, and sends a
+// CMsgSpawnObject message through CMessaging when OnlineGameState's state (+0x34) is 3 or 4. The offline result here
+// does not depend on it, but in online play the tail is missing.
+void GameObject::_Summon(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count <= 1 || args[0].m_type != kTagNumber || args[0].getUInteger() >= Arrays::CharacterTable::size) {
+        return;
+    }
+    if (args[1].m_type != kTagBool) {
+        return;
+    }
+    const bool spawnState = args[1].getBool();
+    Point3D<float> rotation = object->m_rotation;   // +0x16c, the listing's v71..v73
+    Point3D<float> position;
+    position.X = 0.0f;
+    position.Y = 0.0f;
+    position.Z = 0.0f;
+    int forwardTime = 0;
+    bool atSpot = true;                             // false when a point form below has set the position
+    if (count > 2) {
+        if (args[2].m_type == kTagUserData) {
+            const GameObject* source = static_cast<const GameObject*>(args[2].getUserData());
+            position = source->m_position;
+            rotation = source->m_rotation;
+            atSpot = false;
+        } else if (count > 4 && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber &&
+                   args[4].m_type == kTagNumber) {
+            if (count > 5 && args[5].m_type == kTagBool && args[5].getBool()) {
+                position = OffsetFromSelf(*object, args[2].getNumber(), args[3].getNumber(), args[4].getNumber());
+            } else {
+                position.X = args[2].getNumber();
+                position.Y = args[3].getNumber();
+                position.Z = args[4].getNumber();
+            }
+            atSpot = false;
+        }
+    }
+    if (atSpot) {
+        const VisualObject* visual = object->m_visualObject;
+        glitch::scene::ISceneNode* spot = visual != nullptr ? visual->GetSpecificNode("summon_spot") : nullptr;
+        if (spot != nullptr) {
+            const glitch::core::vector3d<float> absolute = spot->getAbsolutePosition();
+            position.X = absolute.X;
+            position.Y = absolute.Y;
+            position.Z = absolute.Z;
+        } else {
+            position = object->m_position;
+        }
+        if (count == 3 && args[2].m_type == kTagNumber) {
+            forwardTime = static_cast<int>(args[2].getNumber());
+        }
+    }
+    if (!Singleton<PFWorld>::s_inst.GetFloorHeightAt(position, nullptr, nullptr, nullptr, nullptr, false)) {
+        position = object->m_position;
+    }
+    Character* const npc = Character::CreateNPC(static_cast<int>(args[0].getUInteger()), nullptr, false);
+    if (npc == nullptr) {
+        return;
+    }
+    npc->SetInitialPosition(position);
+    npc->SetPosition(position, true);
+    npc->SetRotation(rotation);
+    npc->m_isNetSpawned = 1;                        // +0x14e4
+    RoomZone* const zone = object->m_roomZone;
+    if (zone == nullptr || !zone->AddInitialObject(npc)) {
+        dword_99F764->AddNoRoomObject(npc);
+        npc->unk_2ef = 1;                           // +0x2ef
+        npc->ZoneEntered();
+    }
+    if (spawnState) {
+        npc->SM_SetSpawnState(false, false);
+    }
+    ret.pushUserData(npc);
+    if (forwardTime > 0 && npc->m_visualObject != nullptr && npc->m_visualObject->m_node != nullptr) {
+        npc->m_visualObject->m_node->ForwardAnim(static_cast<std::uint32_t>(forwardTime));
+    }
+}
 
 // 0x39212c GameObject::_PlaySound3D(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: args[0] is read as a string (no tag test). Its index in Arrays::Sounds (strcmp over the
-// member names) is the sound id, or -1 when it is not found or the table is empty. The position is self's m_position,
-// unless there are at least four arguments and args[1..3] are numbers, which give the position. Then
-// VoxSoundManager::Play3D(s_instance, id, position, 0, COERCE_FLOAT(1), -1.0, -1.0). COERCE_FLOAT(1) is the float with
-// bit pattern 1, not 1.0. VoxSoundManager::Play3D is not declared in the tree (SoundEmitter.hpp mentions it only in a
-// comment). The listing's return value is ignored by the Lua caller.
+// PARTIAL. Listing: args[0] is read as a string (no tag test). Its index in Arrays::Sounds (strcmp over the member names)
+// is the sound id, or -1 when it is not found. The position is self's m_position, unless there are at least four
+// arguments and args[1..3] are numbers. Then VoxSoundManager::Play3D(s_instance, id, position, 0, COERCE_FLOAT(1), -1.0,
+// -1.0). Missing: VoxSoundManager::Play3D and its s_instance are not declared in vox-audio, and Arrays::Sounds is declared
+// with a pydata::NameTable whose lookup is not in the tree. Nothing is emitted.
 void GameObject::_PlaySound3D(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
                               void* /*self*/) {}
 
 // 0x3923cc GameObject::_PlayFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: args[0] a number below Arrays::AnimatedEffectTable::size is the effect id. With no more
-// than three arguments: VisualFXManager::PlayAnimFXSet(id, self, 0). Otherwise the position is self's m_position unless
-// args[1..3] are numbers, and the call is PlayAnimFXSet(id as float, &position, 0, 0). The header's PlayAnimFXSet
-// overloads take (id, position, origin|object, ...), so the listing's argument order needs checking. The function returns
-// the id, which the Lua caller ignores. The Singleton<VisualFXManager> instance is not declared.
-void GameObject::_PlayFX(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                         void* /*self*/) {}
+// args[0] a number below Arrays::AnimatedEffectTable::size is the effect id. With no more than three arguments:
+// Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(id, self, nullptr). Otherwise the position is args[1..3] when those
+// are numbers, else self's m_position, and the call is PlayAnimFXSet(id, position, nullptr, nullptr). The listing's
+// return value (the id) is not kept; the Lua caller ignores it.
+void GameObject::_PlayFX(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count == 0 || args[0].m_type != kTagNumber || args[0].getUInteger() >= Arrays::AnimatedEffectTable::size) {
+        return;
+    }
+    if (count <= 3) {
+        Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(static_cast<int>(args[0].getUInteger()), object, nullptr);
+        return;
+    }
+    Point3D<float> position = object->m_position;
+    if (args[1].m_type == kTagNumber && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber) {
+        position.X = args[1].getNumber();
+        position.Y = args[2].getNumber();
+        position.Z = args[3].getNumber();
+    }
+    const unsigned int effect = static_cast<unsigned int>(args[0].getNumber());
+    Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(static_cast<int>(effect), position, nullptr, nullptr);
+}
 
 // 0x392620 GameObject::_GrabFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked, and the Singleton<VisualFXManager> instance is not declared. Listing: args[0] a number below
-// Arrays::AnimatedEffectTable::size is the effect id (float to unsigned). Pushes the pointer returned by
-// VisualFXManager::GrabAnimFX(id, self), which the header declares as GrabAnimFX(int, GameObject*).
-void GameObject::_GrabFX(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                         void* /*self*/) {}
+// args[0] a number below Arrays::AnimatedEffectTable::size is the effect id. Pushes the pointer returned by
+// VisualFXManager::GrabAnimFX(id, self) on the VisualFXManager singleton.
+void GameObject::_GrabFX(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    if (ArgCount(args) == 0 || args[0].m_type != kTagNumber ||
+        args[0].getUInteger() >= Arrays::AnimatedEffectTable::size) {
+        return;
+    }
+    AnimatedFX* const fx = Singleton<VisualFXManager>::s_inst.GrabAnimFX(
+        static_cast<int>(static_cast<unsigned int>(args[0].getNumber())), object);
+    ret.pushPointer(fx);
+}
 
 // 0x392714 GameObject::_RegisterSummon(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: args[0] a number below Arrays::CharacterTable::size, read as an object id (int).
-// Flags are args[1] when there are two or more arguments and args[1] is a number, else 1. Then
-// Character::AddCharOIDToCache(oid, flags, third). The listing passes a third word computed from the argument count,
-// while the header declares AddCharOIDToCache(int, unsigned int) only. The third word is not resolved.
-void GameObject::_RegisterSummon(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                 void* /*self*/) {}
+// args[0] a number below Arrays::CharacterTable::size is the object id (int). Flags are args[1] when there are two or
+// more arguments and args[1] is a number, else 1. Then Character::AddCharOIDToCache(oid, flags). The listing also passes
+// a third register word computed from the argument count; AddCharOIDToCache(int, unsigned int) takes two parameters, so
+// that word is not a parameter of the callee and is not passed.
+void GameObject::_RegisterSummon(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                                 void* /*self*/) {
+    const std::size_t count = ArgCount(args);
+    if (count == 0 || args[0].m_type != kTagNumber || args[0].getUInteger() >= Arrays::CharacterTable::size) {
+        return;
+    }
+    const int oid = static_cast<int>(args[0].getNumber());
+    unsigned int flags = 1;
+    if (count > 1 && args[1].m_type == kTagNumber) {
+        flags = args[1].getUInteger();
+    }
+    Character::AddCharOIDToCache(oid, flags);
+}
 
 // 0x392848 GameObject::_GetObjectByName(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: with exactly one argument that is a string, ObjectManager::GetObjectByName(name, -1,
-// false, nullptr) on the ObjectManager instance (dword_99F764, declared in global/ObjectManagerInstance.hpp), then the
-// handle converted to GameObject* is pushed as userdata (null when not found). Other argument shapes push nothing.
-void GameObject::_GetObjectByName(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                  void* /*self*/) {}
+// With exactly one argument that is a string: ObjectManager::GetObjectByName(name, -1, false, nullptr) on the
+// ObjectManager instance, then the handle as GameObject* is pushed as userdata (null when not found). Other shapes push
+// nothing.
+void GameObject::_GetObjectByName(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                  void* /*self*/) {
+    if (ArgCount(args) != 1 || args[0].m_type != kTagString) {
+        return;
+    }
+    ObjectHandle handle = dword_99F764->GetObjectByName(args[0].getString(), -1, false, nullptr);
+    GameObject* const found = handle;
+    ret.pushUserData(found);
+}
 
 // 0x3928f0 GameObject::_SetPosition(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: with one argument, a string (named object), a pointer (tag 2) or userdata (tag 7)
-// selects an object. Other tags do nothing. With that object: SetPosition(self, object.m_position, true), the PFObject
-// position (self m_pfObject.m_pos, +0x1e0) is copied from the object, then ForceUpdatePosition(). With exactly three
-// arguments, all numbers: SetPosition(self, (x, y, z), true), m_pfObject.m_pos = (x, y, z), then ForceUpdatePosition().
-// Any other argument count does nothing. Names resolve through ObjectManager::GetObjectByName.
-void GameObject::_SetPosition(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                              void* /*self*/) {}
+// One argument selects an object: a string (looked up with ObjectManager::GetObjectByName), or a pointer (tag 2) or
+// userdata (tag 7). Other tags do nothing. With that object: SetPosition(self, object m_position, true), self's
+// PFObject position (m_pfObject.m_pos, +0x1e0) is copied from it, then ForceUpdatePosition(). With exactly three numeric
+// arguments: the same with (x, y, z). Any other argument count does nothing.
+void GameObject::_SetPosition(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/,
+                              void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count == 1) {
+        GameObject* target = nullptr;
+        if (args[0].m_type == kTagString) {
+            ObjectHandle handle = dword_99F764->GetObjectByName(args[0].getString(), -1, false, nullptr);
+            target = handle;
+        } else if (args[0].m_type == kTagUserData || args[0].m_type == kTagPointer) {
+            target = static_cast<GameObject*>(args[0].getUserData());
+        } else {
+            return;
+        }
+        if (target == nullptr) {
+            return;
+        }
+        object->SetPosition(target->m_position, true);
+        object->m_pfObject.m_pos = target->m_position;
+        object->ForceUpdatePosition();
+        return;
+    }
+    if (count == 3 && args[0].m_type == kTagNumber && args[1].m_type == kTagNumber && args[2].m_type == kTagNumber) {
+        Point3D<float> position;
+        position.X = args[0].getNumber();
+        position.Y = args[1].getNumber();
+        position.Z = args[2].getNumber();
+        object->SetPosition(position, true);
+        object->m_pfObject.m_pos = position;
+        object->ForceUpdatePosition();
+    }
+}
 
 // 0x392b80 GameObject::_TargetListSearchRect(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: needs more than one argument, args[0] a number (length) and args[1] a number (width).
-// The origin is self's m_position by default. With userdata at args[2] it is that object's m_position (options then start
-// at index 3). With args[2..4] numbers it is those values. With more than five arguments and a true bool at args[5] it is
-// self's m_position offset along GetLookAtVec() and Vec3f_K (options then start at index 6). The options (from the
-// option index) choose the source. A true bool selects the backup named 'default' (GetResultsBackup). A string selects the
-// backup of that name. Otherwise the default source is the player list when TargetList m_filterMask (+0x338) has 0x80,
-// else the character list (ObjectManager +0x60) when m_arg3 (+0x33c) is 2, else the room object list (ObjectManager
-// +0x80). Then TargetList::SearchRect(origin, length, width, source). Nothing happens unless args[1] is a number. Vec3f_K
-// is not declared. The CharacterList and PlayerList classes are declared in ObjectSearcher.hpp (the PlayerManager is
-// dword_99F76C, declared in global/IsMultiplayerGame.hpp). The room object list at ObjectManager +0x80 conflicts with the
-// header, which declares m_roomZones there (the batch -4 conflict).
-void GameObject::_TargetListSearchRect(const sfc::script::lua::Arguments& /*args*/,
-                                       sfc::script::lua::ReturnValues& /*ret*/, void* /*self*/) {}
+// Needs args[0] and args[1] numbers (length and width). The origin is self's m_position by default. Userdata at args[2]
+// gives that object's m_position (options then start at index 3). With args[2..4] numbers it is those values (options
+// start at 6). A true bool at args[5] makes it OffsetFromSelf(args[2], args[3], args[4]). Options, from the option index:
+// a true bool selects the backup named 'default'; a string selects the backup of that name (GetResultsBackup). Otherwise
+// the source is a PlayerList when m_targetList's filter mask has 0x80, else a CharacterList (ObjectManager m_characters,
+// +0x60) when m_arg3 is 2, else a RoomObjectList over ObjectManager's room lists (+0x80). Then
+// TargetList::SearchRect(origin, length, width, source). The listing builds each list object on the stack with its vtable
+// and iterators; the list classes have no constructors in the tree, so they are default-constructed and filled in.
+// The default-origin option index is count - 1: the asm complements the scaled element count (MVN), which the
+// listing shows as ~(1227133513 * ((end - begin) >> 4)). Kept as the binary has it.
+void GameObject::_TargetListSearchRect(const sfc::script::lua::Arguments& args,
+                                       sfc::script::lua::ReturnValues& /*ret*/, void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    const std::size_t count = ArgCount(args);
+    if (count <= 1 || args[0].m_type != kTagNumber || args[1].m_type != kTagNumber) {
+        return;
+    }
+    Point3D<float> origin = object->m_position;
+    std::size_t option = count - 1;
+    if (count > 2) {
+        if (args[2].m_type == kTagUserData) {
+            origin = static_cast<const GameObject*>(args[2].getUserData())->m_position;
+            option = 3;
+        } else if (count > 4 && args[2].m_type == kTagNumber && args[3].m_type == kTagNumber &&
+                   args[4].m_type == kTagNumber) {
+            if (count > 5 && args[5].m_type == kTagBool && args[5].getBool()) {
+                origin = OffsetFromSelf(*object, args[2].getNumber(), args[3].getNumber(), args[4].getNumber());
+            } else {
+                origin.X = args[2].getNumber();
+                origin.Y = args[3].getNumber();
+                origin.Z = args[4].getNumber();
+            }
+            option = 6;
+        }
+    }
+    const float length = args[0].getNumber();
+    const float width = args[1].getNumber();
+    ObjectSearcher::TargetList& targets = object->m_targetList;
+    if (option < count && args[option].m_type == kTagBool && args[option].getBool()) {
+        targets.SearchRect(origin, length, width, targets.GetResultsBackup("default"));
+        return;
+    }
+    if (option < count && args[option].m_type == kTagString) {
+        targets.SearchRect(origin, length, width, targets.GetResultsBackup(args[option].getString()));
+        return;
+    }
+    if ((targets.m_filterMask & 0x80) != 0) {
+        ObjectSearcher::PlayerList players;
+        players.m_players = dword_99F76C;
+        players.m_index = 0;
+        targets.SearchRect(origin, length, width, players);
+    } else if (targets.m_arg3 == 2) {
+        ObjectSearcher::CharacterList characters;
+        characters.m_list = &dword_99F764->m_characters;
+        characters.m_current = characters.m_list->begin();
+        characters.m_end = characters.m_list->end();
+        targets.SearchRect(origin, length, width, characters);
+    } else {
+        ObjectSearcher::RoomObjectList rooms;
+        rooms.m_list = &dword_99F764->m_roomZones;
+        rooms.m_node = rooms.m_list->begin();
+        rooms.m_end = rooms.m_list->end();
+        targets.SearchRect(origin, length, width, rooms);
+    }
+}
 
 // 0x393310 GameObject::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: no arguments, or three or more, give the range 100 from 0. One argument, a number n,
-// gives [0, n). Two numbers, a and b, give [a, b - a). Any other shape pushes nothing (one argument not a number, or two
-// with a non-number). Outside online play it pushes Random::GetRandom(range) + base as an integer. Online, self's
-// ObjectBase unk_fc (+0xfc) word is loaded into Random::s_seed, GetRandom runs on the synchronized stream and the seed is
-// stored back to +0xfc. The listing's GetRandom call passes three words (the header declares GetRandom(range, synced)),
-// and GetOnline() reads COnline +5.
+// PARTIAL. Listing: no arguments, or three or more, give the range 100 from 0. One number n gives [0, n). Two numbers a,
+// b give [a, b - a). Other shapes push nothing. Outside online play it pushes Random::GetRandom(range, false) + base as
+// an integer. Online, self's unk_fc (+0xfc) word is loaded into Random::s_seed, the synchronized stream is drawn and the
+// seed is stored back to +0xfc. The branch needs COnline's online flag (+0x05), which is not declared (GetOnline()
+// returns an incomplete COnline), and the listing loses the synced argument of the GetRandom calls. Nothing is pushed.
 void GameObject::_Rand(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
                        void* /*self*/) {}
 
 // 0x393444 GameObject::_GetDistanceFrom(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)
-// PARTIAL. Lua-blocked. Listing: needs at least one argument. args[0] a string (object by name) or userdata (tag 7),
-// other tags push nothing. Pushes the squared 3D distance from that object's m_position to self's m_position, or -1.0
-// when the object is missing.
-void GameObject::_GetDistanceFrom(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua::ReturnValues& /*ret*/,
-                                  void* /*self*/) {}
+// Needs at least one argument. args[0] a string (object by name) or userdata (tag 7); other tags push nothing. Pushes the
+// squared 3D distance from that object's m_position to self's m_position, or -1.0 when the object is missing.
+void GameObject::_GetDistanceFrom(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& ret,
+                                  void* self) {
+    GameObject* const object = static_cast<GameObject*>(self);
+    if (ArgCount(args) == 0) {
+        return;
+    }
+    GameObject* target = nullptr;
+    if (args[0].m_type == kTagString) {
+        ObjectHandle handle = dword_99F764->GetObjectByName(args[0].getString(), -1, false, nullptr);
+        target = handle;
+    } else if (args[0].m_type == kTagUserData) {
+        target = static_cast<GameObject*>(args[0].getUserData());
+    } else {
+        return;
+    }
+    float distance = -1.0f;
+    if (target != nullptr) {
+        const float dx = target->m_position.X - object->m_position.X;
+        const float dy = target->m_position.Y - object->m_position.Y;
+        const float dz = target->m_position.Z - object->m_position.Z;
+        distance = (dx * dx + dy * dy) + dz * dz;
+    }
+    ret.pushNumber(distance);
+}
 
 // 0x3935dc GameObject::GetTargetPosition() const
 // The target node's position (m_targetNodePos, +0x184) when there is a node (m_targetNode, +0x180) and the object is

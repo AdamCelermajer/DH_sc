@@ -11,6 +11,7 @@
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"  // Point2D, Point3D
+#include "core-platform/deps/glitch_core.hpp"  // glitch::core::vector3d<float>, dimension2d<float>
 
 #include "dh2/ObjectBase.hpp"
 #include "dh2/ObjectHandle.hpp"
@@ -37,8 +38,8 @@ public:
     // ObjectBase occupies +0x00 .. +0x11f. The constructor also sets ObjectBase::unk_85 (updating) to 1.
     std::string m_tga;                                  // +0x120 property "tga", texture file name (read by InitPost)
     std::string m_attachTo;                             // +0x138 property "AttachTo", object name to attach to (read by InitPost)
-    Point2D<float> m_size;                              // +0x150 property "size", passed to the node's size setter
-    Point3D<float> m_position;                          // +0x158 property "position", passed to the node's position setter
+    glitch::core::dimension2d<float> m_size;            // +0x150 property "size" (SimpleTypeProperty<dimension2d<float>>, vtable 0x963f60), passed to the node's size setter
+    glitch::core::vector3d<float> m_position;           // +0x158 property "position" (SimpleTypeProperty<vector3d<float>>, vtable 0x963f40), passed to the node's position setter
     bool m_isAdditive;                                  // +0x164 property "isAdditive"; InitPost picks material 10 (true) or 11
     std::uint8_t pad_165[3];                            // +0x165
     ObjectHandle m_attachHandle;                        // +0x168 object filled by ObjectManager::GetObjectByName(m_attachTo)

@@ -44,7 +44,7 @@ public:
     void PreCache();                                                // 0x3e71cc: fills both pools to ten entries and despawns each
 
 public:
-    Projectile* _Create(bool laser, bool second);                   // 0x3e693c: makes a projectile and adds it to a pool (second flag not named yet)
+    Projectile* _Create(bool inUse, bool laser);                    // 0x3e693c: takes a free entry of a pool or makes a projectile and adds it; inUse is the in-use byte of a new entry, laser selects the laser pool
 
     // Raw three-word buffer at +0x04 .. +0x0f. The destructor frees the begin pointer.
     void* unk_04;                                                   // +0x04 begin of a raw buffer (freed by the destructor)
@@ -53,11 +53,11 @@ public:
 
     // Main pool. Entries are 8 bytes, so the vector spans +0x10 .. +0x1b.
     std::vector<_Projectile> m_projectiles;                         // +0x10 begin, +0x14 end, +0x18 cap
-    int unk_1c;                                                     // +0x1c set to 0 by the ctor, not used by the decompiled code
+    int m_projectileNameIndex;                                      // +0x1c counter for the "Projectile_%03u" instance names: _Create reads it, adds one per new projectile, the ctor zeroes it
     int m_projectileCursor;                                         // +0x20 index of the entry DeSpawn last touched
 
     // Laser pool, same layout as the main pool.
     std::vector<_LaserTypeProjectile> m_laserProjectiles;           // +0x24 begin, +0x28 end, +0x2c cap
-    int unk_30;                                                     // +0x30 set to 0 by the ctor, not used by the decompiled code
+    int m_laserNameIndex;                                           // +0x30 counter for the "LTProjectile_%03u" instance names, as m_projectileNameIndex
     int m_laserCursor;                                              // +0x34 index of the laser entry DeSpawn last touched
 };

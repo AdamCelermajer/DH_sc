@@ -52,15 +52,15 @@ public:
     void UpdateXray();                                                  // 0x362bc8: sets the identity matrix on the node (slot 0x48 call)
     void updateXrayMaterial();                                          // 0x362c38: loops the xray materials and sets each texture
     void regenerateXrayMaterial();                                      // 0x363958: rebuilds every per-buffer and per-node list
-    void renderMesh(void* renderContext, bool xray);                    // 0x362f08: draws one mesh buffer (the third argument of the pseudocode)
+    void renderMesh(void* renderContext, bool xray);                    // 0x362f08: draws one mesh buffer. The pseudocode's second argument is a 1-based buffer index (0 draws nothing) and the third is never read; see the .cpp
 
     // BaseMeshSceneNode occupies +0x00 .. +0x17f, with m_renderEnabled at +0x17c.
     std::vector<int> m_bufferMaterialIndex;                             // +0x180 one index per mesh buffer, into m_meshMaterials
-    std::vector<int> m_nodeMaterialIndex;                               // +0x18c one index per entry of the mesh's node list, into m_meshMaterials
+    std::vector<int> m_nodeMaterialIndex;                               // +0x18c one index per current module (CModularSkinnedMesh::currentModules at +0x24, 8-byte records), into m_meshMaterials
     std::vector<boost::intrusive_ptr<glitch::video::CMaterial>> m_meshMaterials;                        // +0x198 materials read from the mesh by index (IMesh vtable +24)
-    std::vector<boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap>> m_meshVertexAttributeMaps;  // +0x1a4 vertex attribute maps read from the mesh by index (IMesh vtable +28)
+    std::vector<glitch::video::CMaterialVertexAttributeMap*> m_meshVertexAttributeMaps;  // +0x1a4 vertex attribute maps read from the mesh by index (IMesh vtable +28). Raw, not counted: glitch-core-io has no intrusive_ptr release for this type (as in ShadowModularSkinnedMeshSceneNode.hpp)
     std::vector<boost::intrusive_ptr<glitch::video::CMaterial>> m_xrayMaterials;                        // +0x1b0 x-ray materials, one per m_meshMaterials entry, XR_XRAY_SKINNED_MODULAR
-    std::vector<boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap>> m_xrayVertexAttributeMaps;  // +0x1bc x-ray vertex attribute maps, one per m_meshMaterials entry
+    std::vector<glitch::video::CMaterialVertexAttributeMap*> m_xrayVertexAttributeMaps;  // +0x1bc x-ray vertex attribute maps, one per m_meshMaterials entry. Raw, not counted (see m_meshVertexAttributeMaps)
     const glitch::scene::ISceneNode* m_sourceNode;                      // +0x1c8 the ctor's second argument, forwarded by the bounding-box accessors
     void* unk_1cc;                                                      // +0x1cc vptr of the second base subobject (offset-to-top -0x1cc in the vtable group)
     int unk_1d0;                                                        // +0x1d0 set to 1 by the ctor, not read by the methods above

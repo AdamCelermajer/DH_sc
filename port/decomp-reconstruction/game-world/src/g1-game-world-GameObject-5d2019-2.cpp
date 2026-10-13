@@ -10,12 +10,21 @@
 #include <cstring>
 
 #include "dh2/GameObject.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/IStreamBase.hpp"
 #include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/PFObject.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/RoomZone.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/net_singletons.hpp"
+#include "net-session-online/c_online.hpp"
 #include "core-platform/device.hpp"
 
 // Engine-wide assert level (core-platform/memory.hpp).
@@ -166,35 +175,68 @@ bool GameObject::IsTouching(const GameObject* other) const {
 }
 
 // 0x38b630 GameObject::IsHostTouching(void) const
-// Partial: the offline branch is reconstructed. The online branch scans the PlayerManager players for
-// the host (CNetPlayerInfo::IsHost) and tests their Character (+0x660) against this object. It waits on
-// dh2/PlayerInfo.hpp and on the COnline online-flag accessor (layout request).
+// Partial: the online flag (COnline +0x05, isOnlineGame_) is protected in COnline with no getter, so
+// OnlineGameFlagUnavailable() reads it as offline and the online scan below is not reached yet (layout
+// request: a public COnline accessor). The offline branch returns true, as the original does. The scan is
+// reconstructed: it walks the PlayerManager players (count m_numCharacters, +0x6c4) and takes the host by
+// CNetPlayerInfo::IsHost. The host's Character (PlayerInfo +0x660) must touch this object.
 bool GameObject::IsHostTouching() const {
+    GetOnline();  // the original calls GetOnline() first; the call creates the COnline singleton on first use
     if (!OnlineGameFlagUnavailable()) {
         return true;
     }
-    return false;
+    if (dword_99F76C->m_numCharacters <= 0) {
+        return false;
+    }
+    int index = 0;
+    for (;;) {
+        PlayerInfo* player = dword_99F76C->GetPlayer(index++, true);
+        if (player->IsHost()) {
+            const Character* character = player->unk_660;
+            if (character != nullptr && IsTouching(character)) {
+                return true;
+            }
+        }
+        if (index >= dword_99F76C->m_numCharacters) {
+            return false;
+        }
+    }
 }
 
 // 0x38b6d4 GameObject::GetNumPlayerTouching(void) const
-// Partial: counts the PlayerManager players whose Character (+0x660) touches this object (IsTouching).
-// Waits on dh2/PlayerInfo.hpp (see IsPlayerNearby). Returns 0 until that header exists.
+// Counts the players whose Character (PlayerInfo +0x660) touches this object. The players come from the
+// PlayerManager global (dword_99F76C), and the walk runs over its character count (m_numCharacters, +0x6c4).
 int GameObject::GetNumPlayerTouching() const {
-    return 0;
+    if (dword_99F76C->m_numCharacters <= 0) {
+        return 0;
+    }
+    int touching = 0;
+    int index = 0;
+    do {
+        const Character* character = dword_99F76C->GetPlayer(index++, true)->unk_660;
+        if (character != nullptr && IsTouching(character)) {
+            ++touching;
+        }
+    } while (index < dword_99F76C->m_numCharacters);
+    return touching;
 }
 
 // 0x38b8b8 GameObject::RequireOnlineUpdate(void)
-// Partial: the online branch needs COnline::IsServer() on GetOnline() (no declaration in the tree) and
-// IsRemotelyUpdated(). The offline case and the null m_netStruct case are reconstructed; the online case
-// does not set m_netUpdateRequested yet.
+// Partial: the online flag (COnline +0x05) is not readable yet (see IsHostTouching), so the online branch is
+// not taken. The branch is reconstructed: when the game is online and the object has a net struct, the update
+// is requested (m_netUpdateRequested, +0x119) if the local COnline is the server or the object is not remotely
+// updated.
 void GameObject::RequireOnlineUpdate() {
+    COnline* online = GetOnline();  // the original calls GetOnline() first
     if (!OnlineGameFlagUnavailable()) {
         return;
     }
     if (m_netStruct == nullptr) {
         return;
     }
-    // Not reconstructed: if (COnline::IsServer(GetOnline()) || !IsRemotelyUpdated()) m_netUpdateRequested = 1.
+    if (online->IsServer() || !IsRemotelyUpdated()) {
+        m_netUpdateRequested = 1;
+    }
 }
 
 // 0x38b91c GameObject::Deserialize(IStreamBase *)
@@ -339,12 +381,14 @@ void GameObject::InitPost() {
 }
 
 // 0x38c600 GameObject::DisableZoning(void)
-// Partial: the room bookkeeping is not reconstructed. The original removes the object from its
-// RoomZone (m_roomZone, RoomZone::RemoveObject) and adds it to ObjectManager's no-room list
-// (ObjectManager::AddNoRoomObject). Both wait on dh2/RoomZone.hpp and dh2/ObjectManager.hpp.
+// The object leaves its RoomZone (m_roomZone, when set) and joins ObjectManager's no-room list
+// (dword_99F764, AddNoRoomObject). Zoning is then off, and the visibility tail runs.
 void GameObject::DisableZoning() {
     if (m_zoningEnabled != 0) {
-        // Not reconstructed: RoomZone::RemoveObject(m_roomZone, this) and ObjectManager::AddNoRoomObject(this).
+        if (m_roomZone != nullptr) {
+            m_roomZone->RemoveObject(this);
+        }
+        dword_99F764->AddNoRoomObject(this);
         m_zoningEnabled = 0;
     }
     UpdateZoningVisibility(*this);
@@ -371,14 +415,21 @@ void GameObject::ZoneEntered() {
 }
 
 // 0x38c790 GameObject::EnableZoning(void)
-// Partial: the room bookkeeping is not reconstructed. The original removes the object from
-// ObjectManager's no-room list (ObjectManager::RemoveNoRoomObject) and, when m_roomZone is set, adds it
-// to that zone (RoomZone::AddObject) and then calls ZoneEntered or ZoneExited from the zone's flag at
-// +0x389 (+905). Waits on dh2/RoomZone.hpp and dh2/ObjectManager.hpp.
+// The object leaves ObjectManager's no-room list (dword_99F764, RemoveNoRoomObject). When m_roomZone is set it
+// joins that zone (RoomZone::AddObject) and then calls ZoneEntered or ZoneExited, from the zone's active flag
+// (RoomZone +0x389, m_active).
 void GameObject::EnableZoning() {
     if (m_zoningEnabled == 0) {
         m_zoningEnabled = 1;
-        // Not reconstructed: ObjectManager::RemoveNoRoomObject(this) and the m_roomZone branch.
+        dword_99F764->RemoveNoRoomObject(this);
+        if (m_roomZone != nullptr) {
+            m_roomZone->AddObject(this);
+            if (m_roomZone->m_active) {
+                ZoneEntered();
+            } else {
+                ZoneExited();
+            }
+        }
     }
     if (IsZonable() && m_visualObject != nullptr) {
         m_visualObject->SyncVisibility();

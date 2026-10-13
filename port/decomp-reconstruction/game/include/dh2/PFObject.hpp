@@ -39,7 +39,7 @@ public:
     float m_obstacleStrength;               // +0x34 (PFWorld::InitObstacle arg)
     std::list<const PFGInnerEdge*> m_path;  // +0x38 waypoint list (sentinel node at +0x38)
     Point3D<float> m_pathEnd;               // +0x40 final path target
-    void* unk_4c;                           // +0x4c vptr of an embedded sfc::math::graph::Edge<PFGInnerNode,float> (off_96C810; dtor resets it to off_96C6F0)
+    void* unk_4c;                           // +0x4c vptr of an embedded PFGInnerDirectEdge (off_96C810; dtor resets it to off_96C6F0)
     std::uint8_t unk_50[28];                // +0x50..+0x6b rest of that edge: ints 0 at +0x50/+0x54, float 1.0f at +0x58, zeros to +0x68
     std::int32_t unk_6c;                    // +0x6c 0
     std::int32_t unk_70;                    // +0x70 0

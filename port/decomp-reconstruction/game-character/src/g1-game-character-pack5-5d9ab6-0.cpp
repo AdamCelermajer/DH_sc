@@ -3,15 +3,16 @@
 // deleting destructors (compiler-generated, skipped). Declarations come from dh2/CSLimbus.hpp and
 // dh2/CSPreSpawn.hpp; the Character layout comes from dh2/Character.hpp.
 //
-// Partial functions say at the point of the gap what is missing. The gaps are all private members of
-// other classes, so they need layout requests (see the batch report):
-//   - Character +0x520 is CharStateMachine::m_stateFlags (CSM +0x24, private).
-//   - Character +0x530 is CharStateMachine::m_limbusFlag (CSM +0x34, private).
-//   - Character +0x3fc and +0x400 are CharAI::m_group and CharAI::m_groupRole (private).
-//   - GroupInfo +0x24 is written 0 or 2 by the limbus logic. CharAI.hpp names it m_allMembersDead, which
-//     does not explain those values, so the write is not made.
-//   - COnline +0x05 is isOnlineGame_ (private, no getter).
-//   - The Arrays::CharAnimTable row fields at +0x64 and +0x80 have no named host layout.
+// Redo pass (r2a-game-character-pack0-a32a82-0): CharAI::m_group, m_groupRole, GroupInfo::m_members and
+// m_allMembersDead, CharStateMachine::m_stateFlags and m_limbusFlag, and the CharAnimTable row accessor
+// (Character::GetCharAnimTable) are public now. The group block, the flag writes and the animation choice
+// are written from the pseudocode. The one gap left is COnline::isOnlineGame_ (net-session-online,
+// private, no getter), which gates the respawn timer in CSLimbus::OnFocus.
+//
+// Partial functions say at the point of the gap what is missing. The gap is in the notes of the ledger rows
+// (game-character/ledger.d/r2a-game-character-pack0-a32a82-0.csv).
+//   - GroupInfo +0x24 (m_allMembersDead) is written 0 or 2 by the limbus group block.
+//   - COnline +0x05 is isOnlineGame_ (private, no getter). CSLimbus::OnFocus needs it for its respawn timer.
 
 #include <cstdio>
 #include <cstdlib>
@@ -21,9 +22,14 @@
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/CSLimbus.hpp"
 #include "dh2/CSPreSpawn.hpp"
+#include "dh2/CharAI.hpp"             // CharAI::GroupInfo
+#include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/global/charai_ai.hpp"   // ApplicationGetPyDataConstants
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::CharAnim
+#include "pydata-accessors/w7_pydata12.hpp"     // PyDataConstants::getConstant
 
 namespace {
 
@@ -40,6 +46,21 @@ void AssertFailed(const char* expr, const char* file, int line) {
 // the singleton). The original reads the "isTracingCharState" switch and discards the result.
 void ReadTraceSwitch() {
     (void)DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingCharState"));
+}
+
+// The AnimStancedAnim/SL__LIST_IPHONE constant masked with `bit` (the original's getConstant(...) & bit).
+int StanceBit(int bit) {
+    return ApplicationGetPyDataConstants()->getConstant("AnimStancedAnim", "SL__LIST_IPHONE") & bit;
+}
+
+// The ANIM_Set argument: the CharAnim field, plus the character's stance when the stance bit is set. This is the
+// original's (AnimStance + row field), where AnimStance is 0 or Character::GetAnimStance().
+int StancedAnim(const Character* character, int field, int stanceBit) {
+    int anim = field;
+    if (StanceBit(stanceBit) != 0) {
+        anim += character->GetAnimStance();
+    }
+    return anim;
 }
 
 const char* const kCSPreSpawnFile =
@@ -64,12 +85,12 @@ void CSLimbus::OnEvent(int, Character*, CharStateMachine*, int, void*) {}
 // then calls CustomFree(this). delete on a CSLimbus produces it, so no C++ body is written.
 
 // 0x3c2be4 CSLimbus::OnBlur(int, Character*, CharStateMachine*, int)
-// partial. Written: the trace switch, the controller block flag (Character +0x378 is the v2Controller
-// pointer, m_blocked at +0x08 is cleared), SetVisible(true) through vtable slot +0x40, the initial
-// position and rotation (Character +0x1450 and +0x145c), and Revive(nullptr, false).
-// Missing: the group block. When m_groupRole (CharAI +0x38, private) is 3, the original scans m_group
-// (CharAI +0x34, private) members other than this one: if any is in limbus, the group value is 2, else
-// 0 (0 when the group is empty). That value goes to GroupInfo +0x24 (see the file comment). Omitted.
+// Trace switch, controller m_blocked cleared (Character +0x378 is the v2Controller pointer, m_blocked at +0x08),
+// SetVisible(true) through vtable slot +0x40, the initial position and rotation (Character +0x1450 and +0x145c),
+// Revive(nullptr, false), then the group block. When m_groupRole (CharAI +0x38) is 3, the original scans the other
+// members of m_group (CharAI +0x34; GroupInfo +0x18 holds the member list) and writes GroupInfo +0x24
+// (m_allMembersDead): 2 when any other member is in limbus, otherwise 0. An empty group gives 0. The original
+// dereferences m_group without a null check, and so does this body.
 void CSLimbus::OnBlur(int /*stateId*/, Character* character, CharStateMachine* /*machine*/, int /*nextState*/) {
     ReadTraceSwitch();
     character->m_controller->m_blocked = false;
@@ -77,21 +98,31 @@ void CSLimbus::OnBlur(int /*stateId*/, Character* character, CharStateMachine* /
     character->GameObject::SetPosition(character->m_initialPosition, true);
     character->GameObject::SetRotation(character->m_initialRotation);
     character->Character::Revive(nullptr, false);
-    // partial: group block omitted (see above).
+    if (character->m_groupRole == 3) {
+        CharAI::GroupInfo* group = character->m_group;
+        bool otherInLimbus = false;
+        for (Character* member : group->m_members) {
+            if (member != character && member->CharStateMachine::SM_IsInLimbus()) {
+                otherInLimbus = true;
+            }
+        }
+        group->m_allMembersDead = otherInLimbus ? 2 : 0;
+    }
 }
 
 // 0x3c2e58 CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)
-// partial. Written: the trace switch, SetVisible(false) through vtable slot +0x40 (asm: the argument is
-// 0), and the final CharAI::AI_ClearAllAggro.
-// Missing 1: Character +0x520 (CharStateMachine::m_stateFlags, private) is set to 0 before SetVisible.
-// Missing 2: the respawn timer branch. The original takes it when the limbus flag (Character +0x530,
-// CharStateMachine::m_limbusFlag, private) is set, GetRespawnDelay() > 0, and either COnline +0x05
-// (isOnlineGame_, private, no getter) is clear or dword_99F76C->IsLocalPlayerHosting(). The branch then
-// calls CharTimers::TMR_Start(delay, 0, 47, nullptr) on the CharTimers subobject (Character +0x3b4).
+// partial. Written: the trace switch, CharStateMachine::m_stateFlags (+0x24, the original's Character +0x520) set to 0,
+// SetVisible(false) through slot +0x40 (asm: the argument is 0), and the final CharAI::AI_ClearAllAggro.
+// Missing: the respawn timer branch. The original takes it when the limbus flag (CharStateMachine::m_limbusFlag,
+// +0x34, the original's Character +0x530) is set, GetRespawnDelay() > 0, and either COnline +0x05 (isOnlineGame_,
+// private with no getter in net-session-online c_online.hpp) is clear or dword_99F76C->IsLocalPlayerHosting(). The
+// branch then calls CharTimers::TMR_Start(delay, 0, 47, nullptr) on the CharTimers subobject (Character +0x3b4).
+// The branch is omitted: the online flag has no reachable getter, and PlayerManager.hpp cannot be included with
+// Character.hpp (see the Character ledger rows).
 void CSLimbus::OnFocus(int /*stateId*/, Character* character, CharStateMachine* /*machine*/, int /*fromState*/,
                        int /*toState*/, void* /*data*/) {
     ReadTraceSwitch();
-    // partial: *(Character +0x520) = 0 omitted (see above).
+    character->CharStateMachine::m_stateFlags = 0;
     character->SetVisible(false);
     // partial: respawn timer branch omitted (see above).
     character->CharAI::AI_ClearAllAggro();
@@ -117,16 +148,13 @@ void CSPreSpawn::OnUpdate(int, Character*, CharStateMachine*) {}
 // then calls CustomFree(this). delete on a CSPreSpawn produces it, so no C++ body is written.
 
 // 0x3c2810 CSPreSpawn::OnEvent(int, Character*, CharStateMachine*, int, void*)
-// partial. Event 9 (spawn): calls Character::CSM_Spawn(9, data, stateId, nextState) and, when it returns
-// true with the next state still 1, calls SetSpawnState(delayed = true, flag = false). When the next state
-// changed, the original asserts (level 2 stops, level 1 prints) with the source location of CSPreSpawn.h
-// line 114.
-// Event 40 ("is_interactive"): when the string matches, the original sets Character +0x520 |= 0x2000 and
-// calls InitPhysicalObject().
-// Missing 1: in the spawn case, when m_groupRole (CharAI +0x38, private) is 3, the group value (GroupInfo
-// +0x24) is set to 0. Omitted (see the file comment).
-// Missing 2: the Character +0x520 flag OR for event 40 (CharStateMachine::m_stateFlags, private). Omitted.
-// The original return value (a pointer or the fprintf result) is discarded: the header declares void.
+// Event 9 (spawn): calls Character::CSM_Spawn(9, data, stateId, nextState) and, when it returns true with the next
+// state still 1, calls SetSpawnState(delayed = true, flag = false) and, when m_groupRole (CharAI +0x38) is 3, writes 0
+// to GroupInfo +0x24 (m_allMembersDead) of m_group. When the next state changed, the original asserts (level 2
+// stops, level 1 prints) with the source location of CSPreSpawn.h line 114.
+// Event 40 ("is_interactive"): when the string matches, the original sets CharStateMachine::m_stateFlags |= 0x2000
+// (Character +0x520) and calls InitPhysicalObject().
+// The original return value (a pointer or the fprintf result) is discarded: the CharState slot is void.
 void CSPreSpawn::OnEvent(int stateId, Character* character, CharStateMachine* /*machine*/, int event, void* data) {
     if (event == 9) {
         int nextState = 1;
@@ -134,7 +162,9 @@ void CSPreSpawn::OnEvent(int stateId, Character* character, CharStateMachine* /*
         if (spawned) {
             if (nextState == 1) {
                 character->CharStateMachine::SM_SetSpawnState(true, false);
-                // partial: group write omitted (see above).
+                if (character->m_groupRole == 3) {
+                    character->m_group->m_allMembersDead = 0;
+                }
             } else {
                 AssertFailed(
                     "!\"CSM_Spawn() changed the next state... needs to decide what to do with that case\"",
@@ -143,14 +173,14 @@ void CSPreSpawn::OnEvent(int stateId, Character* character, CharStateMachine* /*
         }
     } else if (event == 40) {
         if (std::strcmp(static_cast<const char*>(data), "is_interactive") == 0) {
-            // partial: Character +0x520 |= 0x2000 omitted (see above).
+            character->CharStateMachine::m_stateFlags |= 0x2000u;
             character->InitPhysicalObject();
         }
     }
 }
 
 // 0x3c67d4 CSPreSpawn::OnBlur(int, Character*, CharStateMachine*, int)
-// Trace switch, SetVisible(true) through vtable slot +0x40 (asm: argument 1), Revive(nullptr, false), and
+// Trace switch, SetVisible(true) through slot +0x40 (asm: argument 1), Revive(nullptr, false), and
 // EnableCollisions.
 void CSPreSpawn::OnBlur(int /*stateId*/, Character* character, CharStateMachine* /*machine*/, int /*nextState*/) {
     ReadTraceSwitch();
@@ -160,20 +190,23 @@ void CSPreSpawn::OnBlur(int /*stateId*/, Character* character, CharStateMachine*
 }
 
 // 0x3c688c CSPreSpawn::OnFocus(int, Character*, CharStateMachine*, int, int, void*)
-// partial. Written: the trace switch, SetPhysicalObject(nullptr, false), SetVisible(false) when
-// m_aiStateVisible (Character +0x13e4) is 0 (asm: the byte is the argument, so the value is 0), and
-// DisableCollisions.
-// Missing 1: Character +0x520 = 0x1300 (CharStateMachine::m_stateFlags, private), written before the
-// animation choice. Omitted.
-// Missing 2: the animation choice. The row is Arrays::CharAnimTable::members + 160 * GetCharAnimTableId().
-// When its field at +0x64 is -1, the original calls ANIM_Set(row +0x80 plus GetAnimStance() when
-// PyDataConstants "AnimStancedAnim"/"SL__LIST_IPHONE" has bit 0 set, else plus 0) and ANIM_SetSpeed(0.0f).
-// Otherwise it calls ANIM_Set(row +0x64). The row fields have no host struct layout (the pydata CharAnim
-// record is a class with a vptr and placeholder names), so the choice is omitted.
+// Trace switch, CharStateMachine::m_stateFlags (+0x24, the original's Character +0x520) set to 0x1300, then the
+// animation from the character's CharAnimTable row (Character::GetCharAnimTable, the row for GetCharAnimTableId).
+// When the row's m_w25 (+0x64) is -1, the original plays m_w32 (+0x80) plus the stance (GetAnimStance) when the
+// AnimStancedAnim constant has bit 0 set, and sets the speed to 0.0. Otherwise it plays m_w25. Then SetPhysicalObject
+// (nullptr, false), SetVisible(false) when m_aiStateVisible (Character +0x13e4) is 0 (asm: the byte is the argument,
+// so the value is 0), and DisableCollisions.
 void CSPreSpawn::OnFocus(int /*stateId*/, Character* character, CharStateMachine* /*machine*/, int /*fromState*/,
                          int /*toState*/, void* /*data*/) {
     ReadTraceSwitch();
-    // partial: Character +0x520 = 0x1300 and the animation choice omitted (see above).
+    character->CharStateMachine::m_stateFlags = 0x1300u;
+    const Structs::CharAnim* row = character->GetCharAnimTable();
+    if (row->m_w25 == -1) {
+        character->CharAnimator::ANIM_Set(StancedAnim(character, row->m_w32, 1));
+        character->CharAnimator::ANIM_SetSpeed(0.0f);
+    } else {
+        character->CharAnimator::ANIM_Set(row->m_w25);
+    }
     character->GameObject::SetPhysicalObject(nullptr, false);
     if (!character->m_aiStateVisible) {
         character->SetVisible(false);

@@ -34,7 +34,7 @@ public:
     void LoadModule() const;                                            // 0x38a88c loads mgp/mvp into the current level, then clears the module id
 
     // Static data.
-    static const std::int32_t UNINIT_FOG_COLOR;                         // raw 32-bit pattern of fog_color.x default; the value is not recovered
+    static Point3D<float> UNINIT_FOG_COLOR;                             // 12-byte static, (-1, -1, -1); the static initializer 0x3888dc stores 0xbf800000 in each word
     static int s_moduleId;                                              // next module id, incremented by each constructor
 
     // Decor occupies +0x00 .. +0x377 (m_floorMapPending at +0x375, m_isSolid at +0x376).

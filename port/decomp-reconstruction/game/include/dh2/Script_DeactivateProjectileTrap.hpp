@@ -1,6 +1,6 @@
 // Script_DeactivateProjectileTrap: script command that switches off a named projectile trap. Execute
-// looks up the object by name, and only when its type code is 17 stores it in m_trap and clears the
-// byte at GameObject +0x40c. IsBlocking is always false.
+// looks up the object by name, and only when its type code is 17 (ProjectileTrap) stores it in m_trap and clears
+// ProjectileTrap::m_active (+0x40c). IsBlocking is always false.
 // Original 32-bit size 0x14 (20): GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap> news 20 bytes.
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45d2d4, IsBlocking 0x4558c4, factory 0x457d4c).
 #pragma once

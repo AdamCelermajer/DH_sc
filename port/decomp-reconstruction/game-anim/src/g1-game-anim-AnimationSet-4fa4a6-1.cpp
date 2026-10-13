@@ -9,24 +9,29 @@
 
 #include "dh2/Animation.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
+#include "glitch-core-io/os/logging.hpp"
 #include "pydata-accessors/member_names.hpp"
 
 // 0x3660f4 _ZN12AnimationSet12GetAnimationEi
-// PARTIAL: on a hit the original stamps the entry's last-use time, glitch::os::Timer::getRealTime(),
-// at node +0x3c, which is Animation +0x28. dh2/Animation.hpp does not declare that field yet
-// (layout request), so the stamp is not written here. The lookup and every other branch are rebuilt.
+// Lookup: lower_bound on animId in m_animations (the original walks its tree at +0x08), and a hit needs an exact
+// key. A hit stamps the entry's last-use time (+0x28, m_lastUseTime) from glitch::os::Timer::getRealTime() and
+// returns the entry. On a miss, the entry is returned as s_invalidAnim when the flag at +0x3c (unk_3c) is clear and
+// LG_DEVICES is set. Otherwise the miss goes through the cache: LoadAnimation when m_cacheSize (+0x30) is above
+// the entry count (+0x18), else ReplaceAnimation(animId), with LoadAnimation as the fallback when that returns
+// s_invalidAnim. Both loaders are partial (their stubs return s_invalidAnim), so a miss that reaches them ends
+// in s_invalidAnim until they are complete.
 Animation* AnimationSet::GetAnimation(int animId) {
     // lower_bound: the first entry whose key is not less than animId (the original walk at +0x08).
     auto it = m_animations.lower_bound(animId);
     if (it != m_animations.end() && it->first == animId) {
-        // partial: missing last-use stamp, see the note above.
+        it->second.m_lastUseTime = glitch::os::Timer::getRealTime();
         return &it->second;
     }
     if (!unk_3c && LG_DEVICES) {
         return &s_invalidAnim;
     }
-    // m_cacheSize (+0x30) above the node count (+0x18) means the cache has room: load directly.
-    if (m_cacheSize > static_cast<std::int32_t>(m_animations.size())) {
+    // The original compares the two _DWORD fields as unsigned, so this is an unsigned comparison.
+    if (static_cast<std::uint32_t>(m_cacheSize) > static_cast<std::uint32_t>(m_animations.size())) {
         return LoadAnimation(animId);
     }
     Animation* result = ReplaceAnimation(animId);

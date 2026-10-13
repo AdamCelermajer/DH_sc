@@ -96,8 +96,9 @@ CharTimers::~CharTimers() {
 // CharTimers. It calls the complete-object destructor and then CustomFree(this). Skipped.
 
 // 0x3db480 _ZN10CharTimers12SetCharacterEP9Character
-// PARTIAL: the level-1 message goes to stderr. The original passes __sF + 0xA8 (third stdio entry, if FILE is 84 bytes);
-// that stream is inferred to be stderr and is not confirmed against the libc FILE size.
+// The level-1 message goes to stderr. The original passes __sF + 0xA8, which is __sF[2] for the 0x54-byte FILE stride
+// (message_log in core-platform w7_global_03 uses __sF + 0x54 for stdout), so it is the third stdio entry, stderr. The
+// ASSERT text is the same one CSPreSpawn::OnEvent prints through (FILE*)&_sF + 2.
 void CharTimers::SetCharacter(Character* c) {
     if (c == nullptr) {
         if (gAssertLevel == 2) {

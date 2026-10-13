@@ -6,8 +6,8 @@
 //
 // Skipped: 0x38d764, the deleting destructor (D0) of CharacterList. The compiler emits it for `delete`; its
 // complete-object body is empty (0x38d60c, part 0), then the original calls CustomFree(this).
-// Partial: 0x3d0020 Search(float, float) (waits on the ObjectManager +0x80 element type) and 0x3d015c SetSortType (the
-// clone ignores its argument). Both are described at their definitions.
+// Partial: 0x3d015c SetSortType (the clone ignores its argument). Described at its definition.
+// 0x3d0020 Search(float, float) is complete: ObjectManager +0x80 is declared as the room list (m_roomZones).
 //
 // RoomObjectList members are typed as std::list iterators (see dh2/ObjectSearcher.hpp). The room list holds the
 // object lists of the rooms, so the walk needs no RoomZone layout.
@@ -21,7 +21,9 @@
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/ObjectSearcher.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 
 namespace {
 
@@ -53,14 +55,16 @@ ObjectSearcher::BackupObjectList& ObjectSearcher::TargetList::GetResultsBackup(c
 }
 
 // 0x3d0020 _ZN14ObjectSearcher10TargetList6SearchEff
-// PARTIAL: the body is not written. The original builds a RoomObjectList over ObjectManager +0x80 (dword_99F764 + 128)
-// and calls Search(maxRange, maxAngle, list). dh2/ObjectManager.hpp declares that list as std::list<RoomZone*>, but the
-// elements the room walk reads are std::list<GameObject*>* (ObjectManager::AddRoomObjects 0x3427a0 compares them with a
-// std::list<GameObject*>* argument, and RoomZone::Activate passes the zone's own object list). The list cannot be passed
-// until the owner header is corrected (layout request), so this search does nothing.
+// The search over every room. The original builds the RoomObjectList inline: its room list is ObjectManager +0x80
+// (dword_99F764 + 128, m_roomZones, a list of the rooms' std::list<GameObject*>* object lists), its cursor starts at the
+// first room and its end is the list end, and the current object is null. It then calls Search(maxRange, maxAngle,
+// list). The current object is not set here: the list's value-initialised cursor stands in for the original's zero.
 void ObjectSearcher::TargetList::Search(float maxRange, float maxAngle) {
-    (void)maxRange;
-    (void)maxAngle;
+    RoomObjectList rooms;
+    rooms.m_list = &dword_99F764->m_roomZones;      // +0x04 room list (ObjectManager +0x80)
+    rooms.m_node = dword_99F764->m_roomZones.begin();  // +0x08 first room
+    rooms.m_end = dword_99F764->m_roomZones.end();     // +0x0c end of the room list
+    Search(maxRange, maxAngle, rooms);
 }
 
 // 0x3d015c _ZN14ObjectSearcher10TargetList11SetSortTypeEi.clone.1

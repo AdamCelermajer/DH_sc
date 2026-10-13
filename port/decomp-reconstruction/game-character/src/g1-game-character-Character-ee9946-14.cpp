@@ -12,11 +12,20 @@
 //     (slot, 0x468470) reads the same word with strlen and copies the characters. The reconstruction returns
 //     m_name.c_str(), the host string's text.
 //
-// Status: the 18 SG_* accessors are reconstructed. _MoveTo and _WarpTo are partial. Their argument checks use the
-// sfc::script::lua::Arguments and Value accessors, and those headers do not exist in this tree.
+// Status: the 18 SG_* accessors are reconstructed. _MoveTo and _WarpTo (batch r2a-game-character-Character-ee9946-8) are
+// reconstructed in place from the Hex-Rays listings and the assembly; their argument helpers are in
+// dh2/global/character_lua_bindings.hpp.
 
+#include "core-platform/memory.hpp"  // before Character.hpp, which renames MemoryHintState while it includes net-transport
 #include "dh2/Character.hpp"
 #include "dh2/PlayerSavegame.hpp"
+#include "dh2/global/Vec3f_K.hpp"  // Vec3f_K, the (0, 0, 1) up vector of the look-frame point
+#include "dh2/global/character_lua_bindings.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
+#include "dh2/v2Controller.hpp"
+#include "dh2/v2Controllable.hpp"
 
 // 0x3bb728 _ZN9Character10SG_GetSlotEv
 // Returns PlayerSavegame +0x04 (m_slot), or -1 without a savegame.
@@ -152,34 +161,72 @@ void Character::SG_SetGameDifficulty(int d) {
 }
 
 // 0x3bada8 _ZN9Character7_MoveToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
-// PARTIAL. Not written. The binding takes the argument list (args), a ReturnValues that it does not use, and the
-// Character (userData, the self of the controller). Dispatch from the Hex-Rays listing, with the count test checked
-// against the asm:
-//   - One argument whose Lua tag is 2 (light userdata) or 7 (userdata): Cmd_MoveTo(self->m_controller, target), where
-//     target = getUserData(args[0]). This is v2Controller::Cmd_MoveTo(GameObject*) (0x405540).
-//   - One argument of any other tag, or two arguments: nothing happens (count 2 returns at once).
-//   - Three or more arguments, where args[0], args[1] or args[2] has tag 3 (number): if there is a fourth argument with
-//     tag 1 (boolean) and it is true, the point is self->m_position (+0x160) moved in the look-at frame, using
-//     GameObject::GetLookAtVec(self) and the constants dword_99F87C, dword_99F880 and Vec3f_K. The exact combination
-//     is not recovered (the Hex-Rays look vector is split across variables that do not match its layout). Otherwise the
-//     point is (getNumber(args[0]), getNumber(args[1]), getNumber(args[2])). Then Cmd_MoveTo(self->m_controller, &point)
-//     (v2Controller::Cmd_MoveTo(const Point3D&), 0x4054e4).
-// Missing: sfc::script::lua::Arguments (operator[] and the argument count), Value (the type tag at +4, getNumber,
-// getBool, getUserData). None of these has a header in this tree (the game-app category owns the wrapper). The tags
-// are the vendor-lua LUA_T* values (1 boolean, 2 light userdata, 3 number, 7 userdata). The bindings stay empty until
-// those headers exist. The controller offset is self +0x378 (v2Controllable::m_controller).
-void Character::_MoveTo([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* userData) {}
+// Dispatch from the Hex-Rays listing, with the count test and the tag tests checked in the assembly. One argument: a light
+// userdata (tag 2) or userdata (tag 7) gives Cmd_MoveTo(target) on the controller (+0x378), target = getUserData(args[0]);
+// any other tag does nothing. Two arguments do nothing. Three or more arguments need a number in args 0, 1 or 2. The point is
+// (getNumber(args[0]), getNumber(args[1]), getNumber(args[2])). When a fourth argument is a true boolean, the point is the
+// look-frame point LookFrameOffset(self m_position, look, Vec3f_K, t, f, u), with look = GameObject::GetLookAtVec(self),
+// t, f, u = args 0, 1, 2. Then Cmd_MoveTo(point) runs on the controller.
+void Character::_MoveTo(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* userData) {
+    Character* self = static_cast<Character*>(userData);
+    const std::size_t count = LuaArgCount(args);
+    if (count == 1) {
+        if (!LuaArgHasTag(args, 0, kLuaTagLightUserData) && !LuaArgHasTag(args, 0, kLuaTagUserData)) {
+            return;
+        }
+        GameObject* target = static_cast<GameObject*>(args[0].getUserData());
+        self->v2Controllable::m_controller->Cmd_MoveTo(target);
+        return;
+    }
+    if (count <= 2) {
+        return;
+    }
+    if (!LuaArgHasTag(args, 0, kLuaTagNumber) && !LuaArgHasTag(args, 1, kLuaTagNumber) &&
+        !LuaArgHasTag(args, 2, kLuaTagNumber)) {
+        return;
+    }
+    Point3D<float> point{0.0f, 0.0f, 0.0f};
+    if (count > 3 && LuaArgHasTag(args, 3, kLuaTagBoolean) && args[3].getBool()) {
+        Point3D<float> look{0.0f, 0.0f, 0.0f};
+        self->GameObject::GetLookAtVec(look);
+        point = LookFrameOffset(self->GameObject::m_position, look, Vec3f_K, args[0].getNumber(), args[1].getNumber(),
+                                args[2].getNumber());
+    } else {
+        point = Point3D<float>{args[0].getNumber(), args[1].getNumber(), args[2].getNumber()};
+    }
+    self->v2Controllable::m_controller->Cmd_MoveTo(point);
+}
 
 // 0x3bb268 _ZN9Character7_WarpToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv
-// PARTIAL. Not written. Same dispatch as _MoveTo (see its comment), with these differences from the asm:
-//   - One-argument case: Cmd_WarpTo(self->m_controller, &target->m_position), where target = getUserData(args[0]). The asm
-//     at 0x3bb6f8 passes the GameObject's m_position (+0x160) after the getUserData call (ADD R1, R0, #0x160). The
-//     Hex-Rays listing drops that argument and the result of getUserData.
-//   - Point case: Cmd_WarpTo(self->m_controller, &point). The asm at 0x3bb39c passes the stack copy of the point. The
-//     Hex-Rays listing drops that argument too.
-//   - The look-at offset is the same frame as _MoveTo (Hex-Rays only, not checked against the asm).
-// v2Controller::Cmd_WarpTo(const Point3D&) (0x405318) is the only WarpTo overload, and it covers both calls.
-// Missing: the Arguments and Value accessors, as for _MoveTo. The bindings stay empty until those headers exist.
-void Character::_WarpTo([[maybe_unused]] const sfc::script::lua::Arguments& args,
-                        [[maybe_unused]] sfc::script::lua::ReturnValues& ret, [[maybe_unused]] void* userData) {}
+// Same dispatch as _MoveTo. Two differences, checked in the assembly (0x3bb268): one argument (a light userdata or userdata)
+// gives Cmd_WarpTo(&target->m_position), target = getUserData(args[0]), and the point form gives Cmd_WarpTo(point). The
+// look-frame point is LookFrameOffset as in _MoveTo.
+void Character::_WarpTo(const sfc::script::lua::Arguments& args, sfc::script::lua::ReturnValues& /*ret*/, void* userData) {
+    Character* self = static_cast<Character*>(userData);
+    const std::size_t count = LuaArgCount(args);
+    if (count == 1) {
+        if (!LuaArgHasTag(args, 0, kLuaTagLightUserData) && !LuaArgHasTag(args, 0, kLuaTagUserData)) {
+            return;
+        }
+        GameObject* target = static_cast<GameObject*>(args[0].getUserData());
+        self->v2Controllable::m_controller->Cmd_WarpTo(target->m_position);
+        return;
+    }
+    if (count <= 2) {
+        return;
+    }
+    if (!LuaArgHasTag(args, 0, kLuaTagNumber) && !LuaArgHasTag(args, 1, kLuaTagNumber) &&
+        !LuaArgHasTag(args, 2, kLuaTagNumber)) {
+        return;
+    }
+    Point3D<float> point{0.0f, 0.0f, 0.0f};
+    if (count > 3 && LuaArgHasTag(args, 3, kLuaTagBoolean) && args[3].getBool()) {
+        Point3D<float> look{0.0f, 0.0f, 0.0f};
+        self->GameObject::GetLookAtVec(look);
+        point = LookFrameOffset(self->GameObject::m_position, look, Vec3f_K, args[0].getNumber(), args[1].getNumber(),
+                                args[2].getNumber());
+    } else {
+        point = Point3D<float>{args[0].getNumber(), args[1].getNumber(), args[2].getNumber()};
+    }
+    self->v2Controllable::m_controller->Cmd_WarpTo(point);
+}

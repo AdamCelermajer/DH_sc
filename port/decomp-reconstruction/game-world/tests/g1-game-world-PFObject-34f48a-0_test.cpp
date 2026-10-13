@@ -9,6 +9,18 @@
 #include <cstring>
 
 #include "dh2/PFObject.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/global/Vec3f_K.hpp"
+
+// The batch source references the PFWorld singleton (the destructor calls DropPath and InitObstacle) and Vec3f_K (the
+// constructor copies it). The integrator defines those; this test defines them with empty bodies so the object can be
+// built and destroyed. The PFWorld constructor and destructor are empty as well.
+Point3D<float> Vec3f_K{0.0f, 0.0f, 1.0f};
+PFWorld::PFWorld() {}
+PFWorld::~PFWorld() {}
+PFWorld PFWorld::s_inst;
+void PFWorld::DropPath(PFObject&) {}
+void PFWorld::InitObstacle(PFObject&, bool, float, float) {}
 
 namespace {
 

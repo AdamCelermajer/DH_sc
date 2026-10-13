@@ -41,12 +41,10 @@ void LevelAssertFailed(const char* expression, int line) {
     }
 }
 
-// PARTIAL helper. The original reads PlayerManager::GetPlayer(friendlyId, true)->character_660 (PlayerInfo +0x660, the
-// Character* of the record). dh2/PlayerInfo.hpp is not written yet (PlayerManager.hpp keeps only a pad for the record),
-// so this returns null. When PlayerInfo is declared, replace the body with the member and the callers are complete.
+// The original reads PlayerManager::GetPlayer(friendlyId, true)->character_660 (PlayerInfo +0x660, declared as unk_660).
+// The record is not null-checked in the original, so none is made here.
 Character* PlayerCharacterByFriendlyId(int friendlyId) {
-    (void)friendlyId;
-    return nullptr;
+    return dword_99F76C->GetPlayer(friendlyId, true)->unk_660;  // PlayerInfo +0x660
 }
 
 }  // namespace
@@ -105,9 +103,9 @@ void Level::SG_SavePlayer(Character* player, bool levelChange) {
 }
 
 // 0x3efaec Level::SG_SavePlayer(int,bool)
-// PARTIAL: the two asserts and the range check are reconstructed. The character is found through
-// PlayerCharacterByFriendlyId, which waits on dh2/PlayerInfo.hpp, so no player is saved until that is declared. The
-// save itself (the Character overload, 0x3efa54) is also partial.
+// PARTIAL: the two asserts, the range check and the character lookup (PlayerCharacterByFriendlyId, PlayerInfo +0x660) are
+// reconstructed. The save itself is the Character overload 0x3efa54, which is an empty body in another batch, so no save is
+// made yet.
 void Level::SG_SavePlayer(int playerIndex, bool levelChange) {
     if (playerIndex < 0) {
         LevelAssertFailed("playerID >= 0", 2865);
@@ -132,14 +130,16 @@ void Level::SG_SaveAllPlayer(bool levelChange) {
 // PARTIAL: body not reconstructed. The original walks dword_99F764's object map (std::map<int, ObjectListItem> at
 // ObjectManager +0x0c) in key order. For each node whose ObjectListItem flag (node +0x2c) is set, it resolves the
 // object handle (ObjectBase::GetHandle, then the ObjectHandle conversion to GameObject*) and calls
-// GameObject::InitFinal() (vtable +0x58) when the object exists. Waits on dh2/ObjectListItem.hpp, which is not written.
+// GameObject::InitFinal() (vtable +0x58, declared) when the object exists. Waits on dh2/ObjectListItem.hpp, which is not
+// declared anywhere in the tree, so the node flag and the handle cannot be read.
 void Level::_LoadFinalInit() {
 }
 
 // 0x3efd74 Level::ResetSkinning()
 // PARTIAL: body not reconstructed. The original walks the same object map as _LoadFinalInit. For each node with the
-// ObjectListItem flag (+0x2c) set, it takes the GameObject and, when its m_visualObject (+0x2d8) is set, calls
-// VisualObject::ResetSkinning, then ApplyShadowMaterial and ApplyXrayMaterial on it. Waits on dh2/ObjectListItem.hpp.
+// ObjectListItem flag (+0x2c) set, it takes the GameObject and, when its m_visualObject (+0x2d8, declared) is set, calls
+// VisualObject::ResetSkinning, ApplyShadowMaterial and ApplyXrayMaterial (all declared) on it. Waits on dh2/ObjectListItem.hpp,
+// which is not declared, for the node flag and the handle.
 void Level::ResetSkinning() {
 }
 
@@ -164,11 +164,11 @@ void Level::_LoadPlayer() {
 }
 
 // 0x3f01c8 Level::_LoadFromXML(TiXmlElement*)
-// PARTIAL: the null-element assert is reproduced. The rest waits on two declarations: TiXmlElement::Attribute, which the
-// tinyxml-and-c-libs TiXmlElement does not have (it keeps only Value()), for the "gametype" test; and an int return from
-// ObjectManager::LoadFromXML(element, nullptr, m_moduleOffset, m_objectModuleId), which 0x34b868 returns as int and
-// ObjectManager.hpp declares void. The original returns strcmp's result (0 for gametype "Player") or the load's result.
-// The placeholder returns false.
+// PARTIAL: the null-element assert is reproduced. The rest waits on two declarations: TiXmlElement::Attribute, which
+// tinyxml-and-c-libs (tixml_dh.hpp) does not declare (TiXmlElement has Value() and VisitEnter only), for the "gametype"
+// test; and an int return from ObjectManager::LoadFromXML(element, nullptr, m_moduleOffset, m_objectModuleId), which
+// 0x34b868 returns as int and ObjectManager.hpp declares void. The original returns strcmp's result (0 for gametype
+// "Player") or the load's result. The placeholder returns false.
 bool Level::_LoadFromXML(TiXmlElement* element) {
     if (!element) {
         LevelAssertFailed("element", 2270);

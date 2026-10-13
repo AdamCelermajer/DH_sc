@@ -1,6 +1,7 @@
 // OpenableContainer: a chest that can be locked. Its key is named by the key_name property, needs key_qty items,
 // and is consumed when key_consume is set. It counts as locked while its state is PRESPAWN, SPAWN or IDLE and a key
-// is set. Original 32-bit size not recovered: the last member ends at +0x713 (Container is 0x6f0).
+// is set. Original 32-bit size 0x718 (1816), from the operator new in GetNewInstance<OpenableContainer> (game-app
+// f216b6-1_objects.cpp). The last member ends at +0x713 (Container is 0x6f0).
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x3a1cb0 / 0x3a1d2c).
 #pragma once
 

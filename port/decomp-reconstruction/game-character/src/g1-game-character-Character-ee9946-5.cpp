@@ -47,12 +47,9 @@ Character::~Character() {
 // 0x3a9340 _ZN9CharacterC2EN10ObjectBase6GO_IDSE  Character::Character(ObjectBase::GO_IDS)  (C2, base-object constructor)
 // 0x3aa1b4 _ZN9CharacterC1EN10ObjectBase6GO_IDSE  Character::Character(ObjectBase::GO_IDS)  (C1, complete-object constructor;
 // same body, defined once here)
-// PARTIAL: two stores are not reproduced. (1) The store at +0x104 writes the address of m_netIn there (ObjectBase
-// unk_104, declared int32 and set to 0 by the ObjectBase constructor); a host pointer does not fit that int32. Layout
-// request: a NetStruct* member at +0x104 of ObjectBase for the incoming net struct. (2) The store at +0x380 sets the
-// owner of the ItemInventory base (m_character, +0x04 of the base); it is private in dh2/ItemInventory.hpp and no setter
-// exists. Layout request: a public owner setter, or make m_character accessible to Character. Every other store is
-// reproduced.
+// Reconstructed. The stores at ObjectBase +0x104 (unk_104, the incoming NetStruct pointer, &m_netIn) and at +0x380
+// (ItemInventory::m_character, the owner) are now declared in their headers and written here. The original's
+// v2Controllable null check (a dead branch: the controllable is this + 0x374) is not reproduced.
 Character::Character(GO_IDS id)
     : GameObject(id) {
     // Base constructors of v2Controllable, ItemInventory, CharTimers, CharAI, CharAnimator, CharStateMachine and
@@ -116,6 +113,7 @@ Character::Character(GO_IDS id)
     m_pendingXPText = -1;
 
     m_netStruct = &m_netOut;
+    unk_104 = &m_netIn;
     m_targetList.SetRefObject(this);
 
     // The original allocates a 16-byte v2Controller (vptr, m_controllable, m_blocked, m_character = 0) and installs it.
@@ -129,7 +127,7 @@ Character::Character(GO_IDS id)
     CharAnimator::SetCharacter(this);
     CharStateMachine::SetCharacter(this);
     CharProperties::SetCharacter(this);
-    // PARTIAL: ItemInventory owner store (+0x380) not reproduced; see the comment above.
+    ItemInventory::m_character = this;
     for (int state = 0; state != 20; ++state) {
         CharStateMachine::RegisterState(state);
     }
@@ -314,21 +312,24 @@ int Character::EquipItemAuto(unsigned int item) {
 }
 
 // 0x3a9fe4 Character::DeclareProperties()
-// PARTIAL. The string properties are declared in the original order. Not declared: "ai_state_visible" and "auto_spawn"
-// (AddProperty<bool> needs a bool member, and the header keeps both as std::uint8_t), and "spawn_delay" and
-// "spawn_view_radius" (the original builds Property objects whose member offset is taken from the PropertyMap base, and
-// the Property subclass vtables off_95C5E8, off_965EB0 and off_964898 are not named). The original's return value, the
-// PropertyMap slot of its last property, is dropped because the override is void.
+// PARTIAL. The string properties and the two bool properties are declared in the original order. The bool properties
+// use the three-argument AddProperty<bool>. The listing calls the clone _ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_.clone.21
+// (0x3a92b4) with no default argument; that clone stores the default byte 1 (MOV R2,#1; STRB R2,[R4,#0x20]), so true is passed.
+// Not declared: "spawn_delay" and "spawn_view_radius". The original builds those as hand-made Property objects of 40 and
+// 36 bytes, with member offsets 0x1430 and 0x1438 from the PropertyMap base and default word 0. Their Property subclass
+// vtables (off_965EB0 and off_964898) are not named, and neither size matches SimpleTypeProperty<int> or <float> (0x24).
+// The original's return value, the PropertyMap slot of its last property, is dropped because the override is void.
 void Character::DeclareProperties() {
     GameObject::DeclareProperties();
     AddProperty<std::string>("charpropsname", m_charPropsName);
     AddProperty<std::string>("char_template", m_charTemplate);
     AddProperty<std::string>("ai_state", m_aiState);
-    // PARTIAL: "ai_state_visible" (bool) not declared.
+    AddProperty<bool>("ai_state_visible", m_aiStateVisible, true);
     AddProperty<std::string>("starting_waypoint", m_startingWaypoint);
     AddProperty<std::string>("char_group", m_charGroup);
     AddProperty<std::string>("char_group_role", m_charGroupRole);
-    // PARTIAL: "auto_spawn" (bool), "spawn_delay" and "spawn_view_radius" (Property objects) not declared.
+    AddProperty<bool>("auto_spawn", m_autoSpawn, true);
+    // PARTIAL: "spawn_delay" and "spawn_view_radius" (Property objects, see above) are not declared.
 }
 
 // 0x3ab674 Character::AddCharOIDToCache(int, unsigned int)

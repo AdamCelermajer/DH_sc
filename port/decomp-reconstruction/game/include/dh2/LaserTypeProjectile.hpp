@@ -36,8 +36,8 @@ public:
     glitch::scene::ISceneNode* m_boneTarget;                            // +0x3d8 "_bone_target" node of the visual, set by SetInfo
     GameObject* m_laserOwner;                                           // +0x3dc SetInfo "owner" argument. This SetInfo sets
                                                                         // Projectile::m_owner (+0x380) to null instead, so OnCollision's
-                                                                        // owner test compares against null
+                                                                        // enemy test calls GetHandle on m_owner, which is null (see OnCollision)
     std::int32_t unk_3e0;                                               // +0x3e0 -1 from the ctor and SetInfo. Update counts it down by
                                                                         // dt in ms. When it goes negative with an m_onFinish set, Update calls
-                                                                        // m_onFinish once and reloads it from table column +0x38 (stored as float)
+                                                                        // m_onFinish once and reloads it from table column +0x38 (an int32; the assembly uses LDR)
 };

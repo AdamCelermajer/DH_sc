@@ -17,8 +17,10 @@
 #include "core-platform/lc_api.hpp"
 #include "dh2/AnimApplicator.hpp"
 #include "dh2/AnimatorSynchronizedSet.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/Decor.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/PropertyMap.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/VisualObject.hpp"
@@ -26,6 +28,33 @@
 
 // Global assert level read by the AnimatedDecor clip callback (libDungeonHunter2.so gAssertLevel).
 int gAssertLevel = 0;
+
+// InitPost's physics branch (m_hasColBox) builds a PODecor on Application::m_physicalWorld and hands it to
+// GameObject::SetPhysicalObject. Not reached by the checks here; defined so the batch links alone. PODecor's
+// constructor needs the PhysicalObject hierarchy, whose vtable (key function ~PhysicalObject) is emitted here,
+// so every PhysicalObject and PODecor virtual slot has an empty body.
+alignas(Application) unsigned char g_appStorage[sizeof(Application)];
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_appStorage);
+}
+void GameObject::SetPhysicalObject(PhysicalObject*, bool) {}
+PhysicalObject::PhysicalObject(PhysicalWorld*, GameObject*, bool, bool, bool, bool, short, unsigned short,
+                               unsigned short, int) {}
+PhysicalObject::~PhysicalObject() {}
+bool PhysicalObject::onCollisionTest(PhysicalBaseObject*, short, unsigned short, unsigned short, short, unsigned short,
+                                     unsigned short) {
+    return false;
+}
+void PhysicalObject::onCollisionBegins(PhysicalBaseObject*, const Point2D<float>&, bool) {}
+void PhysicalObject::onCollisionPersists(PhysicalBaseObject*, const Point2D<float>&, bool) {}
+void PhysicalObject::onCollisionEnds(PhysicalBaseObject*, const Point2D<float>&, bool) {}
+void PhysicalObject::onCollisionResults(PhysicalBaseObject*, bool) {}
+void PhysicalObject::getLookAt(Point2D<float>&) {}
+void PhysicalObject::Update() {}
+void PhysicalObject::Draw() const {}
+PODecor::PODecor(PhysicalWorld* world, GameObject* owner, bool) : PhysicalObject(world, owner, true, false, false, false, 0, 2, 0xffff, 1) {}
+PODecor::~PODecor() {}
+void PODecor::onCollisionBegins(PhysicalBaseObject*, const Point2D<float>&, bool) {}
 
 // Link stubs for the Decor and GameObject virtuals the AnimatedDecor vtable names. Their bodies belong to other batches.
 // The Decor destructor is the key function of Decor, so this unit emits the Decor vtable and needs the GameObject slots.

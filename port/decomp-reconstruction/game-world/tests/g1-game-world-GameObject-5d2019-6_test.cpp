@@ -19,7 +19,9 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/PFWorld.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
@@ -34,6 +36,22 @@ bool Level::CanMoveTowards(const Point3D<float>&, const Point3D<float>&) { retur
 
 DebugSwitches* DebugSwitches::GetInstance() { return nullptr; }
 bool DebugSwitches::GetSwitch(const std::string&) { return false; }
+DebugSwitches::DebugSwitches() {}
+DebugSwitches::~DebugSwitches() {}
+DebugSwitches DebugSwitches::s_inst;
+void DebugSwitches::load() {}
+
+// The path-finding world (UpdatePath, Stop, PathTo, UpdatePFObject, DisableCollisions). Its instance is the singleton
+// storage, defined here by explicit instantiation with empty constructors; no search or obstacle runs.
+PFWorld::PFWorld() {}
+PFWorld::~PFWorld() {}
+template class Singleton<PFWorld>;
+void PFWorld::DropPath(PFObject&) {}
+bool PFWorld::FindPath(PFObject&, const Point3D<float>&, unsigned int) { return false; }
+bool PFWorld::MovePath(PFObject&, Point3D<float>&) { return false; }
+void PFWorld::AvoidObstacles(const PFObject&, Point3D<float>&) {}
+bool PFWorld::ValidateDirection(Point3D<float>&, const PFObject&) { return true; }
+void PFWorld::InitObstacle(PFObject&, bool, float, float) {}
 
 void GameObject::SetDestination(const Point3D<float>&) {}
 void GameObject::UpdateAbsoluteAABB() {}

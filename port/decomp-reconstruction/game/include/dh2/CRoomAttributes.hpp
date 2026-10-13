@@ -59,7 +59,7 @@ public:
     // Virtual slots, in vtable order. Slots 0 and 1 are the destructor.
     virtual ~CRoomAttributes();                                         // slot 0: 0x818c14 (D1), 0x818c70 (D2); slot 1: 0x818c54 (D0)
     virtual int SetAttributeInt(tROOM_ATTRIBUTES_INT attribute, int value);                  // slot 2: 0x818544
-    virtual int SetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, const void* data, unsigned int size);  // slot 3: 0x818cb0
+    virtual void SetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, const void* data, unsigned int size);  // slot 3: 0x818cb0 (void: the original returns the SetBuffer leftover, no caller reads it)
     virtual void Clear();                                               // slot 4: 0x818a28, also called by Copy through vptr +0x10
     virtual int HasChanged();                                           // slot 5: 0x817ee8
     virtual int Resend();                                               // slot 6: 0x817e4c
@@ -74,9 +74,9 @@ public:
     bool IsAttibuteActive(tROOM_ATTRIBUTES_BIN attribute);              // 0x817d94 (sic, original spelling)
     int GetAttributeInt(tROOM_ATTRIBUTES_INT attribute);                // 0x817dac, reads with no active check
     int GetAttributeBin(tROOM_ATTRIBUTES_BIN attribute, void* out, unsigned int size);  // 0x817dbc, returns the stored byte count
-    int GetMaxBufferSize(tROOM_ATTRIBUTES_BIN attribute);               // 0x817e00, table CSWTCH_280 not recovered
+    int GetMaxBufferSize(tROOM_ATTRIBUTES_BIN attribute);               // 0x817e00, table CSWTCH.280 = {64, 256, 256, 256, 256} (.rodata 0x90c27c)
     int EraseAttributeInt(tROOM_ATTRIBUTES_INT attribute);              // 0x8183e0
-    int EraseAttributeBin(tROOM_ATTRIBUTES_BIN attribute);              // 0x818948
+    void EraseAttributeBin(tROOM_ATTRIBUTES_BIN attribute);             // 0x818948 (void: the original returns the SetValue leftover, no caller reads it)
 
     int AreChangesAcknowledged();                                       // 0x817e54
     bool Serialize(int memberId, int packetId, NetBitStream& stream);   // 0x817ebc

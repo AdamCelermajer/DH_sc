@@ -5,30 +5,22 @@
 // (tools/decomp_asm.py).
 //
 // Status: the controller logic is rebuilt in v2EmuController_detail (the keyboard switch, the mouse command choice and
-// the head-towards offset) and covered by tests/g1-game-anim-v2EmuController-c84e52-0_test.cpp. The entry points are
-// partial until these headers exist:
-//   dh2/IEvent.hpp         the event type id, read through the IEvent vtable slot +0x08 (0 selects the keyboard handler,
-//                          2 the mouse handler)
+// the head-towards offset) and covered by tests/g1-game-anim-v2EmuController-c84e52-0_test.cpp. The two input handlers
+// stay partial until their event headers exist:
 //   dh2/EvMouseButton.hpp  fields +0x08 (int), +0x0c (byte), +0x0e (int16 screen x), +0x10 (int16 screen y)
 //   dh2/EvKeyboard.hpp     fields +0x0c (int key id), +0x10 (byte pressed flag)
-//   dh2/PFWorld.hpp        Singleton<PFWorld>::s_inst and PFWorld::TranslateScreenToWorld(Point2D<float> const&,
-//                          Point3D<float>&) returning bool
-//   an instance accessor for Singleton<Application>::s_inst. Its +0x14 is the EventManager that the receiver attaches
-//                          to: the ELF global dword_99F740 is Application::m_eventManager (asm of the ctor and dtor).
-//                          Attach and Detach wait on that accessor.
-// Every entry point returns 0 on every path in the original, so the stubs below return false.
+// dh2/IEvent.hpp (getEventID, the vtable slot +0x08) and dh2/EventManager.hpp are present, so onEvent dispatches on the
+// event id and the constructor and destructor attach and detach the receiver on dword_99F740 (dh2/global/MenuManagerGlobals.hpp).
+// The v2Controller base constructor (field stores and the ASSERT) is v2Controller::v2Controller in
+// game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp. The handlers return false on every path in the stubs below.
 
 #include "dh2/v2EmuController.hpp"
 
-#include <cstdio>
-#include <cstdlib>
-
 #include "dh2/Character.hpp"
+#include "dh2/EventManager.hpp"
+#include "dh2/IEvent.hpp"
+#include "dh2/global/MenuManagerGlobals.hpp"
 #include "dh2/v2Controller.hpp"
-
-// Engine assert level, defined in core-platform/src/memory.cpp. Declared here as the other game-anim sources do,
-// because core-platform/memory.hpp redefines glitch::core types that the game headers already provide.
-extern int gAssertLevel;
 
 namespace v2EmuController_detail {
 
@@ -141,35 +133,24 @@ void RouteKey(v2EmuController& self, int key, bool pressed) {
 
 // 0x4065ac _ZN15v2EmuControllerC1EP14v2Controllable (complete-object constructor)
 // 0x4066cc _ZN15v2EmuControllerC2EP14v2Controllable (base-object constructor): same body, defined once here.
-// The original inlines the v2Controller constructor. It writes the base fields (+0x04 controllable, +0x08..+0x0a
-// flags, +0x0c character), then checks the controllable, then writes the derived vptrs, unk_014 and unk_018, then
-// calls Attach(0, this+0x10, 0) and Attach(2, this+0x10, 0). The base fields come from v2Controller(controllable),
-// which nothing defines yet. The assert is printed here, where the original prints it (v2Controller.h:68). When the
-// base constructor gets its body, the assert moves there, as v2MixedController does, so it is not printed twice.
+// The v2Controller base (the field stores and the ASSERT(controllable)) runs first, in v2Controller::v2Controller
+// (game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp). Then the original clears unk_014 and unk_018 and calls
+// Attach(0, this+0x10, 0) and Attach(2, this+0x10, 0) on dword_99F740. Asm verified.
 v2EmuController::v2EmuController(v2Controllable* controllable) : v2Controller(controllable) {
-    if (controllable == nullptr) {
-        if (gAssertLevel == 2) {
-            // The original stores 0 to address 0 to force a crash.
-            std::abort();
-        } else if (gAssertLevel == 1) {
-            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "controllable",
-                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Controllers\\/v2Controller.h", 68);
-        }
-    }
     unk_014 = 0;  // +0x14 key-state mask, cleared
     unk_018 = 0;  // +0x18 key-state mask, cleared
-    // PARTIAL: the original attaches this receiver with EventManager::Attach(0, this+0x10, 0) and
-    // Attach(2, this+0x10, 0) on dword_99F740 (Singleton<Application>::s_inst +0x14). No header declares that
-    // instance yet (see the file comment), so the receiver is not attached and no event reaches it.
+    dword_99F740->Attach(0, this, 0);
+    dword_99F740->Attach(2, this, 0);
 }
 
 // 0x4064b8 _ZN15v2EmuControllerD1Ev (complete-object destructor)
 // 0x406544 _ZN15v2EmuControllerD2Ev (base-object destructor): same body, defined once here.
-// The original sets the vptrs (the compiler does this), calls EventManager::Detach(0, this+0x10) and
-// Detach(2, this+0x10) on dword_99F740, and returns. It does not call ~v2Controller, whose body is empty, so the
-// implicit base call below changes nothing.
+// The vptr stores are compiler-managed. The original calls EventManager::Detach(0, this+0x10) and Detach(2, this+0x10)
+// on dword_99F740, then returns. It does not call ~v2Controller, whose body is empty, so the implicit base call changes
+// nothing.
 v2EmuController::~v2EmuController() {
-    // PARTIAL: Detach(0, this+0x10) and Detach(2, this+0x10) wait on the Application instance accessor (see above).
+    dword_99F740->Detach(0, this);
+    dword_99F740->Detach(2, this);
 }
 
 // 0x406528 _ZN15v2EmuControllerD0Ev (deleting destructor) is compiler-generated: it calls D1 and then CustomFree(this).
@@ -179,13 +160,18 @@ v2EmuController::~v2EmuController() {
 // Asm verified: the event's type id comes from the IEvent vtable (slot +0x08, LDR PC,[R3,#8]). Type 0 tail-calls the
 // keyboard handler (B _onEvent(EvKeyboard)), type 2 tail-calls the mouse handler (B _onEvent(EvMouseButton)), and any
 // other type returns 0. Both handlers return 0 on every path, so this returns 0 on every path.
+// PARTIAL: the dispatch is written. Both handlers are stubs until their event headers exist, so the result is false.
 bool v2EmuController::onEvent(const IEvent* event, const EventManager* manager) {
-    // PARTIAL: waits on dh2/IEvent.hpp. The type id is a virtual call through the vtable slot +0x08, which needs the
-    // complete IEvent type, so the dispatch to the two handlers is not written. The stub returns the value the original
-    // always returns.
-    (void)event;
-    (void)manager;
-    return false;
+    switch (event->getEventID()) {
+        case 0:  // EvKeyboard
+            // Asm: the tail call passes the same pointer (MOV R1,R4), so no base adjustment happens. static_cast needs the
+            // complete type (dh2/EvKeyboard.hpp, absent), so the pointer is converted with reinterpret_cast.
+            return _onEvent(reinterpret_cast<const EvKeyboard*>(event), manager);
+        case 2:  // EvMouseButton
+            return _onEvent(reinterpret_cast<const EvMouseButton*>(event), manager);
+        default:
+            return false;
+    }
 }
 
 // 0x405f48 _ZN15v2EmuController8_onEventEPK13EvMouseButtonPK12EventManager

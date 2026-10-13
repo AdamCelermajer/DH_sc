@@ -11,9 +11,16 @@
 #include "core-platform/device.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/ItemObject.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/StringManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/global/item_instance.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
 
 namespace {
 
@@ -21,20 +28,6 @@ namespace {
 // not in this translation unit (w7_arrays_00.hpp cannot be included next to the other pydata headers), so the name is nullptr.
 const char* ModelDictName(int row) {
     (void)row;
-    return nullptr;
-}
-
-// PARTIAL placeholder for the name id (+24) of the Arrays::CharacterTable row (900-byte stride) for a player class.
-// No typed row exists here, so the id is -1 (unresolved).
-int CharacterTableNameId(int playerClass) {
-    (void)playerClass;
-    return -1;
-}
-
-// PARTIAL placeholder for StringManager::getString(dword_99F760, id). The StringManager global is not bound to a typed
-// instance in this translation unit, so the string is nullptr.
-const char* StringManagerGetString(int id) {
-    (void)id;
     return nullptr;
 }
 
@@ -74,15 +67,17 @@ const char* Character::GetCharModelName() const {
 }
 
 // 0x3a56a4 Character::GetClassName() const
-// PARTIAL: when the player class is -1, the original looks up the sheet word at Character +0x100c (CharProperties m_props,
-// word 6, not named) as a StringManager id. Otherwise it reads the name id (+24) of the CharacterTable row for the player
-// class (900-byte stride, no typed row here). Both id sources are placeholders.
+// The string id is word 6 of the sheet (m_props.m_w6, Character +0x100c) when the player class is -1. Otherwise it is word 6
+// (+24) of the Arrays::CharacterTable row for the player class, read as the host element (the 900-byte file stride is not
+// applied, the same convention as GetCharAI).
 const char* Character::GetClassName() const {
-    if (SG_GetPlayerClass() == -1) {
-        // PARTIAL: the word at +0x100c is not named; the string id is unavailable.
-        return StringManagerGetString(-1);
+    StringManager* strings = ApplicationGetStringManager();
+    const int playerClass = SG_GetPlayerClass();
+    if (playerClass == -1) {
+        return strings->getString(m_props.m_w6);
     }
-    return StringManagerGetString(CharacterTableNameId(SG_GetPlayerClass()));
+    const auto* rows = reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members);
+    return strings->getString(rows[playerClass].m_w6);
 }
 
 // 0x3a5784 Character::GetPreSetAIState() const
@@ -132,11 +127,14 @@ Point3D<float> Character::GetRightFootPosition() const {
 }
 
 // 0x3a58f4 Character::SetInitialPosition(Point3D<float> const&)
-// PARTIAL: the original stores the position in m_initialPosition (+0x1450), then calls PFWorld::GetFloorHeightAt on
-// Singleton<PFWorld>::s_inst and stores the floor height as z when a floor is found. The PFWorld instance accessor is not in
-// this tree, so the floor correction is not made. The original's int result is dropped (the header returns void).
+// Stores the position in m_initialPosition (+0x1450). When PFWorld::GetFloorHeightAt finds a floor under it, the floor
+// height becomes z (+0x1458). The original's int result is dropped (the header returns void).
 void Character::SetInitialPosition(const Point3D<float>& pos) {
     m_initialPosition = pos;
+    float floorHeight = 0.0f;
+    if (Singleton<PFWorld>::s_inst.GetFloorHeightAt(m_initialPosition, &floorHeight, nullptr, nullptr, nullptr, false)) {
+        m_initialPosition.Z = floorHeight;
+    }
 }
 
 // 0x3a5974 Character::Disabled()
@@ -162,8 +160,10 @@ bool Character::HasPotion() const {
 //  - the online block (m_netOwnerId = -1 and unk_114 = 0 when COnline::isOnlineGame_ is set): the flag at COnline +0x05
 //    is private with no getter;
 //  - the offline player's re-placement: the three words at Character +0x143c, +0x1440 and +0x1444 are read by the original as
-//    x, y and z and floor-corrected by PFWorld::GetFloorHeightAt (Singleton<PFWorld>::s_inst, no instance accessor), then
-//    GameObject::SetPosition(pos, true) is called. The header names those words m_spawnViewRadius and unk_1440/unk_1444.
+//    x, y and z and floor-corrected by PFWorld::GetFloorHeightAt (Singleton<PFWorld>::s_inst is declared now), then
+//    GameObject::SetPosition(pos, true) is called. The header names those words m_spawnViewRadius and unk_1440/unk_1444,
+//    but their meaning as a position is not confirmed, so the placement is not made.
+//    Layout request: name the words at Character +0x143c..+0x1444 (x, y, z of the revive placement).
 // The reviver argument is not read by the original body.
 void Character::Revive(GameObject* reviver, bool resetPhysics) {
     (void)reviver;
@@ -287,21 +287,36 @@ void Character::Serialize(IStreamBase* stream) {
 }
 
 // 0x3a66f8 Character::Clean()
-// PARTIAL. Reproduced: the target-circle array is freed and cleared, the highlight is removed, and the timer array is freed.
-// Not made:
-//  - the VisualFXManager::DropAnimatedFX calls for m_selfFX, m_stateFX, the nine m_targetCircleFX entries and m_cursorFX:
-//    there is no VisualFXManager instance accessor in this tree (Singleton<VisualFXManager>::s_inst);
-//  - CharAnimator::DecAnimSetUsers when the byte at Character +0x4f8 (CharAnimator +0x5c, unnamed) is set;
-//  - the delete of m_savegame through its vtable slot +4 (PlayerSavegame is not complete here);
-//  - the release of unk_14ec through its vtable slot +0x1c (the owner type is not declared).
+// PARTIAL. Reproduced in the original order: the DropAnimatedFX calls for m_selfFX and m_stateFX, the nine m_targetCircleFX
+// entries (then the array is freed and cleared), DropAnimatedFX for m_cursorFX, RemoveMultiplayerHighlight, the free of the
+// timer array (m_timerUtil, not cleared, as in the original), CharAnimator::DecAnimSetUsers when CharAnimator m_usersAdded
+// (+0x5c, the byte at Character +0x4f8) is set, and the delete of m_savegame (PlayerSavegame has a virtual destructor).
+// VisualFXManager::s_inst is declared in dh2/VisualFXManager.hpp and is defined by the integrator.
+// Not made: the release of unk_14ec through its vtable slot +0x1c. The field is void* and its owner type is not declared.
 void Character::Clean() {
+    VisualFXManager& fx = VisualFXManager::s_inst;
+    fx.DropAnimatedFX(m_selfFX);
+    fx.DropAnimatedFX(m_stateFX);
     if (m_targetCircleFX != nullptr) {
-        // PARTIAL: the nine entries are not dropped through VisualFXManager (see the note above).
+        for (int i = 0; i < 9; ++i) {
+            fx.DropAnimatedFX(m_targetCircleFX[i]);
+        }
         CustomFree(m_targetCircleFX);
         m_targetCircleFX = nullptr;
     }
+    fx.DropAnimatedFX(m_cursorFX);
     RemoveMultiplayerHighlight();
-    CustomFree(m_timerUtil);
+    if (m_timerUtil != nullptr) {
+        CustomFree(m_timerUtil);
+    }
+    if (CharAnimator::m_usersAdded) {
+        CharAnimator::DecAnimSetUsers();
+    }
+    if (m_savegame != nullptr) {
+        delete m_savegame;
+        m_savegame = nullptr;
+    }
+    // PARTIAL: the release of unk_14ec through its vtable slot +0x1c is not reproduced (see the note above).
 }
 
 // 0x3a6a24 Character::NetStructCharacter::NetStructCharacter()

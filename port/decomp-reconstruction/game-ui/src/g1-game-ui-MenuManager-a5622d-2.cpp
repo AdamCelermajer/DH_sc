@@ -6,9 +6,8 @@
 // The tail of LoadMenu and LoadMainMenu (PostLoad, then the drag-and-drop pass for the menus added since) is kept.
 //
 // PARTIAL: the statements that need declarations the tree does not have are left out, and the rest is kept.
-//   - dh2/MultiMenuManager.hpp is not in the tree. m_multiMenuManager (+0xf4) is used for m_menuFX[0..3] (+0x134 .. +0x143),
-//     LoadSWFFile and the vtable slots +0x34 (push), +0x38 (pop) and +0x40 (can push). The constructor's allocation
-//     of MultiMenuManager is left out, so m_multiMenuManager stays null.
+//   - dh2/MultiMenuManager.hpp is in the tree. m_multiMenuManager (+0xf4) is used for m_menuFX[0..3] (+0x134 .. +0x143),
+//     LoadSWFFile and the vtable slots +0x34 (push), +0x38 (pop) and +0x40 (IsStateInStack). The constructor allocates it.
 //   - Menu classes with no header in the tree yet (each waits on its dh2/<Class>.hpp): MenuMainMenu,
 //     MenuCharacterSelect, MenuEnterName, MenuMultiplayerLobbyMulti, MenuCharMenu_InvMain, MenuCharMenu_Map, MenuWorldMap,
 //     MenuDebug, MenuDebugHUD, MenuMerchant, MenuConfirm, MenuHUDConfirm, MenuLeaderboard.
@@ -35,7 +34,9 @@
 #include "dh2/HUDControls.hpp"
 #include "dh2/InfoHUDManager.hpp"
 #include "dh2/MenuBase.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/MenuFX.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/RenderFX.hpp"
 #include "dh2/global/menu_manager_events_load.hpp"
 #include "dh2/global/native_app.hpp"
@@ -414,14 +415,21 @@ void MenuManager::RegisterListener(MenuBase* menu) {
 }
 
 // 0x4317e8 _ZN11MenuManager8PushMenuEP8MenuBase
-// PARTIAL: the push decision and the push are left out. The original tests menu->IsValidMenu() (vtable +0x3c) and multi
-// vtable slot +0x40. When both allow the push, the menu is only given the listener step below. Otherwise it resets the
-// touch state (Application::ResetTouch), processes the touch events (TouchScreenBase::ProcessEvents), calls multi vtable
-// slot +0x34 to push the menu and reads the isTracingMenuManager switch. None of those are declared in the tree. The
-// listener step after either branch is kept.
+// PARTIAL: the TouchScreenBase::ProcessEvents(dword_99F74C) call of the push path is omitted (dh2/TouchScreenBase.hpp is
+// absent). The rest is as in the original. When the menu is not valid (IsValidMenu, vtable +0x3c) or its state is already
+// in a movie stack (MultiMenuManager::IsStateInStack, vtable +0x40), nothing is pushed. Otherwise the touch state is reset
+// (Application::ResetTouch), the menu is pushed on the MultiMenuManager (vtable +0x34), and the isTracingMenuManager switch
+// is read. The listener step then runs on both paths: the menu is registered when its MenuFX (+0x04) is the HUD root.
+// A null menu returns early.
 void MenuManager::PushMenu(MenuBase* menu) {
     if (menu == nullptr) {
         return;
+    }
+    if (menu->IsValidMenu() && !m_multiMenuManager->IsStateInStack(menu)) {
+        ApplicationGetInstance().ResetTouch();
+        // PARTIAL: TouchScreenBase::ProcessEvents(m_touchScreen) omitted, see above.
+        m_multiMenuManager->PushMenu(menu);
+        (void)DebugSwitches::GetInstance()->GetSwitch("isTracingMenuManager");
     }
     if (menu->m_menu == GetHUDRoot()) {
         RegisterListener(menu);
@@ -442,8 +450,8 @@ void MenuManager::PushMenu(const char* name) {
 // at +0x20, m_menus at +0x64, m_listeners at +0x70, the m_menuFXDeque at +0xcc) are handled by the C++ constructors.
 // PARTIAL: gameswf::register_log_callback(GameSWFUtils::gameswf_logger) and RenderFX::Initialize (the 512 x 512 texture
 // size, GameSWFUtils::SwfTextureLoader and the device record at dword_99F73C+16) are left out. The gameswf callback
-// type does not match the header's int return, and RenderFX has no Initialize. The MultiMenuManager allocation
-// (operator new(0x164, 8) and its constructor) is left out, so m_multiMenuManager stays null.
+// type does not match the header's int return, and RenderFX has no Initialize. The MultiMenuManager is allocated after the
+// three DebugSwitches are set, as in the original (operator new(0x164, 8) and its constructor).
 MenuManager::MenuManager() {
     unk_50 = 0;
     unk_54 = 0;
@@ -470,6 +478,8 @@ MenuManager::MenuManager() {
     DebugSwitches::GetInstance()->SetSwitch("IsDeactivatingFlashMenusUpdate", false);
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->SetSwitch("IsDeactivatingFlashMenusRender", false);
+
+    m_multiMenuManager = new MultiMenuManager();
 }
 
 // 0x431ea4 _ZN11MenuManager8LoadMenuEi

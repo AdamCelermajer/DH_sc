@@ -42,7 +42,7 @@ public:
     // Virtual overrides, in vtable order. The base in glitch-scene-collada-gui does not declare these
     // slots, so they are not marked override.
     virtual void onAnimate(std::uint32_t time);                     // slot 0x20: 0x35d168 (may skip the animation while not visible)
-    virtual void onUpdateTime(std::uint32_t time);                  // slot 0x24: 0x35c0f4 (runs the children when flags 0x201 are set)
+    virtual void onUpdateTime(std::uint32_t time);                  // slot 0x24: 0x35c0f4 (calls updateTime on the animators when flags 0x201 are set)
     virtual void setVisible(bool visible);                          // slot 0x54: 0x35c26c (a hidden root also hides the base node)
     virtual void updateAbsolutePosition(bool recurse);              // slot 0xc4: 0x35c27c
 

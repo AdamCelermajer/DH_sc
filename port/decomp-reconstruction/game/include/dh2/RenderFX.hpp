@@ -87,6 +87,8 @@ public:
     void SetFocus(gameswf::character* character, int flag);               // 0x7ac228
     void SetFocus(const char* name, int flag);                            // 0x7ac498
     void ResetFocus(int flag);                                            // 0x7ac410
+    // Declared for AbstractTableModel (batch g1-game-ui-pack0-13b7dd-0). Sets the enabled state of a button character.
+    void SetEnabled(gameswf::character* character, bool enabled);         // 0x7aba0c
     int PlayAnim(gameswf::character* character, const char* anim, int flag);  // 0x7aba04
     int PlayAnim(const char* name, const char* anim, int flag);           // 0x7abb18
     int InvokeASCallback(gameswf::character* character, const char* name,

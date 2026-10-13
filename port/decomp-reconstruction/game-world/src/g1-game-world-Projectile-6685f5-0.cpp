@@ -18,6 +18,8 @@
 #include "dh2/PFObject.hpp"
 #include "dh2/Projectile.hpp"
 #include "dh2/ProjectileManager.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "glitch-scene-collada-gui/scene_node.hpp"
@@ -130,23 +132,21 @@ float Projectile::GetSpeed() const {
 }
 
 // 0x3e4db0 Projectile::HandleImpactFX(Projectile::ImpactType, Point3D<float> const&)
-// PARTIAL: the effect and the 3D sound are not played. The column choice is reconstructed. The effect call
-// VisualFXManager::PlayAnimFXSet(id, position, nullptr, nullptr) needs a VisualFXManager instance accessor
-// (Singleton<VisualFXManager>::s_inst), which dh2/VisualFXManager.hpp does not declare. The sound call
+// PARTIAL: the 3D sound is not played. The effect is: VisualFXManager::PlayAnimFXSet(id, position, nullptr, nullptr)
+// on Singleton<VisualFXManager>::s_inst, the same call GameObject's script effects make. The sound call
 // VoxSoundManager::Play3D(id, position, ...) needs VoxSoundManager::s_instance and Play3D, which
-// vox-audio/vox/sound_manager.hpp does not declare. See the layout requests.
+// vox-audio/vox/sound_manager.hpp does not declare (layout request).
 void Projectile::HandleImpactFX(ImpactType impact, const Point3D<float>& position) {
     if (impact == IMPACT_NONE) {
         return;  // case 0 returns before the table is read
     }
     const ImpactColumns columns = SelectImpactColumns(ProjectileRow(m_projectileId), impact);
     if (columns.fx != -1) {
-        // NOT MADE: VisualFXManager::PlayAnimFXSet(columns.fx, position, nullptr, nullptr)
+        Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(columns.fx, position, nullptr, nullptr);
     }
     if (columns.sound != -1) {
         // NOT MADE: VoxSoundManager::s_instance->Play3D(columns.sound, position, ...)
     }
-    (void)position;
 }
 
 // 0x3e4eec Projectile::HandleImpactFX(GameObject*, Point2D<float> const&)
@@ -175,10 +175,11 @@ void Projectile::SetManager(ProjectileManager* manager) {
 }
 
 // 0x3e5078 Projectile::OnExpire(Projectile::ImpactType)
-// PARTIAL: the floor snap runs only when the object holds a PFFloor (PFObject +0x10). The room and world
-// queries are not made: the room pointer the original reads at GameObject +0x1d4 is PFObject +0x0c, which
-// PFObject.hpp declares as the float m_floorHeight, and Singleton<PFWorld>::s_inst has no accessor. Without a
-// floor, the z of the position is left as it is. See the layout requests.
+// PARTIAL: the floor snap runs only when the object holds a PFFloor (PFObject +0x10). The original then tests the room
+// pointer at GameObject +0x1d4 (PFObject +0x0c): a room runs PFRoom::GetFloorHeightAt, and with neither a floor nor a
+// room it runs Singleton<PFWorld>::s_inst.GetFloorHeightAt. Either way it then calls SetPosition with the new z. The
+// room word is declared as the float m_floorHeight in PFObject.hpp, so the branch cannot be chosen and the room and
+// world queries are not made (layout request: PFObject +0x0c PFRoom* m_room). Without a floor the z is left as it is.
 void Projectile::OnExpire(ImpactType impact) {
     if (ProjectileRow(m_projectileId).m_w13) {  // table +0x34: snap to the floor on expiry
         PFFloor* floor = m_pfObject.m_floor;     // PFObject +0x10 (GameObject +0x1d8)

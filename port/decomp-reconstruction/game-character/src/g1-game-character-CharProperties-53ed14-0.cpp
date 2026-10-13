@@ -17,6 +17,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "pydata-accessors/w7_arrays27.hpp"
+
 // Engine assert level, declared in core-platform/memory.hpp. That header is not included here: it pulls
 // core-platform/deps/glitch_core.hpp and the pydata MemoryHintState, which clash with the dh2 headers.
 extern int gAssertLevel;
@@ -74,21 +76,23 @@ std::int32_t ScaleByBonus(std::int32_t bonus, std::int32_t amount) {
     return product >> 8;
 }
 
-// PARTIAL. Arrays::CharacterTable::members (a static std::uint8_t* at .bss 0x9a645c, four bytes) is not
-// declared in any header yet, so the default and type sheets cannot be read. Until it is declared, every
-// table lookup returns -1, the value _GetProperty returns for a bad index. The default sheet is `members`,
-// the type sheet is `members + 900` bytes. Words are decoded at the 32-bit file layout (word id+1 of the
-// record), not cast to a host struct.
-enum class CharTableSheet { Default, Type };
-
-std::int32_t ReadCharTableProperty(CharTableSheet, int) { return -1; }
+// Row `row` of the character table. Arrays::CharacterTable::members is a block of host
+// Structs::CharacterProperties records (w7_arrays27.hpp; Character::_InitEquipment and the -1 batch read it the
+// same way). The original's 900-byte rows are one host record each, so the original's `members + 900` is row 1.
+// Row 0 is the default sheet and row 1 the type sheet. The original does not check the table size for these
+// reads, and neither does this.
+const Structs::CharacterProperties& CharTableRow(int row) {
+    return reinterpret_cast<const Structs::CharacterProperties*>(Arrays::CharacterTable::members)[row];
+}
 
 }  // namespace
 
 // 0x3af76c CharProperties::PROPS_Get(int,bool) const [clone]
 // 0x3bd130 CharProperties::PROPS_Get(int,bool) const [clone]
 // Both clones have the same code. The compiler specialised them for useTemp == false: they read m_props
-// and never read the bool. The useTemp == true path (s_temp) is not in these clones, so the bool is unverified.
+// and never read the bool. The binary has no generic PROPS_Get symbol (symtab lists only these two local clones),
+// so the useTemp == true path (s_temp, per the header) has no body in this batch and the bool is unverified.
+// PARTIAL for that reason; the body is exact for the clones' path.
 int CharProperties::PROPS_Get(int propId, bool useTemp) const {
     (void)useTemp;
     return _GetProperty(m_props, propId);
@@ -168,13 +172,15 @@ void CharProperties::DBG_PROPS_DumpToFile(const char* /*path*/, bool /*flag*/) c
 void CharProperties::DBG_PROPS_Print(int /*a*/, int /*b*/) const {}
 
 // 0x3de848 CharProperties::DBG_PROPS_GetName(int) const
-// PARTIAL: the original returns the name at word 5 of record propId in Structs::CharacterProperties::m_dataNames
-// (a 224-entry table of 24-byte records, .bss 0x9a743c). That table is declared as pydata::NameTable only in
-// pydata-accessors/member_names.hpp, which cannot be included with structs_records.hpp (both define
-// Structs::CharacterProperties). Returns nullptr until the table is declared on the class.
+// The original returns word 5 (the name pointer) of record propId in Structs::CharacterProperties::m_dataNames.
+// The host table is a pydata::NameTable whose names are in record order, so that is names[propId]. The original
+// reads with no range check; an id outside the table returns nullptr here (the original reads past the table).
 const char* CharProperties::DBG_PROPS_GetName(int propId) const {
-    (void)propId;
-    return nullptr;
+    const pydata::NameTable& names = Structs::CharacterProperties::m_dataNames;
+    if (propId < 0 || propId >= names.size || names.names == nullptr) {
+        return nullptr;
+    }
+    return names.names[propId];
 }
 
 // 0x3dec0c CharProperties::SetCharacter(Character*)
@@ -234,10 +240,9 @@ int CharProperties::_GetProperty(const Structs::CharacterProperties& sheet, int 
 }
 
 // 0x3deed8 CharProperties::_GetType(int) const
-// PARTIAL: the lookup is the type sheet, which is not readable yet (see ReadCharTableProperty). Every
-// type therefore comes back as 16, the value for an unresolved lookup.
+// Reads property propId of the type sheet (table row 1). An unresolved lookup (-1, a bad id or no row) gives 16.
 int CharProperties::_GetType(int propId) const {
-    const int result = ReadCharTableProperty(CharTableSheet::Type, propId);
+    const int result = _GetProperty(CharTableRow(1), propId);
     if (result == -1) {
         return 16;
     }
@@ -245,15 +250,14 @@ int CharProperties::_GetType(int propId) const {
 }
 
 // 0x3def10 CharProperties::_GetDefault(int) const
-// PARTIAL: reads the default sheet, which is not readable yet (see ReadCharTableProperty). Returns -1 for
-// every property until Arrays::CharacterTable::members is declared.
+// Reads property propId of the default sheet (table row 0).
 int CharProperties::_GetDefault(int propId) const {
-    return ReadCharTableProperty(CharTableSheet::Default, propId);
+    return _GetProperty(CharTableRow(0), propId);
 }
 
 // 0x3def34 CharProperties::_ResetProperties(Structs::CharacterProperties&)
-// PARTIAL: copies the default of every property into the sheet. While _GetDefault is a stub this writes
-// -1 to all 224 properties, so do not call it before the default table is wired.
+// Copies the default of every property into the sheet. The original returns the last default in r0; the void
+// header drops it. Nothing reads that value.
 void CharProperties::_ResetProperties(Structs::CharacterProperties& sheet) {
     for (int i = 0; i != kPropertyCount; ++i) {
         PropertyWord(sheet, i) = _GetDefault(i);
@@ -261,7 +265,7 @@ void CharProperties::_ResetProperties(Structs::CharacterProperties& sheet) {
 }
 
 // 0x3def84 CharProperties::PROPS_ResetSheet(Structs::CharacterProperties*)
-// The null-sheet fallback to s_temp is reconstructed. The reset itself is partial through _ResetProperties.
+// A null sheet resets s_temp instead. Then the sheet is reset to the defaults (_ResetProperties).
 void CharProperties::PROPS_ResetSheet(Structs::CharacterProperties* sheet) {
     if (sheet == nullptr) {
         sheet = &s_temp;

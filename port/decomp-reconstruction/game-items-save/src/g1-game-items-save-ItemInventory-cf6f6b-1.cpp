@@ -19,17 +19,25 @@
 #include <vector>
 
 #include "core-platform/memory.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
+#include "dh2/TrophyManager.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
 
 // Declarations of the pydata accessor used by SetPotionQty (same declarations as pydata-accessors/member_names.hpp,
 // which cannot be included next to w7_structs_2.hpp: both define the Structs table classes).
 namespace Arrays {
 struct ItemTable;
+struct TrophyTable;
 template <class T>
 int GetMemberIDByString(const char* name);
 }  // namespace Arrays
+
+// Companion TU r2a-game-items-save-ItemInventory-cf6f6b-0_players.cpp: the PlayerManager local-player test.
+namespace ItemInventoryTrophyPlayers {
+bool IsLocalPlayer(const Character* character);
+}  // namespace ItemInventoryTrophyPlayers
 
 namespace {
 
@@ -260,9 +268,8 @@ int ItemInventory::GetValuableItems(std::vector<Item>* a2) {
 }
 
 // 0x3ff5d4 _ZN13ItemInventory16_AddItemInstanceEP12ItemInstancebb
-// PARTIAL: the full_inventory trophy unlock at the end is not reproduced. Its condition needs the PlayerManager
-// instance pointer, the global dword_99F76C, which has no declared name (the game-world batch reads it as the
-// Application singleton's +0x40), and Character::IsPlayer. TrophyManager::s_instance and UnlockTrophy are declared.
+// The full_inventory trophy unlocks when the inventory is full (IsInventoryFull), the owner is a player character and
+// that character is the local player (ItemInventoryTrophyPlayers::IsLocalPlayer, companion TU).
 // The third argument is tested with !a3 before the stacking scan (see ledger notes on the parameter name).
 int ItemInventory::_AddItemInstance(ItemInstance* a2, bool a3, bool a4) {
     if (m_maxPotions == 0 && a2->GetItem()->m_w22 == 14) {
@@ -308,6 +315,9 @@ int ItemInventory::_AddItemInstance(ItemInstance* a2, bool a3, bool a4) {
     slot->m_equipSlot[0] = -1;
     slot->m_equipSlot[1] = -1;
     m_items.push_back(slot);
+    if (IsInventoryFull() && m_character->IsPlayer() && ItemInventoryTrophyPlayers::IsLocalPlayer(m_character)) {
+        TrophyManager::s_instance->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>("full_inventory"));
+    }
     return static_cast<int>(m_items.size()) - 1;
 }
 
@@ -366,10 +376,12 @@ int ItemInventory::TransferItemTo(unsigned int a2, ItemInventory& a3, bool a4, b
 }
 
 // 0x3ffa68 _ZN13ItemInventory19TransferInventoryToERS_bb
-// PARTIAL: the GatherLoot quest event raised for each moved item is not reproduced (QE_GatherLoot.hpp declares no
-// constructor, and the Application singleton and PyDataConstants globals have no names yet). The return value is 0
-// here; the original returns what TransferGoldTo leaves in r0 (AddGold and TransferGoldTo return int in the
-// decompile, but the header declares them void).
+// PARTIAL: the GatherLoot quest event raised for each moved item is not reproduced. For a player character whose item id
+// is on a2's active quest-gathering list, the original raises a QE_GatherLoot on the current level (type id from
+// PyDataConstants "v2QuestObjectiveType"/"GatherLoot", the character, the item id as the match id, -1 for target and value).
+// That needs IEvent::eventId_ set: it is protected in net-session-online/i_event.hpp, and QE_GatherLoot declares no
+// constructor (layout request: QE_GatherLoot(std::uint32_t eventId), owner Objective_GatherLoot).
+// The return value is 0 here; the original returns what TransferGoldTo leaves in r0 (TransferGoldTo is declared void).
 int ItemInventory::TransferInventoryTo(ItemInventory& a2, bool a3, bool a4) {
     for (ItemSlot* slot : m_items) {
         a2._AddItemInstance(slot->m_item, a3, a4);

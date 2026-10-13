@@ -34,7 +34,7 @@ public:
         virtual ~Texture();                                             // slot 0: 0x50a70c (D1); slot 1: 0x50a74c (D0)
 
         // Texture occupies +0x00 .. +0x0b. Size not recovered.
-        uint8_t pad_04[4];                                              // +0x04
+        int32_t unk_04;                                                 // +0x04 flags level: loadTexture keeps the lowest flags it is given here; clearTexture drops the entry when its flags are at most this
         glitch::IReferenceCounted* m_texture;                           // +0x08 texture object, released with drop()
     };
 
@@ -44,7 +44,7 @@ public:
         virtual ~SceneNode();                                           // slot 0: 0x50a474 (D1); slot 1: 0x50a794 (D0)
 
         // SceneNode occupies +0x00 .. +0x0b. Size not recovered.
-        uint8_t pad_04[4];                                              // +0x04
+        int32_t unk_04;                                                 // +0x04 flags level read by clearSceneNode, which drops the entry when the argument is at most this
         glitch::scene::ISceneNode* m_sceneNode;                         // +0x08 scene node object; released through its IReferenceCounted base
     };
 

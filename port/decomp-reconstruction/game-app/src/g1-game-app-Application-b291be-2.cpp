@@ -532,11 +532,17 @@ void Application::Update() {
 // 0x32d79c Application::Application()
 // 0x32d980 Application::Application()
 // The two addresses are the complete-object and base-object variants of one constructor; one definition serves both.
-// Every store of the original is written, in its order: the vptr is the compiler's, FirstTime is the bool of
-// dh2/global/Globals.hpp (STRB), and the job threads are created in the order of the original (CustomAlloc(0x10), then
-// updateJob_thread(n), then the pointer store). The std::string members (+0xbc, +0xd4) are constructed empty. The original
-// allocates a 16-byte buffer for each and writes a terminating zero, which is the same empty string. The std::list
-// sentinel at +0x08 is the default construction of m_eventReceivers. Not set, as in the original: m_menuManager (+0x54),
+// PARTIAL: the pseudocode also stores this+0xbc into the words at +0xcc and +0xd0, and this+0xd4 into the words at
+// +0xe4 and +0xe8. In this layout those words lie inside the two std::string members (+0xbc m_uncompiledData,
+// +0xd4 unk_d4), so they are not stored: writing them would overwrite the string objects. Their container is not
+// identified (layout requests). Every other store is written, in the original's order: the vptr is the compiler's,
+// FirstTime is the bool of dh2/global/Globals.hpp (STRB), and the job threads are created in the original's order:
+// CustomAlloc(sizeof(updateJob_thread)), then updateJob_thread(n), then the pointer store. The original allocates 0x10
+// bytes because its object is 0x10 bytes. The host object is larger (vptr, std::thread, bool, int: 24 bytes, see
+// net-transport/include/net-transport/update_job_thread.hpp), so a 0x10 block would be overrun by the constructor.
+// The std::string members (+0xbc, +0xd4) are constructed empty. The original allocates a 16-byte buffer for each and
+// writes a terminating zero, which is the same empty string. The std::list sentinel at +0x08 is the default
+// construction of m_eventReceivers. Not set, as in the original: m_menuManager (+0x54),
 // the tweakers (+0x58..+0x68), m_lastTickTime (+0x70), m_orientation (+0x80), m_dt..m_timeScale (+0x8c..+0x98),
 // m_underlayNode (+0xb8), unk_ec (+0xec) and the pad bytes. They are zero, because Application is constructed in the
 // zeroed .bss storage of Singleton<Application>::s_inst.
@@ -587,9 +593,9 @@ Application::Application() {
     // The std::string members (+0xbc m_uncompiledData, +0xd4 unk_d4) are constructed empty by the compiler.
 
     FirstTime = 1;
-    m_updateJobThread0 = new (CustomAlloc(0x10)) updateJob_thread(1);
-    m_updateJobThread1 = new (CustomAlloc(0x10)) updateJob_thread(2);
-    m_updateJobThread2 = new (CustomAlloc(0x10)) updateJob_thread(3);
-    m_updateJobThread3 = new (CustomAlloc(0x10)) updateJob_thread(4);
-    m_updateJobThread4 = new (CustomAlloc(0x10)) updateJob_thread(5);
+    m_updateJobThread0 = new (CustomAlloc(static_cast<unsigned int>(sizeof(updateJob_thread)))) updateJob_thread(1);
+    m_updateJobThread1 = new (CustomAlloc(static_cast<unsigned int>(sizeof(updateJob_thread)))) updateJob_thread(2);
+    m_updateJobThread2 = new (CustomAlloc(static_cast<unsigned int>(sizeof(updateJob_thread)))) updateJob_thread(3);
+    m_updateJobThread3 = new (CustomAlloc(static_cast<unsigned int>(sizeof(updateJob_thread)))) updateJob_thread(4);
+    m_updateJobThread4 = new (CustomAlloc(static_cast<unsigned int>(sizeof(updateJob_thread)))) updateJob_thread(5);
 }

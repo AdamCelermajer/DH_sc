@@ -30,11 +30,14 @@ public:
     // CSkinnedMeshSceneNode: 0x35b750 (complete), 0x35bb18 (deleting).
     // CModularSkinnedMeshSceneNode: 0x35b668 (complete), 0x35b714 (deleting). 0x35b9bc is a dtor that
     // takes an extra vtable-table argument (the base-object form); its use is not identified.
-    ~BaseMeshSceneNode() override;
+    // "override" is not written on the two virtuals below: the engine T classes in this tree
+    // (collada_scene_accessors.hpp) declare no virtual dtor or render, so override fails when the template is
+    // instantiated. "virtual" keeps the vtable slots the binary has.
+    virtual ~BaseMeshSceneNode();
 
     // Slot 7. Calls T's render only when m_renderEnabled is set.
     // CMeshSceneNode 0x35a9a8, CSkinnedMeshSceneNode 0x35a9b8, CModularSkinnedMeshSceneNode 0x35a9c8.
-    void render(void* renderContext) override;
+    virtual void render(void* renderContext);
 
     // T occupies +0x00 .. sizeof(T)-1. Field offset as noted above.
     // Named after its use as the render gate (render() tests it, the ctor sets it to 1).

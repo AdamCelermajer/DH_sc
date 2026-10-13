@@ -93,10 +93,13 @@ bool CharAI::AI_CastSpell() {
 }
 
 // 0x3d8358 CharAI::AI_IsSkillUsable(uint) const
-// PARTIAL: when a skill is in use the original returns 0 unless CharStateMachine m_stateFlags (+0x24, private, no
-// accessor) has bit 0x8000 set. That bit test is omitted and the checks below run in both cases. Layout request: a
-// public accessor for m_stateFlags (or the bit's meaning and name).
+// While a skill is in use, the skill is usable only when bit 0x8000 of Character +0x520 (CharStateMachine::m_stateFlags,
+// +0x24) is set. Then the character must not be casting and the script process must be loaded. The index is checked against
+// m_skillScripts (assert line 181); an index past the end fails. The skill script's OnSkillCheck_Usable decides the rest.
 bool CharAI::AI_IsSkillUsable(unsigned int skill) const {
+    if (m_character->SM_IsUsingSkill() && (m_character->CharStateMachine::m_stateFlags & 0x8000u) == 0) {
+        return false;
+    }
     if (m_character->SM_IsCasting() || !IsScriptProcessLoaded()) {
         return false;
     }

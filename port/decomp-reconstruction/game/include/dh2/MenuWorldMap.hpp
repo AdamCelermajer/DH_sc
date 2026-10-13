@@ -8,9 +8,9 @@
 #include <cstdint>
 #include <map>
 
-#include "core-platform/deps/glitch_core.hpp"
 #include "dh2/IEventReceiver.hpp"
 #include "dh2/MenuBase.hpp"
+#include "glitch-core-io/os/event_receiver.hpp"  // glitch::SEvent and glitch::IEventReceiver, the canonical definitions
 
 namespace gameswf {
 class character;
@@ -25,7 +25,7 @@ public:
     // One locker: 12 bytes. m_lockers[0] is never unlocked, m_lockers[1..3] take their quest from
     // Arrays::WorldMapLockers in Init.
     struct Locker {
-        float m_ratio;                                                // +0x00 1 - |locator offset / map width|, from the "MapLimit" movie; 1.0 when missing
+        float m_ratio;                                                // +0x00 1 - |locator y offset / map height|, from the "MapLimit" movie; 1.0 when missing
         int32_t m_questId;                                            // +0x04 quest that gates the locker, -1 when unset
         int32_t m_requiredState;                                      // +0x08 quest state the player needs; compared in Unlock
     };
@@ -36,7 +36,9 @@ public:
     class InputHandler : public glitch::IEventReceiver, public ::IEventReceiver {
     public:
         // One touch, keyed by its id in m_touches. Original 8 bytes. Fields [0] and [1] are set on press, or on a
-        // move while they are still zero. Fields [2] and [3] are set on press and on every move.
+        // move while they are still zero, and after every move they take that move's position (once the pinch or
+        // drag step of the move has read them, so they hold the previous contact during the pinch). Fields [2] and
+        // [3] are set on press and on every move.
         struct TouchData {
             int16_t unk_0;                                            // +0x00 x of the first contact
             int16_t unk_2;                                            // +0x02 y of the first contact

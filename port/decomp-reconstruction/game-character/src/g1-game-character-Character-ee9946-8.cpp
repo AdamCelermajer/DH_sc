@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 #include "core-platform/memory.hpp"            // gAssertLevel
 #include "dh2/global/runtime_support.hpp"      // PushProfilingContext, PopProfilingContext
@@ -17,6 +18,11 @@
 #include "dh2/global/cf_calc.hpp"              // CF__Calc* rolls, CombatDamage, MissOrDodgeResult
 #include "dh2/global/charai_ai.hpp"            // ApplicationGetPyDataConstants (dword_99F758)
 #include "pydata-accessors/w7_pydata12.hpp"    // PyDataConstants::getConstant
+#include "pydata-accessors/structs_records.hpp"  // Structs::FaeryList, Structs::Faery
+#include "pydata-accessors/w7_arrays27.hpp"    // Arrays::GameObjectDamager::members (raw 24-byte rows)
+#include "dh2/Singleton.hpp"                   // Singleton<VisualFXManager>::s_inst
+#include "dh2/VisualFXManager.hpp"             // PlayAnimFXSet
+#include "pydata-accessors/w7_arrays27.hpp"      // Arrays::FaeryListTable, Arrays::FaeryTable
 
 namespace {
 
@@ -80,20 +86,26 @@ int RollPercent() {
     return static_cast<int>(Random::GetRandom(100, false));
 }
 
+// One 32-bit word of row `index` of Arrays::GameObjectDamager, read at its file layout: the rows are 24 bytes and the word
+// at byte offset `offset` (4 .. 20) is decoded field by field, never cast to a host struct.
+std::int32_t DamagerRowWord(int index, int offset) {
+    std::int32_t value = 0;
+    std::memcpy(&value, Arrays::GameObjectDamager::members + 24 * index + offset, sizeof(value));
+    return value;
+}
+
 }  // namespace
 
 // 0x3ae60c Character::GetFaeryCharacter(void)
-// PARTIAL: the original returns the word at +0x420 of Character, which is CharAI::unk_58 (the faery character object:
-// ChangeFaery sets its model through the same pointer). That member is private in dh2/CharAI.hpp and cannot be read here.
-// Layout request: a public accessor (or a public member) for the faery pointer in CharAI. Until then this returns nullptr.
+// Returns the word at +0x420 of Character, which is CharAI::unk_58 (CharAI +0x58). ChangeFaery calls the Character members
+// GetCharModelName and the CharAnimator base on this pointer, so it is the faery Character, cast here to Character*.
 Character* Character::GetFaeryCharacter() {
-    return nullptr;
+    return static_cast<Character*>(CharAI::unk_58);
 }
 
 // 0x3ae614 Character::GetFaeryCharacter(void) const
-// PARTIAL: as the non-const overload above (the CharAI::unk_58 pointer is private in dh2/CharAI.hpp).
 const Character* Character::GetFaeryCharacter() const {
-    return nullptr;
+    return static_cast<const Character*>(CharAI::unk_58);
 }
 
 // 0x3ae61c Character::IncFaeryLevel(unsigned int)
@@ -121,11 +133,11 @@ void Character::IncFaeryLevel(unsigned int faery) {
 }
 
 // 0x3ae7d4 Character::SetFaeryState(unsigned int, int)
-// PARTIAL: the first-faery tutorial branch is not reproduced. It runs when state is 1, faery is not 0, the online flag
-// of COnline (+0x05, isOnlineGame_, no getter in net-session-online/c_online.hpp) is clear, the difficulty is 0 and
-// the byte at SavegameManager +0x2b is set (no member declared for it). It starts the cinematic_Tuto_faery script
-// (ScriptManager::GetIDFromName and StartScript are not declared), clears the byte and calls saveSettings. The state
-// change below is complete.
+// PARTIAL: the first-faery tutorial branch is not reproduced. It runs when state is 1, faery is not 0, COnline::isOnlineGame_
+// (+0x05) is clear, the difficulty is 0 and the SavegameManager tutorial byte m_tutorials[2] (+0x2b) is set. It then starts
+// cinematic_Tuto_faery (ScriptManager::s_inst, GetIDFromName and StartScript are declared), clears the byte and calls
+// saveSettings. The blocker is isOnlineGame_: it is a protected member of COnline (net-session-online/c_online.hpp) with no
+// getter. The state change below is complete.
 void Character::SetFaeryState(unsigned int faery, int state) {
     const int difficulty = SG_GetGameDifficulty();
     if (static_cast<unsigned int>(SG_GetFaerieCount(difficulty)) <= faery) {
@@ -144,8 +156,8 @@ void Character::IncAllFaeriesLevel() {
 }
 
 // 0x3ae99c Character::ChangeFaery(unsigned int)
-// PARTIAL: the faery's visual model change and animation set (on the faery character from GetFaeryCharacter, which is
-// partial) are not written. The ASSERT, the current faery and the skill update are reproduced.
+// Sets the current faery and updates the skills. Then, when there is a faery character (GetFaeryCharacter), its visual
+// is set from its own model name (no xref, forced) and its CharAnimator adds the animation set to the render object.
 void Character::ChangeFaery(unsigned int faery) {
     const int difficulty = SG_GetGameDifficulty();
     if (static_cast<unsigned int>(SG_GetFaerieCount(difficulty)) <= faery) {
@@ -153,6 +165,11 @@ void Character::ChangeFaery(unsigned int faery) {
     }
     SG_SetCurrentFaerie(faery, difficulty);
     CharAI::UpdateAllSkills();
+    Character* faeryCharacter = GetFaeryCharacter();
+    if (faeryCharacter) {
+        faeryCharacter->GameObject::SetVisualObject(faeryCharacter->GetCharModelName(), nullptr, true);
+        faeryCharacter->CharAnimator::ANIM_AddSetToRenderObject();
+    }
 }
 
 // 0x3aea9c Character::IsCastingPossible(void)
@@ -164,11 +181,10 @@ bool Character::IsCastingPossible() {
 }
 
 // 0x3aeac0 Character::GetCharFaery(int) const
-// PARTIAL: the two pydata rows are read through raw listings. The FaeryListTable row (12-byte stride: ListSize at +4,
-// List at +8) and the FaeryTable row (36-byte stride: Type at +32) have no declared struct layout in pydata-accessors
-// (w7_arrays27.hpp declares only the static members and size). Layout request: a FaeryListTable row struct with
-// ListSize and List, and a FaeryTable row struct with Type. Until then the lookup returns nullptr. The two ASSERTs
-// on the count are reproduced.
+// The faery list row (GetCharFaeryList) gives ListSize (m_w1, must equal the FaeryTypes COUNT) and the List (m_w2, an
+// int32 array). List[faeryId] is the index of the Arrays::FaeryTable row, whose Type (m_w8) must equal faeryId. The three
+// ASSERTs are reproduced. The List index is read without a bound check, as in the original; the first ASSERT limits
+// faeryId to the COUNT.
 const void* Character::GetCharFaery(int faeryId) const {
     const int faeryTypeCount = ApplicationGetPyDataConstants()->getConstant("FaeryTypes", "COUNT");
     if (faeryId < 0 || faeryId >= faeryTypeCount) {
@@ -176,14 +192,28 @@ const void* Character::GetCharFaery(int faeryId) const {
             "faeryId >= 0 && faeryId < Application::GetInstance()->GetConstantsMgr()->getConstant(\"FaeryTypes\", \"COUNT\")",
             kCharacterFaeryFile, 62);
     }
-    return nullptr;
+    const Structs::FaeryList* faeryList = static_cast<const Structs::FaeryList*>(GetCharFaeryList());
+    if (static_cast<int>(faeryList->m_w1) != faeryTypeCount) {
+        ReportAssertFailure(
+            "charFaeryList.ListSize == Application::GetInstance()->GetConstantsMgr()->getConstant(\"FaeryTypes\", \"COUNT\")",
+            kCharacterFaeryFile, 63);
+    }
+    const int faeryIndex = static_cast<const std::int32_t*>(faeryList->m_w2)[faeryId];
+    const Structs::Faery* faery = reinterpret_cast<const Structs::Faery*>(Arrays::FaeryTable::members) + faeryIndex;
+    if (faery->m_w8 != faeryId) {
+        ReportAssertFailure("Arrays::FaeryTable::members[charFaeryList.List[faeryId]].Type == faeryId", kCharacterFaeryFile, 64);
+    }
+    return faery;
 }
 
 // 0x3af0c8 Character::F_ApplyScrollingCombatTextXP(Character*, int, int, int)
-// PARTIAL: the floating text needs the StringManager instance (dword_99F760, no accessor declared) to format the
-// GAMEPLAYMENUS_REWARD_XP string with the target, and the GameObject position floats at +0x14c and +0x158 (no names
-// declared). Nothing is drawn yet. The style argument is FlashAnimManager::PlayScrollingCombatText's styleId and the
-// fourth argument is its color; the fifth argument of the original's call list is never read.
+// PARTIAL: nothing is drawn. The original formats the GAMEPLAYMENUS_REWARD_XP string (StringManager, dword_99F760) with
+// the xp amount and places it above the target (the z extent of the local AABB, m_relAabb[5] - m_relAabb[2], is added to the
+// target position). The amount is the first explicit argument, which dh2/Character.hpp declares as Character* target (rename
+// candidate: int amount), so it cannot be passed to StringManager::parse until that is retyped. The text call
+// (FlashAnimManager::PlayScrollingCombatText) takes a glitch::core::vector3d<float>, and dh2/FlashAnimManager.hpp cannot be
+// included beside this file's Character chain (see F_ApplyScrollingCombatText below). styleId and colorId are the styleId
+// and color of that call; the fifth argument is never read.
 void Character::F_ApplyScrollingCombatTextXP(Character* target, int styleId, int colorId, int unusedArg) {
     (void)target;
     (void)styleId;
@@ -192,25 +222,29 @@ void Character::F_ApplyScrollingCombatTextXP(Character* target, int styleId, int
 }
 
 // 0x3aef68 Character::F_ApplyScrollingCombatTextGold(Character*, int)
-// PARTIAL: the original formats the ITEMS_GOLD string with the first character argument through the StringManager
-// instance (dword_99F760, no accessor declared), and places it with the GameObject position floats at +0x14c and +0x158
-// (no names declared). The gold argument is not read by the original. Nothing is drawn yet.
+// PARTIAL: nothing is drawn. The original formats the ITEMS_GOLD string (StringManager, dword_99F760) with the gold amount,
+// which is the first explicit argument (declared Character* target in dh2/Character.hpp; rename candidate: int amount), and
+// places it above the target with the anim_reward_gold style and the QR_Gold colour. The amount cannot be passed to
+// StringManager::parse until that declaration is retyped, and the text call needs glitch::core::vector3d (see
+// F_ApplyScrollingCombatText below). The second argument is never read.
 void Character::F_ApplyScrollingCombatTextGold(Character* target, int gold) {
     (void)target;
     (void)gold;
 }
 
 // 0x3af1fc Character::F_ApplyScrollingCombatText(Character::AttackResult const&, GameObject*, Character*)
-// PARTIAL: a follower shows nothing and returns here. The rest (the damage value and its style, the color constant)
-// needs the GameObject position floats at +0x14c and +0x158, which have no declared names.
+// PARTIAL: a follower shows nothing and returns here. A positive damage would show its value (damage >> 8) with the
+// anim_sct_normaldamage style at the target's text anchor (GetTargetPosition, z raised by m_relAabb[5] - m_relAabb[2],
+// GameObject +0x158 and +0x14c), in PlayerDamageColor for a player and DamageColor otherwise. Nothing is drawn:
+// FlashAnimManager::PlayScrollingCombatValue takes a glitch::core::vector3d<float>, and dh2/FlashAnimManager.hpp
+// (glitch-shared/glitch_core.hpp) cannot be included in this translation unit, because the Character chain already defines
+// glitch::core::vector3d from core-platform/deps/glitch_core.hpp (through Billboard.hpp and SimpleTypeProperty.hpp).
 void Character::F_ApplyScrollingCombatText(const AttackResult& result, GameObject* attacker, Character* target) {
     (void)result;
     (void)attacker;
     if (target->IsFollower()) {
         return;
     }
-    // PARTIAL: FlashAnimManager::PlayScrollingCombatValue of the damage (anim_sct_normaldamage, anim_sct_dot,
-    // anim_sct_critleft/right and friends, PlayerDamageColor or DamageColor) is not reproduced.
 }
 
 // 0x3af3b0 Character::_F_ResetResult(Character::AttackResult&)
@@ -229,15 +263,19 @@ void Character::_F_ResetResult(AttackResult& result) {
 }
 
 // 0x3af77c Character::F_ApplyScrollingCombatText(Character::AttackResult const&, Character*, Character*)
-// PARTIAL: as the GameObject overload above. Followers return at once. The damage and block/dodge/fear/slow texts need
-// StringManager (dword_99F760, no accessor declared) and the GameObject position floats at +0x14c and +0x158 (no names).
+// PARTIAL: followers return at once. Nothing is drawn. The original chooses one text from the result flags: miss (bit 0 of
+// +0x18) and dodge (bit 1) show their text and return; block (bit 2) shows its text and goes on; fear (bit 5) or else slow
+// (bit 8 of +0x19) show their text when the attacker's sheet value (PROPS 187 or 143 for fear, 189 or 146 for slow, chosen
+// by bit 16 of m_attackFlags) is non-zero after >> 8. Then a positive damage shows its value (damage >> 8) with the style of
+// the attack flags (dot, off-hand, critical) and the colour for the target (player or not, critical or not). The drawing
+// calls take a glitch::core::vector3d<float>, which clashes with the one in the Character chain (see the GameObject overload
+// above), so the text is not drawn.
 void Character::F_ApplyScrollingCombatText(const AttackResult& result, Character* attacker, Character* target) {
     (void)result;
     (void)attacker;
     if (target->IsFollower()) {
         return;
     }
-    // PARTIAL: the miss/block/dodge/critical/injure/stun/fear/slow/dot texts and the damage value are not reproduced.
 }
 
 // 0x3afd38 Character::F_ApplyCombatSound(Character::AttackResult const&, GameObject*, Character*)
@@ -271,18 +309,22 @@ void Character::F_ApplyCombatSound(const AttackResult& result, Character* attack
 }
 
 // 0x3b01b8 Character::F_ApplyResult(Character::AttackResult const&, GameObject*, Character*, bool)
-// PARTIAL, in order of the original: (1) the network notification (CMsgAttackResult sent through GetMessaging when
-// COnline::isOnlineGame_ (+0x05, no getter) is set, the attacker's +0x110 is -1 and suppressNetMessage is false) is not
-// reproduced. (2) The blood effect (VisualFXManager::PlayAnimFXSet on Singleton<VisualFXManager>::s_inst, no accessor) is
-// not reproduced. (3) The HitFor call, which runs when the target's +0x110 is -1 (no name declared for that GameObject
-// word), is not reproduced. The debug switch reads, the NoDamages and GOD gates, the state updates on the result, the
-// injure state, the scrolling text, the sound and the OnCombatResults hook are reproduced.
+// PARTIAL, in order of the original: (1) the network notification is not written. It runs when COnline::isOnlineGame_
+// (+0x05) is set, suppressNetMessage is false and the attacker's m_netOwnerId (+0x110) is -1: CMsgAttackResult of the
+// attacker and defender unk_108 ids through GetMessaging. isOnlineGame_ is protected in net-session-online/c_online.hpp
+// with no getter, and CMsgAttackResult's header (net-session-online/deps/character_attack_result.hpp) declares a
+// namespace Character stand-in that clashes with dh2/Character.hpp. The NoDamages and GOD gates, the blood effect
+// (attack flag 0x200000, VisualFXManager::PlayAnimFXSet on the target position), the store of false to
+// CharStateMachine::m_deadAltAnim, HitFor when the target's m_netOwnerId is -1, the dead-state clears, the injure state,
+// CancelSneaking, the scrolling text, the sound and the CharAI OnCombatResults hook are reproduced. The Hex-Rays return
+// value is a leftover of the hook; declared void.
 void Character::F_ApplyResult(const AttackResult& result, GameObject* attacker, Character* target, bool suppressNetMessage) {
     (void)suppressNetMessage;
     // The original writes the dead-state clears back into the caller's result. The header takes the result const, so that
     // the overload does not become ambiguous with the Character overload for existing callers; the caller's object is
     // not const, so the write lands in the caller's result as in the original.
     AttackResult& writable = const_cast<AttackResult&>(result);
+    // PARTIAL: the network notification (see above) is not written.
 
     // The NoDamages switch and the GOD switch (with the player test and the target's m_freeMana) skip the damage part.
     bool skipDamage = ReadSwitch("NoDamages");
@@ -292,9 +334,16 @@ void Character::F_ApplyResult(const AttackResult& result, GameObject* attacker, 
     }
 
     if (!skipDamage && result.m_damage > 0) {
-        // PARTIAL: the blood effect (attack flag 0x200000), the store of 0 to CharStateMachine::m_deadAltAnim (+0x3f,
-        // private in dh2/CharStateMachine.hpp: layout request for a setter) and HitFor(damage, attacker) when the target's
-        // +0x110 word is -1 (no name declared) are not reproduced, see the comment above.
+        if ((result.m_attackFlags & 0x00200000u) != 0) {
+            // unk_24 == -1 selects the target's blood effect; otherwise the attack's own effect table row (+124).
+            const int fxBlood = result.unk_24 == -1 ? target->GetFXBlood() : result.unk_24 + 124;
+            Singleton<VisualFXManager>::s_inst.PlayAnimFXSet(fxBlood, target->GetTargetPosition(), nullptr, nullptr);
+        }
+        // The original clears m_deadAltAnim (CharStateMachine +0x3f, Character +0x53b) before the HitFor test.
+        target->CharStateMachine::m_deadAltAnim = false;
+        if (target->m_netOwnerId == -1) {
+            target->HitFor(static_cast<unsigned int>(result.m_damage), attacker);
+        }
         if (target->IsDead()) {
             writable.m_resultFlags &= ~static_cast<std::uint32_t>(0x60);  // scare and stun (byte 0x9F mask)
             writable.m_resultFlags &= ~kResultSlow;                        // bit 0 of +0x19
@@ -312,15 +361,17 @@ void Character::F_ApplyResult(const AttackResult& result, GameObject* attacker, 
     // not write the result, so the const is cast away for the call only.
     static_cast<CharAI*>(target)->OnCombatResults(attacker, const_cast<AttackResult*>(&result));
 }
-
 // 0x3b061c Character::F_GOAttack(Character::AttackResult&, GameObject*, Character*, int, int)
-// PARTIAL: the damage roll and the immunity timer read the Arrays::GameObjectDamager row (24-byte stride; the word at
-// +4 is the damage type, +8 the immunity time, +12 and +16 the damage range, +20 the attack flags). The row has no
-// declared struct layout (layout request: an Arrays::GameObjectDamager row struct with those four words), so only the
-// asserts, the trace read and the reset of the result are reproduced.
+// PARTIAL. The asserts and the trace read, the roll and the immunity gate, the injure flag and the result words are
+// reproduced. The damage row is Arrays::GameObjectDamager row a, read at its 32-bit file layout (24-byte rows: +4 damage
+// type, +8 immunity time, +12 and +16 the damage range maximum and minimum, +20 the attack flags; DamagerRowWord).
+// The roll is minimum + Random(maximum + 1 - minimum) in fixed point; the original passes the damage type as the second
+// argument of that three-argument call, and the stream the clone draws from is not verified (this body draws from the
+// ordinary stream, as RollPercent does). While the target's immunity timer for the damage type runs the damage is zero,
+// otherwise the timer is started with the row's immunity time. The injure flag (0x10) is set when the damage is positive
+// and the target's property 134 is below b << 8. The result's unk_24 word is the row's +20 word. The Hex-Rays return
+// value is a leftover; declared void.
 void Character::F_GOAttack(AttackResult& result, GameObject* attacker, Character* target, int a, int b) {
-    (void)a;
-    (void)b;
     if (attacker == nullptr) {
         ReportAssertFailure("attacker", kCharacterFormulasFile, 665);
     }
@@ -328,19 +379,50 @@ void Character::F_GOAttack(AttackResult& result, GameObject* attacker, Character
         ReportAssertFailure("defender", kCharacterFormulasFile, 666);
     }
     ReadTraceSwitch("isTracingChar_Attack");
-    _F_ResetResult(result);
-}
 
+    const std::int32_t damageType = DamagerRowWord(a, 4);
+    const std::int32_t immunityTime = DamagerRowWord(a, 8);
+    const std::int32_t rangeMax = DamagerRowWord(a, 12);
+    const std::int32_t rangeMin = DamagerRowWord(a, 16);
+    const std::int32_t attackWord = DamagerRowWord(a, 20);
+
+    const std::uint32_t roll = Random::GetRandom(rangeMax + 1 - rangeMin, false);
+    const bool immunityApplies = immunityTime != 0 && damageType >= 0;
+    bool immune = false;
+    if (immunityApplies) {
+        TimerUtil* immunityTimer = target->GetImmunityTimer(damageType);
+        if (immunityTimer->GetRemainingTime() != 0) {
+            immune = true;
+        } else {
+            immunityTimer->Start(static_cast<unsigned int>(immunityTime));
+        }
+    }
+
+    std::int32_t damage = 0;
+    if (!immune) {
+        damage = (static_cast<std::int32_t>(roll) + rangeMin) * 256;
+    }
+    _F_ResetResult(result);
+    if (damage > 0) {
+        const int defence = target->CharProperties::_GetProperty(target->CharProperties::m_props, 134);
+        if (defence < b * 256) {
+            result.m_resultFlags |= kResultInjure;
+        }
+    }
+    result.m_damage = damage;
+    result.unk_24 = attackWord;
+}
 // 0x3b10b4 Character::F_ApplyResult(Character::AttackResult const&, Character*, Character*, bool)
 // PARTIAL, in order of the original: (1) the network notification (CMsgAttackResult and the GetOnline()+0x05 test, see
 // F_ApplyResult above) is not reproduced. (2) The hit counter (unk_14d0 of the attacker, a 16-bit word, cleared on a
-// hit) is reproduced. (3) The GOD option read through Singleton<Application>::s_inst.IsSavedOptionOn("GOD") has no
-// accessor for the Application singleton, so it counts as off here; the NoDamages and GOD switches and the target's
-// m_freeMana gate are reproduced. (4) The gold steal (attack flag 0x400000, ItemInventory::AddGold on the attacker),
-// the difficulty scaling of the damage (PlayerManager word +1732 read through dword_99F76C, DesignSettingsTable floats
-// at +52 and +56), the threat (CharAI::AI_AddAggro returns void in the header, the original tests its float result for
-// the isTracingThreatChange switch), the blood effect, the camera shake (Application::GetCurrentLevel()+0x128 is not
-// declared) and the PlayerStatManager counters (Singleton<PlayerStatManager>::s_inst, no accessor) are not reproduced.
+// hit) is reproduced. (3) The GOD option read through Singleton<Application>::s_inst.IsSavedOptionOn("GOD") is not
+// written here, so it counts as off; the NoDamages and GOD switches and the target's m_freeMana gate are reproduced.
+// (4) The gold steal (attack flag 0x400000, ItemInventory::AddGold on the attacker, declared), the difficulty scaling of
+// the damage (PlayerManager word +1732 read through dword_99F76C = Application +0x40, needs dh2/PlayerManager.hpp, which
+// does not compile beside Character.hpp), the threat (CharAI::AI_AddAggro now returns the float the original tests for
+// the isTracingThreatChange switch; not yet read here), the blood effect, the camera shake (Application::GetCurrentLevel
+// is declared; the CameraLevel fields are not) and the PlayerStatManager counters are not reproduced. The store to
+// CharStateMachine::m_deadAltAnim (public now) and HitFor on the target's m_netOwnerId are not yet written in this overload.
 void Character::F_ApplyResult(const AttackResult& result, Character* attacker, Character* target, bool suppressNetMessage) {
     (void)suppressNetMessage;
 
@@ -356,7 +438,7 @@ void Character::F_ApplyResult(const AttackResult& result, Character* attacker, C
     }
 
     if (!skipDamage && result.m_damage > 0) {
-        // PARTIAL: the store to CharStateMachine::m_deadAltAnim (private, layout request for a setter), the gold steal
+        // PARTIAL: the store to CharStateMachine::m_deadAltAnim (public now, not yet written in this overload), the gold steal
         // (attack flag 0x400000), the damage scaling, the threat, the blood effect, HitFor (when the target's +0x110
         // word is -1), the camera shake and the state machine branches are not reproduced (see above).
         ReadTraceSwitch("isTracingChar_Attack");

@@ -8,13 +8,21 @@
 #include <map>
 #include <string>
 
+#include "dh2/Application.hpp"
+#include "dh2/CharProperties.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/EventManager.hpp"
 #include "dh2/FlashAnimManager.hpp"
+#include "dh2/HUDControls.hpp"
+#include "dh2/InfoHUDManager.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/MenuBase.hpp"
+#include "dh2/MenuCharMenu_Map.hpp"
+#include "dh2/MenuDebugHUD.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuFlash2DCamera.hpp"
 #include "dh2/MenuManager.hpp"
+#include "dh2/MultiMenuManager.hpp"
 #include "dh2/SavegameManager.hpp"
 #include "dh2/global/MenuManagerGlobals.hpp"
 
@@ -78,13 +86,34 @@ void MenuManager::SwitchMenusToIngame() {
 }
 
 // 0x42d4bc _ZN11MenuManager10UnloadMenuEi
-// PARTIAL, not rebuilt. The original (1) calls MenuCharMenu_Map::GetInstance()->ClearAllIcons() when the
-// index is 1, (2) reads the MenuFX in m_multiMenuManager->m_menuFX[index] (MultiMenuManager +0x134),
-// (3) erases the m_menus entries that hold that MenuFX (deleting those with m_deleteOnUnload), (4) calls
-// FlashAnimManager::ResetScanForAnims with that MenuFX, and (5) calls MultiMenuManager::UnloadSWFFile.
-// dh2/MenuCharMenu_Map.hpp and dh2/MultiMenuManager.hpp are absent, so nothing is done here.
+// Index 1 first clears the MenuCharMenu_Map icons. The movie in MultiMenuManager slot index (m_menuFX[index]; an index
+// outside 0..3 has no movie, which is the original's unsigned test) is then detached: every menu whose m_menu is that
+// movie has m_menu cleared, is deleted when m_deleteOnUnload is set, and leaves m_menus. FlashAnimManager::ResetScanForAnims
+// is called with that movie (null when there is none), and MultiMenuManager::UnloadSWFFile(index) finishes the unload.
 void MenuManager::UnloadMenu(int index) {
-    (void)index;
+    if (index == 1) {
+        MenuCharMenu_Map::GetInstance()->ClearAllIcons();
+    }
+    MenuFX* movie = nullptr;
+    if (index >= 0 && index <= 3) {
+        movie = m_multiMenuManager->m_menuFX[index];
+    }
+    if (movie != nullptr) {
+        for (auto it = m_menus.begin(); it != m_menus.end();) {
+            MenuBase* menu = *it;
+            if (menu->m_menu == movie) {
+                menu->m_menu = nullptr;
+                if (menu->m_deleteOnUnload) {
+                    delete menu;
+                }
+                it = m_menus.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+    FlashAnimManager::GetInstance()->ResetScanForAnims(movie);
+    m_multiMenuManager->UnloadSWFFile(index);
 }
 
 // 0x42d59c _ZN11MenuManager21SwitchMenusToMainMenuEv
@@ -119,15 +148,21 @@ void MenuManager::SwitchMenusToMainMenu() {
 }
 
 // 0x42d72c _ZN11MenuManager10ResetFontsEv
-// PARTIAL, not rebuilt. The original forwards to MultiMenuManager::ResetFonts() on m_multiMenuManager
-// (+0xf4). dh2/MultiMenuManager.hpp is absent, so the forward is omitted.
-void MenuManager::ResetFonts() {}
+// Forwards to MultiMenuManager::ResetFonts() on m_multiMenuManager (+0xf4).
+void MenuManager::ResetFonts() {
+    m_multiMenuManager->ResetFonts();
+}
 
 // 0x42d73c _ZN11MenuManager5ResetEv
-// PARTIAL: the first loop of the original (MenuFX::PopAll on each of m_multiMenuManager->m_menuFX[0..3])
-// is not made, because dh2/MultiMenuManager.hpp is absent. The rest follows the original: every visible
-// menu gets Hide() (vtable +0x10), and m_resetListeners (+0x88) is set.
+// Pops every page of the four movies in MultiMenuManager (MenuFX::PopAll on each m_menuFX[0..3] that is set). Then each
+// visible menu gets Hide() (vtable +0x10), and m_resetListeners (+0x88) is set.
 void MenuManager::Reset() {
+    for (int i = 0; i != 4; ++i) {
+        MenuFX* movie = m_multiMenuManager->m_menuFX[i];
+        if (movie != nullptr) {
+            movie->PopAll();
+        }
+    }
     const int numMenus = GetNumMenus();
     for (int i = 0; i < numMenus; ++i) {
         MenuBase* menu = m_menus[i];
@@ -140,30 +175,28 @@ void MenuManager::Reset() {
 
 // 0x42dbb4 _ZN11MenuManagerD1Ev
 // 0x42dd38 _ZN11MenuManagerD2Ev (second emitted copy of the same body; one definition covers both)
-// PARTIAL. Rebuilt: the three EventManager detaches (events 5, 4, 7) on dword_99F740, the deletion of
-// the menus flagged m_deleteOnUnload, the clear of m_menus, and the clear of m_listeners. Omitted:
-// (a) the delete of m_multiMenuManager (MultiMenuManager vtable +0x04), because dh2/MultiMenuManager.hpp
-// is absent; (b) RenderFX::Finalize(...) followed by CharProperties::UnLoadPropNames(...): the RenderFX
-// placeholder declares no Finalize, and the decompiled call passes an argument to UnLoadPropNames while
-// dh2/CharProperties.hpp declares it static with no parameters, so the call is not guessed at.
-// The member destructors run after this body in the original's order: m_menuFXDeque (+0xcc), m_listeners
-// (+0x70), m_menus storage (+0x64), then DebugCachedCharacter (+0x20). The MultiMenuManager is leaked
-// until (a) is filled in.
+// PARTIAL. Rebuilt: the three EventManager detaches (events 5, 4, 7) on dword_99F740, the delete of m_multiMenuManager,
+// the deletion of the menus flagged m_deleteOnUnload, the clear of m_menus, and CharProperties::UnLoadPropNames(). The
+// members are destroyed after this body in the original's order (m_menuFXDeque, m_listeners, m_menus storage, then
+// DebugCachedCharacter), which the C++ member destruction order gives too.
+// Omitted: RenderFX::Finalize, which the original runs before UnLoadPropNames. The original passes the leftover r0 as this
+// and a gameswf::player_context* as r1 (the body of 0x7a97ac uses that argument), and dh2/RenderFX.hpp declares Finalize()
+// as a non-static member with no parameters. The call is not written until that declaration is settled.
 MenuManager::~MenuManager() {
     if (dword_99F740 != nullptr) {
         dword_99F740->Detach(5, this);
         dword_99F740->Detach(4, this);
         dword_99F740->Detach(7, this);
     }
-    // (a) delete of m_multiMenuManager omitted.
+    delete m_multiMenuManager;
     for (MenuBase* menu : m_menus) {
         if (menu->m_deleteOnUnload) {
             delete menu;
         }
     }
     m_menus.clear();
-    // (b) RenderFX::Finalize and CharProperties::UnLoadPropNames omitted.
-    m_listeners.clear();
+    // PARTIAL: RenderFX::Finalize(...) omitted, see above.
+    CharProperties::UnLoadPropNames();
 }
 
 // 0x42dd1c _ZN11MenuManagerD0Ev
@@ -200,19 +233,20 @@ void MenuManager::UnRegisterListener(MenuBase* menu) {
 }
 
 // 0x42e208 _ZN11MenuManager7PopMenuEP8MenuBase
-// PARTIAL: when the menu has a MenuFX (+0x04), the original asks the MultiMenuManager (+0xf4) through its
-// vtable +0x40 whether touch input is pending. If so it calls Application::ResetTouch() on
-// Singleton<Application>::s_inst, TouchScreenBase::ProcessEvents() on dword_99F74C, and MultiMenuManager
-// vtable +0x38 with false. dh2/MultiMenuManager.hpp and dh2/TouchScreenBase.hpp are absent, and no
-// Singleton<Application>::s_inst is declared, so that block is omitted. The compare with the HUD root and
-// the UnRegisterListener call are as in the original.
-// A null menu is undefined in the original (it reads address 4). This port returns without action.
+// PARTIAL: when the menu has a MenuFX (+0x04) and the MultiMenuManager reports its state in a movie stack (vtable +0x40,
+// IsStateInStack; the original passes the menu in r1, which is still the argument on entry), the original calls
+// Application::ResetTouch() on the Application singleton, TouchScreenBase::ProcessEvents() on m_touchScreen (+0x20), and
+// MultiMenuManager vtable +0x38 with false (PopMenu(false)). dh2/TouchScreenBase.hpp is absent, so the ProcessEvents call is
+// omitted and the rest of the touch step is written. The compare with the HUD root and the UnRegisterListener call are as
+// in the original. A null menu is undefined in the original (it reads address 4). This port returns without action.
 void MenuManager::PopMenu(MenuBase* menu) {
     if (menu == nullptr) {
         return;
     }
-    if (menu->m_menu != nullptr) {
-        // Touch-reset block omitted, see above.
+    if (menu->m_menu != nullptr && m_multiMenuManager->IsStateInStack(menu)) {
+        ApplicationGetInstance().ResetTouch();
+        // PARTIAL: TouchScreenBase::ProcessEvents(m_touchScreen) omitted, see above.
+        m_multiMenuManager->PopMenu(false);
     }
     if (menu->m_menu == GetHUDRoot()) {
         UnRegisterListener(menu);
@@ -268,24 +302,35 @@ void MenuManager::Draw(bool /*hudOnly*/) {
 }
 
 // 0x42ea04 _ZN11MenuManager6UpdateEb
-// PARTIAL. Rebuilt: the profiling scopes, the switch checks that return early (IsDeactivatingFlashMenus and
-// IsDeactivatingFlashMenusUpdate), the listener reset (m_resetListeners clears m_listeners), the
-// FlashAnimManager update, and the Update() of every visible menu. Omitted, with the reason:
-//  - leader and fillLeaderBoard(): neither is declared.
-//  - the MenuDebugHUD update, and the menu-update loop over m_multiMenuManager->m_menuFX: MenuDebugHUD and
-//    MultiMenuManager are absent. The loop's start index depends on the argument (3 when set, else 0).
-//  - the InteractionType block: PlayerManager::GetLocalPlayer returns a PlayerInfo (dh2/PlayerInfo.hpp is
-//    absent), and the block reads the Character field at +0x14a8 and the CSWTCH_6518 table, neither known.
-//  - RenderFX::SetWireFrame and RenderFX::InvokeASCallback: not declared in the RenderFX placeholder.
-//  - the frame time (Application::GetDt) and the in-game HUD update (IsCurrentlyInGameView, the InfoHUDManager
-//    and HUDControls updates): no Singleton<Application>::s_inst is declared.
-// The wireframe switch is still read, as in the original, so the switch file is loaded at the same point.
-void MenuManager::Update(bool /*hudOnly*/) {
+// PARTIAL. Rebuilt: the profiling scopes, the MenuDebugHUD update in a level, the frame time (Application::GetDt), the
+// IsDeactivatingFlashMenus and IsDeactivatingFlashMenusUpdate early returns, the listener reset (m_resetListeners clears
+// m_listeners), the Update of the MultiMenuManager movies (MenuFX::Update(dt, false); from index 3 when hudOnly, and the loop
+// stops at the HUD movie when the level is not in game view), the InfoHUDManager and HUDControls updates in game view, the
+// FlashAnimManager update, and the Update() of every visible menu. The isDisplayingMenuWireframe switch is still read.
+// Omitted, with the reason:
+//  - if (leader) fillLeaderBoard(): leader is declared (dh2/global/Globals.hpp) but fillLeaderBoard() (_Z15fillLeaderBoardv)
+//    has no declaration in the tree.
+//  - the InteractionType block: the Character at PlayerInfo +0x660 (PlayerManager::GetLocalPlayer(0, true)) maps its
+//    m_ooiInteractionType (+0x14a8) through the CSWTCH_6518 table (not recovered in the tree) into m_actionIconType (+0x108),
+//    and then calls FillActionIcon through RenderFX::InvokeASCallback. The table and the gameswf::as_value argument layout
+//    of that call are not confirmed, so the block is not written. Its profiling scope is kept.
+//  - the two RenderFX::SetWireFrame calls (false first, then true when the switch is set): RenderFX::SetWireFrame (0x7a7c34)
+//    takes its flag in r0 and uses no object, but dh2/RenderFX.hpp declares it as a non-static member, so it is not called.
+void MenuManager::Update(bool hudOnly) {
+    // if (leader) fillLeaderBoard(); omitted, see above.
     PushProfilingContext("MenuManager::Update");
+    if (ApplicationGetInstance().GetCurrentLevel() != nullptr) {
+        PushProfilingContext("MenuDebug::Update");
+        MenuDebugHUD::GetInstance()->Update();
+        PopProfilingContext("MenuDebug::Update");
+    }
+
     PushProfilingContext("MenuManager::InteractionType");
     // InteractionType block omitted, see above.
     PopProfilingContext("MenuManager::InteractionType");
-    (void)ReadDebugSwitch("IsDisplayingMenuWireframe");  // SetWireFrame omitted
+
+    // The two SetWireFrame calls are omitted, see above. The switch is still read, so the switch file loads at the same point.
+    (void)ReadDebugSwitch("IsDisplayingMenuWireframe");
 
     if (ReadDebugSwitch("IsDeactivatingFlashMenus")) {
         PopProfilingContext("MenuManager::Update");
@@ -296,14 +341,31 @@ void MenuManager::Update(bool /*hudOnly*/) {
         return;
     }
 
+    const int dt = ApplicationGetInstance().GetDt();
     if (m_resetListeners) {
         m_listeners.clear();
         m_resetListeners = false;
     }
 
-    // Per-frame update of the MultiMenuManager menus and the in-game HUD update omitted, see above.
+    for (int movie = hudOnly ? 3 : 0; movie != 4; ++movie) {
+        MenuFX* fx = m_multiMenuManager->m_menuFX[movie];
+        if (fx == nullptr) {
+            continue;
+        }
+        const Level* level = ApplicationGetInstance().GetCurrentLevel();
+        if (level != nullptr && movie == 3 && !level->m_isInGameView) {
+            break;  // the original leaves its loop here, so no later movie is updated
+        }
+        PushProfilingContext("Menu Update");
+        fx->Update(dt, false);
+        PopProfilingContext("Menu Update");
+    }
 
     PushProfilingContext("MenuManager::HUDManager");
+    if (ApplicationGetInstance().IsCurrentlyInGameView()) {
+        InfoHUDManager::GetInstance()->Update();
+        HUDControls::GetInstance()->Update();
+    }
     FlashAnimManager::GetInstance()->Update();
     PopProfilingContext("MenuManager::HUDManager");
 

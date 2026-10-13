@@ -3,12 +3,13 @@
 // state registration, the per-frame Update and the event dispatch. Rebuilt from the Hex-Rays pseudocode of
 // libDungeonHunter2.so. Offsets in comments are the original 32-bit ARM offsets.
 //
-// Not declared anywhere in this tree yet, so the statements that call them are left out and marked PARTIAL:
-//   - RenderFX (dh2/RenderFX.hpp is a placeholder): SetEventListener, SetContext, PlayAnim, FindCharacters,
-//     ResetFocus, SetFocus, Find, Controller::Reset, the flags word (+0xf8), the focus (+0x68), the context
-//     character (+0x40), and the RenderFX::Event layout (first word is the target character).
-//   - gameswf: weak_ptr<character> (MenuFX::State +0x48/+0x4c and +0x50/+0x54), the flag bytes of
-//     gameswf::character (+0x9b, +0xea), smart_ptr_proxy liveness, gameswf::array<State*>::reserve.
+// Not declared in this tree yet, so the statements that call them are left out and marked PARTIAL:
+//   - RenderFX (dh2/RenderFX.hpp): SetEventListener, Controller::Reset, the focus (+0x68) and the RenderFX::Event
+//     layout (first word is the target character). SetContext, PlayAnim, FindCharacters, ResetFocus, SetFocus, Find,
+//     GetFlashRoot, the flags word (+0xf8) and the context (+0x40) are declared now and used.
+//   - gameswf: weak_ptr<character> (MenuFX::State +0x48/+0x4c and +0x50/+0x54, void* in MenuFX.hpp), the flag bytes
+//     of gameswf::character (+0x9b, +0xea), the vtable +0x08 slot of gameswf::character, the parent weak pointer of
+//     gameswf::character (+0x3c, +0x40), smart_ptr_proxy liveness, gameswf::array<State*>::reserve.
 // A reserve call that grows m_states or m_stack is left out, and the element stores after it are kept as in
 // the original, so the integrator must wire gameswf::array before these paths run.
 
@@ -48,10 +49,17 @@ void MenuFX::Unload() {
 }
 
 // 0x7ac444 _ZN6MenuFX15SetFocusDefaultEv
-// PARTIAL: the whole body is left out. The original finds the "btn" characters under the context character
-// (+0x40) with RenderFX::FindCharacters(ctx, "btn", 3); with none it calls RenderFX::ResetFocus(0), otherwise
-// RenderFX::SetFocus(first button, 0). None of the three RenderFX methods is declared in dh2/RenderFX.hpp.
-void MenuFX::SetFocusDefault() {}
+// The "btn" characters under the context character (m_context, +0x40) are searched with
+// RenderFX::FindCharacters(ctx, "btn", 3). With none, RenderFX::ResetFocus(0) runs; otherwise
+// RenderFX::SetFocus(first button, 0). The result is the RenderFX member array (data +0x00, count +0x04).
+void MenuFX::SetFocusDefault() {
+    CharacterArray* buttons = FindCharacters(m_context, "btn", 3);
+    if (buttons->count <= 0) {
+        ResetFocus(0);
+    } else {
+        SetFocus(buttons->data[0], 0);
+    }
+}
 
 // 0x7ad88c _ZN6MenuFX6UpdateEib
 // PARTIAL: rebuilt are the base update and the top state's Update(dt). Not rebuilt:
@@ -121,11 +129,13 @@ void MenuFX::RegisterState(State* state, const char* movieName) {
 }
 
 // 0x7adff0 _ZN6MenuFX14RegisterStatesEPPNS_5StateEi
-// PARTIAL: the first loop is rebuilt (reserve omitted, as in RegisterState). Left out are the second loop, which
-// finds each menu with RenderFX::Find(name) and, when found, sets its weak pointer, clears its flag byte +0x9b
-// and calls Create() (when not found it logs "menu %s not found"), and the tail, which runs
-// RenderFX::FindCharacters(ctx, "btn", 0), calls the character's vtable +0x08 with 2 for each button and sets
-// its flag byte +0xea when that returns nonzero.
+// PARTIAL: the first loop is rebuilt (reserve omitted, as in RegisterState). Left out are the second loop and the
+// tail. The second loop calls RenderFX::Find(name), which is declared now, but Find returns gameswf::as_object*
+// while the original stores its result in a weak_ptr<character>. The State weak pointers are void* in
+// dh2/MenuFX.hpp, so that store cannot be made. The loop also clears the found character's flag byte +0x9b (no
+// gameswf::character layout is declared) and calls Create(); when not found it logs "menu %s not found" (message_log
+// is not declared). The tail runs RenderFX::FindCharacters(m_context, "btn", 0), which is declared now, calls each
+// button's vtable +0x08 with 2 (that slot's name is not known) and sets the button's flag byte +0xea when it is nonzero.
 void MenuFX::RegisterStates(State** states, int count) {
     for (int i = 0; i < count; ++i) {
         states[i]->m_menu = this;                // +0x04
@@ -140,35 +150,63 @@ void MenuFX::RegisterStates(State** states, int count) {
 }
 
 // 0x7ae284 _ZN6MenuFX7SetMenuEPKcb
-// PARTIAL: the transition follows the original's order, but its RenderFX and gameswf calls are left out because
-// they are not declared in this tree: PlayAnim ("hide", "focus_out", "focus_in", "show"), SetContext, SetFocus
-// and ResetFocus; the saved-focus weak pointers (+0x50/+0x54 of the old top, from RenderFX focus +0x68); the bits
-// 0x01, 0x08 and 0x40 of the RenderFX flags word (+0xf8); and the status values that the animation results set
-// (2 hiding, 4 focus out). The reserve that grows m_stack is left out.
-// Empty-stack SwitchMenu: the original decrements the size to -1 and stores at data[-1]; this port skips the
-// decrement and pushes at index 0 instead.
+// The order of the original is kept: LostFocus and, for a switch, Hide on the old top; then the hide animation
+// (a switch, or a push whose focus_out does not play) or the focus_out animation (a push), unless flags bit 0x40 is
+// set; the stack update; SetContext; the show animation (unless bit 0x40); SetFocusDefault (bit 0x01); then Show,
+// GotFocus and status 1 on the new state.
+// PARTIAL, left out:
+//  - the saved focus of the old top: the original stores RenderFX focus (+0x68, not declared in dh2/RenderFX.hpp)
+//    into the old top's +0x50 weak pointer, and the State weak pointers are void* in dh2/MenuFX.hpp;
+//  - the flags bit 0x08 block, which makes weak-pointer releases on the old top and the new state, calls the
+//    character's vtable +0x08 with 2 (that slot's name is not known) and sets the flag byte +0xea. Every path
+//    still reaches the common tail, so only these side effects are missing;
+//  - the flag byte +0x9b stored on the new state's character, and the release of a dead weak proxy on the new
+//    state (the GetCharacter calls below do not check the proxy either, see its row);
+//  - the reserve call that grows m_stack (gameswf::array growth is not wired in this tree);
+//  - HIBYTE(dword_98), a write to const memory that Hex-Rays flags.
+// Empty-stack SwitchMenu: the original decrements the size to -1, stores at data[-1] and leaves the size at 0, so
+// the new state is activated but not on the stack. This port stores nothing before the buffer and leaves the size
+// at 0, which gives the same stack size.
 void MenuFX::SetMenu(const char* name, bool push) {
     State* next = GetState(name);
     if (next == nullptr) {
         return;
     }
-    if (m_stack.m_size > 0) {
+    const bool hasTop = m_stack.m_size > 0;
+    if (hasTop) {
         State* top = m_stack.m_data[m_stack.m_size - 1];
         top->LostFocus();                        // vtable +0x18
         if (!push) {
             top->Hide();                         // vtable +0x10
         }
-        // PARTIAL: flag-dependent hide or focus_out animation of the old top, and its saved focus
+        if ((m_flags & 0x40) == 0) {
+            // A push plays focus_out first; when that plays nothing, the old top is hidden instead.
+            const bool focusOutPlayed = push && PlayAnim(top->GetCharacter(), "focus_out", 0) != 0;
+            if (focusOutPlayed) {
+                top->m_status = 4;               // +0x58, focus out
+            } else if (PlayAnim(top->GetCharacter(), "hide", 0) != 0) {
+                top->m_status = 2;               // +0x58, hiding
+            }
+        }
+        // PARTIAL: the saved focus of the old top (see the header comment above)
     }
-    if (!push && m_stack.m_size > 0) {
-        m_stack.m_size -= 1;                     // SwitchMenu replaces the top
+    if (push || hasTop) {
+        if (!push) {
+            m_stack.m_size -= 1;                 // SwitchMenu replaces the top
+        }
+        const int32_t index = m_stack.m_size;    // +0x118
+        // PARTIAL: if (index + 1 > m_stack.m_capacity) gameswf::array<State*>::reserve(&m_stack, ...)
+        m_stack.m_data[index] = nullptr;
+        m_stack.m_size = index + 1;
+        m_stack.m_data[index] = next;
     }
-    const int32_t index = m_stack.m_size;        // +0x118
-    // PARTIAL: if (index != -1 && index + 1 > m_stack.m_capacity) gameswf::array<State*>::reserve(&m_stack, ...)
-    m_stack.m_data[index] = nullptr;
-    m_stack.m_size = index + 1;
-    m_stack.m_data[index] = next;
-    // PARTIAL: focus restore and the show or focus_in animation, and RenderFX::SetContext
+    SetContext(next->GetCharacter());            // context is the new state's character (see the header comment)
+    if ((m_flags & 0x40) == 0) {
+        PlayAnim(next->GetCharacter(), "show", 0);
+    }
+    if ((m_flags & 1) != 0) {
+        SetFocusDefault();                       // vtable +0x24
+    }
     next->Show();                                // vtable +0x0c
     next->GotFocus();                            // vtable +0x14
     next->m_status = 1;                          // +0x58, shown
@@ -196,12 +234,21 @@ void MenuFX::PopAll() {
 }
 
 // 0x7ae808 _ZN6MenuFX7PopMenuEv
-// PARTIAL: the flag-dependent steps are left out (RenderFX flags word +0xf8, bits 0x40, 0x08 and 0x01): the
-// "hide" PlayAnim of the old top's character when bit 0x40 is clear, the saved-focus release when bit 0x08 is
-// set, the RenderFX::SetContext call that runs before the stack shrinks, the focus_in or show animation and the
-// saved-focus restore of the new top, and the weak-pointer releases. The reserve that shrinks m_stack is left
-// out. The steps every path makes are kept: LostFocus, Hide and status 2 for the popped state; GotFocus and
-// status 3 for the new top.
+// Order of the original: LostFocus, Hide and the hide animation (unless flags bit 0x40) on the popped top; status 2;
+// SetContext on the root character (GetFlashRoot, root +0x10); then the stack shrinks, SetContext on the new top, the
+// focus_in animation (or show when focus_in plays nothing, both unless bit 0x40), the saved-focus restore (bit
+// 0x01), GotFocus and status 3 on the new top.
+// PARTIAL, left out:
+//  - the flags bit 0x08 block before the stack shrinks: weak-pointer releases on the popped top and a call of the
+//    character's vtable +0x08 with 2 (that slot's name is not known) that clears the flag byte +0xea;
+//  - the flag byte +0x9b stored on the new top's character, and the release of its dead weak proxy;
+//  - the saved-focus restore when bit 0x01 is set. The original reads the new top's saved focus (+0x54) and its
+//    weak proxy (+0x50, void* in dh2/MenuFX.hpp) and calls ResetFocus(0) and SetFocus(saved, 0) only while the proxy
+//    is alive. The liveness check cannot be made on a void* proxy, so the restore is not made;
+//  - HIBYTE(dword_98), a write to const memory that Hex-Rays flags.
+// The GetCharacter calls below return the cached character without the proxy liveness check (see its row), so a
+// dead menu movie can still be passed to RenderFX.
+// The reserve that shrinks m_stack is never needed: the size only goes down here.
 // Empty stack: the original reads stack[-1]; this port returns.
 void MenuFX::PopMenu() {
     if (m_stack.m_size <= 0) {
@@ -210,13 +257,26 @@ void MenuFX::PopMenu() {
     State* top = m_stack.m_data[m_stack.m_size - 1];
     top->LostFocus();                            // vtable +0x18
     top->Hide();                                 // vtable +0x10
+    if ((m_flags & 0x40) == 0) {
+        PlayAnim(top->GetCharacter(), "hide", 0);  // the result is not used
+    }
     top->m_status = 2;                           // +0x58, hiding
+    // PARTIAL: flags bit 0x08 block (see the header comment)
+    SetContext(GetFlashRoot());                  // root character, root +0x10
     if (m_stack.m_size == 1) {
         m_stack.m_size = 0;
         return;
     }
     m_stack.m_size -= 1;
     State* below = m_stack.m_data[m_stack.m_size - 1];
+    // PARTIAL: flag byte +0x9b of below's character and the release of its dead proxy (see the header comment)
+    SetContext(below->GetCharacter());
+    if ((m_flags & 0x40) == 0) {
+        if (PlayAnim(below->GetCharacter(), "focus_in", 0) == 0) {
+            PlayAnim(below->GetCharacter(), "show", 0);
+        }
+    }
+    // PARTIAL: saved-focus restore when flags bit 0x01 is set (see the header comment)
     below->GotFocus();                           // vtable +0x14
     below->m_status = 3;                         // +0x58, focus back
 }

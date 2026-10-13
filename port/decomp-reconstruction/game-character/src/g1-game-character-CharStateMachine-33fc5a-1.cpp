@@ -5,19 +5,24 @@
 // Offsets in comments are the original 32-bit offsets inside CharStateMachine (this) unless a line says Character.
 // The original state map is an STLport tree. Here it is a std::map, so its tree walks become find() calls.
 //
-// PARTIAL rows: _SetState, _GetState, _GetEvent, RaiseStateEvent, SM_SetRevivedState, SM_SetRevivingState. Each
-// comment inside them names what is missing. The CharState slots (enter, exit, event) have no names or signatures
-// in dh2/CharState.hpp, and Character.hpp does not declare +0x2dc.
+// PARTIAL rows: _GetEvent and _GetState (an absent key returns nullptr, not the original's sentinel address),
+// RaiseStateEvent and SM_SetRevivedState and SM_SetRevivingState (the no-current-state exit of RaiseStateEvent returns
+// 0 where the original returns its this register). Each comment inside them names what is missing. _SetState is
+// reconstructed: its exit (OnBlur), enter (OnFocus) and event (OnEvent) slots are declared in dh2/CharState.hpp.
 
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/CharAnimator.hpp"
+#include "dh2/CharState.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/CharTimers.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/PhysicalObject.hpp"
 #include "dh2/Random.hpp"
 
 namespace {
@@ -109,20 +114,16 @@ CharStateMachine::StateInfo* CharStateMachine::_GetState(int stateId) {
 }
 
 // 0x3c1938 CharStateMachine::_SetState(int,int,void *)
-// PARTIAL. Two calls are missing because CharState declares its virtual slots without names or signatures:
-//   - the old state's exit slot (vtable +0x10), called with (old state id, character, this, new state id), and
-//   - the new state's enter slot (vtable +0x0c), called with (new state id, character, this, old state id,
-//     eventId, data).
-// The rest is in order. The previous id is taken before the exit slot, the new state becomes current, the state
-// timer (+0x60) restarts when the id changes, and RaiseEvent(29) is the last step. The previous id is passed as
-// the data value of that event, the way the original casts the integer to a pointer.
+// The previous id is taken first (-1 when there is no current state). The old state's exit slot (CharState vtable +0x10,
+// OnBlur) runs with (old id, character, this, new state id). The new state becomes current, its state timer (+0x60)
+// restarts when the id changes, and its enter slot (+0x0c, OnFocus) runs with (new id, character, this, previous id,
+// eventId, data). A missing state clears the current state. RaiseEvent(29) is the last step, and the previous id is
+// passed as its data value, the way the original casts the integer to a pointer.
 int CharStateMachine::_SetState(int stateId, int eventId, void* data) {
-    (void)eventId;
-    (void)data;
     int prevId = -1;
     if (m_curState != nullptr) {
         prevId = m_curState->m_id;
-        // PARTIAL: exit slot (+0x10) of m_curState->m_state is not called here.
+        m_curState->m_state->OnBlur(m_curState->m_id, m_character, this, stateId);  // vtable +0x10
     }
     if (_HasState(stateId)) {
         StateInfo* const next = _GetState(stateId);
@@ -130,7 +131,7 @@ int CharStateMachine::_SetState(int stateId, int eventId, void* data) {
         if (prevId != stateId) {
             m_stateTime = 0;  // +0x60
         }
-        // PARTIAL: enter slot (+0x0c) of next->m_state is not called here.
+        next->m_state->OnFocus(next->m_id, m_character, this, prevId, eventId, data);  // vtable +0x0c
     } else {
         m_curState = nullptr;
     }
@@ -256,18 +257,12 @@ CharStateMachine::~CharStateMachine() {
 // the compiler: delete runs the complete destructor and frees the object. Not written here.
 
 // 0x3c5684 CharStateMachine::RaiseStateEvent(int,void *)
-// PARTIAL. Three parts are not reproduced:
-//   1. The current state's event slot (vtable +0x18, called with (state id, character, this, eventId, data)) is
-//      missing. CharState has no named or typed signature for it yet.
-//   2. Event 0x30 pins Character +0x2dc (a PhysicalObject pointer; PhysicalObject::pin()) while SM_IsIdle(false)
-//      holds. Character.hpp does not declare +0x2dc.
-//   3. The isTracingCharSM probe calls DebugSwitches::load() and GetSwitch() on DebugSwitches::s_inst. That member
-//      is private in dh2/DebugSwitches.hpp, and the probe result is unused. Not reproduced.
-// The rest is in order: the status flags are cleared for events 0x2A to 0x2C, then the handler registered for the
-// (current state, event) pair runs, and the transition to its next state happens unless the handler returns false.
-// Return value (the header declares int): the handler result when it returns false (0), otherwise _SetState's int.
-// The early exits with no current state and no event return 0 here; the original returns its `this` register on
-// those paths, which is not recovered (PARTIAL).
+// PARTIAL on one exit only. With no current state the original returns its `this` register (for every event except
+// 0x30), a pointer to the state machine, and this returns 0, because the header declares an int result. The other
+// exits agree: after the state's event slot, a missing event or a handler that returns false gives 0, and otherwise the
+// result is _SetState's int. Event 0x30 pins the character's physical object while SM_IsIdle(false) holds. When there
+// is no current state, the original's return after that pin is the pin's leftover register, which is not recovered.
+// The probe on "isTracingCharSM" runs when the event is registered; its result is unused, as in the original.
 int CharStateMachine::RaiseStateEvent(int eventId, void* data) {
     switch (eventId) {
         case 0x2A:
@@ -281,7 +276,10 @@ int CharStateMachine::RaiseStateEvent(int eventId, void* data) {
             break;
         case 0x30:
             if (SM_IsIdle(false)) {
-                // PARTIAL: Character +0x2dc (PhysicalObject*) is pinned here, see above.
+                PhysicalObject* const phys = m_character->m_physicalObject;  // Character +0x2dc (GameObject member)
+                if (phys != nullptr) {
+                    phys->pin();
+                }
             }
             break;
         default:
@@ -290,10 +288,13 @@ int CharStateMachine::RaiseStateEvent(int eventId, void* data) {
     if (m_curState == nullptr) {
         return 0;  // PARTIAL: original returns its this register here, see above
     }
-    // PARTIAL: the state event slot (+0x18) of m_curState->m_state is not called here, see above.
+    // The state's event slot (vtable +0x18) runs first. The id is read again afterwards, as the original does.
+    m_curState->m_state->OnEvent(m_curState->m_id, m_character, this, eventId, data);
     if (!_HasEvent(m_curState->m_id, eventId)) {
-        return 0;  // PARTIAL: same as the no-state exit above
+        return 0;
     }
+    DebugSwitches::s_inst.load();
+    (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingCharSM"));
     Event* const ev = _GetEvent(m_curState->m_id, eventId);
     int nextState = ev->m_nextState;  // +0x08
     if (ev->m_handler) {
@@ -307,7 +308,7 @@ int CharStateMachine::RaiseStateEvent(int eventId, void* data) {
 
 // 0x3c5880 CharStateMachine::SM_SetRevivedState(void *,bool)
 // Immediate: _SetState(16, 50009). Otherwise the original tail-calls RaiseStateEvent(50009) and returns its int.
-// PARTIAL only because RaiseStateEvent is partial on its no-transition exits.
+// PARTIAL only through RaiseStateEvent's no-current-state exit (see there).
 int CharStateMachine::SM_SetRevivedState(void* data, bool immediate) {
     if (immediate) {
         return _SetState(16, 50009, data);
@@ -317,7 +318,7 @@ int CharStateMachine::SM_SetRevivedState(void* data, bool immediate) {
 
 // 0x3c58a4 CharStateMachine::SM_SetRevivingState(void *,bool)
 // Immediate: _SetState(15, 50007). Otherwise the original tail-calls RaiseStateEvent(50007) and returns its int.
-// PARTIAL only because RaiseStateEvent is partial on its no-transition exits.
+// PARTIAL only through RaiseStateEvent's no-current-state exit (see there).
 int CharStateMachine::SM_SetRevivingState(void* data, bool immediate) {
     if (immediate) {
         return _SetState(15, 50007, data);

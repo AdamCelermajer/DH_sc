@@ -3,6 +3,8 @@
 // rows in game-character/ledger.d/g1-game-character-CharAI-2ae0f1-2.csv repeat it.
 
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAIScript.hpp"
+#include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
@@ -42,12 +44,13 @@ void CharAI::AI_ScriptCleanUp() {
     if (m_script) {
         _SkillCleanUp();
         _SpellCleanUp();
-        // PARTIAL: the original ends with m_script->OnTerminate() (CharAIScript vtable slot 5, +0x14). dh2/CharAIScript.hpp
-        // is not in the tree yet, so that call is omitted.
+        m_script->OnTerminate();  // CharAIScript vtable slot 5 (+0x14)
     }
 }
 
 // 0x3cfde4 _ZN6CharAI13AI_ScriptInitEv
+// The timers are restarted from the CharacterDesign constants (ApplicationGetPyDataConstants, declared in
+// global/charai_ai.hpp; its definition belongs to the Application batches). The script hooks run last, when a script is loaded.
 void CharAI::AI_ScriptInit() {
     if (!m_character->IsDead()) {
         if (m_aiTickTimer != -1) {
@@ -62,8 +65,11 @@ void CharAI::AI_ScriptInit() {
         const int dotTick = ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "DoT_Tick");
         m_dotTimer = m_character->CharTimers::TMR_Start(dotTick, -1, 52, nullptr);
     }
-    // PARTIAL: when a script is loaded, the original then calls m_script->OnInit(), OnInitPost() and OnInitFinal()
-    // (CharAIScript vtable slots 2, 3 and 4). dh2/CharAIScript.hpp is not in the tree yet, so those calls are omitted.
+    if (m_script) {
+        m_script->OnInit();       // CharAIScript vtable slot 2 (+0x08)
+        m_script->OnInitPost();   // slot 3 (+0x0c)
+        m_script->OnInitFinal();  // slot 4 (+0x10)
+    }
 }
 
 // 0x3cff34 _ZN6CharAI15AI_InteractWithEP10GameObject
@@ -100,8 +106,10 @@ void CharAI::AI_DoMeleeAttack(GameObject* a2, bool a3) {
     if (m_character->IsDead()) {
         return;
     }
-    // PARTIAL: the original returns unless (Character +0x528 & 1) == 0. Character +0x528 is CharStateMachine::m_statusFlags
-    // (+0x2c, private there, bit 0 undocumented), so this gate is omitted until that flag has a public accessor.
+    // Character +0x528 is CharStateMachine::m_statusFlags (+0x2c). The original returns when bit 0 of it is set.
+    if (m_character->CharStateMachine::m_statusFlags & 1u) {
+        return;
+    }
     if (m_character->CanRangeAttack()) {
         AI_DoRangeAttack(a2, a3);
         return;
@@ -186,8 +194,10 @@ void CharAI::AI_DoRangeAttack(GameObject* a2, bool a3) {
     if (m_character->IsDead()) {
         return;
     }
-    // PARTIAL: the original returns unless (Character +0x528 & 1) == 0, the same gate as AI_DoMeleeAttack. Omitted until
-    // CharStateMachine::m_statusFlags has a public accessor.
+    // The same gate as AI_DoMeleeAttack: Character +0x528 is CharStateMachine::m_statusFlags, and bit 0 set returns.
+    if (m_character->CharStateMachine::m_statusFlags & 1u) {
+        return;
+    }
     // CanRangeAttack(int&, int&, int&) returns the range through its second output; the other two are not read here.
     int unusedA = 0;
     int maxRange = 0;
@@ -241,86 +251,106 @@ void CharAI::AI_DoRangeAttack(GameObject* a2, bool a3) {
     }
 }
 
-// The hook forwarders below call the loaded script (m_script), whose class has the same hook slots as CharAI. The
-// header dh2/CharAIScript.hpp is not in the tree yet, so each forwarder is a PARTIAL stub that makes no call.
+// The hook forwarders below call the loaded script (m_script, CharAI +0x1c). Each one checks m_script and makes the call
+// through the same CharAIScript vtable slot the binary uses (the slot is named in the comment). When no script is loaded,
+// the original returns without a call; the void forwarders have no result to return.
 
 // 0x3d0b80 _ZN6CharAI10OnInitPostEv
 void CharAI::OnInitPost() {
-    // PARTIAL: forwards to m_script->OnInitPost() (CharAIScript vtable slot 3). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnInitPost();  // slot 3, +0x0c
+    }
 }
 
 // 0x3d0ba4 _ZN6CharAI11OnInitFinalEv
 void CharAI::OnInitFinal() {
-    // PARTIAL: forwards to m_script->OnInitFinal() (CharAIScript vtable slot 4). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnInitFinal();  // slot 4, +0x10
+    }
 }
 
 // 0x3d0bc8 _ZN6CharAI5OnMsgEiPKv
 void CharAI::OnMsg(int msg, const void* data) {
-    // PARTIAL: forwards to m_script->OnMsg(msg, data) (CharAIScript vtable slot 7). Waits on dh2/CharAIScript.hpp.
-    (void)msg;
-    (void)data;
+    if (m_script) {
+        m_script->OnMsg(msg, data);  // slot 7, +0x1c
+    }
 }
 
 // 0x3d0bec _ZN6CharAI14OnStateChangedEii
 void CharAI::OnStateChanged(int newState, int oldState) {
-    // PARTIAL: forwards to m_script->OnStateChanged(newState, oldState) (CharAIScript vtable slot 8). Waits on
-    // dh2/CharAIScript.hpp.
-    (void)newState;
-    (void)oldState;
+    if (m_script) {
+        m_script->OnStateChanged(newState, oldState);  // slot 8, +0x20
+    }
 }
 
 // 0x3d0c10 _ZN6CharAI7OnTimerEPv
 void CharAI::OnTimer(void* timer) {
-    // PARTIAL: forwards to m_script->OnTimer(timer) (CharAIScript vtable slot 32). Waits on dh2/CharAIScript.hpp.
-    (void)timer;
+    if (m_script) {
+        m_script->OnTimer(timer);  // slot 32, +0x80
+    }
 }
 
 // 0x3d0c34 _ZN6CharAI13OnStunExpiredEv
 void CharAI::OnStunExpired() {
-    // PARTIAL: forwards to m_script->OnStunExpired() (CharAIScript vtable slot 33). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnStunExpired();  // slot 33, +0x84
+    }
 }
 
 // 0x3d0c58 _ZN6CharAI13OnFearExpiredEv
 void CharAI::OnFearExpired() {
-    // PARTIAL: forwards to m_script->OnFearExpired() (CharAIScript vtable slot 34). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnFearExpired();  // slot 34, +0x88
+    }
 }
 
 // 0x3d0c7c _ZN6CharAI20OnAttackDelayExpiredEv
 void CharAI::OnAttackDelayExpired() {
-    // PARTIAL: forwards to m_script->OnAttackDelayExpired() (CharAIScript vtable slot 35). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnAttackDelayExpired();  // slot 35, +0x8c
+    }
 }
 
 // 0x3d0ca0 _ZN6CharAI13OnScriptTimerEj
 void CharAI::OnScriptTimer(unsigned int id) {
-    // PARTIAL: forwards to m_script->OnScriptTimer(id) (CharAIScript vtable slot 36). Waits on dh2/CharAIScript.hpp.
-    (void)id;
+    if (m_script) {
+        m_script->OnScriptTimer(id);  // slot 36, +0x90
+    }
 }
 
 // 0x3d0cc4 _ZN6CharAI11OnAnimEventEPKc
 void CharAI::OnAnimEvent(const char* name) {
-    // PARTIAL: forwards to m_script->OnAnimEvent(name) (CharAIScript vtable slot 37). Waits on dh2/CharAIScript.hpp.
-    (void)name;
+    if (m_script) {
+        m_script->OnAnimEvent(name);  // slot 37, +0x94
+    }
 }
 
 // 0x3d0ce8 _ZN6CharAI11OnEndOfAnimEv
 void CharAI::OnEndOfAnim() {
-    // PARTIAL: forwards to m_script->OnEndOfAnim() (CharAIScript vtable slot 38). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnEndOfAnim();  // slot 38, +0x98
+    }
 }
 
 // 0x3d0d0c _ZN6CharAI13OnPreInteractEv
 bool CharAI::OnPreInteract() {
-    // PARTIAL: the original returns m_script->OnPreInteract() (CharAIScript vtable slot 39), or 0 when no script is loaded.
-    // Waits on dh2/CharAIScript.hpp. The stub returns false.
+    // The script's answer is returned; with no script loaded the original returns 0.
+    if (m_script) {
+        return m_script->OnPreInteract();  // slot 39, +0x9c
+    }
     return false;
 }
 
 // 0x3d0d38 _ZN6CharAI10OnInteractEv
 void CharAI::OnInteract() {
-    // PARTIAL: forwards to m_script->OnInteract() (CharAIScript vtable slot 40). Waits on dh2/CharAIScript.hpp.
+    if (m_script) {
+        m_script->OnInteract();  // slot 40, +0xa0
+    }
 }
 
 // 0x3d0d5c _ZN6CharAI15OnProjectileHitEP10GameObject
 void CharAI::OnProjectileHit(GameObject* target) {
-    // PARTIAL: forwards to m_script->OnProjectileHit(target) (CharAIScript vtable slot 43). Waits on dh2/CharAIScript.hpp.
-    (void)target;
+    if (m_script) {
+        m_script->OnProjectileHit(target);  // slot 43, +0xac
+    }
 }

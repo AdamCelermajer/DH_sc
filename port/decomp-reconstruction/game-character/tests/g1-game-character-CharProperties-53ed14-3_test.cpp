@@ -1,7 +1,7 @@
 // Checks the CharProperties units of batch g1-game-character-CharProperties-53ed14-3 that run without the engine: the
 // ClassFunc operations, the class walk (_LoadClass, _Group), the gear loaders, the property-name lookups and the BuffDecl
-// constructors. PROPS_AddBuff, PROPS_AddDot and PROPS_DebuffSlow need CharTimers, a live Character and the name tables,
-// so they are not run here.
+// constructors, and the FX grab of PROPS_AddBuff (duration 0, so no timer is started). PROPS_AddDot and PROPS_DebuffSlow
+// need the name tables, so they are not run here.
 // Link: this test is built with the batch 3 source (g1-game-character-CharProperties-53ed14-3.cpp) and the batch 0 and
 // batch 1 sources. The definitions below are test doubles for the other classes' functions those sources call.
 // Table rows are built with `new` for the classes that have default constructors. Item rows are raw test memory, and
@@ -25,6 +25,8 @@
 
 #define private public
 #include "dh2/Character.hpp"
+#include "dh2/StreamReader.hpp"
+#include "dh2/VisualFXManager.hpp"
 #undef private
 
 // ---- Engine globals and out-of-line members that the test links against ----
@@ -56,7 +58,14 @@ void ItemPowerRef::read(IStreamBase*) {}
 Structs::CharacterProperties CharProperties::s_temp;
 std::vector<char*> CharProperties::s_propNames;
 
-std::uint8_t* Arrays::CharacterTable::members = nullptr;
+namespace Structs {
+pydata::NameTable CharacterProperties::m_dataNames;  // batch 0's DBG_PROPS_GetName reads it
+}  // namespace Structs
+
+// Two zeroed character-table rows (row 0 default, row 1 type). The constructor resets its sheets from row 0, so the
+// table must not be null.
+static Structs::CharacterProperties g_charTableRows[2];
+std::uint8_t* Arrays::CharacterTable::members = reinterpret_cast<std::uint8_t*>(g_charTableRows);
 std::uint32_t Arrays::CharacterTable::size = 0;
 std::uint8_t* Arrays::ClassTable::members = nullptr;
 std::uint32_t Arrays::ClassTable::size = 0;
@@ -75,6 +84,26 @@ void CharTimers::TMR_Stop(unsigned int) {}
 bool CharTimers::TMR_TimeLeft(unsigned int, unsigned int&, unsigned int&) const { return false; }
 
 bool Character::IsBoss() const { return false; }
+
+// The stream reads of ReadPropNames (batch 3). The name file is never opened here, so the reads report an empty table.
+template <>
+unsigned int StreamReader::readAs<unsigned int>(IStreamBase*) {
+    return 0;
+}
+bool StreamReader::readStringEx(IStreamBase*, char*, std::uint64_t) { return true; }
+
+// The effect manager. GrabAnimFX records each request and returns a stand-in address (never dereferenced here).
+static std::vector<std::pair<int, const void*>> g_grabs;
+VisualFXManager::VisualFXManager() {}
+VisualFXManager::~VisualFXManager() {}
+VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
+VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
+VisualFXManager VisualFXManager::s_inst;
+AnimatedFX* VisualFXManager::GrabAnimFX(int effectDictId, GameObject* object) {
+    g_grabs.emplace_back(effectDictId, object);
+    static int standIn = 0;
+    return reinterpret_cast<AnimatedFX*>(&standIn);
+}
 void Character::F_DotAttack(AttackResult&, Character*, Character*, int, int) {}
 void Character::F_ApplyResult(const AttackResult&, Character*, Character*, bool) {}
 int Character::SG_GetCurrentFaerieId(int) const { return -1; }
@@ -374,6 +403,23 @@ static void TestDotIsNotAdded() {
     CHECK(cp.m_buffs.empty());
 }
 
+// PROPS_AddBuff takes the class's FX once: a new class declaration with an FX id grabs it, a later instance of the
+// class does not grab it again, and a declaration with id -1 grabs nothing. The duration is 0, so no timer is started.
+static void TestBuffFxGrab() {
+    static char characterStorage[64];  // stand-in for the owning Character; the grab only passes it on
+    CharProperties cp;
+    cp.m_character = reinterpret_cast<Character*>(characterStorage);
+    g_grabs.clear();
+
+    CHECK(cp.PROPS_AddBuff(20, 0, 2, 1, 42, "fire") != nullptr);
+    CHECK(g_grabs.size() == 1 && g_grabs[0].first == 42 && g_grabs[0].second == characterStorage);
+    CHECK(cp.m_buffs.find(20)->second.m_fx != nullptr);
+    CHECK(cp.PROPS_AddBuff(20, 0, 2, 1, 42, "fire") != nullptr);
+    CHECK(g_grabs.size() == 1);
+    CHECK(cp.PROPS_AddBuff(21, 0, 2, 1, -1, "slow") != nullptr);
+    CHECK(g_grabs.size() == 1 && cp.m_buffs.find(21)->second.m_fx == nullptr);
+}
+
 int main() {
     TestClassFuncOperations();
     TestClassWalk();
@@ -381,6 +427,7 @@ int main() {
     TestPropertyNames();
     TestBuffDeclConstructors();
     TestDotIsNotAdded();
+    TestBuffFxGrab();
     if (failures != 0) {
         std::printf("%d check(s) failed\n", failures);
         return 1;

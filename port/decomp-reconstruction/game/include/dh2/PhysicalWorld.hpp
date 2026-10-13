@@ -35,9 +35,10 @@ public:
     b2Body* createBody(b2BodyDef* def);                                     // 0x34bcf0 null def returns null
     void destroyBody(b2Body*& body);                                        // 0x34bcc8 destroys the body and clears the pointer
 
-    // Decides which side of a contact belongs to `first`: the contact point's offset from first's body, dotted with
-    // first's getLookAt vector (slot 7), is positive. When first's body has no mass, the answer comes from the
-    // second shape's body instead.
+    // Decides which side of a contact belongs to `first`: the contact point's offset from the body of point->shape1
+    // (first's shape body, m_xf.position), dotted with first's getLookAt vector (slot 7), is positive. When that body
+    // has no mass, the answer comes from point->shape2's body instead. The fourth argument is passed by the callers
+    // and never read.
     bool _IsShape1Instigator(const b2ContactPoint* point, PhysicalBaseObject* first, PhysicalBaseObject* second);  // 0x34c1e4
 
     b2World* m_world;                                                       // +0x10 the Box2D world (operator new(0x19278)); null until load()

@@ -1,53 +1,49 @@
 // Batch g1-game-anim-CharAnimator-2af513-2: CharAnimator::Update (0x3caf3c). Declaration from dh2/CharAnimator.hpp.
 //
-// Partial. The control flow follows the Hex-Rays body and the assembly. The stop-loop halfword store at +0x49
-// (Hex-Rays "*(_WORD *)(this + 73) = 1") is two byte stores in the binary (STRBNE at +0x4a and +0x49): m_stopLoop
-// becomes 0 and m_animFinished becomes 1. Three inputs are not available in this tree and are unresolved:
-//   1. Character +0x520 bit 0x200. That word is CharStateMachine m_stateFlags (CharStateMachine +0x24, base at
-//      Character +0x4fc). The field is private to CharStateMachine and has no accessor. The bit is taken as set, so
-//      the update body runs; the clear case is the early exit.
-//   2. The Arrays::AnimTable row words, 20-byte file stride: +0x08 is the step count and +0x10 the sequence flag
-//      (1 selects the step path). Rows are not decoded into host elements yet. The flag is taken as 0, so the step
-//      path is not taken and the loop and stop path runs; the step path is written and waits on the rows.
-//   3. PushProfilingContext / PopProfilingContext (at entry and on every exit). Their declarations are not in the
-//      tree, so the calls are omitted.
+// The control flow follows the Hex-Rays body and the assembly. The stop-loop halfword store at +0x49 (Hex-Rays
+// "*(_WORD *)(this + 73) = 1") is two byte stores in the binary: m_animFinished becomes 1 and m_stopLoop becomes 0.
+// The inputs that were unresolved are now declared:
+//   - Character +0x520 bit 0x200 is CharStateMachine::m_stateFlags (CharStateMachine +0x24, base at Character +0x4fc).
+//   - The Arrays::AnimTable record of the current anim is read through the typed host element (Structs::AnimTpl):
+//     m_w2 is the step count (+0x08) and m_w4 the sequence flag (+0x10, 1 selects the step path).
+//   - PushProfilingContext / PopProfilingContext are declared in dh2/global/runtime_support.hpp and bracket the body.
+// The body calls IncAnimSetUsers and DecAnimSetUsers, which are partial in g1-game-anim-CharAnimator-2af513-0.cpp (the
+// users counter of glitch::collada::CAnimationSet is not declared), and _SetAnim and _SetAnimStep, which are partial in
+// g1-game-anim-CharAnimator-2af513-1.cpp.
 
 #include "dh2/CharAnimator.hpp"
 
 #include <cstdint>
 
+// runtime_support.hpp before Character.hpp: Character.hpp renames MemoryHintState for its net-transport copy while it
+// is included, so memory.hpp must be read first.
+#include "dh2/global/runtime_support.hpp"       // PushProfilingContext, PopProfilingContext
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::AnimStep, the step records of an AnimTable record
+#include "pydata-accessors/w7_arrays_02.hpp"     // Arrays::AnimTable::members and size
+#include "pydata-accessors/w7_structs_5.hpp"     // Structs::AnimTpl, the Arrays::AnimTable element
+
+namespace {
+
+// The Arrays::AnimTable record of animId, a host Structs::AnimTpl element (see g1-game-anim-CharAnimator-2af513-1.cpp).
+const Structs::AnimTpl& AnimTableRecord(int animId) {
+    const auto* records = static_cast<const Structs::AnimTpl*>(static_cast<const void*>(Arrays::AnimTable::members));
+    return records[animId];
+}
+
+}  // namespace
 
 namespace charanimator_detail {
 
 // Switch name read by the trace calls in the original (string literal).
 const char kTraceCharAnimatorSwitch[] = "isTracingCharAnimator";
 
-// The trace read in the original: DebugSwitches::load on the singleton, then GetSwitch with the result discarded.
-// GetInstance() calls load() and then returns the singleton, so this is the same sequence. GetSwitch inserts a false
-// entry for an unknown name, as the original does.
+// The trace read in the original: DebugSwitches::load(&s_inst), then GetSwitch(&s_inst, name) with the result discarded.
+// GetSwitch inserts a false entry for an unknown name, as the original does.
 void TraceCharAnimatorSwitch() {
-    (void)DebugSwitches::GetInstance()->GetSwitch(kTraceCharAnimatorSwitch);
-}
-
-// UNRESOLVED: Character +0x520 bit 0x200 (see the top of this file). Taken as set.
-bool StateFlag200Set(const Character* character) {
-    (void)character;
-    return true;
-}
-
-// UNRESOLVED: Arrays::AnimTable row word +0x08 for animId. The row is not decoded yet, so 0 is returned.
-int AnimTableStepCount(int animId) {
-    (void)animId;
-    return 0;
-}
-
-// UNRESOLVED: Arrays::AnimTable row word +0x10 for animId (1 selects the step path). The row is not decoded yet,
-// so 0 is returned and the step path is not taken.
-int AnimTableSequenceFlag(int animId) {
-    (void)animId;
-    return 0;
+    DebugSwitches::s_inst.load();
+    (void)DebugSwitches::s_inst.GetSwitch(kTraceCharAnimatorSwitch);
 }
 
 // Loop counter decrement before the trace read: a positive count goes down by one; zero and negative (forever) stay.
@@ -69,14 +65,14 @@ bool StepReachesEnd(int step, int stepCount) {
 }  // namespace charanimator_detail
 
 // 0x3caf3c _ZN12CharAnimator6UpdateEv
-// partial: the profiler push and pop are omitted (no declaration in the tree). The three unresolved inputs are listed
-// at the top of this file, and each is marked at its use.
 void CharAnimator::Update() {
-    if (!charanimator_detail::StateFlag200Set(m_character)) {   // Character +0x520 & 0x200 == 0
+    PushProfilingContext("CharAnimator::Update");
+    if ((m_character->m_stateFlags & 0x200u) == 0) {            // Character +0x520 (CharStateMachine m_stateFlags) & 0x200
         if (m_usersAdded) {                                     // +0x5c
             DecAnimSetUsers();
         }
         m_usersAdded = false;
+        PopProfilingContext("CharAnimator::Update");
         return;
     }
     if (!m_usersAdded) {
@@ -94,14 +90,15 @@ void CharAnimator::Update() {
     if (stopLoopWas || animFinishedWas) {
         const unsigned int stackIdx = m_animStackIdx;           // v4, cached for the whole step
         const int animId = m_animStack[stackIdx].m_animId;      // row of Arrays::AnimTable (v6)
+        const Structs::AnimTpl& record = AnimTableRecord(animId);
         m_character->RaiseEvent(39, nullptr);
 
         bool loopPath = false;                                  // the original's goto LABEL_13
-        if (charanimator_detail::AnimTableSequenceFlag(animId) != 1) {
+        if (record.m_w4 != 1) {                                 // +0x10 sequence flag
             m_character->RaiseEvent(37, nullptr);
             loopPath = true;
         } else {
-            const int stepCount = charanimator_detail::AnimTableStepCount(animId);
+            const int stepCount = static_cast<int>(record.m_w2);  // +0x08 StepsSize
             if (m_animStack[stackIdx].m_stepIndex + 1 == stepCount) {
                 m_character->RaiseEvent(37, nullptr);
             }
@@ -151,4 +148,5 @@ void CharAnimator::Update() {
         ANIM_Set(m_pendingAnim);
         m_pendingAnim = -1;
     }
+    PopProfilingContext("CharAnimator::Update");
 }

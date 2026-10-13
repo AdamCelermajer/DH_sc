@@ -2,15 +2,16 @@
 //
 // Covers the arithmetic helpers the Update body uses for its loop counter and step-end tests
 // (charanimator_detail::DecrementLoopCount, StoredLoopCount, StepReachesEnd). Update itself is not called: its state
-// is in private members, and two of its inputs (Character +0x520 bit 0x200 and the Arrays::AnimTable row words) are
-// unresolved. The functions Update calls that are defined elsewhere are stubbed so this unit links alone.
+// is in private members. The functions Update calls that are defined elsewhere are stubbed so this unit links alone.
 
+#include <cstdint>
 #include <cstdio>
 #include <string>
 
 #include "dh2/CharAnimator.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "pydata-accessors/w7_arrays_02.hpp"
 
 namespace charanimator_detail {
 int DecrementLoopCount(int loopCount);
@@ -29,9 +30,18 @@ void CharAnimator::ANIM_Set(int) {}
 void CharAnimator::_SetAnim(int, unsigned int) {}
 void CharAnimator::_SetAnimStep(unsigned int) {}
 
-DebugSwitches* DebugSwitches::GetInstance() {
-    return nullptr;
-}
+void PushProfilingContext(const char*) {}
+void PopProfilingContext(const char*) {}
+
+// Arrays::AnimTable storage (defined in pydata-accessors w7_arrays_02.cpp, not linked here). Update is not called.
+std::uint8_t* Arrays::AnimTable::members = nullptr;
+std::uint32_t Arrays::AnimTable::size = 0;
+
+// DebugSwitches::s_inst (game-app Globals). The trace calls are not reached by this test.
+DebugSwitches::DebugSwitches() {}
+DebugSwitches::~DebugSwitches() {}
+DebugSwitches DebugSwitches::s_inst;
+void DebugSwitches::load() {}
 
 bool DebugSwitches::GetSwitch(const std::string&) {
     return false;

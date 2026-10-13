@@ -16,12 +16,17 @@
 #include <utility>
 #include <vector>
 
+#include "dh2/Application.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/Character.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/member_names.hpp"
+#include "pydata-accessors/name_table.hpp"
 
 // ---- stub state ---------------------------------------------------------------------------------------------------------
 
@@ -54,6 +59,20 @@ void v2Controller::Cmd_MoveTo(GameObject* target) {
     g_moveToTarget = target;
     ++g_moveCalls;
 }
+
+// Animation, camera and name-table calls of _ParseObjectAnimEvent and _OnAnimStepEnd_SkillSpell. The checks do not reach them.
+void CharAnimator::ANIM_StopLoop(bool) {}
+void CharAnimator::ANIM_Set(int) {}
+Application& ApplicationGetInstance() {
+    alignas(Application) static unsigned char storage[sizeof(Application)];
+    return *reinterpret_cast<Application*>(storage);
+}
+Level* Application::GetCurrentLevel() const { return nullptr; }
+bool CameraLevel::CanPlayShakeAnim(Character*) const { return false; }
+bool CameraLevel::PlayAnim(int, int, bool) { return false; }
+int pydata::FindMemberName(const pydata::NameTable&, int, const char*) { return -1; }
+pydata::NameTable Arrays::AnimTable::m_memberNames;
+pydata::NameTable Arrays::AnimDict::m_memberNames;
 
 // ---- checks ------------------------------------------------------------------------------------------------------------
 

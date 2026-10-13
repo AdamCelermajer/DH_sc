@@ -1,8 +1,9 @@
 // AnimController constructor, rebuilt from libDungeonHunter2.so (Hex-Rays and the 0x474e44 disassembly).
-// Status: partial. Rebuilt: the m_node store, the null-node assert, and the do-nothing callbacks used when
-// trackEvents is clear. Missing (waits on dh2/RootSceneNode.hpp, not written yet): the reference-count step and
-// the trackEvents call. RootSceneNode is only forward-declared in the game headers.
+// Status: partial. Rebuilt: the m_node store, the null-node assert, the reference-count step on the node's second
+// subobject, and the do-nothing callbacks used when trackEvents is clear. Missing: the trackEvents call (the node's
+// virtual at vptr+0x74, see below), which needs an ISceneNode base on RootSceneNode.
 #include "dh2/AnimController.hpp"
+#include "dh2/RootSceneNode.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -30,14 +31,17 @@ AnimController::AnimController(RootSceneNode* node, bool trackEvents) : m_node(n
         std::abort();
     }
 
-    // partial: the reference-count step is not rebuilt. The original adds 1 to the counter of the base subobject
-    // of *m_node: the subobject offset is read from the node's vtable at vptr-12 (524 in RootSceneNode's vtable),
-    // and the counter is at +4 inside it.
+    // Reference count: the original adds 1 to the counter of the second subobject of *m_node. Its offset is read from
+    // the node's vtable at vptr-12 (524 = 0x20c in RootSceneNode's vtable), and the counter is at +4 inside it, which
+    // is RootSceneNode::m_secondaryRefCount (+0x210, dh2/RootSceneNode.hpp).
+    ++m_node->m_secondaryRefCount;
 
     if (!trackEvents) {
         SetCallbacksOnAll(&AnimController::_CBAnim_DoNothing, this, &AnimController::_CBEvent_DoNothing, this);
     }
-    // partial: when trackEvents is set, the original calls the node's virtual at vptr+0x74 with the node as this
-    // (vtables-001.json: glitch::scene::ISceneNode::removeAnimators(), not verified). Not rebuilt until
-    // RootSceneNode is declared.
+    // partial: when trackEvents is set, the original calls the node's virtual at vptr+0x74 with the node as this.
+    // Hex-Rays gives the call as +116 (0x74). Per the RootSceneNode listing of decomp_vtable.py (+0x80, address point
+    // +0x0c, as getPosition's +0xac / vptr+0xa0 shows) that slot is glitch::scene::ISceneNode::removeAnimators().
+    // Not written: RootSceneNode has no ISceneNode base in glitch-scene-collada-gui/root_scene_node.hpp, so the call
+    // has no declared target. Not verified in IDA.
 }

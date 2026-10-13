@@ -4,17 +4,21 @@
 // functions that are not linked here, so each one is replaced by a stub that only records the call.
 // The Door storage is zero-filled and never constructed, so every call goes through a qualified
 // (non-virtual) name. A null m_visualObject keeps the AnimController path out of the test; the state,
-// moving and flag transitions are what the test checks. The PFWorld flag calls are partial and not
-// checked here.
+// moving and flag transitions are what the test checks. The PFWorld flag calls, the Lua binder and the
+// PODecor body are stubbed so the bodies link; r2a-game-world-Door-478d47-0_test.cpp checks them.
 
 #include <cstdio>
 #include <cstring>
 
+#include "dh2/Application.hpp"
 #include "dh2/Door.hpp"
 
 #include "dh2/IStreamBase.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/sfc/script/lua/Binder.hpp"
 
 namespace {
 
@@ -94,6 +98,29 @@ template <>
 void IStreamBase::writeAs<Door::DoorStates>(const Door::DoorStates& value) {
     g_writtenState = static_cast<int>(value);
 }
+
+// Stubs for the calls the Door bodies make into PFWorld, the Lua binder, PODecor and the Application instance.
+// Only the links matter here: the flag, binding and body calls are checked in the r2a test.
+alignas(16) unsigned char g_g1PFWorldStorage[sizeof(PFWorld)] __asm__("_ZN9SingletonI7PFWorldE6s_instE");
+namespace {
+alignas(16) unsigned char g_g1Application[sizeof(Application)];
+}  // namespace
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_g1Application);
+}
+void PFWorld::FlagFloorAsDeadEnd(const PFObject&, bool) {}
+void GameObject::SetPhysicalObject(PhysicalObject*, bool) {}
+void PODecorConstructStub(void*, PhysicalWorld*, GameObject*, bool)
+    __asm__("_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb");
+void PODecorConstructStub(void*, PhysicalWorld*, GameObject*, bool) {}
+namespace sfc {
+namespace script {
+namespace lua {
+void Binder::bindMethod(const char*, void (*)(const Arguments&, ReturnValues&, void*)) {}
+void Binder::bindFunction(const char*, void (*)(const Arguments&, ReturnValues&, void*), void*) {}
+}  // namespace lua
+}  // namespace script
+}  // namespace sfc
 
 int main() {
     Door* d = Storage();

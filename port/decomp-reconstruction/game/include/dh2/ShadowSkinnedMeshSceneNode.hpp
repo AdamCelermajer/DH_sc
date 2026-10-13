@@ -6,6 +6,14 @@
 // +0x1a8) ends the object at 0x1ac.
 // Reconstructed from libDungeonHunter2.so pseudocode (ctors 0x361b54 / 0x361f24, dtors 0x360b7c / 0x360c60 /
 // 0x360c7c, methods 0x35dc98, 0x35dcb4, 0x35f780, 0x35ffb8, 0x3607a0, 0x360948).
+//
+// Does not compile yet: BaseMeshSceneNode<glitch::collada::CSkinnedMeshSceneNode> needs that class complete, and the
+// tree has no complete declaration of it (only a no-base stand-in in recon/slice_22.hpp, under another namespace).
+// The override keywords below are checked once the base exists; glitch::scene::ISceneNode (scene/ISceneNode.hpp)
+// already has the virtuals they name, and its slots 0..15 match the binary's vtable.
+//
+// Slot numbers in the comments below are decomp_vtable.py offsets (from the start of the vtable symbol). The vptr
+// stored in an object points at +0x0c, so the code's "vptr + N" is decomp_vtable offset N + 0x0c.
 #pragma once
 
 #include <cstdint>
@@ -37,14 +45,14 @@ public:
     ~ShadowSkinnedMeshSceneNode() override;                             // 0x360b7c (base-object dtor), 0x360c60 (deleting), 0x360c7c (VTT form)
 
     // Overrides of the base slots, in vtable order.
-    const glitch::core::aabbox3d<float>& getBoundingBox() const override;                 // slot 0x3c: 0x35dc98, forwards to the node at +0x1a0
-    const glitch::core::aabbox3d<float>& getTransformedBoundingBox() const override;      // slot 0x40: 0x35dcb4, forwards to the node at +0x1a0 (slot 52)
+    const glitch::core::aabbox3d<float>& getBoundingBox() const override;                 // slot 0x3c: 0x35dc98, forwards to the node at +0x1a0 (its vptr+48)
+    const glitch::core::aabbox3d<float>& getTransformedBoundingBox() const override;      // slot 0x40: 0x35dcb4, forwards to the node at +0x1a0 (its vptr+52)
     int onRegisterSceneNode() override;                                 // slot 0x1c: 0x35ffb8
     void render(void* context) override;                                // slot 0x28: 0x360948
 
     // Methods not in the vtable.
-    void UpdateShadow();                                                // 0x35f780, calls the slot at 0x3c with a second argument, like the modular class
-    void renderMesh(void* context);                                     // 0x3607a0
+    void UpdateShadow();                                                // 0x35f780, ends with the virtual ISceneNode::setAbsoluteTransformation(CMatrix4&) (vptr+60, slot 0x48)
+    void renderMesh(void* context);                                     // 0x3607a0, context is a 1-based mesh buffer index (buffer = context - 1); the return value is unused
 
     // Own part of the object, from +0x180 to +0x1a3. BaseMeshSceneNode occupies +0x00 .. +0x17f (render flag at +0x17c).
     std::vector<boost::intrusive_ptr<glitch::video::CMaterial>> unk_180;                  // +0x180 one entry per mesh material, sized by the ctor, dropped element by element

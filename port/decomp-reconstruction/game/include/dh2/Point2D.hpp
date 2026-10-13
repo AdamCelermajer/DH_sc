@@ -20,3 +20,13 @@ struct Point2D {
     T X;                                                                    // +0x00
     T Y;                                                                    // +0x04
 };
+
+// Point2D<float> members. The bodies are in game-world/src/g1-game-world-pack3-ce4c1f-0.cpp as explicit
+// specializations; these declarations make every translation unit call them instead of an implicit instantiation.
+template <> Point2D<float>& Point2D<float>::normalize();
+template <> int Point2D<float>::lineIntersection(const Point2D<float>& p0, const Point2D<float>& p1,
+                                                 const Point2D<float>& q0, const Point2D<float>& q1,
+                                                 Point2D<float>& out);
+template <> int Point2D<float>::lineIntersection(const Point2D<float>& p0, const Point2D<float>& p1,
+                                                 const Point2D<float>& q0, const Point2D<float>& q1,
+                                                 Point2D<float>& out, float& t, float& u);

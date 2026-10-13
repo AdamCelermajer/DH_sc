@@ -20,7 +20,7 @@ class IMesh;
 class MeshSceneNode : public BaseMeshSceneNode<glitch::collada::CMeshSceneNode> {
 public:
     explicit MeshSceneNode(const boost::intrusive_ptr<glitch::collada::IMesh>& mesh);  // 0x35b240 (complete), 0x35b2c0 (base-object form)
-    ~MeshSceneNode() override;                                                         // 0x35aad8 (base-object dtor), 0x35ab40 (deleting), 0x35ab5c (VTT form)
+    ~MeshSceneNode() override;                                                         // 0x35aad8 (complete dtor, D1), 0x35ab40 (deleting, D0), 0x35ab5c (base-object dtor taking the VTT, D2)
 
     // BaseMeshSceneNode occupies +0x00 .. +0x13f: render flag at +0x138, its virtual subobject at +0x13c.
     std::int32_t unk_140;                                                              // +0x140 set to 1 by the ctor; not read in the recovered code

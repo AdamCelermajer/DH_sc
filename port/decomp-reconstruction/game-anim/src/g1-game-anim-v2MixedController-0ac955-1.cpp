@@ -80,26 +80,13 @@ v2MixedController::~v2MixedController()
 
 // 0x408dd8 _ZN17v2MixedControllerC1EP14v2Controllable (complete-object constructor)
 // 0x408ecc _ZN17v2MixedControllerC2EP14v2Controllable (base-object constructor), same body as C1, defined once here.
-// partial: the v2Controller base is written inline by the original (it has no standalone symbol), so the
-// v2Controller(v2Controllable*) constructor, which dh2/v2Controller.hpp declares but nothing defines yet, is
-// needed here. The v2Controllable() base constructor (0x404db8 / 0x404de4, BL _ZN14v2ControllableC2Ev) is also
-// not defined in the tree yet. What this body does: the null-controllable assert and the empty m_controllers
-// vector. The vptr writes are compiler-managed. The base stores are listed in the layout requests.
+// The v2Controller base (field stores and ASSERT(controllable)) runs first, in v2Controller::v2Controller, then the
+// v2Controllable base at +0x10 (v2Controllable::v2Controllable, BL _ZN14v2ControllableC2Ev). The vector m_controllers at
+// +0x18 is default-constructed, which leaves it empty: +0x18 begin, +0x1c end, +0x20 end of storage, as the original
+// stores. The vptr writes are compiler-managed.
 v2MixedController::v2MixedController(v2Controllable* controllable)
     : v2Controller(controllable), v2Controllable()
 {
-    if (!controllable) {
-        // The assert names v2Controller.h:68 because the original inlines the v2Controller constructor, where this
-        // check belongs. It moves there once that constructor is defined, so it is not printed twice.
-        if (gAssertLevel == 2) {
-            // The original stores 0 to address 0 to force a crash.
-            std::abort();
-        } else if (gAssertLevel == 1) {
-            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "controllable",
-                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Controllers\\/v2Controller.h", 68);
-        }
-    }
-    // +0x18 begin, +0x1c end, +0x20 end of storage: the default-constructed vector is empty, as the original stores.
 }
 
 // 0x408fc0 _ZN17v2MixedController13AddControllerEP12v2Controller

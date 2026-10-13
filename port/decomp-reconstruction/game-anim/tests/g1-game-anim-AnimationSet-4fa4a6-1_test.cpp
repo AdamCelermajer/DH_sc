@@ -3,8 +3,9 @@
 // Checks which branch AnimationSet::GetAnimation(int) takes, and that the name overload forwards to it.
 // The engine is not linked. LoadAnimation, ReplaceAnimation, the AnimDict name lookup, LG_DEVICES,
 // s_invalidAnim and the destructors are defined here as stubs. The stubs record their calls, so the
-// test can check which path ran. The hit path's last-use stamp is not tested (partial; see the source).
+// test can check which path ran. The hit path's last-use stamp is checked against the Timer stub below.
 
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <initializer_list>
@@ -12,6 +13,7 @@
 #include "dh2/Animation.hpp"
 #include "dh2/AnimationSet.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
+#include "glitch-core-io/os/logging.hpp"
 #include "pydata-accessors/member_names.hpp"
 
 namespace {
@@ -60,6 +62,11 @@ Animation AnimationSet::s_invalidAnim;
 Animation::~Animation() {}
 AnimationSet::~AnimationSet() {}
 
+std::uint32_t g_timerNow = 0;  // returned by the Timer stub
+namespace glitch::os {
+std::uint32_t Timer::getRealTime() { return g_timerNow; }
+}  // namespace glitch::os
+
 Animation* AnimationSet::LoadAnimation(int animId) {
     ++g_loadCalls;
     g_loadArg = animId;
@@ -93,6 +100,21 @@ int main() {
         EXPECT(set.GetAnimation(4) == &set.m_animations[4]);
         EXPECT(g_loadCalls == 0 && g_replaceCalls == 0);
         EXPECT(set.m_animations.size() == 3);
+    }
+
+    // A hit stamps the entry's last-use time (+0x28) with the Timer value; the other entries are not stamped.
+    {
+        AnimationSet set;
+        set.unk_3c = false;
+        set.m_cacheSize = 10;
+        Fill(set, {2, 4, 6});
+        Reset();
+        set.m_animations[4].m_lastUseTime = 1;
+        g_timerNow = 4321;
+        EXPECT(set.GetAnimation(4) == &set.m_animations[4]);
+        EXPECT(set.m_animations[4].m_lastUseTime == 4321);
+        EXPECT(set.m_animations[2].m_lastUseTime == 0);
+        EXPECT(set.m_animations[6].m_lastUseTime == 0);
     }
 
     // Miss on key 5 (lower_bound is 6, not equal), LG_DEVICES set, unk_3c clear: s_invalidAnim.

@@ -1,13 +1,70 @@
 // Checks the MenuBase FSCommand handlers of batch g1-game-ui-MenuBase-8948cc-1 on the paths that run without the
 // engine: the null and empty argument checks, the "undefined" level name, and the return values the original
-// produces on paths that do not depend on a missing call. The handlers that touch the menu or the engine singletons
-// are not called here.
+// produces on paths that do not depend on a missing call. The handlers that reach the engine singletons run against
+// the link-only stubs below, which record nothing; the calls themselves are checked by
+// r2a-game-ui-MenuBase-8948cc-0_test.cpp. FS_PopAllMenu is not called here: it makes a virtual call on a
+// MultiMenuManager that this test cannot build.
+#include <cstdint>
 #include <cstdio>
 
+#include "dh2/Application.hpp"
+#include "dh2/DragAndDrop.hpp"
+#include "dh2/Dragable.hpp"
+#include "dh2/Level.hpp"
+#include "dh2/LevelSavegame.hpp"
 #include "dh2/MenuBase.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/PlayerSavegame.hpp"
+#include "dh2/SavegameManager.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/global/ctrl_camera.hpp"
 
 // Link-only definition: FS_LoadLevel calls MenuFX::PopAll on the menu, and the menu is not built here.
 void MenuFX::PopAll() {}
+
+// ---- Fake singleton storage. These handlers read only the SavegameManager pointer and its m_lastSlot.
+namespace {
+alignas(Application) unsigned char g_appStorage[sizeof(Application)];
+alignas(SavegameManager) unsigned char g_saveStorage[sizeof(SavegameManager)];
+}  // namespace
+
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_appStorage);
+}
+
+// ---- Link-only stubs for the singleton calls the handlers make. They do nothing.
+MenuManager* MenuManager::GetInstance() {
+    return nullptr;
+}
+void SavegameManager::loadSettings(bool) {}
+void SavegameManager::saveSettings() {}
+int SavegameManager::getLanguage() const {
+    return 0;
+}
+void SavegameManager::setLanguage(int) {}
+void SavegameManager::setOption(const char*, int) {}
+void Application::LoadLevel(const char*, int, std::uint32_t, bool, bool, int, bool, std::uint32_t, std::uint32_t) {}
+void Application::LoadWorldMap(int) {}
+void Application::GoToMainMenu(GoToMainMenuEvent) {}
+Level* Application::GetCurrentLevel() const {
+    return nullptr;
+}
+Dragable* DragAndDrop::GetDragable(const char*) {
+    return nullptr;
+}
+int Dragable::ResetPosition() {
+    return 0;
+}
+int PlayerSavegame::SG_Delete(std::uint32_t) {
+    return 0;
+}
+int LevelSavegame::DeleteAllLevelSave(unsigned int) {
+    return 0;
+}
+void ScriptManager::SkipScript(int, bool) {}
+ScriptManager::ScriptManager() {}
+ScriptManager::~ScriptManager() {}
+ScriptManager ScriptManager::s_inst;
 
 namespace {
 
@@ -23,8 +80,11 @@ void Check(bool ok, const char* what) {
 }  // namespace
 
 int main() {
+    // No save slot is set, so FS_ResetSaveFile with no argument takes the m_lastSlot path with -1 and calls nothing.
+    ApplicationGetInstance().m_savegameManager = reinterpret_cast<SavegameManager*>(g_saveStorage);
+    reinterpret_cast<SavegameManager*>(g_saveStorage)->m_lastSlot = -1;
+
     // Handlers whose return value is fixed on every path (the menu is not dereferenced).
-    Check(MenuBase::FS_PopAllMenu("", "", nullptr), "FS_PopAllMenu returns true");
     Check(MenuBase::FS_SaveOptions("", "", nullptr), "FS_SaveOptions returns true");
     Check(MenuBase::FS_LoadWorldMap("", "", nullptr), "FS_LoadWorldMap returns true");
     Check(MenuBase::FS_GoToMainMenu("", "", nullptr), "FS_GoToMainMenu returns true");

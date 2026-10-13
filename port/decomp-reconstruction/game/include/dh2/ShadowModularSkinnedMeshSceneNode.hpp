@@ -13,6 +13,7 @@
 
 #include "glitch-core-io/boost/intrusive_ptr.hpp"
 #include "glitch-shared/glitch_core.hpp"
+#include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
 
 #include "dh2/BaseMeshSceneNode.hpp"
 
@@ -37,10 +38,12 @@ public:
                                       const glitch::scene::ISceneNode* node2);  // 0x3619c8 (complete), 0x361ab0 (VTT form)
     ~ShadowModularSkinnedMeshSceneNode() override;                      // 0x3601fc (base-object dtor), 0x3602cc (deleting), 0x360aa8 (VTT form)
 
-    // Overrides of the base slots, in vtable order.
-    const glitch::core::aabbox3d<float>& getBoundingBox() const override;                 // slot 0x3c: 0x35dcd0, forwards to node1 (+0x1c8)
-    const glitch::core::aabbox3d<float>& getTransformedBoundingBox() const override;      // slot 0x40: 0x35dcec, forwards to node1 (+0x1c8, slot 48)
-    int onRegisterSceneNode() override;                                 // slot 0x1c: 0x35f530, returns 1
+    // Overrides of the base slots, in vtable order. The engine base CModularSkinnedMeshSceneNode (collada_scene_accessors.hpp)
+    // declares none of the three ISceneNode slots below, so they are plain virtuals here and carry no override keyword
+    // (same as ModularSkinnedMeshSceneNode.hpp). BaseMeshSceneNode declares render, so render keeps override.
+    virtual const glitch::core::aabbox3d<float>& getBoundingBox() const;                  // slot 0x3c (ISceneNode K 0x30): 0x35dcd0, forwards to node1 (+0x1c8)
+    virtual const glitch::core::aabbox3d<float>& getTransformedBoundingBox() const;       // slot 0x40 (ISceneNode K 0x34): 0x35dcec, forwards to node1 (+0x1c8, vptr+0x30)
+    virtual int onRegisterSceneNode();                                  // slot 0x1c (ISceneNode K 0x10): 0x35f530, returns 1
     void render(void* context) override;                                // slot 0x28: 0x3604a8
 
     // Methods not in the vtable.
@@ -53,9 +56,12 @@ public:
     std::vector<std::uint32_t> unk_180;                                                   // +0x180 4-byte entries written with loop indices by regenerate, trivially destructible
     std::vector<std::uint32_t> unk_18c;                                                   // +0x18c 4-byte entries, trivially destructible
     std::vector<boost::intrusive_ptr<glitch::video::CMaterial>> unk_198;                  // +0x198 one shadow material per module entry
-    std::vector<boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap>> unk_1a4; // +0x1a4 one vertex map per module entry
+    // +0x1a4 and +0x1bc hold CMaterialVertexAttributeMap handles. They are raw pointers here because glitch-core-io's
+    // stand-ins (deps/glitch_core_objects.hpp) define no counting intrusive_ptr_add_ref/release for that class, so an
+    // intrusive_ptr element would not compile in the destructor. The counts are not taken or released (see the batch notes).
+    std::vector<glitch::video::CMaterialVertexAttributeMap*> unk_1a4;                     // +0x1a4 one vertex map per module entry (raw, not counted)
     std::vector<boost::intrusive_ptr<glitch::video::CMaterial>> unk_1b0;                  // +0x1b0 one material per module entry, flag byte +8 set to 3 by regenerate
-    std::vector<boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap>> unk_1bc; // +0x1bc one vertex map per module entry
+    std::vector<glitch::video::CMaterialVertexAttributeMap*> unk_1bc;                     // +0x1bc one vertex map per module entry (raw, not counted)
     const glitch::scene::ISceneNode* unk_1c8;                                             // +0x1c8 ctor argument node1, the node whose bounds are forwarded
     const glitch::scene::ISceneNode* unk_1cc;                                             // +0x1cc ctor argument node2, read by UpdateShadow
     uint8_t pad_1d0[8];                                                                   // +0x1d0 virtual base IReferenceCounted: vptr at +0x1d0, refcount at +0x1d4 (1 from the complete ctor)

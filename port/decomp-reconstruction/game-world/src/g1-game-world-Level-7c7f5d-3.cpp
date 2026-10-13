@@ -3,9 +3,9 @@
 // camera functions CanMoveTowards and UpdateCameraZoom, and GetRimLightFile. Declarations come from dh2/Level.hpp.
 // A PARTIAL body names what it waits on. A "SEAM" comment marks one step of the original that is left out, with its owner.
 //
-// dh2/Character.hpp is deliberately not included (IStreamBase conflict, see g1-game-world-Level-7c7f5d-1.cpp). Every call
-// on a Character is therefore omitted and marked SEAM. The COnline online flag (COnline::isOnlineGame_ at +0x05) has no
-// accessor, so every test on it is a SEAM too.
+// The COnline online flag (COnline::isOnlineGame_ at +0x05) is protected and has no accessor, so every test on it is a SEAM.
+// PFWorld and HUDControls cannot share this translation unit with core-platform/memory.hpp (the glitch stand-ins conflict),
+// so their calls are SEAMs too.
 
 #include <algorithm>
 #include <cmath>
@@ -15,9 +15,13 @@
 
 #include "core-platform/device.hpp"               // Device::IsFixedPipeline (static)
 #include "core-platform/memory.hpp"              // gAssertLevel
+#include "dh2/global/runtime_support.hpp"        // PushProfilingContext, PopProfilingContext (before Character.hpp: see below)
 #include "dh2/Application.hpp"
+// Character.hpp renames MemoryHintState (net-transport stand-in), so it follows runtime_support.hpp and comes before the rest.
+#include "dh2/Character.hpp"
 #include "dh2/CameraBase.hpp"
 #include "dh2/CameraLevel.hpp"
+#include "dh2/AnimSetManager.hpp"
 #include "dh2/CameraOverview.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameEventManager.hpp"
@@ -25,18 +29,22 @@
 #include "dh2/Level.hpp"
 #include "dh2/LevelConfig.hpp"
 #include "dh2/LevelSavegame.hpp"
+#include "dh2/LuaManager.hpp"
 #include "dh2/MenuBase.hpp"
 #include "dh2/MenuDebug.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/ScriptManager.hpp"
+#include "dh2/SpawnGroupManager.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/batch/BatchNodeCompiler.hpp"
 #include "dh2/global/IsMultiplayerGame.hpp"      // dword_99F76C, the PlayerManager instance
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance()
-#include "dh2/global/runtime_support.hpp"        // PushProfilingContext, PopProfilingContext
+#include "dh2/global/runtime_support.hpp"        // PushProfilingContext, PopProfilingContext (included above)
 
 namespace {
 
@@ -497,7 +505,10 @@ void Level::Update(bool forceUpdate) {
     if (m_startScriptId != -1 && ApplicationGetInstance().IsCurrentlyInGameView()) {
         ScriptManager::s_inst.StartScript(m_startScriptId, -1, false);
     }
-    // SEAM: Character::SG_Update(local player's character, false) (Character.hpp conflict and PlayerInfo +0x660).
+    // The savegame update runs on the local player's character (PlayerInfo +0x660, PlayerInfo::unk_660), when there is one.
+    if (Character* localCharacter = dword_99F76C->GetLocalPlayer(0, true)->unk_660) {
+        localCharacter->SG_Update(false);
+    }
     if (!m_isLoaded) {
         dword_99F76C->Update();
     }
@@ -505,13 +516,15 @@ void Level::Update(bool forceUpdate) {
         ScriptManager::s_inst.ExecuteAllScripts();
     }
     m_gameEventManager->Update();
-    // SEAM: the ambient light on the scene manager (m_levelConfig->m_ambientColor, +0x1cc), PhysicalWorld::update on
-    // dword_99F770, and the SpawnGroupManager update and CharAI::HandleGroups. The decompiled chain does not match the
-    // headers of those classes.
+    // SEAM: the ambient light on the scene manager (m_levelConfig->m_ambientColor, +0x1cc). The scene manager is glitch::IDevice
+    // +0x1c, and the IDevice data members are not declared. SEAM: PhysicalWorld::update on dword_99F770 (global not declared).
+    SpawnGroupManager::GetInstance()->update(0.0);
+    // SEAM: CharAI::HandleGroups. In the decompiled code its receiver is the return value of SpawnGroupManager::update, and the
+    // method is not static in dh2/CharAI.hpp, so there is no object to call it on.
     dword_99F764->Update(1.0f);
-    // SEAM: CharAI::IncUpdateQueue on the ObjectManager::Update result (the header types Update void).
+    // SEAM: CharAI::IncUpdateQueue (non-static; the receiver is not recovered).
     UpdateCameraZoom();
-    // SEAM: VisualFXManager::Update (singleton; not declared).
+    VisualFXManager::s_inst.Update();
     if (m_cameraOverview != nullptr && m_cameraOverview == CameraBase::s_activeCamera) {
         m_cameraOverview->Update();
     }
@@ -551,7 +564,8 @@ Level::~Level() {
     InfoHUDManager::GetInstance()->Flush();
     // SEAM: HUDControls::GetInstance()->Flush(). dh2/HUDControls.hpp cannot share this translation unit with
     // core-platform/memory.hpp (glitch::IEventReceiver is defined by both stand-in headers).
-    // SEAM: ItemManager::Flush, ProjectileManager::Flush and VisualFXManager::FlushLibraries (singletons, not declared).
+    // SEAM: ItemManager::Flush and ProjectileManager::Flush. Both are non-static members and their headers give no instance accessor.
+    VisualFXManager::s_inst.FlushLibraries();
     delete m_gameEventManager;
     m_gameEventManager = nullptr;
     delete m_batchNodeCompiler;
@@ -559,26 +573,28 @@ Level::~Level() {
     delete m_batchNodeCompiler2;
     m_batchNodeCompiler2 = nullptr;
     dword_99F764->Flush();
-    // SEAM: ZoomHandler::setCamera(nullptr) on Application::m_zoomHandler (+0x50). dh2/ZoomHandler.hpp conflicts the same way.
+    // SEAM: ZoomHandler::setCamera(nullptr) on Application::m_zoomHandler (+0x50). dh2/ZoomHandler.hpp conflicts with memory.hpp.
     // SEAM: the scene manager's camera reset (virtual slot +104) and CSceneManager::setActiveCamera(nullptr) on the scene
-    // manager at dword_99F73C + 28 (undeclared global).
-    // SEAM: PhysicalWorld::clear on dword_99F770, PFWorld::Flush and AnimSetManager::Flush (singletons, not declared).
+    // manager, which is glitch::IDevice +0x1c (IDevice data members not declared).
+    // SEAM: PhysicalWorld::clear on dword_99F770 (global not declared), and PFWorld::Flush (PFWorld conflicts with memory.hpp).
+    AnimSetManager::s_inst.Flush();
     EventManager::Flush();
     if (m_levelSavegame) {
         delete m_levelSavegame;
         m_levelSavegame = nullptr;
     }
     ApplicationGetInstance().CleanGlitch();
-    // SEAM: LuaManager::FlushBufferedFiles on dword_99F768 (undeclared global).
+    ApplicationGetInstance().m_luaManager->FlushBufferedFiles();  // dword_99F768 is Application +0x3c (m_luaManager)
 }
 
 // 0x3f94f4 Level::CanMoveTowards(Point3D<float> const&, Point3D<float> const&)
 // PARTIAL. The original answers yes at once for a single player character, for an online game, and for a zero-length
-// direction. Otherwise it measures the angle between the direction and the vector from the camera target, and checks the
-// screen position of each local player against the co-op limits. Reconstructed here: the single-character test and the
-// zero-length test. The online test is COnline::isOnlineGame_ (no accessor). The angle and screen tests need the camera
-// target through m_camera (+0x128, CameraLevel not declared), the co-op limits in Arrays::DesignSettingsTable (not declared)
-// and each local player's character (dh2/Character.hpp conflict). The result returned for that path is a placeholder true.
+// direction. Otherwise it measures the angle between the direction and the vector from the camera node's position to the
+// point, and checks each local player's screen position against the co-op limits. Reconstructed here: the single-character
+// test and the zero-length test. The online test is COnline::isOnlineGame_ (protected, no accessor), and it comes first, so
+// nothing after it can be decided. The angle test needs the camera node's position getter (CameraBase::m_node, vtable +0xa0,
+// not named). The limits are Structs::DesignSettings m_w6 (bottom, +0x18), m_w7 (sides, +0x1c) and m_w8 (top, +0x20). The
+// result returned for that path is a placeholder true.
 bool Level::CanMoveTowards(const Point3D<float>& from, const Point3D<float>& direction) {
     (void)from;
     if (dword_99F76C->m_numCharacters == 1) {
@@ -595,9 +611,10 @@ bool Level::CanMoveTowards(const Point3D<float>& from, const Point3D<float>& dir
 
 // 0x3f9870 Level::UpdateCameraZoom()
 // PARTIAL. The co-op zoom sets the camera zoom ceiling (CameraLevel::m_zoomTarget, +0x8c) toward the value that keeps the
-// local players' screen positions inside the Arrays::DesignSettingsTable limits. Reconstructed: the early exit for a single
-// player character. The rest waits on the online flag (COnline::isOnlineGame_, no accessor), the co-op limits (the
-// DesignSettingsTable is not declared) and each character's virtual screen test (Character not included).
+// local players' screen positions inside the co-op limits (Structs::DesignSettings m_w6, m_w7 and m_w8, with the zoom step in
+// m_w3 and m_w4). Reconstructed: the early exit for a single player character. The rest waits on the online flag
+// (COnline::isOnlineGame_, protected with no accessor), which is tested first. The per-player screen scan is declared
+// (PlayerManager::GetPlayer, Character::IsDead, CameraBase::GetScreenCoord) but is not written behind that gate.
 void Level::UpdateCameraZoom() {
     if (dword_99F76C->m_numCharacters == 1) {
         return;

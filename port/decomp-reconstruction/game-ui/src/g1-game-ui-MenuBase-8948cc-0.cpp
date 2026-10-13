@@ -101,9 +101,10 @@ void MenuBase::ClearSlideEvents() {
 // 0x41f578 _ZN8MenuBase13FS_LoadLevel2EPKcS1_Pv
 // PARTIAL: the name search over Arrays::LevelList is rebuilt; the LoadLevel call is not. The original calls
 // menu->MyFSCommand("LoadLevel", element) with element = the LevelList entry's word at +0x20 (listing stride 72)
-// and returns true. pydata-accessors has no readable element layout for LevelList here: w7_arrays_00.hpp and
-// member_names.hpp both declare Arrays::LevelList with different members, and only the name table is usable.
-// The count is taken from NameTable::size; the original reads the separate Arrays::LevelList::size global.
+// and returns true. The +0x20 word is Structs::LevelDeclaration::m_w8 (structs_records.hpp:963, a string buffer, stride
+// 72 in the file). The raw table is Arrays::LevelList::members in w7_arrays_00.hpp, which conflicts with
+// member_names.hpp in this file, so only the name table is usable here. The count is taken from NameTable::size; the
+// original reads the separate Arrays::LevelList::size global.
 bool MenuBase::FS_LoadLevel2(const char*, const char* args, void* menu) {
     if (!args || !*args) {
         return false;
@@ -147,12 +148,13 @@ bool MenuBase::FS_SetPlayerClass(const char*, const char* args, void* menu) {
 void MenuBase::DBG_Draw2DDeadZones() const {}
 
 // 0x4202a8 _ZN8MenuBase18FS_UnlockCharacterEPKcS1_Pv
-// PARTIAL: the "All" branch is rebuilt. Any other name is meant to clear the block on each local player's character
-// (PlayerManager::GetNumLocalPlayers / GetLocalPlayer, then character_660 of the local player record and
-// character->m_controller->m_blocked; Character +0x378 is v2Controllable::m_controller). PlayerManager.hpp now
-// exists, but the loop still waits on dh2/PlayerInfo.hpp (character_660 is not declared, the header is absent)
-// and on an accessor for the PlayerManager instance (Application::m_playerManager at
-// Singleton<Application>::s_inst + 0x40; Application.hpp has no instance accessor). Only the return value is
+// PARTIAL: the "All" branch is rebuilt. Any other name clears the block on each local player's character: the loop runs
+// i < PlayerManager::GetNumLocalPlayers(false) on ApplicationGetInstance().m_playerManager (+0x40), takes
+// GetLocalPlayer(i, false)->unk_660 (PlayerInfo +0x660, the Character*; Hex-Rays calls it character_660), and for a
+// non-null Character sets character->m_controller->m_blocked (Character +0x378 is the v2Controllable base's m_controller,
+// v2Controller +0x08) to false. Every declaration exists now, but this file cannot include dh2/PlayerManager.hpp or
+// dh2/PlayerInfo.hpp next to pydata-accessors/member_names.hpp (needed for the name tables): both chains define
+// CustomFree again (pydata-accessors/deps/stream_reader.hpp:19), so the loop is left out. Only the return value is
 // produced for other names.
 bool MenuBase::FS_UnlockCharacter(const char*, const char* args, void*) {
     if (std::strcmp(args, "All") != 0) {
@@ -163,9 +165,8 @@ bool MenuBase::FS_UnlockCharacter(const char*, const char* args, void*) {
 }
 
 // 0x420344 _ZN8MenuBase16FS_LockCharacterEPKcS1_Pv
-// PARTIAL: the "All" branch is rebuilt. Any other name is meant to set the block on each local player's character
-// (same walk as FS_UnlockCharacter, storing true). Waits on dh2/PlayerInfo.hpp (character_660) and on the
-// PlayerManager instance accessor, as for FS_UnlockCharacter.
+// PARTIAL: the "All" branch is rebuilt. Any other name sets the block on each local player's character (same walk as
+// FS_UnlockCharacter, storing true). Left out for the same include conflict as FS_UnlockCharacter.
 bool MenuBase::FS_LockCharacter(const char*, const char* args, void*) {
     if (std::strcmp(args, "All") != 0) {
         return true;  // PARTIAL: per-character loop not rebuilt (see above).

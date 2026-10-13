@@ -6,12 +6,20 @@
 #include <cstdlib>
 #include <string>
 
+#include "core-platform/device.hpp"  // Device::IsHighPerformance (static)
 #include "core-platform/memory.hpp"  // gAssertLevel
+#include "dh2/Application.hpp"        // ApplicationGetInstance (GetCurrentLevel)
+#include "dh2/Character.hpp"
+#include "dh2/CameraLevel.hpp"
+#include "dh2/CameraOverview.hpp"
 #include "dh2/Level.hpp"
+#include "dh2/LevelConfig.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/LevelSavegame.hpp"
+#include "dh2/Module.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerInfo.hpp"
 #include "dh2/PlayerManager.hpp"
 #include "dh2/ScriptManager.hpp"
 #include "dh2/batch/BatchNodeCompiler.hpp"
@@ -20,21 +28,21 @@
 #include "dh2/rnd/Block.hpp"
 #include "dh2/rnd/RandomGenerator.hpp"
 #include "dh2/rnd/Tile.hpp"
+#include "pydata-accessors/member_names.hpp"              // Arrays::GetMemberIDByString (SetLevelConfig)
 
 // 0x3f07b0 _ZN5Level18SG_SaveLocalPlayerEb
-// PARTIAL: waits on dh2/PlayerInfo.hpp (absent). The original saves PlayerManager::GetLocalPlayer(dword_99F76C, 0, 1)
-// ->character_660 (PlayerInfo +0x660) through SG_SavePlayer(character, levelChange). PlayerInfo is only forward-declared,
-// so the character cannot be read and nothing is saved here.
+// PARTIAL: the local player's character is read as the original does, PlayerManager::GetLocalPlayer(dword_99F76C, 0, 1)
+// ->character_660 (PlayerInfo +0x660, declared as unk_660), and passed to SG_SavePlayer(Character*, levelChange). That
+// overload (0x3efa54) is an empty body in another batch, so nothing is saved yet.
 void Level::SG_SaveLocalPlayer(bool levelChange) {
-    (void)levelChange;
+    Character* player = dword_99F76C->GetLocalPlayer(0, true)->unk_660;  // PlayerInfo +0x660
+    SG_SavePlayer(player, levelChange);
 }
 
 // 0x3f07f8 _ZN5Level19GenerateRandomLevelER12StreamBufferj
-// PARTIAL: rnd::RandomGenerator::Generate returns an int in the original, and the function returns that value. Its header
-// (dh2/rnd/RandomGenerator.hpp) declares Generate as void, so the count is not available and 0 is returned. The other steps
-// match the original: the previous generator is destroyed, a new one is built, LoadRuleFile gets the level name (+0x10c),
-// the levels are generated, written to the stream, and the generator is destroyed again. operator new(400) and CustomFree
-// become new and delete on the host.
+// The previous generator is destroyed, a new one is built, LoadRuleFile gets the level name (+0x10c), the levels are
+// generated with the seed, written to the stream, and the generator is destroyed again. The result is the count that
+// Generate returns. operator new(400) and CustomFree become new and delete on the host.
 int Level::GenerateRandomLevel(StreamBuffer& out, uint32_t seed) {
     if (m_randomGenerator) {
         delete m_randomGenerator;
@@ -42,11 +50,11 @@ int Level::GenerateRandomLevel(StreamBuffer& out, uint32_t seed) {
     }
     m_randomGenerator = new rnd::RandomGenerator();
     m_randomGenerator->LoadRuleFile(m_levelName.c_str());
-    m_randomGenerator->Generate(static_cast<int>(seed));
+    int count = m_randomGenerator->Generate(static_cast<int>(seed));
     m_randomGenerator->SaveModularLevelToStream(out);
     delete m_randomGenerator;
     m_randomGenerator = nullptr;
-    return 0;
+    return count;
 }
 
 // 0x3f0898 _ZN5Level22PlaceFaeryAndFollowersEP9Character
@@ -68,28 +76,33 @@ void Level::PlaceFaeryAndFollowers(Character* player) {
 }
 
 // 0x3f0ae0 _ZN5Level14UpdateListenerEv
-// PARTIAL: the listener row is Arrays::Listeners (stride 28), read once through a function-local cache (a guard
-// variable). Its rows have no typed declaration in pydata-accessors. The listener position and orientation come from the
-// local player (PlayerInfo +0x660, dh2/PlayerInfo.hpp absent), from the camera (CameraBase::GetCameraLookAtVec and
-// GetCameraUpVec, declared), or from the screen centre (GetWorldPosFromScreenPos, declared, Width_Screen and Height_Screen,
-// declared in dh2/global/MenuManagerGlobals.hpp). The VoxSoundManager::SetListenerPos call is not made, so the listener is
-// not updated.
+// PARTIAL: placeholder. Two blockers remain. (1) VoxSoundManager is not declared anywhere in the tree (no SetListenerPos),
+// so the listener is not updated. (2) The listener row is Arrays::Listeners (stride 28, the fields read at +0x04 to +0x18),
+// read once through a function-local guard cache. pydata-accessors gives it only a stride, not a typed table. The reads the
+// function makes are declared now: the local player's target position and look-at (PlayerInfo unk_660, GameObject
+// GetTargetPosition and GetLookAtVec), the camera vectors (CameraBase::GetCameraLookAtVec and GetCameraUpVec), and the
+// screen centre (GetWorldPosFromScreenPos).
 void Level::UpdateListener() {
 }
 
 // 0x3f1008 _ZN5Level11_LoadCameraEv
-// PARTIAL: waits on dh2/CameraLevel.hpp, dh2/CameraOverview.hpp and dh2/LevelConfig.hpp (none written yet). The original
-// allocates CameraOverview (operator new(40)) and CameraLevel (operator new(168)) into m_cameraOverview (+0x12c) and m_camera
-// (+0x128). It then loads the camera and its animation set from the LevelConfig strings at +0x260, +0x278 and +0x290,
-// sets the field of view and aspect from LevelConfig ints at +0x294 and +0x298, makes the camera active, plays the animation,
-// targets the local player, sets the zoom handler's camera, and adds the sky box from the LevelConfig name at +0x248.
-// Only the configured-null asserts are present in the pseudocode. Nothing is created here.
+// PARTIAL: the two allocations are reconstructed, in the original's order: CameraOverview (m_cameraOverview, +0x12c) and
+// CameraLevel (m_camera, +0x128), each through its constructor. The rest is not made. (1) The camera file, animation set and
+// camera node names are the LevelConfig string data words at +0x260, +0x278 and +0x290, which lie in the header's m_cameraFile,
+// m_cameraAnimset and m_cameraName strings. (2) The animation set row is found in Arrays::CamAnimSetTable, which is declared
+// only as a raw byte table, so the row (and the clip id at row +0x10) cannot be typed. (3) The sky box and the scene manager
+// are read from the device (+0x1c), which is not declared. The field of view and aspect (CameraBase::SetData with LevelConfig
+// +0x294 and +0x298), SetActive, PlayAnim, CameraTarget::SetTarget, ZoomHandler::setCamera and the zoom fields are omitted with them.
 void Level::_LoadCamera() {
+    m_cameraOverview = new CameraOverview();  // +0x12c, operator new(40) in the original
+    m_camera = new CameraLevel();             // +0x128, operator new(168) in the original
+    // SEAM: the camera load and the rest of the set-up described above are not made.
 }
 
 // 0x3f1394 _ZNK5Level15GetMPGameScriptEv
-// PARTIAL: waits on dh2/LevelConfig.hpp. The original returns the LevelConfig int at +0x314 (788). The m_levelConfig assert
-// is reproduced by GetLevelConfig(), which the original repeats inline with the same message and the same abort.
+// PARTIAL: the original returns the int at LevelConfig +0x314 (788). In LevelConfig.hpp, +0x314 lies inside m_mpScript (a
+// std::string at +0x300), so the field is not identified, and 0 is returned until the LevelConfig layout is reconciled. The
+// m_levelConfig assert is reproduced by GetLevelConfig(), which the original repeats inline with the same message and abort.
 int Level::GetMPGameScript() const {
     LevelConfig* config = GetLevelConfig();
     (void)config;
@@ -97,9 +110,9 @@ int Level::GetMPGameScript() const {
 }
 
 // 0x3f1430 _ZN5Level9EnableFogEPN6glitch5scene10ISceneNodeE
-// PARTIAL: waits on dh2/LevelConfig.hpp (fog start and end floats at +0x1d8 and +0x1dc, fog position at +0x1e0) and on the
-// scene manager. The original reads that from the IDevice +0x1c field (glitch::IDevice does not declare it). Then
-// SceneManager::EnableFog(start, end, position, node) is called. Nothing is changed here.
+// PARTIAL: the fog start (LevelConfig +0x1d8, m_fogStart), end (+0x1dc, m_fogEnd) and colour (+0x1e0, m_fogColor) are declared.
+// The original then calls SceneManager::EnableFog(start, end, &colour, node) on the scene manager, which it reads from the
+// device's +0x1c field (glitch::IDevice does not declare it). That call is left out, so nothing is changed here.
 void Level::EnableFog(glitch::scene::ISceneNode* node) {
     LevelConfig* config = GetLevelConfig();  // the same m_levelConfig assert as the original
     (void)config;
@@ -107,43 +120,67 @@ void Level::EnableFog(glitch::scene::ISceneNode* node) {
 }
 
 // 0x3f150c _ZN5Level14SetLevelConfigEP11LevelConfig
-// PARTIAL: stores m_levelConfig (+0x38), as the original does first. The three sound ids (+0x11c music, +0x120, +0x124
-// ambience) come from LevelConfig name strings (config fields around +0x17c, +0x1c0 and +0x190) through
-// Arrays::GetMemberIDByString<Arrays::Sounds>. That template is not declared (pydata-accessors has only the non-template
-// GetMemberIDByString), so the ids are left unchanged. dh2/LevelConfig.hpp is also absent.
+// The config is stored (+0x38) and checked with the m_levelConfig assert. The music id (+0x11c) comes from the music name,
+// the ambience id (+0x124) from the ambiant music name and the id at +0x120 from the safezone music name, each through
+// Arrays::GetMemberIDByString<Arrays::Sounds>. The original reads the names' data words, which are the string members
+// (the header's music, safezone_music and ambiant_music strings), and an empty ambient or safezone name leaves its id
+// unchanged. The original reads the names of a null config after its assert and faults. Here a null config returns after the assert.
 void Level::SetLevelConfig(LevelConfig* config) {
-    m_levelConfig = config;  // +0x38
+    m_levelConfig = config;                   // +0x38
+    LevelConfig* checked = GetLevelConfig();  // the m_levelConfig assert (Level.h:476)
+    if (!checked) {
+        return;
+    }
+    m_musicSoundId = Arrays::GetMemberIDByString<Arrays::Sounds>(checked->m_music.c_str());  // +0x11c
+    if (!checked->m_ambiantMusic.empty()) {
+        m_ambienceSoundId = Arrays::GetMemberIDByString<Arrays::Sounds>(checked->m_ambiantMusic.c_str());  // +0x124
+    }
+    if (!checked->m_safezoneMusic.empty()) {
+        unk_120 = Arrays::GetMemberIDByString<Arrays::Sounds>(checked->m_safezoneMusic.c_str());  // +0x120
+    }
 }
 
 // 0x3f16c0 _ZN5Level16UpdateDynamicFogEv
-// PARTIAL: waits on dh2/LevelConfig.hpp. The original checks two LevelConfig words (+0x204 and +0x208) and, when they
-// differ, takes the dynamic fog colour at the current camera-target position from ObjectManager::GetDynamicFogColorAtPos
-// (declared to return the colour by value, the pseudocode passes an output pointer), with the radius at +0x214. It then
-// sets the global material fog colour and writes the result into the scene manager's material slot. The material parameter
-// setter is not declared, so this update is not made.
+// PARTIAL: the guard is reconstructed: the config's dynamic fog colour list (+0x204, m_dfogColors) must be non-empty. The
+// original then takes the absolute position of the current level's camera scene node (Application's current Level, its
+// m_camera (+0x128), that camera's glitch camera node at CameraBase +0x08), passes it to
+// ObjectManager::GetDynamicFogColorAtPos with the blend radius (+0x214), stores the colour at the config's +0x1ec
+// (m_clearColor), and sets the global material fog parameter through the device's material parameter manager (+0x1c, +0x14).
+// The scene node's getAbsolutePosition needs glitch-scene-collada-gui/scene/ISceneNode.hpp, which conflicts with
+// glitch-shared/glitch_core.hpp in this translation unit, and the material chain is not declared. Both are left out (SEAM).
 void Level::UpdateDynamicFog() {
+    if (!m_levelConfig || m_levelConfig->m_dfogColors.empty()) {
+        return;
+    }
+    // SEAM: camera node position, GetDynamicFogColorAtPos, the store to m_clearColor (+0x1ec) and the material parameter set are not made.
 }
 
 // 0x3f2304 _ZN5Level9UpdateFogEPN6glitch5scene10ISceneNodeE
-// PARTIAL: the choice between EnableFog(node) and DisableFog(node) reads LevelConfig +0x1dc (476), and dh2/LevelConfig.hpp
-// is not written yet. Both original branches first read the "isTracingLevel" debug switch, so that read is reproduced
-// here. The result is unused, as in the original.
+// PARTIAL: the choice reads LevelConfig +0x1dc (m_fogEnd): non-zero calls EnableFog(node), zero calls DisableFog(node). Both
+// original branches first read the "isTracingLevel" debug switch, and that read is kept. Its result is unused, as in the
+// original. The choice is complete; EnableFog and DisableFog are partial (the scene manager is not declared).
 void Level::UpdateFog(glitch::scene::ISceneNode* node) {
     if (!m_levelConfig) {
         return;
     }
+    bool fogEnabled = m_levelConfig->m_fogEnd != 0;  // +0x1dc, tested before the debug switch is read
     DebugSwitches::GetInstance()->load();
     DebugSwitches::GetInstance()->GetSwitch(std::string("isTracingLevel"));
-    (void)node;
+    if (fogEnabled) {
+        EnableFog(node);
+    } else {
+        DisableFog(node);
+    }
 }
 
 // 0x3f240c _ZN5Level14_LoadBatchInitEv
 // PARTIAL: the original first calls a virtual method of the scene manager (its glitch::scene::CSceneManager base, vtable
-// +0x60, slot 24, with arguments 0 and 0). That slot has no name in the tree, so the call is not made. The BatchNodeCompiler
-// constructor is not declared (dh2/batch/BatchNodeCompiler.hpp declares only the destructor), so the new object is default
-// constructed and the original's init of its vtable and list sentinels is not reproduced. The switch test, the destruction
-// of the old compiler, and the allocation are reconstructed.
+// +0x60, slot 24, with arguments 0 and 0). That slot has no name in the tree, and the scene manager is the device's +0x1c
+// field, which is not declared, so the call is left out (SEAM). The switch test, the destruction of the old compiler and
+// the allocation are reconstructed. The class has no constructor symbol (batch::BatchNodeCompiler writes its fields inline in
+// the original), so value-initialising new matches the original's init.
 void Level::_LoadBatchInit() {
+    // SEAM: the scene manager's slot +0x60 call with arguments (0, 0) is not made.
     DebugSwitches::GetInstance()->load();
     if (!DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
         delete m_batchNodeCompiler;
@@ -152,9 +189,12 @@ void Level::_LoadBatchInit() {
 }
 
 // 0x3f254c _ZNK5Level4DrawEv
-// PARTIAL: the floor-box switch is read and its result is discarded, as in the original. The path-node drawing waits on
-// the local player's character (PlayerInfo +0x660, dh2/PlayerInfo.hpp absent), on the physics world's debug draw
-// (Singleton<PFWorld>::s_inst is not declared), and on the scene draw slot of the IDraw interface (vtable +0x1c, not named).
+// PARTIAL: the floor-box switch is read and its result is discarded, as in the original. The path-node block is a seam. It
+// runs PFWorld::DBG_Draw at the local character's m_position (PlayerInfo +0x660, GameObject +0x160), then draws the look-at
+// and perpendicular lines through glitch::IVideoDriver::draw3DLine (vtable +0x1c, glitch-video video_driver.hpp). PFWorld cannot
+// share this translation unit with core-platform/memory.hpp (the glitch stand-ins conflict), and the video driver is
+// glitch::IDevice +0x10, whose data members are not declared. The perpendicular uses Vec3f_K (declared) and dword_99F87C and
+// dword_99F880 (not declared; Vec3f_K.hpp gives them as Y 0 and Z 1).
 void Level::Draw() const {
     if (m_loadStep != 38) {
         return;
@@ -169,25 +209,37 @@ void Level::Draw() const {
 }
 
 // 0x3f2ae4 _ZN5Level13_LoadBatchingEv
-// PARTIAL: waits on dh2/LevelConfig.hpp (the batch buffer sizes at +0x2a0 .. +0x2b4, with a 1.02 margin on each size) and
-// on the scene manager. The original sets the scene manager flag at +0x43c around the batch compile and reads the
-// clearRenderLists() result as a Device pointer (Device::IsHighPerformance), but the header declares clearRenderLists as void.
-// The buffer-size writes, the flag writes and BatchNodeCompiler::Compile are not made. The IsDisablingCompiledBatching gate
-// is reconstructed.
+// PARTIAL. The IsDisablingCompiledBatching gate and the BUFFER SIZE print of each branch are reconstructed from LevelConfig
+// (high-performance devices read +0x2a0..+0x2a8, the others +0x2ac..+0x2b4). Device::IsHighPerformance is static and takes no
+// argument, so the clearRenderLists() result is not a Device pointer and nothing is passed to it. clearRenderLists itself is a
+// void call on the scene manager, which is glitch::IDevice +0x1c. Those IDevice data members are not declared, so that call,
+// the scene manager flag at +0x43c (SceneManager::unk_43c), the batch sizes written into the scene manager's batch object
+// (+0x1c, fields +0x22c and +0x230, each times 1.02), BatchNodeCompiler::Compile and the tail after it are not made.
 void Level::_LoadBatching() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
         return;
     }
+    LevelConfig* config = GetLevelConfig();  // the original reads this+0x38 directly; a null config faults there too
+    if (Device::IsHighPerformance()) {
+        std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_progVertexBufferSize, config->m_progIndexBufferSize,
+                    static_cast<int>(config->m_progQuantize));
+        // SEAM: the sizes and BatchNodeCompiler::Compile(m_batchNodeCompiler, m_progQuantize), see above.
+    } else {
+        std::printf("*** BUFFER SIZE: %d %d %d\n", config->m_fixVertexBufferSize, config->m_fixIndexBufferSize,
+                    static_cast<int>(config->m_fixQuantize));
+        // SEAM: the sizes and BatchNodeCompiler::Compile(m_batchNodeCompiler, m_fixQuantize), see above.
+    }
 }
 
 // 0x3f2d38 _ZN5Level14_LoadBatchListEv
-// PARTIAL: the original walks the ObjectManager object tree (a tree header at +0x0c, see the conflict below) and adds
-// each object that passes the name filters ("Module", "Decor", "Player", "Character", the container, door, trap and
-// AnimatedDecor types) to the batch compiler list. The GameObject fields used (the type name at +0x5c, the disabled flag
-// at +0x83, and the object's string at +0x44) and the list push are not declared. Also, dh2/ObjectManager.hpp declares
-// m_objects as a std::list at +0x04, which conflicts with the walked tree at +0x0c. That conflict is not resolved. Only the
-// IsDisablingCompiledBatching gate is reconstructed.
+// PARTIAL. The original walks ObjectManager::m_objectMap (+0x0c, a std::map<int, ObjectListItem>) in tree order and pushes
+// each object that passes the filters onto the batch compiler list (BatchNodeCompiler::m_gameObjects). The filters: a null
+// object or one whose ObjectBase::m_isUnderlay (+0x83) is set is skipped; "Module" and "Decor" are always pushed; "Player"
+// types, and any object whose name contains "Player", are never pushed; "Character" is pushed when MeetCondition holds and
+// it is not a faerie; the container, door, trap and AnimatedDecor types are pushed when MeetCondition holds. The walk needs
+// the map node's object handle and flag, which are in ObjectListItem. dh2/ObjectListItem.hpp is absent (ObjectManager.hpp
+// forward-declares it only), so the walk is not written. Only the IsDisablingCompiledBatching gate is reconstructed.
 void Level::_LoadBatchList() {
     DebugSwitches::GetInstance()->load();
     if (DebugSwitches::GetInstance()->GetSwitch(std::string("IsDisablingCompiledBatching"))) {
@@ -199,14 +251,15 @@ void Level::_LoadBatchList() {
 // 0x3f34c0 _ZN5LevelC2EPKcijjjbbii
 // The two addresses are the C1 and C2 copies of one body. The pseudocode differs only in how the decompiler types the
 // savegame slot word (this+0x114), so one definition serves both.
-// PARTIAL, three seams:
-//   1. The Arrays::LevelList scan (72-byte rows, with name at +0x20, subId at +0x10 and isRandom at +0x14) has no typed row
-//      in pydata-accessors. m_levelListIndex, m_levelListSubId and m_isRandomLevel therefore stay at their defaults, and the
-//      LevelSavegame creation below never runs.
-//   2. The online check (GetOnline()->isOnlineGame_ at +0x05, OnlineSingleton<OnlineGameState>, CMatching and
-//      CMatchingGLLive are not declared) is skipped, so m_resume is not cleared for a joining non-host player.
-//   3. Module::s_moduleId = 0 waits on dh2/Module.hpp (absent).
-// Everything else (the field defaults, the LuaScript data directory and its two loads, and the savegame flags) is rebuilt.
+// PARTIAL, two seams:
+//   1. The online block is skipped. It needs GetOnline()->isOnlineGame_ (+0x05), which COnline keeps protected with no getter
+//      (net-session-online/c_online.hpp), and OnlineSingleton<OnlineGameState>, CMatching and CMatchingGLLive, which are not
+//      declared in the tree. So m_resume is not cleared for a joining non-host player when the game is online.
+//   2. The Arrays::LevelList scan is skipped. Its rows need w7_arrays_00.hpp, which cannot share a translation unit with
+//      member_names.hpp. So m_levelListIndex, m_levelListSubId and m_isRandomLevel keep their defaults, and the savegame
+//      creation below does not run for a level that is in the list.
+// Everything else is rebuilt: the field defaults, the LuaScript data directory and its two loads, Module::s_moduleId, and the
+// savegame flags that depend on the list index.
 Level::Level(const char* name, int entryPointId, uint32_t savegameSlot, uint32_t seed, uint32_t syncedSeed,
              bool resume, bool useSpawnPoint, int fromSubId, int difficulty)
     : EventManager(), m_script(false), m_levelName(name) {
@@ -263,9 +316,12 @@ Level::Level(const char* name, int entryPointId, uint32_t savegameSlot, uint32_t
     m_script.Load("level/combat_formulas");
     m_script.Load("level/death_scripts");
 
-    // SEAM 1: the Arrays::LevelList scan (sets m_levelListIndex, m_levelListSubId, m_isRandomLevel) is not reconstructed.
-    // SEAM 2: the online check (may clear m_resume) is not reconstructed.
-    // SEAM 3: the original also sets Module::s_moduleId = 0. dh2/Module.hpp is absent, so that store is not made.
+    Module::s_moduleId = 0;
+
+    // SEAM: the Arrays::LevelList scan (sets m_levelListIndex, m_levelListSubId and m_isRandomLevel from the row whose lowercased
+    // name is a substring of m_levelName; rows are Structs::LevelDeclaration with the name at m_w8, subId at m_w4, isRandom at
+    // m_w5). It needs Arrays::LevelList::members and size from pydata-accessors/w7_arrays_00.hpp, which conflicts with
+    // pydata-accessors/member_names.hpp (included for SetLevelConfig's Arrays::GetMemberIDByString) in one translation unit.
 
     if (m_levelListIndex != -1) {
         if (fromSubId != -1) {
@@ -310,16 +366,19 @@ void Level::_LoadScriptFile(std::string& file) {
 }
 
 // 0x3f3a58 _ZN5Level12_LoadScriptsEv
-// PARTIAL: waits on dh2/LevelConfig.hpp. The original's last step passes the LevelConfig std::string at +0x150 (the
-// pseudocode's (std::string*)config + 14, 24 bytes each) to _LoadScriptFile, which rewrites it. That call is not made.
-// The global script loads and the m_levelConfig assert are reconstructed.
+// Reconstructed. The last step passes the level config's script file name (LevelConfig +0x150, m_scriptFile; the pseudocode's
+// (std::string*)config + 14 with 24-byte strings) to _LoadScriptFile by reference, so _LoadScriptFile rewrites the config's
+// string in place, as the original does. A null config asserts in GetLevelConfig; the original then passes null + 0x150 and
+// faults, which std::abort reproduces here.
 void Level::_LoadScripts() {
     ScriptManager::s_inst.UnLoadAllScripts();
     ScriptManager::s_inst.LoadScriptFile("data/pydata/scripts_pyscripts.bin", true);
     ScriptManager::s_inst.LoadScriptFileNames("data/pydata/scripts_pyscriptnames.bin", true);
     LevelConfig* config = GetLevelConfig();  // the same m_levelConfig assert as the original
-    (void)config;
-    // SEAM: _LoadScriptFile(config's name string at +0x150) is not called.
+    if (!config) {
+        std::abort();
+    }
+    _LoadScriptFile(config->m_scriptFile);
 }
 
 // 0x3f3b40 _ZN5Level8LoadFileERKSsS1_
@@ -336,11 +395,10 @@ int Level::LoadFile(const std::string& file, const std::string& tag) {
 
 // 0x3f4154 _ZN5Level8LoadTileEPN3rnd4TileEi
 // PARTIAL. The original starts with an unconditional ASSERT(false) at Level.cpp line 3269. That is reproduced: level 2
-// stops with a null store (here std::abort), and level 1 prints the assert text. The tile's grid position (Tile +0x84,
-// +0x88 and +0x8c) and the two child name ranges (Tile +0x60..+0x64 and +0x78..+0x7c) are not declared in
-// dh2/rnd/Tile.hpp. So the m_moduleOffset update and the mgp and mvp module loads are skipped. Reconstructed: the module
-// id, the mvx and mgx paths (gameplay/visual folder plus block name, from Block +0x1c and +0x04), the two module loads,
-// the zeroed module offset, and the recursion over the children (m_childCount and m_children).
+// stops with a null store (here std::abort), and level 1 prints the assert text. Reconstructed: the grid position (the tile's
+// m_x, m_y and m_z, scaled by the block's unit and block sizes; the y term is negated), the module id, the mvx and mgx paths
+// (gameplay/visual folder plus block name), the two module loads, the zeroed module offset, and the recursion over the
+// children. Skipped: the mgp and mvp module loads (see the SEAM comment below).
 int Level::LoadTile(rnd::Tile* tile, int moduleId) {
     if (gAssertLevel == 2) {
         std::abort();
@@ -348,12 +406,19 @@ int Level::LoadTile(rnd::Tile* tile, int moduleId) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "false",
                      "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp", 3269);
     }
+    rnd::Block* block = tile->m_block;
+    // The original sets the grid position before SetObjectModuleId. X scales the cell column by the block width, with half a
+    // cell for each extra cell; Y does the same with the cell row and the unit height, negated (the original flips the sign bit).
+    m_moduleOffset.X = (static_cast<float>(tile->m_x) + static_cast<float>(block->m_blockWidth - 1) * 0.5f) * block->m_unitWidth;
+    m_moduleOffset.Y = (static_cast<float>(tile->m_y) + static_cast<float>(block->m_blockHeight - 1) * 0.5f) * -block->m_unitHeight;
+    m_moduleOffset.Z = tile->m_z;
     SetObjectModuleId(moduleId);
 
-    rnd::Block* block = tile->m_block;
     std::string mvxPath = block->m_gameplay + "/mvx/" + block->m_name + ".mvx";
     std::string mgxPath = block->m_gameplay + "/mgx/" + block->m_name + ".mgx";
-    // SEAM: the grid position and the mgp and mvp paths are not reconstructed (see above).
+    // SEAM: the mgp and mvp loads (original: gameplay + "/mgp/" + range at Tile +0x60..+0x64, and gameplay + "/mvp/" + range at
+    // +0x78..+0x7c). Those words lie inside the ListElem copy's m_gameplay (ListElem +0x1c) and m_visual (+0x34) string
+    // objects, so they are string internals that the host std::string does not expose. Not reconstructed.
 
     int loaded = 0;
     do {

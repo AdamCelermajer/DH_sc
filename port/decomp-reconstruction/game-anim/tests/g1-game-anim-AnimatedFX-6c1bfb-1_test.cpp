@@ -4,7 +4,7 @@
 // functions are called non-virtually, as in the game-world test. The functions the batch references
 // but does not define (SyncIrrData, SetSpeed, HasCompleted, VisualObject::SetVisible,
 // DebugSwitches::GetInstance and GetSwitch) are stubbed below and record their calls. Update is linked
-// but not called: its owner and lifetime blocks are not rebuilt yet.
+// but not called here; its lifetime countdown is tested in r2a-game-anim-pack0-392f84-0_test.cpp.
 
 #include <cstdio>
 #include <cstring>
@@ -12,6 +12,7 @@
 
 #include "core-platform/deps/game_types.hpp"
 #include "dh2/AnimatedFX.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/VisualObject.hpp"
 
@@ -68,6 +69,16 @@ DebugSwitches* DebugSwitches::GetInstance() {
 
 bool DebugSwitches::GetSwitch(const std::string&) {
     return false;
+}
+
+// Update reads the frame time from the Application singleton. Update is linked but not called here, so the
+// singleton only needs to exist for the link.
+alignas(Application) unsigned char g_appStorage[sizeof(Application)];
+Application& ApplicationGetInstance() {
+    return *reinterpret_cast<Application*>(g_appStorage);
+}
+int Application::GetDt() {
+    return 0;
 }
 
 int main() {

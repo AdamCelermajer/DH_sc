@@ -1,24 +1,25 @@
-// Batch g1-game-anim-CharAnimator-2af513-1 (CharAnimator, part 2 of 3): the item swoosh helpers, the anim-set
-// helpers, SetAnimationSet and the anim stack (0x3c94b8 to 0x3caccc). Declarations come from dh2/CharAnimator.hpp,
-// which needed no change for this batch.
+// Batch g1-game-anim-CharAnimator-2af513-1 (CharAnimator, part 2 of 3): the item swoosh helpers, the anim-set helpers,
+// SetAnimationSet and the anim stack (0x3c94b8 to 0x3caccc). Declarations come from dh2/CharAnimator.hpp.
 //
-// Complete rows: SetCharacter, ANIM_Stop, ANIM_Set. ANIM_Stop was checked in the assembly: the StopClip call passes
-// animIndex 0 in r2, a value the function sets with MOV R2, #0 at entry.
+// Complete rows: _PlayItemSwooshFX, ANIM_IsSequence/ANIM_IsRandom/ANIM_IsUnique (uint), ANIM_AddSetToRenderObject,
+// ANIM_AddAnimDictToSet, _AddTemplateAnimTable, ANIM_Swap, and SetCharacter, ANIM_Stop, ANIM_Set.
 //
 // Partial rows and what is missing (each is marked at its use):
-//   Arrays::AnimTable / Arrays::CharAnimTable rows: the element classes are not identified (pydata keeps the 20-byte
-//     and 160-byte listing strides). Scalar fields are read through ReadAnimTableWord, as in
-//     g1-game-anim-CharAnimator-2af513-0.cpp. The step table pointer (+0x0c) is a runtime address and the 56-byte step
-//     records cannot be read, so every step path is missing.
-//   AnimSetManager singleton: Singleton<AnimSetManager>::s_inst has no declaration (AnimSetManager.hpp has no instance).
 //   VoxSoundManager::s_instance, Play3D and LoadSound: not declared (vox-audio/include/vox-audio/vox/sound_manager.hpp).
-//   VisualFXManager (singleton, PlayAnimFXSet, RegisterFXSetToLoad): waits on dh2/VisualFXManager.hpp (absent).
-//   ItemInstance: waits on dh2/ItemInstance.hpp (absent), so the swoosh sound and FX ids (Item +0x14, +0x18) cannot be read.
-//   CameraLevel (CanPlayShakeAnim, PlayAnim): waits on dh2/CameraLevel.hpp (absent).
-//   AnimSetController and BlendedAnimSetController: wait on dh2/AnimSetController.hpp (absent).
-//   glitch::collada::STriggeredEvent: not defined, so __CallbackEvent cannot read its two words.
-//   AnimController::SetCallbacks takes a void event callback, but __CallbackEvent returns int (see the layout requests).
-//   _SetAnim's random pick: the original passes r1 as the synced flag and never sets it on that path.
+//     Used by _PlayItemSwooshSFX, _SetAnimStep and _AddAnimTable.
+//   _SetAnimStep: also the random camera pick. The original calls Random::GetRandom(StepsSize-like count, -1), a second
+//     argument of -1 where the header declares bool synced. The call is not written until that is settled.
+//   _CompileAnimSet: the debug name needs the 32-bit const char* at Character +0x13c4. That word falls inside
+//     Character::m_charPropsName (std::string at +0x13b0), and the CharAnimTable name table is not read.
+//   SetAnimationSet: the CharSkillList loop. Character::GetCharSkillList() returns void*, and no record type exists
+//     for the skill list (count at +0x04, entries read through GetCharSkill).
+//   _SetAnim: the random pick's synced argument is register r1, which the original does not set on that path. false is
+//     a placeholder until the call is settled.
+//
+// Arrays::AnimTable records are host Structs::AnimTpl elements reached through the typed pointer (pydata
+// element_table.hpp), never through 20-byte strides on the table bytes. Step tables are host Structs::AnimStep
+// elements (structs_records.hpp), reached by typed index.
+//
 // ~CharAnimator (0x3c9af8) is the compiler-generated deleting destructor. Its body is the complete destructor and
 // CustomFree(this), so no body is written here.
 
@@ -28,14 +29,28 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
-#include <string>
 
 #include "dh2/AnimController.hpp"
+#include "dh2/AnimSetController.hpp"
+#include "dh2/AnimSetManager.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/BlendedAnimSetController.hpp"
+#include "dh2/CameraLevel.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/GameObject.hpp"
+#include "dh2/ItemInstance.hpp"
+#include "dh2/ItemInventory.hpp"
+#include "dh2/Level.hpp"
 #include "dh2/Random.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
-#include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::AnimStep, Structs::CharAnim, Structs::ItemBase
+#include "pydata-accessors/w7_arrays_02.hpp"     // Arrays::AnimTable::members and size
+#include "pydata-accessors/w7_pydata12.hpp"      // PyDataConstants::getConstant
+#include "pydata-accessors/w7_structs_2.hpp"     // Structs::Item, the record ItemInstance::GetItem returns
+#include "pydata-accessors/w7_structs_5.hpp"     // Structs::AnimTpl, the Arrays::AnimTable element
 
 // Global assert level (libDungeonHunter2.so gAssertLevel). core-platform/memory.hpp declares it too.
 extern int gAssertLevel;
@@ -56,60 +71,76 @@ void ReportAssert(const char* expression, int line) {
     }
 }
 
-// Arrays::AnimTable records keep the listing stride of 20 bytes (see g1-game-anim-CharAnimator-2af513-0.cpp). Fields
-// are decoded field by field as little-endian 32-bit words at their listing offsets (decisions 2 and 3 of TRACK-B.md).
-constexpr std::size_t kAnimTableStride = 20;
-constexpr std::size_t kAnimTableLoopCount = 0x04;   // +0x04 loop count given to a new stack entry
-constexpr std::size_t kAnimTableStepCount = 0x08;   // +0x08 StepsSize
-constexpr std::size_t kAnimTableKind = 0x10;        // +0x10 0 unique, 1 sequence, 2 random
-
-std::int32_t ReadAnimTableWord(int animId, std::size_t listingOffset) {
-    const std::uint8_t* record = Arrays::AnimTable::members + kAnimTableStride * static_cast<std::size_t>(animId);
-    const std::uint8_t* p = record + listingOffset;
-    std::uint32_t value = 0;
-    for (std::size_t i = 0; i < 4; ++i) {
-        value |= static_cast<std::uint32_t>(p[i]) << (8 * i);
-    }
-    return static_cast<std::int32_t>(value);
+// The Arrays::AnimTable record of animId, a host Structs::AnimTpl element. m_w1 is the loop count (+0x04), m_w2 the
+// step count (+0x08), m_w3 the step table (+0x0c) and m_w4 the kind (+0x10): 0 unique, 1 sequence, 2 random.
+const Structs::AnimTpl& AnimTableRecord(int animId) {
+    const auto* records = static_cast<const Structs::AnimTpl*>(static_cast<const void*>(Arrays::AnimTable::members));
+    return records[animId];
 }
 
-// The debug switch read used by the trace calls and the MP_MinimalRandoms test. GetInstance() calls load() and then
-// returns the singleton, the same sequence as the original's load(&s_inst) followed by GetSwitch (the original's
-// s_inst is private, see g1-game-anim-CharAnimator-2af513-2.cpp).
+// The step table of a record: host Structs::AnimStep elements. The fields follow the listing offsets: m_w1 swoosh
+// attach flag (+0x04), m_w2 anim dictionary (+0x08), m_w3 time (+0x0c), m_w4 camera anim (+0x10), m_w6 FX set (+0x18),
+// m_w7 flag (+0x1c), m_w8 and m_w9 camera anim array (+0x20, +0x24), m_w10 Redir (+0x28), m_w11 sound (+0x2c),
+// m_w12 step speed (+0x30), m_w13 swoosh flag (+0x34).
+const Structs::AnimStep* StepTable(const Structs::AnimTpl& record) {
+    return static_cast<const Structs::AnimStep*>(record.m_w3);
+}
+
+// The debug switch read in the original: DebugSwitches::load(&s_inst), then GetSwitch(&s_inst, name).
 bool DebugSwitchSet(const char* name) {
-    return DebugSwitches::GetInstance()->GetSwitch(name);
+    DebugSwitches::s_inst.load();
+    return DebugSwitches::s_inst.GetSwitch(name);
+}
+
+// AnimController::EventCallback returns void and the controller discards any result, while __CallbackEvent returns the
+// RaiseEvent result. This adapter is the void-typed form of the pointer the original registers.
+void CallbackEventAdapter(const glitch::collada::STriggeredEvent& event, void* user) {
+    (void)CharAnimator::__CallbackEvent(event, user);
 }
 
 }  // namespace
 
 // 0x3c94b8 _ZN12CharAnimator18_PlayItemSwooshSFXEP12ItemInstance
-// partial: the original returns 0 for a null item, then reads the swoosh sound id from ItemInstance::GetItem() (Item
-// +0x14), returns 0 when the id is -1, and otherwise calls VoxSoundManager::Play3D at the target position of m_character
-// (GameObject::GetTargetPosition) and returns 1. Waits on dh2/ItemInstance.hpp (absent), and VoxSoundManager::Play3D is
-// not declared, so only the null-item test is written. The stub return is 0 for every non-null item.
+// partial: returns 0 for a null item and for a sound id of -1 (Item +0x14, Structs::ItemBase m_w5). Otherwise the
+// original calls VoxSoundManager::Play3D with the target position of m_character (GameObject::GetTargetPosition) and
+// returns 1. Play3D is not declared (see the top of this file), so the sound is not played and the result stays 0.
 bool CharAnimator::_PlayItemSwooshSFX(ItemInstance* item) {
     if (item == nullptr) {
         return false;
     }
-    return false;  // stub, see above
+    const int soundId = item->GetItem()->m_w5;  // Item +0x14
+    if (soundId == -1) {
+        return false;
+    }
+    // Missing: VoxSoundManager::s_instance->Play3D(soundId, m_character->GetTargetPosition(), 0, 1, -1.0f, -1.0f).
+    return false;
 }
 
 // 0x3c955c _ZN12CharAnimator17_PlayItemSwooshFXEP12ItemInstanceb
-// partial: same shape as _PlayItemSwooshSFX. The original reads the swoosh FX id (Item +0x18), returns 0 for -1, and calls
-// VisualFXManager::PlayAnimFXSet either on m_character (attached) or at the target position with the character's
-// orientation field (Character +0x16c). Waits on dh2/VisualFXManager.hpp and dh2/ItemInstance.hpp (both absent).
+// Returns 0 for a null item and for a FX set id of -1 (Item +0x18, Structs::ItemBase m_w6). Attached, the set is played
+// on m_character. Detached, it is played at the target position with the character's rotation (Character +0x16c) as
+// origin. Both calls play through VisualFXManager::s_inst and return 1.
 bool CharAnimator::_PlayItemSwooshFX(ItemInstance* item, bool attached) {
-    (void)attached;
     if (item == nullptr) {
         return false;
     }
-    return false;  // stub, see above
+    const int fxId = item->GetItem()->m_w6;  // Item +0x18
+    if (fxId == -1) {
+        return false;
+    }
+    VisualFXManager& fx = VisualFXManager::s_inst;
+    if (attached) {
+        fx.PlayAnimFXSet(fxId, m_character, nullptr);
+    } else {
+        const Point3D<float>& target = m_character->GetTargetPosition();
+        fx.PlayAnimFXSet(fxId, target, m_character->m_rotation, nullptr, nullptr);
+    }
+    return true;
 }
 
 // 0x3c9600 _ZNK12CharAnimator15ANIM_IsSequenceEj
-// partial: the kind word of the stack entry's AnimTable record (+0x10) is read through ReadAnimTableWord, because the
-// element class is not identified (same as ANIM_IsUnique in part 0). Assert 745 fires when m_animStackIdx < stackIdx.
-// stackIdx is expected to stay below 3, the number of stack levels.
+// Not stopped and the kind (m_w4) of the AnimTable record of stack entry stackIdx is 1. Assert 745 fires when
+// m_animStackIdx < stackIdx.
 bool CharAnimator::ANIM_IsSequence(unsigned int stackIdx) const {
     if (m_stopped) {
         return false;
@@ -117,11 +148,11 @@ bool CharAnimator::ANIM_IsSequence(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 745);
     }
-    return ReadAnimTableWord(m_animStack[stackIdx].m_animId, kAnimTableKind) == 1;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 1;
 }
 
 // 0x3c96dc _ZNK12CharAnimator13ANIM_IsRandomEj
-// partial: as ANIM_IsSequence, kind 2, assert line 726.
+// As ANIM_IsSequence, kind 2, assert line 726.
 bool CharAnimator::ANIM_IsRandom(unsigned int stackIdx) const {
     if (m_stopped) {
         return false;
@@ -129,11 +160,11 @@ bool CharAnimator::ANIM_IsRandom(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 726);
     }
-    return ReadAnimTableWord(m_animStack[stackIdx].m_animId, kAnimTableKind) == 2;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 2;
 }
 
 // 0x3c97b8 _ZNK12CharAnimator13ANIM_IsUniqueEj
-// partial: as ANIM_IsSequence, kind 0, assert line 707.
+// As ANIM_IsSequence, kind 0, assert line 707.
 bool CharAnimator::ANIM_IsUnique(unsigned int stackIdx) const {
     if (m_stopped) {
         return false;
@@ -141,7 +172,7 @@ bool CharAnimator::ANIM_IsUnique(unsigned int stackIdx) const {
     if (m_animStackIdx < stackIdx) {
         ReportAssert("stackIdx <= m_animStackIdx", 707);
     }
-    return ReadAnimTableWord(m_animStack[stackIdx].m_animId, kAnimTableKind) == 0;
+    return AnimTableRecord(m_animStack[stackIdx].m_animId).m_w4 == 0;
 }
 
 // 0x3c9890 _ZN12CharAnimator12SetCharacterEP9Character
@@ -180,12 +211,11 @@ int CharAnimator::__CallbackEvent(glitch::collada::STriggeredEvent const& ev, vo
 }
 
 // 0x3c99a0 _ZN12CharAnimator25ANIM_AddSetToRenderObjectEv
-// partial: the original returns at once when the character has no visual object. Otherwise it picks the controller
-// class: AnimSetController when the character is a faerie or the AnimationBlendingDisabled switch is set (m_blended
-// stays 0), BlendedAnimSetController otherwise (m_blended is 1). It then creates the controller on the visual's scene
-// node with m_animSetId, installs it with VisualObject::SetAnimController and sets the callbacks through the controller's
-// vtable slot +0x2c. Waits on dh2/AnimSetController.hpp and dh2/BlendedAnimSetController.hpp (both absent), and
-// AnimController::SetCallbacks takes a void event callback, so only the decision and the m_blended store are written.
+// Returns at once when the character has no visual object. Otherwise AnimSetController is chosen when the character is a
+// faerie or the AnimationBlendingDisabled switch is set (m_blended stays 0), and BlendedAnimSetController otherwise
+// (m_blended is 1). The controller is built on the visual's scene node with m_animSetId and installed with
+// VisualObject::SetAnimController, which deletes the previous controller. The animation and event callbacks are then
+// registered through the controller's vtable slot +0x2c.
 void CharAnimator::ANIM_AddSetToRenderObject() {
     VisualObject* visual = m_character->m_visualObject;    // Character +0x2d8
     if (visual == nullptr) {
@@ -193,7 +223,15 @@ void CharAnimator::ANIM_AddSetToRenderObject() {
     }
     // Same short-circuit order as the original: IsFaerie() first, the switch only when it is false.
     const bool animSetOnly = m_character->IsFaerie() || DebugSwitchSet("AnimationBlendingDisabled");
-    m_blended = !animSetOnly;  // +0x54, set after the controller is created in the original
+    auto* node = visual->m_node;                           // VisualObject +0x08
+    if (animSetOnly) {
+        visual->SetAnimController(new AnimSetController(node, m_animSetId));
+        m_blended = false;                                 // +0x54
+    } else {
+        visual->SetAnimController(new BlendedAnimSetController(node, m_animSetId));
+        m_blended = true;                                  // +0x54
+    }
+    visual->m_animController->SetCallbacks(&CharAnimator::__Callback, this, &CallbackEventAdapter, this);  // slot +0x2c
 }
 
 // 0x3c9af8 _ZN12CharAnimatorD0Ev
@@ -202,9 +240,7 @@ void CharAnimator::ANIM_AddSetToRenderObject() {
 // virtual destructor, so no body is written.
 
 // 0x3c9b14 _ZN12CharAnimator21ANIM_AddAnimDictToSetEi
-// partial: the set id is fetched once (+0x3c), and a non-negative dictionary is added to the set. The add is
-// AnimSetManager::AddAnim(&Singleton<AnimSetManager>::s_inst, m_animSetId, animDict), which is missing because the
-// singleton has no declaration.
+// The set id is fetched once (+0x3c), and a non-negative dictionary is added to the set on the singleton.
 void CharAnimator::ANIM_AddAnimDictToSet(int animDict) {
     if (m_animSetCompiled) {                                       // +0x38
         return;
@@ -213,15 +249,16 @@ void CharAnimator::ANIM_AddAnimDictToSet(int animDict) {
         m_animSetId = m_character->GetCharUniqueAnimSetId();
     }
     if (animDict >= 0) {
-        // Missing: AnimSetManager::AddAnim(&Singleton<AnimSetManager>::s_inst, m_animSetId, animDict).
+        AnimSetManager::s_inst.AddAnim(m_animSetId, animDict);
     }
 }
 
 // 0x3c9b7c _ZN12CharAnimator15_CompileAnimSetEv
 // partial: the set id is fetched, the set is marked compiled, and ANIM_AddSetToRenderObject runs, in the original's order.
 // The debug name, "CharAnimTable: (%d) %s || CharacterTable: (%d) %s", is missing: it needs the CharAnimTable name table
-// (Arrays::CharAnimTable::m_memberNames, indexed by the anim table id), the character table id and name (Character
-// +0x13c8 and +0x13c4), and AnimSetManager::DBG_SetName on the singleton.
+// (Arrays::CharAnimTable::m_memberNames, indexed by the anim table id), the character table id (Character +0x13c8,
+// m_charPropsId) and the 32-bit name pointer at Character +0x13c4, which falls inside m_charPropsName (see the top of
+// this file). AnimSetManager::DBG_SetName is called with that name.
 void CharAnimator::_CompileAnimSet() {
     if (m_animSetCompiled) {                                       // +0x38
         return;
@@ -235,57 +272,137 @@ void CharAnimator::_CompileAnimSet() {
 }
 
 // 0x3c9c7c _ZN12CharAnimator21_AddTemplateAnimTableEiij
-// partial: the original does nothing for a negative anim table or an index past Arrays::AnimTable::size. Otherwise it
-// asserts (line 200) when the record's StepsSize is not 1, then reads the single template step (+0x0c, the step table
-// pointer, is a runtime address, so the step's Redir flag and anim id are not readable) and calls
-// AnimSetManager::AddTemplateAnim on the singleton when the step is not a redirect. The add is missing.
+// The original does nothing for a negative anim table or an index past Arrays::AnimTable::size. Otherwise it asserts
+// (line 200) when the record's StepsSize is not 1, then reads the first step and, when that step is not a redirect,
+// adds its anim to the set through AnimSetManager::AddTemplateAnim.
 void CharAnimator::_AddTemplateAnimTable(int animSetId, int animTable, unsigned int offset) {
-    (void)animSetId;
     if (animTable < 0) {
         return;
     }
-    const int index = static_cast<int>(offset) + animTable;
-    if (index >= static_cast<int>(Arrays::AnimTable::size)) {
+    const std::uint32_t index = offset + static_cast<std::uint32_t>(animTable);
+    if (index >= Arrays::AnimTable::size) {
         return;
     }
-    if (ReadAnimTableWord(index, kAnimTableStepCount) != 1) {
+    const Structs::AnimTpl& record = AnimTableRecord(static_cast<int>(index));
+    if (record.m_w2 != 1) {
         ReportAssert("anim.StepsSize == 1", 200);
     }
-    // Missing: the template step read and AnimSetManager::AddTemplateAnim(&Singleton<AnimSetManager>::s_inst, ...).
+    if (record.m_w3 == nullptr) {
+        // Not reached with StepsSize 1. The original would read the null step table here and fault.
+        return;
+    }
+    const Structs::AnimStep& first = StepTable(record)[0];
+    if (first.m_w10 == 0) {  // Redir (+0x28) clear
+        AnimSetManager::s_inst.AddTemplateAnim(animSetId, first.m_w2);  // +0x08
+    }
 }
 
 // 0x3c9d80 _ZN12CharAnimator13_AddAnimTableEiijjj
-// partial: the range test, the stance test and the isTracingChar_Init trace read are written. The stance test is
-// (stanceList & stanceMask) == stanceMask, or offset == 0 when that is false; the body runs only when it holds. The
-// per-step loop is missing: a step with Redir set recurses with animId and zero offsets and stance masks, and any other
-// step adds its anim to the set (AnimSetManager::AddAnim), loads its sound (VoxSoundManager::LoadSound) and registers
-// its FX set (VisualFXManager::RegisterFXSetToLoad). The step records cannot be read (see the top of this file).
+// partial: the range test, the stance test ((stanceList & stanceMask) == stanceMask, or offset 0 when that is false), the
+// isTracingChar_Init trace read and the step loop are written. A redirect step recurses with its anim and zero offsets
+// and stance masks. Any other step adds its anim to the set (AnimSetManager::AddAnim) and registers its FX set
+// (VisualFXManager::RegisterFXSetToLoad). Missing: VoxSoundManager::LoadSound of the step's sound (see the top of this file).
 void CharAnimator::_AddAnimTable(int animSetId, int animTable, unsigned int offset, unsigned int stanceMask,
                                  unsigned int stanceList) {
-    (void)animSetId;
     if (animTable < 0) {
         return;
     }
-    const int index = static_cast<int>(offset) + animTable;
-    if (index >= static_cast<int>(Arrays::AnimTable::size)) {
+    const std::uint32_t index = offset + static_cast<std::uint32_t>(animTable);
+    if (index >= Arrays::AnimTable::size) {
         return;
     }
     const bool stanceMatch = (stanceList & stanceMask) == stanceMask;
     if (!(stanceMatch || offset == 0)) {
         return;
     }
+    const Structs::AnimTpl& record = AnimTableRecord(static_cast<int>(index));
     (void)DebugSwitchSet("isTracingChar_Init");
-    // Missing: the per-step loop over the anim table's step records (see above).
+    const Structs::AnimStep* steps = StepTable(record);
+    for (std::uint32_t i = 0; i < record.m_w2; ++i) {
+        const Structs::AnimStep& step = steps[i];
+        if (step.m_w10 != 0) {  // Redir (+0x28)
+            _AddAnimTable(animSetId, step.m_w2, 0, 0, 0);
+        } else {
+            AnimSetManager::s_inst.AddAnim(animSetId, step.m_w2);
+            // Missing: if (VoxSoundManager::s_instance) VoxSoundManager::LoadSound(s_instance, step.m_w11) (+0x2c).
+            if (step.m_w6 >= 0) {  // FX set (+0x18)
+                VisualFXManager::s_inst.RegisterFXSetToLoad(step.m_w6);
+            }
+        }
+    }
 }
 
 // 0x3c9f4c _ZN12CharAnimator15SetAnimationSetEv
-// partial: the set id is fetched (+0x3c). The rest is missing. It needs AnimSetManager::Exists on the singleton, the stance
-// count ("AnimStances", "COUNT_IPHONE" through the application's PyDataConstants, or 1 when IsPlayer() is false), the
-// CharAnimTable row (fields 1 to 39 and the template id at field 36), the CharSkillList row (count at +0x04), and the
-// _AddAnimTable and _AddTemplateAnimTable calls that use them.
+// partial: the set id is fetched (+0x3c) and, when the set does not exist yet, the anim sets are built from the character's
+// CharAnimTable row (Structs::CharAnim, typed words) in the original's order: the template and fixed anim tables, then one
+// pass of _AddAnimTable per stance (the stance count is AnimStances COUNT_IPHONE for a player, else 1). Missing: the
+// CharSkillList loop, which needs a record type for the skill list (GetCharSkillList returns void*). The skill list is
+// fetched and discarded.
 void CharAnimator::SetAnimationSet() {
     m_animSetId = m_character->GetCharUniqueAnimSetId();  // +0x3c
-    // Missing: the rest of the set build (see above).
+    const int setId = m_animSetId;
+    if (AnimSetManager::s_inst.Exists(setId)) {
+        return;
+    }
+    PyDataConstants* constants = Singleton<Application>::s_inst.m_pyDataConstants;  // Application +0x2c
+    const int stanceCount = m_character->IsPlayer() ? constants->getConstant("AnimStances", "COUNT_IPHONE") : 1;
+    const int stanceList = constants->getConstant("AnimStancedAnim", "SL__LIST_IPHONE");
+    const Structs::CharAnim* table = m_character->GetCharAnimTable();
+    (void)m_character->GetCharSkillList();  // Missing: the skill loop (see above).
+
+    int templateId = table->m_w36;  // +0x90
+    if (templateId == -1) {
+        (void)m_character->GetCharAnimTableId();
+        templateId = table->m_w36;
+    }
+    _AddTemplateAnimTable(setId, templateId, 0);
+    _AddAnimTable(setId, table->m_w22, 0, 0, 0);
+    _AddAnimTable(setId, table->m_w25, 0, 0, 0);
+    _AddAnimTable(setId, table->m_w32, 0, 0, 0);
+    _AddAnimTable(setId, table->m_w23, 0, 0, 0);
+    if (stanceCount != 0) {
+        std::uint32_t stance = 0;
+        do {
+            _AddAnimTable(setId, table->m_w10, stance, 0x2u, stanceList);
+            _AddAnimTable(setId, table->m_w37, stance, 0x10u, stanceList);
+            _AddAnimTable(setId, table->m_w28, stance, 0x20u, stanceList);
+            _AddAnimTable(setId, table->m_w1, stance, 0x40u, stanceList);
+            _AddAnimTable(setId, table->m_w2, stance, 0x80u, stanceList);
+            _AddAnimTable(setId, table->m_w31, stance, 0x100u, stanceList);
+            _AddAnimTable(setId, table->m_w35, stance, 0x200u, stanceList);
+            _AddAnimTable(setId, table->m_w18, stance, 0x400u, stanceList);
+            _AddAnimTable(setId, table->m_w9, stance, 0x800u, stanceList);
+            _AddAnimTable(setId, table->m_w15, stance, 0x1000u, stanceList);
+            _AddAnimTable(setId, table->m_w3, stance, 0x2000u, stanceList);
+            _AddAnimTable(setId, table->m_w8, stance, 0x4000u, stanceList);
+            _AddAnimTable(setId, table->m_w7, stance, 0x8000u, stanceList);
+            _AddAnimTable(setId, table->m_w5, stance, 0x10000u, stanceList);
+            _AddAnimTable(setId, table->m_w4, stance, 0x20000u, stanceList);
+            _AddAnimTable(setId, table->m_w6, stance, 0x40000u, stanceList);
+            _AddAnimTable(setId, table->m_w26, stance, 0x100000u, stanceList);
+            _AddAnimTable(setId, table->m_w27, stance, 0x80000u, stanceList);
+            _AddAnimTable(setId, table->m_w38, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->m_w29, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->m_w12, stance, 0x4u, stanceList);
+            _AddAnimTable(setId, table->m_w14, stance, 0x8u, stanceList);
+            _AddAnimTable(setId, table->m_w11, stance, 0x8u, stanceList);
+            _AddAnimTable(setId, table->m_w13, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->m_w39, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->m_w30, stance, 0u, stanceList);
+            _AddAnimTable(setId, table->m_w20, stance, 0x1000000u, stanceList);
+            _AddAnimTable(setId, table->m_w21, stance, 0x1000000u, stanceList);
+            const auto* group = static_cast<const std::int32_t*>(table->m_w17);  // +0x44 int32 array, m_w16 entries
+            for (std::uint32_t i = 0; i < table->m_w16; ++i) {
+                _AddAnimTable(setId, group[i], stance, 0x800000u, stanceList);
+            }
+            const auto* extra = static_cast<const std::int32_t*>(table->m_w34);  // +0x88 int32 array, m_w33 entries
+            for (std::uint32_t i = 0; i < table->m_w33; ++i) {
+                _AddAnimTable(setId, extra[i], stance, 0x400000u, stanceList);
+            }
+            // Missing: the CharSkillList loop (count at list +0x04, each skill's anim table id at skill +0x04, mask 0x200000).
+            ++stance;
+        } while (stance != static_cast<std::uint32_t>(stanceCount));
+    }
 }
 
 // 0x3ca52c _ZN12CharAnimator16RequestAnimPurgeEv
@@ -303,47 +420,117 @@ void CharAnimator::RequestAnimPurge() {
 }
 
 // 0x3ca79c _ZN12CharAnimator12_SetAnimStepEj
-// partial: the original returns when the anim has no step at that index (StepsSize <= step), otherwise it stores the
-// step index in the stack entry and raises Character event 38. The step record, which decides the camera shake, the
-// swoosh and item sounds, the sound and FX of the step, the timing, the redirect into _SetAnim, the animation set
-// update and the controller playback, cannot be read (see the top of this file). The camera part waits on
-// dh2/CameraLevel.hpp, and the item and FX calls wait on dh2/ItemInstance.hpp and dh2/VisualFXManager.hpp. The body
-// stops after the event.
+// partial. The step index is stored in the top stack entry and event 38 is raised, as in the original. A redirect step
+// (Redir, +0x28 == 1) pushes its anim one level up through _SetAnim. Otherwise the step plays its camera shake, swoosh and
+// item sounds, its sound and FX, its controller timing and its playback. Missing:
+//   - VoxSoundManager::Play3D of the step's sound (m_w11, +0x2c), which is not declared;
+//   - the random camera pick (count m_w8 at +0x20 and array m_w9 at +0x24): Random::GetRandom is called with a second
+//     argument of -1 in the original (see the top of this file), so the pick and its PlayAnim are not written.
+// The camera part uses Level::m_camera (Level +0x128) and CameraLevel::CanPlayShakeAnim/PlayAnim.
 void CharAnimator::_SetAnimStep(unsigned int step) {
-    StackEntry& top = m_animStack[m_animStackIdx];           // +0x08 + 12 * m_animStackIdx
-    const unsigned int stepCount =
-        static_cast<unsigned int>(ReadAnimTableWord(top.m_animId, kAnimTableStepCount));
-    if (stepCount <= step) {
+    StackEntry& top = m_animStack[m_animStackIdx];                     // +0x08 + 12 * m_animStackIdx
+    const Structs::AnimTpl& record = AnimTableRecord(top.m_animId);
+    if (static_cast<unsigned int>(record.m_w2) <= step) {               // StepsSize <= step
         return;
     }
-    top.m_stepIndex = static_cast<int>(step);                // +0x10 + 12 * m_animStackIdx
+    top.m_stepIndex = static_cast<int>(step);                           // +0x10 + 12 * m_animStackIdx
     m_character->RaiseEvent(38, nullptr);
-    // Missing: the step record path (see above).
+    const Structs::AnimStep& s = StepTable(record)[step];
+
+    if (s.m_w10 == 1) {                                                 // Redir: push the redirect one level up
+        _SetAnim(s.m_w2, m_animStackIdx + 1);
+        return;
+    }
+
+    if (s.m_w4 != -1 || s.m_w8 != 0) {                                  // camera shake anim, or a random set of them
+        Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
+        CameraLevel* camera = (level != nullptr) ? level->m_camera : nullptr;  // Level +0x128
+        if (camera != nullptr && camera->CanPlayShakeAnim(m_character)) {
+            if (s.m_w4 != -1) {
+                camera->PlayAnim(s.m_w4, 0, true);
+            }
+            // Missing: the random pick of s.m_w9[Random::GetRandom(s.m_w8, -1)] when s.m_w4 == -1 (see above).
+        }
+    }
+
+    m_swooshActive = s.m_w13;                                           // +0x30, copy of the step's swoosh flag
+    bool playStepSound = true;                                          // a clear swoosh flag falls through to the sound
+    bool playStepFx = true;                                             // v12 in the original
+    if (s.m_w13) {
+        ItemInstance* mainHand = m_character->GetEquippedItem(1u);
+        ItemInstance* offHand = m_character->GetEquippedItem(2u);
+        const bool mainSfxMissing = !_PlayItemSwooshSFX(mainHand);
+        const bool mainFxPlayed = _PlayItemSwooshFX(mainHand, s.m_w1);
+        playStepFx = !mainFxPlayed;
+        playStepSound = mainSfxMissing;
+        if (mainSfxMissing) {
+            playStepSound = !_PlayItemSwooshSFX(offHand);
+        }
+        if (playStepFx) {
+            playStepSound = !_PlayItemSwooshFX(offHand, s.m_w1);
+        }
+    }
+
+    if (playStepSound) {
+        // Missing: VoxSoundManager::Play3D(s.m_w11, m_character->GetTargetPosition(), 0, 1, -1.0f, -1.0f) (see above).
+    }
+
+    if (playStepFx && s.m_w6 != -1) {                                   // FX set (+0x18)
+        VisualFXManager& fx = VisualFXManager::s_inst;
+        if (s.m_w1) {
+            fx.PlayAnimFXSet(s.m_w6, m_character, nullptr);
+        } else {
+            fx.PlayAnimFXSet(s.m_w6, m_character->GetTargetPosition(), m_character->m_rotation, nullptr, nullptr);
+        }
+    }
+
+    m_stepSpeed = s.m_w12;                                              // +0x34, step speed (+0x30)
+    VisualObject* visual = m_character->m_visualObject;                 // Character +0x2d8
+    if (visual == nullptr || s.m_w2 == -1) {
+        ANIM_Stop();
+        return;
+    }
+    m_stopped = false;                                                  // +0x48
+    _CompileAnimSet();
+    AnimController* controller = visual->m_animController;              // VisualObject +0x38
+    if (m_blended) {
+        auto* blended = static_cast<BlendedAnimSetController*>(controller);
+        blended->unk_14 = (m_animFinished || m_stopLoop) ? 0 : s.m_w3;  // +0x14 cross-fade, zero while finishing
+        blended->unk_0c = 0;                                            // +0x0c
+        blended->unk_10 = s.m_w7;                                       // +0x10
+    } else {
+        auto* animSet = static_cast<AnimSetController*>(controller);
+        animSet->unk_0c = static_cast<int>(m_blended);                  // +0x0c, m_blended is 0 on this path
+        animSet->unk_10 = s.m_w7;                                       // +0x10
+    }
+    controller->PlayClip(static_cast<unsigned int>(s.m_w2), false, m_extraTime, 0u);  // vtable +0x1c, loop 0
+    controller->SetScale(m_speed * m_stepSpeed, 0u);                                  // vtable +0x28
 }
 
 // 0x3cab38 _ZN12CharAnimator8_SetAnimEij
-// partial: the guard, the stack entry update, the loop count, the isTracingCharAnimator trace read and the event 36 are
-// written. For a random anim (kind 2) without the MP_MinimalRandoms switch, the step is drawn with
-// Random::GetRandom(StepsSize, synced). In the original, the synced argument is register r1, which this path never sets
-// (its value is whatever the std::string cleanup left behind). The reconstruction passes false in its place. Any other
+// partial: the guard, the stack entry update, the loop count (Loop, +0x04), the isTracingCharAnimator trace read and the
+// event 36 are written. For a random anim (kind 2) without the MP_MinimalRandoms switch, the step is drawn with
+// Random::GetRandom(StepsSize, synced). In the original the synced argument is register r1, which this path never sets
+// (its value is whatever the std::string cleanup left behind). false stands in for it until that is settled. Any other
 // case calls _SetAnimStep(0).
 void CharAnimator::_SetAnim(int animId, unsigned int stackIdx) {
     if (!(animId >= 0 && static_cast<std::uint32_t>(animId) < Arrays::AnimTable::size && stackIdx <= 2)) {
         return;
     }
-    m_currentAnim = animId;                                  // +0x4c
-    m_animStackIdx = stackIdx;                               // +0x2c
+    m_currentAnim = animId;                                 // +0x4c
+    m_animStackIdx = stackIdx;                              // +0x2c
+    const Structs::AnimTpl& record = AnimTableRecord(animId);
     StackEntry& entry = m_animStack[stackIdx];
-    entry.m_animId = animId;                                 // +0x08 + 12 * stackIdx
-    entry.m_loopCount = ReadAnimTableWord(animId, kAnimTableLoopCount);  // +0x0c + 12 * stackIdx
+    entry.m_animId = animId;                                // +0x08 + 12 * stackIdx
+    entry.m_loopCount = record.m_w1;                        // +0x0c + 12 * stackIdx (Loop, +0x04 of the record)
     (void)DebugSwitchSet("isTracingCharAnimator");
     m_character->RaiseEvent(36, nullptr);
     bool randomPick = false;
-    if (ReadAnimTableWord(animId, kAnimTableKind) == 2) {
+    if (record.m_w4 == 2) {
         randomPick = !DebugSwitchSet("MP_MinimalRandoms");
     }
     if (randomPick) {
-        const int stepsSize = ReadAnimTableWord(animId, kAnimTableStepCount);
+        const int stepsSize = static_cast<int>(record.m_w2);
         // partial: the synced argument (r1) is undefined in the original on this path. false is a placeholder.
         const bool syncedUndefinedPlaceholder = false;
         const unsigned int step = Random::GetRandom(stepsSize, syncedUndefinedPlaceholder);
@@ -366,12 +553,10 @@ void CharAnimator::ANIM_Set(int animId) {
 }
 
 // 0x3caccc _ZN12CharAnimator9ANIM_SwapEii
-// partial: the original first handles the old-anim test: a non-negative old id that differs from the current one swaps
-// through ANIM_Set and keeps the speed. Otherwise it stores the new id in stack level 0 and checks the Loop (+0x04) and
-// StepsSize (+0x08) fields against the old anim (asserts 899 and 900). With no redirect levels (m_animStackIdx == 0) the
-// new id becomes m_currentAnim (+0x4c) and the function ends. With a deeper stack the original walks each level's
-// redirect through the new anim's step records (Redir must be 1, assert 907), which cannot be read, so the body stops
-// after level 0.
+// A non-negative old id that differs from the current one swaps through ANIM_Set and keeps the speed. Otherwise the new
+// id is stored level by level down the stack. Each level's record is checked against the old one (Loop, assert 899, and
+// StepsSize, assert 900). A level below the top takes the next id from the step at its step index, which must be a
+// redirect (assert 907). The top level sets m_currentAnim.
 void CharAnimator::ANIM_Swap(int newAnimId, int oldAnimId) {
     if (newAnimId == -1) {
         return;
@@ -385,17 +570,34 @@ void CharAnimator::ANIM_Swap(int newAnimId, int oldAnimId) {
         }
         return;
     }
-    m_animStack[0].m_animId = newAnimId;                     // +0x08
-    if (ReadAnimTableWord(newAnimId, kAnimTableLoopCount) != ReadAnimTableWord(currentId, kAnimTableLoopCount)) {
-        ReportAssert("newAnim.Loop == oldAnim.Loop && \"New anim sequence does not match in format (Loop)\"", 899);
+    int newId = newAnimId;
+    int oldId = currentId;
+    for (unsigned int level = 0;; ++level) {
+        m_animStack[level].m_animId = newId;                 // +0x08 + 12 * level
+        const Structs::AnimTpl& newRecord = AnimTableRecord(newId);
+        const Structs::AnimTpl& oldRecord = AnimTableRecord(oldId);
+        if (newRecord.m_w1 != oldRecord.m_w1) {
+            ReportAssert("newAnim.Loop == oldAnim.Loop && \"New anim sequence does not match in format (Loop)\"", 899);
+        }
+        if (newRecord.m_w2 != oldRecord.m_w2) {
+            ReportAssert("newAnim.StepsSize == oldAnim.StepsSize && \"New anim sequence does not match in format (Length)\"",
+                         900);
+        }
+        const unsigned int top = m_animStackIdx;             // +0x2c
+        if (top > level) {
+            const Structs::AnimStep& step = StepTable(newRecord)[m_animStack[level].m_stepIndex];
+            if (step.m_w10 != 1) {                           // Redir (+0x28)
+                ReportAssert("newAnim.Steps[info.stepIdx].Redir == Constants::AnimRedir::IsRedir && "
+                             "\"New anim sequence does not match in format (Depth)\"",
+                             907);
+            }
+            newId = step.m_w2;
+        } else {
+            m_currentAnim = newId;                           // +0x4c
+        }
+        if (level + 1 > top) {
+            break;
+        }
+        oldId = m_animStack[level + 1].m_animId;
     }
-    if (ReadAnimTableWord(newAnimId, kAnimTableStepCount) != ReadAnimTableWord(currentId, kAnimTableStepCount)) {
-        ReportAssert("newAnim.StepsSize == oldAnim.StepsSize && \"New anim sequence does not match in format (Length)\"",
-                     900);
-    }
-    if (m_animStackIdx > 0) {
-        // Missing: the redirect walk through the new anim's step records (see above).
-        return;
-    }
-    m_currentAnim = newAnimId;                               // +0x4c
 }

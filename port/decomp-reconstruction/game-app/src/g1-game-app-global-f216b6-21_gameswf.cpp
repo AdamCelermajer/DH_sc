@@ -5,6 +5,7 @@
 // does not build yet (gameswf is headers-only). In the main unit, the batch test would otherwise pull those references into its link.
 
 #include "dh2/global/GetLocalPosition.hpp"
+#include "gameswf/gameswf_character.h"  // gameswf::character (complete type; the DH2 get_world_matrix returns a pointer)
 
 // 0x7aa2e0 GetLocalPosition(gameswf::character*, float, float)
 // Asm: the result is zeroed first. X = 20.0f * x and Y = 20.0f * y (20.0f is 0x41a00000). The world matrix is the value
@@ -19,7 +20,7 @@ gameswf::point GetLocalPosition(gameswf::character* ch, float x, float y) {
     const float scaledX = 20.0f * x;
     const float scaledY = 20.0f * y;
 
-    const gameswf::matrix world = ch->get_world_matrix();
+    const gameswf::matrix world = *ch->get_world_matrix();
 
     gameswf::matrix inverse;
     inverse.m_[0][0] = 1.0f;

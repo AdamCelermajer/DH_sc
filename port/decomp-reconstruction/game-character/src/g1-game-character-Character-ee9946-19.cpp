@@ -1,9 +1,10 @@
 // Batch g1-game-character-Character-ee9946-19: stat, regeneration, mana, level and experience code of Character
 // (0x3bd600 .. 0x3bf828). Declarations come from dh2/Character.hpp.
 //
-// Status by function (the ledger rows in game-character/ledger.d/g1-game-character-Character-ee9946-19.csv repeat it):
-//   reconstructed: IncStatEnd, IncStatDex, IncStatStr
-//   partial:       ModifyCharProps, RegenMP, RegenHP, RegenTick, UseMana, LevelUp, _GiveXP, DistributeXP
+// Status by function (the ledger rows of the batches that own these functions repeat it; the redo batch
+// r2a-game-character-Character-ee9946-9 holds ModifyCharProps, RegenMP, RegenHP, RegenTick and UseMana):
+//   reconstructed: IncStatEnd, IncStatDex, IncStatStr, ModifyCharProps
+//   partial:       RegenMP, RegenHP, RegenTick, UseMana, LevelUp, _GiveXP, DistributeXP
 //
 // Header conflict: dh2/PlayerManager.hpp, dh2/PlayerInfo.hpp and dh2/Level.hpp include net-transport's stream_buffer.hpp,
 // which redefines IStreamBase (pydata-accessors' deps/stream_reader.hpp is included by Character.hpp through CharProperties).
@@ -16,10 +17,11 @@
 // value left by 8. The original's CharProperties::_GetProperty(m_props, id) is PROPS_Get(id, false).
 //
 // Every ASSERT of this batch is in Character_Stats.cpp. gAssertLevel 1 prints the failed expression here. gAssertLevel 2
-// stores 0 to address 0 in the original (a deliberate crash); that store is not reproduced, and each function that has one
-// is marked PARTIAL.
+// stores 0 to address 0 in the original (a deliberate crash). Here it ends the process with std::abort(), as CharAI's
+// AssertFailed and core-platform's memory.cpp do for the same store.
 
 #include <cstdio>
+#include <cstdlib>
 
 #include "core-platform/memory.hpp"          // gAssertLevel
 #include "dh2/Application.hpp"
@@ -59,9 +61,12 @@ void ProbeSwitch(const char* name) {
     DebugSwitches::GetInstance()->GetSwitch(name);
 }
 
-// The original's ASSERT(expression) at Character_Stats.cpp:line. gAssertLevel 2 is the deliberate crash, not reproduced.
+// The original's ASSERT(expression) at Character_Stats.cpp:line. gAssertLevel 2 ends the process (abort, see the header
+// note). gAssertLevel 1 prints the message and execution goes on. 0 is silent.
 void ReportAssert(const char* expression, int line) {
-    if (gAssertLevel == 1) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
         std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression, kStatsSourceFile, line);
     }
 }
@@ -119,7 +124,6 @@ void Character::IncStatStr() {
 }
 
 // 0x3bda74 Character::ModifyCharProps(int,int)
-// PARTIAL: the ASSERT amount >= 0 (Character_Stats.cpp:398) at gAssertLevel 2 is the deliberate null store, not reproduced.
 // The IsPlayer test is the virtual call of vtable slot +0x28, which is Character::IsPlayer (dh2/Character.hpp).
 void Character::ModifyCharProps(int propId, int amount) {
     if (!IsPlayer()) {
@@ -135,8 +139,9 @@ void Character::ModifyCharProps(int propId, int amount) {
 
 // 0x3bdbb8 Character::RegenMP(int)
 // PARTIAL: the original returns int. It returns the total MP (raw, prop 43) when nothing is regenerated, and the int of
-// CharProperties::PROPS_Add otherwise. The header declares RegenMP and PROPS_Add void, so the return value is not made.
-// No caller in the tree reads it. The regeneration itself is reproduced.
+// CharProperties::PROPS_Add otherwise (0x3e0708 returns int: a RecalcProperty or _SetProperty result, or the type word).
+// dh2/CharProperties.hpp declares PROPS_Add void, so that value is not made. The regeneration itself is reproduced.
+// CharAI::_UpdateRegen (0x3cb77c) returns RegenTick's value on its tail-call path, through this value.
 void Character::RegenMP(int amount) {
     const int current = PROPS_Get(kPropMP, false);
     const int total = PROPS_Get(kPropTotalMP, false);
@@ -185,11 +190,16 @@ void Character::RegenTick(bool inCombat) {
 }
 
 // 0x3bdef4 Character::UseMana(int)
-// PARTIAL: the original first reads COnline's online-game flag (GetOnline() + 5). When the flag is set and
-// IsRemotelyUpdated() holds, the result is true. COnline is only forward-declared (dh2/global/net_singletons.hpp), so the
-// online branch is not reproduced and every call runs the offline path. The ASSERT amount >= 0 (line 159) at gAssertLevel
-// 2 is the deliberate null store, not reproduced.
+// PARTIAL: the online branch calls Application::IsOnlineGame, which is a game-app stub that returns false. The original
+// reads COnline's flag at +0x05 (*(GetOnline() + 5)), and that flag has no getter in net-session-online (layout request).
+// Until the stub is replaced, the online branch is never taken. The rest is reproduced, including the ASSERT
+// amount >= 0 (line 159).
 bool Character::UseMana(int cost) {
+    // The original's online test comes first: in an online game a remotely updated character spends nothing, and the
+    // ASSERT is skipped on that path.
+    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {
+        return true;
+    }
     if (cost < 0) {
         ReportAssert("amount >= 0", 159);
     }
@@ -256,7 +266,7 @@ void Character::LevelUp(int levels) {
 // PARTIAL: (1) the original returns 0 when the current Level's unk_150 (+0x150) is non-null, and it compares the unlocked
 // difficulty with the Level's m_difficulty (+0x118) to force the amount to 256 when it is lower. Both read dh2/Level.hpp,
 // which conflicts with the pydata IStreamBase (see the header note). Neither check is made here. (2) The ASSERT
-// amount >= 0 (Character_Stats.cpp:350) at gAssertLevel 2 is the deliberate null store, not reproduced. (3) The a3 branch,
+// amount >= 0 (Character_Stats.cpp:350) is made by ReportAssert (abort at gAssertLevel 2). (3) The a3 branch,
 // PlayerStatManager::IncreaseStat(6, xp >> 8, player's PlayerInfo +0x670), is not made: Singleton<PlayerStatManager>::s_inst
 // has no accessor. The declaration returns bool now (was void): the body returns 1 or 0 and DistributeXP reads the result.
 bool Character::_GiveXP(int xp, bool a3) {

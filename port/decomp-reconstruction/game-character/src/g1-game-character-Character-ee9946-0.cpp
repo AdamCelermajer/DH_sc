@@ -1,12 +1,23 @@
 // Batch g1-game-character-Character-ee9946-0: the Character constant predicates and getters, the
-// virtual-dispatch camera check, the cached-OID lookup, and the FX scale and loot getters.
+// virtual-dispatch camera check, the cached-OID lookup, and the focus, update-flag, FX scale and loot getters.
 // Declarations come from dh2/Character.hpp.
 //
-// Partial functions read words that the Character header cannot name yet: the flag word at +0x520
-// (CharStateMachine +0x24, private there), the AI target at +0x408 (CharAI +0x40, private there), and the
-// raw CharProperties sheet words at +0x5b0 and +0x101c. Each partial body is a placeholder and says so.
+// The focus object, the update flags, the FX scale and the loot read the members they name.
+// CharAI::m_target (Character +0x408), CharStateMachine::m_stateFlags (Character +0x520) and the CharProperties
+// sheets (m_baseProps.m_w18 at +0x5b0, m_props.m_w10 at +0x101c) are all public members of the Character bases.
+
+#include <cstdint>
 
 #include "dh2/Character.hpp"
+
+namespace {
+
+// The original tests bit `bit` of a flag word with a logical shift: (word >> bit) & 1.
+bool FlagBit(std::uint32_t flags, unsigned int bit) {
+    return ((flags >> bit) & 1u) != 0;
+}
+
+}  // namespace
 
 // 0x3a2e1c _ZNK9Character11IsCharacterEv
 bool Character::IsCharacter() const {
@@ -14,56 +25,51 @@ bool Character::IsCharacter() const {
 }
 
 // 0x3a2e24 _ZNK9Character14GetFocusObjectEv
-// partial. The original returns the word at Character +0x408, which is CharAI +0x40 (CharAI::m_target).
-// CharAI keeps m_target private and has no public getter, so this returns nullptr until the layout request
-// (a public CharAI accessor for m_target) is applied.
+// The word at Character +0x408 is CharAI +0x40, the AI target (CharAI::m_target).
 GameObject* Character::GetFocusObject() const {
-    return nullptr;
+    return CharAI::m_target;
 }
 
 // 0x3a2e2c _ZNK9Character14IsUpdatingPathEv
-// partial. The original returns bit 0x80 of the word at Character +0x520 (see the file comment). Placeholder
-// false until that word is readable from Character.
+// Bit 0x80 of the CharStateMachine flag word m_stateFlags (Character +0x520, CharStateMachine +0x24).
 bool Character::IsUpdatingPath() const {
-    return false;
+    return FlagBit(CharStateMachine::m_stateFlags, 7);
 }
 
 // 0x3a2e38 _ZNK9Character28IsUpdatingPositionFromVisualEv
-// partial. The original returns bit 0x01 of the word at Character +0x520. Placeholder false.
+// Bit 0x01 of m_stateFlags.
 bool Character::IsUpdatingPositionFromVisual() const {
-    return false;
+    return FlagBit(CharStateMachine::m_stateFlags, 0);
 }
 
 // 0x3a2e44 _ZNK9Character29IsUpdatingPositionFromPhysicsEv
-// partial. The original returns bit 0x02 of the word at Character +0x520. Placeholder false.
+// Bit 0x02 of m_stateFlags.
 bool Character::IsUpdatingPositionFromPhysics() const {
-    return false;
+    return FlagBit(CharStateMachine::m_stateFlags, 1);
 }
 
 // 0x3a2e50 _ZNK9Character28IsUpdatingRotationFromVisualEv
-// partial. The original returns bit 0x04 of the word at Character +0x520. Placeholder false.
+// Bit 0x04 of m_stateFlags.
 bool Character::IsUpdatingRotationFromVisual() const {
-    return false;
+    return FlagBit(CharStateMachine::m_stateFlags, 2);
 }
 
 // 0x3a2e5c _ZNK9Character29IsUpdatingRotationFromPhysicsEv
-// partial. The original returns bit 0x08 of the word at Character +0x520. Placeholder false.
+// Bit 0x08 of m_stateFlags.
 bool Character::IsUpdatingRotationFromPhysics() const {
-    return false;
+    return FlagBit(CharStateMachine::m_stateFlags, 3);
 }
 
 // 0x3a2e68 _ZNK9Character28IsUpdatingVisualWithRotationEv
-// partial. The original returns the inverse of bit 0x10 of the word at Character +0x520 (EOR 0x10, then
-// bit 4). Placeholder false.
+// The inverse of bit 0x10 of m_stateFlags (EOR 0x10, then bit 4), so true when the bit is clear.
 bool Character::IsUpdatingVisualWithRotation() const {
-    return false;
+    return !FlagBit(CharStateMachine::m_stateFlags, 4);
 }
 
 // 0x3a2e78 _ZNK9Character25IsValidatingFloorPositionEv
-// partial. The original returns the inverse of bit 0x40 of the word at Character +0x520 (EOR 0x40, then
-// bit 6), so 1 when the bit is clear. Placeholder 0.
+// The inverse of bit 0x40 of m_stateFlags (EOR 0x40, then bit 6): 1 when the bit is clear, 0 when it is set.
 int Character::IsValidatingFloorPosition() const {
-    return 0;
+    return FlagBit(CharStateMachine::m_stateFlags, 6) ? 0 : 1;
 }
 
 // 0x3a2e88 _ZNK9Character24IsValidatingCameraLimitsEv
@@ -74,18 +80,17 @@ bool Character::IsValidatingCameraLimits() const {
 }
 
 // 0x3a2e9c _ZNK9Character10GetFXScaleEv
-// partial. The original converts the int at Character +0x5b0 to float (__aeabi_i2f) and multiplies it by
-// 0.01f (raw word 0x3C23D70A), then returns the result in all three components. The int lies in the
-// CharProperties base sheet and has no named accessor, so this returns the GameObject scale (m_scale) as a
-// placeholder until the layout request is applied.
+// The int at Character +0x5b0 is CharProperties +0x50, the base sheet word m_baseProps.m_w18. It is converted to
+// float and multiplied by 0.01f (raw word 0x3C23D70A), and the result is returned in all three components.
 Point3D<float> Character::GetFXScale() const {
-    return m_scale;
+    const float scale = static_cast<float>(CharProperties::m_baseProps.m_w18) * 0.01f;
+    return Point3D<float>{scale, scale, scale};
 }
 
 // 0x3a2ecc _ZNK9Character15GetFXScaleValueEv
-// partial. Returns the int at Character +0x5b0 (see GetFXScale). Placeholder -1, the GameObject default.
+// Returns the base sheet word m_baseProps.m_w18 (Character +0x5b0), the same word GetFXScale scales.
 int Character::GetFXScaleValue() const {
-    return -1;
+    return CharProperties::m_baseProps.m_w18;
 }
 
 // 0x3a2ed4 _ZNK9Character6IsDeadEv
@@ -132,9 +137,7 @@ int Character::HasCharOIDInCache(int oid) {
 }
 
 // 0x3a2fcc _ZNK9Character7GetLootEv
-// partial. The original returns the int at Character +0x101c, which lies in the CharProperties base
-// (its m_props sheet, sheet offset 0x28). It has no named accessor yet, so this returns -1 as a
-// placeholder until the layout request is applied.
+// The int at Character +0x101c is CharProperties +0xabc, the final sheet word m_props.m_w10 (sheet offset 0x28).
 int Character::GetLoot() const {
-    return -1;
+    return CharProperties::m_props.m_w10;
 }

@@ -2,23 +2,30 @@
 // close state changes, the net-struct and serialization hooks, and the InitFinal and InitPost lifecycle
 // hooks. Declarations come from dh2/Door.hpp. Original 32-bit size 0x6d0.
 //
+// REDO (batch r2a-game-world-Door-478d47-0): the PFWorld flag calls (dh2/PFWorld.hpp through Singleton<PFWorld>),
+// the Lua bindings (dh2/sfc/script/lua/Binder.hpp), the physics body (dh2/PODecor.hpp on ApplicationGetInstance()),
+// the door-name index and the SetVisible branch are written now. The functions below are reconstructed unless
+// marked PARTIAL.
+//
 // Partial functions and what is missing:
-//   - Opened, Closed, Disabled, Enabled: PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, m_pfObject, bool).
-//     The tree declares no Singleton template and no accessor for the PFWorld instance.
 //   - Open, Close: VoxSoundManager::Play3D for the door sound. dh2/vox-audio does not declare Play3D or s_instance.
-//   - createBindings: sfc::script::lua::Binder::bindFunction and bindMethod. Binder is forward-declared only.
-//   - InitPost: the door-name lookup, the two LoadSound calls, the physics body and the failed-MeetCondition branch.
+//   - InitPost: the door index (m_doorIndex), the m_dae name and the two VoxSoundManager::LoadSound calls.
 //     See the comment on InitPost.
 //
-// Byte at +0x373 (Door::Opened sets it, Door::Closed clears it): the same byte GameObject.hpp names
-// m_idleSoundMuted, which it says Disabled() sets. The Door meaning of the byte is not verified.
+// Byte at +0x373 (Door::Opened sets it, Door::Closed clears it): GameObject.hpp names it m_idleSoundMuted and
+// records that Door::Opened and Door::Closed store it there. The offset is exact. The Door meaning is not verified.
 
 #include "dh2/Door.hpp"
 
 #include "dh2/AnimController.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/IStreamBase.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/PhysicalObject.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/sfc/script/lua/Binder.hpp"
 
 // 0x3e7498 _ZNK4Door11IsUpdatableEv
 bool Door::IsUpdatable() const {
@@ -47,12 +54,14 @@ const char* Door::getUDTypeName() const {
 }
 
 // 0x3e74c8 _ZN4Door14createBindingsERN3sfc6script3lua6BinderE
-// PARTIAL: the four Lua registrations are missing. The original calls
-//   Binder::bindFunction(binder, "Open", _Open, this);  Binder::bindMethod(binder, "Open", _Open);
-//   Binder::bindFunction(binder, "Close", _Close, this); Binder::bindMethod(binder, "Close", _Close);
-// after GameObject::createBindings. No sfc::script::lua::Binder declaration exists in the tree.
+// GameObject::createBindings first. Then Open and Close are bound twice: as functions with the Door as the user
+// pointer, and as methods (the non-template Binder::bindMethod overload, which takes a plain callback).
 void Door::createBindings(sfc::script::lua::Binder& binder) {
     GameObject::createBindings(binder);
+    binder.bindFunction("Open", &Door::_Open, this);
+    binder.bindMethod("Open", &Door::_Open);
+    binder.bindFunction("Close", &Door::_Close, this);
+    binder.bindMethod("Close", &Door::_Close);
 }
 
 // 0x3e7560 _ZN4Door6UpdateEv
@@ -69,7 +78,8 @@ void Door::Update() {
 }
 
 // 0x3e7598 _ZN4Door6ClosedEb
-// PARTIAL: PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, m_pfObject, true) is not emitted.
+// Settles the door in DOOR_CLOSED: the animation (unless silent), the physics filter, the dead-end flag of the
+// floor under the door's path object (set), and the +0x373 byte cleared.
 void Door::Closed(bool silent) {
     m_state = DOOR_CLOSED;                                  // +0x3a8
     VisualObject* visual = m_visualObject;                  // +0x2d8
@@ -81,13 +91,16 @@ void Door::Closed(bool silent) {
     if (physical != nullptr) {
         physical->enableFilter();
     }
+    // PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, this +0x1c8 (m_pfObject), true)
+    Singleton<PFWorld>::s_inst.FlagFloorAsDeadEnd(m_pfObject, true);
     m_idleSoundMuted = 0;                                   // +0x373 (see the file comment)
 }
 
 // 0x3e763c _ZN4Door5CloseEb
 // PARTIAL: the door sound is not emitted. The original calls
 //   VoxSoundManager::Play3D(s_instance, Arrays::Doors::members[m_doorIndex].+12, m_position, false, 1, -1.0f, -1.0f)
-// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D.
+// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D. The PlayClip arguments are checked in the
+// assembly: loop 0, unused 0, animIndex 0.
 void Door::Close(bool instant) {
     // !m_moving && m_state == DOOR_OPENED, otherwise nothing happens
     if (m_moving || m_state != DOOR_OPENED) {
@@ -113,24 +126,28 @@ void Door::_Close(const sfc::script::lua::Arguments& /*args*/, sfc::script::lua:
 }
 
 // 0x3e7788 _ZN4Door6OpenedEb
-// PARTIAL: PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, m_pfObject, false) is not emitted.
+// Settles the door in DOOR_OPENED: the animation (unless silent), the physics filter, the dead-end flag of the floor
+// under the door's path object (cleared), and the +0x373 byte set.
 void Door::Opened(bool silent) {
     m_state = DOOR_OPENED;                                  // +0x3a8
     VisualObject* visual = m_visualObject;                  // +0x2d8
     PhysicalObject* physical = m_physicalObject;            // +0x2dc
     if (visual != nullptr && !silent) {
-        // The original passes loop = 1 (R2) and unused = animIndex = silent, which is 0 on this path.
+        // The assembly loads loop = 1 (R2), and unused and animIndex are the silent argument (R3 and the stack slot),
+        // which is 0 on the path that plays the clip.
         visual->m_animController->PlayClip("IdleOpened", true, 0, 0);
     }
     if (physical != nullptr) {
         physical->disableFilter();
     }
+    // PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, this +0x1c8 (m_pfObject), false)
+    Singleton<PFWorld>::s_inst.FlagFloorAsDeadEnd(m_pfObject, false);
     m_idleSoundMuted = 1;                                   // +0x373 (see the file comment)
 }
 
 // 0x3e7828 _ZN4Door26InterpretIncomingNetStructEb
 // Moves the door to match the incoming open flag (m_netIn.m_open, the value byte at +0x68d). Its own logic
-// matches the pseudocode; it calls Opened and Closed, which are partial.
+// matches the pseudocode; it calls Opened and Closed.
 void Door::InterpretIncomingNetStruct(bool force) {
     if (!force) {
         return;
@@ -151,7 +168,8 @@ void Door::InterpretIncomingNetStruct(bool force) {
 // 0x3e786c _ZN4Door4OpenEb
 // PARTIAL: the door sound is not emitted. The original calls
 //   VoxSoundManager::Play3D(s_instance, Arrays::Doors::members[m_doorIndex].+16, m_position, false, 1, -1.0f, -1.0f)
-// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D.
+// when m_doorIndex != -1, and VoxSoundManager does not declare Play3D. The PlayClip arguments are checked in the
+// assembly: loop 0, unused 0, animIndex 0.
 void Door::Open(bool instant) {
     // !m_moving && m_state == DOOR_CLOSED, otherwise nothing happens
     if (m_moving || m_state != DOOR_CLOSED) {
@@ -193,17 +211,21 @@ void Door::Serialize(IStreamBase* stream) {
 }
 
 // 0x3e7b94 _ZN4Door8DisabledEv
-// PARTIAL: when m_state != DOOR_OPENED the original also calls
-// PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, m_pfObject, false). Singleton<PFWorld> is not declared.
+// The GameObject disable runs first. When the door is not open, the dead-end flag of its floor is set.
 void Door::Disabled() {
     GameObject::Disabled();
+    if (m_state != DOOR_OPENED) {
+        Singleton<PFWorld>::s_inst.FlagFloorAsDeadEnd(m_pfObject, false);  // +0x1c8 m_pfObject
+    }
 }
 
 // 0x3e7bd8 _ZN4Door7EnabledEv
-// PARTIAL: when m_state != DOOR_OPENED the original also calls
-// PFWorld::FlagFloorAsDeadEnd(Singleton<PFWorld>::s_inst, m_pfObject, true). Singleton<PFWorld> is not declared.
+// The GameObject enable runs first. When the door is not open, the dead-end flag of its floor is cleared.
 void Door::Enabled() {
     GameObject::Enabled();
+    if (m_state != DOOR_OPENED) {
+        Singleton<PFWorld>::s_inst.FlagFloorAsDeadEnd(m_pfObject, true);   // +0x1c8 m_pfObject
+    }
 }
 
 // 0x3e7c1c _ZN4Door9InitFinalEv
@@ -221,17 +243,19 @@ void Door::InitFinal() {
 }
 
 // 0x3e7da8 _ZN4Door8InitPostEv
-// PARTIAL, four pieces are missing:
-//   1. The door-name lookup (m_doorIndex at +0x3a0, and the GameObject m_dae at +0x290 from the GameObjectDict
-//      name). The original reads the name through the word at +0x39c, which the constructor sets to the address of
-//      the m_data string object (+0x388). The string layout that makes that a C string is not recovered.
-//      Arrays::Doors is declared twice (member_names.hpp and w7_arrays27.hpp) and its 24-byte element is not typed.
-//   2. The physics body for m_doorCollision (+0x3a5). The PhysicalWorld pointer dword_99F770 has no declared name,
-//      and POZone has no constructor, so the POZone vtable (off_968F88) cannot be installed on the new
-//      PhysicalObject (operator new(0x28), PhysicalObject(world, this, 1, 0, 0, 0, 0, 2, 0xFFFF, 1)).
-//   3. VoxSoundManager::LoadSound for the open and close sounds (not declared).
-//   4. When MeetCondition is false, the original calls vtable slot +0x40 (GameObject::SetVisible) on this with its
-//      bool argument (R1) unset in the listing. That call is not emitted.
+// PARTIAL, three pieces are missing:
+//   1. The door index m_doorIndex (+0x3a0). The original searches Arrays::Doors::m_memberNames for the door name
+//      (strcmp, first match, -1 when absent) and reads the name through the word at +0x39c, which the constructor sets
+//      to m_data's inline buffer. The typed lookup is Arrays::GetMemberIDByString<Arrays::Doors> (member_ids.cpp
+//      instantiates it for Doors at 0x4ae4c8), but its header pydata-accessors/member_names.hpp redefines CustomFree,
+//      which net-transport's byte_array.hpp also defines. dh2/Door.hpp pulls net-transport in, so the two cannot share
+//      a translation unit. Until the engine headers are unified, the index is not set here.
+//   2. The door's GameObject name m_dae (+0x290). With the index, the original reads the Arrays::Doors element's
+//      GameObjectDict index (+0x14) and copies the GameObjectDict name (+0x08 of a 12-byte element). Neither element
+//      is typed, and GameObjectDict is a raw byte table (see Container).
+//   3. VoxSoundManager::LoadSound for the open and close sounds, when m_doorIndex != -1 and s_instance is set.
+//      VoxSoundManager::s_instance and LoadSound are not declared.
+// Written here: the physics body (PODecor, in the MeetCondition branch) and the SetVisible(false) branch.
 void Door::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {   // +0x274
         Zone::InitPost();
@@ -242,6 +266,17 @@ void Door::InitPost() {
                 visual->m_animController->SetCallbacks(&Door::__Callback, this, &Door::__EventCallback, this);
                 visual->ApplyMeshBox();
             }
+            if (m_doorCollision) {                             // +0x3a5
+                // The original allocates 0x28 bytes and builds the PhysicalObject arguments (static, box, group 0,
+                // category 2, mask 0xffff, unused 1) on the physics world (Application +0x44, dword_99F770), then
+                // stores the PODecor vtable: that is PODecor's constructor, whose bool argument is never read.
+                PODecor* body = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
+                GameObject::SetPhysicalObject(body, false);
+            }
+            // PARTIAL: the VoxSoundManager::LoadSound calls (see above).
+        } else {
+            // The original calls vtable slot +0x40 (GameObject::SetVisible) with R1 = the zero MeetCondition() result.
+            SetVisible(false);
         }
     }
 }

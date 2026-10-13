@@ -14,6 +14,7 @@
 #include <new>
 
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAIScript.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/v2Controller.hpp"
@@ -85,6 +86,12 @@ int Character::RaiseEvent(int, void*) { return 0; }
 void Character::RegenTick(bool) {}
 
 void GameObject::EnableCollisions() {}
+
+// Script calls made by StepLoadCommon, StepSetCharacter and StepBindFunction. They are non-virtual, so they run without
+// a script object: the stubs only record that they were reached.
+int LuaScript::Load(const char*) { return 0; }
+void CharAIScript::SetCharacter(Character*) {}
+void CharAIScript::BindFunction() {}
 
 ObjectHandle ObjectBase::GetHandle() { return ObjectHandle(); }
 ObjectHandle::ObjectHandle() : m_id(0), m_cached(nullptr), m_generation(0) {}

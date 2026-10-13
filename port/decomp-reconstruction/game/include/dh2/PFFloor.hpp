@@ -5,6 +5,7 @@
 // Reconstructed from libDungeonHunter2.so pseudocode (ctor 0x51d40c, _LoadNavMesh 0x520b40, _CreateNodes 0x520588).
 #pragma once
 
+#include <cmath>
 #include <cstdint>
 #include <map>
 #include <set>
@@ -18,7 +19,6 @@ class PFGOuterGraph;
 class PFGInnerGraph;
 class PFGInnerNode;
 class PFGInnerEdge;
-struct CompPos;
 namespace glitch {
 namespace core {
 template <typename T> struct triangle3d;
@@ -27,6 +27,28 @@ namespace scene {
 class IMeshSceneNode;
 }  // namespace scene
 }  // namespace glitch
+
+// The key of PFFloor::m_nodeByPos: a midpoint position, 12 bytes (X +0x00, Y +0x04, Z +0x08). The original comparator
+// (inlined in every _Rb_tree lookup, at 0x51bc78 and 0x51bf28) compares X first, then Y, and Z last. X and Y are
+// equal when they differ by less than 0.0001; the first pair that differs by more decides. A Point3D converts
+// implicitly, so the map is searched with a position directly.
+struct CompPos {
+    CompPos() = default;
+    CompPos(const Point3D<float>& position) : pos(position) {}  // NOLINT: implicit on purpose, see above
+
+    bool operator<(const CompPos& other) const {
+        const float epsilon = 0.0001f;
+        if (std::fabs(pos.X - other.pos.X) >= epsilon) {
+            return pos.X < other.pos.X;
+        }
+        if (std::fabs(pos.Y - other.pos.Y) >= epsilon) {
+            return pos.Y < other.pos.Y;
+        }
+        return pos.Z < other.pos.Z;
+    }
+
+    Point3D<float> pos;  // +0x00 .. +0x08
+};
 
 class PFFloor {
 public:
@@ -72,7 +94,7 @@ public:
     // Members in original order. Offsets are the original 32-bit ones; pointers are host width.
     std::string m_name;                                                     // +0x04 name passed to the ctor (24 bytes)
     PFRoom* m_room;                                                         // +0x1c room that loaded the floor (assert name "m_room")
-    std::uint32_t m_objectFlags;                                            // +0x20 1 from PFRoom; 0x01000000 stops node creation, 0x02000000 stops links
+    std::uint32_t m_objectFlags;                                            // +0x20 1 from PFRoom; 0x01000000 stops node creation (_CreateNode, _CreateNodes), 0x02000000 stops edges (_CreateEdge), 0x04000000 stops links (_Link); _LoadNavMesh adds 0x07000000 to a void or wall floor
     std::uint32_t m_typeMask;                                               // +0x24 type bits: 0x01000000 void, 0x02000000 wall, 1 hole, 2 water (_LoadNavMesh)
     std::string m_floorTypes;                                               // +0x28 value of the "floortypes" property, searched by _LoadNavMesh (24 bytes)
     glitch::scene::IMeshSceneNode* m_navMesh;                               // +0x40 copy of the floor's mesh, dropped in the dtor

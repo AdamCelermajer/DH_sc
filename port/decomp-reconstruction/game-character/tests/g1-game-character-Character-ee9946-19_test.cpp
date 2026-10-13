@@ -34,6 +34,7 @@ std::vector<std::string> g_probes;  // DebugSwitches::GetSwitch names, in call o
 bool g_godManaOption = false;       // Application::IsSavedOptionOn("GOD_MANA")
 bool g_godManaSwitch = false;       // DebugSwitches "GOD_MANA"
 bool g_oneKillSwitch = false;       // DebugSwitches "OneKillLevelUp"
+bool g_onlineGame = false;          // Application::IsOnlineGame (UseMana's online test; false keeps the offline path)
 int g_difficulty = 0;               // SG_GetGameDifficultyUnlocked
 
 alignas(16) unsigned char g_charStorage[sizeof(Character)];
@@ -56,6 +57,7 @@ int PyDataConstants::getConstant(const char*, const char*) const { return 50; }
 
 Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
 bool Application::IsSavedOptionOn(const char* name) { return std::string(name) == "GOD_MANA" && g_godManaOption; }
+bool Application::IsOnlineGame() { return g_onlineGame; }
 
 DebugSwitches* DebugSwitches::GetInstance() { return reinterpret_cast<DebugSwitches*>(g_dbgStorage); }
 void DebugSwitches::load() { ++g_loads; }
@@ -108,6 +110,7 @@ void ResetState() {
     g_godManaSwitch = false;
     g_oneKillSwitch = false;
     g_difficulty = 0;
+    g_onlineGame = false;
 }
 
 void TestIncStats() {

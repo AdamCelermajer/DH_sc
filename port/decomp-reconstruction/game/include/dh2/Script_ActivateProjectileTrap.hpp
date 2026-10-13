@@ -1,6 +1,6 @@
 // Script_ActivateProjectileTrap: script command that looks up the object named by its argument and,
-// when that object's m_goId is 17, keeps a pointer to it and sets a flag byte on it (ObjectBase +0x40c,
-// not declared here). When the lookup fails the pointer is cleared. Original 32-bit size 0x14 (20):
+// when that object's m_goId is 17 (ProjectileTrap, GetNewInstance<ProjectileTrap>), keeps a pointer to it and
+// sets its flag byte, which is ProjectileTrap::m_active at +0x40c. When the lookup fails the pointer is cleared. Original 32-bit size 0x14 (20):
 // ScriptCmdImpl (0x10) plus m_trap. The factory's allocation size is not in class-facts.
 // Reconstructed from libDungeonHunter2.so pseudocode (Execute 0x45d3cc, IsBlocking 0x4558bc).
 #pragma once

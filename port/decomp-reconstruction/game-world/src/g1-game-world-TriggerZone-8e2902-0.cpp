@@ -1,0 +1,332 @@
+// Batch g1-game-world-TriggerZone-8e2902-0: every TriggerZone method of the batch (setUpdating, IsDoorClosedActivated,
+// SafeStartScriptOnlyOnce, HideMarker, ShowMarker, Update, the destructors, the constructors, Draw, DeclareProperties,
+// InitPost). Declarations come from dh2/TriggerZone.hpp.
+//
+// Layout facts used here (original 32-bit offsets, named in dh2/TriggerZone.hpp, dh2/Trigger.hpp and their bases):
+//   TriggerZone +0x718 m_scope, +0x71c m_triggerType, +0x720 m_cineId, +0x724 m_script (+0x73c m_scriptId),
+//               +0x740 m_scriptMoveOut (+0x758 m_scriptMoveOutId), +0x75c m_scriptAllPlayer (+0x774 m_scriptAllPlayerId),
+//               +0x778 m_scriptAllPlayerMoveOut (+0x790 m_scriptAllPlayerMoveOutId), +0x794 m_effectOnePlayer
+//               (+0x7ac m_effectOnePlayerIndex), +0x7b0 m_effectOnePlayerFX, +0x7b4 m_entered, +0x7b5 m_markerShown,
+//               +0x7b8 m_doorObject, +0x7bc m_doorName
+//   Trigger     +0x3a8 m_triggerCount, +0x3ac m_triggerDelay, +0x3b4 m_numActivations, +0x3b8 m_timer,
+//               +0x3bc unk_3bc (TriggerZone's touch mode flag), +0x3c0 unk_3c0 (players activating, replicated)
+//   ObjectBase  +0x64 unk_64 (script module handed to StartScript), +0x85 unk_85 (updating), +0xf4 m_goId
+//   AnimatedFX  +0x28 unk_28 (owner)
+//   Door        +0x3a8 m_state
+//   Character   +0x1480 m_isDummy;  PlayerInfo +0x660 unk_660 (the local player's Character)
+//   PlayerManager +0x6c4 m_numCharacters
+//   ScriptManager::s_inst.m_cmds (the vector at ScriptManager +0x18) holds 12-byte ScriptCmds; its unk_04 byte is read in InitPost.
+//
+// Original ASSERT: "m_effectOnePlayerFX == 0" at TriggerZone.cpp line 298 (ShowMarker). Level 2 aborts, level 1 prints.
+
+#include "dh2/TriggerZone.hpp"
+
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+
+#include "dh2/AnimatedFX.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/DebugSwitches.hpp"
+#include "dh2/Door.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/ScriptManager.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"     // dword_99F76C, the PlayerManager instance
+#include "dh2/global/ObjectManagerInstance.hpp" // dword_99F764, the ObjectManager instance
+#include "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp"
+#include "glitch-scene-collada-gui/scene/ITimelineController.hpp"
+
+// Global assert level (libDungeonHunter2.so gAssertLevel at 0x99f914). Declared the same way as in CameraLevel.cpp and
+// AnimatedFX.cpp: the core-platform header is not included here.
+extern int gAssertLevel;
+
+namespace {
+
+// The source path the original's ASSERT messages print (TriggerZone.cpp in the Visual Studio project).
+constexpr const char kTriggerZoneSource[] =
+    "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Triggers\\TriggerZone.cpp";
+
+// The original ASSERT. gAssertLevel 2 stops the program (the original stores to address 0 to crash), level 1 prints the
+// message and the function goes on, level 0 does nothing.
+void ReportAssert(const char* expression, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    } else if (gAssertLevel == 1) {
+        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", expression, kTriggerZoneSource, line);
+    }
+}
+
+}  // namespace
+
+// 0x39b26c TriggerZone::setUpdating(bool)
+// Stores the flag in ObjectBase::unk_85 (the updating flag). When it is cleared, m_entered is cleared too.
+void TriggerZone::setUpdating(bool updating) {
+    unk_85 = static_cast<std::uint8_t>(updating);  // ObjectBase +0x85
+    if (!updating) {
+        m_entered = false;                          // +0x7b4
+    }
+}
+
+// 0x39b27c TriggerZone::IsDoorClosedActivated() const
+// False when no door is bound (m_doorObject, +0x7b8). With a door, true while its m_state (Door +0x3a8) is DOOR_OPENED
+// (1) or DOOR_OPENING (3).
+bool TriggerZone::IsDoorClosedActivated() const {
+    if (m_doorObject == nullptr) {
+        return false;
+    }
+    const Door::DoorStates state = static_cast<Door*>(m_doorObject)->m_state;  // Door +0x3a8
+    return state == Door::DOOR_OPENED || state == Door::DOOR_OPENING;
+}
+
+// 0x39b2a0 TriggerZone::SafeStartScriptOnlyOnce(int) const
+// Does nothing for script id -1. Otherwise starts the script unless ScriptManager reports it already running. The module
+// passed to StartScript is ObjectBase +0x64 (unk_64). The original's return value is leftover register state; no caller
+// reads it, so the declaration is void.
+void TriggerZone::SafeStartScriptOnlyOnce(int scriptId) const {
+    if (scriptId == -1) {
+        return;
+    }
+    if (!ScriptManager::s_inst.IsScriptRunning(scriptId)) {
+        ScriptManager::s_inst.StartScript(scriptId, unk_64, false);  // *(this + 0x64), fromRemote 0
+    }
+}
+
+// 0x39b2f4 TriggerZone::HideMarker()
+// When the marker effect exists: clears its owner (AnimatedFX +0x28), syncs it with the push flag, hides it, releases it
+// to VisualFXManager and clears m_effectOnePlayerFX.
+void TriggerZone::HideMarker() {
+    if (m_effectOnePlayerFX != nullptr) {                                // +0x7b0
+        m_effectOnePlayerFX->unk_28 = nullptr;                           // AnimatedFX +0x28
+        m_effectOnePlayerFX->SyncIrrData(true);
+        m_effectOnePlayerFX->SetVisible(false);
+        VisualFXManager::s_inst.DropAnimatedFX(m_effectOnePlayerFX);     // clears the pointer through the reference
+        m_effectOnePlayerFX = nullptr;
+    }
+}
+
+// 0x39b354 TriggerZone::ShowMarker()
+// For a valid effect index (+0x7ac, not -1), grabs an instance of that effect into m_effectOnePlayerFX (the original
+// asserts that the slot was empty first), makes this zone its owner, syncs and shows it, and turns its timeline loop on.
+// The index is passed to GrabAnimFX as the effect id, as the original does.
+void TriggerZone::ShowMarker() {
+    int effectIndex = m_effectOnePlayerIndex;  // +0x7ac
+    if (effectIndex == -1) {
+        return;
+    }
+    if (m_effectOnePlayerFX != nullptr) {
+        ReportAssert("m_effectOnePlayerFX == 0", 298);
+    }
+    m_effectOnePlayerFX = VisualFXManager::s_inst.GrabAnimFX(effectIndex, nullptr);
+    if (m_effectOnePlayerFX != nullptr) {
+        m_effectOnePlayerFX->unk_28 = this;                              // AnimatedFX +0x28, the owner
+        m_effectOnePlayerFX->SyncIrrData(true);
+        m_effectOnePlayerFX->SetVisible(true);
+        glitch::collada::ISceneNodeAnimator* animator = m_effectOnePlayerFX->GetAnimator();
+        animator->getTimelineCtrl()->setLoop(true);                      // vtable +0x44 then +0x40
+    }
+}
+
+// 0x39b458 TriggerZone::Update()
+// PARTIAL, in three places that need Character's complete type or the online flag:
+//   - the dummy-character skip (the local player's Character +0x1480, m_isDummy) is not taken;
+//   - in touch mode (unk_3bc, +0x3bc, set by InitPost) the local Character must be tested with GameObject::IsTouching, so
+//     neither enter nor leave is decided here (allowEnter and leave stay false);
+//   - the online test *(GetOnline() + 5) is Application::IsOnlineGame(), which game-app stubs to false (COnline::isOnlineGame_
+//     is private with no getter), so the remotely updated branches are not taken.
+// Character.hpp cannot share this translation unit with TriggerZone.hpp: both bring in a CustomFree (pydata-accessors/deps/
+// stream_reader.hpp and net-transport/deps/byte_array.hpp). The offline, non-touch path is bound.
+//
+// Bound body: the door, Trigger::CanActivate and MeetCondition gate the update, then Trigger::Update runs. The player count
+// is the number of owned characters (PlayerManager +0x6c4). The enter and leave decisions and their scripts follow, then
+// the marker.
+//   enter  = all-player enter id is -1 ? (activating > 0) : (activating == characters)
+//   leave  = activating == 0
+void TriggerZone::Update() {
+    if (IsDoorClosedActivated()) {
+        return;
+    }
+    if (!CanActivate()) {
+        return;
+    }
+    if (!MeetCondition()) {
+        return;
+    }
+    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {  // PARTIAL: stub (see above)
+        return;
+    }
+    Trigger::Update();
+    const int numCharacters = dword_99F76C->m_numCharacters;  // PlayerManager +0x6c4
+
+    int numActivating;
+    if (ApplicationGetInstance().IsOnlineGame() && IsRemotelyUpdated()) {  // PARTIAL: stub (see above)
+        numActivating = unk_3c0;
+    } else {
+        numActivating = GetNumPlayerActivating();
+        unk_3c0 = numActivating;
+    }
+
+    // The enter and move-out scripts. The all-player variants replace the one-player ones when they are set.
+    const int enterScriptId = (m_scriptAllPlayerId == -1) ? m_scriptId : m_scriptAllPlayerId;
+    const int leaveScriptId = (m_scriptAllPlayerMoveOutId == -1) ? m_scriptMoveOutId : m_scriptAllPlayerMoveOutId;
+
+    const bool enter = (m_scriptAllPlayerId == -1) ? (numActivating > 0) : (numActivating == numCharacters);
+    bool leave = (numActivating == 0);
+    bool allowEnter = enter;
+
+    if (unk_3bc) {  // +0x3bc, touch mode. PARTIAL: the local Character test is not available (see above).
+        allowEnter = false;
+        leave = false;
+    }
+
+    if (allowEnter && !m_entered) {                                      // +0x7b4
+        m_entered = true;
+        SafeStartScriptOnlyOnce(enterScriptId);
+        m_timer = m_triggerDelay;                                        // +0x3ac -> +0x3b8
+        HideMarker();
+        if (leaveScriptId == -1) {
+            Activate();
+        }
+    }
+    if (m_entered && leave) {
+        m_entered = false;
+        if (leaveScriptId != -1) {
+            SafeStartScriptOnlyOnce(leaveScriptId);
+            Activate();
+        }
+    }
+
+    // The marker: shown while one player stands inside, for a zone that has a one-player script and an all-player script.
+    if (numCharacters > 1 && !unk_3bc && m_scriptAllPlayerId != -1) {
+        if (m_scriptId != -1) {
+            const bool anyActivating = numActivating > 0;
+            if (m_markerShown) {                                         // +0x7b5
+                if (!anyActivating) {
+                    m_markerShown = false;
+                    SafeStartScriptOnlyOnce(m_scriptMoveOutId);
+                    HideMarker();
+                }
+            } else if (anyActivating) {
+                SafeStartScriptOnlyOnce(m_scriptId);
+                m_markerShown = true;
+                ShowMarker();
+            }
+        }
+    }
+}
+
+// 0x39b754 TriggerZone::~TriggerZone()   (complete object destructor, D1)
+// 0x39b804 TriggerZone::~TriggerZone()   (base object destructor, D2, the same body)
+// The original hides the marker, then frees the six std::string members (the compiler destroys them in reverse order,
+// as the original does) and runs Trigger::~Trigger.
+TriggerZone::~TriggerZone() {
+    HideMarker();
+}
+
+// 0x39b7e8 TriggerZone::~TriggerZone()   (deleting destructor, D0)
+// skipped: the compiler generates the deleting destructor (the complete destructor, then CustomFree(this)).
+
+// 0x39b890 TriggerZone::TriggerZone(ObjectBase::GO_IDS)   (C1)
+// 0x39b990 TriggerZone::TriggerZone(ObjectBase::GO_IDS)   (C2, the same body)
+// Trigger(id, hasPhysics = false, playerOnly = true). The six string members are constructed empty by the compiler. The
+// original writes -1 to the five script and effect ids, clears the marker effect and the flags, and leaves the door unbound.
+// scope, triggertype and cineID are not written here; their values come from the property defaults (-1) at declaration.
+TriggerZone::TriggerZone(ObjectBase::GO_IDS id) : Trigger(id, false, true) {
+    m_scriptId = -1;                  // +0x73c
+    m_scriptMoveOutId = -1;           // +0x758
+    m_scriptAllPlayerId = -1;         // +0x774
+    m_scriptAllPlayerMoveOutId = -1;  // +0x790
+    m_effectOnePlayerIndex = -1;      // +0x7ac
+    m_effectOnePlayerFX = nullptr;    // +0x7b0
+    m_entered = false;                // +0x7b4
+    m_markerShown = false;            // +0x7b5
+    m_doorObject = nullptr;           // +0x7b8
+}
+
+// 0x39bd70 TriggerZone::Draw() const
+// PARTIAL. The debug box of the zone is drawn when the isDisplayingBoundingBox switch is set, the zone has no activations
+// yet (m_numActivations, +0x3b4) and MeetCondition holds. The switch, the activation test and MeetCondition are bound. The
+// draw itself is not: it takes the video driver from the device (*(Application m_device + 16) in the original), gets the
+// bounding-box material from the driver's CMaterialRendererManager (driver +0xdc, u16 type id at +0x2e), sets it, and calls
+// the driver's draw3DBox (vtable +0x28) with the six floats of m_absAabb and the colour 0xFFFFFF00. Those members and
+// functions are not declared in the tree (layout requests), so the box is not drawn.
+void TriggerZone::Draw() const {
+    DebugSwitches::s_inst.load();
+    const bool displayBox = DebugSwitches::s_inst.GetSwitch(std::string("isDisplayingBoundingBox"));
+    if (displayBox && m_numActivations == 0 && MeetCondition()) {
+        // PARTIAL: the bounding-box draw is not rebuilt (see above).
+    }
+}
+
+// 0x39bfa4 TriggerZone::DeclareProperties()
+// Trigger's properties first, then the int properties "scope", "triggertype" and "cineID" (default -1 in the original's
+// int clone, PropertyMap::AddProperty<int>.clone.2, which stores -1 at SimpleTypeProperty +0x20), then the strings "script",
+// "script_move_out", "script_all_player", "script_all_player_move_out", "effect_one_player" and "is_door_closed".
+void TriggerZone::DeclareProperties() {
+    Trigger::DeclareProperties();
+    AddProperty<int>("scope", m_scope, -1);
+    AddProperty<int>("triggertype", m_triggerType, -1);
+    AddProperty<int>("cineID", m_cineId, -1);
+    AddProperty<std::string>("script", m_script);
+    AddProperty<std::string>("script_move_out", m_scriptMoveOut);
+    AddProperty<std::string>("script_all_player", m_scriptAllPlayer);
+    AddProperty<std::string>("script_all_player_move_out", m_scriptAllPlayerMoveOut);
+    AddProperty<std::string>("effect_one_player", m_effectOnePlayer);
+    AddProperty<std::string>("is_door_closed", m_doorName);
+}
+
+// 0x39c0a8 TriggerZone::InitPost()
+// PARTIAL. Trigger::InitPost, then each name is resolved once to its id: the script names through ScriptManager (-1 when the
+// name is empty or unknown), and the door name through ObjectManager. m_timer takes the delay. unk_3bc (touch mode) is set
+// when the zone has no all-player scripts and its ScriptManager command block has the unk_04 flag.
+// Missing: the effect name lookup. The original searches Arrays::AnimatedEffectTable's names (pydata::FindMemberName over
+// m_memberNames and size, in pydata-accessors/member_names.hpp). That header cannot share this translation unit with
+// TriggerZone.hpp (duplicate CustomFree between pydata-accessors/deps/stream_reader.hpp and net-transport/deps/byte_array.hpp),
+// so m_effectOnePlayerIndex stays -1 and ShowMarker never grabs the marker effect.
+void TriggerZone::InitPost() {
+    Trigger::InitPost();
+
+    m_scriptId = -1;  // +0x73c
+    if (!m_script.empty()) {
+        m_scriptId = ScriptManager::s_inst.GetIDFromName(m_script.c_str(), false);
+    }
+
+    m_scriptMoveOutId = -1;  // +0x758
+    if (!m_scriptMoveOut.empty()) {
+        m_scriptMoveOutId = ScriptManager::s_inst.GetIDFromName(m_scriptMoveOut.c_str(), false);
+    }
+
+    m_scriptAllPlayerId = -1;  // +0x774
+    if (!m_scriptAllPlayer.empty()) {
+        m_scriptAllPlayerId = ScriptManager::s_inst.GetIDFromName(m_scriptAllPlayer.c_str(), false);
+    }
+
+    m_scriptAllPlayerMoveOutId = -1;  // +0x790
+    if (!m_scriptAllPlayerMoveOut.empty()) {
+        m_scriptAllPlayerMoveOutId = ScriptManager::s_inst.GetIDFromName(m_scriptAllPlayerMoveOut.c_str(), false);
+    }
+
+    m_effectOnePlayerIndex = -1;  // +0x7ac; PARTIAL: the name lookup is not bound (see above)
+
+    m_timer = m_triggerDelay;  // +0x3ac -> +0x3b8
+
+    if (!m_doorName.empty()) {
+        ObjectHandle handle = dword_99F764->GetObjectByName(m_doorName.c_str(), -1, false, nullptr);
+        ObjectBase* door = handle.GetObject(false);
+        if (door != nullptr) {
+            // The original calls GetObject a second time here; the lookup is cached and returns the same object.
+            if (door->m_goId != ObjectBase::GO_DOOR) {  // +0xf4 == 2
+                door = nullptr;
+            }
+            m_doorObject = static_cast<GameObject*>(door);  // +0x7b8
+        }
+    }
+
+    // unk_3bc (+0x3bc, read as the byte at +956 in the original): touch mode.
+    unk_3bc = false;
+    if (m_scriptAllPlayerId == -1 && m_scriptAllPlayerMoveOutId == -1 && m_scriptId >= 0) {
+        unk_3bc = ScriptManager::s_inst.m_cmds[m_scriptId].unk_04;  // ScriptCmds +0x04 of script m_scriptId
+    }
+}

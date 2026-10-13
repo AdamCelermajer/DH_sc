@@ -4,14 +4,17 @@
 // AddTemplateAnim create a set only for a non-negative id), the LG_DEVICES flag, the GetClipId miss path and its
 // GetAnimation call, and the GetAnimator use count (the AnimatorSet keeps one use on the set). The engine symbols that
 // the batch source references are test doubles below: they record calls and do not model the engine.
-// GetClipId's clip-id read (Animation +0x20) is not reproduced, so this test only checks the call and the placeholder
-// -1 that GetClipId returns for an existing set. Update that check when the Animation layout request is applied.
+// GetClipId reads the clip id at Animation +0x20 (Animation::unk_20) from the entry GetAnimation returns. The test
+// double returns an entry with unk_20 = 7, so an existing set gives 7. AddAnim also reads the trace switch on
+// DebugSwitches::s_inst after the load; those engine symbols are test doubles too.
 
 #include <cstdio>
+#include <string>
 
 #include "dh2/AnimSetManager.hpp"
 #include "dh2/AnimationSet.hpp"
 #include "dh2/AnimatorSet.hpp"
+#include "dh2/DebugSwitches.hpp"
 #include "dh2/global/AnimationSet_GetAnimation.hpp"
 
 namespace {
@@ -30,6 +33,8 @@ int g_createCalls = 0;
 int g_loadCalls = 0;
 int g_lastLoadArg = 0;
 int g_getAnimCalls = 0;
+int g_switchLoadCalls = 0;
+int g_switchReadCalls = 0;
 int g_lastGetArg = 0;
 int g_cacheCalls = 0;
 boost::intrusive_ptr<AnimationSet> g_kept;  // the use an AnimatorSet keeps on its set (test double)
@@ -51,10 +56,26 @@ Animation* AnimationSet::LoadAnimation(int animId) {
     return nullptr;
 }
 
+// The entry GetAnimation returns for any id. Its clip id (+0x20) is 7.
+Animation g_clipEntry;
+
 Animation* AnimationSet::GetAnimation(int animId) {
     ++g_getAnimCalls;
     g_lastGetArg = animId;
-    return nullptr;
+    g_clipEntry.unk_20 = 7;
+    return &g_clipEntry;
+}
+
+// AddAnim's trace read (DebugSwitches::s_inst, load then GetSwitch with the value discarded).
+DebugSwitches::DebugSwitches() {}
+DebugSwitches::~DebugSwitches() {}
+DebugSwitches DebugSwitches::s_inst;
+void DebugSwitches::load() {
+    ++g_switchLoadCalls;
+}
+bool DebugSwitches::GetSwitch(const std::string&) {
+    ++g_switchReadCalls;
+    return false;
 }
 
 void AnimationSet::CalculateCacheSize() {
@@ -84,11 +105,6 @@ void AnimatorSet::updateTime(unsigned int) {}
 Animation* AnimatorSet::setCurrentAnimation(int) { return nullptr; }
 void AnimatorSet::onUnbind(glitch::scene::ISceneNode*) {}
 
-namespace glitch {
-bool IReferenceCounted::drop() const {
-    return --referenceCounter == 0;
-}
-}  // namespace glitch
 
 bool LG_DEVICES = false;
 int gAssertLevel = 0;
@@ -146,7 +162,7 @@ int main() {
     }
 
     // GetClipId: a missing set returns -1 with no GetAnimation call. An existing set makes the GetAnimation call
-    // and returns the placeholder -1 (the clip id itself is not reproduced yet).
+    // and returns the clip id read from the entry (+0x20, 7 in the double).
     {
         AnimSetManager mgr;
         g_getAnimCalls = 0;
@@ -154,8 +170,19 @@ int main() {
         EXPECT(g_getAnimCalls == 0);
 
         mgr.AddAnim(9, 1);
-        EXPECT(mgr.GetClipId(9, 2) == -1);
+        EXPECT(mgr.GetClipId(9, 2) == 7);
         EXPECT(g_getAnimCalls == 1 && g_lastGetArg == 2);
+    }
+
+    // AddAnim's trace read runs after each load: DebugSwitches::load, then GetSwitch.
+    {
+        AnimSetManager mgr;
+        g_switchLoadCalls = 0;
+        g_switchReadCalls = 0;
+        mgr.AddAnim(12, 4);  // created and loaded
+        EXPECT(g_switchLoadCalls == 1 && g_switchReadCalls == 1);
+        mgr.AddAnim(-3, 4);  // negative id: nothing loads, no trace read
+        EXPECT(g_switchLoadCalls == 1 && g_switchReadCalls == 1);
     }
 
     // GetAnimator: a missing set returns nullptr. An existing set gets one more use, kept by the AnimatorSet, and

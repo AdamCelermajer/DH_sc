@@ -28,6 +28,7 @@
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "glitch-scene-collada-gui/collada_scene_accessors.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
 
 namespace {
 
@@ -72,6 +73,18 @@ void OrderAxis(float& lo, float& hi) {
     box.MaxEdge.Y = halfY + Vec3f_Origin.Y;
     box.MinEdge.Z = Vec3f_Origin.Z - halfZ;
     box.MaxEdge.Z = halfZ + Vec3f_Origin.Z;
+}
+
+// The release the original destructor (0x473abc) gives a node that it owns: removeAnimators (vptr+0x74), remove
+// (vptr+0x68), then the reference drop, and the slot is cleared. Used for the weapon nodes at +0x30 and +0x34.
+void ReleaseSceneNode(glitch::scene::ISceneNode*& node) {
+    if (node == nullptr) {
+        return;
+    }
+    node->removeAnimators();
+    node->remove();
+    node->drop();
+    node = nullptr;
 }
 
 }  // namespace
@@ -280,15 +293,28 @@ void VisualObject::CreateXrayMesh() {
 
 // 0x473abc _ZN12VisualObjectD2Ev
 // partial. 0x473884 (_ZN12VisualObjectD1Ev) is the complete-object copy of the same destructor.
-// The original releases the AnimController first, then the collision box node and the model root (both are IReferenceCounted
-// releases: removeAnimators (vptr+0x74) and remove (vptr+0x68) on the root, then drop). Neither is bound. It then runs
-// ForceRegister on the scene manager, and frees the storage of the three node vectors and of the unk_44 block.
-// The vector storage is released when this object's members are destroyed. The nodes themselves are owned by the
-// scene, not here. The unk_44 block is not freed: the original frees it with CustomFree above 0x80 bytes and with the
-// node allocator below that, and the node allocator is not declared.
+// Bound: SetAnimController(nullptr); the collision box node (+0x0c) gets a plain drop, which is all the original does to
+// it; each weapon node (+0x30 main, +0x34 off) gets removeAnimators (vptr+0x74), remove (vptr+0x68) and drop, the same
+// sequence the original uses for the model root.
+// Missing:
+//   - the model root m_node (+0x08): the same three calls. RootSceneNode is not a glitch::scene::ISceneNode in the tree
+//     (glitch::collada::CRootSceneNode has no base), so they cannot be made. Layout request: CRootSceneNode derives from
+//     ISceneNode at offset 0 (its flags word unk_011c at +0x11c is the ISceneNode flags word).
+//   - ForceRegister on the device scene manager: the scene manager is the word at IDevice +0x1c (dword_99F73C + 28), and
+//     glitch::IDevice is not declared, so DeviceSceneManager() returns null. Application::unk_1c is Application +0x1c, not
+//     the device, and is not used here.
+//   - the unk_44 light-filter block (size unk_54 - unk_44): CustomFree above 0x80 bytes, the std node allocator below
+//     (not declared). Nothing in the port allocates the block yet, so there is nothing to free.
+// The three node vectors' storage is released by their members. The nodes themselves are owned by the scene.
 VisualObject::~VisualObject() {
     SetAnimController(nullptr);
-    // m_colBoxNode release and m_node release (removeAnimators, remove, drop): not bound.
+    if (m_colBoxNode != nullptr) {
+        m_colBoxNode->drop();
+        m_colBoxNode = nullptr;
+    }
+    // m_node: removeAnimators, remove, drop and the slot cleared. Not bound (see above).
+    ReleaseSceneNode(m_weaponNodeMain);
+    ReleaseSceneNode(m_weaponNodeOff);
     if (SceneManager* sm = DeviceSceneManager()) {
         sm->ForceRegister();
     }
@@ -323,14 +349,20 @@ glitch::scene::ISceneNode* VisualObject::SetWeaponSkin(const char* weapon, int k
 }
 
 // 0x473ea0 _ZN12VisualObject17ApplyXrayMaterialEv
-// partial: for each x-ray node, the original regenerates its x-ray materials, then for each material it runs
-// ChangeCustomXrayTechnique(material, 1, 1), updateXrayMaterial, SetMaterialRimLightEffects(material, 4.0,
-// "char_rim_light_xray.tga") and SetMaterialEffects(material, (0, 0, 1), 0.98, -1.0). None of these node calls is
-// compiled here: dh2/XrayModularSkinnedMeshSceneNode.hpp does not compile in this tree (its BaseMeshSceneNode
-// <CModularSkinnedMeshSceneNode> overrides name slots the engine class does not declare), so the node members are not
-// reachable from this file. The scene-manager calls are also not bound: the original passes two flags to
-// ChangeCustomXrayTechnique, and SceneManager.hpp declares three (a layout request). The original also reads the node's
-// vptr+0xbc (getType) and drops the result, which has no effect, so it is omitted.
+// partial. Bound: the x-ray guard (m_xrayCreated, +0xa8) and the walk over m_xrayModular (+0x9c). For each x-ray node the
+// original calls regenerateXrayMaterial(), then for each of the node's x-ray materials (m_xrayMaterials, +0x1b0):
+// ChangeCustomXrayTechnique(sm, material, 1, 1), updateXrayMaterial() on the node, SetMaterialRimLightEffects(sm, material,
+// 4.0, "char_rim_light_xray.tga"), and SetMaterialEffects(sm, material, (0, 0, 1), 0.98, -1.0). Missing:
+//   - the node side. dh2/XrayModularSkinnedMeshSceneNode.hpp does not compile in this tree: BaseMeshSceneNode<T> marks
+//     ~BaseMeshSceneNode and render() override, but the engine glitch::collada::CModularSkinnedMeshSceneNode
+//     (collada_scene_accessors.hpp) is a standalone stand-in with no ISceneNode base and no such virtuals. So
+//     m_xrayMaterials, regenerateXrayMaterial() and updateXrayMaterial() cannot be named from this file. That header is
+//     another owner's and is not edited.
+//   - the scene-manager call is declared with three flags, ChangeCustomXrayTechnique(material, bool, bool, bool). The
+//     symbol agrees, but 0x355704 reads only its a3 and a4 arguments, so the third is unused and the call can pass a
+//     value for it without changing behaviour. Left out until the material list is reachable.
+//   - the node's vptr+0xbc getType() result is discarded in the pseudocode and the call has no other effect, so it is
+//     omitted.
 void VisualObject::ApplyXrayMaterial() {
     if (!m_xrayCreated) {
         return;
@@ -341,10 +373,17 @@ void VisualObject::ApplyXrayMaterial() {
 }
 
 // 0x474140 _ZN12VisualObject11FlushMeshesEv
-// partial: the original runs SearchByType on the device scene manager for the three mesh tags under m_node, flushes each
-// found node's mesh (FlushMeshBuffers(mesh, 1, 1, 0), a free function that is not declared), and returns the model name
-// from m_node's UID holder (uidOwner at RootSceneNode +0x14c, then +0x20). That +0x20 word is read as a char* in the
-// original, but CColladaUIDHolder declares it as a 32-bit uid, so no name is returned here. The node work is not bound.
+// partial. The original runs SearchByType on the device scene manager for the three mesh tags under m_node, flushes each
+// found node's mesh (the mesh comes from the node's getMesh, vptr+0xf8, and goes to FlushMeshBuffers(mesh, 1, 1, 0)),
+// and returns the model name from m_node's UID holder (uidOwner at RootSceneNode +0x14c, then the word at +0x20). Missing:
+//   - the search root. SearchByType takes a glitch::scene::ISceneNode*, and m_node is a RootSceneNode*. RootSceneNode is not
+//     an ISceneNode in the tree (layout request: CRootSceneNode derives from ISceneNode at offset 0).
+//   - FlushMeshBuffers(glitch::scene::IMesh*, bool, bool, bool), symbol _Z16FlushMeshBuffersPN6glitch5scene5IMeshEbbb, is
+//     declared in no header.
+//   - the device scene manager (IDevice +0x1c, see the destructor): DeviceSceneManager() returns null.
+//   - the model name. The original reads the word at +0x20 of CColladaUIDHolder (uidOwner) as a char*, but
+//     glitch::collada::CColladaUIDHolder declares it as a 32-bit uid (layout request: pointer-width const char* at +0x20).
+// Returns an empty string until those are bound.
 std::string VisualObject::FlushMeshes() {
     return std::string();
 }

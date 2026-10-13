@@ -16,7 +16,7 @@ public:
     bool IsAnimOver();                                                   // 0x498d00 true when the anim is no longer playing
     bool PlayAnim(const char* name);                                     // 0x498d18 forwards to SWFAnim::PlayAnim
     void DoFadeOut();                                                    // 0x498d20 sets state 3 and plays "fade_out"
-    void FadeOut(int delay);                                             // 0x498d38 arms the timer when idle or shown; delay < 0 fades out at once
+    void FadeOut(int delay);                                             // 0x498d38 arms the timer when fading in (1) or shown (2) and the timer is not running; delay < 0 fades out at once
     void FadeIn();                                                       // 0x498d64 sets state 1 and plays "fade_in"
     void Update();                                                       // 0x498e5c advances the state machine
 

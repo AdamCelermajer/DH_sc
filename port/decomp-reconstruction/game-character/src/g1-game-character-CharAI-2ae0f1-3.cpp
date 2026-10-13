@@ -29,6 +29,11 @@ void ProbeTracingCharAIEvents() {
     DebugSwitches::GetInstance()->GetSwitch("isTracingCharAIEvents");
 }
 
+// The same probe for any switch name (load(&s_inst) then GetSwitch). The result is returned for callers that test it.
+bool ProbeSwitch(const char* name) {
+    return DebugSwitches::GetInstance()->GetSwitch(name);
+}
+
 // Arrays::DesignSettingsTable::members + 48: the m_w12 float of the first DesignSettings record (file offset +0x30).
 float FirstDesignSettingsSpotAggro() {
     const auto* design = reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members);
@@ -244,10 +249,8 @@ void CharAI::OnInit() {
 }
 
 // 0x3d14b4 _ZN6CharAI14OnEnemySpottedEP9Character
-// PARTIAL: the threat branch is missing its gate and trace. The original takes the aggro value returned by
-// AI_AddAggro(enemy, DesignSettings m_w12) and runs the isTracingThreatChange probe only when that value is > 0. The
-// header declares AI_AddAggro as void, but the binary returns float (Hex-Rays signature of 0x3d7c68 is float), so the
-// result cannot be tested yet. The call is made, the probe is omitted. The script hook (slot 13, +0x34) is written.
+// The threat branch adds aggro with AI_AddAggro(enemy, DesignSettings m_w12) on the owner's CharAI subobject, and runs the
+// isTracingThreatChange probe only when the aggro actually added is > 0 (AI_AddAggro returns float, 0x3d7c68).
 void CharAI::OnEnemySpotted(Character* enemy) {
     ProbeTracingCharAIEvents();
     if (m_group) {
@@ -255,9 +258,9 @@ void CharAI::OnEnemySpotted(Character* enemy) {
     }
     if (!enemy->CharStateMachine::SM_IsAwaitingToSpawn() && !m_character->CharStateMachine::SM_IsAwaitingToSpawn() &&
         !enemy->CharStateMachine::SM_IsInLimbus() && !m_character->CharStateMachine::SM_IsInLimbus()) {
-        if ((!AI_IsInCombat() || enemy->IsPlayer()) && AI_GetAggro(enemy) == 0.0f) {
-            static_cast<CharAI*>(m_character)->AI_AddAggro(enemy, FirstDesignSettingsSpotAggro());
-            // PARTIAL: the isTracingThreatChange probe is omitted (see the header comment above).
+        if ((!AI_IsInCombat() || enemy->IsPlayer()) && AI_GetAggro(enemy) == 0.0f &&
+            static_cast<CharAI*>(m_character)->AI_AddAggro(enemy, FirstDesignSettingsSpotAggro()) > 0.0f) {
+            ProbeSwitch("isTracingThreatChange");
         }
         if (m_script) {
             m_script->OnEnemySpotted(enemy);

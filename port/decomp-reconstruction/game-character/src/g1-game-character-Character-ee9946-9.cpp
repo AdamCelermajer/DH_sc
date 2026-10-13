@@ -20,10 +20,18 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 
 #include "dh2/Character.hpp"
 #include "dh2/AnchorGroup.hpp"
+#include "dh2/Application.hpp"
+#include "dh2/POCharacter.hpp"
+#include "dh2/PhysicalObject.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/VisualFXManager.hpp"
+#include "dh2/global/charai_ai.hpp"
+#include "pydata-accessors/w7_pydata12.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
@@ -59,6 +67,15 @@ void ReportAssertLevel1(const char* expr, const char* file, int line) {
     }
 }
 
+// ASSERT(expr) on its failing branch, as the attack code uses it: gAssertLevel 2 stops the process (the original stores 0
+// to address 0 there, a fatal fault; abort is the same outcome here), 1 prints as ReportAssertLevel1, 0 is silent.
+void ReportAssertFailure(const char* expr, const char* file, int line) {
+    if (gAssertLevel == 2) {
+        std::abort();
+    }
+    ReportAssertLevel1(expr, file, line);
+}
+
 // abs32 of the original. The negation wraps for the most negative value, as the two's complement negation does.
 int Abs32(int value) {
     return value < 0 ? static_cast<int>(0u - static_cast<unsigned int>(value)) : value;
@@ -74,30 +91,29 @@ void TouchDebugSwitch(const char* name) {
 
 // 0x3b3004 _ZN9Character13F_SpellAttackERNS_12AttackResultEPS_S2_ii
 // Character::F_SpellAttack(Character::AttackResult&, Character*, Character*, int, int)
-// PARTIAL: the gAssertLevel 2 store of the two null checks is not reproduced (see ReportAssertLevel1). Reproduced: the
-// level 1 messages, the isTracingChar_Attack switch read and the roll with flags b | 0x1005554A, weapon -1, c = a, d = 0.
+// The two null checks (asserts 633 and 634, where gAssertLevel 2 stops the process as the original's store to address 0
+// does), the isTracingChar_Attack switch read and the roll with flags b | 0x1005554A, weapon -1, element a, d = 0.
 void Character::F_SpellAttack(AttackResult& result, Character* attacker, Character* target, int a, int b) {
     if (!attacker) {
-        ReportAssertLevel1("attacker", kFormulasFile, 633);
+        ReportAssertFailure("attacker", kFormulasFile, 633);
     }
     if (!target) {
-        ReportAssertLevel1("defender", kFormulasFile, 634);
+        ReportAssertFailure("defender", kFormulasFile, 634);
     }
     TouchDebugSwitch("isTracingChar_Attack");
     _F_CalculateResult(result, attacker, target, b | 0x1005554A, -1, a, 0);
 }
-
 // 0x3b31a4 _ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii
 // Character::F_SkillAttack(Character::AttackResult&, Character*, Character*, int, int)
-// PARTIAL: the gAssertLevel 2 store of the two null checks is not reproduced. Reproduced: the level 1 messages, the
-// switch read, the weapon slot (2 when flag 0x4000000 is set, else 1), the weapon word (Structs::Item m_w37, +0x94, or -1
-// with nothing equipped) and the roll with flags a | 0x8000000, c = b, d = 0.
+// The two null checks (asserts 613 and 614, as above), the switch read, the weapon slot (2 when flag 0x4000000 is set,
+// else 1), the weapon word (Structs::Item m_w37, +0x94, or -1 with nothing equipped) and the roll with flags a | 0x8000000,
+// element b, d = 0.
 void Character::F_SkillAttack(AttackResult& result, Character* attacker, Character* target, int a, int b) {
     if (!attacker) {
-        ReportAssertLevel1("attacker", kFormulasFile, 613);
+        ReportAssertFailure("attacker", kFormulasFile, 613);
     }
     if (!target) {
-        ReportAssertLevel1("defender", kFormulasFile, 614);
+        ReportAssertFailure("defender", kFormulasFile, 614);
     }
     const int flags = a | 0x8000000;
     TouchDebugSwitch("isTracingChar_Attack");
@@ -108,7 +124,6 @@ void Character::F_SkillAttack(AttackResult& result, Character* attacker, Charact
     }
     _F_CalculateResult(result, attacker, target, flags, weapon, b, 0);
 }
-
 // 0x3b3368 _ZN9Character15F_MeleeAttackERNS_12AttackResultEPS_S2_bb
 // Character::F_MeleeAttack(Character::AttackResult&, Character*, Character*, bool, bool)
 // PARTIAL: (1) the gAssertLevel 2 store of the two null checks is not reproduced. (2) When b is false the original's flag
@@ -295,57 +310,63 @@ int Character::SafeGetCharPropsId() {
 
 // 0x3b4088 _ZN9Character18InitPhysicalObjectEv
 // Character::InitPhysicalObject(void)
-// PARTIAL. The leaf order of the original is kept. No physics object is created: each leaf builds a POCharacter-family
-// object on the physics world (Application +0x44, the global dword_99F770, which no header declares), and POVillager and
-// POMonster have no header. Reproduced: the one leaf that builds nothing, SetPhysicalObject(nullptr, false) for a
-// non-monster that is none of the others.
+// PARTIAL. The leaves run in the original's order. Each builds its physics body on the physics world
+// (Singleton<Application>::s_inst.m_physicalWorld, Application +0x44, the original's dword_99F770) and hands it to
+// GameObject::SetPhysicalObject with pin set. The original's derived leaves (POFaerie, POVillager, POFollower, POMonster
+// and the player's POPlayer) are built as POCharacter here: those headers declare no constructor and add only destructor
+// slots to POCharacter, so the vptr of the derived class is not set. Layout/construction request: a constructor forwarding
+// to POCharacter in each derived header. The non-monster leaf with no object is SetPhysicalObject(nullptr, false).
 void Character::InitPhysicalObject() {
+    PhysicalWorld* world = Singleton<Application>::s_inst.m_physicalWorld;
     if (IsInvisibleMan()) {
-        // PARTIAL: POCharacter(world, this, 0, 256, 0, 0, 0) with the POFaerie vtable; SetPhysicalObject(obj, true).
+        SetPhysicalObject(new POCharacter(world, this, 0, 256, 0, false, false), true);  // POFaerie in the original
         return;
     }
     if (m_static) {
-        // PARTIAL: PhysicalObject(world, this, 1, 0, 0, 0, 0, 0, 2, 0xFFFF, 1) with the static vtable; SetPhysicalObject(obj, true).
+        SetPhysicalObject(new PhysicalObject(world, this, true, false, false, false, 0, 2, 0xFFFF, 1), true);
         return;
     }
     if (IsNPC()) {
-        // PARTIAL: POCharacter(world, this, -4, 1024, 0xD1F, 0) with the POVillager vtable (no header); SetPhysicalObject(obj, true).
+        SetPhysicalObject(new POCharacter(world, this, -4, 1024, 0xD1F, false, false), true);  // POVillager
         return;
     }
     if (IsPlayer()) {
-        // PARTIAL: POCharacter(world, this, -1, 4, 0xD7F, 1) with the player vtable; SetPhysicalObject(obj, true).
+        SetPhysicalObject(new POCharacter(world, this, -1, 4, 0xD7F, true, false), true);  // POPlayer
         return;
     }
     if (IsFollower() || IsSummoned()) {
-        // PARTIAL: POCharacter(world, this, -2, 8, 0xD3B, 0) with the POFollower vtable; SetPhysicalObject(obj, true).
+        SetPhysicalObject(new POCharacter(world, this, -2, 8, 0xD3B, false, false), true);  // POFollower
         return;
     }
     if (IsFaerie()) {
-        // PARTIAL: POCharacter(world, this, 0, 256, 0, 0) with the POFaerie vtable; SetPhysicalObject(obj, true).
+        SetPhysicalObject(new POCharacter(world, this, 0, 256, 0, false, false), true);  // POFaerie
         return;
     }
     if (!IsMonster()) {
         SetPhysicalObject(nullptr, false);
         return;
     }
-    // PARTIAL: POCharacter(world, this, 2, 16, 0xD3F, 0) with the POMonster vtable (no header); SetPhysicalObject(obj, true).
+    SetPhysicalObject(new POCharacter(world, this, 2, 16, 0xD3F, false, false), true);  // POMonster
 }
-
 // 0x3b4738 _ZN9Character23RegisterCharacterFXTableEv
 // Character::RegisterCharacterFXTable(void)
-// PARTIAL: the three VisualFXManager::RegisterFXSetToLoad calls (footprint, blood, blood death; each when the id is >= 0)
-// run on Singleton<VisualFXManager>::s_inst (ELF 0x9a1cf0). No header declares that instance, so they are not made.
-// Reproduced: the three id reads and the isTracingChar_Init switch read.
+// The footprint, blood and blood death effect ids are read, the isTracingChar_Init switch is read, and each id that is not
+// negative is registered with VisualFXManager::RegisterFXSetToLoad on Singleton<VisualFXManager>::s_inst.
 void Character::RegisterCharacterFXTable() {
     const int fxFootprint = GetFXFootprint();
     const int fxBlood = GetFXBlood();
     const int fxBloodDeath = GetFXBloodDeath();
     TouchDebugSwitch("isTracingChar_Init");
-    (void)fxFootprint;
-    (void)fxBlood;
-    (void)fxBloodDeath;
+    if (fxFootprint >= 0) {
+        Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(fxFootprint);
+    }
+    if (fxBlood >= 0) {
+        Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(fxBlood);
+    }
+    if (fxBloodDeath >= 0) {
+        Singleton<VisualFXManager>::s_inst.RegisterFXSetToLoad(fxBloodDeath);
+    }
 }
-
 // 0x3b4834 _ZN9Character20InitLightSetAndMaterialEv
 // Character::InitLightSetAndMaterial(void)
 // PARTIAL. Not reproduced: the light set id store (VisualObject +0x40, declared unk_40) from LightSetManager::
@@ -391,17 +412,28 @@ void Character::InitFinal() {
 
 // 0x3b4bc4 _ZN9Character7InitCamEv
 // Character::InitCam(void)
-// PARTIAL. Reproduced: the UseStaticCamera debug switch read. Not reproduced: the static branch (AnchorBase built with a
-// zero-argument constructor, which dh2/AnchorBase.hpp does not declare), and the forward branch (AnchorForward with the
-// ForwardCamera_Max_Distance, ForwardCamera_Distance_PerSec and ForwardCamera_Threshold constants, read through
-// PyDataConstants::getConstant, a class no header declares; the fifth AnchorForward argument is not in the listing).
-// The camera anchor is therefore never set here.
+// PARTIAL. Reproduced: the UseStaticCamera debug switch read and, in the forward branch, the three ForwardCamera constants
+// of CharacterDesign (PyDataConstants through ApplicationGetPyDataConstants; the ints are converted to float and the
+// threshold is scaled by 0.01). Not reproduced: the anchor objects and GameObject::SetCameraAnchorObject. The static branch
+// constructs an AnchorBase with one argument (the object only), which dh2/AnchorBase.hpp does not declare (its constructor
+// takes GameObject* and AnchorType). The forward branch constructs AnchorForward with four arguments after the object
+// (the owner, maxDistance, distPerSec, threshold), and dh2/AnchorForward.hpp takes a fifth AnchorBase::AnchorType argument
+// the listing does not pass. Layout request: the constructor signatures the listing calls.
 void Character::InitCam() {
     DebugSwitches::GetInstance()->load();
     const bool useStaticCamera = DebugSwitches::GetInstance()->GetSwitch("UseStaticCamera");
-    (void)useStaticCamera;
+    if (!useStaticCamera) {
+        PyDataConstants* constants = ApplicationGetPyDataConstants();
+        const float maxDistance = static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Max_Distance"));
+        const float distPerSec =
+            static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Distance_PerSec"));
+        const float threshold =
+            static_cast<float>(constants->getConstant("CharacterDesign", "ForwardCamera_Threshold")) * 0.01f;
+        (void)maxDistance;
+        (void)distPerSec;
+        (void)threshold;
+    }
 }
-
 // 0x3b4d60 _ZN9Character8InitPostEv
 // Character::InitPost(void)
 // PARTIAL. Reproduced, in the original's order: the one-time guard (+0x1394), the spawn probability test, the starting

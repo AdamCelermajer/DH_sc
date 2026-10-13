@@ -1,14 +1,20 @@
-// Batch g1-game-world-LightBase-85fa51-0: LightBase update and sync hooks, scene attach and detach hooks, the debug
-// draw hook, constructor and destructor, property declaration, the colour and attenuation setters. Declarations come
-// from dh2/LightBase.hpp. Bodies are in address order.
+// Batch g1-game-world-LightBase-85fa51-0 (redo pass r2a-game-world-LightBase-85fa51-0 completed the bodies in place):
+// LightBase update and sync hooks, scene attach and detach hooks, the debug draw hook, constructor and destructor,
+// property declaration, the colour and attenuation setters. Declarations come from dh2/LightBase.hpp. Bodies are in
+// address order.
 //
-// The light data is glitch::video::CLight, reached through CLightSceneNode::light. Every body that writes that data
-// is partial. glitch-video/light.hpp and glitch-scene-collada-gui/scene_nodes.hpp each define boost::intrusive_ptr
-// (two stand-ins with the same name), so one translation unit cannot include both, and CLight is not complete here.
-// The LightBase side of each body is reconstructed. The reasons for each partial body are in its comment and ledger row.
+// The light data is glitch::video::CLight, reached through CLightSceneNode::light (the node's light is at +0x134).
+// CLight is declared canonically in glitch-video/light.hpp (float colours, attenuation, count at +0x00), but that header
+// cannot share a translation unit with scene_nodes.hpp or any scene/ header: glitch-core-io's deps/glitch_core_objects.hpp
+// still defines a stub glitch::video::CLight (`class CLight : public glitch::IReferenceCounted {};`), and io/interfaces.hpp
+// pulls it in through ISceneNode.hpp. Until the stub is removed (glitch-core-io owner), the CLight writes and the copy
+// back from the light stay unbound, and every body that needs them is partial. The LightBase side of each body is
+// reconstructed. The reasons for each partial body are in its comment and ledger row.
 
+#include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/LightBase.hpp"
+#include "dh2/SceneManager.hpp"
 
 namespace {
 
@@ -32,9 +38,10 @@ void LightBase::Update() {
 }
 
 // 0x40a728 LightBase::TurnOn()
-// partial: the original calls vtable slot +0x5c of the scene root with (root, m_irrLight). The root is the object at
-// SceneManager +0x04, which is at Application +0x1c. That object has no declared type, and slot +0x5c is not identified
-// (the RootSceneNode table lists setID at that slot). The call is not bound.
+// partial: the original calls vtable slot +0x5c (ISceneNode::addChild, Hex-Rays call offset) of the scene root with
+// (root, m_irrLight). The root is SceneManager::rootNode (CSceneManager +0x04, typed ISceneNode*) of the scene manager at
+// Application +0x1c. The argument is a CLightSceneNode*, and scene_nodes.hpp does not derive CLightSceneNode from
+// ISceneNode, so the call is not bound. The original's return value (the callee's register) is not returned here.
 void LightBase::TurnOn() {}
 
 // 0x40a768 LightBase::TurnOff()
@@ -68,9 +75,10 @@ void LightBase::SyncData() {
 // 0x40aaa0 LightBase::~LightBase()   (D1, complete object)
 // 0x40ab34 LightBase::~LightBase()   (D2, base object: same body, compiler-generated)
 // 0x40ab18 LightBase::~LightBase()   (D0, deleting destructor: compiler-generated for delete, not defined here)
-// partial: the original drops m_irrLight through the light node's IReferenceCounted base. That base is not declared
-// by scene_nodes.hpp, so the drop is not bound. The pointer is cleared. The member destructors and ~ObjectBase run as
-// in C++.
+// partial: the original drops m_irrLight through the light node's IReferenceCounted virtual base (the base offset is
+// read from the node's vtable at -12, and the count is at +4 of the base). CLightSceneNode in scene_nodes.hpp has no
+// IReferenceCounted base, so the drop is not bound. The pointer is cleared. The member destructors and ~ObjectBase run
+// as in C++.
 LightBase::~LightBase() {
     m_irrLight = nullptr;
 }
@@ -103,67 +111,77 @@ void LightBase::DeclareProperties() {
 }
 
 // 0x40b0c0 LightBase::InitPost()
-// partial: the colour and attenuation scaling and the final SyncData() call are bound. The original also creates or
-// loads the light node, which is not bound:
-//   - a non-empty m_dae is loaded through SceneManager::LoadScene. The original passes the word at +0x17c (the string's
-//     _M_finish, the end pointer, not the buffer) as the file name. Whether that is the original's behaviour or a
-//     mistyped decompile is not settled, so the load is not bound.
-//   - an empty m_dae creates a glitch::scene::CLightSceneNode(true) (operator new(348)). scene_nodes.hpp declares no
-//     such constructor.
-//   - the node is passed to the scene root (vtable +0x5c of the root, see TurnOn), and its IReferenceCounted base is
-//     adjusted. Neither is bound.
-//   - when m_automatic is set, this is appended to the automatic-light vector inside the scene manager's
-//     LightSetManager (+0x424 of SceneManager). That vector has no declared type. Not bound.
+// partial. Bound: the colour divisions by 255 (ambient, diffuse, specular, component by component), attenuation y by
+// 1e3 and z by 1e6 (single-precision divisions, __aeabi_fdiv in the binary), the scene load for a non-empty m_dae
+// (SceneManager::LoadScene(file, "", false, false) on the scene manager at Application +0x1c, the file name being the
+// string's character pointer at +0x17c), and the final SyncData() call (a virtual call on this, vtable +0x5c).
+// Not bound, so m_irrLight is not set by this body:
+//   - m_irrLight from the loaded root: the first element of the root's lights list (CRootSceneNode +0x188, an
+//     SIntrusiveList<void>). The loaded root is an ISceneNode, and CRootSceneNode is not derived from ISceneNode in the
+//     tree, so the list cannot be reached. The original also releases the loaded root's reference after this step; the
+//     release is not bound, so the reference is kept here (the loaded root is not dropped).
+//   - the root call rootNode->addChild(m_irrLight) (rootNode at CSceneManager +0x04, vtable +0x5c, ISceneNode::addChild).
+//     The light is a CLightSceneNode, which scene_nodes.hpp does not derive from ISceneNode.
+//   - when m_irrLight is still null: operator new(0x15c), glitch::scene::CLightSceneNode(true) (no such constructor in
+//     scene_nodes.hpp), the addChild on the root, and the release of the creation reference.
+//   - the counted reference the original takes on m_irrLight (the count of its IReferenceCounted base).
+//   - when m_automatic (+0x164) is set, this is pushed onto LightSetManager::unk_190 (a LightBase* vector at
+//     LightSetManager +0x190, SceneManager +0x424). dh2/SceneManager.hpp keeps LightSetManager as a byte array.
 void LightBase::InitPost() {
-    // Point3D<float>::operator/= (0x34d04c) divides each component. The game_types.hpp Point3D used here has no
-    // operator/=, so the three colours are divided component by component.
+    // Point3D<float>::operator/= (0x34d04c) divides each component. The three colours are divided component by component.
     for (Point3D<float>* color : {&m_ambientColor, &m_diffuseColor, &m_specularColor}) {
         color->X /= 255.0f;
         color->Y /= 255.0f;
         color->Z /= 255.0f;
     }
-    m_attenuation.Y = static_cast<float>(m_attenuation.Y / 1000.0);
-    // partial: the scene load, node creation and registration, see above.
-    m_attenuation.Z = static_cast<float>(m_attenuation.Z / 1000000.0);
+    m_attenuation.Y /= 1000.0f;     // +0x138
+    m_attenuation.Z /= 1000000.0f;  // +0x13c
+
+    if (!m_dae.empty()) {
+        // partial: the loaded root is returned here and never released (see above). m_irrLight is not taken from it.
+        ApplicationGetInstance().unk_1c->LoadScene(m_dae.c_str(), "", false, false);
+    }
+    // partial: the node creation when m_irrLight is null, the counted reference on m_irrLight, and the automatic-light
+    // registration. See above.
     SyncData();
 }
 
 // 0x40b3c8 LightBase::SetAttenuation(Point3D<float>)
-// partial: the member is set (x as given, y divided by 1e3, z divided by 1e6). The original also writes the attenuation
-// into the light data of m_irrLight (CLight +0x34, +0x38, +0x3c) under a reference on the light. Not bound.
+// partial: the member is set (x as given, y divided by 1e3, z divided by 1e6, single precision). The original also writes
+// the attenuation into the light data of m_irrLight (CLight +0x34, +0x38, +0x3c) under a counted reference on the light.
+// Not bound: CLight cannot be included here (see the file comment).
 void LightBase::SetAttenuation(Point3D<float> attenuation) {
     m_attenuation.X = attenuation.X;
-    m_attenuation.Y = static_cast<float>(attenuation.Y / 1000.0);
-    m_attenuation.Z = static_cast<float>(attenuation.Z / 1000000.0);
+    m_attenuation.Y = attenuation.Y / 1000.0f;
+    m_attenuation.Z = attenuation.Z / 1000000.0f;
 }
 
 // 0x40b498 LightBase::setLightNode(glitch::scene::CLightSceneNode*)
 // partial: m_irrLight is set to node. The original also drops the previous node and grabs the new one through the
 // light node's IReferenceCounted base, which is not declared. It then copies the light data back into the members
-// (attenuation x, y and z as stored, ambient, diffuse, specular and radius). That copy needs CLight, which is not
-// complete here.
+// (attenuation as stored, ambient, diffuse, specular and radius, from CLight +0x34, +0x04..+0x0c, +0x14..+0x1c,
+// +0x24..+0x2c and +0x40). That copy needs CLight, which cannot be included here.
 void LightBase::setLightNode(glitch::scene::CLightSceneNode* node) {
     m_irrLight = node;
 }
 
 // 0x40b5c8 LightBase::SetSpecularColor(Point3D<float>)
-// partial: m_specularColor is set. The original also writes the colour into the light data (CLight +0x24..+0x30, alpha
-// 1.0 at +0x30) under a reference on the light. Not bound.
+// partial: m_specularColor is set. The original also writes the colour into the light data (CLight +0x24..+0x2c, alpha
+// 1.0 at +0x30) under a counted reference on the light. Not bound (see the file comment).
 void LightBase::SetSpecularColor(Point3D<float> color) {
     m_specularColor = color;
 }
 
 // 0x40b674 LightBase::SetDiffuseColor(Point3D<float>)
-// partial: m_diffuseColor is set. The original also writes the colour into the light data (CLight +0x14..+0x20, alpha
-// 1.0 at +0x20) under a reference on the light. Not bound.
+// partial: m_diffuseColor is set. The original also writes the colour into the light data (CLight +0x14..+0x1c, alpha
+// 1.0 at +0x20) under a counted reference on the light. Not bound (see the file comment).
 void LightBase::SetDiffuseColor(Point3D<float> color) {
     m_diffuseColor = color;
 }
 
 // 0x40b720 LightBase::SetAmbientColor(Point3D<float>)
-// partial: m_ambientColor is set. The original also writes the colour into the light data (CLight +0x04..+0x0c as float
-// bits, alpha 1.0 at +0x10) under a reference on the light. CLight declares those words as uint32_t, so the light side
-// needs a layout fix first. Not bound.
+// partial: m_ambientColor is set. The original also writes the colour into the light data (CLight +0x04..+0x0c, alpha
+// 1.0 at +0x10) under a counted reference on the light. Not bound (see the file comment).
 void LightBase::SetAmbientColor(Point3D<float> color) {
     m_ambientColor = color;
 }

@@ -13,7 +13,9 @@
 #include "dh2/AnimApplicator.hpp"
 #include "dh2/AnimController.hpp"
 #include "dh2/AnimatorSynchronizedSet.hpp"
+#include "dh2/Application.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/PODecor.hpp"
 #include "dh2/Random.hpp"
 #include "dh2/VisualObject.hpp"
 
@@ -78,9 +80,10 @@ AnimatedDecor::~AnimatedDecor() {}
 // skipped: the original is ~AnimatedDecor() followed by CustomFree(this). The C++ delete expression produces it.
 
 // 0x389128 AnimatedDecor::InitPost()
-// PARTIAL. Rebuilt: the flag, the Decor::InitPost base call, the MeetCondition branch, the startanim choice (idle when
-// empty, "randomall", or the named clip with a clip-0 fallback), the mesh box and the final Update. Not rebuilt: the
-// physics branch (see the comment inside), which needs the PhysicalWorld global dword_99F770.
+// Rebuilt: the flag, the Decor::InitPost base call, the MeetCondition branch, the startanim choice (idle when empty,
+// "randomall", or the named clip with a clip-0 fallback), the mesh box, the physics object and the final Update.
+// The physics world is Application::m_physicalWorld: the original's global dword_99F770 is Singleton<Application>::s_inst
+// + 0x44 (asm: LDR R3,[R3,#(dword_99F770 - 0x99F72C)]), and the header places m_physicalWorld at +0x44.
 void AnimatedDecor::InitPost() {
     unk_10c = 1;  // +0x10c, written before the Decor base InitPost
     Decor::InitPost();
@@ -105,11 +108,11 @@ void AnimatedDecor::InitPost() {
         anim->SetCallbacks(&AnimatedDecor::__CallbackRandomAll, this, nullptr, this);
     }
     visual->ApplyMeshBox();
-    if (visual->m_hasColBox) {
-        // PARTIAL: the original builds a PODecor (operator new(0x28), then PODecor(dword_99F770, this, <clone constant>))
-        // and gives it to GameObject::SetPhysicalObject(po, false). dh2/PODecor.hpp exists, but the PhysicalWorld global
-        // dword_99F770 has no declared name, and the bool constant is not named by the pseudocode. So this branch does not
-        // create the physics object.
+    if (visual->m_hasColBox) {  // visual +0x28
+        // operator new(0x28), then PODecor(m_physicalWorld, this, unused). The third argument is not used by the
+        // constructor, and the original's r3 holds a residue at that call (operator new clobbers it), so false is passed.
+        PODecor* physics = new PODecor(ApplicationGetInstance().m_physicalWorld, this, false);
+        SetPhysicalObject(physics, false);  // GameObject::SetPhysicalObject(po, false)
     }
     Update();  // +0x2c vtable call, the original's tail call
 }

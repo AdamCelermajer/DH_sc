@@ -2,17 +2,17 @@
 // Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. Layout and declarations: dh2/GameObject.hpp.
 // Offsets in comments are the original 32-bit ones.
 //
-// PFWORLD SINGLETON. Singleton<PFWorld>::s_inst (ELF 0x9a26d8, 152 bytes) has no accessor in the tree. Every call
-// PFWorld::DropPath, MovePath, FindPath, InitObstacle, AvoidObstacles, ValidateDirection and ValidatePosition is therefore
-// not emitted. Each site is marked SEAM, and each function that holds one is partial.
+// PFWORLD SINGLETON. Singleton<PFWorld>::s_inst (ELF 0x9a26d8) is declared in dh2/Singleton.hpp and called directly, as
+// game-anim does (TranslateScreenToWorld). The PFWorld calls DropPath, FindPath, MovePath, AvoidObstacles,
+// ValidateDirection and InitObstacle are emitted where the listings make them.
 //
 // APPLICATION. The listings' Singleton<Application>::s_inst is reached through ApplicationGetInstance()
 // (dh2/global/ctrl_camera.hpp), the same accessor the other batches use.
 //
 // Fully reconstructed: GetLookAtVec, LookTowards, SetHeadingDirection, LookAt (both), UpdateTargetPosition, SetPosition,
-// ForceUpdatePosition, SetVisualObject (both), SetCameraAnchorObject, SetPhysicalObject.
-// Partial: Stop, PathTo, UpdatePFObject, UpdatePath, GetCameraAnchorPosition, UpdateSubObjects, DisableCollisions,
-// EnableCollisions.
+// ForceUpdatePosition, SetVisualObject (both), SetCameraAnchorObject, SetPhysicalObject, Stop, PathTo, UpdatePFObject,
+// UpdatePath, DisableCollisions, EnableCollisions.
+// Partial: GetCameraAnchorPosition, UpdateSubObjects.
 
 #include <cmath>
 #include <cstdint>
@@ -28,8 +28,10 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/Level.hpp"
 #include "dh2/PFObject.hpp"
+#include "dh2/PFWorld.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/RootSceneNode.hpp"
+#include "dh2/Singleton.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ctrl_camera.hpp"
 #include "dh2/global/Vec3f_Origin.hpp"
@@ -47,11 +49,12 @@ float FloatFromBits(std::uint32_t bits) {
 }  // namespace
 
 // 0x3938f8 GameObject::Stop()
-// PARTIAL. SEAM: PFWorld::DropPath(Singleton<PFWorld>::s_inst, m_pfObject) is not emitted.
-// The rest is complete: the destination becomes the current position, the heading is cleared and, while the physical
-// object is driven by physics, the body is stopped and put to sleep (b2Body::PutToSleep).
+// The path is dropped (PFWorld::DropPath). The destination becomes the current position and the heading is cleared.
+// While the physical object is driven by physics, the body is stopped and put to sleep. The listing writes the box2d body
+// directly, which is b2Body::PutToSleep (vendor-box2d Source/Dynamics/b2Body.h: flags |= sleep, sleep time, linear and
+// angular velocity, force and torque cleared).
 void GameObject::Stop() {
-    // SEAM: PFWorld::DropPath(Singleton<PFWorld>::s_inst, &m_pfObject)
+    Singleton<PFWorld>::s_inst.DropPath(m_pfObject);
     m_destination = m_position;                 // +0x1a8 <- +0x160
     m_hasHeading = 0;                           // +0x1b5
     m_moving = 0;                               // +0x1b4
@@ -60,16 +63,16 @@ void GameObject::Stop() {
         m_physicalObject->setLinearVelocity(0.0f, 0.0f);
         m_physicalObject->setAngularVelocity(0.0f);
         m_physicalObject->setPosition(m_position.X, m_position.Y);
-        // The listing writes the body directly: flags |= 8 (e_sleepFlag), sleep time, linear and angular velocity,
-        // force and torque cleared. That is b2Body::PutToSleep (vendor-box2d Source/Dynamics/b2Body.h).
         m_physicalObject->m_body->PutToSleep();
     }
 }
 
 // 0x3939f0 GameObject::PathTo(Point3D<float> const&)
-// PARTIAL. SEAM: PFWorld::FindPath(Singleton<PFWorld>::s_inst, m_pfObject, dest, maxPath) is not emitted. The test that
-// decides whether a new search is needed is complete. The search runs when the path is empty, or when the path end (PFObject
-// +0x40) is more than 200 world units from dest (40000 in squared distance).
+// A static object does not path. A search to dest runs when the path is empty, or when its end (PFObject +0x40) is more
+// than 200 world units from dest (squared distance over 40000). The search limit is m_maxPath (+0x26c), 30 when zero.
+// The listing returns FindPath's result; this method is void in the header, so the result is dropped. PFWorld.hpp names
+// FindPath's third parameter flags, while the listing passes the path limit there. The call is written as the listing
+// has it; the name needs settling with the PFWorld owner.
 void GameObject::PathTo(const Point3D<float>& dest) {
     if (m_static) {                             // ObjectBase +0x84: static objects do not path
         return;
@@ -83,8 +86,7 @@ void GameObject::PathTo(const Point3D<float>& dest) {
     }
     if (search) {
         const std::uint32_t maxPath = m_maxPath != 0 ? m_maxPath : 30u;  // +0x26c
-        (void)maxPath;
-        // SEAM: PFWorld::FindPath(Singleton<PFWorld>::s_inst, m_pfObject, dest, maxPath)
+        Singleton<PFWorld>::s_inst.FindPath(m_pfObject, dest, maxPath);
     }
 }
 
@@ -198,9 +200,10 @@ void GameObject::ForceUpdatePosition() {
 }
 
 // 0x393ea0 GameObject::UpdatePFObject()
-// PARTIAL. SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, add, radius, strength) is not emitted.
-// The radius of the path-finding object (PFObject +0x08) is complete: the physical object's radius, or half the larger
-// side of the local AABB when there is no physical object.
+// An obstacle (vtable +0xb4) is registered with the path-finding world: PFWorld::InitObstacle adds it when the physical
+// object is present, with the radius (+0xb8) and strength (+0xbc) virtuals. The path-finding radius (PFObject +0x1d0) is
+// the physical object's radius, or half the larger side of the local AABB (+0x144..+0x158) when there is no physical
+// object.
 void GameObject::UpdatePFObject() {
     if (m_pfObject.m_owner == nullptr) {        // PFObject +0x00
         return;
@@ -209,10 +212,7 @@ void GameObject::UpdatePFObject() {
         const bool add = m_physicalObject != nullptr;
         const float radius = GetObstacleRadius();
         const float strength = GetObstacleStrength();
-        // SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, add, radius, strength)
-        (void)add;
-        (void)radius;
-        (void)strength;
+        Singleton<PFWorld>::s_inst.InitObstacle(m_pfObject, add, radius, strength);
     }
     if (m_physicalObject != nullptr) {
         m_pfObject.m_radius = m_physicalObject->getRadius();
@@ -227,25 +227,25 @@ void GameObject::UpdatePFObject() {
 }
 
 // 0x3940c0 GameObject::UpdatePath()
-// PARTIAL. SEAMs, all PFWorld singleton calls:
-//   - PFWorld::MovePath(Singleton<PFWorld>::s_inst, m_pfObject, m_destination) when the path is not empty.
-//   - PFWorld::AvoidObstacles(Singleton<PFWorld>::s_inst, m_pfObject, m_heading) when the object avoids obstacles.
-//   - PFWorld::ValidateDirection(Singleton<PFWorld>::s_inst, m_heading, m_pfObject) when wall avoidance is on.
+// Moves the object along its path. The path-finding position (PFObject +0x18) follows m_position. While the object is
+// updating its path (vtable +0x5c), a non-empty path is walked with PFWorld::MovePath and the destination is reset. At the
+// destination, a moving object with an empty path stops. Otherwise the heading is set toward the destination and, when
+// the object avoids obstacles (vtable +0x7c), PFWorld::AvoidObstacles steers it. A heading turns the moving flag on
+// (PFObject +0x04 bit 1). When the object validates its direction (m_validateDirection, +0x1c4) and the
+// DisableWallAvoidance debug switch is clear, PFWorld::ValidateDirection runs on the heading.
 void GameObject::UpdatePath() {
     m_pfObject.m_pos = m_position;              // PFObject +0x18 <- +0x160
     if (!IsUpdatingPath()) {
         return;
     }
     if (!m_pfObject.m_path.empty()) {
-        // SEAM: PFWorld::MovePath(Singleton<PFWorld>::s_inst, m_pfObject, m_destination)
+        Singleton<PFWorld>::s_inst.MovePath(m_pfObject, m_destination);
         SetDestination(m_destination);
     }
-    bool hasHeading;
     if (IsAtDestination()) {
         if (m_moving != 0 && m_pfObject.m_path.empty()) {
             Stop();
         }
-        hasHeading = m_hasHeading != 0;
     } else {
         m_moving = 1;
         const Point3D<float> toDestination{m_destination.X - m_position.X,
@@ -257,20 +257,19 @@ void GameObject::UpdatePath() {
             return;
         }
         if (IsAvoidingObstacles()) {
-            // SEAM: PFWorld::AvoidObstacles(Singleton<PFWorld>::s_inst, m_pfObject, m_heading)
+            Singleton<PFWorld>::s_inst.AvoidObstacles(m_pfObject, m_heading);
             SetHeadingDirection(m_heading, true);
         }
-        hasHeading = m_hasHeading != 0;
     }
-    if (!hasHeading) {
+    if (m_hasHeading == 0) {
         m_pfObject.m_flags &= ~2u;
         return;
     }
     m_pfObject.m_flags |= 2u;
-    if (m_validateDirection != 0) {             // +0x1c4
-        // DebugSwitches::GetInstance() loads the switches and returns the object the listing calls load() on.
-        if (!DebugSwitches::GetInstance()->GetSwitch("DisableWallAvoidance")) {
-            // SEAM: PFWorld::ValidateDirection(Singleton<PFWorld>::s_inst, m_heading, m_pfObject)
+    if (m_validateDirection != 0) {
+        DebugSwitches::s_inst.load();
+        if (!DebugSwitches::s_inst.GetSwitch("DisableWallAvoidance")) {
+            Singleton<PFWorld>::s_inst.ValidateDirection(m_heading, m_pfObject);
             SetHeadingDirection(m_heading, true);
         }
     }
@@ -432,7 +431,8 @@ void GameObject::UpdateSubObjects() {
 }
 
 // 0x3949b0 GameObject::DisableCollisions()
-// PARTIAL. SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, false, radius, strength) is not emitted.
+// The physical filter is disabled. An obstacle (vtable +0xb4) is removed from the path-finding world with
+// PFWorld::InitObstacle(add = false), using its radius (+0xb8) and strength (+0xbc).
 void GameObject::DisableCollisions() {
     if (m_physicalObject != nullptr) {
         m_physicalObject->disableFilter();
@@ -440,14 +440,14 @@ void GameObject::DisableCollisions() {
     if (IsObstacle()) {                         // vtable +0xb4
         const float radius = GetObstacleRadius();      // vtable +0xb8
         const float strength = GetObstacleStrength();  // vtable +0xbc
-        // SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, false, radius, strength)
-        (void)radius;
-        (void)strength;
+        Singleton<PFWorld>::s_inst.InitObstacle(m_pfObject, false, radius, strength);
     }
 }
 
 // 0x394a3c GameObject::EnableCollisions()
-// PARTIAL. SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, true, radius, strength) is not emitted.
+// The physical filter is enabled. An obstacle (vtable +0xb4) is added back to the path-finding world with
+// PFWorld::InitObstacle(add = true), using its radius (+0xb8) and strength (+0xbc). The listing reads the radius first
+// (asm: radius in r3, strength on the stack, object at this+0x1c8, add in r2 = 1).
 void GameObject::EnableCollisions() {
     if (m_physicalObject != nullptr) {
         m_physicalObject->enableFilter();
@@ -455,9 +455,7 @@ void GameObject::EnableCollisions() {
     if (IsObstacle()) {                         // vtable +0xb4
         const float radius = GetObstacleRadius();      // vtable +0xb8
         const float strength = GetObstacleStrength();  // vtable +0xbc
-        // SEAM: PFWorld::InitObstacle(Singleton<PFWorld>::s_inst, m_pfObject, true, radius, strength)
-        (void)radius;
-        (void)strength;
+        Singleton<PFWorld>::s_inst.InitObstacle(m_pfObject, true, radius, strength);
     }
 }
 

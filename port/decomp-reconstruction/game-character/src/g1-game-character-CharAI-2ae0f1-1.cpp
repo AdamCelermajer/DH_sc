@@ -16,9 +16,15 @@
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/GameObject.hpp"
 #include "dh2/ObjectBase.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/ObjectSearcher.hpp"
 #include "dh2/Random.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/charai_ai.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2Controller.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::AIProps: the AITable row (Character::GetCharAI)
 
 // Script classes named here only. Their complete definitions wait on dh2/CharAIScript.hpp (the AIS*.hpp
 // headers derive from it), so the specializations that construct them are PARTIAL.
@@ -63,10 +69,9 @@ void AssertFailed(const char* expr, const char* file, int line) {
 }  // namespace
 
 // 0x3cccf8 CharAI::SetScript<AISFaery>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp and dh2/AISFaery.hpp (AISFaery derives from AISDefault, which derives
-// from CharAIScript). Written: the owner assert and the OnTerminate hook (vtable slot 5, +0x14) of the previous
-// script. Not written: deleting the previous m_scriptLoading (vtable slot 1), constructing the 200-byte AISFaery
-// in m_scriptLoading, and setting its faery id (AISFaery +0xc4) to -1.
+// PARTIAL: written are the owner assert and the OnTerminate hook (vtable slot 5, +0x14) of the previous script. Not
+// written: deleting the previous m_scriptLoading (vtable slot 1), and constructing the 200-byte AISFaery in m_scriptLoading
+// with its faery id (+0xc4) set to -1. dh2/AISFaery.hpp and dh2/AISDefault.hpp declare no constructor (layout request).
 template <>
 void CharAI::SetScript<AISFaery>() {
     if (!m_character) {
@@ -79,9 +84,9 @@ void CharAI::SetScript<AISFaery>() {
 }
 
 // 0x3cce14 void CharAI::SetScript<AISDefault>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp (AISDefault derives from it). Written: the owner assert and the OnTerminate
-// hook (slot 5) of the previous script. Not written: deleting the previous m_scriptLoading (slot 1) and constructing
-// the 196-byte AISDefault in m_scriptLoading (its +0xc0 and +0xb8/+0xbc fields are zeroed by the original).
+// PARTIAL: written are the owner assert and the OnTerminate hook (slot 5) of the previous script. Not written: deleting the
+// previous m_scriptLoading (slot 1) and constructing the 196-byte AISDefault in m_scriptLoading (its unk_b8, unk_bc and
+// unk_c0 are zeroed by the original). dh2/AISDefault.hpp declares no constructor (layout request).
 template <>
 void CharAI::SetScript<AISDefault>() {
     if (!m_character) {
@@ -94,10 +99,10 @@ void CharAI::SetScript<AISDefault>() {
 }
 
 // 0x3ccfe4 int CharAI::SetScript<AISPlayerIPhone>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp and dh2/AISPlayerIPhone.hpp. Written: the owner assert and the OnTerminate
-// hook of the previous script. Not written: deleting the previous m_scriptLoading and constructing the 216-byte
-// AISPlayerIPhone (AISPlayer layout: std::vector<Character*> at +0xc4, m_aggroCount +0xd0 and m_aggroForMusic +0xd4 set
-// to 0). The original return value is the last constructor's r0 and is not used, so the port returns void.
+// PARTIAL: written are the owner assert and the OnTerminate hook of the previous script. Not written: deleting the previous
+// m_scriptLoading and constructing the 216-byte AISPlayerIPhone (AISPlayer layout: std::vector<Character*> at +0xc4,
+// m_aggroCount +0xd0 and m_aggroForMusic +0xd4 zeroed). dh2/AISPlayerIPhone.hpp and dh2/AISPlayer.hpp declare no constructor
+// (layout request). The original return value is the last constructor's r0 and is not used, so the port returns void.
 template <>
 void CharAI::SetScript<AISPlayerIPhone>() {
     if (!m_character) {
@@ -110,9 +115,9 @@ void CharAI::SetScript<AISPlayerIPhone>() {
 }
 
 // 0x3cd11c CharAI::SetScript<AISPlayer>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp and dh2/AISPlayer.hpp. Written: the owner assert and the OnTerminate hook of the
-// previous script. Not written: deleting the previous m_scriptLoading and constructing the 216-byte AISPlayer
-// (vector at +0xc4, m_aggroCount +0xd0 and m_aggroForMusic +0xd4 zeroed).
+// PARTIAL: written are the owner assert and the OnTerminate hook of the previous script. Not written: deleting the previous
+// m_scriptLoading and constructing the 216-byte AISPlayer (vector at +0xc4, m_aggroCount +0xd0 and m_aggroForMusic +0xd4
+// zeroed). dh2/AISPlayer.hpp declares no constructor (layout request).
 template <>
 void CharAI::SetScript<AISPlayer>() {
     if (!m_character) {
@@ -125,11 +130,36 @@ void CharAI::SetScript<AISPlayer>() {
 }
 
 // 0x3cd384 CharAI::ClearAllAggro(void)
-// PARTIAL: the two walks over ObjectManager (the first over the Character list at ObjectManager +0x60, the second over
-// the ObjectBase handle list at +0x04, resolving each handle to a Character) are not written. dh2/ObjectManager.hpp is
-// not declared yet. Each visited Character has its CharAI m_aggro (+0x7c) and m_aggroedBy (+0x94) maps cleared, which
-// is the part that is missing. The original's unconditional dereference of an empty list entry is not reproduced.
-void CharAI::ClearAllAggro() {}
+// Clears m_aggro (+0x7c) and m_aggroedBy (+0x94) of every Character in the ObjectManager Character list (m_characters,
+// +0x60). Then, for every ObjectBase in the object list (m_objects, +0x04) whose handle resolves to a Character, clears
+// the same two maps. The original dereferences each Character list entry without a test; this port skips a null entry.
+void CharAI::ClearAllAggro() {
+    ObjectManager* objects = dword_99F764;
+    for (Character* c : objects->m_characters) {  // +0x60
+        if (c == nullptr) {
+            continue;
+        }
+        CharAI* ai = c;  // Character derives from CharAI at +0x3c8
+        ai->m_aggro.clear();     // +0x7c
+        ai->m_aggroedBy.clear(); // +0x94
+    }
+    for (ObjectBase* object : objects->m_objects) {  // +0x04
+        if (object == nullptr) {
+            continue;
+        }
+        ObjectHandle handle = object->GetHandle();
+        if (handle.GetObject(false) == nullptr) {
+            continue;
+        }
+        Character* c = handle;  // ObjectHandle::operator Character*
+        if (c == nullptr) {
+            continue;
+        }
+        CharAI* ai = c;
+        ai->m_aggro.clear();
+        ai->m_aggroedBy.clear();
+    }
+}
 
 // 0x3cd964 CharAI::~CharAI()  (complete-object destructor; the second emitted copy is 0x3cdb60)
 CharAI::~CharAI() {
@@ -161,11 +191,13 @@ void CharAI::StepLoadScript() {
 }
 
 // 0x3ce044 CharAI::SetSkillsAndSpells(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp (LuaScript::Load("_commons"), LuaScript::Call("DeclareSkill") and the InitVCB
-// hook at vtable slot 51 of m_script) and on the record layouts behind Character::GetCharSkillList/GetCharSkill and
-// GetCharFaeryList/GetCharFaery, which return const void*. Written: the m_script assert and the debug-switch lookup
-// that the original makes first. Not written: the skill and spell script lists (m_skillScripts +0xb4, m_spellScripts
-// +0xc0, CharAISkillScript objects) and the DeclareSkill loops.
+// PARTIAL: the skill and faery records are not typed. Character::GetCharSkillList/GetCharSkill and GetCharFaeryList/
+// GetCharFaery return const void*, so the record fields are not read: the flag at skill +36 and faery +20, and the
+// script name at skill +40 and faery +24. Written: the m_script assert and the debug-switch lookup that the original
+// makes first. Not written: the script-directory switch (LuaScript::m_scriptDirectory +0x68, set to
+// "data/scripts/skills/" and restored at the end), the _commons loads, the DeclareSkill loops that fill the skill and
+// spell script lists (m_skillScripts +0xb4, m_spellScripts +0xc0, CharAISkillScript objects), and the closing InitVCB call
+// on m_script (CharAIScript::InitVCB, slot 51, is now declared).
 void CharAI::SetSkillsAndSpells() {
     if (!m_script) {
         AssertFailed("m_script", kCharAICpp, 660);
@@ -309,9 +341,10 @@ void CharAI::SetScriptByName(const char* name) {
 }
 
 // 0x3cf04c CharAI::StepCreateScript(void)
-// PARTIAL: the branch needs the Arrays::AITable row of this character (Character::GetCharAIId selects a 68-byte row: a
-// flag at row +40 chooses between the script name at row +44 and the default, and the type name at Character +0x5c is
-// compared with "Player"). Those fields are not named yet (layout requests). Written: the tracing debug-switch lookup
+// PARTIAL: the branch needs the AITable row of this character (Character::GetCharAI returns Structs::AIProps). A value at
+// row +40 chooses between the script name at row +44 and the default, and the type name at Character +0x5c is compared
+// with "Player". The row's +40 and +44 are only named m_w10 (the length of m_w11) and m_w11 (void*) by pydata, which is not
+// a confirmed reading, and Character +0x5c has no declaration (layout requests). Written: the tracing debug-switch lookup
 // that both branches of the original make.
 void CharAI::StepCreateScript() {
     DebugSwitches::GetInstance()->load();
@@ -385,12 +418,12 @@ bool CharAI::LoadNInitScriptProcess(bool flag) {
 }
 
 // 0x3cf3f0 CharAI::_UpdateAggro(void)
-// PARTIAL: waits on dh2/ObjectManager.hpp (the Character list at ObjectManager +0x60 and the monster search list at +0x70),
-// on the Arrays::AITable row floats (+60 and +64) and Arrays::DesignSettingsTable floats (+8 and +48) that have no named
-// fields yet, and on the ObjectSearcher::TargetList pass that follows them. Written: the player and faerie exits, the
-// update-delay countdown and its re-arm from the seed stream, the NPC exit, and the faerie master check. Not written: the
-// monster branch, the AITable range and the threat search with its RaiseEvent calls (7, 8, 9, 12). A monster returns here
-// without an aggro update, which is the one behaviour difference of this partial body.
+// PARTIAL: the monster branch is not written. For a monster that is not remotely updated and has a current target (+0x40),
+// the original compares the target's aggro with the highest aggro (AI_GetHighestAggro) and adds, clears or retargets
+// aggro (the Arrays::DesignSettingsTable factor at +0x30 is used there). This port returns from that case without the
+// update. The rest follows the original: the player, NPC and faerie exits, the update-delay countdown and its re-arm from
+// the seed stream, and the threat search over the Character list (ObjectManager +0x60) with RaiseEvent 9 (enemy), 7 (friend),
+// 8 (neutral) and 12 (no enemy found, the current target is kept).
 void CharAI::_UpdateAggro() {
     if (m_character->IsPlayer()) {
         return;
@@ -421,13 +454,52 @@ void CharAI::_UpdateAggro() {
     if (m_character->IsNPC()) {
         return;
     }
-    if (m_character->IsMonster() && !m_character->IsRemotelyUpdated()) {
+    if (m_character->IsMonster() && !m_character->IsRemotelyUpdated() && m_target != nullptr) {
         return;  // PARTIAL: the monster branch is not written (see above)
     }
     if (m_character->IsFaerie() && m_master != nullptr) {
         return;
     }
-    // PARTIAL: the AITable range and the ObjectSearcher pass are not written (see above).
+
+    // Threat search. The range is the AITable row's m_w15 (+0x3c); a spawning character with a spawn view radius uses that
+    // radius, and a character without aggro uses m_w16 (+0x40). The row is Character::GetCharAI().
+    const Structs::AIProps* row = m_character->GetCharAI();
+    float range = row->m_w15;
+    if (m_character->SM_IsAwaitingToSpawn() && m_character->m_spawnViewRadius > 0.0f) {
+        range = m_character->m_spawnViewRadius;  // Character +0x143c
+    } else if (!AI_HasAggro()) {
+        range = row->m_w16;
+    }
+
+    ObjectSearcher::TargetList found(m_character, 0x7FFFFFFF, 2, 1);
+    ObjectSearcher::CharacterList characters;  // vtable set by the implicit constructor
+    characters.m_list = &dword_99F764->m_characters;  // ObjectManager +0x60
+    characters.m_current = characters.m_list->begin();
+    characters.m_end = characters.m_list->end();
+    found.Search(range, kCharAIFullCircle, characters);
+
+    // The original pops every hit: an enemy gets RaiseEvent 9, a friend 7, a neutral 8. The target is re-announced with 12
+    // when no enemy was found, or when the search was empty.
+    bool anyEnemy = false;
+    while (!found.m_results.empty()) {
+        const ObjectSearcher::TargetInfo& top = found.m_results.top();
+        if ((top.isCharacter & 1) == 0) {
+            AssertFailed("tlist.Top().IsChar()", kCharAICpp, 1286);
+        }
+        GameObject* other = top.object;
+        if (AI_IsEnemy(other)) {
+            m_character->RaiseEvent(9, other);
+            anyEnemy = true;
+        } else if (AI_IsFriend(other)) {
+            m_character->RaiseEvent(7, other);
+        } else if (AI_IsNeutral(other)) {
+            m_character->RaiseEvent(8, other);
+        }
+        found.m_results.pop();
+    }
+    if (!anyEnemy && m_target != nullptr) {  // +0x40
+        m_character->RaiseEvent(12, m_target);
+    }
 }
 
 // 0x3cfbf4 CharAI::Update(void)

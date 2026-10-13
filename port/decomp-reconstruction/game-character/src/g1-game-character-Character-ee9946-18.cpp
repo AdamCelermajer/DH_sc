@@ -4,10 +4,11 @@
 //
 // Property access follows the public CharProperties API. PROPS_Get(id, false) reads the final sheet m_props raw
 // (8 fractional bits), PROPS_GetInt is that value >> 8, PROPS_Set takes a raw value, and PROPS_SetInt and PROPS_AddInt
-// shift their value left by 8. The saved sheet (m_savedProps) and _GetProperty are private in dh2/CharProperties.hpp.
+// shift their value left by 8. The saved sheet (m_savedProps) and _GetProperty/_SetProperty are public in dh2/CharProperties.hpp.
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <string>
 
 #include "core-platform/memory.hpp"
@@ -72,15 +73,22 @@ bool Character::IsSkillUsable(int skill) {
 }
 
 // 0x3bcc58 Character::IncSkill(int, bool)
-// PARTIAL: (1) when the skill table is missing and gAssertLevel is 2, the original writes 0 to address 0 (a deliberate
-// crash). That store is not reproduced; gAssertLevel 1 prints the assert line and the body then runs as in the original.
-// (2) After a level is added, the original copies PROPS_GetInt(194) (clamped at 0) into ItemInventory::m_maxPotions
-// (+0x2c). That member is private with no accessor, so the copy is not made. Property 194 has no recovered name.
+// The skill table is checked first: without it the original reports the assertion, and gAssertLevel 2 stops the process
+// (the original stores 0 to address 0 there). Then, when the skill points (prop 157) are not positive, or the skill is not
+// available, the debug probe runs and the result is false. The maximum level comes from the CharacterDesign constants
+// (MaxSkillLevelBNormal, or MaxSkillLevelCHard and MaxSkillLevelDVeryHard for the unlocked difficulty). When the row level is
+// below the maximum and CanIncrementSkill holds, and a is false: prop 157 loses one point, the row level grows,
+// CharAI::UpdateAllSkills and RecalcProperties(true) run, ItemInventory::m_maxPotions (+0x2c) takes the low byte of
+// max(PROPS_GetInt(194), 0), and the probe runs. The result is true when a level was added (or when a is set and the skill
+// could be raised).
+// PARTIAL: without a savegame the original dereferences it after the assertion (undefined); this port returns false there.
+// Property 194 has no recovered name.
 bool Character::IncSkill(int skill, bool a) {
     PlayerSavegame* savegame = m_savegame;
-    if (savegame == nullptr || savegame->m_skills == nullptr) {
+    const bool hasSkills = savegame != nullptr && savegame->m_skills != nullptr;
+    if (!hasSkills) {
         if (gAssertLevel == 2) {
-            // PARTIAL: the original writes 0 to address 0 here. Not reproduced.
+            std::abort();
         } else if (gAssertLevel == 1) {
             std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n",
                          "m_playerSavegame && m_playerSavegame->SG_GetSkills()",
@@ -96,6 +104,9 @@ bool Character::IncSkill(int skill, bool a) {
         ProbeTracingCharStats();
         return false;
     }
+    if (!hasSkills) {
+        return false;
+    }
 
     int maxLevel = ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "MaxSkillLevelBNormal");
     if (SG_GetGameDifficultyUnlocked() == 1) {
@@ -104,14 +115,14 @@ bool Character::IncSkill(int skill, bool a) {
         maxLevel = ApplicationGetPyDataConstants()->getConstant("CharacterDesign", "MaxSkillLevelDVeryHard");
     }
 
-    if (maxLevel > static_cast<int>(m_savegame->m_skills[skill].level) && CanIncrementSkill(skill)) {
+    if (maxLevel > static_cast<int>(savegame->m_skills[skill].level) && CanIncrementSkill(skill)) {
         if (!a) {
             PROPS_AddInt(kPropSkillPoints, -1);
-            ++m_savegame->m_skills[skill].level;
+            ++savegame->m_skills[skill].level;
             CharAI::UpdateAllSkills();
             RecalcProperties(true);
-            // PARTIAL: the original then stores max(PROPS_GetInt(kPropPotionCap, false), 0) into m_maxPotions (+0x2c, private
-            // in dh2/ItemInventory.hpp, no accessor). The read and the store are not made.
+            const int potionCap = PROPS_GetInt(kPropPotionCap, false);
+            ItemInventory::m_maxPotions = static_cast<std::int8_t>(potionCap > 0 ? potionCap : 0);
             ProbeTracingCharStats();
         }
         return true;
@@ -187,14 +198,23 @@ void Character::ResetStatsChange(int a, int b, int c, int d) {
 }
 
 // 0x3bd26c Character::ResetStats()
-// PARTIAL: the original first folds the saved sheet's raw words into prop 148 (total = p149 + p148 + p150 + p151 + p152,
-// then p149 = 0, p148 = total, p150 = p151 = p152 = 0). The saved sheet m_savedProps and _GetProperty/_SetProperty are
-// private in dh2/CharProperties.hpp, so that fold is not made here. The rest of the body runs as in the original.
-void Character::ResetStats() {
+// The original folds the saved sheet's spent stat points into the free points: the total of props 148 (free points), 149,
+// 150, 151 and 152 becomes prop 148, and props 149..152 become 0. The saved sheet is CharProperties::m_savedProps, where
+// property i is the word m_w(i+1), read and written through _GetProperty and _SetProperty. Then UpdateBaseProperties
+// (m_charPropsId), INV_CheckItemsRequirements and ValidateHPMP run, and the result of SG_Save() is returned.
+int Character::ResetStats() {
+    std::uint32_t total = static_cast<std::uint32_t>(CharProperties::_GetProperty(CharProperties::m_savedProps, kPropStatPoints));
+    for (int prop : kPropStatSpent) {
+        total += static_cast<std::uint32_t>(CharProperties::_GetProperty(CharProperties::m_savedProps, prop));
+    }
+    CharProperties::_SetProperty(CharProperties::m_savedProps, kPropStatPoints, static_cast<int>(total));
+    for (int prop : kPropStatSpent) {
+        CharProperties::_SetProperty(CharProperties::m_savedProps, prop, 0);
+    }
     UpdateBaseProperties(m_charPropsId);
     INV_CheckItemsRequirements();
     ValidateHPMP();
-    SG_Save();
+    return SG_Save();
 }
 
 // 0x3bd2dc Character::GetHPPercent() const

@@ -1,49 +1,13 @@
 // Batch g1-game-anim-pack1-f61e88-0: the destructors, constructors and Update of v2GamepadController, the
 // destructors and constructors of v2HudController, and the destructors, constructors and Update of v2NetController.
 //
-// The v2Controller base (dh2/v2Controller.hpp) has no standalone constructor symbol in the original: each derived
-// constructor writes the v2Controller fields inline. The C++ base constructor v2Controller(v2Controllable*) is still
-// named in the initializer lists below, and nothing defines it yet, so the constructors are partial for that reason.
-// The field stores themselves are written here, as the original does them.
-
-#include <cstdio>
-#include <cstdlib>
+// The v2Controller base constructor (the field stores and the ASSERT(controllable)) is v2Controller::v2Controller in
+// game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp. The derived constructors below name it as their base.
 
 #include "dh2/InputManager.hpp"
 #include "dh2/v2GamepadController.hpp"
 #include "dh2/v2HudController.hpp"
 #include "dh2/v2NetController.hpp"
-
-// Engine assert level, defined in core-platform/src/memory.cpp (declared the same way by the other game-anim batches).
-extern int gAssertLevel;
-
-namespace {
-
-// The ASSERT(controllable) that every controller constructor runs (v2Controller.h:68). gAssertLevel 2 stops the
-// program, because the original stores 0 to address 0; gAssertLevel 1 prints the message and continues.
-void AssertControllable(v2Controllable* controllable) {
-    if (controllable) {
-        return;
-    }
-    if (gAssertLevel == 2) {
-        std::abort();
-    } else if (gAssertLevel == 1) {
-        std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "controllable",
-                     "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Controllers\\/v2Controller.h", 68);
-    }
-}
-
-// The v2Controller fields the original derived constructors store inline: +0x04 m_controllable, +0x08 m_blocked = 0,
-// +0x09 unk_009 = 0, +0x0a unk_00a = 0 and +0x0c m_character = 0.
-void InitControllerFields(v2Controller& self, v2Controllable* controllable) {
-    self.m_controllable = controllable;
-    self.m_blocked = false;
-    self.unk_009 = false;
-    self.unk_00a = false;
-    self.m_character = nullptr;
-}
-
-}  // namespace
 
 namespace v2gamepad_detail {
 
@@ -83,14 +47,11 @@ v2GamepadController::~v2GamepadController() {}
 
 // 0x406978 _ZN19v2GamepadControllerC1EP14v2Controllablei (complete-object constructor)
 // 0x406a64 _ZN19v2GamepadControllerC2EP14v2Controllablei (base-object constructor), same body, defined once here.
-// partial: waits on the v2Controller(v2Controllable*) base constructor (see the file comment). The body does what the
-// original does: the v2Controller field stores, the ASSERT(controllable) when the controllable is null, m_padIndex at
-// +0x10, and unk_014 at +0x14..+0x1c zeroed. The vptr writes are compiler-managed.
+// The v2Controller base (field stores and ASSERT(controllable)) runs first, in v2Controller::v2Controller. Then m_padIndex
+// at +0x10 and unk_014 at +0x14..+0x1c are set. The vptr writes are compiler-managed.
 v2GamepadController::v2GamepadController(v2Controllable* controllable, int padIndex)
     : v2Controller(controllable)
 {
-    InitControllerFields(*this, controllable);
-    AssertControllable(controllable);
     m_padIndex = padIndex;
     unk_014.X = 0.0f;
     unk_014.Y = 0.0f;
@@ -136,13 +97,10 @@ v2HudController::~v2HudController() {}
 
 // 0x408930 _ZN15v2HudControllerC1EP14v2Controllable (complete-object constructor)
 // 0x408a04 _ZN15v2HudControllerC2EP14v2Controllable (base-object constructor), same body, defined once here.
-// partial: waits on the v2Controller(v2Controllable*) base constructor. v2HudController adds no members, so the body is
-// the v2Controller field stores and the ASSERT(controllable).
+// v2HudController adds no members, so the body is the v2Controller base constructor alone.
 v2HudController::v2HudController(v2Controllable* controllable)
     : v2Controller(controllable)
 {
-    InitControllerFields(*this, controllable);
-    AssertControllable(controllable);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -159,27 +117,26 @@ v2NetController::~v2NetController() {}
 
 // 0x4091f4 _ZN15v2NetControllerC1EP14v2Controllable (complete-object constructor)
 // 0x4092c8 _ZN15v2NetControllerC2EP14v2Controllable (base-object constructor), same body, defined once here.
-// partial: waits on the v2Controller(v2Controllable*) base constructor, as the other controller constructors do.
-// v2NetController adds no members, so the body is the v2Controller field stores and the ASSERT(controllable).
+// v2NetController adds no members, so the body is the v2Controller base constructor alone.
 v2NetController::v2NetController(v2Controllable* controllable)
     : v2Controller(controllable)
 {
-    InitControllerFields(*this, controllable);
-    AssertControllable(controllable);
 }
 
 // 0x40939c _ZN15v2NetController6UpdateEv
 // partial: not rebuilt, so Update does nothing for now. The original, in order:
-//   1. GetOnline() (symbol _Z9GetOnlinev) gates the body on the COnline byte at +0x05. No accessor is declared in the
-//      tree, so this waits on it.
-//   2. CMessaging: IsMessageReceived("CMsgControllerAction") and GetMessageFromQueue. The message fields are not
-//      declared: the action byte at +0x50, the target network id (uint16) at +0x52, the sender byte at +0x54, and the
-//      consumed flag written at +0x3c. No header for CMsgControllerAction exists.
-//   3. The sender byte is compared with the controller's Character field at +0x108 (int32, not declared). Otherwise the
-//      object is looked up by network id (ObjectManager::GetObjectHandleByNetworkId; dh2/ObjectManager.hpp is absent),
-//      and a Character found there must have a PlayerManager record whose byte +0x66c is 1.
+//   1. GetOnline() gates the body on the COnline byte at +0x05. COnline::isOnlineGame_ is private with no accessor in
+//      net-session-online/c_online.hpp (layout request: a public getter), and Application::IsOnlineGame (0x320668) is a
+//      stub, so this gate is blocked.
+//   2. GetMessaging(): IsMessageReceived("CMsgControllerAction") and GetMessageFromQueue. CMsgControllerAction in
+//      net-session-online/c_msg_fixed.hpp keeps its payload opaque, so the action byte at +0x50, the target network id
+//      (uint16) at +0x52 and the sender byte at +0x54 are not declared (layout request). The consumed flag written at
+//      +0x3c is not declared in c_message.hpp either (layout request).
+//   3. The sender byte is compared with Character unk_108 (+0x108, declared on ObjectBase). Otherwise the object is looked
+//      up by network id (ObjectManager::GetObjectHandleByNetworkId, declared), and a Character found there that IsPlayer()
+//      must have a PlayerManager record whose unk_66c (PlayerInfo +0x66c) is 1, otherwise Update returns early.
 //   4. The action switch calls v2Controllable slots: 0 Ctrl_Attack(target), 1 Ctrl_BeginSkill(id), 2 Ctrl_EndSkill(id),
 //      3 Character::SG_SetCurrentFaerie(id, -1) then Ctrl_BeginCast(true), 4 Ctrl_EndCast(true), 5 Ctrl_UseOOI(target,
 //      when the object is found). Any other action runs the ASSERT at v2NetController.cpp:103.
-// The switch is written as code once the message and object layouts are declared.
+// The switch is written as code once the online gate and the CMsgControllerAction payload fields are declared.
 void v2NetController::Update() {}

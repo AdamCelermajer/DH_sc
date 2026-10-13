@@ -13,9 +13,29 @@
 #include <new>
 
 #include "dh2/Application.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/ObjectHandle.hpp"
+#include "dh2/ObjectManager.hpp"
+#include "dh2/ObjectSearcher.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PhysicalObject.hpp"
+#include "dh2/RoomZone.hpp"
+#include "dh2/RootSceneNode.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/TimerTrap.hpp"
+#include "dh2/TriggerTrap.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "dh2/VisualObject.hpp"
+#include "dh2/global/IsMultiplayerGame.hpp"
+#include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/global/Vec3f_K.hpp"
 #include "dh2/global/ctrl_camera.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
+#include "dh2/sfc/script/lua/ReturnValues.hpp"
+#include "dh2/sfc/script/lua/Value.hpp"
+#include "glitch-scene-collada-gui/scene/ISceneNode.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
 
 namespace {
 
@@ -50,6 +70,124 @@ int Application::GetDt() {
 }
 
 void VisualObject::SyncRotation() {}
+
+// Stubs for the callees of the Lua bindings. No test calls a binding (their arguments need the Lua wrapper, which is not
+// linked here); these definitions only let the unit link. The globals are the instances the bindings read.
+namespace {
+
+alignas(sfc::script::lua::Value) unsigned char g_valueStorage[sizeof(sfc::script::lua::Value)];
+alignas(ObjectSearcher::BackupObjectList) unsigned char g_backupStorage[sizeof(ObjectSearcher::BackupObjectList)];
+
+struct InitVec3fK {
+    InitVec3fK() {
+        Vec3f_K.X = 0.0f;
+        Vec3f_K.Y = 0.0f;
+        Vec3f_K.Z = 1.0f;
+    }
+} g_initVec3fK;
+
+}  // namespace
+
+ObjectManager* dword_99F764 = nullptr;
+PlayerManager* dword_99F76C = nullptr;
+Point3D<float> Vec3f_K;
+
+namespace Arrays {
+std::uint32_t TimerTraps::size = 0;
+std::uint32_t GameObjectDamager::size = 0;
+std::uint32_t TriggerTraps::size = 0;
+std::uint32_t AnimatedEffectTable::size = 0;
+std::uint32_t CharacterTable::size = 0;
+}  // namespace Arrays
+
+namespace sfc {
+namespace script {
+namespace lua {
+const Value& Arguments::operator[](unsigned int) const { return *reinterpret_cast<const Value*>(g_valueStorage); }
+float Value::getNumber() const { return 0.0f; }
+unsigned int Value::getUInteger() const { return 0; }
+bool Value::getBool() const { return false; }
+const char* Value::getString() const { return ""; }
+UserData* Value::getUserData() const { return nullptr; }
+void ReturnValues::pushNumber(float) {}
+void ReturnValues::pushBoolean(bool) {}
+void ReturnValues::pushUserData(UserData*) {}
+void ReturnValues::pushPointer(void*) {}
+}  // namespace lua
+}  // namespace script
+}  // namespace sfc
+
+Character* Character::CreateNPC(int, const char*, bool) { return nullptr; }
+void Character::SetInitialPosition(const Point3D<float>&) {}
+void Character::AddCharOIDToCache(int, unsigned int) {}
+int CharStateMachine::SM_SetSpawnState(bool, bool) { return 0; }
+void GameObject::SetPosition(const Point3D<float>&, bool) {}
+void GameObject::ForceUpdatePosition() {}
+void GameObject::GetLookAtVec(Point3D<float>& out) const {
+    out.X = 0.0f;
+    out.Y = 0.0f;
+    out.Z = 0.0f;
+}
+void GameObject::ZoneEntered() {}
+ObjectHandle ObjectManager::GetObjectByName(char const*, int, bool, char const*) { return ObjectHandle(); }
+void ObjectManager::AddNoRoomObject(GameObject*) {}
+ObjectHandle::operator GameObject*() { return nullptr; }
+bool RoomZone::AddInitialObject(GameObject*) { return false; }
+void RootSceneNode::ForwardAnim(std::uint32_t) {}
+float PhysicalObject::getRadius() const { return 0.0f; }
+glitch::scene::ISceneNode* VisualObject::GetSpecificNode(const char*) const { return nullptr; }
+glitch::core::vector3d<float> glitch::scene::ISceneNode::getAbsolutePosition() const {
+    return glitch::core::vector3d<float>();
+}
+
+GameObject* TimerTrap::Create(GameObject*, int, int) { return nullptr; }
+GameObject* TriggerTrap::Create(GameObject*, int, int) { return nullptr; }
+
+ObjectHandle::ObjectHandle() {}
+ObjectSearcher::IObjectList::~IObjectList() {}
+ObjectSearcher::CharacterList::~CharacterList() {}
+ObjectSearcher::PlayerList::~PlayerList() {}
+ObjectSearcher::RoomObjectList::~RoomObjectList() {}
+// The list objects are built on the stack by the bindings, so their vtables are emitted here; none of these is called.
+void ObjectSearcher::CharacterList::Reset() {}
+bool ObjectSearcher::CharacterList::AtEnd() { return true; }
+void ObjectSearcher::CharacterList::Next() {}
+int ObjectSearcher::CharacterList::Size() { return 0; }
+GameObject* ObjectSearcher::CharacterList::Get() { return nullptr; }
+Character* ObjectSearcher::CharacterList::GetChar() { return nullptr; }
+void ObjectSearcher::PlayerList::Reset() {}
+bool ObjectSearcher::PlayerList::AtEnd() { return true; }
+void ObjectSearcher::PlayerList::Next() {}
+int ObjectSearcher::PlayerList::Size() { return 0; }
+GameObject* ObjectSearcher::PlayerList::Get() { return nullptr; }
+Character* ObjectSearcher::PlayerList::GetChar() { return nullptr; }
+void ObjectSearcher::RoomObjectList::Reset() {}
+bool ObjectSearcher::RoomObjectList::AtEnd() { return true; }
+void ObjectSearcher::RoomObjectList::Next() {}
+int ObjectSearcher::RoomObjectList::Size() { return 0; }
+GameObject* ObjectSearcher::RoomObjectList::Get() { return nullptr; }
+Character* ObjectSearcher::RoomObjectList::GetChar() { return nullptr; }
+void ObjectSearcher::TargetList::BackupResults(const char*) {}
+ObjectSearcher::BackupObjectList& ObjectSearcher::TargetList::GetResultsBackup(const char*) {
+    return *reinterpret_cast<ObjectSearcher::BackupObjectList*>(g_backupStorage);
+}
+void ObjectSearcher::TargetList::SearchRect(const Point3D<float>&, float, float, ObjectSearcher::IObjectList&) {}
+
+PFWorld::PFWorld() {}
+PFWorld::~PFWorld() {}
+template class Singleton<PFWorld>;
+bool PFWorld::GetFloorHeightAt(const Point3D<float>&, float*, Point3D<float>*, PFRoom**, PFFloor**, bool) {
+    return false;
+}
+
+VisualFXManager::VisualFXManager() {}
+VisualFXManager::~VisualFXManager() {}
+VisualFXManager::AnimFXSetInfo::~AnimFXSetInfo() {}
+VisualFXManager::AnimatedFXInfo::~AnimatedFXInfo() {}
+template class Singleton<VisualFXManager>;
+int VisualFXManager::PlayAnimFXSet(int, const GameObject*, AnimFXSetData*) { return 0; }
+int VisualFXManager::PlayAnimFXSet(int, const Point3D<float>&, const GameObject*, AnimFXSetData*) { return 0; }
+AnimatedFX* VisualFXManager::GrabAnimFX(int, GameObject*) { return nullptr; }
 
 int main() {
     // GetTargetPosition: the target node's position only when there is a node and the object is visible.

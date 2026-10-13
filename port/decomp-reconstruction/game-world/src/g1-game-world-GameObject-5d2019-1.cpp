@@ -162,10 +162,10 @@ void GameObject::SetVisible(bool visible) {
 }
 
 // 0x38b110 GameObject::SetRelativeAABB(aabb<float> const&, bool)
-// partial: aabb<T> is forward-declared in the game headers but never defined in the tree, so the
-// six floats are read with memcpy. The original reads them at +0, +4, +8, +0x0c, +0x10, +0x14: min
-// xyz, then max xyz. Waits on a dh2 aabb<T> declaration with min and max members. The bool is not
-// read by the original (the register is reused), so the body ignores it.
+// aabb<T> is forward-declared in the game headers but never defined in the tree, so the box is read as
+// the six floats the original reads: +0, +4, +8 (min xyz) and +0x0c, +0x10, +0x14 (max xyz). The memcpy
+// copies those bytes of the reference, which needs no member names. The bool is not read by the original
+// (the register is reused), so the body ignores it.
 void GameObject::SetRelativeAABB(const aabb<float>& box, bool /*update*/) {
     float src[6];
     std::memcpy(src, &box, sizeof src);

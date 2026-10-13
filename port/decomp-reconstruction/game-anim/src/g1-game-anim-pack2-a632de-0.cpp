@@ -1,168 +1,184 @@
-// v2PS3MoveController functions of libDungeonHunter2.so (game-anim batch g1-game-anim-pack2-a632de-0).
+// v2PS3MoveController functions of libDungeonHunter2.so (game-anim batch g1-game-anim-pack2-a632de-0; the constructor
+// and Update rows were redone under r2a-game-anim-pack3-a632de-0).
 // Rebuilt from the Hex-Rays pseudocode in recovered/native/hexrays-all and checked against the ARM assembly
-// (tools/decomp_asm.py --address 0x409bd8 lists every call; the Gamepad, MenuManager and EvGamepad accesses are
-// read from it). Class layout and declarations: game/include/dh2/v2PS3MoveController.hpp.
+// (tools/decomp_asm.py --address 0x409bd8 lists every call). Class layout and declarations: game/include/dh2/v2PS3MoveController.hpp.
 //
-// Status. The destructors and the constructors are rebuilt. The v2Controller base constructor they call is declared
-// but not defined in the tree yet (the original writes the base inline). Update is partial. Its control flow is
-// complete, but six reads need types the tree does not declare: the Gamepad control table, the cursor position in
-// MenuManager, PFWorld::TranslateScreenToWorld, the player id in PlayerInfo, the EvGamepad event and the object list
-// for the target search. Those reads are the PARTIAL seams in the anonymous namespace below. Until they are filled,
-// every control reads as released with no latch, so Update issues no command.
+// Status. The destructors and the constructors are rebuilt (see their rows). The constructors run the
+// v2Controller(v2Controllable*) base constructor, defined in game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp, which
+// makes the base stores and the null-controllable assert. Update is partial for one reason: its four EvGamepad events are dropped,
+// because dh2/EvGamepad.hpp does not exist (see RaiseGamepadEvent). Every other read is the one the original makes: the
+// Gamepad channels (kPadBindings), the cursor words of MenuManager, PFWorld::TranslateScreenToWorld, the player id in
+// PlayerInfo, the room object list of ObjectManager, and the debug switches.
 
 #include "dh2/v2PS3MoveController.hpp"
 
-#include <cstdio>
-#include <cstdlib>
+#include <cstdint>
+#include <cstring>
+#include <list>
 #include <string>
 
 #include "core-platform/deps/game_types.hpp"  // Point2D, Point3D
+#include "dh2/Application.hpp"                // ApplicationGetInstance(), the Singleton<Application>::s_inst accessor
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/Gamepad.hpp"
 #include "dh2/InputManager.hpp"
+#include "dh2/MenuManager.hpp"
+#include "dh2/ObjectManager.hpp"
 #include "dh2/ObjectSearcher.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
+#include "dh2/Singleton.hpp"
 
-// Engine assert level, defined in core-platform/src/memory.cpp. Declared here as AnimController does, so the game
-// sources do not pull in the engine memory header.
-extern int gAssertLevel;
+namespace v2PS3MoveController_detail {
 
-namespace {
-
-// The pad controls Update reads, named by the call they drive. Each control is a float value, two float bounds
-// (the press level is (bound1 + bound0 + 1.0f) * 0.5f) and, for most, a latch byte. The 32-bit Gamepad offsets are
-// listed on each enumerator and in the Gamepad layout request.
+// The pad controls Update reads, named by the call they drive.
 enum PadControl : int {
-    kPadPrimary,       // value +0x3cc, bounds +0x3d0 +0x3d4, no latch: cursor aim, target search, Cmd_HeadTo, Cmd_Attack / Cmd_UseOOI
-    kPadMoveToClick,   // value +0x3d8, bounds +0x3e0 +0x3e4, latch +0x3e8: Cmd_Stop on release unless IsMovingToClick
-    kPadAttack,        // value +0x34c, bounds +0x350 +0x354, no latch: Cmd_Attack(nullptr) while held
-    kPadSkill0,        // value +0x338, bounds +0x340 +0x344, latch +0x348: skill slot 0, and EvGamepad action 2
-    kPadSkill1,        // value +0x398, bounds +0x3a0 +0x3a4, latch +0x3a8: skill slot 1, and EvGamepad action 3
-    kPadSkill2,        // value +0x378, bounds +0x380 +0x384, latch +0x388: skill slot 2, and EvGamepad action 1
-    kPadEventAction0,  // value +0x358, bounds +0x360 +0x364, latch +0x368: EvGamepad action 0 only
-    kPadMadness0,      // value +0x438, bounds +0x440 +0x444, latch +0x448: move madness, slot 0
-    kPadMadness1,      // value +0x458, bounds +0x460 +0x464, latch +0x468: move madness, slot 1
-    kPadMadness2,      // value +0x478, bounds +0x480 +0x484, latch +0x488: move madness, slot 2
-    kPadPotion,        // value +0x498, bounds +0x4a0 +0x4a4, latch +0x4a8: Cmd_UsePotion under IsUsingMoveMadness
-    kPadCast,          // value +0x3b8, bounds +0x3c0 +0x3c4, latch +0x3c8: Cmd_BeginCast(false) / Cmd_EndCast(false)
-    kPadOpenIGM,       // value +0x3f8, bounds +0x400 +0x404, latch +0x408: Cmd_OpenIGM on release while latched
+    kPadPrimary,       // aim, target search, Cmd_HeadTo, Cmd_Attack / Cmd_UseOOI while held
+    kPadMoveToClick,   // Cmd_Stop on release unless IsMovingToClick is set
+    kPadAttack,        // Cmd_Attack(nullptr) while held
+    kPadSkill0,        // skill slot 0, and EvGamepad action 2
+    kPadSkill1,        // skill slot 1, and EvGamepad action 3
+    kPadSkill2,        // skill slot 2, and EvGamepad action 1
+    kPadEventAction0,  // EvGamepad action 0 only
+    kPadMadness0,      // move madness, slot 0
+    kPadMadness1,      // move madness, slot 1
+    kPadMadness2,      // move madness, slot 2
+    kPadPotion,        // Cmd_UsePotion while IsUsingMoveMadness is set
+    kPadCast,          // Cmd_BeginCast(false) on press, Cmd_EndCast(false) on release
+    kPadOpenIGM,       // Cmd_OpenIGM on release while latched
 };
 
 // Skill slot id of "no skill" (Character::SG_GetSkillInSlot returns -1, which the original compares as unsigned).
 constexpr unsigned int kNoSkill = 0xFFFFFFFFu;
 
-// PARTIAL seam (Gamepad). The control table is not declared (InputManager.hpp forward-declares Gamepad only).
-// Reports the released state, so no control is pressed.
-float PadValue(const Gamepad* pad, PadControl control) {
-    (void)pad;
-    (void)control;
-    return 0.0f;
+// Where each control reads. Gamepad::m_buttons[channel] holds it: the original's channel k is at +0x0c + 0x20 * k. A live
+// control reads value, minimum and maximum, and has no latch. Every other control reads the threshold group: previous,
+// previous_minimum and previous_maximum, with previous_above_threshold as its latch. The offsets below are the value
+// (or previous) word the asm loads for each control, from the Update listing (0x409bd8).
+struct PadBinding {
+    int channel;  // index into Gamepad::m_buttons
+    bool live;    // true: value / minimum / maximum; false: previous / previous_minimum / previous_maximum / latch
+};
+
+constexpr PadBinding kPadBindings[] = {
+    {30, true},   // kPadPrimary:       value +0x3cc, minimum +0x3d0, maximum +0x3d4
+    {30, false},  // kPadMoveToClick:   previous +0x3d8, latch +0x3e8
+    {26, true},   // kPadAttack:        value +0x34c, minimum +0x350, maximum +0x354
+    {25, false},  // kPadSkill0:        previous +0x338, latch +0x348
+    {28, false},  // kPadSkill1:        previous +0x398, latch +0x3a8
+    {27, false},  // kPadSkill2:        previous +0x378, latch +0x388
+    {26, false},  // kPadEventAction0:  previous +0x358, latch +0x368
+    {33, false},  // kPadMadness0:      previous +0x438, latch +0x448
+    {34, false},  // kPadMadness1:      previous +0x458, latch +0x468
+    {35, false},  // kPadMadness2:      previous +0x478, latch +0x488
+    {36, false},  // kPadPotion:        previous +0x498, latch +0x4a8
+    {29, false},  // kPadCast:          previous +0x3b8, latch +0x3c8
+    {31, false},  // kPadOpenIGM:       previous +0x3f8, latch +0x408
+};
+
+// The channel a control reads.
+const Gamepad::Channel& PadChannel(const Gamepad::Channel* buttons, PadControl control) {
+    return buttons[kPadBindings[control].channel];
 }
 
-// PARTIAL seam (Gamepad): the first bound of a control (the lower of its two bound fields).
-float PadBound0(const Gamepad* pad, PadControl control) {
-    (void)pad;
-    (void)control;
-    return 0.0f;
+// The value the press test compares: value for a live control, previous for a threshold control.
+float PadValue(const Gamepad::Channel* buttons, PadControl control) {
+    const Gamepad::Channel& channel = PadChannel(buttons, control);
+    return kPadBindings[control].live ? channel.value : channel.previous;
 }
 
-// PARTIAL seam (Gamepad): the second bound of a control (the higher of its two bound fields).
-float PadBound1(const Gamepad* pad, PadControl control) {
-    (void)pad;
-    (void)control;
-    return 0.0f;
+// The lower bound of the press level: minimum, or previous_minimum for a threshold control.
+float PadBound0(const Gamepad::Channel* buttons, PadControl control) {
+    const Gamepad::Channel& channel = PadChannel(buttons, control);
+    return kPadBindings[control].live ? channel.minimum : channel.previous_minimum;
 }
 
-// PARTIAL seam (Gamepad): the latch byte, set while the control is held. Controls without a latch report false.
-bool PadLatched(const Gamepad* pad, PadControl control) {
-    (void)pad;
-    (void)control;
-    return false;
+// The upper bound of the press level: maximum, or previous_maximum for a threshold control.
+float PadBound1(const Gamepad::Channel* buttons, PadControl control) {
+    const Gamepad::Channel& channel = PadChannel(buttons, control);
+    return kPadBindings[control].live ? channel.maximum : channel.previous_maximum;
 }
 
-// The press level of every control, in the order the original evaluates it: ((bound1 + bound0) + 1.0f) * 0.5f.
-float PadPressLevel(const Gamepad* pad, PadControl control) {
-    return (PadBound1(pad, control) + PadBound0(pad, control) + 1.0f) * 0.5f;
+// The latch, set while the control is held. A live control has none and reports false.
+bool PadLatched(const Gamepad::Channel* buttons, PadControl control) {
+    return !kPadBindings[control].live && PadChannel(buttons, control).previous_above_threshold;
 }
 
-// PARTIAL seam: the cursor position. The original reads Application::m_menuManager (Application +0x54, the global
-// dword_99F780) and copies its words at MenuManager +0x50 and +0x54 into a Point2D<float>. MenuManager.hpp declares
-// those words as uint32 (unk_50, unk_54), so the copy is not made here. Reports the origin.
+// The press level, ((bound1 + bound0) + 1.0f) * 0.5f, in the original's order. A control is pressed while its value is
+// at or above this level.
+float PadPressLevel(const Gamepad::Channel* buttons, PadControl control) {
+    return (PadBound1(buttons, control) + PadBound0(buttons, control) + 1.0f) * 0.5f;
+}
+
+// The cursor the primary control aims with: the two words at MenuManager +0x50 and +0x54 (Application +0x54, the global
+// dword_99F780), copied bit for bit into a Point2D<float>. The original passes those words to TranslateScreenToWorld.
 Point2D<float> CursorScreenPosition() {
-    return Point2D<float>{0.0f, 0.0f};
+    const MenuManager& menu = *ApplicationGetInstance().m_menuManager;
+    const std::uint32_t words[2] = {menu.unk_50, menu.unk_54};
+    Point2D<float> screen{0.0f, 0.0f};
+    std::memcpy(&screen.X, &words[0], sizeof(float));
+    std::memcpy(&screen.Y, &words[1], sizeof(float));
+    return screen;
 }
 
-// PARTIAL seam: PFWorld::TranslateScreenToWorld(Point2D<float> const&, Point3D<float>&) -> bool, called on
-// Singleton<PFWorld>::s_inst. PFWorld is not declared in the tree. Reports failure, so `out` is not written.
-bool TranslateScreenToWorld(const Point2D<float>& screen, Point3D<float>& out) {
-    (void)screen;
-    (void)out;
-    return false;
+// PFWorld::TranslateScreenToWorld of the cursor, on Singleton<PFWorld>::s_inst. Returns false, and leaves `world` alone,
+// when the cursor point does not hit the world.
+bool TranslateCursorToWorld(Point3D<float>& world) {
+    return Singleton<PFWorld>::s_inst.TranslateScreenToWorld(CursorScreenPosition(), world);
 }
 
-// PARTIAL seam: the player id, the int at +0x668 of the record PlayerManager::GetPlayerByCharacter returns for the
-// character (the global dword_99F76C; PlayerInfo is not declared). Reports player 0.
+// The player id of a character: the int at +0x668 of the PlayerInfo that PlayerManager::GetPlayerByCharacter returns
+// (the global dword_99F76C, Application +0x40). The original reads it with no null check, and so does this. PlayerInfo's
+// unk_668 is that word; its name is still a candidate (m_playerId).
 int PlayerIdForCharacter(const Character* character) {
-    (void)character;
-    return 0;
+    PlayerInfo* player = ApplicationGetInstance().m_playerManager->GetPlayerByCharacter(character, false);
+    return player->unk_668;
 }
 
-// PARTIAL seam: raises EvGamepad (vtable _ZTV9EvGamepad, base IEvent) on the global EventManager (dword_99F740) with
-// the fields the original fills: +0x04 type 7, +0x08 action, +0x0c pressed, +0x10 player id, +0x14 1.0f. EvGamepad is
-// not declared in the tree, so the event is dropped.
+// PARTIAL seam: raises EvGamepad on Application::m_eventManager (Application +0x14, the global dword_99F740). The original
+// fills the event before EventManager::Raise: vtable _ZTV9EvGamepad (IEvent base), +0x04 event id 7, +0x08 action,
+// +0x0c pressed, +0x10 player id, +0x14 1.0f (the asm stores these before each BL to EventManager::Raise). The class
+// dh2/EvGamepad.hpp does not exist in the tree, so the event is dropped here, and Update stays partial until it does.
 void RaiseGamepadEvent(int action, int pressed, int playerId) {
     (void)action;
     (void)pressed;
     (void)playerId;
 }
 
-// PARTIAL seam: the object list the target search walks. The original builds an ObjectSearcher::RoomObjectList over
-// the list at ObjectManager +0x80 (the global dword_99F764). ObjectManager and the list constructor are not declared.
-// Reports no list, so the search is skipped and produces no hit.
-ObjectSearcher::IObjectList* RoomSearchList() {
-    return nullptr;
-}
-
-// DebugSwitches::load(), then GetSwitch(name). The original passes &DebugSwitches::s_inst (private in the header) to
-// load() and GetSwitch(). GetInstance() returns that object, but it also loads the file on first use, which the load()
-// call here repeats. The repeat only costs time.
+// DebugSwitches::load(), then GetSwitch(name), on DebugSwitches::s_inst (the object the original passes as this).
 bool DebugSwitchOn(const char* name) {
-    DebugSwitches* switches = DebugSwitches::GetInstance();
-    switches->load();
+    DebugSwitches::s_inst.load();
     const std::string key(name);
-    return switches->GetSwitch(key);
+    return DebugSwitches::s_inst.GetSwitch(key);
 }
 
-// One skill slot held by a pad control (slots 0, 1 and 2 share this shape). Release (value < press level) ends the
-// skill when it was latched. Press starts it when it was not.
-void SkillSlotHold(v2Controller& controller, const Gamepad* pad, PadControl control, unsigned int skill) {
-    if (PadValue(pad, control) < PadPressLevel(pad, control)) {
-        if (PadLatched(pad, control)) controller.Cmd_EndSkill(skill);
-    } else if (!PadLatched(pad, control)) {
-        controller.Cmd_BeginSkill(skill);
-    }
-}
-
-// One move-madness slot. Press (value >= press level) starts the skill when it was not latched. Release ends it when
-// it was latched. The comparison order differs from SkillSlotHold, as in the original.
-void MadnessSlotHold(v2Controller& controller, const Gamepad* pad, PadControl control, unsigned int skill) {
-    if (PadValue(pad, control) >= PadPressLevel(pad, control)) {
-        if (!PadLatched(pad, control)) controller.Cmd_BeginSkill(skill);
-    } else if (PadLatched(pad, control)) {
+// One hold control for a skill: the skill slots (0, 1 and 2) and the move madness slots. Press (value >= press level)
+// begins the skill when the control was not latched. Release (value < press level) ends it when it was latched. The
+// original orders these comparisons differently for the two groups. The calls and their conditions are the same.
+void SkillHold(v2Controller& controller, const Gamepad::Channel* buttons, PadControl control, unsigned int skill) {
+    if (PadValue(buttons, control) >= PadPressLevel(buttons, control)) {
+        if (!PadLatched(buttons, control)) controller.Cmd_BeginSkill(skill);
+    } else if (PadLatched(buttons, control)) {
         controller.Cmd_EndSkill(skill);
     }
 }
 
-// An EvGamepad for a control (actions 2, 0 and 3). Release (value < press level) raises pressed = 0 when latched.
-// Press raises pressed = 1 when it was not latched.
-void RaiseOnChange(const Gamepad* pad, PadControl control, int action, int playerId) {
-    if (PadValue(pad, control) < PadPressLevel(pad, control)) {
-        if (PadLatched(pad, control)) RaiseGamepadEvent(action, 0, playerId);
-    } else if (!PadLatched(pad, control)) {
-        RaiseGamepadEvent(action, 1, playerId);
+// One EvGamepad for an action control. Release (value < press level) raises pressed = 0 when latched. Press raises
+// pressed = 1 when it was not latched. The original orders the action-1 comparison differently. The reads have no side
+// effects, so the outcome is the same.
+void RaiseOnChange(const Gamepad::Channel* buttons, PadControl control, int action, int playerId) {
+    if (PadValue(buttons, control) >= PadPressLevel(buttons, control)) {
+        if (!PadLatched(buttons, control)) RaiseGamepadEvent(action, 1, playerId);
+    } else if (PadLatched(buttons, control)) {
+        RaiseGamepadEvent(action, 0, playerId);
     }
 }
 
-}  // namespace
+}  // namespace v2PS3MoveController_detail
+
+using namespace v2PS3MoveController_detail;
 
 // 0x4098ac v2PS3MoveController::~v2PS3MoveController() (D2, base-object destructor)
 // 0x4098b0 v2PS3MoveController::~v2PS3MoveController() (D1, complete-object destructor), same body.
@@ -177,24 +193,14 @@ v2PS3MoveController::~v2PS3MoveController() {}
 
 // 0x4098d0 v2PS3MoveController::v2PS3MoveController(v2Controllable*, int) (C1, complete-object constructor)
 // 0x4099bc v2PS3MoveController::v2PS3MoveController(v2Controllable*, int) (C2, base-object constructor), same body.
-// partial: the original writes the v2Controller base inline (it has no standalone symbol). The base constructor
-// v2Controller(v2Controllable*) is declared in dh2/v2Controller.hpp but nothing defines it yet, so the base is
-// initialised through it here. The base stores (vptr, +0x04 m_controllable, +0x08 m_blocked, +0x09, +0x0a and
-// +0x0c m_character) belong to that constructor.
-// This body does: the null-controllable assert, the gamepad index at +0x10, and the three zeroed words at +0x14..+0x1c.
+// reconstructed: the v2Controller(v2Controllable*) base constructor runs first, through the initializer list. It makes
+// the base stores (vptr, +0x04 m_controllable, +0x08 m_blocked, +0x09, +0x0a and +0x0c m_character) and runs the
+// null-controllable assert (level 2 aborts, level 1 prints the v2Controller.h:68 message). The original writes that base
+// inline and runs the assert once, at loc_409948 (asm verified), so the assert is not repeated here. The base constructor
+// is defined in game-anim/src/r2a-game-anim-pack2-aa7d76-0.cpp.
+// This body does: the gamepad index at +0x10 and the three zeroed words at +0x14..+0x1c.
 v2PS3MoveController::v2PS3MoveController(v2Controllable* controllable, int gamepadIndex)
     : v2Controller(controllable) {
-    if (controllable == nullptr) {
-        // The assert names v2Controller.h:68 because the original inlines the v2Controller constructor, where this
-        // check belongs. It moves there once that constructor is defined, so it is not printed twice.
-        if (gAssertLevel == 2) {
-            // The original stores 0 to address 0 to force a crash.
-            std::abort();
-        } else if (gAssertLevel == 1) {
-            std::fprintf(stderr, "ASSERT(%s) FAILED: %s:%d\n", "controllable",
-                         "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Controllers\\/v2Controller.h", 68);
-        }
-    }
     m_gamepadIndex = gamepadIndex;  // +0x10
     unk_14 = 0;                     // +0x14
     unk_18 = 0;                     // +0x18
@@ -202,38 +208,45 @@ v2PS3MoveController::v2PS3MoveController(v2Controllable* controllable, int gamep
 }
 
 // 0x409bd8 v2PS3MoveController::Update() (vtable slot 2, overrides v2Controller::Update)
-// partial: the control flow is complete. The pad reads, the cursor, the PFWorld screen translation, the player id, the
-// EvGamepad event and the target-search list are PARTIAL seams (see the anonymous namespace above). Until they are
-// filled, every control reads as released with no latch, so no command is issued.
+// partial: the four EvGamepad events (actions 2, 0, 1 and 3) are dropped by RaiseGamepadEvent, because dh2/EvGamepad.hpp
+// does not exist. Every other read and command is the original's: the pad channels, the cursor and PFWorld translation,
+// the spot target, the target search over the room objects, the debug switches and the player id.
 void v2PS3MoveController::Update() {
     InputManager* input = InputManager::GetInstance();
     if (m_gamepadIndex >= input->GetNumGamepads()) return;  // +0x10
     Gamepad* pad = (m_gamepadIndex < 0) ? input->GetFirstConnectedGamepad() : input->GetGamepad(m_gamepadIndex);
     if (pad == nullptr) return;
+    const Gamepad::Channel* buttons = pad->m_buttons;
 
     // Primary control. While held: with a pending spot target, store the translated cursor point on the character
     // (+0x14b0 and +0x14bc). Otherwise head to the cursor point, search for a target and act on the nearest hit.
-    if (PadValue(pad, kPadPrimary) >= PadPressLevel(pad, kPadPrimary)) {
-        Character* character = m_character;  // +0x0c, the original's v18
-        Point3D<float> pos{0.0f, 0.0f, 0.0f};  // v42..v44 are zeroed before the translation
-        const Point2D<float> screen = CursorScreenPosition();
+    if (PadValue(buttons, kPadPrimary) >= PadPressLevel(buttons, kPadPrimary)) {
+        Character* character = m_character;   // +0x0c, the original's v18
+        Point3D<float> pos{0.0f, 0.0f, 0.0f};  // zeroed before the translation (v42..v44)
         if (character != nullptr && character->m_spotTargetPending != 0) {  // Character +0x14c8
-            if (TranslateScreenToWorld(screen, pos)) {
+            if (TranslateCursorToWorld(pos)) {
                 character->m_spotTargetPos = pos;       // Character +0x14b0
                 character->m_spotTargetValidPos = pos;  // Character +0x14bc
             }
         } else {
-            if (TranslateScreenToWorld(screen, pos)) Cmd_HeadTo(pos);
+            if (TranslateCursorToWorld(pos)) Cmd_HeadTo(pos);
             ObjectSearcher::TargetList targets(character, 1, 0, 1);
             targets.m_filterMask = 89;  // +0x34, overrides the constructor argument
             targets.m_arg3 = 1;         // +0x38
             while (!targets.m_results.empty()) targets.m_results.pop();
-            // The sorter is closest. The constructor's sortType argument (1) installs
-            // ObjectSearcher::TargetSorter::_sortClosest, which the original stores at +0x28 at this point.
-            ObjectSearcher::IObjectList* objects = RoomSearchList();
+            // The sorter is ObjectSearcher::TargetSorter::_sortClosest, which the constructor's sortType 1 installs.
+            // The room objects are a RoomObjectList over ObjectManager's room list (ObjectManager +0x80, the global
+            // dword_99F764 + 0x80), built the way the original builds it on the stack: the list, the first room, the
+            // end of the list, and a null current object.
+            ObjectSearcher::RoomObjectList rooms;
+            const std::list<std::list<GameObject*>*>& roomZones = ApplicationGetInstance().m_objectManager->m_roomZones;
+            rooms.m_list = &roomZones;
+            rooms.m_node = roomZones.begin();
+            rooms.m_end = roomZones.end();
+            rooms.m_current = {};
             // maxAngle is the float 0x40C90FDB (2 * pi, 6.2831855f), the bits the original loads with MOVW/MOVT.
             // 6.2832f is a different float (0x40C90FF9), so it is not used.
-            if (objects != nullptr) targets.Search(pos, 0.0f, 6.2831855f, *objects);
+            targets.Search(pos, 0.0f, 6.2831855f, rooms);
             if (!targets.m_results.empty()) {
                 GameObject* target = targets.m_results.top().object;
                 if (target != nullptr && target->IsInteractive(character)) {
@@ -248,63 +261,59 @@ void v2PS3MoveController::Update() {
     }
 
     // Move-to-click control. On release, stop unless the IsMovingToClick debug switch is set.
-    if (PadValue(pad, kPadMoveToClick) < PadPressLevel(pad, kPadMoveToClick)) {
-        if (PadLatched(pad, kPadMoveToClick) && !DebugSwitchOn("IsMovingToClick")) Cmd_Stop();
+    if (PadValue(buttons, kPadMoveToClick) < PadPressLevel(buttons, kPadMoveToClick) &&
+        PadLatched(buttons, kPadMoveToClick) && !DebugSwitchOn("IsMovingToClick")) {
+        Cmd_Stop();
     }
 
     // Attack control. Attack while held (no latch).
-    if (PadValue(pad, kPadAttack) >= PadPressLevel(pad, kPadAttack)) Cmd_Attack(nullptr);
+    if (PadValue(buttons, kPadAttack) >= PadPressLevel(buttons, kPadAttack)) Cmd_Attack(nullptr);
 
-    // Skill slots, then move madness when the IsUsingMoveMadness debug switch is set.
+    // Skill slots, then move madness when the IsUsingMoveMadness debug switch is set. All three slots are read before
+    // any of them is used, as in the original.
     Character* character = m_character;  // the original's v6
     if (character != nullptr) {
-        // All three slots are read before any of them is used, as in the original.
         const unsigned int skill0 = static_cast<unsigned int>(character->SG_GetSkillInSlot(0));
         const unsigned int skill1 = static_cast<unsigned int>(character->SG_GetSkillInSlot(1));
         const unsigned int skill2 = static_cast<unsigned int>(character->SG_GetSkillInSlot(2));
-        if (skill0 != kNoSkill) SkillSlotHold(*this, pad, kPadSkill0, skill0);
-        if (skill1 != kNoSkill) SkillSlotHold(*this, pad, kPadSkill1, skill1);
-        if (skill2 != kNoSkill) SkillSlotHold(*this, pad, kPadSkill2, skill2);
+        if (skill0 != kNoSkill) SkillHold(*this, buttons, kPadSkill0, skill0);
+        if (skill1 != kNoSkill) SkillHold(*this, buttons, kPadSkill1, skill1);
+        if (skill2 != kNoSkill) SkillHold(*this, buttons, kPadSkill2, skill2);
 
         if (m_character != nullptr && DebugSwitchOn("IsUsingMoveMadness")) {
             Character* madnessCharacter = m_character;  // the original re-reads +0x0c here
             const unsigned int madness0 = static_cast<unsigned int>(madnessCharacter->SG_GetSkillInSlot(0));
             const unsigned int madness1 = static_cast<unsigned int>(madnessCharacter->SG_GetSkillInSlot(1));
             const unsigned int madness2 = static_cast<unsigned int>(madnessCharacter->SG_GetSkillInSlot(2));
-            if (madness0 != kNoSkill) MadnessSlotHold(*this, pad, kPadMadness0, madness0);
-            if (madness1 != kNoSkill) MadnessSlotHold(*this, pad, kPadMadness1, madness1);
-            if (madness2 != kNoSkill) MadnessSlotHold(*this, pad, kPadMadness2, madness2);
+            if (madness0 != kNoSkill) SkillHold(*this, buttons, kPadMadness0, madness0);
+            if (madness1 != kNoSkill) SkillHold(*this, buttons, kPadMadness1, madness1);
+            if (madness2 != kNoSkill) SkillHold(*this, buttons, kPadMadness2, madness2);
         }
     }
 
     // Potion control. On press, use a potion when IsUsingMoveMadness is set. The control must not be latched.
-    if (PadValue(pad, kPadPotion) >= PadPressLevel(pad, kPadPotion) && !PadLatched(pad, kPadPotion)) {
+    if (PadValue(buttons, kPadPotion) >= PadPressLevel(buttons, kPadPotion) && !PadLatched(buttons, kPadPotion)) {
         if (DebugSwitchOn("IsUsingMoveMadness")) Cmd_UsePotion();
     }
 
     // Cast control. Press begins the cast (argument false), release ends it.
-    if (PadValue(pad, kPadCast) >= PadPressLevel(pad, kPadCast)) {
-        if (!PadLatched(pad, kPadCast)) Cmd_BeginCast(false);
-    } else if (PadLatched(pad, kPadCast)) {
+    if (PadValue(buttons, kPadCast) >= PadPressLevel(buttons, kPadCast)) {
+        if (!PadLatched(buttons, kPadCast)) Cmd_BeginCast(false);
+    } else if (PadLatched(buttons, kPadCast)) {
         Cmd_EndCast(false);
     }
 
     // Open-IGM control. Opens the menu on release while latched.
-    if (PadValue(pad, kPadOpenIGM) < PadPressLevel(pad, kPadOpenIGM) && PadLatched(pad, kPadOpenIGM)) {
+    if (PadValue(buttons, kPadOpenIGM) < PadPressLevel(buttons, kPadOpenIGM) && PadLatched(buttons, kPadOpenIGM)) {
         Cmd_OpenIGM();
     }
 
     // EvGamepad events for the skill and action controls, in the original's order: action 2, action 0, action 1,
-    // action 3. The player id comes from the character's player record (0 when there is no character).
+    // action 3. The player id comes from the character's player record (0 when there is no character). Nothing
+    // follows the last event, as in the original.
     const int playerId = (m_character != nullptr) ? PlayerIdForCharacter(m_character) : 0;
-    RaiseOnChange(pad, kPadSkill0, 2, playerId);
-    RaiseOnChange(pad, kPadEventAction0, 0, playerId);
-    // The action-1 event uses the opposite comparison order from RaiseOnChange, as in the original.
-    if (PadValue(pad, kPadSkill2) >= PadPressLevel(pad, kPadSkill2)) {
-        if (!PadLatched(pad, kPadSkill2)) RaiseGamepadEvent(1, 1, playerId);
-    } else if (PadLatched(pad, kPadSkill2)) {
-        RaiseGamepadEvent(1, 0, playerId);
-    }
-    // The original returns after this event, so nothing follows it.
-    RaiseOnChange(pad, kPadSkill1, 3, playerId);
+    RaiseOnChange(buttons, kPadSkill0, 2, playerId);
+    RaiseOnChange(buttons, kPadEventAction0, 0, playerId);
+    RaiseOnChange(buttons, kPadSkill2, 1, playerId);
+    RaiseOnChange(buttons, kPadSkill1, 3, playerId);
 }

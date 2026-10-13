@@ -1,12 +1,18 @@
 // Batch g1-game-world-VisualObject-0654b6-0: VisualObject sync, animation-controller swap, rotation
 // copy, position sync and the empty apply and fade hooks. Declarations come from dh2/VisualObject.hpp.
 //
-// Bodies that call into scene nodes are partial. RootSceneNode (the m_node target), the scene manager
-// that Application keeps at +0x1c, and the shadow and x-ray skin node classes have no declarations in
-// any header yet, so those calls cannot be bound. Each partial body names the call it is missing.
+// Bodies that call into scene nodes are partial. Two gaps block them. RootSceneNode (the m_node target) does not
+// derive from glitch::scene::ISceneNode in the tree, so the ISceneNode calls on m_node cannot be made. The scene
+// manager is the word at IDevice +0x1c, reached as Singleton<Application>::s_inst.m_device (+0x10) and then +0x1c
+// (asm of 0x4709dc: LDR [s_inst,#0x10], LDR [device,#0x1c]); IDevice declares no member there, and Application's
+// unk_1c (+0x1c) is not that word. Each partial body names the call it is missing.
+//
+// IsVisible and ForceUpdatePosition need only RootSceneNode fields that are declared (CRootSceneNode::unk_011c at
+// +0x11c, RootSceneNode::unk_208 at +0x208), so they are complete.
 
 #include "dh2/AnimController.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/RootSceneNode.hpp"
 #include "dh2/VisualObject.hpp"
 
 // 0x38ba74 _ZN12VisualObject4SyncEv
@@ -18,15 +24,16 @@ void VisualObject::Sync() {
 
 // 0x4709dc _ZNK12VisualObject15GetSpecificNodeEi
 // partial: the original calls getSceneNodeFromType(typeTag, m_node) (glitch::scene::CSceneManager, vptr+0x1c)
-// on the object at Application +0x1c (dword_99F73C + 28). That field is void* (Application::unk_1c), and
-// m_node is RootSceneNode, which is not declared. Returns null until both are declared.
+// on the scene manager at IDevice +0x1c of Application::m_device (dword_99F73C + 28). IDevice declares no
+// scene manager member (layout request), and m_node is a RootSceneNode, which is not an ISceneNode, so it
+// cannot be passed as the start node. Returns null until both are declared.
 glitch::scene::ISceneNode* VisualObject::GetSpecificNode(int typeTag) const {
     (void)typeTag;
     return nullptr;
 }
 
 // 0x470a18 _ZNK12VisualObject15GetSpecificNodeEPKc
-// partial: same as the int overload, through getSceneNodeFromName(name, m_node) (vptr+0x18). Same gaps.
+// partial: same as the int overload, through getSceneNodeFromName(name, m_node) (vptr+0x18). Same two gaps.
 glitch::scene::ISceneNode* VisualObject::GetSpecificNode(const char* name) const {
     (void)name;
     return nullptr;
@@ -56,10 +63,12 @@ void VisualObject::SetAnimController(AnimController* controller) {
 }
 
 // 0x470ac4 _ZNK12VisualObject9IsVisibleEv
-// partial: the original returns (m_node != 0) && (m_node->word at +0x11c & 1), bit 0 being the visible flag
-// of the scene node. RootSceneNode is not declared, so the word is not read and false is returned.
+// Returns bit 0 of the scene node's flags word (CRootSceneNode::unk_011c, +0x11c), false without a node.
 bool VisualObject::IsVisible() const {
-    return false;
+    if (m_node == nullptr) {
+        return false;
+    }
+    return (m_node->unk_011c & 1u) != 0;
 }
 
 // 0x470ad8 _ZN12VisualObject27SetShadowSkinnedMeshVisibleEb
@@ -87,24 +96,32 @@ void VisualObject::SetXraySkinnedMeshVisible(bool visible) {
 }
 
 // 0x470bd0 _ZN12VisualObject19ForceUpdatePositionEv
-// partial: the original stores 1 in the byte at m_node +0x208 when m_node is set. RootSceneNode is not
-// declared, so the store is not bound.
+// Stores 1 in the byte at m_node +0x208 (RootSceneNode::unk_208), which onAnimate reads to refresh the position.
 void VisualObject::ForceUpdatePosition() {
-    // if (m_node != nullptr) m_node->unk_208 = 1: not bound, see above.
+    if (m_node != nullptr) {
+        m_node->unk_208 = true;
+    }
 }
 
 // 0x470be4 _ZN12VisualObject11GetPositionER7Point3DIfE
-// partial: the original copies the three floats returned by m_node's getPosition (vptr+0xa0, which returns a
-// const vector3d<float>&) into out when m_node is set. RootSceneNode is not declared, so out is not written.
+// partial: the original copies the three floats returned by m_node's getPosition (ISceneNode::getPosition, vptr+0xa0,
+// which returns a const vector3d<float>&) into out when m_node is set. RootSceneNode does not derive from ISceneNode
+// (layout request), so getPosition is not callable and out is not written.
 void VisualObject::GetPosition(Point3D<float>& out) {
     (void)out;
 }
 
 // 0x470c24 _ZN12VisualObject11SetPositionERK7Point3DIfE
 // partial: when m_node is set, the original calls m_node->setPosition(position) (vptr+0xa4) with a copy of
-// the argument, and then m_node->updateAbsolutePosition(false) (vptr+0xb8). Neither call is bound.
+// the argument, and then m_node->updateAbsolutePosition(false) (vptr+0xb8). setPosition is an ISceneNode method
+// that RootSceneNode does not declare (layout request: CRootSceneNode derives from ISceneNode), so it is not bound.
+// updateAbsolutePosition is declared on RootSceneNode (same slot, decomp_vtable shows it 0x0c higher) and is called.
 void VisualObject::SetPosition(const Point3D<float>& position) {
     (void)position;
+    if (m_node != nullptr) {
+        // m_node->setPosition(position): not bound, see above.
+        m_node->updateAbsolutePosition(false);
+    }
 }
 
 // 0x470c84 _ZN12VisualObject11GetRotationER7Point3DIfE

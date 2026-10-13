@@ -2,22 +2,37 @@
 // constructor's stored fields, the destructor through a base pointer, and the Update exits (no gamepad, no connected
 // pad, and a released pad, which issues no command). The symbols that other batches own (the v2Controller base, the
 // Cmd_* forwards, the InputManager and DebugSwitches accessors, the target search and the Character queries) are
-// test-only definitions below, so the batch source links with this test alone. Returns non-zero on failure.
+// test-only definitions below, so the batch source links with this test alone. The fuller coverage of the same source
+// is in r2a-game-anim-pack3-a632de-0_test.cpp. Returns non-zero on failure.
 #include <cstdio>
+#include <cstring>
+#include <list>
 #include <string>
 #include <vector>
 
+#include "dh2/Application.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAI.hpp"
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/DebugSwitches.hpp"
+#include "dh2/Gamepad.hpp"
 #include "dh2/InputManager.hpp"
 #include "dh2/ObjectSearcher.hpp"
+#include "dh2/PFWorld.hpp"
+#include "dh2/PlayerInfo.hpp"
+#include "dh2/PlayerManager.hpp"
 #include "dh2/v2Controllable.hpp"
 #include "dh2/v2PS3MoveController.hpp"
 
 // Engine assert level (core-platform/src/memory.cpp). Zero: the null-controllable assert prints nothing.
 int gAssertLevel = 0;
+
+// Storage for the singletons the source names (never read here: every pad control reads released, so the Update
+// paths that reach them do not run). The linker names are the ones the source uses.
+alignas(16) unsigned char g_appStorage[sizeof(Application)];
+alignas(16) unsigned char g_pfWorldStorage[sizeof(PFWorld)] __asm__("_ZN9SingletonI7PFWorldE6s_instE");
+alignas(8) unsigned char g_debugSwitchesStorage[sizeof(DebugSwitches)] __asm__("_ZN13DebugSwitches6s_instE");
+alignas(8) unsigned char g_padStorage[sizeof(Gamepad)];  // a zeroed pad: every control reads released
 
 namespace {
 
@@ -25,7 +40,6 @@ int g_failures = 0;
 std::vector<std::string> g_log;  // records every Cmd_* the stubs receive
 int g_numGamepads = 0;
 Gamepad* g_firstPad = nullptr;
-int g_padMarker = 0;  // any non-null address serves as a connected pad; it is never dereferenced
 
 #define EXPECT(cond)                                                              \
     do {                                                                          \
@@ -70,13 +84,25 @@ int InputManager::GetNumGamepads() const { return g_numGamepads; }
 Gamepad* InputManager::GetFirstConnectedGamepad() { return g_firstPad; }
 
 // Never reached: every pad control reads as released, so no debug switch is queried.
-DebugSwitches* DebugSwitches::GetInstance() { return nullptr; }
 void DebugSwitches::load() {}
 bool DebugSwitches::GetSwitch(const std::string&) { return false; }
 
 int Character::SG_GetSkillInSlot(int) { return -1; }
 bool CharAI::AI_CanAttack(GameObject*) const { return false; }
 bool CharStateMachine::SM_IsInteracting() const { return false; }
+
+// Never reached: the cursor, the translation, the player record and the room list are read only when the primary
+// control or a character's player id is needed, and neither is pressed or set in this test.
+Application& ApplicationGetInstance() { return *reinterpret_cast<Application*>(g_appStorage); }
+bool PFWorld::TranslateScreenToWorld(const Point2D<float>&, Point3D<float>&) { return false; }
+PlayerInfo* PlayerManager::GetPlayerByCharacter(const Character*, bool) { return nullptr; }
+ObjectSearcher::RoomObjectList::~RoomObjectList() {}
+void ObjectSearcher::RoomObjectList::Reset() {}
+bool ObjectSearcher::RoomObjectList::AtEnd() { return true; }
+void ObjectSearcher::RoomObjectList::Next() {}
+int ObjectSearcher::RoomObjectList::Size() { return 0; }
+GameObject* ObjectSearcher::RoomObjectList::Get() { return nullptr; }
+Character* ObjectSearcher::RoomObjectList::GetChar() { return nullptr; }
 
 ObjectSearcher::TargetList::TargetList(GameObject*, int, int, int) {}
 ObjectSearcher::TargetList::~TargetList() {}
@@ -150,7 +176,8 @@ void TestUpdateReleasedPadIssuesNothing() {
     int dummyController = 0;
     v2PS3MoveController controller(reinterpret_cast<v2Controllable*>(&dummyController), -1);
     g_numGamepads = 1;
-    g_firstPad = reinterpret_cast<Gamepad*>(&g_padMarker);
+    std::memset(g_padStorage, 0, sizeof g_padStorage);  // every channel zero: released, no latch
+    g_firstPad = reinterpret_cast<Gamepad*>(g_padStorage);
     controller.Update();
     EXPECT(g_log.empty());
 }

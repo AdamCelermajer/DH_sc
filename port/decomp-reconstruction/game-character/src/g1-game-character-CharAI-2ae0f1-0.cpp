@@ -12,6 +12,7 @@
 
 #include "core-platform/memory.hpp"  // gAssertLevel
 #include "dh2/CharAI.hpp"
+#include "dh2/CharAIScript.hpp"
 #include "dh2/CharAISkillScript.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharProperties.hpp"
@@ -52,11 +53,13 @@ void CharAI::StepResetAvailableStep() {
 }
 
 // 0x3cb314 CharAI::StepInitScript(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp. The original calls the OnInit hook (vtable slot 2) and then, when the
-// script name (+0x30) is set, calls vtable slot 51 of the script at m_scriptLoading (+0x20). That second call is
-// not written because the script type is not declared yet.
+// The original returns the result of the slot 51 call (InitVCB). The only caller (LoadScriptProcess) ignores it, so the
+// port returns void.
 void CharAI::StepInitScript() {
-    OnInit();
+    OnInit();                       // vtable slot 2 (+0x08)
+    if (m_scriptName != nullptr) {  // +0x30
+        m_scriptLoading->InitVCB();  // vtable slot 51 (+0xcc) of the script being loaded (+0x20)
+    }
 }
 
 // 0x3cb34c CharAI::_UpdatePointers(void)
@@ -209,14 +212,13 @@ int CharAI::_UpdateTarget() {
 // virtual of this CharAI (slots 2..50, see the header) and then, for the events that also go to the state
 // machine, CharStateMachine::RaiseStateEvent. The original tail-calls that function (return
 // CharStateMachine::RaiseStateEvent(...)), so the int it returns is the result of every state-machine path below.
-// PARTIAL, in three places:
+// PARTIAL, in two places:
 //  1. CharProperties::HandleDots, the void hooks and _SkillFocus and friends leave r0 unset when the original
 //     tail-calls them, so those paths return 0 here. Events 49 and 50 return the CharAI pointer still in r0
 //     (Hex-Rays `return this`); this body returns 0 there because that pointer is not reproduced as an int.
 //  2. Event 29 passes the payload pointer as the new state. The pointer-to-int conversion is kept for the
 //     header signature OnStateChanged(int, int) and is not 64-bit clean; the signature needs a fix.
-//  3. Event 53 with a non-null payload calls slot 0 of an object whose type is not recovered. That call is
-//     missing; the timer then receives the event id instead of the call's result.
+// Event 53 (the timer event) is complete: its payload is a CharTimers::Timer, and slot 0 (GetID) gives the id.
 int CharAI::RaiseAIEvent(int eventId, void* data) {
     // The state-machine event. The original returns the int from CharStateMachine::RaiseStateEvent.
     auto raiseState = [this, data](int stateEvent) {
@@ -265,13 +267,13 @@ int CharAI::RaiseAIEvent(int eventId, void* data) {
         m_character->CharProperties::HandleDots();  // Character +0x560
         return 0;
     case 53: {
-        int timerArg = eventId;
-        if (!data) {
-            timerArg = -1;
+        // The payload is the CharTimers::Timer that fired. Its slot 0 is GetID, and its result is the id passed on
+        // to the script. Without a payload the id is -1.
+        unsigned int timerId = static_cast<unsigned int>(-1);
+        if (data) {
+            timerId = static_cast<CharTimers::Timer*>(data)->GetID();  // Timer vtable slot 0
         }
-        // PARTIAL: with a non-null payload the original sets timerArg to slot 0 of the object at data, called
-        // as (data, timerArg). That type is not recovered, so timerArg keeps the event id here.
-        OnScriptTimer(static_cast<unsigned int>(timerArg));  // slot 36
+        OnScriptTimer(timerId);  // slot 36
         return 0;
     }
     case 63:
@@ -412,19 +414,21 @@ int CharAI::RaiseAIEvent(int eventId, void* data) {
 }
 
 // 0x3cc218 CharAI::StepLoadCommon(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp. When m_usesCommons (+0x2c) is set the original calls
-// LuaScript::Load(m_scriptLoading, "_commons"); the call is not written yet.
+// The original returns the result of LuaScript::Load (or `this` when m_usesCommons is clear); the only caller ignores it.
 void CharAI::StepLoadCommon() {
+    if (m_usesCommons) {                       // +0x2c
+        m_scriptLoading->Load("_commons");     // LuaScript::Load (non-virtual) on the script being loaded (+0x20)
+    }
 }
 
 // 0x3cc26c CharAI::StepSetCharacter(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp. The original calls CharAIScript::SetCharacter(m_scriptLoading, m_character).
 void CharAI::StepSetCharacter() {
+    m_scriptLoading->SetCharacter(m_character);  // CharAIScript::SetCharacter(m_character) on the script at +0x20
 }
 
 // 0x3cc278 CharAI::StepBindFunction(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp. The original calls CharAIScript::BindFunction on m_scriptLoading.
 void CharAI::StepBindFunction() {
+    m_scriptLoading->BindFunction();  // CharAIScript::BindFunction on the script at +0x20
 }
 
 // 0x3cc280 CharAI::_HandleProjectile(Projectile *,void *)
@@ -540,8 +544,6 @@ int CharAI::_UpdateMaster() {
 // 0x3cc9dc CharAI::AIUnLoadScriptProcess(bool)
 // Tears the script process down when `force` is set or the load was staged (m_stagedLoad +0x24) and a loading
 // script exists. The skill and spell scripts are deleted, the vectors cleared, and the load state reset.
-// PARTIAL: waits on dh2/CharAIScript.hpp. The original deletes m_scriptLoading (+0x20) through its vtable
-// (slot 1); that delete needs the complete script type, so only the pointer is cleared here.
 void CharAI::AIUnLoadScriptProcess(bool force) {
     const bool unload = force ? true : m_stagedLoad;
     if (!m_scriptLoading || !unload) {
@@ -563,7 +565,7 @@ void CharAI::AIUnLoadScriptProcess(bool force) {
         }
     }
     m_spellScripts.clear();
-    // PARTIAL: delete m_scriptLoading (needs dh2/CharAIScript.hpp).
+    delete m_scriptLoading;  // vtable slot 1 (+0x04), the deleting destructor
     m_scriptLoading = nullptr;
     m_script = nullptr;
     m_scriptName = nullptr;
@@ -572,9 +574,10 @@ void CharAI::AIUnLoadScriptProcess(bool force) {
 }
 
 // 0x3ccaf4 void CharAI::SetScript<AISExternal>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp and dh2/AISExternal.hpp. Written so far: the assert on the owner and the
-// OnTerminate hook of the previous script. Not written: deleting the previous m_scriptLoading and constructing
-// AISExternal(1) (0xc4 bytes) in m_scriptLoading.
+// PARTIAL: written so far are the assert on the owner and the OnTerminate hook of the previous script. Not written:
+// deleting the previous m_scriptLoading and constructing AISExternal(1) (0xc4 bytes) in m_scriptLoading. dh2/AISExternal.hpp
+// declares AISExternal(bool), but the constructor is not defined: its batch file gives the body only as a comment, and the
+// body needs AISDefault(bool), which dh2/AISDefault.hpp does not declare yet (layout request).
 template <>
 void CharAI::SetScript<AISExternal>() {
     if (!m_character) {
@@ -587,8 +590,9 @@ void CharAI::SetScript<AISExternal>() {
 }
 
 // 0x3ccbe4 void CharAI::SetScript<AISMonster>(void)
-// PARTIAL: waits on dh2/CharAIScript.hpp (AISMonster.hpp derives from AISDefault, which needs it). Written so far:
-// the assert on the owner and the OnTerminate hook of the previous script. The AISMonster construction is not written.
+// PARTIAL: written so far are the assert on the owner and the OnTerminate hook of the previous script. The AISMonster
+// construction (0xc4 bytes, vtable of AISMonster, unk_b8/unk_bc/unk_c0 zeroed) is not written: dh2/AISMonster.hpp derives
+// from AISDefault and declares no constructor, and dh2/AISDefault.hpp declares none either (layout request).
 template <>
 void CharAI::SetScript<AISMonster>() {
     if (!m_character) {

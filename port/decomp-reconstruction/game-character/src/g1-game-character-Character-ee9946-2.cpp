@@ -2,12 +2,31 @@
 // tables, the combat and quest helpers, the multiplayer and FX helpers, and the AI pointer refresh).
 // Declarations come from dh2/Character.hpp. Partial bodies name the missing field, table or callee in a
 // PARTIAL comment; the ledger rows in game-character/ledger.d/g1-game-character-Character-ee9946-2.csv repeat it.
+//
+// The table getters GetCharSoundsId, GetCharSounds, GetFXFootprint, GetFXBloodDeath, GetFXBlood, GetAttackDelay and
+// HasComboAttack read the table rows as host elements (the convention of GetCharAI in batch -1). The raw ids are
+// CharProperties final-sheet words m_props.m_w8 and m_w9, and the AI id.
 
 #include <cstdint>
 #include <cstring>
 
 #include "dh2/Character.hpp"
+#include "dh2/Quest.hpp"
+#include "dh2/Singleton.hpp"
+#include "dh2/TrophyManager.hpp"
+#include "dh2/VisualFXManager.hpp"
 #include "pydata-accessors/w7_arrays_02.hpp"
+#include "pydata-accessors/w7_arrays27.hpp"
+#include "pydata-accessors/w7_structs_2.hpp"
+#include "pydata-accessors/w7_structs_5.hpp"
+
+// member_names.hpp (the name-table header that declares this template) conflicts with w7_arrays_02.hpp in one translation
+// unit, so the declaration is repeated here as the game-app TU does (g1-game-app-global-f216b6-4.cpp).
+namespace Arrays {
+struct TrophyTable;
+template <class T>
+int GetMemberIDByString(const char* name);
+}  // namespace Arrays
 
 namespace {
 
@@ -19,14 +38,23 @@ float FloatFromBits(int bits) {
     return value;
 }
 
+// The CharEffect row that the original selects with a row index word (Character +0x1014, m_props.m_w8): the row at
+// the index when it is non-negative and below Arrays::CharEffectTable::size (compared unsigned), otherwise row 0.
+const Structs::CharEffect* CharEffectRowFor(std::int32_t index) {
+    const auto* rows = reinterpret_cast<const Structs::CharEffect*>(Arrays::CharEffectTable::members);
+    if (index < 0 || static_cast<std::uint32_t>(index) >= Arrays::CharEffectTable::size) {
+        return rows;
+    }
+    return rows + index;
+}
+
 }  // namespace
 
 // 0x3a3294 _ZNK9Character15GetCharSoundsIdEv
 int Character::GetCharSoundsId() const {
-    // PARTIAL: the raw id is the CharProperties final-sheet word at Character +0x1018 (see the ledger notes). It is
-    // not reachable from Character yet, so the id is taken as unresolved (-1) and the out-of-range fallback 2 is
-    // returned. The range check against Arrays::CharSoundsTable::size is kept as in the original.
-    const std::int32_t id = -1;
+    // The raw id is the CharProperties final-sheet word m_props.m_w9 (Character +0x1018). A value below zero, or at or
+    // past Arrays::CharSoundsTable::size (compared unsigned), gives the fallback 2.
+    const std::int32_t id = m_props.m_w9;
     if (id < 0 || static_cast<std::uint32_t>(id) >= Arrays::CharSoundsTable::size) {
         return 2;
     }
@@ -34,55 +62,62 @@ int Character::GetCharSoundsId() const {
 }
 
 // 0x3a32d0 _ZNK9Character13GetCharSoundsEv
-const void* Character::GetCharSounds() const {
-    // PARTIAL: the original returns Arrays::CharSoundsTable::members + 40 * GetCharSoundsId() (file stride 40).
-    // The rows are not decoded into host elements yet (pydata Arrays element ABI is not ported), so no row pointer
-    // is formed here.
-    return nullptr;
+const Structs::CharSounds* Character::GetCharSounds() const {
+    // Arrays::CharSoundsTable::members + 40 * GetCharSoundsId() in the original. The table is indexed as the host
+    // Structs::CharSounds elements (the same convention as GetCharAI), so the 40-byte listing stride is not applied.
+    return reinterpret_cast<const Structs::CharSounds*>(Arrays::CharSoundsTable::members) + GetCharSoundsId();
 }
 
 // 0x3a3300 _ZNK9Character14GetFXFootprintEv
+// Word +0x0c of the CharEffect row (Structs::CharEffect m_w3), the row chosen by m_props.m_w8 (Character +0x1014).
 int Character::GetFXFootprint() const {
-    // PARTIAL: the row index is the CharProperties final-sheet word at Character +0x1014 (not reachable yet). The
-    // value is word +0x0c of CharEffectTable row (24-byte file stride), row 0 when the index is out of range. Neither
-    // the index nor the row elements are available, so 0 is returned.
-    return 0;
+    return CharEffectRowFor(m_props.m_w8)->m_w3;
 }
 
 // 0x3a3368 _ZNK9Character15GetFXBloodDeathEv
+// Word +0x04 of the CharEffect row (Structs::CharEffect m_w1), the row chosen by m_props.m_w8.
 int Character::GetFXBloodDeath() const {
-    // PARTIAL: same index as GetFXFootprint (Character +0x1014). The value is word +0x04 of the CharEffectTable row
-    // (24-byte file stride), row 0 when out of range. Not available, so 0 is returned.
-    return 0;
+    return CharEffectRowFor(m_props.m_w8)->m_w1;
 }
 
 // 0x3a33d0 _ZNK9Character10GetFXBloodEv
+// Word +0x08 of the CharEffect row (Structs::CharEffect m_w2), the row chosen by m_props.m_w8.
 int Character::GetFXBlood() const {
-    // PARTIAL: same index as GetFXFootprint (Character +0x1014). The value is word +0x08 of the CharEffectTable row
-    // (24-byte file stride), row 0 when out of range. Not available, so 0 is returned.
-    return 0;
+    return CharEffectRowFor(m_props.m_w8)->m_w2;
 }
 
 // 0x3a3438 _ZNK9Character14GetAttackDelayEv
+// Word +0x04 of the AI row for GetCharAIId() (Structs::AIProps m_w1). GetCharAI() is that row.
 int Character::GetAttackDelay() const {
-    // PARTIAL: the original returns word +0x04 of the Arrays::AITable row (68-byte file stride) for GetCharAIId().
-    // AITable rows are not decoded into host elements yet, so 0 is returned.
-    return 0;
+    return GetCharAI()->m_w1;
 }
 
 // 0x3a346c _ZNK9Character14HasComboAttackEv
+// The CharAnim row (GetCharAnimTable) word +0x04 (Structs::CharAnim m_w1) is an Arrays::AnimTable index. It is used
+// when it is non-negative and below Arrays::AnimTable::size (compared unsigned), and the AnimTable row word +0x10
+// (Structs::AnimTpl m_w4) must then be 1.
 bool Character::HasComboAttack() const {
-    // PARTIAL: the original reads word +0x04 of the Arrays::CharAnimTable row (160-byte file stride) for
-    // GetCharAnimTableId(), which indexes Arrays::AnimTable (20-byte file stride), and returns true when that row's
-    // word +0x10 is 1. Neither table's rows are decoded into host elements yet, so false is returned.
-    return false;
+    const std::int32_t animIndex = GetCharAnimTable()->m_w1;
+    if (animIndex < 0 || static_cast<std::uint32_t>(animIndex) >= Arrays::AnimTable::size) {
+        return false;
+    }
+    const auto* animRows = reinterpret_cast<const Structs::AnimTpl*>(Arrays::AnimTable::members);
+    return animRows[animIndex].m_w4 == 1;
 }
 
 // 0x3a34f0 _ZNK9Character17GetNumComboAttackEv
+// Same table chain as HasComboAttack. The AnimTable row word +0x08 (Structs::AnimTpl m_w2, the element count of the row)
+// is returned when the row word +0x10 (m_w4) is 1; otherwise 0.
 int Character::GetNumComboAttack() const {
-    // PARTIAL: same table chain as HasComboAttack. The original returns the Arrays::AnimTable row word +0x08 when
-    // the word +0x10 flag is 1, otherwise 0. The rows are not available, so 0 is returned.
-    return 0;
+    const std::int32_t animIndex = GetCharAnimTable()->m_w1;
+    if (animIndex < 0 || static_cast<std::uint32_t>(animIndex) >= Arrays::AnimTable::size) {
+        return 0;
+    }
+    const auto* animRows = reinterpret_cast<const Structs::AnimTpl*>(Arrays::AnimTable::members);
+    if (animRows[animIndex].m_w4 != 1) {
+        return 0;
+    }
+    return static_cast<int>(animRows[animIndex].m_w2);
 }
 
 // 0x3a36e4 _ZNK9Character9IsZonableEv
@@ -99,12 +134,10 @@ float Character::GetOpacity() const {
 }
 
 // 0x3a372c _ZNK9Character16GetRotationSpeedEv
+// The original returns -1.0f (bits 0xbf800000) when CharStateMachine m_stateFlags (+0x24, Character +0x520) has bit 0x20.
+// Otherwise it returns the float bits of PROPS_GetRotationSpeed.
 float Character::GetRotationSpeed() const {
-    // PARTIAL: the original returns -1.0f (bits 0xbf800000, the literal -1082130432) when CharStateMachine
-    // m_stateFlags (+0x24, private to CharStateMachine) has bit 0x20 set. That word is not reachable from Character
-    // yet, so the bit is taken as clear and the CharProperties value is returned.
-    constexpr bool kNoRotationFlag = false;
-    if (kNoRotationFlag) {
+    if ((CharStateMachine::m_stateFlags & 0x20u) != 0) {
         return -1.0f;
     }
     return FloatFromBits(CharProperties::PROPS_GetRotationSpeed());
@@ -121,20 +154,24 @@ bool Character::IsAvoidingObstacles() const {
 }
 
 // 0x3a3fe4 _ZN9Character23CheckForAllQuestsTrophyEv
+// Each quest of SG_GetQuestByID(i, -1) is tested by its first word (Quest m_state). When a quest has m_state <= 12 the
+// function returns. When every quest passes (or there are none), trophy "quest_allcomplete" is unlocked through
+// TrophyManager::s_instance. The original's loop counts up to SG_GetNumQuests(-1) and tests the quests in order.
 void Character::CheckForAllQuestsTrophy() {
-    // PARTIAL: the original counts the quests with SG_GetNumQuests(-1). When there are none, or every quest
-    // (SG_GetQuestByID(i, -1)) has its first word above 12, it unlocks trophy "quest_allcomplete" through
-    // TrophyManager::s_instance and Arrays::GetMemberIDByString<Arrays::TrophyTable>. dh2/Quest.hpp and
-    // dh2/TrophyManager.hpp do not exist yet, so the quest test and the unlock are not made here.
     const int numQuests = SG_GetNumQuests(-1);
-    (void)numQuests;
+    for (int i = 0; i < numQuests; ++i) {
+        const Quest* quest = SG_GetQuestByID(i, -1);
+        if (quest->m_state <= 12) {
+            return;
+        }
+    }
+    TrophyManager::s_instance->UnlockTrophy(Arrays::GetMemberIDByString<Arrays::TrophyTable>("quest_allcomplete"));
 }
 
 // 0x3a4068 _ZN9Character26RemoveMultiplayerHighlightEv
 void Character::RemoveMultiplayerHighlight() {
     if (m_multiplayerHighlightFX != nullptr) {
-        // PARTIAL: the original calls VisualFXManager::DropAnimatedFX(&Singleton<VisualFXManager>::s_inst,
-        // &m_multiplayerHighlightFX) first. dh2/VisualFXManager.hpp does not exist yet, so the drop is not made.
+        Singleton<VisualFXManager>::s_inst.DropAnimatedFX(m_multiplayerHighlightFX);
         m_multiplayerHighlightFX = nullptr;
     }
 }
@@ -142,16 +179,14 @@ void Character::RemoveMultiplayerHighlight() {
 // 0x3a40b0 _ZN9Character13DisableSelfFXEv
 void Character::DisableSelfFX() {
     if (m_selfFX != nullptr) {
-        // PARTIAL: the original returns VisualFXManager::DropAnimatedFX(&Singleton<VisualFXManager>::s_inst,
-        // &m_selfFX). dh2/VisualFXManager.hpp does not exist yet, so the drop is not made.
+        Singleton<VisualFXManager>::s_inst.DropAnimatedFX(m_selfFX);
     }
 }
 
 // 0x3a40e4 _ZN9Character14DisableStateFXEv
 void Character::DisableStateFX() {
     if (m_stateFX != nullptr) {
-        // PARTIAL: the original returns VisualFXManager::DropAnimatedFX(&Singleton<VisualFXManager>::s_inst,
-        // &m_stateFX). dh2/VisualFXManager.hpp does not exist yet, so the drop is not made.
+        Singleton<VisualFXManager>::s_inst.DropAnimatedFX(m_stateFX);
     }
 }
 
@@ -184,8 +219,9 @@ void Character::UpdateAIPointers() {
 
 // 0x3a4398 _ZN9Character15SetRelativeAABBERK4aabbIfEb
 void Character::SetRelativeAABB(const aabb<float>& box, bool update) {
-    // PARTIAL: the original stores the six floats of box in the GameObject local AABB (m_relAabb, +0x144). When update
-    // is false it first scales all six by (the Character +0x1038 percent word, CharProperties final-sheet word, not
-    // reachable yet) * 0.01f. That scale is not applied here, so only the GameObject call is made.
+    // PARTIAL: when update is false the original scales the six floats of box by (m_props.m_w17, the Character +0x1038
+    // percent word, times 0.01f) before the GameObject call. The scale is not applied here: aabb<float> is only
+    // forward-declared in the game headers, so its six floats cannot be read or rebuilt in this translation unit.
+    // With update set the call matches the original; GameObject::SetRelativeAABB copies the box into m_relAabb (+0x144).
     GameObject::SetRelativeAABB(box, update);
 }

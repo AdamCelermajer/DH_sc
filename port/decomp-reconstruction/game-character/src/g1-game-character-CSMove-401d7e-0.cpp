@@ -1,10 +1,10 @@
-// CSMove bodies (batch g1-game-character-CSMove-401d7e-0): the move state. Focus selects the walk or run animation,
-// blur stops the actor, init registers the state's events. Declarations come from dh2/CSMove.hpp. Each PARTIAL comment
-// names what is missing, and the ledger rows in game-character/ledger.d/g1-game-character-CSMove-401d7e-0.csv repeat it.
+// CSMove bodies (batch g1-game-character-CSMove-401d7e-0, redone in r2a-game-character-pack0-a32a82-0): the move state.
+// Focus selects the walk or run animation, blur stops the actor, init registers the state's events. Declarations come
+// from dh2/CSMove.hpp. The ledger rows in game-character/ledger.d/ repeat the notes of each function.
 //
-// Fields of other classes that are not reachable from this unit are read or written through the stub accessors in the
-// anonymous namespace below. Each stub is one line, so the layout request that makes the field public replaces one
-// accessor and nothing else.
+// The move type (CharStateMachine +0x40, unk_40), the walk speed bits (CharStateMachine +0x30, unk_30), the state flags
+// (CharStateMachine +0x24, m_stateFlags), the target (CharAI +0x40, m_target) and the DesignSettings and CharAnim records
+// are public in their headers, so they are read and written directly. Nothing in this unit is a stub any more.
 
 #include "dh2/CSMove.hpp"
 
@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cstring>
 
+#include "dh2/CharAI.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharAnimator.hpp"
 #include "dh2/CharProperties.hpp"
@@ -20,7 +21,9 @@
 #include "dh2/GameObject.hpp"
 #include "dh2/PhysicalObject.hpp"
 #include "dh2/global/charai_ai.hpp"
-#include "pydata-accessors/w7_pydata12.hpp"
+#include "pydata-accessors/structs_records.hpp"  // Structs::DesignSettings, Structs::CharAnim
+#include "pydata-accessors/w7_arrays_02.hpp"    // Arrays::DesignSettingsTable::members
+#include "pydata-accessors/w7_pydata12.hpp"     // PyDataConstants::getConstant
 
 namespace {
 
@@ -39,7 +42,7 @@ constexpr int kWalkStanceBit = 0x10;
 // Event id raised when the character has no heading (or stops at its destination without a target).
 constexpr int kEventNoHeading = 63;
 
-// Reinterprets the float bits that CharProperties::PROPS_GetWalkSpeed returns as int (the original's LODWORD).
+// Reinterprets the float bits that CharProperties::PROPS_GetWalkSpeed returns as float (the original's COERCE_FLOAT).
 float FloatFromBits(std::int32_t bits) {
     float value = 0.0f;
     std::memcpy(&value, &bits, sizeof value);
@@ -61,29 +64,14 @@ float HeadingLengthSquared(const Character* character) {
     return ((x * x) + (y * y)) + (z * z);
 }
 
-// PARTIAL. CharStateMachine +0x40 (move type), +0x30 (walk speed as float bits) and +0x24 (m_stateFlags) are private
-// (unk_40, unk_30 and m_stateFlags in CharStateMachine.hpp). Until they are public, reads return 0 and writes are
-// dropped. Layout requests filed for all three.
-int ReadMoveType(const Character*) { return kMoveNone; }
-void WriteMoveType(Character*, int) {}
-std::int32_t ReadWalkSpeedBits(const Character*) { return 0; }
-void WriteWalkSpeedBits(Character*, std::int32_t) {}
-void WriteStateFlags(Character*, std::uint32_t) {}
-
-// PARTIAL. CharAI +0x40 (m_target) is private in CharAI.hpp, and OnUpdate only tests it for null. Until it is public,
-// this reports no target, so OnUpdate always takes the no-target branch. Layout request filed.
-bool AiHasTarget(const Character*) { return false; }
-
-// PARTIAL. Structs::DesignSettings (record 0 of Arrays::DesignSettingsTable) floats at +0x5c (walk threshold) and
-// +0x60 (run threshold) are not named, so these return 0 until the record is declared. Layout request filed.
-float WalkThreshold() { return 0.0f; }
-float RunThreshold() { return 0.0f; }
-
-// PARTIAL. Structs::CharAnim fields of the character's row in Arrays::CharAnimTable: int32 +0x70 (run anim id, stance
-// bit 0x20) and int32 +0x94 (walk anim id, stance bit 0x10) are not named. The row index itself comes from
-// Character::GetCharAnimTableId, which is partial. These return 0 until the record is declared.
-int RunAnimField(const Character*) { return 0; }
-int WalkAnimField(const Character*) { return 0; }
+// Structs::DesignSettings record 0 of Arrays::DesignSettingsTable (the original reads members + 92 and members + 96,
+// with no index): m_w23 at +0x5c is the walk threshold and m_w24 at +0x60 is the run threshold.
+float WalkThreshold() {
+    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w23;
+}
+float RunThreshold() {
+    return reinterpret_cast<const Structs::DesignSettings*>(Arrays::DesignSettingsTable::members)->m_w24;
+}
 
 // The AnimStancedAnim/SL__LIST_IPHONE constant from the application's PyDataConstants, masked with `bit`.
 int StanceBit(int bit) {
@@ -100,22 +88,25 @@ int StancedAnim(const Character* character, int field, int stanceBit) {
     return anim;
 }
 
-// Walk-type tail shared by UpdateType's walk paths: sets the walk move type and speed, then plays the walk anim.
+// Walk-type tail shared by UpdateType's walk paths: sets the walk move type and speed, then plays the walk anim
+// (CharAnim +0x94, row m_w37 of Character::GetCharAnimTable()).
 void ApplyWalk(Character* character) {
-    WriteMoveType(character, kMoveWalk);
+    character->CharStateMachine::unk_40 = kMoveWalk;
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
-    WriteWalkSpeedBits(character, speedBits);
-    const int anim = StancedAnim(character, WalkAnimField(character), kWalkStanceBit);
+    character->CharStateMachine::unk_30 = static_cast<std::uint32_t>(speedBits);
+    const Structs::CharAnim* row = character->GetCharAnimTable();
+    const int anim = StancedAnim(character, row->m_w37, kWalkStanceBit);
     character->CharAnimator::ANIM_Set(anim);
     character->CharAnimator::ANIM_SetSpeed(FloatFromBits(speedBits));
 }
 
-// Run-type tail: sets the run move type and speed, then plays the run anim.
+// Run-type tail: sets the run move type and speed, then plays the run anim (CharAnim +0x70, row m_w28).
 void ApplyRun(Character* character) {
-    WriteMoveType(character, kMoveRun);
+    character->CharStateMachine::unk_40 = kMoveRun;
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
-    WriteWalkSpeedBits(character, speedBits);
-    const int anim = StancedAnim(character, RunAnimField(character), kRunStanceBit);
+    character->CharStateMachine::unk_30 = static_cast<std::uint32_t>(speedBits);
+    const Structs::CharAnim* row = character->GetCharAnimTable();
+    const int anim = StancedAnim(character, row->m_w28, kRunStanceBit);
     character->CharAnimator::ANIM_Set(anim);
     character->CharAnimator::ANIM_SetSpeed(FloatFromBits(speedBits));
 }
@@ -135,13 +126,15 @@ CSMove::~CSMove() {}
 void CSMove::OnEvent(int, Character*, CharStateMachine*, int, void*) {}
 
 // 0x3c0f18 CSMove::UpdateType(Character*,CharStateMachine*)
-// PARTIAL. The control flow is reconstructed from the pseudocode. These inputs are stubs: the move type and walk speed
-// fields (CharStateMachine +0x40 and +0x30), the walk and run thresholds (DesignSettings +0x5c and +0x60) and the run and
-// walk anim ids (CharAnim +0x70 and +0x94). The original's int result is not kept (see the header). The machine
-// argument is unused in the original.
+// Selects the walk or run animation from the heading length. A player keeps its move type unless the heading crosses
+// a threshold: run when the run threshold squared is below the heading length squared, walk when the walk threshold
+// squared is above it. A non-player with no move type yet walks, without the threshold test. The walk and run tails
+// set the move type, the speed bits (CharStateMachine +0x30) and the anim. The original's int result is not kept: its
+// callers, OnUpdate and OnFocus, discard it. The machine argument is unused in the original. IsPlayer (Character +0x28)
+// is partial only in its name fallback (see its row).
 void CSMove::UpdateType(Character* character, CharStateMachine*) {
     if (character->IsPlayer()) {
-        const int moveType = ReadMoveType(character);
+        const int moveType = character->CharStateMachine::unk_40;
         const float lengthSquared = HeadingLengthSquared(character);
 
         if (moveType != kMoveRun) {
@@ -169,21 +162,24 @@ void CSMove::UpdateType(Character* character, CharStateMachine*) {
     }
 
     // Non-player with no move type yet: walk without the threshold test.
-    if (ReadMoveType(character) == kMoveNone) {
+    if (character->CharStateMachine::unk_40 == kMoveNone) {
         ApplyWalk(character);
     }
 }
 
 // 0x3c1184 CSMove::OnUpdate(int,Character*,CharStateMachine*)
-// PARTIAL. The target test (CharAI +0x40) and the walk speed field (CharStateMachine +0x30) are stubs. The original
-// returns int (RaiseEvent's result, or a float comparison). This void slot drops that result, and its use by
-// CharStateMachine is unverified.
+// Without a heading the state raises event 63. Without a target, a non-player that is at its destination and not
+// remotely updated raises event 63 too. Otherwise UpdateType runs, and the walk speed is re-sent to the anim only when
+// it differs from the stored speed bits by 0.0001f or more (asm: __aeabi_fsub, the sign bit cleared, then __aeabi_fcmplt
+// against 0x38d1b717, which is 0.0001f). The original
+// returns int (the RaiseEvent result, or the comparison); the CharState slot is void and CharStateMachine calls it
+// through that slot (CharStateMachine-33fc5a-2.cpp), so the result is not read.
 void CSMove::OnUpdate(int, Character* character, CharStateMachine* machine) {
     if (!character->m_hasHeading) {
         character->RaiseEvent(kEventNoHeading, nullptr);
         return;
     }
-    if (!AiHasTarget(character)) {
+    if (character->CharAI::m_target == nullptr) {
         // Without a target, a non-player that is at its destination and not remotely updated stops (event 63).
         if (!character->IsPlayer()) {
             if (character->GameObject::IsAtDestination() && !character->IsRemotelyUpdated()) {
@@ -196,9 +192,9 @@ void CSMove::OnUpdate(int, Character* character, CharStateMachine* machine) {
     UpdateType(character, machine);
     const std::int32_t speedBits = character->CharProperties::PROPS_GetWalkSpeed();
     const float speed = FloatFromBits(speedBits);
-    const float previous = FloatFromBits(ReadWalkSpeedBits(character));
+    const float previous = FloatFromBits(static_cast<std::int32_t>(character->CharStateMachine::unk_30));
     if (!(std::fabs(speed - previous) < 0.0001f)) {
-        WriteWalkSpeedBits(character, speedBits);
+        character->CharStateMachine::unk_30 = static_cast<std::uint32_t>(speedBits);
         character->CharAnimator::ANIM_SetSpeed(speed);
     }
 }
@@ -213,12 +209,14 @@ void CSMove::OnBlur(int, Character* character, CharStateMachine*, int) {
 }
 
 // 0x3c3bf8 CSMove::OnFocus(int,Character*,CharStateMachine*,int,int,void*)
-// PARTIAL. The original writes CharStateMachine +0x24 (state flags, 0x23c1) and +0x40 (move type, 0) before UpdateType.
-// Both writes are dropped until the fields are public. The trailing arguments are not read.
+// Writes CharStateMachine +0x24 (state flags, 0x23c1) and +0x40 (move type, 0), then UpdateType, then unpins
+// m_physicalObject (+0x2dc). The trailing arguments are not read. The original returns the PhysicalObject pointer it
+// read (or the unpin result); the CharState slot is void and CharStateMachine calls it through that slot, so the
+// result is not read.
 void CSMove::OnFocus(int, Character* character, CharStateMachine* machine, int, int, void*) {
     ProbeTracingSwitch();
-    WriteStateFlags(character, kFocusStateFlags);
-    WriteMoveType(character, kMoveNone);
+    character->CharStateMachine::m_stateFlags = kFocusStateFlags;
+    character->CharStateMachine::unk_40 = kMoveNone;
     UpdateType(character, machine);
     if (character->m_physicalObject != nullptr) {
         character->m_physicalObject->unpin();

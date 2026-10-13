@@ -60,10 +60,8 @@ Door::NetStructDoor::~NetStructDoor() {}
 
 // 0x3e8274 Door::Door(ObjectBase::GO_IDS)   (complete object constructor, C1)
 // 0x3e8324 Door::Door(ObjectBase::GO_IDS)   (base object constructor, C2; the same code)
-// PARTIAL: the original stores the second NetStruct pointer at GameObject (ObjectBase) +0x104, the address of m_netIn.
-// dh2/ObjectBase.hpp declares +0x104 as std::int32_t unk_104, which cannot hold a host pointer. The store is left out.
-// LAYOUT REQUEST: ObjectBase +0x104 NetStruct* (the second net struct); Door stores &m_netIn there, and Container
-// (+0x548) and Trigger (+0x570) do the same.
+// The second NetStruct pointer, ObjectBase +0x104, is &m_netIn (ObjectBase.hpp records that the derived constructors
+// store their own member there). The two NetStructDoor members are built by 0x3e80d4, which is partial (see there).
 Door::Door(ObjectBase::GO_IDS id) : Zone(id, false, true) {
     // m_data (+0x388) is default-constructed; m_netOut (+0x3b0) and m_netIn (+0x540) are default-constructed
     // NetStructDoor members. m_doorIndex (+0x3a0) is not set by the constructor.
@@ -73,8 +71,8 @@ Door::Door(ObjectBase::GO_IDS id) : Zone(id, false, true) {
     m_moving = false;          // +0x3ac
     unk_28 = 1;                // ObjectBase +0x28
     m_netStruct = &m_netOut;   // ObjectBase +0x100 (NetStruct*)
+    unk_104 = &m_netIn;        // ObjectBase +0x104 (NetStruct*)
     unk_f8 = 3;                // ObjectBase +0xf8
-    // PARTIAL: ObjectBase +0x104 = &m_netIn is not stored (see above).
 }
 
 // 0x3e8450 Door::__EventCallback(glitch::collada::STriggeredEvent const&, void*)

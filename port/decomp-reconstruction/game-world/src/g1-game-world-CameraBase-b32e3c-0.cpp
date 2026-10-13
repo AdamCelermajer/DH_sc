@@ -31,12 +31,20 @@ CameraBase::CameraBase() : m_node(nullptr), m_camera(nullptr) {  // +0x04, +0x08
 
 // 0x40e814 CameraBase::~CameraBase()   (complete-object destructor, D1)
 // 0x40e780 CameraBase::~CameraBase()   (base-object destructor, D2; same body)
-// PARTIAL: the two drops are not made. The original drops m_node (+0x04) and m_camera (+0x08) through the
-// IReferenceCounted virtual base of each glitch object, and nulls both words. ISceneNode and ICameraSceneNode have
-// no IReferenceCounted base in glitch-scene-collada-gui/scene_node.hpp, so drop() cannot be called yet.
+// The original drops m_node (+0x04) and m_camera (+0x08) through the IReferenceCounted virtual base of each glitch
+// object, and nulls both words. ISceneNode derives from glitch::IReferenceCounted (scene/ISceneNode.hpp), so drop()
+// is called on each node.
 CameraBase::~CameraBase() {
     if (s_activeCamera == this) {
         s_activeCamera = nullptr;
+    }
+    if (m_node) {
+        m_node->drop();
+        m_node = nullptr;
+    }
+    if (m_camera) {
+        m_camera->drop();
+        m_camera = nullptr;
     }
 }
 
@@ -46,7 +54,7 @@ Point3D<float> CameraBase::GetCameraLookAtVec() const {
         // Vtable call +0x38 on the camera node (ISceneNode::getAbsoluteTransformation; the camera vtable's listing
         // +0x44, not overridden by CCameraSceneNode), then words 4, 5 and 6 of the 4x4 matrix: row 1 of the absolute
         // transform.
-        const float* m = m_camera->getAbsoluteTransformation();
+        const float* m = m_camera->getAbsoluteTransformation().M;
         return Point3D<float>{m[4], m[5], m[6]};
     }
     return Vec3f_Origin;
@@ -56,7 +64,7 @@ Point3D<float> CameraBase::GetCameraLookAtVec() const {
 Point3D<float> CameraBase::GetCameraUpVec() const {
     if (m_camera) {
         // Same call as GetCameraLookAtVec. Words 8, 9 and 10 of the matrix: row 2 of the absolute transform.
-        const float* m = m_camera->getAbsoluteTransformation();
+        const float* m = m_camera->getAbsoluteTransformation().M;
         return Point3D<float>{m[8], m[9], m[10]};
     }
     return Vec3f_Origin;
@@ -84,7 +92,8 @@ void CameraBase::SetData(float fov, float aspect, float nearValue, float farValu
 // PARTIAL: the view ray is not made. The original reads the device at dword_99F73C, the scene manager at device +0x1c
 // and its collision manager at scene manager +0x2c. It calls the collision manager's vtable +0x14 with the screen point
 // and a null camera to get a line3d (start and end). It then intersects that line with the plane normal (0, 0, 1) and
-// D = -z through plane3d::getIntersectionWithLimitedLine. None of these is declared, so the function returns false.
+// D = -z through plane3d::getIntersectionWithLimitedLine. The device's +0x1c member is not declared (see SetActive),
+// and no collision manager interface declares the ray-from-screen call, so the function returns false.
 bool CameraBase::GetWorldCoord(const Point2D<int>& screen, Point3D<float>& world, float z) {
     (void)screen;
     (void)world;
@@ -107,8 +116,9 @@ bool CameraBase::GetWorldCoord(const Point2D<float>& screen, Point3D<float>& wor
 // 0x40f45c CameraBase::SetActive()
 // PARTIAL: the scene manager call is not made. The original makes this the active camera (Deactivated() on the
 // previous one comes first), then calls glitch::scene::CSceneManager::setActiveCamera(scene manager, m_camera). The
-// scene manager is at device +0x1c (device = dword_99F73C). Finally it calls Activated() on the new active camera.
-// CSceneManager::setActiveCamera is not declared (recon/slice_05.hpp has only a stub), so that call is left out.
+// scene manager is at device +0x1c (device = dword_99F73C). CSceneManager::setActiveCamera is declared
+// (scene/CSceneManager.hpp), but glitch::IDevice (glitch-core-io/os/device.hpp) declares no member at +0x1c.
+// Layout request: "glitch::IDevice +0x1c CSceneManager* scene manager (SetActive 0x40f45c, DBG_DrawCircle 0x524b30)".
 void CameraBase::SetActive() {
     if (s_activeCamera != this) {
         if (s_activeCamera) {
@@ -134,7 +144,7 @@ bool CameraBase::GetCenterOffset(Point3D<float>& offset, float z) const {
     if (!m_camera) {
         return false;
     }
-    const float* m = m_camera->getAbsoluteTransformation();
+    const float* m = m_camera->getAbsoluteTransformation().M;
     offset.X = m[4];
     offset.Y = m[5];
     offset.Z = 0.0f;
@@ -147,8 +157,9 @@ bool CameraBase::GetCenterOffset(Point3D<float>& offset, float z) const {
 // 0x40f714 CameraBase::GetScreenCoord(Point3D<float> const&,Point2D<float>&)
 // PARTIAL: the projection is not made. The original gets the view matrix (video driver getTransform(0)) and the
 // projection matrix (getTransform(2)) from the driver at device +0x10. It multiplies them as projection * view and
-// applies the 4x4 result to (x, y, z, 1). The screen point becomes (x / w, y / w). The video driver interface is not
-// declared, so the screen point is left unchanged.
+// applies the 4x4 result to (x, y, z, 1). The screen point becomes (x / w, y / w). IVideoDriver::getTransform is
+// declared (glitch-video/video_driver.hpp), but glitch::IDevice declares no member at +0x10.
+// Layout request: "glitch::IDevice +0x10 IVideoDriver* driver (GetScreenCoord 0x40f714, GetWorldCoord 0x40f394, DBG_DrawPath 0x524828)".
 void CameraBase::GetScreenCoord(const Point3D<float>& world, Point2D<float>& screen) {
     (void)world;
     (void)screen;

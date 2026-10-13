@@ -147,11 +147,12 @@ Trigger::NetStructTrigger::~NetStructTrigger() {}
 // 0x398bd8 Trigger::PopulateOutgoingNetStruct(bool)
 // PARTIAL. The three SetValue calls are bound: m_netOut's m_timer gets m_timer, its m_numActivations gets
 // m_numActivations, and its unk_180 gets unk_3c0. NetStructMemberType<int>::SetValue (0x36d9f0) stores the value and marks
-// the member changed only when it differs. The original also copies each value into a stack NetStructMemberType<int>
-// temporary and calls NetStructMember::SetChanged (0x814f84) on that temporary before the SetValue call. The
-// temporary's value slot is never initialised, so the compare that guards SetChanged reads stale stack data, and the
-// SetChanged call adds one to NetStruct::s_changeCounter when it runs. That counter bump depends on the stale data and
-// is not reproduced. The bool argument is not read.
+// the member changed only when it differs. The original also uses a stack NetStructMemberType<int> temporary (its value
+// word is the listing's SP+0x70). It compares the new value with that word before any store to it (asm 0x398bd8: LDR of
+// the word, then CMP with m_timer), and when they differ it stores the value and calls NetStructMember::SetChanged
+// (0x814f84) on the temporary. The word is never written before that compare, so the branch reads stale stack data, and
+// the SetChanged call adds one to NetStruct::s_changeCounter when it runs. The counter bump depends on that data and is not
+// reproduced. Every path passes m_timer to SetValue, so the SetValue arguments are exact. The bool argument is not read.
 void Trigger::PopulateOutgoingNetStruct(bool force) {
     (void)force;
     m_netOut.m_timer.SetValue(m_timer);
@@ -174,10 +175,10 @@ Trigger::NetStructTrigger::NetStructTrigger() : NetStruct() {
 
 // 0x398f44 Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)   (complete object constructor, C1)
 // 0x398fd4 Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)   (base object constructor, C2; the same code)
-// PARTIAL: the original stores the second NetStruct pointer at ObjectBase +0x104, the address of m_netIn (this +0x570).
-// dh2/ObjectBase.hpp declares +0x104 as std::int32_t unk_104, which cannot hold a host pointer, so the store is left out.
-// LAYOUT REQUEST: ObjectBase +0x104 NetStruct* (the second net struct). Trigger stores &m_netIn (this +0x570) there.
-// Door and Container do the same.
+// PARTIAL, inherited. The body is complete, including unk_104 = &m_netIn (ObjectBase +0x104, declared NetStruct* by
+// ObjectBase.hpp). The two NetStructTrigger members are built by NetStructTrigger() (0x398da4), which stays partial
+// (conditional SetChanged on value words it never writes), so this constructor inherits that gap. C1 (0x398f44) tail-calls
+// the same ZoneEx C2 with its arguments untouched, then runs the same stores.
 Trigger::Trigger(ObjectBase::GO_IDS id, bool hasPhysics, bool playerOnly) : ZoneEx(id, hasPhysics, playerOnly) {
     m_triggerCount = 1;            // +0x3a8
     m_triggerDelay = 0;            // +0x3ac
@@ -189,8 +190,8 @@ Trigger::Trigger(ObjectBase::GO_IDS id, bool hasPhysics, bool playerOnly) : Zone
     // m_netOut (+0x3c8) and m_netIn (+0x570) are default-constructed NetStructTrigger members.
     unk_28 = 1;                    // ObjectBase +0x28
     m_netStruct = &m_netOut;       // ObjectBase +0x100 (NetStruct*)
+    unk_104 = &m_netIn;            // ObjectBase +0x104 (NetStruct*, the incoming net struct)
     unk_f8 = 4;                    // ObjectBase +0xf8
-    // PARTIAL: ObjectBase +0x104 = &m_netIn is not stored (see above).
 }
 
 // 0x3990f0 Trigger::~Trigger()   (complete object destructor, D1)

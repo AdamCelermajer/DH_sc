@@ -181,17 +181,17 @@ Character* Character::CreatePlayer(unsigned int slot, unsigned int a, unsigned i
 
 // 0x3ad064 _ZN9Character9CreateNPCEPKcS1_bb
 // Character::CreateNPC(char const*, char const*, bool, bool)
-// PARTIAL: the listing passes five arguments to ObjectManager::Spawn (the sixth, silent, is not set), so the silent value
-// the original reads is not recoverable. false is passed here. The fourth parameter is not read by the body.
+// The second bool of ObjectManager::Spawn is the fourth parameter c. The Hex-Rays listing drops that sixth argument; the
+// assembly at 0x3ad064 stores the register that held c at [sp, #4] of the Spawn call (the first bool is the constant 1).
+// b selects m_charTemplate (true) or m_charPropsName (false).
 Character* Character::CreateNPC(const char* name, const char* a, bool b, bool c) {
-    (void)c;
     static unsigned int counter = 0;  // Character::CreateNPC(char const*,char const*,bool,bool)::counter
     char generated[20];
     if (!a) {
         a = generated;
         std::snprintf(generated, sizeof generated, "NPC_%04u", ++counter);
     }
-    ObjectHandle handle = dword_99F764->Spawn("Character", a, true, false);
+    ObjectHandle handle = dword_99F764->Spawn("Character", a, true, c);
     Character* npc = handle;
     if (npc) {
         const std::size_t length = std::strlen(name);
@@ -222,10 +222,10 @@ Character* Character::CreateNPC(int a, const char* name, bool b) {
 
 // 0x3ad22c _ZN9Character10CSM_AttackEiPviRi
 // Character::CSM_Attack(int, void*, int, int&)
-// PARTIAL: the original returns !(CharStateMachine +0x2c bit 0), that is !(m_statusFlags & 1). m_statusFlags is private
-// in dh2/CharStateMachine.hpp. Stub: true.
+// Returns !(CharStateMachine m_statusFlags & 1). The listing reads the byte at Character +0x528, which is +0x2c of the
+// CharStateMachine base, so the low byte of the word is the bit tested here.
 bool Character::CSM_Attack(int, void*, int, int&) {
-    return true;
+    return !(CharStateMachine::m_statusFlags & 1u);
 }
 
 // 0x3ad23c _ZN9Character11CSM_InjuredEiPviRi
@@ -236,56 +236,79 @@ bool Character::CSM_Injured(int, void*, int, int&) {
 
 // 0x3ad244 _ZN9Character15CSM_InterruptedEiPviRi
 // Character::CSM_Interrupted(int, void*, int, int&)
-// PARTIAL: stateId 6 returns CharStateMachine +0x24 bit 16, stateId 10 returns the inverse of +0x2c bit 5 (m_statusFlags),
-// and stateId 5 returns CharAI +0x79 (m_attackLastStep). All three members are private in their headers. Every other id
-// returns true, which is the original's default. Stub: true for every id.
-bool Character::CSM_Interrupted(int, void*, int, int&) {
-    return true;
+// Switch on stateId (the third parameter): 6 returns bit 16 of CharStateMachine m_stateFlags (HIWORD & 1); 10 returns the
+// inverse of bit 5 of m_statusFlags; 5 returns CharAI m_attackLastStep. Every other id returns true.
+bool Character::CSM_Interrupted(int, void*, int stateId, int&) {
+    switch (stateId) {
+        case 6:
+            return ((CharStateMachine::m_stateFlags >> 16) & 1u) != 0;
+        case 10:
+            return (((CharStateMachine::m_statusFlags ^ 0x20u) >> 5) & 1u) != 0;
+        case 5:
+            return CharAI::m_attackLastStep;
+        default:
+            return true;
+    }
 }
 
 // 0x3ad280 _ZN9Character20CSM_StoppedAttackingEiPviRi
 // Character::CSM_StoppedAttacking(int, void*, int, int&)
-// PARTIAL: stateId 5 returns CharAI +0x7a (m_attackCommitted), private in dh2/CharAI.hpp. Other ids return false, which is
-// reproduced. Stub for stateId 5: false.
-bool Character::CSM_StoppedAttacking(int, void*, int, int&) {
+// stateId 5 returns CharAI m_attackCommitted; every other id returns false.
+bool Character::CSM_StoppedAttacking(int, void*, int stateId, int&) {
+    if (stateId == 5) {
+        return CharAI::m_attackCommitted;
+    }
     return false;
 }
 
 // 0x3ad290 _ZN9Character13CSM_StopSkillEiPviRi
 // Character::CSM_StopSkill(int, void*, int, int&)
-// PARTIAL: returns CharStateMachine +0x24 bit 15 (m_stateFlags), private in dh2/CharStateMachine.hpp. Stub: false.
+// Returns bit 15 of CharStateMachine m_stateFlags.
 bool Character::CSM_StopSkill(int, void*, int, int&) {
-    return false;
+    return ((CharStateMachine::m_stateFlags >> 15) & 1u) != 0;
 }
 
 // 0x3ad29c _ZN9Character22CSM_CanStopInteractionEiPviRi
 // Character::CSM_CanStopInteraction(int, void*, int, int&)
-// PARTIAL: returns 0 when CharStateMachine +0x48 (m_interactKind) is 4 or 5, and 1 otherwise. CSWTCH_5399, the table read
-// for those two values, is {0, 0, 0, 0} in the binary (asm chunk_018). m_interactKind is private in
-// dh2/CharStateMachine.hpp. Stub: true.
+// When CharStateMachine::m_interactKind (+0x48) is 4 or 5, the result is CSWTCH_5399[kind - 4]; otherwise 1. The table
+// is four bytes at 0x8c3784, all zero (IDA get_bytes, 2026-10-13), so the result is 0 for kinds 4 and 5.
 bool Character::CSM_CanStopInteraction(int, void*, int, int&) {
+    static constexpr std::uint8_t kCSWTCH_5399[4] = {0, 0, 0, 0};
+    const unsigned int kind = static_cast<unsigned int>(CharStateMachine::m_interactKind);
+    if (kind - 4u <= 1u) {
+        return kCSWTCH_5399[kind - 4u] != 0;
+    }
     return true;
 }
 
 // 0x3ad2c8 _ZN9Character20CSM_AfterInteractionEiPviRi
 // Character::CSM_AfterInteraction(int, void*, int, int&)
-// PARTIAL: sets nextState to 18 when CharStateMachine +0x48 (m_interactKind) is 4. m_interactKind is private in
-// dh2/CharStateMachine.hpp. Stub: returns true and leaves nextState unchanged.
-bool Character::CSM_AfterInteraction(int, void*, int, int&) {
+// nextState becomes 18 when m_interactKind (+0x48) is 4. The result is 1 in every case.
+bool Character::CSM_AfterInteraction(int, void*, int, int& nextState) {
+    if (CharStateMachine::m_interactKind == 4) {
+        nextState = 18;
+    }
     return true;
 }
 
 // 0x3ad2e4 _ZN9Character9CSM_SpawnEiPviRi
 // Character::CSM_Spawn(int, void*, int, int&)
-// Reproduced: stateId 0 returns CanRespawn(), and every other state except 17 returns true.
-// PARTIAL: stateId 17 (PreSpawn) asks the group CharAI::m_group (+0x34) with CharAI::m_character (+0x04), and falls back
-// to the auto-spawn property when there is no group. Both are private in dh2/CharAI.hpp. Stub for 17: false.
+// stateId 0 returns CanRespawn(). Any state other than 17 returns true. For 17 (PreSpawn): with no group in CharAI m_group
+// (+0x34) the result is the m_autoSpawn property (+0x1430). With a group, GroupInfo::CanSpawn(CharAI m_character) decides;
+// when it allows the spawn the result is m_autoSpawn, otherwise 0.
 bool Character::CSM_Spawn(int, void*, int stateId, int&) {
     if (stateId == 0) {
         return CanRespawn();
     }
     if (stateId != 17) {
         return true;
+    }
+    CharAI::GroupInfo* group = CharAI::m_group;
+    if (!group) {
+        return m_autoSpawn;
+    }
+    if (group->CanSpawn(CharAI::m_character)) {
+        return m_autoSpawn;
     }
     return false;
 }
@@ -336,21 +359,25 @@ void Character::Ctrl_DropObject() {
 
 // 0x3ad5ac _ZN9Character11ForceUseOOIEP10GameObject
 // Character::ForceUseOOI(GameObject*)
-// PARTIAL: with a target, the original does nothing when CharAI +0x40 (m_target) is set. Otherwise, when the state machine
-// is idle or moving, it calls CharAI::AI_SetTarget(target, false) and sets CharAI +0x4a (m_targetSeeking) to true. Both
-// members are private in dh2/CharAI.hpp, so only the null check is reproduced.
+// With a target, and only when CharAI m_target (+0x40) is clear and the state machine is idle (SM_IsIdle(false)) or
+// moving (SM_IsMoving(false)): CharAI::AI_SetTarget(target, false) and CharAI m_targetSeeking (+0x4a) set to true.
 void Character::ForceUseOOI(GameObject* target) {
-    if (target) {
-        // PARTIAL: the m_target check, the idle or moving check, AI_SetTarget and the m_targetSeeking write (see above).
+    if (target && !CharAI::m_target) {
+        if (SM_IsIdle(false) || SM_IsMoving(false)) {
+            CharAI::AI_SetTarget(target, false);
+            CharAI::m_targetSeeking = true;
+        }
     }
 }
 
 // 0x3ad614 _ZN9Character6UseOOIEv
 // Character::UseOOI()
-// PARTIAL: the same as ForceUseOOI, with m_objectOfInterest as the target. Only the null check is reproduced; the
-// m_target check, the idle or moving check, AI_SetTarget and the m_targetSeeking write are not (see ForceUseOOI).
+// The same as ForceUseOOI, with m_objectOfInterest (+0x14a4) as the target.
 void Character::UseOOI() {
-    if (m_objectOfInterest) {
-        // PARTIAL (see ForceUseOOI).
+    if (m_objectOfInterest && !CharAI::m_target) {
+        if (SM_IsIdle(false) || SM_IsMoving(false)) {
+            CharAI::AI_SetTarget(m_objectOfInterest, false);
+            CharAI::m_targetSeeking = true;
+        }
     }
 }

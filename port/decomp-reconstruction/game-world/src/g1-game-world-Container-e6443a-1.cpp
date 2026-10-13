@@ -4,26 +4,33 @@
 // SetState, Spawn, __Callback, Serialize) is in g1-game-world-Container-e6443a-0.cpp. Declarations come from
 // dh2/Container.hpp, which needs no change for this batch.
 //
+// Redo pass (batch r2a-game-world-Container-e6443a-0): PODecor, ItemObject, LuaScript and sfc::script::lua::Arguments
+// now have headers, and ObjectBase declares +0x104 as unk_104 (NetStruct*). The Container constructors and the OnOpen
+// Lua call in DoOpen are bound from them.
+//
 // Gaps, each named again where it occurs:
-//   PODecor has no header (dh2/PODecor.hpp): InitFinal and InterpretIncomingNetStruct.
-//   ItemObject has no header (dh2/ItemObject.hpp): DoOpen.
-//   sfc::script::lua::Arguments has no header: DoOpen and __EventCallback.
-//   glitch::collada::STriggeredEvent has no definition (only a forward declaration): __EventCallback.
+//   PhysicalWorld global dword_99F770 has no declared name in any header: InitFinal and InterpretIncomingNetStruct
+//   (the PODecor body; dh2/PODecor.hpp exists). Layout request, not added here.
+//   ItemObject::DropLootTable has an unsettled signature (see the note on DoOpen): DoOpen.
+//   pydata Structs::ColladaFile (the GameObjectDict record) cannot be included with net-transport (duplicate inline
+//   CustomFree): InitPost (m_dae).
 //   VoxSoundManager declares neither s_instance, LoadSound(int) nor Play3D: InitPost and Interact.
-//   Arrays::GameObjectDict is a raw byte table with no typed record: InitPost (m_dae).
+//   glitch::collada::STriggeredEvent has no definition (only a forward declaration): __EventCallback.
 //   The stack NetStruct temporaries of the original read uninitialised storage: PopulateOutgoingNetStruct and the
-//   NetStructContainer constructor.
-//   ObjectBase declares +0x104 as int32_t, but Container stores a pointer there: the Container constructors.
+//   NetStructContainer constructor. The Container constructors inherit that gap through their member constructors.
 
 #include <cstdint>
+#include <cstring>
 
 #include "dh2/AnimController.hpp"
 #include "dh2/Container.hpp"
 #include "dh2/GameObject.hpp"
+#include "dh2/LuaScript.hpp"
 #include "dh2/ObjectHandle.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/VisualObject.hpp"
 #include "dh2/global/ObjectManagerInstance.hpp"
+#include "dh2/sfc/script/lua/Arguments.hpp"
 
 namespace {
 
@@ -38,15 +45,18 @@ bool IsActivatedOrOpened(const Container& container) {
 
 // 0x39f910 _ZN9Container8InitPostEv
 // PARTIAL. Bound: the spawn-probability gate, the data id (+0x374), the spawn animation chain, the timeline callbacks,
-// the mesh box, the script load and the closed state when the condition fails. Not bound: (1) the m_dae name from the
-// GameObjectDict record (see the header note), (2) the sound load, VoxSoundManager::s_instance->LoadSound(GetSound()),
-// which runs when s_instance is set. vox-audio/vox/sound_manager.hpp declares neither the static nor LoadSound(int).
+// the mesh box, the script load and the closed state when the condition fails. Not bound: (1) the m_dae name (GameObject
+// +0x290) from the GameObjectDict record `visual` (the name is the record's string buffer at +0x08, the same field that
+// Projectile's dae name reads as Structs::ColladaFile::m_w2, pydata w7_structs_5.hpp). That header cannot be included in
+// this unit: it and net-transport's deps/byte_array.hpp both define inline CustomFree(void*), and Container.hpp pulls in
+// net-transport (layout/dep request). (2) The sound load, VoxSoundManager::s_instance->LoadSound(GetSound()), which runs
+// when s_instance is set. vox-audio/vox/sound_manager.hpp declares neither the static nor LoadSound(int).
 void Container::InitPost() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {  // +0x274
         m_dataId = GetDataId();                                // +0x374
         const int visual = GetVisual();
         if (visual != -1 && m_dataId != -1) {
-            // PARTIAL: m_dae (GameObject +0x290) = the GameObjectDict record `visual`, name at record +0x08.
+            // PARTIAL: m_dae (GameObject +0x290) = the GameObjectDict record `visual`, name at record +0x08 (see the note).
         }
         GameObject::InitPost();
         if (GameObject::MeetCondition()) {
@@ -68,7 +78,9 @@ void Container::InitPost() {
             // PARTIAL: the sound load (see the function note).
             LoadExternalScript(GetScript(), "data/scripts/objects/");
         } else {
-            SetVisible(false);  // vtable +0x40; the original's r1 is the zero MeetCondition() result
+            // vtable +0x40. The original's r1 is the MeetCondition() result (SUBS R1, R0, #0 before the branch), which
+            // is 0 on this path, so the argument is false.
+            SetVisible(false);
             SetState(STATE_OPENED);
         }
     }
@@ -77,8 +89,10 @@ void Container::InitPost() {
 // 0x39fc98 _ZN9Container9InitFinalEv
 // PARTIAL. Bound: the spawn-probability gate, GameObject::InitFinal(), the Update() call on a container that is not
 // ACTIVATE or OPENED, and the MeetCondition() test. Not bound: the PODecor body. The original allocates 40 bytes,
-// constructs PODecor on dword_99F770 (the PhysicalWorld) with this as the owner, then calls SetPhysicalObject(body, false).
-// PODecor has no header, and the bool argument is a constant of the PODecor::PODecor clone (.clone.2_0).
+// constructs PODecor on dword_99F770 (the PhysicalWorld*) with this as the owner, then calls SetPhysicalObject(body, false).
+// dh2/PODecor.hpp now declares PODecor(PhysicalWorld*, GameObject*, bool), and its bool is never read. What is missing is
+// a declared name for dword_99F770: no header declares that global (layout request). Once it is declared the body is
+// `new PODecor(dword_99F770, this, false)` followed by SetPhysicalObject(body, false).
 void Container::InitFinal() {
     if (GameObject::CheckSpawnProbability() < m_spawnProb) {
         GameObject::InitFinal();
@@ -94,7 +108,8 @@ void Container::InitFinal() {
 // 0x39fd38 _ZN9Container26InterpretIncomingNetStructEb
 // PARTIAL. Bound: the incoming opened flag (m_netIn +0x150), the state gates, the opener lookup, the call to Interact, the
 // release of the physics body, the activate, idleactive and idle animation calls, and the copy of m_netIn.unk_180 into
-// unk_fc (ObjectBase +0xfc) when forced. Not bound: the PODecor body on the dead-and-closed path (see InitFinal).
+// unk_fc (ObjectBase +0xfc) when forced. Not bound: the PODecor body on the dead-and-closed path, which waits on the same
+// dword_99F770 declaration as InitFinal.
 void Container::InterpretIncomingNetStruct(bool force) {
     const std::uint32_t openedIn = m_netIn.m_opened.GetValue();  // m_netIn +0x130 member, value at +0x150
     if (openedIn != 1 || IsActivatedOrOpened(*this)) {
@@ -179,16 +194,18 @@ Container::~Container() {}
 
 // 0x3a06dc _ZN9ContainerC1EN10ObjectBase6GO_IDSE
 // 0x3a0788 _ZN9ContainerC2EN10ObjectBase6GO_IDSE
-// PARTIAL. Bound: the GameObject base constructor with the same id (the id register is passed through unchanged), the
-// ObjectBase fields that the original sets (+0x28 = 1, +0x84 m_static = 0, +0xf8 = 2), m_netStruct = &m_netOut (+0x100),
-// m_deathReset = false, m_state = STATE_IDLE and m_opener = nullptr. The data string, the NetStructContainer members and
-// the vtables are built by C++. Not bound: the original stores &m_netIn at ObjectBase +0x104. ObjectBase declares that
-// word as std::int32_t unk_104, so the pointer cannot be stored there (layout request).
+// PARTIAL, inherited. Bound: the GameObject base constructor with the same id (the id register is passed through
+// unchanged), the ObjectBase fields that the original sets (+0x28 = 1, +0x84 m_static = 0, +0xf8 = 2), m_netStruct =
+// &m_netOut (+0x100), unk_104 = &m_netIn (+0x104, declared NetStruct* by ObjectBase.hpp), m_deathReset = false,
+// m_state = STATE_IDLE and m_opener = nullptr. The data string and the vtables are built by C++. The two
+// NetStructContainer members are built by NetStructContainer::NetStructContainer (0x39ff58), which stays partial
+// (conditional SetChanged on value words it never writes), so this constructor inherits that gap.
 Container::Container(ObjectBase::GO_IDS id) : GameObject(id) {
     unk_28 = 1;
     m_static = 0;
     unk_f8 = 2;
     m_netStruct = &m_netOut;
+    unk_104 = &m_netIn;
     m_deathReset = false;
     m_state = STATE_IDLE;
     m_opener = nullptr;
@@ -206,12 +223,21 @@ void Container::DeclareProperties() {
 }
 
 // 0x3a0a98 _ZN9Container6DoOpenEv
-// PARTIAL. Not bound: (1) ItemObject::DropLootTable(GetLoot(), this, m_opener, GetLootFixedNumPowers(), <two flags>). The
-// decompiler types GetLoot()'s int result as ItemObject*, so the first parameter must be checked against the header once
-// dh2/ItemObject.hpp exists, and the sixth argument is not assigned in the pseudocode. (2) The OnOpen Lua call: when
-// m_script is set, the original pushes m_opener (when set) into an sfc::script::lua::Arguments and calls
-// LuaScript::Call(m_script, "OnOpen", args). dh2/sfc/script/lua/Arguments.hpp does not exist.
+// PARTIAL. Bound: the OnOpen Lua call. When m_script (+0x300) is set, the original builds an sfc::script::lua::Arguments,
+// pushes m_opener (+0x398) when it is set, and calls LuaScript::Call(m_script, "OnOpen", args).
+// Not bound: ItemObject::DropLootTable (0x3ecba0), called with the loot id (GetLoot()), this, m_opener, GetLootFixedNumPowers()
+// and two more arguments (0 and an unassigned bool). ItemObject.hpp declares the five-argument form, but its own note says
+// the second parameter of that overload is an ItemInventory* the declaration omits, and the sixth argument has no source
+// in the pseudocode. The signature is unsettled, so the call waits on the header (integrator decision).
 void Container::DoOpen() {
+    // PARTIAL: the ItemObject::DropLootTable call (see the function note).
+    if (m_script != nullptr) {  // +0x300
+        sfc::script::lua::Arguments args;
+        if (m_opener != nullptr) {  // +0x398
+            args.pushUserData(m_opener);
+        }
+        m_script->Call("OnOpen", args);
+    }
 }
 
 // 0x3a0b38 _ZN9Container8InteractEP10GameObject

@@ -7,9 +7,10 @@
 // Arrays::CharAnimTable rows are Structs::CharAnim records (listing stride 160, pydata's array_strides.hpp). Its m_wN
 // members are named by listing offset: m_wN sits at +4N, so `row.m_w8` is the word at +0x20.
 //
-// The row id comes from Character::GetCharAnimTableId(). In the Character ledger that is a placeholder (it returns 17),
-// so every function that reads a row is partial until the Character word is decoded. Those functions are otherwise
-// written from the pseudocode.
+// The row id comes from Character::GetCharAnimTableId(), which is reconstructed (it falls back to 17 for an out-of-range
+// word). Every row read is written from the pseudocode. The remaining PARTIAL rows are the RaiseStateEvent dependency
+// (see the row of that function: its no-current-state exit returns a pointer in the original) and the paths that return
+// the leftover row address (noted per function).
 //
 // Fall-through returns. Some original paths return the leftover row address (Hex-Rays prints `result = members + 160*id`,
 // a reuse of the result register). A host pointer cannot be returned as an int, so those paths return 0 and are marked.
@@ -21,9 +22,12 @@
 // the core-platform enum unless the enum is declared before it (Character.hpp works around the same clash with a macro).
 #include "dh2/global/runtime_support.hpp"    // PushProfilingContext / PopProfilingContext
 #include "core-platform/deps/application.hpp"  // ApplicationGetDt: Application::GetDt on the singleton
+#include "dh2/CharState.hpp"                  // CharState slots: OnInit, OnUpdate
 #include "dh2/CharStateMachine.hpp"
 #include "dh2/Character.hpp"
 #include "dh2/CharTimers.hpp"
+#include "dh2/DebugSwitches.hpp"              // the isTracingCharSM probe in RegisterState
+#include "dh2/global/GetNewState.hpp"         // the state factories in g_stateList
 #include "dh2/global/charai_ai.hpp"          // ApplicationGetPyDataConstants (dword_99F758)
 #include "pydata-accessors/structs_records.hpp"  // Structs::CharAnim, the Arrays::CharAnimTable element
 #include "pydata-accessors/w7_arrays_02.hpp"    // Arrays::CharAnimTable::members and size
@@ -53,10 +57,42 @@ int AnimStanceOffset(const Character* character, int mask) {
     return (bits & mask) != 0 ? character->GetAnimStance() : 0;
 }
 
+// g_stateList (0x9666c0, 160 bytes): 20 pairs of { state id, GetNewState<T> }. Read from the binary: the ids are 0 to 19 in
+// order, and each factory address is the one GetNewState<T> has in dh2/global/GetNewState.hpp. Only RegisterState reads the
+// table, so it is kept here rather than in a header.
+struct StateFactoryEntry {
+    int stateId;
+    CharState* (*factory)();
+};
+
+const StateFactoryEntry kStateList[20] = {
+    {0, &GetNewState<CSLimbus>},      // 0x3c0454
+    {1, &GetNewState<CSSpawn>},       // 0x3c0470
+    {2, &GetNewState<CSDespawn>},     // 0x3c048c
+    {3, &GetNewState<CSIdle>},        // 0x3c04a8
+    {4, &GetNewState<CSMove>},        // 0x3c04c4
+    {5, &GetNewState<CSAttack>},      // 0x3c04e0
+    {6, &GetNewState<CSSkill>},       // 0x3c04fc
+    {7, &GetNewState<CSCast>},        // 0x3c0518
+    {8, &GetNewState<CSScared>},      // 0x3c0534
+    {9, &GetNewState<CSStunned>},     // 0x3c0550
+    {10, &GetNewState<CSKnockedBack>},  // 0x3c056c
+    {11, &GetNewState<CSInjured>},    // 0x3c0588
+    {12, &GetNewState<CSDead>},       // 0x3c05a4
+    {13, &GetNewState<CSInteract>},   // 0x3c05c0
+    {14, &GetNewState<CSAnim>},       // 0x3c05dc
+    {15, &GetNewState<CSReviving>},   // 0x3c05f8
+    {16, &GetNewState<CSRevived>},    // 0x3c0614
+    {17, &GetNewState<CSPreSpawn>},   // 0x3c0630
+    {18, &GetNewState<CSLiftingIdle>},  // 0x3c064c
+    {19, &GetNewState<CSLiftingMove>},  // 0x3c0668
+};
+
 }  // namespace
 
 // 0x3c58c8 CharStateMachine::SM_SetDeadState(bool, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder 17 in the Character ledger).
+// PARTIAL only through the non-immediate path, which returns RaiseStateEvent's value (its no-current-state exit differs;
+// see RaiseStateEvent). The row work is complete.
 int CharStateMachine::SM_SetDeadState(bool flag, void* data, bool immediate) {
     int result = m_character->GetCharAnimTableId();
     if (!CharAnimIdInRange(result)) {
@@ -84,8 +120,8 @@ int CharStateMachine::SM_SetDeadState(bool flag, void* data, bool immediate) {
 }
 
 // 0x3c5b3c CharStateMachine::SM_SetDodgingState(void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder). The Hex-Rays `result` reuse returns the row
-// address when the row word at +0x20 is -1; that path returns 0 here.
+// PARTIAL: the Hex-Rays `result` reuse returns the row address when the row word at +0x20 is -1; that path returns 0 here.
+// The non-immediate path also returns RaiseStateEvent's value (see there).
 int CharStateMachine::SM_SetDodgingState(void* data, bool immediate) {
     int result = m_character->m_combatTextCooldown > 0.0f ? 1 : 0;
     if (m_character->m_combatTextCooldown <= 0.0f) {
@@ -109,7 +145,7 @@ int CharStateMachine::SM_SetDodgingState(void* data, bool immediate) {
 }
 
 // 0x3c5c60 CharStateMachine::SM_SetBlockingState(void*, bool)
-// PARTIAL: same row-id dependency and fall-through as SM_SetDodgingState; the row word is +0x0c.
+// PARTIAL: same -1 leftover-row return and RaiseStateEvent dependency as SM_SetDodgingState; the row word is +0x0c.
 int CharStateMachine::SM_SetBlockingState(void* data, bool immediate) {
     int result = m_character->m_combatTextCooldown > 0.0f ? 1 : 0;
     if (m_character->m_combatTextCooldown <= 0.0f) {
@@ -133,7 +169,7 @@ int CharStateMachine::SM_SetBlockingState(void* data, bool immediate) {
 }
 
 // 0x3c5d84 CharStateMachine::SM_SetInjureState(void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder). This path has no -1 check on the row word.
+// PARTIAL only through RaiseStateEvent on the non-immediate path (see there). This path has no -1 check on the row word.
 int CharStateMachine::SM_SetInjureState(void* data, bool immediate) {
     int result = m_character->m_combatTextCooldown > 0.0f ? 1 : 0;
     if (m_character->m_combatTextCooldown <= 0.0f) {
@@ -154,7 +190,7 @@ int CharStateMachine::SM_SetInjureState(void* data, bool immediate) {
 }
 
 // 0x3c5ea0 CharStateMachine::SM_SetKnockBackState(bool, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder).
+// PARTIAL only through RaiseStateEvent on the non-immediate path (see there).
 int CharStateMachine::SM_SetKnockBackState(bool strong, void* data, bool immediate) {
     int result = m_character->IsBoss() ? 1 : 0;
     if (result == 0) {
@@ -184,7 +220,7 @@ int CharStateMachine::SM_SetKnockBackState(bool strong, void* data, bool immedia
 }
 
 // 0x3c5ffc CharStateMachine::SM_SetStunState(unsigned int, bool, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder).
+// PARTIAL only through RaiseStateEvent on the non-immediate path (see there).
 int CharStateMachine::SM_SetStunState(unsigned int durationMs, bool flag, void* data, bool immediate) {
     int result = m_character->IsBoss() ? 1 : 0;
     if (result == 0) {
@@ -212,7 +248,7 @@ int CharStateMachine::SM_SetStunState(unsigned int durationMs, bool flag, void* 
 }
 
 // 0x3c6144 CharStateMachine::SM_SetScareState(unsigned int, bool, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder).
+// PARTIAL only through RaiseStateEvent on the non-immediate path (see there).
 int CharStateMachine::SM_SetScareState(unsigned int durationMs, bool flag, void* data, bool immediate) {
     int result = m_character->IsBoss() ? 1 : 0;
     if (result == 0) {
@@ -239,9 +275,8 @@ int CharStateMachine::SM_SetScareState(unsigned int durationMs, bool flag, void*
 }
 
 // 0x3c628c CharStateMachine::Update()
-// PARTIAL: the final state update, m_curState->m_state->OnUpdate(id, character, this) through CharState vtable +0x14, is
-// not written. dh2/CharState.hpp declares that slot as unk_vslot_14() with no arguments, so the call cannot be expressed.
-// The stun and scare restarts and the state-time accumulation are written.
+// The state time (+0x60) accumulates the frame time, the stun and scare restarts run, and then the current state's
+// OnUpdate slot (CharState vtable +0x14) runs with (state id, character, this) when a state is current.
 void CharStateMachine::Update() {
     PushProfilingContext("CharStateMachine::Update");
     const int previousTime = m_stateTime;
@@ -262,13 +297,15 @@ void CharStateMachine::Update() {
             SM_SetScareState(0xFFFFFFFFu, ((m_stateFlags >> 10) & 1u) != 0, nullptr, false);
         }
     }
-    // PARTIAL: m_curState (+0x20) update call not written (see above).
+    if (m_curState != nullptr) {
+        m_curState->m_state->OnUpdate(m_curState->m_id, m_character, this);  // vtable +0x14
+    }
     PopProfilingContext("CharStateMachine::Update");
 }
 
 // 0x3c6394 CharStateMachine::SM_SetCastState(unsigned int, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder). When the cast index is past the row's count, the
-// original returns the row address; that path returns 0 here.
+// PARTIAL: when the cast index is past the row's count, the original returns the row address; that path returns 0 here.
+// The non-immediate path also returns RaiseStateEvent's value (see there).
 int CharStateMachine::SM_SetCastState(unsigned int castIndex, void* data, bool immediate) {
     int result = m_character->GetCharAnimTableId();
     if (CharAnimIdInRange(result)) {
@@ -288,8 +325,8 @@ int CharStateMachine::SM_SetCastState(unsigned int castIndex, void* data, bool i
 }
 
 // 0x3c64ac CharStateMachine::SM_SetInteractState(int, bool, void*, bool)
-// PARTIAL: the row id comes from Character::GetCharAnimTableId (placeholder). The interact kinds 8 and 10 do not read the
-// row. For kind >= the row's count, the original returns the row address; that path returns 0 here.
+// PARTIAL: for kind >= the row's count, the original returns the row address; that path returns 0 here. The kinds 8 and
+// 10 do not read the row. The non-immediate paths return RaiseStateEvent's value (see there).
 int CharStateMachine::SM_SetInteractState(int interactKind, bool flag, void* target, bool immediate) {
     int result = m_character->GetCharAnimTableId();
     if (CharAnimIdInRange(result)) {
@@ -326,12 +363,12 @@ int CharStateMachine::SM_SetInteractState(int interactKind, bool flag, void* tar
 }
 
 // 0x3c6670 CharStateMachine::SM_SetSkillState(unsigned int, bool, void*, bool)
-// PARTIAL: the skill's anim word (skill record +0x04) is not decoded. Character::GetCharSkill returns a const void* with no
-// record class declared (the pydata layer has no CharSkill record). The word is taken as 0 until that layout is declared.
+// The anim word is Structs::Skill::m_w1 (skill record +0x04). PARTIAL: Character::GetCharSkill returns null for an
+// out-of-range id, and the original reads the word past the list entry there (undefined); this takes 0. The
+// non-immediate path also returns RaiseStateEvent's value (see there).
 int CharStateMachine::SM_SetSkillState(unsigned int skillId, bool flag, void* data, bool immediate) {
-    const void* skillRecord = m_character->GetCharSkill(static_cast<int>(skillId));
-    (void)skillRecord;
-    const int skillAnim = 0;  // PARTIAL placeholder for the word at skill record +0x04
+    const auto* skillRecord = static_cast<const Structs::Skill*>(m_character->GetCharSkill(static_cast<int>(skillId)));
+    const int skillAnim = skillRecord != nullptr ? skillRecord->m_w1 : 0;  // +0x04; 0 for the null (PARTIAL) case
     const int stance = AnimStanceOffset(m_character, 0x200000);
     m_pendingAnim = stance + skillAnim;  // +0x28
     m_skillId = static_cast<int>(skillId);  // +0x54
@@ -343,15 +380,30 @@ int CharStateMachine::SM_SetSkillState(unsigned int skillId, bool flag, void* da
 }
 
 // 0x3c7318 CharStateMachine::RegisterState(int)
-// PARTIAL: the factory table g_stateList (20 pairs of state id and GetNewState<T>) is not declared anywhere in the tree, and
-// CharState's init slot (+0x08) has no declared signature. Only the already-registered check is written: a registered state
-// returns at once. For an unregistered state the original looks up the factory, creates the CharState, calls its init slot
-// with (state id, character, this) and reads the "isTracingCharSM" debug switch. None of that is written here.
+// A registered state returns at once. Otherwise the factory for the id is looked up in g_stateList (no entry: nothing
+// happens). The new StateInfo gets its id and CharState from the factory, the state's init slot (vtable +0x08, OnInit)
+// runs with (state id, character, this), and the "isTracingCharSM" probe runs. The probe result is unused, as in the
+// original.
 void CharStateMachine::RegisterState(int stateId) {
     if (m_states.find(stateId) != m_states.end()) {
         return;
     }
-    // PARTIAL: unregistered state, see above.
+    const StateFactoryEntry* entry = nullptr;
+    for (const StateFactoryEntry& candidate : kStateList) {
+        if (candidate.stateId == stateId) {
+            entry = &candidate;
+            break;
+        }
+    }
+    if (entry == nullptr) {
+        return;
+    }
+    StateInfo& info = m_states[stateId];  // the original inserts the node with operator[] as well
+    info.m_id = stateId;                   // +0x00
+    info.m_state = entry->factory();       // +0x04
+    info.m_state->OnInit(stateId, m_character, this);  // vtable +0x08
+    DebugSwitches::s_inst.load();
+    (void)DebugSwitches::s_inst.GetSwitch(std::string("isTracingCharSM"));
 }
 
 // 0x3c7b18 CharStateMachine::SM_RegisterEvent(int, int, int, bool (Character::*)(int, void*, int, int&))

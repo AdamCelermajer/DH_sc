@@ -200,15 +200,14 @@ bool Character::IsSneaking() const {
 }
 
 // 0x3bc6b8 Character::CancelSneaking()
-// PARTIAL. For a player, the original removes buff 146 and then stores 1 at this+0x415. That byte is CharAI::unk_4d (the
-// CharAI base at +0x3c8, member +0x4d), which dh2/CharAI.hpp declares private, so the store is not made here. Access
-// request: "CharAI +0x4d bool unk_4d (1 at ctor; set to 1 by Character::CancelSneaking; make it accessible to Character)".
-// While the character is sneaking, the skill list is scanned from index 0 upward; the first skill whose flags word
-// (Structs::Skill +0x1c, m_w7) has bit 0x02000000 set is cancelled with CharAI::AI_CancelSkill and its list index.
-// The original's return value (the callee result, discarded here) is not used by any caller.
+// For a player (virtual IsPlayer, vtable +0x28) the original removes buff 146 and then stores 1 at this+0x415, which is
+// CharAI::unk_4d (CharAI +0x4d, set to 1 by the CharAI constructor; public in dh2/CharAI.hpp). While the character is
+// sneaking, the skill list is scanned from index 0 upward; the first skill whose flags word (Structs::Skill +0x1c, m_w7)
+// has bit 0x02000000 set is cancelled with CharAI::AI_CancelSkill and its list index.
 void Character::CancelSneaking() {
     if (IsPlayer()) {
         CharProperties::PROPS_DelBuff(146, nullptr);
+        CharAI::unk_4d = true;
     }
     if (IsSneaking()) {
         const auto* list = static_cast<const Structs::SkillList*>(GetCharSkillList());

@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "core-platform/memory.hpp"
+#include "dh2/Character.hpp"
 #include "dh2/ItemInstance.hpp"
 #include "dh2/ItemInventory.hpp"
 #include "pydata-accessors/w7_structs_2.hpp"
@@ -216,17 +217,19 @@ bool ItemInventory::IsDualWielding() const {
 }
 
 // 0x4001a0 _ZNK13ItemInventory12HasTwoHanderEb
-// PARTIAL: the original has a second gate. When the main-hand item type is neither 4 nor 5 and offHandToo is clear,
-// the answer also needs Character +0x1324 == 0 (CharProperties +0xdc4, inside the final sheet m_props at sheet byte
-// 0x330). dh2/Character.hpp does not declare that field, so the gate is left out. The answer is the equipment-category
-// test alone (category +0x68, m_w26, equal to -4), for every input.
+// The main-hand entry (slot 1 of the current set) holds a two-hander when its category (+0x68, m_w26) is -4. When the
+// item type (+0x58, m_w22) is neither 4 nor 5 and offHandToo is clear, the answer also needs Character +0x1324 == 0,
+// read as m_props.m_w204 (CharProperties +0xdc4, the final sheet at sheet word 204).
 bool ItemInventory::HasTwoHander(bool offHandToo) const {
-    (void)offHandToo;
     ItemSlot* entry = EquippedSlot(m_equipment, GetCurrentEquipSet(1), 1);
     if (!entry) {
         return false;
     }
-    return entry->m_item->GetItem()->m_w26 == -4;  // +0x68
+    const Structs::Item* row = entry->m_item->GetItem();
+    if ((static_cast<unsigned int>(row->m_w22) - 4u) <= 1u || offHandToo) {  // type 4 or 5
+        return row->m_w26 == -4;  // +0x68
+    }
+    return row->m_w26 == -4 && m_character->m_props.m_w204 == 0;  // Character +0x1324
 }
 
 // 0x40022c _ZNK13ItemInventory23IsEquipmentSlotLeftHandEj

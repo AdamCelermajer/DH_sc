@@ -108,14 +108,23 @@ void AnimatorSet::updateTime(unsigned int time) {
 }
 
 // 0x367420 _ZN11AnimatorSet19setCurrentAnimationEi
-// PARTIAL: the lookup by set index is rebuilt. The clip check, the use counts (Animation +0x24 and +0x2c), the
-// m_currentAnimation swap and the base forward need Animation +0x20, +0x24 and +0x2c, which are not declared.
+// PARTIAL: the lookup by set index, the clip check (Animation unk_20 != -1), the use counts (m_useCount +0x24 and
+// unk_2c +0x2c) and the m_currentAnimation swap with the release of the previous clip are rebuilt. Missing: the base
+// forward glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, setIndex), because this class does not
+// derive from the engine base (pad_04). On the success path the original returns that base result; the stub returns
+// the lookup result there, so the return value is wrong only on that path.
 Animation* AnimatorSet::setCurrentAnimation(int setIndex) {
     Animation* result = m_animationSet->GetAnimationBySetIndex(setIndex);
-    // TODO(layout): if (result +0x20 != -1) { ++result +0x24; result +0x2c += 1; old = m_currentAnimation;
-    //               m_currentAnimation = result; if (old) --old +0x24; } and return the base
-    //               glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, setIndex).
-    // Stub: the swap is not done and the lookup result is returned in both branches.
+    if (result->unk_20 != -1) {
+        ++result->m_useCount;   // +0x24
+        result->unk_2c += 1;    // +0x2c
+        Animation* previous = m_currentAnimation;
+        m_currentAnimation = result;  // +0x98
+        if (previous != nullptr) {
+            --previous->m_useCount;   // +0x24 of the clip that was current
+        }
+        // TODO(base): return glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, setIndex) (engine base).
+    }
     return result;
 }
 
@@ -129,15 +138,25 @@ void AnimatorSet::onUnbind(glitch::scene::ISceneNode* node) {
 }
 
 // 0x3674ac _ZN11AnimatorSet19SetCurrentAnimationEi
-// PARTIAL: the lookup by AnimDict id is rebuilt. The clip checks, use counts, the m_currentAnimation swap and the base
-// forward need Animation +0x20, +0x24 and +0x2c, which are not declared.
+// PARTIAL: the lookup by AnimDict id, the clip read (Animation unk_20), the use counts, the m_currentAnimation swap and
+// the release of the previous clip are rebuilt. The return value is the clip in both branches, as in the original, so
+// only the base side effect is missing: glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, clip), whose
+// result the original discards. This class does not derive from that base (pad_04).
+// The original re-reads Animation +0x20 after the base call; the stub returns the clip read before it.
 int AnimatorSet::SetCurrentAnimation(int animId) {
     Animation* anim = m_animationSet->GetAnimation(animId);
-    // TODO(layout): clip = anim +0x20. If clip == -1 return clip. Otherwise ++anim +0x24, anim +0x2c += 1, swap
-    //               m_currentAnimation (drop the old clip with --old +0x24), call the base
-    //               glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, clip) and return clip.
-    (void)anim;
-    return 0;  // stub: the original returns the clip index
+    const int clip = anim->unk_20;
+    if (clip != -1) {
+        ++anim->m_useCount;   // +0x24
+        anim->unk_2c += 1;    // +0x2c
+        Animation* previous = m_currentAnimation;
+        m_currentAnimation = anim;  // +0x98
+        if (previous != nullptr) {
+            --previous->m_useCount;  // +0x24 of the clip that was current
+        }
+        // TODO(base): glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(this, clip) (engine base, result discarded).
+    }
+    return clip;
 }
 
 // 0x367510 _ZN11AnimatorSet12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_

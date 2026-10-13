@@ -17,6 +17,7 @@
 #include "dh2/Character.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/ObjectManager.hpp"
+#include "dh2/PFWorld.hpp"                       // PFWorld::s_inst, ValidatePosition (Ctrl_WarpTo)
 #include "dh2/global/ObjectManagerInstance.hpp"  // dword_99F764, the ObjectManager instance
 #include "dh2/global/Vec3f_Origin.hpp"
 #include "dh2/global/ctrl_camera.hpp"            // ApplicationGetInstance
@@ -220,16 +221,22 @@ void Character::Ctrl_HeadTowards(const Point3D<float>& pos) {
 
 // 0x3adcf4 _ZN9Character11Ctrl_WarpToERK7Point3DIfE
 // Character::Ctrl_WarpTo(Point3D<float> const&)
-// PARTIAL: the original validates the point with PFWorld::ValidatePosition(Singleton<PFWorld>::s_inst, point, &m_pfObject).
-// No PFWorld instance is declared (Singleton<PFWorld>::s_inst has no accessor in game/include), so the validation cannot be
-// called. When the point is valid the original calls GameObject::SetPosition(point, true), stores the validated point in
-// m_pfObject.m_pos (PFObject +0x18, the words at GameObject +0x1e0..+0x1e8), calls Ctrl_Stop and raises event 1. When it is
-// not valid it does nothing. Neither branch runs here. Only the remotely-updated gate is reproduced.
+// Does nothing while IsRemotelyUpdated() (ObjectBase slot +0x54) is set. Otherwise the point is validated by the PFWorld
+// instance against m_pfObject. When it is valid: GameObject::SetPosition(point, true), the validated point is stored in
+// m_pfObject.m_pos (PFObject +0x18, the words at GameObject +0x1e0..+0x1e8), Ctrl_Stop() runs through the vtable, and
+// event 1 is raised. The RaiseEvent result is discarded by the void slot.
 void Character::Ctrl_WarpTo(const Point3D<float>& pos) {
     if (IsRemotelyUpdated()) {
         return;
     }
-    (void)pos;
+    Point3D<float> validated = pos;
+    if (!PFWorld::s_inst.ValidatePosition(validated, &m_pfObject)) {
+        return;
+    }
+    GameObject::SetPosition(validated, true);
+    m_pfObject.m_pos = validated;
+    Ctrl_Stop();
+    RaiseEvent(1, nullptr);
 }
 
 // 0x3addbc _ZNK9Character11Ctrl_LookAtERK7Point3DIfE
@@ -245,8 +252,8 @@ void Character::Ctrl_LookAt(const Point3D<float>& pos) {
 // released one queues the point in m_spotTargetPos and m_spotTargetValidPos with pending set); the clear of the queued
 // click; the nearest interactive character within the click radius (DesignSettings m_w11 for an enemy, m_w20 otherwise),
 // which becomes the target through CharAI::AI_SetTarget; and the move or head-to fallback (held: Ctrl_MoveTo, else
-// Ctrl_HeadTo) with the target cleared and last target synced. Not reproduced: the write of m_stickyTarget (CharAI +0x4b),
-// which is private in dh2/CharAI.hpp.
+// Ctrl_HeadTo) with the target cleared and last target synced. The nearest-character target also sets CharAI
+// m_stickyTarget (+0x4b).
 // Not reproduced: the second search. For a held click without the DPad, when no character was found, the original walks
 // ObjectManager's object map (m_objectMap, std::map<int, ObjectListItem>) for the nearest interactive non-Character object
 // within DesignSettings m_w21 of the click, and sets the target to it. ObjectListItem has no declared layout, and the
@@ -305,8 +312,7 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
     if (target) {
         DebugSwitches::GetInstance()->load();
         DebugSwitches::GetInstance()->GetSwitch("isTracingChar_CTRL");
-        // PARTIAL: the original sets CharAI +0x4b (m_stickyTarget) to 1 here. That member is private in dh2/CharAI.hpp,
-        // so the write is not made; the target is set below.
+        CharAI::m_stickyTarget = true;
         CharAI::AI_SetTarget(target, false);
         return;
     }
@@ -328,11 +334,10 @@ void Character::Ctrl_Click(const Point3D<float>& pos, bool held) {
 
 // 0x3ae5a0 _ZNK9Character18GetCharFaeryListIdEv
 // Character::GetCharFaeryListId() const
-// PARTIAL: the original reads the faery list index from Character +0x106c (CharProperties +0xb0c, inside the m_props
-// sheet). No class declares that word, so the index is taken as 0 until the layout request is applied. The range check
-// against Arrays::FaeryListTable::size, and the return of 0 when it fails, are reproduced.
+// The faery list index is the CharProperties m_props sheet word m_w30 (+0x78 of the sheet, Character +0x106c). Returns 0
+// when the index is below 0 or not below Arrays::FaeryListTable::size.
 int Character::GetCharFaeryListId() const {
-    const int index = 0;
+    const int index = CharProperties::m_props.m_w30;
     if (index < 0 || index >= static_cast<int>(Arrays::FaeryListTable::size)) {
         return 0;
     }
@@ -341,9 +346,7 @@ int Character::GetCharFaeryListId() const {
 
 // 0x3ae5dc _ZNK9Character16GetCharFaeryListEv
 // Character::GetCharFaeryList() const
-// PARTIAL: the row address is exact (the Structs::FaeryList row at the index, indexed as a typed array from
-// Arrays::FaeryListTable::members). The index comes from GetCharFaeryListId, which is partial (see above), so the row
-// returned is row 0 until that field is recovered.
+// The Structs::FaeryList row at the index, indexed as a host array from Arrays::FaeryListTable::members.
 const void* Character::GetCharFaeryList() const {
     return reinterpret_cast<const Structs::FaeryList*>(Arrays::FaeryListTable::members) + GetCharFaeryListId();
 }

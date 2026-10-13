@@ -3,14 +3,15 @@
 //
 // The physics body of a Zone (a POZone) is a PhysicalObject with the POZone vtable stored in it. dh2/POZone.hpp
 // declares no constructor, so the physics branches of InitWithBoundingBox and InitPost are not written. The colzone
-// branches (the "_colzone" mesh node) need glitch::scene::ISceneNode as a complete type and the scene manager, which
-// are not in the tree yet.
+// branches (the "_colzone" mesh node) need the device's scene manager and its collision manager, which no header
+// declares (see IsInside).
 
 #include <cstdio>
 #include <cstdlib>
 
 #include "dh2/VisualObject.hpp"
 #include "dh2/Zone.hpp"
+#include "glitch-scene-collada-gui/scene_node.hpp"  // glitch::scene::ISceneNode, complete for drop()
 
 // Engine-wide assert level (core-platform/memory.hpp). That header is not included here: its glitch_core.hpp
 // clashes with the one Zone.hpp uses, and the GameObject batches declare the variable the same way.
@@ -59,12 +60,15 @@ void Zone::OnCollisionBegins(GameObject* other) {
 }
 
 // 0x3970c8 Zone::IsInside(GameObject*)
-// PARTIAL: the box test (no colzone node) is rebuilt. The colzone branch is not. The original sweeps a segment from the
-// other object's position through the colzone's triangle selector: it calls the node's virtual at vtable +0xb0 for the
-// selector, then the scene collision manager stored at SceneManager +0x2c (its vtable slot +0x0c) for the hit test. It
-// then runs the DisplayColZoneWhenColliding debug draw. None of those interfaces is declared in the tree, and the
-// segment needs the Vec3f_K global (0x99f878). The colzone branch returns false here, so a colzone zone never reports
-// an object inside.
+// PARTIAL: the box test (no colzone node) is rebuilt. The colzone branch is not. The original sweeps a segment through
+// the colzone's triangle selector: the segment runs from the other object's position, offset by +/-100 along Vec3f_K
+// (global/Vec3f_K.hpp, now declared), and the selector comes from the node's virtual getTriangleSelector (vtable +0xb0,
+// ISceneNode.hpp). The hit test is the collision manager's getCollisionPoint (vtable +0x0c). That manager is the word at
+// SceneManager +0x2c, and the scene manager is the word at IDevice +0x1c (dword_99F73C, Singleton<Application>::s_inst.
+// m_device). Neither the device layout nor the SceneManager collision member is declared, so the branch is blocked
+// (layout requests: glitch::IDevice +0x1c SceneManager*, CSceneManager +0x2c collision manager). The DisplayColZoneWhenColliding
+// debug switch then toggles the visibility of the colzone's mesh (not made). The colzone branch returns false here, so a
+// colzone zone never reports an object inside.
 bool Zone::IsInside(GameObject* other) {
     if (!other) {
         ZoneAssertFailed("go", 152);
@@ -157,11 +161,16 @@ void Zone::InitPost() {
 
 // 0x397b38 Zone::~Zone()   (complete object destructor, D1)
 // 0x397bc4 Zone::~Zone()   (base object destructor, D2; the same code)
-// PARTIAL: the original drops m_colZoneNode when it is set, through glitch::IReferenceCounted (the node's base, at the
-// offset stored at vtable -0x0c), then clears the pointer. glitch::scene::ISceneNode is not a complete type in the
-// tree, so the drop is not made. The compiler runs the vptr resets and the GameObject base destructor, as the original
-// does through GameObject::~GameObject.
-Zone::~Zone() {}
+// The colzone node is dropped when it is set, then the pointer is cleared. ISceneNode derives virtually from
+// glitch::IReferenceCounted, so drop() is the call the original makes: its base offset (the vtable -0x0c word in the
+// listing) is the compiler's adjustment. The vptr resets and the GameObject base destructor are the compiler's, as the
+// original does them through GameObject::~GameObject.
+Zone::~Zone() {
+    if (m_colZoneNode != nullptr) {  // +0x384
+        m_colZoneNode->drop();
+        m_colZoneNode = nullptr;
+    }
+}
 
 // 0x397ba8 Zone::~Zone()   (deleting destructor, D0)
 // skipped: the compiler generates the deleting destructor (~Zone() followed by CustomFree(this)). A delete expression
