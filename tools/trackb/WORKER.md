@@ -3,7 +3,9 @@
 A worker is one subagent that takes a long list of batches (often 20 to 40) and works through all of
 them, one after another, in a single session. Read this file, `port/decomp-reconstruction/TRACK-B.md`
 (rules and decisions) and `port/decomp-reconstruction/README.md` ("Rules for reconstructed code") once at
-the start. Do not run git: the integrator commits.
+the start. Do not run git: the integrator commits. Do not spawn subagents (no Agent, Task or Workflow
+tools); do all the work yourself. Never delete or rewrite files that other workers wrote, ledger parts
+included.
 
 ## Inputs
 

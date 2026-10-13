@@ -1,0 +1,1412 @@
+[
+{
+"id": "n2-game-app-sfc_script_lua_Arguments-3e968c-0",
+"category": "game-app",
+"owner": "sfc::script::lua::Arguments",
+"owners": [
+"sfc::script::lua::Arguments"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x319228",
+"bytes": 48,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::~Arguments()"
+},
+{
+"address": "0x319260",
+"bytes": 20,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::~Arguments()"
+},
+{
+"address": "0x31927c",
+"bytes": 48,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::~Arguments()"
+},
+{
+"address": "0x3192b4",
+"bytes": 48,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::Arguments()"
+},
+{
+"address": "0x3192ec",
+"bytes": 48,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::Arguments()"
+},
+{
+"address": "0x3196ec",
+"bytes": 480,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::Arguments(lua_State*, int)"
+},
+{
+"address": "0x3198e0",
+"bytes": 480,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::Arguments(lua_State*, int)"
+},
+{
+"address": "0x31a46c",
+"bytes": 96,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::pushPointer(void*)"
+},
+{
+"address": "0x37baf8",
+"bytes": 84,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::operator[](unsigned int) const"
+},
+{
+"address": "0x386f28",
+"bytes": 96,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::pushUserData(sfc::script::lua::UserData*)"
+},
+{
+"address": "0x39eba8",
+"bytes": 96,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::pushNil()"
+},
+{
+"address": "0x39ec10",
+"bytes": 96,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::pushString(char const*)"
+},
+{
+"address": "0x3cdd78",
+"bytes": 164,
+"owner": "sfc::script::lua::Arguments",
+"demangled": "sfc::script::lua::Arguments::pushInteger(int)"
+}
+],
+"bytes": 1804
+},
+{
+"id": "n2-game-app-sfc_script_lua_Value-c98984-0",
+"category": "game-app",
+"owner": "sfc::script::lua::Value",
+"owners": [
+"sfc::script::lua::Value"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x3193e8",
+"bytes": 92,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::~Value()"
+},
+{
+"address": "0x319454",
+"bytes": 20,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::~Value()"
+},
+{
+"address": "0x3194e0",
+"bytes": 80,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value()"
+},
+{
+"address": "0x31a414",
+"bytes": 80,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(void*)"
+},
+{
+"address": "0x31b580",
+"bytes": 32,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getPointer() const"
+},
+{
+"address": "0x31b5a0",
+"bytes": 32,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getUserData() const"
+},
+{
+"address": "0x31b5c0",
+"bytes": 12,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setNil()"
+},
+{
+"address": "0x31b5cc",
+"bytes": 28,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setBool(bool)"
+},
+{
+"address": "0x31b5e8",
+"bytes": 16,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setNumber(float)"
+},
+{
+"address": "0x31b5f8",
+"bytes": 16,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setPointer(void*)"
+},
+{
+"address": "0x31b608",
+"bytes": 16,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setUserData(sfc::script::lua::UserData*)"
+},
+{
+"address": "0x31bbf0",
+"bytes": 144,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getNumber() const"
+},
+{
+"address": "0x31bc80",
+"bytes": 172,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getBool() const"
+},
+{
+"address": "0x31c368",
+"bytes": 100,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::operator=(sfc::script::lua::Value const&)"
+},
+{
+"address": "0x31c46c",
+"bytes": 28,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::setString(char const*)"
+},
+{
+"address": "0x31c49c",
+"bytes": 336,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getString() const"
+},
+{
+"address": "0x31c634",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(sfc::script::lua::Value const&)"
+},
+{
+"address": "0x31c89c",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(sfc::script::lua::Value const&)"
+},
+{
+"address": "0x31c9c8",
+"bytes": 228,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::_setFromStack(lua_State*, int)"
+},
+{
+"address": "0x31cac4",
+"bytes": 304,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::_pushOnStack(lua_State*) const"
+},
+{
+"address": "0x31ce84",
+"bytes": 748,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::allocValueList()"
+},
+{
+"address": "0x31d194",
+"bytes": 960,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::freeValueList(std::vector<sfc::script::lua::Value, std::allocator<sfc::script::lua::Value> >*)"
+},
+{
+"address": "0x37c764",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(bool)"
+},
+{
+"address": "0x37c84c",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(char const*)"
+},
+{
+"address": "0x37c978",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(sfc::script::lua::UserData*)"
+}
+],
+"bytes": 3744
+},
+{
+"id": "n2-game-app-sfc_script_lua_Value-c98984-1",
+"category": "game-app",
+"owner": "sfc::script::lua::Value",
+"owners": [
+"sfc::script::lua::Value"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x37ca9c",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(int)"
+},
+{
+"address": "0x37cc3c",
+"bytes": 60,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::Value(float)"
+},
+{
+"address": "0x38d798",
+"bytes": 16,
+"owner": "sfc::script::lua::Value",
+"demangled": "sfc::script::lua::Value::getUInteger() const"
+}
+],
+"bytes": 136
+},
+{
+"id": "n2-game-app-sfc_script_lua_Binder-545b31-0",
+"category": "game-app",
+"owner": "sfc::script::lua::Binder",
+"owners": [
+"sfc::script::lua::Binder"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x319af4",
+"bytes": 296,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::bindMethod(char const*, void (*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*))"
+},
+{
+"address": "0x319c44",
+"bytes": 92,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::_bindMethod(char const*, void*, void*)"
+},
+{
+"address": "0x319ca8",
+"bytes": 744,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::__methodCallback(lua_State*)"
+},
+{
+"address": "0x319fd0",
+"bytes": 580,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::__smethodCallback(lua_State*)"
+},
+{
+"address": "0x31a250",
+"bytes": 416,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::__functionCallback(lua_State*)"
+},
+{
+"address": "0x31a4d4",
+"bytes": 304,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::bindFunction(char const*, void (*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*), void*)"
+},
+{
+"address": "0x31b57c",
+"bytes": 4,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::~Binder()"
+},
+{
+"address": "0x31bb54",
+"bytes": 36,
+"owner": "sfc::script::lua::Binder",
+"demangled": "sfc::script::lua::Binder::~Binder()"
+},
+{
+"address": "0x386c20",
+"bytes": 196,
+"owner": "sfc::script::lua::Binder",
+"demangled": "void sfc::script::lua::Binder::bindMethod<TestUD>(char const*, void (TestUD::*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&))"
+}
+],
+"bytes": 2668
+},
+{
+"id": "n2-game-app-sfc_script_lua_Error-3e7271-0",
+"category": "game-app",
+"owner": "sfc::script::lua::Error",
+"owners": [
+"sfc::script::lua::Error"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x31a68c",
+"bytes": 36,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::~Error()"
+},
+{
+"address": "0x31a6c0",
+"bytes": 36,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::~Error()"
+},
+{
+"address": "0x31a6f4",
+"bytes": 20,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::~Error()"
+},
+{
+"address": "0x31a714",
+"bytes": 112,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error(sfc::script::lua::Error const&)"
+},
+{
+"address": "0x31a78c",
+"bytes": 112,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error(sfc::script::lua::Error const&)"
+},
+{
+"address": "0x31a804",
+"bytes": 76,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error()"
+},
+{
+"address": "0x31a858",
+"bytes": 76,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error()"
+},
+{
+"address": "0x31a8ac",
+"bytes": 72,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::setError(lua_State*, int)"
+},
+{
+"address": "0x31a918",
+"bytes": 96,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error(lua_State*, int)"
+},
+{
+"address": "0x31a980",
+"bytes": 96,
+"owner": "sfc::script::lua::Error",
+"demangled": "sfc::script::lua::Error::Error(lua_State*, int)"
+}
+],
+"bytes": 732
+},
+{
+"id": "n2-game-app-sfc_script_lua_Instance-deec90-0",
+"category": "game-app",
+"owner": "sfc::script::lua::Instance",
+"owners": [
+"sfc::script::lua::Instance"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x31a9f0",
+"bytes": 40,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::Instance(lua_State*)"
+},
+{
+"address": "0x31aa20",
+"bytes": 40,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::Instance(lua_State*)"
+},
+{
+"address": "0x31aa50",
+"bytes": 4,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeIO()"
+},
+{
+"address": "0x31aa54",
+"bytes": 4,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includePackage()"
+},
+{
+"address": "0x31aa78",
+"bytes": 156,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::pCall_(unsigned int, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x31ab14",
+"bytes": 56,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::pCall(char const*, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x31ab4c",
+"bytes": 156,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::pCall(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x31abe8",
+"bytes": 60,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::pCall(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x31ac24",
+"bytes": 192,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::execFile(IFileStream&, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x31acf4",
+"bytes": 228,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::loadFile(StreamBuffer&)"
+},
+{
+"address": "0x31ade8",
+"bytes": 224,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::loadFile(IFileStream&)"
+},
+{
+"address": "0x31aed8",
+"bytes": 48,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::setGlobal(char const*, sfc::script::lua::Value const&)"
+},
+{
+"address": "0x31af08",
+"bytes": 180,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::registerFunction(char const*, int (*)(lua_State*), sfc::script::lua::Arguments const&)"
+},
+{
+"address": "0x31afbc",
+"bytes": 52,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::registerFunction(char const*, int (*)(lua_State*))"
+},
+{
+"address": "0x31aff0",
+"bytes": 8,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeDebug()"
+},
+{
+"address": "0x31aff8",
+"bytes": 8,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeTable()"
+},
+{
+"address": "0x31b000",
+"bytes": 8,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeMath()"
+},
+{
+"address": "0x31b008",
+"bytes": 8,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeString()"
+},
+{
+"address": "0x31b010",
+"bytes": 8,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::includeBase()"
+},
+{
+"address": "0x31b018",
+"bytes": 336,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::_chunkReader(lua_State*, void*, unsigned int*)"
+},
+{
+"address": "0x31b180",
+"bytes": 60,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::~Instance()"
+},
+{
+"address": "0x31b1c4",
+"bytes": 20,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::~Instance()"
+},
+{
+"address": "0x31b1e0",
+"bytes": 60,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::~Instance()"
+},
+{
+"address": "0x31b268",
+"bytes": 56,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::Instance()"
+},
+{
+"address": "0x31b2a8",
+"bytes": 56,
+"owner": "sfc::script::lua::Instance",
+"demangled": "sfc::script::lua::Instance::Instance()"
+}
+],
+"bytes": 2068
+},
+{
+"id": "n2-game-app-sfc_script_lua_ReturnValues-40c672-0",
+"category": "game-app",
+"owner": "sfc::script::lua::ReturnValues",
+"owners": [
+"sfc::script::lua::ReturnValues"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x31b308",
+"bytes": 144,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::_doReturn(lua_State*)"
+},
+{
+"address": "0x31b398",
+"bytes": 56,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::~ReturnValues()"
+},
+{
+"address": "0x31b3d8",
+"bytes": 20,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::~ReturnValues()"
+},
+{
+"address": "0x31b3f4",
+"bytes": 56,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::~ReturnValues()"
+},
+{
+"address": "0x31b434",
+"bytes": 52,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::ReturnValues()"
+},
+{
+"address": "0x31b470",
+"bytes": 52,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::ReturnValues()"
+},
+{
+"address": "0x31b4ac",
+"bytes": 196,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::_addFromStack(lua_State*, int)"
+},
+{
+"address": "0x37c7e4",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushBoolean(bool)"
+},
+{
+"address": "0x37c8cc",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushString(char const*)"
+},
+{
+"address": "0x37c9f8",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushUserData(sfc::script::lua::UserData*)"
+},
+{
+"address": "0x37cb24",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushInteger(int)"
+},
+{
+"address": "0x37ccbc",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushNumber(float)"
+},
+{
+"address": "0x38eb00",
+"bytes": 96,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::pushPointer(void*)"
+},
+{
+"address": "0x3da43c",
+"bytes": 84,
+"owner": "sfc::script::lua::ReturnValues",
+"demangled": "sfc::script::lua::ReturnValues::operator[](unsigned int) const"
+}
+],
+"bytes": 1236
+},
+{
+"id": "n2-game-app-pack0-0eee0b-0",
+"category": "game-app",
+"owner": "lib-lua | sfc::script::lua",
+"owners": [
+"lib-lua",
+"sfc::script::lua"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x310500",
+"bytes": 92,
+"owner": "lib-lua",
+"demangled": "LuaAllocator(void*, void*, unsigned int, unsigned int)"
+},
+{
+"address": "0x31a9e8",
+"bytes": 8,
+"owner": "sfc::script::lua",
+"demangled": "sfc::script::lua::panic(lua_State*)"
+},
+{
+"address": "0x31b224",
+"bytes": 56,
+"owner": "sfc::script::lua",
+"demangled": "sfc::script::lua::newstate()"
+}
+],
+"bytes": 156
+},
+{
+"id": "n2-game-ui-RenderFX-849cdc-0",
+"category": "game-ui",
+"owner": "RenderFX",
+"owners": [
+"RenderFX"
+],
+"part": 0,
+"parts": 4,
+"functions": [
+{
+"address": "0x7a7c34",
+"bytes": 48,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetWireFrame(bool)"
+},
+{
+"address": "0x7a7c6c",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetEventListener(RenderFX::EventListener*)"
+},
+{
+"address": "0x7a7c74",
+"bytes": 20,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetController(int)"
+},
+{
+"address": "0x7a7c88",
+"bytes": 16,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetControllerEnabled(int, bool)"
+},
+{
+"address": "0x7a7c98",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetInputBehavior(int)"
+},
+{
+"address": "0x7a7ca0",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetFlashRoot() const"
+},
+{
+"address": "0x7a7cac",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetRoot() const"
+},
+{
+"address": "0x7a7cb4",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetTextBufferingEnabled(bool)"
+},
+{
+"address": "0x7a7cc0",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetAutoLoadGlyphsEnabled(bool)"
+},
+{
+"address": "0x7a7ccc",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetRenderCachingEnabled(bool)"
+},
+{
+"address": "0x7a7cd8",
+"bytes": 20,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetAlpha(gameswf::character*) const"
+},
+{
+"address": "0x7a7cec",
+"bytes": 72,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetText(gameswf::character*)"
+},
+{
+"address": "0x7a7d34",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::GotoFrame(gameswf::character*, int, bool)"
+},
+{
+"address": "0x7a7d90",
+"bytes": 68,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetFrameCount(gameswf::character*)"
+},
+{
+"address": "0x7a7dd4",
+"bytes": 136,
+"owner": "RenderFX",
+"demangled": "RenderFX::IsAnimOver(gameswf::character*)"
+},
+{
+"address": "0x7a7e5c",
+"bytes": 36,
+"owner": "RenderFX",
+"demangled": "RenderFX::FSCommand(char const*, char const*)"
+},
+{
+"address": "0x7a7e80",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::RegisterDisplayCallback(gameswf::character*, void (*)(gameswf::render_state&, void*), void*)"
+},
+{
+"address": "0x7a7eb4",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetOrientation(gameswf::orientation_mode)"
+},
+{
+"address": "0x7a7ee8",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetContext(gameswf::character*)"
+},
+{
+"address": "0x7a7ef0",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetContext()"
+},
+{
+"address": "0x7a7fe4",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::DestroyContext(gameswf::player_context*)"
+},
+{
+"address": "0x7a850c",
+"bytes": 228,
+"owner": "RenderFX",
+"demangled": "RenderFX::RenderFX()"
+},
+{
+"address": "0x7a85f8",
+"bytes": 228,
+"owner": "RenderFX",
+"demangled": "RenderFX::RenderFX()"
+},
+{
+"address": "0x7a87fc",
+"bytes": 632,
+"owner": "RenderFX",
+"demangled": "RenderFX::DepthSearch(int)"
+},
+{
+"address": "0x7a8a84",
+"bytes": 72,
+"owner": "RenderFX",
+"demangled": "RenderFX::Find(char const*, gameswf::character*)"
+}
+],
+"bytes": 1864
+},
+{
+"id": "n2-game-ui-RenderFX-849cdc-1",
+"category": "game-ui",
+"owner": "RenderFX",
+"owners": [
+"RenderFX"
+],
+"part": 1,
+"parts": 4,
+"functions": [
+{
+"address": "0x7a8acc",
+"bytes": 316,
+"owner": "RenderFX",
+"demangled": "RenderFX::CollectCharacters(gameswf::character*, char const*, int)"
+},
+{
+"address": "0x7a8c08",
+"bytes": 100,
+"owner": "RenderFX",
+"demangled": "RenderFX::FindCharacters(gameswf::character*, char const*, int)"
+},
+{
+"address": "0x7a8cdc",
+"bytes": 144,
+"owner": "RenderFX",
+"demangled": "RenderFX::UnloadTextures(gameswf::player_context*)"
+},
+{
+"address": "0x7a8d74",
+"bytes": 12,
+"owner": "RenderFX",
+"demangled": "RenderFX::InitializeGlyphTextureCache(int, int)"
+},
+{
+"address": "0x7a8d84",
+"bytes": 580,
+"owner": "RenderFX",
+"demangled": "RenderFX::TraceHierarchy(gameswf::character*, int, int)"
+},
+{
+"address": "0x7a9008",
+"bytes": 172,
+"owner": "RenderFX",
+"demangled": "RenderFX::DBG_TraceContextInformation(gameswf::character*)"
+},
+{
+"address": "0x7a90bc",
+"bytes": 156,
+"owner": "RenderFX",
+"demangled": "RenderFX::Unload()"
+},
+{
+"address": "0x7a9160",
+"bytes": 120,
+"owner": "RenderFX",
+"demangled": "RenderFX::Find(char const*)"
+},
+{
+"address": "0x7a91d8",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::RegisterDisplayCallback(char const*, void (*)(gameswf::render_state&, void*), void*)"
+},
+{
+"address": "0x7a9204",
+"bytes": 36,
+"owner": "RenderFX",
+"demangled": "RenderFX::IsAnimOver(char const*)"
+},
+{
+"address": "0x7a9228",
+"bytes": 36,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetFrameCount(char const*)"
+},
+{
+"address": "0x7a924c",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::GotoFrame(char const*, int, bool)"
+},
+{
+"address": "0x7a9280",
+"bytes": 28,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetText(char const*)"
+},
+{
+"address": "0x7a929c",
+"bytes": 24,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetVisible(char const*, bool)"
+},
+{
+"address": "0x7a92b4",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetCursor(char const*, int)"
+},
+{
+"address": "0x7a92e0",
+"bytes": 164,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetText(gameswf::character*, char const*, bool)"
+},
+{
+"address": "0x7a9390",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetText(char const*, char const*, bool)"
+},
+{
+"address": "0x7a93bc",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::FormatHTML(char const*, char const*, ...)"
+},
+{
+"address": "0x7a941c",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::FormatText(char const*, char const*, ...)"
+},
+{
+"address": "0x7a947c",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::FormatHTML(gameswf::character*, char const*, ...)"
+},
+{
+"address": "0x7a94dc",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::FormatText(gameswf::character*, char const*, ...)"
+},
+{
+"address": "0x7a953c",
+"bytes": 100,
+"owner": "RenderFX",
+"demangled": "RenderFX::ClearGlyphTextureCaches(gameswf::player_context*)"
+},
+{
+"address": "0x7a95a8",
+"bytes": 140,
+"owner": "RenderFX",
+"demangled": "RenderFX::PreloadGlyphs(gameswf::character*)"
+},
+{
+"address": "0x7a9708",
+"bytes": 156,
+"owner": "RenderFX",
+"demangled": "RenderFX::CreateContext(RenderFX::InitializationParameters&)"
+},
+{
+"address": "0x7a97ac",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::Finalize()"
+}
+],
+"bytes": 2928
+},
+{
+"id": "n2-game-ui-RenderFX-849cdc-2",
+"category": "game-ui",
+"owner": "RenderFX",
+"owners": [
+"RenderFX"
+],
+"part": 2,
+"parts": 4,
+"functions": [
+{
+"address": "0x7a9814",
+"bytes": 200,
+"owner": "RenderFX",
+"demangled": "RenderFX::Initialize(RenderFX::InitializationParameters&)"
+},
+{
+"address": "0x7a98f8",
+"bytes": 88,
+"owner": "RenderFX",
+"demangled": "RenderFX::Initialize(glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x7a9a94",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::Render()"
+},
+{
+"address": "0x7a9ac8",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::EndDisplay()"
+},
+{
+"address": "0x7a9afc",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::BeginDisplay()"
+},
+{
+"address": "0x7a9b30",
+"bytes": 124,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetBounds(int, int, int, int, gameswf::scale_mode)"
+},
+{
+"address": "0x7a9bac",
+"bytes": 112,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetViewport(int, int, int, int)"
+},
+{
+"address": "0x7a9c1c",
+"bytes": 92,
+"owner": "RenderFX",
+"demangled": "RenderFX::PreRender()"
+},
+{
+"address": "0x7a9c80",
+"bytes": 292,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetColorFilter(gameswf::character*, int, unsigned int)"
+},
+{
+"address": "0x7a9da4",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetColorFilter(char const*, int, unsigned int)"
+},
+{
+"address": "0x7a9dd0",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetColorTransform(gameswf::character*, unsigned int, unsigned int)"
+},
+{
+"address": "0x7aa02c",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetColorTransform(char const*, unsigned int, unsigned int)"
+},
+{
+"address": "0x7aa058",
+"bytes": 140,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetAlpha(char const*, float)"
+},
+{
+"address": "0x7aa0ec",
+"bytes": 488,
+"owner": "RenderFX",
+"demangled": "RenderFX::ForceTexturesToVRAM(bool, gameswf::player_context*)"
+},
+{
+"address": "0x7aa3f0",
+"bytes": 88,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetPosition(gameswf::character*, int, int)"
+},
+{
+"address": "0x7aa5e0",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetPosition(char const*, int, int)"
+},
+{
+"address": "0x7aac54",
+"bytes": 404,
+"owner": "RenderFX",
+"demangled": "RenderFX::ClearFonts(gameswf::player_context*)"
+},
+{
+"address": "0x7aafac",
+"bytes": 256,
+"owner": "RenderFX",
+"demangled": "RenderFX::PreloadGlyphs(unsigned short*, int, char const*, int, bool, bool, gameswf::filter const*)"
+},
+{
+"address": "0x7ab0b8",
+"bytes": 276,
+"owner": "RenderFX",
+"demangled": "RenderFX::PreloadGlyphs(char const*, char const*, int, bool, bool, gameswf::filter const*)"
+},
+{
+"address": "0x7ab1cc",
+"bytes": 236,
+"owner": "RenderFX",
+"demangled": "RenderFX::~RenderFX()"
+},
+{
+"address": "0x7ab2c4",
+"bytes": 20,
+"owner": "RenderFX",
+"demangled": "RenderFX::~RenderFX()"
+},
+{
+"address": "0x7ab2e0",
+"bytes": 236,
+"owner": "RenderFX",
+"demangled": "RenderFX::~RenderFX()"
+},
+{
+"address": "0x7ab3d8",
+"bytes": 232,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetLocalVariable(char const*, char const*, gameswf::as_value&)"
+},
+{
+"address": "0x7ab4cc",
+"bytes": 252,
+"owner": "RenderFX",
+"demangled": "RenderFX::ReplaceTexture(char const*, glitch::video::ITexture*)"
+},
+{
+"address": "0x7ab5d4",
+"bytes": 228,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetMember(char const*, char const*, gameswf::as_value&)"
+}
+],
+"bytes": 4104
+},
+{
+"id": "n2-game-ui-RenderFX-849cdc-3",
+"category": "game-ui",
+"owner": "RenderFX",
+"owners": [
+"RenderFX"
+],
+"part": 3,
+"parts": 4,
+"functions": [
+{
+"address": "0x7ab6c8",
+"bytes": 104,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetMember(char const*, char const*, int)"
+},
+{
+"address": "0x7ab730",
+"bytes": 84,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetMember(char const*, char const*, char const*)"
+},
+{
+"address": "0x7ab784",
+"bytes": 144,
+"owner": "RenderFX",
+"demangled": "RenderFX::Load(char const*, gameswf::player_context*)"
+},
+{
+"address": "0x7ab924",
+"bytes": 212,
+"owner": "RenderFX",
+"demangled": "RenderFX::GotoFrame(gameswf::character*, char const*, bool)"
+},
+{
+"address": "0x7aba04",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::PlayAnim(gameswf::character*, char const*, int)"
+},
+{
+"address": "0x7aba0c",
+"bytes": 176,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetEnabled(gameswf::character*, bool)"
+},
+{
+"address": "0x7abac8",
+"bytes": 36,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetEnabled(char const*, bool)"
+},
+{
+"address": "0x7abaec",
+"bytes": 44,
+"owner": "RenderFX",
+"demangled": "RenderFX::GotoFrame(char const*, char const*, bool)"
+},
+{
+"address": "0x7abb18",
+"bytes": 8,
+"owner": "RenderFX",
+"demangled": "RenderFX::PlayAnim(char const*, char const*, int)"
+},
+{
+"address": "0x7abe0c",
+"bytes": 284,
+"owner": "RenderFX",
+"demangled": "RenderFX::InvokeASCallback(gameswf::character*, char const*, gameswf::as_value const*, int)"
+},
+{
+"address": "0x7abf34",
+"bytes": 688,
+"owner": "RenderFX",
+"demangled": "RenderFX::SendEvent(RenderFX::Event&)"
+},
+{
+"address": "0x7ac228",
+"bytes": 472,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetFocus(gameswf::character*, int)"
+},
+{
+"address": "0x7ac410",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::ResetFocus(int)"
+},
+{
+"address": "0x7ac498",
+"bytes": 36,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetFocus(char const*, int)"
+},
+{
+"address": "0x7ac4bc",
+"bytes": 732,
+"owner": "RenderFX",
+"demangled": "RenderFX::UpdateInput(int, int)"
+},
+{
+"address": "0x7ac924",
+"bytes": 580,
+"owner": "RenderFX",
+"demangled": "RenderFX::UpdateCursor(RenderFX::Cursor&, int)"
+},
+{
+"address": "0x7ad68c",
+"bytes": 84,
+"owner": "RenderFX",
+"demangled": "RenderFX::Update(int, bool)"
+},
+{
+"address": "0x7ad7e8",
+"bytes": 52,
+"owner": "RenderFX",
+"demangled": "RenderFX::InvokeASCallback(char const*, char const*, gameswf::as_value const*, int)"
+},
+{
+"address": "0x7add94",
+"bytes": 28,
+"owner": "RenderFX",
+"demangled": "RenderFX::GetSearchIndex()"
+},
+{
+"address": "0x7ae6ac",
+"bytes": 348,
+"owner": "RenderFX",
+"demangled": "RenderFX::SetTexture(char const*, glitch::video::ITexture*, bool)"
+}
+],
+"bytes": 4172
+},
+{
+"id": "n2-game-ui-pack0-47efa6-0",
+"category": "game-ui",
+"owner": "RenderFX::Event | RenderFX::EventListener | RenderFX::DepthSearchData | RenderFX::Controller | RenderFX::SearchIndex",
+"owners": [
+"RenderFX::Event",
+"RenderFX::EventListener",
+"RenderFX::DepthSearchData",
+"RenderFX::Controller",
+"RenderFX::SearchIndex"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x421e48",
+"bytes": 284,
+"owner": "RenderFX::Event",
+"demangled": "RenderFX::Event::GetCharacterPath()"
+},
+{
+"address": "0x42ca80",
+"bytes": 8,
+"owner": "RenderFX::EventListener",
+"demangled": "RenderFX::EventListener::CanHandleEvent(RenderFX::Event&)"
+},
+{
+"address": "0x7a8098",
+"bytes": 248,
+"owner": "RenderFX::DepthSearchData",
+"demangled": "RenderFX::DepthSearchData::Init(gameswf::character*, char const*)"
+},
+{
+"address": "0x7a8190",
+"bytes": 172,
+"owner": "RenderFX::DepthSearchData",
+"demangled": "RenderFX::DepthSearchData::~DepthSearchData()"
+},
+{
+"address": "0x7a84c4",
+"bytes": 72,
+"owner": "RenderFX::Controller",
+"demangled": "RenderFX::Controller::Reset()"
+},
+{
+"address": "0x7a9a34",
+"bytes": 96,
+"owner": "RenderFX::Controller",
+"demangled": "RenderFX::Controller::~Controller()"
+},
+{
+"address": "0x7aa6ac",
+"bytes": 228,
+"owner": "RenderFX::SearchIndex",
+"demangled": "RenderFX::SearchIndex::Clear()"
+},
+{
+"address": "0x7aadf8",
+"bytes": 52,
+"owner": "RenderFX::SearchIndex",
+"demangled": "RenderFX::SearchIndex::Find(char const*)"
+},
+{
+"address": "0x7adb14",
+"bytes": 600,
+"owner": "RenderFX::SearchIndex",
+"demangled": "RenderFX::SearchIndex::Init(RenderFX&)"
+}
+],
+"bytes": 1760
+}
+]
