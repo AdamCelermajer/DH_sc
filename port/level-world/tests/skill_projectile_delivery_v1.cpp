@@ -45,7 +45,7 @@ int main() {
         {ValueType::userdata,0,0,0x300,{1,2,3}},
         {ValueType::userdata,0,0,0x400,{4,5,6}}};
     assert(spawn(extended,4,0x100,0x201,&services,&result,error)==Status::complete);
-    assert(trace.order==std::vector<int>({1,2,3})&&result.returned==0&&
+    assert(trace.order==std::vector<int>({1,2,3})&&result.returned==1&&
         result.position_written&&result.destination_written&&
         trace.launch.has_position&&trace.launch.has_destination&&
         trace.launch.skill_index==1&&trace.launch.projectile_id==12);
@@ -56,7 +56,7 @@ int main() {
     assert(spawn(flagged,3,0x100,0x202,&services,&result,error)==Status::complete);
     assert(trace.launch.info_kind==
         dh2::projectile_lifecycle_runtime_v1::SetInfoKind::flag_bool&&
-        trace.launch.flag&&result.returned==0);
+        trace.launch.flag&&result.returned==1);
 
     trace={};trace.fail_position=1;
     assert(spawn(extended,4,0x100,0x203,&services,&result,error)==Status::service_failed);

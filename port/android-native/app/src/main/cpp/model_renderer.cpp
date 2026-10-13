@@ -54,6 +54,7 @@
 #include "../../../../../../port/level-world/character_oid_cache_v1.hpp"
 #include "../../../../../../port/level-world/source_level_owner_v1.hpp"
 #include "../../../../../level-world/player_skill_progression_v1.hpp"
+#include "../../../../../level-world/player_skill_property_services_v1.hpp"
 #include "../../../../../level-world/character_target_search.hpp"
 #include "../../../../../level-world/player_skill_target_top_v1.hpp"
 #include "native_player_skill_host_v1.hpp"
@@ -345,6 +346,7 @@ extern std::unique_ptr<dh2::data::condition_data_v1::Table>
 namespace MoveInZoneCollision = dh2::level_world::quest_move_in_zone_collision_v1;
 namespace MoveInZoneSensor = dh2::level_world::quest_move_in_zone_sensor_owner_v1;
 extern dh2::actor::RuntimeState prince_runtime;
+extern bool native_actor_ready;
 using Matrix=std::array<float,16>;
 bool original_real_time_ms(std::uint32_t& result) noexcept {
  timeval now{};
@@ -659,7 +661,10 @@ std::int32_t native_sct_apply_combat_v1(NativeSctActorContextV1&,
     std::uintptr_t,std::string&);
 std::int32_t native_sct_apply_to_player_v1(NativeSctActorContextV1&,
     ObjectActor&,const dh2::data::CombatResult&,std::string&);
-struct ObjectGroup{dh2::objects::Resource resource;std::vector<Draw> draws;std::deque<ObjectActor> instances;std::map<int,dh2::animation::Player> clips;int animation_table=-1;};
+// installed_model names a Character model group the renderer built on demand for
+// GameObject::_Summon (no Level actor used that CharacterTable model, so the
+// Level loader never staged it); Level-staged groups leave it empty.
+struct ObjectGroup{dh2::objects::Resource resource;std::vector<Draw> draws;std::deque<ObjectActor> instances;std::map<int,dh2::animation::Player> clips;int animation_table=-1;std::string installed_model;};
 bool retain_port_visual_controller_ready(ObjectActor& actor,
                                          const ObjectGroup& group) noexcept {
  // The direct renderer has no native VisualObject+0x38 pointer. Its same-
@@ -1016,6 +1021,11 @@ struct NativeCryptRoomRuntime {
  std::vector<ObjectActor*> actor_records;
  std::vector<dh2::object_manager_runtime_owner_v1::SourceHandle> source_handles;
  std::vector<std::unique_ptr<ScriptSummonActorOwnerV1>> script_npc_owners;
+ // The ScriptSummonFactoryContextV1 each _Summon hands its factory Record: the
+ // Record keeps that context pointer for its rollback at retirement, so the
+ // context lives here (type-erased; it is defined after this struct) until the
+ // Level's Characters are retired.
+ std::vector<std::shared_ptr<void>> script_summon_contexts;
  std::unordered_map<Address,ScriptSummonActorOwnerV1*> script_npcs_by_identity;
  std::vector<std::unique_ptr<SourceMoveInZone>> source_move_in_zones;
  std::vector<std::unique_ptr<SourceExitLevelZone>> source_exit_level_zones;
@@ -2238,6 +2248,11 @@ struct ScriptSummonFactoryContextV1 {
  const dh2::character_script_summon_v1::Request* request{};
  dh2::character_script_summon_v1::Placement placement{};
  bool source_handle_tracked=false;
+ // GameObject::_Summon called from the local Player's skill VM: the summoner
+ // is the Player Character (no container). Its GameObject::SetRotation words
+ // are carried in the renderer's rotation_degrees convention.
+ bool player_summoner=false;
+ std::array<float,3> player_rotation_degrees{};
 };
 
 ScriptSummonActorOwnerV1* script_summon_owner(
@@ -2260,6 +2275,19 @@ int script_summon_object_base(void* raw,ScriptCtor::Identity identity,
  return 0;
 }
 
+constexpr std::size_t kScriptSummonGroupHeadroom=24;
+// The retained DACT actor stores the packaged asset basename (with extension)
+// while the ModelDict holds the authored path.
+std::string script_summon_model_basename(const std::string& path) {
+ const auto separator=path.find_last_of("/\\");
+ return path.substr(separator==std::string::npos?0:separator+1);
+}
+// Builds the canonical ObjectGroup of a Character model no Level actor stages
+// (install_script_summon_object_group, bound by the Level loader once it has
+// reserved the group headroom the installer needs).
+using ScriptSummonGroupInstaller=ObjectGroup*(*)(AAssetManager*,const std::string&,
+                                                 std::int32_t,std::string&);
+ScriptSummonGroupInstaller script_summon_group_installer=nullptr;
 int script_summon_factory_component(void* raw,ScriptCtor::Component component,
     ScriptCtor::Identity identity,ScriptFactory::ComponentStorage::Slot* slot,
     std::string& error) {
@@ -2299,13 +2327,27 @@ int script_summon_factory_component(void* raw,ScriptCtor::Component component,
      std::size_t(properties[animation_index])>=actor_animation_tables.characters.size()) {
    error="CreateNPC CharacterTable ModelFile/AnimTable OID is outside retained catalog";return 1;
   }
-  const auto& model_name=actor_model_table.values[std::size_t(properties[model_index])];
+  const auto model_name=script_summon_model_basename(
+      actor_model_table.values[std::size_t(properties[model_index])]);
   const auto animation_id=properties[animation_index];
-  const auto group=std::find_if(object_groups.begin(),object_groups.end(),[&](const ObjectGroup& candidate){
-   return candidate.animation_table==animation_id&&!candidate.instances.empty()&&
-       candidate.instances.front().model==model_name;
+  auto group=std::find_if(object_groups.begin(),object_groups.end(),[&](const ObjectGroup& candidate){
+   return candidate.animation_table==animation_id&&
+       ((!candidate.instances.empty()&&candidate.instances.front().model==model_name)||
+        candidate.installed_model==model_name);
   });
-  if(group==object_groups.end()||group->resource.rest_scene.graph.empty()||
+  if(group==object_groups.end()) {
+   // No Level actor uses this CharacterTable model (a Player skill summoning a
+   // Dummy or a risen Zombie): build its canonical group from the same model,
+   // Idle clip and clip bank the Level loader stages for an actor.
+   if(!script_summon_group_installer) {
+    error="CreateNPC CharacterTable model has no installed canonical ObjectGroup and no on-demand installer is bound";
+    return 1;
+   }
+   if(!script_summon_group_installer(context->runtime->assets,model_name,
+        animation_id,error))return 1;
+   group=std::prev(object_groups.end());
+  }
+  if(group->resource.rest_scene.graph.empty()||
      group->draws.size()!=group->resource.primitives.size()) {
    error="CreateNPC CharacterTable model has no installed canonical ObjectGroup/animation draw bank";return 1;
   }
@@ -2371,8 +2413,14 @@ int script_summon_factory_component(void* raw,ScriptCtor::Component component,
    error="CreateNPC stable actor facade allocation failed";return 1;
   }
  }
- if(!owner||!owner->actor||!record->coordinator||record->coordinator->owner()!=identity) {
-  error="CreateNPC component adoption ran before its stable Actor/Coordinator existed";return 1;
+ // Character::Character constructs the controllable (step 2) before CharTimers
+ // (step 4, which creates the shared timer/state owner), so only the later
+ // components can require the Coordinator.
+ const bool coordinator_required=component!=ScriptCtor::Component::controllable;
+ if(!owner||!owner->actor||(coordinator_required&&
+      (!record->coordinator||record->coordinator->owner()!=identity))) {
+  error="CreateNPC component adoption ran before its stable Actor/Coordinator existed";
+  return 1;
  }
  auto& actor=*owner->actor;
  if(component==ScriptCtor::Component::ai) {
@@ -2424,10 +2472,18 @@ int script_summon_factory_component(void* raw,ScriptCtor::Component component,
   if(owner->controllable.character!=identity||record->faery_controller.character) {
    error="CreateNPC controller component has a duplicate or foreign controllable";return 1;
   }
-  if(dh2::character_faery_controller_v1::bind(*record,
-       reinterpret_cast<std::uintptr_t>(&record->faery_controller),
-       reinterpret_cast<std::uintptr_t>(&owner->controllable),error)!=
-       dh2::character_faery_controller_v1::Status::complete)return 1;
+  // character_faery_controller_v1::bind insists on a registered Record, which
+  // only exists after the whole constructor transaction. Publish the same
+  // aggregate it assigns; the constructor's controller association then proves
+  // it aliases this controllable and the controller slot.
+  record->faery_controller.character=identity;
+  record->faery_controller.controller=
+      reinterpret_cast<std::uintptr_t>(&record->faery_controller);
+  record->faery_controller.controllable=
+      reinterpret_cast<std::uintptr_t>(&owner->controllable);
+  record->faery_controller.global_blocked=0;
+  record->faery_controller.locked=0;
+  record->faery_controller.forced=0;
   owner->controllable.controller=record->faery_controller.controller;
   slot->canonical_owner=&record->faery_controller;return 0;
  case ScriptCtor::Component::animator:slot->canonical_owner=&actor.scheduler;return 0;
@@ -2645,7 +2701,8 @@ int script_summon_load_default_properties(void* raw,ScriptFactory::Record& recor
  record.template_id_13ca=-1;
  actor.character_table_id=static_cast<std::int16_t>(row);
  actor.character_template_id=-1;
- actor.model=actor_model_table.values[static_cast<std::size_t>(model_id)];
+ actor.model=script_summon_model_basename(
+     actor_model_table.values[static_cast<std::size_t>(model_id)]);
  record.source_model_name=actor.model;
  actor.base_class=actor.properties.base;
  actor.class_id=actor.properties.resolved.size()>26?actor.properties.resolved[26]:-1;
@@ -2664,10 +2721,48 @@ int script_summon_load_default_properties(void* raw,ScriptFactory::Record& recor
  error.clear();return 0;
 }
 
+int script_summon_prepare_player_placement(ScriptSummonFactoryContextV1& context,
+    const dh2::character_script_summon_v1::Request& request,
+    dh2::character_script_summon_v1::Placement* placement,std::string& error) {
+ if(!context.runtime||!placement||!native_actor_ready||
+    request.container_identity!=prince_character.identity()||
+    !context.runtime->level.native_floor) {
+  error="Player _Summon placement lost the live Player or floor owner";return 1;
+ }
+ const auto active=source_level_owner.snapshot();
+ // _Summon: PFWorld::GetFloorHeightAt(position) misses -> the summoner's own
+ // position; Character::SetInitialPosition then snaps the Z.
+ float position[3]{};
+ for(unsigned axis=0;axis<3;++axis) {
+  const float origin=prince_runtime.subobjects.position[axis];
+  const float delta=request.arguments.offset[axis];
+  if(!std::isfinite(origin)||!std::isfinite(delta)||
+     !std::isfinite(context.player_rotation_degrees[axis])) {
+   error="Player _Summon position or rotation is non-finite";return 1;
+  }
+  position[axis]=request.arguments.relative_to_summoner?origin+delta:delta;
+ }
+ dh2::navigation::HeightHit hit{};
+ const dh2::navigation::CollisionWorld* world=nullptr;
+ const int query=source_level_owner.query_floor(active.generation,position,0,&hit,&world);
+ if(query<0) {error="Player _Summon GetFloorHeightAt provider is unavailable";return 1;}
+ if(query==0)std::copy_n(prince_runtime.subobjects.position,3,position);
+ const int floor_status=source_level_owner.set_initial_position_height(active.generation,position);
+ if(floor_status<0) {error="Player _Summon SetInitialPosition floor provider is unavailable";return 1;}
+ placement->floor_hit=floor_status==1;
+ std::copy_n(position,3,placement->position.begin());
+ std::copy(context.player_rotation_degrees.begin(),context.player_rotation_degrees.end(),
+           placement->rotation.begin());
+ context.placement=*placement;
+ error.clear();return 0;
+}
+
 int script_summon_prepare_placement(void* raw,
     const dh2::character_script_summon_v1::Request& request,
     dh2::character_script_summon_v1::Placement* placement,std::string& error) {
  auto* context=static_cast<ScriptSummonFactoryContextV1*>(raw);
+ if(context&&context->player_summoner)
+  return script_summon_prepare_player_placement(*context,request,placement,error);
  if(!context||!context->runtime||!context->caller||!context->caller->container||
     !context->caller->container->owner.object||!placement||
     request.container_identity!=context->caller->container->owner.object->identity||
@@ -2755,6 +2850,13 @@ int script_summon_set_marker(void*,ScriptFactory::Record& record,std::string& er
 int script_summon_try_room(void* raw,std::uintptr_t container_identity,
     ScriptFactory::Record& record,std::string& error) {
  auto* context=static_cast<ScriptSummonFactoryContextV1*>(raw);
+ if(context&&context->player_summoner) {
+  // The Player is never a RoomZone member (its +0x2f4 stays null), so _Summon
+  // takes the AddNoRoomObject + ZoneEntered fallback.
+  if(!context->runtime||container_identity!=prince_character.identity()||
+     !record.object_registered||!record.character_listed)return -1;
+  error.clear();return 0;
+ }
  if(!context||!context->runtime||!context->caller||!context->caller->container||
     container_identity!=context->caller->container->owner.object->identity||
     !record.object_registered||!record.character_listed)return -1;
@@ -2824,23 +2926,26 @@ int script_summon_set_spawn_state(void*,ScriptFactory::Record& record,std::strin
  error.clear();return 0;
 }
 
-int native_source_summon_character(void* raw,
+// GameObject::_Summon's shared tail: the source Character factory plus the
+// CreateNPC/SetInitialPosition/SetPosition/SetRotation/room lifecycle. The caller
+// supplies the summoner-specific ObjectManager seed (container or Player) and a
+// factory context whose placement/room callbacks know that summoner.
+int native_run_script_summon(NativeCryptRoomRuntime& runtime,
+    const ScriptSummonFactoryContextV1& prepared_context,
     const dh2::character_script_summon_v1::Request* request,
+    dh2::object_manager_runtime_owner_v1::GameObject& manager_seed,
     std::uintptr_t* identity,std::string& error) {
- if(identity)*identity=0;
- auto* caller=static_cast<SourceContainerCallbackContext*>(raw);
- if(!caller||!caller->runtime||!caller->container||!request||!identity||
-    !caller->container->owner.object||request->container_identity!=
-      caller->container->owner.object->identity||!caller->runtime->character_factory||
-    !caller->runtime->level.native_floor||!request->arguments.request_spawn_state) {
-  error="GameObject::_Summon provider lacks the exact active container/Level factory or source arguments";return 1;
- }
- auto& runtime=*caller->runtime;
- if(runtime.manager.find_by_identity(request->container_identity)!=
-      caller->container->owner.object||runtime.actors.find(request->container_identity)==runtime.actors.end()) {
-  error="GameObject::_Summon caller is not the retained current ObjectManager actor";return 1;
- }
  try {
+  runtime.script_summon_contexts.reserve(runtime.script_summon_contexts.size()+1);
+  auto persistent=std::make_shared<ScriptSummonFactoryContextV1>(prepared_context);
+  runtime.script_summon_contexts.push_back(persistent);
+  auto& factory_context=*persistent;
+  // The request lives on the caller's stack; only the retired Record's
+  // rollback (runtime + factory) reads this context after the call.
+  struct RequestGuard {
+   ScriptSummonFactoryContextV1& context;
+   ~RequestGuard(){context.request=nullptr;}
+  } request_guard{factory_context};
   // Reserve vector/map capacity before the source Character factory publishes
   // its ObjectManager and CharacterList rows. Both the Record and Actor facade
   // then keep stable heap addresses for this active Level.
@@ -2849,9 +2954,8 @@ int native_source_summon_character(void* raw,
   runtime.actors.reserve(runtime.actors.size()+1);
   runtime.actor_records.reserve(runtime.actor_records.size()+1);
   runtime.source_handles.reserve(runtime.source_handles.size()+1);
-  ScriptSummonFactoryContextV1 factory_context{};
   factory_context.runtime=&runtime;factory_context.factory=runtime.character_factory.get();
-  factory_context.caller=caller;factory_context.request=request;
+  factory_context.request=request;
   const ScriptFactory::Services factory_services{
       &factory_context,script_summon_factory_component,
       script_summon_factory_associate,script_summon_factory_register_state,
@@ -2862,19 +2966,6 @@ int native_source_summon_character(void* raw,
       script_summon_set_rotation,script_summon_set_marker,script_summon_try_room,
       script_summon_add_no_room,script_summon_zone_entered,
       script_summon_set_spawn_state};
-  auto* container_row=runtime.manager.find_by_identity(request->container_identity);
-  if(!container_row||container_row->module_id_64<0) {
-   error="GameObject::_Summon container has no source ObjectBase module ID";return 1;
-  }
-  dh2::object_manager_runtime_owner_v1::GameObject manager_seed{};
-  manager_seed.module_id_64=container_row->module_id_64;
-  const auto container_actor=runtime.actors.find(request->container_identity);
-  if(container_actor==runtime.actors.end()||!container_actor->second||
-     container_actor->second->identity!=request->container_identity) {
-   error="GameObject::_Summon has no live caller Character/ObjectActor transform";return 1;
-  }
-  manager_seed.world_x=container_actor->second->position[0];
-  manager_seed.world_y=container_actor->second->position[1];
   manager_seed.source_module_index=std::numeric_limits<std::uint32_t>::max();
   manager_seed.source_record=std::numeric_limits<std::uint32_t>::max();
   manager_seed.source_provenance_ready=0;manager_seed.save_facts_ready=0;
@@ -2907,6 +2998,73 @@ int native_source_summon_character(void* raw,
  } catch(...) {
   error="GameObject::_Summon native source adapter failed";return 1;
  }
+}
+
+int native_source_summon_character(void* raw,
+    const dh2::character_script_summon_v1::Request* request,
+    std::uintptr_t* identity,std::string& error) {
+ if(identity)*identity=0;
+ auto* caller=static_cast<SourceContainerCallbackContext*>(raw);
+ if(!caller||!caller->runtime||!caller->container||!request||!identity||
+    !caller->container->owner.object||request->container_identity!=
+      caller->container->owner.object->identity||!caller->runtime->character_factory||
+    !caller->runtime->level.native_floor||!request->arguments.request_spawn_state) {
+  error="GameObject::_Summon provider lacks the exact active container/Level factory or source arguments";return 1;
+ }
+ auto& runtime=*caller->runtime;
+ if(runtime.manager.find_by_identity(request->container_identity)!=
+      caller->container->owner.object||runtime.actors.find(request->container_identity)==runtime.actors.end()) {
+  error="GameObject::_Summon caller is not the retained current ObjectManager actor";return 1;
+ }
+ auto* container_row=runtime.manager.find_by_identity(request->container_identity);
+ if(!container_row||container_row->module_id_64<0) {
+  error="GameObject::_Summon container has no source ObjectBase module ID";return 1;
+ }
+ const auto container_actor=runtime.actors.find(request->container_identity);
+ if(container_actor==runtime.actors.end()||!container_actor->second||
+    container_actor->second->identity!=request->container_identity) {
+  error="GameObject::_Summon has no live caller Character/ObjectActor transform";return 1;
+ }
+ dh2::object_manager_runtime_owner_v1::GameObject manager_seed{};
+ manager_seed.module_id_64=container_row->module_id_64;
+ manager_seed.world_x=container_actor->second->position[0];
+ manager_seed.world_y=container_actor->second->position[1];
+ ScriptSummonFactoryContextV1 factory_context{};
+ factory_context.caller=caller;
+ return native_run_script_summon(runtime,factory_context,request,manager_seed,
+                                 identity,error);
+}
+
+// GameObject::_Summon with the local Player Character as the summoner (the
+// Player skill VM's Summon). The Player is not a container and has no RoomZone,
+// so the room tail takes the AddNoRoomObject fallback.
+int native_player_summon_character(
+    const dh2::character_script_summon_v1::Request* request,
+    const std::array<float,3>& rotation_degrees,
+    std::uintptr_t* identity,std::string& error) {
+ if(identity)*identity=0;
+ if(!request||!identity||!active_crypt_room_runtime||!native_actor_ready||
+    request->container_identity!=prince_character.identity()||
+    !active_crypt_room_runtime->character_factory||
+    !active_crypt_room_runtime->level.native_floor) {
+  error="Player GameObject::_Summon lacks the live Player, Level factory or source arguments";return 1;
+ }
+ auto& runtime=*active_crypt_room_runtime;
+ auto* player_row=runtime.manager.find_by_identity(request->container_identity);
+ if(!player_row||player_row->identity!=request->container_identity) {
+  error="Player GameObject::_Summon lost the Player ObjectManager row";return 1;
+ }
+ // Character::CreateNPC spawns through ObjectManager::Spawn -> GetNewObject
+ // with module -1 (ObjectBase's constructor default), so the new Character
+ // keeps the seed's default module id.
+ dh2::object_manager_runtime_owner_v1::GameObject manager_seed{};
+ manager_seed.world_x=prince_runtime.subobjects.position[0];
+ manager_seed.world_y=prince_runtime.subobjects.position[1];
+ ScriptSummonFactoryContextV1 factory_context{};
+ factory_context.player_summoner=true;
+ factory_context.player_rotation_degrees=rotation_degrees;
+ return native_run_script_summon(runtime,factory_context,request,manager_seed,
+                                 identity,error);
 }
 
 bool native_level_save_direct_actor_v1(
@@ -3107,6 +3265,37 @@ bool native_level_save_read_object_facts_v1(void* raw,
   return true;
  }
 
+ // Rows the LevelSavegame never writes. ObjectBase::ObjectBase stores 0 at +0x28
+ // and Projectile::Projectile (0x3e5e40) leaves it, so the pooled
+ // ProjectileManager objects are listed with a zero eligibility gate and
+ // __SaveObjects skips them. A Character created by GameObject::_Summon is
+ // eligible in the source (Character::Character stores 1), but the port has no
+ // dynamic-Character LevelSavegame reload path for it yet: leave the temporary
+ // ally out of the image (loudly) rather than failing the whole save.
+ {
+  const bool projectile=active_crypt_level_projection&&
+      active_crypt_level_projection->projectile_owner&&
+      active_crypt_level_projection->projectile_owner->find(row.identity);
+  const bool summoned=!projectile&&active_crypt_room_runtime&&
+      active_crypt_room_runtime->script_npcs_by_identity.count(row.identity);
+  if(projectile||summoned) {
+   if(summoned)
+    __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+        "LevelSavegame skips script-summoned Character %s | dynamic Character reload is not implemented",
+        row.name.c_str());
+   dh2::level_savegame_owner_v1::Object facts{};
+   facts.identity=row.identity;
+   facts.name=row.name;
+   facts.manager_key=row.name;
+   facts.type_word=row.live_fields.module_id_64?
+       *row.live_fields.module_id_64:row.module_id_64;
+   facts.enabled=0;
+   facts.is_character=summoned?1:0;
+   *output=std::move(facts);
+   error.clear();
+   return false;
+  }
+ }
  auto publish_noncharacter_facts=[&](const dh2::world::SourceObjectCensusV1& source)->bool {
   std::uint8_t gate=0,deleted=0;
   if(record||!row.source_provenance_ready||row.name.empty()||
@@ -3276,7 +3465,7 @@ bool native_level_save_read_object_facts_v1(void* raw,
    }
   }
   if(!actor&&!faery) {
-   error="LevelSavegame Character row has no retained source actor or Faery owner";
+   error="LevelSavegame Character row has no retained source actor or Faery owner: "+row.name;
    return true;
   }
  }
@@ -8203,8 +8392,19 @@ bool NativeCryptRoomRuntime::clear() noexcept {
       manager.find_by_identity(retired_identity)||
       source_char_ai.by_character.find(retired_identity)!=
           source_char_ai.by_character.end()||
-      native_characters.contains_identity(retired_identity))
+      native_characters.contains_identity(retired_identity)) {
+    __android_log_print(ANDROID_LOG_ERROR,"DH2Native",
+     "CreateNPC retirement left owners | factory status %d (%s) | record %d | identity %d | ai %d | spawn %d | inventory %d | script map %d | actors %d | manager %d | char_ai %d | roster %d",
+     int(status),error.c_str(),int(bool((*script_npc)->record)),int((*script_npc)->actor->identity!=0),
+     int(bool((*script_npc)->actor->native_ai)),int(bool((*script_npc)->actor->spawn_owner)),
+     int(bool((*script_npc)->actor->source_inventory)),
+     int(script_npcs_by_identity.find(retired_identity)!=script_npcs_by_identity.end()),
+     int(actors.find(retired_identity)!=actors.end()),
+     int(manager.find_by_identity(retired_identity)!=nullptr),
+     int(source_char_ai.by_character.find(retired_identity)!=source_char_ai.by_character.end()),
+     int(native_characters.contains_identity(retired_identity)));
     return (native_room_clear_fail_line=__LINE__,false);
+   }
    continue;
   }
   const auto actor=std::find_if(actor_records.begin(),actor_records.end(),
@@ -8252,6 +8452,7 @@ bool NativeCryptRoomRuntime::clear() noexcept {
  trigger_interaction_tables.reset();
  destructible_container_tables.reset();
  faeries.clear();script_npc_owners.clear();script_npcs_by_identity.clear();
+ script_summon_contexts.clear();
  actors.clear();actor_records.clear();source_handles.clear();player_identity=0;
  assets=nullptr;
  enrolled_characters=0;module_owner=nullptr;room_zones_enabled=false;
@@ -11889,8 +12090,9 @@ int SpawnOwner::buff_service(void* raw,dh2::data::PropertyView* view,
   response->word=owner.character.start_timer(request->duration,request->repeat,
                                               request->event,request->subject);
   return response->word< -1?1:0;
- case Operation::timer_stop:
+ case Operation::timer_stop:{
   return owner.character.stop_timer(std::uint32_t(request->id))<0?1:0;
+ }
  case Operation::timer_time_left:
   return dh2_character_timer_time_left(&response->elapsed,&response->duration,
        &owner.character.timers(),std::uint32_t(request->id))==1?0:1;
@@ -11972,18 +12174,27 @@ dh2::character::TimerRouting SpawnOwner::timer_route(void* raw,
         dh2::character_player_buffs_v1::Status::complete?Route::delivered:Route::failed;
 }
 void retire_native_monster_scripts(bool preserve);
-void clear_actor_world(bool preserve_scripts=false) {
- // Actor groups are about to replace their PropertyState backing. Deliver the
- // source RemoveAllBuffs prefix while each Character still owns its old view;
- // retire its per-Character owner before the stable SpawnOwner is rebound.
+// Actor groups are about to replace their PropertyState backing. Deliver the
+// source RemoveAllBuffs prefix while each Character still owns its old view;
+// retire its per-Character owner before the stable SpawnOwner is rebound. A buff
+// owns its AnimatedFX instance, so this must run while the FX manager is alive:
+// Character::~Character releases the buffs before the Level drops the manager.
+void retire_actor_buff_owners() {
  for(auto& group:object_groups)for(auto& actor:group.instances)if(actor.spawn_owner&&actor.spawn_owner->buffs){
   auto& owner=*actor.spawn_owner;
   dh2::character_player_buffs_v1::Result removed{},retired{};
-  if(owner.buffs->remove_all(&removed)!=dh2::character_player_buffs_v1::Status::complete||
-     owner.buffs->retire(&retired)!=dh2::character_player_buffs_v1::Status::complete)
-   throw std::runtime_error("Monster buff owner retirement failed before Character property replacement");
+  const auto removed_status=owner.buffs->remove_all(&removed);
+  const auto retired_status=owner.buffs->retire(&retired);
+  if(removed_status!=dh2::character_player_buffs_v1::Status::complete||
+     retired_status!=dh2::character_player_buffs_v1::Status::complete)
+   throw std::runtime_error("Monster buff owner retirement failed before Character property replacement | "+
+       actor.name+" | identity "+std::to_string(actor.identity)+" | remove_all "+
+       std::to_string(int(removed_status))+" | retire "+std::to_string(int(retired_status)));
   owner.buffs.reset();owner.buff_properties={};
  }
+}
+void clear_actor_world(bool preserve_scripts=false) {
+ retire_actor_buff_owners();
  retire_native_monster_scripts(preserve_scripts);
  destroy_native_world_item_bodies();
  if(prince_body.body&&!prince_body_owner.retire_character_identity())
@@ -15605,14 +15816,27 @@ bool initialize_script_summon_ais(ScriptSummonActorOwnerV1& summoned,
        dh2::character_constructor_owner_v1::Component::properties)!=&actor->properties||
      !actor->spawn_owner||actor->spawn_owner->actor!=actor||
      actor->spawn_owner->character.owner()!=actor->identity||
-     !actor->spawn_owner->runtime_ready||!actor->spawn_owner->body.body) {
-   error="CreateNPC AIS initialization lost its same-Record Character, SpawnOwner, or body";
+     !actor->spawn_owner->runtime_ready) {
+   error="CreateNPC AIS initialization lost its same-Record Character or SpawnOwner";
    return false;
   }
   const auto* props=native_actor_ai_props(*actor);
-  if(!props||!native_character_classification(*actor,
+  if(!props) {
+   error="CreateNPC retained CharacterTable row has no AITable row";return false;
+  }
+  if(!native_character_classification(*actor,
        dh2::character_ai_classification::Query::monster)||props->script!="monster") {
-   error="CreateNPC retained CharacterTable row does not select the supported Monster AIS path";
+   // The external AIS session hosts only the Monster script today. Any other
+   // row (the Stone Escape statue's Dummy, the risen zombies'
+   // attacking_follower) keeps its constructed CharAI without an active AIS,
+   // which CharAI::Update treats as a Character that raises no script events.
+   __android_log_print(ANDROID_LOG_WARN,"DH2Native",
+       "CreateNPC external AIS '%s' is not hosted by the Monster AIS session; %s runs without an active AIS",
+       props->script.c_str(),actor->name.c_str());
+   error.clear();return true;
+  }
+  if(!actor->spawn_owner->body.body) {
+   error="CreateNPC Monster AIS initialization lost its Character physical body";
    return false;
   }
   if(ai->initialization) {
@@ -16906,7 +17130,7 @@ bool initialize_script_summon_runtime(ScriptSummonActorOwnerV1& summoned,
      runtime->manager.find_by_identity(actor->identity)!=
        runtime->manager.find_by_source_handle(record->source_handle)||
      !record->coordinator||record->coordinator->owner()!=actor->identity||
-     !record->coordinator->bound()||!actor->native_ai||
+     !actor->native_ai||
      actor->native_ai->character_identity!=actor->identity||
      actor->native_ai->state.owner_04!=actor->identity||
      actor->animation_table_id<0||
@@ -16914,7 +17138,18 @@ bool initialize_script_summon_runtime(ScriptSummonActorOwnerV1& summoned,
      group->instances.empty()||&group->instances.back()!=actor||
      group->draws.size()!=group->resource.primitives.size()||
      !runtime->level.native_floor) {
+   // The SpawnOwner (which binds the Coordinator's facts/services) is created
+   // just below, so the Coordinator is not bound yet at this point.
    error="CreateNPC visual/runtime setup lost its same-Record actor, draw bank, or active Level";
+   if(runtime&&actor&&group&&record)
+    error+=" | registered "+std::to_string(int(runtime->script_npcs_by_identity.count(actor->identity)))+
+        " | manager "+std::to_string(int(runtime->manager.find_by_identity(actor->identity)!=nullptr))+
+        " | coordinator "+std::to_string(int(bool(record->coordinator)))+
+        " | ai "+std::to_string(int(bool(actor->native_ai)))+
+        " | anim "+std::to_string(actor->animation_table_id)+"/"+std::to_string(group->animation_table)+
+        " | last "+std::to_string(int(!group->instances.empty()&&&group->instances.back()==actor))+
+        " | draws "+std::to_string(group->draws.size())+"/"+std::to_string(group->resource.primitives.size())+
+        " | floor "+std::to_string(int(runtime->level.native_floor!=nullptr));
    return false;
   }
   if(!actor->spawn_owner) {
@@ -17001,15 +17236,18 @@ bool initialize_script_summon_runtime(ScriptSummonActorOwnerV1& summoned,
   body.absolute_bounds[2]=bounds.absolute_box[3];
   body.absolute_bounds[3]=bounds.absolute_box[4];
   body.position[0]=actor->position[0];body.position[1]=actor->position[1];
-  if(dh2_character_body_config(&owner.config,&body)||!owner.config.enabled) {
+  if(dh2_character_body_config(&owner.config,&body)) {
    error="CreateNPC Character physical body configuration failed";return false;
   }
-  owner.character.state={};owner.character.state.body_present=1;
+  // Character::InitPhysicalObject creates no PhysicalObject for AI types
+  // without a collision definition (type 0: the Stone Escape statue).
+  const bool has_body=owner.config.enabled!=0;
+  owner.character.state={};owner.character.state.body_present=has_body?1:0;
   if(owner.character.transition(3)<0) {
    error="CreateNPC Character Idle state initialization failed";return false;
   }
   actor->state="Idle";
-  owner.create_body();
+  if(has_body)owner.create_body();
   owner.initialize_runtime(*group,bounds,mesh.effective_scale);
   std::copy(owner.runtime.subobjects.position,
       owner.runtime.subobjects.position+3,actor->initial_position.begin());
@@ -22766,6 +23004,8 @@ void reset_context(){
   if(!retire_player_target_fx(fx_retire_error)) {
    throw std::runtime_error("Terminal EGL reset Character FX retirement failed: "+fx_retire_error);
   }
+  // Monster buffs release their AnimatedFX through the manager dropped below.
+  retire_actor_buff_owners();
   if(native_fx_owner)native_fx_owner->Flush();
   native_fx_owner.reset();native_fx_catalog.reset();native_fx_backend.assets=nullptr;
  }
@@ -22950,6 +23190,8 @@ void deactivate(bool defer_source_level_finish){
  std::string character_fx_cleanup_error;
  if(!retire_player_target_fx(character_fx_cleanup_error))
   throw std::runtime_error("Terminal Level Character FX cleanup failed: "+character_fx_cleanup_error);
+ // Monster buffs release their AnimatedFX through the manager dropped below.
+ retire_actor_buff_owners();
  if(native_fx_owner)native_fx_owner->Flush();
  native_fx_owner.reset();native_fx_catalog.reset();
  release_native_fx_textures(true);native_fx_backend.assets=nullptr;
@@ -23538,6 +23780,126 @@ bool ensure_source_actor_anim_dictionary(ObjectGroup& group,std::int32_t id,
  } catch(const std::exception& failure) {
   error=failure.what();return false;
  }
+}
+
+// Builds the canonical ObjectGroup (BDAE resource, Character clip bank and GL
+// draw bank) of a CharacterTable model no Level actor uses, exactly as the Level
+// loader stages one for a kind-1 record: the model is bound to the AnimTable's
+// first Idle clip, every Idle/Walk/Attack/Died clip and each optional reaction
+// clip is loaded against the model's rest scene, and every primitive gets its
+// vertex/index buffers and textures. Used by GameObject::_Summon.
+ObjectGroup* install_script_summon_object_group(AAssetManager* assets,
+    const std::string& model_name,std::int32_t animation_table,std::string& error) {
+ error.clear();
+ if(!assets||model_name.empty()||animation_table<0||
+    std::size_t(animation_table)>=actor_animation_tables.characters.size()) {
+  error="CreateNPC model install lacks the asset manager, model or AnimTable";return nullptr;
+ }
+ if(object_groups.size()>=object_groups.capacity()) {
+  error="CreateNPC model install has no ObjectGroup headroom (the vector must not reallocate)";
+  return nullptr;
+ }
+ try {
+  const auto* idle=dh2::data::animation_state(actor_animation_tables,animation_table,"Idle");
+  if(!idle) {error="CreateNPC model install: the AnimTable has no Idle state";return nullptr;}
+  // The Level loader binds the model to the Idle clip its first actor selects.
+  // Select it on a copy of the animation RNG so the shared stream is untouched.
+  auto random=actor_random;
+  dh2::data::AnimationScheduler scheduler;
+  if(!scheduler.start(actor_animation_tables,
+        static_cast<std::int32_t>(idle-actor_animation_tables.sequences.data()),random,error))
+   return nullptr;
+  const auto* idle_path=dh2::data::animation_clip(scheduler.clip(),actor_clip_table);
+  if(!idle_path) {error="CreateNPC model install: the Idle clip path is absent";return nullptr;}
+  const auto basename=[](const std::string& path){
+   const auto separator=path.find_last_of("/\\");
+   return path.substr(separator==std::string::npos?0:separator+1);
+  };
+  const auto& model_file=model_name;
+  const auto model=read(assets,model_file,"actors");
+  const auto clip=read(assets,basename(*idle_path),"actors");
+  ObjectGroup group;
+  group.animation_table=animation_table;group.installed_model=model_name;
+  // The invisible-man / energy-spawner Characters (the Stone Escape statue) are
+  // intentionally empty visuals, loaded as in the Level staging path.
+  const bool empty_visual=model_file=="invisible_man.bdae"||model_file=="energyspawner.bdae";
+  const bool loaded=empty_visual
+      ?dh2::objects::load_intentional_empty_character_visual(model.data(),model.size(),
+          clip.data(),clip.size(),group.resource,error)
+      :dh2::objects::load_resource(model.data(),model.size(),clip.data(),clip.size(),
+          group.resource,error);
+  if(!loaded) {
+   error=model_name+": "+error;return nullptr;
+  }
+  std::set<int> ids,reaction_ids;
+  std::function<void(int,unsigned,std::set<int>&)> collect=
+   [&](int id,unsigned depth,std::set<int>& out){
+    if(depth>=3||id<0||unsigned(id)>=actor_animation_tables.sequences.size())
+     throw std::runtime_error("Actor clip bank redirect outside limit");
+    for(const auto& step:actor_animation_tables.sequences[id].steps) {
+     if(step.redir==1)collect(step.anim,depth+1,out);
+     else if(step.anim>=0)out.insert(step.anim);
+     else throw std::runtime_error("Actor clip bank contains an empty clip");
+    }
+   };
+  for(const auto* state_name:{"Idle","Walk","Attack","Died","Dodging","Blocking","Injured",
+                              "Scared","Stunned","GreatKnockedBack","KnockedBack"}) {
+   const auto* state=dh2::data::animation_state(actor_animation_tables,animation_table,state_name);
+   const bool reaction=std::strcmp(state_name,"Idle")&&std::strcmp(state_name,"Walk")&&
+       std::strcmp(state_name,"Attack")&&std::strcmp(state_name,"Died");
+   if(!state) {
+    if(!std::strcmp(state_name,"Idle"))
+     throw std::runtime_error("Actor clip bank Idle state missing: "+model_name);
+    continue;
+   }
+   collect(static_cast<int>(state-actor_animation_tables.sequences.data()),0,
+           reaction?reaction_ids:ids);
+  }
+  std::set<int> optional_ids;
+  for(int id:reaction_ids)if(!ids.count(id))optional_ids.insert(id);
+  ids.insert(optional_ids.begin(),optional_ids.end());
+  for(int id:ids) {
+   dh2::data::AnimationStep ref;ref.anim=id;
+   const auto* path=dh2::data::animation_clip(ref,actor_clip_table);
+   if(!path)throw std::runtime_error("Actor clip bank path missing");
+   const auto raw_clip=read(assets,basename(*path),"actors");
+   auto& playback=group.clips[id];
+   if(!playback.load(raw_clip.data(),raw_clip.size(),group.resource.rest_scene,error,
+        dh2::animation::MissingTargets::ignore)||playback.end<=playback.start) {
+    if(!optional_ids.count(id))throw std::runtime_error("Actor clip bank: "+error);
+    group.clips.erase(id);
+   }
+  }
+  std::map<std::string,GLuint> cache;
+  for(const auto& primitive:group.resource.primitives) {
+   Draw d;d.node=primitive.node;
+   d.material=group.resource.scene.materials.at(primitive.material);
+   group.draws.push_back(std::move(d));
+   auto& batch=group.draws.back();
+   batch.diffuse=upload(assets,batch.material.diffuse,cache,images);
+   batch.alpha=upload(assets,batch.material.alpha_map,cache,images);
+   batch.count=static_cast<GLsizei>(primitive.indices.size());
+   glGenBuffers(1,&batch.vertices);glBindBuffer(GL_ARRAY_BUFFER,batch.vertices);
+   glBufferData(GL_ARRAY_BUFFER,primitive.vertices.size()*sizeof(Vertex),
+                primitive.vertices.data(),
+                primitive.skin.nodes.empty()?GL_STATIC_DRAW:GL_DYNAMIC_DRAW);
+   glGenBuffers(1,&batch.indices);glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,batch.indices);
+   glBufferData(GL_ELEMENT_ARRAY_BUFFER,primitive.indices.size()*2,
+                primitive.indices.data(),GL_STATIC_DRAW);
+   check("Summon object buffer upload");
+  }
+  object_groups.push_back(std::move(group));
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Script Summon object resource installed | %s | AnimTable %d | primitives %zu | clips %zu",
+      model_name.c_str(),animation_table,object_groups.back().draws.size(),
+      object_groups.back().clips.size());
+  return &object_groups.back();
+ } catch(const std::exception& exception) {
+  error=std::string("CreateNPC model install failed: ")+exception.what();
+ } catch(...) {
+  error="CreateNPC model install failed";
+ }
+ return nullptr;
 }
 
 // The staged Prince bank is the original CharAnimator::SetAnimationSet request
@@ -28148,6 +28510,12 @@ bool update_ordered_character_v1(void* raw,
  if(active_crypt_level_projection&&
     active_crypt_level_projection->projectile_owner&&
     active_crypt_level_projection->projectile_owner->find(object->identity)) {
+  // Projectile::DeSpawn ran setUpdating(false) on this object (its owner died,
+  // it expired or hit) earlier in this very traversal; the manager removes the
+  // row on its next flush, and a non-updating object takes no Update.
+  const bool updating=object->live_fields.updating_85?
+      *object->live_fields.updating_85!=0:object->updating_85!=0;
+  if(!updating)return true;
   if(!update_native_projectile_v1(object->identity,context.dt_ms,
                                   context.error)) {
    if(context.error.empty())
@@ -31191,6 +31559,9 @@ struct NativeSkillProjectileBridgeV1 {
 };
 bool native_projectile_apply_set_info_destination_v1(
     const dh2::skill_projectile_delivery_v1::Launch&,std::uintptr_t);
+void skill_host_rotation(std::uintptr_t identity,float (&out)[3]);
+int native_skill_projectile_read_point_v1(void*,std::uintptr_t,
+    dh2::skill_projectile_delivery_v1::Point3f*);
 int native_skill_projectile_spawn_v1(void* raw,
     const dh2::skill_projectile_delivery_v1::Launch& launch,
     std::uintptr_t* projectile) {
@@ -32415,6 +32786,11 @@ bool update_native_projectile_v1(std::uintptr_t identity,std::uint32_t dt_ms,
  }
  if(!payload||!object||!payload->active) {
   error="Projectile ordered update lost its canonical ObjectManager product";
+  if(payload)
+   error+=std::string(" | row ")+std::to_string(payload->projectile_id)+
+       " | active "+std::to_string(int(payload->active))+
+       " | expired "+std::to_string(int(payload->expired))+
+       " | object "+std::to_string(int(object!=nullptr));
   return false;
  }
  note_native_projectile_flight_v1(*payload);
@@ -32953,12 +33329,42 @@ void skill_host_ai_flags(skill_host::ObjectFacts& facts,const dh2::data::Propert
  if(std::size_t(id)>=actor_ai_tables.rows.size())return;
  facts.ai_flags=actor_ai_tables.rows[std::size_t(id)].flags;facts.has_ai_flags=true;
 }
+// GameObject+0x16c EulerXYZ words: radians in the live runtime rotation.
+void skill_host_rotation(std::uintptr_t identity,float (&out)[3]){
+ constexpr float radians=0.01745329251994329577f;
+ if(identity==prince_character.identity()){
+  std::copy_n(prince_runtime.rotation.rotation,3,out);return;
+ }
+ auto* actor=native_char_ai_actor(identity);
+ if(!actor)return;
+ if(actor->spawn_owner&&actor->spawn_owner->runtime_ready){
+  std::copy_n(actor->spawn_owner->runtime.rotation.rotation,3,out);return;
+ }
+ for(unsigned i=0;i<3;++i)out[i]=actor->rotation_degrees[i]*radians;
+}
+// A projectile is a GameObject too (the `hack._this = projectile` pattern of
+// the teleport skills reads its position): its product owner holds the live
+// +0x160 point.
+bool skill_host_projectile_position(std::uintptr_t identity,float (&out)[3]){
+ if(!identity||!active_crypt_level_projection||
+    !active_crypt_level_projection->projectile_owner)return false;
+ const auto* payload=active_crypt_level_projection->projectile_owner->find(identity);
+ if(!payload)return false;
+ out[0]=payload->position.x;out[1]=payload->position.y;out[2]=payload->position.z;
+ return std::isfinite(out[0])&&std::isfinite(out[1])&&std::isfinite(out[2]);
+}
 int skill_host_object_facts(void*,std::uintptr_t identity,skill_host::ObjectFacts* facts){
  if(!identity||!facts)return 1;
  *facts={};
  float position[3]{};
- if(!skill_host_position(identity,position))return 1;
+ if(!skill_host_position(identity,position)){
+  if(!skill_host_projectile_position(identity,position))return 1;
+  std::copy(position,position+3,facts->position);
+  skill_host_copy_name(*facts,"Projectile");
+  return 0;
+ }
  std::copy(position,position+3,facts->position);
+ skill_host_rotation(identity,facts->rotation);
  if(identity==prince_character.identity()){
   const auto& props=prince_combat.properties.resolved;
   facts->is_character=true;facts->is_player=true;
@@ -33292,6 +33698,9 @@ int skill_host_object_command(void*,skill_host::ObjectCommand command,
    error="receiver is not a canonical source NPC";return 1;
   }
   if(actor->combat_state.dead)return 0; // Ctrl_Kill skips an already dead target
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Player skill host Kill | %s | killer %llx",actor->name.c_str(),
+      static_cast<unsigned long long>(other));
   if(other==prince_character.identity())
    return native_group_ctrl_kill_player(*actor,other,false,error)?0:1;
   if(other){error="Kill by a non-Player killer is not attached";return 1;}
@@ -33317,6 +33726,402 @@ int skill_host_object_command(void*,skill_host::ObjectCommand command,
  }
  error="unknown GameObject command";return 1;
 }
+
+// ---------------------------------------------------------------------------
+// Character controller / path / master / level / summon / property providers
+// for the Player skill VM. Receivers are the local Player or a Character with a
+// retained SpawnOwner (source Monsters and script Summons); every provider
+// drives the same canonical owner the monster VM and the FSM already use.
+// ---------------------------------------------------------------------------
+void refresh_prince_facts();
+int prince_controller_raise_character_event(void*,std::uint32_t);
+
+bool skill_host_npc_owner(std::uintptr_t receiver,ObjectActor*& actor,SpawnOwner*& owner,
+                          std::string& error){
+ actor=nullptr;owner=nullptr;
+ if(!receiver||receiver==prince_character.identity()){
+  error="receiver is not a non-Player Character";return false;
+ }
+ actor=native_char_ai_actor(receiver);
+ if(!actor||actor->kind!=1||actor->identity!=receiver||!actor->spawn_owner){
+  error="receiver has no retained Character SpawnOwner";return false;
+ }
+ owner=actor->spawn_owner.get();
+ if(!owner->runtime_ready||owner->actor!=actor||owner->character.owner()!=receiver||
+    !owner->character.bound()){
+  error="receiver SpawnOwner runtime is not ready";return false;
+ }
+ return true;
+}
+bool skill_host_remote_updated(const dh2::object_update_culling::Object& object,
+                               bool& remote,std::string& error){
+ dh2::object_update_culling::RemoteResult result{};
+ if(dh2::object_update_culling::is_remotely_updated(&object,&result)!=
+    dh2::object_update_culling::Status::complete){
+  error="ObjectBase::IsRemotelyUpdated failed";return false;
+ }
+ remote=result.raw!=0;return true;
+}
+// GameObject::PathTo (0x3939f0) for the Player over its one retained route.
+int skill_host_player_find_path(void*,const dh2::character::PathToRequest32* request,
+                                std::uint32_t* found){
+ if(!request||!found||request->owner!=prince_character.identity()||request->reserved||
+    request->reserved1||request->limit>100000||!level.native_floor)return 1;
+ dh2::navigation::RouteResult route{};
+ if(dh2::floors::find_path(*level.native_floor,prince_runtime.path,request->target,
+                           request->limit,route)!=0)return 1;
+ *found=route.found;
+ prince_runtime.subobjects.path_count=prince_runtime.path.count;
+ std::memcpy(prince_runtime.subobjects.path_target,prince_runtime.path.target,
+             sizeof(prince_runtime.subobjects.path_target));
+ return 0;
+}
+bool skill_host_player_path_to(const float target[3],std::string& error){
+ if(!native_actor_ready||!level.native_floor||!prince_runtime.path.segments||
+    !prince_runtime.path.capacity){
+  error="Player PathTo requires the live Player route and selected floor";return false;
+ }
+ auto& path=prince_runtime.path;
+ std::copy_n(prince_runtime.subobjects.position,3,path.position);
+ path.route.flags=prince_runtime.object.motion.flags;
+ path.route.radius=prince_runtime.object.radius;
+ dh2::character::PathToState40 state{prince_character.identity(),0,
+     std::uint32_t(path.count!=0),0,0,{path.target[0],path.target[1],path.target[2]},0};
+ const dh2::character::PathToServices16 services{nullptr,skill_host_player_find_path};
+ dh2::character::PathToResult16 result{};
+ if(dh2_character_path_to(&result,&state,target,&services)!=0){
+  error="GameObject::PathTo FindPath service failed";return false;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Player skill host PathTo | target %.1f %.1f %.1f | requested %u | found %u | route points %u",
+     target[0],target[1],target[2],unsigned(result.requested),unsigned(result.find_result),
+     unsigned(path.count));
+ return true;
+}
+// GameObject::SetHeadingDirection(direction, true) + SetDestination(point) +
+// RaiseEvent(0) of Character::Ctrl_HeadTo(Point3D) 0x3adac8.
+int skill_host_player_head_to(const float point[3],std::string& error){
+ const float* position=prince_runtime.subobjects.position;
+ const float y=point[1]-position[1];
+ const float z=point[2]-position[2];
+ const float x=point[0]-position[0];
+ const float direction[3]{x,y,z};
+ if(dh2_nav_set_heading(&prince_runtime.controller.heading,direction,1)!=0){
+  error="Player SetHeadingDirection rejected the direction";return 1;
+ }
+ prince_runtime.rotation.heading_angle=prince_runtime.controller.heading.angle;
+ prince_state.heading_active=prince_runtime.controller.heading.active;
+ std::copy_n(point,3,prince_runtime.controller.destination);
+ std::copy_n(point,3,prince_runtime.subobjects.destination);
+ refresh_prince_facts();
+ if(prince_controller_raise_character_event(nullptr,0)!=0){
+  error="Player RaiseEvent(0) was not accepted";return 1;
+ }
+ return 0;
+}
+// Character::Ctrl_WarpTo (0x3adcf4): PFWorld::ValidatePosition on the retained
+// PFObject; a rejected point does nothing.
+int skill_host_warp_navigation(const float point[3],dh2::navigation::NavigationObject& object,
+                               std::uintptr_t identity,float (&accepted)[3],bool& valid,
+                               std::string& error){
+ valid=false;
+ if(!level.native_floor){error="Ctrl_WarpTo requires the selected floor";return 1;}
+ std::copy_n(point,3,accepted);
+ dh2::navigation::PositionResult result{};
+ const dh2::navigation::ObjectPositionRequest request{
+     &level.native_floor->collision_world,&live_registry,&object,identity,accepted,
+     &live_motion_policy};
+ if(dh2_nav_validate_object_position(&result,&request)!=0){
+  error="PFWorld::ValidatePosition request failed";return 1;
+ }
+ valid=result.valid!=0;
+ return 0;
+}
+int skill_host_control(void*,skill_host::ControlCommand command,std::uintptr_t receiver,
+                       std::uintptr_t object,const float* point,std::string& error){
+ using Command=skill_host::ControlCommand;
+ namespace chr=dh2::character;
+ if(command!=Command::move_to_object&&command!=Command::stop&&!point){
+  error="controller point command has no Point3D";return 1;
+ }
+ if(receiver==prince_character.identity()){
+  if(!native_actor_ready){error="Player is not live";return 1;}
+  // v2Controller::Cmd_*: forced || (!s_blocked && !locked).
+  if(!prince_controller_forced&&(controller_global_blocked||prince_state.controller_locked))
+   return 0;
+  bool remote=false;
+  if(!skill_host_remote_updated(prince_combat.object_update_fields,remote,error))return 1;
+  if(remote)return 0;
+  switch(command){
+  case Command::move_to_point:
+   return skill_host_player_path_to(point,error)?0:1;
+  case Command::move_to_object:{
+   float target[3]{};
+   if(!object)return 0;
+   if(!native_level_script_position_for_target(object,target)){
+    error="Ctrl_MoveTo(GameObject) target has no GetTargetPosition owner";return 1;
+   }
+   return skill_host_player_path_to(target,error)?0:1;
+  }
+  case Command::head_to_point:
+   return skill_host_player_head_to(point,error);
+  case Command::warp_to_point:{
+   float accepted[3]{};bool valid=false;
+   if(skill_host_warp_navigation(point,prince_runtime.object,receiver,accepted,valid,error))
+    return 1;
+   if(!valid) {
+    __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+        "Player skill host WarpTo rejected by PFWorld::ValidatePosition | point %.1f %.1f %.1f",
+        point[0],point[1],point[2]);
+    return 0;
+   }
+   __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+       "Player skill host WarpTo | %.1f %.1f %.1f -> %.1f %.1f %.1f",
+       prince_runtime.subobjects.position[0],prince_runtime.subobjects.position[1],
+       prince_runtime.subobjects.position[2],accepted[0],accepted[1],accepted[2]);
+   if(!native_player_remove_set_position(receiver,accepted,true,error))return 1;
+   if(prince_event(0xc352,0)<0){error="Player RaiseEvent(1) was not accepted";return 1;}
+   return 0;
+  }
+  case Command::stop:{
+   const chr::Request stop{chr::stop,{0,0,0},0,0,0};
+   try{character_service(nullptr,&prince_state,&stop);}
+   catch(const std::exception& e){error=e.what();return 1;}
+   if(prince_controller_raise_character_event(nullptr,63)!=0){
+    error="Player RaiseEvent(63) was not accepted";return 1;
+   }
+   return 0;
+  }
+  }
+  error="unknown controller command";return 1;
+ }
+ ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+ if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+ if(!owner->controller_forced&&(controller_global_blocked||
+                                owner->character.state.controller_locked))return 0;
+ owner->control_failure_stage=0;
+ const chr::ControllerCommandState32 controller{
+     reinterpret_cast<std::uintptr_t>(&owner->character.state),receiver,
+     controller_global_blocked,owner->character.state.controller_locked,
+     owner->controller_forced,0};
+ bool remote=false;
+ switch(command){
+ case Command::move_to_object:
+  return dh2_character_controller_character(&controller,chr::controller_move_object,
+      object,&owner->control_services)==1?0:1;
+ case Command::stop:
+  return dh2_character_controller_character(&controller,chr::controller_stop,0,
+      &owner->control_services)==1?0:1;
+ case Command::move_to_point:
+  if(!skill_host_remote_updated(owner->remote_object,remote,error))return 1;
+  if(remote)return 0;
+  if(owner->request_path(point)<0){error="GameObject::PathTo FindPath service failed";return 1;}
+  return 0;
+ case Command::head_to_point:{
+  if(!skill_host_remote_updated(owner->remote_object,remote,error))return 1;
+  if(remote)return 0;
+  const float* position=owner->runtime.subobjects.position;
+  const float y=point[1]-position[1];
+  const float z=point[2]-position[2];
+  const float x=point[0]-position[0];
+  const float direction[3]{x,y,z};
+  if(dh2_nav_set_heading(&owner->runtime.controller.heading,direction,1)!=0){
+   error="SetHeadingDirection rejected the direction";return 1;
+  }
+  owner->runtime.rotation.heading_angle=owner->runtime.controller.heading.angle;
+  owner->character.state.heading_active=owner->runtime.controller.heading.active;
+  owner->character.refresh_facts();
+  std::copy_n(point,3,owner->runtime.controller.destination);
+  std::copy_n(point,3,owner->runtime.subobjects.destination);
+  if(owner->character.event(0xc351)<0){error="RaiseEvent(0) was not accepted";return 1;}
+  return 0;
+ }
+ case Command::warp_to_point:{
+  if(!skill_host_remote_updated(owner->remote_object,remote,error))return 1;
+  if(remote)return 0;
+  float accepted[3]{};bool valid=false;
+  if(skill_host_warp_navigation(point,owner->runtime.object,receiver,accepted,valid,error))
+   return 1;
+  if(!valid)return 0;
+  if(!move_direct_actor_v1(*actor,accepted)){error="GameObject::SetPosition failed";return 1;}
+  if(owner->character.event(0xc352)<0){error="RaiseEvent(1) was not accepted";return 1;}
+  return 0;
+ }
+ }
+ error="unknown controller command";return 1;
+}
+int skill_host_has_path(void*,std::uintptr_t receiver,bool* value,std::string& error){
+ if(!value){error="missing result";return 1;}
+ if(receiver==prince_character.identity()){
+  if(!native_actor_ready){error="Player is not live";return 1;}
+  *value=prince_runtime.path.count!=0;return 0;
+ }
+ ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+ if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+ *value=owner->runtime.path.count!=0;return 0;
+}
+bool source_ai_set_master(NativeCharAIProjection&,std::int32_t,std::uintptr_t,std::uintptr_t);
+int skill_host_set_master(void*,std::uintptr_t receiver,std::uintptr_t master,
+                          std::string& error){
+ ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+ if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+ if(!actor->native_ai||actor->native_ai->character_identity!=receiver||
+    actor->native_ai->state.owner_04!=receiver){
+  error="receiver has no canonical CharAI";return 1;
+ }
+ const auto ai_id=actor->properties.resolved.size()>1?actor->properties.resolved[1]:-1;
+ if(!source_ai_set_master(*actor->native_ai,ai_id,receiver,master)){
+  error="AI_SetMaster source GetCharAI/position/host providers failed";return 1;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Player skill host SetMaster | %s | master %llx | byte54 %u byte55 %u",actor->name.c_str(),
+     static_cast<unsigned long long>(master),unsigned(actor->native_ai->state.byte_54),
+     unsigned(actor->native_ai->state.byte_55));
+ return 0;
+}
+dh2::character_level_runtime::Runtime skill_host_level_runtime;
+int skill_host_set_level(void*,std::uintptr_t receiver,float raw_level,std::string& error){
+ ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+ if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+ if(!native_debug){error="Debug switch owner is unavailable";return 1;}
+ auto& properties=actor->properties;
+ auto view=dh2::data::property_view(actor_property_rules,properties);
+ dh2::character_level_runtime::Storage storage{receiver,
+     reinterpret_cast<std::uintptr_t>(&properties),properties.base.data(),&view,
+     actor_class_rows.data(),std::uint32_t(actor_class_rows.size()),
+     &native_design_binding,1,&native_debug->globals(),&native_debug->services()};
+ const dh2::character_script_set_level::Globals globals{&native_application};
+ dh2::character_level_runtime::Result result{};
+ const auto status=skill_host_level_runtime.set_level_fixed(&storage,&globals,raw_level,&result);
+ if(status!=dh2::character_level_runtime::Status::complete){
+  error="Character::SetLevel failed with status "+std::to_string(int(status));return 1;
+ }
+ __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+     "Player skill host SetLevel | %s | raw %.0f | Level raw %d",actor->name.c_str(),
+     raw_level,actor->properties.base[19]);
+ return 0;
+}
+ObjectActor* skill_host_property_actor(std::uintptr_t receiver,std::string& error){
+ auto* actor=receiver==prince_character.identity()?nullptr:native_char_ai_actor(receiver);
+ if(!actor||actor->kind!=1||actor->identity!=receiver){
+  error="receiver has no CharProperties owner";return nullptr;
+ }
+ return actor;
+}
+int skill_host_set_property(void*,std::uintptr_t receiver,std::uint32_t id,
+                            std::int32_t value,std::string& error){
+ auto* actor=skill_host_property_actor(receiver,error);
+ if(!actor)return 1;
+ auto view=dh2::data::property_view(actor_property_rules,actor->properties);
+ if(dh2_property_set(&view,std::int32_t(id),value)!=0){
+  error="PROPS_Set rejected the receiver property view";return 1;
+ }
+ return 0;
+}
+int skill_host_apply_property_class(void*,std::uintptr_t receiver,std::int32_t class_id,
+                                    bool to_temp,std::string& error){
+ auto* actor=skill_host_property_actor(receiver,error);
+ if(!actor)return 1;
+ auto view=dh2::data::property_view(actor_property_rules,actor->properties);
+ dh2::player_skill_property_services_v1::Bindings bindings{};
+ bindings.character=receiver;bindings.rules=&actor_property_rules;
+ bindings.classes=&actor_class_tables;bindings.state=&actor->properties;
+ bindings.shared_temp=&skill_property_temp;bindings.owner_view=&view;
+ dh2_script_value arguments[2]{};
+ arguments[0].type=DH2_SCRIPT_NUMBER;arguments[0].number=static_cast<float>(class_id);
+ arguments[1].type=DH2_SCRIPT_BOOLEAN;arguments[1].boolean=to_temp?1u:0u;
+ std::uint32_t returned=0;char text[256]{};
+ if(dh2::player_skill_property_services_v1::invoke(&bindings,receiver,
+      dh2::character_native_bindings::Function::character_apply_prop_class,arguments,2,
+      nullptr,0,&returned,text,sizeof(text))!=0){
+  error=text[0]?text:"PROPS_ApplyClass failed";return 1;
+ }
+ return 0;
+}
+std::uint32_t skill_host_class_table_size(void*){
+ return static_cast<std::uint32_t>(actor_class_tables.rows.size());
+}
+std::uint32_t skill_host_character_table_size(void*){
+ return static_cast<std::uint32_t>(actor_character_names.size());
+}
+int skill_host_summon(void*,std::uintptr_t summoner,const skill_host::SummonRequest& request,
+                      std::uintptr_t* created,std::string& error){
+ if(created)*created=0;
+ if(!created||summoner!=prince_character.identity()){
+  error="GameObject::_Summon is only attached for the Player Character as summoner";return 1;
+ }
+ if(native_host.online){
+  error="online _Summon replication (CMsgSpawnObject) is not attached";return 1;
+ }
+ if(request.forward_anim_ms){
+  error="RootSceneNode::ForwardAnim after _Summon is not attached";return 1;
+ }
+ const auto oid=request.character_table_oid;
+ if(oid>static_cast<std::uint32_t>(INT32_MAX)||
+    actor_character_names.size()!=actor_character_property_rows.size()||
+    oid>=actor_character_names.size()||actor_character_names[oid].empty()){
+  error="CharacterTable OID has no unique retained name/property row";return 1;
+ }
+ {
+  const auto& row=actor_character_property_rows[oid];
+  const auto ai_id=row.size()>1?row[1]:-1;
+  const auto* ai=ai_id>=0?dh2::data::ai_props(actor_ai_tables,ai_id):nullptr;
+  __android_log_print(ANDROID_LOG_INFO,"DH2Native",
+      "Player _Summon request | %s | CharacterTable %u | AI row %d | script '%s' | type %d | spawn state %d",
+      actor_character_names[oid].c_str(),oid,ai_id,ai?ai->script.c_str():"?",
+      ai?int(ai->type):-1,int(request.request_spawn_state));
+ }
+ dh2::character_script_summon_v1::Request summon{};
+ summon.container_identity=summoner;
+ summon.arguments.character_table_oid=static_cast<std::int32_t>(oid);
+ summon.arguments.request_spawn_state=request.request_spawn_state?1u:0u;
+ summon.arguments.offset={request.position[0],request.position[1],request.position[2]};
+ summon.arguments.relative_to_summoner=0;
+ summon.character_table_name=actor_character_names[oid];
+ // The renderer carries authored Character rotation in degrees.
+ constexpr float degrees=57.29577951308232f;
+ const std::array<float,3> rotation{request.rotation[0]*degrees,
+     request.rotation[1]*degrees,request.rotation[2]*degrees};
+ return native_player_summon_character(&summon,rotation,created,error)==0?0:1;
+}
+std::uint32_t skill_host_anim_dict_size(void*){
+ return static_cast<std::uint32_t>(actor_clip_table.values.size());
+}
+// CharAnimator::ANIM_AddAnimDictToSet (0x3c9b14): the clip joins the Character's
+// unique anim set. A negative id is the source's no-op. The Player's blended
+// bank is compiled once from its SetAnimationSet request list, so a clip that
+// list already registered is the call's post-condition; any other clip would
+// need the dynamic re-registration of that playback and is refused explicitly.
+// A Level actor's ObjectGroup bank loads the dictionary clip on demand.
+int skill_host_register_anim(void*,std::uintptr_t receiver,std::int32_t dict,
+                             std::string& error){
+ if(dict<0)return 0;
+ if(receiver==prince_character.identity()){
+  if(prince_attack_clips.find(dict)!=prince_attack_clips.end())return 0;
+  error="the Player's blended animation bank has no AnimDict "+std::to_string(dict)+
+      "; registering a clip after the SetAnimationSet list needs dynamic playback re-registration";
+  return 1;
+ }
+ ObjectActor* actor=nullptr;SpawnOwner* owner=nullptr;
+ if(!skill_host_npc_owner(receiver,actor,owner,error))return 1;
+ if(!active_crypt_room_runtime||!active_crypt_room_runtime->assets) {
+  error="the active Level asset manager is unavailable";return 1;
+ }
+ for(auto& group:object_groups)
+  for(auto& instance:group.instances)
+   if(&instance==actor)
+    return ensure_source_actor_anim_dictionary(group,dict,
+        active_crypt_room_runtime->assets,error)?0:1;
+ error="receiver has no installed ObjectGroup clip bank";return 1;
+}
+int skill_host_play_anim(void*,std::uintptr_t,const skill_host::PlayAnimRequest&,
+                         std::string& error){
+ // Character::_PlayAnim ends in CharStateMachine::SM_SetAnimState, which enters
+ // state 14 (CSAnim, 0x3c324c); that state and its pending-sequence row are not
+ // part of the retained Character state kernel yet.
+ error="CharStateMachine state 14 (CSAnim) and the scripted AnimTable rows are not attached";
+ return 1;
+}
 dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1(){
  skill_host::Services services{};
  services.object_facts=skill_host_object_facts;
@@ -33330,6 +34135,18 @@ dh2::native::player_skill_host_v1::Services native_player_skill_host_services_v1
  services.target_in_melee_range=skill_host_target_in_melee_range;
  services.buff_command=skill_host_buff_command;
  services.get_property=skill_host_get_property;
+ services.set_property=skill_host_set_property;
+ services.apply_property_class=skill_host_apply_property_class;
+ services.class_table_size=skill_host_class_table_size;
+ services.character_table_size=skill_host_character_table_size;
+ services.control=skill_host_control;
+ services.has_path=skill_host_has_path;
+ services.set_master=skill_host_set_master;
+ services.set_level=skill_host_set_level;
+ services.summon=skill_host_summon;
+ services.register_anim=skill_host_register_anim;
+ services.anim_dict_size=skill_host_anim_dict_size;
+ services.play_anim=skill_host_play_anim;
  return services;
 }
 } // namespace
@@ -36337,37 +37154,45 @@ std::int32_t faery_external_has_master(void* raw,std::uintptr_t identity,
  return 0;
 }
 
-std::int32_t faery_external_set_master(void* raw,std::uintptr_t identity,
-                                       std::uintptr_t master) {
- AuthoredCryptFaeryOwner* owner=nullptr;
- dh2::character_runtime_factory_v1::Record* record=nullptr;
- NativeCharAIProjection* ai=nullptr;
- if(!faery_external_owner(raw,identity,owner,record,ai))return 1;
- // AI_SetMaster stores the pointer before its source GetCharAI/position reads.
- ai->state.master_50=master;
- if(!master)return 0;
- auto ai_id=owner->properties.resolved.size()>1
-     ?owner->properties.resolved[1]:-1;
+// CharAI::AI_SetMaster (0x3d4d80) over one CharAI projection: the master word is
+// stored before its source GetCharAI/position reads; a non-null master then
+// sets byte_54 (not the host player) and byte_55 (inside the AI row's view
+// radius).
+bool source_ai_set_master(NativeCharAIProjection& ai,std::int32_t ai_id,
+                          std::uintptr_t identity,std::uintptr_t master) {
+ ai.state.master_50=master;
+ if(!master)return true;
  if(ai_id<0||std::size_t(ai_id)>=actor_ai_tables.rows.size())ai_id=8;
- if(std::size_t(ai_id)>=actor_ai_tables.rows.size())return 1;
- auto& source=ai->state;
- if(native_host.online)return 1;
+ if(std::size_t(ai_id)>=actor_ai_tables.rows.size())return false;
+ auto& source=ai.state;
+ if(native_host.online)return false;
  auto* host_record=native_host.record_for(native_host.host_projection());
- if(!host_record||!host_record->character_660)return 1;
+ if(!host_record||!host_record->character_660)return false;
  const bool host_player=host_record->character_660==master;
  source.byte_54=std::uint8_t(host_player?0:1);
  float master_position[3]{},owner_position[3]{};
  if(!faery_external_character_position(master,master_position)||
-    !faery_external_character_position(identity,owner_position))return 1;
+    !faery_external_character_position(identity,owner_position))return false;
  const auto* properties=dh2::data::ai_props(actor_ai_tables,ai_id);
- if(!properties)return 1;
+ if(!properties)return false;
  source.byte_55=0;
  const float dx=master_position[0]-owner_position[0];
  const float dy=master_position[1]-owner_position[1];
  const float dz=master_position[2]-owner_position[2];
  const float distance=dx*dx+dy*dy+dz*dz;
  source.byte_55=std::uint8_t(properties->view_radius*properties->view_radius>distance);
- return 0;
+ return true;
+}
+
+std::int32_t faery_external_set_master(void* raw,std::uintptr_t identity,
+                                       std::uintptr_t master) {
+ AuthoredCryptFaeryOwner* owner=nullptr;
+ dh2::character_runtime_factory_v1::Record* record=nullptr;
+ NativeCharAIProjection* ai=nullptr;
+ if(!faery_external_owner(raw,identity,owner,record,ai))return 1;
+ const auto ai_id=owner->properties.resolved.size()>1
+     ?owner->properties.resolved[1]:-1;
+ return source_ai_set_master(*ai,ai_id,identity,master)?0:1;
 }
 
 std::int32_t faery_external_clear_target(void* raw,std::uintptr_t identity) {
@@ -41670,12 +42495,22 @@ struct NativeLevelObjectiveServicesScopeV1 {
    }
    imported.push_back({row.character_identity,row.source_handle,row.source_module_id});
   }
-  const std::uintptr_t dynamic_characters[]{active_frame.character_identity};
+  // Dynamic source Characters: the Player and every Character a script created
+  // with GameObject::_Summon, each listed once by its canonical factory Record.
+  std::vector<std::uintptr_t> dynamic_characters{active_frame.character_identity};
+  if(active_crypt_room_runtime) {
+   try {
+    for(const auto& summoned:active_crypt_room_runtime->script_npcs_by_identity)
+     if(summoned.first)dynamic_characters.push_back(summoned.first);
+   } catch(...) {
+    error="Current-Level Objective dynamic roster allocation failed";return false;
+   }
+  }
   if(!CurrentLevelPopulation::make_active_level_bindings_from_imported_roster(
        source_level_owner,native_characters,source_level_owner.character_oid_cache(),
        active_frame.event_owner_identity,actor_level_fields.level_list_index_3c,
        static_cast<std::uint32_t>(prince_combat.profile_characters->rows.size()),
-       imported.data(),imported.size(),dynamic_characters,1,
+       imported.data(),imported.size(),dynamic_characters.data(),dynamic_characters.size(),
        &native_level_quest_cache_context,native_level_quest_character_property,
        native_level_quest_character_caches,population_bindings,error))return false;
   try{population_provider=std::make_unique<CurrentLevelPopulation::Provider>(population_bindings);}
@@ -44798,6 +45633,12 @@ std::vector<dh2::world::EntryPoint> entrypoints;
      __android_log_print(ANDROID_LOG_INFO,"DH2Native",resource.clip_id==1023?"Player death track ready | clip %d | tracks %u | unbound %u | attack_mainhand ms %d":"Player attack track ready | clip %d | tracks %u | unbound %u | attack_mainhand ms %d",resource.clip_id,playback.track_count(),playback.unbound,dh2_events_time(&playback.events.view(),"attack_mainhand"));
     }
     if(!program)create_program();std::map<std::string,GLuint> cache;unsigned triangles=0;
+    // The group vector must never reallocate once actors hold ObjectActor
+    // addresses inside it: reserve the Level's groups plus headroom for the
+    // Character models GameObject::_Summon installs on demand.
+    candidate_groups.reserve(candidate_groups.size()+object_records.size()+
+        mvp_render_instances.size()+kScriptSummonGroupHeadroom);
+    script_summon_group_installer=&install_script_summon_object_group;
     for(const auto& object:object_records){
       const auto dact_index=static_cast<std::size_t>(
           &object-object_records.data());

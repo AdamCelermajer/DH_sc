@@ -236,10 +236,24 @@ int main(int argc, char** argv) {
         check(invoke(F::character_apply_prop_class, f.bindings, bad_class, 2, nullptr, 0, returned) == -1001 &&
               f.owner.resolved == owner_before.resolved && f.global_temp == temp_before,
               "unsupported class ID changed source sheets"); ++checks;
+        // PROPS_Set (0x3e07a0) ignores a property that is neither type 32 nor
+        // type 8; the call still succeeds and writes nothing.
         dh2_script_value wrong_property = num(36);
         dh2_script_value wrong_set[] = {wrong_property, num(1)};
-        check(invoke(F::character_set_prop, f.bindings, wrong_set, 2, nullptr, 0, returned) == -1001 &&
-              f.owner.resolved == owner_before.resolved, "non-skill SetProp was accepted"); ++checks;
+        check(invoke(F::character_set_prop, f.bindings, wrong_set, 2, nullptr, 0, returned) == 0 &&
+              f.owner.resolved == owner_before.resolved && f.owner.saved == owner_before.saved,
+              "type-0 SetProp was not ignored"); ++checks;
+        // A type-32 property (HP) writes the saved sheet and resolves it.
+        f.rules.types[36] = 32;
+        f.owner.base[36] = 7 * 256;
+        f.owner.gear[36] = 0;
+        dh2_script_value hp_set[] = {num(36), num(5 * 256)};
+        check(invoke(F::character_set_prop, f.bindings, hp_set, 2, nullptr, 0, returned) == 0 &&
+              f.owner.saved[36] == 5 * 256 && f.owner.resolved[36] == f.owner.base[36] + 5 * 256,
+              "type-32 SetProp did not write the saved sheet and resolve it"); ++checks;
+        f.rules.types[36] = 0;
+        f.owner.saved[36] = 0;
+        f.owner.resolved = owner_before.resolved;
 
         dh2_script_value too_many_args[] = {num(172), num(1), boolean(false), num(4)};
         check(invoke(F::character_set_prop, f.bindings, too_many_args, 4, nullptr, 0, returned) == -1001 &&

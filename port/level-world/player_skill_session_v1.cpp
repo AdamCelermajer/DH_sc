@@ -32,11 +32,12 @@ function __dh2_player_projectile_delayed(callback_name, target, skill_script)
     return _G[callback_name](__dh2_player_object(target), skill_script)
 end
 )lua";
-// Player-VM tail of the shared GameObject table convention. The two functions
+// Player-VM tail of the shared GameObject table convention. The functions
 // below are the Player-visible natives that return a GameObject UserData in the
 // original (GameObject::_GetSelf pushUserData(this); GameObject::_GetTargetListTop
 // pushUserData(top) followed by distance, angle, IsCharacter and the extra
-// word, or pushPointer(nullptr) for an empty list).
+// word, or pushPointer(nullptr) for an empty list; GameObject::_Summon
+// pushUserData(the new Character), or nothing when the request is rejected).
 constexpr char player_object_functions[] = R"lua(
 __dh2_player_object = __dh2_object
 local __dh2_native_GetSelf = GetSelf
@@ -51,6 +52,12 @@ function GetTargetListTop(...)
     -- An empty list returns the null Pointer alone.
     if distance == nil then return identity end
     return __dh2_object(identity), distance, angle, is_character, extra
+end
+local __dh2_native_Summon = Summon
+function Summon(...)
+    local identity = __dh2_native_Summon(...)
+    if identity == nil then return nil end
+    return __dh2_object(identity)
 end
 )lua";
 int discard_returns(void*,const dh2_script_first_return_v1*,std::uint32_t,

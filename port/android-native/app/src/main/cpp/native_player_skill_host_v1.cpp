@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <exception>
 #include <limits>
@@ -47,6 +48,31 @@ std::int32_t f2iz(float value) noexcept {
     return static_cast<std::int32_t>(value);
 }
 bool is_number(const dh2_script_value& v) noexcept {return v.type==DH2_SCRIPT_NUMBER;}
+// sfc::script::lua::Value::getNumber 0x31bbf0: nil is 0, a number or boolean
+// returns the stored word (a boolean's word is 0/1 reinterpreted as binary32),
+// a Pointer/UserData converts its address to float, a string goes through
+// lua_tonumber (0 when it is not numeric) and every other type is 0.
+float value_number(const dh2_script_value& v) noexcept {
+    switch(v.type) {
+    case DH2_SCRIPT_NUMBER:return v.number;
+    case DH2_SCRIPT_BOOLEAN:{
+        const std::uint32_t word=v.boolean?1u:0u;
+        float number=0.f;std::memcpy(&number,&word,sizeof(number));return number;
+    }
+    case DH2_SCRIPT_IDENTITY:case 7:
+        return static_cast<float>(static_cast<std::uint32_t>(v.identity));
+    case DH2_SCRIPT_STRING:{
+        if(!v.text||!v.text_bytes)return 0.f;
+        const std::string text(v.text,v.text_bytes);
+        char* end=nullptr;
+        const double parsed=std::strtod(text.c_str(),&end);
+        if(end==text.c_str())return 0.f;
+        while(*end==' '||*end=='\t'||*end=='\n'||*end=='\r')++end;
+        return *end?0.f:static_cast<float>(parsed);
+    }
+    default:return 0.f;
+    }
+}
 // getUserData/getPointer accept the Pointer (2) and UserData (7) tags alike.
 bool is_object_like(const dh2_script_value& v) noexcept {return v.type==DH2_SCRIPT_IDENTITY||v.type==7;}
 
@@ -66,6 +92,14 @@ struct Context {
     int failure(const char* why) const noexcept {return fail(text,bytes,name,why);}
     int need_out(std::uint32_t n) const noexcept {
         if(!out||capacity<n)return failure("missing result buffer");
+        return 0;
+    }
+    int facts_of(std::uintptr_t identity,ObjectFacts& facts_out) const noexcept {
+        if(!s.object_facts)return failure("GameObject facts provider is unavailable");
+        try {
+            if(s.object_facts(s.context,identity,&facts_out)!=0)
+                return failure("GameObject is not a live GameObject known to the renderer");
+        }catch(...){return failure("GameObject facts provider threw");}
         return 0;
     }
     int facts(ObjectFacts& facts_out) const noexcept {
@@ -225,14 +259,7 @@ int do_buff(Context& c) {
         return c.failure("the Player's buffs belong to its own BuffOwner");
     BuffCommand command=BuffCommand::create;
     if(c.function==Fn::character_remove_buff)command=BuffCommand::remove;
-    else if(c.function==Fn::character_apply_prop_class) {
-        // ApplyBuff shares ApplyPropClass's native; the Pointer buff argument
-        // selects the buff form. A property-class application on another
-        // Character's sheet is not attached.
-        if(c.count<2||c.a[1].type!=DH2_SCRIPT_IDENTITY)
-            return c.failure("ApplyPropClass on a non-Player Character sheet is not attached");
-        command=BuffCommand::apply;
-    }
+    else if(c.function==Fn::character_apply_prop_class)command=BuffCommand::apply;
     if(!c.s.buff_command)return c.failure("receiver BuffOwner provider is unavailable");
     const int status=c.s.buff_command(c.s.context,command,c.receiver,c.a,c.count,c.out,c.capacity,
                                       c.returned,c.text,c.bytes);
@@ -360,6 +387,258 @@ int do_command(Context& c,ObjectCommand command) {
     }catch(...){return c.failure("GameObject command provider threw");}
     return 0;
 }
+
+// Character::_SetProp 0x3b7eac on a receiver other than the Player: the id and
+// value are numbers (id <= 0xDF); a Pointer third argument selects
+// PROPS_SetToSheet, anything else PROPS_Set on the receiver's CharProperties.
+int do_set_prop(Context& c) {
+    if(c.receiver==c.s.self)return c.failure("the Player's properties belong to its property owner");
+    if(c.count<=1||!is_number(c.a[0])||f2uiz(c.a[0].number)>0xDFu)return 0;
+    if(!is_number(c.a[1]))return 0;
+    if(c.count>2&&c.a[2].type==DH2_SCRIPT_IDENTITY) {
+        if(!c.a[2].identity)return 0;
+        return c.failure("SetProp with a buff sheet on a non-Player receiver is not attached");
+    }
+    if(!c.s.set_property)return c.failure("receiver CharProperties provider is unavailable");
+    std::string error;
+    try {
+        if(c.s.set_property(c.s.context,c.receiver,f2uiz(c.a[0].number),f2iz(c.a[1].number),error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"PROPS_Set failed",error);
+    }catch(...){return c.failure("receiver CharProperties provider threw");}
+    return 0;
+}
+
+// Character::_ApplyPropClass 0x3babdc on a receiver other than the Player. A
+// Pointer second argument is the buff form (ApplyBuff); a boolean selects the
+// shared s_temp sheet; every other shape applies to the receiver's resolved
+// sheet.
+int do_apply_prop_class(Context& c) {
+    if(c.receiver==c.s.self)return c.failure("the Player's properties belong to its property owner");
+    if(!c.count||!is_number(c.a[0]))return 0;
+    const auto class_id=f2uiz(c.a[0].number);
+    if(!c.s.class_table_size)return c.failure("ClassTable provider is unavailable");
+    if(class_id>c.s.class_table_size(c.s.context))return 0;
+    if(c.count>1&&c.a[1].type==DH2_SCRIPT_IDENTITY)return do_buff(c);
+    if(!c.s.apply_property_class)return c.failure("receiver CharProperties provider is unavailable");
+    const bool to_temp=c.count>1&&c.a[1].type==DH2_SCRIPT_BOOLEAN&&c.a[1].boolean!=0;
+    if(class_id>static_cast<std::uint32_t>(INT32_MAX))return c.failure("ApplyPropClass class id is not representable");
+    std::string error;
+    try {
+        if(c.s.apply_property_class(c.s.context,c.receiver,static_cast<std::int32_t>(class_id),
+                                    to_temp,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"PROPS_ApplyClass failed",error);
+    }catch(...){return c.failure("receiver CharProperties provider threw");}
+    return 0;
+}
+
+// GameObject::_HasPath 0x38e98c: pushBoolean(the path list is not empty).
+int do_has_path(Context& c) {
+    if(!c.s.has_path)return c.failure("path list provider is unavailable");
+    bool value=false;std::string error;
+    try {
+        if(c.s.has_path(c.s.context,c.receiver,&value,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"path list query failed",error);
+    }catch(...){return c.failure("path list provider threw");}
+    if(auto rc=c.need_out(1))return rc;
+    put_boolean(c.out[0],value);*c.returned=1;return 0;
+}
+
+// Point3D = position + a0 * (K x L) + a1 * L + a2 * K, with L =
+// GameObject::GetLookAtVec (sin, -cos of the heading word at +0x174, 0) and
+// K = Vec3f_K (0, 0, 1). Every operation is a separate binary32 step in the
+// original's order (Character::_MoveTo 0x3bb02c..0x3bb230).
+void relative_point(const ObjectFacts& facts,const dh2_script_value* a,float (&out)[3]) noexcept {
+    const float heading=facts.rotation[2];
+    const float sine=std::sin(heading);
+    const float cosine=std::cos(heading);
+    const float look[3]{sine,-cosine,0.f};
+    const float k[3]{0.f,0.f,1.f};
+    out[0]=facts.position[0];out[1]=facts.position[1];out[2]=facts.position[2];
+    const float across=value_number(a[0]);
+    float term=0.f,left=0.f,right=0.f;
+    left=k[1]*look[2];right=k[2]*look[1];term=left-right;term=across*term;out[0]=out[0]+term;
+    left=k[2]*look[0];right=look[2]*k[0];term=left-right;term=across*term;out[1]=out[1]+term;
+    left=look[1]*k[0];right=k[1]*look[0];term=left-right;term=across*term;out[2]=out[2]+term;
+    const float forward=value_number(a[1]);
+    term=forward*look[0];out[0]=out[0]+term;
+    term=forward*look[1];out[1]=out[1]+term;
+    term=forward*look[2];out[2]=out[2]+term;
+    const float up=value_number(a[2]);
+    term=up*k[0];out[0]=out[0]+term;
+    term=up*k[1];out[1]=out[1]+term;
+    term=up*k[2];out[2]=out[2]+term;
+}
+
+// Character::_MoveTo 0x3bada8, _HeadTo 0x3ba71c and _WarpTo 0x3bb268 share
+// one argument shape: a single Pointer/UserData object, or at least three
+// values of which one of the first three is a number, optionally followed by a
+// boolean selecting the receiver-relative form. Everything else returns without
+// effect. HeadTo's object form issues Cmd_MoveTo(GameObject*) like MoveTo.
+int do_move(Context& c) {
+    if(!c.s.control)return c.failure("v2Controller provider is unavailable");
+    std::string error;
+    const auto run=[&](ControlCommand command,std::uintptr_t object,const float* point)->int {
+        try {
+            if(c.s.control(c.s.context,command,c.receiver,object,point,error)!=0)
+                return fail_detail(c.text,c.bytes,c.name,"controller command failed",error);
+        }catch(...){return c.failure("v2Controller provider threw");}
+        return 0;
+    };
+    if(c.count==1) {
+        if(c.a[0].type!=DH2_SCRIPT_IDENTITY&&c.a[0].type!=7)return 0;
+        if(c.function!=Fn::character_warp_to)
+            return run(ControlCommand::move_to_object,c.a[0].identity,nullptr);
+        // Cmd_WarpTo(&object->position): the object's +0x160 Point3D.
+        ObjectFacts object{};
+        if(auto rc=c.facts_of(c.a[0].identity,object))return rc;
+        return run(ControlCommand::warp_to_point,0,object.position);
+    }
+    if(c.count<=2)return 0;
+    if(c.a[0].type!=DH2_SCRIPT_NUMBER&&c.a[1].type!=DH2_SCRIPT_NUMBER&&
+       c.a[2].type!=DH2_SCRIPT_NUMBER)return 0;
+    float point[3]{0.f,0.f,0.f};
+    if(c.count>3&&c.a[3].type==DH2_SCRIPT_BOOLEAN&&c.a[3].boolean) {
+        ObjectFacts self{};
+        if(auto rc=c.facts(self))return rc;
+        relative_point(self,c.a,point);
+    } else {
+        point[0]=value_number(c.a[0]);point[1]=value_number(c.a[1]);point[2]=value_number(c.a[2]);
+    }
+    const auto command=c.function==Fn::character_move_to?ControlCommand::move_to_point:
+        c.function==Fn::character_head_to?ControlCommand::head_to_point:ControlCommand::warp_to_point;
+    return run(command,0,point);
+}
+
+// Character::_Stop 0x3b56b4: v2Controller::Cmd_Stop().
+int do_stop(Context& c) {
+    if(!c.s.control)return c.failure("v2Controller provider is unavailable");
+    std::string error;
+    try {
+        if(c.s.control(c.s.context,ControlCommand::stop,c.receiver,0,nullptr,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"controller command failed",error);
+    }catch(...){return c.failure("v2Controller provider threw");}
+    return 0;
+}
+
+// Character::_SetMaster 0x3b9084: one Pointer/UserData argument, then
+// CharAI::AI_SetMaster(Character*).
+int do_set_master(Context& c) {
+    if(!c.count||!is_object_like(c.a[0]))return 0;
+    if(!c.s.set_master)return c.failure("CharAI::AI_SetMaster provider is unavailable");
+    std::string error;
+    try {
+        if(c.s.set_master(c.s.context,c.receiver,c.a[0].identity,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"AI_SetMaster failed",error);
+    }catch(...){return c.failure("CharAI::AI_SetMaster provider threw");}
+    return 0;
+}
+
+// Character::_SetLevel 0x3b73a4: a first numeric argument (the raw fixed-point
+// Level word), nothing otherwise.
+int do_set_level(Context& c) {
+    if(!c.count||!is_number(c.a[0]))return 0;
+    if(!c.s.set_level)return c.failure("Character::SetLevel provider is unavailable");
+    std::string error;
+    try {
+        if(c.s.set_level(c.s.context,c.receiver,c.a[0].number,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"SetLevel failed",error);
+    }catch(...){return c.failure("Character::SetLevel provider threw");}
+    return 0;
+}
+
+// GameObject::_Summon 0x39193c. Needs at least two arguments: a numeric
+// CharacterTable id below Arrays::CharacterTable::size and a boolean spawn
+// state; otherwise nothing happens. The position and rotation come from
+//   (oid, bool)                the summon_spot node / the summoner position
+//   (oid, bool, n)             the same, plus RootSceneNode::ForwardAnim(n)
+//   (oid, bool, UserData)      that object's +0x160 position and +0x16c rotation
+//   (oid, bool, x, y, z)       absolute
+//   (oid, bool, x, y, z, true) relative to the summoner (see relative_point)
+// and every other shape falls back to the first form. The summoner's own
+// rotation is used unless an object supplies one.
+int do_summon(Context& c) {
+    if(c.count<=1||!is_number(c.a[0]))return 0;
+    if(!c.s.character_table_size)return c.failure("CharacterTable provider is unavailable");
+    const auto oid=f2uiz(c.a[0].number);
+    if(oid>=c.s.character_table_size(c.s.context))return 0;
+    if(c.a[1].type!=DH2_SCRIPT_BOOLEAN)return 0;
+    if(!c.s.summon)return c.failure("GameObject::Summon provider is unavailable");
+    SummonRequest request{};
+    request.character_table_oid=oid;
+    request.request_spawn_state=c.a[1].boolean!=0;
+    ObjectFacts self{};
+    if(auto rc=c.facts(self))return rc;
+    std::memcpy(request.rotation,self.rotation,sizeof(request.rotation));
+    bool summoner_position=false;
+    if(c.count>2&&c.a[2].type==7) {
+        ObjectFacts object{};
+        if(auto rc=c.facts_of(c.a[2].identity,object))return rc;
+        std::memcpy(request.position,object.position,sizeof(request.position));
+        std::memcpy(request.rotation,object.rotation,sizeof(request.rotation));
+    } else if(c.count>4&&c.a[2].type==DH2_SCRIPT_NUMBER&&c.a[3].type==DH2_SCRIPT_NUMBER&&
+              c.a[4].type==DH2_SCRIPT_NUMBER) {
+        if(c.count>5&&c.a[5].type==DH2_SCRIPT_BOOLEAN&&c.a[5].boolean) {
+            float point[3]{};
+            relative_point(self,c.a+2,point);
+            std::memcpy(request.position,point,sizeof(point));
+        } else {
+            request.position[0]=value_number(c.a[2]);
+            request.position[1]=value_number(c.a[3]);
+            request.position[2]=value_number(c.a[4]);
+        }
+    } else {
+        summoner_position=true;
+        if(c.count==3&&c.a[2].type==DH2_SCRIPT_NUMBER)
+            request.forward_anim_ms=f2uiz(static_cast<float>(f2iz(value_number(c.a[2]))));
+    }
+    if(summoner_position)std::memcpy(request.position,self.position,sizeof(request.position));
+    std::uintptr_t created=0;std::string error;
+    try {
+        if(c.s.summon(c.s.context,c.receiver,request,&created,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"Summon failed",error);
+    }catch(...){return c.failure("GameObject::Summon provider threw");}
+    if(!created)return 0;
+    if(auto rc=c.need_out(1))return rc;
+    put_identity(c.out[0],created);*c.returned=1;return 0;
+}
+
+// Character::_RegisterAnim 0x3b70d8: a numeric AnimDict id for the receiver's
+// CharAnimator.
+int do_register_anim(Context& c) {
+    if(!c.count||!is_number(c.a[0]))return 0;
+    if(!c.s.register_anim)return c.failure("CharAnimator provider is unavailable");
+    std::string error;
+    try {
+        if(c.s.register_anim(c.s.context,c.receiver,f2iz(c.a[0].number),error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"ANIM_AddAnimDictToSet failed",error);
+    }catch(...){return c.failure("CharAnimator provider threw");}
+    return 0;
+}
+
+// Character::_PlayAnim 0x3ba388: a numeric AnimDict id below
+// Arrays::AnimDict::size, an optional numeric second AnimDict and an optional
+// boolean flag at index 2, then SM_SetAnimState on a rotating scripted
+// AnimTable row.
+int do_play_anim(Context& c) {
+    if(!c.count||!is_number(c.a[0]))return 0;
+    if(!c.s.anim_dict_size)return c.failure("AnimDict provider is unavailable");
+    const auto dict=f2uiz(c.a[0].number);
+    if(dict>=c.s.anim_dict_size(c.s.context))return 0;
+    if(!c.s.play_anim)return c.failure("CharStateMachine::SM_SetAnimState provider is unavailable");
+    PlayAnimRequest request{};
+    request.anim_dict=dict;
+    if(c.count>1&&c.a[1].type==DH2_SCRIPT_NUMBER) {
+        request.has_second=true;
+        request.second=f2iz(c.a[1].number);
+    }
+    request.flag=c.count>2&&c.a[2].type==DH2_SCRIPT_BOOLEAN&&c.a[2].boolean!=0;
+    std::string error;
+    try {
+        if(c.s.play_anim(c.s.context,c.receiver,request,error)!=0)
+            return fail_detail(c.text,c.bytes,c.name,"SM_SetAnimState failed",error);
+    }catch(...){return c.failure("CharStateMachine provider threw");}
+    return 0;
+}
 } // namespace
 
 bool handles(Function function) noexcept {
@@ -384,6 +663,12 @@ bool handles(Function function) noexcept {
     case Fn::character_get_char_ai_flags:case Fn::character_target_in_melee_range:
     case Fn::character_create_buff:case Fn::character_remove_buff:
     case Fn::character_apply_prop_class:case Fn::character_get_prop:
+    case Fn::character_set_prop:
+    case Fn::game_object_has_path:case Fn::game_object_summon:
+    case Fn::character_move_to:case Fn::character_head_to:
+    case Fn::character_warp_to:case Fn::character_stop:
+    case Fn::character_set_master:case Fn::character_set_level:
+    case Fn::character_register_anim:case Fn::character_play_anim:
         return true;
     default:
         return false;
@@ -417,9 +702,19 @@ int invoke(const Services& services,Function function,const char* name,
         case Fn::game_object_is_player:case Fn::game_object_is_door:
         case Fn::game_object_is_decor:return do_query(c);
         case Fn::character_get_state:return do_state(c);
-        case Fn::character_create_buff:case Fn::character_remove_buff:
-        case Fn::character_apply_prop_class:return do_buff(c);
+        case Fn::character_create_buff:case Fn::character_remove_buff:return do_buff(c);
+        case Fn::character_apply_prop_class:return do_apply_prop_class(c);
+        case Fn::character_set_prop:return do_set_prop(c);
         case Fn::character_get_prop:return do_get_prop(c);
+        case Fn::game_object_has_path:return do_has_path(c);
+        case Fn::character_move_to:case Fn::character_head_to:
+        case Fn::character_warp_to:return do_move(c);
+        case Fn::character_stop:return do_stop(c);
+        case Fn::character_set_master:return do_set_master(c);
+        case Fn::character_set_level:return do_set_level(c);
+        case Fn::game_object_summon:return do_summon(c);
+        case Fn::character_register_anim:return do_register_anim(c);
+        case Fn::character_play_anim:return do_play_anim(c);
         case Fn::character_get_char_ai_flags:return do_ai_flags(c);
         case Fn::character_target_in_melee_range:return do_melee_range(c);
         case Fn::character_has_bow:case Fn::character_can_attack_in_melee:return do_weapon(c);
