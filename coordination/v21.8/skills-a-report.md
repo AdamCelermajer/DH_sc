@@ -129,3 +129,6 @@ Unit (CTest `runtime_skill_activation_session_v1`, full Session), one `PASS Rogu
 - New CTest targets: `runtime_timed_buff_v1`, `runtime_skill_activation_session_v1` (this one makes the earlier unrunnable ViciousStrike/Roundhouse fixtures real unit evidence). `runtime_skill_use_profile_v1` now expects 7 rows (Quickness admitted with its buff arm).
 - The earlier round listed `private_save_transport_win32` and `source_level_config` as failing for missing inputs; with worktree junctions to the primary `.local-inputs/publication` and `windows-camera-assets` both pass.
 - Run hygiene: ctest was started from bash (not PowerShell Start-Process). A full run under machine contention takes about 50 minutes.
+
+- Final state: full CTest 190/190 on commit 5a20eb30 (build dir C:/dh218/skills-a-build, with the worktree junctions above). Tested exe: C:/dh218/skills-a2.exe (copy of skills-a-build/dh-foundation.exe built from this branch).
+- Cleanup: worktree .local-inputs junctions and the S: subst were removed at the end (junctions with cmd /c rmdir); recreate them from C:/dh218/skills-a-junctions.txt before building.
