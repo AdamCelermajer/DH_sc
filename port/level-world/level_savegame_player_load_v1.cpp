@@ -448,15 +448,23 @@ Status restore_factory_character_rows(
         }
         for (auto& pending : candidates) {
             if (object.manager_key != pending.key) continue;
-            if (!record || object.identity != live->identity ||
-                object.is_character != 1 || object.is_player != 0 ||
-                object.type_word != pending.type ||
+            // LevelSavegame::__LoadObjects 0x461e90 resolves every row with
+            // ObjectManager::GetObjectByName(key, type) 0x34aca0 and, when no
+            // object answers, seeks past the row. A same-key object that is not a
+            // factory-created non-Player Character (record-less NPC/Actor
+            // Characters, a non-Character, the Player) or whose type word differs
+            // is therefore an unresolved row, not a corrupt image: it stays
+            // unapplied and the remaining rows still restore.
+            if (!record || object.is_character != 1 || object.is_player != 0 ||
+                object.type_word != pending.type) continue;
+            if (object.identity != live->identity ||
                 record->source_handle != live->source_handle ||
                 record->character.identity != live->identity ||
                 record->game_object.identity != live->identity ||
                 !record->object_registered || !record->character_listed ||
                 characters.find(live->source_handle) != record) {
-                error = "saved non-player Character row does not resolve to one canonical factory identity";
+                error = "saved non-player Character row does not resolve to one canonical factory identity | key " +
+                        pending.key;
                 return Status::identity_mismatch;
             }
             if (pending.identity) {

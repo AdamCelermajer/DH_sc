@@ -94,6 +94,37 @@ static std::vector<std::uint8_t> image_with_faery_idle_row() {
     return out;
 }
 
+// Faery_0 plus Npc_0: two non-Player Character rows that share the same
+// Character::Serialize payload layout.
+static std::vector<std::uint8_t> image_with_faery_and_npc_rows() {
+    PayloadSet payloads;
+    payloads.player={0,0};put_u32(payloads.player,17);put_u32(payloads.player,3);
+    for(unsigned i=0;i!=24;++i)payloads.player.push_back(0);
+    payloads.player.push_back(0);
+    for(unsigned i=0;i!=24;++i)payloads.player.push_back(0);
+    payloads.other={0,0};put_u32(payloads.other,77);put_u32(payloads.other,3);
+    for(unsigned sheet=0;sheet!=2;++sheet) {
+        if(sheet==0)payloads.other.insert(payloads.other.end(),{0x78,0x56,0x34,0x12});
+        else payloads.other.insert(payloads.other.end(),{0xaa,0xbb,0xcc,0xdd});
+        for(unsigned i=0;i!=224;++i)put_u32(payloads.other,1000*sheet+i);
+    }
+    payloads.other.insert(payloads.other.end(),24,0);
+    payloads.other.push_back(0);
+    payloads.other.insert(payloads.other.end(),24,0);
+    assert(payloads.other.size()==1859);
+    const save::Object objects[]={{0xabc,"PlayerCharacter_0","PlayerCharacter_0",1,1,1,1,1,0},
+                                  {0xdef,"Faery_0","Faery_0",2,1,1,0,0,0},
+                                  {0x333,"Npc_0","Npc_0",2,1,1,0,0,0}};
+    const save::SerializeServices serializer{&payloads,&write_payload_set};
+    std::vector<std::uint8_t> objs,info,out;save::Result result{};std::string error;
+    assert(save::serialize_objects(objects,3,0,&serializer,objs,&result,error)==
+           save::Status::complete&&result.saved_objects==3);
+    assert(save::serialize_info_word(0x12345678,info,error));
+    const save::Section sections[]={{"INFO",std::move(info)},{"OBJS",std::move(objs)}};
+    assert(save::serialize_savegame(sections,2,out,error));
+    return out;
+}
+
 static std::vector<std::uint8_t> image_with_unapplied_row() {
     PayloadSet payloads;
     payloads.player={0,0}; put_u32(payloads.player,17); put_u32(payloads.player,4);
@@ -159,6 +190,7 @@ struct Fixture {
     unsigned prepares{}, commits{};
     std::uintptr_t generic_player_identity{}, faery_identity{};
     std::uintptr_t door_identity{}, trigger_identity{}, container_identity{};
+    std::uintptr_t npc_identity{};
     load::PlayerState applied{};
     unsigned character_prepares{}, character_commits{};
     load::FactoryDeserializeState restored_character{};
@@ -183,31 +215,38 @@ struct Fixture {
     static int remove_character(void*, aggro::Character*, std::size_t* removed) {
         *removed=1; return 0;
     }
+    // Returns true on failure, like FactsServices::read_object_facts.
     static bool object_facts(void* raw, const manager::GameObject& live,
                              const factory::Record* record, save::Object* out,
                              std::string&) {
         auto& f=*static_cast<Fixture*>(raw);
         if (!out || !live.identity)
-            return false;
+            return true;
         if (!record && live.identity==f.generic_player_identity) {
             out->identity=live.identity; out->name="PlayerCharacter_0";
             out->manager_key="PlayerCharacter_0"; out->type_word=1; out->enabled=1;
             out->is_character=1; out->is_player=1; out->is_local_player=1;
-            return true;
+            return false;
         }
         if (!record && live.identity==f.door_identity) {
             out->identity=live.identity; out->name="Door_0";
             out->manager_key="Door_0"; out->type_word=3; out->enabled=1;
-            return true;
+            return false;
         }
         if (!record && (live.identity==f.trigger_identity||
                         live.identity==f.container_identity)) {
             out->identity=live.identity;
             out->name=live.name;out->manager_key=live.name;
             out->type_word=live.module_id_64;out->enabled=1;
-            return true;
+            return false;
         }
-        if (!record || record->game_object.identity!=live.identity) return false;
+        if (!record && f.npc_identity && live.identity==f.npc_identity) {
+            out->identity=live.identity; out->name="Npc_0";
+            out->manager_key="Npc_0"; out->type_word=2; out->enabled=1;
+            out->is_character=1; out->is_player=0; out->is_local_player=0;
+            return false;
+        }
+        if (!record || record->game_object.identity!=live.identity) return true;
         out->identity=live.identity; out->enabled=1;
         if(live.source_handle==10) {
             out->name="Faery_0";out->manager_key="Faery_0";out->type_word=2;
@@ -217,7 +256,7 @@ struct Fixture {
             out->type_word=1;out->is_character=1;out->is_player=1;
             out->is_local_player=1;
         }
-        return true;
+        return false;
     }
     static bool prepare(void* raw, const factory::Record& record,
                         const load::PlayerState&, std::string& error) {
@@ -471,6 +510,25 @@ int main() {
         lifecycle_fixture.restored_character.dead==0&&
         lifecycle_fixture.restored_character.vector_1474.size()==12&&
         lifecycle_fixture.restored_character.properties.resolved[223]==1223);
+
+    // LevelSavegame::__LoadObjects 0x461e90 skips a row whose key resolves to no
+    // object. A same-key Character without a factory Record (an NPC/Actor
+    // Character created elsewhere) has no restore owner here: that row stays
+    // unapplied and must not abort the Faery row restored next to it.
+    manager::GameObject npc_object{};
+    npc_object.identity=0x333;npc_object.source_handle=20;npc_object.name="Npc_0";
+    manager::GameObject* npc_live=nullptr;
+    assert(lifecycle_objects.add_object(20,npc_object,&npc_live)==manager::Status::ok&&
+           npc_live&&!lifecycle_characters.find(20));
+    lifecycle_fixture.npc_identity=0x333;
+    const auto npc_saved=image_with_faery_and_npc_rows();
+    load::FactoryLifecycleResult npc_result{};
+    assert(load::restore_factory_character_rows(npc_saved.data(),npc_saved.size(),
+        lifecycle_objects,lifecycle_characters,&lifecycle_facts,&lifecycle_commit,
+        &npc_result,error)==load::Status::loaded_player_only);
+    assert(npc_result.rows_examined==2&&npc_result.rows_fully_applied==1&&
+        npc_result.rows_still_unapplied==1&&
+        lifecycle_fixture.character_commits==2);
 
     // The production native Player is a canonical manager Character with no
     // factory Record. Resolve and atomically commit through that same identity.

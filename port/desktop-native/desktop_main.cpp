@@ -57,6 +57,10 @@ struct Options {
     bool movement_defend_scenario = false;
     std::string transition_to;
     double transition_entry = 0.0;
+    // Queue --transition-to 120 frames after the scenario's Continue revive
+    // instead of at frame 300 (die, revive, then leave the level).
+    bool transition_after_revive = false;
+    std::uint64_t transition_frame = 300;
     bool fixed_cultist_scenario = false;
     bool fixed_cultist_kill_scenario = false;
     bool skill_kill_scenario = false;
@@ -131,6 +135,8 @@ Options parse(int argc, char** argv) {
             options.transition_to = spec.substr(0, colon);
             if (colon != std::string::npos) options.transition_entry = std::stod(spec.substr(colon + 1));
         }
+        else if (arg == "--transition-after-revive") options.transition_after_revive = true;
+        else if (arg == "--transition-at") options.transition_frame = std::stoull(value("--transition-at"));
         else if (arg == "--capture") options.capture = value("--capture");
         else if (arg == "--capture-initial") options.initial_capture = value("--capture-initial");
         else if (arg == "--faery-hud-tap") options.faery_hud_tap = true;
@@ -179,6 +185,9 @@ Options parse(int argc, char** argv) {
                          "  --player-class C   knight (default), mage or rogue: class of the fresh profile created for --level-row runs\n"
                          "  --frames N         exit after N rendered UI/gameplay frames (hidden window, no audio)\n"
                          "  --show             show the window and play audio for --frames runs\n"
+                         "  --transition-to L[:E] queue NativeGoToZone to level L (entry E) at frame 300 (see --transition-at)\n"
+                         "  --transition-at N     queue --transition-to at rendered frame N instead of 300\n"
+                         "  --transition-after-revive  queue --transition-to 120 frames after the first Continue revive (move-defend/move-kill)\n"
                          "  --capture FILE.ppm save the last framebuffer as a PPM image\n"
                          "  --capture-initial FILE.ppm save the initial frame (for gameplay scenarios)\n"
                          "  --scenario move-attack steer with normal movement toward a source enemy, then attack\n"
@@ -1881,6 +1890,7 @@ int main(int argc, char** argv) {
         std::int32_t scenario_last_item_count = -1;
         bool scenario_damage_verified = false;
         bool scenario_player_died = false, scenario_revived = false;
+        std::uint64_t transition_revive_frame = 0;
         unsigned scenario_death_taps = 0;
         std::int32_t scenario_last_hp = 0;
         std::int32_t scenario_skill_state = -1;
@@ -2451,8 +2461,16 @@ int main(int argc, char** argv) {
                 throw std::runtime_error("Authored main menu frame failed: " + ui_error);
             }
             dh2::android_ui::NativeStartGameIntentV1 launch_request;
-            if (gameplay && !options.transition_to.empty() && rendered_frames == 300) {
-                original_ui.queue_level_transition(options.transition_to, options.transition_entry);
+            if (gameplay && !options.transition_to.empty()) {
+                bool transition_due = rendered_frames == options.transition_frame;
+                if (options.transition_after_revive) {
+                    if (scenario_revived && !transition_revive_frame)
+                        transition_revive_frame = rendered_frames;
+                    transition_due = transition_revive_frame &&
+                                     rendered_frames == transition_revive_frame + 120;
+                }
+                if (transition_due)
+                    original_ui.queue_level_transition(options.transition_to, options.transition_entry);
             }
             if (gameplay && options.faery_follow_scenario && !options.follow_exit_destination.empty() &&
                 options.frames > 8 && rendered_frames + 3 == options.frames) {
